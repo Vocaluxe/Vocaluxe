@@ -33,7 +33,7 @@ namespace Vocaluxe.Base
                 foreach (int i in _BackgroundMusicStreams)
                 {
                     CSound.Fade(i, CConfig.BackgroundMusicVolume, CConfig.FadeTime);
-                    CSound.Play(i);
+                    CSound.Play(i, true);
                 }
             }
         }
