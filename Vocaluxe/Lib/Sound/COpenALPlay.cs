@@ -188,6 +188,21 @@ namespace Vocaluxe.Lib.Sound
             }
         }
 
+        public void FadeAndPause(int Stream, float TargetVolume, float Seconds)
+        {
+            if (_Initialized)
+            {
+                lock (MutexDecoder)
+                {
+                    if (AlreadyAdded(Stream))
+                    {
+                        _Decoder[GetStreamIndex(Stream)].FadeAndPause(TargetVolume, Seconds);
+                    }
+                }
+
+            }
+        }
+
         public void FadeAndStop(int Stream, float TargetVolume, float Seconds)
         {
             if (_Initialized)
@@ -390,6 +405,7 @@ namespace Vocaluxe.Lib.Sound
         private float _targetVolume = 1f;
         private float _startVolume = 1f;
         private bool _closeStreamAfterFade = false;
+        private bool _pauseStreamAfterFade = false;
         private bool _fading = false;
 
 
@@ -528,6 +544,12 @@ namespace Vocaluxe.Lib.Sound
             _fadeTimer.Start();
         }
 
+        public void FadeAndPause(float TargetVolume, float FadeTime)
+        {
+            _pauseStreamAfterFade = true;
+            Fade(TargetVolume, FadeTime);
+        }
+
         public void FadeAndStop(float TargetVolume, float FadeTime, CLOSEPROC close_proc, int StreamID)
         {
             _Closeproc = close_proc;
@@ -539,6 +561,7 @@ namespace Vocaluxe.Lib.Sound
         public void Play()
         {
             Paused = false;
+            _pauseStreamAfterFade = false;
             AL.SourcePlay(_source);
         }
 
@@ -756,6 +779,9 @@ namespace Vocaluxe.Lib.Sound
 
                     if (_closeStreamAfterFade)
                         _terminated = true;
+
+                    if (_pauseStreamAfterFade)
+                        Paused = true;
                 }
             }
         }

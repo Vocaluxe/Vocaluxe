@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
@@ -13,6 +14,8 @@ namespace Vocaluxe.Screens
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         const int ScreenVersion = 1;
+
+        private int _TestMusic = -1;
 
         public CScreenTest()
         {
@@ -44,6 +47,18 @@ namespace Vocaluxe.Screens
 
                     case Keys.Enter:
                         CGraphics.FadeTo(EScreens.ScreenMain);
+                        break;
+                    
+                    case Keys.F:
+                        FadeAndPause();
+                        break;
+
+                    case Keys.S:
+                        PlayFile();
+                        break;
+
+                    case Keys.P:
+                        PauseFile();
                         break;
                 }
             }
@@ -85,6 +100,25 @@ namespace Vocaluxe.Screens
         public override bool Draw()
         {
             return base.Draw();
+        }
+
+        private void PlayFile()
+        {
+            if (_TestMusic == -1)
+                _TestMusic = CSound.Load(Path.Combine(Environment.CurrentDirectory, "Test.mp3"));
+
+            CSound.Play(_TestMusic);
+            CSound.Fade(_TestMusic, 100f, 2f);
+        }
+
+        private void PauseFile()
+        {
+            CSound.Pause(_TestMusic);
+        }
+
+        private void FadeAndPause()
+        {
+            CSound.FadeAndPause(_TestMusic, 0f, 2f);
         }
     }
 }
