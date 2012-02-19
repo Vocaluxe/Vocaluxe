@@ -12,6 +12,7 @@ using Vocaluxe.Menu;
 
 namespace Vocaluxe
 {
+    // just a small comment for the new develop branch
     static class MainProgram
     {
         static SplashScreen _SplashScreen;

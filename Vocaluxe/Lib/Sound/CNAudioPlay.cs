@@ -38,6 +38,7 @@ namespace Vocaluxe.Lib.Sound
         private float _targetVolume;
         private float _startVolume;
         private bool _closeStreamAfterFade = false;
+        private bool _pauseStreamAfterFade = false;
         private bool _fading = false;
         
         public int Handle;
@@ -80,6 +81,7 @@ namespace Vocaluxe.Lib.Sound
                     _CurrentTime = Position;
                     _Timer.Start();
                 }
+                _pauseStreamAfterFade = false;
             }
         }
 
@@ -236,6 +238,9 @@ namespace Vocaluxe.Lib.Sound
 
                     if (_closeStreamAfterFade)
                         return false;
+
+                    if (_pauseStreamAfterFade)
+                        Pause();
                 }
                 return true;
             }
@@ -254,6 +259,15 @@ namespace Vocaluxe.Lib.Sound
             _targetVolume = TargetVolume / 100f;
             _fadeTime = FadeTime;
             _fadeTimer.Start();
+        }
+
+        public void FadeAndPause(float TargetVolume, float FadeTime)
+        {
+            if (!_loaded || _volumeStream == null)
+                return;
+
+            _pauseStreamAfterFade = true;
+            Fade(TargetVolume, FadeTime);
         }
 
         public void FadeAndStop(float TargetVolume, float FadeTime)
@@ -520,6 +534,22 @@ namespace Vocaluxe.Lib.Sound
                     {
                         int index = GetStreamIndex(Stream);
                         _Streams[index].Fade(TargetVolume, Seconds);                        
+                    }
+                }
+
+            }
+        }
+
+        public void FadeAndPause(int Stream, float TargetVolume, float Seconds)
+        {
+            if (_Initialized)
+            {
+                lock (MutexAudioStreams)
+                {
+                    if (AlreadyAdded(Stream))
+                    {
+                        int index = GetStreamIndex(Stream);
+                        _Streams[index].FadeAndPause(TargetVolume, Seconds);
                     }
                 }
 
