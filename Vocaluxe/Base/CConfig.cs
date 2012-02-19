@@ -173,6 +173,8 @@ namespace Vocaluxe.Base
         public static EPlaybackLib PlayBackLib = EPlaybackLib.PortAudio;
         public static ERecordLib RecordLib = ERecordLib.PortAudio;
         public static uint PortAudioBufferSize = 1024;
+        public static int BackgroundMusicVolume = 50;
+        public static EOffOn BackgroundMusic = EOffOn.TR_CONFIG_ON;
 
         // Game
         public static List<string> SongFolder = new List<string>();
@@ -282,6 +284,8 @@ namespace Vocaluxe.Base
                 #region Sound
                 CHelper.TryGetEnumValueFromXML<EPlaybackLib>("//root/Sound/PlayBackLib", navigator, ref PlayBackLib);
                 CHelper.TryGetEnumValueFromXML<ERecordLib>("//root/Sound/RecordLib", navigator, ref RecordLib);
+                CHelper.TryGetEnumValueFromXML("//root/Sound/BackgroundMusic", navigator, ref BackgroundMusic);
+                CHelper.TryGetIntValueFromXML("//root/Sound/BackgroundMusicVolume", navigator, ref BackgroundMusicVolume);
                 #endregion Sound
 
                 #region Game
@@ -472,6 +476,12 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("RecordLib: " + ListStrings(Enum.GetNames(typeof(ERecordLib))));
             writer.WriteElementString("RecordLib", Enum.GetName(typeof(ERecordLib), RecordLib));
+
+            writer.WriteComment("Background Music");
+            writer.WriteElementString("BackgroundMusicEnabled", Enum.GetName(typeof(EOffOn), BackgroundMusic));
+
+            writer.WriteComment("Background Music Volume from 0 to 100");
+            writer.WriteElementString("BackgroundMusicVolume", BackgroundMusicVolume.ToString());
 
             writer.WriteEndElement();
             #endregion Sound
