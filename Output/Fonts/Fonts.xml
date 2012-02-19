@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<Font1>
+		<Name>Normal</Name>
+		<Folder>FreeSans</Folder>
+		<FileNormal>FreeSans.ttf</FileNormal>
+		<FileBold>FreeSansBold.ttf</FileBold>
+		<FileItalic>FreeSansOblique.ttf</FileItalic>
+		<FileBoldItalic>FreeSansBoldOblique.ttf</FileBoldItalic>
+	</Font1>
+</root>

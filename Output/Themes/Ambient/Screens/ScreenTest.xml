@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <ScreenTest>
+    <ScreenVersion>1</ScreenVersion>
+    <Background1>
+      <!--<Type>: Background type: None, Color, Texture, Video-->
+      <Type>Video</Type>
+      <!--<Video>: Background video name-->
+      <Video>BG_Video</Video>
+      <!--<Skin>: Background Texture name-->
+      <Skin>BG_Default</Skin>
+      <!--<Color>: Background color for type "Color" from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>BackgroundColor</Color>
+    </Background1>
+  </ScreenTest>
+</root>

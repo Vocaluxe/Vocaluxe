@@ -1,0 +1,390 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <ScreenSong>
+    <ScreenVersion>1</ScreenVersion>
+    <Background1>
+      <!--<Type>: Background type: None, Color, Texture, Video-->
+      <Type>Video</Type>
+      <!--<Video>: Background video name-->
+      <Video>BG_Video</Video>
+      <!--<Skin>: Background Texture name-->
+      <Skin>BG_Default</Skin>
+      <!--<Color>: Background color for type "Color" from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>BackgroundColor</Color>
+    </Background1>
+    <Static1>
+      <!--<Skin>: Texture name-->
+      <Skin>SongMenu</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>40</X>
+      <Y>600</Y>
+      <Z>0,00</Z>
+      <W>1200</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+      <Reflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </Reflection>
+    </Static1>
+    <StaticSearchBar>
+      <!--<Skin>: Texture name-->
+      <Skin>Menu</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>40</X>
+      <Y>600</Y>
+      <Z>0,00</Z>
+      <W>1200</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+      <Reflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </Reflection>
+    </StaticSearchBar>
+    <Text1>
+      <!--<X>, <Y>: Text position-->
+      <X>50</X>
+      <Y>41</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>180</MaxW>
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <Color>TextSColor</Color>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Left</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text>TR_SCREENSONG_MENU</Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </Text1>
+    <TextCategory>
+      <!--<X>, <Y>: Text position-->
+      <X>220</X>
+      <Y>610</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>340</MaxW>
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+      <Reflection>
+        <Space>24</Space>
+        <Height>26</Height>
+      </Reflection>
+    </TextCategory>
+    <TextSelection>
+      <!--<X>, <Y>: Text position-->
+      <X>825</X>
+      <Y>610</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>830</MaxW>
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+      <Reflection>
+        <Space>24</Space>
+        <Height>26</Height>
+      </Reflection>
+    </TextSelection>
+    <TextSearchBarTitle>
+      <!--<X>, <Y>: Text position-->
+      <X>400</X>
+      <Y>610</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Right</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text>TR_SCREENSONG_SEARCH</Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextSearchBarTitle>
+    <TextSearchBar>
+      <!--<X>, <Y>: Text position-->
+      <X>410</X>
+      <Y>610</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Left</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextSearchBar>
+    <SongMenu>
+      <!--<CoverBackground>: Texture name of cover background/tiles-->
+      <CoverBackground>CoverTile</CoverBackground>
+      <!--<CoverBigBackground>: Texture name of big cover background and info texts-->
+      <CoverBigBackground>CoverBackground</CoverBigBackground>
+      <!--<DuetIcon>: Texture name of duet icon-->
+      <DuetIcon>DuetIcon</DuetIcon>
+      <!--<VideoIcon>: Texture name of video icon-->
+      <VideoIcon>VideoIcon</VideoIcon>
+      <!--<X>, <Y>, <Z>, <W>, <H>: SongMenu position, width and height-->
+      <X>40</X>
+      <Y>100</Y>
+      <Z>-1,00</Z>
+      <W>1200</W>
+      <H>530</H>
+      <!--<Color>: Tile color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <R>1,00</R>
+      <G>1,00</G>
+      <B>1,00</B>
+      <A>0,20</A>
+      <!--<SongMenuTileBoard>: Config for TileBoard view-->
+      <SongMenuTileBoard>
+        <!--<NumW>: Number of tiles horizontal-->
+        <NumW>6</NumW>
+        <!--<NumH>: Number of tiles vertical-->
+        <NumH>4</NumH>
+        <!--<SpaceW>: Space between tiles horizontal-->
+        <SpaceW>10,00</SpaceW>
+        <!--<SpaceH>: Space between tiles vertical-->
+        <SpaceH>10,00</SpaceH>
+        <!--<TileRectX>, <TileRectY>, <TileRectZ>, <TileRectW>, <TileRectH>: SongMenu position, width and height-->
+        <TileRectX>410</TileRectX>
+        <TileRectY>40</TileRectY>
+        <TileRectZ>-1,00</TileRectZ>
+        <TileRectW>830</TileRectW>
+        <TileRectH>550</TileRectH>
+        <TextArtist>
+          <!--<X>, <Y>: Text position-->
+          <X>222</X>
+          <Y>416</Y>
+          <!--<Z>: Text position-->
+          <Z>-1,01</Z>
+          <!--<H>: Text height-->
+          <H>46</H>
+          <!--<MaxW>: Maximum text width (if exists)-->
+          <MaxW>340</MaxW>
+          <!--<Color>: Text color from ColorScheme (high priority)-->
+          <!--or <R>, <G>, <B>, <A> (lower priority)-->
+          <Color>StaticColor</Color>
+          <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+          <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+          <SColor>TextSColor</SColor>
+          <!--<Align>: Text align: Left, Center, Right-->
+          <Align>Center</Align>
+          <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+          <Style>Bold</Style>
+          <!--<Font>: Text font name-->
+          <Font>Normal</Font>
+          <!--<Text>: Text or translation tag-->
+          <Text />
+          <!--<Reflection> If exists:-->
+          <!--   <Space>: Reflection Space-->
+          <!--   <Height>: Reflection Height-->
+        </TextArtist>
+        <TextTitle>
+          <!--<X>, <Y>: Text position-->
+          <X>222</X>
+          <Y>456</Y>
+          <!--<Z>: Text position-->
+          <Z>-1,01</Z>
+          <!--<H>: Text height-->
+          <H>38</H>
+          <!--<MaxW>: Maximum text width (if exists)-->
+          <MaxW>340</MaxW>
+          <!--<Color>: Text color from ColorScheme (high priority)-->
+          <!--or <R>, <G>, <B>, <A> (lower priority)-->
+          <Color>StaticColor</Color>
+          <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+          <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+          <SColor>TextSColor</SColor>
+          <!--<Align>: Text align: Left, Center, Right-->
+          <Align>Center</Align>
+          <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+          <Style>Bold</Style>
+          <!--<Font>: Text font name-->
+          <Font>Normal</Font>
+          <!--<Text>: Text or translation tag-->
+          <Text />
+          <!--<Reflection> If exists:-->
+          <!--   <Space>: Reflection Space-->
+          <!--   <Height>: Reflection Height-->
+        </TextTitle>
+        <TextSongLength>
+          <!--<X>, <Y>: Text position-->
+          <X>222</X>
+          <Y>490</Y>
+          <!--<Z>: Text position-->
+          <Z>-1,01</Z>
+          <!--<H>: Text height-->
+          <H>28</H>
+          <!--<MaxW>: Maximum text width (if exists)-->
+          <MaxW>340</MaxW>
+          <!--<Color>: Text color from ColorScheme (high priority)-->
+          <!--or <R>, <G>, <B>, <A> (lower priority)-->
+          <Color>StaticColor</Color>
+          <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+          <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+          <SColor>TextSColor</SColor>
+          <!--<Align>: Text align: Left, Center, Right-->
+          <Align>Center</Align>
+          <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+          <Style>Bold</Style>
+          <!--<Font>: Text font name-->
+          <Font>Normal</Font>
+          <!--<Text>: Text or translation tag-->
+          <Text />
+          <!--<Reflection> If exists:-->
+          <!--   <Space>: Reflection Space-->
+          <!--   <Height>: Reflection Height-->
+        </TextSongLength>
+        <StaticCoverBig>
+          <!--<Skin>: Texture name-->
+          <Skin>CoverBackground</Skin>
+          <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+          <X>40</X>
+          <Y>40</Y>
+          <Z>-1,00</Z>
+          <W>360</W>
+          <H>360</H>
+          <!--<Color>: Static color from ColorScheme (high priority)-->
+          <!--or <R>, <G>, <B>, <A> (lower priority)-->
+          <Color>Visible</Color>
+          <!--<Reflection> If exists:-->
+          <!--   <Space>: Reflection Space-->
+          <!--   <Height>: Reflection Height-->
+        </StaticCoverBig>
+        <StaticTextBG>
+          <!--<Skin>: Texture name-->
+          <Skin>CoverBackground</Skin>
+          <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+          <X>40</X>
+          <Y>40</Y>
+          <Z>-1,00</Z>
+          <W>360</W>
+          <H>550</H>
+          <!--<Color>: Static color from ColorScheme (high priority)-->
+          <!--or <R>, <G>, <B>, <A> (lower priority)-->
+          <Color>StaticColor</Color>
+          <!--<Reflection> If exists:-->
+          <!--   <Space>: Reflection Space-->
+          <!--   <Height>: Reflection Height-->
+        </StaticTextBG>
+        <StaticDuetIcon>
+          <!--<Skin>: Texture name-->
+          <Skin>DuetIcon</Skin>
+          <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+          <X>200</X>
+          <Y>530</Y>
+          <Z>-1,00</Z>
+          <W>40</W>
+          <H>40</H>
+          <!--<Color>: Static color from ColorScheme (high priority)-->
+          <!--or <R>, <G>, <B>, <A> (lower priority)-->
+          <Color>StaticColor</Color>
+          <!--<Reflection> If exists:-->
+          <!--   <Space>: Reflection Space-->
+          <!--   <Height>: Reflection Height-->
+        </StaticDuetIcon>
+        <StaticVideoIcon>
+          <!--<Skin>: Texture name-->
+          <Skin>VideoIcon</Skin>
+          <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+          <X>120</X>
+          <Y>530</Y>
+          <Z>-1,00</Z>
+          <W>40</W>
+          <H>40</H>
+          <!--<Color>: Static color from ColorScheme (high priority)-->
+          <!--or <R>, <G>, <B>, <A> (lower priority)-->
+          <Color>StaticColor</Color>
+          <!--<Reflection> If exists:-->
+          <!--   <Space>: Reflection Space-->
+          <!--   <Height>: Reflection Height-->
+        </StaticVideoIcon>
+      </SongMenuTileBoard>
+    </SongMenu>
+  </ScreenSong>
+</root>

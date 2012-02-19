@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <ScreenOptionsSound>
+    <ScreenVersion>1</ScreenVersion>
+    <Background1>
+      <!--<Type>: Background type: None, Color, Texture, Video-->
+      <Type>Video</Type>
+      <!--<Video>: Background video name-->
+      <Video>BG_Video</Video>
+      <!--<Skin>: Background Texture name-->
+      <Skin>BG_Options</Skin>
+      <!--<Color>: Background color for type "Color" from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>BackgroundColor</Color>
+    </Background1>
+    <Static1>
+      <!--<Skin>: Texture name-->
+      <Skin>Menu</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>40</X>
+      <Y>40</Y>
+      <Z>0,00</Z>
+      <W>1200</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </Static1>
+    <Text1>
+      <!--<X>, <Y>: Text position-->
+      <X>640</X>
+      <Y>48</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <R>0,68</R>
+      <G>0,89</G>
+      <B>0,97</B>
+      <A>1,00</A>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SR>0,68</SR>
+      <SG>0,89</SG>
+      <SB>0,97</SB>
+      <SA>1,00</SA>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text>TR_SCREENOSOUND_OPTIONS</Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </Text1>
+  </ScreenOptionsSound>
+</root>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <ThemeSystemVersion>4</ThemeSystemVersion>
+  <Info>
+    <Name>Ambient</Name>
+    <Author>bohning</Author>
+    <SkinFolder>Ambient</SkinFolder>
+    <ThemeVersionMajor>0</ThemeVersionMajor>
+    <ThemeVersionMinor>1</ThemeVersionMinor>
+  </Info>
+  <Cursor>
+    <Skin>Cursor</Skin>
+    <W>40,000</W>
+    <H>40,000</H>
+    <R>0,675</R>
+    <G>0,890</G>
+    <B>0,969</B>
+    <A>1,000</A>
+  </Cursor>
+</root>
