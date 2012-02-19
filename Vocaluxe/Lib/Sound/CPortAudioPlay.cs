@@ -130,6 +130,7 @@ namespace Vocaluxe.Lib.Sound
                 {
                     if (AlreadyAdded(Stream))
                     {
+                        _Decoder[GetStreamIndex(Stream)].Loop = Loop;
                         _Decoder[GetStreamIndex(Stream)].Play();                        
                     }
                 }
@@ -166,6 +167,21 @@ namespace Vocaluxe.Lib.Sound
                     if (AlreadyAdded(Stream))
                     {
                         _Decoder[GetStreamIndex(Stream)].Fade(TargetVolume, Seconds);
+                    }
+                }
+
+            }
+        }
+
+        public void FadeAndPause(int Stream, float TargetVolume, float Seconds)
+        {
+            if (_Initialized)
+            {
+                lock (MutexDecoder)
+                {
+                    if (AlreadyAdded(Stream))
+                    {
+                        _Decoder[GetStreamIndex(Stream)].FadeAndPause(TargetVolume, Seconds);
                     }
                 }
 
@@ -366,6 +382,7 @@ namespace Vocaluxe.Lib.Sound
         private float _targetVolume = 1f;
         private float _startVolume = 1f;
         private bool _closeStreamAfterFade = false;
+        private bool _pauseStreamAfterFade = false;
         private bool _fading = false;
 
 
@@ -507,6 +524,13 @@ namespace Vocaluxe.Lib.Sound
             _fadeTimer.Start();
         }
 
+        public void FadeAndPause(float TargetVolume, float FadeTime)
+        {
+            _pauseStreamAfterFade = true;
+
+            Fade(TargetVolume, FadeTime);
+        }
+
         public void FadeAndStop(float TargetVolume, float FadeTime, CLOSEPROC close_proc, int StreamID)
         {
             _Closeproc = close_proc;
@@ -519,12 +543,14 @@ namespace Vocaluxe.Lib.Sound
         public void Play()
         {
             Paused = false;
+            _pauseStreamAfterFade = false;
             errorCheck("StartStream", PortAudio.Pa_StartStream(_Ptr));
         }
 
         public void Stop()
         {
             errorCheck("StartStream", PortAudio.Pa_StopStream(_Ptr));
+            Skip(0f);
         }
 
         public bool Loop
@@ -889,6 +915,9 @@ namespace Vocaluxe.Lib.Sound
 
                     if (_closeStreamAfterFade)
                         _terminated = true;
+
+                    if (_pauseStreamAfterFade)
+                        Paused = true;
                 }
             }
         }
