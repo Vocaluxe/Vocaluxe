@@ -292,6 +292,7 @@ namespace Vocaluxe.Menu
             Keys.CopyEvents();
 
             CSound.Update();
+            CBackgroundMusic.Update();
 
             if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC && ActualScreen != EScreens.ScreenSing)
                 CSongs.LoadCover(30L);
