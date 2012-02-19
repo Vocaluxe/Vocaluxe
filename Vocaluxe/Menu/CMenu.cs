@@ -109,6 +109,7 @@ namespace Vocaluxe.Menu
             _ThemeLyrics = null;
             _ThemeSelectSlides = null;
             _ThemeSingNotes = null;
+
         }
         #region ThemeHandler
         public virtual void LoadTheme()
@@ -855,17 +856,20 @@ namespace Vocaluxe.Menu
         public virtual void OnShow()
         {
             ResumeBG();
+            CBackgroundMusic.Play();
         }
 
         public virtual void OnShowFinish()
         {
             ResumeBG();
             _Active = true;
+            CBackgroundMusic.Play();
         }
 
         public virtual void OnClose()
         {
             PauseBG();
+            CBackgroundMusic.Pause();
         }
         #endregion MenuHandler
 
