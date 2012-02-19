@@ -89,6 +89,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\CBackgroundMusic.cs" />
     <Compile Include="Base\CConfig.cs" />
     <Compile Include="Base\CCover.cs" />
     <Compile Include="Base\CDataBase.cs" />
