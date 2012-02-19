@@ -84,7 +84,7 @@ namespace Vocaluxe
 
             // Init Background Music
             CLog.StartBenchmark(0, "Init Background Music");
-            CBackgroundMusic.init();
+            CBackgroundMusic.Init();
             CLog.StopBenchmark(0, "Init Background Music");
 
             // Init Profiles

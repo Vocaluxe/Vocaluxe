@@ -17,7 +17,7 @@ namespace Vocaluxe.Base
         private static bool _Fading;
         private static Stopwatch _FadeTimer = new Stopwatch();
 
-        public static void init()
+        public static void Init()
         {
             List<string> files = new List<string>();
             files.AddRange(Helper.ListFiles(CSettings.sFolderBackgroundMusic, "*.mp3", true, true));
@@ -60,7 +60,7 @@ namespace Vocaluxe.Base
         public static void Pause()
         {
             if (_BackgroundMusicStreams.Count > 0)
-                CSound.Pause(_BackgroundMusicStreams[_CurrentStreamListIndex]);
+                CSound.FadeAndPause(_BackgroundMusicStreams[_CurrentStreamListIndex], 0, CConfig.FadeTime);
         }
 
         public static void Update()
@@ -85,7 +85,7 @@ namespace Vocaluxe.Base
                     }
                     else
                         _CurrentMusicStream = _BackgroundMusicStreams[_CurrentStreamListIndex];
-                    CSound.SetPosition(_CurrentStreamListIndex, 0);
+                    CSound.SetPosition(_CurrentMusicStream, 0);
                     Play();
                     _Fading = true;
                 }
