@@ -28,8 +28,8 @@ namespace Vocaluxe.Base
             foreach (string file in files)
             {
                 _BackgroundMusicStreams.Add(CSound.Load(file));
+                _CurrentMusicStream = _BackgroundMusicStreams[0];
             }
-            _CurrentMusicStream = _BackgroundMusicStreams[0];
         }
 
         public static void Play()
@@ -51,12 +51,14 @@ namespace Vocaluxe.Base
 
         public static void Stop()
         {
-            CSound.FadeAndStop(_BackgroundMusicStreams[_CurrentStreamListIndex], CConfig.BackgroundMusicVolume, CConfig.FadeTime);
+            if(_BackgroundMusicStreams.Count > 0)
+                CSound.FadeAndStop(_BackgroundMusicStreams[_CurrentStreamListIndex], CConfig.BackgroundMusicVolume, CConfig.FadeTime);
         }
 
         public static void Pause()
         {
-            CSound.Pause(_BackgroundMusicStreams[_CurrentStreamListIndex]);
+            if (_BackgroundMusicStreams.Count > 0)
+                CSound.Pause(_BackgroundMusicStreams[_CurrentStreamListIndex]);
         }
 
         public static void Update()
