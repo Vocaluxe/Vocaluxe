@@ -17,6 +17,7 @@ namespace Vocaluxe.Lib.Sound
         private bool _Initialized = false;
         private List<AudioStreams> _Streams;
         private SYNCPROC _SyncSlideAndStop;
+        private SYNCPROC _SyncSlideAndPause;
         private Object MutexAudioStreams = new Object();
 
 
@@ -48,6 +49,7 @@ namespace Vocaluxe.Lib.Sound
                 ok = Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero);
                 _Streams = new List<AudioStreams>();
                 _SyncSlideAndStop = new SYNCPROC(EndSync);
+                _SyncSlideAndPause = new SYNCPROC(PauseSync);
             }
             catch (Exception)
             {
@@ -219,6 +221,22 @@ namespace Vocaluxe.Lib.Sound
             }
         }
 
+        public void FadeAndPause(int Stream, float TargetVolume, float Seconds)
+        {
+            if (_Initialized)
+            {
+                lock (MutexAudioStreams)
+                {
+                    if (AlreadyAdded(Stream))
+                    {
+                        Bass.BASS_ChannelSlideAttribute(Stream, BASSAttribute.BASS_ATTRIB_VOL, TargetVolume / 100f, (int)Math.Round(Seconds * 1000f));
+                        Bass.BASS_ChannelSetSync(Stream, BASSSync.BASS_SYNC_SLIDE, 0L, _SyncSlideAndPause, IntPtr.Zero);
+                    }
+                }
+
+            }
+        }
+
         public void FadeAndStop(int Stream, float TargetVolume, float Seconds)
         {
             if (_Initialized)
@@ -370,6 +388,17 @@ namespace Vocaluxe.Lib.Sound
                     return i;
 			}
             return -1;
+        }
+
+        private void PauseSync(int handle, int Stream, int data, IntPtr user)
+        {
+            if (_Initialized)
+            {
+                if (AlreadyAdded(Stream))
+                {
+                    Pause(Stream);
+                }
+            }
         }
 
         private void EndSync(int handle, int Stream, int data, IntPtr user)

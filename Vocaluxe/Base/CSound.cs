@@ -101,6 +101,11 @@ namespace Vocaluxe.Base
             _Playback.Fade(Stream, TargetVolume, Seconds);
         }
 
+        public static void FadeAndPause(int Stream, float TargetVolume, float Seconds)
+        {
+            _Playback.FadeAndPause(Stream, TargetVolume, Seconds);
+        }
+
         public static void FadeAndStop(int Stream, float TargetVolume, float Seconds)
         {
             _Playback.FadeAndStop(Stream, TargetVolume, Seconds);

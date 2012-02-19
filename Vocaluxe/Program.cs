@@ -12,6 +12,7 @@ using Vocaluxe.Menu;
 
 namespace Vocaluxe
 {
+    // just a small comment for the new develop branch
     static class MainProgram
     {
         static SplashScreen _SplashScreen;
@@ -83,7 +84,7 @@ namespace Vocaluxe
 
             // Init Background Music
             CLog.StartBenchmark(0, "Init Background Music");
-            CBackgroundMusic.init();
+            CBackgroundMusic.Init();
             CLog.StopBenchmark(0, "Init Background Music");
 
             // Init Profiles
