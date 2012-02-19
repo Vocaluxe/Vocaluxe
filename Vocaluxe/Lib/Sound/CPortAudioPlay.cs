@@ -549,6 +549,7 @@ namespace Vocaluxe.Lib.Sound
         public void Stop()
         {
             errorCheck("StartStream", PortAudio.Pa_StopStream(_Ptr));
+            Skip(0f);
         }
 
         public bool Loop

@@ -568,6 +568,7 @@ namespace Vocaluxe.Lib.Sound
         public void Stop()
         {
             AL.SourceStop(_source);
+            Skip(0f);
         }
 
         public bool Loop
