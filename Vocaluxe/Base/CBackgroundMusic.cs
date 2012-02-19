@@ -28,8 +28,10 @@ namespace Vocaluxe.Base
             foreach (string file in files)
             {
                 _BackgroundMusicStreams.Add(CSound.Load(file));
-                _CurrentMusicStream = _BackgroundMusicStreams[0];
             }
+
+            if(_BackgroundMusicStreams.Count > 0)
+                _CurrentMusicStream = _BackgroundMusicStreams[0];
         }
 
         public static void Play()
