@@ -1,0 +1,10 @@
+
+@author 
+  Riccardo Gerosa (aka h3r3)
+  email: r.gerosa@gmail.com
+  site: http://www.postronic.org/h3
+
+@author
+  Moreno Carullo
+  email: moreno.carullo@pulc.it
+  site: http://tweety.pulc.it/

@@ -1,0 +1,22 @@
+ScreenSing
+
+++++++++++
+Version 3:
+
+Add:
+<StaticTimeLineExpandedNormal>
+and
+<StaticTimeLineExpandedHighlighted>
+
+The Textures and Colors are used by the expanded time bar.
+
+++++++++++
+Version 2:
+
+Add:
+<SColor>
+or
+<SR>, <SG>, <SB>, <SA>
+to Lyric-Elements.
+This option set the color of highlighting lyrics.
+++++++++++ 

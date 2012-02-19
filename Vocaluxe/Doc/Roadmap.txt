@@ -1,0 +1,116 @@
+﻿Vocaluxe Roadmap
+
+-------------------------------------------------------------
+- v0.0.1 (reached: 10.05.2011):
+	- Graphic system: OpenGL and WinForm
+	- Keyboard Input
+	- Config System
+	- Menu System
+	- Theme System
+	- Built in Theme-Editor
+	- Audio Playback (BASS)
+	
+- v0.0.2 (reached: 20.05.2011):
+	- Screen Fading
+	- Menu Navigation
+	- Mouse Input
+	
+- v0.0.3 (reached: 03.06.2011):
+	- Song Loading (Header)
+	- Song Screen
+
+- v0.0.4 (reached: 04.07.2011):
+	- Audio Input (BASS)
+	- Pitch Detection
+	- Font System
+	- Song Loading (Notes)
+
+- v0.0.5 (reached: 21.08.2011):
+	- Video Playback
+	- Menu Background Video
+	- Sing Screen
+	- Score System
+
+- v0.0.6 (reached: 08.09.2011):
+	- Audio Input Update
+	- Option Screens:
+		* Game
+		* Sound
+		* Record
+		* Video
+		* Player
+	- Log System
+	- Duet (basic support)
+
+- v0.0.7 (reached: 07.11.2011):
+	- Linebonus
+	- Perfect Note
+	- Golden Notes
+	- Lyric Helper
+	- Multiple Edition, Genre and Language tag Support
+	- Player Profiles
+	- Statistics (Highscore-DB)	
+	- Language System (english)
+	- Auto mic gap function (in record screen)
+
+- v0.0.8 (reached: 13.12.2011):
+	- Search Function
+	- Random Song Function
+	- Player Selection Screen
+	- Player Profiles
+	
+- v0.0.9 (reached: 24.01.2012):
+	- Lyric Fading	
+	- Theme System Update
+	- Language System (german, french)
+	- Command Line Parameters
+	- Assign mics to player 1 and 2 automatically (if there is no mic config)
+	- Direct3D support
+	- OpenAL Playback (alpha)
+	- NAudio Playback (beta)
+	- PortAudio Record and Playback
+
+-------------------------------------------------------------
++ v0.1.0:
+	- Theme System Update
+	- A nicer Theme!
+
++ v0.2.0:
+	- Menu Background Music
+	- Medley
+	- WiiMote Support
+	- OnScreen Keyboard?
+	- Kinect Support?
+
++ v0.3.0:
+	- Song Editor
+	- Help System
+	- Duet (full support)
+	- Mark newly added songs
+	- Playlist-Support
+	- Theme System Update (Theme Editor)
+
++ v0.4.0:
+	- Challenge Mode (with more than 2 player at once)
+
++ v0.5.0:
+	- Party Mode: Team-Battle
+	- Party Mode: Tic, Tac, Toe
+	- Party Mode: 4 in a row
+
++ v0.6.0:
+	- Jukebox
+
++ v0.7.0:
+	- Tournament Mode
+
++ v0.8.0:
+	- Party Mode: Casting Show
+	
++ v0.9.0:
+	- ?
+
++ v1.0.0:
+	- ?
+	 
+

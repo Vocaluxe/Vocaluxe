@@ -1,0 +1,21 @@
+Skin System
+
+++++++++++
+Version 3:
+
+Added videos:
+<IntroIn>
+<IntroMid>
+<IntroOut>
+
+++++++++++
+
+
+++++++++++
+Version 2:
+
+Changed:
+<ColorSheme>
+to
+<ColorScheme>
+++++++++++ 

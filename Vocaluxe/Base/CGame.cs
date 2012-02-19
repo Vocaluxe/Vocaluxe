@@ -1,0 +1,393 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+
+using Vocaluxe.GameModes;
+using Vocaluxe.Lib.Draw;
+using Vocaluxe.Lib.Song;
+
+namespace Vocaluxe.Base
+{
+    struct SPlayer
+    {
+        public int ProfileID;
+        public string Name;
+        public EGameDifficulty Difficulty;
+        public double Points;
+        public int NoteDiff;
+        public int LineNr;
+        public List<CLine> SingLine;
+        public int CurrentLine;
+        public int CurrentNote;
+
+        public int SongID;
+        public bool Medley;
+        public bool Duet;
+        public long DateTicks;
+        public bool SongFinished;
+    }
+
+    struct SScores
+    {
+        public string Name;
+        public int Score;
+        public string Date;
+        public EGameDifficulty Difficulty;
+        public int LineNr;
+        public int ID;
+    }
+
+    static class CGame
+    {
+        private static IGameMode _GameMode;
+        private static SPlayer[] _Player;
+        private static int _NumPlayer = CConfig.NumPlayer;
+
+        private static float _Beat = 0f;
+        private static int _CurrentBeat = 0;
+
+        private static float _MidBeatD = 0f;
+        private static int _CurrentBeatD = 0;
+        private static int _OldBeatD = 0;
+        private static Random _Rand = new Random();
+
+        public static Random Rand
+        {
+            get { return _Rand; }
+        }
+
+        public static float GetBeatFromTime(float Time, float BPM, float Gap)
+        {
+            return BPM / 60 * (Time - Gap);
+        }
+
+        public static float GetTimeFromBeats(float Beats, float BPM)
+        {
+            if (BPM > 0f)
+                return Beats / BPM * 60f;
+
+            return 0f;
+        }
+
+        public static int CurrentBeat
+        {
+            get { return _CurrentBeat; }
+        }
+
+        public static float Beat
+        {
+            get { return _Beat; }
+        }
+
+        public static float MidBeatD
+        {
+            get { return _MidBeatD; }
+        }
+
+        public static int ActBeatD
+        {
+            get { return _CurrentBeatD; }
+        }
+
+        public static SPlayer[] Player
+        {
+            get { return _Player; }
+        }
+
+        public static void Init()
+        {
+            _GameMode = new CGameModeNormal();
+            _GameMode.Init();
+            _Player = new SPlayer[CSettings.MaxNumPlayer];
+            ResetPlayer();
+        }
+
+        public static void SetGameMode(EGameMode Mode)
+        {
+            switch (Mode)
+            {
+                case EGameMode.Normal:
+                    _GameMode = new CGameModeNormal();
+                    break;
+                case EGameMode.Medley:
+                    _GameMode = new CGameModeMedley();
+                    break;
+                case EGameMode.Duet:
+                    _GameMode = new CGameModeDuet();
+                    break;
+                default:
+                    break;
+            }
+            _GameMode.Init();
+        }
+
+        public static EGameMode GameMode
+        {
+            get { return _GameMode.GetGameMode(); }
+        }
+
+        public static bool AddVisibleSong(int VisibleIndex)
+        {
+            return _GameMode.AddVisibleSong(VisibleIndex);
+        }
+
+        public static bool AddSong(int AbsoluteIndex)
+        {
+            return _GameMode.AddSong(AbsoluteIndex);
+        }
+
+        public static bool RemoveVisibleSong(int VisibleIndex)
+        {
+            return _GameMode.RemoveVisibleSong(VisibleIndex);
+        }
+
+        public static bool RemoveSong(int AbsoluteIndex)
+        {
+            return _GameMode.RemoveSong(AbsoluteIndex);
+        }
+
+        public static void ClearSongs()
+        {
+            _GameMode.ClearSongs();
+        }
+
+        public static void Reset()
+        {
+            _GameMode.Reset();
+        }
+
+        public static void Start()
+        {
+            _GameMode.Start(_Player);
+        }
+
+        public static void NextRound()
+        {
+            _GameMode.NextRound(_Player);
+        }
+
+        public static bool IsFinished()
+        {
+            return _GameMode.IsFinished();
+        }
+
+        public static int RoundNr
+        {
+            get { return _GameMode.GetActualRoundNr(); }
+        }
+
+        public static CSong GetSong()
+        {
+            return _GameMode.GetSong();
+        }
+
+        public static CSong GetSong(int Num)
+        {
+            return _GameMode.GetSong(Num);
+        }
+
+        public static int GetNumSongs()
+        {
+            return _GameMode.GetNumSongs();
+        }
+
+        public static CPoints GetPoints()
+        {
+            return _GameMode.GetPoints();
+        }
+
+        public static int NumPlayer
+        {
+            get { return _NumPlayer; }
+            set
+            {
+                if (value > 0 && value <= CSettings.MaxNumPlayer)
+                    _NumPlayer = value;
+            }
+        }
+
+        public static void ResetPlayer()
+        {
+            for (int i = 0; i < _Player.Length; i++)
+            {
+                _Player[i].Points = 0f;
+                _Player[i].LineNr = 0;
+                _Player[i].NoteDiff = 0;
+                _Player[i].SingLine = new List<CLine>();
+                _Player[i].CurrentLine = -1;
+                _Player[i].CurrentNote = -1;
+                _Player[i].SongID = -1;
+                _Player[i].Medley = false;
+                _Player[i].Duet = false;
+                _Player[i].DateTicks = DateTime.Now.Ticks;
+                _Player[i].SongFinished = false;
+            }
+            _OldBeatD = -100;
+        }
+
+        public static void UpdatePoints(float Time)
+        {
+            const bool DEBUG_HIT = false;
+
+            CSong song = _GameMode.GetSong();
+
+            if (song == null)
+                return;
+
+            _Beat = GetBeatFromTime(Time, song.BPM, song.Gap);
+            _CurrentBeat = (int)Math.Floor(_Beat);
+
+            _MidBeatD = -0.5f + GetBeatFromTime(Time, song.BPM, song.Gap + CConfig.MicDelay/1000f);
+            _CurrentBeatD = (int)Math.Floor(_MidBeatD);
+
+            if (_OldBeatD == _CurrentBeatD)
+                return;
+
+            for (int p = 0; p < _NumPlayer; p++)
+            {
+                CSound.AnalyzeBuffer(p);
+
+                if (CSound.RecordToneValid(p) || DEBUG_HIT)
+                {
+                    for (int beat = _OldBeatD + 1; beat <= _CurrentBeatD; beat++)
+                    {
+                        CLine[] lines = song.Notes.GetLines(_Player[p].LineNr).Line;
+                        int Line = -1;
+
+                        for (int j = 0; j < lines.Length; j++)
+                        {
+                            if (beat >= lines[j].StartBeat && beat <= lines[j].EndBeat)
+                            {
+                                Line = j;
+                                break;
+                            }
+                        }
+
+                        if (Line >= 0)
+                        {
+                            if (Line != _Player[p].CurrentLine)
+                                _Player[p].CurrentNote = -1;
+
+                            _Player[p].CurrentLine = Line;
+
+                            while (_Player[p].SingLine.Count <= Line)
+                            {
+                                _Player[p].SingLine.Add(new CLine());
+                            }
+
+                            CNote[] notes = lines[Line].Notes;
+                            int Note = -1;
+                            for (int j = 0; j < notes.Length; j++)
+                            {
+                                if (beat >= notes[j].StartBeat && beat <= notes[j].EndBeat)
+                                {
+                                    if (notes[j].PointsForBeat > 0)
+                                        Note = j;
+                                    break;
+                                }
+                            }
+
+                            if (Note >= 0)
+                            {
+                                if (Line == lines.Length - 1)
+                                {
+                                    if (Note == lines[Line].NoteCount - 1)
+                                    {
+                                        _Player[p].SongFinished = true;
+                                    }
+                                }
+                            }
+
+                            if (Note >= 0 && notes[Note].PointsForBeat > 0)
+                            {
+                                _Player[p].CurrentNote = Note;
+
+                                if (Line == lines.Length - 1)
+                                {
+                                    if (Note == lines[Line].NoteCount - 1)
+                                    {
+                                        if (notes[Note].EndBeat == beat)
+                                            _Player[p].SongFinished = true;
+                                    }
+                                }
+
+                                int Tone = notes[Note].Tone;
+                                int TonePlayer = CSound.RecordGetTone(p);
+
+                                while (TonePlayer - Tone > 6)
+                                    TonePlayer -= 12;
+
+                                while (TonePlayer - Tone < -6)
+                                    TonePlayer += 12;
+
+                                if (DEBUG_HIT)
+                                    TonePlayer = Tone;
+
+                                _Player[p].NoteDiff = Math.Abs(Tone - TonePlayer);
+                                if (_Player[p].NoteDiff <= (2 - (int)_Player[p].Difficulty))
+                                {
+                                    // valid
+                                    CSound.RecordSetTone(p, Tone);
+                                    _Player[p].Points += (CSettings.MaxScore - CSettings.LinebonusScore) * (double)notes[Note].PointsForBeat / (double)song.Notes.GetLines(_Player[p].LineNr).Points;
+
+                                    // update player notes (sung notes)
+                                    if (_Player[p].SingLine[Line].NoteCount > 0)
+                                    {
+                                        CNote nt = _Player[p].SingLine[Line].LastNote;
+                                        if (notes[Note].StartBeat == beat || nt.EndBeat + 1 != beat || nt.Tone != Tone)
+                                            _Player[p].SingLine[Line].AddNote(new CNote(beat, 1, Tone, String.Empty, true, notes[Note].NoteType));
+                                        else
+                                        {
+                                            _Player[p].SingLine[Line].IncLastNoteLength();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        _Player[p].SingLine[Line].AddNote(new CNote(beat, 1, Tone, String.Empty, true, notes[Note].NoteType));
+                                    }
+
+                                    _Player[p].SingLine[Line].LastNote.IsPerfect(notes[Note]);
+                                    _Player[p].SingLine[Line].IsPerfect(lines[Line]);
+
+                                    if (_Player[p].SingLine[Line].PerfectLine)
+                                    {
+                                        _Player[p].Points += CSettings.LinebonusScore * (double)lines[Line].Points / (double)song.Notes.GetPoints(_Player[p].LineNr);
+                                    }
+                                }
+                                else
+                                {
+                                    if (_Player[p].SingLine[Line].NoteCount > 0)
+                                    {
+                                        CNote nt = _Player[p].SingLine[Line].LastNote;
+                                        if (nt.EndBeat + 1 != beat || nt.Hit)
+                                            _Player[p].SingLine[Line].AddNote(new CNote(beat, 1, TonePlayer, String.Empty, false, notes[Note].NoteType));
+                                        else
+                                        {
+                                            if (nt.Tone == TonePlayer && nt.EndBeat + 1 == beat)
+                                            {
+                                                _Player[p].SingLine[Line].IncLastNoteLength();
+                                            }
+                                            else
+                                            {
+                                                _Player[p].SingLine[Line].AddNote(new CNote(beat, 1, TonePlayer, String.Empty, false, notes[Note].NoteType));
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        _Player[p].SingLine[Line].AddNote(new CNote(beat, 1, TonePlayer, String.Empty, false, notes[Note].NoteType));
+                                    }
+
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+            _OldBeatD = _CurrentBeatD;
+        }
+    }
+}

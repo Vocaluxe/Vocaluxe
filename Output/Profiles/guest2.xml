@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <Info>
+    <PlayerName>Guest 2</PlayerName>
+    <Difficulty>TR_CONFIG_EASY</Difficulty>
+    <Avatar>Avatar_f.png</Avatar>
+    <GuestProfile>TR_CONFIG_ON</GuestProfile>
+    <Active>TR_CONFIG_ON</Active>
+  </Info>
+</root>

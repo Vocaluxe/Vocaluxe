@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Vocaluxe</RootNamespace>
+    <AssemblyName>Vocaluxe</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Output\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Output\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Vocaluxe.MainProgram</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Vocaluxe.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Bass.Net, Version=2.4.7.4, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\Bass.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio, Version=1.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.Compatibility, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\OpenTK.Compatibility.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\OpenTK.GLControl.dll</HintPath>
+    </Reference>
+    <Reference Include="SlimDX, Version=2.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\SlimDX.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.66.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\CConfig.cs" />
+    <Compile Include="Base\CCover.cs" />
+    <Compile Include="Base\CDataBase.cs" />
+    <Compile Include="Base\CDraw.cs" />
+    <Compile Include="Base\CFont.cs" />
+    <Compile Include="Base\CGame.cs" />
+    <Compile Include="Base\CLanguage.cs" />
+    <Compile Include="Base\CLog.cs" />
+    <Compile Include="Base\CProfiles.cs" />
+    <Compile Include="Base\CUtility.cs" />
+    <Compile Include="Base\CSettings.cs" />
+    <Compile Include="Base\CSongs.cs" />
+    <Compile Include="Base\CTheme.cs" />
+    <Compile Include="Base\CVideo.cs" />
+    <Compile Include="GameModes\CGameMode.cs" />
+    <Compile Include="GameModes\CGameModeDuet.cs" />
+    <Compile Include="GameModes\CGameModeMedley.cs" />
+    <Compile Include="GameModes\CGameModeNormal.cs" />
+    <Compile Include="GameModes\IGameMode.cs" />
+    <Compile Include="Lib\Draw\CDirect3D.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lib\Draw\CDrawWinForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lib\Draw\IDraw.cs" />
+    <Compile Include="Lib\Draw\COpenGL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lib\Song\CNotes.cs" />
+    <Compile Include="Lib\Song\CSong.cs" />
+    <Compile Include="Lib\Sound\CBassPlay.cs" />
+    <Compile Include="Lib\Sound\CBassRecord.cs" />
+    <Compile Include="Lib\Sound\CNAudioPlay.cs" />
+    <Compile Include="Lib\Sound\COpenALPlay.cs" />
+    <Compile Include="Lib\Sound\COpenALRecord.cs" />
+    <Compile Include="Base\CSound.cs" />
+    <Compile Include="Lib\Sound\CPortAudioPlay.cs" />
+    <Compile Include="Lib\Sound\CPortAudioRecord.cs" />
+    <Compile Include="Lib\Sound\Decoder\CAudioDecoder.cs" />
+    <Compile Include="Lib\Sound\Decoder\CAudioDecoderFFmpeg.cs" />
+    <Compile Include="Lib\Sound\Decoder\IAudioDecoder.cs" />
+    <Compile Include="Lib\Sound\IPlayback.cs" />
+    <Compile Include="Lib\Sound\IRecord.cs" />
+    <Compile Include="Lib\Video\Acinerella\CAcinerella.cs" />
+    <Compile Include="Lib\Video\CVideoDecoder.cs" />
+    <Compile Include="Lib\Video\CVideoDecoderFFmpeg.cs" />
+    <Compile Include="Lib\Video\IVideoDecoder.cs" />
+    <Compile Include="Menu\CBackground.cs" />
+    <Compile Include="Menu\CButton.cs" />
+    <Compile Include="Menu\CGraphics.cs" />
+    <Compile Include="Menu\CLyric.cs" />
+    <Compile Include="Menu\CMenu.cs" />
+    <Compile Include="Menu\CInteraction.cs" />
+    <Compile Include="Menu\CSelectSlide.cs" />
+    <Compile Include="Menu\CStatic.cs" />
+    <Compile Include="Menu\CText.cs" />
+    <Compile Include="Menu\IMenuElement.cs" />
+    <Compile Include="Menu\SingNotes\CSingNotes.cs" />
+    <Compile Include="Menu\SingNotes\CSingNotesClassic.cs" />
+    <Compile Include="Menu\SingNotes\ISingNotes.cs" />
+    <Compile Include="Menu\SongMenu\CSongMenu.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Menu\SongMenu\CSongMenuBook.cs" />
+    <Compile Include="Menu\SongMenu\CSongMenuDreidel.cs" />
+    <Compile Include="Menu\SongMenu\CSongMenuFramework.cs" />
+    <Compile Include="Menu\SongMenu\CSongMenuList.cs" />
+    <Compile Include="Menu\SongMenu\CSongMenuTileBoard.cs" />
+    <Compile Include="Menu\SongMenu\ISongMenu.cs" />
+    <Compile Include="Program.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Screens\CScreenHighscore.cs" />
+    <Compile Include="Screens\CScreenLoad.cs" />
+    <Compile Include="Screens\CScreenMain.cs" />
+    <Compile Include="Screens\CScreenNames.cs" />
+    <Compile Include="Screens\CScreenOptions.cs" />
+    <Compile Include="Screens\CScreenOptionsGame.cs" />
+    <Compile Include="Screens\CScreenProfiles.cs" />
+    <Compile Include="Screens\CScreenScore.cs" />
+    <Compile Include="Screens\CScreenSing.cs" />
+    <Compile Include="Screens\CScreenSong.cs" />
+    <Compile Include="Screens\CScreenTest.cs" />
+    <Compile Include="Screens\CScreenOptionsSound.cs" />
+    <Compile Include="Screens\CScreenOptionsVideo.cs" />
+    <Compile Include="Screens\CScreenOptionsRecord.cs" />
+    <Compile Include="Screens\CScreenOptionsTheme.cs" />
+    <None Include="app.config" />
+    <Compile Include="Lib\Sound\Portaudio\PortAudio.cs" />
+    <Compile Include="Lib\Sound\Portaudio\PortAudioASIO.cs" />
+    <None Include="Doc\SQLite.NET.chm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Doc\Roadmap.txt" />
+    <Content Include="Vocaluxe.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
