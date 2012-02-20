@@ -206,13 +206,13 @@ namespace Vocaluxe.Screens
             if (_CurrentIntroVideoNr == 0 && _Intros[0].IsFinished)
             {
                 _CurrentIntroVideoNr = 1;
+                _Intros[1].Loop = true;
                 _Intros[1].Start();
             }
 
             if (_CurrentIntroVideoNr == 1 && CSongs.CoverLoaded)
             {
                 _CurrentIntroVideoNr = 2;
-                _Intros[2].Loop = true;
                 _Intros[2].Start();
             }
 
@@ -277,7 +277,7 @@ namespace Vocaluxe.Screens
             {
 
                 float VideoTime = _VideoTimer.ElapsedMilliseconds / 1000f;
-                _Finished = (VideoTime >= CVideo.VdGetLength(_VideoStream));
+                _Finished = CVideo.VdFinished(_VideoStream);
 
                 STexture tex = new STexture(-1);
                 CVideo.VdGetFrame(_VideoStream, ref tex, VideoTime, ref VideoTime);
