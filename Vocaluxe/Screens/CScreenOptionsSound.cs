@@ -128,7 +128,14 @@ namespace Vocaluxe.Screens
         private void SaveConfig()
         {
             CConfig.BackgroundMusic = (EOffOn)SelectSlides[htSelectSlides(SelectSlideBackgroundMusic)].Selection;
+
+            if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
+                CBackgroundMusic.Play();
+            else
+                CBackgroundMusic.Pause();
+
             CConfig.BackgroundMusicVolume = SelectSlides[htSelectSlides(SelectSlideBackgroundMusicVolume)].Selection * 5;
+            CBackgroundMusic.ApplyVolume();
 
             CConfig.SaveConfig();
         }
