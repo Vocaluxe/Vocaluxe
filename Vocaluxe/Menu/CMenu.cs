@@ -856,7 +856,6 @@ namespace Vocaluxe.Menu
         public virtual void OnShow()
         {
             ResumeBG();
-            CBackgroundMusic.Play();
         }
 
         public virtual void OnShowFinish()
