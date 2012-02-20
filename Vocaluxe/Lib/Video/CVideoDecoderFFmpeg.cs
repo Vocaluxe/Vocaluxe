@@ -244,6 +244,7 @@ namespace Vocaluxe.Lib.Video
         private bool _Paused = false;
         private bool _NoMoreFrames = false;
         private bool _Finished = false;
+        private bool _BeforeLoop = false;
         
         
         private int _Width = 0;
@@ -314,7 +315,10 @@ namespace Vocaluxe.Lib.Video
 
         public bool Finished
         {
-            get { return _Finished; }
+            get
+            {
+                return _Finished;
+            }
         }
 
         public bool Open(string FileName)
@@ -395,6 +399,7 @@ namespace Vocaluxe.Lib.Video
                 _VideoSkipTime = _Gap;
                 _NegativeSkipTime = _Start + _Gap;
                 _SkipTime = _Start + _Gap;
+                _BeforeLoop = false;
             }
             
             if (_SkipTime > 0)
@@ -575,7 +580,7 @@ namespace Vocaluxe.Lib.Video
                 return;
 
             int FrameFinished = 0;
-            if (DropFrame)
+            if (DropFrame && !_BeforeLoop)
             {
                 try
                 {
@@ -588,7 +593,7 @@ namespace Vocaluxe.Lib.Video
                 
             }
 
-            if (!DropFrame || FrameFinished != 0)
+            if (!_BeforeLoop && (!DropFrame || FrameFinished != 0))
             {
                 lock (MutexFrame)
                 {
@@ -608,14 +613,15 @@ namespace Vocaluxe.Lib.Video
             {
                 if (_Loop)
                 {
-                    bool doskip = false;
+                    _BeforeLoop = true;
+                    bool doskip = true;
                     float tm = 0f;
                     int num = -1;
                     lock (MutexFramebuffer)
                     {
                         for (int i = 0; i < _FrameBuffer.Length; i++)
                         {
-                            if (_FrameBuffer[i].time > tm)
+                            if (_FrameBuffer[i].time > tm && !_FrameBuffer[i].displayed)
                             {
                                 tm = _FrameBuffer[i].time;
                                 num = i;
