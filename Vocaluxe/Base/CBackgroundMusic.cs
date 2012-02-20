@@ -94,10 +94,7 @@ namespace Vocaluxe.Base
 
         public static void ApplyVolume()
         {
-            for (int i = 0; i < _BackgroundMusicStreams.Count; i++)
-			{
-			    CSound.SetStreamVolume(_BackgroundMusicStreams[i], CConfig.BackgroundMusicVolume); 
-			}
+            CSound.SetStreamVolume(_BackgroundMusicStreams[_CurrentStreamListIndex], CConfig.BackgroundMusicVolume); 
         }
     }
 }
