@@ -205,14 +205,15 @@ namespace Vocaluxe.Screens
                 _Intros[0].Start();
             }
 
-            if (_CurrentIntroVideoNr == 0 && _Intros[0].IsFinished)
+            if (_CurrentIntroVideoNr == 0 && _Intros[0].IsFinished && CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
             {
                 _CurrentIntroVideoNr = 1;
                 _Intros[1].Loop = true;
                 _Intros[1].Start();
             }
 
-            if (_CurrentIntroVideoNr == 1 && CSongs.CoverLoaded)
+            if ((_CurrentIntroVideoNr == 1 && CSongs.CoverLoaded) || 
+                (_CurrentIntroVideoNr == 0 && _Intros[0].IsFinished && CConfig.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART))
             {
                 _CurrentIntroVideoNr = 2;
                 _Intros[2].Start();
