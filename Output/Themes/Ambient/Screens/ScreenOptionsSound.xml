@@ -142,8 +142,8 @@
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-    </Text4>	
-	<ButtonExit>
+    </Text4>
+    <ButtonExit>
       <!--<Skin>: Texture name-->
       <Skin>Button</Skin>
       <!--<SkinSelected>: Texture name for selected button-->
@@ -198,8 +198,7 @@
         <Height>26</Height>
       </SReflection>
     </ButtonExit>
-	
-	<SelectSlideBackgroundMusic>
+    <SelectSlideBackgroundMusic>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
       <!--<SkinArrowLeft>: Texture name of left arrow-->
@@ -264,7 +263,7 @@
       <!--<NumVisible>: Number of visible elements in the slide-->
       <NumVisible>3</NumVisible>
     </SelectSlideBackgroundMusic>
-	<SelectSlideBackgroundMusicVolume>
+    <SelectSlideBackgroundMusicVolume>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
       <!--<SkinArrowLeft>: Texture name of left arrow-->
@@ -329,7 +328,7 @@
       <!--<NumVisible>: Number of visible elements in the slide-->
       <NumVisible>3</NumVisible>
     </SelectSlideBackgroundMusicVolume>
-	<SelectSlideBackgroundMusicSource>
+    <SelectSlideBackgroundMusicSource>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
       <!--<SkinArrowLeft>: Texture name of left arrow-->
