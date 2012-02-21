@@ -219,8 +219,8 @@
   </Skins>
   <Videos>
     <BG_Video>[Green]BG_Video.mp4</BG_Video>
-	<IntroIn>[Green]IntroIn.mp4</IntroIn>
-	<IntroMid>[Green]IntroMid.mp4</IntroMid>
-	<IntroOut>[Green]IntroOut.mp4</IntroOut>
+    <IntroIn>[Green]IntroIn.mp4</IntroIn>
+    <IntroMid>[Green]IntroMid.mp4</IntroMid>
+    <IntroOut>[Green]IntroOut.mp4</IntroOut>
   </Videos>
 </root>

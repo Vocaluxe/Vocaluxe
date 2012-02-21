@@ -6,7 +6,9 @@
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>None</Type>
       <!--<Video>: Background video name-->
+      <Video />
       <!--<Skin>: Background Texture name-->
+      <Skin />
       <!--<Color>: Background color for type "Color" from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
     </Background1>
@@ -117,10 +119,10 @@
       <H>9</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,675</R>
-      <G>0,890</G>
-      <B>0,969</B>
-      <A>0,400</A>
+      <R>0,68</R>
+      <G>0,89</G>
+      <B>0,97</B>
+      <A>0,40</A>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->

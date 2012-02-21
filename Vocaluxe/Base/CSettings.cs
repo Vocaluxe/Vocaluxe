@@ -91,6 +91,8 @@ namespace Vocaluxe.Base
         public const float LyricHelperMinTime = 0.2f;
 
         public const bool TabNavigation = false;
+
+        public const float BackgroundMusicFadeTime = 1.5f;
                 
         public static string GetVersionText()
         {
