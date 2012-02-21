@@ -172,11 +172,40 @@ namespace Vocaluxe
     {
         public SplashScreen()
         {
-            Bitmap logo = new Bitmap(Path.Combine(Environment.CurrentDirectory, Path.Combine("Graphics", "logo.png")));
-            this.Icon = new System.Drawing.Icon(Path.Combine(System.Environment.CurrentDirectory, CSettings.sIcon));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.ClientSize = new Size(logo.Width, logo.Height);
-            this.BackgroundImage = logo;
+            string path = Path.Combine(Environment.CurrentDirectory, Path.Combine("Graphics", "logo.png"));
+            if (File.Exists(path))
+            {
+                try
+                {
+                    Bitmap logo = new Bitmap(path);
+                    this.ClientSize = new Size(logo.Width, logo.Height);
+                    this.BackgroundImage = logo;
+                }
+                catch (Exception e)
+                {
+                    CLog.LogError("Error loading logo: " + e.Message);
+                }
+                
+            }
+            else
+                CLog.LogError("Can't find " + path);
+
+            path = Path.Combine(System.Environment.CurrentDirectory, CSettings.sIcon);
+            if (File.Exists(path))
+            {
+                try
+                {
+                    this.Icon = new System.Drawing.Icon(path);
+                }
+                catch (Exception e)
+                {
+                    CLog.LogError("Error loading icon: " + e.Message);                    
+                }
+            }
+            else
+                CLog.LogError("Can't find " + path);
+            
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;         
             this.Text = CSettings.sProgramName;
             this.CenterToScreen();
             this.Show();
