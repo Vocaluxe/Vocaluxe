@@ -190,6 +190,8 @@ namespace Vocaluxe.Screens
             _Intros[2].Close();
 
             CLog.StopBenchmark(3, "Load Cover");
+            if(CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC || CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_OWN_MUSIC)
+                CBackgroundMusic.AddOwnMusic();
         }
 
         private void CheckStartIntroVideos()

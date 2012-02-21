@@ -16,6 +16,7 @@ namespace Vocaluxe.Screens
 
         private const string SelectSlideBackgroundMusic = "SelectSlideBackgroundMusic";
         private const string SelectSlideBackgroundMusicVolume = "SelectSlideBackgroundMusicVolume";
+        private const string SelectSlideBackgroundMusicSource = "SelectSlideBackgroundMusicSource";
 
         private const string ButtonExit = "ButtonExit";
 
@@ -35,7 +36,7 @@ namespace Vocaluxe.Screens
             _ScreenVersion = ScreenVersion;
 
             _ThemeButtons = new string[] { ButtonExit };
-            _ThemeSelectSlides = new string[] { SelectSlideBackgroundMusic, SelectSlideBackgroundMusicVolume };
+            _ThemeSelectSlides = new string[] { SelectSlideBackgroundMusic, SelectSlideBackgroundMusicVolume, SelectSlideBackgroundMusicSource };
         }
 
         public override void LoadTheme()
@@ -44,6 +45,8 @@ namespace Vocaluxe.Screens
             SelectSlides[htSelectSlides(SelectSlideBackgroundMusic)].SetValues<EOffOn>((int)CConfig.BackgroundMusic);
             SelectSlides[htSelectSlides(SelectSlideBackgroundMusicVolume)].AddValues(new string[] { "0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
             SelectSlides[htSelectSlides(SelectSlideBackgroundMusicVolume)].Selection = CConfig.BackgroundMusicVolume / 5;
+            SelectSlides[htSelectSlides(SelectSlideBackgroundMusicSource)].SetValues<EBackgroundMusicSource>((int)CConfig.BackgroundMusicSource);
+            SelectSlides[htSelectSlides(SelectSlideBackgroundMusicSource)].Selection = (int)CConfig.BackgroundMusicSource;
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -136,6 +139,24 @@ namespace Vocaluxe.Screens
 
             CConfig.BackgroundMusicVolume = SelectSlides[htSelectSlides(SelectSlideBackgroundMusicVolume)].Selection * 5;
             CBackgroundMusic.ApplyVolume();
+
+            if (CConfig.BackgroundMusicSource != (EBackgroundMusicSource)SelectSlides[htSelectSlides(SelectSlideBackgroundMusicSource)].Selection)
+            {
+                CConfig.BackgroundMusicSource = (EBackgroundMusicSource)SelectSlides[htSelectSlides(SelectSlideBackgroundMusicSource)].Selection;
+                if (CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC)
+                {
+                    CBackgroundMusic.RemoveOwnMusic();
+                    CBackgroundMusic.AddBackgroundMusic();
+                }
+                if (CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC)
+                {
+                    CBackgroundMusic.RemoveBackgroundMusic();
+                    CBackgroundMusic.AddOwnMusic();
+                }
+                if (CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_OWN_MUSIC)
+                    CBackgroundMusic.AddOwnMusic();
+                
+            }
 
             CConfig.SaveConfig();
         }

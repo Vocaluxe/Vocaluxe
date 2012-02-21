@@ -134,6 +134,14 @@ namespace Vocaluxe.Base
         TR_CONFIG_TIMERLOOK_NORMAL,
         TR_CONFIG_TIMERLOOK_EXPANDED
     }
+
+    public enum EBackgroundMusicSource
+    {
+        TR_CONFIG_NO_OWN_MUSIC,
+        TR_CONFIG_ONLY_OWN_MUSIC,
+        TR_CONFIG_OWN_MUSIC
+    }
+
     #endregion Enums
 
     static class CConfig
@@ -175,6 +183,7 @@ namespace Vocaluxe.Base
         public static uint PortAudioBufferSize = 1024;
         public static int BackgroundMusicVolume = 50;
         public static EOffOn BackgroundMusic = EOffOn.TR_CONFIG_ON;
+        public static EBackgroundMusicSource BackgroundMusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
 
         // Game
         public static List<string> SongFolder = new List<string>();
@@ -286,6 +295,7 @@ namespace Vocaluxe.Base
                 CHelper.TryGetEnumValueFromXML<ERecordLib>("//root/Sound/RecordLib", navigator, ref RecordLib);
                 CHelper.TryGetEnumValueFromXML("//root/Sound/BackgroundMusic", navigator, ref BackgroundMusic);
                 CHelper.TryGetIntValueFromXML("//root/Sound/BackgroundMusicVolume", navigator, ref BackgroundMusicVolume);
+                CHelper.TryGetEnumValueFromXML("//root/Sound/BackgroundMusicSource", navigator, ref BackgroundMusicSource);
                 #endregion Sound
 
                 #region Game
@@ -482,6 +492,9 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("Background Music Volume from 0 to 100");
             writer.WriteElementString("BackgroundMusicVolume", BackgroundMusicVolume.ToString());
+
+            writer.WriteComment("Background Music Source");
+            writer.WriteElementString("BackgroundMusicSource", Enum.GetName(typeof(EBackgroundMusicSource), BackgroundMusicSource));
 
             writer.WriteEndElement();
             #endregion Sound
