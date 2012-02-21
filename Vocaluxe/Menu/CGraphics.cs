@@ -349,6 +349,7 @@ namespace Vocaluxe.Menu
                     ActualScreen = NextScreen;
                     NextScreen = EScreens.ScreenNull;
                     Screens[(int)ActualScreen].OnShowFinish();
+                    Screens[(int)ActualScreen].ProcessMouseMove(_Cursor.X, _Cursor.Y);
                     Screens[(int)ActualScreen].Draw();
                     _Fading = false;
                     _FadingTimer.Stop();
