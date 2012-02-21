@@ -92,7 +92,7 @@ namespace Vocaluxe.Base
 
         public const bool TabNavigation = false;
 
-        public const float BackgroundMusicFadeTime = 1.5f;
+        public const float BackgroundMusicFadeTime = 0.5f;
                 
         public static string GetVersionText()
         {
