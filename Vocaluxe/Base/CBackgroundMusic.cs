@@ -52,7 +52,7 @@ namespace Vocaluxe.Base
         public static void Stop()
         {
             if (_AllFileNames.Count > 0)
-                CSound.FadeAndStop(_CurrentMusicStream, CConfig.BackgroundMusicVolume, CSettings.BackgroundMusicFadeTime);
+                CSound.FadeAndStop(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
 
             _CurrentMusicFilePath = String.Empty;
         }
