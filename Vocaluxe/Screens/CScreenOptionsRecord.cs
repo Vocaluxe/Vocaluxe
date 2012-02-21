@@ -353,6 +353,12 @@ namespace Vocaluxe.Screens
             _DelaySound = -1;
         }
 
+        public override void OnShowFinish()
+        {
+            base.OnShowFinish();
+            CBackgroundMusic.Pause();
+        }
+
         public override bool Draw()
         {
             DrawBG();

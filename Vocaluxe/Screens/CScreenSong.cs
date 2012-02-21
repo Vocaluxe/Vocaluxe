@@ -171,9 +171,15 @@ namespace Vocaluxe.Screens
 
             int song = SongMenus[htSongMenus(SongMenu)].GetActualSelection();
             if ((CSongs.Category >= 0) && (song >= 0) && song < CSongs.VisibleSongs.Length)
+            {
                 Texts[htTexts(TextSelection)].Text = CSongs.VisibleSongs[song].Artist + " - " + CSongs.VisibleSongs[song].Title;
+                CBackgroundMusic.Pause();
+            }
             else if ((CSongs.Category == -1) && (song >= 0) && song < CSongs.Categories.Length)
+            {
                 Texts[htTexts(TextSelection)].Text = CSongs.Categories[song].Name;
+                CBackgroundMusic.Play();
+            }
             else
                 Texts[htTexts(TextSelection)].Text = String.Empty;
 

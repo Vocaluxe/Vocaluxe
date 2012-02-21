@@ -130,6 +130,7 @@ namespace Vocaluxe.Lib.Sound
                 {
                     if (AlreadyAdded(Stream))
                     {
+                        _Decoder[GetStreamIndex(Stream)].Loop = Loop;
                         _Decoder[GetStreamIndex(Stream)].Play();                        
                     }
                 }
