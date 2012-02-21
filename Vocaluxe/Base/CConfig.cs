@@ -138,8 +138,8 @@ namespace Vocaluxe.Base
     public enum EBackgroundMusicSource
     {
         TR_CONFIG_NO_OWN_MUSIC,
-        TR_CONFIG_ONLY_OWN_MUSIC,
-        TR_CONFIG_OWN_MUSIC
+        TR_CONFIG_OWN_MUSIC,
+        TR_CONFIG_ONLY_OWN_MUSIC
     }
 
     #endregion Enums

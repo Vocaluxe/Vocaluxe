@@ -130,35 +130,11 @@ namespace Vocaluxe.Screens
         }
         private void SaveConfig()
         {
-            CConfig.BackgroundMusic = (EOffOn)SelectSlides[htSelectSlides(SelectSlideBackgroundMusic)].Selection;
+            EOffOn NewOffOn = (EOffOn)SelectSlides[htSelectSlides(SelectSlideBackgroundMusic)].Selection;
+            EBackgroundMusicSource NewSource = (EBackgroundMusicSource)SelectSlides[htSelectSlides(SelectSlideBackgroundMusicSource)].Selection;
+            float NewVolume = SelectSlides[htSelectSlides(SelectSlideBackgroundMusicVolume)].Selection * 5;
 
-            if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
-                CBackgroundMusic.Play();
-            else
-                CBackgroundMusic.Pause();
-
-            CConfig.BackgroundMusicVolume = SelectSlides[htSelectSlides(SelectSlideBackgroundMusicVolume)].Selection * 5;
-            CBackgroundMusic.ApplyVolume();
-
-            if (CConfig.BackgroundMusicSource != (EBackgroundMusicSource)SelectSlides[htSelectSlides(SelectSlideBackgroundMusicSource)].Selection)
-            {
-                CConfig.BackgroundMusicSource = (EBackgroundMusicSource)SelectSlides[htSelectSlides(SelectSlideBackgroundMusicSource)].Selection;
-                if (CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC)
-                {
-                    CBackgroundMusic.RemoveOwnMusic();
-                    CBackgroundMusic.AddBackgroundMusic();
-                }
-                if (CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC)
-                {
-                    CBackgroundMusic.RemoveBackgroundMusic();
-                    CBackgroundMusic.AddOwnMusic();
-                }
-                if (CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_OWN_MUSIC)
-                    CBackgroundMusic.AddOwnMusic();
-                
-            }
-
-            CConfig.SaveConfig();
+            CBackgroundMusic.CheckAndApplyConfig(NewOffOn, NewSource, NewVolume);
         }
     }
 }

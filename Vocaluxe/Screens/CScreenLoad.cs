@@ -132,6 +132,9 @@ namespace Vocaluxe.Screens
             CLog.StartBenchmark(3, "Load Cover");
             _SongLoaderThread.Start();
             _timer.Start();
+
+            if (!CBackgroundMusic.IsPlaying())
+                CBackgroundMusic.Next();
         }
 
         public override bool UpdateGame()
@@ -163,6 +166,16 @@ namespace Vocaluxe.Screens
                 CLanguage.Translate("TR_SCREENLOAD_TOTAL") + ": " + CSongs.NumAllSongs.ToString() + " " +
                 CLanguage.Translate("TR_SCREENLOAD_SONGS") + " (" + CSongs.NumSongsWithCoverLoaded + " " +
                 CLanguage.Translate("TR_SCREENLOAD_LOADED") + ")";
+
+            if (CSongs.SongsLoaded && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON &&
+                CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC)
+            {
+                CBackgroundMusic.AddOwnMusic();
+
+                if (!CBackgroundMusic.IsPlaying())
+                    CBackgroundMusic.Next();
+            }
+
             return true;
         }
 
@@ -190,8 +203,6 @@ namespace Vocaluxe.Screens
             _Intros[2].Close();
 
             CLog.StopBenchmark(3, "Load Cover");
-            if(CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC || CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_OWN_MUSIC)
-                CBackgroundMusic.AddOwnMusic();
         }
 
         private void CheckStartIntroVideos()
