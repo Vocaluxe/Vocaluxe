@@ -51,16 +51,14 @@ namespace Vocaluxe.Base
 
         public static void Stop()
         {
-            if (_AllFileNames.Count > 0)
-                CSound.FadeAndStop(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
+            CSound.FadeAndStop(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
 
             _CurrentMusicFilePath = String.Empty;
         }
 
         public static void Pause()
         {
-            if (_AllFileNames.Count > 0)
-                CSound.FadeAndPause(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
+            CSound.FadeAndPause(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
         }
 
         public static void Update()
@@ -113,7 +111,7 @@ namespace Vocaluxe.Base
             if (_BackgroundMusicAdded)
                 _AllFileNames.AddRange(_BGMusicFileNames);
 
-            if (IsPlaying() && !IsBackgroundFile(_CurrentMusicFilePath))
+            if (IsPlaying() && !IsBackgroundFile(_CurrentMusicFilePath) || _AllFileNames.Count == 0)
                 Next();
 
             _OwnMusicAdded = false;
@@ -137,7 +135,7 @@ namespace Vocaluxe.Base
                 AddOwnMusic();
                 _BackgroundMusicAdded = false;
 
-                if (IsPlaying() && IsBackgroundFile(_CurrentMusicFilePath))
+                if (IsPlaying() && IsBackgroundFile(_CurrentMusicFilePath) || _AllFileNames.Count == 0)
                     Next();
             }
         }
