@@ -29,9 +29,9 @@ namespace Vocaluxe.Base
         public const int iVersionMajor = 0;
         public const int iVersionMinor = 1;      // milestones
         public const int iVersionSub = 0;        // steps
-        public const ERevision VersionRevision = ERevision.Alpha;
+        public const ERevision VersionRevision = ERevision.Beta;
 
-        public const int iBuild = 50;             // Increase on every published version! Never Reset!
+        public const int iBuild = 52;             // Increase on every published version! Never Reset!
 
         public const int iDatabaseHighscoreVersion = 1;
         public const int iDatabaseCoverVersion = 1;
