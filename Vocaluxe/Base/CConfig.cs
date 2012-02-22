@@ -224,14 +224,10 @@ namespace Vocaluxe.Base
             MicConfig = new SMicConfig[CSettings.MaxNumPlayer];
 
             // Init config file
-            if (File.Exists(CSettings.sFileConfig))
-            {
-                LoadConfig();
-            }
-            else
-            {               
+            if (!File.Exists(CSettings.sFileConfig))          
                 SaveConfig();
-            }        
+            
+            LoadConfig();
         }
 
         public static bool LoadConfig()
