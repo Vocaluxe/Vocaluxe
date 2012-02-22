@@ -65,7 +65,7 @@ namespace Vocaluxe.Screens
 
         private int _CurrentBeat;
         private int _CurrentStream = -1;
-        private int _NextStream = -1;
+        //private int _NextStream = -1;
         private float _Volume = 100f;
         private int _CurrentVideo = -1;
         private EAspect _VideoAspect = EAspect.Crop;

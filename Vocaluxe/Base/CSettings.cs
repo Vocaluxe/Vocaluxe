@@ -90,7 +90,7 @@ namespace Vocaluxe.Base
         public const float LyricHelperMoveTime = 1.5f;
         public const float LyricHelperMinTime = 0.2f;
 
-        public const bool TabNavigation = false;
+        public static bool TabNavigation = false;
 
         public const float BackgroundMusicFadeTime = 0.5f;
                 

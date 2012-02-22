@@ -367,7 +367,7 @@ namespace Vocaluxe.Lib.Draw
                     {
                         _Device.Present();
                     }
-                    catch (Direct3D9Exception e)
+                    catch (Direct3D9Exception)
                     {
                         if (_Device.TestCooperativeLevel() == ResultCode.DeviceNotReset) //Do only reset when the device in a resetable state!
                         {

@@ -23,7 +23,7 @@ namespace Vocaluxe.Screens
         const string ButtonProfiles = "ButtonProfiles";
         const string ButtonExit = "ButtonExit";
 
-        CParticleEffect Snowflakes;
+        //CParticleEffect Snowflakes;
         
         public CScreenMain()
         {
@@ -114,8 +114,8 @@ namespace Vocaluxe.Screens
         {
             base.OnShow();
 
-            if (Snowflakes != null)
-                Snowflakes.Resume();
+            //if (Snowflakes != null)
+            //    Snowflakes.Resume();
         }
 
         public override bool UpdateGame()
@@ -145,8 +145,8 @@ namespace Vocaluxe.Screens
         {
             base.OnClose();
 
-            if (Snowflakes != null)
-                Snowflakes.Pause();
+            //if (Snowflakes != null)
+            //    Snowflakes.Pause();
         }
     }
 }

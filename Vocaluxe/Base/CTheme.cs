@@ -482,6 +482,10 @@ namespace Vocaluxe.Base
                         if (skin.Name != String.Empty)
                         {
                             CHelper.GetValueFromXML("//root/Info/Author", navigator, ref skin.Author, String.Empty);
+                            CHelper.TryGetIntValueFromXML("//root/Info/SkinVersionMajor", navigator, ref skin.SkinVersionMajor);
+                            CHelper.TryGetIntValueFromXML("//root/Info/SkinVersionMinor", navigator, ref skin.SkinVersionMinor);
+
+
                             skin.Path = path;
                             skin.FileName = file;
 

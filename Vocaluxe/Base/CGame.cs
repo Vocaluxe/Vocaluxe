@@ -229,7 +229,7 @@ namespace Vocaluxe.Base
 
         public static void UpdatePoints(float Time)
         {
-            const bool DEBUG_HIT = false;
+            bool DEBUG_HIT = false;
 
             CSong song = _GameMode.GetSong();
 

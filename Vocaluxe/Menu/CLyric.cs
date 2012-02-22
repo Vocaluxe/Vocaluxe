@@ -232,7 +232,21 @@ namespace Vocaluxe.Menu
         public void Draw(float ActualBeat)
         {
             if (Visible || CSettings.GameState == EGameState.EditTheme)
-                DrawSlide(ActualBeat);
+            {
+                switch (_Style)
+                {
+                    case ELyricStyle.Fill:
+                        break;
+                    case ELyricStyle.Jump:
+                        break;
+                    case ELyricStyle.Slide:
+                        DrawSlide(ActualBeat);
+                        break;
+                    default:
+                        DrawSlide(ActualBeat);
+                        break;
+                }            
+            }
         }
 
         private void DrawSlide(float CurrentBeat)

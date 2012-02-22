@@ -22,9 +22,9 @@ namespace Vocaluxe.Menu.SongMenu
 
         public string ColorName;
 
-        public SThemeSongMenuBook songMenuBook;
-        public SThemeSongMenuDreidel songMenuDreidel;
-        public SThemeSongMenuList songMenuList;
+        //public SThemeSongMenuBook songMenuBook;
+        //public SThemeSongMenuDreidel songMenuDreidel;
+        //public SThemeSongMenuList songMenuList;
         public SThemeSongMenuTileBoard songMenuTileBoard;
     }
 

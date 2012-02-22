@@ -338,7 +338,7 @@ namespace Vocaluxe.Base
         #endregion private vars
 
         #region public vars
-        public bool Visible;
+        //public bool Visible;
         public float Alpha2 = 1f;
 
         public float X
