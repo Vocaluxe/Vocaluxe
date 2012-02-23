@@ -87,10 +87,10 @@ namespace Vocaluxe.Base
 
     public enum ESongMenu
     {
-        TR_CONFIG_LIST,		    //a simple list
-        TR_CONFIG_DREIDEL,	    //as in ultrastar deluxe
+        //TR_CONFIG_LIST,		    //a simple list
+        //TR_CONFIG_DREIDEL,	    //as in ultrastar deluxe
         TR_CONFIG_TILE_BOARD,	//chessboard like
-        TR_CONFIG_BOOK          //for playlists
+        //TR_CONFIG_BOOK          //for playlists
     }
 
     public enum ESongSorting
