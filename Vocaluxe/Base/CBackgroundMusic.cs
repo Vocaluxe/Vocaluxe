@@ -16,10 +16,12 @@ namespace Vocaluxe.Base
         private static string _CurrentMusicFilePath = String.Empty;
         
         private static List<string> _AllFileNames = new List<string>();
+        private static List<string> _NotPlayedFileNames = new List<string>();
         private static List<string> _BGMusicFileNames = new List<string>();
         
         private static bool _OwnMusicAdded;
         private static bool _BackgroundMusicAdded;
+        private static bool _Playing;
 
         public static void Init()
         {
@@ -30,6 +32,8 @@ namespace Vocaluxe.Base
 
             if(CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC)
                 AddBackgroundMusic();
+
+            _Playing = false;
         }
 
         public static void Play()
@@ -42,6 +46,7 @@ namespace Vocaluxe.Base
                     {
                         CSound.Fade(_CurrentMusicStream, CConfig.BackgroundMusicVolume, CSettings.BackgroundMusicFadeTime);
                         CSound.Play(_CurrentMusicStream);
+                        _Playing = true;
                     }
                     else
                         Next();
@@ -54,11 +59,13 @@ namespace Vocaluxe.Base
             CSound.FadeAndStop(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
 
             _CurrentMusicFilePath = String.Empty;
+            _Playing = false;
         }
 
         public static void Pause()
         {
             CSound.FadeAndPause(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
+            _Playing = false;
         }
 
         public static void Update()
@@ -66,8 +73,8 @@ namespace Vocaluxe.Base
             if (_AllFileNames.Count > 0 && _CurrentMusicStream != -1)
             {
                 float timeToPlay = CSound.GetLength(_CurrentMusicStream) - CSound.GetPosition(_CurrentMusicStream);
-
-                if (timeToPlay <= CSettings.BackgroundMusicFadeTime)
+                bool finished = CSound.IsFinished(_CurrentMusicStream);
+                if (_Playing && (timeToPlay <= CSettings.BackgroundMusicFadeTime || finished))
                     Next();
             }
         }
@@ -78,7 +85,12 @@ namespace Vocaluxe.Base
             {
                 Stop();
 
-                _CurrentMusicFilePath = _AllFileNames[CGame.Rand.Next(_AllFileNames.Count)];
+                if (_NotPlayedFileNames.Count == 0)
+                    _NotPlayedFileNames.AddRange(_AllFileNames);
+
+                _CurrentMusicFilePath = _NotPlayedFileNames[CGame.Rand.Next(_NotPlayedFileNames.Count)];
+                _NotPlayedFileNames.Remove(_CurrentMusicFilePath);
+
                 _CurrentMusicStream = CSound.Load(_CurrentMusicFilePath);
                 CSound.SetStreamVolume(_CurrentMusicStream, 0f);
                 Play();
@@ -99,6 +111,7 @@ namespace Vocaluxe.Base
                 foreach (CSong song in CSongs.AllSongs)
                 {
                     _AllFileNames.Add(song.GetMP3());
+                    _NotPlayedFileNames.Add(song.GetMP3());
                 }
             }
             _OwnMusicAdded = true;
@@ -107,9 +120,13 @@ namespace Vocaluxe.Base
         public static void RemoveOwnMusic()
         {
             _AllFileNames.Clear();
+            _NotPlayedFileNames.Clear();
 
             if (_BackgroundMusicAdded)
+            {
                 _AllFileNames.AddRange(_BGMusicFileNames);
+                _NotPlayedFileNames.AddRange(_BGMusicFileNames);
+            }
 
             if (IsPlaying() && !IsBackgroundFile(_CurrentMusicFilePath) || _AllFileNames.Count == 0)
                 Next();
@@ -122,6 +139,7 @@ namespace Vocaluxe.Base
             if (!_BackgroundMusicAdded)
             {
                 _AllFileNames.AddRange(_BGMusicFileNames);
+                _NotPlayedFileNames.AddRange(_BGMusicFileNames);
                 _BackgroundMusicAdded = true;
             }
         }
