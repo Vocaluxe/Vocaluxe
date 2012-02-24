@@ -31,6 +31,8 @@ namespace Vocaluxe.Menu
 
         ScreenNames = 14,
 
+        ScreenCredits = 15,
+
         ScreenNull = -1
     }
 
@@ -212,6 +214,7 @@ namespace Vocaluxe.Menu
             ScreenList.Add(new CScreenOptionsVideo());
             ScreenList.Add(new CScreenOptionsTheme());
             ScreenList.Add(new CScreenNames());
+            ScreenList.Add(new CScreenCredits());
             CLog.StopBenchmark(1, "Build Screen List");
 
             Screens = ScreenList.ToArray();
