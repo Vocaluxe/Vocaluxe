@@ -33,6 +33,7 @@ namespace Vocaluxe
             // Init Log
             CLog.Init();
 
+            CSettings.CreateFolders();
             Application.DoEvents();
 
             // Init Language

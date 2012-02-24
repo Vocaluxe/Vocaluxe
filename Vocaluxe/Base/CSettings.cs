@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace Vocaluxe.Base
@@ -93,7 +94,7 @@ namespace Vocaluxe.Base
         public static bool TabNavigation = false;
 
         public const float BackgroundMusicFadeTime = 0.5f;
-                
+        
         public static string GetVersionText()
         {
             string sVersion = "v" + iVersionMajor.ToString() + "." +
@@ -139,6 +140,26 @@ namespace Vocaluxe.Base
         public static void MouseActive()
         {
             MouseMoveDiffMin = 3;
+        }
+
+        public static void CreateFolders()
+        {
+            List<string> Folders = new List<string>();
+
+            Folders.Add(sFolderCover);
+            Folders.Add(sFolderFonts);
+            Folders.Add(sFolderProfiles);
+            Folders.Add(sFolderSongs);
+            Folders.Add(sFolderScreenshots);
+            Folders.Add(sFolderBackgroundMusic);
+            Folders.Add(sFolderSounds);
+
+            foreach (string folder in Folders)
+            {
+                string path = Path.Combine(Environment.CurrentDirectory, folder);
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);   
+            }       
         }
     }
 }
