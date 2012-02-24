@@ -409,9 +409,9 @@ namespace Vocaluxe.Lib.Video
                 {
                     CAcinerella.ac_seek(_videodecoder, -1, (Int64)(_SkipTime * 1000f));
                 }
-                catch (Exception)
+                catch (Exception e)
                 {                   
-                    ;
+                    CLog.LogError("Error seeking video file \"" + _FileName + "\": " + e.Message);
                 }
                 
             }
@@ -422,9 +422,9 @@ namespace Vocaluxe.Lib.Video
 	            {
                     CAcinerella.ac_seek(_videodecoder, -1, (Int64)0);
 	            }
-	            catch (Exception)
+	            catch (Exception e)
 	            {
-		            ;
+                    CLog.LogError("Error seeking video file \"" + _FileName + "\": " + e.Message);
 	            }              
             }
 
@@ -580,6 +580,7 @@ namespace Vocaluxe.Lib.Video
                 return;
 
             int FrameFinished = 0;
+            bool error = false;
             if (DropFrame && !_BeforeLoop)
             {
                 try
@@ -603,6 +604,7 @@ namespace Vocaluxe.Lib.Video
                     }
                     catch (Exception)
                     {
+                        error = true;
                         CLog.LogError("Error AcGetFrame " + _FileName);
                     }
                     
@@ -647,7 +649,8 @@ namespace Vocaluxe.Lib.Video
                 }
                 else
                 {
-                    _NoMoreFrames = true;
+                    if (!error) // just a quick and dirty workaround for the mkv seek bug in ffmpeg
+                        _NoMoreFrames = true;
                 }
                 return;
             }
