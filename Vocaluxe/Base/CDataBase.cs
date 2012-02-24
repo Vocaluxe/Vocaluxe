@@ -10,6 +10,7 @@ using System.Data.SQLite;
 
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Lib.Song;
+using System.Data;
 
 namespace Vocaluxe.Base
 {
@@ -305,6 +306,31 @@ namespace Vocaluxe.Base
                 reader.Dispose();
             }
 
+            command.CommandText = "PRAGMA user_version";
+            reader = command.ExecuteReader();
+            reader.Read();
+
+            int version = reader.GetInt32(0);
+
+            reader.Close();
+            reader.Dispose();
+
+            //Check if old scores table exists
+            command.CommandText = "SELECT name FROM sqlite_master WHERE type='table' AND name='US_Scores';";
+            reader = command.ExecuteReader();
+            reader.Read();
+            bool scoresTableExists = reader.HasRows;
+
+            reader.Close();
+            reader.Dispose();
+
+            //Check for USDX 1.1 DB
+            if (version == 1)
+                ConvertFrom110();
+            //Check for USDX 1.01 or CMD Mod DB
+            else if (version == 0 && scoresTableExists)
+                ConvertFrom101();
+
             command.Dispose();
 
             connection.Close();
@@ -358,6 +384,141 @@ namespace Vocaluxe.Base
                 Console.WriteLine("Dies ist der {0}. eingefügte Datensatz mit dem Wert: \"{1}\"", reader[0].ToString(), reader[1].ToString());
             }
             */
+        }
+
+        /// <summary>
+        /// Converts a USDX 1.1 database into the Vocaluxe format
+        /// </summary>
+        /// <returns>True if succeeded</returns>
+        private static bool ConvertFrom110()
+        {
+            SQLiteConnection connection = new SQLiteConnection();
+            connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
+            SQLiteCommand command;
+
+            try
+            {
+                connection.Open();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            command = new SQLiteCommand(connection);
+
+            //The USDX database has no column for LineNr, Medley and Duet so just fill 0 in there
+            command.CommandText = "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, Difficulty) SELECT SongID, Player, Score, '0', Date, '0', '0', Difficulty from US_Scores";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "INSERT INTO Songs SELECT ID, Artist, Title, TimesPlayed from US_Songs";
+            command.ExecuteNonQuery();
+
+            //Delete old tables after conversion
+            command.CommandText = "DROP TABLE US_Scores;";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "DROP TABLE US_Songs;";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "DROP TABLE us_statistics_info;";
+            command.ExecuteNonQuery();
+
+            //This versioning is not used in Vocaluxe so reset it to 0
+            command.CommandText = "PRAGMA user_version = 0";
+            command.ExecuteNonQuery();
+
+            command.Dispose();
+            connection.Close();
+            connection.Dispose();
+
+            return true;
+        }
+
+        /// <summary>
+        /// Converts a USDX 1.01 or CMD 1.01 database to Vocaluxe format
+        /// </summary>
+        /// <returns>True if succeeded</returns>
+        private static bool ConvertFrom101()
+        {
+            SQLiteConnection connection = new SQLiteConnection();
+            connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
+            SQLiteCommand command;
+            SQLiteDataReader reader = null;
+
+            try
+            {
+                connection.Open();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            command = new SQLiteCommand(connection);
+
+            command.CommandText = "PRAGMA table_info(US_Scores);";
+            reader = command.ExecuteReader();
+            reader.Read();
+
+            bool dateExists = false;
+
+            //Check for column Date
+            for (int i = 0; i < reader.FieldCount; i++)
+            {
+                if (reader.GetName(i) == "Date")
+                {
+                    dateExists = true;
+                    break;
+                }
+            }
+
+            reader.Close();
+
+            //This is a USDX 1.01 DB
+            if(!dateExists)
+                command.CommandText = "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, Difficulty) SELECT SongID, Player, Score, '0', '0', '0', '0', Difficulty from US_Scores";
+            else // This is a CMD 1.01 DB
+                command.CommandText = "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, Difficulty) SELECT SongID, Player, Score, '0', Date, '0', '0', Difficulty from US_Scores";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "INSERT INTO Songs SELECT ID, Artist, Title, TimesPlayed from US_Songs";
+            command.ExecuteNonQuery();
+
+            //Delete old tables after conversion
+            command.CommandText = "DROP TABLE US_Scores;";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "DROP TABLE US_Songs;";
+            command.ExecuteNonQuery();
+
+            //Now loop through all tables and convert from CP1252 to UTF8
+            command.CommandText = "SELECT ID, Artist, Title from Songs";
+
+            //Create a DataTable containing the results
+            DataTable results = new DataTable();
+            SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
+            adapter.Fill(results);
+
+            foreach (DataRow row in results.Rows)
+            {
+                //FIXME: Convert Latin1(CP1252) to UTF8
+                int id = Convert.ToInt32(row.ItemArray[0].ToString());
+                string artist = row.ItemArray[1].ToString();
+                string title = row.ItemArray[2].ToString();
+
+                command.CommandText = "UPDATE Songs SET Artist ='" + artist + "', Title = '" + title + "'WHERE ID = " + id;
+                command.ExecuteNonQuery();
+            }
+
+            results.Dispose();
+            adapter.Dispose();
+            reader.Dispose();
+            command.Dispose();
+            connection.Close();
+            connection.Dispose();
+
+            return true;
         }
         #endregion Highscores
 
