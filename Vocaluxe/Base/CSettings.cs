@@ -47,6 +47,7 @@ namespace Vocaluxe.Base
         public static bool bFullScreen = false;
 
         public const string sIcon = "Vocaluxe.ico";
+        public const string sLogo = "Logo.png";
         public const string FallbackLanguage = "English";
         public static string sBassRegistration = "Registration.xml";
         public static string sFileConfig = "Config.xml";
@@ -62,6 +63,7 @@ namespace Vocaluxe.Base
         public const string sSoundT440 = "440Hz.mp3";
 
         public const string sFolderCover = "Cover";
+        public const string sFolderGraphics = "Graphics";
         public const string sFolderFonts = "Fonts";
         public const string sFolderThemes = "Themes";
         public const string sFolderSkins = "Skins";

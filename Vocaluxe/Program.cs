@@ -173,7 +173,7 @@ namespace Vocaluxe
     {
         public SplashScreen()
         {
-            string path = Path.Combine(Environment.CurrentDirectory, Path.Combine("Graphics", "logo.png"));
+            string path = Path.Combine(Environment.CurrentDirectory, Path.Combine(CSettings.sFolderGraphics, CSettings.sLogo));
             if (File.Exists(path))
             {
                 try
