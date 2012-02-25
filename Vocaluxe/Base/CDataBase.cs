@@ -485,6 +485,32 @@ namespace Vocaluxe.Base
             command.CommandText = "INSERT INTO Songs SELECT ID, Artist, Title, TimesPlayed from US_Songs";
             command.ExecuteNonQuery();
 
+            CLog.LogError("The database has been converted but all non ASCII characters got lost in this process");
+
+            /* Unfortunately all SQLite Wrappers do convert data to UTF8 when interacting with the database, so converting cant be done in .Net,
+             * we might have to write a library in C++ which can convert data or just write a simple program to which converts the tables.
+             */
+            
+            //Now loop through all tables and convert from CP1252 to UTF8
+            //command.CommandText = "SELECT ID, Artist, Title from US_Songs";
+
+            //Create a DataTable containing the results
+            //DataTable results = new DataTable();
+            //SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
+            //adapter.Fill(results);
+
+            //foreach (DataRow row in results.Rows)
+            //{
+            //    //FIXME: Convert Latin1(CP1252) to UTF8
+            //    int id = Convert.ToInt32(row.ItemArray[0].ToString());
+            //    string artist = row.ItemArray[1].ToString();
+            //    //artist = Encoding.Unicode.GetString(Encoding.Convert(Encoding.GetEncoding(1252), Encoding.Unicode, Encoding.GetEncoding(1252).GetBytes(row.ItemArray[1].ToString())));
+            //    string title = row.ItemArray[2].ToString();
+
+            //    command.CommandText = "UPDATE Songs SET Artist ='" + artist + "', Title = '" + title + "'WHERE ID = " + id;
+            //    command.ExecuteNonQuery();
+            //}
+            
             //Delete old tables after conversion
             command.CommandText = "DROP TABLE US_Scores;";
             command.ExecuteNonQuery();
@@ -492,27 +518,9 @@ namespace Vocaluxe.Base
             command.CommandText = "DROP TABLE US_Songs;";
             command.ExecuteNonQuery();
 
-            //Now loop through all tables and convert from CP1252 to UTF8
-            command.CommandText = "SELECT ID, Artist, Title from Songs";
-
-            //Create a DataTable containing the results
-            DataTable results = new DataTable();
-            SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
-            adapter.Fill(results);
-
-            foreach (DataRow row in results.Rows)
-            {
-                //FIXME: Convert Latin1(CP1252) to UTF8
-                int id = Convert.ToInt32(row.ItemArray[0].ToString());
-                string artist = row.ItemArray[1].ToString();
-                string title = row.ItemArray[2].ToString();
-
-                command.CommandText = "UPDATE Songs SET Artist ='" + artist + "', Title = '" + title + "'WHERE ID = " + id;
-                command.ExecuteNonQuery();
-            }
-
-            results.Dispose();
-            adapter.Dispose();
+            //results.Dispose();
+            //adapter.Dispose();
+            
             reader.Dispose();
             command.Dispose();
             connection.Close();
