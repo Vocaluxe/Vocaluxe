@@ -300,9 +300,7 @@ namespace Vocaluxe.Lib.Draw
         {
             string file = "Screenshot_";
             string path = Path.Combine(Environment.CurrentDirectory, CSettings.sFolderScreenshots);
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
+            
             int i = 0;
             while (File.Exists(Path.Combine(path, file + i.ToString("00000") + ".png")))
                 i++;
