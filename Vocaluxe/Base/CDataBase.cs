@@ -695,7 +695,7 @@ namespace Vocaluxe.Base
             {
 
                 SQLiteConnection connection = new SQLiteConnection();
-                connection.ConnectionString = "Data Source=" + _CoverFilePath;
+                connection.ConnectionString = "Data Source=" + _CreditsRessourcesFilePath;
                 SQLiteCommand command;
                 try
                 {
