@@ -68,21 +68,8 @@ typedef enum _ac_output_format ac_output_format;
 /*Contains information about the whole file/stream that has been opened. Default values are "" 
 for strings and -1 for integer values.*/
 struct _ac_file_info { 
-  /*Information about the file*/
-  char title[512];
-  char author[512];
-  char copyright[512];
-  char comment[512];
-  char album[512];
-  int year;
-  int track;
-  char genre[32]; 
-  
   /*Length of the file*/
   int64_t duration;  
- 
-  /*Bitrate*/
-  int bitrate;
 };
 
 typedef struct _ac_file_info ac_file_info;
