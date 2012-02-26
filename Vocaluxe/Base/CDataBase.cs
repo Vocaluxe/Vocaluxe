@@ -20,6 +20,7 @@ namespace Vocaluxe.Base
         struct SData
         {
             public int id;
+            public long ticks;
             public string str1;
             public string str2;
         }
@@ -422,6 +423,79 @@ namespace Vocaluxe.Base
             command.CommandText = "INSERT INTO Songs SELECT ID, Artist, Title, TimesPlayed from US_Songs";
             command.ExecuteNonQuery();
 
+            List<SData> scores = new List<SData>();
+            List<SData> songs = new List<SData>();
+
+            SQLiteDataReader reader = null;
+            command.CommandText = "SELECT id, PlayerName, Date FROM Scores";
+            try
+            {
+                reader = command.ExecuteReader();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            if (reader != null && reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    SData data = new SData();
+                    data.id = reader.GetInt32(0);
+                    data.str1 = reader.GetString(1);
+                    data.ticks = UnixTimeToTicks((int)reader.GetInt64(2));
+
+                    scores.Add(data);
+                }
+                reader.Close();
+            }
+
+            command.CommandText = "SELECT id, Artist, Title FROM Songs";
+            try
+            {
+                reader = command.ExecuteReader();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            if (reader != null && reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    SData data = new SData();
+                    data.id = reader.GetInt32(0);
+                    data.str1 = reader.GetString(1);
+                    data.str2 = reader.GetString(2);
+                    songs.Add(data);
+                }
+                reader.Close();
+            }
+
+            reader.Dispose();
+
+            // update Title and Artist strings
+            foreach (SData data in songs)
+            {
+                command.CommandText = "UPDATE Songs SET [Artist] = @artist, [Title] = @title WHERE [ID] = @id";
+                command.Parameters.Add("@title", System.Data.DbType.String, 0).Value = data.str2;
+                command.Parameters.Add("@artist", System.Data.DbType.String, 0).Value = data.str1;
+                command.Parameters.Add("@id", System.Data.DbType.Int32, 0).Value = data.id;
+                command.ExecuteNonQuery();
+            }
+
+            // update player names
+            foreach (SData data in scores)
+            {
+                command.CommandText = "UPDATE Scores SET [PlayerName] = @player, [Date] = @date WHERE [id] = @id";
+                command.Parameters.Add("@player", System.Data.DbType.String, 0).Value = data.str1;
+                command.Parameters.Add("@date", System.Data.DbType.Int64, 0).Value = data.ticks;
+                command.Parameters.Add("@id", System.Data.DbType.Int32, 0).Value = data.id;
+                command.ExecuteNonQuery();
+            }
+            
             //Delete old tables after conversion
             command.CommandText = "DROP TABLE US_Scores;";
             command.ExecuteNonQuery();
@@ -543,7 +617,11 @@ namespace Vocaluxe.Base
                 }
 
                 Stmt = new Sqlite3.Vdbe();
-                res = Sqlite3.sqlite3_prepare_v2(OldDB, "SELECT rowid, Player FROM US_Scores", -1, ref Stmt, 0);
+                
+                if (!dateExists)
+                    res = Sqlite3.sqlite3_prepare_v2(OldDB, "SELECT rowid, Player FROM US_Scores", -1, ref Stmt, 0);
+                else
+                    res = Sqlite3.sqlite3_prepare_v2(OldDB, "SELECT rowid, Player, Date FROM US_Scores", -1, ref Stmt, 0);
 
                 if (res != Sqlite3.SQLITE_OK)
                 {
@@ -565,6 +643,9 @@ namespace Vocaluxe.Base
                         byte[] bytes = Sqlite3.sqlite3_column_rawbytes(Stmt, 1);
                         data.str1 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
 
+                        if (dateExists)
+                            data.ticks = UnixTimeToTicks(Sqlite3.sqlite3_column_int(Stmt, 2));
+                        
                         scores.Add(data);
                     }
                     Sqlite3.sqlite3_finalize(Stmt);
@@ -586,7 +667,13 @@ namespace Vocaluxe.Base
             // update player names
             foreach (SData data in scores)
             {
-                command.CommandText = "UPDATE Scores SET [PlayerName] = @player WHERE [id] = @id";
+                if (!dateExists)
+                    command.CommandText = "UPDATE Scores SET [PlayerName] = @player WHERE [id] = @id";
+                else
+                {
+                    command.CommandText = "UPDATE Scores SET [PlayerName] = @player, [Date] = @date WHERE [id] = @id";
+                    command.Parameters.Add("@date", System.Data.DbType.Int64, 0).Value = data.ticks;
+                }
                 command.Parameters.Add("@player", System.Data.DbType.String, 0).Value = data.str1;
                 command.Parameters.Add("@id", System.Data.DbType.Int32, 0).Value = data.id;
                 command.ExecuteNonQuery();
@@ -877,6 +964,13 @@ namespace Vocaluxe.Base
                 }
                 return stream.ToArray();
             }
+        }
+
+        private static long UnixTimeToTicks(int UnixTime)
+        {
+            DateTime t70 = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            t70 = t70.AddSeconds(UnixTime);
+            return t70.Ticks;
         }
     }
 }
