@@ -38,22 +38,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public struct TAc_file_info
     {
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
-        public string title;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
-        public string author;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
-        public string copyright;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
-        public string comment;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
-        public string album;
-        public Int32 year;
-        public Int32 track;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-        public string genre;
         public Int64 duration;
-        public Int32 bitrate;
     }
 
     // TAc_instance represents an Acinerella instance. Each instance can open and

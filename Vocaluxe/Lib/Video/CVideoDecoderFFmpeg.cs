@@ -580,7 +580,6 @@ namespace Vocaluxe.Lib.Video
                 return;
 
             int FrameFinished = 0;
-            bool error = false;
             if (DropFrame && !_BeforeLoop)
             {
                 try
@@ -604,7 +603,6 @@ namespace Vocaluxe.Lib.Video
                     }
                     catch (Exception)
                     {
-                        error = true;
                         CLog.LogError("Error AcGetFrame " + _FileName);
                     }
                     
@@ -649,8 +647,7 @@ namespace Vocaluxe.Lib.Video
                 }
                 else
                 {
-                    if (!error) // just a quick and dirty workaround for the mkv seek bug in ffmpeg
-                        _NoMoreFrames = true;
+                    _NoMoreFrames = true;
                 }
                 return;
             }
