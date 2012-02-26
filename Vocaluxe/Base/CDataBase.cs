@@ -28,6 +28,7 @@ namespace Vocaluxe.Base
             InitHighscoreDB();
             InitCoverDB();
             InitCreditsRessourcesDB();
+            
         }
 
         #region Highscores
@@ -617,12 +618,12 @@ namespace Vocaluxe.Base
         #endregion Cover
 
         #region CreditsRessources
-        public static bool GetCreditsRessource(string FileName, ref STexture tex, int MaxSize)
+        public static bool GetCreditsRessource(string FileName, ref STexture tex)
         {
             bool result = false;
 
             SQLiteConnection connection = new SQLiteConnection();
-            connection.ConnectionString = "Data Source=" + _CoverFilePath;
+            connection.ConnectionString = "Data Source=" + _CreditsRessourcesFilePath;
             SQLiteCommand command;
             try
             {
@@ -686,6 +687,7 @@ namespace Vocaluxe.Base
             return result;
         }
 
+        //If you want to add an image to db, call this method!
         private static bool AddImageToCreditsDB(String ImagePath)
         {
             bool result = false;
@@ -751,11 +753,11 @@ namespace Vocaluxe.Base
 
                 command.CommandText = "INSERT INTO Images (Path, width, height) " +
                     "VALUES (@path, " + w.ToString() + ", " + h.ToString() + ")";
-                command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = ImagePath;
+                command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = Path.GetFileName(ImagePath);
                 command.ExecuteNonQuery();
 
                 command.CommandText = "SELECT id FROM Images WHERE [Path] = @path";
-                command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = ImagePath;
+                command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = Path.GetFileName(ImagePath);
                 reader = null;
                 try
                 {
@@ -873,7 +875,7 @@ namespace Vocaluxe.Base
             command.ExecuteNonQuery();
 
             command.CommandText = "CREATE TABLE IF NOT EXISTS ImageData ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                "CoverID INTEGER NOT NULL, Data BLOB NOT NULL);";
+                "ImageID INTEGER NOT NULL, Data BLOB NOT NULL);";
             command.ExecuteNonQuery();
 
             command.Dispose();

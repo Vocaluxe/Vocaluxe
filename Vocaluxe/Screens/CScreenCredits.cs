@@ -16,6 +16,8 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         const int ScreenVersion = 1;
 
+        private CStatic logo;
+
         public CScreenCredits()
         {
             Init();
@@ -27,6 +29,11 @@ namespace Vocaluxe.Screens
 
             _ThemeName = "ScreenCredits";
             _ScreenVersion = ScreenVersion;
+
+            STexture tex = new STexture();
+            CDataBase.GetCreditsRessource("Logo.png", ref tex);
+
+            logo = new CStatic(tex, new SColorF(1,1,1,1), new SRectF(140,140,tex.width, tex.height, -1));
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -89,7 +96,8 @@ namespace Vocaluxe.Screens
             base.Draw();
 
             //Draw white background
-            CDraw.DrawColor(new SColorF(1, 1, 1, 1), new SRectF(0, 0, 1280, 720, 1));
+            CDraw.DrawColor(new SColorF(1, 1, 1, 1), new SRectF(0, 0, 1280, 720, 0));
+            logo.Draw();
 
             return true;
         }
