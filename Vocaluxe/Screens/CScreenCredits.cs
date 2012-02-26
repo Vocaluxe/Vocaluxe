@@ -86,7 +86,12 @@ namespace Vocaluxe.Screens
 
         public override bool Draw()
         {
-            return base.Draw();
+            base.Draw();
+
+            //Draw white background
+            CDraw.DrawColor(new SColorF(1, 1, 1, 1), new SRectF(0, 0, 1280, 720, 1));
+
+            return true;
         }
     }
 }

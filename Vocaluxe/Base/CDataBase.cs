@@ -17,14 +17,17 @@ namespace Vocaluxe.Base
     {
         private static string _HighscoreFilePath;
         private static string _CoverFilePath;
+        private static string _CreditsRessourcesFilePath;
 
         public static void Init()
         {
             _HighscoreFilePath = Path.Combine(System.Environment.CurrentDirectory, CSettings.sFileHighscoreDB);
             _CoverFilePath = Path.Combine(System.Environment.CurrentDirectory, CSettings.sFileCoverDB);
+            _CreditsRessourcesFilePath = Path.Combine(System.Environment.CurrentDirectory, CSettings.sFileCreditsRessourcesDB);
 
             InitHighscoreDB();
             InitCoverDB();
+            InitCreditsRessourcesDB();
         }
 
         #region Highscores
@@ -604,7 +607,7 @@ namespace Vocaluxe.Base
             command.ExecuteNonQuery();
 
             command.CommandText = "CREATE TABLE IF NOT EXISTS CoverData ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                "CoverID INTEGER NOT NULL, Data BLOB NOT NULL);";
+                "ImageID INTEGER NOT NULL, Data BLOB NOT NULL);";
             command.ExecuteNonQuery();
 
             command.Dispose();
@@ -612,6 +615,272 @@ namespace Vocaluxe.Base
             connection.Dispose();
         }
         #endregion Cover
+
+        #region CreditsRessources
+        public static bool GetCreditsRessource(string FileName, ref STexture tex, int MaxSize)
+        {
+            bool result = false;
+
+            SQLiteConnection connection = new SQLiteConnection();
+            connection.ConnectionString = "Data Source=" + _CoverFilePath;
+            SQLiteCommand command;
+            try
+            {
+                connection.Open();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            command = new SQLiteCommand(connection);
+
+            command.CommandText = "SELECT id, width, height FROM Images WHERE [Path] = @path";
+            command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = FileName;
+
+            SQLiteDataReader reader = null;
+            try
+            {
+                reader = command.ExecuteReader();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            if (reader != null && reader.HasRows)
+            {
+                reader.Read();
+                int id = reader.GetInt32(0);
+                int w = reader.GetInt32(1);
+                int h = reader.GetInt32(2);
+                reader.Close();
+
+                command.CommandText = "SELECT Data FROM ImageData WHERE ImageID = " + id.ToString();
+                try
+                {
+                    reader = command.ExecuteReader();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+
+                if (reader.HasRows)
+                {
+                    result = true;
+                    reader.Read();
+                    byte[] data = GetBytes(reader);
+                    tex = CDraw.AddTexture(w, h, ref data);
+                }
+            }
+
+            if (reader != null)
+            {
+                reader.Close();
+                reader.Dispose();
+            }
+            command.Dispose();
+            connection.Close();
+            connection.Dispose();
+
+            return result;
+        }
+
+        private static bool AddImageToCreditsDB(String ImagePath)
+        {
+            bool result = false;
+            STexture tex;
+
+            if (File.Exists(ImagePath))
+            {
+
+                SQLiteConnection connection = new SQLiteConnection();
+                connection.ConnectionString = "Data Source=" + _CoverFilePath;
+                SQLiteCommand command;
+                try
+                {
+                    connection.Open();
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+                command = new SQLiteCommand(connection);
+
+                SQLiteDataReader reader = null;
+
+                if (reader != null)
+                    reader.Close();
+
+                Bitmap origin;
+                try
+                {
+                    origin = new Bitmap(ImagePath);
+                }
+                catch (Exception)
+                {
+                    CLog.LogError("Error loading Texture: " + ImagePath);
+                    tex = new STexture(-1);
+
+                    if (reader != null)
+                    {
+                        reader.Close();
+                        reader.Dispose();
+                    }
+                    command.Dispose();
+                    connection.Close();
+                    connection.Dispose();
+
+                    return false;
+                }
+
+                int w = origin.Width;
+                int h = origin.Height;
+
+                Bitmap bmp = new Bitmap(w, h);
+                Graphics g = Graphics.FromImage(bmp);
+                g.DrawImage(origin, new Rectangle(0, 0, w, h));
+                g.Dispose();
+                tex = CDraw.AddTexture(bmp);
+                byte[] data = new byte[w * h * 4];
+
+                BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                Marshal.Copy(bmp_data.Scan0, data, 0, w * h * 4);
+                bmp.UnlockBits(bmp_data);
+                bmp.Dispose();
+
+                command.CommandText = "INSERT INTO Images (Path, width, height) " +
+                    "VALUES (@path, " + w.ToString() + ", " + h.ToString() + ")";
+                command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = ImagePath;
+                command.ExecuteNonQuery();
+
+                command.CommandText = "SELECT id FROM Images WHERE [Path] = @path";
+                command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = ImagePath;
+                reader = null;
+                try
+                {
+                    reader = command.ExecuteReader();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+
+                if (reader != null)
+                {
+                    reader.Read();
+                    int id = reader.GetInt32(0);
+                    reader.Close();
+                    command.CommandText = "INSERT INTO ImageData (ImageID, Data) " +
+                    "VALUES ('" + id.ToString() + "', @data)";
+                    command.Parameters.Add("@data", System.Data.DbType.Binary, 20).Value = data;
+                    command.ExecuteReader();
+                    result = true;
+                }
+            }
+
+            return result;
+        }
+
+        private static bool InitCreditsRessourcesDB()
+        {
+            SQLiteConnection connection = new SQLiteConnection();
+            connection.ConnectionString = "Data Source=" + _CreditsRessourcesFilePath;
+            SQLiteCommand command;
+
+            try
+            {
+                connection.Open();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            command = new SQLiteCommand(connection);
+            command.CommandText = "SELECT Value FROM Version";
+
+            SQLiteDataReader reader = null;
+
+            try
+            {
+                reader = command.ExecuteReader();
+            }
+            catch (Exception)
+            {
+                ;
+            }
+
+            if (reader == null)
+            {
+                // Log error
+                CLog.LogError("Can't find Credits-DB!");
+            }
+            else if (reader.FieldCount == 0)
+            {
+                // Log error
+                CLog.LogError("Can't find Credits-DB! Field-Count = 0");
+            }
+            else
+            {
+                reader.Read();
+
+                if (reader.GetInt32(0) < CSettings.iDatabaseHighscoreVersion)
+                {
+                    // update database
+                }
+            }
+
+            if (reader != null)
+            {
+                reader.Close();
+                reader.Dispose();
+            }
+
+            command.Dispose();
+
+            connection.Close();
+            connection.Dispose();
+
+            return true;
+        }
+
+        private static void CreateCreditsRessourcesDB()
+        {
+            SQLiteConnection connection = new SQLiteConnection();
+            connection.ConnectionString = "Data Source=" + _CreditsRessourcesFilePath;
+            SQLiteCommand command;
+
+            try
+            {
+                connection.Open();
+            }
+            catch (Exception)
+            {
+                return;
+            }
+
+            command = new SQLiteCommand(connection);
+
+            command.CommandText = "CREATE TABLE IF NOT EXISTS Version ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Value INTEGER NOT NULL);";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "INSERT INTO Version (id, Value) VALUES(NULL, " + CSettings.iDatabaseCreditsRessourcesVersion.ToString() + ")";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "CREATE TABLE IF NOT EXISTS Images ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                "Path TEXT NOT NULL, width INTEGER NOT NULL, height INTEGER NOT NULL);";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "CREATE TABLE IF NOT EXISTS ImageData ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                "CoverID INTEGER NOT NULL, Data BLOB NOT NULL);";
+            command.ExecuteNonQuery();
+
+            command.Dispose();
+            connection.Close();
+            connection.Dispose();
+        }
+        #endregion CreditsRessources
 
         private static byte[] GetBytes(SQLiteDataReader reader)
         {

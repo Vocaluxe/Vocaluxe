@@ -36,6 +36,7 @@ namespace Vocaluxe.Base
 
         public const int iDatabaseHighscoreVersion = 1;
         public const int iDatabaseCoverVersion = 1;
+        public const int iDatabaseCreditsRessourcesVersion = 1;
         
 
         public static int iRenderW = 1280;
@@ -55,6 +56,7 @@ namespace Vocaluxe.Base
 
         public static string sFileHighscoreDB = "HighscoreDB.sqlite";
         public const string sFileCoverDB = "CoverDB.sqlite";
+        public const string sFileCreditsRessourcesDB = "CreditsRessourcesDB.sqlite";
         public const string sFilePerformanceLog = "Performance.log";
         public const string sFileErrorLog = "Error.log";
         public const string sFileBenchmarkLog = "Benchmark.log";

@@ -163,6 +163,7 @@
     <Compile Include="Program.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Screens\CScreenCredits.cs" />
     <Compile Include="Screens\CScreenHighscore.cs" />
     <Compile Include="Screens\CScreenLoad.cs" />
     <Compile Include="Screens\CScreenMain.cs" />
