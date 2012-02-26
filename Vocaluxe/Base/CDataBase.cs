@@ -28,7 +28,6 @@ namespace Vocaluxe.Base
             InitHighscoreDB();
             InitCoverDB();
             InitCreditsRessourcesDB();
-            
         }
 
         #region Highscores
