@@ -20,8 +20,23 @@ namespace Vocaluxe.Base
         Release
     }
 
+    enum EArch
+    {
+        x86,
+        x64
+    }
+
     static class CSettings
     {
+#if ARCH_X86
+        public const EArch ARCH = EArch.x86;
+#endif
+
+#if ARCH_X64
+        public const EArch ARCH = EArch.x64;
+#endif
+
+
         public static EGameState GameState = EGameState.Start;
 
         public const string sProgramName = "Vocaluxe";
@@ -101,7 +116,7 @@ namespace Vocaluxe.Base
         {
             string sVersion = "v" + iVersionMajor.ToString() + "." +
                 iVersionMinor.ToString() + "." +
-                iVersionSub.ToString();
+                iVersionSub.ToString() + " (" + Enum.GetName(typeof(EArch), ARCH) + ")";
             
             if (VersionRevision != ERevision.Release)
                 sVersion += " " + GetVersionStatus() + String.Format(" ({0:0000)}", iBuild);
