@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Windows.Forms;
@@ -16,10 +17,12 @@ namespace Vocaluxe
     static class MainProgram
     {
         static SplashScreen _SplashScreen;
-
+        
         [STAThread]
         static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(AssemblyResolver);
+
             // Close program if there is another instance running
             if (!EnsureSingleInstance())
             {
@@ -149,6 +152,24 @@ namespace Vocaluxe
             CVideo.VdCloseAll();
             CDraw.Unload();
             CLog.CloseAll();
+        }
+
+        static Assembly AssemblyResolver(Object sender, ResolveEventArgs args)
+        {
+            string[] arr = args.Name.Split(new Char[] { ',' });
+            if (arr != null)
+            {
+#if ARCH_X86
+                Assembly assembly = Assembly.LoadFrom("x86\\" + arr[0] + ".dll");
+#endif
+
+#if ARCH_X64
+                Assembly assembly = Assembly.LoadFrom("x64\\" + arr[0] + ".dll");
+#endif
+
+                return assembly;
+            }
+            return null;
         }
 
         static bool EnsureSingleInstance()

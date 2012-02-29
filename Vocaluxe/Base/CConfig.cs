@@ -68,15 +68,12 @@ namespace Vocaluxe.Base
 
     public enum EPlaybackLib
     {
-        BASS,
         PortAudio,
-        NAudio,
         OpenAL
     }
 
     public enum ERecordLib
     {
-        BASS,
         PortAudio
     }
 
