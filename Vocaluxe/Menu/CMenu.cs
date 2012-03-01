@@ -862,13 +862,12 @@ namespace Vocaluxe.Menu
         {
             ResumeBG();
             _Active = true;
-            CBackgroundMusic.Play();
         }
 
         public virtual void OnClose()
         {
             PauseBG();
-            CBackgroundMusic.Pause();
+            _Active = false;
         }
         #endregion MenuHandler
 
