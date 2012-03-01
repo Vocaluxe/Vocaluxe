@@ -68,15 +68,12 @@ namespace Vocaluxe.Base
 
     public enum EPlaybackLib
     {
-        BASS,
         PortAudio,
-        NAudio,
         OpenAL
     }
 
     public enum ERecordLib
     {
-        BASS,
         PortAudio
     }
 
@@ -188,11 +185,11 @@ namespace Vocaluxe.Base
         // Game
         public static List<string> SongFolder = new List<string>();
         public static ESongMenu SongMenu = ESongMenu.TR_CONFIG_TILE_BOARD;
-        public static ESongSorting SongSorting = ESongSorting.TR_CONFIG_FOLDER;
+        public static ESongSorting SongSorting = ESongSorting.TR_CONFIG_ARTIST;
         public static float ScoreAnimationTime = 10;
         public static ETimerMode TimerMode = ETimerMode.TR_CONFIG_TIMERMODE_REMAINING;
         public static int NumPlayer = 2;
-        public static EOffOn Tabs = EOffOn.TR_CONFIG_ON;
+        public static EOffOn Tabs = EOffOn.TR_CONFIG_OFF;
         public static string Language = "English";
         public static EOffOn LyricsOnTop = EOffOn.TR_CONFIG_OFF;
         

@@ -12,6 +12,7 @@
     <AssemblyName>Vocaluxe</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -34,18 +34,23 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\Output\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;ARCH_X86</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LibPath>x86</LibPath>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Output\</OutputPath>
+    <LibPath>x86</LibPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <DefineConstants>ARCH_X86</DefineConstants>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Vocaluxe.MainProgram</StartupObject>
@@ -53,18 +58,35 @@
   <PropertyGroup>
     <ApplicationIcon>Vocaluxe.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Output\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ARCH_X64</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LibPath>x64</LibPath>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Output\</OutputPath>
+    <LibPath>x64</LibPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <DefineConstants>ARCH_X64</DefineConstants>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bass.Net, Version=2.4.7.4, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL">
+    <Reference Include="Community.CsharpSqlite">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\Bass.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="Community.CsharpSqlite, Version=3.7.7.1, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\Community.CsharpSqlite.dll</HintPath>
-    </Reference>
-    <Reference Include="NAudio, Version=1.5.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\NAudio.dll</HintPath>
+      <HintPath>..\Output\$(LibPath)\Community.CsharpSqlite.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -78,15 +100,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Output\OpenTK.GLControl.dll</HintPath>
     </Reference>
-    <Reference Include="SlimDX, Version=2.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86">
+    <Reference Include="SlimDX">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\SlimDX.dll</HintPath>
+      <HintPath>..\Output\$(LibPath)\SlimDX.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.66.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\System.Data.SQLite.dll</HintPath>
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\Output\$(LibPath)\System.Data.SQLite.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -125,9 +148,6 @@
     </Compile>
     <Compile Include="Lib\Song\CNotes.cs" />
     <Compile Include="Lib\Song\CSong.cs" />
-    <Compile Include="Lib\Sound\CBassPlay.cs" />
-    <Compile Include="Lib\Sound\CBassRecord.cs" />
-    <Compile Include="Lib\Sound\CNAudioPlay.cs" />
     <Compile Include="Lib\Sound\COpenALPlay.cs" />
     <Compile Include="Lib\Sound\COpenALRecord.cs" />
     <Compile Include="Base\CSound.cs" />
@@ -182,7 +202,9 @@
     <Compile Include="Screens\CScreenOptionsVideo.cs" />
     <Compile Include="Screens\CScreenOptionsRecord.cs" />
     <Compile Include="Screens\CScreenOptionsTheme.cs" />
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <Compile Include="Lib\Sound\Portaudio\PortAudio.cs" />
     <Compile Include="Lib\Sound\Portaudio\PortAudioASIO.cs" />
     <None Include="Doc\SQLite.NET.chm" />
