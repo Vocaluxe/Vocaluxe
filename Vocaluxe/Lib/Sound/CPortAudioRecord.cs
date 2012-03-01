@@ -84,10 +84,10 @@ namespace Vocaluxe.Lib.Sound
 
                 _DeviceConfig = _Devices.ToArray();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 _initialized = false;
-                CLog.LogError("Error initializing PortAudio");
+                CLog.LogError("Error initializing PortAudio: " + e.Message);
                 return false;
             }
             return true;

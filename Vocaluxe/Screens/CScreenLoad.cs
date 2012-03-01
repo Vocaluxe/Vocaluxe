@@ -113,20 +113,25 @@ namespace Vocaluxe.Screens
             _CurrentIntroVideoNr = -1;
             _IntroOutPlayed = false;
 
-            for (int i = 0; i < _Intros.Length; i++)
+            if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
             {
-                _Intros[i].Load(IntroVideo[i]);
+                for (int i = 0; i < _Intros.Length; i++)
+                {
+                    _Intros[i].Load(IntroVideo[i]);
+                }
             }
-
         }
 
         public override void OnShowFinish()
         {
             base.OnShowFinish();
 
-            for (int i = 0; i < _Intros.Length; i++)
+            if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
             {
-                _Intros[i].PreLoad();
+                for (int i = 0; i < _Intros.Length; i++)
+                {
+                    _Intros[i].PreLoad();
+                }
             }
 
             CLog.StartBenchmark(3, "Load Cover");
@@ -154,7 +159,7 @@ namespace Vocaluxe.Screens
             bool next = ((CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART && CSongs.CoverLoaded) ||
                 CConfig.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART);
 
-            if ((_IntroOutPlayed || _SkipIntro) && next && CSettings.GameState != EGameState.EditTheme)
+            if ((_IntroOutPlayed || _SkipIntro) && next && CSettings.GameState != EGameState.EditTheme && CSongs.SongsLoaded)
             {
                 CSettings.GameState = EGameState.Normal;
             }
@@ -198,9 +203,10 @@ namespace Vocaluxe.Screens
             _timer.Stop();
             _timer.Reset();
 
-            _Intros[0].Close();
-            _Intros[1].Close();
-            _Intros[2].Close();
+            for (int i = 0; i < _Intros.Length; i++)
+            {
+                _Intros[i].Close();
+            }
 
             CLog.StopBenchmark(3, "Load Cover");
         }
@@ -209,6 +215,12 @@ namespace Vocaluxe.Screens
         {
             if (_IntroOutPlayed)
                 return;
+
+            if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_OFF)
+            {
+                _IntroOutPlayed = true;
+                return;
+            }
 
             if (_CurrentIntroVideoNr < 0)
             {

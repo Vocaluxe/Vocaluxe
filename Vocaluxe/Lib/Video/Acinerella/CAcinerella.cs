@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.IO;
+
+using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Video.Acinerella
 {
@@ -155,7 +158,14 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
     public static class CAcinerella
     {
-        private const string AcDll = "acinerella.dll";
+#if ARCH_X86
+        private const string AcDll = "x86\\acinerella.dll";
+#endif
+
+#if ARCH_X64
+        private const string AcDll = "x64\\acinerella.dll";
+#endif
+
         private static Object _lock = new Object();
 
         // Defines the type of an Acinerella media stream. Currently only video and

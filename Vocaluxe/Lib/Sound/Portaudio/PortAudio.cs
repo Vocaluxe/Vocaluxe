@@ -22,6 +22,9 @@
 
 using System;
 using System.Runtime.InteropServices;
+using System.IO;
+
+using Vocaluxe.Base;
 
 namespace PortAudioSharp {
 
@@ -274,11 +277,18 @@ namespace PortAudioSharp {
 		#endregion
 		
 		#region **** PORTAUDIO FUNCTIONS ****
-		
-		[DllImport ("PortAudio.dll")]
+#if ARCH_X86
+        private const string PaDll = "x86\\PortAudio.dll";
+#endif
+
+#if ARCH_X64
+        private const string PaDll = "x64\\PortAudio.dll";
+#endif
+
+        [DllImport (PaDll)]
 	 	public static extern int Pa_GetVersion();
 	 	
-	 	[DllImport ("PortAudio.dll",EntryPoint="Pa_GetVersionText")]
+	 	[DllImport (PaDll,EntryPoint="Pa_GetVersionText")]
 	 	private static extern IntPtr IntPtr_Pa_GetVersionText();
 	 	
 	 	public static string Pa_GetVersionText() {
@@ -286,7 +296,7 @@ namespace PortAudioSharp {
 	 		return Marshal.PtrToStringAnsi(strptr);
 	 	}
 	 	
-	 	[DllImport ("PortAudio.dll",EntryPoint="Pa_GetErrorText")]
+	 	[DllImport (PaDll,EntryPoint="Pa_GetErrorText")]
 	 	public static extern IntPtr IntPtr_Pa_GetErrorText(PaError errorCode);
 	 	
 	 	public static string Pa_GetErrorText(PaError errorCode) {
@@ -294,19 +304,19 @@ namespace PortAudioSharp {
 	 		return Marshal.PtrToStringAnsi(strptr);
 	 	}
 	 	
-	 	[DllImport ("PortAudio.dll")]
+	 	[DllImport (PaDll)]
 	 	public static extern PaError Pa_Initialize();
 	 	
-	 	[DllImport ("PortAudio.dll")]
+	 	[DllImport (PaDll)]
 	 	public static extern PaError Pa_Terminate();
 	 	
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern int Pa_GetHostApiCount();
 
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern int Pa_GetDefaultHostApi();
 
-		[DllImport ("PortAudio.dll",EntryPoint="Pa_GetHostApiInfo")]
+		[DllImport (PaDll,EntryPoint="Pa_GetHostApiInfo")]
 	 	public static extern IntPtr IntPtr_Pa_GetHostApiInfo(int hostApi);
 	 	
 	 	public static PaHostApiInfo Pa_GetHostApiInfo(int hostApi) {
@@ -314,13 +324,13 @@ namespace PortAudioSharp {
 	 		return (PaHostApiInfo) Marshal.PtrToStructure(structptr, typeof(PaHostApiInfo));
 	 	}
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern int Pa_HostApiTypeIdToHostApiIndex(PaHostApiTypeId type);
 
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern int Pa_HostApiDeviceIndexToDeviceIndex(int hostApi, int hostApiDeviceIndex);
 
-		[DllImport ("PortAudio.dll",EntryPoint="Pa_GetLastHostErrorInfo")]
+		[DllImport (PaDll,EntryPoint="Pa_GetLastHostErrorInfo")]
 	 	public static extern IntPtr IntPtr_Pa_GetLastHostErrorInfo();
 	 	
 	 	public static PaHostErrorInfo Pa_GetLastHostErrorInfo() {
@@ -328,16 +338,16 @@ namespace PortAudioSharp {
 	 		return (PaHostErrorInfo) Marshal.PtrToStructure(structptr, typeof(PaHostErrorInfo));
 	 	}
 
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern int Pa_GetDeviceCount();
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern int Pa_GetDefaultInputDevice();
 
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern int Pa_GetDefaultOutputDevice();
 		
-		[DllImport ("PortAudio.dll",EntryPoint="Pa_GetDeviceInfo")]
+		[DllImport (PaDll,EntryPoint="Pa_GetDeviceInfo")]
 	 	public static extern IntPtr IntPtr_Pa_GetDeviceInfo(int device);
 	 	
 	 	public static PaDeviceInfo Pa_GetDeviceInfo(int device) {
@@ -345,13 +355,13 @@ namespace PortAudioSharp {
 	 		return (PaDeviceInfo) Marshal.PtrToStructure(structptr, typeof(PaDeviceInfo));
 	 	}
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_IsFormatSupported(
 	 		ref PaStreamParameters inputParameters, 
 	 		ref PaStreamParameters outputParameters, 
 	 		double sampleRate);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_OpenStream(
 	 		out IntPtr stream,
 	 		ref PaStreamParameters inputParameters, 
@@ -362,7 +372,7 @@ namespace PortAudioSharp {
 	 		PaStreamCallbackDelegate streamCallback,
 	 		IntPtr userData);
 
-        [DllImport("PortAudio.dll")]
+        [DllImport(PaDll)]
         public static extern PaError Pa_OpenStream(
             out IntPtr stream,
             ref PaStreamParameters inputParameters,
@@ -373,7 +383,7 @@ namespace PortAudioSharp {
             PaStreamCallbackDelegate streamCallback,
             IntPtr userData);
 
-        [DllImport("PortAudio.dll")]
+        [DllImport(PaDll)]
         public static extern PaError Pa_OpenStream(
             out IntPtr stream,
             IntPtr inputParameters,
@@ -384,7 +394,7 @@ namespace PortAudioSharp {
             PaStreamCallbackDelegate streamCallback,
             IntPtr userData);
 
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_OpenDefaultStream(
 	 		out IntPtr stream,
 	 		int numInputChannels, 
@@ -395,30 +405,30 @@ namespace PortAudioSharp {
 	 		PaStreamCallbackDelegate streamCallback,
 	 		IntPtr userData);
 	 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_CloseStream(IntPtr stream);
 	 	
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_SetStreamFinishedCallback(
 	 		ref IntPtr stream,
 	 		[MarshalAs(UnmanagedType.FunctionPtr)]PaStreamFinishedCallbackDelegate streamFinishedCallback);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_StartStream(IntPtr stream);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_StopStream(IntPtr stream);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_AbortStream(IntPtr stream);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_IsStreamStopped(IntPtr stream);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_IsStreamActive(IntPtr stream);
 		
-		[DllImport ("PortAudio.dll",EntryPoint="Pa_GetStreamInfo")]
+		[DllImport (PaDll,EntryPoint="Pa_GetStreamInfo")]
 	 	public static extern IntPtr IntPtr_Pa_GetStreamInfo(IntPtr stream);
 	 	
 	 	public static PaStreamInfo Pa_GetStreamInfo(IntPtr stream) {
@@ -426,106 +436,106 @@ namespace PortAudioSharp {
 	 		return (PaStreamInfo) Marshal.PtrToStructure(structptr,typeof(PaStreamInfo));
 	 	}
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern double Pa_GetStreamTime(IntPtr stream);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern double Pa_GetStreamCpuLoad(IntPtr stream);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_ReadStream(
 	 		IntPtr stream,
 	 		[Out]float[] buffer,
 			uint frames);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_ReadStream(
 	 		IntPtr stream,
 	 		[Out]byte[] buffer,
 			uint frames);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_ReadStream(
 	 		IntPtr stream,
 	 		[Out]sbyte[] buffer,
 			uint frames);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_ReadStream(
 	 		IntPtr stream,
 	 		[Out]ushort[] buffer,
 			uint frames);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_ReadStream(
 	 		IntPtr stream,
 	 		[Out]short[] buffer,
 			uint frames);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_ReadStream(
 	 		IntPtr stream,
 	 		[Out]uint[] buffer,
 			uint frames);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_ReadStream(
 	 		IntPtr stream,
 	 		[Out]int[] buffer,
 			uint frames);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_WriteStream(
 	 		IntPtr stream,
 	 		[In]float[] buffer,
 			uint frames);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_WriteStream(
 	 		IntPtr stream,
 	 		[In]byte[] buffer,
 			uint frames);
 				
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_WriteStream(
 	 		IntPtr stream,
 	 		[In]sbyte[] buffer,
 			uint frames);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_WriteStream(
 	 		IntPtr stream,
 	 		[In]ushort[] buffer,
 			uint frames);
 			
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_WriteStream(
 	 		IntPtr stream,
 	 		[In]short[] buffer,
 			uint frames);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_WriteStream(
 	 		IntPtr stream,
 	 		[In]uint[] buffer,
 			uint frames);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_WriteStream(
 	 		IntPtr stream,
 	 		[In]int[] buffer,
 			uint frames);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern int Pa_GetStreamReadAvailable(IntPtr stream);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern int Pa_GetStreamWriteAvailable(IntPtr stream);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern PaError Pa_GetSampleSize(PaSampleFormat format);
 		
-		[DllImport ("PortAudio.dll")]
+		[DllImport (PaDll)]
 	 	public static extern void Pa_Sleep(int msec);
 	 	
 	 	#endregion
