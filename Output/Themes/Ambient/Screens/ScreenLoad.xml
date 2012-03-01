@@ -4,7 +4,7 @@
     <ScreenVersion>1</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
-      <Type>None</Type>
+      <Type>Texture</Type>
       <!--<Video>: Background video name-->
       <Video>BG_Video</Video>
       <!--<Skin>: Background Texture name-->

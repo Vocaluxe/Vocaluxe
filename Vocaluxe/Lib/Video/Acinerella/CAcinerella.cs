@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.IO;
+
+using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Video.Acinerella
 {
@@ -38,22 +41,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public struct TAc_file_info
     {
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
-        public string title;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
-        public string author;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
-        public string copyright;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
-        public string comment;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
-        public string album;
-        public Int32 year;
-        public Int32 track;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-        public string genre;
         public Int64 duration;
-        public Int32 bitrate;
     }
 
     // TAc_instance represents an Acinerella instance. Each instance can open and
@@ -170,7 +158,14 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
     public static class CAcinerella
     {
-        private const string AcDll = "acinerella.dll";
+#if ARCH_X86
+        private const string AcDll = "x86\\acinerella.dll";
+#endif
+
+#if ARCH_X64
+        private const string AcDll = "x64\\acinerella.dll";
+#endif
+
         private static Object _lock = new Object();
 
         // Defines the type of an Acinerella media stream. Currently only video and
@@ -180,7 +175,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         // Initializes an Acinerella instance.
         //function ac_init(): PAc_instance; cdecl; external ac_dll;
         [DllImport(AcDll, EntryPoint = "ac_init", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        public static extern IntPtr _ac_init();
+        private static extern IntPtr _ac_init();
 
         public static IntPtr ac_init()
         {
@@ -193,7 +188,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         // Frees an Acinerella instance.
         //procedure ac_free(inst: PAc_instance); cdecl; external ac_dll;
         [DllImport(AcDll, EntryPoint = "ac_free", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        public static extern void _ac_free(IntPtr PAc_instance);
+        private static extern void _ac_free(IntPtr PAc_instance);
 
         public static void ac_free(IntPtr PAc_instance)
         {
@@ -221,7 +216,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             proberesult: PAc_proberesult): integer; cdecl; external ac_dll;
         */
         [DllImport(AcDll, EntryPoint = "ac_open", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        public static extern Int32 _ac_open(
+        private static extern Int32 _ac_open(
             IntPtr PAc_instance,
             IntPtr sender,
             TAc_openclose_callback open_proc,
@@ -250,7 +245,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         // Closes an opened media file.
         //procedure ac_close(inst: PAc_instance);cdecl; external ac_dll;
         [DllImport(AcDll, EntryPoint = "ac_close", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        public static extern void _ac_close(IntPtr PAc_instance);
+        private static extern void _ac_close(IntPtr PAc_instance);
 
         public static void ac_close(IntPtr PAc_instance)
         {
@@ -264,7 +259,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         //procedure ac_get_stream_info(
         //inst: PAc_instance; nb: integer; pinfo: PAc_stream_info); cdecl; external ac_dll;
         [DllImport(AcDll, EntryPoint = "ac_get_stream_info", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        public static extern void _ac_get_stream_info(
+        private static extern void _ac_get_stream_info(
             IntPtr PAc_instance,
             Int32 nb,
             out TAc_stream_info Info
@@ -300,7 +295,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         // could be found.
         //function ac_create_decoder(pacInstance: PAc_instance; nb: integer): PAc_decoder; cdecl; external ac_dll;
         [DllImport(AcDll, EntryPoint = "ac_create_decoder", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        public static extern IntPtr _ac_create_decoder(IntPtr PAc_instance, Int32 nb);
+        private static extern IntPtr _ac_create_decoder(IntPtr PAc_instance, Int32 nb);
 
         public static IntPtr ac_create_decoder(IntPtr PAc_instance, Int32 nb)
         {
@@ -313,7 +308,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         // Frees an created decoder.
         //procedure ac_free_decoder(pDecoder: PAc_decoder); cdecl; external ac_dll;
         [DllImport(AcDll, EntryPoint = "ac_free_decoder", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        public static extern void _ac_free_decoder(IntPtr PAc_decoder);
+        private static extern void _ac_free_decoder(IntPtr PAc_decoder);
 
         public static void ac_free_decoder(IntPtr PAc_decoder)
         {
@@ -327,7 +322,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         // "buffer" property of the decoder.
         //function ac_decode_package(pPackage: PAc_package; pDecoder: PAc_decoder): integer; cdecl; external ac_dll;
         [DllImport(AcDll, EntryPoint = "ac_decode_package", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        public static extern Int32 _ac_decode_package(IntPtr PAc_package, IntPtr PAc_decoder);
+        private static extern Int32 _ac_decode_package(IntPtr PAc_package, IntPtr PAc_decoder);
 
         public static Int32 ac_decode_package(IntPtr PAc_package, IntPtr PAc_decoder)
         {
@@ -338,7 +333,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         }
 
         [DllImport(AcDll, EntryPoint = "ac_get_audio_frame", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        public static extern Int32 _ac_get_audio_frame(IntPtr PAcInstance, IntPtr PAc_decoder);
+        private static extern Int32 _ac_get_audio_frame(IntPtr PAcInstance, IntPtr PAc_decoder);
 
         public static Int32 ac_get_audio_frame(IntPtr PAcInstance, IntPtr PAc_decoder)
         {
@@ -349,7 +344,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         }
 
         [DllImport(AcDll, EntryPoint = "ac_get_frame", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        public static extern Int32 _ac_get_frame(IntPtr PAcInstance, IntPtr PAc_decoder);
+        private static extern Int32 _ac_get_frame(IntPtr PAcInstance, IntPtr PAc_decoder);
 
 
         public static Int32 ac_get_frame(IntPtr PAcInstance, IntPtr PAc_decoder)
@@ -360,7 +355,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
         }
         [DllImport(AcDll, EntryPoint = "ac_skip_frames", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        public static extern Int32 _ac_skip_frames(IntPtr PAcInstance, IntPtr PAc_decoder, Int32 num);
+        private static extern Int32 _ac_skip_frames(IntPtr PAcInstance, IntPtr PAc_decoder, Int32 num);
 
         public static Int32 ac_skip_frames(IntPtr PAcInstance, IntPtr PAc_decoder, Int32 num)
         {
@@ -376,7 +371,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         // The target_pos paremeter is in milliseconds. Returns 1 if the functions succeded.}
         //function ac_seek(pDecoder: PAc_decoder; dir: integer; target_pos: int64): integer; cdecl; external ac_dll;
         [DllImport(AcDll, EntryPoint = "ac_seek", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        public static extern Int32 _ac_seek(IntPtr PAc_decoder, Int32 dir, Int64 target_pos);
+        private static extern Int32 _ac_seek(IntPtr PAc_decoder, Int32 dir, Int64 target_pos);
 
         public static Int32 ac_seek(IntPtr PAc_decoder, Int32 dir, Int64 target_pos)
         {

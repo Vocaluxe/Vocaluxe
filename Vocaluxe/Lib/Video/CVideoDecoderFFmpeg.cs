@@ -409,9 +409,9 @@ namespace Vocaluxe.Lib.Video
                 {
                     CAcinerella.ac_seek(_videodecoder, -1, (Int64)(_SkipTime * 1000f));
                 }
-                catch (Exception)
+                catch (Exception e)
                 {                   
-                    ;
+                    CLog.LogError("Error seeking video file \"" + _FileName + "\": " + e.Message);
                 }
                 
             }
@@ -422,9 +422,9 @@ namespace Vocaluxe.Lib.Video
 	            {
                     CAcinerella.ac_seek(_videodecoder, -1, (Int64)0);
 	            }
-	            catch (Exception)
+	            catch (Exception e)
 	            {
-		            ;
+                    CLog.LogError("Error seeking video file \"" + _FileName + "\": " + e.Message);
 	            }              
             }
 
