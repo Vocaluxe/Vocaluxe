@@ -552,7 +552,10 @@ namespace Vocaluxe.Menu
 
         private static bool Update()
         {
-            return _Screens[(int)_CurrentScreen].UpdateGame();
+            bool popup = true;
+            if (_CurrentPopupScreen != EPopupScreens.NoPopup)
+                popup = _PopupScreens[(int)_CurrentPopupScreen].UpdateGame();
+            return _Screens[(int)_CurrentScreen].UpdateGame() && popup;
         }
 
         private static void DrawDebugInfos()

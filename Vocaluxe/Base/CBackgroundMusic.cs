@@ -13,11 +13,13 @@ namespace Vocaluxe.Base
     {
         private static CHelper Helper = new CHelper();
         private static int _CurrentMusicStream = -1;
+        private static int _PreviousMusicIndex = 0;
         private static string _CurrentMusicFilePath = String.Empty;
         
         private static List<string> _AllFileNames = new List<string>();
         private static List<string> _NotPlayedFileNames = new List<string>();
         private static List<string> _BGMusicFileNames = new List<string>();
+        private static List<string> _PreviousFileNames = new List<string>();
         
         private static bool _OwnMusicAdded;
         private static bool _BackgroundMusicAdded;
@@ -83,13 +85,25 @@ namespace Vocaluxe.Base
         {
             if (_AllFileNames.Count > 0)
             {
-                Stop();
+                if (_PreviousMusicIndex == _PreviousFileNames.Count - 1 || _PreviousFileNames.Count == 0) //We are not currently in the previous list
+                {
+                    Stop();
+                    if (_NotPlayedFileNames.Count == 0)
+                        _NotPlayedFileNames.AddRange(_AllFileNames);
 
-                if (_NotPlayedFileNames.Count == 0)
-                    _NotPlayedFileNames.AddRange(_AllFileNames);
+                    _CurrentMusicFilePath = _NotPlayedFileNames[CGame.Rand.Next(_NotPlayedFileNames.Count)];
+                    _NotPlayedFileNames.Remove(_CurrentMusicFilePath);
 
-                _CurrentMusicFilePath = _NotPlayedFileNames[CGame.Rand.Next(_NotPlayedFileNames.Count)];
-                _NotPlayedFileNames.Remove(_CurrentMusicFilePath);
+                    _PreviousFileNames.Add(_CurrentMusicFilePath);
+                    _PreviousMusicIndex = _PreviousFileNames.Count - 1;
+                }
+                else if(_PreviousFileNames.Count > 0) //We are in the previous list
+                {
+                    Stop();
+                    _PreviousMusicIndex++;
+
+                    _CurrentMusicFilePath = _PreviousFileNames[_PreviousMusicIndex];
+                }
 
                 _CurrentMusicStream = CSound.Load(_CurrentMusicFilePath);
                 CSound.SetStreamVolume(_CurrentMusicStream, 0f);
@@ -97,6 +111,25 @@ namespace Vocaluxe.Base
             }
             else
                 Stop();
+        }
+
+        public static void Previous()
+        {
+            if (_PreviousFileNames.Count > 0 || _PreviousMusicIndex >= 0)
+            {
+                Stop();
+
+                _PreviousMusicIndex--;
+                if (_PreviousMusicIndex < 0)
+                    _PreviousMusicIndex = 0; //No previous songs left, so play the first
+
+                _CurrentMusicFilePath = _PreviousFileNames[_PreviousMusicIndex];
+               
+
+                _CurrentMusicStream = CSound.Load(_CurrentMusicFilePath);
+                CSound.SetStreamVolume(_CurrentMusicStream, 0f);
+                Play();
+            }
         }
 
         public static void ApplyVolume()
