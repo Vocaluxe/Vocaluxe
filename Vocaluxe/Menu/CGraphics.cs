@@ -34,6 +34,13 @@ namespace Vocaluxe.Menu
         ScreenNull = -1
     }
 
+    enum EPopupScreens
+    {
+        PopupPlayerControl = 0,
+
+        NoPopup = -1
+    }
+
     class CCursor
     {
         private Stopwatch _CursorFadingTimer;
@@ -183,11 +190,12 @@ namespace Vocaluxe.Menu
         private static float _GlobalAlpha;
         private static float _ZOffset;
 
-        private static EScreens ActualScreen;
-        private static EScreens NextScreen;
+        private static EScreens _CurrentScreen;
+        private static EScreens _NextScreen;
+        private static EPopupScreens _CurrentPopupScreen;
 
-        private static List<CMenu> ScreenList = new List<CMenu>();
-        private static CMenu[] Screens;
+        private static List<CMenu> _Screens = new List<CMenu>();
+        private static List<CMenu> _PopupScreens = new List<CMenu>();
 
         public static float GlobalAlpha
         {
@@ -204,27 +212,28 @@ namespace Vocaluxe.Menu
         {
             // Add Screens, must be the same order as in EScreens!
             CLog.StartBenchmark(1, "Build Screen List");
-            ScreenList.Add(new CScreenTest());
-            ScreenList.Add(new CScreenLoad());
-            ScreenList.Add(new CScreenMain());
-            ScreenList.Add(new CScreenSong());
-            ScreenList.Add(new CScreenOptions());
-            ScreenList.Add(new CScreenSing());
-            ScreenList.Add(new CScreenProfiles());
-            ScreenList.Add(new CScreenScore());
-            ScreenList.Add(new CScreenHighscore());
-            ScreenList.Add(new CScreenOptionsGame());
-            ScreenList.Add(new CScreenOptionsSound());
-            ScreenList.Add(new CScreenOptionsRecord());
-            ScreenList.Add(new CScreenOptionsVideo());
-            ScreenList.Add(new CScreenOptionsTheme());
-            ScreenList.Add(new CScreenNames());
-            CLog.StopBenchmark(1, "Build Screen List");
+            _Screens.Add(new CScreenTest());
+            _Screens.Add(new CScreenLoad());
+            _Screens.Add(new CScreenMain());
+            _Screens.Add(new CScreenSong());
+            _Screens.Add(new CScreenOptions());
+            _Screens.Add(new CScreenSing());
+            _Screens.Add(new CScreenProfiles());
+            _Screens.Add(new CScreenScore());
+            _Screens.Add(new CScreenHighscore());
+            _Screens.Add(new CScreenOptionsGame());
+            _Screens.Add(new CScreenOptionsSound());
+            _Screens.Add(new CScreenOptionsRecord());
+            _Screens.Add(new CScreenOptionsVideo());
+            _Screens.Add(new CScreenOptionsTheme());
+            _Screens.Add(new CScreenNames());
 
-            Screens = ScreenList.ToArray();
+            _PopupScreens.Add(new CPopupScreenPlayerControl());
+            CLog.StopBenchmark(1, "Build Screen List");
                  
-            ActualScreen = EScreens.ScreenLoad;
-            NextScreen = EScreens.ScreenNull;
+            _CurrentScreen = EScreens.ScreenLoad;
+            _NextScreen = EScreens.ScreenNull;
+            _CurrentPopupScreen = EPopupScreens.NoPopup;
             _FadingTimer = new Stopwatch();
             
             _GlobalAlpha = 1f;
@@ -244,50 +253,65 @@ namespace Vocaluxe.Menu
                 CTheme.Cursor.h,
                 CSettings.zNear);
 
-            for (int i = 0; i < Screens.Length; i++)
+            for (int i = 0; i < _Screens.Count; i++)
             {
                 CLog.StartBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
-                Screens[i].LoadTheme();
+                _Screens[i].LoadTheme();
                 CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
             }
+
+            for (int i = 0; i < _PopupScreens.Count; i++)
+			{
+			    _PopupScreens[i].LoadTheme();
+			}
         }
 
         public static void ReloadTheme()
         {
             ReloadCursor();
-            for (int i = 0; i < Screens.Length; i++)
+            for (int i = 0; i < _Screens.Count; i++)
             {
-                Screens[i].ReloadTheme();
+                _Screens[i].ReloadTheme();
             }
+
+            for (int i = 0; i < _PopupScreens.Count; i++)
+			{
+			    _PopupScreens[i].ReloadTheme();
+			}
         }
 
         public static void ReloadSkin()
         {
             ReloadCursor();
-            for (int i = 0; i < Screens.Length; i++)
+            for (int i = 0; i < _Screens.Count; i++)
             {
-                Screens[i].ReloadTextures();
+                _Screens[i].ReloadTextures();
             }
+
+            for (int i = 0; i < _PopupScreens.Count; i++)
+			{
+			    _PopupScreens[i].ReloadTextures();
+			}
         }
 
         public static void SaveTheme()
         {
             CTheme.SaveTheme();
-            for (int i = 0; i < Screens.Length; i++)
+            for (int i = 0; i < _Screens.Count; i++)
             {
-                Screens[i].SaveTheme();
+                _Screens[i].SaveTheme();
             }
+
+            for (int i = 0; i < _PopupScreens.Count; i++)
+			{
+			    _PopupScreens[i].SaveTheme();
+			}
         }
 
         public static void InitFirstScreen()
         {
-            Screens[(int)ActualScreen].OnShow();
-            Screens[(int)ActualScreen].OnShowFinish();
-        }
-
-        public static CMenu GetScreen(int Index)
-        {
-            return Screens[Index];
+            _Screens[(int)_CurrentScreen].OnShow();
+            _Screens[(int)_CurrentScreen].OnShowFinish();
         }
 
         public static bool UpdateGameLogic(CKeys Keys, CMouse Mouse)
@@ -301,7 +325,7 @@ namespace Vocaluxe.Menu
             CSound.Update();
             CBackgroundMusic.Update();
 
-            if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC && ActualScreen != EScreens.ScreenSing)
+            if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC && _CurrentScreen != EScreens.ScreenSing)
                 CSongs.LoadCover(30L);
 
             if (CSettings.GameState != EGameState.EditTheme)
@@ -320,12 +344,13 @@ namespace Vocaluxe.Menu
 
         public static bool Draw()
         {
-            if ((NextScreen != EScreens.ScreenNull) && !_Fading)
+            if ((_NextScreen != EScreens.ScreenNull) && !_Fading)
             {
                 _Fading = true;
                 _FadingTimer.Reset();
                 _FadingTimer.Start();
-                Screens[(int)NextScreen].OnShow();
+                _Screens[(int)_NextScreen].OnShow();
+                HidePopup(EPopupScreens.PopupPlayerControl);
             }
 
             if (_Fading)
@@ -342,30 +367,37 @@ namespace Vocaluxe.Menu
 
                     _GlobalAlpha = 1f;// -factor / 100f;
                     _ZOffset = CSettings.zFar/2;
-                    Screens[(int)ActualScreen].Draw();
+                    _Screens[(int)_CurrentScreen].Draw();
 
                     _GlobalAlpha = factor;
                     _ZOffset = 0f;
-                    Screens[(int)NextScreen].Draw();
+                    _Screens[(int)_NextScreen].Draw();
 
                     _GlobalAlpha = 1f;
                 }
                 else
                 {
-                    Screens[(int)ActualScreen].OnClose();
-                    ActualScreen = NextScreen;
-                    NextScreen = EScreens.ScreenNull;
-                    Screens[(int)ActualScreen].OnShowFinish();
-                    Screens[(int)ActualScreen].ProcessMouseMove(_Cursor.X, _Cursor.Y);
-                    Screens[(int)ActualScreen].Draw();
+                    _Screens[(int)_CurrentScreen].OnClose();
+                    _CurrentScreen = _NextScreen;
+                    _NextScreen = EScreens.ScreenNull;
+                    CBackgroundMusic.Play();
+                    _Screens[(int)_CurrentScreen].OnShowFinish();
+                    _Screens[(int)_CurrentScreen].ProcessMouseMove(_Cursor.X, _Cursor.Y);
+                    _Screens[(int)_CurrentScreen].Draw();
                     _Fading = false;
                     _FadingTimer.Stop();
                 }
             }
             else
             {
-                Screens[(int)ActualScreen].Draw();
+                _Screens[(int)_CurrentScreen].Draw();
             }
+
+            for (int i = 0; i < _PopupScreens.Count; i++)
+            {
+                _PopupScreens[i].Draw();
+            }
+
             _Cursor.Draw();
             DrawDebugInfos();
 
@@ -374,7 +406,23 @@ namespace Vocaluxe.Menu
 
         public static void FadeTo(EScreens Screen)
         {
-            NextScreen = Screen;
+            _NextScreen = Screen;
+        }
+
+        public static void ShowPopup(EPopupScreens PopupScreen)
+        {
+            _PopupScreens[(int)PopupScreen].OnShow();
+            _PopupScreens[(int)PopupScreen].OnShowFinish();
+            _CurrentPopupScreen = PopupScreen;
+        }
+
+        public static void HidePopup(EPopupScreens PopupScreen)
+        {
+            if (_CurrentPopupScreen != PopupScreen)
+                return;
+
+            _PopupScreens[(int)PopupScreen].OnClose();
+            _CurrentPopupScreen = EPopupScreens.NoPopup;
         }
 
         public static void HideCursor()
@@ -403,6 +451,16 @@ namespace Vocaluxe.Menu
                     CSettings.MouseInacive();
                     _Cursor.FadeOut();
                 }
+                
+                if (_CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing && _CurrentScreen != EScreens.ScreenNames
+                    && _CurrentScreen != EScreens.ScreenSong &&
+                    KeyEvent.Key == Keys.Tab)
+                {
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup)
+                        ShowPopup(EPopupScreens.PopupPlayerControl);
+                    else
+                        HidePopup(EPopupScreens.PopupPlayerControl);
+                }
 
                 if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.F1))
                 {
@@ -419,7 +477,14 @@ namespace Vocaluxe.Menu
                 else
                 {
                     if (!_Fading)
-                        Resume &= Screens[(int)ActualScreen].HandleInput(KeyEvent);
+                    {
+                        bool handled = false;
+                        if (_CurrentPopupScreen != EPopupScreens.NoPopup)
+                            handled = !_PopupScreens[(int)_CurrentPopupScreen].HandleInput(KeyEvent);
+                        
+                        if (!handled)
+                            Resume &= _Screens[(int)_CurrentScreen].HandleInput(KeyEvent);
+                    }
                 }
             }
 
@@ -433,8 +498,12 @@ namespace Vocaluxe.Menu
 
                 UpdateMousePosition(MouseEvent.X, MouseEvent.Y);
 
-                if (!_Fading && (_Cursor.IsActive || MouseEvent.LB || MouseEvent.RB))
-                    Resume &= Screens[(int)ActualScreen].HandleMouse(MouseEvent);               
+                bool handled = false;
+                if (_CurrentPopupScreen != EPopupScreens.NoPopup)
+                    handled = !_PopupScreens[(int)_CurrentPopupScreen].HandleMouse(MouseEvent);
+
+                if (!handled && !_Fading && (_Cursor.IsActive || MouseEvent.LB || MouseEvent.RB))
+                    Resume &= _Screens[(int)_CurrentScreen].HandleMouse(MouseEvent);               
             }
             return Resume;
         }
@@ -449,7 +518,7 @@ namespace Vocaluxe.Menu
                 if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.F1))
                 {
                     CSettings.GameState = EGameState.Normal;
-                    Screens[(int)ActualScreen].NextInteraction();
+                    _Screens[(int)_CurrentScreen].NextInteraction();
                 }
                 else if (KeyEvent.ModALT && (KeyEvent.Key == Keys.Enter))
                 {
@@ -462,14 +531,14 @@ namespace Vocaluxe.Menu
                 else
                 {
                     if (!_Fading)
-                        Screens[(int)ActualScreen].HandleInputThemeEditor(KeyEvent);
+                        _Screens[(int)_CurrentScreen].HandleInputThemeEditor(KeyEvent);
                 }
             }
 
             while (Mouse.PollEvent(ref MouseEvent))
             {
                 if (!_Fading)
-                    Screens[(int)ActualScreen].HandleMouseThemeEditor(MouseEvent);
+                    _Screens[(int)_CurrentScreen].HandleMouseThemeEditor(MouseEvent);
 
                 UpdateMousePosition(MouseEvent.X, MouseEvent.Y); 
             }
@@ -483,7 +552,7 @@ namespace Vocaluxe.Menu
 
         private static bool Update()
         {
-            return Screens[(int)ActualScreen].UpdateGame();
+            return _Screens[(int)_CurrentScreen].UpdateGame();
         }
 
         private static void DrawDebugInfos()
