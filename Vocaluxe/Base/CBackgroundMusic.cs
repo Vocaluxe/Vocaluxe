@@ -132,6 +132,14 @@ namespace Vocaluxe.Base
             }
         }
 
+        public static void Repeat()
+        {
+            if (_AllFileNames.Count > 0 && _CurrentMusicStream != -1)
+            {
+                CSound.SetPosition(_CurrentMusicStream, 0);
+            }
+        }
+
         public static void ApplyVolume()
         {
             CSound.SetStreamVolume(_CurrentMusicStream, CConfig.BackgroundMusicVolume); 

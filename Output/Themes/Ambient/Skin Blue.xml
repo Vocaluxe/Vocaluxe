@@ -220,6 +220,7 @@
 	<NextIcon>NextIcon.png</NextIcon>
 	<PlayIcon>PlayIcon.png</PlayIcon>
 	<PauseIcon>PauseIcon.png</PauseIcon>
+	<RepeatIcon>RepeatIcon.png</RepeatIcon>
   </Skins>
   <Videos>
     <BG_Video>[Blue]BG_Video.mp4</BG_Video>

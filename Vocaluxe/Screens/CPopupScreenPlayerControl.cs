@@ -22,6 +22,7 @@ namespace Vocaluxe.Screens
         private const string ButtonPlay = "ButtonPlay";
         private const string ButtonPause = "ButtonPause";
         private const string ButtonNext = "ButtonNext";
+        private const string ButtonRepeat = "ButtonRepeat";
 
         public CPopupScreenPlayerControl()
         {
@@ -42,6 +43,7 @@ namespace Vocaluxe.Screens
             buttons.Add(ButtonPause);
             buttons.Add(ButtonPrevious);
             buttons.Add(ButtonNext);
+            buttons.Add(ButtonRepeat);
             _ThemeButtons = buttons.ToArray();
         }
 
@@ -70,6 +72,8 @@ namespace Vocaluxe.Screens
                             CBackgroundMusic.Play();
                         if (Buttons[htButtons(ButtonPause)].Selected)
                             CBackgroundMusic.Pause();
+                        if (Buttons[htButtons(ButtonRepeat)].Selected)
+                            CBackgroundMusic.Repeat();
                         break;
                 }
             }
@@ -90,6 +94,8 @@ namespace Vocaluxe.Screens
                     CBackgroundMusic.Play();
                 if (Buttons[htButtons(ButtonPause)].Selected)
                     CBackgroundMusic.Pause();
+                if (Buttons[htButtons(ButtonRepeat)].Selected)
+                    CBackgroundMusic.Repeat();
             } else if (MouseEvent.LB)
             {
                 CGraphics.HidePopup(EPopupScreens.PopupPlayerControl);
