@@ -47,6 +47,13 @@ namespace Vocaluxe.Screens
             _ThemeButtons = buttons.ToArray();
         }
 
+        public override void LoadTheme()
+        {
+            base.LoadTheme();
+
+            _ScreenArea = Statics[htStatics(StaticBG)].Rect;
+        }
+
         public override bool HandleInput(KeyEvent KeyEvent)
         {
             base.HandleInput(KeyEvent);
