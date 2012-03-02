@@ -443,6 +443,9 @@ namespace Vocaluxe.Menu
             KeyEvent KeyEvent = new KeyEvent();
             MouseEvent MouseEvent = new MouseEvent();
 
+            bool PopupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing && _CurrentScreen != EScreens.ScreenNames
+                    && _CurrentScreen != EScreens.ScreenSong;
+
             bool Resume = true;
             while (keys.PollEvent(ref KeyEvent))
             {
@@ -452,9 +455,7 @@ namespace Vocaluxe.Menu
                     _Cursor.FadeOut();
                 }
                 
-                if (_CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing && _CurrentScreen != EScreens.ScreenNames
-                    && _CurrentScreen != EScreens.ScreenSong &&
-                    KeyEvent.Key == Keys.Tab)
+                if (PopupPlayerControlAllowed && KeyEvent.Key == Keys.Tab)
                 {
                     if (_CurrentPopupScreen == EPopupScreens.NoPopup)
                         ShowPopup(EPopupScreens.PopupPlayerControl);
@@ -497,6 +498,16 @@ namespace Vocaluxe.Menu
                 }
 
                 UpdateMousePosition(MouseEvent.X, MouseEvent.Y);
+
+                bool isOverPopupPlayerControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupPlayerControl].ScreenArea, MouseEvent);
+                if (PopupPlayerControlAllowed && isOverPopupPlayerControl)
+                {
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup)
+                        ShowPopup(EPopupScreens.PopupPlayerControl);
+                }
+
+                if (!isOverPopupPlayerControl && _CurrentPopupScreen == EPopupScreens.PopupPlayerControl)
+                    HidePopup(EPopupScreens.PopupPlayerControl);
 
                 bool handled = false;
                 if (_CurrentPopupScreen != EPopupScreens.NoPopup)
