@@ -480,7 +480,7 @@ namespace Vocaluxe.Menu
                     {
                         bool handled = false;
                         if (_CurrentPopupScreen != EPopupScreens.NoPopup)
-                            handled = !_PopupScreens[(int)_CurrentPopupScreen].HandleInput(KeyEvent);
+                            handled = _PopupScreens[(int)_CurrentPopupScreen].HandleInput(KeyEvent);
                         
                         if (!handled)
                             Resume &= _Screens[(int)_CurrentScreen].HandleInput(KeyEvent);
@@ -500,7 +500,7 @@ namespace Vocaluxe.Menu
 
                 bool handled = false;
                 if (_CurrentPopupScreen != EPopupScreens.NoPopup)
-                    handled = !_PopupScreens[(int)_CurrentPopupScreen].HandleMouse(MouseEvent);
+                    handled = _PopupScreens[(int)_CurrentPopupScreen].HandleMouse(MouseEvent);
 
                 if (!handled && !_Fading && (_Cursor.IsActive || MouseEvent.LB || MouseEvent.RB))
                     Resume &= _Screens[(int)_CurrentScreen].HandleMouse(MouseEvent);               

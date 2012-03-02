@@ -64,13 +64,10 @@ namespace Vocaluxe.Screens
                     case Keys.Enter:
                         if (Buttons[htButtons(ButtonNext)].Selected)
                             CBackgroundMusic.Next();
-                        break;
                         if (Buttons[htButtons(ButtonPrevious)].Selected)
-                            ;//CBackgroundMusic.Previous();
-                        break;
+                            CBackgroundMusic.Previous();
                         if (Buttons[htButtons(ButtonPlay)].Selected)
                             CBackgroundMusic.Play();
-                        break;
                         if (Buttons[htButtons(ButtonPause)].Selected)
                             CBackgroundMusic.Pause();
                         break;
