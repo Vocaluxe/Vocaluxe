@@ -103,7 +103,7 @@ Vocaluxe.exe -ConfigFile MyConfig.xml -ScoreFile C:\Vocaluxe\Highscores\MyHighsc
 
 [ALT] + [P]				to take a ScreenShot. Screenshots are saved in the directory "Screenshots".
 [ALT] + [ENTER]			to toggle full screen mode.
-[SHIFT] + [F1] 			to toggle theme edit mode. The theme edit mode ist experimental. It allows you
+[SHIFT] + [F1] 			to toggle theme edit mode. The theme edit mode is experimental. It allows you
 						to change the size and position of the element on the screens. You can save
 						your changes with [S] before leaving the theme edit mode.
 [TAB]					to open the background music controls (not on all screens).
