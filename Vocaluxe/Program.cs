@@ -230,6 +230,7 @@ namespace Vocaluxe
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;         
             this.Text = CSettings.sProgramName;
             this.CenterToScreen();
+            this.TransparencyKey = this.BackColor; //thx to Klafhor :>
             this.Show();
         }
     }
