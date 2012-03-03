@@ -218,9 +218,12 @@ namespace Vocaluxe.Screens
             //Draw credit-entries
             for (int i = 0; i < _CreditNames.Count; i++)
             {
-                _CreditNames[i].image.Draw();
-                _CreditNames[i].particle.Update();
-                _CreditNames[i].particle.Draw();
+                if (_CreditNames[i].active)
+                {
+                    _CreditNames[i].image.Draw();
+                    _CreditNames[i].particle.Update();
+                    _CreditNames[i].particle.Draw();
+                }
             }
 
             return true;
