@@ -130,8 +130,8 @@ namespace Vocaluxe.Screens
             //brunzel
             CDataBase.GetCreditsRessource("brunzel.png", ref tex);
             CCreditName CreditEntryBrunzel = new CCreditName();
-            CreditEntryBrunzel.image = new CStatic(tex, new SColorF(1,1,1,1), new SRectF(-450, 580, 400, 120, -3));
-            CreditEntryBrunzel.particleRect = new SRectF(CreditEntryBrunzel.image.Rect.X + 342, CreditEntryBrunzel.image.Rect.Y + 4, 30, 30, -4);
+            CreditEntryBrunzel.image = new CStatic(tex, new SColorF(1,1,1,1), new SRectF(-450, 580, 400, 120, -4));
+            CreditEntryBrunzel.particleRect = new SRectF(CreditEntryBrunzel.image.Rect.X + 342, CreditEntryBrunzel.image.Rect.Y + 4, 30, 30, -5);
             CreditEntryBrunzel.particle = new CParticleEffect(8, new SColorF(1, 0, 0, 1), CreditEntryBrunzel.particleRect, particleTex, 35, EParticeType.Star);
             CreditEntryBrunzel.active = true;
             CreditEntryBrunzel.direction = EDirection.Left;
@@ -140,8 +140,8 @@ namespace Vocaluxe.Screens
             //Darkice
             CDataBase.GetCreditsRessource("Darkice.png", ref tex);
             CCreditName CreditEntryDarkice = new CCreditName();
-            CreditEntryDarkice.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 400, 120, -3));
-            CreditEntryDarkice.particleRect = new SRectF(CreditEntryDarkice.image.Rect.X + 242, CreditEntryDarkice.image.Rect.Y + 23, 30, 30, -4);
+            CreditEntryDarkice.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 400, 120, -4));
+            CreditEntryDarkice.particleRect = new SRectF(CreditEntryDarkice.image.Rect.X + 242, CreditEntryDarkice.image.Rect.Y + 23, 30, 30, -5);
             CreditEntryDarkice.particle = new CParticleEffect(8, new SColorF(0, 0, 1, 1), CreditEntryDarkice.particleRect, particleTex, 35, EParticeType.Star);
             CreditEntryDarkice.active = true;
             CreditEntryDarkice.direction = EDirection.Right;
@@ -150,8 +150,8 @@ namespace Vocaluxe.Screens
             //flokuep
             CDataBase.GetCreditsRessource("flokuep.png", ref tex);
             CCreditName CreditEntryFlokuep = new CCreditName();
-            CreditEntryFlokuep.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(-450, 580, 400, 120, -3));
-            CreditEntryFlokuep.particleRect = new SRectF(CreditEntryFlokuep.image.Rect.X + 141, CreditEntryFlokuep.image.Rect.Y-2, 30, 30, -4);
+            CreditEntryFlokuep.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(-450, 580, 400, 120, -4));
+            CreditEntryFlokuep.particleRect = new SRectF(CreditEntryFlokuep.image.Rect.X + 141, CreditEntryFlokuep.image.Rect.Y-2, 30, 30, -5);
             CreditEntryFlokuep.particle = new CParticleEffect(8, new SColorF(1, 0, 0, 1), CreditEntryFlokuep.particleRect, particleTex, 35, EParticeType.Star);
             CreditEntryFlokuep.active = true;
             CreditEntryFlokuep.direction = EDirection.Left;
@@ -160,8 +160,8 @@ namespace Vocaluxe.Screens
             //bohning
             CDataBase.GetCreditsRessource("bohning.png", ref tex);
             CCreditName CreditEntryBohning = new CCreditName();
-            CreditEntryBohning.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 350, 110, -3));
-            CreditEntryBohning.particleRect = new SRectF(CreditEntryBohning.image.Rect.X + 172, CreditEntryBohning.image.Rect.Y + 16, 10, 10, -4);
+            CreditEntryBohning.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 350, 110, -4));
+            CreditEntryBohning.particleRect = new SRectF(CreditEntryBohning.image.Rect.X + 172, CreditEntryBohning.image.Rect.Y + 16, 10, 10, -5);
             CreditEntryBohning.particle = new CParticleEffect(4, new SColorF(0, 0, 1, 1), CreditEntryBohning.particleRect, particleTex, 25, EParticeType.Star);
             CreditEntryBohning.active = true;
             CreditEntryBohning.direction = EDirection.Right;
@@ -170,8 +170,8 @@ namespace Vocaluxe.Screens
             //mesand
             CDataBase.GetCreditsRessource("mesand.png", ref tex);
             CCreditName CreditEntryMesand = new CCreditName();
-            CreditEntryMesand.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(-450, 580, 350, 110, -3));
-            CreditEntryMesand.particleRect = new SRectF(CreditEntryMesand.image.Rect.X + 240, CreditEntryMesand.image.Rect.Y - 2, 10, 10, -4);
+            CreditEntryMesand.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(-450, 580, 350, 110, -4));
+            CreditEntryMesand.particleRect = new SRectF(CreditEntryMesand.image.Rect.X + 240, CreditEntryMesand.image.Rect.Y - 2, 10, 10, -5);
             CreditEntryMesand.particle = new CParticleEffect(4, new SColorF(1, 0, 0, 1), CreditEntryMesand.particleRect, particleTex, 25, EParticeType.Star);
             CreditEntryMesand.active = true;
             CreditEntryMesand.direction = EDirection.Left;
@@ -180,15 +180,15 @@ namespace Vocaluxe.Screens
             //babene03
             CDataBase.GetCreditsRessource("babene03.png", ref tex);
             CCreditName CreditEntryBabene03 = new CCreditName();
-            CreditEntryBabene03.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 350, 110, -3));
-            CreditEntryBabene03.particleRect = new SRectF(CreditEntryBabene03.image.Rect.X + 7, CreditEntryBabene03.image.Rect.Y + 4, 10, 10, -4);
+            CreditEntryBabene03.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 350, 110, -4));
+            CreditEntryBabene03.particleRect = new SRectF(CreditEntryBabene03.image.Rect.X + 7, CreditEntryBabene03.image.Rect.Y + 4, 10, 10, -5);
             CreditEntryBabene03.particle = new CParticleEffect(4, new SColorF(0, 0, 1, 1), CreditEntryBabene03.particleRect, particleTex, 25, EParticeType.Star);
             CreditEntryBabene03.active = true;
             CreditEntryBabene03.direction = EDirection.Right;
             _CreditNames.Add(CreditEntryBabene03);
 
 
-            //CreditEntry.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(0, 0, 350, 110, -3));
+            //CreditEntry.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(0, 0, 350, 110, -4));
 
         }
 
@@ -205,7 +205,6 @@ namespace Vocaluxe.Screens
 
             //Draw white background
             CDraw.DrawColor(new SColorF(1, 1, 1, 1), new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, 0));
-
 
             //Draw stars
             starsBlue.Update();
@@ -225,7 +224,6 @@ namespace Vocaluxe.Screens
                     _CreditNames[i].particle.Draw();
                 }
             }
-
             return true;
         }
 
@@ -294,11 +292,28 @@ namespace Vocaluxe.Screens
 
                             case EDirection.Up:
                                 float yOld = _CreditNames[i].image.Rect.Y;
-                                _CreditNames[i].image.Rect.Y = 580 - (270f / 3000f) * (CreditsTimer.ElapsedMilliseconds - _CreditNames[i].StartTimeUp);
+                                _CreditNames[i].image.Rect.Y = 580 - (430f / 3000f) * (CreditsTimer.ElapsedMilliseconds - _CreditNames[i].StartTimeUp);
                                 _CreditNames[i].particleRect.Y -= (yOld - _CreditNames[i].image.Rect.Y);
                                 _CreditNames[i].particle.Area = _CreditNames[i].particleRect;
 
-                                if (_CreditNames[i].image.Rect.Y <= 270f)
+                                //Fade names out
+                                if (_CreditNames[i].image.Rect.Y <= 350f)
+                                {
+                                    //Catch some bad alpha-values
+                                    float alpha = ((250 - _CreditNames[i].image.Rect.Y) / 20);
+                                    if(alpha > 1)
+                                    {
+                                        alpha = 1;
+                                    }
+                                    else if(alpha < 0)
+                                    {
+                                        alpha = 0;
+                                    }
+                                    _CreditNames[i].image.Alpha = 1 - alpha;
+                                }
+
+                                //Set name inactive
+                                if (_CreditNames[i].image.Rect.Y <= 150f)
                                 {
                                     _CreditNames[i].active = false;
                                 }

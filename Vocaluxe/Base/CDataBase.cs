@@ -37,15 +37,7 @@ namespace Vocaluxe.Base
 
             InitHighscoreDB();
             InitCoverDB();
-            InitCreditsRessourcesDB();
-/**
-            AddImageToCreditsDB("C:\\Users\\Florian\\Desktop\\Credit-Ressources\\brunzel.png");
-            AddImageToCreditsDB("C:\\Users\\Florian\\Desktop\\Credit-Ressources\\bohning.png");
-            AddImageToCreditsDB("C:\\Users\\Florian\\Desktop\\Credit-Ressources\\babene03.png");
-            AddImageToCreditsDB("C:\\Users\\Florian\\Desktop\\Credit-Ressources\\Darkice.png");
-            AddImageToCreditsDB("C:\\Users\\Florian\\Desktop\\Credit-Ressources\\flokuep.png");
-            AddImageToCreditsDB("C:\\Users\\Florian\\Desktop\\Credit-Ressources\\mesand.png");
- */
+            InitCreditsRessourcesDB();  
  
         }
 
