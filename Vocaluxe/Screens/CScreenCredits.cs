@@ -103,7 +103,10 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-            animation();
+            if (!animation())
+            {
+                CGraphics.FadeTo(EScreens.ScreenMain);
+            }
             return true;
         }
 
@@ -247,10 +250,13 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        private void animation()
+        private bool animation()
         {
+            bool active = false;
             if (LogoTimer.IsRunning)
             {
+                active = true;
+
                 logo.Rect.Y = -270 + (270f / 3000f) * LogoTimer.ElapsedMilliseconds;
                 SRectF rect = new SRectF(logo.Rect.X, logo.Rect.Y, logo.Rect.W, logo.Rect.H, -1);
                 starsRed.Area = rect;
@@ -268,6 +274,8 @@ namespace Vocaluxe.Screens
 
             if (CreditsTimer.IsRunning)
             {
+                active = true;
+
                 for (int i = 0; i < _CreditNames.Count; i++)
                 {
                     if (_CreditNames[i].active)
@@ -336,12 +344,24 @@ namespace Vocaluxe.Screens
                                 if (_CreditNames[i].image.Rect.Y <= 150f)
                                 {
                                     _CreditNames[i].active = false;
+                                    //Check, if last name is set to false
+                                    if (i == _CreditNames.Count - 1)
+                                    {
+                                        //Will later fade to Main-Screen
+                                        active = false;
+
+                                        //Stop and reset timer for next time
+                                        CreditsTimer.Stop();
+                                        CreditsTimer.Reset();
+                                    }
                                 }
                                 break;
                         }
                     }
                 }
             }
+
+            return active;
         }
     }
 }
