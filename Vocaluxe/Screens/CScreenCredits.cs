@@ -123,7 +123,7 @@ namespace Vocaluxe.Screens
             CDataBase.GetCreditsRessource("PerfectNoteStar.png", ref particleTex);
             int numstars = (int)(logo.Rect.W * 0.25f /2f);
             starsRed = new CParticleEffect(numstars, new SColorF(1, 0, 0, 1), new SRectF(logo.Rect.X, logo.Rect.Y, logo.Rect.W, logo.Rect.H, -1), particleTex, 35, EParticeType.Star);
-            starsBlue = new CParticleEffect(numstars, new SColorF(0, 0, 1, 1), new SRectF(logo.Rect.X, logo.Rect.Y, logo.Rect.W, logo.Rect.H, -1), particleTex, 35, EParticeType.Star);
+            starsBlue = new CParticleEffect(numstars, new SColorF(0.149f, 0.415f, 0.819f, 1), new SRectF(logo.Rect.X, logo.Rect.Y, logo.Rect.W, logo.Rect.H, -1), particleTex, 35, EParticeType.Star);
 
             //Credit names
             _CreditNames = new List<CCreditName>();
@@ -145,7 +145,7 @@ namespace Vocaluxe.Screens
             CCreditName CreditEntryDarkice = new CCreditName();
             CreditEntryDarkice.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 400, 120, -4));
             CreditEntryDarkice.particleRect = new SRectF(CreditEntryDarkice.image.Rect.X + 242, CreditEntryDarkice.image.Rect.Y + 23, 30, 30, -5);
-            CreditEntryDarkice.particle = new CParticleEffect(8, new SColorF(0, 0, 1, 1), CreditEntryDarkice.particleRect, particleTex, 35, EParticeType.Star);
+            CreditEntryDarkice.particle = new CParticleEffect(8, new SColorF(0.149f, 0.415f ,0.819f, 1), CreditEntryDarkice.particleRect, particleTex, 35, EParticeType.Star);
             CreditEntryDarkice.active = true;
             CreditEntryDarkice.direction = EDirection.Right;
             _CreditNames.Add(CreditEntryDarkice);
@@ -165,7 +165,7 @@ namespace Vocaluxe.Screens
             CCreditName CreditEntryBohning = new CCreditName();
             CreditEntryBohning.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 350, 110, -4));
             CreditEntryBohning.particleRect = new SRectF(CreditEntryBohning.image.Rect.X + 172, CreditEntryBohning.image.Rect.Y + 16, 10, 10, -5);
-            CreditEntryBohning.particle = new CParticleEffect(4, new SColorF(0, 0, 1, 1), CreditEntryBohning.particleRect, particleTex, 25, EParticeType.Star);
+            CreditEntryBohning.particle = new CParticleEffect(4, new SColorF(0.149f, 0.415f ,0.819f, 1), CreditEntryBohning.particleRect, particleTex, 25, EParticeType.Star);
             CreditEntryBohning.active = true;
             CreditEntryBohning.direction = EDirection.Right;
             _CreditNames.Add(CreditEntryBohning);
@@ -185,7 +185,7 @@ namespace Vocaluxe.Screens
             CCreditName CreditEntryBabene03 = new CCreditName();
             CreditEntryBabene03.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 350, 110, -4));
             CreditEntryBabene03.particleRect = new SRectF(CreditEntryBabene03.image.Rect.X + 7, CreditEntryBabene03.image.Rect.Y + 4, 10, 10, -5);
-            CreditEntryBabene03.particle = new CParticleEffect(4, new SColorF(0, 0, 1, 1), CreditEntryBabene03.particleRect, particleTex, 25, EParticeType.Star);
+            CreditEntryBabene03.particle = new CParticleEffect(4, new SColorF(0.149f, 0.415f ,0.819f, 1), CreditEntryBabene03.particleRect, particleTex, 25, EParticeType.Star);
             CreditEntryBabene03.active = true;
             CreditEntryBabene03.direction = EDirection.Right;
             _CreditNames.Add(CreditEntryBabene03);
@@ -205,7 +205,7 @@ namespace Vocaluxe.Screens
             CCreditName CreditEntryPinky007 = new CCreditName();
             CreditEntryPinky007.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 350, 110, -4));
             CreditEntryPinky007.particleRect = new SRectF(CreditEntryPinky007.image.Rect.X + 42, CreditEntryPinky007.image.Rect.Y + 15, 10, 10, -5);
-            CreditEntryPinky007.particle = new CParticleEffect(4, new SColorF(0, 0, 1, 1), CreditEntryPinky007.particleRect, particleTex, 25, EParticeType.Star);
+            CreditEntryPinky007.particle = new CParticleEffect(4, new SColorF(0.149f, 0.415f ,0.819f, 1), CreditEntryPinky007.particleRect, particleTex, 25, EParticeType.Star);
             CreditEntryPinky007.active = true;
             CreditEntryPinky007.direction = EDirection.Right;
             _CreditNames.Add(CreditEntryPinky007);
@@ -226,7 +226,7 @@ namespace Vocaluxe.Screens
         {
             base.Draw();
 
-            //Draw white background
+            //Draw background
             CDraw.DrawColor(new SColorF(1, 1, 1, 1), new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, 0));
 
             //Draw stars
