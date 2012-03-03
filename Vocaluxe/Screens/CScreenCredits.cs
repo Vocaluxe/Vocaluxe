@@ -187,6 +187,26 @@ namespace Vocaluxe.Screens
             CreditEntryBabene03.direction = EDirection.Right;
             _CreditNames.Add(CreditEntryBabene03);
 
+            //pantero
+            CDataBase.GetCreditsRessource("pantero.png", ref tex);
+            CCreditName CreditEntrypantero = new CCreditName();
+            CreditEntrypantero.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(-450, 580, 350, 110, -4));
+            CreditEntrypantero.particleRect = new SRectF(CreditEntrypantero.image.Rect.X + 140, CreditEntrypantero.image.Rect.Y + 15, 10, 10, -5);
+            CreditEntrypantero.particle = new CParticleEffect(4, new SColorF(1, 0, 0, 1), CreditEntrypantero.particleRect, particleTex, 25, EParticeType.Star);
+            CreditEntrypantero.active = true;
+            CreditEntrypantero.direction = EDirection.Left;
+            _CreditNames.Add(CreditEntrypantero);
+       
+            //Pinky007
+            CDataBase.GetCreditsRessource("Pinky007.png", ref tex);
+            CCreditName CreditEntryPinky007 = new CCreditName();
+            CreditEntryPinky007.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 350, 110, -4));
+            CreditEntryPinky007.particleRect = new SRectF(CreditEntryPinky007.image.Rect.X + 42, CreditEntryPinky007.image.Rect.Y + 15, 10, 10, -5);
+            CreditEntryPinky007.particle = new CParticleEffect(4, new SColorF(0, 0, 1, 1), CreditEntryPinky007.particleRect, particleTex, 25, EParticeType.Star);
+            CreditEntryPinky007.active = true;
+            CreditEntryPinky007.direction = EDirection.Right;
+            _CreditNames.Add(CreditEntryPinky007);
+
 
             //CreditEntry.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(0, 0, 350, 110, -4));
 
