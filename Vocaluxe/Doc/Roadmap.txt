@@ -72,15 +72,15 @@
 
 -------------------------------------------------------------
 + v0.1.0:
+	- Menu Background Music
 	- Theme System Update
 	- A nicer Theme!
 
 + v0.2.0:
-	- Menu Background Music
 	- Medley
 	- WiiMote Support
-	- OnScreen Keyboard?
-	- Kinect Support?
+	- Jukebox light (bg music controls)
+	- Show Avatars and Player Name in Sing Screen (and perhaps some other screens)
 
 + v0.3.0:
 	- Song Editor
@@ -92,6 +92,7 @@
 
 + v0.4.0:
 	- Challenge Mode (with more than 2 player at once)
+	- More Player at once
 
 + v0.5.0:
 	- Party Mode: Team-Battle
@@ -114,3 +115,7 @@
 	- ?
 	 
 
+-----------------
+just some ideas:
+	- OnScreen Keyboard?
+	- Kinect Support?

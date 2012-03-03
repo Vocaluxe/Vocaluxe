@@ -22,16 +22,8 @@ namespace Vocaluxe.Base
         {
             switch (CConfig.PlayBackLib)
             {
-                case EPlaybackLib.BASS:
-                    _Playback = new CBassPlay();
-                    break;
-
                 case EPlaybackLib.PortAudio:
                     _Playback = new CPortAudioPlay();
-                    break;
-
-                case EPlaybackLib.NAudio:
-                    _Playback = new CNAudioPlay();
                     break;
 
                 case EPlaybackLib.OpenAL:
@@ -39,7 +31,7 @@ namespace Vocaluxe.Base
                     break;
 
                 default:
-                    _Playback = new CBassPlay();
+                    _Playback = new CPortAudioPlay();
                     break;
             }
             return true;
@@ -186,16 +178,12 @@ namespace Vocaluxe.Base
         {
             switch (CConfig.RecordLib)
             {
-                case ERecordLib.BASS:
-                    _Record = new CBassRecord();
-                    break;
-                
                 case ERecordLib.PortAudio:
                     _Record = new CPortAudioRecord();
                     break;
 
                 default:
-                    _Record = new CBassRecord();
+                    _Record = new CPortAudioRecord();
                     break;
             }
             

@@ -102,7 +102,7 @@ namespace Vocaluxe.Menu
                 if (t < _CursorFadingTime)
                 {
                     if (_CursorTargetAlpha >= _CursorStartAlpha)
-                        _Cursor.color.A = (_CursorTargetAlpha - _CursorStartAlpha) * t / _CursorFadingTime;
+                        _Cursor.color.A = _CursorStartAlpha + (_CursorTargetAlpha - _CursorStartAlpha) * t / _CursorFadingTime;
                     else
                         _Cursor.color.A = (_CursorStartAlpha - _CursorTargetAlpha) * (1f - t / _CursorFadingTime);
                 }
@@ -150,6 +150,13 @@ namespace Vocaluxe.Menu
         {
             _Movetimer.Stop();
             Fade(0f, 0.5f);
+        }
+
+        public void FadeIn()
+        {
+            _Movetimer.Reset();
+            _Movetimer.Start();
+            Fade(1f, 0.2f);
         }
 
         private void Fade(float targetAlpha, float time)
@@ -421,6 +428,12 @@ namespace Vocaluxe.Menu
 
             while (Mouse.PollEvent(ref MouseEvent))
             {
+                if (MouseEvent.Wheel != 0)
+                {
+                    CSettings.MouseActive();
+                    _Cursor.FadeIn();
+                }
+
                 UpdateMousePosition(MouseEvent.X, MouseEvent.Y);
 
                 if (!_Fading && (_Cursor.IsActive || MouseEvent.LB || MouseEvent.RB))

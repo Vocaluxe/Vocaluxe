@@ -265,6 +265,20 @@ namespace Vocaluxe.Base
 
         private static bool InitHighscoreDB()
         {
+            string OldDBFilePath = Path.Combine(Environment.CurrentDirectory, CSettings.sFileOldHighscoreDB);
+            if (File.Exists(OldDBFilePath))
+            {
+                if (File.Exists(_HighscoreFilePath))
+                {
+                    CLog.LogError("Found old Highscore DB (" + OldDBFilePath + "). If you want to import it just delete the new one (" + _HighscoreFilePath + ")");
+                }
+                else
+                {
+                    File.Copy(OldDBFilePath, _HighscoreFilePath);
+                    File.Move(OldDBFilePath, OldDBFilePath + ".old");
+                }
+            }
+
             SQLiteConnection connection = new SQLiteConnection();
             connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
             SQLiteCommand command;
