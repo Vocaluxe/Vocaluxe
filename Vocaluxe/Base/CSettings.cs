@@ -69,6 +69,7 @@ namespace Vocaluxe.Base
         public const string sFileCover = "Cover.xml";
         public const string sFileFonts = "Fonts.xml";
 
+        public const string sFileOldHighscoreDB = "Ultrastar.db";
         public static string sFileHighscoreDB = "HighscoreDB.sqlite";
         public const string sFileCoverDB = "CoverDB.sqlite";
         public const string sFilePerformanceLog = "Performance.log";

@@ -141,7 +141,7 @@ namespace Vocaluxe
             CLog.StopBenchmark(0, "Init Game");
 
             Application.DoEvents();
-
+            System.Threading.Thread.Sleep(10000);
             // Start Main Loop
             _SplashScreen.Close();
             CDraw.MainLoop();
@@ -192,6 +192,8 @@ namespace Vocaluxe
 
     class SplashScreen : Form
     {
+        Bitmap logo;
+
         public SplashScreen()
         {
             string path = Path.Combine(Environment.CurrentDirectory, Path.Combine(CSettings.sFolderGraphics, CSettings.sLogo));
@@ -199,9 +201,8 @@ namespace Vocaluxe
             {
                 try
                 {
-                    Bitmap logo = new Bitmap(path);
+                    logo = new Bitmap(path);
                     this.ClientSize = new Size(logo.Width, logo.Height);
-                    this.BackgroundImage = logo;
                 }
                 catch (Exception e)
                 {
@@ -226,11 +227,27 @@ namespace Vocaluxe
             }
             else
                 CLog.LogError("Can't find " + path);
-            
+
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            this.BackColor = Color.Transparent;
+
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;         
             this.Text = CSettings.sProgramName;
             this.CenterToScreen();
             this.Show();
         }
+        
+        protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
+        {          
+        }
+
+        protected override void OnPaintBackground(System.Windows.Forms.PaintEventArgs e)
+        {
+            if (logo == null)
+                return;
+
+            Graphics g = e.Graphics;
+            g.DrawImage(logo, new Rectangle(0, 0, this.Width, this.Height));
+        }       
     }
 }
