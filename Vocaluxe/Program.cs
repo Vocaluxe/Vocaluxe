@@ -193,7 +193,6 @@ namespace Vocaluxe
     class SplashScreen : Form
     {
         Bitmap logo;
-        Timer UpdateTimer;
 
         public SplashScreen()
         {
