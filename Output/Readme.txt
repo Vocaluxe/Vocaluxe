@@ -63,8 +63,6 @@ Supported Operating Systems / Requirements:
 =================================
 = 3. Command-Line Parameters    =
 =================================
-commandline parameter: SongFolder, SongPath
-
 The following command-line parameters may be passed to the game when starting it through a shortcut
 or from the console:
 
