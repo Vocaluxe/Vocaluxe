@@ -620,7 +620,7 @@ namespace Vocaluxe.Lib.Sound
                 IntPtr.Zero,
                 ref outputParams,
                 format.SamplesPerSecond,
-                0,//CConfig.PortAudioBufferSize,
+                (uint)CConfig.AudioBufferSize,
                 PortAudio.PaStreamFlags.paNoFlag,
                 _paStreamCallback,
                 data));
@@ -844,7 +844,7 @@ namespace Vocaluxe.Lib.Sound
                 else
                     _waiting = true;
 
-                float latency = buf.Length / _BytesPerSecond;
+                float latency = buf.Length / _BytesPerSecond + CConfig.AudioLatency/1000f;
                 float time = _TimeCode - _data.BytesNotRead / _BytesPerSecond - latency;
 
                 _CurrentTime = _SyncTimer.Update(time);
