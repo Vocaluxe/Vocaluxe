@@ -79,7 +79,8 @@
 + v0.2.0:
 	- Medley
 	- WiiMote Support
-	- Jukebox light
+	- Jukebox light (bg music controls)
+	- Show Avatars and Player Name in Sing Screen (and perhaps some other screens)
 
 + v0.3.0:
 	- Song Editor
