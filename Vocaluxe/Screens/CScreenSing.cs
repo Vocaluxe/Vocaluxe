@@ -851,16 +851,26 @@ namespace Vocaluxe.Screens
                 lines[i] = Song.Notes.GetLines(i);
                 CLine[] line = lines[i].Line;
 
-                // find current line (it must be the same as in UpdateLyrics)
-                int CurrentLine = 0;
+                // find current line for lyric sub fading (it must be the same as in UpdateLyrics)
+                int CurrentLineSub = 0;
                 for (int j = 0; j < line.Length; j++)
                 {
                     if (line[j].StartBeat <= _CurrentBeat)
                     {
                         if (CGame.GetTimeFromBeats(line[j].FirstBeat, Song.BPM) <= _CurrentTime - Song.Gap + 10f)
                         {
-                            CurrentLine = j;
+                            CurrentLineSub = j;
                         }
+                    }
+                }
+
+                // find current line for lyric main fading
+                int CurrentLine = 0;
+                for (int j = 0; j < line.Length; j++)
+                {
+                    if (line[j].FirstBeat <= _CurrentBeat)
+                    {
+                        CurrentLine = j;
                     }
                 }
 
@@ -919,10 +929,10 @@ namespace Vocaluxe.Screens
                 }
 
                 // sub
-                if (CurrentLine < line.Length - 2)
+                if (CurrentLineSub < line.Length - 2)
                 {
                     float diff = 0f; 
-                    diff = CGame.GetTimeFromBeats(line[CurrentLine + 1].FirstBeat, Song.BPM) - CurrentTime;
+                    diff = CGame.GetTimeFromBeats(line[CurrentLineSub + 1].FirstBeat, Song.BPM) - CurrentTime;
                     
                     if (diff > dt)
                     {
