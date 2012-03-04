@@ -249,9 +249,12 @@ namespace Vocaluxe.Menu
 
             for (int i = 0; i < Screens.Length; i++)
             {
-                CLog.StartBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
-                Screens[i].LoadTheme();
-                CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
+                if (Enum.GetNames(typeof(EScreens))[i] != Enum.GetName(typeof(EScreens), (int)EScreens.ScreenCredits))
+                {
+                    CLog.StartBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
+                    Screens[i].LoadTheme();
+                    CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
+                }
             }
         }
 
@@ -260,7 +263,10 @@ namespace Vocaluxe.Menu
             ReloadCursor();
             for (int i = 0; i < Screens.Length; i++)
             {
-                Screens[i].ReloadTheme();
+                if (Enum.GetNames(typeof(EScreens))[i] != Enum.GetName(typeof(EScreens), (int)EScreens.ScreenCredits))
+                {
+                    Screens[i].ReloadTheme();
+                }
             }
         }
 
@@ -269,7 +275,10 @@ namespace Vocaluxe.Menu
             ReloadCursor();
             for (int i = 0; i < Screens.Length; i++)
             {
-                Screens[i].ReloadTextures();
+                if (Enum.GetNames(typeof(EScreens))[i] != Enum.GetName(typeof(EScreens), (int)EScreens.ScreenCredits))
+                {
+                    Screens[i].ReloadTextures();
+                }
             }
         }
 
@@ -278,7 +287,10 @@ namespace Vocaluxe.Menu
             CTheme.SaveTheme();
             for (int i = 0; i < Screens.Length; i++)
             {
-                Screens[i].SaveTheme();
+                if (Enum.GetNames(typeof(EScreens))[i] != Enum.GetName(typeof(EScreens), (int)EScreens.ScreenCredits))
+                {
+                    Screens[i].SaveTheme();
+                }
             }
         }
 
