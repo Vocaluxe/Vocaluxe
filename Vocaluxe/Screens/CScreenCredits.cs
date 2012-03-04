@@ -227,7 +227,7 @@ namespace Vocaluxe.Screens
             base.Draw();
 
             //Draw background
-            CDraw.DrawColor(new SColorF(1, 1, 1, 1), new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, 0));
+            CDraw.DrawColor(new SColorF(0, 0.18f, 0.474f, 1), new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, 0));
 
             //Draw stars
             starsBlue.Update();
