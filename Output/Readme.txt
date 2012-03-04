@@ -63,8 +63,6 @@ Supported Operating Systems / Requirements:
 =================================
 = 3. Command-Line Parameters    =
 =================================
-commandline parameter: SongFolder, SongPath
-
 The following command-line parameters may be passed to the game when starting it through a shortcut
 or from the console:
 
@@ -77,13 +75,13 @@ or from the console:
 -ScoreFile [Path\File] : Use [File] as score database instead of HighscoreDB.sqlite in the application's
 						 main folder. The path to the file has to exist and needs to be an absolute path.
 						 If only a filename is specified, the file is assumed to be in the current directory.
-						 Example: 	Vocaluxe.exe -ScoreFile MyHighscoreDB.sqlite
+						 Examples: 	Vocaluxe.exe -ScoreFile MyHighscoreDB.sqlite
 									Vocaluxe.exe -Scorefile C:\Vocaluxe\Highscores\MyHighscoreDB.sqlite
 
 -SongFolder [Path]	   : Use [Path] as song folder. The path has to exist and needs to be an absolute path.
 						 Note that any song folders set in the config file will be ignored.
 						 This parameter may be used multiple times to use different song folders.
-						 Example:	Vocaluxe.exe -SongFolder D:\MySongCollection
+						 Examples:	Vocaluxe.exe -SongFolder D:\MySongCollection
 									Vocaluxe.exe -SongFolder D:\MySongCollection -SongFolder E:\MoreSongs
 						  
 -SongPath [Path]	   : Deprecated, see SongFolder [Path]. This alias is provided for convenience.
