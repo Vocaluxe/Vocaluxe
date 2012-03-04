@@ -141,7 +141,7 @@ namespace Vocaluxe
             CLog.StopBenchmark(0, "Init Game");
 
             Application.DoEvents();
-
+            System.Threading.Thread.Sleep(10000);
             // Start Main Loop
             _SplashScreen.Close();
             CDraw.MainLoop();
@@ -227,15 +227,18 @@ namespace Vocaluxe
             }
             else
                 CLog.LogError("Can't find " + path);
-            
+
+            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            this.BackColor = Color.Transparent;
+
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;         
             this.Text = CSettings.sProgramName;
             this.CenterToScreen();
             this.Show();
         }
-    
+        
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
-        {
+        {          
         }
 
         protected override void OnPaintBackground(System.Windows.Forms.PaintEventArgs e)
@@ -245,6 +248,6 @@ namespace Vocaluxe
 
             Graphics g = e.Graphics;
             g.DrawImage(logo, new Rectangle(0, 0, this.Width, this.Height));
-        }
+        }       
     }
 }
