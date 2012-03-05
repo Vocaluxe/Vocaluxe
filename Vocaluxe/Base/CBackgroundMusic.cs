@@ -31,22 +31,14 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            foreach(string path in Helper.ListFiles(CSettings.sFolderBackgroundMusic, "*.mp3", true, true))
+            List<string> templist = new List<string>();
+
+            foreach(string ending in CSettings.MusicFileTypes)
             {
-                _BGMusicFileNames.Add(new PlaylistElement(path));
+                templist.AddRange(Helper.ListFiles(CSettings.sFolderBackgroundMusic, ending, true, true));
             }
 
-            foreach(string path in Helper.ListFiles(CSettings.sFolderBackgroundMusic, "*.ogg", true, true))
-            {
-                _BGMusicFileNames.Add(new PlaylistElement(path));
-            }
-
-            foreach(string path in Helper.ListFiles(CSettings.sFolderBackgroundMusic, "*.wma", true, true))
-            {
-                _BGMusicFileNames.Add(new PlaylistElement(path));
-            }
-
-            foreach(string path in Helper.ListFiles(CSettings.sFolderBackgroundMusic, "*.wav", true, true))
+            foreach (string path in templist)
             {
                 _BGMusicFileNames.Add(new PlaylistElement(path));
             }
