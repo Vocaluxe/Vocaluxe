@@ -856,7 +856,7 @@ namespace Vocaluxe.Lib.Sound
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                CLog.LogError("Error PortAudio.StreamCallback: " + e.Message);
             }
 
             return PortAudio.PaStreamCallbackResult.paContinue;
