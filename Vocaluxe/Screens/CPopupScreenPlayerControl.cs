@@ -133,9 +133,6 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-            Buttons[htButtons(ButtonPause)].Visible = CBackgroundMusic.IsPlaying();
-            Buttons[htButtons(ButtonPlay)].Visible = !CBackgroundMusic.IsPlaying();
-            Texts[htTexts(TextCurrentSong)].Text = CBackgroundMusic.GetSongArtistAndTitle();
             return true;
         }
 
@@ -151,6 +148,7 @@ namespace Vocaluxe.Screens
                 return false;
             if (CBackgroundMusic.IsVideoEnabled() && CBackgroundMusic.HasVideo())
             {
+                Statics[htStatics(StaticCover)].Texture = CBackgroundMusic.GetCover();
                 CBackgroundMusic.UploadNewFrame(Statics[htStatics(StaticCover)]);
                 Statics[htStatics(StaticCover)].Visible = false;
             }
@@ -159,6 +157,12 @@ namespace Vocaluxe.Screens
                 Statics[htStatics(StaticCover)].Visible = true;
                 Statics[htStatics(StaticCover)].Texture = CBackgroundMusic.GetCover();
             }
+            Buttons[htButtons(ButtonPause)].Visible = CBackgroundMusic.IsPlaying();
+            Buttons[htButtons(ButtonPlay)].Visible = !CBackgroundMusic.IsPlaying();
+            Texts[htTexts(TextCurrentSong)].Text = CBackgroundMusic.GetSongArtistAndTitle();
+            if (CBackgroundMusic.IsVideoEnabled())
+                Buttons[htButtons(ButtonShowVideo)].SColor = CTheme.GetColor("ButtonSColor");
+
             return base.Draw();
         }
 

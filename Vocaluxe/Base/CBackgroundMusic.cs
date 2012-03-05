@@ -31,6 +31,7 @@ namespace Vocaluxe.Base
 
         private static int _Video = -1;
         private static STexture _CurrentVideoTexture = new STexture(-1);
+        private static Stopwatch _FadeTimer = new Stopwatch();
 
         public static void Init()
         {
@@ -76,9 +77,12 @@ namespace Vocaluxe.Base
 
         public static void Stop()
         {
-            if (_VideoEnabled && _Video != 0)
+            if (_VideoEnabled && _Video != -1)
+            {
                 CVideo.VdClose(_Video);
-            _Video = -1;
+                CDraw.RemoveTexture(ref _CurrentVideoTexture);
+                _Video = -1;
+            }
             CSound.FadeAndStop(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
 
             _CurrentPlaylistElement = new PlaylistElement();
@@ -127,7 +131,6 @@ namespace Vocaluxe.Base
 
                     _CurrentPlaylistElement = _PreviousFileNames[_PreviousMusicIndex];
                 }
-
                 _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.GetMusicFilePath());
                 CSound.SetStreamVolume(_CurrentMusicStream, 0f);
                 Play();
@@ -317,6 +320,15 @@ namespace Vocaluxe.Base
             {
                 float vtime = 0f;
                 CVideo.VdGetFrame(_Video, ref _CurrentVideoTexture, CSound.GetPosition(_CurrentMusicStream), ref vtime);
+                if (_FadeTimer.ElapsedMilliseconds <= 3000L)
+                {
+                    _CurrentVideoTexture.color.A = (_FadeTimer.ElapsedMilliseconds / 3000f);
+                }
+                else
+                {
+                    _CurrentVideoTexture.color.A = 1f;
+                    _FadeTimer.Stop();
+                }
                 CDraw.DrawTexture(bounds, _CurrentVideoTexture, EAspect.Crop);
                 return true;
             }
@@ -357,10 +369,11 @@ namespace Vocaluxe.Base
         {
             if (_Video == -1)
             {
-                CVideo.VdClose(_Video);
                 _Video = CVideo.VdLoad(_CurrentPlaylistElement.GetVideoFilePath());
                 CVideo.VdSkip(_Video, CSound.GetPosition(_CurrentMusicStream), _CurrentPlaylistElement.GetVideoGap());
                 _VideoEnabled = true;
+                _FadeTimer.Reset();
+                _FadeTimer.Start();
             }
         }
     }
