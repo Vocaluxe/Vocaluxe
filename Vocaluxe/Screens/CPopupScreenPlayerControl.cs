@@ -136,7 +136,11 @@ namespace Vocaluxe.Screens
             Buttons[htButtons(ButtonPause)].Visible = CBackgroundMusic.IsPlaying();
             Buttons[htButtons(ButtonPlay)].Visible = !CBackgroundMusic.IsPlaying();
             Texts[htTexts(TextCurrentSong)].Text = CBackgroundMusic.GetSongArtistAndTitle();
-            Statics[htStatics(StaticCover)].Texture = CBackgroundMusic.GetCover();
+            if(CBackgroundMusic.IsVideoEnabled() && CBackgroundMusic.HasVideo())
+                Statics[htStatics(StaticCover)].Texture = CBackgroundMusic.UploadNewFrame();
+            else
+                Statics[htStatics(StaticCover)].Texture = CBackgroundMusic.GetCover();
+            
             return true;
         }
 
@@ -150,7 +154,6 @@ namespace Vocaluxe.Screens
         {
             if (!_Active)
                 return false;
-
             return base.Draw();
         }
 

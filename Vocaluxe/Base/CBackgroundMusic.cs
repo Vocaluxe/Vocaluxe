@@ -26,8 +26,10 @@ namespace Vocaluxe.Base
         private static bool _OwnMusicAdded;
         private static bool _BackgroundMusicAdded;
         private static bool _Playing;
+        private static bool _VideoEnabled;
 
-        private static int _Video;
+        private static int _Video = -1;
+        private static STexture _CurrentVideoTexture = new STexture(-1);
 
         public static void Init()
         {
@@ -63,12 +65,16 @@ namespace Vocaluxe.Base
                     }
                     else
                         Next();
+                    if (_VideoEnabled)
+                        LoadVideo();
                 }
             }
         }
 
         public static void Stop()
         {
+            if (_Video != 0)
+                CVideo.VdClose(_Video);
             CSound.FadeAndStop(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
 
             _CurrentPlaylistElement = new PlaylistElement();
@@ -77,6 +83,8 @@ namespace Vocaluxe.Base
 
         public static void Pause()
         {
+            if (_Video != 0)
+                CVideo.VdPause(_Video);
             CSound.FadeAndPause(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
             _Playing = false;
         }
@@ -275,8 +283,37 @@ namespace Vocaluxe.Base
 
         public static void ToggleVideo()
         {
-            _Video = CVideo.VdLoad(_CurrentPlaylistElement.GetVideoFilePath());
-            CVideo.VdSkip(_Video, CSound.GetLength(_CurrentMusicStream) / 4f, _CurrentPlaylistElement.GetVideoGap());
+            if (_Video != -1)
+            {
+                if (_VideoEnabled)
+                {
+                    _VideoEnabled = false;
+                    CVideo.VdClose(_Video);
+                    _Video = -1;
+                    CDraw.RemoveTexture(ref _CurrentVideoTexture);
+                    return;
+                }
+                if (CVideo.VdFinished(_Video))
+                {
+                    CVideo.VdClose(_Video);
+                    CDraw.RemoveTexture(ref _CurrentVideoTexture);
+                    _Video = -1;
+                    return;
+                }
+            }
+            else
+                LoadVideo();
+        }
+
+        public static STexture UploadNewFrame()
+        {
+            if (_Video != -1)
+            {
+                float vtime = 0f;
+                CVideo.VdGetFrame(_Video, ref _CurrentVideoTexture, CSound.GetPosition(_CurrentMusicStream), ref vtime);
+                return _CurrentVideoTexture;
+            }
+            return _CurrentVideoTexture;
         }
 
         public static int GetSongNr()
@@ -284,9 +321,24 @@ namespace Vocaluxe.Base
             return _CurrentPlaylistElement.GetSongNr();
         }
 
+        public static EAspect GetVideoAspect()
+        {
+            return _CurrentPlaylistElement.GetVideoAspect();
+        }
+
         public static bool IsDuet()
         {
             return _CurrentPlaylistElement.IsDuet();
+        }
+
+        public static bool IsVideoEnabled()
+        {
+            return _VideoEnabled;
+        }
+
+        public static bool HasVideo()
+        {
+            return File.Exists(_CurrentPlaylistElement.GetVideoFilePath());
         }
 
         private static bool IsBackgroundFile(PlaylistElement element)
@@ -297,6 +349,14 @@ namespace Vocaluxe.Base
                     return true;
             }
             return false;
+        }
+
+        private static void LoadVideo()
+        {
+            CVideo.VdClose(_Video);
+            _Video = CVideo.VdLoad(_CurrentPlaylistElement.GetVideoFilePath());
+            CVideo.VdSkip(_Video, CSound.GetPosition(_CurrentMusicStream), _CurrentPlaylistElement.GetVideoGap());
+            _VideoEnabled = true;
         }
     }
 }
@@ -311,6 +371,7 @@ class PlaylistElement
     float _VideoGap;
     int _SongNr;
     bool _Duet;
+    EAspect _VideoAspect;
 
     public PlaylistElement(CSong song)
     {
@@ -322,6 +383,7 @@ class PlaylistElement
         _VideoGap = song.VideoGap;
         _SongNr = song.ID;
         _Duet = song.IsDuet;
+        _VideoAspect = song.VideoAspect;
     }
 
     public PlaylistElement(string FilePath)
@@ -377,6 +439,11 @@ class PlaylistElement
     public int GetSongNr()
     {
         return _SongNr;
+    }
+
+    public EAspect GetVideoAspect()
+    {
+        return _VideoAspect;
     }
 
     public bool IsDuet()
