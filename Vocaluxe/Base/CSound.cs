@@ -501,7 +501,7 @@ namespace Vocaluxe.Base
                 long ticks = _Timer.ElapsedTicks;
                 float dt = _Timer.ElapsedMilliseconds / 1000f;
 
-                if (nanosecPerTick > 0L)
+                if (Stopwatch.IsHighResolution)
                     dt = (float)(ticks * nanosecPerTick / 1000000000.0);
 
                 return _SetValue + dt;
@@ -581,7 +581,7 @@ namespace Vocaluxe.Base
                 long ticks = _STimer.ElapsedTicks;
                 float dt = _STimer.ElapsedMilliseconds / 1000f;
 
-                if (nanosecPerTick > 0L)
+                if (Stopwatch.IsHighResolution)
                     dt = (float)(ticks * nanosecPerTick / 1000000000.0);
 
                 return _CurrentTime + dt;
@@ -617,9 +617,9 @@ namespace Vocaluxe.Base
             long ticks = _STimer.ElapsedTicks;
             float dt = _STimer.ElapsedMilliseconds / 1000f;
 
-            if (nanosecPerTick > 0L)
+            if (Stopwatch.IsHighResolution)
                 dt = (float)(ticks * nanosecPerTick / 1000000000.0);
-
+                        
             float Ts = 0f;
             if (dt > 0)
                 Ts = 1 / (_T / dt + 1);
