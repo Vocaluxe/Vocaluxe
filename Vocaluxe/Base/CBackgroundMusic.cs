@@ -62,6 +62,8 @@ namespace Vocaluxe.Base
                     {
                         CSound.Fade(_CurrentMusicStream, CConfig.BackgroundMusicVolume, CSettings.BackgroundMusicFadeTime);
                         CSound.Play(_CurrentMusicStream);
+                        if (_VideoEnabled && _Video != -1)
+                            CVideo.VdResume(_Video);
                         _Playing = true;
                     }
                     else
@@ -74,8 +76,9 @@ namespace Vocaluxe.Base
 
         public static void Stop()
         {
-            if (_Video != 0)
+            if (_VideoEnabled && _Video != 0)
                 CVideo.VdClose(_Video);
+            _Video = -1;
             CSound.FadeAndStop(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
 
             _CurrentPlaylistElement = new PlaylistElement();
@@ -84,7 +87,7 @@ namespace Vocaluxe.Base
 
         public static void Pause()
         {
-            if (_Video != 0)
+            if (_VideoEnabled && _Video != 0)
                 CVideo.VdPause(_Video);
             CSound.FadeAndPause(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
             _Playing = false;
@@ -156,8 +159,8 @@ namespace Vocaluxe.Base
             if (_AllFileNames.Count > 0 && _CurrentMusicStream != -1)
             {
                 CSound.SetPosition(_CurrentMusicStream, 0);
-                if (_VideoEnabled)
-                    LoadVideo();
+                if (_VideoEnabled && _Video != -1)
+                    CVideo.VdSkip(_Video, CSound.GetPosition(_CurrentMusicStream), _CurrentPlaylistElement.GetVideoGap());
             }
         }
 
@@ -352,10 +355,13 @@ namespace Vocaluxe.Base
 
         private static void LoadVideo()
         {
-            CVideo.VdClose(_Video);
-            _Video = CVideo.VdLoad(_CurrentPlaylistElement.GetVideoFilePath());
-            CVideo.VdSkip(_Video, CSound.GetPosition(_CurrentMusicStream), _CurrentPlaylistElement.GetVideoGap());
-            _VideoEnabled = true;
+            if (_Video == -1)
+            {
+                CVideo.VdClose(_Video);
+                _Video = CVideo.VdLoad(_CurrentPlaylistElement.GetVideoFilePath());
+                CVideo.VdSkip(_Video, CSound.GetPosition(_CurrentMusicStream), _CurrentPlaylistElement.GetVideoGap());
+                _VideoEnabled = true;
+            }
         }
     }
 }
