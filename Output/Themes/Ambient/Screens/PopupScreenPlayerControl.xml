@@ -18,13 +18,29 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </StaticBG>
+    <StaticCover>
+		<!--<Skin>: Texture name-->
+		<Skin>CoverBackground</Skin>
+		<!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+		<X>50</X>
+		<Y>0</Y>
+		<Z>0,00</Z>
+		<W>50</W>
+		<H>50</H>
+		<!--<Color>: Static color from ColorScheme (high priority)-->
+		<!--or <R>, <G>, <B>, <A> (lower priority)-->
+		<Color>Visible</Color>
+		<!--<Reflection> If exists:-->
+		<!--   <Space>: Reflection Space-->
+		<!--   <Height>: Reflection Height-->
+    </StaticCover>
 	<ButtonPrevious>
       <!--<Skin>: Texture name-->
       <Skin>PreviousIcon</Skin>
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>PreviousIcon</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>50</X>
+      <X>125</X>
       <Y>0</Y>
       <Z>0,00</Z>
       <W>50</W>
@@ -71,7 +87,7 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>PlayIcon</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>125</X>
+      <X>200</X>
       <Y>5</Y>
       <Z>0,00</Z>
       <W>40</W>
@@ -118,7 +134,7 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>PauseIcon</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>125</X>
+      <X>200</X>
       <Y>5</Y>
       <Z>0,00</Z>
       <W>40</W>
@@ -165,7 +181,7 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>NextIcon</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>190</X>
+      <X>265</X>
       <Y>0</Y>
       <Z>0,00</Z>
       <W>50</W>
@@ -212,7 +228,7 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>RepeatIcon</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>265</X>
+      <X>330</X>
       <Y>0</Y>
       <Z>0,00</Z>
       <W>50</W>
@@ -225,7 +241,7 @@
       <SColor>ButtonSColor</SColor>
       <Text>
         <!--<X>, <Y>: Text position-->
-        <X>265</X>
+        <X>405</X>
         <Y>25</Y>
         <!--<H>: Text height-->
         <H>32</H>
@@ -259,7 +275,7 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>VideoIcon</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>315</X>
+      <X>405</X>
       <Y>0</Y>
       <Z>0,00</Z>
       <W>50</W>
@@ -306,7 +322,7 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>DuetIcon</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>380</X>
+      <X>480</X>
       <Y>0</Y>
       <Z>0,00</Z>
       <W>50</W>
@@ -349,14 +365,14 @@
     </ButtonSing>
 	<TextCurrentSong>
       <!--<X>, <Y>: Text position-->
-      <X>465</X>
+      <X>555</X>
       <Y>0</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>50</H>
       <!--<MaxW>: Maximum text width (if exists)-->
-      <MaxW>825</MaxW>
+      <MaxW>725</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -375,21 +391,5 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </TextCurrentSong>
-    <StaticCover>
-		<!--<Skin>: Texture name-->
-		<Skin>CoverBackground</Skin>
-		<!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-		<X>0</X>
-		<Y>0</Y>
-		<Z>0,00</Z>
-		<W>50</W>
-		<H>50</H>
-		<!--<Color>: Static color from ColorScheme (high priority)-->
-		<!--or <R>, <G>, <B>, <A> (lower priority)-->
-		<Color>Visible</Color>
-		<!--<Reflection> If exists:-->
-		<!--   <Space>: Reflection Space-->
-		<!--   <Height>: Reflection Height-->
-    </StaticCover>
   </PopupScreenPlayerControl>
 </root>

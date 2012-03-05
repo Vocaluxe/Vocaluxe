@@ -155,6 +155,8 @@ namespace Vocaluxe.Base
             if (_AllFileNames.Count > 0 && _CurrentMusicStream != -1)
             {
                 CSound.SetPosition(_CurrentMusicStream, 0);
+                if (_VideoEnabled)
+                    LoadVideo();
             }
         }
 
@@ -321,11 +323,6 @@ namespace Vocaluxe.Base
             return _CurrentPlaylistElement.GetSongNr();
         }
 
-        public static EAspect GetVideoAspect()
-        {
-            return _CurrentPlaylistElement.GetVideoAspect();
-        }
-
         public static bool IsDuet()
         {
             return _CurrentPlaylistElement.IsDuet();
@@ -371,7 +368,6 @@ class PlaylistElement
     float _VideoGap;
     int _SongNr;
     bool _Duet;
-    EAspect _VideoAspect;
 
     public PlaylistElement(CSong song)
     {
@@ -383,7 +379,6 @@ class PlaylistElement
         _VideoGap = song.VideoGap;
         _SongNr = song.ID;
         _Duet = song.IsDuet;
-        _VideoAspect = song.VideoAspect;
     }
 
     public PlaylistElement(string FilePath)
@@ -439,11 +434,6 @@ class PlaylistElement
     public int GetSongNr()
     {
         return _SongNr;
-    }
-
-    public EAspect GetVideoAspect()
-    {
-        return _VideoAspect;
     }
 
     public bool IsDuet()
