@@ -8,6 +8,7 @@ using System.Diagnostics;
 using Vocaluxe.Lib.Song;
 using Vocaluxe.Lib.Draw;
 using System.Drawing;
+using Vocaluxe.Menu;
 
 namespace Vocaluxe.Base
 {
@@ -307,15 +308,16 @@ namespace Vocaluxe.Base
                 LoadVideo();
         }
 
-        public static STexture UploadNewFrame()
+        public static bool UploadNewFrame(CStatic bounds)
         {
             if (_Video != -1)
             {
                 float vtime = 0f;
                 CVideo.VdGetFrame(_Video, ref _CurrentVideoTexture, CSound.GetPosition(_CurrentMusicStream), ref vtime);
-                return _CurrentVideoTexture;
+                CDraw.DrawTexture(bounds, _CurrentVideoTexture, EAspect.Crop);
+                return true;
             }
-            return _CurrentVideoTexture;
+            return false;
         }
 
         public static int GetSongNr()
