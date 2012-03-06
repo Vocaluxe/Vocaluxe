@@ -17,6 +17,7 @@ namespace Vocaluxe.Screens
         private const string SelectSlideVideoBackgrounds = "SelectSlideVideoBackgrounds";
         private const string SelectSlideVideoPreview = "SelectSlideVideoPreview";
         private const string SelectSlideVideosInSongs = "SelectSlideVideosInSongs";
+        private const string SelectSlideVideosToBackground = "SelectSlideVideosToBackground";
 
         private const string ButtonExit = "ButtonExit";
 
@@ -33,7 +34,7 @@ namespace Vocaluxe.Screens
             _ScreenVersion = ScreenVersion;
 
             _ThemeButtons = new string[] { ButtonExit };
-            _ThemeSelectSlides = new string[] { SelectSlideVideoBackgrounds, SelectSlideVideoPreview, SelectSlideVideosInSongs };
+            _ThemeSelectSlides = new string[] { SelectSlideVideoBackgrounds, SelectSlideVideoPreview, SelectSlideVideosInSongs, SelectSlideVideosToBackground };
         }
 
         public override void LoadTheme()
@@ -43,6 +44,7 @@ namespace Vocaluxe.Screens
             SelectSlides[htSelectSlides(SelectSlideVideoBackgrounds)].SetValues<EOffOn>((int)CConfig.VideoBackgrounds);
             SelectSlides[htSelectSlides(SelectSlideVideoPreview)].SetValues<EOffOn>((int)CConfig.VideoPreview);
             SelectSlides[htSelectSlides(SelectSlideVideosInSongs)].SetValues<EOffOn>((int)CConfig.VideosInSongs);
+            SelectSlides[htSelectSlides(SelectSlideVideosToBackground)].SetValues<EOffOn>((int)CConfig.VideosToBackground);
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -110,6 +112,7 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
+            SelectSlides[htSelectSlides(SelectSlideVideosToBackground)].Selection = (int)CConfig.VideosToBackground;
             return true;
         }
 
@@ -124,6 +127,8 @@ namespace Vocaluxe.Screens
             CConfig.VideoBackgrounds = (EOffOn)SelectSlides[htSelectSlides(SelectSlideVideoBackgrounds)].Selection;
             CConfig.VideoPreview = (EOffOn)SelectSlides[htSelectSlides(SelectSlideVideoPreview)].Selection;
             CConfig.VideosInSongs = (EOffOn)SelectSlides[htSelectSlides(SelectSlideVideosInSongs)].Selection;
+            CConfig.VideosToBackground = (EOffOn)SelectSlides[htSelectSlides(SelectSlideVideosToBackground)].Selection;
+            CBackgroundMusic.ApplyBackgroundVideo();
 
             CConfig.SaveConfig();
         }

@@ -137,7 +137,7 @@ namespace Vocaluxe.Menu
         public bool Draw()
         {
             bool ok = false;
-            if (_Theme.Type == EBackgroundTypes.Video && CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CBackgroundMusic.VideoToBackgroundIsEnabled() && CBackgroundMusic.IsPlaying() && CBackgroundMusic.HasVideo())
+            if (_Theme.Type == EBackgroundTypes.Video && CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CBackgroundMusic.VideoToBackgroundIsEnabled() && CBackgroundMusic.IsPlaying() && CBackgroundMusic.HasVideo() && CBackgroundMusic.IsVideoEnabled())
             {
                 Pause();
                 ok = DrawBackgroundMusicVideo();

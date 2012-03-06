@@ -28,7 +28,6 @@ namespace Vocaluxe.Base
         private static bool _BackgroundMusicAdded;
         private static bool _Playing;
         private static bool _VideoEnabled;
-        private static bool _VideoToBackground;
 
         private static int _Video = -1;
         private static STexture _CurrentVideoTexture = new STexture(-1);
@@ -50,6 +49,7 @@ namespace Vocaluxe.Base
 
             if(CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC)
                 AddBackgroundMusic();
+            ToggleVideo();
 
             _Playing = false;
         }
@@ -352,7 +352,7 @@ namespace Vocaluxe.Base
 
         public static bool VideoToBackgroundIsEnabled()
         {
-            return _VideoToBackground;
+            return CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON;
         }
 
         public static bool HasVideo()
@@ -384,8 +384,20 @@ namespace Vocaluxe.Base
 
         public static void ToggleVideoToBackground()
         {
-            ToggleVideo();
-            _VideoToBackground = !_VideoToBackground;
+            if (VideoToBackgroundIsEnabled())
+                CConfig.VideosToBackground = EOffOn.TR_CONFIG_OFF;
+            else
+            {
+                CConfig.VideosToBackground = EOffOn.TR_CONFIG_ON;
+                ApplyBackgroundVideo();
+            }
+            CConfig.SaveConfig();
+        }
+
+        public static void ApplyBackgroundVideo()
+        {
+            if (!_VideoEnabled)
+                ToggleVideo();
         }
     }
 }

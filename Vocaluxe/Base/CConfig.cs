@@ -198,6 +198,7 @@ namespace Vocaluxe.Base
         public static EOffOn VideoBackgrounds = EOffOn.TR_CONFIG_ON;
         public static EOffOn VideoPreview = EOffOn.TR_CONFIG_ON;
         public static EOffOn VideosInSongs = EOffOn.TR_CONFIG_ON;
+        public static EOffOn VideosToBackground = EOffOn.TR_CONFIG_OFF;
 
         // Record
         public static SMicConfig[] MicConfig;
@@ -349,6 +350,7 @@ namespace Vocaluxe.Base
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideoBackgrounds", navigator, ref VideoBackgrounds);
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideoPreview", navigator, ref VideoPreview);
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideosInSongs", navigator, ref VideosInSongs);
+                CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideosToBackground", navigator, ref VideosToBackground);
                 #endregion Video
 
                 #region Record
@@ -557,6 +559,9 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("Show Videos while singing: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("VideosInSongs", Enum.GetName(typeof(EOffOn), VideosInSongs));
+
+            writer.WriteComment("Show backgroundmusic videos as background: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteElementString("VideosToBackground", Enum.GetName(typeof(EOffOn), VideosToBackground));
 
             writer.WriteEndElement();
             #endregion Video
