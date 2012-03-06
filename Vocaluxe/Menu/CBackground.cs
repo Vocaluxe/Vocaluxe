@@ -138,9 +138,15 @@ namespace Vocaluxe.Menu
         {
             bool ok = false;
             if (_Theme.Type == EBackgroundTypes.Video && CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CBackgroundMusic.VideoToBackgroundIsEnabled() && CBackgroundMusic.IsPlaying() && CBackgroundMusic.HasVideo())
+            {
+                Pause();
                 ok = DrawBackgroundMusicVideo();
+            }
             else if (_Theme.Type == EBackgroundTypes.Video && CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
+            {
+                Resume();
                 ok = DrawVideo();
+            }
 
             if (_Theme.TextureName != String.Empty &&
                 (_Theme.Type == EBackgroundTypes.Texture ||
