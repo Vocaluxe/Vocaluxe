@@ -28,6 +28,7 @@ namespace Vocaluxe.Base
         private static bool _BackgroundMusicAdded;
         private static bool _Playing;
         private static bool _VideoEnabled;
+        private static bool _VideoToBackground;
 
         private static int _Video = -1;
         private static STexture _CurrentVideoTexture = new STexture(-1);
@@ -314,7 +315,7 @@ namespace Vocaluxe.Base
                 LoadVideo();
         }
 
-        public static bool UploadNewFrame(CStatic bounds)
+        public static STexture GetVideoTexture()
         {
             if (_Video != -1)
             {
@@ -329,10 +330,9 @@ namespace Vocaluxe.Base
                     _CurrentVideoTexture.color.A = 1f;
                     _FadeTimer.Stop();
                 }
-                CDraw.DrawTexture(bounds, _CurrentVideoTexture, EAspect.Crop);
-                return true;
+                return _CurrentVideoTexture;
             }
-            return false;
+            return new STexture(-1);
         }
 
         public static int GetSongNr()
@@ -348,6 +348,11 @@ namespace Vocaluxe.Base
         public static bool IsVideoEnabled()
         {
             return _VideoEnabled;
+        }
+
+        public static bool VideoToBackgroundIsEnabled()
+        {
+            return _VideoToBackground;
         }
 
         public static bool HasVideo()
@@ -375,6 +380,12 @@ namespace Vocaluxe.Base
                 _FadeTimer.Reset();
                 _FadeTimer.Start();
             }
+        }
+
+        public static void ToggleVideoToBackground()
+        {
+            ToggleVideo();
+            _VideoToBackground = !_VideoToBackground;
         }
     }
 }

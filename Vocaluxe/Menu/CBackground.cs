@@ -140,6 +140,9 @@ namespace Vocaluxe.Menu
             if (_Theme.Type == EBackgroundTypes.Video && CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
                 ok = DrawVideo();
 
+            if (_Theme.Type == EBackgroundTypes.Video && CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CBackgroundMusic.VideoToBackgroundIsEnabled() && CBackgroundMusic.IsPlaying() && CBackgroundMusic.HasVideo())
+                ok = DrawBackgroundMusicVideo();
+
             if (_Theme.TextureName != String.Empty &&
                 (_Theme.Type == EBackgroundTypes.Texture ||
                 (_Theme.Type == EBackgroundTypes.Video && (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_OFF || !ok))))
@@ -195,6 +198,21 @@ namespace Vocaluxe.Menu
         private bool DrawVideo()
         {
             STexture VideoTexture = CTheme.GetSkinVideoTexture(_Theme.VideoName);
+            if (VideoTexture.height > 0)
+            {
+                RectangleF bounds = new RectangleF(0f, 0f, CSettings.iRenderW, CSettings.iRenderH);
+                RectangleF rect = new RectangleF(0f, 0f, VideoTexture.width, VideoTexture.height);
+                CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
+
+                CDraw.DrawTexture(VideoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CSettings.zFar / 4));
+                return true;
+            }
+            return false;
+        }
+
+        private bool DrawBackgroundMusicVideo()
+        {
+            STexture VideoTexture = CBackgroundMusic.GetVideoTexture();
             if (VideoTexture.height > 0)
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CSettings.iRenderW, CSettings.iRenderH);

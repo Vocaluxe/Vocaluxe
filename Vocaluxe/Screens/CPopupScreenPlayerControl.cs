@@ -26,6 +26,7 @@ namespace Vocaluxe.Screens
         private const string ButtonRepeat = "ButtonRepeat";
         private const string ButtonShowVideo = "ButtonShowVideo";
         private const string ButtonSing = "ButtonSing";
+        private const string ButtonToBackgroundVideo = "ButtonToBackgroundVideo";
 
         private const string TextCurrentSong = "TextCurrentSong";
 
@@ -52,6 +53,7 @@ namespace Vocaluxe.Screens
             buttons.Add(ButtonRepeat);
             buttons.Add(ButtonShowVideo);
             buttons.Add(ButtonSing);
+            buttons.Add(ButtonToBackgroundVideo);
             _ThemeButtons = buttons.ToArray();
         }
 
@@ -93,6 +95,8 @@ namespace Vocaluxe.Screens
                             CBackgroundMusic.ToggleVideo();
                         if (Buttons[htButtons(ButtonSing)].Selected)
                             StartSong(CBackgroundMusic.GetSongNr(), CBackgroundMusic.IsDuet());
+                        if (Buttons[htButtons(ButtonToBackgroundVideo)].Selected)
+                            CBackgroundMusic.ToggleVideoToBackground();
                         break;
                 }
             }
@@ -119,6 +123,8 @@ namespace Vocaluxe.Screens
                     CBackgroundMusic.ToggleVideo();
                 if (Buttons[htButtons(ButtonSing)].Selected)
                     StartSong(CBackgroundMusic.GetSongNr(), CBackgroundMusic.IsDuet());
+                if (Buttons[htButtons(ButtonToBackgroundVideo)].Selected)
+                    CBackgroundMusic.ToggleVideoToBackground();
             } else if (MouseEvent.LB)
             {
                 CGraphics.HidePopup(EPopupScreens.PopupPlayerControl);
@@ -149,8 +155,8 @@ namespace Vocaluxe.Screens
             if (CBackgroundMusic.IsVideoEnabled() && CBackgroundMusic.HasVideo())
             {
                 Statics[htStatics(StaticCover)].Texture = CBackgroundMusic.GetCover();
-                CBackgroundMusic.UploadNewFrame(Statics[htStatics(StaticCover)]);
-                Statics[htStatics(StaticCover)].Visible = false;
+                Statics[htStatics(StaticCover)].Visible = true;
+                CDraw.DrawTexture(Statics[htStatics(StaticCover)], CBackgroundMusic.GetVideoTexture(), EAspect.Crop);
             }
             else
             {
