@@ -155,7 +155,7 @@ namespace Vocaluxe.Screens
             if (CBackgroundMusic.IsVideoEnabled() && CBackgroundMusic.HasVideo())
             {
                 Statics[htStatics(StaticCover)].Texture = CBackgroundMusic.GetCover();
-                Statics[htStatics(StaticCover)].Visible = true;
+                Statics[htStatics(StaticCover)].Visible = false;
                 CDraw.DrawTexture(Statics[htStatics(StaticCover)], CBackgroundMusic.GetVideoTexture(), EAspect.Crop);
             }
             else

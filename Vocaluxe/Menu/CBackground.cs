@@ -137,11 +137,10 @@ namespace Vocaluxe.Menu
         public bool Draw()
         {
             bool ok = false;
-            if (_Theme.Type == EBackgroundTypes.Video && CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
-                ok = DrawVideo();
-
             if (_Theme.Type == EBackgroundTypes.Video && CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CBackgroundMusic.VideoToBackgroundIsEnabled() && CBackgroundMusic.IsPlaying() && CBackgroundMusic.HasVideo())
                 ok = DrawBackgroundMusicVideo();
+            else if (_Theme.Type == EBackgroundTypes.Video && CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
+                ok = DrawVideo();
 
             if (_Theme.TextureName != String.Empty &&
                 (_Theme.Type == EBackgroundTypes.Texture ||
