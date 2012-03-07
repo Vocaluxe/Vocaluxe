@@ -670,8 +670,8 @@ namespace Vocaluxe.Lib.Video
                 {
                     TAc_decoder Videodecoder = (TAc_decoder)Marshal.PtrToStructure(_videodecoder, typeof(TAc_decoder));
 
-                    _FrameBuffer[num].time = _VideoTime;
                     _VideoTime = (float)Videodecoder.timecode;
+                    _FrameBuffer[num].time = _VideoTime;
 
                     if (Videodecoder.buffer != IntPtr.Zero)
                     {
