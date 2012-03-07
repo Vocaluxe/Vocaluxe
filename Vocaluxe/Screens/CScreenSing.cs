@@ -382,16 +382,16 @@ namespace Vocaluxe.Screens
                     }
                     break;
             }
-            
 
-            Lyrics[htLyrics(LyricMain)].Draw(CGame.Beat);
             Lyrics[htLyrics(LyricSub)].Draw(-100);
+            Lyrics[htLyrics(LyricMain)].Draw(CGame.Beat);
 
-            Lyrics[htLyrics(LyricMainDuet)].Draw(CGame.Beat);
             Lyrics[htLyrics(LyricSubDuet)].Draw(-100);
+            Lyrics[htLyrics(LyricMainDuet)].Draw(CGame.Beat);
 
-            Lyrics[htLyrics(LyricMainTop)].Draw(CGame.Beat);
             Lyrics[htLyrics(LyricSubTop)].Draw(-100);
+            Lyrics[htLyrics(LyricMainTop)].Draw(CGame.Beat);
+            
 
             for (int i = 0; i < CGame.NumPlayer; i++)
             {
