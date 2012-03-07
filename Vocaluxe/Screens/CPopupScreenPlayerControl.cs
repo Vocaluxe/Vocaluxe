@@ -139,6 +139,8 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
+            Buttons[htButtons(ButtonToBackgroundVideo)].Pressed = CBackgroundMusic.VideoToBackgroundIsEnabled();
+            Buttons[htButtons(ButtonShowVideo)].Pressed = CBackgroundMusic.IsVideoEnabled();
             return true;
         }
 

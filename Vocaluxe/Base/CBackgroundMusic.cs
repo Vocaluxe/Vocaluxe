@@ -49,7 +49,8 @@ namespace Vocaluxe.Base
 
             if(CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC)
                 AddBackgroundMusic();
-            ToggleVideo();
+            if (VideoToBackgroundIsEnabled())
+                ApplyBackgroundVideo();
 
             _Playing = false;
         }
