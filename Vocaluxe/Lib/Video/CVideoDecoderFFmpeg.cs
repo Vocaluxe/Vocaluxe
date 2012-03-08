@@ -260,7 +260,6 @@ namespace Vocaluxe.Lib.Video
         AutoResetEvent EventDecode = new AutoResetEvent(false);
         SFrameBuffer[] _FrameBuffer = new SFrameBuffer[5];
         Object MutexFramebuffer = new Object();
-        Object MutexFrame = new Object();
         Object MutexSyncSignals = new Object();
 
         public Decoder()
@@ -595,17 +594,13 @@ namespace Vocaluxe.Lib.Video
 
             if (!_BeforeLoop && (!DropFrame || FrameFinished != 0))
             {
-                lock (MutexFrame)
+                try
                 {
-                    try
-                    {
-                        FrameFinished = CAcinerella.ac_get_frame(_instance, _videodecoder);
-                    }
-                    catch (Exception)
-                    {
-                        CLog.LogError("Error AcGetFrame " + _FileName);
-                    }
-                    
+                    FrameFinished = CAcinerella.ac_get_frame(_instance, _videodecoder);
+                }
+                catch (Exception)
+                {
+                    CLog.LogError("Error AcGetFrame " + _FileName);
                 }
             }
 
@@ -673,23 +668,18 @@ namespace Vocaluxe.Lib.Video
                     _waiting = true;
                 else
                 {
+                    TAc_decoder Videodecoder = (TAc_decoder)Marshal.PtrToStructure(_videodecoder, typeof(TAc_decoder));
 
-                    lock (MutexFrame)
+                    _VideoTime = (float)Videodecoder.timecode;
+                    _FrameBuffer[num].time = _VideoTime;
+
+                    if (Videodecoder.buffer != IntPtr.Zero)
                     {
-                        TAc_decoder Videodecoder = (TAc_decoder)Marshal.PtrToStructure(_videodecoder, typeof(TAc_decoder));
-
-                        _FrameBuffer[num].time = _VideoTime;
-                        _VideoTime = (float)Videodecoder.timecode;
-
-                        if (Videodecoder.buffer != IntPtr.Zero)
-                        {
-                            Marshal.Copy(Videodecoder.buffer, _FrameBuffer[num].data, 0, _Width * _Height * 4);
+                        Marshal.Copy(Videodecoder.buffer, _FrameBuffer[num].data, 0, _Width * _Height * 4);
                             
-                            _FrameBuffer[num].displayed = false;
-                        }
+                        _FrameBuffer[num].displayed = false;
                     }
-                   
-
+               
                     _waiting = false;
                 }
             }
