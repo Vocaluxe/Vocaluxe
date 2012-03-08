@@ -28,6 +28,7 @@ namespace Vocaluxe.Base
         private static bool _BackgroundMusicAdded;
         private static bool _Playing;
         private static bool _VideoEnabled;
+        private static bool _SmallVideoIsEnabled;
 
         private static int _Video = -1;
         private static STexture _CurrentVideoTexture = new STexture(-1);
@@ -71,7 +72,7 @@ namespace Vocaluxe.Base
                     }
                     else
                         Next();
-                    if (_VideoEnabled)
+                    if ((_VideoEnabled && _SmallVideoIsEnabled) || (_VideoEnabled && VideoToBackgroundIsEnabled()))
                         LoadVideo();
                 }
             }
@@ -356,6 +357,17 @@ namespace Vocaluxe.Base
             return CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON;
         }
 
+        public static bool SmallVideoIsEnabled()
+        {
+            return _SmallVideoIsEnabled;
+        }
+
+        public static void ToggleSmallVideo()
+        {
+            _SmallVideoIsEnabled = !_SmallVideoIsEnabled;
+            ApplyBackgroundVideo();
+        }
+
         public static bool HasVideo()
         {
             return File.Exists(_CurrentPlaylistElement.GetVideoFilePath());
@@ -386,7 +398,11 @@ namespace Vocaluxe.Base
         public static void ToggleVideoToBackground()
         {
             if (VideoToBackgroundIsEnabled())
+            {
                 CConfig.VideosToBackground = EOffOn.TR_CONFIG_OFF;
+                if (!_SmallVideoIsEnabled) //No videos are enabled so we should call ToggleVideo() to close
+                    ToggleVideo();
+            }
             else
             {
                 CConfig.VideosToBackground = EOffOn.TR_CONFIG_ON;
@@ -397,7 +413,7 @@ namespace Vocaluxe.Base
 
         public static void ApplyBackgroundVideo()
         {
-            if (!_VideoEnabled)
+            if (!_VideoEnabled && (!_SmallVideoIsEnabled || !VideoToBackgroundIsEnabled()) || (!_SmallVideoIsEnabled && !VideoToBackgroundIsEnabled())) //No videos are enabled so we should call ToggleVideo() to close
                 ToggleVideo();
         }
     }
