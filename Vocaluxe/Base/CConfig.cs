@@ -509,7 +509,7 @@ namespace Vocaluxe.Base
             writer.WriteElementString("AudioLatency", AudioLatency.ToString());
 
             writer.WriteComment("Background Music");
-            writer.WriteElementString("BackgroundMusicEnabled", Enum.GetName(typeof(EOffOn), BackgroundMusic));
+            writer.WriteElementString("BackgroundMusic", Enum.GetName(typeof(EOffOn), BackgroundMusic));
 
             writer.WriteComment("Background Music Volume from 0 to 100");
             writer.WriteElementString("BackgroundMusicVolume", BackgroundMusicVolume.ToString());
