@@ -15,7 +15,8 @@ namespace Vocaluxe.Menu
     {
         Fill,
         Jump,
-        Slide
+        Slide,
+        Zoom
     }
 
     struct SNote
@@ -23,6 +24,7 @@ namespace Vocaluxe.Menu
         public string Text;
         public int StartBeat;
         public int EndBeat;
+        public int Duration;
         public ENoteType Type;
     }
 
@@ -205,6 +207,7 @@ namespace Vocaluxe.Menu
                 n.Text = note.Text;
                 n.StartBeat = note.StartBeat;
                 n.EndBeat = note.EndBeat;
+                n.Duration = note.Duration;
                 n.Type = note.NoteType;
 
                 _Text.Text = note.Text;
@@ -229,6 +232,7 @@ namespace Vocaluxe.Menu
             return _X - _width / 2;  
         }
 
+        #region draw
         public void Draw(float ActualBeat)
         {
             if (Visible || CSettings.GameState == EGameState.EditTheme)
@@ -236,11 +240,16 @@ namespace Vocaluxe.Menu
                 switch (_Style)
                 {
                     case ELyricStyle.Fill:
+                        DrawFill(ActualBeat);
                         break;
                     case ELyricStyle.Jump:
+                        DrawJump(ActualBeat);
                         break;
                     case ELyricStyle.Slide:
                         DrawSlide(ActualBeat);
+                        break;
+                    case ELyricStyle.Zoom:
+                        DrawZoom(ActualBeat);
                         break;
                     default:
                         DrawSlide(ActualBeat);
@@ -257,6 +266,8 @@ namespace Vocaluxe.Menu
             {
                 _Text.X = x;
                 _Text.Style = EStyle.Bold;
+                _Text.Text = note.Text;
+                RectangleF rect = CDraw.GetTextBounds(_Text);
 
                 if (note.Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;
@@ -266,7 +277,7 @@ namespace Vocaluxe.Menu
                     if (CurrentBeat <= note.EndBeat)
                     {
                         _Text.Color = ColorProcessed;
-                        _Text.Text = note.Text;
+                       
 
                         float diff = note.EndBeat - note.StartBeat;
                         if (diff == 0)
@@ -280,22 +291,201 @@ namespace Vocaluxe.Menu
                     }
                     else
                     {
-                        _Text.Color = ColorProcessed;
-                        _Text.Text = note.Text;
+                        _Text.Color = ColorProcessed;                 
                         _Text.Draw();
                     }
 
                 }
                 else
                 {
-                    _Text.Color = Color;
-                    _Text.Text = note.Text;
+                    _Text.Color = Color;                   
                     _Text.Draw();
                 }
-                RectangleF rect = CDraw.GetTextBounds(_Text);
+                
                 x += rect.Width;
             }
         }
+
+        private void DrawZoom(float CurrentBeat)
+        {
+            float x = _X - _width / 2; // most left position
+
+            //find last active note
+            int last_note = -1;
+            for (int i = 0; i < _Notes.Count; i++)
+            {
+                if (CurrentBeat >= _Notes[i].StartBeat)
+                    last_note = i;
+            }
+
+            int zoom_note = -1;
+            float zoomx = 0f;
+
+            int current_note = -1;
+            foreach (SNote note in _Notes)
+            {
+                current_note++;
+
+                _Text.X = x;
+                _Text.Style = EStyle.Bold;
+                _Text.Text = note.Text;
+                RectangleF rect = CDraw.GetTextBounds(_Text);
+
+                if (note.Type == ENoteType.Freestyle)
+                    _Text.Style = EStyle.BoldItalic;
+
+                if (CurrentBeat >= note.StartBeat)
+                {
+                    if (CurrentBeat <= note.EndBeat)
+                    {
+                        zoom_note = current_note;
+                        zoomx = _Text.X;
+                    }
+                    else
+                    {
+                        // already passed
+                        if (current_note == last_note)
+                            _Text.Color = ColorProcessed;
+                        else
+                            _Text.Color = Color;
+
+                        _Text.Draw();
+                    }
+
+                }
+                else
+                {
+                    // not passed
+                    _Text.Color = Color;
+                    _Text.Draw();
+                }
+                
+                x += rect.Width;
+            }
+
+            if (zoom_note > -1)
+            {
+                if (_Notes[zoom_note].Duration == 0)
+                    return;
+
+                _Text.X = zoomx;
+                _Text.Text = _Notes[zoom_note].Text;
+                _Text.Color = ColorProcessed;
+                _Text.Style = EStyle.Bold;
+
+                if (_Notes[zoom_note].Type == ENoteType.Freestyle)
+                    _Text.Style = EStyle.BoldItalic;
+
+                RectangleF rect = CDraw.GetTextBounds(_Text);
+
+                float diff = _Notes[zoom_note].EndBeat - _Notes[zoom_note].StartBeat;
+
+                float p = (CurrentBeat - _Notes[zoom_note].StartBeat) / _Notes[zoom_note].Duration;
+                if (p > 1f)
+                    p = 1f;
+
+                p = 1f - p;
+
+                float ty = _Text.Y;
+                float tx = _Text.X;
+                float th = _Text.Height;
+                float tz = _Text.Z;
+
+                _Text.Height += _Text.Height * p * 0.4f;
+                RectangleF rectz = CDraw.GetTextBounds(_Text);
+                _Text.X -= (rectz.Width - rect.Width) / 2f;
+                _Text.Y -= (rectz.Height - rect.Height) / 2f;
+                _Text.Z -= 0.1f;
+
+                _Text.Draw();
+
+                _Text.Y = ty;
+                _Text.X = tx;
+                _Text.Height = th;
+                _Text.Z = tz;
+            }
+        }
+
+        private void DrawFill(float CurrentBeat)
+        {
+            float x = _X - _width / 2; // most left position
+
+            foreach (SNote note in _Notes)
+            {
+                _Text.X = x;
+                _Text.Style = EStyle.Bold;
+                _Text.Text = note.Text;
+                RectangleF rect = CDraw.GetTextBounds(_Text);
+
+                if (note.Type == ENoteType.Freestyle)
+                    _Text.Style = EStyle.BoldItalic;
+
+                if (CurrentBeat >= note.StartBeat)
+                {
+                    _Text.Color = ColorProcessed;                
+                    _Text.Draw();
+                }
+                else
+                {
+                    // not passed
+                    _Text.Color = Color;                    
+                    _Text.Draw();
+                }
+                
+                x += rect.Width;
+            }
+        }
+
+        private void DrawJump(float CurrentBeat)
+        {
+            float x = _X - _width / 2; // most left position
+
+            foreach (SNote note in _Notes)
+            {
+                _Text.X = x;
+                _Text.Style = EStyle.Bold;
+                _Text.Text = note.Text;
+                RectangleF rect = CDraw.GetTextBounds(_Text);
+
+                if (note.Type == ENoteType.Freestyle)
+                    _Text.Style = EStyle.BoldItalic;
+
+                if (CurrentBeat >= note.StartBeat)
+                {
+                    if (CurrentBeat <= note.EndBeat)
+                    {
+                        _Text.Color = ColorProcessed;
+                        
+                        float diff = note.EndBeat - note.StartBeat;
+                        if (diff == 0)
+                            _Text.Draw();
+                        else
+                        {
+                            float y = _Text.Y;
+                            _Text.Y -= _Text.Height * 0.1f;
+                            _Text.Draw();
+                            _Text.Y = y;
+                        }
+                    }
+                    else
+                    {
+                        // already passed
+                        _Text.Color = Color;
+                        _Text.Draw();
+                    }
+
+                }
+                else
+                {
+                    // not passed
+                    _Text.Color = Color;                   
+                    _Text.Draw();
+                }
+                
+                x += rect.Width;
+            }
+        }
+        #endregion draw
 
         public void UnloadTextures()
         {
