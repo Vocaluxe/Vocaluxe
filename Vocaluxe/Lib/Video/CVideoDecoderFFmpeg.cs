@@ -393,6 +393,7 @@ namespace Vocaluxe.Lib.Video
         #region Threading
         private void DoSkip()
         {
+            string extension = Path.GetExtension(_FileName); //just a workaround for the mkv-search-bug in ffmpeg
             lock (MutexSyncSignals)
             {
                 _VideoSkipTime = _Gap;
@@ -400,8 +401,8 @@ namespace Vocaluxe.Lib.Video
                 _SkipTime = _Start + _Gap;
                 _BeforeLoop = false;
             }
-            
-            if (_SkipTime > 0)
+
+            if (_SkipTime > 0 && extension != ".mkv")
             {
                 _VideoTime = _SkipTime;
                 try
@@ -419,7 +420,8 @@ namespace Vocaluxe.Lib.Video
                 _VideoTime = 0f;
                 try 
 	            {
-                    CAcinerella.ac_seek(_videodecoder, -1, (Int64)0);
+                    if (extension != ".mkv")
+                        CAcinerella.ac_seek(_videodecoder, -1, (Int64)0);
 	            }
 	            catch (Exception e)
 	            {
