@@ -666,7 +666,6 @@ namespace Vocaluxe.Lib.Video
                 if (num == -1)
                 {
                     _BufferFull = true;
-                    EventDecode.Reset();
                 }
                 else
                 {
@@ -743,7 +742,7 @@ namespace Vocaluxe.Lib.Video
             {
                 float td = _SetTime + _VideoSkipTime - _FrameBuffer[i].time;
 
-                if (td > _VideoTimeBase * 2 || td < -1f * _VideoTimeBase * (_FrameBuffer.Length + 1))
+                if (td > _VideoTimeBase * 2)
                 {
                     _FrameBuffer[i].displayed = true;
                 }
