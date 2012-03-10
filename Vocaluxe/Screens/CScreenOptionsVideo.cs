@@ -128,7 +128,7 @@ namespace Vocaluxe.Screens
             CConfig.VideoPreview = (EOffOn)SelectSlides[htSelectSlides(SelectSlideVideoPreview)].Selection;
             CConfig.VideosInSongs = (EOffOn)SelectSlides[htSelectSlides(SelectSlideVideosInSongs)].Selection;
             CConfig.VideosToBackground = (EOffOn)SelectSlides[htSelectSlides(SelectSlideVideosToBackground)].Selection;
-            CBackgroundMusic.ApplyBackgroundVideo();
+            CBackgroundMusic.EnableVideo();
 
             CConfig.SaveConfig();
         }

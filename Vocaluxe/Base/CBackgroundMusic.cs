@@ -28,7 +28,7 @@ namespace Vocaluxe.Base
         private static bool _BackgroundMusicAdded;
         private static bool _Playing;
         private static bool _VideoEnabled;
-        private static bool _SmallVideoIsEnabled;
+        private static bool _Disabled;
 
         private static int _Video = -1;
         private static STexture _CurrentVideoTexture = new STexture(-1);
@@ -50,8 +50,8 @@ namespace Vocaluxe.Base
 
             if(CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC)
                 AddBackgroundMusic();
-            if (VideoToBackgroundIsEnabled())
-                ApplyBackgroundVideo();
+            if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
+                EnableVideo();
 
             _Playing = false;
         }
@@ -72,8 +72,6 @@ namespace Vocaluxe.Base
                     }
                     else
                         Next();
-                    if ((_VideoEnabled && _SmallVideoIsEnabled) || (_VideoEnabled && VideoToBackgroundIsEnabled()))
-                        LoadVideo();
                 }
             }
         }
@@ -94,7 +92,7 @@ namespace Vocaluxe.Base
 
         public static void Pause()
         {
-            if (_VideoEnabled && _Video != 0)
+            if (_VideoEnabled && _Video != -1)
                 CVideo.VdPause(_Video);
             CSound.FadeAndPause(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
             _Playing = false;
@@ -135,6 +133,8 @@ namespace Vocaluxe.Base
                     _CurrentPlaylistElement = _PreviousFileNames[_PreviousMusicIndex];
                 }
                 _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.GetMusicFilePath());
+                if (_VideoEnabled)
+                    LoadVideo();
                 CSound.SetStreamVolume(_CurrentMusicStream, 0f);
                 Play();
             }
@@ -155,6 +155,8 @@ namespace Vocaluxe.Base
                 _CurrentPlaylistElement = _PreviousFileNames[_PreviousMusicIndex];
 
                 _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.GetMusicFilePath());
+                if (_VideoEnabled)
+                    LoadVideo();
                 CSound.SetStreamVolume(_CurrentMusicStream, 0f);
                 Play();
             }
@@ -352,22 +354,6 @@ namespace Vocaluxe.Base
             return _VideoEnabled;
         }
 
-        public static bool VideoToBackgroundIsEnabled()
-        {
-            return CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON;
-        }
-
-        public static bool SmallVideoIsEnabled()
-        {
-            return _SmallVideoIsEnabled;
-        }
-
-        public static void ToggleSmallVideo()
-        {
-            _SmallVideoIsEnabled = !_SmallVideoIsEnabled;
-            ApplyBackgroundVideo();
-        }
-
         public static bool HasVideo()
         {
             return File.Exists(_CurrentPlaylistElement.GetVideoFilePath());
@@ -395,26 +381,27 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static void ToggleVideoToBackground()
+        public static void EnableVideo()
         {
-            if (VideoToBackgroundIsEnabled())
-            {
-                CConfig.VideosToBackground = EOffOn.TR_CONFIG_OFF;
-                if (!_SmallVideoIsEnabled) //No videos are enabled so we should call ToggleVideo() to close
-                    ToggleVideo();
-            }
-            else
-            {
-                CConfig.VideosToBackground = EOffOn.TR_CONFIG_ON;
-                ApplyBackgroundVideo();
-            }
-            CConfig.SaveConfig();
+            if (!_VideoEnabled)
+                ToggleVideo();
         }
 
-        public static void ApplyBackgroundVideo()
+        public static void Disable()
         {
-            if (!_VideoEnabled && (!_SmallVideoIsEnabled || !VideoToBackgroundIsEnabled()) || (!_SmallVideoIsEnabled && !VideoToBackgroundIsEnabled())) //No videos are enabled so we should call ToggleVideo() to close
-                ToggleVideo();
+            Pause();
+            _Disabled = true;
+        }
+
+        public static void Enable()
+        {
+            Play();
+            _Disabled = false;
+        }
+
+        public static bool IsEnabled()
+        {
+            return !_Disabled;
         }
     }
 }

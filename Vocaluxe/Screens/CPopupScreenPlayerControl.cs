@@ -30,6 +30,30 @@ namespace Vocaluxe.Screens
 
         private const string TextCurrentSong = "TextCurrentSong";
 
+        private bool _VideoPreview = false;
+        private bool _VideoBackground
+        {
+            get
+            {
+                return CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON;
+            }
+            set
+            {
+                if (CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON)
+                {
+                    CConfig.VideosToBackground = EOffOn.TR_CONFIG_OFF;
+                    if (!_VideoPreview) //No videos are enabled so we should call ToggleVideo() to close
+                        CBackgroundMusic.ToggleVideo();
+                }
+                else
+                {
+                    CConfig.VideosToBackground = EOffOn.TR_CONFIG_ON;
+                    CBackgroundMusic.EnableVideo();
+                }
+                CConfig.SaveConfig();
+            }
+        }
+
         public CPopupScreenPlayerControl()
         {
             Init();
@@ -92,11 +116,11 @@ namespace Vocaluxe.Screens
                         if (Buttons[htButtons(ButtonRepeat)].Selected)
                             CBackgroundMusic.Repeat();
                         if (Buttons[htButtons(ButtonShowVideo)].Selected)
-                            CBackgroundMusic.ToggleSmallVideo();
+                            TogglePreviewVideo();
                         if (Buttons[htButtons(ButtonSing)].Selected)
                             StartSong(CBackgroundMusic.GetSongNr(), CBackgroundMusic.IsDuet());
                         if (Buttons[htButtons(ButtonToBackgroundVideo)].Selected)
-                            CBackgroundMusic.ToggleVideoToBackground();
+                            ToggleBackgroundVideo();
                         break;
                 }
             }
@@ -120,11 +144,11 @@ namespace Vocaluxe.Screens
                 if (Buttons[htButtons(ButtonRepeat)].Selected)
                     CBackgroundMusic.Repeat();
                 if (Buttons[htButtons(ButtonShowVideo)].Selected)
-                    CBackgroundMusic.ToggleSmallVideo();
+                    TogglePreviewVideo();
                 if (Buttons[htButtons(ButtonSing)].Selected)
                     StartSong(CBackgroundMusic.GetSongNr(), CBackgroundMusic.IsDuet());
                 if (Buttons[htButtons(ButtonToBackgroundVideo)].Selected)
-                    CBackgroundMusic.ToggleVideoToBackground();
+                    ToggleBackgroundVideo();
             } else if (MouseEvent.LB)
             {
                 CGraphics.HidePopup(EPopupScreens.PopupPlayerControl);
@@ -139,33 +163,24 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-            Statics[htStatics(StaticCover)].Visible = !CBackgroundMusic.SmallVideoIsEnabled();
-            Buttons[htButtons(ButtonToBackgroundVideo)].Pressed = CBackgroundMusic.VideoToBackgroundIsEnabled();
-            Buttons[htButtons(ButtonShowVideo)].Pressed = CBackgroundMusic.SmallVideoIsEnabled();
+            Statics[htStatics(StaticCover)].Visible = !_VideoPreview;
+            Buttons[htButtons(ButtonToBackgroundVideo)].Pressed = _VideoBackground;
+            Buttons[htButtons(ButtonShowVideo)].Pressed = _VideoPreview;
             return true;
         }
 
         public override void OnShow()
         {
             base.OnShow();
-
         }
 
         public override bool Draw()
         {
             if (!_Active)
                 return false;
+            Statics[htStatics(StaticCover)].Texture = CBackgroundMusic.GetCover();
             if (CBackgroundMusic.IsVideoEnabled() && CBackgroundMusic.HasVideo())
-            {
-                Statics[htStatics(StaticCover)].Texture = CBackgroundMusic.GetCover();
-                //Statics[htStatics(StaticCover)].Visible = false;
                 CDraw.DrawTexture(Statics[htStatics(StaticCover)], CBackgroundMusic.GetVideoTexture(), EAspect.Crop);
-            }
-            else
-            {
-                //Statics[htStatics(StaticCover)].Visible = true;
-                Statics[htStatics(StaticCover)].Texture = CBackgroundMusic.GetCover();
-            }
             Buttons[htButtons(ButtonPause)].Visible = CBackgroundMusic.IsPlaying();
             Buttons[htButtons(ButtonPlay)].Visible = !CBackgroundMusic.IsPlaying();
             Texts[htTexts(TextCurrentSong)].Text = CBackgroundMusic.GetSongArtistAndTitle();
@@ -190,6 +205,31 @@ namespace Vocaluxe.Screens
 
                 CGraphics.FadeTo(EScreens.ScreenNames);
             }
+        }
+
+        private void ToggleBackgroundVideo()
+        {
+            if (_VideoBackground)
+            {
+                CConfig.VideosToBackground = EOffOn.TR_CONFIG_OFF;
+                if (!_VideoPreview) //No videos are enabled so we should call ToggleVideo() to close
+                    CBackgroundMusic.ToggleVideo();
+            }
+            else
+            {
+                CConfig.VideosToBackground = EOffOn.TR_CONFIG_ON;
+                CBackgroundMusic.EnableVideo();
+            }
+            CConfig.SaveConfig();
+        }
+
+        private void TogglePreviewVideo()
+        {
+            _VideoPreview = !_VideoPreview;
+            if (!_VideoPreview && !_VideoBackground)
+                CBackgroundMusic.ToggleVideo();
+            else
+                CBackgroundMusic.EnableVideo();
         }
     }
 }
