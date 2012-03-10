@@ -436,8 +436,7 @@ class PlaylistElement
     {
         if (_SongID >= 0)
         {
-            CSong song;
-            song = CSongs.GetSong(_SongID);
+            CSong song = CSongs.GetSong(_SongID);
             if (song != null)
                 return song.GetMP3();
             else
@@ -453,8 +452,7 @@ class PlaylistElement
     {
         if (_SongID >= 0)
         {
-            CSong song;
-            song = CSongs.GetSong(_SongID);
+            CSong song = CSongs.GetSong(_SongID);
             if (song != null)
                 return song.GetVideo();
             else
@@ -470,8 +468,7 @@ class PlaylistElement
     {
         if (_SongID >= 0)
         {
-            CSong song;
-            song = CSongs.GetSong(_SongID);
+            CSong song = CSongs.GetSong(_SongID);
             if (song != null)
                 return song.Title;
             else
@@ -487,8 +484,7 @@ class PlaylistElement
     {
         if (_SongID >= 0)
         {
-            CSong song;
-            song = CSongs.GetSong(_SongID);
+            CSong song = CSongs.GetSong(_SongID);
             if (song != null)
                 return song.Artist;
             else
@@ -504,8 +500,7 @@ class PlaylistElement
     {
         if (_SongID >= 0)
         {
-            CSong song;
-            song = CSongs.GetSong(_SongID);
+            CSong song = CSongs.GetSong(_SongID);
             if (song != null)
                 return song.CoverTextureSmall;
             else
@@ -521,8 +516,7 @@ class PlaylistElement
     {
         if (_SongID >= 0)
         {
-            CSong song;
-            song = CSongs.GetSong(_SongID);
+            CSong song = CSongs.GetSong(_SongID);
             if (song != null)
                 return song.VideoGap;
             else
@@ -543,8 +537,7 @@ class PlaylistElement
     {
         if (_SongID >= 0)
         {
-            CSong song;
-            song = CSongs.GetSong(_SongID);
+            CSong song = CSongs.GetSong(_SongID);
             if (song != null)
                 return song.IsDuet;
             else
