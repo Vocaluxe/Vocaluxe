@@ -416,6 +416,7 @@ class PlaylistElement
 
     public PlaylistElement(CSong song)
     {
+        _MusicFilePath = string.Empty;
         _SongNr = song.ID;
     }
 
@@ -427,48 +428,85 @@ class PlaylistElement
 
     public PlaylistElement()
     {
+        _MusicFilePath = string.Empty;
         _SongNr = -1;
     }
 
     public string GetMusicFilePath()
     {
         if (_SongNr >= 0)
-            return CSongs.AllSongs[_SongNr].GetMP3();
+            if (CSongs.GetSong(_SongNr) != null)
+                return CSongs.GetSong(_SongNr).GetMP3();
+            else
+            {
+                _SongNr = -1;
+                CLog.LogError("Song not found");
+            }
         return _MusicFilePath;
     }
 
     public string GetVideoFilePath()
     {
         if (_SongNr >= 0)
-            return CSongs.AllSongs[_SongNr].GetVideo();
+            if (CSongs.GetSong(_SongNr) != null)
+                return CSongs.GetSong(_SongNr).GetVideo();
+            else
+            {
+                _SongNr = -1;
+                CLog.LogError("Song not found");
+            }
         return string.Empty;
     }
 
     public string GetTitle()
     {
         if (_SongNr >= 0)
-            return CSongs.AllSongs[_SongNr].Title;
+            if (CSongs.GetSong(_SongNr) != null)
+                return CSongs.GetSong(_SongNr).Title;
+            else
+            {
+                _SongNr = -1;
+                CLog.LogError("Song not found");
+            }
         return "Unknown";
     }
 
     public string GetArtist()
     {
         if (_SongNr >= 0)
-            return CSongs.AllSongs[_SongNr].Artist;
+            if (CSongs.GetSong(_SongNr) != null)
+                return CSongs.GetSong(_SongNr).Artist;
+            else
+            {
+                _SongNr = -1;
+                CLog.LogError("Song not found");
+            }
         return "Unknown";
     }
 
     public STexture GetCover()
     {
         if (_SongNr >= 0)
-            return CSongs.AllSongs[_SongNr].CoverTextureSmall;
+            if (CSongs.GetSong(_SongNr) != null)
+                return CSongs.GetSong(_SongNr).CoverTextureSmall;
+            else
+            {
+                _SongNr = -1;
+                CLog.LogError("Song not found");
+            }
         return CCover.NoCover;
     }
 
     public float GetVideoGap()
     {
         if (_SongNr >= 0)
-            return CSongs.AllSongs[_SongNr].VideoGap;
+            if (CSongs.GetSong(_SongNr) != null)
+                return CSongs.GetSong(_SongNr).VideoGap;
+            else
+            {
+                _SongNr = -1;
+                CLog.LogError("Song not found");
+            }
         return 0;
     }
 
@@ -480,7 +518,13 @@ class PlaylistElement
     public bool IsDuet()
     {
         if (_SongNr >= 0)
-            return CSongs.AllSongs[_SongNr].IsDuet;
+            if (CSongs.GetSong(_SongNr) != null)
+                return CSongs.GetSong(_SongNr).IsDuet;
+            else
+            {
+                _SongNr = -1;
+                CLog.LogError("Song not found");
+            }
         return false;
     }
 }
