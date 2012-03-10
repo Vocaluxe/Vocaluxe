@@ -677,6 +677,21 @@ namespace Vocaluxe.Lib.Sound
             {
                 if (EventDecode.WaitOne(10))
                 {
+                    lock (MutexSyncSignals)
+                    {
+                        if (_SetSkip)
+                        {
+                            _skip = true;
+                            EventDecode.Set();
+                            _waiting = true;
+                        }
+
+                        _SetSkip = false;
+
+                        _Start = _SetStart;
+                        _Loop = _SetLoop;
+                    }
+
                     if (_skip)
                     {
                         DoSkip();
@@ -689,25 +704,6 @@ namespace Vocaluxe.Lib.Sound
                         Update();
                     }
                 }
-
-                if (!_terminated)
-                {
-                    lock (MutexSyncSignals)
-                    {
-                        if (_SetSkip)
-                        {
-                            _skip = true;
-                            EventDecode.Set();
-                            _waiting = true;
-                        }
-
-                        _SetSkip = false;
-                        
-                        _Start = _SetStart;
-                        _Loop = _SetLoop;
-                    }
-                }
-
             }
 
             DoFree();
