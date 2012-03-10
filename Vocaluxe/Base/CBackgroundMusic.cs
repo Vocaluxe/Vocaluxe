@@ -93,7 +93,10 @@ namespace Vocaluxe.Base
         public static void Pause()
         {
             if (_VideoEnabled && _Video != -1)
+            {
                 CVideo.VdPause(_Video);
+                CVideo.VdSkip(_Video, CSound.GetPosition(_CurrentMusicStream) + CSettings.BackgroundMusicFadeTime, _CurrentPlaylistElement.GetVideoGap());
+            }
             CSound.FadeAndPause(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
             _Playing = false;
         }
