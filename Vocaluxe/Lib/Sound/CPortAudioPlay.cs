@@ -489,7 +489,7 @@ namespace Vocaluxe.Lib.Sound
                     if (Finished)
                         _SyncTimer.Pause();
 
-                    return _SyncTimer.Time;
+                    return _CurrentTime; // _SyncTimer.Time;
                 }  
             }
         }

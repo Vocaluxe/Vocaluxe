@@ -141,7 +141,7 @@ namespace Vocaluxe
             CLog.StopBenchmark(0, "Init Game");
 
             Application.DoEvents();
-            System.Threading.Thread.Sleep(10000);
+
             // Start Main Loop
             _SplashScreen.Close();
             CDraw.MainLoop();
