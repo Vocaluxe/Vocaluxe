@@ -489,7 +489,7 @@ namespace Vocaluxe.Lib.Sound
                     if (Finished)
                         _SyncTimer.Pause();
 
-                    return _CurrentTime; // _SyncTimer.Time;
+                    return _SyncTimer.Time;
                 }  
             }
         }
@@ -843,7 +843,7 @@ namespace Vocaluxe.Lib.Sound
                 float latency = buf.Length / _BytesPerSecond + CConfig.AudioLatency/1000f;
                 float time = _TimeCode - _data.BytesNotRead / _BytesPerSecond - latency;
 
-                _CurrentTime = time; // _SyncTimer.Update(time);
+                _CurrentTime = _SyncTimer.Update(time);
             }
   
             try
