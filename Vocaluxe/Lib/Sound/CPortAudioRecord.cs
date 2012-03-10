@@ -245,6 +245,9 @@ namespace Vocaluxe.Lib.Sound
             if (!_initialized)
                 return null;
 
+            if (_Devices.Count == 0)
+                return null;
+
             return _Devices.ToArray();
         }
 

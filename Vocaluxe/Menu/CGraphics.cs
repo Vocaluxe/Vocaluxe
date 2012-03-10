@@ -31,6 +31,8 @@ namespace Vocaluxe.Menu
 
         ScreenNames = 14,
 
+        ScreenCredits = 15,
+
         ScreenNull = -1
     }
 
@@ -212,6 +214,7 @@ namespace Vocaluxe.Menu
         {
             // Add Screens, must be the same order as in EScreens!
             CLog.StartBenchmark(1, "Build Screen List");
+
             _Screens.Add(new CScreenTest());
             _Screens.Add(new CScreenLoad());
             _Screens.Add(new CScreenMain());
@@ -227,8 +230,10 @@ namespace Vocaluxe.Menu
             _Screens.Add(new CScreenOptionsVideo());
             _Screens.Add(new CScreenOptionsTheme());
             _Screens.Add(new CScreenNames());
+            _Screens.Add(new CScreenCredits());
 
             _PopupScreens.Add(new CPopupScreenPlayerControl());
+
             CLog.StopBenchmark(1, "Build Screen List");
                  
             _CurrentScreen = EScreens.ScreenLoad;
@@ -255,9 +260,12 @@ namespace Vocaluxe.Menu
 
             for (int i = 0; i < _Screens.Count; i++)
             {
-                CLog.StartBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
-                _Screens[i].LoadTheme();
-                CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
+                if (Enum.GetNames(typeof(EScreens))[i] != Enum.GetName(typeof(EScreens), (int)EScreens.ScreenCredits))
+                {
+                    CLog.StartBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
+                    _Screens[i].LoadTheme();
+                    CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
+                }
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
@@ -271,7 +279,10 @@ namespace Vocaluxe.Menu
             ReloadCursor();
             for (int i = 0; i < _Screens.Count; i++)
             {
-                _Screens[i].ReloadTheme();
+                if (Enum.GetNames(typeof(EScreens))[i] != Enum.GetName(typeof(EScreens), (int)EScreens.ScreenCredits))
+                {
+                    _Screens[i].ReloadTheme();
+                }
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
@@ -285,7 +296,10 @@ namespace Vocaluxe.Menu
             ReloadCursor();
             for (int i = 0; i < _Screens.Count; i++)
             {
-                _Screens[i].ReloadTextures();
+                if (Enum.GetNames(typeof(EScreens))[i] != Enum.GetName(typeof(EScreens), (int)EScreens.ScreenCredits))
+                {
+                    _Screens[i].ReloadTextures();
+                }
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
@@ -299,7 +313,10 @@ namespace Vocaluxe.Menu
             CTheme.SaveTheme();
             for (int i = 0; i < _Screens.Count; i++)
             {
-                _Screens[i].SaveTheme();
+                if (Enum.GetNames(typeof(EScreens))[i] != Enum.GetName(typeof(EScreens), (int)EScreens.ScreenCredits))
+                {
+                    _Screens[i].SaveTheme();
+                }
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)

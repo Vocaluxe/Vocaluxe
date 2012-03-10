@@ -247,72 +247,60 @@ namespace Vocaluxe.Base
 
             for (int p = 0; p < _NumPlayer; p++)
             {
-                CSound.AnalyzeBuffer(p);
-
-                if (CSound.RecordToneValid(p) || DEBUG_HIT)
+                
+                for (int beat = _OldBeatD + 1; beat <= _CurrentBeatD; beat++)
                 {
-                    for (int beat = _OldBeatD + 1; beat <= _CurrentBeatD; beat++)
-                    {
-                        CLine[] lines = song.Notes.GetLines(_Player[p].LineNr).Line;
-                        int Line = -1;
+                    CLine[] lines = song.Notes.GetLines(_Player[p].LineNr).Line;
+                    int Line = -1;
 
-                        for (int j = 0; j < lines.Length; j++)
+                    for (int j = 0; j < lines.Length; j++)
+                    {
+                        if (beat >= lines[j].StartBeat && beat <= lines[j].EndBeat)
                         {
-                            if (beat >= lines[j].StartBeat && beat <= lines[j].EndBeat)
-                            {
-                                Line = j;
-                                break;
-                            }
+                            Line = j;
+                            break;
+                        }
+                    }
+
+                    if (Line >= 0)
+                    {
+                        if (Line != _Player[p].CurrentLine)
+                            _Player[p].CurrentNote = -1;
+
+                        _Player[p].CurrentLine = Line;
+
+                        while (_Player[p].SingLine.Count <= Line)
+                        {
+                            _Player[p].SingLine.Add(new CLine());
                         }
 
-                        if (Line >= 0)
+                        CNote[] notes = lines[Line].Notes;
+                        int Note = -1;
+                        for (int j = 0; j < notes.Length; j++)
                         {
-                            if (Line != _Player[p].CurrentLine)
-                                _Player[p].CurrentNote = -1;
-
-                            _Player[p].CurrentLine = Line;
-
-                            while (_Player[p].SingLine.Count <= Line)
+                            if (beat >= notes[j].StartBeat && beat <= notes[j].EndBeat)
                             {
-                                _Player[p].SingLine.Add(new CLine());
+                                Note = j;
+                                break;
                             }
+                        }                      
 
-                            CNote[] notes = lines[Line].Notes;
-                            int Note = -1;
-                            for (int j = 0; j < notes.Length; j++)
-                            {
-                                if (beat >= notes[j].StartBeat && beat <= notes[j].EndBeat)
-                                {
-                                    if (notes[j].PointsForBeat > 0)
-                                        Note = j;
-                                    break;
-                                }
-                            }
+                        if (Note >= 0)
+                        {
+                            _Player[p].CurrentNote = Note;
 
-                            if (Note >= 0)
+                            if (Line == lines.Length - 1)
                             {
-                                if (Line == lines.Length - 1)
+                                if (Note == lines[Line].NoteCount - 1)
                                 {
-                                    if (Note == lines[Line].NoteCount - 1)
-                                    {
+                                    if (notes[Note].EndBeat == beat)
                                         _Player[p].SongFinished = true;
-                                    }
                                 }
                             }
 
-                            if (Note >= 0 && notes[Note].PointsForBeat > 0)
+                            CSound.AnalyzeBuffer(p);
+                            if (notes[Note].PointsForBeat > 0 && (CSound.RecordToneValid(p) || DEBUG_HIT))
                             {
-                                _Player[p].CurrentNote = Note;
-
-                                if (Line == lines.Length - 1)
-                                {
-                                    if (Note == lines[Line].NoteCount - 1)
-                                    {
-                                        if (notes[Note].EndBeat == beat)
-                                            _Player[p].SongFinished = true;
-                                    }
-                                }
-
                                 int Tone = notes[Note].Tone;
                                 int TonePlayer = CSound.RecordGetTone(p);
 
@@ -383,8 +371,8 @@ namespace Vocaluxe.Base
                                 }
                             }
                         }
-
                     }
+
                 }
             }
             _OldBeatD = _CurrentBeatD;

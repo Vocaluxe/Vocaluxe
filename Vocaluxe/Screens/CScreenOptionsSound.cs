@@ -12,7 +12,7 @@ namespace Vocaluxe.Screens
     class CScreenOptionsSound : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        const int ScreenVersion = 2;
 
         private const string SelectSlideBackgroundMusic = "SelectSlideBackgroundMusic";
         private const string SelectSlideBackgroundMusicVolume = "SelectSlideBackgroundMusicVolume";

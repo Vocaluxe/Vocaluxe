@@ -332,6 +332,7 @@ namespace Vocaluxe.Base
     {
         #region private vars
         private string _TextureName;
+        private STexture _Texture;
         private SRectF _Rect;
         private float _Size;
         private SColorF _Color;
@@ -346,7 +347,7 @@ namespace Vocaluxe.Base
         private float _Vsize;       //size changing speed: period [s]
         private float _LastTime;
         private EParticeType _Type;
-
+        
         private Stopwatch _Timer;
         #endregion private vars
 
@@ -399,6 +400,7 @@ namespace Vocaluxe.Base
         public CParticle(string textureName, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticeType type)
         {
             _TextureName = textureName;
+            _Texture = new STexture(-1);
             _Color = color;
             _Rect = new SRectF(x, y, size, size, z);
             _Size = size;
@@ -416,6 +418,29 @@ namespace Vocaluxe.Base
             _MaxAge = maxage;
             _Rotation = (float)(CGame.Rand.NextDouble() * 360.0);
         }
+
+        public CParticle(STexture texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticeType type)
+        {
+            _TextureName = String.Empty;
+            _Texture = texture;
+            _Color = color;
+            _Rect = new SRectF(x, y, size, size, z);
+            _Size = size;
+            _Alpha = 1f;
+            _Angle = 0f;
+            _Vx = vx;
+            _Vy = vy;
+            _Vr = vr;
+            _Vsize = vsize;
+            _LastTime = 0f;
+            _Type = type;
+
+            _Timer = new Stopwatch();
+            _Age = 0f;
+            _MaxAge = maxage;
+            _Rotation = (float)(CGame.Rand.NextDouble() * 360.0);
+        }
+
         #endregion Constructors
 
         public void Update()
@@ -566,7 +591,10 @@ namespace Vocaluxe.Base
 
         public void Draw()
         {
-            CDraw.DrawTexture(CTheme.GetSkinTexture(_TextureName), _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
+            if (_TextureName != String.Empty)
+                CDraw.DrawTexture(CTheme.GetSkinTexture(_TextureName), _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
+            else
+                CDraw.DrawTexture(_Texture, _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
         }
     }
 
@@ -574,6 +602,7 @@ namespace Vocaluxe.Base
     {
         private List<CParticle> _Stars;
         private string _TextureName;
+        private STexture _Texture;
         private int _MaxNumber;
         private SRectF _Area;
         private SColorF _Color;
@@ -592,12 +621,33 @@ namespace Vocaluxe.Base
             }
         }
 
+        public SRectF Area
+        {
+            get { return _Area; }
+            set { _Area = value; }
+        }
+
         public CParticleEffect(int MaxNumber, SColorF Color, SRectF Area, string TextureName, float Size, EParticeType Type)
         {
             _Stars = new List<CParticle>();
             _Area = Area;
             _Color = Color;
             _TextureName = TextureName;
+            _Texture = new STexture(-1);
+            _MaxNumber = MaxNumber;
+            _Size = Size;
+            _Type = Type;
+            _SpawnTimer = new Stopwatch();
+            _NextSpawnTime = 0f;
+        }
+
+        public CParticleEffect(int MaxNumber, SColorF Color, SRectF Area, STexture texture, float Size, EParticeType Type)
+        {
+            _Stars = new List<CParticle>();
+            _Area = Area;
+            _Color = Color;
+            _TextureName = String.Empty;
+            _Texture = texture;
             _MaxNumber = MaxNumber;
             _Size = Size;
             _Type = Type;
@@ -695,10 +745,21 @@ namespace Vocaluxe.Base
                 if (h < 0)
                     h = 0;
 
-                CParticle star = new CParticle(_TextureName, _Color,
-                    CGame.Rand.Next(w) + _Area.X - size / 4f,
-                    CGame.Rand.Next(h) + _Area.Y - size / 4f,
-                    size, lifetime, _Area.Z, vx, vy, vr, vsize, _Type);
+                CParticle star;
+                if (_TextureName != String.Empty)
+                {
+                    star = new CParticle(_TextureName, _Color,
+                        CGame.Rand.Next(w) + _Area.X - size / 4f,
+                        CGame.Rand.Next(h) + _Area.Y - size / 4f,
+                        size, lifetime, _Area.Z, vx, vy, vr, vsize, _Type);
+                }
+                else
+                {
+                    star = new CParticle(_Texture, _Color,
+                        CGame.Rand.Next(w) + _Area.X - size / 4f,
+                        CGame.Rand.Next(h) + _Area.Y - size / 4f,
+                        size, lifetime, _Area.Z, vx, vy, vr, vsize, _Type);
+                }
 
                 _Stars.Add(star);
             }

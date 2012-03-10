@@ -65,6 +65,10 @@ namespace Vocaluxe.Screens
                         CGraphics.FadeTo(EScreens.ScreenSong);
                         break;
 
+                    case Keys.C:
+                        CGraphics.FadeTo(EScreens.ScreenCredits);
+                        break;
+
                     case Keys.Enter:
                         if (Buttons[htButtons(ButtonSing)].Selected)
                             CGraphics.FadeTo(EScreens.ScreenSong);
