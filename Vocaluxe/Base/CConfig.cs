@@ -191,7 +191,7 @@ namespace Vocaluxe.Base
         public static EPlaybackLib PlayBackLib = EPlaybackLib.PortAudio;
         public static ERecordLib RecordLib = ERecordLib.PortAudio;
         public static EBufferSize AudioBufferSize = EBufferSize.b2048;
-        public static int AudioLatency = 100;
+        public static int AudioLatency = 125;
         public static int BackgroundMusicVolume = 50;
         public static EOffOn BackgroundMusic = EOffOn.TR_CONFIG_ON;
         public static EBackgroundMusicSource BackgroundMusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
@@ -509,7 +509,7 @@ namespace Vocaluxe.Base
             writer.WriteElementString("AudioLatency", AudioLatency.ToString());
 
             writer.WriteComment("Background Music");
-            writer.WriteElementString("BackgroundMusicEnabled", Enum.GetName(typeof(EOffOn), BackgroundMusic));
+            writer.WriteElementString("BackgroundMusic", Enum.GetName(typeof(EOffOn), BackgroundMusic));
 
             writer.WriteComment("Background Music Volume from 0 to 100");
             writer.WriteElementString("BackgroundMusicVolume", BackgroundMusicVolume.ToString());
