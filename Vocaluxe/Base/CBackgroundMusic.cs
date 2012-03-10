@@ -171,7 +171,7 @@ namespace Vocaluxe.Base
             {
                 CSound.SetPosition(_CurrentMusicStream, 0);
                 if (_VideoEnabled && _Video != -1)
-                    CVideo.VdSkip(_Video, CSound.GetPosition(_CurrentMusicStream), _CurrentPlaylistElement.GetVideoGap());
+                    CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.GetVideoGap());
             }
         }
 
@@ -377,7 +377,7 @@ namespace Vocaluxe.Base
             if (_Video == -1)
             {
                 _Video = CVideo.VdLoad(_CurrentPlaylistElement.GetVideoFilePath());
-                CVideo.VdSkip(_Video, CSound.GetPosition(_CurrentMusicStream), _CurrentPlaylistElement.GetVideoGap());
+                CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.GetVideoGap());
                 _VideoEnabled = true;
                 _FadeTimer.Reset();
                 _FadeTimer.Start();
