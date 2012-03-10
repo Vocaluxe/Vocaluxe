@@ -412,119 +412,147 @@ namespace Vocaluxe.Base
 class PlaylistElement
 {
     string _MusicFilePath;
-    int _SongNr;
+    int _SongID;
 
     public PlaylistElement(CSong song)
     {
         _MusicFilePath = string.Empty;
-        _SongNr = song.ID;
+        _SongID = song.ID;
     }
 
     public PlaylistElement(string FilePath)
     {
         _MusicFilePath = FilePath;
-        _SongNr = -1;
+        _SongID = -1;
     }
 
     public PlaylistElement()
     {
         _MusicFilePath = string.Empty;
-        _SongNr = -1;
+        _SongID = -1;
     }
 
     public string GetMusicFilePath()
     {
-        if (_SongNr >= 0)
-            if (CSongs.GetSong(_SongNr) != null)
-                return CSongs.GetSong(_SongNr).GetMP3();
+        if (_SongID >= 0)
+        {
+            CSong song;
+            song = CSongs.GetSong(_SongID);
+            if (song != null)
+                return song.GetMP3();
             else
             {
-                _SongNr = -1;
+                _SongID = -1;
                 CLog.LogError("Song not found");
             }
+        }
         return _MusicFilePath;
     }
 
     public string GetVideoFilePath()
     {
-        if (_SongNr >= 0)
-            if (CSongs.GetSong(_SongNr) != null)
-                return CSongs.GetSong(_SongNr).GetVideo();
+        if (_SongID >= 0)
+        {
+            CSong song;
+            song = CSongs.GetSong(_SongID);
+            if (song != null)
+                return song.GetVideo();
             else
             {
-                _SongNr = -1;
+                _SongID = -1;
                 CLog.LogError("Song not found");
             }
+        }
         return string.Empty;
     }
 
     public string GetTitle()
     {
-        if (_SongNr >= 0)
-            if (CSongs.GetSong(_SongNr) != null)
-                return CSongs.GetSong(_SongNr).Title;
+        if (_SongID >= 0)
+        {
+            CSong song;
+            song = CSongs.GetSong(_SongID);
+            if (song != null)
+                return song.Title;
             else
             {
-                _SongNr = -1;
+                _SongID = -1;
                 CLog.LogError("Song not found");
             }
+        }
         return "Unknown";
     }
 
     public string GetArtist()
     {
-        if (_SongNr >= 0)
-            if (CSongs.GetSong(_SongNr) != null)
-                return CSongs.GetSong(_SongNr).Artist;
+        if (_SongID >= 0)
+        {
+            CSong song;
+            song = CSongs.GetSong(_SongID);
+            if (song != null)
+                return song.Artist;
             else
             {
-                _SongNr = -1;
+                _SongID = -1;
                 CLog.LogError("Song not found");
             }
+        }
         return "Unknown";
     }
 
     public STexture GetCover()
     {
-        if (_SongNr >= 0)
-            if (CSongs.GetSong(_SongNr) != null)
-                return CSongs.GetSong(_SongNr).CoverTextureSmall;
+        if (_SongID >= 0)
+        {
+            CSong song;
+            song = CSongs.GetSong(_SongID);
+            if (song != null)
+                return song.CoverTextureSmall;
             else
             {
-                _SongNr = -1;
+                _SongID = -1;
                 CLog.LogError("Song not found");
             }
+        }
         return CCover.NoCover;
     }
 
     public float GetVideoGap()
     {
-        if (_SongNr >= 0)
-            if (CSongs.GetSong(_SongNr) != null)
-                return CSongs.GetSong(_SongNr).VideoGap;
+        if (_SongID >= 0)
+        {
+            CSong song;
+            song = CSongs.GetSong(_SongID);
+            if (song != null)
+                return song.VideoGap;
             else
             {
-                _SongNr = -1;
+                _SongID = -1;
                 CLog.LogError("Song not found");
             }
+        }
         return 0;
     }
 
     public int GetSongNr()
     {
-        return _SongNr;
+        return _SongID;
     }
 
     public bool IsDuet()
     {
-        if (_SongNr >= 0)
-            if (CSongs.GetSong(_SongNr) != null)
-                return CSongs.GetSong(_SongNr).IsDuet;
+        if (_SongID >= 0)
+        {
+            CSong song;
+            song = CSongs.GetSong(_SongID);
+            if (song != null)
+                return song.IsDuet;
             else
             {
-                _SongNr = -1;
+                _SongID = -1;
                 CLog.LogError("Song not found");
             }
+        }
         return false;
     }
 }
