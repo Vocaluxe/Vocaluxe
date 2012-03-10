@@ -411,75 +411,65 @@ namespace Vocaluxe.Base
 
 class PlaylistElement
 {
-    string _Title;
-    string _Artist;
     string _MusicFilePath;
-    string _VideoFilePath;
-    STexture _Cover;
-    float _VideoGap;
     int _SongNr;
-    bool _Duet;
 
     public PlaylistElement(CSong song)
     {
-        _Title = song.Title;
-        _Artist = song.Artist;
-        _MusicFilePath = song.GetMP3();
-        _VideoFilePath = song.GetVideo();
-        _Cover = song.CoverTextureSmall;
-        _VideoGap = song.VideoGap;
         _SongNr = song.ID;
-        _Duet = song.IsDuet;
     }
 
     public PlaylistElement(string FilePath)
     {
-        _Title = "Unknown";
-        _Artist = "Unknown";
         _MusicFilePath = FilePath;
-        _VideoFilePath = string.Empty;
-        _Cover = CCover.NoCover;
         _SongNr = -1;
     }
 
     public PlaylistElement()
     {
-        _Title = "Unknown";
-        _Artist = "Unknown";
-        _MusicFilePath = string.Empty;
-        _VideoFilePath = string.Empty;
-        _Cover = CCover.NoCover;
         _SongNr = -1;
     }
 
     public string GetMusicFilePath()
     {
+        if (_SongNr >= 0)
+            return CSongs.AllSongs[_SongNr].GetMP3();
         return _MusicFilePath;
     }
 
     public string GetVideoFilePath()
     {
-        return _VideoFilePath;
+        if (_SongNr >= 0)
+            return CSongs.AllSongs[_SongNr].GetVideo();
+        return string.Empty;
     }
 
     public string GetTitle()
     {
-        return _Title;
+        if (_SongNr >= 0)
+            return CSongs.AllSongs[_SongNr].Title;
+        return "Unknown";
     }
 
     public string GetArtist()
     {
-        return _Artist;
+        if (_SongNr >= 0)
+            return CSongs.AllSongs[_SongNr].Artist;
+        return "Unknown";
     }
 
     public STexture GetCover()
     {
-        return _Cover;
+        if (_SongNr >= 0)
+            return CSongs.AllSongs[_SongNr].CoverTextureSmall;
+        return CCover.NoCover;
     }
 
     public float GetVideoGap()
     {
-        return _VideoGap;
+        if (_SongNr >= 0)
+            return CSongs.AllSongs[_SongNr].VideoGap;
+        return 0;
     }
 
     public int GetSongNr()
@@ -489,6 +479,8 @@ class PlaylistElement
 
     public bool IsDuet()
     {
-        return _Duet;
+        if (_SongNr >= 0)
+            return CSongs.AllSongs[_SongNr].IsDuet;
+        return false;
     }
 }
