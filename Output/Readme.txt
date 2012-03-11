@@ -115,6 +115,7 @@ Songscreen
 =================================
 = 5. Help & Suppport            =
 =================================
+GitHub Wiki:			https://github.com/Vocaluxe/Vocaluxe/wiki
 Support Forum (German):	http://www.ultra-star.de
 Song-DataBase (USDB):	http://usdb.animux.de/
 
