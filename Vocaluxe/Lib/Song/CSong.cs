@@ -635,6 +635,13 @@ namespace Vocaluxe.Lib.Song
             }
         }
 
+        private struct Series
+        {
+            public int start;
+            public int end;
+            public int length;
+        }
+
         private void FindRefrain()
         {
             if (this.Medley.Source == EMedleySource.Tag)
@@ -643,10 +650,95 @@ namespace Vocaluxe.Lib.Song
             if (!this.CalculateMedley)
                 return;
 
+            CLines lines = this.Notes.GetLines(0);
 
+            if (lines.LineCount == 0)
+                return;
 
+            // build sentences list
+            List<string> sentences = new List<string>();
+            foreach (CLine line in lines.Line)
+            {
+                if (line.Points != 0)
+                    sentences.Add(line.Lyrics);
+                else
+                    sentences.Add(String.Empty);
+            }
 
+            // find equal sentences series
+            List<Series> series = new List<Series>();
+            for (int i = 0; i < lines.LineCount - 1; i++)
+            {
+                for (int j = i + 1; j < lines.LineCount; j++)
+                {
+                    if (sentences[i] == sentences[j] && sentences[i] != String.Empty)
+                    {
+                        Series tempSeries = new Series();
+                        tempSeries.start = i;
+                        tempSeries.end = i;
 
+                        int max = 0;
+                        if (j + j - i - 1 > lines.LineCount - 1)
+                            max = lines.LineCount - 1 - j;
+                        else
+                            max = j - i - 1;
+
+                        for (int k = 1; k <= max; k++)
+                        {
+                            if (sentences[i + k] == sentences[j + k] && sentences[i + k] != String.Empty)
+                                tempSeries.end = i + k;
+                            else
+                                break;
+                        }
+
+                        tempSeries.length = tempSeries.end - tempSeries.start + 1;
+                        series.Add(tempSeries);
+                    }
+                }
+            }
+
+            // search for longest series
+            int longest = 0;
+            for (int i = 0; i < series.Count; i++)
+            {
+                if (series[i].length > series[longest].length)
+                    longest = i;
+            }
+
+            // set medley vars
+            if (series.Count > 0 && series[longest].length > CSettings.MedleyMinSeriesLength)
+            {
+                this.Medley.StartBeat = lines.Line[series[longest].start].FirstNoteBeat;
+                this.Medley.EndBeat = lines.Line[series[longest].end].LastNoteBeat;
+
+                bool foundEnd = false;
+                
+                // set end if duration > MedleyMinDuration
+                if (CGame.GetTimeFromBeats(this.Medley.StartBeat, this.BPM) + CSettings.MedleyMinDuration >
+                    CGame.GetTimeFromBeats(this.Medley.EndBeat, this.BPM))
+                    foundEnd = true;
+
+                if (!foundEnd)
+                {
+                    for (int i = series[longest].start + 1; i < lines.LineCount - 1; i++)
+                    {
+                        if (CGame.GetTimeFromBeats(this.Medley.StartBeat, this.BPM) + CSettings.MedleyMinDuration >
+                            CGame.GetTimeFromBeats(lines.Line[i].LastNoteBeat, this.BPM))
+                        {
+                            foundEnd = true;
+                            this.Medley.EndBeat = lines.Line[i].LastNoteBeat;
+                        }
+                    }
+                }
+
+                if (foundEnd)
+                {
+                    this.Medley.Source = EMedleySource.Calculated;
+                    this.Medley.FadeInTime = CSettings.DefaultMedleyFadeInTime;
+                    this.Medley.FadeOutTime = CSettings.DefaultMedleyFadeOutTIme;
+                }
+            }
+            
             if (this.PreviewStart == 0f)
             {
                 if (this.Medley.Source == EMedleySource.Calculated)

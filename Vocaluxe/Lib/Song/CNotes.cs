@@ -298,7 +298,7 @@ namespace Vocaluxe.Lib.Song
             set { _PerfectLine = value; }
         }
 
-        public int FirstBeat
+        public int FirstNoteBeat
         {
             get
             {
@@ -312,7 +312,7 @@ namespace Vocaluxe.Lib.Song
             }
         }
 
-        public int LastBeat
+        public int LastNoteBeat
         {
             get
             {
@@ -509,15 +509,15 @@ namespace Vocaluxe.Lib.Song
                 int startbeat = int.MaxValue;
                 for (int i = 0; i < _Lines.Count; i++)
                 {
-                    if (_Lines[i].FirstBeat < startbeat)
-                        startbeat = _Lines[i].FirstBeat;
+                    if (_Lines[i].FirstNoteBeat < startbeat)
+                        startbeat = _Lines[i].FirstNoteBeat;
                 }
 
                 int endbeat = int.MinValue;
                 for (int i = 0; i < _Lines.Count; i++)
                 {
-                    if (_Lines[i].LastBeat < endbeat)
-                        endbeat = _Lines[i].LastBeat;
+                    if (_Lines[i].LastNoteBeat < endbeat)
+                        endbeat = _Lines[i].LastNoteBeat;
                 }
 
                 int result = endbeat - startbeat;

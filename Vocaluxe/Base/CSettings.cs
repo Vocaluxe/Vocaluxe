@@ -113,6 +113,8 @@ namespace Vocaluxe.Base
 
         public const float DefaultMedleyFadeInTime = 8f;
         public const float DefaultMedleyFadeOutTIme = 2f;
+        public const int MedleyMinSeriesLength = 3;
+        public const float MedleyMinDuration = 40f;
 
         public static bool TabNavigation = false;
 
