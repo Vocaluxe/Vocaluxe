@@ -85,14 +85,14 @@ namespace Vocaluxe.GameModes
     {
         protected bool _Initialized = false;
         protected EGameMode _GameMode;
-        protected List<int> _SongIDs;
+        protected List<CSong> _Songs;
         protected int _ActualSong;
         protected CPoints _Points;
 
         #region Implementation
         public virtual void Init()
         {
-            _SongIDs = new List<int>();
+            _Songs = new List<CSong>();
             Reset();
         }
 
@@ -105,12 +105,9 @@ namespace Vocaluxe.GameModes
         {
             if (CSongs.VisibleSongs.Length > VisibleIndex)
             {
-                //int ID = CSongs.VisibleSongs[VisibleIndex].ID;
-                //if (!_SongIDs.Exists(delegate(int i) { return (i == ID); }))
-                //{
-                    _SongIDs.Add(CSongs.VisibleSongs[VisibleIndex].ID);
-                    return true;
-                //}
+                _Songs.Add(new CSong(CSongs.VisibleSongs[VisibleIndex]));
+                SongManipulation(_Songs.Count - 1);
+                return true;
             }
             return false;
         }
@@ -119,12 +116,9 @@ namespace Vocaluxe.GameModes
         {
             if (CSongs.AllSongs.Length > AbsoluteIndex)
             {
-                //int ID = CSongs.AllSongs[AbsoluteIndex].ID;
-                //if (!_SongIDs.Exists(delegate(int i) { return (i == ID); }))
-                //{
-                _SongIDs.Add(CSongs.AllSongs[AbsoluteIndex].ID);
+                _Songs.Add(CSongs.AllSongs[AbsoluteIndex]);
+                SongManipulation(_Songs.Count - 1);
                 return true;
-                //}
             }
             return false;
         }
@@ -133,7 +127,24 @@ namespace Vocaluxe.GameModes
         {
             if (CSongs.VisibleSongs.Length > VisibleIndex)
             {
-                return _SongIDs.Remove(CSongs.VisibleSongs[VisibleIndex].ID);
+                int ID = CSongs.VisibleSongs[VisibleIndex].ID;
+                int index = -1;
+
+                for (int i = 0; i < _Songs.Count; i++)
+                {
+                    if (_Songs[i].ID == ID)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+
+                if (index > -1)
+                {
+                    _Songs.RemoveAt(index);
+                    return true;
+                }
+                return false;
             }
             return false;
         }
@@ -142,14 +153,31 @@ namespace Vocaluxe.GameModes
         {
             if (CSongs.AllSongs.Length > AbsoluteIndex)
             {
-                return _SongIDs.Remove(CSongs.AllSongs[AbsoluteIndex].ID);
+                int ID = CSongs.AllSongs[AbsoluteIndex].ID;
+                int index = -1;
+
+                for (int i = 0; i < _Songs.Count; i++)
+                {
+                    if (_Songs[i].ID == ID)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+
+                if (index > -1)
+                {
+                    _Songs.RemoveAt(index);
+                    return true;
+                }
+                return false;
             }
             return false;
         }
 
         public virtual void ClearSongs()
         {
-            _SongIDs.Clear();
+            _Songs.Clear();
         }
 
         public virtual void Reset()
@@ -159,16 +187,16 @@ namespace Vocaluxe.GameModes
 
         public virtual void Start(SPlayer[] Player)
         {
-            _Points = new CPoints(_SongIDs.Count, Player);
+            _Points = new CPoints(_Songs.Count, Player);
         }
 
         public virtual void NextRound(SPlayer[] Player)
         {
-            if (_ActualSong < _SongIDs.Count && _SongIDs.Count > 0)
+            if (_ActualSong < _Songs.Count && _Songs.Count > 0)
             {
                 if (_ActualSong > -1)
                 {
-                    _Points.SetPoints(_ActualSong, _SongIDs[_ActualSong], Player, _GameMode == EGameMode.Medley, _GameMode == EGameMode.Duet);
+                    _Points.SetPoints(_ActualSong, _Songs[_ActualSong].ID, Player, _GameMode == EGameMode.Medley, _GameMode == EGameMode.Duet);
                 }
                 _ActualSong++;
             }
@@ -176,7 +204,7 @@ namespace Vocaluxe.GameModes
 
         public virtual bool IsFinished()
         {
-            return (_ActualSong == _SongIDs.Count || _SongIDs.Count == 0);
+            return (_ActualSong == _Songs.Count || _Songs.Count == 0);
         }
 
         public virtual int GetActualRoundNr()
@@ -186,22 +214,22 @@ namespace Vocaluxe.GameModes
 
         public virtual CSong GetSong()
         {
-            if (_ActualSong >= 0 && _ActualSong < _SongIDs.Count)
+            if (_ActualSong >= 0 && _ActualSong < _Songs.Count)
             {
-                return CSongs.GetSong(_SongIDs[_ActualSong]);
+                return _Songs[_ActualSong];
             }
             return null;
         }
 
         public virtual int GetNumSongs()
         {
-            return _SongIDs.Count;
+            return _Songs.Count;
         }
 
         public virtual CSong GetSong(int Num)
         {
-            if (Num - 1 < _SongIDs.Count) 
-                return CSongs.GetSong(_SongIDs[Num - 1]);
+            if (Num - 1 < _Songs.Count) 
+                return _Songs[Num - 1];
 
             return null;
         }
@@ -211,5 +239,9 @@ namespace Vocaluxe.GameModes
             return _Points;
         }
         #endregion Implementation
+
+        protected virtual void SongManipulation(int SongIndex)
+        {
+        }
     }
 }

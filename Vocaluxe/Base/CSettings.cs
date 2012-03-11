@@ -112,7 +112,7 @@ namespace Vocaluxe.Base
         public const float LyricHelperMinTime = 0.2f;
 
         public const float DefaultMedleyFadeInTime = 8f;
-        public const float DefaultMedleyFadeOutTIme = 2f;
+        public const float DefaultMedleyFadeOutTime = 2f;
         public const int MedleyMinSeriesLength = 3;
         public const float MedleyMinDuration = 40f;
 

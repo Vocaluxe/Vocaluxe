@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
+using Vocaluxe.Lib.Song;
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SongMenu;
 
@@ -133,6 +134,11 @@ namespace Vocaluxe.Screens
                             SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
                         }
                         break;
+
+                    case Keys.S:
+                        if (CSongs.NumVisibleSongs > 0)
+                            StartMedleySong(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
+                        break;
                 }
             }
 
@@ -229,6 +235,23 @@ namespace Vocaluxe.Screens
                 CGame.ClearSongs();
                 CGame.AddVisibleSong(SongNr);
                 //CGame.AddSong(SongNr+1);
+
+                CGraphics.FadeTo(EScreens.ScreenNames);
+            }
+        }
+
+        private void StartMedleySong(int SongNr)
+        {
+            if ((CSongs.Category >= 0) && (SongNr >= 0))
+            {
+                if (CSongs.VisibleSongs[SongNr].Medley.Source != EMedleySource.None)
+                    CGame.SetGameMode(GameModes.EGameMode.Medley);
+                else
+                    return;
+
+                CGame.Reset();
+                CGame.ClearSongs();
+                CGame.AddVisibleSong(SongNr);
 
                 CGraphics.FadeTo(EScreens.ScreenNames);
             }

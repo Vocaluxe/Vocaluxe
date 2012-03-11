@@ -53,7 +53,7 @@ namespace Vocaluxe.Lib.Song
         private STexture _CoverTextureSmall = new STexture(-1);
         private STexture _CoverTextureBig = new STexture(-1);
 
-        private SMedley Medley = new SMedley(0);
+        public SMedley Medley = new SMedley(0);
 
         public bool CalculateMedley = true;
         public float PreviewStart = 0f;
@@ -74,9 +74,7 @@ namespace Vocaluxe.Lib.Song
         {
             get { return _CoverLoaded; }
         }
-
         public bool CoverBigLoaded = false;
-        public bool BackgroundLoaded = false;
 
         public STexture CoverTextureSmall
         {
@@ -111,8 +109,6 @@ namespace Vocaluxe.Lib.Song
             set { _CoverTextureBig = value; }
         }
 
-        public CBackground Background = new CBackground();
-
         public string Title = String.Empty;
         public string Artist = String.Empty;
 
@@ -142,6 +138,83 @@ namespace Vocaluxe.Lib.Song
 
         // Notes
         public CNotes Notes = new CNotes();
+
+        public CSong()
+        {
+        }
+
+        public CSong(CSong song)
+        {
+            this._CoverTextureSmall = song._CoverTextureSmall;
+            this._CoverTextureBig = song._CoverTextureBig;
+
+            this.Medley = new SMedley();
+            this.Medley.Source = song.Medley.Source;
+            this.Medley.StartBeat = song.Medley.StartBeat;
+            this.Medley.EndBeat = song.Medley.EndBeat;
+            this.Medley.FadeInTime = song.Medley.FadeInTime;
+            this.Medley.FadeOutTime = song.Medley.FadeOutTime;
+
+            this.CalculateMedley = song.CalculateMedley;
+            this.PreviewStart = song.PreviewStart;
+
+            this.Encoding = song.Encoding;
+            this.Folder = song.Folder;
+            this.FolderName = song.FolderName;
+            this.FileName = song.FileName;
+
+            this.MP3FileName = song.MP3FileName;
+            this.CoverFileName = song.CoverFileName;
+            this.BackgroundFileName = song.BackgroundFileName;
+            this.VideoFileName = song.VideoFileName;
+
+            this.VideoAspect = song.VideoAspect;
+            this._CoverLoaded = song._CoverLoaded;
+            this.CoverBigLoaded = song.CoverBigLoaded;
+
+            this.Artist = song.Artist;
+            this.Title = song.Title;
+            
+            this.Start = song.Start;
+            this.Finish = song.Finish;
+
+            this.BPM = song.BPM;
+            this.Gap = song.Gap;
+            this.VideoGap = song.VideoGap;
+
+            this.Comment = new List<string>();
+            foreach (string value in song.Comment)
+            {
+                this.Comment.Add(value);
+            }
+
+            this.ID = song.ID;
+            this.Visible = song.Visible;
+            this.CatIndex = song.CatIndex;
+            this.Selected = song.Selected;
+
+            this.Edition = new List<string>();
+            foreach (string value in song.Edition)
+            {
+                this.Edition.Add(value);
+            }
+
+            this.Genre = new List<string>();
+            foreach (string value in song.Genre)
+            {
+                this.Genre.Add(value);
+            }
+
+            this.Year = song.Year;
+
+            this.Language = new List<string>();
+            foreach (string value in song.Language)
+            {
+                this.Language.Add(value);
+            }
+
+            this.Notes = new CNotes(song.Notes);
+        }
 
         public string GetMP3()
         {
@@ -418,7 +491,7 @@ namespace Vocaluxe.Lib.Song
                 {
                     this.Medley.Source = EMedleySource.Tag;
                     this.Medley.FadeInTime = CSettings.DefaultMedleyFadeInTime;
-                    this.Medley.FadeOutTime = CSettings.DefaultMedleyFadeOutTIme;
+                    this.Medley.FadeOutTime = CSettings.DefaultMedleyFadeOutTime;
                 }
                 #endregion check medley tags
 
@@ -644,6 +717,12 @@ namespace Vocaluxe.Lib.Song
 
         private void FindRefrain()
         {
+            if (this.IsDuet)
+            {
+                this.Medley.Source = EMedleySource.None;
+                return;
+            }
+
             if (this.Medley.Source == EMedleySource.Tag)
                 return;
 
@@ -735,7 +814,7 @@ namespace Vocaluxe.Lib.Song
                 {
                     this.Medley.Source = EMedleySource.Calculated;
                     this.Medley.FadeInTime = CSettings.DefaultMedleyFadeInTime;
-                    this.Medley.FadeOutTime = CSettings.DefaultMedleyFadeOutTIme;
+                    this.Medley.FadeOutTime = CSettings.DefaultMedleyFadeOutTime;
                 }
             }
             
