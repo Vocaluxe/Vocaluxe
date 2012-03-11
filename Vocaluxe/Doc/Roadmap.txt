@@ -81,41 +81,24 @@
 	- WiiMote Support
 	- Jukebox light (bg music controls)
 	- Show Avatars and Player Name in Sing Screen (and perhaps some other screens)
-
-+ v0.3.0:
-	- Song Editor
-	- Help System
-	- Duet (full support)
-	- Mark newly added songs
-	- Playlist-Support
-	- Theme System Update (Theme Editor)
-
-+ v0.4.0:
-	- Challenge Mode (with more than 2 player at once)
-	- More Player at once
-
-+ v0.5.0:
-	- Party Mode: Team-Battle
-	- Party Mode: Tic, Tac, Toe
-	- Party Mode: 4 in a row
-
-+ v0.6.0:
-	- Jukebox
-
-+ v0.7.0:
-	- Tournament Mode
-
-+ v0.8.0:
-	- Party Mode: Casting Show
-	
-+ v0.9.0:
-	- ?
-
-+ v1.0.0:
-	- ?
-	 
+	- New Lyric Effects
+ 
 
 -----------------
 just some ideas:
 	- OnScreen Keyboard?
 	- Kinect Support?
+	- Help System
+	- Party Mode: Casting Show
+	- More Player at once
+	- Mark newly added songs
+	- Playlist-Support
+	- Theme Editor
+	- Jukebox
+	- Tournament Mode
+	- Party Mode: Team-Battle
+	- Party Mode: Tic, Tac, Toe
+	- Party Mode: 4 in a row
+	- Challenge Mode (with more than 2 player at once)
+	- Song Editor
+	- Duet (full support, choose/toggle names)
