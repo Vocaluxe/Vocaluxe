@@ -30,20 +30,21 @@ Supported Operating Systems / Requirements:
 =================================
 You can donwloadn precompiles Windows binaries at SourceForge:
 
-Download:				http://sourceforge.net/projects/vocaluxe/
+Download:	http://sourceforge.net/projects/vocaluxe/
 
 
 =================================
 = 3. Development Guidelines     =
 =================================
 The development of Vocaluxe uses this git branching model:
-	http://nvie.com/posts/a-successful-git-branching-model/
+
+		http://nvie.com/posts/a-successful-git-branching-model/
 
 
 =================================
 = 4. Help & Suppport            =
 =================================
-GitHub Wiki:			https://github.com/Vocaluxe/Vocaluxe/wiki
+GitHub Wiki:		https://github.com/Vocaluxe/Vocaluxe/wiki
 GitGub Issues Tracker:	https://github.com/Vocaluxe/Vocaluxe/issues
 Support Forum (German):	http://www.ultra-star.de
 Song-DataBase (USDB):	http://usdb.animux.de/	
