@@ -111,6 +111,9 @@ namespace Vocaluxe.Base
         public const float LyricHelperMoveTime = 1.5f;
         public const float LyricHelperMinTime = 0.2f;
 
+        public const float DefaultMedleyFadeInTime = 8f;
+        public const float DefaultMedleyFadeOutTIme = 2f;
+
         public static bool TabNavigation = false;
 
         public const float BackgroundMusicFadeTime = 0.5f;

@@ -13,13 +13,38 @@ namespace Vocaluxe.Lib.Song
     [Flags]
     enum EHeaderFlags
     {
-        Title,
-        Artist,
-        MP3,
-        BPM,
-        PreviewStart,
-        MedleyStartBeat,
-        MedleyEndBeat
+        Title = 1,
+        Artist = 2,
+        MP3 = 4,
+        BPM = 8,
+        PreviewStart = 16,
+        MedleyStartBeat = 32,
+        MedleyEndBeat = 64
+    }
+
+    enum EMedleySource
+    {
+        None,
+        Calculated,
+        Tag
+    }
+
+    struct SMedley
+    {
+        public EMedleySource Source;
+        public int StartBeat;
+        public int EndBeat;
+        public float FadeInTime;
+        public float FadeOutTime;
+
+        public SMedley(int dummy)
+        {
+            Source = EMedleySource.None;
+            StartBeat = 0;
+            EndBeat = 0;
+            FadeInTime = 0f;
+            FadeOutTime = 0f;
+        }
     }
 
     class CSong
@@ -27,6 +52,11 @@ namespace Vocaluxe.Lib.Song
         private bool _CoverLoaded = false;
         private STexture _CoverTextureSmall = new STexture(-1);
         private STexture _CoverTextureBig = new STexture(-1);
+
+        private SMedley Medley = new SMedley(0);
+
+        public bool CalculateMedley = true;
+        public float PreviewStart = 0f;
 
         public Encoding Encoding = Encoding.Default;
         public string Folder = String.Empty;
@@ -305,6 +335,25 @@ namespace Vocaluxe.Lib.Song
                                     if (CHelper.TryParse(Value, out this.Finish))
                                         this.Finish /= 1000f;
                                     break;
+                                case "PREVIEWSTART":
+                                    if (CHelper.TryParse(Value, out this.PreviewStart))
+                                        if (this.PreviewStart < 0f)
+                                            this.PreviewStart = 0f;
+                                        else
+                                            HeaderFlags |= EHeaderFlags.PreviewStart;
+                                    break;
+                                case "MEDLEYSTARTBEAT":
+                                    if (int.TryParse(Value, out this.Medley.StartBeat))
+                                        HeaderFlags |= EHeaderFlags.MedleyStartBeat;
+                                    break;
+                                case "MEDLEYENDBEAT":
+                                    if (int.TryParse(Value, out this.Medley.EndBeat))
+                                        HeaderFlags |= EHeaderFlags.MedleyEndBeat;
+                                    break;
+                                case "CALCMEDLEY":
+                                    if (Value.ToUpper() == "OFF")
+                                        this.CalculateMedley = false;
+                                    break;
                                 default:
                                     ;
                                     break;
@@ -320,13 +369,64 @@ namespace Vocaluxe.Lib.Song
                     }
                 } //end of while
 
-                if (HeaderFlags != (EHeaderFlags.Title | EHeaderFlags.Artist | EHeaderFlags.MP3 | EHeaderFlags.BPM))
+                if ((HeaderFlags & EHeaderFlags.Title) == 0)
+                {
+                    CLog.LogError("Title tag missing: " + FilePath);
                     return false;
+                }
+
+                if ((HeaderFlags & EHeaderFlags.Artist) == 0)
+                {
+                    CLog.LogError("Artist tag missing: " + FilePath);
+                    return false;
+                }
+
+                if ((HeaderFlags & EHeaderFlags.MP3) == 0)
+                {
+                    CLog.LogError("MP3 tag missing: " + FilePath);
+                    return false;
+                }
+
+                if ((HeaderFlags & EHeaderFlags.BPM) == 0)
+                {
+                    CLog.LogError("BPM tag missing: " + FilePath);
+                    return false;
+                }
+
+                #region check medley tags
+                if ((HeaderFlags & EHeaderFlags.MedleyStartBeat) != 0 && (HeaderFlags & EHeaderFlags.MedleyEndBeat) != 0)
+                {
+                    if (this.Medley.StartBeat > this.Medley.EndBeat)
+                    {
+                        CLog.LogError("MedleyStartBeat is bigger than MedleyEndBeat in file: " + FilePath);
+                        HeaderFlags = HeaderFlags - EHeaderFlags.MedleyStartBeat - EHeaderFlags.MedleyEndBeat;
+                    }
+                }
+
+                if ((HeaderFlags & EHeaderFlags.PreviewStart) == 0 || this.PreviewStart == 0f)
+                {
+                    //PreviewStart is not set or <=0
+                    if ((HeaderFlags & EHeaderFlags.MedleyStartBeat) != 0)
+                        //fallback to MedleyStart
+                        this.PreviewStart = CGame.GetTimeFromBeats(this.Medley.StartBeat, this.BPM);
+                    else
+                        //else set to 0, it will be set in FindRefrainStart
+                        this.PreviewStart = 0f;
+                }
+
+                if ((HeaderFlags & EHeaderFlags.MedleyStartBeat) != 0 && (HeaderFlags & EHeaderFlags.MedleyEndBeat) != 0)
+                {
+                    this.Medley.Source = EMedleySource.Tag;
+                    this.Medley.FadeInTime = CSettings.DefaultMedleyFadeInTime;
+                    this.Medley.FadeOutTime = CSettings.DefaultMedleyFadeOutTIme;
+                }
+                #endregion check medley tags
 
                 this.Encoding = sr.CurrentEncoding;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                CLog.LogError("Error reading txt header in file \"" + FilePath + "\": " + e.Message);
                 return false;
             }
 
@@ -466,6 +566,9 @@ namespace Vocaluxe.Lib.Song
                 CLog.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". An unhandled exception occured (" + e.Message + "): " + FilePath);
                 return false;
             }
+
+            FindRefrain();
+
             return true;
         }
 
@@ -529,6 +632,25 @@ namespace Vocaluxe.Lib.Song
                         this.BackgroundFileName = file;
                     }
                 }
+            }
+        }
+
+        private void FindRefrain()
+        {
+            if (this.Medley.Source == EMedleySource.Tag)
+                return;
+
+            if (!this.CalculateMedley)
+                return;
+
+
+
+
+
+            if (this.PreviewStart == 0f)
+            {
+                if (this.Medley.Source == EMedleySource.Calculated)
+                    this.PreviewStart = CGame.GetTimeFromBeats(this.Medley.StartBeat, this.BPM); 
             }
         }
     }

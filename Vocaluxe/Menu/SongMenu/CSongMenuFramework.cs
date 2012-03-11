@@ -551,7 +551,13 @@ namespace Vocaluxe.Menu.SongMenu
 
                 int _stream = CSound.Load(Path.Combine(CSongs.VisibleSongs[_actsong].Folder, CSongs.VisibleSongs[_actsong].MP3FileName), true);
                 CSound.SetStreamVolume(_stream, 0f);
-                CSound.SetPosition(_stream, CSound.GetLength(_stream) / 4f);
+
+                float startposition = CSongs.VisibleSongs[_actsong].PreviewStart;
+
+                if (startposition == 0f)
+                    startposition = CSound.GetLength(_stream) / 4f;
+
+                CSound.SetPosition(_stream, startposition);
                 CSound.Play(_stream);
                 CSound.Fade(_stream, 100f, 3f);
                 _streams.Add(_stream);
@@ -562,7 +568,7 @@ namespace Vocaluxe.Menu.SongMenu
                     _video = CVideo.VdLoad(Path.Combine(CSongs.VisibleSongs[_actsong].Folder, CSongs.VisibleSongs[_actsong].VideoFileName));
                     if (_video == -1)
                         return;
-                    CVideo.VdSkip(_video, CSound.GetLength(_stream) / 4f, CSongs.VisibleSongs[_actsong].VideoGap);
+                    CVideo.VdSkip(_video, startposition, CSongs.VisibleSongs[_actsong].VideoGap);
                     _VideoFadeTimer.Stop();
                     _VideoFadeTimer.Reset();
                     _VideoFadeTimer.Start();
