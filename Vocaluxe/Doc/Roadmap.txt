@@ -86,6 +86,9 @@
 
 -----------------
 just some ideas:
+	- Installer
+	- More Song List Views
+	- Tile Board: Show title and artist under each tile
 	- OnScreen Keyboard?
 	- Kinect Support?
 	- Help System
