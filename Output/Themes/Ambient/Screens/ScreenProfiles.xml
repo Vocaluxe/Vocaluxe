@@ -145,7 +145,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENPROFILES_PROFILES</Text>
       <!--<Reflection> If exists:-->
@@ -172,7 +172,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENPROFILES_PLAYERNAME</Text>
       <!--<Reflection> If exists:-->
@@ -199,7 +199,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENPROFILES_GAMEDIFFICULTY</Text>
       <!--<Reflection> If exists:-->
@@ -226,7 +226,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENPROFILES_AVATAR</Text>
       <!--<Reflection> If exists:-->
@@ -253,7 +253,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENPROFILES_GUESTPROFILE</Text>
       <!--<Reflection> If exists:-->
@@ -280,7 +280,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENPROFILES_ACTIVE</Text>
       <!--<Reflection> If exists:-->
@@ -323,7 +323,7 @@
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
-        <Font>Normal</Font>
+        <Font>Outline</Font>
         <!--<Text>: Text or translation tag-->
         <Text />
       </Text>
@@ -370,7 +370,7 @@
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
-        <Font>Normal</Font>
+        <Font>Outline</Font>
         <!--<Text>: Text or translation tag-->
         <Text>TR_BUTTON_BACK</Text>
       </Text>
@@ -425,7 +425,7 @@
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
-        <Font>Normal</Font>
+        <Font>Outline</Font>
         <!--<Text>: Text or translation tag-->
         <Text>TR_BUTTON_SAVE</Text>
       </Text>
@@ -480,7 +480,7 @@
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
-        <Font>Normal</Font>
+        <Font>Outline</Font>
         <!--<Text>: Text or translation tag-->
         <Text>TR_SCREENPROFILES_BUTTON_NEW</Text>
       </Text>
@@ -535,7 +535,7 @@
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
-        <Font>Normal</Font>
+        <Font>Outline</Font>
         <!--<Text>: Text or translation tag-->
         <Text>TR_SCREENPROFILES_BUTTON_DELETE</Text>
       </Text>
@@ -613,7 +613,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>219,20</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
@@ -678,7 +678,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>208,67</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
@@ -743,7 +743,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>208,67</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
@@ -808,7 +808,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>313,00</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
@@ -873,7 +873,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>313,00</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->

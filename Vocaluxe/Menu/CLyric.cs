@@ -142,7 +142,7 @@ namespace Vocaluxe.Menu
             {
                 _Theme.Name = ElementName;
                 LoadTextures();
-                _Text = new CText(_X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Normal", Color, String.Empty);
+                _Text = new CText(_X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Outline", Color, String.Empty);
             }
             return _ThemeLoaded;
         }
