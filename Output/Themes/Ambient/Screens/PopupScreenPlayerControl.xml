@@ -431,7 +431,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
