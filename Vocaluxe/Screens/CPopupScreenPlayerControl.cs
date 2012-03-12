@@ -181,7 +181,8 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-            Statics[htStatics(StaticCover)].Visible = !_VideoPreview;
+
+            Statics[htStatics(StaticCover)].Visible = !_VideoPreview || !CBackgroundMusic.SongHasVideo;
             Buttons[htButtons(ButtonToBackgroundVideo)].Pressed = VideoBackground;
             Buttons[htButtons(ButtonShowVideo)].Pressed = _VideoPreview;
             return true;
@@ -197,13 +198,11 @@ namespace Vocaluxe.Screens
             if (!_Active)
                 return false;
             Statics[htStatics(StaticCover)].Texture = CBackgroundMusic.Cover;
-            if (CBackgroundMusic.VideoEnabled && CBackgroundMusic.SongHasVideo)
+            if (CBackgroundMusic.VideoEnabled && VideoPreview && CBackgroundMusic.SongHasVideo)
                 CDraw.DrawTexture(Statics[htStatics(StaticCover)], CBackgroundMusic.GetVideoTexture(), EAspect.Crop);
             Buttons[htButtons(ButtonPause)].Visible = CBackgroundMusic.Playing;
             Buttons[htButtons(ButtonPlay)].Visible = !CBackgroundMusic.Playing;
             Texts[htTexts(TextCurrentSong)].Text = CBackgroundMusic.ArtistAndTitle;
-            if (CBackgroundMusic.VideoEnabled)
-                Buttons[htButtons(ButtonShowVideo)].SColor = CTheme.GetColor("ButtonSColor");
 
             return base.Draw();
         }
