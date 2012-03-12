@@ -48,7 +48,7 @@ namespace Vocaluxe.Screens
                 else
                 {
                     CConfig.VideosToBackground = EOffOn.TR_CONFIG_ON;
-                    CBackgroundMusic.EnableVideo();
+                    CBackgroundMusic.VideoEnabled = true;
                 }
                 CConfig.SaveConfig();
             }
@@ -118,7 +118,7 @@ namespace Vocaluxe.Screens
                         if (Buttons[htButtons(ButtonShowVideo)].Selected)
                             TogglePreviewVideo();
                         if (Buttons[htButtons(ButtonSing)].Selected)
-                            StartSong(CBackgroundMusic.GetSongNr(), CBackgroundMusic.IsDuet());
+                            StartSong(CBackgroundMusic.SongID, CBackgroundMusic.Duet);
                         if (Buttons[htButtons(ButtonToBackgroundVideo)].Selected)
                             ToggleBackgroundVideo();
                         break;
@@ -146,7 +146,7 @@ namespace Vocaluxe.Screens
                 if (Buttons[htButtons(ButtonShowVideo)].Selected)
                     TogglePreviewVideo();
                 if (Buttons[htButtons(ButtonSing)].Selected)
-                    StartSong(CBackgroundMusic.GetSongNr(), CBackgroundMusic.IsDuet());
+                    StartSong(CBackgroundMusic.SongID, CBackgroundMusic.Duet);
                 if (Buttons[htButtons(ButtonToBackgroundVideo)].Selected)
                     ToggleBackgroundVideo();
             } else if (MouseEvent.LB)
@@ -178,13 +178,13 @@ namespace Vocaluxe.Screens
         {
             if (!_Active)
                 return false;
-            Statics[htStatics(StaticCover)].Texture = CBackgroundMusic.GetCover();
-            if (CBackgroundMusic.IsVideoEnabled() && CBackgroundMusic.HasVideo())
+            Statics[htStatics(StaticCover)].Texture = CBackgroundMusic.Cover;
+            if (CBackgroundMusic.VideoEnabled && CBackgroundMusic.SongHasVideo)
                 CDraw.DrawTexture(Statics[htStatics(StaticCover)], CBackgroundMusic.GetVideoTexture(), EAspect.Crop);
-            Buttons[htButtons(ButtonPause)].Visible = CBackgroundMusic.IsPlaying();
-            Buttons[htButtons(ButtonPlay)].Visible = !CBackgroundMusic.IsPlaying();
-            Texts[htTexts(TextCurrentSong)].Text = CBackgroundMusic.GetSongArtistAndTitle();
-            if (CBackgroundMusic.IsVideoEnabled())
+            Buttons[htButtons(ButtonPause)].Visible = CBackgroundMusic.Playing;
+            Buttons[htButtons(ButtonPlay)].Visible = !CBackgroundMusic.Playing;
+            Texts[htTexts(TextCurrentSong)].Text = CBackgroundMusic.ArtistAndTitle;
+            if (CBackgroundMusic.VideoEnabled)
                 Buttons[htButtons(ButtonShowVideo)].SColor = CTheme.GetColor("ButtonSColor");
 
             return base.Draw();
@@ -218,7 +218,7 @@ namespace Vocaluxe.Screens
             else
             {
                 CConfig.VideosToBackground = EOffOn.TR_CONFIG_ON;
-                CBackgroundMusic.EnableVideo();
+                CBackgroundMusic.VideoEnabled = true;
             }
             CConfig.SaveConfig();
         }
@@ -229,7 +229,7 @@ namespace Vocaluxe.Screens
             if (!_VideoPreview && !_VideoBackground)
                 CBackgroundMusic.ToggleVideo();
             else
-                CBackgroundMusic.EnableVideo();
+                CBackgroundMusic.VideoEnabled = true;
         }
     }
 }

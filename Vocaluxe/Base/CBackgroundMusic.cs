@@ -23,16 +23,94 @@ namespace Vocaluxe.Base
         private static List<PlaylistElement> _NotPlayedFileNames = new List<PlaylistElement>();
         private static List<PlaylistElement> _BGMusicFileNames = new List<PlaylistElement>();
         private static List<PlaylistElement> _PreviousFileNames = new List<PlaylistElement>();
-        
-        private static bool _OwnMusicAdded;
-        private static bool _BackgroundMusicAdded;
-        private static bool _Playing;
-        private static bool _VideoEnabled;
-        private static bool _Disabled;
 
         private static int _Video = -1;
         private static STexture _CurrentVideoTexture = new STexture(-1);
         private static Stopwatch _FadeTimer = new Stopwatch();
+        private static bool _VideoEnabled;
+        
+        private static bool _OwnMusicAdded;
+        private static bool _BackgroundMusicAdded;
+        private static bool _Playing;
+        private static bool _Disabled;
+
+        public static bool VideoEnabled
+        {
+            get
+            {
+                return _VideoEnabled;
+            }
+            set
+            {
+                _VideoEnabled = value;
+                if (!_VideoEnabled)
+                    ToggleVideo();
+            }
+        }
+
+        public static bool Disabled
+        {
+            get
+            {
+                return _Disabled;
+            }
+            set
+            {
+                _Disabled = value;
+                if (_Disabled)
+                    Pause();
+                else
+                    Play();
+            }
+        }
+
+        public static int SongID
+        {
+            get
+            {
+                return _CurrentPlaylistElement._SongID;
+            }
+        }
+
+        public static bool Duet
+        {
+            get
+            {
+                return _CurrentPlaylistElement.Duet;
+            }
+        }
+
+        public static bool SongHasVideo
+        {
+            get
+            {
+                return File.Exists(_CurrentPlaylistElement.VideoFilePath);
+            }
+        }
+
+        public static bool Playing
+        {
+            get
+            {
+                return CSound.IsPlaying(_CurrentMusicStream);
+            }
+        }
+
+        public static string ArtistAndTitle
+        {
+            get
+            {
+                return _CurrentPlaylistElement.Artist + " - " + _CurrentPlaylistElement.Title;
+            }
+        }
+
+        public static STexture Cover
+        {
+            get
+            {
+                return _CurrentPlaylistElement.Cover;
+            }
+        }
 
         public static void Init()
         {
@@ -51,7 +129,7 @@ namespace Vocaluxe.Base
             if(CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC)
                 AddBackgroundMusic();
             if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
-                EnableVideo();
+                VideoEnabled = true;
 
             _Playing = false;
         }
@@ -66,7 +144,7 @@ namespace Vocaluxe.Base
                     {
                         CSound.Fade(_CurrentMusicStream, CConfig.BackgroundMusicVolume, CSettings.BackgroundMusicFadeTime);
                         CSound.Play(_CurrentMusicStream);
-                        if (_VideoEnabled && _Video != -1)
+                        if (VideoEnabled && _Video != -1)
                             CVideo.VdResume(_Video);
                         _Playing = true;
                     }
@@ -78,7 +156,7 @@ namespace Vocaluxe.Base
 
         public static void Stop()
         {
-            if (_VideoEnabled && _Video != -1)
+            if (VideoEnabled && _Video != -1)
             {
                 CVideo.VdClose(_Video);
                 CDraw.RemoveTexture(ref _CurrentVideoTexture);
@@ -92,10 +170,10 @@ namespace Vocaluxe.Base
 
         public static void Pause()
         {
-            if (_VideoEnabled && _Video != -1)
+            if (VideoEnabled && _Video != -1)
             {
                 CVideo.VdPause(_Video);
-                CVideo.VdSkip(_Video, CSound.GetPosition(_CurrentMusicStream) + CSettings.BackgroundMusicFadeTime, _CurrentPlaylistElement.GetVideoGap());
+                CVideo.VdSkip(_Video, CSound.GetPosition(_CurrentMusicStream) + CSettings.BackgroundMusicFadeTime, _CurrentPlaylistElement.VideoGap);
             }
             CSound.FadeAndPause(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
             _Playing = false;
@@ -135,8 +213,8 @@ namespace Vocaluxe.Base
 
                     _CurrentPlaylistElement = _PreviousFileNames[_PreviousMusicIndex];
                 }
-                _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.GetMusicFilePath());
-                if (_VideoEnabled)
+                _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.MusicFilePath);
+                if (VideoEnabled)
                     LoadVideo();
                 CSound.SetStreamVolume(_CurrentMusicStream, 0f);
                 Play();
@@ -157,8 +235,8 @@ namespace Vocaluxe.Base
 
                 _CurrentPlaylistElement = _PreviousFileNames[_PreviousMusicIndex];
 
-                _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.GetMusicFilePath());
-                if (_VideoEnabled)
+                _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.MusicFilePath);
+                if (VideoEnabled)
                     LoadVideo();
                 CSound.SetStreamVolume(_CurrentMusicStream, 0f);
                 Play();
@@ -170,8 +248,8 @@ namespace Vocaluxe.Base
             if (_AllFileNames.Count > 0 && _CurrentMusicStream != -1)
             {
                 CSound.SetPosition(_CurrentMusicStream, 0);
-                if (_VideoEnabled && _Video != -1)
-                    CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.GetVideoGap());
+                if (VideoEnabled && _Video != -1)
+                    CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
             }
         }
 
@@ -204,7 +282,7 @@ namespace Vocaluxe.Base
                 _NotPlayedFileNames.AddRange(_BGMusicFileNames);
             }
 
-            if (IsPlaying() && !IsBackgroundFile(_CurrentPlaylistElement) || _AllFileNames.Count == 0)
+            if (Playing && !IsBackgroundFile(_CurrentPlaylistElement) || _AllFileNames.Count == 0)
                 Next();
 
             _OwnMusicAdded = false;
@@ -229,7 +307,7 @@ namespace Vocaluxe.Base
                 AddOwnMusic();
                 _BackgroundMusicAdded = false;
 
-                if (IsPlaying() && IsBackgroundFile(_CurrentPlaylistElement) || _AllFileNames.Count == 0)
+                if (Playing && IsBackgroundFile(_CurrentPlaylistElement) || _AllFileNames.Count == 0)
                     Next();
             }
         }
@@ -283,28 +361,13 @@ namespace Vocaluxe.Base
             CConfig.SaveConfig();
         }
 
-        public static bool IsPlaying()
-        {
-            return CSound.IsPlaying(_CurrentMusicStream);
-        }
-
-        public static string GetSongArtistAndTitle()
-        {
-            return _CurrentPlaylistElement.GetArtist() +" - " + _CurrentPlaylistElement.GetTitle();
-        }
-
-        public static STexture GetCover()
-        {
-            return _CurrentPlaylistElement.GetCover();
-        }
-
         public static void ToggleVideo()
         {
             if (_Video != -1)
             {
-                if (_VideoEnabled)
+                if (VideoEnabled)
                 {
-                    _VideoEnabled = false;
+                    VideoEnabled = false;
                     CVideo.VdClose(_Video);
                     _Video = -1;
                     CDraw.RemoveTexture(ref _CurrentVideoTexture);
@@ -342,31 +405,11 @@ namespace Vocaluxe.Base
             return new STexture(-1);
         }
 
-        public static int GetSongNr()
-        {
-            return _CurrentPlaylistElement.GetSongNr();
-        }
-
-        public static bool IsDuet()
-        {
-            return _CurrentPlaylistElement.IsDuet();
-        }
-
-        public static bool IsVideoEnabled()
-        {
-            return _VideoEnabled;
-        }
-
-        public static bool HasVideo()
-        {
-            return File.Exists(_CurrentPlaylistElement.GetVideoFilePath());
-        }
-
         private static bool IsBackgroundFile(PlaylistElement element)
         {
             foreach (PlaylistElement elements in _BGMusicFileNames)
             {
-                if (elements.GetMusicFilePath() == element.GetMusicFilePath())
+                if (elements.MusicFilePath == element.MusicFilePath)
                     return true;
             }
             return false;
@@ -376,176 +419,174 @@ namespace Vocaluxe.Base
         {
             if (_Video == -1)
             {
-                _Video = CVideo.VdLoad(_CurrentPlaylistElement.GetVideoFilePath());
-                CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.GetVideoGap());
-                _VideoEnabled = true;
+                _Video = CVideo.VdLoad(_CurrentPlaylistElement.VideoFilePath);
+                CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
+                VideoEnabled = true;
                 _FadeTimer.Reset();
                 _FadeTimer.Start();
             }
-        }
-
-        public static void EnableVideo()
-        {
-            if (!_VideoEnabled)
-                ToggleVideo();
-        }
-
-        public static void Disable()
-        {
-            Pause();
-            _Disabled = true;
-        }
-
-        public static void Enable()
-        {
-            Play();
-            _Disabled = false;
-        }
-
-        public static bool IsEnabled()
-        {
-            return !_Disabled;
         }
     }
 }
 
 class PlaylistElement
 {
-    string _MusicFilePath;
-    int _SongID;
+    public int _SongID;
+    private string _MusicFilePath;
+
+    public string MusicFilePath
+    {
+        get
+        {
+            if (_SongID >= 0)
+            {
+                CSong song = CSongs.GetSong(_SongID);
+                if (song != null)
+                    return song.GetMP3();
+                else
+                {
+                    _SongID = -1;
+                    CLog.LogError("Song not found");
+                }
+            }
+            return _MusicFilePath;
+        }
+
+        set
+        {
+            MusicFilePath = value;
+        }
+    }
+
+    public string VideoFilePath
+    {
+        get
+        {
+            if (_SongID >= 0)
+            {
+                CSong song = CSongs.GetSong(_SongID);
+                if (song != null)
+                    return song.GetVideo();
+                else
+                {
+                    _SongID = -1;
+                    CLog.LogError("Song not found");
+                }
+            }
+            return string.Empty;
+        }
+    }
+
+    public string Title
+    {
+        get
+        {
+            if (_SongID >= 0)
+            {
+                CSong song = CSongs.GetSong(_SongID);
+                if (song != null)
+                    return song.Title;
+                else
+                {
+                    _SongID = -1;
+                    CLog.LogError("Song not found");
+                }
+            }
+            return "Unknown";
+        }
+    }
+
+    public string Artist
+    {
+        get
+        {
+            if (_SongID >= 0)
+            {
+                CSong song = CSongs.GetSong(_SongID);
+                if (song != null)
+                    return song.Artist;
+                else
+                {
+                    _SongID = -1;
+                    CLog.LogError("Song not found");
+                }
+            }
+            return "Unknown";
+        }
+    }
+
+    public STexture Cover
+    {
+        get
+        {
+            if (_SongID >= 0)
+            {
+                CSong song = CSongs.GetSong(_SongID);
+                if (song != null)
+                    return song.CoverTextureSmall;
+                else
+                {
+                    _SongID = -1;
+                    CLog.LogError("Song not found");
+                }
+            }
+            return CCover.NoCover;
+        }
+    }
+
+    public float VideoGap
+    {
+        get
+        {
+            if (_SongID >= 0)
+            {
+                CSong song = CSongs.GetSong(_SongID);
+                if (song != null)
+                    return song.VideoGap;
+                else
+                {
+                    _SongID = -1;
+                    CLog.LogError("Song not found");
+                }
+            }
+            return 0;
+        }
+    }
+
+    public bool Duet
+    {
+        get
+        {
+            if (_SongID >= 0)
+            {
+                CSong song = CSongs.GetSong(_SongID);
+                if (song != null)
+                    return song.IsDuet;
+                else
+                {
+                    _SongID = -1;
+                    CLog.LogError("Song not found");
+                }
+            }
+            return false;
+        }
+    }
 
     public PlaylistElement(CSong song)
     {
-        _MusicFilePath = string.Empty;
+        //MusicFilePath = string.Empty;
         _SongID = song.ID;
     }
 
     public PlaylistElement(string FilePath)
     {
-        _MusicFilePath = FilePath;
+        //MusicFilePath = FilePath;
         _SongID = -1;
     }
 
     public PlaylistElement()
     {
-        _MusicFilePath = string.Empty;
+        //MusicFilePath = string.Empty;
         _SongID = -1;
-    }
-
-    public string GetMusicFilePath()
-    {
-        if (_SongID >= 0)
-        {
-            CSong song = CSongs.GetSong(_SongID);
-            if (song != null)
-                return song.GetMP3();
-            else
-            {
-                _SongID = -1;
-                CLog.LogError("Song not found");
-            }
-        }
-        return _MusicFilePath;
-    }
-
-    public string GetVideoFilePath()
-    {
-        if (_SongID >= 0)
-        {
-            CSong song = CSongs.GetSong(_SongID);
-            if (song != null)
-                return song.GetVideo();
-            else
-            {
-                _SongID = -1;
-                CLog.LogError("Song not found");
-            }
-        }
-        return string.Empty;
-    }
-
-    public string GetTitle()
-    {
-        if (_SongID >= 0)
-        {
-            CSong song = CSongs.GetSong(_SongID);
-            if (song != null)
-                return song.Title;
-            else
-            {
-                _SongID = -1;
-                CLog.LogError("Song not found");
-            }
-        }
-        return "Unknown";
-    }
-
-    public string GetArtist()
-    {
-        if (_SongID >= 0)
-        {
-            CSong song = CSongs.GetSong(_SongID);
-            if (song != null)
-                return song.Artist;
-            else
-            {
-                _SongID = -1;
-                CLog.LogError("Song not found");
-            }
-        }
-        return "Unknown";
-    }
-
-    public STexture GetCover()
-    {
-        if (_SongID >= 0)
-        {
-            CSong song = CSongs.GetSong(_SongID);
-            if (song != null)
-                return song.CoverTextureSmall;
-            else
-            {
-                _SongID = -1;
-                CLog.LogError("Song not found");
-            }
-        }
-        return CCover.NoCover;
-    }
-
-    public float GetVideoGap()
-    {
-        if (_SongID >= 0)
-        {
-            CSong song = CSongs.GetSong(_SongID);
-            if (song != null)
-                return song.VideoGap;
-            else
-            {
-                _SongID = -1;
-                CLog.LogError("Song not found");
-            }
-        }
-        return 0;
-    }
-
-    public int GetSongNr()
-    {
-        return _SongID;
-    }
-
-    public bool IsDuet()
-    {
-        if (_SongID >= 0)
-        {
-            CSong song = CSongs.GetSong(_SongID);
-            if (song != null)
-                return song.IsDuet;
-            else
-            {
-                _SongID = -1;
-                CLog.LogError("Song not found");
-            }
-        }
-        return false;
     }
 }
