@@ -29,9 +29,24 @@ namespace Vocaluxe.Screens
         private const string ButtonToBackgroundVideo = "ButtonToBackgroundVideo";
 
         private const string TextCurrentSong = "TextCurrentSong";
-
         private bool _VideoPreview = false;
-        private bool _VideoBackground
+
+        private bool VideoPreview
+        {
+            get
+            {
+                return _VideoPreview;
+            }
+            set
+            {
+                _VideoPreview = value;
+                if (!_VideoPreview && !VideoBackground)
+                    CBackgroundMusic.VideoEnabled = false;
+                else
+                    CBackgroundMusic.VideoEnabled = true;
+            }
+        }
+        private bool VideoBackground
         {
             get
             {
@@ -39,11 +54,14 @@ namespace Vocaluxe.Screens
             }
             set
             {
-                if (CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON)
+                if (!value)
                 {
-                    CConfig.VideosToBackground = EOffOn.TR_CONFIG_OFF;
-                    if (!_VideoPreview) //No videos are enabled so we should call ToggleVideo() to close
-                        CBackgroundMusic.ToggleVideo();
+                    if (CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON)
+                    {
+                        CConfig.VideosToBackground = EOffOn.TR_CONFIG_OFF;
+                        if (!_VideoPreview)
+                            CBackgroundMusic.VideoEnabled = false;
+                    }
                 }
                 else
                 {
@@ -116,11 +134,11 @@ namespace Vocaluxe.Screens
                         if (Buttons[htButtons(ButtonRepeat)].Selected)
                             CBackgroundMusic.Repeat();
                         if (Buttons[htButtons(ButtonShowVideo)].Selected)
-                            TogglePreviewVideo();
+                            VideoPreview = !VideoPreview;
                         if (Buttons[htButtons(ButtonSing)].Selected)
                             StartSong(CBackgroundMusic.SongID, CBackgroundMusic.Duet);
                         if (Buttons[htButtons(ButtonToBackgroundVideo)].Selected)
-                            ToggleBackgroundVideo();
+                            VideoBackground = !VideoBackground;
                         break;
                 }
             }
@@ -144,11 +162,11 @@ namespace Vocaluxe.Screens
                 if (Buttons[htButtons(ButtonRepeat)].Selected)
                     CBackgroundMusic.Repeat();
                 if (Buttons[htButtons(ButtonShowVideo)].Selected)
-                    TogglePreviewVideo();
+                    VideoPreview = !VideoPreview;
                 if (Buttons[htButtons(ButtonSing)].Selected)
                     StartSong(CBackgroundMusic.SongID, CBackgroundMusic.Duet);
                 if (Buttons[htButtons(ButtonToBackgroundVideo)].Selected)
-                    ToggleBackgroundVideo();
+                    VideoBackground = !VideoBackground;
             } else if (MouseEvent.LB)
             {
                 CGraphics.HidePopup(EPopupScreens.PopupPlayerControl);
@@ -164,7 +182,7 @@ namespace Vocaluxe.Screens
         public override bool UpdateGame()
         {
             Statics[htStatics(StaticCover)].Visible = !_VideoPreview;
-            Buttons[htButtons(ButtonToBackgroundVideo)].Pressed = _VideoBackground;
+            Buttons[htButtons(ButtonToBackgroundVideo)].Pressed = VideoBackground;
             Buttons[htButtons(ButtonShowVideo)].Pressed = _VideoPreview;
             return true;
         }
@@ -205,31 +223,6 @@ namespace Vocaluxe.Screens
 
                 CGraphics.FadeTo(EScreens.ScreenNames);
             }
-        }
-
-        private void ToggleBackgroundVideo()
-        {
-            if (_VideoBackground)
-            {
-                CConfig.VideosToBackground = EOffOn.TR_CONFIG_OFF;
-                if (!_VideoPreview) //No videos are enabled so we should call ToggleVideo() to close
-                    CBackgroundMusic.ToggleVideo();
-            }
-            else
-            {
-                CConfig.VideosToBackground = EOffOn.TR_CONFIG_ON;
-                CBackgroundMusic.VideoEnabled = true;
-            }
-            CConfig.SaveConfig();
-        }
-
-        private void TogglePreviewVideo()
-        {
-            _VideoPreview = !_VideoPreview;
-            if (!_VideoPreview && !_VideoBackground)
-                CBackgroundMusic.ToggleVideo();
-            else
-                CBackgroundMusic.VideoEnabled = true;
         }
     }
 }
