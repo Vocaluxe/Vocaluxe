@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
@@ -38,6 +39,7 @@ namespace Vocaluxe.Base
         
         public CGlyph(char chr)
         {
+            float outline = CFonts.Outline;
             TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
 
             float factor = GetFactor(chr, flags);
@@ -53,19 +55,53 @@ namespace Vocaluxe.Base
             g.Dispose();
             bmp.Dispose();
 
-            bmp = new Bitmap((int)(sizeB.Width * 1.5f), sizeB.Height);
+            bmp = new Bitmap((int)(sizeB.Width * 2f), sizeB.Height);
             g = System.Drawing.Graphics.FromImage(bmp);
             g.Clear(System.Drawing.Color.Transparent);
 
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             CFonts.Height = SIZEh;
             fo = CFonts.GetFont();
-            g.DrawString(chr.ToString(), fo, Brushes.White, new PointF((sizeB.Width - size.Width) / 2f, (sizeB.Height - size.Height - (size.Height + SIZEh/4f) * (1f - factor)) / 2f));
+
+            PointF point = new PointF(
+                    outline * Math.Abs(sizeB.Width - size.Width) + (sizeB.Width - size.Width) / 2f + SIZEh / 5f,
+                    (sizeB.Height - size.Height - (size.Height + SIZEh/4f) * (1f - factor)) / 2f);
+
+            GraphicsPath path = new GraphicsPath();
+            path.AddString(
+                chr.ToString(),
+                fo.FontFamily,
+                (int)fo.Style,
+                SIZEh,
+                point,
+                new StringFormat());
+
+            Pen pen = new Pen(
+                Color.FromArgb(
+                    (int)CFonts.OutlineColor.A * 255,
+                    (int)CFonts.OutlineColor.R * 255,
+                    (int)CFonts.OutlineColor.G * 255,
+                    (int)CFonts.OutlineColor.B * 255),
+                SIZEh * outline);
+
+            pen.LineJoin = LineJoin.Round;
+            g.DrawPath(pen, path);
+            g.FillPath(Brushes.White, path);
+
+            /*
+            g.DrawString(
+                chr.ToString(),
+                fo,
+                Brushes.White,
+                point);
+             * */
 
             Texture = CDraw.AddTexture(bmp);
-            
+            //bmp.Save("test.png", ImageFormat.Png);
             Chr = chr;
-            width = (int)(sizeB.Width * Texture.width/factor / bmp.Width);
+            width = (int)((1f + outline / 2f) * sizeB.Width * Texture.width/factor / bmp.Width);
 
             bmp.Dispose();
             g.Dispose();
@@ -146,7 +182,8 @@ namespace Vocaluxe.Base
             CFonts.Height = h;
             CGlyph glyph = _Glyphs[(int)_htGlyphs[chr]];
             float factor = h / glyph.Texture.height;
-            CDraw.DrawTexture(glyph.Texture, new SRectF(x, y, glyph.Texture.width * factor, h, z), color);
+            float d = glyph.SIZEh / 5f * factor;
+            CDraw.DrawTexture(glyph.Texture, new SRectF(x - d, y, glyph.Texture.width * factor, h, z), color);
         }
 
         public void DrawGlyphReflection(char chr, float x, float y, float h, float z, SColorF color, float rspace, float rheight)
@@ -156,7 +193,8 @@ namespace Vocaluxe.Base
             CFonts.Height = h;
             CGlyph glyph = _Glyphs[(int)_htGlyphs[chr]];
             float factor = h / glyph.Texture.height;
-            SRectF rect = new SRectF(x, y, glyph.Texture.width * factor, h, z);
+            float d = glyph.SIZEh / 5f * factor;
+            SRectF rect = new SRectF(x - d, y, glyph.Texture.width * factor, h, z);
             CDraw.DrawTextureReflection(glyph.Texture, rect, color, rect, rspace, rheight);
         }
 
@@ -168,8 +206,9 @@ namespace Vocaluxe.Base
             CGlyph glyph = _Glyphs[(int)_htGlyphs[chr]];
             float factor = h / glyph.Texture.height;
             float width = glyph.Texture.width * factor;
-            
-            CDraw.DrawTexture(glyph.Texture, new SRectF(x, y, width, h, z), color, begin, end);
+            float d = glyph.SIZEh / 5f * factor;
+
+            CDraw.DrawTexture(glyph.Texture, new SRectF(x - d, y, width, h, z), color, begin, end);
         }
 
         public float GetWidth(char chr)
@@ -215,6 +254,9 @@ namespace Vocaluxe.Base
         public string FileBold;
         public string FileBoldItalic;
 
+        public float Outline;       //0..1, 0=not outline 1=100% outline
+        public SColorF OutlineColor;
+
         public CFont Normal;
         public CFont Italic;
         public CFont Bold;
@@ -249,6 +291,30 @@ namespace Vocaluxe.Base
                     _Height = 0f;
                 else
                     _Height = value;
+            }
+        }
+
+        public static float Outline
+        {
+            get { return _Fonts[_CurrentFont].Outline; }
+            set
+            {
+                SFont font = _Fonts[_CurrentFont];
+                font.Outline = value;
+                if (font.Outline < 0f)
+                    font.Outline = 0f;
+                if (font.Outline > 1f)
+                    font.Outline = 1f;
+            }
+        }
+
+        public static SColorF OutlineColor
+        {
+            get { return _Fonts[_CurrentFont].OutlineColor; }
+            set
+            {
+                SFont font = _Fonts[_CurrentFont];
+                font.OutlineColor = value;
             }
         }
 
@@ -610,6 +676,15 @@ namespace Vocaluxe.Base
                     f = new CFont(value);
                     sf.BoldItalic = f;
 
+                    sf.Outline = 0f;
+                    CHelper.TryGetFloatValueFromXML("//root/Font" + i.ToString() + "/Outline", navigator, ref sf.Outline);
+
+                    sf.OutlineColor = new SColorF(0f, 0f, 0f, 1f);
+                    CHelper.TryGetFloatValueFromXML("//root/Font" + i.ToString() + "/OutlineColorR", navigator, ref sf.OutlineColor.R);
+                    CHelper.TryGetFloatValueFromXML("//root/Font" + i.ToString() + "/OutlineColorG", navigator, ref sf.OutlineColor.G);
+                    CHelper.TryGetFloatValueFromXML("//root/Font" + i.ToString() + "/OutlineColorB", navigator, ref sf.OutlineColor.B);
+                    CHelper.TryGetFloatValueFromXML("//root/Font" + i.ToString() + "/OutlineColorA", navigator, ref sf.OutlineColor.A);
+
                     _Fonts.Add(sf);
                     i++;
                 }
@@ -662,6 +737,15 @@ namespace Vocaluxe.Base
                 f = new CFont(value);
                 sf.BoldItalic = f;
 
+                sf.Outline = 0f;
+                ok &= CHelper.TryGetFloatValueFromXML("//root/Fonts/Font" + i.ToString() + "/Outline", navigator, ref sf.Outline);
+
+                sf.OutlineColor = new SColorF(0f, 0f, 0f, 1f);
+                ok &= CHelper.TryGetFloatValueFromXML("//root/Fonts/Font" + i.ToString() + "/OutlineColorR", navigator, ref sf.OutlineColor.R);
+                ok &= CHelper.TryGetFloatValueFromXML("//root/Fonts/Font" + i.ToString() + "/OutlineColorG", navigator, ref sf.OutlineColor.G);
+                ok &= CHelper.TryGetFloatValueFromXML("//root/Fonts/Font" + i.ToString() + "/OutlineColorB", navigator, ref sf.OutlineColor.B);
+                ok &= CHelper.TryGetFloatValueFromXML("//root/Fonts/Font" + i.ToString() + "/OutlineColorA", navigator, ref sf.OutlineColor.A);
+
                 if (ok)
                     _Fonts.Add(sf);
                 else
@@ -698,6 +782,13 @@ namespace Vocaluxe.Base
 
                     writer.WriteElementString("Name", _Fonts[Index].Name);
                     writer.WriteElementString("Folder", _Fonts[Index].Folder);
+
+                    writer.WriteElementString("Outline", _Fonts[Index].Outline.ToString("#0.00"));
+                    writer.WriteElementString("ColorR", _Fonts[Index].OutlineColor.R.ToString("#0.00"));
+                    writer.WriteElementString("ColorG", _Fonts[Index].OutlineColor.G.ToString("#0.00"));
+                    writer.WriteElementString("ColorB", _Fonts[Index].OutlineColor.B.ToString("#0.00"));
+                    writer.WriteElementString("ColorA", _Fonts[Index].OutlineColor.A.ToString("#0.00"));
+
                     writer.WriteElementString("FileNormal", _Fonts[Index].FileNormal);
                     writer.WriteElementString("FileBold", _Fonts[Index].FileBold);
                     writer.WriteElementString("FileItalic", _Fonts[Index].FileItalic);
