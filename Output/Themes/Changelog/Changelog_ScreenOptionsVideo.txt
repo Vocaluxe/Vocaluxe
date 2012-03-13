@@ -1,0 +1,10 @@
+ScreenOptionsTheme
+
+++++++++++
+Version 2:
+
+Add:
+<SelectSlideVideosToBackground>
+and some texts and statics for description (Text5)
+"TR_SCREENO_VIDEO_VIDEOSTOBACKGROUND"
+++++++++++ 

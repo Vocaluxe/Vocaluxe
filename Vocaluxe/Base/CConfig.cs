@@ -66,6 +66,19 @@ namespace Vocaluxe.Base
         TR_CONFIG_LEVEL_MAX	    //all debug infos
     }
 
+    public enum EBufferSize
+    {
+        b0 = 0,
+        b512 = 512,
+        b1024 = 1024,
+        b1536 = 1536,
+        b2048 = 2048,
+        b2560 = 2560,
+        b3072 = 3072,
+        b3584 = 3584,
+        b4096 = 4096
+    }
+
     public enum EPlaybackLib
     {
         PortAudio,
@@ -177,7 +190,8 @@ namespace Vocaluxe.Base
         // Sound
         public static EPlaybackLib PlayBackLib = EPlaybackLib.PortAudio;
         public static ERecordLib RecordLib = ERecordLib.PortAudio;
-        public static uint PortAudioBufferSize = 1024;
+        public static EBufferSize AudioBufferSize = EBufferSize.b2048;
+        public static int AudioLatency = 125;
         public static int BackgroundMusicVolume = 50;
         public static EOffOn BackgroundMusic = EOffOn.TR_CONFIG_ON;
         public static EBackgroundMusicSource BackgroundMusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
@@ -198,6 +212,7 @@ namespace Vocaluxe.Base
         public static EOffOn VideoBackgrounds = EOffOn.TR_CONFIG_ON;
         public static EOffOn VideoPreview = EOffOn.TR_CONFIG_ON;
         public static EOffOn VideosInSongs = EOffOn.TR_CONFIG_ON;
+        public static EOffOn VideosToBackground = EOffOn.TR_CONFIG_OFF;
 
         // Record
         public static SMicConfig[] MicConfig;
@@ -286,6 +301,14 @@ namespace Vocaluxe.Base
                 #region Sound
                 CHelper.TryGetEnumValueFromXML<EPlaybackLib>("//root/Sound/PlayBackLib", navigator, ref PlayBackLib);
                 CHelper.TryGetEnumValueFromXML<ERecordLib>("//root/Sound/RecordLib", navigator, ref RecordLib);
+                CHelper.TryGetEnumValueFromXML<EBufferSize>("//root/Sound/AudioBufferSize", navigator, ref AudioBufferSize);
+
+                CHelper.TryGetIntValueFromXML("//root/Sound/AudioLatency", navigator, ref AudioLatency);
+                if (AudioLatency < -500)
+                    AudioLatency = -500;
+                if (AudioLatency > 500)
+                    AudioLatency = 500;
+
                 CHelper.TryGetEnumValueFromXML("//root/Sound/BackgroundMusic", navigator, ref BackgroundMusic);
                 CHelper.TryGetIntValueFromXML("//root/Sound/BackgroundMusicVolume", navigator, ref BackgroundMusicVolume);
                 CHelper.TryGetEnumValueFromXML("//root/Sound/BackgroundMusicSource", navigator, ref BackgroundMusicSource);
@@ -349,6 +372,7 @@ namespace Vocaluxe.Base
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideoBackgrounds", navigator, ref VideoBackgrounds);
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideoPreview", navigator, ref VideoPreview);
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideosInSongs", navigator, ref VideosInSongs);
+                CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideosToBackground", navigator, ref VideosToBackground);
                 #endregion Video
 
                 #region Record
@@ -480,8 +504,14 @@ namespace Vocaluxe.Base
             writer.WriteComment("RecordLib: " + ListStrings(Enum.GetNames(typeof(ERecordLib))));
             writer.WriteElementString("RecordLib", Enum.GetName(typeof(ERecordLib), RecordLib));
 
+            writer.WriteComment("AudioBufferSize: " + ListStrings(Enum.GetNames(typeof(EBufferSize))));
+            writer.WriteElementString("AudioBufferSize", Enum.GetName(typeof(EBufferSize), AudioBufferSize));
+
+            writer.WriteComment("AudioLatency from -500 to 500 ms");
+            writer.WriteElementString("AudioLatency", AudioLatency.ToString());
+
             writer.WriteComment("Background Music");
-            writer.WriteElementString("BackgroundMusicEnabled", Enum.GetName(typeof(EOffOn), BackgroundMusic));
+            writer.WriteElementString("BackgroundMusic", Enum.GetName(typeof(EOffOn), BackgroundMusic));
 
             writer.WriteComment("Background Music Volume from 0 to 100");
             writer.WriteElementString("BackgroundMusicVolume", BackgroundMusicVolume.ToString());
@@ -557,6 +587,9 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("Show Videos while singing: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("VideosInSongs", Enum.GetName(typeof(EOffOn), VideosInSongs));
+
+            writer.WriteComment("Show backgroundmusic videos as background: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteElementString("VideosToBackground", Enum.GetName(typeof(EOffOn), VideosToBackground));
 
             writer.WriteEndElement();
             #endregion Video

@@ -118,6 +118,11 @@ namespace Vocaluxe.Lib.Song
             return Path.Combine(Folder, MP3FileName);
         }
 
+        public string GetVideo()
+        {
+            return Path.Combine(Folder, VideoFileName);
+        }
+
         public bool ReadTXTSong(string FilePath)
         {
             if (!File.Exists(FilePath))
@@ -237,6 +242,11 @@ namespace Vocaluxe.Lib.Song
                                         this.MP3FileName = Value;
                                         HeaderFlags |= EHeaderFlags.MP3;
                                     }
+                                    else
+                                    {
+                                        CLog.LogError("Can't find audio file: " + Path.Combine(this.Folder, Value));
+                                        return false;
+                                    }
                                     break;
                                 case "BPM":
                                     if (CHelper.TryParse(Value, out this.BPM))
@@ -283,6 +293,9 @@ namespace Vocaluxe.Lib.Song
                                 case "VIDEO":
                                     if (File.Exists(Path.Combine(this.Folder, Value)))
                                         this.VideoFileName = Value;
+                                    else
+                                        CLog.LogError("Can't find video file: " + Path.Combine(this.Folder, Value));
+                                        
                                     break;
                                 case "VIDEOGAP":
                                     CHelper.TryParse(Value, out this.VideoGap);

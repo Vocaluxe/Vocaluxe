@@ -77,6 +77,9 @@ namespace Vocaluxe.Base
 
         public static string Translate(string KeyWord)
         {
+            if (KeyWord == null)
+                return null;
+
             if (KeyWord.Length < 3)
                 return KeyWord;
 
