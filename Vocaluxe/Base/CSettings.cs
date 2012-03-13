@@ -47,10 +47,11 @@ namespace Vocaluxe.Base
         public const int iVersionSub = 0;        // steps
         public const ERevision VersionRevision = ERevision.Beta;
 
-        public const int iBuild = 53;             // Increase on every published version! Never Reset!
+        public const int iBuild = 54;             // Increase on every published version! Never Reset!
 
         public const int iDatabaseHighscoreVersion = 1;
         public const int iDatabaseCoverVersion = 1;
+        public const int iDatabaseCreditsRessourcesVersion = 1;
         
 
         public static int iRenderW = 1280;
@@ -69,8 +70,10 @@ namespace Vocaluxe.Base
         public const string sFileCover = "Cover.xml";
         public const string sFileFonts = "Fonts.xml";
 
+        public const string sFileOldHighscoreDB = "Ultrastar.db";
         public static string sFileHighscoreDB = "HighscoreDB.sqlite";
         public const string sFileCoverDB = "CoverDB.sqlite";
+        public const string sFileCreditsRessourcesDB = "CreditsRessourcesDB.sqlite";
         public const string sFilePerformanceLog = "Performance.log";
         public const string sFileErrorLog = "Error.log";
         public const string sFileBenchmarkLog = "Benchmark.log";
@@ -111,6 +114,11 @@ namespace Vocaluxe.Base
         public static bool TabNavigation = false;
 
         public const float BackgroundMusicFadeTime = 0.5f;
+
+        public static List<string> MusicFileTypes = new List<string>()
+        { 
+            "*.mp3","*.wma","*.ogg","*.wav" 
+        };
         
         public static string GetVersionText()
         {

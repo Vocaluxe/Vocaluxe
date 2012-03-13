@@ -620,7 +620,7 @@ namespace Vocaluxe.Lib.Sound
                 IntPtr.Zero,
                 ref outputParams,
                 format.SamplesPerSecond,
-                0,//CConfig.PortAudioBufferSize,
+                (uint)CConfig.AudioBufferSize,
                 PortAudio.PaStreamFlags.paNoFlag,
                 _paStreamCallback,
                 data));
@@ -677,6 +677,21 @@ namespace Vocaluxe.Lib.Sound
             {
                 if (EventDecode.WaitOne(10))
                 {
+                    lock (MutexSyncSignals)
+                    {
+                        if (_SetSkip)
+                        {
+                            _skip = true;
+                            EventDecode.Set();
+                            _waiting = true;
+                        }
+
+                        _SetSkip = false;
+
+                        _Start = _SetStart;
+                        _Loop = _SetLoop;
+                    }
+
                     if (_skip)
                     {
                         DoSkip();
@@ -689,25 +704,6 @@ namespace Vocaluxe.Lib.Sound
                         Update();
                     }
                 }
-
-                if (!_terminated)
-                {
-                    lock (MutexSyncSignals)
-                    {
-                        if (_SetSkip)
-                        {
-                            _skip = true;
-                            EventDecode.Set();
-                            _waiting = true;
-                        }
-
-                        _SetSkip = false;
-                        
-                        _Start = _SetStart;
-                        _Loop = _SetLoop;
-                    }
-                }
-
             }
 
             DoFree();
@@ -844,7 +840,7 @@ namespace Vocaluxe.Lib.Sound
                 else
                     _waiting = true;
 
-                float latency = buf.Length / _BytesPerSecond;
+                float latency = buf.Length / _BytesPerSecond + CConfig.AudioLatency/1000f;
                 float time = _TimeCode - _data.BytesNotRead / _BytesPerSecond - latency;
 
                 _CurrentTime = _SyncTimer.Update(time);
@@ -856,7 +852,7 @@ namespace Vocaluxe.Lib.Sound
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                CLog.LogError("Error PortAudio.StreamCallback: " + e.Message);
             }
 
             return PortAudio.PaStreamCallbackResult.paContinue;

@@ -394,7 +394,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (_streams.Count > 0 && _video != -1)
             {
-                if (CVideo.VdFinished(_video))
+                if (CVideo.VdFinished(_video) || CSound.IsFinished(_actsongstream))
                 {
                     CVideo.VdClose(_video);
                     _video = -1;
