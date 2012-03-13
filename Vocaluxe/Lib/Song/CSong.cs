@@ -118,6 +118,11 @@ namespace Vocaluxe.Lib.Song
             return Path.Combine(Folder, MP3FileName);
         }
 
+        public string GetVideo()
+        {
+            return Path.Combine(Folder, VideoFileName);
+        }
+
         public bool ReadTXTSong(string FilePath)
         {
             if (!File.Exists(FilePath))

@@ -41,6 +41,7 @@ namespace Vocaluxe.Menu
         public float SReflectionHeight;
 
         private bool _Selected;
+        public bool Pressed;
         public bool Selected
         {
             get { return _Selected; }
@@ -234,7 +235,8 @@ namespace Vocaluxe.Menu
                 return;
 
             STexture texture = new STexture(-1);
-            if (!Selected)
+
+            if (!Selected && !Pressed)
             {
                 texture = CTheme.GetSkinTexture(_Theme.TextureName);
                 CDraw.DrawTexture(texture, Rect, Color);

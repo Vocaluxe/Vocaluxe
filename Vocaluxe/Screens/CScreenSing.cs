@@ -326,7 +326,7 @@ namespace Vocaluxe.Screens
             }
 
             SetVisuability();
-            CBackgroundMusic.Pause();
+            CBackgroundMusic.Disabled = true;
         }
 
         public override void OnShowFinish()
@@ -335,7 +335,7 @@ namespace Vocaluxe.Screens
 
             CGame.Start();
             LoadNextSong();
-            CBackgroundMusic.Pause();
+            CBackgroundMusic.Disabled = true;
         }
 
         public override bool Draw()
@@ -418,6 +418,7 @@ namespace Vocaluxe.Screens
         public override void OnClose()
         {
             base.OnClose();
+            CBackgroundMusic.Disabled = false;
             CloseSong();
         }
 

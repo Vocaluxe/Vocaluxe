@@ -177,7 +177,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENORECORD_OPTIONS</Text>
       <!--<Reflection> If exists:-->
@@ -204,7 +204,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENORECORD_DEVICE</Text>
       <!--<Reflection> If exists:-->
@@ -231,7 +231,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENORECORD_INPUT</Text>
       <!--<Reflection> If exists:-->
@@ -258,7 +258,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENORECORD_CHANNEL_1</Text>
       <!--<Reflection> If exists:-->
@@ -285,7 +285,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENORECORD_CHANNEL_2</Text>
       <!--<Reflection> If exists:-->
@@ -312,7 +312,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENORECORD_MIC_DELAY</Text>
       <!--<Reflection> If exists:-->
@@ -340,7 +340,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENORECORD_MIC_WARNING</Text>
       <!--<Reflection> If exists:-->
@@ -367,7 +367,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
@@ -394,7 +394,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
@@ -437,7 +437,7 @@
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
-        <Font>Normal</Font>
+        <Font>Outline</Font>
         <!--<Text>: Text or translation tag-->
         <Text>TR_BUTTON_BACK</Text>
       </Text>
@@ -492,7 +492,7 @@
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
-        <Font>Normal</Font>
+        <Font>Outline</Font>
         <!--<Text>: Text or translation tag-->
         <Text>TR_SCREENORECORD_BUTTON_DELAYTEST</Text>
       </Text>
@@ -570,7 +570,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>616,00</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
@@ -635,7 +635,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>616,00</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
@@ -700,7 +700,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>154,00</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
@@ -765,7 +765,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>154,00</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
@@ -830,7 +830,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>123,20</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->

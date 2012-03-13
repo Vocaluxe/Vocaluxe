@@ -423,6 +423,9 @@ namespace Vocaluxe.Menu
                 CurrentColor = new SColorF(SColor);
 
             SColorF color = new SColorF(CurrentColor.R, CurrentColor.G, CurrentColor.B, CurrentColor.A * Alpha);
+
+            CFonts.SetFont(Fon);
+            CFonts.Style = Style;
             CFonts.DrawText(CLanguage.Translate(Text), h, x, y, Z, color);
 
             if (Reflection)
@@ -461,6 +464,9 @@ namespace Vocaluxe.Menu
                 CurrentColor = new SColorF(SColor);
 
             SColorF color = new SColorF(CurrentColor.R, CurrentColor.G, CurrentColor.B, CurrentColor.A * Alpha);
+
+            CFonts.SetFont(Fon);
+            CFonts.Style = Style;
             CFonts.DrawText(Text, Height, x, Y, Z, color, begin, end);
 
             if (Reflection)
@@ -520,6 +526,9 @@ namespace Vocaluxe.Menu
                 CurrentColor = new SColorF(SColor);
 
             SColorF color = new SColorF(CurrentColor.R, CurrentColor.G, CurrentColor.B, CurrentColor.A * Alpha);
+
+            CFonts.SetFont(Fon);
+            CFonts.Style = Style;
             CFonts.DrawText(CLanguage.Translate(Text), h, x, y, Z, color);
 
             if (reflection)

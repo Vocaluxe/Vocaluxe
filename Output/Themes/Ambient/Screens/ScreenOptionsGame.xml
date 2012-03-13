@@ -145,7 +145,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENOGAME_OPTIONS</Text>
       <!--<Reflection> If exists:-->
@@ -172,7 +172,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENOGAME_LANGUAGE</Text>
       <!--<Reflection> If exists:-->
@@ -199,7 +199,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENOGAME_DEBUGLEVEL</Text>
       <!--<Reflection> If exists:-->
@@ -226,7 +226,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENOGAME_SONGMENU</Text>
       <!--<Reflection> If exists:-->
@@ -253,7 +253,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENOGAME_SONGSORTING</Text>
       <!--<Reflection> If exists:-->
@@ -280,7 +280,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENOGAME_TABS</Text>
       <!--<Reflection> If exists:-->
@@ -307,7 +307,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENOGAME_TIMERMODE</Text>
       <!--<Reflection> If exists:-->
@@ -350,7 +350,7 @@
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
-        <Font>Normal</Font>
+        <Font>Outline</Font>
         <!--<Text>: Text or translation tag-->
         <Text>TR_BUTTON_BACK</Text>
       </Text>
@@ -428,7 +428,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>205,33</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
@@ -493,7 +493,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>205,33</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
@@ -558,7 +558,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>205,33</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
@@ -623,7 +623,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>205,33</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
@@ -688,7 +688,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>308,00</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
@@ -753,7 +753,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>205,33</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
