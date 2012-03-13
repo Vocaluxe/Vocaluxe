@@ -169,11 +169,11 @@ namespace Vocaluxe.Screens
                     VideoBackground = !VideoBackground;
             } else if (MouseEvent.LB)
             {
-                CGraphics.HidePopup(EPopupScreens.PopupPlayerControl);
+                //CGraphics.HidePopup(EPopupScreens.PopupPlayerControl);
                 return false;
             } else if (MouseEvent.RB)
             {
-                CGraphics.HidePopup(EPopupScreens.PopupPlayerControl);
+                //CGraphics.HidePopup(EPopupScreens.PopupPlayerControl);
                 return false;
             }
             return true;
