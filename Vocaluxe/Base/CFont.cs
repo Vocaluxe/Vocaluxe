@@ -133,7 +133,7 @@ namespace Vocaluxe.Base
             sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
             //size = g.MeasureString(chr.ToString(), fo);
             float h_style = sizeB.Height;
-
+            g.Dispose();
             return h_normal / h_style;
         }
     }

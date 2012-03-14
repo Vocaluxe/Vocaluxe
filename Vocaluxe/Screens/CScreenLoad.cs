@@ -135,6 +135,7 @@ namespace Vocaluxe.Screens
             }
 
             CLog.StartBenchmark(3, "Load Cover");
+            _SongLoaderThread.IsBackground = true;
             _SongLoaderThread.Start();
             _timer.Start();
 
@@ -306,6 +307,7 @@ namespace Vocaluxe.Screens
                 _Finished = CVideo.VdFinished(_VideoStream);
 
                 STexture tex = new STexture(-1);
+                tex.height = 0f;
                 CVideo.VdGetFrame(_VideoStream, ref tex, VideoTime, ref VideoTime);
 
                 if (tex.height > 0)

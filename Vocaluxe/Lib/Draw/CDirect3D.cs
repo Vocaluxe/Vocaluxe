@@ -625,6 +625,11 @@ namespace Vocaluxe.Lib.Draw
             return AddTexture(W, H , ref PointerData);
         }
 
+        public STexture QuequeTexture(int W, int H, ref byte[] Data)
+        {
+            return AddTexture(W, H, ref Data);
+        }
+
         public STexture AddTexture(int W, int H, ref byte[] Data)
         {
             STexture texture = new STexture(-1);

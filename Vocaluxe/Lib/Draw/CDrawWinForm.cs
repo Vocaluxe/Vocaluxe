@@ -400,6 +400,11 @@ namespace Vocaluxe.Lib.Draw
             return new STexture(-1);
         }
 
+        public STexture QuequeTexture(int W, int H, ref byte[] Data)
+        {
+            return AddTexture(W, H, ref Data);
+        }
+
         public STexture AddTexture(int W, int H, ref byte[] Data)
         {
             Bitmap bmp = new Bitmap(W, H);
