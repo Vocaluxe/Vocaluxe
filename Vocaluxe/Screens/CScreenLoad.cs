@@ -153,7 +153,7 @@ namespace Vocaluxe.Screens
 
             if (CSongs.SongsLoaded && CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART && _timer.ElapsedMilliseconds > 1000L)
             {
-                CSongs.LoadCover(20L);
+                CSongs.LoadCover(0L, 1);
             }
 
             bool next = ((CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART && CSongs.CoverLoaded) ||
