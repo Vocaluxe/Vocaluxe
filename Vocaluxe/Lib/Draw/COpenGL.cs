@@ -464,6 +464,9 @@ namespace Vocaluxe.Lib.Draw
                     {
                         GL.CallList(list);
                     }
+                    if (_GLList.Count > 0)
+                        GL.DeleteLists(_GLList[0], _GLList.Count);
+
                     _GLList.Clear();
 
                     _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
@@ -1437,6 +1440,7 @@ namespace Vocaluxe.Lib.Draw
                 texture.TexturePath = String.Empty;
 
                 _Textures[index] = texture;
+                q.data = null;
                 _Queque.RemoveAt(0);
             }
         }
