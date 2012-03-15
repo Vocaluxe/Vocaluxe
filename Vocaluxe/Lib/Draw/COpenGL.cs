@@ -460,10 +460,9 @@ namespace Vocaluxe.Lib.Draw
                     ClearScreen();
                     
                     _Run = _Run && CGraphics.Draw();
-                    foreach (int list in _GLList)
-                    {
-                        GL.CallList(list);
-                    }
+
+                    GL.CallLists(_GLList.Count, ListNameType.Int, _GLList.ToArray());
+
                     if (_GLList.Count > 0)
                         GL.DeleteLists(_GLList[0], _GLList.Count);
 
