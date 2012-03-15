@@ -28,9 +28,9 @@ Supported Operating Systems / Requirements:
 =================================
 = 2. Download                   =
 =================================
-You can donwloadn precompiles Windows binaries at SourceForge:
+You can download precompiled Windows binaries at SourceForge:
 
-Download:	http://sourceforge.net/projects/vocaluxe/
+http://sourceforge.net/projects/vocaluxe/
 
 
 =================================
@@ -38,7 +38,7 @@ Download:	http://sourceforge.net/projects/vocaluxe/
 =================================
 The development of Vocaluxe uses this git branching model:
 
-		http://nvie.com/posts/a-successful-git-branching-model/
+http://nvie.com/posts/a-successful-git-branching-model/
 
 
 =================================
