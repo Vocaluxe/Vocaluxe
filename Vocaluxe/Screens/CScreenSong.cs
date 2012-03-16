@@ -54,9 +54,16 @@ namespace Vocaluxe.Screens
         {
             base.HandleInput(KeyEvent);
 
-            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode) && _SearchActive)
+            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode))
             {
-                ApplyNewSearchFilter(_SearchText + KeyEvent.Unicode);
+                if (_SearchActive)
+                    ApplyNewSearchFilter(_SearchText + KeyEvent.Unicode);
+                /*
+                else if (!Char.IsControl(KeyEvent.Unicode))
+                {
+                    JumpTo(KeyEvent.Unicode);
+                    return true;
+                }*/
             }
             else
             {
@@ -64,12 +71,6 @@ namespace Vocaluxe.Screens
 
                 if (KeyEvent.Handled)
                     return true;
-
-                if (!Char.IsControl(KeyEvent.Unicode))
-                {
-                    JumpTo(KeyEvent.Unicode);
-                    return true;
-                }
 
                 switch (KeyEvent.Key)
                 {
@@ -107,31 +108,31 @@ namespace Vocaluxe.Screens
                         }
                         break;
 
-                    //case Keys.A:
-                    //    if (!_SearchActive && KeyEvent.Mod == Modifier.None)
-                    //    {
-                    //        StartRandomAllSongs();
-                    //    }
-                    //    if (KeyEvent.Mod == Modifier.Ctrl)
-                    //    {
-                    //        StartRandomVisibleSongs();
-                    //    }
-                    //    break;
+                    case Keys.A:
+                        if (!_SearchActive && KeyEvent.Mod == Modifier.None)
+                        {
+                            StartRandomAllSongs();
+                        }
+                        if (KeyEvent.Mod == Modifier.Ctrl)
+                        {
+                            StartRandomVisibleSongs();
+                        }
+                        break;
 
-                    //case Keys.F:
-                    //    if (KeyEvent.Mod == Modifier.Ctrl){
-                    //        if (_SearchActive)
-                    //        {
-                    //            _SearchActive = false;
-                    //            _SearchText = String.Empty;
-                    //            ApplyNewSearchFilter(_SearchText);
-                    //        }
-                    //        else
-                    //        {
-                    //            _SearchActive = true;
-                    //        }
-                    //    }
-                    //    break;
+                    case Keys.F:
+                        if (KeyEvent.Mod == Modifier.Ctrl){
+                            if (_SearchActive)
+                            {
+                                _SearchActive = false;
+                                _SearchText = String.Empty;
+                                ApplyNewSearchFilter(_SearchText);
+                            }
+                            else
+                            {
+                                _SearchActive = true;
+                            }
+                        }
+                        break;
 
                     case Keys.R:
                         if (CSongs.Category != -1 && KeyEvent.Mod == Modifier.Ctrl)
@@ -303,6 +304,7 @@ namespace Vocaluxe.Screens
                 id = CSongs.VisibleSongs[song].ID;
             }
 
+            // here is a fault: SetSelectedSong should point to the visible index
             Vocaluxe.Lib.Song.CSong s = Array.Find<Vocaluxe.Lib.Song.CSong>(CSongs.VisibleSongs, element => element.Artist.StartsWith(Letter.ToString(), StringComparison.OrdinalIgnoreCase));
             if (s != null && s.ID > -1)
             {
