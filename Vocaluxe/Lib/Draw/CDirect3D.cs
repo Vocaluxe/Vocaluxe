@@ -471,7 +471,8 @@ namespace Vocaluxe.Lib.Draw
             //Dispose all textures
             for (int i = 0; i < _D3DTextures.Count; i++)
             {
-                _D3DTextures[i].Dispose();
+                if(_D3DTextures[i] != null)
+                    _D3DTextures[i].Dispose();
             }
             TexturedColoredVertex.GetDeclaration(_Device).Dispose();
             _VertexBuffer.Dispose();
@@ -933,13 +934,13 @@ namespace Vocaluxe.Lib.Draw
                 {
                     for (int i = 0; i < _Textures.Count; i++)
                     {
-                        if (_Textures[i].index == Texture.index)
+                        if (_Textures[i].index == Texture.index && _D3DTextures[i] != null)
                         {
                             _D3DTextures[Texture.index].Dispose();
+                            _D3DTextures[Texture.index] = null;
                             _Textures.RemoveAt(i);
                             Texture.index = -1;
                             Texture.ID = -1;
-                            break;
                         }
                     }
                 }
