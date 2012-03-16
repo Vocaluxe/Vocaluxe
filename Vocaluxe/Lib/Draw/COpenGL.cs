@@ -511,7 +511,7 @@ namespace Vocaluxe.Lib.Draw
             CFonts.Height = Height;
             CFonts.SetFont(text.Fon);
             CFonts.Style = text.Style;
-            return new RectangleF(text.X, text.Y, CFonts.GetTextWidth(CLanguage.Translate(text.Text)), CFonts.GetTextHeight(text.Text));
+            return new RectangleF(text.X, text.Y, CFonts.GetTextWidth(CLanguage.Translate(text.Text)), CFonts.GetTextHeight(CLanguage.Translate(text.Text)));
         }
         
         #region Basic Draw Methods

@@ -394,15 +394,18 @@ namespace Vocaluxe.Menu
             if (!ForceDraw && !Visible && CSettings.GameState != EGameState.EditTheme)
                 return;
 
+            CFonts.SetFont(Fon);
+            CFonts.Style = Style;
+
             float h = Height;
             float y = Y;
-            RectangleF bounds = CDraw.GetTextBounds(this);
+            RectangleF bounds = CFonts.GetTextBounds(this);
 
             while (bounds.Width > Bounds.W)
             {
                 h -= 0.2f;
                 y += 0.1f;
-                bounds = CDraw.GetTextBounds(this, h);
+                bounds = CFonts.GetTextBounds(this, h);
             }
 
             float x = X;
@@ -424,8 +427,7 @@ namespace Vocaluxe.Menu
 
             SColorF color = new SColorF(CurrentColor.R, CurrentColor.G, CurrentColor.B, CurrentColor.A * Alpha);
 
-            CFonts.SetFont(Fon);
-            CFonts.Style = Style;
+            
             CFonts.DrawText(CLanguage.Translate(Text), h, x, y, Z, color);
 
             if (Reflection)
@@ -437,9 +439,6 @@ namespace Vocaluxe.Menu
             {
                 CDraw.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f * CGraphics.GlobalAlpha), new SRectF(x, y, bounds.Width, bounds.Height, Z));
             }
-
-            CFonts.SetFont("Normal");
-            CFonts.Style = EStyle.Normal;
         }
 
         public void Draw(float begin, float end)
@@ -478,9 +477,6 @@ namespace Vocaluxe.Menu
             {
                 CDraw.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(x, Y, bounds.Width, bounds.Height, Z));
             }
-
-            CFonts.SetFont("Normal");
-            CFonts.Style = EStyle.Normal;
         }
 
         public void DrawRelative(float x, float y)
@@ -542,9 +538,6 @@ namespace Vocaluxe.Menu
             {
                 CDraw.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f * CGraphics.GlobalAlpha), new SRectF(x, y, bounds.Width, bounds.Height, Z));
             }
-
-            CFonts.SetFont("Normal");
-            CFonts.Style = EStyle.Normal;
         }
 
         public void UnloadTextures()

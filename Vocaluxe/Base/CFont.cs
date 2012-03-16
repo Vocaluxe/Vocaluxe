@@ -12,6 +12,7 @@ using System.Xml;
 using System.Xml.XPath;
 
 using Vocaluxe.Lib.Draw;
+using Vocaluxe.Menu;
 
 namespace Vocaluxe.Base
 {
@@ -551,7 +552,18 @@ namespace Vocaluxe.Base
                 }
             }
 	    }
-       
+
+        public static RectangleF GetTextBounds(CText text)
+        {
+            return GetTextBounds(text, text.Height);
+        }
+
+        public static RectangleF GetTextBounds(CText text, float height)
+        {
+            Height = height;
+            return new RectangleF(text.X, text.Y, GetTextWidth(CLanguage.Translate(text.Text)), GetTextHeight(CLanguage.Translate(text.Text)));
+        }
+
         public static float GetTextWidth(string text)
         {
             float dx = 0;
