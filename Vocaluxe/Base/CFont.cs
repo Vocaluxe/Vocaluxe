@@ -32,7 +32,7 @@ namespace Vocaluxe.Base
    
     class CGlyph
     {
-        public readonly float SIZEh = 100f;
+        public readonly float SIZEh = 50f;
         public STexture Texture;
         public char Chr;
         public int width;
