@@ -953,11 +953,8 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="Texture">The texture to be drawn</param>
         public void DrawTexture(STexture Texture)
         {
-            //lock (MutexTexture)
-            {
-                if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index))
-                    DrawTexture(Texture, Texture.rect, Texture.color);
-            }
+            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index))
+                DrawTexture(Texture, Texture.rect, Texture.color);
         }
 
         /// <summary>
@@ -967,11 +964,8 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="rect">A SRectF struct containing the destination coordinates</param>
         public void DrawTexture(STexture Texture, SRectF rect)
         {
-            //lock (MutexTexture)
-            {
-                if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index))
-                    DrawTexture(Texture, rect, Texture.color, false);
-            }
+            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index))
+                DrawTexture(Texture, rect, Texture.color, false);
         }
 
         /// <summary>
@@ -982,11 +976,8 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
         public void DrawTexture(STexture Texture, SRectF rect, SColorF color)
         {
-            //lock (MutexTexture)
-            {
-                if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index))
-                    DrawTexture(Texture, rect, color, false);
-            }
+            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index))
+                DrawTexture(Texture, rect, color, false);
         }
 
         /// <summary>
@@ -998,11 +989,8 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
         public void DrawTexture(STexture Texture, SRectF rect, SColorF color, SRectF bounds)
         {
-            //lock (MutexTexture)
-            {
-                if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index))
-                    DrawTexture(Texture, rect, color, bounds, false);
-            }
+            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index))
+                DrawTexture(Texture, rect, color, bounds, false);
         }
 
         /// <summary>
@@ -1014,11 +1002,8 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="mirrored">True if the texture should be mirrored</param>
         public void DrawTexture(STexture Texture, SRectF rect, SColorF color, bool mirrored)
         {
-            //lock (MutexTexture)
-            {
-                if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index))
-                    DrawTexture(Texture, rect, color, new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, rect.Z), mirrored);
-            }
+            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index))
+                DrawTexture(Texture, rect, color, new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, rect.Z), mirrored);
         }
 
         /// <summary>
@@ -1031,116 +1016,113 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="mirrored">True if the texture should be mirrored</param>
         public void DrawTexture(STexture Texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored)
         {
-            //lock (MutexTexture)
+            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index) && _TextureExists(ref Texture))
             {
-                if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index) && _TextureExists(ref Texture))
+                //Calculate the position
+                float x1 = (bounds.X - rect.X) / rect.W * Texture.width_ratio;
+                float x2 = (bounds.X + bounds.W - rect.X) / rect.W * Texture.width_ratio;
+                float y1 = (bounds.Y - rect.Y) / rect.H * Texture.height_ratio;
+                float y2 = (bounds.Y + bounds.H - rect.Y) / rect.H * Texture.height_ratio;
+
+                if (x1 < 0)
+                    x1 = 0f;
+
+                if (x2 > Texture.width_ratio)
+                    x2 = Texture.width_ratio;
+
+                if (y1 < 0)
+                    y1 = 0f;
+
+                if (y2 > Texture.height_ratio)
+                    y2 = Texture.height_ratio;
+
+                //Calculate the size
+                float rx1 = rect.X;
+                float rx2 = rect.X + rect.W;
+                float ry1 = rect.Y;
+                float ry2 = rect.Y + rect.H;
+
+                if (rx1 < bounds.X)
+                    rx1 = bounds.X;
+
+                if (rx2 > bounds.X + bounds.W)
+                    rx2 = bounds.X + bounds.W;
+
+                if (ry1 < bounds.Y)
+                    ry1 = bounds.Y;
+
+                if (ry2 > bounds.Y + bounds.H)
+                    ry2 = bounds.Y + bounds.H;
+
+                //Align the pixels because Direct3D expects the pixels to be the left top corner
+                rx1 -= 0.5f;
+                ry1 -= 0.5f;
+                rx2 -= 0.5f;
+                ry2 -= 0.5f;
+
+                if (color.R >= 1f)
+                    color.R = 1f;
+                if (color.B >= 1f)
+                    color.B = 1f;
+                if (color.G >= 1f)
+                    color.G = 1f;
+
+                //Apply rotation
+                //FIXME: Rotated textures get distorted when they hit the border of the window
+                if (rect.Rotation != 0)
                 {
-                    //Calculate the position
-                    float x1 = (bounds.X - rect.X) / rect.W * Texture.width_ratio;
-                    float x2 = (bounds.X + bounds.W - rect.X) / rect.W * Texture.width_ratio;
-                    float y1 = (bounds.Y - rect.Y) / rect.H * Texture.height_ratio;
-                    float y2 = (bounds.Y + bounds.H - rect.Y) / rect.H * Texture.height_ratio;
+                    rect.Rotation = rect.Rotation * (float)Math.PI / 180;
+                    float centerX = (rx1 + rx2) / 2f;
+                    float centerY = -(ry1 + ry2) / 2f;
 
-                    if (x1 < 0)
-                        x1 = 0f;
+                    Matrix originTranslation = _Device.GetTransform(TransformState.World);
+                    Matrix translationA = Matrix.Translation(-centerX, -centerY, 0);
+                    Matrix rotation = Matrix.RotationZ(-rect.Rotation);
+                    Matrix translationB = Matrix.Translation(centerX, centerY, 0);
 
-                    if (x2 > Texture.width_ratio)
-                        x2 = Texture.width_ratio;
+                    //Multiplicate the matrices to get the real world matrix,
+                    //First shift the texture into the center
+                    //Rotate it and shift it back to the origin position
+                    //Apply the originTranslation after
+                    Matrix result = translationA * rotation * translationB * originTranslation;
 
-                    if (y1 < 0)
-                        y1 = 0f;
+                    _Device.SetTransform(TransformState.World, result);
+                }
 
-                    if (y2 > Texture.height_ratio)
-                        y2 = Texture.height_ratio;
+                Color c = Color.FromArgb((int)(color.A * 255 * CGraphics.GlobalAlpha), (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
 
-                    //Calculate the size
-                    float rx1 = rect.X;
-                    float rx2 = rect.X + rect.W;
-                    float ry1 = rect.Y;
-                    float ry2 = rect.Y + rect.H;
-
-                    if (rx1 < bounds.X)
-                        rx1 = bounds.X;
-
-                    if (rx2 > bounds.X + bounds.W)
-                        rx2 = bounds.X + bounds.W;
-
-                    if (ry1 < bounds.Y)
-                        ry1 = bounds.Y;
-
-                    if (ry2 > bounds.Y + bounds.H)
-                        ry2 = bounds.Y + bounds.H;
-
-                    //Align the pixels because Direct3D expects the pixels to be the left top corner
-                    rx1 -= 0.5f;
-                    ry1 -= 0.5f;
-                    rx2 -= 0.5f;
-                    ry2 -= 0.5f;
-
-                    if (color.R >= 1f)
-                        color.R = 1f;
-                    if (color.B >= 1f)
-                        color.B = 1f;
-                    if (color.G >= 1f)
-                        color.G = 1f;
-
-                    //Apply rotation
-                    //FIXME: Rotated textures get distorted when they hit the border of the window
-                    if (rect.Rotation != 0)
-                    {
-                        rect.Rotation = rect.Rotation * (float)Math.PI / 180;
-                        float centerX = (rx1 + rx2) / 2f;
-                        float centerY = -(ry1 + ry2) / 2f;
-
-                        Matrix originTranslation = _Device.GetTransform(TransformState.World);
-                        Matrix translationA = Matrix.Translation(-centerX, -centerY, 0);
-                        Matrix rotation = Matrix.RotationZ(-rect.Rotation);
-                        Matrix translationB = Matrix.Translation(centerX, centerY, 0);
-
-                        //Multiplicate the matrices to get the real world matrix,
-                        //First shift the texture into the center
-                        //Rotate it and shift it back to the origin position
-                        //Apply the originTranslation after
-                        Matrix result = translationA * rotation * translationB * originTranslation;
-
-                        _Device.SetTransform(TransformState.World, result);
-                    }
-
-                    Color c = Color.FromArgb((int)(color.A * 255 * CGraphics.GlobalAlpha), (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
-
-                    //Create new vertices and write them into a vertexbuffer
-                    DataStream stream = _VertexBuffer.Lock(0, 0, LockFlags.Discard);
-                    if (!mirrored)
-                    {
-                        stream.WriteRange(new[] {
-	                    new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb()),
-	                    new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb()),
-	                    new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb()),
-                        new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb()),
-	                });
-                    }
-                    else
-                    {
-                        stream.WriteRange(new[] {
-                    new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, -y1), c.ToArgb()),
-	                new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, -y2), c.ToArgb()),
-	                new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, -y2), c.ToArgb()),
-                    new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, -y1), c.ToArgb()),
+                //Create new vertices and write them into a vertexbuffer
+                DataStream stream = _VertexBuffer.Lock(0, 0, LockFlags.Discard);
+                if (!mirrored)
+                {
+                    stream.WriteRange(new[] {
+	                new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb()),
+	                new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb()),
+	                new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb()),
+                    new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb()),
+	            });
+                }
+                else
+                {
+                    stream.WriteRange(new[] {
+                new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, -y1), c.ToArgb()),
+	            new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, -y2), c.ToArgb()),
+	            new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, -y2), c.ToArgb()),
+                new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, -y1), c.ToArgb()),
                     });
-                    }
-                    _VertexBuffer.Unlock();
-                    stream.Dispose();
-                    //Set the texture
-                    _Device.SetTexture(0, _D3DTextures[Texture.index]);
-                    //Draw 2 triangles to build a quad
-                    _Device.DrawPrimitives(PrimitiveType.TriangleFan, 0, 2);
+                }
+                _VertexBuffer.Unlock();
+                stream.Dispose();
+                //Set the texture
+                _Device.SetTexture(0, _D3DTextures[Texture.index]);
+                //Draw 2 triangles to build a quad
+                _Device.DrawPrimitives(PrimitiveType.TriangleFan, 0, 2);
 
-                    //Reapply old matrices if the texture was rotated
-                    if (rect.Rotation != 0)
-                    {
-                        Matrix originTranslation = Matrix.Translation(new Vector3(-CSettings.iRenderW / 2, CSettings.iRenderH / 2, 0));
-                        _Device.SetTransform(TransformState.World, originTranslation);
-                    }
+                //Reapply old matrices if the texture was rotated
+                if (rect.Rotation != 0)
+                {
+                    Matrix originTranslation = Matrix.Translation(new Vector3(-CSettings.iRenderW / 2, CSettings.iRenderH / 2, 0));
+                    _Device.SetTransform(TransformState.World, originTranslation);
                 }
             }
         }
@@ -1156,27 +1138,139 @@ namespace Vocaluxe.Lib.Draw
 
         public void DrawTexture(STexture Texture, SRectF rect, SColorF color, float begin, float end)
         {
-            //lock (MutexTexture)
+            if (_TextureExists(ref Texture))
             {
+                float x1 = 0f + begin * Texture.width_ratio;
+                float x2 = Texture.width_ratio * end;
+                float y1 = 0f;
+                float y2 = Texture.height_ratio;
+
+                float rx1 = rect.X + begin * rect.W;
+                float rx2 = rect.X + end * rect.W;
+                float ry1 = rect.Y;
+                float ry2 = rect.Y + rect.H;
+
+                //Align the pixels because Direct3D expects the pixels to be the left top corner
+                rx1 -= 0.5f;
+                ry1 -= 0.5f;
+                rx2 -= 0.5f;
+                ry2 -= 0.5f;
+
+                Color c = Color.FromArgb((int)(color.A * 255 * CGraphics.GlobalAlpha), (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
+
+                //Apply rotation
+                //FIXME: Rotated textures get distorted when they hit the border of the window
+                if (rect.Rotation != 0)
+                {
+                    rect.Rotation = rect.Rotation * (float)Math.PI / 180;
+                    float centerX = (rx1 + rx2) / 2f;
+                    float centerY = -(ry1 + ry2) / 2f;
+
+                    Matrix originTranslation = _Device.GetTransform(TransformState.World);
+                    Matrix translationA = Matrix.Translation(-centerX, -centerY, 0);
+                    Matrix rotation = Matrix.RotationZ(-rect.Rotation);
+                    Matrix translationB = Matrix.Translation(centerX, centerY, 0);
+
+                    //Multiplicate the matrices to get the real world matrix,
+                    //First shift the texture into the center
+                    //Rotate it and shift it back to the origin position
+                    //Apply the originTranslation after
+                    Matrix result = translationA * rotation * translationB * originTranslation;
+
+                    _Device.SetTransform(TransformState.World, result);
+                }
+
+                //Create new vertices and write them into a vertexbuffer
+                DataStream stream = _VertexBuffer.Lock(0, 0, LockFlags.Discard);
+                stream.WriteRange(new[] {
+	                new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb()),
+	                new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb()),
+	                new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb()),
+                    new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb()),
+	            });
+                _VertexBuffer.Unlock();
+                stream.Dispose();
+                //Set the texture
+                _Device.SetTexture(0, _D3DTextures[Texture.index]);
+                //Draw 2 triangles to build a quad
+                _Device.DrawPrimitives(PrimitiveType.TriangleFan, 0, 2);
+
+                //Reapply old matrices if the texture was rotated
+                if (rect.Rotation != 0)
+                {
+                    Matrix originTranslation = Matrix.Translation(new Vector3(-CSettings.iRenderW / 2, CSettings.iRenderH / 2, 0));
+                    _Device.SetTransform(TransformState.World, originTranslation);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Draws a reflection of a texture
+        /// </summary>
+        /// <param name="Texture">The texture of which a reflection should be drawn</param>
+        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
+        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
+        /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
+        /// <param name="space">The space between the texture and the reflection</param>
+        /// <param name="height">The height of the reflection</param>
+        public void DrawTextureReflection(STexture Texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
+        {
+            if (_TextureExists(ref Texture))
+            {
+                if (rect.W == 0f || rect.H == 0f || bounds.H == 0f || bounds.W == 0f || color.A == 0f || height <= 0f)
+                    return;
+
+                if (bounds.X > rect.X + rect.W || bounds.X + bounds.W < rect.X)
+                    return;
+
+                if (bounds.Y > rect.Y + rect.H || bounds.Y + bounds.H < rect.Y)
+                    return;
+
+                if (height > bounds.H)
+                    height = bounds.H;
+
                 if (_TextureExists(ref Texture))
                 {
-                    float x1 = 0f + begin * Texture.width_ratio;
-                    float x2 = Texture.width_ratio * end;
-                    float y1 = 0f;
-                    float y2 = Texture.height_ratio;
+                    float x1 = (bounds.X - rect.X) / rect.W * Texture.width_ratio;
+                    float x2 = (bounds.X + bounds.W - rect.X) / rect.W * Texture.width_ratio;
+                    float y1 = (bounds.Y - rect.Y + rect.H - height) / rect.H * Texture.height_ratio;
+                    float y2 = (bounds.Y + bounds.H - rect.Y) / rect.H * Texture.height_ratio;
 
-                    float rx1 = rect.X + begin * rect.W;
-                    float rx2 = rect.X + end * rect.W;
-                    float ry1 = rect.Y;
-                    float ry2 = rect.Y + rect.H;
+                    if (x1 < 0)
+                        x1 = 0f;
+
+                    if (x2 > Texture.width_ratio)
+                        x2 = Texture.width_ratio;
+
+                    if (y1 < 0)
+                        y1 = 0f;
+
+                    if (y2 > Texture.height_ratio)
+                        y2 = Texture.height_ratio;
+
+
+                    float rx1 = rect.X;
+                    float rx2 = rect.X + rect.W;
+                    float ry1 = rect.Y + rect.H + space;
+                    float ry2 = rect.Y + rect.H + space + height;
+
+                    if (rx1 < bounds.X)
+                        rx1 = bounds.X;
+
+                    if (rx2 > bounds.X + bounds.W)
+                        rx2 = bounds.X + bounds.W;
+
+                    if (ry1 < bounds.Y + space)
+                        ry1 = bounds.Y + space;
+
+                    if (ry2 > bounds.Y + bounds.H + space + height)
+                        ry2 = bounds.Y + bounds.H + space + height;
 
                     //Align the pixels because Direct3D expects the pixels to be the left top corner
                     rx1 -= 0.5f;
                     ry1 -= 0.5f;
                     rx2 -= 0.5f;
                     ry2 -= 0.5f;
-
-                    Color c = Color.FromArgb((int)(color.A * 255 * CGraphics.GlobalAlpha), (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
 
                     //Apply rotation
                     //FIXME: Rotated textures get distorted when they hit the border of the window
@@ -1200,13 +1294,16 @@ namespace Vocaluxe.Lib.Draw
                         _Device.SetTransform(TransformState.World, result);
                     }
 
+                    Color c = Color.FromArgb((int)(color.A * 255 * CGraphics.GlobalAlpha), (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
+                    Color transparent = Color.FromArgb(0, (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
+
                     //Create new vertices and write them into a vertexbuffer
                     DataStream stream = _VertexBuffer.Lock(0, 0, LockFlags.Discard);
                     stream.WriteRange(new[] {
-	                    new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb()),
-	                    new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb()),
-	                    new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb()),
-                        new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb()),
+                        new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb()),
+	                    new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), transparent.ToArgb()),
+	                    new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), transparent.ToArgb()),
+                        new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb()),
 	                });
                     _VertexBuffer.Unlock();
                     stream.Dispose();
@@ -1220,127 +1317,6 @@ namespace Vocaluxe.Lib.Draw
                     {
                         Matrix originTranslation = Matrix.Translation(new Vector3(-CSettings.iRenderW / 2, CSettings.iRenderH / 2, 0));
                         _Device.SetTransform(TransformState.World, originTranslation);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Draws a reflection of a texture
-        /// </summary>
-        /// <param name="Texture">The texture of which a reflection should be drawn</param>
-        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
-        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
-        /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
-        /// <param name="space">The space between the texture and the reflection</param>
-        /// <param name="height">The height of the reflection</param>
-        public void DrawTextureReflection(STexture Texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
-        {
-            //lock (MutexTexture)
-            {
-                if (_TextureExists(ref Texture))
-                {
-                    if (rect.W == 0f || rect.H == 0f || bounds.H == 0f || bounds.W == 0f || color.A == 0f || height <= 0f)
-                        return;
-
-                    if (bounds.X > rect.X + rect.W || bounds.X + bounds.W < rect.X)
-                        return;
-
-                    if (bounds.Y > rect.Y + rect.H || bounds.Y + bounds.H < rect.Y)
-                        return;
-
-                    if (height > bounds.H)
-                        height = bounds.H;
-
-                    if (_TextureExists(ref Texture))
-                    {
-                        float x1 = (bounds.X - rect.X) / rect.W * Texture.width_ratio;
-                        float x2 = (bounds.X + bounds.W - rect.X) / rect.W * Texture.width_ratio;
-                        float y1 = (bounds.Y - rect.Y + rect.H - height) / rect.H * Texture.height_ratio;
-                        float y2 = (bounds.Y + bounds.H - rect.Y) / rect.H * Texture.height_ratio;
-
-                        if (x1 < 0)
-                            x1 = 0f;
-
-                        if (x2 > Texture.width_ratio)
-                            x2 = Texture.width_ratio;
-
-                        if (y1 < 0)
-                            y1 = 0f;
-
-                        if (y2 > Texture.height_ratio)
-                            y2 = Texture.height_ratio;
-
-
-                        float rx1 = rect.X;
-                        float rx2 = rect.X + rect.W;
-                        float ry1 = rect.Y + rect.H + space;
-                        float ry2 = rect.Y + rect.H + space + height;
-
-                        if (rx1 < bounds.X)
-                            rx1 = bounds.X;
-
-                        if (rx2 > bounds.X + bounds.W)
-                            rx2 = bounds.X + bounds.W;
-
-                        if (ry1 < bounds.Y + space)
-                            ry1 = bounds.Y + space;
-
-                        if (ry2 > bounds.Y + bounds.H + space + height)
-                            ry2 = bounds.Y + bounds.H + space + height;
-
-                        //Align the pixels because Direct3D expects the pixels to be the left top corner
-                        rx1 -= 0.5f;
-                        ry1 -= 0.5f;
-                        rx2 -= 0.5f;
-                        ry2 -= 0.5f;
-
-                        //Apply rotation
-                        //FIXME: Rotated textures get distorted when they hit the border of the window
-                        if (rect.Rotation != 0)
-                        {
-                            rect.Rotation = rect.Rotation * (float)Math.PI / 180;
-                            float centerX = (rx1 + rx2) / 2f;
-                            float centerY = -(ry1 + ry2) / 2f;
-
-                            Matrix originTranslation = _Device.GetTransform(TransformState.World);
-                            Matrix translationA = Matrix.Translation(-centerX, -centerY, 0);
-                            Matrix rotation = Matrix.RotationZ(-rect.Rotation);
-                            Matrix translationB = Matrix.Translation(centerX, centerY, 0);
-
-                            //Multiplicate the matrices to get the real world matrix,
-                            //First shift the texture into the center
-                            //Rotate it and shift it back to the origin position
-                            //Apply the originTranslation after
-                            Matrix result = translationA * rotation * translationB * originTranslation;
-
-                            _Device.SetTransform(TransformState.World, result);
-                        }
-
-                        Color c = Color.FromArgb((int)(color.A * 255 * CGraphics.GlobalAlpha), (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
-                        Color transparent = Color.FromArgb(0, (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
-
-                        //Create new vertices and write them into a vertexbuffer
-                        DataStream stream = _VertexBuffer.Lock(0, 0, LockFlags.Discard);
-                        stream.WriteRange(new[] {
-                    new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb()),
-	                new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), transparent.ToArgb()),
-	                new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), transparent.ToArgb()),
-                    new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb()),
-	            });
-                        _VertexBuffer.Unlock();
-                        stream.Dispose();
-                        //Set the texture
-                        _Device.SetTexture(0, _D3DTextures[Texture.index]);
-                        //Draw 2 triangles to build a quad
-                        _Device.DrawPrimitives(PrimitiveType.TriangleFan, 0, 2);
-
-                        //Reapply old matrices if the texture was rotated
-                        if (rect.Rotation != 0)
-                        {
-                            Matrix originTranslation = Matrix.Translation(new Vector3(-CSettings.iRenderW / 2, CSettings.iRenderH / 2, 0));
-                            _Device.SetTransform(TransformState.World, originTranslation);
-                        }
                     }
                 }
             }
