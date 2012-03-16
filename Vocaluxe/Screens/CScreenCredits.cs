@@ -281,6 +281,9 @@ namespace Vocaluxe.Screens
                     }
                 }
             }
+            TextTimer.Reset();
+            LogoTimer.Reset();
+            CreditsTimer.Reset();
         }
 
         public override void OnShowFinish()
