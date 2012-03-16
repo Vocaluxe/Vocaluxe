@@ -65,19 +65,33 @@ namespace Vocaluxe.Screens
             //Text for last part of credits.
             paragraphTexts = new List<CText>();
             paragraphs = new List<string[]>();
-            string paragraph = "Inspired by the achievements of UltraStar Deluxe and its variants and pursuing the goal of making a good thing even better, we ended up rewriting the game from scratch. And a new implementation in a new programming language called for a new name - and VOCALUXE it is!";
-            string[] words = paragraph.Split(new Char[] { ' ' });
-            paragraphs.Add(words);
 
-            paragraph = "This first public version has already implemented many of the original features and it is fully compatible with all the song files in your existing song collection. The code design allows a much faster implementation of new features, thus the roadmap for the next few stable releases is packed and we expect much shorter release cycles than ever before. And, of course, our and your ideas may be the features of tomorrow.";
+            string paragraph;
+            string[] words;
+
+            paragraph = "Inspired by the achievements of UltraStar Deluxe and its variants and pursuing the goal of making " +
+                "a good thing even better, we ended up rewriting the game from scratch. And a new implementation in a new " +
+                "programming language called for a new name - and VOCALUXE [ˈvoʊˈkəˈlʌks] it is!";
             words = paragraph.Split(new Char[] { ' ' });
             paragraphs.Add(words);
 
-            paragraph = "We appreciate the feedback in the beta release phase and are, of course, always open for bug reports, suggestions for improve- ments and ideas for new features. We would also like to thank the translators who make Vocaluxe an international experience from the very beginning. Last, but most definitely not least, we thank all those diligent song makers out there - there's a song for everyone!";
+            paragraph = "This first public version has already implemented many of the original features and it is fully " +
+                "compatible with all the song files in your existing song collection. The code design allows a much faster " +
+                "implementation of new features, thus the roadmap for the next few stable releases is packed and we expect much " +
+                "shorter release cycles than ever before. And, of course, our and your ideas may be the features of tomorrow.";
             words = paragraph.Split(new Char[] { ' ' });
             paragraphs.Add(words);
 
-            paragraph = "Go ahead and grab your mics, crank up your stereo, warm up your voice and get ready to sing to the best of your abilities!";
+            paragraph = "We appreciate the feedback in the beta release phase and are, of course, always open for bug reports, " +
+                "suggestions for improvements and ideas for new features. We would also like to thank the translators who make " +
+                "Vocaluxe an international experience from the very beginning and all those diligent song makers out there - " +
+                "there's something for everyone in the huge collection of available songs! Last but not least, thanks to " +
+                "Kosal Sen's Philly Sans type used in the Vocaluxe Logo.";
+            words = paragraph.Split(new Char[] { ' ' });
+            paragraphs.Add(words);
+
+            paragraph = "Go ahead and grab your mics, crank up your stereo, warm up your voice and get ready to sing to the best " +
+                "of your abilities!";
             words = paragraph.Split(new Char[] { ' ' });
             paragraphs.Add(words);
         }
@@ -245,7 +259,7 @@ namespace Vocaluxe.Screens
                     {
                         string newline = line + " " + paragraphs[i][e];
                         CText text = new CText(75, lastY, -2, 30, -1, EAlignment.Left, EStyle.Bold, "Outline", new SColorF(1, 1, 1, 1), line);
-                        if (CDraw.GetTextBounds(text).Width < (CSettings.iRenderW - 160))
+                        if (CDraw.GetTextBounds(text).Width < (CSettings.iRenderW - 200))
                         {
                             line = line + " " + paragraphs[i][e];
 
@@ -303,7 +317,7 @@ namespace Vocaluxe.Screens
             }
 
             //Draw Text
-            if (TextTimer.IsRunning)
+            if (TextTimer.IsRunning || true)
             {
                 for (int i = 0; i < paragraphTexts.Count; i++)
                 {
@@ -427,7 +441,7 @@ namespace Vocaluxe.Screens
 
             if (TextTimer.IsRunning)
             {
-                if (TextTimer.ElapsedMilliseconds > 10000)
+                if (TextTimer.ElapsedMilliseconds > 600000)
                 {
                     active = false;
                 }
