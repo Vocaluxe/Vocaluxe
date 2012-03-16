@@ -764,17 +764,18 @@ namespace Vocaluxe.Lib.Draw
                 rect.Data.Position += rect.Pitch;
             }
             t.UnlockRectangle(0);
-            _D3DTextures.Add(t);
+            
             bmp2.Dispose();
             bmp_data = null;
 
             // Add to Texture List
-            texture.index = _D3DTextures.Count - 1;
             texture.color = new SColorF(1f, 1f, 1f, 1f);
             texture.rect = new SRectF(0f, 0f, texture.width, texture.height, 0f);
             texture.TexturePath = String.Empty;
             lock (MutexTexture)
             {
+                _D3DTextures.Add(t);
+                texture.index = _D3DTextures.Count - 1;
                 _Textures.Add(texture);
             }
 
@@ -809,7 +810,7 @@ namespace Vocaluxe.Lib.Draw
 
             lock (MutexTexture)
             {
-                _D3DTextures.Add(null); //_D3DTextures.Add(transparentTexture);
+                _D3DTextures.Add(null);
                 texture.index = _D3DTextures.Count - 1;
                 queque.ID = texture.index;
                 _Queque.Add(queque);
@@ -838,15 +839,15 @@ namespace Vocaluxe.Lib.Draw
                 rect.Data.Position += rect.Pitch;
             }
             t.UnlockRectangle(0);
-            _D3DTextures.Add(t);
 
-            texture.index = _D3DTextures.Count - 1;
             texture.color = new SColorF(1f, 1f, 1f, 1f);
             texture.rect = new SRectF(0f, 0f, texture.width, texture.height, 0f);
             texture.TexturePath = String.Empty;
 
             lock (MutexTexture)
             {
+                _D3DTextures.Add(t);
+                texture.index = _D3DTextures.Count - 1;
                 _Textures.Add(texture);
             }
             return texture;
@@ -874,27 +875,24 @@ namespace Vocaluxe.Lib.Draw
         /// <returns>True if succeeded</returns>
         public bool UpdateTexture(ref STexture Texture, ref byte[] Data)
         {
-            lock (MutexTexture)
+            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index) && _TextureExists(ref Texture))
             {
-                if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index) && _TextureExists(ref Texture))
+                DataRectangle rect = _D3DTextures[Texture.index].LockRectangle(0, LockFlags.None);
+                for (int i = 0; i < Data.Length; )
                 {
-                    DataRectangle rect = _D3DTextures[Texture.index].LockRectangle(0, LockFlags.None);
-                    for (int i = 0; i < Data.Length; )
-                    {
-                        rect.Data.Write(Data, i, 4 * (int)Texture.width);
-                        i += 4 * (int)Texture.width;
-                        rect.Data.Position = rect.Data.Position - 4 * (int)Texture.width;
-                        rect.Data.Position += rect.Pitch;
-                    }
-                    _D3DTextures[Texture.index].UnlockRectangle(0);
-
-                    Texture.height_ratio = Texture.height / NextPowerOfTwo(Texture.height);
-                    Texture.width_ratio = Texture.width / NextPowerOfTwo(Texture.width);
-                    return true;
+                    rect.Data.Write(Data, i, 4 * (int)Texture.width);
+                    i += 4 * (int)Texture.width;
+                    rect.Data.Position = rect.Data.Position - 4 * (int)Texture.width;
+                    rect.Data.Position += rect.Pitch;
                 }
-                else
-                    return false;
+                _D3DTextures[Texture.index].UnlockRectangle(0);
+
+                Texture.height_ratio = Texture.height / NextPowerOfTwo(Texture.height);
+                Texture.width_ratio = Texture.width / NextPowerOfTwo(Texture.width);
+                return true;
             }
+            else
+                return false;
         }
 
         /// <summary>
@@ -1381,10 +1379,7 @@ namespace Vocaluxe.Lib.Draw
         /// <returns>The amount of textures</returns>
         public int TextureCount()
         {
-            lock (MutexTexture)
-            {
-                return _Textures.Count;
-            }
+            return _Textures.Count;
         }
         #endregion Textures
         #endregion implementation
