@@ -934,7 +934,7 @@ namespace Vocaluxe.Lib.Draw
                 {
                     for (int i = 0; i < _Textures.Count; i++)
                     {
-                        if (_Textures[i].index == Texture.index && _D3DTextures[i] != null)
+                        if (_Textures[i].index == Texture.index)
                         {
                             _D3DTextures[Texture.index].Dispose();
                             _D3DTextures[Texture.index] = null;
