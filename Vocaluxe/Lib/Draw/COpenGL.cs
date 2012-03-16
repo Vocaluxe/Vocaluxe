@@ -48,7 +48,6 @@ namespace Vocaluxe.Lib.Draw
 
         private List<STexture> _Textures;
         private List<int> _IDs;
-        private List<int> _GLList;
         private List<STextureQueque> _Queque;
 
         private Object MutexTexture = new Object();
@@ -67,7 +66,6 @@ namespace Vocaluxe.Lib.Draw
             this.Icon = new System.Drawing.Icon(Path.Combine(System.Environment.CurrentDirectory, CSettings.sIcon));
 
             _Textures = new List<STexture>();
-            _GLList = new List<int>();
             _Queque = new List<STextureQueque>();
             _IDs = new List<int>();
 
@@ -461,13 +459,6 @@ namespace Vocaluxe.Lib.Draw
                     
                     _Run = _Run && CGraphics.Draw();
 
-                    GL.CallLists(_GLList.Count, ListNameType.Int, _GLList.ToArray());
-
-                    if (_GLList.Count > 0)
-                        GL.DeleteLists(_GLList[0], _GLList.Count);
-
-                    _GLList.Clear();
-
                     _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
                     control.SwapBuffers();
                     
@@ -631,24 +622,17 @@ namespace Vocaluxe.Lib.Draw
 
         public void DrawColor(SColorF color, SRectF rect)
         {
-            int list = GL.GenLists(1);
-            _GLList.Add(list);
+            GL.Enable(EnableCap.Blend);
+            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
 
-            GL.NewList(list, ListMode.Compile);
-            {
-                GL.Enable(EnableCap.Blend);
-                GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+            GL.Begin(BeginMode.Quads);
+            GL.Vertex3(rect.X, rect.Y, rect.Z + CGraphics.ZOffset);
+            GL.Vertex3(rect.X, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
+            GL.Vertex3(rect.X + rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
+            GL.Vertex3(rect.X + rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
+            GL.End();
 
-                GL.Begin(BeginMode.Quads);
-                GL.Vertex3(rect.X, rect.Y, rect.Z + CGraphics.ZOffset);
-                GL.Vertex3(rect.X, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
-                GL.Vertex3(rect.X + rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
-                GL.Vertex3(rect.X + rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
-                GL.End();
-
-                GL.Disable(EnableCap.Blend);
-            }
-            GL.EndList();
+            GL.Disable(EnableCap.Blend);
         }
 
         #endregion Basic Draw Methods
@@ -1125,104 +1109,97 @@ namespace Vocaluxe.Lib.Draw
 
             if (_TextureExists(ref Texture))
             {
-                int list = GL.GenLists(1);
-                _GLList.Add(list);
+                GL.BindTexture(TextureTarget.Texture2D, Texture.ID);
 
-                GL.NewList(list, ListMode.Compile);
+                float x1 = (bounds.X - rect.X) / rect.W * Texture.width_ratio;
+                float x2 = (bounds.X + bounds.W - rect.X) / rect.W * Texture.width_ratio;
+                float y1 = (bounds.Y - rect.Y) / rect.H * Texture.height_ratio;
+                float y2 = (bounds.Y + bounds.H - rect.Y) / rect.H * Texture.height_ratio;
+
+                if (x1 < 0)
+                    x1 = 0f;
+
+                if (x2 > Texture.width_ratio)
+                    x2 = Texture.width_ratio;
+
+                if (y1 < 0)
+                    y1 = 0f;
+
+                if (y2 > Texture.height_ratio)
+                    y2 = Texture.height_ratio;
+
+
+                float rx1 = rect.X;
+                float rx2 = rect.X + rect.W;
+                float ry1 = rect.Y;
+                float ry2 = rect.Y + rect.H;
+
+                if (rx1 < bounds.X)
+                    rx1 = bounds.X;
+
+                if (rx2 > bounds.X + bounds.W)
+                    rx2 = bounds.X + bounds.W;
+
+                if (ry1 < bounds.Y)
+                    ry1 = bounds.Y;
+
+                if (ry2 > bounds.Y + bounds.H)
+                    ry2 = bounds.Y + bounds.H;
+
+                GL.Enable(EnableCap.Blend);
+                GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+
+                GL.MatrixMode(MatrixMode.Texture);
+                GL.PushMatrix();
+
+                if (rect.Rotation != 0f)
                 {
-                    GL.BindTexture(TextureTarget.Texture2D, Texture.ID);
-
-                    float x1 = (bounds.X - rect.X) / rect.W * Texture.width_ratio;
-                    float x2 = (bounds.X + bounds.W - rect.X) / rect.W * Texture.width_ratio;
-                    float y1 = (bounds.Y - rect.Y) / rect.H * Texture.height_ratio;
-                    float y2 = (bounds.Y + bounds.H - rect.Y) / rect.H * Texture.height_ratio;
-
-                    if (x1 < 0)
-                        x1 = 0f;
-
-                    if (x2 > Texture.width_ratio)
-                        x2 = Texture.width_ratio;
-
-                    if (y1 < 0)
-                        y1 = 0f;
-
-                    if (y2 > Texture.height_ratio)
-                        y2 = Texture.height_ratio;
-
-
-                    float rx1 = rect.X;
-                    float rx2 = rect.X + rect.W;
-                    float ry1 = rect.Y;
-                    float ry2 = rect.Y + rect.H;
-
-                    if (rx1 < bounds.X)
-                        rx1 = bounds.X;
-
-                    if (rx2 > bounds.X + bounds.W)
-                        rx2 = bounds.X + bounds.W;
-
-                    if (ry1 < bounds.Y)
-                        ry1 = bounds.Y;
-
-                    if (ry2 > bounds.Y + bounds.H)
-                        ry2 = bounds.Y + bounds.H;
-
-                    GL.Enable(EnableCap.Blend);
-                    GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-
-                    GL.MatrixMode(MatrixMode.Texture);
-                    GL.PushMatrix();
-
-                    if (rect.Rotation != 0f)
-                    {
-                        GL.Translate(0.5f, 0.5f, 0);
-                        GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
-                        GL.Translate(-0.5f, -0.5f, 0);
-                    }
-
-                    if (!mirrored)
-                    {
-                        GL.Begin(BeginMode.Quads);
-
-                        GL.TexCoord2(x1, y1);
-                        GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
-
-                        GL.TexCoord2(x1, y2);
-                        GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
-
-                        GL.TexCoord2(x2, y2);
-                        GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
-
-                        GL.TexCoord2(x2, y1);
-                        GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
-
-                        GL.End();
-                    }
-                    else
-                    {
-                        GL.Begin(BeginMode.Quads);
-
-                        GL.TexCoord2(x2, y2);
-                        GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
-
-                        GL.TexCoord2(x2, y1);
-                        GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
-
-                        GL.TexCoord2(x1, y1);
-                        GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
-
-                        GL.TexCoord2(x1, y2);
-                        GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
-
-                        GL.End();
-                    }
-
-                    GL.PopMatrix();
-
-                    GL.Disable(EnableCap.Blend);
-                    GL.BindTexture(TextureTarget.Texture2D, 0);
+                    GL.Translate(0.5f, 0.5f, 0);
+                    GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
+                    GL.Translate(-0.5f, -0.5f, 0);
                 }
-                GL.EndList();
+
+                if (!mirrored)
+                {
+                    GL.Begin(BeginMode.Quads);
+
+                    GL.TexCoord2(x1, y1);
+                    GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
+
+                    GL.TexCoord2(x1, y2);
+                    GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
+
+                    GL.TexCoord2(x2, y2);
+                    GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
+
+                    GL.TexCoord2(x2, y1);
+                    GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
+
+                    GL.End();
+                }
+                else
+                {
+                    GL.Begin(BeginMode.Quads);
+
+                    GL.TexCoord2(x2, y2);
+                    GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
+
+                    GL.TexCoord2(x2, y1);
+                    GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
+
+                    GL.TexCoord2(x1, y1);
+                    GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
+
+                    GL.TexCoord2(x1, y2);
+                    GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
+
+                    GL.End();
+                }
+
+                GL.PopMatrix();
+
+                GL.Disable(EnableCap.Blend);
+                GL.BindTexture(TextureTarget.Texture2D, 0);
             }
         }
 
@@ -1230,38 +1207,31 @@ namespace Vocaluxe.Lib.Draw
         {
             if (_TextureExists(ref Texture))
             {
-                int list = GL.GenLists(1);
-                _GLList.Add(list);
+                GL.BindTexture(TextureTarget.Texture2D, Texture.ID);
 
-                GL.NewList(list, ListMode.Compile);
-                {
-                    GL.BindTexture(TextureTarget.Texture2D, Texture.ID);
-
-                    GL.Enable(EnableCap.Blend);
-                    GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+                GL.Enable(EnableCap.Blend);
+                GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
 
 
-                    GL.Begin(BeginMode.Quads);
+                GL.Begin(BeginMode.Quads);
 
-                    GL.TexCoord2(0f + begin * Texture.width_ratio, 0f);
-                    GL.Vertex3(rect.X + begin * rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
+                GL.TexCoord2(0f + begin * Texture.width_ratio, 0f);
+                GL.Vertex3(rect.X + begin * rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
 
-                    GL.TexCoord2(0f + begin * Texture.width_ratio, Texture.height_ratio);
-                    GL.Vertex3(rect.X + begin * rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
+                GL.TexCoord2(0f + begin * Texture.width_ratio, Texture.height_ratio);
+                GL.Vertex3(rect.X + begin * rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
 
-                    GL.TexCoord2(Texture.width_ratio * end, Texture.height_ratio);
-                    GL.Vertex3(rect.X + end * rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
+                GL.TexCoord2(Texture.width_ratio * end, Texture.height_ratio);
+                GL.Vertex3(rect.X + end * rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
 
-                    GL.TexCoord2(Texture.width_ratio * end, 0f);
-                    GL.Vertex3(rect.X + end * rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
+                GL.TexCoord2(Texture.width_ratio * end, 0f);
+                GL.Vertex3(rect.X + end * rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
 
-                    GL.End();
+                GL.End();
 
 
-                    GL.Disable(EnableCap.Blend);
-                    GL.BindTexture(TextureTarget.Texture2D, 0);
-                }
-                GL.EndList();
+                GL.Disable(EnableCap.Blend);
+                GL.BindTexture(TextureTarget.Texture2D, 0);
             }
         }
 
@@ -1281,88 +1251,81 @@ namespace Vocaluxe.Lib.Draw
 
             if (_TextureExists(ref Texture))
             {
-                int list = GL.GenLists(1);
-                _GLList.Add(list);
+                GL.BindTexture(TextureTarget.Texture2D, Texture.ID);
 
-                GL.NewList(list, ListMode.Compile);
+                float x1 = (bounds.X - rect.X) / rect.W * Texture.width_ratio;
+                float x2 = (bounds.X + bounds.W - rect.X) / rect.W * Texture.width_ratio;
+                float y1 = (bounds.Y - rect.Y + rect.H - height) / rect.H * Texture.height_ratio;
+                float y2 = (bounds.Y + bounds.H - rect.Y) / rect.H * Texture.height_ratio;
+
+                if (x1 < 0)
+                    x1 = 0f;
+
+                if (x2 > Texture.width_ratio)
+                    x2 = Texture.width_ratio;
+
+                if (y1 < 0)
+                    y1 = 0f;
+
+                if (y2 > Texture.height_ratio)
+                    y2 = Texture.height_ratio;
+
+
+                float rx1 = rect.X;
+                float rx2 = rect.X + rect.W;
+                float ry1 = rect.Y + rect.H + space;
+                float ry2 = rect.Y + rect.H + space + height;
+
+                if (rx1 < bounds.X)
+                    rx1 = bounds.X;
+
+                if (rx2 > bounds.X + bounds.W)
+                    rx2 = bounds.X + bounds.W;
+
+                if (ry1 < bounds.Y + space)
+                    ry1 = bounds.Y + space;
+
+                if (ry2 > bounds.Y + bounds.H + space + height)
+                    ry2 = bounds.Y + bounds.H + space + height;
+
+                GL.Enable(EnableCap.Blend);
+
+                GL.MatrixMode(MatrixMode.Texture);
+                GL.PushMatrix();
+
+                if (rect.Rotation != 0f)
                 {
-                    GL.BindTexture(TextureTarget.Texture2D, Texture.ID);
-
-                    float x1 = (bounds.X - rect.X) / rect.W * Texture.width_ratio;
-                    float x2 = (bounds.X + bounds.W - rect.X) / rect.W * Texture.width_ratio;
-                    float y1 = (bounds.Y - rect.Y + rect.H - height) / rect.H * Texture.height_ratio;
-                    float y2 = (bounds.Y + bounds.H - rect.Y) / rect.H * Texture.height_ratio;
-
-                    if (x1 < 0)
-                        x1 = 0f;
-
-                    if (x2 > Texture.width_ratio)
-                        x2 = Texture.width_ratio;
-
-                    if (y1 < 0)
-                        y1 = 0f;
-
-                    if (y2 > Texture.height_ratio)
-                        y2 = Texture.height_ratio;
-
-
-                    float rx1 = rect.X;
-                    float rx2 = rect.X + rect.W;
-                    float ry1 = rect.Y + rect.H + space;
-                    float ry2 = rect.Y + rect.H + space + height;
-
-                    if (rx1 < bounds.X)
-                        rx1 = bounds.X;
-
-                    if (rx2 > bounds.X + bounds.W)
-                        rx2 = bounds.X + bounds.W;
-
-                    if (ry1 < bounds.Y + space)
-                        ry1 = bounds.Y + space;
-
-                    if (ry2 > bounds.Y + bounds.H + space + height)
-                        ry2 = bounds.Y + bounds.H + space + height;
-
-                    GL.Enable(EnableCap.Blend);
-
-                    GL.MatrixMode(MatrixMode.Texture);
-                    GL.PushMatrix();
-
-                    if (rect.Rotation != 0f)
-                    {
-                        GL.Translate(0.5f, 0.5f, 0);
-                        GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
-                        GL.Translate(-0.5f, -0.5f, 0);
-                    }
-
-
-                    GL.Begin(BeginMode.Quads);
-
-                    GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-                    GL.TexCoord2(x2, y2);
-                    GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
-
-                    GL.Color4(color.R, color.G, color.B, 0f);
-                    GL.TexCoord2(x2, y1);
-                    GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
-
-                    GL.Color4(color.R, color.G, color.B, 0f);
-                    GL.TexCoord2(x1, y1);
-                    GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
-
-                    GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-                    GL.TexCoord2(x1, y2);
-                    GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
-
-                    GL.End();
-
-
-                    GL.PopMatrix();
-
-                    GL.Disable(EnableCap.Blend);
-                    GL.BindTexture(TextureTarget.Texture2D, 0);
+                    GL.Translate(0.5f, 0.5f, 0);
+                    GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
+                    GL.Translate(-0.5f, -0.5f, 0);
                 }
-                GL.EndList();
+
+
+                GL.Begin(BeginMode.Quads);
+
+                GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+                GL.TexCoord2(x2, y2);
+                GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
+
+                GL.Color4(color.R, color.G, color.B, 0f);
+                GL.TexCoord2(x2, y1);
+                GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
+
+                GL.Color4(color.R, color.G, color.B, 0f);
+                GL.TexCoord2(x1, y1);
+                GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
+
+                GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+                GL.TexCoord2(x1, y2);
+                GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
+
+                GL.End();
+
+
+                GL.PopMatrix();
+
+                GL.Disable(EnableCap.Blend);
+                GL.BindTexture(TextureTarget.Texture2D, 0);
             }
         }
 
