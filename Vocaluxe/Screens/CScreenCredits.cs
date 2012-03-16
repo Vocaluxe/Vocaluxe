@@ -317,7 +317,7 @@ namespace Vocaluxe.Screens
             }
 
             //Draw Text
-            if (TextTimer.IsRunning || true)
+            if (TextTimer.IsRunning)
             {
                 for (int i = 0; i < paragraphTexts.Count; i++)
                 {
