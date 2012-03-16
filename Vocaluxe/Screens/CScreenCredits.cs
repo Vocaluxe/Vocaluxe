@@ -259,7 +259,7 @@ namespace Vocaluxe.Screens
                     {
                         string newline = line + " " + paragraphs[i][e];
                         CText text = new CText(75, lastY, -2, 30, -1, EAlignment.Left, EStyle.Bold, "Outline", new SColorF(1, 1, 1, 1), line);
-                        if (CDraw.GetTextBounds(text).Width < (CSettings.iRenderW - 200))
+                        if (CDraw.GetTextBounds(text).Width < (CSettings.iRenderW - 220))
                         {
                             line = line + " " + paragraphs[i][e];
 
