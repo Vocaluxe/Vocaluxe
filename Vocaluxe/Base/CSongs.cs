@@ -827,7 +827,7 @@ namespace Vocaluxe.Base
             Category = -1;
             _SongsLoaded = true;
 
-            if (CConfig.Renderer == ERenderer.TR_CONFIG_OPENGL)
+            if (CConfig.Renderer != ERenderer.TR_CONFIG_SOFTWARE)
             {
                 CLog.StartBenchmark(2, "Load Cover");
                 for (int i = 0; i < _Songs.Count; i++)
@@ -849,7 +849,7 @@ namespace Vocaluxe.Base
 
         public static void LoadCover(long WaitTime, int NumLoads)
         {
-            if (CConfig.Renderer == ERenderer.TR_CONFIG_OPENGL)
+            if (CConfig.Renderer != ERenderer.TR_CONFIG_SOFTWARE)
                 return; //should be removed as soon as the other renderer are ready for queque
 
             if (!SongsLoaded)
