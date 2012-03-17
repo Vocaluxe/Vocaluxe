@@ -65,7 +65,7 @@
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
-        <Font>Normal</Font>
+        <Font>Outline</Font>
         <!--<Text>: Text or translation tag-->
         <Text>TR_SCREENMAIN_BUTTON_SING</Text>
       </Text>
@@ -120,7 +120,7 @@
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
-        <Font>Normal</Font>
+        <Font>Outline</Font>
         <!--<Text>: Text or translation tag-->
         <Text>TR_SCREENMAIN_BUTTON_OPTIONS</Text>
       </Text>
@@ -175,7 +175,7 @@
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
-        <Font>Normal</Font>
+        <Font>Outline</Font>
         <!--<Text>: Text or translation tag-->
         <Text>TR_SCREENMAIN_BUTTON_PROFILES</Text>
       </Text>
@@ -230,7 +230,7 @@
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
-        <Font>Normal</Font>
+        <Font>Outline</Font>
         <!--<Text>: Text or translation tag-->
         <Text>TR_BUTTON_EXIT</Text>
       </Text>

@@ -826,11 +826,32 @@ namespace Vocaluxe.Base
             CLog.StopBenchmark(2, "Sort Songs");
             Category = -1;
             _SongsLoaded = true;
+
+            if (CConfig.Renderer != ERenderer.TR_CONFIG_SOFTWARE && CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
+            {
+                CLog.StartBenchmark(2, "Load Cover");
+                for (int i = 0; i < _Songs.Count; i++)
+                {
+                    CSong song = _Songs[i];
+
+                    song.ReadNotes();
+                    STexture texture = song.CoverTextureSmall;
+                    song.CoverTextureBig = texture;
+                    _CoverLoadIndex++;
+                }
+
+                _CoverLoaded = true;
+                CDataBase.CommitCovers();
+                CLog.StopBenchmark(2, "Load Cover");
+            }
             CLog.StopBenchmark(1, "Load Songs ");
         }
 
-        public static void LoadCover(long WaitTime)
+        public static void LoadCover(long WaitTime, int NumLoads)
         {
+            if (CConfig.Renderer != ERenderer.TR_CONFIG_SOFTWARE)
+                return; //should be removed as soon as the other renderer are ready for queque
+
             if (!SongsLoaded)
                 return;
 
@@ -846,25 +867,26 @@ namespace Vocaluxe.Base
             STexture texture = new STexture(-1);
             if (_CoverLoadTimer.ElapsedMilliseconds >= WaitTime)
             {
-                CSong song = new CSong();
-                int i = GetNextSongWithoutCover(ref song);
-
-                if (i < 0)
-                    return;
-
-                song.ReadNotes();
-                if (song.CoverFileName != String.Empty)
+                for (int i = 0; i < NumLoads; i++)
                 {
-                    if (!CDataBase.GetCover(Path.Combine(song.Folder, song.CoverFileName), ref texture, CConfig.CoverSize))
-                        texture = CCover.NoCover;
-                }
-                else
-                    texture = CCover.NoCover;
-                SetCoverSmall(i, texture);
-                SetCoverBig(i, texture);
+                    CSong song = new CSong();
+                    int n = GetNextSongWithoutCover(ref song);
 
-                _CoverLoadTimer.Reset();
-                _CoverLoadTimer.Start();
+                    if (n < 0)
+                        return;
+
+                    song.ReadNotes();
+                    texture = song.CoverTextureSmall;
+
+                    SetCoverSmall(n, texture);
+                    SetCoverBig(n, texture);
+
+                    if (CoverLoaded)
+                        CDataBase.CommitCovers();
+
+                    _CoverLoadTimer.Reset();
+                    _CoverLoadTimer.Start();
+                }
             }
         }
     }

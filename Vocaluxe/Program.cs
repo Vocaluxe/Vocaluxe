@@ -152,6 +152,7 @@ namespace Vocaluxe
             CVideo.VdCloseAll();
             CDraw.Unload();
             CLog.CloseAll();
+            CDataBase.CloseConnections();
         }
 
         static Assembly AssemblyResolver(Object sender, ResolveEventArgs args)

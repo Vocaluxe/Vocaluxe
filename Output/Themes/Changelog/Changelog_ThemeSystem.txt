@@ -1,6 +1,19 @@
 Theme System
 
 ++++++++++
+Version 5:
+
+Added:
+<Outline>			outline thickness 0..1
+<OutlineColorR>		outline color red
+<OutlineColorG> 	outline color green
+<OutlineColorB> 	outline color blue
+<OutlineColorA> 	outline color alpha
+
+to Fonts
+
+
+++++++++++
 Version 4:
 
 Added:
