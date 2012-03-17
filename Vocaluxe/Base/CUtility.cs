@@ -147,8 +147,9 @@ namespace Vocaluxe.Base
         {
             if (_Stopwatch.IsRunning)
             {
-                if (Stopwatch.IsHighResolution)
-                    return (float)(((double)nanosecPerTick * (double)_Stopwatch.ElapsedTicks) / (1000.0 * 1000.0));
+                long ticks = _Stopwatch.ElapsedTicks;
+                if (Stopwatch.IsHighResolution && ticks != 0)
+                    return (float)(((double)nanosecPerTick * (double)ticks) / (1000.0 * 1000.0));
                 else
                     return (float)_Stopwatch.ElapsedMilliseconds;
             }

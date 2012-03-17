@@ -12,6 +12,7 @@ using System.Xml;
 using System.Xml.XPath;
 
 using Vocaluxe.Lib.Draw;
+using Vocaluxe.Menu;
 
 namespace Vocaluxe.Base
 {
@@ -32,7 +33,7 @@ namespace Vocaluxe.Base
    
     class CGlyph
     {
-        public readonly float SIZEh = 100f;
+        public readonly float SIZEh = 50f;
         public STexture Texture;
         public char Chr;
         public int width;
@@ -133,7 +134,7 @@ namespace Vocaluxe.Base
             sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
             //size = g.MeasureString(chr.ToString(), fo);
             float h_style = sizeB.Height;
-
+            g.Dispose();
             return h_normal / h_style;
         }
     }
@@ -551,7 +552,18 @@ namespace Vocaluxe.Base
                 }
             }
 	    }
-       
+
+        public static RectangleF GetTextBounds(CText text)
+        {
+            return GetTextBounds(text, text.Height);
+        }
+
+        public static RectangleF GetTextBounds(CText text, float height)
+        {
+            Height = height;
+            return new RectangleF(text.X, text.Y, GetTextWidth(CLanguage.Translate(text.Text)), GetTextHeight(CLanguage.Translate(text.Text)));
+        }
+
         public static float GetTextWidth(string text)
         {
             float dx = 0;

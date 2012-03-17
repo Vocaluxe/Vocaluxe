@@ -54,9 +54,16 @@ namespace Vocaluxe.Screens
         {
             base.HandleInput(KeyEvent);
 
-            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode) && _SearchActive)
+            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode))
             {
-                ApplyNewSearchFilter(_SearchText + KeyEvent.Unicode);
+                if (_SearchActive)
+                    ApplyNewSearchFilter(_SearchText + KeyEvent.Unicode);
+                /*
+                else if (!Char.IsControl(KeyEvent.Unicode))
+                {
+                    JumpTo(KeyEvent.Unicode);
+                    return true;
+                }*/
             }
             else
             {
@@ -71,7 +78,7 @@ namespace Vocaluxe.Screens
                         if (CSongs.Category < 0 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF)
                             CGraphics.FadeTo(EScreens.ScreenMain);
                         break;
-                        
+
                     case Keys.Enter:
                         if (CSongs.NumVisibleSongs > 0)
                             StartSong(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
@@ -128,7 +135,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.R:
-                        if (CSongs.Category != -1)
+                        if (CSongs.Category != -1 && KeyEvent.Mod == Modifier.Ctrl)
                         {
                             SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
                         }
@@ -286,6 +293,24 @@ namespace Vocaluxe.Screens
 
             if (CGame.GetNumSongs() > 0)
                 CGraphics.FadeTo(EScreens.ScreenNames);
+        }
+
+        private void JumpTo(char Letter)
+        {
+            int song = SongMenus[htSongMenus(SongMenu)].GetSelectedSong();
+            int id = -1;
+            if (song > -1 && song < CSongs.NumVisibleSongs)
+            {
+                id = CSongs.VisibleSongs[song].ID;
+            }
+
+            // here is a fault: SetSelectedSong should point to the visible index
+            Vocaluxe.Lib.Song.CSong s = Array.Find<Vocaluxe.Lib.Song.CSong>(CSongs.VisibleSongs, element => element.Artist.StartsWith(Letter.ToString(), StringComparison.OrdinalIgnoreCase));
+            if (s != null && s.ID > -1)
+            {
+                id = s.ID;
+                SongMenus[htSongMenus(SongMenu)].SetSelectedSong(id);
+            }
         }
 
         private void ApplyNewSearchFilter(string NewFilterString)

@@ -140,7 +140,11 @@ namespace Vocaluxe.Screens
             base.DrawFG();
 
             if (CSettings.VersionRevision != ERevision.Release)
+            {
+                CFonts.SetFont("Normal");
+                CFonts.Style = EStyle.Normal;
                 CDraw.DrawText(CSettings.GetFullVersionText(), 10, 680, 40);
+            }
 
             return true;
         }
