@@ -33,7 +33,6 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         const int ScreenVersion = 1;
 
-
         private CStatic logo;
         private CParticleEffect starsRed;
         private CParticleEffect starsBlue;
@@ -45,6 +44,18 @@ namespace Vocaluxe.Screens
 
         private List<string[]> paragraphs;
         private List<CText> paragraphTexts;
+
+        private STexture _TexLogo;
+        private STexture _TexPerfectNoteStar;
+
+        private STexture _TexNameBrunzel;
+        private STexture _TexNameDarkice;
+        private STexture _TexNameFlokuep;
+        private STexture _TexNameMesand;
+        private STexture _TexNameBohning;
+        private STexture _TexNameBabene03;
+        private STexture _TexNamePantero;
+        private STexture _TexNamePinky007;
        
         public CScreenCredits()
         {
@@ -95,6 +106,81 @@ namespace Vocaluxe.Screens
             words = paragraph.Split(new Char[] { ' ' });
             paragraphs.Add(words);
         }
+
+        public override void LoadTheme()
+        {
+            //Vocaluxe-Logo
+            CDataBase.GetCreditsRessource("Logo_voc.png", ref _TexLogo);
+            
+            //Little stars for logo
+            CDataBase.GetCreditsRessource("PerfectNoteStar.png", ref _TexPerfectNoteStar);
+            
+            //brunzel
+            CDataBase.GetCreditsRessource("brunzel.png", ref _TexNameBrunzel);
+            
+            //Darkice
+            CDataBase.GetCreditsRessource("Darkice.png", ref _TexNameDarkice);
+            
+            //flokuep
+            CDataBase.GetCreditsRessource("flokuep.png", ref _TexNameFlokuep);
+            
+            //bohning
+            CDataBase.GetCreditsRessource("bohning.png", ref _TexNameBohning);
+            
+            //mesand
+            CDataBase.GetCreditsRessource("mesand.png", ref _TexNameMesand);
+            
+            //babene03
+            CDataBase.GetCreditsRessource("babene03.png", ref _TexNameBabene03);
+            
+            //pantero
+            CDataBase.GetCreditsRessource("pantero.png", ref _TexNamePantero);
+            
+            //Pinky007
+            CDataBase.GetCreditsRessource("Pinky007.png", ref _TexNamePinky007);
+            
+            //Prepare Text
+            int lastY = 280;
+            for (int i = 0; i < paragraphs.Count; i++)
+            {
+                string line = "";
+                for (int e = 0; e < paragraphs[i].Length; e++)
+                {
+                    if (paragraphs[i][e] != null)
+                    {
+                        string newline = line + " " + paragraphs[i][e];
+                        CText text = new CText(75, lastY, -2, 30, -1, EAlignment.Left, EStyle.Bold, "Outline", new SColorF(1, 1, 1, 1), line);
+                        if (CDraw.GetTextBounds(text).Width < (CSettings.iRenderW - 220))
+                        {
+                            line = line + " " + paragraphs[i][e];
+
+                            //Check if all words are used
+                            if ((e + 1) == paragraphs[i].Length)
+                            {
+                                text.Text = line;
+                                paragraphTexts.Add(text);
+                                line = "";
+                                lastY += 40;
+                            }
+                        }
+                        else
+                        {
+                            paragraphTexts.Add(text);
+                            line = " " + paragraphs[i][e];
+                            lastY += 27;
+                        }
+                    }
+                }
+            }
+        }
+
+        public override void ReloadTheme() {}
+
+        public override void SaveTheme() {}
+
+        public override void UnloadTextures() {}
+
+        public override void ReloadTextures() {}
 
         public override bool HandleInput(KeyEvent KeyEvent)
         {
@@ -150,137 +236,92 @@ namespace Vocaluxe.Screens
 
         public override void OnShow()
         {
-            STexture tex = new STexture();
-            STexture particleTex = new STexture();
+            base.OnShow();
 
             //Vocaluxe-Logo
-            CDataBase.GetCreditsRessource("Logo_voc.png", ref tex);
-            logo = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF((CSettings.iRenderW - tex.width)/2, -270 , tex.width, tex.height, -2));
-
+            logo = new CStatic(_TexLogo, new SColorF(1, 1, 1, 1), new SRectF((CSettings.iRenderW - _TexLogo.width) / 2, -270, _TexLogo.width, _TexLogo.height, -2));
+            
             //Little stars for logo
-            CDataBase.GetCreditsRessource("PerfectNoteStar.png", ref particleTex);
-            int numstars = (int)(logo.Rect.W * 0.25f /2f);
-            starsRed = new CParticleEffect(numstars, new SColorF(1, 0, 0, 1), new SRectF(logo.Rect.X, logo.Rect.Y, logo.Rect.W, logo.Rect.H, -1), particleTex, 35, EParticeType.Star);
-            starsBlue = new CParticleEffect(numstars, new SColorF(0.149f, 0.415f, 0.819f, 1), new SRectF(logo.Rect.X, logo.Rect.Y, logo.Rect.W, logo.Rect.H, -1), particleTex, 35, EParticeType.Star);
+            int numstars = (int)(logo.Rect.W * 0.25f / 2f);
+            starsRed = new CParticleEffect(numstars, new SColorF(1, 0, 0, 1), new SRectF(logo.Rect.X, logo.Rect.Y, logo.Rect.W, logo.Rect.H, -1), _TexPerfectNoteStar, 35, EParticeType.Star);
+            starsBlue = new CParticleEffect(numstars, new SColorF(0.149f, 0.415f, 0.819f, 1), new SRectF(logo.Rect.X, logo.Rect.Y, logo.Rect.W, logo.Rect.H, -1), _TexPerfectNoteStar, 35, EParticeType.Star);
 
             //Credit names
             _CreditNames = new List<CCreditName>();
-
             CCreditName CreditEntry = new CCreditName();
 
             //brunzel
-            CDataBase.GetCreditsRessource("brunzel.png", ref tex);
             CCreditName CreditEntryBrunzel = new CCreditName();
-            CreditEntryBrunzel.image = new CStatic(tex, new SColorF(1,1,1,1), new SRectF(-450, 580, 400, 120, -4));
+            CreditEntryBrunzel.image = new CStatic(_TexNameBrunzel, new SColorF(1, 1, 1, 1), new SRectF(-450, 580, 400, 120, -4));
             CreditEntryBrunzel.particleRect = new SRectF(CreditEntryBrunzel.image.Rect.X + 342, CreditEntryBrunzel.image.Rect.Y + 4, 30, 30, -5);
-            CreditEntryBrunzel.particle = new CParticleEffect(8, new SColorF(1, 0, 0, 1), CreditEntryBrunzel.particleRect, particleTex, 35, EParticeType.Star);
+            CreditEntryBrunzel.particle = new CParticleEffect(8, new SColorF(1, 0, 0, 1), CreditEntryBrunzel.particleRect, _TexPerfectNoteStar, 35, EParticeType.Star);
             CreditEntryBrunzel.active = true;
             CreditEntryBrunzel.direction = EDirection.Left;
             _CreditNames.Add(CreditEntryBrunzel);
 
             //Darkice
-            CDataBase.GetCreditsRessource("Darkice.png", ref tex);
             CCreditName CreditEntryDarkice = new CCreditName();
-            CreditEntryDarkice.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 400, 120, -4));
+            CreditEntryDarkice.image = new CStatic(_TexNameDarkice, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 400, 120, -4));
             CreditEntryDarkice.particleRect = new SRectF(CreditEntryDarkice.image.Rect.X + 242, CreditEntryDarkice.image.Rect.Y + 23, 30, 30, -5);
-            CreditEntryDarkice.particle = new CParticleEffect(8, new SColorF(0.149f, 0.415f ,0.819f, 1), CreditEntryDarkice.particleRect, particleTex, 35, EParticeType.Star);
+            CreditEntryDarkice.particle = new CParticleEffect(8, new SColorF(0.149f, 0.415f, 0.819f, 1), CreditEntryDarkice.particleRect, _TexPerfectNoteStar, 35, EParticeType.Star);
             CreditEntryDarkice.active = true;
             CreditEntryDarkice.direction = EDirection.Right;
             _CreditNames.Add(CreditEntryDarkice);
 
             //flokuep
-            CDataBase.GetCreditsRessource("flokuep.png", ref tex);
             CCreditName CreditEntryFlokuep = new CCreditName();
-            CreditEntryFlokuep.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(-450, 580, 400, 120, -4));
-            CreditEntryFlokuep.particleRect = new SRectF(CreditEntryFlokuep.image.Rect.X + 141, CreditEntryFlokuep.image.Rect.Y-2, 30, 30, -5);
-            CreditEntryFlokuep.particle = new CParticleEffect(8, new SColorF(1, 0, 0, 1), CreditEntryFlokuep.particleRect, particleTex, 35, EParticeType.Star);
+            CreditEntryFlokuep.image = new CStatic(_TexNameFlokuep, new SColorF(1, 1, 1, 1), new SRectF(-450, 580, 400, 120, -4));
+            CreditEntryFlokuep.particleRect = new SRectF(CreditEntryFlokuep.image.Rect.X + 141, CreditEntryFlokuep.image.Rect.Y - 2, 30, 30, -5);
+            CreditEntryFlokuep.particle = new CParticleEffect(8, new SColorF(1, 0, 0, 1), CreditEntryFlokuep.particleRect, _TexPerfectNoteStar, 35, EParticeType.Star);
             CreditEntryFlokuep.active = true;
             CreditEntryFlokuep.direction = EDirection.Left;
             _CreditNames.Add(CreditEntryFlokuep);
 
             //bohning
-            CDataBase.GetCreditsRessource("bohning.png", ref tex);
             CCreditName CreditEntryBohning = new CCreditName();
-            CreditEntryBohning.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 350, 110, -4));
+            CreditEntryBohning.image = new CStatic(_TexNameBohning, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 350, 110, -4));
             CreditEntryBohning.particleRect = new SRectF(CreditEntryBohning.image.Rect.X + 172, CreditEntryBohning.image.Rect.Y + 16, 10, 10, -5);
-            CreditEntryBohning.particle = new CParticleEffect(4, new SColorF(0.149f, 0.415f ,0.819f, 1), CreditEntryBohning.particleRect, particleTex, 25, EParticeType.Star);
+            CreditEntryBohning.particle = new CParticleEffect(4, new SColorF(0.149f, 0.415f, 0.819f, 1), CreditEntryBohning.particleRect, _TexPerfectNoteStar, 25, EParticeType.Star);
             CreditEntryBohning.active = true;
             CreditEntryBohning.direction = EDirection.Right;
             _CreditNames.Add(CreditEntryBohning);
 
             //mesand
-            CDataBase.GetCreditsRessource("mesand.png", ref tex);
             CCreditName CreditEntryMesand = new CCreditName();
-            CreditEntryMesand.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(-450, 580, 350, 110, -4));
+            CreditEntryMesand.image = new CStatic(_TexNameMesand, new SColorF(1, 1, 1, 1), new SRectF(-450, 580, 350, 110, -4));
             CreditEntryMesand.particleRect = new SRectF(CreditEntryMesand.image.Rect.X + 240, CreditEntryMesand.image.Rect.Y - 2, 10, 10, -5);
-            CreditEntryMesand.particle = new CParticleEffect(4, new SColorF(1, 0, 0, 1), CreditEntryMesand.particleRect, particleTex, 25, EParticeType.Star);
+            CreditEntryMesand.particle = new CParticleEffect(4, new SColorF(1, 0, 0, 1), CreditEntryMesand.particleRect, _TexPerfectNoteStar, 25, EParticeType.Star);
             CreditEntryMesand.active = true;
             CreditEntryMesand.direction = EDirection.Left;
             _CreditNames.Add(CreditEntryMesand);
 
             //babene03
-            CDataBase.GetCreditsRessource("babene03.png", ref tex);
             CCreditName CreditEntryBabene03 = new CCreditName();
-            CreditEntryBabene03.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 350, 110, -4));
+            CreditEntryBabene03.image = new CStatic(_TexNameBabene03, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 350, 110, -4));
             CreditEntryBabene03.particleRect = new SRectF(CreditEntryBabene03.image.Rect.X + 7, CreditEntryBabene03.image.Rect.Y + 4, 10, 10, -5);
-            CreditEntryBabene03.particle = new CParticleEffect(4, new SColorF(0.149f, 0.415f ,0.819f, 1), CreditEntryBabene03.particleRect, particleTex, 25, EParticeType.Star);
+            CreditEntryBabene03.particle = new CParticleEffect(4, new SColorF(0.149f, 0.415f, 0.819f, 1), CreditEntryBabene03.particleRect, _TexPerfectNoteStar, 25, EParticeType.Star);
             CreditEntryBabene03.active = true;
             CreditEntryBabene03.direction = EDirection.Right;
             _CreditNames.Add(CreditEntryBabene03);
 
             //pantero
-            CDataBase.GetCreditsRessource("pantero.png", ref tex);
             CCreditName CreditEntrypantero = new CCreditName();
-            CreditEntrypantero.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(-450, 580, 350, 110, -4));
+            CreditEntrypantero.image = new CStatic(_TexNamePantero, new SColorF(1, 1, 1, 1), new SRectF(-450, 580, 350, 110, -4));
             CreditEntrypantero.particleRect = new SRectF(CreditEntrypantero.image.Rect.X + 140, CreditEntrypantero.image.Rect.Y + 15, 10, 10, -5);
-            CreditEntrypantero.particle = new CParticleEffect(4, new SColorF(1, 0, 0, 1), CreditEntrypantero.particleRect, particleTex, 25, EParticeType.Star);
+            CreditEntrypantero.particle = new CParticleEffect(4, new SColorF(1, 0, 0, 1), CreditEntrypantero.particleRect, _TexPerfectNoteStar, 25, EParticeType.Star);
             CreditEntrypantero.active = true;
             CreditEntrypantero.direction = EDirection.Left;
             _CreditNames.Add(CreditEntrypantero);
-       
+
             //Pinky007
-            CDataBase.GetCreditsRessource("Pinky007.png", ref tex);
             CCreditName CreditEntryPinky007 = new CCreditName();
-            CreditEntryPinky007.image = new CStatic(tex, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 350, 110, -4));
+            CreditEntryPinky007.image = new CStatic(_TexNamePinky007, new SColorF(1, 1, 1, 1), new SRectF(CSettings.iRenderW, 580, 350, 110, -4));
             CreditEntryPinky007.particleRect = new SRectF(CreditEntryPinky007.image.Rect.X + 42, CreditEntryPinky007.image.Rect.Y + 15, 10, 10, -5);
-            CreditEntryPinky007.particle = new CParticleEffect(4, new SColorF(0.149f, 0.415f ,0.819f, 1), CreditEntryPinky007.particleRect, particleTex, 25, EParticeType.Star);
+            CreditEntryPinky007.particle = new CParticleEffect(4, new SColorF(0.149f, 0.415f, 0.819f, 1), CreditEntryPinky007.particleRect, _TexPerfectNoteStar, 25, EParticeType.Star);
             CreditEntryPinky007.active = true;
             CreditEntryPinky007.direction = EDirection.Right;
             _CreditNames.Add(CreditEntryPinky007);
 
-            //Prepare Text
-            int lastY = 280;
-            for (int i = 0; i < paragraphs.Count; i++)
-            {
-                string line = "";
-                for (int e = 0; e < paragraphs[i].Length; e++ )
-                {
-                    if (paragraphs[i][e] != null)
-                    {
-                        string newline = line + " " + paragraphs[i][e];
-                        CText text = new CText(75, lastY, -2, 30, -1, EAlignment.Left, EStyle.Bold, "Outline", new SColorF(1, 1, 1, 1), line);
-                        if (CDraw.GetTextBounds(text).Width < (CSettings.iRenderW - 220))
-                        {
-                            line = line + " " + paragraphs[i][e];
-
-                            //Check if all words are used
-                            if ((e + 1) == paragraphs[i].Length)
-                            {
-                                text.Text = line;
-                                paragraphTexts.Add(text);
-                                line = "";
-                                lastY += 40;
-                            }
-                        }
-                        else
-                        {
-                            paragraphTexts.Add(text);
-                            line = " "+paragraphs[i][e];
-                            lastY += 27;
-                        }
-                    }
-                }
-            }
             TextTimer.Reset();
             LogoTimer.Reset();
             CreditsTimer.Reset();
