@@ -449,8 +449,6 @@ namespace Vocaluxe.Lib.Draw
                 EnterFullScreen();
             }
 
-            double draw_time = 0;
-            UInt64 draws = 0;
             while (_Run)
             {
                 Application.DoEvents();
@@ -458,10 +456,7 @@ namespace Vocaluxe.Lib.Draw
                 if (_Run)
                 {
                     ClearScreen();
-                    double start = CTime.GetMilliseconds();
                     _Run = _Run && CGraphics.Draw();
-                    draw_time += CTime.GetMilliseconds() - start;
-                    draws += 1;
 
                     _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
                     control.SwapBuffers();
@@ -478,7 +473,6 @@ namespace Vocaluxe.Lib.Draw
                         System.Threading.Thread.Sleep(delay);
 
                     CTime.CalculateFPS();
-                    CLog.LogError("drawTime:" + (draw_time / draws).ToString() + " " + draws.ToString());
                     CTime.Restart();
                 }
                 else
