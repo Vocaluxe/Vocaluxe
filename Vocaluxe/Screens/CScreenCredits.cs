@@ -293,15 +293,6 @@ namespace Vocaluxe.Screens
             LogoTimer.Start();
         }
 
-        public override void OnClose()
-        {
-            base.OnClose();
-
-            foreach (CText text in paragraphTexts)
-                text.UnloadTextures();
-            paragraphTexts.Clear();
-        }
-
         public override bool Draw()
         {
             base.Draw();
