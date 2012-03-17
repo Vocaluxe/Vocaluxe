@@ -50,9 +50,9 @@ namespace Vocaluxe.Lib.Draw
 
         private STexture blankTexture;
 
-        private List<TexturedColoredVertex> _Vertices;
-        private List<Texture> _VerticesTextures;
-        private List<Matrix> _VerticesRotationMatrices;
+        private Queue<TexturedColoredVertex> _Vertices;
+        private Queue<Texture> _VerticesTextures;
+        private Queue<Matrix> _VerticesRotationMatrices;
 
         #endregion private vars
 
@@ -66,9 +66,9 @@ namespace Vocaluxe.Lib.Draw
             _D3DTextures = new List<Texture>();
             _Queque = new List<STextureQueque>();
 
-            _Vertices = new List<TexturedColoredVertex>();
-            _VerticesTextures = new List<Texture>();
-            _VerticesRotationMatrices = new List<Matrix>();
+            _Vertices = new Queue<TexturedColoredVertex>();
+            _VerticesTextures = new Queue<Texture>();
+            _VerticesRotationMatrices = new Queue<Matrix>();
 
             _Keys = new CKeys();
             _D3D = new Direct3D();
@@ -547,19 +547,33 @@ namespace Vocaluxe.Lib.Draw
             return new RectangleF(text.X, text.Y, CFonts.GetTextWidth(CLanguage.Translate(text.Text)), CFonts.GetTextHeight(CLanguage.Translate(text.Text)));
         }
 
+        /// <summary>
+        /// Adds a quad a list which will be added and rendered to the vertexbuffer when calling RenderToVertexBuffer to reduce vertexbuffer calls each frame to a minimum
+        /// </summary>
+        /// <param name="vertices">A TexturedColoredVertex array containg 4 vertices</param>
+        /// <param name="tex">The texture the vertex should be textured with</param>
+        /// <param name="rotation">The vertices' rotation</param>
         private void AddToVertexBuffer(TexturedColoredVertex[] vertices, Texture tex, Matrix rotation)
         {
+            //The vertexbuffer is full, so we need to flush it before we can continue
             if (_Vertices.Count >= CSettings.iVertexBufferElements)
                 RenderVertexBuffer();
-            _Vertices.AddRange(vertices);
-            _VerticesTextures.Add(tex);
-            _VerticesRotationMatrices.Add(rotation);
+            _Vertices.Enqueue(vertices[0]);
+            _Vertices.Enqueue(vertices[1]);
+            _Vertices.Enqueue(vertices[2]);
+            _Vertices.Enqueue(vertices[3]);
+            _VerticesTextures.Enqueue(tex);
+            _VerticesRotationMatrices.Enqueue(rotation);
         }
 
+        /// <summary>
+        /// Renders the vertex buffer
+        /// </summary>
         private void RenderVertexBuffer()
         {
             if (_Vertices.Count > 0)
             {
+                //The vertex buffer locks are slow actions, its better to lock once per frame and write all vertices to the buffer at once
                 DataStream stream = _VertexBuffer.Lock(0, _Vertices.Count * Marshal.SizeOf(typeof(TexturedColoredVertex)), LockFlags.Discard);
                 stream.WriteRange<TexturedColoredVertex>(_Vertices.ToArray());
                 _VertexBuffer.Unlock();
@@ -567,11 +581,14 @@ namespace Vocaluxe.Lib.Draw
 
                 for (int i = 0; i < _Vertices.Count; i += 4)
                 {
-                    _Device.SetTransform(TransformState.World, _VerticesRotationMatrices[i / 4]);
-                    _Device.SetTexture(0, _VerticesTextures[i / 4]);
+                    //Apply rotation
+                    _Device.SetTransform(TransformState.World, _VerticesRotationMatrices.Dequeue());
+                    //Apply texture
+                    _Device.SetTexture(0, _VerticesTextures.Dequeue());
+                    //Draw 2 triangles from vertexbuffer
                     _Device.DrawIndexedPrimitives(PrimitiveType.TriangleList, i, 0, 4, 0, 2);
-                    _Device.SetTransform(TransformState.World, _VerticesRotationMatrices[i / 4]);
                 }
+                //Clear the queues for the next frame
                 _Vertices.Clear();
                 _VerticesTextures.Clear();
                 _VerticesRotationMatrices.Clear();
