@@ -14,8 +14,27 @@ namespace Vocaluxe.Menu
     {
         public string Name;
 
+        public string Text;
         public string ColorName;
         public string SColorName; //for Buttons
+    }
+
+    struct STextPosition
+    {
+        public float X;
+        public float Y;
+        public float tH;
+        public float Width;
+        public float Height;
+
+        public STextPosition(int dummy)
+        {
+            X = 0f;
+            Y = 0f;
+            tH = 0f;
+            Width = 0f;
+            Height = 0f;
+        }
     }
 
     class CText : IMenuElement
@@ -23,18 +42,136 @@ namespace Vocaluxe.Menu
         private SThemeText _Theme;
         private bool _ThemeLoaded;
         private bool _ButtonText;
+        private bool _PositionNeedsUpdate = true;
 
-        public float X; //left
-        public float Y; //higher 
-        public float Z;
-        public float Height;
-        public float MaxWidth;
-        public SRectF Bounds;
+        private STextPosition _DrawPosition = new STextPosition(0);
 
-        public EAlignment Align;
-        public EStyle Style;
-        public string Fon;
-        
+        private float _X = 0f;
+        public float X //left
+        {
+            get { return _X; }
+            set
+            {
+                if (_X != value)
+                {
+                    _X = value;
+                    _PositionNeedsUpdate = true;
+                }
+            }
+        }
+
+        private float _Y = 0f;
+        public float Y //higher
+        {
+            get { return _Y; }
+            set
+            {
+                if (_Y != value)
+                {
+                    _Y = value;
+                    _PositionNeedsUpdate = true;
+                }
+            }
+        }
+
+        private float _Z = 0f;
+        public float Z
+        {
+            get { return _Z; }
+            set
+            {
+                if (_Z != value)
+                {
+                    _Z = value;
+                    _PositionNeedsUpdate = true;
+                }
+            }
+        }
+
+        private float _Height = 0f;
+        public float Height
+        {
+            get { return _Height; }
+            set
+            {
+                if (_Height != value)
+                {
+                    _Height = value;
+                    _PositionNeedsUpdate = true;
+                }
+            }
+        }
+
+        private float _MaxWidth = 0f;
+        public float MaxWidth
+        {
+            get { return _MaxWidth; }
+            set
+            {
+                if (_MaxWidth != value)
+                {
+                    _MaxWidth = value;
+                    _PositionNeedsUpdate = true;
+                }
+            }
+        }
+
+        private SRectF _Bounds = new SRectF();
+        public SRectF Bounds
+        {
+            get { return _Bounds; }
+            set
+            {
+                if (_Bounds.X != value.X || _Bounds.Y != value.Y || _Bounds.W != value.W || _Bounds.H != value.H || _Bounds.Z != value.Z)
+                {
+                    _Bounds = value;
+                    _PositionNeedsUpdate = true;
+                }
+            }
+        }
+
+        private EAlignment _Align = EAlignment.Left;
+        public EAlignment Align
+        {
+            get { return _Align; }
+            set
+            {
+                if (_Align != value)
+                {
+                    _Align = value;
+                    _PositionNeedsUpdate = true;
+                }
+            }
+        }
+
+        private EStyle _Style = EStyle.Normal;
+        public EStyle Style
+        {
+            get { return _Style; }
+            set
+            {
+                if (_Style != value)
+                {
+                    _Style = value;
+                    _PositionNeedsUpdate = true;
+                }
+            }
+        }
+
+        private string _Fon = String.Empty;
+        public string Fon
+        {
+            get { return _Fon; }
+            set
+            {
+                if (_Fon != value)
+                {
+                    _Fon = value;
+                    _PositionNeedsUpdate = true;
+                }
+            }
+        }
+       
         public SColorF Color;  //normal Color
         public SColorF SColor;  //selected Color for Buttons
 
@@ -42,7 +179,22 @@ namespace Vocaluxe.Menu
         public float ReflectionSpace;
         public float ReflectionHeight;
 
-        public string Text;        
+        private string _Text = String.Empty;
+        public string Text
+        {
+            get { return _Theme.Text; }
+            set
+            {
+                string translation = CLanguage.Translate(value);
+                if (_Theme.Text != value || translation != _Text)
+                {
+                    _Theme.Text = value;
+                    _Text = translation;
+                    _PositionNeedsUpdate = true; 
+                }
+            }
+        }
+
         public bool Selected;
         public bool Visible = true;
 
@@ -94,7 +246,7 @@ namespace Vocaluxe.Menu
             Color = new SColorF(r, g, b, a);
             SColor = new SColorF(r, g, b, a);
             
-            text = Text;
+            Text = text;
 
             Selected = false;
 
@@ -130,7 +282,7 @@ namespace Vocaluxe.Menu
             Color = new SColorF(r, g, b, a);
             SColor = new SColorF(r, g, b, a);
 
-            text = Text;
+            Text = text;
 
             Selected = false;
 
@@ -226,14 +378,14 @@ namespace Vocaluxe.Menu
             string item = XmlPath + "/" + ElementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/X", navigator, ref X);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Y", navigator, ref Y);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/X", navigator, ref _X);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Y", navigator, ref _Y);
 
             if (!ButtonText)
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Z", navigator, ref Z);
+                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Z", navigator, ref _Z);
 
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/H", navigator, ref Height);
-            CHelper.TryGetFloatValueFromXML(item + "/MaxW", navigator, ref MaxWidth);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/H", navigator, ref _Height);
+            CHelper.TryGetFloatValueFromXML(item + "/MaxW", navigator, ref _MaxWidth);
 
             if (CHelper.GetValueFromXML(item + "/Color", navigator, ref _Theme.ColorName, String.Empty))
             {
@@ -261,11 +413,11 @@ namespace Vocaluxe.Menu
                 }
             }
 
-            _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EAlignment>(item + "/Align", navigator, ref Align);
-            _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EStyle>(item + "/Style", navigator, ref Style);
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/Font", navigator, ref Fon, "Normal");
+            _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EAlignment>(item + "/Align", navigator, ref _Align);
+            _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EStyle>(item + "/Style", navigator, ref _Style);
+            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/Font", navigator, ref _Fon, "Normal");
 
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/Text", navigator, ref Text, String.Empty);
+            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/Text", navigator, ref _Theme.Text, String.Empty);
 
             if (CHelper.ItemExistsInXML(item + "/Reflection", navigator) && !ButtonText)
             {
@@ -275,6 +427,17 @@ namespace Vocaluxe.Menu
             }
             else
                 Reflection = false;
+
+            // Set values
+            X = _X;
+            Y = _Y;
+            Z = _Z;
+            Height = _Height;
+            MaxWidth = _MaxWidth;
+            Text = _Theme.Text;
+            Fon = _Fon;
+            Align = _Align;
+            Style = _Style;
 
             if (_ThemeLoaded)
             {
@@ -352,8 +515,8 @@ namespace Vocaluxe.Menu
                 writer.WriteElementString("Font", Fon);
 
                 writer.WriteComment("<Text>: Text or translation tag");
-                if (CLanguage.TranslationExists(Text))
-                    writer.WriteElementString("Text", Text);
+                if (CLanguage.TranslationExists(_Theme.Text))
+                    writer.WriteElementString("Text", _Theme.Text);
                 else
                     writer.WriteElementString("Text", string.Empty);
 
@@ -394,32 +557,14 @@ namespace Vocaluxe.Menu
             if (!ForceDraw && !Visible && CSettings.GameState != EGameState.EditTheme)
                 return;
 
+            // Update Text
+            Text = Text;
+
+            if (_PositionNeedsUpdate)
+                UpdateTextPosition();
+
             CFonts.SetFont(Fon);
             CFonts.Style = Style;
-
-            float h = Height;
-            float y = Y;
-            RectangleF bounds = CFonts.GetTextBounds(this);
-
-            while (bounds.Width > Bounds.W)
-            {
-                h -= 0.2f;
-                y += 0.1f;
-                bounds = CFonts.GetTextBounds(this, h);
-            }
-
-            float x = X;
-            switch (Align)
-            {
-                case EAlignment.Center:
-                    x = X - bounds.Width / 2;
-                    break;
-                case EAlignment.Right:
-                    x = X - bounds.Width;
-                    break;
-                default:
-                    break;
-            }
 
             SColorF CurrentColor = new SColorF(Color);
             if (Selected)
@@ -427,17 +572,20 @@ namespace Vocaluxe.Menu
 
             SColorF color = new SColorF(CurrentColor.R, CurrentColor.G, CurrentColor.B, CurrentColor.A * Alpha);
 
-            
-            CFonts.DrawText(CLanguage.Translate(Text), h, x, y, Z, color);
+
+            CFonts.DrawText(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color);
 
             if (Reflection)
             {
-                CFonts.DrawTextReflection(CLanguage.Translate(Text), h, x, y, Z, color, ReflectionSpace, ReflectionHeight);
+                CFonts.DrawTextReflection(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace, ReflectionHeight);
             }
 
             if (Selected && (CSettings.GameState == EGameState.EditTheme))
             {
-                CDraw.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f * CGraphics.GlobalAlpha), new SRectF(x, y, bounds.Width, bounds.Height, Z));
+                CDraw.DrawColor(
+                    new SColorF(0.5f, 1f, 0.5f, 0.5f * CGraphics.GlobalAlpha),
+                    new SRectF(_DrawPosition.X, _DrawPosition.Y, _DrawPosition.Width, _DrawPosition.Height, Z)
+                    );
             }
         }
 
@@ -491,6 +639,9 @@ namespace Vocaluxe.Menu
 
         public void DrawRelative(float rx, float ry, bool reflection, float reflectionSpace, float reflectionHeight, float rectHeight)
         {
+            // Update Text
+            Text = Text;
+
             float h = Height;
 
             float x = X + rx;
@@ -525,13 +676,13 @@ namespace Vocaluxe.Menu
 
             CFonts.SetFont(Fon);
             CFonts.Style = Style;
-            CFonts.DrawText(CLanguage.Translate(Text), h, x, y, Z, color);
+            CFonts.DrawText(_Text, h, x, y, Z, color);
 
             if (reflection)
             {
                 float space = (rectHeight - Y - bounds.Height) * 2f + reflectionSpace;
                 float height = reflectionHeight - (rectHeight - Y) + bounds.Height;
-                CFonts.DrawTextReflection(CLanguage.Translate(Text), h, x, y, Z, color, space, height);
+                CFonts.DrawTextReflection(_Text, h, x, y, Z, color, space, height);
             }
 
             if (Selected && (CSettings.GameState == EGameState.EditTheme))
@@ -573,5 +724,46 @@ namespace Vocaluxe.Menu
                 Height = 1;
         }
         #endregion ThemeEdit
+
+        private void UpdateTextPosition()
+        {
+            if (_Text == String.Empty)
+                return;
+
+            CFonts.SetFont(Fon);
+            CFonts.Style = Style;
+
+            float h = Height;
+            float y = Y;
+            RectangleF bounds = CFonts.GetTextBounds(this);
+
+            while (bounds.Width > Bounds.W)
+            {
+                h -= 0.2f;
+                y += 0.1f;
+                bounds = CFonts.GetTextBounds(this, h);
+            }
+
+            float x = X;
+            switch (Align)
+            {
+                case EAlignment.Center:
+                    x = X - bounds.Width / 2;
+                    break;
+                case EAlignment.Right:
+                    x = X - bounds.Width;
+                    break;
+                default:
+                    break;
+            }
+
+            _DrawPosition.X = x;
+            _DrawPosition.Y = y;
+            _DrawPosition.tH = h;
+            _DrawPosition.Width = bounds.Width;
+            _DrawPosition.Height = bounds.Height;
+
+            _PositionNeedsUpdate = false;
+        }
     }
 }
