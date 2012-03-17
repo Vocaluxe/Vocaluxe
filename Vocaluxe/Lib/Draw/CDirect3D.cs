@@ -41,15 +41,18 @@ namespace Vocaluxe.Lib.Draw
         private Object MutexTexture = new Object();
 
         private VertexBuffer _VertexBuffer;
+        private IndexBuffer _IndexBuffer;
 
         private int h = 1;
         private int w = 1;
         private int y = 0;
         private int x = 0;
 
-        private Bitmap blankMap;
         private STexture blankTexture;
-        private Texture transparentTexture;
+
+        private List<TexturedColoredVertex> _Vertices;
+        private List<Texture> _VerticesTextures;
+        private List<Matrix> _VerticesRotationMatrices;
 
         #endregion private vars
 
@@ -62,6 +65,10 @@ namespace Vocaluxe.Lib.Draw
             _Textures = new List<STexture>();
             _D3DTextures = new List<Texture>();
             _Queque = new List<STextureQueque>();
+
+            _Vertices = new List<TexturedColoredVertex>();
+            _VerticesTextures = new List<Texture>();
+            _VerticesRotationMatrices = new List<Matrix>();
 
             _Keys = new CKeys();
             _D3D = new Direct3D();
@@ -164,13 +171,12 @@ namespace Vocaluxe.Lib.Draw
 
             //This creates a new white texture and adds it to the texture pool
             //This texture is used for the DrawRect method
-            blankMap = new Bitmap(1, 1);
+            Bitmap blankMap = new Bitmap(1, 1);
             Graphics g = Graphics.FromImage(blankMap);
             g.Clear(Color.White);
             g.Dispose();
             blankTexture = AddTexture(blankMap);
 
-            transparentTexture = new Texture(_Device, 1, 1, 0, Usage.None, Format.A8R8G8B8, Pool.Managed);
             blankMap.Dispose();
         }
 
@@ -357,7 +363,7 @@ namespace Vocaluxe.Lib.Draw
                 this.Text = CSettings.GetFullVersionText();
                 Matrix translate = Matrix.Translation(new Vector3(-CSettings.iRenderW / 2, CSettings.iRenderH / 2, 0));
                 Matrix projection = Matrix.OrthoOffCenterLH(-CSettings.iRenderW / 2, CSettings.iRenderW / 2, -CSettings.iRenderH / 2, CSettings.iRenderH / 2, CSettings.zNear, CSettings.zFar);
-                _VertexBuffer = new VertexBuffer(_Device, 4 * Marshal.SizeOf(typeof(TexturedColoredVertex)), Usage.WriteOnly | Usage.Dynamic, VertexFormat.Position | VertexFormat.Texture1 | VertexFormat.Diffuse, Pool.Default);
+                _VertexBuffer = new VertexBuffer(_Device, CSettings.iVertexBufferElements * (4 * Marshal.SizeOf(typeof(TexturedColoredVertex))), Usage.WriteOnly | Usage.Dynamic, VertexFormat.Position | VertexFormat.Texture1 | VertexFormat.Diffuse, Pool.Default);
                 _Device.SetStreamSource(0, _VertexBuffer, 0, Marshal.SizeOf(typeof(TexturedColoredVertex)));
                 _Device.VertexDeclaration = TexturedColoredVertex.GetDeclaration(_Device);
                 _Device.SetTransform(TransformState.Projection, projection);
@@ -377,6 +383,21 @@ namespace Vocaluxe.Lib.Draw
                 _Device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Texture);
                 _Device.SetTextureStageState(0, TextureStage.AlphaArg2, TextureArgument.Diffuse);
                 _Device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.Modulate);
+
+                int[] indices = new int[6];
+                indices[0] = 0;
+                indices[1] = 1;
+                indices[2] = 2;
+                indices[3] = 0;
+                indices[4] = 2;
+                indices[5] = 3;
+
+                _IndexBuffer = new IndexBuffer(_Device, 6 * sizeof(int), Usage.WriteOnly, Pool.Managed, false);
+
+                DataStream stream = _IndexBuffer.Lock(0, 0, LockFlags.None);
+                stream.WriteRange(indices);
+                _IndexBuffer.Unlock();
+                _Device.Indices = _IndexBuffer;
                 return true;
             }
             else
@@ -409,6 +430,7 @@ namespace Vocaluxe.Lib.Draw
                     _Device.BeginScene();
                     CheckQueque();
                     _Run = _Run && CGraphics.Draw();
+                    RenderVertexBuffer();
                     //We finished drawing the frame
                     _Device.EndScene();
                     _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
@@ -459,6 +481,7 @@ namespace Vocaluxe.Lib.Draw
             //Dispose all objects in the default pool, those need to be recreated
             TexturedColoredVertex.GetDeclaration(_Device).Dispose();
             _VertexBuffer.Dispose();
+            _IndexBuffer.Dispose();
             _Device.Reset(_PresentParameters);
         }
 
@@ -471,11 +494,12 @@ namespace Vocaluxe.Lib.Draw
             //Dispose all textures
             for (int i = 0; i < _D3DTextures.Count; i++)
             {
-                if(_D3DTextures[i] != null)
+                if (_D3DTextures[i] != null)
                     _D3DTextures[i].Dispose();
             }
             TexturedColoredVertex.GetDeclaration(_Device).Dispose();
             _VertexBuffer.Dispose();
+            _IndexBuffer.Dispose();
             _Device.Dispose();
             _D3D.Dispose();
             return true;
@@ -521,6 +545,37 @@ namespace Vocaluxe.Lib.Draw
             CFonts.SetFont(text.Fon);
             CFonts.Style = text.Style;
             return new RectangleF(text.X, text.Y, CFonts.GetTextWidth(CLanguage.Translate(text.Text)), CFonts.GetTextHeight(CLanguage.Translate(text.Text)));
+        }
+
+        private void AddToVertexBuffer(TexturedColoredVertex[] vertices, Texture tex, Matrix rotation)
+        {
+            if (_Vertices.Count >= CSettings.iVertexBufferElements)
+                RenderVertexBuffer();
+            _Vertices.AddRange(vertices);
+            _VerticesTextures.Add(tex);
+            _VerticesRotationMatrices.Add(rotation);
+        }
+
+        private void RenderVertexBuffer()
+        {
+            if (_Vertices.Count > 0)
+            {
+                DataStream stream = _VertexBuffer.Lock(0, _Vertices.Count * Marshal.SizeOf(typeof(TexturedColoredVertex)), LockFlags.Discard);
+                stream.WriteRange<TexturedColoredVertex>(_Vertices.ToArray());
+                _VertexBuffer.Unlock();
+                stream.Dispose();
+
+                for (int i = 0; i < _Vertices.Count; i += 4)
+                {
+                    _Device.SetTransform(TransformState.World, _VerticesRotationMatrices[i / 4]);
+                    _Device.SetTexture(0, _VerticesTextures[i / 4]);
+                    _Device.DrawIndexedPrimitives(PrimitiveType.TriangleList, i, 0, 4, 0, 2);
+                    _Device.SetTransform(TransformState.World, _VerticesRotationMatrices[i / 4]);
+                }
+                _Vertices.Clear();
+                _VerticesTextures.Clear();
+                _VerticesRotationMatrices.Clear();
+            }
         }
 
         #region Basic Draw Methods
@@ -764,7 +819,7 @@ namespace Vocaluxe.Lib.Draw
                 rect.Data.Position += rect.Pitch;
             }
             t.UnlockRectangle(0);
-            
+
             bmp2.Dispose();
             bmp_data = null;
 
@@ -778,7 +833,6 @@ namespace Vocaluxe.Lib.Draw
                 texture.index = _D3DTextures.Count - 1;
                 _Textures.Add(texture);
             }
-
             return texture;
         }
 
@@ -1058,69 +1112,34 @@ namespace Vocaluxe.Lib.Draw
                 rx2 -= 0.5f;
                 ry2 -= 0.5f;
 
-                if (color.R >= 1f)
-                    color.R = 1f;
-                if (color.B >= 1f)
-                    color.B = 1f;
-                if (color.G >= 1f)
-                    color.G = 1f;
-
-                //Apply rotation
-                //FIXME: Rotated textures get distorted when they hit the border of the window
-                if (rect.Rotation != 0)
-                {
-                    rect.Rotation = rect.Rotation * (float)Math.PI / 180;
-                    float centerX = (rx1 + rx2) / 2f;
-                    float centerY = -(ry1 + ry2) / 2f;
-
-                    Matrix originTranslation = _Device.GetTransform(TransformState.World);
-                    Matrix translationA = Matrix.Translation(-centerX, -centerY, 0);
-                    Matrix rotation = Matrix.RotationZ(-rect.Rotation);
-                    Matrix translationB = Matrix.Translation(centerX, centerY, 0);
-
-                    //Multiplicate the matrices to get the real world matrix,
-                    //First shift the texture into the center
-                    //Rotate it and shift it back to the origin position
-                    //Apply the originTranslation after
-                    Matrix result = translationA * rotation * translationB * originTranslation;
-
-                    _Device.SetTransform(TransformState.World, result);
-                }
+                if (color.A > 1)
+                    color.A = 1;
+                if (color.R > 1)
+                    color.R = 1;
+                if (color.G > 1)
+                    color.G = 1;
+                if (color.B > 1)
+                    color.B = 1;
 
                 Color c = Color.FromArgb((int)(color.A * 255 * CGraphics.GlobalAlpha), (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
 
-                //Create new vertices and write them into a vertexbuffer
-                DataStream stream = _VertexBuffer.Lock(0, 0, LockFlags.Discard);
                 if (!mirrored)
                 {
-                    stream.WriteRange(new[] {
-	                new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb()),
-	                new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb()),
-	                new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb()),
-                    new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb()),
-	            });
+                    TexturedColoredVertex[] vert = new TexturedColoredVertex[4];
+                    vert[0] = new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb());
+                    vert[1] = new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
+                    vert[2] = new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
+                    vert[3] = new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb());
+                    AddToVertexBuffer(vert, _D3DTextures[Texture.index], CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
                 }
                 else
                 {
-                    stream.WriteRange(new[] {
-                new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, -y1), c.ToArgb()),
-	            new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, -y2), c.ToArgb()),
-	            new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, -y2), c.ToArgb()),
-                new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, -y1), c.ToArgb()),
-                    });
-                }
-                _VertexBuffer.Unlock();
-                stream.Dispose();
-                //Set the texture
-                _Device.SetTexture(0, _D3DTextures[Texture.index]);
-                //Draw 2 triangles to build a quad
-                _Device.DrawPrimitives(PrimitiveType.TriangleFan, 0, 2);
-
-                //Reapply old matrices if the texture was rotated
-                if (rect.Rotation != 0)
-                {
-                    Matrix originTranslation = Matrix.Translation(new Vector3(-CSettings.iRenderW / 2, CSettings.iRenderH / 2, 0));
-                    _Device.SetTransform(TransformState.World, originTranslation);
+                    TexturedColoredVertex[] vert = new TexturedColoredVertex[4];
+                    vert[0] = new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, -y1), c.ToArgb());
+                    vert[1] = new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, -y2), c.ToArgb());
+                    vert[2] = new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, -y2), c.ToArgb());
+                    vert[3] = new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, -y1), c.ToArgb());
+                    AddToVertexBuffer(vert, _D3DTextures[Texture.index], CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
                 }
             }
         }
@@ -1156,49 +1175,12 @@ namespace Vocaluxe.Lib.Draw
 
                 Color c = Color.FromArgb((int)(color.A * 255 * CGraphics.GlobalAlpha), (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
 
-                //Apply rotation
-                //FIXME: Rotated textures get distorted when they hit the border of the window
-                if (rect.Rotation != 0)
-                {
-                    rect.Rotation = rect.Rotation * (float)Math.PI / 180;
-                    float centerX = (rx1 + rx2) / 2f;
-                    float centerY = -(ry1 + ry2) / 2f;
-
-                    Matrix originTranslation = _Device.GetTransform(TransformState.World);
-                    Matrix translationA = Matrix.Translation(-centerX, -centerY, 0);
-                    Matrix rotation = Matrix.RotationZ(-rect.Rotation);
-                    Matrix translationB = Matrix.Translation(centerX, centerY, 0);
-
-                    //Multiplicate the matrices to get the real world matrix,
-                    //First shift the texture into the center
-                    //Rotate it and shift it back to the origin position
-                    //Apply the originTranslation after
-                    Matrix result = translationA * rotation * translationB * originTranslation;
-
-                    _Device.SetTransform(TransformState.World, result);
-                }
-
-                //Create new vertices and write them into a vertexbuffer
-                DataStream stream = _VertexBuffer.Lock(0, 0, LockFlags.Discard);
-                stream.WriteRange(new[] {
-	                new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb()),
-	                new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb()),
-	                new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb()),
-                    new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb()),
-	            });
-                _VertexBuffer.Unlock();
-                stream.Dispose();
-                //Set the texture
-                _Device.SetTexture(0, _D3DTextures[Texture.index]);
-                //Draw 2 triangles to build a quad
-                _Device.DrawPrimitives(PrimitiveType.TriangleFan, 0, 2);
-
-                //Reapply old matrices if the texture was rotated
-                if (rect.Rotation != 0)
-                {
-                    Matrix originTranslation = Matrix.Translation(new Vector3(-CSettings.iRenderW / 2, CSettings.iRenderH / 2, 0));
-                    _Device.SetTransform(TransformState.World, originTranslation);
-                }
+                TexturedColoredVertex[] vert = new TexturedColoredVertex[4];
+                vert[0] = new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb());
+                vert[1] = new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
+                vert[2] = new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
+                vert[3] = new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb());
+                AddToVertexBuffer(vert, _D3DTextures[Texture.index], CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
             }
         }
 
@@ -1270,52 +1252,15 @@ namespace Vocaluxe.Lib.Draw
                     rx2 -= 0.5f;
                     ry2 -= 0.5f;
 
-                    //Apply rotation
-                    //FIXME: Rotated textures get distorted when they hit the border of the window
-                    if (rect.Rotation != 0)
-                    {
-                        rect.Rotation = rect.Rotation * (float)Math.PI / 180;
-                        float centerX = (rx1 + rx2) / 2f;
-                        float centerY = -(ry1 + ry2) / 2f;
-
-                        Matrix originTranslation = _Device.GetTransform(TransformState.World);
-                        Matrix translationA = Matrix.Translation(-centerX, -centerY, 0);
-                        Matrix rotation = Matrix.RotationZ(-rect.Rotation);
-                        Matrix translationB = Matrix.Translation(centerX, centerY, 0);
-
-                        //Multiplicate the matrices to get the real world matrix,
-                        //First shift the texture into the center
-                        //Rotate it and shift it back to the origin position
-                        //Apply the originTranslation after
-                        Matrix result = translationA * rotation * translationB * originTranslation;
-
-                        _Device.SetTransform(TransformState.World, result);
-                    }
-
                     Color c = Color.FromArgb((int)(color.A * 255 * CGraphics.GlobalAlpha), (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
                     Color transparent = Color.FromArgb(0, (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
 
-                    //Create new vertices and write them into a vertexbuffer
-                    DataStream stream = _VertexBuffer.Lock(0, 0, LockFlags.Discard);
-                    stream.WriteRange(new[] {
-                        new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb()),
-	                    new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), transparent.ToArgb()),
-	                    new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), transparent.ToArgb()),
-                        new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb()),
-	                });
-                    _VertexBuffer.Unlock();
-                    stream.Dispose();
-                    //Set the texture
-                    _Device.SetTexture(0, _D3DTextures[Texture.index]);
-                    //Draw 2 triangles to build a quad
-                    _Device.DrawPrimitives(PrimitiveType.TriangleFan, 0, 2);
-
-                    //Reapply old matrices if the texture was rotated
-                    if (rect.Rotation != 0)
-                    {
-                        Matrix originTranslation = Matrix.Translation(new Vector3(-CSettings.iRenderW / 2, CSettings.iRenderH / 2, 0));
-                        _Device.SetTransform(TransformState.World, originTranslation);
-                    }
+                    TexturedColoredVertex[] vert = new TexturedColoredVertex[4];
+                    vert[0] = new TexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
+                    vert[1] = new TexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), transparent.ToArgb());
+                    vert[2] = new TexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), transparent.ToArgb());
+                    vert[3] = new TexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
+                    AddToVertexBuffer(vert, _D3DTextures[Texture.index], CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
                 }
             }
         }
@@ -1380,6 +1325,29 @@ namespace Vocaluxe.Lib.Draw
         public int TextureCount()
         {
             return _Textures.Count;
+        }
+
+        private Matrix CalculateRotationMatrix(float rot, float rx1, float rx2, float ry1, float ry2)
+        {
+            Matrix originTranslation = Matrix.Translation(new Vector3(-CSettings.iRenderW / 2, CSettings.iRenderH / 2, 0));
+            if (rot != 0)
+            {
+                float rotation = rot * (float)Math.PI / 180;
+                float centerX = (rx1 + rx2) / 2f;
+                float centerY = -(ry1 + ry2) / 2f;
+
+                Matrix translationA = Matrix.Translation(-centerX, -centerY, 0);
+                Matrix rotationMat = Matrix.RotationZ(-rotation);
+                Matrix translationB = Matrix.Translation(centerX, centerY, 0);
+
+                //Multiplicate the matrices to get the real world matrix,
+                //First shift the texture into the center
+                //Rotate it and shift it back to the origin position
+                //Apply the originTranslation after
+                Matrix result = translationA * rotationMat * translationB * originTranslation;
+                return result;
+            }
+            return originTranslation;
         }
         #endregion Textures
         #endregion implementation
