@@ -47,7 +47,7 @@ namespace Vocaluxe.Lib.Draw
         private bool _fullscreen = false;
 
         private List<STexture> _Textures;
-        private List<int> _IDs;
+        private Queue<int> _IDs;
         private List<STextureQueque> _Queque;
 
         private Object MutexTexture = new Object();
@@ -67,11 +67,11 @@ namespace Vocaluxe.Lib.Draw
 
             _Textures = new List<STexture>();
             _Queque = new List<STextureQueque>();
-            _IDs = new List<int>();
+            _IDs = new Queue<int>(1000000);
 
             for (int i = 1; i < 1000000; i++)
             {
-                _IDs.Add(i);
+                _IDs.Enqueue(i);
             }
 
             //Check AA Mode
@@ -553,8 +553,7 @@ namespace Vocaluxe.Lib.Draw
 
             lock (MutexTexture)
             {
-                texture.index = _IDs[0];
-                _IDs.RemoveAt(0);
+                texture.index = _IDs.Dequeue();
                 _Textures.Add(texture);
             }
 
@@ -758,10 +757,9 @@ namespace Vocaluxe.Lib.Draw
 
             lock (MutexTexture)
             {
-                texture.index = _IDs[0];
-                _IDs.RemoveAt(0);
+                texture.index = _IDs.Dequeue();
+                _Textures.Add(texture);
             }
-            _Textures.Add(texture);
 
             return texture;
         }
@@ -823,11 +821,10 @@ namespace Vocaluxe.Lib.Draw
 
             lock (MutexTexture)
             {
-                texture.index = _IDs[0];
-                _IDs.RemoveAt(0);
+                texture.index = _IDs.Dequeue();
+                _Textures.Add(texture);
             }
-            _Textures.Add(texture);
-
+            
             return texture;
         }
 
@@ -889,11 +886,10 @@ namespace Vocaluxe.Lib.Draw
 
             lock (MutexTexture)
             {
-                texture.index = _IDs[0];
-                _IDs.RemoveAt(0);
+                texture.index = _IDs.Dequeue();
+                _Textures.Add(texture);
             }
-            _Textures.Add(texture);
-
+            
             return texture;
         }
 
@@ -908,8 +904,7 @@ namespace Vocaluxe.Lib.Draw
 
             lock (MutexTexture)
 	        {
-                texture.index = _IDs[0];
-                _IDs.RemoveAt(0);
+                texture.index = _IDs.Dequeue();
                 queque.ID = texture.index;
                 _Queque.Add(queque);
                 _Textures.Add(texture);
@@ -1036,7 +1031,7 @@ namespace Vocaluxe.Lib.Draw
                     {
                         if (_Textures[i].index == Texture.index)
                         {
-                            _IDs.Add(Texture.index);
+                            _IDs.Enqueue(Texture.index);
                             
                             GL.DeleteTexture(Texture.ID);
                             if (Texture.PBO > 0)
