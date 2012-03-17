@@ -827,7 +827,7 @@ namespace Vocaluxe.Base
             Category = -1;
             _SongsLoaded = true;
 
-            if (CConfig.Renderer != ERenderer.TR_CONFIG_SOFTWARE)
+            if (CConfig.Renderer != ERenderer.TR_CONFIG_SOFTWARE && CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
             {
                 CLog.StartBenchmark(2, "Load Cover");
                 for (int i = 0; i < _Songs.Count; i++)
