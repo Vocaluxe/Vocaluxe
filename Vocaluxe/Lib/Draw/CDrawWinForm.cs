@@ -256,7 +256,7 @@ namespace Vocaluxe.Lib.Draw
             CFonts.Height = Height;
             CFonts.SetFont(text.Fon);
             CFonts.Style = text.Style;
-            return new RectangleF(text.X, text.Y, CFonts.GetTextWidth(CLanguage.Translate(text.Text)), CFonts.GetTextHeight(text.Text));
+            return new RectangleF(text.X, text.Y, CFonts.GetTextWidth(CLanguage.Translate(text.Text)), CFonts.GetTextHeight(CLanguage.Translate(text.Text)));
         }
 
         public void ClearScreen()
@@ -398,6 +398,11 @@ namespace Vocaluxe.Lib.Draw
         public STexture AddTexture(int W, int H, IntPtr Data)
         {
             return new STexture(-1);
+        }
+
+        public STexture QuequeTexture(int W, int H, ref byte[] Data)
+        {
+            return AddTexture(W, H, ref Data);
         }
 
         public STexture AddTexture(int W, int H, ref byte[] Data)

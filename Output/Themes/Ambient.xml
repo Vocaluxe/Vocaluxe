@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <ThemeSystemVersion>4</ThemeSystemVersion>
+  <ThemeSystemVersion>5</ThemeSystemVersion>
   <Info>
     <Name>Ambient</Name>
     <Author>bohning</Author>
     <SkinFolder>Ambient</SkinFolder>
     <ThemeVersionMajor>0</ThemeVersionMajor>
-    <ThemeVersionMinor>1</ThemeVersionMinor>
+    <ThemeVersionMinor>2</ThemeVersionMinor>
   </Info>
   <Cursor>
     <Skin>Cursor</Skin>

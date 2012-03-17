@@ -611,7 +611,7 @@
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
-        <Font>Normal</Font>
+        <Font>Outline</Font>
         <!--<Text>: Text or translation tag-->
         <Text>TR_SCREENSING_BUTTON_CANCEL</Text>
       </Text>
@@ -666,7 +666,7 @@
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
-        <Font>Normal</Font>
+        <Font>Outline</Font>
         <!--<Text>: Text or translation tag-->
         <Text>TR_SCREENSING_BUTTON_CONTINUE</Text>
       </Text>
