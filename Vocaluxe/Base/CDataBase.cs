@@ -29,6 +29,9 @@ namespace Vocaluxe.Base
         private static string _CoverFilePath;
         private static string _CreditsRessourcesFilePath;
 
+        private static SQLiteConnection _ConnectionCover = null;
+        private static SQLiteTransaction _TransactionCover = null;
+
         public static void Init()
         {
             _HighscoreFilePath = Path.Combine(System.Environment.CurrentDirectory, CSettings.sFileHighscoreDB);
@@ -959,18 +962,15 @@ namespace Vocaluxe.Base
                 return false;
             }
 
-            SQLiteConnection connection = new SQLiteConnection();
-            connection.ConnectionString = "Data Source=" + _CoverFilePath;
+            if (_ConnectionCover == null)
+            {
+                _ConnectionCover = new SQLiteConnection();
+                _ConnectionCover.ConnectionString = "Data Source=" + _CoverFilePath;
+                _ConnectionCover.Open();
+            }
+
             SQLiteCommand command;
-            try
-            {
-                connection.Open();
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-            command = new SQLiteCommand(connection);
+            command = new SQLiteCommand(_ConnectionCover);
 
             command.CommandText = "SELECT id, width, height FROM Cover WHERE [Path] = @path";
             command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = CoverPath;
@@ -1008,13 +1008,18 @@ namespace Vocaluxe.Base
                     result = true;
                     reader.Read();
                     byte[] data = GetBytes(reader);
-                    tex = CDraw.AddTexture(w, h, ref data);
+                    tex = CDraw.QuequeTexture(w, h, ref data);
                 }
             }
             else
             {
                 if (reader != null)
                     reader.Close();
+
+                if (_TransactionCover == null)
+                {
+                    _TransactionCover = _ConnectionCover.BeginTransaction();
+                }
 
                 Bitmap origin;
                 try
@@ -1032,8 +1037,6 @@ namespace Vocaluxe.Base
                         reader.Dispose();
                     }
                     command.Dispose();
-                    connection.Close();
-                    connection.Dispose();
 
                     return false;
                 }
@@ -1050,7 +1053,7 @@ namespace Vocaluxe.Base
                 Graphics g = Graphics.FromImage(bmp);
                 g.DrawImage(origin, new Rectangle(0, 0, w, h));
                 g.Dispose();
-                tex = CDraw.AddTexture(bmp);
+
                 byte[] data = new byte[w * h * 4];
 
                 BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -1058,6 +1061,8 @@ namespace Vocaluxe.Base
                 bmp.UnlockBits(bmp_data);
                 bmp.Dispose();
 
+                tex = CDraw.QuequeTexture(w, h, ref data);
+                
                 command.CommandText = "INSERT INTO Cover (Path, width, height) " +
                     "VALUES (@path, " + w.ToString() + ", " + h.ToString() + ")";
                 command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = CoverPath;
@@ -1094,10 +1099,28 @@ namespace Vocaluxe.Base
                 reader.Dispose();
             }
             command.Dispose();
-            connection.Close();
-            connection.Dispose();
 
             return result;
+        }
+
+        public static void CommitCovers()
+        {
+            if (_TransactionCover != null)
+            {
+                _TransactionCover.Commit();
+                _TransactionCover = null;
+            }
+        }
+
+        public static void CloseConnections()
+        {
+            CommitCovers();
+
+            if (_ConnectionCover != null)
+            {
+                _ConnectionCover.Close();
+                _ConnectionCover = null;
+            }
         }
 
         private static bool InitCoverDB()

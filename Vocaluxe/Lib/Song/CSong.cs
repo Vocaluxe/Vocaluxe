@@ -25,6 +25,7 @@ namespace Vocaluxe.Lib.Song
     class CSong
     {
         private bool _CoverLoaded = false;
+        private bool _NotesLoaded = false;
         private STexture _CoverTextureSmall = new STexture(-1);
         private STexture _CoverTextureBig = new STexture(-1);
 
@@ -54,7 +55,9 @@ namespace Vocaluxe.Lib.Song
             {
                 if (!_CoverLoaded)
                 {
-                    this.ReadNotes();
+                    if (!_NotesLoaded)
+                        this.ReadNotes();
+
                     if (this.CoverFileName != String.Empty)
                     {
                         if (!CDataBase.GetCover(Path.Combine(this.Folder, this.CoverFileName), ref _CoverTextureSmall, CConfig.CoverSize))
@@ -471,6 +474,7 @@ namespace Vocaluxe.Lib.Song
                 CLog.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". An unhandled exception occured (" + e.Message + "): " + FilePath);
                 return false;
             }
+            _NotesLoaded = true;
             return true;
         }
 

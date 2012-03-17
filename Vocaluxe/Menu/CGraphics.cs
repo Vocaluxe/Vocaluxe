@@ -343,7 +343,7 @@ namespace Vocaluxe.Menu
             CBackgroundMusic.Update();
 
             if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC && _CurrentScreen != EScreens.ScreenSing)
-                CSongs.LoadCover(30L);
+                CSongs.LoadCover(30L, 1);
 
             if (CSettings.GameState != EGameState.EditTheme)
             {
