@@ -34,7 +34,7 @@ namespace Vocaluxe.Lib.Draw
         private Size _OldSize;
         private Size _SizeBeforeMinimize;
 
-        private List<STexture> _Textures;
+        private Dictionary<int, STexture> _Textures;
         private List<Texture> _D3DTextures;
         private List<STextureQueque> _Queque;
 
@@ -62,7 +62,7 @@ namespace Vocaluxe.Lib.Draw
         public CDirect3D()
         {
             this.Icon = new System.Drawing.Icon(Path.Combine(System.Environment.CurrentDirectory, CSettings.sIcon));
-            _Textures = new List<STexture>();
+            _Textures = new Dictionary<int, STexture>();
             _D3DTextures = new List<Texture>();
             _Queque = new List<STextureQueque>();
 
@@ -848,7 +848,7 @@ namespace Vocaluxe.Lib.Draw
             {
                 _D3DTextures.Add(t);
                 texture.index = _D3DTextures.Count - 1;
-                _Textures.Add(texture);
+                _Textures[texture.index] = texture;
             }
             return texture;
         }
@@ -885,7 +885,7 @@ namespace Vocaluxe.Lib.Draw
                 texture.index = _D3DTextures.Count - 1;
                 queque.ID = texture.index;
                 _Queque.Add(queque);
-                _Textures.Add(texture);
+                _Textures[texture.index] = texture;
             }
             return texture;
         }
@@ -919,7 +919,7 @@ namespace Vocaluxe.Lib.Draw
             {
                 _D3DTextures.Add(t);
                 texture.index = _D3DTextures.Count - 1;
-                _Textures.Add(texture);
+                _Textures[texture.index] = texture;
             }
             return texture;
         }
@@ -975,16 +975,12 @@ namespace Vocaluxe.Lib.Draw
         {
             lock (MutexTexture)
             {
-                for (int i = 0; i < _Textures.Count; i++)
+                if (_Textures.ContainsKey(Texture.index))
                 {
-                    if (Texture.index == _Textures[i].index)
+                    if (_Textures[Texture.index].index >= 0)
                     {
-                        if (_Textures[i].index >= 0)
-                        {
-                            Texture = _Textures[i];
-                            return true;
-                        }
-                        break;
+                        Texture = _Textures[Texture.index];
+                        return true;
                     }
                 }
             }
@@ -1001,17 +997,11 @@ namespace Vocaluxe.Lib.Draw
             {
                 if ((Texture.index >= 0) && (_Textures.Count > 0))
                 {
-                    for (int i = 0; i < _Textures.Count; i++)
-                    {
-                        if (_Textures[i].index == Texture.index)
-                        {
-                            _D3DTextures[Texture.index].Dispose();
-                            _D3DTextures[Texture.index] = null;
-                            _Textures.RemoveAt(i);
-                            Texture.index = -1;
-                            Texture.ID = -1;
-                        }
-                    }
+                    _D3DTextures[Texture.index].Dispose();
+                    _D3DTextures[Texture.index] = null;
+                    _Textures.Remove(Texture.index);
+                    Texture.index = -1;
+                    Texture.ID = -1;
                 }
             }
         }
@@ -1291,17 +1281,8 @@ namespace Vocaluxe.Lib.Draw
 
                 STextureQueque q = _Queque[0];
                 STexture texture = new STexture(-1);
-                int index = -1;
-                for (int i = 0; i < _Textures.Count; i++)
-                {
-                    if (_Textures[i].index == q.ID)
-                    {
-                        texture = _Textures[i];
-                        index = i;
-                        break;
-                    }
-                }
-
+                if (_Textures.ContainsKey(q.ID))
+                    texture = _Textures[q.ID];
                 if (texture.index < 0)
                     return;
 
@@ -1330,7 +1311,7 @@ namespace Vocaluxe.Lib.Draw
                 texture.rect = new SRectF(0f, 0f, texture.width, texture.height, 0f);
                 texture.TexturePath = String.Empty;
 
-                _Textures[index] = texture;
+                _Textures[texture.index] = texture;
                 _Queque.RemoveAt(0);
             }
         }
