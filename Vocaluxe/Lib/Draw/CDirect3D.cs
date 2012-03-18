@@ -263,7 +263,16 @@ namespace Vocaluxe.Lib.Draw
             //Real fullscreen could be gained setting _PresentParameters.Windowed = true
             //And calling Reset() and Init() after
             _OldSize = this.ClientSize;
-            this.ClientSize = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+
+            int ScreenNr = 0;
+            for (int i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                Screen scr = Screen.AllScreens[i];
+                if (scr.Bounds.Top <= this.Top && scr.Bounds.Left <= this.Left)
+                    ScreenNr = i;
+            }
+
+            this.ClientSize = new Size(Screen.AllScreens[ScreenNr].Bounds.Width, Screen.AllScreens[ScreenNr].Bounds.Height);
             this.FormBorderStyle = FormBorderStyle.None;
             CenterToScreen();
             _fullscreen = true;
@@ -462,7 +471,7 @@ namespace Vocaluxe.Lib.Draw
                     if (CTime.IsRunning())
                         delay = (int)Math.Floor(CConfig.CalcCycleTime() - CTime.GetMilliseconds());
 
-                    if (delay >= 1)
+                    if (delay >= 1 && CConfig.VSync == EOffOn.TR_CONFIG_OFF)
                         System.Threading.Thread.Sleep(delay);
                     //Calculate the FPS Rate and restart the timer after a frame
                     CTime.CalculateFPS();
