@@ -207,6 +207,27 @@ namespace Vocaluxe.Lib.Draw
             this.ClientSize = this.ClientSize;
             RResize();
         }
+
+        protected override void WndProc(ref Message m)
+        {
+            switch (m.Msg)
+            {
+                case 0x112: // WM_SYSCOMMAND
+                    switch ((int)m.WParam & 0xFFF0)
+                    {
+                        case 0xF100: // SC_KEYMENU
+                            m.Result = IntPtr.Zero;
+                            break;
+                        default:
+                            base.WndProc(ref m);
+                            break;
+                    }
+                    break;
+                default:
+                    base.WndProc(ref m);
+                    break;
+            }
+        }
         #endregion form events
         /// <summary>
         /// Resizes the viewport
@@ -277,10 +298,15 @@ namespace Vocaluxe.Lib.Draw
             CenterToScreen();
             _fullscreen = true;
             CConfig.FullScreen = EOffOn.TR_CONFIG_ON;
-            RResize();
 
-            Cursor.Hide();
-            _Mouse.Visible = true;
+            if (this.WindowState == FormWindowState.Maximized)
+            {
+                this.WindowState = FormWindowState.Normal;
+                RResize();
+                this.WindowState = FormWindowState.Maximized;
+            }
+            else
+                RResize();
 
             CConfig.SaveConfig();
         }
@@ -294,9 +320,6 @@ namespace Vocaluxe.Lib.Draw
             CenterToScreen();
             _fullscreen = false;
             CConfig.FullScreen = EOffOn.TR_CONFIG_OFF;
-
-            Cursor.Hide();
-            _Mouse.Visible = true;
 
             CConfig.SaveConfig();
         }
