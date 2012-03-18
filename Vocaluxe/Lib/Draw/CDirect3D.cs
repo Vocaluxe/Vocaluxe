@@ -1079,6 +1079,9 @@ namespace Vocaluxe.Lib.Draw
         {
             if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index) && _TextureExists(ref Texture))
             {
+                if (_D3DTextures[Texture.index] == null)
+                    return;
+
                 //Calculate the position
                 float x1 = (bounds.X - rect.X) / rect.W * Texture.width_ratio;
                 float x2 = (bounds.X + bounds.W - rect.X) / rect.W * Texture.width_ratio;
@@ -1166,6 +1169,9 @@ namespace Vocaluxe.Lib.Draw
         {
             if (_TextureExists(ref Texture))
             {
+                if (_D3DTextures[Texture.index] == null)
+                    return;
+
                 float x1 = 0f + begin * Texture.width_ratio;
                 float x2 = Texture.width_ratio * end;
                 float y1 = 0f;
@@ -1206,6 +1212,9 @@ namespace Vocaluxe.Lib.Draw
         {
             if (_TextureExists(ref Texture))
             {
+                if (_D3DTextures[Texture.index] == null)
+                    return;
+
                 if (rect.W == 0f || rect.H == 0f || bounds.H == 0f || bounds.W == 0f || color.A == 0f || height <= 0f)
                     return;
 
