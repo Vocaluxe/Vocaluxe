@@ -419,7 +419,7 @@ namespace Vocaluxe.Lib.Draw
 
 
         #region implementation
-
+        #region main stuff
         public bool Init()
         {
             this.Text = CSettings.GetFullVersionText();
@@ -514,7 +514,8 @@ namespace Vocaluxe.Lib.Draw
             CFonts.Style = text.Style;
             return new RectangleF(text.X, text.Y, CFonts.GetTextWidth(CLanguage.Translate(text.Text)), CFonts.GetTextHeight(CLanguage.Translate(text.Text)));
         }
-        
+        #endregion main stuff
+
         #region Basic Draw Methods
         public void ClearScreen()
         {
@@ -638,6 +639,8 @@ namespace Vocaluxe.Lib.Draw
         #endregion Basic Draw Methods
 
         #region Textures
+
+        #region adding
         public STexture AddTexture(string TexturePath)
         {
             if (System.IO.File.Exists(TexturePath))
@@ -902,6 +905,8 @@ namespace Vocaluxe.Lib.Draw
             queque.data = Data;
             queque.height = H;
             queque.width = W;
+            texture.height = H;
+            texture.width = W;
 
             lock (MutexTexture)
 	        {
@@ -913,7 +918,9 @@ namespace Vocaluxe.Lib.Draw
             
             return texture;
         }
+        #endregion adding
 
+        #region updating
         public bool UpdateTexture(ref STexture Texture, IntPtr Data)
         {
             if (_TextureExists(ref Texture))
@@ -1021,6 +1028,7 @@ namespace Vocaluxe.Lib.Draw
             }
             return false;
         }
+        #endregion updating
 
         public void RemoveTexture(ref STexture Texture)
         {
@@ -1055,6 +1063,7 @@ namespace Vocaluxe.Lib.Draw
             return false;
         }
 
+        #region drawing
         public void DrawTexture(STexture Texture)
         {
             DrawTexture(Texture, Texture.rect, Texture.color);
@@ -1312,6 +1321,7 @@ namespace Vocaluxe.Lib.Draw
                 GL.BindTexture(TextureTarget.Texture2D, 0);
             }
         }
+        #endregion drawing
 
         public int TextureCount()
         {
@@ -1369,8 +1379,14 @@ namespace Vocaluxe.Lib.Draw
                 GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, q.width, q.height,
                     OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, q.data);
 
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
+
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
+                GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
                 GL.BindTexture(TextureTarget.Texture2D, 0);
 
@@ -1384,7 +1400,6 @@ namespace Vocaluxe.Lib.Draw
                 _Queque.RemoveAt(0);
             }
         }
-
         #endregion Textures
 
         #endregion implementation

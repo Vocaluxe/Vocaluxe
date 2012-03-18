@@ -807,6 +807,8 @@ namespace Vocaluxe.Lib.Draw
             queque.data = Data;
             queque.height = H;
             queque.width = W;
+            texture.height = H;
+            texture.width = W;
 
             lock (MutexTexture)
             {
