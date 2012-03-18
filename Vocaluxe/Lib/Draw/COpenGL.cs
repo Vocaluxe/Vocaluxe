@@ -469,7 +469,7 @@ namespace Vocaluxe.Lib.Draw
                     if (CTime.IsRunning())
                         delay = (int)Math.Floor(CConfig.CalcCycleTime() - CTime.GetMilliseconds());
 
-                    if (delay >= 1)
+                    if (delay >= 1 && CConfig.VSync == EOffOn.TR_CONFIG_OFF)
                         System.Threading.Thread.Sleep(delay);
 
                     CTime.CalculateFPS();
