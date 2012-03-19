@@ -121,7 +121,6 @@ namespace Vocaluxe.Lib.Draw
             control.MouseEnter += new EventHandler(this.OnMouseEnter);            
 
             this.ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH);
-            //this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.Opaque, true);
             this.CenterToScreen();
         }
 
@@ -285,8 +284,15 @@ namespace Vocaluxe.Lib.Draw
 
             this.DesktopBounds = new Rectangle(Screen.AllScreens[ScreenNr].Bounds.Location,
                 new Size(Screen.AllScreens[ScreenNr].Bounds.Width, Screen.AllScreens[ScreenNr].Bounds.Height));
-            this.TopMost = true;
-            this.Show();
+
+            if (this.WindowState == FormWindowState.Maximized)
+            {
+                this.WindowState = FormWindowState.Normal;
+                RResize();
+                this.WindowState = FormWindowState.Maximized;
+            }
+            else
+                RResize();
 
             CConfig.SaveConfig();
         }
@@ -298,8 +304,6 @@ namespace Vocaluxe.Lib.Draw
 
             this.FormBorderStyle = FormBorderStyle.Sizable;
             this.DesktopBounds = new Rectangle(_restore.location, new Size(_restore.width, _restore.height));
-
-            this.TopMost = false;
 
             CConfig.SaveConfig();
         }
