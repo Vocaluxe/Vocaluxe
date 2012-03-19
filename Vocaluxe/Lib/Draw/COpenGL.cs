@@ -337,6 +337,27 @@ namespace Vocaluxe.Lib.Draw
             control.ClientSize = this.ClientSize;
             RResize();
         }
+
+        protected override void WndProc(ref Message m)
+        {
+            switch (m.Msg)
+            {
+                case 0x112: // WM_SYSCOMMAND
+                    switch ((int)m.WParam & 0xFFF0)
+                    {
+                        case 0xF100: // SC_KEYMENU
+                            m.Result = IntPtr.Zero;
+                            break;
+                        default:
+                            base.WndProc(ref m);
+                            break;
+                    }
+                    break;
+                default:
+                    base.WndProc(ref m);
+                    break;
+            }
+        }
         #endregion form events
 
         #region mouse event handlers
