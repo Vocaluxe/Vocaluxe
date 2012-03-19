@@ -178,8 +178,6 @@ namespace Vocaluxe.Lib.Draw
             blankTexture = AddTexture(blankMap);
 
             blankMap.Dispose();
-
-            int size = Marshal.SizeOf(typeof(TexturedColoredVertex));
         }
 
         #region form events
