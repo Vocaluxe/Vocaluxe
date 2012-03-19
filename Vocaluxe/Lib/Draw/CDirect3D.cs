@@ -229,6 +229,8 @@ namespace Vocaluxe.Lib.Draw
             }
         }
         #endregion form events
+
+        #region resize
         /// <summary>
         /// Resizes the viewport
         /// </summary>
@@ -323,6 +325,7 @@ namespace Vocaluxe.Lib.Draw
 
             CConfig.SaveConfig();
         }
+        #endregion resize
 
         #region mouse event handlers
         private void OnMouseMove(object sender, MouseEventArgs e)
@@ -383,7 +386,7 @@ namespace Vocaluxe.Lib.Draw
         #endregion keyboard event handlers
 
         #region implementation
-
+        #region main stuff
         /// <summary>
         /// Inits the Device
         /// </summary>
@@ -626,6 +629,7 @@ namespace Vocaluxe.Lib.Draw
                 _VerticesRotationMatrices.Clear();
             }
         }
+#endregion main stuff
 
         #region Basic Draw Methods
 
@@ -638,24 +642,51 @@ namespace Vocaluxe.Lib.Draw
         }
 
         /// <summary>
-        /// Not implemented yet
-        /// </summary>
-        /// <returns></returns>
+        /// Copies the current frame into a texture
+        /// <returns>A texture holding the current frame</returns>
         public STexture CopyScreen()
         {
-            //FIXME
             STexture texture = new STexture(-1);
+
+            Surface backbufferSurface = _Device.GetBackBuffer(0, 0);
+            Texture tex = new Texture(_Device, _PresentParameters.BackBufferWidth, _PresentParameters.BackBufferHeight, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
+            Surface textureSurface = tex.GetSurfaceLevel(0);
+            Surface.FromSurface(textureSurface, backbufferSurface, Filter.Default, 0);
+            backbufferSurface.Dispose();
+            _D3DTextures.Add(tex);
+
+            texture.color = new SColorF(1f, 1f, 1f, 1f);
+            texture.rect = new SRectF(0f, 0f, texture.width, texture.height, 0f);
+            texture.width = w;
+            texture.height = h;
+            texture.w2 = NextPowerOfTwo(texture.width);
+            texture.h2 = NextPowerOfTwo(texture.height);
+            texture.index = _D3DTextures.Count - 1;
+
+            lock (MutexTexture)
+            {
+                _Textures[texture.index] = texture;
+            }
             return texture;
         }
 
         /// <summary>
-        /// Not implemented yet
+        /// Copies the current frame into a texture
         /// </summary>
-        /// <returns></returns>
+        /// <param name="Texture">The texture in which the frame is copied to</param>
         public void CopyScreen(ref STexture Texture)
         {
-            //FIXME
-            return;
+            if (!_TextureExists(ref Texture) || (Texture.width != GetScreenWidth()) || (Texture.height != GetScreenHeight()))
+            {
+                RemoveTexture(ref Texture);
+                Texture = CopyScreen();
+            }
+            else
+            {
+                Surface backbufferSurface = _Device.GetBackBuffer(0, 0);
+                Surface textureSurface = _D3DTextures[Texture.index].GetSurfaceLevel(0);
+                Surface.FromSurface(textureSurface, backbufferSurface, Filter.Default, 0);
+            }
         }
 
         /// <summary>
@@ -731,18 +762,11 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="rect">The coordinates in a SRectF struct</param>
         public void DrawColor(SColorF color, SRectF rect)
         {
-            //blankMap = new Bitmap(1, 1);
-            //Graphics g = Graphics.FromImage(blankMap);
-            //g.Clear(Color.White);
-            //g.Dispose();
-            //blankTexture = AddTexture(blankMap);
-            //blankMap.Dispose();
-
             DrawTexture(blankTexture, rect, color);
-            //RemoveTexture(ref blankTexture);
         }
         #endregion Basic Draw Methods
         #region Textures
+        #region adding
 
         /// <summary>
         /// Adds a texture and stores it in the VRam
@@ -767,17 +791,6 @@ namespace Vocaluxe.Lib.Draw
             }
             CLog.LogError("Can't find File: " + TexturePath);
             return new STexture(-1);
-        }
-
-        /// <summary>
-        /// Calculates the next power of two
-        /// </summary>
-        /// <param name="n">The value of which the next power of two will be calculated</param>
-        /// <returns>The next power of two</returns>
-        private static float NextPowerOfTwo(float n)
-        {
-            if (n < 0) throw new ArgumentOutOfRangeException("n", "Must be positive.");
-            return (float)System.Math.Pow(2, System.Math.Ceiling(System.Math.Log((double)n, 2)));
         }
 
         /// <summary>
@@ -957,7 +970,9 @@ namespace Vocaluxe.Lib.Draw
             }
             return texture;
         }
+        #endregion adding
 
+        #region updating
         /// <summary>
         /// Updates the data of a texture
         /// </summary>
@@ -999,6 +1014,7 @@ namespace Vocaluxe.Lib.Draw
             else
                 return false;
         }
+        #endregion updating
 
         /// <summary>
         /// Checks if a texture exists
@@ -1040,6 +1056,7 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
+        #region drawing
         /// <summary>
         /// Draws a texture
         /// </summary>
@@ -1314,6 +1331,7 @@ namespace Vocaluxe.Lib.Draw
                 }
             }
         }
+        #endregion drawing
 
         private void CheckQueque()
         {
@@ -1367,6 +1385,20 @@ namespace Vocaluxe.Lib.Draw
         {
             return _Textures.Count;
         }
+        #endregion Textures
+        #endregion implementation
+
+        #region utility
+        /// <summary>
+        /// Calculates the next power of two
+        /// </summary>
+        /// <param name="n">The value of which the next power of two will be calculated</param>
+        /// <returns>The next power of two</returns>
+        private static float NextPowerOfTwo(float n)
+        {
+            if (n < 0) throw new ArgumentOutOfRangeException("n", "Must be positive.");
+            return (float)System.Math.Pow(2, System.Math.Ceiling(System.Math.Log((double)n, 2)));
+        }
 
         private Matrix CalculateRotationMatrix(float rot, float rx1, float rx2, float ry1, float ry2)
         {
@@ -1390,8 +1422,7 @@ namespace Vocaluxe.Lib.Draw
             }
             return originTranslation;
         }
-        #endregion Textures
-        #endregion implementation
+        #endregion utility
 
         #region TexturedColoredVertex
         public struct TexturedColoredVertex
