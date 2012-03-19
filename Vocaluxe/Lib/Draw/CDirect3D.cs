@@ -166,6 +166,9 @@ namespace Vocaluxe.Lib.Draw
             else
                 flags = CreateFlags.SoftwareVertexProcessing;
             _Device = new Device(_D3D, _D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, Handle, flags, _PresentParameters);
+            
+            if(_Device.Disposed || _D3D.Disposed || _Device == null || _D3D == null)
+                CLog.LogError("Something went wrong with device creating, please check if your DirectX redistributables and graficcard drivers are up to date");
 
             this.CenterToScreen();
 
