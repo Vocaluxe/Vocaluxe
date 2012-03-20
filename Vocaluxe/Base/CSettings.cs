@@ -47,7 +47,7 @@ namespace Vocaluxe.Base
         public const int iVersionSub = 0;        // steps
         public const ERevision VersionRevision = ERevision.Beta;
 
-        public const int iBuild = 55;             // Increase on every published version! Never Reset!
+        public const int iBuild = 56;             // Increase on every published version! Never Reset!
 
         public const int iDatabaseHighscoreVersion = 1;
         public const int iDatabaseCoverVersion = 1;
@@ -61,6 +61,7 @@ namespace Vocaluxe.Base
         public static int zFar = 100;
 
         public static bool bFullScreen = false;
+        public static int iVertexBufferElements = 10000;
 
         public const string sIcon = "Vocaluxe.ico";
         public const string sLogo = "Logo.png";

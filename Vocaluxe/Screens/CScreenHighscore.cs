@@ -186,6 +186,7 @@ namespace Vocaluxe.Screens
             _Round = 0;
             _Pos = 0;
             _Scores = new List<SScores>();
+            _NewEntryIDs.Clear();
             AddScoresToDB();
             LoadScores();
 
