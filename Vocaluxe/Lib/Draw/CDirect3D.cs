@@ -171,16 +171,6 @@ namespace Vocaluxe.Lib.Draw
                 CLog.LogError("Something went wrong with device creating, please check if your DirectX redistributables and graficcard drivers are up to date");
 
             this.CenterToScreen();
-
-            //This creates a new white texture and adds it to the texture pool
-            //This texture is used for the DrawRect method
-            Bitmap blankMap = new Bitmap(1, 1);
-            Graphics g = Graphics.FromImage(blankMap);
-            g.Clear(Color.White);
-            g.Dispose();
-            blankTexture = AddTexture(blankMap);
-
-            blankMap.Dispose();
         }
 
         #region form events
@@ -422,7 +412,7 @@ namespace Vocaluxe.Lib.Draw
                 _Device.SetTextureStageState(0, TextureStage.AlphaArg2, TextureArgument.Diffuse);
                 _Device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.Modulate);
 
-                int[] indices = new int[6];
+                Int16[] indices = new Int16[6];
                 indices[0] = 0;
                 indices[1] = 1;
                 indices[2] = 2;
@@ -430,12 +420,22 @@ namespace Vocaluxe.Lib.Draw
                 indices[4] = 2;
                 indices[5] = 3;
 
-                _IndexBuffer = new IndexBuffer(_Device, 6 * sizeof(int), Usage.WriteOnly, Pool.Managed, false);
+                _IndexBuffer = new IndexBuffer(_Device, 6 * sizeof(int), Usage.WriteOnly, Pool.Managed, true);
 
                 DataStream stream = _IndexBuffer.Lock(0, 0, LockFlags.None);
                 stream.WriteRange(indices);
                 _IndexBuffer.Unlock();
                 _Device.Indices = _IndexBuffer;
+
+                //This creates a new white texture and adds it to the texture pool
+                //This texture is used for the DrawRect method
+                Bitmap blankMap = new Bitmap(1, 1);
+                Graphics g = Graphics.FromImage(blankMap);
+                g.Clear(Color.White);
+                g.Dispose();
+                blankTexture = AddTexture(blankMap);
+
+                blankMap.Dispose();
                 return true;
             }
             else
