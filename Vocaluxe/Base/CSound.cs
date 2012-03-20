@@ -497,7 +497,7 @@ namespace Vocaluxe.Base
         {
             get
             {
-                long nanosecPerTick = (1000L * 1000L * 1000L) / Stopwatch.Frequency;
+                double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
                 long ticks = _Timer.ElapsedTicks;
                 float dt = _Timer.ElapsedMilliseconds / 1000f;
 
@@ -577,7 +577,7 @@ namespace Vocaluxe.Base
         {
             get
             {
-                long nanosecPerTick = (1000L * 1000L * 1000L) / Stopwatch.Frequency;
+                double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
                 long ticks = _STimer.ElapsedTicks;
                 float dt = _STimer.ElapsedMilliseconds / 1000f;
 
@@ -613,7 +613,7 @@ namespace Vocaluxe.Base
         {
             _STimer.Stop();
 
-            long nanosecPerTick = (1000L * 1000L * 1000L) / Stopwatch.Frequency;
+            double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
             long ticks = _STimer.ElapsedTicks;
             float dt = _STimer.ElapsedMilliseconds / 1000f;
 
