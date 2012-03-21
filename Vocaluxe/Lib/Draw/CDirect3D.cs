@@ -168,7 +168,7 @@ namespace Vocaluxe.Lib.Draw
             _Device = new Device(_D3D, _D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, Handle, flags, _PresentParameters);
             
             if(_Device.Disposed || _D3D.Disposed || _Device == null || _D3D == null)
-                CLog.LogError("Something went wrong with device creating, please check if your DirectX redistributables and graficcard drivers are up to date");
+                CLog.LogError("Something went wrong with device creating, please check if your DirectX redistributables and graficcard drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
 
             this.CenterToScreen();
         }
@@ -197,7 +197,6 @@ namespace Vocaluxe.Lib.Draw
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            this.ClientSize = this.ClientSize;
             RResize();
         }
 
