@@ -261,7 +261,7 @@ namespace Vocaluxe.Menu
             for (int i = 0; i < _Screens.Count; i++)
             {
                 CLog.StartBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
-                Screens[i].LoadTheme();
+                _Screens[i].LoadTheme();
                 CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
             }
 
@@ -276,7 +276,7 @@ namespace Vocaluxe.Menu
             ReloadCursor();
             for (int i = 0; i < _Screens.Count; i++)
             {
-                Screens[i].ReloadTheme();
+                _Screens[i].ReloadTheme();
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
@@ -290,7 +290,7 @@ namespace Vocaluxe.Menu
             ReloadCursor();
             for (int i = 0; i < _Screens.Count; i++)
             {
-                Screens[i].ReloadTextures();
+                _Screens[i].ReloadTextures();
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
@@ -304,7 +304,7 @@ namespace Vocaluxe.Menu
             CTheme.SaveTheme();
             for (int i = 0; i < _Screens.Count; i++)
             {
-                Screens[i].SaveTheme();
+                _Screens[i].SaveTheme();
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
