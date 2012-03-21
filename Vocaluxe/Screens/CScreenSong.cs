@@ -64,7 +64,7 @@ namespace Vocaluxe.Screens
                 {
                     JumpTo(KeyEvent.Unicode);
                     return true;
-                }*/
+                } */
             }
             else
             {
@@ -327,11 +327,10 @@ namespace Vocaluxe.Screens
                 id = CSongs.VisibleSongs[song].ID;
             }
 
-            // here is a fault: SetSelectedSong should point to the visible index
-            Vocaluxe.Lib.Song.CSong s = Array.Find<Vocaluxe.Lib.Song.CSong>(CSongs.VisibleSongs, element => element.Artist.StartsWith(Letter.ToString(), StringComparison.OrdinalIgnoreCase));
-            if (s != null && s.ID > -1)
+            int visibleID = Array.FindIndex<Vocaluxe.Lib.Song.CSong>(CSongs.VisibleSongs, element => element.Artist.StartsWith(Letter.ToString(), StringComparison.OrdinalIgnoreCase));
+            if (visibleID > -1)
             {
-                id = s.ID;
+                id = visibleID;
                 SongMenus[htSongMenus(SongMenu)].SetSelectedSong(id);
             }
         }

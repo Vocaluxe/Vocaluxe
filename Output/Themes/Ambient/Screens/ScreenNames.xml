@@ -534,7 +534,7 @@
       <TextColor>TextColor</TextColor>
       <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
       <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
-      <TextSColor>TextColor</TextSColor>
+      <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>32,00</TextH>
       <!--<TextMaxW>: Maximum text width (if exists)-->

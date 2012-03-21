@@ -162,7 +162,7 @@ namespace Vocaluxe.Base
         public static EDebugLevel DebugLevel = EDebugLevel.TR_CONFIG_OFF;
         
         // Graphics
-        public static ERenderer Renderer = ERenderer.TR_CONFIG_OPENGL;
+        public static ERenderer Renderer = ERenderer.TR_CONFIG_DIRECT3D;
         public static ETextureQuality TextureQuality = ETextureQuality.TR_CONFIG_TEXTURE_MEDIUM;
         public static float MaxFPS = 60f;
 
