@@ -73,6 +73,13 @@ namespace Vocaluxe.Lib.Draw
             _Keys = new CKeys();
             _D3D = new Direct3D();
 
+            if (_D3D == null)
+            {
+                MessageBox.Show("No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109");
+                CLog.LogError("No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109");
+                Environment.Exit(Environment.ExitCode);
+            }
+
             this.Paint += new PaintEventHandler(this.OnPaintEvent);
             this.Closing += new CancelEventHandler(this.OnClosingEvent);
             this.Resize += new EventHandler(this.OnResizeEvent);
@@ -167,17 +174,14 @@ namespace Vocaluxe.Lib.Draw
                 flags = CreateFlags.SoftwareVertexProcessing;
             _Device = new Device(_D3D, _D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, Handle, flags, _PresentParameters);
 
+            if (_Device.Disposed || _D3D.Disposed || _Device == null || _D3D == null)
+            {
+                MessageBox.Show("Something went wrong with device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
+                CLog.LogError("Something went wrong with device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
+                Environment.Exit(Environment.ExitCode);
+            }
+
             this.CenterToScreen();
-
-            //This creates a new white texture and adds it to the texture pool
-            //This texture is used for the DrawRect method
-            Bitmap blankMap = new Bitmap(1, 1);
-            Graphics g = Graphics.FromImage(blankMap);
-            g.Clear(Color.White);
-            g.Dispose();
-            blankTexture = AddTexture(blankMap);
-
-            blankMap.Dispose();
         }
 
         #region form events
@@ -204,7 +208,6 @@ namespace Vocaluxe.Lib.Draw
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            this.ClientSize = this.ClientSize;
             RResize();
         }
 
@@ -419,7 +422,7 @@ namespace Vocaluxe.Lib.Draw
                 _Device.SetTextureStageState(0, TextureStage.AlphaArg2, TextureArgument.Diffuse);
                 _Device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.Modulate);
 
-                int[] indices = new int[6];
+                Int16[] indices = new Int16[6];
                 indices[0] = 0;
                 indices[1] = 1;
                 indices[2] = 2;
@@ -427,12 +430,22 @@ namespace Vocaluxe.Lib.Draw
                 indices[4] = 2;
                 indices[5] = 3;
 
-                _IndexBuffer = new IndexBuffer(_Device, 6 * sizeof(int), Usage.WriteOnly, Pool.Managed, false);
+                _IndexBuffer = new IndexBuffer(_Device, 6 * sizeof(int), Usage.WriteOnly, Pool.Managed, true);
 
                 DataStream stream = _IndexBuffer.Lock(0, 0, LockFlags.None);
                 stream.WriteRange(indices);
                 _IndexBuffer.Unlock();
                 _Device.Indices = _IndexBuffer;
+
+                //This creates a new white texture and adds it to the texture pool
+                //This texture is used for the DrawRect method
+                Bitmap blankMap = new Bitmap(1, 1);
+                Graphics g = Graphics.FromImage(blankMap);
+                g.Clear(Color.White);
+                g.Dispose();
+                blankTexture = AddTexture(blankMap);
+
+                blankMap.Dispose();
                 return true;
             }
             else
