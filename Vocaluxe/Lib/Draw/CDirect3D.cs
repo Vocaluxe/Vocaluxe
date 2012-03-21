@@ -73,6 +73,13 @@ namespace Vocaluxe.Lib.Draw
             _Keys = new CKeys();
             _D3D = new Direct3D();
 
+            if (_D3D == null)
+            {
+                MessageBox.Show("No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109");
+                CLog.LogError("No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109");
+                Environment.Exit(Environment.ExitCode);
+            }
+
             this.Paint += new PaintEventHandler(this.OnPaintEvent);
             this.Closing += new CancelEventHandler(this.OnClosingEvent);
             this.Resize += new EventHandler(this.OnResizeEvent);
@@ -166,9 +173,13 @@ namespace Vocaluxe.Lib.Draw
             else
                 flags = CreateFlags.SoftwareVertexProcessing;
             _Device = new Device(_D3D, _D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, Handle, flags, _PresentParameters);
-            
-            if(_Device.Disposed || _D3D.Disposed || _Device == null || _D3D == null)
-                CLog.LogError("Something went wrong with device creating, please check if your DirectX redistributables and graficcard drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
+
+            if (_Device.Disposed || _D3D.Disposed || _Device == null || _D3D == null)
+            {
+                MessageBox.Show("Something went wrong with device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
+                CLog.LogError("Something went wrong with device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
+                Environment.Exit(Environment.ExitCode);
+            }
 
             this.CenterToScreen();
         }
