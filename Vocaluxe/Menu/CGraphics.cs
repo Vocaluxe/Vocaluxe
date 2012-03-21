@@ -260,12 +260,9 @@ namespace Vocaluxe.Menu
 
             for (int i = 0; i < _Screens.Count; i++)
             {
-                if (Enum.GetNames(typeof(EScreens))[i] != Enum.GetName(typeof(EScreens), (int)EScreens.ScreenCredits))
-                {
-                    CLog.StartBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
-                    _Screens[i].LoadTheme();
-                    CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
-                }
+                CLog.StartBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
+                Screens[i].LoadTheme();
+                CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
@@ -279,10 +276,7 @@ namespace Vocaluxe.Menu
             ReloadCursor();
             for (int i = 0; i < _Screens.Count; i++)
             {
-                if (Enum.GetNames(typeof(EScreens))[i] != Enum.GetName(typeof(EScreens), (int)EScreens.ScreenCredits))
-                {
-                    _Screens[i].ReloadTheme();
-                }
+                Screens[i].ReloadTheme();
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
@@ -296,10 +290,7 @@ namespace Vocaluxe.Menu
             ReloadCursor();
             for (int i = 0; i < _Screens.Count; i++)
             {
-                if (Enum.GetNames(typeof(EScreens))[i] != Enum.GetName(typeof(EScreens), (int)EScreens.ScreenCredits))
-                {
-                    _Screens[i].ReloadTextures();
-                }
+                Screens[i].ReloadTextures();
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
@@ -313,10 +304,7 @@ namespace Vocaluxe.Menu
             CTheme.SaveTheme();
             for (int i = 0; i < _Screens.Count; i++)
             {
-                if (Enum.GetNames(typeof(EScreens))[i] != Enum.GetName(typeof(EScreens), (int)EScreens.ScreenCredits))
-                {
-                    _Screens[i].SaveTheme();
-                }
+                Screens[i].SaveTheme();
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
