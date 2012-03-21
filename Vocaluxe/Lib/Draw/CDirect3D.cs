@@ -71,12 +71,14 @@ namespace Vocaluxe.Lib.Draw
             _VerticesRotationMatrices = new Queue<Matrix>();
 
             _Keys = new CKeys();
-            _D3D = new Direct3D();
-
-            if (_D3D == null)
+            try
+            {
+                _D3D = new Direct3D();
+            }
+            catch (Direct3D9NotFoundException e)
             {
                 MessageBox.Show("No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109");
-                CLog.LogError("No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109");
+                CLog.LogError(e.Message + " - No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109");
                 Environment.Exit(Environment.ExitCode);
             }
 
@@ -172,13 +174,24 @@ namespace Vocaluxe.Lib.Draw
                 flags = CreateFlags.HardwareVertexProcessing;
             else
                 flags = CreateFlags.SoftwareVertexProcessing;
-            _Device = new Device(_D3D, _D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, Handle, flags, _PresentParameters);
-
-            if (_Device.Disposed || _D3D.Disposed || _Device == null || _D3D == null)
+            try
             {
-                MessageBox.Show("Something went wrong with device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
-                CLog.LogError("Something went wrong with device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
+                _Device = new Device(_D3D, _D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, Handle, flags, _PresentParameters);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Something went wrong during device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
+                CLog.LogError(e.Message + " - Something went wrong during device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
                 Environment.Exit(Environment.ExitCode);
+            }
+            finally
+            {
+                if (_Device == null || _Device.Disposed)
+                {
+                    MessageBox.Show("Something went wrong during device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
+                    CLog.LogError("Something went wrong during device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
+                    Environment.Exit(Environment.ExitCode);
+                }
             }
 
             this.CenterToScreen();
