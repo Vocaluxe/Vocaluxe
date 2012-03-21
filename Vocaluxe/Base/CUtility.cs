@@ -119,7 +119,7 @@ namespace Vocaluxe.Base
     {
         private static Stopwatch _Stopwatch = new Stopwatch();
         private static float _fps = 0.0f;
-        private static long nanosecPerTick = (1000L * 1000L * 1000L) / Stopwatch.Frequency;
+        private static double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
 
         public static void Reset()
         {
@@ -149,7 +149,7 @@ namespace Vocaluxe.Base
             {
                 long ticks = _Stopwatch.ElapsedTicks;
                 if (Stopwatch.IsHighResolution && ticks != 0)
-                    return (float)(((double)nanosecPerTick * (double)ticks) / (1000.0 * 1000.0));
+                    return (float)((nanosecPerTick * ticks) / (1000.0 * 1000.0));
                 else
                     return (float)_Stopwatch.ElapsedMilliseconds;
             }

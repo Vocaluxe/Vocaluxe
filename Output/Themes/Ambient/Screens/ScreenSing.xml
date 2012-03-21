@@ -119,10 +119,7 @@
       <H>9</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,68</R>
-      <G>0,89</G>
-      <B>0,97</B>
-      <A>0,40</A>
+      <Color>TimeBar</Color>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
@@ -138,7 +135,7 @@
       <H>9</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
+      <Color>TimeBarSentence</Color>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
