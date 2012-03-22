@@ -525,6 +525,19 @@ namespace Vocaluxe.Menu
             _Textures[selection] = NewTexture;
         }
 
+        public bool SetSelectionByValueIndex(int ValueIndex)
+        {
+            for (int i = 0; i < _ValueIndexes.Count; i++)
+            {
+                if (_ValueIndexes[i] == ValueIndex)
+                {
+                    Selection = i;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool NextValue()
         {
             if (Selection < _ValueNames.Count - 1)
