@@ -471,7 +471,7 @@ namespace Vocaluxe.Lib.Draw
                 indices[4] = 2;
                 indices[5] = 3;
 
-                _IndexBuffer = new IndexBuffer(_Device, 6 * sizeof(int), Usage.WriteOnly, Pool.Managed, true);
+                _IndexBuffer = new IndexBuffer(_Device, 6 * sizeof(Int16), Usage.WriteOnly, Pool.Managed, true);
 
                 DataStream stream = _IndexBuffer.Lock(0, 0, LockFlags.None);
                 stream.WriteRange(indices);
