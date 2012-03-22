@@ -179,7 +179,6 @@ namespace Vocaluxe.Lib.Draw
             try
             {
                 _Device = new Device(_D3D, _D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, Handle, flags, _PresentParameters);
-                //_Device.Dispose();
             }
             catch (Exception e)
             {
@@ -422,25 +421,47 @@ namespace Vocaluxe.Lib.Draw
                 Matrix translate = Matrix.Translation(new Vector3(-CSettings.iRenderW / 2, CSettings.iRenderH / 2, 0));
                 Matrix projection = Matrix.OrthoOffCenterLH(-CSettings.iRenderW / 2, CSettings.iRenderW / 2, -CSettings.iRenderH / 2, CSettings.iRenderH / 2, CSettings.zNear, CSettings.zFar);
                 _VertexBuffer = new VertexBuffer(_Device, CSettings.iVertexBufferElements * (4 * Marshal.SizeOf(typeof(TexturedColoredVertex))), Usage.WriteOnly | Usage.Dynamic, VertexFormat.Position | VertexFormat.Texture1 | VertexFormat.Diffuse, Pool.Default);
-                _Device.SetStreamSource(0, _VertexBuffer, 0, Marshal.SizeOf(typeof(TexturedColoredVertex)));
+
+                Capabilities caps = _D3D.GetDeviceCaps(_D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware);
+
+                if (_Device.SetStreamSource(0, _VertexBuffer, 0, Marshal.SizeOf(typeof(TexturedColoredVertex))).IsFailure)
+                    CLog.LogError("Failed to set stream source");
                 _Device.VertexDeclaration = TexturedColoredVertex.GetDeclaration(_Device);
-                _Device.SetTransform(TransformState.Projection, projection);
-                _Device.SetTransform(TransformState.World, translate);
-                _Device.SetRenderState(RenderState.CullMode, Cull.None);
-                _Device.SetRenderState(RenderState.AlphaBlendEnable, true);
-                _Device.SetRenderState(RenderState.Lighting, false);
-                _Device.SetRenderState(RenderState.DestinationBlend, Blend.InverseSourceAlpha);
-                _Device.SetRenderState(RenderState.SourceBlend, Blend.SourceAlpha);
+                if(_Device.SetTransform(TransformState.Projection, projection).IsFailure)
+                    CLog.LogError("Failed to set orthogonal matrix");
+                if(_Device.SetTransform(TransformState.World, translate).IsFailure)
+                    CLog.LogError("Failed to set translation matrix");
+                if(_Device.SetRenderState(RenderState.CullMode, Cull.None).IsFailure)
+                    CLog.LogError("Failed to set cull mode");
+                if(_Device.SetRenderState(RenderState.AlphaBlendEnable, true).IsFailure)
+                    CLog.LogError("Failed to enable alpha blending");
+                if(_Device.SetRenderState(RenderState.Lighting, false).IsFailure)
+                    CLog.LogError("Failed to disable lighting");
+                if(_Device.SetRenderState(RenderState.DestinationBlend, Blend.InverseSourceAlpha).IsFailure)
+                    CLog.LogError("Failed to set destination blend");
+                if(_Device.SetRenderState(RenderState.SourceBlend, Blend.SourceAlpha).IsFailure)
+                    CLog.LogError("Failed to set source blend");
                 if (_PresentParameters.Multisample != MultisampleType.None)
-                    _Device.SetRenderState(RenderState.MultisampleAntialias, true);
-                _Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
-                _Device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear);
-                _Device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.Linear);
-                _Device.SetSamplerState(0, SamplerState.AddressU, TextureAddress.Clamp);
-                _Device.SetSamplerState(0, SamplerState.AddressV, TextureAddress.Clamp);
-                _Device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Texture);
-                _Device.SetTextureStageState(0, TextureStage.AlphaArg2, TextureArgument.Diffuse);
-                _Device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.Modulate);
+                {
+                    if(_Device.SetRenderState(RenderState.MultisampleAntialias, true).IsFailure)
+                        CLog.LogError("Failed to set antialiasing");
+                }
+                if(_Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear).IsFailure)
+                    CLog.LogError("Failed to set min filter");
+                if(_Device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear).IsFailure)
+                    CLog.LogError("Failed to set mag filter");
+                if(_Device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.Linear).IsFailure)
+                    CLog.LogError("Failed to set mip filter");
+                if(_Device.SetSamplerState(0, SamplerState.AddressU, TextureAddress.Clamp).IsFailure)
+                    CLog.LogError("Failed to set clamping on u");
+                if(_Device.SetSamplerState(0, SamplerState.AddressV, TextureAddress.Clamp).IsFailure)
+                    CLog.LogError("Failed to set claming on v");
+                if(_Device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Texture).IsFailure)
+                    CLog.LogError("Failed to set alpha argument 1");
+                if(_Device.SetTextureStageState(0, TextureStage.AlphaArg2, TextureArgument.Diffuse).IsFailure)
+                    CLog.LogError("Failed to set alpha argument 2");
+                if(_Device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.Modulate).IsFailure)
+                    CLog.LogError("Failed to set alpha operation");
 
                 Int16[] indices = new Int16[6];
                 indices[0] = 0;
