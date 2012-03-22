@@ -179,7 +179,7 @@ namespace Vocaluxe.Lib.Draw
             try
             {
                 _Device = new Device(_D3D, _D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, Handle, flags, _PresentParameters);
-                _Device.Dispose();
+                //_Device.Dispose();
             }
             catch (Exception e)
             {
