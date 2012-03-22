@@ -77,7 +77,9 @@ namespace Vocaluxe.Lib.Draw
             }
             catch (Direct3D9NotFoundException e)
             {
-                MessageBox.Show("No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109");
+                MessageBox.Show("No DirectX runtimes were found, please download and install them " +
+                    "from http://www.microsoft.com/download/en/details.aspx?id=8109",
+                    CSettings.sProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 CLog.LogError(e.Message + " - No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109");
                 Environment.Exit(Environment.ExitCode);
             }
@@ -181,7 +183,9 @@ namespace Vocaluxe.Lib.Draw
             }
             catch (Exception e)
             {
-                MessageBox.Show("Something went wrong during device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109", "Vocaluxe", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Something went wrong during device creating, please check if your DirectX redistributables " +
+                    "and graphic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109",
+                    CSettings.sProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 CLog.LogError(e.Message + " - Something went wrong during device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
                 Environment.Exit(Environment.ExitCode);
             }
@@ -189,7 +193,9 @@ namespace Vocaluxe.Lib.Draw
             {
                 if (_Device == null || _Device.Disposed)
                 {
-                    MessageBox.Show("Something went wrong during device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109", "Vocaluxe", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Something went wrong during device creating, please check if your DirectX redistributables " +
+                        "and graphic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109",
+                        CSettings.sProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     CLog.LogError("Something went wrong during device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
                     Environment.Exit(Environment.ExitCode);
                 }
