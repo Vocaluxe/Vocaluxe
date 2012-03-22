@@ -422,8 +422,6 @@ namespace Vocaluxe.Lib.Draw
                 Matrix projection = Matrix.OrthoOffCenterLH(-CSettings.iRenderW / 2, CSettings.iRenderW / 2, -CSettings.iRenderH / 2, CSettings.iRenderH / 2, CSettings.zNear, CSettings.zFar);
                 _VertexBuffer = new VertexBuffer(_Device, CSettings.iVertexBufferElements * (4 * Marshal.SizeOf(typeof(TexturedColoredVertex))), Usage.WriteOnly | Usage.Dynamic, VertexFormat.Position | VertexFormat.Texture1 | VertexFormat.Diffuse, Pool.Default);
 
-                Capabilities caps = _D3D.GetDeviceCaps(_D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware);
-
                 if (_Device.SetStreamSource(0, _VertexBuffer, 0, Marshal.SizeOf(typeof(TexturedColoredVertex))).IsFailure)
                     CLog.LogError("Failed to set stream source");
                 _Device.VertexDeclaration = TexturedColoredVertex.GetDeclaration(_Device);
@@ -516,12 +514,14 @@ namespace Vocaluxe.Lib.Draw
                     //Clear the previous Frame
                     ClearScreen();
                     //We want to begin drawing
-                    _Device.BeginScene();
+                    if (_Device.BeginScene().IsFailure)
+                        CLog.LogError("Failed to begin scene");
                     CheckQueque();
                     _Run = _Run && CGraphics.Draw();
                     RenderVertexBuffer();
                     //We finished drawing the frame
-                    _Device.EndScene();
+                    if (_Device.EndScene().IsFailure)
+                        CLog.LogError("Failed to end scene");
                     _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
                     try
                     {
@@ -571,7 +571,8 @@ namespace Vocaluxe.Lib.Draw
             TexturedColoredVertex.GetDeclaration(_Device).Dispose();
             _VertexBuffer.Dispose();
             _IndexBuffer.Dispose();
-            _Device.Reset(_PresentParameters);
+            if (_Device.Reset(_PresentParameters).IsFailure)
+                CLog.LogError("Failed to reset the device");
         }
 
         /// <summary>
@@ -671,11 +672,14 @@ namespace Vocaluxe.Lib.Draw
                 for (int i = 0; i < _Vertices.Count; i += 4)
                 {
                     //Apply rotation
-                    _Device.SetTransform(TransformState.World, _VerticesRotationMatrices.Dequeue());
+                    if (_Device.SetTransform(TransformState.World, _VerticesRotationMatrices.Dequeue()).IsFailure)
+                        CLog.LogError("Failed to set world transformation");
                     //Apply texture
-                    _Device.SetTexture(0, _VerticesTextures.Dequeue());
+                    if (_Device.SetTexture(0, _VerticesTextures.Dequeue()).IsFailure)
+                        CLog.LogError("Failed to set texture");
                     //Draw 2 triangles from vertexbuffer
-                    _Device.DrawIndexedPrimitives(PrimitiveType.TriangleList, i, 0, 4, 0, 2);
+                    if (_Device.DrawIndexedPrimitives(PrimitiveType.TriangleList, i, 0, 4, 0, 2).IsFailure)
+                        CLog.LogError("Failed to draw quad");
                 }
                 //Clear the queues for the next frame
                 _Vertices.Clear();
@@ -692,7 +696,8 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public void ClearScreen()
         {
-            _Device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
+            if (_Device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0).IsFailure)
+                CLog.LogError("Failed to clear the backbuffer");
         }
 
         /// <summary>
