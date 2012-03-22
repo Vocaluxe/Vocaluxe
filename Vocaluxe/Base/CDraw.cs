@@ -30,9 +30,10 @@ namespace Vocaluxe.Base
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show(e.Message + " - Error in initializing of OpenGL",
-                            CSettings.sProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        CLog.LogError(e.Message + " - Error in initializing of OpenGL");
+                        MessageBox.Show(e.Message + " - Error in initializing of OpenGL. Please check whether" +
+                            " your graphic card drivers are up to date.");
+                        CLog.LogError(e.Message + " - Error in initializing of OpenGL. Please check whether" +
+                            " your graphic card drivers are up to date.");
                         Environment.Exit(Environment.ExitCode);
                     }
                     break;
@@ -44,9 +45,13 @@ namespace Vocaluxe.Base
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show("No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109",
-                            CSettings.sProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        CLog.LogError(e.Message + " - No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109");
+                        MessageBox.Show(e.Message + " - Error in initializing of Direct3D. Please check if " +
+                            "your DirectX redistributables and graphic card drivers are up to date. You can " +
+                            "download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109",
+                    CSettings.sProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CLog.LogError(e.Message + " - Error in initializing of Direct3D. Please check if " +
+                            "your DirectX redistributables and graphic card drivers are up to date. You can " +
+                            "download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
                         Environment.Exit(Environment.ExitCode);
                     }
                     break;
