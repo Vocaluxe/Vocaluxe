@@ -404,7 +404,7 @@
       <TextColor>TextColor</TextColor>
       <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
       <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
-      <TextSColor>TextSColor</TextSColor>
+      <TextSColor>Player1</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>32,00</TextH>
       <!--<TextMaxW>: Maximum text width (if exists)-->
@@ -469,7 +469,7 @@
       <TextColor>TextColor</TextColor>
       <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
       <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
-      <TextSColor>TextSColor</TextSColor>
+      <TextSColor>Player2</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>32,00</TextH>
       <!--<TextMaxW>: Maximum text width (if exists)-->
@@ -534,7 +534,7 @@
       <TextColor>TextColor</TextColor>
       <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
       <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
-      <TextSColor>TextSColor</TextSColor>
+      <TextSColor>Player3</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>32,00</TextH>
       <!--<TextMaxW>: Maximum text width (if exists)-->
