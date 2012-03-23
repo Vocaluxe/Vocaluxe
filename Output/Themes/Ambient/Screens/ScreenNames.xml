@@ -386,13 +386,13 @@
       <ArrowRightH>40</ArrowRightH>
       <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>SelectSlideColor</Color>
+      <Color>Player1Dim</Color>
       <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>SelectSlideSColor</SColor>
+      <SColor>Player1Dim</SColor>
       <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
       <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
-      <HColor>SelectSlideHColor</HColor>
+      <HColor>Player1</HColor>
       <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
       <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
       <ArrowColor>ArrowColor</ArrowColor>
@@ -451,13 +451,13 @@
       <ArrowRightH>40</ArrowRightH>
       <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>SelectSlideColor</Color>
+      <Color>Player2Dim</Color>
       <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>SelectSlideSColor</SColor>
+      <SColor>Player2Dim</SColor>
       <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
       <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
-      <HColor>SelectSlideHColor</HColor>
+      <HColor>Player2</HColor>
       <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
       <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
       <ArrowColor>ArrowColor</ArrowColor>
@@ -516,13 +516,13 @@
       <ArrowRightH>40</ArrowRightH>
       <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>SelectSlideColor</Color>
+      <Color>Player3Dim</Color>
       <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>SelectSlideSColor</SColor>
+      <SColor>Player3Dim</SColor>
       <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
       <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
-      <HColor>SelectSlideHColor</HColor>
+      <HColor>Player3</HColor>
       <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
       <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
       <ArrowColor>ArrowColor</ArrowColor>
