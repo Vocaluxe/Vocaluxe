@@ -246,7 +246,7 @@ namespace Vocaluxe.Base
         {
             if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
                 return false;
-            return _Profiles[ProfileNr].GuestProfile == EOffOn.TR_CONFIG_ON;
+            return _Profiles[ProfileNr].Active == EOffOn.TR_CONFIG_ON;
         }
 
         public static void SetAvatar(int ProfileNr, int AvatarNr)

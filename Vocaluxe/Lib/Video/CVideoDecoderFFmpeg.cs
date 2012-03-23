@@ -394,14 +394,12 @@ namespace Vocaluxe.Lib.Video
 
         #region Threading
         private void DoSkip()
-        {
-            string extension = Path.GetExtension(_FileName); //just a workaround for the mkv-search-bug in ffmpeg
-            
+        {            
             _VideoSkipTime = _Gap;
             _SkipTime = _Start + _Gap;
             _BeforeLoop = false;           
 
-            if (_SkipTime > 0 && extension != ".mkv")
+            if (_SkipTime > 0)
             {
                 _VideoDecoderTime = _SkipTime;
                 try
@@ -419,8 +417,7 @@ namespace Vocaluxe.Lib.Video
                 _VideoDecoderTime = 0f;
                 try 
 	            {
-                    if (extension != ".mkv")
-                        CAcinerella.ac_seek(_videodecoder, -1, (Int64)0);
+                    CAcinerella.ac_seek(_videodecoder, -1, (Int64)0);
 	            }
 	            catch (Exception e)
 	            {
