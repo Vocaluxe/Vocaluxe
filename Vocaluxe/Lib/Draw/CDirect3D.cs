@@ -71,12 +71,16 @@ namespace Vocaluxe.Lib.Draw
             _VerticesRotationMatrices = new Queue<Matrix>();
 
             _Keys = new CKeys();
-            _D3D = new Direct3D();
-
-            if (_D3D == null)
+            try
             {
-                MessageBox.Show("No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109");
-                CLog.LogError("No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109");
+                _D3D = new Direct3D();
+            }
+            catch (Direct3D9NotFoundException e)
+            {
+                MessageBox.Show("No DirectX runtimes were found, please download and install them " +
+                    "from http://www.microsoft.com/download/en/details.aspx?id=8109",
+                    CSettings.sProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CLog.LogError(e.Message + " - No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109");
                 Environment.Exit(Environment.ExitCode);
             }
 
@@ -172,13 +176,28 @@ namespace Vocaluxe.Lib.Draw
                 flags = CreateFlags.HardwareVertexProcessing;
             else
                 flags = CreateFlags.SoftwareVertexProcessing;
-            _Device = new Device(_D3D, _D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, Handle, flags, _PresentParameters);
-
-            if (_Device.Disposed || _D3D.Disposed || _Device == null || _D3D == null)
+            try
             {
-                MessageBox.Show("Something went wrong with device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
-                CLog.LogError("Something went wrong with device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
+                _Device = new Device(_D3D, _D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, Handle, flags, _PresentParameters);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Something went wrong during device creating, please check if your DirectX redistributables " +
+                    "and graphic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109",
+                    CSettings.sProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                CLog.LogError(e.Message + " - Something went wrong during device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
                 Environment.Exit(Environment.ExitCode);
+            }
+            finally
+            {
+                if (_Device == null || _Device.Disposed)
+                {
+                    MessageBox.Show("Something went wrong during device creating, please check if your DirectX redistributables " +
+                        "and graphic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109",
+                        CSettings.sProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    CLog.LogError("Something went wrong during device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
+                    Environment.Exit(Environment.ExitCode);
+                }
             }
 
             this.CenterToScreen();
@@ -402,25 +421,45 @@ namespace Vocaluxe.Lib.Draw
                 Matrix translate = Matrix.Translation(new Vector3(-CSettings.iRenderW / 2, CSettings.iRenderH / 2, 0));
                 Matrix projection = Matrix.OrthoOffCenterLH(-CSettings.iRenderW / 2, CSettings.iRenderW / 2, -CSettings.iRenderH / 2, CSettings.iRenderH / 2, CSettings.zNear, CSettings.zFar);
                 _VertexBuffer = new VertexBuffer(_Device, CSettings.iVertexBufferElements * (4 * Marshal.SizeOf(typeof(TexturedColoredVertex))), Usage.WriteOnly | Usage.Dynamic, VertexFormat.Position | VertexFormat.Texture1 | VertexFormat.Diffuse, Pool.Default);
-                _Device.SetStreamSource(0, _VertexBuffer, 0, Marshal.SizeOf(typeof(TexturedColoredVertex)));
+
+                if (_Device.SetStreamSource(0, _VertexBuffer, 0, Marshal.SizeOf(typeof(TexturedColoredVertex))).IsFailure)
+                    CLog.LogError("Failed to set stream source");
                 _Device.VertexDeclaration = TexturedColoredVertex.GetDeclaration(_Device);
-                _Device.SetTransform(TransformState.Projection, projection);
-                _Device.SetTransform(TransformState.World, translate);
-                _Device.SetRenderState(RenderState.CullMode, Cull.None);
-                _Device.SetRenderState(RenderState.AlphaBlendEnable, true);
-                _Device.SetRenderState(RenderState.Lighting, false);
-                _Device.SetRenderState(RenderState.DestinationBlend, Blend.InverseSourceAlpha);
-                _Device.SetRenderState(RenderState.SourceBlend, Blend.SourceAlpha);
+                if(_Device.SetTransform(TransformState.Projection, projection).IsFailure)
+                    CLog.LogError("Failed to set orthogonal matrix");
+                if(_Device.SetTransform(TransformState.World, translate).IsFailure)
+                    CLog.LogError("Failed to set translation matrix");
+                if(_Device.SetRenderState(RenderState.CullMode, Cull.None).IsFailure)
+                    CLog.LogError("Failed to set cull mode");
+                if(_Device.SetRenderState(RenderState.AlphaBlendEnable, true).IsFailure)
+                    CLog.LogError("Failed to enable alpha blending");
+                if(_Device.SetRenderState(RenderState.Lighting, false).IsFailure)
+                    CLog.LogError("Failed to disable lighting");
+                if(_Device.SetRenderState(RenderState.DestinationBlend, Blend.InverseSourceAlpha).IsFailure)
+                    CLog.LogError("Failed to set destination blend");
+                if(_Device.SetRenderState(RenderState.SourceBlend, Blend.SourceAlpha).IsFailure)
+                    CLog.LogError("Failed to set source blend");
                 if (_PresentParameters.Multisample != MultisampleType.None)
-                    _Device.SetRenderState(RenderState.MultisampleAntialias, true);
-                _Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
-                _Device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear);
-                _Device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.Linear);
-                _Device.SetSamplerState(0, SamplerState.AddressU, TextureAddress.Clamp);
-                _Device.SetSamplerState(0, SamplerState.AddressV, TextureAddress.Clamp);
-                _Device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Texture);
-                _Device.SetTextureStageState(0, TextureStage.AlphaArg2, TextureArgument.Diffuse);
-                _Device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.Modulate);
+                {
+                    if(_Device.SetRenderState(RenderState.MultisampleAntialias, true).IsFailure)
+                        CLog.LogError("Failed to set antialiasing");
+                }
+                if(_Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear).IsFailure)
+                    CLog.LogError("Failed to set min filter");
+                if(_Device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear).IsFailure)
+                    CLog.LogError("Failed to set mag filter");
+                if(_Device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.Linear).IsFailure)
+                    CLog.LogError("Failed to set mip filter");
+                if(_Device.SetSamplerState(0, SamplerState.AddressU, TextureAddress.Clamp).IsFailure)
+                    CLog.LogError("Failed to set clamping on u");
+                if(_Device.SetSamplerState(0, SamplerState.AddressV, TextureAddress.Clamp).IsFailure)
+                    CLog.LogError("Failed to set claming on v");
+                if(_Device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Texture).IsFailure)
+                    CLog.LogError("Failed to set alpha argument 1");
+                if(_Device.SetTextureStageState(0, TextureStage.AlphaArg2, TextureArgument.Diffuse).IsFailure)
+                    CLog.LogError("Failed to set alpha argument 2");
+                if(_Device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.Modulate).IsFailure)
+                    CLog.LogError("Failed to set alpha operation");
 
                 Int16[] indices = new Int16[6];
                 indices[0] = 0;
@@ -430,7 +469,7 @@ namespace Vocaluxe.Lib.Draw
                 indices[4] = 2;
                 indices[5] = 3;
 
-                _IndexBuffer = new IndexBuffer(_Device, 6 * sizeof(int), Usage.WriteOnly, Pool.Managed, true);
+                _IndexBuffer = new IndexBuffer(_Device, 6 * sizeof(Int16), Usage.WriteOnly, Pool.Managed, true);
 
                 DataStream stream = _IndexBuffer.Lock(0, 0, LockFlags.None);
                 stream.WriteRange(indices);
@@ -475,12 +514,14 @@ namespace Vocaluxe.Lib.Draw
                     //Clear the previous Frame
                     ClearScreen();
                     //We want to begin drawing
-                    _Device.BeginScene();
+                    if (_Device.BeginScene().IsFailure)
+                        CLog.LogError("Failed to begin scene");
                     CheckQueque();
                     _Run = _Run && CGraphics.Draw();
                     RenderVertexBuffer();
                     //We finished drawing the frame
-                    _Device.EndScene();
+                    if (_Device.EndScene().IsFailure)
+                        CLog.LogError("Failed to end scene");
                     _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
                     try
                     {
@@ -530,7 +571,8 @@ namespace Vocaluxe.Lib.Draw
             TexturedColoredVertex.GetDeclaration(_Device).Dispose();
             _VertexBuffer.Dispose();
             _IndexBuffer.Dispose();
-            _Device.Reset(_PresentParameters);
+            if (_Device.Reset(_PresentParameters).IsFailure)
+                CLog.LogError("Failed to reset the device");
         }
 
         /// <summary>
@@ -630,11 +672,14 @@ namespace Vocaluxe.Lib.Draw
                 for (int i = 0; i < _Vertices.Count; i += 4)
                 {
                     //Apply rotation
-                    _Device.SetTransform(TransformState.World, _VerticesRotationMatrices.Dequeue());
+                    if (_Device.SetTransform(TransformState.World, _VerticesRotationMatrices.Dequeue()).IsFailure)
+                        CLog.LogError("Failed to set world transformation");
                     //Apply texture
-                    _Device.SetTexture(0, _VerticesTextures.Dequeue());
+                    if (_Device.SetTexture(0, _VerticesTextures.Dequeue()).IsFailure)
+                        CLog.LogError("Failed to set texture");
                     //Draw 2 triangles from vertexbuffer
-                    _Device.DrawIndexedPrimitives(PrimitiveType.TriangleList, i, 0, 4, 0, 2);
+                    if (_Device.DrawIndexedPrimitives(PrimitiveType.TriangleList, i, 0, 4, 0, 2).IsFailure)
+                        CLog.LogError("Failed to draw quad");
                 }
                 //Clear the queues for the next frame
                 _Vertices.Clear();
@@ -651,7 +696,8 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public void ClearScreen()
         {
-            _Device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
+            if (_Device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0).IsFailure)
+                CLog.LogError("Failed to clear the backbuffer");
         }
 
         /// <summary>
