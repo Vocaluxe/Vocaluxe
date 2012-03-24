@@ -504,6 +504,7 @@ namespace Vocaluxe.Lib.Draw
                 CSettings.bFullScreen = true;
                 EnterFullScreen();
             }
+            RResize();
 
             while (_Run)
             {
