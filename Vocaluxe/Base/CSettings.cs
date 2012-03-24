@@ -47,7 +47,7 @@ namespace Vocaluxe.Base
         public const int iVersionSub = 0;        // steps
         public const ERevision VersionRevision = ERevision.RC;
 
-        public const int iBuild = 58;             // Increase on every published version! Never Reset!
+        public const int iBuild = 59;             // Increase on every published version! Never Reset!
 
         public const int iDatabaseHighscoreVersion = 1;
         public const int iDatabaseCoverVersion = 1;

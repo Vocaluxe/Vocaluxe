@@ -223,7 +223,7 @@ namespace Vocaluxe.Screens
 
                 for (int p = 0; p < player.Length; p++)
                 {
-                    if (player[p].Points > CSettings.MinScoreForDB && player[p].SongFinished && !CProfiles.IsGuestProfile(p))
+                    if (player[p].Points > CSettings.MinScoreForDB && player[p].SongFinished && !CProfiles.IsGuestProfile(player[p].ProfileID))
                         _NewEntryIDs.Add(CDataBase.AddScore(player[p]));
                 }
             }
