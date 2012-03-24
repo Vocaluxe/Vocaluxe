@@ -20,6 +20,9 @@ namespace Vocaluxe.Menu.SongMenu
         public string DuetIconName;
         public string VideoIconName;
 
+        public string MedleyCalcIcon;
+        public string MedleyTagIcon;
+
         public string ColorName;
 
         //public SThemeSongMenuBook songMenuBook;
@@ -72,6 +75,8 @@ namespace Vocaluxe.Menu.SongMenu
         public CStatic StaticTextBG;
         public CStatic StaticDuetIcon;
         public CStatic StaticVideoIcon;
+        public CStatic StaticMedleyCalcIcon;
+        public CStatic StaticMedleyTagIcon;
     }
 
     abstract class CSongMenuFramework : ISongMenu
@@ -225,6 +230,8 @@ namespace Vocaluxe.Menu.SongMenu
             _Theme.songMenuTileBoard.StaticTextBG = new CStatic();
             _Theme.songMenuTileBoard.StaticDuetIcon = new CStatic();
             _Theme.songMenuTileBoard.StaticVideoIcon = new CStatic();
+            _Theme.songMenuTileBoard.StaticMedleyCalcIcon = new CStatic();
+            _Theme.songMenuTileBoard.StaticMedleyTagIcon = new CStatic();
 
             _ThemeLoaded = false;
         }
@@ -238,8 +245,9 @@ namespace Vocaluxe.Menu.SongMenu
             _ThemeLoaded &= CHelper.GetValueFromXML(item + "/CoverBigBackground", navigator, ref _Theme.CoverBigBackgroundName, String.Empty);
             _ThemeLoaded &= CHelper.GetValueFromXML(item + "/DuetIcon", navigator, ref _Theme.DuetIconName, String.Empty);
             _ThemeLoaded &= CHelper.GetValueFromXML(item + "/VideoIcon", navigator, ref _Theme.VideoIconName, String.Empty);
-
-
+            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/MedleyCalcIcon", navigator, ref _Theme.MedleyCalcIcon, String.Empty);
+            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/MedleyTagIcon", navigator, ref _Theme.MedleyTagIcon, String.Empty);
+            
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/X", navigator, ref _Rect.X);
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Y", navigator, ref _Rect.Y);
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Z", navigator, ref _Rect.Z);
@@ -272,6 +280,8 @@ namespace Vocaluxe.Menu.SongMenu
             _ThemeLoaded &= _Theme.songMenuTileBoard.StaticTextBG.LoadTheme(item + "/SongMenuTileBoard", "StaticTextBG", navigator, SkinIndex);
             _ThemeLoaded &= _Theme.songMenuTileBoard.StaticDuetIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticDuetIcon", navigator, SkinIndex);
             _ThemeLoaded &= _Theme.songMenuTileBoard.StaticVideoIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticVideoIcon", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.songMenuTileBoard.StaticMedleyCalcIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticMedleyCalcIcon", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.songMenuTileBoard.StaticMedleyTagIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticMedleyTagIcon", navigator, SkinIndex);
 
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectX", navigator, ref _Theme.songMenuTileBoard.TileRect.X);
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectY", navigator, ref _Theme.songMenuTileBoard.TileRect.Y);
@@ -308,6 +318,12 @@ namespace Vocaluxe.Menu.SongMenu
 
                 writer.WriteComment("<VideoIcon>: Texture name of video icon");
                 writer.WriteElementString("VideoIcon", _Theme.VideoIconName);
+
+                writer.WriteComment("<MedleyCalcIcon>: Texture name of medley calc (calculated) icon");
+                writer.WriteElementString("MedleyCalcIcon", _Theme.MedleyCalcIcon);
+
+                writer.WriteComment("<MedleyTagIcon>: Texture name of medley tag (manuelly set) icon");
+                writer.WriteElementString("MedleyTagIcon", _Theme.MedleyTagIcon);
 
                 writer.WriteComment("<X>, <Y>, <Z>, <W>, <H>: SongMenu position, width and height");
                 writer.WriteElementString("X", _Rect.X.ToString("#0"));
@@ -361,6 +377,8 @@ namespace Vocaluxe.Menu.SongMenu
                 _Theme.songMenuTileBoard.StaticTextBG.SaveTheme(writer);
                 _Theme.songMenuTileBoard.StaticDuetIcon.SaveTheme(writer);
                 _Theme.songMenuTileBoard.StaticVideoIcon.SaveTheme(writer);
+                _Theme.songMenuTileBoard.StaticMedleyCalcIcon.SaveTheme(writer);
+                _Theme.songMenuTileBoard.StaticMedleyTagIcon.SaveTheme(writer);
                                 
                 writer.WriteEndElement();
                 #endregion SongMenuTileBoard
@@ -491,14 +509,6 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (_Theme.ColorName != String.Empty)
                 _Color = CTheme.GetColor(_Theme.ColorName);
-
-            _Theme.songMenuTileBoard.StaticCoverBig.ReloadTextures();
-            _Theme.songMenuTileBoard.StaticTextBG.ReloadTextures();
-            _Theme.songMenuTileBoard.StaticDuetIcon.ReloadTextures();
-            _Theme.songMenuTileBoard.StaticVideoIcon.ReloadTextures();
-
-            _Theme.songMenuTileBoard.TextArtist.ReloadTextures();
-            _Theme.songMenuTileBoard.TextTitle.ReloadTextures();
         }
 
         public void ReloadTextures()

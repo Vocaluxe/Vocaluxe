@@ -214,13 +214,13 @@
       <B>0,300</B>
       <A>1,000</A>
     </LyricSubColor>
-	<TimeBar>
-	  <R>0,800</R>
+    <TimeBar>
+      <R>0,800</R>
       <G>0,950</G>
       <B>1,000</B>
       <A>0,500</A>
-	</TimeBar>
-	<TimeBarSentence>
+    </TimeBar>
+    <TimeBarSentence>
       <R>0,800</R>
       <G>0,950</G>
       <B>1,000</B>
@@ -263,6 +263,8 @@
     <EnergyBeam>EnergyBeam.png</EnergyBeam>
     <DuetIcon>DuetIcon.png</DuetIcon>
     <VideoIcon>VideoIcon.png</VideoIcon>
+    <MedleyCalcIcon>MedleyCalcIcon.png</MedleyCalcIcon>
+    <MedleyTagIcon>MedleyTagIcon.png</MedleyTagIcon>
     <Invisible>Invisible.png</Invisible>
   </Skins>
   <Videos>

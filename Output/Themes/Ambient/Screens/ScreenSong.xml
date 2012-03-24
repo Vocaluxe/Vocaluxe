@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenSong>
-    <ScreenVersion>1</ScreenVersion>
+    <ScreenVersion>2</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>Video</Type>
@@ -180,6 +180,10 @@
       <DuetIcon>DuetIcon</DuetIcon>
       <!--<VideoIcon>: Texture name of video icon-->
       <VideoIcon>VideoIcon</VideoIcon>
+      <!--<MedleyCalcIcon>: Texture name of medley calc (calculated) icon-->
+      <MedleyCalcIcon>MedleyCalcIcon</MedleyCalcIcon>
+      <!--<MedleyTagIcon>: Texture name of medley tag (manuelly set) icon-->
+      <MedleyTagIcon>MedleyTagIcon</MedleyTagIcon>
       <!--<X>, <Y>, <Z>, <W>, <H>: SongMenu position, width and height-->
       <X>40</X>
       <Y>100</Y>
@@ -356,6 +360,38 @@
           <!--   <Space>: Reflection Space-->
           <!--   <Height>: Reflection Height-->
         </StaticVideoIcon>
+        <StaticMedleyCalcIcon>
+          <!--<Skin>: Texture name-->
+          <Skin>MedleyCalcIcon</Skin>
+          <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+          <X>280</X>
+          <Y>530</Y>
+          <Z>-1,00</Z>
+          <W>40</W>
+          <H>40</H>
+          <!--<Color>: Static color from ColorScheme (high priority)-->
+          <!--or <R>, <G>, <B>, <A> (lower priority)-->
+          <Color>StaticColor</Color>
+          <!--<Reflection> If exists:-->
+          <!--   <Space>: Reflection Space-->
+          <!--   <Height>: Reflection Height-->
+        </StaticMedleyCalcIcon>
+        <StaticMedleyTagIcon>
+          <!--<Skin>: Texture name-->
+          <Skin>MedleyTagIcon</Skin>
+          <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+          <X>280</X>
+          <Y>530</Y>
+          <Z>-1,00</Z>
+          <W>40</W>
+          <H>40</H>
+          <!--<Color>: Static color from ColorScheme (high priority)-->
+          <!--or <R>, <G>, <B>, <A> (lower priority)-->
+          <Color>StaticColor</Color>
+          <!--<Reflection> If exists:-->
+          <!--   <Space>: Reflection Space-->
+          <!--   <Height>: Reflection Height-->
+        </StaticMedleyTagIcon>
       </SongMenuTileBoard>
     </SongMenu>
   </ScreenSong>

@@ -1,0 +1,13 @@
+ScreenSong
+
+++++++++++
+Version 2:
+
+Add:
+<MedleyCalcIcon> and <MedleyTagIcon>
+to SongMenu
+
+Add:
+<StaticMedleyCalcIcon> and <StaticMedleyTagIcon> 
+to SongMenu.SongMenuTileBoard
+++++++++++ 
