@@ -237,7 +237,7 @@ namespace Vocaluxe.Base
         public static bool IsGuestProfile(int ProfileNr)
         {
             if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
-                return false;
+                return true;    // this will prevent from saving dummy profiles to highscore db
 
             return _Profiles[ProfileNr].GuestProfile == EOffOn.TR_CONFIG_ON;
         }
@@ -246,7 +246,7 @@ namespace Vocaluxe.Base
         {
             if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
                 return false;
-            return _Profiles[ProfileNr].GuestProfile == EOffOn.TR_CONFIG_ON;
+            return _Profiles[ProfileNr].Active == EOffOn.TR_CONFIG_ON;
         }
 
         public static void SetAvatar(int ProfileNr, int AvatarNr)
