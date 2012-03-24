@@ -107,8 +107,8 @@ Vocaluxe.exe -ConfigFile MyConfig.xml -ScoreFile C:\Vocaluxe\Highscores\MyHighsc
 [TAB]					to open the background music controls (not on all screens).
 
 Songscreen
-[R]						to select a random song
-[F3] or [CTRL]+[F]		to open/close the song search menu
+[CTRL] + [R]			to select a random song
+[F3]					to open/close the song search menu
 [A]						to sing all songs from a category
 
 

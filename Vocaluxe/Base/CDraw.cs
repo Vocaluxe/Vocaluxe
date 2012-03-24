@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Text;
+using System.Windows.Forms;
 
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
@@ -21,11 +22,38 @@ namespace Vocaluxe.Base
                 case ERenderer.TR_CONFIG_SOFTWARE:
                     _Draw = new CDrawWinForm();
                     break;
+
                 case ERenderer.TR_CONFIG_OPENGL:
-                    _Draw = new COpenGL();
+                    try
+                    {
+                        _Draw = new COpenGL();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message + " - Error in initializing of OpenGL. Please check whether" +
+                            " your graphic card drivers are up to date.");
+                        CLog.LogError(e.Message + " - Error in initializing of OpenGL. Please check whether" +
+                            " your graphic card drivers are up to date.");
+                        Environment.Exit(Environment.ExitCode);
+                    }
                     break;
+
                 case ERenderer.TR_CONFIG_DIRECT3D:
-                    _Draw = new CDirect3D();
+                    try
+                    {
+                        _Draw = new CDirect3D();
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message + " - Error in initializing of Direct3D. Please check if " +
+                            "your DirectX redistributables and graphic card drivers are up to date. You can " +
+                            "download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109",
+                    CSettings.sProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CLog.LogError(e.Message + " - Error in initializing of Direct3D. Please check if " +
+                            "your DirectX redistributables and graphic card drivers are up to date. You can " +
+                            "download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
+                        Environment.Exit(Environment.ExitCode);
+                    }
                     break;
 
                 default:

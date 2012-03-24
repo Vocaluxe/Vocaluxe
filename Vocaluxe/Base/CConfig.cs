@@ -278,6 +278,12 @@ namespace Vocaluxe.Base
                 #region Graphics
                 CHelper.TryGetEnumValueFromXML<ERenderer>("//root/Graphics/Renderer", navigator, ref Renderer);
                 CHelper.TryGetEnumValueFromXML<ETextureQuality>("//root/Graphics/TextureQuality", navigator, ref TextureQuality);
+                CHelper.TryGetIntValueFromXML("//root/Graphics/CoverSize", navigator, ref CoverSize);
+                if (CoverSize > 1024)
+                    CoverSize = 1024;
+                if (CoverSize < 32)
+                    CoverSize = 32;
+
                 CHelper.TryGetIntValueFromXML("//root/Graphics/ScreenW", navigator, ref ScreenW);
                 CHelper.TryGetIntValueFromXML("//root/Graphics/ScreenH", navigator, ref ScreenH);
                 CHelper.TryGetEnumValueFromXML<EAntiAliasingModes>("//root/Graphics/AAMode", navigator, ref AAMode);
@@ -442,7 +448,10 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("TextureQuality: " + ListStrings(Enum.GetNames(typeof(ETextureQuality))));
             writer.WriteElementString("TextureQuality", Enum.GetName(typeof(ETextureQuality), TextureQuality));
-            
+
+            writer.WriteComment("CoverSize (pixels): 32, 64, 128, 256, 512, 1024 (default: 128)");
+            writer.WriteElementString("CoverSize", CoverSize.ToString());
+
             writer.WriteComment("Screen width and height (pixels)");
             writer.WriteElementString("ScreenW", ScreenW.ToString());
             writer.WriteElementString("ScreenH", ScreenH.ToString());

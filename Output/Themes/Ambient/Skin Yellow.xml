@@ -46,6 +46,42 @@
     </Player6>
   </Colors>
   <ColorSchemes>
+    <Player1Dim>
+      <R>0,000</R>
+      <G>0,000</G>
+      <B>1,000</B>
+      <A>0,500</A>
+    </Player1Dim>
+    <Player2Dim>
+      <R>1,000</R>
+      <G>0,000</G>
+      <B>0,000</B>
+      <A>0,500</A>
+    </Player2Dim>
+    <Player3Dim>
+      <R>0,000</R>
+      <G>1,000</G>
+      <B>0,000</B>
+      <A>0,500</A>
+    </Player3Dim>
+    <Player4Dim>
+      <R>0,500</R>
+      <G>0,000</G>
+      <B>1,000</B>
+      <A>0,500</A>
+    </Player4Dim>
+    <Player5Dim>
+      <R>0,000</R>
+      <G>0,500</G>
+      <B>1,000</B>
+      <A>0,500</A>
+    </Player5Dim>
+    <Player6Dim>
+      <R>1,000</R>
+      <G>0,000</G>
+      <B>0,500</B>
+      <A>0,500</A>
+    </Player6Dim>
     <BackgroundColor>
       <R>0,000</R>
       <G>0,000</G>
