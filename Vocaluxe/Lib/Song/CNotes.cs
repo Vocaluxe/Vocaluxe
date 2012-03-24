@@ -274,6 +274,7 @@ namespace Vocaluxe.Lib.Song
         private int _StartBeat;
         private int _EndBeat;
         private bool _PerfectLine;      // for drawing perfect line effect
+        private bool _VisibleInTimeLine;
         
         private int _MinBeat = int.MaxValue;
         private int _MaxBeat = int.MinValue;
@@ -285,6 +286,7 @@ namespace Vocaluxe.Lib.Song
             StartBeat = int.MinValue;
             EndBeat = int.MaxValue;
             _PerfectLine = false;
+            _VisibleInTimeLine = true;
         }
 
         public CLine(CLine line)
@@ -298,10 +300,17 @@ namespace Vocaluxe.Lib.Song
             _PerfectLine = line._PerfectLine;
             _MinBeat = line._MinBeat;
             _MaxBeat = line._MaxBeat;
+            _VisibleInTimeLine = line._VisibleInTimeLine;
         }
         #endregion Constructors
 
         #region Properties
+        public bool VisibleInTimeLine
+        {
+            get { return _VisibleInTimeLine; }
+            set { _VisibleInTimeLine = value; }
+        }
+
         public int StartBeat
         {
             get { return _StartBeat; }
@@ -508,6 +517,8 @@ namespace Vocaluxe.Lib.Song
                 if (note.StartBeat < StartBeat || note.EndBeat > EndBeat)
                     note.NoteType = ENoteType.Freestyle;
             }
+
+            _VisibleInTimeLine = _MinBeat >= StartBeat && _MaxBeat <= EndBeat;
         }
 
         private void updateMinMaxBeat(CNote Note)

@@ -1087,19 +1087,22 @@ namespace Vocaluxe.Screens
                     {                        
                         CLine[] Line = Lines[i].Line;
                         for(int j = 0; j<Line.Length; j++){
-                            TimeRect trect = new TimeRect();
-                            trect.startBeat = Line[j].FirstNoteBeat;
-                            trect.endBeat = Line[j].EndBeat;
-                            
-                            trect.rect = new CStatic(new STexture(-1),
-                                new SColorF(1f, 1f, 1f, 1f),
-                                new SRectF(stat.Rect.X + stat.Rect.W * ((CGame.GetTimeFromBeats(trect.startBeat, song.BPM) + song.Gap - song.Start) / TotalTime),
-                                    stat.Rect.Y,
-                                    stat.Rect.W * (CGame.GetTimeFromBeats((trect.endBeat - trect.startBeat), song.BPM) / TotalTime),
-                                    stat.Rect.H,
-                                    stat.Rect.Z));
+                            if (Line[j].VisibleInTimeLine)
+                            {
+                                TimeRect trect = new TimeRect();
+                                trect.startBeat = Line[j].FirstNoteBeat;
+                                trect.endBeat = Line[j].EndBeat;
 
-                            _TimeRects.Add(trect);
+                                trect.rect = new CStatic(new STexture(-1),
+                                    new SColorF(1f, 1f, 1f, 1f),
+                                    new SRectF(stat.Rect.X + stat.Rect.W * ((CGame.GetTimeFromBeats(trect.startBeat, song.BPM) + song.Gap - song.Start) / TotalTime),
+                                        stat.Rect.Y,
+                                        stat.Rect.W * (CGame.GetTimeFromBeats((trect.endBeat - trect.startBeat), song.BPM) / TotalTime),
+                                        stat.Rect.H,
+                                        stat.Rect.Z));
+
+                                _TimeRects.Add(trect);
+                            }
                         }
 
                     }
