@@ -56,7 +56,7 @@ namespace Vocaluxe.Base
 
         private static int _NumErrors;
         private static Stopwatch[] _BenchmarkTimer;
-        private static long nanosecPerTick = (1000L * 1000L * 1000L) / Stopwatch.Frequency;
+        private static double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
         
         public static void Init()
         {
@@ -129,8 +129,8 @@ namespace Vocaluxe.Base
                 }
 
                 float ms;
-                if (Stopwatch.IsHighResolution)
-                    ms = (float)(((double)nanosecPerTick * (double)_BenchmarkTimer[BenchmarkNr].ElapsedTicks) / (1000.0 * 1000.0));
+                if (Stopwatch.IsHighResolution && nanosecPerTick != 0.0)
+                    ms = (float)((nanosecPerTick * _BenchmarkTimer[BenchmarkNr].ElapsedTicks) / (1000.0 * 1000.0));
                 else
                     ms = (float)_BenchmarkTimer[BenchmarkNr].ElapsedMilliseconds;
 

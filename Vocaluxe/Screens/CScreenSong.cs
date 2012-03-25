@@ -63,7 +63,7 @@ namespace Vocaluxe.Screens
                 {
                     JumpTo(KeyEvent.Unicode);
                     return true;
-                }*/
+                } */
             }
             else
             {
@@ -177,12 +177,12 @@ namespace Vocaluxe.Screens
             Texts[htTexts(TextCategory)].Text = CSongs.GetActualCategoryName();
 
             int song = SongMenus[htSongMenus(SongMenu)].GetActualSelection();
-            if ((CSongs.Category >= 0) && (song >= 0) && song < CSongs.VisibleSongs.Length)
+            if ((CSongs.Category >= 0 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF) && song >= 0 && song < CSongs.VisibleSongs.Length)
             {
                 Texts[htTexts(TextSelection)].Text = CSongs.VisibleSongs[song].Artist + " - " + CSongs.VisibleSongs[song].Title;
                 CBackgroundMusic.Pause();
             }
-            else if ((CSongs.Category == -1) && (song >= 0) && song < CSongs.Categories.Length)
+            else if (CSongs.Category == -1 && song >= 0 && song < CSongs.Categories.Length)
             {
                 Texts[htTexts(TextSelection)].Text = CSongs.Categories[song].Name;
                 CBackgroundMusic.Play();
@@ -304,11 +304,10 @@ namespace Vocaluxe.Screens
                 id = CSongs.VisibleSongs[song].ID;
             }
 
-            // here is a fault: SetSelectedSong should point to the visible index
-            Vocaluxe.Lib.Song.CSong s = Array.Find<Vocaluxe.Lib.Song.CSong>(CSongs.VisibleSongs, element => element.Artist.StartsWith(Letter.ToString(), StringComparison.OrdinalIgnoreCase));
-            if (s != null && s.ID > -1)
+            int visibleID = Array.FindIndex<Vocaluxe.Lib.Song.CSong>(CSongs.VisibleSongs, element => element.Artist.StartsWith(Letter.ToString(), StringComparison.OrdinalIgnoreCase));
+            if (visibleID > -1)
             {
-                id = s.ID;
+                id = visibleID;
                 SongMenus[htSongMenus(SongMenu)].SetSelectedSong(id);
             }
         }
