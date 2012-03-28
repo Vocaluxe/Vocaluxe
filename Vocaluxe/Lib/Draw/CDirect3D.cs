@@ -276,8 +276,6 @@ namespace Vocaluxe.Lib.Draw
                 y = 0;
                 x = 0;
 
-                if ((float)w / (float)h == CSettings.GetRenderAspect())
-                    return;
                 if ((float)w / (float)h > CSettings.GetRenderAspect())
                 {
                     //The windows's width is too big
@@ -512,7 +510,10 @@ namespace Vocaluxe.Lib.Draw
                 CSettings.bFullScreen = true;
                 EnterFullScreen();
             }
-            RResize();
+
+            //Resize window if aspect ratio is incorrect
+            if ((float)w / (float)h != CSettings.GetRenderAspect())
+                RResize();
 
             while (_Run)
             {
