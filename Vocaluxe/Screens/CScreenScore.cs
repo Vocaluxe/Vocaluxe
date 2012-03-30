@@ -15,7 +15,7 @@ namespace Vocaluxe.Screens
     class CScreenScore : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        const int ScreenVersion = 2;
 
         private const string TextSong = "TextSong";
 

@@ -704,7 +704,7 @@
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
-      <NumVisible>4</NumVisible>
+      <NumVisible>7</NumVisible>
     </SelectSlideRecordChannel1>
     <SelectSlideRecordChannel2>
       <!--<Skin>: Texture name-->
@@ -769,7 +769,7 @@
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
-      <NumVisible>4</NumVisible>
+      <NumVisible>7</NumVisible>
     </SelectSlideRecordChannel2>
     <SelectSlideDelay>
       <!--<Skin>: Texture name-->

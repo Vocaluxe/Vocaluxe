@@ -1,0 +1,16 @@
+SceenNames
+
+++++++++++
+Version 2:
+
+Add:
+<NameSelection>
+
+A new Theme-element for name-selecting.
+
+<StaticPlayer[1...6]> (One Static for eacht player): Static wich shows the selected player and is used as drop-area
+<TextPlayer[1...6]> (One Text for each player): Text wich shows name of selected player
+<SelectSlidePlayerNumber>
+
+Remove:
+<Button1Player>, <Button2Player>, <Button3Player>, <SelectSlidePlayerMic1>, <SelectSlidePlayerMic2>, <SelectSlidePlayerMic3>

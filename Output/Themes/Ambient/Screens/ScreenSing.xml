@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenSing>
-    <ScreenVersion>3</ScreenVersion>
+    <ScreenVersion>4</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>None</Type>
@@ -328,6 +328,246 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </StaticScoreP3N3>
+    <StaticScoreP1N4>
+      <!--<Skin>: Texture name-->
+      <Skin>Score</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>528</X>
+      <Y>150</Y>
+      <Z>-0,75</Z>
+      <W>100</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticScoreP1N4>
+    <StaticScoreP2N4>
+      <!--<Skin>: Texture name-->
+      <Skin>Score</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>528</X>
+      <Y>350</Y>
+      <Z>-0,75</Z>
+      <W>100</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticScoreP2N4>
+    <StaticScoreP3N4>
+      <!--<Skin>: Texture name-->
+      <Skin>Score</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>1150</X>
+      <Y>150</Y>
+      <Z>-0,75</Z>
+      <W>100</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticScoreP3N4>
+    <StaticScoreP4N4>
+      <!--<Skin>: Texture name-->
+      <Skin>Score</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>1150</X>
+      <Y>350</Y>
+      <Z>-0,75</Z>
+      <W>100</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticScoreP4N4>
+    <StaticScoreP1N5>
+      <!--<Skin>: Texture name-->
+      <Skin>Score</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>528</X>
+      <Y>10</Y>
+      <Z>-0,75</Z>
+      <W>100</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticScoreP1N5>
+    <StaticScoreP2N5>
+      <!--<Skin>: Texture name-->
+      <Skin>Score</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>528</X>
+      <Y>210</Y>
+      <Z>-0,75</Z>
+      <W>100</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticScoreP2N5>
+    <StaticScoreP3N5>
+      <!--<Skin>: Texture name-->
+      <Skin>Score</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>528</X>
+      <Y>410</Y>
+      <Z>-0,75</Z>
+      <W>100</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticScoreP3N5>
+    <StaticScoreP4N5>
+      <!--<Skin>: Texture name-->
+      <Skin>Score</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>1150</X>
+      <Y>150</Y>
+      <Z>-0,75</Z>
+      <W>100</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticScoreP4N5>
+    <StaticScoreP5N5>
+      <!--<Skin>: Texture name-->
+      <Skin>Score</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>1150</X>
+      <Y>350</Y>
+      <Z>-0,75</Z>
+      <W>100</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticScoreP5N5>
+    <StaticScoreP1N6>
+      <!--<Skin>: Texture name-->
+      <Skin>Score</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>528</X>
+      <Y>10</Y>
+      <Z>-0,75</Z>
+      <W>100</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticScoreP1N6>
+    <StaticScoreP2N6>
+      <!--<Skin>: Texture name-->
+      <Skin>Score</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>528</X>
+      <Y>210</Y>
+      <Z>-0,75</Z>
+      <W>100</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticScoreP2N6>
+    <StaticScoreP3N6>
+      <!--<Skin>: Texture name-->
+      <Skin>Score</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>528</X>
+      <Y>410</Y>
+      <Z>-0,75</Z>
+      <W>100</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticScoreP3N6>
+    <StaticScoreP4N6>
+      <!--<Skin>: Texture name-->
+      <Skin>Score</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>1150</X>
+      <Y>10</Y>
+      <Z>-0,75</Z>
+      <W>100</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticScoreP4N6>
+    <StaticScoreP5N6>
+      <!--<Skin>: Texture name-->
+      <Skin>Score</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>1150</X>
+      <Y>210</Y>
+      <Z>-0,75</Z>
+      <W>100</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticScoreP5N6>
+    <StaticScoreP6N6>
+      <!--<Skin>: Texture name-->
+      <Skin>Score</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>1150</X>
+      <Y>410</Y>
+      <Z>-0,75</Z>
+      <W>100</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticScoreP6N6>
     <TextSongName>
       <!--<X>, <Y>: Text position-->
       <X>640</X>
@@ -572,6 +812,411 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </TextScoreP3N3>
+    <TextScoreP1N4>
+      <!--<X>, <Y>: Text position-->
+      <X>578</X>
+      <Y>155</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>40</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player1</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>Player1</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextScoreP1N4>
+    <TextScoreP2N4>
+      <!--<X>, <Y>: Text position-->
+      <X>578</X>
+      <Y>355</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>40</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player2</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>Player2</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextScoreP2N4>
+    <TextScoreP3N4>
+      <!--<X>, <Y>: Text position-->
+      <X>1200</X>
+      <Y>155</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>40</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player3</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>Player3</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextScoreP3N4>
+    <TextScoreP4N4>
+      <!--<X>, <Y>: Text position-->
+      <X>1200</X>
+      <Y>355</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>40</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player4</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>Player4</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextScoreP4N4>
+    <TextScoreP1N5>
+      <!--<X>, <Y>: Text position-->
+      <X>578</X>
+      <Y>15</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>40</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player1</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>Player1</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextScoreP1N5>
+    <TextScoreP2N5>
+      <!--<X>, <Y>: Text position-->
+      <X>578</X>
+      <Y>215</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>40</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player2</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>Player2</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextScoreP2N5>
+    <TextScoreP3N5>
+      <!--<X>, <Y>: Text position-->
+      <X>578</X>
+      <Y>415</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>40</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player3</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>Player3</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextScoreP3N5>
+    <TextScoreP4N5>
+      <!--<X>, <Y>: Text position-->
+      <X>1200</X>
+      <Y>155</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>40</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player4</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>Player4</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextScoreP4N5>
+    <TextScoreP5N5>
+      <!--<X>, <Y>: Text position-->
+      <X>1200</X>
+      <Y>355</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>40</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player5</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>Player5</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextScoreP5N5>
+    <TextScoreP1N6>
+      <!--<X>, <Y>: Text position-->
+      <X>578</X>
+      <Y>15</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>40</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player1</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>Player1</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextScoreP1N6>
+    <TextScoreP2N6>
+      <!--<X>, <Y>: Text position-->
+      <X>578</X>
+      <Y>215</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>40</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player2</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>Player2</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextScoreP2N6>
+    <TextScoreP3N6>
+      <!--<X>, <Y>: Text position-->
+      <X>578</X>
+      <Y>415</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>40</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player3</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>Player3</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextScoreP3N6>
+    <TextScoreP4N6>
+      <!--<X>, <Y>: Text position-->
+      <X>1200</X>
+      <Y>15</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>40</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player3</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>Player4</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextScoreP4N6>
+    <TextScoreP5N6>
+      <!--<X>, <Y>: Text position-->
+      <X>1200</X>
+      <Y>215</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>40</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player5</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>Player5</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextScoreP5N6>
+    <TextScoreP6N6>
+      <!--<X>, <Y>: Text position-->
+      <X>1200</X>
+      <Y>415</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>40</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player6</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>Player6</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextScoreP6N6>
     <ButtonCancel>
       <!--<Skin>: Texture name-->
       <Skin>Button</Skin>
@@ -819,6 +1464,81 @@
         <P3N3Z>-0,50</P3N3Z>
         <P3N3W>1210</P3N3W>
         <P3N3H>150</P3N3H>
+        <P1N4X>35</P1N4X>
+        <P1N4Y>150</P1N4Y>
+        <P1N4Z>-0,50</P1N4Z>
+        <P1N4W>578</P1N4W>
+        <P1N4H>175</P1N4H>
+        <P2N4X>35</P2N4X>
+        <P2N4Y>350</P2N4Y>
+        <P2N4Z>-0,50</P2N4Z>
+        <P2N4W>578</P2N4W>
+        <P2N4H>175</P2N4H>
+        <P3N4X>678</P3N4X>
+        <P3N4Y>150</P3N4Y>
+        <P3N4Z>-0,50</P3N4Z>
+        <P3N4W>578</P3N4W>
+        <P3N4H>175</P3N4H>
+        <P4N4X>678</P4N4X>
+        <P4N4Y>350</P4N4Y>
+        <P4N4Z>-0,50</P4N4Z>
+        <P4N4W>578</P4N4W>
+        <P4N4H>175</P4N4H>
+        <P1N5X>35</P1N5X>
+        <P1N5Y>10</P1N5Y>
+        <P1N5Z>-0,50</P1N5Z>
+        <P1N5W>578</P1N5W>
+        <P1N5H>150</P1N5H>
+        <P2N5X>35</P2N5X>
+        <P2N5Y>210</P2N5Y>
+        <P2N5Z>-0,50</P2N5Z>
+        <P2N5W>578</P2N5W>
+        <P2N5H>150</P2N5H>
+        <P3N5X>35</P3N5X>
+        <P3N5Y>410</P3N5Y>
+        <P3N5Z>-0,50</P3N5Z>
+        <P3N5W>578</P3N5W>
+        <P3N5H>150</P3N5H>
+        <P4N5X>678</P4N5X>
+        <P4N5Y>150</P4N5Y>
+        <P4N5Z>-0,50</P4N5Z>
+        <P4N5W>578</P4N5W>
+        <P4N5H>175</P4N5H>
+        <P5N5X>678</P5N5X>
+        <P5N5Y>350</P5N5Y>
+        <P5N5Z>-0,50</P5N5Z>
+        <P5N5W>578</P5N5W>
+        <P5N5H>175</P5N5H>
+        <P1N6X>35</P1N6X>
+        <P1N6Y>10</P1N6Y>
+        <P1N6Z>-0,50</P1N6Z>
+        <P1N6W>578</P1N6W>
+        <P1N6H>150</P1N6H>
+        <P2N6X>35</P2N6X>
+        <P2N6Y>210</P2N6Y>
+        <P2N6Z>-0,50</P2N6Z>
+        <P2N6W>578</P2N6W>
+        <P2N6H>150</P2N6H>
+        <P3N6X>35</P3N6X>
+        <P3N6Y>410</P3N6Y>
+        <P3N6Z>-0,50</P3N6Z>
+        <P3N6W>578</P3N6W>
+        <P3N6H>150</P3N6H>
+        <P4N6X>678</P4N6X>
+        <P4N6Y>10</P4N6Y>
+        <P4N6Z>-0,50</P4N6Z>
+        <P4N6W>578</P4N6W>
+        <P4N6H>150</P4N6H>
+        <P5N6X>678</P5N6X>
+        <P5N6Y>210</P5N6Y>
+        <P5N6Z>-0,50</P5N6Z>
+        <P5N6W>578</P5N6W>
+        <P5N6H>150</P5N6H>
+        <P6N6X>678</P6N6X>
+        <P6N6Y>410</P6N6Y>
+        <P6N6Z>-0,50</P6N6Z>
+        <P6N6W>578</P6N6W>
+        <P6N6H>150</P6N6H>
       </BarPositions>
     </SingBars>
   </ScreenSing>

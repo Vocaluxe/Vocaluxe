@@ -1,6 +1,11 @@
 ScreenSing
 
 ++++++++++
+Version 4:
+Added Elements for 6-player-singing!
+
+
+++++++++++
 Version 3:
 
 Add:

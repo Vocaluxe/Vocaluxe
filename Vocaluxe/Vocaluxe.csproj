@@ -165,6 +165,7 @@
     <Compile Include="Menu\CBackground.cs" />
     <Compile Include="Menu\CButton.cs" />
     <Compile Include="Menu\CGraphics.cs" />
+    <Compile Include="Menu\CNameSelection.cs" />
     <Compile Include="Menu\CLyric.cs" />
     <Compile Include="Menu\CMenu.cs" />
     <Compile Include="Menu\CInteraction.cs" />

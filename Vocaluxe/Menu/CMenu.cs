@@ -29,6 +29,7 @@ namespace Vocaluxe.Menu
         private List<CSongMenu> _SongMenus;
         private List<CLyric> _Lyrics;
         private List<CSingNotes> _SingNotes;
+        private List<CNameSelection> _NameSelections;
 
         private Hashtable _htBackgrounds;
         private Hashtable _htStatics;
@@ -38,6 +39,7 @@ namespace Vocaluxe.Menu
         private Hashtable _htLyrics;
         private Hashtable _htSelectSlides;
         private Hashtable _htSingNotes;
+        private Hashtable _htNameSelections;
 
 
         private int _PrevMouseX;
@@ -58,6 +60,7 @@ namespace Vocaluxe.Menu
         protected string[] _ThemeLyrics;
         protected string[] _ThemeSelectSlides;
         protected string[] _ThemeSingNotes;
+        protected string[] _ThemeNameSelections;
 
         public int ThemeScreenVersion
         {
@@ -82,6 +85,7 @@ namespace Vocaluxe.Menu
             _SongMenus = new List<CSongMenu>();
             _Lyrics = new List<CLyric>();
             _SingNotes = new List<CSingNotes>();
+            _NameSelections = new List<CNameSelection>();
 
             _htBackgrounds = new Hashtable();
             _htStatics = new Hashtable();
@@ -91,6 +95,7 @@ namespace Vocaluxe.Menu
             _htLyrics = new Hashtable();
             _htSelectSlides = new Hashtable();
             _htSingNotes = new Hashtable();
+            _htNameSelections = new Hashtable();
 
             _PrevMouseX = 0;
             _PrevMouseY = 0;
@@ -109,6 +114,7 @@ namespace Vocaluxe.Menu
             _ThemeLyrics = null;
             _ThemeSelectSlides = null;
             _ThemeSingNotes = null;
+            _ThemeNameSelections = null;
 
         }
         #region ThemeHandler
@@ -275,6 +281,22 @@ namespace Vocaluxe.Menu
                         }
                     }
                 }
+
+                if (_ThemeNameSelections != null)
+                {
+                    for (int i = 0; i < _ThemeNameSelections.Length; i++)
+                    {
+                        CNameSelection nsel = new CNameSelection();
+                        if (nsel.LoadTheme("//root/" + _ThemeName, _ThemeNameSelections[i], navigator, SkinIndex))
+                        {
+                            _htNameSelections.Add(_ThemeNameSelections[i], AddNameSelection(nsel));
+                        }
+                        else
+                        {
+                            CLog.LogError("Can't load NameSelection \"" + _ThemeNameSelections[i] + "\" in screen " + _ThemeName);
+                        }
+                    }
+                }
             }
             else
             {
@@ -344,6 +366,12 @@ namespace Vocaluxe.Menu
                 _SingNotes[i].SaveTheme(writer);
             }
 
+            // NameSelections
+            for (int i = 0; i < _NameSelections.Count; i++)
+            {
+                _NameSelections[i].SaveTheme(writer);
+            }
+
             writer.WriteEndElement();
 
             // End of File
@@ -395,6 +423,11 @@ namespace Vocaluxe.Menu
             {
                 sn.ReloadTextures();
             }
+
+            foreach (CNameSelection ns in _NameSelections)
+            {
+                ns.ReloadTextures();
+            }
         }
 
         public virtual void UnloadTextures()
@@ -438,6 +471,13 @@ namespace Vocaluxe.Menu
             {
                 sn.UnloadTextures();
             }
+
+            foreach (CNameSelection ns in _NameSelections)
+            {
+                ns.UnloadTextures();
+            }
+
+
         }
 
         public virtual void ReloadTheme()
@@ -487,6 +527,11 @@ namespace Vocaluxe.Menu
         public List<CSingNotes> GetSingNotes()
         {
             return _SingNotes;
+        }
+
+        public List<CNameSelection> GetNameSelections()
+        {
+            return _NameSelections;
         }
         #endregion GetLists
 
@@ -553,6 +598,14 @@ namespace Vocaluxe.Menu
             get
             {
                 return _SingNotes.ToArray();
+            }
+        }
+
+        public CNameSelection[] NameSelections
+        {
+            get
+            {
+                return _NameSelections.ToArray();
             }
         }
         #endregion Get Arrays
@@ -658,6 +711,19 @@ namespace Vocaluxe.Menu
             catch (Exception)
             {
                 CLog.LogError("Can't find SingBar Element \"" + key + "\" in Screen " + _ThemeName);
+                throw;
+            }
+        }
+
+        public int htNameSelections(string key)
+        {
+            try
+            {
+                return (int)_htNameSelections[key];
+            }
+            catch (Exception)
+            {
+                CLog.LogError("Can't find NameSelection Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -922,6 +988,9 @@ namespace Vocaluxe.Menu
             
             foreach (CText text in _Texts)
                 text.Draw();
+
+            foreach (CNameSelection namesel in _NameSelections)
+                namesel.Draw();
         }
         #endregion Drawing
 
@@ -980,6 +1049,13 @@ namespace Vocaluxe.Menu
             _SingNotes.Add(sn);
             AddInteraction(_SingNotes.Count - 1, EType.TSingNote);
             return _SingNotes.Count - 1;
+        }
+
+        public int AddNameSelection(CNameSelection ns)
+        {
+            _NameSelections.Add(ns);
+            AddInteraction(_NameSelections.Count - 1, EType.TNameSelection);
+            return _NameSelections.Count - 1;
         }
         #endregion Elements
 
@@ -1459,6 +1535,9 @@ namespace Vocaluxe.Menu
                 case EType.TLyric:
                     _Lyrics[_Interactions[_Selection].Num].Selected = true;
                     break;
+                case EType.TNameSelection:
+                    _NameSelections[_Interactions[_Selection].Num].Selected = true;
+                    break;
             }
         }
 
@@ -1483,6 +1562,9 @@ namespace Vocaluxe.Menu
                     break;
                 case EType.TLyric:
                     _Lyrics[_Interactions[_Selection].Num].Selected = false;
+                    break;
+                case EType.TNameSelection:
+                    _NameSelections[_Interactions[_Selection].Num].Selected = false;
                     break;
             }
         }
@@ -1512,6 +1594,9 @@ namespace Vocaluxe.Menu
                 case EType.TLyric:
                     //_Lyrics[_Interactions[selection].Num].Selected = true;
                     break;
+                case EType.TNameSelection:
+                    //_NameSelections[_Interactions[selection].Num].Selected = true;
+                    break;
             }
         }
 
@@ -1539,6 +1624,9 @@ namespace Vocaluxe.Menu
                     break;
                 case EType.TLyric:
                     //_Lyrics[_Interactions[selection].Num].Selected = false;
+                    break;
+                case EType.TNameSelection:
+                    //_NameSelections[_Interactions[selection].Num].Selected = false;
                     break;
             }
         }
@@ -1587,6 +1675,9 @@ namespace Vocaluxe.Menu
 
                 case EType.TLyric:
                     return _Lyrics[_Interactions[interaction].Num].Visible;
+
+                case EType.TNameSelection:
+                    return _NameSelections[_Interactions[interaction].Num].Visible;
             }
 
             return Result;
@@ -1614,6 +1705,9 @@ namespace Vocaluxe.Menu
 
                 case EType.TLyric:
                     return _Lyrics[_Interactions[interaction].Num].Rect;
+
+                case EType.TNameSelection:
+                    return _NameSelections[_Interactions[interaction].Num].Rect;
             }
 
             return Result;
@@ -1660,6 +1754,10 @@ namespace Vocaluxe.Menu
                     case EType.TLyric:
                         _Lyrics[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
+
+                    case EType.TNameSelection:
+                        _NameSelections[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
+                        break;
                 }
             }
         }      
@@ -1692,6 +1790,10 @@ namespace Vocaluxe.Menu
 
                     case EType.TLyric:
                         _Lyrics[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
+                        break;
+
+                    case EType.TNameSelection:
+                        _NameSelections[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
                 }
             }
