@@ -92,12 +92,15 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(KeyEvent KeyEvent)
         {
+            //Check if selecting with keyboard is active
             if (selectingKeyboardActive)
             {
+                //Handle left/right/up/down
                 NameSelections[htNameSelections(NameSelection)].HandleInput(KeyEvent);
                 switch (KeyEvent.Key)
                 {
                     case Keys.Enter:
+                        //Check, if a player is selected
                         if (NameSelections[htNameSelections(NameSelection)].Selection > -1)
                         {
                             SelectedPlayerNr = NameSelections[htNameSelections(NameSelection)].Selection;
@@ -109,18 +112,21 @@ namespace Vocaluxe.Screens
                             Statics[htStatics(StaticPlayer[selectingKeyboardPlayerNr-1])].Texture = NameSelections[htNameSelections(NameSelection)].TilePlayerAvatar(SelectedPlayerNr).Texture;
                             Texts[htTexts(TextPlayer[selectingKeyboardPlayerNr-1])].Text = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
                         }
+                        //Reset all values
                         selectingKeyboardPlayerNr = 0;
                         selectingKeyboardActive = false;
                         NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
                         break;
 
                     case Keys.Escape:
+                        //Reset all values
                         selectingKeyboardPlayerNr = 0;
                         selectingKeyboardActive = false;
                         NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
                         break;
                 }
             }
+            //Normal Keyboard handling
             else
             {
                 base.HandleInput(KeyEvent);
@@ -288,6 +294,7 @@ namespace Vocaluxe.Screens
                 CGraphics.FadeTo(EScreens.ScreenSong);
             }
 
+            //Check mouse-wheel for scrolling
             if (MouseEvent.Wheel != 0)
             {
                 if (CHelper.IsInBounds(NameSelections[htNameSelections(NameSelection)].Rect, MouseEvent))
@@ -361,14 +368,6 @@ namespace Vocaluxe.Screens
             SelectSlides[htSelectSlides(SelectSlidePlayerNumber)].Selection = CConfig.NumPlayer - 1;
         }
 
-        private void UpdateSelection()
-        {
-            for (int i = 0; i < _PlayerNr.Length; i++)
-            {
-
-            }
-        }
-
         private void UpdatePlayerNumber()
         {
             CConfig.NumPlayer = (int)SelectSlides[htSelectSlides(SelectSlidePlayerNumber)].Selection + 1;
@@ -388,11 +387,6 @@ namespace Vocaluxe.Screens
             }
             CConfig.SaveConfig();
             CheckMics();
-        }
-
-        private void UpdateVisibility()
-        {
-
         }
 
         private void CheckMics()
