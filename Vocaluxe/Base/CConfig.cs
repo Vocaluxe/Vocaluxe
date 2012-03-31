@@ -400,8 +400,6 @@ namespace Vocaluxe.Base
 
                 #endregion Record
 
-                NumPlayer = 6;
-
                 return true;
             }
             else return false;
