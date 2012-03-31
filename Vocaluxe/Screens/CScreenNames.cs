@@ -141,17 +141,17 @@ namespace Vocaluxe.Screens
                 OldMouseX = MouseEvent.X;
                 OldMouseY = MouseEvent.Y;
                 //Check if mouse if over tile
-                if (NameSelections[htNameSelections(NameSelection)].isOverTile(OldMouseX, OldMouseY))
+                if (NameSelections[htNameSelections(NameSelection)].isOverTile(MouseEvent))
                 {
                     //Get player-number of tile
-                    SelectedPlayerNr = NameSelections[htNameSelections(NameSelection)].TilePlayerNr(OldMouseX, OldMouseY);
+                    SelectedPlayerNr = NameSelections[htNameSelections(NameSelection)].TilePlayerNr(MouseEvent);
                     if (SelectedPlayerNr != -1)
                     {
                         //Activate mouse-selecting
                         selectingMouseActive = true;
 
                         //Update of Drag/Drop-Texture
-                        CStatic SelectedPlayer = NameSelections[htNameSelections(NameSelection)].TilePlayerAvatar(OldMouseX, OldMouseY);
+                        CStatic SelectedPlayer = NameSelections[htNameSelections(NameSelection)].TilePlayerAvatar(MouseEvent);
                         chooseAvatarStatic.Visible = true;
                         chooseAvatarStatic.Rect = SelectedPlayer.Rect;
                         chooseAvatarStatic.Rect.Z = CSettings.zNear - 5;
@@ -231,6 +231,15 @@ namespace Vocaluxe.Screens
             if (MouseEvent.RB)
             {
                 CGraphics.FadeTo(EScreens.ScreenSong);
+            }
+
+            if (MouseEvent.Wheel != 0)
+            {
+                if (CHelper.IsInBounds(NameSelections[htNameSelections(NameSelection)].Rect, MouseEvent))
+                {
+                    int offset = NameSelections[htNameSelections(NameSelection)]._Offset + MouseEvent.Wheel;
+                    NameSelections[htNameSelections(NameSelection)].UpdateList(offset);
+                }
             }
             return true;
         }
