@@ -602,7 +602,7 @@
       <!--<Skin>: Texture name-->
       <Skin>PointsBarBG</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>352</X>
+      <X>144</X>
       <Y>180</Y>
       <Z>0,00</Z>
       <W>160</W>
@@ -621,7 +621,7 @@
       <!--<Skin>: Texture name-->
       <Skin>PointsBar</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>352</X>
+      <X>144</X>
       <Y>180</Y>
       <Z>0,00</Z>
       <W>160</W>
@@ -637,7 +637,7 @@
       <!--<Skin>: Texture name-->
       <Skin />
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>352</X>
+      <X>144</X>
       <Y>410</Y>
       <Z>0,00</Z>
       <W>160</W>
@@ -657,7 +657,7 @@
       <!--<Skin>: Texture name-->
       <Skin>PointsBarBG</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>768</X>
+      <X>352</X>
       <Y>180</Y>
       <Z>0,00</Z>
       <W>160</W>
@@ -676,7 +676,7 @@
       <!--<Skin>: Texture name-->
       <Skin>PointsBar</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>768</X>
+      <X>352</X>
       <Y>180</Y>
       <Z>0,00</Z>
       <W>160</W>
@@ -692,7 +692,7 @@
       <!--<Skin>: Texture name-->
       <Skin />
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>768</X>
+      <X>352</X>
       <Y>410</Y>
       <Z>0,00</Z>
       <W>160</W>
@@ -712,7 +712,7 @@
       <!--<Skin>: Texture name-->
       <Skin>PointsBarBG</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>352</X>
+      <X>560</X>
       <Y>180</Y>
       <Z>0,00</Z>
       <W>160</W>
@@ -720,8 +720,8 @@
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <R>0,00</R>
-      <G>0,00</G>
-      <B>1,00</B>
+      <G>1,00</G>
+      <B>0,00</B>
       <A>0,75</A>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -731,14 +731,14 @@
       <!--<Skin>: Texture name-->
       <Skin>PointsBar</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>352</X>
+      <X>560</X>
       <Y>180</Y>
       <Z>0,00</Z>
       <W>160</W>
       <H>0</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player1</Color>
+      <Color>Player3</Color>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
@@ -747,7 +747,7 @@
       <!--<Skin>: Texture name-->
       <Skin />
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>352</X>
+      <X>560</X>
       <Y>410</Y>
       <Z>0,00</Z>
       <W>160</W>
@@ -774,9 +774,9 @@
       <H>220</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>1,00</R>
+      <R>0,50</R>
       <G>0,00</G>
-      <B>0,00</B>
+      <B>1,00</B>
       <A>0,75</A>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -822,16 +822,16 @@
       <!--<Skin>: Texture name-->
       <Skin>PointsBarBG</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>768</X>
+      <X>976</X>
       <Y>180</Y>
       <Z>0,00</Z>
       <W>160</W>
       <H>220</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>1,00</R>
-      <G>0,00</G>
-      <B>0,00</B>
+      <R>0,00</R>
+      <G>0,50</G>
+      <B>1,00</B>
       <A>0,75</A>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -841,7 +841,7 @@
       <!--<Skin>: Texture name-->
       <Skin>PointsBar</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>768</X>
+      <X>976</X>
       <Y>180</Y>
       <Z>0,00</Z>
       <W>160</W>
@@ -857,7 +857,7 @@
       <!--<Skin>: Texture name-->
       <Skin />
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>768</X>
+      <X>976</X>
       <Y>410</Y>
       <Z>0,00</Z>
       <W>160</W>
@@ -2343,13 +2343,14 @@
     </TextDifficultyP4N4>
     <TextNameP1N5>
       <!--<X>, <Y>: Text position-->
-      <X>318</X>
+      <X>224</X>
       <Y>630</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>44</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2370,13 +2371,14 @@
     </TextNameP1N5>
     <TextScoreP1N5>
       <!--<X>, <Y>: Text position-->
-      <X>318</X>
+      <X>224</X>
       <Y>140</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2397,13 +2399,14 @@
     </TextScoreP1N5>
     <TextRatingP1N5>
       <!--<X>, <Y>: Text position-->
-      <X>318</X>
+      <X>224</X>
       <Y>105</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2424,13 +2427,14 @@
     </TextRatingP1N5>
     <TextDifficultyP1N5>
       <!--<X>, <Y>: Text position-->
-      <X>318</X>
+      <X>224</X>
       <Y>670</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>28</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2451,13 +2455,14 @@
     </TextDifficultyP1N5>
     <TextNameP2N5>
       <!--<X>, <Y>: Text position-->
-      <X>640</X>
+      <X>432</X>
       <Y>630</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>44</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2478,13 +2483,14 @@
     </TextNameP2N5>
     <TextScoreP2N5>
       <!--<X>, <Y>: Text position-->
-      <X>640</X>
+      <X>432</X>
       <Y>140</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2505,13 +2511,14 @@
     </TextScoreP2N5>
     <TextRatingP2N5>
       <!--<X>, <Y>: Text position-->
-      <X>640</X>
+      <X>432</X>
       <Y>105</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2532,13 +2539,14 @@
     </TextRatingP2N5>
     <TextDifficultyP2N5>
       <!--<X>, <Y>: Text position-->
-      <X>640</X>
+      <X>432</X>
       <Y>670</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>28</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2559,13 +2567,14 @@
     </TextDifficultyP2N5>
     <TextNameP3N5>
       <!--<X>, <Y>: Text position-->
-      <X>962</X>
+      <X>640</X>
       <Y>630</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>44</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2586,13 +2595,14 @@
     </TextNameP3N5>
     <TextScoreP3N5>
       <!--<X>, <Y>: Text position-->
-      <X>962</X>
+      <X>640</X>
       <Y>140</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2613,13 +2623,14 @@
     </TextScoreP3N5>
     <TextRatingP3N5>
       <!--<X>, <Y>: Text position-->
-      <X>962</X>
+      <X>640</X>
       <Y>105</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2640,13 +2651,14 @@
     </TextRatingP3N5>
     <TextDifficultyP3N5>
       <!--<X>, <Y>: Text position-->
-      <X>962</X>
+      <X>640</X>
       <Y>670</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>28</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2667,13 +2679,14 @@
     </TextDifficultyP3N5>
     <TextNameP4N5>
       <!--<X>, <Y>: Text position-->
-      <X>962</X>
+      <X>848</X>
       <Y>630</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>44</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2694,13 +2707,14 @@
     </TextNameP4N5>
     <TextScoreP4N5>
       <!--<X>, <Y>: Text position-->
-      <X>962</X>
+      <X>848</X>
       <Y>140</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2721,13 +2735,14 @@
     </TextScoreP4N5>
     <TextRatingP4N5>
       <!--<X>, <Y>: Text position-->
-      <X>962</X>
+      <X>848</X>
       <Y>105</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2748,13 +2763,14 @@
     </TextRatingP4N5>
     <TextDifficultyP4N5>
       <!--<X>, <Y>: Text position-->
-      <X>962</X>
+      <X>848</X>
       <Y>670</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>28</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2775,13 +2791,14 @@
     </TextDifficultyP4N5>
     <TextNameP5N5>
       <!--<X>, <Y>: Text position-->
-      <X>962</X>
+      <X>1056</X>
       <Y>630</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>44</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2802,13 +2819,14 @@
     </TextNameP5N5>
     <TextScoreP5N5>
       <!--<X>, <Y>: Text position-->
-      <X>962</X>
+      <X>1056</X>
       <Y>140</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2829,13 +2847,14 @@
     </TextScoreP5N5>
     <TextRatingP5N5>
       <!--<X>, <Y>: Text position-->
-      <X>962</X>
+      <X>1056</X>
       <Y>105</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -2856,13 +2875,14 @@
     </TextRatingP5N5>
     <TextDifficultyP5N5>
       <!--<X>, <Y>: Text position-->
-      <X>962</X>
+      <X>1056</X>
       <Y>670</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
       <H>28</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>160</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
