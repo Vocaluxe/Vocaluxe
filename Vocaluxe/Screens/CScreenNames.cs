@@ -124,7 +124,7 @@ namespace Vocaluxe.Screens
                 }
 
                 if (!processed)
-                    UpdateSelection();
+                    UpdatePlayerNumber();
             }
 
             return true;
@@ -225,8 +225,7 @@ namespace Vocaluxe.Screens
                 }
 
                 if (!processed)
-                    UpdateSelection();
-                UpdatePlayerNumber();
+                    UpdatePlayerNumber();
             }
 
             if (MouseEvent.RB)
@@ -249,7 +248,7 @@ namespace Vocaluxe.Screens
             NameSelections[htNameSelections(NameSelection)].Init();
 
             UpdateSlides();
-            UpdateVisibility();
+            UpdatePlayerNumber();
             CheckMics();
         }
 
@@ -308,27 +307,23 @@ namespace Vocaluxe.Screens
 
         private void UpdatePlayerNumber()
         {
-            if (CConfig.NumPlayer != (int)SelectSlides[htSelectSlides(SelectSlidePlayerNumber)].Selection + 1)
+            CConfig.NumPlayer = (int)SelectSlides[htSelectSlides(SelectSlidePlayerNumber)].Selection + 1;
+            CGame.NumPlayer = (int)SelectSlides[htSelectSlides(SelectSlidePlayerNumber)].Selection + 1;
+            for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
             {
-                CConfig.NumPlayer = (int)SelectSlides[htSelectSlides(SelectSlidePlayerNumber)].Selection + 1;
-                CGame.NumPlayer = (int)SelectSlides[htSelectSlides(SelectSlidePlayerNumber)].Selection + 1;
-                for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
+                if (i <= CGame.NumPlayer)
                 {
-                    if (i <= CGame.NumPlayer)
-                    {
-                        Statics[htStatics("StaticPlayer" + i)].Visible = true;
-                        Texts[htTexts("TextPlayer" + i)].Visible = true;
-                    }
-                    else
-                    {
-                        Statics[htStatics("StaticPlayer" + i)].Visible = false;
-                        Texts[htTexts("TextPlayer" + i)].Visible = false;
-                    }
+                    Statics[htStatics("StaticPlayer" + i)].Visible = true;
+                    Texts[htTexts("TextPlayer" + i)].Visible = true;
                 }
-                CConfig.SaveConfig();
-                CheckMics();
-
+                else
+                {
+                    Statics[htStatics("StaticPlayer" + i)].Visible = false;
+                    Texts[htTexts("TextPlayer" + i)].Visible = false;
+                }
             }
+            CConfig.SaveConfig();
+            CheckMics();
         }
 
         private void UpdateVisibility()
