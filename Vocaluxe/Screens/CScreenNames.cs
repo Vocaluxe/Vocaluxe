@@ -28,6 +28,8 @@ namespace Vocaluxe.Screens
         private readonly string[] TextPlayer = new string[] { "TextPlayer1", "TextPlayer2", "TextPlayer3", "TextPlayer4", "TextPlayer5", "TextPlayer6" };
 
         private bool selectingMouseActive = false;
+        private bool selectingKeyboardActive = false;
+        private int selectingKeyboardPlayerNr = 0;
         private int SelectedPlayerNr;
 
         
@@ -90,14 +92,38 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(KeyEvent KeyEvent)
         {
-            base.HandleInput(KeyEvent);
-
-            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode))
+            if (selectingKeyboardActive)
             {
+                NameSelections[htNameSelections(NameSelection)].HandleInput(KeyEvent);
+                switch (KeyEvent.Key)
+                {
+                    case Keys.Enter:
+                        if (NameSelections[htNameSelections(NameSelection)].Selection > -1)
+                        {
+                            SelectedPlayerNr = NameSelections[htNameSelections(NameSelection)].Selection;
+                            //Update Game-infos with new player
+                            CGame.Player[selectingKeyboardPlayerNr-1].Name = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
+                            CGame.Player[selectingKeyboardPlayerNr-1].Difficulty = CProfiles.Profiles[SelectedPlayerNr].Difficulty;
+                            CGame.Player[selectingKeyboardPlayerNr-1].ProfileID = SelectedPlayerNr;
+                            //Update texture and name
+                            Statics[htStatics(StaticPlayer[selectingKeyboardPlayerNr-1])].Texture = NameSelections[htNameSelections(NameSelection)].TilePlayerAvatar(SelectedPlayerNr).Texture;
+                            Texts[htTexts(TextPlayer[selectingKeyboardPlayerNr-1])].Text = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
+                        }
+                        selectingKeyboardPlayerNr = 0;
+                        selectingKeyboardActive = false;
+                        NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
+                        break;
 
+                    case Keys.Escape:
+                        selectingKeyboardPlayerNr = 0;
+                        selectingKeyboardActive = false;
+                        NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
+                        break;
+                }
             }
             else
             {
+                base.HandleInput(KeyEvent);
                 bool processed = false;
                 switch (KeyEvent.Key)
                 {
@@ -121,10 +147,40 @@ namespace Vocaluxe.Screens
                         }
 
                         break;
+
+                    case Keys.D1:
+                        selectingKeyboardPlayerNr = 1;
+                        break;
+
+                    case Keys.D2:
+                        selectingKeyboardPlayerNr = 2;
+                        break;
+
+                    case Keys.D3:
+                        selectingKeyboardPlayerNr = 3;
+                        break;
+
+                    case Keys.D4:
+                        selectingKeyboardPlayerNr = 4;
+                        break;
+
+                    case Keys.D5:
+                        selectingKeyboardPlayerNr = 5;
+                        break;
+
+                    case Keys.D6:
+                        selectingKeyboardPlayerNr = 6;
+                        break;
                 }
 
                 if (!processed)
                     UpdatePlayerNumber();
+
+                if (selectingKeyboardPlayerNr > 0 && selectingKeyboardPlayerNr <= CConfig.NumPlayer)
+                {
+                    selectingKeyboardActive = true;
+                    NameSelections[htNameSelections(NameSelection)].KeyboardSelection(true, selectingKeyboardPlayerNr);
+                }
             }
 
             return true;
@@ -183,8 +239,7 @@ namespace Vocaluxe.Screens
                         if (Statics[htStatics(StaticPlayer[i])].Visible == true)
                         {
                             //Check if Mouse is in area
-                            if (Statics[htStatics(StaticPlayer[i])].Rect.X < MouseEvent.X && (Statics[htStatics(StaticPlayer[i])].Rect.X + Statics[htStatics(StaticPlayer[i])].Rect.W) > MouseEvent.X
-                                && Statics[htStatics(StaticPlayer[i])].Rect.Y < MouseEvent.Y && (Statics[htStatics(StaticPlayer[i])].Rect.Y + Statics[htStatics(StaticPlayer[i])].Rect.H) > MouseEvent.Y)
+                            if (CHelper.IsInBounds(Statics[htStatics(StaticPlayer[i])].Rect, MouseEvent))
                             {
                                 //Update Game-infos with new player
                                 CGame.Player[i].Name = CProfiles.Profiles[SelectedPlayerNr].PlayerName;

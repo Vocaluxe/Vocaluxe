@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
+using System.Windows.Forms;
 
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
@@ -13,8 +14,6 @@ namespace Vocaluxe.Menu
     struct SThemeNameSelection
     {
         public string Name;
-        public string TextureSelectorName;
-        public string ColorSelectorName;
         public string TextureEmptyTileName;
         public string ColorEmptyTileName;
         public float NameSpace;
@@ -55,10 +54,8 @@ namespace Vocaluxe.Menu
         public SRectF Rect;
         private List<CTile> _Tiles;
 
-        private STexture _TextureSelector;
         private STexture _TextureEmptyTile;
 
-        public SColorF ColorSelector;
         public SColorF ColorEmptyTile;
 
         private int _NumW;
@@ -72,13 +69,15 @@ namespace Vocaluxe.Menu
 
         public int _Offset = 0;
         private int _actualSelection = -1;
+        public int Selection = -1;
+
+        int _player = -1;
 
 
         public CNameSelection()
         {
             _Theme = new SThemeNameSelection();
 
-            _TextureSelector = CTheme.GetSkinTexture(_Theme.TextureSelectorName);
             _TextureEmptyTile = CTheme.GetSkinTexture(_Theme.TextureEmptyTileName);
 
             _Tiles = new List<CTile>();
@@ -111,21 +110,6 @@ namespace Vocaluxe.Menu
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Z", navigator, ref Rect.Z);
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/W", navigator, ref Rect.W);
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/H", navigator, ref Rect.H);
-
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/SkinSelector", navigator, ref _Theme.TextureSelectorName, String.Empty);
-
-            if (CHelper.GetValueFromXML(item + "/ColorSelector", navigator, ref _Theme.ColorSelectorName, String.Empty))
-            {
-                _ThemeLoaded &= CTheme.GetColor(_Theme.ColorSelectorName, SkinIndex, ref ColorSelector);
-            }
-            else
-            {
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/R", navigator, ref ColorSelector.R);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/G", navigator, ref ColorSelector.G);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/B", navigator, ref ColorSelector.B);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/A", navigator, ref ColorSelector.A);
-            }
-
 
             _ThemeLoaded &= CHelper.GetValueFromXML(item + "/SkinEmptyTile", navigator, ref _Theme.TextureEmptyTileName, String.Empty);
 
@@ -186,24 +170,6 @@ namespace Vocaluxe.Menu
                 writer.WriteElementString("Z", Rect.Z.ToString("#0.00"));
                 writer.WriteElementString("W", Rect.W.ToString("#0"));
                 writer.WriteElementString("H", Rect.H.ToString("#0"));
-
-
-                writer.WriteComment("<SkinSelector>: Texture name");
-                writer.WriteElementString("SkinSelector", _Theme.TextureSelectorName);
-
-                writer.WriteComment("<ColorSelector>: Static color from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorSelectorName != String.Empty)
-                {
-                    writer.WriteElementString("ColorSelector", _Theme.ColorSelectorName);
-                }
-                else
-                {
-                    writer.WriteElementString("R", ColorSelector.R.ToString("#0.00"));
-                    writer.WriteElementString("G", ColorSelector.G.ToString("#0.00"));
-                    writer.WriteElementString("B", ColorSelector.B.ToString("#0.00"));
-                    writer.WriteElementString("A", ColorSelector.A.ToString("#0.00"));
-                }
 
                 writer.WriteComment("<SkinEmptyTile>: Texture name");
                 writer.WriteElementString("SkinEmptyTile", _Theme.TextureEmptyTileName);
@@ -266,10 +232,118 @@ namespace Vocaluxe.Menu
 
         public void Draw(bool ForceDraw)
         {
+            int i = 0;
             foreach (CTile tile in _Tiles)
             {
+                if (_player > -1)
+                {
+                    if (_actualSelection == i)
+                    {
+                        tile.Avatar.Color = CTheme.GetPlayerColor(_player);
+                    }
+                    else
+                    {
+                        tile.Avatar.Color = new SColorF(1, 1, 1, 1);
+                    }
+                }
+                else
+                {
+                    tile.Avatar.Color = new SColorF(1, 1, 1, 1);
+                }
                 tile.Avatar.Draw();
                 tile.Name.Draw();
+                i++;
+            }
+        }
+
+        public void HandleInput(KeyEvent kevent)
+        {
+            switch (kevent.Key)
+            {
+                case Keys.Right:
+                    if (_actualSelection + 1 < _Tiles.Count)
+                    {
+                        _actualSelection++;
+                    }
+                    else
+                    {
+                        int offset = _Offset;
+                        UpdateList(_Offset + 1);
+                        if (offset != _Offset)
+                        {
+                            _actualSelection = 0;
+                        }
+                    }
+                    break;
+
+                case Keys.Left:
+                    if (_actualSelection - 1 > -1)
+                    {
+                        _actualSelection--;
+                    }
+                    else if (_Offset > 0)
+                    {
+                        UpdateList(_Offset - 1);
+                        _actualSelection = _Tiles.Count-1;
+                    }
+                    break;
+
+                case Keys.Up:
+                    if (_actualSelection - _NumW > -1)
+                    {
+                        _actualSelection -= _NumW;
+                    }
+                    else if (_Offset > 0)
+                    {
+                        UpdateList(_Offset - 1);
+                        _actualSelection += _Tiles.Count- _NumW;
+                    }
+                    break;
+
+                case Keys.Down:
+                    if (_actualSelection + _NumW < _Tiles.Count - 1)
+                    {
+                        _actualSelection += _NumW;
+                    }
+                    else
+                    {
+                        int offset = _Offset;
+                        UpdateList(_Offset + 1);
+                        if (offset != _Offset)
+                        {
+                            _actualSelection = _actualSelection - _Tiles.Count + _NumW;
+                            if (_Tiles[_actualSelection].PlayerNr == -1)
+                            {
+                                for (int i = _Tiles.Count - 1; i >= 0; i++)
+                                {
+                                    if (_Tiles[i].PlayerNr != -1)
+                                    {
+                                        _actualSelection = i;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    break;
+            }
+
+            Selection = _Offset * _Tiles.Count + _actualSelection;
+        }
+
+        public void KeyboardSelection(bool active, int player)
+        {
+            if (active)
+            {
+                Selection = 0;
+                _actualSelection = 0;
+                _player = player;
+            }
+            else
+            {
+                Selection = -1;
+                _actualSelection = -1;
+                _player = -1;
             }
         }
 
@@ -341,14 +415,18 @@ namespace Vocaluxe.Menu
             return new CStatic();
         }
 
+        public CStatic TilePlayerAvatar(int nr)
+        {
+            nr -= _Offset * _Tiles.Count;
+            return _Tiles[nr].Avatar;
+        }
+
         public void UnloadTextures()
         {
         }
 
         public void LoadTextures()
         {
-            if (_Theme.ColorSelectorName != String.Empty)
-                ColorSelector = CTheme.GetColor(_Theme.ColorSelectorName);
         }
 
         public void ReloadTextures()
