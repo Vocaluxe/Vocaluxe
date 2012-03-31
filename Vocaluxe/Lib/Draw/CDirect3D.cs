@@ -594,7 +594,10 @@ namespace Vocaluxe.Lib.Draw
             //Dispose all textures
             foreach (KeyValuePair<int, Texture> p in _D3DTextures)
             {
-                p.Value.Dispose();
+                if (p.Value != null)
+                {
+                    p.Value.Dispose();
+                }
             }
 
             TexturedColoredVertex.GetDeclaration(_Device).Dispose();
