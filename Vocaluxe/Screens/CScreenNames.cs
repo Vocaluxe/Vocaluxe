@@ -384,7 +384,10 @@ namespace Vocaluxe.Screens
                     Statics[htStatics("StaticPlayer" + i)].Visible = true;
                     Statics[htStatics("StaticPlayerAvatar" + i)].Visible = true;
                     Texts[htTexts("TextPlayer" + i)].Visible = true;
-                    Texts[htTexts("TextPlayer" + i)].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + i.ToString();
+                    if (Texts[htTexts("TextPlayer" + i)].Text == string.Empty)
+                    {
+                        Texts[htTexts("TextPlayer" + i)].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + i.ToString();
+                    }
                 }
                 else
                 {
