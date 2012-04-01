@@ -368,7 +368,7 @@ namespace Vocaluxe.Menu
                     {
                         _Tiles[i].Avatar.Texture = _TextureEmptyTile;
                         _Tiles[i].Avatar.Color = ColorEmptyTile;
-                        _Tiles[i].Name.Text = "Name";
+                        _Tiles[i].Name.Text = "";
                         _Tiles[i].PlayerNr = -1;
                     }
                 }

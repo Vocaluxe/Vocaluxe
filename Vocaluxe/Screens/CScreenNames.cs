@@ -24,7 +24,8 @@ namespace Vocaluxe.Screens
         private const string ButtonStart = "ButtonStart";
         private const string TextWarning = "TextWarning";
         private const string StaticWarning = "StaticWarning";
-        private readonly string[] StaticPlayer = new string[] {"StaticPlayer1", "StaticPlayer2", "StaticPlayer3", "StaticPlayer4", "StaticPlayer5", "StaticPlayer6"};
+        private readonly string[] StaticPlayer = new string[] { "StaticPlayer1", "StaticPlayer2", "StaticPlayer3", "StaticPlayer4", "StaticPlayer5", "StaticPlayer6" };
+        private readonly string[] StaticPlayerAvatar = new string[] { "StaticPlayerAvatar1", "StaticPlayerAvatar2", "StaticPlayerAvatar3", "StaticPlayerAvatar4", "StaticPlayerAvatar5", "StaticPlayerAvatar6" };
         private readonly string[] TextPlayer = new string[] { "TextPlayer1", "TextPlayer2", "TextPlayer3", "TextPlayer4", "TextPlayer5", "TextPlayer6" };
 
         private bool selectingMouseActive = false;
@@ -49,6 +50,10 @@ namespace Vocaluxe.Screens
 
             List<string> statics = new List<string>();
             foreach(string text in StaticPlayer){
+                statics.Add(text);
+            }
+            foreach (string text in StaticPlayerAvatar)
+            {
                 statics.Add(text);
             }
             statics.Add(StaticWarning);
@@ -109,7 +114,7 @@ namespace Vocaluxe.Screens
                             CGame.Player[selectingKeyboardPlayerNr-1].Difficulty = CProfiles.Profiles[SelectedPlayerNr].Difficulty;
                             CGame.Player[selectingKeyboardPlayerNr-1].ProfileID = SelectedPlayerNr;
                             //Update texture and name
-                            Statics[htStatics(StaticPlayer[selectingKeyboardPlayerNr-1])].Texture = NameSelections[htNameSelections(NameSelection)].TilePlayerAvatar(SelectedPlayerNr).Texture;
+                            Statics[htStatics(StaticPlayerAvatar[selectingKeyboardPlayerNr-1])].Texture = NameSelections[htNameSelections(NameSelection)].TilePlayerAvatar(SelectedPlayerNr).Texture;
                             Texts[htTexts(TextPlayer[selectingKeyboardPlayerNr-1])].Text = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
                         }
                         //Reset all values
@@ -252,7 +257,7 @@ namespace Vocaluxe.Screens
                                 CGame.Player[i].Difficulty = CProfiles.Profiles[SelectedPlayerNr].Difficulty;
                                 CGame.Player[i].ProfileID = SelectedPlayerNr;
                                 //Update texture and name
-                                Statics[htStatics(StaticPlayer[i])].Texture = chooseAvatarStatic.Texture;
+                                Statics[htStatics(StaticPlayerAvatar[i])].Texture = chooseAvatarStatic.Texture;
                                 Texts[htTexts(TextPlayer[i])].Text = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
                             }
                         }
@@ -377,11 +382,14 @@ namespace Vocaluxe.Screens
                 if (i <= CGame.NumPlayer)
                 {
                     Statics[htStatics("StaticPlayer" + i)].Visible = true;
+                    Statics[htStatics("StaticPlayerAvatar" + i)].Visible = true;
                     Texts[htTexts("TextPlayer" + i)].Visible = true;
+                    Texts[htTexts("TextPlayer" + i)].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + i.ToString();
                 }
                 else
                 {
                     Statics[htStatics("StaticPlayer" + i)].Visible = false;
+                    Statics[htStatics("StaticPlayerAvatar" + i)].Visible = false;
                     Texts[htTexts("TextPlayer" + i)].Visible = false;
                 }
             }

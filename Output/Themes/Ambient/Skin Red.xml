@@ -264,6 +264,7 @@
     <DuetIcon>DuetIcon.png</DuetIcon>
     <VideoIcon>VideoIcon.png</VideoIcon>
     <Invisible>Invisible.png</Invisible>
+    <PlayerSelector>PlayerSelector.png</PlayerSelector>
   </Skins>
   <Videos>
     <BG_Video>[Red]BG_Video.mp4</BG_Video>
