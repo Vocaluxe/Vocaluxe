@@ -496,7 +496,7 @@ namespace Vocaluxe.Screens
 
             SingNotes[htSingNotes(SingBars)].Reset();
 
-            bool LyricsOnTop = CGame.NumPlayer == 2 && CConfig.LyricsOnTop == EOffOn.TR_CONFIG_ON;
+            bool LyricsOnTop = (CGame.NumPlayer == 2 || CGame.NumPlayer == 4) && CConfig.LyricsOnTop == EOffOn.TR_CONFIG_ON;
             if (song.IsDuet)
             {
                 CGame.Player[1].LineNr = 1;
