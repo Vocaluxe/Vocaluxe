@@ -97,6 +97,26 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(KeyEvent KeyEvent)
         {
+            switch (KeyEvent.Key)
+            {
+                case Keys.Add:
+                    if (CConfig.NumPlayer + 1 <= CSettings.MaxNumPlayer)
+                    {
+                        CConfig.NumPlayer++;
+                        SelectSlides[htSelectSlides(SelectSlidePlayerNumber)].Selection = CConfig.NumPlayer - 1;
+                        UpdatePlayerNumber();
+                    }
+                    break;
+
+                case Keys.Subtract:
+                    if (CConfig.NumPlayer - 1 > 0)
+                    {
+                        CConfig.NumPlayer--;
+                        SelectSlides[htSelectSlides(SelectSlidePlayerNumber)].Selection = CConfig.NumPlayer - 1;
+                        UpdatePlayerNumber();
+                    }
+                    break;
+            }
             //Check if selecting with keyboard is active
             if (selectingKeyboardActive)
             {
@@ -124,6 +144,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.D1:
+                    case Keys.NumPad1:
                         if (selectingKeyboardPlayerNr == 1)
                         {
                             //Reset all values
@@ -138,6 +159,7 @@ namespace Vocaluxe.Screens
                         }
                         break;
                     case Keys.D2:
+                    case Keys.NumPad2:
                         if (selectingKeyboardPlayerNr == 2)
                         {
                             //Reset all values
@@ -152,6 +174,7 @@ namespace Vocaluxe.Screens
                         }
                         break;
                     case Keys.D3:
+                    case Keys.NumPad3:
                         if (selectingKeyboardPlayerNr == 3)
                         {
                             //Reset all values
@@ -166,6 +189,7 @@ namespace Vocaluxe.Screens
                         }
                         break;
                     case Keys.D4:
+                    case Keys.NumPad4:
                         if (selectingKeyboardPlayerNr == 4)
                         {
                             //Reset all values
@@ -180,6 +204,7 @@ namespace Vocaluxe.Screens
                         }
                         break;
                     case Keys.D5:
+                    case Keys.NumPad5:
                         if (selectingKeyboardPlayerNr == 5)
                         {
                             //Reset all values
@@ -194,6 +219,7 @@ namespace Vocaluxe.Screens
                         }
                         break;
                     case Keys.D6:
+                    case Keys.NumPad6:
                         if (selectingKeyboardPlayerNr == 6)
                         {
                             //Reset all values
@@ -244,26 +270,32 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.D1:
+                    case Keys.NumPad1:
                         selectingKeyboardPlayerNr = 1;
                         break;
 
                     case Keys.D2:
+                    case Keys.NumPad2:
                         selectingKeyboardPlayerNr = 2;
                         break;
 
                     case Keys.D3:
+                    case Keys.NumPad3:
                         selectingKeyboardPlayerNr = 3;
                         break;
 
                     case Keys.D4:
+                    case Keys.NumPad4:
                         selectingKeyboardPlayerNr = 4;
                         break;
 
                     case Keys.D5:
+                    case Keys.NumPad5:
                         selectingKeyboardPlayerNr = 5;
                         break;
 
                     case Keys.D6:
+                    case Keys.NumPad6:
                         selectingKeyboardPlayerNr = 6;
                         break;
                 }
