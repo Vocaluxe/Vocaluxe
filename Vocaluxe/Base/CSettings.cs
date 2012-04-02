@@ -40,7 +40,7 @@ namespace Vocaluxe.Base
         public static EGameState GameState = EGameState.Start;
 
         public const string sProgramName = "Vocaluxe";
-        public const string sProgramCodeName = "Rising Star";
+        public const string sProgramCodeName = "6 Player Test";
 
         public const int iVersionMajor = 0;
         public const int iVersionMinor = 1;      // milestones
