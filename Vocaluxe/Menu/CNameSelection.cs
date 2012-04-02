@@ -333,12 +333,19 @@ namespace Vocaluxe.Menu
 
         public void KeyboardSelection(bool active, int player)
         {
-            if (active)
+            //Overwrite player-selection; Same profile, but other player
+            if (active && Selection != -1)
+            {
+                _player = player;
+            }
+            //Normal activation
+            else if (active)
             {
                 Selection = 0;
                 _actualSelection = 0;
                 _player = player;
             }
+            //Deactivate
             else
             {
                 Selection = -1;

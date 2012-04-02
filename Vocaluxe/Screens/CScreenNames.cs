@@ -123,6 +123,90 @@ namespace Vocaluxe.Screens
                         NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
                         break;
 
+                    case Keys.D1:
+                        if (selectingKeyboardPlayerNr == 1)
+                        {
+                            //Reset all values
+                            selectingKeyboardPlayerNr = 0;
+                            selectingKeyboardActive = false;
+                            NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
+                        }
+                        else
+                        {
+                            selectingKeyboardPlayerNr = 1;
+                            NameSelections[htNameSelections(NameSelection)].KeyboardSelection(true, 1);
+                        }
+                        break;
+                    case Keys.D2:
+                        if (selectingKeyboardPlayerNr == 2)
+                        {
+                            //Reset all values
+                            selectingKeyboardPlayerNr = 0;
+                            selectingKeyboardActive = false;
+                            NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
+                        }
+                        else
+                        {
+                            selectingKeyboardPlayerNr = 2;
+                            NameSelections[htNameSelections(NameSelection)].KeyboardSelection(true, 2);
+                        }
+                        break;
+                    case Keys.D3:
+                        if (selectingKeyboardPlayerNr == 3)
+                        {
+                            //Reset all values
+                            selectingKeyboardPlayerNr = 0;
+                            selectingKeyboardActive = false;
+                            NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
+                        }
+                        else
+                        {
+                            selectingKeyboardPlayerNr = 3;
+                            NameSelections[htNameSelections(NameSelection)].KeyboardSelection(true, 3);
+                        }
+                        break;
+                    case Keys.D4:
+                        if (selectingKeyboardPlayerNr == 4)
+                        {
+                            //Reset all values
+                            selectingKeyboardPlayerNr = 0;
+                            selectingKeyboardActive = false;
+                            NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
+                        }
+                        else
+                        {
+                            selectingKeyboardPlayerNr = 4;
+                            NameSelections[htNameSelections(NameSelection)].KeyboardSelection(true, 4);
+                        }
+                        break;
+                    case Keys.D5:
+                        if (selectingKeyboardPlayerNr == 5)
+                        {
+                            //Reset all values
+                            selectingKeyboardPlayerNr = 0;
+                            selectingKeyboardActive = false;
+                            NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
+                        }
+                        else
+                        {
+                            selectingKeyboardPlayerNr = 5;
+                            NameSelections[htNameSelections(NameSelection)].KeyboardSelection(true, 5);
+                        }
+                        break;
+                    case Keys.D6:
+                        if (selectingKeyboardPlayerNr == 6)
+                        {
+                            //Reset all values
+                            selectingKeyboardPlayerNr = 0;
+                            selectingKeyboardActive = false;
+                            NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
+                        }
+                        else
+                        {
+                            selectingKeyboardPlayerNr = 6;
+                            NameSelections[htNameSelections(NameSelection)].KeyboardSelection(true, 6);
+                        }
+                        break;
                     case Keys.Escape:
                         //Reset all values
                         selectingKeyboardPlayerNr = 0;
