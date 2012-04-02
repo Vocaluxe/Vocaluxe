@@ -263,7 +263,11 @@ namespace Vocaluxe.Menu
                 case Keys.Right:
                     if (_actualSelection + 1 < _Tiles.Count)
                     {
-                        _actualSelection++;
+                        if (_Tiles[_actualSelection + 1].PlayerNr != -1)
+                        {
+                            _actualSelection++;
+                        }
+                        
                     }
                     else
                     {
@@ -301,9 +305,12 @@ namespace Vocaluxe.Menu
                     break;
 
                 case Keys.Down:
-                    if (_actualSelection + _NumW < _Tiles.Count - 1)
+                    if (_actualSelection + _NumW < _Tiles.Count-1)
                     {
-                        _actualSelection += _NumW;
+                        if (_Tiles[_actualSelection + _NumW].PlayerNr != -1)
+                        {
+                            _actualSelection += _NumW;
+                        }
                     }
                     else
                     {
