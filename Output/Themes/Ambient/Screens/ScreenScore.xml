@@ -829,9 +829,9 @@
       <H>220</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>0,50</G>
-      <B>1,00</B>
+      <R>1,000</R>
+      <G>0,800</G>
+      <B>0,000</B>
       <A>0,75</A>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1104,9 +1104,9 @@
       <H>220</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>0,50</G>
-      <B>1,00</B>
+      <R>1,000</R>
+      <G>0,800</G>
+      <B>0,000</B>
       <A>0,75</A>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
