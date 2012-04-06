@@ -102,6 +102,8 @@ namespace Vocaluxe.Base
             _GameMode.Init();
             _Player = new SPlayer[CSettings.MaxNumPlayer];
             ResetPlayer();
+
+            CConfig.UsePlayers();
         }
 
         public static void SetGameMode(EGameMode Mode)

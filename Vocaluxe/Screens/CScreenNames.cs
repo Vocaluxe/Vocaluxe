@@ -133,6 +133,9 @@ namespace Vocaluxe.Screens
                             CGame.Player[selectingKeyboardPlayerNr-1].Name = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
                             CGame.Player[selectingKeyboardPlayerNr-1].Difficulty = CProfiles.Profiles[SelectedPlayerNr].Difficulty;
                             CGame.Player[selectingKeyboardPlayerNr-1].ProfileID = SelectedPlayerNr;
+                            //Update config for default players.
+                            CConfig.Players[selectingKeyboardPlayerNr - 1] = CProfiles.Profiles[SelectedPlayerNr].ProfileFile;
+                            CConfig.SaveConfig();
                             //Update texture and name
                             Statics[htStatics(StaticPlayerAvatar[selectingKeyboardPlayerNr-1])].Texture = NameSelections[htNameSelections(NameSelection)].TilePlayerAvatar(SelectedPlayerNr).Texture;
                             Texts[htTexts(TextPlayer[selectingKeyboardPlayerNr-1])].Text = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
@@ -372,6 +375,9 @@ namespace Vocaluxe.Screens
                                 CGame.Player[i].Name = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
                                 CGame.Player[i].Difficulty = CProfiles.Profiles[SelectedPlayerNr].Difficulty;
                                 CGame.Player[i].ProfileID = SelectedPlayerNr;
+                                //Update config for default players.
+                                CConfig.Players[i] = CProfiles.Profiles[SelectedPlayerNr].ProfileFile;
+                                CConfig.SaveConfig();
                                 //Update texture and name
                                 Statics[htStatics(StaticPlayerAvatar[i])].Texture = chooseAvatarStatic.Texture;
                                 Texts[htTexts(TextPlayer[i])].Text = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
@@ -442,6 +448,13 @@ namespace Vocaluxe.Screens
             UpdateSlides();
             UpdatePlayerNumber();
             CheckMics();
+
+            for (int i = 0; i < CSettings.MaxNumPlayer; i++)
+            {
+                //Update texture and name
+                Statics[htStatics(StaticPlayerAvatar[i])].Texture = CProfiles.Profiles[CGame.Player[i].ProfileID].Avatar.Texture;
+                Texts[htTexts(TextPlayer[i])].Text = CProfiles.Profiles[CGame.Player[i].ProfileID].PlayerName;
+            }
         }
 
         public override bool Draw()

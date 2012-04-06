@@ -206,6 +206,7 @@ namespace Vocaluxe.Base
         public static EOffOn Tabs = EOffOn.TR_CONFIG_OFF;
         public static string Language = "English";
         public static EOffOn LyricsOnTop = EOffOn.TR_CONFIG_OFF;
+        public static string[] Players = new string[CSettings.MaxNumPlayer];
         
         // Video
         public static EVideoDecoder VideoDecoder = EVideoDecoder.FFmpeg;
@@ -369,6 +370,12 @@ namespace Vocaluxe.Base
                     
                 }
                 CLanguage.SetLanguage(Language);
+
+                //Read players from config
+                for (i = 1; i <= CSettings.MaxNumPlayer; i++)
+                {
+                    CHelper.GetValueFromXML("//root/Game/Players/Player" + i.ToString(), navigator, ref Players[i-1], string.Empty);
+                }
 
                 #endregion Game
 
@@ -576,6 +583,13 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("Lyrics also on Top of screen: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("LyricsOnTop", Enum.GetName(typeof(EOffOn), LyricsOnTop));
+
+            writer.WriteComment("Default profile for players 1..." + CSettings.MaxNumPlayer.ToString() + ":");
+            writer.WriteStartElement("Players");
+            for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
+            {
+                writer.WriteElementString("Player" + i.ToString(), Path.GetFileName(Players[i - 1]));
+            }
 
             writer.WriteEndElement();
             #endregion Game
@@ -943,6 +957,29 @@ namespace Vocaluxe.Base
 			}
     
             return _Result;
+        }
+
+        /// <summary>
+        /// Use saved players from config now for games
+        /// </summary>
+        public static void UsePlayers() 
+        {
+            for (int i = 0; i < CProfiles.Profiles.Length; i++)
+            {
+                for (int j = 0; j < CSettings.MaxNumPlayer; j++)
+                {
+                    if (Players[j] != string.Empty)
+                    {
+                        if (Path.GetFileName(CProfiles.Profiles[i].ProfileFile) == Players[j])
+                        {
+                            //Update Game-infos with player
+                            CGame.Player[j].Name = CProfiles.Profiles[i].PlayerName;
+                            CGame.Player[j].Difficulty = CProfiles.Profiles[i].Difficulty;
+                            CGame.Player[j].ProfileID = i;
+                        }
+                    }
+                }
+            }
         }
 
 
