@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.XPath;
 
@@ -169,26 +170,43 @@ namespace Vocaluxe.Base
 
                     foreach (string name in keys)
                     {
-                        CHelper.GetValueFromXML("//root/Skins/" + name, navigator, ref value, String.Empty);
-                        SkinElement sk = _Skins[index].SkinList[name];
-                        sk.Value = value;
-                        sk.VideoIndex = -1;
-                        sk.Texture = CDraw.AddTexture(Path.Combine(_Skins[index].Path, sk.Value));
-                        _Skins[index].SkinList[name] = sk;
+                        try
+                        {
+                            CHelper.GetValueFromXML("//root/Skins/" + name, navigator, ref value, String.Empty);
+                            SkinElement sk = _Skins[index].SkinList[name];
+                            sk.Value = value;
+                            sk.VideoIndex = -1;
+                            sk.Texture = CDraw.AddTexture(Path.Combine(_Skins[index].Path, sk.Value));
+                            _Skins[index].SkinList[name] = sk;
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show("Error on loading texture \"" + name + "\": " + e.Message + e.StackTrace);
+                            CLog.LogError("Error on loading texture \"" + name + "\": " + e.Message + e.StackTrace);
+                        }
                     }
+                    
 
                     // load videos
                     for (int i = 0; i < _Skins[index].VideoList.Count; i++)
                     {
-                        CHelper.GetValueFromXML("//root/Videos/" + _Skins[index].VideoList[i].Name, navigator, ref value, String.Empty);
-                        SkinElement sk = new SkinElement();
-                        sk.Name = _Skins[index].VideoList[i].Name;
-                        sk.Value = value;
-                        sk.VideoIndex = CVideo.VdLoad(Path.Combine(_Skins[index].Path, sk.Value));
-                        CVideo.VdSetLoop(sk.VideoIndex, true);
-                        CVideo.VdPause(sk.VideoIndex);
-                        sk.Texture = new STexture(-1);
-                        _Skins[index].VideoList[i] = sk;
+                        try
+                        {
+                            CHelper.GetValueFromXML("//root/Videos/" + _Skins[index].VideoList[i].Name, navigator, ref value, String.Empty);
+                            SkinElement sk = new SkinElement();
+                            sk.Name = _Skins[index].VideoList[i].Name;
+                            sk.Value = value;
+                            sk.VideoIndex = CVideo.VdLoad(Path.Combine(_Skins[index].Path, sk.Value));
+                            CVideo.VdSetLoop(sk.VideoIndex, true);
+                            CVideo.VdPause(sk.VideoIndex);
+                            sk.Texture = new STexture(-1);
+                            _Skins[index].VideoList[i] = sk;
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show("Error on loading video \"" + _Skins[index].VideoList[i].Name + "\": " + e.Message + e.StackTrace);
+                            CLog.LogError("Error on loading video \"" + _Skins[index].VideoList[i].Name + "\": " + e.Message + e.StackTrace);
+                        }
                     }
 
                     // load colors
