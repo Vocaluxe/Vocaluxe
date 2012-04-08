@@ -238,13 +238,13 @@ namespace Vocaluxe.Base
                     {
                         _Cover.Clear();
                         List<string> cover = CHelper.GetValuesFromXML("Cover", navigator);
-                        for (int i = 1; i <= cover.Count; i++)
+                        for (int i = 0; i < cover.Count; i++)
                         {
                             SCover sk = new SCover();
                             string name = String.Empty;
                             string value = String.Empty;
-                            CHelper.GetValueFromXML("//root/Cover/Cover" + i + "/Name", navigator, ref name, String.Empty);
-                            CHelper.GetValueFromXML("//root/Cover/Cover" + i + "/Path", navigator, ref value, String.Empty);
+                            CHelper.GetValueFromXML("//root/Cover/" + cover[i] + "/Name", navigator, ref name, String.Empty);
+                            CHelper.GetValueFromXML("//root/Cover/" + cover[i] + "/Path", navigator, ref value, String.Empty);
                             sk.Name = name;
                             sk.Value = Path.Combine(coverTheme.Folder,value);
                             if (File.Exists(Path.Combine(CSettings.sFolderCover, Path.Combine(coverTheme.Folder, value))))

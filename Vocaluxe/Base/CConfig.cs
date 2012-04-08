@@ -66,17 +66,27 @@ namespace Vocaluxe.Base
         TR_CONFIG_LEVEL_MAX	    //all debug infos
     }
 
+    public enum EBufferSize
+    {
+        b0 = 0,
+        b512 = 512,
+        b1024 = 1024,
+        b1536 = 1536,
+        b2048 = 2048,
+        b2560 = 2560,
+        b3072 = 3072,
+        b3584 = 3584,
+        b4096 = 4096
+    }
+
     public enum EPlaybackLib
     {
-        BASS,
         PortAudio,
-        NAudio,
         OpenAL
     }
 
     public enum ERecordLib
     {
-        BASS,
         PortAudio
     }
 
@@ -87,10 +97,10 @@ namespace Vocaluxe.Base
 
     public enum ESongMenu
     {
-        TR_CONFIG_LIST,		    //a simple list
-        TR_CONFIG_DREIDEL,	    //as in ultrastar deluxe
+        //TR_CONFIG_LIST,		    //a simple list
+        //TR_CONFIG_DREIDEL,	    //as in ultrastar deluxe
         TR_CONFIG_TILE_BOARD,	//chessboard like
-        TR_CONFIG_BOOK          //for playlists
+        //TR_CONFIG_BOOK          //for playlists
     }
 
     public enum ESongSorting
@@ -134,6 +144,14 @@ namespace Vocaluxe.Base
         TR_CONFIG_TIMERLOOK_NORMAL,
         TR_CONFIG_TIMERLOOK_EXPANDED
     }
+
+    public enum EBackgroundMusicSource
+    {
+        TR_CONFIG_NO_OWN_MUSIC,
+        TR_CONFIG_OWN_MUSIC,
+        TR_CONFIG_ONLY_OWN_MUSIC
+    }
+
     #endregion Enums
 
     static class CConfig
@@ -144,7 +162,7 @@ namespace Vocaluxe.Base
         public static EDebugLevel DebugLevel = EDebugLevel.TR_CONFIG_OFF;
         
         // Graphics
-        public static ERenderer Renderer = ERenderer.TR_CONFIG_OPENGL;
+        public static ERenderer Renderer = ERenderer.TR_CONFIG_DIRECT3D;
         public static ETextureQuality TextureQuality = ETextureQuality.TR_CONFIG_TEXTURE_MEDIUM;
         public static float MaxFPS = 60f;
 
@@ -172,16 +190,20 @@ namespace Vocaluxe.Base
         // Sound
         public static EPlaybackLib PlayBackLib = EPlaybackLib.PortAudio;
         public static ERecordLib RecordLib = ERecordLib.PortAudio;
-        public static uint PortAudioBufferSize = 1024;
+        public static EBufferSize AudioBufferSize = EBufferSize.b2048;
+        public static int AudioLatency = 0;
+        public static int BackgroundMusicVolume = 50;
+        public static EOffOn BackgroundMusic = EOffOn.TR_CONFIG_ON;
+        public static EBackgroundMusicSource BackgroundMusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
 
         // Game
         public static List<string> SongFolder = new List<string>();
         public static ESongMenu SongMenu = ESongMenu.TR_CONFIG_TILE_BOARD;
-        public static ESongSorting SongSorting = ESongSorting.TR_CONFIG_FOLDER;
+        public static ESongSorting SongSorting = ESongSorting.TR_CONFIG_ARTIST;
         public static float ScoreAnimationTime = 10;
         public static ETimerMode TimerMode = ETimerMode.TR_CONFIG_TIMERMODE_REMAINING;
         public static int NumPlayer = 2;
-        public static EOffOn Tabs = EOffOn.TR_CONFIG_ON;
+        public static EOffOn Tabs = EOffOn.TR_CONFIG_OFF;
         public static string Language = "English";
         public static EOffOn LyricsOnTop = EOffOn.TR_CONFIG_OFF;
         
@@ -213,14 +235,10 @@ namespace Vocaluxe.Base
             MicConfig = new SMicConfig[CSettings.MaxNumPlayer];
 
             // Init config file
-            if (File.Exists(CSettings.sFileConfig))
-            {
-                LoadConfig();
-            }
-            else
-            {               
+            if (!File.Exists(CSettings.sFileConfig))          
                 SaveConfig();
-            }        
+            
+            LoadConfig();
         }
 
         public static bool LoadConfig()
@@ -259,6 +277,12 @@ namespace Vocaluxe.Base
                 #region Graphics
                 CHelper.TryGetEnumValueFromXML<ERenderer>("//root/Graphics/Renderer", navigator, ref Renderer);
                 CHelper.TryGetEnumValueFromXML<ETextureQuality>("//root/Graphics/TextureQuality", navigator, ref TextureQuality);
+                CHelper.TryGetIntValueFromXML("//root/Graphics/CoverSize", navigator, ref CoverSize);
+                if (CoverSize > 1024)
+                    CoverSize = 1024;
+                if (CoverSize < 32)
+                    CoverSize = 32;
+
                 CHelper.TryGetIntValueFromXML("//root/Graphics/ScreenW", navigator, ref ScreenW);
                 CHelper.TryGetIntValueFromXML("//root/Graphics/ScreenH", navigator, ref ScreenH);
                 CHelper.TryGetEnumValueFromXML<EAntiAliasingModes>("//root/Graphics/AAMode", navigator, ref AAMode);
@@ -282,6 +306,17 @@ namespace Vocaluxe.Base
                 #region Sound
                 CHelper.TryGetEnumValueFromXML<EPlaybackLib>("//root/Sound/PlayBackLib", navigator, ref PlayBackLib);
                 CHelper.TryGetEnumValueFromXML<ERecordLib>("//root/Sound/RecordLib", navigator, ref RecordLib);
+                CHelper.TryGetEnumValueFromXML<EBufferSize>("//root/Sound/AudioBufferSize", navigator, ref AudioBufferSize);
+
+                CHelper.TryGetIntValueFromXML("//root/Sound/AudioLatency", navigator, ref AudioLatency);
+                if (AudioLatency < -500)
+                    AudioLatency = -500;
+                if (AudioLatency > 500)
+                    AudioLatency = 500;
+
+                CHelper.TryGetEnumValueFromXML("//root/Sound/BackgroundMusic", navigator, ref BackgroundMusic);
+                CHelper.TryGetIntValueFromXML("//root/Sound/BackgroundMusicVolume", navigator, ref BackgroundMusicVolume);
+                CHelper.TryGetEnumValueFromXML("//root/Sound/BackgroundMusicSource", navigator, ref BackgroundMusicSource);
                 #endregion Sound
 
                 #region Game
@@ -411,7 +446,10 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("TextureQuality: " + ListStrings(Enum.GetNames(typeof(ETextureQuality))));
             writer.WriteElementString("TextureQuality", Enum.GetName(typeof(ETextureQuality), TextureQuality));
-            
+
+            writer.WriteComment("CoverSize (pixels): 32, 64, 128, 256, 512, 1024 (default: 128)");
+            writer.WriteElementString("CoverSize", CoverSize.ToString());
+
             writer.WriteComment("Screen width and height (pixels)");
             writer.WriteElementString("ScreenW", ScreenW.ToString());
             writer.WriteElementString("ScreenH", ScreenH.ToString());
@@ -472,6 +510,21 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("RecordLib: " + ListStrings(Enum.GetNames(typeof(ERecordLib))));
             writer.WriteElementString("RecordLib", Enum.GetName(typeof(ERecordLib), RecordLib));
+
+            writer.WriteComment("AudioBufferSize: " + ListStrings(Enum.GetNames(typeof(EBufferSize))));
+            writer.WriteElementString("AudioBufferSize", Enum.GetName(typeof(EBufferSize), AudioBufferSize));
+
+            writer.WriteComment("AudioLatency from -500 to 500 ms");
+            writer.WriteElementString("AudioLatency", AudioLatency.ToString());
+
+            writer.WriteComment("Background Music");
+            writer.WriteElementString("BackgroundMusic", Enum.GetName(typeof(EOffOn), BackgroundMusic));
+
+            writer.WriteComment("Background Music Volume from 0 to 100");
+            writer.WriteElementString("BackgroundMusicVolume", BackgroundMusicVolume.ToString());
+
+            writer.WriteComment("Background Music Source");
+            writer.WriteElementString("BackgroundMusicSource", Enum.GetName(typeof(EBackgroundMusicSource), BackgroundMusicSource));
 
             writer.WriteEndElement();
             #endregion Sound

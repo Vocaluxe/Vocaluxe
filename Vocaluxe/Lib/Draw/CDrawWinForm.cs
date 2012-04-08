@@ -153,6 +153,27 @@ namespace Vocaluxe.Lib.Draw
             _Run = false;
         }
 
+        protected override void WndProc(ref Message m)
+        {
+            switch (m.Msg)
+            {
+                case 0x112: // WM_SYSCOMMAND
+                    switch ((int)m.WParam & 0xFFF0)
+                    {
+                        case 0xF100: // SC_KEYMENU
+                            m.Result = IntPtr.Zero;
+                            break;
+                        default:
+                            base.WndProc(ref m);
+                            break;
+                    }
+                    break;
+                default:
+                    base.WndProc(ref m);
+                    break;
+            }
+        }
+
         private void OnKeyDownEvent(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             _Keys.KeyDown(e);
@@ -256,7 +277,7 @@ namespace Vocaluxe.Lib.Draw
             CFonts.Height = Height;
             CFonts.SetFont(text.Fon);
             CFonts.Style = text.Style;
-            return new RectangleF(text.X, text.Y, CFonts.GetTextWidth(CLanguage.Translate(text.Text)), CFonts.GetTextHeight(text.Text));
+            return new RectangleF(text.X, text.Y, CFonts.GetTextWidth(CLanguage.Translate(text.Text)), CFonts.GetTextHeight(CLanguage.Translate(text.Text)));
         }
 
         public void ClearScreen()
@@ -300,7 +321,7 @@ namespace Vocaluxe.Lib.Draw
         {
             string file = "Screenshot_";
             string path = Path.Combine(Environment.CurrentDirectory, CSettings.sFolderScreenshots);
-
+            
             int i = 0;
             while (File.Exists(Path.Combine(path, file + i.ToString("00000") + ".png")))
                 i++;
@@ -398,6 +419,11 @@ namespace Vocaluxe.Lib.Draw
         public STexture AddTexture(int W, int H, IntPtr Data)
         {
             return new STexture(-1);
+        }
+
+        public STexture QuequeTexture(int W, int H, ref byte[] Data)
+        {
+            return AddTexture(W, H, ref Data);
         }
 
         public STexture AddTexture(int W, int H, ref byte[] Data)

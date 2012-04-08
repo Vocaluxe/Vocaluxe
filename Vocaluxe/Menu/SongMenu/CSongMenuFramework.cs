@@ -22,9 +22,9 @@ namespace Vocaluxe.Menu.SongMenu
 
         public string ColorName;
 
-        public SThemeSongMenuBook songMenuBook;
-        public SThemeSongMenuDreidel songMenuDreidel;
-        public SThemeSongMenuList songMenuList;
+        //public SThemeSongMenuBook songMenuBook;
+        //public SThemeSongMenuDreidel songMenuDreidel;
+        //public SThemeSongMenuList songMenuList;
         public SThemeSongMenuTileBoard songMenuTileBoard;
     }
 
@@ -394,7 +394,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (_streams.Count > 0 && _video != -1)
             {
-                if (CVideo.VdFinished(_video))
+                if (CVideo.VdFinished(_video) || CSound.IsFinished(_actsongstream))
                 {
                     CVideo.VdClose(_video);
                     _video = -1;

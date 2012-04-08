@@ -54,9 +54,16 @@ namespace Vocaluxe.Screens
         {
             base.HandleInput(KeyEvent);
 
-            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode) && _SearchActive)
+            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode))
             {
-                ApplyNewSearchFilter(_SearchText + KeyEvent.Unicode);
+                if (_SearchActive)
+                    ApplyNewSearchFilter(_SearchText + KeyEvent.Unicode);
+                /*
+                else if (!Char.IsControl(KeyEvent.Unicode))
+                {
+                    JumpTo(KeyEvent.Unicode);
+                    return true;
+                } */
             }
             else
             {
@@ -71,7 +78,7 @@ namespace Vocaluxe.Screens
                         if (CSongs.Category < 0 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF)
                             CGraphics.FadeTo(EScreens.ScreenMain);
                         break;
-                        
+
                     case Keys.Enter:
                         if (CSongs.NumVisibleSongs > 0)
                             StartSong(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
@@ -128,7 +135,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.R:
-                        if (CSongs.Category != -1)
+                        if (CSongs.Category != -1 && KeyEvent.Mod == Modifier.Ctrl)
                         {
                             SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
                         }
@@ -148,12 +155,19 @@ namespace Vocaluxe.Screens
                 CGraphics.FadeTo(EScreens.ScreenMain);
             }
 
-            SongMenus[htSongMenus(SongMenu)].HandleMouse(ref MouseEvent);
+            if (MouseEvent.MB && CSongs.Category != -1)
+            {
+                Console.WriteLine("MB pressed");
+                SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
+            }
+            else
+                SongMenus[htSongMenus(SongMenu)].HandleMouse(ref MouseEvent);
+
             if (MouseEvent.LB && CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
             {
                 StartSong(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
             }
-             
+
             return true;
         }
 
@@ -170,10 +184,16 @@ namespace Vocaluxe.Screens
             Texts[htTexts(TextCategory)].Text = CSongs.GetActualCategoryName();
 
             int song = SongMenus[htSongMenus(SongMenu)].GetActualSelection();
-            if ((CSongs.Category >= 0) && (song >= 0) && song < CSongs.VisibleSongs.Length)
+            if ((CSongs.Category >= 0 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF) && song >= 0 && song < CSongs.VisibleSongs.Length)
+            {
                 Texts[htTexts(TextSelection)].Text = CSongs.VisibleSongs[song].Artist + " - " + CSongs.VisibleSongs[song].Title;
-            else if ((CSongs.Category == -1) && (song >= 0) && song < CSongs.Categories.Length)
+                CBackgroundMusic.Pause();
+            }
+            else if (CSongs.Category == -1 && song >= 0 && song < CSongs.Categories.Length)
+            {
                 Texts[htTexts(TextSelection)].Text = CSongs.Categories[song].Name;
+                CBackgroundMusic.Play();
+            }
             else
                 Texts[htTexts(TextSelection)].Text = String.Empty;
 
@@ -280,6 +300,23 @@ namespace Vocaluxe.Screens
 
             if (CGame.GetNumSongs() > 0)
                 CGraphics.FadeTo(EScreens.ScreenNames);
+        }
+
+        private void JumpTo(char Letter)
+        {
+            int song = SongMenus[htSongMenus(SongMenu)].GetSelectedSong();
+            int id = -1;
+            if (song > -1 && song < CSongs.NumVisibleSongs)
+            {
+                id = CSongs.VisibleSongs[song].ID;
+            }
+
+            int visibleID = Array.FindIndex<Vocaluxe.Lib.Song.CSong>(CSongs.VisibleSongs, element => element.Artist.StartsWith(Letter.ToString(), StringComparison.OrdinalIgnoreCase));
+            if (visibleID > -1)
+            {
+                id = visibleID;
+                SongMenus[htSongMenus(SongMenu)].SetSelectedSong(id);
+            }
         }
 
         private void ApplyNewSearchFilter(string NewFilterString)

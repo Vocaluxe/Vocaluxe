@@ -22,16 +22,8 @@ namespace Vocaluxe.Base
         {
             switch (CConfig.PlayBackLib)
             {
-                case EPlaybackLib.BASS:
-                    _Playback = new CBassPlay();
-                    break;
-
                 case EPlaybackLib.PortAudio:
                     _Playback = new CPortAudioPlay();
-                    break;
-
-                case EPlaybackLib.NAudio:
-                    _Playback = new CNAudioPlay();
                     break;
 
                 case EPlaybackLib.OpenAL:
@@ -39,7 +31,7 @@ namespace Vocaluxe.Base
                     break;
 
                 default:
-                    _Playback = new CBassPlay();
+                    _Playback = new CPortAudioPlay();
                     break;
             }
             return true;
@@ -99,6 +91,11 @@ namespace Vocaluxe.Base
         public static void Fade(int Stream, float TargetVolume, float Seconds)
         {
             _Playback.Fade(Stream, TargetVolume, Seconds);
+        }
+
+        public static void FadeAndPause(int Stream, float TargetVolume, float Seconds)
+        {
+            _Playback.FadeAndPause(Stream, TargetVolume, Seconds);
         }
 
         public static void FadeAndStop(int Stream, float TargetVolume, float Seconds)
@@ -181,16 +178,12 @@ namespace Vocaluxe.Base
         {
             switch (CConfig.RecordLib)
             {
-                case ERecordLib.BASS:
-                    _Record = new CBassRecord();
-                    break;
-                
                 case ERecordLib.PortAudio:
                     _Record = new CPortAudioRecord();
                     break;
 
                 default:
-                    _Record = new CBassRecord();
+                    _Record = new CPortAudioRecord();
                     break;
             }
             
@@ -504,11 +497,11 @@ namespace Vocaluxe.Base
         {
             get
             {
-                long nanosecPerTick = (1000L * 1000L * 1000L) / Stopwatch.Frequency;
+                double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
                 long ticks = _Timer.ElapsedTicks;
                 float dt = _Timer.ElapsedMilliseconds / 1000f;
 
-                if (nanosecPerTick > 0L)
+                if (Stopwatch.IsHighResolution && ticks != 0)
                     dt = (float)(ticks * nanosecPerTick / 1000000000.0);
 
                 return _SetValue + dt;
@@ -584,11 +577,11 @@ namespace Vocaluxe.Base
         {
             get
             {
-                long nanosecPerTick = (1000L * 1000L * 1000L) / Stopwatch.Frequency;
+                double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
                 long ticks = _STimer.ElapsedTicks;
                 float dt = _STimer.ElapsedMilliseconds / 1000f;
 
-                if (nanosecPerTick > 0L)
+                if (Stopwatch.IsHighResolution && ticks != 0)
                     dt = (float)(ticks * nanosecPerTick / 1000000000.0);
 
                 return _CurrentTime + dt;
@@ -620,13 +613,13 @@ namespace Vocaluxe.Base
         {
             _STimer.Stop();
 
-            long nanosecPerTick = (1000L * 1000L * 1000L) / Stopwatch.Frequency;
+            double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
             long ticks = _STimer.ElapsedTicks;
             float dt = _STimer.ElapsedMilliseconds / 1000f;
 
-            if (nanosecPerTick > 0L)
+            if (Stopwatch.IsHighResolution && ticks != 0)
                 dt = (float)(ticks * nanosecPerTick / 1000000000.0);
-
+                        
             float Ts = 0f;
             if (dt > 0)
                 Ts = 1 / (_T / dt + 1);

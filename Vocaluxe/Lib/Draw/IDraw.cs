@@ -67,6 +67,7 @@ namespace Vocaluxe.Lib.Draw
     {
         public int index;
         public int PBO;
+        public int ID;
         
         public string TexturePath;
 
@@ -85,10 +86,11 @@ namespace Vocaluxe.Lib.Draw
         {
             index = Index;
             PBO = 0;
+            ID = -1;
             TexturePath = String.Empty;
 
-            width = 0f;
-            height = 0f;
+            width = 1f;
+            height = 1f;
             rect = new SRectF(0f, 0f, 1f, 1f, 0f);
 
             w2 = 2f;    
@@ -136,6 +138,7 @@ namespace Vocaluxe.Lib.Draw
         STexture AddTexture(Bitmap Bitmap);
         STexture AddTexture(int W, int H, IntPtr Data);
         STexture AddTexture(int W, int H, ref byte[] Data);
+        STexture QuequeTexture(int W, int H, ref byte[] Data);
         bool UpdateTexture(ref STexture Texture, ref byte[] Data);
         bool UpdateTexture(ref STexture Texture, IntPtr Data);
         

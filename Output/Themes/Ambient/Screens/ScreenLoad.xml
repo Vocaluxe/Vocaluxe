@@ -4,7 +4,7 @@
     <ScreenVersion>1</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
-      <Type>None</Type>
+      <Type>Texture</Type>
       <!--<Video>: Background video name-->
       <Video>BG_Video</Video>
       <!--<Skin>: Background Texture name-->
@@ -49,7 +49,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_PROGRAM_NAME</Text>
       <!--<Reflection> If exists:-->
@@ -76,7 +76,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENLOAD_LOADING</Text>
       <!--<Reflection> If exists:-->
@@ -103,7 +103,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->

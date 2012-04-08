@@ -43,9 +43,7 @@ namespace Vocaluxe.Lib.Song
             if (Index >= _Lines.Count)
                 return false;
 
-            CLines lines = new CLines();
-            lines = Lines;
-            _Lines[Index] = lines;
+            _Lines[Index] = Lines;
             return true;
         }
 
@@ -245,6 +243,8 @@ namespace Vocaluxe.Lib.Song
         private int _EndBeat;
         private bool _PerfectLine;      // for drawing perfect line effect
         
+        private int _MinBeat = int.MaxValue;
+        private int _MaxBeat = int.MinValue;
         private List<CNote> _Notes;
 
         #region Constructors
@@ -263,14 +263,7 @@ namespace Vocaluxe.Lib.Song
             get { return _StartBeat; }
             set
             {
-                int min = int.MaxValue;
-                foreach (CNote note in _Notes)
-                {
-                    if (note.StartBeat < min)
-                        min = note.StartBeat;
-                }
-
-                if (value <= min)
+                if (value <= _MinBeat)
                     _StartBeat = value;
             }
         }
@@ -280,14 +273,7 @@ namespace Vocaluxe.Lib.Song
             get { return _EndBeat; }
             set
             {
-                int max = int.MinValue;
-                foreach (CNote note in _Notes)
-                {
-                    if (note.EndBeat > max)
-                        max = note.EndBeat;
-                }
-
-                if (value >= max)
+                if (value >= _MaxBeat)
                     _EndBeat = value;
             }
         }
@@ -302,13 +288,7 @@ namespace Vocaluxe.Lib.Song
         {
             get
             {
-                int Result = int.MaxValue;
-                foreach (CNote note in _Notes)
-                {
-                    if (note.StartBeat < Result)
-                        Result = note.StartBeat;
-                }
-                return Result;
+                return _MinBeat;
             }
         }
 
@@ -316,13 +296,7 @@ namespace Vocaluxe.Lib.Song
         {
             get
             {
-                int Result = int.MinValue;
-                foreach (CNote note in _Notes)
-                {
-                    if (note.EndBeat > Result)
-                        Result = note.EndBeat;
-                }
-                return Result;
+                return _MaxBeat;
             }
         }
 
@@ -429,6 +403,7 @@ namespace Vocaluxe.Lib.Song
         public void AddNote(CNote Note)
         {
             _Notes.Add(Note);
+            updateMinMaxBeat(Note);
         }
 
         public bool InsertNote(CNote Note, int Index)
@@ -436,6 +411,7 @@ namespace Vocaluxe.Lib.Song
             if (_Notes.Count >= Index)
             {
                 _Notes.Insert(Index, Note);
+                updateMinMaxBeat(Note);
                 return true;
             }
             return false;
@@ -446,6 +422,7 @@ namespace Vocaluxe.Lib.Song
             if (_Notes.Count > Index)
             {
                 _Notes.RemoveAt(Index);
+                updateMinMaxBeat();
                 return true;
             }
             return false;
@@ -457,6 +434,7 @@ namespace Vocaluxe.Lib.Song
             {
                 _Notes.RemoveAt(Index);
                 _Notes.Insert(Index, Note);
+                updateMinMaxBeat();
                 return true;
             }
             return false;
@@ -467,6 +445,7 @@ namespace Vocaluxe.Lib.Song
             if (_Notes.Count > 0)
             {
                 _Notes[_Notes.Count - 1].Duration++;
+                updateMinMaxBeat();
             }
             return false;
         }
@@ -474,6 +453,31 @@ namespace Vocaluxe.Lib.Song
         public void DeleteAllNotes()
         {
             _Notes.Clear();
+            _MinBeat = int.MaxValue;
+            _MaxBeat = int.MinValue;
+        }
+
+        private void updateMinMaxBeat(CNote Note)
+        {
+            if (Note.StartBeat < _MinBeat)
+            {
+                _MinBeat = Note.StartBeat;
+            }
+
+            if (Note.EndBeat > _MaxBeat)
+            {
+                _MaxBeat = Note.EndBeat;
+            }
+        }
+
+        private void updateMinMaxBeat()
+        {
+            _MinBeat = int.MaxValue;
+            _MaxBeat = int.MinValue;
+            foreach (CNote note in _Notes)
+            {
+                updateMinMaxBeat(note);
+            }
         }
         #endregion Methods
     }
@@ -544,8 +548,15 @@ namespace Vocaluxe.Lib.Song
         #region Methods
         public void AddLine(CLine Line)
         {
+            AddLine(Line, true);
+        }
+        public void AddLine(CLine Line, bool updateTimings)
+        {
             _Lines.Add(Line);
-            UpdateTimings();
+            if (updateTimings)
+            {
+                UpdateTimings();
+            }
         }
 
         public bool InsertLine(CLine Line, int Index)
@@ -575,15 +586,22 @@ namespace Vocaluxe.Lib.Song
             _Lines.Clear();
         }
 
-        public bool AddNote(CNote Note, int LineIndex)
+        public bool AddNote(CNote Note, int LineIndex, bool updateTimings)
         {
             if (_Lines.Count > LineIndex)
             {
                 _Lines[LineIndex].AddNote(Note);
-                UpdateTimings();
+                if (updateTimings)
+                {
+                    UpdateTimings();
+                }
                 return true;
             }
             return false;
+        }
+        public bool AddNote(CNote Note, int LineIndex)
+        {
+            return AddNote(Note, LineIndex, true);
         }
 
         public bool InsertNote(CNote Note, int LineIndex, int NoteIndex)

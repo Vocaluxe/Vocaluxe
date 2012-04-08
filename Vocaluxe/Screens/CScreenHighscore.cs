@@ -186,6 +186,7 @@ namespace Vocaluxe.Screens
             _Round = 0;
             _Pos = 0;
             _Scores = new List<SScores>();
+            _NewEntryIDs.Clear();
             AddScoresToDB();
             LoadScores();
 
@@ -222,15 +223,7 @@ namespace Vocaluxe.Screens
 
                 for (int p = 0; p < player.Length; p++)
                 {
-                    bool guest = true;
-
-                    if (player[p].ProfileID >= 0 && player[p].ProfileID < CProfiles.NumProfiles)
-                    {
-                        if (CProfiles.Profiles[player[p].ProfileID].GuestProfile == EOffOn.TR_CONFIG_OFF)
-                            guest = false;
-                    }
-
-                    if (player[p].Points > CSettings.MinScoreForDB && player[p].SongFinished && !guest)
+                    if (player[p].Points > CSettings.MinScoreForDB && player[p].SongFinished && !CProfiles.IsGuestProfile(player[p].ProfileID))
                         _NewEntryIDs.Add(CDataBase.AddScore(player[p]));
                 }
             }

@@ -105,16 +105,7 @@ typedef ac_package_data* lp_ac_package_data;
 
 void init_info(lp_ac_file_info info)
 {
-  info->title[0] = 0;
-  info->author[0] = 0;
-  info->copyright[0] = 0;
-  info->comment[0] = 0;
-  info->album[0] = 0;
-  info->year = -1;
-  info->track = -1;
-  info->genre[0] = 0;
   info->duration = -1;
-  info->bitrate = -1;
 }
 
 int av_initialized = 0;
@@ -361,20 +352,7 @@ int CALL_CONVT ac_open(
 
   //Retrieve stream information
   AVFormatContext *ctx = ((lp_ac_data)pacInstance)->pFormatCtx;  
-  if(avformat_find_stream_info(ctx, NULL) >= 0) { 
-	/*
-    strcpy(pacInstance->info.title, ctx->title);
-    strcpy(pacInstance->info.author, ctx->author);
-    strcpy(pacInstance->info.copyright, ctx->copyright);
-    strcpy(pacInstance->info.comment, ctx->comment);
-    strcpy(pacInstance->info.album, ctx->album);
-    strcpy(pacInstance->info.genre, ctx->genre);    
-
-    pacInstance->info.year = ctx->year;
-    pacInstance->info.track = ctx->track;
-    pacInstance->info.bitrate = ctx->bit_rate; 
-	*/    
-   
+  if(avformat_find_stream_info(ctx, NULL) >= 0) {    
     pacInstance->info.duration = ctx->duration * 1000 / AV_TIME_BASE;      
   } else {
     return -1;
@@ -658,16 +636,17 @@ double ac_sync_video(lp_ac_package pPackage, lp_ac_decoder pDec, AVFrame *src_fr
 }
 
 int ac_decode_video_package(lp_ac_package pPackage, lp_ac_video_decoder pDecoder, lp_ac_decoder pDec) {
-  int finished;
-  double pts;
+  if (((lp_ac_package_data)pPackage)->ffpackage.size <= 0)
+    return 0;
+	
+  int finished = 0;
+  double pts = 0;
 
   avcodec_decode_video2(
     pDecoder->pCodecCtx, pDecoder->pFrame, &finished, 
-    &(((lp_ac_package_data)pPackage)->ffpackage));  
-
+    &(((lp_ac_package_data)pPackage)->ffpackage));
+  
   if (finished) {
-	pts=0;
-    	
     if(((lp_ac_package_data)pPackage)->ffpackage.dts == AV_NOPTS_VALUE &&
 	  *(uint64_t*)pDecoder->pFrame->opaque != AV_NOPTS_VALUE ){
 	  pts = *(uint64_t*)pDecoder->pFrame->opaque;

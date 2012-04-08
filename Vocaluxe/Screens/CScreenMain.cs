@@ -23,7 +23,7 @@ namespace Vocaluxe.Screens
         const string ButtonProfiles = "ButtonProfiles";
         const string ButtonExit = "ButtonExit";
 
-        CParticleEffect Snowflakes;
+        //CParticleEffect Snowflakes;
         
         public CScreenMain()
         {
@@ -63,6 +63,14 @@ namespace Vocaluxe.Screens
 
                     case Keys.S:
                         CGraphics.FadeTo(EScreens.ScreenSong);
+                        break;
+
+                    case Keys.T:
+                        CGraphics.FadeTo(EScreens.ScreenTest);
+                        break;
+
+                    case Keys.C:
+                        CGraphics.FadeTo(EScreens.ScreenCredits);
                         break;
 
                     case Keys.Enter:
@@ -110,8 +118,8 @@ namespace Vocaluxe.Screens
         {
             base.OnShow();
 
-            if (Snowflakes != null)
-                Snowflakes.Resume();
+            //if (Snowflakes != null)
+            //    Snowflakes.Resume();
         }
 
         public override bool UpdateGame()
@@ -132,7 +140,11 @@ namespace Vocaluxe.Screens
             base.DrawFG();
 
             if (CSettings.VersionRevision != ERevision.Release)
+            {
+                CFonts.SetFont("Normal");
+                CFonts.Style = EStyle.Normal;
                 CDraw.DrawText(CSettings.GetFullVersionText(), 10, 680, 40);
+            }
 
             return true;
         }
@@ -141,8 +153,8 @@ namespace Vocaluxe.Screens
         {
             base.OnClose();
 
-            if (Snowflakes != null)
-                Snowflakes.Pause();
+            //if (Snowflakes != null)
+            //    Snowflakes.Pause();
         }
     }
 }

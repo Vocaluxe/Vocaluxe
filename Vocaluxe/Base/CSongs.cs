@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Lib.Song;
@@ -60,6 +61,8 @@ namespace Vocaluxe.Base
         private static string _SearchFilter = String.Empty;
         private static EOffOn _Tabs = CConfig.Tabs;
 
+        private static Thread _CoverLoaderThread = new Thread(new ThreadStart(_LoadCover));
+                    
         public static string SearchFilter
         {
             get { return _SearchFilter; }
@@ -826,16 +829,48 @@ namespace Vocaluxe.Base
             CLog.StopBenchmark(2, "Sort Songs");
             Category = -1;
             _SongsLoaded = true;
+
+            if (CConfig.Renderer != ERenderer.TR_CONFIG_SOFTWARE && CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
+            {
+                CLog.StartBenchmark(2, "Load Cover");
+                for (int i = 0; i < _Songs.Count; i++)
+                {
+                    CSong song = _Songs[i];
+
+                    song.ReadNotes();
+                    STexture texture = song.CoverTextureSmall;
+                    song.CoverTextureBig = texture;
+                    _CoverLoadIndex++;
+                }
+
+                _CoverLoaded = true;
+                CDataBase.CommitCovers();
+                CLog.StopBenchmark(2, "Load Cover");
+            }
             CLog.StopBenchmark(1, "Load Songs ");
         }
 
-        public static void LoadCover(long WaitTime)
+        public static void LoadCover(long WaitTime, int NumLoads)
         {
+            if (CConfig.Renderer == ERenderer.TR_CONFIG_SOFTWARE)
+                return; //should be removed as soon as the other renderer are ready for queque
+
             if (!SongsLoaded)
                 return;
 
             if (CoverLoaded)
                 return;
+
+            if (_CoverLoaderThread.ThreadState == System.Threading.ThreadState.Unstarted)
+            {
+                _CoverLoaderThread.Name = "CoverLoader";
+                _CoverLoaderThread.Priority = ThreadPriority.BelowNormal;
+                _CoverLoaderThread.IsBackground = true;
+                _CoverLoaderThread.Start();
+            }
+
+            /*
+            
 
             if (!_CoverLoadTimer.IsRunning)
             {
@@ -846,26 +881,44 @@ namespace Vocaluxe.Base
             STexture texture = new STexture(-1);
             if (_CoverLoadTimer.ElapsedMilliseconds >= WaitTime)
             {
-                CSong song = new CSong();
-                int i = GetNextSongWithoutCover(ref song);
+                for (int i = 0; i < NumLoads; i++)
+                {
+                    CSong song = new CSong();
+                    int n = GetNextSongWithoutCover(ref song);
 
-                if (i < 0)
-                    return;
+                    if (n < 0)
+                        return;
+
+                    song.ReadNotes();
+                    texture = song.CoverTextureSmall;
+
+                    SetCoverSmall(n, texture);
+                    SetCoverBig(n, texture);
+
+                    if (CoverLoaded)
+                        CDataBase.CommitCovers();
+
+                    _CoverLoadTimer.Reset();
+                    _CoverLoadTimer.Start();
+                }
+            }
+             * */
+        }
+
+        private static void _LoadCover()
+        {
+            for (int i = 0; i < _Songs.Count; i++)
+            {
+                CSong song = _Songs[i];
 
                 song.ReadNotes();
-                if (song.CoverFileName != String.Empty)
-                {
-                    if (!CDataBase.GetCover(Path.Combine(song.Folder, song.CoverFileName), ref texture, CConfig.CoverSize))
-                        texture = CCover.NoCover;
-                }
-                else
-                    texture = CCover.NoCover;
-                SetCoverSmall(i, texture);
-                SetCoverBig(i, texture);
-
-                _CoverLoadTimer.Reset();
-                _CoverLoadTimer.Start();
+                STexture texture = song.CoverTextureSmall;
+                song.CoverTextureBig = texture;
+                _CoverLoadIndex++;
             }
+
+            _CoverLoaded = true;
+            CDataBase.CommitCovers();
         }
     }
 }

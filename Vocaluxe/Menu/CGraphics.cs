@@ -31,6 +31,8 @@ namespace Vocaluxe.Menu
 
         ScreenNames = 14,
 
+        ScreenCredits = 15,
+
         ScreenNull = -1
     }
 
@@ -100,7 +102,7 @@ namespace Vocaluxe.Menu
                 if (t < _CursorFadingTime)
                 {
                     if (_CursorTargetAlpha >= _CursorStartAlpha)
-                        _Cursor.color.A = (_CursorTargetAlpha - _CursorStartAlpha) * t / _CursorFadingTime;
+                        _Cursor.color.A = _CursorStartAlpha + (_CursorTargetAlpha - _CursorStartAlpha) * t / _CursorFadingTime;
                     else
                         _Cursor.color.A = (_CursorStartAlpha - _CursorTargetAlpha) * (1f - t / _CursorFadingTime);
                 }
@@ -148,6 +150,13 @@ namespace Vocaluxe.Menu
         {
             _Movetimer.Stop();
             Fade(0f, 0.5f);
+        }
+
+        public void FadeIn()
+        {
+            _Movetimer.Reset();
+            _Movetimer.Start();
+            Fade(1f, 0.2f);
         }
 
         private void Fade(float targetAlpha, float time)
@@ -212,6 +221,7 @@ namespace Vocaluxe.Menu
             ScreenList.Add(new CScreenOptionsVideo());
             ScreenList.Add(new CScreenOptionsTheme());
             ScreenList.Add(new CScreenNames());
+            ScreenList.Add(new CScreenCredits());
             CLog.StopBenchmark(1, "Build Screen List");
 
             Screens = ScreenList.ToArray();
@@ -292,9 +302,10 @@ namespace Vocaluxe.Menu
             Keys.CopyEvents();
 
             CSound.Update();
+            CBackgroundMusic.Update();
 
             if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC && ActualScreen != EScreens.ScreenSing)
-                CSongs.LoadCover(30L);
+                CSongs.LoadCover(30L, 1);
 
             if (CSettings.GameState != EGameState.EditTheme)
             {
@@ -348,6 +359,7 @@ namespace Vocaluxe.Menu
                     ActualScreen = NextScreen;
                     NextScreen = EScreens.ScreenNull;
                     Screens[(int)ActualScreen].OnShowFinish();
+                    Screens[(int)ActualScreen].ProcessMouseMove(_Cursor.X, _Cursor.Y);
                     Screens[(int)ActualScreen].Draw();
                     _Fading = false;
                     _FadingTimer.Stop();
@@ -416,6 +428,12 @@ namespace Vocaluxe.Menu
 
             while (Mouse.PollEvent(ref MouseEvent))
             {
+                if (MouseEvent.Wheel != 0)
+                {
+                    CSettings.MouseActive();
+                    _Cursor.FadeIn();
+                }
+
                 UpdateMousePosition(MouseEvent.X, MouseEvent.Y);
 
                 if (!_Fading && (_Cursor.IsActive || MouseEvent.LB || MouseEvent.RB))

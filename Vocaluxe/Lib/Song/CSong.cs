@@ -25,6 +25,7 @@ namespace Vocaluxe.Lib.Song
     class CSong
     {
         private bool _CoverLoaded = false;
+        private bool _NotesLoaded = false;
         private STexture _CoverTextureSmall = new STexture(-1);
         private STexture _CoverTextureBig = new STexture(-1);
 
@@ -54,7 +55,9 @@ namespace Vocaluxe.Lib.Song
             {
                 if (!_CoverLoaded)
                 {
-                    this.ReadNotes();
+                    if (!_NotesLoaded)
+                        this.ReadNotes();
+
                     if (this.CoverFileName != String.Empty)
                     {
                         if (!CDataBase.GetCover(Path.Combine(this.Folder, this.CoverFileName), ref _CoverTextureSmall, CConfig.CoverSize))
@@ -237,6 +240,11 @@ namespace Vocaluxe.Lib.Song
                                         this.MP3FileName = Value;
                                         HeaderFlags |= EHeaderFlags.MP3;
                                     }
+                                    else
+                                    {
+                                        CLog.LogError("Can't find audio file: " + Path.Combine(this.Folder, Value));
+                                        return false;
+                                    }
                                     break;
                                 case "BPM":
                                     if (CHelper.TryParse(Value, out this.BPM))
@@ -283,6 +291,9 @@ namespace Vocaluxe.Lib.Song
                                 case "VIDEO":
                                     if (File.Exists(Path.Combine(this.Folder, Value)))
                                         this.VideoFileName = Value;
+                                    else
+                                        CLog.LogError("Can't find video file: " + Path.Combine(this.Folder, Value));
+                                        
                                     break;
                                 case "VIDEOGAP":
                                     CHelper.TryParse(Value, out this.VideoGap);
@@ -452,12 +463,17 @@ namespace Vocaluxe.Lib.Song
                         TempC = (char)c;
                     } while ((TempC.CompareTo('E') != 0) && !sr.EndOfStream && (c == 19 || c == 16 || c == 13));
                 }
+                foreach(CLines lines in this.Notes.Lines)
+                {
+                    lines.UpdateTimings();
+                }
             }
             catch (Exception e)
             {
                 CLog.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". An unhandled exception occured (" + e.Message + "): " + FilePath);
                 return false;
             }
+            _NotesLoaded = true;
             return true;
         }
 
@@ -470,11 +486,11 @@ namespace Vocaluxe.Lib.Song
             {
                 CLine line = new CLine();
                 line.AddNote(note);
-                lines.AddLine(line);
+                lines.AddLine(line, false);
             }
             else
             {
-                lines.AddNote(note, lines.LineCount - 1);
+                lines.AddNote(note, lines.LineCount - 1, false);
             }        
         }
 
