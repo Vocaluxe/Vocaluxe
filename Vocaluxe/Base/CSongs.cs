@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Lib.Song;
@@ -60,6 +61,8 @@ namespace Vocaluxe.Base
         private static string _SearchFilter = String.Empty;
         private static EOffOn _Tabs = CConfig.Tabs;
 
+        private static Thread _CoverLoaderThread = new Thread(new ThreadStart(_LoadCover));
+                    
         public static string SearchFilter
         {
             get { return _SearchFilter; }
@@ -849,7 +852,7 @@ namespace Vocaluxe.Base
 
         public static void LoadCover(long WaitTime, int NumLoads)
         {
-            if (CConfig.Renderer != ERenderer.TR_CONFIG_SOFTWARE)
+            if (CConfig.Renderer == ERenderer.TR_CONFIG_SOFTWARE)
                 return; //should be removed as soon as the other renderer are ready for queque
 
             if (!SongsLoaded)
@@ -857,6 +860,17 @@ namespace Vocaluxe.Base
 
             if (CoverLoaded)
                 return;
+
+            if (_CoverLoaderThread.ThreadState == System.Threading.ThreadState.Unstarted)
+            {
+                _CoverLoaderThread.Name = "CoverLoader";
+                _CoverLoaderThread.Priority = ThreadPriority.BelowNormal;
+                _CoverLoaderThread.IsBackground = true;
+                _CoverLoaderThread.Start();
+            }
+
+            /*
+            
 
             if (!_CoverLoadTimer.IsRunning)
             {
@@ -888,6 +902,23 @@ namespace Vocaluxe.Base
                     _CoverLoadTimer.Start();
                 }
             }
+             * */
+        }
+
+        private static void _LoadCover()
+        {
+            for (int i = 0; i < _Songs.Count; i++)
+            {
+                CSong song = _Songs[i];
+
+                song.ReadNotes();
+                STexture texture = song.CoverTextureSmall;
+                song.CoverTextureBig = texture;
+                _CoverLoadIndex++;
+            }
+
+            _CoverLoaded = true;
+            CDataBase.CommitCovers();
         }
     }
 }

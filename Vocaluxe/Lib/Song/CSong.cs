@@ -463,6 +463,10 @@ namespace Vocaluxe.Lib.Song
                         TempC = (char)c;
                     } while ((TempC.CompareTo('E') != 0) && !sr.EndOfStream && (c == 19 || c == 16 || c == 13));
                 }
+                foreach(CLines lines in this.Notes.Lines)
+                {
+                    lines.UpdateTimings();
+                }
             }
             catch (Exception e)
             {
@@ -482,11 +486,11 @@ namespace Vocaluxe.Lib.Song
             {
                 CLine line = new CLine();
                 line.AddNote(note);
-                lines.AddLine(line);
+                lines.AddLine(line, false);
             }
             else
             {
-                lines.AddNote(note, lines.LineCount - 1);
+                lines.AddNote(note, lines.LineCount - 1, false);
             }        
         }
 

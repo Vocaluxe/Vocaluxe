@@ -35,8 +35,9 @@ namespace Vocaluxe.Lib.Draw
         private Size _SizeBeforeMinimize;
 
         private Dictionary<int, STexture> _Textures;
-        private List<Texture> _D3DTextures;
+        private Dictionary<int, Texture> _D3DTextures;
         private List<STextureQueque> _Queque;
+        private Queue<int> _IDs;
 
         private Object MutexTexture = new Object();
 
@@ -48,7 +49,7 @@ namespace Vocaluxe.Lib.Draw
         private int y = 0;
         private int x = 0;
 
-        private STexture blankTexture;
+        private STexture _BlankTexture;
 
         private Queue<TexturedColoredVertex> _Vertices;
         private Queue<Texture> _VerticesTextures;
@@ -63,8 +64,13 @@ namespace Vocaluxe.Lib.Draw
         {
             this.Icon = new System.Drawing.Icon(Path.Combine(System.Environment.CurrentDirectory, CSettings.sIcon));
             _Textures = new Dictionary<int, STexture>();
-            _D3DTextures = new List<Texture>();
+            _D3DTextures = new Dictionary<int, Texture>();
             _Queque = new List<STextureQueque>();
+            _IDs = new Queue<int>();
+
+            //Fill Queue with 100000 IDs
+            for (int i = 0; i < 100000; i++)
+                _IDs.Enqueue(i);
 
             _Vertices = new Queue<TexturedColoredVertex>();
             _VerticesTextures = new Queue<Texture>();
@@ -482,7 +488,7 @@ namespace Vocaluxe.Lib.Draw
                 Graphics g = Graphics.FromImage(blankMap);
                 g.Clear(Color.White);
                 g.Dispose();
-                blankTexture = AddTexture(blankMap);
+                _BlankTexture = AddTexture(blankMap);
 
                 blankMap.Dispose();
                 return true;
@@ -504,6 +510,10 @@ namespace Vocaluxe.Lib.Draw
                 CSettings.bFullScreen = true;
                 EnterFullScreen();
             }
+
+            //Resize window if aspect ratio is incorrect
+            if ((float)w / (float)h != CSettings.GetRenderAspect())
+                RResize();
 
             while (_Run)
             {
@@ -582,11 +592,14 @@ namespace Vocaluxe.Lib.Draw
         public bool Unload()
         {
             //Dispose all textures
-            for (int i = 0; i < _D3DTextures.Count; i++)
+            foreach (KeyValuePair<int, Texture> p in _D3DTextures)
             {
-                if (_D3DTextures[i] != null)
-                    _D3DTextures[i].Dispose();
+                if (p.Value != null)
+                {
+                    p.Value.Dispose();
+                }
             }
+
             TexturedColoredVertex.GetDeclaration(_Device).Dispose();
             _VertexBuffer.Dispose();
             _IndexBuffer.Dispose();
@@ -712,7 +725,7 @@ namespace Vocaluxe.Lib.Draw
             Surface textureSurface = tex.GetSurfaceLevel(0);
             Surface.FromSurface(textureSurface, backbufferSurface, Filter.Default, 0);
             backbufferSurface.Dispose();
-            _D3DTextures.Add(tex);
+            _D3DTextures.Add(_IDs.Peek(), tex);
 
             texture.color = new SColorF(1f, 1f, 1f, 1f);
             texture.rect = new SRectF(0f, 0f, texture.width, texture.height, 0f);
@@ -720,7 +733,7 @@ namespace Vocaluxe.Lib.Draw
             texture.height = h;
             texture.w2 = NextPowerOfTwo(texture.width);
             texture.h2 = NextPowerOfTwo(texture.height);
-            texture.index = _D3DTextures.Count - 1;
+            texture.index = _IDs.Dequeue();
 
             lock (MutexTexture)
             {
@@ -786,7 +799,7 @@ namespace Vocaluxe.Lib.Draw
         public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2)
         {
             SColorF color = new SColorF(a / 255, g / 255, b / 255, a / 255);
-            DrawTexture(blankTexture, new SRectF(x1, y1, x2, y2, 1), color);
+            DrawTexture(_BlankTexture, new SRectF(x1, y1, x2, y2, 1), color);
         }
 
         /// <summary>
@@ -821,7 +834,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="rect">The coordinates in a SRectF struct</param>
         public void DrawColor(SColorF color, SRectF rect)
         {
-            DrawTexture(blankTexture, rect, color);
+            DrawTexture(_BlankTexture, rect, color);
         }
         #endregion Basic Draw Methods
         #region Textures
@@ -890,13 +903,13 @@ namespace Vocaluxe.Lib.Draw
             int w = bmp.Width;
             int h = bmp.Height;
 
-            if (h >= w && w > MaxSize)
+            if (w > MaxSize)
             {
                 h = (int)Math.Round((float)MaxSize / bmp.Width * bmp.Height);
                 w = MaxSize;
             }
 
-            if (w >= h && h > MaxSize)
+            if (h > MaxSize)
             {
                 w = (int)Math.Round((float)MaxSize / bmp.Height * bmp.Width);
                 h = MaxSize;
@@ -950,8 +963,8 @@ namespace Vocaluxe.Lib.Draw
             texture.TexturePath = String.Empty;
             lock (MutexTexture)
             {
-                _D3DTextures.Add(t);
-                texture.index = _D3DTextures.Count - 1;
+                _D3DTextures.Add(_IDs.Peek(), t);
+                texture.index = _IDs.Dequeue();
                 _Textures[texture.index] = texture;
             }
             return texture;
@@ -987,8 +1000,8 @@ namespace Vocaluxe.Lib.Draw
 
             lock (MutexTexture)
             {
-                _D3DTextures.Add(null);
-                texture.index = _D3DTextures.Count - 1;
+                _D3DTextures.Add(_IDs.Peek(), null);
+                texture.index = _IDs.Dequeue();
                 queque.ID = texture.index;
                 _Queque.Add(queque);
                 _Textures[texture.index] = texture;
@@ -1023,8 +1036,8 @@ namespace Vocaluxe.Lib.Draw
 
             lock (MutexTexture)
             {
-                _D3DTextures.Add(t);
-                texture.index = _D3DTextures.Count - 1;
+                _D3DTextures.Add(_IDs.Peek(), t);
+                texture.index = _IDs.Dequeue();
                 _Textures[texture.index] = texture;
             }
             return texture;
@@ -1054,7 +1067,7 @@ namespace Vocaluxe.Lib.Draw
         /// <returns>True if succeeded</returns>
         public bool UpdateTexture(ref STexture Texture, ref byte[] Data)
         {
-            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index) && _TextureExists(ref Texture))
+            if ((Texture.index >= 0) && (_Textures.Count > 0) && _TextureExists(ref Texture))
             {
                 DataRectangle rect = _D3DTextures[Texture.index].LockRectangle(0, LockFlags.None);
                 for (int i = 0; i < Data.Length; )
@@ -1107,8 +1120,9 @@ namespace Vocaluxe.Lib.Draw
                 if ((Texture.index >= 0) && (_Textures.Count > 0))
                 {
                     _D3DTextures[Texture.index].Dispose();
-                    _D3DTextures[Texture.index] = null;
+                    _D3DTextures.Remove(Texture.index);
                     _Textures.Remove(Texture.index);
+                    _IDs.Enqueue(Texture.index);
                     Texture.index = -1;
                     Texture.ID = -1;
                 }
@@ -1122,8 +1136,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="Texture">The texture to be drawn</param>
         public void DrawTexture(STexture Texture)
         {
-            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index))
-                DrawTexture(Texture, Texture.rect, Texture.color);
+            DrawTexture(Texture, Texture.rect, Texture.color);
         }
 
         /// <summary>
@@ -1133,8 +1146,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="rect">A SRectF struct containing the destination coordinates</param>
         public void DrawTexture(STexture Texture, SRectF rect)
         {
-            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index))
-                DrawTexture(Texture, rect, Texture.color, false);
+            DrawTexture(Texture, rect, Texture.color, false);
         }
 
         /// <summary>
@@ -1145,8 +1157,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
         public void DrawTexture(STexture Texture, SRectF rect, SColorF color)
         {
-            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index))
-                DrawTexture(Texture, rect, color, false);
+            DrawTexture(Texture, rect, color, false);
         }
 
         /// <summary>
@@ -1158,8 +1169,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
         public void DrawTexture(STexture Texture, SRectF rect, SColorF color, SRectF bounds)
         {
-            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index))
-                DrawTexture(Texture, rect, color, bounds, false);
+            DrawTexture(Texture, rect, color, bounds, false);
         }
 
         /// <summary>
@@ -1171,8 +1181,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="mirrored">True if the texture should be mirrored</param>
         public void DrawTexture(STexture Texture, SRectF rect, SColorF color, bool mirrored)
         {
-            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index))
-                DrawTexture(Texture, rect, color, new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, rect.Z), mirrored);
+            DrawTexture(Texture, rect, color, new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, rect.Z), mirrored);
         }
 
         /// <summary>
@@ -1185,7 +1194,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="mirrored">True if the texture should be mirrored</param>
         public void DrawTexture(STexture Texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored)
         {
-            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_D3DTextures.Count > Texture.index) && _TextureExists(ref Texture))
+            if (_TextureExists(ref Texture))
             {
                 if (_D3DTextures[Texture.index] == null)
                     return;

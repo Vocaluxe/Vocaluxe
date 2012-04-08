@@ -43,9 +43,7 @@ namespace Vocaluxe.Lib.Song
             if (Index >= _Lines.Count)
                 return false;
 
-            CLines lines = new CLines();
-            lines = Lines;
-            _Lines[Index] = lines;
+            _Lines[Index] = Lines;
             return true;
         }
 
@@ -550,8 +548,15 @@ namespace Vocaluxe.Lib.Song
         #region Methods
         public void AddLine(CLine Line)
         {
+            AddLine(Line, true);
+        }
+        public void AddLine(CLine Line, bool updateTimings)
+        {
             _Lines.Add(Line);
-            UpdateTimings();
+            if (updateTimings)
+            {
+                UpdateTimings();
+            }
         }
 
         public bool InsertLine(CLine Line, int Index)
@@ -581,15 +586,22 @@ namespace Vocaluxe.Lib.Song
             _Lines.Clear();
         }
 
-        public bool AddNote(CNote Note, int LineIndex)
+        public bool AddNote(CNote Note, int LineIndex, bool updateTimings)
         {
             if (_Lines.Count > LineIndex)
             {
                 _Lines[LineIndex].AddNote(Note);
-                UpdateTimings();
+                if (updateTimings)
+                {
+                    UpdateTimings();
+                }
                 return true;
             }
             return false;
+        }
+        public bool AddNote(CNote Note, int LineIndex)
+        {
+            return AddNote(Note, LineIndex, true);
         }
 
         public bool InsertNote(CNote Note, int LineIndex, int NoteIndex)
