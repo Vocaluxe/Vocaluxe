@@ -22,8 +22,14 @@ namespace Vocaluxe.Base
         {
             if (_LogFile != null)
             {
-                _LogFile.Flush();
-                _LogFile.Close();
+                try
+                {
+                    _LogFile.Flush();
+                    _LogFile.Close();
+                }
+                catch (Exception)
+                {
+                }
             }
         }
 
@@ -32,8 +38,14 @@ namespace Vocaluxe.Base
             if (_LogFile == null)
                 Open();
 
-            _LogFile.WriteLine(Text);
-            _LogFile.Flush();
+            try
+            {
+                _LogFile.WriteLine(Text);
+                _LogFile.Flush();
+            }
+            catch (Exception)
+            {
+            }            
         }
 
         private void Open()

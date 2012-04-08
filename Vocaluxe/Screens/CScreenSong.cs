@@ -161,12 +161,19 @@ namespace Vocaluxe.Screens
                 CGraphics.FadeTo(EScreens.ScreenMain);
             }
 
-            SongMenus[htSongMenus(SongMenu)].HandleMouse(ref MouseEvent);
+            if (MouseEvent.MB && CSongs.Category != -1)
+            {
+                Console.WriteLine("MB pressed");
+                SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
+            }
+            else
+                SongMenus[htSongMenus(SongMenu)].HandleMouse(ref MouseEvent);
+
             if (MouseEvent.LB && CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
             {
                 StartSong(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
             }
-             
+
             return true;
         }
 

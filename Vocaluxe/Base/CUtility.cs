@@ -69,8 +69,11 @@ namespace Vocaluxe.Base
         public int Y;
         public bool LB;     //left button click
         public bool RB;     //right button click
+        public bool MB;     //middle button click
+
         public bool LBH;    //left button hold (when moving)
         public bool RBH;    //right button hold (when moving)
+        public bool MBH;    //middle button hold (when moving)
 
         public bool ModALT;
         public bool ModSHIFT;
@@ -79,15 +82,17 @@ namespace Vocaluxe.Base
         public Modifier Mod;
         public int Wheel;
 
-        public MouseEvent(bool alt, bool shift, bool ctrl, int x, int y, bool lb, bool rb, int wheel, bool lbh, bool rbh)
+        public MouseEvent(bool alt, bool shift, bool ctrl, int x, int y, bool lb, bool rb, int wheel, bool lbh, bool rbh, bool mb, bool mbh)
         {
             X = x;
             Y = y;
             LB = lb;
             RB = rb;
+            MB = mb;
 
             LBH = lbh;
             RBH = rbh;
+            MBH = mbh;
 
             ModALT = alt;
             ModSHIFT = shift;
@@ -311,7 +316,7 @@ namespace Vocaluxe.Base
     class CMouse
     {
         private List<MouseEvent> _EventsPool;
-        private List<MouseEvent> _ActualPool;
+        private List<MouseEvent> _CurrentPool;
 
         private int _x = 0;
         private int _y = 0;
@@ -321,8 +326,6 @@ namespace Vocaluxe.Base
         private bool _ModALT;
         private bool _ModCTRL;
         private bool _ModSHIFT;
-        
-        private System.Diagnostics.Stopwatch _timer;
 
         public int X
         {
@@ -343,15 +346,14 @@ namespace Vocaluxe.Base
             _ModSHIFT = false;
 
             _EventsPool = new List<MouseEvent>();
-            _ActualPool = new List<MouseEvent>();
-            _timer = new System.Diagnostics.Stopwatch();
+            _CurrentPool = new List<MouseEvent>();
         }
 
-        private void Add(bool alt, bool shift, bool ctrl, int x, int y, bool lb, bool rb, int wheel, bool lbh, bool rbh)
+        private void Add(bool alt, bool shift, bool ctrl, int x, int y, bool lb, bool rb, int wheel, bool lbh, bool rbh, bool mb, bool mbh)
         {
             x = (int)((float)x * (float)CSettings.iRenderW / (float)CDraw.GetScreenWidth());
             y = (int)((float)y * (float)CSettings.iRenderH / (float)CDraw.GetScreenHeight());
-            MouseEvent pool = new MouseEvent(alt, shift, ctrl, x, y, lb, rb, -wheel/120, lbh, rbh);
+            MouseEvent pool = new MouseEvent(alt, shift, ctrl, x, y, lb, rb, -wheel/120, lbh, rbh, mb, mbh);
 
             lock (_CopyLock)
             {
@@ -359,14 +361,11 @@ namespace Vocaluxe.Base
             }
             _x = x;
             _y = y;
-
-            _timer.Reset();
-            _timer.Start();
         }
 
         private void Del(int index)
         {
-            _ActualPool.RemoveAt(index);
+            _CurrentPool.RemoveAt(index);
         }
 
         private void CheckModifiers()
@@ -381,19 +380,22 @@ namespace Vocaluxe.Base
         public void MouseMove(MouseEventArgs e)
         {
             CheckModifiers();
-            Add(_ModALT, _ModSHIFT, _ModCTRL, e.X, e.Y, false, false, e.Delta, e.Button == MouseButtons.Left, e.Button == MouseButtons.Right);
+            Add(_ModALT, _ModSHIFT, _ModCTRL, e.X, e.Y, false, false, e.Delta, e.Button == MouseButtons.Left, e.Button == MouseButtons.Right,
+                false, e.Button == MouseButtons.Middle);
         }
 
         public void MouseWheel(MouseEventArgs e)
         {
             CheckModifiers();
-            Add(_ModALT, _ModSHIFT, _ModCTRL, e.X, e.Y, false, false, e.Delta, e.Button == MouseButtons.Left, e.Button == MouseButtons.Right);
+            Add(_ModALT, _ModSHIFT, _ModCTRL, e.X, e.Y, false, false, e.Delta, e.Button == MouseButtons.Left, e.Button == MouseButtons.Right,
+                false, e.Button == MouseButtons.Middle);
         }
 
         public void MouseDown(MouseEventArgs e)
         {
             CheckModifiers();
-            Add(_ModALT, _ModSHIFT, _ModCTRL, e.X, e.Y, e.Button == MouseButtons.Left, e.Button == MouseButtons.Right, e.Delta, false, false);
+            Add(_ModALT, _ModSHIFT, _ModCTRL, e.X, e.Y, e.Button == MouseButtons.Left, e.Button == MouseButtons.Right, e.Delta, false, false,
+                e.Button == MouseButtons.Middle, false);
         }
 
         public void MouseUp(MouseEventArgs e)
@@ -404,9 +406,9 @@ namespace Vocaluxe.Base
 
         public bool PollEvent(ref MouseEvent MouseEvent)
         {
-            if (_ActualPool.Count > 0)
+            if (_CurrentPool.Count > 0)
             {
-                MouseEvent = _ActualPool[0];
+                MouseEvent = _CurrentPool[0];
                 Del(0);
                 return true;
             }
@@ -419,7 +421,7 @@ namespace Vocaluxe.Base
             {
                 foreach (MouseEvent e in _EventsPool)
                 {
-                    _ActualPool.Add(e);
+                    _CurrentPool.Add(e);
                 }
                 _EventsPool.Clear();
             }

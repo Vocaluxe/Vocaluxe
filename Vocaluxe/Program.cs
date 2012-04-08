@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -33,126 +34,156 @@ namespace Vocaluxe
 
             Application.DoEvents();
 
-            // Init Log
-            CLog.Init();
+            try
+            {
+                // Init Log
+                CLog.Init();
 
-            CSettings.CreateFolders();
-            Application.DoEvents();
+                CSettings.CreateFolders();
+                Application.DoEvents();
 
-            // Init Language
-            CLog.StartBenchmark(0, "Init Language");
-            CLanguage.Init();
-            CLog.StopBenchmark(0, "Init Language");
+                // Init Language
+                CLog.StartBenchmark(0, "Init Language");
+                CLanguage.Init();
+                CLog.StopBenchmark(0, "Init Language");
 
-            Application.DoEvents();
+                Application.DoEvents();
 
-            // load config
-            CLog.StartBenchmark(0, "Init Config");
-            CConfig.LoadCommandLineParams(args);
-            CConfig.UseCommandLineParamsBefore();
-            CConfig.Init();
-            CConfig.UseCommandLineParamsAfter();
-            CLog.StopBenchmark(0, "Init Config");
+                // load config
+                CLog.StartBenchmark(0, "Init Config");
+                CConfig.LoadCommandLineParams(args);
+                CConfig.UseCommandLineParamsBefore();
+                CConfig.Init();
+                CConfig.UseCommandLineParamsAfter();
+                CLog.StopBenchmark(0, "Init Config");
 
-            Application.DoEvents();
-            _SplashScreen = new SplashScreen();
-            Application.DoEvents();
+                Application.DoEvents();
+                _SplashScreen = new SplashScreen();
+                Application.DoEvents();
 
-            // Init Draw
-            CLog.StartBenchmark(0, "Init Draw");
-            CDraw.InitDraw();
-            CLog.StopBenchmark(0, "Init Draw");
+                // Init Draw
+                CLog.StartBenchmark(0, "Init Draw");
+                CDraw.InitDraw();
+                CLog.StopBenchmark(0, "Init Draw");
 
-            Application.DoEvents();
+                Application.DoEvents();
 
-            // Init Database
-            CLog.StartBenchmark(0, "Init Database");
-            CDataBase.Init();
-            CLog.StopBenchmark(0, "Init Database");
+                // Init Database
+                CLog.StartBenchmark(0, "Init Database");
+                CDataBase.Init();
+                CLog.StopBenchmark(0, "Init Database");
 
-            Application.DoEvents();
+                Application.DoEvents();
 
-            // Init Playback
-            CLog.StartBenchmark(0, "Init Playback");
-            CSound.PlaybackInit();
-            CLog.StopBenchmark(0, "Init Playback");
+                // Init Playback
+                CLog.StartBenchmark(0, "Init Playback");
+                CSound.PlaybackInit();
+                CLog.StopBenchmark(0, "Init Playback");
 
-            Application.DoEvents();
+                Application.DoEvents();
 
-            // Init Record
-            CLog.StartBenchmark(0, "Init Record");
-            CSound.RecordInit();
-            CLog.StopBenchmark(0, "Init Record");
+                // Init Record
+                CLog.StartBenchmark(0, "Init Record");
+                CSound.RecordInit();
+                CLog.StopBenchmark(0, "Init Record");
 
-            Application.DoEvents();
+                Application.DoEvents();
 
-            // Init Background Music
-            CLog.StartBenchmark(0, "Init Background Music");
-            CBackgroundMusic.Init();
-            CLog.StopBenchmark(0, "Init Background Music");
+                // Init Background Music
+                CLog.StartBenchmark(0, "Init Background Music");
+                CBackgroundMusic.Init();
+                CLog.StopBenchmark(0, "Init Background Music");
 
-            Application.DoEvents();
+                Application.DoEvents();
 
-            // Init Profiles
-            CLog.StartBenchmark(0, "Init Profiles");
-            CProfiles.Init();
-            CLog.StopBenchmark(0, "Init Profiles");
+                // Init Profiles
+                CLog.StartBenchmark(0, "Init Profiles");
+                CProfiles.Init();
+                CLog.StopBenchmark(0, "Init Profiles");
 
-            Application.DoEvents();
+                Application.DoEvents();
 
-            // Init Font
-            CLog.StartBenchmark(0, "Init Font");
-            CFonts.Init();
-            CLog.StopBenchmark(0, "Init Font");
+                // Init Font
+                CLog.StartBenchmark(0, "Init Font");
+                CFonts.Init();
+                CLog.StopBenchmark(0, "Init Font");
 
-            Application.DoEvents();
+                Application.DoEvents();
 
-            // Init VideoDecoder
-            CLog.StartBenchmark(0, "Init Videodecoder");
-            CVideo.Init();
-            CLog.StopBenchmark(0, "Init Videodecoder");
+                // Init VideoDecoder
+                CLog.StartBenchmark(0, "Init Videodecoder");
+                CVideo.Init();
+                CLog.StopBenchmark(0, "Init Videodecoder");
 
-            Application.DoEvents();
+                Application.DoEvents();
 
-            // Load Cover
-            CLog.StartBenchmark(0, "Init Cover");
-            CCover.Init();
-            CLog.StopBenchmark(0, "Init Cover");
+                // Load Cover
+                CLog.StartBenchmark(0, "Init Cover");
+                CCover.Init();
+                CLog.StopBenchmark(0, "Init Cover");
 
-            Application.DoEvents();
+                Application.DoEvents();
 
-            // Theme System
-            CLog.StartBenchmark(0, "Init Theme");
-            CTheme.InitTheme();
-            CLog.StopBenchmark(0, "Init Theme");
+                // Theme System
+                CLog.StartBenchmark(0, "Init Theme");
+                CTheme.InitTheme();
+                CLog.StopBenchmark(0, "Init Theme");
 
-            Application.DoEvents();
+                Application.DoEvents();
 
-            // Init Screens
-            CLog.StartBenchmark(0, "Init Screens");
-            CGraphics.InitGraphics();
-            CLog.StopBenchmark(0, "Init Screens");
+                // Init Screens
+                CLog.StartBenchmark(0, "Init Screens");
+                CGraphics.InitGraphics();
+                CLog.StopBenchmark(0, "Init Screens");
 
-            Application.DoEvents();
+                Application.DoEvents();
 
-            // Init Game;
-            CLog.StartBenchmark(0, "Init Game");
-            CGame.Init();
-            CLog.StopBenchmark(0, "Init Game");
-
+                // Init Game;
+                CLog.StartBenchmark(0, "Init Game");
+                CGame.Init();
+                CLog.StopBenchmark(0, "Init Game");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error on start up: " + e.Message + e.StackTrace);
+                CLog.LogError("Error on start up: " + e.Message + e.StackTrace);
+                CloseProgram();
+                Environment.Exit(Environment.ExitCode);
+            }
             Application.DoEvents();
 
             // Start Main Loop
             _SplashScreen.Close();
-            CDraw.MainLoop();
 
+            try
+            {
+                CDraw.MainLoop();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Unhandled error: " + e.Message + e.StackTrace);
+                CLog.LogError("Unhandled error: " + e.Message + e.StackTrace);
+            }
+
+            CloseProgram();
+        }
+
+        static void CloseProgram()
+        {
             // Unloading
-            CSound.RecordCloseAll();
-            CSound.CloseAllStreams();
-            CVideo.VdCloseAll();
-            CDraw.Unload();
-            CLog.CloseAll();
-            CDataBase.CloseConnections();
+            try
+            {
+                CSound.RecordCloseAll();
+                CSound.CloseAllStreams();
+                CVideo.VdCloseAll();
+                CDraw.Unload();
+                CLog.CloseAll();
+                CDataBase.CloseConnections();
+            }
+            catch (Exception)
+            {
+            }
+            
         }
 
         static Assembly AssemblyResolver(Object sender, ResolveEventArgs args)
