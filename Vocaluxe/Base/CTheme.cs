@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.XPath;
 
@@ -45,7 +46,7 @@ namespace Vocaluxe.Base
         public string Path;
         public string FileName;
 
-        public List<SkinElement> SkinList;
+        public Dictionary<string, SkinElement> SkinList;
         public List<SkinElement> VideoList;
 
         public SColors ThemeColors;
@@ -163,30 +164,49 @@ namespace Vocaluxe.Base
                 {
                     string value = String.Empty;
 
+
                     // load skins/textures
-                    for (int i = 0; i < _Skins[index].SkinList.Count; i++)
+                    List<string> keys = new List<string>(_Skins[index].SkinList.Keys);
+
+                    foreach (string name in keys)
                     {
-                        CHelper.GetValueFromXML("//root/Skins/" + _Skins[index].SkinList[i].Name, navigator, ref value, String.Empty);
-                        SkinElement sk = new SkinElement();
-                        sk.Name = _Skins[index].SkinList[i].Name;
-                        sk.Value = value;
-                        sk.VideoIndex = -1;
-                        sk.Texture = CDraw.AddTexture(Path.Combine(_Skins[index].Path, sk.Value));
-                        _Skins[index].SkinList[i] = sk;
+                        try
+                        {
+                            CHelper.GetValueFromXML("//root/Skins/" + name, navigator, ref value, String.Empty);
+                            SkinElement sk = _Skins[index].SkinList[name];
+                            sk.Value = value;
+                            sk.VideoIndex = -1;
+                            sk.Texture = CDraw.AddTexture(Path.Combine(_Skins[index].Path, sk.Value));
+                            _Skins[index].SkinList[name] = sk;
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show("Error on loading texture \"" + name + "\": " + e.Message + e.StackTrace);
+                            CLog.LogError("Error on loading texture \"" + name + "\": " + e.Message + e.StackTrace);
+                        }
                     }
+                    
 
                     // load videos
                     for (int i = 0; i < _Skins[index].VideoList.Count; i++)
                     {
-                        CHelper.GetValueFromXML("//root/Videos/" + _Skins[index].VideoList[i].Name, navigator, ref value, String.Empty);
-                        SkinElement sk = new SkinElement();
-                        sk.Name = _Skins[index].VideoList[i].Name;
-                        sk.Value = value;
-                        sk.VideoIndex = CVideo.VdLoad(Path.Combine(_Skins[index].Path, sk.Value));
-                        CVideo.VdSetLoop(sk.VideoIndex, true);
-                        CVideo.VdPause(sk.VideoIndex);
-                        sk.Texture = new STexture(-1);
-                        _Skins[index].VideoList[i] = sk;
+                        try
+                        {
+                            CHelper.GetValueFromXML("//root/Videos/" + _Skins[index].VideoList[i].Name, navigator, ref value, String.Empty);
+                            SkinElement sk = new SkinElement();
+                            sk.Name = _Skins[index].VideoList[i].Name;
+                            sk.Value = value;
+                            sk.VideoIndex = CVideo.VdLoad(Path.Combine(_Skins[index].Path, sk.Value));
+                            CVideo.VdSetLoop(sk.VideoIndex, true);
+                            CVideo.VdPause(sk.VideoIndex);
+                            sk.Texture = new STexture(-1);
+                            _Skins[index].VideoList[i] = sk;
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show("Error on loading video \"" + _Skins[index].VideoList[i].Name + "\": " + e.Message + e.StackTrace);
+                            CLog.LogError("Error on loading video \"" + _Skins[index].VideoList[i].Name + "\": " + e.Message + e.StackTrace);
+                        }
                     }
 
                     // load colors
@@ -199,9 +219,9 @@ namespace Vocaluxe.Base
         {
             for (int i = 0; i < _Skins.Count; i++)
             {
-                for (int j = 0; j < _Skins[i].SkinList.Count; j++)
+                foreach (SkinElement sk in _Skins[i].SkinList.Values)
                 {
-                    STexture Texture = _Skins[i].SkinList[j].Texture;
+                    STexture Texture = sk.Texture;
                     CDraw.RemoveTexture(ref Texture);
                 }
 
@@ -335,7 +355,7 @@ namespace Vocaluxe.Base
                 #region Skins
                 writer.WriteStartElement("Skins");
 
-                foreach (SkinElement element in _Skins[SkinIndex].SkinList)
+                foreach (SkinElement element in _Skins[SkinIndex].SkinList.Values)
                 {
                     writer.WriteElementString(element.Name, element.Value);
                 }
@@ -489,14 +509,14 @@ namespace Vocaluxe.Base
                             skin.Path = path;
                             skin.FileName = file;
 
-                            skin.SkinList = new List<SkinElement>();
+                            skin.SkinList = new Dictionary<string, SkinElement>();
                             List<string> names = CHelper.GetValuesFromXML("Skins", navigator);
                             foreach (string str in names)
                             {
                                 SkinElement sk = new SkinElement();
                                 sk.Name = str;
                                 sk.Value = String.Empty;
-                                skin.SkinList.Add(sk);
+                                skin.SkinList[str] = sk;
                             }
 
                             skin.VideoList = new List<SkinElement>();
@@ -573,16 +593,9 @@ namespace Vocaluxe.Base
         public static STexture GetSkinTexture(string TextureName)
         {
             int SkinIndex = GetSkinIndex();
-            if (SkinIndex != -1)
+            if (SkinIndex != -1 && TextureName != null && _Skins[SkinIndex].SkinList.ContainsKey(TextureName))
             {
-                for (int i = 0; i < _Skins[SkinIndex].SkinList.Count; i++)
-                {
-                    SkinElement sk = _Skins[SkinIndex].SkinList[i];
-                    if (sk.Name == TextureName)
-                    {
-                        return sk.Texture;
-                    }
-                }
+                return _Skins[SkinIndex].SkinList[TextureName].Texture;
             }
             return new STexture(-1);
         }
@@ -599,7 +612,7 @@ namespace Vocaluxe.Base
 
         private static string GetSkinFileName(string SkinName, int SkinIndex, bool ReturnPath)
         {
-            foreach (SkinElement sk in _Skins[SkinIndex].SkinList)
+            foreach (SkinElement sk in _Skins[SkinIndex].SkinList.Values)
             {
                 if (sk.Name == SkinName)
                 {
