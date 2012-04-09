@@ -29,12 +29,12 @@ namespace Vocaluxe.Screens
         private readonly string[] StaticPlayer = new string[] { "StaticPlayer1", "StaticPlayer2", "StaticPlayer3", "StaticPlayer4", "StaticPlayer5", "StaticPlayer6" };
         private readonly string[] StaticPlayerAvatar = new string[] { "StaticPlayerAvatar1", "StaticPlayerAvatar2", "StaticPlayerAvatar3", "StaticPlayerAvatar4", "StaticPlayerAvatar5", "StaticPlayerAvatar6" };
         private readonly string[] TextPlayer = new string[] { "TextPlayer1", "TextPlayer2", "TextPlayer3", "TextPlayer4", "TextPlayer5", "TextPlayer6" };
+        private STexture[] OriginalPlayerAvatarTextures = new STexture[CSettings.MaxNumPlayer];
 
         private bool selectingMouseActive = false;
         private bool selectingKeyboardActive = false;
         private int selectingKeyboardPlayerNr = 0;
         private int SelectedPlayerNr;
-
         
         private int[] _PlayerNr;
         
@@ -96,6 +96,11 @@ namespace Vocaluxe.Screens
             for (int i = 0; i < _PlayerNr.Length; i++)
             {
                 _PlayerNr[i] = i;
+            }
+
+            for (int i = 0; i < CSettings.MaxNumPlayer; i++)
+            {
+                OriginalPlayerAvatarTextures[i] = Statics[htStatics(StaticPlayerAvatar[i])].Texture;
             }
         }
 
@@ -248,6 +253,26 @@ namespace Vocaluxe.Screens
                         selectingKeyboardActive = false;
                         NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
                         break;
+                    
+                    case Keys.Delete:
+                    //Delete profile-selection
+                        CGame.Player[selectingKeyboardPlayerNr-1].ProfileID = -1;
+                        CGame.Player[selectingKeyboardPlayerNr-1].Name = String.Empty;
+                        CGame.Player[selectingKeyboardPlayerNr-1].Difficulty = EGameDifficulty.TR_CONFIG_EASY;
+                        //Update config for default players.
+                        CConfig.Players[selectingKeyboardPlayerNr - 1] = String.Empty;
+                        CConfig.SaveConfig();
+                        //Update texture and name
+                        Statics[htStatics(StaticPlayerAvatar[selectingKeyboardPlayerNr - 1])].Texture = OriginalPlayerAvatarTextures[selectingKeyboardPlayerNr - 1];
+                        Texts[htTexts(TextPlayer[selectingKeyboardPlayerNr - 1])].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + selectingKeyboardPlayerNr.ToString();
+                        //Update profile-warning
+                        CheckPlayers();
+                        //Reset all values
+                        selectingKeyboardPlayerNr = 0;
+                        selectingKeyboardActive = false;
+                        NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
+                        break;
+
                 }
             }
             //Normal Keyboard handling
@@ -426,7 +451,29 @@ namespace Vocaluxe.Screens
 
             if (MouseEvent.RB)
             {
-                CGraphics.FadeTo(EScreens.ScreenSong);
+                
+                bool exit = true;
+                //Remove profile-selection
+                for (int i = 0; i < CConfig.NumPlayer; i++)
+                {
+                    if (CHelper.IsInBounds(Statics[htStatics(StaticPlayer[i])].Rect, MouseEvent))
+                    {
+                        CGame.Player[i].ProfileID = -1;
+                        CGame.Player[i].Name = String.Empty;
+                        CGame.Player[i].Difficulty = EGameDifficulty.TR_CONFIG_EASY;
+                        //Update config for default players.
+                        CConfig.Players[i] = String.Empty;
+                        CConfig.SaveConfig();
+                        //Update texture and name
+                        Statics[htStatics(StaticPlayerAvatar[i])].Texture = OriginalPlayerAvatarTextures[i];
+                        Texts[htTexts(TextPlayer[i])].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + (i+1).ToString();
+                        //Update profile-warning
+                        CheckPlayers();
+                        exit = false;
+                    }
+                }
+                if(exit)
+                    CGraphics.FadeTo(EScreens.ScreenSong);
             }
 
             //Check mouse-wheel for scrolling
