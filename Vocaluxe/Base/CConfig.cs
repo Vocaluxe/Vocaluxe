@@ -590,6 +590,7 @@ namespace Vocaluxe.Base
             {
                 writer.WriteElementString("Player" + i.ToString(), Path.GetFileName(Players[i - 1]));
             }
+            writer.WriteEndElement();
 
             writer.WriteEndElement();
             #endregion Game
