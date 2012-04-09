@@ -979,6 +979,10 @@ namespace Vocaluxe.Base
                             CGame.Player[j].ProfileID = i;
                         }
                     }
+                    else
+                    {
+                        CGame.Player[j].ProfileID = -1;
+                    }
                 }
             }
         }

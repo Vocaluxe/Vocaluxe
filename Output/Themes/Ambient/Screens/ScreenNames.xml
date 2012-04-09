@@ -221,7 +221,7 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </StaticPlayerAvatar6>
-    <StaticWarning>
+    <StaticWarningMics>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
@@ -236,7 +236,23 @@
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-    </StaticWarning>
+    </StaticWarningMics>
+    <StaticWarningProfiles>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>145</X>
+      <Y>715</Y>
+      <Z>0,00</Z>
+      <W>990</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticWarningColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticWarningProfiles>
     <Text1>
       <!--<X>, <Y>: Text position-->
       <X>640</X>
@@ -426,7 +442,7 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </TextPlayer6>
-    <TextWarning>
+    <TextWarningMics>
       <!--<X>, <Y>: Text position-->
       <X>640</X>
       <Y>615</Y>
@@ -453,7 +469,35 @@
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-    </TextWarning>
+    </TextWarningMics>
+    <TextWarningProfiles>
+      <!--<X>, <Y>: Text position-->
+      <X>640</X>
+      <Y>650</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>970</MaxW>
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>TextWarningColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextWarningColor</SColor>
+      <!--<Align>: Text align: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextWarningProfiles>
     <ButtonBack>
       <!--<Skin>: Texture name-->
       <Skin>Button</Skin>

@@ -22,8 +22,10 @@ namespace Vocaluxe.Screens
         private const string NameSelection = "NameSelection";
         private const string ButtonBack = "ButtonBack";
         private const string ButtonStart = "ButtonStart";
-        private const string TextWarning = "TextWarning";
-        private const string StaticWarning = "StaticWarning";
+        private const string TextWarningMics = "TextWarningMics";
+        private const string StaticWarningMics = "StaticWarningMics";
+        private const string TextWarningProfiles = "TextWarningProfiles";
+        private const string StaticWarningProfiles = "StaticWarningProfiles";
         private readonly string[] StaticPlayer = new string[] { "StaticPlayer1", "StaticPlayer2", "StaticPlayer3", "StaticPlayer4", "StaticPlayer5", "StaticPlayer6" };
         private readonly string[] StaticPlayerAvatar = new string[] { "StaticPlayerAvatar1", "StaticPlayerAvatar2", "StaticPlayerAvatar3", "StaticPlayerAvatar4", "StaticPlayerAvatar5", "StaticPlayerAvatar6" };
         private readonly string[] TextPlayer = new string[] { "TextPlayer1", "TextPlayer2", "TextPlayer3", "TextPlayer4", "TextPlayer5", "TextPlayer6" };
@@ -56,7 +58,8 @@ namespace Vocaluxe.Screens
             {
                 statics.Add(text);
             }
-            statics.Add(StaticWarning);
+            statics.Add(StaticWarningMics);
+            statics.Add(StaticWarningProfiles);
             _ThemeStatics = statics.ToArray();
 
             List<string> texts = new List<string>();
@@ -64,7 +67,8 @@ namespace Vocaluxe.Screens
             _ThemeSelectSlides = new string[] { SelectSlidePlayerNumber };
 
             texts.Clear();
-            texts.Add(TextWarning);
+            texts.Add(TextWarningMics);
+            texts.Add(TextWarningProfiles);
             foreach(string text in TextPlayer){
                 texts.Add(text);
             }
@@ -139,6 +143,8 @@ namespace Vocaluxe.Screens
                             //Update texture and name
                             Statics[htStatics(StaticPlayerAvatar[selectingKeyboardPlayerNr-1])].Texture = NameSelections[htNameSelections(NameSelection)].TilePlayerAvatar(SelectedPlayerNr).Texture;
                             Texts[htTexts(TextPlayer[selectingKeyboardPlayerNr-1])].Text = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
+                            //Update profile-warning
+                            CheckPlayers();
                         }
                         //Reset all values
                         selectingKeyboardPlayerNr = 0;
@@ -381,6 +387,8 @@ namespace Vocaluxe.Screens
                                 //Update texture and name
                                 Statics[htStatics(StaticPlayerAvatar[i])].Texture = chooseAvatarStatic.Texture;
                                 Texts[htTexts(TextPlayer[i])].Text = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
+                                //Update profile-warning
+                                CheckPlayers();
                             }
                         }
                     }
@@ -448,12 +456,16 @@ namespace Vocaluxe.Screens
             UpdateSlides();
             UpdatePlayerNumber();
             CheckMics();
+            CheckPlayers();
 
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
             {
                 //Update texture and name
-                Statics[htStatics(StaticPlayerAvatar[i])].Texture = CProfiles.Profiles[CGame.Player[i].ProfileID].Avatar.Texture;
-                Texts[htTexts(TextPlayer[i])].Text = CProfiles.Profiles[CGame.Player[i].ProfileID].PlayerName;
+                if (CConfig.Players[i] != String.Empty)
+                {
+                    Statics[htStatics(StaticPlayerAvatar[i])].Texture = CProfiles.Profiles[CGame.Player[i].ProfileID].Avatar.Texture;
+                    Texts[htTexts(TextPlayer[i])].Text = CProfiles.Profiles[CGame.Player[i].ProfileID].PlayerName;
+                }
             }
         }
 
@@ -527,6 +539,7 @@ namespace Vocaluxe.Screens
             }
             CConfig.SaveConfig();
             CheckMics();
+            CheckPlayers();
         }
 
         private void CheckMics()
@@ -541,8 +554,8 @@ namespace Vocaluxe.Screens
             }
             if (_PlayerWithoutMicro.Count > 0)
             {
-                Statics[htStatics(StaticWarning)].Visible = true;
-                Texts[htTexts(TextWarning)].Visible = true;
+                Statics[htStatics(StaticWarningMics)].Visible = true;
+                Texts[htTexts(TextWarningMics)].Visible = true;
 
                 if (_PlayerWithoutMicro.Count > 1)
                 {
@@ -563,17 +576,66 @@ namespace Vocaluxe.Screens
                         }
                     }
 
-                    Texts[htTexts(TextWarning)].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_PL").Replace("%v", PlayerNums);
+                    Texts[htTexts(TextWarningMics)].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_MICS_PL").Replace("%v", PlayerNums);
                 }
                 else
                 {
-                    Texts[htTexts(TextWarning)].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_SG").Replace("%v", _PlayerWithoutMicro[0].ToString());
+                    Texts[htTexts(TextWarningMics)].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_MICS_SG").Replace("%v", _PlayerWithoutMicro[0].ToString());
                 }
             }
             else
             {
-                Statics[htStatics(StaticWarning)].Visible = false;
-                Texts[htTexts(TextWarning)].Visible = false;
+                Statics[htStatics(StaticWarningMics)].Visible = false;
+                Texts[htTexts(TextWarningMics)].Visible = false;
+            }
+        }
+
+        private void CheckPlayers()
+        {
+            List<int> _PlayerWithoutProfile = new List<int>();
+            for (int player = 0; player < CConfig.NumPlayer; player++)
+            {
+                if (CGame.Player[player].ProfileID < 0)
+                {
+                    _PlayerWithoutProfile.Add(player + 1);
+                }
+            }
+
+            if (_PlayerWithoutProfile.Count > 0)
+            {
+                Statics[htStatics(StaticWarningProfiles)].Visible = true;
+                Texts[htTexts(TextWarningProfiles)].Visible = true;
+
+                if (_PlayerWithoutProfile.Count > 1)
+                {
+                    string PlayerNums = string.Empty;
+                    for (int i = 0; i < _PlayerWithoutProfile.Count; i++)
+                    {
+                        if (_PlayerWithoutProfile.Count - 1 == i)
+                        {
+                            PlayerNums += _PlayerWithoutProfile[i].ToString();
+                        }
+                        else if (_PlayerWithoutProfile.Count - 2 == i)
+                        {
+                            PlayerNums += _PlayerWithoutProfile[i].ToString() + " " + CLanguage.Translate("TR_GENERAL_AND") + " ";
+                        }
+                        else
+                        {
+                            PlayerNums += _PlayerWithoutProfile[i].ToString() + ", ";
+                        }
+                    }
+
+                    Texts[htTexts(TextWarningProfiles)].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_PROFILES_PL").Replace("%v", PlayerNums);
+                }
+                else
+                {
+                    Texts[htTexts(TextWarningProfiles)].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_PROFILES_SG").Replace("%v", _PlayerWithoutProfile[0].ToString());
+                }
+            }
+            else
+            {
+                Statics[htStatics(StaticWarningProfiles)].Visible = false;
+                Texts[htTexts(TextWarningProfiles)].Visible = false;
             }
         }
     }

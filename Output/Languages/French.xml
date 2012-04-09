@@ -108,8 +108,10 @@
 		<TR_SCREENNAMES_4PLAYER>4 joueurs</TR_SCREENNAMES_4PLAYER>	
 		<TR_SCREENNAMES_5PLAYER>5 joueurs</TR_SCREENNAMES_5PLAYER>	
 		<TR_SCREENNAMES_6PLAYER>6 joueurs</TR_SCREENNAMES_6PLAYER>	
-		<TR_SCREENNAMES_WARNING_SG>Attention: Aucun micro n'est assigné au joueur %v!</TR_SCREENNAMES_WARNING_SG>
-		<TR_SCREENNAMES_WARNING_PL>Attention: Aucun micro n'est assigné aux joueurs %v!</TR_SCREENNAMES_WARNING_PL>	
+		<TR_SCREENNAMES_WARNING_MICS_SG>Attention: Aucun micro n'est assigné au joueur %v!</TR_SCREENNAMES_WARNING_MICS_SG>
+		<TR_SCREENNAMES_WARNING_MICS_PL>Attention: Aucun micro n'est assigné aux joueurs %v!</TR_SCREENNAMES_WARNING_MICS_PL>	
+		<TR_SCREENNAMES_WARNING_PROFILES_SG>Attention: Aucun profil n'est assigné au joueur %v!</TR_SCREENNAMES_WARNING_PROFILES_SG>
+		<TR_SCREENNAMES_WARNING_PROFILES_PL>Attention: Aucun profils n'est assigné aux joueurs %v!</TR_SCREENNAMES_WARNING_PROFILES_PL>	
 		<!--ScreenSong-->
 		<TR_SCREENSONG_MENU>Choix de la chanson</TR_SCREENSONG_MENU>
 		<TR_SCREENSONG_SEARCH>Rechercher:</TR_SCREENSONG_SEARCH>
