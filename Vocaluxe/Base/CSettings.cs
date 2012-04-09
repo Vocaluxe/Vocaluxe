@@ -43,11 +43,11 @@ namespace Vocaluxe.Base
         public const string sProgramCodeName = "Rising Star";
 
         public const int iVersionMajor = 0;
-        public const int iVersionMinor = 1;      // milestones
+        public const int iVersionMinor = 2;      // milestones
         public const int iVersionSub = 0;        // steps
         public const ERevision VersionRevision = ERevision.Alpha;
 
-        public const int iBuild = 60;             // Increase on every published version! Never Reset!
+        public const int iBuild = 61;             // Increase on every published version! Never Reset!
 
         public const int iDatabaseHighscoreVersion = 1;
         public const int iDatabaseCoverVersion = 1;
