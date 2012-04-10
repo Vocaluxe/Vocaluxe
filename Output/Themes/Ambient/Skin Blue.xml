@@ -82,6 +82,42 @@
       <B>0,500</B>
       <A>0,500</A>
     </Player6Dim>
+    <Player1Dim2>
+      <R>0,000</R>
+      <G>0,000</G>
+      <B>1,000</B>
+      <A>0,400</A>
+    </Player1Dim2>
+    <Player2Dim2>
+      <R>1,000</R>
+      <G>0,000</G>
+      <B>0,000</B>
+      <A>0,400</A>
+    </Player2Dim2>
+    <Player3Dim2>
+      <R>0,000</R>
+      <G>1,000</G>
+      <B>0,000</B>
+      <A>0,400</A>
+    </Player3Dim2>
+    <Player4Dim2>
+      <R>0,500</R>
+      <G>0,000</G>
+      <B>1,000</B>
+      <A>0,400</A>
+    </Player4Dim2>
+    <Player5Dim2>
+      <R>1,000</R>
+      <G>0,800</G>
+      <B>0,000</B>
+      <A>0,400</A>
+    </Player5Dim2>
+    <Player6Dim2>
+      <R>1,000</R>
+      <G>0,000</G>
+      <B>0,500</B>
+      <A>0,400</A>
+    </Player6Dim2>    
     <BackgroundColor>
       <R>0,000</R>
       <G>0,000</G>

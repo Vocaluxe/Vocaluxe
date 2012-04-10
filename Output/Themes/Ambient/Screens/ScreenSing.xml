@@ -17,10 +17,10 @@
       <Skin>Score</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>190</X>
-      <Y>10</Y>
-      <Z>-1,00</Z>
+      <Y>694</Y>
+      <Z>-1,10</Z>
       <W>900</W>
-      <H>50</H>
+      <H>25</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -222,7 +222,7 @@
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>0</X>
       <Y>0</Y>
-      <Z>-1,10</Z>
+      <Z>-2,10</Z>
       <W>1280</W>
       <H>720</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
@@ -234,7 +234,7 @@
     </StaticPauseBG>
     <StaticScoreP1N1>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>1150</X>
       <Y>350</Y>
@@ -250,7 +250,7 @@
     </StaticScoreP1N1>
     <StaticScoreP1N2>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>1150</X>
       <Y>150</Y>
@@ -266,7 +266,7 @@
     </StaticScoreP1N2>
     <StaticScoreP2N2>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>1150</X>
       <Y>350</Y>
@@ -282,7 +282,7 @@
     </StaticScoreP2N2>
     <StaticScoreP1N3>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>1150</X>
       <Y>10</Y>
@@ -298,7 +298,7 @@
     </StaticScoreP1N3>
     <StaticScoreP2N3>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>1150</X>
       <Y>210</Y>
@@ -314,7 +314,7 @@
     </StaticScoreP2N3>
     <StaticScoreP3N3>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>1150</X>
       <Y>410</Y>
@@ -330,7 +330,7 @@
     </StaticScoreP3N3>
     <StaticScoreP1N4>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>528</X>
       <Y>150</Y>
@@ -346,7 +346,7 @@
     </StaticScoreP1N4>
     <StaticScoreP2N4>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>528</X>
       <Y>350</Y>
@@ -362,7 +362,7 @@
     </StaticScoreP2N4>
     <StaticScoreP3N4>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>1150</X>
       <Y>150</Y>
@@ -378,7 +378,7 @@
     </StaticScoreP3N4>
     <StaticScoreP4N4>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>1150</X>
       <Y>350</Y>
@@ -394,7 +394,7 @@
     </StaticScoreP4N4>
     <StaticScoreP1N5>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>528</X>
       <Y>10</Y>
@@ -410,7 +410,7 @@
     </StaticScoreP1N5>
     <StaticScoreP2N5>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>528</X>
       <Y>210</Y>
@@ -426,7 +426,7 @@
     </StaticScoreP2N5>
     <StaticScoreP3N5>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>528</X>
       <Y>410</Y>
@@ -442,7 +442,7 @@
     </StaticScoreP3N5>
     <StaticScoreP4N5>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>1150</X>
       <Y>150</Y>
@@ -458,7 +458,7 @@
     </StaticScoreP4N5>
     <StaticScoreP5N5>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>1150</X>
       <Y>350</Y>
@@ -474,7 +474,7 @@
     </StaticScoreP5N5>
     <StaticScoreP1N6>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>528</X>
       <Y>10</Y>
@@ -490,7 +490,7 @@
     </StaticScoreP1N6>
     <StaticScoreP2N6>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>528</X>
       <Y>210</Y>
@@ -506,7 +506,7 @@
     </StaticScoreP2N6>
     <StaticScoreP3N6>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>528</X>
       <Y>410</Y>
@@ -522,7 +522,7 @@
     </StaticScoreP3N6>
     <StaticScoreP4N6>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>1150</X>
       <Y>10</Y>
@@ -538,7 +538,7 @@
     </StaticScoreP4N6>
     <StaticScoreP5N6>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>1150</X>
       <Y>210</Y>
@@ -554,7 +554,7 @@
     </StaticScoreP5N6>
     <StaticScoreP6N6>
       <!--<Skin>: Texture name-->
-      <Skin>Score</Skin>
+      <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>1150</X>
       <Y>410</Y>
@@ -571,11 +571,11 @@
     <TextSongName>
       <!--<X>, <Y>: Text position-->
       <X>640</X>
-      <Y>18</Y>
+      <Y>695</Y>
       <!--<Z>: Text position-->
-      <Z>-1,00</Z>
+      <Z>-1,10</Z>
       <!--<H>: Text height-->
-      <H>32</H>
+      <H>23</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>880</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -628,7 +628,7 @@
       <X>640</X>
       <Y>170</Y>
       <!--<Z>: Text position-->
-      <Z>-1,11</Z>
+      <Z>-2,11</Z>
       <!--<H>: Text height-->
       <H>100</H>
       <!--<MaxW>: Maximum text width (if exists)-->
@@ -652,21 +652,21 @@
     </TextPause>
     <TextScoreP1N1>
       <!--<X>, <Y>: Text position-->
-      <X>1200</X>
+      <X>1240</X>
       <Y>355</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>198</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player1</Color>
+      <Color>Player1Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
       <!--<Align>: Text align: Left, Center, Right-->
-      <Align>Center</Align>
+      <Align>Right</Align>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -679,21 +679,21 @@
     </TextScoreP1N1>
     <TextScoreP1N2>
       <!--<X>, <Y>: Text position-->
-      <X>1200</X>
+      <X>1240</X>
       <Y>155</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>173</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player1</Color>
+      <Color>Player1Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player1</SColor>
       <!--<Align>: Text align: Left, Center, Right-->
-      <Align>Center</Align>
+      <Align>Right</Align>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -706,21 +706,21 @@
     </TextScoreP1N2>
     <TextScoreP2N2>
       <!--<X>, <Y>: Text position-->
-      <X>1200</X>
+      <X>1240</X>
       <Y>355</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>173</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player2</Color>
+      <Color>Player2Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player2</SColor>
       <!--<Align>: Text align: Left, Center, Right-->
-      <Align>Center</Align>
+      <Align>Right</Align>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -733,21 +733,21 @@
     </TextScoreP2N2>
     <TextScoreP1N3>
       <!--<X>, <Y>: Text position-->
-      <X>1200</X>
-      <Y>15</Y>
+      <X>1240</X>
+      <Y>106</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>158</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player1</Color>
+      <Color>Player1Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player1</SColor>
       <!--<Align>: Text align: Left, Center, Right-->
-      <Align>Center</Align>
+      <Align>Right</Align>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -760,21 +760,21 @@
     </TextScoreP1N3>
     <TextScoreP2N3>
       <!--<X>, <Y>: Text position-->
-      <X>1200</X>
-      <Y>215</Y>
+      <X>1240</X>
+      <Y>269</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>158</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player2</Color>
+      <Color>Player2Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player2</SColor>
       <!--<Align>: Text align: Left, Center, Right-->
-      <Align>Center</Align>
+      <Align>Right</Align>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -787,21 +787,21 @@
     </TextScoreP2N3>
     <TextScoreP3N3>
       <!--<X>, <Y>: Text position-->
-      <X>1200</X>
-      <Y>415</Y>
+      <X>1240</X>
+      <Y>437</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>158</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player3</Color>
+      <Color>Player3Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player3</SColor>
       <!--<Align>: Text align: Left, Center, Right-->
-      <Align>Center</Align>
+      <Align>Right</Align>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -814,16 +814,16 @@
     </TextScoreP3N3>
     <TextScoreP1N4>
       <!--<X>, <Y>: Text position-->
-      <X>578</X>
+      <X>324</X>
       <Y>155</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>173</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player1</Color>
+      <Color>Player1Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player1</SColor>
@@ -841,16 +841,16 @@
     </TextScoreP1N4>
     <TextScoreP2N4>
       <!--<X>, <Y>: Text position-->
-      <X>578</X>
+      <X>324</X>
       <Y>355</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>173</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player2</Color>
+      <Color>Player2Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player2</SColor>
@@ -868,16 +868,16 @@
     </TextScoreP2N4>
     <TextScoreP3N4>
       <!--<X>, <Y>: Text position-->
-      <X>1200</X>
+      <X>967</X>
       <Y>155</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>173</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player3</Color>
+      <Color>Player3Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player3</SColor>
@@ -895,16 +895,16 @@
     </TextScoreP3N4>
     <TextScoreP4N4>
       <!--<X>, <Y>: Text position-->
-      <X>1200</X>
+      <X>967</X>
       <Y>355</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>173</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player4</Color>
+      <Color>Player4Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player4</SColor>
@@ -922,16 +922,16 @@
     </TextScoreP4N4>
     <TextScoreP1N5>
       <!--<X>, <Y>: Text position-->
-      <X>578</X>
-      <Y>15</Y>
+      <X>324</X>
+      <Y>106</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>158</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player1</Color>
+      <Color>Player1Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player1</SColor>
@@ -949,16 +949,16 @@
     </TextScoreP1N5>
     <TextScoreP2N5>
       <!--<X>, <Y>: Text position-->
-      <X>578</X>
-      <Y>215</Y>
+      <X>324</X>
+      <Y>269</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>158</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player2</Color>
+      <Color>Player2Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player2</SColor>
@@ -976,16 +976,16 @@
     </TextScoreP2N5>
     <TextScoreP3N5>
       <!--<X>, <Y>: Text position-->
-      <X>578</X>
-      <Y>415</Y>
+      <X>324</X>
+      <Y>437</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>158</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player3</Color>
+      <Color>Player3Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player3</SColor>
@@ -1003,16 +1003,16 @@
     </TextScoreP3N5>
     <TextScoreP4N5>
       <!--<X>, <Y>: Text position-->
-      <X>1200</X>
+      <X>967</X>
       <Y>155</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>173</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player4</Color>
+      <Color>Player4Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player4</SColor>
@@ -1030,16 +1030,16 @@
     </TextScoreP4N5>
     <TextScoreP5N5>
       <!--<X>, <Y>: Text position-->
-      <X>1200</X>
+      <X>967</X>
       <Y>355</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>173</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player5</Color>
+      <Color>Player5Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player5</SColor>
@@ -1057,16 +1057,16 @@
     </TextScoreP5N5>
     <TextScoreP1N6>
       <!--<X>, <Y>: Text position-->
-      <X>578</X>
-      <Y>15</Y>
+      <X>324</X>
+      <Y>106</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>158</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player1</Color>
+      <Color>Player1Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player1</SColor>
@@ -1084,16 +1084,16 @@
     </TextScoreP1N6>
     <TextScoreP2N6>
       <!--<X>, <Y>: Text position-->
-      <X>578</X>
-      <Y>215</Y>
+      <X>324</X>
+      <Y>269</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>158</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player2</Color>
+      <Color>Player2Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player2</SColor>
@@ -1111,16 +1111,16 @@
     </TextScoreP2N6>
     <TextScoreP3N6>
       <!--<X>, <Y>: Text position-->
-      <X>578</X>
-      <Y>415</Y>
+      <X>324</X>
+      <Y>437</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>158</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player3</Color>
+      <Color>Player3Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player3</SColor>
@@ -1138,16 +1138,16 @@
     </TextScoreP3N6>
     <TextScoreP4N6>
       <!--<X>, <Y>: Text position-->
-      <X>1200</X>
-      <Y>15</Y>
+      <X>967</X>
+      <Y>106</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>158</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player4</Color>
+      <Color>Player4Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player4</SColor>
@@ -1165,16 +1165,16 @@
     </TextScoreP4N6>
     <TextScoreP5N6>
       <!--<X>, <Y>: Text position-->
-      <X>1200</X>
-      <Y>215</Y>
+      <X>967</X>
+      <Y>269</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>158</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player5</Color>
+      <Color>Player5Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player5</SColor>
@@ -1192,16 +1192,16 @@
     </TextScoreP5N6>
     <TextScoreP6N6>
       <!--<X>, <Y>: Text position-->
-      <X>1200</X>
-      <Y>415</Y>
+      <X>967</X>
+      <Y>437</Y>
       <!--<Z>: Text position-->
       <Z>-1,00</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>158</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player6</Color>
+      <Color>Player6Dim2</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>Player6</SColor>
@@ -1225,7 +1225,7 @@
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
       <X>670</X>
       <Y>300</Y>
-      <Z>-1,11</Z>
+      <Z>-2,11</Z>
       <W>150</W>
       <H>50</H>
       <!--<Color>: Button color from ColorScheme (high priority)-->
@@ -1280,7 +1280,7 @@
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
       <X>460</X>
       <Y>300</Y>
-      <Z>-1,11</Z>
+      <Z>-2,11</Z>
       <W>150</W>
       <H>50</H>
       <!--<Color>: Button color from ColorScheme (high priority)-->
@@ -1436,109 +1436,109 @@
       <BarPositions>
         <P1N1X>35</P1N1X>
         <P1N1Y>350</P1N1Y>
-        <P1N1Z>-0,50</P1N1Z>
+        <P1N1Z>-1,50</P1N1Z>
         <P1N1W>1210</P1N1W>
         <P1N1H>200</P1N1H>
         <P1N2X>35</P1N2X>
         <P1N2Y>150</P1N2Y>
-        <P1N2Z>-0,50</P1N2Z>
+        <P1N2Z>-1,50</P1N2Z>
         <P1N2W>1210</P1N2W>
         <P1N2H>175</P1N2H>
         <P2N2X>35</P2N2X>
         <P2N2Y>350</P2N2Y>
-        <P2N2Z>-0,50</P2N2Z>
+        <P2N2Z>-1,50</P2N2Z>
         <P2N2W>1210</P2N2W>
         <P2N2H>175</P2N2H>
         <P1N3X>35</P1N3X>
-        <P1N3Y>10</P1N3Y>
-        <P1N3Z>-0,50</P1N3Z>
+        <P1N3Y>105</P1N3Y>
+        <P1N3Z>-1,50</P1N3Z>
         <P1N3W>1210</P1N3W>
-        <P1N3H>150</P1N3H>
+        <P1N3H>160</P1N3H>
         <P2N3X>35</P2N3X>
-        <P2N3Y>210</P2N3Y>
-        <P2N3Z>-0,50</P2N3Z>
+        <P2N3Y>268</P2N3Y>
+        <P2N3Z>-1,50</P2N3Z>
         <P2N3W>1210</P2N3W>
-        <P2N3H>150</P2N3H>
+        <P2N3H>160</P2N3H>
         <P3N3X>35</P3N3X>
-        <P3N3Y>410</P3N3Y>
-        <P3N3Z>-0,50</P3N3Z>
+        <P3N3Y>436</P3N3Y>
+        <P3N3Z>-1,50</P3N3Z>
         <P3N3W>1210</P3N3W>
-        <P3N3H>150</P3N3H>
+        <P3N3H>160</P3N3H>
         <P1N4X>35</P1N4X>
         <P1N4Y>150</P1N4Y>
-        <P1N4Z>-0,50</P1N4Z>
+        <P1N4Z>-1,50</P1N4Z>
         <P1N4W>578</P1N4W>
         <P1N4H>175</P1N4H>
         <P2N4X>35</P2N4X>
         <P2N4Y>350</P2N4Y>
-        <P2N4Z>-0,50</P2N4Z>
+        <P2N4Z>-1,50</P2N4Z>
         <P2N4W>578</P2N4W>
         <P2N4H>175</P2N4H>
         <P3N4X>678</P3N4X>
         <P3N4Y>150</P3N4Y>
-        <P3N4Z>-0,50</P3N4Z>
+        <P3N4Z>-1,50</P3N4Z>
         <P3N4W>578</P3N4W>
         <P3N4H>175</P3N4H>
         <P4N4X>678</P4N4X>
         <P4N4Y>350</P4N4Y>
-        <P4N4Z>-0,50</P4N4Z>
+        <P4N4Z>-1,50</P4N4Z>
         <P4N4W>578</P4N4W>
         <P4N4H>175</P4N4H>
         <P1N5X>35</P1N5X>
-        <P1N5Y>10</P1N5Y>
-        <P1N5Z>-0,50</P1N5Z>
+        <P1N5Y>105</P1N5Y>
+        <P1N5Z>-1,50</P1N5Z>
         <P1N5W>578</P1N5W>
-        <P1N5H>150</P1N5H>
+        <P1N5H>160</P1N5H>
         <P2N5X>35</P2N5X>
-        <P2N5Y>210</P2N5Y>
-        <P2N5Z>-0,50</P2N5Z>
+        <P2N5Y>268</P2N5Y>
+        <P2N5Z>-1,50</P2N5Z>
         <P2N5W>578</P2N5W>
-        <P2N5H>150</P2N5H>
+        <P2N5H>160</P2N5H>
         <P3N5X>35</P3N5X>
-        <P3N5Y>410</P3N5Y>
-        <P3N5Z>-0,50</P3N5Z>
+        <P3N5Y>436</P3N5Y>
+        <P3N5Z>-1,50</P3N5Z>
         <P3N5W>578</P3N5W>
-        <P3N5H>150</P3N5H>
+        <P3N5H>160</P3N5H>
         <P4N5X>678</P4N5X>
         <P4N5Y>150</P4N5Y>
-        <P4N5Z>-0,50</P4N5Z>
+        <P4N5Z>-1,50</P4N5Z>
         <P4N5W>578</P4N5W>
         <P4N5H>175</P4N5H>
         <P5N5X>678</P5N5X>
         <P5N5Y>350</P5N5Y>
-        <P5N5Z>-0,50</P5N5Z>
+        <P5N5Z>-1,50</P5N5Z>
         <P5N5W>578</P5N5W>
         <P5N5H>175</P5N5H>
         <P1N6X>35</P1N6X>
-        <P1N6Y>10</P1N6Y>
-        <P1N6Z>-0,50</P1N6Z>
+        <P1N6Y>105</P1N6Y>
+        <P1N6Z>-1,50</P1N6Z>
         <P1N6W>578</P1N6W>
-        <P1N6H>150</P1N6H>
+        <P1N6H>160</P1N6H>
         <P2N6X>35</P2N6X>
-        <P2N6Y>210</P2N6Y>
-        <P2N6Z>-0,50</P2N6Z>
+        <P2N6Y>268</P2N6Y>
+        <P2N6Z>-1,50</P2N6Z>
         <P2N6W>578</P2N6W>
-        <P2N6H>150</P2N6H>
+        <P2N6H>160</P2N6H>
         <P3N6X>35</P3N6X>
-        <P3N6Y>410</P3N6Y>
-        <P3N6Z>-0,50</P3N6Z>
+        <P3N6Y>436</P3N6Y>
+        <P3N6Z>-1,50</P3N6Z>
         <P3N6W>578</P3N6W>
-        <P3N6H>150</P3N6H>
+        <P3N6H>160</P3N6H>
         <P4N6X>678</P4N6X>
-        <P4N6Y>10</P4N6Y>
-        <P4N6Z>-0,50</P4N6Z>
+        <P4N6Y>105</P4N6Y>
+        <P4N6Z>-1,50</P4N6Z>
         <P4N6W>578</P4N6W>
-        <P4N6H>150</P4N6H>
+        <P4N6H>160</P4N6H>
         <P5N6X>678</P5N6X>
-        <P5N6Y>210</P5N6Y>
-        <P5N6Z>-0,50</P5N6Z>
+        <P5N6Y>268</P5N6Y>
+        <P5N6Z>-1,50</P5N6Z>
         <P5N6W>578</P5N6W>
-        <P5N6H>150</P5N6H>
+        <P5N6H>160</P5N6H>
         <P6N6X>678</P6N6X>
-        <P6N6Y>410</P6N6Y>
-        <P6N6Z>-0,50</P6N6Z>
+        <P6N6Y>436</P6N6Y>
+        <P6N6Z>-1,50</P6N6Z>
         <P6N6W>578</P6N6W>
-        <P6N6H>150</P6N6H>
+        <P6N6H>160</P6N6H>
       </BarPositions>
     </SingBars>
   </ScreenSing>

@@ -583,7 +583,7 @@ namespace Vocaluxe.Menu.SingNotes
             for (int i = 0; i < CSettings.NumNoteLines - 1; i++)
             {
                 float y = Rect.Y + Rect.H / CSettings.NumNoteLines * (i + 1);
-                CDraw.DrawColor(Color, new SRectF(Rect.X, y, Rect.W, 1, -0.5f));
+                CDraw.DrawColor(Color, new SRectF(Rect.X, y, Rect.W, 1, -1.0f));
             }
         }
 

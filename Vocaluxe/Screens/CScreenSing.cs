@@ -290,7 +290,14 @@ namespace Vocaluxe.Screens
 
             for (int p = 0; p < CGame.NumPlayer; p++)
             {
-                Texts[htTexts(TextScores[p, CGame.NumPlayer - 1])].Text = CGame.Player[p].Points.ToString("00000");
+                if (CGame.Player[p].Points < 10000)
+                {
+                    Texts[htTexts(TextScores[p, CGame.NumPlayer - 1])].Text = CGame.Player[p].Points.ToString("0000");
+                }
+                else
+                {
+                    Texts[htTexts(TextScores[p, CGame.NumPlayer - 1])].Text = CGame.Player[p].Points.ToString("00000");
+                }
             }
 
             if (_CurrentVideo != -1 && !_FadeOut && CConfig.VideosInSongs == EOffOn.TR_CONFIG_ON)
@@ -496,7 +503,7 @@ namespace Vocaluxe.Screens
 
             SingNotes[htSingNotes(SingBars)].Reset();
 
-            bool LyricsOnTop = (CGame.NumPlayer == 2 || CGame.NumPlayer == 4) && CConfig.LyricsOnTop == EOffOn.TR_CONFIG_ON;
+            bool LyricsOnTop = (CGame.NumPlayer != 1) && CConfig.LyricsOnTop == EOffOn.TR_CONFIG_ON;
             if (song.IsDuet)
             {
                 CGame.Player[1].LineNr = 1;
