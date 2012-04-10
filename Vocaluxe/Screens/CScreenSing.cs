@@ -284,6 +284,18 @@ namespace Vocaluxe.Screens
                 for (int p = 0; p < CGame.NumPlayer; p++)
                 {
                     SingNotes[htSingNotes(SingBars)].SetAlpha(NoteLines[p], Alpha[CGame.Player[p].LineNr * 2]);
+                    if (CConfig.FadePlayerInfo == EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_INFO || CConfig.FadePlayerInfo == EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_ALL)
+                    {
+                        Statics[htStatics(StaticAvatars[p,CGame.NumPlayer-1])].Alpha = Alpha[0];
+                        Texts[htTexts(TextNames[p,CGame.NumPlayer-1])].Alpha = Alpha[0];
+                    }
+                    if (CConfig.FadePlayerInfo == EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_ALL)
+                    {
+                        Statics[htStatics(StaticScores[p, CGame.NumPlayer - 1])].Alpha = Alpha[0];
+                        Statics[htStatics(StaticAvatars[p, CGame.NumPlayer - 1])].Alpha = Alpha[0];
+                        Texts[htTexts(TextNames[p, CGame.NumPlayer - 1])].Alpha = Alpha[0];
+                        Texts[htTexts(TextScores[p, CGame.NumPlayer - 1])].Alpha = Alpha[0];
+                    }
                 }                
 
                 if (Alpha.Length > 2)
