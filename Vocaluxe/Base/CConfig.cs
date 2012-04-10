@@ -152,6 +152,14 @@ namespace Vocaluxe.Base
         TR_CONFIG_ONLY_OWN_MUSIC
     }
 
+    public enum EPlayerInfo
+    {
+        TR_CONFIG_PLAYERINFO_BOTH,
+        TR_CONFIG_PLAYERINFO_NAME,
+        TR_CONFIG_PLAYERINFO_AVATAR,
+        TR_CONFIG_PLAYERINFO_OFF
+    }
+
     #endregion Enums
 
     static class CConfig
@@ -185,6 +193,7 @@ namespace Vocaluxe.Base
         public static EOffOn DrawNoteLines = EOffOn.TR_CONFIG_ON;
         public static EOffOn DrawToneHelper = EOffOn.TR_CONFIG_ON;
         public static ETimerLook TimerLook = ETimerLook.TR_CONFIG_TIMERLOOK_EXPANDED;
+        public static EPlayerInfo PlayerInfo = EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH;
         public static ECoverLoading CoverLoading = ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART;
 
         // Sound
@@ -301,6 +310,7 @@ namespace Vocaluxe.Base
                 CHelper.TryGetEnumValueFromXML("//root/Theme/DrawNoteLines", navigator, ref DrawNoteLines);
                 CHelper.TryGetEnumValueFromXML("//root/Theme/DrawToneHelper", navigator, ref DrawToneHelper);
                 CHelper.TryGetEnumValueFromXML("//root/Theme/TimerLook", navigator, ref TimerLook);
+                CHelper.TryGetEnumValueFromXML("//root/Theme/PlayerInfo", navigator, ref PlayerInfo);
                 CHelper.TryGetEnumValueFromXML("//root/Theme/CoverLoading", navigator, ref CoverLoading);
                 #endregion Theme
 
@@ -502,6 +512,9 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("Look of timer:" + ListStrings(Enum.GetNames(typeof(ETimerLook))));
             writer.WriteElementString("TimerLook", Enum.GetName(typeof(ETimerLook), TimerLook));
+
+            writer.WriteComment("Information about players on SingScreen:" + ListStrings(Enum.GetNames(typeof(EPlayerInfo))));
+            writer.WriteElementString("PlayerInfo", Enum.GetName(typeof(EPlayerInfo), PlayerInfo));
 
             writer.WriteComment("Cover Loading:" + ListStrings(Enum.GetNames(typeof(ECoverLoading))));
             writer.WriteElementString("CoverLoading", Enum.GetName(typeof(ECoverLoading), CoverLoading));

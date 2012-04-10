@@ -4,6 +4,10 @@ ScreenSing
 Version 4:
 Added Elements for 6-player-singing!
 
+Add:
+<StaticAvatarP$N$> (One for each player for each player-number>
+<TextNameP$N$> (One for each player for each player-number>
+
 
 ++++++++++
 Version 3:

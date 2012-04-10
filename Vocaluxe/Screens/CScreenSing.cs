@@ -30,6 +30,7 @@ namespace Vocaluxe.Screens
         private const string TextTime = "TextTime";
         private const string TextPause = "TextPause";
         private string[,] TextScores;
+        private string[,] TextNames;
 
         private const string StaticSongText = "StaticSongText";
         private const string StaticLyrics = "StaticLyrics";
@@ -46,6 +47,7 @@ namespace Vocaluxe.Screens
         private const string StaticPauseBG = "StaticPauseBG";
 
         private string[,] StaticScores;
+        private string[,] StaticAvatars;
 
         private const string ButtonCancel = "ButtonCancel";
         private const string ButtonContinue = "ButtonContinue";
@@ -183,6 +185,19 @@ namespace Vocaluxe.Screens
                             mode = 0;
                         }
                         CConfig.TimerMode = (ETimerMode)mode;
+                        break;
+
+                    case Keys.I:
+                        mode = (int)CConfig.PlayerInfo;
+
+                        mode++;
+                        if (mode > Enum.GetNames(typeof(EPlayerInfo)).Length - 1)
+                        {
+                            mode = 0;
+                        }
+                        CConfig.PlayerInfo = (EPlayerInfo)mode;
+                        CConfig.SaveConfig();
+                        SetVisuability();
                         break;
 
                     case Keys.Enter:
@@ -333,6 +348,8 @@ namespace Vocaluxe.Screens
             }
 
             SetVisuability();
+            UpdateAvatars();
+            UpdateNames();
             CBackgroundMusic.Pause();
         }
 
@@ -680,6 +697,7 @@ namespace Vocaluxe.Screens
         private void BuildTextStrings(ref List<string> texts)
         {
             TextScores = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+            TextNames = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
 
             for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
             {
@@ -689,8 +707,10 @@ namespace Vocaluxe.Screens
                     {
                         string target = "P" + (player + 1).ToString() + "N" + (numplayer + 1).ToString();
                         TextScores[player, numplayer] = "TextScore" + target;
+                        TextNames[player, numplayer] = "TextName" + target;
 
                         texts.Add(TextScores[player, numplayer]);
+                        texts.Add(TextNames[player, numplayer]);
                     }
                 }
             }
@@ -699,6 +719,7 @@ namespace Vocaluxe.Screens
         private void BuildStaticStrings(ref List<string> statics)
         {
             StaticScores = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+            StaticAvatars = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
             
             for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
             {
@@ -708,8 +729,10 @@ namespace Vocaluxe.Screens
                     {
                         string target = "P" + (player + 1).ToString() + "N" + (numplayer + 1).ToString();
                         StaticScores[player, numplayer] = "StaticScore" + target;
+                        StaticAvatars[player, numplayer] = "StaticAvatar" + target;
 
                         statics.Add(StaticScores[player, numplayer]);
+                        statics.Add(StaticAvatars[player, numplayer]);
                     }
                 }
             }
@@ -734,7 +757,11 @@ namespace Vocaluxe.Screens
                     if (player <= numplayer)
                     {
                         Texts[htTexts(TextScores[player, numplayer])].Visible = (numplayer + 1 == CGame.NumPlayer);
+                        Texts[htTexts(TextNames[player, numplayer])].Visible = ((numplayer + 1 == CGame.NumPlayer)
+                             && (CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH || CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_NAME));
                         Statics[htStatics(StaticScores[player, numplayer])].Visible = (numplayer + 1 == CGame.NumPlayer);
+                        Statics[htStatics(StaticAvatars[player, numplayer])].Visible = ((numplayer + 1 == CGame.NumPlayer) 
+                            && (CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH || CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_AVATAR));
                     }
                 }
             }
@@ -1111,6 +1138,36 @@ namespace Vocaluxe.Screens
 
                     }
                     break;
+            }
+        }
+
+        private void UpdateAvatars()
+        {
+            for (int i = 0; i < CGame.NumPlayer; i++)
+            {
+                if (CGame.Player[i].ProfileID > -1)
+                {
+                    Statics[htStatics(StaticAvatars[i, CGame.NumPlayer - 1])].Texture = CProfiles.Profiles[CGame.Player[i].ProfileID].Avatar.Texture;
+                }
+                else
+                {
+                    Statics[htStatics(StaticAvatars[i, CGame.NumPlayer - 1])].Visible = false;
+                }
+            }
+        }
+
+        private void UpdateNames()
+        {
+            for (int i = 0; i < CGame.NumPlayer; i++)
+            {
+                if (CGame.Player[i].ProfileID > -1)
+                {
+                    Texts[htTexts(TextNames[i, CGame.NumPlayer - 1])].Text = CProfiles.Profiles[CGame.Player[i].ProfileID].PlayerName;
+                }
+                else
+                {
+                    Texts[htTexts(TextNames[i, CGame.NumPlayer - 1])].Visible = false;
+                }
             }
         }
     }
