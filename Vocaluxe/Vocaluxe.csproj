@@ -148,6 +148,7 @@
     </Compile>
     <Compile Include="Lib\Song\CNotes.cs" />
     <Compile Include="Lib\Song\CSong.cs" />
+    <Compile Include="Lib\Sound\CDirectSoundRecord.cs" />
     <Compile Include="Lib\Sound\COpenALPlay.cs" />
     <Compile Include="Lib\Sound\COpenALRecord.cs" />
     <Compile Include="Base\CSound.cs" />

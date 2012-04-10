@@ -181,6 +181,9 @@ namespace Vocaluxe.Base
                 case ERecordLib.PortAudio:
                     _Record = new CPortAudioRecord();
                     break;
+                case ERecordLib.DirectSound:
+                    _Record = new CDirectSoundRecord();
+                    break;
 
                 default:
                     _Record = new CPortAudioRecord();
