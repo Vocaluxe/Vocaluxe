@@ -534,8 +534,11 @@ namespace Vocaluxe.Screens
 
             bool LyricsOnTop = (CGame.NumPlayer != 1) && CConfig.LyricsOnTop == EOffOn.TR_CONFIG_ON;
             if (song.IsDuet)
-            {
-                CGame.Player[1].LineNr = 1;
+            {               
+                for (int i = 1; i <= CGame.NumPlayer; i = i + 2)
+                {
+                    CGame.Player[i].LineNr = 1;
+                }
                 Statics[htStatics(StaticLyricsDuet)].Visible = true;
                 Lyrics[htLyrics(LyricMainDuet)].Visible = true;
                 Lyrics[htLyrics(LyricSubDuet)].Visible = true;
