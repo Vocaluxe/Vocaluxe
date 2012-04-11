@@ -237,6 +237,16 @@ namespace Vocaluxe.Base
             return _Record.GetMaxVolume(Player);
         }
 
+        public static int NumHalfTones(int Player)
+        {
+            return _Record.NumHalfTones(Player);
+        }
+
+        public static float[] ToneWeigth(int Player)
+        {
+            return _Record.ToneWeigth(Player);
+        }
+
         public static SRecordDevice[] RecordGetDevices()
         {
             SRecordDevice[] devices = _Record.RecordDevices();
@@ -281,9 +291,10 @@ namespace Vocaluxe.Base
 
     class CBuffer
     {
-        private const double BaseToneFreq = 65.4064;
-        private const int NumHalfTones = 47;
+        private const double _BaseToneFreq = 65.4064;
+        private const int _NumHalfTones = 47;
 
+        private float[] _ToneWeigth;
         private Int16[] _AnalysisBuffer = new Int16[4096];
         private Object _AnalysisBufferLock = new Object();
 
@@ -294,6 +305,17 @@ namespace Vocaluxe.Base
         private bool _NewSamples = false;
 
         private MemoryStream _Stream;                       // full buffer
+
+        public CBuffer()
+        {
+            _ToneWeigth = new float[_NumHalfTones];
+            _Stream = new MemoryStream();
+        }
+
+        public int NumHalfTones
+        {
+            get { return _NumHalfTones; }
+        }
 
         public int ToneAbs
         {
@@ -346,11 +368,6 @@ namespace Vocaluxe.Base
             }
         }
 
-        public CBuffer()
-        {
-            _Stream = new MemoryStream();
-        }
-
         public long Length
         {
             get { return _Stream.Length; }
@@ -359,6 +376,17 @@ namespace Vocaluxe.Base
         public byte[] Buffer
         {
             get { return _Stream.ToArray(); }
+        }
+
+        public float[] ToneWeigth
+        {
+            get
+            {
+                lock (_AnalysisBufferLock)
+                {
+                    return _ToneWeigth;
+                }
+            }
         }
 
         public void Reset()
@@ -443,13 +471,9 @@ namespace Vocaluxe.Base
                     }
 
                     if (_MaxVolume >= 0.05f)
-                    {
-                        // analyse the current voice pitch
-                        AnalyzeByAutocorrelation();
-                        _ToneValid = true;
-                    }
+                        AnalyzeByAutocorrelation(true);
                     else
-                        _ToneValid = false;
+                        AnalyzeByAutocorrelation(false);
 
                     _NewSamples = false;
                 }
@@ -460,7 +484,7 @@ namespace Vocaluxe.Base
             }
         }
 
-        private void AnalyzeByAutocorrelation()
+        private void AnalyzeByAutocorrelation(bool valid)
         {
             const double HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
 
@@ -473,9 +497,9 @@ namespace Vocaluxe.Base
             // at 44.1 (or 48kHz) only 6 (or 5) samples are compared, this might be
             // too few samples -> use a bigger buffer-size
 
-            for (int ToneIndex = 0; ToneIndex < NumHalfTones; ToneIndex++)
+            for (int ToneIndex = 0; ToneIndex < _NumHalfTones; ToneIndex++)
             {
-                double CurFreq = BaseToneFreq * Math.Pow(HalftoneBase, ToneIndex);
+                double CurFreq = _BaseToneFreq * Math.Pow(HalftoneBase, ToneIndex);
                 double CurWeight = AnalyzeAutocorrelationFreq(CurFreq);
 
                 // TODO: prefer higher frequencies (use >= or use downto)
@@ -485,10 +509,17 @@ namespace Vocaluxe.Base
                     MaxWeight = CurWeight;
                     MaxTone = ToneIndex;
                 }
+                _ToneWeigth[ToneIndex] = (float)CurWeight;
             }
 
-            _ToneAbs = MaxTone;
-            _Tone = MaxTone % 12;
+            if (valid)
+            {
+                _ToneAbs = MaxTone;
+                _Tone = MaxTone % 12;
+                _ToneValid = true;
+            }
+            else
+                _ToneValid = false;
         }
 
         private double AnalyzeAutocorrelationFreq(double Freq)
