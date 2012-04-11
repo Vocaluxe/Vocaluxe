@@ -400,7 +400,9 @@ namespace Vocaluxe.Menu.SingNotes
 
                     if (note.EndBeat >= CGame.ActBeatD && note.Hit && note.NoteType == ENoteType.Golden)
                     {
-                        AddFlare(rect, n);
+                        SRectF re = new SRectF(rect);
+                        re.W = (CGame.MidBeatD - note.StartBeat) / beats * w;
+                        AddFlare(re, n);
                     }
 
                     if (note.Perfect && note.EndBeat < CGame.ActBeatD)

@@ -244,6 +244,11 @@ namespace Vocaluxe.Base
             _MidBeatD = -0.5f + GetBeatFromTime(Time, song.BPM, song.Gap + CConfig.MicDelay/1000f);
             _CurrentBeatD = (int)Math.Floor(_MidBeatD);
 
+            for (int p = 0; p < _NumPlayer; p++)
+            {
+                CSound.AnalyzeBuffer(p);
+            }
+
             if (_OldBeatD == _CurrentBeatD)
                 return;
 
@@ -300,7 +305,6 @@ namespace Vocaluxe.Base
                                 }
                             }
 
-                            CSound.AnalyzeBuffer(p);
                             if (notes[Note].PointsForBeat > 0 && (CSound.RecordToneValid(p) || DEBUG_HIT))
                             {
                                 int Tone = notes[Note].Tone;

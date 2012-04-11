@@ -297,26 +297,53 @@ namespace Vocaluxe.Base
 
         public int ToneAbs
         {
-            get { return _ToneAbs; }
+            get 
+            {
+                lock (_AnalysisBufferLock)
+                {
+                    return _ToneAbs; 
+                } 
+            }
         }
 
         public int Tone
         {
-            get { return _Tone; }
-            set { _Tone = value; }
+            get
+            {
+                lock (_AnalysisBufferLock)
+                {
+                    return _Tone;
+                }
+            }
+            set
+            {
+                lock (_AnalysisBufferLock)
+                {
+                    _Tone = value;
+                }
+            }
         }
 
         public float MaxVolume
         {
             get
             {
-                return (float)_MaxVolume;
+                lock (_AnalysisBufferLock)
+                {
+                    return (float)_MaxVolume;
+                }
             }
         }
 
         public bool ToneValid
         {
-            get { return _ToneValid; }
+            get
+            {
+                lock (_AnalysisBufferLock)
+                {
+                    return _ToneValid;
+                }
+            }
         }
 
         public CBuffer()
@@ -415,7 +442,7 @@ namespace Vocaluxe.Base
                             _MaxVolume = Volume;
                     }
 
-                    if (_MaxVolume >= 0.2f)
+                    if (_MaxVolume >= 0.05f)
                     {
                         // analyse the current voice pitch
                         AnalyzeByAutocorrelation();
