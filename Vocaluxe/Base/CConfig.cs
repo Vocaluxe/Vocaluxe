@@ -996,7 +996,7 @@ namespace Vocaluxe.Base
                 {
                     if (Players[j] != string.Empty)
                     {
-                        if (Path.GetFileName(CProfiles.Profiles[i].ProfileFile) == Players[j])
+                        if (Path.GetFileName(CProfiles.Profiles[i].ProfileFile) == Players[j] && CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
                         {
                             //Update Game-infos with player
                             CGame.Player[j].Name = CProfiles.Profiles[i].PlayerName;
