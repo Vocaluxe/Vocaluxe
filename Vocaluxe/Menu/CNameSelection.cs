@@ -73,6 +73,8 @@ namespace Vocaluxe.Menu
 
         int _player = -1;
 
+        private List<int> VisibleProfiles;
+
 
         public CNameSelection()
         {
@@ -81,6 +83,8 @@ namespace Vocaluxe.Menu
             _TextureEmptyTile = CTheme.GetSkinTexture(_Theme.TextureEmptyTileName);
 
             _Tiles = new List<CTile>();
+
+            VisibleProfiles = new List<int>();
         }
 
         public void Init()
@@ -96,6 +100,8 @@ namespace Vocaluxe.Menu
                     _Tiles.Add(new CTile(tileStatic, tileText, -1));
                 }
             }
+
+            UpdateVisibleProfiles();
 
             UpdateList(0);
         }
@@ -361,22 +367,35 @@ namespace Vocaluxe.Menu
             }
         }
 
+        public void UpdateList()
+        {
+            UpdateVisibleProfiles();
+            if (_Tiles.Count * (_Offset + 1) - VisibleProfiles.Count >= _Tiles.Count * _Offset)
+            {
+                UpdateList(_Offset - 1);
+            }
+            else
+            {
+                UpdateList(_Offset);
+            }
+        }
+
         public void UpdateList(int offset)
         {
             if (offset < 0)
                 offset = 0;
 
-            if ( _Tiles.Count * (offset + 1) - CProfiles.Profiles.Length < _Tiles.Count)
+            if ( _Tiles.Count * (offset + 1) - VisibleProfiles.Count < _Tiles.Count)
             {
 
                 for (int i = 0; i < _Tiles.Count; i++)
                 {
-                    if ((i + offset * _Tiles.Count) < CProfiles.Profiles.Length)
+                    if ((i + offset * _Tiles.Count) < VisibleProfiles.Count)
                     {
-                        _Tiles[i].Avatar.Texture = CProfiles.Profiles[i + offset * _Tiles.Count].Avatar.Texture;
+                        _Tiles[i].Avatar.Texture = CProfiles.Profiles[VisibleProfiles[i + offset * _Tiles.Count]].Avatar.Texture;
                         _Tiles[i].Avatar.Color = new SColorF(1, 1, 1, 1);
-                        _Tiles[i].Name.Text = CProfiles.Profiles[i + offset * _Tiles.Count].PlayerName;
-                        _Tiles[i].PlayerNr = i + offset * _Tiles.Count;
+                        _Tiles[i].Name.Text = CProfiles.Profiles[VisibleProfiles[i + offset * _Tiles.Count]].PlayerName;
+                        _Tiles[i].PlayerNr = VisibleProfiles[i + offset * _Tiles.Count];
                     }
                     else
                     {
@@ -447,6 +466,32 @@ namespace Vocaluxe.Menu
         {
             UnloadTextures();
             LoadTextures();
+        }
+
+        private void UpdateVisibleProfiles()
+        {
+            VisibleProfiles.Clear();
+            for (int i = 0; i < CProfiles.Profiles.Length; i++)
+            {
+                bool visible = false;
+                //Show profile only if active
+                if (CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
+                {
+                    visible = true;
+                }
+                for (int p = 0; p < CGame.NumPlayer; p++)
+                {
+                    //Don't show profile if is selected, but if selected and guest
+                    if (CGame.Player[p].ProfileID == i && CProfiles.Profiles[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
+                    {
+                        visible = false;
+                    }
+                }
+                if (visible)
+                {
+                    VisibleProfiles.Add(i);
+                }
+            }
         }
 
         #region ThemeEdit

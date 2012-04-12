@@ -111,18 +111,20 @@ namespace Vocaluxe.Screens
                 case Keys.Add:
                     if (CConfig.NumPlayer + 1 <= CSettings.MaxNumPlayer)
                     {
-                        CConfig.NumPlayer++;
-                        SelectSlides[htSelectSlides(SelectSlidePlayerNumber)].Selection = CConfig.NumPlayer - 1;
+                        SelectSlides[htSelectSlides(SelectSlidePlayerNumber)].Selection = CConfig.NumPlayer;
                         UpdatePlayerNumber();
+                        //Update Tiles-List
+                        NameSelections[htNameSelections(NameSelection)].UpdateList();
                     }
                     break;
 
                 case Keys.Subtract:
                     if (CConfig.NumPlayer - 1 > 0)
                     {
-                        CConfig.NumPlayer--;
-                        SelectSlides[htSelectSlides(SelectSlidePlayerNumber)].Selection = CConfig.NumPlayer - 1;
+                        SelectSlides[htSelectSlides(SelectSlidePlayerNumber)].Selection = CConfig.NumPlayer - 2;
                         UpdatePlayerNumber();
+                        //Update Tiles-List
+                        NameSelections[htNameSelections(NameSelection)].UpdateList();
                     }
                     break;
             }
@@ -150,6 +152,8 @@ namespace Vocaluxe.Screens
                             Texts[htTexts(TextPlayer[selectingKeyboardPlayerNr-1])].Text = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
                             //Update profile-warning
                             CheckPlayers();
+                            //Update Tiles-List
+                            NameSelections[htNameSelections(NameSelection)].UpdateList();
                         }
                         //Reset all values
                         selectingKeyboardPlayerNr = 0;
@@ -271,6 +275,8 @@ namespace Vocaluxe.Screens
                         selectingKeyboardPlayerNr = 0;
                         selectingKeyboardActive = false;
                         NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
+                        //Update Tiles-List
+                        NameSelections[htNameSelections(NameSelection)].UpdateList();
                         break;
 
                 }
@@ -414,6 +420,8 @@ namespace Vocaluxe.Screens
                                 Texts[htTexts(TextPlayer[i])].Text = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
                                 //Update profile-warning
                                 CheckPlayers();
+                                //Update Tiles-List
+                                NameSelections[htNameSelections(NameSelection)].UpdateList();
                             }
                         }
                     }
@@ -447,6 +455,8 @@ namespace Vocaluxe.Screens
 
                 if (!processed)
                     UpdatePlayerNumber();
+                    //Update Tiles-List
+                    NameSelections[htNameSelections(NameSelection)].UpdateList();
             }
 
             if (MouseEvent.RB)
@@ -469,6 +479,8 @@ namespace Vocaluxe.Screens
                         Texts[htTexts(TextPlayer[i])].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + (i+1).ToString();
                         //Update profile-warning
                         CheckPlayers();
+                        //Update Tiles-List
+                        NameSelections[htNameSelections(NameSelection)].UpdateList();
                         exit = false;
                     }
                 }
