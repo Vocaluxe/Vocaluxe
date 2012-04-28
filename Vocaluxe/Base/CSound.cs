@@ -295,7 +295,7 @@ namespace Vocaluxe.Base
         private const int _NumHalfTones = 47;
 
         private float[] _ToneWeigth;
-        private Int16[] _AnalysisBuffer = new Int16[4096];
+        private Int16[] _AnalysisBuffer = new Int16[4096*2];
         private Object _AnalysisBufferLock = new Object();
 
         private bool _ToneValid = false;
@@ -490,7 +490,9 @@ namespace Vocaluxe.Base
 
             // prepare to analyze
             double MaxWeight = -1.0;
-            int MaxTone = 0;
+            double MinWeight = 1.0;
+            int MaxTone = -1;
+            float[] Weigth = new float[_NumHalfTones];
 
             // analyze halftones
             // Note: at the lowest tone (~65Hz) and a buffer-size of 4096
@@ -502,18 +504,33 @@ namespace Vocaluxe.Base
                 double CurFreq = _BaseToneFreq * Math.Pow(HalftoneBase, ToneIndex);
                 double CurWeight = AnalyzeAutocorrelationFreq(CurFreq);
 
-                // TODO: prefer higher frequencies (use >= or use downto)
-                if (CurWeight > MaxWeight /* && (Math.Abs(ToneIndex - _ToneAbs) < 5 || _ToneAbs == 0)*/)
-                {
-                    // this frequency has a higher weight
+                if (CurWeight > MaxWeight)
                     MaxWeight = CurWeight;
-                    MaxTone = ToneIndex;
-                }
-                _ToneWeigth[ToneIndex] = (float)CurWeight;
+
+                if (CurWeight < MinWeight)
+                    MinWeight = CurWeight;
+
+                Weigth[ToneIndex] = (float)CurWeight;
             }
 
-            if (valid)
+            if (valid && MaxWeight - MinWeight > 0.05)
             {
+                int m = -1;
+                float prev = 0f;
+                for (int i = 0; i < Weigth.Length; i++)
+                {
+                    if (Weigth[i] < prev && i > 0)
+                    {
+                        m = i;
+                        MaxTone = i;
+                    }
+
+                    if (i == Weigth.Length - 1 && m == -1)
+                        MaxTone = i;
+
+                    prev = Weigth[i];
+                    _ToneWeigth[i] = Weigth[i];
+                }
                 _ToneAbs = MaxTone;
                 _Tone = MaxTone % 12;
                 _ToneValid = true;

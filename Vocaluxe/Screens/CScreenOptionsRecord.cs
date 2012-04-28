@@ -278,6 +278,8 @@ namespace Vocaluxe.Screens
                     ChannelEnergy[0] = CSound.RecordGetMaxVolume(player - 1);
                     _Equalizer[0].Update(CSound.ToneWeigth(player - 1));
                 }
+                else
+                    _Equalizer[0].Reset();
 
                 ChannelEnergy[1] = 0f;
                 player = SelectSlides[htSelectSlides(SelectSlideRecordChannel2)].Selection;
@@ -286,6 +288,8 @@ namespace Vocaluxe.Screens
                     ChannelEnergy[1] = CSound.RecordGetMaxVolume(player - 1);
                     _Equalizer[1].Update(CSound.ToneWeigth(player - 1));
                 }
+                else
+                    _Equalizer[1].Reset();
             }
             else
             {
@@ -361,7 +365,7 @@ namespace Vocaluxe.Screens
 
             for (int i = 0; i < _Equalizer.Length; i++)
             {
-                _Equalizer[i] = new Equalizer(new SRectF(50 + 300 * i, 400, 250, 150, -1), CSound.NumHalfTones(0), 1);
+                _Equalizer[i] = new Equalizer(new SRectF(50 + 350 * i, 400, 230, 150, -1), CSound.NumHalfTones(0), 2);
             }
         }
 
@@ -600,6 +604,7 @@ namespace Vocaluxe.Screens
         public Equalizer(SRectF bounds, int numBars, float space)
         {
             _Bounds = bounds;
+            _Space = space;
 
             if (numBars > 0)
                 _Bars = new float[numBars];
@@ -644,12 +649,30 @@ namespace Vocaluxe.Screens
             if (_Bars == null)
                 return;
 
-            float dx = _Bounds.W / _Bars.Length;
+            float dx = _Bounds.W / _Bars.Length + _Space;
+            int max = _Bars.Length - 1;
+            float maxB = _Bars[max];
+            for (int i = 0; i < _Bars.Length - 1; i++)
+            {
+                if (_Bars[i] > maxB)
+                {
+                    maxB = _Bars[i];
+                    max = i;
+                }
+            }
 
+            
             for (int i = 0; i < _Bars.Length; i++)
             {
-                SRectF bar = new SRectF(_Bounds.X + dx * i, _Bounds.Y + _Bounds.H - _Bars[i] * _Bounds.H, dx, _Bars[i] * _Bounds.H, _Bounds.Z);
-                CDraw.DrawColor(new SColorF(1f, 1f, 1f, 1f), bar);
+                SRectF bar = new SRectF(_Bounds.X + dx * i, _Bounds.Y + _Bounds.H - _Bars[i] * _Bounds.H, dx - _Space, _Bars[i] * _Bounds.H, _Bounds.Z);
+                SColorF color = new SColorF(1f, 1f, 1f, 1f);
+                if (i == max)
+                {
+                    color.B = 0f;
+                    color.G = 0f;
+                }
+
+                CDraw.DrawColor(color, bar);
             }
         }
     }

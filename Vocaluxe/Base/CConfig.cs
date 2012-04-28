@@ -215,7 +215,7 @@ namespace Vocaluxe.Base
 
         // Record
         public static SMicConfig[] MicConfig;
-        public static int MicDelay = 200;   //[ms]
+        public static int MicDelay = 300;   //[ms]
 
         //Lists to save parameters and values
         private static List<string> _Params = new List<string>();
