@@ -103,6 +103,15 @@ namespace Vocaluxe.Lib.Sound
             if (!_initialized)
                 return false;
 
+            if (DeviceConfig == null)
+                return false;
+
+            if (_recHandle == null)
+                return false;
+
+            if (_recHandle.Length == 0)
+                return false;
+
             for (int i = 0; i < _Buffer.Length; i++)
             {
                 _Buffer[i].Reset();
