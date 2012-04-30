@@ -249,6 +249,22 @@ namespace Vocaluxe.Lib.Sound
             return _Buffer[Player].ToneValid;
         }
 
+        public int NumHalfTones(int Player)
+        {
+            if (!_initialized)
+                return 0;
+
+            return _Buffer[Player].NumHalfTones;
+        }
+
+        public float[] ToneWeigth(int Player)
+        {
+            if (!_initialized)
+                return null;
+
+            return _Buffer[Player].ToneWeigth;
+        }
+
         public SRecordDevice[] RecordDevices()
         {
             if (!_initialized)
