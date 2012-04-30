@@ -295,7 +295,7 @@ namespace Vocaluxe.Base
         private const int _NumHalfTones = 47;
 
         private float[] _ToneWeigth;
-        private Int16[] _AnalysisBuffer = new Int16[4096*2];
+        private Int16[] _AnalysisBuffer = new Int16[4096 * 4];
         private Object _AnalysisBufferLock = new Object();
 
         private bool _ToneValid = false;
@@ -425,30 +425,25 @@ namespace Vocaluxe.Base
 
             lock (_AnalysisBufferLock)
             {
-                try
-                {
-                    // move old samples to the beginning of the array (if necessary)
-                    for (int i = 0; i < _AnalysisBuffer.Length - SampleCount; i++)
-                    {
-                        _AnalysisBuffer[i] = _AnalysisBuffer[i + SampleCount];
-                    }
-
-                    byte[] b = new byte[2];
-                    // copy new samples to analysis buffer
-                    for (int i = 0; i < SampleCount; i++)
-                    {
-                        b[0] = buffer[BufferOffset + i * 2];
-                        b[1] = buffer[BufferOffset + i * 2 + 1];
-
-                        _AnalysisBuffer[_AnalysisBuffer.Length - SampleCount + i] = BitConverter.ToInt16(b, 0);
-                    }
-                }
-                catch (Exception)
-                {
-
-                }
                 Add(buffer);
-                _NewSamples = true;
+
+                int len = _AnalysisBuffer.Length * 2;
+                if (_Stream.Length >= len)
+                {
+                    byte[] buf = new byte[len];
+                    _Stream.Position -= len;
+                    _Stream.Read(buf, 0, len);
+                    
+                    byte[] b = new byte[2];
+                    for (int i = 0; i < _AnalysisBuffer.Length; i++)
+                    {
+                        b[0] = buf[i * 2];
+                        b[1] = buf[i * 2 + 1];
+
+                        _AnalysisBuffer[i] = BitConverter.ToInt16(b, 0);
+                    }
+                    _NewSamples = true;
+                }
             }
         }
 
@@ -470,7 +465,7 @@ namespace Vocaluxe.Base
                             _MaxVolume = Volume;
                     }
 
-                    if (_MaxVolume >= 0.05f)
+                    if (_MaxVolume >= 0.02f)
                         AnalyzeByAutocorrelation(true);
                     else
                         AnalyzeByAutocorrelation(false);
@@ -513,27 +508,35 @@ namespace Vocaluxe.Base
                 Weigth[ToneIndex] = (float)CurWeight;
             }
 
-            if (valid && MaxWeight - MinWeight > 0.05)
+            if (valid && MaxWeight - MinWeight > 0.01)
             {
                 int m = -1;
-                float prev = 0f;
+                float prev = -1f;
+                bool raising = false;
                 for (int i = 0; i < Weigth.Length; i++)
                 {
-                    if (Weigth[i] < prev && i > 0)
-                    {
-                        m = i;
-                        MaxTone = i;
-                    }
+                    if (i > 0 && Weigth[i] > prev)
+                        raising = true;
 
-                    if (i == Weigth.Length - 1 && m == -1)
-                        MaxTone = i;
+                    if (Weigth[i] < prev && raising)
+                    {
+                        m = i-1;
+                        MaxTone = i-1;
+                        raising = false;
+                    }
 
                     prev = Weigth[i];
                     _ToneWeigth[i] = Weigth[i];
                 }
-                _ToneAbs = MaxTone;
-                _Tone = MaxTone % 12;
-                _ToneValid = true;
+
+                if (m != -1)
+                {
+                    _ToneAbs = MaxTone;
+                    _Tone = MaxTone % 12;
+                    _ToneValid = true;
+                }
+                else
+                    _ToneValid = false;
             }
             else
                 _ToneValid = false;
