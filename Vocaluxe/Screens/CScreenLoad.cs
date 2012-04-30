@@ -139,7 +139,7 @@ namespace Vocaluxe.Screens
             _SongLoaderThread.Start();
             _timer.Start();
 
-            if (!CBackgroundMusic.IsPlaying())
+            if (!CBackgroundMusic.Playing)
                 CBackgroundMusic.Next();
         }
 
@@ -173,7 +173,7 @@ namespace Vocaluxe.Screens
             {
                 CBackgroundMusic.AddOwnMusic();
 
-                if (!CBackgroundMusic.IsPlaying())
+                if (!CBackgroundMusic.Playing)
                     CBackgroundMusic.Next();
             }
 

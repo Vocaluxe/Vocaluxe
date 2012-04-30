@@ -115,6 +115,11 @@ namespace Vocaluxe.Base
         public static bool TabNavigation = false;
 
         public const float BackgroundMusicFadeTime = 0.5f;
+
+        public static List<string> MusicFileTypes = new List<string>()
+        { 
+            "*.mp3","*.wma","*.ogg","*.wav" 
+        };
         
         public static string GetVersionText()
         {
