@@ -325,6 +325,10 @@ namespace Vocaluxe.Screens
                 NoteLines[i] = -1;
             }
 
+            for (int i = 0; i < Lyrics.Length; i++)
+            {
+                Lyrics[i].LyricStyle = CConfig.LyricStyle;
+            }
             SetVisuability();
             CBackgroundMusic.Disabled = true;
         }

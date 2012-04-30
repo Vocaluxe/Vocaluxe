@@ -152,6 +152,14 @@ namespace Vocaluxe.Base
         TR_CONFIG_ONLY_OWN_MUSIC
     }
 
+    public enum ELyricStyle
+    {
+        Fill,
+        Jump,
+        Slide,
+        Zoom
+    }
+
     #endregion Enums
 
     static class CConfig
@@ -186,6 +194,7 @@ namespace Vocaluxe.Base
         public static EOffOn DrawToneHelper = EOffOn.TR_CONFIG_ON;
         public static ETimerLook TimerLook = ETimerLook.TR_CONFIG_TIMERLOOK_EXPANDED;
         public static ECoverLoading CoverLoading = ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART;
+        public static ELyricStyle LyricStyle = ELyricStyle.Slide;
 
         // Sound
         public static EPlaybackLib PlayBackLib = EPlaybackLib.PortAudio;
@@ -302,6 +311,7 @@ namespace Vocaluxe.Base
                 CHelper.TryGetEnumValueFromXML("//root/Theme/DrawToneHelper", navigator, ref DrawToneHelper);
                 CHelper.TryGetEnumValueFromXML("//root/Theme/TimerLook", navigator, ref TimerLook);
                 CHelper.TryGetEnumValueFromXML("//root/Theme/CoverLoading", navigator, ref CoverLoading);
+                CHelper.TryGetEnumValueFromXML("//root/Theme/LyricStyle", navigator, ref LyricStyle);
                 #endregion Theme
 
                 #region Sound
@@ -500,6 +510,9 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("Cover Loading:" + ListStrings(Enum.GetNames(typeof(ECoverLoading))));
             writer.WriteElementString("CoverLoading", Enum.GetName(typeof(ECoverLoading), CoverLoading));
+
+            writer.WriteComment("Lyric Style:" + ListStrings(Enum.GetNames(typeof(ELyricStyle))));
+            writer.WriteElementString("LyricStyle", Enum.GetName(typeof(ELyricStyle), LyricStyle));
 
             writer.WriteEndElement();
             #endregion Theme
