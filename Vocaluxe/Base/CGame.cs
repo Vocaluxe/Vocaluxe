@@ -379,11 +379,12 @@ namespace Vocaluxe.Base
                             }
 
                             // Line Bonus
-                            if (Note == lines[Line].NoteCount - 1)
+                            int NumLinesWithPoints = song.Notes.GetNumLinesWithPoints(_Player[p].LineNr);
+                            if (Note == lines[Line].NoteCount - 1 && NumLinesWithPoints > 0)
                             {
-                                if (notes[Note].EndBeat == beat)
+                                if (notes[Note].EndBeat == beat && lines[Line].Points > 0f)
                                 {
-                                    double factor = (double)_Player[p].SingLine[Line].Points / (double)song.Notes.GetPoints(_Player[p].LineNr);
+                                    double factor = (double)_Player[p].SingLine[Line].Points / (double)lines[Line].Points;
                                     if (factor < 0.4)
                                         factor = 0.0;
                                     else if (factor > 0.9)
@@ -394,8 +395,8 @@ namespace Vocaluxe.Base
                                         factor *= 2;
                                         factor *= factor;
                                     }
-                                    
-                                    double points = CSettings.LinebonusScore * factor;                                    
+
+                                    double points = CSettings.LinebonusScore * factor * 1f / NumLinesWithPoints;                                    
                                     _Player[p].Points += points;
                                     _Player[p].PointsLineBonus += points;
                                 }

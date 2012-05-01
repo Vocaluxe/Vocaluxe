@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -90,6 +91,7 @@ namespace Vocaluxe.Lib.Sound
                 CLog.LogError("Error initializing PortAudio: " + e.Message);
                 return false;
             }
+
             return true;
         }
 
@@ -151,7 +153,7 @@ namespace Vocaluxe.Lib.Sound
                         ref inputParams,
                         IntPtr.Zero,
                         44100,
-                        PortAudio.paFramesPerBufferUnspecified,
+                        1024,
                         PortAudio.PaStreamFlags.paNoFlag,
                         _myRecProc,
                         new IntPtr(i))))
@@ -161,7 +163,6 @@ namespace Vocaluxe.Lib.Sound
                         return false;
                 }
             }
-
             return result;
         }
 

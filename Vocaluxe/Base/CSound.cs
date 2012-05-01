@@ -295,7 +295,7 @@ namespace Vocaluxe.Base
         private const int _NumHalfTones = 47;
 
         private float[] _ToneWeigth;
-        private Int16[] _AnalysisBuffer = new Int16[4096 * 4];
+        private Int16[] _AnalysisBuffer = new Int16[4096];
         private Object _AnalysisBufferLock = new Object();
 
         private bool _ToneValid = false;
@@ -414,15 +414,6 @@ namespace Vocaluxe.Base
             //if (assigned(fVoiceStream)) then
             //fVoiceStream.WriteData(Buffer, BufferSize);
 
-            int BufferOffset = 0;
-            int SampleCount = (int)Math.Floor(buffer.Length / 2.0);
-            
-            if (SampleCount > _AnalysisBuffer.Length)
-            {
-                BufferOffset = (SampleCount - _AnalysisBuffer.Length) * 2;
-                SampleCount = _AnalysisBuffer.Length;
-            }
-
             lock (_AnalysisBufferLock)
             {
                 Add(buffer);
@@ -500,7 +491,10 @@ namespace Vocaluxe.Base
                 double CurWeight = AnalyzeAutocorrelationFreq(CurFreq);
 
                 if (CurWeight > MaxWeight)
+                {
                     MaxWeight = CurWeight;
+                    MaxTone = ToneIndex;
+                }
 
                 if (CurWeight < MinWeight)
                     MinWeight = CurWeight;
@@ -508,6 +502,21 @@ namespace Vocaluxe.Base
                 Weigth[ToneIndex] = (float)CurWeight;
             }
 
+            if (valid && MaxWeight - MinWeight > 0.01)
+            {
+                for (int i = 0; i < Weigth.Length; i++)
+                {
+                    _ToneWeigth[i] = Weigth[i];
+                }
+
+                _ToneAbs = MaxTone;
+                _Tone = MaxTone % 12;
+                _ToneValid = true;
+            }
+            else
+                _ToneValid = false;
+
+            /*
             if (valid && MaxWeight - MinWeight > 0.01)
             {
                 int m = -1;
@@ -537,9 +546,11 @@ namespace Vocaluxe.Base
                 }
                 else
                     _ToneValid = false;
+             
             }
             else
                 _ToneValid = false;
+             * */
         }
 
         private double AnalyzeAutocorrelationFreq(double Freq)

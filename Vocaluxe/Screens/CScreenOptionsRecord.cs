@@ -256,7 +256,8 @@ namespace Vocaluxe.Screens
                             _DelayTest[i].Timer.Stop();
                             _DelayTestRunning = false;
                         }
-                        else if (CSound.RecordGetMaxVolume(player - 1) > 0.4f && CSound.RecordGetToneAbs(player - 1) == 9)
+                        else if (CSound.RecordGetMaxVolume(player - 1) > 0.1f &&
+                            (CSound.RecordGetToneAbs(player - 1) == 9 || CSound.RecordGetToneAbs(player - 1) == 21 || CSound.RecordGetToneAbs(player - 1) == 33))
                         {
                             _DelayTest[i].Delay = _DelayTest[i].Timer.ElapsedMilliseconds;
                             _DelayTest[i].Timer.Stop();
