@@ -120,6 +120,9 @@ namespace Vocaluxe.Screens
                     _Intros[i].Load(IntroVideo[i]);
                 }
             }
+
+            if (!CBackgroundMusic.Playing)
+                CBackgroundMusic.Next();
         }
 
         public override void OnShowFinish()
@@ -173,8 +176,8 @@ namespace Vocaluxe.Screens
             {
                 CBackgroundMusic.AddOwnMusic();
 
-                if (!CBackgroundMusic.Playing)
-                    CBackgroundMusic.Next();
+                //if (!CBackgroundMusic.Playing)
+                //    CBackgroundMusic.Next();
             }
 
             return true;
