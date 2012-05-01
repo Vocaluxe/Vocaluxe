@@ -98,7 +98,7 @@ namespace Vocaluxe.Base
         {
             get
             {
-                return CSound.IsPlaying(_CurrentMusicStream);
+                return _Playing;
             }
         }
 

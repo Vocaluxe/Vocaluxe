@@ -193,6 +193,22 @@ namespace Vocaluxe.Lib.Sound
             return _Devices.ToArray();
         }
 
+        public int NumHalfTones(int Player)
+        {
+            if (!_initialized)
+                return 0;
+
+            return _Buffer[Player].NumHalfTones;
+        }
+
+        public float[] ToneWeigth(int Player)
+        {
+            if (!_initialized)
+                return null;
+
+            return _Buffer[Player].ToneWeigth;
+        }
+
         private void OnDataReady(object sender, SampleDataEventArgs e)
         {
             if (_initialized)
