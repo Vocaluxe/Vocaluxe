@@ -179,6 +179,7 @@ namespace Vocaluxe.Screens
                 //if (!CBackgroundMusic.Playing)
                 //    CBackgroundMusic.Next();
             }
+            CBackgroundMusic.CanSing = false;
 
             return true;
         }
@@ -206,6 +207,8 @@ namespace Vocaluxe.Screens
             {
                 _Intros[i].Close();
             }
+
+            CBackgroundMusic.CanSing = true;
 
             CLog.StopBenchmark(3, "Load Cover");
         }

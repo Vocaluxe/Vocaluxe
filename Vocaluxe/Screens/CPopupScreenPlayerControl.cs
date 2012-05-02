@@ -46,6 +46,7 @@ namespace Vocaluxe.Screens
                     CBackgroundMusic.VideoEnabled = true;
             }
         }
+
         private bool VideoBackground
         {
             get
@@ -185,6 +186,7 @@ namespace Vocaluxe.Screens
             Statics[htStatics(StaticCover)].Visible = !_VideoPreview || !CBackgroundMusic.SongHasVideo;
             Buttons[htButtons(ButtonToBackgroundVideo)].Pressed = VideoBackground;
             Buttons[htButtons(ButtonShowVideo)].Pressed = _VideoPreview;
+            Buttons[htButtons(ButtonSing)].Visible = CBackgroundMusic.CanSing;
             return true;
         }
 
