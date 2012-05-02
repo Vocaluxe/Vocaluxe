@@ -33,6 +33,7 @@ namespace Vocaluxe.Base
         private static bool _BackgroundMusicAdded;
         private static bool _Playing;
         private static bool _Disabled;
+        private static bool _CanSing;
 
         public static bool VideoEnabled
         {
@@ -51,6 +52,19 @@ namespace Vocaluxe.Base
                 if (!_VideoEnabled && value)
                     ToggleVideo();
                 _VideoEnabled = value;
+            }
+        }
+
+        public static bool CanSing
+        {
+            get
+            {
+                return _CanSing;
+            }
+
+            set
+            {
+                _CanSing = value;
             }
         }
 
@@ -98,7 +112,7 @@ namespace Vocaluxe.Base
         {
             get
             {
-                return CSound.IsPlaying(_CurrentMusicStream);
+                return _Playing;
             }
         }
 
@@ -156,6 +170,11 @@ namespace Vocaluxe.Base
                     }
                     else
                         Next();
+
+                    if (!IsBackgroundFile(_CurrentPlaylistElement))
+                        _CanSing = true;
+                    else
+                        _CanSing = false;
                 }
             }
         }

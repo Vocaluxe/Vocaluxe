@@ -87,7 +87,8 @@ namespace Vocaluxe.Base
 
     public enum ERecordLib
     {
-        PortAudio
+        PortAudio,
+        DirectSound
     }
 
     public enum EVideoDecoder

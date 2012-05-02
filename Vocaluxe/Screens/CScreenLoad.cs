@@ -120,6 +120,9 @@ namespace Vocaluxe.Screens
                     _Intros[i].Load(IntroVideo[i]);
                 }
             }
+
+            if (!CBackgroundMusic.Playing)
+                CBackgroundMusic.Next();
         }
 
         public override void OnShowFinish()
@@ -173,9 +176,10 @@ namespace Vocaluxe.Screens
             {
                 CBackgroundMusic.AddOwnMusic();
 
-                if (!CBackgroundMusic.Playing)
-                    CBackgroundMusic.Next();
+                //if (!CBackgroundMusic.Playing)
+                //    CBackgroundMusic.Next();
             }
+            CBackgroundMusic.CanSing = false;
 
             return true;
         }
@@ -203,6 +207,8 @@ namespace Vocaluxe.Screens
             {
                 _Intros[i].Close();
             }
+
+            CBackgroundMusic.CanSing = true;
 
             CLog.StopBenchmark(3, "Load Cover");
         }

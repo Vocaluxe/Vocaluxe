@@ -385,7 +385,8 @@ namespace Vocaluxe.Menu
                     _Screens[(int)_CurrentScreen].OnClose();
                     _CurrentScreen = _NextScreen;
                     _NextScreen = EScreens.ScreenNull;
-                    CBackgroundMusic.Play();
+                    if(CBackgroundMusic.Playing)
+                        CBackgroundMusic.Play();
                     _Screens[(int)_CurrentScreen].OnShowFinish();
                     _Screens[(int)_CurrentScreen].ProcessMouseMove(_Cursor.X, _Cursor.Y);
                     _Screens[(int)_CurrentScreen].Draw();
