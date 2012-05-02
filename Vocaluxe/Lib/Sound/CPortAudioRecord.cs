@@ -153,7 +153,7 @@ namespace Vocaluxe.Lib.Sound
                         ref inputParams,
                         IntPtr.Zero,
                         44100,
-                        1024,
+                        882,
                         PortAudio.PaStreamFlags.paNoFlag,
                         _myRecProc,
                         new IntPtr(i))))
