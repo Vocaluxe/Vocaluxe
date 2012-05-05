@@ -16,6 +16,12 @@ using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Menu
 {
+    struct ZSort
+    {
+        public int ID;
+        public float z;
+    }
+
     abstract class CMenu
     {        
         private List<CInteraction> _Interactions;
@@ -913,8 +919,24 @@ namespace Vocaluxe.Menu
 
         public void DrawFG()
         {
-            foreach (CStatic stat in _Statics)
-                stat.Draw();
+            if (_Statics.Count > 0)
+            {
+                List<ZSort> items = new List<ZSort>(_Statics.Count);
+
+                for (int i = 0; i < _Statics.Count; i++)
+                {
+                    ZSort zs = new ZSort();
+                    zs.ID = i;
+                    zs.z = _Statics[i].Rect.Z;
+                    items.Add(zs);
+                }
+                items.Sort(delegate(ZSort s1, ZSort s2){ return(s2.z.CompareTo(s1.z)); });
+
+                for (int i = 0; i < _Statics.Count; i++)
+                {
+                    _Statics[items[i].ID].Draw();
+                }
+            }
 
             foreach (CSingNotes sn in _SingNotes)
             {
