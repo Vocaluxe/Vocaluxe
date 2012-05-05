@@ -11,14 +11,6 @@ using Vocaluxe.Lib.Song;
 
 namespace Vocaluxe.Menu
 {
-    enum ELyricStyle
-    {
-        Fill,
-        Jump,
-        Slide,
-        Zoom
-    }
-
     struct SNote
     {
         public string Text;
@@ -84,6 +76,12 @@ namespace Vocaluxe.Menu
             }
         }
 
+        public ELyricStyle LyricStyle
+        {
+            get { return _Style; }
+            set { _Style = value; }
+        }
+
         public CLyric()
         {
             _Theme = new SThemeLyrics();
@@ -100,7 +98,7 @@ namespace Vocaluxe.Menu
             _Notes = new List<SNote>();
             _Text = new CText();
 
-            _Style = ELyricStyle.Slide;
+            _Style = ELyricStyle.Fill;
         }
 
         public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)

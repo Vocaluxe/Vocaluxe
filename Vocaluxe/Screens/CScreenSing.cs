@@ -359,10 +359,17 @@ namespace Vocaluxe.Screens
                 NoteLines[i] = -1;
             }
 
+            for (int i = 0; i < Lyrics.Length; i++)
+            {
+                Lyrics[i].LyricStyle = CConfig.LyricStyle;
+            }
             SetVisuability();
+
             UpdateAvatars();
             UpdateNames();
-            CBackgroundMusic.Pause();
+
+            CBackgroundMusic.Disabled = true;
+
         }
 
         public override void OnShowFinish()
@@ -371,7 +378,7 @@ namespace Vocaluxe.Screens
 
             CGame.Start();
             LoadNextSong();
-            CBackgroundMusic.Pause();
+            CBackgroundMusic.Disabled = true;
         }
 
         public override bool Draw()
@@ -454,6 +461,7 @@ namespace Vocaluxe.Screens
         public override void OnClose()
         {
             base.OnClose();
+            CBackgroundMusic.Disabled = false;
             CloseSong();
         }
 

@@ -87,7 +87,8 @@ namespace Vocaluxe.Base
 
     public enum ERecordLib
     {
-        PortAudio
+        PortAudio,
+        DirectSound
     }
 
     public enum EVideoDecoder
@@ -167,6 +168,14 @@ namespace Vocaluxe.Base
         TR_CONFIG_FADEPLAYERINFO_OFF
     }
 
+    public enum ELyricStyle
+    {
+        Fill,
+        Jump,
+        Slide,
+        Zoom
+    }
+
     #endregion Enums
 
     static class CConfig
@@ -203,6 +212,7 @@ namespace Vocaluxe.Base
         public static EPlayerInfo PlayerInfo = EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH;
         public static EFadePlayerInfo FadePlayerInfo = EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_OFF;
         public static ECoverLoading CoverLoading = ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART;
+        public static ELyricStyle LyricStyle = ELyricStyle.Slide;
 
         // Sound
         public static EPlaybackLib PlayBackLib = EPlaybackLib.PortAudio;
@@ -230,10 +240,11 @@ namespace Vocaluxe.Base
         public static EOffOn VideoBackgrounds = EOffOn.TR_CONFIG_ON;
         public static EOffOn VideoPreview = EOffOn.TR_CONFIG_ON;
         public static EOffOn VideosInSongs = EOffOn.TR_CONFIG_ON;
+        public static EOffOn VideosToBackground = EOffOn.TR_CONFIG_OFF;
 
         // Record
         public static SMicConfig[] MicConfig;
-        public static int MicDelay = 200;   //[ms]
+        public static int MicDelay = 300;   //[ms]
 
         //Lists to save parameters and values
         private static List<string> _Params = new List<string>();
@@ -321,6 +332,7 @@ namespace Vocaluxe.Base
                 CHelper.TryGetEnumValueFromXML("//root/Theme/PlayerInfo", navigator, ref PlayerInfo);
                 CHelper.TryGetEnumValueFromXML("//root/Theme/FadePlayerInfo", navigator, ref FadePlayerInfo);
                 CHelper.TryGetEnumValueFromXML("//root/Theme/CoverLoading", navigator, ref CoverLoading);
+                CHelper.TryGetEnumValueFromXML("//root/Theme/LyricStyle", navigator, ref LyricStyle);
                 #endregion Theme
 
                 #region Sound
@@ -403,6 +415,7 @@ namespace Vocaluxe.Base
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideoBackgrounds", navigator, ref VideoBackgrounds);
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideoPreview", navigator, ref VideoPreview);
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideosInSongs", navigator, ref VideosInSongs);
+                CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideosToBackground", navigator, ref VideosToBackground);
                 #endregion Video
 
                 #region Record
@@ -531,6 +544,9 @@ namespace Vocaluxe.Base
             writer.WriteComment("Cover Loading:" + ListStrings(Enum.GetNames(typeof(ECoverLoading))));
             writer.WriteElementString("CoverLoading", Enum.GetName(typeof(ECoverLoading), CoverLoading));
 
+            writer.WriteComment("Lyric Style:" + ListStrings(Enum.GetNames(typeof(ELyricStyle))));
+            writer.WriteElementString("LyricStyle", Enum.GetName(typeof(ELyricStyle), LyricStyle));
+
             writer.WriteEndElement();
             #endregion Theme
 
@@ -634,6 +650,9 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("Show Videos while singing: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("VideosInSongs", Enum.GetName(typeof(EOffOn), VideosInSongs));
+
+            writer.WriteComment("Show backgroundmusic videos as background: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteElementString("VideosToBackground", Enum.GetName(typeof(EOffOn), VideosToBackground));
 
             writer.WriteEndElement();
             #endregion Video

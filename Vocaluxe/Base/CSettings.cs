@@ -47,7 +47,7 @@ namespace Vocaluxe.Base
         public const int iVersionSub = 0;        // patches
         public const ERevision VersionRevision = ERevision.Alpha;
 
-        public const int iBuild = 62;             // Increase on every published version! Never Reset!
+        public const int iBuild = 63;             // Increase on every published version! Never Reset!
 
         public const int iDatabaseHighscoreVersion = 1;
         public const int iDatabaseCoverVersion = 1;
@@ -115,6 +115,11 @@ namespace Vocaluxe.Base
         public static bool TabNavigation = false;
 
         public const float BackgroundMusicFadeTime = 0.5f;
+
+        public static List<string> MusicFileTypes = new List<string>()
+        { 
+            "*.mp3","*.wma","*.ogg","*.wav" 
+        };
         
         public static string GetVersionText()
         {

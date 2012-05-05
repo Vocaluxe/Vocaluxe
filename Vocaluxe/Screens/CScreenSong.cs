@@ -187,12 +187,12 @@ namespace Vocaluxe.Screens
             if ((CSongs.Category >= 0 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF) && song >= 0 && song < CSongs.VisibleSongs.Length)
             {
                 Texts[htTexts(TextSelection)].Text = CSongs.VisibleSongs[song].Artist + " - " + CSongs.VisibleSongs[song].Title;
-                CBackgroundMusic.Pause();
+                CBackgroundMusic.Disabled = true;
             }
             else if (CSongs.Category == -1 && song >= 0 && song < CSongs.Categories.Length)
             {
                 Texts[htTexts(TextSelection)].Text = CSongs.Categories[song].Name;
-                CBackgroundMusic.Play();
+                CBackgroundMusic.Disabled = false;
             }
             else
                 Texts[htTexts(TextSelection)].Text = String.Empty;
@@ -227,6 +227,7 @@ namespace Vocaluxe.Screens
         public override void OnClose()
         {
             base.OnClose();
+            CBackgroundMusic.Disabled = false;
             SongMenus[htSongMenus(SongMenu)].OnHide();
         }
 

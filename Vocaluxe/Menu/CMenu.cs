@@ -62,6 +62,13 @@ namespace Vocaluxe.Menu
         protected string[] _ThemeSingNotes;
         protected string[] _ThemeNameSelections;
 
+        protected SRectF _ScreenArea;
+
+        public SRectF ScreenArea
+        {
+            get { return _ScreenArea; }
+        }
+
         public int ThemeScreenVersion
         {
             get { return _ScreenVersion; }
@@ -104,6 +111,7 @@ namespace Vocaluxe.Menu
             _MouseDY = 0;
 
             _Active = false;
+            _ScreenArea = new SRectF(0f, 0f, CSettings.iRenderW, CSettings.iRenderH, 0f);
 
             _ThemeName = String.Empty;
             _ThemeBackgrounds = null;
@@ -928,13 +936,12 @@ namespace Vocaluxe.Menu
         {
             ResumeBG();
             _Active = true;
-            CBackgroundMusic.Play();
         }
 
         public virtual void OnClose()
         {
             PauseBG();
-            CBackgroundMusic.Pause();
+            _Active = false;
         }
         #endregion MenuHandler
 
