@@ -546,7 +546,7 @@ namespace Vocaluxe.Screens
             {
                 if (CGame.Player[i].ProfileID < 0)
                 {
-                    CGame.Player[i].Name = "Player " + i.ToString();
+                    CGame.Player[i].Name = "Player " + (i+1).ToString();
                     CGame.Player[i].Difficulty = EGameDifficulty.TR_CONFIG_EASY;
                     CGame.Player[i].ProfileID = -1;
                 }
