@@ -84,11 +84,7 @@ namespace Vocaluxe.Menu
         {
             _Theme = new SThemeNameSelection();
 
-            _TextureEmptyTile = CTheme.GetSkinTexture(_Theme.TextureEmptyTileName);
-            _TextureTileSelected = CTheme.GetSkinTexture(_Theme.TextureTileSelectedName);
-
             _Tiles = new List<CTile>();
-
             VisibleProfiles = new List<int>();
         }
 
@@ -108,7 +104,7 @@ namespace Vocaluxe.Menu
 
             PlayerSelector = new CStatic();
             PlayerSelector.Texture = _TextureTileSelected;
-            PlayerSelector.Rect = new SRectF(0, 0, (_TileW + 2), (_TileH + 2), (Rect.Z - 0.5f));
+            PlayerSelector.Rect = new SRectF(0, 0, (_TileW + 6), (_TileH + 6), (Rect.Z - 0.5f));
             PlayerSelector.Visible = false;
 
             UpdateVisibleProfiles();
@@ -274,8 +270,8 @@ namespace Vocaluxe.Menu
                     //Update PlayerSelector-Coords
                     if (_player > -1 && _actualSelection == i)
                     {
-                        PlayerSelector.Rect.X = tile.Avatar.Rect.X - 1;
-                        PlayerSelector.Rect.Y = tile.Avatar.Rect.Y - 1;
+                        PlayerSelector.Rect.X = tile.Avatar.Rect.X - 3;
+                        PlayerSelector.Rect.Y = tile.Avatar.Rect.Y - 3;
                     }
                 }
 
@@ -490,6 +486,8 @@ namespace Vocaluxe.Menu
 
         public void LoadTextures()
         {
+            _TextureEmptyTile = CTheme.GetSkinTexture(_Theme.TextureEmptyTileName);
+            _TextureTileSelected = CTheme.GetSkinTexture(_Theme.TextureTileSelectedName);
         }
 
         public void ReloadTextures()
