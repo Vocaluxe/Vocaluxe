@@ -919,38 +919,37 @@ namespace Vocaluxe.Menu
 
         public void DrawFG()
         {
-            if (_Statics.Count > 0)
-            {
-                List<ZSort> items = new List<ZSort>(_Statics.Count);
+            if (_Interactions.Count <= 0)
+                return;
+            
+            List<ZSort> items = new List<ZSort>();
 
-                for (int i = 0; i < _Statics.Count; i++)
+            for (int i = 0; i < _Interactions.Count; i++)
+            {
+                if (_IsVisible(i) && (
+                    _Interactions[i].Type == EType.TButton ||
+                    _Interactions[i].Type == EType.TSelectSlide ||
+                    _Interactions[i].Type == EType.TStatic ||
+                    _Interactions[i].Type == EType.TText))
                 {
                     ZSort zs = new ZSort();
                     zs.ID = i;
-                    zs.z = _Statics[i].Rect.Z;
+                    zs.z = _GetZValue(i);
                     items.Add(zs);
                 }
-                items.Sort(delegate(ZSort s1, ZSort s2){ return(s2.z.CompareTo(s1.z)); });
-
-                for (int i = 0; i < _Statics.Count; i++)
-                {
-                    _Statics[items[i].ID].Draw();
-                }
             }
 
-            foreach (CSingNotes sn in _SingNotes)
+            if (items.Count <= 0)
+                return;
+
+                
+            items.Sort(delegate(ZSort s1, ZSort s2) { return (s2.z.CompareTo(s1.z)); });
+
+            for (int i = 0; i < items.Count; i++)
             {
-                // TODO!!!!!
+                _DrawInteraction(items[i].ID);
             }
-
-            foreach (CButton button in _Buttons)
-                button.Draw();
-
-            foreach (CSelectSlide slide in _SelectSlides)
-                slide.Draw();
             
-            foreach (CText text in _Texts)
-                text.Draw();
         }
         #endregion Drawing
 
@@ -958,56 +957,56 @@ namespace Vocaluxe.Menu
         public int AddBackground(CBackground bg)
         {
             _Backgrounds.Add(bg);
-            AddInteraction(_Backgrounds.Count - 1, EType.TBackground);
+            _AddInteraction(_Backgrounds.Count - 1, EType.TBackground);
             return _Backgrounds.Count - 1;
         }
 
         public int AddButton(CButton button)
         {
             _Buttons.Add(button);
-            AddInteraction(_Buttons.Count - 1, EType.TButton);
+            _AddInteraction(_Buttons.Count - 1, EType.TButton);
             return _Buttons.Count - 1;
         }
 
         public int AddSelectSlide(CSelectSlide slide)
         {
             _SelectSlides.Add(slide);
-            AddInteraction(_SelectSlides.Count - 1, EType.TSelectSlide);
+            _AddInteraction(_SelectSlides.Count - 1, EType.TSelectSlide);
             return _SelectSlides.Count - 1;
         }
 
         public int AddStatic(CStatic stat)
         {
             _Statics.Add(stat);
-            AddInteraction(_Statics.Count - 1, EType.TStatic);
+            _AddInteraction(_Statics.Count - 1, EType.TStatic);
             return _Statics.Count - 1;
         }
 
         public int AddText(CText text)
         {
             _Texts.Add(text);
-            AddInteraction(_Texts.Count - 1, EType.TText);
+            _AddInteraction(_Texts.Count - 1, EType.TText);
             return _Texts.Count - 1;
         }
 
         public int AddSongMenu(CSongMenu songmenu)
         {
             _SongMenus.Add(songmenu);
-            AddInteraction(_SongMenus.Count - 1, EType.TSongMenu);
+            _AddInteraction(_SongMenus.Count - 1, EType.TSongMenu);
             return _SongMenus.Count - 1;
         }
 
         public int AddLyric(CLyric lyric)
         {
             _Lyrics.Add(lyric);
-            AddInteraction(_Lyrics.Count - 1, EType.TLyric);
+            _AddInteraction(_Lyrics.Count - 1, EType.TLyric);
             return _Lyrics.Count - 1;
         }
 
         public int AddSingNote(CSingNotes sn)
         {
             _SingNotes.Add(sn);
-            AddInteraction(_SingNotes.Count - 1, EType.TSingNote);
+            _AddInteraction(_SingNotes.Count - 1, EType.TSingNote);
             return _SingNotes.Count - 1;
         }
         #endregion Elements
@@ -1175,6 +1174,32 @@ namespace Vocaluxe.Menu
                 case EType.TLyric:
                     return _Lyrics[interact.Num].Rect.Z;
             }
+            return CSettings.zFar;
+        }
+
+        private float _GetZValue(int interaction)
+        {
+            switch (_Interactions[interaction].Type)
+            {
+                case EType.TButton:
+                    return _Buttons[_Interactions[interaction].Num].Rect.Z;
+
+                case EType.TSelectSlide:
+                    return _SelectSlides[_Interactions[interaction].Num].Rect.Z;
+
+                case EType.TStatic:
+                    return _Statics[_Interactions[interaction].Num].Rect.Z;
+
+                case EType.TText:
+                    return _Texts[_Interactions[interaction].Num].Z;
+
+                case EType.TSongMenu:
+                    return _SongMenus[_Interactions[interaction].Num].Rect.Z;
+
+                case EType.TLyric:
+                    return _Lyrics[_Interactions[interaction].Num].Rect.Z;
+            }
+
             return CSettings.zFar;
         }
 
@@ -1596,7 +1621,6 @@ namespace Vocaluxe.Menu
 
         private bool _IsVisible(int interaction)
         {
-            bool Result = false;
             switch (_Interactions[interaction].Type)
             {
                 case EType.TButton:
@@ -1618,7 +1642,7 @@ namespace Vocaluxe.Menu
                     return _Lyrics[_Interactions[interaction].Num].Visible;
             }
 
-            return Result;
+            return false;
         }
 
         private SRectF _GetRect(int interaction)
@@ -1648,13 +1672,44 @@ namespace Vocaluxe.Menu
             return Result;
         }
 
-        private void AddInteraction(int num, EType type)
+        private void _AddInteraction(int num, EType type)
         {
             _Interactions.Add(new CInteraction(num, type));
             if (!_Interactions[_Selection].ThemeEditorOnly)
                 _SetSelected();
             else
                 _NextInteraction();
+        }
+
+        private void _DrawInteraction(int interaction)
+        {
+            switch (_Interactions[interaction].Type)
+            {
+                case EType.TButton:
+                    _Buttons[_Interactions[interaction].Num].Draw();
+                    break;
+
+                case EType.TSelectSlide:
+                    _SelectSlides[_Interactions[interaction].Num].Draw();
+                    break;
+
+                case EType.TStatic:
+                    _Statics[_Interactions[interaction].Num].Draw();
+                    break;
+
+                case EType.TText:
+                    _Texts[_Interactions[interaction].Num].Draw();
+                    break;
+
+                case EType.TSongMenu:
+                    _SongMenus[_Interactions[interaction].Num].Draw();
+                    break;
+                
+                //TODO:
+                //case EType.TLyric:
+                //    _Lyrics[_Interactions[interaction].Num].Draw(0);
+                //    break;
+            }
         }
 
         #endregion InteractionHandling
