@@ -679,8 +679,7 @@
 		<Z>0,00</Z>
 		<W>970</W>
 		<H>500</H>
-		<SkinSelector>Button</SkinSelector>
-		<ColorSelector>SelectSlideSColor</ColorSelector>
+		<SkinTileSelected>PlayerSelector</SkinTileSelected>
 		<SkinEmptyTile>Button</SkinEmptyTile>
 		<ColorEmptyTile>SelectSlideSColor</ColorEmptyTile>
 		<Tiles>

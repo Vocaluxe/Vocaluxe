@@ -16,6 +16,7 @@ namespace Vocaluxe.Menu
         public string Name;
         public string TextureEmptyTileName;
         public string ColorEmptyTileName;
+        public string TextureTileSelectedName;
         public float NameSpace;
         public float NameHeight;
         public string NameFont;
@@ -55,6 +56,7 @@ namespace Vocaluxe.Menu
         private List<CTile> _Tiles;
 
         private STexture _TextureEmptyTile;
+        private STexture _TextureTileSelected;
 
         public SColorF ColorEmptyTile;
 
@@ -75,12 +77,15 @@ namespace Vocaluxe.Menu
 
         private List<int> VisibleProfiles;
 
+        private CStatic PlayerSelector;
+
 
         public CNameSelection()
         {
             _Theme = new SThemeNameSelection();
 
             _TextureEmptyTile = CTheme.GetSkinTexture(_Theme.TextureEmptyTileName);
+            _TextureTileSelected = CTheme.GetSkinTexture(_Theme.TextureTileSelectedName);
 
             _Tiles = new List<CTile>();
 
@@ -100,6 +105,11 @@ namespace Vocaluxe.Menu
                     _Tiles.Add(new CTile(tileStatic, tileText, -1));
                 }
             }
+
+            PlayerSelector = new CStatic();
+            PlayerSelector.Texture = _TextureTileSelected;
+            PlayerSelector.Rect = new SRectF(0, 0, (_TileW + 2), (_TileH + 2), (Rect.Z - 0.5f));
+            PlayerSelector.Visible = false;
 
             UpdateVisibleProfiles();
 
@@ -130,6 +140,8 @@ namespace Vocaluxe.Menu
                 _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/B", navigator, ref ColorEmptyTile.B);
                 _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/A", navigator, ref ColorEmptyTile.A);
             }
+
+            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/SkinTileSelected", navigator, ref _Theme.TextureTileSelectedName, String.Empty);
 
             _ThemeLoaded &= CHelper.TryGetIntValueFromXML(item + "/Tiles/W", navigator, ref _TileW);
             _ThemeLoaded &= CHelper.TryGetIntValueFromXML(item + "/Tiles/H", navigator, ref _TileH);
@@ -194,16 +206,27 @@ namespace Vocaluxe.Menu
                     writer.WriteElementString("A", ColorEmptyTile.A.ToString("#0.00"));
                 }
 
+                writer.WriteComment("<SkinTileSelected>: Texture name");
+                writer.WriteElementString("SkinTileSelected", _Theme.TextureTileSelectedName);
+
+                writer.WriteComment("<Tiles>: Options for tiles");
                 writer.WriteStartElement("Tiles");
+                writer.WriteComment("<W>, <H>: Width and height of tile");
                 writer.WriteElementString("W", _TileW.ToString());
                 writer.WriteElementString("H", _TileH.ToString());
+                writer.WriteComment("<NumW>, <NumH>: Number of tiles");
                 writer.WriteElementString("NumW", _NumW.ToString());
-                writer.WriteElementString("NumH", _NumH.ToString()); 
+                writer.WriteElementString("NumH", _NumH.ToString());
+                writer.WriteComment("<SpaceW>, <SpaceH>: Space between tiles");
                 writer.WriteElementString("SpaceW", _SpaceW.ToString("#0.00"));
                 writer.WriteElementString("SpaceH", _SpaceH.ToString("#0.00"));
+                writer.WriteComment("<Name>: Options for player-name");
                 writer.WriteStartElement("Name");
+                writer.WriteComment("<Space>: Space between name and tile");
                 writer.WriteElementString("Space", _Theme.NameSpace.ToString("#0.0"));
+                writer.WriteComment("<Font>: Text font name");
                 writer.WriteElementString("Font", _Theme.NameFont);
+                writer.WriteComment("<Color>: Text color from ColorScheme (high priority)");
                 if (_Theme.NameColorName != String.Empty)
                 {
                     writer.WriteElementString("Color", _Theme.NameColorName);
@@ -215,8 +238,10 @@ namespace Vocaluxe.Menu
                     writer.WriteElementString("B", _Theme.NameColor.B.ToString("#0.00"));
                     writer.WriteElementString("A", _Theme.NameColor.A.ToString("#0.00"));
                 }
+                writer.WriteComment("<Style>: Text style: " + CConfig.ListStrings(Enum.GetNames(typeof(EStyle))));
                 writer.WriteElementString("Style", _Theme.NameStyle.ToString());
-                writer.WriteElementString("H", _Theme.NameHeight.ToString("#.00"));
+                writer.WriteComment("<H>: Text height");
+                writer.WriteElementString("H", _Theme.NameHeight.ToString("#0"));
                 writer.WriteEndElement();
                 writer.WriteEndElement();
 
@@ -241,24 +266,25 @@ namespace Vocaluxe.Menu
             int i = 0;
             foreach (CTile tile in _Tiles)
             {
-                if (_player > -1)
-                {
-                    if (_actualSelection == i)
-                    {
-                        tile.Avatar.Color = CTheme.GetPlayerColor(_player);
-                    }
-                    else
-                    {
-                        tile.Avatar.Color = new SColorF(1, 1, 1, 1);
-                    }
-                }
-                else
-                {
-                    tile.Avatar.Color = new SColorF(1, 1, 1, 1);
-                }
                 tile.Avatar.Draw();
                 tile.Name.Draw();
+
+                if (PlayerSelector.Visible)
+                {
+                    //Update PlayerSelector-Coords
+                    if (_player > -1 && _actualSelection == i)
+                    {
+                        PlayerSelector.Rect.X = tile.Avatar.Rect.X - 1;
+                        PlayerSelector.Rect.Y = tile.Avatar.Rect.Y - 1;
+                    }
+                }
+
                 i++;
+            }
+            if (PlayerSelector.Visible)
+            {
+                //Draw PlayerSelector
+                PlayerSelector.Draw();
             }
         }
 
@@ -350,6 +376,7 @@ namespace Vocaluxe.Menu
             if (active && Selection != -1)
             {
                 _player = player;
+                PlayerSelector.Color = CTheme.GetPlayerColor(player);
             }
             //Normal activation
             else if (active)
@@ -357,6 +384,8 @@ namespace Vocaluxe.Menu
                 Selection = 0;
                 _actualSelection = 0;
                 _player = player;
+                PlayerSelector.Color = CTheme.GetPlayerColor(player);
+                PlayerSelector.Visible = true;
             }
             //Deactivate
             else
@@ -364,6 +393,7 @@ namespace Vocaluxe.Menu
                 Selection = -1;
                 _actualSelection = -1;
                 _player = -1;
+                PlayerSelector.Visible = false;
             }
         }
 
