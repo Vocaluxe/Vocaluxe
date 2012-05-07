@@ -797,10 +797,16 @@ namespace Vocaluxe.Base
                         data.id = Sqlite3.sqlite3_column_int(Stmt, 0);
 
                         byte[] bytes = Sqlite3.sqlite3_column_rawbytes(Stmt, 1);
-                        data.str1 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        if (bytes != null)
+                            data.str1 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        else
+                            data.str1 = "Someone";
 
                         bytes = Sqlite3.sqlite3_column_rawbytes(Stmt, 2);
-                        data.str2 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        if (bytes != null)
+                            data.str2 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        else
+                            data.str2 = "Someone";
 
                         songs.Add(data);
                     }
@@ -832,7 +838,10 @@ namespace Vocaluxe.Base
                         data.id = Sqlite3.sqlite3_column_int(Stmt, 0);
 
                         byte[] bytes = Sqlite3.sqlite3_column_rawbytes(Stmt, 1);
-                        data.str1 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        if (bytes != null)
+                            data.str1 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        else
+                            data.str1 = "Someone";
 
                         if (dateExists)
                             data.ticks = UnixTimeToTicks(Sqlite3.sqlite3_column_int(Stmt, 2));
