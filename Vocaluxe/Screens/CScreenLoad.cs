@@ -30,6 +30,8 @@ namespace Vocaluxe.Screens
         private int _CurrentIntroVideoNr;
         private bool _IntroOutPlayed;
         private VideoPlayer[] _Intros;
+
+        private bool _BGMusicStartet;
         
                 
         public CScreenLoad()
@@ -121,8 +123,7 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            if (!CBackgroundMusic.Playing)
-                CBackgroundMusic.Next();
+            _BGMusicStartet = false;
         }
 
         public override void OnShowFinish()
@@ -141,9 +142,6 @@ namespace Vocaluxe.Screens
             _SongLoaderThread.IsBackground = true;
             _SongLoaderThread.Start();
             _timer.Start();
-
-            if (!CBackgroundMusic.Playing)
-                CBackgroundMusic.Next();
         }
 
         public override bool UpdateGame()
@@ -172,12 +170,14 @@ namespace Vocaluxe.Screens
                 CLanguage.Translate("TR_SCREENLOAD_LOADED") + ")";
 
             if (CSongs.SongsLoaded && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON &&
-                CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC)
+                CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC && !_BGMusicStartet)
             {
                 CBackgroundMusic.AddOwnMusic();
 
-                //if (!CBackgroundMusic.Playing)
-                //    CBackgroundMusic.Next();
+                if (!CBackgroundMusic.Playing)
+                    CBackgroundMusic.Next();
+
+                _BGMusicStartet = true;
             }
             CBackgroundMusic.CanSing = false;
 
