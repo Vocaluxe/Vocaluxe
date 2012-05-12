@@ -422,10 +422,10 @@ namespace Vocaluxe.Lib.Sound
 
         private Thread _DecoderThread;
 
-        AutoResetEvent EventDecode = new AutoResetEvent(false);
+        private AutoResetEvent EventDecode = new AutoResetEvent(false);
         
-        Object MutexData = new Object();
-        Object MutexSyncSignals = new Object();
+        private Object _LockData = new Object();
+        private Object _LockSyncSignals = new Object();
 
         public PortAudioStream()
         {
@@ -456,7 +456,7 @@ namespace Vocaluxe.Lib.Sound
         {
             get
             {
-                lock (MutexData)
+                lock (_LockData)
                 {
                     return _NoMoreData && _data.BytesNotRead == 0L;
                 }
@@ -468,7 +468,7 @@ namespace Vocaluxe.Lib.Sound
             get { return _Volume * 100f; }
             set
             {
-                lock (MutexData)
+                lock (_LockData)
                 {
                     _Volume = value / 100f;
                     if (_Volume < 0f)
@@ -484,7 +484,7 @@ namespace Vocaluxe.Lib.Sound
         {
             get
             {
-                lock (MutexData)
+                lock (_LockData)
                 {
                     if (Finished)
                         _SyncTimer.Pause();
@@ -500,7 +500,7 @@ namespace Vocaluxe.Lib.Sound
             set
             {
                 _Paused = value;
-                lock (MutexSyncSignals)
+                lock (_LockData)
                 {
                     if (_Paused)
                         _SyncTimer.Pause();
@@ -615,12 +615,13 @@ namespace Vocaluxe.Lib.Sound
             outputParams.sampleFormat = PortAudio.PaSampleFormat.paInt16;
             outputParams.suggestedLatency = _outputDeviceInfo.defaultLowOutputLatency;
 
+            uint bufsize = (uint)CConfig.AudioBufferSize;
             errorCheck("OpenDefaultStream", PortAudio.Pa_OpenStream(
                 out _Ptr,
                 IntPtr.Zero,
                 ref outputParams,
                 format.SamplesPerSecond,
-                (uint)CConfig.AudioBufferSize,
+                bufsize,
                 PortAudio.PaStreamFlags.paNoFlag,
                 _paStreamCallback,
                 data));
@@ -645,7 +646,7 @@ namespace Vocaluxe.Lib.Sound
 
         public bool Skip(float Time)
         {
-            lock (MutexSyncSignals)
+            lock (_LockSyncSignals)
             {
                 _SetStart = Time;
                 _SetSkip = true;
@@ -658,7 +659,7 @@ namespace Vocaluxe.Lib.Sound
         #region Threading
         private void DoSkip()
         {
-            lock (MutexData)
+            lock (_LockData)
             {
                 _Decoder.SetPosition(_Start);
                 _CurrentTime = _Start;
@@ -677,7 +678,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 if (EventDecode.WaitOne(10))
                 {
-                    lock (MutexSyncSignals)
+                    lock (_LockSyncSignals)
                     {
                         if (_SetSkip)
                         {
@@ -724,7 +725,7 @@ namespace Vocaluxe.Lib.Sound
             byte[] Buffer;
 
             bool DoIt = false;
-            lock (MutexData)
+            lock (_LockData)
             {
                 if (!_skip && BUFSIZE - 10000L > _data.BytesNotRead)
                     DoIt = true;
@@ -739,7 +740,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 if (_Loop)
                 {
-                    lock (MutexSyncSignals)
+                    lock (_LockSyncSignals)
                     {
                         _CurrentTime = 0f;
                         _Start = 0f;
@@ -754,7 +755,7 @@ namespace Vocaluxe.Lib.Sound
                 return;
             }
 
-            lock (MutexData)
+            lock (_LockData)
             {
                 _data.Write(Buffer);
                 _TimeCode = Timecode;
@@ -804,7 +805,7 @@ namespace Vocaluxe.Lib.Sound
                 return PortAudio.PaStreamCallbackResult.paContinue;
             }
 
-            lock (MutexData)
+            lock (_LockData)
             {
                 if (_NoMoreData || _data.BytesNotRead >= buf.Length)
                 {
