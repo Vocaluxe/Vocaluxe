@@ -142,6 +142,19 @@ namespace Vocaluxe.Screens
             _SongLoaderThread.IsBackground = true;
             _SongLoaderThread.Start();
             _timer.Start();
+
+            if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON &&
+                CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC && !_BGMusicStartet)
+            {
+                CBackgroundMusic.AddOwnMusic();
+
+                if (!CBackgroundMusic.Playing)
+                    CBackgroundMusic.Next();
+
+                _BGMusicStartet = true;
+            }
+
+            CBackgroundMusic.CanSing = false;
         }
 
         public override bool UpdateGame()
@@ -179,8 +192,7 @@ namespace Vocaluxe.Screens
 
                 _BGMusicStartet = true;
             }
-            CBackgroundMusic.CanSing = false;
-
+            
             return true;
         }
 
