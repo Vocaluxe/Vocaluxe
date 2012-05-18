@@ -183,7 +183,7 @@ namespace Vocaluxe.Screens
             SongMenus[htSongMenus(SongMenu)].Update();
             Texts[htTexts(TextCategory)].Text = CSongs.GetActualCategoryName();
 
-            if (CSongs.Category > 0 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF)
+            if (CSongs.Category > -1 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF)
                 CBackgroundMusic.Disabled = true;
             else
                 CBackgroundMusic.Disabled = false;
