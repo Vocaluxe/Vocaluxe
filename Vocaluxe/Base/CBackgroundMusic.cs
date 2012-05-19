@@ -156,6 +156,9 @@ namespace Vocaluxe.Base
 
         public static void Play()
         {
+            if (_Playing)
+                return;
+
             if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
             {
                 if (_AllFileNames.Count > 0)
@@ -181,6 +184,9 @@ namespace Vocaluxe.Base
 
         public static void Stop()
         {
+            if (!_Playing)
+                return;
+
             if (_VideoEnabled && _Video != -1)
             {
                 CVideo.VdClose(_Video);
@@ -195,6 +201,9 @@ namespace Vocaluxe.Base
 
         public static void Pause()
         {
+            if (!_Playing)
+                return;
+
             if (_VideoEnabled && _Video != -1)
             {
                 CVideo.VdPause(_Video);
