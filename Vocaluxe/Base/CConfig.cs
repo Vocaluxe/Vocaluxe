@@ -210,6 +210,7 @@ namespace Vocaluxe.Base
         public static List<string> SongFolder = new List<string>();
         public static ESongMenu SongMenu = ESongMenu.TR_CONFIG_TILE_BOARD;
         public static ESongSorting SongSorting = ESongSorting.TR_CONFIG_ARTIST;
+        public static EOffOn IgnoreArticles = EOffOn.TR_CONFIG_ON;
         public static float ScoreAnimationTime = 10;
         public static ETimerMode TimerMode = ETimerMode.TR_CONFIG_TIMERMODE_REMAINING;
         public static int NumPlayer = 2;
@@ -347,6 +348,7 @@ namespace Vocaluxe.Base
 
                 CHelper.TryGetEnumValueFromXML<ESongMenu>("//root/Game/SongMenu", navigator, ref SongMenu);
                 CHelper.TryGetEnumValueFromXML<ESongSorting>("//root/Game/SongSorting", navigator, ref SongSorting);
+                CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Game/IgnoreArticles", navigator, ref IgnoreArticles);
                 CHelper.TryGetFloatValueFromXML("//root/Game/ScoreAnimationTime", navigator, ref ScoreAnimationTime);
                 CHelper.TryGetEnumValueFromXML<ETimerMode>("//root/Game/TimerMode", navigator, ref TimerMode);
                 CHelper.TryGetIntValueFromXML("//root/Game/NumPlayer", navigator, ref NumPlayer);
@@ -577,6 +579,9 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("SongSorting: " + ListStrings(Enum.GetNames(typeof(ESongSorting))));
             writer.WriteElementString("SongSorting", Enum.GetName(typeof(ESongSorting), SongSorting));
+
+            writer.WriteComment("Ignore articles on song-sorting: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteElementString("IgnoreArticles", Enum.GetName(typeof(EOffOn), IgnoreArticles));
 
             writer.WriteComment("ScoreAnimationTime: Values >= 1 or 0 for no animation. Time is in seconds.");
             writer.WriteElementString("ScoreAnimationTime", ScoreAnimationTime.ToString());
