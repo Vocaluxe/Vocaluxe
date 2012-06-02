@@ -613,6 +613,20 @@ namespace Vocaluxe.Base
                     for (int i=0; i < _SongsSortList.Length; i++)
                     {
                         Char firstLetter = Char.ToUpper(_SongsSortList[i].SortString[0]);
+
+                        //Fix for german Umlaute
+                        switch (firstLetter)
+                        {
+                            case 'Ä':
+                                firstLetter = 'A';
+                                break;
+                            case 'Ö':
+                                firstLetter = 'O';
+                                break;
+                            case 'Ü':
+                                firstLetter = 'U';
+                                break;
+                        }
                         
                         if (!Char.IsLetter(firstLetter))
                         {
@@ -671,6 +685,20 @@ namespace Vocaluxe.Base
                     for (int i=0; i < _SongsSortList.Length; i++)
                     {
                         Char firstLetter = Char.ToUpper(_SongsSortList[i].SortString[0]);
+
+                        //Fix for german Umlaute
+                        switch (firstLetter)
+                        {
+                            case 'Ä':
+                                firstLetter = 'A';
+                                break;
+                            case 'Ö':
+                                firstLetter = 'O';
+                                break;
+                            case 'Ü':
+                                firstLetter = 'U';
+                                break;
+                        }
                         
                         if (!Char.IsLetter(firstLetter))
                         {
