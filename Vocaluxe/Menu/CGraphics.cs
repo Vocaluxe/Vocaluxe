@@ -449,8 +449,7 @@ namespace Vocaluxe.Menu
             KeyEvent KeyEvent = new KeyEvent();
             MouseEvent MouseEvent = new MouseEvent();
 
-            bool PopupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing && _CurrentScreen != EScreens.ScreenNames
-                    && _CurrentScreen != EScreens.ScreenSong;
+            bool PopupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing && _CurrentScreen != EScreens.ScreenSong;
 
             bool Resume = true;
             while (keys.PollEvent(ref KeyEvent))

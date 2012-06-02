@@ -172,6 +172,7 @@ namespace Vocaluxe.Screens
                     }
                 }
             }
+
         }
 
         public override void ReloadTheme() {}
@@ -322,6 +323,39 @@ namespace Vocaluxe.Screens
             CreditEntryPinky007.direction = EDirection.Right;
             _CreditNames.Add(CreditEntryPinky007);
 
+            //Prepare Text
+            int lastY = 280;
+            for (int i = 0; i < paragraphs.Count; i++)
+            {
+                string line = "";
+                for (int e = 0; e < paragraphs[i].Length; e++ )
+                {
+                    if (paragraphs[i][e] != null)
+                    {
+                        string newline = line + " " + paragraphs[i][e];
+                        CText text = new CText(75, lastY, -2, 30, -1, EAlignment.Left, EStyle.Bold, "Outline", new SColorF(1, 1, 1, 1), line);
+                        if (CDraw.GetTextBounds(text).Width < (CSettings.iRenderW - 160))
+                        {
+                            line = line + " " + paragraphs[i][e];
+
+                            //Check if all words are used
+                            if ((e + 1) == paragraphs[i].Length)
+                            {
+                                text.Text = line;
+                                paragraphTexts.Add(text);
+                                line = "";
+                                lastY += 40;
+                            }
+                        }
+                        else
+                        {
+                            paragraphTexts.Add(text);
+                            line = " "+paragraphs[i][e];
+                            lastY += 27;
+                        }
+                    }
+                }
+            }
             TextTimer.Reset();
             LogoTimer.Reset();
             CreditsTimer.Reset();

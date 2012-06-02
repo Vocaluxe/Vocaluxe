@@ -1,0 +1,7 @@
+ScreenScore
+
+++++++++++
+Version 2:
+
+Add: Elements for up to 6 players! (Texts and statics!)
+++++++++++
