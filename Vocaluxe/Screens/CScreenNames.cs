@@ -148,7 +148,7 @@ namespace Vocaluxe.Screens
                             CConfig.Players[selectingKeyboardPlayerNr - 1] = CProfiles.Profiles[SelectedPlayerNr].ProfileFile;
                             CConfig.SaveConfig();
                             //Update texture and name
-                            Statics[htStatics(StaticPlayerAvatar[selectingKeyboardPlayerNr-1])].Texture = NameSelections[htNameSelections(NameSelection)].TilePlayerAvatar(SelectedPlayerNr).Texture;
+                            Statics[htStatics(StaticPlayerAvatar[selectingKeyboardPlayerNr-1])].Texture = CProfiles.Profiles[SelectedPlayerNr].Avatar.Texture;
                             Texts[htTexts(TextPlayer[selectingKeyboardPlayerNr-1])].Text = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
                             //Update profile-warning
                             CheckPlayers();

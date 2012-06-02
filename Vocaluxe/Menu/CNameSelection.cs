@@ -363,7 +363,7 @@ namespace Vocaluxe.Menu
                     break;
             }
 
-            Selection = _Offset * _Tiles.Count + _actualSelection;
+            Selection = VisibleProfiles[_Offset * _Tiles.Count + _actualSelection];
         }
 
         public void KeyboardSelection(bool active, int player)
@@ -472,12 +472,6 @@ namespace Vocaluxe.Menu
             }
 
             return new CStatic();
-        }
-
-        public CStatic TilePlayerAvatar(int nr)
-        {
-            nr -= _Offset * _Tiles.Count;
-            return _Tiles[nr].Avatar;
         }
 
         public void UnloadTextures()
