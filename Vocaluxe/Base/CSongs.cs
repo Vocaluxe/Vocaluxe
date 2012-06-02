@@ -1024,10 +1024,5 @@ namespace Vocaluxe.Base
             _CoverLoaded = true;
             CDataBase.CommitCovers();
         }
-
-        private static string IgnoreArticle(string _string)
-        {
-            return Regex.Replace(_string, @"^\s*(de|het|de|der|die|das|des|dem|den|the|el|la|lo|los|las|le|la|les|il|lo|la|i|gli|a|az)\s+", string.Empty, RegexOptions.IgnoreCase);
-        }
     }
 }
