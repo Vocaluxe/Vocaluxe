@@ -675,16 +675,19 @@
     </SelectSlidePlayerNumber>
     <NameSelection>
       <!--<X>, <Y>, <Z>, <W>, <H>: NameSelection position, width and height-->
-      <X>152</X>
+      <X>172</X>
       <Y>127</Y>
       <Z>0,00</Z>
-      <W>970</W>
+      <W>945</W>
       <H>393</H>
       <!--<SkinEmptyTile>: Texture name-->
-      <SkinEmptyTile>Button</SkinEmptyTile>
+      <SkinEmptyTile>CoverTile</SkinEmptyTile>
       <!--<ColorEmptyTile>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <ColorEmptyTile>SelectSlideSColor</ColorEmptyTile>
+      <R>1,00</R>
+      <G>1,00</G>
+      <B>1,00</B>
+      <A>0,20</A>
       <!--<SkinTileSelected>: Texture name-->
       <SkinTileSelected>PlayerSelector</SkinTileSelected>
       <!--<Tiles>: Options for tiles-->
@@ -696,7 +699,7 @@
         <NumW>8</NumW>
         <NumH>3</NumH>
         <!--<SpaceW>, <SpaceH>: Space between tiles-->
-        <SpaceW>25,28</SpaceW>
+        <SpaceW>20,71</SpaceW>
         <SpaceH>30,00</SpaceH>
         <!--<Name>: Options for player-name-->
         <Name>
