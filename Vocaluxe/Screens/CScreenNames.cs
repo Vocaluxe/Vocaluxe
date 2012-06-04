@@ -154,6 +154,7 @@ namespace Vocaluxe.Screens
                             CheckPlayers();
                             //Update Tiles-List
                             NameSelections[htNameSelections(NameSelection)].UpdateList();
+                            SetInteractionToButton(Buttons[htButtons(ButtonStart)]);
                         }
                         //Reset all values
                         selectingKeyboardPlayerNr = 0;
@@ -526,6 +527,8 @@ namespace Vocaluxe.Screens
                     Texts[htTexts(TextPlayer[i])].Text = CProfiles.Profiles[CGame.Player[i].ProfileID].PlayerName;
                 }
             }
+
+            SetInteractionToButton(Buttons[htButtons(ButtonStart)]);
         }
 
         public override bool Draw()
