@@ -13,7 +13,8 @@ namespace Vocaluxe.Menu
         TStatic,
         TSongMenu,
         TLyric,
-        TSingNote
+        TSingNote,
+        TNameSelection
     }
 
     class CInteraction
