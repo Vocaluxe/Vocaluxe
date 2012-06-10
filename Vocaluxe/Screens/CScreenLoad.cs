@@ -142,6 +142,19 @@ namespace Vocaluxe.Screens
             _SongLoaderThread.IsBackground = true;
             _SongLoaderThread.Start();
             _timer.Start();
+
+            if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON &&
+                CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC && !_BGMusicStartet)
+            {
+                CBackgroundMusic.AddOwnMusic();
+
+                if (!CBackgroundMusic.Playing)
+                    CBackgroundMusic.Next();
+
+                _BGMusicStartet = true;
+            }
+
+            CBackgroundMusic.CanSing = false;
         }
 
         public override bool UpdateGame()
@@ -179,8 +192,7 @@ namespace Vocaluxe.Screens
 
                 _BGMusicStartet = true;
             }
-            CBackgroundMusic.CanSing = false;
-
+            
             return true;
         }
 
@@ -246,102 +258,6 @@ namespace Vocaluxe.Screens
 
             if (_CurrentIntroVideoNr == 2 && _Intros[2].IsFinished)
                 _IntroOutPlayed = true;
-        }
-    }
-
-    class VideoPlayer
-    {
-        private STexture _VideoTexture;
-        private int _VideoStream;
-        private Stopwatch _VideoTimer;
-        private bool _Finished;
-        private bool _Loaded;
-
-        public bool IsFinished
-        {
-            get { return _Finished || !_Loaded; }
-        }
-
-        public bool Loop
-        {
-            set { CVideo.VdSetLoop(_VideoStream, value); }
-        }
-
-        public VideoPlayer()
-        {
-            _VideoTimer = new Stopwatch();
-            _VideoTexture = new STexture(-1);
-            _Finished = false;
-            _Loaded = false;
-        }
-
-        public void Load(string VideoName)
-        {
-            _VideoStream = CVideo.VdLoad(CTheme.GetVideoFilePath(VideoName));
-            _Loaded = true;
-        }
-
-        public void Start()
-        {
-            _VideoTimer.Reset();
-            _Finished = false;
-            //CVideo.VdSkip(_VideoStream, 0f, 0f);
-            _VideoTimer.Start();
-        }
-
-        public void Pause()
-        {
-            _VideoTimer.Stop();
-        }
-
-        public void Resume()
-        {
-            _VideoTimer.Start();
-        }
-
-        public void Draw()
-        {
-            if (!_Finished)
-            {
-
-                float VideoTime = _VideoTimer.ElapsedMilliseconds / 1000f;
-                _Finished = CVideo.VdFinished(_VideoStream);
-
-                STexture tex = new STexture(-1);
-                tex.height = 0f;
-                CVideo.VdGetFrame(_VideoStream, ref tex, VideoTime, ref VideoTime);
-
-                if (tex.height > 0)
-                {
-                    CDraw.RemoveTexture(ref _VideoTexture);
-                    _VideoTexture = tex;
-                }
-            }
-            RectangleF bounds = new RectangleF(0f, 0f, CSettings.iRenderW, CSettings.iRenderH);
-            RectangleF rect = new RectangleF(0f, 0f, _VideoTexture.width, _VideoTexture.height);
-            CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
-            
-            CDraw.DrawTexture(_VideoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CSettings.zFar / 4));  
-        }
-
-        public void PreLoad()
-        {
-            float VideoTime = 0f;
-            while (_VideoTexture.index == -1 && VideoTime < 1f)
-            {
-                float dummy = 0f;
-                CVideo.VdGetFrame(_VideoStream, ref _VideoTexture, 0, ref dummy);
-                VideoTime += 0.05f;
-            }
-        }
-
-        public void Close()
-        {
-            CVideo.VdClose(_VideoStream);
-            CDraw.RemoveTexture(ref _VideoTexture);
-            _Loaded = false;
-            _Finished = false;
-            _VideoTimer.Reset();
         }
     }
 }
