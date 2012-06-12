@@ -690,6 +690,16 @@ namespace Vocaluxe.Menu
         {
             _Cursor.UnloadTextures();
 
+            if (CTheme.Cursor.color != string.Empty)
+            {
+                SColorF color;
+                color = CTheme.GetColor(CTheme.Cursor.color);
+                CTheme.Cursor.r = color.R;
+                CTheme.Cursor.g = color.G;
+                CTheme.Cursor.b = color.B;
+                CTheme.Cursor.a = color.A;
+            }
+
             _Cursor = new CCursor(
                 CTheme.Cursor.SkinName,
                 new SColorF(CTheme.Cursor.r, CTheme.Cursor.g, CTheme.Cursor.b, CTheme.Cursor.a),

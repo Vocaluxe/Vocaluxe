@@ -90,17 +90,7 @@ namespace Vocaluxe.Menu
 
         public void Init()
         {
-            _Tiles.Clear();
-            for (int i = 0; i < _NumH; i++)
-            {
-                for (int j = 0; j < _NumW; j++)
-                {
-                    SRectF rect = new SRectF(Rect.X + j * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
-                    CStatic tileStatic = new CStatic(_TextureEmptyTile, ColorEmptyTile, rect);
-                    CText tileText = new CText(rect.X + rect.W / 2, rect.Y + rect.H + _Theme.NameSpace, rect.Z, _Theme.NameHeight, rect.W, EAlignment.Center, _Theme.NameStyle, _Theme.NameFont, _Theme.NameColor, "");
-                    _Tiles.Add(new CTile(tileStatic, tileText, -1));
-                }
-            }
+            PrepareTiles();
 
             PlayerSelector = new CStatic();
             PlayerSelector.Texture = _TextureTileSelected;
@@ -482,12 +472,35 @@ namespace Vocaluxe.Menu
         {
             _TextureEmptyTile = CTheme.GetSkinTexture(_Theme.TextureEmptyTileName);
             _TextureTileSelected = CTheme.GetSkinTexture(_Theme.TextureTileSelectedName);
+
+            if (_Theme.ColorEmptyTileName != String.Empty)
+                ColorEmptyTile = CTheme.GetColor(_Theme.ColorEmptyTileName);
+
+            if (_Theme.NameColorName != String.Empty)
+                _Theme.NameColor = CTheme.GetColor(_Theme.NameColorName);
         }
 
         public void ReloadTextures()
         {
             UnloadTextures();
             LoadTextures();
+
+            PrepareTiles();
+        }
+
+        private void PrepareTiles()
+        {
+            _Tiles.Clear();
+            for (int i = 0; i < _NumH; i++)
+            {
+                for (int j = 0; j < _NumW; j++)
+                {
+                    SRectF rect = new SRectF(Rect.X + j * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
+                    CStatic tileStatic = new CStatic(_TextureEmptyTile, ColorEmptyTile, rect);
+                    CText tileText = new CText(rect.X + rect.W / 2, rect.Y + rect.H + _Theme.NameSpace, rect.Z, _Theme.NameHeight, rect.W, EAlignment.Center, _Theme.NameStyle, _Theme.NameFont, _Theme.NameColor, "");
+                    _Tiles.Add(new CTile(tileStatic, tileText, -1));
+                }
+            }
         }
 
         private void UpdateVisibleProfiles()
