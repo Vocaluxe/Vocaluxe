@@ -1,5 +1,12 @@
 ScreenOptionsTheme
 
+++++++++++ 
+Version 3:
+
+Add:
+<SelectSlideFadeInfo>
+and some texts and statics for description (Text9 and Static9)
+"TR_SCREENOTHEME_FADEINFO"
 ++++++++++
 Version 2:
 
