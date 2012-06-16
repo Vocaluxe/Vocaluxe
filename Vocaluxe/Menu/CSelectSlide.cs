@@ -86,7 +86,7 @@ namespace Vocaluxe.Menu
 
         private List<SRectF> _ValueBounds = new List<SRectF>();
 
-        public bool WithTextures;
+        public bool WithTextures = false;
 
         private int _Selection = -1;
         public int Selection

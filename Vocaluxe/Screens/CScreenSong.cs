@@ -189,16 +189,19 @@ namespace Vocaluxe.Screens
             SongMenus[htSongMenus(SongMenu)].Update();
             Texts[htTexts(TextCategory)].Text = CSongs.GetActualCategoryName();
 
+            if (CSongs.Category > -1 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF)
+                CBackgroundMusic.Disabled = true;
+            else
+                CBackgroundMusic.Disabled = false;
+
             int song = SongMenus[htSongMenus(SongMenu)].GetActualSelection();
             if ((CSongs.Category >= 0 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF) && song >= 0 && song < CSongs.VisibleSongs.Length)
             {
-                Texts[htTexts(TextSelection)].Text = CSongs.VisibleSongs[song].Artist + " - " + CSongs.VisibleSongs[song].Title;
-                CBackgroundMusic.Pause();
+                Texts[htTexts(TextSelection)].Text = CSongs.VisibleSongs[song].Artist + " - " + CSongs.VisibleSongs[song].Title;                
             }
             else if (CSongs.Category == -1 && song >= 0 && song < CSongs.Categories.Length)
             {
-                Texts[htTexts(TextSelection)].Text = CSongs.Categories[song].Name;
-                CBackgroundMusic.Play();
+                Texts[htTexts(TextSelection)].Text = CSongs.Categories[song].Name;                
             }
             else
                 Texts[htTexts(TextSelection)].Text = String.Empty;
@@ -233,6 +236,7 @@ namespace Vocaluxe.Screens
         public override void OnClose()
         {
             base.OnClose();
+            CBackgroundMusic.Disabled = false;
             SongMenus[htSongMenus(SongMenu)].OnHide();
         }
 

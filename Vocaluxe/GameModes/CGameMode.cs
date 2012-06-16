@@ -22,7 +22,9 @@ namespace Vocaluxe.GameModes
                     _Rounds[round, player].ProfileID = Player[player].ProfileID;
                     _Rounds[round, player].Name = Player[player].Name;
                     _Rounds[round, player].Difficulty = Player[player].Difficulty;
-                    _Rounds[round, player].Points = 0;
+                    _Rounds[round, player].Points = 0f;
+                    _Rounds[round, player].PointsGoldenNotes = 0f;
+                    _Rounds[round, player].PointsLineBonus = 0f;
                     _Rounds[round, player].Medley = false;
                     _Rounds[round, player].Duet = false;
                     _Rounds[round, player].SongFinished = false;
@@ -38,6 +40,8 @@ namespace Vocaluxe.GameModes
                 _Rounds[Round, player].SongID = SongID;
                 _Rounds[Round, player].LineNr = Player[player].LineNr;
                 _Rounds[Round, player].Points = Player[player].Points;
+                _Rounds[Round, player].PointsGoldenNotes = Player[player].PointsGoldenNotes;
+                _Rounds[Round, player].PointsLineBonus = Player[player].PointsLineBonus;
                 _Rounds[Round, player].Medley = Medley;
                 _Rounds[Round, player].Duet = Duet;
                 _Rounds[Round, player].DateTicks = DateTicks;
@@ -68,6 +72,8 @@ namespace Vocaluxe.GameModes
 			{
 			    player[p].Name = _Rounds[Round, p].Name;
                 player[p].Points = _Rounds[Round, p].Points;
+                player[p].PointsGoldenNotes = _Rounds[Round, p].PointsGoldenNotes;
+                player[p].PointsLineBonus = _Rounds[Round, p].PointsLineBonus;
                 player[p].SongID = _Rounds[Round, p].SongID;
                 player[p].LineNr = _Rounds[Round, p].LineNr;
                 player[p].Difficulty = _Rounds[Round, p].Difficulty;

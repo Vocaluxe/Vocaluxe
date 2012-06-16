@@ -11,14 +11,6 @@ using Vocaluxe.Lib.Song;
 
 namespace Vocaluxe.Menu
 {
-    enum ELyricStyle
-    {
-        Fill,
-        Jump,
-        Slide,
-        Zoom
-    }
-
     struct SNote
     {
         public string Text;
@@ -84,6 +76,12 @@ namespace Vocaluxe.Menu
             }
         }
 
+        public ELyricStyle LyricStyle
+        {
+            get { return _Style; }
+            set { _Style = value; }
+        }
+
         public CLyric()
         {
             _Theme = new SThemeLyrics();
@@ -100,7 +98,7 @@ namespace Vocaluxe.Menu
             _Notes = new List<SNote>();
             _Text = new CText();
 
-            _Style = ELyricStyle.Slide;
+            _Style = ELyricStyle.Fill;
         }
 
         public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
@@ -319,32 +317,36 @@ namespace Vocaluxe.Menu
             }
 
             int zoom_note = -1;
+            int end_beat = -1;
             float zoomx = 0f;
 
-            int current_note = -1;
-            foreach (SNote note in _Notes)
+            for (int note = 0; note < _Notes.Count; note++)
             {
-                current_note++;
-
                 _Text.X = x;
                 _Text.Style = EStyle.Bold;
-                _Text.Text = note.Text;
+                _Text.Text = _Notes[note].Text;
                 RectangleF rect = CDraw.GetTextBounds(_Text);
 
-                if (note.Type == ENoteType.Freestyle)
+                if (_Notes[note].Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;
 
-                if (CurrentBeat >= note.StartBeat)
+                if (CurrentBeat >= _Notes[note].StartBeat)
                 {
-                    if (CurrentBeat <= note.EndBeat)
+                    bool last = note == _Notes.Count -1;
+                    int endbeat = _Notes[note].EndBeat;
+                    if (note < _Notes.Count -1)
+                        endbeat = _Notes[note + 1].StartBeat - 1;
+
+                    if (CurrentBeat <= endbeat)
                     {
-                        zoom_note = current_note;
+                        zoom_note = note;
+                        end_beat = endbeat;
                         zoomx = _Text.X;
                     }
                     else
                     {
                         // already passed
-                        if (current_note == last_note)
+                        if (note == last_note)
                             _Text.Color = ColorProcessed;
                         else
                             _Text.Color = Color;
@@ -378,9 +380,11 @@ namespace Vocaluxe.Menu
 
                 RectangleF rect = CDraw.GetTextBounds(_Text);
 
-                float diff = _Notes[zoom_note].EndBeat - _Notes[zoom_note].StartBeat;
+                float diff = end_beat - _Notes[zoom_note].StartBeat;
+                if (diff <= 0f)
+                    diff = 1f;
 
-                float p = (CurrentBeat - _Notes[zoom_note].StartBeat) / _Notes[zoom_note].Duration;
+                float p = (CurrentBeat - _Notes[zoom_note].StartBeat) / diff;
                 if (p > 1f)
                     p = 1f;
 

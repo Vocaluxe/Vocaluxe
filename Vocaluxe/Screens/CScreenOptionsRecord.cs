@@ -51,6 +51,8 @@ namespace Vocaluxe.Screens
         private bool _DelayTestRunning;
         private int _DelaySound;
 
+        private Equalizer[] _Equalizer; 
+
         public CScreenOptionsRecord()
         {
             Init();
@@ -254,7 +256,8 @@ namespace Vocaluxe.Screens
                             _DelayTest[i].Timer.Stop();
                             _DelayTestRunning = false;
                         }
-                        else if (CSound.RecordGetMaxVolume(player - 1) > 0.4f && CSound.RecordGetToneAbs(player - 1) == 9)
+                        else if (CSound.RecordGetMaxVolume(player - 1) > 0.1f &&
+                            (CSound.RecordGetToneAbs(player - 1) == 9 || CSound.RecordGetToneAbs(player - 1) == 21 || CSound.RecordGetToneAbs(player - 1) == 33))
                         {
                             _DelayTest[i].Delay = _DelayTest[i].Timer.ElapsedMilliseconds;
                             _DelayTest[i].Timer.Stop();
@@ -274,20 +277,27 @@ namespace Vocaluxe.Screens
                 if (player > 0)
                 {
                     ChannelEnergy[0] = CSound.RecordGetMaxVolume(player - 1);
+                    _Equalizer[0].Update(CSound.ToneWeigth(player - 1));
                 }
+                else
+                    _Equalizer[0].Reset();
 
                 ChannelEnergy[1] = 0f;
                 player = SelectSlides[htSelectSlides(SelectSlideRecordChannel2)].Selection;
                 if (player > 0)
                 {
                     ChannelEnergy[1] = CSound.RecordGetMaxVolume(player - 1);
+                    _Equalizer[1].Update(CSound.ToneWeigth(player - 1));
                 }
+                else
+                    _Equalizer[1].Reset();
             }
             else
             {
                 for (int i = 0; i < ChannelEnergy.Length; i++)
                 {
                     ChannelEnergy[i] = 0f;
+                    _Equalizer[i].Reset();
                 }
             }
 
@@ -351,6 +361,13 @@ namespace Vocaluxe.Screens
 
             _DelayTestRunning = false;
             _DelaySound = -1;
+
+            _Equalizer = new Equalizer[2];
+
+            for (int i = 0; i < _Equalizer.Length; i++)
+            {
+                _Equalizer[i] = new Equalizer(new SRectF(50 + 350 * i, 400, 230, 150, -1), CSound.NumHalfTones(0), 2);
+            }
         }
 
         public override void OnShowFinish()
@@ -387,6 +404,11 @@ namespace Vocaluxe.Screens
                     CDraw.DrawTexture(Statics[htStatics(StaticEnergyChannel[i])].Texture, Statics[htStatics(StaticEnergyChannel[i])].Rect,
                         new SColorF(1f, 1f, 1f, 1f), rect);
                 }
+            }
+
+            for (int i = 0; i < _Equalizer.Length; i++)
+            {
+                _Equalizer[i].Draw();
             }
 
             DrawFG();
@@ -568,6 +590,90 @@ namespace Vocaluxe.Screens
                         }
                     }
                 }
+            }
+        }
+    }
+
+    class Equalizer
+    {
+
+        private SRectF _Bounds;
+        private float _Space;
+
+        private float[] _Bars;
+
+        public Equalizer(SRectF bounds, int numBars, float space)
+        {
+            _Bounds = bounds;
+            _Space = space;
+
+            if (numBars > 0)
+                _Bars = new float[numBars];
+        }
+
+        public void Update(float[] weights)
+        {
+            if (weights == null || weights.Length == 0 || _Bars == null)
+                return;
+
+            if (_Bars.Length < weights.Length)
+            {
+            }
+            else if (_Bars.Length > weights.Length)
+            {
+            }
+            else
+            {
+                for (int i = 0; i < _Bars.Length; i++)
+                {
+                    //if (weights[i] > 0)
+                        _Bars[i] = weights[i];
+                    //else
+                    //    _Bars[i] = 0f;
+                }
+            }
+        }
+
+        public void Reset()
+        {
+            if (_Bars == null || _Bars.Length == 0)
+                return;
+
+            for (int i = 0; i < _Bars.Length; i++)
+            {
+                _Bars[i] = 0f;
+            }
+        }
+
+        public void Draw()
+        {
+            if (_Bars == null)
+                return;
+
+            float dx = _Bounds.W / _Bars.Length + _Space;
+            int max = _Bars.Length - 1;
+            float maxB = _Bars[max];
+            for (int i = 0; i < _Bars.Length - 1; i++)
+            {
+                if (_Bars[i] > maxB)
+                {
+                    maxB = _Bars[i];
+                    max = i;
+                }
+            }
+
+            
+            for (int i = 0; i < _Bars.Length; i++)
+            {
+                SRectF bar = new SRectF(_Bounds.X + dx * i, _Bounds.Y + _Bounds.H - _Bars[i] * _Bounds.H, dx - _Space, _Bars[i] * _Bounds.H, _Bounds.Z);
+                SColorF color = new SColorF(1f, 1f, 1f, 1f);
+                if (i == max)
+                {
+                    color.B = 0f;
+                    color.G = 0f;
+                }
+
+                CDraw.DrawColor(color, bar);
             }
         }
     }

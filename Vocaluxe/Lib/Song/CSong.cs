@@ -224,6 +224,11 @@ namespace Vocaluxe.Lib.Song
             return Path.Combine(Folder, MP3FileName);
         }
 
+        public string GetVideo()
+        {
+            return Path.Combine(Folder, VideoFileName);
+        }
+
         public bool ReadTXTSong(string FilePath)
         {
             if (!File.Exists(FilePath))
@@ -557,9 +562,9 @@ namespace Vocaluxe.Lib.Song
                     TempC = (char)sr.Read();
                 } while ((TempC.CompareTo(':') != 0) && (TempC.CompareTo('F') != 0) && (TempC.CompareTo('*') != 0) && (TempC.CompareTo('P') != 0));
 
-                FileLineNo++;
                 while (!sr.EndOfStream && (TempC.CompareTo('E') != 0))
                 {
+                    FileLineNo++;
                     if (TempC.CompareTo('P') == 0)
                     {
                         char chr = (char)sr.Read();
@@ -634,7 +639,7 @@ namespace Vocaluxe.Lib.Song
                     {
                         c = sr.Read();
                         TempC = (char)c;
-                    } while ((TempC.CompareTo('E') != 0) && !sr.EndOfStream && (c == 19 || c == 16 || c == 13));
+                    } while ((TempC.CompareTo('E') != 0) && !sr.EndOfStream && (c == 19 || c == 16 || c == 13 || c==10));
                 }
                 foreach(CLines lines in this.Notes.Lines)
                 {
