@@ -56,6 +56,16 @@ namespace Vocaluxe.Menu.SongMenu
         public int numH;
 
         /// <summary>
+        /// Number of tiles horizontal in small-modus
+        /// </summary>
+        public int numWsmall;
+
+        /// <summary>
+        /// Number of tiles vertical in small-modus
+        /// </summary>
+        public int numHsmall;
+
+        /// <summary>
         /// Space between tiles horizontal
         /// </summary>
         public float spaceW;
@@ -66,6 +76,7 @@ namespace Vocaluxe.Menu.SongMenu
         public float spaceH;
 
         public SRectF TileRect;
+        public SRectF TileRectSmall;
 
         public CText TextArtist;
         public CText TextTitle;
@@ -272,6 +283,9 @@ namespace Vocaluxe.Menu.SongMenu
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/SpaceW", navigator, ref _Theme.songMenuTileBoard.spaceW);
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/SpaceH", navigator, ref _Theme.songMenuTileBoard.spaceH);
 
+            _ThemeLoaded &= CHelper.TryGetIntValueFromXML(item + "/SongMenuTileBoard/NumWsmall", navigator, ref _Theme.songMenuTileBoard.numWsmall);
+            _ThemeLoaded &= CHelper.TryGetIntValueFromXML(item + "/SongMenuTileBoard/NumHsmall", navigator, ref _Theme.songMenuTileBoard.numHsmall);
+
             _ThemeLoaded &= _Theme.songMenuTileBoard.TextArtist.LoadTheme(item + "/SongMenuTileBoard", "TextArtist", navigator, SkinIndex);
             _ThemeLoaded &= _Theme.songMenuTileBoard.TextTitle.LoadTheme(item + "/SongMenuTileBoard", "TextTitle", navigator, SkinIndex);
             _ThemeLoaded &= _Theme.songMenuTileBoard.TextSongLength.LoadTheme(item + "/SongMenuTileBoard", "TextSongLength", navigator, SkinIndex);
@@ -288,6 +302,12 @@ namespace Vocaluxe.Menu.SongMenu
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectZ", navigator, ref _Theme.songMenuTileBoard.TileRect.Z);
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectW", navigator, ref _Theme.songMenuTileBoard.TileRect.W);
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectH", navigator, ref _Theme.songMenuTileBoard.TileRect.H);
+
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectSmallX", navigator, ref _Theme.songMenuTileBoard.TileRectSmall.X);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectSmallY", navigator, ref _Theme.songMenuTileBoard.TileRectSmall.Y);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectSmallZ", navigator, ref _Theme.songMenuTileBoard.TileRectSmall.Z);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectSmallW", navigator, ref _Theme.songMenuTileBoard.TileRectSmall.W);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectSmallH", navigator, ref _Theme.songMenuTileBoard.TileRectSmall.H);
 
             #endregion SongMenuTileBoard
 
@@ -362,12 +382,25 @@ namespace Vocaluxe.Menu.SongMenu
                 writer.WriteComment("<SpaceH>: Space between tiles vertical");
                 writer.WriteElementString("SpaceH", _Theme.songMenuTileBoard.spaceH.ToString("#0.00"));
 
+                writer.WriteComment("<NumWsmall>: Number of tiles horizontal in small-mode");
+                writer.WriteElementString("NumW", _Theme.songMenuTileBoard.numW.ToString());
+
+                writer.WriteComment("<NumHsmall>: Number of tiles vertical in small-mode");
+                writer.WriteElementString("NumH", _Theme.songMenuTileBoard.numH.ToString());
+
                 writer.WriteComment("<TileRectX>, <TileRectY>, <TileRectZ>, <TileRectW>, <TileRectH>: SongMenu position, width and height");
                 writer.WriteElementString("TileRectX", _Theme.songMenuTileBoard.TileRect.X.ToString("#0"));
                 writer.WriteElementString("TileRectY", _Theme.songMenuTileBoard.TileRect.Y.ToString("#0"));
                 writer.WriteElementString("TileRectZ", _Theme.songMenuTileBoard.TileRect.Z.ToString("#0.00"));
                 writer.WriteElementString("TileRectW", _Theme.songMenuTileBoard.TileRect.W.ToString("#0"));
                 writer.WriteElementString("TileRectH", _Theme.songMenuTileBoard.TileRect.H.ToString("#0"));
+
+                writer.WriteComment("<TileRectSmallX>, <TileRectSmallY>, <TileRectSmallZ>, <TileRectSmallW>, <TileRectSmallH>: SongMenu position, width and height in small-mode");
+                writer.WriteElementString("TileRectSmallX", _Theme.songMenuTileBoard.TileRectSmall.X.ToString("#0"));
+                writer.WriteElementString("TileRectSmallY", _Theme.songMenuTileBoard.TileRectSmall.Y.ToString("#0"));
+                writer.WriteElementString("TileRectSmallZ", _Theme.songMenuTileBoard.TileRectSmall.Z.ToString("#0.00"));
+                writer.WriteElementString("TileRectSmallW", _Theme.songMenuTileBoard.TileRectSmall.W.ToString("#0"));
+                writer.WriteElementString("TileRectSmallH", _Theme.songMenuTileBoard.TileRectSmall.H.ToString("#0"));
 
                 _Theme.songMenuTileBoard.TextArtist.SaveTheme(writer);
                 _Theme.songMenuTileBoard.TextTitle.SaveTheme(writer);
@@ -497,6 +530,17 @@ namespace Vocaluxe.Menu.SongMenu
         {
             if (!_Initialized)
                 return;
+        }
+
+        public virtual void SetSmallView(bool SmallView)
+        {
+            if (!_Initialized)
+                return;
+        }
+
+        public virtual bool IsSmallView()
+        {
+            return false;
         }
 
         public virtual void UnloadTextures()

@@ -47,7 +47,7 @@
 	  <R>1</R>
 	  <G>1</G>
 	  <B>1</B>
-	  <A>0.3</A>
+	  <A>1</A>
 	  <!--<Reflection> If exists:-->
 	  <!--   <Space>: Reflection Space-->
 	  <!--   <Height>: Reflection Height-->
@@ -455,6 +455,10 @@
         <NumW>6</NumW>
         <!--<NumH>: Number of tiles vertical-->
         <NumH>4</NumH>
+        <!--<NumWsmall>: Number of tiles horizontal-->
+        <NumWsmall>4</NumWsmall>
+        <!--<NumHsmall>: Number of tiles vertical-->
+        <NumHsmall>4</NumHsmall>
         <!--<SpaceW>: Space between tiles horizontal-->
         <SpaceW>10,00</SpaceW>
         <!--<SpaceH>: Space between tiles vertical-->
@@ -465,6 +469,12 @@
         <TileRectZ>-1,00</TileRectZ>
         <TileRectW>830</TileRectW>
         <TileRectH>550</TileRectH>
+        <!--<TileRectSmallSmallX>, <TileRectSmallY>, <TileRectSmallZ>, <TileRectSmallW>, <TileRectSmallH>: SongMenu position, width and height-->
+        <TileRectSmallX>410</TileRectSmallX>
+        <TileRectSmallY>40</TileRectSmallY>
+        <TileRectSmallZ>-1,00</TileRectSmallZ>
+        <TileRectSmallW>550</TileRectSmallW>
+        <TileRectSmallH>550</TileRectSmallH>
         <TextArtist>
           <!--<X>, <Y>: Text position-->
           <X>222</X>

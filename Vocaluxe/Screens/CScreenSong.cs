@@ -250,7 +250,7 @@ namespace Vocaluxe.Screens
                     }
                     else if (Buttons[htButtons(ButtonOptionsPlaylist)].Selected)
                     {
-                        ToggleSongOptions();
+                        SongMenus[htSongMenus(SongMenu)].SetSmallView(true);
                     }
                 }
                 if (MouseEvent.RB)
@@ -313,18 +313,6 @@ namespace Vocaluxe.Screens
         public override bool Draw()
         {
             base.Draw();
-
-            if (_SongOptionsActive)
-            {
-                Statics[htStatics(StaticOptionsBG)].Draw();
-                Texts[htTexts(TextOptionsTitle)].Draw();
-                SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Draw();
-                Buttons[htButtons(ButtonOptionsClose)].Draw();
-                Buttons[htButtons(ButtonOptionsSing)].Draw();
-                Buttons[htButtons(ButtonOptionsPlaylist)].Draw();
-                
-            }
-
             return true;
         }
 

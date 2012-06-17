@@ -40,6 +40,8 @@ namespace Vocaluxe.Menu.SongMenu
         private int _Offset = 0;
         private int _actualSelection = -1;
 
+        private bool _SmallView = false;
+
         public override int GetActualSelection()
         {
             return _actualSelection;
@@ -648,6 +650,72 @@ namespace Vocaluxe.Menu.SongMenu
                 }
             }
             _Offset = offset;
+        }
+
+        public override void SetSmallView(bool SmallView)
+        {
+            base.SetSmallView(SmallView);
+
+            _SmallView = SmallView;
+
+            if (_SmallView)
+            {
+                _NumH = _Theme.songMenuTileBoard.numHsmall;
+                _NumW = _Theme.songMenuTileBoard.numWsmall;
+
+                _TileW = (int)((_Theme.songMenuTileBoard.TileRectSmall.W - _SpaceW * (_NumW - 1)) / _NumW);
+                _TileH = (int)((_Theme.songMenuTileBoard.TileRectSmall.H - _SpaceH * (_NumH - 1)) / _NumH);
+
+                _CoverTexture = CTheme.GetSkinTexture(_Theme.CoverBackgroundName);
+                _CoverBigTexture = CTheme.GetSkinTexture(_Theme.CoverBigBackgroundName);
+
+                _Tiles = new List<CStatic>();
+                for (int i = 0; i < _NumH; i++)
+                {
+                    for (int j = 0; j < _NumW; j++)
+                    {
+                        SRectF rect = new SRectF(_Theme.songMenuTileBoard.TileRectSmall.X + j * (_TileW + _SpaceW),
+                            _Theme.songMenuTileBoard.TileRectSmall.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
+                        CStatic tile = new CStatic(_CoverTexture, Color, rect);
+                        _Tiles.Add(tile);
+                    }
+                }
+
+                _ScrollRect = new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, _Theme.songMenuTileBoard.TileRectSmall.Z);
+            }
+            else
+            {
+                _NumH = _Theme.songMenuTileBoard.numH;
+                _NumW = _Theme.songMenuTileBoard.numW;
+
+                _TileW = (int)((_Theme.songMenuTileBoard.TileRect.W - _SpaceW * (_NumW - 1)) / _NumW);
+                _TileH = (int)((_Theme.songMenuTileBoard.TileRect.H - _SpaceH * (_NumH - 1)) / _NumH);
+
+                _CoverTexture = CTheme.GetSkinTexture(_Theme.CoverBackgroundName);
+                _CoverBigTexture = CTheme.GetSkinTexture(_Theme.CoverBigBackgroundName);
+
+                _Tiles = new List<CStatic>();
+                for (int i = 0; i < _NumH; i++)
+                {
+                    for (int j = 0; j < _NumW; j++)
+                    {
+                        SRectF rect = new SRectF(_Theme.songMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
+                            _Theme.songMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
+                        CStatic tile = new CStatic(_CoverTexture, Color, rect);
+                        _Tiles.Add(tile);
+                    }
+                }
+
+                _ScrollRect = new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, _Theme.songMenuTileBoard.TileRect.Z);
+            }
+
+            UpdateList(_Offset);
+
+        }
+
+        public override bool IsSmallView()
+        {
+            return _SmallView;
         }
 
         public override void LoadTextures()

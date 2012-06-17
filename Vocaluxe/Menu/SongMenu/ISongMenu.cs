@@ -29,6 +29,9 @@ namespace Vocaluxe.Menu.SongMenu
         bool IsVisible();
         void SetVisible(bool Visible);
 
+        bool IsSmallView();
+        void SetSmallView(bool SmallView);
+
         SRectF GetRect();
     }
 }

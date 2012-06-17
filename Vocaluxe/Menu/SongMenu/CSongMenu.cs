@@ -118,6 +118,16 @@ namespace Vocaluxe.Menu.SongMenu
             return _SongMenu.GetRect();
         }
 
+        public bool IsSmallView()
+        {
+            return _SongMenu.IsSmallView();
+        }
+
+        public void SetSmallView(bool SmallView)
+        {
+            _SongMenu.SetSmallView(SmallView);
+        }
+
         #endregion ISongMenu
 
         #region IMenuElement
