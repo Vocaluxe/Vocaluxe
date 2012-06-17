@@ -997,7 +997,8 @@ namespace Vocaluxe.Menu
                     _Interactions[i].Type == EType.TSelectSlide ||
                     _Interactions[i].Type == EType.TStatic ||
                     _Interactions[i].Type == EType.TNameSelection ||
-                    _Interactions[i].Type == EType.TText))
+                    _Interactions[i].Type == EType.TText ||
+                    _Interactions[i].Type == EType.TSongMenu))
                 {
                     ZSort zs = new ZSort();
                     zs.ID = i;
