@@ -263,6 +263,10 @@ namespace Vocaluxe.Screens
                             _IsDuet = true;
                             break;
 
+                        case EGameMode.TR_GAMEMODE_SHORTSONG:
+                            Texts[htTexts(TextSongMode)].Text = "TR_GAMEMODE_SHORTSONG";
+                            break;
+
                         default:
                             Texts[htTexts(TextSongMode)].Text = "TR_GAMEMODE_NORMAL";
                             break;
