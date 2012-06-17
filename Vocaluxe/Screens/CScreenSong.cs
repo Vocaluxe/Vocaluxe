@@ -222,7 +222,6 @@ namespace Vocaluxe.Screens
         public override bool Draw()
         {
             base.Draw();
-            SongMenus[htSongMenus(SongMenu)].Draw();
 
             return true;
         }

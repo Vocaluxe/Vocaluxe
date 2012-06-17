@@ -177,7 +177,7 @@ namespace Vocaluxe.Menu.SongMenu
 
         public SRectF GetRect()
         {
-            return Rect;
+            return _Rect;
         }
 
         public SColorF Color
