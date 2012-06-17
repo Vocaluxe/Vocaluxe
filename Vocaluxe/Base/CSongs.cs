@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -612,21 +613,7 @@ namespace Vocaluxe.Base
                     int NotLetterCat = -1;
                     for (int i=0; i < _SongsSortList.Length; i++)
                     {
-                        Char firstLetter = Char.ToUpper(_SongsSortList[i].SortString[0]);
-
-                        //Fix for german Umlaute
-                        switch (firstLetter)
-                        {
-                            case 'Ä':
-                                firstLetter = 'A';
-                                break;
-                            case 'Ö':
-                                firstLetter = 'O';
-                                break;
-                            case 'Ü':
-                                firstLetter = 'U';
-                                break;
-                        }
+                        Char firstLetter = Char.ToUpper(_SongsSortList[i].SortString.Normalize(NormalizationForm.FormD)[0]);
                         
                         if (!Char.IsLetter(firstLetter))
                         {
@@ -684,21 +671,7 @@ namespace Vocaluxe.Base
                     NotLetterCat = -1;
                     for (int i=0; i < _SongsSortList.Length; i++)
                     {
-                        Char firstLetter = Char.ToUpper(_SongsSortList[i].SortString[0]);
-
-                        //Fix for german Umlaute
-                        switch (firstLetter)
-                        {
-                            case 'Ä':
-                                firstLetter = 'A';
-                                break;
-                            case 'Ö':
-                                firstLetter = 'O';
-                                break;
-                            case 'Ü':
-                                firstLetter = 'U';
-                                break;
-                        }
+                        Char firstLetter = Char.ToUpper(_SongsSortList[i].SortString.Normalize(NormalizationForm.FormD)[0]);
                         
                         if (!Char.IsLetter(firstLetter))
                         {
