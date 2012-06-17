@@ -243,7 +243,31 @@ namespace Vocaluxe.GameModes
         {
             if (_CurrentSong >= 0 && _CurrentSong < _SongQueque.Count)
             {
-                return CSongs.GetSong(_SongQueque[_CurrentSong].SongID);
+                CSong song = CSongs.GetSong(_SongQueque[_CurrentSong].SongID);
+
+                switch (GetCurrentGameMode())
+                {
+                    case EGameMode.TR_GAMEMODE_MEDLEY:
+                        // set medley mode timings
+                        song.Start = CGame.GetTimeFromBeats(song.Medley.StartBeat, song.BPM) - song.Medley.FadeInTime + song.Gap;
+                        if (song.Start < 0f)
+                            song.Start = 0f;
+
+                        song.Finish = CGame.GetTimeFromBeats(song.Medley.EndBeat, song.BPM) + song.Medley.FadeOutTime + song.Gap;
+
+                        // set lines to medley mode
+                        song.Notes.SetMedley(song.Medley.StartBeat, song.Medley.EndBeat);
+                        break;
+
+                    case EGameMode.TR_GAMEMODE_SHORTSONG:
+                        song.Finish = CGame.GetTimeFromBeats(song.ShortEnd, song.BPM) + CSettings.DefaultMedleyFadeOutTime + song.Gap;
+
+                        // set lines to medley mode
+                        song.Notes.SetMedley(song.Notes.GetLines(0).Line[0].FirstNoteBeat, song.ShortEnd);
+                        break;
+                }
+
+                return song;
             }
             return null;
         }
