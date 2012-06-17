@@ -663,6 +663,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             _Theme.songMenuTileBoard.TextArtist.ReloadTextures();
             _Theme.songMenuTileBoard.TextTitle.ReloadTextures();
+            _Theme.songMenuTileBoard.TextSongLength.ReloadTextures();
         }
     }
 }

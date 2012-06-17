@@ -444,37 +444,49 @@ namespace Vocaluxe.Menu
         {
             float x = _X - _width / 2; // most left position
 
-            foreach (SNote note in _Notes)
+            //find last active note
+            int last_note = -1;
+            for (int i = 0; i < _Notes.Count; i++)
+            {
+                if (CurrentBeat >= _Notes[i].StartBeat)
+                    last_note = i;
+            }
+
+            int jump_note = -1;
+            int end_beat = -1;
+            float jumpx = 0f;
+
+            for (int note = 0; note < _Notes.Count; note++)
             {
                 _Text.X = x;
                 _Text.Style = EStyle.Bold;
-                _Text.Text = note.Text;
+                _Text.Text = _Notes[note].Text;
                 RectangleF rect = CDraw.GetTextBounds(_Text);
 
-                if (note.Type == ENoteType.Freestyle)
+                if (_Notes[note].Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;
 
-                if (CurrentBeat >= note.StartBeat)
+                if (CurrentBeat >= _Notes[note].StartBeat)
                 {
-                    if (CurrentBeat <= note.EndBeat)
+                    bool last = note == _Notes.Count - 1;
+                    int endbeat = _Notes[note].EndBeat;
+                    if (note < _Notes.Count - 1)
+                        endbeat = _Notes[note + 1].StartBeat - 1;
+
+                    if (CurrentBeat <= _Notes[note].EndBeat)
                     {
-                        _Text.Color = ColorProcessed;
-                        
-                        float diff = note.EndBeat - note.StartBeat;
-                        if (diff == 0)
-                            _Text.Draw();
-                        else
-                        {
-                            float y = _Text.Y;
-                            _Text.Y -= _Text.Height * 0.1f;
-                            _Text.Draw();
-                            _Text.Y = y;
-                        }
+                        jump_note = note;
+                        end_beat = endbeat;
+                        jumpx = _Text.X;
                     }
                     else
                     {
                         // already passed
-                        _Text.Color = Color;
+                        if (note == last_note)
+                            _Text.Color = ColorProcessed;
+                        else
+                            _Text.Color = Color;
+
                         _Text.Draw();
                     }
 
@@ -487,6 +499,40 @@ namespace Vocaluxe.Menu
                 }
                 
                 x += rect.Width;
+            }
+
+            if (jump_note > 0)
+            {
+                if (_Notes[jump_note].Duration == 0)
+                    return;
+
+                _Text.X = jumpx;
+                _Text.Text = _Notes[jump_note].Text;
+                _Text.Color = ColorProcessed;
+                _Text.Style = EStyle.Bold;
+
+                if (_Notes[jump_note].Type == ENoteType.Freestyle)
+                    _Text.Style = EStyle.BoldItalic;
+
+                float diff = _Notes[jump_note].EndBeat - _Notes[jump_note].StartBeat;
+                if (diff <= 0f)
+                    diff = 1f;
+
+                float p = (CurrentBeat - _Notes[jump_note].StartBeat) / diff;
+                if (p > 1f)
+                    p = 1f;
+
+                p = 1f - p;
+
+                if (diff == 1)
+                    _Text.Draw();
+                else
+                {
+                    float y = _Text.Y;
+                    _Text.Y -= _Text.Height * 0.1f * p;
+                    _Text.Draw();
+                    _Text.Y = y;
+                }
             }
         }
         #endregion draw

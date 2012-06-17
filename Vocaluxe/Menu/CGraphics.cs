@@ -27,11 +27,12 @@ namespace Vocaluxe.Menu
         ScreenOptionsSound = 10,
         ScreenOptionsRecord = 11,
         ScreenOptionsVideo = 12,
-        ScreenOptionsTheme = 13,
+        ScreenOptionsLyrics = 13,
+        ScreenOptionsTheme = 14,
 
-        ScreenNames = 14,
+        ScreenNames = 15,
 
-        ScreenCredits = 15,
+        ScreenCredits = 16,
 
         ScreenNull = -1
     }
@@ -228,6 +229,7 @@ namespace Vocaluxe.Menu
             _Screens.Add(new CScreenOptionsSound());
             _Screens.Add(new CScreenOptionsRecord());
             _Screens.Add(new CScreenOptionsVideo());
+            _Screens.Add(new CScreenOptionsLyrics());
             _Screens.Add(new CScreenOptionsTheme());
             _Screens.Add(new CScreenNames());
             _Screens.Add(new CScreenCredits());
@@ -689,6 +691,16 @@ namespace Vocaluxe.Menu
         private static void ReloadCursor()
         {
             _Cursor.UnloadTextures();
+
+            if (CTheme.Cursor.color != string.Empty)
+            {
+                SColorF color;
+                color = CTheme.GetColor(CTheme.Cursor.color);
+                CTheme.Cursor.r = color.R;
+                CTheme.Cursor.g = color.G;
+                CTheme.Cursor.b = color.B;
+                CTheme.Cursor.a = color.A;
+            }
 
             _Cursor = new CCursor(
                 CTheme.Cursor.SkinName,

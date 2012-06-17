@@ -250,6 +250,12 @@
       <B>0,300</B>
       <A>1,000</A>
     </LyricSubColor>
+    <LyricHelper>
+      <R>0,00</R>
+      <G>0,00</G>
+      <B>1,00</B>
+      <A>0,50</A>    
+    </LyricHelper>    
     <TimeBar>
       <R>0,800</R>
       <G>0,950</G>

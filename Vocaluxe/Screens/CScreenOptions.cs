@@ -18,6 +18,7 @@ namespace Vocaluxe.Screens
         private const string ButtonOptionsSound = "ButtonOptionsSound";
         private const string ButtonOptionsRecord = "ButtonOptionsRecord";
         private const string ButtonOptionsVideo = "ButtonOptionsVideo";
+        private const string ButtonOptionsLyrics = "ButtonOptionsLyrics";
         private const string ButtonOptionsTheme = "ButtonOptionsTheme";
 
         public CScreenOptions()
@@ -31,7 +32,7 @@ namespace Vocaluxe.Screens
 
             _ThemeName = "ScreenOptions";
             _ScreenVersion = ScreenVersion;
-            _ThemeButtons = new string[] { ButtonOptionsGame, ButtonOptionsSound, ButtonOptionsRecord, ButtonOptionsVideo, ButtonOptionsTheme };
+            _ThemeButtons = new string[] { ButtonOptionsGame, ButtonOptionsSound, ButtonOptionsRecord, ButtonOptionsVideo, ButtonOptionsLyrics, ButtonOptionsTheme };
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -68,6 +69,9 @@ namespace Vocaluxe.Screens
                         if (Buttons[htButtons(ButtonOptionsVideo)].Selected)
                             CGraphics.FadeTo(EScreens.ScreenOptionsVideo);
 
+                        if (Buttons[htButtons(ButtonOptionsLyrics)].Selected)
+                            CGraphics.FadeTo(EScreens.ScreenOptionsLyrics);
+
                         if (Buttons[htButtons(ButtonOptionsTheme)].Selected)
                             CGraphics.FadeTo(EScreens.ScreenOptionsTheme);
 
@@ -94,6 +98,9 @@ namespace Vocaluxe.Screens
 
                 if (Buttons[htButtons(ButtonOptionsVideo)].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptionsVideo);
+
+                if (Buttons[htButtons(ButtonOptionsLyrics)].Selected)
+                    CGraphics.FadeTo(EScreens.ScreenOptionsLyrics);
 
                 if (Buttons[htButtons(ButtonOptionsTheme)].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptionsTheme);
