@@ -13,13 +13,12 @@ namespace Vocaluxe.GameModes
         {
             base.Init();
 
-            _GameMode = EGameMode.TR_GAMEMODE_SHORTSONG;
             _Initialized = true;
         }
 
         protected override void SongManipulation(int SongIndex)
         {
-            CSong song = _Songs[SongIndex];
+            CSong song = CSongs.AllSongs[_SongQueque[SongIndex].SongID];
 
             song.Finish = CGame.GetTimeFromBeats(song.ShortEnd, song.BPM) + CSettings.DefaultMedleyFadeOutTime + song.Gap;
 

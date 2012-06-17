@@ -4,13 +4,13 @@ using System.Text;
 
 namespace Vocaluxe.GameModes
 {
+    // Nomal singing
     class CGameModeNormal : CGameMode
     {
         public override void Init()
         {
             base.Init();
 
-            _GameMode = EGameMode.TR_GAMEMODE_NORMAL;
             _Initialized = true;
         }
     }

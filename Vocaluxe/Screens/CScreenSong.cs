@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using Vocaluxe.Base;
+using Vocaluxe.GameModes;
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Lib.Song;
 using Vocaluxe.Menu;
@@ -265,7 +266,7 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
-
+            CGame.EnterNomalGame();
             SongMenus[htSongMenus(SongMenu)].OnShow();
         }
 
@@ -327,22 +328,23 @@ namespace Vocaluxe.Screens
         {
             if ((CSongs.Category >= 0) && (SongNr >= 0))
             {
+                EGameMode gm;
                 if (_AvailableGameModes.Count >= SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection)
                 {
-                    CGame.SetGameMode(_AvailableGameModes[SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection]);
+                    gm = _AvailableGameModes[SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection];
                 }
                 else
                 {
                     if (CSongs.VisibleSongs[SongNr].IsDuet)
-                        CGame.SetGameMode(GameModes.EGameMode.TR_GAMEMODE_DUET);
+                       gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
                     else
-                        CGame.SetGameMode(GameModes.EGameMode.TR_GAMEMODE_NORMAL);
+                       gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
                 }
 
                 CGame.Reset();
                 CGame.ClearSongs();
-                CGame.AddVisibleSong(SongNr);
-                //CGame.AddSong(SongNr+1);
+
+                CGame.AddVisibleSong(SongNr, gm);
 
                 CGraphics.FadeTo(EScreens.ScreenNames);
             }
@@ -352,14 +354,15 @@ namespace Vocaluxe.Screens
         {
             if ((CSongs.Category >= 0) && (SongNr >= 0))
             {
+                EGameMode gm;
                 if (CSongs.VisibleSongs[SongNr].Medley.Source != EMedleySource.None)
-                    CGame.SetGameMode(GameModes.EGameMode.TR_GAMEMODE_MEDLEY);
+                    gm = GameModes.EGameMode.TR_GAMEMODE_MEDLEY;
                 else
                     return;
 
                 CGame.Reset();
                 CGame.ClearSongs();
-                CGame.AddVisibleSong(SongNr);
+                CGame.AddVisibleSong(SongNr, gm);
 
                 CGraphics.FadeTo(EScreens.ScreenNames);
             }
@@ -369,7 +372,6 @@ namespace Vocaluxe.Screens
         {
             CGame.Reset();
             CGame.ClearSongs();
-            CGame.SetGameMode(GameModes.EGameMode.TR_GAMEMODE_NORMAL);
 
             List<int> IDs = new List<int>();
             for (int i = 0; i < CSongs.AllSongs.Length; i++)
@@ -381,10 +383,11 @@ namespace Vocaluxe.Screens
             {
                 int SongNr = IDs[CGame.Rand.Next(IDs.Count)];
 
-                if (!CSongs.AllSongs[SongNr].IsDuet)
-                {
-                    CGame.AddSong(SongNr);
-                }
+                EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+                if (CSongs.VisibleSongs[SongNr].IsDuet)
+                    gm = EGameMode.TR_GAMEMODE_DUET;
+                CGame.AddSong(SongNr, gm);
+
                 IDs.Remove(SongNr);    
             }
 
@@ -396,7 +399,6 @@ namespace Vocaluxe.Screens
         {
             CGame.Reset();
             CGame.ClearSongs();
-            CGame.SetGameMode(GameModes.EGameMode.TR_GAMEMODE_NORMAL);
 
             List<int> IDs = new List<int>();
             for (int i = 0; i < CSongs.VisibleSongs.Length; i++)
@@ -408,10 +410,12 @@ namespace Vocaluxe.Screens
             {
                 int SongNr = IDs[CGame.Rand.Next(IDs.Count)];
 
-                if (!CSongs.AllSongs[SongNr].IsDuet)
-                {
-                    CGame.AddSong(SongNr);
-                }
+                EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+                if (CSongs.VisibleSongs[SongNr].IsDuet)
+                    gm = EGameMode.TR_GAMEMODE_DUET;
+
+                CGame.AddSong(SongNr, gm);
+
                 IDs.Remove(SongNr);
             }
 

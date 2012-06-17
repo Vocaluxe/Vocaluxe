@@ -108,41 +108,25 @@ namespace Vocaluxe.Base
             CConfig.UsePlayers();
         }
 
-        public static void SetGameMode(EGameMode Mode)
+        public static void EnterNomalGame()
         {
-            switch (Mode)
-            {
-                case EGameMode.TR_GAMEMODE_NORMAL:
-                    _GameMode = new CGameModeNormal();
-                    break;
-                case EGameMode.TR_GAMEMODE_MEDLEY:
-                    _GameMode = new CGameModeMedley();
-                    break;
-                case EGameMode.TR_GAMEMODE_DUET:
-                    _GameMode = new CGameModeDuet();
-                    break;
-                case EGameMode.TR_GAMEMODE_SHORTSONG:
-                    _GameMode = new CGameModeShortSong();
-                    break;
-                default:
-                    break;
-            }
+            _GameMode = new CGameModeNormal();
             _GameMode.Init();
         }
 
         public static EGameMode GameMode
         {
-            get { return _GameMode.GetGameMode(); }
+            get { return _GameMode.GetCurrentGameMode(); }
         }
 
-        public static bool AddVisibleSong(int VisibleIndex)
+        public static bool AddVisibleSong(int VisibleIndex, EGameMode GameMode)
         {
-            return _GameMode.AddVisibleSong(VisibleIndex);
+            return _GameMode.AddVisibleSong(VisibleIndex, GameMode);
         }
 
-        public static bool AddSong(int AbsoluteIndex)
+        public static bool AddSong(int AbsoluteIndex, EGameMode GameMode)
         {
-            return _GameMode.AddSong(AbsoluteIndex);
+            return _GameMode.AddSong(AbsoluteIndex, GameMode);
         }
 
         public static bool RemoveVisibleSong(int VisibleIndex)
@@ -182,7 +166,7 @@ namespace Vocaluxe.Base
 
         public static int RoundNr
         {
-            get { return _GameMode.GetActualRoundNr(); }
+            get { return _GameMode.GetCurrentRoundNr(); }
         }
 
         public static CSong GetSong()

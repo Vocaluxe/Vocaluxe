@@ -10,7 +10,6 @@ namespace Vocaluxe.GameModes
         {
             base.Init();
 
-            _GameMode = EGameMode.TR_GAMEMODE_DUET;
             _Initialized = true;
         }
     }
