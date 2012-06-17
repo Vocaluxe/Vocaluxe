@@ -170,10 +170,7 @@
       <H>45</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>0,00</G>
-      <B>1,00</B>
-      <A>0,50</A>
+	  <Color>LyricHelper</Color>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
@@ -189,10 +186,7 @@
       <H>45</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>0,00</G>
-      <B>1,00</B>
-      <A>0,50</A>
+      <Color>LyricHelper</Color>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
@@ -208,10 +202,7 @@
       <H>45</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>0,00</G>
-      <B>1,00</B>
-      <A>0,50</A>
+      <Color>LyricHelper</Color>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->

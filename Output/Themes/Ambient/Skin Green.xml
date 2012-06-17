@@ -120,86 +120,86 @@
     </Player6Dim2>  
     <BackgroundColor>
       <R>0,000</R>
-      <G>0,000</G>
-      <B>0,750</B>
+      <G>0,750</G>
+      <B>0,000</B>
       <A>1,000</A>
     </BackgroundColor>
     <StaticColor>
-      <R>0,675</R>
-      <G>0,890</G>
-      <B>0,969</B>
+      <R>0,709</R>
+      <G>0,968</G>
+      <B>0,674</B>
       <A>1,000</A>
     </StaticColor>
     <StaticWarningColor>
-      <R>0,675</R>
-      <G>0,890</G>
-      <B>0,969</B>
+      <R>0,709</R>
+      <G>0,968</G>
+      <B>0,674</B>
       <A>1,000</A>
     </StaticWarningColor>
     <ButtonColor>
-      <R>0,675</R>
-      <G>0,890</G>
-      <B>0,969</B>
+      <R>0,709</R>
+      <G>0,968</G>
+      <B>0,674</B>
       <A>0,300</A>
     </ButtonColor>
     <ButtonSColor>
-      <R>0,675</R>
-      <G>0,890</G>
-      <B>0,969</B>
+      <R>0,709</R>
+      <G>0,968</G>
+      <B>0,674</B>
       <A>1,000</A>
     </ButtonSColor>
     <ButtonTextColor>
-      <R>0,675</R>
-      <G>0,890</G>
-      <B>0,969</B>
+      <R>0,709</R>
+      <G>0,968</G>
+      <B>0,674</B>
       <A>0,500</A>
     </ButtonTextColor>
     <ButtonTextSColor>
-      <R>0,675</R>
-      <G>0,890</G>
-      <B>0,969</B>
+      <R>0,709</R>
+      <G>0,968</G>
+      <B>0,674</B>
       <A>1,000</A>
     </ButtonTextSColor>
     <SelectSlideColor>
-      <R>0,675</R>
-      <G>0,890</G>
-      <B>0,969</B>
+      <R>0,709</R>
+      <G>0,968</G>
+      <B>0,674</B>
       <A>1,000</A>
     </SelectSlideColor>
     <SelectSlideHColor>
-      <R>0,675</R>
-      <G>0,890</G>
-      <B>0,969</B>
+      <R>0,709</R>
+      <G>0,968</G>
+      <B>0,674</B>
       <A>1,000</A>
     </SelectSlideHColor>
     <SelectSlideSColor>
-      <R>0,675</R>
-      <G>0,890</G>
-      <B>0,969</B>
+      <R>0,709</R>
+      <G>0,968</G>
+      <B>0,674</B>
       <A>0,500</A>
     </SelectSlideSColor>
     <ArrowColor>
-      <R>0,675</R>
-      <G>0,890</G>
-      <B>0,969</B>
+      <R>0,709</R>
+      <G>0,968</G>
+      <B>0,674</B>
       <A>0,300</A>
     </ArrowColor>
     <ArrowSColor>
-      <R>0,675</R>
-      <G>0,890</G>
-      <B>0,969</B>
+      <R>0,709</R>
+      <G>0,968</G>
+      <B>0,674</B>
       <A>1,000</A>
     </ArrowSColor>
     <TextColor>
-      <R>0,675</R>
-      <G>0,890</G>
-      <B>0,969</B>
+      <R>0,709</R>
+      <G>0,968</G>
+      <B>0,674</B>
       <A>0,500</A>
     </TextColor>
     <TextSColor>
-      <R>0,675</R>
-      <G>0,890</G>
-      <B>0,969</B>
+      <R>0,709</R>
+      <G>0,968</G>
+      <B>0,674</B>
       <A>1,000</A>
     </TextSColor>
     <TextWarningColor>
@@ -234,8 +234,8 @@
     </Invisible>
     <LyricHighlight>
       <R>0,000</R>
-      <G>0,000</G>
-      <B>1,000</B>
+      <G>1,000</G>
+      <B>0,000</B>
       <A>1,000</A>
     </LyricHighlight>
     <LyricMainColor>
@@ -250,17 +250,23 @@
       <B>0,300</B>
       <A>1,000</A>
     </LyricSubColor>
+    <LyricHelper>
+      <R>0,00</R>
+      <G>1,00</G>
+      <B>0,00</B>
+      <A>0,50</A>    
+    </LyricHelper>
     <TimeBar>
       <R>0,800</R>
-      <G>0,950</G>
-      <B>1,000</B>
+      <G>1,000</G>
+      <B>0,811</B>
       <A>0,500</A>
     </TimeBar>
     <TimeBarSentence>
       <R>0,800</R>
-      <G>0,950</G>
-      <B>1,000</B>
-      <A>0,850</A>
+      <G>1,000</G>
+      <B>0,811</B>
+      <A>0,811</A>
     </TimeBarSentence>
   </ColorSchemes>
   <Skins>
