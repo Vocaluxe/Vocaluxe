@@ -132,9 +132,9 @@
     <Compile Include="Base\CTheme.cs" />
     <Compile Include="Base\CVideo.cs" />
     <Compile Include="GameModes\CGameMode.cs" />
-    <Compile Include="GameModes\CGameModeDuet.cs" />
-    <Compile Include="GameModes\CGameModeMedley.cs" />
-    <Compile Include="GameModes\CGameModeNormal.cs" />
+    <Compile Include="GameModes\CGameModeNormal.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GameModes\IGameMode.cs" />
     <Compile Include="Lib\Draw\CDirect3D.cs">
       <SubType>Form</SubType>

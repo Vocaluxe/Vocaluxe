@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using Vocaluxe.Base;
+using Vocaluxe.GameModes;
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SongMenu;
@@ -174,7 +175,7 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
-
+            CGame.EnterNomalGame();
             SongMenus[htSongMenus(SongMenu)].OnShow();
         }
 
@@ -237,15 +238,14 @@ namespace Vocaluxe.Screens
         {
             if ((CSongs.Category >= 0) && (SongNr >= 0))
             {
-                if (CSongs.VisibleSongs[SongNr].IsDuet)
-                    CGame.SetGameMode(GameModes.EGameMode.Duet);
-                else
-                    CGame.SetGameMode(GameModes.EGameMode.Normal);
-
                 CGame.Reset();
                 CGame.ClearSongs();
-                CGame.AddVisibleSong(SongNr);
-                //CGame.AddSong(SongNr+1);
+
+                EGameMode gm = EGameMode.Normal;
+                if (CSongs.VisibleSongs[SongNr].IsDuet)
+                    gm = EGameMode.Duet;
+
+                CGame.AddVisibleSong(SongNr, gm);
 
                 CGraphics.FadeTo(EScreens.ScreenNames);
             }
@@ -255,8 +255,7 @@ namespace Vocaluxe.Screens
         {
             CGame.Reset();
             CGame.ClearSongs();
-            CGame.SetGameMode(GameModes.EGameMode.Normal);
-
+            
             List<int> IDs = new List<int>();
             for (int i = 0; i < CSongs.AllSongs.Length; i++)
             {
@@ -267,10 +266,11 @@ namespace Vocaluxe.Screens
             {
                 int SongNr = IDs[CGame.Rand.Next(IDs.Count)];
 
-                if (!CSongs.AllSongs[SongNr].IsDuet)
-                {
-                    CGame.AddSong(SongNr);
-                }
+                EGameMode gm = EGameMode.Normal;
+                if (CSongs.VisibleSongs[SongNr].IsDuet)
+                    gm = EGameMode.Duet;
+                CGame.AddSong(SongNr, gm);
+
                 IDs.Remove(SongNr);    
             }
 
@@ -282,8 +282,7 @@ namespace Vocaluxe.Screens
         {
             CGame.Reset();
             CGame.ClearSongs();
-            CGame.SetGameMode(GameModes.EGameMode.Normal);
-
+            
             List<int> IDs = new List<int>();
             for (int i = 0; i < CSongs.VisibleSongs.Length; i++)
             {
@@ -294,10 +293,12 @@ namespace Vocaluxe.Screens
             {
                 int SongNr = IDs[CGame.Rand.Next(IDs.Count)];
 
-                if (!CSongs.AllSongs[SongNr].IsDuet)
-                {
-                    CGame.AddSong(SongNr);
-                }
+                EGameMode gm = EGameMode.Normal;
+                if (CSongs.VisibleSongs[SongNr].IsDuet)
+                    gm = EGameMode.Duet;
+
+                CGame.AddSong(SongNr, gm);
+
                 IDs.Remove(SongNr);
             }
 
