@@ -373,7 +373,7 @@ namespace Vocaluxe.Screens
         public override void OnShowFinish()
         {
             base.OnShowFinish();
-            CBackgroundMusic.Pause();
+            CBackgroundMusic.Disabled = true;
         }
 
         public override bool Draw()
@@ -422,6 +422,7 @@ namespace Vocaluxe.Screens
             CSound.RecordStop();
 
             _DelayTest = null;
+            CBackgroundMusic.Disabled = false;
         }
 
         private void OnDeviceEvent()
