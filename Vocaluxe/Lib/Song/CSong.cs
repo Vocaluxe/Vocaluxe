@@ -59,6 +59,8 @@ namespace Vocaluxe.Lib.Song
         public bool CalculateMedley = true;
         public float PreviewStart = 0f;
 
+        public int ShortEnd = 0;
+
         public Encoding Encoding = Encoding.Default;
         public string Folder = String.Empty;
         public string FolderName = String.Empty;
@@ -160,6 +162,8 @@ namespace Vocaluxe.Lib.Song
 
             this.CalculateMedley = song.CalculateMedley;
             this.PreviewStart = song.PreviewStart;
+
+            this.ShortEnd = song.ShortEnd;
 
             this.Encoding = song.Encoding;
             this.Folder = song.Folder;
@@ -652,6 +656,7 @@ namespace Vocaluxe.Lib.Song
                 return false;
             }
             FindRefrain();
+            FindShortEnd();
             _NotesLoaded = true;
 
             return true;
@@ -835,6 +840,89 @@ namespace Vocaluxe.Lib.Song
                 if (this.Medley.Source == EMedleySource.Calculated)
                     this.PreviewStart = CGame.GetTimeFromBeats(this.Medley.StartBeat, this.BPM); 
             }
+        }
+
+        private void FindShortEnd(){
+            CLines lines = this.Notes.GetLines(0);
+
+            if (lines.LineCount == 0)
+                return;
+
+            // build sentences list
+            List<string> sentences = new List<string>();
+            foreach (CLine line in lines.Line)
+            {
+                if (line.Points != 0)
+                    sentences.Add(line.Lyrics);
+                else
+                    sentences.Add(String.Empty);
+            }
+
+            // find equal sentences series
+            List<Series> series = new List<Series>();
+            for (int i = 0; i < lines.LineCount - 1; i++)
+            {
+                for (int j = i + 1; j < lines.LineCount; j++)
+                {
+                    if (sentences[i] == sentences[j] && sentences[i] != String.Empty)
+                    {
+                        Series tempSeries = new Series();
+                        tempSeries.start = i;
+                        tempSeries.end = i;
+
+                        int max = 0;
+                        if (j + j - i - 1 > lines.LineCount - 1)
+                            max = lines.LineCount - 1 - j;
+                        else
+                            max = j - i - 1;
+
+                        for (int k = 1; k <= max; k++)
+                        {
+                            if (sentences[i + k] == sentences[j + k] && sentences[i + k] != String.Empty)
+                                tempSeries.end = i + k;
+                            else
+                                break;
+                        }
+
+                        tempSeries.length = tempSeries.end - tempSeries.start + 1;
+                        series.Add(tempSeries);
+                    }
+                }
+            }
+
+            //Calculate length of singing
+            int stop = (lines.Line[lines.Line.Length - 1].LastNoteBeat - lines.Line[0].FirstNoteBeat) / 2;
+
+            //Check if stop is in series
+            for (int i = 0; i < series.Count; i++)
+            {
+                if (lines.Line[series[i].start].FirstNoteBeat < stop && lines.Line[series[i].end].LastNoteBeat > stop)
+                {
+                    if (stop < (lines.Line[series[i].start].FirstNoteBeat + ((lines.Line[series[i].end].LastNoteBeat - lines.Line[series[i].start].FirstNoteBeat) / 2)))
+                    {
+                        this.ShortEnd = lines.Line[series[i].start-1].LastNote.EndBeat;
+                        return;
+                    }
+                    else
+                    {
+                        this.ShortEnd = lines.Line[series[i].end].LastNote.EndBeat;
+                        return;
+                    }
+                }
+            }
+
+            //Check if stop is in line
+            for (int i = 0; i < lines.Line.Length; i++)
+            {
+                if (lines.Line[i].FirstNoteBeat < stop && lines.Line[i].LastNoteBeat > stop)
+                {
+                    this.ShortEnd = lines.Line[i].LastNoteBeat;
+                    return;
+                }
+            }
+
+            ShortEnd = stop;
+
         }
     }
 }

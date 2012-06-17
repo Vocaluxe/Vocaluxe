@@ -13,7 +13,7 @@ namespace Vocaluxe.GameModes
         {
             base.Init();
 
-            _GameMode = EGameMode.Medley;
+            _GameMode = EGameMode.TR_GAMEMODE_MEDLEY;
             _Initialized = true;
         }
 

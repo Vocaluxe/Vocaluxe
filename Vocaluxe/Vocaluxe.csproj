@@ -135,6 +135,7 @@
     <Compile Include="GameModes\CGameModeDuet.cs" />
     <Compile Include="GameModes\CGameModeMedley.cs" />
     <Compile Include="GameModes\CGameModeNormal.cs" />
+    <Compile Include="GameModes\CGameModeShortSong.cs" />
     <Compile Include="GameModes\IGameMode.cs" />
     <Compile Include="Lib\Draw\CDirect3D.cs">
       <SubType>Form</SubType>

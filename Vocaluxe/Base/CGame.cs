@@ -112,14 +112,17 @@ namespace Vocaluxe.Base
         {
             switch (Mode)
             {
-                case EGameMode.Normal:
+                case EGameMode.TR_GAMEMODE_NORMAL:
                     _GameMode = new CGameModeNormal();
                     break;
-                case EGameMode.Medley:
+                case EGameMode.TR_GAMEMODE_MEDLEY:
                     _GameMode = new CGameModeMedley();
                     break;
-                case EGameMode.Duet:
+                case EGameMode.TR_GAMEMODE_DUET:
                     _GameMode = new CGameModeDuet();
+                    break;
+                case EGameMode.TR_GAMEMODE_SHORTSONG:
+                    _GameMode = new CGameModeShortSong();
                     break;
                 default:
                     break;

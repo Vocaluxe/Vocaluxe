@@ -347,9 +347,9 @@ namespace Vocaluxe.Screens
                 else
                 {
                     if (CSongs.VisibleSongs[SongNr].IsDuet)
-                        CGame.SetGameMode(GameModes.EGameMode.Duet);
+                        CGame.SetGameMode(GameModes.EGameMode.TR_GAMEMODE_DUET);
                     else
-                        CGame.SetGameMode(GameModes.EGameMode.Normal);
+                        CGame.SetGameMode(GameModes.EGameMode.TR_GAMEMODE_NORMAL);
                 }
 
                 CGame.Reset();
@@ -366,7 +366,7 @@ namespace Vocaluxe.Screens
             if ((CSongs.Category >= 0) && (SongNr >= 0))
             {
                 if (CSongs.VisibleSongs[SongNr].Medley.Source != EMedleySource.None)
-                    CGame.SetGameMode(GameModes.EGameMode.Medley);
+                    CGame.SetGameMode(GameModes.EGameMode.TR_GAMEMODE_MEDLEY);
                 else
                     return;
 
@@ -382,7 +382,7 @@ namespace Vocaluxe.Screens
         {
             CGame.Reset();
             CGame.ClearSongs();
-            CGame.SetGameMode(GameModes.EGameMode.Normal);
+            CGame.SetGameMode(GameModes.EGameMode.TR_GAMEMODE_NORMAL);
 
             List<int> IDs = new List<int>();
             for (int i = 0; i < CSongs.AllSongs.Length; i++)
@@ -409,7 +409,7 @@ namespace Vocaluxe.Screens
         {
             CGame.Reset();
             CGame.ClearSongs();
-            CGame.SetGameMode(GameModes.EGameMode.Normal);
+            CGame.SetGameMode(GameModes.EGameMode.TR_GAMEMODE_NORMAL);
 
             List<int> IDs = new List<int>();
             for (int i = 0; i < CSongs.VisibleSongs.Length; i++)
@@ -491,18 +491,20 @@ namespace Vocaluxe.Screens
                 SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Clear();
                 if (!CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].IsDuet)
                 {
-                    SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(GameModes.EGameMode), GameModes.EGameMode.Normal));
-                    _AvailableGameModes.Add(GameModes.EGameMode.Normal);
+                    SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(GameModes.EGameMode), GameModes.EGameMode.TR_GAMEMODE_NORMAL));
+                    _AvailableGameModes.Add(GameModes.EGameMode.TR_GAMEMODE_NORMAL);
+                    SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(GameModes.EGameMode), GameModes.EGameMode.TR_GAMEMODE_SHORTSONG));
+                    _AvailableGameModes.Add(GameModes.EGameMode.TR_GAMEMODE_SHORTSONG);                
                 }
                 if (CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].IsDuet)
                 {
-                    SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(GameModes.EGameMode), GameModes.EGameMode.Duet));
-                    _AvailableGameModes.Add(GameModes.EGameMode.Duet);
+                    SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(GameModes.EGameMode), GameModes.EGameMode.TR_GAMEMODE_DUET));
+                    _AvailableGameModes.Add(GameModes.EGameMode.TR_GAMEMODE_DUET);
                 }
                 if (CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].Medley.Source != EMedleySource.None)
                 {
-                    SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(GameModes.EGameMode), GameModes.EGameMode.Medley));
-                    _AvailableGameModes.Add(GameModes.EGameMode.Medley);
+                    SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(GameModes.EGameMode), GameModes.EGameMode.TR_GAMEMODE_MEDLEY));
+                    _AvailableGameModes.Add(GameModes.EGameMode.TR_GAMEMODE_MEDLEY);
                 }
                 SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Visible = true;
                 Buttons[htButtons(ButtonOptionsClose)].Visible = true;

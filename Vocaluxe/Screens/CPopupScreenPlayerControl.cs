@@ -214,9 +214,9 @@ namespace Vocaluxe.Screens
             if (SongNr >= 0 && CSongs.SongsLoaded)
             {
                 if (Duet)
-                    CGame.SetGameMode(GameModes.EGameMode.Duet);
+                    CGame.SetGameMode(GameModes.EGameMode.TR_GAMEMODE_DUET);
                 else
-                    CGame.SetGameMode(GameModes.EGameMode.Normal);
+                    CGame.SetGameMode(GameModes.EGameMode.TR_GAMEMODE_NORMAL);
 
                 CGame.Reset();
                 CGame.ClearSongs();

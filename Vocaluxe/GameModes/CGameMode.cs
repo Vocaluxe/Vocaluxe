@@ -202,7 +202,7 @@ namespace Vocaluxe.GameModes
             {
                 if (_ActualSong > -1)
                 {
-                    _Points.SetPoints(_ActualSong, _Songs[_ActualSong].ID, Player, _GameMode == EGameMode.Medley, _GameMode == EGameMode.Duet);
+                    _Points.SetPoints(_ActualSong, _Songs[_ActualSong].ID, Player, _GameMode == EGameMode.TR_GAMEMODE_MEDLEY, _GameMode == EGameMode.TR_GAMEMODE_DUET);
                 }
                 _ActualSong++;
             }

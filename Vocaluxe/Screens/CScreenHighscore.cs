@@ -250,15 +250,15 @@ namespace Vocaluxe.Screens
 
                     switch (CGame.GameMode)
                     {
-                        case EGameMode.Normal:
+                        case EGameMode.TR_GAMEMODE_NORMAL:
                             Texts[htTexts(TextSongMode)].Text = "TR_GAMEMODE_NORMAL";
                             break;
 
-                        case EGameMode.Medley:
+                        case EGameMode.TR_GAMEMODE_MEDLEY:
                             Texts[htTexts(TextSongMode)].Text = "TR_GAMEMODE_MEDLEY";
                             break;
 
-                        case EGameMode.Duet:
+                        case EGameMode.TR_GAMEMODE_DUET:
                             Texts[htTexts(TextSongMode)].Text = "TR_GAMEMODE_DUET";
                             _IsDuet = true;
                             break;
