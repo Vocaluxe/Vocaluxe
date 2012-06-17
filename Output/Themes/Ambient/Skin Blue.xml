@@ -308,6 +308,7 @@
 	<PlayIcon>PlayIcon.png</PlayIcon>
 	<PauseIcon>PauseIcon.png</PauseIcon>
 	<RepeatIcon>RepeatIcon.png</RepeatIcon>
+	<SongMenuBG>SongMenuBG.png</SongMenuBG>
   </Skins>
   <Videos>
     <BG_Video>[Blue]BG_Video.mp4</BG_Video>
