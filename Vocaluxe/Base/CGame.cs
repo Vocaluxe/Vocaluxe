@@ -108,7 +108,7 @@ namespace Vocaluxe.Base
             CConfig.UsePlayers();
         }
 
-        public static void EnterNomalGame()
+        public static void EnterNormalGame()
         {
             _GameMode = new CGameModeNormal();
             _GameMode.Init();
