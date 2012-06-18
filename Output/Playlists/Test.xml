@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <Info>
+    <PlaylistName>Test</PlaylistName>
+  </Info>
+  <Songs>
+    <Song1>
+      <Artist>2raumwohnung</Artist>
+      <Title>36 grad</Title>
+      <GameMode>TR_GAMEMODE_NORMAL</GameMode>
+    </Song1>
+    <Song2>
+      <Artist>Aura Dione</Artist>
+      <Title>Geronimo</Title>
+      <GameMode>TR_GAMEMODE_SHORTSONG</GameMode>
+    </Song2>
+    <Song3>
+      <Artist>Die Toten Hosen</Artist>
+      <Title>Tage wie diese</Title>
+      <GameMode>TR_GAMEMODE_MEDLEY</GameMode>
+    </Song3>
+  </Songs>
+</root>

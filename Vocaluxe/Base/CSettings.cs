@@ -94,6 +94,7 @@ namespace Vocaluxe.Base
         public const string sFolderLanguages = "Languages";
         public const string sFolderScreenshots = "Screenshots";
         public const string sFolderBackgroundMusic = "BackgroundMusic";
+        public const string sFolderPlaylists = "Playlists";
 
         //public const String[] ToneStrings = new String[]{ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
         public const int ToneMin = -36;

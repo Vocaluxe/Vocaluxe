@@ -27,6 +27,7 @@ namespace Vocaluxe.Base
         public int SongID;
         public bool Medley;
         public bool Duet;
+        public bool ShortSong;
         public long DateTicks;
         public bool SongFinished;
     }
@@ -214,6 +215,7 @@ namespace Vocaluxe.Base
                 _Player[i].SongID = -1;
                 _Player[i].Medley = false;
                 _Player[i].Duet = false;
+                _Player[i].ShortSong = false;
                 _Player[i].DateTicks = DateTime.Now.Ticks;
                 _Player[i].SongFinished = false;
             }

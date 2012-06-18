@@ -39,12 +39,13 @@ namespace Vocaluxe.GameModes
                     _Rounds[round, player].PointsLineBonus = 0f;
                     _Rounds[round, player].Medley = false;
                     _Rounds[round, player].Duet = false;
+                    _Rounds[round, player].ShortSong = false;
                     _Rounds[round, player].SongFinished = false;
                 }
             }
         }
 
-        public void SetPoints(int Round, int SongID, SPlayer[] Player, bool Medley, bool Duet)
+        public void SetPoints(int Round, int SongID, SPlayer[] Player, bool Medley, bool Duet, bool ShortSong)
         {
             long DateTicks = DateTime.Now.Ticks;
             for (int player = 0; player < Player.Length; player++)
@@ -56,6 +57,7 @@ namespace Vocaluxe.GameModes
                 _Rounds[Round, player].PointsLineBonus = Player[player].PointsLineBonus;
                 _Rounds[Round, player].Medley = Medley;
                 _Rounds[Round, player].Duet = Duet;
+                _Rounds[Round, player].ShortSong = ShortSong;
                 _Rounds[Round, player].DateTicks = DateTicks;
                 _Rounds[Round, player].SongFinished = Player[player].SongFinished;
             }
@@ -91,6 +93,7 @@ namespace Vocaluxe.GameModes
                 player[p].Difficulty = _Rounds[Round, p].Difficulty;
                 player[p].Medley = _Rounds[Round, p].Medley;
                 player[p].Duet = _Rounds[Round, p].Duet;
+                player[p].ShortSong = _Rounds[Round, p].ShortSong;
                 player[p].DateTicks = _Rounds[Round, p].DateTicks;
                 player[p].SongFinished = _Rounds[Round, p].SongFinished;
                 player[p].ProfileID = _Rounds[Round, p].ProfileID;
@@ -223,7 +226,8 @@ namespace Vocaluxe.GameModes
                         _SongQueque[_CurrentSong].SongID,
                         Player,
                         _SongQueque[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_MEDLEY,
-                        _SongQueque[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_DUET);
+                        _SongQueque[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_DUET,
+                        _SongQueque[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_SHORTSONG);
                 }
                 _CurrentSong++;
             }

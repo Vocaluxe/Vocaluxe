@@ -223,6 +223,11 @@ namespace Vocaluxe.Screens
             CBackgroundMusic.CanSing = true;
 
             CLog.StopBenchmark(3, "Load Cover");
+
+            //Init Playlists
+            CLog.StartBenchmark(0, "Init Playlists");
+            CPlaylists.Init();
+            CLog.StopBenchmark(0, "Init Playlists");
         }
 
         private void CheckStartIntroVideos()
