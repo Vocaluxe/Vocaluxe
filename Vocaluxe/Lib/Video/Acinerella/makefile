@@ -1,9 +1,7 @@
-OSTYPE=$(shell uname) 
-
 acinerella: acinerella.c acinerella.h
 	gcc -c acinerella.c -I /usr/local/include
 
-ifeq ($(OSTYPE),Linux)
+ifeq ($(shell uname),Linux)
 	gcc -shared -o libacinerella.so acinerella.o -lavformat -lavcodec -lavutil -lm -lswscale 
 	strip libacinerella.so
 else
