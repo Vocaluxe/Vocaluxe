@@ -17,9 +17,11 @@ namespace Vocaluxe.Base
     #region Enums
     public enum ERenderer
     {
-        TR_CONFIG_SOFTWARE,
+#if WIN   
+        TR_CONFIG_DIRECT3D,
+#endif
         TR_CONFIG_OPENGL,
-        TR_CONFIG_DIRECT3D
+        TR_CONFIG_SOFTWARE
     }
 
     public enum EAntiAliasingModes
@@ -87,8 +89,10 @@ namespace Vocaluxe.Base
 
     public enum ERecordLib
     {
-        PortAudio,
-        DirectSound
+#if WIN
+        DirectSound,
+#endif
+        PortAudio        
     }
 
     public enum EVideoDecoder
@@ -186,7 +190,12 @@ namespace Vocaluxe.Base
         public static EDebugLevel DebugLevel = EDebugLevel.TR_CONFIG_OFF;
         
         // Graphics
+#if WIN
         public static ERenderer Renderer = ERenderer.TR_CONFIG_DIRECT3D;
+#else
+        public static ERenderer Renderer = ERenderer.TR_CONFIG_OPENGL;
+#endif
+
         public static ETextureQuality TextureQuality = ETextureQuality.TR_CONFIG_TEXTURE_MEDIUM;
         public static float MaxFPS = 60f;
 

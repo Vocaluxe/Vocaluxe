@@ -159,11 +159,23 @@ namespace Vocaluxe.Lib.Video.Acinerella
     public static class CAcinerella
     {
 #if ARCH_X86
+#if WIN
         private const string AcDll = "x86\\acinerella.dll";
 #endif
 
+#if LINUX
+        private const string AcDll = "x86/libacinerella.so";
+#endif
+#endif
+
 #if ARCH_X64
+#if WIN
         private const string AcDll = "x64\\acinerella.dll";
+#endif
+
+#if LINUX
+        private const string AcDll = "x64/acinerella.dll";
+#endif
 #endif
 
         private static Object _lock = new Object();
