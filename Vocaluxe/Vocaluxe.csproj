@@ -124,42 +124,35 @@
       <HintPath>..\Output\x86\SlimDX.dll</HintPath>
       <Private>False</Private>
     </Reference>
-	<Reference Include="System.Data.SQLite">
+    <Reference Include="System.Data.SQLite">
       <HintPath>..\Output\x86\System.Data.SQLite.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup Condition="'$(Platform)' == 'x64' And ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin')">
     <Reference Include="SlimDX">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Output\x64\SlimDX.dll</HintPath>
       <Private>False</Private>
     </Reference>
-	<Reference Include="System.Data.SQLite">
+    <Reference Include="System.Data.SQLite">
       <HintPath>..\Output\x64\System.Data.SQLite.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)' == 'DebugLinux' Or '$(Configuration)' == 'ReleaseLinux'">
-	<Reference Include="Mono.Data.SQLite"/>
-  </ItemGroup>
   <ItemGroup>
     <Reference Include="Community.CsharpSqlite">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Output\Community.CsharpSqlite.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="OpenTK">
       <HintPath>..\Output\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK.Compatibility, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="OpenTK.Compatibility">
       <HintPath>..\Output\OpenTK.Compatibility.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK.GLControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="OpenTK.GLControl">
       <HintPath>..\Output\OpenTK.GLControl.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Data.Sqlite" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -183,9 +176,7 @@
     <Compile Include="Base\CTheme.cs" />
     <Compile Include="Base\CVideo.cs" />
     <Compile Include="GameModes\CGameMode.cs" />
-    <Compile Include="GameModes\CGameModeNormal.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="GameModes\CGameModeNormal.cs" />
     <Compile Include="GameModes\IGameMode.cs" />
     <Compile Include="Lib\Draw\CDirect3D.cs">
       <SubType>Form</SubType>
@@ -228,9 +219,7 @@
     <Compile Include="Menu\SingNotes\CSingNotes.cs" />
     <Compile Include="Menu\SingNotes\CSingNotesClassic.cs" />
     <Compile Include="Menu\SingNotes\ISingNotes.cs" />
-    <Compile Include="Menu\SongMenu\CSongMenu.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Menu\SongMenu\CSongMenu.cs" />
     <Compile Include="Menu\SongMenu\CSongMenuBook.cs" />
     <Compile Include="Menu\SongMenu\CSongMenuDreidel.cs" />
     <Compile Include="Menu\SongMenu\CSongMenuFramework.cs" />
