@@ -11,10 +11,10 @@ using System.Text;
 using System.Data.SQLite;
 #else
 using Mono.Data.Sqlite;
-using SQLiteConnection = SqliteConnection;
-using SQLiteTransaction = SqliteTransaction;
-using SQLiteCommand = SqliteCommand;
-using SQLiteDataReader = SqliteDataReader;
+using SQLiteConnection = Mono.Data.Sqlite.SqliteConnection;
+using SQLiteTransaction = Mono.Data.Sqlite.SqliteTransaction;
+using SQLiteCommand = Mono.Data.Sqlite.SqliteCommand;
+using SQLiteDataReader = Mono.Data.Sqlite.SqliteDataReader;
 #endif
 
 using Community.CsharpSqlite;
