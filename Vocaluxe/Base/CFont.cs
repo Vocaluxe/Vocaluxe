@@ -23,6 +23,13 @@ namespace Vocaluxe.Base
         Right
     }
 
+    public enum EHAlignment
+    {
+        Top,
+        Center,
+        Buttom
+    }
+
     public enum EStyle
     {
         Normal,

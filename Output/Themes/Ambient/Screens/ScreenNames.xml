@@ -268,8 +268,10 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Buttom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -296,8 +298,10 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextWarningColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Buttom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -324,8 +328,10 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextWarningColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Buttom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -351,8 +357,10 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Buttom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -378,8 +386,10 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Buttom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -405,8 +415,10 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Buttom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -432,8 +444,10 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Buttom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -459,8 +473,10 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Buttom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -486,8 +502,10 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Buttom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -529,8 +547,10 @@
         <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
         <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
         <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align: Left, Center, Right-->
+        <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
+        <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Buttom-->
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
@@ -584,8 +604,10 @@
         <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
         <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
         <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align: Left, Center, Right-->
+        <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
+        <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Buttom-->
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->

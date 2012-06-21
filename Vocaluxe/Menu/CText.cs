@@ -144,6 +144,20 @@ namespace Vocaluxe.Menu
             }
         }
 
+        private EHAlignment _HAlign = EHAlignment.Center;
+        public EHAlignment HAlign
+        {
+            get { return _HAlign; }
+            set
+            {
+                if (_HAlign != value)
+                {
+                    _HAlign = value;
+                    _PositionNeedsUpdate = true;
+                }
+            }
+        }
+
         private EStyle _Style = EStyle.Normal;
         public EStyle Style
         {
@@ -213,6 +227,7 @@ namespace Vocaluxe.Menu
             MaxWidth = 0f;
             Bounds = new SRectF();
             Align = EAlignment.Left;
+            HAlign = EHAlignment.Center;
             Style = EStyle.Normal;
             Fon = "Normal";
 
@@ -240,6 +255,7 @@ namespace Vocaluxe.Menu
             Height = h;
             MaxWidth = mw;
             Align = align;
+            HAlign = EHAlignment.Center;
             Style = style;
             Fon = font;
 
@@ -276,6 +292,7 @@ namespace Vocaluxe.Menu
             Height = h;
             MaxWidth = mw;
             Align = align;
+            HAlign = EHAlignment.Center;
             Style = style;
             Fon = font;
 
@@ -310,6 +327,7 @@ namespace Vocaluxe.Menu
             Height = h;
             MaxWidth = mw;
             Align = align;
+            HAlign = EHAlignment.Center;
             Style = style;
             Fon = font;
 
@@ -346,6 +364,7 @@ namespace Vocaluxe.Menu
             Height = h;
             MaxWidth = mw;
             Align = align;
+            HAlign = EHAlignment.Center;
             Style = style;
             Fon = font;
 
@@ -414,6 +433,7 @@ namespace Vocaluxe.Menu
             }
 
             _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EAlignment>(item + "/Align", navigator, ref _Align);
+            CHelper.TryGetEnumValueFromXML<EHAlignment>(item + "/HAlign", navigator, ref _HAlign);
             _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EStyle>(item + "/Style", navigator, ref _Style);
             _ThemeLoaded &= CHelper.GetValueFromXML(item + "/Font", navigator, ref _Fon, "Normal");
 
@@ -437,6 +457,7 @@ namespace Vocaluxe.Menu
             Text = _Theme.Text;
             Fon = _Fon;
             Align = _Align;
+            HAlign = _HAlign;
             Style = _Style;
 
             if (_ThemeLoaded)
@@ -505,8 +526,11 @@ namespace Vocaluxe.Menu
                     writer.WriteElementString("SA", SColor.A.ToString("#0.00"));
                 }
 
-                writer.WriteComment("<Align>: Text align: " + CConfig.ListStrings(Enum.GetNames(typeof(EAlignment))));
+                writer.WriteComment("<Align>: Text align horizontal: " + CConfig.ListStrings(Enum.GetNames(typeof(EAlignment))));
                 writer.WriteElementString("Align", Enum.GetName(typeof(EAlignment), Align));
+
+                writer.WriteComment("<HAlign>: Text align vertical (on downsizing): " + CConfig.ListStrings(Enum.GetNames(typeof(EHAlignment))));
+                writer.WriteElementString("HAlign", Enum.GetName(typeof(EHAlignment), HAlign));
 
                 writer.WriteComment("<Style>: Text style: " + CConfig.ListStrings(Enum.GetNames(typeof(EStyle))));
                 writer.WriteElementString("Style", Enum.GetName(typeof(EStyle), Style));
@@ -652,7 +676,22 @@ namespace Vocaluxe.Menu
             while (bounds.Width > Bounds.W)
             {
                 h -= 0.2f;
-                y += 0.1f;
+
+                switch (HAlign)
+                {
+                    case EHAlignment.Top:
+                        //nothing to do
+                        break;
+                    case EHAlignment.Center:
+                        y += 0.1f;
+                        break;
+                    case EHAlignment.Buttom:
+                        y += 0.2f;
+                        break;
+                    default:
+                        break;
+                }
+                
                 bounds = CDraw.GetTextBounds(this, h);
             }
 
@@ -667,6 +706,7 @@ namespace Vocaluxe.Menu
                 default:
                     break;
             }
+                       
 
             SColorF CurrentColor = new SColorF(Color);
             if (Selected)
@@ -740,7 +780,22 @@ namespace Vocaluxe.Menu
             while (bounds.Width > Bounds.W)
             {
                 h -= 0.2f;
-                y += 0.1f;
+
+                switch (HAlign)
+                {
+                    case EHAlignment.Top:
+                        //nothing to do
+                        break;
+                    case EHAlignment.Center:
+                        y += 0.1f;
+                        break;
+                    case EHAlignment.Buttom:
+                        y += 0.2f;
+                        break;
+                    default:
+                        break;
+                }
+
                 bounds = CFonts.GetTextBounds(this, h);
             }
 
