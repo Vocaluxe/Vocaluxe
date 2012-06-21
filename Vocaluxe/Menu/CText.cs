@@ -680,13 +680,13 @@ namespace Vocaluxe.Menu
                 switch (HAlign)
                 {
                     case EHAlignment.Top:
-                        //nothing to do
+                        y += 0.05f;
                         break;
                     case EHAlignment.Center:
                         y += 0.1f;
                         break;
                     case EHAlignment.Bottom:
-                        y += 0.2f;
+                        y += 0.15f;
                         break;
                     default:
                         break;
@@ -780,17 +780,16 @@ namespace Vocaluxe.Menu
             while (bounds.Width > Bounds.W)
             {
                 h -= 0.2f;
-
                 switch (HAlign)
                 {
                     case EHAlignment.Top:
-                        //nothing to do
+                        y += 0.05f;
                         break;
                     case EHAlignment.Center:
                         y += 0.1f;
                         break;
                     case EHAlignment.Bottom:
-                        y += 0.2f;
+                        y += 0.15f;
                         break;
                     default:
                         break;
