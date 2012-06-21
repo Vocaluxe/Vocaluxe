@@ -707,7 +707,7 @@ namespace Vocaluxe.Base
         /// <summary>
         /// Loads theme fonts from skin file
         /// </summary>
-        public static void LoadThemeFonts(string ThemeName, string SkinFolder, XPathNavigator navigator)
+        public static void LoadThemeFonts(string ThemeName, string FontFolder, XPathNavigator navigator)
         {
             string value = string.Empty;
             int i = 1;
@@ -723,7 +723,7 @@ namespace Vocaluxe.Base
 
                 ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileNormal", navigator, ref value, value);
                 sf.FileNormal = value;
-                value = Path.Combine(SkinFolder, Path.Combine(sf.Folder, value));
+                value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 CFont f = new CFont(value);
                 sf.Normal = f;
                 
@@ -733,19 +733,19 @@ namespace Vocaluxe.Base
                 
                 ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileItalic", navigator, ref value, value);
                 sf.FileItalic = value;
-                value = Path.Combine(SkinFolder, Path.Combine(sf.Folder, value));
+                value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 f = new CFont(value);
                 sf.Italic = f;
 
                 ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileBold", navigator, ref value, value);
                 sf.FileBold = value;
-                value = Path.Combine(SkinFolder, Path.Combine(sf.Folder, value));
+                value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 f = new CFont(value);
                 sf.Bold = f;
 
                 ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileBoldItalic", navigator, ref value, value);
                 sf.FileBoldItalic = value;
-                value = Path.Combine(SkinFolder, Path.Combine(sf.Folder, value));
+                value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 f = new CFont(value);
                 sf.BoldItalic = f;
 
