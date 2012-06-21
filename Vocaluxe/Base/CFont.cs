@@ -27,7 +27,7 @@ namespace Vocaluxe.Base
     {
         Top,
         Center,
-        Buttom
+        Bottom
     }
 
     public enum EStyle

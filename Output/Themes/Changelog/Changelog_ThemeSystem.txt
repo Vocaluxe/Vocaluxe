@@ -7,7 +7,7 @@ Version 5 (yes it's still 5!):
 Added:
 <HAlign> to Texts (horizontal align)
 
-It's optional. Possible values: Top, Center, Buttom (default: Center)
+It's optional. Possible values: Top, Center, Bottom (default: Center)
 It's for downsizing only (if the text-width reaches MaxW).
 
 

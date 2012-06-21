@@ -685,7 +685,7 @@ namespace Vocaluxe.Menu
                     case EHAlignment.Center:
                         y += 0.1f;
                         break;
-                    case EHAlignment.Buttom:
+                    case EHAlignment.Bottom:
                         y += 0.2f;
                         break;
                     default:
@@ -789,7 +789,7 @@ namespace Vocaluxe.Menu
                     case EHAlignment.Center:
                         y += 0.1f;
                         break;
-                    case EHAlignment.Buttom:
+                    case EHAlignment.Bottom:
                         y += 0.2f;
                         break;
                     default:
