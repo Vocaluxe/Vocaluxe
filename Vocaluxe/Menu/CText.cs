@@ -688,26 +688,27 @@ namespace Vocaluxe.Menu
 
             RectangleF bounds = CDraw.GetTextBounds(this);
 
-            while (bounds.Width > Bounds.W)
+            if (bounds.Width > Bounds.W && Bounds.W > 0f && bounds.Width > 0f)
             {
-                h -= 0.2f;
-
+                float factor = Bounds.W / bounds.Width;
+                float step = h * (1 - factor);
+                h *= factor;
                 switch (HAlign)
                 {
                     case EHAlignment.Top:
-                        y += 0.05f;
+                        y += step * 0.25f;
                         break;
                     case EHAlignment.Center:
-                        y += 0.1f;
+                        y += step * 0.50f;
                         break;
                     case EHAlignment.Bottom:
-                        y += 0.15f;
+                        y += step * 0.75f;
                         break;
                     default:
                         break;
                 }
-                
-                bounds = CDraw.GetTextBounds(this, h);
+
+                bounds = CFonts.GetTextBounds(this, h);
             }
 
             switch (Align)
@@ -792,19 +793,21 @@ namespace Vocaluxe.Menu
             float y = Y;
             RectangleF bounds = CFonts.GetTextBounds(this);
 
-            while (bounds.Width > Bounds.W)
+            if (bounds.Width > Bounds.W && Bounds.W > 0f && bounds.Width > 0f)
             {
-                h -= 0.2f;
+                float factor = Bounds.W / bounds.Width;
+                float step = h * (1 - factor);
+                h *= factor ;
                 switch (HAlign)
                 {
                     case EHAlignment.Top:
-                        y += 0.05f;
+                        y += step * 0.25f;
                         break;
                     case EHAlignment.Center:
-                        y += 0.1f;
+                        y += step * 0.50f;
                         break;
                     case EHAlignment.Bottom:
-                        y += 0.15f;
+                        y += step * 0.75f;
                         break;
                     default:
                         break;
