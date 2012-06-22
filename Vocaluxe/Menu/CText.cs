@@ -601,7 +601,22 @@ namespace Vocaluxe.Menu
 
             if (Reflection)
             {
-                CFonts.DrawTextReflection(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace, ReflectionHeight);
+                float sFactor = 0f;
+                switch (HAlign)
+                {
+                    case EHAlignment.Top:
+                        sFactor = (Height - _DrawPosition.tH) * 1.5f;
+                        break;
+                    case EHAlignment.Center:
+                        sFactor = (Height - _DrawPosition.tH) * 1.0f;
+                        break;
+                    case EHAlignment.Bottom:
+                        sFactor = (Height - _DrawPosition.tH) * 0.5f;
+                        break;
+                    default:
+                        break;
+                }
+                CFonts.DrawTextReflection(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace + sFactor, ReflectionHeight);
             }
 
             if (Selected && (CSettings.GameState == EGameState.EditTheme))
