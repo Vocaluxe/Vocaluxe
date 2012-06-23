@@ -749,25 +749,26 @@ namespace Vocaluxe.Menu
         {
             if (!CSettings.TabNavigation)
             {
-                if (!_IsHighlighted())
-                    _NextInteraction(KeyEvent);
-                else
+                if (KeyEvent.Key == Keys.Left)
                 {
-                    if (KeyEvent.Key == Keys.Left)
+                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != Modifier.Shift)
                         PrevElement();
-
-                    if (KeyEvent.Key == Keys.Right)
-                        NextElement();
-
-                    if (KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down)
-                    {
-                        _ToggleHighlighted();
+                    else
                         _NextInteraction(KeyEvent);
-                    }
                 }
 
-                if (KeyEvent.Key == Keys.Enter)
-                    _ToggleHighlighted();
+                if (KeyEvent.Key == Keys.Right)
+                {
+                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != Modifier.Shift)
+                        NextElement();
+                    else
+                        _NextInteraction(KeyEvent);
+                }
+
+                if (KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down)
+                {
+                    _NextInteraction(KeyEvent);
+                }
             }
             else
             {
@@ -1401,9 +1402,12 @@ namespace Vocaluxe.Menu
                 // select the new element
                 if (Directions[direction].Key == Key.Key)
                 {
+                    _UnsetHighlighted(_Selection);
                     _UnsetSelected();
+
                     _Selection = element;
                     _SetSelected();
+                    _SetHighlighted(_Selection);
                 }
             }
         }

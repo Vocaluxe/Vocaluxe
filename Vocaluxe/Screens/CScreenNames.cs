@@ -302,7 +302,7 @@ namespace Vocaluxe.Screens
                             CGraphics.FadeTo(EScreens.ScreenSong);
                         }
 
-                        if (!processed && Buttons[htButtons(ButtonStart)].Selected)
+                        if (!processed /* && Buttons[htButtons(ButtonStart)].Selected */)
                         {
                             processed = true;
                             StartSong();
