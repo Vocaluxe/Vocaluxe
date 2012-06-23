@@ -1387,7 +1387,7 @@ namespace Vocaluxe.Menu
 
             for (int i = 0; i < 4; i++)
             {
-                if (i != mute && (stages[i] < stage || (stages[i] == stage && Directions[i].Key == Key.Key)))
+                if (i != mute && elements[i] != _Selection && (stages[i] < stage || (stages[i] == stage && Directions[i].Key == Key.Key)))
                 {
                     stage = stages[i];
                     element = elements[i];
@@ -1398,6 +1398,7 @@ namespace Vocaluxe.Menu
 
             if (direction != -1)
             {
+                // select the new element
                 if (Directions[direction].Key == Key.Key)
                 {
                     _UnsetSelected();
@@ -1419,7 +1420,7 @@ namespace Vocaluxe.Menu
                 if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i))
                 {
                     SRectF targetRect = _GetRect(i);
-                    float dist = _GetDistance90(Key, actualRect, targetRect);
+                    float dist = _GetDistanceDirect(Key, actualRect, targetRect);
                     if (dist >= 0f && dist < Distance)
                     {
                         Distance = dist;
@@ -1485,7 +1486,7 @@ namespace Vocaluxe.Menu
             return min;
         }
 
-        private float _GetDistance90(KeyEvent Key, SRectF actualRect, SRectF targetRect)
+        private float _GetDistanceDirect(KeyEvent Key, SRectF actualRect, SRectF targetRect)
         {
             PointF source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
             PointF dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
@@ -1496,22 +1497,22 @@ namespace Vocaluxe.Menu
             switch (Key.Key)
             {
                 case Keys.Up:
-                    if (vector.Y < 0f && (vector.Y <= vector.X && vector.X <= 0 || -vector.Y >= vector.X && vector.X >= 0f))
+                    if (vector.Y < 0f && (targetRect.X + targetRect.W > actualRect.X || actualRect.X + actualRect.W > targetRect.X))
                         inDirection = true;
                     break;
 
                 case Keys.Down:
-                    if (vector.Y > 0f && (vector.Y >= vector.X && vector.X >= 0 || vector.Y >= -vector.X && vector.X <= 0f))
+                    if (vector.Y > 0f && (targetRect.X + targetRect.W > actualRect.X || actualRect.X + actualRect.W > targetRect.X))
                         inDirection = true;
                     break;
 
                 case Keys.Left:
-                    if (vector.X < 0f && (vector.X <= vector.Y && vector.Y <= 0 || -vector.X >= vector.Y && vector.Y >= 0f))
+                    if (vector.X < 0f && (targetRect.Y + targetRect.H > actualRect.Y || actualRect.Y + actualRect.H > targetRect.Y))
                         inDirection = true;
                     break;
 
                 case Keys.Right:
-                    if (vector.X > 0f && (vector.X >= vector.Y && vector.Y >= 0 || vector.X >= -vector.Y && vector.Y <= 0f))
+                    if (vector.X > 0f && (targetRect.Y + targetRect.H > actualRect.Y || actualRect.Y + actualRect.H > targetRect.Y))
                         inDirection = true;
                     break;
 
