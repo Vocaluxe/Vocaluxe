@@ -218,18 +218,25 @@ namespace Vocaluxe.Base
                 _Player[i].SongFinished = false;
             }
             _OldBeatD = -100;
+            _Beat = -100;
+            _CurrentBeat = -100;
+            _CurrentBeatD = -100;
         }
 
         public static void UpdatePoints(float Time)
         {
-            bool DEBUG_HIT = false;
+            bool DEBUG_HIT = true;
 
             CSong song = _GameMode.GetSong();
 
             if (song == null)
                 return;
 
-            _Beat = GetBeatFromTime(Time, song.BPM, song.Gap);
+            float b = GetBeatFromTime(Time, song.BPM, song.Gap);
+            if (b <= _Beat)
+                return;
+
+            _Beat = b;
             _CurrentBeat = (int)Math.Floor(_Beat);
 
             _MidBeatD = -0.5f + GetBeatFromTime(Time, song.BPM, song.Gap + CConfig.MicDelay/1000f);
