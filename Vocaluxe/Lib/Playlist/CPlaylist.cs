@@ -5,8 +5,9 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 
-using Vocaluxe.Lib.Song;
 using Vocaluxe.Base;
+using Vocaluxe.GameModes;
+using Vocaluxe.Lib.Song;
 
 
 namespace Vocaluxe.Lib.Playlist
@@ -14,17 +15,17 @@ namespace Vocaluxe.Lib.Playlist
     public class CPlaylistSong
     {
         public int SongID;
-        public GameModes.EGameMode gm;
+        public EGameMode GameMode;
 
-        public CPlaylistSong(int SongID, GameModes.EGameMode gm)
+        public CPlaylistSong(int SongID, EGameMode gm)
         {
             this.SongID = SongID;
-            this.gm = gm;
+            this.GameMode = gm;
         }
 
         public CPlaylistSong()
         {
-            gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+            GameMode = EGameMode.TR_GAMEMODE_NORMAL;
         }
     }
 
@@ -108,21 +109,19 @@ namespace Vocaluxe.Lib.Playlist
             writer.WriteStartElement("Songs");
             for (i = 0; i < Songs.Count; i++)
             {
-                CSong[] songs = CSongs.AllSongs;
-                CSong song = new CSong();
-                for (int s = 0; i <= songs.Length; s++)
+                CSong song = CSongs.GetSong(Songs[i].SongID);
+                if (song != null)
                 {
-                    if (songs[s].ID == Songs[i].SongID)
-                    {
-                        song = songs[s];
-                        break;
-                    }
+                    writer.WriteStartElement("Song" + (i + 1).ToString());
+                    writer.WriteElementString("Artist", song.Artist);
+                    writer.WriteElementString("Title", song.Title);
+                    writer.WriteElementString("GameMode", Enum.GetName(typeof(EGameMode), Songs[i].GameMode));
+                    writer.WriteEndElement();
                 }
-                writer.WriteStartElement("Song" + (i + 1).ToString());
-                writer.WriteElementString("Artist", song.Artist);
-                writer.WriteElementString("Title", song.Title);
-                writer.WriteElementString("GameMode", Enum.GetName(typeof(GameModes.EGameMode), Songs[i].gm));
-                writer.WriteEndElement();
+                else
+                {
+                    CLog.LogError("Playlist.SavePlaylist(): Can't find Song. This should never happen!");
+                }
             }
             writer.WriteEndElement();
 
@@ -169,15 +168,16 @@ namespace Vocaluxe.Lib.Playlist
                     List<string> songs = CHelper.GetValuesFromXML("Songs", navigator);
                     string artist = String.Empty;
                     string title = String.Empty;
-                    GameModes.EGameMode gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+                    EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
 
                     for (int i = 0; i < songs.Count; i++)
                     {
                         CHelper.GetValueFromXML("//root/Songs/" + songs[i] + "/Artist", navigator, ref artist, String.Empty);
                         CHelper.GetValueFromXML("//root/Songs/" + songs[i] + "/Title", navigator, ref title, String.Empty);
-                        CHelper.TryGetEnumValueFromXML<GameModes.EGameMode>("//root/Songs/" + songs[i] + "/GameMode", navigator, ref gm);
+                        CHelper.TryGetEnumValueFromXML<EGameMode>("//root/Songs/" + songs[i] + "/GameMode", navigator, ref gm);
 
                         CPlaylistSong song = new CPlaylistSong();
+                        song.SongID = -1;
                         CSong[] AllSongs = CSongs.AllSongs;
 
                         for (int s = 0; s < AllSongs.Length; s++)
@@ -189,9 +189,11 @@ namespace Vocaluxe.Lib.Playlist
                             }
                         }
 
-                        song.gm = gm;
-
-                        Songs.Add(song);
+                        if (song.SongID != -1)
+                        {
+                            song.GameMode = gm;
+                            Songs.Add(song);
+                        }
                     }
                 }
                 else
