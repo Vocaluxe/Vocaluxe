@@ -50,15 +50,15 @@ namespace Vocaluxe.Screens
                         break;
                     
                     case Keys.F:
-                        FadeAndPause();
+                        //FadeAndPause();
                         break;
 
                     case Keys.S:
-                        PlayFile();
+                        //PlayFile();
                         break;
 
                     case Keys.P:
-                        PauseFile();
+                        //PauseFile();
                         break;
                 }
             }

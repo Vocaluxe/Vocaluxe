@@ -16,6 +16,12 @@ using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Menu
 {
+    struct ZSort
+    {
+        public int ID;
+        public float z;
+    }
+
     abstract class CMenu
     {        
         private List<CInteraction> _Interactions;
@@ -29,6 +35,7 @@ namespace Vocaluxe.Menu
         private List<CSongMenu> _SongMenus;
         private List<CLyric> _Lyrics;
         private List<CSingNotes> _SingNotes;
+        private List<CNameSelection> _NameSelections;
 
         private Hashtable _htBackgrounds;
         private Hashtable _htStatics;
@@ -38,6 +45,7 @@ namespace Vocaluxe.Menu
         private Hashtable _htLyrics;
         private Hashtable _htSelectSlides;
         private Hashtable _htSingNotes;
+        private Hashtable _htNameSelections;
 
 
         private int _PrevMouseX;
@@ -58,6 +66,14 @@ namespace Vocaluxe.Menu
         protected string[] _ThemeLyrics;
         protected string[] _ThemeSelectSlides;
         protected string[] _ThemeSingNotes;
+        protected string[] _ThemeNameSelections;
+
+        protected SRectF _ScreenArea;
+
+        public SRectF ScreenArea
+        {
+            get { return _ScreenArea; }
+        }
 
         public int ThemeScreenVersion
         {
@@ -82,6 +98,7 @@ namespace Vocaluxe.Menu
             _SongMenus = new List<CSongMenu>();
             _Lyrics = new List<CLyric>();
             _SingNotes = new List<CSingNotes>();
+            _NameSelections = new List<CNameSelection>();
 
             _htBackgrounds = new Hashtable();
             _htStatics = new Hashtable();
@@ -91,6 +108,7 @@ namespace Vocaluxe.Menu
             _htLyrics = new Hashtable();
             _htSelectSlides = new Hashtable();
             _htSingNotes = new Hashtable();
+            _htNameSelections = new Hashtable();
 
             _PrevMouseX = 0;
             _PrevMouseY = 0;
@@ -99,6 +117,7 @@ namespace Vocaluxe.Menu
             _MouseDY = 0;
 
             _Active = false;
+            _ScreenArea = new SRectF(0f, 0f, CSettings.iRenderW, CSettings.iRenderH, 0f);
 
             _ThemeName = String.Empty;
             _ThemeBackgrounds = null;
@@ -109,6 +128,7 @@ namespace Vocaluxe.Menu
             _ThemeLyrics = null;
             _ThemeSelectSlides = null;
             _ThemeSingNotes = null;
+            _ThemeNameSelections = null;
 
         }
         #region ThemeHandler
@@ -275,6 +295,22 @@ namespace Vocaluxe.Menu
                         }
                     }
                 }
+
+                if (_ThemeNameSelections != null)
+                {
+                    for (int i = 0; i < _ThemeNameSelections.Length; i++)
+                    {
+                        CNameSelection nsel = new CNameSelection();
+                        if (nsel.LoadTheme("//root/" + _ThemeName, _ThemeNameSelections[i], navigator, SkinIndex))
+                        {
+                            _htNameSelections.Add(_ThemeNameSelections[i], AddNameSelection(nsel));
+                        }
+                        else
+                        {
+                            CLog.LogError("Can't load NameSelection \"" + _ThemeNameSelections[i] + "\" in screen " + _ThemeName);
+                        }
+                    }
+                }
             }
             else
             {
@@ -344,6 +380,12 @@ namespace Vocaluxe.Menu
                 _SingNotes[i].SaveTheme(writer);
             }
 
+            // NameSelections
+            for (int i = 0; i < _NameSelections.Count; i++)
+            {
+                _NameSelections[i].SaveTheme(writer);
+            }
+
             writer.WriteEndElement();
 
             // End of File
@@ -395,6 +437,11 @@ namespace Vocaluxe.Menu
             {
                 sn.ReloadTextures();
             }
+
+            foreach (CNameSelection ns in _NameSelections)
+            {
+                ns.ReloadTextures();
+            }
         }
 
         public virtual void UnloadTextures()
@@ -438,6 +485,13 @@ namespace Vocaluxe.Menu
             {
                 sn.UnloadTextures();
             }
+
+            foreach (CNameSelection ns in _NameSelections)
+            {
+                ns.UnloadTextures();
+            }
+
+
         }
 
         public virtual void ReloadTheme()
@@ -487,6 +541,11 @@ namespace Vocaluxe.Menu
         public List<CSingNotes> GetSingNotes()
         {
             return _SingNotes;
+        }
+
+        public List<CNameSelection> GetNameSelections()
+        {
+            return _NameSelections;
         }
         #endregion GetLists
 
@@ -553,6 +612,14 @@ namespace Vocaluxe.Menu
             get
             {
                 return _SingNotes.ToArray();
+            }
+        }
+
+        public CNameSelection[] NameSelections
+        {
+            get
+            {
+                return _NameSelections.ToArray();
             }
         }
         #endregion Get Arrays
@@ -658,6 +725,19 @@ namespace Vocaluxe.Menu
             catch (Exception)
             {
                 CLog.LogError("Can't find SingBar Element \"" + key + "\" in Screen " + _ThemeName);
+                throw;
+            }
+        }
+
+        public int htNameSelections(string key)
+        {
+            try
+            {
+                return (int)_htNameSelections[key];
+            }
+            catch (Exception)
+            {
+                CLog.LogError("Can't find NameSelection Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -862,13 +942,12 @@ namespace Vocaluxe.Menu
         {
             ResumeBG();
             _Active = true;
-            CBackgroundMusic.Play();
         }
 
         public virtual void OnClose()
         {
             PauseBG();
-            CBackgroundMusic.Pause();
+            _Active = false;
         }
         #endregion MenuHandler
 
@@ -906,22 +985,39 @@ namespace Vocaluxe.Menu
 
         public void DrawFG()
         {
-            foreach (CStatic stat in _Statics)
-                stat.Draw();
+            if (_Interactions.Count <= 0)
+                return;
+            
+            List<ZSort> items = new List<ZSort>();
 
-            foreach (CSingNotes sn in _SingNotes)
+            for (int i = 0; i < _Interactions.Count; i++)
             {
-                // TODO!!!!!
+                if (_IsVisible(i) && (
+                    _Interactions[i].Type == EType.TButton ||
+                    _Interactions[i].Type == EType.TSelectSlide ||
+                    _Interactions[i].Type == EType.TStatic ||
+                    _Interactions[i].Type == EType.TNameSelection ||
+                    _Interactions[i].Type == EType.TText ||
+                    _Interactions[i].Type == EType.TSongMenu))
+                {
+                    ZSort zs = new ZSort();
+                    zs.ID = i;
+                    zs.z = _GetZValue(i);
+                    items.Add(zs);
+                }
             }
 
-            foreach (CButton button in _Buttons)
-                button.Draw();
+            if (items.Count <= 0)
+                return;
 
-            foreach (CSelectSlide slide in _SelectSlides)
-                slide.Draw();
+                
+            items.Sort(delegate(ZSort s1, ZSort s2) { return (s2.z.CompareTo(s1.z)); });
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                _DrawInteraction(items[i].ID);
+            }
             
-            foreach (CText text in _Texts)
-                text.Draw();
         }
         #endregion Drawing
 
@@ -929,57 +1025,64 @@ namespace Vocaluxe.Menu
         public int AddBackground(CBackground bg)
         {
             _Backgrounds.Add(bg);
-            AddInteraction(_Backgrounds.Count - 1, EType.TBackground);
+            _AddInteraction(_Backgrounds.Count - 1, EType.TBackground);
             return _Backgrounds.Count - 1;
         }
 
         public int AddButton(CButton button)
         {
             _Buttons.Add(button);
-            AddInteraction(_Buttons.Count - 1, EType.TButton);
+            _AddInteraction(_Buttons.Count - 1, EType.TButton);
             return _Buttons.Count - 1;
         }
 
         public int AddSelectSlide(CSelectSlide slide)
         {
             _SelectSlides.Add(slide);
-            AddInteraction(_SelectSlides.Count - 1, EType.TSelectSlide);
+            _AddInteraction(_SelectSlides.Count - 1, EType.TSelectSlide);
             return _SelectSlides.Count - 1;
         }
 
         public int AddStatic(CStatic stat)
         {
             _Statics.Add(stat);
-            AddInteraction(_Statics.Count - 1, EType.TStatic);
+            _AddInteraction(_Statics.Count - 1, EType.TStatic);
             return _Statics.Count - 1;
         }
 
         public int AddText(CText text)
         {
             _Texts.Add(text);
-            AddInteraction(_Texts.Count - 1, EType.TText);
+            _AddInteraction(_Texts.Count - 1, EType.TText);
             return _Texts.Count - 1;
         }
 
         public int AddSongMenu(CSongMenu songmenu)
         {
             _SongMenus.Add(songmenu);
-            AddInteraction(_SongMenus.Count - 1, EType.TSongMenu);
+            _AddInteraction(_SongMenus.Count - 1, EType.TSongMenu);
             return _SongMenus.Count - 1;
         }
 
         public int AddLyric(CLyric lyric)
         {
             _Lyrics.Add(lyric);
-            AddInteraction(_Lyrics.Count - 1, EType.TLyric);
+            _AddInteraction(_Lyrics.Count - 1, EType.TLyric);
             return _Lyrics.Count - 1;
         }
 
         public int AddSingNote(CSingNotes sn)
         {
             _SingNotes.Add(sn);
-            AddInteraction(_SingNotes.Count - 1, EType.TSingNote);
+            _AddInteraction(_SingNotes.Count - 1, EType.TSingNote);
             return _SingNotes.Count - 1;
+        }
+
+        public int AddNameSelection(CNameSelection ns)
+        {
+            _NameSelections.Add(ns);
+            _AddInteraction(_NameSelections.Count - 1, EType.TNameSelection);
+            return _NameSelections.Count - 1;
         }
         #endregion Elements
 
@@ -1125,6 +1228,10 @@ namespace Vocaluxe.Menu
                     if (CHelper.IsInBounds(_Lyrics[interact.Num].Rect, x, y))
                         return true;
                     break;
+                case EType.TNameSelection:
+                    if (CHelper.IsInBounds(_NameSelections[interact.Num].Rect, x, y))
+                        return true;
+                    break;
             } 
             return false;
         }
@@ -1145,7 +1252,38 @@ namespace Vocaluxe.Menu
                     return _Texts[interact.Num].Z;
                 case EType.TLyric:
                     return _Lyrics[interact.Num].Rect.Z;
+                case EType.TNameSelection:
+                    return _NameSelections[interact.Num].Rect.Z;
             }
+            return CSettings.zFar;
+        }
+
+        private float _GetZValue(int interaction)
+        {
+            switch (_Interactions[interaction].Type)
+            {
+                case EType.TButton:
+                    return _Buttons[_Interactions[interaction].Num].Rect.Z;
+
+                case EType.TSelectSlide:
+                    return _SelectSlides[_Interactions[interaction].Num].Rect.Z;
+
+                case EType.TStatic:
+                    return _Statics[_Interactions[interaction].Num].Rect.Z;
+
+                case EType.TText:
+                    return _Texts[_Interactions[interaction].Num].Z;
+
+                case EType.TSongMenu:
+                    return _SongMenus[_Interactions[interaction].Num].Rect.Z;
+
+                case EType.TLyric:
+                    return _Lyrics[_Interactions[interaction].Num].Rect.Z;
+
+                case EType.TNameSelection:
+                    return _NameSelections[_Interactions[interaction].Num].Rect.Z;
+            }
+
             return CSettings.zFar;
         }
 
@@ -1459,6 +1597,9 @@ namespace Vocaluxe.Menu
                 case EType.TLyric:
                     _Lyrics[_Interactions[_Selection].Num].Selected = true;
                     break;
+                case EType.TNameSelection:
+                    _NameSelections[_Interactions[_Selection].Num].Selected = true;
+                    break;
             }
         }
 
@@ -1483,6 +1624,9 @@ namespace Vocaluxe.Menu
                     break;
                 case EType.TLyric:
                     _Lyrics[_Interactions[_Selection].Num].Selected = false;
+                    break;
+                case EType.TNameSelection:
+                    _NameSelections[_Interactions[_Selection].Num].Selected = false;
                     break;
             }
         }
@@ -1512,6 +1656,9 @@ namespace Vocaluxe.Menu
                 case EType.TLyric:
                     //_Lyrics[_Interactions[selection].Num].Selected = true;
                     break;
+                case EType.TNameSelection:
+                    //_NameSelections[_Interactions[selection].Num].Selected = true;
+                    break;
             }
         }
 
@@ -1540,6 +1687,9 @@ namespace Vocaluxe.Menu
                 case EType.TLyric:
                     //_Lyrics[_Interactions[selection].Num].Selected = false;
                     break;
+                case EType.TNameSelection:
+                    //_NameSelections[_Interactions[selection].Num].Selected = false;
+                    break;
             }
         }
 
@@ -1567,7 +1717,6 @@ namespace Vocaluxe.Menu
 
         private bool _IsVisible(int interaction)
         {
-            bool Result = false;
             switch (_Interactions[interaction].Type)
             {
                 case EType.TButton:
@@ -1587,9 +1736,12 @@ namespace Vocaluxe.Menu
 
                 case EType.TLyric:
                     return _Lyrics[_Interactions[interaction].Num].Visible;
+
+                case EType.TNameSelection:
+                    return _NameSelections[_Interactions[interaction].Num].Visible;
             }
 
-            return Result;
+            return false;
         }
 
         private SRectF _GetRect(int interaction)
@@ -1614,18 +1766,56 @@ namespace Vocaluxe.Menu
 
                 case EType.TLyric:
                     return _Lyrics[_Interactions[interaction].Num].Rect;
+
+                case EType.TNameSelection:
+                    return _NameSelections[_Interactions[interaction].Num].Rect;
             }
 
             return Result;
         }
 
-        private void AddInteraction(int num, EType type)
+        private void _AddInteraction(int num, EType type)
         {
             _Interactions.Add(new CInteraction(num, type));
             if (!_Interactions[_Selection].ThemeEditorOnly)
                 _SetSelected();
             else
                 _NextInteraction();
+        }
+
+        private void _DrawInteraction(int interaction)
+        {
+            switch (_Interactions[interaction].Type)
+            {
+                case EType.TButton:
+                    _Buttons[_Interactions[interaction].Num].Draw();
+                    break;
+
+                case EType.TSelectSlide:
+                    _SelectSlides[_Interactions[interaction].Num].Draw();
+                    break;
+
+                case EType.TStatic:
+                    _Statics[_Interactions[interaction].Num].Draw();
+                    break;
+
+                case EType.TText:
+                    _Texts[_Interactions[interaction].Num].Draw();
+                    break;
+
+                case EType.TSongMenu:
+                    _SongMenus[_Interactions[interaction].Num].Draw();
+                    break;
+
+                case EType.TNameSelection:
+                    _NameSelections[_Interactions[interaction].Num].Draw();
+                    break;
+                
+                //TODO:
+                //case EType.TLyric:
+                //    _Lyrics[_Interactions[interaction].Num].Draw(0);
+                //    break;
+            }
         }
 
         #endregion InteractionHandling
@@ -1660,6 +1850,10 @@ namespace Vocaluxe.Menu
                     case EType.TLyric:
                         _Lyrics[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
+
+                    case EType.TNameSelection:
+                        _NameSelections[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
+                        break;
                 }
             }
         }      
@@ -1692,6 +1886,10 @@ namespace Vocaluxe.Menu
 
                     case EType.TLyric:
                         _Lyrics[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
+                        break;
+
+                    case EType.TNameSelection:
+                        _NameSelections[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
                 }
             }

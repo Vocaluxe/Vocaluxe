@@ -125,6 +125,7 @@
     <Compile Include="Base\CGame.cs" />
     <Compile Include="Base\CLanguage.cs" />
     <Compile Include="Base\CLog.cs" />
+    <Compile Include="Base\CPlaylists.cs" />
     <Compile Include="Base\CProfiles.cs" />
     <Compile Include="Base\CUtility.cs" />
     <Compile Include="Base\CSettings.cs" />
@@ -132,9 +133,9 @@
     <Compile Include="Base\CTheme.cs" />
     <Compile Include="Base\CVideo.cs" />
     <Compile Include="GameModes\CGameMode.cs" />
-    <Compile Include="GameModes\CGameModeDuet.cs" />
-    <Compile Include="GameModes\CGameModeMedley.cs" />
-    <Compile Include="GameModes\CGameModeNormal.cs" />
+    <Compile Include="GameModes\CGameModeNormal.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GameModes\IGameMode.cs" />
     <Compile Include="Lib\Draw\CDirect3D.cs">
       <SubType>Form</SubType>
@@ -148,6 +149,7 @@
     </Compile>
     <Compile Include="Lib\Song\CNotes.cs" />
     <Compile Include="Lib\Song\CSong.cs" />
+    <Compile Include="Lib\Sound\CDirectSoundRecord.cs" />
     <Compile Include="Lib\Sound\COpenALPlay.cs" />
     <Compile Include="Lib\Sound\COpenALRecord.cs" />
     <Compile Include="Base\CSound.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="Menu\CBackground.cs" />
     <Compile Include="Menu\CButton.cs" />
     <Compile Include="Menu\CGraphics.cs" />
+    <Compile Include="Menu\CNameSelection.cs" />
     <Compile Include="Menu\CLyric.cs" />
     <Compile Include="Menu\CMenu.cs" />
     <Compile Include="Menu\CInteraction.cs" />
@@ -187,6 +190,7 @@
     <Compile Include="Program.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Screens\CPopupScreenPlayerControl.cs" />
     <Compile Include="Screens\CScreenCredits.cs" />
     <Compile Include="Screens\CScreenHighscore.cs" />
     <Compile Include="Screens\CScreenLoad.cs" />
@@ -194,6 +198,7 @@
     <Compile Include="Screens\CScreenNames.cs" />
     <Compile Include="Screens\CScreenOptions.cs" />
     <Compile Include="Screens\CScreenOptionsGame.cs" />
+    <Compile Include="Screens\CScreenOptionsLyrics.cs" />
     <Compile Include="Screens\CScreenProfiles.cs" />
     <Compile Include="Screens\CScreenScore.cs" />
     <Compile Include="Screens\CScreenSing.cs" />

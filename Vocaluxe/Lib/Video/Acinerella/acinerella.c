@@ -167,21 +167,6 @@ static int64_t io_seek(void *opaque, int64_t pos, int whence)
   return -1;
 }
 
-//uint64_t global_video_pkt_pts = AV_NOPTS_VALUE;
-
-int ac_get_buffer(struct AVCodecContext *c, AVFrame *pic) {
-  int ret = avcodec_default_get_buffer(c, pic);
-  uint64_t *pts = av_malloc(sizeof(uint64_t));
-  *pts = AV_NOPTS_VALUE;
-  pic->opaque = pts;
-  return ret;
-}
-
-void ac_release_buffer(struct AVCodecContext *c, AVFrame *pic){
-  if (pic) av_freep(&pic->opaque);
-  avcodec_default_release_buffer(c, pic);
-}
-
 lp_ac_proberesult CALL_CONVT ac_probe_input_buffer(
   void* buf,
   int bufsize,
@@ -533,7 +518,10 @@ void* ac_create_video_decoder(lp_ac_instance pacInstance, lp_ac_stream_info info
   if (!(pDecoder->pCodec = avcodec_find_decoder(pDecoder->pCodecCtx->codec_id))) {
     return NULL; //Codec could not have been found
   }
-  
+
+  pDecoder->pCodecCtx->thread_count = 1; //this is for HT CPUs, it should be
+										// tested if there is a better solution
+
   //Open codec
   if (avcodec_open2(pDecoder->pCodecCtx, pDecoder->pCodec, NULL) < 0) {
     return NULL; //Codec could not have been opened
@@ -635,36 +623,34 @@ double ac_sync_video(lp_ac_package pPackage, lp_ac_decoder pDec, AVFrame *src_fr
   return pts;
 }
 
-int ac_decode_video_package(lp_ac_package pPackage, lp_ac_video_decoder pDecoder, lp_ac_decoder pDec) {
-  if (((lp_ac_package_data)pPackage)->ffpackage.size <= 0)
-    return 0;
-	
+int ac_decode_video_package(lp_ac_package pPackage, lp_ac_video_decoder pDecoder, lp_ac_decoder pDec)
+{
   int finished = 0;
   double pts = 0;
+  int len = 0;
+  
+  AVPacket pkt_tmp = ((lp_ac_package_data)pPackage)->ffpackage;
+  
+  while (pkt_tmp.size > 0) {
+    len = avcodec_decode_video2(
+	  pDecoder->pCodecCtx, pDecoder->pFrame,
+	  &finished, &pkt_tmp);
+            
+	if (len < 0) {
+	  return 0;
+    }
 
+	pkt_tmp.size -= len;
+    pkt_tmp.data += len;
+  }
+  
+  /*
   avcodec_decode_video2(
     pDecoder->pCodecCtx, pDecoder->pFrame, &finished, 
     &(((lp_ac_package_data)pPackage)->ffpackage));
+  */
   
-  if (finished) {
-    if(((lp_ac_package_data)pPackage)->ffpackage.dts == AV_NOPTS_VALUE &&
-	  *(uint64_t*)pDecoder->pFrame->opaque != AV_NOPTS_VALUE ){
-	  pts = *(uint64_t*)pDecoder->pFrame->opaque;
-    } else if(((lp_ac_package_data)pPackage)->ffpackage.dts != AV_NOPTS_VALUE){
-      pts = ((lp_ac_package_data)pPackage)->ffpackage.dts;
-    } else {
-	  pts = 0;
-    }
-	
-	if(((lp_ac_data)pDec->pacInstance)->pFormatCtx->streams[pPackage->stream_index]->start_time != AV_NOPTS_VALUE){
-      pts -= ((lp_ac_data)pDec->pacInstance)->pFormatCtx->streams[pPackage->stream_index]->start_time;
-	}
-
-    pts *= av_q2d(((lp_ac_data)pDec->pacInstance)->pFormatCtx->streams[pPackage->stream_index]->time_base);
-	
-    pts = ac_sync_video(pPackage, pDec, pDecoder->pFrame, pts);
-	pDec->timecode = pts;
-
+  if (finished != 0) {
     pDecoder->pSwsCtx = sws_getCachedContext(pDecoder->pSwsCtx,
         pDecoder->pCodecCtx->width, pDecoder->pCodecCtx->height, pDecoder->pCodecCtx->pix_fmt,
         pDecoder->pCodecCtx->width, pDecoder->pCodecCtx->height, convert_pix_format(pDecoder->decoder.pacInstance->output_format),
@@ -678,6 +664,24 @@ int ac_decode_video_package(lp_ac_package pPackage, lp_ac_video_decoder pDecoder
         pDecoder->pCodecCtx->height, 
         pDecoder->pFrameRGB->data, 
         pDecoder->pFrameRGB->linesize);
+		
+	
+    if(pkt_tmp.dts == AV_NOPTS_VALUE &&
+	  *(uint64_t*)pDecoder->pFrame->opaque != AV_NOPTS_VALUE ){
+	  pts = *(uint64_t*)pDecoder->pFrame->opaque;
+    } else if(pkt_tmp.dts != AV_NOPTS_VALUE){
+      pts = pkt_tmp.dts;
+    }
+	
+	if(((lp_ac_data)pDec->pacInstance)->pFormatCtx->streams[pPackage->stream_index]->start_time != AV_NOPTS_VALUE){
+      pts -= ((lp_ac_data)pDec->pacInstance)->pFormatCtx->streams[pPackage->stream_index]->start_time;
+	}
+
+    pts *= av_q2d(((lp_ac_data)pDec->pacInstance)->pFormatCtx->streams[pPackage->stream_index]->time_base);
+	
+    pts = ac_sync_video(pPackage, pDec, pDecoder->pFrame, pts);
+	pDec->timecode = pts;
+		   
     return 1;
   }
   return 0;
@@ -795,11 +799,23 @@ int CALL_CONVT ac_drop_decode_package(lp_ac_package pPackage, lp_ac_decoder pDec
 int ac_drop_decode_video_package(lp_ac_package pPackage, lp_ac_video_decoder pDecoder, lp_ac_decoder pDec) {
   int finished;
   double pts;
+  int len = 0;
 
-  avcodec_decode_video2(
-    pDecoder->pCodecCtx, pDecoder->pFrame, &finished, 
-    &(((lp_ac_package_data)pPackage)->ffpackage));  
+  AVPacket pkt_tmp = ((lp_ac_package_data)pPackage)->ffpackage;
+  
+  while (pkt_tmp.size > 0) {
+    len = avcodec_decode_video2(
+	  pDecoder->pCodecCtx, pDecoder->pFrame,
+	  &finished, &pkt_tmp);
+            
+	if (len < 0) {
+	  return 0;
+    }
 
+	pkt_tmp.size -= len;
+    pkt_tmp.data += len;
+  }
+  
   if (finished) {
 	pts=0;
     //global_video_pkt_pts = ((lp_ac_package_data)pPackage)->ffpackage.pts;
@@ -860,11 +876,12 @@ int CALL_CONVT ac_get_frame(lp_ac_instance pacInstance, lp_ac_decoder pDecoder) 
 
 	lp_ac_package pPackage = ac_read_package(pacInstance);
 	int done = 0;
+	int pcount = 0;
 	while(done == 0 && pPackage != NULL){		
 		if (((lp_ac_package_data)pPackage)->package.stream_index == pDecoder->stream_index){
 			done = ac_decode_package(pPackage, pDecoder);
 			ac_free_package(pPackage);
-			
+			pcount++;
 			if (done == 0)
 				pPackage = ac_read_package(pacInstance);
 		} else {
@@ -876,7 +893,7 @@ int CALL_CONVT ac_get_frame(lp_ac_instance pacInstance, lp_ac_decoder pDecoder) 
 	if (done == 0)
 		return 0;
 	else
-		return 1;
+		return pcount;
 }
 
 int CALL_CONVT ac_skip_frames(lp_ac_instance pacInstance, lp_ac_decoder pDecoder, int num) {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -90,6 +91,7 @@ namespace Vocaluxe.Lib.Sound
                 CLog.LogError("Error initializing PortAudio: " + e.Message);
                 return false;
             }
+
             return true;
         }
 
@@ -101,6 +103,15 @@ namespace Vocaluxe.Lib.Sound
         public bool Start(SRecordDevice[] DeviceConfig)
         {
             if (!_initialized)
+                return false;
+
+            if (DeviceConfig == null)
+                return false;
+
+            if (_recHandle == null)
+                return false;
+
+            if (_recHandle.Length == 0)
                 return false;
 
             for (int i = 0; i < _Buffer.Length; i++)
@@ -142,7 +153,7 @@ namespace Vocaluxe.Lib.Sound
                         ref inputParams,
                         IntPtr.Zero,
                         44100,
-                        PortAudio.paFramesPerBufferUnspecified,
+                        882,
                         PortAudio.PaStreamFlags.paNoFlag,
                         _myRecProc,
                         new IntPtr(i))))
@@ -152,7 +163,6 @@ namespace Vocaluxe.Lib.Sound
                         return false;
                 }
             }
-
             return result;
         }
 
@@ -238,6 +248,22 @@ namespace Vocaluxe.Lib.Sound
                 return false;
 
             return _Buffer[Player].ToneValid;
+        }
+
+        public int NumHalfTones(int Player)
+        {
+            if (!_initialized)
+                return 0;
+
+            return _Buffer[Player].NumHalfTones;
+        }
+
+        public float[] ToneWeigth(int Player)
+        {
+            if (!_initialized)
+                return null;
+
+            return _Buffer[Player].ToneWeigth;
         }
 
         public SRecordDevice[] RecordDevices()

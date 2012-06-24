@@ -59,6 +59,8 @@ namespace Vocaluxe.Lib.Song
         public bool CalculateMedley = true;
         public float PreviewStart = 0f;
 
+        public int ShortEnd = 0;
+
         public Encoding Encoding = Encoding.Default;
         public string Folder = String.Empty;
         public string FolderName = String.Empty;
@@ -115,6 +117,9 @@ namespace Vocaluxe.Lib.Song
         public string Title = String.Empty;
         public string Artist = String.Empty;
 
+        public string TitleSorting = String.Empty;
+        public string ArtistSorting = String.Empty;
+
         public float Start = 0f;
         public float Finish = 0f;
         
@@ -160,6 +165,8 @@ namespace Vocaluxe.Lib.Song
 
             this.CalculateMedley = song.CalculateMedley;
             this.PreviewStart = song.PreviewStart;
+
+            this.ShortEnd = song.ShortEnd;
 
             this.Encoding = song.Encoding;
             this.Folder = song.Folder;
@@ -222,6 +229,11 @@ namespace Vocaluxe.Lib.Song
         public string GetMP3()
         {
             return Path.Combine(Folder, MP3FileName);
+        }
+
+        public string GetVideo()
+        {
+            return Path.Combine(Folder, VideoFileName);
         }
 
         public bool ReadTXTSong(string FilePath)
@@ -335,6 +347,18 @@ namespace Vocaluxe.Lib.Song
                                     {
                                         this.Artist = Value;
                                         HeaderFlags |= EHeaderFlags.Artist;
+                                    }
+                                    break;
+                                case "TITLE-ON-SORTING":
+                                    if (Value != String.Empty)
+                                    {
+                                        this.TitleSorting = Value;
+                                    }
+                                    break;
+                                case "ARTIST-ON-SORTING":
+                                    if (Value != String.Empty)
+                                    {
+                                        this.ArtistSorting = Value;
                                     }
                                     break;
                                 case "MP3":
@@ -508,6 +532,17 @@ namespace Vocaluxe.Lib.Song
 
             CheckFiles();
 
+            //Before saving this tags to .txt: Check, if ArtistSorting and Artist are equal, then don't save this tag.
+            if (this.ArtistSorting == "") 
+            {
+                this.ArtistSorting = this.Artist;
+            }
+
+            if (this.TitleSorting == "")
+            {
+                this.TitleSorting = this.Title;
+            }
+
             return true;
         }
 
@@ -557,9 +592,9 @@ namespace Vocaluxe.Lib.Song
                     TempC = (char)sr.Read();
                 } while ((TempC.CompareTo(':') != 0) && (TempC.CompareTo('F') != 0) && (TempC.CompareTo('*') != 0) && (TempC.CompareTo('P') != 0));
 
-                FileLineNo++;
                 while (!sr.EndOfStream && (TempC.CompareTo('E') != 0))
                 {
+                    FileLineNo++;
                     if (TempC.CompareTo('P') == 0)
                     {
                         char chr = (char)sr.Read();
@@ -634,7 +669,7 @@ namespace Vocaluxe.Lib.Song
                     {
                         c = sr.Read();
                         TempC = (char)c;
-                    } while ((TempC.CompareTo('E') != 0) && !sr.EndOfStream && (c == 19 || c == 16 || c == 13));
+                    } while ((TempC.CompareTo('E') != 0) && !sr.EndOfStream && (c == 19 || c == 16 || c == 13 || c==10));
                 }
                 foreach(CLines lines in this.Notes.Lines)
                 {
@@ -647,6 +682,7 @@ namespace Vocaluxe.Lib.Song
                 return false;
             }
             FindRefrain();
+            FindShortEnd();
             _NotesLoaded = true;
 
             return true;
@@ -830,6 +866,89 @@ namespace Vocaluxe.Lib.Song
                 if (this.Medley.Source == EMedleySource.Calculated)
                     this.PreviewStart = CGame.GetTimeFromBeats(this.Medley.StartBeat, this.BPM); 
             }
+        }
+
+        private void FindShortEnd(){
+            CLines lines = this.Notes.GetLines(0);
+
+            if (lines.LineCount == 0)
+                return;
+
+            // build sentences list
+            List<string> sentences = new List<string>();
+            foreach (CLine line in lines.Line)
+            {
+                if (line.Points != 0)
+                    sentences.Add(line.Lyrics);
+                else
+                    sentences.Add(String.Empty);
+            }
+
+            // find equal sentences series
+            List<Series> series = new List<Series>();
+            for (int i = 0; i < lines.LineCount - 1; i++)
+            {
+                for (int j = i + 1; j < lines.LineCount; j++)
+                {
+                    if (sentences[i] == sentences[j] && sentences[i] != String.Empty)
+                    {
+                        Series tempSeries = new Series();
+                        tempSeries.start = i;
+                        tempSeries.end = i;
+
+                        int max = 0;
+                        if (j + j - i - 1 > lines.LineCount - 1)
+                            max = lines.LineCount - 1 - j;
+                        else
+                            max = j - i - 1;
+
+                        for (int k = 1; k <= max; k++)
+                        {
+                            if (sentences[i + k] == sentences[j + k] && sentences[i + k] != String.Empty)
+                                tempSeries.end = i + k;
+                            else
+                                break;
+                        }
+
+                        tempSeries.length = tempSeries.end - tempSeries.start + 1;
+                        series.Add(tempSeries);
+                    }
+                }
+            }
+
+            //Calculate length of singing
+            int stop = (lines.Line[lines.Line.Length - 1].LastNoteBeat - lines.Line[0].FirstNoteBeat) / 2;
+
+            //Check if stop is in series
+            for (int i = 0; i < series.Count; i++)
+            {
+                if (lines.Line[series[i].start].FirstNoteBeat < stop && lines.Line[series[i].end].LastNoteBeat > stop)
+                {
+                    if (stop < (lines.Line[series[i].start].FirstNoteBeat + ((lines.Line[series[i].end].LastNoteBeat - lines.Line[series[i].start].FirstNoteBeat) / 2)))
+                    {
+                        this.ShortEnd = lines.Line[series[i].start-1].LastNote.EndBeat;
+                        return;
+                    }
+                    else
+                    {
+                        this.ShortEnd = lines.Line[series[i].end].LastNote.EndBeat;
+                        return;
+                    }
+                }
+            }
+
+            //Check if stop is in line
+            for (int i = 0; i < lines.Line.Length; i++)
+            {
+                if (lines.Line[i].FirstNoteBeat < stop && lines.Line[i].LastNoteBeat > stop)
+                {
+                    this.ShortEnd = lines.Line[i].LastNoteBeat;
+                    return;
+                }
+            }
+
+            ShortEnd = stop;
+
         }
     }
 }

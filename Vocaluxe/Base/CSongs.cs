@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -353,12 +354,24 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
                         if (res == 0)
                         {
-                            res = _Songs[s1.SongID].Artist.ToUpper().CompareTo(_Songs[s2.SongID].Artist.ToUpper());
-                            if (res == 0)
+                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             {
-                                return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                                res = _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
+                                if (res == 0)
+                                {
+                                    return _Songs[s1.SongID].TitleSorting.ToUpper().CompareTo(_Songs[s2.SongID].TitleSorting.ToUpper());
+                                }
+                                return res;
                             }
-                            return res;
+                            else
+                            {
+                                res = _Songs[s1.SongID].Artist.ToUpper().CompareTo(_Songs[s2.SongID].Artist.ToUpper());
+                                if (res == 0)
+                                {
+                                    return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                                }
+                                return res;
+                            }
                         }
                         return res; 
                     });
@@ -407,12 +420,24 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
                         if (res == 0)
                         {
-                            res = _Songs[s1.SongID].Artist.ToUpper().CompareTo(_Songs[s2.SongID].Artist.ToUpper());
-                            if (res == 0)
+                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             {
-                                return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                                res = _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
+                                if (res == 0)
+                                {
+                                    return _Songs[s1.SongID].TitleSorting.ToUpper().CompareTo(_Songs[s2.SongID].TitleSorting.ToUpper());
+                                }
+                                return res;
                             }
-                            return res;
+                            else
+                            {
+                                res = _Songs[s1.SongID].Artist.ToUpper().CompareTo(_Songs[s2.SongID].Artist.ToUpper());
+                                if (res == 0)
+                                {
+                                    return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                                }
+                                return res;
+                            }
                         }
                         return res;
                     });
@@ -480,12 +505,24 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
                         if (res == 0)
                         {
-                            res = _Songs[s1.SongID].Artist.ToUpper().CompareTo(_Songs[s2.SongID].Artist.ToUpper());
-                            if (res == 0)
+                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             {
-                                return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                                res = _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
+                                if (res == 0)
+                                {
+                                    return _Songs[s1.SongID].TitleSorting.ToUpper().CompareTo(_Songs[s2.SongID].TitleSorting.ToUpper());
+                                }
+                                return res;
                             }
-                            return res;
+                            else
+                            {
+                                res = _Songs[s1.SongID].Artist.ToUpper().CompareTo(_Songs[s2.SongID].Artist.ToUpper());
+                                if (res == 0)
+                                {
+                                    return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                                }
+                                return res;
+                            }
                         }
                         return res; 
                     });
@@ -506,17 +543,29 @@ namespace Vocaluxe.Base
                 case ESongSorting.TR_CONFIG_ARTIST:
                     foreach (CSong song in _SongList)
                     {
-                        _SortList.Add(new SongPointer(song.ID, song.Artist));
+                            _SortList.Add(new SongPointer(song.ID, song.Artist));
                     }
 
                     _SortList.Sort(delegate(SongPointer s1, SongPointer s2)
-                    {                      
-                        int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
-                        if (res == 0)
+                    {
+                        if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
                         {
-                            return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                            int res = _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
+                            if (res == 0)
+                            {
+                                return _Songs[s1.SongID].TitleSorting.ToUpper().CompareTo(_Songs[s2.SongID].TitleSorting.ToUpper());
+                            }
+                            return res;
                         }
-                        return res;
+                        else
+                        {
+                            int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
+                            if (res == 0)
+                            {
+                                return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                            }
+                            return res;
+                        }
                     });
 
                     _SongsSortList = _SortList.ToArray();
@@ -535,7 +584,10 @@ namespace Vocaluxe.Base
                 case ESongSorting.TR_CONFIG_ARTIST_LETTER:
                     foreach (CSong song in _SongList)
                     {
-                        _SortList.Add(new SongPointer(song.ID, song.Artist));
+                        if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
+                            _SortList.Add(new SongPointer(song.ID, song.ArtistSorting));
+                        else
+                            _SortList.Add(new SongPointer(song.ID, song.Artist));
                     }
 
                     _SortList.Sort(delegate(SongPointer s1, SongPointer s2)
@@ -543,7 +595,14 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
                         if (res == 0)
                         {
-                            return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
+                            {
+                                return _Songs[s1.SongID].TitleSorting.ToUpper().CompareTo(_Songs[s2.SongID].TitleSorting.ToUpper());
+                            }
+                            else
+                            {
+                                return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                            }
                         }
                         return res;
                     });
@@ -554,7 +613,7 @@ namespace Vocaluxe.Base
                     int NotLetterCat = -1;
                     for (int i=0; i < _SongsSortList.Length; i++)
                     {
-                        Char firstLetter = Char.ToUpper(_SongsSortList[i].SortString[0]);
+                        Char firstLetter = Char.ToUpper(_SongsSortList[i].SortString.Normalize(NormalizationForm.FormD)[0]);
                         
                         if (!Char.IsLetter(firstLetter))
                         {
@@ -583,7 +642,10 @@ namespace Vocaluxe.Base
                 case ESongSorting.TR_CONFIG_TITLE_LETTER:
                     foreach (CSong song in _SongList)
                     {
-                        _SortList.Add(new SongPointer(song.ID, song.Title));
+                        if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
+                            _SortList.Add(new SongPointer(song.ID, song.TitleSorting));
+                        else
+                            _SortList.Add(new SongPointer(song.ID, song.Title));
                     }
 
                     _SortList.Sort(delegate(SongPointer s1, SongPointer s2)
@@ -591,7 +653,14 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
                         if (res == 0)
                         {
-                            return _Songs[s1.SongID].Artist.ToUpper().CompareTo(_Songs[s2.SongID].Artist.ToUpper());
+                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
+                            {
+                                return _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
+                            }
+                            else
+                            {
+                                return _Songs[s1.SongID].Artist.ToUpper().CompareTo(_Songs[s2.SongID].Artist.ToUpper());
+                            }
                         }
                         return res;
                     });
@@ -602,7 +671,7 @@ namespace Vocaluxe.Base
                     NotLetterCat = -1;
                     for (int i=0; i < _SongsSortList.Length; i++)
                     {
-                        Char firstLetter = Char.ToUpper(_SongsSortList[i].SortString[0]);
+                        Char firstLetter = Char.ToUpper(_SongsSortList[i].SortString.Normalize(NormalizationForm.FormD)[0]);
                         
                         if (!Char.IsLetter(firstLetter))
                         {
@@ -639,12 +708,24 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.CompareTo(s2.SortString);
                         if (res == 0)
                         {
-                            res = _Songs[s1.SongID].Artist.ToUpper().CompareTo(_Songs[s2.SongID].Artist.ToUpper());
-                            if (res == 0)
+                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             {
-                                return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                                res = _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
+                                if (res == 0)
+                                {
+                                    return _Songs[s1.SongID].TitleSorting.ToUpper().CompareTo(_Songs[s2.SongID].TitleSorting.ToUpper());
+                                }
+                                return res;
                             }
-                            return res;
+                            else
+                            {
+                                res = _Songs[s1.SongID].Artist.ToUpper().CompareTo(_Songs[s2.SongID].Artist.ToUpper());
+                                if (res == 0)
+                                {
+                                    return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                                }
+                                return res;
+                            }
                         }
                         return res;
                     });
@@ -686,12 +767,24 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.CompareTo(s2.SortString);
                         if (res == 0)
                         {
-                            res = _Songs[s1.SongID].Artist.ToUpper().CompareTo(_Songs[s2.SongID].Artist.ToUpper());
-                            if (res == 0)
+                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             {
-                                return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                                res = _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
+                                if (res == 0)
+                                {
+                                    return _Songs[s1.SongID].TitleSorting.ToUpper().CompareTo(_Songs[s2.SongID].TitleSorting.ToUpper());
+                                }
+                                return res;
                             }
-                            return res;
+                            else
+                            {
+                                res = _Songs[s1.SongID].Artist.ToUpper().CompareTo(_Songs[s2.SongID].Artist.ToUpper());
+                                if (res == 0)
+                                {
+                                    return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                                }
+                                return res;
+                            }
                         }
                         return res;
                     });
@@ -740,12 +833,24 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.CompareTo(s2.SortString);
                         if (res == 0)
                         {
-                            res = _Songs[s1.SongID].Artist.ToUpper().CompareTo(_Songs[s2.SongID].Artist.ToUpper());
-                            if (res == 0)
+                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             {
-                                return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                                res = _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
+                                if (res == 0)
+                                {
+                                    return _Songs[s1.SongID].TitleSorting.ToUpper().CompareTo(_Songs[s2.SongID].TitleSorting.ToUpper());
+                                }
+                                return res;
                             }
-                            return res;
+                            else
+                            {
+                                res = _Songs[s1.SongID].Artist.ToUpper().CompareTo(_Songs[s2.SongID].Artist.ToUpper());
+                                if (res == 0)
+                                {
+                                    return _Songs[s1.SongID].Title.ToUpper().CompareTo(_Songs[s2.SongID].Title.ToUpper());
+                                }
+                                return res;
+                            }
                         }
                         return res;
                     });

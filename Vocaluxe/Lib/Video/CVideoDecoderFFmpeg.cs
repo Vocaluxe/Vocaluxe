@@ -258,8 +258,9 @@ namespace Vocaluxe.Lib.Video
         private bool _terminated = false;
                 
         private Thread _thread;
-        AutoResetEvent EventDecode = new AutoResetEvent(false);
+        //AutoResetEvent EventDecode = new AutoResetEvent(false);
         SFrameBuffer[] _FrameBuffer = new SFrameBuffer[5];
+        private bool _NewFrame = false;
         Object MutexFramebuffer = new Object();
         Object MutexSyncSignals = new Object();
 
@@ -359,7 +360,7 @@ namespace Vocaluxe.Lib.Video
 
                 
                 UploadNewFrame(ref frame);
-                EventDecode.Set();
+                //EventDecode.Set();
                 return true;
             }
 
@@ -367,11 +368,11 @@ namespace Vocaluxe.Lib.Video
             {
                 lock (MutexSyncSignals)
                 {
-                    _SetTime = Time;
-                    VideoTime = _CurrentVideoTime;
+                    _SetTime = Time;                   
                 }
                 UploadNewFrame(ref frame);
-                EventDecode.Set();
+                VideoTime = _CurrentVideoTime;
+                //EventDecode.Set();
                 return true;
             }
             return false;
@@ -387,7 +388,7 @@ namespace Vocaluxe.Lib.Video
                 _NoMoreFrames = false;
                 _Finished = false;
             }
-            EventDecode.Set();
+            //EventDecode.Set();
 
             return true;
         }
@@ -441,17 +442,18 @@ namespace Vocaluxe.Lib.Video
             
             _BufferFull = false;
             _skip = false;
-            EventDecode.Set();
+            _NewFrame = false;
+            //EventDecode.Set();
         }
 
         private void Execute()
         {
             DoOpen();
-            EventDecode.Set();
+            //EventDecode.Set();
 
             while (!_terminated)
             {
-                if (EventDecode.WaitOne(10))
+                //if (EventDecode.WaitOne(10))
                 {
                     lock (MutexSyncSignals)
                     {
@@ -468,11 +470,12 @@ namespace Vocaluxe.Lib.Video
                     if (_skip)
                         DoSkip();
 
-                    if (!_BufferFull)
+                    if (!_NewFrame)
                         DoDecode();
 
-                    if (_BufferFull)
-                        Copy();                 
+                    if (_NewFrame)
+                        Copy();
+                    Thread.Sleep(1);
                 }
             }
 
@@ -555,7 +558,7 @@ namespace Vocaluxe.Lib.Video
         {
             const int FRAMEDROPCOUNT = 4;
 
-            if (!_FileOpened)
+            if (!_FileOpened || _NewFrame)
                 return;
 
             if (_Paused || _NoMoreFrames || _BufferFull)
@@ -641,12 +644,18 @@ namespace Vocaluxe.Lib.Video
                 }
                 return;
             }
-
-            Copy();
+            else
+            {
+                _NewFrame = true;
+                Copy();
+            }
         }
 
         private void Copy()
         {
+            if (!_NewFrame)
+                return;
+
             int num = -1;
             
             lock (MutexFramebuffer)
@@ -687,11 +696,13 @@ namespace Vocaluxe.Lib.Video
 
                     if (numfull < _FrameBuffer.Length)
                         _BufferFull = false;
+
+                    _NewFrame = false;
                 }
             }
 
-            if (!_BufferFull)
-                EventDecode.Set();
+            //if (!_BufferFull)
+            //    EventDecode.Set();
         }
 
         private void UploadNewFrame(ref STexture frame)
@@ -720,7 +731,7 @@ namespace Vocaluxe.Lib.Video
                         _CurrentVideoTime = _FrameBuffer[num].time;
                     }
                     _Finished = false;
-                    EventDecode.Set();
+                    //EventDecode.Set();
                 }
                 else
                 {
@@ -739,7 +750,7 @@ namespace Vocaluxe.Lib.Video
             {
                 float td = _SetTime + _VideoSkipTime - _FrameBuffer[i].time;
 
-                if (td > _VideoTimeBase * 2)
+                if (td > _VideoTimeBase * 2f)
                 {
                     _FrameBuffer[i].displayed = true;
                 }
@@ -754,6 +765,7 @@ namespace Vocaluxe.Lib.Video
             if (Result != -1)
             {
                 _FrameBuffer[Result].displayed = true;
+                _BufferFull = false;
             }
 
             return Result;

@@ -87,7 +87,8 @@ namespace Vocaluxe.Base
 
     public enum ERecordLib
     {
-        PortAudio
+        PortAudio,
+        DirectSound
     }
 
     public enum EVideoDecoder
@@ -152,6 +153,29 @@ namespace Vocaluxe.Base
         TR_CONFIG_ONLY_OWN_MUSIC
     }
 
+    public enum EPlayerInfo
+    {
+        TR_CONFIG_PLAYERINFO_BOTH,
+        TR_CONFIG_PLAYERINFO_NAME,
+        TR_CONFIG_PLAYERINFO_AVATAR,
+        TR_CONFIG_PLAYERINFO_OFF
+    }
+
+    public enum EFadePlayerInfo
+    {
+        TR_CONFIG_FADEPLAYERINFO_ALL,
+        TR_CONFIG_FADEPLAYERINFO_INFO,
+        TR_CONFIG_FADEPLAYERINFO_OFF
+    }
+
+    public enum ELyricStyle
+    {
+        Fill,
+        Jump,
+        Slide,
+        Zoom
+    }
+
     #endregion Enums
 
     static class CConfig
@@ -185,7 +209,10 @@ namespace Vocaluxe.Base
         public static EOffOn DrawNoteLines = EOffOn.TR_CONFIG_ON;
         public static EOffOn DrawToneHelper = EOffOn.TR_CONFIG_ON;
         public static ETimerLook TimerLook = ETimerLook.TR_CONFIG_TIMERLOOK_EXPANDED;
+        public static EPlayerInfo PlayerInfo = EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH;
+        public static EFadePlayerInfo FadePlayerInfo = EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_OFF;
         public static ECoverLoading CoverLoading = ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART;
+        public static ELyricStyle LyricStyle = ELyricStyle.Slide;
 
         // Sound
         public static EPlaybackLib PlayBackLib = EPlaybackLib.PortAudio;
@@ -200,22 +227,25 @@ namespace Vocaluxe.Base
         public static List<string> SongFolder = new List<string>();
         public static ESongMenu SongMenu = ESongMenu.TR_CONFIG_TILE_BOARD;
         public static ESongSorting SongSorting = ESongSorting.TR_CONFIG_ARTIST;
+        public static EOffOn IgnoreArticles = EOffOn.TR_CONFIG_ON;
         public static float ScoreAnimationTime = 10;
         public static ETimerMode TimerMode = ETimerMode.TR_CONFIG_TIMERMODE_REMAINING;
         public static int NumPlayer = 2;
         public static EOffOn Tabs = EOffOn.TR_CONFIG_OFF;
         public static string Language = "English";
         public static EOffOn LyricsOnTop = EOffOn.TR_CONFIG_OFF;
+        public static string[] Players = new string[CSettings.MaxNumPlayer];
         
         // Video
         public static EVideoDecoder VideoDecoder = EVideoDecoder.FFmpeg;
         public static EOffOn VideoBackgrounds = EOffOn.TR_CONFIG_ON;
         public static EOffOn VideoPreview = EOffOn.TR_CONFIG_ON;
         public static EOffOn VideosInSongs = EOffOn.TR_CONFIG_ON;
+        public static EOffOn VideosToBackground = EOffOn.TR_CONFIG_OFF;
 
         // Record
         public static SMicConfig[] MicConfig;
-        public static int MicDelay = 200;   //[ms]
+        public static int MicDelay = 300;   //[ms]
 
         //Lists to save parameters and values
         private static List<string> _Params = new List<string>();
@@ -300,7 +330,10 @@ namespace Vocaluxe.Base
                 CHelper.TryGetEnumValueFromXML("//root/Theme/DrawNoteLines", navigator, ref DrawNoteLines);
                 CHelper.TryGetEnumValueFromXML("//root/Theme/DrawToneHelper", navigator, ref DrawToneHelper);
                 CHelper.TryGetEnumValueFromXML("//root/Theme/TimerLook", navigator, ref TimerLook);
+                CHelper.TryGetEnumValueFromXML("//root/Theme/PlayerInfo", navigator, ref PlayerInfo);
+                CHelper.TryGetEnumValueFromXML("//root/Theme/FadePlayerInfo", navigator, ref FadePlayerInfo);
                 CHelper.TryGetEnumValueFromXML("//root/Theme/CoverLoading", navigator, ref CoverLoading);
+                CHelper.TryGetEnumValueFromXML("//root/Theme/LyricStyle", navigator, ref LyricStyle);
                 #endregion Theme
 
                 #region Sound
@@ -335,6 +368,7 @@ namespace Vocaluxe.Base
 
                 CHelper.TryGetEnumValueFromXML<ESongMenu>("//root/Game/SongMenu", navigator, ref SongMenu);
                 CHelper.TryGetEnumValueFromXML<ESongSorting>("//root/Game/SongSorting", navigator, ref SongSorting);
+                CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Game/IgnoreArticles", navigator, ref IgnoreArticles);
                 CHelper.TryGetFloatValueFromXML("//root/Game/ScoreAnimationTime", navigator, ref ScoreAnimationTime);
                 CHelper.TryGetEnumValueFromXML<ETimerMode>("//root/Game/TimerMode", navigator, ref TimerMode);
                 CHelper.TryGetIntValueFromXML("//root/Game/NumPlayer", navigator, ref NumPlayer);
@@ -370,6 +404,12 @@ namespace Vocaluxe.Base
                 }
                 CLanguage.SetLanguage(Language);
 
+                //Read players from config
+                for (i = 1; i <= CSettings.MaxNumPlayer; i++)
+                {
+                    CHelper.GetValueFromXML("//root/Game/Players/Player" + i.ToString(), navigator, ref Players[i-1], string.Empty);
+                }
+
                 #endregion Game
 
                 #region Video
@@ -377,6 +417,7 @@ namespace Vocaluxe.Base
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideoBackgrounds", navigator, ref VideoBackgrounds);
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideoPreview", navigator, ref VideoPreview);
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideosInSongs", navigator, ref VideosInSongs);
+                CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideosToBackground", navigator, ref VideosToBackground);
                 #endregion Video
 
                 #region Record
@@ -496,8 +537,17 @@ namespace Vocaluxe.Base
             writer.WriteComment("Look of timer:" + ListStrings(Enum.GetNames(typeof(ETimerLook))));
             writer.WriteElementString("TimerLook", Enum.GetName(typeof(ETimerLook), TimerLook));
 
+            writer.WriteComment("Information about players on SingScreen:" + ListStrings(Enum.GetNames(typeof(EPlayerInfo))));
+            writer.WriteElementString("PlayerInfo", Enum.GetName(typeof(EPlayerInfo), PlayerInfo));
+
+            writer.WriteComment("Fade player-information with lyrics and notebars:" + ListStrings(Enum.GetNames(typeof(EFadePlayerInfo))));
+            writer.WriteElementString("FadePlayerInfo", Enum.GetName(typeof(EFadePlayerInfo), FadePlayerInfo));
+
             writer.WriteComment("Cover Loading:" + ListStrings(Enum.GetNames(typeof(ECoverLoading))));
             writer.WriteElementString("CoverLoading", Enum.GetName(typeof(ECoverLoading), CoverLoading));
+
+            writer.WriteComment("Lyric Style:" + ListStrings(Enum.GetNames(typeof(ELyricStyle))));
+            writer.WriteElementString("LyricStyle", Enum.GetName(typeof(ELyricStyle), LyricStyle));
 
             writer.WriteEndElement();
             #endregion Theme
@@ -562,6 +612,9 @@ namespace Vocaluxe.Base
             writer.WriteComment("SongSorting: " + ListStrings(Enum.GetNames(typeof(ESongSorting))));
             writer.WriteElementString("SongSorting", Enum.GetName(typeof(ESongSorting), SongSorting));
 
+            writer.WriteComment("Ignore articles on song-sorting: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteElementString("IgnoreArticles", Enum.GetName(typeof(EOffOn), IgnoreArticles));
+
             writer.WriteComment("ScoreAnimationTime: Values >= 1 or 0 for no animation. Time is in seconds.");
             writer.WriteElementString("ScoreAnimationTime", ScoreAnimationTime.ToString());
 
@@ -576,6 +629,14 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("Lyrics also on Top of screen: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("LyricsOnTop", Enum.GetName(typeof(EOffOn), LyricsOnTop));
+
+            writer.WriteComment("Default profile for players 1..." + CSettings.MaxNumPlayer.ToString() + ":");
+            writer.WriteStartElement("Players");
+            for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
+            {
+                writer.WriteElementString("Player" + i.ToString(), Path.GetFileName(Players[i - 1]));
+            }
+            writer.WriteEndElement();
 
             writer.WriteEndElement();
             #endregion Game
@@ -594,6 +655,9 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("Show Videos while singing: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("VideosInSongs", Enum.GetName(typeof(EOffOn), VideosInSongs));
+
+            writer.WriteComment("Show backgroundmusic videos as background: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteElementString("VideosToBackground", Enum.GetName(typeof(EOffOn), VideosToBackground));
 
             writer.WriteEndElement();
             #endregion Video
@@ -943,6 +1007,33 @@ namespace Vocaluxe.Base
 			}
     
             return _Result;
+        }
+
+        /// <summary>
+        /// Use saved players from config now for games
+        /// </summary>
+        public static void UsePlayers() 
+        {
+            for (int i = 0; i < CProfiles.Profiles.Length; i++)
+            {
+                for (int j = 0; j < CSettings.MaxNumPlayer; j++)
+                {
+                    if (Players[j] != string.Empty)
+                    {
+                        if (Path.GetFileName(CProfiles.Profiles[i].ProfileFile) == Players[j] && CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
+                        {
+                            //Update Game-infos with player
+                            CGame.Player[j].Name = CProfiles.Profiles[i].PlayerName;
+                            CGame.Player[j].Difficulty = CProfiles.Profiles[i].Difficulty;
+                            CGame.Player[j].ProfileID = i;
+                        }
+                    }
+                    else
+                    {
+                        CGame.Player[j].ProfileID = -1;
+                    }
+                }
+            }
         }
 
 

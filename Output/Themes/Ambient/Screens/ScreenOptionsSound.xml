@@ -40,16 +40,10 @@
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,68</R>
-      <G>0,89</G>
-      <B>0,97</B>
-      <A>1,00</A>
+      <Color>StaticColor</Color>
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SR>0,68</SR>
-      <SG>0,89</SG>
-      <SB>0,97</SB>
-      <SA>1,00</SA>
+      <SColor>TextSColor</SColor>
       <!--<Align>: Text align: Left, Center, Right-->
       <Align>Center</Align>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->

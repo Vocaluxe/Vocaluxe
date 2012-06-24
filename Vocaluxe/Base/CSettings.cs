@@ -40,14 +40,14 @@ namespace Vocaluxe.Base
         public static EGameState GameState = EGameState.Start;
 
         public const string sProgramName = "Vocaluxe";
-        public const string sProgramCodeName = "Rising Star";
+        public const string sProgramCodeName = "Test";
 
         public const int iVersionMajor = 0;
-        public const int iVersionMinor = 1;      // milestones
-        public const int iVersionSub = 0;        // steps
+        public const int iVersionMinor = 2;      // milestones
+        public const int iVersionSub = 0;        // patches
         public const ERevision VersionRevision = ERevision.Alpha;
 
-        public const int iBuild = 60;             // Increase on every published version! Never Reset!
+        public const int iBuild = 66;             // Increase on every published version! Never Reset!
 
         public const int iDatabaseHighscoreVersion = 1;
         public const int iDatabaseCoverVersion = 1;
@@ -94,6 +94,7 @@ namespace Vocaluxe.Base
         public const string sFolderLanguages = "Languages";
         public const string sFolderScreenshots = "Screenshots";
         public const string sFolderBackgroundMusic = "BackgroundMusic";
+        public const string sFolderPlaylists = "Playlists";
 
         //public const String[] ToneStrings = new String[]{ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
         public const int ToneMin = -36;
@@ -103,7 +104,7 @@ namespace Vocaluxe.Base
         public static int MouseMoveDiffMin = 2;
         public const float MouseMoveOffTime = 3f;
         
-        public const int MaxNumPlayer = 3;
+        public const int MaxNumPlayer = 6;
         public const int MaxScore = 10000;
         public const int LinebonusScore = 1000;
         public const int MinScoreForDB = 100;
@@ -120,6 +121,11 @@ namespace Vocaluxe.Base
         public static bool TabNavigation = false;
 
         public const float BackgroundMusicFadeTime = 0.5f;
+
+        public static List<string> MusicFileTypes = new List<string>()
+        { 
+            "*.mp3","*.wma","*.ogg","*.wav" 
+        };
         
         public static string GetVersionText()
         {

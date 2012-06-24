@@ -33,8 +33,8 @@ namespace Vocaluxe.Menu.SongMenu
 
         public bool Visible
         {
-            get { return _SongMenu.IsSelected(); }
-            set { _SongMenu.SetSelected(value); }
+            get { return _SongMenu.IsVisible(); }
+            set { _SongMenu.SetVisible(value); }
         }
 
         public SRectF Rect
@@ -116,6 +116,16 @@ namespace Vocaluxe.Menu.SongMenu
         public SRectF GetRect()
         {
             return _SongMenu.GetRect();
+        }
+
+        public bool IsSmallView()
+        {
+            return _SongMenu.IsSmallView();
+        }
+
+        public void SetSmallView(bool SmallView)
+        {
+            _SongMenu.SetSmallView(SmallView);
         }
 
         #endregion ISongMenu

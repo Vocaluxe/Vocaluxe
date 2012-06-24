@@ -45,6 +45,14 @@ namespace Vocaluxe.Lib.Song
             return _Lines[Index].Points;
         }
 
+        public int GetNumLinesWithPoints(int Index)
+        {
+            if (Index >= _Lines.Count)
+                return 0;
+
+            return _Lines[Index].NumLinesWithPoints;
+        }
+
         public void AddLines(CLines Lines)
         {
             _Lines.Add(Lines);
@@ -611,6 +619,20 @@ namespace Vocaluxe.Lib.Song
                     points += line.Points;
                 }
                 return points;
+            }
+        }
+
+        public int NumLinesWithPoints
+        {
+            get
+            {
+                int num = 0;
+                foreach (CLine line in _Lines)
+                {
+                    if (line.Points > 0f)
+                        num++;
+                }
+                return num;
             }
         }
 
