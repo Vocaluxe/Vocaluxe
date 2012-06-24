@@ -65,6 +65,7 @@ namespace Vocaluxe.Lib.Song
         public string Folder = String.Empty;
         public string FolderName = String.Empty;
         public string FileName = String.Empty;
+        public EOffOn Relative = EOffOn.TR_CONFIG_OFF;
 
         public string MP3FileName = String.Empty;
         public string CoverFileName = String.Empty;
@@ -172,6 +173,7 @@ namespace Vocaluxe.Lib.Song
             this.Folder = song.Folder;
             this.FolderName = song.FolderName;
             this.FileName = song.FileName;
+            this.Relative = song.Relative;
 
             this.MP3FileName = song.MP3FileName;
             this.CoverFileName = song.CoverFileName;
@@ -454,6 +456,10 @@ namespace Vocaluxe.Lib.Song
                                     if (Value.ToUpper() == "OFF")
                                         this.CalculateMedley = false;
                                     break;
+                                case "RELATIVE":
+                                    if (Value.ToUpper() == "YES" && Value.ToUpper() != "NO")
+                                        this.Relative = EOffOn.TR_CONFIG_ON;
+                                    break;
                                 default:
                                     ;
                                     break;
@@ -490,6 +496,12 @@ namespace Vocaluxe.Lib.Song
                 if ((HeaderFlags & EHeaderFlags.BPM) == 0)
                 {
                     CLog.LogError("BPM tag missing: " + FilePath);
+                    return false;
+                }
+
+                if (this.Relative == EOffOn.TR_CONFIG_ON)
+                {
+                    CLog.LogError("Relative songs are not supported by Vocaluxe (perhaps later)! (" + FilePath + ")");
                     return false;
                 }
 
@@ -658,7 +670,7 @@ namespace Vocaluxe.Lib.Song
 
                         char chr = (char)sr.Read();
                         Param1 = CHelper.TryReadInt(sr);
-
+                        
                         NewSentence(Player, Param1);
                         
                         isNewSentence = true;
