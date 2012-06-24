@@ -189,6 +189,7 @@
     <Compile Include="Lib\Draw\COpenGL.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Lib\Playlist\CPlaylist.cs" />
     <Compile Include="Lib\Song\CNotes.cs" />
     <Compile Include="Lib\Song\CSong.cs" />
     <Compile Include="Lib\Sound\CDirectSoundRecord.cs" />
