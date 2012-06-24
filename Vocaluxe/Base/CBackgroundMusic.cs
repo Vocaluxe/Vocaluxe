@@ -88,7 +88,7 @@ namespace Vocaluxe.Base
         {
             get
             {
-                return _CurrentPlaylistElement._SongID;
+                return _CurrentPlaylistElement.SongID;
             }
         }
 
@@ -465,24 +465,23 @@ namespace Vocaluxe.Base
 
 class PlaylistElement
 {
-    public int _SongID;
-    private string _MusicFilePath;
+    private CSong _Song = null;
+
+    private int _SongID;
+    public int SongID
+    {
+        get { return _SongID; }
+    }
+
+    private string _MusicFilePath = String.Empty;
 
     public string MusicFilePath
     {
         get
         {
-            if (_SongID >= 0)
-            {
-                CSong song = CSongs.GetSong(_SongID);
-                if (song != null)
-                    return song.GetMP3();
-                else
-                {
-                    _SongID = -1;
-                    CLog.LogError("Song not found");
-                }
-            }
+            if (_Song != null)
+                return _Song.GetMP3();
+                
             return _MusicFilePath;
         }
 
@@ -496,17 +495,9 @@ class PlaylistElement
     {
         get
         {
-            if (_SongID >= 0)
-            {
-                CSong song = CSongs.GetSong(_SongID);
-                if (song != null)
-                    return song.GetVideo();
-                else
-                {
-                    _SongID = -1;
-                    CLog.LogError("Song not found");
-                }
-            }
+            if (_Song != null)
+                return _Song.GetVideo();
+                
             return string.Empty;
         }
     }
@@ -515,17 +506,9 @@ class PlaylistElement
     {
         get
         {
-            if (_SongID >= 0)
-            {
-                CSong song = CSongs.GetSong(_SongID);
-                if (song != null)
-                    return song.Title;
-                else
-                {
-                    _SongID = -1;
-                    CLog.LogError("Song not found");
-                }
-            }
+            if (_Song != null)
+                return _Song.Title;
+                
             return "Unknown";
         }
     }
@@ -534,17 +517,9 @@ class PlaylistElement
     {
         get
         {
-            if (_SongID >= 0)
-            {
-                CSong song = CSongs.GetSong(_SongID);
-                if (song != null)
-                    return song.Artist;
-                else
-                {
-                    _SongID = -1;
-                    CLog.LogError("Song not found");
-                }
-            }
+            if (_Song != null)
+                return _Song.Artist;
+                
             return "Unknown";
         }
     }
@@ -553,17 +528,9 @@ class PlaylistElement
     {
         get
         {
-            if (_SongID >= 0)
-            {
-                CSong song = CSongs.GetSong(_SongID);
-                if (song != null)
-                    return song.CoverTextureSmall;
-                else
-                {
-                    _SongID = -1;
-                    CLog.LogError("Song not found");
-                }
-            }
+            if (_Song != null)
+                return _Song.CoverTextureSmall;
+                
             return CCover.NoCover;
         }
     }
@@ -572,17 +539,9 @@ class PlaylistElement
     {
         get
         {
-            if (_SongID >= 0)
-            {
-                CSong song = CSongs.GetSong(_SongID);
-                if (song != null)
-                    return song.VideoGap;
-                else
-                {
-                    _SongID = -1;
-                    CLog.LogError("Song not found");
-                }
-            }
+            if (_Song != null)
+                return _Song.VideoGap;
+         
             return 0;
         }
     }
@@ -591,17 +550,9 @@ class PlaylistElement
     {
         get
         {
-            if (_SongID >= 0)
-            {
-                CSong song = CSongs.GetSong(_SongID);
-                if (song != null)
-                    return song.IsDuet;
-                else
-                {
-                    _SongID = -1;
-                    CLog.LogError("Song not found");
-                }
-            }
+            if (_Song != null)
+                return _Song.IsDuet;
+                
             return false;
         }
     }
@@ -610,6 +561,8 @@ class PlaylistElement
     {
         MusicFilePath = string.Empty;
         _SongID = song.ID;
+
+        _Song = song;
     }
 
     public PlaylistElement(string FilePath)

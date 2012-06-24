@@ -266,7 +266,7 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
-            CGame.EnterNomalGame();
+            CGame.EnterNormalGame();
             SongMenus[htSongMenus(SongMenu)].OnShow();
         }
 

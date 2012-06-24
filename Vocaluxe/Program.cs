@@ -192,11 +192,11 @@ namespace Vocaluxe
             if (arr != null)
             {
 #if ARCH_X86
-                Assembly assembly = Assembly.LoadFrom("x86\\" + arr[0] + ".dll");
+                Assembly assembly = Assembly.LoadFrom(Path.Combine("x86", arr[0] + ".dll"));
 #endif
 
 #if ARCH_X64
-                Assembly assembly = Assembly.LoadFrom("x64\\" + arr[0] + ".dll");
+                Assembly assembly = Assembly.LoadFrom(Path.Combine("x64", arr[0] + ".dll"));
 #endif
 
                 return assembly;

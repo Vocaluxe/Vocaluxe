@@ -278,11 +278,23 @@ namespace PortAudioSharp {
 		
 		#region **** PORTAUDIO FUNCTIONS ****
 #if ARCH_X86
+#if WIN
         private const string PaDll = "x86\\PortAudio.dll";
 #endif
 
+#if LINUX
+        private const string PaDll = "libportaudio.so.2.0.0";
+#endif
+#endif
+
 #if ARCH_X64
+#if WIN
         private const string PaDll = "x64\\PortAudio.dll";
+#endif
+
+#if LINUX
+        private const string PaDll = "libportaudio.so.2.0.0";
+#endif
 #endif
 
         [DllImport (PaDll)]
