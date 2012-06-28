@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using Vocaluxe.Base;
+using Vocaluxe.GameModes;
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
 using Vocaluxe.Lib.Song;
@@ -213,14 +214,14 @@ namespace Vocaluxe.Screens
         {
             if (SongNr >= 0 && CSongs.SongsLoaded)
             {
-                if (Duet)
-                    CGame.SetGameMode(GameModes.EGameMode.Duet);
-                else
-                    CGame.SetGameMode(GameModes.EGameMode.Normal);
-
                 CGame.Reset();
                 CGame.ClearSongs();
-                CGame.AddSong(SongNr);
+
+                EGameMode gm = EGameMode.Normal;
+                if (CSongs.AllSongs[SongNr].IsDuet)
+                    gm = EGameMode.Duet;
+
+                CGame.AddSong(SongNr, gm);
 
                 CGraphics.FadeTo(EScreens.ScreenNames);
             }

@@ -33,8 +33,8 @@ namespace Vocaluxe.Menu.SongMenu
 
         public bool Visible
         {
-            get { return _SongMenu.IsSelected(); }
-            set { _SongMenu.SetSelected(value); }
+            get { return _SongMenu.IsVisible(); }
+            set { _SongMenu.SetVisible(value); }
         }
 
         public SRectF Rect

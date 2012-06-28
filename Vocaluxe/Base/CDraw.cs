@@ -38,6 +38,7 @@ namespace Vocaluxe.Base
                     }
                     break;
 
+#if WIN
                 case ERenderer.TR_CONFIG_DIRECT3D:
                     try
                     {
@@ -55,6 +56,7 @@ namespace Vocaluxe.Base
                         Environment.Exit(Environment.ExitCode);
                     }
                     break;
+#endif
 
                 default:
                     _Draw = new CDrawWinForm();

@@ -144,6 +144,20 @@ namespace Vocaluxe.Menu
             }
         }
 
+        private EHAlignment _HAlign = EHAlignment.Center;
+        public EHAlignment HAlign
+        {
+            get { return _HAlign; }
+            set
+            {
+                if (_HAlign != value)
+                {
+                    _HAlign = value;
+                    _PositionNeedsUpdate = true;
+                }
+            }
+        }
+
         private EStyle _Style = EStyle.Normal;
         public EStyle Style
         {
@@ -213,6 +227,7 @@ namespace Vocaluxe.Menu
             MaxWidth = 0f;
             Bounds = new SRectF();
             Align = EAlignment.Left;
+            HAlign = EHAlignment.Center;
             Style = EStyle.Normal;
             Fon = "Normal";
 
@@ -240,6 +255,7 @@ namespace Vocaluxe.Menu
             Height = h;
             MaxWidth = mw;
             Align = align;
+            HAlign = EHAlignment.Center;
             Style = style;
             Fon = font;
 
@@ -276,6 +292,7 @@ namespace Vocaluxe.Menu
             Height = h;
             MaxWidth = mw;
             Align = align;
+            HAlign = EHAlignment.Center;
             Style = style;
             Fon = font;
 
@@ -310,6 +327,7 @@ namespace Vocaluxe.Menu
             Height = h;
             MaxWidth = mw;
             Align = align;
+            HAlign = EHAlignment.Center;
             Style = style;
             Fon = font;
 
@@ -346,6 +364,7 @@ namespace Vocaluxe.Menu
             Height = h;
             MaxWidth = mw;
             Align = align;
+            HAlign = EHAlignment.Center;
             Style = style;
             Fon = font;
 
@@ -414,6 +433,7 @@ namespace Vocaluxe.Menu
             }
 
             _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EAlignment>(item + "/Align", navigator, ref _Align);
+            CHelper.TryGetEnumValueFromXML<EHAlignment>(item + "/HAlign", navigator, ref _HAlign);
             _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EStyle>(item + "/Style", navigator, ref _Style);
             _ThemeLoaded &= CHelper.GetValueFromXML(item + "/Font", navigator, ref _Fon, "Normal");
 
@@ -437,6 +457,7 @@ namespace Vocaluxe.Menu
             Text = _Theme.Text;
             Fon = _Fon;
             Align = _Align;
+            HAlign = _HAlign;
             Style = _Style;
 
             if (_ThemeLoaded)
@@ -505,8 +526,11 @@ namespace Vocaluxe.Menu
                     writer.WriteElementString("SA", SColor.A.ToString("#0.00"));
                 }
 
-                writer.WriteComment("<Align>: Text align: " + CConfig.ListStrings(Enum.GetNames(typeof(EAlignment))));
+                writer.WriteComment("<Align>: Text align horizontal: " + CConfig.ListStrings(Enum.GetNames(typeof(EAlignment))));
                 writer.WriteElementString("Align", Enum.GetName(typeof(EAlignment), Align));
+
+                writer.WriteComment("<HAlign>: Text align vertical (on downsizing): " + CConfig.ListStrings(Enum.GetNames(typeof(EHAlignment))));
+                writer.WriteElementString("HAlign", Enum.GetName(typeof(EHAlignment), HAlign));
 
                 writer.WriteComment("<Style>: Text style: " + CConfig.ListStrings(Enum.GetNames(typeof(EStyle))));
                 writer.WriteElementString("Style", Enum.GetName(typeof(EStyle), Style));
@@ -577,7 +601,22 @@ namespace Vocaluxe.Menu
 
             if (Reflection)
             {
-                CFonts.DrawTextReflection(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace, ReflectionHeight);
+                float sFactor = 0f;
+                switch (HAlign)
+                {
+                    case EHAlignment.Top:
+                        sFactor = (Height - _DrawPosition.tH) * 1.5f;
+                        break;
+                    case EHAlignment.Center:
+                        sFactor = (Height - _DrawPosition.tH) * 1.0f;
+                        break;
+                    case EHAlignment.Bottom:
+                        sFactor = (Height - _DrawPosition.tH) * 0.5f;
+                        break;
+                    default:
+                        break;
+                }
+                CFonts.DrawTextReflection(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace + sFactor, ReflectionHeight);
             }
 
             if (Selected && (CSettings.GameState == EGameState.EditTheme))
@@ -649,11 +688,27 @@ namespace Vocaluxe.Menu
 
             RectangleF bounds = CDraw.GetTextBounds(this);
 
-            while (bounds.Width > Bounds.W)
+            if (bounds.Width > Bounds.W && Bounds.W > 0f && bounds.Width > 0f)
             {
-                h -= 0.2f;
-                y += 0.1f;
-                bounds = CDraw.GetTextBounds(this, h);
+                float factor = Bounds.W / bounds.Width;
+                float step = h * (1 - factor);
+                h *= factor;
+                switch (HAlign)
+                {
+                    case EHAlignment.Top:
+                        y += step * 0.25f;
+                        break;
+                    case EHAlignment.Center:
+                        y += step * 0.50f;
+                        break;
+                    case EHAlignment.Bottom:
+                        y += step * 0.75f;
+                        break;
+                    default:
+                        break;
+                }
+
+                bounds = CFonts.GetTextBounds(this, h);
             }
 
             switch (Align)
@@ -667,6 +722,7 @@ namespace Vocaluxe.Menu
                 default:
                     break;
             }
+                       
 
             SColorF CurrentColor = new SColorF(Color);
             if (Selected)
@@ -737,10 +793,26 @@ namespace Vocaluxe.Menu
             float y = Y;
             RectangleF bounds = CFonts.GetTextBounds(this);
 
-            while (bounds.Width > Bounds.W)
+            if (bounds.Width > Bounds.W && Bounds.W > 0f && bounds.Width > 0f)
             {
-                h -= 0.2f;
-                y += 0.1f;
+                float factor = Bounds.W / bounds.Width;
+                float step = h * (1 - factor);
+                h *= factor ;
+                switch (HAlign)
+                {
+                    case EHAlignment.Top:
+                        y += step * 0.25f;
+                        break;
+                    case EHAlignment.Center:
+                        y += step * 0.50f;
+                        break;
+                    case EHAlignment.Bottom:
+                        y += step * 0.75f;
+                        break;
+                    default:
+                        break;
+                }
+
                 bounds = CFonts.GetTextBounds(this, h);
             }
 

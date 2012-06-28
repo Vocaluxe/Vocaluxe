@@ -749,25 +749,26 @@ namespace Vocaluxe.Menu
         {
             if (!CSettings.TabNavigation)
             {
-                if (!_IsHighlighted())
-                    _NextInteraction(KeyEvent);
-                else
+                if (KeyEvent.Key == Keys.Left)
                 {
-                    if (KeyEvent.Key == Keys.Left)
+                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != Modifier.Shift)
                         PrevElement();
-
-                    if (KeyEvent.Key == Keys.Right)
-                        NextElement();
-
-                    if (KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down)
-                    {
-                        _ToggleHighlighted();
+                    else
                         _NextInteraction(KeyEvent);
-                    }
                 }
 
-                if (KeyEvent.Key == Keys.Enter)
-                    _ToggleHighlighted();
+                if (KeyEvent.Key == Keys.Right)
+                {
+                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != Modifier.Shift)
+                        NextElement();
+                    else
+                        _NextInteraction(KeyEvent);
+                }
+
+                if (KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down)
+                {
+                    _NextInteraction(KeyEvent);
+                }
             }
             else
             {
@@ -997,7 +998,8 @@ namespace Vocaluxe.Menu
                     _Interactions[i].Type == EType.TSelectSlide ||
                     _Interactions[i].Type == EType.TStatic ||
                     _Interactions[i].Type == EType.TNameSelection ||
-                    _Interactions[i].Type == EType.TText))
+                    _Interactions[i].Type == EType.TText ||
+                    _Interactions[i].Type == EType.TSongMenu))
                 {
                     ZSort zs = new ZSort();
                     zs.ID = i;
@@ -1386,7 +1388,7 @@ namespace Vocaluxe.Menu
 
             for (int i = 0; i < 4; i++)
             {
-                if (i != mute && (stages[i] < stage || (stages[i] == stage && Directions[i].Key == Key.Key)))
+                if (i != mute && elements[i] != _Selection && (stages[i] < stage || (stages[i] == stage && Directions[i].Key == Key.Key)))
                 {
                     stage = stages[i];
                     element = elements[i];
@@ -1397,11 +1399,15 @@ namespace Vocaluxe.Menu
 
             if (direction != -1)
             {
+                // select the new element
                 if (Directions[direction].Key == Key.Key)
                 {
+                    _UnsetHighlighted(_Selection);
                     _UnsetSelected();
+
                     _Selection = element;
                     _SetSelected();
+                    _SetHighlighted(_Selection);
                 }
             }
         }
@@ -1418,7 +1424,7 @@ namespace Vocaluxe.Menu
                 if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i))
                 {
                     SRectF targetRect = _GetRect(i);
-                    float dist = _GetDistance90(Key, actualRect, targetRect);
+                    float dist = _GetDistanceDirect(Key, actualRect, targetRect);
                     if (dist >= 0f && dist < Distance)
                     {
                         Distance = dist;
@@ -1484,7 +1490,7 @@ namespace Vocaluxe.Menu
             return min;
         }
 
-        private float _GetDistance90(KeyEvent Key, SRectF actualRect, SRectF targetRect)
+        private float _GetDistanceDirect(KeyEvent Key, SRectF actualRect, SRectF targetRect)
         {
             PointF source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
             PointF dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
@@ -1495,22 +1501,22 @@ namespace Vocaluxe.Menu
             switch (Key.Key)
             {
                 case Keys.Up:
-                    if (vector.Y < 0f && (vector.Y <= vector.X && vector.X <= 0 || -vector.Y >= vector.X && vector.X >= 0f))
+                    if (vector.Y < 0f && (targetRect.X + targetRect.W > actualRect.X || actualRect.X + actualRect.W > targetRect.X))
                         inDirection = true;
                     break;
 
                 case Keys.Down:
-                    if (vector.Y > 0f && (vector.Y >= vector.X && vector.X >= 0 || vector.Y >= -vector.X && vector.X <= 0f))
+                    if (vector.Y > 0f && (targetRect.X + targetRect.W > actualRect.X || actualRect.X + actualRect.W > targetRect.X))
                         inDirection = true;
                     break;
 
                 case Keys.Left:
-                    if (vector.X < 0f && (vector.X <= vector.Y && vector.Y <= 0 || -vector.X >= vector.Y && vector.Y >= 0f))
+                    if (vector.X < 0f && (targetRect.Y + targetRect.H > actualRect.Y || actualRect.Y + actualRect.H > targetRect.Y))
                         inDirection = true;
                     break;
 
                 case Keys.Right:
-                    if (vector.X > 0f && (vector.X >= vector.Y && vector.Y >= 0 || vector.X >= -vector.Y && vector.Y <= 0f))
+                    if (vector.X > 0f && (targetRect.Y + targetRect.H > actualRect.Y || actualRect.Y + actualRect.H > targetRect.Y))
                         inDirection = true;
                     break;
 

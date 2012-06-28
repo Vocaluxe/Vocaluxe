@@ -108,38 +108,25 @@ namespace Vocaluxe.Base
             CConfig.UsePlayers();
         }
 
-        public static void SetGameMode(EGameMode Mode)
+        public static void EnterNormalGame()
         {
-            switch (Mode)
-            {
-                case EGameMode.Normal:
-                    _GameMode = new CGameModeNormal();
-                    break;
-                case EGameMode.Medley:
-                    _GameMode = new CGameModeMedley();
-                    break;
-                case EGameMode.Duet:
-                    _GameMode = new CGameModeDuet();
-                    break;
-                default:
-                    break;
-            }
+            _GameMode = new CGameModeNormal();
             _GameMode.Init();
         }
 
         public static EGameMode GameMode
         {
-            get { return _GameMode.GetGameMode(); }
+            get { return _GameMode.GetCurrentGameMode(); }
         }
 
-        public static bool AddVisibleSong(int VisibleIndex)
+        public static bool AddVisibleSong(int VisibleIndex, EGameMode GameMode)
         {
-            return _GameMode.AddVisibleSong(VisibleIndex);
+            return _GameMode.AddVisibleSong(VisibleIndex, GameMode);
         }
 
-        public static bool AddSong(int AbsoluteIndex)
+        public static bool AddSong(int AbsoluteIndex, EGameMode GameMode)
         {
-            return _GameMode.AddSong(AbsoluteIndex);
+            return _GameMode.AddSong(AbsoluteIndex, GameMode);
         }
 
         public static bool RemoveVisibleSong(int VisibleIndex)
@@ -179,7 +166,7 @@ namespace Vocaluxe.Base
 
         public static int RoundNr
         {
-            get { return _GameMode.GetActualRoundNr(); }
+            get { return _GameMode.GetCurrentRoundNr(); }
         }
 
         public static CSong GetSong()
@@ -231,6 +218,9 @@ namespace Vocaluxe.Base
                 _Player[i].SongFinished = false;
             }
             _OldBeatD = -100;
+            _Beat = -100;
+            _CurrentBeat = -100;
+            _CurrentBeatD = -100;
         }
 
         public static void UpdatePoints(float Time)
@@ -242,7 +232,11 @@ namespace Vocaluxe.Base
             if (song == null)
                 return;
 
-            _Beat = GetBeatFromTime(Time, song.BPM, song.Gap);
+            float b = GetBeatFromTime(Time, song.BPM, song.Gap);
+            if (b <= _Beat)
+                return;
+
+            _Beat = b;
             _CurrentBeat = (int)Math.Floor(_Beat);
 
             _MidBeatD = -0.5f + GetBeatFromTime(Time, song.BPM, song.Gap + CConfig.MicDelay/1000f);

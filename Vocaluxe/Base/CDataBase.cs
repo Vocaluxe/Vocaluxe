@@ -7,7 +7,16 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Text;
 
+#if WIN
 using System.Data.SQLite;
+#else
+using Mono.Data.Sqlite;
+using SQLiteConnection = Mono.Data.Sqlite.SqliteConnection;
+using SQLiteTransaction = Mono.Data.Sqlite.SqliteTransaction;
+using SQLiteCommand = Mono.Data.Sqlite.SqliteCommand;
+using SQLiteDataReader = Mono.Data.Sqlite.SqliteDataReader;
+#endif
+
 using Community.CsharpSqlite;
 
 using Vocaluxe.Lib.Draw;
@@ -57,8 +66,10 @@ namespace Vocaluxe.Base
             player.Difficulty = (EGameDifficulty)Diff;
 
             SQLiteConnection connection = new SQLiteConnection();
-            connection.ConnectionString = "Data Source=" + FilePath;
             SQLiteCommand command;
+
+            connection.ConnectionString = "Data Source=" + FilePath;
+            
 
             try
             {

@@ -89,6 +89,9 @@ namespace Vocaluxe.Lib.Song
         public string Title = String.Empty;
         public string Artist = String.Empty;
 
+        public string TitleSorting = String.Empty;
+        public string ArtistSorting = String.Empty;
+
         public float Start = 0f;
         public float Finish = 0f;
         
@@ -239,6 +242,18 @@ namespace Vocaluxe.Lib.Song
                                         HeaderFlags |= EHeaderFlags.Artist;
                                     }
                                     break;
+                                case "TITLE-ON-SORTING":
+                                    if (Value != String.Empty)
+                                    {
+                                        this.TitleSorting = Value;
+                                    }
+                                    break;
+                                case "ARTIST-ON-SORTING":
+                                    if (Value != String.Empty)
+                                    {
+                                        this.ArtistSorting = Value;
+                                    }
+                                    break;
                                 case "MP3":
                                     if (File.Exists(Path.Combine(this.Folder, Value)))
                                     {
@@ -339,6 +354,17 @@ namespace Vocaluxe.Lib.Song
             }
 
             CheckFiles();
+
+            //Before saving this tags to .txt: Check, if ArtistSorting and Artist are equal, then don't save this tag.
+            if (this.ArtistSorting == "") 
+            {
+                this.ArtistSorting = this.Artist;
+            }
+
+            if (this.TitleSorting == "")
+            {
+                this.TitleSorting = this.Title;
+            }
 
             return true;
         }

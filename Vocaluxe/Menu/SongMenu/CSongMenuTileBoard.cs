@@ -211,7 +211,9 @@ namespace Vocaluxe.Menu.SongMenu
                             if (_Locked > 0)
                             {
                                 _Locked--;
-                                UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
+                                if (CSongs.Category < 0 && _Locked < CSongs.NumCategories - _NumW ||
+                                    CSongs.Category >= 0 && _Locked < CSongs.NumVisibleSongs - _NumW)
+                                    UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
                             }
                             break;
 
@@ -221,7 +223,8 @@ namespace Vocaluxe.Menu.SongMenu
                                 if (_Locked < CSongs.NumCategories - 1)
                                 {
                                     _Locked++;
-                                    UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
+                                    if (_Locked < CSongs.NumCategories - _NumW)
+                                        UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
                                 }
 
                             }
@@ -230,7 +233,8 @@ namespace Vocaluxe.Menu.SongMenu
                                 if (_Locked < CSongs.NumVisibleSongs - 1)
                                 {
                                     _Locked++;
-                                    UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
+                                    if (_Locked < CSongs.NumVisibleSongs - _NumW)
+                                        UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
                                 }
                             }
                             break;
@@ -255,13 +259,14 @@ namespace Vocaluxe.Menu.SongMenu
                                 NextCategory();
                                 break;
                             }
-                            
+
                             if (CSongs.Category < 0)
                             {
                                 if (_Locked < CSongs.NumCategories - _NumW)
                                 {
                                     _Locked += _NumW;
-                                    UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
+                                    if (_Locked < CSongs.NumCategories - _NumW)
+                                        UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
                                 }
 
                             }
@@ -270,7 +275,8 @@ namespace Vocaluxe.Menu.SongMenu
                                 if (_Locked < CSongs.NumVisibleSongs - _NumW)
                                 {
                                     _Locked += _NumW;
-                                    UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
+                                    if (_Locked < CSongs.NumVisibleSongs - _NumW)
+                                        UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
                                 }
                             }
                             break;
@@ -654,6 +660,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             _Theme.songMenuTileBoard.TextArtist.ReloadTextures();
             _Theme.songMenuTileBoard.TextTitle.ReloadTextures();
+            _Theme.songMenuTileBoard.TextSongLength.ReloadTextures();
         }
     }
 }
