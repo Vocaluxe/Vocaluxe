@@ -87,6 +87,11 @@ namespace Vocaluxe.Base
         OpenAL
     }
 
+    public enum EWebcamLib
+    {
+        OpenCV
+    }
+
     public enum ERecordLib
     {
 #if WIN
@@ -255,6 +260,7 @@ namespace Vocaluxe.Base
         // Record
         public static SMicConfig[] MicConfig;
         public static int MicDelay = 300;   //[ms]
+        public static EWebcamLib WebcamLib = EWebcamLib.OpenCV;
 
         //Lists to save parameters and values
         private static List<string> _Params = new List<string>();
@@ -447,6 +453,8 @@ namespace Vocaluxe.Base
                     MicDelay = 0;
                 if (MicDelay > 500)
                     MicDelay = 500;
+
+                CHelper.TryGetEnumValueFromXML<EWebcamLib>("//root/Record/WebcamLib", navigator, ref WebcamLib);
 
                 #endregion Record
 
@@ -691,6 +699,9 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("Mic delay in ms. 0, 20, 40, 60 ... 500");
             writer.WriteElementString("MicDelay", MicDelay.ToString());
+
+            writer.WriteComment("WebcamLib: " + ListStrings(Enum.GetNames(typeof(EWebcamLib))));
+            writer.WriteElementString("WebcamLib", Enum.GetName(typeof(EWebcamLib), WebcamLib));
 
             writer.WriteEndElement();
             #endregion Record

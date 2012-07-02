@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vocaluxe</RootNamespace>
     <AssemblyName>Vocaluxe</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
@@ -29,6 +29,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <StartupObject>Vocaluxe.MainProgram</StartupObject>
     <ApplicationIcon>Vocaluxe.ico</ApplicationIcon>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWin|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -143,6 +144,18 @@
     <Reference Include="Community.CsharpSqlite">
       <HintPath>..\Output\Community.CsharpSqlite.dll</HintPath>
     </Reference>
+    <Reference Include="Emgu.CV, Version=2.4.0.1717, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\Emgu.CV.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.CV.UI, Version=2.4.0.1717, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\Emgu.CV.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.Util, Version=2.4.0.1717, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\Emgu.Util.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK">
       <HintPath>..\Output\OpenTK.dll</HintPath>
     </Reference>
@@ -175,6 +188,7 @@
     <Compile Include="Base\CSongs.cs" />
     <Compile Include="Base\CTheme.cs" />
     <Compile Include="Base\CVideo.cs" />
+    <Compile Include="Base\CWebcam.cs" />
     <Compile Include="GameModes\CGameMode.cs" />
     <Compile Include="GameModes\CGameModeNormal.cs" />
     <Compile Include="GameModes\IGameMode.cs" />
@@ -205,6 +219,8 @@
     <Compile Include="Lib\Video\CVideoDecoder.cs" />
     <Compile Include="Lib\Video\CVideoDecoderFFmpeg.cs" />
     <Compile Include="Lib\Video\IVideoDecoder.cs" />
+    <Compile Include="Lib\Webcam\COpenCV.cs" />
+    <Compile Include="Lib\Webcam\IWebcam.cs" />
     <Compile Include="Menu\CBackground.cs" />
     <Compile Include="Menu\CButton.cs" />
     <Compile Include="Menu\CGraphics.cs" />
