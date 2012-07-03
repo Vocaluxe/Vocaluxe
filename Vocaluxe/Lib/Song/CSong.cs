@@ -420,9 +420,10 @@ namespace Vocaluxe.Lib.Song
                     FileLineNo++;
                     if (TempC.CompareTo('P') == 0)
                     {
-                        char chr = (char)sr.Read();
-                        int.TryParse(chr.ToString(), out Param1);
+                        char chr;
+                        while ((chr = (char)sr.Read()) == ' '){ }
 
+                        int.TryParse(chr.ToString(), out Param1);
                         if (Param1 == 1)
                             Player = 0;
                         else if (Param1 == 2)
