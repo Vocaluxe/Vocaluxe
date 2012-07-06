@@ -15,15 +15,19 @@ namespace Vocaluxe.Base
         {
             switch (CConfig.WebcamLib)
             {
-                case EWebcamLib.OpenCV:
-                    _Webcam = new COpenCV();
+                case EWebcamLib.AForgeNet:
+                    _Webcam = new CAForgeNet();
                     break;
 
                 default:
-                    _Webcam = new COpenCV();
+                    _Webcam = new CAForgeNet();
                     break;
             }
             _Webcam.Init();
+            _Webcam.Select(CConfig.WebcamConfig);
+
+            CConfig.WebcamConfig = _Webcam.GetConfig();
+            CConfig.SaveConfig();
         }
 
         public static bool GetFrame(ref STexture tex)
@@ -45,6 +49,21 @@ namespace Vocaluxe.Base
         public static void Start()
         {
             _Webcam.Start();
+        }
+
+        public static void Stop()
+        {
+            _Webcam.Stop();
+        }
+
+        public static void Select(SWebcamConfig c)
+        {
+            _Webcam.Select(c);
+        }
+
+        public static SWebcamDevice[] GetDevices()
+        {
+            return _Webcam.GetDevices();
         }
     }
 }

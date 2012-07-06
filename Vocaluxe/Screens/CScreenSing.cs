@@ -207,7 +207,7 @@ namespace Vocaluxe.Screens
                         if (_Webcam)
                             CWebcam.Start();
                         else
-                            CWebcam.Pause();
+                            CWebcam.Stop();
                         break;
 
                     case Keys.Enter:
@@ -621,6 +621,8 @@ namespace Vocaluxe.Screens
             PrepareTimeLine();
             CSound.Play(_CurrentStream);
             CSound.RecordStart();
+            if(_Webcam)
+                CWebcam.Start();
         }
 
         private void Stop()
@@ -629,6 +631,8 @@ namespace Vocaluxe.Screens
 
             CGraphics.FadeTo(EScreens.ScreenScore);
             _FadeOut = true;
+            if (_Webcam)
+                CWebcam.Close();
         }
 
         private void UpdateLyrics()

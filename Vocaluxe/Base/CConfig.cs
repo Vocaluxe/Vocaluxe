@@ -11,6 +11,7 @@ using System.Xml.XPath;
 using OpenTK.Platform;
 
 using Vocaluxe.Lib.Sound;
+using Vocaluxe.Lib.Webcam;
 
 namespace Vocaluxe.Base
 {
@@ -89,7 +90,8 @@ namespace Vocaluxe.Base
 
     public enum EWebcamLib
     {
-        OpenCV
+        OpenCV,
+        AForgeNet
     }
 
     public enum ERecordLib
@@ -261,6 +263,7 @@ namespace Vocaluxe.Base
         public static SMicConfig[] MicConfig;
         public static int MicDelay = 300;   //[ms]
         public static EWebcamLib WebcamLib = EWebcamLib.OpenCV;
+        public static SWebcamConfig WebcamConfig;
 
         //Lists to save parameters and values
         private static List<string> _Params = new List<string>();
@@ -433,6 +436,13 @@ namespace Vocaluxe.Base
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideoPreview", navigator, ref VideoPreview);
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideosInSongs", navigator, ref VideosInSongs);
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideosToBackground", navigator, ref VideosToBackground);
+
+                CHelper.TryGetEnumValueFromXML<EWebcamLib>("//root/Video/WebcamLib", navigator, ref WebcamLib);
+                WebcamConfig = new SWebcamConfig();
+                CHelper.GetValueFromXML("//root/Video/WebcamConfig/MonikerString", navigator, ref WebcamConfig.MonikerString, String.Empty);
+                CHelper.TryGetIntValueFromXML("//root/Video/WebcamConfig/Framerate", navigator, ref WebcamConfig.Framerate);
+                CHelper.TryGetIntValueFromXML("//root/Video/WebcamConfig/Width", navigator, ref WebcamConfig.Width);
+                CHelper.TryGetIntValueFromXML("//root/Video/WebcamConfig/Height", navigator, ref WebcamConfig.Height);
                 #endregion Video
 
                 #region Record
@@ -453,9 +463,6 @@ namespace Vocaluxe.Base
                     MicDelay = 0;
                 if (MicDelay > 500)
                     MicDelay = 500;
-
-                CHelper.TryGetEnumValueFromXML<EWebcamLib>("//root/Record/WebcamLib", navigator, ref WebcamLib);
-
                 #endregion Record
 
                 return true;
@@ -676,6 +683,18 @@ namespace Vocaluxe.Base
             writer.WriteComment("Show backgroundmusic videos as background: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("VideosToBackground", Enum.GetName(typeof(EOffOn), VideosToBackground));
 
+            writer.WriteComment("WebcamLib: " + ListStrings(Enum.GetNames(typeof(EWebcamLib))));
+            writer.WriteElementString("WebcamLib", Enum.GetName(typeof(EWebcamLib), WebcamLib));
+
+            writer.WriteStartElement("WebcamConfig");
+
+            writer.WriteElementString("MonikerString", WebcamConfig.MonikerString);
+            writer.WriteElementString("Framerate", WebcamConfig.Framerate.ToString());
+            writer.WriteElementString("Width", WebcamConfig.Width.ToString());
+            writer.WriteElementString("Height", WebcamConfig.Height.ToString());
+
+            writer.WriteEndElement();
+
             writer.WriteEndElement();
             #endregion Video
 
@@ -699,9 +718,6 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("Mic delay in ms. 0, 20, 40, 60 ... 500");
             writer.WriteElementString("MicDelay", MicDelay.ToString());
-
-            writer.WriteComment("WebcamLib: " + ListStrings(Enum.GetNames(typeof(EWebcamLib))));
-            writer.WriteElementString("WebcamLib", Enum.GetName(typeof(EWebcamLib), WebcamLib));
 
             writer.WriteEndElement();
             #endregion Record
