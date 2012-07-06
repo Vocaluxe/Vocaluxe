@@ -13,7 +13,7 @@ namespace Vocaluxe.Screens
     class CScreenOptionsVideo : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 2;
+        const int ScreenVersion = 3;
 
         private const string SelectSlideVideoBackgrounds = "SelectSlideVideoBackgrounds";
         private const string SelectSlideVideoPreview = "SelectSlideVideoPreview";
@@ -63,7 +63,7 @@ namespace Vocaluxe.Screens
             int deviceNr = SelectSlides[htSelectSlides(SelectSlideWebcamDevices)].Selection;
             for (int i = 0; i < dev[SelectSlides[htSelectSlides(SelectSlideWebcamDevices)].Selection].Capabilities.Count; i++)
             {
-                SelectSlides[htSelectSlides(SelectSlideWebcamCapabilities)].AddValue(dev[deviceNr].Capabilities[i].Width.ToString() + " x " + dev[deviceNr].Capabilities[i].Height.ToString() + " @ " + dev[deviceNr].Capabilities[i].Framerate.ToString());
+                SelectSlides[htSelectSlides(SelectSlideWebcamCapabilities)].AddValue(dev[deviceNr].Capabilities[i].Width.ToString() + " x " + dev[deviceNr].Capabilities[i].Height.ToString() + " @ " + dev[deviceNr].Capabilities[i].Framerate.ToString() + " FPS");
             }
             SelectSlides[htSelectSlides(SelectSlideWebcamCapabilities)].Selection = 0;
 

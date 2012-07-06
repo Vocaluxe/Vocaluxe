@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenOptionsVideo>
-    <ScreenVersion>2</ScreenVersion>
+    <ScreenVersion>3</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>Video</Type>
@@ -731,8 +731,8 @@
       <!--<Skin>: Texture name-->
       <Skin>CoverBackground</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>50</X>
-      <Y>450</Y>
+      <X>75</X>
+      <Y>460</Y>
       <Z>0,00</Z>
       <W>320</W>
       <H>240</H>
