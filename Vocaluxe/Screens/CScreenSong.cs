@@ -267,7 +267,7 @@ namespace Vocaluxe.Screens
                 int SongNr = IDs[CGame.Rand.Next(IDs.Count)];
 
                 EGameMode gm = EGameMode.Normal;
-                if (CSongs.VisibleSongs[SongNr].IsDuet)
+                if (CSongs.AllSongs[SongNr].IsDuet)
                     gm = EGameMode.Duet;
                 CGame.AddSong(SongNr, gm);
 
