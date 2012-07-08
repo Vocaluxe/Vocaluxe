@@ -97,6 +97,12 @@ namespace Vocaluxe.Screens
         {
             base.HandleInput(KeyEvent);
 
+
+            if (Playlists[htPlaylists(Playlist)].HandleInput(KeyEvent))
+            {
+                return true;
+            }
+
             if (!_SongOptionsActive)
             {
 
@@ -254,6 +260,11 @@ namespace Vocaluxe.Screens
         public override bool HandleMouse(MouseEvent MouseEvent)
         {
             base.HandleMouse(MouseEvent);
+
+            if (Playlists[htPlaylists(Playlist)].HandleMouse(MouseEvent))
+            {
+                return true;
+            }
 
             if (!_SongOptionsActive)
             {

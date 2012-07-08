@@ -39,14 +39,14 @@ namespace Vocaluxe.Menu
 
     class CPlaylist : IMenuElement
     {
-        struct PlaylistElementContent
+        class PlaylistElementContent
         {
             public EGameMode[] Modes;
             public int SongID;
             public EGameMode Mode;
         }
 
-        struct PlaylistElement
+        class PlaylistElement
         {
             public CStatic Cover;
             public CStatic Background;
@@ -54,6 +54,7 @@ namespace Vocaluxe.Menu
             public CText Text2;
             public CText Text3;
             public CSelectSlide SelectSlide;
+            public int Content;
         }
 
         private SThemePlaylist _Theme;
@@ -70,6 +71,7 @@ namespace Vocaluxe.Menu
 
         public int ActivePlaylistID = 0;
         public int Offset = 0;
+        public int ActiveHover = -1;
 
         public CPlaylist()
         {
@@ -266,6 +268,76 @@ namespace Vocaluxe.Menu
             LoadTextures();
         }
 
+        public bool HandleInput(KeyEvent kevent)
+        {
+            switch (kevent.Key)
+            {
+            }
+            return false;
+        }
+
+        public bool HandleMouse(MouseEvent mevent)
+        {
+            if (CHelper.IsInBounds(Rect, mevent))
+            {
+                if (mevent.Wheel > 0)
+                {
+                    return true;
+                }
+                else if (mevent.Wheel < 0)
+                {
+                    if (PlaylistElements.Count + Offset + mevent.Wheel <= PlaylistElementContents.Count)
+                    {
+                        Offset = Offset + mevent.Wheel;
+                        return true;
+                    }
+                    if (Offset - mevent.Wheel >= 0)
+                    {
+                        Offset = Offset - mevent.Wheel;
+                        return true;
+                    }
+                }
+
+                for (int i = 0; i < PlaylistElements.Count; i++)
+                {
+                    //Hover for playlist-element
+                    if (CHelper.IsInBounds(PlaylistElements[i].Background.Rect, mevent))
+                    {
+                        PlaylistElements[i].Background.Texture = CTheme.GetSkinTexture(_Theme.STextureBackgroundName);
+                        PlaylistElements[i].Background.Color = BackgroundSColor;
+                        ActiveHover = i;
+                    }
+                    else
+                    {
+                        PlaylistElements[i].Background.Texture = CTheme.GetSkinTexture(_Theme.TextureBackgroundName);
+                        PlaylistElements[i].Background.Color = BackgroundColor;
+                    }
+                    //Delete Entry with RB
+                    if (CHelper.IsInBounds(PlaylistElements[i].Background.Rect, mevent) && mevent.RB && PlaylistElements[i].Content != -1)
+                    {
+                        CPlaylists.Playlists[ActivePlaylistID].DeleteSong(PlaylistElements[i].Content);
+                        UpdatePlaylist();
+                        return true;
+                    }
+                    //Change order with holding LB
+                    else if (CHelper.IsInBounds(PlaylistElements[i].Background.Rect, mevent) && mevent.LBH && PlaylistElements[i].Content != -1)
+                    {
+                        return true;
+                    }
+                }
+            }
+            else 
+            {
+                if (ActiveHover != -1)
+                {
+                    PlaylistElements[ActiveHover].Background.Texture = CTheme.GetSkinTexture(_Theme.TextureBackgroundName);
+                    PlaylistElements[ActiveHover].Background.Color = BackgroundColor;
+                    ActiveHover = -1;
+                }
+            }
+            return false;
+        }
+
         private void PrepareList()
         {
             PlaylistElements.Clear();
@@ -292,6 +364,7 @@ namespace Vocaluxe.Menu
                 en.SelectSlide.TextColor = _Theme.SelectSlideGameMode.TextColor;
                 en.SelectSlide.TextH = _Theme.SelectSlideGameMode.TextH;
                 en.SelectSlide.Visible = true;
+                en.Content = -1;
                 PlaylistElements.Add(en);
             }
         }
@@ -340,6 +413,7 @@ namespace Vocaluxe.Menu
                 {
                     if (e < PlaylistElementContents.Count)
                     {
+                        PlaylistElements[i].Content = e;
                         PlaylistElements[i].Background.Visible = true;
                         PlaylistElements[i].Cover.Visible = true;
                         PlaylistElements[i].SelectSlide.Visible = true;
@@ -359,7 +433,7 @@ namespace Vocaluxe.Menu
                             if (PlaylistElementContents[e].Modes[g] == PlaylistElementContents[e].Mode)
                                 PlaylistElements[i].SelectSlide.SetSelectionByValueIndex(g);
                         }
-                        e++;
+                        e++;                      
                     }
                     else
                     {
@@ -369,6 +443,7 @@ namespace Vocaluxe.Menu
                         PlaylistElements[i].Text1.Visible = false;
                         PlaylistElements[i].Text2.Visible = false;
                         PlaylistElements[i].Text3.Visible = false;
+                        PlaylistElements[i].Content = -1;
                     }
                 }
             }

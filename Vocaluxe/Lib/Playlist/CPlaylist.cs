@@ -228,5 +228,10 @@ namespace Vocaluxe.Lib.Playlist
 
             Songs.Add(song);   
         }
+
+        public void DeleteSong(int SongNr)
+        {
+            Songs.RemoveAt(SongNr);
+        }
     }
 }
