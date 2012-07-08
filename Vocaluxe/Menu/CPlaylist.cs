@@ -1,0 +1,396 @@
+﻿using System;
+using System.Drawing;
+using System.Collections.Generic;
+using System.Text;
+using System.Xml;
+using System.Xml.XPath;
+
+using Vocaluxe.Base;
+using Vocaluxe.Lib.Draw;
+using Vocaluxe.GameModes;
+
+namespace Vocaluxe.Menu
+{
+
+    struct SThemePlaylist
+    {
+        public string Name;
+
+        public string ColorBackgroundName;
+        public string SColorBackgroundName;
+
+        public string TextureBackgroundName;
+        public string STextureBackgroundName;
+
+        public float EntryHeight;
+
+        public string StringText1;
+        public string StringText2;
+        public string StringText3;
+
+        public CText Text1;
+        public CText Text2;
+        public CText Text3;
+
+        public CStatic StaticCover;
+
+        public CSelectSlide SelectSlideGameMode;
+    }
+
+    class CPlaylist : IMenuElement
+    {
+        struct PlaylistElementContent
+        {
+            public EGameMode[] Modes;
+            public int SongID;
+            public EGameMode Mode;
+        }
+
+        struct PlaylistElement
+        {
+            public CStatic Cover;
+            public CStatic Background;
+            public CText Text1;
+            public CText Text2;
+            public CText Text3;
+            public CSelectSlide SelectSlide;
+        }
+
+        private SThemePlaylist _Theme;
+        private bool _ThemeLoaded;
+
+        private List<PlaylistElement> PlaylistElements;
+        private List<PlaylistElementContent> PlaylistElementContents;
+
+        public SRectF Rect;
+        public SColorF BackgroundColor;
+        public SColorF BackgroundSColor;
+
+        public bool Visible;
+
+        public int ActivePlaylistID = 0;
+        public int Offset = 0;
+
+        public CPlaylist()
+        {
+            _Theme = new SThemePlaylist();
+            _Theme.Text1 = new CText();
+            _Theme.Text2 = new CText();
+            _Theme.Text3 = new CText();
+            _Theme.StaticCover = new CStatic();
+            _Theme.SelectSlideGameMode = new CSelectSlide();
+
+            Rect = new SRectF();
+            BackgroundColor = new SColorF();
+            BackgroundSColor = new SColorF();
+
+            PlaylistElements = new List<PlaylistElement>();
+            PlaylistElementContents = new List<PlaylistElementContent>();
+
+            Visible = false;
+        }
+
+        public void Init()
+        {
+            PrepareList();
+        }
+
+        public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
+        {
+            string item = XmlPath + "/" + ElementName;
+            _ThemeLoaded = true;
+
+            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/SkinBackground", navigator, ref _Theme.TextureBackgroundName, String.Empty);
+            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/SkinBackgroundSelected", navigator, ref _Theme.STextureBackgroundName, String.Empty);
+
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/X", navigator, ref Rect.X);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Y", navigator, ref Rect.Y);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Z", navigator, ref Rect.Z);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/W", navigator, ref Rect.W);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/H", navigator, ref Rect.H);
+            if (CHelper.GetValueFromXML(item + "/ColorBackground", navigator, ref _Theme.ColorBackgroundName, String.Empty))
+            {
+                _ThemeLoaded &= CTheme.GetColor(_Theme.ColorBackgroundName, SkinIndex, ref BackgroundColor);
+            }
+            else
+            {
+                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/BackgroundR", navigator, ref BackgroundColor.R);
+                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/BackgroundG", navigator, ref BackgroundColor.G);
+                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/BackgroundB", navigator, ref BackgroundColor.B);
+                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/BackgroundA", navigator, ref BackgroundColor.A);
+            }
+            if (CHelper.GetValueFromXML(item + "/SColorBackground", navigator, ref _Theme.SColorBackgroundName, String.Empty))
+            {
+                _ThemeLoaded &= CTheme.GetColor(_Theme.SColorBackgroundName, SkinIndex, ref BackgroundSColor);
+            }
+            else
+            {
+                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SBackgroundR", navigator, ref BackgroundSColor.R);
+                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SBackgroundG", navigator, ref BackgroundSColor.G);
+                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SBackgroundB", navigator, ref BackgroundSColor.B);
+                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SBackgroundA", navigator, ref BackgroundSColor.A);
+            }
+
+            _ThemeLoaded &= _Theme.Text1.LoadTheme(item, "TextPart1", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.Text2.LoadTheme(item, "TextPart2", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.Text2.LoadTheme(item, "TextPart3", navigator, SkinIndex);
+            _Theme.StringText1 = _Theme.Text1.Text;
+            _Theme.StringText2 = _Theme.Text2.Text;
+            _Theme.StringText3 = _Theme.Text3.Text;
+
+            _ThemeLoaded &= _Theme.StaticCover.LoadTheme(item, "StaticCover", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.SelectSlideGameMode.LoadTheme(item, "SelectSlideGameMode", navigator, SkinIndex);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/EntryHeight", navigator, ref _Theme.EntryHeight);
+            if (_ThemeLoaded)
+            {
+                _Theme.Name = ElementName;
+                LoadTextures();
+            }
+            return _ThemeLoaded;
+        }
+
+        public bool SaveTheme(XmlWriter writer)
+        {
+            if (_ThemeLoaded)
+            {
+                writer.WriteStartElement(_Theme.Name);
+
+                writer.WriteComment("<X>, <Y>, <Z>, <W>, <H>: Playlist position, width and height");
+                writer.WriteElementString("X", Rect.X.ToString("#0"));
+                writer.WriteElementString("Y", Rect.Y.ToString("#0"));
+                writer.WriteElementString("Z", Rect.Z.ToString("#0.00"));
+                writer.WriteElementString("W", Rect.W.ToString("#0"));
+                writer.WriteElementString("H", Rect.H.ToString("#0"));
+
+                writer.WriteElementString("EntryHeight", _Theme.EntryHeight.ToString("#0.00"));
+
+                writer.WriteComment("<SkinBackground>: Texture name");
+                writer.WriteElementString("SkinBackground", _Theme.TextureBackgroundName);
+
+                writer.WriteComment("<SkinBackgroundSelected>: Texture name for selected playlist-entry");
+                writer.WriteElementString("SkinBackgroundSelected", _Theme.STextureBackgroundName);
+
+                writer.WriteComment("<ColorBackground>: Button color from ColorScheme (high priority)");
+                writer.WriteComment("or <BackgroundR>, <BackgroundG>, <BackgroundB>, <BackgroundA> (lower priority)");
+                if (_Theme.ColorBackgroundName != String.Empty)
+                {
+                    writer.WriteElementString("BackgroundColor", _Theme.ColorBackgroundName);
+                }
+                else
+                {
+                    writer.WriteElementString("BackgroundR", BackgroundColor.R.ToString("#0.00"));
+                    writer.WriteElementString("BackgroundG", BackgroundColor.G.ToString("#0.00"));
+                    writer.WriteElementString("BackgroundB", BackgroundColor.B.ToString("#0.00"));
+                    writer.WriteElementString("BackgroundA", BackgroundColor.A.ToString("#0.00"));
+                }
+
+                writer.WriteComment("<SColorBackground>: Selected paylist-entry color from ColorScheme (high priority)");
+                writer.WriteComment("or <SBackgroundR>, <SBackgroundG>, <SBackgroundB>, <SBackgroundA> (lower priority)");
+                if (_Theme.SColorBackgroundName != String.Empty)
+                {
+                    writer.WriteElementString("SColor", _Theme.SColorBackgroundName);
+                }
+                else
+                {
+                    writer.WriteElementString("SR", BackgroundSColor.R.ToString("#0.00"));
+                    writer.WriteElementString("SG", BackgroundSColor.G.ToString("#0.00"));
+                    writer.WriteElementString("SB", BackgroundSColor.B.ToString("#0.00"));
+                    writer.WriteElementString("SA", BackgroundSColor.A.ToString("#0.00"));
+                }
+
+                writer.WriteComment("Positions of <TextPart1>, <TextPart2>, <TextPart3>, <StaticCover> and <SelectSlideGameMode> are relative to playlist-entry!");
+                writer.WriteComment("Use placeholders for Text of <TextPart1>, <TextPart2> and <TextPart3>: %t, %a, %l");
+                _Theme.Text1.SaveTheme(writer);
+                _Theme.Text2.SaveTheme(writer);
+                _Theme.Text3.SaveTheme(writer);
+                _Theme.StaticCover.SaveTheme(writer);
+                _Theme.SelectSlideGameMode.SaveTheme(writer);
+
+                writer.WriteEndElement();
+
+                return true;
+            }
+            return false;
+        }
+
+        public void Draw()
+        {
+            Draw(false);
+        }
+
+        public void ForceDraw()
+        {
+            Draw(true);
+        }
+
+        public void Draw(bool ForceDraw)
+        {
+            if (PlaylistElements.Count <= 0)
+            {
+                LoadPlaylist(0);
+            }
+            if (!Visible && CSettings.GameState != EGameState.EditTheme && !ForceDraw)
+                return;
+
+            for (int i = 0; i < PlaylistElements.Count; i++ )
+            {
+                PlaylistElements[i].Background.Draw();
+                PlaylistElements[i].Cover.Draw();
+                PlaylistElements[i].Text1.Draw();
+                PlaylistElements[i].Text2.Draw();
+                PlaylistElements[i].Text3.Draw();
+                PlaylistElements[i].SelectSlide.Draw();
+            }
+        }
+
+        public void UnloadTextures()
+        {
+        }
+
+        public void LoadTextures()
+        {
+            _Theme.Text1.LoadTextures();
+            _Theme.Text2.LoadTextures();
+            _Theme.Text3.LoadTextures();
+
+            if (_Theme.ColorBackgroundName != String.Empty)
+                BackgroundColor = CTheme.GetColor(_Theme.ColorBackgroundName);
+
+            if (_Theme.SColorBackgroundName != String.Empty)
+                BackgroundSColor = CTheme.GetColor(_Theme.SColorBackgroundName);
+        }
+
+        public void ReloadTextures()
+        {
+            UnloadTextures();
+            LoadTextures();
+        }
+
+        private void PrepareList()
+        {
+            PlaylistElements.Clear();
+            for (int i = 0; i < (Rect.H / _Theme.EntryHeight); i++)
+            {
+                PlaylistElement en = new PlaylistElement();
+                en.Background = new CStatic(_Theme.TextureBackgroundName, BackgroundColor, new SRectF(Rect.X, Rect.Y + (i * _Theme.EntryHeight), Rect.W, _Theme.EntryHeight, Rect.Z));
+                en.Cover = new CStatic(new STexture(), _Theme.StaticCover.Color, new SRectF(Rect.X + _Theme.StaticCover.Rect.X, Rect.Y + _Theme.StaticCover.Rect.Y + (i * _Theme.EntryHeight), _Theme.StaticCover.Rect.W, _Theme.StaticCover.Rect.H, _Theme.StaticCover.Rect.Z));
+                en.Text1 = new CText(Rect.X + _Theme.Text1.X, Rect.Y + _Theme.Text1.Y + (i * _Theme.EntryHeight), _Theme.Text1.Z, _Theme.Text1.Height, _Theme.Text1.MaxWidth, _Theme.Text1.Align, _Theme.Text1.Style, _Theme.Text1.Fon, _Theme.Text1.Color, "", _Theme.Text1.ReflectionSpace, _Theme.Text1.ReflectionHeight);
+                en.Text2 = new CText(Rect.X + _Theme.Text2.X, Rect.Y + _Theme.Text2.Y + (i * _Theme.EntryHeight), _Theme.Text2.Z, _Theme.Text2.Height, _Theme.Text2.MaxWidth, _Theme.Text2.Align, _Theme.Text2.Style, _Theme.Text2.Fon, _Theme.Text2.Color, "", _Theme.Text2.ReflectionSpace, _Theme.Text2.ReflectionHeight);
+                en.Text3 = new CText(Rect.X + _Theme.Text3.X, Rect.Y + _Theme.Text3.Y + (i * _Theme.EntryHeight), _Theme.Text3.Z, _Theme.Text3.Height, _Theme.Text3.MaxWidth, _Theme.Text3.Align, _Theme.Text3.Style, _Theme.Text3.Fon, _Theme.Text3.Color, "", _Theme.Text3.ReflectionSpace, _Theme.Text3.ReflectionHeight);
+                en.SelectSlide = new CSelectSlide();
+                en.SelectSlide.Rect = new SRectF(Rect.X + _Theme.SelectSlideGameMode.Rect.X, Rect.Y + _Theme.SelectSlideGameMode.Rect.Y + (i * _Theme.EntryHeight), _Theme.SelectSlideGameMode.Rect.W, _Theme.SelectSlideGameMode.Rect.H, _Theme.SelectSlideGameMode.Rect.Z);
+                en.SelectSlide.RectArrowLeft = new SRectF(Rect.X + _Theme.SelectSlideGameMode.RectArrowLeft.X, Rect.Y + _Theme.SelectSlideGameMode.RectArrowLeft.Y + (i * _Theme.EntryHeight), _Theme.SelectSlideGameMode.RectArrowLeft.W, _Theme.SelectSlideGameMode.RectArrowLeft.H, _Theme.SelectSlideGameMode.RectArrowLeft.Z);
+                en.SelectSlide.RectArrowRight = new SRectF(Rect.X + _Theme.SelectSlideGameMode.RectArrowRight.X, Rect.Y + _Theme.SelectSlideGameMode.RectArrowRight.Y + (i * _Theme.EntryHeight), _Theme.SelectSlideGameMode.RectArrowRight.W, _Theme.SelectSlideGameMode.RectArrowRight.H, _Theme.SelectSlideGameMode.RectArrowRight.Z);
+                en.SelectSlide.Color = _Theme.SelectSlideGameMode.Color;
+                en.SelectSlide.ColorArrow = _Theme.SelectSlideGameMode.ColorArrow;
+                en.SelectSlide.HColor = _Theme.SelectSlideGameMode.HColor;
+                en.SelectSlide.Highlighted = _Theme.SelectSlideGameMode.Highlighted;
+                en.SelectSlide.MaxW = _Theme.SelectSlideGameMode.MaxW;
+                en.SelectSlide.SColor = _Theme.SelectSlideGameMode.SColor;
+                en.SelectSlide.SColorArrow = _Theme.SelectSlideGameMode.SColorArrow;
+                en.SelectSlide.STextColor = _Theme.SelectSlideGameMode.STextColor;
+                en.SelectSlide.TextColor = _Theme.SelectSlideGameMode.TextColor;
+                en.SelectSlide.TextH = _Theme.SelectSlideGameMode.TextH;
+                en.SelectSlide.Visible = true;
+                PlaylistElements.Add(en);
+            }
+        }
+
+        public bool LoadPlaylist(int PlaylistID) 
+        {
+            if (PlaylistID > -1 && PlaylistID < CPlaylists.NumPlaylists)
+            {
+                ActivePlaylistID = PlaylistID;
+                PlaylistElementContents.Clear();
+                for (int i = 0; i < CPlaylists.Playlists[ActivePlaylistID].Songs.Count; i++)
+                {
+                    PlaylistElementContent pec = new PlaylistElementContent();
+                    pec.SongID = CPlaylists.Playlists[ActivePlaylistID].Songs[i].SongID;
+                    pec.Modes = CSongs.AllSongs[CPlaylists.Playlists[ActivePlaylistID].Songs[i].SongID].AvailableGameModes;
+                    pec.Mode = CPlaylists.Playlists[ActivePlaylistID].Songs[i].GameMode;
+                    PlaylistElementContents.Add(pec);
+                }
+                Update();
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public void UpdatePlaylist()
+        {
+            PlaylistElementContents.Clear();
+            for (int i = 0; i < CPlaylists.Playlists[ActivePlaylistID].Songs.Count; i++)
+            {
+                PlaylistElementContent pec = new PlaylistElementContent();
+                pec.SongID = CPlaylists.Playlists[ActivePlaylistID].Songs[i].SongID;
+                pec.Modes = CSongs.AllSongs[CPlaylists.Playlists[ActivePlaylistID].Songs[i].SongID].AvailableGameModes;
+                pec.Mode = CPlaylists.Playlists[ActivePlaylistID].Songs[i].GameMode;
+                PlaylistElementContents.Add(pec);
+            }
+            Update();
+        }
+
+        public void Update()
+        {
+            if (ActivePlaylistID > -1 && ActivePlaylistID < CPlaylists.NumPlaylists)
+            {
+                int e = 0 + Offset;
+                for (int i = 0; i < PlaylistElements.Count; i++ )
+                {
+                    if (e < PlaylistElementContents.Count)
+                    {
+                        PlaylistElements[i].Background.Visible = true;
+                        PlaylistElements[i].Cover.Visible = true;
+                        PlaylistElements[i].SelectSlide.Visible = true;
+                        PlaylistElements[i].Text1.Visible = true;
+                        PlaylistElements[i].Text2.Visible = true;
+                        PlaylistElements[i].Text3.Visible = true;
+                        PlaylistElements[i].Cover.Texture = CSongs.GetSong(PlaylistElementContents[e].SongID).CoverTextureSmall;
+                        string t1 = _Theme.Text1.Text.Replace("%a", CSongs.GetSong(PlaylistElementContents[e].SongID).Artist).Replace("%t", CSongs.GetSong(PlaylistElementContents[e].SongID).Title);
+                        string t2 = _Theme.Text2.Text.Replace("%a", CSongs.GetSong(PlaylistElementContents[e].SongID).Artist).Replace("%t", CSongs.GetSong(PlaylistElementContents[e].SongID).Title);
+                        string t3 = _Theme.Text3.Text.Replace("%a", CSongs.GetSong(PlaylistElementContents[e].SongID).Artist).Replace("%t", CSongs.GetSong(PlaylistElementContents[e].SongID).Title);
+                        PlaylistElements[i].Text1.Text = t1;
+                        PlaylistElements[i].Text2.Text = t2;
+                        PlaylistElements[i].Text3.Text = t3;
+                        for (int g = 0; g < PlaylistElementContents[e].Modes.Length; g++)
+                        {
+                            PlaylistElements[i].SelectSlide.AddValue(Enum.GetName(typeof(GameModes.EGameMode), PlaylistElementContents[e].Modes[g]));
+                            if (PlaylistElementContents[e].Modes[g] == PlaylistElementContents[e].Mode)
+                                PlaylistElements[i].SelectSlide.SetSelectionByValueIndex(g);
+                        }
+                        e++;
+                    }
+                    else
+                    {
+                        PlaylistElements[i].Background.Visible = false;
+                        PlaylistElements[i].Cover.Visible = false;
+                        PlaylistElements[i].SelectSlide.Visible = false;
+                        PlaylistElements[i].Text1.Visible = false;
+                        PlaylistElements[i].Text2.Visible = false;
+                        PlaylistElements[i].Text3.Visible = false;
+                    }
+                }
+            }
+        }
+
+        #region ThemeEdit
+        public void MoveElement(int stepX, int stepY)
+        {
+            Rect.X += stepX;
+            Rect.Y += stepY;
+        }
+
+        public void ResizeElement(int stepW, int stepH)
+        {
+            Rect.W += stepW;
+            if (Rect.W <= 0)
+                Rect.W = 1;
+
+            Rect.H += stepH;
+            if (Rect.H <= 0)
+                Rect.H = 1;
+        }
+        #endregion ThemeEdit
+    }
+}
