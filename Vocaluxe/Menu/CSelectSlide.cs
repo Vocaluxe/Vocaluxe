@@ -112,6 +112,14 @@ namespace Vocaluxe.Menu
             }
         }
 
+        public int NumValues
+        {
+            get
+            {
+                return _ValueNames.Count;
+            }
+        }
+
         private int _NumVisible = -1;
         public int NumVisible
         {

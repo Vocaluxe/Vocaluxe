@@ -1,6 +1,17 @@
 ScreenSong
 
 ++++++++++
+Version 3:
+
+Add:
+<StaticPlaylistHeader>, <StaticPlaylistFooter>, <StaticOptionsBG>
+<TextOptionsTitle>, <TextPlaylistHeader>
+<ButtonOptionsSing>, <ButtonOptionsClose>, <ButtonOptionsPlaylist>, <ButtonPlaylistClose>, <ButtonPlaylistSing>, <ButtonPlaylistSave>, <ButtonPlaylistDelete>
+<SelectSlideOptionsMode>, <SelectSlideOptionsPlaylist>
+and
+<Playlist> as a new Screen-Element. For details, look at ScreenSong.xml
+
+++++++++++
 Version 2:
 
 Add:

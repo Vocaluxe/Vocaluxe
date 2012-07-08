@@ -36,6 +36,7 @@ namespace Vocaluxe.Menu
         private List<CLyric> _Lyrics;
         private List<CSingNotes> _SingNotes;
         private List<CNameSelection> _NameSelections;
+        private List<CPlaylist> _Playlists;
 
         private Hashtable _htBackgrounds;
         private Hashtable _htStatics;
@@ -46,6 +47,7 @@ namespace Vocaluxe.Menu
         private Hashtable _htSelectSlides;
         private Hashtable _htSingNotes;
         private Hashtable _htNameSelections;
+        private Hashtable _htPlaylists;
 
 
         private int _PrevMouseX;
@@ -67,6 +69,7 @@ namespace Vocaluxe.Menu
         protected string[] _ThemeSelectSlides;
         protected string[] _ThemeSingNotes;
         protected string[] _ThemeNameSelections;
+        protected string[] _ThemePlaylists;
 
         protected SRectF _ScreenArea;
 
@@ -99,6 +102,7 @@ namespace Vocaluxe.Menu
             _Lyrics = new List<CLyric>();
             _SingNotes = new List<CSingNotes>();
             _NameSelections = new List<CNameSelection>();
+            _Playlists = new List<CPlaylist>();
 
             _htBackgrounds = new Hashtable();
             _htStatics = new Hashtable();
@@ -109,6 +113,7 @@ namespace Vocaluxe.Menu
             _htSelectSlides = new Hashtable();
             _htSingNotes = new Hashtable();
             _htNameSelections = new Hashtable();
+            _htPlaylists = new Hashtable();
 
             _PrevMouseX = 0;
             _PrevMouseY = 0;
@@ -129,6 +134,7 @@ namespace Vocaluxe.Menu
             _ThemeSelectSlides = null;
             _ThemeSingNotes = null;
             _ThemeNameSelections = null;
+            _ThemePlaylists = null;
 
         }
         #region ThemeHandler
@@ -311,6 +317,22 @@ namespace Vocaluxe.Menu
                         }
                     }
                 }
+
+                if (_ThemePlaylists != null)
+                {
+                    for (int i = 0; i < _ThemePlaylists.Length; i++)
+                    {
+                        CPlaylist pls = new CPlaylist();
+                        if (pls.LoadTheme("//root/" + _ThemeName, _ThemePlaylists[i], navigator, SkinIndex))
+                        {
+                            _htPlaylists.Add(_ThemePlaylists[i], AddPlaylist(pls));
+                        }
+                        else
+                        {
+                            CLog.LogError("Can't load Playlist \"" + _ThemePlaylists[i] + "\" in screen " + _ThemeName);
+                        }
+                    }
+                }
             }
             else
             {
@@ -386,6 +408,12 @@ namespace Vocaluxe.Menu
                 _NameSelections[i].SaveTheme(writer);
             }
 
+            //Playlists
+            for (int i = 0; i < _Playlists.Count; i++)
+            {
+                _Playlists[i].SaveTheme(writer);
+            }
+
             writer.WriteEndElement();
 
             // End of File
@@ -442,6 +470,11 @@ namespace Vocaluxe.Menu
             {
                 ns.ReloadTextures();
             }
+
+            foreach (CPlaylist pls in _Playlists)
+            {
+                pls.ReloadTextures();
+            }
         }
 
         public virtual void UnloadTextures()
@@ -490,7 +523,10 @@ namespace Vocaluxe.Menu
             {
                 ns.UnloadTextures();
             }
-
+            foreach (CPlaylist pls in _Playlists)
+            {
+                pls.UnloadTextures();
+            }
 
         }
 
@@ -546,6 +582,11 @@ namespace Vocaluxe.Menu
         public List<CNameSelection> GetNameSelections()
         {
             return _NameSelections;
+        }
+
+        public List<CPlaylist> GetPlaylists()
+        {
+            return _Playlists;
         }
         #endregion GetLists
 
@@ -620,6 +661,14 @@ namespace Vocaluxe.Menu
             get
             {
                 return _NameSelections.ToArray();
+            }
+        }
+
+        public CPlaylist[] Playlists
+        {
+            get
+            {
+                return _Playlists.ToArray();
             }
         }
         #endregion Get Arrays
@@ -738,6 +787,19 @@ namespace Vocaluxe.Menu
             catch (Exception)
             {
                 CLog.LogError("Can't find NameSelection Element \"" + key + "\" in Screen " + _ThemeName);
+                throw;
+            }
+        }
+
+        public int htPlaylists(string key)
+        {
+            try
+            {
+                return (int)_htPlaylists[key];
+            }
+            catch (Exception)
+            {
+                CLog.LogError("Can't find Playlist Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -999,7 +1061,8 @@ namespace Vocaluxe.Menu
                     _Interactions[i].Type == EType.TStatic ||
                     _Interactions[i].Type == EType.TNameSelection ||
                     _Interactions[i].Type == EType.TText ||
-                    _Interactions[i].Type == EType.TSongMenu))
+                    _Interactions[i].Type == EType.TSongMenu ||
+                    _Interactions[i].Type == EType.TPlaylist))
                 {
                     ZSort zs = new ZSort();
                     zs.ID = i;
@@ -1084,6 +1147,13 @@ namespace Vocaluxe.Menu
             _NameSelections.Add(ns);
             _AddInteraction(_NameSelections.Count - 1, EType.TNameSelection);
             return _NameSelections.Count - 1;
+        }
+
+        public int AddPlaylist(CPlaylist pls)
+        {
+            _Playlists.Add(pls);
+            _AddInteraction(_Playlists.Count - 1, EType.TPlaylist);
+            return _Playlists.Count - 1;
         }
         #endregion Elements
 
@@ -1233,6 +1303,10 @@ namespace Vocaluxe.Menu
                     if (CHelper.IsInBounds(_NameSelections[interact.Num].Rect, x, y))
                         return true;
                     break;
+                case EType.TPlaylist:
+                    if (CHelper.IsInBounds(_Playlists[interact.Num].Rect, x, y))
+                        return true;
+                    break;
             } 
             return false;
         }
@@ -1255,6 +1329,8 @@ namespace Vocaluxe.Menu
                     return _Lyrics[interact.Num].Rect.Z;
                 case EType.TNameSelection:
                     return _NameSelections[interact.Num].Rect.Z;
+                case EType.TPlaylist:
+                    return _Playlists[interact.Num].Rect.Z;
             }
             return CSettings.zFar;
         }
@@ -1283,6 +1359,9 @@ namespace Vocaluxe.Menu
 
                 case EType.TNameSelection:
                     return _NameSelections[_Interactions[interaction].Num].Rect.Z;
+
+                case EType.TPlaylist:
+                    return _Playlists[_Interactions[interaction].Num].Rect.Z;
             }
 
             return CSettings.zFar;
@@ -1605,6 +1684,9 @@ namespace Vocaluxe.Menu
                 case EType.TNameSelection:
                     _NameSelections[_Interactions[_Selection].Num].Selected = true;
                     break;
+                case EType.TPlaylist:
+                    //_Playlists[_Interactions[_Selection].Num].Selected = true;
+                    break;
             }
         }
 
@@ -1632,6 +1714,9 @@ namespace Vocaluxe.Menu
                     break;
                 case EType.TNameSelection:
                     _NameSelections[_Interactions[_Selection].Num].Selected = false;
+                    break;
+                case EType.TPlaylist:
+                    //_Playlists[_Interactions[_Selection].Num].Selected = true;
                     break;
             }
         }
@@ -1664,6 +1749,9 @@ namespace Vocaluxe.Menu
                 case EType.TNameSelection:
                     //_NameSelections[_Interactions[selection].Num].Selected = true;
                     break;
+                case EType.TPlaylist:
+                    //_Playlists[_Interactions[_Selection].Num].Selected = true;
+                    break;
             }
         }
 
@@ -1694,6 +1782,9 @@ namespace Vocaluxe.Menu
                     break;
                 case EType.TNameSelection:
                     //_NameSelections[_Interactions[selection].Num].Selected = false;
+                    break;
+                case EType.TPlaylist:
+                    //_Playlists[_Interactions[_Selection].Num].Selected = true;
                     break;
             }
         }
@@ -1744,6 +1835,9 @@ namespace Vocaluxe.Menu
 
                 case EType.TNameSelection:
                     return _NameSelections[_Interactions[interaction].Num].Visible;
+
+                case EType.TPlaylist:
+                    return _Playlists[_Interactions[interaction].Num].Visible;
             }
 
             return false;
@@ -1774,6 +1868,9 @@ namespace Vocaluxe.Menu
 
                 case EType.TNameSelection:
                     return _NameSelections[_Interactions[interaction].Num].Rect;
+
+                case EType.TPlaylist:
+                    return _Playlists[_Interactions[interaction].Num].Rect;
             }
 
             return Result;
@@ -1814,6 +1911,10 @@ namespace Vocaluxe.Menu
 
                 case EType.TNameSelection:
                     _NameSelections[_Interactions[interaction].Num].Draw();
+                    break;
+
+                case EType.TPlaylist:
+                    _Playlists[_Interactions[interaction].Num].Draw();
                     break;
                 
                 //TODO:
@@ -1859,6 +1960,10 @@ namespace Vocaluxe.Menu
                     case EType.TNameSelection:
                         _NameSelections[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
+
+                    case EType.TPlaylist:
+                        _Playlists[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
+                        break;
                 }
             }
         }      
@@ -1895,6 +2000,10 @@ namespace Vocaluxe.Menu
 
                     case EType.TNameSelection:
                         _NameSelections[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
+                        break;
+
+                    case EType.TPlaylist:
+                        _Playlists[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
                 }
             }

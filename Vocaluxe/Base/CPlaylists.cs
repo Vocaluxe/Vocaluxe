@@ -21,6 +21,19 @@ namespace Vocaluxe.Base
             get { return _Playlists.ToArray(); }
         }
 
+        public static string[] PlaylistNames
+        {
+            get 
+            {
+                List<string> names = new List<string>();
+                for (int i = 0; i < _Playlists.Count; i++) 
+                {
+                    names.Add(_Playlists[i].PlaylistName);
+                }
+                return names.ToArray();
+            }
+        }
+
         public static int NumPlaylists
         {
             get { return _Playlists.Count; }
@@ -40,6 +53,7 @@ namespace Vocaluxe.Base
             foreach (string file in files)
             {
                 CPlaylist playlist = new CPlaylist(file);
+                _Playlists.Add(playlist);
             }
 
             SortPlaylistsByName();
@@ -73,6 +87,21 @@ namespace Vocaluxe.Base
                     CLog.LogError("Can't delete Profile File " + _Playlists[PlaylistID].PlaylistFile + ".xml");
                 }
             }
+        }
+
+        public static void SavePlaylist(int PlaylistID)
+        {
+            if (PlaylistID < 0 || PlaylistID >= _Playlists.Count)
+                return;
+            _Playlists[PlaylistID].SavePlaylist();
+        }
+
+        public static int NewPlaylist()
+        {
+            CPlaylist pl = new CPlaylist();
+            pl.PlaylistName = "New Playlist";
+            _Playlists.Add(pl);
+            return (_Playlists.Count - 1);
         }
 
         #endregion

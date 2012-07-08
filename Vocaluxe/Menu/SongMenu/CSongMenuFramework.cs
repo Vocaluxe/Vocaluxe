@@ -383,10 +383,10 @@ namespace Vocaluxe.Menu.SongMenu
                 writer.WriteElementString("SpaceH", _Theme.songMenuTileBoard.spaceH.ToString("#0.00"));
 
                 writer.WriteComment("<NumWsmall>: Number of tiles horizontal in small-mode");
-                writer.WriteElementString("NumW", _Theme.songMenuTileBoard.numW.ToString());
+                writer.WriteElementString("NumWsmall", _Theme.songMenuTileBoard.numW.ToString());
 
                 writer.WriteComment("<NumHsmall>: Number of tiles vertical in small-mode");
-                writer.WriteElementString("NumH", _Theme.songMenuTileBoard.numH.ToString());
+                writer.WriteElementString("NumHsmall", _Theme.songMenuTileBoard.numH.ToString());
 
                 writer.WriteComment("<TileRectX>, <TileRectY>, <TileRectZ>, <TileRectW>, <TileRectH>: SongMenu position, width and height");
                 writer.WriteElementString("TileRectX", _Theme.songMenuTileBoard.TileRect.X.ToString("#0"));

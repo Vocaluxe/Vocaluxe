@@ -130,6 +130,12 @@
       <B>0,674</B>
       <A>1,000</A>
     </StaticColor>
+    <StaticColorAlpha>
+      <R>0,968</R>
+      <G>0,956</G>
+      <B>0,674</B>
+      <A>0,500</A>
+    </StaticColorAlpha>
     <StaticWarningColor>
       <R>0,968</R>
       <G>0,956</G>
@@ -315,6 +321,10 @@
 	<PauseIcon>PauseIcon.png</PauseIcon>
 	<RepeatIcon>RepeatIcon.png</RepeatIcon>
 	<SongMenuBG>SongMenuBG.png</SongMenuBG>
+	<CloseIcon>Close.png</CloseIcon>
+	<DeleteIcon>Delete.png</DeleteIcon>
+	<SaveIcon>Save.png</SaveIcon>
+	<SingIcon>Sing.png</SingIcon>	
   </Skins>
   <Videos>
     <BG_Video>[Yellow]BG_Video.mp4</BG_Video>

@@ -36,17 +36,19 @@ namespace Vocaluxe.Lib.Playlist
 
         public string PlaylistName;
         public string PlaylistFile;
-        public List<CPlaylistSong> Songs;
+        public List<CPlaylistSong> Songs = new List<CPlaylistSong>();
 
         public CPlaylist() 
         {
             Init();
+            PlaylistName = string.Empty;
+            PlaylistFile = string.Empty;
         }
 
         public CPlaylist(string file)
         {
             Init();
-            PlaylistName = file;
+            PlaylistFile = file;
             LoadPlaylist();
         }
 
@@ -58,29 +60,32 @@ namespace Vocaluxe.Lib.Playlist
         }
 
 
-        private void SavePlaylist()
+        public void SavePlaylist()
         {
-            string filename = string.Empty;
-            foreach (char chr in PlaylistName)
+            if (PlaylistFile == string.Empty)
             {
-                if (char.IsLetter(chr))
-                    filename += chr.ToString();
-            }
-
-            if (filename == String.Empty)
-                filename = "1";
-
-            int i = 0;
-            while (File.Exists(Path.Combine(CSettings.sFolderPlaylists, filename + ".xml")))
-            {
-                i++;
-                if (!File.Exists(Path.Combine(CSettings.sFolderPlaylists, filename + i + ".xml")))
+                string filename = string.Empty;
+                foreach (char chr in PlaylistName)
                 {
-                    filename += i;
+                    if (char.IsLetter(chr))
+                        filename += chr.ToString();
                 }
-            }
 
-            PlaylistFile = Path.Combine(CSettings.sFolderPlaylists, filename + ".xml");
+                if (filename == String.Empty)
+                    filename = "1";
+
+                int i = 0;
+                while (File.Exists(Path.Combine(CSettings.sFolderPlaylists, filename + ".xml")))
+                {
+                    i++;
+                    if (!File.Exists(Path.Combine(CSettings.sFolderPlaylists, filename + i + ".xml")))
+                    {
+                        filename += i;
+                    }
+                }
+
+                PlaylistFile = Path.Combine(CSettings.sFolderPlaylists, filename + ".xml");
+            }
 
             XmlWriter writer;
             try
@@ -107,7 +112,7 @@ namespace Vocaluxe.Lib.Playlist
             writer.WriteEndElement();
 
             writer.WriteStartElement("Songs");
-            for (i = 0; i < Songs.Count; i++)
+            for (int i = 0; i < Songs.Count; i++)
             {
                 CSong song = CSongs.GetSong(Songs[i].SongID);
                 if (song != null)
@@ -201,6 +206,27 @@ namespace Vocaluxe.Lib.Playlist
                     CLog.LogError("Can't find PlaylistName in Playlist File: " + PlaylistFile);
                 }
             }
+        }
+
+        public void AddSong(int SongID)
+        {
+            CPlaylistSong song = new CPlaylistSong();
+            song.SongID = SongID;
+            if (CSongs.GetSong(SongID).IsDuet)
+                song.GameMode = EGameMode.TR_GAMEMODE_DUET;
+            else
+                song.GameMode = EGameMode.TR_GAMEMODE_NORMAL;
+
+            Songs.Add(song);            
+        }
+
+        public void AddSong(int SongID, EGameMode gm)
+        {
+            CPlaylistSong song = new CPlaylistSong();
+            song.SongID = SongID;
+            song.GameMode = gm;
+
+            Songs.Add(song);   
         }
     }
 }

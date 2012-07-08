@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
+using Vocaluxe.GameModes;
 
 namespace Vocaluxe.Lib.Song
 {
@@ -147,6 +148,23 @@ namespace Vocaluxe.Lib.Song
 
         // Notes
         public CNotes Notes = new CNotes();
+
+        public EGameMode[] AvailableGameModes
+        {
+            get 
+            {
+                List<EGameMode> gms = new List<EGameMode>();
+                if (IsDuet)
+                    gms.Add(EGameMode.TR_GAMEMODE_DUET);
+                else
+                    gms.Add(EGameMode.TR_GAMEMODE_NORMAL);
+                if (Medley.Source != EMedleySource.None)
+                    gms.Add(EGameMode.TR_GAMEMODE_MEDLEY);
+                gms.Add(EGameMode.TR_GAMEMODE_SHORTSONG);
+
+                return gms.ToArray();
+            }
+        }
 
         public CSong()
         {
