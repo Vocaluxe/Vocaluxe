@@ -1685,7 +1685,7 @@ namespace Vocaluxe.Menu
                     _NameSelections[_Interactions[_Selection].Num].Selected = true;
                     break;
                 case EType.TPlaylist:
-                    //_Playlists[_Interactions[_Selection].Num].Selected = true;
+                    _Playlists[_Interactions[_Selection].Num].Selected = true;
                     break;
             }
         }
@@ -1716,7 +1716,7 @@ namespace Vocaluxe.Menu
                     _NameSelections[_Interactions[_Selection].Num].Selected = false;
                     break;
                 case EType.TPlaylist:
-                    //_Playlists[_Interactions[_Selection].Num].Selected = true;
+                    _Playlists[_Interactions[_Selection].Num].Selected = false;
                     break;
             }
         }

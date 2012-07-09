@@ -233,5 +233,21 @@ namespace Vocaluxe.Lib.Playlist
         {
             Songs.RemoveAt(SongNr);
         }
+
+        public void SongDown(int SongNr)
+        {
+            if (SongNr != 0)
+            {
+                Songs.Reverse(SongNr - 1, 2);
+            }
+        }
+
+        public void SongUp(int SongNr)
+        {
+            if (SongNr + 1 < Songs.Count)
+            {
+                Songs.Reverse(SongNr, 2);
+            }
+        }
     }
 }

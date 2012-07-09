@@ -96,12 +96,11 @@ namespace Vocaluxe.Screens
         public override bool HandleInput(KeyEvent KeyEvent)
         {
             base.HandleInput(KeyEvent);
-
+            if (KeyEvent.Handled)
+                return true;
 
             if (Playlists[htPlaylists(Playlist)].HandleInput(KeyEvent))
-            {
                 return true;
-            }
 
             if (!_SongOptionsActive)
             {

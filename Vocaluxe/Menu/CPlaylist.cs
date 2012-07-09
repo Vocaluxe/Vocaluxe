@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
+using System.Windows.Forms;
 
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
@@ -68,10 +69,12 @@ namespace Vocaluxe.Menu
         public SColorF BackgroundSColor;
 
         public bool Visible;
+        public bool Selected;
 
         public int ActivePlaylistID = 0;
         public int Offset = 0;
         public int ActiveHover = -1;
+        public int CurrentPlaylistElement = -1;
 
         public CPlaylist()
         {
@@ -90,6 +93,7 @@ namespace Vocaluxe.Menu
             PlaylistElementContents = new List<PlaylistElementContent>();
 
             Visible = false;
+            Selected = false;
         }
 
         public void Init()
@@ -236,6 +240,16 @@ namespace Vocaluxe.Menu
 
             for (int i = 0; i < PlaylistElements.Count; i++ )
             {
+                if (i == ActiveHover)
+                {
+                    PlaylistElements[i].Background.Texture = CTheme.GetSkinTexture(_Theme.STextureBackgroundName);
+                    PlaylistElements[i].Background.Color = BackgroundSColor;
+                }
+                else
+                {
+                    PlaylistElements[i].Background.Texture = CTheme.GetSkinTexture(_Theme.TextureBackgroundName);
+                    PlaylistElements[i].Background.Color = BackgroundColor;
+                }
                 PlaylistElements[i].Background.Draw();
                 PlaylistElements[i].Cover.Draw();
                 PlaylistElements[i].Text1.Draw();
@@ -270,8 +284,93 @@ namespace Vocaluxe.Menu
 
         public bool HandleInput(KeyEvent kevent)
         {
-            switch (kevent.Key)
+            if (Visible)
             {
+                switch (kevent.Key)
+                {
+                    case Keys.Up:
+                        if (CurrentPlaylistElement == -1)
+                            CurrentPlaylistElement = 0;
+                        else if (CurrentPlaylistElement - 1 > 0)
+                            CurrentPlaylistElement--;
+                        else if (CurrentPlaylistElement - 1 == 0)
+                        {
+                            CurrentPlaylistElement--;
+                            if (Offset > 0)
+                            {
+                                Offset--;
+                                Update();
+                            }
+                        }
+                        ActiveHover = CurrentPlaylistElement;
+                        return true;
+
+                    case Keys.Down:
+                        if (CurrentPlaylistElement == -1)
+                            CurrentPlaylistElement = 0;
+                        else if (CurrentPlaylistElement + 1 < PlaylistElements.Count)
+                        {
+                            if (PlaylistElements[CurrentPlaylistElement + 1].Content != -1)
+                            {
+                                CurrentPlaylistElement++;
+                            }
+                        }
+                        else if (CurrentPlaylistElement + 1 >= PlaylistElements.Count && CurrentPlaylistElement + Offset + 1 < PlaylistElementContents.Count)
+                        {
+                            if (PlaylistElementContents[CurrentPlaylistElement + Offset + 1].SongID != -1)
+                            {
+                                Offset++;
+                                Update();
+                            }
+                        }
+                        ActiveHover = CurrentPlaylistElement;
+                        return true;
+
+                    case Keys.Delete:
+                        if (CurrentPlaylistElement != -1)
+                        {
+                            CPlaylists.Playlists[ActivePlaylistID].DeleteSong(PlaylistElements[CurrentPlaylistElement].Content);
+                            UpdatePlaylist();
+                            return true;
+                        }
+                        return false;
+
+                    case Keys.PageUp:
+                        if (CurrentPlaylistElement != -1)
+                        {
+                            CPlaylists.Playlists[ActivePlaylistID].SongDown(CurrentPlaylistElement+Offset);
+                            if (CurrentPlaylistElement - 1 > -1)
+                            {
+                                CurrentPlaylistElement--;
+                                ActiveHover = CurrentPlaylistElement;
+                            }
+                            else if(Offset > 0)
+                            {
+                                Offset--;
+                            }
+                            UpdatePlaylist();
+                            return true;
+                        }
+                        break;
+
+                    case Keys.PageDown:
+                        if (CurrentPlaylistElement != -1)
+                        {
+                            CPlaylists.Playlists[ActivePlaylistID].SongUp(CurrentPlaylistElement+Offset);
+                            if (CurrentPlaylistElement + 1 < PlaylistElements.Count)
+                            {
+                                CurrentPlaylistElement++;
+                                ActiveHover = CurrentPlaylistElement;
+                            }
+                            else if (Offset + CurrentPlaylistElement < PlaylistElementContents.Count) 
+                            {
+                                Offset++;
+                            }
+                            UpdatePlaylist();
+                            return true;
+                        }
+                        break;
+                }
             }
             return false;
         }
@@ -306,6 +405,7 @@ namespace Vocaluxe.Menu
                         PlaylistElements[i].Background.Texture = CTheme.GetSkinTexture(_Theme.STextureBackgroundName);
                         PlaylistElements[i].Background.Color = BackgroundSColor;
                         ActiveHover = i;
+                        CurrentPlaylistElement = -1;
                     }
                     else
                     {
@@ -330,9 +430,8 @@ namespace Vocaluxe.Menu
             {
                 if (ActiveHover != -1)
                 {
-                    PlaylistElements[ActiveHover].Background.Texture = CTheme.GetSkinTexture(_Theme.TextureBackgroundName);
-                    PlaylistElements[ActiveHover].Background.Color = BackgroundColor;
                     ActiveHover = -1;
+                    CurrentPlaylistElement = -1;
                 }
             }
             return false;
