@@ -457,6 +457,7 @@ namespace Vocaluxe.Menu
                 en.SelectSlide.HColor = _Theme.SelectSlideGameMode.HColor;
                 en.SelectSlide.Highlighted = _Theme.SelectSlideGameMode.Highlighted;
                 en.SelectSlide.MaxW = _Theme.SelectSlideGameMode.MaxW;
+                en.SelectSlide.NumVisible = _Theme.SelectSlideGameMode.NumVisible;
                 en.SelectSlide.SColor = _Theme.SelectSlideGameMode.SColor;
                 en.SelectSlide.SColorArrow = _Theme.SelectSlideGameMode.SColorArrow;
                 en.SelectSlide.STextColor = _Theme.SelectSlideGameMode.STextColor;

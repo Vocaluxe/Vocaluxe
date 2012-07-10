@@ -1127,13 +1127,13 @@
 		  <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
 		  <ArrowLeftX>54</ArrowLeftX>
 		  <ArrowLeftY>30</ArrowLeftY>
-		  <ArrowLeftZ>0,00</ArrowLeftZ>
+		  <ArrowLeftZ>-1,02</ArrowLeftZ>
 		  <ArrowLeftW>20</ArrowLeftW>
 		  <ArrowLeftH>20</ArrowLeftH>
 		  <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
-		  <ArrowRightX>110</ArrowRightX>
+		  <ArrowRightX>235</ArrowRightX>
 		  <ArrowRightY>30</ArrowRightY>
-		  <ArrowRightZ>0,00</ArrowRightZ>
+		  <ArrowRightZ>-1,02</ArrowRightZ>
 		  <ArrowRightW>20</ArrowRightW>
 		  <ArrowRightH>20</ArrowRightH>
 		  <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
