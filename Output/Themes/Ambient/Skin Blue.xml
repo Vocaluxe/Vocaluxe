@@ -130,6 +130,12 @@
       <B>0,969</B>
       <A>1,000</A>
     </StaticColor>
+    <StaticColorAlpha>
+      <R>0,675</R>
+      <G>0,890</G>
+      <B>0,969</B>
+      <A>0,500</A>
+    </StaticColorAlpha>
     <StaticWarningColor>
       <R>0,675</R>
       <G>0,890</G>
