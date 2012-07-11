@@ -391,7 +391,10 @@ namespace Vocaluxe.Menu
                     case Keys.Left:
                         if (CurrentPlaylistElement != -1)
                         {
+                            int oldValue = PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection;
                             PlaylistElements[CurrentPlaylistElement].SelectSlide.PrevValue();
+                            if (oldValue != PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection)
+                                CPlaylists.Playlists[ActivePlaylistID].Songs[CurrentPlaylistElement + Offset].GameMode = PlaylistElementContents[CurrentPlaylistElement + Offset].Modes[PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection];
                             return true;
                         }
                         return false;
@@ -399,7 +402,10 @@ namespace Vocaluxe.Menu
                     case Keys.Right:
                         if (CurrentPlaylistElement != -1)
                         {
+                            int oldValue = PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection;
                             PlaylistElements[CurrentPlaylistElement].SelectSlide.NextValue();
+                            if (oldValue != PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection)
+                                CPlaylists.Playlists[ActivePlaylistID].Songs[CurrentPlaylistElement + Offset].GameMode = PlaylistElementContents[CurrentPlaylistElement + Offset].Modes[PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection];
                             return true;
                         }
                         return false;
@@ -433,7 +439,10 @@ namespace Vocaluxe.Menu
                 {
                     if (CurrentPlaylistElement != -1)
                     {
+                        int oldValue = PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection;
                         PlaylistElements[CurrentPlaylistElement].SelectSlide.ProcessMouseLBClick(mevent.X, mevent.Y);
+                        if (oldValue != PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection)
+                            CPlaylists.Playlists[ActivePlaylistID].Songs[CurrentPlaylistElement + Offset].GameMode = PlaylistElementContents[CurrentPlaylistElement + Offset].Modes[PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection];
                         return true;
                     }
                 }
@@ -470,6 +479,7 @@ namespace Vocaluxe.Menu
                     }
                     else if (CHelper.IsInBounds(PlaylistElements[i].Background.Rect, mevent) && mevent.LBH && PlaylistElements[i].Content != -1 && changeOrder)
                     {
+                        /*
                         if (PlaylistElements.Count < CurrentPlaylistElement + 1)
                         {
                         }
@@ -479,6 +489,7 @@ namespace Vocaluxe.Menu
                         if (mevent.Y < PlaylistElements[CurrentPlaylistElement + 1].Background.Rect.Y)
                         {
                         }
+                         */
                     }
                 }
             }
