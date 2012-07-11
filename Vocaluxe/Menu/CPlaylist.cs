@@ -284,7 +284,7 @@ namespace Vocaluxe.Menu
 
         public bool HandleInput(KeyEvent kevent)
         {
-            if (Visible)
+            if (Selected)
             {
                 switch (kevent.Key)
                 {
@@ -370,6 +370,22 @@ namespace Vocaluxe.Menu
                             return true;
                         }
                         break;
+
+                    case Keys.Left:
+                        if (CurrentPlaylistElement != -1)
+                        {
+                            PlaylistElements[CurrentPlaylistElement].SelectSlide.PrevValue();
+                            return true;
+                        }
+                        return false;
+
+                    case Keys.Right:
+                        if (CurrentPlaylistElement != -1)
+                        {
+                            PlaylistElements[CurrentPlaylistElement].SelectSlide.NextValue();
+                            return true;
+                        }
+                        return false;
                 }
             }
             return false;
@@ -377,7 +393,7 @@ namespace Vocaluxe.Menu
 
         public bool HandleMouse(MouseEvent mevent)
         {
-            if (CHelper.IsInBounds(Rect, mevent))
+            if (CHelper.IsInBounds(Rect, mevent) && Visible)
             {
                 if (mevent.Wheel > 0)
                 {
@@ -396,6 +412,14 @@ namespace Vocaluxe.Menu
                         return true;
                     }
                 }
+                if (mevent.LB)
+                {
+                    if (CurrentPlaylistElement != -1)
+                    {
+                        PlaylistElements[CurrentPlaylistElement].SelectSlide.ProcessMouseLBClick(mevent.X, mevent.Y);
+                        return true;
+                    }
+                }
 
                 for (int i = 0; i < PlaylistElements.Count; i++)
                 {
@@ -405,13 +429,15 @@ namespace Vocaluxe.Menu
                         PlaylistElements[i].Background.Texture = CTheme.GetSkinTexture(_Theme.STextureBackgroundName);
                         PlaylistElements[i].Background.Color = BackgroundSColor;
                         ActiveHover = i;
-                        CurrentPlaylistElement = -1;
+                        CurrentPlaylistElement = i;
                     }
                     else
                     {
                         PlaylistElements[i].Background.Texture = CTheme.GetSkinTexture(_Theme.TextureBackgroundName);
                         PlaylistElements[i].Background.Color = BackgroundColor;
                     }
+                    //Hover for SelectSlide-Arrow
+                    PlaylistElements[i].SelectSlide.ProcessMouseMove(mevent.X, mevent.Y);
                     //Delete Entry with RB
                     if (CHelper.IsInBounds(PlaylistElements[i].Background.Rect, mevent) && mevent.RB && PlaylistElements[i].Content != -1)
                     {
@@ -440,7 +466,7 @@ namespace Vocaluxe.Menu
         private void PrepareList()
         {
             PlaylistElements.Clear();
-            for (int i = 0; i < (Rect.H / _Theme.EntryHeight); i++)
+            for (int i = 0; i < Math.Floor(Rect.H / _Theme.EntryHeight); i++)
             {
                 PlaylistElement en = new PlaylistElement();
                 en.Background = new CStatic(_Theme.TextureBackgroundName, BackgroundColor, new SRectF(Rect.X, Rect.Y + (i * _Theme.EntryHeight), Rect.W, _Theme.EntryHeight, Rect.Z));
@@ -448,22 +474,10 @@ namespace Vocaluxe.Menu
                 en.Text1 = new CText(Rect.X + _Theme.Text1.X, Rect.Y + _Theme.Text1.Y + (i * _Theme.EntryHeight), _Theme.Text1.Z, _Theme.Text1.Height, _Theme.Text1.MaxWidth, _Theme.Text1.Align, _Theme.Text1.Style, _Theme.Text1.Fon, _Theme.Text1.Color, "", _Theme.Text1.ReflectionSpace, _Theme.Text1.ReflectionHeight);
                 en.Text2 = new CText(Rect.X + _Theme.Text2.X, Rect.Y + _Theme.Text2.Y + (i * _Theme.EntryHeight), _Theme.Text2.Z, _Theme.Text2.Height, _Theme.Text2.MaxWidth, _Theme.Text2.Align, _Theme.Text2.Style, _Theme.Text2.Fon, _Theme.Text2.Color, "", _Theme.Text2.ReflectionSpace, _Theme.Text2.ReflectionHeight);
                 en.Text3 = new CText(Rect.X + _Theme.Text3.X, Rect.Y + _Theme.Text3.Y + (i * _Theme.EntryHeight), _Theme.Text3.Z, _Theme.Text3.Height, _Theme.Text3.MaxWidth, _Theme.Text3.Align, _Theme.Text3.Style, _Theme.Text3.Fon, _Theme.Text3.Color, "", _Theme.Text3.ReflectionSpace, _Theme.Text3.ReflectionHeight);
-                en.SelectSlide = new CSelectSlide();
+                en.SelectSlide = (CSelectSlide)_Theme.SelectSlideGameMode.Clone();
                 en.SelectSlide.Rect = new SRectF(Rect.X + _Theme.SelectSlideGameMode.Rect.X, Rect.Y + _Theme.SelectSlideGameMode.Rect.Y + (i * _Theme.EntryHeight), _Theme.SelectSlideGameMode.Rect.W, _Theme.SelectSlideGameMode.Rect.H, _Theme.SelectSlideGameMode.Rect.Z);
                 en.SelectSlide.RectArrowLeft = new SRectF(Rect.X + _Theme.SelectSlideGameMode.RectArrowLeft.X, Rect.Y + _Theme.SelectSlideGameMode.RectArrowLeft.Y + (i * _Theme.EntryHeight), _Theme.SelectSlideGameMode.RectArrowLeft.W, _Theme.SelectSlideGameMode.RectArrowLeft.H, _Theme.SelectSlideGameMode.RectArrowLeft.Z);
                 en.SelectSlide.RectArrowRight = new SRectF(Rect.X + _Theme.SelectSlideGameMode.RectArrowRight.X, Rect.Y + _Theme.SelectSlideGameMode.RectArrowRight.Y + (i * _Theme.EntryHeight), _Theme.SelectSlideGameMode.RectArrowRight.W, _Theme.SelectSlideGameMode.RectArrowRight.H, _Theme.SelectSlideGameMode.RectArrowRight.Z);
-                en.SelectSlide.Color = _Theme.SelectSlideGameMode.Color;
-                en.SelectSlide.ColorArrow = _Theme.SelectSlideGameMode.ColorArrow;
-                en.SelectSlide.HColor = _Theme.SelectSlideGameMode.HColor;
-                en.SelectSlide.Highlighted = _Theme.SelectSlideGameMode.Highlighted;
-                en.SelectSlide.MaxW = _Theme.SelectSlideGameMode.MaxW;
-                en.SelectSlide.NumVisible = _Theme.SelectSlideGameMode.NumVisible;
-                en.SelectSlide.SColor = _Theme.SelectSlideGameMode.SColor;
-                en.SelectSlide.SColorArrow = _Theme.SelectSlideGameMode.SColorArrow;
-                en.SelectSlide.STextColor = _Theme.SelectSlideGameMode.STextColor;
-                en.SelectSlide.TextColor = _Theme.SelectSlideGameMode.TextColor;
-                en.SelectSlide.TextH = _Theme.SelectSlideGameMode.TextH;
-                en.SelectSlide.Visible = true;
                 en.Content = -1;
                 PlaylistElements.Add(en);
             }
@@ -527,6 +541,7 @@ namespace Vocaluxe.Menu
                         PlaylistElements[i].Text1.Text = t1;
                         PlaylistElements[i].Text2.Text = t2;
                         PlaylistElements[i].Text3.Text = t3;
+                        PlaylistElements[i].SelectSlide.Clear();
                         for (int g = 0; g < PlaylistElementContents[e].Modes.Length; g++)
                         {
                             PlaylistElements[i].SelectSlide.AddValue(Enum.GetName(typeof(GameModes.EGameMode), PlaylistElementContents[e].Modes[g]));

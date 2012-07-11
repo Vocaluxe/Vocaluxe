@@ -38,7 +38,7 @@ namespace Vocaluxe.Menu
         public EStyle TextStyle;
     }
 
-    class CSelectSlide : IMenuElement
+    class CSelectSlide : IMenuElement, ICloneable
     {
         private SThemeSelectSlide _Theme;
         private bool _ThemeLoaded;
@@ -752,6 +752,11 @@ namespace Vocaluxe.Menu
         {
             UnloadTextures();
             LoadTextures();
+        }
+
+        public object Clone()
+        {
+            return base.MemberwiseClone();
         }
 
         #region ThemeEdit
