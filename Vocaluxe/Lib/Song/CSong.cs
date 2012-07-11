@@ -48,7 +48,7 @@ namespace Vocaluxe.Lib.Song
         }
     }
 
-    class CSong : ICloneable
+    class CSong
     {
         private bool _CoverLoaded = false;
         private bool _NotesLoaded = false;

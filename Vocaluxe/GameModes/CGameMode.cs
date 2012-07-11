@@ -108,7 +108,6 @@ namespace Vocaluxe.GameModes
         protected List<SongQueque> _SongQueque;
         protected int _CurrentSong;
         protected CPoints _Points;
-        private CSong CopiedSong;
 
         #region Implementation
         public virtual void Init()
@@ -229,7 +228,6 @@ namespace Vocaluxe.GameModes
                         _SongQueque[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_MEDLEY,
                         _SongQueque[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_DUET,
                         _SongQueque[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_SHORTSONG);
-                    CSongs.AllSongs[_CurrentSong] = CopiedSong;
                 }
                 _CurrentSong++;
             }
@@ -250,7 +248,7 @@ namespace Vocaluxe.GameModes
             if (_CurrentSong >= 0 && _CurrentSong < _SongQueque.Count)
             {
                 CSong song = CSongs.GetSong(_SongQueque[_CurrentSong].SongID);
-                CopiedSong = (CSong)song.Clone();
+                song = new CSong(song);
 
                 switch (GetCurrentGameMode())
                 {
