@@ -299,7 +299,7 @@ namespace Vocaluxe.Screens
                             if (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1 < 0)
                                 Playlists[htPlaylists(Playlist)].ActivePlaylistID = CPlaylists.NewPlaylist();
                             else
-                                Playlists[htPlaylists(Playlist)].ActivePlaylistID = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection;
+                                Playlists[htPlaylists(Playlist)].ActivePlaylistID = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1;
                             CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
                             OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
                         }
