@@ -6,7 +6,7 @@ using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Song
 {
-    class CNotes
+    class CNotes : ICloneable
     {
         private List<CLines> _Lines = new List<CLines>();
         
@@ -78,6 +78,11 @@ namespace Vocaluxe.Lib.Song
             {
                 lines.SetMedley(StartBeat, EndBeat);
             }
+        }
+
+        public object Clone()
+        {
+            return base.MemberwiseClone();
         }
     }
 
@@ -549,6 +554,7 @@ namespace Vocaluxe.Lib.Song
                 updateMinMaxBeat(note);
             }
         }
+
         #endregion Methods
     }
 

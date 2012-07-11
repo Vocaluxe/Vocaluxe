@@ -247,7 +247,8 @@ namespace Vocaluxe.GameModes
         {
             if (_CurrentSong >= 0 && _CurrentSong < _SongQueque.Count)
             {
-                CSong song = CSongs.GetSong(_SongQueque[_CurrentSong].SongID);
+                CSong song = (CSong)CSongs.GetSong(_SongQueque[_CurrentSong].SongID).Clone();
+                song.Notes = (CNotes)CSongs.GetSong(_SongQueque[_CurrentSong].SongID).Notes.Clone();
 
                 switch (GetCurrentGameMode())
                 {

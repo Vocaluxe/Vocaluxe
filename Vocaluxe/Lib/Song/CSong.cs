@@ -48,7 +48,7 @@ namespace Vocaluxe.Lib.Song
         }
     }
 
-    class CSong
+    class CSong : ICloneable
     {
         private bool _CoverLoaded = false;
         private bool _NotesLoaded = false;
@@ -979,6 +979,11 @@ namespace Vocaluxe.Lib.Song
 
             ShortEnd = stop;
 
+        }
+
+        public object Clone()
+        {
+            return base.MemberwiseClone();
         }
     }
 }
