@@ -25,23 +25,16 @@ namespace Vocaluxe.Screens
         private const string TextSearchBarTitle = "TextSearchBarTitle";
         private const string TextSearchBar = "TextSearchBar";
         private const string TextOptionsTitle = "TextOptionsTitle";
-        private const string TextPlaylistHeader = "TextPlaylistHeader";
 
         private const string ButtonOptionsSing = "ButtonOptionsSing";
         private const string ButtonOptionsPlaylist = "ButtonOptionsPlaylist";
         private const string ButtonOptionsClose = "ButtonOptionsClose";
-        private const string ButtonPlaylistClose = "ButtonPlaylistClose";
-        private const string ButtonPlaylistSing = "ButtonPlaylistSing";
-        private const string ButtonPlaylistSave = "ButtonPlaylistSave";
-        private const string ButtonPlaylistDelete = "ButtonPlaylistDelete";
 
         private const string SelectSlideOptionsMode = "SelectSlideOptionsMode";
         private const string SelectSlideOptionsPlaylist = "SelectSlideOptionsPlaylist";
 
         private const string StaticSearchBar = "StaticSearchBar";
         private const string StaticOptionsBG = "StaticOptionsBG";
-        private const string StaticPlaylistHeader = "StaticPlaylistHeader";
-        private const string StaticPlaylistFooter = "StaticPlaylistFooter";
         private const string SongMenu = "SongMenu";
         private const string Playlist = "Playlist";
 
@@ -49,7 +42,6 @@ namespace Vocaluxe.Screens
         private bool _SearchActive = false;
 
         private bool _SongOptionsActive = false;
-        private int _OpenedPlaylist = -1;
         private List<GameModes.EGameMode> _AvailableGameModes;
 
         public CScreenSong()
@@ -65,9 +57,9 @@ namespace Vocaluxe.Screens
 
             _ThemeName = "ScreenSong";
             _ScreenVersion = ScreenVersion;
-            _ThemeStatics = new string[] { StaticSearchBar, StaticOptionsBG, StaticPlaylistHeader, StaticPlaylistFooter };
-            _ThemeTexts = new string[] { TextCategory, TextSelection, TextSearchBarTitle, TextSearchBar, TextOptionsTitle, TextPlaylistHeader };
-            _ThemeButtons = new string[] { ButtonOptionsClose, ButtonOptionsPlaylist, ButtonOptionsSing, ButtonPlaylistClose, ButtonPlaylistSing, ButtonPlaylistSave, ButtonPlaylistDelete };
+            _ThemeStatics = new string[] { StaticSearchBar, StaticOptionsBG };
+            _ThemeTexts = new string[] { TextCategory, TextSelection, TextSearchBarTitle, TextSearchBar, TextOptionsTitle };
+            _ThemeButtons = new string[] { ButtonOptionsClose, ButtonOptionsPlaylist, ButtonOptionsSing };
             _ThemeSelectSlides = new string[] { SelectSlideOptionsMode, SelectSlideOptionsPlaylist };
             _ThemeSongMenus = new string[] { SongMenu };
             _ThemePlaylists = new string[] { Playlist };
@@ -81,15 +73,8 @@ namespace Vocaluxe.Screens
             Buttons[htButtons(ButtonOptionsClose)].Visible = false;
             Buttons[htButtons(ButtonOptionsSing)].Visible = false;
             Buttons[htButtons(ButtonOptionsPlaylist)].Visible = false;
-            Buttons[htButtons(ButtonPlaylistClose)].Visible = false;
-            Buttons[htButtons(ButtonPlaylistSing)].Visible = false;
-            Buttons[htButtons(ButtonPlaylistSave)].Visible = false;
-            Buttons[htButtons(ButtonPlaylistDelete)].Visible = false;
             Texts[htTexts(TextOptionsTitle)].Visible = false;
-            Texts[htTexts(TextPlaylistHeader)].Visible = false;
             Statics[htStatics(StaticOptionsBG)].Visible = false;
-            Statics[htStatics(StaticPlaylistHeader)].Visible = false;
-            Statics[htStatics(StaticPlaylistFooter)].Visible = false;
             Playlists[htPlaylists(Playlist)].Visible = false;
         }
 
@@ -221,25 +206,26 @@ namespace Vocaluxe.Screens
                         else if (Buttons[htButtons(ButtonOptionsPlaylist)].Selected)
                         {
                             //Open a playlist and add song
-                            if (_OpenedPlaylist != (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1))
+                            if (Playlists[htPlaylists(Playlist)].ActivePlaylistID != (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1))
                             {
-                                _OpenedPlaylist = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1;
-                                if (_OpenedPlaylist < 0)
-                                    _OpenedPlaylist = CPlaylists.NewPlaylist();
-                                CPlaylists.Playlists[_OpenedPlaylist].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
-                                OpenPlaylist(_OpenedPlaylist);
+                                if (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1 < 0)
+                                    Playlists[htPlaylists(Playlist)].ActivePlaylistID = CPlaylists.NewPlaylist();
+                                else
+                                    Playlists[htPlaylists(Playlist)].ActivePlaylistID = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection;
+                                CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
+                                OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
                             }
                             //Create a new playlist and add song
                             else if ((SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1) == -1)
                             {
-                                _OpenedPlaylist = CPlaylists.NewPlaylist();
-                                CPlaylists.Playlists[_OpenedPlaylist].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
-                                OpenPlaylist(_OpenedPlaylist);
+                                Playlists[htPlaylists(Playlist)].ActivePlaylistID = CPlaylists.NewPlaylist();
+                                CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
+                                OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
                             }
                             //Add song to loaded playlist
                             else
                             {
-                                CPlaylists.Playlists[_OpenedPlaylist].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
+                                CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
                                 Playlists[htPlaylists(Playlist)].UpdatePlaylist();
                             }
                             ToggleSongOptions();
@@ -308,27 +294,26 @@ namespace Vocaluxe.Screens
                     else if (Buttons[htButtons(ButtonOptionsPlaylist)].Selected)
                     {
                         //Open a playlist and add song
-                        if (_OpenedPlaylist != (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1))
+                        if (Playlists[htPlaylists(Playlist)].ActivePlaylistID != (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1))
                         {
-                            _OpenedPlaylist = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1;
-                            if (_OpenedPlaylist < 0)
-                                _OpenedPlaylist = CPlaylists.NewPlaylist();
-                            CPlaylists.Playlists[_OpenedPlaylist].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
-                            OpenPlaylist(_OpenedPlaylist);
+                            if (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1 < 0)
+                                Playlists[htPlaylists(Playlist)].ActivePlaylistID = CPlaylists.NewPlaylist();
+                            else
+                                Playlists[htPlaylists(Playlist)].ActivePlaylistID = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection;
+                            CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
+                            OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
                         }
                         //Create a new playlist and add song
                         else if ((SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1) == -1)
                         {
-                            _OpenedPlaylist = CPlaylists.NewPlaylist();
-                            CPlaylists.Playlists[_OpenedPlaylist].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
-                            OpenPlaylist(_OpenedPlaylist);
-                            UpdatePlaylistNames();
-                            SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].NumValues - 1;
+                            Playlists[htPlaylists(Playlist)].ActivePlaylistID = CPlaylists.NewPlaylist();
+                            CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
+                            OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
                         }
                         //Add song to loaded playlist
-                        else 
+                        else
                         {
-                            CPlaylists.Playlists[_OpenedPlaylist].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
+                            CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
                             Playlists[htPlaylists(Playlist)].UpdatePlaylist();
                         }
                         ToggleSongOptions();
@@ -337,31 +322,6 @@ namespace Vocaluxe.Screens
                 if (MouseEvent.RB)
                 {
                     ToggleSongOptions();
-                }
-            }
-
-            if (_OpenedPlaylist > -1)
-            {
-                if (MouseEvent.LB && IsMouseOver(MouseEvent))
-                {
-                    if (Buttons[htButtons(ButtonPlaylistClose)].Selected)
-                    {
-                        ClosePlaylist();
-                    }
-                    else if (Buttons[htButtons(ButtonPlaylistSing)].Selected)
-                    {
-                        StartPlaylistSongs();
-                    }
-                    else if (Buttons[htButtons(ButtonPlaylistSave)].Selected)
-                    {
-                        CPlaylists.SavePlaylist(_OpenedPlaylist);
-                    }
-                    else if (Buttons[htButtons(ButtonPlaylistDelete)].Selected)
-                    {
-                        CPlaylists.DeletePlaylist(_OpenedPlaylist);
-                        ClosePlaylist();
-                        UpdatePlaylistNames();
-                    }
                 }
             }
 
@@ -374,15 +334,16 @@ namespace Vocaluxe.Screens
             CGame.EnterNormalGame();
             SongMenus[htSongMenus(SongMenu)].OnShow();
             Playlists[htPlaylists(Playlist)].Init();
-            if(_OpenedPlaylist != -1)
-                Playlists[htPlaylists(Playlist)].LoadPlaylist(_OpenedPlaylist);
+            if (Playlists[htPlaylists(Playlist)].ActivePlaylistID != -1)
+                Playlists[htPlaylists(Playlist)].LoadPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
             UpdatePlaylistNames();
         }
 
         public override bool UpdateGame()
         {
             SongMenus[htSongMenus(SongMenu)].Update();
-            Playlists[htPlaylists(Playlist)].Visible = SongMenus[htSongMenus(SongMenu)].IsSmallView();
+            if (SongMenus[htSongMenus(SongMenu)].IsSmallView())
+                CheckPlaylist();
             Texts[htTexts(TextCategory)].Text = CSongs.GetActualCategoryName();
 
             if (CSongs.Category > -1 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF)
@@ -475,22 +436,6 @@ namespace Vocaluxe.Screens
                 CGame.AddVisibleSong(SongNr, gm);
 
                 CGraphics.FadeTo(EScreens.ScreenNames);
-            }
-        }
-
-        private void StartPlaylistSongs() 
-        {
-            CGame.Reset();
-            CGame.ClearSongs();
-
-            if (_OpenedPlaylist > -1 && _OpenedPlaylist < CPlaylists.NumPlaylists)
-            {
-                for (int i = 0; i < CPlaylists.Playlists[_OpenedPlaylist].Songs.Count; i++)
-                {
-                    CGame.AddSong(CPlaylists.Playlists[_OpenedPlaylist].Songs[i].SongID, CPlaylists.Playlists[_OpenedPlaylist].Songs[i].GameMode);
-                }
-                if (CGame.GetNumSongs() > 0)
-                    CGraphics.FadeTo(EScreens.ScreenNames);
             }
         }
 
@@ -643,38 +588,25 @@ namespace Vocaluxe.Screens
             }
         }
 
+        public void CheckPlaylist()
+        {
+            if (Playlists[htPlaylists(Playlist)].ActivePlaylistID == -1)
+                ClosePlaylist();
+        }
+
         private void OpenPlaylist(int PlaylistID)
         {
             if (CPlaylists.Playlists.Length > PlaylistID && PlaylistID > -1)
             {
-                _OpenedPlaylist = PlaylistID;
-                Playlists[htPlaylists(Playlist)].LoadPlaylist(_OpenedPlaylist);
+                Playlists[htPlaylists(Playlist)].LoadPlaylist(PlaylistID);
                 SongMenus[htSongMenus(SongMenu)].SetSmallView(true);
                 Playlists[htPlaylists(Playlist)].Visible = true;
-                Statics[htStatics(StaticPlaylistHeader)].Visible = true;
-                Statics[htStatics(StaticPlaylistFooter)].Visible = true;
-                Texts[htTexts(TextPlaylistHeader)].Visible = true;
-                Texts[htTexts(TextPlaylistHeader)].Text = CPlaylists.Playlists[PlaylistID].PlaylistName;
-                Buttons[htButtons(ButtonPlaylistClose)].Visible = true;
-                Buttons[htButtons(ButtonPlaylistSing)].Visible = true;
-                Buttons[htButtons(ButtonPlaylistSave)].Visible = true;
-                Buttons[htButtons(ButtonPlaylistDelete)].Visible = true;
             }
         }
 
         private void ClosePlaylist()
         {
-            _OpenedPlaylist = -1;
             SongMenus[htSongMenus(SongMenu)].SetSmallView(false);
-            Playlists[htPlaylists(Playlist)].Visible = false;
-            Statics[htStatics(StaticPlaylistHeader)].Visible = false;
-            Statics[htStatics(StaticPlaylistFooter)].Visible = false;
-            Texts[htTexts(TextPlaylistHeader)].Visible = false;
-            Texts[htTexts(TextPlaylistHeader)].Text = String.Empty;
-            Buttons[htButtons(ButtonPlaylistClose)].Visible = false;
-            Buttons[htButtons(ButtonPlaylistSing)].Visible = false;
-            Buttons[htButtons(ButtonPlaylistSave)].Visible = false;
-            Buttons[htButtons(ButtonPlaylistDelete)].Visible = false;
         }
 
         private void UpdatePlaylistNames()

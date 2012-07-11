@@ -32,8 +32,16 @@ namespace Vocaluxe.Menu
         public CText Text1;
         public CText Text2;
         public CText Text3;
+        public CText TextPlaylistHeader;
 
         public CStatic StaticCover;
+        public CStatic StaticPlaylistHeader;
+        public CStatic StaticPlaylistFooter;
+
+        public CButton ButtonPlaylistClose;
+        public CButton ButtonPlaylistSave;
+        public CButton ButtonPlaylistDelete;
+        public CButton ButtonPlaylistSing;
 
         public CSelectSlide SelectSlideGameMode;
     }
@@ -72,7 +80,7 @@ namespace Vocaluxe.Menu
         public bool Selected;
 
         public bool changeOrder = false;
-        public int ActivePlaylistID = 0;
+        public int ActivePlaylistID = -1;
         public int Offset = 0;
         public int ActiveHover = -1;
         public int CurrentPlaylistElement = -1;
@@ -83,7 +91,14 @@ namespace Vocaluxe.Menu
             _Theme.Text1 = new CText();
             _Theme.Text2 = new CText();
             _Theme.Text3 = new CText();
+            _Theme.TextPlaylistHeader = new CText();
             _Theme.StaticCover = new CStatic();
+            _Theme.StaticPlaylistFooter = new CStatic();
+            _Theme.StaticPlaylistHeader = new CStatic();
+            _Theme.ButtonPlaylistClose = new CButton();
+            _Theme.ButtonPlaylistDelete = new CButton();
+            _Theme.ButtonPlaylistSave = new CButton();
+            _Theme.ButtonPlaylistSing = new CButton();
             _Theme.SelectSlideGameMode = new CSelectSlide();
 
             Rect = new SRectF();
@@ -141,12 +156,22 @@ namespace Vocaluxe.Menu
             _ThemeLoaded &= _Theme.Text1.LoadTheme(item, "TextPart1", navigator, SkinIndex);
             _ThemeLoaded &= _Theme.Text2.LoadTheme(item, "TextPart2", navigator, SkinIndex);
             _ThemeLoaded &= _Theme.Text2.LoadTheme(item, "TextPart3", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.TextPlaylistHeader.LoadTheme(item, "TextPlaylistHeader", navigator, SkinIndex);
             _Theme.StringText1 = _Theme.Text1.Text;
             _Theme.StringText2 = _Theme.Text2.Text;
             _Theme.StringText3 = _Theme.Text3.Text;
 
             _ThemeLoaded &= _Theme.StaticCover.LoadTheme(item, "StaticCover", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.StaticPlaylistHeader.LoadTheme(item, "StaticPlaylistHeader", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.StaticPlaylistFooter.LoadTheme(item, "StaticPlaylistFooter", navigator, SkinIndex);
+
+            _ThemeLoaded &= _Theme.ButtonPlaylistSing.LoadTheme(item, "ButtonPlaylistSing", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.ButtonPlaylistClose.LoadTheme(item, "ButtonPlaylistClose", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.ButtonPlaylistSave.LoadTheme(item, "ButtonPlaylistSave", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.ButtonPlaylistDelete.LoadTheme(item, "ButtonPlaylistDelete", navigator, SkinIndex);
+
             _ThemeLoaded &= _Theme.SelectSlideGameMode.LoadTheme(item, "SelectSlideGameMode", navigator, SkinIndex);
+
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/EntryHeight", navigator, ref _Theme.EntryHeight);
             if (_ThemeLoaded)
             {
@@ -258,6 +283,13 @@ namespace Vocaluxe.Menu
                 PlaylistElements[i].Text3.Draw();
                 PlaylistElements[i].SelectSlide.Draw();
             }
+            _Theme.ButtonPlaylistSing.Draw();
+            _Theme.ButtonPlaylistSave.Draw();
+            _Theme.ButtonPlaylistDelete.Draw();
+            _Theme.ButtonPlaylistClose.Draw();
+            _Theme.StaticPlaylistHeader.Draw();
+            _Theme.StaticPlaylistFooter.Draw();
+            _Theme.TextPlaylistHeader.Draw();
         }
 
         public void UnloadTextures()
@@ -501,6 +533,34 @@ namespace Vocaluxe.Menu
                     CurrentPlaylistElement = -1;
                 }
             }
+
+            if (ActivePlaylistID > -1)
+            {
+                _Theme.ButtonPlaylistClose.ProzessMouseMove(mevent.X, mevent.Y);
+                _Theme.ButtonPlaylistSing.ProzessMouseMove(mevent.X, mevent.Y);
+                _Theme.ButtonPlaylistSave.ProzessMouseMove(mevent.X, mevent.Y);
+                _Theme.ButtonPlaylistDelete.ProzessMouseMove(mevent.X, mevent.Y);
+                if (mevent.LB)
+                {
+                    if (CHelper.IsInBounds(_Theme.ButtonPlaylistClose.Rect, mevent))
+                    {
+                        ClosePlaylist();
+                    }
+                    else if (CHelper.IsInBounds(_Theme.ButtonPlaylistSing.Rect, mevent))
+                    {
+                        StartPlaylistSongs();
+                    }
+                    else if (CHelper.IsInBounds(_Theme.ButtonPlaylistSave.Rect, mevent))
+                    {
+                        CPlaylists.SavePlaylist(ActivePlaylistID);
+                    }
+                    else if (CHelper.IsInBounds(_Theme.ButtonPlaylistDelete.Rect, mevent))
+                    {
+                        CPlaylists.DeletePlaylist(ActivePlaylistID);
+                        ClosePlaylist();
+                    }
+                }
+            }
             return false;
         }
 
@@ -528,6 +588,7 @@ namespace Vocaluxe.Menu
         {
             if (PlaylistID > -1 && PlaylistID < CPlaylists.NumPlaylists)
             {
+                _Theme.TextPlaylistHeader.Text = CPlaylists.Playlists[ActivePlaylistID].PlaylistName;
                 ActivePlaylistID = PlaylistID;
                 PlaylistElementContents.Clear();
                 for (int i = 0; i < CPlaylists.Playlists[ActivePlaylistID].Songs.Count; i++)
@@ -557,6 +618,30 @@ namespace Vocaluxe.Menu
                 PlaylistElementContents.Add(pec);
             }
             Update();
+        }
+
+        private void StartPlaylistSongs()
+        {
+            CGame.Reset();
+            CGame.ClearSongs();
+
+            if (ActivePlaylistID > -1 && ActivePlaylistID < CPlaylists.NumPlaylists)
+            {
+                for (int i = 0; i < CPlaylists.Playlists[ActivePlaylistID].Songs.Count; i++)
+                {
+                    CGame.AddSong(CPlaylists.Playlists[ActivePlaylistID].Songs[i].SongID, CPlaylists.Playlists[ActivePlaylistID].Songs[i].GameMode);
+                }
+                if (CGame.GetNumSongs() > 0)
+                    CGraphics.FadeTo(EScreens.ScreenNames);
+            }
+        }
+
+
+        private void ClosePlaylist()
+        {
+            Visible = false;
+            Selected = false;
+            ActivePlaylistID = -1;
         }
 
         public void Update()

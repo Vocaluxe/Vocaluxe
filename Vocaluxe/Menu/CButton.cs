@@ -262,6 +262,11 @@ namespace Vocaluxe.Menu
             }
         }
 
+        public void ProzessMouseMove(int x, int y)
+        {
+            Selected = CHelper.IsInBounds(Rect, x, y);
+        }
+
         public void UnloadTextures()
         {
             Text.UnloadTextures();
