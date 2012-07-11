@@ -71,6 +71,7 @@ namespace Vocaluxe.Menu
         public bool Visible;
         public bool Selected;
 
+        public bool changeOrder = false;
         public int ActivePlaylistID = 0;
         public int Offset = 0;
         public int ActiveHover = -1;
@@ -290,9 +291,17 @@ namespace Vocaluxe.Menu
                 {
                     case Keys.Up:
                         if (CurrentPlaylistElement == -1)
+                        {
                             CurrentPlaylistElement = 0;
+                            ActiveHover = CurrentPlaylistElement;
+                            return true;
+                        }
                         else if (CurrentPlaylistElement - 1 > 0)
+                        {
                             CurrentPlaylistElement--;
+                            ActiveHover = CurrentPlaylistElement;
+                            return true;
+                        }
                         else if (CurrentPlaylistElement - 1 == 0)
                         {
                             CurrentPlaylistElement--;
@@ -301,18 +310,25 @@ namespace Vocaluxe.Menu
                                 Offset--;
                                 Update();
                             }
+                            ActiveHover = CurrentPlaylistElement;
+                            return true;
                         }
-                        ActiveHover = CurrentPlaylistElement;
-                        return true;
+                        return false;
 
                     case Keys.Down:
                         if (CurrentPlaylistElement == -1)
+                        {
                             CurrentPlaylistElement = 0;
+                            ActiveHover = CurrentPlaylistElement;
+                            return true;
+                        }
                         else if (CurrentPlaylistElement + 1 < PlaylistElements.Count)
                         {
                             if (PlaylistElements[CurrentPlaylistElement + 1].Content != -1)
                             {
                                 CurrentPlaylistElement++;
+                                ActiveHover = CurrentPlaylistElement;
+                                return true;
                             }
                         }
                         else if (CurrentPlaylistElement + 1 >= PlaylistElements.Count && CurrentPlaylistElement + Offset + 1 < PlaylistElementContents.Count)
@@ -321,10 +337,11 @@ namespace Vocaluxe.Menu
                             {
                                 Offset++;
                                 Update();
+                                ActiveHover = CurrentPlaylistElement;
+                                return true;
                             }
                         }
-                        ActiveHover = CurrentPlaylistElement;
-                        return true;
+                        return false;
 
                     case Keys.Delete:
                         if (CurrentPlaylistElement != -1)
@@ -446,9 +463,22 @@ namespace Vocaluxe.Menu
                         return true;
                     }
                     //Change order with holding LB
-                    else if (CHelper.IsInBounds(PlaylistElements[i].Background.Rect, mevent) && mevent.LBH && PlaylistElements[i].Content != -1)
+                    else if (CHelper.IsInBounds(PlaylistElements[i].Background.Rect, mevent) && mevent.LBH && PlaylistElements[i].Content != -1 && !changeOrder)
                     {
-                        return true;
+                        changeOrder = true;
+                        CurrentPlaylistElement = i;
+                    }
+                    else if (CHelper.IsInBounds(PlaylistElements[i].Background.Rect, mevent) && mevent.LBH && PlaylistElements[i].Content != -1 && changeOrder)
+                    {
+                        if (PlaylistElements.Count < CurrentPlaylistElement + 1)
+                        {
+                        }
+                        else if (PlaylistElementContents.Count < CurrentPlaylistElement + 1 + Offset)
+                        {
+                        }
+                        if (mevent.Y < PlaylistElements[CurrentPlaylistElement + 1].Background.Rect.Y)
+                        {
+                        }
                     }
                 }
             }
