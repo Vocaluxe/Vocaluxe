@@ -17,7 +17,7 @@ namespace Vocaluxe.Screens
     class CScreenSing : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 4;
+        const int ScreenVersion = 5;
 
         struct TimeRect
         {
@@ -51,6 +51,7 @@ namespace Vocaluxe.Screens
 
         private const string ButtonCancel = "ButtonCancel";
         private const string ButtonContinue = "ButtonContinue";
+        private const string ButtonSkip = "ButtonSkip";
 
         private const string LyricMain = "LyricMain";
         private const string LyricSub = "LyricSub";
@@ -127,6 +128,7 @@ namespace Vocaluxe.Screens
             List<string> buttons = new List<string>();
             buttons.Add(ButtonCancel);
             buttons.Add(ButtonContinue);
+            buttons.Add(ButtonSkip);
             _ThemeButtons = buttons.ToArray();
 
             _ThemeLyrics = new string[] { LyricMain, LyricSub, LyricMainDuet, LyricSubDuet, LyricMainTop, LyricSubTop };
@@ -200,12 +202,21 @@ namespace Vocaluxe.Screens
                         SetVisuability();
                         break;
 
+                    case Keys.S:
+                        if(CGame.NumRounds > CGame.RoundNr)
+                            if(KeyEvent.ModCTRL)
+                                LoadNextSong();
+                        break;
+
                     case Keys.Enter:
                         if (Buttons[htButtons(ButtonContinue)].Selected && _Pause)
-                                TogglePause();
-
+                            TogglePause();
                         if (Buttons[htButtons(ButtonCancel)].Selected && _Pause)
-                                Stop();
+                            Stop();
+                        if (Buttons[htButtons(ButtonSkip)].Selected && _Pause)
+                        {
+                            LoadNextSong();
+                        }
                         break;
                 }
             }
@@ -232,6 +243,11 @@ namespace Vocaluxe.Screens
                 if (Buttons[htButtons(ButtonCancel)].Selected && _Pause)
                     Stop();
 
+                if (Buttons[htButtons(ButtonSkip)].Selected && _Pause)
+                {
+                    LoadNextSong();
+                    TogglePause();
+                }
             }
 
 
@@ -708,11 +724,14 @@ namespace Vocaluxe.Screens
             {
                 Buttons[htButtons(ButtonCancel)].Visible = true;
                 Buttons[htButtons(ButtonContinue)].Visible = true;
+                if (CGame.NumRounds > CGame.RoundNr)
+                    Buttons[htButtons(ButtonSkip)].Visible = true;
                 CSound.Pause(_CurrentStream);               
             }else
             {
                 Buttons[htButtons(ButtonCancel)].Visible = false;
                 Buttons[htButtons(ButtonContinue)].Visible = false;
+                Buttons[htButtons(ButtonSkip)].Visible = false;
                 CSound.Play(_CurrentStream);
             }
         }

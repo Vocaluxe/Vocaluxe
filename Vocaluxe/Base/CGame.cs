@@ -190,6 +190,11 @@ namespace Vocaluxe.Base
             return _GameMode.GetPoints();
         }
 
+        public static int NumRounds
+        {
+            get { return _GameMode.GetNumSongs(); }
+        }
+
         public static int NumPlayer
         {
             get { return _NumPlayer; }

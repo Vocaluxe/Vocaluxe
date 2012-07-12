@@ -1,6 +1,12 @@
 ScreenSing
 
 ++++++++++
+Version 5:
+
+Add:
+<ButtonSkip>
+
+++++++++++
 Version 4:
 Added Elements for 6-player-singing!
 
