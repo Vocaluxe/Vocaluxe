@@ -135,6 +135,8 @@ namespace Vocaluxe.Lib.Webcam
 
             if (_WebcamDevices == null)
                 return false;
+            if (_WebcamDevices.Count < 1)
+                return false;
 
             //No MonikerString found, try first webcam
             if (Config.MonikerString == String.Empty)
