@@ -203,11 +203,14 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.W:
-                        _Webcam = !_Webcam;
-                        if (_Webcam)
-                            CWebcam.Start();
-                        else
-                            CWebcam.Stop();
+                        if (CWebcam.GetDevices().Length > 0)
+                        {
+                            _Webcam = !_Webcam;
+                            if (_Webcam)
+                                CWebcam.Start();
+                            else
+                                CWebcam.Stop();
+                        }
                         break;
 
                     case Keys.Enter:
