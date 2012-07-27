@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenOptionsRecord>
-    <ScreenVersion>1</ScreenVersion>
+    <ScreenVersion>2</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>Video</Type>
@@ -858,5 +858,47 @@
       <!--<NumVisible>: Number of visible elements in the slide-->
       <NumVisible>5</NumVisible>
     </SelectSlideDelay>
+	<EqualizerChannel1>
+	  <Skin>Invisible</Skin>
+	  <X>50</X>
+	  <Y>400</Y>
+	  <W>230</W>
+	  <H>150</H>
+	  <Z>-1,00</Z>
+	  <NumBars>10</NumBars>
+	  <Space>2,00</Space>
+	  <Style>Collumns</Style>
+	  <Color>ButtonColor</Color>
+	  <MaxColor>ButtonSColor</MaxColor>
+	  <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+      <Reflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </Reflection>	  
+	</EqualizerChannel1>
+	<EqualizerChannel2>
+	  <Skin>Invisible</Skin>
+	  <X>400</X>
+	  <Y>400</Y>
+	  <W>230</W>
+	  <H>150</H>
+	  <Z>-1,00</Z>
+	  <NumBars>10</NumBars>
+	  <Space>2,00</Space>
+	  <Style>Collumns</Style>
+	  <Color>ButtonColor</Color>
+	  <MaxColor>ButtonSColor</MaxColor>
+	  <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+      <Reflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </Reflection>	  
+	</EqualizerChannel2>    
   </ScreenOptionsRecord>
 </root>
