@@ -663,6 +663,10 @@ namespace Vocaluxe.Lib.Draw
 
         public void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
         {
+
+            if (rect.H < height)
+                height = rect.H;
+
             float rx1 = rect.X;
             float rx2 = rect.X + rect.W;
             float ry1 = rect.Y + rect.H + space;
@@ -679,6 +683,7 @@ namespace Vocaluxe.Lib.Draw
 
             if (ry2 > rect.Y + rect.H + space + height)
                 ry2 = rect.Y + rect.H + space + height;
+
 
             GL.Enable(EnableCap.Blend);
 
