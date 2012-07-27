@@ -107,6 +107,11 @@ namespace Vocaluxe.Screens
             {
                 OriginalPlayerAvatarTextures[i] = Statics[htStatics(StaticPlayerAvatar[i])].Texture;
             }
+
+            for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
+            {
+                Equalizers[htEqualizer("EqualizerPlayer" + i)].ScreenHandles = true;
+            }
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)

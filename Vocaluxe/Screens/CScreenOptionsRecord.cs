@@ -109,6 +109,9 @@ namespace Vocaluxe.Screens
                 Statics[htStatics(StaticEnergyChannel[i])].Visible = false;
                 ChannelEnergy[i] = 0f;
             }
+
+            Equalizers[htEqualizer(EqualizerChannel1)].ScreenHandles = true;
+            Equalizers[htEqualizer(EqualizerChannel2)].ScreenHandles = true;
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)

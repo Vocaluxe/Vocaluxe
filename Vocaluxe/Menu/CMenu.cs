@@ -1911,7 +1911,8 @@ namespace Vocaluxe.Menu
                 case EType.TEqualizer:
                     if (!_Equalizers[_Interactions[interaction].Num].ScreenHandles)
                     {
-                        //_Equalizers[_Interactions[interaction].Num].Update(CSound.Get
+                        //TODO:
+                        //Call Update-Method of Equalizer and give infos about bg-sound.
                         //_Equalizers[_Interactions[interaction].Num].Draw();
                     }
                     break;
