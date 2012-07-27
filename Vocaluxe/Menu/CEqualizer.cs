@@ -127,6 +127,10 @@ namespace Vocaluxe.Menu
             {
                 _Theme.Name = ElementName;
                 _Bars = new float[_Theme.NumBars];
+                for (int i = 0; i < _Bars.Length; i++)
+                {
+                    _Bars[i] = 0f;
+                }
                 LoadTextures();
             }
             return _ThemeLoaded;
@@ -170,18 +174,18 @@ namespace Vocaluxe.Menu
                     writer.WriteElementString("B", Color.B.ToString("#0.00"));
                     writer.WriteElementString("A", Color.A.ToString("#0.00"));
                 }
-                writer.WriteComment("<Color>: Equalizer color from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
+                writer.WriteComment("<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)");
+                writer.WriteComment("or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)");
                 if (_Theme.ColorName != String.Empty)
                 {
-                    writer.WriteElementString("Color", _Theme.ColorName);
+                    writer.WriteElementString("MaxColor", _Theme.ColorName);
                 }
                 else
                 {
-                    writer.WriteElementString("R", Color.R.ToString("#0.00"));
-                    writer.WriteElementString("G", Color.G.ToString("#0.00"));
-                    writer.WriteElementString("B", Color.B.ToString("#0.00"));
-                    writer.WriteElementString("A", Color.A.ToString("#0.00"));
+                    writer.WriteElementString("MaxR", Color.R.ToString("#0.00"));
+                    writer.WriteElementString("MaxG", Color.G.ToString("#0.00"));
+                    writer.WriteElementString("MaxB", Color.B.ToString("#0.00"));
+                    writer.WriteElementString("MaxA", Color.A.ToString("#0.00"));
                 }
 
                 writer.WriteComment("<Reflection> If exists:");
@@ -207,11 +211,10 @@ namespace Vocaluxe.Menu
                 return;
             for (int i = 0; i < _Bars.Length; i++)
             {
-                
                 if (weights.Length > i){
-                    _Bars[i] = weights[i];
+                    _Bars[i] = 1f - weights[i];
                     if (_Theme.DrawNegative == EOffOn.TR_CONFIG_OFF && weights[i] < 0)
-                        _Bars[i] = 0f;
+                        _Bars[i] = (1f + weights[i]);
                 }
                 else
                     _Bars[i] = 0f;
@@ -234,7 +237,7 @@ namespace Vocaluxe.Menu
             if (_Bars == null)
                 return;
 
-            float dx = Rect.W / _Bars.Length + Space;
+            float dx = (Rect.W ) / _Bars.Length;
             int max = _Bars.Length - 1;
             float maxB = _Bars[max];
             for (int i = 0; i < _Bars.Length - 1; i++)
@@ -246,40 +249,19 @@ namespace Vocaluxe.Menu
                 }
             }
 
-            switch (_Theme.Style){
-                case EEqualizerStyle.Collums:
-                    for (int i = 0; i < _Bars.Length; i++)
-                    {
-                        SRectF bar = new SRectF(Rect.X + dx * i, Rect.Y + Rect.H - _Bars[i] * Rect.H, dx - Space, _Bars[i] * Rect.H, Rect.Z);
-                        SColorF color = Color;
-                        if (i == max)
-                        {
-                            color = MaxColor;
-                        }
+            for (int i = 0; i < _Bars.Length; i++)
+            {
+                SRectF bar = new SRectF(Rect.X + dx * i, Rect.Y + Rect.H - _Bars[i] * Rect.H, dx - Space, _Bars[i] * Rect.H, Rect.Z);
+                SColorF color = Color;
+                if (i == max)
+                {
+                    color = MaxColor;
+                }
 
-                        CDraw.DrawColor(color, bar);
+                CDraw.DrawColor(color, bar);
 
-                        if (Reflection)
-                            CDraw.DrawColorReflection(color, bar, ReflectionSpace, ReflectionHeight);
-                    }
-                    break;
-
-                case EEqualizerStyle.Bars:
-                    for (int i = 0; i < _Bars.Length; i++)
-                    {
-                        SRectF bar = new SRectF(Rect.X + dx * i, Rect.Y + Rect.H - _Bars[i] * Rect.H, dx - Space, _Bars[i] * Rect.H, Rect.Z);
-                        SColorF color = Color;
-                        if (i == max)
-                        {
-                            color = MaxColor;
-                        }
-
-                        CDraw.DrawColor(color, bar);
-
-                        if (Reflection)
-                            CDraw.DrawColorReflection(color, bar, ReflectionSpace, ReflectionHeight);
-                    }
-                    break;
+                if (Reflection)
+                    CDraw.DrawColorReflection(color, bar, ReflectionSpace, ReflectionHeight);
             }
         }
 

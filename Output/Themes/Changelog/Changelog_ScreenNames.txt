@@ -1,6 +1,11 @@
 SceenNames
 
 ++++++++++
+Version 3:
+
+<EqualizerPlayer[1...6]> (One Equalizer for each player): Equalizer shows input from assigned mic for this player.
+
+++++++++++
 Version 2:
 
 Add:

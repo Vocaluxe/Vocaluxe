@@ -12,7 +12,7 @@ namespace Vocaluxe.Screens
     class CScreenNames : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 2;
+        const int ScreenVersion = 3;
 
         private CStatic chooseAvatarStatic;
         private int OldMouseX;
@@ -29,6 +29,7 @@ namespace Vocaluxe.Screens
         private readonly string[] StaticPlayer = new string[] { "StaticPlayer1", "StaticPlayer2", "StaticPlayer3", "StaticPlayer4", "StaticPlayer5", "StaticPlayer6" };
         private readonly string[] StaticPlayerAvatar = new string[] { "StaticPlayerAvatar1", "StaticPlayerAvatar2", "StaticPlayerAvatar3", "StaticPlayerAvatar4", "StaticPlayerAvatar5", "StaticPlayerAvatar6" };
         private readonly string[] TextPlayer = new string[] { "TextPlayer1", "TextPlayer2", "TextPlayer3", "TextPlayer4", "TextPlayer5", "TextPlayer6" };
+        private readonly string[] EqualizerPlayer = new string[] { "EqualizerPlayer1", "EqualizerPlayer2", "EqualizerPlayer3", "EqualizerPlayer4", "EqualizerPlayer5", "EqualizerPlayer6" };
         private STexture[] OriginalPlayerAvatarTextures = new STexture[CSettings.MaxNumPlayer];
 
         private bool selectingMouseActive = false;
@@ -83,6 +84,10 @@ namespace Vocaluxe.Screens
             texts.Clear();
             texts.Add(NameSelection);
             _ThemeNameSelections = texts.ToArray();
+
+            texts.Clear();
+            texts.AddRange(EqualizerPlayer);
+            _ThemeEqualizers = texts.ToArray();
 
             chooseAvatarStatic = new CStatic();
             chooseAvatarStatic.Visible = false;
@@ -503,13 +508,18 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-
+            for (int i = 1; i <= CGame.NumPlayer; i++)
+            {
+                CSound.AnalyzeBuffer((i-1));
+                Equalizers[htEqualizer("EqualizerPlayer" + i)].Update(CSound.ToneWeigth((i-1)));
+            }
             return true;
         }
 
         public override void OnShow()
         {
             base.OnShow();
+            CSound.RecordStart();
 
             NameSelections[htNameSelections(NameSelection)].Init();
 
@@ -531,6 +541,12 @@ namespace Vocaluxe.Screens
             SetInteractionToButton(Buttons[htButtons(ButtonStart)]);
         }
 
+        public override void OnClose()
+        {
+            base.OnClose();
+            CSound.RecordStop();
+        }
+
         public override bool Draw()
         {
             base.Draw();
@@ -539,7 +555,10 @@ namespace Vocaluxe.Screens
             {
                 chooseAvatarStatic.Draw();
             }
-
+            for (int i = 1; i <= CGame.NumPlayer; i++)
+            {
+                Equalizers[htEqualizer("EqualizerPlayer" + i)].Draw();
+            }
             return true;           
         }
 
@@ -591,12 +610,14 @@ namespace Vocaluxe.Screens
                     {
                         Texts[htTexts("TextPlayer" + i)].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + i.ToString();
                     }
+                    Equalizers[htEqualizer("EqualizerPlayer" + i)].Visible = true;
                 }
                 else
                 {
                     Statics[htStatics("StaticPlayer" + i)].Visible = false;
                     Statics[htStatics("StaticPlayerAvatar" + i)].Visible = false;
                     Texts[htTexts("TextPlayer" + i)].Visible = false;
+                    Equalizers[htEqualizer("EqualizerPlayer" + i)].Visible = false;
                 }
             }
             CConfig.SaveConfig();
