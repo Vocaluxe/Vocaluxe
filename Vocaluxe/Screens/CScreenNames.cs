@@ -34,6 +34,7 @@ namespace Vocaluxe.Screens
 
         private bool selectingMouseActive = false;
         private bool selectingKeyboardActive = false;
+        private bool selectingKeyboardUnendless = false;
         private int selectingKeyboardPlayerNr = 0;
         private int SelectedPlayerNr;
         
@@ -137,6 +138,22 @@ namespace Vocaluxe.Screens
                         NameSelections[htNameSelections(NameSelection)].UpdateList();
                     }
                     break;
+
+                case Keys.P:
+                    if (!selectingKeyboardActive)
+                    {
+                        selectingKeyboardPlayerNr = 1;
+                        selectingKeyboardUnendless = true;
+                    }
+                    else
+                    {
+                        if (selectingKeyboardPlayerNr + 1 <= CGame.NumPlayer)
+                            selectingKeyboardPlayerNr++;
+                        else
+                            selectingKeyboardPlayerNr = 1;
+                        NameSelections[htNameSelections(NameSelection)].KeyboardSelection(true, selectingKeyboardPlayerNr);
+                    }
+                    break;
             }
             //Check if selecting with keyboard is active
             if (selectingKeyboardActive)
@@ -166,10 +183,29 @@ namespace Vocaluxe.Screens
                             NameSelections[htNameSelections(NameSelection)].UpdateList();
                             SetInteractionToButton(Buttons[htButtons(ButtonStart)]);
                         }
-                        //Reset all values
-                        selectingKeyboardPlayerNr = 0;
-                        selectingKeyboardActive = false;
-                        NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
+                        //Started selecting with 'P'
+                        if (selectingKeyboardUnendless)
+                        {
+                            if (selectingKeyboardPlayerNr == CGame.NumPlayer)
+                            {
+                                //Reset all values
+                                selectingKeyboardPlayerNr = 0;
+                                selectingKeyboardActive = false;
+                                NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
+                            }
+                            else
+                            {
+                                selectingKeyboardPlayerNr++;
+                                NameSelections[htNameSelections(NameSelection)].KeyboardSelection(true, selectingKeyboardPlayerNr);
+                            }
+                        }
+                        else
+                        {
+                            //Reset all values
+                            selectingKeyboardPlayerNr = 0;
+                            selectingKeyboardActive = false;
+                            NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
+                        }
                         break;
 
                     case Keys.D1:
@@ -186,6 +222,7 @@ namespace Vocaluxe.Screens
                             selectingKeyboardPlayerNr = 1;
                             NameSelections[htNameSelections(NameSelection)].KeyboardSelection(true, 1);
                         }
+                        selectingKeyboardUnendless = false;
                         break;
                     case Keys.D2:
                     case Keys.NumPad2:
@@ -201,6 +238,7 @@ namespace Vocaluxe.Screens
                             selectingKeyboardPlayerNr = 2;
                             NameSelections[htNameSelections(NameSelection)].KeyboardSelection(true, 2);
                         }
+                        selectingKeyboardUnendless = false;
                         break;
                     case Keys.D3:
                     case Keys.NumPad3:
@@ -216,6 +254,7 @@ namespace Vocaluxe.Screens
                             selectingKeyboardPlayerNr = 3;
                             NameSelections[htNameSelections(NameSelection)].KeyboardSelection(true, 3);
                         }
+                        selectingKeyboardUnendless = false;
                         break;
                     case Keys.D4:
                     case Keys.NumPad4:
@@ -231,6 +270,7 @@ namespace Vocaluxe.Screens
                             selectingKeyboardPlayerNr = 4;
                             NameSelections[htNameSelections(NameSelection)].KeyboardSelection(true, 4);
                         }
+                        selectingKeyboardUnendless = false;
                         break;
                     case Keys.D5:
                     case Keys.NumPad5:
@@ -246,6 +286,7 @@ namespace Vocaluxe.Screens
                             selectingKeyboardPlayerNr = 5;
                             NameSelections[htNameSelections(NameSelection)].KeyboardSelection(true, 5);
                         }
+                        selectingKeyboardUnendless = false;
                         break;
                     case Keys.D6:
                     case Keys.NumPad6:
@@ -261,11 +302,14 @@ namespace Vocaluxe.Screens
                             selectingKeyboardPlayerNr = 6;
                             NameSelections[htNameSelections(NameSelection)].KeyboardSelection(true, 6);
                         }
+                        selectingKeyboardUnendless = false;
                         break;
+
                     case Keys.Escape:
                         //Reset all values
                         selectingKeyboardPlayerNr = 0;
                         selectingKeyboardActive = false;
+                        selectingKeyboardUnendless = false;
                         NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
                         break;
                     
