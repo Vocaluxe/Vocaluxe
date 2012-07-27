@@ -14,7 +14,8 @@ namespace Vocaluxe.Menu
         TSongMenu,
         TLyric,
         TSingNote,
-        TNameSelection
+        TNameSelection,
+        TEqualizer
     }
 
     class CInteraction
