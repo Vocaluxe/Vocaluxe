@@ -823,7 +823,7 @@
 	  <!--<Skin>: Texture name-->
 	  <Skin>Invisible</Skin>
 	  <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
-      <X>1213</X>
+      <X>1153</X>
       <Y>152</Y>
       <Z>-4,00</Z>
       <W>108</W>
@@ -850,7 +850,7 @@
 	  <!--<Skin>: Texture name-->
 	  <Skin>Invisible</Skin>
 	  <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
-      <X>1213</X>
+      <X>1153</X>
       <Y>307</Y>
       <Z>-4,00</Z>
       <W>108</W>
@@ -877,7 +877,7 @@
 	  <!--<Skin>: Texture name-->
 	  <Skin>Invisible</Skin>
 	  <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
-      <X>1213</X>
+      <X>1153</X>
       <Y>467</Y>
       <Z>-4,00</Z>
       <W>108</W>
