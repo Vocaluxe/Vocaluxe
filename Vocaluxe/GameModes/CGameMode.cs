@@ -256,7 +256,7 @@ namespace Vocaluxe.GameModes
 
         public virtual CSong GetSong(int Num)
         {
-            if (Num - 1 < _SongQueque.Count)
+            if (Num - 1 < _SongQueque.Count && Num - 1 > -1)
                 return CSongs.GetSong(_SongQueque[Num - 1].SongID);
 
             return null;

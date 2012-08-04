@@ -99,6 +99,9 @@ namespace Vocaluxe.Lib.Song
         public float Gap = 0f;
         public float VideoGap = 0f;
 
+        public string DuetPart1 = String.Empty;
+        public string DuetPart2 = String.Empty;
+
         public List<string> Comment = new List<string>();
 
         // Sorting
@@ -254,6 +257,18 @@ namespace Vocaluxe.Lib.Song
                                         this.ArtistSorting = Value;
                                     }
                                     break;
+                                case "P1":
+                                    if (Value != String.Empty)
+                                    {
+                                        this.DuetPart1 = Value;
+                                    }
+                                    break;
+                                case "P2":
+                                    if (Value != String.Empty)
+                                    {
+                                        this.DuetPart2 = Value;
+                                    }
+                                    break;
                                 case "MP3":
                                     if (File.Exists(Path.Combine(this.Folder, Value)))
                                     {
@@ -364,6 +379,19 @@ namespace Vocaluxe.Lib.Song
             if (this.TitleSorting == "")
             {
                 this.TitleSorting = this.Title;
+            }
+
+            //Check if Duet-Tags are set
+            if (IsDuet)
+            {
+                if (DuetPart1 == String.Empty)
+                {
+                    DuetPart1 = "Part 1";
+                }
+                if (DuetPart2 == String.Empty)
+                {
+                    DuetPart2 = "Part 2";
+                }
             }
 
             return true;

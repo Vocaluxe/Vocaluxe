@@ -523,6 +523,12 @@ namespace Vocaluxe.Screens
             _FinishTime = song.Finish;
             _TimeToFirstNote = 0f;
             _TimeToFirstNoteDuet = 0f;
+            //Save duet-assignment before resetting
+            int[] duet_player = new int[CGame.NumPlayer];
+            for (int i = 0; i < duet_player.Length; i++)
+            {
+                duet_player[i] = CGame.Player[i].LineNr;
+            }
             CGame.ResetPlayer();
 
             CDraw.RemoveTexture(ref _CurrentVideoTexture);
@@ -542,10 +548,22 @@ namespace Vocaluxe.Screens
 
             bool LyricsOnTop = (CGame.NumPlayer != 1) && CConfig.LyricsOnTop == EOffOn.TR_CONFIG_ON;
             if (song.IsDuet)
-            {               
-                for (int i = 1; i <= CGame.NumPlayer; i = i + 2)
+            {
+                //More than one song: Player is not assigned to line by user
+                //Otherwise, this is done by CScreenNames
+                if (CGame.GetNumSongs() > 1)
                 {
-                    CGame.Player[i].LineNr = 1;
+                    for (int i = 1; i <= CGame.NumPlayer; i = i + 2)
+                    {
+                        CGame.Player[i].LineNr = 1;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < CGame.NumPlayer; i++)
+                    {
+                        CGame.Player[i].LineNr = duet_player[i];
+                    }
                 }
                 Statics[htStatics(StaticLyricsDuet)].Visible = true;
                 Lyrics[htLyrics(LyricMainDuet)].Visible = true;

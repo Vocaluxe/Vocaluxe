@@ -30,6 +30,7 @@ namespace Vocaluxe.Screens
         private readonly string[] StaticPlayerAvatar = new string[] { "StaticPlayerAvatar1", "StaticPlayerAvatar2", "StaticPlayerAvatar3", "StaticPlayerAvatar4", "StaticPlayerAvatar5", "StaticPlayerAvatar6" };
         private readonly string[] TextPlayer = new string[] { "TextPlayer1", "TextPlayer2", "TextPlayer3", "TextPlayer4", "TextPlayer5", "TextPlayer6" };
         private readonly string[] EqualizerPlayer = new string[] { "EqualizerPlayer1", "EqualizerPlayer2", "EqualizerPlayer3", "EqualizerPlayer4", "EqualizerPlayer5", "EqualizerPlayer6" };
+        private readonly string[] SelectSlideDuetPlayer = new string[] { "SelectSlideDuetPlayer1", "SelectSlideDuetPlayer2", "SelectSlideDuetPlayer3", "SelectSlideDuetPlayer4", "SelectSlideDuetPlayer5", "SelectSlideDuetPlayer6" };
         private STexture[] OriginalPlayerAvatarTextures = new STexture[CSettings.MaxNumPlayer];
 
         private bool selectingMouseActive = false;
@@ -65,8 +66,9 @@ namespace Vocaluxe.Screens
             _ThemeStatics = statics.ToArray();
 
             List<string> texts = new List<string>();
-
-            _ThemeSelectSlides = new string[] { SelectSlidePlayerNumber };
+            texts.Add(SelectSlidePlayerNumber);
+            texts.AddRange(SelectSlideDuetPlayer);
+            _ThemeSelectSlides = texts.ToArray();
 
             texts.Clear();
             texts.Add(TextWarningMics);
@@ -585,6 +587,21 @@ namespace Vocaluxe.Screens
                     Statics[htStatics(StaticPlayerAvatar[i])].Texture = CProfiles.Profiles[CGame.Player[i].ProfileID].Avatar.Texture;
                     Texts[htTexts(TextPlayer[i])].Text = CProfiles.Profiles[CGame.Player[i].ProfileID].PlayerName;
                 }
+                if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
+                {
+                    if (i + 1 <= CGame.NumPlayer)
+                        SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].Visible = true;
+                    else
+                        SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].Visible = false;
+                    SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].AddValue(CGame.GetSong(1).DuetPart1);
+                    SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].AddValue(CGame.GetSong(1).DuetPart2);
+                    if ((i + 1) % 2 == 0)
+                        SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].SetSelectionByValueIndex(1);
+                    else
+                        SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].SetSelectionByValueIndex(0);
+                }
+                else
+                    SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].Visible = false;
             }
 
             SetInteractionToButton(Buttons[htButtons(ButtonStart)]);
@@ -629,6 +646,10 @@ namespace Vocaluxe.Screens
                         CGame.Player[i].Name = "";
                     }
                 }
+                if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
+                {
+                    CGame.Player[i].LineNr = SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].Selection;
+                }
             }
 
             CGraphics.FadeTo(EScreens.ScreenSing);
@@ -660,6 +681,8 @@ namespace Vocaluxe.Screens
                         Texts[htTexts("TextPlayer" + i)].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + i.ToString();
                     }
                     Equalizers[htEqualizer("EqualizerPlayer" + i)].Visible = true;
+                    if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
+                        SelectSlides[htSelectSlides("SelectSlideDuetPlayer" + i)].Visible = true;
                 }
                 else
                 {
@@ -667,6 +690,7 @@ namespace Vocaluxe.Screens
                     Statics[htStatics("StaticPlayerAvatar" + i)].Visible = false;
                     Texts[htTexts("TextPlayer" + i)].Visible = false;
                     Equalizers[htEqualizer("EqualizerPlayer" + i)].Visible = false;
+                    SelectSlides[htSelectSlides("SelectSlideDuetPlayer" + i)].Visible = false;
                 }
             }
             CConfig.SaveConfig();
