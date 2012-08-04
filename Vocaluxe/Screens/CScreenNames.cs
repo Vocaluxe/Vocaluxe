@@ -589,6 +589,7 @@ namespace Vocaluxe.Screens
                 }
                 if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
                 {
+                    SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].Clear();
                     if (i + 1 <= CGame.NumPlayer)
                         SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].Visible = true;
                     else

@@ -371,27 +371,14 @@ namespace Vocaluxe.Lib.Song
             CheckFiles();
 
             //Before saving this tags to .txt: Check, if ArtistSorting and Artist are equal, then don't save this tag.
-            if (this.ArtistSorting == "") 
+            if (this.ArtistSorting == String.Empty) 
             {
                 this.ArtistSorting = this.Artist;
             }
 
-            if (this.TitleSorting == "")
+            if (this.TitleSorting == String.Empty)
             {
                 this.TitleSorting = this.Title;
-            }
-
-            //Check if Duet-Tags are set
-            if (IsDuet)
-            {
-                if (DuetPart1 == String.Empty)
-                {
-                    DuetPart1 = "Part 1";
-                }
-                if (DuetPart2 == String.Empty)
-                {
-                    DuetPart2 = "Part 2";
-                }
             }
 
             return true;
@@ -534,6 +521,8 @@ namespace Vocaluxe.Lib.Song
                 return false;
             }
             _NotesLoaded = true;
+            if(IsDuet)
+                CheckDuet();
             return true;
         }
 
@@ -597,6 +586,20 @@ namespace Vocaluxe.Lib.Song
                         this.BackgroundFileName = file;
                     }
                 }
+            }
+        }
+
+        private void CheckDuet()
+        {
+            if (DuetPart1 == String.Empty)
+            {
+                DuetPart1 = "Part 1";
+                CLog.LogError("Warning: Can't find #P1-tag for duets in \"" + this.Artist + " - " + this.Title + "\".");
+            }
+            if (DuetPart2 == String.Empty)
+            {
+                DuetPart2 = "Part 2";
+                CLog.LogError("Warning: Can't find #P2-tag for duets in \"" + this.Artist + " - " + this.Title + "\".");
             }
         }
     }
