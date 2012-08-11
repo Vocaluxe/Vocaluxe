@@ -661,6 +661,59 @@ namespace Vocaluxe.Lib.Draw
             GL.Disable(EnableCap.Blend);
         }
 
+        public void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
+        {
+
+            if (rect.H < height)
+                height = rect.H;
+
+            float rx1 = rect.X;
+            float rx2 = rect.X + rect.W;
+            float ry1 = rect.Y + rect.H + space;
+            float ry2 = rect.Y + rect.H + space + height;
+
+            if (rx1 < rect.X)
+                rx1 = rect.X;
+
+            if (rx2 > rect.X + rect.W)
+                rx2 = rect.X + rect.W;
+
+            if (ry1 < rect.Y + space)
+                ry1 = rect.Y + space;
+
+            if (ry2 > rect.Y + rect.H + space + height)
+                ry2 = rect.Y + rect.H + space + height;
+
+
+            GL.Enable(EnableCap.Blend);
+
+            if (rect.Rotation != 0f)
+            {
+                GL.Translate(0.5f, 0.5f, 0);
+                GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
+                GL.Translate(-0.5f, -0.5f, 0);
+            }
+
+            GL.Begin(BeginMode.Quads);
+
+            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+            GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
+
+            GL.Color4(color.R, color.G, color.B, 0f);
+            GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
+
+            GL.Color4(color.R, color.G, color.B, 0f);
+            GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
+
+            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+            GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
+
+            GL.End();
+
+            GL.Disable(EnableCap.Blend);
+
+        }
+
         #endregion Basic Draw Methods
 
         #region Textures

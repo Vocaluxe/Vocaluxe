@@ -109,7 +109,8 @@ Vocaluxe.exe -ConfigFile MyConfig.xml -ScoreFile C:\Vocaluxe\Highscores\MyHighsc
 Songscreen
 [CTRL] + [R]			to select a random song
 [F3]					to open/close the song search menu
-[A]						to sing all songs from a category
+[A]						to sing all songs
+[SHIFT] + [A]						to sing all songs from a category
 
 
 =================================

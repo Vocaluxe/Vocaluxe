@@ -36,6 +36,7 @@ namespace Vocaluxe.Menu
         private List<CLyric> _Lyrics;
         private List<CSingNotes> _SingNotes;
         private List<CNameSelection> _NameSelections;
+        private List<CEqualizer> _Equalizers;
 
         private Hashtable _htBackgrounds;
         private Hashtable _htStatics;
@@ -46,6 +47,7 @@ namespace Vocaluxe.Menu
         private Hashtable _htSelectSlides;
         private Hashtable _htSingNotes;
         private Hashtable _htNameSelections;
+        private Hashtable _htEqualizers;
 
 
         private int _PrevMouseX;
@@ -67,6 +69,7 @@ namespace Vocaluxe.Menu
         protected string[] _ThemeSelectSlides;
         protected string[] _ThemeSingNotes;
         protected string[] _ThemeNameSelections;
+        protected string[] _ThemeEqualizers;
 
         protected SRectF _ScreenArea;
 
@@ -99,6 +102,7 @@ namespace Vocaluxe.Menu
             _Lyrics = new List<CLyric>();
             _SingNotes = new List<CSingNotes>();
             _NameSelections = new List<CNameSelection>();
+            _Equalizers = new List<CEqualizer>();
 
             _htBackgrounds = new Hashtable();
             _htStatics = new Hashtable();
@@ -109,6 +113,7 @@ namespace Vocaluxe.Menu
             _htSelectSlides = new Hashtable();
             _htSingNotes = new Hashtable();
             _htNameSelections = new Hashtable();
+            _htEqualizers = new Hashtable();
 
             _PrevMouseX = 0;
             _PrevMouseY = 0;
@@ -129,6 +134,7 @@ namespace Vocaluxe.Menu
             _ThemeSelectSlides = null;
             _ThemeSingNotes = null;
             _ThemeNameSelections = null;
+            _ThemeEqualizers = null;
 
         }
         #region ThemeHandler
@@ -311,6 +317,22 @@ namespace Vocaluxe.Menu
                         }
                     }
                 }
+
+                if (_ThemeEqualizers != null)
+                {
+                    for (int i = 0; i < _ThemeEqualizers.Length; i++)
+                    {
+                        CEqualizer eq = new CEqualizer();
+                        if (eq.LoadTheme("//root/" + _ThemeName, _ThemeEqualizers[i], navigator, SkinIndex))
+                        {
+                            _htEqualizers.Add(_ThemeEqualizers[i], AddEqualizer(eq));
+                        }
+                        else
+                        {
+                            CLog.LogError("Can't load equalizer \"" + _ThemeEqualizers[i] + "\" in screen " + _ThemeName);
+                        }
+                    }
+                }
             }
             else
             {
@@ -386,6 +408,12 @@ namespace Vocaluxe.Menu
                 _NameSelections[i].SaveTheme(writer);
             }
 
+            //Equalizers
+            for (int i = 0; i < _Equalizers.Count; i++)
+            {
+                _Equalizers[i].SaveTheme(writer);
+            }
+
             writer.WriteEndElement();
 
             // End of File
@@ -442,6 +470,11 @@ namespace Vocaluxe.Menu
             {
                 ns.ReloadTextures();
             }
+
+            foreach (CEqualizer eq in _Equalizers)
+            {
+                eq.ReloadTextures();
+            }
         }
 
         public virtual void UnloadTextures()
@@ -491,6 +524,10 @@ namespace Vocaluxe.Menu
                 ns.UnloadTextures();
             }
 
+            foreach (CEqualizer eq in _Equalizers)
+            {
+                eq.UnloadTextures();
+            }
 
         }
 
@@ -546,6 +583,11 @@ namespace Vocaluxe.Menu
         public List<CNameSelection> GetNameSelections()
         {
             return _NameSelections;
+        }
+
+        public List<CEqualizer> GetEqualizers()
+        {
+            return _Equalizers;
         }
         #endregion GetLists
 
@@ -620,6 +662,14 @@ namespace Vocaluxe.Menu
             get
             {
                 return _NameSelections.ToArray();
+            }
+        }
+
+        public CEqualizer[] Equalizers
+        {
+            get
+            {
+                return _Equalizers.ToArray();
             }
         }
         #endregion Get Arrays
@@ -738,6 +788,19 @@ namespace Vocaluxe.Menu
             catch (Exception)
             {
                 CLog.LogError("Can't find NameSelection Element \"" + key + "\" in Screen " + _ThemeName);
+                throw;
+            }
+        }
+
+        public int htEqualizer(string key)
+        {
+            try
+            {
+                return (int)_htEqualizers[key];
+            }
+            catch (Exception)
+            {
+                CLog.LogError("Can't find Equalizer Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -999,7 +1062,8 @@ namespace Vocaluxe.Menu
                     _Interactions[i].Type == EType.TStatic ||
                     _Interactions[i].Type == EType.TNameSelection ||
                     _Interactions[i].Type == EType.TText ||
-                    _Interactions[i].Type == EType.TSongMenu))
+                    _Interactions[i].Type == EType.TSongMenu ||
+                    _Interactions[i].Type == EType.TEqualizer))
                 {
                     ZSort zs = new ZSort();
                     zs.ID = i;
@@ -1084,6 +1148,13 @@ namespace Vocaluxe.Menu
             _NameSelections.Add(ns);
             _AddInteraction(_NameSelections.Count - 1, EType.TNameSelection);
             return _NameSelections.Count - 1;
+        }
+
+        public int AddEqualizer(CEqualizer eq)
+        {
+            _Equalizers.Add(eq);
+            _AddInteraction(_Equalizers.Count - 1, EType.TEqualizer);
+            return _Equalizers.Count - 1;
         }
         #endregion Elements
 
@@ -1233,6 +1304,10 @@ namespace Vocaluxe.Menu
                     if (CHelper.IsInBounds(_NameSelections[interact.Num].Rect, x, y))
                         return true;
                     break;
+                case EType.TEqualizer:
+                    if (CHelper.IsInBounds(_Equalizers[interact.Num].Rect, x, y))
+                        return true;
+                    break;
             } 
             return false;
         }
@@ -1255,6 +1330,8 @@ namespace Vocaluxe.Menu
                     return _Lyrics[interact.Num].Rect.Z;
                 case EType.TNameSelection:
                     return _NameSelections[interact.Num].Rect.Z;
+                case EType.TEqualizer:
+                    return _Equalizers[interact.Num].Rect.Z;
             }
             return CSettings.zFar;
         }
@@ -1283,6 +1360,9 @@ namespace Vocaluxe.Menu
 
                 case EType.TNameSelection:
                     return _NameSelections[_Interactions[interaction].Num].Rect.Z;
+
+                case EType.TEqualizer:
+                    return _Equalizers[_Interactions[interaction].Num].Rect.Z;
             }
 
             return CSettings.zFar;
@@ -1605,6 +1685,9 @@ namespace Vocaluxe.Menu
                 case EType.TNameSelection:
                     _NameSelections[_Interactions[_Selection].Num].Selected = true;
                     break;
+                case EType.TEqualizer:
+                    _Equalizers[_Interactions[_Selection].Num].Selected = true;
+                    break;
             }
         }
 
@@ -1632,6 +1715,9 @@ namespace Vocaluxe.Menu
                     break;
                 case EType.TNameSelection:
                     _NameSelections[_Interactions[_Selection].Num].Selected = false;
+                    break;
+                case EType.TEqualizer:
+                    _Equalizers[_Interactions[_Selection].Num].Selected = false;
                     break;
             }
         }
@@ -1744,6 +1830,9 @@ namespace Vocaluxe.Menu
 
                 case EType.TNameSelection:
                     return _NameSelections[_Interactions[interaction].Num].Visible;
+
+                case EType.TEqualizer:
+                    return _Equalizers[_Interactions[interaction].Num].Visible;
             }
 
             return false;
@@ -1774,6 +1863,9 @@ namespace Vocaluxe.Menu
 
                 case EType.TNameSelection:
                     return _NameSelections[_Interactions[interaction].Num].Rect;
+
+                case EType.TEqualizer:
+                    return _Equalizers[_Interactions[interaction].Num].Rect;
             }
 
             return Result;
@@ -1814,6 +1906,15 @@ namespace Vocaluxe.Menu
 
                 case EType.TNameSelection:
                     _NameSelections[_Interactions[interaction].Num].Draw();
+                    break;
+
+                case EType.TEqualizer:
+                    if (!_Equalizers[_Interactions[interaction].Num].ScreenHandles)
+                    {
+                        //TODO:
+                        //Call Update-Method of Equalizer and give infos about bg-sound.
+                        //_Equalizers[_Interactions[interaction].Num].Draw();
+                    }
                     break;
                 
                 //TODO:
