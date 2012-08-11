@@ -12,7 +12,6 @@ namespace Vocaluxe.Menu
 {
     enum EEqualizerStyle 
     {
-        Bars,
         Collums
     }
 

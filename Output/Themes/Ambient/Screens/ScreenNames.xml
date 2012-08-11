@@ -1141,7 +1141,7 @@
 	  <NumBars>8</NumBars>
 	  <!--<Space>: Space between equalizer-elements.-->
 	  <Space>2,00</Space>
-	  <!--<Style>: Style of equalizer-elements-->
+	  <!--<Style>: Style of equalizer-elements: Collumns-->
 	  <Style>Collumns</Style>
 	  <!--<Color>: Equalizer color from ColorScheme (high priority)-->
 	  <!--or <R>, <G>, <B>, <A> (lower priority)-->
@@ -1168,7 +1168,7 @@
 	  <NumBars>8</NumBars>
 	  <!--<Space>: Space between equalizer-elements.-->
 	  <Space>2,00</Space>
-	  <!--<Style>: Style of equalizer-elements-->
+	  <!--<Style>: Style of equalizer-elements: Collumns-->
 	  <Style>Collumns</Style>
 	  <!--<Color>: Equalizer color from ColorScheme (high priority)-->
 	  <!--or <R>, <G>, <B>, <A> (lower priority)-->
@@ -1195,7 +1195,7 @@
 	  <NumBars>8</NumBars>
 	  <!--<Space>: Space between equalizer-elements.-->
 	  <Space>2,00</Space>
-	  <!--<Style>: Style of equalizer-elements-->
+	  <!--<Style>: Style of equalizer-elements: Collumns-->
 	  <Style>Collumns</Style>
 	  <!--<Color>: Equalizer color from ColorScheme (high priority)-->
 	  <!--or <R>, <G>, <B>, <A> (lower priority)-->
@@ -1222,7 +1222,7 @@
 	  <NumBars>8</NumBars>
 	  <!--<Space>: Space between equalizer-elements.-->
 	  <Space>2,00</Space>
-	  <!--<Style>: Style of equalizer-elements-->
+	  <!--<Style>: Style of equalizer-elements: Collumns-->
 	  <Style>Collumns</Style>
 	  <!--<Color>: Equalizer color from ColorScheme (high priority)-->
 	  <!--or <R>, <G>, <B>, <A> (lower priority)-->
@@ -1249,7 +1249,7 @@
 	  <NumBars>8</NumBars>
 	  <!--<Space>: Space between equalizer-elements.-->
 	  <Space>2,00</Space>
-	  <!--<Style>: Style of equalizer-elements-->
+	  <!--<Style>: Style of equalizer-elements: Collumns-->
 	  <Style>Collumns</Style>
 	  <!--<Color>: Equalizer color from ColorScheme (high priority)-->
 	  <!--or <R>, <G>, <B>, <A> (lower priority)-->
@@ -1274,7 +1274,7 @@
       <H>60</H>	  
 	  <!--<NumBars>: Number of equalizer-elements.-->
 	  <NumBars>8</NumBars>
-	  <!--<Space>: Space between equalizer-elements.-->
+	  <!--<Style>: Style of equalizer-elements: Collumns-->
 	  <Space>2,00</Space>
 	  <!--<Style>: Style of equalizer-elements-->
 	  <Style>Collumns</Style>
