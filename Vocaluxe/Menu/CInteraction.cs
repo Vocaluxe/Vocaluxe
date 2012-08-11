@@ -43,7 +43,8 @@ namespace Vocaluxe.Menu
                     _Type == EType.TStatic ||
                     _Type == EType.TSongMenu ||
                     _Type == EType.TLyric ||
-                    _Type == EType.TSingNote);
+                    _Type == EType.TSingNote ||
+                    _Type == EType.TEqualizer);
             }
         }
 
