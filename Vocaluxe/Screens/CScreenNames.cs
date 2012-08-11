@@ -335,6 +335,22 @@ namespace Vocaluxe.Screens
                         //Update Tiles-List
                         NameSelections[htNameSelections(NameSelection)].UpdateList();
                         break;
+                    
+                    case Keys.F10:
+                        if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
+                        {
+                            if (SelectSlides[htSelectSlides(SelectSlideDuetPlayer[selectingKeyboardPlayerNr - 1])].Selection == 0)
+                                SelectSlides[htSelectSlides(SelectSlideDuetPlayer[selectingKeyboardPlayerNr - 1])].SetSelectionByValueIndex(1);
+                            else
+                                SelectSlides[htSelectSlides(SelectSlideDuetPlayer[selectingKeyboardPlayerNr - 1])].SetSelectionByValueIndex(0);
+                            //Reset all values
+                            selectingKeyboardPlayerNr = 0;
+                            selectingKeyboardActive = false;
+                            selectingKeyboardUnendless = false;
+                            NameSelections[htNameSelections(NameSelection)].KeyboardSelection(false, -1);
+                            SetInteractionToButton(Buttons[htButtons(ButtonStart)]);
+                        }
+                        break;
 
                 }
             }
