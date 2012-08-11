@@ -1,5 +1,11 @@
 ScreenSing
 
++++++++++
+Version 5
+
+Add:
+<TextDuetName1> and <TextDuetName2> (only showed when sining duet)
+
 ++++++++++
 Version 4:
 Added Elements for 6-player-singing!

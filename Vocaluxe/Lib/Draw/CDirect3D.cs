@@ -836,6 +836,19 @@ namespace Vocaluxe.Lib.Draw
         {
             DrawTexture(_BlankTexture, rect, color);
         }
+
+        /// <summary>
+        /// Draws reflection of a colored rectangle
+        /// </summary>
+        /// <param name="color">The color in which the rectangle will be drawn in</param>
+        /// <param name="rect">The coordinates in a SRectF struct</param>
+        /// <param name="space">The space between the texture and the reflection</param>
+        /// <param name="height">The height of the reflection</param>
+        public void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
+        {
+            DrawTextureReflection(_BlankTexture, rect, color, rect, space, height);
+        }
+            
         #endregion Basic Draw Methods
         #region Textures
         #region adding

@@ -125,6 +125,7 @@ namespace Vocaluxe.Lib.Draw
         // Basic Draw Methods
         void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2);
         void DrawColor(SColorF color, SRectF rect);
+        void DrawColorReflection(SColorF color, SRectF rect, float space, float height);
 
         void ClearScreen();
         STexture CopyScreen();
