@@ -141,6 +141,11 @@ namespace Vocaluxe.Menu.SongMenu
         #endregion ISongMenu
 
         #region IMenuElement
+        public string GetThemeName()
+        {
+            return _SongMenu.GetThemeName();
+        }
+
         public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
         {
             return _SongMenu.LoadTheme(XmlPath, ElementName, navigator, SkinIndex);

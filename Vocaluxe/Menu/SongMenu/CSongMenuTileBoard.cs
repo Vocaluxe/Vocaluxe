@@ -692,6 +692,7 @@ namespace Vocaluxe.Menu.SongMenu
                     }
                 }
 
+                _Rect = _Theme.songMenuTileBoard.TileRectSmall;
                 _ScrollRect = new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, _Theme.songMenuTileBoard.TileRectSmall.Z);
             }
             else
@@ -717,6 +718,7 @@ namespace Vocaluxe.Menu.SongMenu
                     }
                 }
 
+                _Rect = _Theme.songMenuTileBoard.TileRect;
                 _ScrollRect = new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, _Theme.songMenuTileBoard.TileRect.Z);
             }
 

@@ -269,7 +269,7 @@ namespace Vocaluxe.Screens
         {
             base.HandleMouse(MouseEvent);
 
-            if (CHelper.IsInBounds(Playlists[htPlaylists(Playlist)].Rect, MouseEvent.X, MouseEvent.Y))
+            if (Playlists[htPlaylists(Playlist)].IsMouseOver(MouseEvent))
             {
                 _PlaylistActive = true;
                 Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
@@ -377,8 +377,10 @@ namespace Vocaluxe.Screens
         public override bool UpdateGame()
         {
             SongMenus[htSongMenus(SongMenu)].Update();
+
             if (SongMenus[htSongMenus(SongMenu)].IsSmallView())
                 CheckPlaylist();
+
             Texts[htTexts(TextCategory)].Text = CSongs.GetActualCategoryName();
 
             if (CSongs.Category > -1 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF)

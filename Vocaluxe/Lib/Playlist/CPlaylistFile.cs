@@ -29,7 +29,7 @@ namespace Vocaluxe.Lib.Playlist
         }
     }
 
-    public class CPlaylist
+    public class CPlaylistFile
     {
         private static XmlWriterSettings _settings = new XmlWriterSettings();
         private static CHelper Helper = new CHelper();
@@ -38,14 +38,14 @@ namespace Vocaluxe.Lib.Playlist
         public string PlaylistFile;
         public List<CPlaylistSong> Songs = new List<CPlaylistSong>();
 
-        public CPlaylist() 
+        public CPlaylistFile() 
         {
             Init();
             PlaylistName = string.Empty;
             PlaylistFile = string.Empty;
         }
 
-        public CPlaylist(string file)
+        public CPlaylistFile(string file)
         {
             Init();
             PlaylistFile = file;

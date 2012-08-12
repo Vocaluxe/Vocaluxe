@@ -41,6 +41,12 @@ namespace Vocaluxe.Menu
     {
         private SThemeText _Theme;
         private bool _ThemeLoaded;
+
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
         private bool _ButtonText;
         private bool _PositionNeedsUpdate = true;
 

@@ -13,10 +13,10 @@ namespace Vocaluxe.Base
 
     static class CPlaylists
     {
-        private static List<CPlaylist> _Playlists;
+        private static List<CPlaylistFile> _Playlists;
         private static CHelper Helper = new CHelper();
 
-        public static CPlaylist[] Playlists
+        public static CPlaylistFile[] Playlists
         {
             get { return _Playlists.ToArray(); }
         }
@@ -46,13 +46,13 @@ namespace Vocaluxe.Base
 
         public static void LoadPlaylists()
         {
-            _Playlists = new List<CPlaylist>();
+            _Playlists = new List<CPlaylistFile>();
             List<string> files = new List<string>();
             files.AddRange(Helper.ListFiles(CSettings.sFolderPlaylists, "*.xml", true, true));
 
             foreach (string file in files)
             {
-                CPlaylist playlist = new CPlaylist(file);
+                CPlaylistFile playlist = new CPlaylistFile(file);
                 _Playlists.Add(playlist);
             }
 
@@ -66,7 +66,7 @@ namespace Vocaluxe.Base
             _Playlists.Sort(CompareByPlaylistName);
         }
 
-        private static int CompareByPlaylistName(CPlaylist a, CPlaylist b)
+        private static int CompareByPlaylistName(CPlaylistFile a, CPlaylistFile b)
         {
             return String.Compare(a.PlaylistName, b.PlaylistName);
         }
@@ -98,7 +98,7 @@ namespace Vocaluxe.Base
 
         public static int NewPlaylist()
         {
-            CPlaylist pl = new CPlaylist();
+            CPlaylistFile pl = new CPlaylistFile();
             pl.PlaylistName = "New Playlist";
             _Playlists.Add(pl);
             return (_Playlists.Count - 1);

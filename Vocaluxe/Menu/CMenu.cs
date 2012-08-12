@@ -879,8 +879,7 @@ namespace Vocaluxe.Menu
                 {
                     if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != Modifier.Shift)
                         KeyEvent.Handled = PrevElement();
-                    
-                    if (!KeyEvent.Handled)
+                    else
                         KeyEvent.Handled = _NextInteraction(KeyEvent);
                 }
 
@@ -888,8 +887,7 @@ namespace Vocaluxe.Menu
                 {
                     if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != Modifier.Shift)
                         KeyEvent.Handled = NextElement();
-
-                    if (!KeyEvent.Handled)
+                    else
                         KeyEvent.Handled = _NextInteraction(KeyEvent);
                 }
 

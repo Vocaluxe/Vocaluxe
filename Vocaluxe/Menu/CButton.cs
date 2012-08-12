@@ -55,6 +55,11 @@ namespace Vocaluxe.Menu
         }
         public bool Visible;
 
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
         public CButton()
         {
             _Theme = new SThemeButton();

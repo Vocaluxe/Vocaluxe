@@ -249,6 +249,11 @@ namespace Vocaluxe.Menu.SongMenu
             _ThemeLoaded = false;
         }
 
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
         public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
