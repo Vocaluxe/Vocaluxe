@@ -45,7 +45,8 @@ namespace Vocaluxe.Menu
                     _Type == EType.TSongMenu ||
                     _Type == EType.TLyric ||
                     _Type == EType.TSingNote ||
-                    _Type == EType.TEqualizer);
+                    _Type == EType.TEqualizer ||
+                    _Type == EType.TPlaylist);
             }
         }
 

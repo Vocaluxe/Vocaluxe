@@ -42,6 +42,7 @@ namespace Vocaluxe.Screens
         private bool _SearchActive = false;
 
         private bool _SongOptionsActive = false;
+        private bool _PlaylistActive = false;
         private List<GameModes.EGameMode> _AvailableGameModes;
 
         public CScreenSong()
@@ -80,13 +81,23 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(KeyEvent KeyEvent)
         {
-            KeyEvent.Handled = Playlists[htPlaylists(Playlist)].HandleInput(KeyEvent);
-            if (KeyEvent.Handled)
-                return true;
-
             base.HandleInput(KeyEvent);
             if (KeyEvent.Handled)
                 return true;
+
+            if (_PlaylistActive)
+            {
+                if (!KeyEvent.KeyPressed && KeyEvent.Key == Keys.Tab)
+                {
+                    _PlaylistActive = !_PlaylistActive;
+                    Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
+                    SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
+                    return true;
+                }
+
+                Playlists[htPlaylists(Playlist)].HandleInput(KeyEvent);
+                    return true;
+            }
 
             if (!_SongOptionsActive)
             {
@@ -104,7 +115,6 @@ namespace Vocaluxe.Screens
                 else
                 {
                     SongMenus[htSongMenus(SongMenu)].HandleInput(ref KeyEvent);
-
                     if (KeyEvent.Handled)
                         return true;
 
@@ -120,6 +130,15 @@ namespace Vocaluxe.Screens
                             {
                                 if (SongMenus[htSongMenus(SongMenu)].GetSelectedSong() != -1 && !_SongOptionsActive)
                                     ToggleSongOptions();
+                            }
+                            break;
+
+                        case Keys.Tab:
+                            if (Playlists[htPlaylists(Playlist)].Visible)
+                            {
+                                _PlaylistActive = !_PlaylistActive;
+                                Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
+                                SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
                             }
                             break;
 
@@ -147,6 +166,7 @@ namespace Vocaluxe.Screens
                             }
                             break;
 
+                        //TODO: Move that to the new menu and delete it!
                         case Keys.A:
                             if (!_SearchActive && KeyEvent.Mod == Modifier.None)
                             {
@@ -158,6 +178,7 @@ namespace Vocaluxe.Screens
                             }
                             break;
 
+                        //TODO: Delete that from here and from wiki!
                         case Keys.F:
                             if (KeyEvent.Mod == Modifier.Ctrl)
                             {
@@ -174,6 +195,7 @@ namespace Vocaluxe.Screens
                             }
                             break;
 
+                        //TODO: We need another key for random!
                         case Keys.R:
                             if (CSongs.Category != -1 && KeyEvent.Mod == Modifier.Ctrl)
                             {
@@ -181,6 +203,7 @@ namespace Vocaluxe.Screens
                             }
                             break;
 
+                        //TODO: Delete that!
                         case Keys.S:
                             if (CSongs.NumVisibleSongs > 0)
                                 StartMedleySong(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
@@ -246,10 +269,21 @@ namespace Vocaluxe.Screens
         {
             base.HandleMouse(MouseEvent);
 
-            if (Playlists[htPlaylists(Playlist)].HandleMouse(MouseEvent))
+            if (CHelper.IsInBounds(Playlists[htPlaylists(Playlist)].Rect, MouseEvent.X, MouseEvent.Y))
             {
-                return true;
+                _PlaylistActive = true;
+                Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
+                SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
+            } 
+            else if (CHelper.IsInBounds(SongMenus[htSongMenus(SongMenu)].Rect, MouseEvent.X, MouseEvent.Y))
+            {
+                _PlaylistActive = false;
+                Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
+                SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
             }
+
+            if (Playlists[htPlaylists(Playlist)].HandleMouse(MouseEvent))
+                return true;
 
             if (!_SongOptionsActive)
             {
@@ -333,6 +367,7 @@ namespace Vocaluxe.Screens
             base.OnShow();
             CGame.EnterNormalGame();
             SongMenus[htSongMenus(SongMenu)].OnShow();
+            SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
             Playlists[htPlaylists(Playlist)].Init();
             if (Playlists[htPlaylists(Playlist)].ActivePlaylistID != -1)
                 Playlists[htPlaylists(Playlist)].LoadPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);

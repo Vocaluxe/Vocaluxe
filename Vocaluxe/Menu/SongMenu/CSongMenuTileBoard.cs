@@ -148,6 +148,11 @@ namespace Vocaluxe.Menu.SongMenu
             }
             else
             {
+                if (!(KeyEvent.Key == Keys.Left || KeyEvent.Key == Keys.Right || KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down ||
+                    KeyEvent.Key == Keys.Escape || KeyEvent.Key == Keys.Back || KeyEvent.Key == Keys.Enter ||
+                    KeyEvent.Key == Keys.PageDown || KeyEvent.Key == Keys.PageUp))
+                    return;
+
                 bool sel = false;
                 foreach (CStatic tile in _Tiles)
                 {
@@ -400,7 +405,7 @@ namespace Vocaluxe.Menu.SongMenu
         {
             foreach (CStatic tile in _Tiles)
             {
-                if (tile.Selected)
+                if (tile.Selected && _Active)
                     tile.Draw(1.2f, tile.Rect.Z - 0.1f, true, false);
                 else
                 {

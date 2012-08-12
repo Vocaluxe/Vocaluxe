@@ -73,6 +73,16 @@ namespace Vocaluxe.Menu.SongMenu
             _SongMenu.Draw();
         }
 
+        public bool IsActive()
+        {
+            return _SongMenu.IsActive();
+        }
+
+        public void SetActive(bool Active)
+        {
+            _SongMenu.SetActive(Active);
+        }
+
         public int GetSelectedSong()
         {
             return _SongMenu.GetSelectedSong();

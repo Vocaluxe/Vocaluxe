@@ -878,22 +878,24 @@ namespace Vocaluxe.Menu
                 if (KeyEvent.Key == Keys.Left)
                 {
                     if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != Modifier.Shift)
-                        PrevElement();
-                    else
-                        _NextInteraction(KeyEvent);
+                        KeyEvent.Handled = PrevElement();
+                    
+                    if (!KeyEvent.Handled)
+                        KeyEvent.Handled = _NextInteraction(KeyEvent);
                 }
 
                 if (KeyEvent.Key == Keys.Right)
                 {
                     if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != Modifier.Shift)
-                        NextElement();
-                    else
-                        _NextInteraction(KeyEvent);
+                        KeyEvent.Handled = NextElement();
+
+                    if (!KeyEvent.Handled)
+                        KeyEvent.Handled = _NextInteraction(KeyEvent);
                 }
 
                 if (KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down)
                 {
-                    _NextInteraction(KeyEvent);
+                    KeyEvent.Handled = _NextInteraction(KeyEvent);
                 }
             }
             else
@@ -1242,16 +1244,28 @@ namespace Vocaluxe.Menu
                 _PrevInteraction();
         }
 
-        public void NextElement()
+        /// <summary>
+        /// Selects the next element in a menu interaction.
+        /// </summary>
+        /// <returns>True if the next element is selected. False if either there is no next element or the interaction does not provide such a method.</returns>
+        public bool NextElement()
         {
             if (_Interactions.Count > 0)
-                _NextElement();
+                return _NextElement();
+
+            return false;
         }
 
-        public void PrevElement()
+        /// <summary>
+        /// Selects the previous element in a menu interaction.
+        /// </summary>
+        /// <returns>True if the previous element is selected. False if either there is no next element or the interaction does not provide such a method.</returns>
+        public bool PrevElement()
         {
             if (_Interactions.Count > 0)
-                _PrevElement();
+                return _PrevElement();
+
+            return false;
         }
 
         public bool SetInteractionToButton(CButton button)
@@ -1502,7 +1516,12 @@ namespace Vocaluxe.Menu
             _SetSelected();
         }
 
-        private void _NextInteraction(KeyEvent Key)
+        /// <summary>
+        /// Selects the next best interaction in a menu.
+        /// </summary>
+        /// <param name="Key"></param>
+        /// <returns></returns>
+        private bool _NextInteraction(KeyEvent Key)
         {
             KeyEvent[] Directions = new KeyEvent[4];
             float[] Distances = new float[4];
@@ -1568,8 +1587,11 @@ namespace Vocaluxe.Menu
                     _Selection = element;
                     _SetSelected();
                     _SetHighlighted(_Selection);
+
+                    return true;
                 }
             }
+            return false;
         }
 
         private int _GetNextElement(KeyEvent Key, out float Distance, out int Stage)
@@ -1728,16 +1750,30 @@ namespace Vocaluxe.Menu
                 return distance;
         }
 
-        private void _NextElement()
+        /// <summary>
+        /// Selects the next element in a menu interaction.
+        /// </summary>
+        /// <returns>True if the next element is selected. False if either there is no next element or the interaction does not provide such a method.</returns>
+        private bool _NextElement()
         {
             if (_Interactions[_Selection].Type == EType.TSelectSlide)
-                _SelectSlides[_Interactions[_Selection].Num].NextValue();
+                return _SelectSlides[_Interactions[_Selection].Num].NextValue();
+
+            return false;
         }
 
-        private void _PrevElement()
+        /// <summary>
+        /// Selects the previous element in a menu interaction.
+        /// </summary>
+        /// <returns>
+        /// True if the previous element is selected. False if either there is no previous element or the interaction does not provide such a method.
+        /// </returns>
+        private bool _PrevElement()
         {
             if (_Interactions[_Selection].Type == EType.TSelectSlide)
-                _SelectSlides[_Interactions[_Selection].Num].PrevValue();
+                return _SelectSlides[_Interactions[_Selection].Num].PrevValue();
+
+            return false;
         }
 
         private void _SetSelected()

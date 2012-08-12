@@ -115,6 +115,7 @@ namespace Vocaluxe.Menu.SongMenu
         protected long _PendingTime = 500L;
 
         private int _LockedInternal = -1;
+        protected bool _Active = false;
 
         protected int _PreviewSelected //for preview only
         {
@@ -217,6 +218,7 @@ namespace Vocaluxe.Menu.SongMenu
         public void SetSelected(bool Selected)
         {
             _Selected = Selected;
+            SetActive(Selected);
         }
 
         public bool IsVisible()
@@ -514,6 +516,16 @@ namespace Vocaluxe.Menu.SongMenu
                 CDraw.DrawTexture(_vidtex, new SRectF(0, 0, 1280, 720, 0));
             }
             
+        }
+
+        public virtual bool IsActive()
+        {
+            return _Active;
+        }
+
+        public virtual void SetActive(bool Active)
+        {
+            _Active = Active;
         }
 
         public virtual int GetSelectedSong()

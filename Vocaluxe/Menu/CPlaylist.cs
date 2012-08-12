@@ -77,7 +77,21 @@ namespace Vocaluxe.Menu
         public SColorF BackgroundSColor;
 
         public bool Visible;
-        public bool Selected;
+
+        private bool _Selected;
+        public bool Selected
+        {
+            get { return _Selected; }
+            set
+            {
+                _Selected = value;
+                if (CurrentPlaylistElement == -1 && _Selected)
+                {
+                    CurrentPlaylistElement = 0;
+                    ActiveHover = CurrentPlaylistElement;
+                }
+            }
+        }
 
         public bool changeOrder = false;
         public int ActivePlaylistID = -1;
@@ -266,7 +280,7 @@ namespace Vocaluxe.Menu
 
             for (int i = 0; i < PlaylistElements.Count; i++ )
             {
-                if (i == ActiveHover)
+                if (i == ActiveHover && _Selected)
                 {
                     PlaylistElements[i].Background.Texture = CTheme.GetSkinTexture(_Theme.STextureBackgroundName);
                     PlaylistElements[i].Background.Color = BackgroundSColor;
@@ -484,7 +498,7 @@ namespace Vocaluxe.Menu
                 for (int i = 0; i < PlaylistElements.Count; i++)
                 {
                     //Hover for playlist-element
-                    if (CHelper.IsInBounds(PlaylistElements[i].Background.Rect, mevent))
+                    if (PlaylistElementContents.Count - 1 >= i && CHelper.IsInBounds(PlaylistElements[i].Background.Rect, mevent))
                     {
                         PlaylistElements[i].Background.Texture = CTheme.GetSkinTexture(_Theme.STextureBackgroundName);
                         PlaylistElements[i].Background.Color = BackgroundSColor;
@@ -637,7 +651,6 @@ namespace Vocaluxe.Menu
                     CGraphics.FadeTo(EScreens.ScreenNames);
             }
         }
-
 
         private void ClosePlaylist()
         {
