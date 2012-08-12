@@ -452,18 +452,20 @@ namespace Vocaluxe.Menu
             {
                 if (mevent.Wheel > 0)
                 {
+                    if (PlaylistElements.Count + Offset + mevent.Wheel <= PlaylistElementContents.Count)
+                    {
+                        Offset = Offset + mevent.Wheel;
+                        Update();
+                        return true;
+                    }
                     return true;
                 }
                 else if (mevent.Wheel < 0)
                 {
-                    if (PlaylistElements.Count + Offset + mevent.Wheel <= PlaylistElementContents.Count)
+                    if (Offset + mevent.Wheel >= 0)
                     {
                         Offset = Offset + mevent.Wheel;
-                        return true;
-                    }
-                    if (Offset - mevent.Wheel >= 0)
-                    {
-                        Offset = Offset - mevent.Wheel;
+                        Update();
                         return true;
                     }
                 }
