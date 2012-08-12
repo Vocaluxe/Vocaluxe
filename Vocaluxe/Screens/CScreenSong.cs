@@ -80,7 +80,8 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(KeyEvent KeyEvent)
         {
-            if (Playlists[htPlaylists(Playlist)].HandleInput(KeyEvent))
+            KeyEvent.Handled = Playlists[htPlaylists(Playlist)].HandleInput(KeyEvent);
+            if (KeyEvent.Handled)
                 return true;
 
             base.HandleInput(KeyEvent);
@@ -89,7 +90,6 @@ namespace Vocaluxe.Screens
 
             if (!_SongOptionsActive)
             {
-
                 if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode))
                 {
                     if (_SearchActive)
@@ -211,7 +211,7 @@ namespace Vocaluxe.Screens
                                 if (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1 < 0)
                                     Playlists[htPlaylists(Playlist)].ActivePlaylistID = CPlaylists.NewPlaylist();
                                 else
-                                    Playlists[htPlaylists(Playlist)].ActivePlaylistID = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection;
+                                    Playlists[htPlaylists(Playlist)].ActivePlaylistID = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1;
                                 CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
                                 OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
                             }
