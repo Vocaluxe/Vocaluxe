@@ -560,10 +560,10 @@ namespace Vocaluxe.Menu
 
             if (ActivePlaylistID > -1)
             {
-                _Theme.ButtonPlaylistClose.ProzessMouseMove(mevent.X, mevent.Y);
-                _Theme.ButtonPlaylistSing.ProzessMouseMove(mevent.X, mevent.Y);
-                _Theme.ButtonPlaylistSave.ProzessMouseMove(mevent.X, mevent.Y);
-                _Theme.ButtonPlaylistDelete.ProzessMouseMove(mevent.X, mevent.Y);
+                _Theme.ButtonPlaylistClose.ProcessMouseMove(mevent.X, mevent.Y);
+                _Theme.ButtonPlaylistSing.ProcessMouseMove(mevent.X, mevent.Y);
+                _Theme.ButtonPlaylistSave.ProcessMouseMove(mevent.X, mevent.Y);
+                _Theme.ButtonPlaylistDelete.ProcessMouseMove(mevent.X, mevent.Y);
                 if (mevent.LB)
                 {
                     if (CHelper.IsInBounds(_Theme.ButtonPlaylistClose.Rect, mevent))

@@ -284,7 +284,7 @@ namespace Vocaluxe.Menu
             }
         }
 
-        public void ProzessMouseMove(int x, int y)
+        public void ProcessMouseMove(int x, int y)
         {
             Selected = CHelper.IsInBounds(Rect, x, y);
         }
