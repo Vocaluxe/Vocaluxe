@@ -15,7 +15,7 @@ namespace Vocaluxe.Menu
         TLyric,
         TSingNote,
         TNameSelection,
-        TEqualizer
+        TEqualizer,
         TPlaylist
     }
 
