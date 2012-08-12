@@ -85,7 +85,7 @@ namespace Vocaluxe.Menu
             set
             {
                 _Selected = value;
-                if (CurrentPlaylistElement == -1 && _Selected)
+                if (CurrentPlaylistElement == -1 && _Selected && PlaylistElementContents.Count > 0)
                 {
                     CurrentPlaylistElement = 0;
                     ActiveHover = CurrentPlaylistElement;
@@ -336,7 +336,7 @@ namespace Vocaluxe.Menu
                 switch (kevent.Key)
                 {
                     case Keys.Up:
-                        if (CurrentPlaylistElement == -1)
+                        if (CurrentPlaylistElement == -1 && PlaylistElementContents.Count > 0)
                         {
                             CurrentPlaylistElement = 0;
                             ActiveHover = CurrentPlaylistElement;
@@ -362,7 +362,7 @@ namespace Vocaluxe.Menu
                         return false;
 
                     case Keys.Down:
-                        if (CurrentPlaylistElement == -1)
+                        if (CurrentPlaylistElement == -1 && PlaylistElementContents.Count > 0)
                         {
                             CurrentPlaylistElement = 0;
                             ActiveHover = CurrentPlaylistElement;
@@ -397,6 +397,14 @@ namespace Vocaluxe.Menu
                             return true;
                         }
                         return false;
+
+                    case Keys.Back:
+                        ClosePlaylist();
+                        break;
+
+                    case Keys.Enter:
+                        StartPlaylistSongs();
+                        break;
 
                     case Keys.PageUp:
                         if (CurrentPlaylistElement != -1)
@@ -634,6 +642,11 @@ namespace Vocaluxe.Menu
                 PlaylistElementContents.Add(pec);
             }
             Update();
+            if (PlaylistElementContents.Count - 1 < ActiveHover || PlaylistElementContents.Count - 1 < CurrentPlaylistElement)
+            {
+                ActiveHover = PlaylistElementContents.Count - 1;
+                CurrentPlaylistElement = PlaylistElementContents.Count - 1;
+            }
         }
 
         private void StartPlaylistSongs()

@@ -642,6 +642,9 @@ namespace Vocaluxe.Screens
         private void ClosePlaylist()
         {
             SongMenus[htSongMenus(SongMenu)].SetSmallView(false);
+            _PlaylistActive = false;
+            Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
+            SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
         }
 
         private void UpdatePlaylistNames()
