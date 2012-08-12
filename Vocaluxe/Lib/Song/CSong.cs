@@ -129,6 +129,9 @@ namespace Vocaluxe.Lib.Song
         public float Gap = 0f;
         public float VideoGap = 0f;
 
+        public string DuetPart1 = String.Empty;
+        public string DuetPart2 = String.Empty;
+
         public List<string> Comment = new List<string>();
 
         // Sorting
@@ -381,6 +384,18 @@ namespace Vocaluxe.Lib.Song
                                         this.ArtistSorting = Value;
                                     }
                                     break;
+                                case "P1":
+                                    if (Value != String.Empty)
+                                    {
+                                        this.DuetPart1 = Value;
+                                    }
+                                    break;
+                                case "P2":
+                                    if (Value != String.Empty)
+                                    {
+                                        this.DuetPart2 = Value;
+                                    }
+                                    break;
                                 case "MP3":
                                     if (File.Exists(Path.Combine(this.Folder, Value)))
                                     {
@@ -563,12 +578,12 @@ namespace Vocaluxe.Lib.Song
             CheckFiles();
 
             //Before saving this tags to .txt: Check, if ArtistSorting and Artist are equal, then don't save this tag.
-            if (this.ArtistSorting == "") 
+            if (this.ArtistSorting == String.Empty) 
             {
                 this.ArtistSorting = this.Artist;
             }
 
-            if (this.TitleSorting == "")
+            if (this.TitleSorting == String.Empty)
             {
                 this.TitleSorting = this.Title;
             }
@@ -627,9 +642,10 @@ namespace Vocaluxe.Lib.Song
                     FileLineNo++;
                     if (TempC.CompareTo('P') == 0)
                     {
-                        char chr = (char)sr.Read();
-                        int.TryParse(chr.ToString(), out Param1);
+                        char chr;
+                        while ((chr = (char)sr.Read()) == ' '){ }
 
+                        int.TryParse(chr.ToString(), out Param1);
                         if (Param1 == 1)
                             Player = 0;
                         else if (Param1 == 2)
@@ -714,7 +730,8 @@ namespace Vocaluxe.Lib.Song
             FindRefrain();
             FindShortEnd();
             _NotesLoaded = true;
-
+            if(IsDuet)
+                CheckDuet();
             return true;
         }
 
@@ -778,6 +795,20 @@ namespace Vocaluxe.Lib.Song
                         this.BackgroundFileName = file;
                     }
                 }
+            }
+        }
+
+        private void CheckDuet()
+        {
+            if (DuetPart1 == String.Empty)
+            {
+                DuetPart1 = "Part 1";
+                CLog.LogError("Warning: Can't find #P1-tag for duets in \"" + this.Artist + " - " + this.Title + "\".");
+            }
+            if (DuetPart2 == String.Empty)
+            {
+                DuetPart2 = "Part 2";
+                CLog.LogError("Warning: Can't find #P2-tag for duets in \"" + this.Artist + " - " + this.Title + "\".");
             }
         }
 

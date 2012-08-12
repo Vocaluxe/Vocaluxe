@@ -209,6 +209,7 @@
     <Compile Include="Lib\Video\IVideoDecoder.cs" />
     <Compile Include="Menu\CBackground.cs" />
     <Compile Include="Menu\CButton.cs" />
+    <Compile Include="Menu\CEqualizer.cs" />
     <Compile Include="Menu\CGraphics.cs" />
     <Compile Include="Menu\CNameSelection.cs" />
     <Compile Include="Menu\CLyric.cs" />
