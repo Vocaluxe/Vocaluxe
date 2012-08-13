@@ -958,64 +958,6 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </StaticAvatarP6N6>
-    <TextDuetName1>
-      <!--<X>, <Y>: Text position-->
-      <X>40</X>
-      <Y>80</Y>
-      <!--<Z>: Text position-->
-      <Z>-1,00</Z>
-      <!--<H>: Text height-->
-      <H>35</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>TextSColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
-      <Align>Left</Align>
-      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
-      <Style>Bold</Style>
-      <!--<Font>: Text font name-->
-      <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
-      <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDuetName1>
-    <TextDuetName2>
-      <!--<X>, <Y>: Text position-->
-      <X>40</X>
-      <Y>585</Y>
-      <!--<Z>: Text position-->
-      <Z>-1,00</Z>
-      <!--<H>: Text height-->
-      <H>35</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>TextSColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
-      <Align>Left</Align>
-      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
-      <Style>Bold</Style>
-      <!--<Font>: Text font name-->
-      <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
-      <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDuetName2>
     <TextSongName>
       <!--<X>, <Y>: Text position-->
       <X>640</X>
@@ -1040,7 +982,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1069,7 +1011,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1098,12 +1040,70 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENSING_PAUSE</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </TextPause>
+    <TextDuetName1>
+      <!--<X>, <Y>: Text position-->
+      <X>40</X>
+      <Y>80</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>35</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>TextSColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextDuetName1>
+    <TextDuetName2>
+      <!--<X>, <Y>: Text position-->
+      <X>40</X>
+      <Y>585</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>35</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>TextSColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextDuetName2>
     <TextScoreP1N1>
       <!--<X>, <Y>: Text position-->
       <X>1240</X>
@@ -1127,7 +1127,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1159,7 +1159,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1188,7 +1188,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1220,7 +1220,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1249,7 +1249,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1281,7 +1281,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1310,7 +1310,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1342,7 +1342,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1371,7 +1371,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1403,7 +1403,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1432,7 +1432,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1464,7 +1464,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1493,7 +1493,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1525,7 +1525,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1554,7 +1554,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1586,7 +1586,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1615,7 +1615,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1647,7 +1647,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1676,7 +1676,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1708,7 +1708,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1737,7 +1737,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1769,7 +1769,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1798,7 +1798,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1830,7 +1830,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1859,7 +1859,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1891,7 +1891,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1920,7 +1920,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1952,7 +1952,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1981,7 +1981,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -2013,7 +2013,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -2042,7 +2042,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -2074,7 +2074,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -2103,7 +2103,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -2135,7 +2135,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -2164,7 +2164,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -2196,7 +2196,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -2225,7 +2225,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -2257,7 +2257,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -2286,7 +2286,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -2318,7 +2318,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -2347,7 +2347,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -2379,7 +2379,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -2424,7 +2424,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_SCREENSING_BUTTON_CANCEL</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -2481,7 +2481,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_SCREENSING_BUTTON_CONTINUE</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -2538,7 +2538,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_SCREENSING_BUTTON_SKIP</Text>
       </Text>
       <!--<Reflection> If exists:-->

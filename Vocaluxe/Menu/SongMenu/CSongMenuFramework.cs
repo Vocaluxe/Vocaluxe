@@ -265,12 +265,6 @@ namespace Vocaluxe.Menu.SongMenu
             _ThemeLoaded &= CHelper.GetValueFromXML(item + "/VideoIcon", navigator, ref _Theme.VideoIconName, String.Empty);
             _ThemeLoaded &= CHelper.GetValueFromXML(item + "/MedleyCalcIcon", navigator, ref _Theme.MedleyCalcIcon, String.Empty);
             _ThemeLoaded &= CHelper.GetValueFromXML(item + "/MedleyTagIcon", navigator, ref _Theme.MedleyTagIcon, String.Empty);
-            
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/X", navigator, ref _Rect.X);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Y", navigator, ref _Rect.Y);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Z", navigator, ref _Rect.Z);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/W", navigator, ref _Rect.W);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/H", navigator, ref _Rect.H);
 
             if (CHelper.GetValueFromXML(item + "/Color", navigator, ref _Theme.ColorName, String.Empty))
             {
@@ -352,13 +346,6 @@ namespace Vocaluxe.Menu.SongMenu
                 writer.WriteComment("<MedleyTagIcon>: Texture name of medley tag (manuelly set) icon");
                 writer.WriteElementString("MedleyTagIcon", _Theme.MedleyTagIcon);
 
-                writer.WriteComment("<X>, <Y>, <Z>, <W>, <H>: SongMenu position, width and height");
-                writer.WriteElementString("X", _Rect.X.ToString("#0"));
-                writer.WriteElementString("Y", _Rect.Y.ToString("#0"));
-                writer.WriteElementString("Z", _Rect.Z.ToString("#0.00"));
-                writer.WriteElementString("W", _Rect.W.ToString("#0"));
-                writer.WriteElementString("H", _Rect.H.ToString("#0"));
-
                 writer.WriteComment("<Color>: Tile color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
                 if (_Theme.ColorName != String.Empty)
@@ -390,10 +377,10 @@ namespace Vocaluxe.Menu.SongMenu
                 writer.WriteElementString("SpaceH", _Theme.songMenuTileBoard.spaceH.ToString("#0.00"));
 
                 writer.WriteComment("<NumWsmall>: Number of tiles horizontal in small-mode");
-                writer.WriteElementString("NumWsmall", _Theme.songMenuTileBoard.numW.ToString());
+                writer.WriteElementString("NumWsmall", _Theme.songMenuTileBoard.numWsmall.ToString());
 
                 writer.WriteComment("<NumHsmall>: Number of tiles vertical in small-mode");
-                writer.WriteElementString("NumHsmall", _Theme.songMenuTileBoard.numH.ToString());
+                writer.WriteElementString("NumHsmall", _Theme.songMenuTileBoard.numHsmall.ToString());
 
                 writer.WriteComment("<TileRectX>, <TileRectY>, <TileRectZ>, <TileRectW>, <TileRectH>: SongMenu position, width and height");
                 writer.WriteElementString("TileRectX", _Theme.songMenuTileBoard.TileRect.X.ToString("#0"));

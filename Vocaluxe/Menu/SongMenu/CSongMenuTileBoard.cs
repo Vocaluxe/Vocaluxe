@@ -51,6 +51,8 @@ namespace Vocaluxe.Menu.SongMenu
         {
             base.Init();
 
+            _Rect = _Theme.songMenuTileBoard.TileRect;
+ 
             _NumW = _Theme.songMenuTileBoard.numW;
             _NumH = _Theme.songMenuTileBoard.numH;
             _SpaceW = _Theme.songMenuTileBoard.spaceW;

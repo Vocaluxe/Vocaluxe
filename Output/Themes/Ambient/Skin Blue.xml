@@ -117,7 +117,7 @@
       <G>0,000</G>
       <B>0,500</B>
       <A>0,400</A>
-    </Player6Dim2>    
+    </Player6Dim2>
     <BackgroundColor>
       <R>0,000</R>
       <G>0,000</G>
@@ -263,11 +263,11 @@
       <A>1,000</A>
     </LyricSubColor>
     <LyricHelper>
-      <R>0,00</R>
-      <G>0,00</G>
-      <B>1,00</B>
-      <A>0,50</A>    
-    </LyricHelper>    
+      <R>0,000</R>
+      <G>0,000</G>
+      <B>1,000</B>
+      <A>0,500</A>
+    </LyricHelper>
     <TimeBar>
       <R>0,800</R>
       <G>0,950</G>
@@ -321,16 +321,16 @@
     <MedleyTagIcon>MedleyTagIcon.png</MedleyTagIcon>
     <Invisible>Invisible.png</Invisible>
     <PlayerSelector>PlayerSelector.png</PlayerSelector>
-	<PreviousIcon>PreviousIcon.png</PreviousIcon>
-	<NextIcon>NextIcon.png</NextIcon>
-	<PlayIcon>PlayIcon.png</PlayIcon>
-	<PauseIcon>PauseIcon.png</PauseIcon>
-	<RepeatIcon>RepeatIcon.png</RepeatIcon>
-	<SongMenuBG>SongMenuBG.png</SongMenuBG>
-	<CloseIcon>Close.png</CloseIcon>
-	<DeleteIcon>Delete.png</DeleteIcon>
-	<SaveIcon>Save.png</SaveIcon>
-	<SingIcon>Sing.png</SingIcon>	
+    <PreviousIcon>PreviousIcon.png</PreviousIcon>
+    <NextIcon>NextIcon.png</NextIcon>
+    <PlayIcon>PlayIcon.png</PlayIcon>
+    <PauseIcon>PauseIcon.png</PauseIcon>
+    <RepeatIcon>RepeatIcon.png</RepeatIcon>
+    <SongMenuBG>SongMenuBG.png</SongMenuBG>
+    <CloseIcon>Close.png</CloseIcon>
+    <DeleteIcon>Delete.png</DeleteIcon>
+    <SaveIcon>Save.png</SaveIcon>
+    <SingIcon>Sing.png</SingIcon>
   </Skins>
   <Videos>
     <BG_Video>[Blue]BG_Video.mp4</BG_Video>

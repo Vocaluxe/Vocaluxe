@@ -163,7 +163,7 @@ namespace Vocaluxe.Menu
                 writer.WriteComment("<Style>: Style of equalizer-elements: " + CConfig.ListStrings(Enum.GetNames(typeof(EEqualizerStyle))));
                 writer.WriteElementString("Style", Enum.GetName(typeof(EEqualizerStyle), _Theme.Style));
                 writer.WriteComment("<DrawNegative>: Draw negative values: " + CConfig.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("Style", Enum.GetName(typeof(EOffOn), _Theme.DrawNegative));
+                writer.WriteElementString("DrawNegative", Enum.GetName(typeof(EOffOn), _Theme.DrawNegative));
 
                 writer.WriteComment("<Color>: Equalizer color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");

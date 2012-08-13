@@ -52,7 +52,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENO_OPTIONS</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -97,7 +97,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_SCREENO_BUTTON_GAME</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -154,7 +154,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_SCRENNO_BUTTON_SOUND</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -211,7 +211,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_SCREENO_BUTTON_RECORD</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -268,7 +268,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_SCREENO_BUTTON_VIDEO</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -325,7 +325,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_SCREENO_BUTTON_LYRICS</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -382,7 +382,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_SCREENO_BUTTON_THEME</Text>
       </Text>
       <!--<Reflection> If exists:-->
