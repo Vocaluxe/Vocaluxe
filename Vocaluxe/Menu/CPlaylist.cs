@@ -129,6 +129,7 @@ namespace Vocaluxe.Menu
 
         public void Init()
         {
+            _Interactions.Clear();
             PrepareList();
             _Interactions.AddText(_Theme.TextPlaylistHeader);
             _Interactions.AddStatic(_Theme.StaticCover);

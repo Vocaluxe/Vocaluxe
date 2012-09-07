@@ -65,6 +65,25 @@ namespace Vocaluxe.Menu
             Active = false;
             _ScreenArea = new SRectF(0f, 0f, CSettings.iRenderW, CSettings.iRenderH, 0f);
         }
+
+        public void Clear()
+        {
+            _Interactions.Clear();
+            _Statics.Clear();
+            _Texts.Clear();
+            _Buttons.Clear();
+            _SelectSlides.Clear();
+
+            _Selection = 0;
+
+            _PrevMouseX = 0;
+            _PrevMouseY = 0;
+
+            _MouseDX = 0;
+            _MouseDY = 0;
+
+            Active = false;
+        }
         #region GetLists
         public List<CButton> GetButtons()
         {
