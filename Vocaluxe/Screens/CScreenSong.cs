@@ -372,11 +372,14 @@ namespace Vocaluxe.Screens
                                     gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
                                 else
                                     gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+                            //Check if playlist really exists
                             if (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1 < 0)
                                 Playlists[htPlaylists(Playlist)].ActivePlaylistID = CPlaylists.NewPlaylist();
                             else
                                 Playlists[htPlaylists(Playlist)].ActivePlaylistID = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1;
+                            //Add song to playlist
                             CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID, gm);
+                            //Open playlist
                             OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
                         }
                         //Create a new playlist and add song
@@ -391,8 +394,11 @@ namespace Vocaluxe.Screens
                                     gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
                                 else
                                     gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+                            //Create new playlist
                             Playlists[htPlaylists(Playlist)].ActivePlaylistID = CPlaylists.NewPlaylist();
+                            //Add song to playlist
                             CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID, gm);
+                            //Open playlist
                             OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
                         }
                         //Add song to loaded playlist
@@ -407,6 +413,7 @@ namespace Vocaluxe.Screens
                                     gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
                                 else
                                     gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+                            //Add song to playlist
                             CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID, gm);
                             Playlists[htPlaylists(Playlist)].UpdatePlaylist();
                         }
@@ -645,6 +652,9 @@ namespace Vocaluxe.Screens
             _SongOptionsActive = !_SongOptionsActive;
             if (_SongOptionsActive)
             {
+                EGameMode LastMode = EGameMode.TR_GAMEMODE_NORMAL;
+                if (_AvailableGameModes.Count > 0)
+                    LastMode = _AvailableGameModes[SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection];
                 SetInteractionToButton(Buttons[htButtons(ButtonOptionsSing)]);
                 _AvailableGameModes.Clear();
                 SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Clear();
@@ -664,6 +674,12 @@ namespace Vocaluxe.Screens
                 {
                     SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(GameModes.EGameMode), GameModes.EGameMode.TR_GAMEMODE_MEDLEY));
                     _AvailableGameModes.Add(GameModes.EGameMode.TR_GAMEMODE_MEDLEY);
+                }
+                //Set SelectSlide-Selection to last selected game-mode if possible
+                for (int i = 0; i < _AvailableGameModes.Count; i++)
+                {
+                    if (_AvailableGameModes[i] == LastMode)
+                        SelectSlides[htSelectSlides(SelectSlideOptionsMode)].SetSelectionByValueIndex(i);
                 }
                 SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Visible = true;
                 SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Visible = true;
