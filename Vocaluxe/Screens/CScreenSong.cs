@@ -231,24 +231,57 @@ namespace Vocaluxe.Screens
                             //Open a playlist and add song
                             if (Playlists[htPlaylists(Playlist)].ActivePlaylistID != (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1))
                             {
+                                //Check selected game-mode
+                                EGameMode gm;
+                                if (_AvailableGameModes.Count >= SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection)
+                                    gm = _AvailableGameModes[SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection];
+                                else
+                                    if (CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].IsDuet)
+                                        gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
+                                    else
+                                        gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+                                //Check if Playlist really exists
                                 if (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1 < 0)
                                     Playlists[htPlaylists(Playlist)].ActivePlaylistID = CPlaylists.NewPlaylist();
                                 else
                                     Playlists[htPlaylists(Playlist)].ActivePlaylistID = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1;
-                                CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
+                                //Add song to playlist
+                                CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID, gm);
+                                //Open playlist
                                 OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
                             }
                             //Create a new playlist and add song
                             else if ((SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1) == -1)
                             {
+                                //Check selected game-mode
+                                EGameMode gm;
+                                if (_AvailableGameModes.Count >= SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection)
+                                    gm = _AvailableGameModes[SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection];
+                                else
+                                    if (CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].IsDuet)
+                                        gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
+                                    else
+                                        gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+                                //Create new playlist
                                 Playlists[htPlaylists(Playlist)].ActivePlaylistID = CPlaylists.NewPlaylist();
-                                CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
+                                //Add song to playlist
+                                CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID, gm);
+                                //Open playlist
                                 OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
                             }
                             //Add song to loaded playlist
                             else
                             {
-                                CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
+                                //Check selected game-mode
+                                EGameMode gm;
+                                if (_AvailableGameModes.Count >= SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection)
+                                    gm = _AvailableGameModes[SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection];
+                                else
+                                    if (CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].IsDuet)
+                                        gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
+                                    else
+                                        gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+                                CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID, gm);
                                 Playlists[htPlaylists(Playlist)].UpdatePlaylist();
                             }
                             ToggleSongOptions();
@@ -330,24 +363,51 @@ namespace Vocaluxe.Screens
                         //Open a playlist and add song
                         if (Playlists[htPlaylists(Playlist)].ActivePlaylistID != (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1))
                         {
+                            //Check selected game-mode
+                            EGameMode gm;
+                            if (_AvailableGameModes.Count >= SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection)
+                                gm = _AvailableGameModes[SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection];
+                            else
+                                if (CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].IsDuet)
+                                    gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
+                                else
+                                    gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
                             if (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1 < 0)
                                 Playlists[htPlaylists(Playlist)].ActivePlaylistID = CPlaylists.NewPlaylist();
                             else
                                 Playlists[htPlaylists(Playlist)].ActivePlaylistID = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1;
-                            CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
+                            CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID, gm);
                             OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
                         }
                         //Create a new playlist and add song
                         else if ((SelectSlides[htSelectSlides(SelectSlideOptionsPlaylist)].Selection - 1) == -1)
                         {
+                            //Check selected game-mode
+                            EGameMode gm;
+                            if (_AvailableGameModes.Count >= SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection)
+                                gm = _AvailableGameModes[SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection];
+                            else
+                                if (CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].IsDuet)
+                                    gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
+                                else
+                                    gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
                             Playlists[htPlaylists(Playlist)].ActivePlaylistID = CPlaylists.NewPlaylist();
-                            CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
+                            CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID, gm);
                             OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
                         }
                         //Add song to loaded playlist
                         else
                         {
-                            CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID);
+                            //Check selected game-mode
+                            EGameMode gm;
+                            if (_AvailableGameModes.Count >= SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection)
+                                gm = _AvailableGameModes[SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection];
+                            else
+                                if (CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].IsDuet)
+                                    gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
+                                else
+                                    gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+                            CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID, gm);
                             Playlists[htPlaylists(Playlist)].UpdatePlaylist();
                         }
                         ToggleSongOptions();
