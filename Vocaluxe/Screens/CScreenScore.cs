@@ -92,6 +92,11 @@ namespace Vocaluxe.Screens
         {
             base.HandleMouse(MouseEvent);
 
+            if (MouseEvent.Wheel != 0)
+            {
+                ChangeRound(MouseEvent.Wheel);
+            }
+
             if (MouseEvent.LB)
             {
                 CGraphics.FadeTo(EScreens.ScreenHighscore);
