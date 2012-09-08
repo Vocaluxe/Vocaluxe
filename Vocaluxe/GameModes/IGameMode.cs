@@ -38,5 +38,6 @@ namespace Vocaluxe.GameModes
         int GetNumSongs();
         CSong GetSong();
         CSong GetSong(int Num);
+        EGameMode GetGameMode(int Num);
     }
 }

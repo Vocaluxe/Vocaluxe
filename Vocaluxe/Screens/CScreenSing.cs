@@ -658,7 +658,9 @@ namespace Vocaluxe.Screens
 
         private void Stop()
         {
-            CGame.NextRound();
+            //Need this to set other songs to points-var
+            while(!CGame.IsFinished())
+                CGame.NextRound();
 
             CGraphics.FadeTo(EScreens.ScreenScore);
             _FadeOut = true;

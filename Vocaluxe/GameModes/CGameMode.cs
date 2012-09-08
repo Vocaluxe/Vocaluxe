@@ -290,6 +290,14 @@ namespace Vocaluxe.GameModes
             return null;
         }
 
+        public virtual EGameMode GetGameMode(int Num)
+        {
+            if(Num - 1 < _SongQueque.Count && Num > -1)
+                return _SongQueque[Num].GameMode;
+
+            return EGameMode.TR_GAMEMODE_NORMAL;
+        }
+
         public virtual CPoints GetPoints()
         {
             return _Points;
