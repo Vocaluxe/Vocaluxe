@@ -55,6 +55,8 @@ namespace Vocaluxe.Lib.Draw
         private Queue<Texture> _VerticesTextures;
         private Queue<Matrix> _VerticesRotationMatrices;
 
+        private bool _NonPowerOf2TextureSupported;
+
         #endregion private vars
 
         /// <summary>
@@ -182,6 +184,13 @@ namespace Vocaluxe.Lib.Draw
                 flags = CreateFlags.HardwareVertexProcessing;
             else
                 flags = CreateFlags.SoftwareVertexProcessing;
+
+            //Check if Pow2 textures are needed
+            if ((caps.TextureCaps & TextureCaps.Pow2) != 0)
+                _NonPowerOf2TextureSupported = false;
+            else
+                _NonPowerOf2TextureSupported = true;
+
             try
             {
                 _Device = new Device(_D3D, _D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, Handle, flags, _PresentParameters);
@@ -731,8 +740,8 @@ namespace Vocaluxe.Lib.Draw
             texture.rect = new SRectF(0f, 0f, texture.width, texture.height, 0f);
             texture.width = w;
             texture.height = h;
-            texture.w2 = NextPowerOfTwo(texture.width);
-            texture.h2 = NextPowerOfTwo(texture.height);
+            texture.w2 = CheckForNextPowerOf2(texture.width);
+            texture.h2 = CheckForNextPowerOf2(texture.height);
             texture.index = _IDs.Dequeue();
 
             lock (MutexTexture)
@@ -932,8 +941,8 @@ namespace Vocaluxe.Lib.Draw
             texture.height = h;
 
             //Older graphics card can only handle textures with sizes being powers of two
-            texture.w2 = (float)NextPowerOfTwo(w);
-            texture.h2 = (float)NextPowerOfTwo(h);
+            texture.w2 = (float)CheckForNextPowerOf2(w);
+            texture.h2 = (float)CheckForNextPowerOf2(h);
 
             //Create a new Bitmap with the new sizes
             Bitmap bmp2 = new Bitmap((int)texture.w2, (int)texture.h2);
@@ -1027,8 +1036,8 @@ namespace Vocaluxe.Lib.Draw
             STexture texture = new STexture(-1);
             texture.width = W;
             texture.height = H;
-            texture.w2 = NextPowerOfTwo(texture.width);
-            texture.h2 = NextPowerOfTwo(texture.height);
+            texture.w2 = CheckForNextPowerOf2(texture.width);
+            texture.h2 = CheckForNextPowerOf2(texture.height);
             texture.width_ratio = texture.width / texture.w2;
             texture.height_ratio = texture.height / texture.h2;
 
@@ -1092,8 +1101,8 @@ namespace Vocaluxe.Lib.Draw
                 }
                 _D3DTextures[Texture.index].UnlockRectangle(0);
 
-                Texture.height_ratio = Texture.height / NextPowerOfTwo(Texture.height);
-                Texture.width_ratio = Texture.width / NextPowerOfTwo(Texture.width);
+                Texture.height_ratio = Texture.height / CheckForNextPowerOf2(Texture.height);
+                Texture.width_ratio = Texture.width / CheckForNextPowerOf2(Texture.width);
                 return true;
             }
             else
@@ -1430,8 +1439,8 @@ namespace Vocaluxe.Lib.Draw
 
                 texture.width = q.width;
                 texture.height = q.height;
-                texture.w2 = NextPowerOfTwo(texture.width);
-                texture.h2 = NextPowerOfTwo(texture.height);
+                texture.w2 = CheckForNextPowerOf2(texture.width);
+                texture.h2 = CheckForNextPowerOf2(texture.height);
 
                 texture.width_ratio = texture.width / texture.w2;
                 texture.height_ratio = texture.height / texture.h2;
@@ -1471,14 +1480,18 @@ namespace Vocaluxe.Lib.Draw
 
         #region utility
         /// <summary>
-        /// Calculates the next power of two
+        /// Calculates the next power of two if the device has the POW2 flag set
         /// </summary>
         /// <param name="n">The value of which the next power of two will be calculated</param>
         /// <returns>The next power of two</returns>
-        private static float NextPowerOfTwo(float n)
+        private float CheckForNextPowerOf2(float n)
         {
-            if (n < 0) throw new ArgumentOutOfRangeException("n", "Must be positive.");
-            return (float)System.Math.Pow(2, System.Math.Ceiling(System.Math.Log((double)n, 2)));
+            if (!_NonPowerOf2TextureSupported)
+            {
+                if (n < 0) throw new ArgumentOutOfRangeException("n", "Must be positive.");
+                return (float)System.Math.Pow(2, System.Math.Ceiling(System.Math.Log((double)n, 2)));
+            }
+            else return n;
         }
 
         private Matrix CalculateRotationMatrix(float rot, float rx1, float rx2, float ry1, float ry2)
