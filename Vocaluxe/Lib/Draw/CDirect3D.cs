@@ -486,7 +486,7 @@ namespace Vocaluxe.Lib.Draw
 
                 _IndexBuffer = new IndexBuffer(_Device, 6 * sizeof(Int16), Usage.WriteOnly, Pool.Managed, true);
 
-                DataStream stream = _IndexBuffer.Lock(0, 0, LockFlags.None);
+                DataStream stream = _IndexBuffer.Lock(0, 0, LockFlags.Discard);
                 stream.WriteRange(indices);
                 _IndexBuffer.Unlock();
                 _Device.Indices = _IndexBuffer;
@@ -966,7 +966,7 @@ namespace Vocaluxe.Lib.Draw
             //because a copy of the texture is hold in the Ram
             Texture t = new Texture(_Device, (int)texture.w2, (int)texture.h2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
             //Lock the texture and fill it with the data
-            DataRectangle rect = t.LockRectangle(0, LockFlags.None);
+            DataRectangle rect = t.LockRectangle(0, LockFlags.Discard);
             for (int i = 0; i < Data.Length; )
             {
                 rect.Data.Write(Data, i, 4 * bmp2.Width);
@@ -1042,7 +1042,7 @@ namespace Vocaluxe.Lib.Draw
             texture.height_ratio = texture.height / texture.h2;
 
             Texture t = new Texture(_Device, (int)texture.w2, (int)texture.h2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
-            DataRectangle rect = t.LockRectangle(0, LockFlags.None);
+            DataRectangle rect = t.LockRectangle(0, LockFlags.Discard);
             for (int i = 0; i < Data.Length; )
             {
                 rect.Data.Write(Data, i, 4 * W);
@@ -1091,7 +1091,7 @@ namespace Vocaluxe.Lib.Draw
         {
             if ((Texture.index >= 0) && (_Textures.Count > 0) && _TextureExists(ref Texture))
             {
-                DataRectangle rect = _D3DTextures[Texture.index].LockRectangle(0, LockFlags.None);
+                DataRectangle rect = _D3DTextures[Texture.index].LockRectangle(0, LockFlags.Discard);
                 for (int i = 0; i < Data.Length; )
                 {
                     rect.Data.Write(Data, i, 4 * (int)Texture.width);
@@ -1104,6 +1104,23 @@ namespace Vocaluxe.Lib.Draw
                 Texture.height_ratio = Texture.height / CheckForNextPowerOf2(Texture.height);
                 Texture.width_ratio = Texture.width / CheckForNextPowerOf2(Texture.width);
                 return true;
+
+                /*Surface s = _D3DTextures[Texture.index].GetSurfaceLevel(0);
+                DataRectangle d = s.LockRectangle(LockFlags.Discard);
+
+                for (int i = 0; i < Data.Length; )
+                {
+                    d.Data.Write(Data, i, 4 * (int)Texture.width);
+                    i += 4 * (int)Texture.width;
+                    d.Data.Position = d.Data.Position - 4 * (int)Texture.width;
+                    d.Data.Position += d.Pitch;
+                }
+
+                Texture.height_ratio = Texture.height / NextPowerOfTwo(Texture.height);
+                Texture.width_ratio = Texture.width / NextPowerOfTwo(Texture.width);
+
+                s.UnlockRectangle();
+                return true; */
             }
             else
                 return false;
@@ -1446,7 +1463,7 @@ namespace Vocaluxe.Lib.Draw
                 texture.height_ratio = texture.height / texture.h2;
 
                 Texture t = new Texture(_Device, (int)texture.w2, (int)texture.h2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
-                DataRectangle rect = t.LockRectangle(0, LockFlags.None);
+                DataRectangle rect = t.LockRectangle(0, LockFlags.Discard);
                 for (int i = 0; i < q.data.Length; )
                 {
                     rect.Data.Write(q.data, i, 4 * q.width);
