@@ -186,10 +186,10 @@ namespace Vocaluxe.Lib.Draw
                 flags = CreateFlags.SoftwareVertexProcessing;
 
             //Check if Pow2 textures are needed
-            if ((caps.TextureCaps & TextureCaps.Pow2) != 0)
-                _NonPowerOf2TextureSupported = false;
-            else
-                _NonPowerOf2TextureSupported = true;
+            _NonPowerOf2TextureSupported = true;
+            _NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.Pow2) != 0;
+            _NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.NonPow2Conditional) != 0;
+            _NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.SquareOnly) != 0;
 
             try
             {
