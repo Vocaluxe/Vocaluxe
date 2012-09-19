@@ -187,9 +187,9 @@ namespace Vocaluxe.Lib.Draw
 
             //Check if Pow2 textures are needed
             _NonPowerOf2TextureSupported = true;
-            _NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.Pow2) != 0;
-            _NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.NonPow2Conditional) != 0;
-            _NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.SquareOnly) != 0;
+            _NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.Pow2) == 0;
+            _NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.NonPow2Conditional) == 0;
+            _NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.SquareOnly) == 0;
 
             try
             {
