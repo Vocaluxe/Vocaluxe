@@ -451,8 +451,8 @@ namespace Vocaluxe.Menu.SongMenu
                 }
             }
 
-
-            _CoverBig.Draw(1f, true);
+            if (_vidtex.color.A < 1)
+                _CoverBig.Draw(1f, true);
             _TextBG.Draw();
 
             if (_vidtex.index != -1 && _Video != -1)
@@ -462,8 +462,11 @@ namespace Vocaluxe.Menu.SongMenu
                 CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
 
                 CDraw.DrawTexture(_vidtex, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z),
-                    _vidtex.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false); 
+                    _vidtex.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false);
+                CDraw.DrawTextureReflection(_vidtex, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z),
+                    _vidtex.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
             }
+
 
             
             _Artist.Draw();
