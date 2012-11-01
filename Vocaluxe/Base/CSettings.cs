@@ -185,6 +185,7 @@ namespace Vocaluxe.Base
             Folders.Add(sFolderScreenshots);
             Folders.Add(sFolderBackgroundMusic);
             Folders.Add(sFolderSounds);
+            Folders.Add(sFolderPlaylists);
 
             foreach (string folder in Folders)
             {
