@@ -4,10 +4,10 @@ ScreenSong
 Version 3:
 
 Add:
-<StaticPlaylistHeader>, <StaticPlaylistFooter>, <StaticOptionsBG>
-<TextOptionsTitle>, <TextPlaylistHeader>
-<ButtonOptionsSing>, <ButtonOptionsClose>, <ButtonOptionsPlaylist>, <ButtonPlaylistClose>, <ButtonPlaylistSing>, <ButtonPlaylistSave>, <ButtonPlaylistDelete>
-<SelectSlideOptionsMode>, <SelectSlideOptionsPlaylist>
+<StaticOptionsBG>
+<TextOptionsTitle>
+<ButtonOptionsSing>, <ButtonOptionsClose>, <ButtonOptionsPlaylist>, <ButtonOptionsSingAll>, <ButtonOptionsSingAllVisible>, <ButtonOptionsRandom>, <ButtonOptionsRandom>, <ButtonOpenOptions>
+<SelectSlideOptionsMode>, <SelectSlideOptionsPlaylistAdd>, <SelectSlideOptionsPlaylistOpen>
 and
 <Playlist> as a new Screen-Element. For details, look at ScreenSong.xml
 
