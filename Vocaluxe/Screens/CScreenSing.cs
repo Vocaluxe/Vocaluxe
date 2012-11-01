@@ -766,8 +766,10 @@ namespace Vocaluxe.Screens
             {
                 Buttons[htButtons(ButtonCancel)].Visible = true;
                 Buttons[htButtons(ButtonContinue)].Visible = true;
-                if (CGame.NumRounds > CGame.RoundNr && CGame.NumRounds != 1)
+                if (CGame.NumRounds > CGame.RoundNr && CGame.NumRounds > 1)
                     Buttons[htButtons(ButtonSkip)].Visible = true;
+                else
+                    Buttons[htButtons(ButtonSkip)].Visible = false;
                 CSound.Pause(_CurrentStream);               
             }else
             {
