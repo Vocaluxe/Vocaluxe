@@ -117,6 +117,11 @@ namespace Vocaluxe.Base
             _Draw.DrawColor(color, rect);
         }
 
+        public static void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
+        {
+            _Draw.DrawColorReflection(color, rect, space, height);
+        }
+
         public static void ClearScreen()
         {
             _Draw.ClearScreen();

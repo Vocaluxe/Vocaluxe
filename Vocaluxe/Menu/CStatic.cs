@@ -22,6 +22,11 @@ namespace Vocaluxe.Menu
         private SThemeStatic _Theme;
         private bool _ThemeLoaded;
 
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
         private STexture _Texture;
         public STexture Texture
         {

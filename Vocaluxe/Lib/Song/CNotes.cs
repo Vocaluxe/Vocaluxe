@@ -6,7 +6,7 @@ using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Song
 {
-    class CNotes
+    class CNotes 
     {
         private List<CLines> _Lines = new List<CLines>();
         
@@ -549,6 +549,7 @@ namespace Vocaluxe.Lib.Song
                 updateMinMaxBeat(note);
             }
         }
+
         #endregion Methods
     }
 

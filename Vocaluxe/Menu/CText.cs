@@ -41,6 +41,12 @@ namespace Vocaluxe.Menu
     {
         private SThemeText _Theme;
         private bool _ThemeLoaded;
+
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
         private bool _ButtonText;
         private bool _PositionNeedsUpdate = true;
 
@@ -538,7 +544,7 @@ namespace Vocaluxe.Menu
                 writer.WriteComment("<Font>: Text font name");
                 writer.WriteElementString("Font", Fon);
 
-                writer.WriteComment("<Text>: Text or translation tag");
+                writer.WriteComment("<Text>: Nothing or translation tag");
                 if (CLanguage.TranslationExists(_Theme.Text))
                     writer.WriteElementString("Text", _Theme.Text);
                 else

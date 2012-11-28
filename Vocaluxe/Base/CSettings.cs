@@ -94,7 +94,7 @@ namespace Vocaluxe.Base
         public const string sFolderLanguages = "Languages";
         public const string sFolderScreenshots = "Screenshots";
         public const string sFolderBackgroundMusic = "BackgroundMusic";
-        public const string sFolderPlaylists = "Playlists";
+        public static string sFolderPlaylists = "Playlists";
 
         //public const String[] ToneStrings = new String[]{ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
         public const int ToneMin = -36;
@@ -185,6 +185,7 @@ namespace Vocaluxe.Base
             Folders.Add(sFolderScreenshots);
             Folders.Add(sFolderBackgroundMusic);
             Folders.Add(sFolderSounds);
+            Folders.Add(sFolderPlaylists);
 
             foreach (string folder in Folders)
             {
@@ -192,6 +193,12 @@ namespace Vocaluxe.Base
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);   
             }       
+        }
+
+        public static void CreateFolder(string path)
+        {
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);  
         }
     }
 }
