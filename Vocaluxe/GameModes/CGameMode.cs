@@ -248,6 +248,7 @@ namespace Vocaluxe.GameModes
             if (_CurrentSong >= 0 && _CurrentSong < _SongQueque.Count)
             {
                 CSong song = CSongs.GetSong(_SongQueque[_CurrentSong].SongID);
+                song = new CSong(song);
 
                 switch (GetCurrentGameMode())
                 {
@@ -283,10 +284,18 @@ namespace Vocaluxe.GameModes
 
         public virtual CSong GetSong(int Num)
         {
-            if (Num - 1 < _SongQueque.Count)
+            if (Num - 1 < _SongQueque.Count && Num - 1 > -1)
                 return CSongs.GetSong(_SongQueque[Num - 1].SongID);
 
             return null;
+        }
+
+        public virtual EGameMode GetGameMode(int Num)
+        {
+            if(Num - 1 < _SongQueque.Count && Num > -1)
+                return _SongQueque[Num].GameMode;
+
+            return EGameMode.TR_GAMEMODE_NORMAL;
         }
 
         public virtual CPoints GetPoints()

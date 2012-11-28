@@ -803,10 +803,10 @@ namespace Vocaluxe.Base
                     writer.WriteElementString("Folder", _Fonts[Index].Folder);
 
                     writer.WriteElementString("Outline", _Fonts[Index].Outline.ToString("#0.00"));
-                    writer.WriteElementString("ColorR", _Fonts[Index].OutlineColor.R.ToString("#0.00"));
-                    writer.WriteElementString("ColorG", _Fonts[Index].OutlineColor.G.ToString("#0.00"));
-                    writer.WriteElementString("ColorB", _Fonts[Index].OutlineColor.B.ToString("#0.00"));
-                    writer.WriteElementString("ColorA", _Fonts[Index].OutlineColor.A.ToString("#0.00"));
+                    writer.WriteElementString("OutlineColorR", _Fonts[Index].OutlineColor.R.ToString("#0.00"));
+                    writer.WriteElementString("OutlineColorG", _Fonts[Index].OutlineColor.G.ToString("#0.00"));
+                    writer.WriteElementString("OutlineColorB", _Fonts[Index].OutlineColor.B.ToString("#0.00"));
+                    writer.WriteElementString("OutlineColorA", _Fonts[Index].OutlineColor.A.ToString("#0.00"));
 
                     writer.WriteElementString("FileNormal", _Fonts[Index].FileNormal);
                     writer.WriteElementString("FileBold", _Fonts[Index].FileBold);

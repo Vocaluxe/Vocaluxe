@@ -13,12 +13,25 @@ namespace Vocaluxe.Base
 
     static class CPlaylists
     {
-        private static List<CPlaylist> _Playlists;
+        private static List<CPlaylistFile> _Playlists;
         private static CHelper Helper = new CHelper();
 
-        public static CPlaylist[] Playlists
+        public static CPlaylistFile[] Playlists
         {
             get { return _Playlists.ToArray(); }
+        }
+
+        public static string[] PlaylistNames
+        {
+            get 
+            {
+                List<string> names = new List<string>();
+                for (int i = 0; i < _Playlists.Count; i++) 
+                {
+                    names.Add(_Playlists[i].PlaylistName);
+                }
+                return names.ToArray();
+            }
         }
 
         public static int NumPlaylists
@@ -33,13 +46,14 @@ namespace Vocaluxe.Base
 
         public static void LoadPlaylists()
         {
-            _Playlists = new List<CPlaylist>();
+            _Playlists = new List<CPlaylistFile>();
             List<string> files = new List<string>();
             files.AddRange(Helper.ListFiles(CSettings.sFolderPlaylists, "*.xml", true, true));
 
             foreach (string file in files)
             {
-                CPlaylist playlist = new CPlaylist(file);
+                CPlaylistFile playlist = new CPlaylistFile(file);
+                _Playlists.Add(playlist);
             }
 
             SortPlaylistsByName();
@@ -52,7 +66,7 @@ namespace Vocaluxe.Base
             _Playlists.Sort(CompareByPlaylistName);
         }
 
-        private static int CompareByPlaylistName(CPlaylist a, CPlaylist b)
+        private static int CompareByPlaylistName(CPlaylistFile a, CPlaylistFile b)
         {
             return String.Compare(a.PlaylistName, b.PlaylistName);
         }
@@ -73,6 +87,21 @@ namespace Vocaluxe.Base
                     CLog.LogError("Can't delete Profile File " + _Playlists[PlaylistID].PlaylistFile + ".xml");
                 }
             }
+        }
+
+        public static void SavePlaylist(int PlaylistID)
+        {
+            if (PlaylistID < 0 || PlaylistID >= _Playlists.Count)
+                return;
+            _Playlists[PlaylistID].SavePlaylist();
+        }
+
+        public static int NewPlaylist()
+        {
+            CPlaylistFile pl = new CPlaylistFile();
+            pl.PlaylistName = "New Playlist";
+            _Playlists.Add(pl);
+            return (_Playlists.Count - 1);
         }
 
         #endregion

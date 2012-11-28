@@ -804,7 +804,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 AL.GetSource(_source, ALGetSourcei.BuffersProcessed, out processed_count);
                 doit = false;
-                Console.WriteLine("Buffers Prozessed on Stream " + _source.ToString() + " = " + processed_count.ToString());
+                Console.WriteLine("Buffers Processed on Stream " + _source.ToString() + " = " + processed_count.ToString());
                 if (processed_count < 1)
                     return;
             }

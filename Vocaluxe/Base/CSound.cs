@@ -315,6 +315,10 @@ namespace Vocaluxe.Base
         public CBuffer()
         {
             _ToneWeigth = new float[_NumHalfTones];
+            for (int i = 0; i < _ToneWeigth.Length; i++)
+            {
+                _ToneWeigth[i] = 0.99f;
+            }
             _Stream = new MemoryStream();
             _NewSamples = false;
         }

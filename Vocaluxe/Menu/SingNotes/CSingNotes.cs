@@ -75,6 +75,11 @@ namespace Vocaluxe.Menu.SingNotes
             _ActID = 0;
         }
 
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
         public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;

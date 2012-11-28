@@ -189,7 +189,7 @@
     <Compile Include="Lib\Draw\COpenGL.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Lib\Playlist\CPlaylist.cs" />
+    <Compile Include="Lib\Playlist\CPlaylistFile.cs" />
     <Compile Include="Lib\Song\CNotes.cs" />
     <Compile Include="Lib\Song\CSong.cs" />
     <Compile Include="Lib\Sound\CDirectSoundRecord.cs" />
@@ -209,11 +209,14 @@
     <Compile Include="Lib\Video\IVideoDecoder.cs" />
     <Compile Include="Menu\CBackground.cs" />
     <Compile Include="Menu\CButton.cs" />
+    <Compile Include="Menu\CEqualizer.cs" />
     <Compile Include="Menu\CGraphics.cs" />
     <Compile Include="Menu\CNameSelection.cs" />
     <Compile Include="Menu\CLyric.cs" />
     <Compile Include="Menu\CMenu.cs" />
     <Compile Include="Menu\CInteraction.cs" />
+    <Compile Include="Menu\CObjectInteractions.cs" />
+    <Compile Include="Menu\CPlaylist.cs" />
     <Compile Include="Menu\CSelectSlide.cs" />
     <Compile Include="Menu\CStatic.cs" />
     <Compile Include="Menu\CText.cs" />

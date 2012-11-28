@@ -47,6 +47,11 @@ namespace Vocaluxe.Menu
 
         private float _Alpha = 1f;
 
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
         public SRectF Rect
         {
             get { return new SRectF(_X, _Y, _MaxW, _H, _Z); }

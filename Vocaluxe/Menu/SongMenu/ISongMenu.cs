@@ -20,6 +20,9 @@ namespace Vocaluxe.Menu.SongMenu
         int GetSelectedSong();
         void SetSelectedSong(int VisibleSongNr);
 
+        bool IsActive();
+        void SetActive(bool Active);
+
         int GetSelectedCategory();
         int GetActualSelection();
 
