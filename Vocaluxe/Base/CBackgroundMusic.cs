@@ -217,7 +217,12 @@ namespace Vocaluxe.Base
         {
             if (_AllFileNames.Count > 0 && _CurrentMusicStream != -1)
             {
-                float timeToPlay = CSound.GetLength(_CurrentMusicStream) - CSound.GetPosition(_CurrentMusicStream);
+                float timeToPlay;
+                if(_CurrentPlaylistElement.Finish == 0f) //No End-Tag defined
+                    timeToPlay = CSound.GetLength(_CurrentMusicStream) - CSound.GetPosition(_CurrentMusicStream);
+                else //End-Tag found
+                    timeToPlay = _CurrentPlaylistElement.Finish - CSound.GetPosition(_CurrentMusicStream);
+
                 bool finished = CSound.IsFinished(_CurrentMusicStream);
                 if (_Playing && (timeToPlay <= CSettings.BackgroundMusicFadeTime || finished))
                     Next();
@@ -248,6 +253,11 @@ namespace Vocaluxe.Base
                     _CurrentPlaylistElement = _PreviousFileNames[_PreviousMusicIndex];
                 }
                 _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.MusicFilePath);
+
+                //Seek to #Start-Tag, if found
+                if (_CurrentPlaylistElement.Start != 0f)
+                    CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
+
                 if (_VideoEnabled)
                     LoadVideo();
                 CSound.SetStreamVolume(_CurrentMusicStream, 0f);
@@ -521,6 +531,28 @@ class PlaylistElement
                 return _Song.Artist;
                 
             return "Unknown";
+        }
+    }
+
+    public float Start
+    {
+        get
+        {
+            if (_Song != null)
+                return _Song.Start;
+
+            return 0f;
+        }
+    }
+
+    public float Finish
+    {
+        get
+        {
+            if (_Song != null)
+                return _Song.Finish;
+
+            return 0f;
         }
     }
 
