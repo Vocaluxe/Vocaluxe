@@ -451,6 +451,7 @@ namespace Vocaluxe.Menu.SongMenu
                 }
             }
 
+            _CoverBig.Draw(1f, true);
             if (_vidtex.color.A < 1)
                 _CoverBig.Draw(1f, true);
             _TextBG.Draw();
