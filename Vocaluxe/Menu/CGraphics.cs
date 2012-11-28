@@ -465,7 +465,7 @@ namespace Vocaluxe.Menu
                 
                 if (PopupPlayerControlAllowed && KeyEvent.Key == Keys.Tab)
                 {
-                    if (_CurrentPopupScreen == EPopupScreens.NoPopup)
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
                         ShowPopup(EPopupScreens.PopupPlayerControl);
                     else
                         HidePopup(EPopupScreens.PopupPlayerControl);
@@ -510,7 +510,7 @@ namespace Vocaluxe.Menu
                 bool isOverPopupPlayerControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupPlayerControl].ScreenArea, MouseEvent);
                 if (PopupPlayerControlAllowed && isOverPopupPlayerControl)
                 {
-                    if (_CurrentPopupScreen == EPopupScreens.NoPopup)
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
                         ShowPopup(EPopupScreens.PopupPlayerControl);
                 }
 
