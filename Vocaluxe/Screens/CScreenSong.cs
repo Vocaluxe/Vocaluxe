@@ -288,12 +288,12 @@ namespace Vocaluxe.Screens
         {
             base.HandleMouse(MouseEvent);
 
-            if (Playlists[htPlaylists(Playlist)].IsMouseOver(MouseEvent))
+            if (Playlists[htPlaylists(Playlist)].Visible && Playlists[htPlaylists(Playlist)].IsMouseOver(MouseEvent))
             {
                 _PlaylistActive = true;
                 Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
                 SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
-            } 
+            }
             else if (CHelper.IsInBounds(SongMenus[htSongMenus(SongMenu)].Rect, MouseEvent.X, MouseEvent.Y))
             {
                 _PlaylistActive = false;
@@ -301,7 +301,7 @@ namespace Vocaluxe.Screens
                 SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
             }
 
-            if (Playlists[htPlaylists(Playlist)].HandleMouse(MouseEvent))
+            if (Playlists[htPlaylists(Playlist)].Visible && Playlists[htPlaylists(Playlist)].HandleMouse(MouseEvent))
                 return true;
 
             if (!_SongOptionsActive)
