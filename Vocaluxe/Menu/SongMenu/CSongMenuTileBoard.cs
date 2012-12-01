@@ -41,6 +41,7 @@ namespace Vocaluxe.Menu.SongMenu
         private int _actualSelection = -1;
 
         private bool _SmallView = false;
+        private bool _VidFull = false;
 
         public override int GetActualSelection()
         {
@@ -359,6 +360,10 @@ namespace Vocaluxe.Menu.SongMenu
             }
             else if (_PreviewSelected != -1 && MouseEvent.LB && CSongs.Category != -1)
             {
+                if (CHelper.IsInBounds(_VideoIcon.Rect, MouseEvent))
+                {
+                    ToggleVideoFull();
+                }
                 if (CHelper.IsInBounds(_CoverBig.Rect, MouseEvent) || CHelper.IsInBounds(_TextBG.Rect, MouseEvent))
                 {
                     _Locked = _PreviewSelected;
@@ -374,6 +379,10 @@ namespace Vocaluxe.Menu.SongMenu
                         return;
                     }
                 }
+            }
+            else if (MouseEvent.LB && CHelper.IsInBounds(_VideoIcon.Rect, MouseEvent))
+            {
+                ToggleVideoFull();
             }
 
             if (MouseEvent.Wheel > 0)
@@ -472,14 +481,26 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (_vidtex.index != -1 && _Video != -1)
             {
-                RectangleF bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
-                RectangleF rect = new RectangleF(0f, 0f, _vidtex.width, _vidtex.height);
-                CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
+                if (_VidFull)
+                {
+                    RectangleF bounds = new RectangleF(0, 0, CSettings.iRenderW, CSettings.iRenderH);
+                    RectangleF rect = new RectangleF(0f, 0f, _vidtex.width, _vidtex.height);
+                    CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
 
-                CDraw.DrawTexture(_vidtex, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z),
-                    _vidtex.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false);
-                CDraw.DrawTextureReflection(_vidtex, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z),
-                    _vidtex.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
+                    CDraw.DrawTexture(_vidtex, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CSettings.zNear),
+                        _vidtex.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false);
+                }
+                else
+                {
+                    RectangleF bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
+                    RectangleF rect = new RectangleF(0f, 0f, _vidtex.width, _vidtex.height);
+                    CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
+
+                    CDraw.DrawTexture(_vidtex, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z),
+                        _vidtex.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false);
+                    CDraw.DrawTextureReflection(_vidtex, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z),
+                        _vidtex.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
+                }
             }
 
 
@@ -791,6 +812,16 @@ namespace Vocaluxe.Menu.SongMenu
         public override bool IsSmallView()
         {
             return _SmallView;
+        }
+
+        public override void ToggleVideoFull()
+        {
+            _VidFull = !_VidFull;
+        }
+
+        public override bool IsVideoFull()
+        {
+            return _VidFull;
         }
 
         public override void LoadTextures()

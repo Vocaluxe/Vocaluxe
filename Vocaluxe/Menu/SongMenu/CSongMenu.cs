@@ -143,6 +143,16 @@ namespace Vocaluxe.Menu.SongMenu
             _SongMenu.SetSmallView(SmallView);
         }
 
+        public void ToggleVideoFull()
+        {
+            _SongMenu.ToggleVideoFull();
+        }
+
+        public bool IsVideoFull()
+        {
+            return _SongMenu.IsVideoFull();
+        }
+
         #endregion ISongMenu
 
         #region IMenuElement
