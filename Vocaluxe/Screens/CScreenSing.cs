@@ -937,8 +937,10 @@ namespace Vocaluxe.Screens
             float dt = 4f;
             float rt = dt * 0.8f;
 
-            CSong Song = CGame.GetSong();  
+            CSong Song = CGame.GetSong();
             if (Song == null)
+                return null;
+            else if (!Song.NotesLoaded)
                 return null;
 
             float[] Alpha = new float[Song.Notes.Lines.Length * 2];
