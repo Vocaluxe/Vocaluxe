@@ -785,22 +785,22 @@ namespace Vocaluxe.Menu
             switch (Key.Key)
             {
                 case Keys.Up:
-                    if (vector.Y < 0f && (targetRect.X + targetRect.W > actualRect.X || actualRect.X + actualRect.W > targetRect.X))
+                    if (vector.Y < 0f && (targetRect.X + targetRect.W > actualRect.X && actualRect.X + actualRect.W > targetRect.X))
                         inDirection = true;
                     break;
 
                 case Keys.Down:
-                    if (vector.Y > 0f && (targetRect.X + targetRect.W > actualRect.X || actualRect.X + actualRect.W > targetRect.X))
+                    if (vector.Y > 0f && (targetRect.X + targetRect.W > actualRect.X && actualRect.X + actualRect.W > targetRect.X))
                         inDirection = true;
                     break;
 
                 case Keys.Left:
-                    if (vector.X < 0f && (targetRect.Y + targetRect.H > actualRect.Y || actualRect.Y + actualRect.H > targetRect.Y))
+                    if (vector.X < 0f && (targetRect.Y + targetRect.H > actualRect.Y && actualRect.Y + actualRect.H > targetRect.Y))
                         inDirection = true;
                     break;
 
                 case Keys.Right:
-                    if (vector.X > 0f && (targetRect.Y + targetRect.H > actualRect.Y || actualRect.Y + actualRect.H > targetRect.Y))
+                    if (vector.X > 0f && (targetRect.Y + targetRect.H > actualRect.Y && actualRect.Y + actualRect.H > targetRect.Y))
                         inDirection = true;
                     break;
 
