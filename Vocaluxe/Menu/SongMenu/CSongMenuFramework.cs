@@ -536,6 +536,12 @@ namespace Vocaluxe.Menu.SongMenu
                 return;
         }
 
+        public virtual void SetSelectedCategory(int CategoryNr)
+        {
+            if (!_Initialized)
+                return;
+        }
+
         public virtual void SetSmallView(bool SmallView)
         {
             if (!_Initialized)

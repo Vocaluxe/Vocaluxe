@@ -556,6 +556,62 @@ namespace Vocaluxe.Menu.SongMenu
 
         }
 
+        public override void SetSelectedCategory(int CategoryNr)
+        {
+            base.SetSelectedCategory(CategoryNr);
+
+            if (CategoryNr < 0)
+                return;
+
+            if (CSongs.Categories.Length > CategoryNr)
+            {
+                bool sel = false;
+                foreach (CStatic tile in _Tiles)
+                {
+                    if (tile.Selected)
+                    {
+                        sel = true;
+                        break;
+                    }
+                }
+
+                if (_Locked == -1 || !sel)
+                {
+                    if (_PreviewSelected > -1)
+                    {
+                        _Locked = _PreviewSelected;
+                    }
+                    else
+                    {
+                        _Locked = 0;
+                        _actualSelection = 0;
+                        _PreviewSelected = 0;
+                        SetSelectedNow();
+                        UpdateList(0);
+                    }
+                }
+
+                foreach (CStatic tile in _Tiles)
+                {
+                    tile.Selected = false;
+                }
+
+                _PreviewSelected = CategoryNr;
+                SetSelectedNow();
+                _Locked = CategoryNr;
+
+                UpdateList((CategoryNr / _NumW) * _NumW - (_NumW * (_NumH - 2)));
+
+                _PreviewSelected = _Locked;
+                _actualSelection = _Locked;
+
+                for (int i = 0; i < _Tiles.Count; i++)
+                {
+                    _Tiles[i].Selected = _Locked == i + _Offset;
+                }
+            }
+        }
+
         protected override void EnterCategory(int cat)
         {
             base.EnterCategory(cat);

@@ -38,6 +38,7 @@ namespace Vocaluxe.Screens
         private const string ButtonOptionsPlaylist = "ButtonOptionsPlaylist";
         private const string ButtonOptionsClose = "ButtonOptionsClose";
         private const string ButtonOptionsRandom = "ButtonOptionsRandom";
+        private const string ButtonOptionsRandomCategory = "ButtonOptionsRandomCategory";
         private const string ButtonOptionsSingAll = "ButtonOptionsSingAll";
         private const string ButtonOptionsSingAllVisible = "ButtonOptionsSingAllVisible";
         private const string ButtonOptionsOpenPlaylist = "ButtonOptionsOpenPlaylist";
@@ -73,7 +74,7 @@ namespace Vocaluxe.Screens
             _ScreenVersion = ScreenVersion;
             _ThemeStatics = new string[] { StaticSearchBar, StaticOptionsBG };
             _ThemeTexts = new string[] { TextCategory, TextSelection, TextSearchBarTitle, TextSearchBar, TextOptionsTitle };
-            _ThemeButtons = new string[] { ButtonOptionsClose, ButtonOptionsPlaylist, ButtonOptionsSing, ButtonOptionsRandom, ButtonOptionsSingAll, ButtonOptionsSingAllVisible, ButtonOptionsOpenPlaylist, ButtonOpenOptions };
+            _ThemeButtons = new string[] { ButtonOptionsClose, ButtonOptionsPlaylist, ButtonOptionsSing, ButtonOptionsRandom, ButtonOptionsRandomCategory, ButtonOptionsSingAll, ButtonOptionsSingAllVisible, ButtonOptionsOpenPlaylist, ButtonOpenOptions };
             _ThemeSelectSlides = new string[] { SelectSlideOptionsMode, SelectSlideOptionsPlaylistAdd, SelectSlideOptionsPlaylistOpen };
             _ThemeSongMenus = new string[] { SongMenu };
             _ThemePlaylists = new string[] { Playlist };
@@ -89,6 +90,7 @@ namespace Vocaluxe.Screens
             Buttons[htButtons(ButtonOptionsSing)].Visible = false;
             Buttons[htButtons(ButtonOptionsPlaylist)].Visible = false;
             Buttons[htButtons(ButtonOptionsRandom)].Visible = false;
+            Buttons[htButtons(ButtonOptionsRandomCategory)].Visible = false;
             Buttons[htButtons(ButtonOptionsSingAll)].Visible = false;
             Buttons[htButtons(ButtonOptionsSingAllVisible)].Visible = false;
             Buttons[htButtons(ButtonOptionsOpenPlaylist)].Visible = false;
@@ -223,6 +225,10 @@ namespace Vocaluxe.Screens
                             {
                                 SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
                             }
+                            else if (CSongs.Category == -1 && KeyEvent.Mod == Modifier.Ctrl)
+                            {
+                                SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
+                            }
                             break;
 
                         //TODO: Delete that!
@@ -259,6 +265,13 @@ namespace Vocaluxe.Screens
                                 SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
                             }
                         }
+                        else if (Buttons[htButtons(ButtonOptionsRandom)].Selected)
+                        {
+                            if (CSongs.Category == -1)
+                            {
+                                SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
+                            }
+                        }                        
                         else if (Buttons[htButtons(ButtonOptionsSingAll)].Selected)
                         {
                             StartRandomAllSongs();
@@ -319,6 +332,11 @@ namespace Vocaluxe.Screens
                     Console.WriteLine("MB pressed");
                     SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
                 }
+                else if (MouseEvent.MB && CSongs.Category == -1)
+                {
+                    Console.WriteLine("MB pressed");
+                    SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
+                }
                 else
                     SongMenus[htSongMenus(SongMenu)].HandleMouse(ref MouseEvent);
 
@@ -360,6 +378,13 @@ namespace Vocaluxe.Screens
                         if (CSongs.Category != -1)
                         {
                             SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
+                        }
+                    }
+                    else if (Buttons[htButtons(ButtonOptionsRandomCategory)].Selected)
+                    {
+                        if (CSongs.Category == -1)
+                        {
+                            SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
                         }
                     }
                     else if (Buttons[htButtons(ButtonOptionsSingAll)].Selected)
@@ -648,8 +673,9 @@ namespace Vocaluxe.Screens
                 else if (view == ESongOptionsView.General)
                 {
                     Buttons[htButtons(ButtonOptionsRandom)].Visible = CSongs.Category != -1;
+                    Buttons[htButtons(ButtonOptionsRandomCategory)].Visible = CSongs.Category == -1;
                     Buttons[htButtons(ButtonOptionsSingAll)].Visible = true;
-                    Buttons[htButtons(ButtonOptionsSingAllVisible)].Visible = true;
+                    Buttons[htButtons(ButtonOptionsSingAllVisible)].Visible = CSongs.Category != -1; ;
                     Buttons[htButtons(ButtonOptionsOpenPlaylist)].Visible = true;
                     SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].Visible = true;
                 }
@@ -666,6 +692,7 @@ namespace Vocaluxe.Screens
                 Buttons[htButtons(ButtonOptionsSing)].Visible = false;
                 Buttons[htButtons(ButtonOptionsPlaylist)].Visible = false;
                 Buttons[htButtons(ButtonOptionsRandom)].Visible = false;
+                Buttons[htButtons(ButtonOptionsRandomCategory)].Visible = false;
                 Buttons[htButtons(ButtonOptionsSingAll)].Visible = false;
                 Buttons[htButtons(ButtonOptionsSingAllVisible)].Visible = false;
                 Buttons[htButtons(ButtonOptionsOpenPlaylist)].Visible = false;

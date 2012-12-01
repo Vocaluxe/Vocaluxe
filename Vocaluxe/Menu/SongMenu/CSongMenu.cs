@@ -98,6 +98,11 @@ namespace Vocaluxe.Menu.SongMenu
             return _SongMenu.GetSelectedCategory();
         }
 
+        public void SetSelectedCategory(int CategoryNr)
+        {
+            _SongMenu.SetSelectedCategory(CategoryNr);
+        }
+
         public int GetActualSelection()
         {
             return _SongMenu.GetActualSelection();
