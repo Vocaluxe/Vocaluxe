@@ -1211,10 +1211,10 @@
         <!--<SkinHighlighted>: Texture name for highlighted SelectSlide-->
         <SkinHighlighted>SelectSlide</SkinHighlighted>
         <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
-        <X>0</X>
+        <X>52</X>
         <Y>28</Y>
         <Z>-1,01</Z>
-        <W>343</W>
+        <W>241</W>
         <H>24</H>
         <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
         <ArrowLeftX>54</ArrowLeftX>
@@ -1223,7 +1223,7 @@
         <ArrowLeftW>20</ArrowLeftW>
         <ArrowLeftH>20</ArrowLeftH>
         <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
-        <ArrowRightX>235</ArrowRightX>
+        <ArrowRightX>271</ArrowRightX>
         <ArrowRightY>30</ArrowRightY>
         <ArrowRightZ>-1,02</ArrowRightZ>
         <ArrowRightW>20</ArrowRightW>
