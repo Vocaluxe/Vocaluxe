@@ -88,6 +88,11 @@ namespace Vocaluxe.Menu.SongMenu
             return _SongMenu.GetSelectedSong();
         }
 
+        public CStatic GetSelectedSongCover()
+        {
+            return _SongMenu.GetSelectedSongCover();
+        }
+
         public void SetSelectedSong(int VisibleSongNr)
         {
             _SongMenu.SetSelectedSong(VisibleSongNr);

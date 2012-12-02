@@ -59,6 +59,11 @@ namespace Vocaluxe.Screens
         private bool _PlaylistActive = false;
         private List<GameModes.EGameMode> _AvailableGameModes;
 
+        private CStatic DragAndDropCover;
+        private bool DragAndDropActive;
+        private int OldMousePosX;
+        private int OldMousePosY; 
+
         public CScreenSong()
         {
             Init();
@@ -97,6 +102,8 @@ namespace Vocaluxe.Screens
             Texts[htTexts(TextOptionsTitle)].Visible = false;
             Statics[htStatics(StaticOptionsBG)].Visible = false;
             Playlists[htPlaylists(Playlist)].Visible = false;
+
+            DragAndDropCover = new CStatic();
 
             Playlists[htPlaylists(Playlist)].Init();
         }
@@ -310,6 +317,14 @@ namespace Vocaluxe.Screens
         {
             base.HandleMouse(MouseEvent);
 
+            if (DragAndDropActive)
+            {
+                DragAndDropCover.Rect.X += MouseEvent.X - OldMousePosX;
+                DragAndDropCover.Rect.Y += MouseEvent.Y - OldMousePosY; 
+            }
+            OldMousePosX = MouseEvent.X;
+            OldMousePosY = MouseEvent.Y;
+
             if (Playlists[htPlaylists(Playlist)].Visible && Playlists[htPlaylists(Playlist)].IsMouseOver(MouseEvent))
             {
                 _PlaylistActive = true;
@@ -349,7 +364,14 @@ namespace Vocaluxe.Screens
                 else
                     SongMenus[htSongMenus(SongMenu)].HandleMouse(ref MouseEvent);
 
-                if (MouseEvent.LB && CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
+                if (MouseEvent.LBH && !DragAndDropActive && Playlists[htPlaylists(Playlist)].Visible && CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
+                {
+                    DragAndDropCover = SongMenus[htSongMenus(SongMenu)].GetSelectedSongCover();
+                    DragAndDropCover.Rect.Z = CSettings.zNear;
+                    Playlists[htPlaylists(Playlist)].DragAndDropSongID = CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetActualSelection()].ID;
+                    DragAndDropActive = true;
+                }
+                else if (MouseEvent.LB && CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
                 {
                     if (SongMenus[htSongMenus(SongMenu)].GetSelectedSong() != -1 && !_SongOptionsActive)
                     {
@@ -364,7 +386,6 @@ namespace Vocaluxe.Screens
                     }
                 }
             }
-
             else
             {
                 if (MouseEvent.LB && IsMouseOver(MouseEvent))
@@ -417,6 +438,12 @@ namespace Vocaluxe.Screens
                 }
             }
 
+            if (!MouseEvent.LBH && DragAndDropActive)
+            {
+                DragAndDropActive = false;
+                Playlists[htPlaylists(Playlist)].DragAndDropSongID = -1;
+            }
+
             return true;
         }
 
@@ -426,10 +453,14 @@ namespace Vocaluxe.Screens
             CGame.EnterNormalGame();
             SongMenus[htSongMenus(SongMenu)].OnShow();
             SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
-            
+            SongMenus[htSongMenus(SongMenu)].SetSmallView(Playlists[htPlaylists(Playlist)].Visible);
+                        
             if (Playlists[htPlaylists(Playlist)].ActivePlaylistID != -1)
                 Playlists[htPlaylists(Playlist)].LoadPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
             UpdatePlaylistNames();
+
+            DragAndDropActive = false;
+            Playlists[htPlaylists(Playlist)].DragAndDropSongID = -1;
         }
 
         public override bool UpdateGame()
@@ -480,6 +511,10 @@ namespace Vocaluxe.Screens
         public override bool Draw()
         {
             base.Draw();
+
+            if (DragAndDropActive)
+                DragAndDropCover.Draw();
+
             return true;
         }
 

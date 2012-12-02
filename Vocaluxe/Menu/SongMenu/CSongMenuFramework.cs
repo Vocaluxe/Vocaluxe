@@ -525,6 +525,11 @@ namespace Vocaluxe.Menu.SongMenu
             return -1;
         }
 
+        public virtual CStatic GetSelectedSongCover()
+        {
+            return new CStatic();
+        }
+
         public virtual int GetSelectedCategory()
         {
             return -1;
