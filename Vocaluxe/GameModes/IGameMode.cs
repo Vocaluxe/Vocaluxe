@@ -9,9 +9,10 @@ namespace Vocaluxe.GameModes
 {
     public enum EGameMode
     {
-        Normal,
-        Medley,
-        Duet
+        TR_GAMEMODE_NORMAL,
+        TR_GAMEMODE_MEDLEY,
+        TR_GAMEMODE_DUET,
+        TR_GAMEMODE_SHORTSONG
     }
 
     interface IGameMode
@@ -37,5 +38,6 @@ namespace Vocaluxe.GameModes
         int GetNumSongs();
         CSong GetSong();
         CSong GetSong(int Num);
+        EGameMode GetGameMode(int Num);
     }
 }

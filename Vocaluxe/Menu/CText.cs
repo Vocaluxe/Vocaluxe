@@ -41,6 +41,12 @@ namespace Vocaluxe.Menu
     {
         private SThemeText _Theme;
         private bool _ThemeLoaded;
+
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
         private bool _ButtonText;
         private bool _PositionNeedsUpdate = true;
 
@@ -211,6 +217,7 @@ namespace Vocaluxe.Menu
 
         public bool Selected;
         public bool Visible = true;
+        public bool EditMode = false;
 
         public float Alpha = 1f;
 
@@ -538,7 +545,7 @@ namespace Vocaluxe.Menu
                 writer.WriteComment("<Font>: Text font name");
                 writer.WriteElementString("Font", Fon);
 
-                writer.WriteComment("<Text>: Text or translation tag");
+                writer.WriteComment("<Text>: Nothing or translation tag");
                 if (CLanguage.TranslationExists(_Theme.Text))
                     writer.WriteElementString("Text", _Theme.Text);
                 else
@@ -596,8 +603,10 @@ namespace Vocaluxe.Menu
 
             SColorF color = new SColorF(CurrentColor.R, CurrentColor.G, CurrentColor.B, CurrentColor.A * Alpha);
 
-
-            CFonts.DrawText(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color);
+            if (!EditMode)
+                CFonts.DrawText(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color);
+            else
+                CFonts.DrawText(_Text + "|", _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color);
 
             if (Reflection)
             {
@@ -616,7 +625,10 @@ namespace Vocaluxe.Menu
                     default:
                         break;
                 }
-                CFonts.DrawTextReflection(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace + sFactor, ReflectionHeight);
+                if (!EditMode)
+                    CFonts.DrawTextReflection(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace + sFactor, ReflectionHeight);
+                else
+                    CFonts.DrawTextReflection(_Text + "|", _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace + sFactor, ReflectionHeight);
             }
 
             if (Selected && (CSettings.GameState == EGameState.EditTheme))
@@ -653,7 +665,11 @@ namespace Vocaluxe.Menu
 
             CFonts.SetFont(Fon);
             CFonts.Style = Style;
-            CFonts.DrawText(Text, Height, x, Y, Z, color, begin, end);
+
+            if (!EditMode)
+                CFonts.DrawText(Text, Height, x, Y, Z, color, begin, end);
+            else
+                CFonts.DrawText(Text + "|", Height, x, Y, Z, color, begin, end);
 
             if (Reflection)
             {
@@ -732,13 +748,21 @@ namespace Vocaluxe.Menu
 
             CFonts.SetFont(Fon);
             CFonts.Style = Style;
-            CFonts.DrawText(_Text, h, x, y, Z, color);
+
+            if (!EditMode)
+                CFonts.DrawText(_Text, h, x, y, Z, color);
+            else
+                CFonts.DrawText(_Text + "|", h, x, y, Z, color);
 
             if (reflection)
             {
                 float space = (rectHeight - Y - bounds.Height) * 2f + reflectionSpace;
                 float height = reflectionHeight - (rectHeight - Y) + bounds.Height;
-                CFonts.DrawTextReflection(_Text, h, x, y, Z, color, space, height);
+
+                if (!EditMode)
+                    CFonts.DrawTextReflection(_Text, h, x, y, Z, color, space, height);
+                else
+                    CFonts.DrawTextReflection(_Text + "|", h, x, y, Z, color, space, height);
             }
 
             if (Selected && (CSettings.GameState == EGameState.EditTheme))

@@ -28,7 +28,7 @@
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-    </Static1> 
+    </Static1>
     <StaticPlayer1>
       <!--<Skin>: Texture name-->
       <Skin>PlayerSelector</Skin>
@@ -276,7 +276,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENNAMES_MENU</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -306,7 +306,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -336,7 +336,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -365,7 +365,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -394,7 +394,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -423,7 +423,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -452,7 +452,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -481,7 +481,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -510,7 +510,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -555,7 +555,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_BUTTON_BACK</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -612,7 +612,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_BUTTON_START</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -1128,167 +1128,167 @@
         </Name>
       </Tiles>
     </NameSelection>
-	<EqualizerPlayer1>
-	  <!--<Skin>: Texture name-->
-	  <Skin>Invisible</Skin>
-	  <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
+    <EqualizerPlayer1>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
       <X>21</X>
       <Y>152</Y>
       <Z>-4,00</Z>
       <W>108</W>
-      <H>60</H>	  
-	  <!--<NumBars>: Number of equalizer-elements.-->
-	  <NumBars>8</NumBars>
-	  <!--<Space>: Space between equalizer-elements.-->
-	  <Space>2,00</Space>
-	  <!--<Style>: Style of equalizer-elements: Collumns-->
-	  <Style>Collumns</Style>
-	  <!--<Color>: Equalizer color from ColorScheme (high priority)-->
-	  <!--or <R>, <G>, <B>, <A> (lower priority)-->
-	  <Color>Player1Dim2</Color>
-	  <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
-	  <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
-	  <MaxColor>Player1Dim</MaxColor>
-	  <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON -->
-	  <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <H>60</H>
+      <!--<NumBars>: Number of equalizer-elements.-->
+      <NumBars>8</NumBars>
+      <!--<Space>: Space between equalizer-elements.-->
+      <Space>2,00</Space>
+      <!--<Style>: Style of equalizer-elements: Collums-->
+      <Style>Collums</Style>
+      <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Color>: Equalizer color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player1Dim2</Color>
+      <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
+      <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
+      <MaxColor>Player1Dim2</MaxColor>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-	</EqualizerPlayer1>     
-	<EqualizerPlayer2>
-	  <!--<Skin>: Texture name-->
-	  <Skin>Invisible</Skin>
-	  <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
+    </EqualizerPlayer1>
+    <EqualizerPlayer2>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
       <X>21</X>
       <Y>307</Y>
       <Z>-4,00</Z>
       <W>108</W>
-      <H>60</H>	  
-	  <!--<NumBars>: Number of equalizer-elements.-->
-	  <NumBars>8</NumBars>
-	  <!--<Space>: Space between equalizer-elements.-->
-	  <Space>2,00</Space>
-	  <!--<Style>: Style of equalizer-elements: Collumns-->
-	  <Style>Collumns</Style>
-	  <!--<Color>: Equalizer color from ColorScheme (high priority)-->
-	  <!--or <R>, <G>, <B>, <A> (lower priority)-->
-	  <Color>Player2Dim2</Color>
-	  <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
-	  <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
-	  <MaxColor>Player2Dim</MaxColor>
-	  <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON -->
-	  <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <H>60</H>
+      <!--<NumBars>: Number of equalizer-elements.-->
+      <NumBars>8</NumBars>
+      <!--<Space>: Space between equalizer-elements.-->
+      <Space>2,00</Space>
+      <!--<Style>: Style of equalizer-elements: Collums-->
+      <Style>Collums</Style>
+      <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Color>: Equalizer color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player2Dim2</Color>
+      <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
+      <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
+      <MaxColor>Player2Dim2</MaxColor>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-	</EqualizerPlayer2>     
-	<EqualizerPlayer3>
-	  <!--<Skin>: Texture name-->
-	  <Skin>Invisible</Skin>
-	  <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
+    </EqualizerPlayer2>
+    <EqualizerPlayer3>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
       <X>21</X>
       <Y>467</Y>
       <Z>-4,00</Z>
       <W>108</W>
-      <H>60</H>	  
-	  <!--<NumBars>: Number of equalizer-elements.-->
-	  <NumBars>8</NumBars>
-	  <!--<Space>: Space between equalizer-elements.-->
-	  <Space>2,00</Space>
-	  <!--<Style>: Style of equalizer-elements: Collumns-->
-	  <Style>Collumns</Style>
-	  <!--<Color>: Equalizer color from ColorScheme (high priority)-->
-	  <!--or <R>, <G>, <B>, <A> (lower priority)-->
-	  <Color>Player3Dim2</Color>
-	  <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
-	  <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
-	  <MaxColor>Player3Dim</MaxColor>
-	  <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON -->
-	  <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <H>60</H>
+      <!--<NumBars>: Number of equalizer-elements.-->
+      <NumBars>8</NumBars>
+      <!--<Space>: Space between equalizer-elements.-->
+      <Space>2,00</Space>
+      <!--<Style>: Style of equalizer-elements: Collums-->
+      <Style>Collums</Style>
+      <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Color>: Equalizer color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player3Dim2</Color>
+      <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
+      <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
+      <MaxColor>Player3Dim2</MaxColor>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-	</EqualizerPlayer3>     
-	<EqualizerPlayer4>
-	  <!--<Skin>: Texture name-->
-	  <Skin>Invisible</Skin>
-	  <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
+    </EqualizerPlayer3>
+    <EqualizerPlayer4>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
       <X>1153</X>
       <Y>152</Y>
       <Z>-4,00</Z>
       <W>108</W>
-      <H>60</H>	  
-	  <!--<NumBars>: Number of equalizer-elements.-->
-	  <NumBars>8</NumBars>
-	  <!--<Space>: Space between equalizer-elements.-->
-	  <Space>2,00</Space>
-	  <!--<Style>: Style of equalizer-elements: Collumns-->
-	  <Style>Collumns</Style>
-	  <!--<Color>: Equalizer color from ColorScheme (high priority)-->
-	  <!--or <R>, <G>, <B>, <A> (lower priority)-->
-	  <Color>Player4Dim2</Color>
-	  <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
-	  <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
-	  <MaxColor>Player4Dim</MaxColor>
-	  <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON -->
-	  <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <H>60</H>
+      <!--<NumBars>: Number of equalizer-elements.-->
+      <NumBars>8</NumBars>
+      <!--<Space>: Space between equalizer-elements.-->
+      <Space>2,00</Space>
+      <!--<Style>: Style of equalizer-elements: Collums-->
+      <Style>Collums</Style>
+      <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Color>: Equalizer color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player4Dim2</Color>
+      <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
+      <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
+      <MaxColor>Player4Dim2</MaxColor>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-	</EqualizerPlayer4>     
-	<EqualizerPlayer5>
-	  <!--<Skin>: Texture name-->
-	  <Skin>Invisible</Skin>
-	  <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
+    </EqualizerPlayer4>
+    <EqualizerPlayer5>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
       <X>1153</X>
       <Y>307</Y>
       <Z>-4,00</Z>
       <W>108</W>
-      <H>60</H>	  
-	  <!--<NumBars>: Number of equalizer-elements.-->
-	  <NumBars>8</NumBars>
-	  <!--<Space>: Space between equalizer-elements.-->
-	  <Space>2,00</Space>
-	  <!--<Style>: Style of equalizer-elements: Collumns-->
-	  <Style>Collumns</Style>
-	  <!--<Color>: Equalizer color from ColorScheme (high priority)-->
-	  <!--or <R>, <G>, <B>, <A> (lower priority)-->
-	  <Color>Player5Dim2</Color>
-	  <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
-	  <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
-	  <MaxColor>Player5Dim</MaxColor>
-	  <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON -->
-	  <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <H>60</H>
+      <!--<NumBars>: Number of equalizer-elements.-->
+      <NumBars>8</NumBars>
+      <!--<Space>: Space between equalizer-elements.-->
+      <Space>2,00</Space>
+      <!--<Style>: Style of equalizer-elements: Collums-->
+      <Style>Collums</Style>
+      <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Color>: Equalizer color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player5Dim2</Color>
+      <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
+      <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
+      <MaxColor>Player5Dim2</MaxColor>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-	</EqualizerPlayer5>     
-	<EqualizerPlayer6>
-	  <!--<Skin>: Texture name-->
-	  <Skin>Invisible</Skin>
-	  <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
+    </EqualizerPlayer5>
+    <EqualizerPlayer6>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
       <X>1153</X>
       <Y>467</Y>
       <Z>-4,00</Z>
       <W>108</W>
-      <H>60</H>	  
-	  <!--<NumBars>: Number of equalizer-elements.-->
-	  <NumBars>8</NumBars>
-	  <!--<Style>: Style of equalizer-elements: Collumns-->
-	  <Space>2,00</Space>
-	  <!--<Style>: Style of equalizer-elements-->
-	  <Style>Collumns</Style>
-	  <!--<Color>: Equalizer color from ColorScheme (high priority)-->
-	  <!--or <R>, <G>, <B>, <A> (lower priority)-->
-	  <Color>Player6Dim2</Color>
-	  <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
-	  <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
-	  <MaxColor>Player6Dim</MaxColor>
-	  <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON -->
-	  <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <H>60</H>
+      <!--<NumBars>: Number of equalizer-elements.-->
+      <NumBars>8</NumBars>
+      <!--<Space>: Space between equalizer-elements.-->
+      <Space>2,00</Space>
+      <!--<Style>: Style of equalizer-elements: Collums-->
+      <Style>Collums</Style>
+      <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Color>: Equalizer color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player6Dim2</Color>
+      <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
+      <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
+      <MaxColor>Player6Dim2</MaxColor>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-	</EqualizerPlayer6>     
+    </EqualizerPlayer6>
   </ScreenNames>
 </root>

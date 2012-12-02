@@ -40,13 +40,20 @@ namespace Vocaluxe.Base
    
     class CGlyph
     {
-        public readonly float SIZEh = 50f;
+        private float _SIZEh = 50f;
+        public float SIZEh
+        {
+            get { return _SIZEh; }
+        }
+
         public STexture Texture;
         public char Chr;
         public int width;
         
-        public CGlyph(char chr)
+        public CGlyph(char chr, float MaxHigh)
         {
+            _SIZEh = MaxHigh;
+            
             float outline = CFonts.Outline;
             TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
 
@@ -152,7 +159,8 @@ namespace Vocaluxe.Base
         private Hashtable _htGlyphs;
         private PrivateFontCollection fonts;
         private FontFamily family;
-
+        private float SIZEh;
+        
         public string FilePath;
         
         
@@ -181,6 +189,28 @@ namespace Vocaluxe.Base
        
             _Glyphs = new List<CGlyph>();
             _htGlyphs = new Hashtable();
+
+            switch (CConfig.TextureQuality)
+            {
+                case ETextureQuality.TR_CONFIG_TEXTURE_LOWEST:
+                    SIZEh = 25f;
+                    break;
+                case ETextureQuality.TR_CONFIG_TEXTURE_LOW:
+                    SIZEh = 50f;
+                    break;
+                case ETextureQuality.TR_CONFIG_TEXTURE_MEDIUM:
+                    SIZEh = 100f;
+                    break;
+                case ETextureQuality.TR_CONFIG_TEXTURE_HIGH:
+                    SIZEh = 200f;
+                    break;
+                case ETextureQuality.TR_CONFIG_TEXTURE_HIGHEST:
+                    SIZEh = 400f;
+                    break;
+                default:
+                    SIZEh = 100f;
+                    break;
+            }
         }
 
         public void DrawGlyph(char chr, float x, float y, float h, float z, SColorF color)
@@ -243,7 +273,7 @@ namespace Vocaluxe.Base
                 return;
 
             float h = CFonts.Height;
-            _Glyphs.Add(new CGlyph(chr));
+            _Glyphs.Add(new CGlyph(chr, SIZEh));
             _htGlyphs.Add(chr, _Glyphs.Count - 1);
             CFonts.Height = h;
         }

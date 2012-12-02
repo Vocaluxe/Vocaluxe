@@ -73,6 +73,16 @@ namespace Vocaluxe.Menu.SongMenu
             _SongMenu.Draw();
         }
 
+        public bool IsActive()
+        {
+            return _SongMenu.IsActive();
+        }
+
+        public void SetActive(bool Active)
+        {
+            _SongMenu.SetActive(Active);
+        }
+
         public int GetSelectedSong()
         {
             return _SongMenu.GetSelectedSong();
@@ -118,9 +128,24 @@ namespace Vocaluxe.Menu.SongMenu
             return _SongMenu.GetRect();
         }
 
+        public bool IsSmallView()
+        {
+            return _SongMenu.IsSmallView();
+        }
+
+        public void SetSmallView(bool SmallView)
+        {
+            _SongMenu.SetSmallView(SmallView);
+        }
+
         #endregion ISongMenu
 
         #region IMenuElement
+        public string GetThemeName()
+        {
+            return _SongMenu.GetThemeName();
+        }
+
         public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
         {
             return _SongMenu.LoadTheme(XmlPath, ElementName, navigator, SkinIndex);

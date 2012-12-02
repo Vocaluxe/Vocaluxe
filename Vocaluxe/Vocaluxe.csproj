@@ -169,6 +169,7 @@
     <Compile Include="Base\CGame.cs" />
     <Compile Include="Base\CLanguage.cs" />
     <Compile Include="Base\CLog.cs" />
+    <Compile Include="Base\CPlaylists.cs" />
     <Compile Include="Base\CProfiles.cs" />
     <Compile Include="Base\CUtility.cs" />
     <Compile Include="Base\CSettings.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="Lib\Draw\COpenGL.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Lib\Playlist\CPlaylistFile.cs" />
     <Compile Include="Lib\Song\CNotes.cs" />
     <Compile Include="Lib\Song\CSong.cs" />
     <Compile Include="Lib\Sound\CDirectSoundRecord.cs" />
@@ -213,6 +215,8 @@
     <Compile Include="Menu\CLyric.cs" />
     <Compile Include="Menu\CMenu.cs" />
     <Compile Include="Menu\CInteraction.cs" />
+    <Compile Include="Menu\CObjectInteractions.cs" />
+    <Compile Include="Menu\CPlaylist.cs" />
     <Compile Include="Menu\CSelectSlide.cs" />
     <Compile Include="Menu\CStatic.cs" />
     <Compile Include="Menu\CText.cs" />

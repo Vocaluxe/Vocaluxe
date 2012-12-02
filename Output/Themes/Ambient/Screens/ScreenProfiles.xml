@@ -148,7 +148,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENPROFILES_PROFILES</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -177,7 +177,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENPROFILES_PLAYERNAME</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -206,7 +206,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENPROFILES_GAMEDIFFICULTY</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -235,7 +235,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENPROFILES_AVATAR</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -264,7 +264,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENPROFILES_GUESTPROFILE</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -293,7 +293,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENPROFILES_ACTIVE</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -338,7 +338,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
       <!--<Reflection> If exists:-->
@@ -387,7 +387,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_BUTTON_BACK</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -444,7 +444,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_BUTTON_SAVE</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -501,7 +501,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_SCREENPROFILES_BUTTON_NEW</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -558,7 +558,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_SCREENPROFILES_BUTTON_DELETE</Text>
       </Text>
       <!--<Reflection> If exists:-->
