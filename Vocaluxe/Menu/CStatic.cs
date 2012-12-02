@@ -70,6 +70,23 @@ namespace Vocaluxe.Menu
             Visible = true;
         }
 
+        public CStatic(CStatic s)
+        {
+            _Theme = new SThemeStatic();
+            _ThemeLoaded = false;
+
+            _Texture = s.Texture;
+            Color = new SColorF(s.Color);
+            Rect = new SRectF(s.Rect);
+            Reflection = s.Reflection;
+            ReflectionSpace = s.ReflectionHeight;
+            ReflectionHeight = s.ReflectionSpace;
+
+            Selected = s.Selected;
+            Alpha = s.Alpha;
+            Visible = s.Visible;
+        }
+
         public CStatic(STexture texture, SColorF color, SRectF rect)
         {
             _Theme = new SThemeStatic();

@@ -95,6 +95,8 @@ namespace Vocaluxe.Screens
             Texts[htTexts(TextOptionsTitle)].Visible = false;
             Statics[htStatics(StaticOptionsBG)].Visible = false;
             Playlists[htPlaylists(Playlist)].Visible = false;
+
+            Playlists[htPlaylists(Playlist)].Init();
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -395,7 +397,7 @@ namespace Vocaluxe.Screens
             CGame.EnterNormalGame();
             SongMenus[htSongMenus(SongMenu)].OnShow();
             SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
-            Playlists[htPlaylists(Playlist)].Init();
+            
             if (Playlists[htPlaylists(Playlist)].ActivePlaylistID != -1)
                 Playlists[htPlaylists(Playlist)].LoadPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
             UpdatePlaylistNames();
