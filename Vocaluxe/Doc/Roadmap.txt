@@ -79,12 +79,13 @@
 
 + v0.2.0:
 	- Medley
+	- Sing Short Version Mode
 	- Show Avatars and Player Name in Sing Screen
 	- New Lyric Effects
 	- More Player at once (up to 6)
 	- Duet (full support, choose/toggle names)
 	- Playlist-Support
-	- Spectrum Analyzer (Record Screen)
+	- Spectrum Analyzer (Record Screen and Player Selection Screen)
  
 
 -----------------
