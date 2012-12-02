@@ -499,6 +499,16 @@ namespace Vocaluxe.Menu.SongMenu
             return _Locked;
         }
 
+        public override CStatic GetSelectedSongCover()
+        {
+            foreach (CStatic tile in _Tiles)
+            {
+                if (tile.Selected)
+                    return new CStatic(tile);
+            }
+            return new CStatic();
+        }
+
         public override void SetSelectedSong(int VisibleSongNr)
         {
             base.SetSelectedSong(VisibleSongNr);

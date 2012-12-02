@@ -149,14 +149,18 @@ namespace Vocaluxe.Menu
         }
 
         public EEditMode _EditMode;
-        public int ActivePlaylistID;
-        public int Offset;
-        public int CurrentPlaylistElement;
+        public int ActivePlaylistID = -1;
+        public int Offset = 0;
+        public int CurrentPlaylistElement = -1;
 
-        private PlaylistElement ChangeOrderElement;
-        private int ChangeOrderSource;
-        private int OldMousePosX;
-        private int OldMousePosY;
+        private PlaylistElement ChangeOrderElement = new PlaylistElement();
+        private int ChangeOrderSource = -1;
+        private int OldMousePosX = 0;
+        private int OldMousePosY = 0;
+
+        public int DragAndDropSongID = -1;
+
+        //private static
 
         public CPlaylist()
         {
@@ -198,15 +202,6 @@ namespace Vocaluxe.Menu
             _Interactions.AddButton(_Theme.ButtonPlaylistDelete);
             _Interactions.AddButton(_Theme.ButtonPlaylistSave);
             _Interactions.AddButton(_Theme.ButtonPlaylistSing);
-
-            ActivePlaylistID = -1;
-            Offset = 0;
-            CurrentPlaylistElement = -1;
-
-            ChangeOrderElement = new PlaylistElement();
-            OldMousePosX = 0;
-            OldMousePosY = 0;
-            ChangeOrderSource = -1;
         }
 
         public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
@@ -430,17 +425,42 @@ namespace Vocaluxe.Menu
 
         public void UnloadTextures()
         {
+            _Theme.Text1.UnloadTextures();
+            _Theme.ButtonPlaylistClose.UnloadTextures();
+            _Theme.ButtonPlaylistDelete.UnloadTextures();
+            _Theme.ButtonPlaylistName.UnloadTextures();
+            _Theme.ButtonPlaylistSave.UnloadTextures();
+            _Theme.ButtonPlaylistSing.UnloadTextures();
+
+            _Theme.StaticCover.UnloadTextures();
+            _Theme.StaticPlaylistFooter.UnloadTextures();
+            _Theme.StaticPlaylistHeader.UnloadTextures();
+
+            _Theme.SelectSlideGameMode.UnloadTextures();
         }
 
         public void LoadTextures()
         {
-            _Theme.Text1.LoadTextures();
-
             if (_Theme.ColorBackgroundName != String.Empty)
                 BackgroundColor = CTheme.GetColor(_Theme.ColorBackgroundName);
 
             if (_Theme.SColorBackgroundName != String.Empty)
                 BackgroundSColor = CTheme.GetColor(_Theme.SColorBackgroundName);
+
+            _Theme.Text1.LoadTextures();
+            _Theme.ButtonPlaylistClose.LoadTextures();
+            _Theme.ButtonPlaylistDelete.LoadTextures();
+            _Theme.ButtonPlaylistName.LoadTextures();
+            _Theme.ButtonPlaylistSave.LoadTextures();
+            _Theme.ButtonPlaylistSing.LoadTextures();
+
+            _Theme.StaticCover.LoadTextures();
+            _Theme.StaticPlaylistFooter.LoadTextures();
+            _Theme.StaticPlaylistHeader.LoadTextures();
+
+            _Theme.SelectSlideGameMode.LoadTextures();
+
+            Init();
         }
 
         public void ReloadTextures()
@@ -906,7 +926,7 @@ namespace Vocaluxe.Menu
                         }
 
                         //Change order with holding LB
-                        if (MouseEvent.LBH && CurrentPlaylistElement != -1 && PlaylistElementContents.Count > 1)
+                        if (MouseEvent.LBH && CurrentPlaylistElement != -1 && PlaylistElementContents.Count > 1 && DragAndDropSongID == -1)
                         {
                             
                             ChangeOrderSource = CurrentPlaylistElement + Offset;
@@ -930,6 +950,56 @@ namespace Vocaluxe.Menu
                             OldMousePosY = MouseEvent.Y;
 
                             _EditMode = EEditMode.ChangeOrder;
+                        }
+
+                        if (!MouseEvent.LBH && DragAndDropSongID != -1)
+                        {
+                            EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+                            CSong song = CSongs.GetSong(DragAndDropSongID);
+
+                            if (song != null)
+                            {
+                                if (song.IsDuet)
+                                    gm = EGameMode.TR_GAMEMODE_DUET;
+
+                                if (CurrentPlaylistElement != -1)
+                                {
+                                    CPlaylists.Playlists[ActivePlaylistID].SongInsert(CurrentPlaylistElement, DragAndDropSongID, gm);
+                                    UpdatePlaylist();
+                                }
+                                else
+                                {
+                                    if (MouseEvent.Y < PlaylistElements[0].Background.Rect.Y && Offset == 0)
+                                    {
+                                        CPlaylists.Playlists[ActivePlaylistID].SongInsert(0, DragAndDropSongID, gm);
+                                        UpdatePlaylist();
+                                    }
+                                    else
+                                    {
+                                        if (PlaylistElements.Count + Offset >= PlaylistElementContents.Count)
+                                        {
+                                            float min = 0f;
+                                            for (int i = PlaylistElements.Count - 1; i >= 0; i--)
+                                            {
+                                                if (PlaylistElements[i].SelectSlide.Visible)
+                                                {
+                                                    min = PlaylistElements[i].SelectSlide.Rect.Y + PlaylistElements[i].SelectSlide.Rect.H;
+                                                    break;
+                                                }
+                                            }
+
+                                            if (MouseEvent.Y > min)
+                                            {
+                                                CPlaylists.Playlists[ActivePlaylistID].AddSong(DragAndDropSongID, gm);
+                                                UpdatePlaylist();
+                                                ScrollToBottom();
+                                            }
+                                        }
+                                    }
+                                    DragAndDropSongID = -1;
+                                    UpdatePlaylist();
+                                }
+                            }
                         }
 
                         break;

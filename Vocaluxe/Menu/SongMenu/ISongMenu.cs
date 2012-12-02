@@ -18,6 +18,7 @@ namespace Vocaluxe.Menu.SongMenu
         void Draw();
 
         int GetSelectedSong();
+        CStatic GetSelectedSongCover();
         void SetSelectedSong(int VisibleSongNr);
 
         bool IsActive();
