@@ -27,6 +27,12 @@ namespace Vocaluxe.Lib.Playlist
         {
             GameMode = EGameMode.TR_GAMEMODE_NORMAL;
         }
+
+        public CPlaylistSong(CPlaylistSong ps)
+        {
+            SongID = ps.SongID;
+            GameMode = ps.GameMode;
+        }
     }
 
     public class CPlaylistFile
@@ -236,7 +242,7 @@ namespace Vocaluxe.Lib.Playlist
 
         public void SongUp(int SongNr)
         {
-            if (SongNr != 0)
+            if (SongNr < Songs.Count - 1 && SongNr > 0)
             {
                 Songs.Reverse(SongNr - 1, 2);
             }
@@ -244,10 +250,29 @@ namespace Vocaluxe.Lib.Playlist
 
         public void SongDown(int SongNr)
         {
-            if (SongNr < Songs.Count - 1)
+            if (SongNr < Songs.Count - 1 && SongNr >= 0)
             {
                 Songs.Reverse(SongNr, 2);
             }
+        }
+
+        public void SongMove(int SourceNr, int DestNr)
+        {
+            if (SourceNr < 0 || DestNr < 0 || SourceNr == DestNr || SourceNr > Songs.Count - 1 || DestNr > Songs.Count - 1)
+                return;
+
+            CPlaylistSong ps = new CPlaylistSong(Songs[SourceNr]);
+            Songs.RemoveAt(SourceNr);
+            Songs.Insert(DestNr, ps);
+        }
+
+        public void SongInsert(int DestNr, int SongID, EGameMode gm)
+        {
+            if (DestNr < 0 || DestNr > Songs.Count - 1)
+                return;
+
+            CPlaylistSong ps = new CPlaylistSong(SongID, gm);
+            Songs.Insert(DestNr, ps);
         }
     }
 }

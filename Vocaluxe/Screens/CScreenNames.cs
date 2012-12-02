@@ -450,7 +450,7 @@ namespace Vocaluxe.Screens
                         CStatic SelectedPlayer = NameSelections[htNameSelections(NameSelection)].TilePlayerAvatar(MouseEvent);
                         chooseAvatarStatic.Visible = true;
                         chooseAvatarStatic.Rect = SelectedPlayer.Rect;
-                        chooseAvatarStatic.Rect.Z = CSettings.zNear + 1;
+                        chooseAvatarStatic.Rect.Z = CSettings.zNear;
                         chooseAvatarStatic.Color = new SColorF(1, 1, 1, 1);
                         chooseAvatarStatic.Texture = SelectedPlayer.Texture;
                     }

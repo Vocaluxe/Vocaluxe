@@ -207,11 +207,16 @@ namespace Vocaluxe.Menu
             TextH = slide.TextH;
             MaxW = slide.MaxW;
 
-            _Selected = false;
-            _Textures = new List<STexture>();
-            _ValueIndexes = new List<int>();
-            _ValueNames = new List<string>();
+            _Selected = slide._Selected;
+            _Textures = new List<STexture>(slide._Textures);
+            _ValueIndexes = new List<int>(slide._ValueIndexes);
+            _ValueNames = new List<string>(slide._ValueNames);
+            _ValueBounds = new List<SRectF>(slide._ValueBounds);
+            _Selection = slide._Selection;
             _NumVisible = slide._NumVisible;
+
+            WithTextures = slide.WithTextures;
+            Visible = slide.Visible;
         }
 
         public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)

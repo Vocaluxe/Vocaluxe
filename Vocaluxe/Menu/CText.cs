@@ -250,6 +250,37 @@ namespace Vocaluxe.Menu
             Alpha = 1f;
         }
 
+        public CText(CText text)
+        {
+            _Theme = new SThemeText();
+            _ThemeLoaded = false;
+            _ButtonText = false;
+
+            X = text._X;
+            Y = text._Y;
+            Z = text._Z;
+            Height = text._Height;
+            MaxWidth = text._MaxWidth;
+            Bounds = new SRectF(text._Bounds);
+            Align = text._Align;
+            HAlign = text._HAlign;
+            Style = text._Style;
+            Fon = text._Fon;
+
+            Color = new SColorF(text.Color);
+            SColor = new SColorF(text.SColor);
+            Reflection = text.Reflection;
+            ReflectionSpace = text.ReflectionSpace;
+            ReflectionHeight = text.ReflectionHeight;
+
+            Text = text._Text;
+            Selected = text.Selected;
+            Visible = text.Visible;
+            Alpha = text.Alpha;
+
+            EditMode = text.EditMode;
+        }
+
         public CText(float x, float y, float z, EAlignment align, float h, float mw, float r, float g, float b, float a, EStyle style, string font, string text, float rspace, float rheight)
         {
             _Theme = new SThemeText();
