@@ -71,31 +71,33 @@
 	- PortAudio Record and Playback
 
 -------------------------------------------------------------
-+ v0.1.0:
++ v0.1.0 (reached: 07.04.2012):
 	- Menu Background Music
+	- Jukebox light (bg music controls)
 	- Theme System Update
 	- A nicer Theme!
 
 + v0.2.0:
 	- Medley
-	- WiiMote Support
-	- Jukebox light (bg music controls)
-	- Show Avatars and Player Name in Sing Screen (and perhaps some other screens)
+	- Show Avatars and Player Name in Sing Screen
 	- New Lyric Effects
+	- More Player at once (up to 6)
+	- Duet (full support, choose/toggle names)
+	- Playlist-Support
+	- Spectrum Analyzer (Record Screen)
  
 
 -----------------
 just some ideas:
+	- WiiMote Support
 	- Installer
 	- More Song List Views
 	- Tile Board: Show title and artist under each tile
 	- OnScreen Keyboard?
 	- Kinect Support?
 	- Help System
-	- Party Mode: Casting Show
-	- More Player at once
-	- Mark newly added songs
-	- Playlist-Support
+	- Party Mode: Casting Show	
+	- Mark newly added songs	
 	- Theme Editor
 	- Jukebox
 	- Tournament Mode
@@ -104,4 +106,3 @@ just some ideas:
 	- Party Mode: 4 in a row
 	- Challenge Mode (with more than 2 player at once)
 	- Song Editor
-	- Duet (full support, choose/toggle names)

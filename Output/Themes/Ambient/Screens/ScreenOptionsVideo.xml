@@ -497,13 +497,13 @@
       <H>50</H>
       <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
       <ArrowLeftX>505</ArrowLeftX>
-      <ArrowLeftY>225</ArrowLeftY>
+      <ArrowLeftY>285</ArrowLeftY>
       <ArrowLeftZ>0,00</ArrowLeftZ>
       <ArrowLeftW>40</ArrowLeftW>
       <ArrowLeftH>40</ArrowLeftH>
       <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
       <ArrowRightX>1170</ArrowRightX>
-      <ArrowRightY>225</ArrowRightY>
+      <ArrowRightY>285</ArrowRightY>
       <ArrowRightZ>0,00</ArrowRightZ>
       <ArrowRightW>40</ArrowRightW>
       <ArrowRightH>40</ArrowRightH>
