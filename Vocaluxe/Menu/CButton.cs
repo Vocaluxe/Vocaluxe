@@ -42,8 +42,19 @@ namespace Vocaluxe.Menu
         public float SReflectionSpace;
         public float SReflectionHeight;
 
-        private bool _Selected;
         public bool Pressed;
+
+        public bool EditMode
+        {
+            get { return Text.EditMode; }
+            set
+            {
+                Text.EditMode = value;
+                SText.EditMode = value;
+            }
+        }
+
+        private bool _Selected;
         public bool Selected
         {
             get { return _Selected; }
@@ -72,6 +83,7 @@ namespace Vocaluxe.Menu
             SText = new CText();
             Selected = false;
             Visible = true;
+            EditMode = false;
 
             Reflection = false;
             ReflectionSpace = 0f;

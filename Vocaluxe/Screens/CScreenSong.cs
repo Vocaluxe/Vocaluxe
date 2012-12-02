@@ -771,8 +771,11 @@ namespace Vocaluxe.Screens
             if (Playlists[htPlaylists(Playlist)].ActivePlaylistID != (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].Selection))
             {
                 Playlists[htPlaylists(Playlist)].ActivePlaylistID = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].Selection;
+                SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistAdd)].Selection = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].Selection + 1;
+
                 //Open playlist
                 OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
+                Playlists[htPlaylists(Playlist)].ScrollToBottom();
             }
             ToggleSongOptions(ESongOptionsView.None);
         }
@@ -791,13 +794,16 @@ namespace Vocaluxe.Screens
                         gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
                     else
                         gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+                
                 //Check if Playlist really exists
                 if (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistAdd)].Selection - 1 < 0)
                     Playlists[htPlaylists(Playlist)].ActivePlaylistID = CPlaylists.NewPlaylist();
                 else
                     Playlists[htPlaylists(Playlist)].ActivePlaylistID = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistAdd)].Selection - 1;
+                
                 //Add song to playlist
                 CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID, gm);
+                
                 //Open playlist
                 OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
             }
@@ -813,12 +819,16 @@ namespace Vocaluxe.Screens
                         gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
                     else
                         gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+                
                 //Create new playlist
                 Playlists[htPlaylists(Playlist)].ActivePlaylistID = CPlaylists.NewPlaylist();
+                
                 //Add song to playlist
                 CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID, gm);
+                
                 //Open playlist
                 OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
+                
                 //Add new playlist to select-slide
                 SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistAdd)].AddValue(CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].PlaylistName);
 
@@ -837,6 +847,7 @@ namespace Vocaluxe.Screens
                         gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
                 CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID, gm);
                 Playlists[htPlaylists(Playlist)].UpdatePlaylist();
+                Playlists[htPlaylists(Playlist)].ScrollToBottom();
             }
             ToggleSongOptions(ESongOptionsView.Song);
         }
