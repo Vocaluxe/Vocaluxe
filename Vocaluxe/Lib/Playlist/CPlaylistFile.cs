@@ -199,6 +199,10 @@ namespace Vocaluxe.Lib.Playlist
                             song.GameMode = gm;
                             Songs.Add(song);
                         }
+                        else
+                        {
+                            CLog.LogError("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + PlaylistFile);
+                        }
                     }
                 }
                 else
