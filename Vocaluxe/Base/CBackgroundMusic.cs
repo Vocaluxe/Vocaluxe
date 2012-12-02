@@ -120,7 +120,10 @@ namespace Vocaluxe.Base
         {
             get
             {
-                return _CurrentPlaylistElement.Artist + " - " + _CurrentPlaylistElement.Title;
+                if (_CurrentPlaylistElement.Artist != "" && _CurrentPlaylistElement.Title != "")
+                    return _CurrentPlaylistElement.Artist + " - " + _CurrentPlaylistElement.Title;
+                else
+                    return Path.GetFileNameWithoutExtension(_CurrentPlaylistElement.MusicFilePath);
             }
         }
 
@@ -519,7 +522,7 @@ class PlaylistElement
             if (_Song != null)
                 return _Song.Title;
                 
-            return "Unknown";
+            return "";
         }
     }
 
@@ -530,7 +533,7 @@ class PlaylistElement
             if (_Song != null)
                 return _Song.Artist;
                 
-            return "Unknown";
+            return "";
         }
     }
 
