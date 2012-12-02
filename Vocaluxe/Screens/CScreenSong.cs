@@ -714,7 +714,7 @@ namespace Vocaluxe.Screens
             if (Playlists[htPlaylists(Playlist)].ActivePlaylistID != (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].Selection))
             {
                 Playlists[htPlaylists(Playlist)].ActivePlaylistID = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].Selection;
-                SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistAdd)].Selection = SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].Selection + 1;
+                SetSelectSlidePlaylistToCurrentPlaylist();
 
                 //Open playlist
                 OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
@@ -749,6 +749,8 @@ namespace Vocaluxe.Screens
                 
                 //Open playlist
                 OpenPlaylist(Playlists[htPlaylists(Playlist)].ActivePlaylistID);
+
+                SetSelectSlidePlaylistToCurrentPlaylist();
             }
             //Create a new playlist and add song
             else if ((SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistAdd)].Selection - 1) == -1)
@@ -775,6 +777,8 @@ namespace Vocaluxe.Screens
                 //Add new playlist to select-slide
                 SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistAdd)].AddValue(CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].PlaylistName);
 
+                SetSelectSlidePlaylistToCurrentPlaylist();
+
             }
             //Add song to loaded playlist
             else
@@ -793,6 +797,11 @@ namespace Vocaluxe.Screens
                 Playlists[htPlaylists(Playlist)].ScrollToBottom();
             }
             ToggleSongOptions(ESongOptionsView.Song);
+        }
+
+        private void SetSelectSlidePlaylistToCurrentPlaylist()
+        {
+            SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistAdd)].Selection = Playlists[htPlaylists(Playlist)].ActivePlaylistID + 1;
         }
     }
 }
