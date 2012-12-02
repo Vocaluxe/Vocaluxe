@@ -79,6 +79,11 @@ namespace Vocaluxe.Lib.Song
         {
             get { return _CoverLoaded; }
         }
+        public bool NotesLoaded
+        {
+            get { return _NotesLoaded; }
+        }
+
         public bool CoverBigLoaded = false;
 
         public STexture CoverTextureSmall
