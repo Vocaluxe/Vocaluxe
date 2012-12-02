@@ -224,6 +224,7 @@ namespace Vocaluxe.Screens
                         if (Buttons[htButtons(ButtonSkip)].Selected && _Pause)
                         {
                             LoadNextSong();
+                            TogglePause();
                         }
                         break;
                 }
