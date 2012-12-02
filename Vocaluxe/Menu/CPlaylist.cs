@@ -974,6 +974,35 @@ namespace Vocaluxe.Menu
                                 CPlaylists.Playlists[ActivePlaylistID].SongMove(ChangeOrderSource, CurrentPlaylistElement + Offset);
                                 UpdatePlaylist();
                             }
+                            else if (CurrentPlaylistElement == -1)
+                            {
+                                if (MouseEvent.Y < PlaylistElements[0].Background.Rect.Y && Offset == 0)
+                                {
+                                    CPlaylists.Playlists[ActivePlaylistID].SongMove(ChangeOrderSource, 0);
+                                }
+                                else
+                                {
+                                    if (PlaylistElements.Count + Offset >= PlaylistElementContents.Count)
+                                    {
+                                        float min = 0f;
+                                        for (int i = PlaylistElements.Count - 1; i >= 0; i--)
+                                        {
+                                            if (PlaylistElements[i].SelectSlide.Visible)
+                                            {
+                                                min = PlaylistElements[i].SelectSlide.Rect.Y + PlaylistElements[i].SelectSlide.Rect.H;
+                                                break;
+                                            }
+                                        }
+
+                                        if (MouseEvent.Y > min)
+                                        {
+                                            CPlaylists.Playlists[ActivePlaylistID].SongMove(ChangeOrderSource, PlaylistElementContents.Count - 1);
+                                        }
+                                    }
+                                }
+                            
+                                UpdatePlaylist();
+                            }
                             _EditMode = EEditMode.None;
                         }
                         break;

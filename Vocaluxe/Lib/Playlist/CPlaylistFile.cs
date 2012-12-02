@@ -265,5 +265,14 @@ namespace Vocaluxe.Lib.Playlist
             Songs.RemoveAt(SourceNr);
             Songs.Insert(DestNr, ps);
         }
+
+        public void SongInsert(int DestNr, int SongID, EGameMode gm)
+        {
+            if (DestNr < 0 || DestNr > Songs.Count - 1)
+                return;
+
+            CPlaylistSong ps = new CPlaylistSong(SongID, gm);
+            Songs.Insert(DestNr, ps);
+        }
     }
 }
