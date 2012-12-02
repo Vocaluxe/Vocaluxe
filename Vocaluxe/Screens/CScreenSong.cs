@@ -38,6 +38,7 @@ namespace Vocaluxe.Screens
         private const string ButtonOptionsPlaylist = "ButtonOptionsPlaylist";
         private const string ButtonOptionsClose = "ButtonOptionsClose";
         private const string ButtonOptionsRandom = "ButtonOptionsRandom";
+        private const string ButtonOptionsRandomCategory = "ButtonOptionsRandomCategory";
         private const string ButtonOptionsSingAll = "ButtonOptionsSingAll";
         private const string ButtonOptionsSingAllVisible = "ButtonOptionsSingAllVisible";
         private const string ButtonOptionsOpenPlaylist = "ButtonOptionsOpenPlaylist";
@@ -73,7 +74,7 @@ namespace Vocaluxe.Screens
             _ScreenVersion = ScreenVersion;
             _ThemeStatics = new string[] { StaticSearchBar, StaticOptionsBG };
             _ThemeTexts = new string[] { TextCategory, TextSelection, TextSearchBarTitle, TextSearchBar, TextOptionsTitle };
-            _ThemeButtons = new string[] { ButtonOptionsClose, ButtonOptionsPlaylist, ButtonOptionsSing, ButtonOptionsRandom, ButtonOptionsSingAll, ButtonOptionsSingAllVisible, ButtonOptionsOpenPlaylist, ButtonOpenOptions };
+            _ThemeButtons = new string[] { ButtonOptionsClose, ButtonOptionsPlaylist, ButtonOptionsSing, ButtonOptionsRandom, ButtonOptionsRandomCategory, ButtonOptionsSingAll, ButtonOptionsSingAllVisible, ButtonOptionsOpenPlaylist, ButtonOpenOptions };
             _ThemeSelectSlides = new string[] { SelectSlideOptionsMode, SelectSlideOptionsPlaylistAdd, SelectSlideOptionsPlaylistOpen };
             _ThemeSongMenus = new string[] { SongMenu };
             _ThemePlaylists = new string[] { Playlist };
@@ -89,6 +90,7 @@ namespace Vocaluxe.Screens
             Buttons[htButtons(ButtonOptionsSing)].Visible = false;
             Buttons[htButtons(ButtonOptionsPlaylist)].Visible = false;
             Buttons[htButtons(ButtonOptionsRandom)].Visible = false;
+            Buttons[htButtons(ButtonOptionsRandomCategory)].Visible = false;
             Buttons[htButtons(ButtonOptionsSingAll)].Visible = false;
             Buttons[htButtons(ButtonOptionsSingAllVisible)].Visible = false;
             Buttons[htButtons(ButtonOptionsOpenPlaylist)].Visible = false;
@@ -145,7 +147,9 @@ namespace Vocaluxe.Screens
                     switch (KeyEvent.Key)
                     {
                         case Keys.Escape:
-                            if (CSongs.Category < 0 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF)
+                            if (SongMenus[htSongMenus(SongMenu)].IsVideoFull())
+                                SongMenus[htSongMenus(SongMenu)].ToggleVideoFull();
+                            else if (CSongs.Category < 0 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF)
                                 CGraphics.FadeTo(EScreens.ScreenMain);
                             break;
 
@@ -153,7 +157,11 @@ namespace Vocaluxe.Screens
                             if (CSongs.NumVisibleSongs > 0)
                             {
                                 if (SongMenus[htSongMenus(SongMenu)].GetSelectedSong() != -1 && !_SongOptionsActive)
+                                {
                                     ToggleSongOptions(ESongOptionsView.Song);
+                                    if (SongMenus[htSongMenus(SongMenu)].IsVideoFull())
+                                        SongMenus[htSongMenus(SongMenu)].ToggleVideoFull();
+                                }
                             }
                             break;
 
@@ -178,6 +186,8 @@ namespace Vocaluxe.Screens
                             break;
 
                         case Keys.Space:
+                            if (SongMenus[htSongMenus(SongMenu)].IsVideoFull())
+                                SongMenus[htSongMenus(SongMenu)].ToggleVideoFull();
                             ToggleSongOptions(ESongOptionsView.General);
                             break;
 
@@ -191,6 +201,8 @@ namespace Vocaluxe.Screens
                             else
                             {
                                 _SearchActive = true;
+                                if (SongMenus[htSongMenus(SongMenu)].IsVideoFull())
+                                    SongMenus[htSongMenus(SongMenu)].ToggleVideoFull();
                             }
                             break;
 
@@ -219,6 +231,8 @@ namespace Vocaluxe.Screens
                                 else
                                 {
                                     _SearchActive = true;
+                                    if (SongMenus[htSongMenus(SongMenu)].IsVideoFull())
+                                        SongMenus[htSongMenus(SongMenu)].ToggleVideoFull();
                                 }
                             }
                             break;
@@ -229,18 +243,25 @@ namespace Vocaluxe.Screens
                             {
                                 SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
                             }
+                            else if (CSongs.Category == -1 && KeyEvent.Mod == Modifier.Ctrl)
+                            {
+                                SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
+                            }
                             break;
 
                         //TODO: Delete that!
                         case Keys.S:
                             if (CSongs.NumVisibleSongs > 0)
+                            {
                                 StartMedleySong(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
+                            }
                             break;
+
                     }
                 }
             }
 
-            else
+            else if(!SongMenus[htSongMenus(SongMenu)].IsVideoFull())
             {
                 switch (KeyEvent.Key)
                 {
@@ -265,6 +286,13 @@ namespace Vocaluxe.Screens
                                 SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
                             }
                         }
+                        else if (Buttons[htButtons(ButtonOptionsRandom)].Selected)
+                        {
+                            if (CSongs.Category == -1)
+                            {
+                                SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
+                            }
+                        }                        
                         else if (Buttons[htButtons(ButtonOptionsSingAll)].Selected)
                         {
                             StartRandomAllSongs();
@@ -287,105 +315,134 @@ namespace Vocaluxe.Screens
                 }
             }
 
+            if (KeyEvent.Key == Keys.V)
+            {
+                if (CSongs.Category != -1)
+                {
+                    SongMenus[htSongMenus(SongMenu)].ToggleVideoFull();
+                }
+            }
+
             return true;
         }
 
         public override bool HandleMouse(MouseEvent MouseEvent)
         {
-            base.HandleMouse(MouseEvent);
-
-            if (Playlists[htPlaylists(Playlist)].Visible && Playlists[htPlaylists(Playlist)].IsMouseOver(MouseEvent))
+            if (!SongMenus[htSongMenus(SongMenu)].IsVideoFull())
             {
-                _PlaylistActive = true;
-                Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
-                SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
-            }
-            else if (CHelper.IsInBounds(SongMenus[htSongMenus(SongMenu)].Rect, MouseEvent.X, MouseEvent.Y))
-            {
-                _PlaylistActive = false;
-                Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
-                SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
-            }
+                base.HandleMouse(MouseEvent);
 
-            if (Playlists[htPlaylists(Playlist)].Visible && Playlists[htPlaylists(Playlist)].HandleMouse(MouseEvent))
-                return true;
-
-            if (!_SongOptionsActive)
-            {
-
-                if ((MouseEvent.RB) && (CSongs.Category < 0))
+                if (Playlists[htPlaylists(Playlist)].Visible && Playlists[htPlaylists(Playlist)].IsMouseOver(MouseEvent))
                 {
-                    CGraphics.FadeTo(EScreens.ScreenMain);
+                    _PlaylistActive = true;
+                    Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
+                    SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
                 }
-                else if (MouseEvent.RB && _SongOptionsActive)
-                    ToggleSongOptions(ESongOptionsView.None);
-
-                if (MouseEvent.MB && CSongs.Category != -1)
+                else if (CHelper.IsInBounds(SongMenus[htSongMenus(SongMenu)].Rect, MouseEvent.X, MouseEvent.Y))
                 {
-                    SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
+                    _PlaylistActive = false;
+                    Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
+                    SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
                 }
-                else
-                    SongMenus[htSongMenus(SongMenu)].HandleMouse(ref MouseEvent);
 
-                if (MouseEvent.LB && CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
+                if (Playlists[htPlaylists(Playlist)].Visible && Playlists[htPlaylists(Playlist)].HandleMouse(MouseEvent))
+                    return true;
+
+                if (!_SongOptionsActive)
                 {
-                    if (SongMenus[htSongMenus(SongMenu)].GetSelectedSong() != -1 && !_SongOptionsActive)
+
+                    if ((MouseEvent.RB) && (CSongs.Category < 0))
                     {
-                        ToggleSongOptions(ESongOptionsView.Song);
+                        CGraphics.FadeTo(EScreens.ScreenMain);
                     }
-                }
-                else if (MouseEvent.LB && IsMouseOver(MouseEvent))
-                {
-                    if (Buttons[htButtons(ButtonOpenOptions)].Selected)
-                    {
-                        ToggleSongOptions(ESongOptionsView.General);
-                    }
-                }
-            }
-
-            else
-            {
-                if (MouseEvent.LB && IsMouseOver(MouseEvent))
-                {
-                    if (Buttons[htButtons(ButtonOptionsClose)].Selected)
-                    {
+                    else if (MouseEvent.RB && _SongOptionsActive)
                         ToggleSongOptions(ESongOptionsView.None);
-                    }
-                    else if (Buttons[htButtons(ButtonOptionsSing)].Selected)
+
+                    if (MouseEvent.MB && CSongs.Category != -1)
                     {
-                        ToggleSongOptions(ESongOptionsView.None);
-                        StartSong(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
+                        Console.WriteLine("MB pressed");
+                        SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
                     }
-                    else if (Buttons[htButtons(ButtonOptionsPlaylist)].Selected)
+                    else if (MouseEvent.MB && CSongs.Category == -1)
                     {
-                        OpenAndAddPlaylistAction();
+                        Console.WriteLine("MB pressed");
+                        SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
                     }
-                    else if (Buttons[htButtons(ButtonOptionsRandom)].Selected)
+                    else
+                        SongMenus[htSongMenus(SongMenu)].HandleMouse(ref MouseEvent);
+
+                    if (MouseEvent.LB && CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
                     {
-                        if (CSongs.Category != -1)
+                        if (SongMenus[htSongMenus(SongMenu)].GetSelectedSong() != -1 && !_SongOptionsActive)
                         {
-                            SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
+                            ToggleSongOptions(ESongOptionsView.Song);
                         }
                     }
-                    else if (Buttons[htButtons(ButtonOptionsSingAll)].Selected)
+                    else if (MouseEvent.LB && IsMouseOver(MouseEvent))
                     {
-                        ToggleSongOptions(ESongOptionsView.None);
-                        StartRandomAllSongs();
-                    }
-                    else if (Buttons[htButtons(ButtonOptionsSingAllVisible)].Selected)
-                    {
-                        ToggleSongOptions(ESongOptionsView.None);
-                        StartRandomVisibleSongs();
-                    }
-                    else if (Buttons[htButtons(ButtonOptionsOpenPlaylist)].Selected)
-                    {
-                        OpenPlaylistAction();
+                        if (Buttons[htButtons(ButtonOpenOptions)].Selected)
+                        {
+                            ToggleSongOptions(ESongOptionsView.General);
+                        }
                     }
                 }
-                if (MouseEvent.RB)
+
+                else
                 {
-                    ToggleSongOptions(ESongOptionsView.None);
+                    if (MouseEvent.LB && IsMouseOver(MouseEvent))
+                    {
+                        if (Buttons[htButtons(ButtonOptionsClose)].Selected)
+                        {
+                            ToggleSongOptions(ESongOptionsView.None);
+                        }
+                        else if (Buttons[htButtons(ButtonOptionsSing)].Selected)
+                        {
+                            ToggleSongOptions(ESongOptionsView.None);
+                            StartSong(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
+                        }
+                        else if (Buttons[htButtons(ButtonOptionsPlaylist)].Selected)
+                        {
+                            OpenAndAddPlaylistAction();
+                        }
+                        else if (Buttons[htButtons(ButtonOptionsRandom)].Selected)
+                        {
+                            if (CSongs.Category != -1)
+                            {
+                                SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
+                            }
+                        }
+                        else if (Buttons[htButtons(ButtonOptionsRandomCategory)].Selected)
+                        {
+                            if (CSongs.Category == -1)
+                            {
+                                SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
+                            }
+                        }
+                        else if (Buttons[htButtons(ButtonOptionsSingAll)].Selected)
+                        {
+                            ToggleSongOptions(ESongOptionsView.None);
+                            StartRandomAllSongs();
+                        }
+                        else if (Buttons[htButtons(ButtonOptionsSingAllVisible)].Selected)
+                        {
+                            ToggleSongOptions(ESongOptionsView.None);
+                            StartRandomVisibleSongs();
+                        }
+                        else if (Buttons[htButtons(ButtonOptionsOpenPlaylist)].Selected)
+                        {
+                            OpenPlaylistAction();
+                        }
+                    }
+                    if (MouseEvent.RB)
+                    {
+                        ToggleSongOptions(ESongOptionsView.None);
+                    }
                 }
+            }
+            else
+            {
+                if(MouseEvent.RB || MouseEvent.LB)
+                    SongMenus[htSongMenus(SongMenu)].ToggleVideoFull();
             }
 
             return true;
@@ -653,6 +710,7 @@ namespace Vocaluxe.Screens
                 else if (view == ESongOptionsView.General)
                 {
                     Buttons[htButtons(ButtonOptionsRandom)].Visible = CSongs.Category != -1;
+                    Buttons[htButtons(ButtonOptionsRandomCategory)].Visible = CSongs.Category == -1;
                     Buttons[htButtons(ButtonOptionsSingAll)].Visible = true;
                     Buttons[htButtons(ButtonOptionsSingAllVisible)].Visible = CSongs.Category != -1;
 
@@ -687,6 +745,7 @@ namespace Vocaluxe.Screens
                 Buttons[htButtons(ButtonOptionsSing)].Visible = false;
                 Buttons[htButtons(ButtonOptionsPlaylist)].Visible = false;
                 Buttons[htButtons(ButtonOptionsRandom)].Visible = false;
+                Buttons[htButtons(ButtonOptionsRandomCategory)].Visible = false;
                 Buttons[htButtons(ButtonOptionsSingAll)].Visible = false;
                 Buttons[htButtons(ButtonOptionsSingAllVisible)].Visible = false;
                 Buttons[htButtons(ButtonOptionsOpenPlaylist)].Visible = false;

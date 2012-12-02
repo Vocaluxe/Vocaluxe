@@ -98,6 +98,11 @@ namespace Vocaluxe.Menu.SongMenu
             return _SongMenu.GetSelectedCategory();
         }
 
+        public void SetSelectedCategory(int CategoryNr)
+        {
+            _SongMenu.SetSelectedCategory(CategoryNr);
+        }
+
         public int GetActualSelection()
         {
             return _SongMenu.GetActualSelection();
@@ -136,6 +141,16 @@ namespace Vocaluxe.Menu.SongMenu
         public void SetSmallView(bool SmallView)
         {
             _SongMenu.SetSmallView(SmallView);
+        }
+
+        public void ToggleVideoFull()
+        {
+            _SongMenu.ToggleVideoFull();
+        }
+
+        public bool IsVideoFull()
+        {
+            return _SongMenu.IsVideoFull();
         }
 
         #endregion ISongMenu

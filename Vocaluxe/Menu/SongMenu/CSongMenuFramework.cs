@@ -484,6 +484,9 @@ namespace Vocaluxe.Menu.SongMenu
             _timer.Stop();
             _timer.Reset();
             _SelectedInternal = _SelectedPending;
+
+            if (IsVideoFull())
+                ToggleVideoFull();
         }
 
         public virtual void HandleInput(ref KeyEvent KeyEvent)
@@ -536,6 +539,12 @@ namespace Vocaluxe.Menu.SongMenu
                 return;
         }
 
+        public virtual void SetSelectedCategory(int CategoryNr)
+        {
+            if (!_Initialized)
+                return;
+        }
+
         public virtual void SetSmallView(bool SmallView)
         {
             if (!_Initialized)
@@ -543,6 +552,17 @@ namespace Vocaluxe.Menu.SongMenu
         }
 
         public virtual bool IsSmallView()
+        {
+            return false;
+        }
+
+        public virtual void ToggleVideoFull()
+        {
+            if (!_Initialized)
+                return;
+        }
+
+        public virtual bool IsVideoFull()
         {
             return false;
         }

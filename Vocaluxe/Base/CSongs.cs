@@ -56,6 +56,7 @@ namespace Vocaluxe.Base
         private static int _CoverLoadIndex = -1;
         private static int _CatIndex = -1;
         private static List<CCategory> _Categories = new List<CCategory>();
+        private static List<CCategory> _CategoriesForRandom = new List<CCategory>();
 
         private static Stopwatch _CoverLoadTimer = new Stopwatch();
 
@@ -273,6 +274,35 @@ namespace Vocaluxe.Base
         {
             _SongsForRandom.Clear();
             _SongsForRandom.AddRange(VisibleSongs);
+        }
+
+        public static int GetRandomCategory()
+        {
+            if (_CategoriesForRandom.Count == 0)
+                UpdateRandomCategoryList();
+
+            if (_CategoriesForRandom.Count == 0)
+                return -1;
+
+            CCategory category = _CategoriesForRandom[CGame.Rand.Next(0, _CategoriesForRandom.Count - 1)];
+            _CategoriesForRandom.Remove(category);
+            return GetCategoryNumber(category);
+        }
+
+        public static void UpdateRandomCategoryList()
+        {
+            _CategoriesForRandom.Clear();
+            _CategoriesForRandom.AddRange(Categories);
+        }
+
+        private static int GetCategoryNumber(CCategory category)
+        {
+            for (int i = 0; i < Categories.Length; i++)
+            {
+                if (Categories[i] == category)
+                    return i;
+            }
+            return -1;
         }
 
         public static CSong[] AllSongs
