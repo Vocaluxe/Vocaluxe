@@ -114,7 +114,11 @@ namespace Vocaluxe.Screens
                 }
 
                 Playlists[htPlaylists(Playlist)].HandleInput(KeyEvent);
-                    return true;
+
+                if (CPlaylists.NumPlaylists != SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].NumValues)
+                    UpdatePlaylistNames();
+
+                return true;
             }
 
             if (!_SongOptionsActive)
@@ -648,9 +652,24 @@ namespace Vocaluxe.Screens
                 {
                     Buttons[htButtons(ButtonOptionsRandom)].Visible = CSongs.Category != -1;
                     Buttons[htButtons(ButtonOptionsSingAll)].Visible = true;
-                    Buttons[htButtons(ButtonOptionsSingAllVisible)].Visible = true;
-                    Buttons[htButtons(ButtonOptionsOpenPlaylist)].Visible = true;
-                    SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].Visible = true;
+                    Buttons[htButtons(ButtonOptionsSingAllVisible)].Visible = CSongs.Category != -1;
+
+                    if (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].NumValues > 0)
+                    {
+                        Buttons[htButtons(ButtonOptionsOpenPlaylist)].Visible = true;
+                        SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].Visible = true;
+                        SetInteractionToButton(Buttons[htButtons(ButtonOptionsOpenPlaylist)]);
+                    }
+                    else
+                    {
+                        Buttons[htButtons(ButtonOptionsOpenPlaylist)].Visible = false;
+                        SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].Visible = false;
+
+                        if (Buttons[htButtons(ButtonOptionsRandom)].Visible)
+                            SetInteractionToButton(Buttons[htButtons(ButtonOptionsRandom)]);
+                        else
+                            SetInteractionToButton(Buttons[htButtons(ButtonOptionsSingAll)]);
+                    }
                 }
                 Buttons[htButtons(ButtonOptionsClose)].Visible = true;
                 Texts[htTexts(TextOptionsTitle)].Visible = true;
