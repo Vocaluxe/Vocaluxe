@@ -655,6 +655,7 @@ namespace Vocaluxe.Screens
                 Buttons[htButtons(ButtonOptionsClose)].Visible = true;
                 Texts[htTexts(TextOptionsTitle)].Visible = true;
                 Statics[htStatics(StaticOptionsBG)].Visible = true;
+                Buttons[htButtons(ButtonOpenOptions)].Visible = false;
             }
             else 
             {
@@ -668,6 +669,7 @@ namespace Vocaluxe.Screens
                 Buttons[htButtons(ButtonOptionsSingAll)].Visible = false;
                 Buttons[htButtons(ButtonOptionsSingAllVisible)].Visible = false;
                 Buttons[htButtons(ButtonOptionsOpenPlaylist)].Visible = false;
+                Buttons[htButtons(ButtonOpenOptions)].Visible = true;
                 Texts[htTexts(TextOptionsTitle)].Visible = false;
                 Statics[htStatics(StaticOptionsBG)].Visible = false;
             }
