@@ -33,9 +33,6 @@ namespace Vocaluxe.Menu.SongMenu
         bool IsVisible();
         void SetVisible(bool Visible);
 
-        void ToggleVideoFull();
-        bool IsVideoFull();
-
         bool IsSmallView();
         void SetSmallView(bool SmallView);
 

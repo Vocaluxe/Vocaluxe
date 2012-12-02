@@ -147,9 +147,7 @@ namespace Vocaluxe.Screens
                     switch (KeyEvent.Key)
                     {
                         case Keys.Escape:
-                            if (SongMenus[htSongMenus(SongMenu)].IsVideoFull())
-                                SongMenus[htSongMenus(SongMenu)].ToggleVideoFull();
-                            else if (CSongs.Category < 0 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF)
+                            if (CSongs.Category < 0 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF)
                                 CGraphics.FadeTo(EScreens.ScreenMain);
                             break;
 
@@ -157,11 +155,7 @@ namespace Vocaluxe.Screens
                             if (CSongs.NumVisibleSongs > 0)
                             {
                                 if (SongMenus[htSongMenus(SongMenu)].GetSelectedSong() != -1 && !_SongOptionsActive)
-                                {
                                     ToggleSongOptions(ESongOptionsView.Song);
-                                    if (SongMenus[htSongMenus(SongMenu)].IsVideoFull())
-                                        SongMenus[htSongMenus(SongMenu)].ToggleVideoFull();
-                                }
                             }
                             break;
 
@@ -186,8 +180,6 @@ namespace Vocaluxe.Screens
                             break;
 
                         case Keys.Space:
-                            if (SongMenus[htSongMenus(SongMenu)].IsVideoFull())
-                                SongMenus[htSongMenus(SongMenu)].ToggleVideoFull();
                             ToggleSongOptions(ESongOptionsView.General);
                             break;
 
@@ -201,8 +193,6 @@ namespace Vocaluxe.Screens
                             else
                             {
                                 _SearchActive = true;
-                                if (SongMenus[htSongMenus(SongMenu)].IsVideoFull())
-                                    SongMenus[htSongMenus(SongMenu)].ToggleVideoFull();
                             }
                             break;
 
@@ -231,8 +221,6 @@ namespace Vocaluxe.Screens
                                 else
                                 {
                                     _SearchActive = true;
-                                    if (SongMenus[htSongMenus(SongMenu)].IsVideoFull())
-                                        SongMenus[htSongMenus(SongMenu)].ToggleVideoFull();
                                 }
                             }
                             break;
@@ -261,7 +249,7 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            else if(!SongMenus[htSongMenus(SongMenu)].IsVideoFull())
+            else
             {
                 switch (KeyEvent.Key)
                 {
@@ -315,134 +303,118 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            if (KeyEvent.Key == Keys.V)
-            {
-                if (CSongs.Category != -1)
-                {
-                    SongMenus[htSongMenus(SongMenu)].ToggleVideoFull();
-                }
-            }
-
             return true;
         }
 
         public override bool HandleMouse(MouseEvent MouseEvent)
         {
-            if (!SongMenus[htSongMenus(SongMenu)].IsVideoFull())
+            base.HandleMouse(MouseEvent);
+
+            if (Playlists[htPlaylists(Playlist)].Visible && Playlists[htPlaylists(Playlist)].IsMouseOver(MouseEvent))
             {
-                base.HandleMouse(MouseEvent);
+                _PlaylistActive = true;
+                Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
+                SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
+            }
+            else if (CHelper.IsInBounds(SongMenus[htSongMenus(SongMenu)].Rect, MouseEvent.X, MouseEvent.Y))
+            {
+                _PlaylistActive = false;
+                Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
+                SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
+            }
 
-                if (Playlists[htPlaylists(Playlist)].Visible && Playlists[htPlaylists(Playlist)].IsMouseOver(MouseEvent))
+            if (Playlists[htPlaylists(Playlist)].Visible && Playlists[htPlaylists(Playlist)].HandleMouse(MouseEvent))
+                return true;
+
+            if (!_SongOptionsActive)
+            {
+
+                if ((MouseEvent.RB) && (CSongs.Category < 0))
                 {
-                    _PlaylistActive = true;
-                    Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
-                    SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
+                    CGraphics.FadeTo(EScreens.ScreenMain);
                 }
-                else if (CHelper.IsInBounds(SongMenus[htSongMenus(SongMenu)].Rect, MouseEvent.X, MouseEvent.Y))
+                else if (MouseEvent.RB && _SongOptionsActive)
+                    ToggleSongOptions(ESongOptionsView.None);
+
+                if (MouseEvent.MB && CSongs.Category != -1)
                 {
-                    _PlaylistActive = false;
-                    Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
-                    SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
+                    Console.WriteLine("MB pressed");
+                    SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
                 }
-
-                if (Playlists[htPlaylists(Playlist)].Visible && Playlists[htPlaylists(Playlist)].HandleMouse(MouseEvent))
-                    return true;
-
-                if (!_SongOptionsActive)
+                else if (MouseEvent.MB && CSongs.Category == -1)
                 {
-
-                    if ((MouseEvent.RB) && (CSongs.Category < 0))
-                    {
-                        CGraphics.FadeTo(EScreens.ScreenMain);
-                    }
-                    else if (MouseEvent.RB && _SongOptionsActive)
-                        ToggleSongOptions(ESongOptionsView.None);
-
-                    if (MouseEvent.MB && CSongs.Category != -1)
-                    {
-                        Console.WriteLine("MB pressed");
-                        SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
-                    }
-                    else if (MouseEvent.MB && CSongs.Category == -1)
-                    {
-                        Console.WriteLine("MB pressed");
-                        SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
-                    }
-                    else
-                        SongMenus[htSongMenus(SongMenu)].HandleMouse(ref MouseEvent);
-
-                    if (MouseEvent.LB && CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
-                    {
-                        if (SongMenus[htSongMenus(SongMenu)].GetSelectedSong() != -1 && !_SongOptionsActive)
-                        {
-                            ToggleSongOptions(ESongOptionsView.Song);
-                        }
-                    }
-                    else if (MouseEvent.LB && IsMouseOver(MouseEvent))
-                    {
-                        if (Buttons[htButtons(ButtonOpenOptions)].Selected)
-                        {
-                            ToggleSongOptions(ESongOptionsView.General);
-                        }
-                    }
+                    Console.WriteLine("MB pressed");
+                    SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
                 }
-
                 else
+                    SongMenus[htSongMenus(SongMenu)].HandleMouse(ref MouseEvent);
+
+                if (MouseEvent.LB && CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
                 {
-                    if (MouseEvent.LB && IsMouseOver(MouseEvent))
+                    if (SongMenus[htSongMenus(SongMenu)].GetSelectedSong() != -1 && !_SongOptionsActive)
                     {
-                        if (Buttons[htButtons(ButtonOptionsClose)].Selected)
-                        {
-                            ToggleSongOptions(ESongOptionsView.None);
-                        }
-                        else if (Buttons[htButtons(ButtonOptionsSing)].Selected)
-                        {
-                            ToggleSongOptions(ESongOptionsView.None);
-                            StartSong(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
-                        }
-                        else if (Buttons[htButtons(ButtonOptionsPlaylist)].Selected)
-                        {
-                            OpenAndAddPlaylistAction();
-                        }
-                        else if (Buttons[htButtons(ButtonOptionsRandom)].Selected)
-                        {
-                            if (CSongs.Category != -1)
-                            {
-                                SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
-                            }
-                        }
-                        else if (Buttons[htButtons(ButtonOptionsRandomCategory)].Selected)
-                        {
-                            if (CSongs.Category == -1)
-                            {
-                                SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
-                            }
-                        }
-                        else if (Buttons[htButtons(ButtonOptionsSingAll)].Selected)
-                        {
-                            ToggleSongOptions(ESongOptionsView.None);
-                            StartRandomAllSongs();
-                        }
-                        else if (Buttons[htButtons(ButtonOptionsSingAllVisible)].Selected)
-                        {
-                            ToggleSongOptions(ESongOptionsView.None);
-                            StartRandomVisibleSongs();
-                        }
-                        else if (Buttons[htButtons(ButtonOptionsOpenPlaylist)].Selected)
-                        {
-                            OpenPlaylistAction();
-                        }
+                        ToggleSongOptions(ESongOptionsView.Song);
                     }
-                    if (MouseEvent.RB)
+                }
+                else if (MouseEvent.LB && IsMouseOver(MouseEvent))
+                {
+                    if (Buttons[htButtons(ButtonOpenOptions)].Selected)
                     {
-                        ToggleSongOptions(ESongOptionsView.None);
+                        ToggleSongOptions(ESongOptionsView.General);
                     }
                 }
             }
+
             else
             {
-                if(MouseEvent.RB || MouseEvent.LB)
-                    SongMenus[htSongMenus(SongMenu)].ToggleVideoFull();
+                if (MouseEvent.LB && IsMouseOver(MouseEvent))
+                {
+                    if (Buttons[htButtons(ButtonOptionsClose)].Selected)
+                    {
+                        ToggleSongOptions(ESongOptionsView.None);
+                    }
+                    else if (Buttons[htButtons(ButtonOptionsSing)].Selected)
+                    {
+                        ToggleSongOptions(ESongOptionsView.None);
+                        StartSong(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
+                    }
+                    else if (Buttons[htButtons(ButtonOptionsPlaylist)].Selected)
+                    {
+                        OpenAndAddPlaylistAction();
+                    }
+                    else if (Buttons[htButtons(ButtonOptionsRandom)].Selected)
+                    {
+                        if (CSongs.Category != -1)
+                        {
+                            SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
+                        }
+                    }
+                    else if (Buttons[htButtons(ButtonOptionsRandomCategory)].Selected)
+                    {
+                        if (CSongs.Category == -1)
+                        {
+                            SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
+                        }
+                    }
+                    else if (Buttons[htButtons(ButtonOptionsSingAll)].Selected)
+                    {
+                        ToggleSongOptions(ESongOptionsView.None);
+                        StartRandomAllSongs();
+                    }
+                    else if (Buttons[htButtons(ButtonOptionsSingAllVisible)].Selected)
+                    {
+                        ToggleSongOptions(ESongOptionsView.None);
+                        StartRandomVisibleSongs();
+                    }
+                    else if (Buttons[htButtons(ButtonOptionsOpenPlaylist)].Selected)
+                    {
+                        OpenPlaylistAction();
+                    }
+                }
+                if (MouseEvent.RB)
+                {
+                    ToggleSongOptions(ESongOptionsView.None);
+                }
             }
 
             return true;
