@@ -8,6 +8,7 @@ namespace Vocaluxe.Menu
 {
     interface IMenuElement
     {
+        string GetThemeName();
         bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex);
         bool SaveTheme(XmlWriter writer);
 

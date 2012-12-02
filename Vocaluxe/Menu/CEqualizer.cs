@@ -47,6 +47,11 @@ namespace Vocaluxe.Menu
         public bool Visible;
         public bool ScreenHandles;
 
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
         private float[] _Bars;
 
         public CEqualizer()

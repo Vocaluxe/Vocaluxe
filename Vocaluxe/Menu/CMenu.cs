@@ -37,6 +37,7 @@ namespace Vocaluxe.Menu
         private List<CSingNotes> _SingNotes;
         private List<CNameSelection> _NameSelections;
         private List<CEqualizer> _Equalizers;
+        private List<CPlaylist> _Playlists;
 
         private Hashtable _htBackgrounds;
         private Hashtable _htStatics;
@@ -48,6 +49,7 @@ namespace Vocaluxe.Menu
         private Hashtable _htSingNotes;
         private Hashtable _htNameSelections;
         private Hashtable _htEqualizers;
+        private Hashtable _htPlaylists;
 
 
         private int _PrevMouseX;
@@ -70,6 +72,7 @@ namespace Vocaluxe.Menu
         protected string[] _ThemeSingNotes;
         protected string[] _ThemeNameSelections;
         protected string[] _ThemeEqualizers;
+        protected string[] _ThemePlaylists;
 
         protected SRectF _ScreenArea;
 
@@ -103,6 +106,7 @@ namespace Vocaluxe.Menu
             _SingNotes = new List<CSingNotes>();
             _NameSelections = new List<CNameSelection>();
             _Equalizers = new List<CEqualizer>();
+            _Playlists = new List<CPlaylist>();
 
             _htBackgrounds = new Hashtable();
             _htStatics = new Hashtable();
@@ -114,6 +118,7 @@ namespace Vocaluxe.Menu
             _htSingNotes = new Hashtable();
             _htNameSelections = new Hashtable();
             _htEqualizers = new Hashtable();
+            _htPlaylists = new Hashtable();
 
             _PrevMouseX = 0;
             _PrevMouseY = 0;
@@ -135,6 +140,7 @@ namespace Vocaluxe.Menu
             _ThemeSingNotes = null;
             _ThemeNameSelections = null;
             _ThemeEqualizers = null;
+            _ThemePlaylists = null;
 
         }
         #region ThemeHandler
@@ -333,6 +339,22 @@ namespace Vocaluxe.Menu
                         }
                     }
                 }
+
+                if (_ThemePlaylists != null)
+                {
+                    for (int i = 0; i < _ThemePlaylists.Length; i++)
+                    {
+                        CPlaylist pls = new CPlaylist();
+                        if (pls.LoadTheme("//root/" + _ThemeName, _ThemePlaylists[i], navigator, SkinIndex))
+                        {
+                            _htPlaylists.Add(_ThemePlaylists[i], AddPlaylist(pls));
+                        }
+                        else
+                        {
+                            CLog.LogError("Can't load Playlist \"" + _ThemePlaylists[i] + "\" in screen " + _ThemeName);
+                        }
+                    }
+                }
             }
             else
             {
@@ -414,6 +436,12 @@ namespace Vocaluxe.Menu
                 _Equalizers[i].SaveTheme(writer);
             }
 
+            //Playlists
+            for (int i = 0; i < _Playlists.Count; i++)
+            {
+                _Playlists[i].SaveTheme(writer);
+            }
+
             writer.WriteEndElement();
 
             // End of File
@@ -475,6 +503,11 @@ namespace Vocaluxe.Menu
             {
                 eq.ReloadTextures();
             }
+
+            foreach (CPlaylist pls in _Playlists)
+            {
+                pls.ReloadTextures();
+            }
         }
 
         public virtual void UnloadTextures()
@@ -522,6 +555,10 @@ namespace Vocaluxe.Menu
             foreach (CNameSelection ns in _NameSelections)
             {
                 ns.UnloadTextures();
+            }
+            foreach (CPlaylist pls in _Playlists)
+            {
+                pls.UnloadTextures();
             }
 
             foreach (CEqualizer eq in _Equalizers)
@@ -588,6 +625,11 @@ namespace Vocaluxe.Menu
         public List<CEqualizer> GetEqualizers()
         {
             return _Equalizers;
+        }
+
+        public List<CPlaylist> GetPlaylists()
+        {
+            return _Playlists;
         }
         #endregion GetLists
 
@@ -670,6 +712,14 @@ namespace Vocaluxe.Menu
             get
             {
                 return _Equalizers.ToArray();
+            }
+        }
+
+        public CPlaylist[] Playlists
+        {
+            get
+            {
+                return _Playlists.ToArray();
             }
         }
         #endregion Get Arrays
@@ -804,6 +854,19 @@ namespace Vocaluxe.Menu
                 throw;
             }
         }
+
+        public int htPlaylists(string key)
+        {
+            try
+            {
+                return (int)_htPlaylists[key];
+            }
+            catch (Exception)
+            {
+                CLog.LogError("Can't find Playlist Element \"" + key + "\" in Screen " + _ThemeName);
+                throw;
+            }
+        }
         #endregion Hashtables
         #endregion ElementHandler
 
@@ -815,22 +878,22 @@ namespace Vocaluxe.Menu
                 if (KeyEvent.Key == Keys.Left)
                 {
                     if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != Modifier.Shift)
-                        PrevElement();
+                        KeyEvent.Handled = PrevElement();
                     else
-                        _NextInteraction(KeyEvent);
+                        KeyEvent.Handled = _NextInteraction(KeyEvent);
                 }
 
                 if (KeyEvent.Key == Keys.Right)
                 {
                     if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != Modifier.Shift)
-                        NextElement();
+                        KeyEvent.Handled = NextElement();
                     else
-                        _NextInteraction(KeyEvent);
+                        KeyEvent.Handled = _NextInteraction(KeyEvent);
                 }
 
                 if (KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down)
                 {
-                    _NextInteraction(KeyEvent);
+                    KeyEvent.Handled = _NextInteraction(KeyEvent);
                 }
             }
             else
@@ -1063,7 +1126,8 @@ namespace Vocaluxe.Menu
                     _Interactions[i].Type == EType.TNameSelection ||
                     _Interactions[i].Type == EType.TText ||
                     _Interactions[i].Type == EType.TSongMenu ||
-                    _Interactions[i].Type == EType.TEqualizer))
+                    _Interactions[i].Type == EType.TEqualizer ||
+                    _Interactions[i].Type == EType.TPlaylist))
                 {
                     ZSort zs = new ZSort();
                     zs.ID = i;
@@ -1156,6 +1220,13 @@ namespace Vocaluxe.Menu
             _AddInteraction(_Equalizers.Count - 1, EType.TEqualizer);
             return _Equalizers.Count - 1;
         }
+
+        public int AddPlaylist(CPlaylist pls)
+        {
+            _Playlists.Add(pls);
+            _AddInteraction(_Playlists.Count - 1, EType.TPlaylist);
+            return _Playlists.Count - 1;
+        }
         #endregion Elements
 
         #region InteractionHandling
@@ -1171,16 +1242,28 @@ namespace Vocaluxe.Menu
                 _PrevInteraction();
         }
 
-        public void NextElement()
+        /// <summary>
+        /// Selects the next element in a menu interaction.
+        /// </summary>
+        /// <returns>True if the next element is selected. False if either there is no next element or the interaction does not provide such a method.</returns>
+        public bool NextElement()
         {
             if (_Interactions.Count > 0)
-                _NextElement();
+                return _NextElement();
+
+            return false;
         }
 
-        public void PrevElement()
+        /// <summary>
+        /// Selects the previous element in a menu interaction.
+        /// </summary>
+        /// <returns>True if the previous element is selected. False if either there is no next element or the interaction does not provide such a method.</returns>
+        public bool PrevElement()
         {
             if (_Interactions.Count > 0)
-                _PrevElement();
+                return _PrevElement();
+
+            return false;
         }
 
         public bool SetInteractionToButton(CButton button)
@@ -1308,6 +1391,10 @@ namespace Vocaluxe.Menu
                     if (CHelper.IsInBounds(_Equalizers[interact.Num].Rect, x, y))
                         return true;
                     break;
+                case EType.TPlaylist:
+                    if (CHelper.IsInBounds(_Playlists[interact.Num].Rect, x, y))
+                        return true;
+                    break;
             } 
             return false;
         }
@@ -1332,6 +1419,8 @@ namespace Vocaluxe.Menu
                     return _NameSelections[interact.Num].Rect.Z;
                 case EType.TEqualizer:
                     return _Equalizers[interact.Num].Rect.Z;
+                case EType.TPlaylist:
+                    return _Playlists[interact.Num].Rect.Z;
             }
             return CSettings.zFar;
         }
@@ -1363,6 +1452,9 @@ namespace Vocaluxe.Menu
 
                 case EType.TEqualizer:
                     return _Equalizers[_Interactions[interaction].Num].Rect.Z;
+
+                case EType.TPlaylist:
+                    return _Playlists[_Interactions[interaction].Num].Rect.Z;
             }
 
             return CSettings.zFar;
@@ -1422,7 +1514,12 @@ namespace Vocaluxe.Menu
             _SetSelected();
         }
 
-        private void _NextInteraction(KeyEvent Key)
+        /// <summary>
+        /// Selects the next best interaction in a menu.
+        /// </summary>
+        /// <param name="Key"></param>
+        /// <returns></returns>
+        private bool _NextInteraction(KeyEvent Key)
         {
             KeyEvent[] Directions = new KeyEvent[4];
             float[] Distances = new float[4];
@@ -1488,8 +1585,11 @@ namespace Vocaluxe.Menu
                     _Selection = element;
                     _SetSelected();
                     _SetHighlighted(_Selection);
+
+                    return true;
                 }
             }
+            return false;
         }
 
         private int _GetNextElement(KeyEvent Key, out float Distance, out int Stage)
@@ -1581,22 +1681,22 @@ namespace Vocaluxe.Menu
             switch (Key.Key)
             {
                 case Keys.Up:
-                    if (vector.Y < 0f && (targetRect.X + targetRect.W > actualRect.X || actualRect.X + actualRect.W > targetRect.X))
+                    if (vector.Y < 0f && (targetRect.X + targetRect.W > actualRect.X && actualRect.X + actualRect.W > targetRect.X))
                         inDirection = true;
                     break;
 
                 case Keys.Down:
-                    if (vector.Y > 0f && (targetRect.X + targetRect.W > actualRect.X || actualRect.X + actualRect.W > targetRect.X))
+                    if (vector.Y > 0f && (targetRect.X + targetRect.W > actualRect.X && actualRect.X + actualRect.W > targetRect.X))
                         inDirection = true;
                     break;
 
                 case Keys.Left:
-                    if (vector.X < 0f && (targetRect.Y + targetRect.H > actualRect.Y || actualRect.Y + actualRect.H > targetRect.Y))
+                    if (vector.X < 0f && (targetRect.Y + targetRect.H > actualRect.Y && actualRect.Y + actualRect.H > targetRect.Y))
                         inDirection = true;
                     break;
 
                 case Keys.Right:
-                    if (vector.X > 0f && (targetRect.Y + targetRect.H > actualRect.Y || actualRect.Y + actualRect.H > targetRect.Y))
+                    if (vector.X > 0f && (targetRect.Y + targetRect.H > actualRect.Y && actualRect.Y + actualRect.H > targetRect.Y))
                         inDirection = true;
                     break;
 
@@ -1648,16 +1748,30 @@ namespace Vocaluxe.Menu
                 return distance;
         }
 
-        private void _NextElement()
+        /// <summary>
+        /// Selects the next element in a menu interaction.
+        /// </summary>
+        /// <returns>True if the next element is selected. False if either there is no next element or the interaction does not provide such a method.</returns>
+        private bool _NextElement()
         {
             if (_Interactions[_Selection].Type == EType.TSelectSlide)
-                _SelectSlides[_Interactions[_Selection].Num].NextValue();
+                return _SelectSlides[_Interactions[_Selection].Num].NextValue();
+
+            return false;
         }
 
-        private void _PrevElement()
+        /// <summary>
+        /// Selects the previous element in a menu interaction.
+        /// </summary>
+        /// <returns>
+        /// True if the previous element is selected. False if either there is no previous element or the interaction does not provide such a method.
+        /// </returns>
+        private bool _PrevElement()
         {
             if (_Interactions[_Selection].Type == EType.TSelectSlide)
-                _SelectSlides[_Interactions[_Selection].Num].PrevValue();
+                return _SelectSlides[_Interactions[_Selection].Num].PrevValue();
+
+            return false;
         }
 
         private void _SetSelected()
@@ -1687,6 +1801,9 @@ namespace Vocaluxe.Menu
                     break;
                 case EType.TEqualizer:
                     _Equalizers[_Interactions[_Selection].Num].Selected = true;
+                    break;
+                case EType.TPlaylist:
+                    _Playlists[_Interactions[_Selection].Num].Selected = true;
                     break;
             }
         }
@@ -1719,6 +1836,9 @@ namespace Vocaluxe.Menu
                 case EType.TEqualizer:
                     _Equalizers[_Interactions[_Selection].Num].Selected = false;
                     break;
+                case EType.TPlaylist:
+                    _Playlists[_Interactions[_Selection].Num].Selected = false;
+                    break;
             }
         }
 
@@ -1750,6 +1870,9 @@ namespace Vocaluxe.Menu
                 case EType.TNameSelection:
                     //_NameSelections[_Interactions[selection].Num].Selected = true;
                     break;
+                case EType.TPlaylist:
+                    //_Playlists[_Interactions[_Selection].Num].Selected = true;
+                    break;
             }
         }
 
@@ -1780,6 +1903,9 @@ namespace Vocaluxe.Menu
                     break;
                 case EType.TNameSelection:
                     //_NameSelections[_Interactions[selection].Num].Selected = false;
+                    break;
+                case EType.TPlaylist:
+                    //_Playlists[_Interactions[_Selection].Num].Selected = true;
                     break;
             }
         }
@@ -1833,6 +1959,9 @@ namespace Vocaluxe.Menu
 
                 case EType.TEqualizer:
                     return _Equalizers[_Interactions[interaction].Num].Visible;
+
+                case EType.TPlaylist:
+                    return _Playlists[_Interactions[interaction].Num].Visible;
             }
 
             return false;
@@ -1866,6 +1995,9 @@ namespace Vocaluxe.Menu
 
                 case EType.TEqualizer:
                     return _Equalizers[_Interactions[interaction].Num].Rect;
+
+                case EType.TPlaylist:
+                    return _Playlists[_Interactions[interaction].Num].Rect;
             }
 
             return Result;
@@ -1916,6 +2048,10 @@ namespace Vocaluxe.Menu
                         //_Equalizers[_Interactions[interaction].Num].Draw();
                     }
                     break;
+
+                case EType.TPlaylist:
+                    _Playlists[_Interactions[interaction].Num].Draw();
+                    break;
                 
                 //TODO:
                 //case EType.TLyric:
@@ -1960,6 +2096,10 @@ namespace Vocaluxe.Menu
                     case EType.TNameSelection:
                         _NameSelections[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
+
+                    case EType.TPlaylist:
+                        _Playlists[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
+                        break;
                 }
             }
         }      
@@ -1996,6 +2136,10 @@ namespace Vocaluxe.Menu
 
                     case EType.TNameSelection:
                         _NameSelections[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
+                        break;
+
+                    case EType.TPlaylist:
+                        _Playlists[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
                 }
             }

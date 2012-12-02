@@ -27,6 +27,7 @@ namespace Vocaluxe.Base
         public int SongID;
         public bool Medley;
         public bool Duet;
+        public bool ShortSong;
         public long DateTicks;
         public bool SongFinished;
     }
@@ -179,6 +180,11 @@ namespace Vocaluxe.Base
             return _GameMode.GetSong(Num);
         }
 
+        public static EGameMode GetGameMode(int Num)
+        {
+            return _GameMode.GetGameMode(Num);
+        }
+
         public static int GetNumSongs()
         {
             return _GameMode.GetNumSongs();
@@ -187,6 +193,11 @@ namespace Vocaluxe.Base
         public static CPoints GetPoints()
         {
             return _GameMode.GetPoints();
+        }
+
+        public static int NumRounds
+        {
+            get { return _GameMode.GetNumSongs(); }
         }
 
         public static int NumPlayer
@@ -214,6 +225,7 @@ namespace Vocaluxe.Base
                 _Player[i].SongID = -1;
                 _Player[i].Medley = false;
                 _Player[i].Duet = false;
+                _Player[i].ShortSong = false;
                 _Player[i].DateTicks = DateTime.Now.Ticks;
                 _Player[i].SongFinished = false;
             }

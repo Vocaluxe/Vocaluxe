@@ -6,13 +6,25 @@ using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Song
 {
-    class CNotes
+    class CNotes 
     {
         private List<CLines> _Lines = new List<CLines>();
         
         public CLines[] Lines
         {
             get { return _Lines.ToArray(); }
+        }
+
+        public CNotes()
+        {
+        }
+
+        public CNotes(CNotes notes)
+        {
+            foreach (CLines lines in notes._Lines)
+            {
+                _Lines.Add(new CLines(lines));
+            }
         }
 
         public CLines GetLines(int Index)
@@ -60,6 +72,13 @@ namespace Vocaluxe.Lib.Song
             _Lines.Clear();
         }
 
+        public void SetMedley(int StartBeat, int EndBeat)
+        {
+            foreach (CLines lines in _Lines)
+            {
+                lines.SetMedley(StartBeat, EndBeat);
+            }
+        }
     }
 
     public enum ENoteType
@@ -89,6 +108,17 @@ namespace Vocaluxe.Lib.Song
             Text = String.Empty;
             _Hit = false;
             _Perfect = false;
+        }
+
+        public CNote(CNote note)
+        {
+            _StartBeat = note._StartBeat;
+            _Duration = note._Duration;
+            _Tone = note._Tone;
+            _NoteType = note._NoteType;
+            _Text = note._Text;
+            _Hit = note._Hit;
+            _Perfect = note._Perfect;
         }
 
         public CNote(int StartBeat, int Duration, int Tone, string Text)
@@ -250,22 +280,43 @@ namespace Vocaluxe.Lib.Song
         private int _StartBeat;
         private int _EndBeat;
         private bool _PerfectLine;      // for drawing perfect line effect
+        private bool _VisibleInTimeLine;
         
         private int _MinBeat = int.MaxValue;
         private int _MaxBeat = int.MinValue;
-        private List<CNote> _Notes;
+        private List<CNote> _Notes = new List<CNote>();
 
         #region Constructors
         public CLine()
         {
-            _Notes = new List<CNote>();
             StartBeat = int.MinValue;
             EndBeat = int.MaxValue;
             _PerfectLine = false;
+            _VisibleInTimeLine = true;
+        }
+
+        public CLine(CLine line)
+        {
+            foreach (CNote note in line._Notes)
+            {
+                _Notes.Add(new CNote(note));
+            }
+            _StartBeat = line._StartBeat;
+            _EndBeat = line._EndBeat;
+            _PerfectLine = line._PerfectLine;
+            _MinBeat = line._MinBeat;
+            _MaxBeat = line._MaxBeat;
+            _VisibleInTimeLine = line._VisibleInTimeLine;
         }
         #endregion Constructors
 
         #region Properties
+        public bool VisibleInTimeLine
+        {
+            get { return _VisibleInTimeLine; }
+            set { _VisibleInTimeLine = value; }
+        }
+
         public int StartBeat
         {
             get { return _StartBeat; }
@@ -292,7 +343,7 @@ namespace Vocaluxe.Lib.Song
             set { _PerfectLine = value; }
         }
 
-        public int FirstBeat
+        public int FirstNoteBeat
         {
             get
             {
@@ -300,7 +351,7 @@ namespace Vocaluxe.Lib.Song
             }
         }
 
-        public int LastBeat
+        public int LastNoteBeat
         {
             get
             {
@@ -465,6 +516,17 @@ namespace Vocaluxe.Lib.Song
             _MaxBeat = int.MinValue;
         }
 
+        public void SetMedley(int StartBeat, int EndBeat)
+        {
+            foreach (CNote note in _Notes)
+            {
+                if (note.StartBeat < StartBeat || note.EndBeat > EndBeat)
+                    note.NoteType = ENoteType.Freestyle;
+            }
+
+            _VisibleInTimeLine = _MinBeat >= StartBeat && _MaxBeat <= EndBeat;
+        }
+
         private void updateMinMaxBeat(CNote Note)
         {
             if (Note.StartBeat < _MinBeat)
@@ -487,16 +549,24 @@ namespace Vocaluxe.Lib.Song
                 updateMinMaxBeat(note);
             }
         }
+
         #endregion Methods
     }
 
     public class CLines
     {
-        private List<CLine> _Lines;
+        private List<CLine> _Lines = new List<CLine>();
 
         public CLines()
         {
-            _Lines = new List<CLine>();
+        }
+
+        public CLines(CLines lines)
+        {
+            foreach (CLine line in lines._Lines)
+            {
+                _Lines.Add(new CLine(line));
+            }
         }
 
         public CLine[] Line
@@ -521,15 +591,15 @@ namespace Vocaluxe.Lib.Song
                 int startbeat = int.MaxValue;
                 for (int i = 0; i < _Lines.Count; i++)
                 {
-                    if (_Lines[i].FirstBeat < startbeat)
-                        startbeat = _Lines[i].FirstBeat;
+                    if (_Lines[i].FirstNoteBeat < startbeat)
+                        startbeat = _Lines[i].FirstNoteBeat;
                 }
 
                 int endbeat = int.MinValue;
                 for (int i = 0; i < _Lines.Count; i++)
                 {
-                    if (_Lines[i].LastBeat < endbeat)
-                        endbeat = _Lines[i].LastBeat;
+                    if (_Lines[i].LastNoteBeat < endbeat)
+                        endbeat = _Lines[i].LastNoteBeat;
                 }
 
                 int result = endbeat - startbeat;
@@ -688,6 +758,13 @@ namespace Vocaluxe.Lib.Song
             }
         }
 
+        public void SetMedley(int StartBeat, int EndBeat)
+        {
+            foreach (CLine line in _Lines)
+            {
+                line.SetMedley(StartBeat, EndBeat);
+            }
+        }
         #endregion Methods
     }
 }

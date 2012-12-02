@@ -20,6 +20,9 @@ namespace Vocaluxe.Menu.SongMenu
         int GetSelectedSong();
         void SetSelectedSong(int VisibleSongNr);
 
+        bool IsActive();
+        void SetActive(bool Active);
+
         int GetSelectedCategory();
         int GetActualSelection();
 
@@ -28,6 +31,9 @@ namespace Vocaluxe.Menu.SongMenu
 
         bool IsVisible();
         void SetVisible(bool Visible);
+
+        bool IsSmallView();
+        void SetSmallView(bool SmallView);
 
         SRectF GetRect();
     }

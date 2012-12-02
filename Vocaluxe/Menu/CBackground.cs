@@ -38,6 +38,11 @@ namespace Vocaluxe.Menu
                        
         public SColorF Color;
 
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
         #region Constructors
         public CBackground()
         {

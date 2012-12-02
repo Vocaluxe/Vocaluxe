@@ -100,7 +100,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOVIDEO_OPTIONS</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -129,7 +129,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOVIDEO_VIDEOBACKGROUNDS</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -158,7 +158,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOVIDEO_VIDEOPREVIEW</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -187,7 +187,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOVIDEO_VIDEOINSONGS</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -216,7 +216,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Normal</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENO_VIDEO_VIDEOSTOBACKGROUND</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -261,7 +261,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_BUTTON_BACK</Text>
       </Text>
       <!--<Reflection> If exists:-->

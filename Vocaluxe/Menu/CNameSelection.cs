@@ -49,6 +49,11 @@ namespace Vocaluxe.Menu
         private SThemeNameSelection _Theme;
         private bool _ThemeLoaded;
 
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
         public bool Selected = false;
         public bool Visible = true;
 
