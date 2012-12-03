@@ -61,6 +61,9 @@ namespace Vocaluxe.Menu
 
         public SColorF TextColor;
         public SColorF STextColor;
+
+        public float TextRelativeX;
+        public float TextRelativeY;
         public float TextH;
         public float MaxW;
 
@@ -205,6 +208,8 @@ namespace Vocaluxe.Menu
             TextColor = new SColorF(slide.TextColor);
             STextColor = new SColorF(slide.STextColor);
             TextH = slide.TextH;
+            TextRelativeX = slide.TextRelativeX;
+            TextRelativeY = slide.TextRelativeY;
             MaxW = slide.MaxW;
 
             _Selected = slide._Selected;
@@ -337,6 +342,10 @@ namespace Vocaluxe.Menu
             }
 
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextH", navigator, ref TextH);
+            if(CHelper.TryGetFloatValueFromXML(item + "/TextRelativeX", navigator, ref TextRelativeX))
+                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextRelativeX", navigator, ref TextRelativeX);
+            if(CHelper.TryGetFloatValueFromXML(item + "/TextRelativeY", navigator, ref TextRelativeY))
+                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextRelativeY", navigator, ref TextRelativeY);
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextMaxW", navigator, ref MaxW);
             _ThemeLoaded &= CHelper.GetValueFromXML(item + "/TextFont", navigator, ref _Theme.TextFont, "Normal");
             _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EStyle>(item + "/TextStyle", navigator, ref _Theme.TextStyle);
@@ -500,6 +509,14 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<TextH>: Text height");
                 writer.WriteElementString("TextH", TextH.ToString("#0.00"));
+
+                writer.WriteComment("<TextRelativeX>: Text relative x-position");
+                if (TextRelativeX != 0)
+                    writer.WriteElementString("TextRelativeX", TextRelativeX.ToString("#0.00"));
+
+                writer.WriteComment("<TextRelativeY>: Text relative y-position");
+                if (TextRelativeY != 0)
+                    writer.WriteElementString("TextRelativeY", TextRelativeY.ToString("#0.00"));
 
                 writer.WriteComment("<TextMaxW>: Maximum text width (if exists)");
                 writer.WriteElementString("TextMaxW", MaxW.ToString("#0.00"));
@@ -755,12 +772,12 @@ namespace Vocaluxe.Menu
                 }
 
                 RectangleF bounds = CDraw.GetTextBounds(Text);
-                Text.X = x + dx/2f + dx * i;
+                Text.X = (x + dx/2f + dx * i)+TextRelativeX;
 
                 if (!WithTextures)
-                    Text.Y = (int)(Rect.Y + (Rect.H - bounds.Height) / 2);
+                    Text.Y = (int)((Rect.Y + (Rect.H - bounds.Height) / 2) + TextRelativeY);
                 else
-                    Text.Y = (int)(Rect.Y + (Rect.H - bounds.Height));
+                    Text.Y = (int)((Rect.Y + (Rect.H - bounds.Height)) + TextRelativeY);
 
                 Text.Z = Rect.Z;
                 Text.Draw();
