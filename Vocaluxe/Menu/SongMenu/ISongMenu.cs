@@ -25,6 +25,7 @@ namespace Vocaluxe.Menu.SongMenu
         void SetActive(bool Active);
 
         int GetSelectedCategory();
+        void SetSelectedCategory(int CategoryNr);
         int GetActualSelection();
 
         bool IsSelected();
