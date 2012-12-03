@@ -655,8 +655,7 @@ namespace Vocaluxe.Menu
 
         public void ProcessMouseLBClick(int x, int y)
         {
-            _ArrowLeftSelected = CHelper.IsInBounds(RectArrowLeft, x, y) && _Selection > 0;
-            _ArrowRightSelected = CHelper.IsInBounds(RectArrowRight, x, y) && _Selection < _ValueNames.Count - 1;
+            ProcessMouseMove(x, y);
 
             if (_ArrowLeftSelected)
                 PrevValue();

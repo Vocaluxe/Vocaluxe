@@ -501,7 +501,7 @@ namespace Vocaluxe.Menu
                 }
                 else
                 {
-                    if (CurrentPlaylistElement == -1 || PlaylistElementContents.Count == 0 || KeyEvent.ModSHIFT)    //no song is selected
+                    if (CurrentPlaylistElement == -1 || PlaylistElementContents.Count == 0)    //no song is selected
                     {
                         _Interactions.HandleInput(KeyEvent);
                         CurrentPlaylistElement = GetSelectedSelectionNr();
@@ -868,6 +868,7 @@ namespace Vocaluxe.Menu
                         hover_set = true;
                         CurrentPlaylistElement = i;
                         _Interactions.SetInteractionToSelectSlide(PlaylistElements[CurrentPlaylistElement].SelectSlide);
+                        _Interactions.ProcessMouseMove(MouseEvent.X, MouseEvent.Y);
                     }
 
                     //Delete Entry with RB
@@ -1084,18 +1085,31 @@ namespace Vocaluxe.Menu
         private void PrepareList()
         {
             PlaylistElements.Clear();
+            
             for (int i = 0; i < Math.Floor(Rect.H / _Theme.EntryHeight); i++)
             {
                 PlaylistElement en = new PlaylistElement();
+
                 en.Background = new CStatic(_Theme.TextureBackgroundName, BackgroundColor, new SRectF(Rect.X, Rect.Y + (i * _Theme.EntryHeight), Rect.W, _Theme.EntryHeight, Rect.Z));
-                en.Cover = new CStatic(new STexture(), _Theme.StaticCover.Color, new SRectF(Rect.X + _Theme.StaticCover.Rect.X, Rect.Y + _Theme.StaticCover.Rect.Y + (i * _Theme.EntryHeight), _Theme.StaticCover.Rect.W, _Theme.StaticCover.Rect.H, _Theme.StaticCover.Rect.Z));
-                en.Text1 = new CText(Rect.X + _Theme.Text1.X, Rect.Y + _Theme.Text1.Y + (i * _Theme.EntryHeight), _Theme.Text1.Z, _Theme.Text1.Height, _Theme.Text1.MaxWidth, _Theme.Text1.Align, _Theme.Text1.Style, _Theme.Text1.Fon, _Theme.Text1.Color, "", _Theme.Text1.ReflectionSpace, _Theme.Text1.ReflectionHeight);
-                
+
+                en.Cover = new CStatic(_Theme.StaticCover);
+                en.Cover.Rect.Y += Rect.Y + (i * _Theme.EntryHeight);
+                en.Cover.Rect.X += Rect.X;
+
+                en.Text1 = new CText(_Theme.Text1);
+                en.Text1.X += Rect.X;
+                en.Text1.Y += Rect.Y + (i * _Theme.EntryHeight);
+
                 en.SelectSlide = new CSelectSlide(_Theme.SelectSlideGameMode);
-                en.SelectSlide.Rect = new SRectF(Rect.X + _Theme.SelectSlideGameMode.Rect.X, Rect.Y + _Theme.SelectSlideGameMode.Rect.Y + (i * _Theme.EntryHeight), _Theme.SelectSlideGameMode.Rect.W, _Theme.SelectSlideGameMode.Rect.H, _Theme.SelectSlideGameMode.Rect.Z);
-                en.SelectSlide.RectArrowLeft = new SRectF(Rect.X + _Theme.SelectSlideGameMode.RectArrowLeft.X, Rect.Y + _Theme.SelectSlideGameMode.RectArrowLeft.Y + (i * _Theme.EntryHeight), _Theme.SelectSlideGameMode.RectArrowLeft.W, _Theme.SelectSlideGameMode.RectArrowLeft.H, _Theme.SelectSlideGameMode.RectArrowLeft.Z);
-                en.SelectSlide.RectArrowRight = new SRectF(Rect.X + _Theme.SelectSlideGameMode.RectArrowRight.X, Rect.Y + _Theme.SelectSlideGameMode.RectArrowRight.Y + (i * _Theme.EntryHeight), _Theme.SelectSlideGameMode.RectArrowRight.W, _Theme.SelectSlideGameMode.RectArrowRight.H, _Theme.SelectSlideGameMode.RectArrowRight.Z);
+                en.SelectSlide.Rect.X += Rect.X;
+                en.SelectSlide.Rect.Y += Rect.Y + (i * _Theme.EntryHeight);
+                en.SelectSlide.RectArrowLeft.X += Rect.X;
+                en.SelectSlide.RectArrowLeft.Y += Rect.Y + (i * _Theme.EntryHeight);
+                en.SelectSlide.RectArrowRight.X += Rect.X;
+                en.SelectSlide.RectArrowRight.Y += Rect.Y + (i * _Theme.EntryHeight);
+
                 en.Content = -1;
+
                 PlaylistElements.Add(en);
                 _Interactions.AddSelectSlide(en.SelectSlide);
                 _Interactions.AddText(en.Text1);

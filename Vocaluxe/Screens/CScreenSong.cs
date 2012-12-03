@@ -343,9 +343,8 @@ namespace Vocaluxe.Screens
             if (Playlists[htPlaylists(Playlist)].Visible && Playlists[htPlaylists(Playlist)].HandleMouse(MouseEvent))
                 return true;
 
-            if ((MouseEvent.RB) && (CSongs.Category < 0))
+            if ((MouseEvent.RB) && (CSongs.Category < 0) && !_SongOptionsActive)
             {
-                ToggleSongOptions(ESongOptionsView.None);
                 CGraphics.FadeTo(EScreens.ScreenMain);
             }
             else if (MouseEvent.RB && _SongOptionsActive)
