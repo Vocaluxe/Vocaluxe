@@ -34,6 +34,7 @@ namespace Vocaluxe.Base
         private static bool _Playing;
         private static bool _Disabled;
         private static bool _CanSing;
+        private static bool _RepeatSong;
 
         public static bool VideoEnabled
         {
@@ -81,6 +82,18 @@ namespace Vocaluxe.Base
                     Pause();
                 else
                     Play();
+            }
+        }
+
+        public static bool RepeatSong
+        {
+            get
+            {
+                return _RepeatSong;
+            }
+            set
+            {
+                _RepeatSong = value;
             }
         }
 
@@ -228,7 +241,14 @@ namespace Vocaluxe.Base
 
                 bool finished = CSound.IsFinished(_CurrentMusicStream);
                 if (_Playing && (timeToPlay <= CSettings.BackgroundMusicFadeTime || finished))
-                    Next();
+                    if (_RepeatSong)
+                    {
+                        CSound.SetPosition(_CurrentMusicStream, 0);
+                        if (_VideoEnabled && _Video != -1)
+                            CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
+                    }
+                    else
+                        Next();
             }
         }
 
