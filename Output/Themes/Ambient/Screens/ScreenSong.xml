@@ -1251,6 +1251,8 @@
         <TextSColor>TextSColor</TextSColor>
         <!--<TextH>: Text height-->
         <TextH>24,00</TextH>
+        <!--<TextRelativeX>: Text relative x-position-->
+        <TextRelativeX>25,00</TextRelativeX>
         <!--<TextMaxW>: Maximum text width (if exists)-->
         <TextMaxW>230,00</TextMaxW>
         <!--<TextFont>: Text font name-->
