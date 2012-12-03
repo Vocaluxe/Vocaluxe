@@ -164,7 +164,7 @@ namespace Vocaluxe.Base
             return (float)iRenderW / (float)iRenderH;
         }
 
-        public static void MouseInacive()
+        public static void MouseInactive()
         {
             MouseMoveDiffMin = 15;
         }

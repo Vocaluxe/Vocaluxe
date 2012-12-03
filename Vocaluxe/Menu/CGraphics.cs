@@ -459,7 +459,7 @@ namespace Vocaluxe.Menu
             {
                 if (KeyEvent.Key == Keys.Left || KeyEvent.Key == Keys.Right || KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down)
                 {
-                    CSettings.MouseInacive();
+                    CSettings.MouseInactive();
                     _Cursor.FadeOut();
                 }
                 
@@ -521,7 +521,7 @@ namespace Vocaluxe.Menu
                 if (_CurrentPopupScreen != EPopupScreens.NoPopup)
                     handled = _PopupScreens[(int)_CurrentPopupScreen].HandleMouse(MouseEvent);
 
-                if (!handled && !_Fading && (_Cursor.IsActive || MouseEvent.LB || MouseEvent.RB))
+                if (!handled && !_Fading && (_Cursor.IsActive || MouseEvent.LB || MouseEvent.RB || MouseEvent.MB))
                     Resume &= _Screens[(int)_CurrentScreen].HandleMouse(MouseEvent);               
             }
             return Resume;
