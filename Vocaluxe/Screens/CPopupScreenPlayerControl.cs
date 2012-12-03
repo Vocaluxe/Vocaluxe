@@ -134,7 +134,7 @@ namespace Vocaluxe.Screens
                         if (Buttons[htButtons(ButtonPause)].Selected)
                             CBackgroundMusic.Pause();
                         if (Buttons[htButtons(ButtonRepeat)].Selected)
-                            CBackgroundMusic.Repeat();
+                            CBackgroundMusic.RepeatSong = !CBackgroundMusic.RepeatSong;
                         if (Buttons[htButtons(ButtonShowVideo)].Selected)
                             VideoPreview = !VideoPreview;
                         if (Buttons[htButtons(ButtonSing)].Selected)
@@ -162,7 +162,7 @@ namespace Vocaluxe.Screens
                 if (Buttons[htButtons(ButtonPause)].Selected)
                     CBackgroundMusic.Pause();
                 if (Buttons[htButtons(ButtonRepeat)].Selected)
-                    CBackgroundMusic.Repeat();
+                    CBackgroundMusic.RepeatSong = !CBackgroundMusic.RepeatSong;
                 if (Buttons[htButtons(ButtonShowVideo)].Selected)
                     VideoPreview = !VideoPreview;
                 if (Buttons[htButtons(ButtonSing)].Selected)
@@ -187,6 +187,7 @@ namespace Vocaluxe.Screens
             Statics[htStatics(StaticCover)].Visible = !_VideoPreview || !CBackgroundMusic.SongHasVideo;
             Buttons[htButtons(ButtonToBackgroundVideo)].Pressed = VideoBackground;
             Buttons[htButtons(ButtonShowVideo)].Pressed = _VideoPreview;
+            Buttons[htButtons(ButtonRepeat)].Pressed = CBackgroundMusic.RepeatSong;
             Buttons[htButtons(ButtonSing)].Visible = CBackgroundMusic.CanSing;
             return true;
         }
