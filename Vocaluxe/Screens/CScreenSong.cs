@@ -380,6 +380,15 @@ namespace Vocaluxe.Screens
                 }
             }
 
+            if (MouseEvent.LD)
+            {
+                if (CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
+                {
+                    StartVisibleSong(SongMenus[htSongMenus(SongMenu)].GetActualSelection());
+                    return true;
+                }
+            }
+
             SongMenus[htSongMenus(SongMenu)].HandleMouse(ref MouseEvent);
 
             if (MouseEvent.LB)
@@ -582,6 +591,25 @@ namespace Vocaluxe.Screens
                     else
                        gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
                 }
+
+                CGame.Reset();
+                CGame.ClearSongs();
+
+                CGame.AddVisibleSong(SongNr, gm);
+
+                CGraphics.FadeTo(EScreens.ScreenNames);
+            }
+        }
+
+        private void StartVisibleSong(int SongNr)
+        {
+            if (CSongs.Category >= 0 && SongNr >= 0 && CSongs.NumVisibleSongs > SongNr)
+            {
+                EGameMode gm;
+                if (CSongs.VisibleSongs[SongNr].IsDuet)
+                    gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
+                else
+                    gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
 
                 CGame.Reset();
                 CGame.ClearSongs();
