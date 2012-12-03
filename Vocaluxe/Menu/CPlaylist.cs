@@ -964,7 +964,7 @@ namespace Vocaluxe.Menu
 
                                 if (CurrentPlaylistElement != -1)
                                 {
-                                    CPlaylists.Playlists[ActivePlaylistID].SongInsert(CurrentPlaylistElement, DragAndDropSongID, gm);
+                                    CPlaylists.Playlists[ActivePlaylistID].SongInsert(CurrentPlaylistElement + Offset, DragAndDropSongID, gm);
                                     UpdatePlaylist();
                                 }
                                 else
