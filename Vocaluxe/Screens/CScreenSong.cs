@@ -187,7 +187,8 @@ namespace Vocaluxe.Screens
                             break;
 
                         case Keys.Space:
-                            ToggleSongOptions(ESongOptionsView.General);
+                            if (!_SearchActive)
+                                ToggleSongOptions(ESongOptionsView.General);
                             break;
 
                         case Keys.F3:
@@ -234,7 +235,7 @@ namespace Vocaluxe.Screens
 
                         //TODO: We need another key for random!
                         case Keys.R:
-                            if (CSongs.Category != -1 && KeyEvent.Mod == Modifier.Ctrl)
+                            if (!_SearchActive && CSongs.Category != -1 && KeyEvent.Mod == Modifier.Ctrl)
                             {
                                 SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
                             }
@@ -246,7 +247,7 @@ namespace Vocaluxe.Screens
 
                         //TODO: Delete that!
                         case Keys.S:
-                            if (CSongs.NumVisibleSongs > 0)
+                            if (!_SearchActive && CSongs.NumVisibleSongs > 0)
                             {
                                 StartMedleySong(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
                             }
