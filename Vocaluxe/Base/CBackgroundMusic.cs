@@ -294,25 +294,30 @@ namespace Vocaluxe.Base
         {
             if (_PreviousFileNames.Count > 0 || _PreviousMusicIndex >= 0)
             {
-                Stop();
+                float pos = CSound.GetPosition(_CurrentMusicStream);
+                if (CSound.GetPosition(_CurrentMusicStream) >= 1.5f)
+                {
+                    CSound.SetPosition(_CurrentMusicStream, 0);
+                    if (_VideoEnabled && _Video != -1)
+                        CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
+                }
+                else
+                {
+                    Stop();
+                    _PreviousMusicIndex--;
+                    if (_PreviousMusicIndex < 0)
+                        _PreviousMusicIndex = 0; //No previous songs left, so play the first
 
-                _PreviousMusicIndex--;
-                if (_PreviousMusicIndex < 0)
-                    _PreviousMusicIndex = 0; //No previous songs left, so play the first
+                    _CurrentPlaylistElement = _PreviousFileNames[_PreviousMusicIndex];
 
-                _CurrentPlaylistElement = _PreviousFileNames[_PreviousMusicIndex];
-
-                _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.MusicFilePath);
-                if (_VideoEnabled)
-                    LoadVideo();
-                CSound.SetStreamVolume(_CurrentMusicStream, 0f);
-                Play();
+                    _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.MusicFilePath);
+                    if (_VideoEnabled)
+                        LoadVideo();
+                    CSound.SetStreamVolume(_CurrentMusicStream, 0f);
+                    Play();
+                }
             }
-        }
-
-        public static void Repeat()
-        {
-            if (_AllFileNames.Count > 0 && _CurrentMusicStream != -1)
+            else if (_CurrentMusicStream != -1)
             {
                 CSound.SetPosition(_CurrentMusicStream, 0);
                 if (_VideoEnabled && _Video != -1)
