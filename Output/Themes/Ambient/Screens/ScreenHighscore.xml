@@ -60,13 +60,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENHIGHSCORE_HIGHSCORE</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -87,13 +89,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -114,13 +118,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Right</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -141,13 +147,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Right</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -168,13 +176,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Right</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -195,13 +205,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Right</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -222,13 +234,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Right</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -249,13 +263,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Right</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -276,13 +292,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Right</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -303,13 +321,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Right</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -330,13 +350,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Right</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -357,13 +379,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Right</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -384,13 +408,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Right</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -411,13 +437,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -438,13 +466,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -465,13 +495,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -492,13 +524,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -519,13 +553,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -546,13 +582,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -573,13 +611,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -600,13 +640,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -627,13 +669,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -654,13 +698,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -681,13 +727,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -708,13 +756,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -735,13 +785,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -762,13 +814,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -789,13 +843,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -816,13 +872,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -843,13 +901,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -870,13 +930,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -897,13 +959,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -924,13 +988,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -951,13 +1017,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -978,13 +1046,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1005,13 +1075,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1032,13 +1104,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1059,13 +1133,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1086,13 +1162,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1113,13 +1191,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1140,13 +1220,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1167,13 +1249,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1194,13 +1278,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->

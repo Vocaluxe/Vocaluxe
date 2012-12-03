@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenNames>
-    <ScreenVersion>1</ScreenVersion>
+    <ScreenVersion>3</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>Video</Type>
@@ -29,12 +29,204 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </Static1>
-    <StaticWarning>
+    <StaticPlayer1>
+      <!--<Skin>: Texture name-->
+      <Skin>PlayerSelector</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>15</X>
+      <Y>100</Y>
+      <Z>-2,00</Z>
+      <W>118</W>
+      <H>118</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player1</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticPlayer1>
+    <StaticPlayer2>
+      <!--<Skin>: Texture name-->
+      <Skin>PlayerSelector</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>15</X>
+      <Y>255</Y>
+      <Z>-2,00</Z>
+      <W>118</W>
+      <H>118</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player2</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticPlayer2>
+    <StaticPlayer3>
+      <!--<Skin>: Texture name-->
+      <Skin>PlayerSelector</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>15</X>
+      <Y>410</Y>
+      <Z>-2,00</Z>
+      <W>118</W>
+      <H>118</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player3</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticPlayer3>
+    <StaticPlayer4>
+      <!--<Skin>: Texture name-->
+      <Skin>PlayerSelector</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>1147</X>
+      <Y>100</Y>
+      <Z>-2,00</Z>
+      <W>118</W>
+      <H>118</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player4</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticPlayer4>
+    <StaticPlayer5>
+      <!--<Skin>: Texture name-->
+      <Skin>PlayerSelector</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>1147</X>
+      <Y>255</Y>
+      <Z>-2,00</Z>
+      <W>118</W>
+      <H>118</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player5</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticPlayer5>
+    <StaticPlayer6>
+      <!--<Skin>: Texture name-->
+      <Skin>PlayerSelector</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>1147</X>
+      <Y>410</Y>
+      <Z>-2,00</Z>
+      <W>118</W>
+      <H>118</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player6</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticPlayer6>
+    <StaticPlayerAvatar1>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>20</X>
+      <Y>105</Y>
+      <Z>-3,00</Z>
+      <W>108</W>
+      <H>108</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Visible</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticPlayerAvatar1>
+    <StaticPlayerAvatar2>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>20</X>
+      <Y>260</Y>
+      <Z>-3,00</Z>
+      <W>108</W>
+      <H>108</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Visible</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticPlayerAvatar2>
+    <StaticPlayerAvatar3>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>20</X>
+      <Y>415</Y>
+      <Z>-3,00</Z>
+      <W>108</W>
+      <H>108</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Visible</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticPlayerAvatar3>
+    <StaticPlayerAvatar4>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>1152</X>
+      <Y>105</Y>
+      <Z>-3,00</Z>
+      <W>108</W>
+      <H>108</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Visible</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticPlayerAvatar4>
+    <StaticPlayerAvatar5>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>1152</X>
+      <Y>260</Y>
+      <Z>-3,00</Z>
+      <W>108</W>
+      <H>108</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Visible</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticPlayerAvatar5>
+    <StaticPlayerAvatar6>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>1152</X>
+      <Y>415</Y>
+      <Z>-3,00</Z>
+      <W>108</W>
+      <H>108</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Visible</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticPlayerAvatar6>
+    <StaticWarningMics>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
       <X>145</X>
-      <Y>660</Y>
+      <Y>663</Y>
       <Z>0,00</Z>
       <W>990</W>
       <H>50</H>
@@ -44,7 +236,23 @@
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-    </StaticWarning>
+    </StaticWarningMics>
+    <StaticWarningProfiles>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>145</X>
+      <Y>715</Y>
+      <Z>0,00</Z>
+      <W>990</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticWarningColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticWarningProfiles>
     <Text1>
       <!--<X>, <Y>: Text position-->
       <X>640</X>
@@ -60,22 +268,24 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENNAMES_MENU</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </Text1>
-    <TextWarning>
+    <TextWarningMics>
       <!--<X>, <Y>: Text position-->
       <X>640</X>
-      <Y>612</Y>
+      <Y>615</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
@@ -88,18 +298,224 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextWarningColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-    </TextWarning>
+    </TextWarningMics>
+    <TextWarningProfiles>
+      <!--<X>, <Y>: Text position-->
+      <X>640</X>
+      <Y>650</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>970</MaxW>
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>TextWarningColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextWarningColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextWarningProfiles>
+    <TextPlayer1>
+      <!--<X>, <Y>: Text position-->
+      <X>74</X>
+      <Y>219</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>20</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player1</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextPlayer1>
+    <TextPlayer2>
+      <!--<X>, <Y>: Text position-->
+      <X>74</X>
+      <Y>374</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>20</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player2</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextPlayer2>
+    <TextPlayer3>
+      <!--<X>, <Y>: Text position-->
+      <X>74</X>
+      <Y>529</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>20</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player3</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextPlayer3>
+    <TextPlayer4>
+      <!--<X>, <Y>: Text position-->
+      <X>1206</X>
+      <Y>219</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>20</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player4</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextPlayer4>
+    <TextPlayer5>
+      <!--<X>, <Y>: Text position-->
+      <X>1206</X>
+      <Y>374</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>20</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player5</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextPlayer5>
+    <TextPlayer6>
+      <!--<X>, <Y>: Text position-->
+      <X>1206</X>
+      <Y>529</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>20</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player6</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextPlayer6>
     <ButtonBack>
       <!--<Skin>: Texture name-->
       <Skin>Button</Skin>
@@ -107,7 +523,7 @@
       <SkinSelected>Button</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
       <X>145</X>
-      <Y>600</Y>
+      <Y>603</Y>
       <Z>0,00</Z>
       <W>150</W>
       <H>50</H>
@@ -131,13 +547,15 @@
         <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
         <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
         <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align: Left, Center, Right-->
+        <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
+        <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_BUTTON_BACK</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -162,7 +580,7 @@
       <SkinSelected>Button</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
       <X>985</X>
-      <Y>600</Y>
+      <Y>603</Y>
       <Z>0,00</Z>
       <W>150</W>
       <H>50</H>
@@ -186,13 +604,15 @@
         <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
         <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
         <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align: Left, Center, Right-->
+        <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
+        <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_BUTTON_START</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -210,148 +630,7 @@
         <Height>26</Height>
       </SReflection>
     </ButtonStart>
-    <Button1Player>
-      <!--<Skin>: Texture name-->
-      <Skin>Button</Skin>
-      <!--<SkinSelected>: Texture name for selected button-->
-      <SkinSelected>Button</SkinSelected>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>145</X>
-      <Y>150</Y>
-      <Z>0,00</Z>
-      <W>150</W>
-      <H>50</H>
-      <!--<Color>: Button color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>ButtonColor</Color>
-      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>ButtonSColor</SColor>
-      <Text>
-        <!--<X>, <Y>: Text position-->
-        <X>75</X>
-        <Y>10</Y>
-        <!--<H>: Text height-->
-        <H>32</H>
-        <!--<MaxW>: Maximum text width (if exists)-->
-        <MaxW>142</MaxW>
-        <!--<Color>: Text color from ColorScheme (high priority)-->
-        <!--or <R>, <G>, <B>, <A> (lower priority)-->
-        <Color>ButtonTextSColor</Color>
-        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-        <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align: Left, Center, Right-->
-        <Align>Center</Align>
-        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
-        <Style>Bold</Style>
-        <!--<Font>: Text font name-->
-        <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
-        <Text>TR_SCREENNAMES_BUTTON_1PLAYER</Text>
-      </Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-      <!--<SReflection> If exists:-->
-      <!--   <Space>: Reflection Space of selected button-->
-      <!--   <Height>: Reflection Height of selected button-->
-    </Button1Player>
-    <Button2Player>
-      <!--<Skin>: Texture name-->
-      <Skin>Button</Skin>
-      <!--<SkinSelected>: Texture name for selected button-->
-      <SkinSelected>Button</SkinSelected>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>145</X>
-      <Y>315</Y>
-      <Z>0,00</Z>
-      <W>150</W>
-      <H>50</H>
-      <!--<Color>: Button color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>ButtonColor</Color>
-      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>ButtonSColor</SColor>
-      <Text>
-        <!--<X>, <Y>: Text position-->
-        <X>75</X>
-        <Y>10</Y>
-        <!--<H>: Text height-->
-        <H>32</H>
-        <!--<MaxW>: Maximum text width (if exists)-->
-        <MaxW>142</MaxW>
-        <!--<Color>: Text color from ColorScheme (high priority)-->
-        <!--or <R>, <G>, <B>, <A> (lower priority)-->
-        <Color>ButtonTextSColor</Color>
-        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-        <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align: Left, Center, Right-->
-        <Align>Center</Align>
-        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
-        <Style>Bold</Style>
-        <!--<Font>: Text font name-->
-        <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
-        <Text>TR_SCREENNAMES_BUTTON_2PLAYER</Text>
-      </Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-      <!--<SReflection> If exists:-->
-      <!--   <Space>: Reflection Space of selected button-->
-      <!--   <Height>: Reflection Height of selected button-->
-    </Button2Player>
-    <Button3Player>
-      <!--<Skin>: Texture name-->
-      <Skin>Button</Skin>
-      <!--<SkinSelected>: Texture name for selected button-->
-      <SkinSelected>Button</SkinSelected>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>145</X>
-      <Y>480</Y>
-      <Z>0,00</Z>
-      <W>150</W>
-      <H>50</H>
-      <!--<Color>: Button color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>ButtonColor</Color>
-      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>ButtonSColor</SColor>
-      <Text>
-        <!--<X>, <Y>: Text position-->
-        <X>75</X>
-        <Y>10</Y>
-        <!--<H>: Text height-->
-        <H>32</H>
-        <!--<MaxW>: Maximum text width (if exists)-->
-        <MaxW>142</MaxW>
-        <!--<Color>: Text color from ColorScheme (high priority)-->
-        <!--or <R>, <G>, <B>, <A> (lower priority)-->
-        <Color>ButtonTextSColor</Color>
-        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-        <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align: Left, Center, Right-->
-        <Align>Center</Align>
-        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
-        <Style>Bold</Style>
-        <!--<Font>: Text font name-->
-        <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
-        <Text>TR_SCREENNAMES_BUTTON_3PLAYER</Text>
-      </Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-      <!--<SReflection> If exists:-->
-      <!--   <Space>: Reflection Space of selected button-->
-      <!--   <Height>: Reflection Height of selected button-->
-    </Button3Player>
-    <SelectSlidePlayerMic1>
+    <SelectSlidePlayerNumber>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
       <!--<SkinArrowLeft>: Texture name of left arrow-->
@@ -367,32 +646,32 @@
       <!--<SkinHighlighted>: Texture name for highlighted SelectSlide-->
       <SkinHighlighted>SelectSlidePlayer</SkinHighlighted>
       <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
-      <X>305</X>
-      <Y>100</Y>
+      <X>70</X>
+      <Y>548</Y>
       <Z>0,00</Z>
-      <W>905</W>
-      <H>150</H>
+      <W>1140</W>
+      <H>45</H>
       <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
-      <ArrowLeftX>305</ArrowLeftX>
-      <ArrowLeftY>155</ArrowLeftY>
+      <ArrowLeftX>75</ArrowLeftX>
+      <ArrowLeftY>553</ArrowLeftY>
       <ArrowLeftZ>0,00</ArrowLeftZ>
       <ArrowLeftW>40</ArrowLeftW>
       <ArrowLeftH>40</ArrowLeftH>
       <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
-      <ArrowRightX>1180</ArrowRightX>
-      <ArrowRightY>155</ArrowRightY>
+      <ArrowRightX>1170</ArrowRightX>
+      <ArrowRightY>553</ArrowRightY>
       <ArrowRightZ>0,00</ArrowRightZ>
       <ArrowRightW>40</ArrowRightW>
       <ArrowRightH>40</ArrowRightH>
       <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player1Dim</Color>
+      <Color>SelectSlideColor</Color>
       <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>Player1Dim</SColor>
+      <SColor>SelectSlideSColor</SColor>
       <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
       <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
-      <HColor>Player1</HColor>
+      <HColor>SelectSlideHColor</HColor>
       <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
       <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
       <ArrowColor>ArrowColor</ArrowColor>
@@ -404,7 +683,7 @@
       <TextColor>TextColor</TextColor>
       <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
       <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
-      <TextSColor>Player1</TextSColor>
+      <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>32,00</TextH>
       <!--<TextMaxW>: Maximum text width (if exists)-->
@@ -415,8 +694,8 @@
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
       <NumVisible>6</NumVisible>
-    </SelectSlidePlayerMic1>
-    <SelectSlidePlayerMic2>
+    </SelectSlidePlayerNumber>
+    <SelectSlideDuetPlayer1>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
       <!--<SkinArrowLeft>: Texture name of left arrow-->
@@ -424,40 +703,40 @@
       <!--<SkinArrowRight>: Texture name of right arrow-->
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <!--<SkinSelected>: Texture name for selected SelectSlide-->
-      <SkinSelected>SelectSlidePlayer</SkinSelected>
+      <SkinSelected>Button</SkinSelected>
       <!--<SkinArrowLeftSelected>: Texture name of selected left arrow-->
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <!--<SkinArrowRightSelected>: Texture name of selected right arrow-->
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <!--<SkinHighlighted>: Texture name for highlighted SelectSlide-->
-      <SkinHighlighted>SelectSlidePlayer</SkinHighlighted>
+      <SkinHighlighted>Button</SkinHighlighted>
       <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
-      <X>305</X>
-      <Y>265</Y>
-      <Z>0,00</Z>
-      <W>905</W>
-      <H>150</H>
+      <X>41</X>
+      <Y>105</Y>
+      <Z>-4,00</Z>
+      <W>88</W>
+      <H>20</H>
       <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
-      <ArrowLeftX>305</ArrowLeftX>
-      <ArrowLeftY>320</ArrowLeftY>
-      <ArrowLeftZ>0,00</ArrowLeftZ>
-      <ArrowLeftW>40</ArrowLeftW>
-      <ArrowLeftH>40</ArrowLeftH>
+      <ArrowLeftX>20</ArrowLeftX>
+      <ArrowLeftY>105</ArrowLeftY>
+      <ArrowLeftZ>-4,01</ArrowLeftZ>
+      <ArrowLeftW>20</ArrowLeftW>
+      <ArrowLeftH>20</ArrowLeftH>
       <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
-      <ArrowRightX>1180</ArrowRightX>
-      <ArrowRightY>320</ArrowRightY>
-      <ArrowRightZ>0,00</ArrowRightZ>
-      <ArrowRightW>40</ArrowRightW>
-      <ArrowRightH>40</ArrowRightH>
+      <ArrowRightX>20</ArrowRightX>
+      <ArrowRightY>105</ArrowRightY>
+      <ArrowRightZ>-4,01</ArrowRightZ>
+      <ArrowRightW>20</ArrowRightW>
+      <ArrowRightH>20</ArrowRightH>
       <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player2Dim</Color>
+      <Color>SelectSlideColor</Color>
       <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>Player2Dim</SColor>
+      <SColor>SelectSlideSColor</SColor>
       <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
       <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
-      <HColor>Player2</HColor>
+      <HColor>SelectSlideHColor</HColor>
       <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
       <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
       <ArrowColor>ArrowColor</ArrowColor>
@@ -469,19 +748,19 @@
       <TextColor>TextColor</TextColor>
       <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
       <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
-      <TextSColor>Player2</TextSColor>
+      <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
-      <TextH>32,00</TextH>
+      <TextH>20,00</TextH>
       <!--<TextMaxW>: Maximum text width (if exists)-->
-      <TextMaxW>186,00</TextMaxW>
+      <TextMaxW>86,00</TextMaxW>
       <!--<TextFont>: Text font name-->
       <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
-      <NumVisible>6</NumVisible>
-    </SelectSlidePlayerMic2>
-    <SelectSlidePlayerMic3>
+      <NumVisible>1</NumVisible>
+    </SelectSlideDuetPlayer1>
+    <SelectSlideDuetPlayer2>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
       <!--<SkinArrowLeft>: Texture name of left arrow-->
@@ -489,40 +768,40 @@
       <!--<SkinArrowRight>: Texture name of right arrow-->
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <!--<SkinSelected>: Texture name for selected SelectSlide-->
-      <SkinSelected>SelectSlidePlayer</SkinSelected>
+      <SkinSelected>Button</SkinSelected>
       <!--<SkinArrowLeftSelected>: Texture name of selected left arrow-->
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <!--<SkinArrowRightSelected>: Texture name of selected right arrow-->
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <!--<SkinHighlighted>: Texture name for highlighted SelectSlide-->
-      <SkinHighlighted>SelectSlidePlayer</SkinHighlighted>
+      <SkinHighlighted>Button</SkinHighlighted>
       <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
-      <X>305</X>
-      <Y>430</Y>
-      <Z>0,00</Z>
-      <W>905</W>
-      <H>150</H>
+      <X>41</X>
+      <Y>260</Y>
+      <Z>-4,00</Z>
+      <W>88</W>
+      <H>20</H>
       <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
-      <ArrowLeftX>305</ArrowLeftX>
-      <ArrowLeftY>485</ArrowLeftY>
-      <ArrowLeftZ>0,00</ArrowLeftZ>
-      <ArrowLeftW>40</ArrowLeftW>
-      <ArrowLeftH>40</ArrowLeftH>
+      <ArrowLeftX>20</ArrowLeftX>
+      <ArrowLeftY>260</ArrowLeftY>
+      <ArrowLeftZ>-4,01</ArrowLeftZ>
+      <ArrowLeftW>20</ArrowLeftW>
+      <ArrowLeftH>20</ArrowLeftH>
       <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
-      <ArrowRightX>1180</ArrowRightX>
-      <ArrowRightY>485</ArrowRightY>
-      <ArrowRightZ>0,00</ArrowRightZ>
-      <ArrowRightW>40</ArrowRightW>
-      <ArrowRightH>40</ArrowRightH>
+      <ArrowRightX>20</ArrowRightX>
+      <ArrowRightY>260</ArrowRightY>
+      <ArrowRightZ>-4,01</ArrowRightZ>
+      <ArrowRightW>20</ArrowRightW>
+      <ArrowRightH>20</ArrowRightH>
       <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player3Dim</Color>
+      <Color>SelectSlideColor</Color>
       <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>Player3Dim</SColor>
+      <SColor>SelectSlideSColor</SColor>
       <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
       <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
-      <HColor>Player3</HColor>
+      <HColor>SelectSlideHColor</HColor>
       <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
       <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
       <ArrowColor>ArrowColor</ArrowColor>
@@ -534,17 +813,482 @@
       <TextColor>TextColor</TextColor>
       <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
       <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
-      <TextSColor>Player3</TextSColor>
+      <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
-      <TextH>32,00</TextH>
+      <TextH>20,00</TextH>
       <!--<TextMaxW>: Maximum text width (if exists)-->
-      <TextMaxW>186,00</TextMaxW>
+      <TextMaxW>86,00</TextMaxW>
       <!--<TextFont>: Text font name-->
       <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
-      <NumVisible>6</NumVisible>
-    </SelectSlidePlayerMic3>
+      <NumVisible>1</NumVisible>
+    </SelectSlideDuetPlayer2>
+    <SelectSlideDuetPlayer3>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<SkinArrowLeft>: Texture name of left arrow-->
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <!--<SkinArrowRight>: Texture name of right arrow-->
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <!--<SkinSelected>: Texture name for selected SelectSlide-->
+      <SkinSelected>Button</SkinSelected>
+      <!--<SkinArrowLeftSelected>: Texture name of selected left arrow-->
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <!--<SkinArrowRightSelected>: Texture name of selected right arrow-->
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <!--<SkinHighlighted>: Texture name for highlighted SelectSlide-->
+      <SkinHighlighted>Button</SkinHighlighted>
+      <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
+      <X>41</X>
+      <Y>415</Y>
+      <Z>-4,00</Z>
+      <W>88</W>
+      <H>20</H>
+      <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
+      <ArrowLeftX>20</ArrowLeftX>
+      <ArrowLeftY>415</ArrowLeftY>
+      <ArrowLeftZ>-4,01</ArrowLeftZ>
+      <ArrowLeftW>20</ArrowLeftW>
+      <ArrowLeftH>20</ArrowLeftH>
+      <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
+      <ArrowRightX>20</ArrowRightX>
+      <ArrowRightY>415</ArrowRightY>
+      <ArrowRightZ>-4,01</ArrowRightZ>
+      <ArrowRightW>20</ArrowRightW>
+      <ArrowRightH>20</ArrowRightH>
+      <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>SelectSlideColor</Color>
+      <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>SelectSlideSColor</SColor>
+      <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
+      <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
+      <HColor>SelectSlideHColor</HColor>
+      <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
+      <ArrowColor>ArrowColor</ArrowColor>
+      <!--<ArrowSColor>: Selected arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowSR>, <ArrowSG>, <ArrowSB>, <ArrowSA> (lower priority)-->
+      <ArrowSColor>ArrowSColor</ArrowSColor>
+      <!--<TextColor>: Text color from ColorScheme (high priority)-->
+      <!--or <TextR>, <TextG>, <TextB>, <TextA> (lower priority)-->
+      <TextColor>TextColor</TextColor>
+      <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
+      <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
+      <TextSColor>TextSColor</TextSColor>
+      <!--<TextH>: Text height-->
+      <TextH>20,00</TextH>
+      <!--<TextMaxW>: Maximum text width (if exists)-->
+      <TextMaxW>86,00</TextMaxW>
+      <!--<TextFont>: Text font name-->
+      <TextFont>Outline</TextFont>
+      <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <TextStyle>Bold</TextStyle>
+      <!--<NumVisible>: Number of visible elements in the slide-->
+      <NumVisible>1</NumVisible>
+    </SelectSlideDuetPlayer3>
+    <SelectSlideDuetPlayer4>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<SkinArrowLeft>: Texture name of left arrow-->
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <!--<SkinArrowRight>: Texture name of right arrow-->
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <!--<SkinSelected>: Texture name for selected SelectSlide-->
+      <SkinSelected>Button</SkinSelected>
+      <!--<SkinArrowLeftSelected>: Texture name of selected left arrow-->
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <!--<SkinArrowRightSelected>: Texture name of selected right arrow-->
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <!--<SkinHighlighted>: Texture name for highlighted SelectSlide-->
+      <SkinHighlighted>Button</SkinHighlighted>
+      <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
+      <X>1152</X>
+      <Y>105</Y>
+      <Z>-4,00</Z>
+      <W>88</W>
+      <H>20</H>
+      <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
+      <ArrowLeftX>1240</ArrowLeftX>
+      <ArrowLeftY>105</ArrowLeftY>
+      <ArrowLeftZ>-4,01</ArrowLeftZ>
+      <ArrowLeftW>20</ArrowLeftW>
+      <ArrowLeftH>20</ArrowLeftH>
+      <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
+      <ArrowRightX>1240</ArrowRightX>
+      <ArrowRightY>105</ArrowRightY>
+      <ArrowRightZ>-4,01</ArrowRightZ>
+      <ArrowRightW>20</ArrowRightW>
+      <ArrowRightH>20</ArrowRightH>
+      <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>SelectSlideColor</Color>
+      <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>SelectSlideSColor</SColor>
+      <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
+      <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
+      <HColor>SelectSlideHColor</HColor>
+      <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
+      <ArrowColor>ArrowColor</ArrowColor>
+      <!--<ArrowSColor>: Selected arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowSR>, <ArrowSG>, <ArrowSB>, <ArrowSA> (lower priority)-->
+      <ArrowSColor>ArrowSColor</ArrowSColor>
+      <!--<TextColor>: Text color from ColorScheme (high priority)-->
+      <!--or <TextR>, <TextG>, <TextB>, <TextA> (lower priority)-->
+      <TextColor>TextColor</TextColor>
+      <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
+      <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
+      <TextSColor>TextSColor</TextSColor>
+      <!--<TextH>: Text height-->
+      <TextH>20,00</TextH>
+      <!--<TextMaxW>: Maximum text width (if exists)-->
+      <TextMaxW>86,00</TextMaxW>
+      <!--<TextFont>: Text font name-->
+      <TextFont>Outline</TextFont>
+      <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <TextStyle>Bold</TextStyle>
+      <!--<NumVisible>: Number of visible elements in the slide-->
+      <NumVisible>1</NumVisible>
+    </SelectSlideDuetPlayer4>
+    <SelectSlideDuetPlayer5>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<SkinArrowLeft>: Texture name of left arrow-->
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <!--<SkinArrowRight>: Texture name of right arrow-->
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <!--<SkinSelected>: Texture name for selected SelectSlide-->
+      <SkinSelected>Button</SkinSelected>
+      <!--<SkinArrowLeftSelected>: Texture name of selected left arrow-->
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <!--<SkinArrowRightSelected>: Texture name of selected right arrow-->
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <!--<SkinHighlighted>: Texture name for highlighted SelectSlide-->
+      <SkinHighlighted>Button</SkinHighlighted>
+      <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
+      <X>1152</X>
+      <Y>260</Y>
+      <Z>-4,00</Z>
+      <W>88</W>
+      <H>20</H>
+      <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
+      <ArrowLeftX>1240</ArrowLeftX>
+      <ArrowLeftY>260</ArrowLeftY>
+      <ArrowLeftZ>-4,01</ArrowLeftZ>
+      <ArrowLeftW>20</ArrowLeftW>
+      <ArrowLeftH>20</ArrowLeftH>
+      <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
+      <ArrowRightX>1240</ArrowRightX>
+      <ArrowRightY>260</ArrowRightY>
+      <ArrowRightZ>-4,01</ArrowRightZ>
+      <ArrowRightW>20</ArrowRightW>
+      <ArrowRightH>20</ArrowRightH>
+      <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>SelectSlideColor</Color>
+      <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>SelectSlideSColor</SColor>
+      <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
+      <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
+      <HColor>SelectSlideHColor</HColor>
+      <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
+      <ArrowColor>ArrowColor</ArrowColor>
+      <!--<ArrowSColor>: Selected arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowSR>, <ArrowSG>, <ArrowSB>, <ArrowSA> (lower priority)-->
+      <ArrowSColor>ArrowSColor</ArrowSColor>
+      <!--<TextColor>: Text color from ColorScheme (high priority)-->
+      <!--or <TextR>, <TextG>, <TextB>, <TextA> (lower priority)-->
+      <TextColor>TextColor</TextColor>
+      <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
+      <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
+      <TextSColor>TextSColor</TextSColor>
+      <!--<TextH>: Text height-->
+      <TextH>20,00</TextH>
+      <!--<TextMaxW>: Maximum text width (if exists)-->
+      <TextMaxW>86,00</TextMaxW>
+      <!--<TextFont>: Text font name-->
+      <TextFont>Outline</TextFont>
+      <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <TextStyle>Bold</TextStyle>
+      <!--<NumVisible>: Number of visible elements in the slide-->
+      <NumVisible>1</NumVisible>
+    </SelectSlideDuetPlayer5>
+    <SelectSlideDuetPlayer6>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<SkinArrowLeft>: Texture name of left arrow-->
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <!--<SkinArrowRight>: Texture name of right arrow-->
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <!--<SkinSelected>: Texture name for selected SelectSlide-->
+      <SkinSelected>Button</SkinSelected>
+      <!--<SkinArrowLeftSelected>: Texture name of selected left arrow-->
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <!--<SkinArrowRightSelected>: Texture name of selected right arrow-->
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <!--<SkinHighlighted>: Texture name for highlighted SelectSlide-->
+      <SkinHighlighted>Button</SkinHighlighted>
+      <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
+      <X>1152</X>
+      <Y>415</Y>
+      <Z>-4,00</Z>
+      <W>88</W>
+      <H>20</H>
+      <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
+      <ArrowLeftX>1240</ArrowLeftX>
+      <ArrowLeftY>415</ArrowLeftY>
+      <ArrowLeftZ>-4,01</ArrowLeftZ>
+      <ArrowLeftW>20</ArrowLeftW>
+      <ArrowLeftH>20</ArrowLeftH>
+      <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
+      <ArrowRightX>1240</ArrowRightX>
+      <ArrowRightY>415</ArrowRightY>
+      <ArrowRightZ>-4,01</ArrowRightZ>
+      <ArrowRightW>20</ArrowRightW>
+      <ArrowRightH>20</ArrowRightH>
+      <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>SelectSlideColor</Color>
+      <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>SelectSlideSColor</SColor>
+      <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
+      <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
+      <HColor>SelectSlideHColor</HColor>
+      <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
+      <ArrowColor>ArrowColor</ArrowColor>
+      <!--<ArrowSColor>: Selected arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowSR>, <ArrowSG>, <ArrowSB>, <ArrowSA> (lower priority)-->
+      <ArrowSColor>ArrowSColor</ArrowSColor>
+      <!--<TextColor>: Text color from ColorScheme (high priority)-->
+      <!--or <TextR>, <TextG>, <TextB>, <TextA> (lower priority)-->
+      <TextColor>TextColor</TextColor>
+      <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
+      <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
+      <TextSColor>TextSColor</TextSColor>
+      <!--<TextH>: Text height-->
+      <TextH>20,00</TextH>
+      <!--<TextMaxW>: Maximum text width (if exists)-->
+      <TextMaxW>86,00</TextMaxW>
+      <!--<TextFont>: Text font name-->
+      <TextFont>Outline</TextFont>
+      <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <TextStyle>Bold</TextStyle>
+      <!--<NumVisible>: Number of visible elements in the slide-->
+      <NumVisible>1</NumVisible>
+    </SelectSlideDuetPlayer6>
+    <NameSelection>
+      <!--<X>, <Y>, <Z>, <W>, <H>: NameSelection position, width and height-->
+      <X>172</X>
+      <Y>127</Y>
+      <Z>0,00</Z>
+      <W>945</W>
+      <H>393</H>
+      <!--<SkinEmptyTile>: Texture name-->
+      <SkinEmptyTile>CoverTile</SkinEmptyTile>
+      <!--<ColorEmptyTile>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <R>1,00</R>
+      <G>1,00</G>
+      <B>1,00</B>
+      <A>0,20</A>
+      <!--<SkinTileSelected>: Texture name-->
+      <SkinTileSelected>PlayerSelector</SkinTileSelected>
+      <!--<Tiles>: Options for tiles-->
+      <Tiles>
+        <!--<W>, <H>: Width and height of tile-->
+        <W>100</W>
+        <H>100</H>
+        <!--<NumW>, <NumH>: Number of tiles-->
+        <NumW>8</NumW>
+        <NumH>3</NumH>
+        <!--<SpaceW>, <SpaceH>: Space between tiles-->
+        <SpaceW>20,71</SpaceW>
+        <SpaceH>30,00</SpaceH>
+        <!--<Name>: Options for player-name-->
+        <Name>
+          <!--<Space>: Space between name and tile-->
+          <Space>2,0</Space>
+          <!--<Font>: Text font name-->
+          <Font>Outline</Font>
+          <!--<Color>: Text color from ColorScheme (high priority)-->
+          <Color>TextColor</Color>
+          <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+          <Style>Bold</Style>
+          <!--<H>: Text height-->
+          <H>20</H>
+        </Name>
+      </Tiles>
+    </NameSelection>
+    <EqualizerPlayer1>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
+      <X>21</X>
+      <Y>152</Y>
+      <Z>-4,00</Z>
+      <W>108</W>
+      <H>60</H>
+      <!--<NumBars>: Number of equalizer-elements.-->
+      <NumBars>8</NumBars>
+      <!--<Space>: Space between equalizer-elements.-->
+      <Space>2,00</Space>
+      <!--<Style>: Style of equalizer-elements: Collums-->
+      <Style>Collums</Style>
+      <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Color>: Equalizer color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player1Dim2</Color>
+      <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
+      <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
+      <MaxColor>Player1Dim2</MaxColor>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </EqualizerPlayer1>
+    <EqualizerPlayer2>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
+      <X>21</X>
+      <Y>307</Y>
+      <Z>-4,00</Z>
+      <W>108</W>
+      <H>60</H>
+      <!--<NumBars>: Number of equalizer-elements.-->
+      <NumBars>8</NumBars>
+      <!--<Space>: Space between equalizer-elements.-->
+      <Space>2,00</Space>
+      <!--<Style>: Style of equalizer-elements: Collums-->
+      <Style>Collums</Style>
+      <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Color>: Equalizer color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player2Dim2</Color>
+      <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
+      <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
+      <MaxColor>Player2Dim2</MaxColor>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </EqualizerPlayer2>
+    <EqualizerPlayer3>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
+      <X>21</X>
+      <Y>467</Y>
+      <Z>-4,00</Z>
+      <W>108</W>
+      <H>60</H>
+      <!--<NumBars>: Number of equalizer-elements.-->
+      <NumBars>8</NumBars>
+      <!--<Space>: Space between equalizer-elements.-->
+      <Space>2,00</Space>
+      <!--<Style>: Style of equalizer-elements: Collums-->
+      <Style>Collums</Style>
+      <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Color>: Equalizer color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player3Dim2</Color>
+      <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
+      <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
+      <MaxColor>Player3Dim2</MaxColor>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </EqualizerPlayer3>
+    <EqualizerPlayer4>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
+      <X>1153</X>
+      <Y>152</Y>
+      <Z>-4,00</Z>
+      <W>108</W>
+      <H>60</H>
+      <!--<NumBars>: Number of equalizer-elements.-->
+      <NumBars>8</NumBars>
+      <!--<Space>: Space between equalizer-elements.-->
+      <Space>2,00</Space>
+      <!--<Style>: Style of equalizer-elements: Collums-->
+      <Style>Collums</Style>
+      <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Color>: Equalizer color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player4Dim2</Color>
+      <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
+      <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
+      <MaxColor>Player4Dim2</MaxColor>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </EqualizerPlayer4>
+    <EqualizerPlayer5>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
+      <X>1153</X>
+      <Y>307</Y>
+      <Z>-4,00</Z>
+      <W>108</W>
+      <H>60</H>
+      <!--<NumBars>: Number of equalizer-elements.-->
+      <NumBars>8</NumBars>
+      <!--<Space>: Space between equalizer-elements.-->
+      <Space>2,00</Space>
+      <!--<Style>: Style of equalizer-elements: Collums-->
+      <Style>Collums</Style>
+      <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Color>: Equalizer color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player5Dim2</Color>
+      <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
+      <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
+      <MaxColor>Player5Dim2</MaxColor>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </EqualizerPlayer5>
+    <EqualizerPlayer6>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
+      <X>1153</X>
+      <Y>467</Y>
+      <Z>-4,00</Z>
+      <W>108</W>
+      <H>60</H>
+      <!--<NumBars>: Number of equalizer-elements.-->
+      <NumBars>8</NumBars>
+      <!--<Space>: Space between equalizer-elements.-->
+      <Space>2,00</Space>
+      <!--<Style>: Style of equalizer-elements: Collums-->
+      <Style>Collums</Style>
+      <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Color>: Equalizer color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Player6Dim2</Color>
+      <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
+      <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
+      <MaxColor>Player6Dim2</MaxColor>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </EqualizerPlayer6>
   </ScreenNames>
 </root>

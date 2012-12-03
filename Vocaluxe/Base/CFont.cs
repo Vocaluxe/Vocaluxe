@@ -23,6 +23,13 @@ namespace Vocaluxe.Base
         Right
     }
 
+    public enum EHAlignment
+    {
+        Top,
+        Center,
+        Bottom
+    }
+
     public enum EStyle
     {
         Normal,
@@ -33,13 +40,20 @@ namespace Vocaluxe.Base
    
     class CGlyph
     {
-        public readonly float SIZEh = 50f;
+        private float _SIZEh = 50f;
+        public float SIZEh
+        {
+            get { return _SIZEh; }
+        }
+
         public STexture Texture;
         public char Chr;
         public int width;
         
-        public CGlyph(char chr)
+        public CGlyph(char chr, float MaxHigh)
         {
+            _SIZEh = MaxHigh;
+            
             float outline = CFonts.Outline;
             TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
 
@@ -145,7 +159,8 @@ namespace Vocaluxe.Base
         private Hashtable _htGlyphs;
         private PrivateFontCollection fonts;
         private FontFamily family;
-
+        private float SIZEh;
+        
         public string FilePath;
         
         
@@ -174,6 +189,28 @@ namespace Vocaluxe.Base
        
             _Glyphs = new List<CGlyph>();
             _htGlyphs = new Hashtable();
+
+            switch (CConfig.TextureQuality)
+            {
+                case ETextureQuality.TR_CONFIG_TEXTURE_LOWEST:
+                    SIZEh = 25f;
+                    break;
+                case ETextureQuality.TR_CONFIG_TEXTURE_LOW:
+                    SIZEh = 50f;
+                    break;
+                case ETextureQuality.TR_CONFIG_TEXTURE_MEDIUM:
+                    SIZEh = 100f;
+                    break;
+                case ETextureQuality.TR_CONFIG_TEXTURE_HIGH:
+                    SIZEh = 200f;
+                    break;
+                case ETextureQuality.TR_CONFIG_TEXTURE_HIGHEST:
+                    SIZEh = 400f;
+                    break;
+                default:
+                    SIZEh = 100f;
+                    break;
+            }
         }
 
         public void DrawGlyph(char chr, float x, float y, float h, float z, SColorF color)
@@ -236,7 +273,7 @@ namespace Vocaluxe.Base
                 return;
 
             float h = CFonts.Height;
-            _Glyphs.Add(new CGlyph(chr));
+            _Glyphs.Add(new CGlyph(chr, SIZEh));
             _htGlyphs.Add(chr, _Glyphs.Count - 1);
             CFonts.Height = h;
         }
@@ -707,7 +744,7 @@ namespace Vocaluxe.Base
         /// <summary>
         /// Loads theme fonts from skin file
         /// </summary>
-        public static void LoadThemeFonts(string ThemeName, string SkinFolder, XPathNavigator navigator)
+        public static void LoadThemeFonts(string ThemeName, string FontFolder, XPathNavigator navigator)
         {
             string value = string.Empty;
             int i = 1;
@@ -723,7 +760,7 @@ namespace Vocaluxe.Base
 
                 ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileNormal", navigator, ref value, value);
                 sf.FileNormal = value;
-                value = Path.Combine(SkinFolder, Path.Combine(sf.Folder, value));
+                value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 CFont f = new CFont(value);
                 sf.Normal = f;
                 
@@ -733,19 +770,19 @@ namespace Vocaluxe.Base
                 
                 ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileItalic", navigator, ref value, value);
                 sf.FileItalic = value;
-                value = Path.Combine(SkinFolder, Path.Combine(sf.Folder, value));
+                value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 f = new CFont(value);
                 sf.Italic = f;
 
                 ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileBold", navigator, ref value, value);
                 sf.FileBold = value;
-                value = Path.Combine(SkinFolder, Path.Combine(sf.Folder, value));
+                value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 f = new CFont(value);
                 sf.Bold = f;
 
                 ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileBoldItalic", navigator, ref value, value);
                 sf.FileBoldItalic = value;
-                value = Path.Combine(SkinFolder, Path.Combine(sf.Folder, value));
+                value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 f = new CFont(value);
                 sf.BoldItalic = f;
 
@@ -796,10 +833,10 @@ namespace Vocaluxe.Base
                     writer.WriteElementString("Folder", _Fonts[Index].Folder);
 
                     writer.WriteElementString("Outline", _Fonts[Index].Outline.ToString("#0.00"));
-                    writer.WriteElementString("ColorR", _Fonts[Index].OutlineColor.R.ToString("#0.00"));
-                    writer.WriteElementString("ColorG", _Fonts[Index].OutlineColor.G.ToString("#0.00"));
-                    writer.WriteElementString("ColorB", _Fonts[Index].OutlineColor.B.ToString("#0.00"));
-                    writer.WriteElementString("ColorA", _Fonts[Index].OutlineColor.A.ToString("#0.00"));
+                    writer.WriteElementString("OutlineColorR", _Fonts[Index].OutlineColor.R.ToString("#0.00"));
+                    writer.WriteElementString("OutlineColorG", _Fonts[Index].OutlineColor.G.ToString("#0.00"));
+                    writer.WriteElementString("OutlineColorB", _Fonts[Index].OutlineColor.B.ToString("#0.00"));
+                    writer.WriteElementString("OutlineColorA", _Fonts[Index].OutlineColor.A.ToString("#0.00"));
 
                     writer.WriteElementString("FileNormal", _Fonts[Index].FileNormal);
                     writer.WriteElementString("FileBold", _Fonts[Index].FileBold);

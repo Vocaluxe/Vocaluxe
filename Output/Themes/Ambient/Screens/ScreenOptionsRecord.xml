@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenOptionsRecord>
-    <ScreenVersion>1</ScreenVersion>
+    <ScreenVersion>2</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>Video</Type>
@@ -172,13 +172,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENORECORD_OPTIONS</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -199,13 +201,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENORECORD_DEVICE</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -226,13 +230,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENORECORD_INPUT</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -253,13 +259,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENORECORD_CHANNEL_1</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -280,13 +288,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENORECORD_CHANNEL_2</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -307,13 +317,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENORECORD_MIC_DELAY</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -335,13 +347,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextWarningColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENORECORD_MIC_WARNING</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -362,13 +376,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Right</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -389,13 +405,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Right</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -432,13 +450,15 @@
         <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
         <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
         <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align: Left, Center, Right-->
+        <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
+        <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_BUTTON_BACK</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -487,13 +507,15 @@
         <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
         <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
         <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align: Left, Center, Right-->
+        <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
+        <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_SCREENORECORD_BUTTON_DELAYTEST</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -704,7 +726,7 @@
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
-      <NumVisible>4</NumVisible>
+      <NumVisible>7</NumVisible>
     </SelectSlideRecordChannel1>
     <SelectSlideRecordChannel2>
       <!--<Skin>: Texture name-->
@@ -769,7 +791,7 @@
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
-      <NumVisible>4</NumVisible>
+      <NumVisible>7</NumVisible>
     </SelectSlideRecordChannel2>
     <SelectSlideDelay>
       <!--<Skin>: Texture name-->
@@ -836,5 +858,67 @@
       <!--<NumVisible>: Number of visible elements in the slide-->
       <NumVisible>5</NumVisible>
     </SelectSlideDelay>
+    <EqualizerChannel1>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
+      <X>50</X>
+      <Y>400</Y>
+      <Z>-1,00</Z>
+      <W>230</W>
+      <H>150</H>
+      <!--<NumBars>: Number of equalizer-elements.-->
+      <NumBars>10</NumBars>
+      <!--<Space>: Space between equalizer-elements.-->
+      <Space>2,00</Space>
+      <!--<Style>: Style of equalizer-elements: Collums-->
+      <Style>Collums</Style>
+      <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Color>: Equalizer color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>ButtonColor</Color>
+      <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
+      <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
+      <MaxColor>ButtonColor</MaxColor>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+      <Reflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </Reflection>
+    </EqualizerChannel1>
+    <EqualizerChannel2>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height-->
+      <X>400</X>
+      <Y>400</Y>
+      <Z>-1,00</Z>
+      <W>230</W>
+      <H>150</H>
+      <!--<NumBars>: Number of equalizer-elements.-->
+      <NumBars>10</NumBars>
+      <!--<Space>: Space between equalizer-elements.-->
+      <Space>2,00</Space>
+      <!--<Style>: Style of equalizer-elements: Collums-->
+      <Style>Collums</Style>
+      <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <!--<Color>: Equalizer color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>ButtonColor</Color>
+      <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
+      <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
+      <MaxColor>ButtonColor</MaxColor>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+      <Reflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </Reflection>
+    </EqualizerChannel2>
   </ScreenOptionsRecord>
 </root>

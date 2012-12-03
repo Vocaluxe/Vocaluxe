@@ -75,6 +75,11 @@ namespace Vocaluxe.Menu.SingNotes
             _ActID = 0;
         }
 
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
         public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
@@ -304,7 +309,7 @@ namespace Vocaluxe.Menu.SingNotes
             float h = _PlayerNotes[n].Rect.H;
             float dh = h / CSettings.NumNoteLines * (2f - (int)CGame.Player[_PlayerNotes[n].PlayerNr].Difficulty) / 4f;
 
-            float beats = Line.LastBeat - Line.FirstBeat + 1;
+            float beats = Line.LastNoteBeat - Line.FirstNoteBeat + 1;
 
             if (beats == 0)
                 return;
@@ -324,7 +329,7 @@ namespace Vocaluxe.Menu.SingNotes
                     float width = note.Duration / beats * w;
 
                     SRectF rect = new SRectF(
-                        _PlayerNotes[n].Rect.X + (note.StartBeat - Line.FirstBeat) / beats * w,
+                        _PlayerNotes[n].Rect.X + (note.StartBeat - Line.FirstNoteBeat) / beats * w,
                         _PlayerNotes[n].Rect.Y + (CSettings.NumNoteLines - 1 - (note.Tone - BaseLine)/2) / CSettings.NumNoteLines * h - dh,
                         width,
                         h / CSettings.NumNoteLines + 2 * dh,
@@ -344,7 +349,7 @@ namespace Vocaluxe.Menu.SingNotes
 
             if (CConfig.DrawToneHelper == EOffOn.TR_CONFIG_ON)
             {
-                DrawToneHelper(n, (int)BaseLine, (CGame.MidBeatD - Line.FirstBeat) / beats * w);
+                DrawToneHelper(n, (int)BaseLine, (CGame.MidBeatD - Line.FirstNoteBeat) / beats * w);
             }
 
             int i = 0;
@@ -377,7 +382,7 @@ namespace Vocaluxe.Menu.SingNotes
 
             foreach (CNote note in SingLine[CGame.Player[Player].CurrentLine].Notes)
             {
-                if (note.StartBeat >= Line.FirstBeat && note.EndBeat <= Line.LastBeat)
+                if (note.StartBeat >= Line.FirstNoteBeat && note.EndBeat <= Line.LastNoteBeat)
                 {
                     float width = note.Duration / beats * w;
 
@@ -385,7 +390,7 @@ namespace Vocaluxe.Menu.SingNotes
                         width -= (1 - (CGame.MidBeatD - CGame.ActBeatD)) / beats * w;
 
                     SRectF rect = new SRectF(
-                        _PlayerNotes[n].Rect.X + (note.StartBeat - Line.FirstBeat) / beats * w,
+                        _PlayerNotes[n].Rect.X + (note.StartBeat - Line.FirstNoteBeat) / beats * w,
                         _PlayerNotes[n].Rect.Y + (CSettings.NumNoteLines - 1 - (note.Tone - BaseLine)/2) / CSettings.NumNoteLines * h - dh,
                         width,
                         h / CSettings.NumNoteLines + 2 * dh,
@@ -585,7 +590,7 @@ namespace Vocaluxe.Menu.SingNotes
             for (int i = 0; i < CSettings.NumNoteLines - 1; i++)
             {
                 float y = Rect.Y + Rect.H / CSettings.NumNoteLines * (i + 1);
-                CDraw.DrawColor(Color, new SRectF(Rect.X, y, Rect.W, 1, -0.5f));
+                CDraw.DrawColor(Color, new SRectF(Rect.X, y, Rect.W, 1, -1.0f));
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenOptionsTheme>
-    <ScreenVersion>2</ScreenVersion>
+    <ScreenVersion>3</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>Video</Type>
@@ -141,6 +141,22 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </Static8>
+    <Static9>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>50</X>
+      <Y>520</Y>
+      <Z>0,00</Z>
+      <W>460</W>
+      <H>50</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </Static9>
     <Text1>
       <!--<X>, <Y>: Text position-->
       <X>640</X>
@@ -156,13 +172,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOTHEME_OPTIONS</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -183,13 +201,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOTHEME_THEME</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -210,13 +230,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOTHEME_SKIN</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -237,13 +259,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOTHEME_COVERTHEME</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -264,13 +288,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOTHEME_NOTELINES</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -291,13 +317,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOTHEME_TONEHELPER</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -318,13 +346,15 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOTHEME_TIMERLOOK</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -345,18 +375,49 @@
       <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
       <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
       <SColor>TextSColor</SColor>
-      <!--<Align>: Text align: Left, Center, Right-->
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
-      <Text>TR_SCREENOTHEME_COVERLOADING</Text>
+      <!--<Text>: Nothing or translation tag-->
+      <Text>TR_SCREENOTHEME_FADEINFO</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </Text8>
+    <Text9>
+      <!--<X>, <Y>: Text position-->
+      <X>75</X>
+      <Y>525</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text>TR_SCREENOTHEME_COVERLOADING</Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </Text9>
     <ButtonExit>
       <!--<Skin>: Texture name-->
       <Skin>Button</Skin>
@@ -388,13 +449,15 @@
         <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
         <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
         <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align: Left, Center, Right-->
+        <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
+        <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_BUTTON_BACK</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -802,7 +865,7 @@
       <!--<NumVisible>: Number of visible elements in the slide-->
       <NumVisible>2</NumVisible>
     </SelectSlideTimerLook>
-    <SelectSlideCoverLoading>
+    <SelectSlideFadeInfo>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
       <!--<SkinArrowLeft>: Texture name of left arrow-->
@@ -832,6 +895,71 @@
       <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
       <ArrowRightX>1170</ArrowRightX>
       <ArrowRightY>465</ArrowRightY>
+      <ArrowRightZ>0,00</ArrowRightZ>
+      <ArrowRightW>40</ArrowRightW>
+      <ArrowRightH>40</ArrowRightH>
+      <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>SelectSlideColor</Color>
+      <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>SelectSlideSColor</SColor>
+      <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
+      <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
+      <HColor>SelectSlideHColor</HColor>
+      <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
+      <ArrowColor>ArrowColor</ArrowColor>
+      <!--<ArrowSColor>: Selected arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowSR>, <ArrowSG>, <ArrowSB>, <ArrowSA> (lower priority)-->
+      <ArrowSColor>ArrowSColor</ArrowSColor>
+      <!--<TextColor>: Text color from ColorScheme (high priority)-->
+      <!--or <TextR>, <TextG>, <TextB>, <TextA> (lower priority)-->
+      <TextColor>TextColor</TextColor>
+      <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
+      <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
+      <TextSColor>TextSColor</TextSColor>
+      <!--<TextH>: Text height-->
+      <TextH>32,00</TextH>
+      <!--<TextMaxW>: Maximum text width (if exists)-->
+      <TextMaxW>616,00</TextMaxW>
+      <!--<TextFont>: Text font name-->
+      <TextFont>Outline</TextFont>
+      <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <TextStyle>Bold</TextStyle>
+      <!--<NumVisible>: Number of visible elements in the slide-->
+      <NumVisible>2</NumVisible>
+    </SelectSlideFadeInfo>
+    <SelectSlideCoverLoading>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<SkinArrowLeft>: Texture name of left arrow-->
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <!--<SkinArrowRight>: Texture name of right arrow-->
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <!--<SkinSelected>: Texture name for selected SelectSlide-->
+      <SkinSelected>SelectSlide</SkinSelected>
+      <!--<SkinArrowLeftSelected>: Texture name of selected left arrow-->
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <!--<SkinArrowRightSelected>: Texture name of selected right arrow-->
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <!--<SkinHighlighted>: Texture name for highlighted SelectSlide-->
+      <SkinHighlighted>SelectSlide</SkinHighlighted>
+      <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
+      <X>500</X>
+      <Y>520</Y>
+      <Z>0,00</Z>
+      <W>700</W>
+      <H>50</H>
+      <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
+      <ArrowLeftX>505</ArrowLeftX>
+      <ArrowLeftY>525</ArrowLeftY>
+      <ArrowLeftZ>0,00</ArrowLeftZ>
+      <ArrowLeftW>40</ArrowLeftW>
+      <ArrowLeftH>40</ArrowLeftH>
+      <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
+      <ArrowRightX>1170</ArrowRightX>
+      <ArrowRightY>525</ArrowRightY>
       <ArrowRightZ>0,00</ArrowRightZ>
       <ArrowRightW>40</ArrowRightW>
       <ArrowRightH>40</ArrowRightH>

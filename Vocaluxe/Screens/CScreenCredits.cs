@@ -172,6 +172,7 @@ namespace Vocaluxe.Screens
                     }
                 }
             }
+
         }
 
         public override void ReloadTheme() {}

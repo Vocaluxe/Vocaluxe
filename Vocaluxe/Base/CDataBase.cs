@@ -7,7 +7,16 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Text;
 
+#if WIN
 using System.Data.SQLite;
+#else
+using Mono.Data.Sqlite;
+using SQLiteConnection = Mono.Data.Sqlite.SqliteConnection;
+using SQLiteTransaction = Mono.Data.Sqlite.SqliteTransaction;
+using SQLiteCommand = Mono.Data.Sqlite.SqliteCommand;
+using SQLiteDataReader = Mono.Data.Sqlite.SqliteDataReader;
+#endif
+
 using Community.CsharpSqlite;
 
 using Vocaluxe.Lib.Draw;
@@ -57,8 +66,10 @@ namespace Vocaluxe.Base
             player.Difficulty = (EGameDifficulty)Diff;
 
             SQLiteConnection connection = new SQLiteConnection();
-            connection.ConnectionString = "Data Source=" + FilePath;
             SQLiteCommand command;
+
+            connection.ConnectionString = "Data Source=" + FilePath;
+            
 
             try
             {
@@ -797,10 +808,16 @@ namespace Vocaluxe.Base
                         data.id = Sqlite3.sqlite3_column_int(Stmt, 0);
 
                         byte[] bytes = Sqlite3.sqlite3_column_rawbytes(Stmt, 1);
-                        data.str1 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        if (bytes != null)
+                            data.str1 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        else
+                            data.str1 = "Someone";
 
                         bytes = Sqlite3.sqlite3_column_rawbytes(Stmt, 2);
-                        data.str2 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        if (bytes != null)
+                            data.str2 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        else
+                            data.str2 = "Someone";
 
                         songs.Add(data);
                     }
@@ -832,7 +849,10 @@ namespace Vocaluxe.Base
                         data.id = Sqlite3.sqlite3_column_int(Stmt, 0);
 
                         byte[] bytes = Sqlite3.sqlite3_column_rawbytes(Stmt, 1);
-                        data.str1 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        if (bytes != null)
+                            data.str1 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        else
+                            data.str1 = "Someone";
 
                         if (dateExists)
                             data.ticks = UnixTimeToTicks(Sqlite3.sqlite3_column_int(Stmt, 2));

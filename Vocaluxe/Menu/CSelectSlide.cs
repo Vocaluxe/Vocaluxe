@@ -38,10 +38,15 @@ namespace Vocaluxe.Menu
         public EStyle TextStyle;
     }
 
-    class CSelectSlide : IMenuElement
+    class CSelectSlide : IMenuElement, ICloneable
     {
         private SThemeSelectSlide _Theme;
         private bool _ThemeLoaded;
+
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
 
         public SRectF Rect;
         public SRectF RectArrowLeft;
@@ -86,7 +91,7 @@ namespace Vocaluxe.Menu
 
         private List<SRectF> _ValueBounds = new List<SRectF>();
 
-        public bool WithTextures;
+        public bool WithTextures = false;
 
         private int _Selection = -1;
         public int Selection
@@ -109,6 +114,14 @@ namespace Vocaluxe.Menu
                     return _ValueIndexes[_Selection];
 
                 else return -1;            
+            }
+        }
+
+        public int NumValues
+        {
+            get
+            {
+                return _ValueNames.Count;
             }
         }
 
@@ -149,6 +162,61 @@ namespace Vocaluxe.Menu
             _Textures = new List<STexture>();
             _ValueIndexes = new List<int>();
             _ValueNames = new List<string>();
+        }
+
+        public CSelectSlide(CSelectSlide slide)
+        {
+            _Theme = new SThemeSelectSlide();
+            
+            _Theme.TextureArrowLeftName = slide._Theme.TextureArrowLeftName;
+            _Theme.TextureArrowRightName = slide._Theme.TextureArrowRightName;
+
+            _Theme.STextureName = slide._Theme.STextureName;
+            _Theme.STextureArrowLeftName = slide._Theme.STextureArrowLeftName;
+            _Theme.STextureArrowRightName = slide._Theme.STextureArrowRightName;
+
+            _Theme.HTextureName = slide._Theme.HTextureName;
+
+            _Theme.ColorName = slide._Theme.ColorName;
+            _Theme.SColorName = slide._Theme.SColorName;
+            _Theme.HColorName = slide._Theme.HColorName;
+
+            _Theme.ArrowColorName = slide._Theme.ArrowColorName;
+            _Theme.SArrowColorName = slide._Theme.SArrowColorName;
+
+            _Theme.TextColorName = slide._Theme.TextColorName;
+            _Theme.STextColorName = slide._Theme.STextColorName;
+
+            _Theme.TextFont = slide._Theme.TextFont;
+            _Theme.TextStyle = slide._Theme.TextStyle;
+
+            _ThemeLoaded = false;
+
+            Rect = new SRectF(slide.Rect);
+            RectArrowLeft = new SRectF(slide.RectArrowLeft);
+            RectArrowRight = new SRectF(slide.RectArrowRight);
+
+            Color = new SColorF(slide.Color);
+            SColor = new SColorF(slide.SColor);
+
+            ColorArrow = new SColorF(slide.ColorArrow);
+            SColorArrow = new SColorF(slide.SColorArrow);
+
+            TextColor = new SColorF(slide.TextColor);
+            STextColor = new SColorF(slide.STextColor);
+            TextH = slide.TextH;
+            MaxW = slide.MaxW;
+
+            _Selected = slide._Selected;
+            _Textures = new List<STexture>(slide._Textures);
+            _ValueIndexes = new List<int>(slide._ValueIndexes);
+            _ValueNames = new List<string>(slide._ValueNames);
+            _ValueBounds = new List<SRectF>(slide._ValueBounds);
+            _Selection = slide._Selection;
+            _NumVisible = slide._NumVisible;
+
+            WithTextures = slide.WithTextures;
+            Visible = slide.Visible;
         }
 
         public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
@@ -581,14 +649,14 @@ namespace Vocaluxe.Menu
 
         public void ProcessMouseMove(int x, int y)
         {
-            _ArrowLeftSelected  = CHelper.IsInBounds(RectArrowLeft, x, y);    
-            _ArrowRightSelected = CHelper.IsInBounds(RectArrowRight, x, y);
+            _ArrowLeftSelected = CHelper.IsInBounds(RectArrowLeft, x, y) && _Selection > 0;    
+            _ArrowRightSelected = CHelper.IsInBounds(RectArrowRight, x, y) && _Selection < _ValueNames.Count - 1;
         }
 
         public void ProcessMouseLBClick(int x, int y)
         {
-            _ArrowLeftSelected = CHelper.IsInBounds(RectArrowLeft, x, y);
-            _ArrowRightSelected = CHelper.IsInBounds(RectArrowRight, x, y);
+            _ArrowLeftSelected = CHelper.IsInBounds(RectArrowLeft, x, y) && _Selection > 0;
+            _ArrowRightSelected = CHelper.IsInBounds(RectArrowRight, x, y) && _Selection < _ValueNames.Count - 1;
 
             if (_ArrowLeftSelected)
                 PrevValue();
@@ -744,6 +812,11 @@ namespace Vocaluxe.Menu
         {
             UnloadTextures();
             LoadTextures();
+        }
+
+        public object Clone()
+        {
+            return base.MemberwiseClone();
         }
 
         #region ThemeEdit

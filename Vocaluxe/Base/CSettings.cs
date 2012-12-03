@@ -40,14 +40,14 @@ namespace Vocaluxe.Base
         public static EGameState GameState = EGameState.Start;
 
         public const string sProgramName = "Vocaluxe";
-        public const string sProgramCodeName = "Rising Star";
+        public const string sProgramCodeName = "Test";
 
         public const int iVersionMajor = 0;
-        public const int iVersionMinor = 1;      // milestones
-        public const int iVersionSub = 2;        // patches
-        public const ERevision VersionRevision = ERevision.Release;
+        public const int iVersionMinor = 2;      // milestones
+        public const int iVersionSub = 0;        // patches
+        public const ERevision VersionRevision = ERevision.Alpha;
 
-        public const int iBuild = 62;             // Increase on every published version! Never Reset!
+        public const int iBuild = 68;             // Increase on every published version! Never Reset!
 
         public const int iDatabaseHighscoreVersion = 1;
         public const int iDatabaseCoverVersion = 1;
@@ -94,6 +94,7 @@ namespace Vocaluxe.Base
         public const string sFolderLanguages = "Languages";
         public const string sFolderScreenshots = "Screenshots";
         public const string sFolderBackgroundMusic = "BackgroundMusic";
+        public static string sFolderPlaylists = "Playlists";
 
         //public const String[] ToneStrings = new String[]{ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
         public const int ToneMin = -36;
@@ -103,7 +104,7 @@ namespace Vocaluxe.Base
         public static int MouseMoveDiffMin = 2;
         public const float MouseMoveOffTime = 3f;
         
-        public const int MaxNumPlayer = 3;
+        public const int MaxNumPlayer = 6;
         public const int MaxScore = 10000;
         public const int LinebonusScore = 1000;
         public const int MinScoreForDB = 100;
@@ -112,9 +113,19 @@ namespace Vocaluxe.Base
         public const float LyricHelperMoveTime = 1.5f;
         public const float LyricHelperMinTime = 0.2f;
 
+        public const float DefaultMedleyFadeInTime = 8f;
+        public const float DefaultMedleyFadeOutTime = 2f;
+        public const int MedleyMinSeriesLength = 3;
+        public const float MedleyMinDuration = 40f;
+
         public static bool TabNavigation = false;
 
         public const float BackgroundMusicFadeTime = 0.5f;
+
+        public static List<string> MusicFileTypes = new List<string>()
+        { 
+            "*.mp3","*.wma","*.ogg","*.wav" 
+        };
         
         public static string GetVersionText()
         {
@@ -174,6 +185,7 @@ namespace Vocaluxe.Base
             Folders.Add(sFolderScreenshots);
             Folders.Add(sFolderBackgroundMusic);
             Folders.Add(sFolderSounds);
+            Folders.Add(sFolderPlaylists);
 
             foreach (string folder in Folders)
             {
@@ -181,6 +193,12 @@ namespace Vocaluxe.Base
                 if (!Directory.Exists(path))
                     Directory.CreateDirectory(path);   
             }       
+        }
+
+        public static void CreateFolder(string path)
+        {
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);  
         }
     }
 }
