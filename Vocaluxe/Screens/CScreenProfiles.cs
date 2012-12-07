@@ -17,7 +17,7 @@ namespace Vocaluxe.Screens
     class CScreenProfiles : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        const int ScreenVersion = 2;
 
         private const string SelectSlideProfiles = "SelectSlideProfiles";
         private const string SelectSlideDifficulty = "SelectSlideDifficulty";
@@ -29,6 +29,9 @@ namespace Vocaluxe.Screens
         private const string ButtonSave = "ButtonSave";
         private const string ButtonNew = "ButtonNew";
         private const string ButtonDelete = "ButtonDelete";
+        private const string ButtonTakeSnapshot = "ButtonTakeSnapshot";
+        private const string ButtonSaveSnapshot = "ButtonSaveSnapshot";
+        private const string ButtonDiscardSnapshot = "ButtonDiscardSnapshot";
 
         private const string StaticAvatar = "StaticAvatar";
 
@@ -45,7 +48,7 @@ namespace Vocaluxe.Screens
 
             _ThemeName = "ScreenProfiles";
             _ScreenVersion = ScreenVersion;
-            _ThemeButtons = new string[] { ButtonPlayerName, ButtonExit, ButtonSave, ButtonNew, ButtonDelete };
+            _ThemeButtons = new string[] { ButtonPlayerName, ButtonExit, ButtonSave, ButtonNew, ButtonDelete, ButtonTakeSnapshot, ButtonSaveSnapshot, ButtonDiscardSnapshot };
             _ThemeSelectSlides = new string[] { SelectSlideProfiles, SelectSlideDifficulty, SelectSlideAvatars, SelectSlideGuestProfile, SelectSlideActive };
             _ThemeStatics = new string[] { StaticAvatar };
 
