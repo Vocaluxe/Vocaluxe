@@ -92,6 +92,11 @@ namespace Vocaluxe.Screens
         {
             base.HandleMouse(MouseEvent);
 
+            if (MouseEvent.Wheel != 0)
+            {
+                ChangeRound(MouseEvent.Wheel);
+            }
+
             if (MouseEvent.LB)
             {
                 CGraphics.FadeTo(EScreens.ScreenHighscore);
@@ -117,9 +122,23 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-
             SPlayer[] player = new SPlayer[CGame.NumPlayer];
-            player = _Points.GetPlayer(_Round - 1, CGame.NumPlayer);
+            if (_Round != 0)
+                player = _Points.GetPlayer(_Round - 1, CGame.NumPlayer);
+            else {
+                for (int i = 0; i < CGame.NumRounds; i++)
+                {
+                    SPlayer[] points = _Points.GetPlayer(i, CGame.NumPlayer);
+                    for (int p = 0; p < player.Length; p++)
+                    {
+                        player[p].Points += points[p].Points;
+                    }
+                }
+                for (int p = 0; p < player.Length; p++)
+                {
+                    player[p].Points = (int)(player[p].Points/CGame.NumRounds);
+                }
+            }
             for (int p = 0; p < player.Length; p++)
             {
                 if (StaticPointsBarDrawnPoints[p] < player[p].Points)
@@ -244,21 +263,61 @@ namespace Vocaluxe.Screens
 
         private void UpdateRatings()
         {
-            CSong song = CGame.GetSong(_Round);
-            if (song == null)
-                return;
-
-            Texts[htTexts(TextSong)].Text = song.Artist + " - " + song.Title;
-            if (_Points.NumRounds > 1)
+            CSong song = null;
+            SPlayer[] player = new SPlayer[CGame.NumPlayer];
+            if (_Round != 0)
             {
-                Texts[htTexts(TextSong)].Text += " (" + _Round + "/" + _Points.NumRounds + ")";
+                song = CGame.GetSong(_Round);
+                if (song == null)
+                    return;
+
+                Texts[htTexts(TextSong)].Text = song.Artist + " - " + song.Title;
+                if (_Points.NumRounds > 1)
+                {
+                    Texts[htTexts(TextSong)].Text += " (" + _Round + "/" + _Points.NumRounds + ")";
+                }
+                player = _Points.GetPlayer(_Round - 1, CGame.NumPlayer);
+            }
+            else 
+            {
+                Texts[htTexts(TextSong)].Text = "TR_SCREENSCORE_OVERALLSCORE";
+                for (int i = 0; i < CGame.NumRounds; i++)
+                {
+                    SPlayer[] points = _Points.GetPlayer(i, CGame.NumPlayer);
+                    for (int p = 0; p < player.Length; p++)
+                    {
+                        if (i < 1)
+                        {
+                            player[p].ProfileID = points[p].ProfileID;
+                            player[p].Name = points[p].Name;
+                            player[p].Difficulty = points[p].Difficulty;
+                        }
+                        player[p].Points += points[p].Points;
+                    }
+                }
+                for (int p = 0; p < player.Length; p++)
+                {
+                    player[p].Points = (int)(player[p].Points / CGame.NumRounds);
+                }
             }
 
-            SPlayer[] player = new SPlayer[CGame.NumPlayer];
-            player = _Points.GetPlayer(_Round - 1, CGame.NumPlayer);
             for (int p = 0; p < player.Length; p++)
             {
-                Texts[htTexts(TextNames[p, CGame.NumPlayer - 1])].Text = player[p].Name;
+                if (song != null)
+                {
+                    if (!song.IsDuet)
+                        Texts[htTexts(TextNames[p, CGame.NumPlayer - 1])].Text = player[p].Name;
+                    else
+                        if (player[p].LineNr == 0 && song.DuetPart1 != "Part 1")
+                            Texts[htTexts(TextNames[p, CGame.NumPlayer - 1])].Text = player[p].Name + " (" + song.DuetPart1 + ")";
+                        else if (player[p].LineNr == 1 && song.DuetPart2 != "Part 2")
+                            Texts[htTexts(TextNames[p, CGame.NumPlayer - 1])].Text = player[p].Name + " (" + song.DuetPart2 + ")";
+                        else
+                            Texts[htTexts(TextNames[p, CGame.NumPlayer - 1])].Text = player[p].Name;
+                }
+                else
+                    Texts[htTexts(TextNames[p, CGame.NumPlayer - 1])].Text = player[p].Name;
+                
                 Texts[htTexts(TextScores[p, CGame.NumPlayer - 1])].Text = ((int)Math.Round(player[p].Points)).ToString("0000") + " " + CLanguage.Translate("TR_SCREENSCORE_POINTS");
                 if (CGame.NumPlayer <= 3)
                 {
@@ -315,9 +374,19 @@ namespace Vocaluxe.Screens
 
         private void ChangeRound(int Num)
         {
-            if ((_Round + Num) <= _Points.NumRounds && (_Round + Num) > 0)
+            if ((_Round + Num) <= _Points.NumRounds && (_Round + Num) > 0 && _Round != 0)
             {
                 _Round += Num;
+                UpdateRatings();
+            }
+            else if(Num > 0 && _Round != 0 && CGame.NumRounds > 1)
+            {
+                _Round = 0;
+                UpdateRatings();
+            }
+            else if (Num < 0 && _Round == 0)
+            {
+                _Round = CGame.NumRounds;
                 UpdateRatings();
             }
         }

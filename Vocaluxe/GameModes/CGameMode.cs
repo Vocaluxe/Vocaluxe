@@ -39,12 +39,13 @@ namespace Vocaluxe.GameModes
                     _Rounds[round, player].PointsLineBonus = 0f;
                     _Rounds[round, player].Medley = false;
                     _Rounds[round, player].Duet = false;
+                    _Rounds[round, player].ShortSong = false;
                     _Rounds[round, player].SongFinished = false;
                 }
             }
         }
 
-        public void SetPoints(int Round, int SongID, SPlayer[] Player, bool Medley, bool Duet)
+        public void SetPoints(int Round, int SongID, SPlayer[] Player, bool Medley, bool Duet, bool ShortSong)
         {
             long DateTicks = DateTime.Now.Ticks;
             for (int player = 0; player < Player.Length; player++)
@@ -56,6 +57,7 @@ namespace Vocaluxe.GameModes
                 _Rounds[Round, player].PointsLineBonus = Player[player].PointsLineBonus;
                 _Rounds[Round, player].Medley = Medley;
                 _Rounds[Round, player].Duet = Duet;
+                _Rounds[Round, player].ShortSong = ShortSong;
                 _Rounds[Round, player].DateTicks = DateTicks;
                 _Rounds[Round, player].SongFinished = Player[player].SongFinished;
             }
@@ -91,6 +93,7 @@ namespace Vocaluxe.GameModes
                 player[p].Difficulty = _Rounds[Round, p].Difficulty;
                 player[p].Medley = _Rounds[Round, p].Medley;
                 player[p].Duet = _Rounds[Round, p].Duet;
+                player[p].ShortSong = _Rounds[Round, p].ShortSong;
                 player[p].DateTicks = _Rounds[Round, p].DateTicks;
                 player[p].SongFinished = _Rounds[Round, p].SongFinished;
                 player[p].ProfileID = _Rounds[Round, p].ProfileID;
@@ -119,7 +122,7 @@ namespace Vocaluxe.GameModes
             {
                 return _SongQueque[_CurrentSong].GameMode;
             }
-            return EGameMode.Normal;
+            return EGameMode.TR_GAMEMODE_NORMAL;
         }
 
         public virtual bool AddVisibleSong(int VisibleIndex, EGameMode GameMode)
@@ -127,7 +130,7 @@ namespace Vocaluxe.GameModes
             if (CSongs.VisibleSongs.Length > VisibleIndex)
             {
                 int SongID = CSongs.VisibleSongs[VisibleIndex].ID;
-                if (GameMode == EGameMode.Duet && !CSongs.GetSong(SongID).IsDuet)
+                if (GameMode == EGameMode.TR_GAMEMODE_DUET && !CSongs.GetSong(SongID).IsDuet)
                     return false;
 
                 _SongQueque.Add(new SongQueque(SongID, GameMode));
@@ -141,7 +144,7 @@ namespace Vocaluxe.GameModes
             if (CSongs.AllSongs.Length > AbsoluteIndex)
             {
                 int SongID = CSongs.AllSongs[AbsoluteIndex].ID;
-                if (GameMode == EGameMode.Duet && !CSongs.GetSong(SongID).IsDuet)
+                if (GameMode == EGameMode.TR_GAMEMODE_DUET && !CSongs.GetSong(SongID).IsDuet)
                     return false;
 
                 _SongQueque.Add(new SongQueque(SongID, GameMode));
@@ -188,7 +191,6 @@ namespace Vocaluxe.GameModes
                         break;
                     }
                 }
-
                 if (index == -1)
                     return false;
 
@@ -223,8 +225,9 @@ namespace Vocaluxe.GameModes
                         _CurrentSong,
                         _SongQueque[_CurrentSong].SongID,
                         Player,
-                        _SongQueque[_CurrentSong].GameMode == EGameMode.Medley,
-                        _SongQueque[_CurrentSong].GameMode == EGameMode.Duet);
+                        _SongQueque[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_MEDLEY,
+                        _SongQueque[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_DUET,
+                        _SongQueque[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_SHORTSONG);
                 }
                 _CurrentSong++;
             }
@@ -244,7 +247,32 @@ namespace Vocaluxe.GameModes
         {
             if (_CurrentSong >= 0 && _CurrentSong < _SongQueque.Count)
             {
-                return CSongs.GetSong(_SongQueque[_CurrentSong].SongID);
+                CSong song = CSongs.GetSong(_SongQueque[_CurrentSong].SongID);
+                song = new CSong(song);
+
+                switch (GetCurrentGameMode())
+                {
+                    case EGameMode.TR_GAMEMODE_MEDLEY:
+                        // set medley mode timings
+                        song.Start = CGame.GetTimeFromBeats(song.Medley.StartBeat, song.BPM) - song.Medley.FadeInTime + song.Gap;
+                        if (song.Start < 0f)
+                            song.Start = 0f;
+
+                        song.Finish = CGame.GetTimeFromBeats(song.Medley.EndBeat, song.BPM) + song.Medley.FadeOutTime + song.Gap;
+
+                        // set lines to medley mode
+                        song.Notes.SetMedley(song.Medley.StartBeat, song.Medley.EndBeat);
+                        break;
+
+                    case EGameMode.TR_GAMEMODE_SHORTSONG:
+                        song.Finish = CGame.GetTimeFromBeats(song.ShortEnd, song.BPM) + CSettings.DefaultMedleyFadeOutTime + song.Gap;
+
+                        // set lines to medley mode
+                        song.Notes.SetMedley(song.Notes.GetLines(0).Line[0].FirstNoteBeat, song.ShortEnd);
+                        break;
+                }
+
+                return song;
             }
             return null;
         }
@@ -256,10 +284,18 @@ namespace Vocaluxe.GameModes
 
         public virtual CSong GetSong(int Num)
         {
-            if (Num - 1 < _SongQueque.Count)
+            if (Num - 1 < _SongQueque.Count && Num - 1 > -1)
                 return CSongs.GetSong(_SongQueque[Num - 1].SongID);
 
             return null;
+        }
+
+        public virtual EGameMode GetGameMode(int Num)
+        {
+            if(Num - 1 < _SongQueque.Count && Num > -1)
+                return _SongQueque[Num].GameMode;
+
+            return EGameMode.TR_GAMEMODE_NORMAL;
         }
 
         public virtual CPoints GetPoints()
@@ -267,5 +303,9 @@ namespace Vocaluxe.GameModes
             return _Points;
         }
         #endregion Implementation
+
+        protected virtual void SongManipulation(int SongIndex)
+        {
+        }
     }
 }

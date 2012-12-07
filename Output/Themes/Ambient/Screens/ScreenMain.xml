@@ -68,7 +68,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_SCREENMAIN_BUTTON_SING</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -125,7 +125,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_SCREENMAIN_BUTTON_OPTIONS</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -182,7 +182,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_SCREENMAIN_BUTTON_PROFILES</Text>
       </Text>
       <!--<Reflection> If exists:-->
@@ -239,7 +239,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_BUTTON_EXIT</Text>
       </Text>
       <!--<Reflection> If exists:-->

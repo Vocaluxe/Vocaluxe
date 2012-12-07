@@ -30,7 +30,9 @@ namespace Vocaluxe.Menu
         public SColorF Color;
         public SColorF SColor;
 
+        public bool SelText;
         public CText Text;
+        public CText SText;
         
         public bool Reflection;
         public float ReflectionSpace;
@@ -40,8 +42,19 @@ namespace Vocaluxe.Menu
         public float SReflectionSpace;
         public float SReflectionHeight;
 
-        private bool _Selected;
         public bool Pressed;
+
+        public bool EditMode
+        {
+            get { return Text.EditMode; }
+            set
+            {
+                Text.EditMode = value;
+                SText.EditMode = value;
+            }
+        }
+
+        private bool _Selected;
         public bool Selected
         {
             get { return _Selected; }
@@ -53,6 +66,11 @@ namespace Vocaluxe.Menu
         }
         public bool Visible;
 
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
         public CButton()
         {
             _Theme = new SThemeButton();
@@ -60,9 +78,12 @@ namespace Vocaluxe.Menu
             Color = new SColorF();
             SColor = new SColorF();
 
+            SelText = false;
             Text = new CText();
+            SText = new CText();
             Selected = false;
             Visible = true;
+            EditMode = false;
 
             Reflection = false;
             ReflectionSpace = 0f;
@@ -113,6 +134,13 @@ namespace Vocaluxe.Menu
 
             _ThemeLoaded &= Text.LoadTheme(item, "Text", navigator, SkinIndex, true);
             Text.Z = Rect.Z;
+            if (CHelper.ItemExistsInXML(item + "/SText", navigator))
+            {
+                SelText = true;
+                _ThemeLoaded &= SText.LoadTheme(item, "SText", navigator, SkinIndex, true);
+                SText.Z = Rect.Z;
+            }
+            
             
             //Reflections
             if (CHelper.ItemExistsInXML(item + "/Reflection", navigator))
@@ -189,6 +217,8 @@ namespace Vocaluxe.Menu
                 }
 
                 Text.SaveTheme(writer);
+                if (SelText)
+                    SText.SaveTheme(writer);
 
                 writer.WriteComment("<Reflection> If exists:");
                 writer.WriteComment("   <Space>: Reflection Space");
@@ -240,26 +270,40 @@ namespace Vocaluxe.Menu
             {
                 texture = CTheme.GetSkinTexture(_Theme.TextureName);
                 CDraw.DrawTexture(texture, Rect, Color);
+                Text.DrawRelative(Rect.X, Rect.Y);
                 if (Reflection)
                 {
                     CDraw.DrawTextureReflection(texture, Rect, Color, Rect, ReflectionSpace, ReflectionHeight);
+                    Text.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
                 }
             }
-            else
+            else if(!SelText)
             {
                 texture = CTheme.GetSkinTexture(_Theme.STextureName);
                 CDraw.DrawTexture(texture, Rect, SColor);
+                Text.DrawRelative(Rect.X, Rect.Y);
                 if (Reflection)
                 {
                     CDraw.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
+                    Text.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
                 }
             }
-
-            Text.DrawRelative(Rect.X, Rect.Y); 
-            if (Reflection)
+            else if(SelText)
             {
-                Text.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
+                texture = CTheme.GetSkinTexture(_Theme.STextureName);
+                CDraw.DrawTexture(texture, Rect, SColor);
+                SText.DrawRelative(Rect.X, Rect.Y);
+                if (Reflection)
+                {
+                    CDraw.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
+                    SText.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
+                }
             }
+        }
+
+        public void ProcessMouseMove(int x, int y)
+        {
+            Selected = CHelper.IsInBounds(Rect, x, y);
         }
 
         public void UnloadTextures()

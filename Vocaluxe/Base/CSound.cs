@@ -108,6 +108,10 @@ namespace Vocaluxe.Base
             _Playback.SetStreamVolume(Stream, Volume);
         }
 
+        public static void SetStreamVolumeMax(int Stream, float Volume)
+        {
+            _Playback.SetStreamVolumeMax(Stream, Volume);
+        }
 
         public static float GetLength(int Stream)
         {
@@ -315,6 +319,10 @@ namespace Vocaluxe.Base
         public CBuffer()
         {
             _ToneWeigth = new float[_NumHalfTones];
+            for (int i = 0; i < _ToneWeigth.Length; i++)
+            {
+                _ToneWeigth[i] = 0.99f;
+            }
             _Stream = new MemoryStream();
             _NewSamples = false;
         }

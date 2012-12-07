@@ -10,7 +10,7 @@ namespace Vocaluxe.GameModes
         public override void Init()
         {
             base.Init();
-                        
+
             _Initialized = true;
         }
     }

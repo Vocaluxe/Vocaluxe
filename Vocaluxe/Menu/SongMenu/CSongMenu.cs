@@ -73,9 +73,29 @@ namespace Vocaluxe.Menu.SongMenu
             _SongMenu.Draw();
         }
 
+        public void ApplyVolume(float VolumeMax)
+        {
+            _SongMenu.ApplyVolume(VolumeMax);
+        }
+
+        public bool IsActive()
+        {
+            return _SongMenu.IsActive();
+        }
+
+        public void SetActive(bool Active)
+        {
+            _SongMenu.SetActive(Active);
+        }
+
         public int GetSelectedSong()
         {
             return _SongMenu.GetSelectedSong();
+        }
+
+        public CStatic GetSelectedSongCover()
+        {
+            return _SongMenu.GetSelectedSongCover();
         }
 
         public void SetSelectedSong(int VisibleSongNr)
@@ -86,6 +106,11 @@ namespace Vocaluxe.Menu.SongMenu
         public int GetSelectedCategory()
         {
             return _SongMenu.GetSelectedCategory();
+        }
+
+        public void SetSelectedCategory(int CategoryNr)
+        {
+            _SongMenu.SetSelectedCategory(CategoryNr);
         }
 
         public int GetActualSelection()
@@ -118,9 +143,24 @@ namespace Vocaluxe.Menu.SongMenu
             return _SongMenu.GetRect();
         }
 
+        public bool IsSmallView()
+        {
+            return _SongMenu.IsSmallView();
+        }
+
+        public void SetSmallView(bool SmallView)
+        {
+            _SongMenu.SetSmallView(SmallView);
+        }
+
         #endregion ISongMenu
 
         #region IMenuElement
+        public string GetThemeName()
+        {
+            return _SongMenu.GetThemeName();
+        }
+
         public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
         {
             return _SongMenu.LoadTheme(XmlPath, ElementName, navigator, SkinIndex);

@@ -52,7 +52,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOLYRICS_OPTIONS</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -81,7 +81,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOLYRICS_STYLE</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -110,7 +110,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOLYRICS_ONTOP</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -155,7 +155,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text>TR_BUTTON_BACK</Text>
       </Text>
       <!--<Reflection> If exists:-->

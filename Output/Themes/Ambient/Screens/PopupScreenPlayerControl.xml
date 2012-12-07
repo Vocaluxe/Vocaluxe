@@ -10,10 +10,10 @@
       <Y>0</Y>
       <Z>0,00</Z>
       <W>1181</W>
-      <H>50</H>
+      <H>42</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
+      <Color>StaticColor</Color>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
@@ -22,11 +22,11 @@
       <!--<Skin>: Texture name-->
       <Skin>CoverBackground</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>50</X>
-      <Y>0</Y>
+      <X>55</X>
+      <Y>2</Y>
       <Z>0,00</Z>
-      <W>50</W>
-      <H>50</H>
+      <W>38</W>
+      <H>38</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>Visible</Color>
@@ -36,14 +36,14 @@
     </StaticCover>
     <TextCurrentSong>
       <!--<X>, <Y>: Text position-->
-      <X>630</X>
-      <Y>0</Y>
+      <X>410</X>
+      <Y>4</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
-      <H>50</H>
+      <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
-      <MaxW>650</MaxW>
+      <MaxW>769</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -58,7 +58,7 @@
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Text or translation tag-->
+      <!--<Text>: Nothing or translation tag-->
       <Text />
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -70,11 +70,11 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>PlayIcon</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>200</X>
-      <Y>5</Y>
+      <X>146</X>
+      <Y>8</Y>
       <Z>0,00</Z>
-      <W>40</W>
-      <H>40</H>
+      <W>28</W>
+      <H>28</H>
       <!--<Color>: Button color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>ButtonColor</Color>
@@ -103,7 +103,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
       <!--<Reflection> If exists:-->
@@ -119,11 +119,11 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>PauseIcon</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>200</X>
-      <Y>5</Y>
+      <X>145</X>
+      <Y>8</Y>
       <Z>0,00</Z>
-      <W>40</W>
-      <H>40</H>
+      <W>28</W>
+      <H>28</H>
       <!--<Color>: Button color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>ButtonColor</Color>
@@ -152,7 +152,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
       <!--<Reflection> If exists:-->
@@ -168,11 +168,11 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>PreviousIcon</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>125</X>
-      <Y>0</Y>
+      <X>100</X>
+      <Y>2</Y>
       <Z>0,00</Z>
-      <W>50</W>
-      <H>50</H>
+      <W>38</W>
+      <H>38</H>
       <!--<Color>: Button color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>ButtonColor</Color>
@@ -201,7 +201,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
       <!--<Reflection> If exists:-->
@@ -217,11 +217,11 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>NextIcon</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>265</X>
-      <Y>0</Y>
+      <X>185</X>
+      <Y>2</Y>
       <Z>0,00</Z>
-      <W>50</W>
-      <H>50</H>
+      <W>38</W>
+      <H>38</H>
       <!--<Color>: Button color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>ButtonColor</Color>
@@ -250,7 +250,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
       <!--<Reflection> If exists:-->
@@ -266,11 +266,11 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>RepeatIcon</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>330</X>
-      <Y>0</Y>
+      <X>225</X>
+      <Y>2</Y>
       <Z>0,00</Z>
-      <W>50</W>
-      <H>50</H>
+      <W>38</W>
+      <H>38</H>
       <!--<Color>: Button color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>ButtonColor</Color>
@@ -299,7 +299,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
       <!--<Reflection> If exists:-->
@@ -311,15 +311,15 @@
     </ButtonRepeat>
     <ButtonShowVideo>
       <!--<Skin>: Texture name-->
-      <Skin>VideoIcon</Skin>
+      <Skin>VideoIconCO</Skin>
       <!--<SkinSelected>: Texture name for selected button-->
-      <SkinSelected>VideoIcon</SkinSelected>
+      <SkinSelected>VideoIconCO</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>405</X>
-      <Y>0</Y>
+      <X>270</X>
+      <Y>2</Y>
       <Z>0,00</Z>
-      <W>50</W>
-      <H>50</H>
+      <W>38</W>
+      <H>38</H>
       <!--<Color>: Button color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>ButtonColor</Color>
@@ -348,7 +348,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
       <!--<Reflection> If exists:-->
@@ -364,11 +364,11 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>DuetIcon</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>555</X>
-      <Y>0</Y>
+      <X>360</X>
+      <Y>2</Y>
       <Z>0,00</Z>
-      <W>50</W>
-      <H>50</H>
+      <W>38</W>
+      <H>38</H>
       <!--<Color>: Button color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>ButtonColor</Color>
@@ -397,7 +397,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
       <!--<Reflection> If exists:-->
@@ -409,15 +409,15 @@
     </ButtonSing>
     <ButtonToBackgroundVideo>
       <!--<Skin>: Texture name-->
-      <Skin>VideoIcon</Skin>
+      <Skin>VideoIconBG</Skin>
       <!--<SkinSelected>: Texture name for selected button-->
-      <SkinSelected>VideoIcon</SkinSelected>
+      <SkinSelected>VideoIconBG</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>480</X>
-      <Y>0</Y>
+      <X>315</X>
+      <Y>2</Y>
       <Z>0,00</Z>
-      <W>50</W>
-      <H>50</H>
+      <W>38</W>
+      <H>38</H>
       <!--<Color>: Button color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>ButtonColor</Color>
@@ -446,7 +446,7 @@
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Text or translation tag-->
+        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
       <!--<Reflection> If exists:-->

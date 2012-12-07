@@ -21,7 +21,7 @@ namespace Vocaluxe.Screens
     class CScreenOptionsRecord : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        const int ScreenVersion = 2;
 
         private const float MaxDelayTime = 1f;
         private const string SelectSlideRecordDevices = "SelectSlideRecordDevices";
@@ -40,6 +40,9 @@ namespace Vocaluxe.Screens
         private const string TextDelayChannel1 = "TextDelayChannel1";
         private const string TextDelayChannel2 = "TextDelayChannel2";
 
+        private const string EqualizerChannel1 = "EqualizerChannel1";
+        private const string EqualizerChannel2 = "EqualizerChannel2";
+
         private readonly string[] StaticEnergyChannel = new string[] { "StaticEnergyChannel1", "StaticEnergyChannel2" };
         private float[] ChannelEnergy;
 
@@ -50,8 +53,6 @@ namespace Vocaluxe.Screens
         private DelayTest[] _DelayTest;
         private bool _DelayTestRunning;
         private int _DelaySound;
-
-        private Equalizer[] _Equalizer; 
 
         public CScreenOptionsRecord()
         {
@@ -73,6 +74,7 @@ namespace Vocaluxe.Screens
             _ThemeTexts = new string[] { TextWarning, TextDelayChannel1, TextDelayChannel2 };
             _ThemeButtons = new string[] { ButtonExit, ButtonDelayTest };
             _ThemeSelectSlides = new string[] { SelectSlideRecordDevices, SelectSlideRecordInputs, SelectSlideRecordChannel1, SelectSlideRecordChannel2, SelectSlideDelay };
+            _ThemeEqualizers = new string[] { EqualizerChannel1, EqualizerChannel2 };
         }
 
         public override void LoadTheme()
@@ -107,6 +109,9 @@ namespace Vocaluxe.Screens
                 Statics[htStatics(StaticEnergyChannel[i])].Visible = false;
                 ChannelEnergy[i] = 0f;
             }
+
+            Equalizers[htEqualizer(EqualizerChannel1)].ScreenHandles = true;
+            Equalizers[htEqualizer(EqualizerChannel2)].ScreenHandles = true;
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -277,28 +282,29 @@ namespace Vocaluxe.Screens
                 if (player > 0)
                 {
                     ChannelEnergy[0] = CSound.RecordGetMaxVolume(player - 1);
-                    _Equalizer[0].Update(CSound.ToneWeigth(player - 1));
+                    Equalizers[htEqualizer(EqualizerChannel1)].Update(CSound.ToneWeigth(player - 1));
                 }
                 else
-                    _Equalizer[0].Reset();
+                    Equalizers[htEqualizer(EqualizerChannel1)].Reset();
 
                 ChannelEnergy[1] = 0f;
                 player = SelectSlides[htSelectSlides(SelectSlideRecordChannel2)].Selection;
                 if (player > 0)
                 {
                     ChannelEnergy[1] = CSound.RecordGetMaxVolume(player - 1);
-                    _Equalizer[1].Update(CSound.ToneWeigth(player - 1));
+                    Equalizers[htEqualizer(EqualizerChannel2)].Update(CSound.ToneWeigth(player - 1));
                 }
                 else
-                    _Equalizer[1].Reset();
+                    Equalizers[htEqualizer(EqualizerChannel2)].Reset();
             }
             else
             {
                 for (int i = 0; i < ChannelEnergy.Length; i++)
                 {
                     ChannelEnergy[i] = 0f;
-                    _Equalizer[i].Reset();
                 }
+                Equalizers[htEqualizer(EqualizerChannel1)].Reset();
+                Equalizers[htEqualizer(EqualizerChannel2)].Reset();
             }
 
             return true;
@@ -361,13 +367,6 @@ namespace Vocaluxe.Screens
 
             _DelayTestRunning = false;
             _DelaySound = -1;
-
-            _Equalizer = new Equalizer[2];
-
-            for (int i = 0; i < _Equalizer.Length; i++)
-            {
-                _Equalizer[i] = new Equalizer(new SRectF(50 + 350 * i, 400, 230, 150, -1), CSound.NumHalfTones(0), 2);
-            }
         }
 
         public override void OnShowFinish()
@@ -406,10 +405,8 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            for (int i = 0; i < _Equalizer.Length; i++)
-            {
-                _Equalizer[i].Draw();
-            }
+            Equalizers[htEqualizer(EqualizerChannel1)].Draw();
+            Equalizers[htEqualizer(EqualizerChannel2)].Draw();
 
             DrawFG();
 
@@ -591,90 +588,6 @@ namespace Vocaluxe.Screens
                         }
                     }
                 }
-            }
-        }
-    }
-
-    class Equalizer
-    {
-
-        private SRectF _Bounds;
-        private float _Space;
-
-        private float[] _Bars;
-
-        public Equalizer(SRectF bounds, int numBars, float space)
-        {
-            _Bounds = bounds;
-            _Space = space;
-
-            if (numBars > 0)
-                _Bars = new float[numBars];
-        }
-
-        public void Update(float[] weights)
-        {
-            if (weights == null || weights.Length == 0 || _Bars == null)
-                return;
-
-            if (_Bars.Length < weights.Length)
-            {
-            }
-            else if (_Bars.Length > weights.Length)
-            {
-            }
-            else
-            {
-                for (int i = 0; i < _Bars.Length; i++)
-                {
-                    //if (weights[i] > 0)
-                        _Bars[i] = weights[i];
-                    //else
-                    //    _Bars[i] = 0f;
-                }
-            }
-        }
-
-        public void Reset()
-        {
-            if (_Bars == null || _Bars.Length == 0)
-                return;
-
-            for (int i = 0; i < _Bars.Length; i++)
-            {
-                _Bars[i] = 0f;
-            }
-        }
-
-        public void Draw()
-        {
-            if (_Bars == null)
-                return;
-
-            float dx = _Bounds.W / _Bars.Length + _Space;
-            int max = _Bars.Length - 1;
-            float maxB = _Bars[max];
-            for (int i = 0; i < _Bars.Length - 1; i++)
-            {
-                if (_Bars[i] > maxB)
-                {
-                    maxB = _Bars[i];
-                    max = i;
-                }
-            }
-
-            
-            for (int i = 0; i < _Bars.Length; i++)
-            {
-                SRectF bar = new SRectF(_Bounds.X + dx * i, _Bounds.Y + _Bounds.H - _Bars[i] * _Bounds.H, dx - _Space, _Bars[i] * _Bounds.H, _Bounds.Z);
-                SColorF color = new SColorF(1f, 1f, 1f, 1f);
-                if (i == max)
-                {
-                    color.B = 0f;
-                    color.G = 0f;
-                }
-
-                CDraw.DrawColor(color, bar);
             }
         }
     }

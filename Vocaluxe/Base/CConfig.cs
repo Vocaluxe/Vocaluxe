@@ -960,6 +960,11 @@ namespace Vocaluxe.Base
                             CSettings.sFileHighscoreDB = value;
                         }
                         break;
+
+                    case "playlistfolder":
+                        CSettings.CreateFolder(value);
+                        CSettings.sFolderPlaylists = value;
+                        break;
                 }
             }
         }

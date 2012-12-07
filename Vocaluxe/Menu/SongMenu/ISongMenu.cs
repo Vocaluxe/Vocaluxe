@@ -17,10 +17,17 @@ namespace Vocaluxe.Menu.SongMenu
         void HandleMouse(ref MouseEvent MouseEvent);
         void Draw();
 
+        void ApplyVolume(float VolumeMax);
+
         int GetSelectedSong();
+        CStatic GetSelectedSongCover();
         void SetSelectedSong(int VisibleSongNr);
 
+        bool IsActive();
+        void SetActive(bool Active);
+
         int GetSelectedCategory();
+        void SetSelectedCategory(int CategoryNr);
         int GetActualSelection();
 
         bool IsSelected();
@@ -28,6 +35,9 @@ namespace Vocaluxe.Menu.SongMenu
 
         bool IsVisible();
         void SetVisible(bool Visible);
+
+        bool IsSmallView();
+        void SetSmallView(bool SmallView);
 
         SRectF GetRect();
     }

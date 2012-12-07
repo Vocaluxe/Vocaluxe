@@ -451,20 +451,21 @@ namespace Vocaluxe.Menu
             KeyEvent KeyEvent = new KeyEvent();
             MouseEvent MouseEvent = new MouseEvent();
 
-            bool PopupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing && _CurrentScreen != EScreens.ScreenSong;
+            bool PopupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing &&
+                _CurrentScreen != EScreens.ScreenSong && _CurrentScreen != EScreens.ScreenCredits;
 
             bool Resume = true;
             while (keys.PollEvent(ref KeyEvent))
             {
                 if (KeyEvent.Key == Keys.Left || KeyEvent.Key == Keys.Right || KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down)
                 {
-                    CSettings.MouseInacive();
+                    CSettings.MouseInactive();
                     _Cursor.FadeOut();
                 }
                 
                 if (PopupPlayerControlAllowed && KeyEvent.Key == Keys.Tab)
                 {
-                    if (_CurrentPopupScreen == EPopupScreens.NoPopup)
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
                         ShowPopup(EPopupScreens.PopupPlayerControl);
                     else
                         HidePopup(EPopupScreens.PopupPlayerControl);
@@ -509,7 +510,7 @@ namespace Vocaluxe.Menu
                 bool isOverPopupPlayerControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupPlayerControl].ScreenArea, MouseEvent);
                 if (PopupPlayerControlAllowed && isOverPopupPlayerControl)
                 {
-                    if (_CurrentPopupScreen == EPopupScreens.NoPopup)
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
                         ShowPopup(EPopupScreens.PopupPlayerControl);
                 }
 
@@ -520,7 +521,7 @@ namespace Vocaluxe.Menu
                 if (_CurrentPopupScreen != EPopupScreens.NoPopup)
                     handled = _PopupScreens[(int)_CurrentPopupScreen].HandleMouse(MouseEvent);
 
-                if (!handled && !_Fading && (_Cursor.IsActive || MouseEvent.LB || MouseEvent.RB))
+                if (!handled && !_Fading && (_Cursor.IsActive || MouseEvent.LB || MouseEvent.RB || MouseEvent.MB))
                     Resume &= _Screens[(int)_CurrentScreen].HandleMouse(MouseEvent);               
             }
             return Resume;
