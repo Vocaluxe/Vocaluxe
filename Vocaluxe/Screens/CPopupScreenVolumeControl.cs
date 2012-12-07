@@ -76,6 +76,24 @@ namespace Vocaluxe.Screens
                 SaveConfig();
                 return true;
             }
+            else if (MouseEvent.Wheel > 0 && CHelper.IsInBounds(_ScreenArea, MouseEvent))
+            {
+                if (SelectSlides[htSelectSlides(SelectSlideVolume)].Selection - MouseEvent.Wheel >= 0)
+                    SelectSlides[htSelectSlides(SelectSlideVolume)].SetSelectionByValueIndex(SelectSlides[htSelectSlides(SelectSlideVolume)].Selection - MouseEvent.Wheel);
+                else if (SelectSlides[htSelectSlides(SelectSlideVolume)].Selection - MouseEvent.Wheel < 0)
+                    SelectSlides[htSelectSlides(SelectSlideVolume)].SetSelectionByValueIndex(0);
+                SaveConfig();
+                return true;
+            }
+            else if (MouseEvent.Wheel < 0 && CHelper.IsInBounds(_ScreenArea, MouseEvent))
+            {
+                if (SelectSlides[htSelectSlides(SelectSlideVolume)].Selection - MouseEvent.Wheel < SelectSlides[htSelectSlides(SelectSlideVolume)].NumValues)
+                    SelectSlides[htSelectSlides(SelectSlideVolume)].SetSelectionByValueIndex(SelectSlides[htSelectSlides(SelectSlideVolume)].Selection - MouseEvent.Wheel);
+                else if (SelectSlides[htSelectSlides(SelectSlideVolume)].Selection - MouseEvent.Wheel >= SelectSlides[htSelectSlides(SelectSlideVolume)].NumValues)
+                    SelectSlides[htSelectSlides(SelectSlideVolume)].SetSelectionByValueIndex(SelectSlides[htSelectSlides(SelectSlideVolume)].NumValues - 1);
+                SaveConfig();
+                return true;
+            }
             else if (MouseEvent.RB)
             {
                 //CGraphics.HidePopup(EPopupScreens.PopupPlayerControl);
