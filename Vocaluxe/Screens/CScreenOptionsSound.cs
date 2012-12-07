@@ -120,6 +120,10 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
+            if (_BackgroundMusicVolume != CConfig.BackgroundMusicVolume)
+            {
+                SelectSlides[htSelectSlides(SelectSlideBackgroundMusicVolume)].Selection = CConfig.BackgroundMusicVolume / 5;
+            }
             return true;
         }
 
@@ -134,6 +138,9 @@ namespace Vocaluxe.Screens
             base.OnShow();
             _BackgroundMusic = CConfig.BackgroundMusic;
             _BackgroundMusicVolume = CConfig.BackgroundMusicVolume;
+
+            SelectSlides[htSelectSlides(SelectSlideGameMusicVolume)].Selection = CConfig.GameMusicVolume / 5;
+            SelectSlides[htSelectSlides(SelectSlidePreviewMusicVolume)].Selection = CConfig.PreviewMusicVolume / 5;
         }
         private void SaveConfig()
         {
