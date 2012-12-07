@@ -228,9 +228,11 @@ namespace Vocaluxe.Base
         public static ERecordLib RecordLib = ERecordLib.PortAudio;
         public static EBufferSize AudioBufferSize = EBufferSize.b2048;
         public static int AudioLatency = 0;
-        public static int BackgroundMusicVolume = 50;
+        public static int BackgroundMusicVolume = 30;
         public static EOffOn BackgroundMusic = EOffOn.TR_CONFIG_ON;
         public static EBackgroundMusicSource BackgroundMusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
+        public static int PreviewMusicVolume = 50;
+        public static int GameMusicVolume = 80;
 
         // Game
         public static List<string> SongFolder = new List<string>();
@@ -358,7 +360,21 @@ namespace Vocaluxe.Base
 
                 CHelper.TryGetEnumValueFromXML("//root/Sound/BackgroundMusic", navigator, ref BackgroundMusic);
                 CHelper.TryGetIntValueFromXML("//root/Sound/BackgroundMusicVolume", navigator, ref BackgroundMusicVolume);
+                if (BackgroundMusicVolume < 0)
+                    BackgroundMusicVolume = 0;
+                if (BackgroundMusicVolume > 100)
+                    BackgroundMusicVolume = 100;
                 CHelper.TryGetEnumValueFromXML("//root/Sound/BackgroundMusicSource", navigator, ref BackgroundMusicSource);
+                CHelper.TryGetIntValueFromXML("//root/Sound/PreviewMusicVolume", navigator, ref PreviewMusicVolume);
+                if (PreviewMusicVolume < 0)
+                    PreviewMusicVolume = 0;
+                if (PreviewMusicVolume > 100)
+                    PreviewMusicVolume = 100;
+                CHelper.TryGetIntValueFromXML("//root/Sound/GameMusicVolume", navigator, ref GameMusicVolume);
+                if (GameMusicVolume < 0)
+                    GameMusicVolume = 0;
+                if (GameMusicVolume > 100)
+                    GameMusicVolume = 100;
                 #endregion Sound
 
                 #region Game
@@ -584,6 +600,12 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("Background Music Source");
             writer.WriteElementString("BackgroundMusicSource", Enum.GetName(typeof(EBackgroundMusicSource), BackgroundMusicSource));
+
+            writer.WriteComment("Preview Volume from 0 to 100");
+            writer.WriteElementString("PreviewMusicVolume", PreviewMusicVolume.ToString());
+
+            writer.WriteComment("Game Volume from 0 to 100");
+            writer.WriteElementString("GameMusicVolume", GameMusicVolume.ToString());
 
             writer.WriteEndElement();
             #endregion Sound
