@@ -106,6 +106,8 @@ namespace Vocaluxe.Screens
             DragAndDropCover = new CStatic();
 
             Playlists[htPlaylists(Playlist)].Init();
+
+            ApplyVolume();
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
