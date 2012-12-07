@@ -912,6 +912,24 @@ namespace Vocaluxe.Menu
                 if (KeyEvent.Key == Keys.Right)
                     NextElement();
             }
+            if (!CBackgroundMusic.Disabled)
+            {
+                if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Add || KeyEvent.Key == Keys.PageUp))
+                {
+                    CConfig.BackgroundMusicVolume = CConfig.BackgroundMusicVolume + 5;
+                    if (CConfig.BackgroundMusicVolume > 100)
+                        CConfig.BackgroundMusicVolume = 100;
+                    CConfig.SaveConfig();
+                }
+                else if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Subtract || KeyEvent.Key == Keys.PageDown))
+                {
+                    CConfig.BackgroundMusicVolume = CConfig.BackgroundMusicVolume - 5;
+                    if (CConfig.BackgroundMusicVolume < 0)
+                        CConfig.BackgroundMusicVolume = 0;
+                    CConfig.SaveConfig();
+                }
+                CBackgroundMusic.ApplyVolume();
+            }
 
             return true;
         }
@@ -1059,6 +1077,10 @@ namespace Vocaluxe.Menu
         }
 
         public abstract bool UpdateGame();
+
+        public virtual void ApplyVolume()
+        {
+        }
 
         public virtual void OnShow()
         {

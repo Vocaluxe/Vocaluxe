@@ -106,6 +106,8 @@ namespace Vocaluxe.Screens
             DragAndDropCover = new CStatic();
 
             Playlists[htPlaylists(Playlist)].Init();
+
+            ApplyVolume();
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -309,6 +311,23 @@ namespace Vocaluxe.Screens
                         ToggleSongOptions(ESongOptionsView.None);
                         break;
                 }
+            }
+
+            if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Add || KeyEvent.Key == Keys.PageUp))
+            {
+                CConfig.PreviewMusicVolume = CConfig.PreviewMusicVolume + 5;
+                if (CConfig.PreviewMusicVolume > 100)
+                    CConfig.PreviewMusicVolume = 100;
+                CConfig.SaveConfig();
+                ApplyVolume();
+            }
+            else if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Subtract || KeyEvent.Key == Keys.PageDown))
+            {
+                CConfig.PreviewMusicVolume = CConfig.PreviewMusicVolume - 5;
+                if (CConfig.PreviewMusicVolume < 0)
+                    CConfig.PreviewMusicVolume = 0;
+                CConfig.SaveConfig();
+                ApplyVolume();
             }
 
             return true;
@@ -573,6 +592,11 @@ namespace Vocaluxe.Screens
             base.OnClose();
             CBackgroundMusic.Disabled = false;
             SongMenus[htSongMenus(SongMenu)].OnHide();
+        }
+
+        public override void ApplyVolume()
+        {
+            SongMenus[htSongMenus(SongMenu)].ApplyVolume(CConfig.PreviewMusicVolume);
         }
 
         private void StartSong(int SongNr)
