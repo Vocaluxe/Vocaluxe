@@ -218,6 +218,21 @@ namespace Vocaluxe.Lib.Sound
             }
         }
 
+        public void SetStreamVolumeMax(int Stream, float Volume)
+        {
+            if (_Initialized)
+            {
+                lock (MutexDecoder)
+                {
+                    if (AlreadyAdded(Stream))
+                    {
+                        _Decoder[GetStreamIndex(Stream)].VolumeMax = Volume;
+                    }
+                }
+
+            }
+        }
+
         public float GetLength(int Stream)
         {
             if (_Initialized)
@@ -375,6 +390,7 @@ namespace Vocaluxe.Lib.Sound
         private bool _Initialized;
         private int _ByteCount = 4;
         private float _Volume = 1f;
+        private float _VolumeMax = 1f;
         
         private Stopwatch _fadeTimer = new Stopwatch();
 
@@ -476,6 +492,23 @@ namespace Vocaluxe.Lib.Sound
 
                     if (_Volume > 1f)
                         _Volume = 1f;
+                }
+            }
+        }
+
+        public float VolumeMax
+        {
+            get { return _VolumeMax * 100f; }
+            set
+            {
+                lock (_LockData)
+                {
+                    _VolumeMax = value / 100f;
+                    if (_VolumeMax < 0f)
+                        _VolumeMax = 0f;
+
+                    if (_VolumeMax > 1f)
+                        _VolumeMax = 1f;
                 }
             }
         }
@@ -817,7 +850,7 @@ namespace Vocaluxe.Lib.Sound
                         b[0] = buf[i];
                         b[1] = buf[i + 1];
 
-                        b = BitConverter.GetBytes((Int16)(BitConverter.ToInt16(b, 0) * _Volume));
+                        b = BitConverter.GetBytes((Int16)(BitConverter.ToInt16(b, 0) * _Volume * _VolumeMax));
                         buf[i] = b[0];
                         buf[i + 1] = b[1];
 
@@ -826,7 +859,7 @@ namespace Vocaluxe.Lib.Sound
                             b[0] = buf[i + 2];
                             b[1] = buf[i + 3];
 
-                            b = BitConverter.GetBytes((Int16)(BitConverter.ToInt16(b, 0) * _Volume));
+                            b = BitConverter.GetBytes((Int16)(BitConverter.ToInt16(b, 0) * _Volume * _VolumeMax));
                             buf[i + 2] = b[0];
                             buf[i + 3] = b[1];
                         }

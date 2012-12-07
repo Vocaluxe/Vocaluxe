@@ -17,6 +17,8 @@ namespace Vocaluxe.Menu.SongMenu
         void HandleMouse(ref MouseEvent MouseEvent);
         void Draw();
 
+        void ApplyVolume(float VolumeMax);
+
         int GetSelectedSong();
         CStatic GetSelectedSongCover();
         void SetSelectedSong(int VisibleSongNr);
