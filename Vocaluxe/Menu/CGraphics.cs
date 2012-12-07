@@ -635,6 +635,8 @@ namespace Vocaluxe.Menu
                 _VolumePopupTimer.Reset();
                 HidePopup(EPopupScreens.PopupVolumeControl);
             }
+            if (!_Cursor.IsActive && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
+                HidePopup(EPopupScreens.PopupVolumeControl);
             if (_CurrentPopupScreen != EPopupScreens.NoPopup)
                 _PopupScreens[(int)_CurrentPopupScreen].UpdateGame();
             return _Screens[(int)_CurrentScreen].UpdateGame();
