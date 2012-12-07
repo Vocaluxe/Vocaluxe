@@ -54,6 +54,19 @@ namespace Vocaluxe.Lib.Webcam
             return false;
         }
 
+        public Bitmap GetBitmap()
+        {
+            if ((_CurrentFrame != null) && (_Webcam != null))
+            {
+                lock (_CurrentFrame)
+                {
+                    return (Bitmap)_CurrentFrame.Clone();
+                }
+            }
+            else
+                return null;
+        }
+
         public bool Init()
         {
             _WebcamDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);

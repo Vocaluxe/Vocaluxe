@@ -5,6 +5,8 @@ using System.Windows.Forms;
 
 using Vocaluxe.Base;
 using Vocaluxe.Menu;
+using System.Drawing;
+using System.IO;
 
 namespace Vocaluxe.Screens
 {
@@ -29,13 +31,17 @@ namespace Vocaluxe.Screens
         private const string ButtonSave = "ButtonSave";
         private const string ButtonNew = "ButtonNew";
         private const string ButtonDelete = "ButtonDelete";
-        private const string ButtonTakeSnapshot = "ButtonTakeSnapshot";
+        private const string ButtonWebcam = "ButtonWebcam";
         private const string ButtonSaveSnapshot = "ButtonSaveSnapshot";
         private const string ButtonDiscardSnapshot = "ButtonDiscardSnapshot";
+        private const string ButtonTakeSnapshot = "ButtonTakeSnapshot";
 
         private const string StaticAvatar = "StaticAvatar";
 
         private EEditMode _EditMode;
+
+        private Lib.Draw.STexture _WebcamTexture = new Lib.Draw.STexture(-1);
+        private Bitmap _Snapshot = null;
         
         public CScreenProfiles()
         {
@@ -48,7 +54,7 @@ namespace Vocaluxe.Screens
 
             _ThemeName = "ScreenProfiles";
             _ScreenVersion = ScreenVersion;
-            _ThemeButtons = new string[] { ButtonPlayerName, ButtonExit, ButtonSave, ButtonNew, ButtonDelete, ButtonTakeSnapshot, ButtonSaveSnapshot, ButtonDiscardSnapshot };
+            _ThemeButtons = new string[] { ButtonPlayerName, ButtonExit, ButtonSave, ButtonNew, ButtonDelete, ButtonWebcam, ButtonSaveSnapshot, ButtonDiscardSnapshot, ButtonTakeSnapshot };
             _ThemeSelectSlides = new string[] { SelectSlideProfiles, SelectSlideDifficulty, SelectSlideAvatars, SelectSlideGuestProfile, SelectSlideActive };
             _ThemeStatics = new string[] { StaticAvatar };
 
@@ -59,6 +65,11 @@ namespace Vocaluxe.Screens
         {
             base.LoadTheme();
 
+            Buttons[htButtons(ButtonSaveSnapshot)].Visible = false;
+            Buttons[htButtons(ButtonDiscardSnapshot)].Visible = false;
+            Buttons[htButtons(ButtonTakeSnapshot)].Visible = false;
+            if (CWebcam.GetDevices().Length > 0)
+                Buttons[htButtons(ButtonWebcam)].Visible = true;
             SelectSlides[htSelectSlides(SelectSlideDifficulty)].SetValues<EGameDifficulty>(0);
             SelectSlides[htSelectSlides(SelectSlideGuestProfile)].SetValues<EOffOn>(0);
             SelectSlides[htSelectSlides(SelectSlideActive)].SetValues<EOffOn>(0);
@@ -111,6 +122,35 @@ namespace Vocaluxe.Screens
                         } else if (Buttons[htButtons(ButtonDelete)].Selected)
                         {
                             DeleteProfile();
+                        } else if (Buttons[htButtons(ButtonWebcam)].Selected && CWebcam.GetDevices().Length > 0)
+                        {
+                            CWebcam.Start();
+                            _Snapshot = CWebcam.GetBitmap();
+                            Buttons[htButtons(ButtonSaveSnapshot)].Visible = true;
+                            Buttons[htButtons(ButtonDiscardSnapshot)].Visible = true;
+                        }
+                        else if (Buttons[htButtons(ButtonSaveSnapshot)].Selected && CWebcam.GetDevices().Length > 0)
+                        {
+                            string filename = "snapshot.png";
+                            int i = 0;
+                            while (File.Exists(Path.Combine(CSettings.sFolderProfiles, filename + ".png")))
+                            {
+                                i++;
+                                if (!File.Exists(Path.Combine(CSettings.sFolderProfiles, filename + i + ".png")))
+                                {
+                                    filename += i;
+                                }
+                            }
+
+                            CWebcam.Stop();
+                            Buttons[htButtons(ButtonSaveSnapshot)].Visible = false;
+                            Buttons[htButtons(ButtonDiscardSnapshot)].Visible = false;
+                        }
+                        else if (Buttons[htButtons(ButtonDiscardSnapshot)].Selected && CWebcam.GetDevices().Length > 0)
+                        {
+                            CWebcam.Stop();
+                            Buttons[htButtons(ButtonSaveSnapshot)].Visible = false;
+                            Buttons[htButtons(ButtonDiscardSnapshot)].Visible = false;
                         }
                         break;
 
@@ -191,6 +231,61 @@ namespace Vocaluxe.Screens
                     CProfiles.SetActive(SelectSlides[htSelectSlides(SelectSlideProfiles)].Selection,
                         (EOffOn)SelectSlides[htSelectSlides(SelectSlideActive)].Selection);
                 }
+                else if (Buttons[htButtons(ButtonWebcam)].Selected && CWebcam.GetDevices().Length > 0)
+                {
+                    _Snapshot = null;
+                    CWebcam.Start();
+                    CWebcam.GetFrame(ref _WebcamTexture);
+                    Buttons[htButtons(ButtonSaveSnapshot)].Visible = true;
+                    Buttons[htButtons(ButtonDiscardSnapshot)].Visible = true;
+                    Buttons[htButtons(ButtonTakeSnapshot)].Visible = true;
+                    Buttons[htButtons(ButtonWebcam)].Visible = false;
+                }
+                else if (Buttons[htButtons(ButtonSaveSnapshot)].Selected && CWebcam.GetDevices().Length > 0)
+                {
+                    string filename = "snapshot";
+                    int i = 0;
+                    while (File.Exists(Path.Combine(CSettings.sFolderProfiles, filename + i + ".png")))
+                    {
+                        i++;
+                    }
+                    _Snapshot.Save(Path.Combine(CSettings.sFolderProfiles, filename + i + ".png"), System.Drawing.Imaging.ImageFormat.Png);
+                    CProfiles.LoadAvatars();
+                    LoadAvatars();
+                    _Snapshot = null;
+                    CWebcam.Stop();
+                    CDraw.RemoveTexture(ref _WebcamTexture);
+
+                    for (int j = 0; j < CProfiles.Avatars.Length; j++)
+                    {
+                        if (CProfiles.Avatars[j].FileName == (filename + i + ".png"))
+                        {
+                            CProfiles.SetAvatar(SelectSlides[htSelectSlides(SelectSlideProfiles)].Selection, j);
+                            break;
+                        }
+
+                    }
+
+                    Buttons[htButtons(ButtonSaveSnapshot)].Visible = false;
+                    Buttons[htButtons(ButtonDiscardSnapshot)].Visible = false;
+                    Buttons[htButtons(ButtonTakeSnapshot)].Visible = false;
+                    Buttons[htButtons(ButtonWebcam)].Visible = true;
+                }
+                else if (Buttons[htButtons(ButtonDiscardSnapshot)].Selected && CWebcam.GetDevices().Length > 0)
+                {
+                    CWebcam.Stop();
+                    CDraw.RemoveTexture(ref _WebcamTexture);
+                    _Snapshot = null;
+                    Buttons[htButtons(ButtonSaveSnapshot)].Visible = false;
+                    Buttons[htButtons(ButtonDiscardSnapshot)].Visible = false;
+                    Buttons[htButtons(ButtonTakeSnapshot)].Visible = false;
+                    Buttons[htButtons(ButtonWebcam)].Visible = true;
+                }
+                else if (Buttons[htButtons(ButtonTakeSnapshot)].Selected && CWebcam.GetDevices().Length > 0)
+                {
+                    Buttons[htButtons(ButtonWebcam)].Visible = false;
+                    _Snapshot = CWebcam.GetBitmap();
+                }
             }
 
             if (MouseEvent.RB)
@@ -214,7 +309,14 @@ namespace Vocaluxe.Screens
 
                 int avatarNr = CProfiles.GetAvatarNr(SelectSlides[htSelectSlides(SelectSlideProfiles)].Selection);
                 SelectSlides[htSelectSlides(SelectSlideAvatars)].Selection = avatarNr;
-                Statics[htStatics(StaticAvatar)].Texture = CProfiles.Avatars[avatarNr].Texture;
+                if (CWebcam.GetDevices().Length > 0 && _WebcamTexture.index > 0)
+                {
+                    if(_Snapshot == null)
+                        CWebcam.GetFrame(ref _WebcamTexture);
+                    Statics[htStatics(StaticAvatar)].Texture = _WebcamTexture;
+                }
+                else
+                    Statics[htStatics(StaticAvatar)].Texture = CProfiles.Avatars[avatarNr].Texture;
             }
                 
             return true;

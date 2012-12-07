@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Vocaluxe.Lib.Draw;
+using System.Drawing;
 
 namespace Vocaluxe.Lib.Webcam
 {
@@ -38,6 +39,7 @@ namespace Vocaluxe.Lib.Webcam
         void Close();
 
         bool GetFrame(ref STexture Frame);
+        Bitmap GetBitmap();
         SWebcamConfig GetConfig();
         SWebcamDevice[] GetDevices();
 

@@ -4,6 +4,7 @@ using System.Text;
 
 using Vocaluxe.Lib.Webcam;
 using Vocaluxe.Lib.Draw;
+using System.Drawing;
 
 namespace Vocaluxe.Base
 {
@@ -34,6 +35,11 @@ namespace Vocaluxe.Base
         {
             _Webcam.GetFrame(ref tex);
             return true;
+        }
+
+        public static Bitmap GetBitmap()
+        {
+            return _Webcam.GetBitmap();
         }
 
         public static void Close()
