@@ -598,6 +598,11 @@ namespace Vocaluxe.Menu.SongMenu
             CSongs.Category = -1;
         }
 
+        public void ApplyVolume()
+        {
+            CSound.SetStreamVolume(_actsongstream, CConfig.PreviewMusicVolume);
+        }
+
         protected void SelectSong(int nr)
         {
             if (CSongs.Category >= 0 && (CSongs.NumVisibleSongs > 0) && (nr >= 0) && ((_actsong != nr) || (_streams.Count == 0)))
@@ -628,7 +633,7 @@ namespace Vocaluxe.Menu.SongMenu
 
                 CSound.SetPosition(_stream, startposition);
                 CSound.Play(_stream);
-                CSound.Fade(_stream, 100f, 3f);
+                CSound.Fade(_stream, CConfig.PreviewMusicVolume, 3f);
                 _streams.Add(_stream);
                 _actsongstream = _stream;
 

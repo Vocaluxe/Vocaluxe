@@ -311,6 +311,21 @@ namespace Vocaluxe.Screens
                 }
             }
 
+            if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Add || KeyEvent.Key == Keys.PageUp))
+            {
+                CConfig.PreviewMusicVolume = CConfig.PreviewMusicVolume + 5;
+                if (CConfig.PreviewMusicVolume > 100)
+                    CConfig.PreviewMusicVolume = 100;
+                CConfig.SaveConfig();
+            }
+            else if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Subtract || KeyEvent.Key == Keys.PageDown))
+            {
+                CConfig.PreviewMusicVolume = CConfig.PreviewMusicVolume - 5;
+                if (CConfig.PreviewMusicVolume < 0)
+                    CConfig.PreviewMusicVolume = 0;
+                CConfig.SaveConfig();
+            }
+
             return true;
         }
 

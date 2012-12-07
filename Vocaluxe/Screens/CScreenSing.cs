@@ -227,6 +227,30 @@ namespace Vocaluxe.Screens
                             TogglePause();
                         }
                         break;
+
+                    case Keys.Add:
+                    case Keys.PageUp:
+                        if (KeyEvent.ModSHIFT)
+                        {
+                            CConfig.GameMusicVolume = CConfig.GameMusicVolume + 5;
+                            if (CConfig.GameMusicVolume > 100)
+                                CConfig.GameMusicVolume = 100;
+                            CConfig.SaveConfig();
+                            CSound.SetStreamVolume(_CurrentStream, CConfig.GameMusicVolume);
+                        }
+                        break;
+
+                    case Keys.Subtract:
+                    case Keys.PageDown:
+                        if (KeyEvent.ModSHIFT)
+                        {
+                            CConfig.GameMusicVolume = CConfig.GameMusicVolume - 5;
+                            if (CConfig.GameMusicVolume < 0)
+                                CConfig.GameMusicVolume = 0;
+                            CConfig.SaveConfig();
+                            CSound.SetStreamVolume(_CurrentStream, CConfig.GameMusicVolume);
+                        }
+                        break;
                 }
             }
 
