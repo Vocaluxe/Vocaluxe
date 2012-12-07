@@ -331,10 +331,6 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public void Apply()
-        {
-        }
-
         public override bool HandleMouse(MouseEvent MouseEvent)
         {
             base.HandleMouse(MouseEvent);
