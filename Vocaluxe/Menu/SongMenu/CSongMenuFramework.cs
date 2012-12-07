@@ -646,7 +646,7 @@ namespace Vocaluxe.Menu.SongMenu
 
                 CSound.SetPosition(_stream, startposition);
                 CSound.Play(_stream);
-                CSound.Fade(_stream, CConfig.PreviewMusicVolume, 3f);
+                CSound.Fade(_stream, 100f, 3f);
                 _streams.Add(_stream);
                 _actsongstream = _stream;
 

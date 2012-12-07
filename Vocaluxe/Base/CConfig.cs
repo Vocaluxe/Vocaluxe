@@ -228,11 +228,11 @@ namespace Vocaluxe.Base
         public static ERecordLib RecordLib = ERecordLib.PortAudio;
         public static EBufferSize AudioBufferSize = EBufferSize.b2048;
         public static int AudioLatency = 0;
-        public static int BackgroundMusicVolume = 50;
+        public static int BackgroundMusicVolume = 30;
         public static EOffOn BackgroundMusic = EOffOn.TR_CONFIG_ON;
         public static EBackgroundMusicSource BackgroundMusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
-        public static int PreviewMusicVolume = 20;
-        public static int GameMusicVolume = 100;
+        public static int PreviewMusicVolume = 50;
+        public static int GameMusicVolume = 80;
 
         // Game
         public static List<string> SongFolder = new List<string>();
