@@ -7,6 +7,7 @@ using Vocaluxe.Base;
 using Vocaluxe.Menu;
 using System.Drawing;
 using System.IO;
+using Vocaluxe.Lib.Draw;
 
 namespace Vocaluxe.Screens
 {
@@ -314,6 +315,10 @@ namespace Vocaluxe.Screens
                     if(_Snapshot == null)
                         CWebcam.GetFrame(ref _WebcamTexture);
                     Statics[htStatics(StaticAvatar)].Texture = _WebcamTexture;
+
+                    RectangleF bounds = new RectangleF(_WebcamTexture.rect.X, _WebcamTexture.rect.Y, _WebcamTexture.rect.W, _WebcamTexture.rect.H);
+                    RectangleF rect = new RectangleF(0f, 0f, _WebcamTexture.rect.W, _WebcamTexture.rect.H);
+                    CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
                 }
                 else
                     Statics[htStatics(StaticAvatar)].Texture = CProfiles.Avatars[avatarNr].Texture;
