@@ -241,6 +241,7 @@ namespace Vocaluxe.Screens
             Buttons[htButtons(ButtonSaveSnapshot)].Visible = true;
             Buttons[htButtons(ButtonDiscardSnapshot)].Visible = true;
             Buttons[htButtons(ButtonWebcam)].Visible = false;
+            Buttons[htButtons(ButtonTakeSnapshot)].Visible = false;
             _Snapshot = CWebcam.GetBitmap();
         }
 
