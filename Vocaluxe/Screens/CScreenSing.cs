@@ -149,6 +149,7 @@ namespace Vocaluxe.Screens
         public override void LoadTheme()
         {
             base.LoadTheme();
+
             Statics[htStatics(StaticTimeLine)].Visible = false;
             Statics[htStatics(StaticTimeLineExpandedNormal)].Visible = false;
             Statics[htStatics(StaticTimeLineExpandedHighlighted)].Visible = false;
@@ -412,6 +413,11 @@ namespace Vocaluxe.Screens
             for (int i = 0; i < Lyrics.Length; i++)
             {
                 Lyrics[i].LyricStyle = CConfig.LyricStyle;
+            }
+
+            for (int p = 0; p < CGame.NumPlayer; p++)
+            {
+                Statics[htStatics(StaticAvatars[p, CGame.NumPlayer - 1])].Aspect = EAspect.Crop;
             }
             SetVisuability();
 
