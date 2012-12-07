@@ -317,6 +317,7 @@ namespace Vocaluxe.Screens
                 if (CConfig.PreviewMusicVolume > 100)
                     CConfig.PreviewMusicVolume = 100;
                 CConfig.SaveConfig();
+                ApplyVolume();
             }
             else if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Subtract || KeyEvent.Key == Keys.PageDown))
             {
@@ -324,9 +325,14 @@ namespace Vocaluxe.Screens
                 if (CConfig.PreviewMusicVolume < 0)
                     CConfig.PreviewMusicVolume = 0;
                 CConfig.SaveConfig();
+                ApplyVolume();
             }
 
             return true;
+        }
+
+        public void Apply()
+        {
         }
 
         public override bool HandleMouse(MouseEvent MouseEvent)
@@ -588,6 +594,11 @@ namespace Vocaluxe.Screens
             base.OnClose();
             CBackgroundMusic.Disabled = false;
             SongMenus[htSongMenus(SongMenu)].OnHide();
+        }
+
+        public override void ApplyVolume()
+        {
+            SongMenus[htSongMenus(SongMenu)].ApplyVolume(CConfig.PreviewMusicVolume);
         }
 
         private void StartSong(int SongNr)

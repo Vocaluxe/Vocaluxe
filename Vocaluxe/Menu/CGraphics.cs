@@ -40,6 +40,7 @@ namespace Vocaluxe.Menu
     enum EPopupScreens
     {
         PopupPlayerControl = 0,
+        PopupVolumeControl = 1,
 
         NoPopup = -1
     }
@@ -210,6 +211,11 @@ namespace Vocaluxe.Menu
             get { return _ZOffset; }
         }
 
+        public static EScreens CurrentScreen
+        {
+            get { return _CurrentScreen; }
+        }
+
         #region public methods
         public static void InitGraphics()
         {
@@ -235,6 +241,7 @@ namespace Vocaluxe.Menu
             _Screens.Add(new CScreenCredits());
 
             _PopupScreens.Add(new CPopupScreenPlayerControl());
+            _PopupScreens.Add(new CPopupScreenVolumeControl());
 
             CLog.StopBenchmark(1, "Build Screen List");
                  
@@ -454,6 +461,8 @@ namespace Vocaluxe.Menu
             bool PopupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing &&
                 _CurrentScreen != EScreens.ScreenSong && _CurrentScreen != EScreens.ScreenCredits;
 
+            bool PopupVolumeControlAllowed = _CurrentScreen != EScreens.ScreenCredits;
+
             bool Resume = true;
             while (keys.PollEvent(ref KeyEvent))
             {
@@ -517,9 +526,22 @@ namespace Vocaluxe.Menu
                 if (!isOverPopupPlayerControl && _CurrentPopupScreen == EPopupScreens.PopupPlayerControl)
                     HidePopup(EPopupScreens.PopupPlayerControl);
 
+                bool isOverPopupVolumeControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupVolumeControl].ScreenArea, MouseEvent);
+                if (PopupVolumeControlAllowed && isOverPopupVolumeControl)
+                {
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup)
+                        ShowPopup(EPopupScreens.PopupVolumeControl);
+                }
+
+                if (!isOverPopupVolumeControl && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
+                    HidePopup(EPopupScreens.PopupVolumeControl);
+
                 bool handled = false;
                 if (_CurrentPopupScreen != EPopupScreens.NoPopup)
                     handled = _PopupScreens[(int)_CurrentPopupScreen].HandleMouse(MouseEvent);
+                if (handled && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
+                    _Screens[(int)_CurrentScreen].ApplyVolume();
+
 
                 if (!handled && !_Fading && (_Cursor.IsActive || MouseEvent.LB || MouseEvent.RB || MouseEvent.MB))
                     Resume &= _Screens[(int)_CurrentScreen].HandleMouse(MouseEvent);               

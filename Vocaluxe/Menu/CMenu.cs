@@ -1078,6 +1078,10 @@ namespace Vocaluxe.Menu
 
         public abstract bool UpdateGame();
 
+        public virtual void ApplyVolume()
+        {
+        }
+
         public virtual void OnShow()
         {
             ResumeBG();

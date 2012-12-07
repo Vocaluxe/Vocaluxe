@@ -236,7 +236,7 @@ namespace Vocaluxe.Screens
                             if (CConfig.GameMusicVolume > 100)
                                 CConfig.GameMusicVolume = 100;
                             CConfig.SaveConfig();
-                            CSound.SetStreamVolume(_CurrentStream, CConfig.GameMusicVolume);
+                            ApplyVolume();
                         }
                         break;
 
@@ -248,7 +248,7 @@ namespace Vocaluxe.Screens
                             if (CConfig.GameMusicVolume < 0)
                                 CConfig.GameMusicVolume = 0;
                             CConfig.SaveConfig();
-                            CSound.SetStreamVolume(_CurrentStream, CConfig.GameMusicVolume);
+                            ApplyVolume();
                         }
                         break;
                 }
@@ -515,6 +515,11 @@ namespace Vocaluxe.Screens
             CloseSong();
         }
 
+        public override void ApplyVolume()
+        {
+            CSound.SetStreamVolumeMax(_CurrentStream, CConfig.GameMusicVolume);
+        }
+
         private void CloseSong()
         {
             CSound.FadeAndStop(_CurrentStream, 0f, 0.5f);
@@ -569,7 +574,7 @@ namespace Vocaluxe.Screens
             Texts[htTexts(TextSongName)].Text = songname;
 
             _CurrentStream = CSound.Load(song.GetMP3(), true);
-            CSound.SetStreamVolumeMax(_CurrentStream, 100f);    //TODO: Add volume control var
+            CSound.SetStreamVolumeMax(_CurrentStream, CConfig.GameMusicVolume);
             CSound.SetStreamVolume(_CurrentStream, _Volume);
             CSound.SetPosition(_CurrentStream, song.Start);
             _CurrentTime = song.Start;
