@@ -108,6 +108,10 @@ namespace Vocaluxe.Base
             _Playback.SetStreamVolume(Stream, Volume);
         }
 
+        public static void SetStreamVolumeMax(int Stream, float Volume)
+        {
+            _Playback.SetStreamVolumeMax(Stream, Volume);
+        }
 
         public static float GetLength(int Stream)
         {

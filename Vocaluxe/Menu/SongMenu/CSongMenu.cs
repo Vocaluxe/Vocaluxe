@@ -73,6 +73,11 @@ namespace Vocaluxe.Menu.SongMenu
             _SongMenu.Draw();
         }
 
+        public void ApplyVolume(float VolumeMax)
+        {
+            _SongMenu.ApplyVolume(VolumeMax);
+        }
+
         public bool IsActive()
         {
             return _SongMenu.IsActive();

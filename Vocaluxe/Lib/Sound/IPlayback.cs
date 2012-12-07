@@ -37,7 +37,8 @@ namespace Vocaluxe.Lib.Sound
         void Fade(int Stream, float TargetVolume, float Seconds);
         void FadeAndPause(int Stream, float TargetVolume, float Seconds);
         void FadeAndStop(int Stream, float TargetVolume, float Seconds);
-        void SetStreamVolume(int Stream, float Volume);        
+        void SetStreamVolume(int Stream, float Volume);
+        void SetStreamVolumeMax(int Stream, float Volume);
 
         float GetLength(int Stream);
         float GetPosition(int Stream);

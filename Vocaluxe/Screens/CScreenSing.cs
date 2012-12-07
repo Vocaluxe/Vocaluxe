@@ -569,6 +569,7 @@ namespace Vocaluxe.Screens
             Texts[htTexts(TextSongName)].Text = songname;
 
             _CurrentStream = CSound.Load(song.GetMP3(), true);
+            CSound.SetStreamVolumeMax(_CurrentStream, 100f);    //TODO: Add volume control var
             CSound.SetStreamVolume(_CurrentStream, _Volume);
             CSound.SetPosition(_CurrentStream, song.Start);
             _CurrentTime = song.Start;
