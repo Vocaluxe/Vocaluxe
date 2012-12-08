@@ -420,7 +420,7 @@ namespace Vocaluxe.Menu
 
         public bool IsMouseOver(MouseEvent MouseEvent)
         {
-            return CHelper.IsInBounds(Rect, MouseEvent.X, MouseEvent.Y) || _Interactions.IsMouseOver(MouseEvent);
+            return CHelper.IsInBounds(CompleteRect, MouseEvent.X, MouseEvent.Y) || _Interactions.IsMouseOver(MouseEvent);
         }
 
         public void UnloadTextures()
@@ -929,7 +929,7 @@ namespace Vocaluxe.Menu
                         //Change order with holding LB
                         if (MouseEvent.LBH && CurrentPlaylistElement != -1 && PlaylistElementContents.Count > 1 && DragAndDropSongID == -1)
                         {
-                            
+
                             ChangeOrderSource = CurrentPlaylistElement + Offset;
 
                             //Update of Drag/Drop-Texture
@@ -1071,7 +1071,7 @@ namespace Vocaluxe.Menu
                                         }
                                     }
                                 }
-                            
+
                                 UpdatePlaylist();
                             }
                             _EditMode = EEditMode.None;
