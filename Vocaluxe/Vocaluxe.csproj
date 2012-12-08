@@ -29,6 +29,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <StartupObject>Vocaluxe.MainProgram</StartupObject>
     <ApplicationIcon>Vocaluxe.ico</ApplicationIcon>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWin|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -140,6 +141,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="AForge.Video, Version=2.2.4.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\AForge.Video.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow, Version=2.2.4.1, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\AForge.Video.DirectShow.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Community.CsharpSqlite">
       <HintPath>..\Output\Community.CsharpSqlite.dll</HintPath>
     </Reference>
@@ -176,6 +187,7 @@
     <Compile Include="Base\CSongs.cs" />
     <Compile Include="Base\CTheme.cs" />
     <Compile Include="Base\CVideo.cs" />
+    <Compile Include="Base\CWebcam.cs" />
     <Compile Include="GameModes\CGameMode.cs" />
     <Compile Include="GameModes\CGameModeNormal.cs" />
     <Compile Include="GameModes\IGameMode.cs" />
@@ -207,6 +219,8 @@
     <Compile Include="Lib\Video\CVideoDecoder.cs" />
     <Compile Include="Lib\Video\CVideoDecoderFFmpeg.cs" />
     <Compile Include="Lib\Video\IVideoDecoder.cs" />
+    <Compile Include="Lib\Webcam\CAForgeNet.cs" />
+    <Compile Include="Lib\Webcam\IWebcam.cs" />
     <Compile Include="Menu\CBackground.cs" />
     <Compile Include="Menu\CButton.cs" />
     <Compile Include="Menu\CEqualizer.cs" />
