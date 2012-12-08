@@ -17,7 +17,7 @@ namespace Vocaluxe.Screens
     class CScreenSing : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 5;
+        const int ScreenVersion = 6;
 
         struct TimeRect
         {
