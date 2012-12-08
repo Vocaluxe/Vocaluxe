@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenOptionsVideo>
-    <ScreenVersion>2</ScreenVersion>
+    <ScreenVersion>3</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>Video</Type>
@@ -222,6 +222,64 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </Text5>
+	<Text6>
+      <!--<X>, <Y>: Text position-->
+      <X>75</X>
+      <Y>345</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text>TR_SCREENO_VIDEO_WEBCAMDEVICES</Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </Text6>
+	<Text7>
+      <!--<X>, <Y>: Text position-->
+      <X>75</X>
+      <Y>405</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Text or translation tag-->
+      <Text>TR_SCREENO_VIDEO_WEBCAMCAPABILITIES</Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </Text7>
     <ButtonExit>
       <!--<Skin>: Texture name-->
       <Skin>Button</Skin>
@@ -539,5 +597,151 @@
       <!--<NumVisible>: Number of visible elements in the slide-->
       <NumVisible>3</NumVisible>
     </SelectSlideVideosToBackground>
+	<SelectSlideWebcamDevices>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<SkinArrowLeft>: Texture name of left arrow-->
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <!--<SkinArrowRight>: Texture name of right arrow-->
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <!--<SkinSelected>: Texture name for selected SelectSlide-->
+      <SkinSelected>SelectSlide</SkinSelected>
+      <!--<SkinArrowLeftSelected>: Texture name of selected left arrow-->
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <!--<SkinArrowRightSelected>: Texture name of selected right arrow-->
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <!--<SkinHighlighted>: Texture name for highlighted SelectSlide-->
+      <SkinHighlighted>SelectSlide</SkinHighlighted>
+      <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
+      <X>500</X>
+      <Y>340</Y>
+      <Z>0,00</Z>
+      <W>700</W>
+      <H>50</H>
+      <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
+      <ArrowLeftX>505</ArrowLeftX>
+      <ArrowLeftY>345</ArrowLeftY>
+      <ArrowLeftZ>0,00</ArrowLeftZ>
+      <ArrowLeftW>40</ArrowLeftW>
+      <ArrowLeftH>40</ArrowLeftH>
+      <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
+      <ArrowRightX>1170</ArrowRightX>
+      <ArrowRightY>345</ArrowRightY>
+      <ArrowRightZ>0,00</ArrowRightZ>
+      <ArrowRightW>40</ArrowRightW>
+      <ArrowRightH>40</ArrowRightH>
+      <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>SelectSlideColor</Color>
+      <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>SelectSlideSColor</SColor>
+      <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
+      <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
+      <HColor>SelectSlideHColor</HColor>
+      <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
+      <ArrowColor>ArrowColor</ArrowColor>
+      <!--<ArrowSColor>: Selected arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowSR>, <ArrowSG>, <ArrowSB>, <ArrowSA> (lower priority)-->
+      <ArrowSColor>ArrowSColor</ArrowSColor>
+      <!--<TextColor>: Text color from ColorScheme (high priority)-->
+      <!--or <TextR>, <TextG>, <TextB>, <TextA> (lower priority)-->
+      <TextColor>TextColor</TextColor>
+      <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
+      <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
+      <TextSColor>TextSColor</TextSColor>
+      <!--<TextH>: Text height-->
+      <TextH>32,00</TextH>
+      <!--<TextMaxW>: Maximum text width (if exists)-->
+      <TextMaxW>205,33</TextMaxW>
+      <!--<TextFont>: Text font name-->
+      <TextFont>Normal</TextFont>
+      <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <TextStyle>Bold</TextStyle>
+      <!--<NumVisible>: Number of visible elements in the slide-->
+      <NumVisible>3</NumVisible>
+    </SelectSlideWebcamDevices>
+	<SelectSlideWebcamCapabilities>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<SkinArrowLeft>: Texture name of left arrow-->
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <!--<SkinArrowRight>: Texture name of right arrow-->
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <!--<SkinSelected>: Texture name for selected SelectSlide-->
+      <SkinSelected>SelectSlide</SkinSelected>
+      <!--<SkinArrowLeftSelected>: Texture name of selected left arrow-->
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <!--<SkinArrowRightSelected>: Texture name of selected right arrow-->
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <!--<SkinHighlighted>: Texture name for highlighted SelectSlide-->
+      <SkinHighlighted>SelectSlide</SkinHighlighted>
+      <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
+      <X>500</X>
+      <Y>400</Y>
+      <Z>0,00</Z>
+      <W>700</W>
+      <H>50</H>
+      <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
+      <ArrowLeftX>505</ArrowLeftX>
+      <ArrowLeftY>405</ArrowLeftY>
+      <ArrowLeftZ>0,00</ArrowLeftZ>
+      <ArrowLeftW>40</ArrowLeftW>
+      <ArrowLeftH>40</ArrowLeftH>
+      <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
+      <ArrowRightX>1170</ArrowRightX>
+      <ArrowRightY>405</ArrowRightY>
+      <ArrowRightZ>0,00</ArrowRightZ>
+      <ArrowRightW>40</ArrowRightW>
+      <ArrowRightH>40</ArrowRightH>
+      <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>SelectSlideColor</Color>
+      <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>SelectSlideSColor</SColor>
+      <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
+      <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
+      <HColor>SelectSlideHColor</HColor>
+      <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
+      <ArrowColor>ArrowColor</ArrowColor>
+      <!--<ArrowSColor>: Selected arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowSR>, <ArrowSG>, <ArrowSB>, <ArrowSA> (lower priority)-->
+      <ArrowSColor>ArrowSColor</ArrowSColor>
+      <!--<TextColor>: Text color from ColorScheme (high priority)-->
+      <!--or <TextR>, <TextG>, <TextB>, <TextA> (lower priority)-->
+      <TextColor>TextColor</TextColor>
+      <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
+      <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
+      <TextSColor>TextSColor</TextSColor>
+      <!--<TextH>: Text height-->
+      <TextH>32,00</TextH>
+      <!--<TextMaxW>: Maximum text width (if exists)-->
+      <TextMaxW>205,33</TextMaxW>
+      <!--<TextFont>: Text font name-->
+      <TextFont>Normal</TextFont>
+      <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <TextStyle>Bold</TextStyle>
+      <!--<NumVisible>: Number of visible elements in the slide-->
+      <NumVisible>3</NumVisible>
+    </SelectSlideWebcamCapabilities>
+	<StaticWebcamOutput>
+      <!--<Skin>: Texture name-->
+      <Skin>CoverBackground</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>75</X>
+      <Y>460</Y>
+      <Z>0,00</Z>
+      <W>320</W>
+      <H>240</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>Visible</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticWebcamOutput>
   </ScreenOptionsVideo>
 </root>
