@@ -206,6 +206,8 @@ namespace Vocaluxe.Screens
                 {
                     CProfiles.SetAvatar(SelectSlides[htSelectSlides(SelectSlideProfiles)].Selection,
                         SelectSlides[htSelectSlides(SelectSlideAvatars)].Selection);
+                    if (CWebcam.GetDevices().Length > 0 && _WebcamTexture.index > 0)
+                        OnDiscardSnapshot();
                 } else if (SelectSlides[htSelectSlides(SelectSlideGuestProfile)].Selected)
                 {
                     CProfiles.SetGuestProfile(SelectSlides[htSelectSlides(SelectSlideProfiles)].Selection,
@@ -337,6 +339,13 @@ namespace Vocaluxe.Screens
             LoadAvatars();
             LoadProfiles();
             UpdateGame();
+        }
+
+        public override void OnClose()
+        {
+            base.OnClose();
+
+            OnDiscardSnapshot();
         }
 
         public override bool Draw()

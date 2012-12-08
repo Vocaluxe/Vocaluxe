@@ -697,7 +697,7 @@
       <SkinSelected>Button</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
       <X>300</X>
-      <Y>210</Y>
+      <Y>205</Y>
       <Z>0,00</Z>
       <W>150</W>
       <H>50</H>
@@ -735,17 +735,9 @@
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-      <Reflection>
-        <Space>10</Space>
-        <Height>26</Height>
-      </Reflection>
       <!--<SReflection> If exists:-->
       <!--   <Space>: Reflection Space of selected button-->
       <!--   <Height>: Reflection Height of selected button-->
-      <SReflection>
-        <Space>10</Space>
-        <Height>26</Height>
-      </SReflection>
     </ButtonSaveSnapshot>
     <ButtonDiscardSnapshot>
       <!--<Skin>: Texture name-->
@@ -754,7 +746,7 @@
       <SkinSelected>Button</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
       <X>300</X>
-      <Y>110</Y>
+      <Y>125</Y>
       <Z>0,00</Z>
       <W>150</W>
       <H>50</H>
@@ -792,17 +784,9 @@
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-      <Reflection>
-        <Space>10</Space>
-        <Height>26</Height>
-      </Reflection>
       <!--<SReflection> If exists:-->
       <!--   <Space>: Reflection Space of selected button-->
       <!--   <Height>: Reflection Height of selected button-->
-      <SReflection>
-        <Space>10</Space>
-        <Height>26</Height>
-      </SReflection>
     </ButtonDiscardSnapshot>
     <SelectSlideProfiles>
       <!--<Skin>: Texture name-->
