@@ -928,6 +928,18 @@ namespace Vocaluxe.Menu
                         CConfig.BackgroundMusicVolume = 0;
                     CConfig.SaveConfig();
                 }
+                else if (KeyEvent.Key == Keys.MediaNextTrack)
+                    CBackgroundMusic.Next();
+                else if (KeyEvent.Key == Keys.MediaPreviousTrack)
+                    CBackgroundMusic.Previous();
+                else if (KeyEvent.Key == Keys.MediaPlayPause)
+                {
+                    if (CBackgroundMusic.Playing)
+                        CBackgroundMusic.Pause();
+                    else
+                        CBackgroundMusic.Play();
+                }
+                    
                 CBackgroundMusic.ApplyVolume();
             }
 

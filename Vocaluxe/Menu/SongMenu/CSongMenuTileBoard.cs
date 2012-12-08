@@ -408,13 +408,13 @@ namespace Vocaluxe.Menu.SongMenu
             foreach (CStatic tile in _Tiles)
             {
                 if (tile.Selected && _Active)
-                    tile.Draw(1.2f, tile.Rect.Z - 0.1f, true, false);
+                    tile.Draw(1.2f, tile.Rect.Z - 0.1f, EAspect.Crop, false);
                 else
                 {
                     if (tile.Texture.index != _CoverTexture.index)
-                        tile.Draw(1f, tile.Rect.Z, true, false);
+                        tile.Draw(1f, tile.Rect.Z, EAspect.Crop, false);
                     else
-                        tile.Draw(1f, tile.Rect.Z, false, false);
+                        tile.Draw(1f, tile.Rect.Z, EAspect.Stretch, false);
                 }
             }
 
@@ -465,9 +465,9 @@ namespace Vocaluxe.Menu.SongMenu
                 }
             }
 
-            _CoverBig.Draw(1f, true);
+            _CoverBig.Draw(1f, EAspect.Crop);
             if (_vidtex.color.A < 1)
-                _CoverBig.Draw(1f, true);
+                _CoverBig.Draw(1f, EAspect.Crop);
             _TextBG.Draw();
 
             if (_vidtex.index != -1 && _Video != -1)
