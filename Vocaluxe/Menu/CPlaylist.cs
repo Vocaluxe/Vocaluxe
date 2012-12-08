@@ -420,7 +420,7 @@ namespace Vocaluxe.Menu
 
         public bool IsMouseOver(MouseEvent MouseEvent)
         {
-            return CHelper.IsInBounds(Rect, MouseEvent.X, MouseEvent.Y) || _Interactions.IsMouseOver(MouseEvent);
+            return CHelper.IsInBounds(CompleteRect, MouseEvent.X, MouseEvent.Y) || _Interactions.IsMouseOver(MouseEvent);
         }
 
         public void UnloadTextures()
@@ -835,145 +835,223 @@ namespace Vocaluxe.Menu
 
         public bool HandleMouse(MouseEvent MouseEvent)
         {
-            _Interactions.HandleMouse(MouseEvent);
-
             if (CHelper.IsInBounds(CompleteRect, MouseEvent) && Visible)
             {
-                //Scroll
-                if (MouseEvent.Wheel > 0)
-                {
-                    if (PlaylistElements.Count + Offset + MouseEvent.Wheel <= PlaylistElementContents.Count)
-                    {
-                        Offset += MouseEvent.Wheel;
-                        Update();
-                    }
-                    return true;
-                }
-                else if (MouseEvent.Wheel < 0)
-                {
-                    if (Offset + MouseEvent.Wheel >= 0)
-                    {
-                        Offset += MouseEvent.Wheel;
-                        Update();
-                    }
-                    return true;
-                }
+                _Interactions.HandleMouse(MouseEvent);
 
-                bool hover_set = false;
-                for (int i = 0; i < PlaylistElements.Count; i++)
+                if (CHelper.IsInBounds(Rect, MouseEvent) && Visible)
                 {
-                    //Hover for playlist-element
-                    if (PlaylistElementContents.Count - 1 >= i && CHelper.IsInBounds(PlaylistElements[i].Background.Rect, MouseEvent))
+                    //Scroll
+                    if (MouseEvent.Wheel > 0)
                     {
-                        hover_set = true;
-                        CurrentPlaylistElement = i;
-                        _Interactions.SetInteractionToSelectSlide(PlaylistElements[CurrentPlaylistElement].SelectSlide);
-                        _Interactions.ProcessMouseMove(MouseEvent.X, MouseEvent.Y);
-                    }
-
-                    //Delete Entry with RB
-                    if (CHelper.IsInBounds(PlaylistElements[i].Background.Rect, MouseEvent) && MouseEvent.RB && PlaylistElements[i].Content != -1)
-                    {
-                        CPlaylists.Playlists[ActivePlaylistID].DeleteSong(PlaylistElements[i].Content);
-                        UpdatePlaylist();
+                        if (PlaylistElements.Count + Offset + MouseEvent.Wheel <= PlaylistElementContents.Count)
+                        {
+                            Offset += MouseEvent.Wheel;
+                            Update();
+                        }
                         return true;
                     }
-                }
-                if (!hover_set)
-                {
-                    CurrentPlaylistElement = -1;
-                }
-
-                switch (_EditMode)
-                {
-                    //Normal mode
-                    case EEditMode.None:
-
-                        //LB actions
-                        if (MouseEvent.LB)
+                    else if (MouseEvent.Wheel < 0)
+                    {
+                        if (Offset + MouseEvent.Wheel >= 0)
                         {
-                            if (CurrentPlaylistElement != -1)
-                            {
-                                CPlaylists.Playlists[ActivePlaylistID].Songs[CurrentPlaylistElement + Offset].GameMode = PlaylistElementContents[CurrentPlaylistElement + Offset].Modes[PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection];
-                                UpdatePlaylist();
-                            }
-                            if (_Theme.ButtonPlaylistClose.Selected)
-                            {
-                                ClosePlaylist();
-                                return true;
-                            }
-                            else if (_Theme.ButtonPlaylistSing.Selected)
-                            {
-                                StartPlaylistSongs();
-                                return true;
-                            }
-                            else if (_Theme.ButtonPlaylistSave.Selected)
-                            {
-                                CPlaylists.SavePlaylist(ActivePlaylistID);
-                                return true;
-                            }
-                            else if (_Theme.ButtonPlaylistDelete.Selected)
-                            {
-                                CPlaylists.DeletePlaylist(ActivePlaylistID);
-                                ClosePlaylist();
-                                return true;
-                            }
-                            else if (_Theme.ButtonPlaylistName.Selected)
-                            {
-                                _EditMode = EEditMode.PlaylistName;
-                                _Theme.ButtonPlaylistName.EditMode = true;
-                                return true;
-                            }
+                            Offset += MouseEvent.Wheel;
+                            Update();
+                        }
+                        return true;
+                    }
+
+                    bool hover_set = false;
+                    for (int i = 0; i < PlaylistElements.Count; i++)
+                    {
+                        //Hover for playlist-element
+                        if (PlaylistElementContents.Count - 1 >= i && CHelper.IsInBounds(PlaylistElements[i].Background.Rect, MouseEvent))
+                        {
+                            hover_set = true;
+                            CurrentPlaylistElement = i;
+                            _Interactions.SetInteractionToSelectSlide(PlaylistElements[CurrentPlaylistElement].SelectSlide);
+                            _Interactions.ProcessMouseMove(MouseEvent.X, MouseEvent.Y);
                         }
 
-                        //Change order with holding LB
-                        if (MouseEvent.LBH && CurrentPlaylistElement != -1 && PlaylistElementContents.Count > 1 && DragAndDropSongID == -1)
+                        //Delete Entry with RB
+                        if (CHelper.IsInBounds(PlaylistElements[i].Background.Rect, MouseEvent) && MouseEvent.RB && PlaylistElements[i].Content != -1)
                         {
-                            
-                            ChangeOrderSource = CurrentPlaylistElement + Offset;
+                            CPlaylists.Playlists[ActivePlaylistID].DeleteSong(PlaylistElements[i].Content);
+                            UpdatePlaylist();
+                            return true;
+                        }
+                    }
+                    if (!hover_set)
+                    {
+                        CurrentPlaylistElement = -1;
+                    }
 
-                            //Update of Drag/Drop-Texture
-                            if (ChangeOrderSource >= PlaylistElementContents.Count)
-                                return true;
+                    switch (_EditMode)
+                    {
+                        //Normal mode
+                        case EEditMode.None:
 
-                            ChangeOrderElement = new PlaylistElement(PlaylistElements[CurrentPlaylistElement]);
-                            ChangeOrderElement.Background.Rect.Z = CSettings.zNear;
-                            ChangeOrderElement.Cover.Rect.Z = CSettings.zNear;
-                            ChangeOrderElement.SelectSlide.Rect.Z = CSettings.zNear;
-                            ChangeOrderElement.SelectSlide.RectArrowLeft.Z = CSettings.zNear;
-                            ChangeOrderElement.SelectSlide.RectArrowRight.Z = CSettings.zNear;
-                            ChangeOrderElement.Text1.Z = CSettings.zNear;
+                            //LB actions
+                            if (MouseEvent.LB)
+                            {
+                                if (CurrentPlaylistElement != -1)
+                                {
+                                    CPlaylists.Playlists[ActivePlaylistID].Songs[CurrentPlaylistElement + Offset].GameMode = PlaylistElementContents[CurrentPlaylistElement + Offset].Modes[PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection];
+                                    UpdatePlaylist();
+                                }
+                                if (_Theme.ButtonPlaylistClose.Selected)
+                                {
+                                    ClosePlaylist();
+                                    return true;
+                                }
+                                else if (_Theme.ButtonPlaylistSing.Selected)
+                                {
+                                    StartPlaylistSongs();
+                                    return true;
+                                }
+                                else if (_Theme.ButtonPlaylistSave.Selected)
+                                {
+                                    CPlaylists.SavePlaylist(ActivePlaylistID);
+                                    return true;
+                                }
+                                else if (_Theme.ButtonPlaylistDelete.Selected)
+                                {
+                                    CPlaylists.DeletePlaylist(ActivePlaylistID);
+                                    ClosePlaylist();
+                                    return true;
+                                }
+                                else if (_Theme.ButtonPlaylistName.Selected)
+                                {
+                                    _EditMode = EEditMode.PlaylistName;
+                                    _Theme.ButtonPlaylistName.EditMode = true;
+                                    return true;
+                                }
+                            }
 
-                            ChangeOrderElement.Background.Texture = CTheme.GetSkinTexture(_Theme.TextureBackgroundName);
-                            ChangeOrderElement.Background.Color = BackgroundColor;
+                            //Change order with holding LB
+                            if (MouseEvent.LBH && CurrentPlaylistElement != -1 && PlaylistElementContents.Count > 1 && DragAndDropSongID == -1)
+                            {
 
+                                ChangeOrderSource = CurrentPlaylistElement + Offset;
+
+                                //Update of Drag/Drop-Texture
+                                if (ChangeOrderSource >= PlaylistElementContents.Count)
+                                    return true;
+
+                                ChangeOrderElement = new PlaylistElement(PlaylistElements[CurrentPlaylistElement]);
+                                ChangeOrderElement.Background.Rect.Z = CSettings.zNear;
+                                ChangeOrderElement.Cover.Rect.Z = CSettings.zNear;
+                                ChangeOrderElement.SelectSlide.Rect.Z = CSettings.zNear;
+                                ChangeOrderElement.SelectSlide.RectArrowLeft.Z = CSettings.zNear;
+                                ChangeOrderElement.SelectSlide.RectArrowRight.Z = CSettings.zNear;
+                                ChangeOrderElement.Text1.Z = CSettings.zNear;
+
+                                ChangeOrderElement.Background.Texture = CTheme.GetSkinTexture(_Theme.TextureBackgroundName);
+                                ChangeOrderElement.Background.Color = BackgroundColor;
+
+                                OldMousePosX = MouseEvent.X;
+                                OldMousePosY = MouseEvent.Y;
+
+                                _EditMode = EEditMode.ChangeOrder;
+                            }
+
+                            if (!MouseEvent.LBH && DragAndDropSongID != -1)
+                            {
+                                EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+                                CSong song = CSongs.GetSong(DragAndDropSongID);
+
+                                if (song != null)
+                                {
+                                    if (song.IsDuet)
+                                        gm = EGameMode.TR_GAMEMODE_DUET;
+
+                                    if (CurrentPlaylistElement != -1)
+                                    {
+                                        CPlaylists.Playlists[ActivePlaylistID].SongInsert(CurrentPlaylistElement + Offset, DragAndDropSongID, gm);
+                                        UpdatePlaylist();
+                                    }
+                                    else
+                                    {
+                                        if (MouseEvent.Y < PlaylistElements[0].Background.Rect.Y && Offset == 0)
+                                        {
+                                            CPlaylists.Playlists[ActivePlaylistID].SongInsert(0, DragAndDropSongID, gm);
+                                            UpdatePlaylist();
+                                        }
+                                        else
+                                        {
+                                            if (PlaylistElements.Count + Offset >= PlaylistElementContents.Count)
+                                            {
+                                                float min = 0f;
+                                                for (int i = PlaylistElements.Count - 1; i >= 0; i--)
+                                                {
+                                                    if (PlaylistElements[i].SelectSlide.Visible)
+                                                    {
+                                                        min = PlaylistElements[i].SelectSlide.Rect.Y + PlaylistElements[i].SelectSlide.Rect.H;
+                                                        break;
+                                                    }
+                                                }
+
+                                                if (MouseEvent.Y > min)
+                                                {
+                                                    CPlaylists.Playlists[ActivePlaylistID].AddSong(DragAndDropSongID, gm);
+                                                    UpdatePlaylist();
+                                                    ScrollToBottom();
+                                                }
+                                            }
+                                        }
+                                        DragAndDropSongID = -1;
+                                        UpdatePlaylist();
+                                    }
+                                }
+                            }
+
+                            break;
+
+                        case EEditMode.PlaylistName:
+                            _Interactions.SetInteractionToButton(_Theme.ButtonPlaylistName);
+                            CurrentPlaylistElement = -1;
+                            if (MouseEvent.LB)
+                            {
+                                if (_Theme.ButtonPlaylistName.Selected)
+                                {
+                                    CPlaylists.Playlists[ActivePlaylistID].PlaylistName = _Theme.ButtonPlaylistName.Text.Text;
+                                    CPlaylists.Playlists[ActivePlaylistID].SavePlaylist();
+                                    _EditMode = EEditMode.None;
+                                    return true;
+                                }
+                            }
+                            else if (MouseEvent.RB)
+                            {
+                                if (_Theme.ButtonPlaylistName.Selected)
+                                {
+                                    _Theme.ButtonPlaylistName.Text.Text = CPlaylists.Playlists[ActivePlaylistID].PlaylistName;
+                                    _EditMode = EEditMode.None;
+                                    _Theme.ButtonPlaylistName.EditMode = false;
+                                    return true;
+                                }
+                            }
+                            break;
+
+                        case EEditMode.ChangeOrder:
+                            //Actions according to playlist-element
+
+                            //Update coords for Drag/Drop-Texture
+                            ChangeOrderElement.MouseMove(MouseEvent.X, MouseEvent.Y, OldMousePosX, OldMousePosY);
                             OldMousePosX = MouseEvent.X;
                             OldMousePosY = MouseEvent.Y;
 
-                            _EditMode = EEditMode.ChangeOrder;
-                        }
-
-                        if (!MouseEvent.LBH && DragAndDropSongID != -1)
-                        {
-                            EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
-                            CSong song = CSongs.GetSong(DragAndDropSongID);
-
-                            if (song != null)
+                            if (!MouseEvent.LBH)
                             {
-                                if (song.IsDuet)
-                                    gm = EGameMode.TR_GAMEMODE_DUET;
-
-                                if (CurrentPlaylistElement != -1)
+                                if (CurrentPlaylistElement != -1 && CurrentPlaylistElement + Offset != ChangeOrderSource)
                                 {
-                                    CPlaylists.Playlists[ActivePlaylistID].SongInsert(CurrentPlaylistElement + Offset, DragAndDropSongID, gm);
+                                    CPlaylists.Playlists[ActivePlaylistID].SongMove(ChangeOrderSource, CurrentPlaylistElement + Offset);
                                     UpdatePlaylist();
                                 }
-                                else
+                                else if (CurrentPlaylistElement == -1)
                                 {
                                     if (MouseEvent.Y < PlaylistElements[0].Background.Rect.Y && Offset == 0)
                                     {
-                                        CPlaylists.Playlists[ActivePlaylistID].SongInsert(0, DragAndDropSongID, gm);
-                                        UpdatePlaylist();
+                                        CPlaylists.Playlists[ActivePlaylistID].SongMove(ChangeOrderSource, 0);
                                     }
                                     else
                                     {
@@ -991,93 +1069,19 @@ namespace Vocaluxe.Menu
 
                                             if (MouseEvent.Y > min)
                                             {
-                                                CPlaylists.Playlists[ActivePlaylistID].AddSong(DragAndDropSongID, gm);
-                                                UpdatePlaylist();
-                                                ScrollToBottom();
+                                                CPlaylists.Playlists[ActivePlaylistID].SongMove(ChangeOrderSource, PlaylistElementContents.Count - 1);
                                             }
                                         }
                                     }
-                                    DragAndDropSongID = -1;
+
                                     UpdatePlaylist();
                                 }
-                            }
-                        }
-
-                        break;
-
-                    case EEditMode.PlaylistName:
-                        _Interactions.SetInteractionToButton(_Theme.ButtonPlaylistName);
-                        CurrentPlaylistElement = -1;
-                        if (MouseEvent.LB)
-                        {
-                            if (_Theme.ButtonPlaylistName.Selected)
-                            {
-                                CPlaylists.Playlists[ActivePlaylistID].PlaylistName = _Theme.ButtonPlaylistName.Text.Text;
-                                CPlaylists.Playlists[ActivePlaylistID].SavePlaylist();
                                 _EditMode = EEditMode.None;
-                                return true;
                             }
-                        }
-                        else if (MouseEvent.RB)
-                        {
-                            if (_Theme.ButtonPlaylistName.Selected)
-                            {
-                                _Theme.ButtonPlaylistName.Text.Text = CPlaylists.Playlists[ActivePlaylistID].PlaylistName;
-                                _EditMode = EEditMode.None;
-                                _Theme.ButtonPlaylistName.EditMode = false;
-                                return true;
-                            }
-                        }
-                        break;
-
-                    case EEditMode.ChangeOrder:
-                        //Actions according to playlist-element
-
-                        //Update coords for Drag/Drop-Texture
-                        ChangeOrderElement.MouseMove(MouseEvent.X, MouseEvent.Y, OldMousePosX, OldMousePosY);
-                        OldMousePosX = MouseEvent.X;
-                        OldMousePosY = MouseEvent.Y;
-
-                        if (!MouseEvent.LBH)
-                        {
-                            if (CurrentPlaylistElement != -1 && CurrentPlaylistElement + Offset != ChangeOrderSource)
-                            {
-                                CPlaylists.Playlists[ActivePlaylistID].SongMove(ChangeOrderSource, CurrentPlaylistElement + Offset);
-                                UpdatePlaylist();
-                            }
-                            else if (CurrentPlaylistElement == -1)
-                            {
-                                if (MouseEvent.Y < PlaylistElements[0].Background.Rect.Y && Offset == 0)
-                                {
-                                    CPlaylists.Playlists[ActivePlaylistID].SongMove(ChangeOrderSource, 0);
-                                }
-                                else
-                                {
-                                    if (PlaylistElements.Count + Offset >= PlaylistElementContents.Count)
-                                    {
-                                        float min = 0f;
-                                        for (int i = PlaylistElements.Count - 1; i >= 0; i--)
-                                        {
-                                            if (PlaylistElements[i].SelectSlide.Visible)
-                                            {
-                                                min = PlaylistElements[i].SelectSlide.Rect.Y + PlaylistElements[i].SelectSlide.Rect.H;
-                                                break;
-                                            }
-                                        }
-
-                                        if (MouseEvent.Y > min)
-                                        {
-                                            CPlaylists.Playlists[ActivePlaylistID].SongMove(ChangeOrderSource, PlaylistElementContents.Count - 1);
-                                        }
-                                    }
-                                }
-                            
-                                UpdatePlaylist();
-                            }
-                            _EditMode = EEditMode.None;
-                        }
-                        break;
+                            break;
+                    }
                 }
+                return false;
             }
             return false;
         }
