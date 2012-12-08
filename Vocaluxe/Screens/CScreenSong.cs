@@ -107,6 +107,8 @@ namespace Vocaluxe.Screens
 
             Playlists[htPlaylists(Playlist)].Init();
 
+            _AvailableGameModes.Clear();
+
             ApplyVolume();
         }
 
