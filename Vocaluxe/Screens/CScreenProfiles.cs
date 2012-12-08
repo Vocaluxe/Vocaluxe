@@ -71,6 +71,8 @@ namespace Vocaluxe.Screens
             Buttons[htButtons(ButtonTakeSnapshot)].Visible = false;
             if (CWebcam.GetDevices().Length > 0)
                 Buttons[htButtons(ButtonWebcam)].Visible = true;
+            else
+                Buttons[htButtons(ButtonWebcam)].Visible = false;
             SelectSlides[htSelectSlides(SelectSlideDifficulty)].SetValues<EGameDifficulty>(0);
             SelectSlides[htSelectSlides(SelectSlideGuestProfile)].SetValues<EOffOn>(0);
             SelectSlides[htSelectSlides(SelectSlideActive)].SetValues<EOffOn>(0);
