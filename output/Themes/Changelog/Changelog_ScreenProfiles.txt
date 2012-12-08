@@ -1,0 +1,7 @@
+ScreenProfiles
+
+++++++++++
+Version 2:
+
+Add: <ButtonDiscardSnapshot>, <ButtonSaveSnapshot>, <ButtonWebcam>, <ButtonTakeSnapshot>
+++++++++++
