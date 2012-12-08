@@ -1,6 +1,18 @@
 ScreenOptionsSound
 
 ++++++++++
+Version 3:
+
+Add:
+
+<SelectSlidePreviewMusicVolume>
+<SelectSlideGameMusicVolume>
+
+and some texts for description (Text5, Text6)
+"TR_SCRsEENOSOUND_PREVIEWMUSICVOLUME"
+"TR_SCREENOSOUND_GAMEMUSICVOLUEM"
+
+++++++++++
 Version 2:
 
 Add:

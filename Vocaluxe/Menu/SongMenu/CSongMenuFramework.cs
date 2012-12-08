@@ -610,6 +610,11 @@ namespace Vocaluxe.Menu.SongMenu
             CSongs.Category = -1;
         }
 
+        public void ApplyVolume()
+        {
+            CSound.SetStreamVolume(_actsongstream, CConfig.PreviewMusicVolume);
+        }
+
         protected void SelectSong(int nr)
         {
             if (CSongs.Category >= 0 && (CSongs.NumVisibleSongs > 0) && (nr >= 0) && ((_actsong != nr) || (_streams.Count == 0)))

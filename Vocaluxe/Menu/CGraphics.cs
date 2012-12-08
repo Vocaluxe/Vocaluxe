@@ -40,6 +40,7 @@ namespace Vocaluxe.Menu
     enum EPopupScreens
     {
         PopupPlayerControl = 0,
+        PopupVolumeControl = 1,
 
         NoPopup = -1
     }
@@ -200,6 +201,11 @@ namespace Vocaluxe.Menu
         private static List<CMenu> _Screens = new List<CMenu>();
         private static List<CMenu> _PopupScreens = new List<CMenu>();
 
+        private static float _SavedBackgroundMusicVolume;
+        private static float _SavedPreviewMusicVolume;
+        private static float _SavedGameMusicVolume;
+        private static Stopwatch _VolumePopupTimer;
+
         public static float GlobalAlpha
         {
             get { return _GlobalAlpha; }
@@ -208,6 +214,11 @@ namespace Vocaluxe.Menu
         public static float ZOffset
         {
             get { return _ZOffset; }
+        }
+
+        public static EScreens CurrentScreen
+        {
+            get { return _CurrentScreen; }
         }
 
         #region public methods
@@ -235,6 +246,7 @@ namespace Vocaluxe.Menu
             _Screens.Add(new CScreenCredits());
 
             _PopupScreens.Add(new CPopupScreenPlayerControl());
+            _PopupScreens.Add(new CPopupScreenVolumeControl());
 
             CLog.StopBenchmark(1, "Build Screen List");
                  
@@ -242,6 +254,7 @@ namespace Vocaluxe.Menu
             _NextScreen = EScreens.ScreenNull;
             _CurrentPopupScreen = EPopupScreens.NoPopup;
             _FadingTimer = new Stopwatch();
+            _VolumePopupTimer = new Stopwatch();
             
             _GlobalAlpha = 1f;
             _ZOffset = 0f;
@@ -317,6 +330,10 @@ namespace Vocaluxe.Menu
 
         public static void InitFirstScreen()
         {
+            _SavedBackgroundMusicVolume = CConfig.BackgroundMusicVolume;
+            _SavedGameMusicVolume = CConfig.GameMusicVolume;
+            _SavedPreviewMusicVolume = CConfig.PreviewMusicVolume;
+
             _Screens[(int)_CurrentScreen].OnShow();
             _Screens[(int)_CurrentScreen].OnShowFinish();
         }
@@ -454,6 +471,8 @@ namespace Vocaluxe.Menu
             bool PopupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing &&
                 _CurrentScreen != EScreens.ScreenSong && _CurrentScreen != EScreens.ScreenCredits;
 
+            bool PopupVolumeControlAllowed = _CurrentScreen != EScreens.ScreenCredits;
+
             bool Resume = true;
             while (keys.PollEvent(ref KeyEvent))
             {
@@ -517,9 +536,28 @@ namespace Vocaluxe.Menu
                 if (!isOverPopupPlayerControl && _CurrentPopupScreen == EPopupScreens.PopupPlayerControl)
                     HidePopup(EPopupScreens.PopupPlayerControl);
 
+                bool isOverPopupVolumeControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupVolumeControl].ScreenArea, MouseEvent);
+                if (PopupVolumeControlAllowed && isOverPopupVolumeControl)
+                {
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup)
+                    {
+                        ShowPopup(EPopupScreens.PopupVolumeControl);
+                        _VolumePopupTimer.Reset();
+                    }
+                }
+
+                if (!isOverPopupVolumeControl && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
+                {
+                    HidePopup(EPopupScreens.PopupVolumeControl);
+                    _VolumePopupTimer.Reset();
+                }
+
                 bool handled = false;
                 if (_CurrentPopupScreen != EPopupScreens.NoPopup)
                     handled = _PopupScreens[(int)_CurrentPopupScreen].HandleMouse(MouseEvent);
+                if (handled && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
+                    _Screens[(int)_CurrentScreen].ApplyVolume();
+
 
                 if (!handled && !_Fading && (_Cursor.IsActive || MouseEvent.LB || MouseEvent.RB || MouseEvent.MB))
                     Resume &= _Screens[(int)_CurrentScreen].HandleMouse(MouseEvent);               
@@ -571,6 +609,34 @@ namespace Vocaluxe.Menu
 
         private static bool Update()
         {
+            //User changed volume with keyboard, pop-up isn't visible yet
+            if ((_SavedPreviewMusicVolume != CConfig.PreviewMusicVolume || _SavedGameMusicVolume != CConfig.GameMusicVolume || _SavedBackgroundMusicVolume != CConfig.BackgroundMusicVolume) 
+                && (_CurrentPopupScreen != EPopupScreens.PopupVolumeControl && !_VolumePopupTimer.IsRunning))
+            {
+                _VolumePopupTimer.Start();
+                _SavedBackgroundMusicVolume = CConfig.BackgroundMusicVolume;
+                _SavedGameMusicVolume = CConfig.GameMusicVolume;
+                _SavedPreviewMusicVolume = CConfig.PreviewMusicVolume;
+            }
+            //User changed volume with keyboard, pop-up is already visible
+            else if ((_SavedPreviewMusicVolume != CConfig.PreviewMusicVolume || _SavedGameMusicVolume != CConfig.GameMusicVolume || _SavedBackgroundMusicVolume != CConfig.BackgroundMusicVolume)
+                && (_CurrentPopupScreen == EPopupScreens.PopupVolumeControl && _VolumePopupTimer.IsRunning))
+            {
+                _VolumePopupTimer.Reset();
+                _VolumePopupTimer.Start();
+                _SavedBackgroundMusicVolume = CConfig.BackgroundMusicVolume;
+                _SavedGameMusicVolume = CConfig.GameMusicVolume;
+                _SavedPreviewMusicVolume = CConfig.PreviewMusicVolume;
+            }
+            if (_VolumePopupTimer.IsRunning && _VolumePopupTimer.ElapsedMilliseconds < 1500 && _CurrentPopupScreen != EPopupScreens.PopupVolumeControl)
+                ShowPopup(EPopupScreens.PopupVolumeControl);
+            if(_VolumePopupTimer.IsRunning && _VolumePopupTimer.ElapsedMilliseconds >= 1500 && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
+            {
+                _VolumePopupTimer.Reset();
+                HidePopup(EPopupScreens.PopupVolumeControl);
+            }
+            if (!_Cursor.IsActive && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
+                HidePopup(EPopupScreens.PopupVolumeControl);
             if (_CurrentPopupScreen != EPopupScreens.NoPopup)
                 _PopupScreens[(int)_CurrentPopupScreen].UpdateGame();
             return _Screens[(int)_CurrentScreen].UpdateGame();
