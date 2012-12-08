@@ -732,7 +732,7 @@ namespace Vocaluxe.Menu
                 dy += rect.Height;
             }
 
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL2)
+            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL3)
             {
                 txt = CSongs.NumSongsWithCoverLoaded.ToString(CLanguage.Translate("TR_DEBUG_SONGS") + ": 00000");
 
@@ -743,7 +743,7 @@ namespace Vocaluxe.Menu
                 dy += rect.Height;
             }
 
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL2)
+            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL_MAX)
             {
                 txt = _Cursor.X.ToString(CLanguage.Translate("TR_DEBUG_MOUSE") + " : (0000/") + _Cursor.Y.ToString("0000)");
 

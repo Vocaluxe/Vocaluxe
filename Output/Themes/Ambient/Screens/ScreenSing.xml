@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenSing>
-    <ScreenVersion>5</ScreenVersion>
+    <ScreenVersion>6</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>None</Type>

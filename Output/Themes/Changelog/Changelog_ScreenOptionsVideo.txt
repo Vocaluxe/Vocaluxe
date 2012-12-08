@@ -1,6 +1,15 @@
 ScreenOptionsTheme
 
 ++++++++++
+Version 3:
+
+Add:
+<SelectSlideWebcamDevices>, <SelectSlideWebcamCapabilities>, <StaticWebcamOutput>
+
+and some texts and static for description (Text6, Text7)
+"TR_SCREENO_VIDEO_WEBCAMDEVICES", "TR_SCREENO_VIDEO_WEBCAMCAPABILITIES"
+
+++++++++++
 Version 2:
 
 Add:
