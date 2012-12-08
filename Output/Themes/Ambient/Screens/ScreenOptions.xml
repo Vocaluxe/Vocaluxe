@@ -155,7 +155,7 @@
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
         <!--<Text>: Nothing or translation tag-->
-        <Text>TR_SCRENNO_BUTTON_SOUND</Text>
+        <Text>TR_SCREENO_BUTTON_SOUND</Text>
       </Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
