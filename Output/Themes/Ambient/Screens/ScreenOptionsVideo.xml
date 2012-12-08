@@ -215,7 +215,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENO_VIDEO_VIDEOSTOBACKGROUND</Text>
       <!--<Reflection> If exists:-->
@@ -244,7 +244,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENO_VIDEO_WEBCAMDEVICES</Text>
       <!--<Reflection> If exists:-->
@@ -273,7 +273,7 @@
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <!--<Text>: Text or translation tag-->
       <Text>TR_SCREENO_VIDEO_WEBCAMCAPABILITIES</Text>
       <!--<Reflection> If exists:-->
@@ -591,7 +591,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>205,33</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
@@ -656,7 +656,7 @@
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>205,33</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
@@ -719,9 +719,9 @@
       <!--<TextH>: Text height-->
       <TextH>32,00</TextH>
       <!--<TextMaxW>: Maximum text width (if exists)-->
-      <TextMaxW>205,33</TextMaxW>
+      <TextMaxW>150,00</TextMaxW>
       <!--<TextFont>: Text font name-->
-      <TextFont>Normal</TextFont>
+      <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
