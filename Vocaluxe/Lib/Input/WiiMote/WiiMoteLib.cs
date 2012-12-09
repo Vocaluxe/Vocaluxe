@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Threading;
+using System.Windows.Forms;
 
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
@@ -187,6 +188,12 @@ namespace Vocaluxe.Lib.Input.WiiMote
             if (!CHIDAPI.Init())
             {
                 CLog.LogError("WiiMoteLib: Can't initialize HID API");
+                string msg = "Please install the Visual C++ Redistributable Packages 2012!\n You can find them at: http://www.microsoft.com/en-us/download/details.aspx?id=30679";
+
+                CLog.LogError(msg);
+                MessageBox.Show(msg, CSettings.sProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                _Active = false;
                 return false;
             }
 
