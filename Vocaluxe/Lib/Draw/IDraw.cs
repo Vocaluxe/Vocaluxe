@@ -63,6 +63,20 @@ namespace Vocaluxe.Lib.Draw
         }
     }
 
+    public struct SPoint3f
+    {
+        public float X;
+        public float Y;
+        public float Z;
+    }
+
+    public struct SPoint3
+    {
+        public int X;
+        public int Y;
+        public int Z;
+    }
+
     public struct STexture
     {
         public int index;

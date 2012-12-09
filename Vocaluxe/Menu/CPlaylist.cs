@@ -142,6 +142,11 @@ namespace Vocaluxe.Menu
 
                 if (!value)
                 {
+                    if (_EditMode == EEditMode.ChangeOrder && ChangeOrderSource != -1 && PlaylistElements.Count > ChangeOrderSource)
+                    {
+                        CPlaylists.Playlists[ActivePlaylistID].DeleteSong(PlaylistElements[ChangeOrderSource].Content);
+                        UpdatePlaylist();                       
+                    }
                     ChangeOrderSource = -1;
                     _EditMode = EEditMode.None;
                 }

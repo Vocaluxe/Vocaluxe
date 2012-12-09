@@ -138,6 +138,11 @@ namespace Vocaluxe
 
                 Application.DoEvents();
 
+                // Init Input
+                CLog.StartBenchmark(0, "Init Input");
+                CInput.Init();
+                CLog.StopBenchmark(0, "Init Input");
+
                 // Init Game;
                 CLog.StartBenchmark(0, "Init Game");
                 CGame.Init();
@@ -173,6 +178,7 @@ namespace Vocaluxe
             // Unloading
             try
             {
+                CInput.Close();
                 CSound.RecordCloseAll();
                 CSound.CloseAllStreams();
                 CVideo.VdCloseAll();

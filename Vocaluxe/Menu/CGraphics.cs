@@ -331,6 +331,7 @@ namespace Vocaluxe.Menu
 
             CSound.Update();
             CBackgroundMusic.Update();
+            CInput.Update();
 
             if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC && _CurrentScreen != EScreens.ScreenSing)
                 CSongs.LoadCover(30L, 1);
@@ -450,13 +451,21 @@ namespace Vocaluxe.Menu
         {
             KeyEvent KeyEvent = new KeyEvent();
             MouseEvent MouseEvent = new MouseEvent();
+            KeyEvent InputKeyEvent = new KeyEvent();
+            MouseEvent InputMouseEvent = new MouseEvent();
 
             bool PopupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing &&
                 _CurrentScreen != EScreens.ScreenSong && _CurrentScreen != EScreens.ScreenCredits;
 
             bool Resume = true;
-            while (keys.PollEvent(ref KeyEvent))
+            bool EventsAvailable = false;
+            bool InputEventsAvailable = CInput.PollKeyEvent(ref InputKeyEvent);
+
+            while ((EventsAvailable = keys.PollEvent(ref KeyEvent)) || InputEventsAvailable)
             {
+                if (!EventsAvailable)
+                    KeyEvent = InputKeyEvent;
+
                 if (KeyEvent.Key == Keys.Left || KeyEvent.Key == Keys.Right || KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down)
                 {
                     CSettings.MouseInactive();
@@ -495,10 +504,18 @@ namespace Vocaluxe.Menu
                             Resume &= _Screens[(int)_CurrentScreen].HandleInput(KeyEvent);
                     }
                 }
+
+                if (!EventsAvailable)
+                    InputEventsAvailable = CInput.PollKeyEvent(ref InputKeyEvent);
             }
 
-            while (Mouse.PollEvent(ref MouseEvent))
+            InputEventsAvailable = CInput.PollMouseEvent(ref InputMouseEvent);
+
+            while ((EventsAvailable = Mouse.PollEvent(ref MouseEvent)) || InputEventsAvailable)
             {
+                if (!EventsAvailable)
+                    MouseEvent = InputMouseEvent;
+
                 if (MouseEvent.Wheel != 0)
                 {
                     CSettings.MouseActive();
@@ -522,7 +539,10 @@ namespace Vocaluxe.Menu
                     handled = _PopupScreens[(int)_CurrentPopupScreen].HandleMouse(MouseEvent);
 
                 if (!handled && !_Fading && (_Cursor.IsActive || MouseEvent.LB || MouseEvent.RB || MouseEvent.MB))
-                    Resume &= _Screens[(int)_CurrentScreen].HandleMouse(MouseEvent);               
+                    Resume &= _Screens[(int)_CurrentScreen].HandleMouse(MouseEvent); 
+              
+                if (!EventsAvailable)
+                    InputEventsAvailable = CInput.PollMouseEvent(ref InputMouseEvent);
             }
             return Resume;
         }

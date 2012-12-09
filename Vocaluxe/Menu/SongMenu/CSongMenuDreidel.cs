@@ -12,6 +12,7 @@ namespace Vocaluxe.Menu.SongMenu
 {
     class CSongMenuDreidel : CSongMenuFramework
     {
+        /*
         private SRectF _ScrollRect;
         private CStatic _CoverBig;
         private CStatic _TextBG;
@@ -29,7 +30,7 @@ namespace Vocaluxe.Menu.SongMenu
         {
             return _actualSelection;
         }
-
+        */
         public override void Init()
         {
             base.Init();

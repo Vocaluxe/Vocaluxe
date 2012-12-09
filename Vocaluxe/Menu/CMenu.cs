@@ -877,7 +877,7 @@ namespace Vocaluxe.Menu
             {
                 if (KeyEvent.Key == Keys.Left)
                 {
-                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != Modifier.Shift)
+                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != EModifier.Shift)
                         KeyEvent.Handled = PrevElement();
                     else
                         KeyEvent.Handled = _NextInteraction(KeyEvent);
@@ -885,7 +885,7 @@ namespace Vocaluxe.Menu
 
                 if (KeyEvent.Key == Keys.Right)
                 {
-                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != Modifier.Shift)
+                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != EModifier.Shift)
                         KeyEvent.Handled = NextElement();
                     else
                         KeyEvent.Handled = _NextInteraction(KeyEvent);
@@ -900,7 +900,7 @@ namespace Vocaluxe.Menu
             {
                 if (KeyEvent.Key == Keys.Tab)
                 {
-                    if (KeyEvent.Mod == Modifier.Shift)
+                    if (KeyEvent.Mod == EModifier.Shift)
                         PrevInteraction();
                     else
                         NextInteraction();
@@ -955,40 +955,40 @@ namespace Vocaluxe.Menu
                         break;
 
                     case Keys.Up:
-                        if (KeyEvent.Mod == Modifier.Ctrl)
+                        if (KeyEvent.Mod == EModifier.Ctrl)
                             MoveElement(0, -1);
 
-                        if (KeyEvent.Mod == Modifier.Shift)
+                        if (KeyEvent.Mod == EModifier.Shift)
                             ResizeElement(0, 1);
 
                         break;
                     case Keys.Down:
-                        if (KeyEvent.Mod == Modifier.Ctrl)
+                        if (KeyEvent.Mod == EModifier.Ctrl)
                             MoveElement(0, 1);
 
-                        if (KeyEvent.Mod == Modifier.Shift)
+                        if (KeyEvent.Mod == EModifier.Shift)
                             ResizeElement(0, -1);
 
                         break;
 
                     case Keys.Right:
-                        if (KeyEvent.Mod == Modifier.Ctrl)
+                        if (KeyEvent.Mod == EModifier.Ctrl)
                             MoveElement(1, 0);
 
-                        if (KeyEvent.Mod == Modifier.Shift)
+                        if (KeyEvent.Mod == EModifier.Shift)
                             ResizeElement(1, 0);
 
-                        if (KeyEvent.Mod == Modifier.None)
+                        if (KeyEvent.Mod == EModifier.None)
                             NextInteraction();
                         break;
                     case Keys.Left:
-                        if (KeyEvent.Mod == Modifier.Ctrl)
+                        if (KeyEvent.Mod == EModifier.Ctrl)
                             MoveElement(-1, 0);
 
-                        if (KeyEvent.Mod == Modifier.Shift)
+                        if (KeyEvent.Mod == EModifier.Shift)
                             ResizeElement(-1, 0);
 
-                        if (KeyEvent.Mod == Modifier.None)
+                        if (KeyEvent.Mod == EModifier.None)
                             PrevInteraction();
                         break;
                 }
@@ -1005,7 +1005,7 @@ namespace Vocaluxe.Menu
             int stepX = 0;
             int stepY = 0;
 
-            if ((MouseEvent.Mod & Modifier.Ctrl) == Modifier.Ctrl)
+            if ((MouseEvent.Mod & EModifier.Ctrl) == EModifier.Ctrl)
             {
                 _PrevMouseX = MouseEvent.X;
                 _PrevMouseY = MouseEvent.Y;
@@ -1039,16 +1039,16 @@ namespace Vocaluxe.Menu
             {
                 //if (IsMouseOver(MouseEvent.X, _PrevMouseY))
                 //{
-                    if (MouseEvent.Mod == Modifier.None)
+                    if (MouseEvent.Mod == EModifier.None)
                         MoveElement(stepX, stepY);
 
-                    if (MouseEvent.Mod == Modifier.Ctrl)
+                    if (MouseEvent.Mod == EModifier.Ctrl)
                         MoveElement(_MouseDX, _MouseDY);
 
-                    if (MouseEvent.Mod == Modifier.Shift)
+                    if (MouseEvent.Mod == EModifier.Shift)
                         ResizeElement(stepX, stepY);
 
-                    if (MouseEvent.Mod == (Modifier.Shift | Modifier.Ctrl))
+                    if (MouseEvent.Mod == (EModifier.Shift | EModifier.Ctrl))
                         ResizeElement(_MouseDX, _MouseDY);
                 //}
             }

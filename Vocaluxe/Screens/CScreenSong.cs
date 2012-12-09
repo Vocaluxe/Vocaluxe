@@ -206,11 +206,11 @@ namespace Vocaluxe.Screens
 
                         //TODO: Delete it! ??? Shouldn't we keep this as shortcut?
                         case Keys.A:
-                            if (!_SearchActive && KeyEvent.Mod == Modifier.None)
+                            if (!_SearchActive && KeyEvent.Mod == EModifier.None)
                             {
                                 StartRandomAllSongs();
                             }
-                            if (KeyEvent.Mod == Modifier.Ctrl)
+                            if (KeyEvent.Mod == EModifier.Ctrl)
                             {
                                 StartRandomVisibleSongs();
                             }
@@ -218,7 +218,7 @@ namespace Vocaluxe.Screens
 
                         //TODO: Delete that from here and from wiki!
                         case Keys.F:
-                            if (KeyEvent.Mod == Modifier.Ctrl)
+                            if (KeyEvent.Mod == EModifier.Ctrl)
                             {
                                 if (_SearchActive)
                                 {
@@ -235,11 +235,11 @@ namespace Vocaluxe.Screens
 
                         //TODO: We need another key for random!
                         case Keys.R:
-                            if (!_SearchActive && CSongs.Category != -1 && KeyEvent.Mod == Modifier.Ctrl)
+                            if (!_SearchActive && CSongs.Category != -1 && KeyEvent.Mod == EModifier.Ctrl)
                             {
                                 SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
                             }
-                            else if (CSongs.Category == -1 && KeyEvent.Mod == Modifier.Ctrl)
+                            else if (CSongs.Category == -1 && KeyEvent.Mod == EModifier.Ctrl)
                             {
                                 SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
                             }

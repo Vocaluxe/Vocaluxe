@@ -152,7 +152,6 @@
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\Output\OpenTK.GLControl.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Data.Sqlite" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -167,6 +166,7 @@
     <Compile Include="Base\CDraw.cs" />
     <Compile Include="Base\CFont.cs" />
     <Compile Include="Base\CGame.cs" />
+    <Compile Include="Base\CInput.cs" />
     <Compile Include="Base\CLanguage.cs" />
     <Compile Include="Base\CLog.cs" />
     <Compile Include="Base\CPlaylists.cs" />
@@ -189,6 +189,10 @@
     <Compile Include="Lib\Draw\COpenGL.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Lib\Input\CHIDAPI.cs" />
+    <Compile Include="Lib\Input\IInput.cs" />
+    <Compile Include="Lib\Input\WiiMote\CWiiMote.cs" />
+    <Compile Include="Lib\Input\WiiMote\WiiMoteLib.cs" />
     <Compile Include="Lib\Playlist\CPlaylistFile.cs" />
     <Compile Include="Lib\Song\CNotes.cs" />
     <Compile Include="Lib\Song\CSong.cs" />

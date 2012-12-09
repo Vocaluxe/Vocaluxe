@@ -320,6 +320,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             int i = 0;
             bool sel = false;
+            int lastselection = _actualSelection;
             foreach (CStatic tile in _Tiles)
             {
                 if ((tile.Texture.index != _CoverTexture.index) && CHelper.IsInBounds(tile.Rect, MouseEvent) && !sel)
@@ -344,6 +345,9 @@ namespace Vocaluxe.Menu.SongMenu
                 }
                 i++;
             }
+
+            if (MouseEvent.Sender == ESender.WiiMote && _actualSelection != lastselection && _actualSelection != -1)
+                CInput.SetRumble(0.050f);
 
             if (!sel)
                 _actualSelection = -1;
