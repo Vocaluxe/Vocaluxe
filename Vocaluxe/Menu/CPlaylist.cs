@@ -932,7 +932,7 @@ namespace Vocaluxe.Menu
                         }
 
                         //Change order with holding LB
-                        if (MouseEvent.LBH && CurrentPlaylistElement != -1 && PlaylistElementContents.Count > 1 && DragAndDropSongID == -1)
+                        if (MouseEvent.LBH && CurrentPlaylistElement != -1 && PlaylistElementContents.Count > 0 && DragAndDropSongID == -1)
                         {
 
                             ChangeOrderSource = CurrentPlaylistElement + Offset;
