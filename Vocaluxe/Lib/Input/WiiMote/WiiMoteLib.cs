@@ -157,6 +157,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
         private Thread _Reader;
         private bool _Active;
+        private bool _Error;
 
         private bool _Connected;
         public bool Connected
@@ -176,6 +177,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 		{
             _Connected = false;
             _Active = true;
+            _Error = false;
             _Reader = new Thread(ReaderLoop);
             _Reader.Start();
 		}
@@ -183,17 +185,20 @@ namespace Vocaluxe.Lib.Input.WiiMote
 		public bool Connect()
 		{
             _Connected = false;
+
+            if (_Error)
+                return false;
+
             CHIDAPI.Exit();
             
             if (!CHIDAPI.Init())
             {
                 CLog.LogError("WiiMoteLib: Can't initialize HID API");
-                string msg = "Please install the Visual C++ Redistributable Packages 2012!\n You can find them at: http://www.microsoft.com/en-us/download/details.aspx?id=30679";
-
+                string msg = "Please install the Visual C++ Redistributable Packages 2012! You can find them at: http://www.microsoft.com/en-us/download/details.aspx?id=30679";
                 CLog.LogError(msg);
-                MessageBox.Show(msg, CSettings.sProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 _Active = false;
+                _Error = true;
                 return false;
             }
 
