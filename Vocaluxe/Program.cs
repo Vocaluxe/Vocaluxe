@@ -89,6 +89,13 @@ namespace Vocaluxe
 
                 Application.DoEvents();
 
+                //Init Webcam
+                CLog.StartBenchmark(0, "Init Webcam");
+                CWebcam.Init();
+                CLog.StopBenchmark(0, "Init Webcam");
+
+                Application.DoEvents();
+
                 // Init Background Music
                 CLog.StartBenchmark(0, "Init Background Music");
                 CBackgroundMusic.Init();
@@ -185,6 +192,7 @@ namespace Vocaluxe
                 CDraw.Unload();
                 CLog.CloseAll();
                 CDataBase.CloseConnections();
+                CWebcam.Close();
             }
             catch (Exception)
             {

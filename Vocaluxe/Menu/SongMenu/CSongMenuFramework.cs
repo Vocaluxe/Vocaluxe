@@ -117,6 +117,8 @@ namespace Vocaluxe.Menu.SongMenu
         private int _LockedInternal = -1;
         protected bool _Active = false;
 
+        protected float _MaxVolume = 100f;
+
         protected int _PreviewSelected //for preview only
         {
             get
@@ -510,6 +512,16 @@ namespace Vocaluxe.Menu.SongMenu
             
         }
 
+        public virtual void ApplyVolume(float VolumeMax)
+        {
+            _MaxVolume = VolumeMax;
+
+            foreach (int stream in _streams)
+            {
+                CSound.SetStreamVolumeMax(stream, _MaxVolume);
+            }
+        }
+
         public virtual bool IsActive()
         {
             return _Active;
@@ -598,6 +610,11 @@ namespace Vocaluxe.Menu.SongMenu
             CSongs.Category = -1;
         }
 
+        public void ApplyVolume()
+        {
+            CSound.SetStreamVolume(_actsongstream, CConfig.PreviewMusicVolume);
+        }
+
         protected void SelectSong(int nr)
         {
             if (CSongs.Category >= 0 && (CSongs.NumVisibleSongs > 0) && (nr >= 0) && ((_actsong != nr) || (_streams.Count == 0)))
@@ -619,6 +636,7 @@ namespace Vocaluxe.Menu.SongMenu
 
 
                 int _stream = CSound.Load(Path.Combine(CSongs.VisibleSongs[_actsong].Folder, CSongs.VisibleSongs[_actsong].MP3FileName), true);
+                CSound.SetStreamVolumeMax(_stream, _MaxVolume);
                 CSound.SetStreamVolume(_stream, 0f);
 
                 float startposition = CSongs.VisibleSongs[_actsong].PreviewStart;

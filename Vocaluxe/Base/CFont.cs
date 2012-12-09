@@ -123,6 +123,11 @@ namespace Vocaluxe.Base
             fo.Dispose();
         }
 
+        public void UnloadTexture()
+        {
+            CDraw.RemoveTexture(ref Texture);
+        }
+
         private float GetFactor(char chr, TextFormatFlags flags)
         {
             if (CFonts.Style == EStyle.Normal)
@@ -276,6 +281,15 @@ namespace Vocaluxe.Base
             _Glyphs.Add(new CGlyph(chr, SIZEh));
             _htGlyphs.Add(chr, _Glyphs.Count - 1);
             CFonts.Height = h;
+        }
+
+        public void UnloadAllGlyphs()
+        {
+            foreach (CGlyph glyph in _Glyphs)
+            {
+                glyph.UnloadTexture();
+            }
+            _Glyphs.Clear();
         }
     }
 
@@ -852,6 +866,27 @@ namespace Vocaluxe.Base
 
             if (SetStart)
                 writer.WriteEndElement();
+        }
+
+        public static void UnloadThemeFonts(string ThemeName)
+        {
+            if (_Fonts.Count == 0)
+                return;
+
+            int Index = 0;
+            while (Index < _Fonts.Count)
+            {
+                if (_Fonts[Index].IsThemeFont && _Fonts[Index].ThemeName == ThemeName)
+                {
+                    _Fonts[Index].Normal.UnloadAllGlyphs();
+                    _Fonts[Index].Italic.UnloadAllGlyphs();
+                    _Fonts[Index].Bold.UnloadAllGlyphs();
+                    _Fonts[Index].BoldItalic.UnloadAllGlyphs();
+                    _Fonts.RemoveAt(Index);
+                }
+                else
+                    Index++;
+            }
         }
 
         private static int GetFontIndex(string ThemeName, string FontName)

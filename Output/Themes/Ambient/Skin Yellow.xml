@@ -327,6 +327,8 @@
     <DeleteIcon>Delete.png</DeleteIcon>
     <SaveIcon>Save.png</SaveIcon>
     <SingIcon>Sing.png</SingIcon>
+    <Minus>Minus.png</Minus>
+    <Plus>Plus.png</Plus>    
   </Skins>
   <Videos>
     <BG_Video>[Yellow]BG_Video.mp4</BG_Video>

@@ -11,6 +11,7 @@ using System.Xml.XPath;
 using OpenTK.Platform;
 
 using Vocaluxe.Lib.Sound;
+using Vocaluxe.Lib.Webcam;
 
 namespace Vocaluxe.Base
 {
@@ -85,6 +86,12 @@ namespace Vocaluxe.Base
     {
         PortAudio,
         OpenAL
+    }
+
+    public enum EWebcamLib
+    {
+        OpenCV,
+        AForgeNet
     }
 
     public enum ERecordLib
@@ -228,9 +235,11 @@ namespace Vocaluxe.Base
         public static ERecordLib RecordLib = ERecordLib.PortAudio;
         public static EBufferSize AudioBufferSize = EBufferSize.b2048;
         public static int AudioLatency = 0;
-        public static int BackgroundMusicVolume = 50;
+        public static int BackgroundMusicVolume = 30;
         public static EOffOn BackgroundMusic = EOffOn.TR_CONFIG_ON;
         public static EBackgroundMusicSource BackgroundMusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
+        public static int PreviewMusicVolume = 50;
+        public static int GameMusicVolume = 80;
 
         // Game
         public static List<string> SongFolder = new List<string>();
@@ -255,6 +264,8 @@ namespace Vocaluxe.Base
         // Record
         public static SMicConfig[] MicConfig;
         public static int MicDelay = 300;   //[ms]
+        public static EWebcamLib WebcamLib = EWebcamLib.OpenCV;
+        public static SWebcamConfig WebcamConfig;
 
         //Lists to save parameters and values
         private static List<string> _Params = new List<string>();
@@ -358,7 +369,21 @@ namespace Vocaluxe.Base
 
                 CHelper.TryGetEnumValueFromXML("//root/Sound/BackgroundMusic", navigator, ref BackgroundMusic);
                 CHelper.TryGetIntValueFromXML("//root/Sound/BackgroundMusicVolume", navigator, ref BackgroundMusicVolume);
+                if (BackgroundMusicVolume < 0)
+                    BackgroundMusicVolume = 0;
+                if (BackgroundMusicVolume > 100)
+                    BackgroundMusicVolume = 100;
                 CHelper.TryGetEnumValueFromXML("//root/Sound/BackgroundMusicSource", navigator, ref BackgroundMusicSource);
+                CHelper.TryGetIntValueFromXML("//root/Sound/PreviewMusicVolume", navigator, ref PreviewMusicVolume);
+                if (PreviewMusicVolume < 0)
+                    PreviewMusicVolume = 0;
+                if (PreviewMusicVolume > 100)
+                    PreviewMusicVolume = 100;
+                CHelper.TryGetIntValueFromXML("//root/Sound/GameMusicVolume", navigator, ref GameMusicVolume);
+                if (GameMusicVolume < 0)
+                    GameMusicVolume = 0;
+                if (GameMusicVolume > 100)
+                    GameMusicVolume = 100;
                 #endregion Sound
 
                 #region Game
@@ -427,6 +452,13 @@ namespace Vocaluxe.Base
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideoPreview", navigator, ref VideoPreview);
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideosInSongs", navigator, ref VideosInSongs);
                 CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideosToBackground", navigator, ref VideosToBackground);
+
+                CHelper.TryGetEnumValueFromXML<EWebcamLib>("//root/Video/WebcamLib", navigator, ref WebcamLib);
+                WebcamConfig = new SWebcamConfig();
+                CHelper.GetValueFromXML("//root/Video/WebcamConfig/MonikerString", navigator, ref WebcamConfig.MonikerString, String.Empty);
+                CHelper.TryGetIntValueFromXML("//root/Video/WebcamConfig/Framerate", navigator, ref WebcamConfig.Framerate);
+                CHelper.TryGetIntValueFromXML("//root/Video/WebcamConfig/Width", navigator, ref WebcamConfig.Width);
+                CHelper.TryGetIntValueFromXML("//root/Video/WebcamConfig/Height", navigator, ref WebcamConfig.Height);
                 #endregion Video
 
                 #region Record
@@ -447,7 +479,6 @@ namespace Vocaluxe.Base
                     MicDelay = 0;
                 if (MicDelay > 500)
                     MicDelay = 500;
-
                 #endregion Record
 
                 return true;
@@ -585,6 +616,12 @@ namespace Vocaluxe.Base
             writer.WriteComment("Background Music Source");
             writer.WriteElementString("BackgroundMusicSource", Enum.GetName(typeof(EBackgroundMusicSource), BackgroundMusicSource));
 
+            writer.WriteComment("Preview Volume from 0 to 100");
+            writer.WriteElementString("PreviewMusicVolume", PreviewMusicVolume.ToString());
+
+            writer.WriteComment("Game Volume from 0 to 100");
+            writer.WriteElementString("GameMusicVolume", GameMusicVolume.ToString());
+
             writer.WriteEndElement();
             #endregion Sound
 
@@ -667,6 +704,18 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("Show backgroundmusic videos as background: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("VideosToBackground", Enum.GetName(typeof(EOffOn), VideosToBackground));
+
+            writer.WriteComment("WebcamLib: " + ListStrings(Enum.GetNames(typeof(EWebcamLib))));
+            writer.WriteElementString("WebcamLib", Enum.GetName(typeof(EWebcamLib), WebcamLib));
+
+            writer.WriteStartElement("WebcamConfig");
+
+            writer.WriteElementString("MonikerString", WebcamConfig.MonikerString);
+            writer.WriteElementString("Framerate", WebcamConfig.Framerate.ToString());
+            writer.WriteElementString("Width", WebcamConfig.Width.ToString());
+            writer.WriteElementString("Height", WebcamConfig.Height.ToString());
+
+            writer.WriteEndElement();
 
             writer.WriteEndElement();
             #endregion Video

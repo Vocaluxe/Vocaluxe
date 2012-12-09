@@ -181,7 +181,7 @@ namespace Vocaluxe.Base
                 {
                     if (_CurrentMusicStream != -1)
                     {
-                        CSound.Fade(_CurrentMusicStream, CConfig.BackgroundMusicVolume, CSettings.BackgroundMusicFadeTime);
+                        CSound.Fade(_CurrentMusicStream, 100f, CSettings.BackgroundMusicFadeTime);
                         CSound.Play(_CurrentMusicStream);
                         if (_VideoEnabled && _Video != -1)
                             CVideo.VdResume(_Video);
@@ -276,6 +276,7 @@ namespace Vocaluxe.Base
                     _CurrentPlaylistElement = _PreviousFileNames[_PreviousMusicIndex];
                 }
                 _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.MusicFilePath);
+                CSound.SetStreamVolumeMax(_CurrentMusicStream, CConfig.BackgroundMusicVolume);
 
                 //Seek to #Start-Tag, if found
                 if (_CurrentPlaylistElement.Start != 0f)
@@ -311,6 +312,7 @@ namespace Vocaluxe.Base
                     _CurrentPlaylistElement = _PreviousFileNames[_PreviousMusicIndex];
 
                     _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.MusicFilePath);
+                    CSound.SetStreamVolumeMax(_CurrentMusicStream, CConfig.BackgroundMusicVolume);
                     if (_VideoEnabled)
                         LoadVideo();
                     CSound.SetStreamVolume(_CurrentMusicStream, 0f);
@@ -327,7 +329,7 @@ namespace Vocaluxe.Base
 
         public static void ApplyVolume()
         {
-            CSound.SetStreamVolume(_CurrentMusicStream, CConfig.BackgroundMusicVolume); 
+            CSound.SetStreamVolumeMax(_CurrentMusicStream, CConfig.BackgroundMusicVolume); 
         }
 
         public static void AddOwnMusic()

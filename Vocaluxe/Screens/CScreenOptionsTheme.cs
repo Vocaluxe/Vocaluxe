@@ -183,6 +183,7 @@ namespace Vocaluxe.Screens
                 _OldTheme = SelectSlides[htSelectSlides(SelectSlideTheme)].Selection;
 
                 CTheme.UnloadSkins();
+                CFonts.UnloadThemeFonts(CConfig.Theme);
                 CTheme.ListSkins();
                 CConfig.Skin = CTheme.SkinNames[0];
                 _OldSkin = 0;
@@ -205,6 +206,7 @@ namespace Vocaluxe.Screens
                 _OldTheme = SelectSlides[htSelectSlides(SelectSlideTheme)].Selection;
 
                 CTheme.UnloadSkins();
+                CFonts.UnloadThemeFonts(CConfig.Theme);
                 CTheme.ListSkins();
                 CConfig.Skin = CTheme.SkinNames[0];
                 _OldSkin = 0;
