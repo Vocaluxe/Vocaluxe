@@ -465,10 +465,11 @@ namespace Vocaluxe.Menu.SongMenu
                 }
             }
 
+            _TextBG.Draw();
+
             _CoverBig.Draw(1f, EAspect.Crop);
             if (_vidtex.color.A < 1)
                 _CoverBig.Draw(1f, EAspect.Crop);
-            _TextBG.Draw();
 
             if (_vidtex.index != -1 && _Video != -1)
             {
