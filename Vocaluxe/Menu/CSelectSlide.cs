@@ -743,8 +743,8 @@ namespace Vocaluxe.Menu
 			if (_NumVisible < 1 || _ValueNames.Count == 0)
 				return;
 
-            float x = Rect.X + Rect.W * 0.1f;
-            float dx = Rect.W * 0.8f / _NumVisible;
+            float x = Rect.X + (Rect.W - TextRelativeX) * 0.1f;
+            float dx = (Rect.W - TextRelativeX) * 0.8f / _NumVisible;
             //float y = Rect.Y + (Rect.H - TextH);
 
             int offset = _Selection - (int)_NumVisible/2;
