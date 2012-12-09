@@ -83,7 +83,7 @@ namespace Vocaluxe.Base
                 }
                 catch (Exception)
                 {
-                    CLog.LogError("Can't delete Profile File " + _Playlists[PlaylistID].PlaylistFile + ".xml");
+                    CLog.LogError("Can't delete Playlist File " + _Playlists[PlaylistID].PlaylistFile + ".xml");
                 }
             }
             _Playlists.RemoveAt(PlaylistID);
