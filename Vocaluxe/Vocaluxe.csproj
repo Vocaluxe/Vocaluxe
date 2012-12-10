@@ -262,6 +262,7 @@
     <Compile Include="Screens\CScreenOptions.cs" />
     <Compile Include="Screens\CScreenOptionsGame.cs" />
     <Compile Include="Screens\CScreenOptionsLyrics.cs" />
+    <Compile Include="Screens\CScreenParty.cs" />
     <Compile Include="Screens\CScreenProfiles.cs" />
     <Compile Include="Screens\CScreenScore.cs" />
     <Compile Include="Screens\CScreenSing.cs" />

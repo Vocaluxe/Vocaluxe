@@ -19,6 +19,7 @@ namespace Vocaluxe.Screens
         const int ScreenVersion = 1;
 
         const string ButtonSing = "ButtonSing";
+        const string ButtonParty = "ButtonParty";
         const string ButtonOptions = "ButtonOptions";
         const string ButtonProfiles = "ButtonProfiles";
         const string ButtonExit = "ButtonExit";
@@ -37,7 +38,7 @@ namespace Vocaluxe.Screens
             _ThemeName = "ScreenMain";
             _ScreenVersion = ScreenVersion;
             _ThemeStatics = new string[] { "StaticMenuBar" };
-            _ThemeButtons = new string[] { ButtonSing, ButtonOptions, ButtonProfiles, ButtonExit };
+            _ThemeButtons = new string[] { ButtonSing, ButtonParty, ButtonOptions, ButtonProfiles, ButtonExit };
         }
 
         public override void LoadTheme()
@@ -77,6 +78,9 @@ namespace Vocaluxe.Screens
                         if (Buttons[htButtons(ButtonSing)].Selected)
                             CGraphics.FadeTo(EScreens.ScreenSong);
 
+                        if (Buttons[htButtons(ButtonParty)].Selected)
+                            CGraphics.FadeTo(EScreens.ScreenParty);
+
                         if (Buttons[htButtons(ButtonOptions)].Selected)
                             CGraphics.FadeTo(EScreens.ScreenOptions);
 
@@ -100,6 +104,9 @@ namespace Vocaluxe.Screens
             {
                 if (Buttons[htButtons(ButtonSing)].Selected)
                     CGraphics.FadeTo(EScreens.ScreenSong);
+
+                if (Buttons[htButtons(ButtonParty)].Selected)
+                    CGraphics.FadeTo(EScreens.ScreenParty);
 
                 if (Buttons[htButtons(ButtonOptions)].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptions);

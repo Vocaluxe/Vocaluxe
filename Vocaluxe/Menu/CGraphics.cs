@@ -31,8 +31,8 @@ namespace Vocaluxe.Menu
         ScreenOptionsTheme = 14,
 
         ScreenNames = 15,
-
         ScreenCredits = 16,
+        ScreenParty = 17,
 
         ScreenNull = -1
     }
@@ -244,6 +244,7 @@ namespace Vocaluxe.Menu
             _Screens.Add(new CScreenOptionsTheme());
             _Screens.Add(new CScreenNames());
             _Screens.Add(new CScreenCredits());
+            _Screens.Add(new CScreenParty());
 
             _PopupScreens.Add(new CPopupScreenPlayerControl());
             _PopupScreens.Add(new CPopupScreenVolumeControl());
