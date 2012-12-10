@@ -166,7 +166,7 @@ namespace Vocaluxe.Screens
 
             if (_SongSortingOld != CConfig.SongSorting || _TabsOld != CConfig.Tabs || _LanguageOld != CConfig.Language)
             {
-                CSongs.Sort(CConfig.SongSorting);
+                CSongs.Sort(CConfig.SongSorting, CConfig.Tabs, CConfig.IgnoreArticles);
                 CSongs.Category = -1;
             }
 
