@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Lib.Song;
+using Vocaluxe.PartyModes;
 
 namespace Vocaluxe.Menu.SongMenu
 {
@@ -140,9 +141,9 @@ namespace Vocaluxe.Menu.SongMenu
             }
         }
 
-        public override void HandleInput(ref KeyEvent KeyEvent)
+        public override void HandleInput(ref KeyEvent KeyEvent, ScreenSongOptions SongOptions)
         {
-            base.HandleInput(ref KeyEvent);
+            base.HandleInput(ref KeyEvent, SongOptions);
 
             if (KeyEvent.KeyPressed)
             {
@@ -225,7 +226,7 @@ namespace Vocaluxe.Menu.SongMenu
                             break;
 
                         case Keys.Left:
-                            if (_Locked > 0)
+                            if (_Locked > 0 && !SongOptions.Selection.RandomOnly && !SongOptions.Selection.RandomOnly)
                             {
                                 _Locked--;
                                 if (CSongs.Category < 0 && _Locked < CSongs.NumCategories - _NumW ||
@@ -247,7 +248,7 @@ namespace Vocaluxe.Menu.SongMenu
                             }
                             else
                             {
-                                if (_Locked < CSongs.NumVisibleSongs - 1)
+                                if (_Locked < CSongs.NumVisibleSongs - 1 && !SongOptions.Selection.RandomOnly)
                                 {
                                     _Locked++;
                                     if (_Locked < CSongs.NumVisibleSongs - _NumW)
@@ -257,13 +258,13 @@ namespace Vocaluxe.Menu.SongMenu
                             break;
 
                         case Keys.Up:
-                            if (KeyEvent.ModSHIFT && CSongs.Tabs == EOffOn.TR_CONFIG_ON)
+                            if (KeyEvent.ModSHIFT && CSongs.Tabs == EOffOn.TR_CONFIG_ON && !SongOptions.Selection.RandomOnly)
                             {
                                 PrevCategory();
                                 break;
                             }
-                            
-                            if (_Locked > _NumW - 1)
+
+                            if (_Locked > _NumW - 1 && (!SongOptions.Selection.RandomOnly || CSongs.Category < 0))
                             {
                                 _Locked -= _NumW;
                                 UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
@@ -271,7 +272,7 @@ namespace Vocaluxe.Menu.SongMenu
                             break;
 
                         case Keys.Down:
-                            if (KeyEvent.ModSHIFT && CSongs.Tabs == EOffOn.TR_CONFIG_ON)
+                            if (KeyEvent.ModSHIFT && CSongs.Tabs == EOffOn.TR_CONFIG_ON && !SongOptions.Selection.RandomOnly)
                             {
                                 NextCategory();
                                 break;
@@ -289,7 +290,7 @@ namespace Vocaluxe.Menu.SongMenu
                             }
                             else
                             {
-                                if (_Locked < CSongs.NumVisibleSongs - _NumW)
+                                if (_Locked < CSongs.NumVisibleSongs - _NumW && !SongOptions.Selection.RandomOnly)
                                 {
                                     _Locked += _NumW;
                                     if (_Locked < CSongs.NumVisibleSongs - _NumW)
@@ -314,37 +315,43 @@ namespace Vocaluxe.Menu.SongMenu
             }  
         }
 
-        public override void HandleMouse(ref MouseEvent MouseEvent)
+        public override void HandleMouse(ref MouseEvent MouseEvent, ScreenSongOptions SongOptions)
         {
-            base.HandleMouse(ref MouseEvent);
+            base.HandleMouse(ref MouseEvent, SongOptions);
 
             int i = 0;
             bool sel = false;
             int lastselection = _actualSelection;
-            foreach (CStatic tile in _Tiles)
+
+            if (!SongOptions.Selection.RandomOnly)
             {
-                if ((tile.Texture.index != _CoverTexture.index) && CHelper.IsInBounds(tile.Rect, MouseEvent) && !sel)
+                foreach (CStatic tile in _Tiles)
                 {
-                    if (MouseEvent.LB || CSongs.Category == -1)
+                    if ((tile.Texture.index != _CoverTexture.index) && CHelper.IsInBounds(tile.Rect, MouseEvent) && !sel)
                     {
-                        if (_PreviewSelected == i + _Offset)
-                            _Locked = _PreviewSelected;
-                        else
+                        if (MouseEvent.LB || CSongs.Category == -1)
                         {
-                            _PreviewSelected = i + _Offset;
-                            _Locked = -1;
+                            if (_PreviewSelected == i + _Offset)
+                                _Locked = _PreviewSelected;
+                            else
+                            {
+                                _PreviewSelected = i + _Offset;
+                                _Locked = -1;
+                            }
                         }
+                        tile.Selected = true;
+                        _actualSelection = i + _Offset;
+                        sel = true;
                     }
-                    tile.Selected = true;
-                    _actualSelection = i + _Offset;
-                    sel = true;
+                    else
+                    {
+                        tile.Selected = false;
+                    }
+                    i++;
                 }
-                else
-                {
-                    tile.Selected = false;
-                }
-                i++;
             }
+            else
+                sel = true;
 
             if (MouseEvent.Sender == ESender.WiiMote && _actualSelection != lastselection && _actualSelection != -1)
                 CInput.SetRumble(0.050f);
@@ -357,11 +364,11 @@ namespace Vocaluxe.Menu.SongMenu
                 ShowCategories();
                 return;
             }
-            else if (MouseEvent.RB && CSongs.Tabs == EOffOn.TR_CONFIG_OFF)
+            else if (MouseEvent.RB && CSongs.Tabs == EOffOn.TR_CONFIG_OFF && !SongOptions.Selection.PartyMode)
             {
                 CGraphics.FadeTo(EScreens.ScreenMain);
             }
-            else if (_PreviewSelected != -1 && MouseEvent.LB && CSongs.Category != -1)
+            else if (_PreviewSelected != -1 && MouseEvent.LB && CSongs.Category != -1 && !SongOptions.Selection.PartyMode)
             {
                 if (CHelper.IsInBounds(_CoverBig.Rect, MouseEvent) || CHelper.IsInBounds(_TextBG.Rect, MouseEvent))
                 {
@@ -382,7 +389,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (MouseEvent.Wheel > 0)
             {
-                if (CHelper.IsInBounds(_ScrollRect, MouseEvent))
+                if (CHelper.IsInBounds(_ScrollRect, MouseEvent) && !SongOptions.Selection.PartyMode)
                 {
                     if (CSongs.Category >= 0 && CSongs.NumVisibleSongs > _Offset + _NumW * MouseEvent.Wheel + _NumW * (_NumH - 1) ||
                         CSongs.Category < 0 && CSongs.NumCategories > _Offset + _NumW * MouseEvent.Wheel + _NumW * (_NumH - 1))
@@ -395,7 +402,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (MouseEvent.Wheel < 0)
             {
-                if (CHelper.IsInBounds(_ScrollRect, MouseEvent))
+                if (CHelper.IsInBounds(_ScrollRect, MouseEvent) && !SongOptions.Selection.PartyMode)
                 {
                     _Offset += _NumW * MouseEvent.Wheel;
                     if (_Offset < 0)

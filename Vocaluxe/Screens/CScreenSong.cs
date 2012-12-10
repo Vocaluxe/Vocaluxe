@@ -153,14 +153,14 @@ namespace Vocaluxe.Screens
                 }
                 else
                 {
-                    SongMenus[htSongMenus(SongMenu)].HandleInput(ref KeyEvent);
+                    SongMenus[htSongMenus(SongMenu)].HandleInput(ref KeyEvent, _sso);
                     if (KeyEvent.Handled)
                         return true;
 
                     switch (KeyEvent.Key)
                     {
                         case Keys.Escape:
-                            if (CSongs.Category < 0 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF)
+                            if ((CSongs.Category < 0 || !(_sso.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)) && !_sso.Selection.PartyMode)
                                 CGraphics.FadeTo(EScreens.ScreenMain);
                             break;
 
@@ -168,7 +168,12 @@ namespace Vocaluxe.Screens
                             if (CSongs.NumVisibleSongs > 0)
                             {
                                 if (SongMenus[htSongMenus(SongMenu)].GetSelectedSong() != -1 && !_SongOptionsActive)
-                                    ToggleSongOptions(ESongOptionsView.Song);
+                                {
+                                    if (!_sso.Selection.PartyMode)
+                                        ToggleSongOptions(ESongOptionsView.Song);
+                                    else
+                                        HandlePartySongSelection(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
+                                }
                             }
                             break;
 
@@ -187,13 +192,15 @@ namespace Vocaluxe.Screens
                                 ApplyNewSearchFilter(_SearchText.Remove(_SearchText.Length - 1));
                             }
 
-                            if (!_SearchActive && CSongs.Category < 0)
+                            if (!_SearchActive && (CSongs.Category < 0) && !_sso.Selection.PartyMode)
+                            {
                                 CGraphics.FadeTo(EScreens.ScreenMain);
+                            }
 
                             break;
 
                         case Keys.Space:
-                            if (!_SearchActive)
+                            if (!_SearchActive && !_sso.Selection.PartyMode)
                                 ToggleSongOptions(ESongOptionsView.General);
                             break;
 
@@ -204,7 +211,7 @@ namespace Vocaluxe.Screens
                                 _SearchText = String.Empty;
                                 ApplyNewSearchFilter(_SearchText);
                             }
-                            else
+                            else if (!_sso.Selection.PartyMode)
                             {
                                 _SearchActive = true;
                             }
@@ -212,11 +219,11 @@ namespace Vocaluxe.Screens
 
                         //TODO: Delete it! ??? Shouldn't we keep this as shortcut?
                         case Keys.A:
-                            if (!_SearchActive && KeyEvent.Mod == EModifier.None)
+                            if (!_SearchActive && KeyEvent.Mod == EModifier.None && !_sso.Selection.PartyMode)
                             {
                                 StartRandomAllSongs();
                             }
-                            if (KeyEvent.Mod == EModifier.Ctrl)
+                            if (KeyEvent.Mod == EModifier.Ctrl && !_sso.Selection.PartyMode)
                             {
                                 StartRandomVisibleSongs();
                             }
@@ -232,7 +239,7 @@ namespace Vocaluxe.Screens
                                     _SearchText = String.Empty;
                                     ApplyNewSearchFilter(_SearchText);
                                 }
-                                else
+                                else if (!_sso.Selection.PartyMode)
                                 {
                                     _SearchActive = true;
                                 }
@@ -253,7 +260,7 @@ namespace Vocaluxe.Screens
 
                         //TODO: Delete that!
                         case Keys.S:
-                            if (!_SearchActive && CSongs.NumVisibleSongs > 0)
+                            if (!_SearchActive && CSongs.NumVisibleSongs > 0 && !_sso.Selection.PartyMode)
                             {
                                 StartMedleySong(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
                             }
@@ -385,7 +392,7 @@ namespace Vocaluxe.Screens
                     return true;
                 }
 
-                if (CSongs.Category < 0)
+                if (CSongs.Category < 0 && !_sso.Selection.PartyMode)
                 {
                     CGraphics.FadeTo(EScreens.ScreenMain);
                     return true;
@@ -409,7 +416,7 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            if (MouseEvent.LD)
+            if (MouseEvent.LD && !_sso.Selection.PartyMode)
             {
                 if (CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
                 {
@@ -418,7 +425,7 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            SongMenus[htSongMenus(SongMenu)].HandleMouse(ref MouseEvent);
+            SongMenus[htSongMenus(SongMenu)].HandleMouse(ref MouseEvent, _sso);
 
             if (MouseEvent.LB)
             {
@@ -494,7 +501,10 @@ namespace Vocaluxe.Screens
                 {
                     if (SongMenus[htSongMenus(SongMenu)].GetSelectedSong() != -1 && !_SongOptionsActive)
                     {
-                        ToggleSongOptions(ESongOptionsView.Song);
+                        if (!_sso.Selection.PartyMode)
+                            ToggleSongOptions(ESongOptionsView.Song);
+                        else
+                            HandlePartySongSelection(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
                         return true;
                     }
                     else
@@ -504,7 +514,7 @@ namespace Vocaluxe.Screens
                     }
                 }
             }
-            
+
             if (MouseEvent.LBH)
             {
                 if (!DragAndDropActive && Playlists[htPlaylists(Playlist)].Visible && CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
@@ -533,12 +543,19 @@ namespace Vocaluxe.Screens
             base.OnShow();
 
             _sso = CParty.GetSongSelectionOptions();
-            CSongs.Sort(_sso.SongSorting.SongSorting, _sso.SongSorting.Tabs, _sso.SongSorting.IgnoreArticles, _sso.SongSorting.SearchString);
-            _SearchActive = _sso.SongSorting.SearchStringVisible;
-            _SearchText = _sso.SongSorting.SearchString;
+            CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, _sso.Sorting.SearchString);
+            _SearchActive = _sso.Sorting.SearchStringVisible;
+            _SearchText = _sso.Sorting.SearchString;
 
             CGame.EnterNormalGame();
             SongMenus[htSongMenus(SongMenu)].OnShow();
+
+            if (_sso.Selection.PartyMode)
+                _PlaylistActive = false;
+
+            if (_sso.Selection.PartyMode)
+                ToggleSongOptions(ESongOptionsView.None);
+
             SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
             SongMenus[htSongMenus(SongMenu)].SetSmallView(Playlists[htPlaylists(Playlist)].Visible);
                         
@@ -617,6 +634,11 @@ namespace Vocaluxe.Screens
         public override void ApplyVolume()
         {
             SongMenus[htSongMenus(SongMenu)].ApplyVolume(CConfig.PreviewMusicVolume);
+        }
+
+        private void HandlePartySongSelection(int SongNr)
+        {
+
         }
 
         private void StartSong(int SongNr)

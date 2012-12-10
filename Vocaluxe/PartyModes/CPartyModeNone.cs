@@ -14,30 +14,31 @@ namespace Vocaluxe.PartyModes
         public CPartyModeNone()
         {
             _ScreenSongOptions = new ScreenSongOptions();
-            _ScreenSongOptions.SongSelection = new SongSelectionOptions();
-            _ScreenSongOptions.SongSorting = new SongSortingOptions();
+            _ScreenSongOptions.Selection = new SelectionOptions();
+            _ScreenSongOptions.Sorting = new SortingOptions();
 
-            _ScreenSongOptions.SongSelection.RandomOnly = false;
-            _ScreenSongOptions.SongSelection.NumJokers = 0;
-            _ScreenSongOptions.SongSelection.NumTeams = 0;
+            _ScreenSongOptions.Selection.RandomOnly = false;
+            _ScreenSongOptions.Selection.PartyMode = false;
+            _ScreenSongOptions.Selection.NumJokers = 0;
+            _ScreenSongOptions.Selection.NumTeams = 0;
 
-            _ScreenSongOptions.SongSorting.SearchString = String.Empty;
-            _ScreenSongOptions.SongSorting.SearchStringVisible = false;
+            _ScreenSongOptions.Sorting.SearchString = String.Empty;
+            _ScreenSongOptions.Sorting.SearchStringVisible = false;
         }
 
         public override ScreenSongOptions GetScreenSongOptions()
         {
-            _ScreenSongOptions.SongSorting.SongSorting = CConfig.SongSorting;
-            _ScreenSongOptions.SongSorting.Tabs = CConfig.Tabs;
-            _ScreenSongOptions.SongSorting.IgnoreArticles = CConfig.IgnoreArticles;
+            _ScreenSongOptions.Sorting.SongSorting = CConfig.SongSorting;
+            _ScreenSongOptions.Sorting.Tabs = CConfig.Tabs;
+            _ScreenSongOptions.Sorting.IgnoreArticles = CConfig.IgnoreArticles;
 
             return _ScreenSongOptions;
         }
 
         public override void SetSearchString(string SearchString, bool Visible)
         {
-            _ScreenSongOptions.SongSorting.SearchString = SearchString;
-            _ScreenSongOptions.SongSorting.SearchStringVisible = Visible;
+            _ScreenSongOptions.Sorting.SearchString = SearchString;
+            _ScreenSongOptions.Sorting.SearchStringVisible = Visible;
         }
     }
 }

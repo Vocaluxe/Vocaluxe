@@ -6,6 +6,7 @@ using System.Xml.XPath;
 
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
+using Vocaluxe.PartyModes;
 
 namespace Vocaluxe.Menu.SongMenu
 {
@@ -58,14 +59,14 @@ namespace Vocaluxe.Menu.SongMenu
             _SongMenu.OnHide();
         }
 
-        public void HandleInput(ref KeyEvent KeyEvent)
+        public void HandleInput(ref KeyEvent KeyEvent, ScreenSongOptions SongOptions)
         {
-            _SongMenu.HandleInput(ref KeyEvent);
+            _SongMenu.HandleInput(ref KeyEvent, SongOptions);
         }
 
-        public void HandleMouse(ref MouseEvent MouseEvent)
+        public void HandleMouse(ref MouseEvent MouseEvent, ScreenSongOptions SongOptions)
         {
-            _SongMenu.HandleMouse(ref MouseEvent);
+            _SongMenu.HandleMouse(ref MouseEvent, SongOptions);
         }
 
         public void Draw()

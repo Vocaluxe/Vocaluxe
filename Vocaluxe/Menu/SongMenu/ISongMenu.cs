@@ -4,6 +4,7 @@ using System.Text;
 
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
+using Vocaluxe.PartyModes;
 
 namespace Vocaluxe.Menu.SongMenu
 {
@@ -13,8 +14,8 @@ namespace Vocaluxe.Menu.SongMenu
         void OnShow();
         void OnHide();
 
-        void HandleInput(ref KeyEvent KeyEvent);
-        void HandleMouse(ref MouseEvent MouseEvent);
+        void HandleInput(ref KeyEvent KeyEvent, ScreenSongOptions SongOptions);
+        void HandleMouse(ref MouseEvent MouseEvent, ScreenSongOptions SongOptions);
         void Draw();
 
         void ApplyVolume(float VolumeMax);

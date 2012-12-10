@@ -8,6 +8,7 @@ using System.Xml.XPath;
 
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
+using Vocaluxe.PartyModes;
 
 namespace Vocaluxe.Menu.SongMenu
 {
@@ -488,13 +489,13 @@ namespace Vocaluxe.Menu.SongMenu
             _SelectedInternal = _SelectedPending;
         }
 
-        public virtual void HandleInput(ref KeyEvent KeyEvent)
+        public virtual void HandleInput(ref KeyEvent KeyEvent, ScreenSongOptions SongOptions)
         {
             if (!_Initialized)
                 return;
         }
 
-        public virtual void HandleMouse(ref MouseEvent MouseEvent)
+        public virtual void HandleMouse(ref MouseEvent MouseEvent, ScreenSongOptions SongOptions)
         {
             if (!_Initialized)
                 return;

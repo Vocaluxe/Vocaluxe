@@ -10,11 +10,11 @@ namespace Vocaluxe.PartyModes
     #region Structs
     public struct ScreenSongOptions
     {
-        public SongSortingOptions SongSorting;
-        public SongSelectionOptions SongSelection;
+        public SortingOptions Sorting;
+        public SelectionOptions Selection;
     }
 
-    public struct SongSortingOptions
+    public struct SortingOptions
     {
         public ESongSorting SongSorting;
         public EOffOn Tabs;
@@ -23,9 +23,10 @@ namespace Vocaluxe.PartyModes
         public bool SearchStringVisible;
     }
 
-    public struct SongSelectionOptions
+    public struct SelectionOptions
     {
         public bool RandomOnly;
+        public bool PartyMode;
         public int NumJokers;
         public int NumTeams;
     }
