@@ -180,6 +180,7 @@
     <Compile Include="Base\CInput.cs" />
     <Compile Include="Base\CLanguage.cs" />
     <Compile Include="Base\CLog.cs" />
+    <Compile Include="Base\CParty.cs" />
     <Compile Include="Base\CPlaylists.cs" />
     <Compile Include="Base\CProfiles.cs" />
     <Compile Include="Base\CUtility.cs" />
@@ -249,6 +250,9 @@
     <Compile Include="Menu\SongMenu\CSongMenuList.cs" />
     <Compile Include="Menu\SongMenu\CSongMenuTileBoard.cs" />
     <Compile Include="Menu\SongMenu\ISongMenu.cs" />
+    <Compile Include="PartyModes\CPartyMode.cs" />
+    <Compile Include="PartyModes\CPartyModeNone.cs" />
+    <Compile Include="PartyModes\IPartyMode.cs" />
     <Compile Include="Program.cs">
       <SubType>Form</SubType>
     </Compile>

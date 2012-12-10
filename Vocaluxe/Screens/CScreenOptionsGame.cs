@@ -89,6 +89,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.S:
+                        CParty.SetNormalGameMode();
                         CGraphics.FadeTo(EScreens.ScreenSong);
                         break;
 
@@ -166,11 +167,15 @@ namespace Vocaluxe.Screens
 
             if (_SongSortingOld != CConfig.SongSorting || _TabsOld != CConfig.Tabs || _LanguageOld != CConfig.Language)
             {
-                CSongs.Sort(CConfig.SongSorting, CConfig.Tabs, CConfig.IgnoreArticles);
+                CSongs.Sort(CConfig.SongSorting, CConfig.Tabs, CConfig.IgnoreArticles, String.Empty);
                 CSongs.Category = -1;
             }
 
             CLanguage.SetLanguage(CConfig.Language);
+
+            _SongSortingOld = CConfig.SongSorting;
+            _TabsOld = CConfig.Tabs;
+            _LanguageOld = CConfig.Language;
         }
     }
 }

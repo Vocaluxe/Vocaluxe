@@ -154,6 +154,11 @@ namespace Vocaluxe
                 CLog.StartBenchmark(0, "Init Game");
                 CGame.Init();
                 CLog.StopBenchmark(0, "Init Game");
+
+                // Init Party Modes;
+                CLog.StartBenchmark(0, "Init Party Modes");
+                CParty.Init();
+                CLog.StopBenchmark(0, "Init Party Modes");
             }
             catch (Exception e)
             {

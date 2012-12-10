@@ -12,6 +12,7 @@ using Vocaluxe.Lib.Draw;
 using Vocaluxe.Lib.Song;
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SongMenu;
+using Vocaluxe.PartyModes;
 
 namespace Vocaluxe.Screens
 {
@@ -58,6 +59,7 @@ namespace Vocaluxe.Screens
         private bool _SongOptionsActive = false;
         private bool _PlaylistActive = false;
         private List<GameModes.EGameMode> _AvailableGameModes;
+        private ScreenSongOptions _sso;
 
         private CStatic DragAndDropCover;
         private bool DragAndDropActive;
@@ -529,6 +531,12 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
+
+            _sso = CParty.GetSongSelectionOptions();
+            CSongs.Sort(_sso.SongSorting.SongSorting, _sso.SongSorting.Tabs, _sso.SongSorting.IgnoreArticles, _sso.SongSorting.SearchString);
+            _SearchActive = _sso.SongSorting.SearchStringVisible;
+            _SearchText = _sso.SongSorting.SearchString;
+
             CGame.EnterNormalGame();
             SongMenus[htSongMenus(SongMenu)].OnShow();
             SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
@@ -602,6 +610,8 @@ namespace Vocaluxe.Screens
             base.OnClose();
             CBackgroundMusic.Disabled = false;
             SongMenus[htSongMenus(SongMenu)].OnHide();
+
+            CParty.SetSearchString(_SearchText, _SearchActive);
         }
 
         public override void ApplyVolume()

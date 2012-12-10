@@ -76,7 +76,10 @@ namespace Vocaluxe.Screens
 
                     case Keys.Enter:
                         if (Buttons[htButtons(ButtonSing)].Selected)
+                        {
+                            CParty.SetNormalGameMode();
                             CGraphics.FadeTo(EScreens.ScreenSong);
+                        }
 
                         if (Buttons[htButtons(ButtonParty)].Selected)
                             CGraphics.FadeTo(EScreens.ScreenParty);
@@ -103,7 +106,10 @@ namespace Vocaluxe.Screens
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
             {
                 if (Buttons[htButtons(ButtonSing)].Selected)
+                {
+                    CParty.SetNormalGameMode();
                     CGraphics.FadeTo(EScreens.ScreenSong);
+                }
 
                 if (Buttons[htButtons(ButtonParty)].Selected)
                     CGraphics.FadeTo(EScreens.ScreenParty);

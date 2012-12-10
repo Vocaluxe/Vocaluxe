@@ -91,6 +91,11 @@ namespace Vocaluxe.Screens
                         Close();
                         break;
 
+                    case Keys.S:
+                        CParty.SetNormalGameMode();
+                        CGraphics.FadeTo(EScreens.ScreenSong);
+                        break;
+
                     case Keys.Enter:
                         if (Buttons[htButtons(ButtonExit)].Selected)
                         {
@@ -174,7 +179,7 @@ namespace Vocaluxe.Screens
             if (_OldCoverTheme != SelectSlides[htSelectSlides(SelectSlideCover)].Selection)
             {
                 CCover.ReloadCover();
-                CSongs.Sort(CConfig.SongSorting, CConfig.Tabs, CConfig.IgnoreArticles);
+                CSongs.Sort(CConfig.SongSorting, CConfig.Tabs, CConfig.IgnoreArticles, String.Empty);
             }
 
             if (_OldTheme != SelectSlides[htSelectSlides(SelectSlideTheme)].Selection)

@@ -72,14 +72,13 @@ namespace Vocaluxe.Base
             get { return _SearchFilter; }
             set
             {
-                _SearchFilter = value;
-                if (_SearchFilter.Length > 0)
+                if (value.Length > 0)
                 {
-                    _Sort(_SongSorting, EOffOn.TR_CONFIG_OFF, _IgnoreArticles, _SearchFilter);
+                    _Sort(_SongSorting, EOffOn.TR_CONFIG_OFF, _IgnoreArticles, value, false);
                 }
                 else
                 {
-                    _Sort(_SongSorting, _Tabs, _IgnoreArticles, _SearchFilter);
+                    _Sort(_SongSorting, _Tabs, _IgnoreArticles, value, false);
                 }
             }
         }
@@ -336,28 +335,18 @@ namespace Vocaluxe.Base
             get { return _Categories.ToArray(); }
         }
 
-        /*
-        public static void Sort()
+        public static void Sort(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, String SearchString)
         {
-            _Sort(_SongSorting, _Tabs, _IgnoreArticles, String.Empty);
+            _Sort(Sorting, Tabs, IgnoreArticles, SearchString, false);
         }
 
-        public static void Sort(ESongSorting sorting)
-        {
-            _SongSorting = sorting;
-            _Sort(_SongSorting, _Tabs, _IgnoreArticles, String.Empty);
-        }
-         * */
-
-        public static void Sort(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles)
-        {
-            _Sort(Sorting, _Tabs, IgnoreArticles, String.Empty);
-        }
-
-        private static void _Sort(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, string SearchString)
+        private static void _Sort(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, string SearchString, bool force)
         {
             if (_Songs.Count == 0)
                 return;
+
+            if (!force && Sorting == _SongSorting && Tabs == _Tabs && IgnoreArticles == _IgnoreArticles && SearchString == _SearchFilter)
+                return; //nothing to do
 
             _Categories.Clear();
             string category = String.Empty;
@@ -366,16 +355,18 @@ namespace Vocaluxe.Base
             _SongSorting = Sorting;
             _Tabs = Tabs;
 
+            _SearchFilter = SearchString;
+
             List<SongPointer> _SortList = new List<SongPointer>();
             List<CSong> _SongList = new List<CSong>();
 
             foreach (CSong song in _Songs)
             {
-                if (SearchString == String.Empty)
+                if (_SearchFilter == String.Empty)
                     _SongList.Add(song);
                 else
                 {
-                    if (song.Title.ToUpper().Contains(SearchString.ToUpper()) || song.Artist.ToUpper().Contains(SearchString.ToUpper()))
+                    if (song.Title.ToUpper().Contains(_SearchFilter.ToUpper()) || song.Artist.ToUpper().Contains(_SearchFilter.ToUpper()))
                         _SongList.Add(song);
                 }
             }
@@ -977,7 +968,7 @@ namespace Vocaluxe.Base
             CLog.StopBenchmark(2, "Read TXTs");
 
             CLog.StartBenchmark(2, "Sort Songs");
-            _Sort(CConfig.SongSorting, CConfig.Tabs, CConfig.IgnoreArticles, String.Empty);
+            _Sort(CConfig.SongSorting, CConfig.Tabs, CConfig.IgnoreArticles, String.Empty, true);
             CLog.StopBenchmark(2, "Sort Songs");
             Category = -1;
             _SongsLoaded = true;
