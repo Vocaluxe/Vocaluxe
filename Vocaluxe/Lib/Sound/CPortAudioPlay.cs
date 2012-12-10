@@ -474,7 +474,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 lock (_LockData)
                 {
-                    return _NoMoreData && _data.BytesNotRead == 0L;
+                    return _NoMoreData && _data.BytesNotRead == 0L && _SyncTimer.Time >= _Duration;
                 }
             }
         }
@@ -877,7 +877,8 @@ namespace Vocaluxe.Lib.Sound
                 float latency = buf.Length / _BytesPerSecond + CConfig.AudioLatency/1000f;
                 float time = _TimeCode - _data.BytesNotRead / _BytesPerSecond - latency;
 
-                _CurrentTime = _SyncTimer.Update(time);
+                if (!_NoMoreData)
+                    _CurrentTime = _SyncTimer.Update(time);
             }
   
             try
