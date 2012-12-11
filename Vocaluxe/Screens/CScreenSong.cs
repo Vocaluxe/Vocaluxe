@@ -644,7 +644,7 @@ namespace Vocaluxe.Screens
 
         private void HandlePartySongSelection(int SongNr)
         {
-
+            CGraphics.FadeTo(EScreens.ScreenPartyDummy);
         }
 
         private void StartSong(int SongNr)
@@ -945,6 +945,7 @@ namespace Vocaluxe.Screens
             }
         }
 
+        #region Playlist Actions
         public void CheckPlaylist()
         {
             if (Playlists[htPlaylists(Playlist)].ActivePlaylistID == -1)
@@ -1075,5 +1076,6 @@ namespace Vocaluxe.Screens
             else
                 SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistAdd)].Selection = 0;
         }
+        #endregion Playlist Actions
     }
 }

@@ -54,6 +54,7 @@ namespace Vocaluxe.PartyModes
     {
         void Init();
 
+        CMenu GetNextPartyScreen();
         EScreens GetStartScreen();
         EScreens GetMainScreen();
         ScreenSongOptions GetScreenSongOptions();

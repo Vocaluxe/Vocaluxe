@@ -12,6 +12,7 @@ namespace Vocaluxe.Base
         private static List<IPartyMode> _PartyModes;
         private static int _CurrentModeNr;
 
+        #region public stuff
         public static int NumModes
         {
             get { return _PartyModes.Count - 1; }   //first mode is the dummy normal game mode
@@ -21,17 +22,26 @@ namespace Vocaluxe.Base
         {
             _PartyModes = new List<IPartyMode>();
 
-            //add dummy normal game mode
+            //add dummy normal game mode and set it as default
             _PartyModes.Add(new CPartyModeNone());
-
             _CurrentModeNr = 0;
-        }
 
+            //load other party modes
+            LoadPartyModes();
+        }
+                
         public static void SetNormalGameMode()
         {
             _CurrentModeNr = 0;
         }
 
+        public static CMenu GetNextPartyScreen()
+        {
+            return _PartyModes[_CurrentModeNr].GetNextPartyScreen();
+        }
+        #endregion public stuff
+
+        #region Interface
         public static EScreens GetStartScreen()
         {
             return _PartyModes[_CurrentModeNr].GetStartScreen();
@@ -56,5 +66,12 @@ namespace Vocaluxe.Base
         {
             _PartyModes[_CurrentModeNr].JokerUsed(TeamNr);
         }
+        #endregion Interface
+
+        #region private stuff
+        private static void LoadPartyModes()
+        {
+        }
+        #endregion private stuff
     }
 }

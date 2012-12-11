@@ -8,13 +8,11 @@ using Vocaluxe.Menu;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenParty : CMenu
+    class CScreenPartyDummy : CMenu
     {// Version number for theme files. Increment it, if you've changed something on the theme files!
         const int ScreenVersion = 1;
 
-        const string ButtonExit = "ButtonExit";
-
-        public CScreenParty()
+        public CScreenPartyDummy()
         {
             Init();
         }
@@ -23,14 +21,28 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeName = "ScreenParty";
+            _ThemeName = "ScreenPartyDummy";
             _ScreenVersion = ScreenVersion;
-            _ThemeButtons = new string[] { ButtonExit };
         }
 
         public override void LoadTheme()
         {
-            base.LoadTheme();            
+        }
+
+        public override void ReloadTheme()
+        {
+        }
+
+        public override void ReloadTextures()
+        {
+        }
+
+        public override void SaveTheme()
+        {
+        }
+
+        public override void UnloadTextures()
+        {
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -39,7 +51,7 @@ namespace Vocaluxe.Screens
 
             if (KeyEvent.KeyPressed)
             {
-                
+
             }
             else
             {
@@ -47,19 +59,10 @@ namespace Vocaluxe.Screens
                 {
                     case Keys.Back:
                     case Keys.Escape:
-                        CGraphics.FadeTo(EScreens.ScreenMain);
-                        break;
-                    
-                    case Keys.C:
-                        //CGraphics.FadeTo(EScreens.ScreenPartyDummy);
-                        break;
-
-                    case Keys.Enter:
-                        if (Buttons[htButtons(ButtonExit)].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenMain);
+                        CGraphics.FadeTo(EScreens.ScreenParty);
                         break;
                 }
-            }            
+            }
             return true;
         }
 
@@ -70,15 +73,13 @@ namespace Vocaluxe.Screens
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
             {
 
-                if (Buttons[htButtons(ButtonExit)].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenMain);
             }
 
             if (MouseEvent.RB)
             {
-                CGraphics.FadeTo(EScreens.ScreenMain);
+                CGraphics.FadeTo(EScreens.ScreenParty);
             }
-            
+
             return true;
         }
 
@@ -94,8 +95,11 @@ namespace Vocaluxe.Screens
 
         public override bool Draw()
         {
-            base.DrawBG();
-            base.DrawFG();
+            base.Draw();
+
+            CFonts.SetFont("Normal");
+            CFonts.Style = EStyle.Normal;
+            CDraw.DrawText("SOMETHING WENT WRONG!", 150, 300, 80);
 
             return true;
         }

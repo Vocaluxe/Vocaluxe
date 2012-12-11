@@ -33,6 +33,7 @@ namespace Vocaluxe.Menu
         ScreenNames = 15,
         ScreenCredits = 16,
         ScreenParty = 17,
+        ScreenPartyDummy = 18,
 
         ScreenNull = -1
     }
@@ -245,6 +246,7 @@ namespace Vocaluxe.Menu
             _Screens.Add(new CScreenNames());
             _Screens.Add(new CScreenCredits());
             _Screens.Add(new CScreenParty());
+            _Screens.Add(new CScreenPartyDummy());
 
             _PopupScreens.Add(new CPopupScreenPlayerControl());
             _PopupScreens.Add(new CPopupScreenVolumeControl());
@@ -433,9 +435,12 @@ namespace Vocaluxe.Menu
 
         public static void FadeTo(EScreens Screen)
         {
+            if (Screen == EScreens.ScreenPartyDummy)
+                _Screens[(int)EScreens.ScreenPartyDummy] = CParty.GetNextPartyScreen();
+                
             _NextScreen = Screen;
         }
-
+        
         public static void ShowPopup(EPopupScreens PopupScreen)
         {
             _PopupScreens[(int)PopupScreen].OnShow();
