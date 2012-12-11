@@ -10,17 +10,22 @@ namespace Vocaluxe.PartyModes
     abstract class CPartyMode : IPartyMode
     {
         protected ScreenSongOptions _ScreenSongOptions;
+        protected List<CMenu> _Screens;
+        protected string _Folder;
 
         public CPartyMode()
         {
+            _Screens = new List<CMenu>();
+            _Folder = String.Empty;
             _ScreenSongOptions = new ScreenSongOptions();
             _ScreenSongOptions.Selection = new SelectionOptions();
             _ScreenSongOptions.Sorting = new SortingOptions();
         }
 
         #region Implementation
-        public virtual void Init()
+        public virtual bool Init(string Folder)
         {
+            return false;
         }
 
         public virtual CMenu GetNextPartyScreen()

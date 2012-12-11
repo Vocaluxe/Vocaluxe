@@ -377,7 +377,16 @@ namespace Vocaluxe.Menu
                 _Fading = true;
                 _FadingTimer.Reset();
                 _FadingTimer.Start();
-                _Screens[(int)_NextScreen].OnShow();
+
+                if (_NextScreen == EScreens.ScreenPartyDummy)
+                {
+                    CFonts.PartyModeID = CParty.CurrentPartyModeID;
+                    _Screens[(int)_NextScreen].OnShow();
+                    CFonts.PartyModeID = -1;
+                }
+                else
+                    _Screens[(int)_NextScreen].OnShow();
+
                 HidePopup(EPopupScreens.PopupPlayerControl);
             }
 
@@ -395,11 +404,28 @@ namespace Vocaluxe.Menu
 
                     _GlobalAlpha = 1f;// -factor / 100f;
                     _ZOffset = CSettings.zFar/2;
-                    _Screens[(int)_CurrentScreen].Draw();
+
+                    if (_CurrentScreen == EScreens.ScreenPartyDummy)
+                    {
+                        CFonts.PartyModeID = CParty.CurrentPartyModeID;
+                        _Screens[(int)_CurrentScreen].Draw();
+                        CFonts.PartyModeID = -1;
+                    }
+                    else
+                        _Screens[(int)_CurrentScreen].Draw();
+
 
                     _GlobalAlpha = factor;
                     _ZOffset = 0f;
-                    _Screens[(int)_NextScreen].Draw();
+
+                    if (_NextScreen == EScreens.ScreenPartyDummy)
+                    {
+                        CFonts.PartyModeID = CParty.CurrentPartyModeID;
+                        _Screens[(int)_NextScreen].Draw();
+                        CFonts.PartyModeID = -1;
+                    }
+                    else
+                        _Screens[(int)_NextScreen].Draw();
 
                     _GlobalAlpha = 1f;
                 }
@@ -412,14 +438,30 @@ namespace Vocaluxe.Menu
                         CBackgroundMusic.Play();
                     _Screens[(int)_CurrentScreen].OnShowFinish();
                     _Screens[(int)_CurrentScreen].ProcessMouseMove(_Cursor.X, _Cursor.Y);
-                    _Screens[(int)_CurrentScreen].Draw();
+
+                    if (_CurrentScreen == EScreens.ScreenPartyDummy)
+                    {
+                        CFonts.PartyModeID = CParty.CurrentPartyModeID;
+                        _Screens[(int)_CurrentScreen].Draw();
+                        CFonts.PartyModeID = -1;
+                    }
+                    else
+                        _Screens[(int)_CurrentScreen].Draw();
+
                     _Fading = false;
                     _FadingTimer.Stop();
                 }
             }
             else
             {
-                _Screens[(int)_CurrentScreen].Draw();
+                if (_CurrentScreen == EScreens.ScreenPartyDummy)
+                {
+                    CFonts.PartyModeID = CParty.CurrentPartyModeID;
+                    _Screens[(int)_CurrentScreen].Draw();
+                    CFonts.PartyModeID = -1;
+                }
+                else
+                    _Screens[(int)_CurrentScreen].Draw();
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)

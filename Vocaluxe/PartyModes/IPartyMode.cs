@@ -52,7 +52,7 @@ namespace Vocaluxe.PartyModes
 
     interface IPartyMode
     {
-        void Init();
+        bool Init(string Folder);
 
         CMenu GetNextPartyScreen();
         EScreens GetStartScreen();
