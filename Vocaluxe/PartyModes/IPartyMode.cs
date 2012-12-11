@@ -23,12 +23,30 @@ namespace Vocaluxe.PartyModes
         public bool SearchStringVisible;
     }
 
+    /// <summary>
+    /// Configuration of song selection options
+    /// </summary>
     public struct SelectionOptions
     {
+        /// <summary>
+        /// Choosing song only by random
+        /// </summary>
         public bool RandomOnly;
+
+        /// <summary>
+        /// If true, it is not allowed to go to MainScreen nor open the playlist nor open the song menu
+        /// </summary>
         public bool PartyMode;
-        public int NumJokers;
-        public int NumTeams;
+
+        /// <summary>
+        /// If true, it is not alled to change or leave the category. It's only valid if Tabs=On.
+        /// </summary>
+        public bool CategoryChangeAllowed;
+
+        /// <summary>
+        /// The number of jokers left for each team
+        /// </summary>
+        public int[] NumJokers;
     }
     #endregion Structs
 
@@ -41,5 +59,7 @@ namespace Vocaluxe.PartyModes
         ScreenSongOptions GetScreenSongOptions();
 
         void SetSearchString(string SearchString, bool Visible);
+
+        void JokerUsed(int TeamNr);
     }
 }

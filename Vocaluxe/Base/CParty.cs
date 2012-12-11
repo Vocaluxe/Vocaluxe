@@ -51,5 +51,10 @@ namespace Vocaluxe.Base
         {
             _PartyModes[_CurrentModeNr].SetSearchString(SearchString, Visible);
         }
+
+        public static void JokerUsed(int TeamNr)
+        {
+            _PartyModes[_CurrentModeNr].JokerUsed(TeamNr);
+        }
     }
 }

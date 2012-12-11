@@ -200,7 +200,7 @@ namespace Vocaluxe.Menu.SongMenu
 
                         case Keys.Escape:
                         case Keys.Back:
-                            if (CSongs.Category > -1 && CSongs.Tabs == EOffOn.TR_CONFIG_ON)
+                            if (CSongs.Category > -1 && CSongs.Tabs == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
                             {
                                 ShowCategories();
                                 KeyEvent.Handled = true;
@@ -212,21 +212,21 @@ namespace Vocaluxe.Menu.SongMenu
                             break;
 
                         case Keys.PageUp:
-                            if (CSongs.Tabs == EOffOn.TR_CONFIG_ON)
+                            if (CSongs.Tabs == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
                             {
                                 PrevCategory();
                             }
                             break;
 
                         case Keys.PageDown:
-                            if (CSongs.Tabs == EOffOn.TR_CONFIG_ON)
+                            if (CSongs.Tabs == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
                             {
                                 NextCategory();
                             }
                             break;
 
                         case Keys.Left:
-                            if (_Locked > 0 && !SongOptions.Selection.RandomOnly && !SongOptions.Selection.RandomOnly)
+                            if (_Locked > 0 && (!SongOptions.Selection.RandomOnly || SongOptions.Selection.CategoryChangeAllowed && CSongs.Category < 0))
                             {
                                 _Locked--;
                                 if (CSongs.Category < 0 && _Locked < CSongs.NumCategories - _NumW ||
@@ -236,7 +236,7 @@ namespace Vocaluxe.Menu.SongMenu
                             break;
 
                         case Keys.Right:
-                            if (CSongs.Category < 0)
+                            if (CSongs.Category < 0 && SongOptions.Selection.CategoryChangeAllowed)
                             {
                                 if (_Locked < CSongs.NumCategories - 1)
                                 {
@@ -248,7 +248,7 @@ namespace Vocaluxe.Menu.SongMenu
                             }
                             else
                             {
-                                if (_Locked < CSongs.NumVisibleSongs - 1 && !SongOptions.Selection.RandomOnly)
+                                if (CSongs.Category != -1 && _Locked < CSongs.NumVisibleSongs - 1 && !SongOptions.Selection.RandomOnly)
                                 {
                                     _Locked++;
                                     if (_Locked < CSongs.NumVisibleSongs - _NumW)
@@ -258,13 +258,13 @@ namespace Vocaluxe.Menu.SongMenu
                             break;
 
                         case Keys.Up:
-                            if (KeyEvent.ModSHIFT && CSongs.Tabs == EOffOn.TR_CONFIG_ON && !SongOptions.Selection.RandomOnly)
+                            if (KeyEvent.ModSHIFT && CSongs.Tabs == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
                             {
                                 PrevCategory();
                                 break;
                             }
 
-                            if (_Locked > _NumW - 1 && (!SongOptions.Selection.RandomOnly || CSongs.Category < 0))
+                            if (_Locked > _NumW - 1 && (!SongOptions.Selection.RandomOnly || SongOptions.Selection.CategoryChangeAllowed && CSongs.Category < 0))
                             {
                                 _Locked -= _NumW;
                                 UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
@@ -272,13 +272,13 @@ namespace Vocaluxe.Menu.SongMenu
                             break;
 
                         case Keys.Down:
-                            if (KeyEvent.ModSHIFT && CSongs.Tabs == EOffOn.TR_CONFIG_ON && !SongOptions.Selection.RandomOnly)
+                            if (KeyEvent.ModSHIFT && CSongs.Tabs == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
                             {
                                 NextCategory();
                                 break;
                             }
 
-                            if (CSongs.Category < 0)
+                            if (CSongs.Category < 0 && SongOptions.Selection.CategoryChangeAllowed)
                             {
                                 if (_Locked < CSongs.NumCategories - _NumW)
                                 {
@@ -323,7 +323,7 @@ namespace Vocaluxe.Menu.SongMenu
             bool sel = false;
             int lastselection = _actualSelection;
 
-            if (!SongOptions.Selection.RandomOnly)
+            if (!SongOptions.Selection.RandomOnly || CSongs.Category < 0 && SongOptions.Selection.CategoryChangeAllowed)
             {
                 foreach (CStatic tile in _Tiles)
                 {
@@ -359,7 +359,7 @@ namespace Vocaluxe.Menu.SongMenu
             if (!sel)
                 _actualSelection = -1;
 
-            if ((MouseEvent.RB) && (CSongs.NumCategories > 0) && CSongs.Category >= 0 && CSongs.Tabs == EOffOn.TR_CONFIG_ON)
+            if ((MouseEvent.RB) && (CSongs.NumCategories > 0) && CSongs.Category >= 0 && CSongs.Tabs == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
             {
                 ShowCategories();
                 return;
@@ -389,7 +389,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (MouseEvent.Wheel > 0)
             {
-                if (CHelper.IsInBounds(_ScrollRect, MouseEvent) && !SongOptions.Selection.PartyMode)
+                if (CHelper.IsInBounds(_ScrollRect, MouseEvent) && (!SongOptions.Selection.RandomOnly || CSongs.Category < 0 && SongOptions.Selection.CategoryChangeAllowed))
                 {
                     if (CSongs.Category >= 0 && CSongs.NumVisibleSongs > _Offset + _NumW * MouseEvent.Wheel + _NumW * (_NumH - 1) ||
                         CSongs.Category < 0 && CSongs.NumCategories > _Offset + _NumW * MouseEvent.Wheel + _NumW * (_NumH - 1))
@@ -402,7 +402,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (MouseEvent.Wheel < 0)
             {
-                if (CHelper.IsInBounds(_ScrollRect, MouseEvent) && !SongOptions.Selection.PartyMode)
+                if (CHelper.IsInBounds(_ScrollRect, MouseEvent) && (!SongOptions.Selection.RandomOnly || CSongs.Category < 0 && SongOptions.Selection.CategoryChangeAllowed))
                 {
                     _Offset += _NumW * MouseEvent.Wheel;
                     if (_Offset < 0)

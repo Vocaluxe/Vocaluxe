@@ -140,7 +140,7 @@ namespace Vocaluxe.Screens
 
             if (!_SongOptionsActive)
             {
-                if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode))
+                if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode) && KeyEvent.Mod != EModifier.Ctrl)
                 {
                     if (_SearchActive)
                         ApplyNewSearchFilter(_SearchText + KeyEvent.Unicode);
@@ -248,14 +248,8 @@ namespace Vocaluxe.Screens
 
                         //TODO: We need another key for random!
                         case Keys.R:
-                            if (!_SearchActive && CSongs.Category != -1 && KeyEvent.Mod == EModifier.Ctrl)
-                            {
-                                SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
-                            }
-                            else if (CSongs.Category == -1 && KeyEvent.Mod == EModifier.Ctrl)
-                            {
-                                SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
-                            }
+                            if (KeyEvent.Mod == EModifier.Ctrl && !_sso.Selection.RandomOnly)
+                                SelectNextRandom(-1);
                             break;
 
                         //TODO: Delete that!
@@ -264,6 +258,30 @@ namespace Vocaluxe.Screens
                             {
                                 StartMedleySong(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
                             }
+                            break;
+
+                        case Keys.D1:
+                            SelectNextRandom(0);
+                            break;
+
+                        case Keys.D2:
+                            SelectNextRandom(1);
+                            break;
+
+                        case Keys.D3:
+                            SelectNextRandom(2);
+                            break;
+
+                        case Keys.D4:
+                            SelectNextRandom(3);
+                            break;
+
+                        case Keys.D5:
+                            SelectNextRandom(4);
+                            break;
+
+                        case Keys.D6:
+                            SelectNextRandom(5);
                             break;
 
                     }
@@ -399,21 +417,9 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            if (MouseEvent.MB)
+            if (MouseEvent.MB && !_sso.Selection.PartyMode)
             {
-                if (CSongs.Category != -1)
-                {
-                    ToggleSongOptions(ESongOptionsView.None);
-                    SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
-                    return true;
-                }
-
-                if (CSongs.Category == -1)
-                {
-                    ToggleSongOptions(ESongOptionsView.None);
-                    SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
-                    return true;
-                }
+                return SelectNextRandom(-1);
             }
 
             if (MouseEvent.LD && !_sso.Selection.PartyMode)
@@ -757,6 +763,48 @@ namespace Vocaluxe.Screens
 
             if (CGame.GetNumSongs() > 0)
                 CGraphics.FadeTo(EScreens.ScreenNames);
+        }
+
+        private bool SelectNextRandom(int TeamNr)
+        {           
+            if (TeamNr != -1 && _sso.Selection.RandomOnly && _sso.Selection.NumJokers != null)
+            {
+                bool result = false;
+                if (_sso.Selection.NumJokers.Length > TeamNr)
+                {
+                    if (_sso.Selection.NumJokers[TeamNr] > 0)
+                    {
+                        result = SelectNextRandomSong(TeamNr) || SelectNextRandomCategory();
+                        CParty.JokerUsed(TeamNr);
+                        _sso = CParty.GetSongSelectionOptions();
+                    }
+                }
+                return result;
+            }
+
+            return SelectNextRandomSong(TeamNr) || SelectNextRandomCategory();
+        }
+
+        private bool SelectNextRandomSong(int TeamNr)
+        {
+            if (CSongs.Category != -1)
+            {
+                ToggleSongOptions(ESongOptionsView.None);
+                SongMenus[htSongMenus(SongMenu)].SetSelectedSong(CSongs.GetRandomSong());
+                return true;
+            }
+            return false;
+        }
+
+        private bool SelectNextRandomCategory()
+        {
+            if (CSongs.Category == -1)
+            {
+                ToggleSongOptions(ESongOptionsView.None);
+                SongMenus[htSongMenus(SongMenu)].SetSelectedCategory(CSongs.GetRandomCategory());
+                return true;
+            }
+            return false;
         }
 
         private void JumpTo(char Letter)

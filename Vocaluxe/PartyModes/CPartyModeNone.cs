@@ -9,18 +9,12 @@ namespace Vocaluxe.PartyModes
     class CPartyModeNone : CPartyMode
     {
         //just a dummy for normal game mode
-        private ScreenSongOptions _ScreenSongOptions;
-
         public CPartyModeNone()
         {
-            _ScreenSongOptions = new ScreenSongOptions();
-            _ScreenSongOptions.Selection = new SelectionOptions();
-            _ScreenSongOptions.Sorting = new SortingOptions();
-
             _ScreenSongOptions.Selection.RandomOnly = false;
             _ScreenSongOptions.Selection.PartyMode = false;
-            _ScreenSongOptions.Selection.NumJokers = 0;
-            _ScreenSongOptions.Selection.NumTeams = 0;
+            _ScreenSongOptions.Selection.CategoryChangeAllowed = true;
+            _ScreenSongOptions.Selection.NumJokers = null;
 
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchStringVisible = false;
@@ -40,5 +34,6 @@ namespace Vocaluxe.PartyModes
             _ScreenSongOptions.Sorting.SearchString = SearchString;
             _ScreenSongOptions.Sorting.SearchStringVisible = Visible;
         }
+
     }
 }
