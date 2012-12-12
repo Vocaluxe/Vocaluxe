@@ -229,7 +229,7 @@
     <Compile Include="Menu\CBackground.cs" />
     <Compile Include="Menu\CButton.cs" />
     <Compile Include="Menu\CEqualizer.cs" />
-    <Compile Include="Menu\CGraphics.cs" />
+    <Compile Include="Base\CGraphics.cs" />
     <Compile Include="Menu\CNameSelection.cs" />
     <Compile Include="Menu\CLyric.cs" />
     <Compile Include="Menu\CMenu.cs" />
@@ -239,6 +239,7 @@
     <Compile Include="Menu\CSelectSlide.cs" />
     <Compile Include="Menu\CStatic.cs" />
     <Compile Include="Menu\CText.cs" />
+    <Compile Include="Menu\IMenu.cs" />
     <Compile Include="Menu\IMenuElement.cs" />
     <Compile Include="Menu\SingNotes\CSingNotes.cs" />
     <Compile Include="Menu\SingNotes\CSingNotesClassic.cs" />

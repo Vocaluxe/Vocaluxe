@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Screens;
+using Vocaluxe.Screens.PartyScreens;
 
 namespace Vocaluxe.Menu
 {
@@ -199,8 +200,8 @@ namespace Vocaluxe.Menu
         private static EScreens _NextScreen;
         private static EPopupScreens _CurrentPopupScreen;
 
-        private static List<CMenu> _Screens = new List<CMenu>();
-        private static List<CMenu> _PopupScreens = new List<CMenu>();
+        private static List<IMenu> _Screens = new List<IMenu>();
+        private static List<IMenu> _PopupScreens = new List<IMenu>();
 
         private static float _SavedBackgroundMusicVolume;
         private static float _SavedPreviewMusicVolume;
@@ -591,7 +592,7 @@ namespace Vocaluxe.Menu
 
                 UpdateMousePosition(MouseEvent.X, MouseEvent.Y);
 
-                bool isOverPopupPlayerControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupPlayerControl].ScreenArea, MouseEvent);
+                bool isOverPopupPlayerControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupPlayerControl].GetScreenArea(), MouseEvent);
                 if (PopupPlayerControlAllowed && isOverPopupPlayerControl)
                 {
                     if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
@@ -601,7 +602,7 @@ namespace Vocaluxe.Menu
                 if (!isOverPopupPlayerControl && _CurrentPopupScreen == EPopupScreens.PopupPlayerControl)
                     HidePopup(EPopupScreens.PopupPlayerControl);
 
-                bool isOverPopupVolumeControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupVolumeControl].ScreenArea, MouseEvent);
+                bool isOverPopupVolumeControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupVolumeControl].GetScreenArea(), MouseEvent);
                 if (PopupVolumeControlAllowed && isOverPopupVolumeControl)
                 {
                     if (_CurrentPopupScreen == EPopupScreens.NoPopup)

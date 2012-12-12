@@ -22,7 +22,7 @@ namespace Vocaluxe.Menu
         public float z;
     }
 
-    abstract class CMenu
+    abstract class CMenu : IMenu
     {        
         private List<CInteraction> _Interactions;
         private int _Selection = 0;
@@ -79,6 +79,11 @@ namespace Vocaluxe.Menu
         public SRectF ScreenArea
         {
             get { return _ScreenArea; }
+        }
+
+        public SRectF GetScreenArea()
+        {
+            return _ScreenArea;
         }
 
         public int ThemeScreenVersion
