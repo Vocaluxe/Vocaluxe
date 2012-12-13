@@ -46,6 +46,7 @@ namespace Vocaluxe.Menu.SingNotes
 
     abstract class CSingNotes : ISingNotes, IMenuElement
     {
+        private Base _Base;
         private SThemeSingBar _Theme;
         private bool _ThemeLoaded;
 
@@ -66,8 +67,9 @@ namespace Vocaluxe.Menu.SingNotes
             set { _BarPos = value; }
         }
 
-        public CSingNotes()
+        public CSingNotes(Base Base)
         {
+            _Base = Base;
             _Theme = new SThemeSingBar();
             _ThemeLoaded = false;
 

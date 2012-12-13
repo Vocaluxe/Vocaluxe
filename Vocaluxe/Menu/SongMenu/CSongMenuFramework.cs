@@ -93,6 +93,7 @@ namespace Vocaluxe.Menu.SongMenu
 
     abstract class CSongMenuFramework : ISongMenu
     {
+        protected Base _Base;
         protected SThemeSongMenu _Theme;
         private bool _ThemeLoaded;
 
@@ -234,20 +235,21 @@ namespace Vocaluxe.Menu.SongMenu
             _Visible = Visible;
         }
 
-        public CSongMenuFramework()
+        public CSongMenuFramework(Base Base)
         {
+            _Base = Base;
             _Theme = new SThemeSongMenu();
 
-            _Theme.songMenuTileBoard.TextArtist = new CText();
-            _Theme.songMenuTileBoard.TextTitle = new CText();
-            _Theme.songMenuTileBoard.TextSongLength = new CText();
+            _Theme.songMenuTileBoard.TextArtist = new CText(_Base);
+            _Theme.songMenuTileBoard.TextTitle = new CText(_Base);
+            _Theme.songMenuTileBoard.TextSongLength = new CText(_Base);
 
-            _Theme.songMenuTileBoard.StaticCoverBig = new CStatic();
-            _Theme.songMenuTileBoard.StaticTextBG = new CStatic();
-            _Theme.songMenuTileBoard.StaticDuetIcon = new CStatic();
-            _Theme.songMenuTileBoard.StaticVideoIcon = new CStatic();
-            _Theme.songMenuTileBoard.StaticMedleyCalcIcon = new CStatic();
-            _Theme.songMenuTileBoard.StaticMedleyTagIcon = new CStatic();
+            _Theme.songMenuTileBoard.StaticCoverBig = new CStatic(_Base);
+            _Theme.songMenuTileBoard.StaticTextBG = new CStatic(_Base);
+            _Theme.songMenuTileBoard.StaticDuetIcon = new CStatic(_Base);
+            _Theme.songMenuTileBoard.StaticVideoIcon = new CStatic(_Base);
+            _Theme.songMenuTileBoard.StaticMedleyCalcIcon = new CStatic(_Base);
+            _Theme.songMenuTileBoard.StaticMedleyTagIcon = new CStatic(_Base);
 
             _ThemeLoaded = false;
         }
@@ -540,7 +542,7 @@ namespace Vocaluxe.Menu.SongMenu
 
         public virtual CStatic GetSelectedSongCover()
         {
-            return new CStatic();
+            return new CStatic(_Base);
         }
 
         public virtual int GetSelectedCategory()

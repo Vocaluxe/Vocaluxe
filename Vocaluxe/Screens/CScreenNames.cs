@@ -91,7 +91,7 @@ namespace Vocaluxe.Screens
             texts.AddRange(EqualizerPlayer);
             _ThemeEqualizers = texts.ToArray();
 
-            chooseAvatarStatic = new CStatic();
+            chooseAvatarStatic = GetNewStatic();
             chooseAvatarStatic.Visible = false;
         }
 

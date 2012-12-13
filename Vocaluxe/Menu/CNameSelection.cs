@@ -27,15 +27,16 @@ namespace Vocaluxe.Menu
 
     class CNameSelection : IMenuElement
     {
-
         class CTile
         {
+            private Base _Base;
             public int PlayerNr;
             public CStatic Avatar;
             public CText Name;
 
-            public CTile()
+            public CTile(Base Base)
             {
+                _Base = Base;
             }
 
             public CTile(CStatic av, CText tex, int pl)
@@ -46,6 +47,7 @@ namespace Vocaluxe.Menu
             }
         }
 
+        private Base _Base;
         private SThemeNameSelection _Theme;
         private bool _ThemeLoaded;
 
@@ -85,8 +87,9 @@ namespace Vocaluxe.Menu
         private CStatic PlayerSelector;
 
 
-        public CNameSelection()
+        public CNameSelection(Base Base)
         {
+            _Base = Base;
             _Theme = new SThemeNameSelection();
 
             _Tiles = new List<CTile>();
@@ -97,7 +100,7 @@ namespace Vocaluxe.Menu
         {
             PrepareTiles();
 
-            PlayerSelector = new CStatic();
+            PlayerSelector = new CStatic(_Base);
             PlayerSelector.Texture = _TextureTileSelected;
             PlayerSelector.Rect = new SRectF(0, 0, (_TileW + 6), (_TileH + 6), (Rect.Z - 0.5f));
             PlayerSelector.Visible = false;
@@ -466,7 +469,7 @@ namespace Vocaluxe.Menu
                 }
             }
 
-            return new CStatic();
+            return new CStatic(_Base);
         }
 
         public void UnloadTextures()
@@ -501,8 +504,8 @@ namespace Vocaluxe.Menu
                 for (int j = 0; j < _NumW; j++)
                 {
                     SRectF rect = new SRectF(Rect.X + j * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
-                    CStatic tileStatic = new CStatic(_TextureEmptyTile, ColorEmptyTile, rect);
-                    CText tileText = new CText(rect.X + rect.W / 2, rect.Y + rect.H + _Theme.NameSpace, rect.Z, _Theme.NameHeight, rect.W, EAlignment.Center, _Theme.NameStyle, _Theme.NameFont, _Theme.NameColor, "");
+                    CStatic tileStatic = new CStatic(_Base, _TextureEmptyTile, ColorEmptyTile, rect);
+                    CText tileText = new CText(_Base, rect.X + rect.W / 2, rect.Y + rect.H + _Theme.NameSpace, rect.Z, _Theme.NameHeight, rect.W, EAlignment.Center, _Theme.NameStyle, _Theme.NameFont, _Theme.NameColor, "");
                     _Tiles.Add(new CTile(tileStatic, tileText, -1));
                 }
             }

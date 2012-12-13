@@ -4,25 +4,27 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 
-using Vocaluxe.Base;
-using Vocaluxe.Lib.Draw;
+using Vocaluxe.Menu;
 using Vocaluxe.PartyModes;
 
 namespace Vocaluxe.Menu.SongMenu
 {
     class CSongMenu : ISongMenu
     {
+        private Base _Base;
+
         private ISongMenu _SongMenu;
         private ESongMenu _Type;
 
-        public CSongMenu()
+        public CSongMenu(Base Base)
         {
+            _Base = Base;
             CreateSongMenu();
         }
 
         public void UpdateSongMenuType()
         {
-            if (_Type != CConfig.SongMenu)
+            if (_Type != _Base.Config.GetSongMenuType())
                 CreateSongMenu();
         }
 
@@ -205,7 +207,7 @@ namespace Vocaluxe.Menu.SongMenu
                 _SongMenu.OnHide();
             }
 
-            switch (CConfig.SongMenu)
+            switch (_Base.Config.GetSongMenuType())
             {
                 //case ESongMenu.TR_CONFIG_LIST:
                 //    _SongMenu = new CSongMenuList();
@@ -216,7 +218,7 @@ namespace Vocaluxe.Menu.SongMenu
                 //    break;
 
                 case ESongMenu.TR_CONFIG_TILE_BOARD:
-                    _SongMenu = new CSongMenuTileBoard();
+                    _SongMenu = new CSongMenuTileBoard(_Base);
                     break;
 
                 //case ESongMenu.TR_CONFIG_BOOK:
@@ -224,7 +226,7 @@ namespace Vocaluxe.Menu.SongMenu
                 //    break;
             }
 
-            _Type = CConfig.SongMenu;
+            _Type = _Base.Config.GetSongMenuType();
         }
     }
 }

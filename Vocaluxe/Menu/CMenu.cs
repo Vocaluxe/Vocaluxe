@@ -75,15 +75,7 @@ namespace Vocaluxe.Menu
         protected string[] _ThemePlaylists;
 
         protected SRectF _ScreenArea;
-
-        private IConfig _Config;
-        private ISettings _Settings;
-        private ITheme _Theme;
-        private IHelper _Helper;
-        private ILog _Log;
-        private IBackgroundMusic _BackgroundMusic;
-        private IDrawing _Draw;
-        private IGraphics _Graphics;
+        private Base _Base;
 
         public SRectF ScreenArea
         {
@@ -106,15 +98,7 @@ namespace Vocaluxe.Menu
 
         public void Initialize(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic, IDrawing Draw, IGraphics Graphics)
         {
-            _Config = Config;
-            _Settings = Settings;
-            _Theme = Theme;
-            _Helper = Helper;
-            _Log = Log;
-            _BackgroundMusic = BackgroundMusic;
-            _Draw = Draw;
-            _Graphics = Graphics;
-
+            _Base = new Base(Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics);
             Init();
         }
 
@@ -154,7 +138,7 @@ namespace Vocaluxe.Menu
             _MouseDY = 0;
 
             _Active = false;
-            _ScreenArea = new SRectF(0f, 0f, _Settings.GetRenderW(), _Settings.GetRenderH(), 0f);
+            _ScreenArea = new SRectF(0f, 0f, _Base.Settings.GetRenderW(), _Base.Settings.GetRenderH(), 0f);
             
             _ThemeName = String.Empty;
             _ThemeBackgrounds = null;
@@ -172,7 +156,7 @@ namespace Vocaluxe.Menu
         #region ThemeHandler
         public virtual void LoadTheme()
         {
-            string file = Path.Combine(_Theme.GetThemeScreensPath(), _ThemeName + ".xml");
+            string file = Path.Combine(_Base.Theme.GetThemeScreensPath(), _ThemeName + ".xml");
 
             XPathDocument xPathDoc = null;
             XPathNavigator navigator = null;
@@ -193,14 +177,14 @@ namespace Vocaluxe.Menu
                 if (xPathDoc != null)
                     xPathDoc = null;
 
-                _Log.LogError("Error loading theme file " + file + ": " + e.Message);
+                _Base.Log.LogError("Error loading theme file " + file + ": " + e.Message);
             }
 
             bool VersionCheck = false;
             if (loaded)
                 VersionCheck = CheckVersion(_ScreenVersion, navigator);
 
-            int SkinIndex = _Theme.GetSkinIndex();
+            int SkinIndex = _Base.Theme.GetSkinIndex();
 
             if (loaded && VersionCheck && SkinIndex != -1)
             {
@@ -210,14 +194,14 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeBackgrounds.Length; i++)
                     {
-                        CBackground background = new CBackground();
+                        CBackground background = new CBackground(_Base);
                         if (background.LoadTheme("//root/" + _ThemeName, _ThemeBackgrounds[i], navigator, SkinIndex))
                         {
                             _htBackgrounds.Add(_ThemeBackgrounds[i], AddBackground(background));
                         }
                         else
                         {
-                            _Log.LogError("Can't load Background \"" + _ThemeBackgrounds[i] + "\" in screen " + _ThemeName);
+                            _Base.Log.LogError("Can't load Background \"" + _ThemeBackgrounds[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -226,14 +210,14 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeStatics.Length; i++)
                     {
-                        CStatic stat = new CStatic();
+                        CStatic stat = new CStatic(_Base);
                         if (stat.LoadTheme("//root/" + _ThemeName, _ThemeStatics[i], navigator, SkinIndex))
                         {
                             _htStatics.Add(_ThemeStatics[i], AddStatic(stat));
                         }
                         else
                         {
-                            _Log.LogError("Can't load Static \"" + _ThemeStatics[i] + "\" in screen " + _ThemeName);
+                            _Base.Log.LogError("Can't load Static \"" + _ThemeStatics[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -242,14 +226,14 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeTexts.Length; i++)
                     {
-                        CText text = new CText();
+                        CText text = new CText(_Base);
                         if (text.LoadTheme("//root/" + _ThemeName, _ThemeTexts[i], navigator, SkinIndex))
                         {
                             _htTexts.Add(_ThemeTexts[i], AddText(text));
                         }
                         else
                         {
-                            _Log.LogError("Can't load Text \"" + _ThemeTexts[i] + "\" in screen " + _ThemeName);
+                            _Base.Log.LogError("Can't load Text \"" + _ThemeTexts[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -258,14 +242,14 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeButtons.Length; i++)
                     {
-                        CButton button = new CButton();
+                        CButton button = new CButton(_Base);
                         if (button.LoadTheme("//root/" + _ThemeName, _ThemeButtons[i], navigator, SkinIndex))
                         {
                             _htButtons.Add(_ThemeButtons[i], AddButton(button));
                         }
                         else
                         {
-                            _Log.LogError("Can't load Button \"" + _ThemeButtons[i] + "\" in screen " + _ThemeName);
+                            _Base.Log.LogError("Can't load Button \"" + _ThemeButtons[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -274,14 +258,14 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeSelectSlides.Length; i++)
                     {
-                        CSelectSlide slide = new CSelectSlide();
+                        CSelectSlide slide = new CSelectSlide(_Base);
                         if (slide.LoadTheme("//root/" + _ThemeName, _ThemeSelectSlides[i], navigator, SkinIndex))
                         {
                             _htSelectSlides.Add(_ThemeSelectSlides[i], AddSelectSlide(slide));
                         }
                         else
                         {
-                            _Log.LogError("Can't load SelectSlide \"" + _ThemeSelectSlides[i] + "\" in screen " + _ThemeName);
+                            _Base.Log.LogError("Can't load SelectSlide \"" + _ThemeSelectSlides[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -290,14 +274,14 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeSongMenus.Length; i++)
                     {
-                        CSongMenu sm = new CSongMenu();
+                        CSongMenu sm = new CSongMenu(_Base);
                         if (sm.LoadTheme("//root/" + _ThemeName, _ThemeSongMenus[i], navigator, SkinIndex))
                         {
                             _htSongMenus.Add(_ThemeSongMenus[i], AddSongMenu(sm));
                         }
                         else
                         {
-                            _Log.LogError("Can't load SongMenu \"" + _ThemeSongMenus[i] + "\" in screen " + _ThemeName);
+                            _Base.Log.LogError("Can't load SongMenu \"" + _ThemeSongMenus[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -306,14 +290,14 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeLyrics.Length; i++)
                     {
-                        CLyric lyric = new CLyric();
+                        CLyric lyric = new CLyric(_Base);
                         if (lyric.LoadTheme("//root/" + _ThemeName, _ThemeLyrics[i], navigator, SkinIndex))
                         {
                             _htLyrics.Add(_ThemeLyrics[i], AddLyric(lyric));
                         }
                         else
                         {
-                            _Log.LogError("Can't load Lyric \"" + _ThemeLyrics[i] + "\" in screen " + _ThemeName);
+                            _Base.Log.LogError("Can't load Lyric \"" + _ThemeLyrics[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -322,14 +306,14 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeSingNotes.Length; i++)
                     {
-                        CSingNotes notes = new CSingNotesClassic();
+                        CSingNotes notes = new CSingNotesClassic(_Base);
                         if (notes.LoadTheme("//root/" + _ThemeName, _ThemeSingNotes[i], navigator, SkinIndex))
                         {
                             _htSingNotes.Add(_ThemeSingNotes[i], AddSingNote(notes));
                         }
                         else
                         {
-                            _Log.LogError("Can't load SingBar \"" + _ThemeSingNotes[i] + "\" in screen " + _ThemeName);
+                            _Base.Log.LogError("Can't load SingBar \"" + _ThemeSingNotes[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -338,14 +322,14 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeNameSelections.Length; i++)
                     {
-                        CNameSelection nsel = new CNameSelection();
+                        CNameSelection nsel = new CNameSelection(_Base);
                         if (nsel.LoadTheme("//root/" + _ThemeName, _ThemeNameSelections[i], navigator, SkinIndex))
                         {
                             _htNameSelections.Add(_ThemeNameSelections[i], AddNameSelection(nsel));
                         }
                         else
                         {
-                            _Log.LogError("Can't load NameSelection \"" + _ThemeNameSelections[i] + "\" in screen " + _ThemeName);
+                            _Base.Log.LogError("Can't load NameSelection \"" + _ThemeNameSelections[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -354,14 +338,14 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeEqualizers.Length; i++)
                     {
-                        CEqualizer eq = new CEqualizer();
+                        CEqualizer eq = new CEqualizer(_Base);
                         if (eq.LoadTheme("//root/" + _ThemeName, _ThemeEqualizers[i], navigator, SkinIndex))
                         {
                             _htEqualizers.Add(_ThemeEqualizers[i], AddEqualizer(eq));
                         }
                         else
                         {
-                            _Log.LogError("Can't load equalizer \"" + _ThemeEqualizers[i] + "\" in screen " + _ThemeName);
+                            _Base.Log.LogError("Can't load equalizer \"" + _ThemeEqualizers[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -370,14 +354,14 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemePlaylists.Length; i++)
                     {
-                        CPlaylist pls = new CPlaylist();
+                        CPlaylist pls = new CPlaylist(_Base);
                         if (pls.LoadTheme("//root/" + _ThemeName, _ThemePlaylists[i], navigator, SkinIndex))
                         {
                             _htPlaylists.Add(_ThemePlaylists[i], AddPlaylist(pls));
                         }
                         else
                         {
-                            _Log.LogError("Can't load Playlist \"" + _ThemePlaylists[i] + "\" in screen " + _ThemeName);
+                            _Base.Log.LogError("Can't load Playlist \"" + _ThemePlaylists[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -395,7 +379,7 @@ namespace Vocaluxe.Menu
             settings.Encoding = Encoding.UTF8;
             settings.ConformanceLevel = ConformanceLevel.Document;
 
-            string file = Path.Combine(_Theme.GetThemeScreensPath(), _ThemeName + ".xml");
+            string file = Path.Combine(_Base.Theme.GetThemeScreensPath(), _ThemeName + ".xml");
             XmlWriter writer = XmlWriter.Create(file, settings);
 
             writer.WriteStartDocument();
@@ -660,6 +644,74 @@ namespace Vocaluxe.Menu
         #endregion GetLists
 
         #region ElementHandler
+        #region Create Elements
+        public CButton GetNewButton()
+        {
+            return new CButton(_Base);
+        }
+
+        public CText GetNewText()
+        {
+            return new CText(_Base);
+        }
+
+        public CText GetNewText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text)
+        {
+            return new CText(_Base, x, y, z, h, mw, align, style, font, col, text);
+        }
+
+
+        public CBackground GetNewBackground()
+        {
+            return new CBackground(_Base);
+        }
+
+        public CStatic GetNewStatic()
+        {
+            return new CStatic(_Base);
+        }
+
+        public CStatic GetNewStatic(STexture Texture, SColorF Color, SRectF Rect)
+        {
+            return new CStatic(_Base, Texture, Color, Rect);
+        }
+
+        public CSelectSlide GetNewSelectSlide()
+        {
+            return new CSelectSlide(_Base);
+        }
+
+        public CSongMenu GetNewSongMenu()
+        {
+            return new CSongMenu(_Base);
+        }
+
+        public CLyric GetNewLyric()
+        {
+            return new CLyric(_Base);
+        }
+
+        public CSingNotes GetNewSingNotes()
+        {
+            return new CSingNotesClassic(_Base);
+        }
+
+        public CNameSelection GetNewNameSelection()
+        {
+            return new CNameSelection(_Base);
+        }
+
+        public CEqualizer GetNewEqualizer()
+        {
+            return new CEqualizer(_Base);
+        }
+
+        public CPlaylist GetNewPlaylist()
+        {
+            return new CPlaylist(_Base);
+        }
+        #endregion Create Elements
+
         #region Get Arrays
         public CButton[] Buttons
         {
@@ -759,7 +811,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                _Log.LogError("Can't find Background Element \"" + key + "\" in Screen " + _ThemeName);
+                _Base.Log.LogError("Can't find Background Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -772,7 +824,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                _Log.LogError("Can't find Statics Element \"" + key + "\" in Screen " + _ThemeName);
+                _Base.Log.LogError("Can't find Statics Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -785,7 +837,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                _Log.LogError("Can't find Text Element \"" + key + "\" in Screen " + _ThemeName);
+                _Base.Log.LogError("Can't find Text Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -798,7 +850,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                _Log.LogError("Can't find Button Element \"" + key + "\" in Screen " + _ThemeName);
+                _Base.Log.LogError("Can't find Button Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -811,7 +863,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                _Log.LogError("Can't find SongMenu Element \"" + key + "\" in Screen " + _ThemeName);
+                _Base.Log.LogError("Can't find SongMenu Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -824,7 +876,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                _Log.LogError("Can't find Lyric Element \"" + key + "\" in Screen " + _ThemeName);
+                _Base.Log.LogError("Can't find Lyric Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -837,7 +889,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                _Log.LogError("Can't find SelectSlide Element \"" + key + "\" in Screen " + _ThemeName);
+                _Base.Log.LogError("Can't find SelectSlide Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -850,7 +902,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                _Log.LogError("Can't find SingBar Element \"" + key + "\" in Screen " + _ThemeName);
+                _Base.Log.LogError("Can't find SingBar Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -863,7 +915,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                _Log.LogError("Can't find NameSelection Element \"" + key + "\" in Screen " + _ThemeName);
+                _Base.Log.LogError("Can't find NameSelection Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -876,7 +928,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                _Log.LogError("Can't find Equalizer Element \"" + key + "\" in Screen " + _ThemeName);
+                _Base.Log.LogError("Can't find Equalizer Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -889,7 +941,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                _Log.LogError("Can't find Playlist Element \"" + key + "\" in Screen " + _ThemeName);
+                _Base.Log.LogError("Can't find Playlist Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -899,7 +951,7 @@ namespace Vocaluxe.Menu
         #region MenuHandler
         public virtual bool HandleInput(KeyEvent KeyEvent)
         {
-            if (!_Settings.IsTabNavigation())
+            if (!_Base.Settings.IsTabNavigation())
             {
                 if (KeyEvent.Key == Keys.Left)
                 {
@@ -938,25 +990,25 @@ namespace Vocaluxe.Menu
                 if (KeyEvent.Key == Keys.Right)
                     NextElement();
             }
-            if (_BackgroundMusic.IsDisabled())
+            if (_Base.BackgroundMusic.IsDisabled())
             {
                 if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Add || KeyEvent.Key == Keys.PageUp))
-                    _Config.SetBackgroundMusicVolume(_Config.GetBackgroundMusicVolume() + 5);
+                    _Base.Config.SetBackgroundMusicVolume(_Base.Config.GetBackgroundMusicVolume() + 5);
                 else if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Subtract || KeyEvent.Key == Keys.PageDown))
-                    _Config.SetBackgroundMusicVolume(_Config.GetBackgroundMusicVolume() - 5);
+                    _Base.Config.SetBackgroundMusicVolume(_Base.Config.GetBackgroundMusicVolume() - 5);
                 else if (KeyEvent.Key == Keys.MediaNextTrack)
-                    _BackgroundMusic.Next();
+                    _Base.BackgroundMusic.Next();
                 else if (KeyEvent.Key == Keys.MediaPreviousTrack)
-                    _BackgroundMusic.Previous();
+                    _Base.BackgroundMusic.Previous();
                 else if (KeyEvent.Key == Keys.MediaPlayPause)
                 {
-                    if (_BackgroundMusic.IsPlaying())
-                        _BackgroundMusic.Pause();
+                    if (_Base.BackgroundMusic.IsPlaying())
+                        _Base.BackgroundMusic.Pause();
                     else
-                        _BackgroundMusic.Play();
+                        _Base.BackgroundMusic.Play();
                 }
 
-                _BackgroundMusic.ApplyVolume();
+                _Base.BackgroundMusic.ApplyVolume();
             }
 
             return true;
@@ -1367,10 +1419,10 @@ namespace Vocaluxe.Menu
 
         public void SelectByMouse(int x, int y)
         {
-            float z = _Settings.GetZFar();
+            float z = _Base.Settings.GetZFar();
             for (int i = 0; i < _Interactions.Count; i++)
             {
-                if ((_Settings.GetGameState() == EGameState.EditTheme) || (!_Interactions[i].ThemeEditorOnly && _IsVisible(i)))
+                if ((_Base.Settings.GetGameState() == EGameState.EditTheme) || (!_Interactions[i].ThemeEditorOnly && _IsVisible(i)))
                 {
                     if (_IsMouseOver(x, y, _Interactions[i]))
                     {
@@ -1421,7 +1473,7 @@ namespace Vocaluxe.Menu
                         return true;
                     break;
                 case EType.TText:
-                    RectangleF bounds = _Draw.GetTextBounds(_Texts[interact.Num]);
+                    RectangleF bounds = _Base.Drawing.GetTextBounds(_Texts[interact.Num]);
                     if (CHelper.IsInBounds(new SRectF(_Texts[interact.Num].X, _Texts[interact.Num].Y, bounds.Width, bounds.Height, _Texts[interact.Num].Z), x, y))
                         return true;
                     break;
@@ -1472,7 +1524,7 @@ namespace Vocaluxe.Menu
                 case EType.TPlaylist:
                     return _Playlists[interact.Num].Rect.Z;
             }
-            return _Settings.GetZFar();
+            return _Base.Settings.GetZFar();
         }
 
         private float _GetZValue(int interaction)
@@ -1507,13 +1559,13 @@ namespace Vocaluxe.Menu
                     return _Playlists[_Interactions[interaction].Num].Rect.Z;
             }
 
-            return _Settings.GetZFar();
+            return _Base.Settings.GetZFar();
         }
 
         private void _NextInteraction()
         {
             _UnsetSelected();
-            if (_Settings.GetGameState() != EGameState.EditTheme)
+            if (_Base.Settings.GetGameState() != EGameState.EditTheme)
             {
                 bool found = false;
                 int start = _Selection;
@@ -1540,7 +1592,7 @@ namespace Vocaluxe.Menu
         private void _PrevInteraction()
         {
             _UnsetSelected();
-            if (_Settings.GetGameState() != EGameState.EditTheme)
+            if (_Base.Settings.GetGameState() != EGameState.EditTheme)
             {
                 bool found = false;
                 int start = _Selection;
@@ -1687,13 +1739,13 @@ namespace Vocaluxe.Menu
                 switch (Key.Key)
                 {
                     case Keys.Up:
-                        actualRect = new SRectF(actualRect.X, _Settings.GetRenderH(), 1, 1, actualRect.Z);
+                        actualRect = new SRectF(actualRect.X, _Base.Settings.GetRenderH(), 1, 1, actualRect.Z);
                         break;
                     case Keys.Down:
                         actualRect = new SRectF(actualRect.X, 0, 1, 1, actualRect.Z);
                         break;
                     case Keys.Left:
-                        actualRect = new SRectF(_Settings.GetRenderW(), actualRect.Y, 1, 1, actualRect.Z);
+                        actualRect = new SRectF(_Base.Settings.GetRenderW(), actualRect.Y, 1, 1, actualRect.Z);
                         break;
                     case Keys.Right:
                         actualRect = new SRectF(0, actualRect.Y, 1, 1, actualRect.Z);
@@ -2211,7 +2263,7 @@ namespace Vocaluxe.Menu
                     msg += "the file is for newer program versions! ";
 
                 msg += "Current screen version is " + Version.ToString();
-                _Log.LogError(msg);
+                _Base.Log.LogError(msg);
             }
             return false;
         }
@@ -2221,47 +2273,71 @@ namespace Vocaluxe.Menu
             string value = String.Empty;
 
             // Backgrounds
-            CBackground background = new CBackground();
+            CBackground background = new CBackground(_Base);
             int i = 1;
             while (background.LoadTheme("//root/" + _ThemeName, "Background" + i.ToString(), navigator, SkinIndex))
             {
                 AddBackground(background);
-                background = new CBackground();
+                background = new CBackground(_Base);
                 i++;
             }  
             
             // Statics
-            CStatic stat = new CStatic();
+            CStatic stat = new CStatic(_Base);
             i = 1;
             while (stat.LoadTheme("//root/" + _ThemeName, "Static" + i.ToString(), navigator, SkinIndex))
             {
                 AddStatic(stat);
-                stat = new CStatic();
+                stat = new CStatic(_Base);
                 i++;
             }  
 
             // Texts
-            CText text = new CText();
+            CText text = new CText(_Base);
             i = 1;
             while (text.LoadTheme("//root/" + _ThemeName, "Text" + i.ToString(), navigator, SkinIndex))
             {
                 AddText(text);
-                text = new CText();
+                text = new CText(_Base);
                 i++;
             }  
         }
 
         private void ReloadThemeEditMode()
         {
-            _Theme.UnloadSkins();
-            _Theme.ListSkins();
-            _Theme.LoadSkins();
-            _Theme.LoadTheme();
-            _Graphics.ReloadTheme();
+            _Base.Theme.UnloadSkins();
+            _Base.Theme.ListSkins();
+            _Base.Theme.LoadSkins();
+            _Base.Theme.LoadTheme();
+            _Base.Graphics.ReloadTheme();
 
             OnShow();
             OnShowFinish();
         }
         #endregion Theme Handling
+    }
+
+    public class Base
+    {
+        public IConfig Config;
+        public ISettings Settings;
+        public ITheme Theme;
+        public IHelper Helper;
+        public ILog Log;
+        public IBackgroundMusic BackgroundMusic;
+        public IDrawing Drawing;
+        public IGraphics Graphics;
+
+        public Base(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic, IDrawing Draw, IGraphics Graphics)
+        {
+            this.Config = Config;
+            this.Settings = Settings;
+            this.Theme = Theme;
+            this.Helper = Helper;
+            this.Log = Log;
+            this.BackgroundMusic = BackgroundMusic;
+            this.Drawing = Draw;
+            this.Graphics = Graphics;
+        }
     }
 }

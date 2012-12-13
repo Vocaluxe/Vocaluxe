@@ -1354,7 +1354,7 @@ namespace Vocaluxe.Screens
                                 TimeRect trect = new TimeRect();
                                 trect.startBeat = Line[j].FirstNoteBeat;
                                 trect.endBeat = Line[j].EndBeat;
-                                trect.rect = new CStatic(new STexture(-1),
+                                trect.rect = GetNewStatic(new STexture(-1),
                                     new SColorF(1f, 1f, 1f, 1f),
                                     new SRectF(stat.Rect.X + stat.Rect.W * ((CGame.GetTimeFromBeats(trect.startBeat, song.BPM) + song.Gap - song.Start) / TotalTime),
                                         stat.Rect.Y,

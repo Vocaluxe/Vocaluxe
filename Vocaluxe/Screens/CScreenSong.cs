@@ -103,7 +103,7 @@ namespace Vocaluxe.Screens
             Statics[htStatics(StaticOptionsBG)].Visible = false;
             Playlists[htPlaylists(Playlist)].Visible = false;
 
-            DragAndDropCover = new CStatic();
+            DragAndDropCover = GetNewStatic();
 
             Playlists[htPlaylists(Playlist)].Init();
 

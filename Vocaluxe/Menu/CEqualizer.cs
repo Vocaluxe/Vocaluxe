@@ -31,6 +31,7 @@ namespace Vocaluxe.Menu
 
     class CEqualizer : IMenuElement
     {
+        private Base _Base;
         private SThemeEqualizer _Theme;
         private bool _ThemeLoaded;
 
@@ -54,8 +55,9 @@ namespace Vocaluxe.Menu
 
         private float[] _Bars;
 
-        public CEqualizer()
+        public CEqualizer(Base Base)
         {
+            _Base = Base;
             _Theme = new SThemeEqualizer();
             _ThemeLoaded = false;
 

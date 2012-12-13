@@ -23,6 +23,7 @@ namespace Vocaluxe.Menu
 
     class CButton : IMenuElement
     {
+        private Base _Base;
         private SThemeButton _Theme;
         private bool _ThemeLoaded;
 
@@ -71,16 +72,17 @@ namespace Vocaluxe.Menu
             return _Theme.Name;
         }
 
-        public CButton()
+        public CButton(Base Base)
         {
+            _Base = Base;
             _Theme = new SThemeButton();
             Rect = new SRectF();
             Color = new SColorF();
             SColor = new SColorF();
 
             SelText = false;
-            Text = new CText();
-            SText = new CText();
+            Text = new CText(_Base);
+            SText = new CText(_Base);
             Selected = false;
             Visible = true;
             EditMode = false;

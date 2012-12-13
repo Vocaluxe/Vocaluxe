@@ -13,6 +13,7 @@ namespace Vocaluxe.Menu.SongMenu
 {
     class CSongMenuTileBoard : CSongMenuFramework
     {
+        new private Base _Base;
         private SRectF _ScrollRect;
         private List<CStatic> _Tiles;
         private CStatic _CoverBig;
@@ -43,6 +44,12 @@ namespace Vocaluxe.Menu.SongMenu
 
         private bool _SmallView = false;
 
+        public CSongMenuTileBoard(Base Base)
+            : base(Base)
+        {
+            _Base = Base;
+        }
+        
         public override int GetActualSelection()
         {
             return _actualSelection;
@@ -74,7 +81,7 @@ namespace Vocaluxe.Menu.SongMenu
                 {
                     SRectF rect = new SRectF(_Theme.songMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
                         _Theme.songMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
-                    CStatic tile = new CStatic(_CoverTexture, Color, rect);
+                    CStatic tile = new CStatic(_Base, _CoverTexture, Color, rect);
                     _Tiles.Add(tile);
                 }
             }
@@ -518,7 +525,7 @@ namespace Vocaluxe.Menu.SongMenu
                 if (tile.Selected)
                     return new CStatic(tile);
             }
-            return new CStatic();
+            return new CStatic(_Base);
         }
 
         public override void SetSelectedSong(int VisibleSongNr)
@@ -771,7 +778,7 @@ namespace Vocaluxe.Menu.SongMenu
                     {
                         SRectF rect = new SRectF(_Theme.songMenuTileBoard.TileRectSmall.X + j * (_TileW + _SpaceW),
                             _Theme.songMenuTileBoard.TileRectSmall.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
-                        CStatic tile = new CStatic(_CoverTexture, Color, rect);
+                        CStatic tile = new CStatic(_Base, _CoverTexture, Color, rect);
                         _Tiles.Add(tile);
                     }
                 }
@@ -797,7 +804,7 @@ namespace Vocaluxe.Menu.SongMenu
                     {
                         SRectF rect = new SRectF(_Theme.songMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
                             _Theme.songMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
-                        CStatic tile = new CStatic(_CoverTexture, Color, rect);
+                        CStatic tile = new CStatic(_Base, _CoverTexture, Color, rect);
                         _Tiles.Add(tile);
                     }
                 }

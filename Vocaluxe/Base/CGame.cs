@@ -7,6 +7,7 @@ using System.Text;
 using Vocaluxe.GameModes;
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Lib.Song;
+using Vocaluxe.Menu;
 
 namespace Vocaluxe.Base
 {

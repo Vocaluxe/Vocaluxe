@@ -37,8 +37,9 @@ namespace Vocaluxe.Menu
         }
     }
 
-    class CText : IMenuElement
+    public class CText : IMenuElement
     {
+        private Base _Base;
         private SThemeText _Theme;
         private bool _ThemeLoaded;
 
@@ -221,8 +222,9 @@ namespace Vocaluxe.Menu
 
         public float Alpha = 1f;
 
-        public CText()
+        public CText(Base Base)
         {
+            _Base = Base;
             _Theme = new SThemeText();
             _ThemeLoaded = false;
             _ButtonText = false;
@@ -252,6 +254,7 @@ namespace Vocaluxe.Menu
 
         public CText(CText text)
         {
+            _Base = text._Base;
             _Theme = new SThemeText();
             _ThemeLoaded = false;
             _ButtonText = false;
@@ -281,8 +284,9 @@ namespace Vocaluxe.Menu
             EditMode = text.EditMode;
         }
 
-        public CText(float x, float y, float z, EAlignment align, float h, float mw, float r, float g, float b, float a, EStyle style, string font, string text, float rspace, float rheight)
+        public CText(Base Base, float x, float y, float z, EAlignment align, float h, float mw, float r, float g, float b, float a, EStyle style, string font, string text, float rspace, float rheight)
         {
+            _Base = Base;
             _Theme = new SThemeText();
             _ThemeLoaded = false;
             _ButtonText = false;
@@ -318,8 +322,9 @@ namespace Vocaluxe.Menu
             ReflectionHeight = rheight;
         }
 
-        public CText(float x, float y, float z, EAlignment align, float h, float mw, float r, float g, float b, float a, EStyle style, string font, string text)
+        public CText(Base Base, float x, float y, float z, EAlignment align, float h, float mw, float r, float g, float b, float a, EStyle style, string font, string text)
         {
+            _Base = Base;
             _Theme = new SThemeText();
             _ThemeLoaded = false;
             _ButtonText = false;
@@ -353,8 +358,9 @@ namespace Vocaluxe.Menu
             Reflection = false;
         }
 
-        public CText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text, float rspace, float rheight)
+        public CText(Base Base, float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text, float rspace, float rheight)
         {
+            _Base = Base;
             _Theme = new SThemeText();
             _ThemeLoaded = false;
             _ButtonText = false;
@@ -390,8 +396,9 @@ namespace Vocaluxe.Menu
             ReflectionHeight = rheight;
         }
 
-        public CText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text)
+        public CText(Base Base, float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text)
         {
+            _Base = Base;
             _Theme = new SThemeText();
             _ThemeLoaded = false;
             _ButtonText = false;

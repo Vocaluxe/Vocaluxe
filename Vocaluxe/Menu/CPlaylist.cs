@@ -58,18 +58,21 @@ namespace Vocaluxe.Menu
 
         class PlaylistElement
         {
+            Base _Base;
             public CStatic Cover;
             public CStatic Background;
             public CText Text1;
             public CSelectSlide SelectSlide;
             public int Content;
 
-            public PlaylistElement()
+            public PlaylistElement(Base Base)
             {
+                _Base = Base;
             }
 
             public PlaylistElement(PlaylistElement pe)
             {
+                _Base = pe._Base;
                 Cover = new CStatic(pe.Cover);
                 Background = new CStatic(pe.Background);
                 Text1 = new CText(pe.Text1);
@@ -110,6 +113,7 @@ namespace Vocaluxe.Menu
             }
         }
 
+        private Base _Base;
         private SThemePlaylist _Theme;
         private bool _ThemeLoaded;
 
@@ -158,7 +162,7 @@ namespace Vocaluxe.Menu
         public int Offset = 0;
         public int CurrentPlaylistElement = -1;
 
-        private PlaylistElement ChangeOrderElement = new PlaylistElement();
+        private PlaylistElement ChangeOrderElement;
         private int ChangeOrderSource = -1;
         private int OldMousePosX = 0;
         private int OldMousePosY = 0;
@@ -167,19 +171,20 @@ namespace Vocaluxe.Menu
 
         //private static
 
-        public CPlaylist()
+        public CPlaylist(Base Base)
         {
+            _Base = Base;
             _Theme = new SThemePlaylist();
-            _Theme.Text1 = new CText();
-            _Theme.StaticCover = new CStatic();
-            _Theme.StaticPlaylistFooter = new CStatic();
-            _Theme.StaticPlaylistHeader = new CStatic();
-            _Theme.ButtonPlaylistName = new CButton();
-            _Theme.ButtonPlaylistClose = new CButton();
-            _Theme.ButtonPlaylistDelete = new CButton();
-            _Theme.ButtonPlaylistSave = new CButton();
-            _Theme.ButtonPlaylistSing = new CButton();
-            _Theme.SelectSlideGameMode = new CSelectSlide();
+            _Theme.Text1 = new CText(_Base);
+            _Theme.StaticCover = new CStatic(_Base);
+            _Theme.StaticPlaylistFooter = new CStatic(_Base);
+            _Theme.StaticPlaylistHeader = new CStatic(_Base);
+            _Theme.ButtonPlaylistName = new CButton(_Base);
+            _Theme.ButtonPlaylistClose = new CButton(_Base);
+            _Theme.ButtonPlaylistDelete = new CButton(_Base);
+            _Theme.ButtonPlaylistSave = new CButton(_Base);
+            _Theme.ButtonPlaylistSing = new CButton(_Base);
+            _Theme.SelectSlideGameMode = new CSelectSlide(_Base);
 
             CompleteRect = new SRectF();
             Rect = new SRectF();
@@ -190,6 +195,7 @@ namespace Vocaluxe.Menu
             PlaylistElementContents = new List<PlaylistElementContent>();
 
             _Interactions = new CObjectInteractions();
+            ChangeOrderElement = new PlaylistElement(_Base);
 
             Visible = false;
             Selected = false;    
@@ -1093,9 +1099,9 @@ namespace Vocaluxe.Menu
             
             for (int i = 0; i < Math.Floor(Rect.H / _Theme.EntryHeight); i++)
             {
-                PlaylistElement en = new PlaylistElement();
+                PlaylistElement en = new PlaylistElement(_Base);
 
-                en.Background = new CStatic(_Theme.TextureBackgroundName, BackgroundColor, new SRectF(Rect.X, Rect.Y + (i * _Theme.EntryHeight), Rect.W, _Theme.EntryHeight, Rect.Z));
+                en.Background = new CStatic(_Base, _Theme.TextureBackgroundName, BackgroundColor, new SRectF(Rect.X, Rect.Y + (i * _Theme.EntryHeight), Rect.W, _Theme.EntryHeight, Rect.Z));
 
                 en.Cover = new CStatic(_Theme.StaticCover);
                 en.Cover.Rect.Y += Rect.Y + (i * _Theme.EntryHeight);

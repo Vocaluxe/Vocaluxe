@@ -40,6 +40,7 @@ namespace Vocaluxe.Menu
 
     class CSelectSlide : IMenuElement, ICloneable
     {
+        private Base _Base;
         private SThemeSelectSlide _Theme;
         private bool _ThemeLoaded;
 
@@ -141,8 +142,9 @@ namespace Vocaluxe.Menu
             }
         }
 
-        public CSelectSlide()
+        public CSelectSlide(Base Base)
         {
+            _Base = Base;
             _Theme = new SThemeSelectSlide();
             _ThemeLoaded = false;
 
@@ -169,6 +171,7 @@ namespace Vocaluxe.Menu
 
         public CSelectSlide(CSelectSlide slide)
         {
+            _Base = slide._Base;
             _Theme = new SThemeSelectSlide();
             
             _Theme.TextureArrowLeftName = slide._Theme.TextureArrowLeftName;
@@ -763,7 +766,7 @@ namespace Vocaluxe.Menu
             _ValueBounds.Clear();
             for (int i = 0; i < numvis; i++)
             {
-                CText Text = new CText(0, 0, 0, TextH, MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, TextColor, _ValueNames[i + offset]);
+                CText Text = new CText(_Base, 0, 0, 0, TextH, MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, TextColor, _ValueNames[i + offset]);
                 SColorF Alpha = new SColorF(1f, 1f, 1f, 0.35f);
                 if (i + offset == _Selection)
                 {

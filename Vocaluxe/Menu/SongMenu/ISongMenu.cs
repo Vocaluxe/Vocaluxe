@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Vocaluxe.Base;
-using Vocaluxe.Lib.Draw;
 using Vocaluxe.PartyModes;
 
 namespace Vocaluxe.Menu.SongMenu

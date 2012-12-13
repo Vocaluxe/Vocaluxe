@@ -30,6 +30,7 @@ namespace Vocaluxe.Menu
 
     class CLyric : IMenuElement
     {
+        private Base _Base;
         private SThemeLyrics _Theme;
         private bool _ThemeLoaded;
 
@@ -87,8 +88,9 @@ namespace Vocaluxe.Menu
             set { _Style = value; }
         }
 
-        public CLyric()
+        public CLyric(Base Base)
         {
+            _Base = Base;
             _Theme = new SThemeLyrics();
             _ThemeLoaded = false;
             Color = new SColorF();
@@ -101,7 +103,7 @@ namespace Vocaluxe.Menu
             _H = 1f;
             _width = 1f;
             _Notes = new List<SNote>();
-            _Text = new CText();
+            _Text = new CText(_Base);
 
             _Style = ELyricStyle.Fill;
         }
@@ -145,7 +147,7 @@ namespace Vocaluxe.Menu
             {
                 _Theme.Name = ElementName;
                 LoadTextures();
-                _Text = new CText(_X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Normal", Color, String.Empty);
+                _Text = new CText(_Base, _X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Normal", Color, String.Empty);
             }
             return _ThemeLoaded;
         }

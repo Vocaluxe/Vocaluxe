@@ -15,29 +15,7 @@ using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
 
 namespace Vocaluxe.Base
-{
-    public enum EAlignment
-    {
-        Left,
-        Center,
-        Right
-    }
-
-    public enum EHAlignment
-    {
-        Top,
-        Center,
-        Bottom
-    }
-
-    public enum EStyle
-    {
-        Normal,
-        Italic,
-        Bold,
-        BoldItalic
-    }
-   
+{  
     class CGlyph
     {
         private float _SIZEh = 50f;

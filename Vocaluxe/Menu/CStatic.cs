@@ -5,9 +5,6 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 
-using Vocaluxe.Base;
-using Vocaluxe.Lib.Draw;
-
 namespace Vocaluxe.Menu
 {
     struct SThemeStatic
@@ -19,6 +16,8 @@ namespace Vocaluxe.Menu
 
     class CStatic : IMenuElement
     {
+        private Base _Base;
+
         private SThemeStatic _Theme;
         private bool _ThemeLoaded;
 
@@ -35,7 +34,7 @@ namespace Vocaluxe.Menu
                 if (_Texture.index != -1)
                     return _Texture;
                 else
-                    return CTheme.GetSkinTexture(_Theme.TextureName);
+                    return _Base.Theme.GetSkinTexture(_Theme.TextureName);
             }
 
             set { _Texture = value; }
@@ -55,8 +54,9 @@ namespace Vocaluxe.Menu
 
         public EAspect Aspect = EAspect.Stretch;
 
-        public CStatic()
+        public CStatic(Base Base)
         {
+            _Base = Base;
             _Theme = new SThemeStatic();
             _ThemeLoaded = false;
 
@@ -74,6 +74,7 @@ namespace Vocaluxe.Menu
 
         public CStatic(CStatic s)
         {
+            _Base = s._Base;
             _Theme = new SThemeStatic();
             _ThemeLoaded = false;
 
@@ -89,8 +90,9 @@ namespace Vocaluxe.Menu
             Visible = s.Visible;
         }
 
-        public CStatic(STexture texture, SColorF color, SRectF rect)
+        public CStatic(Base Base, STexture texture, SColorF color, SRectF rect)
         {
+            _Base = Base;
             _Theme = new SThemeStatic();
             _ThemeLoaded = false;
 
@@ -106,8 +108,9 @@ namespace Vocaluxe.Menu
             Visible = true;
         }
 
-        public CStatic(string TextureSkinName, SColorF color, SRectF rect)
+        public CStatic(Base Base, string TextureSkinName, SColorF color, SRectF rect)
         {
+            _Base = Base;
             _Theme = new SThemeStatic();
             _Theme.TextureName = TextureSkinName;
             _ThemeLoaded = false;
@@ -139,7 +142,7 @@ namespace Vocaluxe.Menu
 
             if (CHelper.GetValueFromXML(item + "/Color", navigator, ref _Theme.ColorName, String.Empty))
             {
-                _ThemeLoaded &= CTheme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
+                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
@@ -239,7 +242,7 @@ namespace Vocaluxe.Menu
             if (_Texture.index != -1)
                 texture = _Texture;
             else
-                texture = CTheme.GetSkinTexture(_Theme.TextureName);
+                texture = _Base.Theme.GetSkinTexture(_Theme.TextureName);
 
             SRectF bounds = new SRectF(
                 Rect.X - Rect.W * (scale - 1f),
@@ -263,18 +266,18 @@ namespace Vocaluxe.Menu
             }
             
             SColorF color = new SColorF(Color.R, Color.G, Color.B, Color.A * Alpha);
-            if (Visible || ForceDraw || (CSettings.GameState == EGameState.EditTheme))
+            if (Visible || ForceDraw || (_Base.Settings.GetGameState() == EGameState.EditTheme))
             {
-                CDraw.DrawTexture(texture, rect, color, bounds);
+                _Base.Drawing.DrawTexture(texture, rect, color, bounds);
                 if (Reflection)
                 {
-                    CDraw.DrawTextureReflection(texture, rect, color, bounds, ReflectionSpace, ReflectionHeight);
+                    _Base.Drawing.DrawTextureReflection(texture, rect, color, bounds, ReflectionSpace, ReflectionHeight);
                 }
             }
 
-            if (Selected && (CSettings.GameState == EGameState.EditTheme))
+            if (Selected && (_Base.Settings.GetGameState() == EGameState.EditTheme))
             {
-                CDraw.DrawColor(new SColorF(1f, 1f, 1f, 0.5f), rect);
+                _Base.Drawing.DrawColor(new SColorF(1f, 1f, 1f, 0.5f), rect);
             }
         }
 
@@ -285,7 +288,7 @@ namespace Vocaluxe.Menu
         public void LoadTextures()
         {
             if (_Theme.ColorName != String.Empty)
-                Color = CTheme.GetColor(_Theme.ColorName);
+                Color = _Base.Theme.GetColor(_Theme.ColorName);
         }
 
         public void ReloadTextures()

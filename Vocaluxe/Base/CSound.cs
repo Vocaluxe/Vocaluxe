@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 
 using Vocaluxe.Lib.Sound;
+using Vocaluxe.Menu;
 
 namespace Vocaluxe.Base
 {
