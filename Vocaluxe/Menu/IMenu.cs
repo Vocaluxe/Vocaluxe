@@ -48,6 +48,9 @@ namespace Vocaluxe.Menu
         void SetBackgroundMusicVolume(int NewVolume);
         int GetBackgroundMusicVolume();
 
+        EOffOn GetVideosToBackground();
+        EOffOn GetVideoBackgrounds();
+
         ESongMenu GetSongMenuType();
     }
 
@@ -68,6 +71,10 @@ namespace Vocaluxe.Menu
         string GetThemeScreensPath();
         int GetSkinIndex();
         STexture GetSkinTexture(string TextureName);
+        STexture GetSkinVideoTexture(string VideoName);
+
+        void SkinVideoResume(string VideoName);
+        void SkinVideoPause(string VideoName);
 
         SColorF GetColor(string ColorName);
         bool GetColor(string ColorName, int SkinIndex, ref SColorF Color);
@@ -86,6 +93,8 @@ namespace Vocaluxe.Menu
     {
         bool IsDisabled();
         bool IsPlaying();
+        bool SongHasVideo();
+        bool VideoEnabled();
         
         void Next();
         void Previous();
@@ -93,12 +102,15 @@ namespace Vocaluxe.Menu
         void Play();
 
         void ApplyVolume();
+
+        STexture GetVideoTexture();
     }
 
     public interface IDrawing
     {
         RectangleF GetTextBounds(CText text);
         
+        void DrawTexture(STexture Texture, SRectF Rect);
         void DrawTexture(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds);
         void DrawTextureReflection(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds, float ReflectionSpace, float ReflectionHeight);
 

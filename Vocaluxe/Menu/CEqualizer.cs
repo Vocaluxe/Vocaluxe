@@ -162,9 +162,9 @@ namespace Vocaluxe.Menu
                 writer.WriteElementString("NumBars", _Theme.NumBars.ToString("#0"));
                 writer.WriteComment("<Space>: Space between equalizer-elements.");
                 writer.WriteElementString("Space", Space.ToString("#0.00"));
-                writer.WriteComment("<Style>: Style of equalizer-elements: " + CConfig.ListStrings(Enum.GetNames(typeof(EEqualizerStyle))));
+                writer.WriteComment("<Style>: Style of equalizer-elements: " + CHelper.ListStrings(Enum.GetNames(typeof(EEqualizerStyle))));
                 writer.WriteElementString("Style", Enum.GetName(typeof(EEqualizerStyle), _Theme.Style));
-                writer.WriteComment("<DrawNegative>: Draw negative values: " + CConfig.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteComment("<DrawNegative>: Draw negative values: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
                 writer.WriteElementString("DrawNegative", Enum.GetName(typeof(EOffOn), _Theme.DrawNegative));
 
                 writer.WriteComment("<Color>: Equalizer color from ColorScheme (high priority)");

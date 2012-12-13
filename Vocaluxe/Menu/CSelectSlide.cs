@@ -527,7 +527,7 @@ namespace Vocaluxe.Menu
                 writer.WriteComment("<TextFont>: Text font name");
                 writer.WriteElementString("TextFont", _Theme.TextFont);
 
-                writer.WriteComment("<TextStyle>: Text style: " + CConfig.ListStrings(Enum.GetNames(typeof(EStyle))));
+                writer.WriteComment("<TextStyle>: Text style: " + CHelper.ListStrings(Enum.GetNames(typeof(EStyle))));
                 writer.WriteElementString("TextStyle", Enum.GetName(typeof(EStyle), _Theme.TextStyle));
 
                 writer.WriteComment("<NumVisible>: Number of visible elements in the slide");

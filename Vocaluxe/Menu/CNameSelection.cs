@@ -232,7 +232,7 @@ namespace Vocaluxe.Menu
                     writer.WriteElementString("B", _Theme.NameColor.B.ToString("#0.00"));
                     writer.WriteElementString("A", _Theme.NameColor.A.ToString("#0.00"));
                 }
-                writer.WriteComment("<Style>: Text style: " + CConfig.ListStrings(Enum.GetNames(typeof(EStyle))));
+                writer.WriteComment("<Style>: Text style: " + CHelper.ListStrings(Enum.GetNames(typeof(EStyle))));
                 writer.WriteElementString("Style", _Theme.NameStyle.ToString());
                 writer.WriteComment("<H>: Text height");
                 writer.WriteElementString("H", _Theme.NameHeight.ToString("#0"));

@@ -571,13 +571,13 @@ namespace Vocaluxe.Menu
                     writer.WriteElementString("SA", SColor.A.ToString("#0.00"));
                 }
 
-                writer.WriteComment("<Align>: Text align horizontal: " + CConfig.ListStrings(Enum.GetNames(typeof(EAlignment))));
+                writer.WriteComment("<Align>: Text align horizontal: " + CHelper.ListStrings(Enum.GetNames(typeof(EAlignment))));
                 writer.WriteElementString("Align", Enum.GetName(typeof(EAlignment), Align));
 
-                writer.WriteComment("<HAlign>: Text align vertical (on downsizing): " + CConfig.ListStrings(Enum.GetNames(typeof(EHAlignment))));
+                writer.WriteComment("<HAlign>: Text align vertical (on downsizing): " + CHelper.ListStrings(Enum.GetNames(typeof(EHAlignment))));
                 writer.WriteElementString("HAlign", Enum.GetName(typeof(EHAlignment), HAlign));
 
-                writer.WriteComment("<Style>: Text style: " + CConfig.ListStrings(Enum.GetNames(typeof(EStyle))));
+                writer.WriteComment("<Style>: Text style: " + CHelper.ListStrings(Enum.GetNames(typeof(EStyle))));
                 writer.WriteElementString("Style", Enum.GetName(typeof(EStyle), Style));
 
                 writer.WriteComment("<Font>: Text font name");

@@ -340,7 +340,7 @@ namespace Vocaluxe.Base
             #region Debug
             writer.WriteStartElement("Debug");
 
-            writer.WriteComment("DebugLevel: " + ListStrings(Enum.GetNames(typeof(EDebugLevel))));
+            writer.WriteComment("DebugLevel: " + CHelper.ListStrings(Enum.GetNames(typeof(EDebugLevel))));
             writer.WriteElementString("DebugLevel", Enum.GetName(typeof(EDebugLevel), DebugLevel));
 
             writer.WriteEndElement();
@@ -349,10 +349,10 @@ namespace Vocaluxe.Base
             #region Graphics
             writer.WriteStartElement("Graphics");
 
-            writer.WriteComment("Renderer: " + ListStrings(Enum.GetNames(typeof(ERenderer))));
+            writer.WriteComment("Renderer: " + CHelper.ListStrings(Enum.GetNames(typeof(ERenderer))));
             writer.WriteElementString("Renderer", Enum.GetName(typeof(ERenderer), Renderer));
 
-            writer.WriteComment("TextureQuality: " + ListStrings(Enum.GetNames(typeof(ETextureQuality))));
+            writer.WriteComment("TextureQuality: " + CHelper.ListStrings(Enum.GetNames(typeof(ETextureQuality))));
             writer.WriteElementString("TextureQuality", Enum.GetName(typeof(ETextureQuality), TextureQuality));
 
             writer.WriteComment("CoverSize (pixels): 32, 64, 128, 256, 512, 1024 (default: 128)");
@@ -362,19 +362,19 @@ namespace Vocaluxe.Base
             writer.WriteElementString("ScreenW", ScreenW.ToString());
             writer.WriteElementString("ScreenH", ScreenH.ToString());
 
-            writer.WriteComment("AAMode: " + ListStrings(Enum.GetNames(typeof(EAntiAliasingModes))));
+            writer.WriteComment("AAMode: " + CHelper.ListStrings(Enum.GetNames(typeof(EAntiAliasingModes))));
             writer.WriteElementString("AAMode", Enum.GetName(typeof(EAntiAliasingModes), AAMode));
 
-            writer.WriteComment("Colors: " + ListStrings(Enum.GetNames(typeof(EColorDeep))));
+            writer.WriteComment("Colors: " + CHelper.ListStrings(Enum.GetNames(typeof(EColorDeep))));
             writer.WriteElementString("Colors", Enum.GetName(typeof(EColorDeep), Colors));
 
             writer.WriteComment("MaxFPS should be between 1..200");
             writer.WriteElementString("MaxFPS", MaxFPS.ToString("#"));
 
-            writer.WriteComment("VSync: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteComment("VSync: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("VSync", Enum.GetName(typeof(EOffOn), VSync));
 
-            writer.WriteComment("FullScreen: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteComment("FullScreen: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("FullScreen", Enum.GetName(typeof(EOffOn), FullScreen));
 
             writer.WriteComment("FadeTime should be between 0..3 Seconds");
@@ -395,25 +395,25 @@ namespace Vocaluxe.Base
             writer.WriteComment("Name of cover-theme");
             writer.WriteElementString("Cover", CoverTheme);
 
-            writer.WriteComment("Draw note-lines:" + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteComment("Draw note-lines:" + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("DrawNoteLines", Enum.GetName(typeof(EOffOn), DrawNoteLines));
 
-            writer.WriteComment("Draw tone-helper:" + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteComment("Draw tone-helper:" + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("DrawToneHelper", Enum.GetName(typeof(EOffOn), DrawToneHelper));
 
-            writer.WriteComment("Look of timer:" + ListStrings(Enum.GetNames(typeof(ETimerLook))));
+            writer.WriteComment("Look of timer:" + CHelper.ListStrings(Enum.GetNames(typeof(ETimerLook))));
             writer.WriteElementString("TimerLook", Enum.GetName(typeof(ETimerLook), TimerLook));
 
-            writer.WriteComment("Information about players on SingScreen:" + ListStrings(Enum.GetNames(typeof(EPlayerInfo))));
+            writer.WriteComment("Information about players on SingScreen:" + CHelper.ListStrings(Enum.GetNames(typeof(EPlayerInfo))));
             writer.WriteElementString("PlayerInfo", Enum.GetName(typeof(EPlayerInfo), PlayerInfo));
 
-            writer.WriteComment("Fade player-information with lyrics and notebars:" + ListStrings(Enum.GetNames(typeof(EFadePlayerInfo))));
+            writer.WriteComment("Fade player-information with lyrics and notebars:" + CHelper.ListStrings(Enum.GetNames(typeof(EFadePlayerInfo))));
             writer.WriteElementString("FadePlayerInfo", Enum.GetName(typeof(EFadePlayerInfo), FadePlayerInfo));
 
-            writer.WriteComment("Cover Loading:" + ListStrings(Enum.GetNames(typeof(ECoverLoading))));
+            writer.WriteComment("Cover Loading:" + CHelper.ListStrings(Enum.GetNames(typeof(ECoverLoading))));
             writer.WriteElementString("CoverLoading", Enum.GetName(typeof(ECoverLoading), CoverLoading));
 
-            writer.WriteComment("Lyric Style:" + ListStrings(Enum.GetNames(typeof(ELyricStyle))));
+            writer.WriteComment("Lyric Style:" + CHelper.ListStrings(Enum.GetNames(typeof(ELyricStyle))));
             writer.WriteElementString("LyricStyle", Enum.GetName(typeof(ELyricStyle), LyricStyle));
 
             writer.WriteEndElement();
@@ -422,13 +422,13 @@ namespace Vocaluxe.Base
             #region Sound
             writer.WriteStartElement("Sound");
 
-            writer.WriteComment("PlayBackLib: " + ListStrings(Enum.GetNames(typeof(EPlaybackLib))));
+            writer.WriteComment("PlayBackLib: " + CHelper.ListStrings(Enum.GetNames(typeof(EPlaybackLib))));
             writer.WriteElementString("PlayBackLib", Enum.GetName(typeof(EPlaybackLib), PlayBackLib));
 
-            writer.WriteComment("RecordLib: " + ListStrings(Enum.GetNames(typeof(ERecordLib))));
+            writer.WriteComment("RecordLib: " + CHelper.ListStrings(Enum.GetNames(typeof(ERecordLib))));
             writer.WriteElementString("RecordLib", Enum.GetName(typeof(ERecordLib), RecordLib));
 
-            writer.WriteComment("AudioBufferSize: " + ListStrings(Enum.GetNames(typeof(EBufferSize))));
+            writer.WriteComment("AudioBufferSize: " + CHelper.ListStrings(Enum.GetNames(typeof(EBufferSize))));
             writer.WriteElementString("AudioBufferSize", Enum.GetName(typeof(EBufferSize), AudioBufferSize));
 
             writer.WriteComment("AudioLatency from -500 to 500 ms");
@@ -479,28 +479,28 @@ namespace Vocaluxe.Base
                 }
             }
 
-            writer.WriteComment("SongMenu: " + ListStrings(Enum.GetNames(typeof(ESongMenu))));
+            writer.WriteComment("SongMenu: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongMenu))));
             writer.WriteElementString("SongMenu", Enum.GetName(typeof(ESongMenu), SongMenu));
 
-            writer.WriteComment("SongSorting: " + ListStrings(Enum.GetNames(typeof(ESongSorting))));
+            writer.WriteComment("SongSorting: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongSorting))));
             writer.WriteElementString("SongSorting", Enum.GetName(typeof(ESongSorting), SongSorting));
 
-            writer.WriteComment("Ignore articles on song-sorting: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteComment("Ignore articles on song-sorting: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("IgnoreArticles", Enum.GetName(typeof(EOffOn), IgnoreArticles));
 
             writer.WriteComment("ScoreAnimationTime: Values >= 1 or 0 for no animation. Time is in seconds.");
             writer.WriteElementString("ScoreAnimationTime", ScoreAnimationTime.ToString());
 
-            writer.WriteComment("TimerMode: " + ListStrings(Enum.GetNames(typeof(ETimerMode))));
+            writer.WriteComment("TimerMode: " + CHelper.ListStrings(Enum.GetNames(typeof(ETimerMode))));
             writer.WriteElementString("TimerMode", Enum.GetName(typeof(ETimerMode), TimerMode));
 
             writer.WriteComment("NumPlayer: 1.." + CSettings.MaxNumPlayer.ToString());
             writer.WriteElementString("NumPlayer", NumPlayer.ToString());
 
-            writer.WriteComment("Order songs in tabs: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteComment("Order songs in tabs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("Tabs", Enum.GetName(typeof(EOffOn), Tabs));
 
-            writer.WriteComment("Lyrics also on Top of screen: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteComment("Lyrics also on Top of screen: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("LyricsOnTop", Enum.GetName(typeof(EOffOn), LyricsOnTop));
 
             writer.WriteComment("Default profile for players 1..." + CSettings.MaxNumPlayer.ToString() + ":");
@@ -517,22 +517,22 @@ namespace Vocaluxe.Base
             #region Video
             writer.WriteStartElement("Video");
 
-            writer.WriteComment("VideoDecoder: " + ListStrings(Enum.GetNames(typeof(EVideoDecoder))));
+            writer.WriteComment("VideoDecoder: " + CHelper.ListStrings(Enum.GetNames(typeof(EVideoDecoder))));
             writer.WriteElementString("VideoDecoder", Enum.GetName(typeof(EVideoDecoder), VideoDecoder));
 
-            writer.WriteComment("VideoBackgrounds: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteComment("VideoBackgrounds: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("VideoBackgrounds", Enum.GetName(typeof(EOffOn), VideoBackgrounds));
 
-            writer.WriteComment("VideoPreview: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteComment("VideoPreview: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("VideoPreview", Enum.GetName(typeof(EOffOn), VideoPreview));
 
-            writer.WriteComment("Show Videos while singing: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteComment("Show Videos while singing: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("VideosInSongs", Enum.GetName(typeof(EOffOn), VideosInSongs));
 
-            writer.WriteComment("Show backgroundmusic videos as background: " + ListStrings(Enum.GetNames(typeof(EOffOn))));
+            writer.WriteComment("Show backgroundmusic videos as background: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("VideosToBackground", Enum.GetName(typeof(EOffOn), VideosToBackground));
 
-            writer.WriteComment("WebcamLib: " + ListStrings(Enum.GetNames(typeof(EWebcamLib))));
+            writer.WriteComment("WebcamLib: " + CHelper.ListStrings(Enum.GetNames(typeof(EWebcamLib))));
             writer.WriteElementString("WebcamLib", Enum.GetName(typeof(EWebcamLib), WebcamLib));
 
             writer.WriteStartElement("WebcamConfig");
@@ -880,23 +880,6 @@ namespace Vocaluxe.Base
                 return false;
             }
             return true;
-        }
-
-        /// <summary>
-        /// Concat strings into one string with ", " as separator.
-        /// </summary>
-        public static string ListStrings(string[] str)
-        {
-            string _Result = string.Empty;
-
-            for (int i = 0; i < str.Length; i++)
-			{
-                _Result += str[i];
-			    if(i < str.Length - 1)
-                    _Result += ", ";
-			}
-    
-            return _Result;
         }
 
         /// <summary>
