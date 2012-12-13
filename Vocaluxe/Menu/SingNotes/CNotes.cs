@@ -5,7 +5,7 @@ using System.Text;
 using Vocaluxe.Base;
 using Vocaluxe.Menu;
 
-namespace Vocaluxe.Lib.Song
+namespace Vocaluxe.Menu.SingNotes
 {
     class CNotes 
     {
