@@ -36,7 +36,6 @@ namespace Vocaluxe.Screens
                 
         public CScreenLoad()
         {
-            Init();
         }
 
         protected override void Init()

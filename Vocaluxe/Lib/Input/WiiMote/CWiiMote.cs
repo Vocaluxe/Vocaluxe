@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 
 using Vocaluxe.Base;
+using Vocaluxe.Menu;
 
 namespace Vocaluxe.Lib.Input.WiiMote
 {

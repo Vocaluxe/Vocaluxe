@@ -31,7 +31,6 @@ namespace Vocaluxe.Screens
 
         public CScreenHighscore()
         {
-            Init();
         }
 
         protected override void Init()

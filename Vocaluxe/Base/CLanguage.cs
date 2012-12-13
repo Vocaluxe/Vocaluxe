@@ -6,6 +6,8 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 
+using Vocaluxe.Menu;
+
 namespace Vocaluxe.Base
 {
     struct SLanguage

@@ -19,7 +19,6 @@ namespace Vocaluxe.Screens
 
         public CScreenTest()
         {
-            Init();
         }
 
         protected override void Init()

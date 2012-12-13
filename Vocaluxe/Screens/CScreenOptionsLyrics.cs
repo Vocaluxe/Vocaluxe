@@ -20,7 +20,6 @@ namespace Vocaluxe.Screens
 
         public CScreenOptionsLyrics()
         {
-            Init();
         }
 
         protected override void Init()

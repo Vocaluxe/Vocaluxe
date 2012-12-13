@@ -28,7 +28,6 @@ namespace Vocaluxe.Screens
         
         public CScreenMain()
         {
-            Init();
         }
 
         protected override void Init()

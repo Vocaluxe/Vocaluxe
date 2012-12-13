@@ -97,7 +97,6 @@ namespace Vocaluxe.Screens
 
         public CScreenSing()
         {
-            Init();
         }
 
         protected override void Init()

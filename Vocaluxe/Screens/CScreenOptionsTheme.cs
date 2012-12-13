@@ -33,7 +33,6 @@ namespace Vocaluxe.Screens
 
         public CScreenOptionsTheme()
         {
-            Init();
         }
 
         protected override void Init()

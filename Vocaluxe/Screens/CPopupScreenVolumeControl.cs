@@ -24,7 +24,6 @@ namespace Vocaluxe.Screens
 
         public CPopupScreenVolumeControl()
         {
-            Init();
         }
 
         protected override void Init()

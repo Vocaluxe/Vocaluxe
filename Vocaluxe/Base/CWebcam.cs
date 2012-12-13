@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 using Vocaluxe.Lib.Webcam;
 using Vocaluxe.Lib.Draw;
-using System.Drawing;
+using Vocaluxe.Menu;
+
 
 namespace Vocaluxe.Base
 {

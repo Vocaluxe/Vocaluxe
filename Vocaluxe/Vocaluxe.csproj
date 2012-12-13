@@ -180,6 +180,7 @@
     <Compile Include="Base\CInput.cs" />
     <Compile Include="Base\CLanguage.cs" />
     <Compile Include="Base\CLog.cs" />
+    <Compile Include="Base\CMain.cs" />
     <Compile Include="Base\CParty.cs" />
     <Compile Include="Base\CPlaylists.cs" />
     <Compile Include="Base\CProfiles.cs" />
@@ -230,6 +231,7 @@
     <Compile Include="Menu\CButton.cs" />
     <Compile Include="Menu\CEqualizer.cs" />
     <Compile Include="Base\CGraphics.cs" />
+    <Compile Include="Menu\CHelper.cs" />
     <Compile Include="Menu\CNameSelection.cs" />
     <Compile Include="Menu\CLyric.cs" />
     <Compile Include="Menu\CMenu.cs" />

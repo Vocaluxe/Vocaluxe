@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.XPath;
 
-using Vocaluxe.Base;
+//using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SingNotes;
@@ -76,6 +76,15 @@ namespace Vocaluxe.Menu
 
         protected SRectF _ScreenArea;
 
+        private IConfig _Config;
+        private ISettings _Settings;
+        private ITheme _Theme;
+        private IHelper _Helper;
+        private ILog _Log;
+        private IBackgroundMusic _BackgroundMusic;
+        private IDrawing _Draw;
+        private IGraphics _Graphics;
+
         public SRectF ScreenArea
         {
             get { return _ScreenArea; }
@@ -92,7 +101,20 @@ namespace Vocaluxe.Menu
         }
 
         public CMenu()
+        {           
+        }
+
+        public void Initialize(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic, IDrawing Draw, IGraphics Graphics)
         {
+            _Config = Config;
+            _Settings = Settings;
+            _Theme = Theme;
+            _Helper = Helper;
+            _Log = Log;
+            _BackgroundMusic = BackgroundMusic;
+            _Draw = Draw;
+            _Graphics = Graphics;
+
             Init();
         }
 
@@ -132,8 +154,8 @@ namespace Vocaluxe.Menu
             _MouseDY = 0;
 
             _Active = false;
-            _ScreenArea = new SRectF(0f, 0f, CSettings.iRenderW, CSettings.iRenderH, 0f);
-
+            _ScreenArea = new SRectF(0f, 0f, _Settings.GetRenderW(), _Settings.GetRenderH(), 0f);
+            
             _ThemeName = String.Empty;
             _ThemeBackgrounds = null;
             _ThemeStatics = null;
@@ -146,12 +168,11 @@ namespace Vocaluxe.Menu
             _ThemeNameSelections = null;
             _ThemeEqualizers = null;
             _ThemePlaylists = null;
-
         }
         #region ThemeHandler
         public virtual void LoadTheme()
         {
-            string file = Path.Combine(CTheme.GetThemeScreensPath(), _ThemeName + ".xml");
+            string file = Path.Combine(_Theme.GetThemeScreensPath(), _ThemeName + ".xml");
 
             XPathDocument xPathDoc = null;
             XPathNavigator navigator = null;
@@ -172,14 +193,14 @@ namespace Vocaluxe.Menu
                 if (xPathDoc != null)
                     xPathDoc = null;
 
-                CLog.LogError("Error loading theme file " + file + ": " + e.Message);
+                _Log.LogError("Error loading theme file " + file + ": " + e.Message);
             }
 
             bool VersionCheck = false;
             if (loaded)
                 VersionCheck = CheckVersion(_ScreenVersion, navigator);
 
-            int SkinIndex = CTheme.GetSkinIndex();
+            int SkinIndex = _Theme.GetSkinIndex();
 
             if (loaded && VersionCheck && SkinIndex != -1)
             {
@@ -196,7 +217,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CLog.LogError("Can't load Background \"" + _ThemeBackgrounds[i] + "\" in screen " + _ThemeName);
+                            _Log.LogError("Can't load Background \"" + _ThemeBackgrounds[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -212,7 +233,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CLog.LogError("Can't load Static \"" + _ThemeStatics[i] + "\" in screen " + _ThemeName);
+                            _Log.LogError("Can't load Static \"" + _ThemeStatics[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -228,7 +249,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CLog.LogError("Can't load Text \"" + _ThemeTexts[i] + "\" in screen " + _ThemeName);
+                            _Log.LogError("Can't load Text \"" + _ThemeTexts[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -244,7 +265,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CLog.LogError("Can't load Button \"" + _ThemeButtons[i] + "\" in screen " + _ThemeName);
+                            _Log.LogError("Can't load Button \"" + _ThemeButtons[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -260,7 +281,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CLog.LogError("Can't load SelectSlide \"" + _ThemeSelectSlides[i] + "\" in screen " + _ThemeName);
+                            _Log.LogError("Can't load SelectSlide \"" + _ThemeSelectSlides[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -276,7 +297,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CLog.LogError("Can't load SongMenu \"" + _ThemeSongMenus[i] + "\" in screen " + _ThemeName);
+                            _Log.LogError("Can't load SongMenu \"" + _ThemeSongMenus[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -292,7 +313,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CLog.LogError("Can't load Lyric \"" + _ThemeLyrics[i] + "\" in screen " + _ThemeName);
+                            _Log.LogError("Can't load Lyric \"" + _ThemeLyrics[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -308,7 +329,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CLog.LogError("Can't load SingBar \"" + _ThemeSingNotes[i] + "\" in screen " + _ThemeName);
+                            _Log.LogError("Can't load SingBar \"" + _ThemeSingNotes[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -324,7 +345,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CLog.LogError("Can't load NameSelection \"" + _ThemeNameSelections[i] + "\" in screen " + _ThemeName);
+                            _Log.LogError("Can't load NameSelection \"" + _ThemeNameSelections[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -340,7 +361,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CLog.LogError("Can't load equalizer \"" + _ThemeEqualizers[i] + "\" in screen " + _ThemeName);
+                            _Log.LogError("Can't load equalizer \"" + _ThemeEqualizers[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -356,7 +377,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CLog.LogError("Can't load Playlist \"" + _ThemePlaylists[i] + "\" in screen " + _ThemeName);
+                            _Log.LogError("Can't load Playlist \"" + _ThemePlaylists[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -374,7 +395,7 @@ namespace Vocaluxe.Menu
             settings.Encoding = Encoding.UTF8;
             settings.ConformanceLevel = ConformanceLevel.Document;
 
-            string file = Path.Combine(CTheme.GetThemeScreensPath(), _ThemeName + ".xml");
+            string file = Path.Combine(_Theme.GetThemeScreensPath(), _ThemeName + ".xml");
             XmlWriter writer = XmlWriter.Create(file, settings);
 
             writer.WriteStartDocument();
@@ -738,7 +759,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CLog.LogError("Can't find Background Element \"" + key + "\" in Screen " + _ThemeName);
+                _Log.LogError("Can't find Background Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -751,7 +772,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CLog.LogError("Can't find Statics Element \"" + key + "\" in Screen " + _ThemeName);
+                _Log.LogError("Can't find Statics Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -764,7 +785,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CLog.LogError("Can't find Text Element \"" + key + "\" in Screen " + _ThemeName);
+                _Log.LogError("Can't find Text Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -777,7 +798,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CLog.LogError("Can't find Button Element \"" + key + "\" in Screen " + _ThemeName);
+                _Log.LogError("Can't find Button Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -790,7 +811,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CLog.LogError("Can't find SongMenu Element \"" + key + "\" in Screen " + _ThemeName);
+                _Log.LogError("Can't find SongMenu Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -803,7 +824,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CLog.LogError("Can't find Lyric Element \"" + key + "\" in Screen " + _ThemeName);
+                _Log.LogError("Can't find Lyric Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -816,7 +837,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CLog.LogError("Can't find SelectSlide Element \"" + key + "\" in Screen " + _ThemeName);
+                _Log.LogError("Can't find SelectSlide Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -829,7 +850,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CLog.LogError("Can't find SingBar Element \"" + key + "\" in Screen " + _ThemeName);
+                _Log.LogError("Can't find SingBar Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -842,7 +863,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CLog.LogError("Can't find NameSelection Element \"" + key + "\" in Screen " + _ThemeName);
+                _Log.LogError("Can't find NameSelection Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -855,7 +876,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CLog.LogError("Can't find Equalizer Element \"" + key + "\" in Screen " + _ThemeName);
+                _Log.LogError("Can't find Equalizer Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -868,7 +889,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CLog.LogError("Can't find Playlist Element \"" + key + "\" in Screen " + _ThemeName);
+                _Log.LogError("Can't find Playlist Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -878,7 +899,7 @@ namespace Vocaluxe.Menu
         #region MenuHandler
         public virtual bool HandleInput(KeyEvent KeyEvent)
         {
-            if (!CSettings.TabNavigation)
+            if (!_Settings.IsTabNavigation())
             {
                 if (KeyEvent.Key == Keys.Left)
                 {
@@ -917,35 +938,25 @@ namespace Vocaluxe.Menu
                 if (KeyEvent.Key == Keys.Right)
                     NextElement();
             }
-            if (!CBackgroundMusic.Disabled)
+            if (_BackgroundMusic.IsDisabled())
             {
                 if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Add || KeyEvent.Key == Keys.PageUp))
-                {
-                    CConfig.BackgroundMusicVolume = CConfig.BackgroundMusicVolume + 5;
-                    if (CConfig.BackgroundMusicVolume > 100)
-                        CConfig.BackgroundMusicVolume = 100;
-                    CConfig.SaveConfig();
-                }
+                    _Config.SetBackgroundMusicVolume(_Config.GetBackgroundMusicVolume() + 5);
                 else if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Subtract || KeyEvent.Key == Keys.PageDown))
-                {
-                    CConfig.BackgroundMusicVolume = CConfig.BackgroundMusicVolume - 5;
-                    if (CConfig.BackgroundMusicVolume < 0)
-                        CConfig.BackgroundMusicVolume = 0;
-                    CConfig.SaveConfig();
-                }
+                    _Config.SetBackgroundMusicVolume(_Config.GetBackgroundMusicVolume() - 5);
                 else if (KeyEvent.Key == Keys.MediaNextTrack)
-                    CBackgroundMusic.Next();
+                    _BackgroundMusic.Next();
                 else if (KeyEvent.Key == Keys.MediaPreviousTrack)
-                    CBackgroundMusic.Previous();
+                    _BackgroundMusic.Previous();
                 else if (KeyEvent.Key == Keys.MediaPlayPause)
                 {
-                    if (CBackgroundMusic.Playing)
-                        CBackgroundMusic.Pause();
+                    if (_BackgroundMusic.IsPlaying())
+                        _BackgroundMusic.Pause();
                     else
-                        CBackgroundMusic.Play();
+                        _BackgroundMusic.Play();
                 }
-                    
-                CBackgroundMusic.ApplyVolume();
+
+                _BackgroundMusic.ApplyVolume();
             }
 
             return true;
@@ -1356,10 +1367,10 @@ namespace Vocaluxe.Menu
 
         public void SelectByMouse(int x, int y)
         {
-            float z = CSettings.zFar;
+            float z = _Settings.GetZFar();
             for (int i = 0; i < _Interactions.Count; i++)
             {
-                if ((CSettings.GameState == EGameState.EditTheme) || (!_Interactions[i].ThemeEditorOnly && _IsVisible(i)))
+                if ((_Settings.GetGameState() == EGameState.EditTheme) || (!_Interactions[i].ThemeEditorOnly && _IsVisible(i)))
                 {
                     if (_IsMouseOver(x, y, _Interactions[i]))
                     {
@@ -1410,7 +1421,7 @@ namespace Vocaluxe.Menu
                         return true;
                     break;
                 case EType.TText:
-                    RectangleF bounds = CDraw.GetTextBounds(_Texts[interact.Num]);
+                    RectangleF bounds = _Draw.GetTextBounds(_Texts[interact.Num]);
                     if (CHelper.IsInBounds(new SRectF(_Texts[interact.Num].X, _Texts[interact.Num].Y, bounds.Width, bounds.Height, _Texts[interact.Num].Z), x, y))
                         return true;
                     break;
@@ -1461,7 +1472,7 @@ namespace Vocaluxe.Menu
                 case EType.TPlaylist:
                     return _Playlists[interact.Num].Rect.Z;
             }
-            return CSettings.zFar;
+            return _Settings.GetZFar();
         }
 
         private float _GetZValue(int interaction)
@@ -1496,13 +1507,13 @@ namespace Vocaluxe.Menu
                     return _Playlists[_Interactions[interaction].Num].Rect.Z;
             }
 
-            return CSettings.zFar;
+            return _Settings.GetZFar();
         }
 
         private void _NextInteraction()
         {
             _UnsetSelected();
-            if (CSettings.GameState != EGameState.EditTheme)
+            if (_Settings.GetGameState() != EGameState.EditTheme)
             {
                 bool found = false;
                 int start = _Selection;
@@ -1529,7 +1540,7 @@ namespace Vocaluxe.Menu
         private void _PrevInteraction()
         {
             _UnsetSelected();
-            if (CSettings.GameState != EGameState.EditTheme)
+            if (_Settings.GetGameState() != EGameState.EditTheme)
             {
                 bool found = false;
                 int start = _Selection;
@@ -1676,13 +1687,13 @@ namespace Vocaluxe.Menu
                 switch (Key.Key)
                 {
                     case Keys.Up:
-                        actualRect = new SRectF(actualRect.X, CSettings.iRenderH, 1, 1, actualRect.Z);
+                        actualRect = new SRectF(actualRect.X, _Settings.GetRenderH(), 1, 1, actualRect.Z);
                         break;
                     case Keys.Down:
                         actualRect = new SRectF(actualRect.X, 0, 1, 1, actualRect.Z);
                         break;
                     case Keys.Left:
-                        actualRect = new SRectF(CSettings.iRenderW, actualRect.Y, 1, 1, actualRect.Z);
+                        actualRect = new SRectF(_Settings.GetRenderW(), actualRect.Y, 1, 1, actualRect.Z);
                         break;
                     case Keys.Right:
                         actualRect = new SRectF(0, actualRect.Y, 1, 1, actualRect.Z);
@@ -2200,7 +2211,7 @@ namespace Vocaluxe.Menu
                     msg += "the file is for newer program versions! ";
 
                 msg += "Current screen version is " + Version.ToString();
-                CLog.LogError(msg);
+                _Log.LogError(msg);
             }
             return false;
         }
@@ -2242,11 +2253,11 @@ namespace Vocaluxe.Menu
 
         private void ReloadThemeEditMode()
         {
-            CTheme.UnloadSkins();
-            CTheme.ListSkins();
-            CTheme.LoadSkins();
-            CTheme.LoadTheme();
-            CGraphics.ReloadTheme();
+            _Theme.UnloadSkins();
+            _Theme.ListSkins();
+            _Theme.LoadSkins();
+            _Theme.LoadTheme();
+            _Graphics.ReloadTheme();
 
             OnShow();
             OnShowFinish();

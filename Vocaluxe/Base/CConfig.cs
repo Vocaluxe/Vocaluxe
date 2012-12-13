@@ -12,6 +12,7 @@ using OpenTK.Platform;
 
 using Vocaluxe.Lib.Sound;
 using Vocaluxe.Lib.Webcam;
+using Vocaluxe.Menu;
 
 namespace Vocaluxe.Base
 {
@@ -1098,8 +1099,5 @@ namespace Vocaluxe.Base
                 }
             }
         }
-
-
-        
     }
 }

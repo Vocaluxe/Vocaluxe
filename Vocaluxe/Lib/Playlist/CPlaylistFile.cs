@@ -8,6 +8,7 @@ using System.Xml.XPath;
 using Vocaluxe.Base;
 using Vocaluxe.GameModes;
 using Vocaluxe.Lib.Song;
+using Vocaluxe.Menu;
 
 
 namespace Vocaluxe.Lib.Playlist

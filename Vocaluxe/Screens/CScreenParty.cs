@@ -16,7 +16,6 @@ namespace Vocaluxe.Screens
 
         public CScreenParty()
         {
-            Init();
         }
 
         protected override void Init()

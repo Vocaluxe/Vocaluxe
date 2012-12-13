@@ -43,7 +43,6 @@ namespace Vocaluxe.Screens
         
         public CScreenNames()
         {
-            Init();
         }
 
         protected override void Init()

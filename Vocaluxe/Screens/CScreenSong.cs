@@ -68,8 +68,6 @@ namespace Vocaluxe.Screens
 
         public CScreenSong()
         {
-            Init();
-
             _AvailableGameModes = new List<GameModes.EGameMode>();
         }
 

@@ -4,6 +4,8 @@ using System.Text;
 using Vocaluxe.Lib.Draw;
 using System.Drawing;
 
+using Vocaluxe.Menu;
+
 namespace Vocaluxe.Lib.Webcam
 {
     struct SWebcamDevice

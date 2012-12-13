@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
+using Vocaluxe.Menu;
+
 namespace Vocaluxe.Base
 {
-    public enum EGameState
-    {
-        Start,
-        Normal,
-        EditTheme
-    }
-
     enum ERevision
     {
         Alpha,

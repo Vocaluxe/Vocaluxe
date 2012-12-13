@@ -27,13 +27,12 @@ namespace Vocaluxe.Screens
         private const string ButtonExit = "ButtonExit";
 
         private SWebcamConfig _Config;
-        Lib.Draw.STexture _WebcamTexture = new Lib.Draw.STexture(-1);
+        STexture _WebcamTexture = new STexture(-1);
         private int _DeviceNr;
         private int _CapabilityNr;
 
         public CScreenOptionsVideo()
         {
-            Init();
         }
 
         protected override void Init()

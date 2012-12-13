@@ -56,7 +56,6 @@ namespace Vocaluxe.Screens
 
         public CScreenOptionsRecord()
         {
-            Init();
         }
 
         protected override void Init()

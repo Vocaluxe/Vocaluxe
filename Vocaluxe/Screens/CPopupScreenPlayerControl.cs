@@ -76,7 +76,6 @@ namespace Vocaluxe.Screens
 
         public CPopupScreenPlayerControl()
         {
-            Init();
         }
 
         protected override void Init()

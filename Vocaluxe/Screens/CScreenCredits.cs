@@ -59,7 +59,6 @@ namespace Vocaluxe.Screens
        
         public CScreenCredits()
         {
-            Init();
         }
 
         protected override void Init()

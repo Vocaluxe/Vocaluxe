@@ -6,8 +6,13 @@ using Vocaluxe.Menu;
 
 namespace Vocaluxe.Screens.PartyScreens
 {
-    abstract class CMenuParty : CMenu
+    abstract class CMenuParty
     {
+        public CMenuParty()
+        {
+        }
+
+        /*
         public sealed override void LoadTheme()
         {
         }
@@ -23,7 +28,7 @@ namespace Vocaluxe.Screens.PartyScreens
         public override void UnloadTextures()
         {
         }
-
+        */
         
     }
 }

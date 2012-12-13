@@ -33,7 +33,6 @@ namespace Vocaluxe.Screens
 
         public CScreenScore()
         {
-            Init();
         }
 
         protected override void Init()
@@ -366,7 +365,7 @@ namespace Vocaluxe.Screens
                         Statics[htStatics(StaticPointsBarBG[player, numplayer])].Visible = (numplayer + 1 == CGame.NumPlayer);
                         Statics[htStatics(StaticAvatar[player, numplayer])].Visible = (numplayer + 1 == CGame.NumPlayer);
 
-                        Statics[htStatics(StaticAvatar[player, numplayer])].Texture = new Lib.Draw.STexture(-1);
+                        Statics[htStatics(StaticAvatar[player, numplayer])].Texture = new STexture(-1);
                     }
                 }
             }

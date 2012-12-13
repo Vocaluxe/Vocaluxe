@@ -32,7 +32,6 @@ namespace Vocaluxe.Screens
 
         public CScreenOptionsGame()
         {
-            Init();
         }
 
         protected override void Init()

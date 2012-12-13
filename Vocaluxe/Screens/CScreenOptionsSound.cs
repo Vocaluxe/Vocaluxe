@@ -27,7 +27,6 @@ namespace Vocaluxe.Screens
 
         public CScreenOptionsSound()
         {
-            Init();
         }
 
         protected override void Init()

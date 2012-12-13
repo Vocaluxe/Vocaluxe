@@ -41,12 +41,11 @@ namespace Vocaluxe.Screens
 
         private EEditMode _EditMode;
 
-        private Lib.Draw.STexture _WebcamTexture = new Lib.Draw.STexture(-1);
+        private STexture _WebcamTexture = new STexture(-1);
         private Bitmap _Snapshot = null;
         
         public CScreenProfiles()
         {
-            Init();
         }
 
         protected override void Init()
