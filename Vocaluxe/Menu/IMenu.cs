@@ -116,6 +116,7 @@ namespace Vocaluxe.Menu
         void DrawTextureReflection(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds, float ReflectionSpace, float ReflectionHeight);
 
         void DrawColor(SColorF Color, SRectF Rect);
+        void DrawColorReflection(SColorF Color, SRectF Rect, float Space, float Height);
     }
 
     public interface IGraphics

@@ -5,9 +5,6 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 
-using Vocaluxe.Base;
-using Vocaluxe.Lib.Draw;
-
 namespace Vocaluxe.Menu
 {
     enum EEqualizerStyle 
@@ -97,7 +94,7 @@ namespace Vocaluxe.Menu
 
             if (CHelper.GetValueFromXML(item + "/Color", navigator, ref _Theme.ColorName, String.Empty))
             {
-                _ThemeLoaded &= CTheme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
+                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
@@ -109,7 +106,7 @@ namespace Vocaluxe.Menu
 
             if (CHelper.GetValueFromXML(item + "/MaxColor", navigator, ref _Theme.MaxColorName, String.Empty))
             {
-                _ThemeLoaded &= CTheme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
+                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
@@ -264,10 +261,10 @@ namespace Vocaluxe.Menu
                     color = MaxColor;
                 }
 
-                CDraw.DrawColor(color, bar);
+                _Base.Drawing.DrawColor(color, bar);
 
                 if (Reflection)
-                    CDraw.DrawColorReflection(color, bar, ReflectionSpace, ReflectionHeight);
+                    _Base.Drawing.DrawColorReflection(color, bar, ReflectionSpace, ReflectionHeight);
             }
         }
 
@@ -278,10 +275,10 @@ namespace Vocaluxe.Menu
         public void LoadTextures()
         {
             if (_Theme.ColorName != String.Empty)
-                Color = CTheme.GetColor(_Theme.ColorName);
+                Color = _Base.Theme.GetColor(_Theme.ColorName);
 
             if (_Theme.MaxColorName != String.Empty)
-                MaxColor = CTheme.GetColor(_Theme.MaxColorName);
+                MaxColor = _Base.Theme.GetColor(_Theme.MaxColorName);
         }
 
         public void ReloadTextures()
