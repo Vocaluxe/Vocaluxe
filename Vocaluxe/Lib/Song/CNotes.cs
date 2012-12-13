@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using Vocaluxe.Base;
+using Vocaluxe.Menu;
 
 namespace Vocaluxe.Lib.Song
 {
@@ -79,13 +80,6 @@ namespace Vocaluxe.Lib.Song
                 lines.SetMedley(StartBeat, EndBeat);
             }
         }
-    }
-
-    public enum ENoteType
-    {
-        Normal,
-        Golden,
-        Freestyle
     }
 
     public class CNote

@@ -586,4 +586,11 @@ namespace Vocaluxe.Menu
         Bold,
         BoldItalic
     }
+
+    public enum ENoteType
+    {
+        Normal,
+        Golden,
+        Freestyle
+    }
 }
