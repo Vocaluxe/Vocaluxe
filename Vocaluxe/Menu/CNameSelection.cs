@@ -6,9 +6,6 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Windows.Forms;
 
-using Vocaluxe.Base;
-using Vocaluxe.Lib.Draw;
-
 namespace Vocaluxe.Menu
 {
     struct SThemeNameSelection
@@ -125,7 +122,7 @@ namespace Vocaluxe.Menu
 
             if (CHelper.GetValueFromXML(item + "/ColorEmptyTile", navigator, ref _Theme.ColorEmptyTileName, String.Empty))
             {
-                _ThemeLoaded &= CTheme.GetColor(_Theme.ColorEmptyTileName, SkinIndex, ref ColorEmptyTile);
+                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorEmptyTileName, SkinIndex, ref ColorEmptyTile);
             }
             else
             {
@@ -149,7 +146,7 @@ namespace Vocaluxe.Menu
             _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EStyle>(item + "/Tiles/Name/Style", navigator, ref _Theme.NameStyle);
             if (CHelper.GetValueFromXML(item + "/Tiles/Name/Color", navigator, ref _Theme.NameColorName, String.Empty))
             {
-                _ThemeLoaded &= CTheme.GetColor(_Theme.NameColorName, SkinIndex, ref _Theme.NameColor);
+                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.NameColorName, SkinIndex, ref _Theme.NameColor);
             }
             else
             {
@@ -370,7 +367,7 @@ namespace Vocaluxe.Menu
             if (active && Selection != -1)
             {
                 _player = player;
-                PlayerSelector.Color = CTheme.GetPlayerColor(player);
+                PlayerSelector.Color = _Base.Theme.GetPlayerColor(player);
             }
             //Normal activation
             else if (active)
@@ -378,7 +375,7 @@ namespace Vocaluxe.Menu
                 Selection = 0;
                 _actualSelection = 0;
                 _player = player;
-                PlayerSelector.Color = CTheme.GetPlayerColor(player);
+                PlayerSelector.Color = _Base.Theme.GetPlayerColor(player);
                 PlayerSelector.Visible = true;
             }
             //Deactivate
@@ -416,9 +413,9 @@ namespace Vocaluxe.Menu
                 {
                     if ((i + offset * _Tiles.Count) < VisibleProfiles.Count)
                     {
-                        _Tiles[i].Avatar.Texture = CProfiles.Profiles[VisibleProfiles[i + offset * _Tiles.Count]].Avatar.Texture;
+                        _Tiles[i].Avatar.Texture = _Base.Profiles.GetProfiles()[VisibleProfiles[i + offset * _Tiles.Count]].Avatar.Texture;
                         _Tiles[i].Avatar.Color = new SColorF(1, 1, 1, 1);
-                        _Tiles[i].Name.Text = CProfiles.Profiles[VisibleProfiles[i + offset * _Tiles.Count]].PlayerName;
+                        _Tiles[i].Name.Text = _Base.Profiles.GetProfiles()[VisibleProfiles[i + offset * _Tiles.Count]].PlayerName;
                         _Tiles[i].PlayerNr = VisibleProfiles[i + offset * _Tiles.Count];
                     }
                     else
@@ -478,14 +475,14 @@ namespace Vocaluxe.Menu
 
         public void LoadTextures()
         {
-            _TextureEmptyTile = CTheme.GetSkinTexture(_Theme.TextureEmptyTileName);
-            _TextureTileSelected = CTheme.GetSkinTexture(_Theme.TextureTileSelectedName);
+            _TextureEmptyTile = _Base.Theme.GetSkinTexture(_Theme.TextureEmptyTileName);
+            _TextureTileSelected = _Base.Theme.GetSkinTexture(_Theme.TextureTileSelectedName);
 
             if (_Theme.ColorEmptyTileName != String.Empty)
-                ColorEmptyTile = CTheme.GetColor(_Theme.ColorEmptyTileName);
+                ColorEmptyTile = _Base.Theme.GetColor(_Theme.ColorEmptyTileName);
 
             if (_Theme.NameColorName != String.Empty)
-                _Theme.NameColor = CTheme.GetColor(_Theme.NameColorName);
+                _Theme.NameColor = _Base.Theme.GetColor(_Theme.NameColorName);
         }
 
         public void ReloadTextures()
@@ -514,18 +511,18 @@ namespace Vocaluxe.Menu
         private void UpdateVisibleProfiles()
         {
             VisibleProfiles.Clear();
-            for (int i = 0; i < CProfiles.Profiles.Length; i++)
+            for (int i = 0; i < _Base.Profiles.GetProfiles().Length; i++)
             {
                 bool visible = false;
                 //Show profile only if active
-                if (CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
+                if (_Base.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON)
                 {
                     visible = true;
                 }
-                for (int p = 0; p < CGame.NumPlayer; p++)
+                for (int p = 0; p < _Base.Game.GetNumPlayer(); p++)
                 {
                     //Don't show profile if is selected, but if selected and guest
-                    if (CGame.Player[p].ProfileID == i && CProfiles.Profiles[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
+                    if (_Base.Game.GetPlayer()[p].ProfileID == i && _Base.Profiles.GetProfiles()[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
                     {
                         visible = false;
                     }

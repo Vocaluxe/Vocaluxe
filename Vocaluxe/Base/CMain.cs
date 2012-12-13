@@ -19,6 +19,8 @@ namespace Vocaluxe.Base
         public static ILog Log = new BLog();
         public static IFonts Fonts = new BFonts();
         public static ILanguage Language = new BLanguage();
+        public static IGame Game = new BGame();
+        public static IProfiles Profiles = new BProfiles();
     }
 
     class BConfig : IConfig
@@ -131,6 +133,10 @@ namespace Vocaluxe.Base
             return CTheme.GetColor(ColorName, SkinIndex, ref Color);
         }
 
+        public SColorF GetPlayerColor(int PlayerNr)
+        {
+            return CTheme.GetPlayerColor(PlayerNr);
+        }
 
         public void UnloadSkins()
         {
@@ -310,6 +316,27 @@ namespace Vocaluxe.Base
         public bool TranslationExists(string KeyWord)
         {
             return CLanguage.TranslationExists(KeyWord);
+        }
+    }
+
+    class BGame : IGame
+    {
+        public int GetNumPlayer()
+        {
+            return CGame.NumPlayer;
+        }
+
+        public SPlayer[] GetPlayer()
+        {
+            return CGame.Player;
+        }
+    }
+
+    class BProfiles : IProfiles
+    {
+        public SProfile[] GetProfiles()
+        {
+            return CProfiles.Profiles;
         }
     }
 }

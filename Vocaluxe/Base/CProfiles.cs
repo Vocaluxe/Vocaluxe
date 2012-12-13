@@ -9,30 +9,7 @@ using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
 
 namespace Vocaluxe.Base
-{
-    struct SProfile
-    {
-        public string PlayerName;
-        public string ProfileFile;
-
-        public EGameDifficulty Difficulty;
-        public SAvatar Avatar;
-        public EOffOn GuestProfile;
-        public EOffOn Active;
-    }
-
-    struct SAvatar
-    {
-        public string FileName;
-        public STexture Texture;
-
-        public SAvatar(int dummy)
-        {
-            FileName = String.Empty;
-            Texture = new STexture(-1);
-        }
-    }
-    
+{    
     static class CProfiles
     {
         private static XmlWriterSettings _settings = new XmlWriterSettings();

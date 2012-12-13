@@ -4,14 +4,14 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using Vocaluxe.Base;
-using Vocaluxe.Lib.Draw;
+using Vocaluxe.Menu.SingNotes;
 
 namespace Vocaluxe.Menu
 {
     interface IMenu
     {
-        void Initialize(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic, IDrawing Draw, IGraphics Graphics, IFonts Fonts, ILanguage Language);
+        void Initialize(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic, IDrawing Draw,
+            IGraphics Graphics, IFonts Fonts, ILanguage Language, IGame Game, IProfiles Profiles);
 
         void LoadTheme();
         void SaveTheme();
@@ -78,6 +78,7 @@ namespace Vocaluxe.Menu
 
         SColorF GetColor(string ColorName);
         bool GetColor(string ColorName, int SkinIndex, ref SColorF Color);
+        SColorF GetPlayerColor(int PlayerNr);
 
         void UnloadSkins();
         void ListSkins();
@@ -145,6 +146,17 @@ namespace Vocaluxe.Menu
     {
         string Translate(string KeyWord);
         bool TranslationExists(string KeyWord);
+    }
+
+    public interface IGame
+    {
+        int GetNumPlayer();
+        SPlayer[] GetPlayer();
+    }
+
+    public interface IProfiles
+    {
+        SProfile[] GetProfiles();
     }
 
     [Flags]
@@ -592,5 +604,60 @@ namespace Vocaluxe.Menu
         Normal,
         Golden,
         Freestyle
+    }
+
+    public struct SProfile
+    {
+        public string PlayerName;
+        public string ProfileFile;
+
+        public EGameDifficulty Difficulty;
+        public SAvatar Avatar;
+        public EOffOn GuestProfile;
+        public EOffOn Active;
+    }
+
+    public struct SAvatar
+    {
+        public string FileName;
+        public STexture Texture;
+
+        public SAvatar(int dummy)
+        {
+            FileName = String.Empty;
+            Texture = new STexture(-1);
+        }
+    }
+
+    public struct SPlayer
+    {
+        public int ProfileID;
+        public string Name;
+        public EGameDifficulty Difficulty;
+        public double Points;
+        public double PointsLineBonus;
+        public double PointsGoldenNotes;
+        public int NoteDiff;
+        public int LineNr;
+        public List<CLine> SingLine;
+        public int CurrentLine;
+        public int CurrentNote;
+
+        public int SongID;
+        public bool Medley;
+        public bool Duet;
+        public bool ShortSong;
+        public long DateTicks;
+        public bool SongFinished;
+    }
+
+    public struct SScores
+    {
+        public string Name;
+        public int Score;
+        public string Date;
+        public EGameDifficulty Difficulty;
+        public int LineNr;
+        public int ID;
     }
 }

@@ -96,9 +96,10 @@ namespace Vocaluxe.Menu
         {           
         }
 
-        public void Initialize(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic, IDrawing Draw, IGraphics Graphics, IFonts Fonts, ILanguage Language)
+        public void Initialize(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic, IDrawing Draw,
+            IGraphics Graphics, IFonts Fonts, ILanguage Language, IGame Game, IProfiles Profiles)
         {
-            _Base = new Base(Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language);
+            _Base = new Base(Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language, Game, Profiles);
             Init();
         }
 
@@ -2329,8 +2330,11 @@ namespace Vocaluxe.Menu
         public IGraphics Graphics;
         public IFonts Fonts;
         public ILanguage Language;
+        public IGame Game;
+        public IProfiles Profiles;
 
-        public Base(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic, IDrawing Draw, IGraphics Graphics, IFonts Fonts, ILanguage Language)
+        public Base(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic,
+            IDrawing Draw, IGraphics Graphics, IFonts Fonts, ILanguage Language, IGame Game, IProfiles Profiles)
         {
             this.Config = Config;
             this.Settings = Settings;
@@ -2342,6 +2346,8 @@ namespace Vocaluxe.Menu
             this.Graphics = Graphics;
             this.Fonts = Fonts;
             this.Language = Language;
+            this.Game = Game;
+            this.Profiles = Profiles;
         }
     }
 }

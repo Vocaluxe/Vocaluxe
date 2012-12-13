@@ -12,38 +12,6 @@ using Vocaluxe.Menu.SingNotes;
 
 namespace Vocaluxe.Base
 {
-    struct SPlayer
-    {
-        public int ProfileID;
-        public string Name;
-        public EGameDifficulty Difficulty;
-        public double Points;
-        public double PointsLineBonus;
-        public double PointsGoldenNotes;
-        public int NoteDiff;
-        public int LineNr;
-        public List<CLine> SingLine;
-        public int CurrentLine;
-        public int CurrentNote;
-
-        public int SongID;
-        public bool Medley;
-        public bool Duet;
-        public bool ShortSong;
-        public long DateTicks;
-        public bool SongFinished;
-    }
-
-    struct SScores
-    {
-        public string Name;
-        public int Score;
-        public string Date;
-        public EGameDifficulty Difficulty;
-        public int LineNr;
-        public int ID;
-    }
-
     static class CGame
     {
         private static IGameMode _GameMode;

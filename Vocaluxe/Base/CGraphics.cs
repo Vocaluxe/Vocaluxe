@@ -280,14 +280,16 @@ namespace Vocaluxe.Menu
             for (int i = 0; i < _Screens.Count; i++)
             {
                 CLog.StartBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
-                _Screens[i].Initialize(CMain.Config, CMain.Settings, CMain.Theme, CMain.Helper, CMain.Log, CMain.BackgroundMusic, CMain.Draw, CMain.Graphics, CMain.Fonts, CMain.Language);
+                _Screens[i].Initialize(CMain.Config, CMain.Settings, CMain.Theme, CMain.Helper, CMain.Log, CMain.BackgroundMusic, CMain.Draw,
+                    CMain.Graphics, CMain.Fonts, CMain.Language, CMain.Game, CMain.Profiles);
                 _Screens[i].LoadTheme();
                 CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
 			{
-                _PopupScreens[i].Initialize(CMain.Config, CMain.Settings, CMain.Theme, CMain.Helper, CMain.Log, CMain.BackgroundMusic, CMain.Draw, CMain.Graphics, CMain.Fonts, CMain.Language);
+                _PopupScreens[i].Initialize(CMain.Config, CMain.Settings, CMain.Theme, CMain.Helper, CMain.Log, CMain.BackgroundMusic, CMain.Draw,
+                    CMain.Graphics, CMain.Fonts, CMain.Language, CMain.Game, CMain.Profiles);
 			    _PopupScreens[i].LoadTheme();
 			}
         }
