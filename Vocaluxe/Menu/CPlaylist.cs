@@ -194,7 +194,7 @@ namespace Vocaluxe.Menu
             PlaylistElements = new List<PlaylistElement>();
             PlaylistElementContents = new List<PlaylistElementContent>();
 
-            _Interactions = new CObjectInteractions();
+            _Interactions = new CObjectInteractions(_Base);
             ChangeOrderElement = new PlaylistElement(_Base);
 
             Visible = false;
