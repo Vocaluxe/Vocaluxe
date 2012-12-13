@@ -21,6 +21,8 @@ namespace Vocaluxe.Base
         public static ILanguage Language = new BLanguage();
         public static IGame Game = new BGame();
         public static IProfiles Profiles = new BProfiles();
+
+        public static Menu.Base Base = new Menu.Base(Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language, Game, Profiles);
     }
 
     class BConfig : IConfig
@@ -88,6 +90,16 @@ namespace Vocaluxe.Base
         public EGameState GetGameState()
         {
             return CSettings.GameState;
+        }
+
+        public int GetToneMin()
+        {
+            return CSettings.ToneMin;
+        }
+
+        public int GetToneMax()
+        {
+            return CSettings.ToneMax;
         }
     }
 

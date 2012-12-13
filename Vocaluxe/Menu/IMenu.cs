@@ -10,8 +10,7 @@ namespace Vocaluxe.Menu
 {
     interface IMenu
     {
-        void Initialize(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic, IDrawing Draw,
-            IGraphics Graphics, IFonts Fonts, ILanguage Language, IGame Game, IProfiles Profiles);
+        void Initialize(Base Base);
 
         void LoadTheme();
         void SaveTheme();
@@ -64,6 +63,9 @@ namespace Vocaluxe.Menu
         float GetZNear();
 
         EGameState GetGameState();
+
+        int GetToneMin();
+        int GetToneMax();
     }
 
     public interface ITheme

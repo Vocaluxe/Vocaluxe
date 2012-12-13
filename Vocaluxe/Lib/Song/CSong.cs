@@ -744,7 +744,7 @@ namespace Vocaluxe.Lib.Song
 
         private void ParseNote(int Player, ENoteType NoteType, int Start, int Length, int Tone, string Text)
         {
-            CNote note = new CNote(Start, Length, Tone, Text, NoteType);
+            CNote note = new CNote(CMain.Base, Start, Length, Tone, Text, NoteType);
             CLines lines = this.Notes.GetLines(Player);
             
             if (lines.LineCount == 0)

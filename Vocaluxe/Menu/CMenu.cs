@@ -93,13 +93,12 @@ namespace Vocaluxe.Menu
         }
 
         public CMenu()
-        {           
+        {
         }
 
-        public void Initialize(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic, IDrawing Draw,
-            IGraphics Graphics, IFonts Fonts, ILanguage Language, IGame Game, IProfiles Profiles)
+        public void Initialize(Base Base)
         {
-            _Base = new Base(Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language, Game, Profiles);
+            _Base = Base;
             Init();
         }
 
