@@ -5,9 +5,6 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 
-using Vocaluxe.Base;
-using Vocaluxe.Lib.Draw;
-
 namespace Vocaluxe.Menu
 {
     struct SThemeButton
@@ -112,7 +109,7 @@ namespace Vocaluxe.Menu
 
             if (CHelper.GetValueFromXML(item + "/Color", navigator, ref _Theme.ColorName, String.Empty))
             {
-                _ThemeLoaded &= CTheme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
+                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
@@ -124,7 +121,7 @@ namespace Vocaluxe.Menu
 
             if (CHelper.GetValueFromXML(item + "/SColor", navigator, ref _Theme.SColorName, String.Empty))
             {
-                _ThemeLoaded &= CTheme.GetColor(_Theme.SColorName, SkinIndex, ref SColor);
+                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.SColorName, SkinIndex, ref SColor);
             }
             else
             {
@@ -263,41 +260,41 @@ namespace Vocaluxe.Menu
 
         public void Draw(bool ForceDraw)
         {
-            if (!Visible && CSettings.GameState != EGameState.EditTheme && !ForceDraw)
+            if (!Visible && _Base.Settings.GetGameState() != EGameState.EditTheme && !ForceDraw)
                 return;
 
             STexture texture = new STexture(-1);
 
             if (!Selected && !Pressed)
             {
-                texture = CTheme.GetSkinTexture(_Theme.TextureName);
-                CDraw.DrawTexture(texture, Rect, Color);
+                texture = _Base.Theme.GetSkinTexture(_Theme.TextureName);
+                _Base.Drawing.DrawTexture(texture, Rect, Color);
                 Text.DrawRelative(Rect.X, Rect.Y);
                 if (Reflection)
                 {
-                    CDraw.DrawTextureReflection(texture, Rect, Color, Rect, ReflectionSpace, ReflectionHeight);
+                    _Base.Drawing.DrawTextureReflection(texture, Rect, Color, Rect, ReflectionSpace, ReflectionHeight);
                     Text.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
                 }
             }
             else if(!SelText)
             {
-                texture = CTheme.GetSkinTexture(_Theme.STextureName);
-                CDraw.DrawTexture(texture, Rect, SColor);
+                texture = _Base.Theme.GetSkinTexture(_Theme.STextureName);
+                _Base.Drawing.DrawTexture(texture, Rect, SColor);
                 Text.DrawRelative(Rect.X, Rect.Y);
                 if (Reflection)
                 {
-                    CDraw.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
+                    _Base.Drawing.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
                     Text.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
                 }
             }
             else if(SelText)
             {
-                texture = CTheme.GetSkinTexture(_Theme.STextureName);
-                CDraw.DrawTexture(texture, Rect, SColor);
+                texture = _Base.Theme.GetSkinTexture(_Theme.STextureName);
+                _Base.Drawing.DrawTexture(texture, Rect, SColor);
                 SText.DrawRelative(Rect.X, Rect.Y);
                 if (Reflection)
                 {
-                    CDraw.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
+                    _Base.Drawing.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
                     SText.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
                 }
             }
@@ -318,10 +315,10 @@ namespace Vocaluxe.Menu
             Text.LoadTextures();
 
             if (_Theme.ColorName != String.Empty)
-                Color = CTheme.GetColor(_Theme.ColorName);
+                Color = _Base.Theme.GetColor(_Theme.ColorName);
 
             if (_Theme.SColorName != String.Empty)
-                SColor = CTheme.GetColor(_Theme.SColorName);
+                SColor = _Base.Theme.GetColor(_Theme.SColorName);
         }
 
         public void ReloadTextures()

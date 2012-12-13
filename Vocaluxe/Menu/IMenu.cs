@@ -111,6 +111,7 @@ namespace Vocaluxe.Menu
         RectangleF GetTextBounds(CText text);
         
         void DrawTexture(STexture Texture, SRectF Rect);
+        void DrawTexture(STexture Texture, SRectF Rect, SColorF Color);
         void DrawTexture(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds);
         void DrawTextureReflection(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds, float ReflectionSpace, float ReflectionHeight);
 
