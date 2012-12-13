@@ -11,7 +11,7 @@ namespace Vocaluxe.Menu
 {
     interface IMenu
     {
-        void Initialize(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic, IDrawing Draw, IGraphics Graphics);
+        void Initialize(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic, IDrawing Draw, IGraphics Graphics, IFonts Fonts, ILanguage Language);
 
         void LoadTheme();
         void SaveTheme();
@@ -125,6 +125,24 @@ namespace Vocaluxe.Menu
     public interface ILog
     {
         void LogError(string ErrorText);
+    }
+
+    public interface IFonts
+    {
+        void SetFont(string FontName);
+        void SetStyle(EStyle FontStyle);
+
+        RectangleF GetTextBounds(CText Text, float TextHeight);
+
+        void DrawText(string Text, float TextHeight, float x, float y, float z, SColorF Color);
+        void DrawTextReflection(string Text, float TextHeight, float x, float y, float z, SColorF Color, float ReflectionSpace, float ReflectionHeight);
+        void DrawText(string Text, float TextHeight, float x, float y, float z, SColorF Color, float Begin, float End);
+    }
+
+    public interface ILanguage
+    {
+        string Translate(string KeyWord);
+        bool TranslationExists(string KeyWord);
     }
 
     [Flags]
