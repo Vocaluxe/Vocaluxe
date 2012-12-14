@@ -35,7 +35,7 @@ namespace Vocaluxe.Menu
         public EStyle TextStyle;
     }
 
-    class CSelectSlide : IMenuElement, ICloneable
+    public class CSelectSlide : IMenuElement, ICloneable
     {
         private Basic _Base;
         private SThemeSelectSlide _Theme;

@@ -26,7 +26,7 @@ namespace Vocaluxe.Menu
         public string SColorName;
     }
 
-    class CLyric : IMenuElement
+    public class CLyric : IMenuElement
     {
         private Basic _Base;
         private SThemeLyrics _Theme;

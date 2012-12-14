@@ -7,7 +7,7 @@ using Vocaluxe.Menu;
 
 namespace Vocaluxe.PartyModes
 {
-    class CScreenPartyDummy : CMenu
+    public class CScreenPartyDummy : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         const int ScreenVersion = 1;

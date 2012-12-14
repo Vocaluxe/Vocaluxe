@@ -9,7 +9,7 @@ using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Menu
 {
-    interface IMenu
+    public interface IMenu
     {
         void Initialize(Basic Base);
 

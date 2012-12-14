@@ -10,7 +10,7 @@ using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Menu
 {
-    enum EEditMode
+    public enum EEditMode
     {
         None,
         PlaylistName,
@@ -67,7 +67,7 @@ namespace Vocaluxe.Menu
         public CSelectSlide SelectSlideGameMode;
     }
 
-    class CPlaylist : IMenuElement
+    public class CPlaylist : IMenuElement
     {
         class PlaylistElementContent
         {

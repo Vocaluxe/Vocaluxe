@@ -18,7 +18,7 @@ namespace Vocaluxe.Menu
         public string STextureName;
     }
 
-    class CButton : IMenuElement
+    public class CButton : IMenuElement
     {
         private Basic _Base;
         private SThemeButton _Theme;

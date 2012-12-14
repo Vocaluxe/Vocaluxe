@@ -40,7 +40,7 @@ namespace Vocaluxe.Menu.SingNotes
         public string SkinPerfectNoteStarName;
     }
 
-    abstract class CSingNotes : ISingNotes, IMenuElement
+    public abstract class CSingNotes : ISingNotes, IMenuElement
     {
         private Basic _Base;
         private SThemeSingBar _Theme;

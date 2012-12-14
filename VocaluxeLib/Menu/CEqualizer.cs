@@ -26,7 +26,7 @@ namespace Vocaluxe.Menu
         public EOffOn DrawNegative;
     }
 
-    class CEqualizer : IMenuElement
+    public class CEqualizer : IMenuElement
     {
         private Basic _Base;
         private SThemeEqualizer _Theme;

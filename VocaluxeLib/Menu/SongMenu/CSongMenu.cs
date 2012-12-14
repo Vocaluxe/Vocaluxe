@@ -9,7 +9,7 @@ using Vocaluxe.PartyModes;
 
 namespace Vocaluxe.Menu.SongMenu
 {
-    class CSongMenu : ISongMenu
+    public class CSongMenu : ISongMenu
     {
         private Basic _Base;
 

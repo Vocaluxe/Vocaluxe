@@ -14,7 +14,7 @@ namespace Vocaluxe.Menu
         public string ColorName;
     }
 
-    class CStatic : IMenuElement
+    public class CStatic : IMenuElement
     {
         private Basic _Base;
 

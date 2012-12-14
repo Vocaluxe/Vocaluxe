@@ -22,7 +22,7 @@ namespace Vocaluxe.Menu
         public string NameColorName;
     }
 
-    class CNameSelection : IMenuElement
+    public class CNameSelection : IMenuElement
     {
         class CTile
         {

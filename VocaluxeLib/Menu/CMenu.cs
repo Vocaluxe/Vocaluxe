@@ -20,7 +20,7 @@ namespace Vocaluxe.Menu
         public float z;
     }
 
-    abstract class CMenu : IMenu
+    public abstract class CMenu : IMenu
     {        
         private List<CInteraction> _Interactions;
         private int _Selection = 0;

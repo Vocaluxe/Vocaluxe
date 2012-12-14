@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Vocaluxe.Menu
 {
-    enum EParticeType
+    public enum EParticeType
     {
         Twinkle,
         Star,
@@ -286,7 +286,7 @@ namespace Vocaluxe.Menu
         }
     }
 
-    class CParticleEffect
+    public class CParticleEffect
     {
         private Basic _Base;
         private List<CParticle> _Stars;

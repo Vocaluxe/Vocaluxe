@@ -6,7 +6,7 @@ using Vocaluxe.Menu;
 
 namespace Vocaluxe.PartyModes
 {
-    abstract class CPartyMode : IPartyMode
+    public abstract class CPartyMode : IPartyMode
     {
         protected Basic _Base;
         protected ScreenSongOptions _ScreenSongOptions;

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Vocaluxe.PartyModes
 {
-    class CPartyModeNone : CPartyMode
+    public class CPartyModeNone : CPartyMode
     {
         //just a dummy for normal game mode
         public CPartyModeNone()

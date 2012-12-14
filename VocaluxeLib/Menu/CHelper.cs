@@ -9,7 +9,7 @@ using System.Xml.XPath;
 
 namespace Vocaluxe.Menu
 {
-    class CHelper
+    public class CHelper
     {
         /// <summary>
         /// Concat strings into one string with ", " as separator.

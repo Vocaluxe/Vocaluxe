@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Vocaluxe.Base;
 using Vocaluxe.Menu;
 
 namespace Vocaluxe.PartyModes
@@ -50,7 +49,7 @@ namespace Vocaluxe.PartyModes
     }
     #endregion Structs
 
-    interface IPartyMode
+    public interface IPartyMode
     {
         bool Init(string Folder);
         void Initialize(Basic Base);
