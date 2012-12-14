@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using Vocaluxe.GameModes;
 using Vocaluxe.Menu.SingNotes;
 using Vocaluxe.Menu.SongMenu;
 
@@ -783,5 +782,13 @@ namespace Vocaluxe.Menu
         public EGameDifficulty Difficulty;
         public int LineNr;
         public int ID;
+    }
+
+    public enum EGameMode
+    {
+        TR_GAMEMODE_NORMAL,
+        TR_GAMEMODE_MEDLEY,
+        TR_GAMEMODE_DUET,
+        TR_GAMEMODE_SHORTSONG
     }
 }

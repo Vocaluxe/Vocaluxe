@@ -8,14 +8,6 @@ using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.GameModes
 {
-    public enum EGameMode
-    {
-        TR_GAMEMODE_NORMAL,
-        TR_GAMEMODE_MEDLEY,
-        TR_GAMEMODE_DUET,
-        TR_GAMEMODE_SHORTSONG
-    }
-
     interface IGameMode
     {
         void Init();

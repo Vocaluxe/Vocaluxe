@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SingNotes;
-using Vocaluxe.GameModes;
 
 namespace Vocaluxe.Menu.SongMenu
 {

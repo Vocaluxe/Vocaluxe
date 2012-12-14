@@ -7,7 +7,6 @@ using System.Xml.XPath;
 using System.Windows.Forms;
 
 using Vocaluxe.Menu.SongMenu;
-using Vocaluxe.GameModes;
 
 namespace Vocaluxe.Menu
 {
@@ -1231,7 +1230,7 @@ namespace Vocaluxe.Menu
                         PlaylistElements[i].SelectSlide.Clear();
                         for (int g = 0; g < pec.Modes.Length; g++)
                         {
-                            PlaylistElements[i].SelectSlide.AddValue(Enum.GetName(typeof(GameModes.EGameMode), pec.Modes[g]));
+                            PlaylistElements[i].SelectSlide.AddValue(Enum.GetName(typeof(EGameMode), pec.Modes[g]));
                             if (pec.Modes[g] == pec.Mode)
                                 PlaylistElements[i].SelectSlide.SetSelectionByValueIndex(g);
                         }                     

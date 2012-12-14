@@ -57,7 +57,7 @@ namespace Vocaluxe.Screens
 
         private bool _SongOptionsActive = false;
         private bool _PlaylistActive = false;
-        private List<GameModes.EGameMode> _AvailableGameModes;
+        private List<EGameMode> _AvailableGameModes;
         private ScreenSongOptions _sso;
 
         private CStatic DragAndDropCover;
@@ -67,7 +67,7 @@ namespace Vocaluxe.Screens
 
         public CScreenSong()
         {
-            _AvailableGameModes = new List<GameModes.EGameMode>();
+            _AvailableGameModes = new List<EGameMode>();
         }
 
         protected override void Init()
@@ -656,9 +656,9 @@ namespace Vocaluxe.Screens
                 else
                 {
                     if (CSongs.VisibleSongs[SongNr].IsDuet)
-                       gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
+                       gm = EGameMode.TR_GAMEMODE_DUET;
                     else
-                       gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+                       gm = EGameMode.TR_GAMEMODE_NORMAL;
                 }
 
                 CGame.Reset();
@@ -676,9 +676,9 @@ namespace Vocaluxe.Screens
             {
                 EGameMode gm;
                 if (CSongs.VisibleSongs[SongNr].IsDuet)
-                    gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
+                    gm = EGameMode.TR_GAMEMODE_DUET;
                 else
-                    gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+                    gm = EGameMode.TR_GAMEMODE_NORMAL;
 
                 CGame.Reset();
                 CGame.ClearSongs();
@@ -695,7 +695,7 @@ namespace Vocaluxe.Screens
             {
                 EGameMode gm;
                 if (CSongs.VisibleSongs[SongNr].Medley.Source != EMedleySource.None)
-                    gm = GameModes.EGameMode.TR_GAMEMODE_MEDLEY;
+                    gm = EGameMode.TR_GAMEMODE_MEDLEY;
                 else
                     return;
 
@@ -868,20 +868,20 @@ namespace Vocaluxe.Screens
                     SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Clear();
                     if (!CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].IsDuet)
                     {
-                        SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(GameModes.EGameMode), GameModes.EGameMode.TR_GAMEMODE_NORMAL));
-                        _AvailableGameModes.Add(GameModes.EGameMode.TR_GAMEMODE_NORMAL);
-                        SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(GameModes.EGameMode), GameModes.EGameMode.TR_GAMEMODE_SHORTSONG));
-                        _AvailableGameModes.Add(GameModes.EGameMode.TR_GAMEMODE_SHORTSONG);
+                        SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(EGameMode), EGameMode.TR_GAMEMODE_NORMAL));
+                        _AvailableGameModes.Add(EGameMode.TR_GAMEMODE_NORMAL);
+                        SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(EGameMode), EGameMode.TR_GAMEMODE_SHORTSONG));
+                        _AvailableGameModes.Add(EGameMode.TR_GAMEMODE_SHORTSONG);
                     }
                     if (CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].IsDuet)
                     {
-                        SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(GameModes.EGameMode), GameModes.EGameMode.TR_GAMEMODE_DUET));
-                        _AvailableGameModes.Add(GameModes.EGameMode.TR_GAMEMODE_DUET);
+                        SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(EGameMode), EGameMode.TR_GAMEMODE_DUET));
+                        _AvailableGameModes.Add(EGameMode.TR_GAMEMODE_DUET);
                     }
                     if (CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].Medley.Source != EMedleySource.None)
                     {
-                        SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(GameModes.EGameMode), GameModes.EGameMode.TR_GAMEMODE_MEDLEY));
-                        _AvailableGameModes.Add(GameModes.EGameMode.TR_GAMEMODE_MEDLEY);
+                        SelectSlides[htSelectSlides(SelectSlideOptionsMode)].AddValue(Enum.GetName(typeof(EGameMode), EGameMode.TR_GAMEMODE_MEDLEY));
+                        _AvailableGameModes.Add(EGameMode.TR_GAMEMODE_MEDLEY);
                     }
                     //Set SelectSlide-Selection to last selected game-mode if possible
                     for (int i = 0; i < _AvailableGameModes.Count; i++)
@@ -1000,9 +1000,9 @@ namespace Vocaluxe.Screens
                     gm = _AvailableGameModes[SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection];
                 else
                     if (CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].IsDuet)
-                        gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
+                        gm = EGameMode.TR_GAMEMODE_DUET;
                     else
-                        gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+                        gm = EGameMode.TR_GAMEMODE_NORMAL;
                 
                 //Check if Playlist really exists
                 if (SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistAdd)].Selection - 1 >= 0)
@@ -1028,9 +1028,9 @@ namespace Vocaluxe.Screens
                     gm = _AvailableGameModes[SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection];
                 else
                     if (CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].IsDuet)
-                        gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
+                        gm = EGameMode.TR_GAMEMODE_DUET;
                     else
-                        gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+                        gm = EGameMode.TR_GAMEMODE_NORMAL;
                 
                 //Create new playlist
                 Playlists[htPlaylists(Playlist)].ActivePlaylistID = CPlaylists.NewPlaylist();
@@ -1057,9 +1057,9 @@ namespace Vocaluxe.Screens
                     gm = _AvailableGameModes[SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Selection];
                 else
                     if (CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].IsDuet)
-                        gm = GameModes.EGameMode.TR_GAMEMODE_DUET;
+                        gm = EGameMode.TR_GAMEMODE_DUET;
                     else
-                        gm = GameModes.EGameMode.TR_GAMEMODE_NORMAL;
+                        gm = EGameMode.TR_GAMEMODE_NORMAL;
                 CPlaylists.Playlists[Playlists[htPlaylists(Playlist)].ActivePlaylistID].AddSong(CSongs.VisibleSongs[SongMenus[htSongMenus(SongMenu)].GetSelectedSong()].ID, gm);
                 Playlists[htPlaylists(Playlist)].UpdatePlaylist();
                 Playlists[htPlaylists(Playlist)].ScrollToBottom();
