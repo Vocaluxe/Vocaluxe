@@ -8,7 +8,7 @@ using Vocaluxe.Base;
 using Vocaluxe.Menu;
 using Vocaluxe.GameModes;
 
-using Vocaluxe.Lib.Song;
+using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Screens
 {

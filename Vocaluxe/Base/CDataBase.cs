@@ -20,8 +20,8 @@ using SQLiteDataReader = Mono.Data.Sqlite.SqliteDataReader;
 using Community.CsharpSqlite;
 
 using Vocaluxe.Lib.Draw;
-using Vocaluxe.Lib.Song;
 using Vocaluxe.Menu;
+using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Base
 {

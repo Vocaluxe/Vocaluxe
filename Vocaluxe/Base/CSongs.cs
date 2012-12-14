@@ -8,8 +8,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 
 using Vocaluxe.Lib.Draw;
-using Vocaluxe.Lib.Song;
+
 using Vocaluxe.Menu;
+using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Base
 {
@@ -958,7 +959,7 @@ namespace Vocaluxe.Base
             CLog.StartBenchmark(2, "Read TXTs");
             foreach (string file in files)
             {
-                CSong Song = new CSong();
+                CSong Song = new CSong(CMain.Base);
                 if (Song.ReadTXTSong(file))
                 {
                     Song.ID = _Songs.Count;

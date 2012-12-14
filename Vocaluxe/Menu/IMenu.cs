@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using Vocaluxe.Menu.SingNotes;
+using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Menu
 {
@@ -47,13 +48,20 @@ namespace Vocaluxe.Menu
         void SetBackgroundMusicVolume(int NewVolume);
         int GetBackgroundMusicVolume();
 
+        int GetPreviewMusicVolume();
+
         EOffOn GetVideosToBackground();
         EOffOn GetVideoBackgrounds();
+        EOffOn GetVideoPreview();
 
         ESongMenu GetSongMenuType();
 
         EOffOn GetDrawNoteLines();
         EOffOn GetDrawToneHelper();
+
+        int GetCoverSize();
+
+        List<string> GetSongFolder();
     }
 
     public interface ISettings
@@ -72,6 +80,11 @@ namespace Vocaluxe.Menu
 
         int GetNumNoteLines();
         int GetMaxNumPlayer();
+
+        float GetDefaultMedleyFadeInTime();
+        float GetDefaultMedleyFadeOutTime();
+        int GetMedleyMinSeriesLength();
+        float GetMedleyMinDuration();
     }
 
     public interface ITheme
@@ -124,6 +137,8 @@ namespace Vocaluxe.Menu
         void DrawTexture(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds);
         void DrawTextureReflection(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds, float ReflectionSpace, float ReflectionHeight);
 
+        void RemoveTexture(ref STexture Texture);
+
         void DrawColor(SColorF Color, SRectF Rect);
         void DrawColorReflection(SColorF Color, SRectF Rect, float Space, float Height);
     }
@@ -165,6 +180,8 @@ namespace Vocaluxe.Menu
 
         int GetRandom(int Max);
         double GetRandomDouble();
+
+        float GetTimeFromBeats(float Beat, float BPM);
     }
 
     public interface IRecording
@@ -175,6 +192,52 @@ namespace Vocaluxe.Menu
     public interface IProfiles
     {
         SProfile[] GetProfiles();
+    }
+
+    public interface ISongs
+    {
+        int GetNumVisibleSongs();
+        int GetNumCategories();
+        int GetCurrentCategoryIndex();
+
+        void SetCategory(int CategoryIndex);
+
+        CSong GetVisibleSong(int VisibleIndex);
+    }
+
+    public interface IVideo
+    {
+        int Load(string VideoFileName);
+        bool Skip(int VideoStream, float StartPosition, float VideoGap);
+        bool GetFrame(int VideoStream, ref STexture VideoTexture, float Time, ref float VideoTime);
+        bool IsFinished(int VideoStream);
+        bool Close(int VideoStream);
+    }
+
+    public interface ISound
+    {
+        int Load(string SoundFile, bool Prescan);
+        void SetPosition(int SoundStream, float NewPosition);
+        void Play(int SoundStream);
+        void Fade(int SoundStream, float TargetVolume, float Duration);
+
+        bool IsFinished(int SoundStream);
+        float GetPosition(int SoundStream);
+        float GetLength(int SoundStream);
+        void FadeAndStop(int SoundStream, float TargetVolume, float Duration);
+
+        void SetStreamVolume(int SoundStream, float Volume);
+        void SetStreamVolumeMax(int SoundStream, float MaxVolume);
+    }
+
+    public interface ICover
+    {
+        STexture GetNoCover();
+    }
+
+    public interface IDataBase
+    {
+        bool GetCover(string FileName, ref STexture Texture, int CoverSize);
     }
 
     [Flags]
@@ -305,7 +368,7 @@ namespace Vocaluxe.Menu
         EditTheme
     }
 
-    enum EAspect
+    public enum EAspect
     {
         Crop,
         LetterBox,

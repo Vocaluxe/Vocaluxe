@@ -10,8 +10,7 @@ using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SingNotes;
-
-using Vocaluxe.Lib.Song;
+using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Screens
 {

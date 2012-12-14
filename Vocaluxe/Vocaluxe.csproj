@@ -210,7 +210,7 @@
     <Compile Include="Lib\Playlist\CPlaylistFile.cs" />
     <Compile Include="Menu\CParticle.cs" />
     <Compile Include="Menu\SingNotes\CNotes.cs" />
-    <Compile Include="Lib\Song\CSong.cs" />
+    <Compile Include="Menu\SongMenu\CSong.cs" />
     <Compile Include="Lib\Sound\CDirectSoundRecord.cs" />
     <Compile Include="Lib\Sound\COpenALPlay.cs" />
     <Compile Include="Lib\Sound\COpenALRecord.cs" />

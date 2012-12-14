@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 
 using Vocaluxe.Base;
-using Vocaluxe.Lib.Song;
 using Vocaluxe.Menu;
+using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.GameModes
 {

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
-using Vocaluxe.Lib.Song;
+using Vocaluxe.Menu.SongMenu;
 using Vocaluxe.GameModes;
 
 namespace Vocaluxe.Menu

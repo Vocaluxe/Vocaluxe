@@ -2337,9 +2337,15 @@ namespace Vocaluxe.Menu
         public IGame Game;
         public IProfiles Profiles;
         public IRecording Record;
+        public ISongs Songs;
+        public IVideo Video;
+        public ISound Sound;
+        public ICover Cover;
+        public IDataBase DataBase;
 
         public Base(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic,
-            IDrawing Draw, IGraphics Graphics, IFonts Fonts, ILanguage Language, IGame Game, IProfiles Profiles, IRecording Record)
+            IDrawing Draw, IGraphics Graphics, IFonts Fonts, ILanguage Language, IGame Game, IProfiles Profiles, IRecording Record,
+            ISongs Songs, IVideo Video, ISound Sound, ICover Cover, IDataBase DataBase)
         {
             this.Config = Config;
             this.Settings = Settings;
@@ -2354,6 +2360,11 @@ namespace Vocaluxe.Menu
             this.Game = Game;
             this.Profiles = Profiles;
             this.Record = Record;
+            this.Songs = Songs;
+            this.Video = Video;
+            this.Sound = Sound;
+            this.Cover = Cover;
+            this.DataBase = DataBase;
         }
     }
 }

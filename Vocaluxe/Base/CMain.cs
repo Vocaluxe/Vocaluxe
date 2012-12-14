@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Text;
 
 using Vocaluxe.Menu;
+using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Base
 {
@@ -22,8 +23,15 @@ namespace Vocaluxe.Base
         public static IGame Game = new BGame();
         public static IProfiles Profiles = new BProfiles();
         public static IRecording Record = new BRecord();
+        public static ISongs Songs = new BSongs();
+        public static IVideo Video = new BVideo();
+        public static ISound Sound = new BSound();
+        public static ICover Cover = new BCover();
+        public static IDataBase DataBase = new BDataBase();
 
-        public static Menu.Base Base = new Menu.Base(Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language, Game, Profiles, Record);
+
+        public static Menu.Base Base = new Menu.Base(
+            Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language, Game, Profiles, Record, Songs, Video, Sound, Cover, DataBase);
     }
 
     class BConfig : IConfig
@@ -45,6 +53,11 @@ namespace Vocaluxe.Base
             return CConfig.BackgroundMusicVolume;
         }
 
+        public int GetPreviewMusicVolume()
+        {
+            return CConfig.PreviewMusicVolume;
+        }
+
         public ESongMenu GetSongMenuType()
         {
             return CConfig.SongMenu;
@@ -60,6 +73,11 @@ namespace Vocaluxe.Base
             return CConfig.VideoBackgrounds;
         }
 
+        public EOffOn GetVideoPreview()
+        {
+            return CConfig.VideoPreview;
+        }
+
         public EOffOn GetDrawNoteLines()
         {
             return CConfig.DrawNoteLines;
@@ -68,6 +86,16 @@ namespace Vocaluxe.Base
         public EOffOn GetDrawToneHelper()
         {
             return CConfig.DrawToneHelper;
+        }
+
+        public int GetCoverSize()
+        {
+            return CConfig.CoverSize;
+        }
+
+        public List<string> GetSongFolder()
+        {
+            return CConfig.SongFolder;
         }
     }
 
@@ -121,6 +149,26 @@ namespace Vocaluxe.Base
         public int GetMaxNumPlayer()
         {
             return CSettings.MaxNumPlayer;
+        }
+
+        public float GetDefaultMedleyFadeInTime()
+        {
+            return CSettings.DefaultMedleyFadeInTime;
+        }
+
+        public float GetDefaultMedleyFadeOutTime()
+        {
+            return CSettings.DefaultMedleyFadeOutTime;
+        }
+
+        public int GetMedleyMinSeriesLength()
+        {
+            return CSettings.MedleyMinSeriesLength;
+        }
+
+        public float GetMedleyMinDuration()
+        {
+            return CSettings.MedleyMinDuration;
         }
     }
 
@@ -279,6 +327,11 @@ namespace Vocaluxe.Base
             CDraw.DrawTextureReflection(Texture, Rect, Color, Bounds, ReflectionSpace, ReflectionHeight);
         }
 
+        public void RemoveTexture(ref STexture Texture)
+        {
+            CDraw.RemoveTexture(ref Texture);
+        }
+
         public void DrawColor(SColorF Color, SRectF Rect)
         {
             CDraw.DrawColor(Color, Rect);
@@ -383,6 +436,11 @@ namespace Vocaluxe.Base
         {
             return CGame.Rand.NextDouble();
         }
+
+        public float GetTimeFromBeats(float Beat, float BPM)
+        {
+            return CGame.GetTimeFromBeats(Beat, BPM);
+        }
     }
 
     class BProfiles : IProfiles
@@ -398,6 +456,139 @@ namespace Vocaluxe.Base
         public int GetToneAbs(int PlayerNr)
         {
             return CSound.RecordGetToneAbs(PlayerNr);
+        }
+    }
+
+    class BSongs : ISongs
+    {
+        public int GetNumVisibleSongs()
+        {
+            return CSongs.NumVisibleSongs;
+        }
+
+        public int GetNumCategories()
+        {
+            return CSongs.NumCategories;
+        }
+
+        public int GetCurrentCategoryIndex()
+        {
+            return CSongs.Category;
+        }
+
+        public void SetCategory(int CategoryIndex)
+        {
+            CSongs.Category = CategoryIndex;
+        }
+
+        public CSong GetVisibleSong(int VisibleIndex)
+        {
+            if (VisibleIndex >= CSongs.NumVisibleSongs)
+                return null;
+
+            CSong song = CSongs.VisibleSongs[VisibleIndex];
+            if (song == null)
+                return null;
+
+            return new CSong(song);
+        }
+    }
+
+    class BVideo : IVideo
+    {
+        public int Load(string VideoFileName)
+        {
+            return CVideo.VdLoad(VideoFileName);
+        }
+
+        public bool Skip(int VideoStream, float StartPosition, float VideoGap)
+        {
+            return CVideo.VdSkip(VideoStream, StartPosition, VideoGap);
+        }
+
+        public bool GetFrame(int VideoStream, ref STexture VideoTexture, float Time, ref float VideoTime)
+        {
+            return CVideo.VdGetFrame(VideoStream, ref VideoTexture, Time, ref VideoTime);
+        }
+
+        public bool IsFinished(int VideoStream)
+        {
+            return CVideo.VdFinished(VideoStream);
+        }
+
+        public bool Close(int VideoStream)
+        {
+            return CVideo.VdClose(VideoStream);
+        }
+
+    }
+
+    class BSound : ISound
+    {
+        public int Load(string SoundFile, bool Prescan)
+        {
+            return CSound.Load(SoundFile, Prescan);
+        }
+
+        public void SetPosition(int SoundStream, float NewPosition)
+        {
+            CSound.SetPosition(SoundStream, NewPosition);
+        }
+
+        public void Play(int SoundStream)
+        {
+            CSound.Play(SoundStream);
+        }
+
+        public void Fade(int SoundStream, float TargetVolume, float Duration)
+        {
+            CSound.Fade(SoundStream, TargetVolume, Duration);
+        }
+
+        public bool IsFinished(int SoundStream)
+        {
+            return CSound.IsFinished(SoundStream);
+        }
+
+        public float GetPosition(int SoundStream)
+        {
+            return CSound.GetPosition(SoundStream);
+        }
+
+        public float GetLength(int SoundStream)
+        {
+            return CSound.GetLength(SoundStream);
+        }
+
+        public void FadeAndStop(int SoundStream, float TargetVolume, float Duration)
+        {
+            CSound.FadeAndStop(SoundStream, TargetVolume, Duration);
+        }
+
+        public void SetStreamVolume(int SoundStream, float Volume)
+        {
+            CSound.SetStreamVolume(SoundStream, Volume);
+        }
+
+        public void SetStreamVolumeMax(int SoundStream, float MaxVolume)
+        {
+            CSound.SetStreamVolumeMax(SoundStream, MaxVolume);
+        }
+    }
+
+    class BCover : ICover
+    {
+        public STexture GetNoCover()
+        {
+            return CCover.NoCover;
+        }
+    }
+
+    class BDataBase : IDataBase
+    {
+        public bool GetCover(string FileName, ref STexture Texture, int CoverSize)
+        {
+            return CDataBase.GetCover(FileName, ref Texture, CoverSize);
         }
     }
 }

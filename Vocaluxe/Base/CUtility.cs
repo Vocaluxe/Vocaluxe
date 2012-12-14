@@ -348,39 +348,4 @@ namespace Vocaluxe.Base
         }
 
     }
-
-    static class CEncoding
-    {
-        public static Encoding GetEncoding(string EncodingName)
-        {
-            switch (EncodingName)
-            {
-                case "AUTO":
-                    return Encoding.Default;
-                case "CP1250":
-                    return Encoding.GetEncoding(1250);
-                case "CP1252":
-                    return Encoding.GetEncoding(1252);
-                case "LOCALE":
-                    return Encoding.Default;
-                case "UTF8":
-                    return Encoding.UTF8;
-                default:
-                    return Encoding.UTF8;
-            }
-        }
-
-        public static string GetEncodingName(Encoding Enc)
-        {
-            string Result = "UTF8";
-
-            if (Enc.CodePage == 1250)
-                Result = "CP1250";
-
-            if (Enc.CodePage == 1252)
-                Result = "CP1252";
-
-            return Result;
-        }
-    }
 }

@@ -9,8 +9,8 @@ using System.Windows.Forms;
 
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
-using Vocaluxe.Lib.Song;
 using Vocaluxe.Menu;
+using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Screens
 {

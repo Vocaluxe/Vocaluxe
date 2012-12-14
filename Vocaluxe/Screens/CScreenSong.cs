@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.GameModes;
 using Vocaluxe.Lib.Draw;
-using Vocaluxe.Lib.Song;
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SongMenu;
 using Vocaluxe.PartyModes;
@@ -814,7 +813,7 @@ namespace Vocaluxe.Screens
                 id = CSongs.VisibleSongs[song].ID;
             }
 
-            int visibleID = Array.FindIndex<Vocaluxe.Lib.Song.CSong>(CSongs.VisibleSongs, element => element.Artist.StartsWith(Letter.ToString(), StringComparison.OrdinalIgnoreCase));
+            int visibleID = Array.FindIndex<CSong>(CSongs.VisibleSongs, element => element.Artist.StartsWith(Letter.ToString(), StringComparison.OrdinalIgnoreCase));
             if (visibleID > -1)
             {
                 id = visibleID;

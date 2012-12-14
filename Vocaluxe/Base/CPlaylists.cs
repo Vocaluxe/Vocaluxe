@@ -5,7 +5,6 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 
-using Vocaluxe.Lib.Song;
 using Vocaluxe.Lib.Playlist;
 using Vocaluxe.Menu;
 

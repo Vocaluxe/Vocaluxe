@@ -6,7 +6,7 @@ using Vocaluxe.Menu;
 
 namespace Vocaluxe.Menu.SingNotes
 {
-    class CNotes 
+    public class CNotes 
     {
         private List<CLines> _Lines = new List<CLines>();
         
