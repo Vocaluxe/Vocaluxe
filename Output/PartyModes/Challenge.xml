@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <PartyModeSystemVersion>1</PartyModeSystemVersion>
+  <Info>
+    <Name>Challenge</Name>
+    <Author>brunzel</Author>
+    <Folder>Challenge</Folder>
+	<PartyModeFile>CPartyModeChallenge.cs</PartyModeFile>
+    <PartyModeVersionMajor>0</PartyModeVersionMajor>
+    <PartyModeVersionMinor>1</PartyModeVersionMinor>
+  </Info>
+</root>

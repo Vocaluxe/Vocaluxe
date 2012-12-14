@@ -1,5 +1,8 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
@@ -16,6 +19,7 @@ namespace Vocaluxe.Base
         public string Name;
         public string Author;
         public string Folder;
+        public string PartyModeFile;
         public int PartyModeVersionMajor;
         public int PartyModeVersionMinor;
         public bool NoErrors;
@@ -151,12 +155,13 @@ namespace Vocaluxe.Base
 
             if (loaded)
             {
-                loaded &= CHelper.TryGetIntValueFromXML("//root/Info/PartyModeSystemVersion", navigator, ref pm.PartyModeSystemVersion);                
+                loaded &= CHelper.TryGetIntValueFromXML("//root/PartyModeSystemVersion", navigator, ref pm.PartyModeSystemVersion);                
                 loaded &= CHelper.GetValueFromXML("//root/Info/Name", navigator, ref pm.Name, "ERROR Name");
                 loaded &= CHelper.GetValueFromXML("//root/Info/Author", navigator, ref pm.Author, "ERROR Author");
                 loaded &= CHelper.GetValueFromXML("//root/Info/Folder", navigator, ref pm.Folder, "ERROR Folder");
-                loaded &= CHelper.TryGetIntValueFromXML("//root/Info/PartyModeSystemVersion", navigator, ref pm.PartyModeVersionMajor);
-                loaded &= CHelper.TryGetIntValueFromXML("//root/Info/PartyModeSystemVersion", navigator, ref pm.PartyModeVersionMinor);
+                loaded &= CHelper.GetValueFromXML("//root/Info/PartyModeFile", navigator, ref pm.PartyModeFile, "ERROR PartyModeFile");
+                loaded &= CHelper.TryGetIntValueFromXML("//root/Info/PartyModeVersionMajor", navigator, ref pm.PartyModeVersionMajor);
+                loaded &= CHelper.TryGetIntValueFromXML("//root/Info/PartyModeVersionMinor", navigator, ref pm.PartyModeVersionMinor);
 
                 if (pm.PartyModeSystemVersion != PartyModeSystemVersion)
                 {
@@ -171,10 +176,65 @@ namespace Vocaluxe.Base
                 return pm;
             }
 
-            
 
+            Assembly Output = CompileFile(Path.Combine(Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeCode), pm.PartyModeFile + ".cs"));
+            if (Output == null)
+                return pm;
+
+            object Instance = Output.CreateInstance("Vocaluxe.PartyModes." + pm.PartyModeFile);
+            if (Instance == null)
+            {
+                CLog.LogError("Error creating Instance of PartyMode file: " + file);
+                return pm;
+            }
+
+            try
+            {
+                pm.PartyMode = (IPartyMode)Instance;
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error casting PartyMode file: " + file + "; " + e.Message);
+                return pm;
+            }
+
+            pm.PartyMode.Initialize(CMain.Base);
+            pm.NoErrors = true;
             return pm;
         }
+
+        private static Assembly CompileFile(string file)
+        {
+            CompilerParameters Params = new CompilerParameters();
+            Params.ReferencedAssemblies.Add("VocaluxeLib.dll");
+            Params.GenerateInMemory = true;
+#if DEBUG
+            Params.IncludeDebugInformation = true;
+#endif
+
+            CodeDomProvider CDP = CodeDomProvider.CreateProvider("CSharp");
+            CompilerResults CompileResult = null;
+            try
+            {
+                CompileResult = CDP.CompileAssemblyFromFile(Params, file);
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error Compiling Source (" + file + "): " + e.Message);
+                return null;
+            }
+            
+            if (CompileResult.Errors.Count > 0)
+            {
+                for (int i = 0; i < CompileResult.Errors.Count; i++)
+                {
+                    CLog.LogError("Error Compiling Source (" + file + "): " + CompileResult.Errors[i].ErrorText);
+                }               
+                return null;
+            }
+            return CompileResult.CompiledAssembly;
+        }
+
         #endregion private stuff
     }
 }
