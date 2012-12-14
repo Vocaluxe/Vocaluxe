@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
+using Vocaluxe.GameModes;
 using Vocaluxe.Menu.SingNotes;
 using Vocaluxe.Menu.SongMenu;
 
@@ -183,6 +184,11 @@ namespace Vocaluxe.Menu
         double GetRandomDouble();
 
         float GetTimeFromBeats(float Beat, float BPM);
+
+        void AddSong(int SongID, EGameMode GameMode);
+        void Reset();
+        void ClearSongs();
+        int GetNumSongs();
     }
 
     public interface IRecording
@@ -209,6 +215,7 @@ namespace Vocaluxe.Menu
         void UpdateRandomSongList();
 
         CSong GetVisibleSong(int VisibleIndex);
+        CSong GetSongByID(int SongID);
         CCategory GetCategory(int Index);
 
         void NextCategory();
@@ -253,6 +260,27 @@ namespace Vocaluxe.Menu
     public interface IInputs
     {
         void SetRumble(float Duration);
+    }
+
+    public interface IPlaylist
+    {
+        string GetPlaylistName(int PlaylistID);
+        void SetPlaylistName(int PlaylistID, string Name);
+        void DeletePlaylist(int PlaylistID);
+        void SavePlaylist(int PlaylistID);
+        int GetNumPlaylists();
+
+        void AddPlaylistSong(int PlaylistID, int SongID);
+        void AddPlaylistSong(int PlaylistID, int SongID, EGameMode GameMode);
+        void InsertPlaylistSong(int PlaylistID, int PositionIndex, int SongID, EGameMode GameMode);
+
+        void MovePlaylistSong(int PlaylistID, int SourceIndex, int DestIndex);
+        void MovePlaylistSongDown(int PlaylistID, int SongIndex);
+        void MovePlaylistSongUp(int PlaylistID, int SongIndex);
+        void DeletePlaylistSong(int PlaylistID, int SongIndex);
+
+        int GetPlaylistSongCount(int PlaylistID);
+        CPlaylistSong GetPlaylistSong(int PlaylistID, int SongIndex);
     }
 
     [Flags]

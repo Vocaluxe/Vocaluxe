@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
+using Vocaluxe.GameModes;
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SongMenu;
 
@@ -29,10 +30,11 @@ namespace Vocaluxe.Base
         public static ICover Cover = new BCover();
         public static IDataBase DataBase = new BDataBase();
         public static IInputs Input = new BInputs();
+        public static IPlaylist Playlist = new BPlaylist();
 
 
         public static Menu.Base Base = new Menu.Base(
-            Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language, Game, Profiles, Record, Songs, Video, Sound, Cover, DataBase, Input);
+            Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language, Game, Profiles, Record, Songs, Video, Sound, Cover, DataBase, Input, Playlist);
     }
 
     class BConfig : IConfig
@@ -447,6 +449,26 @@ namespace Vocaluxe.Base
         {
             return CGame.GetTimeFromBeats(Beat, BPM);
         }
+
+        public void AddSong(int SongID, EGameMode GameMode)
+        {
+            CGame.AddSong(SongID, GameMode);
+        }
+
+        public void Reset()
+        {
+            CGame.Reset();
+        }
+
+        public void ClearSongs()
+        {
+            CGame.ClearSongs();
+        }
+
+        public int GetNumSongs()
+        {
+            return CGame.GetNumSongs();
+        }
     }
 
     class BProfiles : IProfiles
@@ -517,6 +539,11 @@ namespace Vocaluxe.Base
                 return null;
 
             return new CSong(song);
+        }
+
+        public CSong GetSongByID(int SongID)
+        {
+            return new CSong(CSongs.GetSong(SongID));
         }
 
         public CCategory GetCategory(int Index)
@@ -641,6 +668,81 @@ namespace Vocaluxe.Base
         public void SetRumble(float Duration)
         {
             CInput.SetRumble(Duration);
+        }
+    }
+
+    class BPlaylist : IPlaylist
+    {
+        public void SetPlaylistName(int PlaylistID, string Name)
+        {
+            CPlaylists.SetPlaylistName(PlaylistID, Name);
+        }
+
+        public string GetPlaylistName(int PlaylistID)
+        {
+            return CPlaylists.GetPlaylistName(PlaylistID);
+        }
+
+        public void DeletePlaylist(int PlaylistID)
+        {
+            CPlaylists.DeletePlaylist(PlaylistID);
+        }
+
+        public void SavePlaylist(int PlaylistID)
+        {
+            CPlaylists.SavePlaylist(PlaylistID);
+        }
+
+        public int GetNumPlaylists()
+        {
+            return CPlaylists.NumPlaylists;
+        }
+
+
+
+        public void AddPlaylistSong(int PlaylistID, int SongID)
+        {
+            CPlaylists.AddPlaylistSong(PlaylistID, SongID);
+        }
+
+        public void AddPlaylistSong(int PlaylistID, int SongID, EGameMode GameMode)
+        {
+            CPlaylists.AddPlaylistSong(PlaylistID, SongID, GameMode);
+        }
+
+        public void InsertPlaylistSong(int PlaylistID, int PositionIndex, int SongID, EGameMode GameMode)
+        {
+            CPlaylists.InsertPlaylistSong(PlaylistID, PositionIndex, SongID, GameMode);
+        }
+
+        public void MovePlaylistSong(int PlaylistID, int SourceIndex, int DestIndex)
+        {
+            CPlaylists.MovePlaylistSong(PlaylistID, SourceIndex, DestIndex);
+        }
+
+        public void MovePlaylistSongDown(int PlaylistID, int SongIndex)
+        {
+            CPlaylists.MovePlaylistSongDown(PlaylistID, SongIndex);
+        }
+
+        public void MovePlaylistSongUp(int PlaylistID, int SongIndex)
+        {
+            CPlaylists.MovePlaylistSongUp(PlaylistID, SongIndex);
+        }
+
+        public void DeletePlaylistSong(int PlaylistID, int SongIndex)
+        {
+            CPlaylists.DeletePlaylistSong(PlaylistID, SongIndex);
+        }
+
+        public int GetPlaylistSongCount(int PlaylistID)
+        {
+            return CPlaylists.GetPlaylistSongCount(PlaylistID);
+        }
+
+        public CPlaylistSong GetPlaylistSong(int PlaylistID, int SongIndex)
+        {
+            return CPlaylists.GetPlaylistSong(PlaylistID, SongIndex);
         }
     }
 }

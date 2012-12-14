@@ -2341,10 +2341,11 @@ namespace Vocaluxe.Menu
         public ICover Cover;
         public IDataBase DataBase;
         public IInputs Input;
+        public IPlaylist Playlist;
 
         public Base(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic,
             IDrawing Draw, IGraphics Graphics, IFonts Fonts, ILanguage Language, IGame Game, IProfiles Profiles, IRecording Record,
-            ISongs Songs, IVideo Video, ISound Sound, ICover Cover, IDataBase DataBase, IInputs Input)
+            ISongs Songs, IVideo Video, ISound Sound, ICover Cover, IDataBase DataBase, IInputs Input, IPlaylist Playlist)
         {
             this.Config = Config;
             this.Settings = Settings;
@@ -2365,6 +2366,7 @@ namespace Vocaluxe.Menu
             this.Cover = Cover;
             this.DataBase = DataBase;
             this.Input = Input;
+            this.Playlist = Playlist;
         }
     }
 }

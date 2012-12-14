@@ -10,32 +10,8 @@ using Vocaluxe.GameModes;
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SongMenu;
 
-
 namespace Vocaluxe.Lib.Playlist
 {
-    public class CPlaylistSong
-    {
-        public int SongID;
-        public EGameMode GameMode;
-
-        public CPlaylistSong(int SongID, EGameMode gm)
-        {
-            this.SongID = SongID;
-            this.GameMode = gm;
-        }
-
-        public CPlaylistSong()
-        {
-            GameMode = EGameMode.TR_GAMEMODE_NORMAL;
-        }
-
-        public CPlaylistSong(CPlaylistSong ps)
-        {
-            SongID = ps.SongID;
-            GameMode = ps.GameMode;
-        }
-    }
-
     public class CPlaylistFile
     {
         private static XmlWriterSettings _settings = new XmlWriterSettings();

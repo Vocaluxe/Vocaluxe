@@ -6,7 +6,6 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Windows.Forms;
 
-using Vocaluxe.Base;
 using Vocaluxe.Menu.SongMenu;
 using Vocaluxe.GameModes;
 
@@ -17,6 +16,29 @@ namespace Vocaluxe.Menu
         None,
         PlaylistName,
         ChangeOrder
+    }
+
+    public class CPlaylistSong
+    {
+        public int SongID;
+        public EGameMode GameMode;
+
+        public CPlaylistSong(int SongID, EGameMode gm)
+        {
+            this.SongID = SongID;
+            this.GameMode = gm;
+        }
+
+        public CPlaylistSong()
+        {
+            GameMode = EGameMode.TR_GAMEMODE_NORMAL;
+        }
+
+        public CPlaylistSong(CPlaylistSong ps)
+        {
+            SongID = ps.SongID;
+            GameMode = ps.GameMode;
+        }
     }
 
     struct SThemePlaylist
@@ -147,7 +169,7 @@ namespace Vocaluxe.Menu
                 {
                     if (_EditMode == EEditMode.ChangeOrder && ChangeOrderSource != -1 && PlaylistElements.Count > ChangeOrderSource)
                     {
-                        CPlaylists.Playlists[ActivePlaylistID].DeleteSong(PlaylistElements[ChangeOrderSource].Content);
+                        _Base.Playlist.DeletePlaylistSong(ActivePlaylistID, PlaylistElements[ChangeOrderSource].Content);
                         UpdatePlaylist();                       
                     }
                     ChangeOrderSource = -1;
@@ -229,7 +251,7 @@ namespace Vocaluxe.Menu
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/H", navigator, ref Rect.H);
             if (CHelper.GetValueFromXML(item + "/ColorBackground", navigator, ref _Theme.ColorBackgroundName, String.Empty))
             {
-                _ThemeLoaded &= CTheme.GetColor(_Theme.ColorBackgroundName, SkinIndex, ref BackgroundColor);
+                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorBackgroundName, SkinIndex, ref BackgroundColor);
             }
             else
             {
@@ -240,7 +262,7 @@ namespace Vocaluxe.Menu
             }
             if (CHelper.GetValueFromXML(item + "/SColorBackground", navigator, ref _Theme.SColorBackgroundName, String.Empty))
             {
-                _ThemeLoaded &= CTheme.GetColor(_Theme.SColorBackgroundName, SkinIndex, ref BackgroundSColor);
+                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.SColorBackgroundName, SkinIndex, ref BackgroundSColor);
             }
             else
             {
@@ -406,19 +428,19 @@ namespace Vocaluxe.Menu
             {
                 LoadPlaylist(0);
             }
-            if (!Visible && CSettings.GameState != EGameState.EditTheme && !ForceDraw)
+            if (!Visible && _Base.Settings.GetGameState() != EGameState.EditTheme && !ForceDraw)
                 return;
 
             for (int i = 0; i < PlaylistElements.Count; i++ )
             {
                 if (i == CurrentPlaylistElement && _Selected)
                 {
-                    PlaylistElements[i].Background.Texture = CTheme.GetSkinTexture(_Theme.STextureBackgroundName);
+                    PlaylistElements[i].Background.Texture = _Base.Theme.GetSkinTexture(_Theme.STextureBackgroundName);
                     PlaylistElements[i].Background.Color = BackgroundSColor;
                 }
                 else
                 {
-                    PlaylistElements[i].Background.Texture = CTheme.GetSkinTexture(_Theme.TextureBackgroundName);
+                    PlaylistElements[i].Background.Texture = _Base.Theme.GetSkinTexture(_Theme.TextureBackgroundName);
                     PlaylistElements[i].Background.Color = BackgroundColor;
                 }
             }
@@ -452,10 +474,10 @@ namespace Vocaluxe.Menu
         public void LoadTextures()
         {
             if (_Theme.ColorBackgroundName != String.Empty)
-                BackgroundColor = CTheme.GetColor(_Theme.ColorBackgroundName);
+                BackgroundColor = _Base.Theme.GetColor(_Theme.ColorBackgroundName);
 
             if (_Theme.SColorBackgroundName != String.Empty)
-                BackgroundSColor = CTheme.GetColor(_Theme.SColorBackgroundName);
+                BackgroundSColor = _Base.Theme.GetColor(_Theme.SColorBackgroundName);
 
             _Theme.Text1.LoadTextures();
             _Theme.ButtonPlaylistClose.LoadTextures();
@@ -492,14 +514,14 @@ namespace Vocaluxe.Menu
                     }
                     else if (KeyEvent.Key == Keys.Enter)
                     {
-                        CPlaylists.Playlists[ActivePlaylistID].PlaylistName = _Theme.ButtonPlaylistName.Text.Text;
-                        CPlaylists.Playlists[ActivePlaylistID].SavePlaylist();
+                        _Base.Playlist.SetPlaylistName(ActivePlaylistID, _Theme.ButtonPlaylistName.Text.Text);
+                        _Base.Playlist.SavePlaylist(ActivePlaylistID);
                         _EditMode = EEditMode.None;
                         _Theme.ButtonPlaylistName.EditMode = false;
                     }
                     else if (KeyEvent.Key == Keys.Escape)
                     {
-                        _Theme.ButtonPlaylistName.Text.Text = CPlaylists.Playlists[ActivePlaylistID].PlaylistName;
+                        _Theme.ButtonPlaylistName.Text.Text = _Base.Playlist.GetPlaylistName(ActivePlaylistID);
                         _EditMode = EEditMode.None;
                         _Theme.ButtonPlaylistName.EditMode = false;
                     }
@@ -587,7 +609,7 @@ namespace Vocaluxe.Menu
                                 break;
 
                             case Keys.Delete:
-                                CPlaylists.Playlists[ActivePlaylistID].DeleteSong(PlaylistElements[CurrentPlaylistElement].Content);
+                                _Base.Playlist.DeletePlaylistSong(ActivePlaylistID, PlaylistElements[CurrentPlaylistElement].Content);
                                 UpdatePlaylist();
 
                                 if (Offset > 0)
@@ -615,7 +637,7 @@ namespace Vocaluxe.Menu
                             case Keys.Add:   //move the selected song up
                                 if (PlaylistElementContents.Count > 1 && (CurrentPlaylistElement > 0 || Offset > 0))
                                 {
-                                    CPlaylists.Playlists[ActivePlaylistID].SongUp(CurrentPlaylistElement + Offset);
+                                    _Base.Playlist.MovePlaylistSongUp(ActivePlaylistID, CurrentPlaylistElement + Offset);
                                     UpdatePlaylist();
 
                                     KeyEvent key = new KeyEvent();
@@ -645,7 +667,7 @@ namespace Vocaluxe.Menu
                             case Keys.Subtract: //move the selected song down
                                 if (PlaylistElementContents.Count > 1 && CurrentPlaylistElement + Offset < PlaylistElementContents.Count - 1)
                                 {
-                                    CPlaylists.Playlists[ActivePlaylistID].SongDown(CurrentPlaylistElement + Offset);
+                                    _Base.Playlist.MovePlaylistSongDown(ActivePlaylistID, CurrentPlaylistElement + Offset);
                                     UpdatePlaylist();
 
                                     KeyEvent key = new KeyEvent();
@@ -715,7 +737,7 @@ namespace Vocaluxe.Menu
 
                                 if (CurrentPlaylistElement != -1)
                                 {
-                                    CPlaylists.Playlists[ActivePlaylistID].Songs[CurrentPlaylistElement + Offset].GameMode = PlaylistElementContents[CurrentPlaylistElement + Offset].Modes[PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection];
+                                    _Base.Playlist.GetPlaylistSong(ActivePlaylistID, CurrentPlaylistElement + Offset).GameMode = PlaylistElementContents[CurrentPlaylistElement + Offset].Modes[PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection];
                                     UpdatePlaylist();
                                 }
                                 break;
@@ -726,7 +748,7 @@ namespace Vocaluxe.Menu
 
                                 if (CurrentPlaylistElement != -1)
                                 {
-                                    CPlaylists.Playlists[ActivePlaylistID].Songs[CurrentPlaylistElement + Offset].GameMode = PlaylistElementContents[CurrentPlaylistElement + Offset].Modes[PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection];
+                                    _Base.Playlist.GetPlaylistSong(ActivePlaylistID, CurrentPlaylistElement + Offset).GameMode = PlaylistElementContents[CurrentPlaylistElement + Offset].Modes[PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection];
                                     UpdatePlaylist();
                                 }
                                 break;
@@ -758,11 +780,11 @@ namespace Vocaluxe.Menu
                             }
                             else if (_Theme.ButtonPlaylistSave.Selected)
                             {
-                                CPlaylists.SavePlaylist(ActivePlaylistID);
+                                _Base.Playlist.SavePlaylist(ActivePlaylistID);
                             }
                             else if (_Theme.ButtonPlaylistDelete.Selected)
                             {
-                                CPlaylists.DeletePlaylist(ActivePlaylistID);
+                                _Base.Playlist.DeletePlaylist(ActivePlaylistID);
                                 ClosePlaylist();
                             }
                             else if (_Theme.ButtonPlaylistName.Selected)
@@ -884,7 +906,7 @@ namespace Vocaluxe.Menu
                     //Delete Entry with RB
                     if (CHelper.IsInBounds(PlaylistElements[i].Background.Rect, MouseEvent) && MouseEvent.RB && PlaylistElements[i].Content != -1)
                     {
-                        CPlaylists.Playlists[ActivePlaylistID].DeleteSong(PlaylistElements[i].Content);
+                        _Base.Playlist.DeletePlaylistSong(ActivePlaylistID, PlaylistElements[i].Content);
                         UpdatePlaylist();
                         return true;
                     }
@@ -904,7 +926,7 @@ namespace Vocaluxe.Menu
                         {
                             if (CurrentPlaylistElement != -1)
                             {
-                                CPlaylists.Playlists[ActivePlaylistID].Songs[CurrentPlaylistElement + Offset].GameMode = PlaylistElementContents[CurrentPlaylistElement + Offset].Modes[PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection];
+                                _Base.Playlist.GetPlaylistSong(ActivePlaylistID, CurrentPlaylistElement + Offset).GameMode = PlaylistElementContents[CurrentPlaylistElement + Offset].Modes[PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection];
                                 UpdatePlaylist();
                             }
                             if (_Theme.ButtonPlaylistClose.Selected)
@@ -919,12 +941,12 @@ namespace Vocaluxe.Menu
                             }
                             else if (_Theme.ButtonPlaylistSave.Selected)
                             {
-                                CPlaylists.SavePlaylist(ActivePlaylistID);
+                                _Base.Playlist.SavePlaylist(ActivePlaylistID);
                                 return true;
                             }
                             else if (_Theme.ButtonPlaylistDelete.Selected)
                             {
-                                CPlaylists.DeletePlaylist(ActivePlaylistID);
+                                _Base.Playlist.DeletePlaylist(ActivePlaylistID);
                                 ClosePlaylist();
                                 return true;
                             }
@@ -947,14 +969,14 @@ namespace Vocaluxe.Menu
                                 return true;
 
                             ChangeOrderElement = new PlaylistElement(PlaylistElements[CurrentPlaylistElement]);
-                            ChangeOrderElement.Background.Rect.Z = CSettings.zNear;
-                            ChangeOrderElement.Cover.Rect.Z = CSettings.zNear;
-                            ChangeOrderElement.SelectSlide.Rect.Z = CSettings.zNear;
-                            ChangeOrderElement.SelectSlide.RectArrowLeft.Z = CSettings.zNear;
-                            ChangeOrderElement.SelectSlide.RectArrowRight.Z = CSettings.zNear;
-                            ChangeOrderElement.Text1.Z = CSettings.zNear;
+                            ChangeOrderElement.Background.Rect.Z = _Base.Settings.GetZNear();
+                            ChangeOrderElement.Cover.Rect.Z = _Base.Settings.GetZNear();
+                            ChangeOrderElement.SelectSlide.Rect.Z = _Base.Settings.GetZNear();
+                            ChangeOrderElement.SelectSlide.RectArrowLeft.Z = _Base.Settings.GetZNear();
+                            ChangeOrderElement.SelectSlide.RectArrowRight.Z = _Base.Settings.GetZNear();
+                            ChangeOrderElement.Text1.Z = _Base.Settings.GetZNear();
 
-                            ChangeOrderElement.Background.Texture = CTheme.GetSkinTexture(_Theme.TextureBackgroundName);
+                            ChangeOrderElement.Background.Texture = _Base.Theme.GetSkinTexture(_Theme.TextureBackgroundName);
                             ChangeOrderElement.Background.Color = BackgroundColor;
 
                             OldMousePosX = MouseEvent.X;
@@ -966,7 +988,7 @@ namespace Vocaluxe.Menu
                         if (!MouseEvent.LBH && DragAndDropSongID != -1)
                         {
                             EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
-                            CSong song = CSongs.GetSong(DragAndDropSongID);
+                            CSong song = _Base.Songs.GetSongByID(DragAndDropSongID);
 
                             if (song != null)
                             {
@@ -975,14 +997,14 @@ namespace Vocaluxe.Menu
 
                                 if (CurrentPlaylistElement != -1)
                                 {
-                                    CPlaylists.Playlists[ActivePlaylistID].SongInsert(CurrentPlaylistElement + Offset, DragAndDropSongID, gm);
+                                    _Base.Playlist.InsertPlaylistSong(ActivePlaylistID, CurrentPlaylistElement + Offset, DragAndDropSongID, gm);
                                     UpdatePlaylist();
                                 }
                                 else
                                 {
                                     if (MouseEvent.Y < PlaylistElements[0].Background.Rect.Y && Offset == 0)
                                     {
-                                        CPlaylists.Playlists[ActivePlaylistID].SongInsert(0, DragAndDropSongID, gm);
+                                        _Base.Playlist.InsertPlaylistSong(ActivePlaylistID, 0, DragAndDropSongID, gm);
                                         UpdatePlaylist();
                                     }
                                     else
@@ -1001,7 +1023,7 @@ namespace Vocaluxe.Menu
 
                                             if (MouseEvent.Y > min)
                                             {
-                                                CPlaylists.Playlists[ActivePlaylistID].AddSong(DragAndDropSongID, gm);
+                                                _Base.Playlist.AddPlaylistSong(ActivePlaylistID, DragAndDropSongID, gm);
                                                 UpdatePlaylist();
                                                 ScrollToBottom();
                                             }
@@ -1022,8 +1044,8 @@ namespace Vocaluxe.Menu
                         {
                             if (_Theme.ButtonPlaylistName.Selected)
                             {
-                                CPlaylists.Playlists[ActivePlaylistID].PlaylistName = _Theme.ButtonPlaylistName.Text.Text;
-                                CPlaylists.Playlists[ActivePlaylistID].SavePlaylist();
+                                _Base.Playlist.SetPlaylistName(ActivePlaylistID, _Theme.ButtonPlaylistName.Text.Text);
+                                _Base.Playlist.SavePlaylist(ActivePlaylistID);
                                 _EditMode = EEditMode.None;
                                 return true;
                             }
@@ -1032,7 +1054,7 @@ namespace Vocaluxe.Menu
                         {
                             if (_Theme.ButtonPlaylistName.Selected)
                             {
-                                _Theme.ButtonPlaylistName.Text.Text = CPlaylists.Playlists[ActivePlaylistID].PlaylistName;
+                                _Theme.ButtonPlaylistName.Text.Text = _Base.Playlist.GetPlaylistName(ActivePlaylistID);
                                 _EditMode = EEditMode.None;
                                 _Theme.ButtonPlaylistName.EditMode = false;
                                 return true;
@@ -1052,14 +1074,14 @@ namespace Vocaluxe.Menu
                         {
                             if (CurrentPlaylistElement != -1 && CurrentPlaylistElement + Offset != ChangeOrderSource)
                             {
-                                CPlaylists.Playlists[ActivePlaylistID].SongMove(ChangeOrderSource, CurrentPlaylistElement + Offset);
+                                _Base.Playlist.MovePlaylistSong(ActivePlaylistID, ChangeOrderSource, CurrentPlaylistElement + Offset);
                                 UpdatePlaylist();
                             }
                             else if (CurrentPlaylistElement == -1)
                             {
                                 if (MouseEvent.Y < PlaylistElements[0].Background.Rect.Y && Offset == 0)
                                 {
-                                    CPlaylists.Playlists[ActivePlaylistID].SongMove(ChangeOrderSource, 0);
+                                    _Base.Playlist.MovePlaylistSong(ActivePlaylistID, ChangeOrderSource, 0);
                                 }
                                 else
                                 {
@@ -1077,7 +1099,7 @@ namespace Vocaluxe.Menu
 
                                         if (MouseEvent.Y > min)
                                         {
-                                            CPlaylists.Playlists[ActivePlaylistID].SongMove(ChangeOrderSource, PlaylistElementContents.Count - 1);
+                                            _Base.Playlist.MovePlaylistSong(ActivePlaylistID, ChangeOrderSource, PlaylistElementContents.Count - 1);
                                         }
                                     }
                                 }
@@ -1130,17 +1152,17 @@ namespace Vocaluxe.Menu
 
         public bool LoadPlaylist(int PlaylistID) 
         {
-            if (PlaylistID > -1 && PlaylistID < CPlaylists.NumPlaylists)
+            if (PlaylistID > -1 && PlaylistID < _Base.Playlist.GetNumPlaylists())
             {
-                _Theme.ButtonPlaylistName.Text.Text = CPlaylists.Playlists[ActivePlaylistID].PlaylistName;
+                _Theme.ButtonPlaylistName.Text.Text = _Base.Playlist.GetPlaylistName(ActivePlaylistID);
                 ActivePlaylistID = PlaylistID;
                 PlaylistElementContents.Clear();
-                for (int i = 0; i < CPlaylists.Playlists[ActivePlaylistID].Songs.Count; i++)
+                for (int i = 0; i < _Base.Playlist.GetPlaylistSongCount(ActivePlaylistID); i++)
                 {
                     PlaylistElementContent pec = new PlaylistElementContent();
-                    pec.SongID = CPlaylists.Playlists[ActivePlaylistID].Songs[i].SongID;
-                    pec.Modes = CSongs.AllSongs[CPlaylists.Playlists[ActivePlaylistID].Songs[i].SongID].AvailableGameModes;
-                    pec.Mode = CPlaylists.Playlists[ActivePlaylistID].Songs[i].GameMode;
+                    pec.SongID = _Base.Playlist.GetPlaylistSong(ActivePlaylistID, i).SongID;
+                    pec.Modes = _Base.Songs.GetSongByID(_Base.Playlist.GetPlaylistSong(ActivePlaylistID, i).SongID).AvailableGameModes;
+                    pec.Mode = _Base.Playlist.GetPlaylistSong(ActivePlaylistID, i).GameMode;
                     PlaylistElementContents.Add(pec);
                 }
                 Update();
@@ -1153,12 +1175,12 @@ namespace Vocaluxe.Menu
         public void UpdatePlaylist()
         {
             PlaylistElementContents.Clear();
-            for (int i = 0; i < CPlaylists.Playlists[ActivePlaylistID].Songs.Count; i++)
+            for (int i = 0; i < _Base.Playlist.GetPlaylistSongCount(ActivePlaylistID); i++)
             {
                 PlaylistElementContent pec = new PlaylistElementContent();
-                pec.SongID = CPlaylists.Playlists[ActivePlaylistID].Songs[i].SongID;
-                pec.Modes = CSongs.AllSongs[pec.SongID].AvailableGameModes;
-                pec.Mode = CPlaylists.Playlists[ActivePlaylistID].Songs[i].GameMode;
+                pec.SongID = _Base.Playlist.GetPlaylistSong(ActivePlaylistID, i).SongID;
+                pec.Modes = _Base.Songs.GetSongByID(pec.SongID).AvailableGameModes;
+                pec.Mode = _Base.Playlist.GetPlaylistSong(ActivePlaylistID, i).GameMode;
                 PlaylistElementContents.Add(pec);
             }
             
@@ -1167,16 +1189,16 @@ namespace Vocaluxe.Menu
 
         private void StartPlaylistSongs()
         {
-            CGame.Reset();
-            CGame.ClearSongs();
+            _Base.Game.Reset();
+            _Base.Game.ClearSongs();
 
-            if (ActivePlaylistID > -1 && ActivePlaylistID < CPlaylists.NumPlaylists)
+            if (ActivePlaylistID > -1 && ActivePlaylistID < _Base.Playlist.GetNumPlaylists())
             {
-                for (int i = 0; i < CPlaylists.Playlists[ActivePlaylistID].Songs.Count; i++)
+                for (int i = 0; i < _Base.Playlist.GetPlaylistSongCount(ActivePlaylistID); i++)
                 {
-                    CGame.AddSong(CPlaylists.Playlists[ActivePlaylistID].Songs[i].SongID, CPlaylists.Playlists[ActivePlaylistID].Songs[i].GameMode);
+                    _Base.Game.AddSong(_Base.Playlist.GetPlaylistSong(ActivePlaylistID, i).SongID, _Base.Playlist.GetPlaylistSong(ActivePlaylistID, i).GameMode);
                 }
-                if (CGame.GetNumSongs() > 0)
+                if (_Base.Game.GetNumSongs() > 0)
                     CGraphics.FadeTo(EScreens.ScreenNames);
             }
         }
@@ -1190,7 +1212,7 @@ namespace Vocaluxe.Menu
 
         public void Update()
         {
-            if (ActivePlaylistID > -1 && ActivePlaylistID < CPlaylists.NumPlaylists)
+            if (ActivePlaylistID > -1 && ActivePlaylistID < _Base.Playlist.GetNumPlaylists())
             {
                 for (int i = 0; i < PlaylistElements.Count; i++ )
                 {
@@ -1202,7 +1224,7 @@ namespace Vocaluxe.Menu
                         PlaylistElements[i].SelectSlide.Visible = true;
                         PlaylistElements[i].Text1.Visible = true;
                         PlaylistElementContent pec = PlaylistElementContents[Offset + i];
-                        CSong song = CSongs.GetSong(pec.SongID);
+                        CSong song = _Base.Songs.GetSongByID(pec.SongID);
                         PlaylistElements[i].Cover.Texture = song.CoverTextureSmall;
                         string t1 = _Theme.Text1.Text.Replace("%a", song.Artist).Replace("%t", song.Title);
                         PlaylistElements[i].Text1.Text = /*(Offset + i + 1).ToString() + ") " + */song.Artist + " - " + song.Title; //TODO: Add text field for the number
