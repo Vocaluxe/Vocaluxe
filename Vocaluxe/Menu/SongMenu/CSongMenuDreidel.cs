@@ -4,10 +4,6 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using Vocaluxe.Base;
-using Vocaluxe.Lib.Draw;
-using Vocaluxe.Lib.Song;
-
 namespace Vocaluxe.Menu.SongMenu
 {
     class CSongMenuDreidel : CSongMenuFramework

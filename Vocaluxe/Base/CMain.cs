@@ -21,8 +21,9 @@ namespace Vocaluxe.Base
         public static ILanguage Language = new BLanguage();
         public static IGame Game = new BGame();
         public static IProfiles Profiles = new BProfiles();
+        public static IRecording Record = new BRecord();
 
-        public static Menu.Base Base = new Menu.Base(Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language, Game, Profiles);
+        public static Menu.Base Base = new Menu.Base(Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language, Game, Profiles, Record);
     }
 
     class BConfig : IConfig
@@ -57,6 +58,16 @@ namespace Vocaluxe.Base
         public EOffOn GetVideoBackgrounds()
         {
             return CConfig.VideoBackgrounds;
+        }
+
+        public EOffOn GetDrawNoteLines()
+        {
+            return CConfig.DrawNoteLines;
+        }
+
+        public EOffOn GetDrawToneHelper()
+        {
+            return CConfig.DrawToneHelper;
         }
     }
 
@@ -100,6 +111,16 @@ namespace Vocaluxe.Base
         public int GetToneMax()
         {
             return CSettings.ToneMax;
+        }
+
+        public int GetNumNoteLines()
+        {
+            return CSettings.NumNoteLines;
+        }
+
+        public int GetMaxNumPlayer()
+        {
+            return CSettings.MaxNumPlayer;
         }
     }
 
@@ -342,6 +363,26 @@ namespace Vocaluxe.Base
         {
             return CGame.Player;
         }
+
+        public float GetMidBeatD()
+        {
+            return CGame.MidBeatD;
+        }
+
+        public int GetCurrentBeatD()
+        {
+            return CGame.ActBeatD;
+        }
+
+        public int GetRandom(int Max)
+        {
+            return CGame.Rand.Next(Max);
+        }
+
+        public double GetRandomDouble()
+        {
+            return CGame.Rand.NextDouble();
+        }
     }
 
     class BProfiles : IProfiles
@@ -349,6 +390,14 @@ namespace Vocaluxe.Base
         public SProfile[] GetProfiles()
         {
             return CProfiles.Profiles;
+        }
+    }
+
+    class BRecord : IRecording
+    {
+        public int GetToneAbs(int PlayerNr)
+        {
+            return CSound.RecordGetToneAbs(PlayerNr);
         }
     }
 }

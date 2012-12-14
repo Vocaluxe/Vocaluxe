@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Vocaluxe.Lib.Draw;
-using Vocaluxe.Lib.Song;
-
 namespace Vocaluxe.Menu.SingNotes
 {
     interface ISingNotes

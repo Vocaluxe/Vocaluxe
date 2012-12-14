@@ -710,6 +710,11 @@ namespace Vocaluxe.Menu
         {
             return new CPlaylist(_Base);
         }
+
+        public CParticleEffect GetNewParticleEffect(int MaxNumber, SColorF Color, SRectF Area, STexture Texture, float Size, EParticeType Type)
+        {
+            return new CParticleEffect(_Base, MaxNumber, Color, Area, Texture, Size, Type);
+        }
         #endregion Create Elements
 
         #region Get Arrays
@@ -2331,9 +2336,10 @@ namespace Vocaluxe.Menu
         public ILanguage Language;
         public IGame Game;
         public IProfiles Profiles;
+        public IRecording Record;
 
         public Base(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic,
-            IDrawing Draw, IGraphics Graphics, IFonts Fonts, ILanguage Language, IGame Game, IProfiles Profiles)
+            IDrawing Draw, IGraphics Graphics, IFonts Fonts, ILanguage Language, IGame Game, IProfiles Profiles, IRecording Record)
         {
             this.Config = Config;
             this.Settings = Settings;
@@ -2347,6 +2353,7 @@ namespace Vocaluxe.Menu
             this.Language = Language;
             this.Game = Game;
             this.Profiles = Profiles;
+            this.Record = Record;
         }
     }
 }

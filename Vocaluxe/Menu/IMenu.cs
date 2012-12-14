@@ -51,6 +51,9 @@ namespace Vocaluxe.Menu
         EOffOn GetVideoBackgrounds();
 
         ESongMenu GetSongMenuType();
+
+        EOffOn GetDrawNoteLines();
+        EOffOn GetDrawToneHelper();
     }
 
     public interface ISettings
@@ -66,6 +69,9 @@ namespace Vocaluxe.Menu
 
         int GetToneMin();
         int GetToneMax();
+
+        int GetNumNoteLines();
+        int GetMaxNumPlayer();
     }
 
     public interface ITheme
@@ -154,6 +160,16 @@ namespace Vocaluxe.Menu
     {
         int GetNumPlayer();
         SPlayer[] GetPlayer();
+        float GetMidBeatD();
+        int GetCurrentBeatD();
+
+        int GetRandom(int Max);
+        double GetRandomDouble();
+    }
+
+    public interface IRecording
+    {
+        int GetToneAbs(int PlayerNr);
     }
 
     public interface IProfiles

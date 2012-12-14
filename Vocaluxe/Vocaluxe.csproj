@@ -208,6 +208,7 @@
     <Compile Include="Lib\Input\WiiMote\CWiiMote.cs" />
     <Compile Include="Lib\Input\WiiMote\WiiMoteLib.cs" />
     <Compile Include="Lib\Playlist\CPlaylistFile.cs" />
+    <Compile Include="Menu\CParticle.cs" />
     <Compile Include="Menu\SingNotes\CNotes.cs" />
     <Compile Include="Lib\Song\CSong.cs" />
     <Compile Include="Lib\Sound\CDirectSoundRecord.cs" />
