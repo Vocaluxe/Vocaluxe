@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Vocaluxe.Menu;
-
-namespace Vocaluxe.Screens.PartyScreens
+namespace Vocaluxe.Menu
 {
     abstract class CMenuParty
     {

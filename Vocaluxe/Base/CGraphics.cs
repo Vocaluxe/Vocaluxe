@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Screens;
-using Vocaluxe.Screens.PartyScreens;
 
 namespace Vocaluxe.Menu
 {
