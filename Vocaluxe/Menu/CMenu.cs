@@ -151,6 +151,12 @@ namespace Vocaluxe.Menu
             _ThemeEqualizers = null;
             _ThemePlaylists = null;
         }
+
+        protected void FadeTo(EScreens NextScreen)
+        {
+            _Base.Graphics.FadeTo(NextScreen);
+        }
+
         #region ThemeHandler
         public virtual void LoadTheme()
         {
@@ -1048,7 +1054,7 @@ namespace Vocaluxe.Menu
                 switch (KeyEvent.Key)
                 {
                     case Keys.S:
-                        CGraphics.SaveTheme();
+                        _Base.Graphics.SaveTheme();
                         break;
 
                     case Keys.R:

@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-using Vocaluxe.Base;
 using Vocaluxe.Menu;
 
-namespace Vocaluxe.Screens
+namespace Vocaluxe.PartyModes
 {
     class CScreenPartyDummy : CMenu
-    {// Version number for theme files. Increment it, if you've changed something on the theme files!
+    {
+        // Version number for theme files. Increment it, if you've changed something on the theme files!
         const int ScreenVersion = 1;
+        private CText Warning;
 
         public CScreenPartyDummy()
         {
@@ -26,6 +27,16 @@ namespace Vocaluxe.Screens
 
         public override void LoadTheme()
         {
+            Warning = GetNewText();
+            Warning.Height = 100f;
+            Warning.X = 150;
+            Warning.Y = 300;
+            Warning.Fon = "Normal";
+            Warning.Style = EStyle.Normal;
+            Warning.Color = new SColorF(1f, 0f, 0f, 1f);
+            Warning.SColor = new SColorF(1f, 0f, 0f, 1f);
+            Warning.Text = "SOMETHING WENT WRONG!";
+            AddText(Warning);
         }
 
         public override void ReloadTheme()
@@ -58,7 +69,7 @@ namespace Vocaluxe.Screens
                 {
                     case Keys.Back:
                     case Keys.Escape:
-                        CGraphics.FadeTo(EScreens.ScreenParty);
+                        FadeTo(EScreens.ScreenParty);
                         break;
                 }
             }
@@ -76,7 +87,7 @@ namespace Vocaluxe.Screens
 
             if (MouseEvent.RB)
             {
-                CGraphics.FadeTo(EScreens.ScreenParty);
+                FadeTo(EScreens.ScreenParty);
             }
 
             return true;
@@ -95,11 +106,6 @@ namespace Vocaluxe.Screens
         public override bool Draw()
         {
             base.Draw();
-
-            CFonts.SetFont("Normal");
-            CFonts.Style = EStyle.Normal;
-            CDraw.DrawText("SOMETHING WENT WRONG!", 150, 300, 80);
-
             return true;
         }
 

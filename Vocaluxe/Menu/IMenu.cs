@@ -147,6 +147,10 @@ namespace Vocaluxe.Menu
     public interface IGraphics
     {
         void ReloadTheme();
+        void SaveTheme();
+        void FadeTo(EScreens NextScreen);
+
+        float GetGlobalAlpha();
     }
 
     public interface ILog
@@ -790,5 +794,32 @@ namespace Vocaluxe.Menu
         TR_GAMEMODE_MEDLEY,
         TR_GAMEMODE_DUET,
         TR_GAMEMODE_SHORTSONG
+    }
+
+    public enum EScreens
+    {
+        ScreenTest = 0,
+        ScreenLoad = 1,
+        ScreenMain = 2,
+        ScreenSong = 3,
+        ScreenOptions = 4,
+        ScreenSing = 5,
+        ScreenProfiles = 6,
+        ScreenScore = 7,
+        ScreenHighscore = 8,
+
+        ScreenOptionsGame = 9,
+        ScreenOptionsSound = 10,
+        ScreenOptionsRecord = 11,
+        ScreenOptionsVideo = 12,
+        ScreenOptionsLyrics = 13,
+        ScreenOptionsTheme = 14,
+
+        ScreenNames = 15,
+        ScreenCredits = 16,
+        ScreenParty = 17,
+        ScreenPartyDummy = 18,
+
+        ScreenNull = -1
     }
 }

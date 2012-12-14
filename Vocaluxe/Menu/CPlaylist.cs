@@ -1198,7 +1198,7 @@ namespace Vocaluxe.Menu
                     _Base.Game.AddSong(_Base.Playlist.GetPlaylistSong(ActivePlaylistID, i).SongID, _Base.Playlist.GetPlaylistSong(ActivePlaylistID, i).GameMode);
                 }
                 if (_Base.Game.GetNumSongs() > 0)
-                    CGraphics.FadeTo(EScreens.ScreenNames);
+                    _Base.Graphics.FadeTo(EScreens.ScreenNames);    //TODO: What is if someone uses that in PartyMode?
             }
         }
 

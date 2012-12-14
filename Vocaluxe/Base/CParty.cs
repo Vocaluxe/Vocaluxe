@@ -71,7 +71,14 @@ namespace Vocaluxe.Base
 
         public static CMenu GetNextPartyScreen()
         {
-            return _PartyModes[_CurrentModeNr].PartyMode.GetNextPartyScreen();
+            CMenu NextScreen = _PartyModes[_CurrentModeNr].PartyMode.GetNextPartyScreen();
+            if (NextScreen != null)
+                return NextScreen;
+
+            NextScreen = new CScreenPartyDummy();
+            NextScreen.Initialize(CMain.Base);
+            NextScreen.LoadTheme();
+            return NextScreen;
         }
         #endregion public stuff
 

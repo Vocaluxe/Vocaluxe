@@ -357,6 +357,21 @@ namespace Vocaluxe.Base
         {
             CGraphics.ReloadTheme();
         }
+
+        public void SaveTheme()
+        {
+            CGraphics.SaveTheme();
+        }
+
+        public void FadeTo(EScreens NextScreen)
+        {
+            CGraphics.FadeTo(NextScreen);
+        }
+
+        public float GetGlobalAlpha()
+        {
+            return CGraphics.GlobalAlpha;
+        }
     }
 
     class BLog : ILog

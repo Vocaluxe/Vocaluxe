@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 
 using Vocaluxe.Menu;
-using Vocaluxe.Screens;
 
 namespace Vocaluxe.PartyModes
 {
@@ -30,7 +29,7 @@ namespace Vocaluxe.PartyModes
 
         public virtual CMenu GetNextPartyScreen()
         {
-            return new CScreenPartyDummy();
+            return null;
         }
 
         public virtual EScreens GetStartScreen()

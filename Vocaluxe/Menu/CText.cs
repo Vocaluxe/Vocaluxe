@@ -669,7 +669,7 @@ namespace Vocaluxe.Menu
             if (Selected && (_Base.Settings.GetGameState() == EGameState.EditTheme))
             {
                 _Base.Drawing.DrawColor(
-                    new SColorF(0.5f, 1f, 0.5f, 0.5f * CGraphics.GlobalAlpha),
+                    new SColorF(0.5f, 1f, 0.5f, 0.5f * _Base.Graphics.GetGlobalAlpha()),
                     new SRectF(_DrawPosition.X, _DrawPosition.Y, _DrawPosition.Width, _DrawPosition.Height, Z)
                     );
             }
@@ -802,7 +802,7 @@ namespace Vocaluxe.Menu
 
             if (Selected && (_Base.Settings.GetGameState() == EGameState.EditTheme))
             {
-                _Base.Drawing.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f * CGraphics.GlobalAlpha), new SRectF(x, y, bounds.Width, bounds.Height, Z));
+                _Base.Drawing.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f * _Base.Graphics.GetGlobalAlpha()), new SRectF(x, y, bounds.Width, bounds.Height, Z));
             }
         }
 

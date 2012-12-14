@@ -193,7 +193,7 @@ namespace Vocaluxe.Menu
                 switch (KeyEvent.Key)
                 {
                     case Keys.S:
-                        CGraphics.SaveTheme();
+                        _Base.Graphics.SaveTheme();
                         break;
 
                     case Keys.Up:

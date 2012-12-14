@@ -5,39 +5,12 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using Vocaluxe.Base;
-using Vocaluxe.Lib.Draw;
+using Vocaluxe.Menu;
+using Vocaluxe.PartyModes;
 using Vocaluxe.Screens;
 
-namespace Vocaluxe.Menu
+namespace Vocaluxe.Base
 {
-    enum EScreens
-    {
-        ScreenTest = 0,
-        ScreenLoad = 1,
-        ScreenMain = 2,
-        ScreenSong = 3,
-        ScreenOptions = 4,
-        ScreenSing = 5,
-        ScreenProfiles = 6,
-        ScreenScore = 7,
-        ScreenHighscore = 8,
-
-        ScreenOptionsGame = 9,
-        ScreenOptionsSound = 10,
-        ScreenOptionsRecord = 11,
-        ScreenOptionsVideo = 12,
-        ScreenOptionsLyrics = 13,
-        ScreenOptionsTheme = 14,
-
-        ScreenNames = 15,
-        ScreenCredits = 16,
-        ScreenParty = 17,
-        ScreenPartyDummy = 18,
-
-        ScreenNull = -1
-    }
-
     enum EPopupScreens
     {
         PopupPlayerControl = 0,

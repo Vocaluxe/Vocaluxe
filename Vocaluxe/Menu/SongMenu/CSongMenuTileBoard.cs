@@ -371,7 +371,7 @@ namespace Vocaluxe.Menu.SongMenu
             }
             else if (MouseEvent.RB && _Base.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && !SongOptions.Selection.PartyMode)
             {
-                CGraphics.FadeTo(EScreens.ScreenMain);
+                _Base.Graphics.FadeTo(EScreens.ScreenMain);
             }
             else if (_PreviewSelected != -1 && MouseEvent.LB && _Base.Songs.GetCurrentCategoryIndex() != -1 && !SongOptions.Selection.PartyMode)
             {

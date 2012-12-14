@@ -50,7 +50,7 @@ namespace Vocaluxe.Screens
                         break;
                     
                     case Keys.C:
-                        //CGraphics.FadeTo(EScreens.ScreenPartyDummy);
+                        CGraphics.FadeTo(EScreens.ScreenPartyDummy);
                         break;
 
                     case Keys.Enter:
