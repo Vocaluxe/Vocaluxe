@@ -281,7 +281,7 @@
     <Compile Include="Screens\CScreenOptionsRecord.cs" />
     <Compile Include="Screens\CScreenOptionsTheme.cs" />
     <Compile Include="Screens\CScreenPartyDummy.cs" />
-    <Compile Include="Screens\PartyScreens\CMenuParty.cs" />
+    <Compile Include="Menu\CMenuParty.cs" />
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
