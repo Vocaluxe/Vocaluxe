@@ -26,12 +26,12 @@ namespace Vocaluxe.Menu
     {
         class CTile
         {
-            private Base _Base;
+            private Basic _Base;
             public int PlayerNr;
             public CStatic Avatar;
             public CText Name;
 
-            public CTile(Base Base)
+            public CTile(Basic Base)
             {
                 _Base = Base;
             }
@@ -44,7 +44,7 @@ namespace Vocaluxe.Menu
             }
         }
 
-        private Base _Base;
+        private Basic _Base;
         private SThemeNameSelection _Theme;
         private bool _ThemeLoaded;
 
@@ -84,7 +84,7 @@ namespace Vocaluxe.Menu
         private CStatic PlayerSelector;
 
 
-        public CNameSelection(Base Base)
+        public CNameSelection(Basic Base)
         {
             _Base = Base;
             _Theme = new SThemeNameSelection();

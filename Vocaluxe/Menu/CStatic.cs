@@ -16,7 +16,7 @@ namespace Vocaluxe.Menu
 
     class CStatic : IMenuElement
     {
-        private Base _Base;
+        private Basic _Base;
 
         private SThemeStatic _Theme;
         private bool _ThemeLoaded;
@@ -54,7 +54,7 @@ namespace Vocaluxe.Menu
 
         public EAspect Aspect = EAspect.Stretch;
 
-        public CStatic(Base Base)
+        public CStatic(Basic Base)
         {
             _Base = Base;
             _Theme = new SThemeStatic();
@@ -90,7 +90,7 @@ namespace Vocaluxe.Menu
             Visible = s.Visible;
         }
 
-        public CStatic(Base Base, STexture texture, SColorF color, SRectF rect)
+        public CStatic(Basic Base, STexture texture, SColorF color, SRectF rect)
         {
             _Base = Base;
             _Theme = new SThemeStatic();
@@ -108,7 +108,7 @@ namespace Vocaluxe.Menu
             Visible = true;
         }
 
-        public CStatic(Base Base, string TextureSkinName, SColorF color, SRectF rect)
+        public CStatic(Basic Base, string TextureSkinName, SColorF color, SRectF rect)
         {
             _Base = Base;
             _Theme = new SThemeStatic();

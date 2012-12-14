@@ -8,6 +8,7 @@ namespace Vocaluxe.PartyModes
 {
     abstract class CPartyMode : IPartyMode
     {
+        protected Basic _Base;
         protected ScreenSongOptions _ScreenSongOptions;
         protected List<CMenu> _Screens;
         protected string _Folder;
@@ -19,6 +20,11 @@ namespace Vocaluxe.PartyModes
             _ScreenSongOptions = new ScreenSongOptions();
             _ScreenSongOptions.Selection = new SelectionOptions();
             _ScreenSongOptions.Sorting = new SortingOptions();
+        }
+
+        public void Initialize(Basic Base)
+        {
+            _Base = Base;
         }
 
         #region Implementation

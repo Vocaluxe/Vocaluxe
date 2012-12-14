@@ -73,7 +73,7 @@ namespace Vocaluxe.Menu
         protected string[] _ThemePlaylists;
 
         protected SRectF _ScreenArea;
-        private Base _Base;
+        private Basic _Base;
 
         public SRectF ScreenArea
         {
@@ -94,7 +94,7 @@ namespace Vocaluxe.Menu
         {
         }
 
-        public void Initialize(Base Base)
+        public void Initialize(Basic Base)
         {
             _Base = Base;
             Init();
@@ -2326,7 +2326,7 @@ namespace Vocaluxe.Menu
         #endregion Theme Handling
     }
 
-    public class Base
+    public class Basic
     {
         public IConfig Config;
         public ISettings Settings;
@@ -2349,7 +2349,7 @@ namespace Vocaluxe.Menu
         public IInputs Input;
         public IPlaylist Playlist;
 
-        public Base(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic,
+        public Basic(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic,
             IDrawing Draw, IGraphics Graphics, IFonts Fonts, ILanguage Language, IGame Game, IProfiles Profiles, IRecording Record,
             ISongs Songs, IVideo Video, ISound Sound, ICover Cover, IDataBase DataBase, IInputs Input, IPlaylist Playlist)
         {

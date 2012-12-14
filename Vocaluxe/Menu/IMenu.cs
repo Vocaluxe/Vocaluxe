@@ -11,7 +11,7 @@ namespace Vocaluxe.Menu
 {
     interface IMenu
     {
-        void Initialize(Base Base);
+        void Initialize(Basic Base);
 
         void LoadTheme();
         void SaveTheme();
@@ -62,6 +62,9 @@ namespace Vocaluxe.Menu
         int GetCoverSize();
 
         List<string> GetSongFolder();
+        ESongSorting GetSongSorting();
+        EOffOn GetTabs();
+        EOffOn GetIgnoreArticles();
     }
 
     public interface ISettings

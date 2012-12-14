@@ -17,7 +17,7 @@ namespace Vocaluxe.Menu
     class CParticle
     {
         #region private vars
-        private Base _Base;
+        private Basic _Base;
         private string _TextureName;
         private STexture _Texture;
         private SRectF _Rect;
@@ -84,7 +84,7 @@ namespace Vocaluxe.Menu
         #endregion public vars
 
         #region Constructors
-        public CParticle(Base Base, string textureName, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticeType type)
+        public CParticle(Basic Base, string textureName, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticeType type)
         {
             _Base = Base;
             _TextureName = textureName;
@@ -107,7 +107,7 @@ namespace Vocaluxe.Menu
             _Rotation = (float)(_Base.Game.GetRandomDouble() * 360.0);
         }
 
-        public CParticle(Base Base, STexture texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticeType type)
+        public CParticle(Basic Base, STexture texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticeType type)
         {
             _Base = Base;
             _TextureName = String.Empty;
@@ -288,7 +288,7 @@ namespace Vocaluxe.Menu
 
     class CParticleEffect
     {
-        private Base _Base;
+        private Basic _Base;
         private List<CParticle> _Stars;
         private string _TextureName;
         private STexture _Texture;
@@ -316,7 +316,7 @@ namespace Vocaluxe.Menu
             set { _Area = value; }
         }
 
-        public CParticleEffect(Base Base, int MaxNumber, SColorF Color, SRectF Area, string TextureName, float Size, EParticeType Type)
+        public CParticleEffect(Basic Base, int MaxNumber, SColorF Color, SRectF Area, string TextureName, float Size, EParticeType Type)
         {
             _Base = Base;
             _Stars = new List<CParticle>();
@@ -331,7 +331,7 @@ namespace Vocaluxe.Menu
             _NextSpawnTime = 0f;
         }
 
-        public CParticleEffect(Base Base, int MaxNumber, SColorF Color, SRectF Area, STexture texture, float Size, EParticeType Type)
+        public CParticleEffect(Basic Base, int MaxNumber, SColorF Color, SRectF Area, STexture texture, float Size, EParticeType Type)
         {
             _Base = Base;
             _Stars = new List<CParticle>();

@@ -30,7 +30,7 @@ namespace Vocaluxe.Menu
 
     public class CBackground : IMenuElement
     {
-        private Base _Base;
+        private Basic _Base;
         private SThemeBackground _Theme;
         private bool _ThemeLoaded;
                        
@@ -42,7 +42,7 @@ namespace Vocaluxe.Menu
         }
 
         #region Constructors
-        public CBackground(Base Base)
+        public CBackground(Basic Base)
         {
             _Base = Base;
             _ThemeLoaded = false;

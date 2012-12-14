@@ -69,7 +69,7 @@ namespace Vocaluxe.Menu.SongMenu
 
     public class CSong
     {
-        private Base _Base;
+        private Basic _Base;
         private bool _CoverLoaded = false;
         private bool _NotesLoaded = false;
         private STexture _CoverTextureSmall = new STexture(-1);
@@ -194,7 +194,7 @@ namespace Vocaluxe.Menu.SongMenu
             }
         }
 
-        public CSong(Base Base)
+        public CSong(Basic Base)
         {
             _Base = Base;
         }

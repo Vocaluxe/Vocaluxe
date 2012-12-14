@@ -16,7 +16,7 @@ namespace Vocaluxe.Menu
 {
     class CObjectInteractions
     {
-        private Base _Base;
+        private Basic _Base;
         private List<CInteraction> _Interactions;
         private int _Selection = 0;
 
@@ -40,7 +40,7 @@ namespace Vocaluxe.Menu
             get { return _ScreenArea; }
         }
 
-        public CObjectInteractions(Base Base)
+        public CObjectInteractions(Basic Base)
         {
             _Base = Base;
             Init();

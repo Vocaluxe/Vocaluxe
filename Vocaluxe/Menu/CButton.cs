@@ -20,7 +20,7 @@ namespace Vocaluxe.Menu
 
     class CButton : IMenuElement
     {
-        private Base _Base;
+        private Basic _Base;
         private SThemeButton _Theme;
         private bool _ThemeLoaded;
 
@@ -69,7 +69,7 @@ namespace Vocaluxe.Menu
             return _Theme.Name;
         }
 
-        public CButton(Base Base)
+        public CButton(Basic Base)
         {
             _Base = Base;
             _Theme = new SThemeButton();

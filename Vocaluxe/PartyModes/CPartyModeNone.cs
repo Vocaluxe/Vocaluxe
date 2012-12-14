@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Vocaluxe.Base;
-
 namespace Vocaluxe.PartyModes
 {
     class CPartyModeNone : CPartyMode
@@ -22,9 +20,9 @@ namespace Vocaluxe.PartyModes
 
         public override ScreenSongOptions GetScreenSongOptions()
         {
-            _ScreenSongOptions.Sorting.SongSorting = CConfig.SongSorting;
-            _ScreenSongOptions.Sorting.Tabs = CConfig.Tabs;
-            _ScreenSongOptions.Sorting.IgnoreArticles = CConfig.IgnoreArticles;
+            _ScreenSongOptions.Sorting.SongSorting = _Base.Config.GetSongSorting();
+            _ScreenSongOptions.Sorting.Tabs = _Base.Config.GetTabs();
+            _ScreenSongOptions.Sorting.IgnoreArticles = _Base.Config.GetIgnoreArticles();
 
             return _ScreenSongOptions;
         }

@@ -11,12 +11,12 @@ namespace Vocaluxe.Menu.SongMenu
 {
     class CSongMenu : ISongMenu
     {
-        private Base _Base;
+        private Basic _Base;
 
         private ISongMenu _SongMenu;
         private ESongMenu _Type;
 
-        public CSongMenu(Base Base)
+        public CSongMenu(Basic Base)
         {
             _Base = Base;
             CreateSongMenu();

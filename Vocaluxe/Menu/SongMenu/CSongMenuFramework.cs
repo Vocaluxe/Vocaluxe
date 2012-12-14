@@ -91,7 +91,7 @@ namespace Vocaluxe.Menu.SongMenu
 
     abstract class CSongMenuFramework : ISongMenu
     {
-        protected Base _Base;
+        protected Basic _Base;
         protected SThemeSongMenu _Theme;
         private bool _ThemeLoaded;
 
@@ -233,7 +233,7 @@ namespace Vocaluxe.Menu.SongMenu
             _Visible = Visible;
         }
 
-        public CSongMenuFramework(Base Base)
+        public CSongMenuFramework(Basic Base)
         {
             _Base = Base;
             _Theme = new SThemeSongMenu();

@@ -33,7 +33,7 @@ namespace Vocaluxe.Base
         public static IPlaylist Playlist = new BPlaylist();
 
 
-        public static Menu.Base Base = new Menu.Base(
+        public static Basic Base = new Basic(
             Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language, Game, Profiles, Record, Songs, Video, Sound, Cover, DataBase, Input, Playlist);
     }
 
@@ -99,6 +99,21 @@ namespace Vocaluxe.Base
         public List<string> GetSongFolder()
         {
             return CConfig.SongFolder;
+        }
+
+        public ESongSorting GetSongSorting()
+        {
+            return CConfig.SongSorting;
+        }
+
+        public EOffOn GetTabs()
+        {
+            return CConfig.Tabs;
+        }
+
+        public EOffOn GetIgnoreArticles()
+        {
+            return CConfig.IgnoreArticles;
         }
     }
 

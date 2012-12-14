@@ -6,9 +6,9 @@ namespace Vocaluxe.Menu.SingNotes
 {
     class CSingNotesClassic : CSingNotes
     {
-        private Base _Base;
+        private Basic _Base;
 
-        public CSingNotesClassic(Base Base)
+        public CSingNotesClassic(Basic Base)
             : base(Base)
         {
             _Base = Base;

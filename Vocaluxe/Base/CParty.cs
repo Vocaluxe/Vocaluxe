@@ -57,6 +57,7 @@ namespace Vocaluxe.Base
             //add dummy normal game mode and set it as default
             SPartyMode pm = new SPartyMode();
             pm.PartyMode = new CPartyModeNone();
+            pm.PartyMode.Initialize(CMain.Base);
             _PartyModes.Add(pm);
             _CurrentModeNr = 0;
 

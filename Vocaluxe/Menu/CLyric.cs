@@ -28,7 +28,7 @@ namespace Vocaluxe.Menu
 
     class CLyric : IMenuElement
     {
-        private Base _Base;
+        private Basic _Base;
         private SThemeLyrics _Theme;
         private bool _ThemeLoaded;
 
@@ -86,7 +86,7 @@ namespace Vocaluxe.Menu
             set { _Style = value; }
         }
 
-        public CLyric(Base Base)
+        public CLyric(Basic Base)
         {
             _Base = Base;
             _Theme = new SThemeLyrics();

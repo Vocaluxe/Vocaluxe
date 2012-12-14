@@ -78,14 +78,14 @@ namespace Vocaluxe.Menu
 
         class PlaylistElement
         {
-            Base _Base;
+            Basic _Base;
             public CStatic Cover;
             public CStatic Background;
             public CText Text1;
             public CSelectSlide SelectSlide;
             public int Content;
 
-            public PlaylistElement(Base Base)
+            public PlaylistElement(Basic Base)
             {
                 _Base = Base;
             }
@@ -133,7 +133,7 @@ namespace Vocaluxe.Menu
             }
         }
 
-        private Base _Base;
+        private Basic _Base;
         private SThemePlaylist _Theme;
         private bool _ThemeLoaded;
 
@@ -191,7 +191,7 @@ namespace Vocaluxe.Menu
 
         //private static
 
-        public CPlaylist(Base Base)
+        public CPlaylist(Basic Base)
         {
             _Base = Base;
             _Theme = new SThemePlaylist();

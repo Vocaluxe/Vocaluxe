@@ -6,9 +6,9 @@ namespace Vocaluxe.Menu.SongMenu
 {
     class CSongMenuBook : CSongMenuFramework
     {
-        new private Base _Base;
+        new private Basic _Base;
 
-        public CSongMenuBook(Base Base)
+        public CSongMenuBook(Basic Base)
             : base(Base)
         {
             _Base = Base;

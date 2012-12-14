@@ -11,7 +11,7 @@ namespace Vocaluxe.Menu.SongMenu
 {
     class CSongMenuTileBoard : CSongMenuFramework
     {
-        new private Base _Base;
+        new private Basic _Base;
         private SRectF _ScrollRect;
         private List<CStatic> _Tiles;
         private CStatic _CoverBig;
@@ -42,7 +42,7 @@ namespace Vocaluxe.Menu.SongMenu
 
         private bool _SmallView = false;
 
-        public CSongMenuTileBoard(Base Base)
+        public CSongMenuTileBoard(Basic Base)
             : base(Base)
         {
             _Base = Base;
