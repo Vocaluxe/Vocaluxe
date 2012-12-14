@@ -28,10 +28,11 @@ namespace Vocaluxe.Base
         public static ISound Sound = new BSound();
         public static ICover Cover = new BCover();
         public static IDataBase DataBase = new BDataBase();
+        public static IInputs Input = new BInputs();
 
 
         public static Menu.Base Base = new Menu.Base(
-            Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language, Game, Profiles, Record, Songs, Video, Sound, Cover, DataBase);
+            Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language, Game, Profiles, Record, Songs, Video, Sound, Cover, DataBase, Input);
     }
 
     class BConfig : IConfig
@@ -322,6 +323,11 @@ namespace Vocaluxe.Base
             CDraw.DrawTexture(Texture, Rect, Color, Bounds);
         }
 
+        public void DrawTexture(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds, bool Mirrored)
+        {
+            CDraw.DrawTexture(Texture, Rect, Color, Bounds, Mirrored);
+        }
+
         public void DrawTextureReflection(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds, float ReflectionSpace, float ReflectionHeight)
         {
             CDraw.DrawTextureReflection(Texture, Rect, Color, Bounds, ReflectionSpace, ReflectionHeight);
@@ -471,14 +477,34 @@ namespace Vocaluxe.Base
             return CSongs.NumCategories;
         }
 
+        public int NumSongsInCategory(int CategoryIndex)
+        {
+            return CSongs.NumSongsInCategory(CategoryIndex);
+        }
+
         public int GetCurrentCategoryIndex()
         {
             return CSongs.Category;
         }
 
+        public EOffOn GetTabs()
+        {
+            return CSongs.Tabs;
+        }
+
+        public string GetSearchFilter()
+        {
+            return CSongs.SearchFilter;
+        }
+
         public void SetCategory(int CategoryIndex)
         {
             CSongs.Category = CategoryIndex;
+        }
+
+        public void UpdateRandomSongList()
+        {
+            CSongs.UpdateRandomSongList();
         }
 
         public CSong GetVisibleSong(int VisibleIndex)
@@ -491,6 +517,24 @@ namespace Vocaluxe.Base
                 return null;
 
             return new CSong(song);
+        }
+
+        public CCategory GetCategory(int Index)
+        {
+            if (Index >= CSongs.NumCategories)
+                return null;
+
+            return new CCategory(CSongs.Categories[Index]);
+        }
+
+        public void NextCategory()
+        {
+            CSongs.NextCategory();
+        }
+
+        public void PrevCategory()
+        {
+            CSongs.PrevCategory();
         }
     }
 
@@ -589,6 +633,14 @@ namespace Vocaluxe.Base
         public bool GetCover(string FileName, ref STexture Texture, int CoverSize)
         {
             return CDataBase.GetCover(FileName, ref Texture, CoverSize);
+        }
+    }
+
+    class BInputs : IInputs
+    {
+        public void SetRumble(float Duration)
+        {
+            CInput.SetRumble(Duration);
         }
     }
 }

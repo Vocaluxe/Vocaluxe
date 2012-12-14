@@ -31,20 +31,6 @@ namespace Vocaluxe.Base
         }
     }
 
-    public class CCategory
-    {
-        public string Name = String.Empty;
-        public STexture CoverTextureSmall = new STexture();
-        public STexture CoverTextureBig = new STexture();
-
-        public CCategory(string name, STexture CoverSmall, STexture CoverBig)
-        {
-            Name = name;
-            CoverTextureSmall = CoverSmall;
-            CoverTextureBig = CoverBig;
-        }
-    }
-
     static class CSongs
     {
         private static List<CSong> _Songs = new List<CSong>();

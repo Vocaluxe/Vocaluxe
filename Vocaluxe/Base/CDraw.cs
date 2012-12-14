@@ -231,7 +231,7 @@ namespace Vocaluxe.Base
             _Draw.DrawTexture(Texture, rect, color, bounds);
         }
 
-        public static void DrawTexture(STexture Texture, SRectF rect, SColorF color,bool mirrored)
+        public static void DrawTexture(STexture Texture, SRectF rect, SColorF color, bool mirrored)
         {
             _Draw.DrawTexture(Texture, rect, color, mirrored);
         }

@@ -7,7 +7,6 @@ using System.Xml.XPath;
 using System.Windows.Forms;
 
 using Vocaluxe.Base;
-using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu.SongMenu;
 using Vocaluxe.GameModes;
 

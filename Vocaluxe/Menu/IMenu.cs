@@ -135,6 +135,7 @@ namespace Vocaluxe.Menu
         void DrawTexture(STexture Texture, SRectF Rect);
         void DrawTexture(STexture Texture, SRectF Rect, SColorF Color);
         void DrawTexture(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds);
+        void DrawTexture(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds, bool Mirrored);
         void DrawTextureReflection(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds, float ReflectionSpace, float ReflectionHeight);
 
         void RemoveTexture(ref STexture Texture);
@@ -198,11 +199,20 @@ namespace Vocaluxe.Menu
     {
         int GetNumVisibleSongs();
         int GetNumCategories();
+        int NumSongsInCategory(int CategoryIndex);
+
         int GetCurrentCategoryIndex();
+        EOffOn GetTabs();
+        string GetSearchFilter();
 
         void SetCategory(int CategoryIndex);
+        void UpdateRandomSongList();
 
         CSong GetVisibleSong(int VisibleIndex);
+        CCategory GetCategory(int Index);
+
+        void NextCategory();
+        void PrevCategory();
     }
 
     public interface IVideo
@@ -238,6 +248,11 @@ namespace Vocaluxe.Menu
     public interface IDataBase
     {
         bool GetCover(string FileName, ref STexture Texture, int CoverSize);
+    }
+
+    public interface IInputs
+    {
+        void SetRumble(float Duration);
     }
 
     [Flags]

@@ -29,6 +29,27 @@ namespace Vocaluxe.Menu.SongMenu
         Tag
     }
 
+    public class CCategory
+    {
+        public string Name = String.Empty;
+        public STexture CoverTextureSmall = new STexture();
+        public STexture CoverTextureBig = new STexture();
+
+        public CCategory(string name, STexture CoverSmall, STexture CoverBig)
+        {
+            Name = name;
+            CoverTextureSmall = CoverSmall;
+            CoverTextureBig = CoverBig;
+        }
+
+        public CCategory(CCategory cat)
+        {
+            Name = cat.Name;
+            CoverTextureSmall = cat.CoverTextureSmall;
+            CoverTextureBig = cat.CoverTextureBig;
+        }
+    }
+
     public struct SMedley
     {
         public EMedleySource Source;
