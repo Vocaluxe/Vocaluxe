@@ -25,9 +25,13 @@ namespace Vocaluxe.Menu
             return _PartyModeID;
         }
 
-        public void AssignPartyMode(IPartyMode PartyMode)
+        public void AssingPartyMode(IPartyMode PartyMode)
         {
             _PartyMode = PartyMode;
+        }
+
+        public virtual void DataToScreen(Object Data)
+        {
         }
 
         /*

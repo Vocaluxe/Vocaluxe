@@ -453,7 +453,16 @@ namespace Vocaluxe.Base
         public static void FadeTo(EScreens Screen)
         {
             if (Screen == EScreens.ScreenPartyDummy)
-                _Screens[(int)EScreens.ScreenPartyDummy] = CParty.GetNextPartyScreen();
+            {
+                EScreens alt;
+                CMenu scr = CParty.GetNextPartyScreen(out alt);
+                if (scr == null)
+                {
+                    _NextScreen = alt;
+                    return;
+                }
+                _Screens[(int)EScreens.ScreenPartyDummy] = scr;
+            }
                 
             _NextScreen = Screen;
         }

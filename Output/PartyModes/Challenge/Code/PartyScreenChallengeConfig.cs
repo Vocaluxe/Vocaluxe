@@ -15,6 +15,8 @@ namespace Vocaluxe.PartyModes
         const string ButtonNext = "ButtonNext";
         const string ButtonBack = "ButtonBack";
 
+        DataFromScreen Data;
+
         public PartyScreenChallengeConfig()
         {
         }
@@ -26,6 +28,13 @@ namespace Vocaluxe.PartyModes
             _ThemeName = "PartyScreenChallengeConfig";
             _ThemeButtons = new string[] { ButtonNext, ButtonBack };
             _ScreenVersion = ScreenVersion;
+
+            Data = new DataFromScreen();
+            FromScreenConfig config = new FromScreenConfig();
+            config.NumPlayers = 0;
+            config.NumPlayersAtOnce = 0;
+            config.NumRounds = 0;
+            Data.ScreenConfig = config;
         }
 
         public override void LoadTheme(string XmlPath)
@@ -39,7 +48,7 @@ namespace Vocaluxe.PartyModes
 
             if (KeyEvent.KeyPressed)
             {
-
+             
             }
             else
             {
@@ -47,7 +56,15 @@ namespace Vocaluxe.PartyModes
                 {
                     case Keys.Back:
                     case Keys.Escape:
-                        FadeTo(EScreens.ScreenParty);
+                        Back();
+                        break;
+
+                    case Keys.Enter:
+                        if (Buttons[htButtons(ButtonBack)].Selected)
+                            Back();
+
+                        if (Buttons[htButtons(ButtonNext)].Selected)
+                            Next();
                         break;
                 }
             }
@@ -60,12 +77,16 @@ namespace Vocaluxe.PartyModes
 
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
             {
+                if (Buttons[htButtons(ButtonBack)].Selected)
+                    Back();
 
+                if (Buttons[htButtons(ButtonNext)].Selected)
+                    Next();
             }
 
             if (MouseEvent.RB)
             {
-                FadeTo(EScreens.ScreenParty);
+                Back();
             }
 
             return true;
@@ -90,6 +111,20 @@ namespace Vocaluxe.PartyModes
         public override void OnClose()
         {
             base.OnClose();
+        }
+
+        private void Back()
+        {
+            FadeTo(EScreens.ScreenParty);
+        }
+
+        private void Next()
+        {
+            Data.ScreenConfig.NumPlayers = 4;
+            Data.ScreenConfig.NumPlayersAtOnce = 2;
+            Data.ScreenConfig.NumRounds = 8;
+
+            _PartyMode.DataFromScreen(_ThemeName, Data);
         }
     }
 }

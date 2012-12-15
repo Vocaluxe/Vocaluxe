@@ -49,7 +49,8 @@ namespace Vocaluxe.Menu
         void SetPartyModeID(int PartyModeID);
         int GetPartyModeID();
 
-        void AssignPartyMode(IPartyMode PartyMode);
+        void AssingPartyMode(IPartyMode PartyMode);
+        void DataToScreen(Object Data);
     }
 
     public interface IConfig

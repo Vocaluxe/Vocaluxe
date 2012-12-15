@@ -12,6 +12,11 @@ namespace Vocaluxe.PartyModes
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         const int ScreenVersion = 1;
 
+        const string ButtonNext = "ButtonNext";
+        const string ButtonBack = "ButtonBack";
+
+        private DataFromScreen Data;
+
         public PartyScreenChallengeNames()
         {
         }
@@ -21,7 +26,15 @@ namespace Vocaluxe.PartyModes
             base.Init();
 
             _ThemeName = "PartyScreenChallengeNames";
+            _ThemeButtons = new string[] { ButtonNext, ButtonBack };
             _ScreenVersion = ScreenVersion;
+
+            Data = new DataFromScreen();
+            FromScreenNames names = new FromScreenNames();
+            names.FadeToConfig = false;
+            names.FadeToMain = false;
+            names.ProfileIDs = new List<int>();
+            Data.ScreenNames = names;
         }
 
         public override void LoadTheme(string XmlPath)
@@ -43,7 +56,16 @@ namespace Vocaluxe.PartyModes
                 {
                     case Keys.Back:
                     case Keys.Escape:
-                        FadeTo(EScreens.ScreenParty);
+                        Back();
+                        break;
+
+                    case Keys.Enter:
+                        if (Buttons[htButtons(ButtonBack)].Selected)
+                            Back();
+
+                        if (Buttons[htButtons(ButtonNext)].Selected)
+                            Next();
+
                         break;
                 }
             }
@@ -56,7 +78,11 @@ namespace Vocaluxe.PartyModes
 
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
             {
+                if (Buttons[htButtons(ButtonBack)].Selected)
+                    Back();
 
+                if (Buttons[htButtons(ButtonNext)].Selected)
+                    Next();
             }
 
             if (MouseEvent.RB)
@@ -86,6 +112,20 @@ namespace Vocaluxe.PartyModes
         public override void OnClose()
         {
             base.OnClose();
+        }
+
+        private void Back()
+        {
+            Data.ScreenNames.FadeToConfig = true;
+            Data.ScreenNames.FadeToMain = false;
+            _PartyMode.DataFromScreen(_ThemeName, Data);
+        }
+
+        private void Next()
+        {
+            Data.ScreenNames.FadeToConfig = false;
+            Data.ScreenNames.FadeToMain = true;
+            _PartyMode.DataFromScreen(_ThemeName, Data);
         }
     }
 }

@@ -12,7 +12,6 @@ namespace Vocaluxe.PartyModes
         protected ScreenSongOptions _ScreenSongOptions;
         protected Dictionary<string, CMenuParty> _Screens;
         protected string _Folder;
-        protected Delegate _Callback;
 
         public CPartyMode()
         {
@@ -24,7 +23,7 @@ namespace Vocaluxe.PartyModes
         }
 
         #region Implementation
-        public virtual bool Init(string Folder)
+        public virtual bool Init()
         {
             return false;
         }
@@ -39,13 +38,13 @@ namespace Vocaluxe.PartyModes
             _Screens.Add(ScreenName, Screen);
         }
 
-        public void SetPartyModeCallback(Delegate Callback)
+        public virtual void DataFromScreen(string ScreenName, Object Data)
         {
-            _Callback = Callback;
         }
 
-        public virtual CMenuParty GetNextPartyScreen()
+        public virtual CMenuParty GetNextPartyScreen(out EScreens AlternativeScreen)
         {
+            AlternativeScreen = EScreens.ScreenMain;
             return null;
         }
 
