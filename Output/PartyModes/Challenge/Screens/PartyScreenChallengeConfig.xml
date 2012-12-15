@@ -322,7 +322,7 @@
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
-      <NumVisible>3</NumVisible>
+      <NumVisible>9</NumVisible>
     </SelectSlideNumPlayers>
 	<SelectSlideNumMics>
       <!--<Skin>: Texture name-->
@@ -387,7 +387,7 @@
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
-      <NumVisible>3</NumVisible>
+      <NumVisible>2</NumVisible>
     </SelectSlideNumMics>
     <SelectSlideNumRounds>
       <!--<Skin>: Texture name-->
@@ -452,7 +452,7 @@
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
-      <NumVisible>3</NumVisible>
+      <NumVisible>10</NumVisible>
     </SelectSlideNumRounds>    
   </PartyScreenChallengeConfig>
 </root>

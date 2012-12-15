@@ -12,8 +12,14 @@ namespace Vocaluxe.PartyModes
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         const int ScreenVersion = 1;
 
+        const string SelectSlideNumPlayers = "SelectSlideNumPlayers";
+        const string SelectSlideNumMics = "SelectSlideNumMics";
+        const string SelectSlideNumRounds = "SelectSlideNumRounds";
         const string ButtonNext = "ButtonNext";
         const string ButtonBack = "ButtonBack";
+
+        private int MaxNumMics = 2;
+        private int MaxNumRounds = 10;
 
         DataFromScreen Data;
 
@@ -26,6 +32,7 @@ namespace Vocaluxe.PartyModes
             base.Init();
 
             _ThemeName = "PartyScreenChallengeConfig";
+            _ThemeSelectSlides = new string[] { SelectSlideNumPlayers, SelectSlideNumMics, SelectSlideNumRounds };
             _ThemeButtons = new string[] { ButtonNext, ButtonBack };
             _ScreenVersion = ScreenVersion;
 
@@ -77,6 +84,7 @@ namespace Vocaluxe.PartyModes
 
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
             {
+                UpdateSlides();
                 if (Buttons[htButtons(ButtonBack)].Selected)
                     Back();
 
@@ -95,6 +103,24 @@ namespace Vocaluxe.PartyModes
         public override void OnShow()
         {
             base.OnShow();
+            SelectSlides[htSelectSlides(SelectSlideNumPlayers)].Clear();
+            for (int i = _PartyMode.GetMinPlayer(); i <= _PartyMode.GetMaxPlayer(); i++)
+            {
+                SelectSlides[htSelectSlides(SelectSlideNumPlayers)].AddValue(i.ToString());
+            }
+            //TODO: Max number of mics should be number of mics available
+            SelectSlides[htSelectSlides(SelectSlideNumMics)].Clear();
+            for (int i = 1; i <= MaxNumMics; i++)
+            {
+                SelectSlides[htSelectSlides(SelectSlideNumMics)].AddValue(i.ToString());
+            }
+            //TODO: Max number ofs round should depend on number of players and mics
+            SelectSlides[htSelectSlides(SelectSlideNumRounds)].Clear();
+            for (int i = 1; i <= MaxNumRounds; i++)
+            {
+                SelectSlides[htSelectSlides(SelectSlideNumRounds)].AddValue(i.ToString());
+            }
+            UpdateSlides();
         }
 
         public override bool UpdateGame()
@@ -113,6 +139,11 @@ namespace Vocaluxe.PartyModes
             base.OnClose();
         }
 
+        private void UpdateSlides()
+        {
+            //Update slides when one value was changed
+        }
+
         private void Back()
         {
             FadeTo(EScreens.ScreenParty);
@@ -120,9 +151,9 @@ namespace Vocaluxe.PartyModes
 
         private void Next()
         {
-            Data.ScreenConfig.NumPlayers = 4;
-            Data.ScreenConfig.NumPlayersAtOnce = 2;
-            Data.ScreenConfig.NumRounds = 8;
+            Data.ScreenConfig.NumPlayers = (SelectSlides[htSelectSlides(SelectSlideNumPlayers)].Selection + _PartyMode.GetMinPlayer());
+            Data.ScreenConfig.NumPlayersAtOnce = SelectSlides[htSelectSlides(SelectSlideNumMics)].Selection;
+            Data.ScreenConfig.NumRounds = SelectSlides[htSelectSlides(SelectSlideNumRounds)].Selection;
 
             _PartyMode.DataFromScreen(_ThemeName, Data);
         }
