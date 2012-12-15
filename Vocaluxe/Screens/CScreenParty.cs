@@ -16,6 +16,7 @@ namespace Vocaluxe.Screens
         const string TextDescription = "TextDescription";
         const string TextAuthor = "TextAuthor";
         const string TextVersion = "TextVersion";
+        const string TextError = "TextError";
         const string ButtonStart = "ButtonStart";
         const string ButtonExit = "ButtonExit";
         const string SelectSlideModes = "SelectSlideModes";
@@ -32,7 +33,7 @@ namespace Vocaluxe.Screens
 
             _ThemeName = "ScreenParty";
             _ScreenVersion = ScreenVersion;
-            _ThemeTexts = new string[] { TextDescription, TextAuthor, TextVersion };
+            _ThemeTexts = new string[] { TextDescription, TextAuthor, TextVersion, TextError };
             _ThemeButtons = new string[] { ButtonStart, ButtonExit };
             _ThemeSelectSlides = new string[] { SelectSlideModes };
         }
@@ -148,6 +149,17 @@ namespace Vocaluxe.Screens
             Texts[htTexts(TextAuthor)].PartyModeID = _PartyModeInfos[index].PartyModeID;
             //Texts[htTexts(TextVersion)].Text = _PartyModeInfos[index].
             Texts[htTexts(TextVersion)].PartyModeID = _PartyModeInfos[index].PartyModeID;
+
+            if (!_PartyModeInfos[index].Playable)
+            {
+                Buttons[htButtons(ButtonStart)].Visible = false;
+                Texts[htTexts(TextError)].Visible = true;
+            }
+            else
+            {
+                Buttons[htButtons(ButtonStart)].Visible = true;
+                Texts[htTexts(TextError)].Visible = false;
+            }
         }
 
         private void StartPartyMode()
@@ -159,8 +171,11 @@ namespace Vocaluxe.Screens
             if (index >= _PartyModeInfos.Count)
                 return;
 
-            CParty.SetPartyMode(_PartyModeInfos[index].PartyModeID);
-            CGraphics.FadeTo(EScreens.ScreenPartyDummy);
+            if (_PartyModeInfos[index].Playable)
+            {
+                CParty.SetPartyMode(_PartyModeInfos[index].PartyModeID);
+                CGraphics.FadeTo(EScreens.ScreenPartyDummy);
+            }
         }
     }
 }
