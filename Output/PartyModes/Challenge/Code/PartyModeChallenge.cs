@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+using Vocaluxe.Menu;
+
 namespace Vocaluxe.PartyModes
 {
-    public class CPartyModeChallenge : CPartyMode
+    public class PartyModeChallenge : CPartyMode
     {
-        public CPartyModeChallenge()
+        public PartyModeChallenge()
         {
             _ScreenSongOptions.Selection.RandomOnly = false;
             _ScreenSongOptions.Selection.PartyMode = false;
@@ -15,6 +17,13 @@ namespace Vocaluxe.PartyModes
 
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchStringVisible = false;
+        }
+
+        public override CMenuParty GetNextPartyScreen()
+        {
+            CMenuParty Screen = null;
+            _Screens.TryGetValue("PartyScreenChallengeMain", out Screen);
+            return Screen;
         }
 
         public override ScreenSongOptions GetScreenSongOptions()

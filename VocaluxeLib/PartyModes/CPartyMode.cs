@@ -10,21 +10,16 @@ namespace Vocaluxe.PartyModes
     {
         protected Basic _Base;
         protected ScreenSongOptions _ScreenSongOptions;
-        protected List<CMenu> _Screens;
+        protected Dictionary<string, CMenuParty> _Screens;
         protected string _Folder;
 
         public CPartyMode()
         {
-            _Screens = new List<CMenu>();
+            _Screens = new Dictionary<string, CMenuParty>();
             _Folder = String.Empty;
             _ScreenSongOptions = new ScreenSongOptions();
             _ScreenSongOptions.Selection = new SelectionOptions();
             _ScreenSongOptions.Sorting = new SortingOptions();
-        }
-
-        public void Initialize(Basic Base)
-        {
-            _Base = Base;
         }
 
         #region Implementation
@@ -33,7 +28,17 @@ namespace Vocaluxe.PartyModes
             return false;
         }
 
-        public virtual CMenu GetNextPartyScreen()
+        public void Initialize(Basic Base)
+        {
+            _Base = Base;
+        }
+
+        public void AddScreen(CMenuParty Screen, string ScreenName)
+        {
+            _Screens.Add(ScreenName, Screen);
+        }
+
+        public virtual CMenuParty GetNextPartyScreen()
         {
             return null;
         }

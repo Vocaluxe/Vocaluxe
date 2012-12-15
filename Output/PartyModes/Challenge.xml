@@ -5,8 +5,11 @@
     <Name>Challenge</Name>
     <Author>brunzel</Author>
     <Folder>Challenge</Folder>
-	<PartyModeFile>CPartyModeChallenge.cs</PartyModeFile>
+	<PartyModeFile>PartyModeChallenge</PartyModeFile>
     <PartyModeVersionMajor>0</PartyModeVersionMajor>
     <PartyModeVersionMinor>1</PartyModeVersionMinor>
   </Info>
+  <PartyScreens>
+    <ScreenFile>PartyScreenChallengeMain</ScreenFile>
+  </PartyScreens>
 </root>

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Vocaluxe.Menu
 {
-    abstract class CMenuParty : CMenu
+    public abstract class CMenuParty : CMenu
     {
         public CMenuParty()
         {

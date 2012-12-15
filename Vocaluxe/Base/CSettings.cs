@@ -94,6 +94,7 @@ namespace Vocaluxe.Base
 
         public static string sFolderPartyModes = "PartyModes";
         public const string sFolderPartyModeCode = "Code";
+        public const string sFolderPartyModeScreens = "Screens";
 
         //public const String[] ToneStrings = new String[]{ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
         public const int ToneMin = -36;

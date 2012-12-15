@@ -1,20 +1,19 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-using Vocaluxe.Base;
 using Vocaluxe.Menu;
 
-namespace Vocaluxe.Screens
+namespace Vocaluxe.PartyModes
 {
-    class CScreenParty : CMenu
-    {// Version number for theme files. Increment it, if you've changed something on the theme files!
+    public class PartyScreenChallengeMain : CMenuParty
+    {
+        // Version number for theme files. Increment it, if you've changed something on the theme files!
         const int ScreenVersion = 1;
+        private CText Warning;
 
-        const string ButtonExit = "ButtonExit";
-
-        public CScreenParty()
+        public PartyScreenChallengeMain()
         {
         }
 
@@ -22,14 +21,38 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeName = "ScreenParty";
+            _ThemeName = "PartyScreenChallengeMain";
             _ScreenVersion = ScreenVersion;
-            _ThemeButtons = new string[] { ButtonExit };
         }
 
         public override void LoadTheme()
         {
-            base.LoadTheme();            
+            Warning = GetNewText();
+            Warning.Height = 100f;
+            Warning.X = 150;
+            Warning.Y = 300;
+            Warning.Fon = "Normal";
+            Warning.Style = EStyle.Normal;
+            Warning.Color = new SColorF(1f, 0f, 0f, 1f);
+            Warning.SColor = new SColorF(1f, 0f, 0f, 1f);
+            Warning.Text = "CHALLENGE!";
+            AddText(Warning);
+        }
+
+        public override void ReloadTheme()
+        {
+        }
+
+        public override void ReloadTextures()
+        {
+        }
+
+        public override void SaveTheme()
+        {
+        }
+
+        public override void UnloadTextures()
+        {
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -38,7 +61,7 @@ namespace Vocaluxe.Screens
 
             if (KeyEvent.KeyPressed)
             {
-                
+
             }
             else
             {
@@ -46,20 +69,10 @@ namespace Vocaluxe.Screens
                 {
                     case Keys.Back:
                     case Keys.Escape:
-                        CGraphics.FadeTo(EScreens.ScreenMain);
-                        break;
-                    
-                    case Keys.C:
-                        CParty.SetPartyMode(1);
-                        CGraphics.FadeTo(EScreens.ScreenPartyDummy);
-                        break;
-
-                    case Keys.Enter:
-                        if (Buttons[htButtons(ButtonExit)].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenMain);
+                        FadeTo(EScreens.ScreenParty);
                         break;
                 }
-            }            
+            }
             return true;
         }
 
@@ -70,15 +83,13 @@ namespace Vocaluxe.Screens
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
             {
 
-                if (Buttons[htButtons(ButtonExit)].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenMain);
             }
 
             if (MouseEvent.RB)
             {
-                CGraphics.FadeTo(EScreens.ScreenMain);
+                FadeTo(EScreens.ScreenParty);
             }
-            
+
             return true;
         }
 
@@ -94,9 +105,7 @@ namespace Vocaluxe.Screens
 
         public override bool Draw()
         {
-            base.DrawBG();
-            base.DrawFG();
-
+            base.Draw();
             return true;
         }
 
