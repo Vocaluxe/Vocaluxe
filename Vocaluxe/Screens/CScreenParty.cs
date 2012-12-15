@@ -151,7 +151,7 @@ namespace Vocaluxe.Screens
             Texts[htTexts(TextDescription)].Text = _PartyModeInfos[index].Description;
             //TargetAudience
             Texts[htTexts(TextTargetAudience)].PartyModeID = _PartyModeInfos[index].PartyModeID;
-            Texts[htTexts(TextTargetAudience)].Text = _PartyModeInfos[index].Description;
+            Texts[htTexts(TextTargetAudience)].Text = _PartyModeInfos[index].TargetAudience;
             //NumTeams
             if (_PartyModeInfos[index].MaxTeams == 0)
                 Texts[htTexts(TextNumTeams)].Text = "TR_SCREENPARTY_NOTEAMS";
