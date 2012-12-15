@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<Info>
+		<Name>Français</Name>
+	</Info>
+	<Texts>
+		<!--General-->
+		<TR_PARTYMODE_NAME>TODO: Challenge Mode</TR_PARTYMODE_NAME>
+		<TR_PARTYMODE_DESCRIPTION>TODO: Challenge with zp to X Players</TR_PARTYMODE_DESCRIPTION>
+	</Texts>
+</root>

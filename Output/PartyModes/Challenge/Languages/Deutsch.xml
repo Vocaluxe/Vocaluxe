@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<Info>
+		<Name>Deutsch</Name>
+	</Info>
+	<Texts>
+		<!--General-->
+		<TR_PARTYMODE_NAME>Challenge Modus</TR_PARTYMODE_NAME>
+		<TR_PARTYMODE_DESCRIPTION>Spiele mit bis zu X Spielern einem Wettkampfmodus</TR_PARTYMODE_DESCRIPTION>
+	</Texts>
+</root>
