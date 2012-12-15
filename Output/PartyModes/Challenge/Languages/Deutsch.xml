@@ -6,7 +6,7 @@
 	<Texts>
 		<!--General-->
 		<TR_PARTYMODE_NAME>Challenge Modus</TR_PARTYMODE_NAME>
-		<TR_PARTYMODE_DESCRIPTION>Spiele mit bis zu X Spielern einem Wettkampfmodus</TR_PARTYMODE_DESCRIPTION>
+		<TR_PARTYMODE_DESCRIPTION>Spiele mit bis zu X Spielern einen Wettkampfmodus</TR_PARTYMODE_DESCRIPTION>
 		<TR_BUTTON_NEXT>Weiter</TR_BUTTON_NEXT>
 		<TR_BUTTON_BACK>Zurück</TR_BUTTON_BACK>
 		<TR_BUTTON_START>Start</TR_BUTTON_START>
