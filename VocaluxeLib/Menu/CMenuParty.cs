@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 
+using Vocaluxe.PartyModes;
+
 namespace Vocaluxe.Menu
 {
     public abstract class CMenuParty : CMenu
     {
+        protected IPartyMode _PartyMode;
+
         public CMenuParty()
         {
+            _PartyMode = new CPartyModeNone();
         }
 
         public void SetPartyModeID(int PartyModeID)
@@ -18,6 +23,11 @@ namespace Vocaluxe.Menu
         public int GetPartyModeID()
         {
             return _PartyModeID;
+        }
+
+        public void AssignPartyMode(IPartyMode PartyMode)
+        {
+            _PartyMode = PartyMode;
         }
 
         /*

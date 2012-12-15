@@ -54,6 +54,7 @@ namespace Vocaluxe.PartyModes
         bool Init(string Folder);
         void Initialize(Basic Base);
         void AddScreen(CMenuParty Screen, string ScreenName);
+        void SetPartyModeCallback(Delegate Callback);
 
         CMenuParty GetNextPartyScreen();
         EScreens GetStartScreen();

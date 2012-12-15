@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 using Vocaluxe.Menu.SingNotes;
 using Vocaluxe.Menu.SongMenu;
+using Vocaluxe.PartyModes;
 
 namespace Vocaluxe.Menu
 {
@@ -47,6 +48,8 @@ namespace Vocaluxe.Menu
     {
         void SetPartyModeID(int PartyModeID);
         int GetPartyModeID();
+
+        void AssignPartyMode(IPartyMode PartyMode);
     }
 
     public interface IConfig

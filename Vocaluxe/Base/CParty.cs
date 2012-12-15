@@ -279,7 +279,10 @@ namespace Vocaluxe.Base
                     pm.PartyModeID);
 
                 if (Screen != null)
+                {
+                    Screen.AssignPartyMode(pm.PartyMode);
                     pm.PartyMode.AddScreen(Screen, screenfile);
+                }
                 else
                     return pm;
             }
