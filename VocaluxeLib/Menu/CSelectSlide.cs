@@ -87,6 +87,7 @@ namespace Vocaluxe.Menu
         private bool _ArrowRightSelected;
 
         private List<string> _ValueNames;
+        private List<int> _ValuePartyModeIDs;
         private List<STexture> _Textures;
         private List<int> _ValueIndexes;
 
@@ -164,6 +165,7 @@ namespace Vocaluxe.Menu
             _Textures = new List<STexture>();
             _ValueIndexes = new List<int>();
             _ValueNames = new List<string>();
+            _ValuePartyModeIDs = new List<int>();
         }
 
         public CSelectSlide(CSelectSlide slide)
@@ -217,6 +219,7 @@ namespace Vocaluxe.Menu
             _ValueIndexes = new List<int>(slide._ValueIndexes);
             _ValueNames = new List<string>(slide._ValueNames);
             _ValueBounds = new List<SRectF>(slide._ValueBounds);
+            _ValuePartyModeIDs = new List<int>(slide._ValuePartyModeIDs);
             _Selection = slide._Selection;
             _NumVisible = slide._NumVisible;
 
@@ -540,7 +543,11 @@ namespace Vocaluxe.Menu
         public void AddValue(string value)
         {
             AddValue(value, new STexture(-1));
-            _ValueBounds.Clear();
+        }
+
+        public void AddValue(string value, int PartyModeID)
+        {
+            AddValue(value, new STexture(-1), _ValueIndexes.Count, PartyModeID);
         }
 
         public void AddValue(string value, STexture texture)
@@ -550,9 +557,15 @@ namespace Vocaluxe.Menu
 
         public void AddValue(string value, STexture texture, int valueIndex)
         {
+            AddValue(value, texture, valueIndex, -1);
+        }
+
+        public void AddValue(string value, STexture texture, int valueIndex, int PartyModeID)
+        {
             _ValueNames.Add(value);
             _Textures.Add(texture);
             _ValueIndexes.Add(valueIndex);
+            _ValuePartyModeIDs.Add(PartyModeID);
 
             if (Selection == -1)
                 Selection = 0;
@@ -763,7 +776,10 @@ namespace Vocaluxe.Menu
             _ValueBounds.Clear();
             for (int i = 0; i < numvis; i++)
             {
-                CText Text = new CText(_Base, 0, 0, 0, TextH, MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, TextColor, _ValueNames[i + offset]);
+                CText Text = new CText(_Base, 0, 0, 0, TextH, MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, TextColor, String.Empty);
+                Text.PartyModeID = _ValuePartyModeIDs[i + offset];
+                Text.Text = _ValueNames[i + offset];
+
                 SColorF Alpha = new SColorF(1f, 1f, 1f, 0.35f);
                 if (i + offset == _Selection)
                 {

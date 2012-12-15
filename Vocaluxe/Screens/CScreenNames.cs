@@ -95,9 +95,9 @@ namespace Vocaluxe.Screens
             chooseAvatarStatic.Visible = false;
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
             
             _PlayerNr = new int[CSettings.MaxNumPlayer];
             for (int i = 0; i < _PlayerNr.Length; i++)

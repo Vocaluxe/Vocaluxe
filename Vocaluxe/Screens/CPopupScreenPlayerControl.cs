@@ -100,9 +100,9 @@ namespace Vocaluxe.Screens
             _ThemeButtons = buttons.ToArray();
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
 
             _ScreenArea = Statics[htStatics(StaticBG)].Rect;
         }

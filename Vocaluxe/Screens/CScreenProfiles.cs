@@ -61,9 +61,9 @@ namespace Vocaluxe.Screens
             _EditMode = EEditMode.None;
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
 
             Buttons[htButtons(ButtonSaveSnapshot)].Visible = false;
             Buttons[htButtons(ButtonDiscardSnapshot)].Visible = false;

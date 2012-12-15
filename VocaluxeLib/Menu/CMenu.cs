@@ -24,6 +24,7 @@ namespace Vocaluxe.Menu
     {        
         private List<CInteraction> _Interactions;
         private int _Selection = 0;
+        private string _ThemePath = String.Empty;
                 
         private List<CBackground> _Backgrounds;
         private List<CButton> _Buttons;
@@ -158,9 +159,9 @@ namespace Vocaluxe.Menu
         }
 
         #region ThemeHandler
-        public virtual void LoadTheme()
+        public virtual void LoadTheme(string XmlPath)
         {
-            string file = Path.Combine(_Base.Theme.GetThemeScreensPath(), _ThemeName + ".xml");
+            string file = Path.Combine(XmlPath, _ThemeName + ".xml");
 
             XPathDocument xPathDoc = null;
             XPathNavigator navigator = null;
@@ -192,6 +193,7 @@ namespace Vocaluxe.Menu
 
             if (loaded && VersionCheck && SkinIndex != -1)
             {
+                _ThemePath = XmlPath;
                 LoadThemeBasics(navigator, SkinIndex);
 
                 if (_ThemeBackgrounds != null)
@@ -378,12 +380,15 @@ namespace Vocaluxe.Menu
 
         public virtual void SaveTheme()
         {
+            if (_ThemePath == String.Empty)
+                return;
+
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true; 
             settings.Encoding = Encoding.UTF8;
             settings.ConformanceLevel = ConformanceLevel.Document;
 
-            string file = Path.Combine(_Base.Theme.GetThemeScreensPath(), _ThemeName + ".xml");
+            string file = Path.Combine(_ThemePath, _ThemeName + ".xml");
             XmlWriter writer = XmlWriter.Create(file, settings);
 
             writer.WriteStartDocument();
@@ -584,9 +589,12 @@ namespace Vocaluxe.Menu
 
         public virtual void ReloadTheme()
         {
+            if (_ThemePath == String.Empty)
+                return;
+
             UnloadTextures();
-            Init();
-            LoadTheme();
+            Init();            
+            LoadTheme(_ThemePath);
         }
         #endregion ThemeHandler
 

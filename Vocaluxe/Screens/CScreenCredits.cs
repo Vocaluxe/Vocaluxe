@@ -106,7 +106,7 @@ namespace Vocaluxe.Screens
             paragraphs.Add(words);
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
             //Vocaluxe-Logo
             CDataBase.GetCreditsRessource("Logo_voc.png", ref _TexLogo);
@@ -174,9 +174,9 @@ namespace Vocaluxe.Screens
 
         }
 
-        public override void ReloadTheme() {}
+        public override void ReloadTheme() { }
 
-        public override void SaveTheme() {}
+        public override void SaveTheme() { }
 
         public override void UnloadTextures() {}
 

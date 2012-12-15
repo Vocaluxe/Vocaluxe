@@ -147,9 +147,9 @@ namespace Vocaluxe.Screens
             _TimerDuetText2 = new Stopwatch();
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
 
             Statics[htStatics(StaticTimeLine)].Visible = false;
             Statics[htStatics(StaticTimeLineExpandedNormal)].Visible = false;

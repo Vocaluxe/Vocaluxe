@@ -40,9 +40,9 @@ namespace Vocaluxe.Screens
             _ThemeButtons = new string[] { ButtonSing, ButtonParty, ButtonOptions, ButtonProfiles, ButtonExit };
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();            
+            base.LoadTheme(XmlPath);            
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)

@@ -13,7 +13,7 @@ namespace Vocaluxe.Menu
     {
         void Initialize(Basic Base);
 
-        void LoadTheme();
+        void LoadTheme(string XmlPath);
         void SaveTheme();
         void ReloadTextures();
         void UnloadTextures();
@@ -176,6 +176,7 @@ namespace Vocaluxe.Menu
     public interface ILanguage
     {
         string Translate(string KeyWord);
+        string Translate(string KeyWord, int PartyModeID);
         bool TranslationExists(string KeyWord);
     }
 
@@ -797,6 +798,15 @@ namespace Vocaluxe.Menu
         TR_GAMEMODE_MEDLEY,
         TR_GAMEMODE_DUET,
         TR_GAMEMODE_SHORTSONG
+    }
+
+    public struct SPartyModeInfos
+    {
+        public int PartyModeID;
+        public string Name;
+        public string Description;
+        public string Author;
+        public bool Playable;
     }
 
     public enum EScreens

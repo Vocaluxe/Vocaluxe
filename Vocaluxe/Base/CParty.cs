@@ -18,6 +18,7 @@ namespace Vocaluxe.Base
         public int PartyModeID;
         public int PartyModeSystemVersion;
         public string Name;
+        public string Description;
         public string Author;
         public string Folder;
         public string PartyModeFile;
@@ -41,17 +42,7 @@ namespace Vocaluxe.Base
         private static int _NormalGameModeID;
         private static SPartyMode _CurrentPartyMode;
 
-        public static int CurrentPartyModeID
-        {
-            get { return _CurrentPartyMode.PartyModeID; }
-        }
-
         #region public stuff
-        public static int NumModes
-        {
-            get { return 0 ; }   //first mode is the dummy normal game mode
-        }
-
         public static void Init()
         {
             Helper = new CHelper();
@@ -74,6 +65,53 @@ namespace Vocaluxe.Base
             //load other party modes
             LoadPartyModes();
         }
+
+        public static int CurrentPartyModeID
+        {
+            get
+            {
+                if (_CurrentPartyMode.PartyModeID != _NormalGameModeID)
+                    return _CurrentPartyMode.PartyModeID;
+
+                return -1;
+            }
+        }
+
+        public static int NumModes
+        {
+            get { return _PartyModes.Count; }
+        }
+
+        public static List<SPartyModeInfos> GetPartyModeInfos()
+        {
+            List<SPartyModeInfos> infos = new List<SPartyModeInfos>();
+
+            int[] UsedKeys  = new int[_PartyModes.Count];
+            _PartyModes.Keys.CopyTo(UsedKeys, 0);
+
+            for (int i = 0; i < UsedKeys.Length; i++)
+            {
+                if (UsedKeys[i] != _NormalGameModeID)
+                {
+                    SPartyMode mode = new SPartyMode();
+                    _PartyModes.TryGetValue(UsedKeys[i], out mode);
+
+                    if (mode.PartyMode != null)
+                    {
+                        SPartyModeInfos info = new SPartyModeInfos();
+
+                        info.Author = mode.Author;
+                        info.Description = mode.Description;
+                        info.Name = mode.Name;
+                        info.PartyModeID = mode.PartyModeID;
+                        info.Playable = mode.NoErrors;
+
+                        infos.Add(info);
+                    }
+                }
+            }
+            return infos;
+        }
                 
         public static void SetNormalGameMode()
         {
@@ -94,7 +132,7 @@ namespace Vocaluxe.Base
 
             NextScreen = new CScreenPartyDummy();
             NextScreen.Initialize(CMain.Base);
-            NextScreen.LoadTheme();
+            NextScreen.LoadTheme(String.Empty);
             return NextScreen;
         }
         #endregion public stuff
@@ -135,7 +173,6 @@ namespace Vocaluxe.Base
             foreach (string file in files)
             {
                 SPartyMode pm = LoadPartyMode(file);
-                pm.PartyModeID = _IDs.Dequeue();
                 _PartyModes.Add(pm.PartyModeID, pm);
             }
         }
@@ -143,6 +180,7 @@ namespace Vocaluxe.Base
         private static SPartyMode LoadPartyMode(string file)
         {
             SPartyMode pm =  new SPartyMode();
+            pm.PartyModeID = _IDs.Dequeue();
             pm.ScreenFiles = new List<string>();
             pm.NoErrors = false;
 
@@ -172,6 +210,7 @@ namespace Vocaluxe.Base
             {
                 loaded &= CHelper.TryGetIntValueFromXML("//root/PartyModeSystemVersion", navigator, ref pm.PartyModeSystemVersion);                
                 loaded &= CHelper.GetValueFromXML("//root/Info/Name", navigator, ref pm.Name, "ERROR Name");
+                loaded &= CHelper.GetValueFromXML("//root/Info/Description", navigator, ref pm.Description, "ERROR Description");
                 loaded &= CHelper.GetValueFromXML("//root/Info/Author", navigator, ref pm.Author, "ERROR Author");
                 loaded &= CHelper.GetValueFromXML("//root/Info/Folder", navigator, ref pm.Folder, "ERROR Folder");
                 loaded &= CHelper.GetValueFromXML("//root/Info/PartyModeFile", navigator, ref pm.PartyModeFile, "ERROR PartyModeFile");
@@ -227,11 +266,17 @@ namespace Vocaluxe.Base
 
             foreach (string screenfile in pm.ScreenFiles)
             {
-                CMenuParty Screen = GetPartyScreenInstance(Output, screenfile);
+                CMenuParty Screen = GetPartyScreenInstance(Output, screenfile, Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeScreens));
                 if (Screen != null)
                     pm.PartyMode.AddScreen(Screen, screenfile);
                 else
                     return pm;
+            }
+
+            if (!CLanguage.LoadPartyLanguageFiles(pm.PartyModeID, Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeLanguages)))
+            {
+                CLog.LogError("Error loading language files for PartyMode: " + file);
+                return pm;
             }
             
             pm.NoErrors = true;
@@ -278,7 +323,7 @@ namespace Vocaluxe.Base
             return CompileResult.CompiledAssembly;
         }
 
-        private static CMenuParty GetPartyScreenInstance(Assembly Assembly, string ScreenName)
+        private static CMenuParty GetPartyScreenInstance(Assembly Assembly, string ScreenName, string XmlPath)
         {
             if (Assembly == null)
                 return null;
@@ -301,7 +346,7 @@ namespace Vocaluxe.Base
                 return null;
             }
             Screen.Initialize(CMain.Base);
-            Screen.LoadTheme();
+            Screen.LoadTheme(XmlPath);
             return Screen;
         }
         #endregion private stuff

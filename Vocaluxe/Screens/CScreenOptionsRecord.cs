@@ -76,9 +76,9 @@ namespace Vocaluxe.Screens
             _ThemeEqualizers = new string[] { EqualizerChannel1, EqualizerChannel2 };
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
 
             int max = CSettings.MaxNumPlayer + 1;
             if (max > 7)

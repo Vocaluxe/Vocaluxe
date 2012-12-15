@@ -437,6 +437,11 @@ namespace Vocaluxe.Base
             return CLanguage.Translate(KeyWord);
         }
 
+        public string Translate(string KeyWord, int PartyModeID)
+        {
+            return CLanguage.Translate(KeyWord, PartyModeID);
+        }
+
         public bool TranslationExists(string KeyWord)
         {
             return CLanguage.TranslationExists(KeyWord);

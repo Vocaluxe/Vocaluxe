@@ -25,7 +25,7 @@ namespace Vocaluxe.PartyModes
             _ScreenVersion = ScreenVersion;
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
             Warning = GetNewText();
             Warning.Height = 100f;

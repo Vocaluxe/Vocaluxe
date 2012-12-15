@@ -2,8 +2,9 @@
 <root>
   <PartyModeSystemVersion>1</PartyModeSystemVersion>
   <Info>
-    <Name>Challenge</Name>
+    <Name>TR_PARTYMODE_NAME</Name>
     <Author>brunzel</Author>
+	<Description>TR_PARTYMODE_DESCRIPTION</Description>
     <Folder>Challenge</Folder>
 	<PartyModeFile>PartyModeChallenge</PartyModeFile>
     <PartyModeVersionMajor>0</PartyModeVersionMajor>

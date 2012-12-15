@@ -25,13 +25,15 @@ namespace Vocaluxe.PartyModes
             _ScreenVersion = ScreenVersion;
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
+			base.LoadTheme(XmlPath);
+			
             Warning = GetNewText();
             Warning.Height = 100f;
             Warning.X = 150;
             Warning.Y = 300;
-            Warning.Fon = "Normal";
+            Warning.Fon = "Outline";
             Warning.Style = EStyle.Normal;
             Warning.Color = new SColorF(1f, 0f, 0f, 1f);
             Warning.SColor = new SColorF(1f, 0f, 0f, 1f);

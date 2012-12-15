@@ -84,9 +84,9 @@ namespace Vocaluxe.Screens
             _ThemePlaylists = new string[] { Playlist };
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
             SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Visible = false;
             SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistAdd)].Visible = false;
             SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].Visible = false;

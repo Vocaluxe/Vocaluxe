@@ -54,9 +54,9 @@ namespace Vocaluxe.Screens
             };
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
 
             SelectSlides[htSelectSlides(SelectSlideTheme)].AddValues(CTheme.ThemeNames);
             SelectSlides[htSelectSlides(SelectSlideTheme)].Selection = CTheme.GetThemeIndex();

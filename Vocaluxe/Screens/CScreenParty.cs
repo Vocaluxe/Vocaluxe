@@ -9,10 +9,15 @@ using Vocaluxe.Menu;
 namespace Vocaluxe.Screens
 {
     class CScreenParty : CMenu
-    {// Version number for theme files. Increment it, if you've changed something on the theme files!
+    {
+        // Version number for theme files. Increment it, if you've changed something on the theme files!
         const int ScreenVersion = 1;
 
+        const string TextDescription = "TextDescription";
         const string ButtonExit = "ButtonExit";
+        const string SelectSlideModes = "SelectSlideModes";
+
+        private List<SPartyModeInfos> _PartyModeInfos;
 
         public CScreenParty()
         {
@@ -24,12 +29,14 @@ namespace Vocaluxe.Screens
 
             _ThemeName = "ScreenParty";
             _ScreenVersion = ScreenVersion;
+            _ThemeTexts = new string[] { TextDescription };
             _ThemeButtons = new string[] { ButtonExit };
+            _ThemeSelectSlides = new string[] { SelectSlideModes };
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();            
+            base.LoadTheme(XmlPath);   
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -72,6 +79,9 @@ namespace Vocaluxe.Screens
 
                 if (Buttons[htButtons(ButtonExit)].Selected)
                     CGraphics.FadeTo(EScreens.ScreenMain);
+
+                if (SelectSlides[htSelectSlides(SelectSlideModes)].Selected)
+                    UpdateSelection();
             }
 
             if (MouseEvent.RB)
@@ -85,6 +95,16 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
+
+            _PartyModeInfos = CParty.GetPartyModeInfos();
+
+            SelectSlides[htSelectSlides(SelectSlideModes)].Clear();
+            foreach (SPartyModeInfos info in _PartyModeInfos)
+            {
+                SelectSlides[htSelectSlides(SelectSlideModes)].AddValue(info.Name, info.PartyModeID);
+            }
+            SelectSlides[htSelectSlides(SelectSlideModes)].Selection = 0;
+            UpdateSelection();
         }
 
         public override bool UpdateGame()
@@ -94,8 +114,7 @@ namespace Vocaluxe.Screens
 
         public override bool Draw()
         {
-            base.DrawBG();
-            base.DrawFG();
+            base.Draw();
 
             return true;
         }
@@ -103,6 +122,19 @@ namespace Vocaluxe.Screens
         public override void OnClose()
         {
             base.OnClose();
+        }
+
+        private void UpdateSelection()
+        {
+            if (_PartyModeInfos.Count == 0)
+                return;
+
+            int index = SelectSlides[htSelectSlides(SelectSlideModes)].Selection;
+            if (index >= _PartyModeInfos.Count)
+                return;
+
+            Texts[htTexts(TextDescription)].PartyModeID = _PartyModeInfos[index].PartyModeID;
+            Texts[htTexts(TextDescription)].Text = _PartyModeInfos[index].Description;
         }
     }
 }

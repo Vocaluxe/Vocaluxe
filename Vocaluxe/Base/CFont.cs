@@ -608,7 +608,7 @@ namespace Vocaluxe.Base
         public static RectangleF GetTextBounds(CText text, float height)
         {
             Height = height;
-            return new RectangleF(text.X, text.Y, GetTextWidth(CLanguage.Translate(text.Text)), GetTextHeight(CLanguage.Translate(text.Text)));
+            return new RectangleF(text.X, text.Y, GetTextWidth(CLanguage.Translate(text.Text, text.PartyModeID)), GetTextHeight(CLanguage.Translate(text.Text, text.PartyModeID)));
         }
 
         public static float GetTextWidth(string text)

@@ -94,9 +94,11 @@ namespace Vocaluxe.Base
 
         public static string Translate(string KeyWord)
         {
-            if (KeyWord == null)
-                return null;
+            return Translate(KeyWord, -1);
+        }
 
+        public static string Translate(string KeyWord, int PartyModeID)
+        {
             if (KeyWord.Length < 3)
                 return KeyWord;
 
@@ -104,14 +106,38 @@ namespace Vocaluxe.Base
             if (tag != "TR_")
                 return KeyWord;
 
-            string result = String.Empty;
-            try
+            string result = null;
+
+            int PartyModeNr = GetPartyModeNr(PartyModeID, _CurrentLanguage);
+            if (PartyModeID != -1)
             {
-                result = (string)_Languages[_CurrentLanguage].Texts[KeyWord];
+                if (PartyModeNr != -1)
+                {
+                    try
+                    {
+                        result = (string)_Languages[_CurrentLanguage].PartyModeTexts[PartyModeNr].Texts[KeyWord];
+                    }
+                    catch { }
+                }
+
+                if (result == null && (PartyModeNr = GetPartyModeNr(PartyModeID, _FallbackLanguage)) != -1)
+                {
+                    try
+                    {
+                        result = (string)_Languages[_FallbackLanguage].PartyModeTexts[PartyModeNr].Texts[KeyWord];
+                    }
+                    catch { }
+                }
             }
-            catch (Exception)
+
+
+            if (result == null)
             {
-                ;
+                try
+                {
+                    result = (string)_Languages[_CurrentLanguage].Texts[KeyWord];
+                }
+                catch { }
             }
 
             if (result == null)
@@ -121,10 +147,7 @@ namespace Vocaluxe.Base
                 {
                     result = (string)_Languages[_FallbackLanguage].Texts[KeyWord];
                 }
-                catch (Exception)
-                {
-                    ;
-                }
+                catch { }
 
                 if (result == null)
                     return KeyWord;
@@ -135,6 +158,11 @@ namespace Vocaluxe.Base
 
         public static bool TranslationExists(string KeyWord)
         {
+            return TranslationExists(KeyWord, -1);
+        }
+
+        public static bool TranslationExists(string KeyWord, int PartyModeID)
+        {
             if (KeyWord.Length < 3)
                 return false;
 
@@ -144,23 +172,23 @@ namespace Vocaluxe.Base
 
             string result = String.Empty;
 
-            int PartyModeNr = GetPartyModeNr(CFonts.PartyModeID, _CurrentLanguage);
-            if (CFonts.PartyModeID != -1)
+            int PartyModeNr = GetPartyModeNr(PartyModeID, _CurrentLanguage);
+            if (PartyModeID != -1)
             {
                 if (PartyModeNr != -1)
                 {
                     try
                     {
-                        result = (string)_Languages[_CurrentLanguage].PartyModeTexts[CFonts.PartyModeID].Texts[KeyWord];
+                        result = (string)_Languages[_CurrentLanguage].PartyModeTexts[PartyModeNr].Texts[KeyWord];
                     }
                     catch { }
                 }
 
-                if (result == null && (PartyModeNr = GetPartyModeNr(CFonts.PartyModeID, _FallbackLanguage)) != -1)
+                if (result == null && (PartyModeNr = GetPartyModeNr(PartyModeID, _FallbackLanguage)) != -1)
                 {
                     try
                     {
-                        result = (string)_Languages[_FallbackLanguage].PartyModeTexts[CFonts.PartyModeID].Texts[KeyWord];
+                        result = (string)_Languages[_FallbackLanguage].PartyModeTexts[PartyModeNr].Texts[KeyWord];
                     }
                     catch { }
                 }
@@ -195,7 +223,7 @@ namespace Vocaluxe.Base
         public static bool LoadPartyLanguageFiles(int PartyModeID, string Path)
         {
             List<string> files = new List<string>();
-            files.AddRange(Helper.ListFiles(CSettings.sFolderLanguages, "*.xml", true, true));
+            files.AddRange(Helper.ListFiles(Path, "*.xml", true, true));
 
             foreach (string file in files)
             {

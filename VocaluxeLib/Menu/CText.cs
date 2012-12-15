@@ -39,6 +39,7 @@ namespace Vocaluxe.Menu
         private Basic _Base;
         private SThemeText _Theme;
         private bool _ThemeLoaded;
+        private int _PartyModeID;
 
         public string GetThemeName()
         {
@@ -203,13 +204,24 @@ namespace Vocaluxe.Menu
             get { return _Theme.Text; }
             set
             {
-                string translation = _Base.Language.Translate(value);
+                string translation = _Base.Language.Translate(value, _PartyModeID);
                 if (_Theme.Text != value || translation != _Text)
                 {
                     _Theme.Text = value;
                     _Text = translation;
                     _PositionNeedsUpdate = true; 
                 }
+            }
+        }
+
+        public int PartyModeID
+        {
+            get { return _PartyModeID; }
+            set
+            {
+                _Text = _Base.Language.Translate(_Text, value);
+                _PositionNeedsUpdate = true;
+                _PartyModeID = value;
             }
         }
 
@@ -225,6 +237,7 @@ namespace Vocaluxe.Menu
             _Theme = new SThemeText();
             _ThemeLoaded = false;
             _ButtonText = false;
+            _PartyModeID = -1;
 
             X = 0f;
             Y = 0f;
@@ -255,6 +268,7 @@ namespace Vocaluxe.Menu
             _Theme = new SThemeText();
             _ThemeLoaded = false;
             _ButtonText = false;
+            _PartyModeID = text._PartyModeID;
 
             X = text._X;
             Y = text._Y;
@@ -287,6 +301,7 @@ namespace Vocaluxe.Menu
             _Theme = new SThemeText();
             _ThemeLoaded = false;
             _ButtonText = false;
+            _PartyModeID = -1;
 
             X = x;
             Y = y;
@@ -325,6 +340,7 @@ namespace Vocaluxe.Menu
             _Theme = new SThemeText();
             _ThemeLoaded = false;
             _ButtonText = false;
+            _PartyModeID = -1;
 
             X = x;
             Y = y;
@@ -361,6 +377,7 @@ namespace Vocaluxe.Menu
             _Theme = new SThemeText();
             _ThemeLoaded = false;
             _ButtonText = false;
+            _PartyModeID = -1;
 
             X = x;
             Y = y;
@@ -399,6 +416,7 @@ namespace Vocaluxe.Menu
             _Theme = new SThemeText();
             _ThemeLoaded = false;
             _ButtonText = false;
+            _PartyModeID = -1;
 
             X = x;
             Y = y;
