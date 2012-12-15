@@ -115,7 +115,7 @@
         <Height>26</Height>
       </SReflection>
     </ButtonNext>
-	<ButtonExit>
+	<ButtonBack>
       <!--<Skin>: Texture name-->
       <Skin>Button</Skin>
       <!--<SkinSelected>: Texture name for selected button-->
@@ -171,6 +171,6 @@
         <Space>10</Space>
         <Height>26</Height>
       </SReflection>
-    </ButtonExit>
+    </ButtonBack>
   </PartyScreenChallengeNames>
 </root>

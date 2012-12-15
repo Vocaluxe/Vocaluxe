@@ -6,6 +6,36 @@ using Vocaluxe.Menu;
 
 namespace Vocaluxe.PartyModes
 {
+    public struct DataToScreen
+    {
+
+    }
+
+    public struct DataFromScreen
+    {
+        public FromScreenConfig ScreenConfig;
+        public FromScreenNames ScreenNames;
+        public FromScreenMain ScreenMain;
+    }
+
+    public struct FromScreenConfig
+    {
+        public int NumPlayers;
+        public int NumPlayersAtOnce;
+        public int NumRounds;
+    }
+
+    public struct FromScreenNames
+    {
+        public bool FadeToConfig;
+        public bool FadeToMain;
+        public List<int> ProfileIDs;
+    }
+
+    public struct FromScreenMain
+    {
+    }
+
     public class PartyModeChallenge : CPartyMode
     {
         private const int MaxPlayer = 10;
@@ -13,6 +43,16 @@ namespace Vocaluxe.PartyModes
         private const int MaxTeams = 0;
         private const int MinTeams = 0;
 
+        enum EStage
+        {
+            NotStarted,
+            Config,
+            Names,
+            Main,
+            Singing
+        }
+
+        private EStage _Stage;
 
         public PartyModeChallenge()
         {
@@ -23,13 +63,100 @@ namespace Vocaluxe.PartyModes
 
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchStringVisible = false;
+
+            _Stage = EStage.NotStarted;
         }
 
-        public override CMenuParty GetNextPartyScreen()
+        public override bool Init()
+        {
+            _Stage = EStage.NotStarted;
+            return true;
+        }
+
+        public override void DataFromScreen(string ScreenName, Object Data)
+        {
+            DataFromScreen data = new DataFromScreen();
+            switch (ScreenName)
+            {
+                case "PartyScreenChallengeConfig":
+                    
+                    try
+                    {
+                        data = (DataFromScreen)Data;
+                        _Stage = EStage.Config;
+                        _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
+                    }
+                    catch (Exception e)
+                    {
+                        _Base.Log.LogError("Error in party mode challenge. Can't cast received data from screen " + ScreenName + ". " + e.Message);
+                    }
+                    break;
+
+                case "PartyScreenChallengeNames":
+                    try
+                    {
+                        data = (DataFromScreen)Data;
+                        if (data.ScreenNames.FadeToConfig)
+                            _Stage = EStage.NotStarted;
+                        else
+                            _Stage = EStage.Names;
+
+                        _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
+                    }
+                    catch (Exception e)
+                    {
+                        _Base.Log.LogError("Error in party mode challenge. Can't cast received data from screen " + ScreenName + ". " + e.Message);
+                    }
+                    break;
+
+                case "PartyScreenChallengeMain":
+                    _Stage = EStage.Singing;
+                    _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
+                    break;
+
+                default:
+                    _Base.Log.LogError("Error in party mode challenge. Wrong screen is sending: " + ScreenName);
+                    break;
+            }
+        }
+
+        public override CMenuParty GetNextPartyScreen(out EScreens AlternativeScreen)
         {
             CMenuParty Screen = null;
-            _Screens.TryGetValue("PartyScreenChallengeConfig", out Screen);
+            AlternativeScreen = EScreens.ScreenSong;
+
+            switch (_Stage)
+            {
+                case EStage.NotStarted:
+                    _Screens.TryGetValue("PartyScreenChallengeConfig", out Screen);
+                    break;
+                case EStage.Config:
+                    _Screens.TryGetValue("PartyScreenChallengeNames", out Screen);
+                    break;
+                case EStage.Names:
+                    _Screens.TryGetValue("PartyScreenChallengeMain", out Screen);
+                    break;
+                case EStage.Main:
+                    AlternativeScreen = EScreens.ScreenSong;
+                    break;
+                case EStage.Singing:
+                    _Screens.TryGetValue("PartyScreenChallengeMain", out Screen);
+                    break;
+                default:
+                    break;
+            }
+            
             return Screen;
+        }
+
+        public override EScreens GetStartScreen()
+        {
+            return EScreens.ScreenPartyDummy;
+        }
+
+        public override EScreens GetMainScreen()
+        {
+            return EScreens.ScreenPartyDummy;
         }
 
         public override ScreenSongOptions GetScreenSongOptions()

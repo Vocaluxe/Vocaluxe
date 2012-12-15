@@ -131,18 +131,13 @@ namespace Vocaluxe.Base
         {
             if (!_PartyModes.TryGetValue(PartyModeID, out _CurrentPartyMode))
                 CLog.LogError("CParty: Can't find party mode ID: " + PartyModeID.ToString());
+
+            _CurrentPartyMode.PartyMode.Init();
         }
 
-        public static CMenu GetNextPartyScreen()
+        public static CMenu GetNextPartyScreen(out EScreens AlternativeScreen)
         {
-            CMenu NextScreen = _CurrentPartyMode.PartyMode.GetNextPartyScreen();
-            if (NextScreen != null)
-                return NextScreen;
-
-            NextScreen = new CScreenPartyDummy();
-            NextScreen.Initialize(CMain.Base);
-            NextScreen.LoadTheme(String.Empty);
-            return NextScreen;
+            return _CurrentPartyMode.PartyMode.GetNextPartyScreen(out AlternativeScreen);
         }
         #endregion public stuff
 
@@ -290,7 +285,7 @@ namespace Vocaluxe.Base
 
                 if (Screen != null)
                 {
-                    Screen.AssignPartyMode(pm.PartyMode);
+                    Screen.AssingPartyMode(pm.PartyMode);
                     pm.PartyMode.AddScreen(Screen, screenfile);
                 }
                 else

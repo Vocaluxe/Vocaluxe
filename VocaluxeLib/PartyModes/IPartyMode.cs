@@ -51,12 +51,12 @@ namespace Vocaluxe.PartyModes
 
     public interface IPartyMode
     {
-        bool Init(string Folder);
+        bool Init();
         void Initialize(Basic Base);
         void AddScreen(CMenuParty Screen, string ScreenName);
-        void SetPartyModeCallback(Delegate Callback);
+        void DataFromScreen(string ScreenName, Object Data);
 
-        CMenuParty GetNextPartyScreen();
+        CMenuParty GetNextPartyScreen(out EScreens AlternativeScreen);
         EScreens GetStartScreen();
         EScreens GetMainScreen();
         ScreenSongOptions GetScreenSongOptions();
