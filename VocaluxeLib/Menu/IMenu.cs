@@ -43,6 +43,12 @@ namespace Vocaluxe.Menu
         void ProcessMouseMove(int x, int y);
     }
 
+    public interface IMenuParty
+    {
+        void SetPartyModeID(int PartyModeID);
+        int GetPartyModeID();
+    }
+
     public interface IConfig
     {
         void SetBackgroundMusicVolume(int NewVolume);

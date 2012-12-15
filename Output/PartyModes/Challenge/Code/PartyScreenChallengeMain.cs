@@ -11,7 +11,6 @@ namespace Vocaluxe.PartyModes
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         const int ScreenVersion = 1;
-        private CText Warning;
 
         public PartyScreenChallengeMain()
         {
@@ -28,17 +27,6 @@ namespace Vocaluxe.PartyModes
         public override void LoadTheme(string XmlPath)
         {
 			base.LoadTheme(XmlPath);
-			
-            Warning = GetNewText();
-            Warning.Height = 100f;
-            Warning.X = 150;
-            Warning.Y = 300;
-            Warning.Fon = "Outline";
-            Warning.Style = EStyle.Normal;
-            Warning.Color = new SColorF(1f, 0f, 0f, 1f);
-            Warning.SColor = new SColorF(1f, 0f, 0f, 1f);
-            Warning.Text = "CHALLENGE!";
-            AddText(Warning);
         }
 
         public override void ReloadTheme()

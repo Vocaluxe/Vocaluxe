@@ -25,6 +25,7 @@ namespace Vocaluxe.Menu
         private List<CInteraction> _Interactions;
         private int _Selection = 0;
         private string _ThemePath = String.Empty;
+        protected int _PartyModeID = -1;
                 
         private List<CBackground> _Backgrounds;
         private List<CButton> _Buttons;
@@ -233,6 +234,7 @@ namespace Vocaluxe.Menu
                     for (int i = 0; i < _ThemeTexts.Length; i++)
                     {
                         CText text = new CText(_Base);
+                        text.PartyModeID = _PartyModeID;
                         if (text.LoadTheme("//root/" + _ThemeName, _ThemeTexts[i], navigator, SkinIndex))
                         {
                             _htTexts.Add(_ThemeTexts[i], AddText(text));
@@ -1300,6 +1302,7 @@ namespace Vocaluxe.Menu
 
         public int AddText(CText text)
         {
+            text.PartyModeID = _PartyModeID;
             _Texts.Add(text);
             _AddInteraction(_Texts.Count - 1, EType.TText);
             return _Texts.Count - 1;
@@ -2311,11 +2314,13 @@ namespace Vocaluxe.Menu
 
             // Texts
             CText text = new CText(_Base);
+            text.PartyModeID = _PartyModeID;
             i = 1;
             while (text.LoadTheme("//root/" + _ThemeName, "Text" + i.ToString(), navigator, SkinIndex))
             {
                 AddText(text);
                 text = new CText(_Base);
+                text.PartyModeID = _PartyModeID;
                 i++;
             }  
         }

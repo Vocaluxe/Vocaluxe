@@ -10,6 +10,16 @@ namespace Vocaluxe.Menu
         {
         }
 
+        public void SetPartyModeID(int PartyModeID)
+        {
+            _PartyModeID = PartyModeID;
+        }
+
+        public int GetPartyModeID()
+        {
+            return _PartyModeID;
+        }
+
         /*
         public sealed override void LoadTheme()
         {

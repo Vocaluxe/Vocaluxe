@@ -7,5 +7,7 @@
 		<!--General-->
 		<TR_PARTYMODE_NAME>Challenge Modus</TR_PARTYMODE_NAME>
 		<TR_PARTYMODE_DESCRIPTION>Spiele mit bis zu X Spielern einem Wettkampfmodus</TR_PARTYMODE_DESCRIPTION>
+		<!--ScreenMain-->
+		<TR_SCREENMAIN_TITLE>Challenge Modus: Übersicht</TR_SCREENMAIN_TITLE>
 	</Texts>
 </root>

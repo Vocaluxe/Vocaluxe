@@ -266,7 +266,12 @@ namespace Vocaluxe.Base
 
             foreach (string screenfile in pm.ScreenFiles)
             {
-                CMenuParty Screen = GetPartyScreenInstance(Output, screenfile, Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeScreens));
+                CMenuParty Screen = GetPartyScreenInstance(
+                    Output,
+                    screenfile,
+                    Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeScreens),
+                    pm.PartyModeID);
+
                 if (Screen != null)
                     pm.PartyMode.AddScreen(Screen, screenfile);
                 else
@@ -323,7 +328,7 @@ namespace Vocaluxe.Base
             return CompileResult.CompiledAssembly;
         }
 
-        private static CMenuParty GetPartyScreenInstance(Assembly Assembly, string ScreenName, string XmlPath)
+        private static CMenuParty GetPartyScreenInstance(Assembly Assembly, string ScreenName, string XmlPath, int PartyModeID)
         {
             if (Assembly == null)
                 return null;
@@ -346,6 +351,7 @@ namespace Vocaluxe.Base
                 return null;
             }
             Screen.Initialize(CMain.Base);
+            Screen.SetPartyModeID(PartyModeID);
             Screen.LoadTheme(XmlPath);
             return Screen;
         }

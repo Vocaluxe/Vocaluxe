@@ -53,7 +53,7 @@
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
       <!--<Text>: Nothing or translation tag-->
-      <Text>TR_SCREEN_PARTY_CHALLENGE_MAIN</Text>
+      <Text>TR_SCREENMAIN_TITLE</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->

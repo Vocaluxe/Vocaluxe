@@ -14,6 +14,7 @@ namespace Vocaluxe.Screens
         const int ScreenVersion = 1;
 
         const string TextDescription = "TextDescription";
+        const string ButtonStart = "ButtonStart";
         const string ButtonExit = "ButtonExit";
         const string SelectSlideModes = "SelectSlideModes";
 
@@ -30,7 +31,7 @@ namespace Vocaluxe.Screens
             _ThemeName = "ScreenParty";
             _ScreenVersion = ScreenVersion;
             _ThemeTexts = new string[] { TextDescription };
-            _ThemeButtons = new string[] { ButtonExit };
+            _ThemeButtons = new string[] { ButtonStart, ButtonExit };
             _ThemeSelectSlides = new string[] { SelectSlideModes };
         }
 
@@ -55,15 +56,19 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                         CGraphics.FadeTo(EScreens.ScreenMain);
                         break;
-                    
-                    case Keys.C:
-                        CParty.SetPartyMode(1);
-                        CGraphics.FadeTo(EScreens.ScreenPartyDummy);
-                        break;
 
                     case Keys.Enter:
+                        if (Buttons[htButtons(ButtonStart)].Selected)
+                            StartPartyMode();
+
                         if (Buttons[htButtons(ButtonExit)].Selected)
                             CGraphics.FadeTo(EScreens.ScreenMain);
+                        break;
+
+                    case Keys.Left:
+                    case Keys.Right:
+                        if (SelectSlides[htSelectSlides(SelectSlideModes)].Selected)
+                            UpdateSelection();
                         break;
                 }
             }            
@@ -76,6 +81,8 @@ namespace Vocaluxe.Screens
 
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
             {
+                if (Buttons[htButtons(ButtonStart)].Selected)
+                    StartPartyMode();
 
                 if (Buttons[htButtons(ButtonExit)].Selected)
                     CGraphics.FadeTo(EScreens.ScreenMain);
@@ -135,6 +142,19 @@ namespace Vocaluxe.Screens
 
             Texts[htTexts(TextDescription)].PartyModeID = _PartyModeInfos[index].PartyModeID;
             Texts[htTexts(TextDescription)].Text = _PartyModeInfos[index].Description;
+        }
+
+        private void StartPartyMode()
+        {
+            if (_PartyModeInfos.Count == 0)
+                return;
+
+            int index = SelectSlides[htSelectSlides(SelectSlideModes)].Selection;
+            if (index >= _PartyModeInfos.Count)
+                return;
+
+            CParty.SetPartyMode(_PartyModeInfos[index].PartyModeID);
+            CGraphics.FadeTo(EScreens.ScreenPartyDummy);
         }
     }
 }
