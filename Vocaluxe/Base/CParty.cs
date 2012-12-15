@@ -105,6 +105,8 @@ namespace Vocaluxe.Base
                         info.Name = mode.Name;
                         info.PartyModeID = mode.PartyModeID;
                         info.Playable = mode.NoErrors;
+                        info.VersionMajor = mode.PartyModeVersionMajor;
+                        info.VersionMinor = mode.PartyModeVersionMinor;
 
                         infos.Add(info);
                     }

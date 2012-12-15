@@ -816,6 +816,8 @@ namespace Vocaluxe.Menu
         public string Description;
         public string Author;
         public bool Playable;
+        public int VersionMajor;
+        public int VersionMinor;
     }
 
     public enum EScreens
