@@ -411,6 +411,7 @@ namespace Vocaluxe.Screens
             {
                 if (CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
                 {
+                    ToggleSongOptions(ESongOptionsView.None);
                     StartVisibleSong(SongMenus[htSongMenus(SongMenu)].GetActualSelection());
                     return true;
                 }
