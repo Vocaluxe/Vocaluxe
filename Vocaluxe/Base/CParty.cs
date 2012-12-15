@@ -108,6 +108,12 @@ namespace Vocaluxe.Base
                         info.VersionMajor = mode.PartyModeVersionMajor;
                         info.VersionMinor = mode.PartyModeVersionMinor;
 
+                        info.TargetAudience = "TODO";
+                        info.MaxPlayers = 100;
+                        info.MinPlayers = 2;
+                        info.MaxTeams = 30;
+                        info.MinTeams = 1;
+
                         infos.Add(info);
                     }
                 }
