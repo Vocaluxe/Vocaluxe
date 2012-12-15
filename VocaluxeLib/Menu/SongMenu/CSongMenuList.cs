@@ -8,8 +8,8 @@ namespace Vocaluxe.Menu.SongMenu
     {
         new private Basic _Base;
 
-        public CSongMenuList(Basic Base)
-            : base(Base)
+        public CSongMenuList(Basic Base, int PartyModeID)
+            : base(Base, PartyModeID)
         {
             _Base = Base;
         }

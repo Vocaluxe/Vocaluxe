@@ -132,7 +132,7 @@ namespace Vocaluxe.Menu
                 Text1.Y += diffY;
             }
         }
-
+        private int _PartyModeID;
         private Basic _Base;
         private SThemePlaylist _Theme;
         private bool _ThemeLoaded;
@@ -191,20 +191,21 @@ namespace Vocaluxe.Menu
 
         //private static
 
-        public CPlaylist(Basic Base)
+        public CPlaylist(Basic Base, int PartyModeID)
         {
+            _PartyModeID = PartyModeID;
             _Base = Base;
             _Theme = new SThemePlaylist();
-            _Theme.Text1 = new CText(_Base);
-            _Theme.StaticCover = new CStatic(_Base);
-            _Theme.StaticPlaylistFooter = new CStatic(_Base);
-            _Theme.StaticPlaylistHeader = new CStatic(_Base);
-            _Theme.ButtonPlaylistName = new CButton(_Base);
-            _Theme.ButtonPlaylistClose = new CButton(_Base);
-            _Theme.ButtonPlaylistDelete = new CButton(_Base);
-            _Theme.ButtonPlaylistSave = new CButton(_Base);
-            _Theme.ButtonPlaylistSing = new CButton(_Base);
-            _Theme.SelectSlideGameMode = new CSelectSlide(_Base);
+            _Theme.Text1 = new CText(_Base, _PartyModeID);
+            _Theme.StaticCover = new CStatic(_Base, _PartyModeID);
+            _Theme.StaticPlaylistFooter = new CStatic(_Base, _PartyModeID);
+            _Theme.StaticPlaylistHeader = new CStatic(_Base, _PartyModeID);
+            _Theme.ButtonPlaylistName = new CButton(_Base, _PartyModeID);
+            _Theme.ButtonPlaylistClose = new CButton(_Base, _PartyModeID);
+            _Theme.ButtonPlaylistDelete = new CButton(_Base, _PartyModeID);
+            _Theme.ButtonPlaylistSave = new CButton(_Base, _PartyModeID);
+            _Theme.ButtonPlaylistSing = new CButton(_Base, _PartyModeID);
+            _Theme.SelectSlideGameMode = new CSelectSlide(_Base, _PartyModeID);
 
             CompleteRect = new SRectF();
             Rect = new SRectF();
@@ -1121,7 +1122,7 @@ namespace Vocaluxe.Menu
             {
                 PlaylistElement en = new PlaylistElement(_Base);
 
-                en.Background = new CStatic(_Base, _Theme.TextureBackgroundName, BackgroundColor, new SRectF(Rect.X, Rect.Y + (i * _Theme.EntryHeight), Rect.W, _Theme.EntryHeight, Rect.Z));
+                en.Background = new CStatic(_Base, _PartyModeID, _Theme.TextureBackgroundName, BackgroundColor, new SRectF(Rect.X, Rect.Y + (i * _Theme.EntryHeight), Rect.W, _Theme.EntryHeight, Rect.Z));
 
                 en.Cover = new CStatic(_Theme.StaticCover);
                 en.Cover.Rect.Y += Rect.Y + (i * _Theme.EntryHeight);

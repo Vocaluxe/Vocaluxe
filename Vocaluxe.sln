@@ -40,6 +40,7 @@ Global
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugLinux|x64.Build.0 = DebugLinux|x64
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugLinux|x86.ActiveCfg = DebugLinux|x86
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugWin|x64.ActiveCfg = DebugWin|x64
+		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugWin|x64.Build.0 = DebugWin|x64
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugWin|x86.ActiveCfg = DebugWin|x86
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.ReleaseLinux|x64.ActiveCfg = ReleaseLinux|x64
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|x86

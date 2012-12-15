@@ -17,6 +17,7 @@ namespace Vocaluxe.Menu
     class CParticle
     {
         #region private vars
+        private int _PartyModeID;
         private Basic _Base;
         private string _TextureName;
         private STexture _Texture;
@@ -84,8 +85,9 @@ namespace Vocaluxe.Menu
         #endregion public vars
 
         #region Constructors
-        public CParticle(Basic Base, string textureName, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticeType type)
+        public CParticle(Basic Base, int PartyModeID, string textureName, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticeType type)
         {
+            _PartyModeID = PartyModeID;
             _Base = Base;
             _TextureName = textureName;
             _Texture = new STexture(-1);
@@ -107,8 +109,9 @@ namespace Vocaluxe.Menu
             _Rotation = (float)(_Base.Game.GetRandomDouble() * 360.0);
         }
 
-        public CParticle(Basic Base, STexture texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticeType type)
+        public CParticle(Basic Base, int PartyModeID, STexture texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticeType type)
         {
+            _PartyModeID = PartyModeID;
             _Base = Base;
             _TextureName = String.Empty;
             _Texture = texture;
@@ -288,6 +291,7 @@ namespace Vocaluxe.Menu
 
     public class CParticleEffect
     {
+        private int _PartyModeID;
         private Basic _Base;
         private List<CParticle> _Stars;
         private string _TextureName;
@@ -316,8 +320,9 @@ namespace Vocaluxe.Menu
             set { _Area = value; }
         }
 
-        public CParticleEffect(Basic Base, int MaxNumber, SColorF Color, SRectF Area, string TextureName, float Size, EParticeType Type)
+        public CParticleEffect(Basic Base, int PartyModeID, int MaxNumber, SColorF Color, SRectF Area, string TextureName, float Size, EParticeType Type)
         {
+            _PartyModeID = PartyModeID;
             _Base = Base;
             _Stars = new List<CParticle>();
             _Area = Area;
@@ -331,8 +336,9 @@ namespace Vocaluxe.Menu
             _NextSpawnTime = 0f;
         }
 
-        public CParticleEffect(Basic Base, int MaxNumber, SColorF Color, SRectF Area, STexture texture, float Size, EParticeType Type)
+        public CParticleEffect(Basic Base, int PartyModeID, int MaxNumber, SColorF Color, SRectF Area, STexture texture, float Size, EParticeType Type)
         {
+            _PartyModeID = PartyModeID;
             _Base = Base;
             _Stars = new List<CParticle>();
             _Area = Area;
@@ -439,14 +445,14 @@ namespace Vocaluxe.Menu
                 CParticle star;
                 if (_TextureName != String.Empty)
                 {
-                    star = new CParticle(_Base, _TextureName, _Color,
+                    star = new CParticle(_Base, _PartyModeID, _TextureName, _Color,
                         _Base.Game.GetRandom(w) + _Area.X - size / 4f,
                         _Base.Game.GetRandom(h) + _Area.Y - size / 4f,
                         size, lifetime, _Area.Z, vx, vy, vr, vsize, _Type);
                 }
                 else
                 {
-                    star = new CParticle(_Base, _Texture, _Color,
+                    star = new CParticle(_Base, _PartyModeID, _Texture, _Color,
                         _Base.Game.GetRandom(w) + _Area.X - size / 4f,
                         _Base.Game.GetRandom(h) + _Area.Y - size / 4f,
                         size, lifetime, _Area.Z, vx, vy, vr, vsize, _Type);

@@ -7,12 +7,15 @@ using Vocaluxe.Menu;
 
 namespace Vocaluxe.PartyModes
 {
-    public class PartyScreenChallengeMain : CMenuParty
+    public class PartyScreenChallengeConfig : CMenuParty
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         const int ScreenVersion = 1;
 
-        public PartyScreenChallengeMain()
+        const string ButtonNext = "ButtonNext";
+        const string ButtonBack = "ButtonBack";
+
+        public PartyScreenChallengeConfig()
         {
         }
 
@@ -20,7 +23,8 @@ namespace Vocaluxe.PartyModes
         {
             base.Init();
 
-            _ThemeName = "PartyScreenChallengeMain";
+            _ThemeName = "PartyScreenChallengeConfig";
+            _ThemeButtons = new string[] { ButtonNext, ButtonBack };
             _ScreenVersion = ScreenVersion;
         }
 

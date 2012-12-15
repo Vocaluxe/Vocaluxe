@@ -91,6 +91,7 @@ namespace Vocaluxe.Menu.SongMenu
 
     abstract class CSongMenuFramework : ISongMenu
     {
+        protected int _PartyModeID;
         protected Basic _Base;
         protected SThemeSongMenu _Theme;
         private bool _ThemeLoaded;
@@ -233,21 +234,22 @@ namespace Vocaluxe.Menu.SongMenu
             _Visible = Visible;
         }
 
-        public CSongMenuFramework(Basic Base)
+        public CSongMenuFramework(Basic Base, int PartyModeID)
         {
+            _PartyModeID = PartyModeID;
             _Base = Base;
             _Theme = new SThemeSongMenu();
 
-            _Theme.songMenuTileBoard.TextArtist = new CText(_Base);
-            _Theme.songMenuTileBoard.TextTitle = new CText(_Base);
-            _Theme.songMenuTileBoard.TextSongLength = new CText(_Base);
+            _Theme.songMenuTileBoard.TextArtist = new CText(_Base, _PartyModeID);
+            _Theme.songMenuTileBoard.TextTitle = new CText(_Base, _PartyModeID);
+            _Theme.songMenuTileBoard.TextSongLength = new CText(_Base, _PartyModeID);
 
-            _Theme.songMenuTileBoard.StaticCoverBig = new CStatic(_Base);
-            _Theme.songMenuTileBoard.StaticTextBG = new CStatic(_Base);
-            _Theme.songMenuTileBoard.StaticDuetIcon = new CStatic(_Base);
-            _Theme.songMenuTileBoard.StaticVideoIcon = new CStatic(_Base);
-            _Theme.songMenuTileBoard.StaticMedleyCalcIcon = new CStatic(_Base);
-            _Theme.songMenuTileBoard.StaticMedleyTagIcon = new CStatic(_Base);
+            _Theme.songMenuTileBoard.StaticCoverBig = new CStatic(_Base, _PartyModeID);
+            _Theme.songMenuTileBoard.StaticTextBG = new CStatic(_Base, _PartyModeID);
+            _Theme.songMenuTileBoard.StaticDuetIcon = new CStatic(_Base, _PartyModeID);
+            _Theme.songMenuTileBoard.StaticVideoIcon = new CStatic(_Base, _PartyModeID);
+            _Theme.songMenuTileBoard.StaticMedleyCalcIcon = new CStatic(_Base, _PartyModeID);
+            _Theme.songMenuTileBoard.StaticMedleyTagIcon = new CStatic(_Base, _PartyModeID);
 
             _ThemeLoaded = false;
         }
@@ -540,7 +542,7 @@ namespace Vocaluxe.Menu.SongMenu
 
         public virtual CStatic GetSelectedSongCover()
         {
-            return new CStatic(_Base);
+            return new CStatic(_Base, _PartyModeID);
         }
 
         public virtual int GetSelectedCategory()

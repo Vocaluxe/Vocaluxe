@@ -7,6 +7,13 @@
 		<!--General-->
 		<TR_PARTYMODE_NAME>Challenge Modus</TR_PARTYMODE_NAME>
 		<TR_PARTYMODE_DESCRIPTION>Spiele mit bis zu X Spielern einem Wettkampfmodus</TR_PARTYMODE_DESCRIPTION>
+		<TR_BUTTON_NEXT>Weiter</TR_BUTTON_NEXT>
+		<TR_BUTTON_BACK>Zurück</TR_BUTTON_BACK>
+		<TR_BUTTON_START>Start</TR_BUTTON_START>
+		<!--ScreenConfig-->
+		<TR_SCREENCONFIG_TITLE>Challenge Modus: Einstellungen</TR_SCREENCONFIG_TITLE>
+		<!--ScreenNames-->
+		<TR_SCREENNAMES_TITLE>Challenge Modus: Spielerwahl</TR_SCREENNAMES_TITLE>
 		<!--ScreenMain-->
 		<TR_SCREENMAIN_TITLE>Challenge Modus: Übersicht</TR_SCREENMAIN_TITLE>
 	</Texts>

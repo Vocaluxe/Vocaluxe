@@ -11,13 +11,15 @@ namespace Vocaluxe.Menu.SongMenu
 {
     public class CSongMenu : ISongMenu
     {
+        private int _PartyModeID;
         private Basic _Base;
 
         private ISongMenu _SongMenu;
         private ESongMenu _Type;
 
-        public CSongMenu(Basic Base)
+        public CSongMenu(Basic Base, int PartyModeID)
         {
+            _PartyModeID = PartyModeID;
             _Base = Base;
             CreateSongMenu();
         }
@@ -218,7 +220,7 @@ namespace Vocaluxe.Menu.SongMenu
                 //    break;
 
                 case ESongMenu.TR_CONFIG_TILE_BOARD:
-                    _SongMenu = new CSongMenuTileBoard(_Base);
+                    _SongMenu = new CSongMenuTileBoard(_Base, _PartyModeID);
                     break;
 
                 //case ESongMenu.TR_CONFIG_BOOK:

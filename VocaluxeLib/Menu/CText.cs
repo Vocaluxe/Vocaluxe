@@ -231,13 +231,13 @@ namespace Vocaluxe.Menu
 
         public float Alpha = 1f;
 
-        public CText(Basic Base)
+        public CText(Basic Base, int PartyModeID)
         {
             _Base = Base;
             _Theme = new SThemeText();
             _ThemeLoaded = false;
             _ButtonText = false;
-            _PartyModeID = -1;
+            _PartyModeID = PartyModeID;
 
             X = 0f;
             Y = 0f;
@@ -695,7 +695,7 @@ namespace Vocaluxe.Menu
 
         public void Draw(float begin, float end)
         {
-            RectangleF bounds = _Base.Drawing.GetTextBounds(this);
+            RectangleF bounds = _Base.Fonts.GetTextBounds(this, this.Height);
 
             float x = X;
             switch (Align)
@@ -755,7 +755,10 @@ namespace Vocaluxe.Menu
             float x = X + rx;
             float y = Y + ry;
 
-            RectangleF bounds = _Base.Drawing.GetTextBounds(this);
+            _Base.Fonts.SetFont(Fon);
+            _Base.Fonts.SetStyle(Style);
+
+            RectangleF bounds = _Base.Fonts.GetTextBounds(this, this.Height);
 
             if (bounds.Width > Bounds.W && Bounds.W > 0f && bounds.Width > 0f)
             {
@@ -801,7 +804,7 @@ namespace Vocaluxe.Menu
 
             _Base.Fonts.SetFont(Fon);
             _Base.Fonts.SetStyle(Style);
-
+            
             if (!EditMode)
                 _Base.Fonts.DrawText(_Text, h, x, y, Z, color);
             else

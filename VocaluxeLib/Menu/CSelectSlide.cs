@@ -37,6 +37,7 @@ namespace Vocaluxe.Menu
 
     public class CSelectSlide : IMenuElement, ICloneable
     {
+        private int _PartyModeID;
         private Basic _Base;
         private SThemeSelectSlide _Theme;
         private bool _ThemeLoaded;
@@ -140,8 +141,9 @@ namespace Vocaluxe.Menu
             }
         }
 
-        public CSelectSlide(Basic Base)
+        public CSelectSlide(Basic Base, int PartyModeID)
         {
+            _PartyModeID = PartyModeID;
             _Base = Base;
             _Theme = new SThemeSelectSlide();
             _ThemeLoaded = false;
@@ -170,6 +172,7 @@ namespace Vocaluxe.Menu
 
         public CSelectSlide(CSelectSlide slide)
         {
+            _PartyModeID = slide._PartyModeID;
             _Base = slide._Base;
             _Theme = new SThemeSelectSlide();
             

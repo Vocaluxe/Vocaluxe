@@ -30,6 +30,7 @@ namespace Vocaluxe.Menu
 
     public class CBackground : IMenuElement
     {
+        private int _PartyModeID;
         private Basic _Base;
         private SThemeBackground _Theme;
         private bool _ThemeLoaded;
@@ -42,8 +43,9 @@ namespace Vocaluxe.Menu
         }
 
         #region Constructors
-        public CBackground(Basic Base)
+        public CBackground(Basic Base, int PartyModeID)
         {
+            _PartyModeID = PartyModeID;
             _Base = Base;
             _ThemeLoaded = false;
             _Theme = new SThemeBackground();

@@ -29,8 +29,8 @@ namespace Vocaluxe.Menu.SongMenu
         }
         */
 
-        public CSongMenuDreidel(Basic Base)
-            : base(Base)
+        public CSongMenuDreidel(Basic Base, int PartyModeID)
+            : base(Base, PartyModeID)
         {
             _Base = Base;
         }

@@ -28,6 +28,7 @@ namespace Vocaluxe.Menu
 
     public class CLyric : IMenuElement
     {
+        private int _PartyModeID;
         private Basic _Base;
         private SThemeLyrics _Theme;
         private bool _ThemeLoaded;
@@ -86,8 +87,9 @@ namespace Vocaluxe.Menu
             set { _Style = value; }
         }
 
-        public CLyric(Basic Base)
+        public CLyric(Basic Base, int PartyModeID)
         {
+            _PartyModeID = PartyModeID;
             _Base = Base;
             _Theme = new SThemeLyrics();
             _ThemeLoaded = false;
@@ -101,7 +103,7 @@ namespace Vocaluxe.Menu
             _H = 1f;
             _width = 1f;
             _Notes = new List<SNote>();
-            _Text = new CText(_Base);
+            _Text = new CText(_Base, _PartyModeID);
 
             _Style = ELyricStyle.Fill;
         }

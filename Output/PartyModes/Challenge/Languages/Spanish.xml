@@ -6,8 +6,15 @@
 	<Texts>
 		<!--General-->
 		<TR_PARTYMODE_NAME>TODO: Challenge Mode</TR_PARTYMODE_NAME>
-		<TR_PARTYMODE_DESCRIPTION>TODO: Challenge with zp to X Players</TR_PARTYMODE_DESCRIPTION>
+		<TR_PARTYMODE_DESCRIPTION>TODO: Challenge with up to X Players</TR_PARTYMODE_DESCRIPTION>
+		<TR_BUTTON_NEXT>TODO: Next</TR_BUTTON_NEXT>
+		<TR_BUTTON_BACK>Volver</TR_BUTTON_BACK>
+		<TR_BUTTON_START>Comenzar</TR_BUTTON_START>
+		<!--ScreenConfig-->
+		<TR_SCREENCONFIG_TITLE>TODO: Challenge Mode: Configuration</TR_SCREENCONFIG_TITLE>
+		<!--ScreenNames-->
+		<TR_SCREENNAMES_TITLE>TODO: Challenge Mode: Choose Player</TR_SCREENNAMES_TITLE>
 		<!--ScreenMain-->
-		<TR_SCREENMAIN_TITLE>Challenge Mode: Overview</TR_SCREENMAIN_TITLE>
+		<TR_SCREENMAIN_TITLE>TODO: Challenge Mode: Overview</TR_SCREENMAIN_TITLE>
 	</Texts>
 </root>

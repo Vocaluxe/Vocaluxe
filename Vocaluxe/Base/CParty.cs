@@ -246,6 +246,12 @@ namespace Vocaluxe.Base
             if (Output == null)
                 return pm;
 
+            if (!CLanguage.LoadPartyLanguageFiles(pm.PartyModeID, Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeLanguages)))
+            {
+                CLog.LogError("Error loading language files for PartyMode: " + file);
+                return pm;
+            }
+
             object Instance = Output.CreateInstance("Vocaluxe.PartyModes." + pm.PartyModeFile);
             if (Instance == null)
             {
@@ -278,12 +284,6 @@ namespace Vocaluxe.Base
                     return pm;
             }
 
-            if (!CLanguage.LoadPartyLanguageFiles(pm.PartyModeID, Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeLanguages)))
-            {
-                CLog.LogError("Error loading language files for PartyMode: " + file);
-                return pm;
-            }
-            
             pm.NoErrors = true;
             return pm;
         }

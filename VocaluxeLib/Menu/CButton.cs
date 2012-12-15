@@ -23,6 +23,7 @@ namespace Vocaluxe.Menu
         private Basic _Base;
         private SThemeButton _Theme;
         private bool _ThemeLoaded;
+        private int _PartyModeID;
 
         public SRectF Rect;
         public SColorF Color;
@@ -69,8 +70,9 @@ namespace Vocaluxe.Menu
             return _Theme.Name;
         }
 
-        public CButton(Basic Base)
+        public CButton(Basic Base, int PartyModeID)
         {
+            _PartyModeID = PartyModeID;
             _Base = Base;
             _Theme = new SThemeButton();
             Rect = new SRectF();
@@ -78,8 +80,8 @@ namespace Vocaluxe.Menu
             SColor = new SColorF();
 
             SelText = false;
-            Text = new CText(_Base);
-            SText = new CText(_Base);
+            Text = new CText(_Base, _PartyModeID);
+            SText = new CText(_Base, _PartyModeID);
             Selected = false;
             Visible = true;
             EditMode = false;
@@ -269,34 +271,40 @@ namespace Vocaluxe.Menu
             {
                 texture = _Base.Theme.GetSkinTexture(_Theme.TextureName);
                 _Base.Drawing.DrawTexture(texture, Rect, Color);
-                Text.DrawRelative(Rect.X, Rect.Y);
+                
                 if (Reflection)
                 {
                     _Base.Drawing.DrawTextureReflection(texture, Rect, Color, Rect, ReflectionSpace, ReflectionHeight);
                     Text.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
                 }
+                else
+                    Text.DrawRelative(Rect.X, Rect.Y);
             }
             else if(!SelText)
             {
                 texture = _Base.Theme.GetSkinTexture(_Theme.STextureName);
                 _Base.Drawing.DrawTexture(texture, Rect, SColor);
-                Text.DrawRelative(Rect.X, Rect.Y);
+
                 if (Reflection)
                 {
                     _Base.Drawing.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
                     Text.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
                 }
+                else
+                    Text.DrawRelative(Rect.X, Rect.Y);
             }
             else if(SelText)
             {
                 texture = _Base.Theme.GetSkinTexture(_Theme.STextureName);
                 _Base.Drawing.DrawTexture(texture, Rect, SColor);
-                SText.DrawRelative(Rect.X, Rect.Y);
+
                 if (Reflection)
                 {
                     _Base.Drawing.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
                     SText.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
                 }
+                else
+                    SText.DrawRelative(Rect.X, Rect.Y);
             }
         }
 

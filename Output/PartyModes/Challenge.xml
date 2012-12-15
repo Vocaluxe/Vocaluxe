@@ -12,5 +12,7 @@
   </Info>
   <PartyScreens>
     <ScreenFile>PartyScreenChallengeMain</ScreenFile>
+	<ScreenFile>PartyScreenChallengeConfig</ScreenFile>
+	<ScreenFile>PartyScreenChallengeNames</ScreenFile>
   </PartyScreens>
 </root>

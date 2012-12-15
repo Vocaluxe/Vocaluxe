@@ -6,7 +6,14 @@
 	<Texts>
 		<!--General-->
 		<TR_PARTYMODE_NAME>Challenge Mode</TR_PARTYMODE_NAME>
-		<TR_PARTYMODE_DESCRIPTION>Challenge with zp to X Players</TR_PARTYMODE_DESCRIPTION>
+		<TR_PARTYMODE_DESCRIPTION>Challenge with up to X Players</TR_PARTYMODE_DESCRIPTION>
+		<TR_BUTTON_NEXT>Next</TR_BUTTON_NEXT>
+		<TR_BUTTON_BACK>Back</TR_BUTTON_BACK>
+		<TR_BUTTON_START>Start</TR_BUTTON_START>
+		<!--ScreenConfig-->
+		<TR_SCREENCONFIG_TITLE>Challenge Mode: Configuration</TR_SCREENCONFIG_TITLE>
+		<!--ScreenNames-->
+		<TR_SCREENNAMES_TITLE>Challenge Mode: Choose Player</TR_SCREENNAMES_TITLE>
 		<!--ScreenMain-->
 		<TR_SCREENMAIN_TITLE>Challenge Mode: Overview</TR_SCREENMAIN_TITLE>
 	</Texts>

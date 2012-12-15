@@ -201,7 +201,7 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeBackgrounds.Length; i++)
                     {
-                        CBackground background = new CBackground(_Base);
+                        CBackground background = new CBackground(_Base, _PartyModeID);
                         if (background.LoadTheme("//root/" + _ThemeName, _ThemeBackgrounds[i], navigator, SkinIndex))
                         {
                             _htBackgrounds.Add(_ThemeBackgrounds[i], AddBackground(background));
@@ -217,7 +217,7 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeStatics.Length; i++)
                     {
-                        CStatic stat = new CStatic(_Base);
+                        CStatic stat = new CStatic(_Base, _PartyModeID);
                         if (stat.LoadTheme("//root/" + _ThemeName, _ThemeStatics[i], navigator, SkinIndex))
                         {
                             _htStatics.Add(_ThemeStatics[i], AddStatic(stat));
@@ -233,8 +233,7 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeTexts.Length; i++)
                     {
-                        CText text = new CText(_Base);
-                        text.PartyModeID = _PartyModeID;
+                        CText text = new CText(_Base, _PartyModeID);
                         if (text.LoadTheme("//root/" + _ThemeName, _ThemeTexts[i], navigator, SkinIndex))
                         {
                             _htTexts.Add(_ThemeTexts[i], AddText(text));
@@ -250,7 +249,7 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeButtons.Length; i++)
                     {
-                        CButton button = new CButton(_Base);
+                        CButton button = new CButton(_Base, _PartyModeID);
                         if (button.LoadTheme("//root/" + _ThemeName, _ThemeButtons[i], navigator, SkinIndex))
                         {
                             _htButtons.Add(_ThemeButtons[i], AddButton(button));
@@ -266,7 +265,7 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeSelectSlides.Length; i++)
                     {
-                        CSelectSlide slide = new CSelectSlide(_Base);
+                        CSelectSlide slide = new CSelectSlide(_Base, _PartyModeID);
                         if (slide.LoadTheme("//root/" + _ThemeName, _ThemeSelectSlides[i], navigator, SkinIndex))
                         {
                             _htSelectSlides.Add(_ThemeSelectSlides[i], AddSelectSlide(slide));
@@ -282,7 +281,7 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeSongMenus.Length; i++)
                     {
-                        CSongMenu sm = new CSongMenu(_Base);
+                        CSongMenu sm = new CSongMenu(_Base, _PartyModeID);
                         if (sm.LoadTheme("//root/" + _ThemeName, _ThemeSongMenus[i], navigator, SkinIndex))
                         {
                             _htSongMenus.Add(_ThemeSongMenus[i], AddSongMenu(sm));
@@ -298,7 +297,7 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeLyrics.Length; i++)
                     {
-                        CLyric lyric = new CLyric(_Base);
+                        CLyric lyric = new CLyric(_Base, _PartyModeID);
                         if (lyric.LoadTheme("//root/" + _ThemeName, _ThemeLyrics[i], navigator, SkinIndex))
                         {
                             _htLyrics.Add(_ThemeLyrics[i], AddLyric(lyric));
@@ -314,7 +313,7 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeSingNotes.Length; i++)
                     {
-                        CSingNotes notes = new CSingNotesClassic(_Base);
+                        CSingNotes notes = new CSingNotesClassic(_Base, _PartyModeID);
                         if (notes.LoadTheme("//root/" + _ThemeName, _ThemeSingNotes[i], navigator, SkinIndex))
                         {
                             _htSingNotes.Add(_ThemeSingNotes[i], AddSingNote(notes));
@@ -330,7 +329,7 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeNameSelections.Length; i++)
                     {
-                        CNameSelection nsel = new CNameSelection(_Base);
+                        CNameSelection nsel = new CNameSelection(_Base, _PartyModeID);
                         if (nsel.LoadTheme("//root/" + _ThemeName, _ThemeNameSelections[i], navigator, SkinIndex))
                         {
                             _htNameSelections.Add(_ThemeNameSelections[i], AddNameSelection(nsel));
@@ -346,7 +345,7 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeEqualizers.Length; i++)
                     {
-                        CEqualizer eq = new CEqualizer(_Base);
+                        CEqualizer eq = new CEqualizer(_Base, _PartyModeID);
                         if (eq.LoadTheme("//root/" + _ThemeName, _ThemeEqualizers[i], navigator, SkinIndex))
                         {
                             _htEqualizers.Add(_ThemeEqualizers[i], AddEqualizer(eq));
@@ -362,7 +361,7 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemePlaylists.Length; i++)
                     {
-                        CPlaylist pls = new CPlaylist(_Base);
+                        CPlaylist pls = new CPlaylist(_Base, _PartyModeID);
                         if (pls.LoadTheme("//root/" + _ThemeName, _ThemePlaylists[i], navigator, SkinIndex))
                         {
                             _htPlaylists.Add(_ThemePlaylists[i], AddPlaylist(pls));
@@ -661,12 +660,12 @@ namespace Vocaluxe.Menu
         #region Create Elements
         public CButton GetNewButton()
         {
-            return new CButton(_Base);
+            return new CButton(_Base, _PartyModeID);
         }
 
         public CText GetNewText()
         {
-            return new CText(_Base);
+            return new CText(_Base, _PartyModeID);
         }
 
         public CText GetNewText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text)
@@ -677,57 +676,57 @@ namespace Vocaluxe.Menu
 
         public CBackground GetNewBackground()
         {
-            return new CBackground(_Base);
+            return new CBackground(_Base, _PartyModeID);
         }
 
         public CStatic GetNewStatic()
         {
-            return new CStatic(_Base);
+            return new CStatic(_Base, _PartyModeID);
         }
 
         public CStatic GetNewStatic(STexture Texture, SColorF Color, SRectF Rect)
         {
-            return new CStatic(_Base, Texture, Color, Rect);
+            return new CStatic(_Base, _PartyModeID, Texture, Color, Rect);
         }
 
         public CSelectSlide GetNewSelectSlide()
         {
-            return new CSelectSlide(_Base);
+            return new CSelectSlide(_Base, _PartyModeID);
         }
 
         public CSongMenu GetNewSongMenu()
         {
-            return new CSongMenu(_Base);
+            return new CSongMenu(_Base, _PartyModeID);
         }
 
         public CLyric GetNewLyric()
         {
-            return new CLyric(_Base);
+            return new CLyric(_Base, _PartyModeID);
         }
 
         public CSingNotes GetNewSingNotes()
         {
-            return new CSingNotesClassic(_Base);
+            return new CSingNotesClassic(_Base, _PartyModeID);
         }
 
         public CNameSelection GetNewNameSelection()
         {
-            return new CNameSelection(_Base);
+            return new CNameSelection(_Base, _PartyModeID);
         }
 
         public CEqualizer GetNewEqualizer()
         {
-            return new CEqualizer(_Base);
+            return new CEqualizer(_Base, _PartyModeID);
         }
 
         public CPlaylist GetNewPlaylist()
         {
-            return new CPlaylist(_Base);
+            return new CPlaylist(_Base, _PartyModeID);
         }
 
         public CParticleEffect GetNewParticleEffect(int MaxNumber, SColorF Color, SRectF Area, STexture Texture, float Size, EParticeType Type)
         {
-            return new CParticleEffect(_Base, MaxNumber, Color, Area, Texture, Size, Type);
+            return new CParticleEffect(_Base, _PartyModeID, MaxNumber, Color, Area, Texture, Size, Type);
         }
         #endregion Create Elements
 
@@ -1302,7 +1301,6 @@ namespace Vocaluxe.Menu
 
         public int AddText(CText text)
         {
-            text.PartyModeID = _PartyModeID;
             _Texts.Add(text);
             _AddInteraction(_Texts.Count - 1, EType.TText);
             return _Texts.Count - 1;
@@ -2293,34 +2291,32 @@ namespace Vocaluxe.Menu
             string value = String.Empty;
 
             // Backgrounds
-            CBackground background = new CBackground(_Base);
+            CBackground background = new CBackground(_Base, _PartyModeID);
             int i = 1;
             while (background.LoadTheme("//root/" + _ThemeName, "Background" + i.ToString(), navigator, SkinIndex))
             {
                 AddBackground(background);
-                background = new CBackground(_Base);
+                background = new CBackground(_Base, _PartyModeID);
                 i++;
             }  
             
             // Statics
-            CStatic stat = new CStatic(_Base);
+            CStatic stat = new CStatic(_Base, _PartyModeID);
             i = 1;
             while (stat.LoadTheme("//root/" + _ThemeName, "Static" + i.ToString(), navigator, SkinIndex))
             {
                 AddStatic(stat);
-                stat = new CStatic(_Base);
+                stat = new CStatic(_Base, _PartyModeID);
                 i++;
             }  
 
             // Texts
-            CText text = new CText(_Base);
-            text.PartyModeID = _PartyModeID;
+            CText text = new CText(_Base, _PartyModeID);
             i = 1;
             while (text.LoadTheme("//root/" + _ThemeName, "Text" + i.ToString(), navigator, SkinIndex))
             {
                 AddText(text);
-                text = new CText(_Base);
-                text.PartyModeID = _PartyModeID;
+                text = new CText(_Base, _PartyModeID);
                 i++;
             }  
         }

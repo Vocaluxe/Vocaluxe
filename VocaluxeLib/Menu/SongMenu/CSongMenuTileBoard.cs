@@ -42,8 +42,8 @@ namespace Vocaluxe.Menu.SongMenu
 
         private bool _SmallView = false;
 
-        public CSongMenuTileBoard(Basic Base)
-            : base(Base)
+        public CSongMenuTileBoard(Basic Base, int PartyModeID)
+            : base(Base, PartyModeID)
         {
             _Base = Base;
         }
@@ -79,7 +79,7 @@ namespace Vocaluxe.Menu.SongMenu
                 {
                     SRectF rect = new SRectF(_Theme.songMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
                         _Theme.songMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
-                    CStatic tile = new CStatic(_Base, _CoverTexture, Color, rect);
+                    CStatic tile = new CStatic(_Base, _PartyModeID, _CoverTexture, Color, rect);
                     _Tiles.Add(tile);
                 }
             }
@@ -523,7 +523,7 @@ namespace Vocaluxe.Menu.SongMenu
                 if (tile.Selected)
                     return new CStatic(tile);
             }
-            return new CStatic(_Base);
+            return new CStatic(_Base, _PartyModeID);
         }
 
         public override void SetSelectedSong(int VisibleSongNr)
@@ -776,7 +776,7 @@ namespace Vocaluxe.Menu.SongMenu
                     {
                         SRectF rect = new SRectF(_Theme.songMenuTileBoard.TileRectSmall.X + j * (_TileW + _SpaceW),
                             _Theme.songMenuTileBoard.TileRectSmall.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
-                        CStatic tile = new CStatic(_Base, _CoverTexture, Color, rect);
+                        CStatic tile = new CStatic(_Base, _PartyModeID, _CoverTexture, Color, rect);
                         _Tiles.Add(tile);
                     }
                 }
@@ -802,7 +802,7 @@ namespace Vocaluxe.Menu.SongMenu
                     {
                         SRectF rect = new SRectF(_Theme.songMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
                             _Theme.songMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
-                        CStatic tile = new CStatic(_Base, _CoverTexture, Color, rect);
+                        CStatic tile = new CStatic(_Base, _PartyModeID, _CoverTexture, Color, rect);
                         _Tiles.Add(tile);
                     }
                 }

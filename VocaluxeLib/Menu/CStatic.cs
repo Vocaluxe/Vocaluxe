@@ -16,6 +16,7 @@ namespace Vocaluxe.Menu
 
     public class CStatic : IMenuElement
     {
+        private int _PartyModeID;
         private Basic _Base;
 
         private SThemeStatic _Theme;
@@ -54,8 +55,9 @@ namespace Vocaluxe.Menu
 
         public EAspect Aspect = EAspect.Stretch;
 
-        public CStatic(Basic Base)
+        public CStatic(Basic Base, int PartyModeID)
         {
+            _PartyModeID = PartyModeID;
             _Base = Base;
             _Theme = new SThemeStatic();
             _ThemeLoaded = false;
@@ -74,6 +76,7 @@ namespace Vocaluxe.Menu
 
         public CStatic(CStatic s)
         {
+            _PartyModeID = s._PartyModeID;
             _Base = s._Base;
             _Theme = new SThemeStatic();
             _ThemeLoaded = false;
@@ -90,8 +93,9 @@ namespace Vocaluxe.Menu
             Visible = s.Visible;
         }
 
-        public CStatic(Basic Base, STexture texture, SColorF color, SRectF rect)
+        public CStatic(Basic Base, int PartyModeID, STexture texture, SColorF color, SRectF rect)
         {
+            _PartyModeID = PartyModeID;
             _Base = Base;
             _Theme = new SThemeStatic();
             _ThemeLoaded = false;
@@ -108,8 +112,9 @@ namespace Vocaluxe.Menu
             Visible = true;
         }
 
-        public CStatic(Basic Base, string TextureSkinName, SColorF color, SRectF rect)
+        public CStatic(Basic Base, int PartyModeID, string TextureSkinName, SColorF color, SRectF rect)
         {
+            _PartyModeID = PartyModeID;
             _Base = Base;
             _Theme = new SThemeStatic();
             _Theme.TextureName = TextureSkinName;

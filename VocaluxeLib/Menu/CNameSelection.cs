@@ -44,6 +44,7 @@ namespace Vocaluxe.Menu
             }
         }
 
+        private int _PartyModeID;
         private Basic _Base;
         private SThemeNameSelection _Theme;
         private bool _ThemeLoaded;
@@ -84,8 +85,9 @@ namespace Vocaluxe.Menu
         private CStatic PlayerSelector;
 
 
-        public CNameSelection(Basic Base)
+        public CNameSelection(Basic Base, int PartyModeID)
         {
+            _PartyModeID = PartyModeID;
             _Base = Base;
             _Theme = new SThemeNameSelection();
 
@@ -97,7 +99,7 @@ namespace Vocaluxe.Menu
         {
             PrepareTiles();
 
-            PlayerSelector = new CStatic(_Base);
+            PlayerSelector = new CStatic(_Base, _PartyModeID);
             PlayerSelector.Texture = _TextureTileSelected;
             PlayerSelector.Rect = new SRectF(0, 0, (_TileW + 6), (_TileH + 6), (Rect.Z - 0.5f));
             PlayerSelector.Visible = false;
@@ -466,7 +468,7 @@ namespace Vocaluxe.Menu
                 }
             }
 
-            return new CStatic(_Base);
+            return new CStatic(_Base, _PartyModeID);
         }
 
         public void UnloadTextures()
@@ -501,7 +503,7 @@ namespace Vocaluxe.Menu
                 for (int j = 0; j < _NumW; j++)
                 {
                     SRectF rect = new SRectF(Rect.X + j * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
-                    CStatic tileStatic = new CStatic(_Base, _TextureEmptyTile, ColorEmptyTile, rect);
+                    CStatic tileStatic = new CStatic(_Base, _PartyModeID, _TextureEmptyTile, ColorEmptyTile, rect);
                     CText tileText = new CText(_Base, rect.X + rect.W / 2, rect.Y + rect.H + _Theme.NameSpace, rect.Z, _Theme.NameHeight, rect.W, EAlignment.Center, _Theme.NameStyle, _Theme.NameFont, _Theme.NameColor, "");
                     _Tiles.Add(new CTile(tileStatic, tileText, -1));
                 }

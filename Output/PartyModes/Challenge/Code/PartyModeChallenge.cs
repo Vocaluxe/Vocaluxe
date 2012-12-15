@@ -22,7 +22,7 @@ namespace Vocaluxe.PartyModes
         public override CMenuParty GetNextPartyScreen()
         {
             CMenuParty Screen = null;
-            _Screens.TryGetValue("PartyScreenChallengeMain", out Screen);
+            _Screens.TryGetValue("PartyScreenChallengeConfig", out Screen);
             return Screen;
         }
 
