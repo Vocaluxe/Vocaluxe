@@ -14,6 +14,8 @@ namespace Vocaluxe.Screens
         const int ScreenVersion = 1;
 
         const string TextDescription = "TextDescription";
+        const string TextAuthor = "TextAuthor";
+        const string TextVersion = "TextVersion";
         const string ButtonStart = "ButtonStart";
         const string ButtonExit = "ButtonExit";
         const string SelectSlideModes = "SelectSlideModes";
@@ -30,7 +32,7 @@ namespace Vocaluxe.Screens
 
             _ThemeName = "ScreenParty";
             _ScreenVersion = ScreenVersion;
-            _ThemeTexts = new string[] { TextDescription };
+            _ThemeTexts = new string[] { TextDescription, TextAuthor, TextVersion };
             _ThemeButtons = new string[] { ButtonStart, ButtonExit };
             _ThemeSelectSlides = new string[] { SelectSlideModes };
         }
@@ -142,6 +144,10 @@ namespace Vocaluxe.Screens
 
             Texts[htTexts(TextDescription)].PartyModeID = _PartyModeInfos[index].PartyModeID;
             Texts[htTexts(TextDescription)].Text = _PartyModeInfos[index].Description;
+            Texts[htTexts(TextAuthor)].Text = _PartyModeInfos[index].Author;
+            Texts[htTexts(TextAuthor)].PartyModeID = _PartyModeInfos[index].PartyModeID;
+            //Texts[htTexts(TextVersion)].Text = _PartyModeInfos[index].
+            Texts[htTexts(TextVersion)].PartyModeID = _PartyModeInfos[index].PartyModeID;
         }
 
         private void StartPartyMode()
