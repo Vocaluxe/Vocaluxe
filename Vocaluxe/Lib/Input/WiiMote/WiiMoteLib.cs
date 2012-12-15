@@ -385,7 +385,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                     break;
 
 				default:
-					CLog.LogError("(WiiMoteLib) Unknown report type: " + type.ToString("x"));
+					//CLog.LogError("(WiiMoteLib) Unknown report type: " + type.ToString("x"));
 					return false;
 			}
 
