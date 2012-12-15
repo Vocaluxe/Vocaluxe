@@ -168,6 +168,7 @@ namespace Vocaluxe.Base
         private static float _GlobalAlpha;
         private static float _ZOffset;
 
+        private static IMenu _OldScreen;
         private static EScreens _CurrentScreen;
         private static EScreens _NextScreen;
         private static EPopupScreens _CurrentPopupScreen;
@@ -383,11 +384,11 @@ namespace Vocaluxe.Base
                     if (_CurrentScreen == EScreens.ScreenPartyDummy)
                     {
                         CFonts.PartyModeID = CParty.CurrentPartyModeID;
-                        _Screens[(int)_CurrentScreen].Draw();
+                        _OldScreen.Draw();
                         CFonts.PartyModeID = -1;
                     }
                     else
-                        _Screens[(int)_CurrentScreen].Draw();
+                        _OldScreen.Draw();
 
 
                     _GlobalAlpha = factor;
@@ -437,6 +438,8 @@ namespace Vocaluxe.Base
                 }
                 else
                     _Screens[(int)_CurrentScreen].Draw();
+
+                _OldScreen = _Screens[(int)_CurrentScreen];
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
