@@ -153,17 +153,17 @@ namespace Vocaluxe.Screens
             Texts[htTexts(TextTargetAudience)].PartyModeID = _PartyModeInfos[index].PartyModeID;
             Texts[htTexts(TextTargetAudience)].Text = _PartyModeInfos[index].Description;
             //NumTeams
-            if (_PartyModeInfos[index].MaxNumTeams == 0)
+            if (_PartyModeInfos[index].MaxTeams == 0)
                 Texts[htTexts(TextNumTeams)].Text = "TR_SCREENPARTY_NOTEAMS";
-            else if (_PartyModeInfos[index].MaxNumTeams == _PartyModeInfos[index].MinNumTeams)
-                Texts[htTexts(TextNumTeams)].Text = _PartyModeInfos[index].MaxNumTeams.ToString();
-            else if (_PartyModeInfos[index].MaxNumTeams > _PartyModeInfos[index].MinNumTeams)
-                Texts[htTexts(TextNumTeams)].Text = _PartyModeInfos[index].MinNumTeams + " - " + _PartyModeInfos[index].MaxNumTeams;
+            else if (_PartyModeInfos[index].MaxTeams == _PartyModeInfos[index].MinTeams)
+                Texts[htTexts(TextNumTeams)].Text = _PartyModeInfos[index].MaxTeams.ToString();
+            else if (_PartyModeInfos[index].MaxTeams > _PartyModeInfos[index].MinTeams)
+                Texts[htTexts(TextNumTeams)].Text = _PartyModeInfos[index].MinTeams + " - " + _PartyModeInfos[index].MaxTeams;
             //NumPlayers
-            if (_PartyModeInfos[index].MaxNumPlayers == _PartyModeInfos[index].MinNumPlayers)
-                Texts[htTexts(TextNumPlayers)].Text = _PartyModeInfos[index].MaxNumTeams.ToString();
-            else if (_PartyModeInfos[index].MaxNumPlayers > _PartyModeInfos[index].MinNumPlayers)
-                Texts[htTexts(TextNumPlayers)].Text = _PartyModeInfos[index].MinNumPlayers + " - " + _PartyModeInfos[index].MaxNumPlayers;
+            if (_PartyModeInfos[index].MaxPlayers == _PartyModeInfos[index].MinPlayers)
+                Texts[htTexts(TextNumPlayers)].Text = _PartyModeInfos[index].MaxTeams.ToString();
+            else if (_PartyModeInfos[index].MaxPlayers > _PartyModeInfos[index].MinPlayers)
+                Texts[htTexts(TextNumPlayers)].Text = _PartyModeInfos[index].MinPlayers + " - " + _PartyModeInfos[index].MaxPlayers;
             //Author
             Texts[htTexts(TextAuthor)].Text = _PartyModeInfos[index].Author;
             Texts[htTexts(TextAuthor)].PartyModeID = _PartyModeInfos[index].PartyModeID;
