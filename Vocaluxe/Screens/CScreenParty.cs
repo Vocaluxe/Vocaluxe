@@ -14,6 +14,9 @@ namespace Vocaluxe.Screens
         const int ScreenVersion = 1;
 
         const string TextDescription = "TextDescription";
+        const string TextTargetAudience = "TextTargetAudience";
+        const string TextNumTeams = "TextNumTeams";
+        const string TextNumPlayers = "TextNumPlayers";
         const string TextAuthor = "TextAuthor";
         const string TextVersion = "TextVersion";
         const string TextError = "TextError";
@@ -33,7 +36,7 @@ namespace Vocaluxe.Screens
 
             _ThemeName = "ScreenParty";
             _ScreenVersion = ScreenVersion;
-            _ThemeTexts = new string[] { TextDescription, TextAuthor, TextVersion, TextError };
+            _ThemeTexts = new string[] { TextDescription, TextTargetAudience, TextNumTeams, TextNumPlayers, TextAuthor, TextVersion, TextError };
             _ThemeButtons = new string[] { ButtonStart, ButtonExit };
             _ThemeSelectSlides = new string[] { SelectSlideModes };
         }
@@ -143,11 +146,29 @@ namespace Vocaluxe.Screens
             if (index >= _PartyModeInfos.Count)
                 return;
 
+            //Description
             Texts[htTexts(TextDescription)].PartyModeID = _PartyModeInfos[index].PartyModeID;
             Texts[htTexts(TextDescription)].Text = _PartyModeInfos[index].Description;
+            //TargetAudience
+            Texts[htTexts(TextTargetAudience)].PartyModeID = _PartyModeInfos[index].PartyModeID;
+            Texts[htTexts(TextTargetAudience)].Text = _PartyModeInfos[index].Description;
+            //NumTeams
+            if (_PartyModeInfos[index].MaxNumTeams == 0)
+                Texts[htTexts(TextNumTeams)].Text = "TR_SCREENPARTY_NOTEAMS";
+            else if (_PartyModeInfos[index].MaxNumTeams == _PartyModeInfos[index].MinNumTeams)
+                Texts[htTexts(TextNumTeams)].Text = _PartyModeInfos[index].MaxNumTeams.ToString();
+            else if (_PartyModeInfos[index].MaxNumTeams > _PartyModeInfos[index].MinNumTeams)
+                Texts[htTexts(TextNumTeams)].Text = _PartyModeInfos[index].MinNumTeams + " - " + _PartyModeInfos[index].MaxNumTeams;
+            //NumPlayers
+            if (_PartyModeInfos[index].MaxNumPlayers == _PartyModeInfos[index].MinNumPlayers)
+                Texts[htTexts(TextNumPlayers)].Text = _PartyModeInfos[index].MaxNumTeams.ToString();
+            else if (_PartyModeInfos[index].MaxNumPlayers > _PartyModeInfos[index].MinNumPlayers)
+                Texts[htTexts(TextNumPlayers)].Text = _PartyModeInfos[index].MinNumPlayers + " - " + _PartyModeInfos[index].MaxNumPlayers;
+            //Author
             Texts[htTexts(TextAuthor)].Text = _PartyModeInfos[index].Author;
             Texts[htTexts(TextAuthor)].PartyModeID = _PartyModeInfos[index].PartyModeID;
-            //Texts[htTexts(TextVersion)].Text = _PartyModeInfos[index].
+            //Version
+            Texts[htTexts(TextVersion)].Text = _PartyModeInfos[index].VersionMajor + "." + _PartyModeInfos[index].VersionMinor;
             Texts[htTexts(TextVersion)].PartyModeID = _PartyModeInfos[index].PartyModeID;
 
             if (!_PartyModeInfos[index].Playable)
