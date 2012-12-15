@@ -690,7 +690,16 @@ namespace Vocaluxe.Screens
 
                 EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
                 if (CSongs.AllSongs[SongNr].IsDuet)
+                {
                     gm = EGameMode.TR_GAMEMODE_DUET;
+                    for (int i = 0; i < CSettings.MaxNumPlayer; i++)
+                    {
+                        if ((i % 2) == 0)
+                            CGame.Player[i].LineNr = 1;
+                        else
+                            CGame.Player[i].LineNr = 1;
+                    }
+                }
                 CGame.AddSong(SongNr, gm);
 
                 IDs.Remove(SongNr);    
@@ -717,7 +726,16 @@ namespace Vocaluxe.Screens
 
                 EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
                 if (CSongs.AllSongs[SongNr].IsDuet)
+                {
                     gm = EGameMode.TR_GAMEMODE_DUET;
+                    for (int i = 0; i < CSettings.MaxNumPlayer; i++)
+                    {
+                        if ((i % 2) == 0)
+                            CGame.Player[i].LineNr = 1;
+                        else
+                            CGame.Player[i].LineNr = 1;
+                    }
+                }
 
                 CGame.AddSong(SongNr, gm);
 
