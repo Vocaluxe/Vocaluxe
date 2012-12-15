@@ -13,6 +13,8 @@
 		<TR_BUTTON_START>Démarrer</TR_BUTTON_START>
 		<!--ScreenConfig-->
 		<TR_SCREENCONFIG_TITLE>TODO: Challenge Mode: Configuration</TR_SCREENCONFIG_TITLE>
+		<TR_SCREENCONFIG_NUMPLAYERS>TODO: Number of players</TR_SCREENCONFIG_NUMPLAYERS>
+		<TR_SCREENCONFIG_NUMROUNDS>TODO: Number of rounds</TR_SCREENCONFIG_NUMROUNDS>		
 		<!--ScreenNames-->
 		<TR_SCREENNAMES_TITLE>TODO: Challenge Mode: Choose Player</TR_SCREENNAMES_TITLE>
 		<!--ScreenMain-->

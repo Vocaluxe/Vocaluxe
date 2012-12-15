@@ -13,6 +13,8 @@
 		<TR_BUTTON_START>Start</TR_BUTTON_START>
 		<!--ScreenConfig-->
 		<TR_SCREENCONFIG_TITLE>Challenge Modus: Einstellungen</TR_SCREENCONFIG_TITLE>
+		<TR_SCREENCONFIG_NUMPLAYERS>Anzahl der Spieler</TR_SCREENCONFIG_NUMPLAYERS>
+		<TR_SCREENCONFIG_NUMROUNDS>Anzahl der Runden</TR_SCREENCONFIG_NUMROUNDS>
 		<!--ScreenNames-->
 		<TR_SCREENNAMES_TITLE>Challenge Modus: Spielerwahl</TR_SCREENNAMES_TITLE>
 		<!--ScreenMain-->
