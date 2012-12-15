@@ -814,6 +814,12 @@ namespace Vocaluxe.Menu
         public int PartyModeID;
         public string Name;
         public string Description;
+        public string TargetAudience;
+        public int MaxPlayers;
+        public int MinPlayers;
+        public int MaxTeams;
+        public int MinTeams;
+
         public string Author;
         public bool Playable;
         public int VersionMajor;

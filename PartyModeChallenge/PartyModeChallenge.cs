@@ -8,6 +8,12 @@ namespace Vocaluxe.PartyModes
 {
     public class PartyModeChallenge : CPartyMode
     {
+        private const int MaxPlayer = 10;
+        private const int MinPlayer = 2;
+        private const int MaxTeams = 0;
+        private const int MinTeams = 0;
+
+
         public PartyModeChallenge()
         {
             _ScreenSongOptions.Selection.RandomOnly = false;
@@ -39,6 +45,26 @@ namespace Vocaluxe.PartyModes
         {
             _ScreenSongOptions.Sorting.SearchString = SearchString;
             _ScreenSongOptions.Sorting.SearchStringVisible = Visible;
+        }
+
+        public override int GetMaxPlayer()
+        {
+            return MaxPlayer;
+        }
+
+        public override int GetMinPlayer()
+        {
+            return MinPlayer;
+        }
+
+        public override int GetMaxTeams()
+        {
+            return MaxTeams;
+        }
+
+        public override int GetMinTeams()
+        {
+            return MinTeams;
         }
 
     }

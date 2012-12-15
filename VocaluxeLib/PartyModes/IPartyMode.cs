@@ -61,6 +61,11 @@ namespace Vocaluxe.PartyModes
         EScreens GetMainScreen();
         ScreenSongOptions GetScreenSongOptions();
 
+        int GetMaxPlayer();
+        int GetMinPlayer();
+        int GetMaxTeams();
+        int GetMinTeams();        
+
         void SetSearchString(string SearchString, bool Visible);
 
         void JokerUsed(int TeamNr);
