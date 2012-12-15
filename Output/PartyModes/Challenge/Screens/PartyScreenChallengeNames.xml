@@ -172,5 +172,48 @@
         <Height>26</Height>
       </SReflection>
     </ButtonExit>
+    <NameSelection>
+      <!--<X>, <Y>, <Z>, <W>, <H>: NameSelection position, width and height-->
+      <X>172</X>
+      <Y>127</Y>
+      <Z>0,00</Z>
+      <W>945</W>
+      <H>393</H>
+      <!--<SkinEmptyTile>: Texture name-->
+      <SkinEmptyTile>CoverTile</SkinEmptyTile>
+      <!--<ColorEmptyTile>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <R>1,00</R>
+      <G>1,00</G>
+      <B>1,00</B>
+      <A>0,20</A>
+      <!--<SkinTileSelected>: Texture name-->
+      <SkinTileSelected>PlayerSelector</SkinTileSelected>
+      <!--<Tiles>: Options for tiles-->
+      <Tiles>
+        <!--<W>, <H>: Width and height of tile-->
+        <W>100</W>
+        <H>100</H>
+        <!--<NumW>, <NumH>: Number of tiles-->
+        <NumW>8</NumW>
+        <NumH>3</NumH>
+        <!--<SpaceW>, <SpaceH>: Space between tiles-->
+        <SpaceW>20,71</SpaceW>
+        <SpaceH>30,00</SpaceH>
+        <!--<Name>: Options for player-name-->
+        <Name>
+          <!--<Space>: Space between name and tile-->
+          <Space>2,0</Space>
+          <!--<Font>: Text font name-->
+          <Font>Outline</Font>
+          <!--<Color>: Text color from ColorScheme (high priority)-->
+          <Color>TextColor</Color>
+          <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+          <Style>Bold</Style>
+          <!--<H>: Text height-->
+          <H>20</H>
+        </Name>
+      </Tiles>
+    </NameSelection>    
   </PartyScreenChallengeNames>
 </root>
