@@ -14,6 +14,12 @@ namespace Vocaluxe.PartyModes
 
         const string ButtonNext = "ButtonNext";
         const string ButtonBack = "ButtonBack";
+        const string NameSelection = "NameSelection";
+
+        private List<string> PlayerButtons;
+
+        //TODO: Get this data from party-mode!
+        private int NumPlayers = 10;
 
         private DataFromScreen Data;
 
@@ -25,8 +31,19 @@ namespace Vocaluxe.PartyModes
         {
             base.Init();
 
+            PlayerButtons = new List<string>();
+            for (int i = 1; i <=  _PartyMode.GetMaxPlayer(); i++)
+            {
+                PlayerButtons.Add("ButtonPlayer" + i);
+            }
+
             _ThemeName = "PartyScreenChallengeNames";
-            _ThemeButtons = new string[] { ButtonNext, ButtonBack };
+            List<string> buttons = new List<string>();
+            buttons.Add(ButtonNext);
+            buttons.Add(ButtonBack);
+            buttons.AddRange(PlayerButtons);
+            _ThemeButtons = buttons.ToArray();
+            _ThemeNameSelections = new string[] { NameSelection };
             _ScreenVersion = ScreenVersion;
 
             Data = new DataFromScreen();
@@ -87,7 +104,7 @@ namespace Vocaluxe.PartyModes
 
             if (MouseEvent.RB)
             {
-                FadeTo(EScreens.ScreenParty);
+                Back();
             }
 
             return true;
@@ -96,6 +113,18 @@ namespace Vocaluxe.PartyModes
         public override void OnShow()
         {
             base.OnShow();
+            Buttons[htButtons(ButtonBack)].Text.Text = _PartyMode.GetMaxPlayer().ToString();
+            /**
+            for (int i = 1; i <= _PartyMode.GetMaxPlayer(); i++)
+            {
+                Buttons[htButtons("ButtonPlayer" + i)].Text.Text = "Player " + i;
+                if (i <= NumPlayers)
+                    Buttons[htButtons("ButtonPlayer" + i)].Visible = true;
+                else
+                    Buttons[htButtons("ButtonPlayer" + i)].Visible = false;
+            }
+             **/
+            NameSelections[htNameSelections(NameSelection)].Init();
         }
 
         public override bool UpdateGame()

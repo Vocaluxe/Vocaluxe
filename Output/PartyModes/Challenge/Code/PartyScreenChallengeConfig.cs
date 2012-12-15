@@ -67,11 +67,21 @@ namespace Vocaluxe.PartyModes
                         break;
 
                     case Keys.Enter:
+                        UpdateSlides();
+
                         if (Buttons[htButtons(ButtonBack)].Selected)
                             Back();
 
                         if (Buttons[htButtons(ButtonNext)].Selected)
                             Next();
+                        break;
+
+                    case Keys.Left:
+                        UpdateSlides();
+                        break;
+
+                    case Keys.Right:
+                        UpdateSlides();
                         break;
                 }
             }
