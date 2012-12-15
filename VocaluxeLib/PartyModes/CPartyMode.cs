@@ -64,6 +64,26 @@ namespace Vocaluxe.PartyModes
             return new ScreenSongOptions();
         }
 
+        public virtual int GetMaxPlayer()
+        {
+            return 6;
+        }
+
+        public virtual int GetMinPlayer()
+        {
+            return 1;
+        }
+
+        public virtual int GetMaxTeams()
+        {
+            return 0;
+        }
+
+        public virtual int GetMinTeams()
+        {
+            return 0;
+        }
+
         public virtual void SetSearchString(string SearchString, bool Visible)
         {
         }

@@ -25,6 +25,7 @@ namespace Vocaluxe.Base
         public List<string> ScreenFiles;
         public int PartyModeVersionMajor;
         public int PartyModeVersionMinor;
+        public string TargetAudience;
         public bool NoErrors;
         public IPartyMode PartyMode;
     }
@@ -108,11 +109,11 @@ namespace Vocaluxe.Base
                         info.VersionMajor = mode.PartyModeVersionMajor;
                         info.VersionMinor = mode.PartyModeVersionMinor;
 
-                        info.TargetAudience = "TODO";
-                        info.MaxPlayers = 100;
-                        info.MinPlayers = 2;
-                        info.MaxTeams = 30;
-                        info.MinTeams = 1;
+                        info.TargetAudience = mode.TargetAudience;
+                        info.MaxPlayers = mode.PartyMode.GetMaxPlayer();
+                        info.MinPlayers = mode.PartyMode.GetMinPlayer();
+                        info.MaxTeams = mode.PartyMode.GetMaxTeams();
+                        info.MinTeams = mode.PartyMode.GetMinTeams();
 
                         infos.Add(info);
                     }
@@ -225,6 +226,7 @@ namespace Vocaluxe.Base
                 loaded &= CHelper.GetInnerValuesFromXML("PartyScreens", navigator, ref pm.ScreenFiles);
                 loaded &= CHelper.TryGetIntValueFromXML("//root/Info/PartyModeVersionMajor", navigator, ref pm.PartyModeVersionMajor);
                 loaded &= CHelper.TryGetIntValueFromXML("//root/Info/PartyModeVersionMinor", navigator, ref pm.PartyModeVersionMinor);
+                loaded &= CHelper.GetValueFromXML("//root/Info/TargetAudience", navigator, ref pm.TargetAudience, "ERROR TargetAudience");
 
                 if (pm.PartyModeSystemVersion != PartyModeSystemVersion)
                 {
