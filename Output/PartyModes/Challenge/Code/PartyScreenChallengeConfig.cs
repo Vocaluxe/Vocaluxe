@@ -18,7 +18,7 @@ namespace Vocaluxe.PartyModes
         const string ButtonNext = "ButtonNext";
         const string ButtonBack = "ButtonBack";
 
-        private int MaxNumMics = 4;
+        private int MaxNumMics = 2;
         private int MaxNumRounds = 100;
 
         DataFromScreen Data;
@@ -194,8 +194,10 @@ namespace Vocaluxe.PartyModes
                     {
                         SelectSlides[htSelectSlides(SelectSlideNumMics)].AddValue(i.ToString());
                     }
+                    //Set to old selection
                     if (SelectSlides[htSelectSlides(SelectSlideNumMics)].NumValues >= Data.ScreenConfig.NumPlayerAtOnce)
                         SelectSlides[htSelectSlides(SelectSlideNumMics)].Selection = Data.ScreenConfig.NumPlayerAtOnce - 1;
+                    //Update selection, if old selection = max player num
                     if (OldValueNumPlayer == Data.ScreenConfig.NumPlayerAtOnce)
                         SelectSlides[htSelectSlides(SelectSlideNumMics)].Selection = SelectSlides[htSelectSlides(SelectSlideNumMics)].NumValues - 1;
                 }
