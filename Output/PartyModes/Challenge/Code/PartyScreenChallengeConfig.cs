@@ -38,8 +38,8 @@ namespace Vocaluxe.PartyModes
 
             Data = new DataFromScreen();
             FromScreenConfig config = new FromScreenConfig();
-            config.NumPlayers = 0;
-            config.NumPlayersAtOnce = 0;
+            config.NumPlayer = 0;
+            config.NumPlayerAtOnce = 0;
             config.NumRounds = 0;
             Data.ScreenConfig = config;
         }
@@ -161,8 +161,8 @@ namespace Vocaluxe.PartyModes
 
         private void Next()
         {
-            Data.ScreenConfig.NumPlayers = (SelectSlides[htSelectSlides(SelectSlideNumPlayers)].Selection + _PartyMode.GetMinPlayer());
-            Data.ScreenConfig.NumPlayersAtOnce = SelectSlides[htSelectSlides(SelectSlideNumMics)].Selection;
+            Data.ScreenConfig.NumPlayer = (SelectSlides[htSelectSlides(SelectSlideNumPlayers)].Selection + _PartyMode.GetMinPlayer());
+            Data.ScreenConfig.NumPlayerAtOnce = SelectSlides[htSelectSlides(SelectSlideNumMics)].Selection;
             Data.ScreenConfig.NumRounds = SelectSlides[htSelectSlides(SelectSlideNumRounds)].Selection;
 
             _PartyMode.DataFromScreen(_ThemeName, Data);

@@ -6,11 +6,28 @@ using Vocaluxe.Menu;
 
 namespace Vocaluxe.PartyModes
 {
-    public struct DataToScreen
+    #region Communication
+    #region ToScreen
+    public struct DataToScreenConfig
     {
-
+        public int NumPlayer;
+        public int NumPlayerAtOnce;
+        public int NumRounds;
     }
 
+    public struct DataToScreenNames
+    {
+        public int NumPlayer;
+        public List<int> ProfileIDs;
+    }
+
+    public struct DataToScreenMain
+    {
+        
+    }
+    #endregion ToScreen
+
+    #region FromScreen
     public struct DataFromScreen
     {
         public FromScreenConfig ScreenConfig;
@@ -20,8 +37,8 @@ namespace Vocaluxe.PartyModes
 
     public struct FromScreenConfig
     {
-        public int NumPlayers;
-        public int NumPlayersAtOnce;
+        public int NumPlayer;
+        public int NumPlayerAtOnce;
         public int NumRounds;
     }
 
@@ -35,6 +52,8 @@ namespace Vocaluxe.PartyModes
     public struct FromScreenMain
     {
     }
+    #endregion FromScreen
+    #endregion Communication
 
     public class PartyModeChallenge : CPartyMode
     {
@@ -52,6 +71,19 @@ namespace Vocaluxe.PartyModes
             Singing
         }
 
+        struct Data
+        {
+            public int NumPlayer;
+            public int NumPlayerAtOnce;
+            public int NumRounds;
+            public List<int> ProfileIDs;
+        }
+
+        private DataToScreenConfig ToScreenConfig;
+        private DataToScreenNames ToScreenNames;
+        private DataToScreenMain ToScreenMain;
+
+        private Data GameData;
         private EStage _Stage;
 
         public PartyModeChallenge()
@@ -65,6 +97,15 @@ namespace Vocaluxe.PartyModes
             _ScreenSongOptions.Sorting.SearchStringVisible = false;
 
             _Stage = EStage.NotStarted;
+
+            ToScreenConfig = new DataToScreenConfig();
+            ToScreenNames = new DataToScreenNames();
+            ToScreenMain = new DataToScreenMain();
+
+            GameData = new Data();
+            GameData.NumPlayer = 4;
+            GameData.NumPlayerAtOnce = 2;
+            GameData.NumRounds = 2;
         }
 
         public override bool Init()
@@ -83,6 +124,10 @@ namespace Vocaluxe.PartyModes
                     try
                     {
                         data = (DataFromScreen)Data;
+                        GameData.NumPlayer = data.ScreenConfig.NumPlayer;
+                        GameData.NumPlayerAtOnce = data.ScreenConfig.NumPlayerAtOnce;
+                        GameData.NumRounds = data.ScreenConfig.NumRounds;
+
                         _Stage = EStage.Config;
                         _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
                     }
@@ -99,7 +144,10 @@ namespace Vocaluxe.PartyModes
                         if (data.ScreenNames.FadeToConfig)
                             _Stage = EStage.NotStarted;
                         else
+                        {
+                            GameData.ProfileIDs = data.ScreenNames.ProfileIDs;
                             _Stage = EStage.Names;
+                        }
 
                         _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
                     }
