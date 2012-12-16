@@ -59,7 +59,7 @@ namespace Vocaluxe.PartyModes
     public class PartyModeChallenge : CPartyMode
     {
         private const int MaxPlayer = 10;
-        private const int MinPlayer = 2;
+        private const int MinPlayer = 1;
         private const int MaxTeams = 0;
         private const int MinTeams = 0;
 

@@ -19,7 +19,7 @@ namespace Vocaluxe.PartyModes
         const string ButtonBack = "ButtonBack";
 
         private int MaxNumMics = 2;
-        private int MaxNumRounds = 10;
+        private int MaxNumRounds = 100;
 
         DataFromScreen Data;
 
@@ -38,15 +38,33 @@ namespace Vocaluxe.PartyModes
 
             Data = new DataFromScreen();
             FromScreenConfig config = new FromScreenConfig();
-            config.NumPlayer = 0;
-            config.NumPlayerAtOnce = 0;
-            config.NumRounds = 0;
+            config.NumPlayer = 4;
+            config.NumPlayerAtOnce = 2;
+            config.NumRounds = 12;
             Data.ScreenConfig = config;
         }
 
         public override void LoadTheme(string XmlPath)
         {
 			base.LoadTheme(XmlPath);
+        }
+
+        public override void DataToScreen(object ReceivedData)
+        {
+            DataToScreenConfig config = new DataToScreenConfig();
+
+            try
+            {
+                config = (DataToScreenConfig)ReceivedData;
+                Data.ScreenConfig.NumPlayer = config.NumPlayer;
+                Data.ScreenConfig.NumPlayerAtOnce = config.NumPlayerAtOnce;
+                Data.ScreenConfig.NumRounds = config.NumRounds;
+            }
+            catch (Exception e)
+            {
+                _Base.Log.LogError("Error in party mode screen challenge config. Can't cast received data from game mode " + _ThemeName + ". " + e.Message);;
+            }
+
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -118,18 +136,25 @@ namespace Vocaluxe.PartyModes
             {
                 SelectSlides[htSelectSlides(SelectSlideNumPlayers)].AddValue(i.ToString());
             }
+            SelectSlides[htSelectSlides(SelectSlideNumPlayers)].Selection = Data.ScreenConfig.NumPlayer - 1;
+
+
             //TODO: Max number of mics should be number of mics available
             SelectSlides[htSelectSlides(SelectSlideNumMics)].Clear();
             for (int i = 1; i <= MaxNumMics; i++)
             {
                 SelectSlides[htSelectSlides(SelectSlideNumMics)].AddValue(i.ToString());
             }
+            SelectSlides[htSelectSlides(SelectSlideNumMics)].Selection = Data.ScreenConfig.NumPlayerAtOnce - 1;
+
             //TODO: Max number ofs round should depend on number of players and mics
             SelectSlides[htSelectSlides(SelectSlideNumRounds)].Clear();
             for (int i = 1; i <= MaxNumRounds; i++)
             {
                 SelectSlides[htSelectSlides(SelectSlideNumRounds)].AddValue(i.ToString());
             }
+            SelectSlides[htSelectSlides(SelectSlideNumRounds)].Selection = Data.ScreenConfig.NumRounds - 1;
+
             UpdateSlides();
         }
 
