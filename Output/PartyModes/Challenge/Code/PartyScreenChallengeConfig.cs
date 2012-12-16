@@ -31,8 +31,8 @@ namespace Vocaluxe.PartyModes
 
             Data = new DataFromScreen();
             FromScreenConfig config = new FromScreenConfig();
-            config.NumPlayers = 0;
-            config.NumPlayersAtOnce = 0;
+            config.NumPlayer = 0;
+            config.NumPlayerAtOnce = 0;
             config.NumRounds = 0;
             Data.ScreenConfig = config;
         }
@@ -120,8 +120,8 @@ namespace Vocaluxe.PartyModes
 
         private void Next()
         {
-            Data.ScreenConfig.NumPlayers = 4;
-            Data.ScreenConfig.NumPlayersAtOnce = 2;
+            Data.ScreenConfig.NumPlayer = 4;
+            Data.ScreenConfig.NumPlayerAtOnce = 2;
             Data.ScreenConfig.NumRounds = 8;
 
             _PartyMode.DataFromScreen(_ThemeName, Data);
