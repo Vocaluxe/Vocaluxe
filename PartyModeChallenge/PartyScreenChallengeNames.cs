@@ -14,10 +14,27 @@ namespace Vocaluxe.PartyModes
 
         const string ButtonNext = "ButtonNext";
         const string ButtonBack = "ButtonBack";
+        const string ButtonPlayerDestination = "ButtonPlayerDestination";
         const string NameSelection = "NameSelection";
 
+        private List<CButton> PlayerChooseButtons;
+        private List<CButton> PlayerDestinationButtons;
+        //PlayerDestinationButtons-Option
+        private const int PlayerDestinationButtonsNumH = 3;
+        private const int PlayerDestinationButtonsNumW = 4;
+        private const int PlayerDestinationButtonsFirstX = 900;
+        private const int PlayerDestinationButtonsFirstY = 105;
+        private const int PlayerDestinationButtonsSpaceH = 15;
+        private const int PlayerDestinationButtonsSpaceW = 25;
+        //PlayerChooseButtons-Option
+        private const int PlayerChooseButtonsNumH = 3;
+        private const int PlayerChooseButtonsNumW = 4;
+        private const int PlayerChooseButtonsFirstX = 900;
+        private const int PlayerChooseButtonsFirstY = 105;
+        private const int PlayerChooseButtonsSpaceH = 15;
+        private const int PlayerChooseButtonsSpaceW = 25;
+
         private CStatic chooseAvatarStatic;
-        private List<string> PlayerButtons;
         private bool SelectingMouseActive = false;
         private bool SelectingKeyboardActive = false;
         private bool SelectingKeyboardUnendless = false;
@@ -44,18 +61,11 @@ namespace Vocaluxe.PartyModes
             chooseAvatarStatic = GetNewStatic();
             chooseAvatarStatic.Visible = false;
 
-            PlayerButtons = new List<string>();
-            for (int i = 1; i <=  _PartyMode.GetMaxPlayer(); i++)
-            {
-                PlayerButtons.Add("ButtonPlayer" + i);
-            }
+            PlayerChooseButtons = new List<CButton>();
 
             _ThemeName = "PartyScreenChallengeNames";
             List<string> buttons = new List<string>();
-            buttons.Add(ButtonNext);
-            buttons.Add(ButtonBack);
-            buttons.AddRange(PlayerButtons);
-            _ThemeButtons = buttons.ToArray();
+            _ThemeButtons = new string[] { ButtonBack, ButtonNext, ButtonPlayerDestination };
             _ThemeNameSelections = new string[] { NameSelection };
             _ScreenVersion = ScreenVersion;
 
@@ -70,6 +80,48 @@ namespace Vocaluxe.PartyModes
         public override void LoadTheme(string XmlPath)
         {
 			base.LoadTheme(XmlPath);
+        }
+
+        private void AddButtonPlayerDestination()
+        {
+            PlayerDestinationButtons = new List<CButton>();
+            int row = 1;
+            int column = 1;
+            for (int i = 1; i <= _PartyMode.GetMaxPlayer(); i++)
+            {
+                CButton b = GetNewButton();
+                b.Rect.X = PlayerDestinationButtonsFirstX + column * (b.Rect.W + PlayerDestinationButtonsSpaceH);
+                b.Rect.Y = PlayerDestinationButtonsFirstY + row * (b.Rect.H + PlayerDestinationButtonsSpaceW);
+                PlayerDestinationButtons.Add(b);
+                column++;
+                if (column > PlayerDestinationButtonsNumH)
+                {
+                    row++;
+                    column = 1;
+                }
+                AddButton(b);
+            }
+        }
+
+        private void AddButtonPlayerChoose()
+        {
+            PlayerChooseButtons = new List<CButton>();
+            int row = 1;
+            int column = 1;
+            for (int i = 1; i <= PlayerChooseButtonsNumH*PlayerChooseButtonsNumW; i++)
+            {
+                CButton b = GetNewButton();
+                b.Rect.X = PlayerChooseButtonsFirstX + column * (b.Rect.W + PlayerChooseButtonsSpaceH);
+                b.Rect.Y = PlayerChooseButtonsFirstY + row * (b.Rect.H + PlayerChooseButtonsSpaceW);
+                PlayerChooseButtons.Add(b);
+                column++;
+                if (column > PlayerChooseButtonsNumH)
+                {
+                    row++;
+                    column = 1;
+                }
+                AddButton(b);
+            }
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -151,9 +203,9 @@ namespace Vocaluxe.PartyModes
                             if (Buttons[htButtons(ButtonNext)].Selected)
                                 Next();
 
-                            for (int i = 0; i < PlayerButtons.Count; i++)
+                            for (int i = 0; i < PlayerDestinationButtons.Count; i++)
                             {
-                                if (Buttons[htButtons(PlayerButtons[i])].Selected)
+                                if (PlayerDestinationButtons[i].Selected)
                                 {
                                     //KeyboardSelectPlayerNr = i;
                                     //selectingKeyboardActive = true;
@@ -233,13 +285,13 @@ namespace Vocaluxe.PartyModes
                 if (SelectedPlayerNr != -1)
                 {
                     //Foreach Drop-Area
-                    for (int i = 0; i < PlayerButtons.Count; i++)
+                    for (int i = 0; i < PlayerDestinationButtons.Count; i++)
                     {
                         //Check first, if area is "active"
-                        if (Buttons[htButtons(PlayerButtons[i])].Visible == true)
+                        if (PlayerDestinationButtons[i].Visible == true)
                         {
                             //Check if Mouse is in area
-                            if (CHelper.IsInBounds(Buttons[htButtons(PlayerButtons[i])].Rect, MouseEvent))
+                            if (CHelper.IsInBounds(PlayerDestinationButtons[i].Rect, MouseEvent))
                             {
                                 //Add Player-ID to list.
                                 ProfileIDs[i] = SelectedPlayerNr;
@@ -248,7 +300,7 @@ namespace Vocaluxe.PartyModes
                                 //Buttons[htButtons(PlayerButtons[i])]. = chooseAvatarStatic.Texture;
                                 //Buttons[htButtons(PlayerButtons[i])].Text.Text = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
                                 //TODO: Just for testing, remove.
-                                Buttons[htButtons(PlayerButtons[i])].Text.Text = "Gesetzt";
+                                PlayerDestinationButtons[i].Text.Text = "Gesetzt";
                                 //Update Tiles-List
                                 NameSelections[htNameSelections(NameSelection)].UpdateList();
                             }
@@ -286,7 +338,7 @@ namespace Vocaluxe.PartyModes
             for (int i = 0; i < ProfileIDs.Length; i++ )
                 ProfileIDs[i] = -1;
 
-            for (int i = 1; i <= PlayerButtons.Count; i++)
+            for (int i = 1; i <= PlayerDestinationButtons.Count; i++)
             {
                 Buttons[htButtons("ButtonPlayer" + i)].Text.Text = "Player " + i;
                 if (i <= NumPlayers)
