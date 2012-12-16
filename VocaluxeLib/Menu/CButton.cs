@@ -104,6 +104,11 @@ namespace Vocaluxe.Menu
             _PartyModeID = button._PartyModeID;
             _Base = button._Base;
             _Theme = new SThemeButton();
+            _Theme.ColorName = button._Theme.ColorName;
+            _Theme.SColorName = button._Theme.SColorName;
+            _Theme.TextureName = button._Theme.TextureName;
+            _Theme.STextureName = button._Theme.STextureName;
+
             Rect = new SRectF(button.Rect);
             Color = new SColorF(button.Color);
             SColor = new SColorF(button.Color);
