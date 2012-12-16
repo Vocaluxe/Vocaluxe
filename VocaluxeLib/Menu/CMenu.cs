@@ -75,7 +75,7 @@ namespace Vocaluxe.Menu
         protected string[] _ThemePlaylists;
 
         protected SRectF _ScreenArea;
-        private Basic _Base;
+        protected Basic _Base;
 
         public SRectF ScreenArea
         {
