@@ -160,7 +160,7 @@ namespace Vocaluxe.PartyModes
                             SelectingMouseActive = true;
                             //Update of Drag/Drop-Texture
                             chooseAvatarStatic.Visible = true;
-                            chooseAvatarStatic.Rect = PlayerChooseButtons[SelectedPlayerNr].Button.Rect;
+                            chooseAvatarStatic.Rect = PlayerChooseButtons[i].Button.Rect;
                             chooseAvatarStatic.Rect.Z = -100;
                             chooseAvatarStatic.Color = new SColorF(1, 1, 1, 1);
                             chooseAvatarStatic.Texture = _Base.Profiles.GetProfiles()[SelectedPlayerNr].Avatar.Texture;
