@@ -27,6 +27,7 @@ namespace Vocaluxe.PartyModes
         private const int PlayerDestinationButtonsSpaceH = 15;
         private const int PlayerDestinationButtonsSpaceW = 25;
         //PlayerChooseButtons-Option
+        private List<int> PlayerChooseButtonsVisibleProfiles;
         private const int PlayerChooseButtonsNumH = 7;
         private const int PlayerChooseButtonsNumW = 4;
         private const int PlayerChooseButtonsFirstX = 52;
@@ -68,6 +69,12 @@ namespace Vocaluxe.PartyModes
             chooseAvatarStatic = GetNewStatic();
             chooseAvatarStatic.Visible = false;
 
+            PlayerChooseButtonsVisibleProfiles = new List<int>();
+
+            ProfileIDs = new int[NumPlayers];
+            for (int i = 0; i < ProfileIDs.Length; i++)
+                ProfileIDs[i] = -1;
+
             _ThemeName = "PartyScreenChallengeNames";
             List<string> buttons = new List<string>();
             _ThemeButtons = new string[] { ButtonBack, ButtonNext, ButtonPlayerDestination, ButtonPlayerChoose };
@@ -86,55 +93,6 @@ namespace Vocaluxe.PartyModes
 			base.LoadTheme(XmlPath);
             AddButtonPlayerDestination();
             AddButtonPlayerChoose();
-        }
-
-        private void AddButtonPlayerDestination()
-        {
-            Buttons[htButtons(ButtonPlayerDestination)].Visible = false;
-            PlayerDestinationButtons = new List<CButton>();
-            int row = 0;
-            int column = 0;
-            for (int i = 1; i <= _PartyMode.GetMaxPlayer(); i++)
-            {
-                CButton b = GetNewButton(Buttons[htButtons(ButtonPlayerDestination)]);
-                b.Rect.X = PlayerDestinationButtonsFirstX + column * (b.Rect.W + PlayerDestinationButtonsSpaceH);
-                b.Rect.Y = PlayerDestinationButtonsFirstY + row * (b.Rect.H + PlayerDestinationButtonsSpaceW);
-                PlayerDestinationButtons.Add(b);
-                column++;
-                if (column >= PlayerDestinationButtonsNumH)
-                {
-                    row++;
-                    column = 0;
-                }
-                b.Visible = true;
-                AddButton(b);
-            }
-        }
-
-        private void AddButtonPlayerChoose()
-        {
-            Buttons[htButtons(ButtonPlayerChoose)].Visible = false;
-            PlayerChooseButtons = new List<CPlayerChooseButton>();
-            int row = 0;
-            int column = 0;
-            for (int i = 1; i <= PlayerChooseButtonsNumH*PlayerChooseButtonsNumW; i++)
-            {
-                CButton b = GetNewButton(Buttons[htButtons(ButtonPlayerChoose)]);
-                b.Rect.X = PlayerChooseButtonsFirstX + column * (b.Rect.W + PlayerChooseButtonsSpaceH);
-                b.Rect.Y = PlayerChooseButtonsFirstY + row * (b.Rect.H + PlayerChooseButtonsSpaceW);
-                CPlayerChooseButton pcb = new CPlayerChooseButton();
-                pcb.Button = b;
-                pcb.ProfileID = -1;
-                PlayerChooseButtons.Add(pcb);
-                column++;
-                if (column >= PlayerChooseButtonsNumH)
-                {
-                    row++;
-                    column = 0;
-                }
-                b.Visible = true;
-                AddButton(b);
-            }
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -277,21 +235,8 @@ namespace Vocaluxe.PartyModes
         {
             base.OnShow();
 
-            ProfileIDs = new int[NumPlayers];
-            for (int i = 0; i < ProfileIDs.Length; i++ )
-                ProfileIDs[i] = -1;
-
-            for (int i = 0; i < PlayerDestinationButtons.Count; i++)
-            {
-                PlayerDestinationButtons[i].Text.Text = "Player " + (i+1);
-                if (i <= NumPlayers)
-                    PlayerDestinationButtons[i].Visible = true;
-                else
-                    PlayerDestinationButtons[i].Visible = false;
-            }
-
-            UpdateButtonPlayerChoose();
             UpdateButtonPlayerDestination();
+            UpdateButtonPlayerChoose();
 
             UpdateButtonNext();
         }
@@ -314,25 +259,122 @@ namespace Vocaluxe.PartyModes
             base.OnClose();
         }
 
-        private void Back()
+        private void AddButtonPlayerDestination()
         {
-            Data.ScreenNames.FadeToConfig = true;
-            Data.ScreenNames.FadeToMain = false;
-            _PartyMode.DataFromScreen(_ThemeName, Data);
+            Buttons[htButtons(ButtonPlayerDestination)].Visible = false;
+            PlayerDestinationButtons = new List<CButton>();
+            int row = 0;
+            int column = 0;
+            for (int i = 1; i <= _PartyMode.GetMaxPlayer(); i++)
+            {
+                CButton b = GetNewButton(Buttons[htButtons(ButtonPlayerDestination)]);
+                b.Rect.X = PlayerDestinationButtonsFirstX + column * (b.Rect.W + PlayerDestinationButtonsSpaceH);
+                b.Rect.Y = PlayerDestinationButtonsFirstY + row * (b.Rect.H + PlayerDestinationButtonsSpaceW);
+                PlayerDestinationButtons.Add(b);
+                column++;
+                if (column >= PlayerDestinationButtonsNumH)
+                {
+                    row++;
+                    column = 0;
+                }
+                b.Visible = true;
+                AddButton(b);
+            }
+        }
+
+        private void AddButtonPlayerChoose()
+        {
+            Buttons[htButtons(ButtonPlayerChoose)].Visible = false;
+            PlayerChooseButtons = new List<CPlayerChooseButton>();
+            int row = 0;
+            int column = 0;
+            for (int i = 1; i <= PlayerChooseButtonsNumH * PlayerChooseButtonsNumW; i++)
+            {
+                CButton b = GetNewButton(Buttons[htButtons(ButtonPlayerChoose)]);
+                b.Rect.X = PlayerChooseButtonsFirstX + column * (b.Rect.W + PlayerChooseButtonsSpaceH);
+                b.Rect.Y = PlayerChooseButtonsFirstY + row * (b.Rect.H + PlayerChooseButtonsSpaceW);
+                CPlayerChooseButton pcb = new CPlayerChooseButton();
+                pcb.Button = b;
+                pcb.ProfileID = -1;
+                PlayerChooseButtons.Add(pcb);
+                column++;
+                if (column >= PlayerChooseButtonsNumH)
+                {
+                    row++;
+                    column = 0;
+                }
+                b.Visible = true;
+                AddButton(b);
+            }
         }
 
         private void UpdateButtonPlayerChoose()
         {
-            for (int i = (PlayerChooseButtonsOffset * PlayerChooseButtonsNumW); i < _Base.Profiles.GetProfiles().Length; i++)
+            UpdateVisibleProfiles();
+            if ((PlayerChooseButtonsNumW * PlayerChooseButtonsNumH) * (PlayerChooseButtonsOffset + 1) - PlayerChooseButtonsVisibleProfiles.Count >= (PlayerChooseButtonsNumW * PlayerChooseButtonsNumH) * PlayerChooseButtonsOffset)
             {
-                if (i < PlayerChooseButtons.Count)
+                UpdateButtonPlayerChoose(PlayerChooseButtonsOffset - 1);
+            }
+            else
+            {
+                UpdateButtonPlayerChoose(PlayerChooseButtonsOffset);
+            }
+        }
+
+        private void UpdateButtonPlayerChoose(int Offset)
+        {
+            int NumButtonPlayerChoose = PlayerChooseButtonsNumW * PlayerChooseButtonsNumH;
+            if (Offset < 0)
+                Offset = 0;
+
+            if (NumButtonPlayerChoose * (Offset + 1) - PlayerChooseButtonsVisibleProfiles.Count < NumButtonPlayerChoose)
+            {
+                for (int i = 0; i < NumButtonPlayerChoose; i++)
                 {
-                    PlayerChooseButtons[i].ProfileID = i;
-                    PlayerChooseButtons[i].Button.Text.Text = _Base.Profiles.GetProfiles()[i].PlayerName;
-                    PlayerChooseButtons[i].Button.Texture = _Base.Profiles.GetProfiles()[i].Avatar.Texture;
-                    PlayerChooseButtons[i].Button.STexture = _Base.Profiles.GetProfiles()[i].Avatar.Texture;
-                    PlayerChooseButtons[i].Button.Color = new SColorF(1, 1, 1, 1);
-                    PlayerChooseButtons[i].Button.SColor = new SColorF(1, 1, 1, 1);
+                    if ((i + Offset * NumButtonPlayerChoose) < PlayerChooseButtonsVisibleProfiles.Count)
+                    {
+                        PlayerChooseButtons[i].ProfileID = PlayerChooseButtonsVisibleProfiles[i + Offset * NumButtonPlayerChoose];
+                        PlayerChooseButtons[i].Button.Text.Text = _Base.Profiles.GetProfiles()[PlayerChooseButtonsVisibleProfiles[i + Offset * NumButtonPlayerChoose]].PlayerName;
+                        PlayerChooseButtons[i].Button.Texture = _Base.Profiles.GetProfiles()[PlayerChooseButtonsVisibleProfiles[i + Offset * NumButtonPlayerChoose]].Avatar.Texture;
+                        PlayerChooseButtons[i].Button.STexture = _Base.Profiles.GetProfiles()[PlayerChooseButtonsVisibleProfiles[i + Offset * NumButtonPlayerChoose]].Avatar.Texture;
+                        PlayerChooseButtons[i].Button.Color = new SColorF(1, 1, 1, 1);
+                        PlayerChooseButtons[i].Button.SColor = new SColorF(1, 1, 1, 1);
+                    }
+                    else
+                    {
+                        PlayerChooseButtons[i].ProfileID = -1;
+                        PlayerChooseButtons[i].Button.Text.Text = String.Empty;
+                        PlayerChooseButtons[i].Button.Texture = Buttons[htButtons(ButtonPlayerChoose)].Texture;
+                        PlayerChooseButtons[i].Button.STexture = Buttons[htButtons(ButtonPlayerChoose)].STexture;
+                        PlayerChooseButtons[i].Button.Color = Buttons[htButtons(ButtonPlayerChoose)].Color;
+                        PlayerChooseButtons[i].Button.SColor = Buttons[htButtons(ButtonPlayerChoose)].SColor;
+                    }
+                }
+            }
+        }
+
+        private void UpdateVisibleProfiles()
+        {
+            PlayerChooseButtonsVisibleProfiles.Clear();
+            for (int i = 0; i < _Base.Profiles.GetProfiles().Length; i++)
+            {
+                bool visible = false;
+                //Show profile only if active
+                if (_Base.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON)
+                {
+                    visible = true;
+                }
+                for (int p = 0; p < ProfileIDs.Length; p++)
+                {
+                    //Don't show profile if is selected, but if selected and guest
+                    if (ProfileIDs[p] == i && _Base.Profiles.GetProfiles()[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
+                    {
+                        visible = false;
+                    }
+                }
+                if (visible)
+                {
+                    PlayerChooseButtonsVisibleProfiles.Add(i);
                 }
             }
         }
@@ -346,6 +388,20 @@ namespace Vocaluxe.PartyModes
                 else
                     PlayerDestinationButtons[i].Visible = false;
             }
+            for (int i = 0; i < NumPlayers; i++)
+            {
+                if (i < ProfileIDs.Length)
+                {
+                    if (ProfileIDs[i] != -1)
+                    {
+                        PlayerDestinationButtons[i].Color = new SColorF(1, 1, 1, 1);
+                        PlayerDestinationButtons[i].SColor = new SColorF(1, 1, 1, 1);
+                        PlayerDestinationButtons[i].Texture = _Base.Profiles.GetProfiles()[ProfileIDs[i]].Avatar.Texture;
+                        PlayerDestinationButtons[i].STexture = _Base.Profiles.GetProfiles()[ProfileIDs[i]].Avatar.Texture;
+                        PlayerDestinationButtons[i].Text.Text = _Base.Profiles.GetProfiles()[ProfileIDs[i]].PlayerName;
+                    }
+                }
+            }
         }
 
         private void UpdateButtonNext()
@@ -354,6 +410,13 @@ namespace Vocaluxe.PartyModes
             for (int i = 0; i < ProfileIDs.Length; i++)
                 if (ProfileIDs[i] == -1)
                     Buttons[htButtons(ButtonNext)].Visible = false;
+        }
+
+        private void Back()
+        {
+            Data.ScreenNames.FadeToConfig = true;
+            Data.ScreenNames.FadeToMain = false;
+            _PartyMode.DataFromScreen(_ThemeName, Data);
         }
 
         private void Next()
