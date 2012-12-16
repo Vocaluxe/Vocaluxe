@@ -23,7 +23,8 @@ namespace Vocaluxe.PartyModes
 
     public struct DataToScreenMain
     {
-        
+        public int CurrentRoundNr;
+
     }
     #endregion ToScreen
 
@@ -77,6 +78,8 @@ namespace Vocaluxe.PartyModes
             public int NumPlayerAtOnce;
             public int NumRounds;
             public List<int> ProfileIDs;
+
+            public int CurrentRoundNr;
         }
 
         private DataToScreenConfig ToScreenConfig;
@@ -106,6 +109,7 @@ namespace Vocaluxe.PartyModes
             GameData.NumPlayer = 4;
             GameData.NumPlayerAtOnce = 2;
             GameData.NumRounds = 2;
+            GameData.CurrentRoundNr = 1;
         }
 
         public override bool Init()

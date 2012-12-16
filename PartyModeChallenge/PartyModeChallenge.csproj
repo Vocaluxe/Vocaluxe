@@ -107,6 +107,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ChallengeRounds.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="PartyModeChallenge.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
