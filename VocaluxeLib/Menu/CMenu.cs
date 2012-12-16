@@ -75,7 +75,7 @@ namespace Vocaluxe.Menu
         protected string[] _ThemePlaylists;
 
         protected SRectF _ScreenArea;
-        private Basic _Base;
+        protected Basic _Base;
 
         public SRectF ScreenArea
         {
@@ -663,9 +663,19 @@ namespace Vocaluxe.Menu
             return new CButton(_Base, _PartyModeID);
         }
 
+        public CButton GetNewButton(CButton button)
+        {
+            return new CButton(button);
+        }
+
         public CText GetNewText()
         {
             return new CText(_Base, _PartyModeID);
+        }
+
+        public CText GetNewText(CText text)
+        {
+            return new CText(text);
         }
 
         public CText GetNewText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text)
@@ -684,6 +694,11 @@ namespace Vocaluxe.Menu
             return new CStatic(_Base, _PartyModeID);
         }
 
+        public CStatic GetNewStatic(CStatic Static)
+        {
+            return new CStatic(Static);
+        }
+
         public CStatic GetNewStatic(STexture Texture, SColorF Color, SRectF Rect)
         {
             return new CStatic(_Base, _PartyModeID, Texture, Color, Rect);
@@ -692,6 +707,11 @@ namespace Vocaluxe.Menu
         public CSelectSlide GetNewSelectSlide()
         {
             return new CSelectSlide(_Base, _PartyModeID);
+        }
+
+        public CSelectSlide GetNewSelectSlide(CSelectSlide slide)
+        {
+            return new CSelectSlide(slide);
         }
 
         public CSongMenu GetNewSongMenu()
