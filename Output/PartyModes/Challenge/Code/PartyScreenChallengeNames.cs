@@ -238,11 +238,14 @@ namespace Vocaluxe.PartyModes
                                 //Add Player-ID to list.
                                 ProfileIDs[i] = SelectedPlayerNr;
                                 UpdateButtonNext();
-                                //TODO: Update texture and name
-                                //Buttons[htButtons(PlayerButtons[i])]. = chooseAvatarStatic.Texture;
+                                //Update texture and name
+                                PlayerDestinationButtons[i].Color = new SColorF(1, 1, 1, 1);
+                                PlayerDestinationButtons[i].SColor = new SColorF(1, 1, 1, 1);
+                                PlayerDestinationButtons[i].Texture = chooseAvatarStatic.Texture;
+                                PlayerDestinationButtons[i].STexture = chooseAvatarStatic.Texture;
                                 PlayerDestinationButtons[i].Text.Text = _Base.Profiles.GetProfiles()[SelectedPlayerNr].PlayerName;
                                 //Update Tiles-List
-                                
+                                UpdateButtonPlayerChoose();
                             }
                         }
                     }
@@ -325,6 +328,10 @@ namespace Vocaluxe.PartyModes
                 {
                     PlayerChooseButtons[i].ProfileID = i;
                     PlayerChooseButtons[i].Button.Text.Text = _Base.Profiles.GetProfiles()[i].PlayerName;
+                    PlayerChooseButtons[i].Button.Texture = _Base.Profiles.GetProfiles()[i].Avatar.Texture;
+                    PlayerChooseButtons[i].Button.STexture = _Base.Profiles.GetProfiles()[i].Avatar.Texture;
+                    PlayerChooseButtons[i].Button.Color = new SColorF(1, 1, 1, 1);
+                    PlayerChooseButtons[i].Button.SColor = new SColorF(1, 1, 1, 1);
                 }
             }
         }
