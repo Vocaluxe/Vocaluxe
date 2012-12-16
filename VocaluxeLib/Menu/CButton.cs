@@ -95,6 +95,32 @@ namespace Vocaluxe.Menu
             SReflectionHeight = 0f;
         }
 
+        public CButton(CButton button)
+        {
+            _PartyModeID = button._PartyModeID;
+            _Base = button._Base;
+            _Theme = new SThemeButton();
+            Rect = new SRectF(button.Rect);
+            Color = new SColorF(button.Color);
+            SColor = new SColorF(button.Color);
+
+            SelText = false;
+            Text = new CText(button.Text);
+            SText = new CText(button.SText);
+            Selected = false;
+            Visible = true;
+            EditMode = false;
+            _ThemeLoaded = false;
+
+            Reflection = button.Reflection;
+            ReflectionHeight = button.ReflectionHeight;
+            ReflectionSpace = button.ReflectionSpace;
+
+            SReflection = button.SReflection;
+            SReflectionHeight = button.SReflectionHeight;
+            SReflectionSpace = button.SReflectionSpace;
+        }
+
         public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
