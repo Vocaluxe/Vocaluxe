@@ -283,7 +283,7 @@ namespace Vocaluxe.PartyModes
 
             for (int i = 0; i < PlayerDestinationButtons.Count; i++)
             {
-                PlayerDestinationButtons[i].Text.Text = "Player " + i;
+                PlayerDestinationButtons[i].Text.Text = "Player " + (i+1);
                 if (i <= NumPlayers)
                     PlayerDestinationButtons[i].Visible = true;
                 else
@@ -291,6 +291,7 @@ namespace Vocaluxe.PartyModes
             }
 
             UpdateButtonPlayerChoose();
+            UpdateButtonPlayerDestination();
 
             UpdateButtonNext();
         }
@@ -333,6 +334,17 @@ namespace Vocaluxe.PartyModes
                     PlayerChooseButtons[i].Button.Color = new SColorF(1, 1, 1, 1);
                     PlayerChooseButtons[i].Button.SColor = new SColorF(1, 1, 1, 1);
                 }
+            }
+        }
+
+        private void UpdateButtonPlayerDestination()
+        {
+            for (int i = 0; i < PlayerDestinationButtons.Count; i++)
+            {
+                if(NumPlayers > i)
+                    PlayerDestinationButtons[i].Visible = true;
+                else
+                    PlayerDestinationButtons[i].Visible = false;
             }
         }
 
