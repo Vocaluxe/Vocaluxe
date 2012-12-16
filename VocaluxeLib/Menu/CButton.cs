@@ -25,6 +25,8 @@ namespace Vocaluxe.Menu
         private bool _ThemeLoaded;
         private int _PartyModeID;
 
+        public STexture Texture;
+        public STexture STexture;
         public SRectF Rect;
         public SColorF Color;
         public SColorF SColor;
@@ -78,6 +80,8 @@ namespace Vocaluxe.Menu
             Rect = new SRectF();
             Color = new SColorF();
             SColor = new SColorF();
+            Texture = new STexture(-1);
+            STexture = new STexture(-1);
 
             SelText = false;
             Text = new CText(_Base, _PartyModeID);
@@ -103,6 +107,8 @@ namespace Vocaluxe.Menu
             Rect = new SRectF(button.Rect);
             Color = new SColorF(button.Color);
             SColor = new SColorF(button.Color);
+            Texture = button.Texture;
+            STexture = button.STexture;
 
             SelText = false;
             Text = new CText(button.Text);
@@ -295,7 +301,11 @@ namespace Vocaluxe.Menu
 
             if (!Selected && !Pressed)
             {
-                texture = _Base.Theme.GetSkinTexture(_Theme.TextureName);
+                if (Texture.index != -1)
+                    texture = Texture;
+                else
+                    texture = _Base.Theme.GetSkinTexture(_Theme.TextureName);
+
                 _Base.Drawing.DrawTexture(texture, Rect, Color);
                 
                 if (Reflection)
@@ -308,7 +318,11 @@ namespace Vocaluxe.Menu
             }
             else if(!SelText)
             {
-                texture = _Base.Theme.GetSkinTexture(_Theme.STextureName);
+                if (Texture.index != -1)
+                    texture = Texture;
+                else
+                    texture = _Base.Theme.GetSkinTexture(_Theme.STextureName);
+
                 _Base.Drawing.DrawTexture(texture, Rect, SColor);
 
                 if (Reflection)
@@ -321,7 +335,11 @@ namespace Vocaluxe.Menu
             }
             else if(SelText)
             {
-                texture = _Base.Theme.GetSkinTexture(_Theme.STextureName);
+                if (STexture.index != -1)
+                    texture = STexture;
+                else
+                    texture = _Base.Theme.GetSkinTexture(_Theme.STextureName);
+
                 _Base.Drawing.DrawTexture(texture, Rect, SColor);
 
                 if (Reflection)
