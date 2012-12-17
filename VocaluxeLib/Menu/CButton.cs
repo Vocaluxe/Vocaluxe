@@ -66,6 +66,7 @@ namespace Vocaluxe.Menu
             }
         }
         public bool Visible;
+        public bool Enabled;
 
         public string GetThemeName()
         {
@@ -89,6 +90,7 @@ namespace Vocaluxe.Menu
             Selected = false;
             Visible = true;
             EditMode = false;
+            Enabled = true;
 
             Reflection = false;
             ReflectionSpace = 0f;
@@ -122,6 +124,7 @@ namespace Vocaluxe.Menu
             Visible = true;
             EditMode = false;
             _ThemeLoaded = false;
+            Enabled = button.Enabled;
 
             Reflection = button.Reflection;
             ReflectionHeight = button.ReflectionHeight;
@@ -304,7 +307,7 @@ namespace Vocaluxe.Menu
 
             STexture texture = new STexture(-1);
 
-            if (!Selected && !Pressed)
+            if (!Selected && !Pressed || !Enabled)
             {
                 if (Texture.index != -1)
                     texture = Texture;
