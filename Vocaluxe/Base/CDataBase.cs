@@ -595,10 +595,16 @@ namespace Vocaluxe.Base
 
             //Check for USDX 1.1 DB
             if (version == 1)
+            {
                 ConvertFrom110(FilePath);
+                UpdateDatabase(1, connection);
+            }
             //Check for USDX 1.01 or CMD Mod DB
             else if (version == 0 && scoresTableExists)
+            {
                 ConvertFrom101(FilePath);
+                UpdateDatabase(1, connection);
+            }
 
             command.Dispose();
 
@@ -631,7 +637,7 @@ namespace Vocaluxe.Base
             command = new SQLiteCommand(connection);
 
             //The USDX database has no column for LineNr, Medley and Duet so just fill 0 in there
-            command.CommandText = "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, ShortSong, Difficulty) SELECT SongID, Player, Score, '0', Date, '0', '0', '0', Difficulty from US_Scores";
+            command.CommandText = "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, Difficulty) SELECT SongID, Player, Score, '0', Date, '0', '0', Difficulty from US_Scores";
             command.ExecuteNonQuery();
 
             command.CommandText = "INSERT INTO Songs SELECT ID, Artist, Title, TimesPlayed from US_Songs";
@@ -779,9 +785,9 @@ namespace Vocaluxe.Base
 
             //This is a USDX 1.01 DB
             if (!dateExists)
-                command.CommandText = "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, ShortSong, Difficulty) SELECT SongID, Player, Score, '0', '0', '0', '0', '0', Difficulty from US_Scores";
+                command.CommandText = "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, Difficulty) SELECT SongID, Player, Score, '0', '0', '0', '0', Difficulty from US_Scores";
             else // This is a CMD 1.01 DB
-                command.CommandText = "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, ShortSong, Difficulty) SELECT SongID, Player, Score, '0', Date, '0', '0', '0', Difficulty from US_Scores";
+                command.CommandText = "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, Difficulty) SELECT SongID, Player, Score, '0', Date, '0', '0', Difficulty from US_Scores";
             command.ExecuteNonQuery();
 
             command.CommandText = "INSERT INTO Songs SELECT ID, Artist, Title, TimesPlayed from US_Songs";
