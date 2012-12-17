@@ -181,6 +181,16 @@ namespace Vocaluxe.Base
         {
             _CurrentPartyMode.PartyMode.FinishedSinging();
         }
+
+        public static void LeavingScore()
+        {
+            _CurrentPartyMode.PartyMode.LeavingScore();
+        }
+
+        public static void LeavingHighscore()
+        {
+            _CurrentPartyMode.PartyMode.LeavingHighscore();
+        }
         #endregion Interface
 
         #region private stuff

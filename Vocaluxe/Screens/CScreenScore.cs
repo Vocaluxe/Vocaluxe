@@ -68,11 +68,8 @@ namespace Vocaluxe.Screens
                 {
                     case Keys.Escape:
                     case Keys.Back:
-                        CGraphics.FadeTo(EScreens.ScreenHighscore);
-                        break;
-
                     case Keys.Enter:
-                        CGraphics.FadeTo(EScreens.ScreenHighscore);
+                        LeaveScreen();
                         break;
 
                     case Keys.Left:
@@ -98,12 +95,12 @@ namespace Vocaluxe.Screens
 
             if (MouseEvent.LB)
             {
-                CGraphics.FadeTo(EScreens.ScreenHighscore);
+                LeaveScreen();
             }
 
             if (MouseEvent.RB)
             {
-                CGraphics.FadeTo(EScreens.ScreenHighscore);
+                LeaveScreen();
             }
 
             return true;
@@ -388,6 +385,11 @@ namespace Vocaluxe.Screens
                 _Round = CGame.NumRounds;
                 UpdateRatings();
             }
+        }
+
+        private void LeaveScreen()
+        {
+            CParty.LeavingScore();
         }
     }
 }

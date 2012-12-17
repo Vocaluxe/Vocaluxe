@@ -345,6 +345,7 @@ namespace Vocaluxe.PartyModes
 
         public override void LeavingHighscore()
         {
+            //TODO:
             _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
         }
 

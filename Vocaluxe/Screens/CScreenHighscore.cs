@@ -89,11 +89,8 @@ namespace Vocaluxe.Screens
                 {
                     case Keys.Escape:
                     case Keys.Back:
-                        CGraphics.FadeTo(EScreens.ScreenSong);
-                        break;
-
                     case Keys.Enter:
-                        CGraphics.FadeTo(EScreens.ScreenSong);
+                        LeaveScreen();
                         break;
 
                     case Keys.Down:
@@ -126,12 +123,12 @@ namespace Vocaluxe.Screens
 
             if (MouseEvent.LB)
             {
-                CGraphics.FadeTo(EScreens.ScreenSong);
+                LeaveScreen();
             }
 
             if (MouseEvent.RB)
             {
-                CGraphics.FadeTo(EScreens.ScreenSong);
+                LeaveScreen();
             }
 
             if (MouseEvent.MB)
@@ -331,6 +328,11 @@ namespace Vocaluxe.Screens
             else if (_Round + Num < 0)
                 _Round = 0;
             UpdateRound();
+        }
+
+        private void LeaveScreen()
+        {
+            CParty.LeavingHighscore();
         }
     }
 }
