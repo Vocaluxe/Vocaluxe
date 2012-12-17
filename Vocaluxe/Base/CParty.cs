@@ -176,6 +176,11 @@ namespace Vocaluxe.Base
         {
             _CurrentPartyMode.PartyMode.SongSelected(SongID);
         }
+
+        public static void FinishedSinging()
+        {
+            _CurrentPartyMode.PartyMode.FinishedSinging();
+        }
         #endregion Interface
 
         #region private stuff

@@ -35,6 +35,5 @@ namespace Vocaluxe.PartyModes
             _ScreenSongOptions.Sorting.SearchString = SearchString;
             _ScreenSongOptions.Sorting.SearchStringVisible = Visible;
         }
-
     }
 }

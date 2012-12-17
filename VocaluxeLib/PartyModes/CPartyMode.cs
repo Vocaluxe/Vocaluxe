@@ -111,6 +111,21 @@ namespace Vocaluxe.PartyModes
         public virtual void SongSelected(int SongID)
         {
         }
+
+        public virtual void FinishedSinging()
+        {
+            _Base.Graphics.FadeTo(EScreens.ScreenScore);
+        }
+
+        public virtual void LeavingScore()
+        {
+            _Base.Graphics.FadeTo(EScreens.ScreenHighscore);
+        }
+
+        public virtual void LeavingHighscore()
+        {
+            _Base.Graphics.FadeTo(EScreens.ScreenSong);
+        }
         #endregion Implementation
     }
 }

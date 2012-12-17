@@ -78,5 +78,8 @@ namespace Vocaluxe.PartyModes
 
         void JokerUsed(int TeamNr);
         void SongSelected(int SongID);
+        void FinishedSinging();
+        void LeavingScore();
+        void LeavingHighscore();
     }
 }

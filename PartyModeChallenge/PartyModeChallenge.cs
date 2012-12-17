@@ -343,6 +343,11 @@ namespace Vocaluxe.PartyModes
             _Base.Graphics.FadeTo(EScreens.ScreenSing);
         }
 
+        public override void LeavingHighscore()
+        {
+            _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
+        }
+
         private void StartNextRound()
         {
             _ScreenSongOptions.Selection.RandomOnly = false;

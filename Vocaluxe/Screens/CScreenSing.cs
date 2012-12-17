@@ -577,8 +577,7 @@ namespace Vocaluxe.Screens
 
             if (CGame.IsFinished())
             {
-                CGraphics.FadeTo(EScreens.ScreenScore);
-                _FadeOut = true;
+                FinishedSinging();
                 return;
             }
 
@@ -723,8 +722,14 @@ namespace Vocaluxe.Screens
             while(!CGame.IsFinished())
                 CGame.NextRound();
 
-            CGraphics.FadeTo(EScreens.ScreenScore);
+            FinishedSinging();
+        }
+
+        private void FinishedSinging()
+        {
             _FadeOut = true;
+            CParty.FinishedSinging();
+
             if (_Webcam)
                 CWebcam.Close();
         }
