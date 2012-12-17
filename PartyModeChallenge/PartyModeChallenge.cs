@@ -305,7 +305,9 @@ namespace Vocaluxe.PartyModes
             if (TeamNr >= _ScreenSongOptions.Selection.NumJokers.Length)
                 return;
 
-            _ScreenSongOptions.Selection.NumJokers[TeamNr]--;
+            if (_ScreenSongOptions.Selection.RandomOnly)
+                _ScreenSongOptions.Selection.NumJokers[TeamNr]--;
+
             _ScreenSongOptions.Selection.RandomOnly = true;
             _ScreenSongOptions.Selection.CategoryChangeAllowed = false;
 

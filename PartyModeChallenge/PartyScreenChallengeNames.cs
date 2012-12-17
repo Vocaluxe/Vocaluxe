@@ -130,8 +130,8 @@ namespace Vocaluxe.PartyModes
                             if (Buttons[htButtons(ButtonNext)].Selected)
                                 Next();
 
-                            OnAdd();
-                            OnRemove();
+                            if (!OnAdd())
+                                OnRemove();
                             break;
 
                         case Keys.Delete:
@@ -237,12 +237,13 @@ namespace Vocaluxe.PartyModes
                 if (Buttons[htButtons(ButtonNext)].Selected)
                     Next();
 
-                OnAdd();
+                if (!OnAdd())
+                    OnRemove();
             }
 
-            if (MouseEvent.RB && IsMouseOver(MouseEvent))
+            if (MouseEvent.RB)
             {
-                OnRemove();
+                Back();
             }
 
             return true;
@@ -452,7 +453,7 @@ namespace Vocaluxe.PartyModes
                 Buttons[htButtons(ButtonNext)].Visible = false;
         }
 
-        private void OnAdd()
+        private bool OnAdd()
         {
             for (int i = 0; i < PlayerChooseButtons.Count; i++)
             {
@@ -473,12 +474,14 @@ namespace Vocaluxe.PartyModes
                         //Update Tiles-List
                         UpdateButtonPlayerChoose();
                         CheckInteraction();
+                        return true;
                     }
                 }
             }
+            return false;
         }
 
-        private void OnRemove()
+        private bool OnRemove()
         {
             for (int i = 0; i < PlayerDestinationButtons.Count; i++)
             {
@@ -491,9 +494,11 @@ namespace Vocaluxe.PartyModes
                         UpdateButtonPlayerDestination();
                         UpdateButtonPlayerChoose();
                         CheckInteraction();
+                        return true;
                     }
                 }
             }
+            return false;
         }
 
         private void Back()
