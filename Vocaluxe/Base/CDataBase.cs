@@ -246,7 +246,7 @@ namespace Vocaluxe.Base
             if (DataBaseSongID >= 0)
             {
                 command.CommandText = "SELECT PlayerName, Score, Date, Difficulty, LineNr, id FROM Scores " +
-                    "WHERE [SongID] = @SongID AND [Medley] = @Medley AND [Duet] = @Duet  AND [ShortSong] = @ShortSong" +
+                    "WHERE [SongID] = @SongID AND [Medley] = @Medley AND [Duet] = @Duet AND [ShortSong] = @ShortSong " +
                     "ORDER BY [Score] DESC";
                 command.Parameters.Add("@SongID", System.Data.DbType.Int32, 0).Value = DataBaseSongID;
                 command.Parameters.Add("@Medley", System.Data.DbType.Int32, 0).Value = Medley;
