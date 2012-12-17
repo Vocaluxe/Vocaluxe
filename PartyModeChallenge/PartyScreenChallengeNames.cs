@@ -43,10 +43,8 @@ namespace Vocaluxe.PartyModes
         private int SelectedPlayerNr = -1;
 
         //TODO: Get this data from party-mode!
-        private int NumPlayers = 5;
-        private List<int> ProfileIDs;
-
-
+        private int NumPlayer = 4;
+        
         private DataFromScreen Data;
 
         private class CPlayerChooseButton
@@ -68,7 +66,7 @@ namespace Vocaluxe.PartyModes
 
             PlayerChooseButtonsVisibleProfiles = new List<int>();
 
-            ProfileIDs = new List<int>();
+            Data.ScreenNames.ProfileIDs = new List<int>();
 
             _ThemeName = "PartyScreenChallengeNames";
             List<string> buttons = new List<string>();
@@ -86,8 +84,26 @@ namespace Vocaluxe.PartyModes
         public override void LoadTheme(string XmlPath)
         {
 			base.LoadTheme(XmlPath);
-            AddButtonPlayerDestination();
-            AddButtonPlayerChoose();
+        }
+
+        public override void DataToScreen(object ReceivedData)
+        {
+            DataToScreenNames config = new DataToScreenNames();
+
+            try
+            {
+                config = (DataToScreenNames)ReceivedData;
+                Data.ScreenNames.ProfileIDs = config.ProfileIDs;
+                if (Data.ScreenNames.ProfileIDs == null)
+                    Data.ScreenNames.ProfileIDs = new List<int>();
+
+                NumPlayer = config.NumPlayer;
+            }
+            catch (Exception e)
+            {
+                _Base.Log.LogError("Error in party mode screen challenge config. Can't cast received data from game mode " + _ThemeName + ". " + e.Message); ;
+            }
+
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -184,14 +200,14 @@ namespace Vocaluxe.PartyModes
                             {
                                 int added = -1;
                                 //Add Player-ID to list.
-                                if (ProfileIDs.Count < (i + 1))
+                                if (Data.ScreenNames.ProfileIDs.Count < (i + 1))
                                 {
-                                    ProfileIDs.Add(SelectedPlayerNr);
-                                    added = ProfileIDs.Count - 1;
+                                    Data.ScreenNames.ProfileIDs.Add(SelectedPlayerNr);
+                                    added = Data.ScreenNames.ProfileIDs.Count - 1;
                                 }
-                                else if (ProfileIDs.Count >= (i + 1))
+                                else if (Data.ScreenNames.ProfileIDs.Count >= (i + 1))
                                 {
-                                    ProfileIDs[i] = SelectedPlayerNr;
+                                    Data.ScreenNames.ProfileIDs[i] = SelectedPlayerNr;
                                     added = i;
                                 }
                                 UpdateButtonNext();
@@ -235,6 +251,9 @@ namespace Vocaluxe.PartyModes
         public override void OnShow()
         {
             base.OnShow();
+
+            AddButtonPlayerDestination();
+            AddButtonPlayerChoose();
 
             UpdateButtonPlayerDestination();
             UpdateButtonPlayerChoose();
@@ -369,10 +388,10 @@ namespace Vocaluxe.PartyModes
                 {
                     visible = true;
                 }
-                for (int p = 0; p < ProfileIDs.Count; p++)
+                for (int p = 0; p < Data.ScreenNames.ProfileIDs.Count; p++)
                 {
                     //Don't show profile if is selected, but if selected and guest
-                    if (ProfileIDs[p] == i && _Base.Profiles.GetProfiles()[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
+                    if (Data.ScreenNames.ProfileIDs[p] == i && _Base.Profiles.GetProfiles()[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
                     {
                         visible = false;
                     }
@@ -388,7 +407,7 @@ namespace Vocaluxe.PartyModes
         {
             for (int i = 0; i < PlayerDestinationButtons.Count; i++)
             {
-                if (NumPlayers > i)
+                if (NumPlayer > i)
                 {
                     PlayerDestinationButtons[i].Visible = true;
                     PlayerDestinationButtons[i].Enabled = true;
@@ -399,17 +418,17 @@ namespace Vocaluxe.PartyModes
                     PlayerDestinationButtons[i].Enabled = false;
                 }
             }
-            for (int i = 0; i < NumPlayers; i++)
+            for (int i = 0; i < NumPlayer; i++)
             {
-                if (i < ProfileIDs.Count)
+                if (i < Data.ScreenNames.ProfileIDs.Count)
                 {
-                    if (ProfileIDs[i] != -1)
+                    if (Data.ScreenNames.ProfileIDs[i] != -1)
                     {
                         PlayerDestinationButtons[i].Color = new SColorF(1, 1, 1, 0.6f);
                         PlayerDestinationButtons[i].SColor = new SColorF(1, 1, 1, 1);
-                        PlayerDestinationButtons[i].Texture = _Base.Profiles.GetProfiles()[ProfileIDs[i]].Avatar.Texture;
-                        PlayerDestinationButtons[i].STexture = _Base.Profiles.GetProfiles()[ProfileIDs[i]].Avatar.Texture;
-                        PlayerDestinationButtons[i].Text.Text = _Base.Profiles.GetProfiles()[ProfileIDs[i]].PlayerName;
+                        PlayerDestinationButtons[i].Texture = _Base.Profiles.GetProfiles()[Data.ScreenNames.ProfileIDs[i]].Avatar.Texture;
+                        PlayerDestinationButtons[i].STexture = _Base.Profiles.GetProfiles()[Data.ScreenNames.ProfileIDs[i]].Avatar.Texture;
+                        PlayerDestinationButtons[i].Text.Text = _Base.Profiles.GetProfiles()[Data.ScreenNames.ProfileIDs[i]].PlayerName;
                         PlayerDestinationButtons[i].Enabled = true;
                     }
                 }
@@ -427,7 +446,7 @@ namespace Vocaluxe.PartyModes
 
         private void UpdateButtonNext()
         {
-            if (ProfileIDs.Count == NumPlayers)
+            if (Data.ScreenNames.ProfileIDs.Count == NumPlayer)
                 Buttons[htButtons(ButtonNext)].Visible = true;
             else
                 Buttons[htButtons(ButtonNext)].Visible = false;
@@ -439,10 +458,10 @@ namespace Vocaluxe.PartyModes
             {
                 if (PlayerChooseButtons[i].Button.Selected && PlayerChooseButtons[i].ProfileID != -1)
                 {
-                    if (ProfileIDs.Count < NumPlayers)
+                    if (Data.ScreenNames.ProfileIDs.Count < NumPlayer)
                     {
-                        ProfileIDs.Add(PlayerChooseButtons[i].ProfileID);
-                        int added = ProfileIDs.Count - 1;
+                        Data.ScreenNames.ProfileIDs.Add(PlayerChooseButtons[i].ProfileID);
+                        int added = Data.ScreenNames.ProfileIDs.Count - 1;
                         UpdateButtonNext();
                         //Update texture and name
                         PlayerDestinationButtons[added].Color = new SColorF(1, 1, 1, 0.6f);
@@ -458,15 +477,16 @@ namespace Vocaluxe.PartyModes
                 }
             }
         }
+
         private void OnRemove()
         {
             for (int i = 0; i < PlayerDestinationButtons.Count; i++)
             {
                 if (PlayerDestinationButtons[i].Selected)
                 {
-                    if ((i + 1) <= ProfileIDs.Count)
+                    if ((i + 1) <= Data.ScreenNames.ProfileIDs.Count)
                     {
-                        ProfileIDs.RemoveAt(i);
+                        Data.ScreenNames.ProfileIDs.RemoveAt(i);
                         UpdateButtonNext();
                         UpdateButtonPlayerDestination();
                         UpdateButtonPlayerChoose();
@@ -485,9 +505,6 @@ namespace Vocaluxe.PartyModes
 
         private void Next()
         {
-            List<int> list = new List<int>();
-            list.AddRange(ProfileIDs);
-            Data.ScreenNames.ProfileIDs = list;
             Data.ScreenNames.FadeToConfig = false;
             Data.ScreenNames.FadeToMain = true;
             _PartyMode.DataFromScreen(_ThemeName, Data);
