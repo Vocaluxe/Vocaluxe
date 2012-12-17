@@ -55,6 +55,7 @@ namespace Vocaluxe.Screens
         private string _SearchText = String.Empty;
         private bool _SearchActive = false;
 
+        private List<string> ButtonsJoker = new List<string>();
         private bool _SongOptionsActive = false;
         private bool _PlaylistActive = false;
         private List<EGameMode> _AvailableGameModes;
@@ -74,11 +75,27 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
+            for (int i = 0; i < _Base.Settings.GetMaxNumPlayer(); i++)
+            {
+                ButtonsJoker.Add("ButtonJoker" + (i + 1));
+            }
+            List<string> list = new List<string>();
+            list.AddRange(ButtonsJoker);
+            list.Add(ButtonOptionsClose);
+            list.Add(ButtonOptionsPlaylist);
+            list.Add(ButtonOptionsSing);
+            list.Add(ButtonOptionsRandom);
+            list.Add(ButtonOptionsRandomCategory);
+            list.Add(ButtonOptionsSingAll);
+            list.Add(ButtonOptionsSingAllVisible);
+            list.Add(ButtonOptionsOpenPlaylist);
+            list.Add(ButtonOpenOptions);
+
             _ThemeName = "ScreenSong";
             _ScreenVersion = ScreenVersion;
             _ThemeStatics = new string[] { StaticSearchBar, StaticOptionsBG };
             _ThemeTexts = new string[] { TextCategory, TextSelection, TextSearchBarTitle, TextSearchBar, TextOptionsTitle };
-            _ThemeButtons = new string[] { ButtonOptionsClose, ButtonOptionsPlaylist, ButtonOptionsSing, ButtonOptionsRandom, ButtonOptionsRandomCategory, ButtonOptionsSingAll, ButtonOptionsSingAllVisible, ButtonOptionsOpenPlaylist, ButtonOpenOptions };
+            _ThemeButtons = list.ToArray();
             _ThemeSelectSlides = new string[] { SelectSlideOptionsMode, SelectSlideOptionsPlaylistAdd, SelectSlideOptionsPlaylistOpen };
             _ThemeSongMenus = new string[] { SongMenu };
             _ThemePlaylists = new string[] { Playlist };
@@ -162,6 +179,20 @@ namespace Vocaluxe.Screens
                             break;
 
                         case Keys.Enter:
+                            if (_sso.Selection.RandomOnly && _sso.Selection.NumJokers != null)
+                            {
+                                for (int i = 0; i < ButtonsJoker.Count; i++)
+                                {
+                                    if (i < _sso.Selection.NumJokers.Length)
+                                    {
+                                        if (Buttons[htButtons(ButtonsJoker[i])].Selected)
+                                        {
+                                            SelectNextRandom(i);
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
                             if (CSongs.NumVisibleSongs > 0)
                             {
                                 if (SongMenus[htSongMenus(SongMenu)].GetSelectedSong() != -1 && !_SongOptionsActive)
@@ -498,6 +529,21 @@ namespace Vocaluxe.Screens
                         OpenPlaylistAction();
                         return true;
                     }
+
+                    if (_sso.Selection.RandomOnly && _sso.Selection.NumJokers != null)
+                    {
+                        for (int i = 0; i < ButtonsJoker.Count; i++)
+                        {
+                            if (i < _sso.Selection.NumJokers.Length)
+                            {
+                                if (Buttons[htButtons(ButtonsJoker[i])].Selected)
+                                {
+                                    SelectNextRandom(i);
+                                    return true;
+                                }
+                            }
+                        }
+                    }
                 }
                 
                 if (CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
@@ -610,6 +656,31 @@ namespace Vocaluxe.Screens
                 Texts[htTexts(TextSearchBar)].Visible = false;
                 Texts[htTexts(TextSearchBarTitle)].Visible = false;
                 Statics[htStatics(StaticSearchBar)].Visible = false;
+            }
+
+            if (_sso.Selection.RandomOnly && _sso.Selection.NumJokers != null)
+            {
+                SongMenus[htSongMenus(SongMenu)].SetSmallView(true);
+                for (int i = 0; i < ButtonsJoker.Count; i++)
+                {
+                    if (i < _sso.Selection.NumJokers.Length)
+                    {
+                        Buttons[htButtons(ButtonsJoker[i])].Visible = true;
+                        Buttons[htButtons(ButtonsJoker[i])].Text.Text = _sso.Selection.NumJokers[i].ToString();
+                    }
+                    else
+                    {
+                        Buttons[htButtons(ButtonsJoker[i])].Visible = false;
+                    }
+                }
+            }
+            else 
+            {   if(SongMenus[htSongMenus(SongMenu)].IsSmallView())
+                    SongMenus[htSongMenus(SongMenu)].SetSmallView(false);
+                for (int i = 0; i < ButtonsJoker.Count; i++)
+                {
+                    Buttons[htButtons(ButtonsJoker[i])].Visible = false;
+                }
             }
 
             return true;
