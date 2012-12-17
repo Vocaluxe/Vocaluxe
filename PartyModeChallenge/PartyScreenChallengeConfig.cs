@@ -134,6 +134,9 @@ namespace Vocaluxe.PartyModes
             base.OnShow();
 
             _MaxNumMics = _Base.Config.GetMaxNumMics();
+            if (_MaxNumMics > 6)
+                _MaxNumMics = 6;
+
             _MaxNumRounds = _PartyMode.GetMaxNumRounds();
 
             RebuildSlides();
