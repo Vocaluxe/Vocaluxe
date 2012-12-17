@@ -11,6 +11,31 @@ namespace Vocaluxe.Menu
 {
     public class CHelper
     {
+        public static int nCk(int n, int k)
+        {
+            if (k > n)
+                return 0;
+
+            if (k == 0 || k == n)
+                return 1;
+
+            if (k < 0 || n <= 0)
+                return 0; //is not defined
+
+            if (k * 2 > n)
+                k = n - k;
+
+            long result = n;
+            long nl = n;
+            long nk = k;
+
+            for (long i = 1; i <= k - 1; i++)
+            {
+                result = result * (n - i) / (i + 1);
+            }
+            return (int)result;
+        }
+
         /// <summary>
         /// Concat strings into one string with ", " as separator.
         /// </summary>
