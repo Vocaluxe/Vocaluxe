@@ -97,10 +97,11 @@ namespace Vocaluxe.PartyModes
             _ScreenSongOptions.Selection.PartyMode = true;
             _ScreenSongOptions.Selection.CategoryChangeAllowed = true;
             _ScreenSongOptions.Selection.NumJokers = new int[] { 5, 5 };
+            _ScreenSongOptions.Selection.TeamNames = new string[] { "foo", "bar" };
 
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchStringVisible = false;
-
+            
             _Stage = EStage.NotStarted;
 
             ToScreenConfig = new DataToScreenConfig();
@@ -118,6 +119,11 @@ namespace Vocaluxe.PartyModes
         public override bool Init()
         {
             _Stage = EStage.NotStarted;
+
+            _ScreenSongOptions.Sorting.IgnoreArticles = _Base.Config.GetIgnoreArticles();
+            _ScreenSongOptions.Sorting.SongSorting = ESongSorting.TR_CONFIG_FOLDER;
+            _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_ON;
+
             return true;
         }
 
@@ -185,6 +191,14 @@ namespace Vocaluxe.PartyModes
                     _Base.Log.LogError("Error in party mode challenge. Wrong screen is sending: " + ScreenName);
                     break;
             }
+        }
+
+        public override void UpdateGame()
+        {
+            if (_Base.Songs.GetCurrentCategoryIndex() != -1)
+                _ScreenSongOptions.Selection.RandomOnly = true;
+            else
+                _ScreenSongOptions.Selection.RandomOnly = false;
         }
 
         public override CMenuParty GetNextPartyScreen(out EScreens AlternativeScreen)
@@ -283,9 +297,27 @@ namespace Vocaluxe.PartyModes
             return MaxNumRounds;
         }
 
+        public override void JokerUsed(int TeamNr)
+        {
+            if (_ScreenSongOptions.Selection.NumJokers == null)
+                return;
+
+            if (TeamNr >= _ScreenSongOptions.Selection.NumJokers.Length)
+                return;
+
+            _ScreenSongOptions.Selection.NumJokers[TeamNr]--;
+            _ScreenSongOptions.Selection.RandomOnly = true;
+            _ScreenSongOptions.Selection.CategoryChangeAllowed = false;
+
+
+        }
+
         private void StartNextRound()
         {
-
+            _ScreenSongOptions.Selection.RandomOnly = false;
+            _ScreenSongOptions.Selection.CategoryChangeAllowed = true;
+            SetNumJokers();
+            SetTeamNames();
             _Base.Graphics.FadeTo(EScreens.ScreenSong);
         }
 
@@ -319,6 +351,33 @@ namespace Vocaluxe.PartyModes
                 default:
                     _ScreenSongOptions.Selection.NumJokers = new int[] { 5, 5 };
                     break;
+            }
+        }
+
+        private void SetTeamNames()
+        {
+            SProfile[] profiles = _Base.Profiles.GetProfiles();
+
+            if (profiles == null)
+            {
+                _ScreenSongOptions.Selection.TeamNames = new string[] { "foo", "bar" };
+                return;
+            }
+
+            if (GameData.NumPlayerAtOnce < 1 || GameData.NumPlayerAtOnce > 6 || GameData.ProfileIDs.Count < GameData.NumPlayerAtOnce || profiles.Length < GameData.NumPlayerAtOnce)
+            {
+                _ScreenSongOptions.Selection.TeamNames = new string[] { "foo", "bar" };
+                return;
+            }
+
+            _ScreenSongOptions.Selection.TeamNames = new string[GameData.NumPlayerAtOnce];
+
+            for (int i = 0; i < GameData.NumPlayerAtOnce; i++)
+            {
+                if (GameData.ProfileIDs[i] < profiles.Length)
+                    _ScreenSongOptions.Selection.TeamNames[i] = profiles[GameData.ProfileIDs[i]].PlayerName;
+                else
+                    _ScreenSongOptions.Selection.TeamNames[i] = "foobar";
             }
         }
     }

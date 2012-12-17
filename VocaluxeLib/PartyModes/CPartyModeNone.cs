@@ -15,6 +15,7 @@ namespace Vocaluxe.PartyModes
             _ScreenSongOptions.Selection.PartyMode = false;
             _ScreenSongOptions.Selection.CategoryChangeAllowed = true;
             _ScreenSongOptions.Selection.NumJokers = null;
+            _ScreenSongOptions.Selection.TeamNames = null;
 
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchStringVisible = false;

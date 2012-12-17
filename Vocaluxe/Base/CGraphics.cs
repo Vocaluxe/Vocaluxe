@@ -336,6 +336,7 @@ namespace Vocaluxe.Base
             {
                 _Run &= HandleInputs(Keys, Mouse);
                 _Run &= Update();
+                CParty.UpdateGame();
             }
             else
             {

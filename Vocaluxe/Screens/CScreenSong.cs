@@ -647,6 +647,17 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
+            _sso = CParty.GetSongSelectionOptions();
+            CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, _sso.Sorting.SearchString);
+            _SearchActive = _sso.Sorting.SearchStringVisible;
+            _SearchText = _sso.Sorting.SearchString;
+
+            if (_sso.Selection.PartyMode)
+                _PlaylistActive = false;
+
+            if (_sso.Selection.PartyMode)
+                ToggleSongOptions(ESongOptionsView.None);
+
             SongMenus[htSongMenus(SongMenu)].Update();
 
             if (SongMenus[htSongMenus(SongMenu)].IsSmallView())
@@ -698,8 +709,19 @@ namespace Vocaluxe.Screens
                         Buttons[htButtons(ButtonsJoker[i])].Visible = true;
                         Buttons[htButtons(ButtonsJoker[i])].Text.Text = _sso.Selection.NumJokers[i].ToString();
                         Texts[htTexts(TextsPlayer[i])].Visible = true;
-                        //TODO: Set text to player-name.
-                        Texts[htTexts(TextsPlayer[i])].Text = i.ToString();
+
+                        bool NameExists = false;
+                        if (_sso.Selection.TeamNames != null)
+                        {
+                            if (_sso.Selection.TeamNames.Length > i)
+                            {
+                                Texts[htTexts(TextsPlayer[i])].Text = _sso.Selection.TeamNames[i];
+                                NameExists = true;
+                            }
+                        }
+
+                        if (!NameExists)
+                            Texts[htTexts(TextsPlayer[i])].Text = i.ToString();
                     }
                     else
                     {
@@ -887,7 +909,10 @@ namespace Vocaluxe.Screens
                 return result;
             }
 
-            return SelectNextRandomSong(TeamNr) || SelectNextRandomCategory();
+            if (TeamNr == -1)
+                return SelectNextRandomSong(TeamNr) || SelectNextRandomCategory();
+
+            return false;
         }
 
         private bool SelectNextRandomSong(int TeamNr)

@@ -142,6 +142,11 @@ namespace Vocaluxe.Base
         #endregion public stuff
 
         #region Interface
+        public static void UpdateGame()
+        {
+            _CurrentPartyMode.PartyMode.UpdateGame();
+        }
+
         public static EScreens GetStartScreen()
         {
             return _CurrentPartyMode.PartyMode.GetStartScreen();

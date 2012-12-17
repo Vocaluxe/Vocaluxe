@@ -42,6 +42,10 @@ namespace Vocaluxe.PartyModes
         {
         }
 
+        public virtual void UpdateGame()
+        {
+        }
+
         public virtual CMenuParty GetNextPartyScreen(out EScreens AlternativeScreen)
         {
             AlternativeScreen = EScreens.ScreenMain;
