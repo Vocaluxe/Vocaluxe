@@ -192,11 +192,15 @@ namespace Vocaluxe.Screens
             if (index >= _PartyModeInfos.Count)
                 return;
 
+            if (_Base.Config.GetMaxNumMics() == 0)
+                return; //TODO: Add message!
+
             if (_PartyModeInfos[index].Playable)
             {
                 CParty.SetPartyMode(_PartyModeInfos[index].PartyModeID);
                 CGraphics.FadeTo(EScreens.ScreenPartyDummy);
             }
+            //TODO: else Message!
         }
     }
 }

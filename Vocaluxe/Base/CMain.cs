@@ -115,6 +115,24 @@ namespace Vocaluxe.Base
         {
             return CConfig.IgnoreArticles;
         }
+
+        public bool IsMicConfigured(int PlayerNr)
+        {
+            return CConfig.IsMicConfig(PlayerNr);
+        }
+
+        public int GetMaxNumMics()
+        {
+            int max = 0;
+            for (int i = 0; i < CSettings.MaxNumPlayer; i++)
+            {
+                if (CConfig.IsMicConfig(i + 1))
+                    max = i + 1;
+                else
+                    break;
+            }
+            return max;
+        }
     }
 
     class BSettings : ISettings

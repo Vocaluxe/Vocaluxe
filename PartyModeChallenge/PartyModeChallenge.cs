@@ -56,12 +56,13 @@ namespace Vocaluxe.PartyModes
     #endregion FromScreen
     #endregion Communication
 
-    public class PartyModeChallenge : CPartyMode
+    public sealed class PartyModeChallenge : CPartyMode
     {
         private const int MaxPlayer = 10;
         private const int MinPlayer = 1;
         private const int MaxTeams = 0;
         private const int MinTeams = 0;
+        private const int MaxNumRounds = 100;
 
         enum EStage
         {
@@ -246,5 +247,9 @@ namespace Vocaluxe.PartyModes
             return MinTeams;
         }
 
+        public override int GetMaxNumRounds()
+        {
+            return MaxNumRounds;
+        }
     }
 }
