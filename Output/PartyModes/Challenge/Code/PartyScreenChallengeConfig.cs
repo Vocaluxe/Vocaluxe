@@ -140,8 +140,11 @@ namespace Vocaluxe.PartyModes
 
 
             //TODO: Max number of mics should be number of mics available
+            int _MaxNumMics = MaxNumMics;
             SelectSlides[htSelectSlides(SelectSlideNumMics)].Clear();
-            for (int i = 1; i <= MaxNumMics; i++)
+            if (Data.ScreenConfig.NumPlayer < MaxNumMics)
+                _MaxNumMics = Data.ScreenConfig.NumPlayer;
+            for (int i = 1; i <= _MaxNumMics; i++)
             {
                 SelectSlides[htSelectSlides(SelectSlideNumMics)].AddValue(i.ToString());
             }
@@ -177,6 +180,31 @@ namespace Vocaluxe.PartyModes
         private void UpdateSlides()
         {
             //Update slides when one value was changed
+            if (Data.ScreenConfig.NumPlayer != (SelectSlides[htSelectSlides(SelectSlideNumPlayers)].Selection + _PartyMode.GetMinPlayer()))
+            {
+                if (Data.ScreenConfig.NumPlayerAtOnce != (SelectSlides[htSelectSlides(SelectSlideNumPlayers)].Selection + _PartyMode.GetMinPlayer()))
+                {
+                    int OldValueNumPlayer = Data.ScreenConfig.NumPlayer;
+                    Data.ScreenConfig.NumPlayer = (SelectSlides[htSelectSlides(SelectSlideNumPlayers)].Selection + _PartyMode.GetMinPlayer());
+                    int _MaxNumMics = MaxNumMics;
+                    SelectSlides[htSelectSlides(SelectSlideNumMics)].Clear();
+                    if (Data.ScreenConfig.NumPlayer < MaxNumMics)
+                        _MaxNumMics = Data.ScreenConfig.NumPlayer;
+                    for (int i = 1; i <= _MaxNumMics; i++)
+                    {
+                        SelectSlides[htSelectSlides(SelectSlideNumMics)].AddValue(i.ToString());
+                    }
+                    //Set to old selection
+                    if (SelectSlides[htSelectSlides(SelectSlideNumMics)].NumValues >= Data.ScreenConfig.NumPlayerAtOnce)
+                        SelectSlides[htSelectSlides(SelectSlideNumMics)].Selection = Data.ScreenConfig.NumPlayerAtOnce - 1;
+                    //Update selection, if old selection = max player num
+                    if (OldValueNumPlayer == Data.ScreenConfig.NumPlayerAtOnce)
+                        SelectSlides[htSelectSlides(SelectSlideNumMics)].Selection = SelectSlides[htSelectSlides(SelectSlideNumMics)].NumValues - 1;
+                }
+            }
+            Data.ScreenConfig.NumPlayer = (SelectSlides[htSelectSlides(SelectSlideNumPlayers)].Selection + _PartyMode.GetMinPlayer());
+            Data.ScreenConfig.NumPlayerAtOnce = SelectSlides[htSelectSlides(SelectSlideNumMics)].Selection + 1;
+            Data.ScreenConfig.NumRounds = SelectSlides[htSelectSlides(SelectSlideNumRounds)].Selection + 1;
         }
 
         private void Back()
@@ -187,8 +215,8 @@ namespace Vocaluxe.PartyModes
         private void Next()
         {
             Data.ScreenConfig.NumPlayer = (SelectSlides[htSelectSlides(SelectSlideNumPlayers)].Selection + _PartyMode.GetMinPlayer());
-            Data.ScreenConfig.NumPlayerAtOnce = SelectSlides[htSelectSlides(SelectSlideNumMics)].Selection;
-            Data.ScreenConfig.NumRounds = SelectSlides[htSelectSlides(SelectSlideNumRounds)].Selection;
+            Data.ScreenConfig.NumPlayerAtOnce = SelectSlides[htSelectSlides(SelectSlideNumMics)].Selection + 1;
+            Data.ScreenConfig.NumRounds = SelectSlides[htSelectSlides(SelectSlideNumRounds)].Selection + 1;
 
             _PartyMode.DataFromScreen(_ThemeName, Data);
         }
