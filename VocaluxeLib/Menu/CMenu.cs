@@ -1370,6 +1370,12 @@ namespace Vocaluxe.Menu
         #endregion Elements
 
         #region InteractionHandling
+        public void CheckInteraction()
+        {
+            if (!_IsEnabled(_Selection) || !_IsVisible(_Selection))
+                PrevInteraction();
+        }
+
         public void NextInteraction()
         {
             if (_Interactions.Count > 0)
@@ -1460,7 +1466,7 @@ namespace Vocaluxe.Menu
             float z = _Base.Settings.GetZFar();
             for (int i = 0; i < _Interactions.Count; i++)
             {
-                if ((_Base.Settings.GetGameState() == EGameState.EditTheme) || (!_Interactions[i].ThemeEditorOnly && _IsVisible(i)))
+                if ((_Base.Settings.GetGameState() == EGameState.EditTheme) || (!_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i)))
                 {
                     if (_IsMouseOver(x, y, _Interactions[i]))
                     {
@@ -1613,7 +1619,7 @@ namespace Vocaluxe.Menu
                     if (start > _Interactions.Count - 1)
                         start = 0;
 
-                    if ((start == _Selection) || (!_Interactions[start].ThemeEditorOnly && _IsVisible(start)))
+                    if ((start == _Selection) || (!_Interactions[start].ThemeEditorOnly && _IsVisible(start) && _IsEnabled(start)))
                         found = true;
                 } while (!found);
                 _Selection = start;
@@ -1640,7 +1646,7 @@ namespace Vocaluxe.Menu
                     if (start < 0)
                         start = _Interactions.Count - 1;
 
-                    if ((start == _Selection) || (!_Interactions[start].ThemeEditorOnly && _IsVisible(start)))
+                    if ((start == _Selection) || (!_Interactions[start].ThemeEditorOnly && _IsVisible(start) && _IsEnabled(start)))
                         found = true;
                 } while (!found);
                 _Selection = start;
@@ -1741,7 +1747,7 @@ namespace Vocaluxe.Menu
 
             for (int i = 0; i < _Interactions.Count; i++)
             {
-                if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i))
+                if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i))
                 {
                     SRectF targetRect = _GetRect(i);
                     float dist = _GetDistanceDirect(Key, actualRect, targetRect);
@@ -1758,7 +1764,7 @@ namespace Vocaluxe.Menu
             {
                 for (int i = 0; i < _Interactions.Count; i++)
                 {
-                    if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i))
+                    if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i))
                     {
                         SRectF targetRect = _GetRect(i);
                         float dist = _GetDistance180(Key, actualRect, targetRect);
@@ -1794,7 +1800,7 @@ namespace Vocaluxe.Menu
 
                 for (int i = 0; i < _Interactions.Count; i++)
                 {
-                    if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i))
+                    if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i))
                     {
                         SRectF targetRect = _GetRect(i);
                         float dist = _GetDistance180(Key, actualRect, targetRect);
@@ -2074,6 +2080,9 @@ namespace Vocaluxe.Menu
 
         private bool _IsVisible(int interaction)
         {
+            if (_Selection >= _Interactions.Count || _Selection < 0)
+                return false;
+
             switch (_Interactions[interaction].Type)
             {
                 case EType.TButton:
@@ -2099,6 +2108,44 @@ namespace Vocaluxe.Menu
 
                 case EType.TEqualizer:
                     return _Equalizers[_Interactions[interaction].Num].Visible;
+
+                case EType.TPlaylist:
+                    return _Playlists[_Interactions[interaction].Num].Visible;
+            }
+
+            return false;
+        }
+
+        private bool _IsEnabled(int interaction)
+        {
+            if (_Selection >= _Interactions.Count || _Selection < 0)
+                return false;
+
+            switch (_Interactions[interaction].Type)
+            {
+                case EType.TButton:
+                    return _Buttons[_Interactions[interaction].Num].Enabled;
+
+                case EType.TSelectSlide:
+                    return _SelectSlides[_Interactions[interaction].Num].Visible;
+
+                case EType.TStatic:
+                    return false; //_Statics[_Interactions[interaction].Num].Visible;
+
+                case EType.TText:
+                    return false; //_Texts[_Interactions[interaction].Num].Visible;
+
+                case EType.TSongMenu:
+                    return _SongMenus[_Interactions[interaction].Num].Visible;
+
+                case EType.TLyric:
+                    return false; //_Lyrics[_Interactions[interaction].Num].Visible;
+
+                case EType.TNameSelection:
+                    return _NameSelections[_Interactions[interaction].Num].Visible;
+
+                case EType.TEqualizer:
+                    return false; //_Equalizers[_Interactions[interaction].Num].Visible;
 
                 case EType.TPlaylist:
                     return _Playlists[_Interactions[interaction].Num].Visible;

@@ -114,41 +114,12 @@ namespace Vocaluxe.PartyModes
                             if (Buttons[htButtons(ButtonNext)].Selected)
                                 Next();
 
-                            for (int i = 0; i < PlayerChooseButtons.Count; i++)
-                            {
-                                if (PlayerChooseButtons[i].Button.Selected && PlayerChooseButtons[i].ProfileID != -1)
-                                {
-                                    if (ProfileIDs.Count < NumPlayers)
-                                    {
-                                        ProfileIDs.Add(PlayerChooseButtons[i].ProfileID);
-                                        int added = ProfileIDs.Count - 1;
-                                        UpdateButtonNext();
-                                        //Update texture and name
-                                        PlayerDestinationButtons[added].Color = new SColorF(1, 1, 1, 0.6f);
-                                        PlayerDestinationButtons[added].SColor = new SColorF(1, 1, 1, 1);
-                                        PlayerDestinationButtons[added].Texture = _Base.Profiles.GetProfiles()[PlayerChooseButtons[i].ProfileID].Avatar.Texture;
-                                        PlayerDestinationButtons[added].STexture = _Base.Profiles.GetProfiles()[PlayerChooseButtons[i].ProfileID].Avatar.Texture;
-                                        PlayerDestinationButtons[added].Text.Text = _Base.Profiles.GetProfiles()[PlayerChooseButtons[i].ProfileID].PlayerName;
-                                        //Update Tiles-List
-                                        UpdateButtonPlayerChoose();
-                                    }
-                                }
-                            }
+                            OnAdd();
+                            OnRemove();
                             break;
 
                         case Keys.Delete:
-                            for (int i = 0; i < PlayerDestinationButtons.Count; i++)
-                            {
-                                if (PlayerDestinationButtons[i].Selected)
-                                {
-                                    if ((i + 1) <= ProfileIDs.Count)
-                                    {
-                                        ProfileIDs.RemoveAt(i);
-                                        UpdateButtonPlayerDestination();
-                                        UpdateButtonPlayerChoose();
-                                    }
-                                }
-                            }
+                            OnRemove();
                             break;
                     }
                 }
@@ -159,6 +130,7 @@ namespace Vocaluxe.PartyModes
         {
             base.HandleMouse(MouseEvent);
 
+            /*
             //Check if LeftButton is hold and Select-Mode inactive
             if (MouseEvent.LBH && !SelectingMouseActive)
             {
@@ -184,7 +156,7 @@ namespace Vocaluxe.PartyModes
                         }
                     }
                 }
-            }
+            }*/
 
             //Check if LeftButton is hold and Select-Mode active
             if (MouseEvent.LBH && SelectingMouseActive)
@@ -248,22 +220,13 @@ namespace Vocaluxe.PartyModes
 
                 if (Buttons[htButtons(ButtonNext)].Selected)
                     Next();
+
+                OnAdd();
             }
 
             if (MouseEvent.RB && IsMouseOver(MouseEvent))
             {
-                for (int i = 0; i < PlayerDestinationButtons.Count; i++)
-                {
-                    if (PlayerDestinationButtons[i].Selected)
-                    {
-                        if ((i + 1) <= ProfileIDs.Count)
-                        {
-                            ProfileIDs.RemoveAt(i);
-                            UpdateButtonPlayerDestination();
-                            UpdateButtonPlayerChoose();
-                        }
-                    }
-                }
+                OnRemove();
             }
 
             return true;
@@ -316,6 +279,7 @@ namespace Vocaluxe.PartyModes
                     column = 0;
                 }
                 b.Visible = true;
+                b.Enabled = false;
                 AddButton(b);
             }
         }
@@ -342,6 +306,7 @@ namespace Vocaluxe.PartyModes
                     column = 0;
                 }
                 b.Visible = true;
+                b.Enabled = false;
                 AddButton(b);
             }
         }
@@ -377,6 +342,7 @@ namespace Vocaluxe.PartyModes
                         PlayerChooseButtons[i].Button.STexture = _Base.Profiles.GetProfiles()[PlayerChooseButtonsVisibleProfiles[i + Offset * NumButtonPlayerChoose]].Avatar.Texture;
                         PlayerChooseButtons[i].Button.Color = new SColorF(1, 1, 1, 0.6f);
                         PlayerChooseButtons[i].Button.SColor = new SColorF(1, 1, 1, 1);
+                        PlayerChooseButtons[i].Button.Enabled = true;
                     }
                     else
                     {
@@ -386,6 +352,7 @@ namespace Vocaluxe.PartyModes
                         PlayerChooseButtons[i].Button.STexture = Buttons[htButtons(ButtonPlayerChoose)].STexture;
                         PlayerChooseButtons[i].Button.Color = Buttons[htButtons(ButtonPlayerChoose)].Color;
                         PlayerChooseButtons[i].Button.SColor = Buttons[htButtons(ButtonPlayerChoose)].SColor;
+                        PlayerChooseButtons[i].Button.Enabled = false;
                     }
                 }
             }
@@ -421,10 +388,16 @@ namespace Vocaluxe.PartyModes
         {
             for (int i = 0; i < PlayerDestinationButtons.Count; i++)
             {
-                if(NumPlayers > i)
+                if (NumPlayers > i)
+                {
                     PlayerDestinationButtons[i].Visible = true;
+                    PlayerDestinationButtons[i].Enabled = true;
+                }
                 else
+                {
                     PlayerDestinationButtons[i].Visible = false;
+                    PlayerDestinationButtons[i].Enabled = false;
+                }
             }
             for (int i = 0; i < NumPlayers; i++)
             {
@@ -437,6 +410,7 @@ namespace Vocaluxe.PartyModes
                         PlayerDestinationButtons[i].Texture = _Base.Profiles.GetProfiles()[ProfileIDs[i]].Avatar.Texture;
                         PlayerDestinationButtons[i].STexture = _Base.Profiles.GetProfiles()[ProfileIDs[i]].Avatar.Texture;
                         PlayerDestinationButtons[i].Text.Text = _Base.Profiles.GetProfiles()[ProfileIDs[i]].PlayerName;
+                        PlayerDestinationButtons[i].Enabled = true;
                     }
                 }
                 else
@@ -446,6 +420,7 @@ namespace Vocaluxe.PartyModes
                     PlayerDestinationButtons[i].Texture = Buttons[htButtons(ButtonPlayerDestination)].Texture;
                     PlayerDestinationButtons[i].STexture = Buttons[htButtons(ButtonPlayerDestination)].STexture;
                     PlayerDestinationButtons[i].Text.Text = String.Empty;
+                    PlayerDestinationButtons[i].Enabled = false;
                 }
             }
         }
@@ -456,6 +431,49 @@ namespace Vocaluxe.PartyModes
                 Buttons[htButtons(ButtonNext)].Visible = true;
             else
                 Buttons[htButtons(ButtonNext)].Visible = false;
+        }
+
+        private void OnAdd()
+        {
+            for (int i = 0; i < PlayerChooseButtons.Count; i++)
+            {
+                if (PlayerChooseButtons[i].Button.Selected && PlayerChooseButtons[i].ProfileID != -1)
+                {
+                    if (ProfileIDs.Count < NumPlayers)
+                    {
+                        ProfileIDs.Add(PlayerChooseButtons[i].ProfileID);
+                        int added = ProfileIDs.Count - 1;
+                        UpdateButtonNext();
+                        //Update texture and name
+                        PlayerDestinationButtons[added].Color = new SColorF(1, 1, 1, 0.6f);
+                        PlayerDestinationButtons[added].SColor = new SColorF(1, 1, 1, 1);
+                        PlayerDestinationButtons[added].Texture = _Base.Profiles.GetProfiles()[PlayerChooseButtons[i].ProfileID].Avatar.Texture;
+                        PlayerDestinationButtons[added].STexture = _Base.Profiles.GetProfiles()[PlayerChooseButtons[i].ProfileID].Avatar.Texture;
+                        PlayerDestinationButtons[added].Text.Text = _Base.Profiles.GetProfiles()[PlayerChooseButtons[i].ProfileID].PlayerName;
+                        PlayerDestinationButtons[added].Enabled = true;
+                        //Update Tiles-List
+                        UpdateButtonPlayerChoose();
+                        CheckInteraction();
+                    }
+                }
+            }
+        }
+        private void OnRemove()
+        {
+            for (int i = 0; i < PlayerDestinationButtons.Count; i++)
+            {
+                if (PlayerDestinationButtons[i].Selected)
+                {
+                    if ((i + 1) <= ProfileIDs.Count)
+                    {
+                        ProfileIDs.RemoveAt(i);
+                        UpdateButtonNext();
+                        UpdateButtonPlayerDestination();
+                        UpdateButtonPlayerChoose();
+                        CheckInteraction();
+                    }
+                }
+            }
         }
 
         private void Back()
