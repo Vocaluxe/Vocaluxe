@@ -14,8 +14,12 @@ namespace Vocaluxe.PartyModes
 
         const string ButtonNextRound = "ButtonNextRound";
 
+        private DataFromScreen Data;
+
         public PartyScreenChallengeMain()
         {
+            Data = new DataFromScreen();
+            Data.ScreenMain = new FromScreenMain();
         }
 
         protected override void Init()
@@ -32,6 +36,22 @@ namespace Vocaluxe.PartyModes
 			base.LoadTheme(XmlPath);
         }
 
+        public override void DataToScreen(object ReceivedData)
+        {
+            DataToScreenMain data = new DataToScreenMain();
+
+            try
+            {
+                data = (DataToScreenMain)ReceivedData;
+                
+            }
+            catch (Exception e)
+            {
+                _Base.Log.LogError("Error in party mode screen challenge main. Can't cast received data from game mode " + _ThemeName + ". " + e.Message); ;
+            }
+
+        }
+
         public override bool HandleInput(KeyEvent KeyEvent)
         {
             base.HandleInput(KeyEvent);
@@ -46,7 +66,12 @@ namespace Vocaluxe.PartyModes
                 {
                     case Keys.Back:
                     case Keys.Escape:
-                        FadeTo(EScreens.ScreenParty);
+                        EndParty();
+                        break;
+
+                    case Keys.Enter:
+                        if (Buttons[htButtons(ButtonNextRound)].Selected)
+                            NextRound();
                         break;
                 }
             }
@@ -59,12 +84,13 @@ namespace Vocaluxe.PartyModes
 
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
             {
-
+                if (Buttons[htButtons(ButtonNextRound)].Selected)
+                    NextRound();
             }
 
             if (MouseEvent.RB)
             {
-                FadeTo(EScreens.ScreenParty);
+                EndParty();
             }
 
             return true;
@@ -89,6 +115,17 @@ namespace Vocaluxe.PartyModes
         public override void OnClose()
         {
             base.OnClose();
+        }
+
+        private void NextRound()
+        {
+            Data.ScreenMain.FadeToSongSelection = true;
+            _PartyMode.DataFromScreen(_ThemeName, Data);
+        }
+
+        private void EndParty()
+        {
+            //TODO
         }
     }
 }

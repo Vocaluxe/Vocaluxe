@@ -52,6 +52,7 @@ namespace Vocaluxe.PartyModes
 
     public struct FromScreenMain
     {
+        public bool FadeToSongSelection;
     }
     #endregion FromScreen
     #endregion Communication
@@ -93,9 +94,9 @@ namespace Vocaluxe.PartyModes
         public PartyModeChallenge()
         {
             _ScreenSongOptions.Selection.RandomOnly = false;
-            _ScreenSongOptions.Selection.PartyMode = false;
+            _ScreenSongOptions.Selection.PartyMode = true;
             _ScreenSongOptions.Selection.CategoryChangeAllowed = true;
-            _ScreenSongOptions.Selection.NumJokers = null;
+            _ScreenSongOptions.Selection.NumJokers = new int[] { 5, 5 };
 
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchStringVisible = false;
@@ -164,8 +165,20 @@ namespace Vocaluxe.PartyModes
                     break;
 
                 case "PartyScreenChallengeMain":
-                    _Stage = EStage.Singing;
-                    _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
+                    try
+                    {
+                        data = (DataFromScreen)Data;
+                        if (data.ScreenMain.FadeToSongSelection)
+                            _Stage = EStage.Singing;
+                    }
+                    catch (Exception e)
+                    {
+                        _Base.Log.LogError("Error in party mode challenge. Can't cast received data from screen " + ScreenName + ". " + e.Message);
+                    }
+
+
+                    if (_Stage == EStage.Singing)
+                        StartNextRound();
                     break;
 
                 default:
@@ -268,6 +281,12 @@ namespace Vocaluxe.PartyModes
         public override int GetMaxNumRounds()
         {
             return MaxNumRounds;
+        }
+
+        private void StartNextRound()
+        {
+
+            _Base.Graphics.FadeTo(EScreens.ScreenSong);
         }
     }
 }

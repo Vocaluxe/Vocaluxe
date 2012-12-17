@@ -101,7 +101,7 @@ namespace Vocaluxe.PartyModes
             }
             catch (Exception e)
             {
-                _Base.Log.LogError("Error in party mode screen challenge config. Can't cast received data from game mode " + _ThemeName + ". " + e.Message); ;
+                _Base.Log.LogError("Error in party mode screen challenge names. Can't cast received data from game mode " + _ThemeName + ". " + e.Message); ;
             }
 
         }
