@@ -75,6 +75,9 @@ namespace Vocaluxe.Menu
         ESongSorting GetSongSorting();
         EOffOn GetTabs();
         EOffOn GetIgnoreArticles();
+
+        bool IsMicConfigured(int PlayerNr);
+        int GetMaxNumMics();
     }
 
     public interface ISettings

@@ -64,7 +64,8 @@ namespace Vocaluxe.PartyModes
         int GetMaxPlayer();
         int GetMinPlayer();
         int GetMaxTeams();
-        int GetMinTeams();        
+        int GetMinTeams();
+        int GetMaxNumRounds();
 
         void SetSearchString(string SearchString, bool Visible);
 

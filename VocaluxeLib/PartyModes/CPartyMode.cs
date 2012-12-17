@@ -83,6 +83,11 @@ namespace Vocaluxe.PartyModes
             return 0;
         }
 
+        public virtual int GetMaxNumRounds()
+        {
+            return 1;
+        }
+
         public virtual void SetSearchString(string SearchString, bool Visible)
         {
         }
