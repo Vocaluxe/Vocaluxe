@@ -434,7 +434,7 @@ namespace Vocaluxe.Menu.SongMenu
             Init();
         }
 
-        public virtual void Update()
+        public virtual void Update(ScreenSongOptions SongOptions)
         {
             if (!_Initialized)
                 return;

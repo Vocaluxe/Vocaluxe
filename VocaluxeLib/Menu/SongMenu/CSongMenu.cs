@@ -48,9 +48,9 @@ namespace Vocaluxe.Menu.SongMenu
         }
 
         #region ISongMenu
-        public void Update()
+        public void Update(ScreenSongOptions SongOptions)
         {
-            _SongMenu.Update();
+            _SongMenu.Update(SongOptions);
         }
 
         public void OnShow()

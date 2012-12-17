@@ -654,7 +654,7 @@ namespace Vocaluxe.Screens
             if (_sso.Selection.PartyMode)
                 ToggleSongOptions(ESongOptionsView.None);
 
-            SongMenus[htSongMenus(SongMenu)].Update();
+            SongMenus[htSongMenus(SongMenu)].Update(_sso);
 
             if (SongMenus[htSongMenus(SongMenu)].IsSmallView())
                 CheckPlaylist();
@@ -697,7 +697,10 @@ namespace Vocaluxe.Screens
             if (_sso.Selection.RandomOnly && _sso.Selection.NumJokers != null)
             {
                 Buttons[htButtons(ButtonStart)].Visible = true;
-                SongMenus[htSongMenus(SongMenu)].SetSmallView(true);
+
+                if(!SongMenus[htSongMenus(SongMenu)].IsSmallView())
+                    SongMenus[htSongMenus(SongMenu)].SetSmallView(true);
+
                 for (int i = 0; i < _Base.Settings.GetMaxNumPlayer(); i++)
                 {
                     if (i < _sso.Selection.NumJokers.Length)
@@ -1073,7 +1076,7 @@ namespace Vocaluxe.Screens
                 Buttons[htButtons(ButtonOptionsSingAll)].Visible = false;
                 Buttons[htButtons(ButtonOptionsSingAllVisible)].Visible = false;
                 Buttons[htButtons(ButtonOptionsOpenPlaylist)].Visible = false;
-                Buttons[htButtons(ButtonOpenOptions)].Visible = true;
+                Buttons[htButtons(ButtonOpenOptions)].Visible = false;
                 Texts[htTexts(TextOptionsTitle)].Visible = false;
                 Statics[htStatics(StaticOptionsBG)].Visible = false;
             }
@@ -1082,7 +1085,7 @@ namespace Vocaluxe.Screens
         #region Playlist Actions
         public void CheckPlaylist()
         {
-            if (Playlists[htPlaylists(Playlist)].ActivePlaylistID == -1)
+            if (Playlists[htPlaylists(Playlist)].ActivePlaylistID == -1 && _PlaylistActive)
                 ClosePlaylist();
         }
 

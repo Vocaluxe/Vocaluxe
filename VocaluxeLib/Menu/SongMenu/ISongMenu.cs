@@ -8,7 +8,7 @@ namespace Vocaluxe.Menu.SongMenu
 {
     interface ISongMenu : IMenuElement
     {
-        void Update();
+        void Update(ScreenSongOptions SongOptions);
         void OnShow();
         void OnHide();
 

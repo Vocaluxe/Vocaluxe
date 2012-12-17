@@ -100,6 +100,21 @@ namespace Vocaluxe.Menu.SongMenu
             _Title = _Theme.songMenuTileBoard.TextTitle;
             _SongLength = _Theme.songMenuTileBoard.TextSongLength;
         }
+
+        public override void Update(ScreenSongOptions SongOptions)
+        {
+            base.Update(SongOptions);
+
+            if (SongOptions.Selection.RandomOnly)
+            {
+                _Locked = _PreviewSelected;
+                _actualSelection = _PreviewSelected;
+                for (int i = 0; i < _Tiles.Count; i++)
+                {
+                    _Tiles[i].Selected = _Locked == i + _Offset;
+                }
+            }
+        }
        
         public override void OnShow()
         {
@@ -170,9 +185,9 @@ namespace Vocaluxe.Menu.SongMenu
                         break;
                     }
                 }
-
+                
                 if ((_Locked == -1 || !sel) &&
-                    KeyEvent.Key != Keys.Escape && KeyEvent.Key != Keys.Back && KeyEvent.Key != Keys.PageUp && KeyEvent.Key != Keys.PageDown)
+                    (KeyEvent.Key != Keys.Escape && KeyEvent.Key != Keys.Back && KeyEvent.Key != Keys.PageUp && KeyEvent.Key != Keys.PageDown))
                 {
                     if (_PreviewSelected > -1)
                     {
