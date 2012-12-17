@@ -42,6 +42,7 @@ namespace Vocaluxe.Screens
         private const string ButtonOptionsSingAll = "ButtonOptionsSingAll";
         private const string ButtonOptionsSingAllVisible = "ButtonOptionsSingAllVisible";
         private const string ButtonOptionsOpenPlaylist = "ButtonOptionsOpenPlaylist";
+        private const string ButtonStart = "ButtonStart";
 
         private const string SelectSlideOptionsMode = "SelectSlideOptionsMode";
         private const string SelectSlideOptionsPlaylistAdd = "SelectSlideOptionsPlaylistAdd";
@@ -55,6 +56,8 @@ namespace Vocaluxe.Screens
         private string _SearchText = String.Empty;
         private bool _SearchActive = false;
 
+        private List<string> ButtonsJoker = new List<string>();
+        private List<string> TextsPlayer = new List<string>();
         private bool _SongOptionsActive = false;
         private bool _PlaylistActive = false;
         private List<EGameMode> _AvailableGameModes;
@@ -74,11 +77,40 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
+            for (int i = 0; i < _Base.Settings.GetMaxNumPlayer(); i++)
+            {
+                ButtonsJoker.Add("ButtonJoker" + (i + 1));
+            }
+            List<string> blist = new List<string>();
+            blist.AddRange(ButtonsJoker);
+            blist.Add(ButtonOptionsClose);
+            blist.Add(ButtonOptionsPlaylist);
+            blist.Add(ButtonOptionsSing);
+            blist.Add(ButtonOptionsRandom);
+            blist.Add(ButtonOptionsRandomCategory);
+            blist.Add(ButtonOptionsSingAll);
+            blist.Add(ButtonOptionsSingAllVisible);
+            blist.Add(ButtonOptionsOpenPlaylist);
+            blist.Add(ButtonOpenOptions);
+            blist.Add(ButtonStart);
+
+            for (int i = 0; i < _Base.Settings.GetMaxNumPlayer(); i++)
+            {
+                TextsPlayer.Add("TextPlayer" + (i + 1));
+            }
+            List<string> tlist = new List<string>();
+            tlist.AddRange(TextsPlayer);
+            tlist.Add(TextCategory);
+            tlist.Add(TextSelection);
+            tlist.Add(TextSearchBarTitle);
+            tlist.Add(TextSearchBar);
+            tlist.Add(TextOptionsTitle);
+
             _ThemeName = "ScreenSong";
             _ScreenVersion = ScreenVersion;
             _ThemeStatics = new string[] { StaticSearchBar, StaticOptionsBG };
-            _ThemeTexts = new string[] { TextCategory, TextSelection, TextSearchBarTitle, TextSearchBar, TextOptionsTitle };
-            _ThemeButtons = new string[] { ButtonOptionsClose, ButtonOptionsPlaylist, ButtonOptionsSing, ButtonOptionsRandom, ButtonOptionsRandomCategory, ButtonOptionsSingAll, ButtonOptionsSingAllVisible, ButtonOptionsOpenPlaylist, ButtonOpenOptions };
+            _ThemeTexts = tlist.ToArray();
+            _ThemeButtons = blist.ToArray();
             _ThemeSelectSlides = new string[] { SelectSlideOptionsMode, SelectSlideOptionsPlaylistAdd, SelectSlideOptionsPlaylistOpen };
             _ThemeSongMenus = new string[] { SongMenu };
             _ThemePlaylists = new string[] { Playlist };
@@ -162,6 +194,24 @@ namespace Vocaluxe.Screens
                             break;
 
                         case Keys.Enter:
+                            if (_sso.Selection.RandomOnly && _sso.Selection.NumJokers != null)
+                            {
+                                for (int i = 0; i < ButtonsJoker.Count; i++)
+                                {
+                                    if (i < _sso.Selection.NumJokers.Length)
+                                    {
+                                        if (Buttons[htButtons(ButtonsJoker[i])].Selected)
+                                        {
+                                            SelectNextRandom(i);
+                                            return true;
+                                        }
+                                    }
+                                }
+                                if (Buttons[htButtons(ButtonStart)].Selected)
+                                {
+                                    HandlePartySongSelection(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
+                                }
+                            }
                             if (CSongs.NumVisibleSongs > 0)
                             {
                                 if (SongMenus[htSongMenus(SongMenu)].GetSelectedSong() != -1 && !_SongOptionsActive)
@@ -169,6 +219,7 @@ namespace Vocaluxe.Screens
                                     if (!_sso.Selection.PartyMode)
                                         ToggleSongOptions(ESongOptionsView.Song);
                                     else
+                                        //Is this still needed?
                                         HandlePartySongSelection(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
                                 }
                             }
@@ -498,6 +549,27 @@ namespace Vocaluxe.Screens
                         OpenPlaylistAction();
                         return true;
                     }
+
+                    if (_sso.Selection.RandomOnly && _sso.Selection.NumJokers != null)
+                    {
+                        if (Buttons[htButtons(ButtonOptionsOpenPlaylist)].Selected)
+                        {
+                            HandlePartySongSelection(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
+                            return true;
+                        }
+                            
+                        for (int i = 0; i < ButtonsJoker.Count; i++)
+                        {
+                            if (i < _sso.Selection.NumJokers.Length)
+                            {
+                                if (Buttons[htButtons(ButtonsJoker[i])].Selected)
+                                {
+                                    SelectNextRandom(i);
+                                    return true;
+                                }
+                            }
+                        }
+                    }
                 }
                 
                 if (CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
@@ -507,6 +579,7 @@ namespace Vocaluxe.Screens
                         if (!_sso.Selection.PartyMode)
                             ToggleSongOptions(ESongOptionsView.Song);
                         else
+                            //Is this still needed?
                             HandlePartySongSelection(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
                         return true;
                     }
@@ -610,6 +683,39 @@ namespace Vocaluxe.Screens
                 Texts[htTexts(TextSearchBar)].Visible = false;
                 Texts[htTexts(TextSearchBarTitle)].Visible = false;
                 Statics[htStatics(StaticSearchBar)].Visible = false;
+            }
+
+            if (_sso.Selection.RandomOnly && _sso.Selection.NumJokers != null)
+            {
+                Buttons[htButtons(ButtonStart)].Visible = true;
+                SongMenus[htSongMenus(SongMenu)].SetSmallView(true);
+                for (int i = 0; i < _Base.Settings.GetMaxNumPlayer(); i++)
+                {
+                    if (i < _sso.Selection.NumJokers.Length)
+                    {
+                        Buttons[htButtons(ButtonsJoker[i])].Visible = true;
+                        Buttons[htButtons(ButtonsJoker[i])].Text.Text = _sso.Selection.NumJokers[i].ToString();
+                        Texts[htTexts(TextsPlayer[i])].Visible = true;
+                        //TODO: Set text to player-name.
+                        Texts[htTexts(TextsPlayer[i])].Text = i.ToString();
+                    }
+                    else
+                    {
+                        Buttons[htButtons(ButtonsJoker[i])].Visible = false;
+                        Texts[htTexts(TextsPlayer[i])].Visible = false;
+                    }
+                }
+            }
+            else 
+            {
+                Buttons[htButtons(ButtonStart)].Visible = true;
+                if(SongMenus[htSongMenus(SongMenu)].IsSmallView())
+                    SongMenus[htSongMenus(SongMenu)].SetSmallView(false);
+                for (int i = 0; i < _Base.Settings.GetMaxNumPlayer(); i++)
+                {
+                    Buttons[htButtons(ButtonsJoker[i])].Visible = false;
+                    Texts[htTexts(TextsPlayer[i])].Visible = false;
+                }
             }
 
             return true;
