@@ -641,6 +641,8 @@ namespace Vocaluxe.Screens
 
             DragAndDropActive = false;
             Playlists[htPlaylists(Playlist)].DragAndDropSongID = -1;
+
+            UpdateGame();
         }
 
         public override bool UpdateGame()
@@ -708,7 +710,7 @@ namespace Vocaluxe.Screens
             }
             else 
             {
-                Buttons[htButtons(ButtonStart)].Visible = true;
+                Buttons[htButtons(ButtonStart)].Visible = false;
                 if(SongMenus[htSongMenus(SongMenu)].IsSmallView())
                     SongMenus[htSongMenus(SongMenu)].SetSmallView(false);
                 for (int i = 0; i < _Base.Settings.GetMaxNumPlayer(); i++)
