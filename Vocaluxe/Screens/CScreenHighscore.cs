@@ -179,6 +179,13 @@ namespace Vocaluxe.Screens
                         Texts[htTexts(TextScore[p])].Style = EStyle.BoldItalic;
                         Texts[htTexts(TextDate[p])].Style = EStyle.BoldItalic;
                     }
+                    else
+                    {
+                        Texts[htTexts(TextNumber[p])].Style = EStyle.Bold;
+                        Texts[htTexts(TextName[p])].Style = EStyle.Bold;
+                        Texts[htTexts(TextScore[p])].Style = EStyle.Bold;
+                        Texts[htTexts(TextDate[p])].Style = EStyle.Bold;
+                    }
                 }
                 else
                 {
