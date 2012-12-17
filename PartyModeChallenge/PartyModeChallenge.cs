@@ -288,5 +288,38 @@ namespace Vocaluxe.PartyModes
 
             _Base.Graphics.FadeTo(EScreens.ScreenSong);
         }
+
+        private void SetNumJokers()
+        {
+            switch (GameData.NumPlayerAtOnce)
+            {
+                case 1:
+                    _ScreenSongOptions.Selection.NumJokers = new int[] { 10 };
+                    break;
+
+                case 2:
+                    _ScreenSongOptions.Selection.NumJokers = new int[] { 5, 5 };
+                    break;
+
+                case 3:
+                    _ScreenSongOptions.Selection.NumJokers = new int[] { 4, 4, 4 };
+                    break;
+
+                case 4:
+                    _ScreenSongOptions.Selection.NumJokers = new int[] { 3, 3, 3, 3 };
+                    break;
+
+                case 5:
+                    _ScreenSongOptions.Selection.NumJokers = new int[] { 2, 2, 2, 2, 2 };
+                    break;
+
+                case 6:
+                    _ScreenSongOptions.Selection.NumJokers = new int[] { 2, 2, 2, 2, 2, 2 };
+                    break;
+                default:
+                    _ScreenSongOptions.Selection.NumJokers = new int[] { 5, 5 };
+                    break;
+            }
+        }
     }
 }
