@@ -181,10 +181,10 @@ namespace Vocaluxe.Screens
                     }
                     else
                     {
-                        Texts[htTexts(TextNumber[p])].Style = EStyle.Normal;
-                        Texts[htTexts(TextName[p])].Style = EStyle.Normal;
-                        Texts[htTexts(TextScore[p])].Style = EStyle.Normal;
-                        Texts[htTexts(TextDate[p])].Style = EStyle.Normal;
+                        Texts[htTexts(TextNumber[p])].Style = EStyle.Bold;
+                        Texts[htTexts(TextName[p])].Style = EStyle.Bold;
+                        Texts[htTexts(TextScore[p])].Style = EStyle.Bold;
+                        Texts[htTexts(TextDate[p])].Style = EStyle.Bold;
                     }
                 }
                 else
