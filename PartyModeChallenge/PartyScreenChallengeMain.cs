@@ -12,6 +12,8 @@ namespace Vocaluxe.PartyModes
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         const int ScreenVersion = 1;
 
+        const string ButtonNextRound = "ButtonNextRound";
+
         public PartyScreenChallengeMain()
         {
         }
@@ -21,6 +23,7 @@ namespace Vocaluxe.PartyModes
             base.Init();
 
             _ThemeName = "PartyScreenChallengeMain";
+            _ThemeButtons = new string[] { "ButtonNextRound" };
             _ScreenVersion = ScreenVersion;
         }
 
