@@ -643,9 +643,12 @@ namespace Vocaluxe.Screens
                 //Otherwise, this is done by CScreenNames
                 if (CGame.GetNumSongs() > 1)
                 {
-                    for (int i = 1; i <= CGame.NumPlayer; i = i + 2)
+                    for (int i = 0; i < CGame.NumPlayer; i++)
                     {
-                        CGame.Player[i].LineNr = 1;
+                        if ((i % 2) == 0)
+                            CGame.Player[i].LineNr = 1;
+                        else
+                            CGame.Player[i].LineNr = 0;
                     }
                 }
                 else

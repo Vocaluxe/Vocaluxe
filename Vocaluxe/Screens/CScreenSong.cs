@@ -471,6 +471,7 @@ namespace Vocaluxe.Screens
             {
                 if (CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
                 {
+                    ToggleSongOptions(ESongOptionsView.None);
                     StartVisibleSong(SongMenus[htSongMenus(SongMenu)].GetActualSelection());
                     return true;
                 }
@@ -857,6 +858,7 @@ namespace Vocaluxe.Screens
                 EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
                 if (CSongs.AllSongs[SongNr].IsDuet)
                     gm = EGameMode.TR_GAMEMODE_DUET;
+
                 CGame.AddSong(SongNr, gm);
 
                 IDs.Remove(SongNr);    
