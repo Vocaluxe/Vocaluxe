@@ -58,7 +58,7 @@ namespace Vocaluxe.PartyModes
 
     public sealed class PartyModeChallenge : CPartyMode
     {
-        private const int MaxPlayer = 10;
+        private const int MaxPlayer = 12;
         private const int MinPlayer = 1;
         private const int MaxTeams = 0;
         private const int MinTeams = 0;
@@ -111,6 +111,7 @@ namespace Vocaluxe.PartyModes
             GameData.NumPlayerAtOnce = 2;
             GameData.NumRounds = 2;
             GameData.CurrentRoundNr = 1;
+            GameData.ProfileIDs = new List<int>();
         }
 
         public override bool Init()
@@ -182,18 +183,35 @@ namespace Vocaluxe.PartyModes
             {
                 case EStage.NotStarted:
                     _Screens.TryGetValue("PartyScreenChallengeConfig", out Screen);
+                    if (_Screens != null)
+                    {
+                        ToScreenConfig.NumPlayer = GameData.NumPlayer;
+                        ToScreenConfig.NumPlayerAtOnce = GameData.NumPlayerAtOnce;
+                        ToScreenConfig.NumRounds = GameData.NumRounds;
+                        Screen.DataToScreen(ToScreenConfig);
+                    }
                     break;
                 case EStage.Config:
                     _Screens.TryGetValue("PartyScreenChallengeNames", out Screen);
+                    if (_Screens != null)
+                    {
+                        ToScreenNames.NumPlayer = GameData.NumPlayer;
+                        ToScreenNames.ProfileIDs = GameData.ProfileIDs;
+                        Screen.DataToScreen(ToScreenNames);
+                    }
                     break;
                 case EStage.Names:
                     _Screens.TryGetValue("PartyScreenChallengeMain", out Screen);
+                    if (_Screens != null)
+                        Screen.DataToScreen(ToScreenMain);
                     break;
                 case EStage.Main:
                     AlternativeScreen = EScreens.ScreenSong;
                     break;
                 case EStage.Singing:
                     _Screens.TryGetValue("PartyScreenChallengeMain", out Screen);
+                    if (_Screens != null)
+                        Screen.DataToScreen(ToScreenMain);
                     break;
                 default:
                     break;
