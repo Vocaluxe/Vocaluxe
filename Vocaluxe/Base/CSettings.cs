@@ -49,7 +49,7 @@ namespace Vocaluxe.Base
 
         public const int iBuild = 70;             // Increase on every published version! Never Reset!
 
-        public const int iDatabaseHighscoreVersion = 1;
+        public const int iDatabaseHighscoreVersion = 2;
         public const int iDatabaseCoverVersion = 1;
         public const int iDatabaseCreditsRessourcesVersion = 1;
         
