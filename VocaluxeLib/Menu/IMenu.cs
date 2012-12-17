@@ -196,6 +196,7 @@ namespace Vocaluxe.Menu
     public interface IGame
     {
         int GetNumPlayer();
+        void SetNumPlayer(int NumPlayer);
         SPlayer[] GetPlayer();
         float GetMidBeatD();
         int GetCurrentBeatD();

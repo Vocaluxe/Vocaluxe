@@ -473,6 +473,11 @@ namespace Vocaluxe.Base
             return CGame.NumPlayer;
         }
 
+        public void SetNumPlayer(int NumPlayer)
+        {
+            CGame.NumPlayer = NumPlayer;
+        }
+
         public SPlayer[] GetPlayer()
         {
             return CGame.Player;

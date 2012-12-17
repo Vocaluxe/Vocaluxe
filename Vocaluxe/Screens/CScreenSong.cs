@@ -212,15 +212,12 @@ namespace Vocaluxe.Screens
                                     HandlePartySongSelection(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
                                 }
                             }
-                            if (CSongs.NumVisibleSongs > 0)
+                            if (CSongs.NumVisibleSongs > 0 && !_sso.Selection.PartyMode)
                             {
                                 if (SongMenus[htSongMenus(SongMenu)].GetSelectedSong() != -1 && !_SongOptionsActive)
                                 {
                                     if (!_sso.Selection.PartyMode)
                                         ToggleSongOptions(ESongOptionsView.Song);
-                                    else
-                                        //Is this still needed?
-                                        HandlePartySongSelection(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
                                 }
                             }
                             break;
@@ -552,7 +549,7 @@ namespace Vocaluxe.Screens
 
                     if (_sso.Selection.RandomOnly && _sso.Selection.NumJokers != null)
                     {
-                        if (Buttons[htButtons(ButtonOptionsOpenPlaylist)].Selected)
+                        if (Buttons[htButtons(ButtonStart)].Selected)
                         {
                             HandlePartySongSelection(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
                             return true;
@@ -571,16 +568,14 @@ namespace Vocaluxe.Screens
                         }
                     }
                 }
-                
-                if (CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1)
+
+                if (CSongs.NumVisibleSongs > 0 && SongMenus[htSongMenus(SongMenu)].GetActualSelection() != -1 && !_sso.Selection.PartyMode)
                 {
                     if (SongMenus[htSongMenus(SongMenu)].GetSelectedSong() != -1 && !_SongOptionsActive)
                     {
                         if (!_sso.Selection.PartyMode)
                             ToggleSongOptions(ESongOptionsView.Song);
-                        else
-                            //Is this still needed?
-                            HandlePartySongSelection(SongMenus[htSongMenus(SongMenu)].GetSelectedSong());
+
                         return true;
                     }
                     else
@@ -771,7 +766,14 @@ namespace Vocaluxe.Screens
 
         private void HandlePartySongSelection(int SongNr)
         {
-            CGraphics.FadeTo(EScreens.ScreenPartyDummy);
+            if ((CSongs.Category >= 0) && (SongNr >= 0))
+            {
+                CSong song = CSongs.VisibleSongs[SongNr];
+                if (song != null)
+                {
+                    CParty.SongSelected(song.ID);
+                }
+            }
         }
 
         private void StartSong(int SongNr)

@@ -171,6 +171,11 @@ namespace Vocaluxe.Base
         {
             _CurrentPartyMode.PartyMode.JokerUsed(TeamNr);
         }
+
+        public static void SongSelected(int SongID)
+        {
+            _CurrentPartyMode.PartyMode.SongSelected(SongID);
+        }
         #endregion Interface
 
         #region private stuff

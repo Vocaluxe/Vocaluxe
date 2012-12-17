@@ -107,6 +107,10 @@ namespace Vocaluxe.PartyModes
             if (_ScreenSongOptions.Selection.NumJokers[TeamNr] > 0)
                 _ScreenSongOptions.Selection.NumJokers[TeamNr]--;
         }
+
+        public virtual void SongSelected(int SongID)
+        {
+        }
         #endregion Implementation
     }
 }

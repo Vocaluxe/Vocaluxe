@@ -77,5 +77,6 @@ namespace Vocaluxe.PartyModes
         void SetSearchString(string SearchString, bool Visible);
 
         void JokerUsed(int TeamNr);
+        void SongSelected(int SongID);
     }
 }

@@ -314,6 +314,35 @@ namespace Vocaluxe.PartyModes
 
         }
 
+        public override void SongSelected(int SongID)
+        {
+
+            EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+
+            _Base.Game.Reset();
+            _Base.Game.ClearSongs();
+            _Base.Game.AddSong(SongID, gm);
+            _Base.Game.SetNumPlayer(GameData.NumPlayerAtOnce);
+
+            SPlayer[] player = _Base.Game.GetPlayer();
+            if (player == null)
+                return;
+
+            if (player.Length < GameData.NumPlayerAtOnce)
+                return;
+
+            //TODO: set the right data
+            SProfile[] profiles = _Base.Profiles.GetProfiles();
+            for (int i = 0; i < GameData.NumPlayerAtOnce; i++)
+            {
+                player[i].Name = _ScreenSongOptions.Selection.TeamNames[i];
+                player[i].Difficulty = profiles[GameData.ProfileIDs[i]].Difficulty;
+                player[i].ProfileID = GameData.ProfileIDs[i];
+            }
+
+            _Base.Graphics.FadeTo(EScreens.ScreenSing);
+        }
+
         private void StartNextRound()
         {
             _ScreenSongOptions.Selection.RandomOnly = false;
@@ -371,7 +400,7 @@ namespace Vocaluxe.PartyModes
                 _ScreenSongOptions.Selection.TeamNames = new string[] { "foo", "bar" };
                 return;
             }
-
+            //TODO: set the right data
             _ScreenSongOptions.Selection.TeamNames = new string[GameData.NumPlayerAtOnce];
 
             for (int i = 0; i < GameData.NumPlayerAtOnce; i++)
