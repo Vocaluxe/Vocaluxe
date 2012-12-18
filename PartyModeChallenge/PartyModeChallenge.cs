@@ -24,8 +24,20 @@ namespace Vocaluxe.PartyModes
     public struct DataToScreenMain
     {
         public int CurrentRoundNr;
-
+        public List<Combination> Combs;
+        public List<ResultTableRow> ResultTable;
     }
+
+    public struct ResultTableRow
+    {
+        public int PlayerID;
+        public int NumWon;
+        public int NumDrawn;
+        public int NumLost;
+        public int SumSingPoints;
+        public int NumGamePoints;
+    }
+
     #endregion ToScreen
 
     #region FromScreen
@@ -82,8 +94,19 @@ namespace Vocaluxe.PartyModes
             public List<int> ProfileIDs;
 
             public ChallengeRounds Rounds;
+            public List<ResultTableRow> ResultTable;
 
             public int CurrentRoundNr;
+        }
+
+        struct Stats
+        {
+            public int ProfileID;
+            public int SingPoints;
+            public int GamePoints;
+            public int Won;
+            public int Drawn;
+            public int Lost;
         }
 
         private DataToScreenConfig ToScreenConfig;
@@ -125,6 +148,9 @@ namespace Vocaluxe.PartyModes
             _ScreenSongOptions.Sorting.IgnoreArticles = _Base.Config.GetIgnoreArticles();
             _ScreenSongOptions.Sorting.SongSorting = ESongSorting.TR_CONFIG_FOLDER;
             _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_ON;
+
+            ToScreenMain.ResultTable = new List<ResultTableRow>();
+            GameData.ResultTable = new List<ResultTableRow>();
 
             return true;
         }
@@ -234,7 +260,10 @@ namespace Vocaluxe.PartyModes
                     if (_Screens != null)
                     {
                         GameData.Rounds = new ChallengeRounds(GameData.NumRounds, GameData.NumPlayer, GameData.NumPlayerAtOnce);
-                        GameData.CurrentRoundNr = 0;
+                        GameData.CurrentRoundNr = 1;
+                        ToScreenMain.CurrentRoundNr = 1;
+                        ToScreenMain.Combs = GameData.Rounds.Rounds;
+                        UpdateScores();
                         Screen.DataToScreen(ToScreenMain);
                     }
                     break;
@@ -244,7 +273,13 @@ namespace Vocaluxe.PartyModes
                 case EStage.Singing:
                     _Screens.TryGetValue("PartyScreenChallengeMain", out Screen);
                     if (_Screens != null)
+                    {
+                        UpdateScores();
+                        ToScreenMain.CurrentRoundNr = GameData.CurrentRoundNr;
+                        ToScreenMain.Combs = GameData.Rounds.Rounds;
+
                         Screen.DataToScreen(ToScreenMain);
+                    }
                     break;
                 default:
                     break;
@@ -442,6 +477,108 @@ namespace Vocaluxe.PartyModes
                 else
                     _ScreenSongOptions.Selection.TeamNames[i] = "foobar";
             }
+        }
+
+        private void UpdateScores()
+        {
+            if (GameData.ResultTable.Count == 0)
+            {
+                for (int i = 0; i < GameData.NumPlayer; i++)
+                {
+                    ResultTableRow row = new ResultTableRow();
+                    row.PlayerID = GameData.ProfileIDs[i];
+                    row.NumWon = 0;
+                    row.NumDrawn = 0;
+                    row.NumLost = 0;
+                    row.SumSingPoints = 0;
+                    row.NumGamePoints = 0;
+                    GameData.ResultTable.Add(row);
+                }
+            }
+            else
+            {
+                SPlayer[] results = _Base.Game.GetPlayer();
+                if (results == null)
+                    return;
+
+                if (results.Length < GameData.NumPlayerAtOnce)
+                    return;
+
+                List<Stats> points = GetPointsForPlayer(results);
+
+                for (int i = 0; i < GameData.NumPlayerAtOnce; i++)
+                {
+                    int index = -1;
+                    for (int j = 0; j < GameData.ResultTable.Count; j++)
+			        {
+                        if (results[i].ProfileID == GameData.ResultTable[i].PlayerID)
+                        {
+                            index = j;
+                            break;
+                        }
+			        }
+
+                    if (index != -1)
+                    {
+                        ResultTableRow row = GameData.ResultTable[index];
+
+                        row.NumWon += points[i].Won;
+                        row.NumDrawn += points[i].Drawn;
+                        row.NumLost += points[i].Lost;
+                        row.SumSingPoints += points[i].SingPoints;
+                        row.NumGamePoints += points[i].GamePoints;
+
+                        GameData.ResultTable[index] = row;
+                    }
+                }
+            }
+
+
+        }
+
+        private List<Stats> GetPointsForPlayer(SPlayer[] Results)
+        {
+            List<Stats> result = new List<Stats>();
+            for(int i = 0; i < GameData.NumPlayerAtOnce; i++)
+            {
+                Stats stat = new Stats();
+                stat.ProfileID = Results[i].ProfileID;
+                stat.SingPoints = (int)Results[i].Points;
+                stat.Won = 0;
+                stat.Drawn = 0;
+                stat.Lost = 0;
+                stat.GamePoints = 0;
+                result.Add(stat);
+            }
+
+            result.Sort(delegate(Stats s1, Stats s2) { return s1.SingPoints.CompareTo(s2.SingPoints); });
+
+            int current = result[result.Count - 1].SingPoints;
+            int points = result.Count;
+
+            for (int i = result.Count - 1; i >= 0; i--)
+            {
+                Stats res = result[i];
+
+                if (i < result.Count - 1)
+                {
+                    if (current > res.SingPoints)
+                    {
+                        res.GamePoints = i * 2;
+                    }
+                    else
+                        res.GamePoints = points;
+                }
+                else
+                    res.GamePoints = i * 2;
+
+                current = res.SingPoints;
+                points = res.GamePoints;
+
+                result[i] = res;
+            }
+
+            return result;
         }
     }
 }

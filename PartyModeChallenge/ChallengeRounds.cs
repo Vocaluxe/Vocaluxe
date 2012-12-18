@@ -9,13 +9,13 @@ namespace Vocaluxe.PartyModes
     public class ChallengeRounds
     {
         private Random _Rand;
-        private List<Combination> _Rounds;
         private int _NumPlayer;
 
+        public List<Combination> Rounds;
 
         public ChallengeRounds(int NumRounds, int NumPlayer, int NumPlayerAtOnce)
         {
-            _Rounds = new List<Combination>();
+            Rounds = new List<Combination>();
             _Rand = new Random(System.DateTime.Now.Millisecond);
 
             if (NumPlayerAtOnce < 1 || NumRounds < 1 || NumPlayer == 0)
@@ -29,21 +29,21 @@ namespace Vocaluxe.PartyModes
 
         public Combination GetRound(int RoundNr)
         {
-            if (RoundNr >= _Rounds.Count || _NumPlayer == 0 || _Rounds.Count == 0)
+            if (RoundNr >= Rounds.Count || _NumPlayer == 0 || Rounds.Count == 0)
                 return null;
 
-            return _Rounds[RoundNr];
+            return Rounds[RoundNr];
         }
 
         private void BuildRounds(int NumRounds, int NumPlayerAtOnce, Random Rand)
         {
             Combinations Combinations = new Combinations(_NumPlayer, NumPlayerAtOnce, Rand);
-            _Rounds.Add(Combinations.GetNextCombination(null));
+            Rounds.Add(Combinations.GetNextCombination(null));
 
             for (int i = 1; i < NumRounds; i++)
             {
 
-                _Rounds.Add(Combinations.GetNextCombination(GetPlayerDemand(i)));
+                Rounds.Add(Combinations.GetNextCombination(GetPlayerDemand(i)));
             }
         }
 
@@ -57,7 +57,7 @@ namespace Vocaluxe.PartyModes
 
             for (int i = 0; i < RoundIndex; i++)
             {
-                foreach (int PlayerIndex in _Rounds[i].Player)
+                foreach (int PlayerIndex in Rounds[i].Player)
                 {
                     NumPlayed[PlayerIndex]++;
                 }
@@ -70,7 +70,7 @@ namespace Vocaluxe.PartyModes
                     max = p;
             }
 
-            int num = _Rounds[0].Player.Count;
+            int num = Rounds[0].Player.Count;
             List<int> result = new List<int>();
             List<int> other = new List<int>();
             List<int> last = new List<int>();
@@ -83,7 +83,7 @@ namespace Vocaluxe.PartyModes
                 {
                     if (RoundIndex > 0)
                     {
-                        if (!_Rounds[RoundIndex - 1].IsAvailable(i))
+                        if (!Rounds[RoundIndex - 1].IsAvailable(i))
                             other.Add(i);
                         else
                             last.Add(i);
