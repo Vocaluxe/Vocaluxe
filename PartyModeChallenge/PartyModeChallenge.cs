@@ -81,6 +81,8 @@ namespace Vocaluxe.PartyModes
             public int NumRounds;
             public List<int> ProfileIDs;
 
+            public ChallengeRounds Rounds;
+
             public int CurrentRoundNr;
         }
 
@@ -113,7 +115,7 @@ namespace Vocaluxe.PartyModes
             GameData.NumPlayerAtOnce = 2;
             GameData.NumRounds = 2;
             GameData.CurrentRoundNr = 1;
-            GameData.ProfileIDs = new List<int>();
+            GameData.ProfileIDs = new List<int>();        
         }
 
         public override bool Init()
@@ -230,7 +232,10 @@ namespace Vocaluxe.PartyModes
                 case EStage.Names:
                     _Screens.TryGetValue("PartyScreenChallengeMain", out Screen);
                     if (_Screens != null)
+                    {
+                        GameData.Rounds = new ChallengeRounds(GameData.NumRounds, GameData.NumPlayer, GameData.NumPlayerAtOnce);
                         Screen.DataToScreen(ToScreenMain);
+                    }
                     break;
                 case EStage.Main:
                     AlternativeScreen = EScreens.ScreenSong;
