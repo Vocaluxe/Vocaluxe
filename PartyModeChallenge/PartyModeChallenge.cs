@@ -234,11 +234,12 @@ namespace Vocaluxe.PartyModes
                     if (_Screens != null)
                     {
                         GameData.Rounds = new ChallengeRounds(GameData.NumRounds, GameData.NumPlayer, GameData.NumPlayerAtOnce);
+                        GameData.CurrentRoundNr = 0;
                         Screen.DataToScreen(ToScreenMain);
                     }
                     break;
                 case EStage.Main:
-                    AlternativeScreen = EScreens.ScreenSong;
+                    //nothing to do
                     break;
                 case EStage.Singing:
                     _Screens.TryGetValue("PartyScreenChallengeMain", out Screen);
@@ -336,13 +337,26 @@ namespace Vocaluxe.PartyModes
             if (player.Length < GameData.NumPlayerAtOnce)
                 return;
 
-            //TODO: set the right data
             SProfile[] profiles = _Base.Profiles.GetProfiles();
+            Combination c = GameData.Rounds.GetRound(GameData.CurrentRoundNr - 1);
+
             for (int i = 0; i < GameData.NumPlayerAtOnce; i++)
             {
-                player[i].Name = _ScreenSongOptions.Selection.TeamNames[i];
-                player[i].Difficulty = profiles[GameData.ProfileIDs[i]].Difficulty;
-                player[i].ProfileID = GameData.ProfileIDs[i];
+                //default values
+                player[i].Name = "foobar";
+                player[i].Difficulty = EGameDifficulty.TR_CONFIG_EASY;
+                player[i].ProfileID = -1;
+
+                //try to fill with the right data
+                if (c != null)
+                {
+                    if (GameData.ProfileIDs[c.Player[i]] < profiles.Length)
+                    {
+                        player[i].Name = profiles[GameData.ProfileIDs[c.Player[i]]].PlayerName;
+                        player[i].Difficulty = profiles[GameData.ProfileIDs[c.Player[i]]].Difficulty;
+                        player[i].ProfileID = GameData.ProfileIDs[c.Player[i]];
+                    }
+                }
             }
 
             _Base.Graphics.FadeTo(EScreens.ScreenSing);
@@ -358,6 +372,7 @@ namespace Vocaluxe.PartyModes
         {
             _ScreenSongOptions.Selection.RandomOnly = false;
             _ScreenSongOptions.Selection.CategoryChangeAllowed = true;
+            GameData.CurrentRoundNr++;
             SetNumJokers();
             SetTeamNames();
             _Base.Graphics.FadeTo(EScreens.ScreenSong);
@@ -406,18 +421,24 @@ namespace Vocaluxe.PartyModes
                 return;
             }
 
-            if (GameData.NumPlayerAtOnce < 1 || GameData.NumPlayerAtOnce > 6 || GameData.ProfileIDs.Count < GameData.NumPlayerAtOnce || profiles.Length < GameData.NumPlayerAtOnce)
+            if (GameData.NumPlayerAtOnce < 1 || GameData.ProfileIDs.Count < GameData.NumPlayerAtOnce || profiles.Length < GameData.NumPlayerAtOnce)
             {
                 _ScreenSongOptions.Selection.TeamNames = new string[] { "foo", "bar" };
                 return;
             }
-            //TODO: set the right data
+            
             _ScreenSongOptions.Selection.TeamNames = new string[GameData.NumPlayerAtOnce];
+            Combination c = GameData.Rounds.GetRound(GameData.CurrentRoundNr - 1);
 
             for (int i = 0; i < GameData.NumPlayerAtOnce; i++)
             {
-                if (GameData.ProfileIDs[i] < profiles.Length)
-                    _ScreenSongOptions.Selection.TeamNames[i] = profiles[GameData.ProfileIDs[i]].PlayerName;
+                if (c != null)
+                {
+                    if (GameData.ProfileIDs[c.Player[i]] < profiles.Length)
+                        _ScreenSongOptions.Selection.TeamNames[i] = profiles[GameData.ProfileIDs[c.Player[i]]].PlayerName;
+                    else
+                        _ScreenSongOptions.Selection.TeamNames[i] = "foobar";
+                }
                 else
                     _ScreenSongOptions.Selection.TeamNames[i] = "foobar";
             }
