@@ -41,8 +41,8 @@ namespace Vocaluxe.PartyModes
         private int OldMouseX = 0;
         private int OldMouseY = 0;
         private int SelectedPlayerNr = -1;
+        private bool ButtonsAdded = false;
 
-        //TODO: Get this data from party-mode!
         private int NumPlayer = 4;
         
         private DataFromScreen Data;
@@ -98,6 +98,13 @@ namespace Vocaluxe.PartyModes
                     Data.ScreenNames.ProfileIDs = new List<int>();
 
                 NumPlayer = config.NumPlayer;
+
+                while (Data.ScreenNames.ProfileIDs.Count > NumPlayer)
+                {
+                    Data.ScreenNames.ProfileIDs.RemoveAt(Data.ScreenNames.ProfileIDs.Count - 1);
+                }
+
+                
             }
             catch (Exception e)
             {
@@ -253,8 +260,12 @@ namespace Vocaluxe.PartyModes
         {
             base.OnShow();
 
-            AddButtonPlayerDestination();
-            AddButtonPlayerChoose();
+            if (!ButtonsAdded)
+            {
+                AddButtonPlayerDestination();
+                AddButtonPlayerChoose();
+                ButtonsAdded = true;
+            }
 
             UpdateButtonPlayerDestination();
             UpdateButtonPlayerChoose();
