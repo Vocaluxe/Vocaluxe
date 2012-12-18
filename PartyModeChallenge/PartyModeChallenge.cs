@@ -24,6 +24,7 @@ namespace Vocaluxe.PartyModes
     public struct DataToScreenMain
     {
         public int CurrentRoundNr;
+        public int NumPlayerAtOnce;
         public List<Combination> Combs;
         public List<ResultTableRow> ResultTable;
     }
@@ -262,8 +263,10 @@ namespace Vocaluxe.PartyModes
                         GameData.Rounds = new ChallengeRounds(GameData.NumRounds, GameData.NumPlayer, GameData.NumPlayerAtOnce);
                         GameData.CurrentRoundNr = 1;
                         ToScreenMain.CurrentRoundNr = 1;
+                        ToScreenMain.NumPlayerAtOnce = GameData.NumPlayerAtOnce;
                         ToScreenMain.Combs = GameData.Rounds.Rounds;
                         UpdateScores();
+                        ToScreenMain.ResultTable = GameData.ResultTable;
                         Screen.DataToScreen(ToScreenMain);
                     }
                     break;
@@ -533,6 +536,19 @@ namespace Vocaluxe.PartyModes
                 }
             }
 
+            GameData.ResultTable.Sort(delegate(ResultTableRow s1, ResultTableRow s2)
+            {
+                int res = s1.NumGamePoints.CompareTo(s2.NumGamePoints);
+                if (res == 0)
+                {
+                    res = s1.SumSingPoints.CompareTo(s2.NumGamePoints);
+                    if (res == 0)
+                    {
+                        res = s1.NumWon.CompareTo(s2.NumWon);
+                    }
+                }
+                return res;
+            });
 
         }
 

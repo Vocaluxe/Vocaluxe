@@ -302,15 +302,19 @@ namespace Vocaluxe.Base
 
             foreach (string screenfile in pm.ScreenFiles)
             {
+                string XmlPath = Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeScreens);
                 CMenuParty Screen = GetPartyScreenInstance(
                     Output,
                     screenfile,
-                    Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeScreens),
-                    pm.PartyModeID);
+                    Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeScreens)
+                    );
 
                 if (Screen != null)
                 {
+                    Screen.Initialize(CMain.Base);
                     Screen.AssingPartyMode(pm.PartyMode);
+                    Screen.SetPartyModeID(pm.PartyModeID);
+                    Screen.LoadTheme(XmlPath);
                     pm.PartyMode.AddScreen(Screen, screenfile);
                 }
                 else
@@ -361,7 +365,7 @@ namespace Vocaluxe.Base
             return CompileResult.CompiledAssembly;
         }
 
-        private static CMenuParty GetPartyScreenInstance(Assembly Assembly, string ScreenName, string XmlPath, int PartyModeID)
+        private static CMenuParty GetPartyScreenInstance(Assembly Assembly, string ScreenName, string XmlPath)
         {
             if (Assembly == null)
                 return null;
@@ -383,9 +387,6 @@ namespace Vocaluxe.Base
                 CLog.LogError("Error casting PartyScreen: " + ScreenName + "; " + e.Message);
                 return null;
             }
-            Screen.Initialize(CMain.Base);
-            Screen.SetPartyModeID(PartyModeID);
-            Screen.LoadTheme(XmlPath);
             return Screen;
         }
         #endregion private stuff
