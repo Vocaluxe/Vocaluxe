@@ -29,14 +29,36 @@ namespace Vocaluxe.PartyModes
         public List<ResultTableRow> ResultTable;
     }
 
-    public struct ResultTableRow
+    public class ResultTableRow : IComparable
     {
         public int PlayerID;
+        public int NumPlayed;
         public int NumWon;
         public int NumDrawn;
         public int NumLost;
         public int SumSingPoints;
         public int NumGamePoints;
+
+        public int CompareTo(object obj)
+        {
+            if (obj is ResultTableRow)
+            {
+                ResultTableRow row = (ResultTableRow)obj;
+
+                int res = row.NumGamePoints.CompareTo(NumGamePoints);
+                if (res == 0)
+                {
+                    res = row.SumSingPoints.CompareTo(SumSingPoints);
+                    if (res == 0)
+                    {
+                        res = row.NumWon.CompareTo(NumWon);
+                    }
+                }
+                return res;
+            }
+
+            throw new ArgumentException("object is not a ResultTableRow");
+        }
     }
 
     #endregion ToScreen
@@ -490,6 +512,7 @@ namespace Vocaluxe.PartyModes
                 {
                     ResultTableRow row = new ResultTableRow();
                     row.PlayerID = GameData.ProfileIDs[i];
+                    row.NumPlayed = 0;
                     row.NumWon = 0;
                     row.NumDrawn = 0;
                     row.NumLost = 0;
@@ -514,7 +537,7 @@ namespace Vocaluxe.PartyModes
                     int index = -1;
                     for (int j = 0; j < GameData.ResultTable.Count; j++)
 			        {
-                        if (results[i].ProfileID == GameData.ResultTable[i].PlayerID)
+                        if (points[i].ProfileID == GameData.ResultTable[j].PlayerID)
                         {
                             index = j;
                             break;
@@ -525,6 +548,7 @@ namespace Vocaluxe.PartyModes
                     {
                         ResultTableRow row = GameData.ResultTable[index];
 
+                        row.NumPlayed++;
                         row.NumWon += points[i].Won;
                         row.NumDrawn += points[i].Drawn;
                         row.NumLost += points[i].Lost;
@@ -536,20 +560,7 @@ namespace Vocaluxe.PartyModes
                 }
             }
 
-            GameData.ResultTable.Sort(delegate(ResultTableRow s1, ResultTableRow s2)
-            {
-                int res = s1.NumGamePoints.CompareTo(s2.NumGamePoints);
-                if (res == 0)
-                {
-                    res = s1.SumSingPoints.CompareTo(s2.NumGamePoints);
-                    if (res == 0)
-                    {
-                        res = s1.NumWon.CompareTo(s2.NumWon);
-                    }
-                }
-                return res;
-            });
-
+            GameData.ResultTable.Sort();
         }
 
         private List<Stats> GetPointsForPlayer(SPlayer[] Results)
