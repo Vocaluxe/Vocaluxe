@@ -399,13 +399,15 @@ namespace Vocaluxe.PartyModes
                 if (_Base.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON)
                 {
                     visible = true;
-                }
-                for (int p = 0; p < Data.ScreenNames.ProfileIDs.Count; p++)
-                {
-                    //Don't show profile if is selected, but if selected and guest
-                    if (Data.ScreenNames.ProfileIDs[p] == i && _Base.Profiles.GetProfiles()[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
+
+                    for (int p = 0; p < Data.ScreenNames.ProfileIDs.Count; p++)
                     {
-                        visible = false;
+                        //Don't show profile if is selected, but if selected and guest
+                        if (Data.ScreenNames.ProfileIDs[p] == i && _Base.Profiles.GetProfiles()[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
+                        {
+                            visible = false;
+                            break;
+                        }
                     }
                 }
                 if (visible)
