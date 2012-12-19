@@ -615,7 +615,7 @@ namespace Vocaluxe.Screens
             base.OnShow();
 
             _sso = CParty.GetSongSelectionOptions();
-            CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, _sso.Sorting.SearchString);
+            CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, _sso.Sorting.SearchString, _sso.Sorting.ShowDuetSongs);
             _SearchActive = _sso.Sorting.SearchStringVisible;
             _SearchText = _sso.Sorting.SearchString;
 
@@ -644,7 +644,7 @@ namespace Vocaluxe.Screens
         public override bool UpdateGame()
         {
             _sso = CParty.GetSongSelectionOptions();
-            CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, _sso.Sorting.SearchString);
+            CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, _sso.Sorting.SearchString, _sso.Sorting.ShowDuetSongs);
             _SearchActive = _sso.Sorting.SearchStringVisible;
             _SearchText = _sso.Sorting.SearchString;
 

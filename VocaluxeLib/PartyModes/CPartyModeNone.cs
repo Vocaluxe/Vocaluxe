@@ -19,6 +19,7 @@ namespace Vocaluxe.PartyModes
 
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchStringVisible = false;
+            _ScreenSongOptions.Sorting.ShowDuetSongs = true;
         }
 
         public override ScreenSongOptions GetScreenSongOptions()
