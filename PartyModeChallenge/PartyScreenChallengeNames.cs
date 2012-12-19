@@ -361,7 +361,7 @@ namespace Vocaluxe.PartyModes
             if (Offset < 0)
                 Offset = 0;
 
-            if (NumButtonPlayerChoose * (Offset + 1) - PlayerChooseButtonsVisibleProfiles.Count < NumButtonPlayerChoose)
+            if (NumButtonPlayerChoose * (Offset + 1) - PlayerChooseButtonsVisibleProfiles.Count <= NumButtonPlayerChoose)
             {
                 for (int i = 0; i < NumButtonPlayerChoose; i++)
                 {
