@@ -508,7 +508,7 @@ namespace Vocaluxe.Menu
                 x += rect.Width;
             }
 
-            if (jump_note > 0)
+            if (jump_note > -1)
             {
                 if (_Notes[jump_note].Duration == 0)
                     return;
