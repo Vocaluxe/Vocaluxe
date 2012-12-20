@@ -515,6 +515,43 @@ namespace Vocaluxe.Base
             connection.Dispose();
         }
 
+        private static void CreateHighscoreDBV1(string FilePath)
+        {
+            SQLiteConnection connection = new SQLiteConnection();
+            connection.ConnectionString = "Data Source=" + FilePath;
+            SQLiteCommand command;
+
+            try
+            {
+                connection.Open();
+            }
+            catch (Exception)
+            {
+                return;
+            }
+
+            command = new SQLiteCommand(connection);
+
+            command.CommandText = "CREATE TABLE IF NOT EXISTS Version ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Value INTEGER NOT NULL);";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "INSERT INTO Version (id, Value) VALUES(NULL, 1 )";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "CREATE TABLE IF NOT EXISTS Songs ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                "Artist TEXT NOT NULL, Title TEXT NOT NULL, NumPlayed INTEGER);";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "CREATE TABLE IF NOT EXISTS Scores ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                "SongID INTEGER NOT NULL, PlayerName TEXT NOT NULL, Score INTEGER NOT NULL, LineNr INTEGER NOT NULL, Date BIGINT NOT NULL, " +
+                "Medley INTEGER NOT NULL, Duet INTEGER NOT NULL, Difficulty INTEGER NOT NULL);";
+            command.ExecuteNonQuery();
+
+            command.Dispose();
+            connection.Close();
+            connection.Dispose();
+        }
+
         /// <summary>
         /// Creates a new Vocaluxe Database if no file exists. Converts an existing old Ultrastar Deluxe highscore database into vocaluxe format.
         /// </summary>
@@ -535,46 +572,8 @@ namespace Vocaluxe.Base
                 return false;
             }
 
-            command = new SQLiteCommand(connection);
-            command.CommandText = "SELECT Value FROM Version";
-
             SQLiteDataReader reader = null;
-
-            try
-            {
-                reader = command.ExecuteReader();
-            }
-            catch (Exception)
-            {
-                ;
-            }
-
-            if (reader == null)
-            {
-                // create new database/tables
-                CreateHighscoreDB(FilePath);
-            }
-            else if (reader.FieldCount == 0)
-            {
-                // create new database/tables
-                CreateHighscoreDB(FilePath);
-            }
-            else
-            {
-                reader.Read();
-                int CurrentVersion = reader.GetInt32(0);
-                if (CurrentVersion < CSettings.iDatabaseHighscoreVersion)
-                {
-                    // update database
-                    UpdateDatabase(CurrentVersion, connection);
-                }
-            }
-
-            if (reader != null)
-            {
-                reader.Close();
-                reader.Dispose();
-            }
+            command = new SQLiteCommand(connection);
 
             command.CommandText = "PRAGMA user_version";
             reader = command.ExecuteReader();
@@ -594,17 +593,69 @@ namespace Vocaluxe.Base
             reader.Close();
             reader.Dispose();
 
-            //Check for USDX 1.1 DB
-            if (version == 1)
+            command.CommandText = "SELECT Value FROM Version";
+            reader = null;
+
+            try
             {
-                ConvertFrom110(FilePath);
-                UpdateDatabase(1, connection);
+                reader = command.ExecuteReader();
             }
-            //Check for USDX 1.01 or CMD Mod DB
-            else if (version == 0 && scoresTableExists)
+            catch (Exception)
             {
-                ConvertFrom101(FilePath);
-                UpdateDatabase(1, connection);
+                ;
+            }
+
+            if (reader == null)
+            {
+                // create new database/tables
+                if (version == 1) //Check for USDX 1.1 DB
+                {
+                    CreateHighscoreDBV1(FilePath);
+                    ConvertFrom110(FilePath);
+                    UpdateDatabase(1, connection);
+                }
+                else if (version == 0 && scoresTableExists) //Check for USDX 1.01 or CMD Mod DB
+                {
+                    CreateHighscoreDBV1(FilePath);
+                    ConvertFrom101(FilePath);
+                    UpdateDatabase(1, connection);
+                }
+                else
+                    CreateHighscoreDB(FilePath);
+            }
+            else if (reader.FieldCount == 0)
+            {
+                // create new database/tables
+                if (version == 1) //Check for USDX 1.1 DB
+                {
+                    CreateHighscoreDBV1(FilePath);
+                    ConvertFrom110(FilePath);
+                    UpdateDatabase(1, connection);
+                }
+                else if (version == 0 && scoresTableExists) //Check for USDX 1.01 or CMD Mod DB
+                {
+                    CreateHighscoreDBV1(FilePath);
+                    ConvertFrom101(FilePath);
+                    UpdateDatabase(1, connection);
+                }
+                else
+                    CreateHighscoreDB(FilePath);
+            }
+            else
+            {
+                reader.Read();
+                int CurrentVersion = reader.GetInt32(0);
+                if (CurrentVersion < CSettings.iDatabaseHighscoreVersion)
+                {
+                    // update database
+                    UpdateDatabase(CurrentVersion, connection);
+                }
+            }
+
+            if (reader != null)
+            {
+                reader.Close();
+                reader.Dispose();
             }
 
             command.Dispose();
