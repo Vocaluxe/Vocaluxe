@@ -127,7 +127,7 @@ namespace Vocaluxe.Base
             get { return _CatIndex; }
             set
             {
-                if ((_Categories.Count > value) && (value >= -1))
+                if ((_Categories.Count > value) && (value >= -1) && _CatIndex != value)
                 {
                     _CatIndex = value;
 
@@ -265,6 +265,7 @@ namespace Vocaluxe.Base
             for (int i = 0; i < _SongsSortList.Length; i++)
             {
                 _SongsSortList[i].PartyHidden = false;
+                _SongsSortList[i].Visible = (_SongsSortList[i].CatIndex == _CatIndex && !_SongsSortList[i].PartyHidden);
             }
         }
 
@@ -273,7 +274,10 @@ namespace Vocaluxe.Base
             for (int i = 0; i < _SongsSortList.Length; i++)
             {
                 if (_SongsSortList[i].CatIndex == CatIndex)
+                {
                     _SongsSortList[i].PartyHidden = false;
+                    _SongsSortList[i].Visible = (_SongsSortList[i].CatIndex == _CatIndex && !_SongsSortList[i].PartyHidden);
+                }
             }
         }
 

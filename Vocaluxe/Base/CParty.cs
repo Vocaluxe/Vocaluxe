@@ -124,6 +124,7 @@ namespace Vocaluxe.Base
                 
         public static void SetNormalGameMode()
         {
+            CSongs.ResetPartySongSung();
             SetPartyMode(_NormalGameModeID);
         }
 
