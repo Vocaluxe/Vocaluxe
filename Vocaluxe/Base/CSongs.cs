@@ -21,6 +21,7 @@ namespace Vocaluxe.Base
 
         public int CatIndex;
         public bool Visible;
+        public bool PartyHidden;
 
         public SongPointer(int ID, string sortString)
         {
@@ -28,6 +29,7 @@ namespace Vocaluxe.Base
             SortString = sortString;
             CatIndex = -1;
             Visible = false;
+            PartyHidden = false;
         }
     }
 
@@ -131,7 +133,7 @@ namespace Vocaluxe.Base
 
                     for (int i = 0; i < _SongsSortList.Length; i++)
                     {
-                        _SongsSortList[i].Visible = (_SongsSortList[i].CatIndex == _CatIndex);
+                        _SongsSortList[i].Visible = (_SongsSortList[i].CatIndex == _CatIndex && !_SongsSortList[i].PartyHidden);
                     }
                 }
             }
@@ -150,7 +152,7 @@ namespace Vocaluxe.Base
             int num = 0;
             for (int i = 0; i < _SongsSortList.Length; i++)
             {
-                if (_SongsSortList[i].CatIndex == CatIndex)
+                if (_SongsSortList[i].CatIndex == CatIndex && !_SongsSortList[i].PartyHidden)
                     num++;
             }
             return num;
@@ -219,7 +221,7 @@ namespace Vocaluxe.Base
                 _CoverLoaded = true;
         }
 
-        public static string GetActualCategoryName()
+        public static string GetCurrentCategoryName()
         {
             if ((_Categories.Count > 0) && (_CatIndex >= 0) && (_Categories.Count > _CatIndex))
                 return _Categories[_CatIndex].Name;
@@ -235,6 +237,44 @@ namespace Vocaluxe.Base
                     return song;
             }
             return null;
+        }
+
+        public static void AddPartySongSung(int SongID)
+        {
+            int cat = -1;
+            for (int i = 0; i < _SongsSortList.Length; i++)
+            {
+                if (SongID == _SongsSortList[i].SongID)
+                {
+                    _SongsSortList[i].PartyHidden = true;
+                    _SongsSortList[i].Visible = false;
+                    cat = _SongsSortList[i].CatIndex;
+                    break;
+                }
+            }
+
+            if (cat != -1)
+            {
+                if (NumSongsInCategory(cat) == 0)
+                    ResetPartySongSung(cat);
+            }
+        }
+
+        public static void ResetPartySongSung()
+        {
+            for (int i = 0; i < _SongsSortList.Length; i++)
+            {
+                _SongsSortList[i].PartyHidden = false;
+            }
+        }
+
+        public static void ResetPartySongSung(int CatIndex)
+        {
+            for (int i = 0; i < _SongsSortList.Length; i++)
+            {
+                if (_SongsSortList[i].CatIndex == CatIndex)
+                    _SongsSortList[i].PartyHidden = false;
+            }
         }
 
         public static int GetVisibleSongNumber(int SongID)

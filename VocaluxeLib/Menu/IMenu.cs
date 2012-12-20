@@ -239,6 +239,10 @@ namespace Vocaluxe.Menu
         CSong GetSongByID(int SongID);
         CCategory GetCategory(int Index);
 
+        void AddPartySongSung(int SongID);
+        void ResetPartySongSung();
+        void ResetPartySongSung(int CatIndex);
+
         void NextCategory();
         void PrevCategory();
     }

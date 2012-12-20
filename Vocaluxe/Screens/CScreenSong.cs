@@ -659,7 +659,7 @@ namespace Vocaluxe.Screens
             if (SongMenus[htSongMenus(SongMenu)].IsSmallView())
                 CheckPlaylist();
 
-            Texts[htTexts(TextCategory)].Text = CSongs.GetActualCategoryName();
+            Texts[htTexts(TextCategory)].Text = CSongs.GetCurrentCategoryName();
 
             if (CSongs.Category > -1 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF)
                 CBackgroundMusic.Disabled = true;

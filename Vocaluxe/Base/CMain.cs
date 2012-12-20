@@ -612,6 +612,21 @@ namespace Vocaluxe.Base
             return new CCategory(CSongs.Categories[Index]);
         }
 
+        public void AddPartySongSung(int SongID)
+        {
+            CSongs.AddPartySongSung(SongID);
+        }
+
+        public void ResetPartySongSung()
+        {
+            CSongs.ResetPartySongSung();
+        }
+
+        public void ResetPartySongSung(int CatIndex)
+        {
+            CSongs.ResetPartySongSung(CatIndex);
+        }
+
         public void NextCategory()
         {
             CSongs.NextCategory();

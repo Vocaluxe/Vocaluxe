@@ -283,6 +283,7 @@ namespace Vocaluxe.PartyModes
                     _Screens.TryGetValue("PartyScreenChallengeMain", out Screen);
                     if (_Screens != null)
                     {
+                        _Base.Songs.ResetPartySongSung();
                         GameData.Rounds = new ChallengeRounds(GameData.NumRounds, GameData.NumPlayer, GameData.NumPlayerAtOnce);
                         GameData.CurrentRoundNr = 1;
                         ToScreenMain.CurrentRoundNr = 1;
@@ -372,13 +373,11 @@ namespace Vocaluxe.PartyModes
             if (TeamNr >= _ScreenSongOptions.Selection.NumJokers.Length)
                 return;
 
-            if (_ScreenSongOptions.Selection.RandomOnly)
+            if (!_ScreenSongOptions.Selection.CategoryChangeAllowed)
                 _ScreenSongOptions.Selection.NumJokers[TeamNr]--;
 
             _ScreenSongOptions.Selection.RandomOnly = true;
             _ScreenSongOptions.Selection.CategoryChangeAllowed = false;
-
-
         }
 
         public override void SongSelected(int SongID)
@@ -420,6 +419,7 @@ namespace Vocaluxe.PartyModes
                 }
             }
 
+            _Base.Songs.AddPartySongSung(SongID);
             _Base.Graphics.FadeTo(EScreens.ScreenSing);
         }
 
