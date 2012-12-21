@@ -185,7 +185,7 @@ namespace Vocaluxe.Base
                 command.ExecuteNonQuery();
 
                 //Read last insert line
-                command.CommandText = "SELECT id FROM Scores ORDER BY Date DESC LIMIT 0, 1";
+                command.CommandText = "SELECT id FROM Scores ORDER BY id DESC LIMIT 0, 1";
 
                 reader = null;
                 try

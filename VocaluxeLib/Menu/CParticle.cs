@@ -449,7 +449,7 @@ namespace Vocaluxe.Menu
                 }
 
                 writer.WriteComment("<Type>: Type of ParticleEffect: " + CHelper.ListStrings(Enum.GetNames(typeof(EType))));
-                writer.WriteElementString("Type", Enum.GetName(typeof(EType), _Type);
+                writer.WriteElementString("Type", Enum.GetName(typeof(EType), _Type));
                 writer.WriteComment("<Size>: Size of particle");
                 writer.WriteElementString("Size", _Size.ToString("#0.00"));
                 writer.WriteComment("<MaxNumber>: Max number of drawn particles");

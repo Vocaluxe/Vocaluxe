@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenHighscore>
-    <ScreenVersion>1</ScreenVersion>
+    <ScreenVersion>2</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>Video</Type>
@@ -1292,5 +1292,195 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </TextDate10>
+    <ParticleEffectNew1>
+      <!--<Skin>: Texture name-->
+      <Skin>Star</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: ParticleEffect position, width and height-->
+      <X>80</X>
+      <Y>100</Y>
+      <Z>1,00</Z>
+      <W>1080</W>
+      <H>42</H>
+      <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
+      <Type>TButton</Type>
+      <!--<Size>: Size of particle-->
+      <Size>25,00</Size>
+      <!--<MaxNumber>: Max number of drawn particles-->
+      <MaxNumber>250</MaxNumber>
+    </ParticleEffectNew1>
+    <ParticleEffectNew2>
+      <!--<Skin>: Texture name-->
+      <Skin>Star</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: ParticleEffect position, width and height-->
+      <X>80</X>
+      <Y>160</Y>
+      <Z>1,00</Z>
+      <W>1080</W>
+      <H>42</H>
+      <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
+      <Type>TButton</Type>
+      <!--<Size>: Size of particle-->
+      <Size>25,00</Size>
+      <!--<MaxNumber>: Max number of drawn particles-->
+      <MaxNumber>250</MaxNumber>
+    </ParticleEffectNew2>
+    <ParticleEffectNew3>
+      <!--<Skin>: Texture name-->
+      <Skin>Star</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: ParticleEffect position, width and height-->
+      <X>80</X>
+      <Y>220</Y>
+      <Z>1,00</Z>
+      <W>1080</W>
+      <H>42</H>
+      <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
+      <Type>TButton</Type>
+      <!--<Size>: Size of particle-->
+      <Size>25,00</Size>
+      <!--<MaxNumber>: Max number of drawn particles-->
+      <MaxNumber>250</MaxNumber>
+    </ParticleEffectNew3>
+    <ParticleEffectNew4>
+      <!--<Skin>: Texture name-->
+      <Skin>Star</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: ParticleEffect position, width and height-->
+      <X>80</X>
+      <Y>280</Y>
+      <Z>1,00</Z>
+      <W>1080</W>
+      <H>42</H>
+      <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
+      <Type>TButton</Type>
+      <!--<Size>: Size of particle-->
+      <Size>25,00</Size>
+      <!--<MaxNumber>: Max number of drawn particles-->
+      <MaxNumber>250</MaxNumber>
+    </ParticleEffectNew4>
+    <ParticleEffectNew5>
+      <!--<Skin>: Texture name-->
+      <Skin>Star</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: ParticleEffect position, width and height-->
+      <X>80</X>
+      <Y>340</Y>
+      <Z>1,00</Z>
+      <W>1080</W>
+      <H>42</H>
+      <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
+      <Type>TButton</Type>
+      <!--<Size>: Size of particle-->
+      <Size>25,00</Size>
+      <!--<MaxNumber>: Max number of drawn particles-->
+      <MaxNumber>250</MaxNumber>
+    </ParticleEffectNew5>
+    <ParticleEffectNew6>
+      <!--<Skin>: Texture name-->
+      <Skin>Star</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: ParticleEffect position, width and height-->
+      <X>80</X>
+      <Y>400</Y>
+      <Z>1,00</Z>
+      <W>1080</W>
+      <H>42</H>
+      <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
+      <Type>TButton</Type>
+      <!--<Size>: Size of particle-->
+      <Size>25,00</Size>
+      <!--<MaxNumber>: Max number of drawn particles-->
+      <MaxNumber>250</MaxNumber>
+    </ParticleEffectNew6>
+    <ParticleEffectNew7>
+      <!--<Skin>: Texture name-->
+      <Skin>Star</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: ParticleEffect position, width and height-->
+      <X>80</X>
+      <Y>460</Y>
+      <Z>1,00</Z>
+      <W>1080</W>
+      <H>42</H>
+      <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
+      <Type>TButton</Type>
+      <!--<Size>: Size of particle-->
+      <Size>25,00</Size>
+      <!--<MaxNumber>: Max number of drawn particles-->
+      <MaxNumber>250</MaxNumber>
+    </ParticleEffectNew7>
+    <ParticleEffectNew8>
+      <!--<Skin>: Texture name-->
+      <Skin>Star</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: ParticleEffect position, width and height-->
+      <X>80</X>
+      <Y>520</Y>
+      <Z>1,00</Z>
+      <W>1080</W>
+      <H>42</H>
+      <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
+      <Type>TButton</Type>
+      <!--<Size>: Size of particle-->
+      <Size>25,00</Size>
+      <!--<MaxNumber>: Max number of drawn particles-->
+      <MaxNumber>250</MaxNumber>
+    </ParticleEffectNew8>
+    <ParticleEffectNew9>
+      <!--<Skin>: Texture name-->
+      <Skin>Star</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: ParticleEffect position, width and height-->
+      <X>80</X>
+      <Y>580</Y>
+      <Z>1,00</Z>
+      <W>1080</W>
+      <H>42</H>
+      <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
+      <Type>TButton</Type>
+      <!--<Size>: Size of particle-->
+      <Size>25,00</Size>
+      <!--<MaxNumber>: Max number of drawn particles-->
+      <MaxNumber>250</MaxNumber>
+    </ParticleEffectNew9>
+    <ParticleEffectNew10>
+      <!--<Skin>: Texture name-->
+      <Skin>Star</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: ParticleEffect position, width and height-->
+      <X>80</X>
+      <Y>640</Y>
+      <Z>1,00</Z>
+      <W>1080</W>
+      <H>42</H>
+      <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
+      <Type>TButton</Type>
+      <!--<Size>: Size of particle-->
+      <Size>25,00</Size>
+      <!--<MaxNumber>: Max number of drawn particles-->
+      <MaxNumber>250</MaxNumber>
+    </ParticleEffectNew10>
   </ScreenHighscore>
 </root>
