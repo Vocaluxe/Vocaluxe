@@ -1005,6 +1005,25 @@ namespace Vocaluxe.Base
             return true;
         }
 
+        private static bool ConvertV2toV3(SQLiteConnection connection)
+        {
+            SQLiteCommand command;
+
+            command = new SQLiteCommand(connection);
+
+            command.CommandText = "ALTER TABLE Songs ADD DateAdded BIGINT";
+            command.ExecuteNonQuery();
+            command.CommandText = "UPDATE Songs SET [DateAdded] = @DateAdded";
+            command.Parameters.Add("@DateAdded",System.Data.DbType.Int64, 0).Value = DateTime.Now.Ticks;
+            command.ExecuteNonQuery();
+            command.CommandText = "UPDATE Version SET [Value] = @version";
+            command.Parameters.Add("@version", System.Data.DbType.Int32, 0).Value = 2;
+            command.ExecuteNonQuery();
+            command.Dispose();
+
+            return true;
+        }
+
         private static bool ImportData(string SourceDBPath, string DestinationDBPath)
         {
             #region open db
