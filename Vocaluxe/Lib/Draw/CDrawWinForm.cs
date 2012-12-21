@@ -352,6 +352,11 @@ namespace Vocaluxe.Lib.Draw
 
         }
 
+        public void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
+        {
+
+        }
+
         public STexture AddTexture(Bitmap bmp)
         {
             Bitmap bmp2 = new Bitmap(bmp);

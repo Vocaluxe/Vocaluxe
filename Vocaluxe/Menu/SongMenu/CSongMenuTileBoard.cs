@@ -18,6 +18,8 @@ namespace Vocaluxe.Menu.SongMenu
         private CStatic _TextBG;
         private CStatic _DuetIcon;
         private CStatic _VideoIcon;
+        private CStatic _MedleyCalcIcon;
+        private CStatic _MedleyTagIcon;
 
         private STexture _CoverBigTexture;
         private STexture _CoverTexture;
@@ -38,6 +40,8 @@ namespace Vocaluxe.Menu.SongMenu
         private int _Offset = 0;
         private int _actualSelection = -1;
 
+        private bool _SmallView = false;
+
         public override int GetActualSelection()
         {
             return _actualSelection;
@@ -47,6 +51,8 @@ namespace Vocaluxe.Menu.SongMenu
         {
             base.Init();
 
+            _Rect = _Theme.songMenuTileBoard.TileRect;
+ 
             _NumW = _Theme.songMenuTileBoard.numW;
             _NumH = _Theme.songMenuTileBoard.numH;
             _SpaceW = _Theme.songMenuTileBoard.spaceW;
@@ -81,6 +87,8 @@ namespace Vocaluxe.Menu.SongMenu
             _TextBG = _Theme.songMenuTileBoard.StaticTextBG;
             _DuetIcon = _Theme.songMenuTileBoard.StaticDuetIcon;
             _VideoIcon = _Theme.songMenuTileBoard.StaticVideoIcon;
+            _MedleyCalcIcon = _Theme.songMenuTileBoard.StaticMedleyCalcIcon;
+            _MedleyTagIcon = _Theme.songMenuTileBoard.StaticMedleyTagIcon;
 
             _Artist = _Theme.songMenuTileBoard.TextArtist;
             _Title = _Theme.songMenuTileBoard.TextTitle;
@@ -113,6 +121,8 @@ namespace Vocaluxe.Menu.SongMenu
                 _Locked = 0;
                 _DuetIcon.Visible = false;
                 _VideoIcon.Visible = false;
+                _MedleyCalcIcon.Visible = false;
+                _MedleyTagIcon.Visible = false;
             }
 
             if (CSongs.NumVisibleSongs == 0 && CSongs.SearchFilter != String.Empty)
@@ -125,6 +135,8 @@ namespace Vocaluxe.Menu.SongMenu
                 _Locked = -1;
                 _DuetIcon.Visible = false;
                 _VideoIcon.Visible = false;
+                _MedleyCalcIcon.Visible = false;
+                _MedleyTagIcon.Visible = false;
             }
         }
 
@@ -138,6 +150,11 @@ namespace Vocaluxe.Menu.SongMenu
             }
             else
             {
+                if (!(KeyEvent.Key == Keys.Left || KeyEvent.Key == Keys.Right || KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down ||
+                    KeyEvent.Key == Keys.Escape || KeyEvent.Key == Keys.Back || KeyEvent.Key == Keys.Enter ||
+                    KeyEvent.Key == Keys.PageDown || KeyEvent.Key == Keys.PageUp))
+                    return;
+
                 bool sel = false;
                 foreach (CStatic tile in _Tiles)
                 {
@@ -211,7 +228,9 @@ namespace Vocaluxe.Menu.SongMenu
                             if (_Locked > 0)
                             {
                                 _Locked--;
-                                UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
+                                if (CSongs.Category < 0 && _Locked < CSongs.NumCategories - _NumW ||
+                                    CSongs.Category >= 0 && _Locked < CSongs.NumVisibleSongs - _NumW)
+                                    UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
                             }
                             break;
 
@@ -221,7 +240,8 @@ namespace Vocaluxe.Menu.SongMenu
                                 if (_Locked < CSongs.NumCategories - 1)
                                 {
                                     _Locked++;
-                                    UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
+                                    if (_Locked < CSongs.NumCategories - _NumW)
+                                        UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
                                 }
 
                             }
@@ -230,7 +250,8 @@ namespace Vocaluxe.Menu.SongMenu
                                 if (_Locked < CSongs.NumVisibleSongs - 1)
                                 {
                                     _Locked++;
-                                    UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
+                                    if (_Locked < CSongs.NumVisibleSongs - _NumW)
+                                        UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
                                 }
                             }
                             break;
@@ -255,13 +276,14 @@ namespace Vocaluxe.Menu.SongMenu
                                 NextCategory();
                                 break;
                             }
-                            
+
                             if (CSongs.Category < 0)
                             {
                                 if (_Locked < CSongs.NumCategories - _NumW)
                                 {
                                     _Locked += _NumW;
-                                    UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
+                                    if (_Locked < CSongs.NumCategories - _NumW)
+                                        UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
                                 }
 
                             }
@@ -270,7 +292,8 @@ namespace Vocaluxe.Menu.SongMenu
                                 if (_Locked < CSongs.NumVisibleSongs - _NumW)
                                 {
                                     _Locked += _NumW;
-                                    UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
+                                    if (_Locked < CSongs.NumVisibleSongs - _NumW)
+                                        UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
                                 }
                             }
                             break;
@@ -297,6 +320,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             int i = 0;
             bool sel = false;
+            int lastselection = _actualSelection;
             foreach (CStatic tile in _Tiles)
             {
                 if ((tile.Texture.index != _CoverTexture.index) && CHelper.IsInBounds(tile.Rect, MouseEvent) && !sel)
@@ -321,6 +345,9 @@ namespace Vocaluxe.Menu.SongMenu
                 }
                 i++;
             }
+
+            if (MouseEvent.Sender == ESender.WiiMote && _actualSelection != lastselection && _actualSelection != -1)
+                CInput.SetRumble(0.050f);
 
             if (!sel)
                 _actualSelection = -1;
@@ -384,14 +411,14 @@ namespace Vocaluxe.Menu.SongMenu
         {
             foreach (CStatic tile in _Tiles)
             {
-                if (tile.Selected)
-                    tile.Draw(1.2f, tile.Rect.Z - 0.1f, true, false);
+                if (tile.Selected && _Active)
+                    tile.Draw(1.2f, tile.Rect.Z - 0.1f, EAspect.Crop, false);
                 else
                 {
                     if (tile.Texture.index != _CoverTexture.index)
-                        tile.Draw(1f, tile.Rect.Z, true, false);
+                        tile.Draw(1f, tile.Rect.Z, EAspect.Crop, false);
                     else
-                        tile.Draw(1f, tile.Rect.Z, false, false);
+                        tile.Draw(1f, tile.Rect.Z, EAspect.Stretch, false);
                 }
             }
 
@@ -406,14 +433,9 @@ namespace Vocaluxe.Menu.SongMenu
                     _Artist.Text = song.Artist;
                     _Title.Text = song.Title;
                     _DuetIcon.Visible = song.IsDuet;
-                    if (song.VideoFileName.Length > 0)
-                    {
-                        _VideoIcon.Visible = true;
-                    }
-                    else
-                    {
-                        _VideoIcon.Visible = false;
-                    }
+                    _VideoIcon.Visible = song.VideoFileName.Length > 0;
+                    _MedleyCalcIcon.Visible = song.Medley.Source == EMedleySource.Calculated;
+                    _MedleyTagIcon.Visible = song.Medley.Source == EMedleySource.Tag;
 
                     float Time = CSound.GetLength(_SongStream);
                     if (song.Finish != 0)
@@ -442,12 +464,16 @@ namespace Vocaluxe.Menu.SongMenu
                     _SongLength.Text = String.Empty;
                     _DuetIcon.Visible = false;
                     _VideoIcon.Visible = false;
+                    _MedleyCalcIcon.Visible = false;
+                    _MedleyTagIcon.Visible = false;
                 }
             }
 
-
-            _CoverBig.Draw(1f, true);
             _TextBG.Draw();
+
+            _CoverBig.Draw(1f, EAspect.Crop);
+            if (_vidtex.color.A < 1)
+                _CoverBig.Draw(1f, EAspect.Crop);
 
             if (_vidtex.index != -1 && _Video != -1)
             {
@@ -456,8 +482,11 @@ namespace Vocaluxe.Menu.SongMenu
                 CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
 
                 CDraw.DrawTexture(_vidtex, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z),
-                    _vidtex.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false); 
+                    _vidtex.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false);
+                CDraw.DrawTextureReflection(_vidtex, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z),
+                    _vidtex.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
             }
+
 
             
             _Artist.Draw();
@@ -465,12 +494,24 @@ namespace Vocaluxe.Menu.SongMenu
             _SongLength.Draw();
             _DuetIcon.Draw();
             _VideoIcon.Draw();
+            _MedleyCalcIcon.Draw();
+            _MedleyTagIcon.Draw();
                       
         }
 
         public override int GetSelectedSong()
         {
             return _Locked;
+        }
+
+        public override CStatic GetSelectedSongCover()
+        {
+            foreach (CStatic tile in _Tiles)
+            {
+                if (tile.Selected)
+                    return new CStatic(tile);
+            }
+            return new CStatic();
         }
 
         public override void SetSelectedSong(int VisibleSongNr)
@@ -528,6 +569,62 @@ namespace Vocaluxe.Menu.SongMenu
                 }
             }
 
+        }
+
+        public override void SetSelectedCategory(int CategoryNr)
+        {
+            base.SetSelectedCategory(CategoryNr);
+
+            if (CategoryNr < 0)
+                return;
+
+            if (CSongs.Categories.Length > CategoryNr)
+            {
+                bool sel = false;
+                foreach (CStatic tile in _Tiles)
+                {
+                    if (tile.Selected)
+                    {
+                        sel = true;
+                        break;
+                    }
+                }
+
+                if (_Locked == -1 || !sel)
+                {
+                    if (_PreviewSelected > -1)
+                    {
+                        _Locked = _PreviewSelected;
+                    }
+                    else
+                    {
+                        _Locked = 0;
+                        _actualSelection = 0;
+                        _PreviewSelected = 0;
+                        SetSelectedNow();
+                        UpdateList(0);
+                    }
+                }
+
+                foreach (CStatic tile in _Tiles)
+                {
+                    tile.Selected = false;
+                }
+
+                _PreviewSelected = CategoryNr;
+                SetSelectedNow();
+                _Locked = CategoryNr;
+
+                UpdateList((CategoryNr / _NumW) * _NumW - (_NumW * (_NumH - 2)));
+
+                _PreviewSelected = _Locked;
+                _actualSelection = _Locked;
+
+                for (int i = 0; i < _Tiles.Count; i++)
+                {
+                    _Tiles[i].Selected = _Locked == i + _Offset;
+                }
+            }
         }
 
         protected override void EnterCategory(int cat)
@@ -643,6 +740,74 @@ namespace Vocaluxe.Menu.SongMenu
             _Offset = offset;
         }
 
+        public override void SetSmallView(bool SmallView)
+        {
+            base.SetSmallView(SmallView);
+
+            _SmallView = SmallView;
+
+            if (_SmallView)
+            {
+                _NumH = _Theme.songMenuTileBoard.numHsmall;
+                _NumW = _Theme.songMenuTileBoard.numWsmall;
+
+                _TileW = (int)((_Theme.songMenuTileBoard.TileRectSmall.W - _SpaceW * (_NumW - 1)) / _NumW);
+                _TileH = (int)((_Theme.songMenuTileBoard.TileRectSmall.H - _SpaceH * (_NumH - 1)) / _NumH);
+
+                _CoverTexture = CTheme.GetSkinTexture(_Theme.CoverBackgroundName);
+                _CoverBigTexture = CTheme.GetSkinTexture(_Theme.CoverBigBackgroundName);
+
+                _Tiles = new List<CStatic>();
+                for (int i = 0; i < _NumH; i++)
+                {
+                    for (int j = 0; j < _NumW; j++)
+                    {
+                        SRectF rect = new SRectF(_Theme.songMenuTileBoard.TileRectSmall.X + j * (_TileW + _SpaceW),
+                            _Theme.songMenuTileBoard.TileRectSmall.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
+                        CStatic tile = new CStatic(_CoverTexture, Color, rect);
+                        _Tiles.Add(tile);
+                    }
+                }
+
+                _Rect = _Theme.songMenuTileBoard.TileRectSmall;
+                _ScrollRect = new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, _Theme.songMenuTileBoard.TileRectSmall.Z);
+            }
+            else
+            {
+                _NumH = _Theme.songMenuTileBoard.numH;
+                _NumW = _Theme.songMenuTileBoard.numW;
+
+                _TileW = (int)((_Theme.songMenuTileBoard.TileRect.W - _SpaceW * (_NumW - 1)) / _NumW);
+                _TileH = (int)((_Theme.songMenuTileBoard.TileRect.H - _SpaceH * (_NumH - 1)) / _NumH);
+
+                _CoverTexture = CTheme.GetSkinTexture(_Theme.CoverBackgroundName);
+                _CoverBigTexture = CTheme.GetSkinTexture(_Theme.CoverBigBackgroundName);
+
+                _Tiles = new List<CStatic>();
+                for (int i = 0; i < _NumH; i++)
+                {
+                    for (int j = 0; j < _NumW; j++)
+                    {
+                        SRectF rect = new SRectF(_Theme.songMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
+                            _Theme.songMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
+                        CStatic tile = new CStatic(_CoverTexture, Color, rect);
+                        _Tiles.Add(tile);
+                    }
+                }
+
+                _Rect = _Theme.songMenuTileBoard.TileRect;
+                _ScrollRect = new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, _Theme.songMenuTileBoard.TileRect.Z);
+            }
+
+            UpdateList(_Offset);
+
+        }
+
+        public override bool IsSmallView()
+        {
+            return _SmallView;
+        }
+
         public override void LoadTextures()
         {
             base.LoadTextures();
@@ -651,9 +816,12 @@ namespace Vocaluxe.Menu.SongMenu
             _Theme.songMenuTileBoard.StaticTextBG.ReloadTextures();
             _Theme.songMenuTileBoard.StaticDuetIcon.ReloadTextures();
             _Theme.songMenuTileBoard.StaticVideoIcon.ReloadTextures();
+            _Theme.songMenuTileBoard.StaticMedleyCalcIcon.ReloadTextures();
+            _Theme.songMenuTileBoard.StaticMedleyTagIcon.ReloadTextures();
 
             _Theme.songMenuTileBoard.TextArtist.ReloadTextures();
             _Theme.songMenuTileBoard.TextTitle.ReloadTextures();
+            _Theme.songMenuTileBoard.TextSongLength.ReloadTextures();
         }
     }
 }

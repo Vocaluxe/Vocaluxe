@@ -21,7 +21,7 @@ namespace Vocaluxe.Screens
     class CScreenOptionsRecord : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        const int ScreenVersion = 2;
 
         private const float MaxDelayTime = 1f;
         private const string SelectSlideRecordDevices = "SelectSlideRecordDevices";
@@ -39,6 +39,9 @@ namespace Vocaluxe.Screens
 
         private const string TextDelayChannel1 = "TextDelayChannel1";
         private const string TextDelayChannel2 = "TextDelayChannel2";
+
+        private const string EqualizerChannel1 = "EqualizerChannel1";
+        private const string EqualizerChannel2 = "EqualizerChannel2";
 
         private readonly string[] StaticEnergyChannel = new string[] { "StaticEnergyChannel1", "StaticEnergyChannel2" };
         private float[] ChannelEnergy;
@@ -71,6 +74,7 @@ namespace Vocaluxe.Screens
             _ThemeTexts = new string[] { TextWarning, TextDelayChannel1, TextDelayChannel2 };
             _ThemeButtons = new string[] { ButtonExit, ButtonDelayTest };
             _ThemeSelectSlides = new string[] { SelectSlideRecordDevices, SelectSlideRecordInputs, SelectSlideRecordChannel1, SelectSlideRecordChannel2, SelectSlideDelay };
+            _ThemeEqualizers = new string[] { EqualizerChannel1, EqualizerChannel2 };
         }
 
         public override void LoadTheme()
@@ -105,6 +109,9 @@ namespace Vocaluxe.Screens
                 Statics[htStatics(StaticEnergyChannel[i])].Visible = false;
                 ChannelEnergy[i] = 0f;
             }
+
+            Equalizers[htEqualizer(EqualizerChannel1)].ScreenHandles = true;
+            Equalizers[htEqualizer(EqualizerChannel2)].ScreenHandles = true;
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -254,7 +261,8 @@ namespace Vocaluxe.Screens
                             _DelayTest[i].Timer.Stop();
                             _DelayTestRunning = false;
                         }
-                        else if (CSound.RecordGetMaxVolume(player - 1) > 0.4f && CSound.RecordGetToneAbs(player - 1) == 9)
+                        else if (CSound.RecordGetMaxVolume(player - 1) > 0.1f &&
+                            (CSound.RecordGetToneAbs(player - 1) == 9 || CSound.RecordGetToneAbs(player - 1) == 21 || CSound.RecordGetToneAbs(player - 1) == 33))
                         {
                             _DelayTest[i].Delay = _DelayTest[i].Timer.ElapsedMilliseconds;
                             _DelayTest[i].Timer.Stop();
@@ -274,14 +282,20 @@ namespace Vocaluxe.Screens
                 if (player > 0)
                 {
                     ChannelEnergy[0] = CSound.RecordGetMaxVolume(player - 1);
+                    Equalizers[htEqualizer(EqualizerChannel1)].Update(CSound.ToneWeigth(player - 1));
                 }
+                else
+                    Equalizers[htEqualizer(EqualizerChannel1)].Reset();
 
                 ChannelEnergy[1] = 0f;
                 player = SelectSlides[htSelectSlides(SelectSlideRecordChannel2)].Selection;
                 if (player > 0)
                 {
                     ChannelEnergy[1] = CSound.RecordGetMaxVolume(player - 1);
+                    Equalizers[htEqualizer(EqualizerChannel2)].Update(CSound.ToneWeigth(player - 1));
                 }
+                else
+                    Equalizers[htEqualizer(EqualizerChannel2)].Reset();
             }
             else
             {
@@ -289,6 +303,8 @@ namespace Vocaluxe.Screens
                 {
                     ChannelEnergy[i] = 0f;
                 }
+                Equalizers[htEqualizer(EqualizerChannel1)].Reset();
+                Equalizers[htEqualizer(EqualizerChannel2)].Reset();
             }
 
             return true;
@@ -356,7 +372,7 @@ namespace Vocaluxe.Screens
         public override void OnShowFinish()
         {
             base.OnShowFinish();
-            CBackgroundMusic.Pause();
+            CBackgroundMusic.Disabled = true;
         }
 
         public override bool Draw()
@@ -389,6 +405,9 @@ namespace Vocaluxe.Screens
                 }
             }
 
+            Equalizers[htEqualizer(EqualizerChannel1)].Draw();
+            Equalizers[htEqualizer(EqualizerChannel2)].Draw();
+
             DrawFG();
 
             return true;
@@ -400,6 +419,7 @@ namespace Vocaluxe.Screens
             CSound.RecordStop();
 
             _DelayTest = null;
+            CBackgroundMusic.Disabled = false;
         }
 
         private void OnDeviceEvent()

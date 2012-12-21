@@ -1,0 +1,24 @@
+ScreenSong
+
+++++++++++
+Version 3:
+
+Add:
+<StaticOptionsBG>
+<TextOptionsTitle>
+<ButtonOptionsSing>, <ButtonOptionsClose>, <ButtonOptionsPlaylist>, <ButtonOptionsSingAll>, <ButtonOptionsSingAllVisible>, <ButtonOptionsRandom>, <ButtonOptionsRandom>, <ButtonOptionsRandomCategory>, <ButtonOpenOptions>
+<SelectSlideOptionsMode>, <SelectSlideOptionsPlaylistAdd>, <SelectSlideOptionsPlaylistOpen>
+and
+<Playlist> as a new Screen-Element. For details, look at ScreenSong.xml
+
+++++++++++
+Version 2:
+
+Add:
+<MedleyCalcIcon> and <MedleyTagIcon>
+to SongMenu
+
+Add:
+<StaticMedleyCalcIcon> and <StaticMedleyTagIcon> 
+to SongMenu.SongMenuTileBoard
+++++++++++ 

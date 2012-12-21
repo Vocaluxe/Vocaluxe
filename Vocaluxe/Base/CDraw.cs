@@ -38,6 +38,7 @@ namespace Vocaluxe.Base
                     }
                     break;
 
+#if WIN
                 case ERenderer.TR_CONFIG_DIRECT3D:
                     try
                     {
@@ -55,6 +56,7 @@ namespace Vocaluxe.Base
                         Environment.Exit(Environment.ExitCode);
                     }
                     break;
+#endif
 
                 default:
                     _Draw = new CDrawWinForm();
@@ -113,6 +115,11 @@ namespace Vocaluxe.Base
         public static void DrawColor(SColorF color, SRectF rect)
         {
             _Draw.DrawColor(color, rect);
+        }
+
+        public static void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
+        {
+            _Draw.DrawColorReflection(color, rect, space, height);
         }
 
         public static void ClearScreen()
@@ -237,6 +244,19 @@ namespace Vocaluxe.Base
         public static void DrawTexture(STexture Texture, SRectF rect, SColorF color, float begin, float end)
         {
             _Draw.DrawTexture(Texture, rect, color, begin, end);
+        }
+
+        public static void DrawTexture(CStatic StaticBounds, STexture Texture, EAspect Aspect)
+        {
+            RectangleF bounds = new RectangleF(StaticBounds.Rect.X, StaticBounds.Rect.Y, StaticBounds.Rect.W, StaticBounds.Rect.H);
+            RectangleF rect = new RectangleF(0f, 0f, Texture.width, Texture.height);
+
+            if (rect.Height <= 0f)
+                return;
+
+            CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, Aspect);
+            DrawTexture(Texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, StaticBounds.Rect.Z),
+                    Texture.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false);
         }
 
         public static void DrawTextureReflection(STexture Texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)

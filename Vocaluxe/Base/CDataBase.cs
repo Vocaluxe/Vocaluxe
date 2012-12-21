@@ -7,7 +7,16 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Text;
 
+#if WIN
 using System.Data.SQLite;
+#else
+using Mono.Data.Sqlite;
+using SQLiteConnection = Mono.Data.Sqlite.SqliteConnection;
+using SQLiteTransaction = Mono.Data.Sqlite.SqliteTransaction;
+using SQLiteCommand = Mono.Data.Sqlite.SqliteCommand;
+using SQLiteDataReader = Mono.Data.Sqlite.SqliteDataReader;
+#endif
+
 using Community.CsharpSqlite;
 
 using Vocaluxe.Lib.Draw;
@@ -44,7 +53,7 @@ namespace Vocaluxe.Base
         }
 
         #region Highscores
-        public static int AddScore(string PlayerName, int Score, int LineNr, long Date, int Medley, int Duet, int Diff,
+        public static int AddScore(string PlayerName, int Score, int LineNr, long Date, int Medley, int Duet, int ShortSong, int Diff,
             string Artist, string Title, int NumPlayed, string FilePath)
         {
             SPlayer player = new SPlayer();
@@ -54,11 +63,14 @@ namespace Vocaluxe.Base
             player.DateTicks = Date;
             player.Medley = (Medley == 1);
             player.Duet = (Duet == 1);
+            player.ShortSong = (ShortSong == 1);
             player.Difficulty = (EGameDifficulty)Diff;
 
             SQLiteConnection connection = new SQLiteConnection();
-            connection.ConnectionString = "Data Source=" + FilePath;
             SQLiteCommand command;
+
+            connection.ConnectionString = "Data Source=" + FilePath;
+            
 
             try
             {
@@ -122,8 +134,12 @@ namespace Vocaluxe.Base
                 if (player.Duet)
                     Duet = 1;
 
+                int ShortSong = 0;
+                if (player.ShortSong)
+                    ShortSong = 1;
+
                 command.CommandText = "SELECT id FROM Scores WHERE SongID = @SongID AND PlayerName = @PlayerName AND Score = @Score AND " +
-                    "LineNr = @LineNr AND Date = @Date AND Medley = @Medley AND Duet = @Duet AND Difficulty = @Difficulty";
+                    "LineNr = @LineNr AND Date = @Date AND Medley = @Medley AND Duet = @Duet AND ShortSong = @ShortSong AND Difficulty = @Difficulty";
                 command.Parameters.Add("@SongID", System.Data.DbType.Int32, 0).Value = DataBaseSongID;
                 command.Parameters.Add("@PlayerName", System.Data.DbType.String, 0).Value = player.Name;
                 command.Parameters.Add("@Score", System.Data.DbType.Int32, 0).Value = (int)Math.Round(player.Points);
@@ -131,6 +147,7 @@ namespace Vocaluxe.Base
                 command.Parameters.Add("@Date", System.Data.DbType.Int64, 0).Value = player.DateTicks;
                 command.Parameters.Add("@Medley", System.Data.DbType.Int32, 0).Value = Medley;
                 command.Parameters.Add("@Duet", System.Data.DbType.Int32, 0).Value = Duet;
+                command.Parameters.Add("@ShortSong", System.Data.DbType.Int32, 0).Value = ShortSong;
                 command.Parameters.Add("@Difficulty", System.Data.DbType.Int32, 0).Value = (int)player.Difficulty;
 
                 SQLiteDataReader reader = null;
@@ -153,8 +170,8 @@ namespace Vocaluxe.Base
                     reader.Close();
 
 
-                command.CommandText = "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, Difficulty) " +
-                    "VALUES (@SongID, @PlayerName, @Score, @LineNr, @Date, @Medley, @Duet, @Difficulty)";
+                command.CommandText = "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, ShortSong, Difficulty) " +
+                    "VALUES (@SongID, @PlayerName, @Score, @LineNr, @Date, @Medley, @Duet, @ShortSong, @Difficulty)";
                 command.Parameters.Add("@SongID", System.Data.DbType.Int32, 0).Value = DataBaseSongID;
                 command.Parameters.Add("@PlayerName", System.Data.DbType.String, 0).Value = player.Name;
                 command.Parameters.Add("@Score", System.Data.DbType.Int32, 0).Value = (int)Math.Round(player.Points);
@@ -162,6 +179,7 @@ namespace Vocaluxe.Base
                 command.Parameters.Add("@Date", System.Data.DbType.Int64, 0).Value = player.DateTicks;
                 command.Parameters.Add("@Medley", System.Data.DbType.Int32, 0).Value = Medley;
                 command.Parameters.Add("@Duet", System.Data.DbType.Int32, 0).Value = Duet;
+                command.Parameters.Add("@ShortSong", System.Data.DbType.Int32, 0).Value = ShortSong;
                 command.Parameters.Add("@Difficulty", System.Data.DbType.Int32, 0).Value = (int)player.Difficulty;
                 command.ExecuteNonQuery();
 
@@ -220,15 +238,20 @@ namespace Vocaluxe.Base
             if (player.Duet)
                 Duet = 1;
 
+            int ShortSong = 0;
+            if (player.ShortSong)
+                ShortSong = 1;
+
             int DataBaseSongID = GetDataBaseSongID(player, command);
             if (DataBaseSongID >= 0)
             {
                 command.CommandText = "SELECT PlayerName, Score, Date, Difficulty, LineNr, id FROM Scores " +
-                    "WHERE [SongID] = @SongID AND [Medley] = @Medley AND [Duet] = @Duet " +
+                    "WHERE [SongID] = @SongID AND [Medley] = @Medley AND [Duet] = @Duet AND [ShortSong] = @ShortSong " +
                     "ORDER BY [Score] DESC";
                 command.Parameters.Add("@SongID", System.Data.DbType.Int32, 0).Value = DataBaseSongID;
                 command.Parameters.Add("@Medley", System.Data.DbType.Int32, 0).Value = Medley;
                 command.Parameters.Add("@Duet", System.Data.DbType.Int32, 0).Value = Duet;
+                command.Parameters.Add("@ShortSong", System.Data.DbType.Int32, 0).Value = ShortSong;
 
                 SQLiteDataReader reader = null;
                 try
@@ -483,6 +506,43 @@ namespace Vocaluxe.Base
 
             command.CommandText = "CREATE TABLE IF NOT EXISTS Scores ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                 "SongID INTEGER NOT NULL, PlayerName TEXT NOT NULL, Score INTEGER NOT NULL, LineNr INTEGER NOT NULL, Date BIGINT NOT NULL, " +
+                "Medley INTEGER NOT NULL, Duet INTEGER NOT NULL, ShortSong INTEGER NOT NULL, Difficulty INTEGER NOT NULL);";
+            command.ExecuteNonQuery();
+
+            command.Dispose();
+            connection.Close();
+            connection.Dispose();
+        }
+
+        private static void CreateHighscoreDBV1(string FilePath)
+        {
+            SQLiteConnection connection = new SQLiteConnection();
+            connection.ConnectionString = "Data Source=" + FilePath;
+            SQLiteCommand command;
+
+            try
+            {
+                connection.Open();
+            }
+            catch (Exception)
+            {
+                return;
+            }
+
+            command = new SQLiteCommand(connection);
+
+            command.CommandText = "CREATE TABLE IF NOT EXISTS Version ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Value INTEGER NOT NULL);";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "INSERT INTO Version (id, Value) VALUES(NULL, 1 )";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "CREATE TABLE IF NOT EXISTS Songs ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                "Artist TEXT NOT NULL, Title TEXT NOT NULL, NumPlayed INTEGER);";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "CREATE TABLE IF NOT EXISTS Scores ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                "SongID INTEGER NOT NULL, PlayerName TEXT NOT NULL, Score INTEGER NOT NULL, LineNr INTEGER NOT NULL, Date BIGINT NOT NULL, " +
                 "Medley INTEGER NOT NULL, Duet INTEGER NOT NULL, Difficulty INTEGER NOT NULL);";
             command.ExecuteNonQuery();
 
@@ -511,45 +571,8 @@ namespace Vocaluxe.Base
                 return false;
             }
 
-            command = new SQLiteCommand(connection);
-            command.CommandText = "SELECT Value FROM Version";
-
             SQLiteDataReader reader = null;
-
-            try
-            {
-                reader = command.ExecuteReader();
-            }
-            catch (Exception)
-            {
-                ;
-            }
-
-            if (reader == null)
-            {
-                // create new database/tables
-                CreateHighscoreDB(FilePath);
-            }
-            else if (reader.FieldCount == 0)
-            {
-                // create new database/tables
-                CreateHighscoreDB(FilePath);
-            }
-            else
-            {
-                reader.Read();
-
-                if (reader.GetInt32(0) < CSettings.iDatabaseHighscoreVersion)
-                {
-                    // update database
-                }
-            }
-
-            if (reader != null)
-            {
-                reader.Close();
-                reader.Dispose();
-            }
+            command = new SQLiteCommand(connection);
 
             command.CommandText = "PRAGMA user_version";
             reader = command.ExecuteReader();
@@ -569,12 +592,70 @@ namespace Vocaluxe.Base
             reader.Close();
             reader.Dispose();
 
-            //Check for USDX 1.1 DB
-            if (version == 1)
-                ConvertFrom110(FilePath);
-            //Check for USDX 1.01 or CMD Mod DB
-            else if (version == 0 && scoresTableExists)
-                ConvertFrom101(FilePath);
+            command.CommandText = "SELECT Value FROM Version";
+            reader = null;
+
+            try
+            {
+                reader = command.ExecuteReader();
+            }
+            catch (Exception)
+            {
+                ;
+            }
+
+            if (reader == null)
+            {
+                // create new database/tables
+                if (version == 1) //Check for USDX 1.1 DB
+                {
+                    CreateHighscoreDBV1(FilePath);
+                    ConvertFrom110(FilePath);
+                    UpdateDatabase(1, connection);
+                }
+                else if (version == 0 && scoresTableExists) //Check for USDX 1.01 or CMD Mod DB
+                {
+                    CreateHighscoreDBV1(FilePath);
+                    ConvertFrom101(FilePath);
+                    UpdateDatabase(1, connection);
+                }
+                else
+                    CreateHighscoreDB(FilePath);
+            }
+            else if (reader.FieldCount == 0)
+            {
+                // create new database/tables
+                if (version == 1) //Check for USDX 1.1 DB
+                {
+                    CreateHighscoreDBV1(FilePath);
+                    ConvertFrom110(FilePath);
+                    UpdateDatabase(1, connection);
+                }
+                else if (version == 0 && scoresTableExists) //Check for USDX 1.01 or CMD Mod DB
+                {
+                    CreateHighscoreDBV1(FilePath);
+                    ConvertFrom101(FilePath);
+                    UpdateDatabase(1, connection);
+                }
+                else
+                    CreateHighscoreDB(FilePath);
+            }
+            else
+            {
+                reader.Read();
+                int CurrentVersion = reader.GetInt32(0);
+                if (CurrentVersion < CSettings.iDatabaseHighscoreVersion)
+                {
+                    // update database
+                    UpdateDatabase(CurrentVersion, connection);
+                }
+            }
+
+            if (reader != null)
+            {
+                reader.Close();
+                reader.Dispose();
+            }
 
             command.Dispose();
 
@@ -797,10 +878,16 @@ namespace Vocaluxe.Base
                         data.id = Sqlite3.sqlite3_column_int(Stmt, 0);
 
                         byte[] bytes = Sqlite3.sqlite3_column_rawbytes(Stmt, 1);
-                        data.str1 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        if (bytes != null)
+                            data.str1 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        else
+                            data.str1 = "Someone";
 
                         bytes = Sqlite3.sqlite3_column_rawbytes(Stmt, 2);
-                        data.str2 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        if (bytes != null)
+                            data.str2 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        else
+                            data.str2 = "Someone";
 
                         songs.Add(data);
                     }
@@ -832,7 +919,10 @@ namespace Vocaluxe.Base
                         data.id = Sqlite3.sqlite3_column_int(Stmt, 0);
 
                         byte[] bytes = Sqlite3.sqlite3_column_rawbytes(Stmt, 1);
-                        data.str1 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        if (bytes != null)
+                            data.str1 = UTF8.GetString(Encoding.Convert(CP1252, UTF8, bytes));
+                        else
+                            data.str1 = "Someone";
 
                         if (dateExists)
                             data.ticks = UnixTimeToTicks(Sqlite3.sqlite3_column_int(Stmt, 2));
@@ -885,6 +975,35 @@ namespace Vocaluxe.Base
             return true;
         }
 
+        private static bool UpdateDatabase(int CurrentVersion, SQLiteConnection connection)
+        {
+            bool updated = true;
+            if (CurrentVersion < 2)
+            {
+                updated &= ConvertV1toV2(connection);
+            }
+            return updated;
+        }
+
+        private static bool ConvertV1toV2(SQLiteConnection connection)
+        {
+            SQLiteCommand command;
+
+            command = new SQLiteCommand(connection);
+
+            command.CommandText = "ALTER TABLE Scores ADD ShortSong INTEGER";
+            command.ExecuteNonQuery();
+            command.CommandText = "UPDATE Scores SET [ShortSong] = @ShortSong";
+            command.Parameters.Add("@ShortSong", System.Data.DbType.Int32, 0).Value = 0;
+            command.ExecuteNonQuery();
+            command.CommandText = "UPDATE Version SET [Value] = @version";
+            command.Parameters.Add("@version", System.Data.DbType.Int32, 0).Value = 2;
+            command.ExecuteNonQuery();
+            command.Dispose();
+
+            return true;
+        }
+
         private static bool ImportData(string SourceDBPath, string DestinationDBPath)
         {
             #region open db
@@ -906,7 +1025,7 @@ namespace Vocaluxe.Base
             SQLiteDataReader rSource;
 
             #region import table scores
-            cmdSource.CommandText = "SELECT SongID, PlayerName, Score, LineNr, Date, Medley, Duet, Difficulty FROM Scores";
+            cmdSource.CommandText = "SELECT SongID, PlayerName, Score, LineNr, Date, Medley, Duet, ShortSong, Difficulty FROM Scores";
             rSource = cmdSource.ExecuteReader();
             if (rSource == null)
             {
@@ -932,13 +1051,14 @@ namespace Vocaluxe.Base
                 long date = rSource.GetInt64(4);
                 int medley = rSource.GetInt32(5);
                 int duet = rSource.GetInt32(6);
-                int diff = rSource.GetInt32(7);
+                int shortsong = rSource.GetInt32(7);
+                int diff = rSource.GetInt32(8);
 
                 string artist, title;
                 int numplayed;
                 if (GetDataBaseSongInfos(songid, out artist, out title, out numplayed, SourceDBPath))
                 {
-                    AddScore(player, score, linenr, date, medley, duet, diff, artist, title, numplayed, _HighscoreFilePath);
+                    AddScore(player, score, linenr, date, medley, duet, shortsong, diff, artist, title, numplayed, _HighscoreFilePath);
                 }
             }
             #endregion import table scores

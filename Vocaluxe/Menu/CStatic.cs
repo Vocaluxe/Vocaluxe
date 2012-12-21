@@ -22,6 +22,11 @@ namespace Vocaluxe.Menu
         private SThemeStatic _Theme;
         private bool _ThemeLoaded;
 
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
         private STexture _Texture;
         public STexture Texture
         {
@@ -48,6 +53,8 @@ namespace Vocaluxe.Menu
 
         public float Alpha;
 
+        public EAspect Aspect = EAspect.Stretch;
+
         public CStatic()
         {
             _Theme = new SThemeStatic();
@@ -63,6 +70,23 @@ namespace Vocaluxe.Menu
             Selected = false;
             Alpha = 1f;
             Visible = true;
+        }
+
+        public CStatic(CStatic s)
+        {
+            _Theme = new SThemeStatic();
+            _ThemeLoaded = false;
+
+            _Texture = s.Texture;
+            Color = new SColorF(s.Color);
+            Rect = new SRectF(s.Rect);
+            Reflection = s.Reflection;
+            ReflectionSpace = s.ReflectionHeight;
+            ReflectionHeight = s.ReflectionSpace;
+
+            Selected = s.Selected;
+            Alpha = s.Alpha;
+            Visible = s.Visible;
         }
 
         public CStatic(STexture texture, SColorF color, SRectF rect)
@@ -191,25 +215,25 @@ namespace Vocaluxe.Menu
 
         public void Draw()
         {
-            Draw(1f, Rect.Z, false, false);
+            Draw(1f, Rect.Z, Aspect, false);
         }
 
-        public void Draw(bool aspect)
+        public void Draw(EAspect aspect)
         {
             Draw(1f, Rect.Z, aspect, false);
         }
 
-        public void Draw(float scale, bool aspect)
+        public void Draw(float scale, EAspect aspect)
         {
             Draw(scale, Rect.Z, aspect, false);
         }
 
         public void ForceDraw()
         {
-            Draw(1f, Rect.Z, false, true);
+            Draw(1f, Rect.Z, Aspect, true);
         }
 
-        public void Draw(float scale, float z, bool aspect, bool ForceDraw)
+        public void Draw(float scale, float z, EAspect aspect, bool ForceDraw)
         {
             STexture texture;
             if (_Texture.index != -1)
@@ -226,11 +250,11 @@ namespace Vocaluxe.Menu
 
             SRectF rect = bounds;
 
-            if (aspect)
+            if (aspect != EAspect.Stretch)
             {
                 RectangleF bounds2 = new RectangleF(bounds.X, bounds.Y, bounds.W, bounds.H);
                 RectangleF rect2 = new RectangleF(0f, 0f, texture.width, texture.height);
-                CHelper.SetRect(bounds2, ref rect2, texture.width / texture.height, EAspect.Crop);
+                CHelper.SetRect(bounds2, ref rect2, texture.width / texture.height, aspect);
 
                 rect.X = rect2.X;
                 rect.Y = rect2.Y;

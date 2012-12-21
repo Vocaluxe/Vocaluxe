@@ -41,6 +41,12 @@ namespace Vocaluxe.Menu
     {
         private SThemeText _Theme;
         private bool _ThemeLoaded;
+
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
         private bool _ButtonText;
         private bool _PositionNeedsUpdate = true;
 
@@ -144,6 +150,20 @@ namespace Vocaluxe.Menu
             }
         }
 
+        private EHAlignment _HAlign = EHAlignment.Center;
+        public EHAlignment HAlign
+        {
+            get { return _HAlign; }
+            set
+            {
+                if (_HAlign != value)
+                {
+                    _HAlign = value;
+                    _PositionNeedsUpdate = true;
+                }
+            }
+        }
+
         private EStyle _Style = EStyle.Normal;
         public EStyle Style
         {
@@ -197,6 +217,7 @@ namespace Vocaluxe.Menu
 
         public bool Selected;
         public bool Visible = true;
+        public bool EditMode = false;
 
         public float Alpha = 1f;
 
@@ -213,6 +234,7 @@ namespace Vocaluxe.Menu
             MaxWidth = 0f;
             Bounds = new SRectF();
             Align = EAlignment.Left;
+            HAlign = EHAlignment.Center;
             Style = EStyle.Normal;
             Fon = "Normal";
 
@@ -228,6 +250,37 @@ namespace Vocaluxe.Menu
             Alpha = 1f;
         }
 
+        public CText(CText text)
+        {
+            _Theme = new SThemeText();
+            _ThemeLoaded = false;
+            _ButtonText = false;
+
+            X = text._X;
+            Y = text._Y;
+            Z = text._Z;
+            Height = text._Height;
+            MaxWidth = text._MaxWidth;
+            Bounds = new SRectF(text._Bounds);
+            Align = text._Align;
+            HAlign = text._HAlign;
+            Style = text._Style;
+            Fon = text._Fon;
+
+            Color = new SColorF(text.Color);
+            SColor = new SColorF(text.SColor);
+            Reflection = text.Reflection;
+            ReflectionSpace = text.ReflectionSpace;
+            ReflectionHeight = text.ReflectionHeight;
+
+            Text = text._Text;
+            Selected = text.Selected;
+            Visible = text.Visible;
+            Alpha = text.Alpha;
+
+            EditMode = text.EditMode;
+        }
+
         public CText(float x, float y, float z, EAlignment align, float h, float mw, float r, float g, float b, float a, EStyle style, string font, string text, float rspace, float rheight)
         {
             _Theme = new SThemeText();
@@ -240,6 +293,7 @@ namespace Vocaluxe.Menu
             Height = h;
             MaxWidth = mw;
             Align = align;
+            HAlign = EHAlignment.Center;
             Style = style;
             Fon = font;
 
@@ -276,6 +330,7 @@ namespace Vocaluxe.Menu
             Height = h;
             MaxWidth = mw;
             Align = align;
+            HAlign = EHAlignment.Center;
             Style = style;
             Fon = font;
 
@@ -310,6 +365,7 @@ namespace Vocaluxe.Menu
             Height = h;
             MaxWidth = mw;
             Align = align;
+            HAlign = EHAlignment.Center;
             Style = style;
             Fon = font;
 
@@ -346,6 +402,7 @@ namespace Vocaluxe.Menu
             Height = h;
             MaxWidth = mw;
             Align = align;
+            HAlign = EHAlignment.Center;
             Style = style;
             Fon = font;
 
@@ -414,6 +471,7 @@ namespace Vocaluxe.Menu
             }
 
             _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EAlignment>(item + "/Align", navigator, ref _Align);
+            CHelper.TryGetEnumValueFromXML<EHAlignment>(item + "/HAlign", navigator, ref _HAlign);
             _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EStyle>(item + "/Style", navigator, ref _Style);
             _ThemeLoaded &= CHelper.GetValueFromXML(item + "/Font", navigator, ref _Fon, "Normal");
 
@@ -437,6 +495,7 @@ namespace Vocaluxe.Menu
             Text = _Theme.Text;
             Fon = _Fon;
             Align = _Align;
+            HAlign = _HAlign;
             Style = _Style;
 
             if (_ThemeLoaded)
@@ -505,8 +564,11 @@ namespace Vocaluxe.Menu
                     writer.WriteElementString("SA", SColor.A.ToString("#0.00"));
                 }
 
-                writer.WriteComment("<Align>: Text align: " + CConfig.ListStrings(Enum.GetNames(typeof(EAlignment))));
+                writer.WriteComment("<Align>: Text align horizontal: " + CConfig.ListStrings(Enum.GetNames(typeof(EAlignment))));
                 writer.WriteElementString("Align", Enum.GetName(typeof(EAlignment), Align));
+
+                writer.WriteComment("<HAlign>: Text align vertical (on downsizing): " + CConfig.ListStrings(Enum.GetNames(typeof(EHAlignment))));
+                writer.WriteElementString("HAlign", Enum.GetName(typeof(EHAlignment), HAlign));
 
                 writer.WriteComment("<Style>: Text style: " + CConfig.ListStrings(Enum.GetNames(typeof(EStyle))));
                 writer.WriteElementString("Style", Enum.GetName(typeof(EStyle), Style));
@@ -514,7 +576,7 @@ namespace Vocaluxe.Menu
                 writer.WriteComment("<Font>: Text font name");
                 writer.WriteElementString("Font", Fon);
 
-                writer.WriteComment("<Text>: Text or translation tag");
+                writer.WriteComment("<Text>: Nothing or translation tag");
                 if (CLanguage.TranslationExists(_Theme.Text))
                     writer.WriteElementString("Text", _Theme.Text);
                 else
@@ -572,12 +634,32 @@ namespace Vocaluxe.Menu
 
             SColorF color = new SColorF(CurrentColor.R, CurrentColor.G, CurrentColor.B, CurrentColor.A * Alpha);
 
-
-            CFonts.DrawText(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color);
+            if (!EditMode)
+                CFonts.DrawText(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color);
+            else
+                CFonts.DrawText(_Text + "|", _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color);
 
             if (Reflection)
             {
-                CFonts.DrawTextReflection(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace, ReflectionHeight);
+                float sFactor = 0f;
+                switch (HAlign)
+                {
+                    case EHAlignment.Top:
+                        sFactor = (Height - _DrawPosition.tH) * 1.5f;
+                        break;
+                    case EHAlignment.Center:
+                        sFactor = (Height - _DrawPosition.tH) * 1.0f;
+                        break;
+                    case EHAlignment.Bottom:
+                        sFactor = (Height - _DrawPosition.tH) * 0.5f;
+                        break;
+                    default:
+                        break;
+                }
+                if (!EditMode)
+                    CFonts.DrawTextReflection(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace + sFactor, ReflectionHeight);
+                else
+                    CFonts.DrawTextReflection(_Text + "|", _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace + sFactor, ReflectionHeight);
             }
 
             if (Selected && (CSettings.GameState == EGameState.EditTheme))
@@ -614,7 +696,11 @@ namespace Vocaluxe.Menu
 
             CFonts.SetFont(Fon);
             CFonts.Style = Style;
-            CFonts.DrawText(Text, Height, x, Y, Z, color, begin, end);
+
+            if (!EditMode)
+                CFonts.DrawText(Text, Height, x, Y, Z, color, begin, end);
+            else
+                CFonts.DrawText(Text + "|", Height, x, Y, Z, color, begin, end);
 
             if (Reflection)
             {
@@ -649,11 +735,27 @@ namespace Vocaluxe.Menu
 
             RectangleF bounds = CDraw.GetTextBounds(this);
 
-            while (bounds.Width > Bounds.W)
+            if (bounds.Width > Bounds.W && Bounds.W > 0f && bounds.Width > 0f)
             {
-                h -= 0.2f;
-                y += 0.1f;
-                bounds = CDraw.GetTextBounds(this, h);
+                float factor = Bounds.W / bounds.Width;
+                float step = h * (1 - factor);
+                h *= factor;
+                switch (HAlign)
+                {
+                    case EHAlignment.Top:
+                        y += step * 0.25f;
+                        break;
+                    case EHAlignment.Center:
+                        y += step * 0.50f;
+                        break;
+                    case EHAlignment.Bottom:
+                        y += step * 0.75f;
+                        break;
+                    default:
+                        break;
+                }
+
+                bounds = CFonts.GetTextBounds(this, h);
             }
 
             switch (Align)
@@ -667,6 +769,7 @@ namespace Vocaluxe.Menu
                 default:
                     break;
             }
+                       
 
             SColorF CurrentColor = new SColorF(Color);
             if (Selected)
@@ -676,13 +779,21 @@ namespace Vocaluxe.Menu
 
             CFonts.SetFont(Fon);
             CFonts.Style = Style;
-            CFonts.DrawText(_Text, h, x, y, Z, color);
+
+            if (!EditMode)
+                CFonts.DrawText(_Text, h, x, y, Z, color);
+            else
+                CFonts.DrawText(_Text + "|", h, x, y, Z, color);
 
             if (reflection)
             {
                 float space = (rectHeight - Y - bounds.Height) * 2f + reflectionSpace;
                 float height = reflectionHeight - (rectHeight - Y) + bounds.Height;
-                CFonts.DrawTextReflection(_Text, h, x, y, Z, color, space, height);
+
+                if (!EditMode)
+                    CFonts.DrawTextReflection(_Text, h, x, y, Z, color, space, height);
+                else
+                    CFonts.DrawTextReflection(_Text + "|", h, x, y, Z, color, space, height);
             }
 
             if (Selected && (CSettings.GameState == EGameState.EditTheme))
@@ -737,10 +848,26 @@ namespace Vocaluxe.Menu
             float y = Y;
             RectangleF bounds = CFonts.GetTextBounds(this);
 
-            while (bounds.Width > Bounds.W)
+            if (bounds.Width > Bounds.W && Bounds.W > 0f && bounds.Width > 0f)
             {
-                h -= 0.2f;
-                y += 0.1f;
+                float factor = Bounds.W / bounds.Width;
+                float step = h * (1 - factor);
+                h *= factor ;
+                switch (HAlign)
+                {
+                    case EHAlignment.Top:
+                        y += step * 0.25f;
+                        break;
+                    case EHAlignment.Center:
+                        y += step * 0.50f;
+                        break;
+                    case EHAlignment.Bottom:
+                        y += step * 0.75f;
+                        break;
+                    default:
+                        break;
+                }
+
                 bounds = CFonts.GetTextBounds(this, h);
             }
 

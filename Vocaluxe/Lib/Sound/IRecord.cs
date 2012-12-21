@@ -51,6 +51,8 @@ namespace Vocaluxe.Lib.Sound
         void SetTone(int Player, int Tone);
         float GetMaxVolume(int Player);
         bool ToneValid(int Player);
+        int NumHalfTones(int Player);
+        float[] ToneWeigth(int Player);
 
         SRecordDevice[] RecordDevices();
     }

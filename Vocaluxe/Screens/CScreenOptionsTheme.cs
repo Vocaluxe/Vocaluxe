@@ -12,7 +12,7 @@ namespace Vocaluxe.Screens
     class CScreenOptionsTheme : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 2;
+        const int ScreenVersion = 3;
 
         private const string SelectSlideTheme = "SelectSlideTheme";
         private const string SelectSlideSkin = "SelectSlideSkin";
@@ -20,6 +20,7 @@ namespace Vocaluxe.Screens
         private const string SelectSlideNoteLines = "SelectSlideNoteLines";
         private const string SelectSlideToneHelper = "SelectSlideToneHelper";
         private const string SelectSlideTimerLook = "SelectSlideTimerLook";
+        private const string SelectSlideFadeInfo = "SelectSlideFadeInfo";
         private const string SelectSlideCoverLoading = "SelectSlideCoverLoading";
 
         private const string ButtonExit = "ButtonExit";
@@ -49,6 +50,7 @@ namespace Vocaluxe.Screens
                 SelectSlideNoteLines,
                 SelectSlideToneHelper,
                 SelectSlideTimerLook,
+                SelectSlideFadeInfo,
                 SelectSlideCoverLoading
             };
         }
@@ -68,6 +70,7 @@ namespace Vocaluxe.Screens
             SelectSlides[htSelectSlides(SelectSlideNoteLines)].SetValues<EOffOn>((int)CConfig.DrawNoteLines);
             SelectSlides[htSelectSlides(SelectSlideToneHelper)].SetValues<EOffOn>((int)CConfig.DrawToneHelper);
             SelectSlides[htSelectSlides(SelectSlideTimerLook)].SetValues<ETimerLook>((int)CConfig.TimerLook);
+            SelectSlides[htSelectSlides(SelectSlideFadeInfo)].SetValues<EFadePlayerInfo>((int)CConfig.FadePlayerInfo);
             SelectSlides[htSelectSlides(SelectSlideCoverLoading)].SetValues<ECoverLoading>((int)CConfig.CoverLoading);
         }
 
@@ -163,6 +166,7 @@ namespace Vocaluxe.Screens
             CConfig.DrawNoteLines = (EOffOn)SelectSlides[htSelectSlides(SelectSlideNoteLines)].Selection;
             CConfig.DrawToneHelper = (EOffOn)SelectSlides[htSelectSlides(SelectSlideToneHelper)].Selection;
             CConfig.TimerLook = (ETimerLook)SelectSlides[htSelectSlides(SelectSlideTimerLook)].Selection;
+            CConfig.FadePlayerInfo = (EFadePlayerInfo)SelectSlides[htSelectSlides(SelectSlideFadeInfo)].Selection;
             CConfig.CoverLoading = (ECoverLoading)SelectSlides[htSelectSlides(SelectSlideCoverLoading)].Selection;
 
             CConfig.SaveConfig();
@@ -179,6 +183,7 @@ namespace Vocaluxe.Screens
                 _OldTheme = SelectSlides[htSelectSlides(SelectSlideTheme)].Selection;
 
                 CTheme.UnloadSkins();
+                CFonts.UnloadThemeFonts(CConfig.Theme);
                 CTheme.ListSkins();
                 CConfig.Skin = CTheme.SkinNames[0];
                 _OldSkin = 0;
@@ -201,6 +206,7 @@ namespace Vocaluxe.Screens
                 _OldTheme = SelectSlides[htSelectSlides(SelectSlideTheme)].Selection;
 
                 CTheme.UnloadSkins();
+                CFonts.UnloadThemeFonts(CConfig.Theme);
                 CTheme.ListSkins();
                 CConfig.Skin = CTheme.SkinNames[0];
                 _OldSkin = 0;

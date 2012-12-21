@@ -89,6 +89,13 @@ namespace Vocaluxe
 
                 Application.DoEvents();
 
+                //Init Webcam
+                CLog.StartBenchmark(0, "Init Webcam");
+                CWebcam.Init();
+                CLog.StopBenchmark(0, "Init Webcam");
+
+                Application.DoEvents();
+
                 // Init Background Music
                 CLog.StartBenchmark(0, "Init Background Music");
                 CBackgroundMusic.Init();
@@ -138,6 +145,11 @@ namespace Vocaluxe
 
                 Application.DoEvents();
 
+                // Init Input
+                CLog.StartBenchmark(0, "Init Input");
+                CInput.Init();
+                CLog.StopBenchmark(0, "Init Input");
+
                 // Init Game;
                 CLog.StartBenchmark(0, "Init Game");
                 CGame.Init();
@@ -173,12 +185,14 @@ namespace Vocaluxe
             // Unloading
             try
             {
+                CInput.Close();
                 CSound.RecordCloseAll();
                 CSound.CloseAllStreams();
                 CVideo.VdCloseAll();
                 CDraw.Unload();
                 CLog.CloseAll();
                 CDataBase.CloseConnections();
+                CWebcam.Close();
             }
             catch (Exception)
             {
@@ -192,11 +206,11 @@ namespace Vocaluxe
             if (arr != null)
             {
 #if ARCH_X86
-                Assembly assembly = Assembly.LoadFrom("x86\\" + arr[0] + ".dll");
+                Assembly assembly = Assembly.LoadFrom(Path.Combine("x86", arr[0] + ".dll"));
 #endif
 
 #if ARCH_X64
-                Assembly assembly = Assembly.LoadFrom("x64\\" + arr[0] + ".dll");
+                Assembly assembly = Assembly.LoadFrom(Path.Combine("x64", arr[0] + ".dll"));
 #endif
 
                 return assembly;

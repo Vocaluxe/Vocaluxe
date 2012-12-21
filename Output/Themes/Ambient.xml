@@ -12,9 +12,6 @@
     <Skin>Cursor</Skin>
     <W>40,000</W>
     <H>40,000</H>
-    <R>0,675</R>
-    <G>0,890</G>
-    <B>0,969</B>
-    <A>1,000</A>
+    <Color>StaticColor</Color>
   </Cursor>
 </root>
