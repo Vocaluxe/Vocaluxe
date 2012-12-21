@@ -33,9 +33,8 @@ namespace Vocaluxe.PartyModes
     {
         public int PlayerID;
         public int NumPlayed;
+        public int NumRounds;
         public int NumWon;
-        public int NumDrawn;
-        public int NumLost;
         public int SumSingPoints;
         public int NumGamePoints;
 
@@ -128,8 +127,6 @@ namespace Vocaluxe.PartyModes
             public int SingPoints;
             public int GamePoints;
             public int Won;
-            public int Drawn;
-            public int Lost;
         }
 
         private DataToScreenConfig ToScreenConfig;
@@ -514,9 +511,8 @@ namespace Vocaluxe.PartyModes
                     ResultTableRow row = new ResultTableRow();
                     row.PlayerID = GameData.ProfileIDs[i];
                     row.NumPlayed = 0;
+                    row.NumRounds = 0;
                     row.NumWon = 0;
-                    row.NumDrawn = 0;
-                    row.NumLost = 0;
                     row.SumSingPoints = 0;
                     row.NumGamePoints = 0;
                     GameData.ResultTable.Add(row);
@@ -551,8 +547,7 @@ namespace Vocaluxe.PartyModes
 
                         row.NumPlayed++;
                         row.NumWon += points[i].Won;
-                        row.NumDrawn += points[i].Drawn;
-                        row.NumLost += points[i].Lost;
+                        row.NumRounds += 1;
                         row.SumSingPoints += points[i].SingPoints;
                         row.NumGamePoints += points[i].GamePoints;
 
@@ -573,8 +568,6 @@ namespace Vocaluxe.PartyModes
                 stat.ProfileID = Results[i].ProfileID;
                 stat.SingPoints = (int)Results[i].Points;
                 stat.Won = 0;
-                stat.Drawn = 0;
-                stat.Lost = 0;
                 stat.GamePoints = 0;
                 result.Add(stat);
             }
@@ -583,6 +576,7 @@ namespace Vocaluxe.PartyModes
 
             int current = result[result.Count - 1].SingPoints;
             int points = result.Count;
+            bool wonset = false;
 
             for (int i = result.Count - 1; i >= 0; i--)
             {
@@ -593,18 +587,28 @@ namespace Vocaluxe.PartyModes
                     if (current > res.SingPoints)
                     {
                         res.GamePoints = i * 2;
+                        wonset = true;
+                        points = res.GamePoints;
                     }
                     else
+                    {
+                        if (!wonset)
+                            res.Won = 1;
                         res.GamePoints = points;
+                    }
                 }
                 else
+                {
                     res.GamePoints = i * 2;
+                    res.Won = 1;
+                }
 
                 current = res.SingPoints;
-                points = res.GamePoints;
 
                 result[i] = res;
             }
+
+
 
             return result;
         }

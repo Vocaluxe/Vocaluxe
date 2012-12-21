@@ -11,9 +11,8 @@ namespace Vocaluxe.PartyModes
     {
         public CText Pos;
         public CText Name;
+        public CText Rounds;
         public CText Won;
-        public CText Drawn;
-        public CText Lost;
         public CText SingPoints;
         public CText GamePoints;
     }
@@ -26,9 +25,8 @@ namespace Vocaluxe.PartyModes
 
         const string TextPosition = "TextPosition";
         const string TextPlayerName = "TextPlayerName";
+        const string TextNumPlayed = "TextNumPlayed";
         const string TextWon = "TextWon";
-        const string TextDrawn = "TextDrawn";
-        const string TextLost = "TextLost";
         const string TextSingPoints = "TextSingPoints";
         const string TextGamePoints = "TextGamePoints";
 
@@ -50,7 +48,7 @@ namespace Vocaluxe.PartyModes
             base.Init();
 
             _ThemeName = "PartyScreenChallengeMain";
-            _ThemeTexts = new string[] { TextPosition, TextPlayerName, TextWon, TextDrawn, TextLost, TextSingPoints, TextGamePoints };
+            _ThemeTexts = new string[] { TextPosition, TextPlayerName, TextNumPlayed, TextWon, TextSingPoints, TextGamePoints };
             _ThemeButtons = new string[] { "ButtonNextRound" };
             _ScreenVersion = ScreenVersion;
         }
@@ -168,17 +166,15 @@ namespace Vocaluxe.PartyModes
 
                 row.Pos = GetNewText(Texts[htTexts(TextPosition)]);
                 row.Name = GetNewText(Texts[htTexts(TextPlayerName)]);
+                row.Rounds = GetNewText(Texts[htTexts(TextNumPlayed)]);
                 row.Won = GetNewText(Texts[htTexts(TextWon)]);
-                row.Drawn = GetNewText(Texts[htTexts(TextDrawn)]);
-                row.Lost = GetNewText(Texts[htTexts(TextLost)]);
                 row.SingPoints = GetNewText(Texts[htTexts(TextSingPoints)]);
                 row.GamePoints = GetNewText(Texts[htTexts(TextGamePoints)]);
 
                 row.Pos.Y += delta * (i + 1);
                 row.Name.Y += delta * (i + 1);
+                row.Rounds.Y += delta * (i + 1);
                 row.Won.Y += delta * (i + 1);
-                row.Drawn.Y += delta * (i + 1);
-                row.Lost.Y += delta * (i + 1);
                 row.SingPoints.Y += delta * (i + 1);
                 row.GamePoints.Y += delta * (i + 1);
 
@@ -186,17 +182,15 @@ namespace Vocaluxe.PartyModes
 
                 row.Pos.Visible = false;
                 row.Name.Visible = false;
+                row.Rounds.Visible = false;
                 row.Won.Visible = false;
-                row.Drawn.Visible = false;
-                row.Lost.Visible = false;
                 row.SingPoints.Visible = false;
                 row.GamePoints.Visible = false;
 
                 AddText(row.Pos);
                 AddText(row.Name);
+                AddText(row.Rounds);
                 AddText(row.Won);
-                AddText(row.Drawn);
-                AddText(row.Lost);
                 AddText(row.SingPoints);
                 AddText(row.GamePoints);
 
@@ -216,16 +210,14 @@ namespace Vocaluxe.PartyModes
 
                     row.Pos.Visible = true;
                     row.Name.Visible = true;
+                    row.Rounds.Visible = true;
                     row.Won.Visible = true;
-                    row.Drawn.Visible = true;
-                    row.Lost.Visible = true;
                     row.SingPoints.Visible = true;
                     row.GamePoints.Visible = true;
 
                     row.Name.Text = profiles[GameState.ResultTable[i].PlayerID].PlayerName;
+                    row.Rounds.Text = GameState.ResultTable[i].NumRounds.ToString();
                     row.Won.Text = GameState.ResultTable[i].NumWon.ToString();
-                    row.Drawn.Text = GameState.ResultTable[i].NumDrawn.ToString();
-                    row.Lost.Text = GameState.ResultTable[i].NumLost.ToString();
                     row.SingPoints.Text = GameState.ResultTable[i].SumSingPoints.ToString();
                     row.GamePoints.Text = GameState.ResultTable[i].NumGamePoints.ToString();
                 }
