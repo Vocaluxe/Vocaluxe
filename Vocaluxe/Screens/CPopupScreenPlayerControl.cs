@@ -8,7 +8,7 @@ using Vocaluxe.Base;
 using Vocaluxe.GameModes;
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
-using Vocaluxe.Lib.Song;
+using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Screens
 {
@@ -76,7 +76,6 @@ namespace Vocaluxe.Screens
 
         public CPopupScreenPlayerControl()
         {
-            Init();
         }
 
         protected override void Init()
@@ -101,9 +100,9 @@ namespace Vocaluxe.Screens
             _ThemeButtons = buttons.ToArray();
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
 
             _ScreenArea = Statics[htStatics(StaticBG)].Rect;
         }

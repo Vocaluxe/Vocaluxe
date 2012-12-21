@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 
-using Vocaluxe.Lib.Draw;
+using Vocaluxe.Menu;
 using Vocaluxe.Lib.Video;
 
 namespace Vocaluxe.Base

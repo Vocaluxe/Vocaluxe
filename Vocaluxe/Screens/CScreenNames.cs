@@ -43,7 +43,6 @@ namespace Vocaluxe.Screens
         
         public CScreenNames()
         {
-            Init();
         }
 
         protected override void Init()
@@ -92,13 +91,13 @@ namespace Vocaluxe.Screens
             texts.AddRange(EqualizerPlayer);
             _ThemeEqualizers = texts.ToArray();
 
-            chooseAvatarStatic = new CStatic();
+            chooseAvatarStatic = GetNewStatic();
             chooseAvatarStatic.Visible = false;
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
             
             _PlayerNr = new int[CSettings.MaxNumPlayer];
             for (int i = 0; i < _PlayerNr.Length; i++)

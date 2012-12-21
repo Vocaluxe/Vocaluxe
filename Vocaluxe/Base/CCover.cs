@@ -6,6 +6,7 @@ using System.Xml;
 using System.Xml.XPath;
 
 using Vocaluxe.Lib.Draw;
+using Vocaluxe.Menu;
 
 namespace Vocaluxe.Base
 {

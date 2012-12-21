@@ -23,7 +23,6 @@ namespace Vocaluxe.Screens
 
         public CScreenOptions()
         {
-            Init();
         }
 
         protected override void Init()
@@ -53,6 +52,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.S:
+                        CParty.SetNormalGameMode();
                         CGraphics.FadeTo(EScreens.ScreenSong);
                         break;
 

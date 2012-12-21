@@ -329,6 +329,7 @@
     <SingIcon>Sing.png</SingIcon>
     <Minus>Minus.png</Minus>
     <Plus>Plus.png</Plus> 
+    <Random>Random.png</Random>
   </Skins>
   <Videos>
     <BG_Video>[Red]BG_Video.mp4</BG_Video>

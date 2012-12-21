@@ -5,8 +5,10 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 
-using Vocaluxe.Lib.Song;
 using Vocaluxe.Lib.Playlist;
+using Vocaluxe.GameModes;
+using Vocaluxe.Menu;
+using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Base
 {
@@ -59,16 +61,20 @@ namespace Vocaluxe.Base
             SortPlaylistsByName();
         }
 
-        #region private methods
-
-        private static void SortPlaylistsByName()
+        public static string GetPlaylistName(int PlaylistID)
         {
-            _Playlists.Sort(CompareByPlaylistName);
+            if (PlaylistID >= _Playlists.Count || PlaylistID < 0)
+                return "Error: Can't find Playlist";
+
+            return _Playlists[PlaylistID].PlaylistName;
         }
 
-        private static int CompareByPlaylistName(CPlaylistFile a, CPlaylistFile b)
+        public static void SetPlaylistName(int PlaylistID, string Name)
         {
-            return String.Compare(a.PlaylistName, b.PlaylistName);
+            if (PlaylistID >= _Playlists.Count || PlaylistID < 0)
+                return;
+
+            _Playlists[PlaylistID].PlaylistName = Name;
         }
 
         public static void DeletePlaylist(int PlaylistID)
@@ -104,6 +110,93 @@ namespace Vocaluxe.Base
             return (_Playlists.Count - 1);
         }
 
+
+
+        public static void AddPlaylistSong(int PlaylistID, int SongID)
+        {
+            if (PlaylistID >= _Playlists.Count || PlaylistID < 0)
+                return;
+
+            _Playlists[PlaylistID].AddSong(SongID);
+        }
+
+        public static void AddPlaylistSong(int PlaylistID, int SongID, EGameMode GameMode)
+        {
+            if (PlaylistID >= _Playlists.Count || PlaylistID < 0)
+                return;
+
+            _Playlists[PlaylistID].AddSong(SongID, GameMode);
+        }
+
+        public static void InsertPlaylistSong(int PlaylistID, int PositionIndex, int SongID, EGameMode GameMode)
+        {
+            if (PlaylistID >= _Playlists.Count || PlaylistID < 0)
+                return;
+
+            _Playlists[PlaylistID].SongInsert(PositionIndex, SongID, GameMode);
+        }
+
+        public static void MovePlaylistSong(int PlaylistID, int SourceIndex, int DestIndex)
+        {
+            if (PlaylistID >= _Playlists.Count || PlaylistID < 0)
+                return;
+
+            _Playlists[PlaylistID].SongMove(SourceIndex, DestIndex);
+        }
+
+        public static void MovePlaylistSongDown(int PlaylistID, int SongIndex)
+        {
+            if (PlaylistID >= _Playlists.Count || PlaylistID < 0)
+                return;
+
+            _Playlists[PlaylistID].SongDown(SongIndex);
+        }
+
+        public static void MovePlaylistSongUp(int PlaylistID, int SongIndex)
+        {
+            if (PlaylistID >= _Playlists.Count || PlaylistID < 0)
+                return;
+
+            _Playlists[PlaylistID].SongUp(SongIndex);
+        }
+
+        public static void DeletePlaylistSong(int PlaylistID, int SongIndex)
+        {
+            if (PlaylistID >= _Playlists.Count || PlaylistID < 0)
+                return;
+
+            _Playlists[PlaylistID].DeleteSong(SongIndex);
+        }
+
+        public static int GetPlaylistSongCount(int PlaylistID)
+        {
+            if (PlaylistID >= _Playlists.Count || PlaylistID < 0)
+                return 0;
+
+            return _Playlists[PlaylistID].Songs.Count;
+        }
+
+        public static CPlaylistSong GetPlaylistSong(int PlaylistID, int SongIndex)
+        {
+            if (PlaylistID >= _Playlists.Count || PlaylistID < 0)
+                return null;
+
+            if (SongIndex >= _Playlists[PlaylistID].Songs.Count)
+                return null;
+
+            return _Playlists[PlaylistID].Songs[SongIndex];
+        }
+
+        #region private methods
+        private static void SortPlaylistsByName()
+        {
+            _Playlists.Sort(CompareByPlaylistName);
+        }
+
+        private static int CompareByPlaylistName(CPlaylistFile a, CPlaylistFile b)
+        {
+            return String.Compare(a.PlaylistName, b.PlaylistName);
+        }
         #endregion
     }
 }

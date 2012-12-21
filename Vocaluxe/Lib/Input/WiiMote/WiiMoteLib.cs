@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Lib.Input;
+using Vocaluxe.Menu;
 
 namespace Vocaluxe.Lib.Input.WiiMote
 {

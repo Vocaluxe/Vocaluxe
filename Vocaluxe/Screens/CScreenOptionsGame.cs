@@ -32,7 +32,6 @@ namespace Vocaluxe.Screens
 
         public CScreenOptionsGame()
         {
-            Init();
         }
 
         protected override void Init()
@@ -55,9 +54,9 @@ namespace Vocaluxe.Screens
             }
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
 
             SelectSlides[htSelectSlides(SelectSlideLanguage)].AddValues(_Languages);
             SelectSlides[htSelectSlides(SelectSlideLanguage)].Selection = _CurrentLang;
@@ -89,6 +88,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.S:
+                        CParty.SetNormalGameMode();
                         CGraphics.FadeTo(EScreens.ScreenSong);
                         break;
 
@@ -166,11 +166,15 @@ namespace Vocaluxe.Screens
 
             if (_SongSortingOld != CConfig.SongSorting || _TabsOld != CConfig.Tabs || _LanguageOld != CConfig.Language)
             {
-                CSongs.Sort(CConfig.SongSorting);
+                CSongs.Sort(CConfig.SongSorting, CConfig.Tabs, CConfig.IgnoreArticles, String.Empty);
                 CSongs.Category = -1;
             }
 
             CLanguage.SetLanguage(CConfig.Language);
+
+            _SongSortingOld = CConfig.SongSorting;
+            _TabsOld = CConfig.Tabs;
+            _LanguageOld = CConfig.Language;
         }
     }
 }

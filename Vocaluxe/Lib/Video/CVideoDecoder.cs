@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-using Vocaluxe.Lib.Draw;
+using Vocaluxe.Menu;
 
 namespace Vocaluxe.Lib.Video
 {

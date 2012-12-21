@@ -126,8 +126,6 @@ namespace Vocaluxe.Base
             _settings.Encoding = Encoding.UTF8;
             _settings.ConformanceLevel = ConformanceLevel.Document;
 
-            //ThemeColors.Player = new SColorF[6];
-
             ListThemes();
             ListSkins();
 

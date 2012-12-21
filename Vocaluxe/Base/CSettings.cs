@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
+using Vocaluxe.Menu;
+
 namespace Vocaluxe.Base
 {
-    public enum EGameState
-    {
-        Start,
-        Normal,
-        EditTheme
-    }
-
     enum ERevision
     {
         Alpha,
@@ -95,6 +90,12 @@ namespace Vocaluxe.Base
         public const string sFolderScreenshots = "Screenshots";
         public const string sFolderBackgroundMusic = "BackgroundMusic";
         public static string sFolderPlaylists = "Playlists";
+
+
+        public static string sFolderPartyModes = "PartyModes";
+        public const string sFolderPartyModeCode = "Code";
+        public const string sFolderPartyModeScreens = "Screens";
+        public const string sFolderPartyModeLanguages = "Languages";
 
         //public const String[] ToneStrings = new String[]{ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
         public const int ToneMin = -36;
