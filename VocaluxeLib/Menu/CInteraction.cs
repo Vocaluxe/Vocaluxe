@@ -16,7 +16,8 @@ namespace Vocaluxe.Menu
         TSingNote,
         TNameSelection,
         TEqualizer,
-        TPlaylist
+        TPlaylist,
+        TParticleEffect
     }
 
     class CInteraction

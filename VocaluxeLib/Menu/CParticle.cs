@@ -2,9 +2,18 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Xml;
+using System.Xml.XPath;
 
 namespace Vocaluxe.Menu
 {
+    struct SThemeParticleEffect
+    {
+        public string Name;
+        public string TextureName;
+        public string ColorName;
+    }
+
     public enum EParticeType
     {
         Twinkle,
@@ -289,22 +298,33 @@ namespace Vocaluxe.Menu
         }
     }
 
-    public class CParticleEffect
+    public class CParticleEffect : IMenuElement
     {
         private int _PartyModeID;
         private Basic _Base;
+        private SThemeParticleEffect _Theme;
+        private bool _ThemeLoaded;
+
+        public STexture Texture;
+        public SColorF Color;
+        public SRectF Rect;
+
+        public bool Selected;
+        public bool Visible;
+
         private List<CParticle> _Stars;
-        private string _TextureName;
-        private STexture _Texture;
         private int _MaxNumber;
-        private SRectF _Area;
-        private SColorF _Color;
         private float _Size;
         private EParticeType _Type;
         private Stopwatch _SpawnTimer;
         private float _NextSpawnTime;
 
         public float Alpha = 1f;
+
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
 
         public bool IsAlive
         {
@@ -314,42 +334,131 @@ namespace Vocaluxe.Menu
             }
         }
 
-        public SRectF Area
-        {
-            get { return _Area; }
-            set { _Area = value; }
-        }
-
-        public CParticleEffect(Basic Base, int PartyModeID, int MaxNumber, SColorF Color, SRectF Area, string TextureName, float Size, EParticeType Type)
+        public CParticleEffect(Basic Base, int PartyModeID) 
         {
             _PartyModeID = PartyModeID;
             _Base = Base;
+            _Theme = new SThemeParticleEffect();
             _Stars = new List<CParticle>();
-            _Area = Area;
-            _Color = Color;
-            _TextureName = TextureName;
-            _Texture = new STexture(-1);
+            _SpawnTimer = new Stopwatch();
+            _NextSpawnTime = 0f;
+            Visible = true;
+        }
+
+        public CParticleEffect(Basic Base, int PartyModeID, int MaxNumber, SColorF Color, SRectF Rect, string TextureName, float Size, EParticeType Type)
+        {
+            _PartyModeID = PartyModeID;
+            _Base = Base;
+            _Theme = new SThemeParticleEffect();
+            _Stars = new List<CParticle>();
+            this.Rect = Rect;
+            this.Color = Color;
+            _Theme.TextureName = TextureName;
+            Texture = new STexture(-1);
             _MaxNumber = MaxNumber;
             _Size = Size;
             _Type = Type;
             _SpawnTimer = new Stopwatch();
             _NextSpawnTime = 0f;
+            Visible = true;
         }
 
-        public CParticleEffect(Basic Base, int PartyModeID, int MaxNumber, SColorF Color, SRectF Area, STexture texture, float Size, EParticeType Type)
+        public CParticleEffect(Basic Base, int PartyModeID, int MaxNumber, SColorF Color, SRectF Rect, STexture Texture, float Size, EParticeType Type)
         {
             _PartyModeID = PartyModeID;
             _Base = Base;
+            _Theme = new SThemeParticleEffect();
             _Stars = new List<CParticle>();
-            _Area = Area;
-            _Color = Color;
-            _TextureName = String.Empty;
-            _Texture = texture;
+            this.Rect = Rect;
+            this.Color = Color;
+            _Theme.TextureName = String.Empty;
+            this.Texture = Texture;
             _MaxNumber = MaxNumber;
             _Size = Size;
             _Type = Type;
             _SpawnTimer = new Stopwatch();
             _NextSpawnTime = 0f;
+            Visible = true;
+        }
+
+        public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
+        {
+            string item = XmlPath + "/" + ElementName;
+            _ThemeLoaded = true;
+
+            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/Skin", navigator, ref _Theme.TextureName, String.Empty);
+
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/X", navigator, ref Rect.X);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Y", navigator, ref Rect.Y);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Z", navigator, ref Rect.Z);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/W", navigator, ref Rect.W);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/H", navigator, ref Rect.H);
+
+            if (CHelper.GetValueFromXML(item + "/Color", navigator, ref _Theme.ColorName, String.Empty))
+            {
+                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
+            }
+            else
+            {
+                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/R", navigator, ref Color.R);
+                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/G", navigator, ref Color.G);
+                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/B", navigator, ref Color.B);
+                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/A", navigator, ref Color.A);
+            }
+
+            _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EParticeType>(item + "/Type", navigator, ref _Type);
+            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Size", navigator, ref _Size);
+            _ThemeLoaded &= CHelper.TryGetIntValueFromXML(item + "/MaxNumber", navigator, ref _MaxNumber);
+
+            if (_ThemeLoaded)
+            {
+                _Theme.Name = ElementName;
+                LoadTextures();
+            }
+            return _ThemeLoaded;
+        }
+
+        public bool SaveTheme(XmlWriter writer)
+        {
+            if (_ThemeLoaded)
+            {
+                writer.WriteStartElement(_Theme.Name);
+
+                writer.WriteComment("<Skin>: Texture name");
+                writer.WriteElementString("Skin", _Theme.TextureName);
+
+                writer.WriteComment("<X>, <Y>, <Z>, <W>, <H>: ParticleEffect position, width and height");
+                writer.WriteElementString("X", Rect.X.ToString("#0"));
+                writer.WriteElementString("Y", Rect.Y.ToString("#0"));
+                writer.WriteElementString("Z", Rect.Z.ToString("#0.00"));
+                writer.WriteElementString("W", Rect.W.ToString("#0"));
+                writer.WriteElementString("H", Rect.H.ToString("#0"));
+
+                writer.WriteComment("<Color>: ParticleEffect color from ColorScheme (high priority)");
+                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
+                if (_Theme.ColorName != String.Empty)
+                {
+                    writer.WriteElementString("Color", _Theme.ColorName);
+                }
+                else
+                {
+                    writer.WriteElementString("R", Color.R.ToString("#0.00"));
+                    writer.WriteElementString("G", Color.G.ToString("#0.00"));
+                    writer.WriteElementString("B", Color.B.ToString("#0.00"));
+                    writer.WriteElementString("A", Color.A.ToString("#0.00"));
+                }
+
+                writer.WriteComment("<Type>: Type of ParticleEffect: " + CHelper.ListStrings(Enum.GetNames(typeof(EType))));
+                writer.WriteElementString("Type", Enum.GetName(typeof(EType), _Type);
+                writer.WriteComment("<Size>: Size of particle");
+                writer.WriteElementString("Size", _Size.ToString("#0.00"));
+                writer.WriteComment("<MaxNumber>: Max number of drawn particles");
+                writer.WriteElementString("MaxNumber", _MaxNumber.ToString("#0"));
+
+                writer.WriteEndElement();
+                return true;
+            }
+            return false;
         }
 
         public void Update()
@@ -433,8 +542,8 @@ namespace Vocaluxe.Menu
                         break;
                 }
 
-                int w = (int)(_Area.W - size / 4f);
-                int h = (int)(_Area.H - size / 4f);
+                int w = (int)(Rect.W - size / 4f);
+                int h = (int)(Rect.H - size / 4f);
 
                 if (w < 0)
                     w = 0;
@@ -443,19 +552,19 @@ namespace Vocaluxe.Menu
                     h = 0;
 
                 CParticle star;
-                if (_TextureName != String.Empty)
+                if (_Theme.TextureName != String.Empty)
                 {
-                    star = new CParticle(_Base, _PartyModeID, _TextureName, _Color,
-                        _Base.Game.GetRandom(w) + _Area.X - size / 4f,
-                        _Base.Game.GetRandom(h) + _Area.Y - size / 4f,
-                        size, lifetime, _Area.Z, vx, vy, vr, vsize, _Type);
+                    star = new CParticle(_Base, _PartyModeID, _Theme.TextureName, Color,
+                        _Base.Game.GetRandom(w) + Rect.X - size / 4f,
+                        _Base.Game.GetRandom(h) + Rect.Y - size / 4f,
+                        size, lifetime, Rect.Z, vx, vy, vr, vsize, _Type);
                 }
                 else
                 {
-                    star = new CParticle(_Base, _PartyModeID, _Texture, _Color,
-                        _Base.Game.GetRandom(w) + _Area.X - size / 4f,
-                        _Base.Game.GetRandom(h) + _Area.Y - size / 4f,
-                        size, lifetime, _Area.Z, vx, vy, vr, vsize, _Type);
+                    star = new CParticle(_Base, _PartyModeID, Texture, Color,
+                        _Base.Game.GetRandom(w) + Rect.X - size / 4f,
+                        _Base.Game.GetRandom(h) + Rect.Y - size / 4f,
+                        size, lifetime, Rect.Z, vx, vy, vr, vsize, _Type);
                 }
 
                 _Stars.Add(star);
@@ -495,11 +604,50 @@ namespace Vocaluxe.Menu
 
         public void Draw()
         {
+            Update();
             foreach (CParticle star in _Stars)
             {
                 star.Alpha2 = Alpha;
                 star.Draw();
             }
         }
+
+        public void UnloadTextures()
+        {
+            Texture = new STexture();
+        }
+
+        public void LoadTextures()
+        {
+            if (_Theme.ColorName != String.Empty)
+                Color = _Base.Theme.GetColor(_Theme.ColorName);
+            if(_Theme.TextureName != String.Empty)
+                Texture = _Base.Theme.GetSkinTexture(_Theme.TextureName);
+        }
+
+        public void ReloadTextures()
+        {
+            UnloadTextures();
+            LoadTextures();
+        }
+
+        #region ThemeEdit
+        public void MoveElement(int stepX, int stepY)
+        {
+            Rect.X += stepX;
+            Rect.Y += stepY;
+        }
+
+        public void ResizeElement(int stepW, int stepH)
+        {
+            Rect.W += stepW;
+            if (Rect.W <= 0)
+                Rect.W = 1;
+
+            Rect.H += stepH;
+            if (Rect.H <= 0)
+                Rect.H = 1;
+        }
+        #endregion ThemeEdit
     }
 }
