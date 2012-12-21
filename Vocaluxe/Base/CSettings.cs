@@ -40,14 +40,14 @@ namespace Vocaluxe.Base
         public static EGameState GameState = EGameState.Start;
 
         public const string sProgramName = "Vocaluxe";
-        public const string sProgramCodeName = "Test";
+        public const string sProgramCodeName = "Sparkling Sky";
 
         public const int iVersionMajor = 0;
         public const int iVersionMinor = 2;      // milestones
         public const int iVersionSub = 0;        // patches
-        public const ERevision VersionRevision = ERevision.RC;
+        public const ERevision VersionRevision = ERevision.Release;
 
-        public const int iBuild = 71;             // Increase on every published version! Never Reset!
+        public const int iBuild = 72;             // Increase on every published version! Never Reset!
 
         public const int iDatabaseHighscoreVersion = 2;
         public const int iDatabaseCoverVersion = 1;
