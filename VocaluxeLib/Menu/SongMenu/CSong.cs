@@ -173,6 +173,7 @@ namespace Vocaluxe.Menu.SongMenu
         public List<string> Genre = new List<string>();
         public string Year = "0000";
         public List<string> Language = new List<string>();
+        public string DateAdded;
 
         // Notes
         public CNotes Notes = new CNotes();
@@ -277,6 +278,8 @@ namespace Vocaluxe.Menu.SongMenu
             }
 
             this.Notes = new CNotes(song.Notes);
+
+            this.DateAdded = song.DateAdded;
         }
 
         public string GetMP3()

@@ -354,11 +354,12 @@ namespace Vocaluxe.Base
                 if (reader != null)
                     reader.Close();
 
-                command.CommandText = "INSERT INTO Songs (Title, Artist, NumPlayed) " +
-                    "VALUES (@title, @artist, @numplayed)";
+                command.CommandText = "INSERT INTO Songs (Title, Artist, NumPlayed, DateAdded) " +
+                    "VALUES (@title, @artist, @numplayed, @dateadded)";
                 command.Parameters.Add("@title", System.Data.DbType.String, 0).Value = Title;
                 command.Parameters.Add("@artist", System.Data.DbType.String, 0).Value = Artist;
                 command.Parameters.Add("@numplayed", System.Data.DbType.Int32, 0).Value = DefNumPlayed;
+                command.Parameters.Add("@dateadded", System.Data.DbType.Int64, 0).Value = DateTime.Now.Ticks;
                 command.ExecuteNonQuery();
 
                 command.CommandText = "SELECT id FROM Songs WHERE [Title] = @title AND [Artist] = @artist";
@@ -394,11 +395,12 @@ namespace Vocaluxe.Base
             return -1;
         }
 
-        private static bool GetDataBaseSongInfos(int SongID, out string Artist, out string Title, out int NumPlayed, string FilePath)
+        private static bool GetDataBaseSongInfos(int SongID, out string Artist, out string Title, out int NumPlayed, out string DateAdded, string FilePath)
         {
             Artist = String.Empty;
             Title = String.Empty;
             NumPlayed = 0;
+            DateAdded = String.Empty;
 
             SQLiteConnection connection = new SQLiteConnection();
             connection.ConnectionString = "Data Source=" + FilePath;
@@ -414,7 +416,7 @@ namespace Vocaluxe.Base
             }
 
             command = new SQLiteCommand(connection);
-            command.CommandText = "SELECT Artist, Title, NumPlayed FROM Songs WHERE [id] = @id";
+            command.CommandText = "SELECT Artist, Title, NumPlayed, DateAdded FROM Songs WHERE [id] = @id";
             command.Parameters.Add("@id", System.Data.DbType.String, 0).Value = SongID;
 
             SQLiteDataReader reader = null;
@@ -433,6 +435,7 @@ namespace Vocaluxe.Base
                 Artist = reader.GetString(0);
                 Title = reader.GetString(1);
                 NumPlayed = reader.GetInt32(2);
+                DateAdded = reader.GetInt64(3).ToString("dd/MM/yyyy");
                 reader.Close();
                 reader.Dispose();
 
@@ -613,12 +616,14 @@ namespace Vocaluxe.Base
                     CreateHighscoreDBV1(FilePath);
                     ConvertFrom110(FilePath);
                     UpdateDatabase(1, connection);
+                    UpdateDatabase(2, connection);
                 }
                 else if (version == 0 && scoresTableExists) //Check for USDX 1.01 or CMD Mod DB
                 {
                     CreateHighscoreDBV1(FilePath);
                     ConvertFrom101(FilePath);
                     UpdateDatabase(1, connection);
+                    UpdateDatabase(2, connection);
                 }
                 else
                     CreateHighscoreDB(FilePath);
@@ -631,12 +636,14 @@ namespace Vocaluxe.Base
                     CreateHighscoreDBV1(FilePath);
                     ConvertFrom110(FilePath);
                     UpdateDatabase(1, connection);
+                    UpdateDatabase(2, connection);
                 }
                 else if (version == 0 && scoresTableExists) //Check for USDX 1.01 or CMD Mod DB
                 {
                     CreateHighscoreDBV1(FilePath);
                     ConvertFrom101(FilePath);
                     UpdateDatabase(1, connection);
+                    UpdateDatabase(2, connection);
                 }
                 else
                     CreateHighscoreDB(FilePath);
@@ -983,6 +990,10 @@ namespace Vocaluxe.Base
             {
                 updated &= ConvertV1toV2(connection);
             }
+            if (CurrentVersion < 3)
+            {
+                updated &= ConvertV2toV3(connection);
+            }
             return updated;
         }
 
@@ -1017,7 +1028,7 @@ namespace Vocaluxe.Base
             command.Parameters.Add("@DateAdded",System.Data.DbType.Int64, 0).Value = DateTime.Now.Ticks;
             command.ExecuteNonQuery();
             command.CommandText = "UPDATE Version SET [Value] = @version";
-            command.Parameters.Add("@version", System.Data.DbType.Int32, 0).Value = 2;
+            command.Parameters.Add("@version", System.Data.DbType.Int32, 0).Value = 3;
             command.ExecuteNonQuery();
             command.Dispose();
 
@@ -1074,9 +1085,9 @@ namespace Vocaluxe.Base
                 int shortsong = rSource.GetInt32(7);
                 int diff = rSource.GetInt32(8);
 
-                string artist, title;
+                string artist, title, dateadded;
                 int numplayed;
-                if (GetDataBaseSongInfos(songid, out artist, out title, out numplayed, SourceDBPath))
+                if (GetDataBaseSongInfos(songid, out artist, out title, out numplayed, out dateadded, SourceDBPath))
                 {
                     AddScore(player, score, linenr, date, medley, duet, shortsong, diff, artist, title, numplayed, _HighscoreFilePath);
                 }
