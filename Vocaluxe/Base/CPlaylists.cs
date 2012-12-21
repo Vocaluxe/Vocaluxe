@@ -58,8 +58,8 @@ namespace Vocaluxe.Base
             foreach (string file in files)
             {
                 CPlaylistFile playlist = ConvertUSDXPlaylist(file);
+                playlist.SavePlaylist();
                 _Playlists.Add(playlist);
-                SavePlaylist(_Playlists.Count - 1);
             }
         }
 
