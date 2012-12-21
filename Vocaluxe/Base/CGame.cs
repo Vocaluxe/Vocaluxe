@@ -237,6 +237,10 @@ namespace Vocaluxe.Base
                 
                 for (int beat = _OldBeatD + 1; beat <= _CurrentBeatD; beat++)
                 {
+                    if ((_GameMode.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_MEDLEY && song.Medley.EndBeat == beat) ||
+                        (_GameMode.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_SHORTSONG && song.ShortEnd == beat))
+                        _Player[p].SongFinished = true;
+                    
                     CLine[] lines = song.Notes.GetLines(_Player[p].LineNr).Line;
                     int Line = -1;
 
@@ -270,7 +274,7 @@ namespace Vocaluxe.Base
                                 Note = j;
                                 break;
                             }
-                        }                      
+                        }
 
                         if (Note >= 0)
                         {
@@ -280,16 +284,10 @@ namespace Vocaluxe.Base
                             {
                                 if (Note == lines[Line].NoteCount - 1)
                                 {
-                                    if (notes[Note].EndBeat == beat
-                                        || (_GameMode.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_MEDLEY && song.Medley.EndBeat == beat)
-                                        || (_GameMode.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_SHORTSONG && song.ShortEnd == beat))
+                                    if (notes[Note].EndBeat == beat)
                                         _Player[p].SongFinished = true;
                                 }
                             }
-
-                            if ((_GameMode.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_MEDLEY && song.Medley.EndBeat == beat) ||
-                                (_GameMode.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_SHORTSONG && song.ShortEnd == beat))
-                                _Player[p].SongFinished = true;
 
                             if (notes[Note].PointsForBeat > 0 && (CSound.RecordToneValid(p) || DEBUG_HIT))
                             {

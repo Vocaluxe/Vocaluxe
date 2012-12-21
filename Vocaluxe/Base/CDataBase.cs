@@ -180,7 +180,7 @@ namespace Vocaluxe.Base
                 command.Parameters.Add("@Date", System.Data.DbType.Int64, 0).Value = player.DateTicks;
                 command.Parameters.Add("@Medley", System.Data.DbType.Int32, 0).Value = Medley;
                 command.Parameters.Add("@Duet", System.Data.DbType.Int32, 0).Value = Duet;
-                command.Parameters.Add("@ShortSong", System.Data.DbType.Int32, 0).Value = Duet;
+                command.Parameters.Add("@ShortSong", System.Data.DbType.Int32, 0).Value = ShortSong;
                 command.Parameters.Add("@Difficulty", System.Data.DbType.Int32, 0).Value = (int)player.Difficulty;
                 command.ExecuteNonQuery();
 

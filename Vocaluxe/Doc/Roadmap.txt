@@ -86,11 +86,14 @@
 	- Duet (full support, choose/toggle names)
 	- Playlist-Support
 	- Spectrum Analyzer (Record Screen and Player Selection Screen)
+	- WiiMote Support
  
+ + v0.3.0:
+	- Party Mode Support
+	- Party Mode: Challenge Mode (with more than 2 player at once)
 
 -----------------
 just some ideas:
-	- WiiMote Support
 	- Installer
 	- More Song List Views
 	- Tile Board: Show title and artist under each tile
@@ -104,6 +107,5 @@ just some ideas:
 	- Tournament Mode
 	- Party Mode: Team-Battle
 	- Party Mode: Tic, Tac, Toe
-	- Party Mode: 4 in a row
-	- Challenge Mode (with more than 2 player at once)
+	- Party Mode: 4 in a row	
 	- Song Editor

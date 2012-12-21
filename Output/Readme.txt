@@ -1,4 +1,4 @@
-Vocaluxe 0.1 README
+Vocaluxe 0.2 README
 ----------------------------
 
 =================================
@@ -33,14 +33,6 @@ Supported Operating Systems / Requirements:
 
 - The program supports 32bit and 64bit (Vocaluxe_x64.exe) operating systems.
 
-- The program uses OpenGL as the default renderer. If your graphics card driver does not or not
-  properly support OpenGL, you can try the Direct3D renderer by editing your Config.xml in the
-  application's main directory:
-  
-	<Graphics>
-		<!--Renderer: TR_CONFIG_SOFTWARE, TR_CONFIG_OPENGL, TR_CONFIG_DIRECT3D-->
-		<Renderer>TR_CONFIG_DIRECT3D</Renderer>
-
 - To add your existing song collection to Vocaluxe, put your songs into the 'Songs' subfolder.
 
   Alternatively, you can add multiple song paths to Vocaluxe by editing your Config.xml:
@@ -58,7 +50,25 @@ Supported Operating Systems / Requirements:
 - To add your own player avatars, simply add some picture files to the 'Profiles' subfolder.
   Supported file types: png, jpg (jpeg), bmp.
   Images should have square proportions, e.g. 400x400 px.
+  
+- You can use your WebCam to take profile pictures in the profile screen. Activate your camera
+  before you start the program. If Vocaluxe detects the camera a button "Webcam" appears in the
+  profile screen.
 
+- Vocaluxe supports the Wiimotion remote control from Nintendo. Connect it with your bluetooth
+  connection manager and start Vocaluxe. If a Wiimote is recognized it will perform two short rumbles
+  and the third LED will lighten up.
+  If you have troubles to connect the Wiimote try this:
+  
+  1. First connect the Wiimote normally but pressing 1+2 and let the bluetooth manager detect it.
+  2. Connect (a pin or password is not needed).
+  3. Disconnect.
+  4. Press 1+2 Again but DO NOT DO ANYTHING ELSE. Let the WIIMOTE blink, until it times out (stops blinking.)
+  5. THEN click connect in the bluetooth settings, when it says looking for device PRESS A or + or Z
+     (it doesn't matter), just get the thing to blink. (Just don't hit 1+2 or the Sync button, this resets
+	 the sync info.)
+  It will then connect.
+  
 
 =================================
 = 3. Command-Line Parameters    =
@@ -86,8 +96,14 @@ or from the console:
 						  
 -SongPath [Path]	   : Deprecated, see SongFolder [Path]. This alias is provided for convenience.
 
+-PlaylistFolder [Path] : Use [Path] as playlist folder. The path needs to be an absolute path. Vocaluxe will
+						 load playlist from this path.
+						 Example:
+						 Vocaluxe.exe -PlaylistFolder D:\MyPlaylists
+
+
 Complete example:
-Vocaluxe.exe -ConfigFile MyConfig.xml -ScoreFile C:\Vocaluxe\Highscores\MyHighscoreDB.sqlite -SongFolder D:\MySongCollection
+Vocaluxe.exe -ConfigFile MyConfig.xml -ScoreFile C:\Vocaluxe\Highscores\MyHighscoreDB.sqlite -SongFolder D:\MySongCollection -PlaylistFolder D:\MyPlaylists
 
 
 =================================
@@ -105,12 +121,27 @@ Vocaluxe.exe -ConfigFile MyConfig.xml -ScoreFile C:\Vocaluxe\Highscores\MyHighsc
 						to change the size and position of the element on the screens. You can save
 						your changes with [S] before leaving the theme edit mode.
 [TAB]					to open the background music controls (not on all screens).
+[SHIFT] + [+]			to increase volume
+[SHIFT] + [-]			to decrease volume
 
-Songscreen
+Song screen
 [CTRL] + [R]			to select a random song
 [F3]					to open/close the song search menu
 [A]						to sing all songs
-[SHIFT] + [A]						to sing all songs from a category
+[SHIFT] + [A]			to sing all songs from a category
+[SPACE]					to open/close the song menu
+
+Name selection screen
+[1]..[6]				to activate player selection.
+[Cursor]				to select a profile.
+[Enter]					to confirm a selection.
+
+Sing screen
+[P]						to toggle pause.
+[CTRL] + [S]			to skip a song if there is another one in the playlist.
+[T]						to change the time format of the timer.
+[I]						to change view of player information.
+[W]						to activate the configured webcam.
 
 
 =================================

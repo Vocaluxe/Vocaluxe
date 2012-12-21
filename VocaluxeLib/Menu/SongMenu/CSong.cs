@@ -216,6 +216,8 @@ namespace Vocaluxe.Menu.SongMenu
             this.PreviewStart = song.PreviewStart;
 
             this.ShortEnd = song.ShortEnd;
+            this.DuetPart1 = song.DuetPart1;
+            this.DuetPart2 = song.DuetPart2;
 
             this.Encoding = song.Encoding;
             this.Folder = song.Folder;
