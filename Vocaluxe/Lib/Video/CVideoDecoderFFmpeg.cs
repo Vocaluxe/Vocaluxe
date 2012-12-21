@@ -9,6 +9,7 @@ using System.Threading;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Lib.Video.Acinerella;
+using Vocaluxe.Menu;
 
 namespace Vocaluxe.Lib.Video
 {

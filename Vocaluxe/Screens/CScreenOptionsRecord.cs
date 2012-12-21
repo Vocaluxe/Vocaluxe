@@ -56,7 +56,6 @@ namespace Vocaluxe.Screens
 
         public CScreenOptionsRecord()
         {
-            Init();
         }
 
         protected override void Init()
@@ -77,9 +76,9 @@ namespace Vocaluxe.Screens
             _ThemeEqualizers = new string[] { EqualizerChannel1, EqualizerChannel2 };
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
 
             int max = CSettings.MaxNumPlayer + 1;
             if (max > 7)
@@ -133,6 +132,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.S:
+                        CParty.SetNormalGameMode();
                         CGraphics.FadeTo(EScreens.ScreenSong);
                         break;
 

@@ -27,13 +27,12 @@ namespace Vocaluxe.Screens
         private const string ButtonExit = "ButtonExit";
 
         private SWebcamConfig _Config;
-        Lib.Draw.STexture _WebcamTexture = new Lib.Draw.STexture(-1);
+        STexture _WebcamTexture = new STexture(-1);
         private int _DeviceNr;
         private int _CapabilityNr;
 
         public CScreenOptionsVideo()
         {
-            Init();
         }
 
         protected override void Init()
@@ -48,9 +47,9 @@ namespace Vocaluxe.Screens
             _ThemeSelectSlides = new string[] { SelectSlideVideoBackgrounds, SelectSlideVideoPreview, SelectSlideVideosInSongs, SelectSlideVideosToBackground, SelectSlideWebcamDevices, SelectSlideWebcamCapabilities };
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
 
             SelectSlides[htSelectSlides(SelectSlideVideoBackgrounds)].SetValues<EOffOn>((int)CConfig.VideoBackgrounds);
             SelectSlides[htSelectSlides(SelectSlideVideoPreview)].SetValues<EOffOn>((int)CConfig.VideoPreview);
@@ -77,6 +76,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.S:
+                        CParty.SetNormalGameMode();
                         CGraphics.FadeTo(EScreens.ScreenSong);
                         break;
 

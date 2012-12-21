@@ -8,8 +8,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 
 using Vocaluxe.Lib.Draw;
-using Vocaluxe.Lib.Song;
+
 using Vocaluxe.Menu;
+using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Base
 {
@@ -20,6 +21,7 @@ namespace Vocaluxe.Base
 
         public int CatIndex;
         public bool Visible;
+        public bool PartyHidden;
 
         public SongPointer(int ID, string sortString)
         {
@@ -27,20 +29,7 @@ namespace Vocaluxe.Base
             SortString = sortString;
             CatIndex = -1;
             Visible = false;
-        }
-    }
-
-    public class CCategory
-    {
-        public string Name = String.Empty;
-        public STexture CoverTextureSmall = new STexture();
-        public STexture CoverTextureBig = new STexture();
-
-        public CCategory(string name, STexture CoverSmall, STexture CoverBig)
-        {
-            Name = name;
-            CoverTextureSmall = CoverSmall;
-            CoverTextureBig = CoverBig;
+            PartyHidden = false;
         }
     }
 
@@ -62,6 +51,9 @@ namespace Vocaluxe.Base
 
         private static string _SearchFilter = String.Empty;
         private static EOffOn _Tabs = CConfig.Tabs;
+        private static EOffOn _IgnoreArticles = CConfig.IgnoreArticles;
+        private static ESongSorting _SongSorting = CConfig.SongSorting;
+        private static bool _ShowDuetSongs = true;
 
         private static Thread _CoverLoaderThread = new Thread(new ThreadStart(_LoadCover));
                     
@@ -70,14 +62,13 @@ namespace Vocaluxe.Base
             get { return _SearchFilter; }
             set
             {
-                _SearchFilter = value;
-                if (_SearchFilter.Length > 0)
+                if (value.Length > 0)
                 {
-                    _Sort(CConfig.SongSorting, EOffOn.TR_CONFIG_OFF, _SearchFilter);
+                    _Sort(_SongSorting, EOffOn.TR_CONFIG_OFF, _IgnoreArticles, value, false, _ShowDuetSongs);
                 }
                 else
                 {
-                    Sort();
+                    _Sort(_SongSorting, _Tabs, _IgnoreArticles, value, false, _ShowDuetSongs);
                 }
             }
         }
@@ -85,6 +76,11 @@ namespace Vocaluxe.Base
         public static EOffOn Tabs
         {
             get { return _Tabs; }
+        }
+
+        public static EOffOn IgnoreArticles
+        {
+            get { return _IgnoreArticles; }
         }
 
         public static bool SongsLoaded
@@ -131,13 +127,13 @@ namespace Vocaluxe.Base
             get { return _CatIndex; }
             set
             {
-                if ((_Categories.Count > value) && (value >= -1))
+                if ((_Categories.Count > value) && (value >= -1) && _CatIndex != value)
                 {
                     _CatIndex = value;
 
                     for (int i = 0; i < _SongsSortList.Length; i++)
                     {
-                        _SongsSortList[i].Visible = (_SongsSortList[i].CatIndex == _CatIndex);
+                        _SongsSortList[i].Visible = (_SongsSortList[i].CatIndex == _CatIndex && !_SongsSortList[i].PartyHidden);
                     }
                 }
             }
@@ -156,7 +152,7 @@ namespace Vocaluxe.Base
             int num = 0;
             for (int i = 0; i < _SongsSortList.Length; i++)
             {
-                if (_SongsSortList[i].CatIndex == CatIndex)
+                if (_SongsSortList[i].CatIndex == CatIndex && !_SongsSortList[i].PartyHidden)
                     num++;
             }
             return num;
@@ -225,7 +221,7 @@ namespace Vocaluxe.Base
                 _CoverLoaded = true;
         }
 
-        public static string GetActualCategoryName()
+        public static string GetCurrentCategoryName()
         {
             if ((_Categories.Count > 0) && (_CatIndex >= 0) && (_Categories.Count > _CatIndex))
                 return _Categories[_CatIndex].Name;
@@ -241,6 +237,48 @@ namespace Vocaluxe.Base
                     return song;
             }
             return null;
+        }
+
+        public static void AddPartySongSung(int SongID)
+        {
+            int cat = -1;
+            for (int i = 0; i < _SongsSortList.Length; i++)
+            {
+                if (SongID == _SongsSortList[i].SongID)
+                {
+                    _SongsSortList[i].PartyHidden = true;
+                    _SongsSortList[i].Visible = false;
+                    cat = _SongsSortList[i].CatIndex;
+                    break;
+                }
+            }
+
+            if (cat != -1)
+            {
+                if (NumSongsInCategory(cat) == 0)
+                    ResetPartySongSung(cat);
+            }
+        }
+
+        public static void ResetPartySongSung()
+        {
+            for (int i = 0; i < _SongsSortList.Length; i++)
+            {
+                _SongsSortList[i].PartyHidden = false;
+                _SongsSortList[i].Visible = (_SongsSortList[i].CatIndex == _CatIndex && !_SongsSortList[i].PartyHidden);
+            }
+        }
+
+        public static void ResetPartySongSung(int CatIndex)
+        {
+            for (int i = 0; i < _SongsSortList.Length; i++)
+            {
+                if (_SongsSortList[i].CatIndex == CatIndex)
+                {
+                    _SongsSortList[i].PartyHidden = false;
+                    _SongsSortList[i].Visible = (_SongsSortList[i].CatIndex == _CatIndex && !_SongsSortList[i].PartyHidden);
+                }
+            }
         }
 
         public static int GetVisibleSongNumber(int SongID)
@@ -329,41 +367,52 @@ namespace Vocaluxe.Base
             get { return _Categories.ToArray(); }
         }
 
-        public static void Sort()
+        public static void Sort(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, String SearchString)
         {
-            _Sort(CConfig.SongSorting, CConfig.Tabs, String.Empty);
+            _Sort(Sorting, Tabs, IgnoreArticles, SearchString, false, _ShowDuetSongs);
         }
 
-        public static void Sort(ESongSorting sorting)
+        public static void Sort(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, String SearchString, bool ShowDuetSongs)
         {
-            _Sort(sorting, CConfig.Tabs, String.Empty);
+            _Sort(Sorting, Tabs, IgnoreArticles, SearchString, false, ShowDuetSongs);
         }
 
-        private static void _Sort(ESongSorting sorting, EOffOn Tabs, string SearchString)
+        private static void _Sort(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, string SearchString, bool force, bool ShowDuetSongs)
         {
             if (_Songs.Count == 0)
                 return;
 
+            if (!force && Sorting == _SongSorting && Tabs == _Tabs && IgnoreArticles == _IgnoreArticles && SearchString == _SearchFilter && ShowDuetSongs == _ShowDuetSongs)
+                return; //nothing to do
+
             _Categories.Clear();
             string category = String.Empty;
 
+            _IgnoreArticles = IgnoreArticles;
+            _SongSorting = Sorting;
             _Tabs = Tabs;
+            _ShowDuetSongs = ShowDuetSongs;
+
+            _SearchFilter = SearchString;
 
             List<SongPointer> _SortList = new List<SongPointer>();
             List<CSong> _SongList = new List<CSong>();
 
             foreach (CSong song in _Songs)
             {
-                if (SearchString == String.Empty)
-                    _SongList.Add(song);
-                else
+                if (!song.IsDuet || _ShowDuetSongs)
                 {
-                    if (song.Title.ToUpper().Contains(SearchString.ToUpper()) || song.Artist.ToUpper().Contains(SearchString.ToUpper()))
+                    if (_SearchFilter == String.Empty)
                         _SongList.Add(song);
+                    else
+                    {
+                        if (song.Title.ToUpper().Contains(_SearchFilter.ToUpper()) || song.Artist.ToUpper().Contains(_SearchFilter.ToUpper()))
+                            _SongList.Add(song);
+                    }
                 }
             }
 
-            switch (sorting)
+            switch (_SongSorting)
             {
                 case ESongSorting.TR_CONFIG_EDITION:
                     foreach (CSong song in _SongList)
@@ -384,7 +433,7 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
                         if (res == 0)
                         {
-                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
+                            if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             {
                                 res = _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
                                 if (res == 0)
@@ -450,7 +499,7 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
                         if (res == 0)
                         {
-                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
+                            if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             {
                                 res = _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
                                 if (res == 0)
@@ -535,7 +584,7 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
                         if (res == 0)
                         {
-                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
+                            if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             {
                                 res = _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
                                 if (res == 0)
@@ -578,7 +627,7 @@ namespace Vocaluxe.Base
 
                     _SortList.Sort(delegate(SongPointer s1, SongPointer s2)
                     {
-                        if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
+                        if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
                         {
                             int res = _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
                             if (res == 0)
@@ -614,7 +663,7 @@ namespace Vocaluxe.Base
                 case ESongSorting.TR_CONFIG_ARTIST_LETTER:
                     foreach (CSong song in _SongList)
                     {
-                        if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
+                        if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             _SortList.Add(new SongPointer(song.ID, song.ArtistSorting));
                         else
                             _SortList.Add(new SongPointer(song.ID, song.Artist));
@@ -625,7 +674,7 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
                         if (res == 0)
                         {
-                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
+                            if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             {
                                 return _Songs[s1.SongID].TitleSorting.ToUpper().CompareTo(_Songs[s2.SongID].TitleSorting.ToUpper());
                             }
@@ -672,7 +721,7 @@ namespace Vocaluxe.Base
                 case ESongSorting.TR_CONFIG_TITLE_LETTER:
                     foreach (CSong song in _SongList)
                     {
-                        if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
+                        if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             _SortList.Add(new SongPointer(song.ID, song.TitleSorting));
                         else
                             _SortList.Add(new SongPointer(song.ID, song.Title));
@@ -683,7 +732,7 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
                         if (res == 0)
                         {
-                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
+                            if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             {
                                 return _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
                             }
@@ -738,7 +787,7 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.CompareTo(s2.SortString);
                         if (res == 0)
                         {
-                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
+                            if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             {
                                 res = _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
                                 if (res == 0)
@@ -797,7 +846,7 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.CompareTo(s2.SortString);
                         if (res == 0)
                         {
-                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
+                            if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             {
                                 res = _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
                                 if (res == 0)
@@ -863,7 +912,7 @@ namespace Vocaluxe.Base
                         int res = s1.SortString.CompareTo(s2.SortString);
                         if (res == 0)
                         {
-                            if (CConfig.IgnoreArticles == EOffOn.TR_CONFIG_ON)
+                            if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
                             {
                                 res = _Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(_Songs[s2.SongID].ArtistSorting.ToUpper());
                                 if (res == 0)
@@ -950,7 +999,7 @@ namespace Vocaluxe.Base
             CLog.StartBenchmark(2, "Read TXTs");
             foreach (string file in files)
             {
-                CSong Song = new CSong();
+                CSong Song = new CSong(CMain.Base);
                 if (Song.ReadTXTSong(file))
                 {
                     Song.ID = _Songs.Count;
@@ -960,7 +1009,7 @@ namespace Vocaluxe.Base
             CLog.StopBenchmark(2, "Read TXTs");
 
             CLog.StartBenchmark(2, "Sort Songs");
-            Sort(CConfig.SongSorting);
+            _Sort(CConfig.SongSorting, CConfig.Tabs, CConfig.IgnoreArticles, String.Empty, true, true);
             CLog.StopBenchmark(2, "Sort Songs");
             Category = -1;
             _SongsLoaded = true;

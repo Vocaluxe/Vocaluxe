@@ -9,8 +9,8 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
-
-using Vocaluxe.Lib.Song;
+using Vocaluxe.Menu.SingNotes;
+using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Screens
 {
@@ -97,7 +97,6 @@ namespace Vocaluxe.Screens
 
         public CScreenSing()
         {
-            Init();
         }
 
         protected override void Init()
@@ -148,9 +147,9 @@ namespace Vocaluxe.Screens
             _TimerDuetText2 = new Stopwatch();
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
 
             Statics[htStatics(StaticTimeLine)].Visible = false;
             Statics[htStatics(StaticTimeLineExpandedNormal)].Visible = false;
@@ -578,8 +577,7 @@ namespace Vocaluxe.Screens
 
             if (CGame.IsFinished())
             {
-                CGraphics.FadeTo(EScreens.ScreenScore);
-                _FadeOut = true;
+                FinishedSinging();
                 return;
             }
 
@@ -727,8 +725,14 @@ namespace Vocaluxe.Screens
             while(!CGame.IsFinished())
                 CGame.NextRound();
 
-            CGraphics.FadeTo(EScreens.ScreenScore);
+            FinishedSinging();
+        }
+
+        private void FinishedSinging()
+        {
             _FadeOut = true;
+            CParty.FinishedSinging();
+
             if (_Webcam)
                 CWebcam.Close();
         }
@@ -1358,7 +1362,7 @@ namespace Vocaluxe.Screens
                                 TimeRect trect = new TimeRect();
                                 trect.startBeat = Line[j].FirstNoteBeat;
                                 trect.endBeat = Line[j].EndBeat;
-                                trect.rect = new CStatic(new STexture(-1),
+                                trect.rect = GetNewStatic(new STexture(-1),
                                     new SColorF(1f, 1f, 1f, 1f),
                                     new SRectF(stat.Rect.X + stat.Rect.W * ((CGame.GetTimeFromBeats(trect.startBeat, song.BPM) + song.Gap - song.Start) / TotalTime),
                                         stat.Rect.Y,

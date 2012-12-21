@@ -180,6 +180,8 @@
     <Compile Include="Base\CInput.cs" />
     <Compile Include="Base\CLanguage.cs" />
     <Compile Include="Base\CLog.cs" />
+    <Compile Include="Base\CMain.cs" />
+    <Compile Include="Base\CParty.cs" />
     <Compile Include="Base\CPlaylists.cs" />
     <Compile Include="Base\CProfiles.cs" />
     <Compile Include="Base\CUtility.cs" />
@@ -206,8 +208,6 @@
     <Compile Include="Lib\Input\WiiMote\CWiiMote.cs" />
     <Compile Include="Lib\Input\WiiMote\WiiMoteLib.cs" />
     <Compile Include="Lib\Playlist\CPlaylistFile.cs" />
-    <Compile Include="Lib\Song\CNotes.cs" />
-    <Compile Include="Lib\Song\CSong.cs" />
     <Compile Include="Lib\Sound\CDirectSoundRecord.cs" />
     <Compile Include="Lib\Sound\COpenALPlay.cs" />
     <Compile Include="Lib\Sound\COpenALRecord.cs" />
@@ -225,30 +225,7 @@
     <Compile Include="Lib\Video\IVideoDecoder.cs" />
     <Compile Include="Lib\Webcam\CAForgeNet.cs" />
     <Compile Include="Lib\Webcam\IWebcam.cs" />
-    <Compile Include="Menu\CBackground.cs" />
-    <Compile Include="Menu\CButton.cs" />
-    <Compile Include="Menu\CEqualizer.cs" />
-    <Compile Include="Menu\CGraphics.cs" />
-    <Compile Include="Menu\CNameSelection.cs" />
-    <Compile Include="Menu\CLyric.cs" />
-    <Compile Include="Menu\CMenu.cs" />
-    <Compile Include="Menu\CInteraction.cs" />
-    <Compile Include="Menu\CObjectInteractions.cs" />
-    <Compile Include="Menu\CPlaylist.cs" />
-    <Compile Include="Menu\CSelectSlide.cs" />
-    <Compile Include="Menu\CStatic.cs" />
-    <Compile Include="Menu\CText.cs" />
-    <Compile Include="Menu\IMenuElement.cs" />
-    <Compile Include="Menu\SingNotes\CSingNotes.cs" />
-    <Compile Include="Menu\SingNotes\CSingNotesClassic.cs" />
-    <Compile Include="Menu\SingNotes\ISingNotes.cs" />
-    <Compile Include="Menu\SongMenu\CSongMenu.cs" />
-    <Compile Include="Menu\SongMenu\CSongMenuBook.cs" />
-    <Compile Include="Menu\SongMenu\CSongMenuDreidel.cs" />
-    <Compile Include="Menu\SongMenu\CSongMenuFramework.cs" />
-    <Compile Include="Menu\SongMenu\CSongMenuList.cs" />
-    <Compile Include="Menu\SongMenu\CSongMenuTileBoard.cs" />
-    <Compile Include="Menu\SongMenu\ISongMenu.cs" />
+    <Compile Include="Base\CGraphics.cs" />
     <Compile Include="Program.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -262,6 +239,7 @@
     <Compile Include="Screens\CScreenOptions.cs" />
     <Compile Include="Screens\CScreenOptionsGame.cs" />
     <Compile Include="Screens\CScreenOptionsLyrics.cs" />
+    <Compile Include="Screens\CScreenParty.cs" />
     <Compile Include="Screens\CScreenProfiles.cs" />
     <Compile Include="Screens\CScreenScore.cs" />
     <Compile Include="Screens\CScreenSing.cs" />
@@ -299,7 +277,12 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\VocaluxeLib\VocaluxeLib.csproj">
+      <Project>{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}</Project>
+      <Name>VocaluxeLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

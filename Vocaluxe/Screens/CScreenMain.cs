@@ -19,6 +19,7 @@ namespace Vocaluxe.Screens
         const int ScreenVersion = 1;
 
         const string ButtonSing = "ButtonSing";
+        const string ButtonParty = "ButtonParty";
         const string ButtonOptions = "ButtonOptions";
         const string ButtonProfiles = "ButtonProfiles";
         const string ButtonExit = "ButtonExit";
@@ -27,7 +28,6 @@ namespace Vocaluxe.Screens
         
         public CScreenMain()
         {
-            Init();
         }
 
         protected override void Init()
@@ -37,12 +37,12 @@ namespace Vocaluxe.Screens
             _ThemeName = "ScreenMain";
             _ScreenVersion = ScreenVersion;
             _ThemeStatics = new string[] { "StaticMenuBar" };
-            _ThemeButtons = new string[] { ButtonSing, ButtonOptions, ButtonProfiles, ButtonExit };
+            _ThemeButtons = new string[] { ButtonSing, ButtonParty, ButtonOptions, ButtonProfiles, ButtonExit };
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();            
+            base.LoadTheme(XmlPath);            
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -75,7 +75,13 @@ namespace Vocaluxe.Screens
 
                     case Keys.Enter:
                         if (Buttons[htButtons(ButtonSing)].Selected)
+                        {
+                            CParty.SetNormalGameMode();
                             CGraphics.FadeTo(EScreens.ScreenSong);
+                        }
+
+                        if (Buttons[htButtons(ButtonParty)].Selected)
+                            CGraphics.FadeTo(EScreens.ScreenParty);
 
                         if (Buttons[htButtons(ButtonOptions)].Selected)
                             CGraphics.FadeTo(EScreens.ScreenOptions);
@@ -99,7 +105,13 @@ namespace Vocaluxe.Screens
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
             {
                 if (Buttons[htButtons(ButtonSing)].Selected)
+                {
+                    CParty.SetNormalGameMode();
                     CGraphics.FadeTo(EScreens.ScreenSong);
+                }
+
+                if (Buttons[htButtons(ButtonParty)].Selected)
+                    CGraphics.FadeTo(EScreens.ScreenParty);
 
                 if (Buttons[htButtons(ButtonOptions)].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptions);

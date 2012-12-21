@@ -33,7 +33,6 @@ namespace Vocaluxe.Screens
 
         public CScreenOptionsTheme()
         {
-            Init();
         }
 
         protected override void Init()
@@ -55,9 +54,9 @@ namespace Vocaluxe.Screens
             };
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
 
             SelectSlides[htSelectSlides(SelectSlideTheme)].AddValues(CTheme.ThemeNames);
             SelectSlides[htSelectSlides(SelectSlideTheme)].Selection = CTheme.GetThemeIndex();
@@ -89,6 +88,11 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                         Close();
+                        break;
+
+                    case Keys.S:
+                        CParty.SetNormalGameMode();
+                        CGraphics.FadeTo(EScreens.ScreenSong);
                         break;
 
                     case Keys.Enter:
@@ -174,7 +178,7 @@ namespace Vocaluxe.Screens
             if (_OldCoverTheme != SelectSlides[htSelectSlides(SelectSlideCover)].Selection)
             {
                 CCover.ReloadCover();
-                CSongs.Sort(CConfig.SongSorting);
+                CSongs.Sort(CConfig.SongSorting, CConfig.Tabs, CConfig.IgnoreArticles, String.Empty);
             }
 
             if (_OldTheme != SelectSlides[htSelectSlides(SelectSlideTheme)].Selection)

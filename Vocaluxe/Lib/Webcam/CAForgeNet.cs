@@ -10,6 +10,8 @@ using System.Runtime.InteropServices;
 using Vocaluxe.Lib.Draw;
 using System.Threading;
 
+using Vocaluxe.Menu;
+
 namespace Vocaluxe.Lib.Webcam
 {
     class CAForgeNet : IWebcam

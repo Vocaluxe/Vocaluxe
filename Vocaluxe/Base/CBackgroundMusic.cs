@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using System.IO;
 
 using Vocaluxe.Base;
 using System.Diagnostics;
-using Vocaluxe.Lib.Song;
 using Vocaluxe.Lib.Draw;
-using System.Drawing;
+
 using Vocaluxe.Menu;
+using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Base
 {

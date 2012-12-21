@@ -8,7 +8,7 @@ using Vocaluxe.Base;
 using Vocaluxe.Menu;
 using Vocaluxe.GameModes;
 
-using Vocaluxe.Lib.Song;
+using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Screens
 {
@@ -33,7 +33,6 @@ namespace Vocaluxe.Screens
 
         public CScreenScore()
         {
-            Init();
         }
 
         protected override void Init()
@@ -69,11 +68,8 @@ namespace Vocaluxe.Screens
                 {
                     case Keys.Escape:
                     case Keys.Back:
-                        CGraphics.FadeTo(EScreens.ScreenHighscore);
-                        break;
-
                     case Keys.Enter:
-                        CGraphics.FadeTo(EScreens.ScreenHighscore);
+                        LeaveScreen();
                         break;
 
                     case Keys.Left:
@@ -99,12 +95,12 @@ namespace Vocaluxe.Screens
 
             if (MouseEvent.LB)
             {
-                CGraphics.FadeTo(EScreens.ScreenHighscore);
+                LeaveScreen();
             }
 
             if (MouseEvent.RB)
             {
-                CGraphics.FadeTo(EScreens.ScreenHighscore);
+                LeaveScreen();
             }
 
             return true;
@@ -366,7 +362,7 @@ namespace Vocaluxe.Screens
                         Statics[htStatics(StaticPointsBarBG[player, numplayer])].Visible = (numplayer + 1 == CGame.NumPlayer);
                         Statics[htStatics(StaticAvatar[player, numplayer])].Visible = (numplayer + 1 == CGame.NumPlayer);
 
-                        Statics[htStatics(StaticAvatar[player, numplayer])].Texture = new Lib.Draw.STexture(-1);
+                        Statics[htStatics(StaticAvatar[player, numplayer])].Texture = new STexture(-1);
                     }
                 }
             }
@@ -389,6 +385,11 @@ namespace Vocaluxe.Screens
                 _Round = CGame.NumRounds;
                 UpdateRatings();
             }
+        }
+
+        private void LeaveScreen()
+        {
+            CParty.LeavingScore();
         }
     }
 }

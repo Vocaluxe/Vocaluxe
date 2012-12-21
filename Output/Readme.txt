@@ -96,8 +96,14 @@ or from the console:
 						  
 -SongPath [Path]	   : Deprecated, see SongFolder [Path]. This alias is provided for convenience.
 
+-PlaylistFolder [Path] : Use [Path] as playlist folder. The path needs to be an absolute path. Vocaluxe will
+						 load playlist from this path.
+						 Example:
+						 Vocaluxe.exe -PlaylistFolder D:\MyPlaylists
+
+
 Complete example:
-Vocaluxe.exe -ConfigFile MyConfig.xml -ScoreFile C:\Vocaluxe\Highscores\MyHighscoreDB.sqlite -SongFolder D:\MySongCollection
+Vocaluxe.exe -ConfigFile MyConfig.xml -ScoreFile C:\Vocaluxe\Highscores\MyHighscoreDB.sqlite -SongFolder D:\MySongCollection -PlaylistFolder D:\MyPlaylists
 
 
 =================================
@@ -115,13 +121,27 @@ Vocaluxe.exe -ConfigFile MyConfig.xml -ScoreFile C:\Vocaluxe\Highscores\MyHighsc
 						to change the size and position of the element on the screens. You can save
 						your changes with [S] before leaving the theme edit mode.
 [TAB]					to open the background music controls (not on all screens).
+[SHIFT] + [+]			to increase volume
+[SHIFT] + [-]			to decrease volume
 
-Songscreen
+Song screen
 [CTRL] + [R]			to select a random song
 [F3]					to open/close the song search menu
 [A]						to sing all songs
 [SHIFT] + [A]			to sing all songs from a category
 [SPACE]					to open/close the song menu
+
+Name selection screen
+[1]..[6]				to activate player selection.
+[Cursor]				to select a profile.
+[Enter]					to confirm a selection.
+
+Sing screen
+[P]						to toggle pause.
+[CTRL] + [S]			to skip a song if there is another one in the playlist.
+[T]						to change the time format of the timer.
+[I]						to change view of player information.
+[W]						to activate the configured webcam.
 
 
 =================================

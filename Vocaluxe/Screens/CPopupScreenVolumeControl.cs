@@ -8,7 +8,7 @@ using Vocaluxe.Base;
 using Vocaluxe.GameModes;
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
-using Vocaluxe.Lib.Song;
+using Vocaluxe.Menu.SongMenu;
 
 namespace Vocaluxe.Screens
 {
@@ -24,7 +24,6 @@ namespace Vocaluxe.Screens
 
         public CPopupScreenVolumeControl()
         {
-            Init();
         }
 
         protected override void Init()
@@ -39,9 +38,9 @@ namespace Vocaluxe.Screens
 
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
 
             _ScreenArea = Statics[htStatics(StaticBG)].Rect;
             SelectSlides[htSelectSlides(SelectSlideVolume)].AddValues(new string[] { "0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100" });

@@ -20,7 +20,6 @@ namespace Vocaluxe.Screens
 
         public CScreenOptionsLyrics()
         {
-            Init();
         }
 
         protected override void Init()
@@ -34,9 +33,9 @@ namespace Vocaluxe.Screens
             _ThemeSelectSlides = new string[] { SelectSlideLyricStyle, SelectSlideLyricsOnTop };
         }
 
-        public override void LoadTheme()
+        public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme();
+            base.LoadTheme(XmlPath);
             SelectSlides[htSelectSlides(SelectSlideLyricStyle)].SetValues<ELyricStyle>((int)CConfig.LyricStyle);
             SelectSlides[htSelectSlides(SelectSlideLyricsOnTop)].SetValues<EOffOn>((int)CConfig.LyricsOnTop);
         }
@@ -60,6 +59,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.S:
+                        CParty.SetNormalGameMode();
                         CGraphics.FadeTo(EScreens.ScreenSong);
                         break;
 
