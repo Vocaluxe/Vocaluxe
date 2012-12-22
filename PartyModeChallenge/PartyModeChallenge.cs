@@ -27,6 +27,7 @@ namespace Vocaluxe.PartyModes
         public int NumPlayerAtOnce;
         public List<Combination> Combs;
         public List<ResultTableRow> ResultTable;
+        public List<int> ProfileIDs;
     }
 
     public class ResultTableRow : IComparable
@@ -286,6 +287,7 @@ namespace Vocaluxe.PartyModes
                         ToScreenMain.CurrentRoundNr = 1;
                         ToScreenMain.NumPlayerAtOnce = GameData.NumPlayerAtOnce;
                         ToScreenMain.Combs = GameData.Rounds.Rounds;
+                        ToScreenMain.ProfileIDs = GameData.ProfileIDs;
                         UpdateScores();
                         ToScreenMain.ResultTable = GameData.ResultTable;
                         Screen.DataToScreen(ToScreenMain);
