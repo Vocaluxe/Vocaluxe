@@ -1304,8 +1304,8 @@
       <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
-      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
-      <Type>TButton</Type>
+      <!--<Type>: Type of ParticleEffect: Twinkle, Star, Snow, Flare, PerfNoteStar-->
+      <Type>Star</Type>
       <!--<Size>: Size of particle-->
       <Size>25,00</Size>
       <!--<MaxNumber>: Max number of drawn particles-->
@@ -1323,8 +1323,8 @@
       <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
-      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
-      <Type>TButton</Type>
+      <!--<Type>: Type of ParticleEffect: Twinkle, Star, Snow, Flare, PerfNoteStar-->
+      <Type>Star</Type>
       <!--<Size>: Size of particle-->
       <Size>25,00</Size>
       <!--<MaxNumber>: Max number of drawn particles-->
@@ -1342,8 +1342,8 @@
       <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
-      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
-      <Type>TButton</Type>
+      <!--<Type>: Type of ParticleEffect: Twinkle, Star, Snow, Flare, PerfNoteStar-->
+      <Type>Star</Type>
       <!--<Size>: Size of particle-->
       <Size>25,00</Size>
       <!--<MaxNumber>: Max number of drawn particles-->
@@ -1361,8 +1361,8 @@
       <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
-      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
-      <Type>TButton</Type>
+      <!--<Type>: Type of ParticleEffect: Twinkle, Star, Snow, Flare, PerfNoteStar-->
+      <Type>Star</Type>
       <!--<Size>: Size of particle-->
       <Size>25,00</Size>
       <!--<MaxNumber>: Max number of drawn particles-->
@@ -1380,8 +1380,8 @@
       <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
-      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
-      <Type>TButton</Type>
+      <!--<Type>: Type of ParticleEffect: Twinkle, Star, Snow, Flare, PerfNoteStar-->
+      <Type>Star</Type>
       <!--<Size>: Size of particle-->
       <Size>25,00</Size>
       <!--<MaxNumber>: Max number of drawn particles-->
@@ -1399,8 +1399,8 @@
       <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
-      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
-      <Type>TButton</Type>
+      <!--<Type>: Type of ParticleEffect: Twinkle, Star, Snow, Flare, PerfNoteStar-->
+      <Type>Star</Type>
       <!--<Size>: Size of particle-->
       <Size>25,00</Size>
       <!--<MaxNumber>: Max number of drawn particles-->
@@ -1418,8 +1418,8 @@
       <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
-      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
-      <Type>TButton</Type>
+      <!--<Type>: Type of ParticleEffect: Twinkle, Star, Snow, Flare, PerfNoteStar-->
+      <Type>Star</Type>
       <!--<Size>: Size of particle-->
       <Size>25,00</Size>
       <!--<MaxNumber>: Max number of drawn particles-->
@@ -1437,8 +1437,8 @@
       <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
-      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
-      <Type>TButton</Type>
+      <!--<Type>: Type of ParticleEffect: Twinkle, Star, Snow, Flare, PerfNoteStar-->
+      <Type>Star</Type>
       <!--<Size>: Size of particle-->
       <Size>25,00</Size>
       <!--<MaxNumber>: Max number of drawn particles-->
@@ -1456,8 +1456,8 @@
       <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
-      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
-      <Type>TButton</Type>
+      <!--<Type>: Type of ParticleEffect: Twinkle, Star, Snow, Flare, PerfNoteStar-->
+      <Type>Star</Type>
       <!--<Size>: Size of particle-->
       <Size>25,00</Size>
       <!--<MaxNumber>: Max number of drawn particles-->
@@ -1475,8 +1475,8 @@
       <!--<Color>: ParticleEffect color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
-      <!--<Type>: Type of ParticleEffect: TBackground, TButton, TSelectSlide, TText, TStatic, TSongMenu, TLyric, TSingNote, TNameSelection, TEqualizer, TPlaylist, TParticleEffect-->
-      <Type>TButton</Type>
+      <!--<Type>: Type of ParticleEffect: Twinkle, Star, Snow, Flare, PerfNoteStar-->
+      <Type>Star</Type>
       <!--<Size>: Size of particle-->
       <Size>25,00</Size>
       <!--<MaxNumber>: Max number of drawn particles-->

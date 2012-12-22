@@ -14,7 +14,7 @@ namespace Vocaluxe.Menu
         public string ColorName;
     }
 
-    public enum EParticeType
+    public enum EParticleType
     {
         Twinkle,
         Star,
@@ -43,7 +43,7 @@ namespace Vocaluxe.Menu
         private float _Rotation;    //start rotation 0..360°
         private float _Vsize;       //size changing speed: period [s]
         private float _LastTime;
-        private EParticeType _Type;
+        private EParticleType _Type;
 
         private Stopwatch _Timer;
         #endregion private vars
@@ -94,7 +94,7 @@ namespace Vocaluxe.Menu
         #endregion public vars
 
         #region Constructors
-        public CParticle(Basic Base, int PartyModeID, string textureName, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticeType type)
+        public CParticle(Basic Base, int PartyModeID, string textureName, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticleType type)
         {
             _PartyModeID = PartyModeID;
             _Base = Base;
@@ -118,7 +118,7 @@ namespace Vocaluxe.Menu
             _Rotation = (float)(_Base.Game.GetRandomDouble() * 360.0);
         }
 
-        public CParticle(Basic Base, int PartyModeID, STexture texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticeType type)
+        public CParticle(Basic Base, int PartyModeID, STexture texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticleType type)
         {
             _PartyModeID = PartyModeID;
             _Base = Base;
@@ -161,23 +161,23 @@ namespace Vocaluxe.Menu
             {
                 switch (_Type)
                 {
-                    case EParticeType.Twinkle:
+                    case EParticleType.Twinkle:
                         _Alpha = 1f - _Age / _MaxAge;
                         break;
 
-                    case EParticeType.Star:
+                    case EParticleType.Star:
                         _Alpha = 1f - _Age / _MaxAge;
                         break;
 
-                    case EParticeType.Snow:
+                    case EParticleType.Snow:
                         _Alpha = (float)Math.Sqrt((Math.Sin(_Age / _MaxAge * Math.PI * 2 - 0.5 * Math.PI) + 1) / 2);
                         break;
 
-                    case EParticeType.Flare:
+                    case EParticleType.Flare:
                         _Alpha = 1f - _Age / _MaxAge;
                         break;
 
-                    case EParticeType.PerfNoteStar:
+                    case EParticleType.PerfNoteStar:
                         _Alpha = 1f - _Age / _MaxAge;
                         break;
 
@@ -190,17 +190,17 @@ namespace Vocaluxe.Menu
             // update position
             switch (_Type)
             {
-                case EParticeType.Twinkle:
+                case EParticleType.Twinkle:
                     X += _Vx * timediff;
                     Y += _Vy * timediff;
                     break;
 
-                case EParticeType.Star:
+                case EParticleType.Star:
                     X += _Vx * timediff;
                     Y += _Vy * timediff;
                     break;
 
-                case EParticeType.Snow:
+                case EParticleType.Snow:
                     int maxy = (int)Math.Round(_Base.Settings.GetRenderH() - _Size * 0.4f);
 
                     if (Math.Round(Y) < maxy)
@@ -217,12 +217,12 @@ namespace Vocaluxe.Menu
                     }
                     break;
 
-                case EParticeType.Flare:
+                case EParticleType.Flare:
                     X += _Vx * timediff;
                     Y += _Vy * timediff;
                     break;
 
-                case EParticeType.PerfNoteStar:
+                case EParticleType.PerfNoteStar:
                     X += _Vx * timediff;
                     Y += _Vy * timediff;
                     break;
@@ -238,23 +238,23 @@ namespace Vocaluxe.Menu
                 float size = _Size;
                 switch (_Type)
                 {
-                    case EParticeType.Twinkle:
+                    case EParticleType.Twinkle:
                         size = _Size * (1f - CurrentTime / _Vsize);
                         break;
 
-                    case EParticeType.Star:
+                    case EParticleType.Star:
                         size = _Size * (1f - CurrentTime / _Vsize);
                         break;
 
-                    case EParticeType.Snow:
+                    case EParticleType.Snow:
                         size = _Size * (float)Math.Sqrt((Math.Sin(CurrentTime / _Vsize * Math.PI * 2 - 0.5 * Math.PI) + 1) / 2);
                         break;
 
-                    case EParticeType.Flare:
+                    case EParticleType.Flare:
                         size = _Size * (1f - CurrentTime / _Vsize);
                         break;
 
-                    case EParticeType.PerfNoteStar:
+                    case EParticleType.PerfNoteStar:
                         size = _Size * (1f - CurrentTime / _Vsize);
                         break;
 
@@ -315,7 +315,7 @@ namespace Vocaluxe.Menu
         private List<CParticle> _Stars;
         private int _MaxNumber;
         private float _Size;
-        private EParticeType _Type;
+        private EParticleType _Type;
         private Stopwatch _SpawnTimer;
         private float _NextSpawnTime;
 
@@ -345,7 +345,7 @@ namespace Vocaluxe.Menu
             Visible = true;
         }
 
-        public CParticleEffect(Basic Base, int PartyModeID, int MaxNumber, SColorF Color, SRectF Rect, string TextureName, float Size, EParticeType Type)
+        public CParticleEffect(Basic Base, int PartyModeID, int MaxNumber, SColorF Color, SRectF Rect, string TextureName, float Size, EParticleType Type)
         {
             _PartyModeID = PartyModeID;
             _Base = Base;
@@ -363,7 +363,7 @@ namespace Vocaluxe.Menu
             Visible = true;
         }
 
-        public CParticleEffect(Basic Base, int PartyModeID, int MaxNumber, SColorF Color, SRectF Rect, STexture Texture, float Size, EParticeType Type)
+        public CParticleEffect(Basic Base, int PartyModeID, int MaxNumber, SColorF Color, SRectF Rect, STexture Texture, float Size, EParticleType Type)
         {
             _PartyModeID = PartyModeID;
             _Base = Base;
@@ -406,7 +406,7 @@ namespace Vocaluxe.Menu
                 _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/A", navigator, ref Color.A);
             }
 
-            _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EParticeType>(item + "/Type", navigator, ref _Type);
+            _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EParticleType>(item + "/Type", navigator, ref _Type);
             _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Size", navigator, ref _Size);
             _ThemeLoaded &= CHelper.TryGetIntValueFromXML(item + "/MaxNumber", navigator, ref _MaxNumber);
 
@@ -448,8 +448,8 @@ namespace Vocaluxe.Menu
                     writer.WriteElementString("A", Color.A.ToString("#0.00"));
                 }
 
-                writer.WriteComment("<Type>: Type of ParticleEffect: " + CHelper.ListStrings(Enum.GetNames(typeof(EType))));
-                writer.WriteElementString("Type", Enum.GetName(typeof(EType), _Type));
+                writer.WriteComment("<Type>: Type of ParticleEffect: " + CHelper.ListStrings(Enum.GetNames(typeof(EParticleType))));
+                writer.WriteElementString("Type", Enum.GetName(typeof(EParticleType), _Type));
                 writer.WriteComment("<Size>: Size of particle");
                 writer.WriteElementString("Size", _Size.ToString("#0.00"));
                 writer.WriteComment("<MaxNumber>: Max number of drawn particles");
@@ -490,7 +490,7 @@ namespace Vocaluxe.Menu
 
                 switch (_Type)
                 {
-                    case EParticeType.Twinkle:
+                    case EParticleType.Twinkle:
                         size = _Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
                         lifetime = _Base.Game.GetRandom(500) / 1000f + 0.5f;
                         vx = -_Base.Game.GetRandom(10000) / 50f + 100f;
@@ -499,7 +499,7 @@ namespace Vocaluxe.Menu
                         vsize = lifetime * 2f;
                         break;
 
-                    case EParticeType.Star:
+                    case EParticleType.Star:
                         size = _Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
                         lifetime = _Base.Game.GetRandom(1000) / 500f + 0.2f;
                         vx = -_Base.Game.GetRandom(1000) / 50f + 10f;
@@ -508,7 +508,7 @@ namespace Vocaluxe.Menu
                         vsize = lifetime * 2f;
                         break;
 
-                    case EParticeType.Snow:
+                    case EParticleType.Snow:
                         size = _Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
                         lifetime = _Base.Game.GetRandom(5000) / 50f + 10f;
                         vx = -_Base.Game.GetRandom(1000) / 50f + 10f;
@@ -520,7 +520,7 @@ namespace Vocaluxe.Menu
                         DoSpawn = false;
                         break;
 
-                    case EParticeType.Flare:
+                    case EParticleType.Flare:
                         size = _Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
                         lifetime = _Base.Game.GetRandom(500) / 1000f + 0.1f;
                         vx = -_Base.Game.GetRandom(2000) / 50f;
@@ -529,7 +529,7 @@ namespace Vocaluxe.Menu
                         vsize = lifetime * 2f;
                         break;
 
-                    case EParticeType.PerfNoteStar:
+                    case EParticleType.PerfNoteStar:
                         size = _Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
                         lifetime = _Base.Game.GetRandom(1000) / 500f + 1.2f;
                         vx = 0f;
@@ -570,7 +570,7 @@ namespace Vocaluxe.Menu
                 _Stars.Add(star);
             }
 
-            if (_Type == EParticeType.Flare || _Type == EParticeType.PerfNoteStar || _Type == EParticeType.Twinkle)
+            if (_Type == EParticleType.Flare || _Type == EParticleType.PerfNoteStar || _Type == EParticleType.Twinkle)
                 _NextSpawnTime = -1f;
 
             int i = 0;

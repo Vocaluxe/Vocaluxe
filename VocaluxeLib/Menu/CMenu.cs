@@ -786,7 +786,7 @@ namespace Vocaluxe.Menu
             return new CPlaylist(_Base, _PartyModeID);
         }
 
-        public CParticleEffect GetNewParticleEffect(int MaxNumber, SColorF Color, SRectF Area, STexture Texture, float Size, EParticeType Type)
+        public CParticleEffect GetNewParticleEffect(int MaxNumber, SColorF Color, SRectF Area, STexture Texture, float Size, EParticleType Type)
         {
             return new CParticleEffect(_Base, _PartyModeID, MaxNumber, Color, Area, Texture, Size, Type);
         }

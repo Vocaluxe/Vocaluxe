@@ -615,7 +615,7 @@ namespace Vocaluxe.Menu.SingNotes
                     );
 
                 int numstars = (int)(r.W * 0.25f);
-                CParticleEffect stars = new CParticleEffect(_Base, _PartyModeID, numstars, new SColorF(1f, 1f, 0f, 1f), r, _Theme.SkinGoldenStarName, 20, EParticeType.Star);
+                CParticleEffect stars = new CParticleEffect(_Base, _PartyModeID, numstars, new SColorF(1f, 1f, 0f, 1f), r, _Theme.SkinGoldenStarName, 20, EParticleType.Star);
                 _PlayerNotes[n].GoldenStars.Add(stars);
             }
         }
@@ -643,7 +643,7 @@ namespace Vocaluxe.Menu.SingNotes
                 Rect.Z
                 );
 
-            CParticleEffect flares = new CParticleEffect(_Base, _PartyModeID, 15, new SColorF(1f, 1f, 1f, 1f), r, _Theme.SkinGoldenStarName, 20, EParticeType.Flare);
+            CParticleEffect flares = new CParticleEffect(_Base, _PartyModeID, 15, new SColorF(1f, 1f, 1f, 1f), r, _Theme.SkinGoldenStarName, 20, EParticleType.Flare);
             _PlayerNotes[n].Flares.Add(flares);
         }
 
@@ -683,13 +683,13 @@ namespace Vocaluxe.Menu.SingNotes
                 Rect.Z
                 );
 
-            CParticleEffect stars = new CParticleEffect(_Base, _PartyModeID, _Base.Game.GetRandom(2) + 1, new SColorF(1f, 1f, 1f, 1f), r, _Theme.SkinPerfectNoteStarName, 35, EParticeType.PerfNoteStar);
+            CParticleEffect stars = new CParticleEffect(_Base, _PartyModeID, _Base.Game.GetRandom(2) + 1, new SColorF(1f, 1f, 1f, 1f), r, _Theme.SkinPerfectNoteStarName, 35, EParticleType.PerfNoteStar);
             _PlayerNotes[n].PerfectNoteEffect.Add(stars);
         }
 
         private void AddPerfectLine(int n)
         {
-            CParticleEffect twinkle = new CParticleEffect(_Base, _PartyModeID, 200, _PlayerNotes[n].Color, _PlayerNotes[n].Rect, _Theme.SkinGoldenStarName, 25, EParticeType.Twinkle);
+            CParticleEffect twinkle = new CParticleEffect(_Base, _PartyModeID, 200, _PlayerNotes[n].Color, _PlayerNotes[n].Rect, _Theme.SkinGoldenStarName, 25, EParticleType.Twinkle);
             _PlayerNotes[n].PerfectLineTwinkle.Add(twinkle);
         }
 
