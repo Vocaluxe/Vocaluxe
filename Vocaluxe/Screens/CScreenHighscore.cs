@@ -304,6 +304,8 @@ namespace Vocaluxe.Screens
                     Texts[htTexts(TextSongMode)].Text = "TR_GAMEMODE_NORMAL";
                     break;
             }
+
+            _Pos = 0;
         }
 
         private void ChangePos(int Num)
