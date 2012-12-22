@@ -27,6 +27,7 @@ namespace Vocaluxe.PartyModes
         public int NumPlayerAtOnce;
         public List<Combination> Combs;
         public List<ResultTableRow> ResultTable;
+        public List<int> ProfileIDs;
     }
 
     public class ResultTableRow : IComparable
@@ -87,6 +88,7 @@ namespace Vocaluxe.PartyModes
     public struct FromScreenMain
     {
         public bool FadeToSongSelection;
+        public bool FadeToNameSelection;
     }
     #endregion FromScreen
     #endregion Communication
@@ -225,6 +227,8 @@ namespace Vocaluxe.PartyModes
                         data = (DataFromScreen)Data;
                         if (data.ScreenMain.FadeToSongSelection)
                             _Stage = EStage.Singing;
+                        if (data.ScreenMain.FadeToNameSelection)
+                            _Stage = EStage.Config;
                     }
                     catch (Exception e)
                     {
@@ -234,6 +238,8 @@ namespace Vocaluxe.PartyModes
 
                     if (_Stage == EStage.Singing)
                         StartNextRound();
+                    if (_Stage == EStage.Config)
+                        _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
                     break;
 
                 default:
@@ -286,6 +292,7 @@ namespace Vocaluxe.PartyModes
                         ToScreenMain.CurrentRoundNr = 1;
                         ToScreenMain.NumPlayerAtOnce = GameData.NumPlayerAtOnce;
                         ToScreenMain.Combs = GameData.Rounds.Rounds;
+                        ToScreenMain.ProfileIDs = GameData.ProfileIDs;
                         UpdateScores();
                         ToScreenMain.ResultTable = GameData.ResultTable;
                         Screen.DataToScreen(ToScreenMain);
