@@ -109,7 +109,10 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
-            _Round = 1;
+            if (CGame.NumRounds > 1)
+                _Round = 0;
+            else
+                _Round = 1;
             _Points = CGame.GetPoints();
 
             SetVisuability();
@@ -370,19 +373,14 @@ namespace Vocaluxe.Screens
 
         private void ChangeRound(int Num)
         {
-            if ((_Round + Num) <= _Points.NumRounds && (_Round + Num) > 0 && _Round != 0)
+            if((_Round + Num) <= _Points.NumRounds && (_Round + Num > 0))
             {
                 _Round += Num;
                 UpdateRatings();
             }
-            else if(Num > 0 && _Round != 0 && CGame.NumRounds > 1)
+            else if(Num < 0 && _Round == 1 && CGame.NumRounds > 1)
             {
                 _Round = 0;
-                UpdateRatings();
-            }
-            else if (Num < 0 && _Round == 0)
-            {
-                _Round = CGame.NumRounds;
                 UpdateRatings();
             }
         }
