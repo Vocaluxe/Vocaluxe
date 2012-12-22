@@ -284,7 +284,7 @@ namespace Vocaluxe.PartyModes
             SProfile[] profiles = _Base.Profiles.GetProfiles();
             for (int i = 0; i < GameState.NumPlayerAtOnce; i++)
             {
-                int pid = GameState.Combs[GameState.CurrentRoundNr].Player[i];
+                int pid = GameState.Combs[GameState.CurrentRoundNr - 1].Player[i];
                 NextPlayerStatics[i].Texture = profiles[GameState.ProfileIDs[pid]].Avatar.Texture;
                 NextPlayerTexts[i].Text = profiles[GameState.ProfileIDs[pid]].PlayerName;
                 NextPlayerTexts[i].Color = _Base.Theme.GetPlayerColor((i+1));
