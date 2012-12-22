@@ -29,9 +29,17 @@ namespace Vocaluxe.PartyModes
         const string TextWon = "TextWon";
         const string TextSingPoints = "TextSingPoints";
         const string TextGamePoints = "TextGamePoints";
+        const string TextPopupReallyExit = "TextPopupReallyExit";
 
         const string ButtonNextRound = "ButtonNextRound";
+        const string ButtonBack = "ButtonBack";
+        const string ButtonExit = "ButtonExit";
+        const string ButtonPopupYes = "ButtonPopupYes";
+        const string ButtonPopupNo = "ButtonPopupNo";
 
+        const string StaticPopupBG = "StaticPopupBG";
+
+        private bool ExitPopupVisible = false;
 
         private DataFromScreen Data;
         private DataToScreenMain GameState;
@@ -48,8 +56,9 @@ namespace Vocaluxe.PartyModes
             base.Init();
 
             _ThemeName = "PartyScreenChallengeMain";
-            _ThemeTexts = new string[] { TextPosition, TextPlayerName, TextNumPlayed, TextWon, TextSingPoints, TextGamePoints };
-            _ThemeButtons = new string[] { "ButtonNextRound" };
+            _ThemeTexts = new string[] { TextPosition, TextPlayerName, TextNumPlayed, TextWon, TextSingPoints, TextGamePoints, TextPopupReallyExit };
+            _ThemeButtons = new string[] { ButtonNextRound, ButtonBack, ButtonExit, ButtonPopupYes, ButtonPopupNo };
+            _ThemeStatics = new string[] { StaticPopupBG };
             _ScreenVersion = ScreenVersion;
         }
 
@@ -91,12 +100,32 @@ namespace Vocaluxe.PartyModes
                 {
                     case Keys.Back:
                     case Keys.Escape:
-                        EndParty();
+                        if (!ExitPopupVisible)
+                            if (GameState.CurrentRoundNr == 1)
+                                Back();
+                            else
+                                ShowPopup(true);
+                        else
+                            ShowPopup(false);
                         break;
 
                     case Keys.Enter:
-                        if (Buttons[htButtons(ButtonNextRound)].Selected)
-                            NextRound();
+                        if (!ExitPopupVisible)
+                        {
+                            if (Buttons[htButtons(ButtonNextRound)].Selected)
+                                NextRound();
+                            if (Buttons[htButtons(ButtonBack)].Selected && GameState.CurrentRoundNr == 1)
+                                ShowPopup(true); //Back();
+                            if (Buttons[htButtons(ButtonExit)].Selected && GameState.CurrentRoundNr > 1)
+                                ShowPopup(true);
+                        }
+                        else
+                        {
+                            if (Buttons[htButtons(ButtonPopupYes)].Selected)
+                                EndParty();
+                            if (Buttons[htButtons(ButtonPopupNo)].Selected)
+                                ShowPopup(false);
+                        }
                         break;
                 }
             }
@@ -109,13 +138,33 @@ namespace Vocaluxe.PartyModes
 
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
             {
-                if (Buttons[htButtons(ButtonNextRound)].Selected)
-                    NextRound();
+                if (!ExitPopupVisible)
+                {
+                    if (Buttons[htButtons(ButtonNextRound)].Selected)
+                        NextRound();
+                    if (Buttons[htButtons(ButtonBack)].Selected && GameState.CurrentRoundNr == 1)
+                        Back();
+                    if (Buttons[htButtons(ButtonExit)].Selected && GameState.CurrentRoundNr > 1)
+                        ShowPopup(true);
+                }
+                else
+                {
+                    if (Buttons[htButtons(ButtonPopupYes)].Selected)
+                        EndParty();
+                    if (Buttons[htButtons(ButtonPopupNo)].Selected)
+                        ShowPopup(false);
+                }
             }
 
             if (MouseEvent.RB)
             {
-                EndParty();
+                if (!ExitPopupVisible)
+                    if (GameState.CurrentRoundNr == 1)
+                        Back();
+                    else
+                        ShowPopup(true);
+                else
+                    ShowPopup(false);
             }
 
             return true;
@@ -126,6 +175,19 @@ namespace Vocaluxe.PartyModes
             base.OnShow();
 
             Updatetable();
+
+            if (GameState.CurrentRoundNr == 1)
+            {
+                Buttons[htButtons(ButtonBack)].Visible = true;
+                Buttons[htButtons(ButtonExit)].Visible = false;
+            }
+            else
+            {
+                Buttons[htButtons(ButtonBack)].Visible = false;
+                Buttons[htButtons(ButtonExit)].Visible = true;
+            }
+
+            ShowPopup(false);
         }
 
         public override bool UpdateGame()
@@ -152,7 +214,23 @@ namespace Vocaluxe.PartyModes
 
         private void EndParty()
         {
-            //TODO
+            FadeTo(EScreens.ScreenParty);
+        }
+
+        private void ShowPopup(bool Visible)
+        {
+            ExitPopupVisible = Visible;
+
+            Statics[htStatics(StaticPopupBG)].Visible = ExitPopupVisible;
+            Texts[htTexts(TextPopupReallyExit)].Visible = ExitPopupVisible;
+            Buttons[htButtons(ButtonPopupYes)].Visible = ExitPopupVisible;
+            Buttons[htButtons(ButtonPopupNo)].Visible = ExitPopupVisible;
+
+            SetInteractionToButton(Buttons[htButtons(ButtonPopupNo)]);
+        }
+
+        private void Back()
+        {
         }
 
         private void BuildTable()

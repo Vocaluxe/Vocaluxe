@@ -29,6 +29,22 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </Static1>
+	<StaticPopupBG>
+      <!--<Skin>: Texture name-->
+      <Skin>PopupBG</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>449</X>
+      <Y>261</Y>
+      <Z>-1,00</Z>
+      <W>382</W>
+      <H>198</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticPopupBG>
 	<Text1>
       <!--<X>, <Y>: Text position-->
       <X>640</X>
@@ -232,6 +248,36 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </TextGamePoints>
+	<TextPopupReallyExit>
+      <!--<X>, <Y>: Text position-->
+      <X>640</X>
+      <Y>265</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,01</Z>
+      <!--<H>: Text height-->
+      <H>37</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>380</MaxW>
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text>TR_SCREENMAIN_POPUP_REALLYEXIT</Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextPopupReallyExit>
 	<ButtonNextRound>
       <!--<Skin>: Texture name-->
       <Skin>Button</Skin>
@@ -289,5 +335,233 @@
         <Height>26</Height>
       </SReflection>
     </ButtonNextRound>
+	<ButtonBack>
+      <!--<Skin>: Texture name-->
+      <Skin>Button</Skin>
+      <!--<SkinSelected>: Texture name for selected button-->
+      <SkinSelected>Button</SkinSelected>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
+      <X>145</X>
+      <Y>600</Y>
+      <Z>0,00</Z>
+      <W>150</W>
+      <H>50</H>
+      <!--<Color>: Button color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>ButtonColor</Color>
+      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>ButtonSColor</SColor>
+      <Text>
+        <!--<X>, <Y>: Text position-->
+        <X>75</X>
+        <Y>10</Y>
+        <!--<H>: Text height-->
+        <H>32</H>
+        <!--<MaxW>: Maximum text width (if exists)-->
+        <MaxW>142</MaxW>
+        <!--<Color>: Text color from ColorScheme (high priority)-->
+        <!--or <R>, <G>, <B>, <A> (lower priority)-->
+        <Color>ButtonTextColor</Color>
+        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+        <SColor>ButtonTextSColor</SColor>
+        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Align>Center</Align>
+        <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+        <HAlign>Center</HAlign>
+        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <Style>Bold</Style>
+        <!--<Font>: Text font name-->
+        <Font>Outline</Font>
+        <!--<Text>: Nothing or translation tag-->
+        <Text>TR_BUTTON_BACK</Text>
+      </Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+      <Reflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </Reflection>
+      <!--<SReflection> If exists:-->
+      <!--   <Space>: Reflection Space of selected button-->
+      <!--   <Height>: Reflection Height of selected button-->
+      <SReflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </SReflection>
+    </ButtonBack>
+	<ButtonExit>
+      <!--<Skin>: Texture name-->
+      <Skin>Button</Skin>
+      <!--<SkinSelected>: Texture name for selected button-->
+      <SkinSelected>Button</SkinSelected>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
+      <X>145</X>
+      <Y>600</Y>
+      <Z>0,00</Z>
+      <W>150</W>
+      <H>50</H>
+      <!--<Color>: Button color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>ButtonColor</Color>
+      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>ButtonSColor</SColor>
+      <Text>
+        <!--<X>, <Y>: Text position-->
+        <X>75</X>
+        <Y>10</Y>
+        <!--<H>: Text height-->
+        <H>32</H>
+        <!--<MaxW>: Maximum text width (if exists)-->
+        <MaxW>142</MaxW>
+        <!--<Color>: Text color from ColorScheme (high priority)-->
+        <!--or <R>, <G>, <B>, <A> (lower priority)-->
+        <Color>ButtonTextColor</Color>
+        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+        <SColor>ButtonTextSColor</SColor>
+        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Align>Center</Align>
+        <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+        <HAlign>Center</HAlign>
+        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <Style>Bold</Style>
+        <!--<Font>: Text font name-->
+        <Font>Outline</Font>
+        <!--<Text>: Nothing or translation tag-->
+        <Text>TR_BUTTON_EXIT</Text>
+      </Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+      <Reflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </Reflection>
+      <!--<SReflection> If exists:-->
+      <!--   <Space>: Reflection Space of selected button-->
+      <!--   <Height>: Reflection Height of selected button-->
+      <SReflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </SReflection>
+    </ButtonExit>
+	<ButtonPopupYes>
+      <!--<Skin>: Texture name-->
+      <Skin>Button</Skin>
+      <!--<SkinSelected>: Texture name for selected button-->
+      <SkinSelected>Button</SkinSelected>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
+      <X>665</X>
+      <Y>360</Y>
+      <Z>-1,01</Z>
+      <W>150</W>
+      <H>50</H>
+      <!--<Color>: Button color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>ButtonColor</Color>
+      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>ButtonSColor</SColor>
+      <Text>
+        <!--<X>, <Y>: Text position-->
+        <X>75</X>
+        <Y>10</Y>
+        <!--<H>: Text height-->
+        <H>32</H>
+        <!--<MaxW>: Maximum text width (if exists)-->
+        <MaxW>142</MaxW>
+        <!--<Color>: Text color from ColorScheme (high priority)-->
+        <!--or <R>, <G>, <B>, <A> (lower priority)-->
+        <Color>ButtonTextColor</Color>
+        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+        <SColor>ButtonTextSColor</SColor>
+        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Align>Center</Align>
+        <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+        <HAlign>Center</HAlign>
+        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <Style>Bold</Style>
+        <!--<Font>: Text font name-->
+        <Font>Outline</Font>
+        <!--<Text>: Nothing or translation tag-->
+        <Text>TR_BUTTON_YES</Text>
+      </Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+      <Reflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </Reflection>
+      <!--<SReflection> If exists:-->
+      <!--   <Space>: Reflection Space of selected button-->
+      <!--   <Height>: Reflection Height of selected button-->
+      <SReflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </SReflection>
+    </ButtonPopupYes>
+	<ButtonPopupNo>
+      <!--<Skin>: Texture name-->
+      <Skin>Button</Skin>
+      <!--<SkinSelected>: Texture name for selected button-->
+      <SkinSelected>Button</SkinSelected>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
+      <X>465</X>
+      <Y>360</Y>
+      <Z>-1,01</Z>
+      <W>150</W>
+      <H>50</H>
+      <!--<Color>: Button color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>ButtonColor</Color>
+      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>ButtonSColor</SColor>
+      <Text>
+        <!--<X>, <Y>: Text position-->
+        <X>75</X>
+        <Y>10</Y>
+        <!--<H>: Text height-->
+        <H>32</H>
+        <!--<MaxW>: Maximum text width (if exists)-->
+        <MaxW>142</MaxW>
+        <!--<Color>: Text color from ColorScheme (high priority)-->
+        <!--or <R>, <G>, <B>, <A> (lower priority)-->
+        <Color>ButtonTextColor</Color>
+        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+        <SColor>ButtonTextSColor</SColor>
+        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Align>Center</Align>
+        <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+        <HAlign>Center</HAlign>
+        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <Style>Bold</Style>
+        <!--<Font>: Text font name-->
+        <Font>Outline</Font>
+        <!--<Text>: Nothing or translation tag-->
+        <Text>TR_BUTTON_NO</Text>
+      </Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+      <Reflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </Reflection>
+      <!--<SReflection> If exists:-->
+      <!--   <Space>: Reflection Space of selected button-->
+      <!--   <Height>: Reflection Height of selected button-->
+      <SReflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </SReflection>
+    </ButtonPopupNo>
   </PartyScreenChallengeMain>
 </root>
