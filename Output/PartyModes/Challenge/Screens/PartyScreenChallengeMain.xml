@@ -45,6 +45,22 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </StaticPopupBG>
+	<StaticNextPlayer>
+      <!--<Skin>: Texture name-->
+      <Skin>Invisible</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0,00</Z>
+      <W>100</W>
+      <H>100</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticNextPlayer>
 	<Text1>
       <!--<X>, <Y>: Text position-->
       <X>640</X>
@@ -74,6 +90,35 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </Text1>
+	<Text2>
+      <!--<X>, <Y>: Text position-->
+      <X>640</X>
+      <Y>515</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text>TR_SCREENMAIN_NEXT_PLAYER</Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </Text2>
 	<TextPosition>
       <!--<X>, <Y>: Text position-->
       <X>100</X>
@@ -248,6 +293,36 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </TextGamePoints>
+	<TextNextPlayer>
+      <!--<X>, <Y>: Text position-->
+      <X>0</X>
+      <Y>0</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>100</MaxW>
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextNextPlayer>
 	<TextPopupReallyExit>
       <!--<X>, <Y>: Text position-->
       <X>640</X>
@@ -255,7 +330,7 @@
       <!--<Z>: Text position-->
       <Z>-1,01</Z>
       <!--<H>: Text height-->
-      <H>37</H>
+      <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>380</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -284,7 +359,7 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>Button</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>985</X>
+      <X>1030</X>
       <Y>600</Y>
       <Z>0,00</Z>
       <W>150</W>
@@ -341,7 +416,7 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>Button</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>145</X>
+      <X>100</X>
       <Y>600</Y>
       <Z>0,00</Z>
       <W>150</W>
@@ -398,7 +473,7 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>Button</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>145</X>
+      <X>100</X>
       <Y>600</Y>
       <Z>0,00</Z>
       <W>150</W>
