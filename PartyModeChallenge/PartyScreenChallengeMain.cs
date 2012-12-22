@@ -115,7 +115,7 @@ namespace Vocaluxe.PartyModes
                             if (Buttons[htButtons(ButtonNextRound)].Selected)
                                 NextRound();
                             if (Buttons[htButtons(ButtonBack)].Selected && GameState.CurrentRoundNr == 1)
-                                ShowPopup(true); //Back();
+                                Back();
                             if (Buttons[htButtons(ButtonExit)].Selected && GameState.CurrentRoundNr > 1)
                                 ShowPopup(true);
                         }
@@ -231,6 +231,9 @@ namespace Vocaluxe.PartyModes
 
         private void Back()
         {
+            Data.ScreenMain.FadeToNameSelection = true;
+            Data.ScreenMain.FadeToSongSelection = false;
+            _PartyMode.DataFromScreen(_ThemeName, Data);
         }
 
         private void BuildTable()
