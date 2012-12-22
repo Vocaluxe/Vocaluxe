@@ -355,7 +355,6 @@ namespace Vocaluxe.Menu.SingNotes
             int i = 0;
             while (i < _PlayerNotes[n].PerfectLineTwinkle.Count)
             {
-                _PlayerNotes[n].PerfectLineTwinkle[i].Update();
                 if (!_PlayerNotes[n].PerfectLineTwinkle[i].IsAlive)
                 {
                     _PlayerNotes[n].PerfectLineTwinkle.RemoveAt(i);
@@ -373,7 +372,6 @@ namespace Vocaluxe.Menu.SingNotes
             {
                 foreach (CParticleEffect stars in _PlayerNotes[n].GoldenStars)
                 {
-                    stars.Update();
                     stars.Alpha = _PlayerNotes[n].Alpha;
                     stars.Draw();
                 }
@@ -431,7 +429,6 @@ namespace Vocaluxe.Menu.SingNotes
             i = 0;
             while (i < _PlayerNotes[n].Flares.Count)
             {
-                _PlayerNotes[n].Flares[i].Update();
                 if (!_PlayerNotes[n].Flares[i].IsAlive)
                 {
                     _PlayerNotes[n].Flares.RemoveAt(i);
@@ -443,7 +440,6 @@ namespace Vocaluxe.Menu.SingNotes
             i = 0;
             while (i < _PlayerNotes[n].PerfectNoteEffect.Count)
             {
-                _PlayerNotes[n].PerfectNoteEffect[i].Update();
                 if (!_PlayerNotes[n].PerfectNoteEffect[i].IsAlive)
                 {
                     _PlayerNotes[n].PerfectNoteEffect.RemoveAt(i);
@@ -457,7 +453,6 @@ namespace Vocaluxe.Menu.SingNotes
 
             foreach (CParticleEffect stars in _PlayerNotes[n].GoldenStars)
             {
-                stars.Update();
                 stars.Alpha = _PlayerNotes[n].Alpha;
                 stars.Draw();
             }

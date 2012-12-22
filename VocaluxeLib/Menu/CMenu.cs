@@ -38,6 +38,7 @@ namespace Vocaluxe.Menu
         private List<CNameSelection> _NameSelections;
         private List<CEqualizer> _Equalizers;
         private List<CPlaylist> _Playlists;
+        private List<CParticleEffect> _ParticleEffects;
 
         private Hashtable _htBackgrounds;
         private Hashtable _htStatics;
@@ -50,6 +51,7 @@ namespace Vocaluxe.Menu
         private Hashtable _htNameSelections;
         private Hashtable _htEqualizers;
         private Hashtable _htPlaylists;
+        private Hashtable _htParticleEffects;
 
 
         private int _PrevMouseX;
@@ -73,6 +75,7 @@ namespace Vocaluxe.Menu
         protected string[] _ThemeNameSelections;
         protected string[] _ThemeEqualizers;
         protected string[] _ThemePlaylists;
+        protected string[] _ThemeParticleEffects;
 
         protected SRectF _ScreenArea;
         protected Basic _Base;
@@ -118,6 +121,7 @@ namespace Vocaluxe.Menu
             _NameSelections = new List<CNameSelection>();
             _Equalizers = new List<CEqualizer>();
             _Playlists = new List<CPlaylist>();
+            _ParticleEffects = new List<CParticleEffect>();
 
             _htBackgrounds = new Hashtable();
             _htStatics = new Hashtable();
@@ -130,6 +134,7 @@ namespace Vocaluxe.Menu
             _htNameSelections = new Hashtable();
             _htEqualizers = new Hashtable();
             _htPlaylists = new Hashtable();
+            _htParticleEffects = new Hashtable();
 
             _PrevMouseX = 0;
             _PrevMouseY = 0;
@@ -152,6 +157,7 @@ namespace Vocaluxe.Menu
             _ThemeNameSelections = null;
             _ThemeEqualizers = null;
             _ThemePlaylists = null;
+            _ThemeParticleEffects = null;
         }
 
         protected void FadeTo(EScreens NextScreen)
@@ -372,6 +378,22 @@ namespace Vocaluxe.Menu
                         }
                     }
                 }
+
+                if (_ThemeParticleEffects != null)
+                {
+                    for (int i = 0; i < _ThemeParticleEffects.Length; i++)
+                    {
+                        CParticleEffect pe = new CParticleEffect(_Base, _PartyModeID);
+                        if (pe.LoadTheme("//root/" + _ThemeName, _ThemeParticleEffects[i], navigator, SkinIndex))
+                        {
+                            _htParticleEffects.Add(_ThemeParticleEffects[i], AddParticleEffect(pe));
+                        }
+                        else
+                        {
+                            _Base.Log.LogError("Can't load ParticleEffect \"" + _ThemeParticleEffects[i] + "\" in screen " + _ThemeName);
+                        }
+                    }
+                }
             }
             else
             {
@@ -462,6 +484,12 @@ namespace Vocaluxe.Menu
                 _Playlists[i].SaveTheme(writer);
             }
 
+            //ParticleEffects
+            for (int i = 0; i < _ParticleEffects.Count; i++)
+            {
+                _ParticleEffects[i].SaveTheme(writer);
+            }
+
             writer.WriteEndElement();
 
             // End of File
@@ -528,6 +556,11 @@ namespace Vocaluxe.Menu
             {
                 pls.ReloadTextures();
             }
+
+            foreach (CParticleEffect pe in _ParticleEffects)
+            {
+                pe.ReloadTextures();
+            }
         }
 
         public virtual void UnloadTextures()
@@ -586,6 +619,10 @@ namespace Vocaluxe.Menu
                 eq.UnloadTextures();
             }
 
+            foreach (CParticleEffect pe in _ParticleEffects)
+            {
+                pe.UnloadTextures();
+            }
         }
 
         public virtual void ReloadTheme()
@@ -653,6 +690,11 @@ namespace Vocaluxe.Menu
         public List<CPlaylist> GetPlaylists()
         {
             return _Playlists;
+        }
+
+        public List<CParticleEffect> GetParticleEffects()
+        {
+            return _ParticleEffects;
         }
         #endregion GetLists
 
@@ -838,6 +880,14 @@ namespace Vocaluxe.Menu
                 return _Playlists.ToArray();
             }
         }
+
+        public CParticleEffect[] ParticleEffects
+        {
+            get
+            {
+                return _ParticleEffects.ToArray();
+            }
+        }
         #endregion Get Arrays
 
         #region Hashtables
@@ -980,6 +1030,19 @@ namespace Vocaluxe.Menu
             catch (Exception)
             {
                 _Base.Log.LogError("Can't find Playlist Element \"" + key + "\" in Screen " + _ThemeName);
+                throw;
+            }
+        }
+
+        public int htParticleEffects(string key)
+        {
+            try
+            {
+                return (int)_htParticleEffects[key];
+            }
+            catch (Exception)
+            {
+                _Base.Log.LogError("Can't find ParticleEffect Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -1267,7 +1330,8 @@ namespace Vocaluxe.Menu
                     _Interactions[i].Type == EType.TText ||
                     _Interactions[i].Type == EType.TSongMenu ||
                     _Interactions[i].Type == EType.TEqualizer ||
-                    _Interactions[i].Type == EType.TPlaylist))
+                    _Interactions[i].Type == EType.TPlaylist ||
+                    _Interactions[i].Type == EType.TParticleEffect))
                 {
                     ZSort zs = new ZSort();
                     zs.ID = i;
@@ -1366,6 +1430,13 @@ namespace Vocaluxe.Menu
             _Playlists.Add(pls);
             _AddInteraction(_Playlists.Count - 1, EType.TPlaylist);
             return _Playlists.Count - 1;
+        }
+
+        public int AddParticleEffect(CParticleEffect pe)
+        {
+            _ParticleEffects.Add(pe);
+            _AddInteraction(_ParticleEffects.Count - 1, EType.TParticleEffect);
+            return _ParticleEffects.Count - 1;
         }
         #endregion Elements
 
@@ -1541,6 +1612,10 @@ namespace Vocaluxe.Menu
                     if (CHelper.IsInBounds(_Playlists[interact.Num].Rect, x, y))
                         return true;
                     break;
+                case EType.TParticleEffect:
+                    if (CHelper.IsInBounds(_ParticleEffects[interact.Num].Rect, x, y))
+                        return true;
+                    break;
             } 
             return false;
         }
@@ -1567,6 +1642,8 @@ namespace Vocaluxe.Menu
                     return _Equalizers[interact.Num].Rect.Z;
                 case EType.TPlaylist:
                     return _Playlists[interact.Num].Rect.Z;
+                case EType.TParticleEffect:
+                    return _ParticleEffects[interact.Num].Rect.Z;
             }
             return _Base.Settings.GetZFar();
         }
@@ -1601,6 +1678,9 @@ namespace Vocaluxe.Menu
 
                 case EType.TPlaylist:
                     return _Playlists[_Interactions[interaction].Num].Rect.Z;
+
+                case EType.TParticleEffect:
+                    return _ParticleEffects[_Interactions[interaction].Num].Rect.Z;
             }
 
             return _Base.Settings.GetZFar();
@@ -1951,6 +2031,9 @@ namespace Vocaluxe.Menu
                 case EType.TPlaylist:
                     _Playlists[_Interactions[_Selection].Num].Selected = true;
                     break;
+                case EType.TParticleEffect:
+                    _ParticleEffects[_Interactions[_Selection].Num].Selected = true;
+                    break;
             }
         }
 
@@ -1984,6 +2067,9 @@ namespace Vocaluxe.Menu
                     break;
                 case EType.TPlaylist:
                     _Playlists[_Interactions[_Selection].Num].Selected = false;
+                    break;
+                case EType.TParticleEffect:
+                    _ParticleEffects[_Interactions[_Selection].Num].Selected = false;
                     break;
             }
         }
@@ -2111,6 +2197,9 @@ namespace Vocaluxe.Menu
 
                 case EType.TPlaylist:
                     return _Playlists[_Interactions[interaction].Num].Visible;
+
+                case EType.TParticleEffect:
+                    return _ParticleEffects[_Interactions[interaction].Num].Visible;
             }
 
             return false;
@@ -2149,6 +2238,9 @@ namespace Vocaluxe.Menu
 
                 case EType.TPlaylist:
                     return _Playlists[_Interactions[interaction].Num].Visible;
+
+                case EType.TParticleEffect:
+                    return false; //_ParticleEffects[_Interactions[interaction].Num].Visible;
             }
 
             return false;
@@ -2185,6 +2277,9 @@ namespace Vocaluxe.Menu
 
                 case EType.TPlaylist:
                     return _Playlists[_Interactions[interaction].Num].Rect;
+
+                case EType.TParticleEffect:
+                    return _ParticleEffects[_Interactions[interaction].Num].Rect;
             }
 
             return Result;
@@ -2239,6 +2334,10 @@ namespace Vocaluxe.Menu
                 case EType.TPlaylist:
                     _Playlists[_Interactions[interaction].Num].Draw();
                     break;
+
+                case EType.TParticleEffect:
+                    _ParticleEffects[_Interactions[interaction].Num].Draw();
+                    break;
                 
                 //TODO:
                 //case EType.TLyric:
@@ -2284,8 +2383,16 @@ namespace Vocaluxe.Menu
                         _NameSelections[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
 
+                    case EType.TEqualizer:
+                        _Equalizers[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
+                        break;
+
                     case EType.TPlaylist:
                         _Playlists[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
+                        break;
+
+                    case EType.TParticleEffect:
+                        _ParticleEffects[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
                 }
             }
@@ -2325,8 +2432,16 @@ namespace Vocaluxe.Menu
                         _NameSelections[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
 
+                    case EType.TEqualizer:
+                        _Equalizers[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
+                        break;
+
                     case EType.TPlaylist:
                         _Playlists[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
+                        break;
+
+                    case EType.TParticleEffect:
+                        _ParticleEffects[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
                 }
             }
@@ -2384,6 +2499,16 @@ namespace Vocaluxe.Menu
             {
                 AddText(text);
                 text = new CText(_Base, _PartyModeID);
+                i++;
+            }
+
+            // ParticleEffects
+            CParticleEffect  partef = new CParticleEffect(_Base, _PartyModeID);
+            i = 1;
+            while (partef.LoadTheme("//root/" + _ThemeName, "ParticleEffect" + i.ToString(), navigator, SkinIndex))
+            {
+                AddParticleEffect(partef);
+                partef = new CParticleEffect(_Base, _PartyModeID);
                 i++;
             }  
         }

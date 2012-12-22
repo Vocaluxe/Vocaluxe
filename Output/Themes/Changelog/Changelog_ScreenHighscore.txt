@@ -1,0 +1,7 @@
+ScreenHighscore
+
+++++++++++
+Version 2:
+
+Add: ParticleEffectsNew[1..6] (one for each player!)
+++++++++++

@@ -13,7 +13,7 @@ namespace Vocaluxe.Screens
     class CScreenHighscore : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        const int ScreenVersion = 2;
 
         private const int NumEntrys = 10;
         private const string TextSongName = "TextSongName";
@@ -22,6 +22,7 @@ namespace Vocaluxe.Screens
         private string[] TextName;
         private string[] TextScore;
         private string[] TextDate;
+        private string[] ParticleEffectNew;
 
         private List<SScores>[] _Scores;
         private List<int> _NewEntryIDs;
@@ -72,7 +73,14 @@ namespace Vocaluxe.Screens
                 texts.Add(TextDate[i]);
             }
 
+            ParticleEffectNew = new string[NumEntrys];
+            for (int i = 0; i < NumEntrys; i++)
+            {
+                ParticleEffectNew[i] = "ParticleEffectNew" + (i + 1).ToString();
+            }
+
             _ThemeTexts = texts.ToArray();
+            _ThemeParticleEffects = ParticleEffectNew;
 
             _NewEntryIDs = new List<int>();
         }
@@ -170,17 +178,11 @@ namespace Vocaluxe.Screens
 
                     if (isNewEntry(_Scores[_Round][_Pos + p].ID) == true)
                     {
-                        Texts[htTexts(TextNumber[p])].Style = EStyle.BoldItalic;
-                        Texts[htTexts(TextName[p])].Style = EStyle.BoldItalic;
-                        Texts[htTexts(TextScore[p])].Style = EStyle.BoldItalic;
-                        Texts[htTexts(TextDate[p])].Style = EStyle.BoldItalic;
+                        ParticleEffects[htParticleEffects(ParticleEffectNew[p])].Visible = true;
                     }
                     else
                     {
-                        Texts[htTexts(TextNumber[p])].Style = EStyle.Bold;
-                        Texts[htTexts(TextName[p])].Style = EStyle.Bold;
-                        Texts[htTexts(TextScore[p])].Style = EStyle.Bold;
-                        Texts[htTexts(TextDate[p])].Style = EStyle.Bold;
+                        ParticleEffects[htParticleEffects(ParticleEffectNew[p])].Visible = false;
                     }
                 }
                 else
@@ -189,6 +191,7 @@ namespace Vocaluxe.Screens
                     Texts[htTexts(TextName[p])].Visible = false;
                     Texts[htTexts(TextScore[p])].Visible = false;
                     Texts[htTexts(TextDate[p])].Visible = false;
+                    ParticleEffects[htParticleEffects(ParticleEffectNew[p])].Visible = false;
                 }
             } 
             return true;

@@ -342,9 +342,7 @@ namespace Vocaluxe.Screens
             CDraw.DrawColor(new SColorF(0, 0.18f, 0.474f, 1), new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, 0));
 
             //Draw stars
-            starsBlue.Update();
             starsBlue.Draw();
-            starsRed.Update();
             starsRed.Draw();
 
             logo.Draw();
@@ -355,7 +353,6 @@ namespace Vocaluxe.Screens
                 if (_CreditNames[i].active)
                 {
                     _CreditNames[i].image.Draw();
-                    _CreditNames[i].particle.Update();
                     _CreditNames[i].particle.Draw();
                 }
             }
@@ -380,8 +377,8 @@ namespace Vocaluxe.Screens
 
                 logo.Rect.Y = -270 + (270f / 3000f) * LogoTimer.ElapsedMilliseconds;
                 SRectF rect = new SRectF(logo.Rect.X, logo.Rect.Y, logo.Rect.W, logo.Rect.H, -1);
-                starsRed.Area = rect;
-                starsBlue.Area = rect;
+                starsRed.Rect = rect;
+                starsBlue.Rect = rect;
                 if (LogoTimer.ElapsedMilliseconds >= 2000 && !CreditsTimer.IsRunning)
                 {
                     CreditsTimer.Start();
@@ -409,7 +406,7 @@ namespace Vocaluxe.Screens
                                     float xOld = _CreditNames[i].image.Rect.X;
                                     _CreditNames[i].image.Rect.X = -450 + (((CSettings.iRenderW - _CreditNames[i].image.Rect.W) / 2)/3000f) * (CreditsTimer.ElapsedMilliseconds-(i*4000f));
                                     _CreditNames[i].particleRect.X += (_CreditNames[i].image.Rect.X - xOld);
-                                    _CreditNames[i].particle.Area = _CreditNames[i].particleRect;
+                                    _CreditNames[i].particle.Rect = _CreditNames[i].particleRect;
 
                                     //Check if name is in middle of screen and should go up
                                     if (_CreditNames[i].image.Rect.X >= (CSettings.iRenderW - _CreditNames[i].image.Rect.W) / 2)
@@ -427,7 +424,7 @@ namespace Vocaluxe.Screens
                                     float xOld = _CreditNames[i].image.Rect.X;
                                     _CreditNames[i].image.Rect.X = CSettings.iRenderW - (((CSettings.iRenderW - _CreditNames[i].image.Rect.W) / 2) / 3000f) * (CreditsTimer.ElapsedMilliseconds - (i * 4000f));
                                     _CreditNames[i].particleRect.X -= (xOld - _CreditNames[i].image.Rect.X);
-                                    _CreditNames[i].particle.Area = _CreditNames[i].particleRect;
+                                    _CreditNames[i].particle.Rect = _CreditNames[i].particleRect;
 
                                     //Check if name is in middle of screen and should go up
                                     if (_CreditNames[i].image.Rect.X <= (CSettings.iRenderW - _CreditNames[i].image.Rect.W) / 2 )
@@ -443,7 +440,7 @@ namespace Vocaluxe.Screens
                                 float yOld = _CreditNames[i].image.Rect.Y;
                                 _CreditNames[i].image.Rect.Y = 580 - (430f / 3000f) * (CreditsTimer.ElapsedMilliseconds - _CreditNames[i].StartTimeUp);
                                 _CreditNames[i].particleRect.Y -= (yOld - _CreditNames[i].image.Rect.Y);
-                                _CreditNames[i].particle.Area = _CreditNames[i].particleRect;
+                                _CreditNames[i].particle.Rect = _CreditNames[i].particleRect;
 
                                 //Fade names out
                                 if (_CreditNames[i].image.Rect.Y <= 350f)
