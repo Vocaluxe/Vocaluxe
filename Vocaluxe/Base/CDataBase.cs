@@ -184,7 +184,7 @@ namespace Vocaluxe.Base
                 command.ExecuteNonQuery();
 
                 //Read last insert line
-                command.CommandText = "SELECT id FROM Scores ORDER BY Date DESC LIMIT 0, 1";
+                command.CommandText = "SELECT id FROM Scores ORDER BY id DESC LIMIT 0, 1";
 
                 reader = null;
                 try
@@ -747,6 +747,7 @@ namespace Vocaluxe.Base
 
             reader.Dispose();
 
+            SQLiteTransaction _Transaction = connection.BeginTransaction();
             // update Title and Artist strings
             foreach (SData data in songs)
             {
@@ -766,6 +767,7 @@ namespace Vocaluxe.Base
                 command.Parameters.Add("@id", System.Data.DbType.Int32, 0).Value = data.id;
                 command.ExecuteNonQuery();
             }
+            _Transaction.Commit();
 
             //Delete old tables after conversion
             command.CommandText = "DROP TABLE US_Scores;";
@@ -858,7 +860,7 @@ namespace Vocaluxe.Base
             else
             {
                 Sqlite3.Vdbe Stmt = new Sqlite3.Vdbe();
-                res = Sqlite3.sqlite3_prepare_v2(OldDB, "SELECT ID, Artist, Title FROM US_Songs", -1, ref Stmt, 0);
+                res = Sqlite3.sqlite3_prepare_v2(OldDB, "SELECT id, Artist, Title FROM Songs", -1, ref Stmt, 0);
 
                 if (res != Sqlite3.SQLITE_OK)
                 {
@@ -897,9 +899,9 @@ namespace Vocaluxe.Base
                 Stmt = new Sqlite3.Vdbe();
 
                 if (!dateExists)
-                    res = Sqlite3.sqlite3_prepare_v2(OldDB, "SELECT rowid, Player FROM US_Scores", -1, ref Stmt, 0);
+                    res = Sqlite3.sqlite3_prepare_v2(OldDB, "SELECT id, PlayerName FROM Scores", -1, ref Stmt, 0);
                 else
-                    res = Sqlite3.sqlite3_prepare_v2(OldDB, "SELECT rowid, Player, Date FROM US_Scores", -1, ref Stmt, 0);
+                    res = Sqlite3.sqlite3_prepare_v2(OldDB, "SELECT id, PlayerName, Date FROM Scores", -1, ref Stmt, 0);
 
                 if (res != Sqlite3.SQLITE_OK)
                 {
@@ -932,9 +934,10 @@ namespace Vocaluxe.Base
                     Sqlite3.sqlite3_finalize(Stmt);
                 }
             }
-
             Sqlite3.sqlite3_close(OldDB);
 
+            SQLiteTransaction _Transaction = connection.BeginTransaction();      
+             
             // update Title and Artist strings
             foreach (SData data in songs)
             {
@@ -943,7 +946,7 @@ namespace Vocaluxe.Base
                 command.Parameters.Add("@artist", System.Data.DbType.String, 0).Value = data.str1;
                 command.Parameters.Add("@id", System.Data.DbType.Int32, 0).Value = data.id;
                 command.ExecuteNonQuery();
-            }
+            }           
 
             // update player names
             foreach (SData data in scores)
@@ -959,6 +962,7 @@ namespace Vocaluxe.Base
                 command.Parameters.Add("@id", System.Data.DbType.Int32, 0).Value = data.id;
                 command.ExecuteNonQuery();
             }
+            _Transaction.Commit();
 
             //Delete old tables after conversion
             command.CommandText = "DROP TABLE US_Scores;";
