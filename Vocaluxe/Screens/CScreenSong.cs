@@ -731,14 +731,16 @@ namespace Vocaluxe.Screens
             }
             else 
             {
-                Buttons[htButtons(ButtonStart)].Visible = false;
-                if(SongMenus[htSongMenus(SongMenu)].IsSmallView())
+                if(_sso.Selection.PartyMode && SongMenus[htSongMenus(SongMenu)].IsSmallView())
                     SongMenus[htSongMenus(SongMenu)].SetSmallView(false);
+
                 for (int i = 0; i < _Base.Settings.GetMaxNumPlayer(); i++)
                 {
                     Buttons[htButtons(ButtonsJoker[i])].Visible = false;
                     Texts[htTexts(TextsPlayer[i])].Visible = false;
                 }
+
+                Buttons[htButtons(ButtonStart)].Visible = false;
             }
 
             return true;
