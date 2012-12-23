@@ -121,7 +121,7 @@
     </Text2>
 	<TextPosition>
       <!--<X>, <Y>: Text position-->
-      <X>100</X>
+      <X>40</X>
       <Y>100</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
@@ -150,7 +150,7 @@
     </TextPosition>
 	<TextPlayerName>
       <!--<X>, <Y>: Text position-->
-      <X>110</X>
+      <X>50</X>
       <Y>100</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
@@ -180,7 +180,7 @@
     </TextPlayerName>
 	<TextNumPlayed>
       <!--<X>, <Y>: Text position-->
-      <X>320</X>
+      <X>260</X>
       <Y>100</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
@@ -209,7 +209,7 @@
     </TextNumPlayed>
 	<TextWon>
       <!--<X>, <Y>: Text position-->
-      <X>400</X>
+      <X>340</X>
       <Y>100</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
@@ -238,7 +238,7 @@
     </TextWon>
 	<TextSingPoints>
       <!--<X>, <Y>: Text position-->
-      <X>550</X>
+      <X>490</X>
       <Y>100</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
@@ -267,7 +267,7 @@
     </TextSingPoints>
 	<TextGamePoints>
       <!--<X>, <Y>: Text position-->
-      <X>650</X>
+      <X>590</X>
       <Y>100</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
@@ -323,7 +323,94 @@
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-    </TextNextPlayer>
+    </TextNextPlayer>  
+    <TextRoundPlayer>
+      <!--<X>, <Y>: Text position-->
+      <X>0</X>
+      <Y>0</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->				
+    </TextRoundPlayer>
+    <TextRoundNumber>
+      <!--<X>, <Y>: Text position-->
+      <X>660</X>
+      <Y>100</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Right</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->		
+    </TextRoundNumber>
+    <TextRoundScore>
+      <!--<X>, <Y>: Text position-->
+      <X>0</X>
+      <Y>0</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->		
+    </TextRoundScore>
 	<TextPopupReallyExit>
       <!--<X>, <Y>: Text position-->
       <X>640</X>

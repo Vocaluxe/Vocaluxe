@@ -17,6 +17,13 @@ namespace Vocaluxe.PartyModes
         public CText GamePoints;
     }
 
+    class RoundsTableRow
+    {
+        public CText Number;
+        public List<CText> TextPlayer;
+        public List<CText> TextScores;
+    }
+
 
     public class PartyScreenChallengeMain : CMenuParty
     {
@@ -31,6 +38,9 @@ namespace Vocaluxe.PartyModes
         const string TextGamePoints = "TextGamePoints";
         const string TextNextPlayer = "TextNextPlayer";
         const string TextPopupReallyExit = "TextPopupReallyExit";
+        const string TextRoundPlayer = "TextRoundPlayer";
+        const string TextRoundScore = "TextRoundScore";
+        const string TextRoundNumber = "TextRoundNumber";
 
         const string ButtonNextRound = "ButtonNextRound";
         const string ButtonBack = "ButtonBack";
@@ -46,9 +56,12 @@ namespace Vocaluxe.PartyModes
         private DataFromScreen Data;
         private DataToScreenMain GameState;
         private List<TableRow> Table;
+        private List<RoundsTableRow> RoundsTable;
 
         private List<CText> NextPlayerTexts;
         private List<CStatic> NextPlayerStatics;
+
+        private int RoundsTableOffset = 0;
 
         public PartyScreenChallengeMain()
         {
@@ -61,7 +74,7 @@ namespace Vocaluxe.PartyModes
             base.Init();
 
             _ThemeName = "PartyScreenChallengeMain";
-            _ThemeTexts = new string[] { TextPosition, TextPlayerName, TextNumPlayed, TextWon, TextSingPoints, TextGamePoints, TextNextPlayer, TextPopupReallyExit };
+            _ThemeTexts = new string[] { TextPosition, TextPlayerName, TextNumPlayed, TextWon, TextSingPoints, TextGamePoints, TextNextPlayer, TextPopupReallyExit, TextRoundNumber, TextRoundPlayer, TextRoundScore };
             _ThemeButtons = new string[] { ButtonNextRound, ButtonBack, ButtonExit, ButtonPopupYes, ButtonPopupNo };
             _ThemeStatics = new string[] { StaticPopupBG, StaticNextPlayer };
             _ScreenVersion = ScreenVersion;
@@ -193,6 +206,8 @@ namespace Vocaluxe.PartyModes
             Updatetable();
             UpdateNextPlayerPositions();
             UpdateNextPlayerContents();
+            BuildRoundsTable();
+            UpdateRoundsTable(RoundsTableOffset);
 
             if (GameState.CurrentRoundNr == 1)
             {
@@ -302,6 +317,88 @@ namespace Vocaluxe.PartyModes
                 {
                     NextPlayerStatics[i].Visible = false;
                     NextPlayerTexts[i].Visible = false;
+                }
+            }
+        }
+
+        private void BuildRoundsTable()
+        {
+            int NumRoundsVisible = 3;
+            int NumPlayerInOneRow = 3;
+            if (GameState.NumPlayerAtOnce <= NumPlayerInOneRow)
+                NumRoundsVisible = 5;
+            if (NumRoundsVisible > GameState.Combs.Count)
+                NumRoundsVisible = GameState.Combs.Count;
+
+            float x = Texts[htTexts(TextRoundNumber)].X;
+            float y = Texts[htTexts(TextRoundNumber)].Y;
+
+            float delta = Texts[htTexts(TextRoundNumber)].Height;
+
+            //Create lists
+            RoundsTable = new List<RoundsTableRow>();
+            for (int i = 0; i < NumRoundsVisible; i++)
+            {
+                RoundsTableRow rtr = new RoundsTableRow();
+                rtr.TextPlayer = new List<CText>();
+                rtr.TextScores = new List<CText>();
+                RoundsTable.Add(rtr);
+            }
+            //Create statics and texts for rounds
+            for (int round = 0; round < RoundsTable.Count; round++)
+            {
+                //Round-number
+                CText text = GetNewText(Texts[htTexts(TextRoundNumber)]);
+                text.X = x;
+                text.Y = y;
+                text.Text = (round + 1) + ")";
+                AddText(text);
+                RoundsTable[round].Number = text;
+                int NumInnerRows = (int) Math.Ceiling(GameState.NumPlayerAtOnce / ((double)NumPlayerInOneRow));
+                for (int row = 0; row < NumInnerRows; row++)
+                {
+                    int num = (row + 1) * NumPlayerInOneRow;
+                    int NumPlayerInThisRow = NumPlayerInOneRow;
+                    if (num > GameState.NumPlayerAtOnce)
+                    {
+                        num = GameState.NumPlayerAtOnce;
+                        NumPlayerInThisRow = GameState.NumPlayerAtOnce - (row * NumPlayerInOneRow);
+                    }
+
+                    for (int column = row * NumPlayerInOneRow; column < num; column++)
+                    {
+                        //Player
+                        float _x = x + 15 + (_Base.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20) / NumPlayerInThisRow * (column - row * NumPlayerInOneRow) + ((_Base.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20) / NumPlayerInThisRow) / 2;
+                        float maxw = ((_Base.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20) / NumPlayerInThisRow) - 5;
+                        text = GetNewText(Texts[htTexts(TextRoundNumber)]);
+                        text.X = _x;
+                        text.Y = y;
+                        text.MaxWidth = maxw;
+                        AddText(text);
+                        RoundsTable[round].TextPlayer.Add(text);
+                        //Score
+                        text = GetNewText(Texts[htTexts(TextRoundNumber)]);
+                        text.X = _x;
+                        text.Y = y + delta;
+                        text.MaxWidth = maxw;
+                        AddText(text);
+                        RoundsTable[round].TextScores.Add(text);
+                    }
+                    y = y + delta + delta;
+                }
+                y = y + delta/2;
+            }
+        }
+
+        private void UpdateRoundsTable(int Offset)
+        {
+            SProfile[] profile = _Base.Profiles.GetProfiles();
+            for (int i = 0; i < RoundsTable.Count; i++)
+            {
+                for(int p = 0; p < RoundsTable[i].TextPlayer.Count; p++)
+                {
+                    int pID = GameState.ProfileIDs[GameState.Combs[i + Offset].Player[p]];
+                    RoundsTable[i].TextPlayer[p].Text = profile[pID].PlayerName;
                 }
             }
         }
