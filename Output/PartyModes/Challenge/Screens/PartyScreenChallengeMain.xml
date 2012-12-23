@@ -33,11 +33,11 @@
       <!--<Skin>: Texture name-->
       <Skin>PopupBG</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>449</X>
-      <Y>261</Y>
+      <X>0</X>
+      <Y>0</Y>
       <Z>-1,00</Z>
-      <W>382</W>
-      <H>198</H>
+      <W>1280</W>
+      <H>720</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -126,7 +126,7 @@
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
-      <H>37</H>
+      <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
@@ -155,8 +155,9 @@
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
-      <H>37</H>
+      <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>130</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
@@ -179,12 +180,12 @@
     </TextPlayerName>
 	<TextNumPlayed>
       <!--<X>, <Y>: Text position-->
-      <X>400</X>
+      <X>320</X>
       <Y>100</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
-      <H>37</H>
+      <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
@@ -208,12 +209,12 @@
     </TextNumPlayed>
 	<TextWon>
       <!--<X>, <Y>: Text position-->
-      <X>500</X>
+      <X>400</X>
       <Y>100</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
-      <H>37</H>
+      <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
@@ -237,12 +238,12 @@
     </TextWon>
 	<TextSingPoints>
       <!--<X>, <Y>: Text position-->
-      <X>750</X>
+      <X>550</X>
       <Y>100</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
-      <H>37</H>
+      <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
@@ -266,12 +267,12 @@
     </TextSingPoints>
 	<TextGamePoints>
       <!--<X>, <Y>: Text position-->
-      <X>850</X>
+      <X>650</X>
       <Y>100</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
-      <H>37</H>
+      <H>32</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->

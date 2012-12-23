@@ -205,6 +205,8 @@ namespace Vocaluxe.PartyModes
                 Buttons[htButtons(ButtonExit)].Visible = true;
             }
 
+            SetInteractionToButton(Buttons[htButtons(ButtonNextRound)]);
+
             ShowPopup(false);
         }
 
@@ -245,7 +247,8 @@ namespace Vocaluxe.PartyModes
             Buttons[htButtons(ButtonPopupYes)].Visible = ExitPopupVisible;
             Buttons[htButtons(ButtonPopupNo)].Visible = ExitPopupVisible;
 
-            SetInteractionToButton(Buttons[htButtons(ButtonPopupNo)]);
+            if (ExitPopupVisible)
+                SetInteractionToButton(Buttons[htButtons(ButtonPopupNo)]);
         }
 
         private void Back()
@@ -282,13 +285,24 @@ namespace Vocaluxe.PartyModes
 
         private void UpdateNextPlayerContents()
         {
-            SProfile[] profiles = _Base.Profiles.GetProfiles();
-            for (int i = 0; i < GameState.NumPlayerAtOnce; i++)
+            if (GameState.CurrentRoundNr <= GameState.Combs.Count)
             {
-                int pid = GameState.Combs[GameState.CurrentRoundNr - 1].Player[i];
-                NextPlayerStatics[i].Texture = profiles[GameState.ProfileIDs[pid]].Avatar.Texture;
-                NextPlayerTexts[i].Text = profiles[GameState.ProfileIDs[pid]].PlayerName;
-                NextPlayerTexts[i].Color = _Base.Theme.GetPlayerColor((i+1));
+                SProfile[] profiles = _Base.Profiles.GetProfiles();
+                for (int i = 0; i < GameState.NumPlayerAtOnce; i++)
+                {
+                    int pid = GameState.Combs[GameState.CurrentRoundNr - 1].Player[i];
+                    NextPlayerStatics[i].Texture = profiles[GameState.ProfileIDs[pid]].Avatar.Texture;
+                    NextPlayerTexts[i].Text = profiles[GameState.ProfileIDs[pid]].PlayerName;
+                    NextPlayerTexts[i].Color = _Base.Theme.GetPlayerColor((i + 1));
+                }
+            }
+            else
+            {
+                for (int i = 0; i < GameState.NumPlayerAtOnce; i++)
+                {
+                    NextPlayerStatics[i].Visible = false;
+                    NextPlayerTexts[i].Visible = false;
+                }
             }
         }
 
@@ -315,7 +329,7 @@ namespace Vocaluxe.PartyModes
                 row.SingPoints.Y += delta * (i + 1);
                 row.GamePoints.Y += delta * (i + 1);
 
-                row.Pos.Text = (i + 1).ToString() + ")";
+                row.Pos.Text = (i + 1).ToString() + ".";
 
                 row.Pos.Visible = false;
                 row.Name.Visible = false;
