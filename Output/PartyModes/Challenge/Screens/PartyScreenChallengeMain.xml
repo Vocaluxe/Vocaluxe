@@ -33,11 +33,11 @@
       <!--<Skin>: Texture name-->
       <Skin>PopupBG</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>449</X>
-      <Y>261</Y>
+      <X>0</X>
+      <Y>0</Y>
       <Z>-1,00</Z>
-      <W>382</W>
-      <H>198</H>
+      <W>1280</W>
+      <H>720</H>
       <!--<Color>: Static color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>StaticColor</Color>
