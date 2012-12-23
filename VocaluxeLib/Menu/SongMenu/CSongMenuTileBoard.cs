@@ -105,8 +105,6 @@ namespace Vocaluxe.Menu.SongMenu
         {
             base.Update(SongOptions);
 
-            UpdateList(_Offset);
-
             if (SongOptions.Selection.RandomOnly)
             {
                 _Locked = _PreviewSelected;
@@ -828,7 +826,7 @@ namespace Vocaluxe.Menu.SongMenu
                 _ScrollRect = new SRectF(0, 0, _Base.Settings.GetRenderW(), _Base.Settings.GetRenderH(), _Theme.songMenuTileBoard.TileRect.Z);
             }
 
-            UpdateList(_Offset);
+            UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
         }
 
         public override bool IsSmallView()
