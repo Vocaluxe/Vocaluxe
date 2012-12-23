@@ -402,8 +402,8 @@ namespace Vocaluxe.PartyModes
 
                     for (int p = 0; p < Data.ScreenNames.ProfileIDs.Count; p++)
                     {
-                        //Don't show profile if is selected, but if selected and guest
-                        if (Data.ScreenNames.ProfileIDs[p] == i && _Base.Profiles.GetProfiles()[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
+                        //Don't show profile if is selected
+                        if (Data.ScreenNames.ProfileIDs[p] == i)
                         {
                             visible = false;
                             break;
