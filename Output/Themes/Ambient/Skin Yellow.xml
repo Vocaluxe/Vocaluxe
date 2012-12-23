@@ -331,6 +331,8 @@
     <Plus>Plus.png</Plus>    
     <Random>Random.png</Random>
     <PopupBG>Popup.png</PopupBG>
+    <ScrollUp>ScrollUp.png</ScrollUp>
+    <ScrollDown>ScrollDown.png</ScrollDown>    
   </Skins>
   <Videos>
     <BG_Video>[Yellow]BG_Video.mp4</BG_Video>

@@ -47,6 +47,9 @@ namespace Vocaluxe.PartyModes
         const string ButtonExit = "ButtonExit";
         const string ButtonPopupYes = "ButtonPopupYes";
         const string ButtonPopupNo = "ButtonPopupNo";
+        const string ButtonPlayerScrollUp = "ButtonPlayerScrollUp";
+        const string ButtonPlayerScrollDown = "ButtonPlayerScrollDown";
+
 
         const string StaticPopupBG = "StaticPopupBG";
         const string StaticNextPlayer = "StaticNextPlayer";
@@ -55,13 +58,16 @@ namespace Vocaluxe.PartyModes
 
         private DataFromScreen Data;
         private DataToScreenMain GameState;
-        private List<TableRow> Table;
+        private List<TableRow> PlayerTable;
         private List<RoundsTableRow> RoundsTable;
 
         private List<CText> NextPlayerTexts;
         private List<CStatic> NextPlayerStatics;
 
+        private SRectF RoundsTableScrollArea;
+        private SRectF PlayerTableScrollArea;
         private int RoundsTableOffset = 0;
+        private int PlayerTableOffset = 0;
 
         public PartyScreenChallengeMain()
         {
@@ -75,7 +81,7 @@ namespace Vocaluxe.PartyModes
 
             _ThemeName = "PartyScreenChallengeMain";
             _ThemeTexts = new string[] { TextPosition, TextPlayerName, TextNumPlayed, TextWon, TextSingPoints, TextGamePoints, TextNextPlayer, TextPopupReallyExit, TextRoundNumber, TextRoundPlayer, TextRoundScore };
-            _ThemeButtons = new string[] { ButtonNextRound, ButtonBack, ButtonExit, ButtonPopupYes, ButtonPopupNo };
+            _ThemeButtons = new string[] { ButtonNextRound, ButtonBack, ButtonExit, ButtonPopupYes, ButtonPopupNo, ButtonPlayerScrollDown, ButtonPlayerScrollUp };
             _ThemeStatics = new string[] { StaticPopupBG, StaticNextPlayer };
             _ScreenVersion = ScreenVersion;
         }
@@ -85,7 +91,7 @@ namespace Vocaluxe.PartyModes
 			base.LoadTheme(XmlPath);
 
             GameState = new DataToScreenMain();
-            BuildTable();
+            BuildPlayerTable();
 
             NextPlayerTexts = new List<CText>();
             NextPlayerStatics = new List<CStatic>();
@@ -203,7 +209,7 @@ namespace Vocaluxe.PartyModes
         {
             base.OnShow();
 
-            Updatetable();
+            UpdatePlayerTable(PlayerTableOffset);
             UpdateNextPlayerPositions();
             UpdateNextPlayerContents();
             if(GameState.CurrentRoundNr == 1 || RoundsTable == null)
@@ -398,6 +404,7 @@ namespace Vocaluxe.PartyModes
             {
                 for(int p = 0; p < RoundsTable[i].TextPlayer.Count; p++)
                 {
+                    RoundsTable[i].Number.Text = (i + 1 + Offset).ToString();
                     int pID = GameState.ProfileIDs[GameState.Combs[i + Offset].Player[p]];
                     RoundsTable[i].TextPlayer[p].Text = profile[pID].PlayerName+"";
                     if ((GameState.CurrentRoundNr - 1) > i)
@@ -408,12 +415,14 @@ namespace Vocaluxe.PartyModes
             }
         }
 
-        private void BuildTable()
+        private void BuildPlayerTable()
         {
-            Table = new List<TableRow>();
+            int NumPlayerVisible = 10;
+
+            PlayerTable = new List<TableRow>();
             float delta = Texts[htTexts(TextPosition)].Height * 1.2f;
 
-            for (int i = 0; i < _PartyMode.GetMaxPlayer(); i++)
+            for (int i = 0; i < NumPlayerVisible; i++)
             {
                 TableRow row = new TableRow();
 
@@ -447,19 +456,19 @@ namespace Vocaluxe.PartyModes
                 AddText(row.SingPoints);
                 AddText(row.GamePoints);
 
-                Table.Add(row);
+                PlayerTable.Add(row);
             }
         }
 
-        private void Updatetable()
+        private void UpdatePlayerTable(int Offset)
         {
             SProfile[] profiles = _Base.Profiles.GetProfiles();
 
-            for (int i = 0; i < Table.Count; i++)
+            for (int i = 0; i < PlayerTable.Count; i++)
             {
-                TableRow row = Table[i];
+                TableRow row = PlayerTable[i+Offset];
 
-                if (i < GameState.ResultTable.Count)
+                if (i+Offset < GameState.ResultTable.Count)
                 {
                     row.Pos.Visible = true;
                     row.Name.Visible = true;
@@ -468,11 +477,11 @@ namespace Vocaluxe.PartyModes
                     row.SingPoints.Visible = true;
                     row.GamePoints.Visible = true;
 
-                    row.Name.Text = profiles[GameState.ResultTable[i].PlayerID].PlayerName;
-                    row.Rounds.Text = GameState.ResultTable[i].NumRounds.ToString();
-                    row.Won.Text = GameState.ResultTable[i].NumWon.ToString();
-                    row.SingPoints.Text = GameState.ResultTable[i].SumSingPoints.ToString();
-                    row.GamePoints.Text = GameState.ResultTable[i].NumGamePoints.ToString();
+                    row.Name.Text = profiles[GameState.ResultTable[i+Offset].PlayerID].PlayerName;
+                    row.Rounds.Text = GameState.ResultTable[i+Offset].NumRounds.ToString();
+                    row.Won.Text = GameState.ResultTable[i+Offset].NumWon.ToString();
+                    row.SingPoints.Text = GameState.ResultTable[i+Offset].SumSingPoints.ToString();
+                    row.GamePoints.Text = GameState.ResultTable[i+Offset].NumGamePoints.ToString();
                 }
                 else
                 {
