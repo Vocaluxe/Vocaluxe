@@ -77,8 +77,13 @@ namespace Vocaluxe.PartyModes
 
             for (int i = 0; i < NumPlayed.Count; i++)
             {
-                if (NumPlayed[i] == 0 || NumPlayed[i] < max)
-                    result.Add(i);
+                if (RoundIndex == 0 || NumPlayed[i] < max)
+                {
+                    if (RoundIndex == 0 || RoundIndex > 0 && NumPlayed[i] < max && !Rounds[RoundIndex - 1].IsAvailable(i))
+                        result.Add(i);
+                    else if (NumPlayed[i] < max)
+                        other.Add(i);
+                }
                 else
                 {
                     if (RoundIndex > 0)
@@ -110,6 +115,12 @@ namespace Vocaluxe.PartyModes
                 last.RemoveAt(r);
             }
 
+            while (result.Count > num)
+            {
+                int n = result.Count;
+                int r = _Rand.Next(n);
+                result.RemoveAt(r);
+            }
 
             result.Sort();
             return result;
