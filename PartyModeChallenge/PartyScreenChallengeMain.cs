@@ -315,7 +315,7 @@ namespace Vocaluxe.PartyModes
                 row.SingPoints.Y += delta * (i + 1);
                 row.GamePoints.Y += delta * (i + 1);
 
-                row.Pos.Text = (i + 1).ToString() + ")";
+                row.Pos.Text = (i + 1).ToString() + ".";
 
                 row.Pos.Visible = false;
                 row.Name.Visible = false;
