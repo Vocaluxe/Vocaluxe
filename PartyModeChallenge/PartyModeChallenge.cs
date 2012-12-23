@@ -26,6 +26,7 @@ namespace Vocaluxe.PartyModes
         public int CurrentRoundNr;
         public int NumPlayerAtOnce;
         public List<Combination> Combs;
+        public int[,] Results;
         public List<ResultTableRow> ResultTable;
         public List<int> ProfileIDs;
     }
@@ -119,6 +120,7 @@ namespace Vocaluxe.PartyModes
 
             public ChallengeRounds Rounds;
             public List<ResultTableRow> ResultTable;
+            public int[,] Results;
 
             public int CurrentRoundNr;
 
@@ -165,6 +167,7 @@ namespace Vocaluxe.PartyModes
             GameData.CurrentRoundNr = 1;
             GameData.ProfileIDs = new List<int>();
             GameData.CatSongIndices = null;
+            GameData.Results = null;
         }
 
         public override bool Init()
@@ -305,6 +308,7 @@ namespace Vocaluxe.PartyModes
                         ToScreenMain.ProfileIDs = GameData.ProfileIDs;
                         UpdateScores();
                         ToScreenMain.ResultTable = GameData.ResultTable;
+                        ToScreenMain.Results = GameData.Results;
                         Screen.DataToScreen(ToScreenMain);
                     }
                     break;
@@ -318,7 +322,7 @@ namespace Vocaluxe.PartyModes
                         UpdateScores();
                         ToScreenMain.CurrentRoundNr = GameData.CurrentRoundNr;
                         ToScreenMain.Combs = GameData.Rounds.Rounds;
-
+                        ToScreenMain.Results = GameData.Results;
                         Screen.DataToScreen(ToScreenMain);
                     }
                     break;
@@ -574,6 +578,15 @@ namespace Vocaluxe.PartyModes
                     row.NumGamePoints = 0;
                     GameData.ResultTable.Add(row);
                 }
+
+                GameData.Results = new int[GameData.NumRounds, GameData.NumPlayerAtOnce];
+                for (int i = 0; i < GameData.NumRounds; i++)
+                {
+                    for (int j = 0; j < GameData.NumPlayerAtOnce; j++)
+                    {
+                        GameData.Results[i, j] = 0;
+                    }
+                }
             }
             else
             {
@@ -583,6 +596,11 @@ namespace Vocaluxe.PartyModes
 
                 if (results.Length < GameData.NumPlayerAtOnce)
                     return;
+
+                for (int j = 0; j < GameData.NumPlayerAtOnce; j++)
+                {
+                    GameData.Results[GameData.CurrentRoundNr - 2, j] = (int)Math.Round(results[j].Points);
+                }
 
                 List<Stats> points = GetPointsForPlayer(results);
 
@@ -623,7 +641,7 @@ namespace Vocaluxe.PartyModes
             {
                 Stats stat = new Stats();
                 stat.ProfileID = Results[i].ProfileID;
-                stat.SingPoints = (int)Results[i].Points;
+                stat.SingPoints = (int)Math.Round(Results[i].Points);
                 stat.Won = 0;
                 stat.GamePoints = 0;
                 result.Add(stat);
