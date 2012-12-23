@@ -66,7 +66,10 @@ namespace Vocaluxe.Screens
         private CStatic DragAndDropCover;
         private bool DragAndDropActive;
         private int OldMousePosX;
-        private int OldMousePosY; 
+        private int OldMousePosY;
+
+        private int SelectedSongID;
+        private int SelectedCategoryIndex;
 
         public CScreenSong()
         {
@@ -183,6 +186,8 @@ namespace Vocaluxe.Screens
                 else
                 {
                     SongMenus[htSongMenus(SongMenu)].HandleInput(ref KeyEvent, _sso);
+                    UpdatePartyModeOptions();
+
                     if (KeyEvent.Handled)
                         return true;
 
@@ -478,6 +483,10 @@ namespace Vocaluxe.Screens
             }
 
             SongMenus[htSongMenus(SongMenu)].HandleMouse(ref MouseEvent, _sso);
+            UpdatePartyModeOptions();
+
+            if (MouseEvent.Handled)
+                return true;
 
             if (MouseEvent.LB)
             {
@@ -614,6 +623,9 @@ namespace Vocaluxe.Screens
         {
             base.OnShow();
 
+            SelectedSongID = -1;
+            SelectedCategoryIndex = -2;
+
             _sso = CParty.GetSongSelectionOptions();
             CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, _sso.Sorting.SearchString, _sso.Sorting.ShowDuetSongs);
             _SearchActive = _sso.Sorting.SearchStringVisible;
@@ -643,19 +655,6 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-            _sso = CParty.GetSongSelectionOptions();
-            CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, _sso.Sorting.SearchString, _sso.Sorting.ShowDuetSongs);
-            _SearchActive = _sso.Sorting.SearchStringVisible;
-            _SearchText = _sso.Sorting.SearchString;
-
-            if (_sso.Selection.PartyMode)
-                _PlaylistActive = false;
-
-            if (_sso.Selection.PartyMode)
-                ToggleSongOptions(ESongOptionsView.None);
-
-            SongMenus[htSongMenus(SongMenu)].Update(_sso);
-
             if (SongMenus[htSongMenus(SongMenu)].IsSmallView())
                 CheckPlaylist();
 
@@ -694,54 +693,7 @@ namespace Vocaluxe.Screens
                 Statics[htStatics(StaticSearchBar)].Visible = false;
             }
 
-            if (_sso.Selection.RandomOnly && _sso.Selection.NumJokers != null)
-            {
-                Buttons[htButtons(ButtonStart)].Visible = true;
-
-                if(!SongMenus[htSongMenus(SongMenu)].IsSmallView())
-                    SongMenus[htSongMenus(SongMenu)].SetSmallView(true);
-
-                for (int i = 0; i < _Base.Settings.GetMaxNumPlayer(); i++)
-                {
-                    if (i < _sso.Selection.NumJokers.Length)
-                    {
-                        Buttons[htButtons(ButtonsJoker[i])].Visible = true;
-                        Buttons[htButtons(ButtonsJoker[i])].Text.Text = _sso.Selection.NumJokers[i].ToString();
-                        Texts[htTexts(TextsPlayer[i])].Visible = true;
-
-                        bool NameExists = false;
-                        if (_sso.Selection.TeamNames != null)
-                        {
-                            if (_sso.Selection.TeamNames.Length > i)
-                            {
-                                Texts[htTexts(TextsPlayer[i])].Text = _sso.Selection.TeamNames[i];
-                                NameExists = true;
-                            }
-                        }
-
-                        if (!NameExists)
-                            Texts[htTexts(TextsPlayer[i])].Text = i.ToString();
-                    }
-                    else
-                    {
-                        Buttons[htButtons(ButtonsJoker[i])].Visible = false;
-                        Texts[htTexts(TextsPlayer[i])].Visible = false;
-                    }
-                }
-            }
-            else 
-            {
-                if(_sso.Selection.PartyMode && SongMenus[htSongMenus(SongMenu)].IsSmallView())
-                    SongMenus[htSongMenus(SongMenu)].SetSmallView(false);
-
-                for (int i = 0; i < _Base.Settings.GetMaxNumPlayer(); i++)
-                {
-                    Buttons[htButtons(ButtonsJoker[i])].Visible = false;
-                    Texts[htTexts(TextsPlayer[i])].Visible = false;
-                }
-
-                Buttons[htButtons(ButtonStart)].Visible = false;
-            }
+            UpdatePartyModeOptions();
 
             return true;
         }
@@ -779,6 +731,93 @@ namespace Vocaluxe.Screens
                 {
                     CParty.SongSelected(song.ID);
                 }
+            }
+        }
+
+        private void UpdatePartyModeOptions()
+        {
+            if (CSongs.Category == -1)
+                SelectedSongID = -1;
+
+            if (SelectedCategoryIndex != CSongs.Category)
+            {
+                SelectedCategoryIndex = CSongs.Category;
+                CParty.OnCategoryChange(SelectedCategoryIndex, ref _sso);
+
+                if (_sso.Selection.SelectNextRandomSong)
+                    SelectNextRandomSong();
+
+                if (_sso.Selection.SongIndex != -1)
+                    SongMenus[htSongMenus(SongMenu)].SetSelectedSong(_sso.Selection.SongIndex);
+            }
+
+            if (SelectedSongID != SongMenus[htSongMenus(SongMenu)].GetSelectedSong() && CSongs.Category > -1)
+            {
+                SelectedSongID = SongMenus[htSongMenus(SongMenu)].GetSelectedSong();
+                CParty.OnSongChange(SelectedSongID, ref _sso);
+            }
+
+            _sso = CParty.GetSongSelectionOptions();
+            CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, _sso.Sorting.SearchString, _sso.Sorting.ShowDuetSongs);
+            _SearchActive = _sso.Sorting.SearchStringVisible;
+            _SearchText = _sso.Sorting.SearchString;
+ 
+
+            if (_sso.Selection.PartyMode)
+            {
+                _PlaylistActive = false;
+                ToggleSongOptions(ESongOptionsView.None);
+            }
+
+            SongMenus[htSongMenus(SongMenu)].Update(_sso);
+
+            if (_sso.Selection.RandomOnly && _sso.Selection.NumJokers != null)
+            {
+                Buttons[htButtons(ButtonStart)].Visible = true;
+
+                if (!SongMenus[htSongMenus(SongMenu)].IsSmallView())
+                    SongMenus[htSongMenus(SongMenu)].SetSmallView(true);
+
+                for (int i = 0; i < _Base.Settings.GetMaxNumPlayer(); i++)
+                {
+                    if (i < _sso.Selection.NumJokers.Length)
+                    {
+                        Buttons[htButtons(ButtonsJoker[i])].Visible = true;
+                        Buttons[htButtons(ButtonsJoker[i])].Text.Text = _sso.Selection.NumJokers[i].ToString();
+                        Texts[htTexts(TextsPlayer[i])].Visible = true;
+
+                        bool NameExists = false;
+                        if (_sso.Selection.TeamNames != null)
+                        {
+                            if (_sso.Selection.TeamNames.Length > i)
+                            {
+                                Texts[htTexts(TextsPlayer[i])].Text = _sso.Selection.TeamNames[i];
+                                NameExists = true;
+                            }
+                        }
+
+                        if (!NameExists)
+                            Texts[htTexts(TextsPlayer[i])].Text = i.ToString();
+                    }
+                    else
+                    {
+                        Buttons[htButtons(ButtonsJoker[i])].Visible = false;
+                        Texts[htTexts(TextsPlayer[i])].Visible = false;
+                    }
+                }
+            }
+            else
+            {
+                if (_sso.Selection.PartyMode && SongMenus[htSongMenus(SongMenu)].IsSmallView())
+                    SongMenus[htSongMenus(SongMenu)].SetSmallView(false);
+
+                for (int i = 0; i < _Base.Settings.GetMaxNumPlayer(); i++)
+                {
+                    Buttons[htButtons(ButtonsJoker[i])].Visible = false;
+                    Texts[htTexts(TextsPlayer[i])].Visible = false;
+                }
+
+                Buttons[htButtons(ButtonStart)].Visible = false;
             }
         }
 
@@ -910,7 +949,7 @@ namespace Vocaluxe.Screens
                 {
                     if (_sso.Selection.NumJokers[TeamNr] > 0)
                     {
-                        result = SelectNextRandomSong(TeamNr) || SelectNextRandomCategory();
+                        result = SelectNextRandomSong() || SelectNextRandomCategory();
                         CParty.JokerUsed(TeamNr);
                         _sso = CParty.GetSongSelectionOptions();
                     }
@@ -919,12 +958,12 @@ namespace Vocaluxe.Screens
             }
 
             if (TeamNr == -1)
-                return SelectNextRandomSong(TeamNr) || SelectNextRandomCategory();
+                return SelectNextRandomSong() || SelectNextRandomCategory();
 
             return false;
         }
 
-        private bool SelectNextRandomSong(int TeamNr)
+        private bool SelectNextRandomSong()
         {
             if (CSongs.Category != -1)
             {

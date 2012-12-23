@@ -67,6 +67,14 @@ namespace Vocaluxe.PartyModes
             return new ScreenSongOptions();
         }
 
+        public virtual void OnSongChange(int SongIndex, ref ScreenSongOptions ScreenSongOptions)
+        {
+        }
+
+        public virtual void OnCategoryChange(int CategoryIndex, ref ScreenSongOptions ScreenSongOptions)
+        {
+        }
+
         public virtual int GetMaxPlayer()
         {
             return 6;

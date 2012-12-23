@@ -121,6 +121,8 @@ namespace Vocaluxe.PartyModes
             public List<ResultTableRow> ResultTable;
 
             public int CurrentRoundNr;
+
+            public int[] CatSongIndices;
         }
 
         struct Stats
@@ -161,7 +163,8 @@ namespace Vocaluxe.PartyModes
             GameData.NumPlayerAtOnce = 2;
             GameData.NumRounds = 2;
             GameData.CurrentRoundNr = 1;
-            GameData.ProfileIDs = new List<int>();        
+            GameData.ProfileIDs = new List<int>();
+            GameData.CatSongIndices = null;
         }
 
         public override bool Init()
@@ -169,8 +172,12 @@ namespace Vocaluxe.PartyModes
             _Stage = EStage.NotStarted;
 
             _ScreenSongOptions.Sorting.IgnoreArticles = _Base.Config.GetIgnoreArticles();
-            _ScreenSongOptions.Sorting.SongSorting = ESongSorting.TR_CONFIG_FOLDER;
-            _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_ON;
+            _ScreenSongOptions.Sorting.SongSorting = _Base.Config.GetSongSorting();
+            _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_OFF;
+            _ScreenSongOptions.Selection.SongIndex = -1;
+
+            if (_Base.Config.GetTabs() == EOffOn.TR_CONFIG_ON && _ScreenSongOptions.Sorting.SongSorting != ESongSorting.TR_CONFIG_NONE)
+                _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_ON;
 
             ToScreenMain.ResultTable = new List<ResultTableRow>();
             GameData.ResultTable = new List<ResultTableRow>();
@@ -250,10 +257,11 @@ namespace Vocaluxe.PartyModes
 
         public override void UpdateGame()
         {
-            if (_Base.Songs.GetCurrentCategoryIndex() != -1)
+            /*
+            if (_Base.Songs.GetCurrentCategoryIndex() != -1 || _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)
                 _ScreenSongOptions.Selection.RandomOnly = true;
             else
-                _ScreenSongOptions.Selection.RandomOnly = false;
+                _ScreenSongOptions.Selection.RandomOnly = false;*/
         }
 
         public override CMenuParty GetNextPartyScreen(out EScreens AlternativeScreen)
@@ -338,6 +346,48 @@ namespace Vocaluxe.PartyModes
             return _ScreenSongOptions;
         }
 
+        public override void OnSongChange(int SongIndex, ref ScreenSongOptions ScreenSongOptions)
+        {
+            if (_ScreenSongOptions.Selection.SongIndex != -1)
+                _ScreenSongOptions.Selection.SongIndex = -1;
+
+            if (_ScreenSongOptions.Selection.SelectNextRandomSong && SongIndex != -1)
+            {
+                _ScreenSongOptions.Selection.SelectNextRandomSong = false;
+                CreateCatSongIndices();
+
+                if (GameData.CatSongIndices != null)
+                {
+                    if (GameData.CatSongIndices[_Base.Songs.GetCurrentCategoryIndex()] == -1)
+                        GameData.CatSongIndices[_Base.Songs.GetCurrentCategoryIndex()] = SongIndex;
+                }
+            }
+
+            ScreenSongOptions = _ScreenSongOptions;
+        }
+
+        public override void OnCategoryChange(int CategoryIndex, ref ScreenSongOptions ScreenSongOptions)
+        {
+            if (GameData.CatSongIndices != null && CategoryIndex != -1)
+            {
+                if (GameData.CatSongIndices[CategoryIndex] == -1)
+                    _ScreenSongOptions.Selection.SelectNextRandomSong = true;
+                else
+                    _ScreenSongOptions.Selection.SongIndex = GameData.CatSongIndices[CategoryIndex];
+            }
+
+            if (GameData.CatSongIndices == null && CategoryIndex != -1)
+                _ScreenSongOptions.Selection.SelectNextRandomSong = true;
+
+            if (CategoryIndex == -1)
+                _ScreenSongOptions.Selection.RandomOnly = false;
+
+            if (_ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF || CategoryIndex != -1)
+                _ScreenSongOptions.Selection.RandomOnly = true;
+
+            ScreenSongOptions = _ScreenSongOptions;
+        }
+
         public override void SetSearchString(string SearchString, bool Visible)
         {
             _ScreenSongOptions.Sorting.SearchString = SearchString;
@@ -377,9 +427,7 @@ namespace Vocaluxe.PartyModes
             if (TeamNr >= _ScreenSongOptions.Selection.NumJokers.Length)
                 return;
 
-            if (!_ScreenSongOptions.Selection.CategoryChangeAllowed)
-                _ScreenSongOptions.Selection.NumJokers[TeamNr]--;
-
+            _ScreenSongOptions.Selection.NumJokers[TeamNr]--;
             _ScreenSongOptions.Selection.RandomOnly = true;
             _ScreenSongOptions.Selection.CategoryChangeAllowed = false;
         }
@@ -429,17 +477,17 @@ namespace Vocaluxe.PartyModes
 
         public override void LeavingHighscore()
         {
-            //TODO:
             _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
         }
 
         private void StartNextRound()
         {
-            _ScreenSongOptions.Selection.RandomOnly = false;
-            _ScreenSongOptions.Selection.CategoryChangeAllowed = true;
+            _ScreenSongOptions.Selection.RandomOnly = _ScreenSongOptions.Sorting.Tabs != EOffOn.TR_CONFIG_ON;
+            _ScreenSongOptions.Selection.CategoryChangeAllowed = _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_ON;
             GameData.CurrentRoundNr++;
             SetNumJokers();
             SetTeamNames();
+            GameData.CatSongIndices = null;
             _Base.Graphics.FadeTo(EScreens.ScreenSong);
         }
 
@@ -618,6 +666,21 @@ namespace Vocaluxe.PartyModes
 
 
             return result;
+        }
+
+        private void CreateCatSongIndices()
+        {
+            if (GameData.CatSongIndices == null && _Base.Songs.GetNumCategories() > 0 && _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_ON)
+            {
+                GameData.CatSongIndices = new int[_Base.Songs.GetNumCategories()];
+                for (int i = 0; i < GameData.CatSongIndices.Length; i++)
+                {
+                    GameData.CatSongIndices[i] = -1;
+                }
+            }
+            
+            if (_Base.Songs.GetNumCategories() == 0 || _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)
+                GameData.CatSongIndices = null;
         }
     }
 }

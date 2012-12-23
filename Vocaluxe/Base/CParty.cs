@@ -163,6 +163,16 @@ namespace Vocaluxe.Base
             return _CurrentPartyMode.PartyMode.GetScreenSongOptions();
         }
 
+        public static void OnSongChange(int SongIndex, ref ScreenSongOptions ScreenSongOptions)
+        {
+            _CurrentPartyMode.PartyMode.OnSongChange(SongIndex, ref ScreenSongOptions);
+        }
+
+        public static void OnCategoryChange(int CategoryIndex, ref ScreenSongOptions ScreenSongOptions)
+        {
+            _CurrentPartyMode.PartyMode.OnCategoryChange(CategoryIndex,  ref ScreenSongOptions);
+        }
+
         public static void SetSearchString(string SearchString, bool Visible)
         {
             _CurrentPartyMode.PartyMode.SetSearchString(SearchString, Visible);

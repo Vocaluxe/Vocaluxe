@@ -29,6 +29,16 @@ namespace Vocaluxe.PartyModes
     public struct SelectionOptions
     {
         /// <summary>
+        /// If != -1, the SongMenu should set the song selection on the provided song index (visible index) if possible
+        /// </summary>
+        public int SongIndex;
+
+        /// <summary>
+        /// If true, the SongMenu should perform the select random song method
+        /// </summary>
+        public bool SelectNextRandomSong;
+
+        /// <summary>
         /// Choosing song only by random
         /// </summary>
         public bool RandomOnly;
@@ -68,6 +78,9 @@ namespace Vocaluxe.PartyModes
         EScreens GetStartScreen();
         EScreens GetMainScreen();
         ScreenSongOptions GetScreenSongOptions();
+
+        void OnSongChange(int SongIndex, ref ScreenSongOptions ScreenSongOptions);
+        void OnCategoryChange(int CategoryIndex, ref ScreenSongOptions ScreenSongOptions);
 
         int GetMaxPlayer();
         int GetMinPlayer();

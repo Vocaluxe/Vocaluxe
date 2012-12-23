@@ -105,6 +105,8 @@ namespace Vocaluxe.Menu.SongMenu
         {
             base.Update(SongOptions);
 
+            UpdateList(_Offset);
+
             if (SongOptions.Selection.RandomOnly)
             {
                 _Locked = _PreviewSelected;
@@ -382,6 +384,7 @@ namespace Vocaluxe.Menu.SongMenu
             if ((MouseEvent.RB) && (_Base.Songs.GetNumCategories() > 0) && _Base.Songs.GetCurrentCategoryIndex() >= 0 && _Base.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
             {
                 ShowCategories();
+                MouseEvent.Handled = true;
                 return;
             }
             else if (MouseEvent.RB && _Base.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && !SongOptions.Selection.PartyMode)
@@ -402,6 +405,7 @@ namespace Vocaluxe.Menu.SongMenu
                     if ((tile.Texture.index != _CoverTexture.index) && CHelper.IsInBounds(tile.Rect, MouseEvent))
                     {
                         EnterCategory(_PreviewSelected);
+                        MouseEvent.Handled = true;
                         return;
                     }
                 }
@@ -662,6 +666,7 @@ namespace Vocaluxe.Menu.SongMenu
             _Locked = -1;
             _actualSelection = 0;
             AfterCategoryChange();
+            _Locked = 0;
         }
 
         protected override void ShowCategories()
@@ -672,16 +677,15 @@ namespace Vocaluxe.Menu.SongMenu
             _Locked = -1;
             _actualSelection = 0;
             AfterCategoryChange();
+            _Locked = 0;
         }
 
         private void NextCategory()
         {
             if (_Base.Songs.GetCurrentCategoryIndex() > -1)
             {
-                Reset();
                 _Base.Songs.NextCategory();
                 EnterCategory(_Base.Songs.GetCurrentCategoryIndex());
-                _Locked = 0;
             }
         }
 
@@ -689,10 +693,8 @@ namespace Vocaluxe.Menu.SongMenu
         {
             if (_Base.Songs.GetCurrentCategoryIndex() > -1)
             {
-                Reset();
                 _Base.Songs.PrevCategory();
                 EnterCategory(_Base.Songs.GetCurrentCategoryIndex());
-                _Locked = 0;
             }
         }
 
@@ -827,7 +829,6 @@ namespace Vocaluxe.Menu.SongMenu
             }
 
             UpdateList(_Offset);
-
         }
 
         public override bool IsSmallView()

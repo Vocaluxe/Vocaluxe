@@ -371,6 +371,7 @@ namespace Vocaluxe.Menu
     public struct MouseEvent
     {
         public ESender Sender;
+        public bool Handled;
         public int X;
         public int Y;
         public bool LB;     //left button click
@@ -392,6 +393,7 @@ namespace Vocaluxe.Menu
         public MouseEvent(ESender sender, bool alt, bool shift, bool ctrl, int x, int y, bool lb, bool ld, bool rb, int wheel, bool lbh, bool rbh, bool mb, bool mbh)
         {
             Sender = sender;
+            Handled = false;
             X = x;
             Y = y;
             LB = lb;

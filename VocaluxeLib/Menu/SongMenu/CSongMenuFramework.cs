@@ -599,6 +599,7 @@ namespace Vocaluxe.Menu.SongMenu
             if (Category >= _Base.Songs.GetNumCategories())
                 return;
 
+            Reset();
             _Base.Songs.SetCategory(Category);
         }
 
@@ -610,6 +611,7 @@ namespace Vocaluxe.Menu.SongMenu
             if (_Base.Songs.GetCurrentCategoryIndex() != -1)
                 Reset();
 
+            Reset();
             _Base.Songs.SetCategory(-1);
         }
 
