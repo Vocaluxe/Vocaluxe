@@ -224,9 +224,9 @@ namespace Vocaluxe.Lib.Input.WiiMote
             else if (ws.ButtonState.Home && !_ButtonStates[6])
                 key = Keys.Space;
             else if (ws.ButtonState.Minus && !_ButtonStates[7])
-                key = Keys.PageDown;
+                key = Keys.Subtract;
             else if (ws.ButtonState.Plus && !_ButtonStates[8])
-                key = Keys.PageUp;
+                key = Keys.Add;
             else if (ws.ButtonState.One && !_ButtonStates[9])
                 key = Keys.Enter;
             else if (ws.ButtonState.Two && !_ButtonStates[10])

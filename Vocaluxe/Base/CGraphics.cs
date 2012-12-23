@@ -176,9 +176,6 @@ namespace Vocaluxe.Base
         private static List<IMenu> _Screens = new List<IMenu>();
         private static List<IMenu> _PopupScreens = new List<IMenu>();
 
-        private static float _SavedBackgroundMusicVolume;
-        private static float _SavedPreviewMusicVolume;
-        private static float _SavedGameMusicVolume;
         private static Stopwatch _VolumePopupTimer;
 
         public static float GlobalAlpha
@@ -309,10 +306,6 @@ namespace Vocaluxe.Base
 
         public static void InitFirstScreen()
         {
-            _SavedBackgroundMusicVolume = CConfig.BackgroundMusicVolume;
-            _SavedGameMusicVolume = CConfig.GameMusicVolume;
-            _SavedPreviewMusicVolume = CConfig.PreviewMusicVolume;
-
             _Screens[(int)_CurrentScreen].OnShow();
             _Screens[(int)_CurrentScreen].OnShowFinish();
         }
@@ -510,7 +503,7 @@ namespace Vocaluxe.Base
             bool PopupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing &&
                 _CurrentScreen != EScreens.ScreenSong && _CurrentScreen != EScreens.ScreenCredits;
 
-            bool PopupVolumeControlAllowed = _CurrentScreen != EScreens.ScreenCredits;
+            bool PopupVolumeControlAllowed = _CurrentScreen != EScreens.ScreenCredits && _CurrentScreen != EScreens.ScreenOptionsRecord;
 
             bool Resume = true;
             bool EventsAvailable = false;
@@ -533,6 +526,58 @@ namespace Vocaluxe.Base
                         ShowPopup(EPopupScreens.PopupPlayerControl);
                     else
                         HidePopup(EPopupScreens.PopupPlayerControl);
+                }
+
+                if (PopupVolumeControlAllowed && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
+                {
+                    int Diff = 0;
+                    if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Add || KeyEvent.Key == Keys.PageUp) || KeyEvent.Sender == ESender.WiiMote && KeyEvent.Key == Keys.Add)
+                        Diff = 5;
+                    else if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Subtract || KeyEvent.Key == Keys.PageDown) || KeyEvent.Sender == ESender.WiiMote && KeyEvent.Key == Keys.Subtract)
+                        Diff = -5;
+                    else if (KeyEvent.Key == Keys.MediaNextTrack)
+                        CMain.BackgroundMusic.Next();
+                    else if (KeyEvent.Key == Keys.MediaPreviousTrack)
+                        CMain.BackgroundMusic.Previous();
+                    else if (KeyEvent.Key == Keys.MediaPlayPause)
+                    {
+                        if (CMain.BackgroundMusic.IsPlaying())
+                            CMain.BackgroundMusic.Pause();
+                        else
+                            CMain.BackgroundMusic.Play();
+                    }
+
+                    if (Diff != 0)
+                    {
+                        switch (CGraphics.CurrentScreen)
+                        {
+                            case EScreens.ScreenSong:
+                                if (CSongs.Category != -1)
+                                    CConfig.PreviewMusicVolume += Diff;
+                                else
+                                    CConfig.BackgroundMusicVolume += Diff;
+                                break;
+
+                            case EScreens.ScreenSing:
+                                CConfig.GameMusicVolume += Diff;
+                                break;
+
+                            default:
+                                CConfig.BackgroundMusicVolume += Diff;
+                                CBackgroundMusic.ApplyVolume();
+                                break;
+                        }
+                        CConfig.SaveConfig();
+                    }
+
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && Diff != 0)
+                    {
+                        ShowPopup(EPopupScreens.PopupVolumeControl);
+                        _VolumePopupTimer.Reset();
+                        _VolumePopupTimer.Start();
+                    }
+
+                    CMain.BackgroundMusic.ApplyVolume();
                 }
 
                 if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.F1))
@@ -596,21 +641,16 @@ namespace Vocaluxe.Base
                     {
                         ShowPopup(EPopupScreens.PopupVolumeControl);
                         _VolumePopupTimer.Reset();
+                        _VolumePopupTimer.Start();
                     }
-                }
-
-                if (!isOverPopupVolumeControl && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
-                {
-                    HidePopup(EPopupScreens.PopupVolumeControl);
-                    _VolumePopupTimer.Reset();
                 }
 
                 bool handled = false;
                 if (_CurrentPopupScreen != EPopupScreens.NoPopup)
                     handled = _PopupScreens[(int)_CurrentPopupScreen].HandleMouse(MouseEvent);
+
                 if (handled && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
                     _Screens[(int)_CurrentScreen].ApplyVolume();
-
 
                 if (!handled && !_Fading && (_Cursor.IsActive || MouseEvent.LB || MouseEvent.RB || MouseEvent.MB))
                     Resume &= _Screens[(int)_CurrentScreen].HandleMouse(MouseEvent); 
@@ -665,34 +705,17 @@ namespace Vocaluxe.Base
 
         private static bool Update()
         {
-            //User changed volume with keyboard, pop-up isn't visible yet
-            if ((_SavedPreviewMusicVolume != CConfig.PreviewMusicVolume || _SavedGameMusicVolume != CConfig.GameMusicVolume || _SavedBackgroundMusicVolume != CConfig.BackgroundMusicVolume) 
-                && (_CurrentPopupScreen != EPopupScreens.PopupVolumeControl && !_VolumePopupTimer.IsRunning))
-            {
-                _VolumePopupTimer.Start();
-                _SavedBackgroundMusicVolume = CConfig.BackgroundMusicVolume;
-                _SavedGameMusicVolume = CConfig.GameMusicVolume;
-                _SavedPreviewMusicVolume = CConfig.PreviewMusicVolume;
-            }
-            //User changed volume with keyboard, pop-up is already visible
-            else if ((_SavedPreviewMusicVolume != CConfig.PreviewMusicVolume || _SavedGameMusicVolume != CConfig.GameMusicVolume || _SavedBackgroundMusicVolume != CConfig.BackgroundMusicVolume)
-                && (_CurrentPopupScreen == EPopupScreens.PopupVolumeControl && _VolumePopupTimer.IsRunning))
-            {
-                _VolumePopupTimer.Reset();
-                _VolumePopupTimer.Start();
-                _SavedBackgroundMusicVolume = CConfig.BackgroundMusicVolume;
-                _SavedGameMusicVolume = CConfig.GameMusicVolume;
-                _SavedPreviewMusicVolume = CConfig.PreviewMusicVolume;
-            }
-            if (_VolumePopupTimer.IsRunning && _VolumePopupTimer.ElapsedMilliseconds < 1500 && _CurrentPopupScreen != EPopupScreens.PopupVolumeControl)
-                ShowPopup(EPopupScreens.PopupVolumeControl);
             if(_VolumePopupTimer.IsRunning && _VolumePopupTimer.ElapsedMilliseconds >= 1500 && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
             {
                 _VolumePopupTimer.Reset();
                 HidePopup(EPopupScreens.PopupVolumeControl);
             }
-            if (!_Cursor.IsActive && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
-                HidePopup(EPopupScreens.PopupVolumeControl);
+
+            if (_VolumePopupTimer.IsRunning)
+            {
+                _Cursor.FadeIn();
+            }
+
             if (_CurrentPopupScreen != EPopupScreens.NoPopup)
                 _PopupScreens[(int)_CurrentPopupScreen].UpdateGame();
             return _Screens[(int)_CurrentScreen].UpdateGame();

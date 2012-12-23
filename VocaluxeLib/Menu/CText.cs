@@ -116,6 +116,11 @@ namespace Vocaluxe.Menu
                 if (_MaxWidth != value)
                 {
                     _MaxWidth = value;
+                    if (_MaxWidth > 0)
+                        Bounds = new SRectF(-_Base.Settings.GetRenderW(), -_Base.Settings.GetRenderH(), _MaxWidth, 3f * _Base.Settings.GetRenderH(), 0f);
+                    else
+                        Bounds = new SRectF(-_Base.Settings.GetRenderW(), -_Base.Settings.GetRenderH(), 3f * _Base.Settings.GetRenderW(), 3f * _Base.Settings.GetRenderH(), 0f);
+
                     _PositionNeedsUpdate = true;
                 }
             }

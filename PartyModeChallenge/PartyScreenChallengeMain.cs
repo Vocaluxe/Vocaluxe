@@ -452,10 +452,10 @@ namespace Vocaluxe.PartyModes
 
             for (int i = 0; i < Table.Count; i++)
             {
+                TableRow row = Table[i];
+
                 if (i < GameState.ResultTable.Count)
                 {
-                    TableRow row = Table[i];
-
                     row.Pos.Visible = true;
                     row.Name.Visible = true;
                     row.Rounds.Visible = true;
@@ -468,6 +468,15 @@ namespace Vocaluxe.PartyModes
                     row.Won.Text = GameState.ResultTable[i].NumWon.ToString();
                     row.SingPoints.Text = GameState.ResultTable[i].SumSingPoints.ToString();
                     row.GamePoints.Text = GameState.ResultTable[i].NumGamePoints.ToString();
+                }
+                else
+                {
+                    row.Pos.Visible = false;
+                    row.Name.Visible = false;
+                    row.Rounds.Visible = false;
+                    row.Won.Visible = false;
+                    row.SingPoints.Visible = false;
+                    row.GamePoints.Visible = false;
                 }
             }
         }
