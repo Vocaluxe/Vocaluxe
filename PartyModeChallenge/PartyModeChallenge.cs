@@ -479,6 +479,7 @@ namespace Vocaluxe.PartyModes
 
         public override void LeavingHighscore()
         {
+            GameData.CurrentRoundNr++;
             _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
         }
 
@@ -489,7 +490,6 @@ namespace Vocaluxe.PartyModes
             SetNumJokers();
             SetTeamNames();
             GameData.CatSongIndices = null;
-            GameData.CurrentRoundNr++;
             _Base.Graphics.FadeTo(EScreens.ScreenSong);
         }
 
