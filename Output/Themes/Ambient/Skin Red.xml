@@ -330,6 +330,7 @@
     <Minus>Minus.png</Minus>
     <Plus>Plus.png</Plus> 
     <Random>Random.png</Random>
+    <PopupBG>Popup.png</PopupBG>
   </Skins>
   <Videos>
     <BG_Video>[Red]BG_Video.mp4</BG_Video>
