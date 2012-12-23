@@ -1091,27 +1091,7 @@ namespace Vocaluxe.Menu
                 if (KeyEvent.Key == Keys.Right)
                     NextElement();
             }
-            if (_Base.BackgroundMusic.IsDisabled())
-            {
-                if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Add || KeyEvent.Key == Keys.PageUp))
-                    _Base.Config.SetBackgroundMusicVolume(_Base.Config.GetBackgroundMusicVolume() + 5);
-                else if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Subtract || KeyEvent.Key == Keys.PageDown))
-                    _Base.Config.SetBackgroundMusicVolume(_Base.Config.GetBackgroundMusicVolume() - 5);
-                else if (KeyEvent.Key == Keys.MediaNextTrack)
-                    _Base.BackgroundMusic.Next();
-                else if (KeyEvent.Key == Keys.MediaPreviousTrack)
-                    _Base.BackgroundMusic.Previous();
-                else if (KeyEvent.Key == Keys.MediaPlayPause)
-                {
-                    if (_Base.BackgroundMusic.IsPlaying())
-                        _Base.BackgroundMusic.Pause();
-                    else
-                        _Base.BackgroundMusic.Play();
-                }
-
-                _Base.BackgroundMusic.ApplyVolume();
-            }
-
+            
             return true;
         }
 
