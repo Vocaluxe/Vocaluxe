@@ -669,7 +669,7 @@ namespace Vocaluxe.Menu
 
             for (int i = 0; i < 4; i++)
             {
-                if (i != mute && elements[i] != _Selection && (stages[i] < stage || (stages[i] == stage && Directions[i].Key == Key.Key)))
+                if (i != mute && elements[i] != _Selection && (stages[i] <= stage && Directions[i].Key == Key.Key))
                 {
                     stage = stages[i];
                     element = elements[i];
