@@ -187,7 +187,7 @@ namespace Vocaluxe.Screens
             Buttons[htButtons(ButtonToBackgroundVideo)].Pressed = VideoBackground;
             Buttons[htButtons(ButtonShowVideo)].Pressed = _VideoPreview;
             Buttons[htButtons(ButtonRepeat)].Pressed = CBackgroundMusic.RepeatSong;
-            Buttons[htButtons(ButtonSing)].Visible = CBackgroundMusic.CanSing;
+            Buttons[htButtons(ButtonSing)].Visible = CBackgroundMusic.CanSing && CParty.CurrentPartyModeID == -1;
             return true;
         }
 
@@ -206,7 +206,7 @@ namespace Vocaluxe.Screens
             Buttons[htButtons(ButtonPause)].Visible = CBackgroundMusic.Playing;
             Buttons[htButtons(ButtonPlay)].Visible = !CBackgroundMusic.Playing;
             Texts[htTexts(TextCurrentSong)].Text = CBackgroundMusic.ArtistAndTitle;
-
+            
             return base.Draw();
         }
 
