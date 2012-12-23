@@ -206,6 +206,7 @@ namespace Vocaluxe.PartyModes
             Updatetable();
             UpdateNextPlayerPositions();
             UpdateNextPlayerContents();
+            if(GameState.CurrentRoundNr == 1 || RoundsTable == null)
             BuildRoundsTable();
             UpdateRoundsTable(RoundsTableOffset);
 
@@ -399,6 +400,10 @@ namespace Vocaluxe.PartyModes
                 {
                     int pID = GameState.ProfileIDs[GameState.Combs[i + Offset].Player[p]];
                     RoundsTable[i].TextPlayer[p].Text = profile[pID].PlayerName+"";
+                    if ((GameState.CurrentRoundNr - 1) > i)
+                        RoundsTable[i].TextScores[p].Text = GameState.Results[i + Offset, p].ToString();
+                    else
+                        RoundsTable[i].TextScores[p].Text = "";
                 }
             }
         }
