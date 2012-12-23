@@ -369,7 +369,7 @@ namespace Vocaluxe.PartyModes
                     {
                         //Player
                         float _x = x + 15 + (_Base.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20) / NumPlayerInThisRow * (column - row * NumPlayerInOneRow) + ((_Base.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20) / NumPlayerInThisRow) / 2;
-                        float maxw = ((_Base.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20) / NumPlayerInThisRow) - 5;
+                        float maxw = ((_Base.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20) / NumPlayerInThisRow)/2 - 5;
                         text = GetNewText(Texts[htTexts(TextRoundNumber)]);
                         text.X = _x;
                         text.Y = y;
@@ -398,7 +398,7 @@ namespace Vocaluxe.PartyModes
                 for(int p = 0; p < RoundsTable[i].TextPlayer.Count; p++)
                 {
                     int pID = GameState.ProfileIDs[GameState.Combs[i + Offset].Player[p]];
-                    RoundsTable[i].TextPlayer[p].Text = profile[pID].PlayerName;
+                    RoundsTable[i].TextPlayer[p].Text = profile[pID].PlayerName+"";
                 }
             }
         }
