@@ -295,6 +295,8 @@ namespace Vocaluxe.PartyModes
                     if (_Screens != null)
                     {
                         _Base.Songs.ResetPartySongSung();
+                        ToScreenMain.ResultTable = new List<ResultTableRow>();
+                        GameData.ResultTable = new List<ResultTableRow>();
                         GameData.Rounds = new ChallengeRounds(GameData.NumRounds, GameData.NumPlayer, GameData.NumPlayerAtOnce);
                         GameData.CurrentRoundNr = 1;
                         ToScreenMain.CurrentRoundNr = 1;
@@ -484,10 +486,10 @@ namespace Vocaluxe.PartyModes
         {
             _ScreenSongOptions.Selection.RandomOnly = _ScreenSongOptions.Sorting.Tabs != EOffOn.TR_CONFIG_ON;
             _ScreenSongOptions.Selection.CategoryChangeAllowed = _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_ON;
-            GameData.CurrentRoundNr++;
             SetNumJokers();
             SetTeamNames();
             GameData.CatSongIndices = null;
+            GameData.CurrentRoundNr++;
             _Base.Graphics.FadeTo(EScreens.ScreenSong);
         }
 

@@ -226,6 +226,7 @@ namespace Vocaluxe.PartyModes
 
         private void NextRound()
         {
+            Data.ScreenMain.FadeToNameSelection = false;
             Data.ScreenMain.FadeToSongSelection = true;
             _PartyMode.DataFromScreen(_ThemeName, Data);
         }
