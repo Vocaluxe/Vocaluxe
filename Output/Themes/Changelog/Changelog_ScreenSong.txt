@@ -1,6 +1,14 @@
 ScreenSong
 
 ++++++++++
+Version 4:
+
+Add:
+<ButtonJoker[1..6]> (one for each player)
+<ButtonOptionsRandomMedley>, <ButtonOptionsStartMedley>
+<SelectSlideOptionsNumMedleySongs>
+
+++++++++++
 Version 3:
 
 Add:
