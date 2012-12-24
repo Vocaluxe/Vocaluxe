@@ -33,7 +33,7 @@ namespace Vocaluxe.Base
         public bool ShowCursor;
         public bool Visible = true;
         public bool CursorVisible = true;
-
+        
         public int X
         {
             get { return (int)_Cursor.rect.X; }
@@ -177,6 +177,7 @@ namespace Vocaluxe.Base
         private static List<IMenu> _PopupScreens = new List<IMenu>();
 
         private static Stopwatch _VolumePopupTimer;
+        private static bool CursorOverVolumeControl = false;
 
         public static float GlobalAlpha
         {
@@ -630,7 +631,7 @@ namespace Vocaluxe.Base
                     if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
                         ShowPopup(EPopupScreens.PopupPlayerControl);
                 }
-
+                
                 if (!isOverPopupPlayerControl && _CurrentPopupScreen == EPopupScreens.PopupPlayerControl)
                     HidePopup(EPopupScreens.PopupPlayerControl);
 
@@ -644,6 +645,17 @@ namespace Vocaluxe.Base
                         _VolumePopupTimer.Start();
                     }
                 }
+
+                if (CursorOverVolumeControl && !isOverPopupVolumeControl)
+                {
+                    if (_CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
+                    {
+                        HidePopup(EPopupScreens.PopupVolumeControl);
+                        _VolumePopupTimer.Reset();
+                    }
+                }
+                CursorOverVolumeControl = isOverPopupVolumeControl;
+
 
                 bool handled = false;
                 if (_CurrentPopupScreen != EPopupScreens.NoPopup)
