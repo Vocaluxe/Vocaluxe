@@ -461,7 +461,10 @@ namespace Vocaluxe.PartyModes
         private void UpdateButtonNext()
         {
             if (Data.ScreenNames.ProfileIDs.Count == NumPlayer)
+            {
                 Buttons[htButtons(ButtonNext)].Visible = true;
+                SetInteractionToButton(Buttons[htButtons(ButtonNext)]);
+            }
             else
                 Buttons[htButtons(ButtonNext)].Visible = false;
         }
