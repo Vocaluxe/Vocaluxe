@@ -1193,6 +1193,15 @@ namespace Vocaluxe.Menu
             Update();
         }
 
+
+        public void ClosePlaylist()
+        {
+            Visible = false;
+            Selected = false;
+            ActivePlaylistID = -1;
+        }
+
+
         private void StartPlaylistSongs()
         {
             _Base.Game.Reset();
@@ -1218,13 +1227,6 @@ namespace Vocaluxe.Menu
 
             if (_Base.Game.GetNumSongs() > 0)
                 _Base.Graphics.FadeTo(EScreens.ScreenNames); 
-        }
-
-        private void ClosePlaylist()
-        {
-            Visible = false;
-            Selected = false;
-            ActivePlaylistID = -1;
         }
 
         public void Update()

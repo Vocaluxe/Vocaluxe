@@ -796,7 +796,8 @@ namespace Vocaluxe.Screens
 
             if (_sso.Selection.PartyMode)
             {
-                _PlaylistActive = false;
+                ClosePlaylist();
+                Playlists[htPlaylists(Playlist)].ClosePlaylist();
                 ToggleSongOptions(ESongOptionsView.None);
             }
 
