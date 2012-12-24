@@ -221,6 +221,14 @@ namespace Vocaluxe.PartyModes
                     ShowPopup(false);
             }
 
+            if (MouseEvent.Wheel != 0)
+            {
+                if(CHelper.IsInBounds(RoundsTableScrollArea, MouseEvent))
+                    ScrollRoundsTable(MouseEvent.Wheel);
+                if(CHelper.IsInBounds(PlayerTableScrollArea, MouseEvent))
+                    ScrollPlayerTable(MouseEvent.Wheel);
+            }
+
             return true;
         }
 
@@ -387,6 +395,8 @@ namespace Vocaluxe.PartyModes
 
         private void BuildRoundsTable()
         {
+            RoundsTableScrollArea = new SRectF();
+
             int NumPlayerInOneRow = 3;
             if (GameState.NumPlayerAtOnce <= NumPlayerInOneRow)
                 NumRoundsVisible = 5;
@@ -395,6 +405,10 @@ namespace Vocaluxe.PartyModes
 
             float x = Texts[htTexts(TextRoundNumber)].X;
             float y = Texts[htTexts(TextRoundNumber)].Y;
+
+            RoundsTableScrollArea.X = x;
+            RoundsTableScrollArea.Y = y;
+            RoundsTableScrollArea.W = _Base.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20;
 
             float delta = Texts[htTexts(TextRoundNumber)].Height;
 
@@ -432,6 +446,7 @@ namespace Vocaluxe.PartyModes
                 }
                 y = y + delta / 2;
             }
+            RoundsTableScrollArea.H = y - RoundsTableScrollArea.Y;
         }
 
         private void UpdateRoundsTable()
@@ -441,7 +456,7 @@ namespace Vocaluxe.PartyModes
             {
                 for(int p = 0; p < RoundsTable[i].TextPlayer.Count; p++)
                 {
-                    if (GameState.Combs[i + RoundsTableOffset].Player.Count > p)
+                    if (GameState.Combs.Count > i + RoundsTableOffset && GameState.Combs[i + RoundsTableOffset].Player.Count > p)
                     {
                         RoundsTable[i].Number.Visible = true;
                         RoundsTable[i].TextPlayer[p].Visible = true;
@@ -469,9 +484,15 @@ namespace Vocaluxe.PartyModes
 
         private void BuildPlayerTable()
         {
+            PlayerTableScrollArea = new SRectF();
+            PlayerTableScrollArea.X = Texts[htTexts(TextPosition)].X;
+            PlayerTableScrollArea.Y = Texts[htTexts(TextPosition)].Y;
+            PlayerTableScrollArea.W = Texts[htTexts(TextGamePoints)].X - Texts[htTexts(TextPosition)].X;
 
             PlayerTable = new List<TableRow>();
             float delta = Texts[htTexts(TextPosition)].Height * 1.2f;
+
+            float h = 0;
 
             for (int i = 0; i < 10; i++)
             {
@@ -508,7 +529,10 @@ namespace Vocaluxe.PartyModes
                 AddText(row.GamePoints);
 
                 PlayerTable.Add(row);
+
+                h = delta * (i + 1);
             }
+            PlayerTableScrollArea.H = h + delta;
         }
 
         private void UpdatePlayerTable()
