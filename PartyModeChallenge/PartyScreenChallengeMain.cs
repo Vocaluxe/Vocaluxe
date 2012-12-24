@@ -480,6 +480,9 @@ namespace Vocaluxe.PartyModes
                     RoundsTable[i].Number.Visible = false;
                 }
             }
+
+            Buttons[htButtons(ButtonRoundsScrollUp)].Visible = RoundsTableOffset > 0;
+            Buttons[htButtons(ButtonRoundsScrollDown)].Visible = GameState.Combs.Count - NumRoundsVisible - RoundsTableOffset > 0;
         }
 
         private void BuildPlayerTable()
@@ -569,6 +572,9 @@ namespace Vocaluxe.PartyModes
                     row.GamePoints.Visible = false;
                 }
             }
+
+            Buttons[htButtons(ButtonPlayerScrollUp)].Visible = PlayerTableOffset > 0;
+            Buttons[htButtons(ButtonPlayerScrollDown)].Visible = GameState.ProfileIDs.Count - NumPlayerVisible - PlayerTableOffset > 0;
         }
 
         private void ScrollPlayerTable(int Offset)
