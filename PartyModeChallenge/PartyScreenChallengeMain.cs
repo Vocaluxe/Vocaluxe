@@ -542,6 +542,9 @@ namespace Vocaluxe.PartyModes
 
         private void UpdatePlayerTable()
         {
+            if (NumPlayerVisible > GameState.ProfileIDs.Count)
+                NumPlayerVisible = GameState.ProfileIDs.Count;
+
             SProfile[] profiles = _Base.Profiles.GetProfiles();
 
             for (int i = 0; i < PlayerTable.Count; i++)
