@@ -581,7 +581,9 @@ namespace Vocaluxe.PartyModes
 
         private void ScrollPlayerTable(int Offset)
         {
-            if (Offset < 0 && PlayerTableOffset + Offset >= 0)
+            if (GameState.ProfileIDs.Count <= NumPlayerVisible)
+                PlayerTableOffset = 0;
+            else if (Offset < 0 && PlayerTableOffset + Offset >= 0)
                 PlayerTableOffset += Offset;
             else if (Offset < 0 && PlayerTableOffset + Offset < 0)
                 PlayerTableOffset = 0;
@@ -595,7 +597,9 @@ namespace Vocaluxe.PartyModes
 
         private void ScrollRoundsTable(int Offset)
         {
-            if (Offset < 0 && RoundsTableOffset + Offset >= 0)
+            if (GameState.Combs.Count <= NumRoundsVisible)
+                RoundsTableOffset = 0;
+            else if (Offset < 0 && RoundsTableOffset + Offset >= 0)
                 RoundsTableOffset += Offset;
             else if (Offset < 0 && RoundsTableOffset + Offset < 0)
                 RoundsTableOffset = 0;
