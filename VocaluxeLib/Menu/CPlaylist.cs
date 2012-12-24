@@ -631,7 +631,7 @@ namespace Vocaluxe.Menu
                                 break;
 
                             case Keys.Enter:
-                                StartPlaylistSongs();
+                                StartPlaylistSong(CurrentPlaylistElement);
                                 break;
 
                             case Keys.Add:   //move the selected song up
@@ -958,6 +958,12 @@ namespace Vocaluxe.Menu
                             }
                         }
 
+                        //Start selected song with double click
+                        if (MouseEvent.LD && CurrentPlaylistElement != -1)
+                        {
+                            StartPlaylistSong(CurrentPlaylistElement);
+                        }
+
                         //Change order with holding LB
                         if (MouseEvent.LBH && CurrentPlaylistElement != -1 && PlaylistElementContents.Count > 0 && DragAndDropSongID == -1)
                         {
@@ -1201,6 +1207,17 @@ namespace Vocaluxe.Menu
                 if (_Base.Game.GetNumSongs() > 0)
                     _Base.Graphics.FadeTo(EScreens.ScreenNames);    //TODO: What is if someone uses that in PartyMode?
             }
+        }
+
+        private void StartPlaylistSong(int selected)
+        {
+            _Base.Game.Reset();
+            _Base.Game.ClearSongs();
+
+            _Base.Game.AddSong(_Base.Playlist.GetPlaylistSong(ActivePlaylistID, selected).SongID, _Base.Playlist.GetPlaylistSong(ActivePlaylistID, selected).GameMode);
+
+            if (_Base.Game.GetNumSongs() > 0)
+                _Base.Graphics.FadeTo(EScreens.ScreenNames); 
         }
 
         private void ClosePlaylist()
