@@ -542,9 +542,6 @@ namespace Vocaluxe.PartyModes
 
         private void UpdatePlayerTable()
         {
-            if (NumPlayerVisible > GameState.ProfileIDs.Count)
-                NumPlayerVisible = GameState.ProfileIDs.Count;
-
             SProfile[] profiles = _Base.Profiles.GetProfiles();
 
             for (int i = 0; i < PlayerTable.Count; i++)
@@ -560,7 +557,7 @@ namespace Vocaluxe.PartyModes
                     row.SingPoints.Visible = true;
                     row.GamePoints.Visible = true;
 
-                    row.Pos.Text = (i + 1 + PlayerTableOffset).ToString();
+                    row.Pos.Text = GameState.ResultTable[i + PlayerTableOffset].Position.ToString();
                     row.Name.Text = profiles[GameState.ResultTable[i+PlayerTableOffset].PlayerID].PlayerName;
                     row.Rounds.Text = GameState.ResultTable[i+PlayerTableOffset].NumRounds.ToString();
                     row.Won.Text = GameState.ResultTable[i+PlayerTableOffset].NumWon.ToString();

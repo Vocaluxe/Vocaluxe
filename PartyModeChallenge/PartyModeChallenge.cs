@@ -33,6 +33,7 @@ namespace Vocaluxe.PartyModes
 
     public class ResultTableRow : IComparable
     {
+        public int Position;
         public int PlayerID;
         public int NumPlayed;
         public int NumRounds;
@@ -632,6 +633,17 @@ namespace Vocaluxe.PartyModes
             }
 
             GameData.ResultTable.Sort();
+
+            //Update position-number
+            int pos = 1;
+            int last_points = 0;
+            for (int i = 0; i < GameData.ResultTable.Count; i++ )
+            {
+                if (last_points > GameData.ResultTable[i].NumGamePoints)
+                    pos++;
+                GameData.ResultTable[i].Position = pos;
+                last_points = GameData.ResultTable[i].NumGamePoints;
+            }
         }
 
         private List<Stats> GetPointsForPlayer(SPlayer[] Results)
