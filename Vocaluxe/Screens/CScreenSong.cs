@@ -21,11 +21,12 @@ namespace Vocaluxe.Screens
         {
             None,
             Song,
-            General
+            General,
+            Medley
         }
 
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 3;
+        const int ScreenVersion = 4;
 
         private const string TextCategory = "TextCategory";
         private const string TextSelection = "TextSelection";
@@ -42,11 +43,14 @@ namespace Vocaluxe.Screens
         private const string ButtonOptionsSingAll = "ButtonOptionsSingAll";
         private const string ButtonOptionsSingAllVisible = "ButtonOptionsSingAllVisible";
         private const string ButtonOptionsOpenPlaylist = "ButtonOptionsOpenPlaylist";
+        private const string ButtonOptionsRandomMedley = "ButtonOptionsRandomMedley";
+        private const string ButtonOptionsStartMedley = "ButtonOptionsStartMedley";
         private const string ButtonStart = "ButtonStart";
 
         private const string SelectSlideOptionsMode = "SelectSlideOptionsMode";
         private const string SelectSlideOptionsPlaylistAdd = "SelectSlideOptionsPlaylistAdd";
         private const string SelectSlideOptionsPlaylistOpen = "SelectSlideOptionsPlaylistOpen";
+        private const string SelectSlideOptionsNumMedleySongs = "SelectSlideOptionsNumMedleySongs";
 
         private const string StaticSearchBar = "StaticSearchBar";
         private const string StaticOptionsBG = "StaticOptionsBG";
@@ -96,6 +100,8 @@ namespace Vocaluxe.Screens
             blist.Add(ButtonOptionsOpenPlaylist);
             blist.Add(ButtonOpenOptions);
             blist.Add(ButtonStart);
+            blist.Add(ButtonOptionsRandomMedley);
+            blist.Add(ButtonOptionsStartMedley);
 
             for (int i = 0; i < _Base.Settings.GetMaxNumPlayer(); i++)
             {
@@ -114,7 +120,7 @@ namespace Vocaluxe.Screens
             _ThemeStatics = new string[] { StaticSearchBar, StaticOptionsBG };
             _ThemeTexts = tlist.ToArray();
             _ThemeButtons = blist.ToArray();
-            _ThemeSelectSlides = new string[] { SelectSlideOptionsMode, SelectSlideOptionsPlaylistAdd, SelectSlideOptionsPlaylistOpen };
+            _ThemeSelectSlides = new string[] { SelectSlideOptionsMode, SelectSlideOptionsPlaylistAdd, SelectSlideOptionsPlaylistOpen, SelectSlideOptionsNumMedleySongs };
             _ThemeSongMenus = new string[] { SongMenu };
             _ThemePlaylists = new string[] { Playlist };
         }
@@ -125,6 +131,7 @@ namespace Vocaluxe.Screens
             SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Visible = false;
             SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistAdd)].Visible = false;
             SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].Visible = false;
+            SelectSlides[htSelectSlides(SelectSlideOptionsNumMedleySongs)].Visible = false;
             Buttons[htButtons(ButtonOptionsClose)].Visible = false;
             Buttons[htButtons(ButtonOptionsSing)].Visible = false;
             Buttons[htButtons(ButtonOptionsPlaylist)].Visible = false;
@@ -133,6 +140,8 @@ namespace Vocaluxe.Screens
             Buttons[htButtons(ButtonOptionsSingAll)].Visible = false;
             Buttons[htButtons(ButtonOptionsSingAllVisible)].Visible = false;
             Buttons[htButtons(ButtonOptionsOpenPlaylist)].Visible = false;
+            Buttons[htButtons(ButtonOptionsRandomMedley)].Visible = false;
+            Buttons[htButtons(ButtonOptionsStartMedley)].Visible = false;
             Texts[htTexts(TextOptionsTitle)].Visible = false;
             Statics[htStatics(StaticOptionsBG)].Visible = false;
             Playlists[htPlaylists(Playlist)].Visible = false;
@@ -384,6 +393,15 @@ namespace Vocaluxe.Screens
                             ToggleSongOptions(ESongOptionsView.None);
                             OpenPlaylistAction();
                         }
+                        else if (Buttons[htButtons(ButtonOptionsRandomMedley)].Selected)
+                        {
+                            ToggleSongOptions(ESongOptionsView.Medley);
+                        }
+                        else if (Buttons[htButtons(ButtonOptionsStartMedley)].Selected)
+                        {
+                            ToggleSongOptions(ESongOptionsView.None);
+                            StartRandomMedley(SelectSlides[htSelectSlides(SelectSlideOptionsNumMedleySongs)].Selection + 1, CSongs.Category == -1);
+                        }
                         break;
 
                     case Keys.Escape:
@@ -554,6 +572,19 @@ namespace Vocaluxe.Screens
                     {
                         ToggleSongOptions(ESongOptionsView.None);
                         OpenPlaylistAction();
+                        return true;
+                    }
+
+                    if (Buttons[htButtons(ButtonOptionsRandomMedley)].Selected)
+                    {
+                        ToggleSongOptions(ESongOptionsView.Medley);
+                        return true;
+                    }
+
+                    if (Buttons[htButtons(ButtonOptionsStartMedley)].Selected)
+                    {
+                        ToggleSongOptions(ESongOptionsView.None);
+                        StartRandomMedley(SelectSlides[htSelectSlides(SelectSlideOptionsNumMedleySongs)].Selection + 1, CSongs.Category == -1);
                         return true;
                     }
 
@@ -940,6 +971,48 @@ namespace Vocaluxe.Screens
                 CGraphics.FadeTo(EScreens.ScreenNames);
         }
 
+        private void StartRandomMedley(int NumSongs, bool AllSongs)
+        {
+            CGame.Reset();
+            CGame.ClearSongs();
+
+            List<int> IDs = new List<int>();
+            if (AllSongs)
+            {
+                for (int i = 0; i < CSongs.AllSongs.Length; i++)
+                {
+                    IDs.Add(i);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < CSongs.VisibleSongs.Length; i++)
+                {
+                    IDs.Add(CSongs.VisibleSongs[i].ID);
+                }
+            }
+            int s = 0;
+            while (s < NumSongs && IDs.Count > 0)
+            {
+                int SongNr = IDs[CGame.Rand.Next(IDs.Count)];
+
+                foreach (EGameMode gm in CSongs.AllSongs[SongNr].AvailableGameModes)
+                {
+                    if (gm == EGameMode.TR_GAMEMODE_MEDLEY)
+                    {
+                        CGame.AddSong(SongNr, gm);
+                        s++;
+                        break;
+                    }
+                }
+
+                IDs.Remove(SongNr);
+            }
+
+            if (CGame.GetNumSongs() > 0)
+                CGraphics.FadeTo(EScreens.ScreenNames);
+        }
+
         private bool SelectNextRandom(int TeamNr)
         {           
             if (TeamNr != -1 && _sso.Selection.RandomOnly && _sso.Selection.NumJokers != null)
@@ -1037,6 +1110,25 @@ namespace Vocaluxe.Screens
         private void ToggleSongOptions(ESongOptionsView view)
         {
             _SongOptionsActive = view != ESongOptionsView.None;
+
+            SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Visible = false;
+            SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistAdd)].Visible = false;
+            SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].Visible = false;
+            SelectSlides[htSelectSlides(SelectSlideOptionsNumMedleySongs)].Visible = false;
+            Buttons[htButtons(ButtonOptionsClose)].Visible = false;
+            Buttons[htButtons(ButtonOptionsSing)].Visible = false;
+            Buttons[htButtons(ButtonOptionsPlaylist)].Visible = false;
+            Buttons[htButtons(ButtonOptionsRandom)].Visible = false;
+            Buttons[htButtons(ButtonOptionsRandomCategory)].Visible = false;
+            Buttons[htButtons(ButtonOptionsSingAll)].Visible = false;
+            Buttons[htButtons(ButtonOptionsSingAllVisible)].Visible = false;
+            Buttons[htButtons(ButtonOptionsOpenPlaylist)].Visible = false;
+            Buttons[htButtons(ButtonOptionsRandomMedley)].Visible = false;
+            Buttons[htButtons(ButtonOptionsStartMedley)].Visible = false;
+            Texts[htTexts(TextOptionsTitle)].Visible = false;
+            Statics[htStatics(StaticOptionsBG)].Visible = false;
+            Buttons[htButtons(ButtonOpenOptions)].Visible = true;
+
             if (_SongOptionsActive)
             {
                 if (view == ESongOptionsView.Song)
@@ -1074,6 +1166,7 @@ namespace Vocaluxe.Screens
                     SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistAdd)].Visible = true;
                     Buttons[htButtons(ButtonOptionsSing)].Visible = true;
                     Buttons[htButtons(ButtonOptionsPlaylist)].Visible = true;
+                    SetInteractionToButton(Buttons[htButtons(ButtonOptionsSing)]);
                 }
                 else if (view == ESongOptionsView.General)
                 {
@@ -1098,28 +1191,42 @@ namespace Vocaluxe.Screens
                         else
                             SetInteractionToButton(Buttons[htButtons(ButtonOptionsSingAll)]);
                     }
+                    Buttons[htButtons(ButtonOptionsRandomMedley)].Visible = true;
+                    if(Buttons[htButtons(ButtonOptionsRandom)].Visible)
+                        SetInteractionToButton(Buttons[htButtons(ButtonOptionsRandom)]);
+                    else
+                        SetInteractionToButton(Buttons[htButtons(ButtonOptionsRandomCategory)]);
                 }
-                Buttons[htButtons(ButtonOptionsClose)].Visible = true;
+                else if (view == ESongOptionsView.Medley)
+                {
+                    Buttons[htButtons(ButtonOptionsStartMedley)].Visible = true;
+                    SelectSlides[htSelectSlides(SelectSlideOptionsNumMedleySongs)].Visible = true;
+                    SelectSlides[htSelectSlides(SelectSlideOptionsNumMedleySongs)].Clear();
+                    if (CSongs.Category != -1)
+                    {
+                        for (int i = 1; i <= CSongs.VisibleSongs.Length; i++)
+                        {
+                            SelectSlides[htSelectSlides(SelectSlideOptionsNumMedleySongs)].AddValue(i.ToString());
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 1; i <= CSongs.AllSongs.Length; i++)
+                        {
+                            SelectSlides[htSelectSlides(SelectSlideOptionsNumMedleySongs)].AddValue(i.ToString());
+                        }
+                    }
+                    if (SelectSlides[htSelectSlides(SelectSlideOptionsNumMedleySongs)].NumValues >= 5)
+                        SelectSlides[htSelectSlides(SelectSlideOptionsNumMedleySongs)].SetSelectionByValueIndex(4);
+                    else
+                        SelectSlides[htSelectSlides(SelectSlideOptionsNumMedleySongs)].SetSelectionByValueIndex(SelectSlides[htSelectSlides(SelectSlideOptionsNumMedleySongs)].NumValues - 1);
+                    SetInteractionToButton(Buttons[htButtons(ButtonOptionsStartMedley)]);
+                    
+                }
                 Texts[htTexts(TextOptionsTitle)].Visible = true;
+                Buttons[htButtons(ButtonOptionsClose)].Visible = true;
                 Statics[htStatics(StaticOptionsBG)].Visible = true;
                 Buttons[htButtons(ButtonOpenOptions)].Visible = false;
-            }
-            else 
-            {
-                SelectSlides[htSelectSlides(SelectSlideOptionsMode)].Visible = false;
-                SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistAdd)].Visible = false;
-                SelectSlides[htSelectSlides(SelectSlideOptionsPlaylistOpen)].Visible = false;
-                Buttons[htButtons(ButtonOptionsClose)].Visible = false;
-                Buttons[htButtons(ButtonOptionsSing)].Visible = false;
-                Buttons[htButtons(ButtonOptionsPlaylist)].Visible = false;
-                Buttons[htButtons(ButtonOptionsRandom)].Visible = false;
-                Buttons[htButtons(ButtonOptionsRandomCategory)].Visible = false;
-                Buttons[htButtons(ButtonOptionsSingAll)].Visible = false;
-                Buttons[htButtons(ButtonOptionsSingAllVisible)].Visible = false;
-                Buttons[htButtons(ButtonOptionsOpenPlaylist)].Visible = false;
-                Buttons[htButtons(ButtonOpenOptions)].Visible = false;
-                Texts[htTexts(TextOptionsTitle)].Visible = false;
-                Statics[htStatics(StaticOptionsBG)].Visible = false;
             }
         }
 
