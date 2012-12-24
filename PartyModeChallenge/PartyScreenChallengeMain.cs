@@ -41,6 +41,9 @@ namespace Vocaluxe.PartyModes
         const string TextRoundPlayer = "TextRoundPlayer";
         const string TextRoundScore = "TextRoundScore";
         const string TextRoundNumber = "TextRoundNumber";
+        const string TextFinishMessage = "TextFinishMessage";
+        const string TextFinishPlayerWin = "TextFinishPlayerWin";
+        const string TextNextPlayerMessage = "TextNextPlayerMessage";
 
         const string ButtonNextRound = "ButtonNextRound";
         const string ButtonBack = "ButtonBack";
@@ -83,7 +86,7 @@ namespace Vocaluxe.PartyModes
             base.Init();
 
             _ThemeName = "PartyScreenChallengeMain";
-            _ThemeTexts = new string[] { TextPosition, TextPlayerName, TextNumPlayed, TextWon, TextSingPoints, TextGamePoints, TextNextPlayer, TextPopupReallyExit, TextRoundNumber, TextRoundPlayer, TextRoundScore };
+            _ThemeTexts = new string[] { TextPosition, TextPlayerName, TextNumPlayed, TextWon, TextSingPoints, TextGamePoints, TextNextPlayer, TextPopupReallyExit, TextRoundNumber, TextRoundPlayer, TextRoundScore, TextFinishMessage, TextFinishPlayerWin, TextNextPlayerMessage };
             _ThemeButtons = new string[] { ButtonNextRound, ButtonBack, ButtonExit, ButtonPopupYes, ButtonPopupNo, ButtonPlayerScrollDown, ButtonPlayerScrollUp, ButtonRoundsScrollDown, ButtonRoundsScrollUp };
             _ThemeStatics = new string[] { StaticPopupBG, StaticNextPlayer };
             _ScreenVersion = ScreenVersion;
@@ -259,7 +262,21 @@ namespace Vocaluxe.PartyModes
                 Buttons[htButtons(ButtonExit)].Visible = true;
             }
 
-            SetInteractionToButton(Buttons[htButtons(ButtonNextRound)]);
+            if (GameState.CurrentRoundNr <= GameState.Combs.Count)
+            {
+                Buttons[htButtons(ButtonNextRound)].Visible = true;
+                Texts[htTexts(TextFinishMessage)].Visible = false;
+                Texts[htTexts(TextFinishPlayerWin)].Visible = false;
+                SetInteractionToButton(Buttons[htButtons(ButtonNextRound)]);
+            }
+            else
+            {
+                Buttons[htButtons(ButtonNextRound)].Visible = false;
+                Texts[htTexts(TextFinishMessage)].Visible = true;
+                Texts[htTexts(TextFinishPlayerWin)].Visible = true;
+                Texts[htTexts(TextFinishPlayerWin)].Text = GetPlayerWinString();
+                SetInteractionToButton(Buttons[htButtons(ButtonExit)]);
+            }
 
             ShowPopup(false);
         }
@@ -341,6 +358,7 @@ namespace Vocaluxe.PartyModes
         {
             if (GameState.CurrentRoundNr <= GameState.Combs.Count)
             {
+                Texts[htTexts(TextNextPlayerMessage)].Visible = true;
                 SProfile[] profiles = _Base.Profiles.GetProfiles();
                 for (int i = 0; i < GameState.NumPlayerAtOnce; i++)
                 {
@@ -352,6 +370,7 @@ namespace Vocaluxe.PartyModes
             }
             else
             {
+                Texts[htTexts(TextNextPlayerMessage)].Visible = false;
                 for (int i = 0; i < GameState.NumPlayerAtOnce; i++)
                 {
                     NextPlayerStatics[i].Visible = false;
@@ -557,7 +576,7 @@ namespace Vocaluxe.PartyModes
                     row.SingPoints.Visible = true;
                     row.GamePoints.Visible = true;
 
-                    row.Pos.Text = (i + 1 + PlayerTableOffset).ToString();
+                    row.Pos.Text = GameState.ResultTable[i + PlayerTableOffset].Position.ToString() + ".";
                     row.Name.Text = profiles[GameState.ResultTable[i+PlayerTableOffset].PlayerID].PlayerName;
                     row.Rounds.Text = GameState.ResultTable[i+PlayerTableOffset].NumRounds.ToString();
                     row.Won.Text = GameState.ResultTable[i+PlayerTableOffset].NumWon.ToString();
@@ -609,6 +628,24 @@ namespace Vocaluxe.PartyModes
                 RoundsTableOffset = GameState.Combs.Count - NumRoundsVisible;
 
             UpdateRoundsTable();
+        }
+
+        private string GetPlayerWinString()
+        {
+            string s = "";
+            SProfile[] profiles = _Base.Profiles.GetProfiles();
+
+            for (int i = 0; i < GameState.ResultTable.Count; i++)
+            {
+                if (i > 0)
+                    s += ", ";
+                if (GameState.ResultTable[i].Position == 1)
+                    s += profiles[GameState.ResultTable[i].PlayerID].PlayerName;
+                else
+                    break;
+            }
+
+            return s;
         }
     }
 }

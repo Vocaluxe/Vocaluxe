@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenSong>
-    <ScreenVersion>3</ScreenVersion>
+    <ScreenVersion>4</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>Video</Type>
@@ -758,7 +758,7 @@
       <SkinSelected>Button</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
       <X>40</X>
-      <Y>275</Y>
+      <Y>270</Y>
       <Z>-2,11</Z>
       <W>360</W>
       <H>40</H>
@@ -800,6 +800,104 @@
       <!--   <Space>: Reflection Space of selected button-->
       <!--   <Height>: Reflection Height of selected button-->
     </ButtonOptionsOpenPlaylist>
+    <ButtonOptionsRandomMedley>
+      <!--<Skin>: Texture name-->
+      <Skin>Button</Skin>
+      <!--<SkinSelected>: Texture name for selected button-->
+      <SkinSelected>Button</SkinSelected>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
+      <X>40</X>
+      <Y>315</Y>
+      <Z>-2,11</Z>
+      <W>360</W>
+      <H>40</H>
+      <!--<Color>: Button color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>ButtonColor</Color>
+      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>ButtonSColor</SColor>
+      <Text>
+        <!--<X>, <Y>: Text position-->
+        <X>180</X>
+        <Y>5</Y>
+        <!--<H>: Text height-->
+        <H>30</H>
+        <!--<MaxW>: Maximum text width (if exists)-->
+        <MaxW>350</MaxW>
+        <!--<Color>: Text color from ColorScheme (high priority)-->
+        <!--or <R>, <G>, <B>, <A> (lower priority)-->
+        <Color>ButtonTextColor</Color>
+        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+        <SColor>ButtonTextSColor</SColor>
+        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Align>Center</Align>
+        <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+        <HAlign>Center</HAlign>
+        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <Style>Bold</Style>
+        <!--<Font>: Text font name-->
+        <Font>Outline</Font>
+        <!--<Text>: Nothing or translation tag-->
+        <Text>TR_SCREENSONG_BUTTON_RANDOMMEDLEY</Text>
+      </Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+      <!--<SReflection> If exists:-->
+      <!--   <Space>: Reflection Space of selected button-->
+      <!--   <Height>: Reflection Height of selected button-->
+    </ButtonOptionsRandomMedley>
+    <ButtonOptionsStartMedley>
+      <!--<Skin>: Texture name-->
+      <Skin>Button</Skin>
+      <!--<SkinSelected>: Texture name for selected button-->
+      <SkinSelected>Button</SkinSelected>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
+      <X>40</X>
+      <Y>135</Y>
+      <Z>-2,11</Z>
+      <W>360</W>
+      <H>40</H>
+      <!--<Color>: Button color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>ButtonColor</Color>
+      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>ButtonSColor</SColor>
+      <Text>
+        <!--<X>, <Y>: Text position-->
+        <X>180</X>
+        <Y>5</Y>
+        <!--<H>: Text height-->
+        <H>30</H>
+        <!--<MaxW>: Maximum text width (if exists)-->
+        <MaxW>350</MaxW>
+        <!--<Color>: Text color from ColorScheme (high priority)-->
+        <!--or <R>, <G>, <B>, <A> (lower priority)-->
+        <Color>ButtonTextColor</Color>
+        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+        <SColor>ButtonTextSColor</SColor>
+        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Align>Center</Align>
+        <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+        <HAlign>Center</HAlign>
+        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <Style>Bold</Style>
+        <!--<Font>: Text font name-->
+        <Font>Outline</Font>
+        <!--<Text>: Nothing or translation tag-->
+        <Text>TR_SCREENSONG_BUTTON_STARTMEDLEY</Text>
+      </Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+      <!--<SReflection> If exists:-->
+      <!--   <Space>: Reflection Space of selected button-->
+      <!--   <Height>: Reflection Height of selected button-->
+    </ButtonOptionsStartMedley>    
     <ButtonOpenOptions>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
@@ -1347,7 +1445,7 @@
       <SkinHighlighted>SelectSlide</SkinHighlighted>
       <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
       <X>40</X>
-      <Y>230</Y>
+      <Y>225</Y>
       <Z>-2,11</Z>
       <W>360</W>
       <H>40</H>
@@ -1395,6 +1493,71 @@
       <!--<NumVisible>: Number of visible elements in the slide-->
       <NumVisible>1</NumVisible>
     </SelectSlideOptionsPlaylistOpen>
+    <SelectSlideOptionsNumMedleySongs>
+      <!--<Skin>: Texture name-->
+      <Skin>Button</Skin>
+      <!--<SkinArrowLeft>: Texture name of left arrow-->
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <!--<SkinArrowRight>: Texture name of right arrow-->
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <!--<SkinSelected>: Texture name for selected SelectSlide-->
+      <SkinSelected>SelectSlide</SkinSelected>
+      <!--<SkinArrowLeftSelected>: Texture name of selected left arrow-->
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <!--<SkinArrowRightSelected>: Texture name of selected right arrow-->
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <!--<SkinHighlighted>: Texture name for highlighted SelectSlide-->
+      <SkinHighlighted>SelectSlide</SkinHighlighted>
+      <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
+      <X>40</X>
+      <Y>90</Y>
+      <Z>-2,11</Z>
+      <W>360</W>
+      <H>40</H>
+      <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
+      <ArrowLeftX>45</ArrowLeftX>
+      <ArrowLeftY>100</ArrowLeftY>
+      <ArrowLeftZ>-2,12</ArrowLeftZ>
+      <ArrowLeftW>30</ArrowLeftW>
+      <ArrowLeftH>30</ArrowLeftH>
+      <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
+      <ArrowRightX>365</ArrowRightX>
+      <ArrowRightY>100</ArrowRightY>
+      <ArrowRightZ>-2,12</ArrowRightZ>
+      <ArrowRightW>30</ArrowRightW>
+      <ArrowRightH>30</ArrowRightH>
+      <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>ButtonColor</Color>
+      <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>ButtonSColor</SColor>
+      <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
+      <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
+      <HColor>SelectSlideHColor</HColor>
+      <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
+      <ArrowColor>ArrowColor</ArrowColor>
+      <!--<ArrowSColor>: Selected arrow color from ColorScheme (high priority)-->
+      <!--or <ArrowSR>, <ArrowSG>, <ArrowSB>, <ArrowSA> (lower priority)-->
+      <ArrowSColor>ArrowSColor</ArrowSColor>
+      <!--<TextColor>: Text color from ColorScheme (high priority)-->
+      <!--or <TextR>, <TextG>, <TextB>, <TextA> (lower priority)-->
+      <TextColor>TextColor</TextColor>
+      <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
+      <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
+      <TextSColor>TextSColor</TextSColor>
+      <!--<TextH>: Text height-->
+      <TextH>30,00</TextH>
+      <!--<TextMaxW>: Maximum text width (if exists)-->
+      <TextMaxW>280,00</TextMaxW>
+      <!--<TextFont>: Text font name-->
+      <TextFont>Outline</TextFont>
+      <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <TextStyle>Bold</TextStyle>
+      <!--<NumVisible>: Number of visible elements in the slide-->
+      <NumVisible>3</NumVisible>
+    </SelectSlideOptionsNumMedleySongs>
     <SongMenu>
       <!--<CoverBackground>: Texture name of cover background/tiles-->
       <CoverBackground>CoverTile</CoverBackground>
