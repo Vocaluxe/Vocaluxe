@@ -244,6 +244,8 @@ namespace Vocaluxe.PartyModes
             UpdateNextPlayerContents();
             if (GameState.CurrentRoundNr == 1)
                 BuildRoundsTable();
+            else
+                ScrollRoundsTable(GameState.CurrentRoundNr - 2);
             UpdateRoundsTable();
 
             if (GameState.CurrentRoundNr == 1)
@@ -464,7 +466,7 @@ namespace Vocaluxe.PartyModes
                         RoundsTable[i].Number.Text = (i + 1 + RoundsTableOffset).ToString() + ")";
                         int pID = GameState.ProfileIDs[GameState.Combs[i + RoundsTableOffset].Player[p]];
                         RoundsTable[i].TextPlayer[p].Text = profile[pID].PlayerName;
-                        if ((GameState.CurrentRoundNr - 1) > i)
+                        if ((GameState.CurrentRoundNr - 1) > i + RoundsTableOffset)
                             RoundsTable[i].TextScores[p].Text = GameState.Results[i + RoundsTableOffset, p].ToString();
                         else
                             RoundsTable[i].TextScores[p].Text = "";
