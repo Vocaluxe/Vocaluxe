@@ -789,13 +789,13 @@ namespace Vocaluxe.Screens
             }
 
             _sso = CParty.GetSongSelectionOptions();
-            CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, _sso.Sorting.SearchString, _sso.Sorting.ShowDuetSongs);
-            _SearchActive = _sso.Sorting.SearchStringVisible;
-            _SearchText = _sso.Sorting.SearchString;
  
 
             if (_sso.Selection.PartyMode)
             {
+                CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, _sso.Sorting.SearchString, _sso.Sorting.ShowDuetSongs);
+                _SearchActive = _sso.Sorting.SearchStringVisible;
+                _SearchText = _sso.Sorting.SearchString;
                 ClosePlaylist();
                 Playlists[htPlaylists(Playlist)].ClosePlaylist();
                 ToggleSongOptions(ESongOptionsView.None);
