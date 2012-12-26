@@ -127,7 +127,7 @@ namespace Vocaluxe.Base
             get { return _CatIndex; }
             set
             {
-                if ((_Categories.Count > value) && (value >= -1) && _CatIndex != value)
+                if ((_Categories.Count > value) && (value >= -1))
                 {
                     _CatIndex = value;
 
@@ -978,6 +978,7 @@ namespace Vocaluxe.Base
                 STexture cover = CCover.Cover(cat.Name);
                 cat.CoverTextureSmall = cover;
             }
+            Category = _CatIndex;
         }
 
         public static void LoadSongs()
