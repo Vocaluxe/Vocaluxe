@@ -735,7 +735,15 @@ namespace Vocaluxe.Menu.SongMenu
                         char chr = (char)sr.Read();
                         Param1 = CHelper.TryReadInt(sr);
                         
-                        NewSentence(Player, Param1);
+                        if(Player != 2)
+                            // one singer
+                            NewSentence(Player, Param1);
+                        else 
+                        {
+                            // both singer
+                            NewSentence(0, Param1);
+                            NewSentence(1, Param1);
+                        }
                         
                         isNewSentence = true;
                     }
