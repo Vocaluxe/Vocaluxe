@@ -279,7 +279,7 @@ namespace PortAudioSharp {
 		#region **** PORTAUDIO FUNCTIONS ****
 #if ARCH_X86
 #if WIN
-        private const string PaDll = "x86\\PortAudio.dll";
+        private const string PaDll = "x86\\portaudio_x86.dll";
 #endif
 
 #if LINUX
@@ -289,7 +289,7 @@ namespace PortAudioSharp {
 
 #if ARCH_X64
 #if WIN
-        private const string PaDll = "x64\\PortAudio.dll";
+        private const string PaDll = "x64\\portaudio_x64.dll";
 #endif
 
 #if LINUX
