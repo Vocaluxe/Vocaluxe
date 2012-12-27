@@ -99,6 +99,9 @@ namespace Vocaluxe.Base
 
         public static string Translate(string KeyWord, int PartyModeID)
         {
+            if (KeyWord == null)
+                return "Error";
+
             if (KeyWord.Length < 3)
                 return KeyWord;
 
@@ -163,6 +166,9 @@ namespace Vocaluxe.Base
 
         public static bool TranslationExists(string KeyWord, int PartyModeID)
         {
+            if (KeyWord == null)
+                return false;
+
             if (KeyWord.Length < 3)
                 return false;
 
