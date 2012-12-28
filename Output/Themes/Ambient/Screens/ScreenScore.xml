@@ -3757,5 +3757,9 @@
     	<Type>Int</Type>
 		<Value>4</Value>
     </ScreenSettingShortDifficulty>
+    <ScreenSettingAnimationDirection>
+		<Type>String</Type>
+		<Value>Vertical</Value>
+    </ScreenSettingAnimationDirection>
   </ScreenScore>
 </root>

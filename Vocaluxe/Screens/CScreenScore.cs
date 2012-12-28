@@ -22,6 +22,7 @@ namespace Vocaluxe.Screens
         private const string ScreenSettingShortScore = "ScreenSettingShortScore";
         private const string ScreenSettingShortRating = "ScreenSettingShortRating";
         private const string ScreenSettingShortDifficulty = "ScreenSettingShortDifficulty";
+        private const string ScreenSettingAnimationDirection = "ScreenSettingAnimationDirection";
 
         private string[,] TextNames;
         private string[,] TextScores;
@@ -58,7 +59,7 @@ namespace Vocaluxe.Screens
 
             _ThemeStatics = statics.ToArray();
 
-            _ThemeScreenSettings = new string[] { ScreenSettingShortScore, ScreenSettingShortRating, ScreenSettingShortDifficulty };
+            _ThemeScreenSettings = new string[] { ScreenSettingShortScore, ScreenSettingShortRating, ScreenSettingShortDifficulty, ScreenSettingAnimationDirection };
 
             StaticPointsBarDrawnPoints = new double[CSettings.MaxNumPlayer];
         }
@@ -157,8 +158,16 @@ namespace Vocaluxe.Screens
                         {
                             StaticPointsBarDrawnPoints[p] = player[p].Points;
                         }
-                        Statics[htStatics(StaticPointsBar[p, CGame.NumPlayer - 1])].Rect.H = ((float)StaticPointsBarDrawnPoints[p]) * (Statics[htStatics(StaticPointsBarBG[p, CGame.NumPlayer - 1])].Rect.H / 10000);
-                        Statics[htStatics(StaticPointsBar[p, CGame.NumPlayer - 1])].Rect.Y = Statics[htStatics(StaticPointsBarBG[p, CGame.NumPlayer - 1])].Rect.H + Statics[htStatics(StaticPointsBarBG[p, CGame.NumPlayer - 1])].Rect.Y - Statics[htStatics(StaticPointsBar[p, CGame.NumPlayer - 1])].Rect.H;
+                        string direction = (string) ScreenSettings[htScreenSettings(ScreenSettingAnimationDirection)].GetValue();
+                        if (direction.ToLower() == "vertical")
+                        {
+                            Statics[htStatics(StaticPointsBar[p, CGame.NumPlayer - 1])].Rect.W = ((float)StaticPointsBarDrawnPoints[p]) * (Statics[htStatics(StaticPointsBarBG[p, CGame.NumPlayer - 1])].Rect.W / 10000);
+                        }
+                        else
+                        {
+                            Statics[htStatics(StaticPointsBar[p, CGame.NumPlayer - 1])].Rect.H = ((float)StaticPointsBarDrawnPoints[p]) * (Statics[htStatics(StaticPointsBarBG[p, CGame.NumPlayer - 1])].Rect.H / 10000);
+                            Statics[htStatics(StaticPointsBar[p, CGame.NumPlayer - 1])].Rect.Y = Statics[htStatics(StaticPointsBarBG[p, CGame.NumPlayer - 1])].Rect.H + Statics[htStatics(StaticPointsBarBG[p, CGame.NumPlayer - 1])].Rect.Y - Statics[htStatics(StaticPointsBar[p, CGame.NumPlayer - 1])].Rect.H;
+                        }
                     }
                 }
             }
@@ -335,9 +344,18 @@ namespace Vocaluxe.Screens
                     Texts[htTexts(TextRatings[p, CGame.NumPlayer - 1])].Text = CLanguage.Translate("TR_SCREENSCORE_RATING") + ": " + CLanguage.Translate(GetRating((int)Math.Round(player[p].Points)));
                 else
                     Texts[htTexts(TextRatings[p, CGame.NumPlayer - 1])].Text = CLanguage.Translate(GetRating((int)Math.Round(player[p].Points)));
+                
                 StaticPointsBarDrawnPoints[p] = 0.0;
-                Statics[htStatics(StaticPointsBar[p, CGame.NumPlayer - 1])].Rect.H = 0;
-                Statics[htStatics(StaticPointsBar[p, CGame.NumPlayer - 1])].Rect.Y = Statics[htStatics(StaticPointsBarBG[p, CGame.NumPlayer - 1])].Rect.H + Statics[htStatics(StaticPointsBarBG[p, CGame.NumPlayer - 1])].Rect.Y - Statics[htStatics(StaticPointsBar[p, CGame.NumPlayer - 1])].Rect.H;
+                string direction = (string)ScreenSettings[htScreenSettings(ScreenSettingAnimationDirection)].GetValue();
+                if (direction.ToLower() == "vertical")
+                {
+                    Statics[htStatics(StaticPointsBar[p, CGame.NumPlayer - 1])].Rect.W = 0;
+                }
+                else
+                {
+                    Statics[htStatics(StaticPointsBar[p, CGame.NumPlayer - 1])].Rect.H = 0;
+                    Statics[htStatics(StaticPointsBar[p, CGame.NumPlayer - 1])].Rect.Y = Statics[htStatics(StaticPointsBarBG[p, CGame.NumPlayer - 1])].Rect.H + Statics[htStatics(StaticPointsBarBG[p, CGame.NumPlayer - 1])].Rect.Y - Statics[htStatics(StaticPointsBar[p, CGame.NumPlayer - 1])].Rect.H;
+                }
                 if (player[p].ProfileID >= 0 && player[p].ProfileID < CProfiles.NumProfiles)
                     Statics[htStatics(StaticAvatar[p, CGame.NumPlayer - 1])].Texture = CProfiles.Profiles[player[p].ProfileID].Avatar.Texture;
             }
