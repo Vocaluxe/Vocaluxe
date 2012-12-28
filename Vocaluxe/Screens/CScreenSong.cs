@@ -796,8 +796,8 @@ namespace Vocaluxe.Screens
                 CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, _sso.Sorting.SearchString, _sso.Sorting.ShowDuetSongs);
                 _SearchActive = _sso.Sorting.SearchStringVisible;
                 _SearchText = _sso.Sorting.SearchString;
+
                 ClosePlaylist();
-                Playlists[htPlaylists(Playlist)].ClosePlaylist();
                 ToggleSongOptions(ESongOptionsView.None);
             }
 
@@ -1250,10 +1250,14 @@ namespace Vocaluxe.Screens
 
         private void ClosePlaylist()
         {
-            SongMenus[htSongMenus(SongMenu)].SetSmallView(false);
-            _PlaylistActive = false;
-            Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
-            SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
+            if (Playlists[htPlaylists(Playlist)].Visible || _PlaylistActive)
+            {
+                SongMenus[htSongMenus(SongMenu)].SetSmallView(false);
+                _PlaylistActive = false;
+                Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
+                SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
+                Playlists[htPlaylists(Playlist)].ClosePlaylist();
+            }
         }
 
         private void UpdatePlaylistNames()
