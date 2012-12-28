@@ -62,7 +62,7 @@ namespace Vocaluxe.Base
             get { return _SearchFilter; }
             set
             {
-                if (value.Length > 0)
+                if (value != String.Empty)
                 {
                     _Sort(_SongSorting, EOffOn.TR_CONFIG_OFF, _IgnoreArticles, value, false, _ShowDuetSongs);
                 }
@@ -406,7 +406,15 @@ namespace Vocaluxe.Base
                         _SongList.Add(song);
                     else
                     {
-                        if (song.Title.ToUpper().Contains(_SearchFilter.ToUpper()) || song.Artist.ToUpper().Contains(_SearchFilter.ToUpper()))
+                        string search = song.Title.ToUpper() + " " + song.Artist.ToUpper() + " " + song.FolderName.ToUpper() + " " + song.FileName.ToUpper();
+                        string[] searchStrings = _SearchFilter.ToUpper().Split(new char[]{' '});
+                        bool contains = searchStrings != null;
+
+                        foreach (string str in searchStrings)
+                        {
+                            contains &= search.Contains(str);
+                        }
+                        if (contains)
                             _SongList.Add(song);
                     }
                 }

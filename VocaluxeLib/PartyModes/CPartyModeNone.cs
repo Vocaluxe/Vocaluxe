@@ -19,7 +19,7 @@ namespace Vocaluxe.PartyModes
             _ScreenSongOptions.Selection.SongIndex = -1;
 
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
-            _ScreenSongOptions.Sorting.SearchStringVisible = false;
+            _ScreenSongOptions.Sorting.SearchActive = false;
             _ScreenSongOptions.Sorting.ShowDuetSongs = true;
         }
 
@@ -27,6 +27,10 @@ namespace Vocaluxe.PartyModes
         {
             _ScreenSongOptions.Sorting.SongSorting = _Base.Config.GetSongSorting();
             _ScreenSongOptions.Sorting.Tabs = _Base.Config.GetTabs();
+
+            if (_ScreenSongOptions.Sorting.SearchActive)
+                _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_OFF;
+
             _ScreenSongOptions.Sorting.IgnoreArticles = _Base.Config.GetIgnoreArticles();
 
             return _ScreenSongOptions;
@@ -35,7 +39,7 @@ namespace Vocaluxe.PartyModes
         public override void SetSearchString(string SearchString, bool Visible)
         {
             _ScreenSongOptions.Sorting.SearchString = SearchString;
-            _ScreenSongOptions.Sorting.SearchStringVisible = Visible;
+            _ScreenSongOptions.Sorting.SearchActive = Visible;
         }
     }
 }
