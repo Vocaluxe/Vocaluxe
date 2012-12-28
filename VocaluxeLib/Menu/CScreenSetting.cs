@@ -1,0 +1,151 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Text;
+using System.Xml;
+using System.Xml.XPath;
+
+namespace Vocaluxe.Menu
+{
+    enum ESettingType
+    {
+        Int,
+        String,
+        Color,
+        Texture
+    }
+
+    struct SScreenSetting
+    {
+        public string Name;
+        public string Value;
+        public ESettingType Type;
+    }
+
+    public class CScreenSetting : IMenuElement
+    {
+        private int _PartyModeID;
+        private Basic _Base;
+
+        private SScreenSetting _Theme;
+        private bool _ThemeLoaded;
+
+        public string GetThemeName()
+        {
+            return _Theme.Name;
+        }
+
+        public CScreenSetting(Basic Base, int PartyModeID)
+        {
+            _PartyModeID = PartyModeID;
+            _Base = Base;
+            _Theme = new SScreenSetting();
+            _ThemeLoaded = false;
+        }
+
+        public CScreenSetting(CScreenSetting ts)
+        {
+            _PartyModeID = ts._PartyModeID;
+            _Base = ts._Base;
+            _Theme = ts._Theme;
+            _ThemeLoaded = ts._ThemeLoaded;
+        }
+
+        public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
+        {
+            string item = XmlPath + "/" + ElementName;
+            _ThemeLoaded = true;
+
+            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/Value", navigator, ref _Theme.Value, String.Empty);
+            _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<ESettingType>(item + "/Type", navigator, ref _Theme.Type);
+
+            if (_ThemeLoaded)
+            {
+                _Theme.Name = ElementName;
+            }
+            return _ThemeLoaded;
+        }
+
+        public bool SaveTheme(XmlWriter writer)
+        {
+            if (_ThemeLoaded)
+            {
+                writer.WriteStartElement(_Theme.Name);
+
+                writer.WriteComment("<Type>: Type of theme-setting-value: "+ CHelper.ListStrings(Enum.GetNames(typeof(ESettingType))));
+                writer.WriteElementString("Type", Enum.GetName(typeof(ESettingType), _Theme.Type));
+                writer.WriteComment("<Value>: Value of theme-setting");
+                writer.WriteElementString("Value", _Theme.Value);
+                writer.WriteEndElement();
+                return true;
+            }
+            return false;
+        }
+
+        public object GetValue()
+        {
+            switch (_Theme.Type)
+            {
+                case ESettingType.Int:
+                    return GetIntValue(_Theme.Value);
+
+                case ESettingType.String:
+                    return _Theme.Value;
+
+                case ESettingType.Color:
+                    return GetColorValue(_Theme.Value);
+
+                case ESettingType.Texture:
+                    return GetTextureValue(_Theme.Value);
+            }
+
+            return null;
+        }
+
+        public void UnloadTextures()
+        {
+        }
+
+        public void LoadTextures()
+        {
+        }
+
+        public void ReloadTextures()
+        {
+        }
+
+        #region Private
+        private int GetIntValue(string _string)
+        {
+            try
+            {
+                return Convert.ToInt32(_string);
+            }
+            catch (Exception)
+            {
+                return -1;
+            }
+        }
+
+        private STexture GetTextureValue(string _string)
+        {
+            return _Base.Theme.GetSkinTexture(_string);
+        }
+
+        private SColorF GetColorValue(string _string)
+        {
+            return _Base.Theme.GetColor(_string);
+        }
+        #endregion Private
+
+        #region ThemeEdit
+        public void MoveElement(int stepX, int stepY)
+        {
+        }
+
+        public void ResizeElement(int stepW, int stepH)
+        {
+        }
+        #endregion ThemeEdit
+    }
+}

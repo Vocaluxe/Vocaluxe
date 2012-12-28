@@ -39,6 +39,7 @@ namespace Vocaluxe.Menu
         private List<CEqualizer> _Equalizers;
         private List<CPlaylist> _Playlists;
         private List<CParticleEffect> _ParticleEffects;
+        private List<CScreenSetting> _ScreenSettings;
 
         private Hashtable _htBackgrounds;
         private Hashtable _htStatics;
@@ -52,6 +53,7 @@ namespace Vocaluxe.Menu
         private Hashtable _htEqualizers;
         private Hashtable _htPlaylists;
         private Hashtable _htParticleEffects;
+        private Hashtable _htScreenSettings;
 
 
         private int _PrevMouseX;
@@ -76,6 +78,7 @@ namespace Vocaluxe.Menu
         protected string[] _ThemeEqualizers;
         protected string[] _ThemePlaylists;
         protected string[] _ThemeParticleEffects;
+        protected string[] _ThemeScreenSettings;
 
         protected SRectF _ScreenArea;
         protected Basic _Base;
@@ -122,6 +125,7 @@ namespace Vocaluxe.Menu
             _Equalizers = new List<CEqualizer>();
             _Playlists = new List<CPlaylist>();
             _ParticleEffects = new List<CParticleEffect>();
+            _ScreenSettings = new List<CScreenSetting>();
 
             _htBackgrounds = new Hashtable();
             _htStatics = new Hashtable();
@@ -135,6 +139,7 @@ namespace Vocaluxe.Menu
             _htEqualizers = new Hashtable();
             _htPlaylists = new Hashtable();
             _htParticleEffects = new Hashtable();
+            _htScreenSettings = new Hashtable();
 
             _PrevMouseX = 0;
             _PrevMouseY = 0;
@@ -158,6 +163,7 @@ namespace Vocaluxe.Menu
             _ThemeEqualizers = null;
             _ThemePlaylists = null;
             _ThemeParticleEffects = null;
+            _ThemeScreenSettings = null;
         }
 
         protected void FadeTo(EScreens NextScreen)
@@ -394,6 +400,22 @@ namespace Vocaluxe.Menu
                         }
                     }
                 }
+
+                if (_ThemeScreenSettings != null)
+                {
+                    for (int i = 0; i < _ThemeScreenSettings.Length; i++)
+                    {
+                        CParticleEffect pe = new CParticleEffect(_Base, _PartyModeID);
+                        if (pe.LoadTheme("//root/" + _ThemeName, _ThemeScreenSettings[i], navigator, SkinIndex))
+                        {
+                            _htScreenSettings.Add(_ThemeScreenSettings[i], AddParticleEffect(pe));
+                        }
+                        else
+                        {
+                            _Base.Log.LogError("Can't load ThemeSetting \"" + _ThemeScreenSettings[i] + "\" in screen " + _ThemeName);
+                        }
+                    }
+                }
             }
             else
             {
@@ -490,6 +512,12 @@ namespace Vocaluxe.Menu
                 _ParticleEffects[i].SaveTheme(writer);
             }
 
+            //ScreenSettings
+            for (int i = 0; i < _ScreenSettings.Count; i++)
+            {
+                _ScreenSettings[i].SaveTheme(writer);
+            }
+
             writer.WriteEndElement();
 
             // End of File
@@ -561,6 +589,11 @@ namespace Vocaluxe.Menu
             {
                 pe.ReloadTextures();
             }
+
+            foreach (CScreenSetting se in _ScreenSettings)
+            {
+                se.ReloadTextures();
+            }
         }
 
         public virtual void UnloadTextures()
@@ -622,6 +655,11 @@ namespace Vocaluxe.Menu
             foreach (CParticleEffect pe in _ParticleEffects)
             {
                 pe.UnloadTextures();
+            }
+
+            foreach (CScreenSetting se in _ScreenSettings)
+            {
+                se.UnloadTextures();
             }
         }
 
@@ -695,6 +733,11 @@ namespace Vocaluxe.Menu
         public List<CParticleEffect> GetParticleEffects()
         {
             return _ParticleEffects;
+        }
+
+        public List<CScreenSetting> GetScreenSettings()
+        {
+            return _ScreenSettings;
         }
         #endregion GetLists
 
@@ -888,6 +931,14 @@ namespace Vocaluxe.Menu
                 return _ParticleEffects.ToArray();
             }
         }
+
+        public CScreenSetting[] ScreenSettings
+        {
+            get
+            {
+                return _ScreenSettings.ToArray();
+            }
+        }
         #endregion Get Arrays
 
         #region Hashtables
@@ -1043,6 +1094,19 @@ namespace Vocaluxe.Menu
             catch (Exception)
             {
                 _Base.Log.LogError("Can't find ParticleEffect Element \"" + key + "\" in Screen " + _ThemeName);
+                throw;
+            }
+        }
+
+        public int htScreenSettings(string key)
+        {
+            try
+            {
+                return (int)_htScreenSettings[key];
+            }
+            catch (Exception)
+            {
+                _Base.Log.LogError("Can't find ScreenSetting Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }

@@ -125,6 +125,7 @@
     <Compile Include="Menu\CSelectSlide.cs" />
     <Compile Include="Menu\CStatic.cs" />
     <Compile Include="Menu\CText.cs" />
+    <Compile Include="Menu\CScreenSetting.cs" />
     <Compile Include="Menu\IMenu.cs" />
     <Compile Include="Menu\IMenuElement.cs" />
     <Compile Include="Menu\SingNotes\CNotes.cs" />
