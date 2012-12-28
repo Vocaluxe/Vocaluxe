@@ -716,7 +716,15 @@ namespace Vocaluxe.Base
                     SData data = new SData();
                     data.id = reader.GetInt32(0);
                     data.str1 = reader.GetString(1);
-                    data.ticks = UnixTimeToTicks((int)reader.GetInt64(2));
+                    Int64 ticks = 0;
+
+                    try
+                    {
+                        ticks = reader.GetInt64(2);
+                    }
+                    catch { }
+
+                    data.ticks = UnixTimeToTicks((int)ticks);
 
                     scores.Add(data);
                 }
