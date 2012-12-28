@@ -405,10 +405,10 @@ namespace Vocaluxe.Menu
                 {
                     for (int i = 0; i < _ThemeScreenSettings.Length; i++)
                     {
-                        CParticleEffect pe = new CParticleEffect(_Base, _PartyModeID);
-                        if (pe.LoadTheme("//root/" + _ThemeName, _ThemeScreenSettings[i], navigator, SkinIndex))
+                        CScreenSetting se = new CScreenSetting(_Base, _PartyModeID);
+                        if (se.LoadTheme("//root/" + _ThemeName, _ThemeScreenSettings[i], navigator, SkinIndex))
                         {
-                            _htScreenSettings.Add(_ThemeScreenSettings[i], AddParticleEffect(pe));
+                            _htScreenSettings.Add(_ThemeScreenSettings[i], AddScreenSetting(se));
                         }
                         else
                         {
@@ -1481,6 +1481,12 @@ namespace Vocaluxe.Menu
             _ParticleEffects.Add(pe);
             _AddInteraction(_ParticleEffects.Count - 1, EType.TParticleEffect);
             return _ParticleEffects.Count - 1;
+        }
+
+        public int AddScreenSetting(CScreenSetting se)
+        {
+            _ScreenSettings.Add(se);
+            return _ScreenSettings.Count - 1;
         }
         #endregion Elements
 
