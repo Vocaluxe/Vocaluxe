@@ -1095,6 +1095,12 @@ namespace Vocaluxe.Screens
                 refresh = true;
             }
 
+            if (NewFilterString != String.Empty && CSongs.Category != 0)
+            {
+                CSongs.Category = 0;
+                refresh = true;
+            }
+
             CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, NewFilterString, _sso.Sorting.ShowDuetSongs);
 
             if (SongID == -1 || CSongs.NumVisibleSongs == 0 || CSongs.NumVisibleSongs <= SongIndex || CSongs.VisibleSongs[SongIndex].ID != SongID)
