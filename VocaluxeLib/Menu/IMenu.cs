@@ -289,6 +289,8 @@ namespace Vocaluxe.Menu
 
     public interface IPlaylist
     {
+        string[] GetPlaylistNames();
+
         string GetPlaylistName(int PlaylistID);
         void SetPlaylistName(int PlaylistID, string Name);
         void DeletePlaylist(int PlaylistID);
@@ -306,6 +308,10 @@ namespace Vocaluxe.Menu
 
         int GetPlaylistSongCount(int PlaylistID);
         CPlaylistSong GetPlaylistSong(int PlaylistID, int SongIndex);
+    }
+
+    public interface IPlaylists
+    {
     }
 
     [Flags]

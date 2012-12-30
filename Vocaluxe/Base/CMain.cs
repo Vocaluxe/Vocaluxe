@@ -746,6 +746,16 @@ namespace Vocaluxe.Base
 
     class BPlaylist : IPlaylist
     {
+        public string[] GetPlaylistNames()
+        {
+            List<string> Names = new List<string>();
+            for (int i = 0; i < CPlaylists.Playlists.Length; i++)
+            {
+                Names.Add(CPlaylists.Playlists[i].PlaylistName);
+            }
+            return Names.ToArray();
+        }
+
         public void SetPlaylistName(int PlaylistID, string Name)
         {
             CPlaylists.SetPlaylistName(PlaylistID, Name);

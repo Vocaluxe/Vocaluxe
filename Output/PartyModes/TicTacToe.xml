@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <PartyModeSystemVersion>1</PartyModeSystemVersion>
+  <Info>
+    <Name>TR_PARTYMODE_NAME</Name>
+    <Author>flokuep</Author>
+	<Description>TR_PARTYMODE_DESCRIPTION</Description>
+    <Folder>TicTacToe</Folder>
+	<PartyModeFile>PartyModeTicTacToe</PartyModeFile>
+    <PartyModeVersionMajor>0</PartyModeVersionMajor>
+    <PartyModeVersionMinor>1</PartyModeVersionMinor>
+	<TargetAudience>TR_PARTYMODE_AUDIENCE</TargetAudience>
+  </Info>
+  <PartyScreens>
+    <ScreenFile>PartyScreenTicTacToeMain</ScreenFile>
+	<ScreenFile>PartyScreenTicTacToeConfig</ScreenFile>
+	<ScreenFile>PartyScreenTicTacToeNames</ScreenFile>
+  </PartyScreens>
+</root>

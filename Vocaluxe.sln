@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vocaluxe", "Vocaluxe\Vocaluxe.csproj", "{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6F3E1874-F28A-40E9-AFBD-31934D593679} = {6F3E1874-F28A-40E9-AFBD-31934D593679}
@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vocaluxe", "Vocaluxe\Vocalu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VocaluxeLib", "VocaluxeLib\VocaluxeLib.csproj", "{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyModeChallenge", "PartyModeChallenge\PartyModeChallenge.csproj", "{6F3E1874-F28A-40E9-AFBD-31934D593679}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyModeTicTacToe", "PartyModeTicTacToe\PartyModeTicTacToe.csproj", "{6F3E1874-F28A-40E9-AFBD-31934D593679}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyModeChallenge", "PartyModeChallenge\PartyModeChallenge.csproj", "{162341B8-965F-46BC-9826-86B9A1E7F984}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,22 @@ Global
 		{6F3E1874-F28A-40E9-AFBD-31934D593679}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|x86
 		{6F3E1874-F28A-40E9-AFBD-31934D593679}.ReleaseWin|x64.ActiveCfg = ReleaseWin|x64
 		{6F3E1874-F28A-40E9-AFBD-31934D593679}.ReleaseWin|x86.ActiveCfg = ReleaseWin|x86
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.DebugLinux|x64.ActiveCfg = DebugLinux|x64
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.DebugLinux|x64.Build.0 = DebugLinux|x64
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.DebugLinux|x86.ActiveCfg = DebugLinux|x86
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.DebugLinux|x86.Build.0 = DebugLinux|x86
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.DebugWin|x64.ActiveCfg = DebugWin|x64
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.DebugWin|x64.Build.0 = DebugWin|x64
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.DebugWin|x86.ActiveCfg = DebugWin|x86
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.DebugWin|x86.Build.0 = DebugWin|x86
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.ReleaseLinux|x64.ActiveCfg = ReleaseLinux|x64
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.ReleaseLinux|x64.Build.0 = ReleaseLinux|x64
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|x86
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.ReleaseLinux|x86.Build.0 = ReleaseLinux|x86
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.ReleaseWin|x64.ActiveCfg = ReleaseWin|x64
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.ReleaseWin|x64.Build.0 = ReleaseWin|x64
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.ReleaseWin|x86.ActiveCfg = ReleaseWin|x86
+		{162341B8-965F-46BC-9826-86B9A1E7F984}.ReleaseWin|x86.Build.0 = ReleaseWin|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
