@@ -296,11 +296,13 @@ namespace Vocaluxe.Menu
     public interface IPlaylist
     {
         string GetPlaylistName(int PlaylistID);
+        string[] GetPlaylistNames();
+
         void SetPlaylistName(int PlaylistID, string Name);
         void DeletePlaylist(int PlaylistID);
         void SavePlaylist(int PlaylistID);
         int GetNumPlaylists();
-
+        
         void AddPlaylistSong(int PlaylistID, int SongID);
         void AddPlaylistSong(int PlaylistID, int SongID, EGameMode GameMode);
         void InsertPlaylistSong(int PlaylistID, int PositionIndex, int SongID, EGameMode GameMode);
