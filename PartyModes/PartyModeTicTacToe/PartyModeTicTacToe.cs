@@ -325,7 +325,6 @@ namespace Vocaluxe.PartyModes
                         ToScreenMain.NumJokerRandom = GameData.NumJokerRandom;
                         ToScreenMain.NumJokerRetry = GameData.NumJokerRetry;
                         ToScreenMain.Team = GameData.Team;
-                        UpdateScores();
                         Screen.DataToScreen(ToScreenMain);
                     }
                     break;
@@ -336,7 +335,6 @@ namespace Vocaluxe.PartyModes
                     _Screens.TryGetValue("PartyScreenTicTacToeMain", out Screen);
                     if (_Screens != null)
                     {
-                        UpdateScores();
                         if (GameData.Team == 1)
                             GameData.Team = 0;
                         else
@@ -593,11 +591,12 @@ namespace Vocaluxe.PartyModes
             {
                 GameData.Rounds[GameData.SingRoundNr].Winner = 1;
             }
-            else
+            /**else
             {
                 GameData.Rounds[GameData.SingRoundNr].Finished = false;
                 GameData.CurrentRoundNr--;
-            }
+            }**/
+            GameData.Rounds[GameData.SingRoundNr].Winner = 1;
             
         }
     }

@@ -28,6 +28,7 @@ namespace Vocaluxe.PartyModes
 
         const string TextPopupReallyExit = "TextPopupReallyExit";
         const string TextTeamChoosing = "TextTeamChoosing";
+        const string TextFinishMessage = "TextFinishMessage";
         const string TextNextPlayerT1 = "TextNextPlayerT1";
         const string TextNextPlayerT2 = "TextNextPlayerT2";
         const string TextNextPlayerNameT1 = "TextNextPlayerNameT1";
@@ -65,6 +66,7 @@ namespace Vocaluxe.PartyModes
         private int SelectedField = -1;
         private int OldSelectedField = -1;
 
+        private int[,] Possibilities;
         private EStatus Action;
 
         public PartyScreenTicTacToeMain()
@@ -76,7 +78,7 @@ namespace Vocaluxe.PartyModes
             base.Init();
 
             _ThemeName = "PartyScreenTicTacToeMain";
-            _ThemeTexts = new string[] { TextPopupReallyExit, TextTeamChoosing, TextNextPlayerT1, TextNextPlayerT2, TextNextPlayerNameT1, TextNextPlayerNameT2 };
+            _ThemeTexts = new string[] { TextPopupReallyExit, TextTeamChoosing, TextFinishMessage, TextNextPlayerT1, TextNextPlayerT2, TextNextPlayerNameT1, TextNextPlayerNameT2 };
             _ThemeButtons = new string[] { ButtonNextRound, ButtonBack, ButtonExit, ButtonPopupYes, ButtonPopupNo, ButtonField, ButtonJokerRandomT1, ButtonJokerRandomT2, ButtonJokerRetryT1, ButtonJokerRetryT2 };
             _ThemeStatics = new string[] { StaticPopupBG, StaticAvatarT1, StaticAvatarT2 };
             _ScreenVersion = ScreenVersion;
@@ -247,6 +249,7 @@ namespace Vocaluxe.PartyModes
 
             if (GameData.CurrentRoundNr == 1)
             {
+                BuildWinnerPossibilities(); 
                 SelectedField = -1;
                 Buttons[htButtons(ButtonBack)].Visible = true;
                 Buttons[htButtons(ButtonExit)].Visible = false;
@@ -256,8 +259,8 @@ namespace Vocaluxe.PartyModes
                 Buttons[htButtons(ButtonBack)].Visible = false;
                 Buttons[htButtons(ButtonExit)].Visible = true;
             }
-
-            if (GameData.CurrentRoundNr <= GameData.NumFields)
+            int Winner = GetWinner();
+            if (GameData.CurrentRoundNr <= GameData.NumFields && Winner == 0)
             {
                 Action = EStatus.FieldChoosing;
                 UpdateTeamChoosingMessage();
@@ -272,17 +275,24 @@ namespace Vocaluxe.PartyModes
                 Buttons[htButtons(ButtonJokerRetryT1)].Visible = false;
                 Buttons[htButtons(ButtonJokerRetryT2)].Visible = false;
                 Buttons[htButtons(ButtonNextRound)].Visible = false;
-                //Texts[htTexts(TextFinishMessage)].Visible = false;
-                //Texts[htTexts(TextFinishPlayerWin)].Visible = false;
+                Texts[htTexts(TextFinishMessage)].Visible = false;
                 SetInteractionToButton(Buttons[htButtons(ButtonNextRound)]);
             }
             else
             {
                 Action = EStatus.None;
                 Buttons[htButtons(ButtonNextRound)].Visible = false;
-                //Texts[htTexts(TextFinishMessage)].Visible = true;
-                //Texts[htTexts(TextFinishPlayerWin)].Visible = true;
-                //Texts[htTexts(TextFinishPlayerWin)].Text = GetPlayerWinString();
+                Texts[htTexts(TextFinishMessage)].Visible = true;
+                if (Winner > 0)
+                {
+                    Texts[htTexts(TextFinishMessage)].Color = _Base.Theme.GetPlayerColor(Winner);
+                    Texts[htTexts(TextFinishMessage)].Text = _Base.Language.Translate("TR_SCREENMAIN_WINNER", _PartyModeID) + " " + _Base.Language.Translate("TR_TEAM", _PartyModeID) + " " + Winner;
+                }
+                else
+                {
+                    Texts[htTexts(TextFinishMessage)].Color = new SColorF(1, 1, 1, 1);
+                    Texts[htTexts(TextFinishMessage)].Text = _Base.Language.Translate("TR_SCREENMAIN_NOWINNER", _PartyModeID);
+                }
                 SetInteractionToButton(Buttons[htButtons(ButtonExit)]);
             }
 
@@ -521,6 +531,8 @@ namespace Vocaluxe.PartyModes
             Texts[htTexts(TextTeamChoosing)].Text = _Base.Language.Translate("TR_TEAM", _PartyModeID) + " " + (GameData.Team + 1) + "! " + _Base.Language.Translate("TR_SCREENMAIN_TEAM_CHOOSE", _PartyModeID);
             if (Action == EStatus.JokerRetry || Action == EStatus.FieldChoosing)
                 Texts[htTexts(TextTeamChoosing)].Visible = true;
+            else
+                Texts[htTexts(TextTeamChoosing)].Visible = false;
         }
 
         private void UpdateJokerButtons()
@@ -574,22 +586,63 @@ namespace Vocaluxe.PartyModes
             _PartyMode.DataFromScreen(_ThemeName, Data);
         }
 
-        private string GetPlayerWinString()
+        private int BuildWinnerPossibilities()
         {
-            string s = "";
-            SProfile[] profiles = _Base.Profiles.GetProfiles();
-            /**
-            for (int i = 0; i < GameState.ResultTable.Count; i++)
+            int NumOneRow = (int)Math.Sqrt((double)GameData.NumFields);
+            Possibilities = new int[(NumOneRow * 2) + 2, NumOneRow];
+            for (int i = 0; i < Possibilities.GetLength(0); i++)
             {
-                if (i > 0)
-                    s += ", ";
-                if (GameState.ResultTable[i].Position == 1)
-                    s += profiles[GameState.ResultTable[i].PlayerID].PlayerName;
-                else
-                    break;
+                if (i < NumOneRow)
+                {
+                    for(int c = 0; c < NumOneRow; c++){
+                        Possibilities[i, c] = i * NumOneRow + c;
+                    }
+                }
+                else if (i < NumOneRow * 2)
+                {
+                    for (int c = 0; c < NumOneRow; c++)
+                    {
+                        Possibilities[i, c] = (i-NumOneRow) + (c*NumOneRow);
+                    }
+                }
+                else if( i == Possibilities.GetLength(0) - 2)
+                {
+                    for (int c = 0; c < NumOneRow;c++)
+                    {
+                        Possibilities[i, c] = (NumOneRow + 1) * c;
+                    }
+                }
+                else if (i == Possibilities.GetLength(0) - 1)
+                {
+                    for (int c = 0; c < NumOneRow; c++)
+                    {
+                        Possibilities[i, c] = (NumOneRow + 1) * c + (NumOneRow - 1);
+                    }
+                }
             }
-            **/
-            return s;
+            return 0;
+        }
+
+        private int GetWinner()
+        {
+            for (int i = 0; i < Possibilities.GetLength(0); i++)
+            {
+                List<int> Check = new List<int>();
+                for (int j = 0; j < Possibilities.GetLength(1); j++)
+                {
+                    if (Fields[Possibilities[i, j]].Content.Winner > 0)
+                        Check.Add(Fields[Possibilities[i, j]].Content.Winner);
+                }
+                if (Check.Count == Possibilities.GetLength(1))
+                {
+                    //Check for winner
+                    if (Check.Contains(1) && !Check.Contains(2))
+                        return 1;
+                    else if (Check.Contains(2) && !Check.Contains(1))
+                        return 2;
+                }
+            }
+            return 0;
         }
     }
 }

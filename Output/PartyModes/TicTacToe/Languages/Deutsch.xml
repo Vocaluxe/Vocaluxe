@@ -30,6 +30,7 @@
 		<TR_SCREENMAIN_TEAM_CHOOSE>Wählt ein Feld aus.</TR_SCREENMAIN_TEAM_CHOOSE>
 		<TR_SCREENMAIN_NEXT_PLAYER>Nächster Spieler</TR_SCREENMAIN_NEXT_PLAYER>
 		<TR_SCREENMAIN_POPUP_REALLYEXIT>Challenge-Mode wirklich beenden?</TR_SCREENMAIN_POPUP_REALLYEXIT>	
-		<TR_SCREENMAIN_FINISH>Alle Runden wurden gesungen! Und der Gewinner ist...</TR_SCREENMAIN_FINISH>
+		<TR_SCREENMAIN_WINNER>Und der Gewinner ist...</TR_SCREENMAIN_WINNER>
+		<TR_SCREENMAIN_NOWINNER>In dieser Runde gibt es keinen Gewinner...</TR_SCREENMAIN_NOWINNER>
 	</Texts>
 </root>
