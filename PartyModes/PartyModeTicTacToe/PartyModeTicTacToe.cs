@@ -444,36 +444,6 @@ namespace Vocaluxe.PartyModes
             _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
         }
 
-        public bool UseJoker(int TeamNr, int JokerNum)
-        {
-            switch (JokerNum)
-            {
-                //Random-Joker
-                case 0:
-                    if (GameData.NumJokerRandom[TeamNr] > 0)
-                    {
-                        GameData.NumJokerRandom[TeamNr]--;
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-
-                case 1:
-                    if (GameData.NumJokerRetry[TeamNr] > 0)
-                    {
-                        GameData.NumJokerRetry[TeamNr]--;
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-            }
-            return false;
-        }
-
         private void CreateRounds()
         {
             //Prepare Player-IDs
@@ -482,7 +452,7 @@ namespace Vocaluxe.PartyModes
             List<int> IDs1 = new List<int>();
             List<int> IDs2 = new List<int>();
             //Add IDs to team-list
-            while (Team1.Count <= NumFields)
+            while (Team1.Count <= GameData.NumFields)
             {
                 if (IDs1.Count == 0)
                     for (int i = 0; i < GameData.NumPlayerTeam1; i++)
@@ -490,19 +460,19 @@ namespace Vocaluxe.PartyModes
                 if (IDs2.Count == 0)
                     for (int i = 0; i < GameData.NumPlayerTeam2; i++)
                         IDs2.Add(i);
-                if (Team1.Count <= NumFields)
+                if (Team1.Count <= GameData.NumFields)
                 {
                     Team1.Add(IDs1[_Base.Game.GetRandom(IDs1.Count - 1)]);
                     IDs1.Remove(Team1[Team1.Count - 1]);
                 }   
-                if (Team2.Count <= NumFields)
+                if (Team2.Count <= GameData.NumFields)
                 {
                     Team2.Add(IDs2[_Base.Game.GetRandom(IDs2.Count - 1)]);
                     IDs2.Remove(Team2[Team2.Count - 1]);
                 }
             }
 
-            for (int i = 0; i < NumFields; i++)
+            for (int i = 0; i < GameData.NumFields; i++)
             {
                 Round r = new Round();
                 r.SingerTeam1 = Team1[i];

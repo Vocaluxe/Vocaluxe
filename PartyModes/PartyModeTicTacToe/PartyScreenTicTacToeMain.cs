@@ -63,6 +63,7 @@ namespace Vocaluxe.PartyModes
 
         private int PreviewStream = -1;
         private int SelectedField = -1;
+        private int OldSelectedField = -1;
 
         private EStatus Action;
 
@@ -193,10 +194,21 @@ namespace Vocaluxe.PartyModes
                                 if (Fields[i].Button.Selected)
                                 {
                                     SelectedField = i;
-                                    FieldSelected();
+                                    FieldSelectedAgain();
                                 }
                                 break;
                         }
+                    }
+                    if(Action == EStatus.FieldSelected)
+                    {
+                        if (Buttons[htButtons(ButtonJokerRandomT1)].Selected)
+                            UseJoker(0, 0);
+                        if (Buttons[htButtons(ButtonJokerRandomT2)].Selected)
+                            UseJoker(1, 0);
+                        if (Buttons[htButtons(ButtonJokerRetryT1)].Selected)
+                            UseJoker(0, 1);
+                        if (Buttons[htButtons(ButtonJokerRetryT2)].Selected)
+                            UseJoker(1, 1);
 
                     }
                 }
@@ -248,8 +260,7 @@ namespace Vocaluxe.PartyModes
             if (GameData.CurrentRoundNr <= GameData.NumFields)
             {
                 Action = EStatus.FieldChoosing;
-                Texts[htTexts(TextTeamChoosing)].Color = _Base.Theme.GetPlayerColor(GameData.Team + 1);
-                Texts[htTexts(TextTeamChoosing)].Text = _Base.Language.Translate("TR_TEAM", _PartyModeID) + " " + (GameData.Team + 1) + "! " + _Base.Language.Translate("TR_SCREENMAIN_TEAM_CHOOSE", _PartyModeID);
+                UpdateTeamChoosingMessage();
                 Texts[htTexts(TextNextPlayerT1)].Visible = false;
                 Texts[htTexts(TextNextPlayerT2)].Visible = false;
                 Texts[htTexts(TextNextPlayerNameT1)].Visible = false;
@@ -380,6 +391,7 @@ namespace Vocaluxe.PartyModes
                 }
                 if (Action == EStatus.JokerRetry && Fields[i].Content.Finished)
                 {
+                    Fields[i].Button.SColor = _Base.Theme.GetPlayerColor(GameData.Team+1);
                     Fields[i].Button.Enabled = true;
                 }
                 if (Action == EStatus.JokerRetry && !Fields[i].Content.Finished)
@@ -426,6 +438,93 @@ namespace Vocaluxe.PartyModes
             Statics[htStatics(StaticAvatarT1)].Texture = profiles[GameData.ProfileIDsTeam1[GameData.Rounds[SelectedField].SingerTeam1]].Avatar.Texture;
             Statics[htStatics(StaticAvatarT2)].Texture = profiles[GameData.ProfileIDsTeam2[GameData.Rounds[SelectedField].SingerTeam2]].Avatar.Texture;
 
+            UpdateJokerButtons();
+
+            Buttons[htButtons(ButtonNextRound)].Visible = true;
+            Buttons[htButtons(ButtonExit)].Visible = true;
+            Buttons[htButtons(ButtonBack)].Visible = false;
+        }
+
+        private void FieldSelectedAgain()
+        {
+            int SongID = Fields[SelectedField].Content.SongID;
+            Menu.SongMenu.CSong Song = _Base.Songs.GetSongByID(SongID);
+            if (_Base.BackgroundMusic.IsPlaying())
+                _Base.BackgroundMusic.Pause();
+            PreviewStream = _Base.Sound.Load(Song.GetMP3(), false);
+            _Base.Sound.SetPosition(PreviewStream, Song.PreviewStart);
+            _Base.Sound.SetStreamVolume(PreviewStream, 0f);
+            _Base.Sound.Play(PreviewStream);
+            _Base.Sound.Fade(PreviewStream, _Base.Config.GetBackgroundMusicVolume(), 1f);
+            Action = EStatus.FieldSelected;
+            Fields[SelectedField].Content.SongID = SongID;
+            GameData.Rounds[SelectedField].SongID = SongID;
+            GameData.Rounds[SelectedField].SingerTeam1 = GameData.Rounds[OldSelectedField].SingerTeam1;
+            GameData.Rounds[SelectedField].SingerTeam2 = GameData.Rounds[OldSelectedField].SingerTeam2;
+            UpdateFieldContents();
+
+            Texts[htTexts(TextNextPlayerT1)].Visible = true;
+            Texts[htTexts(TextNextPlayerT2)].Visible = true;
+            Texts[htTexts(TextNextPlayerNameT1)].Visible = true;
+            Texts[htTexts(TextNextPlayerNameT2)].Visible = true;
+            SProfile[] profiles = _Base.Profiles.GetProfiles();
+            Texts[htTexts(TextNextPlayerNameT1)].Text = profiles[GameData.ProfileIDsTeam1[GameData.Rounds[SelectedField].SingerTeam1]].PlayerName;
+            Texts[htTexts(TextNextPlayerNameT2)].Text = profiles[GameData.ProfileIDsTeam2[GameData.Rounds[SelectedField].SingerTeam2]].PlayerName;
+            Statics[htStatics(StaticAvatarT1)].Visible = true;
+            Statics[htStatics(StaticAvatarT2)].Visible = true;
+            Statics[htStatics(StaticAvatarT1)].Texture = profiles[GameData.ProfileIDsTeam1[GameData.Rounds[SelectedField].SingerTeam1]].Avatar.Texture;
+            Statics[htStatics(StaticAvatarT2)].Texture = profiles[GameData.ProfileIDsTeam2[GameData.Rounds[SelectedField].SingerTeam2]].Avatar.Texture;
+
+            UpdateJokerButtons();
+
+            Buttons[htButtons(ButtonNextRound)].Visible = true;
+            Buttons[htButtons(ButtonExit)].Visible = true;
+            Buttons[htButtons(ButtonBack)].Visible = false;
+        }
+
+        private void UseJoker(int TeamNr, int JokerNum)
+        {
+            switch (JokerNum)
+            {
+                //Random-Joker
+                case 0:
+                    if (GameData.NumJokerRandom[TeamNr] > 0)
+                    {
+                        GameData.NumJokerRandom[TeamNr]--;
+                        if (!_Base.Sound.IsFinished(PreviewStream))
+                            _Base.Sound.FadeAndStop(PreviewStream, 0, 1);
+                        FieldSelected();
+                    }
+                    break;
+
+                //Retry-Joker
+                case 1:
+                    if (GameData.NumJokerRetry[TeamNr] > 0 && GameData.CurrentRoundNr > 1)
+                    {
+                        GameData.NumJokerRetry[TeamNr]--;
+                        GameData.Team = TeamNr;
+                        if (!_Base.Sound.IsFinished(PreviewStream))
+                            _Base.Sound.FadeAndStop(PreviewStream, 0, 1);
+                        Action = EStatus.JokerRetry;
+                        OldSelectedField = SelectedField;
+                        SelectedField = -1;
+                        UpdateFieldContents();
+                    }
+                    break;
+            }
+            UpdateJokerButtons();
+        }
+
+        private void UpdateTeamChoosingMessage()
+        {
+            Texts[htTexts(TextTeamChoosing)].Color = _Base.Theme.GetPlayerColor(GameData.Team + 1);
+            Texts[htTexts(TextTeamChoosing)].Text = _Base.Language.Translate("TR_TEAM", _PartyModeID) + " " + (GameData.Team + 1) + "! " + _Base.Language.Translate("TR_SCREENMAIN_TEAM_CHOOSE", _PartyModeID);
+            if (Action == EStatus.JokerRetry || Action == EStatus.FieldChoosing)
+                Texts[htTexts(TextTeamChoosing)].Visible = true;
+        }
+
+        private void UpdateJokerButtons()
+        {
             Buttons[htButtons(ButtonJokerRandomT1)].Visible = true;
             Buttons[htButtons(ButtonJokerRandomT2)].Visible = true;
             Buttons[htButtons(ButtonJokerRandomT1)].Text.Text = GameData.NumJokerRandom[0].ToString();
@@ -434,10 +533,6 @@ namespace Vocaluxe.PartyModes
             Buttons[htButtons(ButtonJokerRetryT2)].Visible = true;
             Buttons[htButtons(ButtonJokerRetryT1)].Text.Text = GameData.NumJokerRetry[0].ToString();
             Buttons[htButtons(ButtonJokerRetryT2)].Text.Text = GameData.NumJokerRetry[1].ToString();
-
-            Buttons[htButtons(ButtonNextRound)].Visible = true;
-            Buttons[htButtons(ButtonExit)].Visible = true;
-            Buttons[htButtons(ButtonBack)].Visible = false;
         }
 
         private void NextRound()
