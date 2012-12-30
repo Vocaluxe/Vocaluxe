@@ -659,7 +659,7 @@ namespace Vocaluxe.Screens
 
             _sso = CParty.GetSongSelectionOptions();
             CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, _sso.Sorting.SearchString, _sso.Sorting.ShowDuetSongs);
-            _SearchActive = _sso.Sorting.SearchStringVisible;
+            _SearchActive = _sso.Sorting.SearchActive;
             _SearchText = _sso.Sorting.SearchString;
 
             CGame.EnterNormalGame();
@@ -744,8 +744,6 @@ namespace Vocaluxe.Screens
             base.OnClose();
             CBackgroundMusic.Disabled = false;
             SongMenus[htSongMenus(SongMenu)].OnHide();
-
-            CParty.SetSearchString(_SearchText, _SearchActive);
         }
 
         public override void ApplyVolume()
@@ -794,10 +792,10 @@ namespace Vocaluxe.Screens
             if (_sso.Selection.PartyMode)
             {
                 CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, _sso.Sorting.SearchString, _sso.Sorting.ShowDuetSongs);
-                _SearchActive = _sso.Sorting.SearchStringVisible;
+                _SearchActive = _sso.Sorting.SearchActive;
                 _SearchText = _sso.Sorting.SearchString;
+
                 ClosePlaylist();
-                Playlists[htPlaylists(Playlist)].ClosePlaylist();
                 ToggleSongOptions(ESongOptionsView.None);
             }
 
@@ -1078,31 +1076,37 @@ namespace Vocaluxe.Screens
 
         private void ApplyNewSearchFilter(string NewFilterString)
         {
-            int song = SongMenus[htSongMenus(SongMenu)].GetSelectedSong();
-            int id = -1;
-            if (song > -1 && song < CSongs.NumVisibleSongs)
-            {
-                id = CSongs.VisibleSongs[song].ID;
-            }
-
+            CParty.SetSearchString(NewFilterString, _SearchActive);
+            _sso = CParty.GetSongSelectionOptions();
+            
+            bool refresh = false;
             _SearchText = NewFilterString;
-            CSongs.SearchFilter = _SearchText;
 
-            if (NewFilterString != String.Empty)
-                CSongs.Category = 0;
-            else
-                CSongs.Category = -1;
-
-            if (id > -1)
+            int SongIndex = SongMenus[htSongMenus(SongMenu)].GetSelectedSong();
+            int SongID = -1;
+            if (SongIndex != -1 && CSongs.NumVisibleSongs > 0 && CSongs.NumVisibleSongs > SongIndex)
             {
-                if (CSongs.NumVisibleSongs > 0)
-                {
-                    if (id != CSongs.VisibleSongs[0].ID)
-                        SongMenus[htSongMenus(SongMenu)].OnHide();
-                }
+                SongID = CSongs.VisibleSongs[SongIndex].ID;
             }
 
-            if (CSongs.NumVisibleSongs == 0)
+            if (NewFilterString == String.Empty && _sso.Sorting.Tabs == EOffOn.TR_CONFIG_ON)
+            {
+                CSongs.Category = -1;
+                refresh = true;
+            }
+
+            if (NewFilterString != String.Empty && CSongs.Category != 0)
+            {
+                CSongs.Category = 0;
+                refresh = true;
+            }
+
+            CSongs.Sort(_sso.Sorting.SongSorting, _sso.Sorting.Tabs, _sso.Sorting.IgnoreArticles, NewFilterString, _sso.Sorting.ShowDuetSongs);
+
+            if (SongID == -1 || CSongs.NumVisibleSongs == 0 || CSongs.NumVisibleSongs <= SongIndex || CSongs.VisibleSongs[SongIndex].ID != SongID)
+                refresh = true;
+
+            if (refresh)
                 SongMenus[htSongMenus(SongMenu)].OnHide();
 
             SongMenus[htSongMenus(SongMenu)].OnShow();
@@ -1250,10 +1254,14 @@ namespace Vocaluxe.Screens
 
         private void ClosePlaylist()
         {
-            SongMenus[htSongMenus(SongMenu)].SetSmallView(false);
-            _PlaylistActive = false;
-            Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
-            SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
+            if (Playlists[htPlaylists(Playlist)].Visible || _PlaylistActive)
+            {
+                SongMenus[htSongMenus(SongMenu)].SetSmallView(false);
+                _PlaylistActive = false;
+                Playlists[htPlaylists(Playlist)].Selected = _PlaylistActive;
+                SongMenus[htSongMenus(SongMenu)].SetActive(!_PlaylistActive);
+                Playlists[htPlaylists(Playlist)].ClosePlaylist();
+            }
         }
 
         private void UpdatePlaylistNames()

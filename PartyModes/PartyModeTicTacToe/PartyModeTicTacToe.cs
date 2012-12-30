@@ -137,7 +137,7 @@ namespace Vocaluxe.PartyModes
             _ScreenSongOptions.Selection.TeamNames = new string[] { "foo", "bar" };
 
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
-            _ScreenSongOptions.Sorting.SearchStringVisible = false;
+            _ScreenSongOptions.Sorting.SearchActive = false;
             _ScreenSongOptions.Sorting.ShowDuetSongs = false;
             
             _Stage = EStage.NotStarted;
@@ -394,7 +394,7 @@ namespace Vocaluxe.PartyModes
         public override void SetSearchString(string SearchString, bool Visible)
         {
             _ScreenSongOptions.Sorting.SearchString = SearchString;
-            _ScreenSongOptions.Sorting.SearchStringVisible = Visible;
+            _ScreenSongOptions.Sorting.SearchActive = Visible;
         }
 
         public override int GetMaxPlayer()

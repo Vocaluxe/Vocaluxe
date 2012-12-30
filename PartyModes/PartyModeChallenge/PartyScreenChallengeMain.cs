@@ -421,6 +421,9 @@ namespace Vocaluxe.PartyModes
             int NumPlayerInOneRow = 3;
             if (GameState.NumPlayerAtOnce <= NumPlayerInOneRow)
                 NumRoundsVisible = 5;
+            else
+                NumRoundsVisible = 3;
+
             if (NumRoundsVisible > GameState.Combs.Count)
                 NumRoundsVisible = GameState.Combs.Count;
 
@@ -496,9 +499,14 @@ namespace Vocaluxe.PartyModes
                         RoundsTable[i].TextScores[p].Visible = false;
                     }
                 }
-                if (GameState.Combs.Count < i + RoundsTableOffset)
+                if (GameState.Combs.Count < i + RoundsTableOffset || i + 1 > NumRoundsVisible)
                 {
                     RoundsTable[i].Number.Visible = false;
+                    for (int p = 0; p < RoundsTable[i].TextPlayer.Count; p++)
+                    {
+                        RoundsTable[i].TextPlayer[p].Visible = false;
+                        RoundsTable[i].TextScores[p].Visible = false;
+                    }                   
                 }
             }
 
@@ -580,7 +588,7 @@ namespace Vocaluxe.PartyModes
                     row.Name.Text = profiles[GameState.ResultTable[i+PlayerTableOffset].PlayerID].PlayerName;
                     row.Rounds.Text = GameState.ResultTable[i+PlayerTableOffset].NumRounds.ToString();
                     row.Won.Text = GameState.ResultTable[i+PlayerTableOffset].NumWon.ToString();
-                    row.SingPoints.Text = GameState.ResultTable[i+PlayerTableOffset].SumSingPoints.ToString();
+                    row.SingPoints.Text = GameState.ResultTable[i+PlayerTableOffset].NumSingPoints.ToString();
                     row.GamePoints.Text = GameState.ResultTable[i+PlayerTableOffset].NumGamePoints.ToString();
                 }
                 else

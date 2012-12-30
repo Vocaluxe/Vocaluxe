@@ -77,7 +77,7 @@
 	- Theme System Update
 	- A nicer Theme!
 
-+ v0.2.0:
++ v0.2.0 (reached: 21.12.2012):
 	- Medley
 	- Sing Short Version Mode
 	- Show Avatars and Player Name in Sing Screen

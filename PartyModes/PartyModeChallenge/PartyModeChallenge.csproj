@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6F3E1874-F28A-40E9-AFBD-31934D593679}</ProjectGuid>
+    <ProjectGuid>{5A4053F1-5AD5-441F-B254-D97A088127B6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PartyModeChallenge</RootNamespace>
@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
     <DefineConstants>TRACE;DEBUG;WIN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,7 +30,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -42,7 +42,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
     <DefineConstants>TRACE;DEBUG;WIN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -52,7 +52,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -64,7 +64,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
     <DefineConstants>TRACE;DEBUG;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -74,7 +74,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -86,7 +86,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
     <DefineConstants>TRACE;DEBUG;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -96,7 +96,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -124,7 +124,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VocaluxeLib\VocaluxeLib.csproj">
+    <ProjectReference Include="..\..\VocaluxeLib\VocaluxeLib.csproj">
       <Project>{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}</Project>
       <Name>VocaluxeLib</Name>
       <Private>False</Private>
