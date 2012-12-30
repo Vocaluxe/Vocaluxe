@@ -588,7 +588,7 @@ namespace Vocaluxe.PartyModes
                     row.Name.Text = profiles[GameState.ResultTable[i+PlayerTableOffset].PlayerID].PlayerName;
                     row.Rounds.Text = GameState.ResultTable[i+PlayerTableOffset].NumRounds.ToString();
                     row.Won.Text = GameState.ResultTable[i+PlayerTableOffset].NumWon.ToString();
-                    row.SingPoints.Text = GameState.ResultTable[i+PlayerTableOffset].SumSingPoints.ToString();
+                    row.SingPoints.Text = GameState.ResultTable[i+PlayerTableOffset].NumSingPoints.ToString();
                     row.GamePoints.Text = GameState.ResultTable[i+PlayerTableOffset].NumGamePoints.ToString();
                 }
                 else

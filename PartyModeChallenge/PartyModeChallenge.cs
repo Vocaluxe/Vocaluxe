@@ -38,7 +38,7 @@ namespace Vocaluxe.PartyModes
         public int NumPlayed;
         public int NumRounds;
         public int NumWon;
-        public int SumSingPoints;
+        public int NumSingPoints;
         public int NumGamePoints;
 
         public int CompareTo(object obj)
@@ -50,7 +50,7 @@ namespace Vocaluxe.PartyModes
                 int res = row.NumGamePoints.CompareTo(NumGamePoints);
                 if (res == 0)
                 {
-                    res = row.SumSingPoints.CompareTo(SumSingPoints);
+                    res = row.NumSingPoints.CompareTo(NumSingPoints);
                     if (res == 0)
                     {
                         res = row.NumWon.CompareTo(NumWon);
@@ -575,7 +575,7 @@ namespace Vocaluxe.PartyModes
                     row.NumPlayed = 0;
                     row.NumRounds = 0;
                     row.NumWon = 0;
-                    row.SumSingPoints = 0;
+                    row.NumSingPoints = 0;
                     row.NumGamePoints = 0;
                     GameData.ResultTable.Add(row);
                 }
@@ -624,7 +624,7 @@ namespace Vocaluxe.PartyModes
                         row.NumPlayed++;
                         row.NumWon += points[i].Won;
                         row.NumRounds += 1;
-                        row.SumSingPoints += points[i].SingPoints;
+                        row.NumSingPoints += points[i].SingPoints;
                         row.NumGamePoints += points[i].GamePoints;
 
                         GameData.ResultTable[index] = row;
@@ -636,13 +636,15 @@ namespace Vocaluxe.PartyModes
 
             //Update position-number
             int pos = 1;
-            int last_points = 0;
+            int lastPoints = 0;
+            int lastSingPoints = 0;
             for (int i = 0; i < GameData.ResultTable.Count; i++ )
             {
-                if (last_points > GameData.ResultTable[i].NumGamePoints)
+                if (lastPoints > GameData.ResultTable[i].NumGamePoints || lastSingPoints > GameData.ResultTable[i].NumSingPoints)
                     pos++;
                 GameData.ResultTable[i].Position = pos;
-                last_points = GameData.ResultTable[i].NumGamePoints;
+                lastPoints = GameData.ResultTable[i].NumGamePoints;
+                lastSingPoints = GameData.ResultTable[i].NumSingPoints;
             }
         }
 
