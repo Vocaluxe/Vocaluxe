@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <PartyModeSystemVersion>1</PartyModeSystemVersion>
+  <Info>
+    <Name>TR_PARTYMODE_NAME</Name>
+    <Author>brunzel</Author>
+	<Description>TR_PARTYMODE_DESCRIPTION</Description>
+    <Folder>ChallengeMedley</Folder>
+	<PartyModeFile>PartyModeChallenge</PartyModeFile>
+    <PartyModeVersionMajor>0</PartyModeVersionMajor>
+    <PartyModeVersionMinor>1</PartyModeVersionMinor>
+	<TargetAudience>TR_PARTYMODE_AUDIENCE</TargetAudience>
+  </Info>
+  <PartyScreens>
+    <ScreenFile>PartyScreenChallengeMain</ScreenFile>
+	<ScreenFile>PartyScreenChallengeConfig</ScreenFile>
+	<ScreenFile>PartyScreenChallengeNames</ScreenFile>
+  </PartyScreens>
+</root>
