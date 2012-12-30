@@ -348,6 +348,20 @@ namespace Vocaluxe.Base
             get { return _Songs.ToArray(); }
         }
 
+        public static CSong[] SongsNotSung
+        {
+            get 
+            {
+                List<CSong> songs = new List<CSong>();
+                foreach (SongPointer sp in _SongsSortList)
+                {
+                    if (sp.Visible)
+                        songs.Add(_Songs[sp.SongID]);
+                }
+                return songs.ToArray();
+            }
+        }
+
         public static CSong[] VisibleSongs
         {
             get

@@ -483,6 +483,11 @@ namespace Vocaluxe.Base
             return CGame.Player;
         }
 
+        public CPoints GetPoints()
+        {
+            return CGame.GetPoints();
+        }
+
         public float GetMidBeatD()
         {
             return CGame.MidBeatD;
@@ -547,6 +552,11 @@ namespace Vocaluxe.Base
 
     class BSongs : ISongs
     {
+        public int GetNumSongs()
+        {
+            return CSongs.NumAllSongs;
+        }
+
         public int GetNumVisibleSongs()
         {
             return CSongs.NumVisibleSongs;
@@ -604,6 +614,16 @@ namespace Vocaluxe.Base
             return new CSong(CSongs.GetSong(SongID));
         }
 
+        public CSong[] GetSongs()
+        {
+            return CSongs.AllSongs;
+        }
+
+        public CSong[] GetSongsNotSung()
+        {
+            return CSongs.SongsNotSung;
+        }
+
         public CCategory GetCategory(int Index)
         {
             if (Index >= CSongs.NumCategories)
@@ -625,6 +645,11 @@ namespace Vocaluxe.Base
         public void ResetPartySongSung(int CatIndex)
         {
             CSongs.ResetPartySongSung(CatIndex);
+        }
+
+        public void SortSongs(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, String SearchString, bool ShowDuetSongs)
+        {
+            CSongs.Sort(Sorting, Tabs, IgnoreArticles, SearchString, ShowDuetSongs);
         }
 
         public void NextCategory()
@@ -746,19 +771,14 @@ namespace Vocaluxe.Base
 
     class BPlaylist : IPlaylist
     {
-        public string[] GetPlaylistNames()
-        {
-            List<string> Names = new List<string>();
-            for (int i = 0; i < CPlaylists.Playlists.Length; i++)
-            {
-                Names.Add(CPlaylists.Playlists[i].PlaylistName);
-            }
-            return Names.ToArray();
-        }
-
         public void SetPlaylistName(int PlaylistID, string Name)
         {
             CPlaylists.SetPlaylistName(PlaylistID, Name);
+        }
+
+        public string[] GetPlaylistNames()
+        {
+            return CPlaylists.GetPlaylistNames();
         }
 
         public string GetPlaylistName(int PlaylistID)

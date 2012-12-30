@@ -311,7 +311,7 @@ namespace Vocaluxe.Screens
                 }
                 for (int p = 0; p < player.Length; p++)
                 {
-                    player[p].Points = (int)(player[p].Points / CGame.NumRounds);
+                    player[p].Points = (int)Math.Round((player[p].Points / CGame.NumRounds));
                 }
             }
 

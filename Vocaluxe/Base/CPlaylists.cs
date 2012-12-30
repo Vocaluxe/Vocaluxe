@@ -84,6 +84,18 @@ namespace Vocaluxe.Base
             return _Playlists[PlaylistID].PlaylistName;
         }
 
+        public static string[] GetPlaylistNames()
+        {
+            List<string> result = new List<string>();
+
+            foreach (CPlaylistFile playlist in _Playlists)
+	        {
+		        result.Add(playlist.PlaylistName);
+	        }
+
+            return result.ToArray();
+        }
+
         public static void SetPlaylistName(int PlaylistID, string Name)
         {
             if (PlaylistID >= _Playlists.Count || PlaylistID < 0)
