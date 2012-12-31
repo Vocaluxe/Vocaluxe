@@ -152,6 +152,38 @@ namespace Vocaluxe.PartyModes
                                 Back();
                             if (Buttons[htButtons(ButtonExit)].Selected && (GameData.CurrentRoundNr > 1 || Action == EStatus.FieldSelected))
                                 ShowPopup(true);
+                            for (int i = 0; i < GameData.NumFields; i++)
+                            {
+                                switch (Action)
+                                {
+                                    case EStatus.FieldChoosing:
+                                        if (Fields[i].Button.Selected)
+                                        {
+                                            SelectedField = i;
+                                            FieldSelected();
+                                        }
+                                        break;
+
+                                    case EStatus.JokerRetry:
+                                        if (Fields[i].Button.Selected)
+                                        {
+                                            SelectedField = i;
+                                            FieldSelectedAgain();
+                                        }
+                                        break;
+                                }
+                            }
+                            if (Action == EStatus.FieldSelected)
+                            {
+                                if (Buttons[htButtons(ButtonJokerRandomT1)].Selected)
+                                    UseJoker(0, 0);
+                                if (Buttons[htButtons(ButtonJokerRandomT2)].Selected)
+                                    UseJoker(1, 0);
+                                if (Buttons[htButtons(ButtonJokerRetryT1)].Selected)
+                                    UseJoker(0, 1);
+                                if (Buttons[htButtons(ButtonJokerRetryT2)].Selected)
+                                    UseJoker(1, 1);
+                            }
                         }
                         else
                         {

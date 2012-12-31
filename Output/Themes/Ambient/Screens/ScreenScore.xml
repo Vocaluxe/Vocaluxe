@@ -3759,7 +3759,7 @@
     </ScreenSettingShortDifficulty>
     <ScreenSettingAnimationDirection>
 		<Type>String</Type>
-		<Value>Vertical</Value>
+		<Value>Horizontal</Value>
     </ScreenSettingAnimationDirection>
   </ScreenScore>
 </root>
