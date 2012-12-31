@@ -15,7 +15,10 @@ namespace Vocaluxe.PartyModes
         const string SelectSlideNumPlayerTeam1 = "SelectSlideNumPlayerTeam1";
         const string SelectSlideNumPlayerTeam2 = "SelectSlideNumPlayerTeam2";
         const string SelectSlideNumFields = "SelectSlideNumFields";
+        const string SelectSlideSongSource = "SelectSlideSongSource";
         const string SelectSlidePlaylist = "SelectSlidePlaylist";
+        const string SelectSlideCategory = "SelectSlideCategory";
+        const string SelectSlideGameMode = "SelectSlideGameMode";
         const string ButtonNext = "ButtonNext";
         const string ButtonBack = "ButtonBack";
 
@@ -32,7 +35,7 @@ namespace Vocaluxe.PartyModes
             base.Init();
 
             _ThemeName = "PartyScreenTicTacToeConfig";
-            _ThemeSelectSlides = new string[] { SelectSlideNumPlayerTeam1, SelectSlideNumPlayerTeam2, SelectSlideNumFields, SelectSlidePlaylist };
+            _ThemeSelectSlides = new string[] { SelectSlideNumPlayerTeam1, SelectSlideNumPlayerTeam2, SelectSlideNumFields, SelectSlideSongSource, SelectSlidePlaylist, SelectSlideCategory, SelectSlideGameMode };
             _ThemeButtons = new string[] { ButtonNext, ButtonBack };
             _ScreenVersion = ScreenVersion;
 
@@ -42,6 +45,9 @@ namespace Vocaluxe.PartyModes
             config.NumFields = 9;
             config.NumPlayerTeam1 = 2;
             config.NumPlayerTeam2 = 2;
+            config.GameMode = EPartyGameMode.TR_GAMEMODE_NORMAL;
+            config.CategoryID = 0;
+            config.SongSource = ESongSource.TR_ALLSONGS;
             Data.ScreenConfig = config;
         }
 
@@ -61,6 +67,9 @@ namespace Vocaluxe.PartyModes
                 Data.ScreenConfig.NumPlayerTeam1 = config.NumPlayerTeam1;
                 Data.ScreenConfig.NumPlayerTeam2 = config.NumPlayerTeam2;
                 Data.ScreenConfig.PlaylistID = config.PlaylistID;
+                Data.ScreenConfig.CategoryID = config.CategoryID;
+                Data.ScreenConfig.SongSource = config.SongSource;
+                Data.ScreenConfig.GameMode = config.GameMode;
             }
             catch (Exception e)
             {
@@ -186,6 +195,9 @@ namespace Vocaluxe.PartyModes
             else if (Data.ScreenConfig.NumFields == 25)
                 SelectSlides[htSelectSlides(SelectSlideNumFields)].Selection = 2;
 
+            SelectSlides[htSelectSlides(SelectSlideSongSource)].Clear();
+            SelectSlides[htSelectSlides(SelectSlideSongSource)].SetValues<ESongSource>((int)Data.ScreenConfig.SongSource);
+
             string[] _Playlists = _Base.Playlist.GetPlaylistNames();
             SelectSlides[htSelectSlides(SelectSlidePlaylist)].Clear();
             for (int i = 0; i < _Playlists.Length; i++)
@@ -194,7 +206,24 @@ namespace Vocaluxe.PartyModes
                 SelectSlides[htSelectSlides(SelectSlidePlaylist)].AddValue(value);
             }
             SelectSlides[htSelectSlides(SelectSlidePlaylist)].Selection = Data.ScreenConfig.PlaylistID;
+            SelectSlides[htSelectSlides(SelectSlidePlaylist)].Visible = Data.ScreenConfig.SongSource == ESongSource.TR_PLAYLIST;
 
+            string[] _Categories = new string[_Base.Songs.GetNumCategories()];
+            for (int i = 0; i < _Base.Songs.GetNumCategories(); i++ )
+            {
+                _Categories[i] = _Base.Songs.GetCategory(i).Name;
+            }
+            SelectSlides[htSelectSlides(SelectSlideCategory)].Clear();
+            for (int i = 0; i < _Categories.Length; i++)
+            {
+                string value = _Categories[i] + " (" + _Base.Songs.NumSongsInCategory(i) + " " + _Base.Language.Translate("TR_SONGS", _PartyModeID) + ")";
+                SelectSlides[htSelectSlides(SelectSlideCategory)].AddValue(value);
+            }
+            SelectSlides[htSelectSlides(SelectSlideCategory)].Selection = Data.ScreenConfig.CategoryID;
+            SelectSlides[htSelectSlides(SelectSlideCategory)].Visible = Data.ScreenConfig.SongSource == ESongSource.TR_CATEGORY;
+
+            SelectSlides[htSelectSlides(SelectSlideGameMode)].Visible = true;
+            SelectSlides[htSelectSlides(SelectSlideGameMode)].SetValues<EPartyGameMode>((int)Data.ScreenConfig.GameMode);
         }
 
         private void UpdateSlides()
@@ -209,12 +238,98 @@ namespace Vocaluxe.PartyModes
             else if (SelectSlides[htSelectSlides(SelectSlideNumFields)].Selection == 2)
                 Data.ScreenConfig.NumFields = 25;
 
+            Data.ScreenConfig.SongSource = (ESongSource)SelectSlides[htSelectSlides(SelectSlideSongSource)].Selection;
             Data.ScreenConfig.PlaylistID = SelectSlides[htSelectSlides(SelectSlidePlaylist)].Selection;
+            Data.ScreenConfig.CategoryID = SelectSlides[htSelectSlides(SelectSlideCategory)].Selection;
+            Data.ScreenConfig.GameMode = (EPartyGameMode)SelectSlides[htSelectSlides(SelectSlideGameMode)].Selection;
 
-            if (_Base.Playlist.GetPlaylistSongCount(Data.ScreenConfig.PlaylistID) <= 0)
-                ConfigOk = false;
-            else
-                ConfigOk = true;
+            EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+
+            switch (Data.ScreenConfig.GameMode)
+            {
+                case EPartyGameMode.TR_GAMEMODE_NORMAL:
+                    gm = EGameMode.TR_GAMEMODE_NORMAL;
+                    break;
+
+                case EPartyGameMode.TR_GAMEMODE_DUET:
+                    gm = EGameMode.TR_GAMEMODE_DUET;
+                    break;
+
+                case EPartyGameMode.TR_GAMEMODE_SHORTSONG:
+                    gm = EGameMode.TR_GAMEMODE_SHORTSONG;
+                    break;
+            }
+
+            if (Data.ScreenConfig.SongSource == ESongSource.TR_PLAYLIST)
+            {
+                if (_Base.Playlist.GetNumPlaylists() > 0)
+                    if (_Base.Playlist.GetPlaylistSongCount(Data.ScreenConfig.PlaylistID) > 0)
+                    {
+                        ConfigOk = false;
+                        for (int i = 0; i < _Base.Playlist.GetPlaylistSongCount(Data.ScreenConfig.PlaylistID); i++)
+                        {
+                            int id = _Base.Playlist.GetPlaylistSong(Data.ScreenConfig.PlaylistID, i).SongID;
+                            foreach (EGameMode mode in _Base.Songs.GetSongByID(id).AvailableGameModes)
+                                if (mode == gm)
+                                {
+                                    ConfigOk = true;
+                                    break;
+                                }
+                            if (ConfigOk)
+                                break;
+                        }
+                    }
+                    else
+                        ConfigOk = false;
+                else
+                    ConfigOk = false;
+            }
+            if (Data.ScreenConfig.SongSource == ESongSource.TR_CATEGORY)
+            {
+                if (_Base.Songs.GetNumCategories() > 0)
+                    if (_Base.Songs.NumSongsInCategory(Data.ScreenConfig.CategoryID) > 0)
+                    {
+                        _Base.Songs.SetCategory(Data.ScreenConfig.CategoryID);
+                        ConfigOk = false;
+                        for (int i = 0; i < _Base.Songs.NumSongsInCategory(Data.ScreenConfig.CategoryID); i++)
+                        {
+                            foreach (EGameMode mode in _Base.Songs.GetVisibleSong(i).AvailableGameModes)
+                                if (mode == gm)
+                                {
+                                    ConfigOk = true;
+                                    break;
+                                }
+                            if (ConfigOk)
+                                break;
+                        }
+                        _Base.Songs.SetCategory(-1);
+                    }
+                    else
+                        ConfigOk = false;
+                else
+                    ConfigOk = false;
+            }
+            if (Data.ScreenConfig.SongSource == ESongSource.TR_ALLSONGS)
+            {
+                if (_Base.Songs.GetNumSongs() > 0)
+                {
+                    for (int i = 0; i < _Base.Songs.GetNumSongs(); i++)
+                    {
+                        foreach (EGameMode mode in _Base.Songs.GetSongByID(i).AvailableGameModes)
+                            if (mode == gm)
+                            {
+                                ConfigOk = true;
+                                break;
+                            }
+                        if (ConfigOk)
+                            break;
+                    }
+                }
+                else
+                    ConfigOk = false;
+            }
+            SelectSlides[htSelectSlides(SelectSlideCategory)].Visible = Data.ScreenConfig.SongSource == ESongSource.TR_CATEGORY;
+            SelectSlides[htSelectSlides(SelectSlidePlaylist)].Visible = Data.ScreenConfig.SongSource == ESongSource.TR_PLAYLIST;
         }    
 
         private void Back()

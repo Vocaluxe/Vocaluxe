@@ -6,6 +6,20 @@ using Vocaluxe.Menu;
 
 namespace Vocaluxe.PartyModes
 {
+    public enum ESongSource
+    {
+        TR_ALLSONGS,
+        TR_CATEGORY,
+        TR_PLAYLIST
+    }
+
+    public enum EPartyGameMode
+    {
+        TR_GAMEMODE_NORMAL,
+        TR_GAMEMODE_SHORTSONG,
+        TR_GAMEMODE_DUET
+    }
+
     public class Round
     {
         public int SongID;
@@ -23,7 +37,10 @@ namespace Vocaluxe.PartyModes
         public int NumPlayerTeam1;
         public int NumPlayerTeam2;
         public int NumFields;
+        public ESongSource SongSource;
+        public int CategoryID;
         public int PlaylistID;
+        public EPartyGameMode GameMode;
     }
 
     public struct DataToScreenNames
@@ -61,7 +78,10 @@ namespace Vocaluxe.PartyModes
         public int NumPlayerTeam1;
         public int NumPlayerTeam2;
         public int NumFields;
+        public ESongSource SongSource;
+        public int CategoryID;
         public int PlaylistID;
+        public EPartyGameMode GameMode;
     }
 
     public struct FromScreenNames
@@ -109,7 +129,11 @@ namespace Vocaluxe.PartyModes
             public List<int> ProfileIDsTeam1;
             public List<int> ProfileIDsTeam2;
 
+            public ESongSource SongSource;
+            public int CategoryID;
             public int PlaylistID;
+
+            public EPartyGameMode GameMode;
 
             public List<Round> Rounds;
             public List<int> Songs;
@@ -154,7 +178,10 @@ namespace Vocaluxe.PartyModes
             GameData.ProfileIDsTeam2 = new List<int>();
             GameData.CurrentRoundNr = 0;
             GameData.SingRoundNr = 0;
+            GameData.SongSource = ESongSource.TR_ALLSONGS;
             GameData.PlaylistID = 0;
+            GameData.CategoryID = 0;
+            GameData.GameMode = EPartyGameMode.TR_GAMEMODE_NORMAL;
             GameData.Rounds = new List<Round>();
             GameData.Songs = new List<int>();
             GameData.NumJokerRandom = new int[2];
@@ -193,7 +220,10 @@ namespace Vocaluxe.PartyModes
                         GameData.NumPlayerTeam1 = data.ScreenConfig.NumPlayerTeam1;
                         GameData.NumPlayerTeam2 = data.ScreenConfig.NumPlayerTeam2;
                         GameData.NumFields = data.ScreenConfig.NumFields;
+                        GameData.SongSource = data.ScreenConfig.SongSource;
+                        GameData.CategoryID = data.ScreenConfig.CategoryID;
                         GameData.PlaylistID = data.ScreenConfig.PlaylistID;
+                        GameData.GameMode = data.ScreenConfig.GameMode;
 
                         _Stage = EStage.Config;
                         _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
@@ -286,7 +316,10 @@ namespace Vocaluxe.PartyModes
                         ToScreenConfig.NumPlayerTeam1 = GameData.NumPlayerTeam1;
                         ToScreenConfig.NumPlayerTeam2 = GameData.NumPlayerTeam2;
                         ToScreenConfig.NumFields = GameData.NumFields;
+                        ToScreenConfig.SongSource = GameData.SongSource;
+                        ToScreenConfig.CategoryID = GameData.CategoryID;
                         ToScreenConfig.PlaylistID = GameData.PlaylistID;
+                        ToScreenConfig.GameMode = GameData.GameMode;
                         Screen.DataToScreen(ToScreenConfig);
                     }
                     break;
@@ -426,10 +459,22 @@ namespace Vocaluxe.PartyModes
 
         public override void SongSelected(int SongID)
         {
-
             EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
 
+            switch (GameData.GameMode)
+            {
+                case EPartyGameMode.TR_GAMEMODE_NORMAL:
+                    gm = EGameMode.TR_GAMEMODE_NORMAL;
+                    break;
 
+                case EPartyGameMode.TR_GAMEMODE_DUET:
+                    gm = EGameMode.TR_GAMEMODE_DUET;
+                    break;
+
+                case EPartyGameMode.TR_GAMEMODE_SHORTSONG:
+                    gm = EGameMode.TR_GAMEMODE_SHORTSONG;
+                    break;
+            }
             _Base.Game.AddSong(SongID, gm);
 
             _Base.Songs.AddPartySongSung(SongID);
@@ -482,11 +527,56 @@ namespace Vocaluxe.PartyModes
 
         private void PrepareSongList()
         {
+            EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+
+            switch (GameData.GameMode)
+            {
+                case EPartyGameMode.TR_GAMEMODE_NORMAL:
+                    gm = EGameMode.TR_GAMEMODE_NORMAL;
+                    break;
+
+                case EPartyGameMode.TR_GAMEMODE_DUET:
+                    gm = EGameMode.TR_GAMEMODE_DUET;
+                    break;
+
+                case EPartyGameMode.TR_GAMEMODE_SHORTSONG:
+                    gm = EGameMode.TR_GAMEMODE_SHORTSONG;
+                    break;
+            }
+
             while(GameData.Songs.Count < (GameData.NumFields + GameData.NumJokerRandom[0] + GameData.NumJokerRandom[1])){
                 List<int> Songs = new List<int>();
-                for (int i = 0; i < _Base.Playlist.GetPlaylistSongCount(GameData.PlaylistID); i++)
+                switch (GameData.SongSource)
                 {
-                    Songs.Add(_Base.Playlist.GetPlaylistSong(GameData.PlaylistID, i).SongID);
+                    case ESongSource.TR_PLAYLIST:
+                        for (int i = 0; i < _Base.Playlist.GetPlaylistSongCount(GameData.PlaylistID); i++)
+                        {
+                            int id = _Base.Playlist.GetPlaylistSong(GameData.PlaylistID, i).SongID;
+                            foreach (EGameMode mode in _Base.Songs.GetSongByID(id).AvailableGameModes)
+                                if (mode == gm) 
+                                    Songs.Add(id);
+                        }
+                        break;
+
+                    case ESongSource.TR_ALLSONGS:
+                        for (int i = 0; i < _Base.Songs.GetNumSongs(); i++)
+                        {
+                            foreach (EGameMode mode in _Base.Songs.GetSongByID(i).AvailableGameModes)
+                                if (mode == gm) 
+                                    Songs.Add(i);
+                        }
+                        break;
+
+                    case ESongSource.TR_CATEGORY:
+                        _Base.Songs.SetCategory(GameData.CategoryID);
+                        for (int i = 0; i < _Base.Songs.NumSongsInCategory(GameData.CategoryID); i++)
+                        {
+                            foreach(EGameMode mode in _Base.Songs.GetVisibleSong(i).AvailableGameModes)
+                                if(mode == gm) 
+                                    Songs.Add(_Base.Songs.GetVisibleSong(i).ID);
+                        }
+                        _Base.Songs.SetCategory(-1);
+                        break;
                 }
                 while(Songs.Count > 0)
                 {
@@ -529,12 +619,16 @@ namespace Vocaluxe.PartyModes
                     player[0].Name = profiles[GameData.ProfileIDsTeam1[r.SingerTeam1]].PlayerName;
                     player[0].Difficulty = profiles[GameData.ProfileIDsTeam1[r.SingerTeam1]].Difficulty;
                     player[0].ProfileID = GameData.ProfileIDsTeam1[r.SingerTeam1];
+                    if (GameData.GameMode == EPartyGameMode.TR_GAMEMODE_DUET)
+                        player[0].LineNr = 0;
                 }
                 if (GameData.ProfileIDsTeam2[r.SingerTeam2] < profiles.Length)
                 {
                     player[1].Name = profiles[GameData.ProfileIDsTeam2[r.SingerTeam2]].PlayerName;
                     player[1].Difficulty = profiles[GameData.ProfileIDsTeam2[r.SingerTeam2]].Difficulty;
                     player[1].ProfileID = GameData.ProfileIDsTeam2[r.SingerTeam2];
+                    if (GameData.GameMode == EPartyGameMode.TR_GAMEMODE_DUET)
+                        player[1].LineNr = 1;
                 }
                 SongSelected(r.SongID);
             }
