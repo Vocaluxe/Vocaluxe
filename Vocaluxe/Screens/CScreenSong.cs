@@ -84,6 +84,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
+            ButtonsJoker.Clear();
             for (int i = 0; i < _Base.Settings.GetMaxNumPlayer(); i++)
             {
                 ButtonsJoker.Add("ButtonJoker" + (i + 1));
@@ -103,6 +104,7 @@ namespace Vocaluxe.Screens
             blist.Add(ButtonOptionsRandomMedley);
             blist.Add(ButtonOptionsStartMedley);
 
+            TextsPlayer.Clear();
             for (int i = 0; i < _Base.Settings.GetMaxNumPlayer(); i++)
             {
                 TextsPlayer.Add("TextPlayer" + (i + 1));
@@ -203,7 +205,7 @@ namespace Vocaluxe.Screens
                     switch (KeyEvent.Key)
                     {
                         case Keys.Escape:
-                            if ((CSongs.Category < 0 || !(_sso.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)) && !_sso.Selection.PartyMode)
+                            if ((CSongs.Category < 0 || _sso.Sorting.Tabs == EOffOn.TR_CONFIG_OFF) && !_sso.Selection.PartyMode && !_SearchActive)
                                 CGraphics.FadeTo(EScreens.ScreenMain);
                             break;
 
@@ -251,7 +253,7 @@ namespace Vocaluxe.Screens
                                 ApplyNewSearchFilter(_SearchText.Remove(_SearchText.Length - 1));
                             }
 
-                            if (!_SearchActive && (CSongs.Category < 0) && !_sso.Selection.PartyMode)
+                            if ((CSongs.Category < 0 || _sso.Sorting.Tabs == EOffOn.TR_CONFIG_OFF) && !_sso.Selection.PartyMode && !_SearchActive)
                             {
                                 CGraphics.FadeTo(EScreens.ScreenMain);
                             }
