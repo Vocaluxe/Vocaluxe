@@ -495,8 +495,10 @@ namespace Vocaluxe.PartyModes
             List<int> Team2 = new List<int>();
             List<int> IDs1 = new List<int>();
             List<int> IDs2 = new List<int>();
+            int num = 0;
+            int random = 0;
             //Add IDs to team-list
-            while (Team1.Count <= GameData.NumFields)
+            while (Team1.Count < GameData.NumFields)
             {
                 if (IDs1.Count == 0)
                     for (int i = 0; i < GameData.NumPlayerTeam1; i++)
@@ -504,14 +506,22 @@ namespace Vocaluxe.PartyModes
                 if (IDs2.Count == 0)
                     for (int i = 0; i < GameData.NumPlayerTeam2; i++)
                         IDs2.Add(i);
-                if (Team1.Count <= GameData.NumFields)
+                if (Team1.Count < GameData.NumFields)
                 {
-                    Team1.Add(IDs1[_Base.Game.GetRandom(IDs1.Count - 1)]);
+                    random = _Base.Game.GetRandom((IDs1.Count - 1) * 10);
+                    num = (int)Math.Round((double)random/10);
+                    if (num >= IDs1.Count)
+                        num = IDs1.Count - 1;
+                    Team1.Add(IDs1[num]);
                     IDs1.Remove(Team1[Team1.Count - 1]);
                 }   
-                if (Team2.Count <= GameData.NumFields)
+                if (Team2.Count < GameData.NumFields)
                 {
-                    Team2.Add(IDs2[_Base.Game.GetRandom(IDs2.Count - 1)]);
+                    random = _Base.Game.GetRandom((IDs2.Count - 1) * 20);
+                    num = (int)Math.Round((double)random / 20);
+                    if (num >= IDs2.Count)
+                        num = IDs2.Count - 1;
+                    Team2.Add(IDs2[num]);
                     IDs2.Remove(Team2[Team2.Count - 1]);
                 }
             }
