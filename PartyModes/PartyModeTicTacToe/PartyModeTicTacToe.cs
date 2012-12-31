@@ -591,13 +591,11 @@ namespace Vocaluxe.PartyModes
             {
                 GameData.Rounds[GameData.SingRoundNr].Winner = 1;
             }
-            /**else
+            else
             {
                 GameData.Rounds[GameData.SingRoundNr].Finished = false;
                 GameData.CurrentRoundNr--;
-            }**/
-            GameData.Rounds[GameData.SingRoundNr].Winner = 1;
-            
+            }
         }
     }
 }
