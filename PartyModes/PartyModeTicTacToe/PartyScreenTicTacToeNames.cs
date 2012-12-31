@@ -23,7 +23,7 @@ namespace Vocaluxe.PartyModes
         private const int PlayerDestinationButtonsNumH = 10;
         private const int PlayerDestinationButtonsNumW = 2;
         private const int PlayerDestinationButtonsFirstX = 58;
-        private const int PlayerDestinationButtonsFirstY = 400;
+        private const int PlayerDestinationButtonsFirstY = 380;
         private const int PlayerDestinationButtonsSpaceH = 15;
         private const int PlayerDestinationButtonsSpaceW = 25;
         //PlayerChooseButtons-Option

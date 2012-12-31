@@ -513,7 +513,7 @@
       <SkinSelected>Button</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
       <X>1030</X>
-      <Y>600</Y>
+      <Y>625</Y>
       <Z>0,00</Z>
       <W>150</W>
       <H>50</H>
@@ -570,7 +570,7 @@
       <SkinSelected>Button</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
       <X>100</X>
-      <Y>600</Y>
+      <Y>625</Y>
       <Z>0,00</Z>
       <W>150</W>
       <H>50</H>
@@ -627,7 +627,7 @@
       <SkinSelected>Button</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
       <X>100</X>
-      <Y>600</Y>
+      <Y>625</Y>
       <Z>0,00</Z>
       <W>150</W>
       <H>50</H>
