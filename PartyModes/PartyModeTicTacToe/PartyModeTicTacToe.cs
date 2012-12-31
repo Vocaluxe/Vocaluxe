@@ -444,6 +444,7 @@ namespace Vocaluxe.PartyModes
 
         private void CreateRounds()
         {
+            GameData.Rounds = new List<Round>();
             //Prepare Player-IDs
             List<int> Team1 = new List<int>();
             List<int> Team2 = new List<int>();

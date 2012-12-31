@@ -616,7 +616,7 @@ namespace Vocaluxe.PartyModes
                 {
                     for (int c = 0; c < NumOneRow; c++)
                     {
-                        Possibilities[i, c] = (NumOneRow + 1) * c + (NumOneRow - 1);
+                        Possibilities[i, c] = (NumOneRow - 1) * c + (NumOneRow - 1);
                     }
                 }
             }
