@@ -315,6 +315,7 @@ namespace Vocaluxe.PartyModes
                 Action = EStatus.None;
                 Buttons[htButtons(ButtonNextRound)].Visible = false;
                 Texts[htTexts(TextFinishMessage)].Visible = true;
+                Texts[htTexts(TextTeamChoosing)].Visible = false;
                 if (Winner > 0)
                 {
                     Texts[htTexts(TextFinishMessage)].Color = _Base.Theme.GetPlayerColor(Winner);
