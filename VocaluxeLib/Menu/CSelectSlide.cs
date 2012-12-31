@@ -545,7 +545,7 @@ namespace Vocaluxe.Menu
 
         public void AddValue(string value)
         {
-            AddValue(value, new STexture(-1));
+            AddValue(value, new STexture(-1), _PartyModeID);
         }
 
         public void AddValue(string value, int PartyModeID)
@@ -555,12 +555,12 @@ namespace Vocaluxe.Menu
 
         public void AddValue(string value, STexture texture)
         {
-            AddValue(value, texture, _ValueIndexes.Count);
+            AddValue(value, texture, _ValueIndexes.Count, _PartyModeID);
         }
 
         public void AddValue(string value, STexture texture, int valueIndex)
         {
-            AddValue(value, texture, valueIndex, -1);
+            AddValue(value, texture, valueIndex, _PartyModeID);
         }
 
         public void AddValue(string value, STexture texture, int valueIndex, int PartyModeID)
@@ -580,7 +580,7 @@ namespace Vocaluxe.Menu
         {
             foreach (string value in values)
             {
-                AddValue(value, new STexture(-1));
+                AddValue(value, new STexture(-1), _PartyModeID);
             }
 
             _ValueBounds.Clear();
