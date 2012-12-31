@@ -316,6 +316,10 @@ namespace Vocaluxe.Menu
         CPlaylistSong GetPlaylistSong(int PlaylistID, int SongIndex);
     }
 
+    public interface IPlaylists
+    {
+    }
+
     [Flags]
     public enum EModifier
     {

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenScore>
-    <ScreenVersion>2</ScreenVersion>
+    <ScreenVersion>3</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>Video</Type>
@@ -3745,5 +3745,21 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </TextDifficultyP6N6>
+    <ScreenSettingShortScore>
+		<Type>Int</Type>
+		<Value>7</Value>
+    </ScreenSettingShortScore>
+    <ScreenSettingShortRating>
+		<Type>Int</Type>
+		<Value>4</Value>
+    </ScreenSettingShortRating>
+    <ScreenSettingShortDifficulty>
+    	<Type>Int</Type>
+		<Value>4</Value>
+    </ScreenSettingShortDifficulty>
+    <ScreenSettingAnimationDirection>
+		<Type>String</Type>
+		<Value>Horizontal</Value>
+    </ScreenSettingAnimationDirection>
   </ScreenScore>
 </root>

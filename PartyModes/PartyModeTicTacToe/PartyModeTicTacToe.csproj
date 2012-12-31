@@ -1,25 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">DebugWin</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}</ProjectGuid>
+    <ProjectGuid>{6F3E1874-F28A-40E9-AFBD-31934D593679}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VocaluxeLib</RootNamespace>
-    <AssemblyName>VocaluxeLib</AssemblyName>
+    <RootNamespace>PartyModeTicTacToe</RootNamespace>
+    <AssemblyName>PartyModeTicTacToe</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWin|x86' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Output\</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\TicTacToe\Code</OutputPath>
     <DefineConstants>TRACE;DEBUG;WIN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -29,7 +30,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\TicTacToe\Code</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -41,7 +42,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Output\</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\TicTacToe\Code</OutputPath>
     <DefineConstants>TRACE;DEBUG;WIN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -51,7 +52,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\TicTacToe\Code</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -63,7 +64,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Output\</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\TicTacToe\Code</OutputPath>
     <DefineConstants>TRACE;DEBUG;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -73,7 +74,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\TicTacToe\Code</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -85,7 +86,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Output\</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\TicTacToe\Code</OutputPath>
     <DefineConstants>TRACE;DEBUG;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -95,56 +96,43 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
+    <OutputPath>..\..\Output\PartyModes\TicTacToe\Code</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DefineConstants>LINUX</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="PartyModeTicTacToe.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="PartyScreenTicTacToeConfig.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="PartyScreenTicTacToeMain.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="PartyScreenTicTacToeNames.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\VocaluxeLib\VocaluxeLib.csproj">
+      <Project>{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}</Project>
+      <Name>VocaluxeLib</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Menu\CBackground.cs" />
-    <Compile Include="Menu\CButton.cs" />
-    <Compile Include="Menu\CEqualizer.cs" />
-    <Compile Include="Menu\CHelper.cs" />
-    <Compile Include="Menu\CInteraction.cs" />
-    <Compile Include="Menu\CLyric.cs" />
-    <Compile Include="Menu\CMenu.cs" />
-    <Compile Include="Menu\CMenuParty.cs" />
-    <Compile Include="Menu\CNameSelection.cs" />
-    <Compile Include="Menu\CObjectInteractions.cs" />
-    <Compile Include="Menu\CParticle.cs" />
-    <Compile Include="Menu\CPlaylist.cs" />
-    <Compile Include="Menu\CSelectSlide.cs" />
-    <Compile Include="Menu\CStatic.cs" />
-    <Compile Include="Menu\CText.cs" />
-    <Compile Include="Menu\CScreenSetting.cs" />
-    <Compile Include="Menu\IMenu.cs" />
-    <Compile Include="Menu\IMenuElement.cs" />
-    <Compile Include="Menu\SingNotes\CNotes.cs" />
-    <Compile Include="Menu\SingNotes\CSingNotes.cs" />
-    <Compile Include="Menu\SingNotes\CSingNotesClassic.cs" />
-    <Compile Include="Menu\SingNotes\ISingNotes.cs" />
-    <Compile Include="Menu\SongMenu\CSong.cs" />
-    <Compile Include="Menu\SongMenu\CSongMenu.cs" />
-    <Compile Include="Menu\SongMenu\CSongMenuBook.cs" />
-    <Compile Include="Menu\SongMenu\CSongMenuDreidel.cs" />
-    <Compile Include="Menu\SongMenu\CSongMenuFramework.cs" />
-    <Compile Include="Menu\SongMenu\CSongMenuList.cs" />
-    <Compile Include="Menu\SongMenu\CSongMenuTileBoard.cs" />
-    <Compile Include="Menu\SongMenu\ISongMenu.cs" />
-    <Compile Include="PartyModes\CPartyMode.cs" />
-    <Compile Include="PartyModes\CPartyModeNone.cs" />
-    <Compile Include="PartyModes\CScreenPartyDummy.cs" />
-    <Compile Include="PartyModes\IPartyMode.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

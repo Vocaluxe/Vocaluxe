@@ -1,5 +1,8 @@
 ScreenScore
-
+++++++++++
+Version 3:
+Add <ScreenSettingShortScore>, <ScreenSettingShortRating>, <ScreenSettingShortDifficulty> to change text-string with player-num >= <Value>
+Add <ScreenSettingAnimationDirection>, set <Value> to "vertical" to draw animation in vertical direction.
 ++++++++++
 Version 2:
 
