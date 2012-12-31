@@ -164,7 +164,7 @@ namespace Vocaluxe.PartyModes
         {
             base.HandleMouse(MouseEvent);
 
-            
+            /**
             //Check if LeftButton is hold and Select-Mode inactive
             if (MouseEvent.LBH && !SelectingMouseActive)
             {
@@ -191,7 +191,7 @@ namespace Vocaluxe.PartyModes
                     }
                 }
             }
-
+            **/
             //Check if LeftButton is hold and Select-Mode active
             if (MouseEvent.LBH && SelectingMouseActive)
             {
@@ -218,7 +218,7 @@ namespace Vocaluxe.PartyModes
                             {
                                 int added = -1;
                                 //Add Player-ID to list.
-                                if (i - PlayerDestinationButtonsNumW < 0)
+                                if (i - PlayerDestinationButtonsNumH < 0)
                                 {
                                     if (Data.ScreenNames.ProfileIDsTeam1.Count < (i + 1))
                                     {
@@ -231,7 +231,7 @@ namespace Vocaluxe.PartyModes
                                         added = i;
                                     }
                                 }
-                                else if (i - PlayerDestinationButtonsNumW >= 0)
+                                else if (i - PlayerDestinationButtonsNumH >= 0)
                                 {
                                     if (Data.ScreenNames.ProfileIDsTeam2.Count < (i + 1))
                                     {
@@ -605,13 +605,13 @@ namespace Vocaluxe.PartyModes
                     }
                 }
             }
-            for (int i = PlayerDestinationButtonsNumW; i < PlayerDestinationButtonsNumH*2; i++)
+            for (int i = PlayerDestinationButtonsNumH; i < PlayerDestinationButtonsNumH*2; i++)
             {
                 if (PlayerDestinationButtons[i].Selected)
                 {
-                    if (((i-PlayerDestinationButtonsNumW) + 1) <= Data.ScreenNames.ProfileIDsTeam2.Count)
+                    if (((i-PlayerDestinationButtonsNumH) + 1) <= Data.ScreenNames.ProfileIDsTeam2.Count)
                     {
-                        Data.ScreenNames.ProfileIDsTeam2.RemoveAt(i);
+                        Data.ScreenNames.ProfileIDsTeam2.RemoveAt(i - PlayerDestinationButtonsNumH);
                         UpdateButtonNext();
                         UpdateButtonPlayerDestination();
                         UpdateButtonPlayerChoose();
