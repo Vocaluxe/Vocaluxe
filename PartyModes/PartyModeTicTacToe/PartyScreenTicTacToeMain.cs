@@ -348,6 +348,7 @@ namespace Vocaluxe.PartyModes
         public override void OnClose()
         {
             base.OnClose();
+            _Base.BackgroundMusic.SetStatus(false);
             _Base.Sound.FadeAndStop(PreviewStream, 0f, 0.5f);
         }
 
@@ -456,8 +457,9 @@ namespace Vocaluxe.PartyModes
                 GameData.Songs.RemoveAt(0);
             }
             Menu.SongMenu.CSong Song = _Base.Songs.GetSongByID(SongID);
-            if(_Base.BackgroundMusic.IsPlaying())
-                _Base.BackgroundMusic.Pause();
+
+            _Base.BackgroundMusic.SetStatus(true);
+
             PreviewStream = _Base.Sound.Load(Song.GetMP3(), false);
             _Base.Sound.SetPosition(PreviewStream, Song.PreviewStart);
             _Base.Sound.SetStreamVolume(PreviewStream, 0f);
@@ -491,8 +493,8 @@ namespace Vocaluxe.PartyModes
         {
             int SongID = Fields[SelectedField].Content.SongID;
             Menu.SongMenu.CSong Song = _Base.Songs.GetSongByID(SongID);
-            if (_Base.BackgroundMusic.IsPlaying())
-                _Base.BackgroundMusic.Pause();
+            _Base.BackgroundMusic.SetStatus(true);
+
             PreviewStream = _Base.Sound.Load(Song.GetMP3(), false);
             _Base.Sound.SetPosition(PreviewStream, Song.PreviewStart);
             _Base.Sound.SetStreamVolume(PreviewStream, 0f);

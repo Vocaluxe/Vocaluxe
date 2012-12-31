@@ -502,7 +502,7 @@ namespace Vocaluxe.Base
             MouseEvent InputMouseEvent = new MouseEvent();
 
             bool PopupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing &&
-                _CurrentScreen != EScreens.ScreenSong && _CurrentScreen != EScreens.ScreenCredits;
+                _CurrentScreen != EScreens.ScreenSong && _CurrentScreen != EScreens.ScreenCredits && !CBackgroundMusic.Disabled;
 
             bool PopupVolumeControlAllowed = _CurrentScreen != EScreens.ScreenCredits && _CurrentScreen != EScreens.ScreenOptionsRecord;
 

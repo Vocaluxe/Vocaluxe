@@ -303,6 +303,10 @@ namespace Vocaluxe.Base
             return CBackgroundMusic.VideoEnabled;
         }
 
+        public void SetStatus(bool Disabled)
+        {
+            CBackgroundMusic.Disabled = Disabled;
+        }
 
         public void Next()
         {

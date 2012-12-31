@@ -133,7 +133,8 @@ namespace Vocaluxe.Menu
         bool IsPlaying();
         bool SongHasVideo();
         bool VideoEnabled();
-        
+
+        void SetStatus(bool Disabled);
         void Next();
         void Previous();
         void Pause();
