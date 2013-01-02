@@ -531,7 +531,7 @@ namespace Vocaluxe.PartyModes
                 int num = 0;
                 int random = 0;
                 //Add IDs to team-list
-                while (GameData.PlayerTeam1.Count < GameData.NumFields + GameData.NumJokerRetry[0] && GameData.PlayerTeam2.Count < GameData.NumFields + GameData.NumJokerRetry[1])
+                while (GameData.PlayerTeam1.Count < GameData.NumFields + GameData.NumJokerRetry[0] && IDs1.Count == 0 && GameData.PlayerTeam2.Count < GameData.NumFields + GameData.NumJokerRetry[1] && IDs2.Count == 0)
                 {
                     if (IDs1.Count == 0)
                         for (int i = 0; i < GameData.NumPlayerTeam1; i++)
@@ -566,7 +566,7 @@ namespace Vocaluxe.PartyModes
                 int num = 0;
                 int random = 0;
                 //Add IDs to team-list
-                while (GameData.PlayerTeam1.Count < GameData.NumFields + GameData.NumJokerRetry[0])
+                while (GameData.PlayerTeam1.Count < GameData.NumFields + GameData.NumJokerRetry[0] && IDs.Count == 0)
                 {
                     if (IDs.Count == 0)
                         for (int i = 0; i < GameData.NumPlayerTeam1; i++)
@@ -589,7 +589,7 @@ namespace Vocaluxe.PartyModes
                 int num = 0;
                 int random = 0;
                 //Add IDs to team-list
-                while (GameData.PlayerTeam2.Count < GameData.NumFields + GameData.NumJokerRetry[1])
+                while (GameData.PlayerTeam2.Count < GameData.NumFields + GameData.NumJokerRetry[1] && IDs.Count == 0)
                 {
                     if (IDs.Count == 0)
                         for (int i = 0; i < GameData.NumPlayerTeam2; i++)
@@ -670,15 +670,15 @@ namespace Vocaluxe.PartyModes
 
         private void UpdatePlayerList()
         {
-            if (GameData.PlayerTeam1.Count < GameData.NumFields - (GameData.CurrentRoundNr - 1) + GameData.NumJokerRetry[0])
+            if (GameData.PlayerTeam1.Count == 0)
                 PreparePlayerList(1);
-            if (GameData.PlayerTeam2.Count < GameData.NumFields - (GameData.CurrentRoundNr - 1) + GameData.NumJokerRetry[0])
+            if (GameData.PlayerTeam2.Count == 0)
                 PreparePlayerList(2);
         }
 
         private void UpdateSongList()
         {
-            if (GameData.Songs.Count < GameData.NumFields - (GameData.CurrentRoundNr - 1) + GameData.NumJokerRandom[0] + GameData.NumJokerRandom[1])
+            if (GameData.Songs.Count == 0)
                 PrepareSongList();
         }
 
