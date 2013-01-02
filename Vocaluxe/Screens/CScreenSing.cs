@@ -438,7 +438,7 @@ namespace Vocaluxe.Screens
             UpdateNames();
 
             CBackgroundMusic.Disabled = true;
-
+            CloseSong();
         }
 
         public override void OnShowFinish()
@@ -573,6 +573,8 @@ namespace Vocaluxe.Screens
 
         private void LoadNextSong()
         {
+            CloseSong();
+
             CGame.NextRound();
 
             if (CGame.IsFinished())
@@ -588,8 +590,6 @@ namespace Vocaluxe.Screens
                 CLog.LogError("Critical Error! ScreenSing.LoadNextSong() song is null!");
                 return;
             }
-
-            CloseSong();
 
             if (!song.CoverSmallLoaded)
                 song.ReadNotes();
