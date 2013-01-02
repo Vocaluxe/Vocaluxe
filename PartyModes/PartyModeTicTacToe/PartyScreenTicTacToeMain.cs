@@ -67,7 +67,7 @@ namespace Vocaluxe.PartyModes
         private int OldSelectedField = -1;
 
         private int[,] Possibilities;
-        private EStatus Action;
+        private EStatus Status;
 
         public PartyScreenTicTacToeMain()
         {
@@ -135,8 +135,10 @@ namespace Vocaluxe.PartyModes
                     case Keys.Back:
                     case Keys.Escape:
                         if (!ExitPopupVisible)
-                            if (GameData.CurrentRoundNr == 1 && Action != EStatus.FieldSelected)
+                            if (GameData.CurrentRoundNr == 1 && Status != EStatus.FieldSelected)
                                 Back();
+                            else if(Status == EStatus.None)
+                                EndParty();
                             else
                                 ShowPopup(true);
                         else
@@ -148,13 +150,15 @@ namespace Vocaluxe.PartyModes
                         {
                             if (Buttons[htButtons(ButtonNextRound)].Selected)
                                 NextRound();
-                            if (Buttons[htButtons(ButtonBack)].Selected && GameData.CurrentRoundNr == 1 && Action != EStatus.FieldSelected)
+                            if (Buttons[htButtons(ButtonBack)].Selected && GameData.CurrentRoundNr == 1 && Status != EStatus.FieldSelected)
                                 Back();
-                            if (Buttons[htButtons(ButtonExit)].Selected && (GameData.CurrentRoundNr > 1 || Action == EStatus.FieldSelected))
+                            if (Buttons[htButtons(ButtonExit)].Selected && (GameData.CurrentRoundNr > 1 || Status == EStatus.FieldSelected) && Status != EStatus.None)
                                 ShowPopup(true);
+                            else if (Status == EStatus.None)
+                                EndParty();
                             for (int i = 0; i < GameData.NumFields; i++)
                             {
-                                switch (Action)
+                                switch (Status)
                                 {
                                     case EStatus.FieldChoosing:
                                         if (Fields[i].Button.Selected)
@@ -173,7 +177,7 @@ namespace Vocaluxe.PartyModes
                                         break;
                                 }
                             }
-                            if (Action == EStatus.FieldSelected)
+                            if (Status == EStatus.FieldSelected)
                             {
                                 if (Buttons[htButtons(ButtonJokerRandomT1)].Selected)
                                     UseJoker(0, 0);
@@ -211,10 +215,13 @@ namespace Vocaluxe.PartyModes
                     if (Buttons[htButtons(ButtonBack)].Selected)
                         Back();
                     if (Buttons[htButtons(ButtonExit)].Selected)
-                        ShowPopup(true);
+                        if (Status == EStatus.None)
+                            EndParty();
+                        else
+                            ShowPopup(true);
                     for (int i = 0; i < GameData.NumFields; i++)
                     {
-                        switch (Action)
+                        switch (Status)
                         {
                             case EStatus.FieldChoosing:
                                 if (Fields[i].Button.Selected)
@@ -233,7 +240,7 @@ namespace Vocaluxe.PartyModes
                                 break;
                         }
                     }
-                    if(Action == EStatus.FieldSelected)
+                    if(Status == EStatus.FieldSelected)
                     {
                         if (Buttons[htButtons(ButtonJokerRandomT1)].Selected)
                             UseJoker(0, 0);
@@ -258,8 +265,10 @@ namespace Vocaluxe.PartyModes
             if (MouseEvent.RB)
             {
                 if (!ExitPopupVisible)
-                    if (GameData.CurrentRoundNr == 1 && Action != EStatus.FieldSelected)
+                    if (GameData.CurrentRoundNr == 1 && Status != EStatus.FieldSelected)
                         Back();
+                    else if(Status == EStatus.None)
+                        EndParty();
                     else
                         ShowPopup(true);
                 else
@@ -291,10 +300,15 @@ namespace Vocaluxe.PartyModes
                 Buttons[htButtons(ButtonBack)].Visible = false;
                 Buttons[htButtons(ButtonExit)].Visible = true;
             }
+
+            Status = EStatus.FieldChoosing;
+
+            UpdateFields();
+            UpdateFieldContents();
+
             int Winner = GetWinner();
             if (GameData.CurrentRoundNr <= GameData.NumFields && Winner == 0)
             {
-                Action = EStatus.FieldChoosing;
                 UpdateTeamChoosingMessage();
                 Texts[htTexts(TextNextPlayerT1)].Visible = false;
                 Texts[htTexts(TextNextPlayerT2)].Visible = false;
@@ -312,7 +326,7 @@ namespace Vocaluxe.PartyModes
             }
             else
             {
-                Action = EStatus.None;
+                Status = EStatus.None;
                 Buttons[htButtons(ButtonNextRound)].Visible = false;
                 Texts[htTexts(TextFinishMessage)].Visible = true;
                 Texts[htTexts(TextTeamChoosing)].Visible = false;
@@ -328,9 +342,6 @@ namespace Vocaluxe.PartyModes
                 }
                 SetInteractionToButton(Buttons[htButtons(ButtonExit)]);
             }
-
-            UpdateFields();
-            UpdateFieldContents();
 
             ShowPopup(false);
         }
@@ -426,23 +437,23 @@ namespace Vocaluxe.PartyModes
                     Fields[i].Button.Color = _Base.Theme.GetPlayerColor(Fields[i].Content.Winner);
                     Fields[i].Button.SColor = _Base.Theme.GetPlayerColor(Fields[i].Content.Winner);
                 }
-                if (Action == EStatus.FieldSelected && SelectedField == i)
+                if (Status == EStatus.FieldSelected && SelectedField == i)
                 {
                     Fields[i].Button.Texture = _Base.Songs.GetSongByID(Fields[i].Content.SongID).CoverTextureBig;
                     Fields[i].Button.Color = new SColorF(1, 1, 1, 1);
                     Fields[i].Button.SColor = new SColorF(1, 1, 1, 1);
                     Fields[i].Button.Enabled = false;
                 }
-                if (Action == EStatus.JokerRetry && Fields[i].Content.Finished)
+                if (Status == EStatus.JokerRetry && Fields[i].Content.Finished)
                 {
                     Fields[i].Button.SColor = _Base.Theme.GetPlayerColor(GameData.Team+1);
                     Fields[i].Button.Enabled = true;
                 }
-                if (Action == EStatus.JokerRetry && !Fields[i].Content.Finished)
+                if (Status == EStatus.JokerRetry && !Fields[i].Content.Finished)
                 {
                     Fields[i].Button.Enabled = false;
                 }
-                if(Action == EStatus.FieldSelected)
+                if(Status == EStatus.FieldSelected)
                 {
                     Fields[i].Button.Enabled = false;
                 }
@@ -466,7 +477,7 @@ namespace Vocaluxe.PartyModes
             _Base.Sound.SetStreamVolume(PreviewStream, 0f);
             _Base.Sound.Play(PreviewStream);
             _Base.Sound.Fade(PreviewStream, _Base.Config.GetBackgroundMusicVolume(), 1f);
-            Action = EStatus.FieldSelected;
+            Status = EStatus.FieldSelected;
             Fields[SelectedField].Content.SongID = SongID;
             GameData.Rounds[SelectedField].SongID = SongID;
             UpdateFieldContents();
@@ -501,7 +512,7 @@ namespace Vocaluxe.PartyModes
             _Base.Sound.SetStreamVolume(PreviewStream, 0f);
             _Base.Sound.Play(PreviewStream);
             _Base.Sound.Fade(PreviewStream, _Base.Config.GetBackgroundMusicVolume(), 1f);
-            Action = EStatus.FieldSelected;
+            Status = EStatus.FieldSelected;
             Fields[SelectedField].Content.SongID = SongID;
             GameData.Rounds[SelectedField].SongID = SongID;
             GameData.Rounds[SelectedField].SingerTeam1 = GameData.Rounds[OldSelectedField].SingerTeam1;
@@ -550,7 +561,7 @@ namespace Vocaluxe.PartyModes
                         GameData.Team = TeamNr;
                         if (!_Base.Sound.IsFinished(PreviewStream))
                             _Base.Sound.FadeAndStop(PreviewStream, 0, 1);
-                        Action = EStatus.JokerRetry;
+                        Status = EStatus.JokerRetry;
                         OldSelectedField = SelectedField;
                         SelectedField = -1;
                         UpdateFieldContents();
@@ -564,7 +575,7 @@ namespace Vocaluxe.PartyModes
         {
             Texts[htTexts(TextTeamChoosing)].Color = _Base.Theme.GetPlayerColor(GameData.Team + 1);
             Texts[htTexts(TextTeamChoosing)].Text = _Base.Language.Translate("TR_TEAM", _PartyModeID) + " " + (GameData.Team + 1) + "! " + _Base.Language.Translate("TR_SCREENMAIN_TEAM_CHOOSE", _PartyModeID);
-            if (Action == EStatus.JokerRetry || Action == EStatus.FieldChoosing)
+            if (Status == EStatus.JokerRetry || Status == EStatus.FieldChoosing)
                 Texts[htTexts(TextTeamChoosing)].Visible = true;
             else
                 Texts[htTexts(TextTeamChoosing)].Visible = false;
