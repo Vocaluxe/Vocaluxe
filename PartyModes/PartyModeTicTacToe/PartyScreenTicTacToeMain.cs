@@ -587,10 +587,14 @@ namespace Vocaluxe.PartyModes
             Buttons[htButtons(ButtonJokerRandomT2)].Visible = true;
             Buttons[htButtons(ButtonJokerRandomT1)].Text.Text = GameData.NumJokerRandom[0].ToString();
             Buttons[htButtons(ButtonJokerRandomT2)].Text.Text = GameData.NumJokerRandom[1].ToString();
+            Buttons[htButtons(ButtonJokerRandomT1)].Enabled = GameData.NumJokerRandom[0] > 0;
+            Buttons[htButtons(ButtonJokerRandomT2)].Enabled = GameData.NumJokerRandom[1] > 0;
             Buttons[htButtons(ButtonJokerRetryT1)].Visible = true;
             Buttons[htButtons(ButtonJokerRetryT2)].Visible = true;
             Buttons[htButtons(ButtonJokerRetryT1)].Text.Text = GameData.NumJokerRetry[0].ToString();
             Buttons[htButtons(ButtonJokerRetryT2)].Text.Text = GameData.NumJokerRetry[1].ToString();
+            Buttons[htButtons(ButtonJokerRetryT1)].Enabled = GameData.NumJokerRetry[0] > 0;
+            Buttons[htButtons(ButtonJokerRetryT2)].Enabled = GameData.NumJokerRetry[1] > 0;
         }
 
         private void NextRound()
