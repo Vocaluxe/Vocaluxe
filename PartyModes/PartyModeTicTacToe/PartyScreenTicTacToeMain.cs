@@ -89,6 +89,8 @@ namespace Vocaluxe.PartyModes
             config.SingRoundNr = 1;
             config.Rounds = new List<Round>();
             config.Songs = new List<int>();
+            config.PlayerTeam1 = new List<int>();
+            config.PlayerTeam2 = new List<int>();
             config.FadeToNameSelection = false;
             config.FadeToSinging = false;
             Data.ScreenMain = config;
@@ -463,10 +465,23 @@ namespace Vocaluxe.PartyModes
         private void FieldSelected()
         {
             int SongID = 0;
+            int SingerTeam1 = 0;
+            int SingerTeam2 = 0;
             if (GameData.Songs.Count > 0)
             {
                 SongID = GameData.Songs[0];
                 GameData.Songs.RemoveAt(0);
+            }
+            if (GameData.PlayerTeam1.Count > 0)
+            {
+                SingerTeam1 = GameData.PlayerTeam1[0];
+                GameData.PlayerTeam1.RemoveAt(0);
+            }
+
+            if (GameData.PlayerTeam2.Count > 0)
+            {
+                SingerTeam2 = GameData.PlayerTeam2[0];
+                GameData.PlayerTeam2.RemoveAt(0);
             }
             Menu.SongMenu.CSong Song = _Base.Songs.GetSongByID(SongID);
 
@@ -480,6 +495,8 @@ namespace Vocaluxe.PartyModes
             Status = EStatus.FieldSelected;
             Fields[SelectedField].Content.SongID = SongID;
             GameData.Rounds[SelectedField].SongID = SongID;
+            GameData.Rounds[SelectedField].SingerTeam1 = SingerTeam1;
+            GameData.Rounds[SelectedField].SingerTeam2 = SingerTeam2;
             UpdateFieldContents();
 
             Texts[htTexts(TextNextPlayerT1)].Visible = true;
@@ -605,6 +622,8 @@ namespace Vocaluxe.PartyModes
             Data.ScreenMain.FadeToSinging = true;
             Data.ScreenMain.Songs = GameData.Songs;
             Data.ScreenMain.SingRoundNr = SelectedField;
+            Data.ScreenMain.PlayerTeam1 = GameData.PlayerTeam1;
+            Data.ScreenMain.PlayerTeam2 = GameData.PlayerTeam2;
             _PartyMode.DataFromScreen(_ThemeName, Data);
         }
 
