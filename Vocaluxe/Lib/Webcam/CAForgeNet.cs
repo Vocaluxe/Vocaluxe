@@ -16,36 +16,35 @@ namespace Vocaluxe.Lib.Webcam
 {
     class CAForgeNet : IWebcam
     {
-        private Bitmap _CurrentFrame = new Bitmap(1, 1);
         private List<SWebcamDevice> _Devices = new List<SWebcamDevice>();
         private bool _Paused;
         private VideoCaptureDevice _Webcam;
         private FilterInfoCollection _WebcamDevices;
         private SWebcamConfig _Config;
+        byte[] data;
+        int _Width, _Height;
 
         public void Close()
         {
             if (_Webcam != null)
             {
                 _Webcam.SignalToStop();
+                _Webcam.WaitForStop();
                 _Webcam.NewFrame -= new NewFrameEventHandler(OnFrame);
+                data = null;
             }
         }
 
         public bool GetFrame(ref STexture Frame)
         {
-            if ((_CurrentFrame != null) && (_Webcam != null))
+            if (_Webcam != null && data != null && _Width > 0 && _Height > 0)
             {
-                lock (_CurrentFrame)
+                lock (data)
                 {
-                    BitmapData bitmapdata = _CurrentFrame.LockBits(new Rectangle(0, 0, _CurrentFrame.Width, _CurrentFrame.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                    byte[] data = new byte[4 * _CurrentFrame.Width * _CurrentFrame.Height];
-                    Marshal.Copy(bitmapdata.Scan0, data, 0, data.Length);
-                    _CurrentFrame.UnlockBits(bitmapdata);
-                    if (((Frame.index == -1) || (_CurrentFrame.Width != Frame.width)) || (_CurrentFrame.Height != Frame.height))
+                    if (Frame.index == -1 || _Width != Frame.width || _Height != Frame.height)
                     {
                         CDraw.RemoveTexture(ref Frame);
-                        Frame = CDraw.AddTexture(_CurrentFrame.Width, _CurrentFrame.Height, ref data);
+                        Frame = CDraw.AddTexture(_Width, _Height, ref data);
                     }
                     else
                     {
@@ -58,11 +57,15 @@ namespace Vocaluxe.Lib.Webcam
 
         public Bitmap GetBitmap()
         {
-            if ((_CurrentFrame != null) && (_Webcam != null))
+            if (data != null && _Webcam != null && _Width > 0 && _Height > 0)
             {
-                lock (_CurrentFrame)
+                lock (data)
                 {
-                    return (Bitmap)_CurrentFrame.Clone();
+                    Bitmap bmp = new Bitmap(_Width, _Height);
+                    BitmapData bitmapdata = bmp.LockBits(new Rectangle(0, 0, _Width, _Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+                    Marshal.Copy(data, 0, bitmapdata.Scan0, data.Length);
+                    bmp.UnlockBits(bitmapdata);
+                    return bmp;
                 }
             }
             else
@@ -103,9 +106,16 @@ namespace Vocaluxe.Lib.Webcam
         {
             if (!_Paused)
             {
-                lock (_CurrentFrame)
+                lock (data)
                 {
-                    _CurrentFrame = (Bitmap) e.Frame.Clone();
+                    if (_Width != e.Frame.Width || _Height != e.Frame.Height || data == null)
+                        data = new byte[4 * e.Frame.Width * e.Frame.Height];
+
+                    _Width = e.Frame.Width;
+                    _Height = e.Frame.Height;
+                    BitmapData bitmapdata = e.Frame.LockBits(new Rectangle(0, 0, _Width, _Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                    Marshal.Copy(bitmapdata.Scan0, data, 0, data.Length);
+                    e.Frame.UnlockBits(bitmapdata);
                 }
             }
         }
