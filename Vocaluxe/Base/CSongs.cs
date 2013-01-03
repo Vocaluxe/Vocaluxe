@@ -1048,6 +1048,9 @@ namespace Vocaluxe.Base
                     STexture texture = song.CoverTextureSmall;
                     song.CoverTextureBig = texture;
                     _CoverLoadIndex++;
+
+                    if (i % 100 == 0)
+                        GC.Collect();
                 }
 
                 _CoverLoaded = true;

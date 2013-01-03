@@ -51,6 +51,7 @@ namespace Vocaluxe.Base
             InitHighscoreDB();
             InitCoverDB();
             InitCreditsRessourcesDB();
+            GC.Collect();
         }
 
         #region Highscores
@@ -1242,6 +1243,7 @@ namespace Vocaluxe.Base
             {
                 _TransactionCover.Commit();
                 _TransactionCover = null;
+                GC.Collect();
             }
         }
 
