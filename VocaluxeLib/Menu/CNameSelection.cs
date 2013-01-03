@@ -477,14 +477,14 @@ namespace Vocaluxe.Menu
 
         public void LoadTextures()
         {
-            _TextureEmptyTile = _Base.Theme.GetSkinTexture(_Theme.TextureEmptyTileName);
-            _TextureTileSelected = _Base.Theme.GetSkinTexture(_Theme.TextureTileSelectedName);
+            _TextureEmptyTile = _Base.Theme.GetSkinTexture(_Theme.TextureEmptyTileName, _PartyModeID);
+            _TextureTileSelected = _Base.Theme.GetSkinTexture(_Theme.TextureTileSelectedName, _PartyModeID);
 
             if (_Theme.ColorEmptyTileName != String.Empty)
-                ColorEmptyTile = _Base.Theme.GetColor(_Theme.ColorEmptyTileName);
+                ColorEmptyTile = _Base.Theme.GetColor(_Theme.ColorEmptyTileName, _PartyModeID);
 
             if (_Theme.NameColorName != String.Empty)
-                _Theme.NameColor = _Base.Theme.GetColor(_Theme.NameColorName);
+                _Theme.NameColor = _Base.Theme.GetColor(_Theme.NameColorName, _PartyModeID);
         }
 
         public void ReloadTextures()

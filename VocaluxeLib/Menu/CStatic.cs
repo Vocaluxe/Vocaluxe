@@ -35,7 +35,7 @@ namespace Vocaluxe.Menu
                 if (_Texture.index != -1)
                     return _Texture;
                 else
-                    return _Base.Theme.GetSkinTexture(_Theme.TextureName);
+                    return _Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
             }
 
             set { _Texture = value; }
@@ -247,7 +247,7 @@ namespace Vocaluxe.Menu
             if (_Texture.index != -1)
                 texture = _Texture;
             else
-                texture = _Base.Theme.GetSkinTexture(_Theme.TextureName);
+                texture = _Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
 
             SRectF bounds = new SRectF(
                 Rect.X - Rect.W * (scale - 1f),
@@ -293,7 +293,7 @@ namespace Vocaluxe.Menu
         public void LoadTextures()
         {
             if (_Theme.ColorName != String.Empty)
-                Color = _Base.Theme.GetColor(_Theme.ColorName);
+                Color = _Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
         }
 
         public void ReloadTextures()

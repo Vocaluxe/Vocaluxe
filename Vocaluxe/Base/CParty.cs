@@ -311,6 +311,19 @@ namespace Vocaluxe.Base
             }
             pm.PartyMode.Initialize(CMain.Base);
 
+            if (!CTheme.AddTheme(Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), "Theme.xml"), pm.PartyModeID))
+                return pm;
+
+            int ThemeIndex = CTheme.GetThemeIndex(pm.PartyModeID);
+            CTheme.ListSkins(ThemeIndex);
+            int SkinIndex = CTheme.GetSkinIndex(pm.PartyModeID);
+
+            if (!CTheme.LoadSkin(SkinIndex))
+                return pm;
+
+            if (!CTheme.LoadTheme(ThemeIndex))
+                return pm;
+
             foreach (string screenfile in pm.ScreenFiles)
             {
                 string XmlPath = Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeScreens);

@@ -210,39 +210,39 @@ namespace Vocaluxe.Base
 
     class BTheme : ITheme
     {
-        public string GetThemeScreensPath()
+        public string GetThemeScreensPath(int PartyModeID)
         {
-            return CTheme.GetThemeScreensPath();
+            return CTheme.GetThemeScreensPath(PartyModeID);
         }
 
-        public int GetSkinIndex()
+        public int GetSkinIndex(int PartyModeID)
         {
-            return CTheme.GetSkinIndex();
+            return CTheme.GetSkinIndex(PartyModeID);
         }
 
-        public STexture GetSkinTexture(string TextureName)
+        public STexture GetSkinTexture(string TextureName, int PartyModeID)
         {
-            return CTheme.GetSkinTexture(TextureName);
+            return CTheme.GetSkinTexture(TextureName, PartyModeID);
         }
 
-        public STexture GetSkinVideoTexture(string VideoName)
+        public STexture GetSkinVideoTexture(string VideoName, int PartyModeID)
         {
-            return CTheme.GetSkinVideoTexture(VideoName);
+            return CTheme.GetSkinVideoTexture(VideoName, PartyModeID);
         }
 
-        public void SkinVideoResume(string VideoName)
+        public void SkinVideoResume(string VideoName, int PartyModeID)
         {
-            CTheme.SkinVideoResume(VideoName);
+            CTheme.SkinVideoResume(VideoName, PartyModeID);
         }
 
-        public void SkinVideoPause(string VideoName)
+        public void SkinVideoPause(string VideoName, int PartyModeID)
         {
-            CTheme.SkinVideoPause(VideoName);
+            CTheme.SkinVideoPause(VideoName, PartyModeID);
         }
 
-        public SColorF GetColor(string ColorName)
+        public SColorF GetColor(string ColorName, int PartyModeID)
         {
-            return CTheme.GetColor(ColorName);
+            return CTheme.GetColor(ColorName, PartyModeID);
         }
 
         public bool GetColor(string ColorName, int SkinIndex, ref SColorF Color)

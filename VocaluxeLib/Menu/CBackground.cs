@@ -131,13 +131,13 @@ namespace Vocaluxe.Menu
         public void Resume()
         {
             if (_Theme.Type == EBackgroundTypes.Video && _Theme.VideoName != String.Empty && _Base.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_ON)
-                _Base.Theme.SkinVideoResume(_Theme.VideoName);
+                _Base.Theme.SkinVideoResume(_Theme.VideoName, _PartyModeID);
         }
 
         public void Pause()
         {
             if (_Theme.VideoName != String.Empty)
-                _Base.Theme.SkinVideoPause(_Theme.VideoName);
+                _Base.Theme.SkinVideoPause(_Theme.VideoName, _PartyModeID);
         }
 
         public bool Draw()
@@ -175,7 +175,7 @@ namespace Vocaluxe.Menu
         public void LoadTextures()
         {
             if (_Theme.ColorName != String.Empty)
-                Color = _Base.Theme.GetColor(_Theme.ColorName);
+                Color = _Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
         }
 
         public void ReloadTextures()
@@ -195,7 +195,7 @@ namespace Vocaluxe.Menu
 
         private bool DrawTexture()
         {
-            STexture Texture = _Base.Theme.GetSkinTexture(_Theme.TextureName);
+            STexture Texture = _Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
             if (Texture.height > 0)
             {
                 RectangleF bounds = new RectangleF(0f, 0f, _Base.Settings.GetRenderW(), _Base.Settings.GetRenderH());
@@ -210,7 +210,7 @@ namespace Vocaluxe.Menu
 
         private bool DrawVideo()
         {
-            STexture VideoTexture = _Base.Theme.GetSkinVideoTexture(_Theme.VideoName);
+            STexture VideoTexture = _Base.Theme.GetSkinVideoTexture(_Theme.VideoName, _PartyModeID);
             if (VideoTexture.height > 0)
             {
                 RectangleF bounds = new RectangleF(0f, 0f, _Base.Settings.GetRenderW(), _Base.Settings.GetRenderH());

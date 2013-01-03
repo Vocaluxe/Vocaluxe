@@ -720,15 +720,15 @@ namespace Vocaluxe.Menu
             if (!Visible && _Base.Settings.GetGameState() != EGameState.EditTheme)
                 return;
 
-            STexture Texture = _Base.Theme.GetSkinTexture(_Theme.TextureName);
-            STexture TextureArrowLeft = _Base.Theme.GetSkinTexture(_Theme.TextureArrowLeftName);
-            STexture TextureArrowRight = _Base.Theme.GetSkinTexture(_Theme.TextureArrowRightName);
+            STexture Texture = _Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+            STexture TextureArrowLeft = _Base.Theme.GetSkinTexture(_Theme.TextureArrowLeftName, _PartyModeID);
+            STexture TextureArrowRight = _Base.Theme.GetSkinTexture(_Theme.TextureArrowRightName, _PartyModeID);
 
-            STexture STexture = _Base.Theme.GetSkinTexture(_Theme.STextureName);
-            STexture STextureArrowLeft = _Base.Theme.GetSkinTexture(_Theme.STextureArrowLeftName);
-            STexture STextureArrowRight = _Base.Theme.GetSkinTexture(_Theme.STextureArrowRightName);
+            STexture STexture = _Base.Theme.GetSkinTexture(_Theme.STextureName, _PartyModeID);
+            STexture STextureArrowLeft = _Base.Theme.GetSkinTexture(_Theme.STextureArrowLeftName, _PartyModeID);
+            STexture STextureArrowRight = _Base.Theme.GetSkinTexture(_Theme.STextureArrowRightName, _PartyModeID);
 
-            STexture HTexture = _Base.Theme.GetSkinTexture(_Theme.HTextureName);
+            STexture HTexture = _Base.Theme.GetSkinTexture(_Theme.HTextureName, _PartyModeID);
 
             if (Selected)
             {
@@ -822,25 +822,25 @@ namespace Vocaluxe.Menu
         public void LoadTextures()
         {
             if (_Theme.ColorName != String.Empty)
-                Color = _Base.Theme.GetColor(_Theme.ColorName);
+                Color = _Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
             if (_Theme.SColorName != String.Empty)
-                SColor = _Base.Theme.GetColor(_Theme.SColorName);
+                SColor = _Base.Theme.GetColor(_Theme.SColorName, _PartyModeID);
 
             if (_Theme.HColorName != String.Empty)
-                HColor = _Base.Theme.GetColor(_Theme.HColorName);
+                HColor = _Base.Theme.GetColor(_Theme.HColorName, _PartyModeID);
 
             if (_Theme.ArrowColorName != String.Empty)
-                ColorArrow = _Base.Theme.GetColor(_Theme.ArrowColorName);
+                ColorArrow = _Base.Theme.GetColor(_Theme.ArrowColorName, _PartyModeID);
 
             if (_Theme.SArrowColorName != String.Empty)
-                SColorArrow = _Base.Theme.GetColor(_Theme.SArrowColorName);
+                SColorArrow = _Base.Theme.GetColor(_Theme.SArrowColorName, _PartyModeID);
 
             if (_Theme.TextColorName != String.Empty)
-                TextColor = _Base.Theme.GetColor(_Theme.TextColorName);
+                TextColor = _Base.Theme.GetColor(_Theme.TextColorName, _PartyModeID);
 
             if (_Theme.SColorName != String.Empty)
-                STextColor = _Base.Theme.GetColor(_Theme.STextColorName);
+                STextColor = _Base.Theme.GetColor(_Theme.STextColorName, _PartyModeID);
         }
 
         public void ReloadTextures()

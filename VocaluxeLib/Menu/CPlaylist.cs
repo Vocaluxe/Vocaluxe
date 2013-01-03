@@ -435,12 +435,12 @@ namespace Vocaluxe.Menu
             {
                 if (i == CurrentPlaylistElement && _Selected)
                 {
-                    PlaylistElements[i].Background.Texture = _Base.Theme.GetSkinTexture(_Theme.STextureBackgroundName);
+                    PlaylistElements[i].Background.Texture = _Base.Theme.GetSkinTexture(_Theme.STextureBackgroundName, _PartyModeID);
                     PlaylistElements[i].Background.Color = BackgroundSColor;
                 }
                 else
                 {
-                    PlaylistElements[i].Background.Texture = _Base.Theme.GetSkinTexture(_Theme.TextureBackgroundName);
+                    PlaylistElements[i].Background.Texture = _Base.Theme.GetSkinTexture(_Theme.TextureBackgroundName, _PartyModeID);
                     PlaylistElements[i].Background.Color = BackgroundColor;
                 }
             }
@@ -474,10 +474,10 @@ namespace Vocaluxe.Menu
         public void LoadTextures()
         {
             if (_Theme.ColorBackgroundName != String.Empty)
-                BackgroundColor = _Base.Theme.GetColor(_Theme.ColorBackgroundName);
+                BackgroundColor = _Base.Theme.GetColor(_Theme.ColorBackgroundName, _PartyModeID);
 
             if (_Theme.SColorBackgroundName != String.Empty)
-                BackgroundSColor = _Base.Theme.GetColor(_Theme.SColorBackgroundName);
+                BackgroundSColor = _Base.Theme.GetColor(_Theme.SColorBackgroundName, _PartyModeID);
 
             _Theme.Text1.LoadTextures();
             _Theme.ButtonPlaylistClose.LoadTextures();
@@ -982,7 +982,7 @@ namespace Vocaluxe.Menu
                             ChangeOrderElement.SelectSlide.RectArrowRight.Z = _Base.Settings.GetZNear();
                             ChangeOrderElement.Text1.Z = _Base.Settings.GetZNear();
 
-                            ChangeOrderElement.Background.Texture = _Base.Theme.GetSkinTexture(_Theme.TextureBackgroundName);
+                            ChangeOrderElement.Background.Texture = _Base.Theme.GetSkinTexture(_Theme.TextureBackgroundName, _PartyModeID);
                             ChangeOrderElement.Background.Color = BackgroundColor;
 
                             OldMousePosX = MouseEvent.X;

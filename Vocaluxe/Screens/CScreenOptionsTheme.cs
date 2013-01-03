@@ -59,10 +59,10 @@ namespace Vocaluxe.Screens
             base.LoadTheme(XmlPath);
 
             SelectSlides[htSelectSlides(SelectSlideTheme)].AddValues(CTheme.ThemeNames);
-            SelectSlides[htSelectSlides(SelectSlideTheme)].Selection = CTheme.GetThemeIndex();
+            SelectSlides[htSelectSlides(SelectSlideTheme)].Selection = CTheme.GetThemeIndex(-1);
 
             SelectSlides[htSelectSlides(SelectSlideSkin)].AddValues(CTheme.SkinNames);
-            SelectSlides[htSelectSlides(SelectSlideSkin)].Selection = CTheme.GetSkinIndex();
+            SelectSlides[htSelectSlides(SelectSlideSkin)].Selection = CTheme.GetSkinIndex(-1);
 
             SelectSlides[htSelectSlides(SelectSlideCover)].AddValues(CCover.CoverThemes);
             SelectSlides[htSelectSlides(SelectSlideCover)].Selection = CCover.GetCoverThemeIndex();
@@ -140,8 +140,8 @@ namespace Vocaluxe.Screens
             base.OnShow();
 
             _OldCoverTheme = CCover.GetCoverThemeIndex();
-            _OldTheme = CTheme.GetThemeIndex();
-            _OldSkin = CTheme.GetSkinIndex();
+            _OldTheme = CTheme.GetThemeIndex(-1);
+            _OldSkin = CTheme.GetSkinIndex(-1);
             _TempSkin = _OldSkin;
         }
 

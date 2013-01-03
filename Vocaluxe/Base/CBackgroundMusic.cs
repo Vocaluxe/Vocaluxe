@@ -211,6 +211,7 @@ namespace Vocaluxe.Base
                 _Video = -1;
             }
             CSound.FadeAndStop(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
+            _CurrentMusicStream = -1;
 
             _CurrentPlaylistElement = new PlaylistElement();
             _Playing = false;
@@ -242,6 +243,7 @@ namespace Vocaluxe.Base
 
                 bool finished = CSound.IsFinished(_CurrentMusicStream);
                 if (_Playing && (timeToPlay <= CSettings.BackgroundMusicFadeTime || finished))
+                {
                     if (_RepeatSong)
                     {
                         CSound.SetPosition(_CurrentMusicStream, 0);
@@ -250,6 +252,7 @@ namespace Vocaluxe.Base
                     }
                     else
                         Next();
+                }
             }
         }
 

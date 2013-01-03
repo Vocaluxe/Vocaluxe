@@ -105,15 +105,15 @@ namespace Vocaluxe.Menu
 
     public interface ITheme
     {
-        string GetThemeScreensPath();
-        int GetSkinIndex();
-        STexture GetSkinTexture(string TextureName);
-        STexture GetSkinVideoTexture(string VideoName);
+        string GetThemeScreensPath(int PartyModeID);
+        int GetSkinIndex(int PartyModeID);
+        STexture GetSkinTexture(string TextureName, int PartyModeID);
+        STexture GetSkinVideoTexture(string VideoName, int PartyModeID);
 
-        void SkinVideoResume(string VideoName);
-        void SkinVideoPause(string VideoName);
+        void SkinVideoResume(string VideoName, int PartyModeID);
+        void SkinVideoPause(string VideoName, int PartyModeID);
 
-        SColorF GetColor(string ColorName);
+        SColorF GetColor(string ColorName, int PartyModeID);
         bool GetColor(string ColorName, int SkinIndex, ref SColorF Color);
         SColorF GetPlayerColor(int PlayerNr);
 

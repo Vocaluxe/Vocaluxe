@@ -312,7 +312,7 @@ namespace Vocaluxe.Menu
                 if (Texture.index != -1)
                     texture = Texture;
                 else
-                    texture = _Base.Theme.GetSkinTexture(_Theme.TextureName);
+                    texture = _Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
 
                 _Base.Drawing.DrawTexture(texture, Rect, Color);
                 
@@ -329,7 +329,7 @@ namespace Vocaluxe.Menu
                 if (Texture.index != -1)
                     texture = Texture;
                 else
-                    texture = _Base.Theme.GetSkinTexture(_Theme.STextureName);
+                    texture = _Base.Theme.GetSkinTexture(_Theme.STextureName, _PartyModeID);
 
                 _Base.Drawing.DrawTexture(texture, Rect, SColor);
 
@@ -346,7 +346,7 @@ namespace Vocaluxe.Menu
                 if (STexture.index != -1)
                     texture = STexture;
                 else
-                    texture = _Base.Theme.GetSkinTexture(_Theme.STextureName);
+                    texture = _Base.Theme.GetSkinTexture(_Theme.STextureName, _PartyModeID);
 
                 _Base.Drawing.DrawTexture(texture, Rect, SColor);
 
@@ -375,10 +375,10 @@ namespace Vocaluxe.Menu
             Text.LoadTextures();
 
             if (_Theme.ColorName != String.Empty)
-                Color = _Base.Theme.GetColor(_Theme.ColorName);
+                Color = _Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
             if (_Theme.SColorName != String.Empty)
-                SColor = _Base.Theme.GetColor(_Theme.SColorName);
+                SColor = _Base.Theme.GetColor(_Theme.SColorName, _PartyModeID);
         }
 
         public void ReloadTextures()

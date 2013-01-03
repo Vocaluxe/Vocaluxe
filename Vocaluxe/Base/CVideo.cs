@@ -126,7 +126,7 @@ namespace Vocaluxe.Base
 
         public void Load(string VideoName)
         {
-            _VideoStream = CVideo.VdLoad(CTheme.GetVideoFilePath(VideoName));
+            _VideoStream = CVideo.VdLoad(CTheme.GetVideoFilePath(VideoName, -1));
             _Loaded = true;
         }
 
