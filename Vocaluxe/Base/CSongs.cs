@@ -1055,6 +1055,7 @@ namespace Vocaluxe.Base
                 CLog.StopBenchmark(2, "Load Cover");
             }
             CLog.StopBenchmark(1, "Load Songs ");
+            GC.Collect();
         }
 
         public static void LoadCover(long WaitTime, int NumLoads)
