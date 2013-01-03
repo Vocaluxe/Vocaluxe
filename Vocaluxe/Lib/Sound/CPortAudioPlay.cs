@@ -384,7 +384,8 @@ namespace Vocaluxe.Lib.Sound
 
     class PortAudioStream
     {
-        const long BUFSIZE = 50000L;
+        const long BUFSIZE = 100000L;
+        const long BEGINREFILL = 80000L;
 
         private CSyncTimer _SyncTimer;
         private bool _Initialized;
@@ -760,7 +761,7 @@ namespace Vocaluxe.Lib.Sound
             bool DoIt = false;
             lock (_LockData)
             {
-                if (!_skip && BUFSIZE - 10000L > _data.BytesNotRead)
+                if (!_skip && BEGINREFILL > _data.BytesNotRead)
                     DoIt = true;
             }
 
@@ -792,7 +793,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 _data.Write(Buffer);
                 _TimeCode = Timecode;
-                if (_data.BytesNotRead < BUFSIZE - 10000L)
+                if (_data.BytesNotRead < BEGINREFILL)
                 {
                     _waiting = false;
                     EventDecode.Set();
@@ -866,7 +867,7 @@ namespace Vocaluxe.Lib.Sound
                     }
                 }
 
-                if (_data.BytesNotRead < BUFSIZE - 10000L)
+                if (_data.BytesNotRead < BEGINREFILL)
                 {
                     EventDecode.Set();
                     _waiting = false;
