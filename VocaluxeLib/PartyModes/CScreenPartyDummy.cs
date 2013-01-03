@@ -39,7 +39,7 @@ namespace Vocaluxe.PartyModes
             AddText(Warning);
         }
 
-        public override void ReloadTheme()
+        public override void ReloadTheme(string XmlPath)
         {
         }
 

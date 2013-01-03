@@ -663,14 +663,14 @@ namespace Vocaluxe.Menu
             }
         }
 
-        public virtual void ReloadTheme()
+        public virtual void ReloadTheme(string XmlPath)
         {
             if (_ThemePath == String.Empty)
                 return;
 
             UnloadTextures();
-            Init();            
-            LoadTheme(_ThemePath);
+            Init();
+            LoadTheme(XmlPath);
         }
         #endregion ThemeHandler
 

@@ -268,12 +268,12 @@ namespace Vocaluxe.Base
             ReloadCursor();
             for (int i = 0; i < _Screens.Count; i++)
             {
-                _Screens[i].ReloadTheme();
+                _Screens[i].ReloadTheme(CTheme.GetThemeScreensPath(-1));
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
 			{
-                _PopupScreens[i].ReloadTheme();
+                _PopupScreens[i].ReloadTheme(CTheme.GetThemeScreensPath(-1));
 			}
         }
 

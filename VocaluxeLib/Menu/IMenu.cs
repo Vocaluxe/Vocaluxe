@@ -18,7 +18,7 @@ namespace Vocaluxe.Menu
         void SaveTheme();
         void ReloadTextures();
         void UnloadTextures();
-        void ReloadTheme();
+        void ReloadTheme(string XmlPath);
 
         bool HandleInput(KeyEvent KeyEvent);
         bool HandleMouse(MouseEvent MouseEvent);
