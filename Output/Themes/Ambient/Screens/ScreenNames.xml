@@ -686,6 +686,8 @@
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>32,00</TextH>
+      <!--<TextRelativeX>: Text relative x-position-->
+      <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>186,00</TextMaxW>
       <!--<TextFont>: Text font name-->
@@ -751,6 +753,8 @@
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>20,00</TextH>
+      <!--<TextRelativeX>: Text relative x-position-->
+      <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>86,00</TextMaxW>
       <!--<TextFont>: Text font name-->
@@ -816,6 +820,8 @@
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>20,00</TextH>
+      <!--<TextRelativeX>: Text relative x-position-->
+      <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>86,00</TextMaxW>
       <!--<TextFont>: Text font name-->
@@ -881,6 +887,8 @@
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>20,00</TextH>
+      <!--<TextRelativeX>: Text relative x-position-->
+      <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>86,00</TextMaxW>
       <!--<TextFont>: Text font name-->
@@ -946,6 +954,8 @@
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>20,00</TextH>
+      <!--<TextRelativeX>: Text relative x-position-->
+      <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>86,00</TextMaxW>
       <!--<TextFont>: Text font name-->
@@ -1011,6 +1021,8 @@
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>20,00</TextH>
+      <!--<TextRelativeX>: Text relative x-position-->
+      <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>86,00</TextMaxW>
       <!--<TextFont>: Text font name-->
@@ -1076,6 +1088,8 @@
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>20,00</TextH>
+      <!--<TextRelativeX>: Text relative x-position-->
+      <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>86,00</TextMaxW>
       <!--<TextFont>: Text font name-->

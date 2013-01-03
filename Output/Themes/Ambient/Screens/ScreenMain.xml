@@ -86,7 +86,7 @@
         <Height>26</Height>
       </SReflection>
     </ButtonSing>
-	<ButtonParty>
+    <ButtonParty>
       <!--<Skin>: Texture name-->
       <Skin>Button</Skin>
       <!--<SkinSelected>: Texture name for selected button-->
