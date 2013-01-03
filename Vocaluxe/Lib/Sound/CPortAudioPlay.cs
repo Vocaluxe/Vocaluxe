@@ -649,7 +649,7 @@ namespace Vocaluxe.Lib.Sound
             outputParams.suggestedLatency = _outputDeviceInfo.defaultLowOutputLatency;
 
             uint bufsize = (uint)CConfig.AudioBufferSize;
-            errorCheck("OpenDefaultStream", PortAudio.Pa_OpenStream(
+            errorCheck("OpenDefaultStream (playback)", PortAudio.Pa_OpenStream(
                 out _Ptr,
                 IntPtr.Zero,
                 ref outputParams,
@@ -901,7 +901,7 @@ namespace Vocaluxe.Lib.Sound
                 if (errorCode == PortAudio.PaError.paStreamIsNotStopped)
                     return false;
 
-                CLog.LogError(action + " error: " + PortAudio.Pa_GetErrorText(errorCode));
+                CLog.LogError(action + " error (playback): " + PortAudio.Pa_GetErrorText(errorCode));
                 if (errorCode == PortAudio.PaError.paUnanticipatedHostError)
                 {
                     PortAudio.PaHostErrorInfo errorInfo = PortAudio.Pa_GetLastHostErrorInfo();

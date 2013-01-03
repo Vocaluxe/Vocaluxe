@@ -148,7 +148,7 @@ namespace Vocaluxe.Lib.Sound
                     inputParams.sampleFormat = PortAudio.PaSampleFormat.paInt16;
                     inputParams.suggestedLatency = PortAudio.Pa_GetDeviceInfo(_DeviceConfig[i].ID).defaultLowInputLatency;
 
-                    if (errorCheck("OpenStream", PortAudio.Pa_OpenStream(
+                    if (errorCheck("OpenStream (rec)", PortAudio.Pa_OpenStream(
                         out _recHandle[i],
                         ref inputParams,
                         IntPtr.Zero,
@@ -159,7 +159,7 @@ namespace Vocaluxe.Lib.Sound
                         new IntPtr(i))))
                         return false;
 
-                    if (errorCheck("Start Stream", PortAudio.Pa_StartStream(_recHandle[i])))
+                    if (errorCheck("Start Stream (rec)", PortAudio.Pa_StartStream(_recHandle[i])))
                         return false;
                 }
             }
@@ -321,7 +321,7 @@ namespace Vocaluxe.Lib.Sound
             }
             catch (Exception e)
             {
-                CLog.LogError("Error on Stream Callback: " + e.ToString());
+                CLog.LogError("Error on Stream Callback (rec): " + e.ToString());
             }
 
             return PortAudio.PaStreamCallbackResult.paContinue;
@@ -331,7 +331,7 @@ namespace Vocaluxe.Lib.Sound
         {
             if (errorCode != PortAudio.PaError.paNoError)
             {
-                CLog.LogError(action + " error: " + PortAudio.Pa_GetErrorText(errorCode));
+                CLog.LogError(action + " error (rec): " + PortAudio.Pa_GetErrorText(errorCode));
                 if (errorCode == PortAudio.PaError.paUnanticipatedHostError)
                 {
                     PortAudio.PaHostErrorInfo errorInfo = PortAudio.Pa_GetLastHostErrorInfo();
