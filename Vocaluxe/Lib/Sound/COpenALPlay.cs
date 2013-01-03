@@ -37,6 +37,7 @@ namespace Vocaluxe.Lib.Sound
                 CloseAll();
 
             AC = new AudioContext();
+            
             AC.MakeCurrent();
             
 
@@ -400,8 +401,8 @@ namespace Vocaluxe.Lib.Sound
 
     class OpenAlStream
     {
-        const int buffer_size = 16384;
-        const int buffer_count = 2;
+        const int buffer_size = 2048;
+        const int buffer_count = 5;
         const long BUFSIZE = 50000L;
 
         Object CloseMutex;
@@ -628,7 +629,12 @@ namespace Vocaluxe.Lib.Sound
             try
             {
                 _source = AL.GenSource();
-                _buffers = AL.GenBuffers(buffer_count);
+                _buffers = new int[buffer_count];
+                for (int i = 0; i < buffer_count; i++)
+			    {
+                    _buffers[i] = AL.GenBuffer();
+			    }
+               
                 _state = 0;
                 //AL.SourceQueueBuffers(_source, _buffers.Length, _buffers);
             }
@@ -833,7 +839,7 @@ namespace Vocaluxe.Lib.Sound
             AL.GetSource(_source, ALGetSourcei.BuffersQueued, out queued_count);
 
             int processed_count = buffer_count;
-            if (queued_count != 0)
+            if (queued_count > 0)
             {
                 AL.GetSource(_source, ALGetSourcei.BuffersProcessed, out processed_count);
                 doit = false;
