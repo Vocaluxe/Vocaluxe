@@ -69,8 +69,8 @@ namespace Vocaluxe.Menu.SongMenu
             _TileW = (int)((_Theme.songMenuTileBoard.TileRect.W - _SpaceW * (_NumW - 1)) / _NumW);
             _TileH = (int)((_Theme.songMenuTileBoard.TileRect.H - _SpaceH * (_NumH - 1)) / _NumH);
 
-            _CoverTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBackgroundName);
-            _CoverBigTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName);
+            _CoverTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
+            _CoverBigTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
 
             _Tiles = new List<CStatic>();
             for (int i = 0; i < _NumH; i++)
@@ -781,8 +781,8 @@ namespace Vocaluxe.Menu.SongMenu
                 _TileW = (int)((_Theme.songMenuTileBoard.TileRectSmall.W - _SpaceW * (_NumW - 1)) / _NumW);
                 _TileH = (int)((_Theme.songMenuTileBoard.TileRectSmall.H - _SpaceH * (_NumH - 1)) / _NumH);
 
-                _CoverTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBackgroundName);
-                _CoverBigTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName);
+                _CoverTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
+                _CoverBigTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
 
                 _Tiles = new List<CStatic>();
                 for (int i = 0; i < _NumH; i++)
@@ -807,8 +807,8 @@ namespace Vocaluxe.Menu.SongMenu
                 _TileW = (int)((_Theme.songMenuTileBoard.TileRect.W - _SpaceW * (_NumW - 1)) / _NumW);
                 _TileH = (int)((_Theme.songMenuTileBoard.TileRect.H - _SpaceH * (_NumH - 1)) / _NumH);
 
-                _CoverTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBackgroundName);
-                _CoverBigTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName);
+                _CoverTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
+                _CoverBigTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
 
                 _Tiles = new List<CStatic>();
                 for (int i = 0; i < _NumH; i++)

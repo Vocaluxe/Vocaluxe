@@ -523,9 +523,9 @@ namespace Vocaluxe.Menu.SingNotes
                 Rect.Z
                 );
 
-            STexture NoteBegin = _Base.Theme.GetSkinTexture(_Theme.SkinLeftName);
-            STexture NoteMiddle = _Base.Theme.GetSkinTexture(_Theme.SkinMiddleName);
-            STexture NoteEnd = _Base.Theme.GetSkinTexture(_Theme.SkinRightName);
+            STexture NoteBegin = _Base.Theme.GetSkinTexture(_Theme.SkinLeftName, _PartyModeID);
+            STexture NoteMiddle = _Base.Theme.GetSkinTexture(_Theme.SkinMiddleName, _PartyModeID);
+            STexture NoteEnd = _Base.Theme.GetSkinTexture(_Theme.SkinRightName, _PartyModeID);
 
             float dx = NoteBegin.width * r.H / NoteBegin.height;
             if (2 * dx > r.W)
@@ -565,9 +565,9 @@ namespace Vocaluxe.Menu.SingNotes
                 Rect.Z
                 );
 
-            STexture NoteBackgroundBegin = _Base.Theme.GetSkinTexture(_Theme.SkinBackgroundLeftName);
-            STexture NoteBackgroundMiddle = _Base.Theme.GetSkinTexture(_Theme.SkinBackgroundMiddleName);
-            STexture NoteBackgroundEnd = _Base.Theme.GetSkinTexture(_Theme.SkinBackgroundRightName);
+            STexture NoteBackgroundBegin = _Base.Theme.GetSkinTexture(_Theme.SkinBackgroundLeftName, _PartyModeID);
+            STexture NoteBackgroundMiddle = _Base.Theme.GetSkinTexture(_Theme.SkinBackgroundMiddleName, _PartyModeID);
+            STexture NoteBackgroundEnd = _Base.Theme.GetSkinTexture(_Theme.SkinBackgroundRightName, _PartyModeID);
 
             float dx = NoteBackgroundBegin.width * r.H / NoteBackgroundBegin.height;
             if (2 * dx > r.W)
@@ -670,7 +670,7 @@ namespace Vocaluxe.Menu.SingNotes
                 Rect.Z
                 );
 
-            STexture NoteBegin = _Base.Theme.GetSkinTexture(_Theme.SkinLeftName);
+            STexture NoteBegin = _Base.Theme.GetSkinTexture(_Theme.SkinLeftName, _PartyModeID);
             float dx = NoteBegin.width * r.H / NoteBegin.height;
             if (2 * dx > r.W)
                 dx = r.W / 2;
@@ -726,7 +726,7 @@ namespace Vocaluxe.Menu.SingNotes
                         _PlayerNotes[n].Color.B,
                         _PlayerNotes[n].Color.A * _PlayerNotes[n].Alpha);
 
-            STexture ToneHelper = _Base.Theme.GetSkinTexture(_Theme.SkinToneHelperName);
+            STexture ToneHelper = _Base.Theme.GetSkinTexture(_Theme.SkinToneHelperName, _PartyModeID);
             _Base.Drawing.DrawTexture(ToneHelper, rect, color);
 
 

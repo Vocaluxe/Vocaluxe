@@ -277,10 +277,10 @@ namespace Vocaluxe.Menu
         public void LoadTextures()
         {
             if (_Theme.ColorName != String.Empty)
-                Color = _Base.Theme.GetColor(_Theme.ColorName);
+                Color = _Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
             if (_Theme.MaxColorName != String.Empty)
-                MaxColor = _Base.Theme.GetColor(_Theme.MaxColorName);
+                MaxColor = _Base.Theme.GetColor(_Theme.MaxColorName, _PartyModeID);
         }
 
         public void ReloadTextures()

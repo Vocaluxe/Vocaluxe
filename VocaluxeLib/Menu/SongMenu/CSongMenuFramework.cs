@@ -582,7 +582,7 @@ namespace Vocaluxe.Menu.SongMenu
             Init();
 
             if (_Theme.ColorName != String.Empty)
-                _Color = _Base.Theme.GetColor(_Theme.ColorName);
+                _Color = _Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
         }
 
         public void ReloadTextures()
@@ -654,7 +654,7 @@ namespace Vocaluxe.Menu.SongMenu
                 _Base.Sound.Fade(_stream, 100f, 3f);
                 _streams.Add(_stream);
                 _actsongstream = _stream;
-
+                
                 if (_Base.Songs.GetVisibleSong(_actsong).VideoFileName != String.Empty && _Base.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
                 {
                     _video = _Base.Video.Load(Path.Combine(_Base.Songs.GetVisibleSong(_actsong).Folder, _Base.Songs.GetVisibleSong(_actsong).VideoFileName));

@@ -202,7 +202,7 @@ namespace Vocaluxe.Menu
             if (loaded)
                 VersionCheck = CheckVersion(_ScreenVersion, navigator);
 
-            int SkinIndex = _Base.Theme.GetSkinIndex();
+            int SkinIndex = _Base.Theme.GetSkinIndex(_PartyModeID);
 
             if (loaded && VersionCheck && SkinIndex != -1)
             {

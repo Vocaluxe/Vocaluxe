@@ -60,7 +60,7 @@ namespace Vocaluxe.Base
             _CursorFadingTime = 0.5f;
 
             _CursorName = textureName;
-            _Cursor = CDraw.AddTexture(CTheme.GetSkinFilePath(_CursorName));
+            _Cursor = CDraw.AddTexture(CTheme.GetSkinFilePath(_CursorName, -1));
 
             _Cursor.color = color;
             _Cursor.rect.W = w;
@@ -126,7 +126,7 @@ namespace Vocaluxe.Base
         {
             UnloadTextures();
 
-            _Cursor = CDraw.AddTexture(CTheme.GetSkinFilePath(_CursorName));
+            _Cursor = CDraw.AddTexture(CTheme.GetSkinFilePath(_CursorName, -1));
         }
 
         public void FadeOut()
@@ -252,14 +252,14 @@ namespace Vocaluxe.Base
             {
                 CLog.StartBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
                 _Screens[i].Initialize(CMain.Base);
-                _Screens[i].LoadTheme(CTheme.GetThemeScreensPath());
+                _Screens[i].LoadTheme(CTheme.GetThemeScreensPath(-1));
                 CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
 			{
                 _PopupScreens[i].Initialize(CMain.Base);
-                _PopupScreens[i].LoadTheme(CTheme.GetThemeScreensPath());
+                _PopupScreens[i].LoadTheme(CTheme.GetThemeScreensPath(-1));
 			}
         }
 
@@ -853,7 +853,7 @@ namespace Vocaluxe.Base
             if (CTheme.Cursor.color != string.Empty)
             {
                 SColorF color;
-                color = CTheme.GetColor(CTheme.Cursor.color);
+                color = CTheme.GetColor(CTheme.Cursor.color, -1);
                 CTheme.Cursor.r = color.R;
                 CTheme.Cursor.g = color.G;
                 CTheme.Cursor.b = color.B;
