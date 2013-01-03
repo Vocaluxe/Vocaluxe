@@ -48,7 +48,7 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </Text1>
-	<SelectSlideVolume>
+    <SelectSlideVolume>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
       <!--<SkinArrowLeft>: Texture name of left arrow-->
@@ -104,16 +104,18 @@
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>32,00</TextH>
+      <!--<TextRelativeX>: Text relative x-position-->
+      <TextRelativeX>-15,00</TextRelativeX>
+      <!--<TextRelativeY>: Text relative y-position-->
+      <TextRelativeY>-8,00</TextRelativeY>
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>500,00</TextMaxW>
       <!--<TextFont>: Text font name-->
       <TextFont>Outline</TextFont>
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
-      <TextRelativeX>-15,0</TextRelativeX>
-      <TextRelativeY>-8,0</TextRelativeY>
       <!--<NumVisible>: Number of visible elements in the slide-->
       <NumVisible>1</NumVisible>
-    </SelectSlideVolume>    
+    </SelectSlideVolume>
   </PopupScreenVolumeControl>
 </root>

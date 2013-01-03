@@ -217,8 +217,8 @@
     <SelectSlideArrowLeft>SelectSlideArrowLeft.png</SelectSlideArrowLeft>
     <SelectSlideArrowRight>SelectSlideArrowRight.png</SelectSlideArrowRight>
     <PopupBG>Popup.png</PopupBG>
-	<RepeatIcon>RepeatIcon.png</RepeatIcon>
-	<Random>Random.png</Random>
+    <RepeatIcon>RepeatIcon.png</RepeatIcon>
+    <Random>Random.png</Random>
     <ScrollUp>ScrollUp.png</ScrollUp>
     <ScrollDown>ScrollDown.png</ScrollDown>
     <Invisible>Invisible.png</Invisible>

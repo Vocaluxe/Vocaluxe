@@ -174,7 +174,7 @@ namespace Vocaluxe.Screens
 
         }
 
-        public override void ReloadTheme() { }
+        public override void ReloadTheme(string XmlPath) { }
 
         public override void SaveTheme() { }
 

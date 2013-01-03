@@ -569,6 +569,7 @@ namespace Vocaluxe.Screens
             Texts[htTexts(TextSongName)].Text = String.Empty;
             Texts[htTexts(TextDuetName1)].Text = String.Empty;
             Texts[htTexts(TextDuetName2)].Text = String.Empty;
+            GC.Collect();
         }
 
         private void LoadNextSong()

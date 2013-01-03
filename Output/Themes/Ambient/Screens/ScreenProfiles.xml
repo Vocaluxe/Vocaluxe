@@ -576,63 +576,6 @@
         <Height>26</Height>
       </SReflection>
     </ButtonDelete>
-    <ButtonTakeSnapshot>
-      <!--<Skin>: Texture name-->
-      <Skin>Button</Skin>
-      <!--<SkinSelected>: Texture name for selected button-->
-      <SkinSelected>Button</SkinSelected>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>985</X>
-      <Y>600</Y>
-      <Z>0,00</Z>
-      <W>150</W>
-      <H>50</H>
-      <!--<Color>: Button color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>ButtonColor</Color>
-      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>ButtonSColor</SColor>
-      <Text>
-        <!--<X>, <Y>: Text position-->
-        <X>75</X>
-        <Y>10</Y>
-        <!--<H>: Text height-->
-        <H>32</H>
-        <!--<MaxW>: Maximum text width (if exists)-->
-        <MaxW>142</MaxW>
-        <!--<Color>: Text color from ColorScheme (high priority)-->
-        <!--or <R>, <G>, <B>, <A> (lower priority)-->
-        <Color>ButtonTextColor</Color>
-        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-        <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align horizontal: Left, Center, Right-->
-        <Align>Center</Align>
-        <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <HAlign>Center</HAlign>
-        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
-        <Style>Bold</Style>
-        <!--<Font>: Text font name-->
-        <Font>Outline</Font>
-        <!--<Text>: Nothing or translation tag-->
-        <Text>TR_SCREENPROFILES_BUTTON_TAKESNAPSHOT</Text>
-      </Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-      <Reflection>
-        <Space>10</Space>
-        <Height>26</Height>
-      </Reflection>
-      <!--<SReflection> If exists:-->
-      <!--   <Space>: Reflection Space of selected button-->
-      <!--   <Height>: Reflection Height of selected button-->
-      <SReflection>
-        <Space>10</Space>
-        <Height>26</Height>
-      </SReflection>
-    </ButtonTakeSnapshot>
     <ButtonWebcam>
       <!--<Skin>: Texture name-->
       <Skin>Button</Skin>
@@ -788,6 +731,63 @@
       <!--   <Space>: Reflection Space of selected button-->
       <!--   <Height>: Reflection Height of selected button-->
     </ButtonDiscardSnapshot>
+    <ButtonTakeSnapshot>
+      <!--<Skin>: Texture name-->
+      <Skin>Button</Skin>
+      <!--<SkinSelected>: Texture name for selected button-->
+      <SkinSelected>Button</SkinSelected>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
+      <X>985</X>
+      <Y>600</Y>
+      <Z>0,00</Z>
+      <W>150</W>
+      <H>50</H>
+      <!--<Color>: Button color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>ButtonColor</Color>
+      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>ButtonSColor</SColor>
+      <Text>
+        <!--<X>, <Y>: Text position-->
+        <X>75</X>
+        <Y>10</Y>
+        <!--<H>: Text height-->
+        <H>32</H>
+        <!--<MaxW>: Maximum text width (if exists)-->
+        <MaxW>142</MaxW>
+        <!--<Color>: Text color from ColorScheme (high priority)-->
+        <!--or <R>, <G>, <B>, <A> (lower priority)-->
+        <Color>ButtonTextColor</Color>
+        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+        <SColor>ButtonTextSColor</SColor>
+        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Align>Center</Align>
+        <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+        <HAlign>Center</HAlign>
+        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <Style>Bold</Style>
+        <!--<Font>: Text font name-->
+        <Font>Outline</Font>
+        <!--<Text>: Nothing or translation tag-->
+        <Text>TR_SCREENPROFILES_BUTTON_TAKESNAPSHOT</Text>
+      </Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+      <Reflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </Reflection>
+      <!--<SReflection> If exists:-->
+      <!--   <Space>: Reflection Space of selected button-->
+      <!--   <Height>: Reflection Height of selected button-->
+      <SReflection>
+        <Space>10</Space>
+        <Height>26</Height>
+      </SReflection>
+    </ButtonTakeSnapshot>
     <SelectSlideProfiles>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
@@ -844,6 +844,8 @@
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>32,00</TextH>
+      <!--<TextRelativeX>: Text relative x-position-->
+      <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>219,20</TextMaxW>
       <!--<TextFont>: Text font name-->
@@ -909,6 +911,8 @@
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>32,00</TextH>
+      <!--<TextRelativeX>: Text relative x-position-->
+      <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>208,67</TextMaxW>
       <!--<TextFont>: Text font name-->
@@ -974,6 +978,8 @@
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>32,00</TextH>
+      <!--<TextRelativeX>: Text relative x-position-->
+      <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>208,67</TextMaxW>
       <!--<TextFont>: Text font name-->
@@ -1039,6 +1045,8 @@
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>32,00</TextH>
+      <!--<TextRelativeX>: Text relative x-position-->
+      <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>313,00</TextMaxW>
       <!--<TextFont>: Text font name-->
@@ -1104,6 +1112,8 @@
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
       <TextH>32,00</TextH>
+      <!--<TextRelativeX>: Text relative x-position-->
+      <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
       <TextMaxW>313,00</TextMaxW>
       <!--<TextFont>: Text font name-->

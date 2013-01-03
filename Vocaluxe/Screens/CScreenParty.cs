@@ -43,7 +43,7 @@ namespace Vocaluxe.Screens
 
         public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme(XmlPath);   
+            base.LoadTheme(XmlPath);
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -146,12 +146,14 @@ namespace Vocaluxe.Screens
             if (index >= _PartyModeInfos.Count)
                 return;
 
-            //Description
-            Texts[htTexts(TextDescription)].PartyModeID = _PartyModeInfos[index].PartyModeID;
+            //Description    
             Texts[htTexts(TextDescription)].Text = _PartyModeInfos[index].Description;
+            Texts[htTexts(TextDescription)].TranslationID = _PartyModeInfos[index].PartyModeID;
+
             //TargetAudience
-            Texts[htTexts(TextTargetAudience)].PartyModeID = _PartyModeInfos[index].PartyModeID;
+            Texts[htTexts(TextTargetAudience)].TranslationID = _PartyModeInfos[index].PartyModeID;
             Texts[htTexts(TextTargetAudience)].Text = _PartyModeInfos[index].TargetAudience;
+
             //NumTeams
             if (_PartyModeInfos[index].MaxTeams == 0)
                 Texts[htTexts(TextNumTeams)].Text = "TR_SCREENPARTY_NOTEAMS";
@@ -159,17 +161,20 @@ namespace Vocaluxe.Screens
                 Texts[htTexts(TextNumTeams)].Text = _PartyModeInfos[index].MaxTeams.ToString();
             else if (_PartyModeInfos[index].MaxTeams > _PartyModeInfos[index].MinTeams)
                 Texts[htTexts(TextNumTeams)].Text = _PartyModeInfos[index].MinTeams + " - " + _PartyModeInfos[index].MaxTeams;
+
             //NumPlayers
             if (_PartyModeInfos[index].MaxPlayers == _PartyModeInfos[index].MinPlayers)
                 Texts[htTexts(TextNumPlayers)].Text = _PartyModeInfos[index].MaxTeams.ToString();
             else if (_PartyModeInfos[index].MaxPlayers > _PartyModeInfos[index].MinPlayers)
                 Texts[htTexts(TextNumPlayers)].Text = _PartyModeInfos[index].MinPlayers + " - " + _PartyModeInfos[index].MaxPlayers;
+
             //Author
             Texts[htTexts(TextAuthor)].Text = _PartyModeInfos[index].Author;
-            Texts[htTexts(TextAuthor)].PartyModeID = _PartyModeInfos[index].PartyModeID;
+            Texts[htTexts(TextAuthor)].TranslationID = _PartyModeInfos[index].PartyModeID;
+
             //Version
             Texts[htTexts(TextVersion)].Text = _PartyModeInfos[index].VersionMajor + "." + _PartyModeInfos[index].VersionMinor;
-            Texts[htTexts(TextVersion)].PartyModeID = _PartyModeInfos[index].PartyModeID;
+            Texts[htTexts(TextVersion)].TranslationID = _PartyModeInfos[index].PartyModeID;
 
             if (!_PartyModeInfos[index].Playable)
             {

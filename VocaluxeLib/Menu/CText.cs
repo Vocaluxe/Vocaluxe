@@ -40,6 +40,7 @@ namespace Vocaluxe.Menu
         private SThemeText _Theme;
         private bool _ThemeLoaded;
         private int _PartyModeID;
+        private int _TranslationID;
 
         public string GetThemeName()
         {
@@ -209,7 +210,7 @@ namespace Vocaluxe.Menu
             get { return _Theme.Text; }
             set
             {
-                string translation = _Base.Language.Translate(value, _PartyModeID);
+                string translation = _Base.Language.Translate(value, _TranslationID);
                 if (_Theme.Text != value || translation != _Text)
                 {
                     _Theme.Text = value;
@@ -227,6 +228,18 @@ namespace Vocaluxe.Menu
                 _Text = _Base.Language.Translate(_Text, value);
                 _PositionNeedsUpdate = true;
                 _PartyModeID = value;
+                _TranslationID = value;
+            }
+        }
+
+        public int TranslationID
+        {
+            get { return _TranslationID; }
+            set
+            {
+                _Text = _Base.Language.Translate(_Text, value);
+                _PositionNeedsUpdate = true;
+                _TranslationID = value;
             }
         }
 
@@ -243,6 +256,7 @@ namespace Vocaluxe.Menu
             _ThemeLoaded = false;
             _ButtonText = false;
             _PartyModeID = PartyModeID;
+            _TranslationID = _PartyModeID;
 
             X = 0f;
             Y = 0f;
@@ -274,6 +288,7 @@ namespace Vocaluxe.Menu
             _ThemeLoaded = false;
             _ButtonText = false;
             _PartyModeID = text._PartyModeID;
+            _TranslationID = text._TranslationID;
 
             X = text._X;
             Y = text._Y;
@@ -307,6 +322,7 @@ namespace Vocaluxe.Menu
             _ThemeLoaded = false;
             _ButtonText = false;
             _PartyModeID = -1;
+            _TranslationID = -1;
 
             X = x;
             Y = y;
@@ -346,6 +362,7 @@ namespace Vocaluxe.Menu
             _ThemeLoaded = false;
             _ButtonText = false;
             _PartyModeID = -1;
+            _TranslationID = -1;
 
             X = x;
             Y = y;
@@ -383,6 +400,7 @@ namespace Vocaluxe.Menu
             _ThemeLoaded = false;
             _ButtonText = false;
             _PartyModeID = -1;
+            _TranslationID = -1;
 
             X = x;
             Y = y;
@@ -422,6 +440,7 @@ namespace Vocaluxe.Menu
             _ThemeLoaded = false;
             _ButtonText = false;
             _PartyModeID = -1;
+            _TranslationID = -1;
 
             X = x;
             Y = y;

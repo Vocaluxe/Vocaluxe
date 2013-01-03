@@ -268,12 +268,12 @@ namespace Vocaluxe.Base
             ReloadCursor();
             for (int i = 0; i < _Screens.Count; i++)
             {
-                _Screens[i].ReloadTheme();
+                _Screens[i].ReloadTheme(CTheme.GetThemeScreensPath(-1));
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
 			{
-                _PopupScreens[i].ReloadTheme();
+                _PopupScreens[i].ReloadTheme(CTheme.GetThemeScreensPath(-1));
 			}
         }
 
@@ -403,6 +403,7 @@ namespace Vocaluxe.Base
                 else
                 {
                     _Screens[(int)_CurrentScreen].OnClose();
+                    GC.Collect();
                     _CurrentScreen = _NextScreen;
                     _NextScreen = EScreens.ScreenNull;
                     if(CBackgroundMusic.Playing)
@@ -778,6 +779,18 @@ namespace Vocaluxe.Base
             if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
             {
                 txt = CDraw.TextureCount().ToString(CLanguage.Translate("TR_DEBUG_TEXTURES") + ": 00000");
+
+                RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
+
+                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.zNear));
+                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.zNear);
+                dy += rect.Height;
+            }
+
+            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
+            {
+                long memory = GC.GetTotalMemory(false);
+                txt = (memory / 1000000L).ToString(CLanguage.Translate("TR_DEBUG_MEMORY") + ": 00000 MB");
 
                 RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
