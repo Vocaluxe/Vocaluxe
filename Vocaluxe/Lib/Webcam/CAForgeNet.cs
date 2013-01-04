@@ -21,7 +21,7 @@ namespace Vocaluxe.Lib.Webcam
         private VideoCaptureDevice _Webcam;
         private FilterInfoCollection _WebcamDevices;
         private SWebcamConfig _Config;
-        byte[] data;
+        byte[] data = new byte[1];
         int _Width, _Height;
 
         public void Close()
@@ -31,13 +31,13 @@ namespace Vocaluxe.Lib.Webcam
                 _Webcam.SignalToStop();
                 _Webcam.WaitForStop();
                 _Webcam.NewFrame -= new NewFrameEventHandler(OnFrame);
-                data = null;
+                data = new byte[1];
             }
         }
 
         public bool GetFrame(ref STexture Frame)
         {
-            if (_Webcam != null && data != null && _Width > 0 && _Height > 0)
+            if (_Webcam != null && _Width > 0 && _Height > 0 && data.Length == _Width * _Height * 4)
             {
                 lock (data)
                 {
@@ -57,7 +57,7 @@ namespace Vocaluxe.Lib.Webcam
 
         public Bitmap GetBitmap()
         {
-            if (data != null && _Webcam != null && _Width > 0 && _Height > 0)
+            if (_Webcam != null && _Width > 0 && _Height > 0 && data.Length == _Height * _Width * 4)
             {
                 lock (data)
                 {
@@ -108,7 +108,7 @@ namespace Vocaluxe.Lib.Webcam
             {
                 lock (data)
                 {
-                    if (_Width != e.Frame.Width || _Height != e.Frame.Height || data == null)
+                    if (_Width != e.Frame.Width || _Height != e.Frame.Height || data.Length != e.Frame.Width * e.Frame.Height * 4)
                         data = new byte[4 * e.Frame.Width * e.Frame.Height];
 
                     _Width = e.Frame.Width;
