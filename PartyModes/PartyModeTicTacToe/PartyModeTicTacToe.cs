@@ -698,6 +698,7 @@ namespace Vocaluxe.PartyModes
 
             SProfile[] profiles = _Base.Profiles.GetProfiles();
             Round r = GameData.Rounds[RoundNr];
+            bool isDuet = _Base.Songs.GetSongByID(player[0].SongID).IsDuet;
 
             for (int i = 0; i < 2; i++)
             {
@@ -715,7 +716,7 @@ namespace Vocaluxe.PartyModes
                     player[0].Name = profiles[GameData.ProfileIDsTeam1[r.SingerTeam1]].PlayerName;
                     player[0].Difficulty = profiles[GameData.ProfileIDsTeam1[r.SingerTeam1]].Difficulty;
                     player[0].ProfileID = GameData.ProfileIDsTeam1[r.SingerTeam1];
-                    if (GameData.GameMode == EPartyGameMode.TR_GAMEMODE_DUET)
+                    if (isDuet)
                         player[0].LineNr = 0;
                 }
                 if (GameData.ProfileIDsTeam2[r.SingerTeam2] < profiles.Length)
@@ -723,7 +724,7 @@ namespace Vocaluxe.PartyModes
                     player[1].Name = profiles[GameData.ProfileIDsTeam2[r.SingerTeam2]].PlayerName;
                     player[1].Difficulty = profiles[GameData.ProfileIDsTeam2[r.SingerTeam2]].Difficulty;
                     player[1].ProfileID = GameData.ProfileIDsTeam2[r.SingerTeam2];
-                    if (GameData.GameMode == EPartyGameMode.TR_GAMEMODE_DUET)
+                    if (isDuet)
                         player[1].LineNr = 1;
                 }
                 SongSelected(r.SongID);
