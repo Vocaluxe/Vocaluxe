@@ -91,6 +91,8 @@
  + v0.3.0:
 	- Party Mode Support
 	- Party Mode: Challenge Mode (with more than 2 player at once)
+	- Party Mode: Challenge Medley Mode
+	- Party Mode: Tic, Tac, Toe
 
 -----------------
 just some ideas:
@@ -106,6 +108,14 @@ just some ideas:
 	- Jukebox
 	- Tournament Mode
 	- Party Mode: Team-Battle
-	- Party Mode: Tic, Tac, Toe
 	- Party Mode: 4 in a row	
 	- Song Editor
+
+-----------------
+some feature wishes:
+	- Medley:
+		* add a countdown
+
+	- Party Modes:
+		* add sing modes: hide notes, hide lyrics, ...
+		* add a party mode where you can assign song categories and/or playlists to the profiles
