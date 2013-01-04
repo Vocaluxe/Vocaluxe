@@ -1016,7 +1016,7 @@ namespace Vocaluxe.Menu.SongMenu
             }
 
             //Calculate length of singing
-            int stop = (lines.Line[lines.Line.Length - 1].LastNoteBeat - lines.Line[0].FirstNoteBeat) / 2;
+            int stop = (lines.Line[lines.Line.Length - 1].LastNoteBeat - lines.Line[0].FirstNoteBeat) / 2 + lines.Line[0].StartBeat;
 
             //Check if stop is in series
             for (int i = 0; i < series.Count; i++)
