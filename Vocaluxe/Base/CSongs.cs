@@ -1050,7 +1050,10 @@ namespace Vocaluxe.Base
                     _CoverLoadIndex++;
 
                     if (i % 100 == 0)
+                    {
+                        CDataBase.CommitCovers();
                         GC.Collect();
+                    }
                 }
 
                 _CoverLoaded = true;
