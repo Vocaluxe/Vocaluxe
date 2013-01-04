@@ -384,7 +384,8 @@ namespace Vocaluxe.Lib.Sound
 
     class PortAudioStream
     {
-        const long BUFSIZE = 50000L;
+        const long BUFSIZE = 1000000L;
+        const long BEGINREFILL = 800000L;
 
         private CSyncTimer _SyncTimer;
         private bool _Initialized;
@@ -649,7 +650,7 @@ namespace Vocaluxe.Lib.Sound
             outputParams.suggestedLatency = _outputDeviceInfo.defaultLowOutputLatency;
 
             uint bufsize = (uint)CConfig.AudioBufferSize;
-            errorCheck("OpenDefaultStream", PortAudio.Pa_OpenStream(
+            errorCheck("OpenDefaultStream (playback)", PortAudio.Pa_OpenStream(
                 out _Ptr,
                 IntPtr.Zero,
                 ref outputParams,
@@ -760,7 +761,7 @@ namespace Vocaluxe.Lib.Sound
             bool DoIt = false;
             lock (_LockData)
             {
-                if (!_skip && BUFSIZE - 10000L > _data.BytesNotRead)
+                if (!_skip && BEGINREFILL > _data.BytesNotRead)
                     DoIt = true;
             }
 
@@ -792,7 +793,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 _data.Write(Buffer);
                 _TimeCode = Timecode;
-                if (_data.BytesNotRead < BUFSIZE - 10000L)
+                if (_data.BytesNotRead < BEGINREFILL)
                 {
                     _waiting = false;
                     EventDecode.Set();
@@ -866,7 +867,7 @@ namespace Vocaluxe.Lib.Sound
                     }
                 }
 
-                if (_data.BytesNotRead < BUFSIZE - 10000L)
+                if (_data.BytesNotRead < BEGINREFILL)
                 {
                     EventDecode.Set();
                     _waiting = false;
@@ -901,7 +902,7 @@ namespace Vocaluxe.Lib.Sound
                 if (errorCode == PortAudio.PaError.paStreamIsNotStopped)
                     return false;
 
-                CLog.LogError(action + " error: " + PortAudio.Pa_GetErrorText(errorCode));
+                CLog.LogError(action + " error (playback): " + PortAudio.Pa_GetErrorText(errorCode));
                 if (errorCode == PortAudio.PaError.paUnanticipatedHostError)
                 {
                     PortAudio.PaHostErrorInfo errorInfo = PortAudio.Pa_GetLastHostErrorInfo();

@@ -165,33 +165,42 @@ namespace Vocaluxe.Screens
 
             SWebcamDevice[] devices = CWebcam.GetDevices();
 
-            if (devices != null)
+            try
             {
-                if (devices.Length > 0)
+                if (devices != null)
                 {
-                    _DeviceNr = 0;
-                    _CapabilityNr = 0;
-                    GetFirstConfiguredWebcamDevice(ref _DeviceNr, ref _CapabilityNr);
-
-                    foreach (SWebcamDevice d in devices)
+                    if (devices.Length > 0)
                     {
-                        SelectSlides[htSelectSlides(SelectSlideWebcamDevices)].AddValue(d.Name);
-                    }
-                    SelectSlides[htSelectSlides(SelectSlideWebcamDevices)].Selection = _DeviceNr;
+                        _DeviceNr = 0;
+                        _CapabilityNr = 0;
+                        GetFirstConfiguredWebcamDevice(ref _DeviceNr, ref _CapabilityNr);
 
-                    foreach (SCapabilities c in devices[_DeviceNr].Capabilities)
-                    {
-                        SelectSlides[htSelectSlides(SelectSlideWebcamCapabilities)].AddValue(c.Width.ToString() + " x " + c.Height.ToString() + " @ " + c.Framerate.ToString() + " FPS ");
+                        foreach (SWebcamDevice d in devices)
+                        {
+                            SelectSlides[htSelectSlides(SelectSlideWebcamDevices)].AddValue(d.Name);
+                        }
+                        SelectSlides[htSelectSlides(SelectSlideWebcamDevices)].Selection = _DeviceNr;
+
+                        foreach (SCapabilities c in devices[_DeviceNr].Capabilities)
+                        {
+                            SelectSlides[htSelectSlides(SelectSlideWebcamCapabilities)].AddValue(c.Width.ToString() + " x " + c.Height.ToString() + " @ " + c.Framerate.ToString() + " FPS ");
+                        }
+                        _Config.MonikerString = devices[SelectSlides[htSelectSlides(SelectSlideWebcamDevices)].Selection].MonikerString;
+                        _Config.Width = devices[SelectSlides[htSelectSlides(SelectSlideWebcamDevices)].Selection].Capabilities[SelectSlides[htSelectSlides(SelectSlideWebcamCapabilities)].Selection].Width;
+                        _Config.Height = devices[SelectSlides[htSelectSlides(SelectSlideWebcamDevices)].Selection].Capabilities[SelectSlides[htSelectSlides(SelectSlideWebcamCapabilities)].Selection].Height;
+                        _Config.Framerate = devices[SelectSlides[htSelectSlides(SelectSlideWebcamDevices)].Selection].Capabilities[SelectSlides[htSelectSlides(SelectSlideWebcamCapabilities)].Selection].Framerate;
+                        CWebcam.Close();
+                        CWebcam.Select(CConfig.WebcamConfig);
+                        CWebcam.Start();
                     }
-                    _Config.MonikerString = devices[SelectSlides[htSelectSlides(SelectSlideWebcamDevices)].Selection].MonikerString;
-                    _Config.Width = devices[SelectSlides[htSelectSlides(SelectSlideWebcamDevices)].Selection].Capabilities[SelectSlides[htSelectSlides(SelectSlideWebcamCapabilities)].Selection].Width;
-                    _Config.Height = devices[SelectSlides[htSelectSlides(SelectSlideWebcamDevices)].Selection].Capabilities[SelectSlides[htSelectSlides(SelectSlideWebcamCapabilities)].Selection].Height;
-                    _Config.Framerate = devices[SelectSlides[htSelectSlides(SelectSlideWebcamDevices)].Selection].Capabilities[SelectSlides[htSelectSlides(SelectSlideWebcamCapabilities)].Selection].Framerate;
-                    CWebcam.Close();
-                    CWebcam.Select(CConfig.WebcamConfig);
-                    CWebcam.Start();
                 }
             }
+            catch (Exception e)
+            {
+                CLog.LogError("Error on listing webcam capabilities: " + e.Message);
+                devices = null;
+            }
+            
             SelectSlides[htSelectSlides(SelectSlideWebcamDevices)].Visible = (devices != null && devices.Length > 0);
             SelectSlides[htSelectSlides(SelectSlideWebcamCapabilities)].Visible = (devices != null && devices.Length > 0);
             Statics[htStatics(StaticWebcamOutput)].Visible = (devices != null && devices.Length > 0);
