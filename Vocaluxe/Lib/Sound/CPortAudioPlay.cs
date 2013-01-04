@@ -384,8 +384,8 @@ namespace Vocaluxe.Lib.Sound
 
     class PortAudioStream
     {
-        const long BUFSIZE = 100000L;
-        const long BEGINREFILL = 80000L;
+        const long BUFSIZE = 1000000L;
+        const long BEGINREFILL = 800000L;
 
         private CSyncTimer _SyncTimer;
         private bool _Initialized;
