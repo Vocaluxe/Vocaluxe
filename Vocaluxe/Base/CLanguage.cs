@@ -266,7 +266,7 @@ namespace Vocaluxe.Base
             if (loaded)
             {
                 string value = string.Empty;
-                if (loaded == CHelper.GetValueFromXML("//root/Info/Name", navigator, ref value, value))
+                if (loaded == CHelper.GetValueFromXML("//resources/string[@name='language']", navigator, ref value, value))
                 {
                     int nr = GetLanguageNr(value);
 
@@ -277,10 +277,10 @@ namespace Vocaluxe.Base
                     lang.PartyModeID = PartyModeID;
                     lang.Texts = new Hashtable();
 
-                    List<string> texts = CHelper.GetValuesFromXML("Texts", navigator);
+                    List<string> texts = CHelper.GetAttributesFromXML("resources", navigator, "name");
                     for (int i = 0; i < texts.Count; i++)
                     {
-                        if (CHelper.GetValueFromXML("//root/Texts/" + texts[i], navigator, ref value, value))
+                        if (CHelper.GetValueFromXML("//resources/string[@name='" + texts[i] + "']", navigator, ref value, value))
                         {
                             try
                             {
@@ -331,7 +331,7 @@ namespace Vocaluxe.Base
             if (loaded)
             {
                 string value = string.Empty;
-                if (CHelper.GetValueFromXML("//root/Info/Name", navigator, ref value, value))
+                if (CHelper.GetValueFromXML("//resources/string[@name='language']", navigator, ref value, value))
                 {
                     lang.Name = value;
 
@@ -341,10 +341,10 @@ namespace Vocaluxe.Base
                     lang.Texts = new Hashtable();
                     lang.PartyModeTexts = new List<SPartyLanguage>();
 
-                    List<string> texts = CHelper.GetValuesFromXML("Texts", navigator);
+                    List<string> texts = CHelper.GetAttributesFromXML("resources", navigator, "name");
                     for (int i = 0; i < texts.Count; i++)
                     {
-                        if (CHelper.GetValueFromXML("//root/Texts/" + texts[i], navigator, ref value, value))
+                        if (CHelper.GetValueFromXML("//resources/string[@name='" + texts[i] + "']", navigator, ref value, value))
                         {
                             try
                             {

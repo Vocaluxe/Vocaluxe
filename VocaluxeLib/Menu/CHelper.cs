@@ -232,6 +232,33 @@ namespace Vocaluxe.Menu
             return values;
         }
 
+        public static List<string> GetAttributesFromXML(string Cast, XPathNavigator Navigator, string attribute)
+        {
+            List<string> values = new List<string>();
+
+            try
+            {
+                Navigator.MoveToRoot();
+                Navigator.MoveToFirstChild();
+
+                while (Navigator.Name != Cast)
+                    Navigator.MoveToNext();
+
+                Navigator.MoveToFirstChild();
+
+                values.Add(Navigator.LocalName);
+                while (Navigator.MoveToNext())
+                    values.Add(Navigator.GetAttribute(attribute, ""));
+
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return values;
+        }
+
         public static bool GetInnerValuesFromXML(string Cast, XPathNavigator Navigator, ref List<string> Values)
         {
             try
