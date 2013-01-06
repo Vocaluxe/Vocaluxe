@@ -645,10 +645,12 @@ namespace Vocaluxe.PartyModes
 
             for (int i = 0; i < GameState.ResultTable.Count; i++)
             {
-                if (i > 0)
-                    s += ", ";
                 if (GameState.ResultTable[i].Position == 1)
+                {
+                    if (i > 0)
+                        s += ", ";
                     s += profiles[GameState.ResultTable[i].PlayerID].PlayerName;
+                }
                 else
                     break;
             }
