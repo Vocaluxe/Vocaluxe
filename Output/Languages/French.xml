@@ -1,239 +1,198 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<root>
-	<Info>
-		<Name>Français</Name>
-	</Info>
-	<Texts>
-		<!--General-->
-		<TR_PROGRAM_NAME>Vocaluxe</TR_PROGRAM_NAME>
-		<TR_GENERAL_AND>et</TR_GENERAL_AND>
-		<!--General: Buttons-->
-		<TR_BUTTON_EXIT>Quitter</TR_BUTTON_EXIT>
-		<TR_BUTTON_SAVE>Sauvegarder</TR_BUTTON_SAVE>
-		<TR_BUTTON_BACK>Retour</TR_BUTTON_BACK>
-		<TR_BUTTON_START>Démarrer</TR_BUTTON_START>
-		<!--General: Debug-->	
-		<TR_DEBUG_AUDIO_STREAMS>Flux Audio</TR_DEBUG_AUDIO_STREAMS>
-		<TR_DEBUG_VIDEO_STREAMS>Flux Vidéo</TR_DEBUG_VIDEO_STREAMS>
-		<TR_DEBUG_TEXTURES>Textures</TR_DEBUG_TEXTURES>
-		<TR_DEBUG_TONE_ABS>ToneAbs</TR_DEBUG_TONE_ABS>
-		<TR_DEBUG_MAX_VOLUME>Volume Max</TR_DEBUG_MAX_VOLUME>
-		<TR_DEBUG_SONGS>Chansons chargées</TR_DEBUG_SONGS>
-		<TR_DEBUG_MOUSE>Souris</TR_DEBUG_MOUSE>
-		<!--General: Game-Modes-->
-		<TR_GAMEMODE_NORMAL>Normal</TR_GAMEMODE_NORMAL>
-		<TR_GAMEMODE_DUET>Duo</TR_GAMEMODE_DUET>
-		<TR_GAMEMODE_MEDLEY>Medley</TR_GAMEMODE_MEDLEY>
-		<TR_GAMEMODE_SHORTSONG>Version courte</TR_GAMEMODE_SHORTSONG>
-		<!--General: Ratings-->
-		<TR_RATING_VOCAL_HERO>Vocal Hero</TR_RATING_VOCAL_HERO>
-		<TR_RATING_SUPERSTAR>Superstar</TR_RATING_SUPERSTAR>
-		<TR_RATING_LEAD_SINGER>Révélation</TR_RATING_LEAD_SINGER>
-		<TR_RATING_RISING_STAR>Star en herbe</TR_RATING_RISING_STAR>
-		<TR_RATING_HOPEFUL>Espoir</TR_RATING_HOPEFUL>
-		<TR_RATING_WANNABE>Aspirant</TR_RATING_WANNABE>
-		<TR_RATING_AMATEUR>Amateur</TR_RATING_AMATEUR>
-		<TR_RATING_TONE_DEAF>Casserole</TR_RATING_TONE_DEAF>	
-		<!--Config-->
-		<!--Config: Renderer-->
-		<TR_CONFIG_SOFTWARE>Logiciel</TR_CONFIG_SOFTWARE>
-		<TR_CONFIG_OPENGL>OpenGL</TR_CONFIG_OPENGL>
-		<TR_CONFIG_DIRECT3D>Direct3D</TR_CONFIG_DIRECT3D>
-		<!--Config: Texture-Quality-->
-		<TR_CONFIG_TEXTURE_LOWEST>Minimum</TR_CONFIG_TEXTURE_LOWEST>
-		<TR_CONFIG_TEXTURE_LOW>Bas</TR_CONFIG_TEXTURE_LOW>
-		<TR_CONFIG_TEXTURE_MEDIUM>Moyen</TR_CONFIG_TEXTURE_MEDIUM>
-		<TR_CONFIG_TEXTURE_HIGH>Haut</TR_CONFIG_TEXTURE_HIGH>
-		<TR_CONFIG_TEXTURE_HIGHEST>Maximum</TR_CONFIG_TEXTURE_HIGHEST>
-		<!--Config: On/Off-->
-		<TR_CONFIG_OFF>Off</TR_CONFIG_OFF>
-		<TR_CONFIG_ON>On</TR_CONFIG_ON>
-		<!--Config: Debug-Level-->
-		<TR_CONFIG_ONLY_FPS>Seulement FPS</TR_CONFIG_ONLY_FPS>
-		<TR_CONFIG_LEVEL1>Niveau 1</TR_CONFIG_LEVEL1>
-		<TR_CONFIG_LEVEL2>Niveau 2</TR_CONFIG_LEVEL2>
-		<TR_CONFIG_LEVEL3>Niveau 3</TR_CONFIG_LEVEL3>
-		<TR_CONFIG_LEVEL_MAX>Max</TR_CONFIG_LEVEL_MAX>
-		<!--Config: Song-Menu-Style-->
-		<TR_CONFIG_LIST>Liste</TR_CONFIG_LIST>
-		<TR_CONFIG_DREIDEL>Caroussel</TR_CONFIG_DREIDEL>
-		<TR_CONFIG_TILE_BOARD>Pavement</TR_CONFIG_TILE_BOARD>
-		<TR_CONFIG_BOOK>Livre</TR_CONFIG_BOOK>
-		<!--Config: Cover-Loading-->
-		<TR_CONFIG_COVERLOADING_ONDEMAND>A la demande</TR_CONFIG_COVERLOADING_ONDEMAND>
-		<TR_CONFIG_COVERLOADING_ATSTART>Au démarrage</TR_CONFIG_COVERLOADING_ATSTART>
-		<TR_CONFIG_COVERLOADING_DYNAMIC>Dynamique</TR_CONFIG_COVERLOADING_DYNAMIC>
-		<!--Config: Song-Sorting-->
-		<TR_CONFIG_NONE>Aucun</TR_CONFIG_NONE>
-		<TR_CONFIG_RANDOM>Aléatoire</TR_CONFIG_RANDOM>
-		<TR_CONFIG_FOLDER>Dossier</TR_CONFIG_FOLDER>
-		<TR_CONFIG_ARTIST>Artiste</TR_CONFIG_ARTIST>
-		<TR_CONFIG_ARTIST_LETTER>Initiale d'Artiste</TR_CONFIG_ARTIST_LETTER>
-		<TR_CONFIG_TITLE_LETTER>Initiale de Titre</TR_CONFIG_TITLE_LETTER>
-		<TR_CONFIG_EDITION>Edition</TR_CONFIG_EDITION>
-		<TR_CONFIG_GENRE>Genre</TR_CONFIG_GENRE>
-		<TR_CONFIG_YEAR>Année</TR_CONFIG_YEAR>
-		<TR_CONFIG_DECADE>Décénie</TR_CONFIG_DECADE>
-		<TR_CONFIG_LANGUAGE>Langue</TR_CONFIG_LANGUAGE>
-		<!--Config: Game-Difficulty-->
-		<TR_CONFIG_EASY>Facile</TR_CONFIG_EASY>
-		<TR_CONFIG_NORMAL>Moyen</TR_CONFIG_NORMAL>
-		<TR_CONFIG_HARD>Difficile</TR_CONFIG_HARD>
-		<!--Config: Timer-Mode-->
-        <TR_CONFIG_TIMERMODE_CURRENT>Actuel</TR_CONFIG_TIMERMODE_CURRENT>
-        <TR_CONFIG_TIMERMODE_REMAINING>Restant</TR_CONFIG_TIMERMODE_REMAINING>
-        <TR_CONFIG_TIMERMODE_TOTAL>Total</TR_CONFIG_TIMERMODE_TOTAL>	
-        <!--Config: Timer-Look-->
-        <TR_CONFIG_TIMERLOOK_NORMAL>Normal</TR_CONFIG_TIMERLOOK_NORMAL>
-        <TR_CONFIG_TIMERLOOK_EXPANDED>Développé</TR_CONFIG_TIMERLOOK_EXPANDED>
-		<!--Config: Background-Music-Source-->
-		<TR_CONFIG_OWN_MUSIC>Musique personnelle et Musique de fond</TR_CONFIG_OWN_MUSIC>
-		<TR_CONFIG_NO_OWN_MUSIC>Pas de Musique personnelle</TR_CONFIG_NO_OWN_MUSIC>
-		<TR_CONFIG_ONLY_OWN_MUSIC>Seulement la Musique personnelle</TR_CONFIG_ONLY_OWN_MUSIC>
-		<!--Config: FadePlayerInfo-->
-		<TR_CONFIG_FADEPLAYERINFO_ALL>Tout</TR_CONFIG_FADEPLAYERINFO_ALL>
-		<TR_CONFIG_FADEPLAYERINFO_INFO>Seulement noms et avatars</TR_CONFIG_FADEPLAYERINFO_INFO>
-		<TR_CONFIG_FADEPLAYERINFO_OFF>Rien</TR_CONFIG_FADEPLAYERINFO_OFF>
-        <!--Screens-->		
-		<!--ScreenLoad-->
-		<TR_SCREENLOAD_LOADING>Chargement</TR_SCREENLOAD_LOADING>
-		<TR_SCREENLOAD_TOTAL>Total</TR_SCREENLOAD_TOTAL>
-		<TR_SCREENLOAD_SONGS>Chansons</TR_SCREENLOAD_SONGS>
-		<TR_SCREENLOAD_LOADED>chargées</TR_SCREENLOAD_LOADED>
-		<!--ScreenMain-->
-		<TR_SCREENMAIN_MENU>Menu Principal</TR_SCREENMAIN_MENU>	
-		<TR_SCREENMAIN_BUTTON_SING>Chanter</TR_SCREENMAIN_BUTTON_SING>
-		<TR_SCREENMAIN_BUTTON_PARTY>TODO: Party</TR_SCREENMAIN_BUTTON_PARTY>
-		<TR_SCREENMAIN_BUTTON_OPTIONS>Options</TR_SCREENMAIN_BUTTON_OPTIONS>
-		<TR_SCREENMAIN_BUTTON_PROFILES>Profils</TR_SCREENMAIN_BUTTON_PROFILES>
-		<!--ScreenParty-->
-		<TR_SCREENPARTY_TITLE>TODO: Party Mode Selection</TR_SCREENPARTY_TITLE>
-		<TR_SCREENPARTY_MODES>TODO: Party Mode</TR_SCREENPARTY_MODES>
-		<TR_SCREENPARTY_DESCRIPTION>TODO: Description</TR_SCREENPARTY_DESCRIPTION>
-		<TR_SCREENPARTY_AUTHOR>TODO: Author</TR_SCREENPARTY_AUTHOR>
-		<TR_SCREENPARTY_VERSION>TODO: Version</TR_SCREENPARTY_VERSION>	
-		<TR_SCREENPARTY_ERROR>TODO: Can't load this party-mode.</TR_SCREENPARTY_ERROR>
-		<TR_SCREENPARTY_TARGETAUDIENCE>TODO: Target audience</TR_SCREENPARTY_TARGETAUDIENCE>
-		<TR_SCREENPARTY_NOTEAMS>TODO: No Teams</TR_SCREENPARTY_NOTEAMS>		
-		<TR_SCREENPARTY_NUMTEAMS>TODO: Number of teams</TR_SCREENPARTY_NUMTEAMS>
-		<TR_SCREENPARTY_NUMPLAYERS>TODO: Number of players</TR_SCREENPARTY_NUMPLAYERS>		
-		<!--ScreenNames-->
-		<TR_SCREENNAMES_MENU>Sélection des joueurs</TR_SCREENNAMES_MENU>
-		<TR_SCREENNAMES_PLAYER>Joueur</TR_SCREENNAMES_PLAYER>
-		<TR_SCREENNAMES_1PLAYER>1 joueur</TR_SCREENNAMES_1PLAYER>
-		<TR_SCREENNAMES_2PLAYER>2 joueurs</TR_SCREENNAMES_2PLAYER>
-		<TR_SCREENNAMES_3PLAYER>3 joueurs</TR_SCREENNAMES_3PLAYER>	
-		<TR_SCREENNAMES_4PLAYER>4 joueurs</TR_SCREENNAMES_4PLAYER>	
-		<TR_SCREENNAMES_5PLAYER>5 joueurs</TR_SCREENNAMES_5PLAYER>	
-		<TR_SCREENNAMES_6PLAYER>6 joueurs</TR_SCREENNAMES_6PLAYER>	
-		<TR_SCREENNAMES_WARNING_MICS_SG>Attention: Aucun micro n'est assigné au joueur %v!</TR_SCREENNAMES_WARNING_MICS_SG>
-		<TR_SCREENNAMES_WARNING_MICS_PL>Attention: Aucun micro n'est assigné aux joueurs %v!</TR_SCREENNAMES_WARNING_MICS_PL>	
-		<TR_SCREENNAMES_WARNING_PROFILES_SG>Attention: Aucun profil n'est assigné au joueur %v!</TR_SCREENNAMES_WARNING_PROFILES_SG>
-		<TR_SCREENNAMES_WARNING_PROFILES_PL>Attention: Aucun profils n'est assigné aux joueurs %v!</TR_SCREENNAMES_WARNING_PROFILES_PL>	
-		<!--ScreenSong-->
-		<TR_SCREENSONG_MENU>Choix de la chanson</TR_SCREENSONG_MENU>
-		<TR_SCREENSONG_BUTTON_SING>Chanter</TR_SCREENSONG_BUTTON_SING>
-		<TR_SCREENSONG_BUTTON_PLAYLIST>Ajouter à la playlist</TR_SCREENSONG_BUTTON_PLAYLIST>
-		<TR_SCREENSONG_BUTTON_CANCEL>Annuler</TR_SCREENSONG_BUTTON_CANCEL>
-		<TR_SCREENSONG_BUTTON_RANDOM>Choisir une chanson aléatoire</TR_SCREENSONG_BUTTON_RANDOM>
-		<TR_SCREENSONG_BUTTON_RANDOMCAT>Choisir une catégorie aléatoire</TR_SCREENSONG_BUTTON_RANDOMCAT>
-		<TR_SCREENSONG_BUTTON_SINGALL>Chanter toutes les chansons</TR_SCREENSONG_BUTTON_SINGALL>
-		<TR_SCREENSONG_BUTTON_SINGALLVISIBLE>Chanter toutes les chansons visibles</TR_SCREENSONG_BUTTON_SINGALLVISIBLE>
-		<TR_SCREENSONG_BUTTON_OPENPLAYLIST>Ouvrir une playlist</TR_SCREENSONG_BUTTON_OPENPLAYLIST>
-		<TR_SCREENSONG_BUTTON_RANDOMMEDLEY>TODO: Sing a random medley</TR_SCREENSONG_BUTTON_RANDOMMEDLEY>
-		<TR_SCREENSONG_BUTTON_STARTMEDLEY>TODO: Sing medley-songs</TR_SCREENSONG_BUTTON_STARTMEDLEY>		
-		<TR_SCREENSONG_NEWPLAYLIST>Nouvelle playlist</TR_SCREENSONG_NEWPLAYLIST>
-		<TR_SCREENSONG_SONGOPTIONS>Option de la chanson</TR_SCREENSONG_SONGOPTIONS>
-		<TR_SCREENSONG_SEARCH>Rechercher:</TR_SCREENSONG_SEARCH>
-		<TR_SCREENSONG_NOLANGUAGE>Pas de Langue</TR_SCREENSONG_NOLANGUAGE>
-		<TR_SCREENSONG_NOYEAR>Pas d'Année</TR_SCREENSONG_NOYEAR>
-		<TR_SCREENSONG_NOGENRE>Pas de Genre</TR_SCREENSONG_NOGENRE>
-		<TR_SCREENSONG_NOEDITION>Pas d'Edition</TR_SCREENSONG_NOEDITION>	
-		<TR_SCREENSONG_ALLSONGS>Toutes les chansons</TR_SCREENSONG_ALLSONGS>
-		<TR_SCREENSONG_NUMSONGS>(%v Chansons)</TR_SCREENSONG_NUMSONGS>
-		<TR_SCREENSONG_NUMSONG>(%v Chanson)</TR_SCREENSONG_NUMSONG>	
-		<!--ScreenSing-->
-		<TR_SCREENSING_PAUSE>Pause</TR_SCREENSING_PAUSE>
-		<TR_SCREENSING_BUTTON_CANCEL>Arrêter de chanter</TR_SCREENSING_BUTTON_CANCEL>
-		<TR_SCREENSING_BUTTON_CONTINUE>Continuer</TR_SCREENSING_BUTTON_CONTINUE>
-		<TR_SCREENSING_BUTTON_SKIP>Passer cette chanson</TR_SCREENSING_BUTTON_SKIP>
-		<!--ScreenScore-->
-		<TR_SCREENSCORE_SCORES>Scores</TR_SCREENSCORE_SCORES>
-		<TR_SCREENSCORE_RATING>Note</TR_SCREENSCORE_RATING>
-		<TR_SCREENSCORE_POINTS>Points</TR_SCREENSCORE_POINTS>
-		<TR_SCREENSCORE_GAMEDIFFICULTY>Difficulté</TR_SCREENSCORE_GAMEDIFFICULTY>
-		<TR_SCREENSCORE_OVERALLSCORE>Score total</TR_SCREENSCORE_OVERALLSCORE>
-		<!--ScreenHighscore-->
-		<TR_SCREENHIGHSCORE_HIGHSCORE>Meilleurs Scores</TR_SCREENHIGHSCORE_HIGHSCORE>
-		<!--ScreenProfiles-->
-		<TR_SCREENPROFILES_PROFILES>Profils</TR_SCREENPROFILES_PROFILES>
-		<TR_SCREENPROFILES_PLAYERNAME>Nom du Joueur</TR_SCREENPROFILES_PLAYERNAME>
-		<TR_SCREENPROFILES_GAMEDIFFICULTY>Difficulté du jeu</TR_SCREENPROFILES_GAMEDIFFICULTY>
-		<TR_SCREENPROFILES_AVATAR>Avatar</TR_SCREENPROFILES_AVATAR>
-		<TR_SCREENPROFILES_GUESTPROFILE>Profil Invité</TR_SCREENPROFILES_GUESTPROFILE>
-		<TR_SCREENPROFILES_ACTIVE>Actif</TR_SCREENPROFILES_ACTIVE>
-		<TR_SCREENPROFILES_BUTTON_NEW>Nouveau</TR_SCREENPROFILES_BUTTON_NEW>
-		<TR_SCREENPROFILES_BUTTON_DELETE>Supprimer</TR_SCREENPROFILES_BUTTON_DELETE>
-		<TR_SCREENPROFILES_BUTTON_TAKESNAPSHOT>Prendre une photo</TR_SCREENPROFILES_BUTTON_TAKESNAPSHOT>
-		<TR_SCREENPROFILES_BUTTON_SAVESNAPSHOT>Sauvegarder la photo</TR_SCREENPROFILES_BUTTON_SAVESNAPSHOT>
-		<TR_SCREENPROFILES_BUTTON_DISCARDSNAPSHOT>Supprimer la photo</TR_SCREENPROFILES_BUTTON_DISCARDSNAPSHOT>
-		<TR_SCREENPROFILES_BUTTON_WEBCAM>Webcam</TR_SCREENPROFILES_BUTTON_WEBCAM>
-		<!--ScreenOptions-->
-		<TR_SCREENO_OPTIONS>Menu des Options</TR_SCREENO_OPTIONS>
-		<TR_SCREENO_BUTTON_GAME>Jeu</TR_SCREENO_BUTTON_GAME>
-		<TR_SCREENO_BUTTON_SOUND>Son</TR_SCREENO_BUTTON_SOUND>
-		<TR_SCREENO_BUTTON_RECORD>Enregistrement</TR_SCREENO_BUTTON_RECORD>
-		<TR_SCREENO_BUTTON_VIDEO>Vidéo</TR_SCREENO_BUTTON_VIDEO>
-		<TR_SCREENO_BUTTON_LYRICS>Paroles</TR_SCREENO_BUTTON_LYRICS>
-		<TR_SCREENO_BUTTON_THEME>Thème</TR_SCREENO_BUTTON_THEME>
-		<!--ScreenOptionsGame-->
-		<TR_SCREENOGAME_OPTIONS>Options du Jeu</TR_SCREENOGAME_OPTIONS>
-		<TR_SCREENOGAME_LANGUAGE>Langue</TR_SCREENOGAME_LANGUAGE>
-		<TR_SCREENOGAME_DEBUGLEVEL>Niveau de Débogage</TR_SCREENOGAME_DEBUGLEVEL>
-		<TR_SCREENOGAME_SONGMENU>Menu des Chansons</TR_SCREENOGAME_SONGMENU>
-		<TR_SCREENOGAME_SONGSORTING>Classement des Chansons</TR_SCREENOGAME_SONGSORTING>
-		<TR_SCREENOGAME_TABS>Dossiers</TR_SCREENOGAME_TABS>
-		<TR_SCREENOGAME_DIFFICULTY>Difficulté du Jeu</TR_SCREENOGAME_DIFFICULTY>
-		<TR_SCREENOGAME_TIMERMODE>Mode du Minuteur</TR_SCREENOGAME_TIMERMODE>
-		<!--ScreenOptionsRecord-->
-		<TR_SCREENORECORD_OPTIONS>Options d'Enregistrement</TR_SCREENORECORD_OPTIONS>
-		<TR_SCREENORECORD_DEVICE>Appareil</TR_SCREENORECORD_DEVICE>
-		<TR_SCREENORECORD_INPUT>Entrée</TR_SCREENORECORD_INPUT>
-		<TR_SCREENORECORD_CHANNEL_1>Canal 1</TR_SCREENORECORD_CHANNEL_1>
-		<TR_SCREENORECORD_CHANNEL_2>Canal 2</TR_SCREENORECORD_CHANNEL_2>
-		<TR_SCREENORECORD_MIC_DELAY>Retard du Micro</TR_SCREENORECORD_MIC_DELAY>
-		<TR_SCREENORECORD_MIC_WARNING>Attention: Au moins un des joueurs est assigné à 2 micros.</TR_SCREENORECORD_MIC_WARNING>
-		<TR_SCREENORECORD_BUTTON_DELAYTEST>Test du Retard</TR_SCREENORECORD_BUTTON_DELAYTEST>
-		<!--ScreenOptionsSound-->
-		<TR_SCREENOSOUND_OPTIONS>Options du Son</TR_SCREENOSOUND_OPTIONS>
-		<TR_SCREENOSOUND_BACKGROUNDMUSIC>Musique de fond</TR_SCREENOSOUND_BACKGROUNDMUSIC>
-		<TR_SCREENOSOUND_BACKGROUNDMUSICVOLUME>Volume de la Musique de fond</TR_SCREENOSOUND_BACKGROUNDMUSICVOLUME>
-		<TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE>Source de la Musique de fond</TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE>
-		<TR_SCREENOSOUND_PREVIEWMUSICVOLUME>Volume de la musique de prévisualisation</TR_SCREENOSOUND_PREVIEWMUSICVOLUME>
-		<TR_SCREENOSOUND_GAMEMUSICVOLUME>Volume de la musique du jeu</TR_SCREENOSOUND_GAMEMUSICVOLUME>
-		<!--ScreenOptionsTheme-->
-		<TR_SCREENOTHEME_OPTIONS>Options du Thème</TR_SCREENOTHEME_OPTIONS>
-		<TR_SCREENOTHEME_THEME>Thème</TR_SCREENOTHEME_THEME>
-		<TR_SCREENOTHEME_SKIN>Environnement graphique</TR_SCREENOTHEME_SKIN>
-		<TR_SCREENOTHEME_COVERTHEME>Thème des Couvertures</TR_SCREENOTHEME_COVERTHEME>
-		<TR_SCREENOTHEME_NOTELINES>Afficher les portées</TR_SCREENOTHEME_NOTELINES>
-		<TR_SCREENOTHEME_TONEHELPER>Afficher l'aide pour la Tonalité</TR_SCREENOTHEME_TONEHELPER>
-		<TR_SCREENOTHEME_TIMERLOOK>Apparence du Minuteur</TR_SCREENOTHEME_TIMERLOOK>
-		<TR_SCREENOTHEME_FADEINFO>Dégradé des info des joueurs</TR_SCREENOTHEME_FADEINFO>
-		<TR_SCREENOTHEME_COVERLOADING>Chargement des couvertures</TR_SCREENOTHEME_COVERLOADING>
-		<!--ScreenOptionsLyrics-->
-		<TR_SCREENOLYRICS_OPTIONS>Options des paroles</TR_SCREENOLYRICS_OPTIONS>
-		<TR_SCREENOLYRICS_STYLE>Style</TR_SCREENOLYRICS_STYLE>
-		<TR_SCREENOLYRICS_ONTOP>Paroles en haut</TR_SCREENOLYRICS_ONTOP>
-		<!--ScreenOptionsVideo-->
-		<TR_SCREENOVIDEO_OPTIONS>Options Vidéo</TR_SCREENOVIDEO_OPTIONS>
-		<TR_SCREENOVIDEO_VIDEOBACKGROUNDS>Vidéo en arrière plan</TR_SCREENOVIDEO_VIDEOBACKGROUNDS>
-		<TR_SCREENOVIDEO_VIDEOPREVIEW>Prévisualisation des Vidéos</TR_SCREENOVIDEO_VIDEOPREVIEW>	
-		<TR_SCREENOVIDEO_VIDEOINSONGS>Vidéos pendant que l'on chante</TR_SCREENOVIDEO_VIDEOINSONGS>
-		<TR_SCREENO_VIDEO_VIDEOSTOBACKGROUND>Afficher la vidéo de la musique de fond</TR_SCREENO_VIDEO_VIDEOSTOBACKGROUND>
-		<TR_SCREENO_VIDEO_WEBCAMDEVICES>Webcams</TR_SCREENO_VIDEO_WEBCAMDEVICES>
-		<TR_SCREENO_VIDEO_WEBCAMCAPABILITIES>Webcamcapabilities</TR_SCREENO_VIDEO_WEBCAMCAPABILITIES>
-		<!--ScreenPopupVolumeControl-->
-		<TR_SCREENPVOLUMECONTROL_VOLUME>Volume</TR_SCREENPVOLUMECONTROL_VOLUME>
-	</Texts>
-</root>
+<resources>
+  <string name="language">Français</string>
+  <string name="TR_PROGRAM_NAME">Vocaluxe</string>
+  <string name="TR_GENERAL_AND">et</string>
+  <string name="TR_BUTTON_EXIT">Quitter</string>
+  <string name="TR_BUTTON_SAVE">Sauvegarder</string>
+  <string name="TR_BUTTON_BACK">Retour</string>
+  <string name="TR_BUTTON_START">Démarrer</string>
+  <string name="TR_DEBUG_AUDIO_STREAMS">Flux Audio</string>
+  <string name="TR_DEBUG_VIDEO_STREAMS">Flux Vidéo</string>
+  <string name="TR_DEBUG_TEXTURES">Textures</string>
+  <string name="TR_DEBUG_TONE_ABS">ToneAbs</string>
+  <string name="TR_DEBUG_MAX_VOLUME">Volume Max</string>
+  <string name="TR_DEBUG_SONGS">Chansons chargées</string>
+  <string name="TR_DEBUG_MOUSE">Souris</string>
+  <string name="TR_GAMEMODE_NORMAL">Normal</string>
+  <string name="TR_GAMEMODE_DUET">Duo</string>
+  <string name="TR_GAMEMODE_MEDLEY">Medley</string>
+  <string name="TR_GAMEMODE_SHORTSONG">Version courte</string>
+  <string name="TR_RATING_VOCAL_HERO">Vocal Hero</string>
+  <string name="TR_RATING_SUPERSTAR">Superstar</string>
+  <string name="TR_RATING_LEAD_SINGER">Révélation</string>
+  <string name="TR_RATING_RISING_STAR">Star en herbe</string>
+  <string name="TR_RATING_HOPEFUL">Espoir</string>
+  <string name="TR_RATING_WANNABE">Aspirant</string>
+  <string name="TR_RATING_AMATEUR">Amateur</string>
+  <string name="TR_RATING_TONE_DEAF">Casserole</string>
+  <string name="TR_CONFIG_SOFTWARE">Logiciel</string>
+  <string name="TR_CONFIG_OPENGL">OpenGL</string>
+  <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
+  <string name="TR_CONFIG_TEXTURE_LOWEST">Minimum</string>
+  <string name="TR_CONFIG_TEXTURE_LOW">Bas</string>
+  <string name="TR_CONFIG_TEXTURE_MEDIUM">Moyen</string>
+  <string name="TR_CONFIG_TEXTURE_HIGH">Haut</string>
+  <string name="TR_CONFIG_TEXTURE_HIGHEST">Maximum</string>
+  <string name="TR_CONFIG_OFF">Off</string>
+  <string name="TR_CONFIG_ON">On</string>
+  <string name="TR_CONFIG_ONLY_FPS">Seulement FPS</string>
+  <string name="TR_CONFIG_LEVEL1">Niveau 1</string>
+  <string name="TR_CONFIG_LEVEL2">Niveau 2</string>
+  <string name="TR_CONFIG_LEVEL3">Niveau 3</string>
+  <string name="TR_CONFIG_LEVEL_MAX">Max</string>
+  <string name="TR_CONFIG_LIST">Liste</string>
+  <string name="TR_CONFIG_DREIDEL">Caroussel</string>
+  <string name="TR_CONFIG_TILE_BOARD">Pavement</string>
+  <string name="TR_CONFIG_BOOK">Livre</string>
+  <string name="TR_CONFIG_COVERLOADING_ONDEMAND">A la demande</string>
+  <string name="TR_CONFIG_COVERLOADING_ATSTART">Au démarrage</string>
+  <string name="TR_CONFIG_COVERLOADING_DYNAMIC">Dynamique</string>
+  <string name="TR_CONFIG_NONE">Aucun</string>
+  <string name="TR_CONFIG_RANDOM">Aléatoire</string>
+  <string name="TR_CONFIG_FOLDER">Dossier</string>
+  <string name="TR_CONFIG_ARTIST">Artiste</string>
+  <string name="TR_CONFIG_ARTIST_LETTER">Initiale d'Artiste</string>
+  <string name="TR_CONFIG_TITLE_LETTER">Initiale de Titre</string>
+  <string name="TR_CONFIG_EDITION">Edition</string>
+  <string name="TR_CONFIG_GENRE">Genre</string>
+  <string name="TR_CONFIG_YEAR">Année</string>
+  <string name="TR_CONFIG_DECADE">Décénie</string>
+  <string name="TR_CONFIG_LANGUAGE">Langue</string>
+  <string name="TR_CONFIG_EASY">Facile</string>
+  <string name="TR_CONFIG_NORMAL">Moyen</string>
+  <string name="TR_CONFIG_HARD">Difficile</string>
+  <string name="TR_CONFIG_TIMERMODE_CURRENT">Actuel</string>
+  <string name="TR_CONFIG_TIMERMODE_REMAINING">Restant</string>
+  <string name="TR_CONFIG_TIMERMODE_TOTAL">Total</string>
+  <string name="TR_CONFIG_TIMERLOOK_NORMAL">Normal</string>
+  <string name="TR_CONFIG_TIMERLOOK_EXPANDED">Développé</string>
+  <string name="TR_CONFIG_OWN_MUSIC">Musique personnelle et Musique de fond</string>
+  <string name="TR_CONFIG_NO_OWN_MUSIC">Pas de Musique personnelle</string>
+  <string name="TR_CONFIG_ONLY_OWN_MUSIC">Seulement la Musique personnelle</string>
+  <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Tout</string>
+  <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Seulement noms et avatars</string>
+  <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Rien</string>
+  <string name="TR_SCREENLOAD_LOADING">Chargement</string>
+  <string name="TR_SCREENLOAD_TOTAL">Total</string>
+  <string name="TR_SCREENLOAD_SONGS">Chansons</string>
+  <string name="TR_SCREENLOAD_LOADED">chargées</string>
+  <string name="TR_SCREENMAIN_MENU">Menu Principal</string>
+  <string name="TR_SCREENMAIN_BUTTON_SING">Chanter</string>
+  <string name="TR_SCREENMAIN_BUTTON_PARTY">TODO: Party</string>
+  <string name="TR_SCREENMAIN_BUTTON_OPTIONS">Options</string>
+  <string name="TR_SCREENMAIN_BUTTON_PROFILES">Profils</string>
+  <string name="TR_SCREENPARTY_TITLE">TODO: Party Mode Selection</string>
+  <string name="TR_SCREENPARTY_MODES">TODO: Party Mode</string>
+  <string name="TR_SCREENPARTY_DESCRIPTION">TODO: Description</string>
+  <string name="TR_SCREENPARTY_AUTHOR">TODO: Author</string>
+  <string name="TR_SCREENPARTY_VERSION">TODO: Version</string>
+  <string name="TR_SCREENPARTY_ERROR">TODO: Can't load this party-mode.</string>
+  <string name="TR_SCREENPARTY_TARGETAUDIENCE">TODO: Target audience</string>
+  <string name="TR_SCREENPARTY_NOTEAMS">TODO: No Teams</string>
+  <string name="TR_SCREENPARTY_NUMTEAMS">TODO: Number of teams</string>
+  <string name="TR_SCREENPARTY_NUMPLAYERS">TODO: Number of players</string>
+  <string name="TR_SCREENNAMES_MENU">Sélection des joueurs</string>
+  <string name="TR_SCREENNAMES_PLAYER">Joueur</string>
+  <string name="TR_SCREENNAMES_1PLAYER">1 joueur</string>
+  <string name="TR_SCREENNAMES_2PLAYER">2 joueurs</string>
+  <string name="TR_SCREENNAMES_3PLAYER">3 joueurs</string>
+  <string name="TR_SCREENNAMES_4PLAYER">4 joueurs</string>
+  <string name="TR_SCREENNAMES_5PLAYER">5 joueurs</string>
+  <string name="TR_SCREENNAMES_6PLAYER">6 joueurs</string>
+  <string name="TR_SCREENNAMES_WARNING_MICS_SG">Attention: Aucun micro n'est assigné au joueur %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_MICS_PL">Attention: Aucun micro n'est assigné aux joueurs %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_PROFILES_SG">Attention: Aucun profil n'est assigné au joueur %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_PROFILES_PL">Attention: Aucun profils n'est assigné aux joueurs %v!</string>
+  <string name="TR_SCREENSONG_MENU">Choix de la chanson</string>
+  <string name="TR_SCREENSONG_BUTTON_SING">Chanter</string>
+  <string name="TR_SCREENSONG_BUTTON_PLAYLIST">Ajouter à la playlist</string>
+  <string name="TR_SCREENSONG_BUTTON_CANCEL">Annuler</string>
+  <string name="TR_SCREENSONG_BUTTON_RANDOM">Choisir une chanson aléatoire</string>
+  <string name="TR_SCREENSONG_BUTTON_RANDOMCAT">Choisir une catégorie aléatoire</string>
+  <string name="TR_SCREENSONG_BUTTON_SINGALL">Chanter toutes les chansons</string>
+  <string name="TR_SCREENSONG_BUTTON_SINGALLVISIBLE">Chanter toutes les chansons visibles</string>
+  <string name="TR_SCREENSONG_BUTTON_OPENPLAYLIST">Ouvrir une playlist</string>
+  <string name="TR_SCREENSONG_BUTTON_RANDOMMEDLEY">TODO: Sing a random medley</string>
+  <string name="TR_SCREENSONG_BUTTON_STARTMEDLEY">TODO: Sing medley-songs</string>
+  <string name="TR_SCREENSONG_NEWPLAYLIST">Nouvelle playlist</string>
+  <string name="TR_SCREENSONG_SONGOPTIONS">Option de la chanson</string>
+  <string name="TR_SCREENSONG_SEARCH">Rechercher:</string>
+  <string name="TR_SCREENSONG_NOLANGUAGE">Pas de Langue</string>
+  <string name="TR_SCREENSONG_NOYEAR">Pas d'Année</string>
+  <string name="TR_SCREENSONG_NOGENRE">Pas de Genre</string>
+  <string name="TR_SCREENSONG_NOEDITION">Pas d'Edition</string>
+  <string name="TR_SCREENSONG_ALLSONGS">Toutes les chansons</string>
+  <string name="TR_SCREENSONG_NUMSONGS">(%v Chansons)</string>
+  <string name="TR_SCREENSONG_NUMSONG">(%v Chanson)</string>
+  <string name="TR_SCREENSING_PAUSE">Pause</string>
+  <string name="TR_SCREENSING_BUTTON_CANCEL">Arrêter de chanter</string>
+  <string name="TR_SCREENSING_BUTTON_CONTINUE">Continuer</string>
+  <string name="TR_SCREENSING_BUTTON_SKIP">Passer cette chanson</string>
+  <string name="TR_SCREENSCORE_SCORES">Scores</string>
+  <string name="TR_SCREENSCORE_RATING">Note</string>
+  <string name="TR_SCREENSCORE_POINTS">Points</string>
+  <string name="TR_SCREENSCORE_GAMEDIFFICULTY">Difficulté</string>
+  <string name="TR_SCREENSCORE_OVERALLSCORE">Score total</string>
+  <string name="TR_SCREENHIGHSCORE_HIGHSCORE">Meilleurs Scores</string>
+  <string name="TR_SCREENPROFILES_PROFILES">Profils</string>
+  <string name="TR_SCREENPROFILES_PLAYERNAME">Nom du Joueur</string>
+  <string name="TR_SCREENPROFILES_GAMEDIFFICULTY">Difficulté du jeu</string>
+  <string name="TR_SCREENPROFILES_AVATAR">Avatar</string>
+  <string name="TR_SCREENPROFILES_GUESTPROFILE">Profil Invité</string>
+  <string name="TR_SCREENPROFILES_ACTIVE">Actif</string>
+  <string name="TR_SCREENPROFILES_BUTTON_NEW">Nouveau</string>
+  <string name="TR_SCREENPROFILES_BUTTON_DELETE">Supprimer</string>
+  <string name="TR_SCREENPROFILES_BUTTON_TAKESNAPSHOT">Prendre une photo</string>
+  <string name="TR_SCREENPROFILES_BUTTON_SAVESNAPSHOT">Sauvegarder la photo</string>
+  <string name="TR_SCREENPROFILES_BUTTON_DISCARDSNAPSHOT">Supprimer la photo</string>
+  <string name="TR_SCREENPROFILES_BUTTON_WEBCAM">Webcam</string>
+  <string name="TR_SCREENO_OPTIONS">Menu des Options</string>
+  <string name="TR_SCREENO_BUTTON_GAME">Jeu</string>
+  <string name="TR_SCREENO_BUTTON_SOUND">Son</string>
+  <string name="TR_SCREENO_BUTTON_RECORD">Enregistrement</string>
+  <string name="TR_SCREENO_BUTTON_VIDEO">Vidéo</string>
+  <string name="TR_SCREENO_BUTTON_LYRICS">Paroles</string>
+  <string name="TR_SCREENO_BUTTON_THEME">Thème</string>
+  <string name="TR_SCREENOGAME_OPTIONS">Options du Jeu</string>
+  <string name="TR_SCREENOGAME_LANGUAGE">Langue</string>
+  <string name="TR_SCREENOGAME_DEBUGLEVEL">Niveau de Débogage</string>
+  <string name="TR_SCREENOGAME_SONGMENU">Menu des Chansons</string>
+  <string name="TR_SCREENOGAME_SONGSORTING">Classement des Chansons</string>
+  <string name="TR_SCREENOGAME_TABS">Dossiers</string>
+  <string name="TR_SCREENOGAME_DIFFICULTY">Difficulté du Jeu</string>
+  <string name="TR_SCREENOGAME_TIMERMODE">Mode du Minuteur</string>
+  <string name="TR_SCREENORECORD_OPTIONS">Options d'Enregistrement</string>
+  <string name="TR_SCREENORECORD_DEVICE">Appareil</string>
+  <string name="TR_SCREENORECORD_INPUT">Entrée</string>
+  <string name="TR_SCREENORECORD_CHANNEL_1">Canal 1</string>
+  <string name="TR_SCREENORECORD_CHANNEL_2">Canal 2</string>
+  <string name="TR_SCREENORECORD_MIC_DELAY">Retard du Micro</string>
+  <string name="TR_SCREENORECORD_MIC_WARNING">Attention: Au moins un des joueurs est assigné à 2 micros.</string>
+  <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Test du Retard</string>
+  <string name="TR_SCREENOSOUND_OPTIONS">Options du Son</string>
+  <string name="TR_SCREENOSOUND_BACKGROUNDMUSIC">Musique de fond</string>
+  <string name="TR_SCREENOSOUND_BACKGROUNDMUSICVOLUME">Volume de la Musique de fond</string>
+  <string name="TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE">Source de la Musique de fond</string>
+  <string name="TR_SCREENOSOUND_PREVIEWMUSICVOLUME">Volume de la musique de prévisualisation</string>
+  <string name="TR_SCREENOSOUND_GAMEMUSICVOLUME">Volume de la musique du jeu</string>
+  <string name="TR_SCREENOTHEME_OPTIONS">Options du Thème</string>
+  <string name="TR_SCREENOTHEME_THEME">Thème</string>
+  <string name="TR_SCREENOTHEME_SKIN">Environnement graphique</string>
+  <string name="TR_SCREENOTHEME_COVERTHEME">Thème des Couvertures</string>
+  <string name="TR_SCREENOTHEME_NOTELINES">Afficher les portées</string>
+  <string name="TR_SCREENOTHEME_TONEHELPER">Afficher l'aide pour la Tonalité</string>
+  <string name="TR_SCREENOTHEME_TIMERLOOK">Apparence du Minuteur</string>
+  <string name="TR_SCREENOTHEME_FADEINFO">Dégradé des info des joueurs</string>
+  <string name="TR_SCREENOTHEME_COVERLOADING">Chargement des couvertures</string>
+  <string name="TR_SCREENOLYRICS_OPTIONS">Options des paroles</string>
+  <string name="TR_SCREENOLYRICS_STYLE">Style</string>
+  <string name="TR_SCREENOLYRICS_ONTOP">Paroles en haut</string>
+  <string name="TR_SCREENOVIDEO_OPTIONS">Options Vidéo</string>
+  <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Vidéo en arrière plan</string>
+  <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Prévisualisation des Vidéos</string>
+  <string name="TR_SCREENOVIDEO_VIDEOINSONGS">Vidéos pendant que l'on chante</string>
+  <string name="TR_SCREENO_VIDEO_VIDEOSTOBACKGROUND">Afficher la vidéo de la musique de fond</string>
+  <string name="TR_SCREENO_VIDEO_WEBCAMDEVICES">Webcams</string>
+  <string name="TR_SCREENO_VIDEO_WEBCAMCAPABILITIES">Webcamcapabilities</string>
+  <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
+</resources>
