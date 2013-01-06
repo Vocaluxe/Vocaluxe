@@ -277,10 +277,10 @@ namespace Vocaluxe.PartyModes
                 if (Buttons[htButtons(ButtonNext)].Selected)
                     Next();
 
-                if (Buttons[htButtons(ButtonPlayerChooseScrollUp)].Selected))
+                if (Buttons[htButtons(ButtonPlayerChooseScrollUp)].Selected)
                     Scroll(-1);
 
-                if (Buttons[htButtons(ButtonPlayerChooseScrollDown)].Selected))
+                if (Buttons[htButtons(ButtonPlayerChooseScrollDown)].Selected)
                     Scroll(1);
             }
 
@@ -339,7 +339,7 @@ namespace Vocaluxe.PartyModes
                 PlayerChooseButtonsOffset += Offset;
                 UpdateButtonPlayerChoose();
             }
-            else if (PlayerChooseButtonsVisibleProfiles.Count > PlayerChooseButtons.Count + (PlayerChooseButtonsOffset + Offset) * PlayerChooseButtonsNumH) 
+            else if (PlayerChooseButtonsVisibleProfiles.Count < PlayerChooseButtons.Count + (PlayerChooseButtonsOffset + Offset) * PlayerChooseButtonsNumH) 
             {
                 PlayerChooseButtonsOffset += Offset;
                 UpdateButtonPlayerChoose();
@@ -409,6 +409,8 @@ namespace Vocaluxe.PartyModes
             {
                 UpdateButtonPlayerChoose(PlayerChooseButtonsOffset);
             }
+            Buttons[htButtons(ButtonPlayerChooseScrollUp)].Enabled = PlayerChooseButtonsOffset > 0;
+            Buttons[htButtons(ButtonPlayerChooseScrollDown)].Enabled = PlayerChooseButtonsVisibleProfiles.Count > PlayerChooseButtons.Count + PlayerChooseButtonsOffset * PlayerChooseButtonsNumH;
         }
 
         private void UpdateButtonPlayerChoose(int Offset)
