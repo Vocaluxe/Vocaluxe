@@ -150,6 +150,12 @@ namespace Vocaluxe.PartyModes
                             if (Buttons[htButtons(ButtonNext)].Selected)
                                 Next();
 
+                            if (Buttons[htButtons(ButtonPlayerChooseScrollUp)].Selected)
+                                Scroll(-1);
+
+                            if (Buttons[htButtons(ButtonPlayerChooseScrollDown)].Selected)
+                                Scroll(1);
+
                             if (!OnAdd())
                                 OnRemove();
                             break;
