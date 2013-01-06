@@ -296,11 +296,13 @@ namespace Vocaluxe.PartyModes
                 SelectedField = -1;
                 Buttons[htButtons(ButtonBack)].Visible = true;
                 Buttons[htButtons(ButtonExit)].Visible = false;
+                SetInteractionToButton(Buttons[htButtons(ButtonBack)]);
             }
             else
             {
                 Buttons[htButtons(ButtonBack)].Visible = false;
                 Buttons[htButtons(ButtonExit)].Visible = true;
+                SetInteractionToButton(Buttons[htButtons(ButtonExit)]);
             }
 
             Status = EStatus.FieldChoosing;
@@ -324,7 +326,6 @@ namespace Vocaluxe.PartyModes
                 Buttons[htButtons(ButtonJokerRetryT2)].Visible = false;
                 Buttons[htButtons(ButtonNextRound)].Visible = false;
                 Texts[htTexts(TextFinishMessage)].Visible = false;
-                SetInteractionToButton(Buttons[htButtons(ButtonNextRound)]);
             }
             else
             {
@@ -516,6 +517,8 @@ namespace Vocaluxe.PartyModes
             Buttons[htButtons(ButtonNextRound)].Visible = true;
             Buttons[htButtons(ButtonExit)].Visible = true;
             Buttons[htButtons(ButtonBack)].Visible = false;
+
+            SetInteractionToButton(Buttons[htButtons(ButtonNextRound)]);
         }
 
         private void FieldSelectedAgain()
@@ -553,6 +556,8 @@ namespace Vocaluxe.PartyModes
             Buttons[htButtons(ButtonNextRound)].Visible = true;
             Buttons[htButtons(ButtonExit)].Visible = true;
             Buttons[htButtons(ButtonBack)].Visible = false;
+
+            SetInteractionToButton(Buttons[htButtons(ButtonNextRound)]);
         }
 
         private void UseJoker(int TeamNr, int JokerNum)
