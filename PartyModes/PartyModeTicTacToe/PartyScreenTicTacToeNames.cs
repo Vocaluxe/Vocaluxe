@@ -164,7 +164,6 @@ namespace Vocaluxe.PartyModes
         {
             base.HandleMouse(MouseEvent);
 
-            /**
             //Check if LeftButton is hold and Select-Mode inactive
             if (MouseEvent.LBH && !SelectingMouseActive)
             {
@@ -190,8 +189,9 @@ namespace Vocaluxe.PartyModes
                         }
                     }
                 }
+                return true;
             }
-            **/
+            
             //Check if LeftButton is hold and Select-Mode active
             if (MouseEvent.LBH && SelectingMouseActive)
             {
@@ -200,6 +200,8 @@ namespace Vocaluxe.PartyModes
                 chooseAvatarStatic.Rect.Y += (MouseEvent.Y - OldMouseY);
                 OldMouseX = MouseEvent.X;
                 OldMouseY = MouseEvent.Y;
+
+                return true;
             }
             // LeftButton isn't hold anymore, but Selec-Mode is still active -> "Drop" of Avatar
             else if (SelectingMouseActive)
@@ -233,14 +235,14 @@ namespace Vocaluxe.PartyModes
                                 }
                                 else if (i - PlayerDestinationButtonsNumH >= 0)
                                 {
-                                    if (Data.ScreenNames.ProfileIDsTeam2.Count < (i + 1))
+                                    if (Data.ScreenNames.ProfileIDsTeam2.Count < ((i - PlayerDestinationButtonsNumH) + 1))
                                     {
                                         Data.ScreenNames.ProfileIDsTeam2.Add(SelectedPlayerNr);
-                                        added = Data.ScreenNames.ProfileIDsTeam2.Count - 1;
+                                        added = Data.ScreenNames.ProfileIDsTeam2.Count - 1 + PlayerDestinationButtonsNumH;
                                     }
-                                    else if (Data.ScreenNames.ProfileIDsTeam2.Count >= (i + 1))
+                                    else if (Data.ScreenNames.ProfileIDsTeam2.Count >= ((i - PlayerDestinationButtonsNumH) + 1))
                                     {
-                                        Data.ScreenNames.ProfileIDsTeam2[i] = SelectedPlayerNr;
+                                        Data.ScreenNames.ProfileIDsTeam2[i - PlayerDestinationButtonsNumH] = SelectedPlayerNr;
                                         added = i;
                                     }
                                 }
@@ -251,6 +253,7 @@ namespace Vocaluxe.PartyModes
                                 PlayerDestinationButtons[added].Texture = chooseAvatarStatic.Texture;
                                 PlayerDestinationButtons[added].STexture = chooseAvatarStatic.Texture;
                                 PlayerDestinationButtons[added].Text.Text = _Base.Profiles.GetProfiles()[SelectedPlayerNr].PlayerName;
+                                PlayerDestinationButtons[added].Enabled = true;
                                 //Update Tiles-List
                                 UpdateButtonPlayerChoose();
                             }
@@ -261,6 +264,7 @@ namespace Vocaluxe.PartyModes
                 //Reset variables
                 SelectingMouseActive = false;
                 chooseAvatarStatic.Visible = false;
+                return true;
             }
 
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
@@ -270,14 +274,16 @@ namespace Vocaluxe.PartyModes
 
                 if (Buttons[htButtons(ButtonNext)].Selected)
                     Next();
+            }
 
+            if(MouseEvent.LD && IsMouseOver(MouseEvent))
                 if (!OnAdd())
                     OnRemove();
-            }
 
             if (MouseEvent.RB)
             {
-                Back();
+                if(!OnRemove())
+                    Back();
             }
 
             return true;
