@@ -698,7 +698,7 @@ namespace Vocaluxe.PartyModes
 
             SProfile[] profiles = _Base.Profiles.GetProfiles();
             Round r = GameData.Rounds[RoundNr];
-            bool isDuet = _Base.Songs.GetSongByID(player[0].SongID).IsDuet;
+            bool isDuet = _Base.Songs.GetSongByID(r.SongID).IsDuet;
 
             for (int i = 0; i < 2; i++)
             {
