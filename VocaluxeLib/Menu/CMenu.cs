@@ -1552,6 +1552,25 @@ namespace Vocaluxe.Menu
             return false;
         }
 
+        public bool SetInteractionToSelectSlide(CSelectSlide slide)
+        {
+            for (int i = 0; i < _Interactions.Count; i++)
+            {
+                if (_Interactions[i].Type == EType.TSelectSlide)
+                {
+                    if (_SelectSlides[_Interactions[i].Num] == slide)
+                    {
+                        _UnsetSelected();
+                        _UnsetHighlighted(_Selection);
+                        _Selection = i;
+                        _SetSelected();
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         public void ProcessMouseClick(int x, int y)
         {
             if (_Selection >= _Interactions.Count || _Selection < 0)

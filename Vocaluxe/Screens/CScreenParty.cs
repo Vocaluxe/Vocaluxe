@@ -118,6 +118,8 @@ namespace Vocaluxe.Screens
             }
             SelectSlides[htSelectSlides(SelectSlideModes)].Selection = 0;
             UpdateSelection();
+
+            SetInteractionToSelectSlide(SelectSlides[htSelectSlides(SelectSlideModes)]);
         }
 
         public override bool UpdateGame()
