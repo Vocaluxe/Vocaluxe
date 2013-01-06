@@ -16,6 +16,8 @@ namespace Vocaluxe.PartyModes
         const string ButtonBack = "ButtonBack";
         const string ButtonPlayerDestination = "ButtonPlayerDestination";
         const string ButtonPlayerChoose = "ButtonPlayerChoose";
+        const string ButtonPlayerChooseScrollUp = "ButtonPlayerChooseScrollUp";
+        const string ButtonPlayerChooseScrollDown = "ButtonPlayerChooseScrollDown";
 
         private List<CPlayerChooseButton> PlayerChooseButtons;
         private List<CButton> PlayerDestinationButtons;
@@ -72,7 +74,7 @@ namespace Vocaluxe.PartyModes
 
             _ThemeName = "PartyScreenTicTacToeNames";
             List<string> buttons = new List<string>();
-            _ThemeButtons = new string[] { ButtonBack, ButtonNext, ButtonPlayerDestination, ButtonPlayerChoose };
+            _ThemeButtons = new string[] { ButtonBack, ButtonNext, ButtonPlayerDestination, ButtonPlayerChoose, ButtonPlayerChooseScrollUp, ButtonPlayerChooseScrollDown };
             _ScreenVersion = ScreenVersion;
 
             Data = new DataFromScreen();
@@ -274,6 +276,12 @@ namespace Vocaluxe.PartyModes
 
                 if (Buttons[htButtons(ButtonNext)].Selected)
                     Next();
+
+                if (Buttons[htButtons(ButtonPlayerChooseScrollUp)].Selected))
+                    Scroll(-1);
+
+                if (Buttons[htButtons(ButtonPlayerChooseScrollDown)].Selected))
+                    Scroll(1);
             }
 
             if(MouseEvent.LD && IsMouseOver(MouseEvent))
@@ -322,6 +330,21 @@ namespace Vocaluxe.PartyModes
         public override void OnClose()
         {
             base.OnClose();
+        }
+
+        private void Scroll(int Offset)
+        {
+            if (Offset < 0 && PlayerChooseButtonsOffset > 0)
+            {
+                PlayerChooseButtonsOffset += Offset;
+                UpdateButtonPlayerChoose();
+            }
+            else if (PlayerChooseButtonsVisibleProfiles.Count > PlayerChooseButtons.Count + (PlayerChooseButtonsOffset + Offset) * PlayerChooseButtonsNumH) 
+            {
+                PlayerChooseButtonsOffset += Offset;
+                UpdateButtonPlayerChoose();
+            }
+
         }
 
         private void AddButtonPlayerDestination()
