@@ -612,9 +612,9 @@ namespace Vocaluxe.Screens
                     SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].AddValue(CGame.GetSong(1).DuetPart1);
                     SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].AddValue(CGame.GetSong(1).DuetPart2);
                     if ((i + 1) % 2 == 0)
-                        SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].SetSelectionByValueIndex(1);
+                        SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].Selection = 1;
                     else
-                        SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].SetSelectionByValueIndex(0);
+                        SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].Selection = 0;
                 }
                 else
                     SelectSlides[htSelectSlides(SelectSlideDuetPlayer[i])].Visible = false;
