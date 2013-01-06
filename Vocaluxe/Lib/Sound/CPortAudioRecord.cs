@@ -121,6 +121,16 @@ namespace Vocaluxe.Lib.Sound
 
             for (int i = 0; i < _recHandle.Length; i++)
             {
+                int waitcount = 0;
+                while (waitcount < 5 && PortAudio.Pa_IsStreamStopped(_recHandle[i]) == PortAudio.PaError.paStreamIsNotStopped)
+                {
+                    System.Threading.Thread.Sleep(1);
+                    waitcount++;
+                }
+            }
+
+            for (int i = 0; i < _recHandle.Length; i++)
+            {
                 _recHandle[i] = IntPtr.Zero;
             }
 

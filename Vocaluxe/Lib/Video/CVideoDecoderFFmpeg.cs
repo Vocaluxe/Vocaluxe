@@ -267,8 +267,8 @@ namespace Vocaluxe.Lib.Video
 
         public Decoder()
         {
-            _rc = new TAc_read_callback(read_proc);
-            _sc = new TAc_seek_callback(seek_proc);            
+            //_rc = new TAc_read_callback(read_proc);
+            //_sc = new TAc_seek_callback(seek_proc);            
             _thread = new Thread(Execute);
         }
 
@@ -485,55 +485,44 @@ namespace Vocaluxe.Lib.Video
 
         private void DoOpen()
         {
-            bool ok = false;
             TAc_instance Instance = new TAc_instance();
+
+            _instance = CAcinerella.ac_init();
+            int ret = -1;
+            if ((ret = CAcinerella.ac_open2(_instance, _FileName)) < 0)
+            {
+                CLog.LogError("Error opening video file (Errorcode: " + ret.ToString() + "): " + _FileName);
+                return;
+            }
+
+            Instance = (TAc_instance)Marshal.PtrToStructure(_instance, typeof(TAc_instance));
+
+            if (!Instance.opened || Instance.info.duration == 0)
+            {
+                if (!Instance.opened)
+                    CLog.LogError("Can't open video file: " + _FileName);
+                else
+                    CLog.LogError("Can't open video file (length = 0?): " + _FileName);
+                return;
+            }
+
             try
             {
-                _fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-
-
-                _instance = CAcinerella.ac_init();
-                CAcinerella.ac_open(_instance, IntPtr.Zero, null, _rc, _sc, null, IntPtr.Zero);
-
-                Instance = (TAc_instance)Marshal.PtrToStructure(_instance, typeof(TAc_instance));
-                ok = true;
+                _videodecoder = CAcinerella.ac_create_video_decoder(_instance);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                CLog.LogError("Error opening video file: " + _FileName);
-                ok = false;
+                CLog.LogError("Can't create video decoder for file: " + _FileName + "; " + e.Message);
+                return;
             }
-            
 
-            if (!Instance.opened || !ok)
+            if (_videodecoder == IntPtr.Zero)
             {
-                //Free();
+                CLog.LogError("Can't create video decoder for file: " + _FileName);
                 return;
             }
 
             _Duration = (float)Instance.info.duration / 1000f;
-
-            int VideoStreamIndex = -1;
-
-            TAc_stream_info Info = new TAc_stream_info();
-            for (int i = 0; i < Instance.stream_count; i++)
-            {
-                CAcinerella.ac_get_stream_info(_instance, i, out Info);
-
-                if (Info.stream_type == TAc_stream_type.AC_STREAM_TYPE_VIDEO)
-                {
-                    _videodecoder = CAcinerella.ac_create_decoder(_instance, i);
-                    
-                    VideoStreamIndex = i;
-                    break;
-                }
-            }
-
-            if (VideoStreamIndex < 0)
-            {
-                //Free();
-                return;
-            }
 
             TAc_decoder Videodecoder = (TAc_decoder)Marshal.PtrToStructure(_videodecoder, typeof(TAc_decoder));
 

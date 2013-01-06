@@ -113,7 +113,7 @@ struct _ac_audio_stream_info {
   /*Bits per sample. Can be 8 or 16 Bit.*/
   int bit_depth;
   /*Count of channels in the audio stream.*/
-  int channel_count;
+  int channel_count;  
 };
 typedef struct _ac_audio_stream_info ac_audio_stream_info;
 
@@ -205,6 +205,12 @@ extern int CALL_CONVT ac_open(
   ac_seek_callback seek_proc,
   ac_openclose_callback close_proc,
   lp_ac_proberesult proberesult);
+  
+extern int CALL_CONVT ac_open2(
+  lp_ac_instance pacInstance,
+  const char* filename
+);
+  
 /*Closes an opened media file.*/
 extern void CALL_CONVT ac_close(lp_ac_instance pacInstance);
   
@@ -219,6 +225,8 @@ extern void CALL_CONVT ac_free_package(lp_ac_package pPackage);
 /*Creates an decoder for the specified stream number. Returns NIL if no decoder
  could be found.*/
 extern lp_ac_decoder CALL_CONVT ac_create_decoder(lp_ac_instance pacInstance, int nb);
+extern lp_ac_decoder CALL_CONVT ac_create_audio_decoder(lp_ac_instance pacInstance);
+extern lp_ac_decoder CALL_CONVT ac_create_video_decoder(lp_ac_instance pacInstance);
 /*Frees an created decoder.*/
 extern void CALL_CONVT ac_free_decoder(lp_ac_decoder pDecoder);
 /*Decodes a package using the specified decoder. The decodec data is stored in the

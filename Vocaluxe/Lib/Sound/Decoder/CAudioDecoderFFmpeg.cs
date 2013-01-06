@@ -27,8 +27,8 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
         public override void Init()
         {
-            _rc = new TAc_read_callback(read_proc);
-            _sc = new TAc_seek_callback(seek_proc);
+            //_rc = new TAc_read_callback(read_proc);
+            //_sc = new TAc_seek_callback(seek_proc);
 
             _FileOpened = false;
 
@@ -41,63 +41,51 @@ namespace Vocaluxe.Lib.Sound.Decoder
                 return;
 
             _FileName = FileName;
-            _fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+            //_fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
 
             _instance = CAcinerella.ac_init();
-            CAcinerella.ac_open(_instance, IntPtr.Zero, null, _rc, _sc, null, IntPtr.Zero);
-
-            _Instance = (TAc_instance)Marshal.PtrToStructure(_instance, typeof(TAc_instance));
-
-            if (!_Instance.opened)
+            int ret = 0;
+            //CAcinerella.ac_open(_instance, IntPtr.Zero, null, _rc, _sc, null, IntPtr.Zero);
+            if ((ret = CAcinerella.ac_open2(_instance, _FileName)) < 0)
             {
-                //Free();
+                CLog.LogError("Error opening sound file (Errorcode: " + ret.ToString() + "): " + _FileName);
                 return;
             }
 
-            int AudioStreamIndex = -1;
+            _Instance = (TAc_instance)Marshal.PtrToStructure(_instance, typeof(TAc_instance));
 
-            TAc_stream_info Info = new TAc_stream_info();
-            for (int i = 0; i < _Instance.stream_count; i++)
+            if (!_Instance.opened || _Instance.info.duration == 0)
             {
-                CAcinerella.ac_get_stream_info(_instance, i, out Info);
-
-                if (Info.stream_type == TAc_stream_type.AC_STREAM_TYPE_AUDIO)
-                {
-                    try
-                    {
-                        _audiodecoder = CAcinerella.ac_create_decoder(_instance, i);
-                    }
-                    catch (Exception)
-                    {
-                        return;                        
-                    }
-                    
-                    AudioStreamIndex = i;
-                    break;
-                }
+                if (!_Instance.opened)
+                    CLog.LogError("Can't open sound file: " + _FileName);
+                else
+                    CLog.LogError("Can't open sound file (length = 0?): " + _FileName);
+                return;
             }
 
-            if (AudioStreamIndex < 0)
+            try
             {
-                //Free();
+                _audiodecoder = CAcinerella.ac_create_audio_decoder(_instance);
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Can't create audio decoder for file: " + _FileName + "; " + e.Message);
+                return;
+            }
+
+            if (_audiodecoder == IntPtr.Zero)
+            {
+                CLog.LogError("Can't create audio decoder for file: " + _FileName);
                 return;
             }
 
             TAc_decoder Audiodecoder = (TAc_decoder)Marshal.PtrToStructure(_audiodecoder, typeof(TAc_decoder));
-
             _FormatInfo = new FormatInfo();
-
             _FormatInfo.SamplesPerSecond = Audiodecoder.stream_info.audio_info.samples_per_second;
             _FormatInfo.BitDepth = Audiodecoder.stream_info.audio_info.bit_depth;
             _FormatInfo.ChannelCount = Audiodecoder.stream_info.audio_info.channel_count;
 
             _CurrentTime = 0f;
-
-            if (_FormatInfo.BitDepth != 16)
-            {
-                CLog.LogError("Unsupported BitDepth in file " + FileName);
-                return;
-            }
             _FileOpened = true;
         }
 
@@ -136,7 +124,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
             if (!_Initialized && !_FileOpened)
                 return 0f;
 
-            return (float)_Instance.info.duration / 1000f; ;
+            return (float)_Instance.info.duration / 1000f;
         }
 
         public override void SetPosition(float Time)

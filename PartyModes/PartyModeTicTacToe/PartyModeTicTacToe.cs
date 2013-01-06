@@ -62,6 +62,8 @@ namespace Vocaluxe.PartyModes
         public List<int> Songs;
         public List<int> ProfileIDsTeam1;
         public List<int> ProfileIDsTeam2;
+        public List<int> PlayerTeam1;
+        public List<int> PlayerTeam2;
         public int[] NumJokerRandom;
         public int[] NumJokerRetry;
     }
@@ -96,6 +98,8 @@ namespace Vocaluxe.PartyModes
     {
         public bool FadeToSinging;
         public bool FadeToNameSelection;
+        public List<int> PlayerTeam1;
+        public List<int> PlayerTeam2;
         public List<Round> Rounds;
         public int SingRoundNr;
         public List<int> Songs;
@@ -128,6 +132,8 @@ namespace Vocaluxe.PartyModes
             public int Team;
             public List<int> ProfileIDsTeam1;
             public List<int> ProfileIDsTeam2;
+            public List<int> PlayerTeam1;
+            public List<int> PlayerTeam2;
 
             public ESongSource SongSource;
             public int CategoryID;
@@ -176,6 +182,8 @@ namespace Vocaluxe.PartyModes
             GameData.NumPlayerTeam2 = 2;
             GameData.ProfileIDsTeam1 = new List<int>();
             GameData.ProfileIDsTeam2 = new List<int>();
+            GameData.PlayerTeam1 = new List<int>();
+            GameData.PlayerTeam2 = new List<int>();
             GameData.CurrentRoundNr = 0;
             GameData.SingRoundNr = 0;
             GameData.SongSource = ESongSource.TR_ALLSONGS;
@@ -202,8 +210,12 @@ namespace Vocaluxe.PartyModes
 
             ToScreenMain.Rounds = new List<Round>();
             ToScreenMain.Songs = new List<int>();
+            ToScreenMain.PlayerTeam1 = new List<int>();
+            ToScreenMain.PlayerTeam2 = new List<int>();
             GameData.Songs = new List<int>();
             GameData.Rounds = new List<Round>();
+            GameData.PlayerTeam1 = new List<int>();
+            GameData.PlayerTeam2 = new List<int>();
             return true;
         }
 
@@ -269,6 +281,8 @@ namespace Vocaluxe.PartyModes
                             GameData.Rounds = data.ScreenMain.Rounds;
                             GameData.SingRoundNr = data.ScreenMain.SingRoundNr;
                             GameData.Songs = data.ScreenMain.Songs;
+                            GameData.PlayerTeam1 = data.ScreenMain.PlayerTeam1;
+                            GameData.PlayerTeam2 = data.ScreenMain.PlayerTeam2;
                         }
                         if (data.ScreenMain.FadeToNameSelection)
                         {
@@ -351,10 +365,13 @@ namespace Vocaluxe.PartyModes
                         ToScreenMain.ProfileIDsTeam1 = GameData.ProfileIDsTeam1;
                         ToScreenMain.ProfileIDsTeam2 = GameData.ProfileIDsTeam2;
                         CreateRounds();
-                        PrepareSongList();
                         SetNumJokers();
+                        PreparePlayerList(0);
+                        PrepareSongList();
                         ToScreenMain.Rounds = GameData.Rounds;
                         ToScreenMain.Songs = GameData.Songs;
+                        ToScreenMain.PlayerTeam1 = GameData.PlayerTeam1;
+                        ToScreenMain.PlayerTeam1 = GameData.PlayerTeam2;
                         ToScreenMain.NumJokerRandom = GameData.NumJokerRandom;
                         ToScreenMain.NumJokerRetry = GameData.NumJokerRetry;
                         ToScreenMain.Team = GameData.Team;
@@ -372,6 +389,8 @@ namespace Vocaluxe.PartyModes
                             GameData.Team = 0;
                         else
                             GameData.Team = 1;
+                        UpdateSongList();
+                        UpdatePlayerList();
                         ToScreenMain.CurrentRoundNr = GameData.CurrentRoundNr;
                         ToScreenMain.NumPlayerTeam1 = GameData.NumPlayerTeam1;
                         ToScreenMain.NumPlayerTeam2 = GameData.NumPlayerTeam2;
@@ -380,6 +399,8 @@ namespace Vocaluxe.PartyModes
                         ToScreenMain.ProfileIDsTeam2 = GameData.ProfileIDsTeam2;
                         ToScreenMain.Rounds = GameData.Rounds;
                         ToScreenMain.Songs = GameData.Songs;
+                        ToScreenMain.PlayerTeam1 = GameData.PlayerTeam1;
+                        ToScreenMain.PlayerTeam2 = GameData.PlayerTeam2;
                         ToScreenMain.NumJokerRandom = GameData.NumJokerRandom;
                         ToScreenMain.NumJokerRetry = GameData.NumJokerRetry;
                         ToScreenMain.Team = GameData.Team;
@@ -490,48 +511,99 @@ namespace Vocaluxe.PartyModes
         private void CreateRounds()
         {
             GameData.Rounds = new List<Round>();
-            //Prepare Player-IDs
-            List<int> Team1 = new List<int>();
-            List<int> Team2 = new List<int>();
-            List<int> IDs1 = new List<int>();
-            List<int> IDs2 = new List<int>();
-            int num = 0;
-            int random = 0;
-            //Add IDs to team-list
-            while (Team1.Count < GameData.NumFields)
-            {
-                if (IDs1.Count == 0)
-                    for (int i = 0; i < GameData.NumPlayerTeam1; i++)
-                        IDs1.Add(i);
-                if (IDs2.Count == 0)
-                    for (int i = 0; i < GameData.NumPlayerTeam2; i++)
-                        IDs2.Add(i);
-                if (Team1.Count < GameData.NumFields)
-                {
-                    random = _Base.Game.GetRandom((IDs1.Count - 1) * 10);
-                    num = (int)Math.Round((double)random/10);
-                    if (num >= IDs1.Count)
-                        num = IDs1.Count - 1;
-                    Team1.Add(IDs1[num]);
-                    IDs1.Remove(Team1[Team1.Count - 1]);
-                }   
-                if (Team2.Count < GameData.NumFields)
-                {
-                    random = _Base.Game.GetRandom((IDs2.Count - 1) * 20);
-                    num = (int)Math.Round((double)random / 20);
-                    if (num >= IDs2.Count)
-                        num = IDs2.Count - 1;
-                    Team2.Add(IDs2[num]);
-                    IDs2.Remove(Team2[Team2.Count - 1]);
-                }
-            }
-
             for (int i = 0; i < GameData.NumFields; i++)
             {
                 Round r = new Round();
-                r.SingerTeam1 = Team1[i];
-                r.SingerTeam2 = Team2[i];
                 GameData.Rounds.Add(r);
+            }
+        }
+
+        private void PreparePlayerList(int Team)
+        {
+            if (Team == 0)
+            {
+                GameData.PlayerTeam1 = new List<int>();
+                GameData.PlayerTeam2 = new List<int>();
+
+                //Prepare Player-IDs
+                List<int> IDs1 = new List<int>();
+                List<int> IDs2 = new List<int>();
+                int num = 0;
+                int random = 0;
+                //Add IDs to team-list
+                while (GameData.PlayerTeam1.Count < GameData.NumFields + GameData.NumJokerRetry[0] && IDs1.Count == 0 && GameData.PlayerTeam2.Count < GameData.NumFields + GameData.NumJokerRetry[1] && IDs2.Count == 0)
+                {
+                    if (IDs1.Count == 0)
+                        for (int i = 0; i < GameData.NumPlayerTeam1; i++)
+                            IDs1.Add(i);
+                    if (IDs2.Count == 0)
+                        for (int i = 0; i < GameData.NumPlayerTeam2; i++)
+                            IDs2.Add(i);
+                    if (GameData.PlayerTeam1.Count < GameData.NumFields + GameData.NumJokerRetry[0])
+                    {
+                        random = _Base.Game.GetRandom((IDs1.Count - 1) * 10);
+                        num = (int)Math.Round((double)random / 10);
+                        if (num >= IDs1.Count)
+                            num = IDs1.Count - 1;
+                        GameData.PlayerTeam1.Add(IDs1[num]);
+                        IDs1.RemoveAt(num);
+                    }
+                    if (GameData.PlayerTeam2.Count < GameData.NumFields + GameData.NumJokerRetry[1])
+                    {
+                        random = _Base.Game.GetRandom((IDs2.Count - 1) * 20);
+                        num = (int)Math.Round((double)random / 20);
+                        if (num >= IDs2.Count)
+                            num = IDs2.Count - 1;
+                        GameData.PlayerTeam2.Add(IDs2[num]);
+                        IDs2.RemoveAt(num);
+                    }
+                }
+            }
+            else if (Team == 1)
+            {
+                //Prepare Player-IDs
+                List<int> IDs = new List<int>();
+                int num = 0;
+                int random = 0;
+                //Add IDs to team-list
+                while (GameData.PlayerTeam1.Count < GameData.NumFields + GameData.NumJokerRetry[0] && IDs.Count == 0)
+                {
+                    if (IDs.Count == 0)
+                        for (int i = 0; i < GameData.NumPlayerTeam1; i++)
+                            IDs.Add(i);
+                    if (GameData.PlayerTeam1.Count < GameData.NumFields + GameData.NumJokerRetry[0])
+                    {
+                        random = _Base.Game.GetRandom((IDs.Count - 1) * 10);
+                        num = (int)Math.Round((double)random / 10);
+                        if (num >= IDs.Count)
+                            num = IDs.Count - 1;
+                        GameData.PlayerTeam1.Add(IDs[num]);
+                        IDs.RemoveAt(num);
+                    }
+                }
+            }
+            else if (Team == 2)
+            {
+                //Prepare Player-IDs
+                List<int> IDs = new List<int>();
+                int num = 0;
+                int random = 0;
+                //Add IDs to team-list
+                while (GameData.PlayerTeam2.Count < GameData.NumFields + GameData.NumJokerRetry[1] && IDs.Count == 0)
+                {
+                    if (IDs.Count == 0)
+                        for (int i = 0; i < GameData.NumPlayerTeam2; i++)
+                            IDs.Add(i);
+                    if (GameData.PlayerTeam2.Count < GameData.NumFields + GameData.NumJokerRetry[1])
+                    {
+                        random = _Base.Game.GetRandom((IDs.Count - 1) * 20);
+                        num = (int)Math.Round((double)random / 20);
+                        if (num >= IDs.Count)
+                            num = IDs.Count - 1;
+                        GameData.PlayerTeam2.Add(IDs[num]);
+                        IDs.RemoveAt(num);
+                    }
+                }
             }
         }
 
@@ -596,6 +668,20 @@ namespace Vocaluxe.PartyModes
             }
         }
 
+        private void UpdatePlayerList()
+        {
+            if (GameData.PlayerTeam1.Count == 0)
+                PreparePlayerList(1);
+            if (GameData.PlayerTeam2.Count == 0)
+                PreparePlayerList(2);
+        }
+
+        private void UpdateSongList()
+        {
+            if (GameData.Songs.Count == 0)
+                PrepareSongList();
+        }
+
         private void StartRound(int RoundNr)
         {
             _Base.Game.Reset();
@@ -612,6 +698,7 @@ namespace Vocaluxe.PartyModes
 
             SProfile[] profiles = _Base.Profiles.GetProfiles();
             Round r = GameData.Rounds[RoundNr];
+            bool isDuet = _Base.Songs.GetSongByID(player[0].SongID).IsDuet;
 
             for (int i = 0; i < 2; i++)
             {
@@ -629,7 +716,7 @@ namespace Vocaluxe.PartyModes
                     player[0].Name = profiles[GameData.ProfileIDsTeam1[r.SingerTeam1]].PlayerName;
                     player[0].Difficulty = profiles[GameData.ProfileIDsTeam1[r.SingerTeam1]].Difficulty;
                     player[0].ProfileID = GameData.ProfileIDsTeam1[r.SingerTeam1];
-                    if (GameData.GameMode == EPartyGameMode.TR_GAMEMODE_DUET)
+                    if (isDuet)
                         player[0].LineNr = 0;
                 }
                 if (GameData.ProfileIDsTeam2[r.SingerTeam2] < profiles.Length)
@@ -637,7 +724,7 @@ namespace Vocaluxe.PartyModes
                     player[1].Name = profiles[GameData.ProfileIDsTeam2[r.SingerTeam2]].PlayerName;
                     player[1].Difficulty = profiles[GameData.ProfileIDsTeam2[r.SingerTeam2]].Difficulty;
                     player[1].ProfileID = GameData.ProfileIDsTeam2[r.SingerTeam2];
-                    if (GameData.GameMode == EPartyGameMode.TR_GAMEMODE_DUET)
+                    if (isDuet)
                         player[1].LineNr = 1;
                 }
                 SongSelected(r.SongID);
