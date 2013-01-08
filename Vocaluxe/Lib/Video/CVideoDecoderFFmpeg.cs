@@ -223,10 +223,6 @@ namespace Vocaluxe.Lib.Video
         private int _StreamID;                      // stream ID for stream closing
         private string _FileName;                   // current video file name
                 
-        private FileStream _fs;                     // video file stream
-        private TAc_read_callback _rc;              // read callback for acinerella
-        private TAc_seek_callback _sc;              // seek callback for acinerella
-        
         private bool _FileOpened = false;
         
         private float _VideoTimeBase = 0f;          // frame time
@@ -259,16 +255,13 @@ namespace Vocaluxe.Lib.Video
         private bool _terminated = false;
                 
         private Thread _thread;
-        //AutoResetEvent EventDecode = new AutoResetEvent(false);
         SFrameBuffer[] _FrameBuffer = new SFrameBuffer[5];
         private bool _NewFrame = false;
         Object MutexFramebuffer = new Object();
         Object MutexSyncSignals = new Object();
 
         public Decoder()
-        {
-            //_rc = new TAc_read_callback(read_proc);
-            //_sc = new TAc_seek_callback(seek_proc);            
+        {          
             _thread = new Thread(Execute);
         }
 
@@ -361,7 +354,6 @@ namespace Vocaluxe.Lib.Video
 
                 
                 UploadNewFrame(ref frame);
-                //EventDecode.Set();
                 return true;
             }
 
@@ -373,7 +365,6 @@ namespace Vocaluxe.Lib.Video
                 }
                 UploadNewFrame(ref frame);
                 VideoTime = _CurrentVideoTime;
-                //EventDecode.Set();
                 return true;
             }
             return false;
@@ -389,7 +380,6 @@ namespace Vocaluxe.Lib.Video
                 _NoMoreFrames = false;
                 _Finished = false;
             }
-            //EventDecode.Set();
 
             return true;
         }
@@ -444,17 +434,14 @@ namespace Vocaluxe.Lib.Video
             _BufferFull = false;
             _skip = false;
             _NewFrame = false;
-            //EventDecode.Set();
         }
 
         private void Execute()
         {
             DoOpen();
-            //EventDecode.Set();
 
             while (!_terminated)
             {
-                //if (EventDecode.WaitOne(10))
                 {
                     lock (MutexSyncSignals)
                     {
@@ -690,9 +677,6 @@ namespace Vocaluxe.Lib.Video
                     _NewFrame = false;
                 }
             }
-
-            //if (!_BufferFull)
-            //    EventDecode.Set();
         }
 
         private void UploadNewFrame(ref STexture frame)
@@ -721,7 +705,6 @@ namespace Vocaluxe.Lib.Video
                         _CurrentVideoTime = _FrameBuffer[num].time;
                     }
                     _Finished = false;
-                    //EventDecode.Set();
                 }
                 else
                 {
@@ -775,23 +758,5 @@ namespace Vocaluxe.Lib.Video
             _Closeproc(_StreamID);
         }
         #endregion Threading
-
-        #region Callbacks
-        private Int32 read_proc(IntPtr sender, IntPtr buf, Int32 size)
-        {
-            Int32 r = 0;
-
-            byte[] bb = new byte[size];
-            r = _fs.Read(bb, 0, size);
-            Marshal.Copy(bb, 0, buf, size);
-
-            return r;
-        }
-
-        private Int64 seek_proc(IntPtr sender, Int64 pos, Int32 whence)
-        {
-            return (Int64)_fs.Seek((long)pos, (SeekOrigin)whence);
-        }
-        #endregion Callbacks
     }
 }
