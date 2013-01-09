@@ -207,6 +207,12 @@ namespace Vocaluxe.Screens
                         case Keys.Escape:
                             if ((CSongs.Category < 0 || _sso.Sorting.Tabs == EOffOn.TR_CONFIG_OFF) && !_sso.Selection.PartyMode && !_SearchActive)
                                 CGraphics.FadeTo(EScreens.ScreenMain);
+                            if (_SearchActive)
+                            {
+                                _SearchActive = false;
+                                _SearchText = String.Empty;
+                                ApplyNewSearchFilter(_SearchText);
+                            }
                             break;
 
                         case Keys.Enter:
@@ -480,7 +486,15 @@ namespace Vocaluxe.Screens
                     return true;
                 }
 
-                if (CSongs.Category < 0 && !_sso.Selection.PartyMode)
+                if (_SearchActive)
+                {
+                    _SearchActive = false;
+                    _SearchText = String.Empty;
+                    ApplyNewSearchFilter(_SearchText);
+                    return true;
+                }
+
+                if (CSongs.Category < 0 && !_sso.Selection.PartyMode && !_SearchActive)
                 {
                     CGraphics.FadeTo(EScreens.ScreenMain);
                     return true;
