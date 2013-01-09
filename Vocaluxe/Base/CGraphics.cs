@@ -403,7 +403,7 @@ namespace Vocaluxe.Base
                 else
                 {
                     _Screens[(int)_CurrentScreen].OnClose();
-                    GC.Collect();
+                    System.Threading.Thread t = new System.Threading.Thread(delegate() { GC.Collect(); });
                     _CurrentScreen = _NextScreen;
                     _NextScreen = EScreens.ScreenNull;
                     if(CBackgroundMusic.Playing)
