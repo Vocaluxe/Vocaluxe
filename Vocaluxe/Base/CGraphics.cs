@@ -533,9 +533,9 @@ namespace Vocaluxe.Base
                 if (PopupVolumeControlAllowed && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
                 {
                     int Diff = 0;
-                    if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Add || KeyEvent.Key == Keys.PageUp) || KeyEvent.Sender == ESender.WiiMote && KeyEvent.Key == Keys.Add)
+                    if ((KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Add || KeyEvent.Key == Keys.PageUp)) || (KeyEvent.Sender == ESender.WiiMote && KeyEvent.Key == Keys.Add))
                         Diff = 5;
-                    else if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Subtract || KeyEvent.Key == Keys.PageDown) || KeyEvent.Sender == ESender.WiiMote && KeyEvent.Key == Keys.Subtract)
+                    else if ((KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Subtract || KeyEvent.Key == Keys.PageDown)) || (KeyEvent.Sender == ESender.WiiMote && KeyEvent.Key == Keys.Subtract))
                         Diff = -5;
                     else if (KeyEvent.Key == Keys.MediaNextTrack)
                         CMain.BackgroundMusic.Next();
@@ -555,13 +555,17 @@ namespace Vocaluxe.Base
                         {
                             case EScreens.ScreenSong:
                                 if (CSongs.Category != -1)
+                                {
                                     CConfig.PreviewMusicVolume += Diff;
+                                    _Screens[(int)_CurrentScreen].ApplyVolume();
+                                }
                                 else
                                     CConfig.BackgroundMusicVolume += Diff;
                                 break;
 
                             case EScreens.ScreenSing:
                                 CConfig.GameMusicVolume += Diff;
+                                _Screens[(int)_CurrentScreen].ApplyVolume();
                                 break;
 
                             default:
