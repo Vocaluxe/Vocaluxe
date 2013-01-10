@@ -11,10 +11,6 @@ namespace Vocaluxe.Lib.Sound.Decoder
 {
     class CAudioDecoderFFmpeg: CAudioDecoder
     {
-        private TAc_read_callback _rc;
-        private TAc_seek_callback _sc;
-        private FileStream _fs;
-
         private IntPtr _instance = IntPtr.Zero;
         private IntPtr _audiodecoder = IntPtr.Zero;
         
@@ -27,11 +23,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
         public override void Init()
         {
-            //_rc = new TAc_read_callback(read_proc);
-            //_sc = new TAc_seek_callback(seek_proc);
-
             _FileOpened = false;
-
             _Initialized = true;
         }
 
@@ -41,11 +33,9 @@ namespace Vocaluxe.Lib.Sound.Decoder
                 return;
 
             _FileName = FileName;
-            //_fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-
             _instance = CAcinerella.ac_init();
+
             int ret = 0;
-            //CAcinerella.ac_open(_instance, IntPtr.Zero, null, _rc, _sc, null, IntPtr.Zero);
             if ((ret = CAcinerella.ac_open2(_instance, _FileName)) < 0)
             {
                 CLog.LogError("Error opening sound file (Errorcode: " + ret.ToString() + "): " + _FileName);
@@ -189,23 +179,5 @@ namespace Vocaluxe.Lib.Sound.Decoder
             Buffer = null;
             TimeStamp = 0f;
         }
-
-        #region Callbacks
-        private Int32 read_proc(IntPtr sender, IntPtr buf, Int32 size)
-        {
-            Int32 r = 0;
-
-            byte[] bb = new byte[size];
-            r = _fs.Read(bb, 0, size);
-            Marshal.Copy(bb, 0, buf, size);
-
-            return r;
-        }
-
-        private Int64 seek_proc(IntPtr sender, Int64 pos, Int32 whence)
-        {
-            return (Int64)_fs.Seek((long)pos, (SeekOrigin)whence);
-        }
-        #endregion Callbacks
     }
 }
