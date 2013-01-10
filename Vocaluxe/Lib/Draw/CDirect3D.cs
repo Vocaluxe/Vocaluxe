@@ -944,23 +944,27 @@ namespace Vocaluxe.Lib.Draw
             texture.w2 = (float)CheckForNextPowerOf2(w);
             texture.h2 = (float)CheckForNextPowerOf2(h);
 
-            //Create a new Bitmap with the new sizes
-            Bitmap bmp2 = new Bitmap((int)texture.w2, (int)texture.h2);
-            //Scale the texture
-            Graphics g = Graphics.FromImage(bmp2);
-            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
-            g.Dispose();
+            if (texture.w2 != bmp.Width || texture.h2 != bmp.Height)
+            {
+                //Create a new Bitmap with the new sizes
+                Bitmap bmp2 = new Bitmap((int)texture.w2, (int)texture.h2);
+                //Scale the texture
+                Graphics g = Graphics.FromImage(bmp2);
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
+                g.Dispose();
+                bmp = bmp2;
+            }
 
             texture.width_ratio = 1f;
             texture.height_ratio = 1f;
 
             //Fill the new Bitmap with the texture data
-            BitmapData bmp_data = bmp2.LockBits(new Rectangle(0, 0, bmp2.Width, bmp2.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            byte[] Data = new byte[4 * bmp2.Width * bmp2.Height];
+            BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, (int)texture.w2, (int)texture.h2), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            byte[] Data = new byte[4 * (int)texture.w2 * (int)texture.h2];
             Marshal.Copy(bmp_data.Scan0, Data, 0, Data.Length);
-            bmp2.UnlockBits(bmp_data);
+            bmp.UnlockBits(bmp_data);
 
             //Create a new texture in the managed pool, which does not need to be recreated on a lost device
             //because a copy of the texture is hold in the Ram
@@ -969,14 +973,13 @@ namespace Vocaluxe.Lib.Draw
             DataRectangle rect = t.LockRectangle(0, LockFlags.Discard);
             for (int i = 0; i < Data.Length; )
             {
-                rect.Data.Write(Data, i, 4 * bmp2.Width);
-                i += 4 * bmp2.Width;
-                rect.Data.Position = rect.Data.Position - 4 * bmp2.Width;
+                rect.Data.Write(Data, i, 4 * (int)texture.w2);
+                i += 4 * (int)texture.w2;
+                rect.Data.Position = rect.Data.Position - 4 * (int)texture.w2;
                 rect.Data.Position += rect.Pitch;
             }
             t.UnlockRectangle(0);
 
-            bmp2.Dispose();
             bmp_data = null;
 
             // Add to Texture List
