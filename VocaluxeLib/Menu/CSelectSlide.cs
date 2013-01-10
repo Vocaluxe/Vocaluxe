@@ -545,7 +545,7 @@ namespace Vocaluxe.Menu
 
         public void AddValue(string value)
         {
-            AddValue(value, new STexture(-1), _PartyModeID);
+            AddValue(value, _PartyModeID);
         }
 
         public void AddValue(string value, int PartyModeID)
@@ -558,7 +558,7 @@ namespace Vocaluxe.Menu
             AddValue(value, texture, _ValueIndexes.Count, _PartyModeID);
         }
 
-        public void AddValue(string value, STexture texture, int valueIndex)
+        private void AddValue(string value, STexture texture, int valueIndex)
         {
             AddValue(value, texture, valueIndex, _PartyModeID);
         }
