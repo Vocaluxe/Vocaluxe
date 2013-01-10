@@ -178,6 +178,7 @@ namespace Vocaluxe.Base
             Bitmap bmp = new Bitmap(origin, w, h);
             STexture tex = _Draw.AddTexture(bmp);
             bmp.Dispose();
+            origin.Dispose();
             return tex;
         }
 

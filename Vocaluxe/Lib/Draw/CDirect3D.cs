@@ -881,7 +881,9 @@ namespace Vocaluxe.Lib.Draw
                     CLog.LogError("Error loading Texture: " + TexturePath);
                     return new STexture(-1);
                 }
-                return AddTexture(bmp, TexturePath);
+                STexture s = AddTexture(bmp, TexturePath);
+                bmp.Dispose();
+                return s;
             }
             CLog.LogError("Can't find File: " + TexturePath);
             return new STexture(-1);
