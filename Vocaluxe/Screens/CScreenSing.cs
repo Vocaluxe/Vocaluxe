@@ -368,7 +368,7 @@ namespace Vocaluxe.Screens
 
                     Lyrics[htLyrics(LyricMain)].Alpha = Alpha[2];
                     Lyrics[htLyrics(LyricSub)].Alpha = Alpha[3];
-
+                     
                     Statics[htStatics(StaticLyrics)].Alpha = Alpha[2];
                     Statics[htStatics(StaticLyricHelper)].Alpha = Alpha[2];
                 }

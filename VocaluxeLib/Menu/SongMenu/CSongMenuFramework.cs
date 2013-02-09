@@ -649,8 +649,8 @@ namespace Vocaluxe.Menu.SongMenu
                 if (startposition == 0f)
                     startposition = _Base.Sound.GetLength(_stream) / 4f;
 
-                _Base.Sound.SetPosition(_stream, startposition);
                 _Base.Sound.Play(_stream);
+                _Base.Sound.SetPosition(_stream, startposition);
                 _Base.Sound.Fade(_stream, 100f, 3f);
                 _streams.Add(_stream);
                 _actsongstream = _stream;

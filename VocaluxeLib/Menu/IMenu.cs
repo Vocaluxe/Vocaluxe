@@ -637,7 +637,8 @@ namespace Vocaluxe.Menu
     public enum EPlaybackLib
     {
         PortAudio,
-        OpenAL
+        OpenAL,
+        Gstreamer
     }
 
     public enum EWebcamLib
