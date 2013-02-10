@@ -74,16 +74,18 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugWin|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\Output\x64\gstreamer</OutDir>
-    <IncludePath>C:\Users\Stephan\Documents\Visual Studio 2012\Github\Vocaluxe\GstreamerHelper\x64\lib\glib-2.0\include;C:\Users\Stephan\Documents\Visual Studio 2012\Github\Vocaluxe\GstreamerHelper\x64\include\gstreamer-1.0;C:\Users\Stephan\Documents\Visual Studio 2012\Github\Vocaluxe\GstreamerHelper\x64\include\glib-2.0;C:\Users\Stephan\Documents\Visual Studio 2012\Github\Vocaluxe\GstreamerHelper\x64\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Stephan\Documents\Visual Studio 2012\Github\Vocaluxe\GstreamerHelper\x64\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>..\Output\x64\gstreamer\</OutDir>
+    <IncludePath>$(MSBuildProjectDirectory)\x64\lib\glib-2.0\include;$(MSBuildProjectDirectory)\x64\include\gstreamer-1.0;$(MSBuildProjectDirectory)\x64\include\glib-2.0;$(MSBuildProjectDirectory)\x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(MSBuildProjectDirectory)\x64\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\Output\x64</OutDir>
+    <OutDir>..\Output\x64\gstreamer\</OutDir>
+    <IncludePath>$(MSBuildProjectDirectory)\x64\lib\glib-2.0\include;$(MSBuildProjectDirectory)\x64\include\gstreamer-1.0;$(MSBuildProjectDirectory)\x64\include\glib-2.0;$(MSBuildProjectDirectory)\x64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(MSBuildProjectDirectory)\x64\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\Output\x86</OutDir>
@@ -152,6 +154,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>gstreamer-1.0.lib;gstcontroller-1.0.lib;gobject-2.0.lib;glib-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
