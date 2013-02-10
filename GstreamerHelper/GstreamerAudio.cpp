@@ -26,7 +26,7 @@ DllExport bool Init()
 #if _WIN64
 	SetDllDirectory(L".\\x64\\gstreamer");
 #else
-		SetDllDirectory(L".\\x86\gstreamer");
+	SetDllDirectory(L".\\x86\\gstreamer");
 #endif
 
 	gst_init(NULL, NULL);

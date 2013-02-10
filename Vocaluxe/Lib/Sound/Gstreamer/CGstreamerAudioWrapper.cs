@@ -11,7 +11,7 @@ namespace Vocaluxe.Lib.Sound.Gstreamer
         #region arch
 #if ARCH_X86
 #if WIN
-        private const string Dll = "x86\\gstreamerhelper.dll";
+        private const string Dll = "x86\\gstreamer\\gstreamerhelper.dll";
 #endif
 #endif
 

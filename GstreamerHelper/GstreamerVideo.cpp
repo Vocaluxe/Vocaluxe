@@ -30,7 +30,6 @@ DllExport bool InitVideo()
 #else
 	gst_registry_scan_path(registry, ".\\x86\\gstreamer");
 #endif
-
 	return true;
 }
 
