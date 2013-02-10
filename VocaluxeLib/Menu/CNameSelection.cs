@@ -360,7 +360,10 @@ namespace Vocaluxe.Menu
                     break;
             }
 
-            Selection = VisibleProfiles[_Offset * _Tiles.Count + _actualSelection];
+            if (_Offset * _Tiles.Count + _actualSelection < VisibleProfiles.Count)
+                Selection = VisibleProfiles[_Offset * _Tiles.Count + _actualSelection];
+            else
+                Selection = -1;
         }
 
         public void KeyboardSelection(bool active, int player)
@@ -408,28 +411,24 @@ namespace Vocaluxe.Menu
             if (offset < 0)
                 offset = 0;
 
-            if ( _Tiles.Count * (offset + 1) - VisibleProfiles.Count < _Tiles.Count)
+            for (int i = 0; i < _Tiles.Count; i++)
             {
-
-                for (int i = 0; i < _Tiles.Count; i++)
+                if ((i + offset * _Tiles.Count) < VisibleProfiles.Count)
                 {
-                    if ((i + offset * _Tiles.Count) < VisibleProfiles.Count)
-                    {
-                        _Tiles[i].Avatar.Texture = _Base.Profiles.GetProfiles()[VisibleProfiles[i + offset * _Tiles.Count]].Avatar.Texture;
-                        _Tiles[i].Avatar.Color = new SColorF(1, 1, 1, 1);
-                        _Tiles[i].Name.Text = _Base.Profiles.GetProfiles()[VisibleProfiles[i + offset * _Tiles.Count]].PlayerName;
-                        _Tiles[i].PlayerNr = VisibleProfiles[i + offset * _Tiles.Count];
-                    }
-                    else
-                    {
-                        _Tiles[i].Avatar.Texture = _TextureEmptyTile;
-                        _Tiles[i].Avatar.Color = ColorEmptyTile;
-                        _Tiles[i].Name.Text = "";
-                        _Tiles[i].PlayerNr = -1;
-                    }
+                    _Tiles[i].Avatar.Texture = _Base.Profiles.GetProfiles()[VisibleProfiles[i + offset * _Tiles.Count]].Avatar.Texture;
+                    _Tiles[i].Avatar.Color = new SColorF(1, 1, 1, 1);
+                    _Tiles[i].Name.Text = _Base.Profiles.GetProfiles()[VisibleProfiles[i + offset * _Tiles.Count]].PlayerName;
+                    _Tiles[i].PlayerNr = VisibleProfiles[i + offset * _Tiles.Count];
                 }
-                _Offset = offset;
+                else
+                {
+                    _Tiles[i].Avatar.Texture = _TextureEmptyTile;
+                    _Tiles[i].Avatar.Color = ColorEmptyTile;
+                    _Tiles[i].Name.Text = "";
+                    _Tiles[i].PlayerNr = -1;
+                }
             }
+            _Offset = offset;
         }
 
         public bool isOverTile(MouseEvent mevent)

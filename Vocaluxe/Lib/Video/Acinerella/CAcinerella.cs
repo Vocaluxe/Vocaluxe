@@ -253,17 +253,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 return _ac_open(PAc_instance, sender, open_proc, read_proc, seek_proc, close_proc, proberesult);
             }
         }
-
-        [DllImport(AcDll, EntryPoint = "ac_open2", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        private static extern Int32 _ac_open2(IntPtr PAc_instance, [MarshalAs(UnmanagedType.LPStr)]string Filename);
-
-        public static Int32 ac_open2(IntPtr PAc_instance, string Filename)
-        {
-            lock (_lock)
-            {
-                return _ac_open2(PAc_instance, Filename);
-            }
-        }
         
         // Closes an opened media file.
         //procedure ac_close(inst: PAc_instance);cdecl; external ac_dll;
@@ -325,28 +314,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
             lock (_lock)
             {
                 return _ac_create_decoder(PAc_instance, nb);
-            }
-        }
-
-        [DllImport(AcDll, EntryPoint = "ac_create_audio_decoder", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        private static extern IntPtr _ac_create_audio_decoder(IntPtr PAc_instance);
-
-        public static IntPtr ac_create_audio_decoder(IntPtr PAc_instance)
-        {
-            lock (_lock)
-            {
-                return _ac_create_audio_decoder(PAc_instance);
-            }
-        }
-
-        [DllImport(AcDll, EntryPoint = "ac_create_video_decoder", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        private static extern IntPtr _ac_create_video_decoder(IntPtr PAc_instance);
-
-        public static IntPtr ac_create_video_decoder(IntPtr PAc_instance)
-        {
-            lock (_lock)
-            {
-                return _ac_create_video_decoder(PAc_instance);
             }
         }
         

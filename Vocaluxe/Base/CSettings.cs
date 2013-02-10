@@ -83,7 +83,7 @@ namespace Vocaluxe.Base
         public const string sFolderSkins = "Skins";
         public const string sFolderThemeFonts = "Fonts";
         public const string sFolderScreens = "Screens";
-        public const string sFolderProfiles = "Profiles";
+        public static string sFolderProfiles = "Profiles";
         public const string sFolderSongs = "Songs";
         public const string sFolderSounds = "Sounds";
         public const string sFolderLanguages = "Languages";
