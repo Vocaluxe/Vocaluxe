@@ -63,18 +63,18 @@ namespace Vocaluxe.Screens
             else if (MouseEvent.Wheel > 0 && CHelper.IsInBounds(_ScreenArea, MouseEvent))
             {
                 if (SelectSlides[htSelectSlides(SelectSlideVolume)].Selection - MouseEvent.Wheel >= 0)
-                    SelectSlides[htSelectSlides(SelectSlideVolume)].SetSelectionByValueIndex(SelectSlides[htSelectSlides(SelectSlideVolume)].Selection - MouseEvent.Wheel);
+                    SelectSlides[htSelectSlides(SelectSlideVolume)].Selection = SelectSlides[htSelectSlides(SelectSlideVolume)].Selection - MouseEvent.Wheel;
                 else if (SelectSlides[htSelectSlides(SelectSlideVolume)].Selection - MouseEvent.Wheel < 0)
-                    SelectSlides[htSelectSlides(SelectSlideVolume)].SetSelectionByValueIndex(0);
+                    SelectSlides[htSelectSlides(SelectSlideVolume)].Selection = 0;
                 SaveConfig();
                 return true;
             }
             else if (MouseEvent.Wheel < 0 && CHelper.IsInBounds(_ScreenArea, MouseEvent))
             {
                 if (SelectSlides[htSelectSlides(SelectSlideVolume)].Selection - MouseEvent.Wheel < SelectSlides[htSelectSlides(SelectSlideVolume)].NumValues)
-                    SelectSlides[htSelectSlides(SelectSlideVolume)].SetSelectionByValueIndex(SelectSlides[htSelectSlides(SelectSlideVolume)].Selection - MouseEvent.Wheel);
+                    SelectSlides[htSelectSlides(SelectSlideVolume)].Selection = SelectSlides[htSelectSlides(SelectSlideVolume)].Selection - MouseEvent.Wheel;
                 else if (SelectSlides[htSelectSlides(SelectSlideVolume)].Selection - MouseEvent.Wheel >= SelectSlides[htSelectSlides(SelectSlideVolume)].NumValues)
-                    SelectSlides[htSelectSlides(SelectSlideVolume)].SetSelectionByValueIndex(SelectSlides[htSelectSlides(SelectSlideVolume)].NumValues - 1);
+                    SelectSlides[htSelectSlides(SelectSlideVolume)].Selection = SelectSlides[htSelectSlides(SelectSlideVolume)].NumValues - 1;
                 SaveConfig();
                 return true;
             }
@@ -93,6 +93,7 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
+            UpdateSlides();
             return true;
         }
 
@@ -132,15 +133,15 @@ namespace Vocaluxe.Screens
             switch (CGraphics.CurrentScreen)
             {
                 case EScreens.ScreenSong:
-                    SelectSlides[htSelectSlides(SelectSlideVolume)].SetSelectionByValueIndex((int)CConfig.PreviewMusicVolume / 5);
+                    SelectSlides[htSelectSlides(SelectSlideVolume)].Selection = (int)(CConfig.PreviewMusicVolume / 5);
                     break;
 
                 case EScreens.ScreenSing:
-                    SelectSlides[htSelectSlides(SelectSlideVolume)].SetSelectionByValueIndex((int)CConfig.GameMusicVolume / 5);
+                    SelectSlides[htSelectSlides(SelectSlideVolume)].Selection = ((int)CConfig.GameMusicVolume / 5);
                     break;
 
                 default:
-                    SelectSlides[htSelectSlides(SelectSlideVolume)].SetSelectionByValueIndex((int)CConfig.BackgroundMusicVolume / 5);
+                    SelectSlides[htSelectSlides(SelectSlideVolume)].Selection = ((int)CConfig.BackgroundMusicVolume / 5);
                     break;
             }
         }

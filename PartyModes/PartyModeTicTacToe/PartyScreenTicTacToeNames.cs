@@ -296,8 +296,7 @@ namespace Vocaluxe.PartyModes
 
             if (MouseEvent.RB)
             {
-                if(!OnRemove())
-                    Back();
+                Back();
             }
 
             return true;

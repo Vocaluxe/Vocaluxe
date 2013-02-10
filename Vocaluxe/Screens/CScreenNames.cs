@@ -339,9 +339,9 @@ namespace Vocaluxe.Screens
                         if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
                         {
                             if (SelectSlides[htSelectSlides(SelectSlideDuetPlayer[selectingKeyboardPlayerNr - 1])].Selection == 0)
-                                SelectSlides[htSelectSlides(SelectSlideDuetPlayer[selectingKeyboardPlayerNr - 1])].SetSelectionByValueIndex(1);
+                                SelectSlides[htSelectSlides(SelectSlideDuetPlayer[selectingKeyboardPlayerNr - 1])].Selection = 1;
                             else
-                                SelectSlides[htSelectSlides(SelectSlideDuetPlayer[selectingKeyboardPlayerNr - 1])].SetSelectionByValueIndex(0);
+                                SelectSlides[htSelectSlides(SelectSlideDuetPlayer[selectingKeyboardPlayerNr - 1])].Selection = 0;
                             //Reset all values
                             selectingKeyboardPlayerNr = 0;
                             selectingKeyboardActive = false;

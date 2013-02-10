@@ -814,6 +814,11 @@ namespace Vocaluxe.Base
                         CSettings.CreateFolder(value);
                         CSettings.sFolderPlaylists = value;
                         break;
+
+                    case "profilefolder":
+                        CSettings.CreateFolder(value);
+                        CSettings.sFolderProfiles = value;
+                        break;
                 }
             }
         }
