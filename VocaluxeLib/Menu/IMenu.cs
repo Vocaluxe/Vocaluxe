@@ -657,7 +657,8 @@ namespace Vocaluxe.Menu
 
     public enum EVideoDecoder
     {
-        FFmpeg
+        FFmpeg,
+        Gstreamer
     }
 
     public enum ESongMenu

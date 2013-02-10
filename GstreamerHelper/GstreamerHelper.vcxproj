@@ -164,6 +164,8 @@
   <ItemGroup>
     <ClInclude Include="GstreamerAudio.h" />
     <ClInclude Include="GstreamerAudioStream.h" />
+    <ClInclude Include="GstreamerVideo.h" />
+    <ClInclude Include="GstreamerVideoStream.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -184,6 +186,8 @@
     </ClCompile>
     <ClCompile Include="GstreamerAudio.cpp" />
     <ClCompile Include="GstreamerAudioStream.cpp" />
+    <ClCompile Include="GstreamerVideo.cpp" />
+    <ClCompile Include="GstreamerVideoStream.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugWin|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugWin|x64'">Create</PrecompiledHeader>

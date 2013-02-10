@@ -27,6 +27,12 @@
     <ClInclude Include="GstreamerAudio.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="GstreamerVideo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="GstreamerVideoStream.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -39,6 +45,12 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="GstreamerAudio.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="GstreamerVideo.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="GstreamerVideoStream.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

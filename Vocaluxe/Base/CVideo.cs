@@ -22,7 +22,9 @@ namespace Vocaluxe.Base
                 case EVideoDecoder.FFmpeg:
                     _VideoDecoder = new CVideoDecoderFFmpeg();
                     break;
-
+                case EVideoDecoder.Gstreamer:
+                    _VideoDecoder = new CVideoDecoderGstreamer();
+                    break;
                 default:
                     _VideoDecoder = new CVideoDecoderFFmpeg();
                     break;
