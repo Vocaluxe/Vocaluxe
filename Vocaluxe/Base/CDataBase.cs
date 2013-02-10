@@ -1187,6 +1187,8 @@ namespace Vocaluxe.Base
                 Graphics g = Graphics.FromImage(bmp);
                 g.DrawImage(origin, new Rectangle(0, 0, w, h));
                 g.Dispose();
+                if (origin != null)
+                    origin.Dispose();
 
                 byte[] data = new byte[w * h * 4];
 
@@ -1484,6 +1486,8 @@ namespace Vocaluxe.Base
                 Graphics g = Graphics.FromImage(bmp);
                 g.DrawImage(origin, new Rectangle(0, 0, w, h));
                 g.Dispose();
+                if (origin != null)
+                    origin.Dispose();
                 tex = CDraw.AddTexture(bmp);
                 byte[] data = new byte[w * h * 4];
 
