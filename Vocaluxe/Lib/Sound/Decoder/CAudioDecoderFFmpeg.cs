@@ -11,6 +11,10 @@ namespace Vocaluxe.Lib.Sound.Decoder
 {
     class CAudioDecoderFFmpeg: CAudioDecoder
     {
+        private TAc_read_callback _rc;
+        private TAc_seek_callback _sc;
+        private FileStream _fs;
+
         private IntPtr _instance = IntPtr.Zero;
         private IntPtr _audiodecoder = IntPtr.Zero;
         
@@ -23,7 +27,11 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
         public override void Init()
         {
+            _rc = new TAc_read_callback(read_proc);
+            _sc = new TAc_seek_callback(seek_proc);
+
             _FileOpened = false;
+
             _Initialized = true;
         }
 
@@ -33,49 +41,63 @@ namespace Vocaluxe.Lib.Sound.Decoder
                 return;
 
             _FileName = FileName;
-            _instance = CAcinerella.ac_init();
+            _fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
 
-            int ret = 0;
-            if ((ret = CAcinerella.ac_open2(_instance, _FileName)) < 0)
-            {
-                CLog.LogError("Error opening sound file (Errorcode: " + ret.ToString() + "): " + _FileName);
-                return;
-            }
+            _instance = CAcinerella.ac_init();
+            CAcinerella.ac_open(_instance, IntPtr.Zero, null, _rc, _sc, null, IntPtr.Zero);
 
             _Instance = (TAc_instance)Marshal.PtrToStructure(_instance, typeof(TAc_instance));
 
-            if (!_Instance.opened || _Instance.info.duration == 0)
+            if (!_Instance.opened)
             {
-                if (!_Instance.opened)
-                    CLog.LogError("Can't open sound file: " + _FileName);
-                else
-                    CLog.LogError("Can't open sound file (length = 0?): " + _FileName);
+                //Free();
                 return;
             }
 
-            try
+            int AudioStreamIndex = -1;
+
+            TAc_stream_info Info = new TAc_stream_info();
+            for (int i = 0; i < _Instance.stream_count; i++)
             {
-                _audiodecoder = CAcinerella.ac_create_audio_decoder(_instance);
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Can't create audio decoder for file: " + _FileName + "; " + e.Message);
-                return;
+                CAcinerella.ac_get_stream_info(_instance, i, out Info);
+
+                if (Info.stream_type == TAc_stream_type.AC_STREAM_TYPE_AUDIO)
+                {
+                    try
+                    {
+                        _audiodecoder = CAcinerella.ac_create_decoder(_instance, i);
+                    }
+                    catch (Exception)
+                    {
+                        return;                        
+                    }
+                    
+                    AudioStreamIndex = i;
+                    break;
+                }
             }
 
-            if (_audiodecoder == IntPtr.Zero)
+            if (AudioStreamIndex < 0)
             {
-                CLog.LogError("Can't create audio decoder for file: " + _FileName);
+                //Free();
                 return;
             }
 
             TAc_decoder Audiodecoder = (TAc_decoder)Marshal.PtrToStructure(_audiodecoder, typeof(TAc_decoder));
+
             _FormatInfo = new FormatInfo();
+
             _FormatInfo.SamplesPerSecond = Audiodecoder.stream_info.audio_info.samples_per_second;
             _FormatInfo.BitDepth = Audiodecoder.stream_info.audio_info.bit_depth;
             _FormatInfo.ChannelCount = Audiodecoder.stream_info.audio_info.channel_count;
 
             _CurrentTime = 0f;
+
+            if (_FormatInfo.BitDepth != 16)
+            {
+                CLog.LogError("Unsupported BitDepth in file " + FileName);
+                return;
+            }
             _FileOpened = true;
         }
 
@@ -179,5 +201,23 @@ namespace Vocaluxe.Lib.Sound.Decoder
             Buffer = null;
             TimeStamp = 0f;
         }
+
+        #region Callbacks
+        private Int32 read_proc(IntPtr sender, IntPtr buf, Int32 size)
+        {
+            Int32 r = 0;
+
+            byte[] bb = new byte[size];
+            r = _fs.Read(bb, 0, size);
+            Marshal.Copy(bb, 0, buf, size);
+
+            return r;
+        }
+
+        private Int64 seek_proc(IntPtr sender, Int64 pos, Int32 whence)
+        {
+            return (Int64)_fs.Seek((long)pos, (SeekOrigin)whence);
+        }
+        #endregion Callbacks
     }
 }

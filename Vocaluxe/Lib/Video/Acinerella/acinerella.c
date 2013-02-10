@@ -23,7 +23,6 @@
 #include <libavcodec/avcodec.h>
 #include <libavutil/avutil.h>
 #include <libswscale/swscale.h>
-#include <libswresample/swresample.h>
 #include <string.h>
 
 #define AUDIO_BUFFER_BASE_SIZE AVCODEC_MAX_AUDIO_FRAME_SIZE
@@ -81,8 +80,8 @@ struct _ac_audio_decoder {
   ac_decoder decoder;
   int sought;
   double last_timecode;
-  //uint8_t *tmp_data;
-  //int tmp_data_length;
+  uint8_t *tmp_data;
+  int tmp_data_length;
   int max_buffer_size;
   AVCodec *pCodec;
   AVCodecContext *pCodecCtx;
@@ -205,7 +204,7 @@ lp_ac_proberesult CALL_CONVT ac_probe_input_buffer(
   return (lp_ac_proberesult)fmt;
 } 
 
-#define PROBE_BUF_MIN 1024
+#define PROBE_BUF_MIN 2048
 #define PROBE_BUF_MAX (1<<20)
 
 
@@ -339,7 +338,7 @@ int CALL_CONVT ac_open(
   //Retrieve stream information
   AVFormatContext *ctx = ((lp_ac_data)pacInstance)->pFormatCtx;  
   if(avformat_find_stream_info(ctx, NULL) >= 0) {    
-    pacInstance->info.duration = ctx->duration * 1000 / AV_TIME_BASE;
+    pacInstance->info.duration = ctx->duration * 1000 / AV_TIME_BASE;      
   } else {
     return -1;
   }
@@ -349,39 +348,6 @@ int CALL_CONVT ac_open(
   pacInstance->opened = pacInstance->stream_count > 0;  
 
   return 0;
-}
-
-int CALL_CONVT ac_open2(lp_ac_instance pacInstance, const char* filename)
-{ 
-	pacInstance->opened = 0;
-	
-	//Store the given parameters in the ac Instance
-	((lp_ac_data)pacInstance)->sender = NULL;
-	((lp_ac_data)pacInstance)->open_proc = NULL;  
-	((lp_ac_data)pacInstance)->read_proc = NULL;
-	((lp_ac_data)pacInstance)->seek_proc = NULL;
-	((lp_ac_data)pacInstance)->close_proc = NULL;   
-
-	/* open input file, and allocate format context */
-	int ret = 0;
-	if ((ret = avformat_open_input(&((lp_ac_data)pacInstance)->pFormatCtx, filename, NULL, NULL)) < 0)
-	{
-		return ret;
-	}
-	
-    /* retrieve stream information */
-    if ((ret = avformat_find_stream_info(((lp_ac_data)pacInstance)->pFormatCtx, NULL)) < 0)
-	{
-		return ret;
-	}
-	else
-		pacInstance->info.duration = ((lp_ac_data)pacInstance)->pFormatCtx->duration * 1000 / AV_TIME_BASE;
-
-	//Set some information in the instance variable 
-	pacInstance->stream_count = ((lp_ac_data)pacInstance)->pFormatCtx->nb_streams;
-	pacInstance->opened = pacInstance->stream_count > 0;  
-
-	return 0;
 }
 
 void CALL_CONVT ac_close(lp_ac_instance pacInstance) {
@@ -438,13 +404,42 @@ void CALL_CONVT ac_get_stream_info(lp_ac_instance pacInstance, int nb, lp_ac_str
       info->stream_type = AC_STREAM_TYPE_AUDIO;
       
       //Store more information about the video stream
-      info->audio_info.samples_per_second =
+      info->audio_info.samples_per_second = 
         ((lp_ac_data)pacInstance)->pFormatCtx->streams[nb]->codec->sample_rate;        
-      info->audio_info.channel_count = 2;
-        //((lp_ac_data)pacInstance)->pFormatCtx->streams[nb]->codec->channels;
-		
-      // Set bit depth (its always 16Bit because of the conversion!     
-	  info->audio_info.bit_depth = 16;
+      info->audio_info.channel_count = 
+        ((lp_ac_data)pacInstance)->pFormatCtx->streams[nb]->codec->channels;
+      
+      // Set bit depth      
+      switch (((lp_ac_data)pacInstance)->pFormatCtx->streams[nb]->codec->sample_fmt) {
+        //8-Bit
+        case AV_SAMPLE_FMT_U8:
+          info->audio_info.bit_depth = 
+            8;                
+        break;
+        
+        //16-Bit
+        case AV_SAMPLE_FMT_S16:
+          info->audio_info.bit_depth = 
+              16;                            
+        break;
+        
+/*        //24-Bit (removed in the newest ffmpeg version)
+        case SAMPLE_FMT_S24:
+          info->additional_info.audio_info.bit_depth = 
+              24;                                          
+        break; */
+        
+        //32-Bit
+        case AV_SAMPLE_FMT_S32: case AV_SAMPLE_FMT_FLT:
+          info->audio_info.bit_depth = 
+              32;                                          
+        break;       
+         
+        //Unknown format, return zero
+        default:
+          info->audio_info.bit_depth = 
+            0;        
+      }
         
     break;
     default:
@@ -506,189 +501,89 @@ enum PixelFormat convert_pix_format(ac_output_format fmt) {
 }
 
 //Init a video decoder
-void* _ac_create_video_decoder(lp_ac_instance pacInstance, lp_ac_stream_info info, int nb) {
-	//Allocate memory for a new decoder instance
-	lp_ac_video_decoder pDecoder;  
-	pDecoder = (lp_ac_video_decoder)(av_malloc(sizeof(ac_video_decoder)));
-	memset(pDecoder, 0, sizeof(ac_video_decoder));
+void* ac_create_video_decoder(lp_ac_instance pacInstance, lp_ac_stream_info info, int nb) {
+  //Allocate memory for a new decoder instance
+  lp_ac_video_decoder pDecoder;  
+  pDecoder = (lp_ac_video_decoder)(av_malloc(sizeof(ac_video_decoder)));
+  memset(pDecoder, 0, sizeof(ac_video_decoder));
+  
+  //Set a few properties
+  pDecoder->decoder.pacInstance = pacInstance;
+  pDecoder->decoder.type = AC_DECODER_TYPE_VIDEO;
+  pDecoder->decoder.stream_index = nb;
+  pDecoder->pCodecCtx = ((lp_ac_data)(pacInstance))->pFormatCtx->streams[nb]->codec;
+  pDecoder->decoder.stream_info = *info;  
+  
+  //Find correspondenting codec
+  if (!(pDecoder->pCodec = avcodec_find_decoder(pDecoder->pCodecCtx->codec_id))) {
+    return NULL; //Codec could not have been found
+  }
 
-	//Set a few properties
-	pDecoder->decoder.pacInstance = pacInstance;
-	pDecoder->decoder.type = AC_DECODER_TYPE_VIDEO;
-	pDecoder->decoder.stream_index = nb;
-	pDecoder->pCodecCtx = ((lp_ac_data)pacInstance)->pFormatCtx->streams[nb]->codec;
-	pDecoder->decoder.stream_info = *info;  
-	pDecoder->pCodecCtx->thread_count = 1; 	//this is for HT CPUs, it should be
-											// tested if there is a better solution
-	
-	//Find correspondenting codec
-	if (!(pDecoder->pCodec = avcodec_find_decoder(pDecoder->pCodecCtx->codec_id)))
-		return NULL; //Codec could not have been found
+  pDecoder->pCodecCtx->thread_count = 1; //this is for HT CPUs, it should be
+										// tested if there is a better solution
 
-	//Open codec
-	if (avcodec_open2(pDecoder->pCodecCtx, pDecoder->pCodec, NULL) < 0)
-		return NULL; //Codec could not have been opened
+  //Open codec
+  if (avcodec_open2(pDecoder->pCodecCtx, pDecoder->pCodec, NULL) < 0) {
+    return NULL; //Codec could not have been opened
+  }
+  
+  //Reserve frame variables
+  pDecoder->pFrame = avcodec_alloc_frame();
+  pDecoder->pFrameRGB = avcodec_alloc_frame();
+  
+  pDecoder->pSwsCtx = NULL;
+  
+  //Reserve buffer memory
+  pDecoder->decoder.buffer_size = avpicture_get_size(convert_pix_format(pacInstance->output_format), 
+    pDecoder->pCodecCtx->width, pDecoder->pCodecCtx->height);
+  pDecoder->decoder.pBuffer = (uint8_t*)av_malloc(pDecoder->decoder.buffer_size);
 
-	//Reserve frame variables
-	pDecoder->pFrame = avcodec_alloc_frame();
-	pDecoder->pFrameRGB = avcodec_alloc_frame();
-
-	pDecoder->pSwsCtx = NULL;
-
-	//Reserve buffer memory
-	pDecoder->decoder.buffer_size = avpicture_get_size(convert_pix_format(pacInstance->output_format), 
-	pDecoder->pCodecCtx->width, pDecoder->pCodecCtx->height);
-	pDecoder->decoder.pBuffer = (uint8_t*)av_malloc(pDecoder->decoder.buffer_size);
-
-	//Link decoder to buffer
-	avpicture_fill(
-	(AVPicture*)(pDecoder->pFrameRGB), 
-	pDecoder->decoder.pBuffer, convert_pix_format(pacInstance->output_format),
-	pDecoder->pCodecCtx->width, pDecoder->pCodecCtx->height);
-
-	return (void*)pDecoder;
+  //Link decoder to buffer
+  avpicture_fill(
+    (AVPicture*)(pDecoder->pFrameRGB), 
+    pDecoder->decoder.pBuffer, convert_pix_format(pacInstance->output_format),
+    pDecoder->pCodecCtx->width, pDecoder->pCodecCtx->height);
+    
+  return (void*)pDecoder;
 }
-
-
 
 //Init a audio decoder
-void* _ac_create_audio_decoder(lp_ac_instance pacInstance, lp_ac_stream_info info, int nb) {
-	//Allocate memory for a new decoder instance
-	lp_ac_audio_decoder pDecoder;
-	pDecoder = (lp_ac_audio_decoder)(av_malloc(sizeof(ac_audio_decoder)));
-	memset(pDecoder, 0, sizeof(ac_audio_decoder));
-
-	//Set a few properties
-	pDecoder->decoder.pacInstance = pacInstance;
-	pDecoder->decoder.type = AC_DECODER_TYPE_AUDIO;
-	pDecoder->decoder.stream_index = nb;
-	pDecoder->decoder.stream_info = *info;
-	pDecoder->decoder.video_clock = 0;
-											
-	//Temporary store codec context pointer
-	AVCodecContext *pCodecCtx = ((lp_ac_data)pacInstance)->pFormatCtx->streams[nb]->codec;
-	pDecoder->pCodecCtx = pCodecCtx;  
-	pDecoder->pCodecCtx->thread_count = 1; 	//this is for HT CPUs, it should be
-											// tested if there is a better solution
-
-	//Find correspondenting codec
-	if (!(pDecoder->pCodec = avcodec_find_decoder(pCodecCtx->codec_id)))
-		return NULL;
-
-	//Open codec
-	if (avcodec_open2(pCodecCtx, pDecoder->pCodec, NULL) < 0)
-		return NULL;
-
-	//Initialize the buffers
-	pDecoder->decoder.pBuffer = av_malloc(AUDIO_BUFFER_BASE_SIZE);
-	pDecoder->decoder.buffer_size = 0;
-	pDecoder->max_buffer_size = AUDIO_BUFFER_BASE_SIZE;
-
-	//pDecoder->tmp_data = NULL;
-	//pDecoder->tmp_data_length = 0;
-
-	return (void*)pDecoder;
-}
-
-lp_ac_decoder CALL_CONVT ac_create_video_decoder(lp_ac_instance pacInstance) {
-	//Allocate memory for a new decoder instance
-	lp_ac_video_decoder pDecoder;  
-	pDecoder = (lp_ac_video_decoder)(av_malloc(sizeof(ac_video_decoder)));
-	memset(pDecoder, 0, sizeof(ac_video_decoder));
-
-	int nb = av_find_best_stream(((lp_ac_data)pacInstance)->pFormatCtx, AVMEDIA_TYPE_VIDEO, -1, -1, NULL, 0);
-    if (nb < 0)
-        return NULL;
-	
-	ac_stream_info info;
-	ac_get_stream_info(pacInstance, nb, &info);
-	
-	//Set a few properties
-	pDecoder->decoder.pacInstance = pacInstance;
-	pDecoder->decoder.type = AC_DECODER_TYPE_VIDEO;
-	pDecoder->decoder.stream_index = nb;
-	pDecoder->decoder.video_clock = 0;
-	((lp_ac_decoder_data)pDecoder)->last_timecode = 0;
-	((lp_ac_decoder_data)pDecoder)->sought = 1;
-	pDecoder->pCodecCtx = ((lp_ac_data)pacInstance)->pFormatCtx->streams[nb]->codec;
-	pDecoder->decoder.stream_info = info;  
-	pDecoder->pCodecCtx->thread_count = 1; 	//this is for HT CPUs, it should be
-											// tested if there is a better solution
-	
-	//Find correspondenting codec
-	if (!(pDecoder->pCodec = avcodec_find_decoder(pDecoder->pCodecCtx->codec_id)))
-		return NULL; //Codec could not have been found
-
-	//Open codec
-	if (avcodec_open2(pDecoder->pCodecCtx, pDecoder->pCodec, NULL) < 0)
-		return NULL; //Codec could not have been opened
-
-	//Reserve frame variables
-	pDecoder->pFrame = avcodec_alloc_frame();
-	pDecoder->pFrameRGB = avcodec_alloc_frame();
-
-	pDecoder->pSwsCtx = NULL;
-
-	//Reserve buffer memory
-	pDecoder->decoder.buffer_size = avpicture_get_size(convert_pix_format(pacInstance->output_format), 
-	pDecoder->pCodecCtx->width, pDecoder->pCodecCtx->height);
-	pDecoder->decoder.pBuffer = (uint8_t*)av_malloc(pDecoder->decoder.buffer_size);
-
-	//Link decoder to buffer
-	avpicture_fill(
-	(AVPicture*)(pDecoder->pFrameRGB), 
-	pDecoder->decoder.pBuffer, convert_pix_format(pacInstance->output_format),
-	pDecoder->pCodecCtx->width, pDecoder->pCodecCtx->height);
-
-	return (void*)pDecoder;
-}
-
-lp_ac_decoder CALL_CONVT ac_create_audio_decoder(lp_ac_instance pacInstance)
-{
-	//Allocate memory for a new decoder instance
-	lp_ac_audio_decoder pDecoder;
-	pDecoder = (lp_ac_audio_decoder)(av_malloc(sizeof(ac_audio_decoder)));
-	memset(pDecoder, 0, sizeof(ac_audio_decoder));
-
-	int nb = av_find_best_stream(((lp_ac_data)pacInstance)->pFormatCtx, AVMEDIA_TYPE_AUDIO, -1, -1, NULL, 0);
-    if (nb < 0)
-        return NULL;
-	
-	ac_stream_info info;
-	ac_get_stream_info(pacInstance, nb, &info);
+void* ac_create_audio_decoder(lp_ac_instance pacInstance, lp_ac_stream_info info, int nb) {
+  //Allocate memory for a new decoder instance
+  lp_ac_audio_decoder pDecoder;
+  pDecoder = (lp_ac_audio_decoder)(av_malloc(sizeof(ac_audio_decoder)));
+  memset(pDecoder, 0, sizeof(ac_audio_decoder));
   
-	//Set a few properties
-	pDecoder->decoder.pacInstance = pacInstance;
-	pDecoder->decoder.type = AC_DECODER_TYPE_AUDIO;
-	pDecoder->decoder.stream_index = nb;
-	pDecoder->decoder.stream_info = info;
-	pDecoder->decoder.video_clock = 0;
-	((lp_ac_decoder_data)pDecoder)->last_timecode = 0;
-	((lp_ac_decoder_data)pDecoder)->sought = 1;
-											
-	//Temporary store codec context pointer
-	AVCodecContext *pCodecCtx = ((lp_ac_data)pacInstance)->pFormatCtx->streams[nb]->codec;
-	pDecoder->pCodecCtx = pCodecCtx;  
-	pDecoder->pCodecCtx->thread_count = 1; 	//this is for HT CPUs, it should be
-											// tested if there is a better solution
-											
-	//Find correspondenting codec
-	if (!(pDecoder->pCodec = avcodec_find_decoder(pCodecCtx->codec_id)))
-		return NULL;
+  //Set a few properties
+  pDecoder->decoder.pacInstance = pacInstance;
+  pDecoder->decoder.type = AC_DECODER_TYPE_AUDIO;
+  pDecoder->decoder.stream_index = nb;
+  pDecoder->decoder.stream_info = *info;
+  pDecoder->decoder.video_clock = 0;
+  
+  //Temporary store codec context pointer
+  AVCodecContext *pCodecCtx = ((lp_ac_data)(pacInstance))->pFormatCtx->streams[nb]->codec;
+  pDecoder->pCodecCtx = pCodecCtx;  
+  
+  //Find correspondenting codec
+  if (!(pDecoder->pCodec = avcodec_find_decoder(pCodecCtx->codec_id))) {
+    return NULL;
+  }
+  
+  //Open codec
+  if (avcodec_open2(pCodecCtx, pDecoder->pCodec, NULL) < 0) {
+    return NULL;
+  }
 
-	//Open codec
-	if (avcodec_open2(pCodecCtx, pDecoder->pCodec, NULL) < 0)
-		return NULL;
-		
-	//Initialize the buffers
-	pDecoder->decoder.pBuffer = av_malloc(AUDIO_BUFFER_BASE_SIZE);
-	pDecoder->decoder.buffer_size = 0;
-	pDecoder->max_buffer_size = AUDIO_BUFFER_BASE_SIZE;
-
-	//pDecoder->tmp_data = NULL;
-	//pDecoder->tmp_data_length = 0;
-	
-	return (void*)pDecoder;
+  //Initialize the buffers
+  pDecoder->decoder.pBuffer = NULL; //av_malloc(AUDIO_BUFFER_BASE_SIZE);
+  pDecoder->decoder.buffer_size = 0;
+  pDecoder->max_buffer_size = 0;
+  
+  pDecoder->tmp_data = NULL;
+  pDecoder->tmp_data_length = 0;
+  
+  return (void*)pDecoder;
 }
 
 lp_ac_decoder CALL_CONVT ac_create_decoder(lp_ac_instance pacInstance, int nb) {
@@ -700,15 +595,12 @@ lp_ac_decoder CALL_CONVT ac_create_decoder(lp_ac_instance pacInstance, int nb) {
   lp_ac_decoder result;
   
   if (info.stream_type == AC_STREAM_TYPE_VIDEO) {
-    result = _ac_create_video_decoder(pacInstance, &info, nb);
+    result = ac_create_video_decoder(pacInstance, &info, nb);
   } 
   else if (info.stream_type == AC_STREAM_TYPE_AUDIO) {
-    result = _ac_create_audio_decoder(pacInstance, &info, nb);  
+    result = ac_create_audio_decoder(pacInstance, &info, nb);  
   }
   
-  if (result == NULL)
-	return NULL;
-	
   ((lp_ac_decoder_data)result)->last_timecode = 0;
   ((lp_ac_decoder_data)result)->sought = 1;
   result->video_clock = 0;
@@ -751,7 +643,13 @@ int ac_decode_video_package(lp_ac_package pPackage, lp_ac_video_decoder pDecoder
 	pkt_tmp.size -= len;
     pkt_tmp.data += len;
   }
-    
+  
+  /*
+  avcodec_decode_video2(
+    pDecoder->pCodecCtx, pDecoder->pFrame, &finished, 
+    &(((lp_ac_package_data)pPackage)->ffpackage));
+  */
+  
   if (finished != 0) {
     pDecoder->pSwsCtx = sws_getCachedContext(pDecoder->pSwsCtx,
         pDecoder->pCodecCtx->width, pDecoder->pCodecCtx->height, pDecoder->pCodecCtx->pix_fmt,
@@ -789,18 +687,6 @@ int ac_decode_video_package(lp_ac_package pPackage, lp_ac_video_decoder pDecoder
   return 0;
 }
 
-int alloc_samples_array_and_data(uint8_t ***data, int *linesize, int nb_channels,
-                                    int nb_samples, enum AVSampleFormat sample_fmt, int align)
-{
-    int nb_planes = av_sample_fmt_is_planar(sample_fmt) ? nb_channels : 1;
-
-    *data = av_malloc(sizeof(*data) * nb_planes);
-    if (!*data)
-        return AVERROR(ENOMEM);
-    return av_samples_alloc(*data, linesize, nb_channels,
-                            nb_samples, sample_fmt, align);
-}
-
 int ac_decode_audio_package(lp_ac_package pPackage, lp_ac_audio_decoder pDecoder, lp_ac_decoder pDec) {
   double pts;
   //Variables describing the destination buffer
@@ -808,18 +694,17 @@ int ac_decode_audio_package(lp_ac_package pPackage, lp_ac_audio_decoder pDecoder
   
   //Make a copy of the package read by avformat, so that we can move the data pointers around
   AVPacket pkt_tmp = ((lp_ac_package_data)pPackage)->ffpackage;
-	
+  
   AVFrame *decoded_frame = NULL;
-	
-	/*
+			
   if (pDecoder->tmp_data_length > 0)
   {
 	pkt_tmp.data = av_realloc(pkt_tmp.data, pkt_tmp.size + pDecoder->tmp_data_length);
-	memmove(pkt_tmp.data + pDecoder->tmp_data_length, pkt_tmp.data, pkt_tmp.size);
-	memcpy(pkt_tmp.data, pDecoder->tmp_data, pDecoder->tmp_data_length);
 	pkt_tmp.size = pkt_tmp.size + pDecoder->tmp_data_length;
-  }  */
-
+	memcpy(pkt_tmp.data + pDecoder->tmp_data_length, &pkt_tmp.data, pkt_tmp.size);
+	memcpy(&pkt_tmp.data, pDecoder->tmp_data, pDecoder->tmp_data_length);
+  }  
+  
   while (pkt_tmp.size > 0) {  
   
 	if (!decoded_frame) {
@@ -833,6 +718,7 @@ int ac_decode_audio_package(lp_ac_package pPackage, lp_ac_audio_decoder pDecoder
 	
 	int len1 = avcodec_decode_audio4(pDecoder->pCodecCtx, decoded_frame, &got_frame, &pkt_tmp);
 
+	
     //If an error occured, skip the frame
     if (len1 < 0){
       return 0;    
@@ -843,107 +729,54 @@ int ac_decode_audio_package(lp_ac_package pPackage, lp_ac_audio_decoder pDecoder
 	pkt_tmp.data += len1;
     
 	if (got_frame){
-		struct SwrContext *swr_ctx;
-		int dst_nb_samples = 0, max_dst_nb_samples = 0, dst_linesize = 0;
-		uint8_t **dst_data = NULL;
-		int ret = 0;
-		int dst_sample_rate = (pDecoder->pCodecCtx)->sample_rate;
-		
-		swr_ctx = swr_alloc();
 	  
-		/* set options */
-		av_opt_set_int(swr_ctx, "in_channel_layout",    (pDecoder->pCodecCtx)->channel_layout, 0);
-		av_opt_set_int(swr_ctx, "in_sample_rate",       (pDecoder->pCodecCtx)->sample_rate, 0);
-		av_opt_set_sample_fmt(swr_ctx, "in_sample_fmt", (pDecoder->pCodecCtx)->sample_fmt, 0);
-
-		av_opt_set_int(swr_ctx, "out_channel_layout",    AV_CH_LAYOUT_STEREO, 0);
-		av_opt_set_int(swr_ctx, "out_sample_rate",       dst_sample_rate, 0);
-		av_opt_set_sample_fmt(swr_ctx, "out_sample_fmt", AV_SAMPLE_FMT_S16, 0);
-		
-		if (swr_init(swr_ctx) < 0)
-			return 0;
-
-		/* compute the number of converted samples: buffering is avoided
-		* ensuring that the output buffer will contain at least all the
-		* converted input samples */
-		max_dst_nb_samples = dst_nb_samples = av_rescale_rnd(
-			decoded_frame->nb_samples, dst_sample_rate, (pDecoder->pCodecCtx)->sample_rate, AV_ROUND_UP);
-		
-		if (alloc_samples_array_and_data(&dst_data, &dst_linesize, 2, dst_nb_samples, AV_SAMPLE_FMT_S16, 0) < 0)
-			return 0;		
-			
-		/* compute destination number of samples */
-        dst_nb_samples = av_rescale_rnd(swr_get_delay(swr_ctx, (pDecoder->pCodecCtx)->sample_rate) +
-                                        decoded_frame->nb_samples, dst_sample_rate, (pDecoder->pCodecCtx)->sample_rate, AV_ROUND_UP);
-								
-        if (dst_nb_samples > max_dst_nb_samples) {
-            av_free(dst_data[0]);
-            ret = av_samples_alloc(dst_data, &dst_linesize, 2,
-                                   dst_nb_samples, AV_SAMPLE_FMT_S16, 1);
-            if (ret < 0)
-                return 0;
-            max_dst_nb_samples = dst_nb_samples;
-        }	
-						
-		if ((ret = swr_convert(swr_ctx, dst_data, dst_nb_samples, (const uint8_t **)decoded_frame->data, decoded_frame->nb_samples)) < 0)
-			return 0;
-		
-		int data_size = av_samples_get_buffer_size(&dst_linesize, 2, ret, AV_SAMPLE_FMT_S16, 1);
-											   
-		//Reserve enough memory for coping the result data
-		if (dest_buffer_pos + data_size > pDecoder->max_buffer_size) {
-			pDecoder->decoder.pBuffer = av_realloc(pDecoder->decoder.pBuffer, dest_buffer_pos + data_size);
-			pDecoder->max_buffer_size = dest_buffer_pos + data_size;
-		}
-		
-		memcpy(pDecoder->decoder.pBuffer + dest_buffer_pos, dst_data[0], data_size);
-		
-		//Increment the destination buffer pointers, copy the result to the output buffer
-		dest_buffer_pos += data_size;
-		pDecoder->decoder.buffer_size += data_size;
-		
-		pts=0;
-
-		if(((lp_ac_package_data)pPackage)->ffpackage.dts != AV_NOPTS_VALUE){
-			pts = ((lp_ac_package_data)pPackage)->ffpackage.dts * av_q2d(((lp_ac_data)pDec->pacInstance)->pFormatCtx->streams[pPackage->stream_index]->time_base);
+	  int data_size = av_samples_get_buffer_size(NULL, (pDecoder->pCodecCtx)->channels,
+                                                       decoded_frame->nb_samples,
+                                                       (pDecoder->pCodecCtx)->sample_fmt, 1);
+													   
+      //Reserve enough memory for coping the result data
+	  if (dest_buffer_pos + data_size > pDecoder->max_buffer_size) {
+	    pDecoder->decoder.pBuffer = av_realloc(pDecoder->decoder.pBuffer, dest_buffer_pos + data_size);
+		pDecoder->max_buffer_size = dest_buffer_pos + data_size;
+	  }
+	  memcpy(pDecoder->decoder.pBuffer + dest_buffer_pos, decoded_frame->data[0], data_size);
 	  
-			pDec->video_clock = pts;
-		} else {
-			pts = pDec->video_clock;
-		}
+      //Increment the destination buffer pointers, copy the result to the output buffer
+      dest_buffer_pos += data_size;
+      pDecoder->decoder.buffer_size += data_size;
 	  
-		double bytes_per_second = 4 * pDec->stream_info.audio_info.samples_per_second;
-		if (bytes_per_second > 0)
-			pDec->video_clock += data_size / bytes_per_second;
+	  
+	  pts=0;
+	  
+	  if(((lp_ac_package_data)pPackage)->ffpackage.dts != AV_NOPTS_VALUE){
+		pts = ((lp_ac_package_data)pPackage)->ffpackage.dts * av_q2d(((lp_ac_data)pDec->pacInstance)->pFormatCtx->streams[pPackage->stream_index]->time_base);
+	  
+		pDec->video_clock = pts;
+	  } else {
+		pts = pDec->video_clock;
+	  }
+	  
+	  double bytes_per_second = 2 * pDec->stream_info.audio_info.samples_per_second * pDec->stream_info.audio_info.channel_count;
+	  if (bytes_per_second > 0)
+		pDec->video_clock += data_size / bytes_per_second;
 		
-		pDec->timecode = pts;
-
-		/*
-		if (pkt_tmp.size > 0)
-		{
-			pDecoder->tmp_data = av_malloc(pkt_tmp.size);
-			memcpy(pDecoder->tmp_data, pkt_tmp.data, pkt_tmp.size);
-			pDecoder->tmp_data_length = pkt_tmp.size;
-		} else {
-			if (pDecoder->tmp_data_length > 0)
-			{
-				av_free(pDecoder->tmp_data);
-				pDecoder->tmp_data_length = 0;	
-			}			
-		}
-		*/
-		
-		if (dst_data)
-			av_freep(&dst_data[0]);
-		av_freep(&dst_data);
-
-		swr_free(&swr_ctx);
-		return 1;
+	  pDec->timecode = pts;
+	  
+	  if (pkt_tmp.size > 0)
+	  {
+		pDecoder->tmp_data = av_malloc(pkt_tmp.size);
+		memcpy(pDecoder->tmp_data, &pkt_tmp.data, pkt_tmp.size);
+	  } else {
+	    av_free(pDecoder->tmp_data);
+        pDecoder->tmp_data_length = 0;		
+	  }
+	  
+	  return 1;
     }	  
   }
   
-  //av_free(pDecoder->tmp_data);
-  //pDecoder->tmp_data_length = 0;
+  av_free(pDecoder->tmp_data);
+  pDecoder->tmp_data_length;
   return 0;
 }
 
@@ -1019,10 +852,11 @@ int CALL_CONVT ac_get_audio_frame(lp_ac_instance pacInstance, lp_ac_decoder pDec
 	while(done == 0 && pPackage != NULL){		
 		if (((lp_ac_package_data)pPackage)->package.stream_index == pDecoder->stream_index){
 			done = ac_decode_package(pPackage, pDecoder);
+			
 			ac_free_package(pPackage);
 			
-			//if (((lp_ac_audio_decoder)pDecoder)->decoder.buffer_size < 17640)
-			//	done = 0;
+			if (((lp_ac_audio_decoder)pDecoder)->decoder.buffer_size < 4096)
+				done = 0;
 				
 			if (done == 0)
 				pPackage = ac_read_package(pacInstance);
@@ -1118,8 +952,8 @@ int CALL_CONVT ac_seek(lp_ac_decoder pDecoder, int dir, int64_t target_pos) {
 		if (((lp_ac_audio_decoder)pDecoder)->pCodecCtx->codec->flush != NULL)
 			avcodec_flush_buffers(((lp_ac_audio_decoder)pDecoder)->pCodecCtx);
 	
-		//av_free(((lp_ac_audio_decoder)pDecoder)->tmp_data);
-		//((lp_ac_audio_decoder)pDecoder)->tmp_data_length = 0;
+		av_free(((lp_ac_audio_decoder)pDecoder)->tmp_data);
+		((lp_ac_audio_decoder)pDecoder)->tmp_data_length = 0;
 	}
     return 1;
   }
@@ -1152,7 +986,7 @@ void ac_free_audio_decoder(lp_ac_audio_decoder pDecoder) {
   av_free(pDecoder->decoder.pBuffer);
   
   //Free the memory reserved for the temporary audio buffer
-  //av_free(pDecoder->tmp_data);
+  av_free(pDecoder->tmp_data);
 
   //Free reserved memory for decoder record
   av_free(pDecoder);

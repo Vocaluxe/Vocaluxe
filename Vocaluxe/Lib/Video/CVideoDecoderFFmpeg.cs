@@ -223,6 +223,10 @@ namespace Vocaluxe.Lib.Video
         private int _StreamID;                      // stream ID for stream closing
         private string _FileName;                   // current video file name
                 
+        private FileStream _fs;                     // video file stream
+        private TAc_read_callback _rc;              // read callback for acinerella
+        private TAc_seek_callback _sc;              // seek callback for acinerella
+        
         private bool _FileOpened = false;
         
         private float _VideoTimeBase = 0f;          // frame time
@@ -255,13 +259,16 @@ namespace Vocaluxe.Lib.Video
         private bool _terminated = false;
                 
         private Thread _thread;
+        //AutoResetEvent EventDecode = new AutoResetEvent(false);
         SFrameBuffer[] _FrameBuffer = new SFrameBuffer[5];
         private bool _NewFrame = false;
         Object MutexFramebuffer = new Object();
         Object MutexSyncSignals = new Object();
 
         public Decoder()
-        {          
+        {
+            _rc = new TAc_read_callback(read_proc);
+            _sc = new TAc_seek_callback(seek_proc);            
             _thread = new Thread(Execute);
         }
 
@@ -354,6 +361,7 @@ namespace Vocaluxe.Lib.Video
 
                 
                 UploadNewFrame(ref frame);
+                //EventDecode.Set();
                 return true;
             }
 
@@ -365,6 +373,7 @@ namespace Vocaluxe.Lib.Video
                 }
                 UploadNewFrame(ref frame);
                 VideoTime = _CurrentVideoTime;
+                //EventDecode.Set();
                 return true;
             }
             return false;
@@ -380,6 +389,7 @@ namespace Vocaluxe.Lib.Video
                 _NoMoreFrames = false;
                 _Finished = false;
             }
+            //EventDecode.Set();
 
             return true;
         }
@@ -434,14 +444,17 @@ namespace Vocaluxe.Lib.Video
             _BufferFull = false;
             _skip = false;
             _NewFrame = false;
+            //EventDecode.Set();
         }
 
         private void Execute()
         {
             DoOpen();
+            //EventDecode.Set();
 
             while (!_terminated)
             {
+                //if (EventDecode.WaitOne(10))
                 {
                     lock (MutexSyncSignals)
                     {
@@ -472,44 +485,55 @@ namespace Vocaluxe.Lib.Video
 
         private void DoOpen()
         {
+            bool ok = false;
             TAc_instance Instance = new TAc_instance();
-
-            _instance = CAcinerella.ac_init();
-            int ret = -1;
-            if ((ret = CAcinerella.ac_open2(_instance, _FileName)) < 0)
-            {
-                CLog.LogError("Error opening video file (Errorcode: " + ret.ToString() + "): " + _FileName);
-                return;
-            }
-
-            Instance = (TAc_instance)Marshal.PtrToStructure(_instance, typeof(TAc_instance));
-
-            if (!Instance.opened || Instance.info.duration == 0)
-            {
-                if (!Instance.opened)
-                    CLog.LogError("Can't open video file: " + _FileName);
-                else
-                    CLog.LogError("Can't open video file (length = 0?): " + _FileName);
-                return;
-            }
-
             try
             {
-                _videodecoder = CAcinerella.ac_create_video_decoder(_instance);
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Can't create video decoder for file: " + _FileName + "; " + e.Message);
-                return;
-            }
+                _fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
 
-            if (_videodecoder == IntPtr.Zero)
+
+                _instance = CAcinerella.ac_init();
+                CAcinerella.ac_open(_instance, IntPtr.Zero, null, _rc, _sc, null, IntPtr.Zero);
+
+                Instance = (TAc_instance)Marshal.PtrToStructure(_instance, typeof(TAc_instance));
+                ok = true;
+            }
+            catch (Exception)
             {
-                CLog.LogError("Can't create video decoder for file: " + _FileName);
+                CLog.LogError("Error opening video file: " + _FileName);
+                ok = false;
+            }
+            
+
+            if (!Instance.opened || !ok)
+            {
+                //Free();
                 return;
             }
 
             _Duration = (float)Instance.info.duration / 1000f;
+
+            int VideoStreamIndex = -1;
+
+            TAc_stream_info Info = new TAc_stream_info();
+            for (int i = 0; i < Instance.stream_count; i++)
+            {
+                CAcinerella.ac_get_stream_info(_instance, i, out Info);
+
+                if (Info.stream_type == TAc_stream_type.AC_STREAM_TYPE_VIDEO)
+                {
+                    _videodecoder = CAcinerella.ac_create_decoder(_instance, i);
+                    
+                    VideoStreamIndex = i;
+                    break;
+                }
+            }
+
+            if (VideoStreamIndex < 0)
+            {
+                //Free();
+                return;
+            }
 
             TAc_decoder Videodecoder = (TAc_decoder)Marshal.PtrToStructure(_videodecoder, typeof(TAc_decoder));
 
@@ -677,6 +701,9 @@ namespace Vocaluxe.Lib.Video
                     _NewFrame = false;
                 }
             }
+
+            //if (!_BufferFull)
+            //    EventDecode.Set();
         }
 
         private void UploadNewFrame(ref STexture frame)
@@ -705,6 +732,7 @@ namespace Vocaluxe.Lib.Video
                         _CurrentVideoTime = _FrameBuffer[num].time;
                     }
                     _Finished = false;
+                    //EventDecode.Set();
                 }
                 else
                 {
@@ -758,5 +786,23 @@ namespace Vocaluxe.Lib.Video
             _Closeproc(_StreamID);
         }
         #endregion Threading
+
+        #region Callbacks
+        private Int32 read_proc(IntPtr sender, IntPtr buf, Int32 size)
+        {
+            Int32 r = 0;
+
+            byte[] bb = new byte[size];
+            r = _fs.Read(bb, 0, size);
+            Marshal.Copy(bb, 0, buf, size);
+
+            return r;
+        }
+
+        private Int64 seek_proc(IntPtr sender, Int64 pos, Int32 whence)
+        {
+            return (Int64)_fs.Seek((long)pos, (SeekOrigin)whence);
+        }
+        #endregion Callbacks
     }
 }
