@@ -4,6 +4,19 @@
 #include "gst/gst.h"
 #include <string>
 
+typedef enum {
+  GST_PLAY_FLAG_VIDEO         = (1 << 0),
+  GST_PLAY_FLAG_AUDIO         = (1 << 1),
+  GST_PLAY_FLAG_TEXT          = (1 << 2),
+  GST_PLAY_FLAG_VIS           = (1 << 3),
+  GST_PLAY_FLAG_SOFT_VOLUME   = (1 << 4),
+  GST_PLAY_FLAG_NATIVE_AUDIO  = (1 << 5),
+  GST_PLAY_FLAG_NATIVE_VIDEO  = (1 << 6),
+  GST_PLAY_FLAG_DOWNLOAD      = (1 << 7),
+  GST_PLAY_FLAG_BUFFERING     = (1 << 8),
+  GST_PLAY_FLAG_DEINTERLACE   = (1 << 9),
+  GST_PLAY_FLAG_SOFT_COLORBALANCE = (1 << 10)
+} GstPlayFlags;
 
 GstreamerAudioStream::GstreamerAudioStream(int id)
 {
@@ -59,6 +72,7 @@ int GstreamerAudioStream::Load(const wchar_t* Media)
 	Running = true;
 	g_object_set(Element, "uri", Media, NULL);
 	g_object_set(Element, "audio-sink", SinkBin, NULL);
+	g_object_set(Element, "flags", GST_PLAY_FLAG_AUDIO, NULL); 
 
 	gst_element_set_state(Element, GST_STATE_PAUSED);
 	gst_bus_timed_pop_filtered(Bus, -1, GST_MESSAGE_ASYNC_DONE);
