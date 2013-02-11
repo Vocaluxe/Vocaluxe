@@ -562,12 +562,6 @@ namespace Vocaluxe.Menu.SongMenu
                     return false;
                 }
 
-                if (this.Relative == EOffOn.TR_CONFIG_ON)
-                {
-                    _Base.Log.LogError("Relative songs are not supported by Vocaluxe (perhaps later)! (" + FilePath + ")");
-                    return false;
-                }
-
                 #region check medley tags
                 if ((HeaderFlags & EHeaderFlags.MedleyStartBeat) != 0 && (HeaderFlags & EHeaderFlags.MedleyEndBeat) != 0)
                 {
@@ -637,6 +631,7 @@ namespace Vocaluxe.Menu.SongMenu
             int Param1 = 0;
             int Param2 = 0;
             int Param3 = 0;
+            int currentPos = 0;
             string ParamS = String.Empty;
             bool isNewSentence = false;
 
@@ -703,14 +698,17 @@ namespace Vocaluxe.Menu.SongMenu
                         chr = (char)sr.Read();
                         ParamS = sr.ReadLine();
 
-                        ENoteType NoteType = ENoteType.Normal;
+                        ENoteType NoteType;
 
                         if (TempC.CompareTo('*') == 0)
                             NoteType = ENoteType.Golden;
-
-                        if (TempC.CompareTo('F') == 0)
+                        else if (TempC.CompareTo('F') == 0)
                             NoteType = ENoteType.Freestyle;
-	                    
+                        else
+                            NoteType = ENoteType.Normal;
+
+                        if (this.Relative == EOffOn.TR_CONFIG_ON)
+                            Param1 += currentPos;
                         
                         if (Player != 2)
                             // one singer
@@ -734,6 +732,14 @@ namespace Vocaluxe.Menu.SongMenu
 
                         char chr = (char)sr.Read();
                         Param1 = CHelper.TryReadInt(sr);
+
+                        if (this.Relative == EOffOn.TR_CONFIG_ON)
+                        {
+                            Param1 += currentPos;
+                            chr = (char)sr.Read();
+                            Param2 = CHelper.TryReadInt(sr);
+                            currentPos += Param2;
+                        }
                         
                         if(Player != 2)
                             // one singer
