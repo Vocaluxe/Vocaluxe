@@ -311,7 +311,7 @@ namespace Vocaluxe.Base
             }
             pm.PartyMode.Initialize(CMain.Base);
 
-            if (!CTheme.AddTheme(Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), "Theme.xml"), pm.PartyModeID))
+            if (!CTheme.AddTheme(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), "Theme.xml")), pm.PartyModeID))
                 return pm;
 
             int ThemeIndex = CTheme.GetThemeIndex(pm.PartyModeID);
