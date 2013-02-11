@@ -68,6 +68,10 @@ namespace Vocaluxe.Lib.Video
             return false;
         }
 
+        public virtual void Update()
+        {
+        }
+
         protected bool AlreadyAdded(int StreamID)
         {
             foreach (VideoStreams st in _Streams)

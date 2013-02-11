@@ -20,13 +20,15 @@ using namespace std;
     DllExport int GetVideoNumStreams();
 
     DllExport float GetVideoLength(int StreamID);
-	DllExport UINT8* GetFrame(int StreamID, float Time, float &VideoTime);
+	DllExport guint8* GetFrame(int StreamID, float Time, float &VideoTime, int &Size, int &Width, int &Height);
     DllExport bool Skip(int StreamID, float Start, float Gap);
     DllExport void SetVideoLoop(int StreamID, bool Loop);
     DllExport void PauseVideo(int StreamID);
 	DllExport void ResumeVideo(int StreamID);
 
     DllExport bool Finished(int StreamID);
+
+	DllExport void UpdateVideo();
 
 	void LogVideoError(const char* msg);
 

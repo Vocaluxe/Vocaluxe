@@ -55,9 +55,11 @@ DllExport bool CloseVideo(int Stream)
 	map<int,GstreamerVideoStream*>::iterator it = VideoStreams.find(Stream);
 	if(it != VideoStreams.end())
 	{
-		return it->second->CloseVideo();
+		delete it->second;
+		VideoStreams.erase(it);
 	}
 	else return false;
+	return true;
 }
 
 DllExport int GetVideoNumStreams()
@@ -75,12 +77,12 @@ DllExport float GetVideoLength(int Stream)
 	else return -1.0;
 }
 
-DllExport UINT8* GetFrame(int Stream, float Time, float &VideoTime)
+DllExport guint8* GetFrame(int Stream, float Time, float &VideoTime, int &Size, int &Width, int &Height)
 {
 	map<int,GstreamerVideoStream*>::iterator it = VideoStreams.find(Stream);
 	if(it != VideoStreams.end())
 	{
-		return it->second->GetFrame(Time, VideoTime);
+		return it->second->GetFrame(Time, VideoTime, Size, Width, Height);
 	}
 }
 
@@ -126,7 +128,30 @@ DllExport bool Finished(int Stream)
 	map<int,GstreamerVideoStream*>::iterator it = VideoStreams.find(Stream);
 	if(it != VideoStreams.end())
 	{
-		return it->second->Finished();
+		return it->second->IsFinished();
 	}
 	else return true;
+}
+
+DllExport void UpdateVideo(void)
+{
+  map<int, GstreamerVideoStream*>::iterator p = VideoStreams.begin();
+
+  while(p != VideoStreams.end())
+  {
+	  if(p->second->Closed)
+	  {
+		delete p->second;
+		VideoStreams.erase(p++);
+	  }
+	  else {
+		p->second->UpdateVideo();
+		++p;
+	  }
+  }
+}
+
+void LogVideoError(const char* msg)
+{
+	Log(msg);
 }

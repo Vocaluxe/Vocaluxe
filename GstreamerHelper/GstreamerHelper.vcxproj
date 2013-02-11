@@ -122,7 +122,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>gstreamer-1.0.lib;gstcontroller-1.0.lib;gobject-2.0.lib;glib-2.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gstreamer-1.0.lib;gstcontroller-1.0.lib;gobject-2.0.lib;glib-2.0.lib;gstapp-1.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|Win32'">

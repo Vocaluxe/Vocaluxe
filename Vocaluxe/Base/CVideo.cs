@@ -95,6 +95,11 @@ namespace Vocaluxe.Base
             return _VideoDecoder.Finished(StreamID);
         }
 
+        public static void Update()
+        {
+            _VideoDecoder.Update();
+        }
+
         #endregion Interface
 
         #endregion VideoDecoder

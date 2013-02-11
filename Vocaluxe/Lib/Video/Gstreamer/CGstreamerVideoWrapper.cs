@@ -43,8 +43,16 @@ namespace Vocaluxe.Lib.Video.Gstreamer
         [DllImport(Dll)]
         public static extern float GetVideoLength(int StreamID);
 
-        [DllImport(Dll)]
-        public static extern IntPtr GetFrame(int StreamID, float Time, ref float VideoTime);
+        [DllImport(Dll, EntryPoint="GetFrame")]
+        public static extern IntPtr GetFrameNative(int StreamID, float Time, ref float VideoTime, ref int Size, ref int Width, ref int Height);
+
+        public static byte[] GetFrame(int StreamID, float Time, ref float VideoTime, ref int Size, ref int Width, ref int Height)
+        {
+            IntPtr buf = GetFrameNative(StreamID, Time, ref VideoTime, ref Size, ref Width, ref Height);
+            byte[] buffer = new byte[Size];
+            Marshal.Copy(buf, buffer, 0, Size);
+            return buffer;
+        }
 
         [DllImport(Dll)]
         public static extern bool Skip(int StreamID, float Start, float Gap);
@@ -60,6 +68,9 @@ namespace Vocaluxe.Lib.Video.Gstreamer
 
         [DllImport(Dll)]
         public static extern bool Finished(int StreamID);
+
+        [DllImport(Dll)]
+        public static extern bool UpdateVideo();
 
     }
 }
