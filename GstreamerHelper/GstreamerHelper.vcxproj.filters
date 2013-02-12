@@ -33,6 +33,9 @@
     <ClInclude Include="GstreamerVideoStream.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="VocaluxeClock.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -51,6 +54,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="GstreamerVideoStream.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="VocaluxeClock.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

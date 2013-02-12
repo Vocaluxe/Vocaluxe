@@ -3,6 +3,7 @@
 #include "gst/gst.h"
 #include "GstreamerVideo.h"
 #include "gst\app\gstappsink.h"
+#include "VocaluxeClock.h"
 
 	using namespace std;
 
@@ -31,9 +32,9 @@ public:
     bool IsFinished();
 
 private:
-
 	GMainLoop *MainLoop;
 	GMainContext *Context;
+	VocaluxeClock *Clock;
 
 	GstAppSink *Appsink;
 	GstElement *Element;

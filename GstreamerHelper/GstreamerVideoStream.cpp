@@ -20,6 +20,7 @@ GstreamerVideoStream::GstreamerVideoStream(int ID)
 	this->ID = ID;
 
 	g_main_loop_new(Context, false);
+	Clock = vocaluxe_clock_new("external");
 
 	Loop = false;
 
@@ -65,8 +66,9 @@ int GstreamerVideoStream::LoadVideo(const wchar_t* Filename)
 		NULL);
 
 	gst_app_sink_set_caps(Appsink, caps);
-	gst_app_sink_set_max_buffers(Appsink, 1);
+	gst_app_sink_set_max_buffers(Appsink, 5);
 
+	gst_pipeline_use_clock((GstPipeline *)Element, (GstClock*) Clock);
 	gst_element_set_state(Element, GST_STATE_PLAYING);
 	gst_element_set_state((GstElement*)Appsink, GST_STATE_PLAYING);
 	gst_bus_timed_pop_filtered(Bus, -1, GST_MESSAGE_ASYNC_DONE);
@@ -115,11 +117,13 @@ GstFlowReturn GstreamerVideoStream::NewBufferRecieved(GstAppSink *sink)
 			gst_object_unref(BufferStructure);
 	}
 
+	Mutex.lock();
 	Frame.buffer = Mapinfo.data;
 	Frame.height = Height;
 	Frame.width = Width;
 	Frame.size = Size;
 	Frame.videotime = VideoTime;
+	Mutex.unlock();
 
 	return GST_FLOW_OK;
 }
@@ -172,6 +176,10 @@ bool GstreamerVideoStream::Skip(float Start, float Gap)
 
 void GstreamerVideoStream::SetVideoLoop(bool Loop)
 {
+	if(Loop)
+		gst_pipeline_auto_clock((GstPipeline *)Element);
+	else
+		gst_pipeline_use_clock((GstPipeline *)Element, (GstClock*) Clock);
 	this->Loop = Loop;
 }
 
