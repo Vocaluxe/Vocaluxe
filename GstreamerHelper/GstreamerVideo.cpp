@@ -77,12 +77,12 @@ DllExport float GetVideoLength(int Stream)
 	else return -1.0;
 }
 
-DllExport guint8* GetFrame(int Stream, float Time, float &VideoTime, int &Size, int &Width, int &Height)
+DllExport struct ApplicationFrame GetFrame(int Stream, float Time)
 {
 	map<int,GstreamerVideoStream*>::iterator it = VideoStreams.find(Stream);
 	if(it != VideoStreams.end())
 	{
-		return it->second->GetFrame(Time, VideoTime, Size, Width, Height);
+		return it->second->GetFrame(Time);
 	}
 }
 

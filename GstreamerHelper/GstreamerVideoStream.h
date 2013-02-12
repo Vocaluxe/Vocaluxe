@@ -1,9 +1,11 @@
 #pragma once
+#include <mutex>
 #include "gst/gst.h"
 #include "GstreamerVideo.h"
 #include "gst\app\gstappsink.h"
 
 	using namespace std;
+
 class GstreamerVideoStream
 {
 
@@ -18,7 +20,7 @@ public:
     bool CloseVideo();
 
     float GetVideoLength();
-	guint8* GetFrame(float Time, float &VideoTime, int &Size, int &Width, int &Height);
+	struct ApplicationFrame GetFrame(float Time);
     bool Skip(float Start, float Gap);
     void SetVideoLoop(bool Loop);
     void PauseVideo();
@@ -29,11 +31,22 @@ public:
     bool IsFinished();
 
 private:
+
+	GMainLoop *MainLoop;
+	GMainContext *Context;
+
 	GstAppSink *Appsink;
 	GstElement *Element;
 	GstBus *Bus;
 	GstMessage *Message;
+
+	ApplicationFrame Frame;
 	GstMapInfo Mapinfo;
+	GstSample *Sample;
+	GstBuffer *Buffer;
+	GstCaps *BufferCaps;
+	GstStructure *BufferStructure;
+	mutex Mutex;
 
 	gboolean Loop;
 
@@ -45,6 +58,9 @@ private:
 	gfloat Duration;
 
 	void RefreshDuration();
+
+	GstFlowReturn NewBufferRecieved(GstAppSink *Sink);
+	static GstFlowReturn fake_callback(GstAppSink *sink ,gpointer data);
 };
 
 

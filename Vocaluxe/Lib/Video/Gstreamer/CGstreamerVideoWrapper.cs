@@ -5,6 +5,23 @@ using System.Text;
 
 namespace Vocaluxe.Lib.Video.Gstreamer
 {
+    public struct NativeFrame {
+        public IntPtr buffer;
+        public int Size;
+        public int Width;
+        public int Height;
+        public float Videotime;
+    }
+
+    public struct ManagedFrame
+    {
+        public byte[] buffer;
+        public int Size;
+        public int Width;
+        public int Height;
+        public float Videotime;
+    }
+
     public static class CGstreamerVideoWrapper
     {
 #region arch
@@ -44,14 +61,28 @@ namespace Vocaluxe.Lib.Video.Gstreamer
         public static extern float GetVideoLength(int StreamID);
 
         [DllImport(Dll, EntryPoint="GetFrame")]
-        public static extern IntPtr GetFrameNative(int StreamID, float Time, ref float VideoTime, ref int Size, ref int Width, ref int Height);
+        public static extern NativeFrame GetFrameNative(int StreamID, float Time);
 
-        public static byte[] GetFrame(int StreamID, float Time, ref float VideoTime, ref int Size, ref int Width, ref int Height)
+        public static ManagedFrame GetFrame(int StreamID, float Time)
         {
-            IntPtr buf = GetFrameNative(StreamID, Time, ref VideoTime, ref Size, ref Width, ref Height);
-            byte[] buffer = new byte[Size];
-            Marshal.Copy(buf, buffer, 0, Size);
-            return buffer;
+            NativeFrame f = GetFrameNative(StreamID, Time);
+
+            byte[] buffer = null;
+
+            if (f.Size > 0)
+            {
+                buffer = new byte[f.Size];
+                Marshal.Copy(f.buffer, buffer, 0, f.Size);
+            }
+
+            ManagedFrame m;
+            m.buffer = buffer;
+            m.Height = f.Height;
+            m.Size = f.Size;
+            m.Videotime = f.Videotime;
+            m.Width = f.Width;
+            return m;
+
         }
 
         [DllImport(Dll)]

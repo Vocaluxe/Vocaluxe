@@ -10,6 +10,14 @@ using namespace std;
 	typedef void (__stdcall * LogCallback)(const char* text);
 	static LogCallback Log;
 
+	struct ApplicationFrame {
+		guint8* buffer;
+		int size;
+		int width;
+		int height;
+		float videotime;
+	};
+
 	DllExport void SetVideoLogCallback(LogCallback Callback);
 
     DllExport bool InitVideo();
@@ -20,7 +28,7 @@ using namespace std;
     DllExport int GetVideoNumStreams();
 
     DllExport float GetVideoLength(int StreamID);
-	DllExport guint8* GetFrame(int StreamID, float Time, float &VideoTime, int &Size, int &Width, int &Height);
+	DllExport struct ApplicationFrame GetFrame(int StreamID, float Time);
     DllExport bool Skip(int StreamID, float Start, float Gap);
     DllExport void SetVideoLoop(int StreamID, bool Loop);
     DllExport void PauseVideo(int StreamID);

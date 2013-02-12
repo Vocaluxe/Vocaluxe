@@ -63,9 +63,10 @@ namespace Vocaluxe.Lib.Video
 
         public bool GetFrame(int StreamID, ref STexture Frame, float Time, ref float VideoTime)
         {
-            //IntPtr buffer = CGstreamerVideoWrapper.GetFrame(StreamID, Time, ref VideoTime);
-            byte[] data = new byte[4 * 4 * 4];
-            UploadNewFrame(ref Frame, ref data, 4, 4);
+            ManagedFrame frame = CGstreamerVideoWrapper.GetFrame(StreamID, Time);
+            VideoTime = frame.Videotime;
+
+            UploadNewFrame(ref Frame, ref frame.buffer, frame.Width, frame.Height);
             return true;
         }
 
@@ -101,14 +102,18 @@ namespace Vocaluxe.Lib.Video
 
         private void UploadNewFrame(ref STexture frame, ref byte[] Data, int Width, int Height)
         {
-            if (frame.index == -1 || Width != frame.width || Height != frame.height)
+            if (Data != null)
             {
-                CDraw.RemoveTexture(ref frame);
-                frame = CDraw.AddTexture(Width, Height, ref Data);
-            }
-            else
-            {
-                CDraw.UpdateTexture(ref frame, ref Data);
+                if (frame.index == -1 || Width != frame.width || Height != frame.height || Data.Length == 0)
+                {
+                    CDraw.RemoveTexture(ref frame);
+                    frame = CDraw.AddTexture(Width, Height, ref Data);
+                }
+                else
+                {
+                    CDraw.UpdateTexture(ref frame, ref Data);
+                }
+                Data = null;
             }
         }
     }

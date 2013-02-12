@@ -19,6 +19,8 @@ GstreamerVideoStream::GstreamerVideoStream(int ID)
 {
 	this->ID = ID;
 
+	g_main_loop_new(Context, false);
+
 	Loop = false;
 
 	Running = true;
@@ -49,31 +51,98 @@ int GstreamerVideoStream::LoadVideo(const wchar_t* Filename)
 		LogVideoError ("Could not create element!");
 		return -1;
 	} 
+
+	gst_app_sink_set_drop(Appsink, true);
 	g_object_set(Element, "uri", Filename, NULL);
-	//g_object_set(Element, "video-sink", Appsink, NULL);
+	g_object_set(Element, "video-sink", Appsink, NULL);
 	g_object_set(Element, "flags", GST_PLAY_FLAG_VIDEO, NULL); 
+	g_object_set (Appsink, "emit-signals", TRUE, "sync", TRUE, NULL);
+	g_signal_connect(Appsink,"new-sample", G_CALLBACK(fake_callback),(gpointer)this);
 
-	//GstCaps *caps = gst_caps_new_any();
+	GstCaps *caps;
+	caps = gst_caps_new_simple ("video/x-raw",
+		"format", G_TYPE_STRING, "BGRA", //We should use RGB for better performance here! Implement later
+		NULL);
 
-	//gst_caps_set_value(caps, "format", (GValue*)"RGBA");
-	//gst_app_sink_set_caps(Appsink, caps);
+	gst_app_sink_set_caps(Appsink, caps);
+	gst_app_sink_set_max_buffers(Appsink, 1);
 
 	gst_element_set_state(Element, GST_STATE_PLAYING);
-	//gst_bus_timed_pop_filtered(Bus, -1, GST_MESSAGE_ASYNC_DONE);
+	gst_element_set_state((GstElement*)Appsink, GST_STATE_PLAYING);
+	gst_bus_timed_pop_filtered(Bus, -1, GST_MESSAGE_ASYNC_DONE);
+
 	Paused = true;
 	RefreshDuration();
 
 	return ID;
 }
 
+GstFlowReturn GstreamerVideoStream::fake_callback(GstAppSink *sink,gpointer data)  {
+
+     GstreamerVideoStream* instance = (GstreamerVideoStream*)data;
+	 return instance->NewBufferRecieved(sink);
+}
+
+GstFlowReturn GstreamerVideoStream::NewBufferRecieved(GstAppSink *sink)
+{
+	float VideoTime = 0.0;
+	int Width = 0;
+	int Height = 0;
+	int Size = -1;
+	
+	Sample = gst_app_sink_pull_sample(Appsink);
+	if(Sample) {
+		BufferCaps = gst_sample_get_caps (Sample);
+		BufferStructure = gst_caps_get_structure (BufferCaps, 0);
+
+		Buffer = gst_sample_get_buffer(Sample);
+		gst_buffer_map(Buffer, &Mapinfo, GST_MAP_READ);
+
+		Size = Mapinfo.size;
+		gst_structure_get_int (BufferStructure, "width", &Width);
+		gst_structure_get_int (BufferStructure, "height", &Height);
+		VideoTime = (float) (Buffer->pts / GST_SECOND);
+
+		if(Buffer && &Mapinfo)
+		{
+			gst_buffer_unmap(Buffer, &Mapinfo);
+			gst_buffer_unref(Buffer);
+		}
+		if(BufferCaps)
+			gst_caps_unref(BufferCaps);
+
+		if(BufferStructure)
+			gst_object_unref(BufferStructure);
+	}
+
+	Frame.buffer = Mapinfo.data;
+	Frame.height = Height;
+	Frame.width = Width;
+	Frame.size = Size;
+	Frame.videotime = VideoTime;
+
+	return GST_FLOW_OK;
+}
+
 bool GstreamerVideoStream::CloseVideo()
 {
-	if(Element)
-		gst_element_set_state(Element, GST_STATE_NULL);
+
 	if(Appsink)
 		gst_object_unref(Appsink);
 	if(Bus)
 		gst_object_unref(Bus);
+	//if(Buffer && &Mapinfo)
+		//gst_buffer_unmap(Buffer, &Mapinfo);
+	if(Buffer)
+		gst_buffer_unref(Buffer);
+	if(BufferCaps)
+		gst_caps_unref(BufferCaps);
+
+	if(BufferStructure)
+		gst_object_unref(BufferStructure);
+
+	if(Element)
+		gst_element_set_state(Element, GST_STATE_NULL);
 	if(Element)
 		gst_object_unref(Element);
 	return true;
@@ -86,23 +155,9 @@ float GstreamerVideoStream::GetVideoLength()
 	return Duration;
 }
 
-guint8* GstreamerVideoStream::GetFrame(float Time, float &VideoTime, int &Size, int &Width, int &Height)
+struct ApplicationFrame GstreamerVideoStream::GetFrame(float Time)
 {
-	/*GstSample *sample;
-	GstBuffer *buffer;
-	GstElement *sink;
-	
-	sample = gst_app_sink_pull_sample(Appsink);
-	buffer = gst_sample_get_buffer(sample);
-
-	g_object_get(Element, "video-sink", &sink, NULL);
-
-	gst_buffer_map(buffer, &Mapinfo, GST_MAP_READ);
-
-	VideoTime = (float) (buffer->pts / GST_SECOND);
-	Size = Mapinfo.size;
-	return Mapinfo.data; */
-	return 0;
+	return Frame;
 }
 
 bool GstreamerVideoStream::Skip(float Start, float Gap)
@@ -152,6 +207,7 @@ void GstreamerVideoStream::RefreshDuration()
 void GstreamerVideoStream::UpdateVideo()
 {
 	if(Running) {
+		g_main_context_iteration(Context, false);
 		Message = gst_bus_pop (Bus);
    
 		/* Parse message */
