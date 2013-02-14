@@ -53,7 +53,6 @@ int GstreamerVideoStream::LoadVideo(const wchar_t* Filename)
 		return -1;
 	} 
 
-	gst_app_sink_set_drop(Appsink, true);
 	g_object_set(Element, "uri", Filename, NULL);
 	g_object_set(Element, "video-sink", Appsink, NULL);
 	g_object_set(Element, "flags", GST_PLAY_FLAG_VIDEO, NULL); 
@@ -66,7 +65,9 @@ int GstreamerVideoStream::LoadVideo(const wchar_t* Filename)
 		NULL);
 
 	gst_app_sink_set_caps(Appsink, caps);
-	gst_app_sink_set_max_buffers(Appsink, 5);
+
+	gst_app_sink_set_drop(Appsink, false);
+	gst_app_sink_set_max_buffers(Appsink, 1);
 
 	gst_pipeline_use_clock((GstPipeline *)Element, (GstClock*) Clock);
 	gst_element_set_state(Element, GST_STATE_PLAYING);
@@ -161,6 +162,7 @@ float GstreamerVideoStream::GetVideoLength()
 
 struct ApplicationFrame GstreamerVideoStream::GetFrame(float Time)
 {
+	vocaluxe_clock_set_time(Clock, Time);
 	return Frame;
 }
 
