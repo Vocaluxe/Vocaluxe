@@ -80,6 +80,8 @@ namespace Vocaluxe.Base
         public static string Language = "English";
         public static EOffOn LyricsOnTop = EOffOn.TR_CONFIG_OFF;
         public static string[] Players = new string[CSettings.MaxNumPlayer];
+
+        public static float MinLineBreakTime = 0.1f; //Minimum time to show the text before it is (to be) sung (if possible)
         
         // Video
         public static EVideoDecoder VideoDecoder = EVideoDecoder.FFmpeg;

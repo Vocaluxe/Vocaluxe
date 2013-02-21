@@ -636,7 +636,7 @@ namespace Vocaluxe.Menu.SingNotes
         #region Methods
         public void AddLine(CLine Line)
         {
-            AddLine(Line, true);
+            AddLine(Line, false);
         }
         public void AddLine(CLine Line, bool updateTimings)
         {
