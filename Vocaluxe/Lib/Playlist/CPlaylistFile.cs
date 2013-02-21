@@ -121,11 +121,11 @@ namespace Vocaluxe.Lib.Playlist
 
         private void LoadPlaylist()
         {
-            CXMLReader xPathHelper;
+            CXMLReader xmlReader;
 
             try
             {
-                xPathHelper = new CXMLReader(PlaylistFile);
+                xmlReader = new CXMLReader(PlaylistFile);
             }
             catch (Exception e)
             {
@@ -134,22 +134,22 @@ namespace Vocaluxe.Lib.Playlist
             }
 
             string value = String.Empty;
-            if (xPathHelper.GetValue("//root/Info/PlaylistName", ref value, value))
+            if (xmlReader.GetValue("//root/Info/PlaylistName", ref value, value))
             {
                 PlaylistName = value;
 
                 Songs = new List<CPlaylistSong>();
 
-                List<string> songs = xPathHelper.GetValues("Songs");
+                List<string> songs = xmlReader.GetValues("Songs");
                 string artist = String.Empty;
                 string title = String.Empty;
                 EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
 
                 for (int i = 0; i < songs.Count; i++)
                 {
-                    xPathHelper.GetValue("//root/Songs/" + songs[i] + "/Artist", ref artist, String.Empty);
-                    xPathHelper.GetValue("//root/Songs/" + songs[i] + "/Title", ref title, String.Empty);
-                    xPathHelper.TryGetEnumValue<EGameMode>("//root/Songs/" + songs[i] + "/GameMode", ref gm);
+                    xmlReader.GetValue("//root/Songs/" + songs[i] + "/Artist", ref artist, String.Empty);
+                    xmlReader.GetValue("//root/Songs/" + songs[i] + "/Title", ref title, String.Empty);
+                    xmlReader.TryGetEnumValue<EGameMode>("//root/Songs/" + songs[i] + "/GameMode", ref gm);
 
                     CPlaylistSong song = new CPlaylistSong();
                     song.SongID = -1;

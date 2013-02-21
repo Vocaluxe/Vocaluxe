@@ -131,36 +131,36 @@ namespace Vocaluxe.Menu
             Visible = true;
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xPathHelper, int SkinIndex)
+        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
 
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/X", ref Rect.X);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Y", ref Rect.Y);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Z", ref Rect.Z);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/W", ref Rect.W);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/H", ref Rect.H);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref Rect.Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
-            if (xPathHelper.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/R", ref Color.R);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/G", ref Color.G);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/B", ref Color.B);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/A", ref Color.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref Color.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref Color.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            if (xPathHelper.ItemExists(item + "/Reflection"))
+            if (xmlReader.ItemExists(item + "/Reflection"))
             {
                 Reflection = true;
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Reflection/Space", ref ReflectionSpace);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Reflection/Height", ref ReflectionHeight);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref ReflectionSpace);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref ReflectionHeight);
             }
             else
                 Reflection = false;

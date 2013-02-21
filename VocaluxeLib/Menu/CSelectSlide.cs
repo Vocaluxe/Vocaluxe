@@ -229,133 +229,133 @@ namespace Vocaluxe.Menu
             Visible = slide.Visible;
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xPathHelper, int SkinIndex)
+        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinArrowLeft", ref _Theme.TextureArrowLeftName, String.Empty);
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinArrowRight", ref _Theme.TextureArrowRightName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeft", ref _Theme.TextureArrowLeftName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRight", ref _Theme.TextureArrowRightName, String.Empty);
 
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinSelected", ref _Theme.STextureName, String.Empty);
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinArrowLeftSelected", ref _Theme.STextureArrowLeftName, String.Empty);
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinArrowRightSelected", ref _Theme.STextureArrowRightName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinSelected", ref _Theme.STextureName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeftSelected", ref _Theme.STextureArrowLeftName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRightSelected", ref _Theme.STextureArrowRightName, String.Empty);
 
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinHighlighted", ref _Theme.HTextureName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinHighlighted", ref _Theme.HTextureName, String.Empty);
 
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/X", ref Rect.X);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Y", ref Rect.Y);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Z", ref Rect.Z);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/W", ref Rect.W);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/H", ref Rect.H);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref Rect.Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
-            if (xPathHelper.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/R", ref Color.R);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/G", ref Color.G);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/B", ref Color.B);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/A", ref Color.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref Color.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref Color.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            if (xPathHelper.GetValue(item + "/SColor", ref _Theme.SColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/SColor", ref _Theme.SColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.SColorName, SkinIndex, ref SColor);
             }
             else
             {
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/SR", ref SColor.R);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/SG", ref SColor.G);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/SB", ref SColor.B);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/SA", ref SColor.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref SColor.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SG", ref SColor.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SB", ref SColor.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SA", ref SColor.A);
             }
 
-            if (xPathHelper.GetValue(item + "/HColor", ref _Theme.HColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/HColor", ref _Theme.HColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.HColorName, SkinIndex, ref HColor);
             }
             else
             {
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/HR", ref HColor.R);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/HG", ref HColor.G);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/HB", ref HColor.B);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/HA", ref HColor.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/HR", ref HColor.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/HG", ref HColor.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/HB", ref HColor.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/HA", ref HColor.A);
             }
 
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowLeftX", ref RectArrowLeft.X);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowLeftY", ref RectArrowLeft.Y);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowLeftZ", ref RectArrowLeft.Z);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowLeftW", ref RectArrowLeft.W);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowLeftH", ref RectArrowLeft.H);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftX", ref RectArrowLeft.X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftY", ref RectArrowLeft.Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftZ", ref RectArrowLeft.Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftW", ref RectArrowLeft.W);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftH", ref RectArrowLeft.H);
 
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowRightX", ref RectArrowRight.X);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowRightY", ref RectArrowRight.Y);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowRightZ", ref RectArrowRight.Z);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowRightW", ref RectArrowRight.W);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowRightH", ref RectArrowRight.H);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightX", ref RectArrowRight.X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightY", ref RectArrowRight.Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightZ", ref RectArrowRight.Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightW", ref RectArrowRight.W);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightH", ref RectArrowRight.H);
 
-            if (xPathHelper.GetValue(item + "/ArrowColor", ref _Theme.ArrowColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/ArrowColor", ref _Theme.ArrowColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ArrowColorName, SkinIndex, ref ColorArrow);
             }
             else
             {
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowR", ref ColorArrow.R);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowG", ref ColorArrow.G);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowB", ref ColorArrow.B);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowA", ref ColorArrow.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowR", ref ColorArrow.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowG", ref ColorArrow.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowB", ref ColorArrow.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowA", ref ColorArrow.A);
             }
 
-            if (xPathHelper.GetValue(item + "/ArrowSColor", ref _Theme.SArrowColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/ArrowSColor", ref _Theme.SArrowColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.SArrowColorName, SkinIndex, ref SColorArrow);
             }
             else
             {
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowSR", ref SColorArrow.R);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowSG", ref SColorArrow.G);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowSB", ref SColorArrow.B);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowSA", ref SColorArrow.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSR", ref SColorArrow.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSG", ref SColorArrow.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSB", ref SColorArrow.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSA", ref SColorArrow.A);
             }
 
-            if (xPathHelper.GetValue(item + "/TextColor", ref _Theme.TextColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/TextColor", ref _Theme.TextColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.TextColorName, SkinIndex, ref TextColor);
             }
             else
             {
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextR", ref TextColor.R);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextG", ref TextColor.G);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextB", ref TextColor.B);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextA", ref TextColor.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextR", ref TextColor.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextG", ref TextColor.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextB", ref TextColor.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextA", ref TextColor.A);
             }
 
-            if (xPathHelper.GetValue(item + "/TextSColor", ref _Theme.STextColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/TextSColor", ref _Theme.STextColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.STextColorName, SkinIndex, ref STextColor);
             }
             else
             {
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextSR", ref STextColor.R);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextSG", ref STextColor.G);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextSB", ref STextColor.B);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextSA", ref STextColor.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSR", ref STextColor.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSG", ref STextColor.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSB", ref STextColor.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSA", ref STextColor.A);
             }
 
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextH", ref TextH);
-            if(xPathHelper.TryGetFloatValue(item + "/TextRelativeX", ref TextRelativeX))
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextRelativeX", ref TextRelativeX);
-            if(xPathHelper.TryGetFloatValue(item + "/TextRelativeY", ref TextRelativeY))
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextRelativeY", ref TextRelativeY);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextMaxW", ref MaxW);
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/TextFont", ref _Theme.TextFont, "Normal");
-            _ThemeLoaded &= xPathHelper.TryGetEnumValue<EStyle>(item + "/TextStyle", ref _Theme.TextStyle);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextH", ref TextH);
+            if(xmlReader.TryGetFloatValue(item + "/TextRelativeX", ref TextRelativeX))
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextRelativeX", ref TextRelativeX);
+            if(xmlReader.TryGetFloatValue(item + "/TextRelativeY", ref TextRelativeY))
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextRelativeY", ref TextRelativeY);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextMaxW", ref MaxW);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/TextFont", ref _Theme.TextFont, "Normal");
+            _ThemeLoaded &= xmlReader.TryGetEnumValue<EStyle>(item + "/TextStyle", ref _Theme.TextStyle);
 
-            _ThemeLoaded &= xPathHelper.TryGetIntValue(item + "/NumVisible", ref _NumVisible);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/NumVisible", ref _NumVisible);
 
             if (_ThemeLoaded)
             {

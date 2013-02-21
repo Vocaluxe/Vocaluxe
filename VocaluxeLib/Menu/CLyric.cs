@@ -107,39 +107,39 @@ namespace Vocaluxe.Menu
             _Style = ELyricStyle.Fill;
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xPathHelper, int SkinIndex)
+        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/X", ref _X);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Y", ref _Y);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Z", ref _Z);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/W", ref _MaxW);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/H", ref _H);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _MaxW);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _H);
 
-            if (xPathHelper.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/R", ref Color.R);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/G", ref Color.G);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/B", ref Color.B);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/A", ref Color.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref Color.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref Color.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            if (xPathHelper.GetValue(item + "/SColor", ref _Theme.SColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/SColor", ref _Theme.SColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.SColorName, SkinIndex, ref ColorProcessed);
             }
             else
             {
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/SR", ref ColorProcessed.R);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/SG", ref ColorProcessed.G);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/SB", ref ColorProcessed.B);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/SA", ref ColorProcessed.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref ColorProcessed.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SG", ref ColorProcessed.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SB", ref ColorProcessed.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SA", ref ColorProcessed.A);
             }
 
             if (_ThemeLoaded)

@@ -163,14 +163,14 @@ namespace Vocaluxe.Base
 
             foreach (string file in files)
             {
-                CXMLReader xPathHelper = CXMLReader.OpenFile(Path.Combine(path, file));
+                CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(path, file));
 
-                if (xPathHelper != null)
+                if (xmlReader != null)
                 {
                     SCoverTheme coverTheme = new SCoverTheme();
 
-                    xPathHelper.GetValue("//root/Info/Name", ref coverTheme.Name, String.Empty);
-                    xPathHelper.GetValue("//root/Info/Folder", ref coverTheme.Folder, String.Empty);
+                    xmlReader.GetValue("//root/Info/Name", ref coverTheme.Name, String.Empty);
+                    xmlReader.GetValue("//root/Info/Folder", ref coverTheme.Folder, String.Empty);
 
                     if (coverTheme.Folder != String.Empty && coverTheme.Name != String.Empty)
                     {
@@ -194,21 +194,21 @@ namespace Vocaluxe.Base
             if (coverTheme.Name != String.Empty)
             {
 
-                CXMLReader xPathHelper = CXMLReader.OpenFile(Path.Combine(CSettings.sFolderCover, coverTheme.File));
+                CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.sFolderCover, coverTheme.File));
 
-                if (xPathHelper != null)
+                if (xmlReader != null)
                 {
                     lock (_MutexCover)
                     {
                         _Cover.Clear();
-                        List<string> cover = xPathHelper.GetValues("Cover");
+                        List<string> cover = xmlReader.GetValues("Cover");
                         for (int i = 0; i < cover.Count; i++)
                         {
                             SCover sk = new SCover();
                             string name = String.Empty;
                             string value = String.Empty;
-                            xPathHelper.GetValue("//root/Cover/" + cover[i] + "/Name", ref name, String.Empty);
-                            xPathHelper.GetValue("//root/Cover/" + cover[i] + "/Path", ref value, String.Empty);
+                            xmlReader.GetValue("//root/Cover/" + cover[i] + "/Name", ref name, String.Empty);
+                            xmlReader.GetValue("//root/Cover/" + cover[i] + "/Path", ref value, String.Empty);
                             sk.Name = name;
                             sk.Value = Path.Combine(coverTheme.Folder,value);
                             if (File.Exists(Path.Combine(CSettings.sFolderCover, Path.Combine(coverTheme.Folder, value))))

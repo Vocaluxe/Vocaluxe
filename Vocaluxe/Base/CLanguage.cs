@@ -240,11 +240,11 @@ namespace Vocaluxe.Base
 
         private static bool LoadPartyLanguageFile(int PartyModeID, string file)
         {
-            CXMLReader xPathHelper;
+            CXMLReader xmlReader;
  
             try
             {
-                xPathHelper = new CXMLReader(file);
+                xmlReader = new CXMLReader(file);
             }
             catch (Exception e)
             {
@@ -253,7 +253,7 @@ namespace Vocaluxe.Base
             }
 
             string value = string.Empty;
-            if (xPathHelper.GetValue("//resources/string[@name='language']", ref value, value))
+            if (xmlReader.GetValue("//resources/string[@name='language']", ref value, value))
             {
                 int nr = GetLanguageNr(value);
 
@@ -264,10 +264,10 @@ namespace Vocaluxe.Base
                 lang.PartyModeID = PartyModeID;
                 lang.Texts = new Hashtable();
 
-                List<string> texts = xPathHelper.GetAttributes("resources", "name");
+                List<string> texts = xmlReader.GetAttributes("resources", "name");
                 for (int i = 0; i < texts.Count; i++)
                 {
-                    if (xPathHelper.GetValue("//resources/string[@name='" + texts[i] + "']", ref value, value))
+                    if (xmlReader.GetValue("//resources/string[@name='" + texts[i] + "']", ref value, value))
                     {
                         try
                         {
@@ -296,11 +296,11 @@ namespace Vocaluxe.Base
             SLanguage lang = new SLanguage();
             lang.LanguageFilePath = Path.Combine(CSettings.sFolderLanguages, FileName);
 
-            CXMLReader xPathHelper;
+            CXMLReader xmlReader;
 
             try
             {
-                xPathHelper = new CXMLReader(lang.LanguageFilePath);
+                xmlReader = new CXMLReader(lang.LanguageFilePath);
             }
             catch (Exception e)
             {
@@ -309,7 +309,7 @@ namespace Vocaluxe.Base
             }
 
             string value = string.Empty;
-            if (xPathHelper.GetValue("//resources/string[@name='language']", ref value, value))
+            if (xmlReader.GetValue("//resources/string[@name='language']", ref value, value))
             {
                 lang.Name = value;
 
@@ -319,10 +319,10 @@ namespace Vocaluxe.Base
                 lang.Texts = new Hashtable();
                 lang.PartyModeTexts = new List<SPartyLanguage>();
 
-                List<string> texts = xPathHelper.GetAttributes("resources", "name");
+                List<string> texts = xmlReader.GetAttributes("resources", "name");
                 for (int i = 0; i < texts.Count; i++)
                 {
-                    if (xPathHelper.GetValue("//resources/string[@name='" + texts[i] + "']", ref value, value))
+                    if (xmlReader.GetValue("//resources/string[@name='" + texts[i] + "']", ref value, value))
                     {
                         try
                         {

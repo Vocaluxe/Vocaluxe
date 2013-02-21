@@ -54,28 +54,28 @@ namespace Vocaluxe.Menu
         #endregion Constructors
 
         #region public
-        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xPathHelper, int SkinIndex)
+        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xPathHelper.TryGetEnumValue<EBackgroundTypes>(item + "/Type", ref _Theme.Type);
+            _ThemeLoaded &= xmlReader.TryGetEnumValue<EBackgroundTypes>(item + "/Type", ref _Theme.Type);
             
-            bool vid = xPathHelper.GetValue(item + "/Video", ref _Theme.VideoName, String.Empty);
-            bool tex = xPathHelper.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
+            bool vid = xmlReader.GetValue(item + "/Video", ref _Theme.VideoName, String.Empty);
+            bool tex = xmlReader.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
             _ThemeLoaded &= vid || tex || _Theme.Type == EBackgroundTypes.None;
                 
-            if (xPathHelper.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
                 bool success = true;
-                success &= xPathHelper.TryGetFloatValue(item + "/R", ref Color.R);
-                success &= xPathHelper.TryGetFloatValue(item + "/G", ref Color.G);
-                success &= xPathHelper.TryGetFloatValue(item + "/B", ref Color.B);
-                success &= xPathHelper.TryGetFloatValue(item + "/A", ref Color.A);
+                success &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
+                success &= xmlReader.TryGetFloatValue(item + "/G", ref Color.G);
+                success &= xmlReader.TryGetFloatValue(item + "/B", ref Color.B);
+                success &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
 
                 if (_Theme.Type != EBackgroundTypes.None)
                     _ThemeLoaded &= success;

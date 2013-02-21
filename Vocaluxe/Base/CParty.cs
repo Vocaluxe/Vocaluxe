@@ -222,11 +222,11 @@ namespace Vocaluxe.Base
             pm.ScreenFiles = new List<string>();
             pm.NoErrors = false;
 
-            CXMLReader xPathHelper;
+            CXMLReader xmlReader;
 
             try
             {
-                xPathHelper = new CXMLReader(file);
+                xmlReader = new CXMLReader(file);
             }
             catch (Exception e)
             {
@@ -237,16 +237,16 @@ namespace Vocaluxe.Base
 
             bool loaded = true;
 
-            loaded &= xPathHelper.TryGetIntValue("//root/PartyModeSystemVersion", ref pm.PartyModeSystemVersion);                
-            loaded &= xPathHelper.GetValue("//root/Info/Name", ref pm.Name, "ERROR Name");
-            loaded &= xPathHelper.GetValue("//root/Info/Description", ref pm.Description, "ERROR Description");
-            loaded &= xPathHelper.GetValue("//root/Info/Author", ref pm.Author, "ERROR Author");
-            loaded &= xPathHelper.GetValue("//root/Info/Folder", ref pm.Folder, "ERROR Folder");
-            loaded &= xPathHelper.GetValue("//root/Info/PartyModeFile", ref pm.PartyModeFile, "ERROR PartyModeFile");
-            loaded &= xPathHelper.GetInnerValues("PartyScreens", ref pm.ScreenFiles);
-            loaded &= xPathHelper.TryGetIntValue("//root/Info/PartyModeVersionMajor", ref pm.PartyModeVersionMajor);
-            loaded &= xPathHelper.TryGetIntValue("//root/Info/PartyModeVersionMinor", ref pm.PartyModeVersionMinor);
-            loaded &= xPathHelper.GetValue("//root/Info/TargetAudience", ref pm.TargetAudience, "ERROR TargetAudience");
+            loaded &= xmlReader.TryGetIntValue("//root/PartyModeSystemVersion", ref pm.PartyModeSystemVersion);                
+            loaded &= xmlReader.GetValue("//root/Info/Name", ref pm.Name, "ERROR Name");
+            loaded &= xmlReader.GetValue("//root/Info/Description", ref pm.Description, "ERROR Description");
+            loaded &= xmlReader.GetValue("//root/Info/Author", ref pm.Author, "ERROR Author");
+            loaded &= xmlReader.GetValue("//root/Info/Folder", ref pm.Folder, "ERROR Folder");
+            loaded &= xmlReader.GetValue("//root/Info/PartyModeFile", ref pm.PartyModeFile, "ERROR PartyModeFile");
+            loaded &= xmlReader.GetInnerValues("PartyScreens", ref pm.ScreenFiles);
+            loaded &= xmlReader.TryGetIntValue("//root/Info/PartyModeVersionMajor", ref pm.PartyModeVersionMajor);
+            loaded &= xmlReader.TryGetIntValue("//root/Info/PartyModeVersionMinor", ref pm.PartyModeVersionMinor);
+            loaded &= xmlReader.GetValue("//root/Info/TargetAudience", ref pm.TargetAudience, "ERROR TargetAudience");
 
             if (!loaded)
             {
