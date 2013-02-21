@@ -79,22 +79,22 @@ namespace Vocaluxe.Menu.SingNotes
             return _Theme.Name;
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xPathHelper, int SkinIndex)
+        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinLeft", ref _Theme.SkinLeftName, String.Empty);
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinMiddle", ref _Theme.SkinMiddleName, String.Empty);
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinRight", ref _Theme.SkinRightName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinLeft", ref _Theme.SkinLeftName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinMiddle", ref _Theme.SkinMiddleName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinRight", ref _Theme.SkinRightName, String.Empty);
 
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinBackgroundLeft", ref _Theme.SkinBackgroundLeftName, String.Empty);
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinBackgroundMiddle", ref _Theme.SkinBackgroundMiddleName, String.Empty);
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinBackgroundRight", ref _Theme.SkinBackgroundRightName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundLeft", ref _Theme.SkinBackgroundLeftName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundMiddle", ref _Theme.SkinBackgroundMiddleName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundRight", ref _Theme.SkinBackgroundRightName, String.Empty);
 
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinGoldenStar", ref _Theme.SkinGoldenStarName, String.Empty);
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinToneHelper", ref _Theme.SkinToneHelperName, String.Empty);
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinPerfectNoteStar", ref _Theme.SkinPerfectNoteStarName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinGoldenStar", ref _Theme.SkinGoldenStarName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinToneHelper", ref _Theme.SkinToneHelperName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinPerfectNoteStar", ref _Theme.SkinPerfectNoteStarName, String.Empty);
 
             _BarPos = new SRectF[_Base.Settings.GetMaxNumPlayer(), _Base.Settings.GetMaxNumPlayer()];
             for (int numplayer = 0; numplayer < _Base.Settings.GetMaxNumPlayer(); numplayer++)
@@ -105,11 +105,11 @@ namespace Vocaluxe.Menu.SingNotes
                     {
                         _BarPos[player, numplayer] = new SRectF();
                         string target = "/BarPositions/P" + (player + 1).ToString() + "N" + (numplayer + 1).ToString();
-                        _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + target + "X", ref _BarPos[player, numplayer].X);
-                        _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + target + "Y", ref _BarPos[player, numplayer].Y);
-                        _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + target + "Z", ref _BarPos[player, numplayer].Z);
-                        _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + target + "W", ref _BarPos[player, numplayer].W);
-                        _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + target + "H", ref _BarPos[player, numplayer].H);
+                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "X", ref _BarPos[player, numplayer].X);
+                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Y", ref _BarPos[player, numplayer].Y);
+                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Z", ref _BarPos[player, numplayer].Z);
+                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "W", ref _BarPos[player, numplayer].W);
+                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "H", ref _BarPos[player, numplayer].H);
                     }
                 }
             }

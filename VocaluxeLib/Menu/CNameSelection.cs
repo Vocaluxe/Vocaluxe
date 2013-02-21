@@ -108,54 +108,54 @@ namespace Vocaluxe.Menu
             UpdateList(0);
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xPathHelper, int SkinIndex)
+        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/X", ref Rect.X);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Y", ref Rect.Y);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Z", ref Rect.Z);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/W", ref Rect.W);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/H", ref Rect.H);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref Rect.Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinEmptyTile", ref _Theme.TextureEmptyTileName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinEmptyTile", ref _Theme.TextureEmptyTileName, String.Empty);
 
-            if (xPathHelper.GetValue(item + "/ColorEmptyTile", ref _Theme.ColorEmptyTileName, String.Empty))
+            if (xmlReader.GetValue(item + "/ColorEmptyTile", ref _Theme.ColorEmptyTileName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorEmptyTileName, SkinIndex, ref ColorEmptyTile);
             }
             else
             {
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/R", ref ColorEmptyTile.R);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/G", ref ColorEmptyTile.G);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/B", ref ColorEmptyTile.B);
-                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/A", ref ColorEmptyTile.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref ColorEmptyTile.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref ColorEmptyTile.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref ColorEmptyTile.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref ColorEmptyTile.A);
             }
 
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinTileSelected", ref _Theme.TextureTileSelectedName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinTileSelected", ref _Theme.TextureTileSelectedName, String.Empty);
 
-            _ThemeLoaded &= xPathHelper.TryGetIntValue(item + "/Tiles/W", ref _TileW);
-            _ThemeLoaded &= xPathHelper.TryGetIntValue(item + "/Tiles/H", ref _TileH);
-            _ThemeLoaded &= xPathHelper.TryGetIntValue(item + "/Tiles/NumW", ref _NumW);
-            _ThemeLoaded &= xPathHelper.TryGetIntValue(item + "/Tiles/NumH", ref _NumH);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Tiles/SpaceW", ref _SpaceW);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Tiles/SpaceH", ref _SpaceH);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Tiles/Name/Space", ref _Theme.NameSpace);
-            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Tiles/Name/H", ref _Theme.NameHeight);
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/Tiles/Name/Font", ref _Theme.NameFont, "Normal");
-            _ThemeLoaded &= xPathHelper.TryGetEnumValue<EStyle>(item + "/Tiles/Name/Style", ref _Theme.NameStyle);
-            if (xPathHelper.GetValue(item + "/Tiles/Name/Color", ref _Theme.NameColorName, String.Empty))
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/W", ref _TileW);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/H", ref _TileH);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/NumW", ref _NumW);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/NumH", ref _NumH);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceW", ref _SpaceW);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceH", ref _SpaceH);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/Space", ref _Theme.NameSpace);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/H", ref _Theme.NameHeight);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Tiles/Name/Font", ref _Theme.NameFont, "Normal");
+            _ThemeLoaded &= xmlReader.TryGetEnumValue<EStyle>(item + "/Tiles/Name/Style", ref _Theme.NameStyle);
+            if (xmlReader.GetValue(item + "/Tiles/Name/Color", ref _Theme.NameColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.NameColorName, SkinIndex, ref _Theme.NameColor);
             }
             else
             {
-                if (xPathHelper.TryGetFloatValue(item + "/Tiles/Name/R", ref _Theme.NameColor.R))
+                if (xmlReader.TryGetFloatValue(item + "/Tiles/Name/R", ref _Theme.NameColor.R))
                 {
-                    _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Tiles/Name/G", ref _Theme.NameColor.G);
-                    _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Tiles/Name/B", ref _Theme.NameColor.B);
-                    _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Tiles/Name/A", ref _Theme.NameColor.A);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/G", ref _Theme.NameColor.G);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/B", ref _Theme.NameColor.B);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/A", ref _Theme.NameColor.A);
                 }
             }
 

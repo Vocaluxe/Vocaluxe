@@ -165,9 +165,9 @@ namespace Vocaluxe.Menu.SongMenu
             return _SongMenu.GetThemeName();
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xPathHelper, int SkinIndex)
+        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
         {
-            return _SongMenu.LoadTheme(XmlPath, ElementName, xPathHelper, SkinIndex);
+            return _SongMenu.LoadTheme(XmlPath, ElementName, xmlReader, SkinIndex);
         }
 
         public bool SaveTheme(XmlWriter writer)

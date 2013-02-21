@@ -361,11 +361,11 @@ namespace Vocaluxe.Base
             SProfile profile = new SProfile();
             profile.ProfileFile = Path.Combine(CSettings.sFolderProfiles, FileName);
 
-            CXMLReader xPathHelper;
+            CXMLReader xmlReader;
 
             try
             {
-                xPathHelper = new CXMLReader(profile.ProfileFile);
+                xmlReader = new CXMLReader(profile.ProfileFile);
             }
             catch (Exception e)
             {
@@ -374,24 +374,24 @@ namespace Vocaluxe.Base
             }
 
             string value = String.Empty;
-            if (xPathHelper.GetValue("//root/Info/PlayerName", ref value, value))
+            if (xmlReader.GetValue("//root/Info/PlayerName", ref value, value))
             {
                 profile.PlayerName = value;
 
                 profile.Difficulty = EGameDifficulty.TR_CONFIG_EASY;
-                xPathHelper.TryGetEnumValue<EGameDifficulty>("//root/Info/Difficulty", ref profile.Difficulty);
+                xmlReader.TryGetEnumValue<EGameDifficulty>("//root/Info/Difficulty", ref profile.Difficulty);
 
                 profile.Avatar = new SAvatar(-1);
-                if (xPathHelper.GetValue("//root/Info/Avatar", ref value, value))
+                if (xmlReader.GetValue("//root/Info/Avatar", ref value, value))
                 {
                     profile.Avatar = GetAvatar(value);
                 }
 
                 profile.GuestProfile = EOffOn.TR_CONFIG_OFF;
-                xPathHelper.TryGetEnumValue<EOffOn>("//root/Info/GuestProfile", ref profile.GuestProfile);
+                xmlReader.TryGetEnumValue<EOffOn>("//root/Info/GuestProfile", ref profile.GuestProfile);
 
                 profile.Active = EOffOn.TR_CONFIG_ON;
-                xPathHelper.TryGetEnumValue<EOffOn>("//root/Info/Active", ref profile.Active);
+                xmlReader.TryGetEnumValue<EOffOn>("//root/Info/Active", ref profile.Active);
 
                 _Profiles.Add(profile);
             }

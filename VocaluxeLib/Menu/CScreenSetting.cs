@@ -50,13 +50,13 @@ namespace Vocaluxe.Menu
             _ThemeLoaded = ts._ThemeLoaded;
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xPathHelper, int SkinIndex)
+        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xPathHelper.GetValue(item + "/Value", ref _Theme.Value, String.Empty);
-            _ThemeLoaded &= xPathHelper.TryGetEnumValue<ESettingType>(item + "/Type", ref _Theme.Type);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Value", ref _Theme.Value, String.Empty);
+            _ThemeLoaded &= xmlReader.TryGetEnumValue<ESettingType>(item + "/Type", ref _Theme.Type);
 
             if (_ThemeLoaded)
             {

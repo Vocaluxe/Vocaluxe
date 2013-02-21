@@ -9,7 +9,7 @@ namespace Vocaluxe.Menu
     {
         string GetThemeName();
 
-        bool LoadTheme(string XmlPath, string ElementName, CXMLReader xPathHelper, int SkinIndex);
+        bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex);
         bool SaveTheme(XmlWriter writer);
 
         void UnloadTextures();
