@@ -206,11 +206,15 @@ namespace Vocaluxe.Base
             xPathHelper.TryGetEnumValue("//root/Game/Tabs", ref Tabs);
             xPathHelper.GetValue("//root/Game/Language", ref Language, Language);
             xPathHelper.TryGetEnumValue<EOffOn>("//root/Game/LyricsOnTop", ref LyricsOnTop);
+            xPathHelper.TryGetFloatValue("//root/Game/MinLineBreakTime", ref MinLineBreakTime);
 
             if ((ScoreAnimationTime > 0 && ScoreAnimationTime < 1) || ScoreAnimationTime < 0)
             {
                 ScoreAnimationTime = 1;
             }
+
+            if (MinLineBreakTime < 0)
+                MinLineBreakTime = 0.1f;
 
             if (NumPlayer < 1 || NumPlayer > CSettings.MaxNumPlayer)
                 NumPlayer = 2;
@@ -466,6 +470,9 @@ namespace Vocaluxe.Base
 
             writer.WriteComment("Lyrics also on Top of screen: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
             writer.WriteElementString("LyricsOnTop", Enum.GetName(typeof(EOffOn), LyricsOnTop));
+
+            writer.WriteComment("MinLineBreakTime: Value >= 0 in s. Minimum time the text is shown before it is to be sung");
+            writer.WriteElementString("MinLineBreakTime", MinLineBreakTime.ToString());
 
             writer.WriteComment("Default profile for players 1..." + CSettings.MaxNumPlayer.ToString() + ":");
             writer.WriteStartElement("Players");
