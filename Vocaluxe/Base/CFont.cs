@@ -9,7 +9,6 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.XPath;
 
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
@@ -674,92 +673,80 @@ namespace Vocaluxe.Base
         /// <returns></returns>
         private static bool LoadFontList()
         {
-            bool loaded = false;
-            XPathDocument xPathDoc = null;
-            XPathNavigator navigator = null;
+            CXMLReader xPathHelper;
 
             try
             {
-                xPathDoc = new XPathDocument(System.IO.Path.Combine(CSettings.sFolderFonts, CSettings.sFileFonts));
-                navigator = xPathDoc.CreateNavigator();
-                loaded = true;
+                xPathHelper = new CXMLReader(System.IO.Path.Combine(CSettings.sFolderFonts, CSettings.sFileFonts));
             }
             catch (Exception e)
             {
                 CLog.LogError("Error loading default fonts: " + e.Message);
-                loaded = false;
-                if (navigator != null)
-                    navigator = null;
-
-                if (xPathDoc != null)
-                    xPathDoc = null;
+                return false;
             }
             _Fonts.Clear();
 
-            if (loaded)
+            string value = string.Empty;
+            int i = 1;
+            while (xPathHelper.GetValue("//root/Font" + i.ToString() + "/Folder", ref value, value))
             {
-                string value = string.Empty;
-                int i = 1;
-                while (CHelper.GetValueFromXML("//root/Font" + i.ToString() + "/Folder", navigator, ref value, value))
-                {
-                    string Folder = value;
+                string Folder = value;
 
-                    CHelper.GetValueFromXML("//root/Font" + i.ToString() + "/FileNormal", navigator, ref value, value);
-                    value = Path.Combine(Directory.GetCurrentDirectory(),
-                        Path.Combine(CSettings.sFolderFonts, Path.Combine(Folder, value)));
-                    CFont f = new CFont(value);
-                    SFont sf = new SFont();
-                    sf.Normal = f;
+                xPathHelper.GetValue("//root/Font" + i.ToString() + "/FileNormal", ref value, value);
+                value = Path.Combine(Directory.GetCurrentDirectory(),
+                    Path.Combine(CSettings.sFolderFonts, Path.Combine(Folder, value)));
+                CFont f = new CFont(value);
+                SFont sf = new SFont();
+                sf.Normal = f;
 
-                    string name = String.Empty;
-                    CHelper.GetValueFromXML("//root/Font" + i.ToString() + "/Name", navigator, ref name, value);
-                    sf.Name = name;
-                    sf.IsThemeFont = false;
-                    sf.ThemeName = String.Empty;
-                    sf.PartyModeID = -1;
+                string name = String.Empty;
+                xPathHelper.GetValue("//root/Font" + i.ToString() + "/Name", ref name, value);
+                sf.Name = name;
+                sf.IsThemeFont = false;
+                sf.ThemeName = String.Empty;
+                sf.PartyModeID = -1;
                     
-                    CHelper.GetValueFromXML("//root/Font" + i.ToString() + "/FileItalic", navigator, ref value, value);
-                    value = Path.Combine(Directory.GetCurrentDirectory(),
-                        Path.Combine(CSettings.sFolderFonts, Path.Combine(Folder, value)));
-                    f = new CFont(value);
-                    sf.Italic = f;
+                xPathHelper.GetValue("//root/Font" + i.ToString() + "/FileItalic", ref value, value);
+                value = Path.Combine(Directory.GetCurrentDirectory(),
+                    Path.Combine(CSettings.sFolderFonts, Path.Combine(Folder, value)));
+                f = new CFont(value);
+                sf.Italic = f;
 
-                    CHelper.GetValueFromXML("//root/Font" + i.ToString() + "/FileBold", navigator, ref value, value);
-                    value = Path.Combine(Directory.GetCurrentDirectory(),
-                        Path.Combine(CSettings.sFolderFonts, Path.Combine(Folder, value)));
-                    f = new CFont(value);
-                    sf.Bold = f;
+                xPathHelper.GetValue("//root/Font" + i.ToString() + "/FileBold", ref value, value);
+                value = Path.Combine(Directory.GetCurrentDirectory(),
+                    Path.Combine(CSettings.sFolderFonts, Path.Combine(Folder, value)));
+                f = new CFont(value);
+                sf.Bold = f;
 
-                    CHelper.GetValueFromXML("//root/Font" + i.ToString() + "/FileBoldItalic", navigator, ref value, value);
-                    value = Path.Combine(Directory.GetCurrentDirectory(),
-                        Path.Combine(CSettings.sFolderFonts, Path.Combine(Folder, value)));
-                    f = new CFont(value);
-                    sf.BoldItalic = f;
+                xPathHelper.GetValue("//root/Font" + i.ToString() + "/FileBoldItalic", ref value, value);
+                value = Path.Combine(Directory.GetCurrentDirectory(),
+                    Path.Combine(CSettings.sFolderFonts, Path.Combine(Folder, value)));
+                f = new CFont(value);
+                sf.BoldItalic = f;
 
-                    sf.Outline = 0f;
-                    CHelper.TryGetFloatValueFromXML("//root/Font" + i.ToString() + "/Outline", navigator, ref sf.Outline);
+                sf.Outline = 0f;
+                xPathHelper.TryGetFloatValue("//root/Font" + i.ToString() + "/Outline", ref sf.Outline);
 
-                    sf.OutlineColor = new SColorF(0f, 0f, 0f, 1f);
-                    CHelper.TryGetFloatValueFromXML("//root/Font" + i.ToString() + "/OutlineColorR", navigator, ref sf.OutlineColor.R);
-                    CHelper.TryGetFloatValueFromXML("//root/Font" + i.ToString() + "/OutlineColorG", navigator, ref sf.OutlineColor.G);
-                    CHelper.TryGetFloatValueFromXML("//root/Font" + i.ToString() + "/OutlineColorB", navigator, ref sf.OutlineColor.B);
-                    CHelper.TryGetFloatValueFromXML("//root/Font" + i.ToString() + "/OutlineColorA", navigator, ref sf.OutlineColor.A);
+                sf.OutlineColor = new SColorF(0f, 0f, 0f, 1f);
+                xPathHelper.TryGetFloatValue("//root/Font" + i.ToString() + "/OutlineColorR", ref sf.OutlineColor.R);
+                xPathHelper.TryGetFloatValue("//root/Font" + i.ToString() + "/OutlineColorG", ref sf.OutlineColor.G);
+                xPathHelper.TryGetFloatValue("//root/Font" + i.ToString() + "/OutlineColorB", ref sf.OutlineColor.B);
+                xPathHelper.TryGetFloatValue("//root/Font" + i.ToString() + "/OutlineColorA", ref sf.OutlineColor.A);
 
-                    _Fonts.Add(sf);
-                    i++;
-                }
+                _Fonts.Add(sf);
+                i++;
             }
-            return loaded;
+            return true;
         }
 
         /// <summary>
         /// Loads theme fonts from skin file
         /// </summary>
-        public static void LoadThemeFonts(string ThemeName, string FontFolder, XPathNavigator navigator)
+        public static void LoadThemeFonts(string ThemeName, string FontFolder, CXMLReader xPathHelper)
         {
             string value = string.Empty;
             int i = 1;
-            while (CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/Folder", navigator, ref value, value))
+            while (xPathHelper.GetValue("//root/Fonts/Font" + i.ToString() + "/Folder", ref value, value))
             {
                 SFont sf = new SFont();
                 sf.Folder = value;
@@ -770,42 +757,42 @@ namespace Vocaluxe.Base
 
                 bool ok = true;
 
-                ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileNormal", navigator, ref value, value);
+                ok &= xPathHelper.GetValue("//root/Fonts/Font" + i.ToString() + "/FileNormal", ref value, value);
                 sf.FileNormal = value;
                 value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 CFont f = new CFont(value);
                 sf.Normal = f;
                 
                 string name = String.Empty;
-                ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/Name", navigator, ref name, value);
+                ok &= xPathHelper.GetValue("//root/Fonts/Font" + i.ToString() + "/Name", ref name, value);
                 sf.Name = name;
                 
-                ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileItalic", navigator, ref value, value);
+                ok &= xPathHelper.GetValue("//root/Fonts/Font" + i.ToString() + "/FileItalic", ref value, value);
                 sf.FileItalic = value;
                 value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 f = new CFont(value);
                 sf.Italic = f;
 
-                ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileBold", navigator, ref value, value);
+                ok &= xPathHelper.GetValue("//root/Fonts/Font" + i.ToString() + "/FileBold", ref value, value);
                 sf.FileBold = value;
                 value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 f = new CFont(value);
                 sf.Bold = f;
 
-                ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileBoldItalic", navigator, ref value, value);
+                ok &= xPathHelper.GetValue("//root/Fonts/Font" + i.ToString() + "/FileBoldItalic", ref value, value);
                 sf.FileBoldItalic = value;
                 value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 f = new CFont(value);
                 sf.BoldItalic = f;
 
                 sf.Outline = 0f;
-                ok &= CHelper.TryGetFloatValueFromXML("//root/Fonts/Font" + i.ToString() + "/Outline", navigator, ref sf.Outline);
+                ok &= xPathHelper.TryGetFloatValue("//root/Fonts/Font" + i.ToString() + "/Outline", ref sf.Outline);
 
                 sf.OutlineColor = new SColorF(0f, 0f, 0f, 1f);
-                ok &= CHelper.TryGetFloatValueFromXML("//root/Fonts/Font" + i.ToString() + "/OutlineColorR", navigator, ref sf.OutlineColor.R);
-                ok &= CHelper.TryGetFloatValueFromXML("//root/Fonts/Font" + i.ToString() + "/OutlineColorG", navigator, ref sf.OutlineColor.G);
-                ok &= CHelper.TryGetFloatValueFromXML("//root/Fonts/Font" + i.ToString() + "/OutlineColorB", navigator, ref sf.OutlineColor.B);
-                ok &= CHelper.TryGetFloatValueFromXML("//root/Fonts/Font" + i.ToString() + "/OutlineColorA", navigator, ref sf.OutlineColor.A);
+                ok &= xPathHelper.TryGetFloatValue("//root/Fonts/Font" + i.ToString() + "/OutlineColorR", ref sf.OutlineColor.R);
+                ok &= xPathHelper.TryGetFloatValue("//root/Fonts/Font" + i.ToString() + "/OutlineColorG", ref sf.OutlineColor.G);
+                ok &= xPathHelper.TryGetFloatValue("//root/Fonts/Font" + i.ToString() + "/OutlineColorB", ref sf.OutlineColor.B);
+                ok &= xPathHelper.TryGetFloatValue("//root/Fonts/Font" + i.ToString() + "/OutlineColorA", ref sf.OutlineColor.A);
 
                 if (ok)
                     _Fonts.Add(sf);
@@ -890,11 +877,11 @@ namespace Vocaluxe.Base
         /// <summary>
         /// Loads party mode fonts from skin file
         /// </summary>
-        public static void LoadPartyModeFonts(int PartyModeID, string FontFolder, XPathNavigator navigator)
+        public static void LoadPartyModeFonts(int PartyModeID, string FontFolder, CXMLReader xPathHelper)
         {
             string value = string.Empty;
             int i = 1;
-            while (CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/Folder", navigator, ref value, value))
+            while (xPathHelper.GetValue("//root/Fonts/Font" + i.ToString() + "/Folder", ref value, value))
             {
                 SFont sf = new SFont();
                 sf.Folder = value;
@@ -905,42 +892,42 @@ namespace Vocaluxe.Base
 
                 bool ok = true;
 
-                ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileNormal", navigator, ref value, value);
+                ok &= xPathHelper.GetValue("//root/Fonts/Font" + i.ToString() + "/FileNormal", ref value, value);
                 sf.FileNormal = value;
                 value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 CFont f = new CFont(value);
                 sf.Normal = f;
 
                 string name = String.Empty;
-                ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/Name", navigator, ref name, value);
+                ok &= xPathHelper.GetValue("//root/Fonts/Font" + i.ToString() + "/Name", ref name, value);
                 sf.Name = name;
 
-                ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileItalic", navigator, ref value, value);
+                ok &= xPathHelper.GetValue("//root/Fonts/Font" + i.ToString() + "/FileItalic", ref value, value);
                 sf.FileItalic = value;
                 value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 f = new CFont(value);
                 sf.Italic = f;
 
-                ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileBold", navigator, ref value, value);
+                ok &= xPathHelper.GetValue("//root/Fonts/Font" + i.ToString() + "/FileBold", ref value, value);
                 sf.FileBold = value;
                 value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 f = new CFont(value);
                 sf.Bold = f;
 
-                ok &= CHelper.GetValueFromXML("//root/Fonts/Font" + i.ToString() + "/FileBoldItalic", navigator, ref value, value);
+                ok &= xPathHelper.GetValue("//root/Fonts/Font" + i.ToString() + "/FileBoldItalic", ref value, value);
                 sf.FileBoldItalic = value;
                 value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 f = new CFont(value);
                 sf.BoldItalic = f;
 
                 sf.Outline = 0f;
-                ok &= CHelper.TryGetFloatValueFromXML("//root/Fonts/Font" + i.ToString() + "/Outline", navigator, ref sf.Outline);
+                ok &= xPathHelper.TryGetFloatValue("//root/Fonts/Font" + i.ToString() + "/Outline", ref sf.Outline);
 
                 sf.OutlineColor = new SColorF(0f, 0f, 0f, 1f);
-                ok &= CHelper.TryGetFloatValueFromXML("//root/Fonts/Font" + i.ToString() + "/OutlineColorR", navigator, ref sf.OutlineColor.R);
-                ok &= CHelper.TryGetFloatValueFromXML("//root/Fonts/Font" + i.ToString() + "/OutlineColorG", navigator, ref sf.OutlineColor.G);
-                ok &= CHelper.TryGetFloatValueFromXML("//root/Fonts/Font" + i.ToString() + "/OutlineColorB", navigator, ref sf.OutlineColor.B);
-                ok &= CHelper.TryGetFloatValueFromXML("//root/Fonts/Font" + i.ToString() + "/OutlineColorA", navigator, ref sf.OutlineColor.A);
+                ok &= xPathHelper.TryGetFloatValue("//root/Fonts/Font" + i.ToString() + "/OutlineColorR", ref sf.OutlineColor.R);
+                ok &= xPathHelper.TryGetFloatValue("//root/Fonts/Font" + i.ToString() + "/OutlineColorG", ref sf.OutlineColor.G);
+                ok &= xPathHelper.TryGetFloatValue("//root/Fonts/Font" + i.ToString() + "/OutlineColorB", ref sf.OutlineColor.B);
+                ok &= xPathHelper.TryGetFloatValue("//root/Fonts/Font" + i.ToString() + "/OutlineColorA", ref sf.OutlineColor.A);
 
                 if (ok)
                     _Fonts.Add(sf);

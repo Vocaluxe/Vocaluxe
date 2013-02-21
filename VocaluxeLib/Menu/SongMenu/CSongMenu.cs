@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using System.Xml.XPath;
 
 using Vocaluxe.Menu;
 using Vocaluxe.PartyModes;
@@ -166,9 +165,9 @@ namespace Vocaluxe.Menu.SongMenu
             return _SongMenu.GetThemeName();
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
+        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xPathHelper, int SkinIndex)
         {
-            return _SongMenu.LoadTheme(XmlPath, ElementName, navigator, SkinIndex);
+            return _SongMenu.LoadTheme(XmlPath, ElementName, xPathHelper, SkinIndex);
         }
 
         public bool SaveTheme(XmlWriter writer)

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
-using System.Xml.XPath;
 
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
@@ -359,59 +358,46 @@ namespace Vocaluxe.Base
 
         private static void LoadProfile(string FileName)
         {
-            bool loaded = false;
-            XPathDocument xPathDoc = null;
-            XPathNavigator navigator = null;
-
             SProfile profile = new SProfile();
             profile.ProfileFile = Path.Combine(CSettings.sFolderProfiles, FileName);
 
+            CXMLReader xPathHelper;
+
             try
             {
-                xPathDoc = new XPathDocument(profile.ProfileFile);
-                navigator = xPathDoc.CreateNavigator();
-                loaded = true;
+                xPathHelper = new CXMLReader(profile.ProfileFile);
             }
             catch (Exception e)
             {
-                loaded = false;
-                if (navigator != null)
-                    navigator = null;
-
-                if (xPathDoc != null)
-                    xPathDoc = null;
-
-                CLog.LogError("Error opening Profile File " + FileName + ": " + e.Message); 
+                CLog.LogError("Error opening Profile File " + FileName + ": " + e.Message);
+                return;
             }
 
-            if (loaded)
+            string value = String.Empty;
+            if (xPathHelper.GetValue("//root/Info/PlayerName", ref value, value))
             {
-                string value = String.Empty;
-                if (CHelper.GetValueFromXML("//root/Info/PlayerName", navigator, ref value, value))
+                profile.PlayerName = value;
+
+                profile.Difficulty = EGameDifficulty.TR_CONFIG_EASY;
+                xPathHelper.TryGetEnumValue<EGameDifficulty>("//root/Info/Difficulty", ref profile.Difficulty);
+
+                profile.Avatar = new SAvatar(-1);
+                if (xPathHelper.GetValue("//root/Info/Avatar", ref value, value))
                 {
-                    profile.PlayerName = value;
-
-                    profile.Difficulty = EGameDifficulty.TR_CONFIG_EASY;
-                    CHelper.TryGetEnumValueFromXML<EGameDifficulty>("//root/Info/Difficulty", navigator, ref profile.Difficulty);
-
-                    profile.Avatar = new SAvatar(-1);
-                    if (CHelper.GetValueFromXML("//root/Info/Avatar", navigator, ref value, value))
-                    {
-                        profile.Avatar = GetAvatar(value);
-                    }
-
-                    profile.GuestProfile = EOffOn.TR_CONFIG_OFF;
-                    CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Info/GuestProfile", navigator, ref profile.GuestProfile);
-
-                    profile.Active = EOffOn.TR_CONFIG_ON;
-                    CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Info/Active", navigator, ref profile.Active);
-
-                    _Profiles.Add(profile);
+                    profile.Avatar = GetAvatar(value);
                 }
-                else
-                {
-                    CLog.LogError("Can't find PlayerName in Profile File: " + FileName);
-                }
+
+                profile.GuestProfile = EOffOn.TR_CONFIG_OFF;
+                xPathHelper.TryGetEnumValue<EOffOn>("//root/Info/GuestProfile", ref profile.GuestProfile);
+
+                profile.Active = EOffOn.TR_CONFIG_ON;
+                xPathHelper.TryGetEnumValue<EOffOn>("//root/Info/Active", ref profile.Active);
+
+                _Profiles.Add(profile);
+            }
+            else
+            {
+                CLog.LogError("Can't find PlayerName in Profile File: " + FileName);
             }
         }
         #endregion private methods

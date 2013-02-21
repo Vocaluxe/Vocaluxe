@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Xml;
-using System.Xml.XPath;
 
 namespace Vocaluxe.Menu
 {
@@ -230,133 +229,133 @@ namespace Vocaluxe.Menu
             Visible = slide.Visible;
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
+        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xPathHelper, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/Skin", navigator, ref _Theme.TextureName, String.Empty);
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/SkinArrowLeft", navigator, ref _Theme.TextureArrowLeftName, String.Empty);
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/SkinArrowRight", navigator, ref _Theme.TextureArrowRightName, String.Empty);
+            _ThemeLoaded &= xPathHelper.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
+            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinArrowLeft", ref _Theme.TextureArrowLeftName, String.Empty);
+            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinArrowRight", ref _Theme.TextureArrowRightName, String.Empty);
 
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/SkinSelected", navigator, ref _Theme.STextureName, String.Empty);
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/SkinArrowLeftSelected", navigator, ref _Theme.STextureArrowLeftName, String.Empty);
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/SkinArrowRightSelected", navigator, ref _Theme.STextureArrowRightName, String.Empty);
+            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinSelected", ref _Theme.STextureName, String.Empty);
+            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinArrowLeftSelected", ref _Theme.STextureArrowLeftName, String.Empty);
+            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinArrowRightSelected", ref _Theme.STextureArrowRightName, String.Empty);
 
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/SkinHighlighted", navigator, ref _Theme.HTextureName, String.Empty);
+            _ThemeLoaded &= xPathHelper.GetValue(item + "/SkinHighlighted", ref _Theme.HTextureName, String.Empty);
 
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/X", navigator, ref Rect.X);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Y", navigator, ref Rect.Y);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Z", navigator, ref Rect.Z);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/W", navigator, ref Rect.W);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/H", navigator, ref Rect.H);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/X", ref Rect.X);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Y", ref Rect.Y);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/Z", ref Rect.Z);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/W", ref Rect.W);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/H", ref Rect.H);
 
-            if (CHelper.GetValueFromXML(item + "/Color", navigator, ref _Theme.ColorName, String.Empty))
+            if (xPathHelper.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/R", navigator, ref Color.R);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/G", navigator, ref Color.G);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/B", navigator, ref Color.B);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/A", navigator, ref Color.A);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/R", ref Color.R);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/G", ref Color.G);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/B", ref Color.B);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            if (CHelper.GetValueFromXML(item + "/SColor", navigator, ref _Theme.SColorName, String.Empty))
+            if (xPathHelper.GetValue(item + "/SColor", ref _Theme.SColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.SColorName, SkinIndex, ref SColor);
             }
             else
             {
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SR", navigator, ref SColor.R);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SG", navigator, ref SColor.G);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SB", navigator, ref SColor.B);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SA", navigator, ref SColor.A);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/SR", ref SColor.R);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/SG", ref SColor.G);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/SB", ref SColor.B);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/SA", ref SColor.A);
             }
 
-            if (CHelper.GetValueFromXML(item + "/HColor", navigator, ref _Theme.HColorName, String.Empty))
+            if (xPathHelper.GetValue(item + "/HColor", ref _Theme.HColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.HColorName, SkinIndex, ref HColor);
             }
             else
             {
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/HR", navigator, ref HColor.R);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/HG", navigator, ref HColor.G);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/HB", navigator, ref HColor.B);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/HA", navigator, ref HColor.A);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/HR", ref HColor.R);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/HG", ref HColor.G);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/HB", ref HColor.B);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/HA", ref HColor.A);
             }
 
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowLeftX", navigator, ref RectArrowLeft.X);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowLeftY", navigator, ref RectArrowLeft.Y);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowLeftZ", navigator, ref RectArrowLeft.Z);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowLeftW", navigator, ref RectArrowLeft.W);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowLeftH", navigator, ref RectArrowLeft.H);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowLeftX", ref RectArrowLeft.X);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowLeftY", ref RectArrowLeft.Y);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowLeftZ", ref RectArrowLeft.Z);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowLeftW", ref RectArrowLeft.W);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowLeftH", ref RectArrowLeft.H);
 
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowRightX", navigator, ref RectArrowRight.X);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowRightY", navigator, ref RectArrowRight.Y);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowRightZ", navigator, ref RectArrowRight.Z);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowRightW", navigator, ref RectArrowRight.W);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowRightH", navigator, ref RectArrowRight.H);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowRightX", ref RectArrowRight.X);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowRightY", ref RectArrowRight.Y);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowRightZ", ref RectArrowRight.Z);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowRightW", ref RectArrowRight.W);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowRightH", ref RectArrowRight.H);
 
-            if (CHelper.GetValueFromXML(item + "/ArrowColor", navigator, ref _Theme.ArrowColorName, String.Empty))
+            if (xPathHelper.GetValue(item + "/ArrowColor", ref _Theme.ArrowColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ArrowColorName, SkinIndex, ref ColorArrow);
             }
             else
             {
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowR", navigator, ref ColorArrow.R);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowG", navigator, ref ColorArrow.G);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowB", navigator, ref ColorArrow.B);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowA", navigator, ref ColorArrow.A);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowR", ref ColorArrow.R);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowG", ref ColorArrow.G);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowB", ref ColorArrow.B);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowA", ref ColorArrow.A);
             }
 
-            if (CHelper.GetValueFromXML(item + "/ArrowSColor", navigator, ref _Theme.SArrowColorName, String.Empty))
+            if (xPathHelper.GetValue(item + "/ArrowSColor", ref _Theme.SArrowColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.SArrowColorName, SkinIndex, ref SColorArrow);
             }
             else
             {
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowSR", navigator, ref SColorArrow.R);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowSG", navigator, ref SColorArrow.G);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowSB", navigator, ref SColorArrow.B);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/ArrowSA", navigator, ref SColorArrow.A);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowSR", ref SColorArrow.R);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowSG", ref SColorArrow.G);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowSB", ref SColorArrow.B);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/ArrowSA", ref SColorArrow.A);
             }
 
-            if (CHelper.GetValueFromXML(item + "/TextColor", navigator, ref _Theme.TextColorName, String.Empty))
+            if (xPathHelper.GetValue(item + "/TextColor", ref _Theme.TextColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.TextColorName, SkinIndex, ref TextColor);
             }
             else
             {
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextR", navigator, ref TextColor.R);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextG", navigator, ref TextColor.G);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextB", navigator, ref TextColor.B);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextA", navigator, ref TextColor.A);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextR", ref TextColor.R);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextG", ref TextColor.G);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextB", ref TextColor.B);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextA", ref TextColor.A);
             }
 
-            if (CHelper.GetValueFromXML(item + "/TextSColor", navigator, ref _Theme.STextColorName, String.Empty))
+            if (xPathHelper.GetValue(item + "/TextSColor", ref _Theme.STextColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.STextColorName, SkinIndex, ref STextColor);
             }
             else
             {
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextSR", navigator, ref STextColor.R);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextSG", navigator, ref STextColor.G);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextSB", navigator, ref STextColor.B);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextSA", navigator, ref STextColor.A);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextSR", ref STextColor.R);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextSG", ref STextColor.G);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextSB", ref STextColor.B);
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextSA", ref STextColor.A);
             }
 
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextH", navigator, ref TextH);
-            if(CHelper.TryGetFloatValueFromXML(item + "/TextRelativeX", navigator, ref TextRelativeX))
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextRelativeX", navigator, ref TextRelativeX);
-            if(CHelper.TryGetFloatValueFromXML(item + "/TextRelativeY", navigator, ref TextRelativeY))
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextRelativeY", navigator, ref TextRelativeY);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/TextMaxW", navigator, ref MaxW);
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/TextFont", navigator, ref _Theme.TextFont, "Normal");
-            _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EStyle>(item + "/TextStyle", navigator, ref _Theme.TextStyle);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextH", ref TextH);
+            if(xPathHelper.TryGetFloatValue(item + "/TextRelativeX", ref TextRelativeX))
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextRelativeX", ref TextRelativeX);
+            if(xPathHelper.TryGetFloatValue(item + "/TextRelativeY", ref TextRelativeY))
+                _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextRelativeY", ref TextRelativeY);
+            _ThemeLoaded &= xPathHelper.TryGetFloatValue(item + "/TextMaxW", ref MaxW);
+            _ThemeLoaded &= xPathHelper.GetValue(item + "/TextFont", ref _Theme.TextFont, "Normal");
+            _ThemeLoaded &= xPathHelper.TryGetEnumValue<EStyle>(item + "/TextStyle", ref _Theme.TextStyle);
 
-            _ThemeLoaded &= CHelper.TryGetIntValueFromXML(item + "/NumVisible", navigator, ref _NumVisible);
+            _ThemeLoaded &= xPathHelper.TryGetIntValue(item + "/NumVisible", ref _NumVisible);
 
             if (_ThemeLoaded)
             {

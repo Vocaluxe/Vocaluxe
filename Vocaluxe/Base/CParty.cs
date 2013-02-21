@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
-using System.Xml;
-using System.Xml.XPath;
 
 using Vocaluxe.Menu;
 using Vocaluxe.PartyModes;
@@ -224,57 +222,47 @@ namespace Vocaluxe.Base
             pm.ScreenFiles = new List<string>();
             pm.NoErrors = false;
 
-            bool loaded = false;
-            XPathDocument xPathDoc = null;
-            XPathNavigator navigator = null;
+            CXMLReader xPathHelper;
 
             try
             {
-                xPathDoc = new XPathDocument(file);
-                navigator = xPathDoc.CreateNavigator();
-                loaded = true;
+                xPathHelper = new CXMLReader(file);
             }
             catch (Exception e)
             {
-                loaded = false;
-                if (navigator != null)
-                    navigator = null;
-
-                if (xPathDoc != null)
-                    xPathDoc = null;
-
                 CLog.LogError("Error opening party mode file " + file + ": " + e.Message);
+
+                return pm;
             }
 
-            if (loaded)
-            {
-                loaded &= CHelper.TryGetIntValueFromXML("//root/PartyModeSystemVersion", navigator, ref pm.PartyModeSystemVersion);                
-                loaded &= CHelper.GetValueFromXML("//root/Info/Name", navigator, ref pm.Name, "ERROR Name");
-                loaded &= CHelper.GetValueFromXML("//root/Info/Description", navigator, ref pm.Description, "ERROR Description");
-                loaded &= CHelper.GetValueFromXML("//root/Info/Author", navigator, ref pm.Author, "ERROR Author");
-                loaded &= CHelper.GetValueFromXML("//root/Info/Folder", navigator, ref pm.Folder, "ERROR Folder");
-                loaded &= CHelper.GetValueFromXML("//root/Info/PartyModeFile", navigator, ref pm.PartyModeFile, "ERROR PartyModeFile");
-                loaded &= CHelper.GetInnerValuesFromXML("PartyScreens", navigator, ref pm.ScreenFiles);
-                loaded &= CHelper.TryGetIntValueFromXML("//root/Info/PartyModeVersionMajor", navigator, ref pm.PartyModeVersionMajor);
-                loaded &= CHelper.TryGetIntValueFromXML("//root/Info/PartyModeVersionMinor", navigator, ref pm.PartyModeVersionMinor);
-                loaded &= CHelper.GetValueFromXML("//root/Info/TargetAudience", navigator, ref pm.TargetAudience, "ERROR TargetAudience");
+            bool loaded = true;
 
-                if (pm.PartyModeSystemVersion != PartyModeSystemVersion)
-                {
-                    CLog.LogError("Error loading PartyMode file (wrong PartyModeSystemVersion): " + file);
-                    return pm;
-                }
-
-                if (pm.ScreenFiles.Count == 0)
-                {
-                    CLog.LogError("Error loading PartyMode file (no ScreenFiles found): " + file);
-                    return pm;
-                }
-            }
+            loaded &= xPathHelper.TryGetIntValue("//root/PartyModeSystemVersion", ref pm.PartyModeSystemVersion);                
+            loaded &= xPathHelper.GetValue("//root/Info/Name", ref pm.Name, "ERROR Name");
+            loaded &= xPathHelper.GetValue("//root/Info/Description", ref pm.Description, "ERROR Description");
+            loaded &= xPathHelper.GetValue("//root/Info/Author", ref pm.Author, "ERROR Author");
+            loaded &= xPathHelper.GetValue("//root/Info/Folder", ref pm.Folder, "ERROR Folder");
+            loaded &= xPathHelper.GetValue("//root/Info/PartyModeFile", ref pm.PartyModeFile, "ERROR PartyModeFile");
+            loaded &= xPathHelper.GetInnerValues("PartyScreens", ref pm.ScreenFiles);
+            loaded &= xPathHelper.TryGetIntValue("//root/Info/PartyModeVersionMajor", ref pm.PartyModeVersionMajor);
+            loaded &= xPathHelper.TryGetIntValue("//root/Info/PartyModeVersionMinor", ref pm.PartyModeVersionMinor);
+            loaded &= xPathHelper.GetValue("//root/Info/TargetAudience", ref pm.TargetAudience, "ERROR TargetAudience");
 
             if (!loaded)
             {
                 CLog.LogError("Error loading PartyMode file: " + file);
+                return pm;
+            }
+
+            if (pm.PartyModeSystemVersion != PartyModeSystemVersion)
+            {
+                CLog.LogError("Error loading PartyMode file (wrong PartyModeSystemVersion): " + file);
+                return pm;
+            }
+
+            if (pm.ScreenFiles.Count == 0)
+            {
+                CLog.LogError("Error loading PartyMode file (no ScreenFiles found): " + file);
                 return pm;
             }
 

@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.XPath;
 
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
@@ -148,80 +147,68 @@ namespace Vocaluxe.Base
 
         public static bool LoadSkin(int SkinIndex)
         {
-            bool loaded = false;
-            XPathDocument xPathDoc = null;
-            XPathNavigator navigator = null;
+            CXMLReader xPathHelper;
 
             try
             {
-                xPathDoc = new XPathDocument(Path.Combine(_Skins[SkinIndex].Path, _Skins[SkinIndex].FileName));
-                navigator = xPathDoc.CreateNavigator();
-                loaded = true;
+                xPathHelper = new CXMLReader(Path.Combine(_Skins[SkinIndex].Path, _Skins[SkinIndex].FileName));
             }
             catch (Exception e)
             {
                 CLog.LogError("Error loading skin " + _Skins[SkinIndex].FileName + ": " + e.Message);
-                loaded = false;
-                if (navigator != null)
-                    navigator = null;
-
-                if (xPathDoc != null)
-                    xPathDoc = null;
+                return false;
             }
 
-            if (loaded)
+            string value = String.Empty;
+
+
+            // load skins/textures
+            List<string> keys = new List<string>(_Skins[SkinIndex].SkinList.Keys);
+
+            foreach (string name in keys)
             {
-                string value = String.Empty;
-
-
-                // load skins/textures
-                List<string> keys = new List<string>(_Skins[SkinIndex].SkinList.Keys);
-
-                foreach (string name in keys)
+                try
                 {
-                    try
-                    {
-                        CHelper.GetValueFromXML("//root/Skins/" + name, navigator, ref value, String.Empty);
-                        SkinElement sk = _Skins[SkinIndex].SkinList[name];
-                        sk.Value = value;
-                        sk.VideoIndex = -1;
-                        sk.Texture = CDraw.AddTexture(Path.Combine(_Skins[SkinIndex].Path, sk.Value));
-                        _Skins[SkinIndex].SkinList[name] = sk;
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show("Error on loading texture \"" + name + "\": " + e.Message + e.StackTrace);
-                        CLog.LogError("Error on loading texture \"" + name + "\": " + e.Message + e.StackTrace);
-                    }
+                    xPathHelper.GetValue("//root/Skins/" + name, ref value, String.Empty);
+                    SkinElement sk = _Skins[SkinIndex].SkinList[name];
+                    sk.Value = value;
+                    sk.VideoIndex = -1;
+                    sk.Texture = CDraw.AddTexture(Path.Combine(_Skins[SkinIndex].Path, sk.Value));
+                    _Skins[SkinIndex].SkinList[name] = sk;
                 }
-
-
-                // load videos
-                for (int i = 0; i < _Skins[SkinIndex].VideoList.Count; i++)
+                catch (Exception e)
                 {
-                    try
-                    {
-                        CHelper.GetValueFromXML("//root/Videos/" + _Skins[SkinIndex].VideoList[i].Name, navigator, ref value, String.Empty);
-                        SkinElement sk = new SkinElement();
-                        sk.Name = _Skins[SkinIndex].VideoList[i].Name;
-                        sk.Value = value;
-                        sk.VideoIndex = CVideo.VdLoad(Path.Combine(_Skins[SkinIndex].Path, sk.Value));
-                        CVideo.VdSetLoop(sk.VideoIndex, true);
-                        CVideo.VdPause(sk.VideoIndex);
-                        sk.Texture = new STexture(-1);
-                        _Skins[SkinIndex].VideoList[i] = sk;
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show("Error on loading video \"" + _Skins[SkinIndex].VideoList[i].Name + "\": " + e.Message + e.StackTrace);
-                        CLog.LogError("Error on loading video \"" + _Skins[SkinIndex].VideoList[i].Name + "\": " + e.Message + e.StackTrace);
-                    }
+                    MessageBox.Show("Error on loading texture \"" + name + "\": " + e.Message + e.StackTrace);
+                    CLog.LogError("Error on loading texture \"" + name + "\": " + e.Message + e.StackTrace);
                 }
-
-                // load colors
-                LoadColors(navigator, SkinIndex);
             }
-            return loaded;
+
+
+            // load videos
+            for (int i = 0; i < _Skins[SkinIndex].VideoList.Count; i++)
+            {
+                try
+                {
+                    xPathHelper.GetValue("//root/Videos/" + _Skins[SkinIndex].VideoList[i].Name, ref value, String.Empty);
+                    SkinElement sk = new SkinElement();
+                    sk.Name = _Skins[SkinIndex].VideoList[i].Name;
+                    sk.Value = value;
+                    sk.VideoIndex = CVideo.VdLoad(Path.Combine(_Skins[SkinIndex].Path, sk.Value));
+                    CVideo.VdSetLoop(sk.VideoIndex, true);
+                    CVideo.VdPause(sk.VideoIndex);
+                    sk.Texture = new STexture(-1);
+                    _Skins[SkinIndex].VideoList[i] = sk;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error on loading video \"" + _Skins[SkinIndex].VideoList[i].Name + "\": " + e.Message + e.StackTrace);
+                    CLog.LogError("Error on loading video \"" + _Skins[SkinIndex].VideoList[i].Name + "\": " + e.Message + e.StackTrace);
+                }
+            }
+
+            // load colors
+            LoadColors(xPathHelper, SkinIndex);
+            return true;
         }
 
         public static void UnloadSkins()
@@ -271,57 +258,45 @@ namespace Vocaluxe.Base
 
         public static bool LoadTheme(int ThemeIndex)
         {
-            bool loaded = false;
-            XPathDocument xPathDoc = null;
-            XPathNavigator navigator = null;
-
             if (ThemeIndex < 0 || ThemeIndex >= _Themes.Count)
             {
                 CLog.LogError("Can't find Theme Index " + ThemeIndex.ToString());
                 return false;
             }
 
+            CXMLReader xPathHelper;
+
             try
             {
-                xPathDoc = new XPathDocument(Path.Combine(_Themes[ThemeIndex].Path, _Themes[ThemeIndex].FileName));
-                navigator = xPathDoc.CreateNavigator();
-                loaded = true;
+                xPathHelper = new CXMLReader(Path.Combine(_Themes[ThemeIndex].Path, _Themes[ThemeIndex].FileName));
             }
             catch (Exception e)
             {
                 CLog.LogError("Error loading theme " + _Themes[ThemeIndex].FileName + ": " + e.Message);
-                loaded = false;
-                if (navigator != null)
-                    navigator = null;
-
-                if (xPathDoc != null)
-                    xPathDoc = null;
+                return false;
             }
 
-            if (loaded)
+            int skinIndex = GetSkinIndex(_Themes[ThemeIndex].PartyModeID);
+
+            // Load Cursor
+            if (_Themes[ThemeIndex].PartyModeID == -1)
+                LoadCursor(xPathHelper, skinIndex);
+
+            // load fonts
+            if (_Themes[ThemeIndex].PartyModeID == -1)
             {
-                int skinIndex = GetSkinIndex(_Themes[ThemeIndex].PartyModeID);
-
-                // Load Cursor
-                if (_Themes[ThemeIndex].PartyModeID == -1)
-                    LoadCursor(navigator, skinIndex);
-
-                // load fonts
-                if (_Themes[ThemeIndex].PartyModeID == -1)
-                {
-                    CFonts.LoadThemeFonts(
-                        _Themes[ThemeIndex].Name,
-                        Path.Combine(Path.Combine(_Themes[ThemeIndex].Path, _Themes[ThemeIndex].SkinFolder), CSettings.sFolderThemeFonts),
-                        navigator);
-                }
-                else
-                {
-                    CFonts.LoadPartyModeFonts(_Themes[ThemeIndex].PartyModeID,
-                        Path.Combine(_Themes[ThemeIndex].Path, CSettings.sFolderPartyModeFonts),
-                        navigator);
-                }
+                CFonts.LoadThemeFonts(
+                    _Themes[ThemeIndex].Name,
+                    Path.Combine(Path.Combine(_Themes[ThemeIndex].Path, _Themes[ThemeIndex].SkinFolder), CSettings.sFolderThemeFonts),
+                    xPathHelper);
             }
-            return loaded;
+            else
+            {
+                CFonts.LoadPartyModeFonts(_Themes[ThemeIndex].PartyModeID,
+                    Path.Combine(_Themes[ThemeIndex].Path, CSettings.sFolderPartyModeFonts),
+                    xPathHelper);
+            }
+            return true;
         }
 
         public static void SaveTheme()
@@ -445,64 +420,51 @@ namespace Vocaluxe.Base
 
         public static bool AddTheme(string FilePath, int PartyModeID)
         {
-            bool loaded = false;
-            XPathDocument xPathDoc = null;
-            XPathNavigator navigator = null;
+            CXMLReader xPathHelper;
 
             try
             {
-                xPathDoc = new XPathDocument(FilePath);
-                navigator = xPathDoc.CreateNavigator();
-                loaded = true;
+                xPathHelper = new CXMLReader(FilePath);
             }
             catch (Exception e)
             {
                 CLog.LogError("Error loading theme " + FilePath + ": " + e.Message);
-                loaded = false;
-                if (navigator != null)
-                    navigator = null;
-
-                if (xPathDoc != null)
-                    xPathDoc = null;
+                return false;
             }
 
-            if (loaded)
+            Theme theme = new Theme();
+
+            int version = 0;
+            xPathHelper.TryGetIntValue("//root/ThemeSystemVersion", ref version);
+
+            if (version == ThemeSystemVersion)
             {
-                Theme theme = new Theme();
-
-                int version = 0;
-                CHelper.TryGetIntValueFromXML("//root/ThemeSystemVersion", navigator, ref version);
-
-                if (version == ThemeSystemVersion)
+                xPathHelper.GetValue("//root/Info/Name", ref theme.Name, String.Empty);
+                if (theme.Name != String.Empty)
                 {
-                    CHelper.GetValueFromXML("//root/Info/Name", navigator, ref theme.Name, String.Empty);
-                    if (theme.Name != String.Empty)
-                    {
-                        CHelper.GetValueFromXML("//root/Info/Author", navigator, ref theme.Author, String.Empty);
-                        CHelper.GetValueFromXML("//root/Info/SkinFolder", navigator, ref theme.SkinFolder, String.Empty);
-                        CHelper.TryGetIntValueFromXML("//root/Info/ThemeVersionMajor", navigator, ref theme.ThemeVersionMajor);
-                        CHelper.TryGetIntValueFromXML("//root/Info/ThemeVersionMinor", navigator, ref theme.ThemeVersionMinor);
-                        theme.Path = Path.GetDirectoryName(FilePath);
-                        theme.FileName = Path.GetFileName(FilePath);
-                        theme.PartyModeID = PartyModeID;
+                    xPathHelper.GetValue("//root/Info/Author", ref theme.Author, String.Empty);
+                    xPathHelper.GetValue("//root/Info/SkinFolder", ref theme.SkinFolder, String.Empty);
+                    xPathHelper.TryGetIntValue("//root/Info/ThemeVersionMajor", ref theme.ThemeVersionMajor);
+                    xPathHelper.TryGetIntValue("//root/Info/ThemeVersionMinor", ref theme.ThemeVersionMinor);
+                    theme.Path = Path.GetDirectoryName(FilePath);
+                    theme.FileName = Path.GetFileName(FilePath);
+                    theme.PartyModeID = PartyModeID;
 
-                        _Themes.Add(theme);
-                    }
-                }
-                else
-                {
-                    string msg = "Can't load Theme \"" + FilePath + "\", ";
-                    if (version < ThemeSystemVersion)
-                        msg += "the file ist outdated! ";
-                    else
-                        msg += "the file is for newer program versions! ";
-
-                    msg += "Current ThemeSystemVersion is " + ThemeSystemVersion.ToString();
-                    CLog.LogError(msg);
-                    loaded = false;
+                    _Themes.Add(theme);
                 }
             }
-            return loaded;
+            else
+            {
+                string msg = "Can't load Theme \"" + FilePath + "\", ";
+                if (version < ThemeSystemVersion)
+                    msg += "the file is outdated! ";
+                else
+                    msg += "the file is for newer program versions! ";
+
+                msg += "Current ThemeSystemVersion is " + ThemeSystemVersion.ToString();
+                CLog.LogError(msg);
+            }
+            return true;
         }
 
         public static void ListSkins()
@@ -536,81 +498,69 @@ namespace Vocaluxe.Base
 
             foreach (string file in files)
             {
-                bool loaded = false;
-                XPathDocument xPathDoc = null;
-                XPathNavigator navigator = null;
+                CXMLReader xPathHelper;
 
                 try
                 {
-                    xPathDoc = new XPathDocument(Path.Combine(path, file));
-                    navigator = xPathDoc.CreateNavigator();
-                    loaded = true;
+                    xPathHelper = new CXMLReader(Path.Combine(path, file));
                 }
                 catch (Exception e)
                 {
                     CLog.LogError("Error loading skin " + file + ": " + e.Message);
-                    loaded = false;
-                    if (navigator != null)
-                        navigator = null;
-
-                    if (xPathDoc != null)
-                        xPathDoc = null;
+                    continue;
                 }
 
-                if (loaded)
+                Skin skin = new Skin();
+
+                int version = 0;
+                xPathHelper.TryGetIntValue("//root/SkinSystemVersion", ref version);
+
+                if (version == SkinSystemVersion)
                 {
-                    Skin skin = new Skin();
-
-                    int version = 0;
-                    CHelper.TryGetIntValueFromXML("//root/SkinSystemVersion", navigator, ref version);
-
-                    if (version == SkinSystemVersion)
+                    xPathHelper.GetValue("//root/Info/Name", ref skin.Name, String.Empty);
+                    if (skin.Name != String.Empty)
                     {
-                        CHelper.GetValueFromXML("//root/Info/Name", navigator, ref skin.Name, String.Empty);
-                        if (skin.Name != String.Empty)
+                        xPathHelper.GetValue("//root/Info/Author", ref skin.Author, String.Empty);
+                        xPathHelper.TryGetIntValue("//root/Info/SkinVersionMajor", ref skin.SkinVersionMajor);
+                        xPathHelper.TryGetIntValue("//root/Info/SkinVersionMinor", ref skin.SkinVersionMinor);
+
+
+                        skin.Path = path;
+                        skin.FileName = file;
+                        skin.PartyModeID = theme.PartyModeID;
+
+                        skin.SkinList = new Dictionary<string, SkinElement>();
+                        List<string> names = xPathHelper.GetValues("Skins");
+                        foreach (string str in names)
                         {
-                            CHelper.GetValueFromXML("//root/Info/Author", navigator, ref skin.Author, String.Empty);
-                            CHelper.TryGetIntValueFromXML("//root/Info/SkinVersionMajor", navigator, ref skin.SkinVersionMajor);
-                            CHelper.TryGetIntValueFromXML("//root/Info/SkinVersionMinor", navigator, ref skin.SkinVersionMinor);
-
-
-                            skin.Path = path;
-                            skin.FileName = file;
-                            skin.PartyModeID = theme.PartyModeID;
-
-                            skin.SkinList = new Dictionary<string, SkinElement>();
-                            List<string> names = CHelper.GetValuesFromXML("Skins", navigator);
-                            foreach (string str in names)
-                            {
-                                SkinElement sk = new SkinElement();
-                                sk.Name = str;
-                                sk.Value = String.Empty;
-                                skin.SkinList[str] = sk;
-                            }
-
-                            skin.VideoList = new List<SkinElement>();
-                            names = CHelper.GetValuesFromXML("Videos", navigator);
-                            foreach (string str in names)
-                            {
-                                SkinElement sk = new SkinElement();
-                                sk.Name = str;
-                                sk.Value = String.Empty;
-                                skin.VideoList.Add(sk);
-                            }
-                            _Skins.Add(skin);
+                            SkinElement sk = new SkinElement();
+                            sk.Name = str;
+                            sk.Value = String.Empty;
+                            skin.SkinList[str] = sk;
                         }
-                    }
-                    else
-                    {
-                        string msg = "Can't load Skin \"" + file + "\", ";
-                        if (version < SkinSystemVersion)
-                            msg += "the file ist outdated! ";
-                        else
-                            msg += "the file is for newer program versions! ";
 
-                        msg += "Current SkinSystemVersion is " + SkinSystemVersion.ToString();
-                        CLog.LogError(msg);
+                        skin.VideoList = new List<SkinElement>();
+                        names = xPathHelper.GetValues("Videos");
+                        foreach (string str in names)
+                        {
+                            SkinElement sk = new SkinElement();
+                            sk.Name = str;
+                            sk.Value = String.Empty;
+                            skin.VideoList.Add(sk);
+                        }
+                        _Skins.Add(skin);
                     }
+                }
+                else
+                {
+                    string msg = "Can't load Skin \"" + file + "\", ";
+                    if (version < SkinSystemVersion)
+                        msg += "the file ist outdated! ";
+                    else
+                        msg += "the file is for newer program versions! ";
+
+                    msg += "Current SkinSystemVersion is " + SkinSystemVersion.ToString();
+                    CLog.LogError(msg);
                 }
             }
         }
@@ -804,7 +754,7 @@ namespace Vocaluxe.Base
         #endregion Theme and Skin index handling
 
         #region Element loading
-        private static void LoadColors(XPathNavigator navigator, int SkinIndex)
+        private static void LoadColors(CXMLReader xPathHelper, int SkinIndex)
         {
             Skin skin = _Skins[SkinIndex];
 
@@ -814,14 +764,14 @@ namespace Vocaluxe.Base
                 float value = 0f;
 
                 int i = 1;
-                while (CHelper.TryGetFloatValueFromXML("//root/Colors/Player" + i.ToString() + "/R", navigator, ref value))
+                while (xPathHelper.TryGetFloatValue("//root/Colors/Player" + i.ToString() + "/R", ref value))
                 {
                     SColorF color = new SColorF();
 
                     color.R = value;
-                    CHelper.TryGetFloatValueFromXML("//root/Colors/Player" + i.ToString() + "/G", navigator, ref color.G);
-                    CHelper.TryGetFloatValueFromXML("//root/Colors/Player" + i.ToString() + "/B", navigator, ref color.B);
-                    CHelper.TryGetFloatValueFromXML("//root/Colors/Player" + i.ToString() + "/A", navigator, ref color.A);
+                    xPathHelper.TryGetFloatValue("//root/Colors/Player" + i.ToString() + "/G", ref color.G);
+                    xPathHelper.TryGetFloatValue("//root/Colors/Player" + i.ToString() + "/B", ref color.B);
+                    xPathHelper.TryGetFloatValue("//root/Colors/Player" + i.ToString() + "/A", ref color.A);
 
                     PlayerColors.Add(color);
                     i++;
@@ -830,16 +780,16 @@ namespace Vocaluxe.Base
             }
 
             List<SColorScheme> ColorScheme = new List<SColorScheme>();
-            List<string> names = CHelper.GetValuesFromXML("ColorSchemes", navigator);
+            List<string> names = xPathHelper.GetValues("ColorSchemes");
             foreach (string str in names)
             {
                 SColorScheme scheme = new SColorScheme();
                 scheme.Name = str;
 
-                CHelper.TryGetFloatValueFromXML("//root/ColorSchemes/" + str + "/R", navigator, ref scheme.Color.R);
-                CHelper.TryGetFloatValueFromXML("//root/ColorSchemes/" + str + "/G", navigator, ref scheme.Color.G);
-                CHelper.TryGetFloatValueFromXML("//root/ColorSchemes/" + str + "/B", navigator, ref scheme.Color.B);
-                CHelper.TryGetFloatValueFromXML("//root/ColorSchemes/" + str + "/A", navigator, ref scheme.Color.A);
+                xPathHelper.TryGetFloatValue("//root/ColorSchemes/" + str + "/R", ref scheme.Color.R);
+                xPathHelper.TryGetFloatValue("//root/ColorSchemes/" + str + "/G", ref scheme.Color.G);
+                xPathHelper.TryGetFloatValue("//root/ColorSchemes/" + str + "/B", ref scheme.Color.B);
+                xPathHelper.TryGetFloatValue("//root/ColorSchemes/" + str + "/A", ref scheme.Color.A);
 
                 ColorScheme.Add(scheme);
             }
@@ -848,15 +798,15 @@ namespace Vocaluxe.Base
             _Skins[SkinIndex] = skin;
         }
 
-        private static void LoadCursor(XPathNavigator navigator, int SkinIndex)
+        private static void LoadCursor(CXMLReader xPathHelper, int SkinIndex)
         {
             string value = String.Empty;
-            CHelper.GetValueFromXML("//root/Cursor/Skin", navigator, ref Cursor.SkinName, value);
+            xPathHelper.GetValue("//root/Cursor/Skin", ref Cursor.SkinName, value);
             
-            CHelper.TryGetFloatValueFromXML("//root/Cursor/W", navigator, ref Cursor.w);
-            CHelper.TryGetFloatValueFromXML("//root/Cursor/H", navigator, ref Cursor.h);
+            xPathHelper.TryGetFloatValue("//root/Cursor/W", ref Cursor.w);
+            xPathHelper.TryGetFloatValue("//root/Cursor/H", ref Cursor.h);
 
-            if (CHelper.GetValueFromXML("//root/Cursor/Color", navigator, ref value, value))
+            if (xPathHelper.GetValue("//root/Cursor/Color", ref value, value))
             {
                 SColorF color = GetColor(value, _Skins[SkinIndex].PartyModeID);
                 Cursor.r = color.R;
@@ -868,10 +818,10 @@ namespace Vocaluxe.Base
             else
             {
                 Cursor.color = String.Empty;
-                CHelper.TryGetFloatValueFromXML("//root/Cursor/R", navigator, ref Cursor.r);
-                CHelper.TryGetFloatValueFromXML("//root/Cursor/G", navigator, ref Cursor.g);
-                CHelper.TryGetFloatValueFromXML("//root/Cursor/B", navigator, ref Cursor.b);
-                CHelper.TryGetFloatValueFromXML("//root/Cursor/A", navigator, ref Cursor.a);
+                xPathHelper.TryGetFloatValue("//root/Cursor/R", ref Cursor.r);
+                xPathHelper.TryGetFloatValue("//root/Cursor/G", ref Cursor.g);
+                xPathHelper.TryGetFloatValue("//root/Cursor/B", ref Cursor.b);
+                xPathHelper.TryGetFloatValue("//root/Cursor/A", ref Cursor.a);
             }
         }
         #endregion Element loading

@@ -6,7 +6,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.XPath;
 
 using OpenTK.Platform;
 
@@ -123,196 +122,159 @@ namespace Vocaluxe.Base
         public static bool LoadConfig()
         {
             #region Inits
-            bool loaded = false;
-            XPathDocument xPathDoc = null;
-            XPathNavigator navigator = null;
+            CXMLReader xPathHelper;
 
             try
             {
-                xPathDoc = new XPathDocument(CSettings.sFileConfig);
-                navigator = xPathDoc.CreateNavigator();
-                loaded = true;
+                xPathHelper = new CXMLReader(CSettings.sFileConfig);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                CLog.LogError("Error opening Config.xml (FileName: " + CSettings.sFileConfig);
-                loaded = false;
-                if (navigator != null)
-                    navigator = null;
-
-                if (xPathDoc != null)
-                    xPathDoc = null;
+                CLog.LogError("Error opening Config.xml " + CSettings.sFileConfig + ": " + e.Message);
+                return false;
             }
             #endregion Inits
 
-            if (loaded)
+            string value = string.Empty;
+
+            #region Debug
+            xPathHelper.TryGetEnumValue<EDebugLevel>("//root/Debug/DebugLevel", ref DebugLevel);
+            #endregion Debug
+
+            #region Graphics
+            xPathHelper.TryGetEnumValue<ERenderer>("//root/Graphics/Renderer", ref Renderer);
+            xPathHelper.TryGetEnumValue<ETextureQuality>("//root/Graphics/TextureQuality", ref TextureQuality);
+            xPathHelper.TryGetIntValueRange("//root/Graphics/CoverSize", ref CoverSize, 32, 1024);
+
+            xPathHelper.TryGetIntValue("//root/Graphics/ScreenW", ref ScreenW);
+            xPathHelper.TryGetIntValue("//root/Graphics/ScreenH", ref ScreenH);
+            xPathHelper.TryGetEnumValue<EAntiAliasingModes>("//root/Graphics/AAMode", ref AAMode);
+            xPathHelper.TryGetEnumValue<EColorDeep>("//root/Graphics/Colors", ref Colors);
+            xPathHelper.TryGetFloatValue("//root/Graphics/MaxFPS", ref MaxFPS);
+            xPathHelper.TryGetEnumValue<EOffOn>("//root/Graphics/VSync", ref VSync);
+            xPathHelper.TryGetEnumValue<EOffOn>("//root/Graphics/FullScreen", ref FullScreen);
+            xPathHelper.TryGetFloatValue("//root/Graphics/FadeTime", ref FadeTime);
+            #endregion Graphics
+
+            #region Theme
+            xPathHelper.GetValue("//root/Theme/Name", ref Theme, Theme);
+            xPathHelper.GetValue("//root/Theme/Skin", ref Skin, Skin);
+            xPathHelper.GetValue("//root/Theme/Cover", ref CoverTheme, CoverTheme);
+            xPathHelper.TryGetEnumValue("//root/Theme/DrawNoteLines", ref DrawNoteLines);
+            xPathHelper.TryGetEnumValue("//root/Theme/DrawToneHelper", ref DrawToneHelper);
+            xPathHelper.TryGetEnumValue("//root/Theme/TimerLook", ref TimerLook);
+            xPathHelper.TryGetEnumValue("//root/Theme/PlayerInfo", ref PlayerInfo);
+            xPathHelper.TryGetEnumValue("//root/Theme/FadePlayerInfo", ref FadePlayerInfo);
+            xPathHelper.TryGetEnumValue("//root/Theme/CoverLoading", ref CoverLoading);
+            xPathHelper.TryGetEnumValue("//root/Theme/LyricStyle", ref LyricStyle);
+            #endregion Theme
+
+            #region Sound
+            xPathHelper.TryGetEnumValue<EPlaybackLib>("//root/Sound/PlayBackLib", ref PlayBackLib);
+            xPathHelper.TryGetEnumValue<ERecordLib>("//root/Sound/RecordLib", ref RecordLib);
+            xPathHelper.TryGetEnumValue<EBufferSize>("//root/Sound/AudioBufferSize", ref AudioBufferSize);
+
+            xPathHelper.TryGetIntValueRange("//root/Sound/AudioLatency", ref AudioLatency, -500, 500);
+
+            xPathHelper.TryGetEnumValue("//root/Sound/BackgroundMusic", ref BackgroundMusic);
+            xPathHelper.TryGetIntValueRange("//root/Sound/BackgroundMusicVolume", ref BackgroundMusicVolume);
+            xPathHelper.TryGetEnumValue("//root/Sound/BackgroundMusicSource", ref BackgroundMusicSource);
+            xPathHelper.TryGetIntValueRange("//root/Sound/PreviewMusicVolume", ref PreviewMusicVolume);
+            xPathHelper.TryGetIntValueRange("//root/Sound/GameMusicVolume", ref GameMusicVolume);
+            #endregion Sound
+
+            #region Game
+            // Songfolder
+            value = string.Empty;
+            int i = 1;
+            while (xPathHelper.GetValue("//root/Game/SongFolder" + i.ToString(), ref value, value))
             {
-                string value = string.Empty;
+                if (i == 1)
+                    SongFolder.Clear();
 
-                #region Debug
-                CHelper.TryGetEnumValueFromXML<EDebugLevel>("//root/Debug/DebugLevel", navigator, ref DebugLevel);
-                #endregion Debug
-
-                #region Graphics
-                CHelper.TryGetEnumValueFromXML<ERenderer>("//root/Graphics/Renderer", navigator, ref Renderer);
-                CHelper.TryGetEnumValueFromXML<ETextureQuality>("//root/Graphics/TextureQuality", navigator, ref TextureQuality);
-                CHelper.TryGetIntValueFromXML("//root/Graphics/CoverSize", navigator, ref CoverSize);
-                if (CoverSize > 1024)
-                    CoverSize = 1024;
-                if (CoverSize < 32)
-                    CoverSize = 32;
-
-                CHelper.TryGetIntValueFromXML("//root/Graphics/ScreenW", navigator, ref ScreenW);
-                CHelper.TryGetIntValueFromXML("//root/Graphics/ScreenH", navigator, ref ScreenH);
-                CHelper.TryGetEnumValueFromXML<EAntiAliasingModes>("//root/Graphics/AAMode", navigator, ref AAMode);
-                CHelper.TryGetEnumValueFromXML<EColorDeep>("//root/Graphics/Colors", navigator, ref Colors);
-                CHelper.TryGetFloatValueFromXML("//root/Graphics/MaxFPS", navigator, ref MaxFPS);
-                CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Graphics/VSync", navigator, ref VSync);
-                CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Graphics/FullScreen", navigator, ref FullScreen);
-                CHelper.TryGetFloatValueFromXML("//root/Graphics/FadeTime", navigator, ref FadeTime);
-                #endregion Graphics
-
-                #region Theme
-                CHelper.GetValueFromXML("//root/Theme/Name", navigator, ref Theme, Theme);
-                CHelper.GetValueFromXML("//root/Theme/Skin", navigator, ref Skin, Skin);
-                CHelper.GetValueFromXML("//root/Theme/Cover", navigator, ref CoverTheme, CoverTheme);
-                CHelper.TryGetEnumValueFromXML("//root/Theme/DrawNoteLines", navigator, ref DrawNoteLines);
-                CHelper.TryGetEnumValueFromXML("//root/Theme/DrawToneHelper", navigator, ref DrawToneHelper);
-                CHelper.TryGetEnumValueFromXML("//root/Theme/TimerLook", navigator, ref TimerLook);
-                CHelper.TryGetEnumValueFromXML("//root/Theme/PlayerInfo", navigator, ref PlayerInfo);
-                CHelper.TryGetEnumValueFromXML("//root/Theme/FadePlayerInfo", navigator, ref FadePlayerInfo);
-                CHelper.TryGetEnumValueFromXML("//root/Theme/CoverLoading", navigator, ref CoverLoading);
-                CHelper.TryGetEnumValueFromXML("//root/Theme/LyricStyle", navigator, ref LyricStyle);
-                #endregion Theme
-
-                #region Sound
-                CHelper.TryGetEnumValueFromXML<EPlaybackLib>("//root/Sound/PlayBackLib", navigator, ref PlayBackLib);
-                CHelper.TryGetEnumValueFromXML<ERecordLib>("//root/Sound/RecordLib", navigator, ref RecordLib);
-                CHelper.TryGetEnumValueFromXML<EBufferSize>("//root/Sound/AudioBufferSize", navigator, ref AudioBufferSize);
-
-                CHelper.TryGetIntValueFromXML("//root/Sound/AudioLatency", navigator, ref AudioLatency);
-                if (AudioLatency < -500)
-                    AudioLatency = -500;
-                if (AudioLatency > 500)
-                    AudioLatency = 500;
-
-                CHelper.TryGetEnumValueFromXML("//root/Sound/BackgroundMusic", navigator, ref BackgroundMusic);
-                CHelper.TryGetIntValueFromXML("//root/Sound/BackgroundMusicVolume", navigator, ref BackgroundMusicVolume);
-                if (BackgroundMusicVolume < 0)
-                    BackgroundMusicVolume = 0;
-                if (BackgroundMusicVolume > 100)
-                    BackgroundMusicVolume = 100;
-                CHelper.TryGetEnumValueFromXML("//root/Sound/BackgroundMusicSource", navigator, ref BackgroundMusicSource);
-                CHelper.TryGetIntValueFromXML("//root/Sound/PreviewMusicVolume", navigator, ref PreviewMusicVolume);
-                if (PreviewMusicVolume < 0)
-                    PreviewMusicVolume = 0;
-                if (PreviewMusicVolume > 100)
-                    PreviewMusicVolume = 100;
-                CHelper.TryGetIntValueFromXML("//root/Sound/GameMusicVolume", navigator, ref GameMusicVolume);
-                if (GameMusicVolume < 0)
-                    GameMusicVolume = 0;
-                if (GameMusicVolume > 100)
-                    GameMusicVolume = 100;
-                #endregion Sound
-
-                #region Game
-                // Songfolder
+                SongFolder.Add(value);
                 value = string.Empty;
-                int i = 1;
-                while(CHelper.GetValueFromXML("//root/Game/SongFolder" + i.ToString(), navigator, ref value, value))
-                {
-                    if (i == 1)
-                        SongFolder.Clear();
-
-                    SongFolder.Add(value);
-                    value = string.Empty;
-                    i++;
-                }
-
-                CHelper.TryGetEnumValueFromXML<ESongMenu>("//root/Game/SongMenu", navigator, ref SongMenu);
-                CHelper.TryGetEnumValueFromXML<ESongSorting>("//root/Game/SongSorting", navigator, ref SongSorting);
-                CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Game/IgnoreArticles", navigator, ref IgnoreArticles);
-                CHelper.TryGetFloatValueFromXML("//root/Game/ScoreAnimationTime", navigator, ref ScoreAnimationTime);
-                CHelper.TryGetEnumValueFromXML<ETimerMode>("//root/Game/TimerMode", navigator, ref TimerMode);
-                CHelper.TryGetIntValueFromXML("//root/Game/NumPlayer", navigator, ref NumPlayer);
-                CHelper.TryGetEnumValueFromXML("//root/Game/Tabs", navigator, ref Tabs);
-                CHelper.GetValueFromXML("//root/Game/Language", navigator, ref Language, Language);
-                CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Game/LyricsOnTop", navigator, ref LyricsOnTop);
-
-                if ((ScoreAnimationTime > 0 && ScoreAnimationTime < 1) || ScoreAnimationTime < 0)
-                {
-                    ScoreAnimationTime = 1;
-                }
-
-                if (NumPlayer < 1 || NumPlayer > CSettings.MaxNumPlayer)
-                    NumPlayer = 2;
-
-                List<string> _Languages = new List<string>();
-                _Languages = CLanguage.GetLanguages();
-
-                bool _LangExists = false;
-
-                for (i = 0; i < _Languages.Count; i++)
-                {
-                    if (_Languages[i] == Language)
-                    {
-                        _LangExists = true;
-                    }
-                }
-
-                //TODO: What should we do, if English not exists?
-                if(_LangExists == false){
-                    Language = "English";
-                    
-                }
-                CLanguage.SetLanguage(Language);
-
-                //Read players from config
-                for (i = 1; i <= CSettings.MaxNumPlayer; i++)
-                {
-                    CHelper.GetValueFromXML("//root/Game/Players/Player" + i.ToString(), navigator, ref Players[i-1], string.Empty);
-                }
-
-                #endregion Game
-
-                #region Video
-                CHelper.TryGetEnumValueFromXML<EVideoDecoder>("//root/Video/VideoDecoder", navigator, ref VideoDecoder);
-                CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideoBackgrounds", navigator, ref VideoBackgrounds);
-                CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideoPreview", navigator, ref VideoPreview);
-                CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideosInSongs", navigator, ref VideosInSongs);
-                CHelper.TryGetEnumValueFromXML<EOffOn>("//root/Video/VideosToBackground", navigator, ref VideosToBackground);
-
-                CHelper.TryGetEnumValueFromXML<EWebcamLib>("//root/Video/WebcamLib", navigator, ref WebcamLib);
-                WebcamConfig = new SWebcamConfig();
-                CHelper.GetValueFromXML("//root/Video/WebcamConfig/MonikerString", navigator, ref WebcamConfig.MonikerString, String.Empty);
-                CHelper.TryGetIntValueFromXML("//root/Video/WebcamConfig/Framerate", navigator, ref WebcamConfig.Framerate);
-                CHelper.TryGetIntValueFromXML("//root/Video/WebcamConfig/Width", navigator, ref WebcamConfig.Width);
-                CHelper.TryGetIntValueFromXML("//root/Video/WebcamConfig/Height", navigator, ref WebcamConfig.Height);
-                #endregion Video
-
-                #region Record
-                MicConfig = new SMicConfig[CSettings.MaxNumPlayer];
-                value = string.Empty;
-                for (int p = 1; p <= CSettings.MaxNumPlayer; p++)
-                {
-                    MicConfig[p - 1] = new SMicConfig(0);
-                    CHelper.GetValueFromXML("//root/Record/MicConfig" + p.ToString() + "/DeviceName", navigator, ref MicConfig[p - 1].DeviceName, String.Empty);
-                    CHelper.GetValueFromXML("//root/Record/MicConfig" + p.ToString() + "/DeviceDriver", navigator, ref MicConfig[p - 1].DeviceDriver, String.Empty);
-                    CHelper.GetValueFromXML("//root/Record/MicConfig" + p.ToString() + "/InputName", navigator, ref MicConfig[p - 1].InputName, String.Empty);
-                    CHelper.TryGetIntValueFromXML("//root/Record/MicConfig" + p.ToString() + "/Channel", navigator, ref MicConfig[p - 1].Channel);
-                }
-
-                CHelper.TryGetIntValueFromXML("//root/Record/MicDelay", navigator, ref MicDelay);
-                MicDelay = (int)(20 * Math.Round(MicDelay / 20.0));
-                if (MicDelay < 0)
-                    MicDelay = 0;
-                if (MicDelay > 500)
-                    MicDelay = 500;
-                #endregion Record
-
-                return true;
+                i++;
             }
-            else return false;
+
+            xPathHelper.TryGetEnumValue<ESongMenu>("//root/Game/SongMenu", ref SongMenu);
+            xPathHelper.TryGetEnumValue<ESongSorting>("//root/Game/SongSorting", ref SongSorting);
+            xPathHelper.TryGetEnumValue<EOffOn>("//root/Game/IgnoreArticles", ref IgnoreArticles);
+            xPathHelper.TryGetFloatValue("//root/Game/ScoreAnimationTime", ref ScoreAnimationTime);
+            xPathHelper.TryGetEnumValue<ETimerMode>("//root/Game/TimerMode", ref TimerMode);
+            xPathHelper.TryGetIntValue("//root/Game/NumPlayer", ref NumPlayer);
+            xPathHelper.TryGetEnumValue("//root/Game/Tabs", ref Tabs);
+            xPathHelper.GetValue("//root/Game/Language", ref Language, Language);
+            xPathHelper.TryGetEnumValue<EOffOn>("//root/Game/LyricsOnTop", ref LyricsOnTop);
+
+            if ((ScoreAnimationTime > 0 && ScoreAnimationTime < 1) || ScoreAnimationTime < 0)
+            {
+                ScoreAnimationTime = 1;
+            }
+
+            if (NumPlayer < 1 || NumPlayer > CSettings.MaxNumPlayer)
+                NumPlayer = 2;
+
+            List<string> _Languages = new List<string>();
+            _Languages = CLanguage.GetLanguages();
+
+            bool _LangExists = false;
+
+            for (i = 0; i < _Languages.Count; i++)
+            {
+                if (_Languages[i] == Language)
+                {
+                    _LangExists = true;
+                }
+            }
+
+            //TODO: What should we do, if English not exists?
+            if(_LangExists == false){
+                Language = "English";
+                    
+            }
+            CLanguage.SetLanguage(Language);
+
+            //Read players from config
+            for (i = 1; i <= CSettings.MaxNumPlayer; i++)
+            {
+                xPathHelper.GetValue("//root/Game/Players/Player" + i.ToString(), ref Players[i - 1], string.Empty);
+            }
+
+            #endregion Game
+
+            #region Video
+            xPathHelper.TryGetEnumValue<EVideoDecoder>("//root/Video/VideoDecoder", ref VideoDecoder);
+            xPathHelper.TryGetEnumValue<EOffOn>("//root/Video/VideoBackgrounds", ref VideoBackgrounds);
+            xPathHelper.TryGetEnumValue<EOffOn>("//root/Video/VideoPreview", ref VideoPreview);
+            xPathHelper.TryGetEnumValue<EOffOn>("//root/Video/VideosInSongs", ref VideosInSongs);
+            xPathHelper.TryGetEnumValue<EOffOn>("//root/Video/VideosToBackground", ref VideosToBackground);
+
+            xPathHelper.TryGetEnumValue<EWebcamLib>("//root/Video/WebcamLib", ref WebcamLib);
+            WebcamConfig = new SWebcamConfig();
+            xPathHelper.GetValue("//root/Video/WebcamConfig/MonikerString", ref WebcamConfig.MonikerString, String.Empty);
+            xPathHelper.TryGetIntValue("//root/Video/WebcamConfig/Framerate", ref WebcamConfig.Framerate);
+            xPathHelper.TryGetIntValue("//root/Video/WebcamConfig/Width", ref WebcamConfig.Width);
+            xPathHelper.TryGetIntValue("//root/Video/WebcamConfig/Height", ref WebcamConfig.Height);
+            #endregion Video
+
+            #region Record
+            MicConfig = new SMicConfig[CSettings.MaxNumPlayer];
+            value = string.Empty;
+            for (int p = 1; p <= CSettings.MaxNumPlayer; p++)
+            {
+                MicConfig[p - 1] = new SMicConfig(0);
+                xPathHelper.GetValue("//root/Record/MicConfig" + p.ToString() + "/DeviceName", ref MicConfig[p - 1].DeviceName, String.Empty);
+                xPathHelper.GetValue("//root/Record/MicConfig" + p.ToString() + "/DeviceDriver", ref MicConfig[p - 1].DeviceDriver, String.Empty);
+                xPathHelper.GetValue("//root/Record/MicConfig" + p.ToString() + "/InputName", ref MicConfig[p - 1].InputName, String.Empty);
+                xPathHelper.TryGetIntValue("//root/Record/MicConfig" + p.ToString() + "/Channel", ref MicConfig[p - 1].Channel);
+            }
+
+            xPathHelper.TryGetIntValueRange("//root/Record/MicDelay", ref MicDelay, 0, 500);
+            MicDelay = (int)(20 * Math.Round(MicDelay / 20.0));
+            #endregion Record
+
+            return true;
         }
 
         public static bool SaveConfig()

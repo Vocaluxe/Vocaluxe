@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using System.Xml.XPath;
 
 namespace Vocaluxe.Menu
 {
@@ -10,7 +9,7 @@ namespace Vocaluxe.Menu
     {
         string GetThemeName();
 
-        bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex);
+        bool LoadTheme(string XmlPath, string ElementName, CXMLReader xPathHelper, int SkinIndex);
         bool SaveTheme(XmlWriter writer);
 
         void UnloadTextures();

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Xml;
-using System.Xml.XPath;
 
 namespace Vocaluxe.Menu
 {
@@ -51,13 +50,13 @@ namespace Vocaluxe.Menu
             _ThemeLoaded = ts._ThemeLoaded;
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
+        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xPathHelper, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/Value", navigator, ref _Theme.Value, String.Empty);
-            _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<ESettingType>(item + "/Type", navigator, ref _Theme.Type);
+            _ThemeLoaded &= xPathHelper.GetValue(item + "/Value", ref _Theme.Value, String.Empty);
+            _ThemeLoaded &= xPathHelper.TryGetEnumValue<ESettingType>(item + "/Type", ref _Theme.Type);
 
             if (_ThemeLoaded)
             {

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
-using System.Xml.XPath;
 
 using Vocaluxe.Menu;
 
@@ -241,125 +240,103 @@ namespace Vocaluxe.Base
 
         private static bool LoadPartyLanguageFile(int PartyModeID, string file)
         {
-            bool loaded = false;
-            XPathDocument xPathDoc = null;
-            XPathNavigator navigator = null;
+            CXMLReader xPathHelper;
  
             try
             {
-                xPathDoc = new XPathDocument(file);
-                navigator = xPathDoc.CreateNavigator();
-                loaded = true;
+                xPathHelper = new CXMLReader(file);
             }
             catch (Exception e)
             {
-                loaded = false;
-                if (navigator != null)
-                    navigator = null;
-
-                if (xPathDoc != null)
-                    xPathDoc = null;
-
                 CLog.LogError("Error opening Party Language File " + file + ": " + e.Message);
+                return false;
             }
 
-            if (loaded)
+            string value = string.Empty;
+            if (xPathHelper.GetValue("//resources/string[@name='language']", ref value, value))
             {
-                string value = string.Empty;
-                if (loaded == CHelper.GetValueFromXML("//resources/string[@name='language']", navigator, ref value, value))
-                {
-                    int nr = GetLanguageNr(value);
+                int nr = GetLanguageNr(value);
 
-                    if (nr == -1)
-                        return true;
-
-                    SPartyLanguage lang = new SPartyLanguage();
-                    lang.PartyModeID = PartyModeID;
-                    lang.Texts = new Hashtable();
-
-                    List<string> texts = CHelper.GetAttributesFromXML("resources", navigator, "name");
-                    for (int i = 0; i < texts.Count; i++)
-                    {
-                        if (CHelper.GetValueFromXML("//resources/string[@name='" + texts[i] + "']", navigator, ref value, value))
-                        {
-                            try
-                            {
-                                lang.Texts.Add(texts[i], value);
-                            }
-                            catch (Exception e)
-                            {
-                                CLog.LogError("Error reading Party Language File " + file + ": " + e.Message);
-                                return false;
-                            }
-                        }
-
-                    }
-                    _Languages[nr].PartyModeTexts.Add(lang);
+                if (nr == -1)
                     return true;
+
+                SPartyLanguage lang = new SPartyLanguage();
+                lang.PartyModeID = PartyModeID;
+                lang.Texts = new Hashtable();
+
+                List<string> texts = xPathHelper.GetAttributes("resources", "name");
+                for (int i = 0; i < texts.Count; i++)
+                {
+                    if (xPathHelper.GetValue("//resources/string[@name='" + texts[i] + "']", ref value, value))
+                    {
+                        try
+                        {
+                            lang.Texts.Add(texts[i], value);
+                        }
+                        catch (Exception e)
+                        {
+                            CLog.LogError("Error reading Party Language File " + file + ": " + e.Message);
+                            return false;
+                        }
+                    }
+
                 }
+                _Languages[nr].PartyModeTexts.Add(lang);
+                return true;
             }
-            CLog.LogError("Error reading Party Language File " + file);
-            return false;
+            else
+            {
+                CLog.LogError("Error reading Party Language File " + file);
+                return false;
+            }
         }
 
         private static void LoadLanguageFile(string FileName)
         {
-            bool loaded = false;
-            XPathDocument xPathDoc = null;
-            XPathNavigator navigator = null;
             SLanguage lang = new SLanguage();
             lang.LanguageFilePath = Path.Combine(CSettings.sFolderLanguages, FileName);
 
+            CXMLReader xPathHelper;
+
             try
             {
-                xPathDoc = new XPathDocument(lang.LanguageFilePath);
-                navigator = xPathDoc.CreateNavigator();
-                loaded = true;
+                xPathHelper = new CXMLReader(lang.LanguageFilePath);
             }
             catch (Exception e)
             {
-                loaded = false;
-                if (navigator != null)
-                    navigator = null;
-
-                if (xPathDoc != null)
-                    xPathDoc = null;
-
-                CLog.LogError("Error opening Language File " + FileName + ": " + e.Message); 
+                CLog.LogError("Error opening Language File " + FileName + ": " + e.Message);
+                return;
             }
 
-            if (loaded)
+            string value = string.Empty;
+            if (xPathHelper.GetValue("//resources/string[@name='language']", ref value, value))
             {
-                string value = string.Empty;
-                if (CHelper.GetValueFromXML("//resources/string[@name='language']", navigator, ref value, value))
+                lang.Name = value;
+
+                if (lang.Name == CSettings.FallbackLanguage)
+                    _FallbackLanguage = _Languages.Count;
+
+                lang.Texts = new Hashtable();
+                lang.PartyModeTexts = new List<SPartyLanguage>();
+
+                List<string> texts = xPathHelper.GetAttributes("resources", "name");
+                for (int i = 0; i < texts.Count; i++)
                 {
-                    lang.Name = value;
-
-                    if (lang.Name == CSettings.FallbackLanguage)
-                        _FallbackLanguage = _Languages.Count;
-
-                    lang.Texts = new Hashtable();
-                    lang.PartyModeTexts = new List<SPartyLanguage>();
-
-                    List<string> texts = CHelper.GetAttributesFromXML("resources", navigator, "name");
-                    for (int i = 0; i < texts.Count; i++)
+                    if (xPathHelper.GetValue("//resources/string[@name='" + texts[i] + "']", ref value, value))
                     {
-                        if (CHelper.GetValueFromXML("//resources/string[@name='" + texts[i] + "']", navigator, ref value, value))
+                        try
                         {
-                            try
-                            {
-                                lang.Texts.Add(texts[i], value);
-                            }
-                            catch (Exception e)
-                            {
-                                CLog.LogError("Error reading Language File " + FileName + ": " + e.Message);
-                            }
+                            lang.Texts.Add(texts[i], value);
                         }
-                        
+                        catch (Exception e)
+                        {
+                            CLog.LogError("Error reading Language File " + FileName + ": " + e.Message);
+                        }
                     }
-
-                    _Languages.Add(lang);
+                        
                 }
+
+                _Languages.Add(lang);
             }
         }
 
