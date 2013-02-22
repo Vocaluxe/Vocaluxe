@@ -1022,8 +1022,8 @@ namespace Vocaluxe.Base
             CLog.StartBenchmark(2, "Read TXTs");
             foreach (string file in files)
             {
-                CSong Song = new CSong();
-                if (Song.ReadTXTSong(file))
+                CSong Song = CSong.LoadSong(file);
+                if (Song != null)
                 {
                     Song.ID = _Songs.Count;
                     _Songs.Add(Song);
@@ -1039,7 +1039,7 @@ namespace Vocaluxe.Base
 
             if (CConfig.Renderer != ERenderer.TR_CONFIG_SOFTWARE && CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
             {
-                CLog.StartBenchmark(2, "Load Cover");
+                CLog.StartBenchmark(2, "Load Covers/Notes");
                 for (int i = 0; i < _Songs.Count; i++)
                 {
                     CSong song = _Songs[i];
@@ -1058,7 +1058,7 @@ namespace Vocaluxe.Base
 
                 _CoverLoaded = true;
                 CDataBase.CommitCovers();
-                CLog.StopBenchmark(2, "Load Cover");
+                CLog.StopBenchmark(2, "Load Covers/Notes");
             }
             CLog.StopBenchmark(1, "Load Songs ");
             GC.Collect();

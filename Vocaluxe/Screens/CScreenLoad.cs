@@ -137,7 +137,7 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            CLog.StartBenchmark(3, "Load Cover");
+            CLog.StartBenchmark(0, "Load Songs Full");
             _SongLoaderThread.IsBackground = true;
             _SongLoaderThread.Start();
             _timer.Start();
@@ -221,7 +221,7 @@ namespace Vocaluxe.Screens
 
             CBackgroundMusic.CanSing = true;
 
-            CLog.StopBenchmark(3, "Load Cover");
+            CLog.StopBenchmark(0, "Load Songs Full");
 
             //Init Playlists
             CLog.StartBenchmark(0, "Init Playlists");
