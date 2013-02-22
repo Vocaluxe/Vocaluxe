@@ -35,7 +35,7 @@ namespace Vocaluxe.Base
         public static EGameState GameState = EGameState.Start;
 
         public const string sProgramName = "Vocaluxe";
-        public const string sProgramCodeName = "Sparkling Sky";
+        public const string sProgramCodeName = "Shining Heaven";
 
         public const int iVersionMajor = 0;
         public const int iVersionMinor = 3;      // milestones

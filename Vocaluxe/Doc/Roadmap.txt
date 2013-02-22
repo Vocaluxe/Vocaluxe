@@ -88,7 +88,7 @@
 	- Spectrum Analyzer (Record Screen and Player Selection Screen)
 	- WiiMote Support
  
- + v0.3.0 (reached: ??.0?.2013):
+ + v0.3.0 Shining Heaven (reached: ??.0?.2013):
 	- Party Mode Support
 	- Party Mode: Challenge Mode (with more than 2 player at once)
 	- Party Mode: Challenge Medley Mode
