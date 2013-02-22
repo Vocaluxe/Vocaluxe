@@ -20,7 +20,7 @@ namespace Vocaluxe.Menu
             get { return _Navigator; }
         }
 
-        public CXMLReader OpenFile(string sUri)
+        public static CXMLReader OpenFile(string sUri)
         {
             try
             {
@@ -84,21 +84,15 @@ namespace Vocaluxe.Menu
             int results = 0;
             string val = string.Empty;
 
-            try
-            {
-                _Navigator.MoveToFirstChild();
-                iterator = _Navigator.Select(Cast);
+            _Navigator.MoveToFirstChild();
+            iterator = _Navigator.Select(Cast);
 
-                while (iterator.MoveNext())
-                {
-                    val = iterator.Current.Value;
-                    results++;
-                }
-            }
-            catch (Exception)
+            while (iterator.MoveNext())
             {
-                results = 0;
+                val = iterator.Current.Value;
+                results++;
             }
+
 
             if ((results == 0) || (results > 1))
             {
@@ -117,26 +111,18 @@ namespace Vocaluxe.Menu
         {
             List<string> values = new List<string>();
 
-            try
-            {
-                _Navigator.MoveToRoot();
-                _Navigator.MoveToFirstChild();
-                _Navigator.MoveToFirstChild();
+            _Navigator.MoveToRoot();
+            _Navigator.MoveToFirstChild();
+            _Navigator.MoveToFirstChild();
 
-                while (_Navigator.Name != Cast)
-                    _Navigator.MoveToNext();
+            while (_Navigator.Name != Cast)
+                _Navigator.MoveToNext();
 
-                _Navigator.MoveToFirstChild();
+            _Navigator.MoveToFirstChild();
 
+            values.Add(_Navigator.LocalName);
+            while (_Navigator.MoveToNext())
                 values.Add(_Navigator.LocalName);
-                while (_Navigator.MoveToNext())
-                    values.Add(_Navigator.LocalName);
-
-            }
-            catch (Exception)
-            {
-
-            }
 
             return values;
         }
@@ -145,51 +131,35 @@ namespace Vocaluxe.Menu
         {
             List<string> values = new List<string>();
 
-            try
-            {
-                _Navigator.MoveToRoot();
-                _Navigator.MoveToFirstChild();
+            _Navigator.MoveToRoot();
+            _Navigator.MoveToFirstChild();
 
-                while (_Navigator.Name != Cast)
-                    _Navigator.MoveToNext();
+            while (_Navigator.Name != Cast)
+                _Navigator.MoveToNext();
 
-                _Navigator.MoveToFirstChild();
+            _Navigator.MoveToFirstChild();
 
-                values.Add(_Navigator.LocalName);
-                while (_Navigator.MoveToNext())
-                    values.Add(_Navigator.GetAttribute(attribute, ""));
-
-            }
-            catch (Exception)
-            {
-
-            }
+            values.Add(_Navigator.LocalName);
+            while (_Navigator.MoveToNext())
+                values.Add(_Navigator.GetAttribute(attribute, ""));
 
             return values;
         }
 
         public bool GetInnerValues(string Cast, ref List<string> Values)
         {
-            try
-            {
-                _Navigator.MoveToRoot();
-                _Navigator.MoveToFirstChild();
-                _Navigator.MoveToFirstChild();
+            _Navigator.MoveToRoot();
+            _Navigator.MoveToFirstChild();
+            _Navigator.MoveToFirstChild();
 
-                while (_Navigator.Name != Cast)
-                    _Navigator.MoveToNext();
+            while (_Navigator.Name != Cast)
+                _Navigator.MoveToNext();
 
-                _Navigator.MoveToFirstChild();
+            _Navigator.MoveToFirstChild();
 
+            Values.Add(_Navigator.Value);
+            while (_Navigator.MoveToNext())
                 Values.Add(_Navigator.Value);
-                while (_Navigator.MoveToNext())
-                    Values.Add(_Navigator.Value);
-
-            }
-            catch
-            {
-                return false;
-            }
 
             return true;
         }
@@ -199,18 +169,11 @@ namespace Vocaluxe.Menu
             XPathNodeIterator iterator;
             int results = 0;
 
-            try
-            {
-                _Navigator.MoveToFirstChild();
-                iterator = _Navigator.Select(Cast);
+            _Navigator.MoveToFirstChild();
+            iterator = _Navigator.Select(Cast);
 
-                while (iterator.MoveNext())
-                    results++;
-            }
-            catch (Exception)
-            {
-                results = 0;
-            }
+            while (iterator.MoveNext())
+                results++;
 
             if (results == 0)
                 return false;
