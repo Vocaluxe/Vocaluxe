@@ -6,12 +6,9 @@ namespace Vocaluxe.Menu.SongMenu
 {
     class CSongMenuList : CSongMenuFramework
     {
-        new private Basic _Base;
-
-        public CSongMenuList(Basic Base, int PartyModeID)
-            : base(Base, PartyModeID)
+        public CSongMenuList(int PartyModeID)
+            : base(PartyModeID)
         {
-            _Base = Base;
         }
     }
 }

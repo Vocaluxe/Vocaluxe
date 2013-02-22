@@ -16,7 +16,6 @@ namespace Vocaluxe.Menu
     public class CStatic : IMenuElement
     {
         private int _PartyModeID;
-        private Basic _Base;
 
         private SThemeStatic _Theme;
         private bool _ThemeLoaded;
@@ -34,7 +33,7 @@ namespace Vocaluxe.Menu
                 if (_Texture.index != -1)
                     return _Texture;
                 else
-                    return _Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+                    return CBase.Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
             }
 
             set { _Texture = value; }
@@ -54,10 +53,9 @@ namespace Vocaluxe.Menu
 
         public EAspect Aspect = EAspect.Stretch;
 
-        public CStatic(Basic Base, int PartyModeID)
+        public CStatic(int PartyModeID)
         {
             _PartyModeID = PartyModeID;
-            _Base = Base;
             _Theme = new SThemeStatic();
             _ThemeLoaded = false;
 
@@ -76,7 +74,6 @@ namespace Vocaluxe.Menu
         public CStatic(CStatic s)
         {
             _PartyModeID = s._PartyModeID;
-            _Base = s._Base;
             _Theme = new SThemeStatic();
             _ThemeLoaded = false;
 
@@ -92,10 +89,9 @@ namespace Vocaluxe.Menu
             Visible = s.Visible;
         }
 
-        public CStatic(Basic Base, int PartyModeID, STexture texture, SColorF color, SRectF rect)
+        public CStatic(int PartyModeID, STexture texture, SColorF color, SRectF rect)
         {
             _PartyModeID = PartyModeID;
-            _Base = Base;
             _Theme = new SThemeStatic();
             _ThemeLoaded = false;
 
@@ -111,10 +107,9 @@ namespace Vocaluxe.Menu
             Visible = true;
         }
 
-        public CStatic(Basic Base, int PartyModeID, string TextureSkinName, SColorF color, SRectF rect)
+        public CStatic(int PartyModeID, string TextureSkinName, SColorF color, SRectF rect)
         {
             _PartyModeID = PartyModeID;
-            _Base = Base;
             _Theme = new SThemeStatic();
             _Theme.TextureName = TextureSkinName;
             _ThemeLoaded = false;
@@ -146,7 +141,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
-                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
+                _ThemeLoaded &= CBase.Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
@@ -246,7 +241,7 @@ namespace Vocaluxe.Menu
             if (_Texture.index != -1)
                 texture = _Texture;
             else
-                texture = _Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+                texture = CBase.Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
 
             SRectF bounds = new SRectF(
                 Rect.X - Rect.W * (scale - 1f),
@@ -270,18 +265,18 @@ namespace Vocaluxe.Menu
             }
             
             SColorF color = new SColorF(Color.R, Color.G, Color.B, Color.A * Alpha);
-            if (Visible || ForceDraw || (_Base.Settings.GetGameState() == EGameState.EditTheme))
+            if (Visible || ForceDraw || (CBase.Base.Settings.GetGameState() == EGameState.EditTheme))
             {
-                _Base.Drawing.DrawTexture(texture, rect, color, bounds);
+                CBase.Base.Drawing.DrawTexture(texture, rect, color, bounds);
                 if (Reflection)
                 {
-                    _Base.Drawing.DrawTextureReflection(texture, rect, color, bounds, ReflectionSpace, ReflectionHeight);
+                    CBase.Base.Drawing.DrawTextureReflection(texture, rect, color, bounds, ReflectionSpace, ReflectionHeight);
                 }
             }
 
-            if (Selected && (_Base.Settings.GetGameState() == EGameState.EditTheme))
+            if (Selected && (CBase.Base.Settings.GetGameState() == EGameState.EditTheme))
             {
-                _Base.Drawing.DrawColor(new SColorF(1f, 1f, 1f, 0.5f), rect);
+                CBase.Base.Drawing.DrawColor(new SColorF(1f, 1f, 1f, 0.5f), rect);
             }
         }
 
@@ -292,7 +287,7 @@ namespace Vocaluxe.Menu
         public void LoadTextures()
         {
             if (_Theme.ColorName != String.Empty)
-                Color = _Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+                Color = CBase.Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
         }
 
         public void ReloadTextures()

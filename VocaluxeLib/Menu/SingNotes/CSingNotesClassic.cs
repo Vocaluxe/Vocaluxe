@@ -6,12 +6,10 @@ namespace Vocaluxe.Menu.SingNotes
 {
     class CSingNotesClassic : CSingNotes
     {
-        private Basic _Base;
-
-        public CSingNotesClassic(Basic Base, int PartyModeID)
-            : base(Base, PartyModeID)
+        public CSingNotesClassic(int PartyModeID)
+            : base(PartyModeID)
         {
-            _Base = Base;
+
         }
     }
 }

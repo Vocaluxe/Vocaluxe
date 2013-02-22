@@ -19,7 +19,6 @@ namespace Vocaluxe.Menu
 
     public class CButton : IMenuElement
     {
-        private Basic _Base;
         private SThemeButton _Theme;
         private bool _ThemeLoaded;
         private int _PartyModeID;
@@ -72,10 +71,9 @@ namespace Vocaluxe.Menu
             return _Theme.Name;
         }
 
-        public CButton(Basic Base, int PartyModeID)
+        public CButton(int PartyModeID)
         {
             _PartyModeID = PartyModeID;
-            _Base = Base;
             _Theme = new SThemeButton();
             Rect = new SRectF();
             Color = new SColorF();
@@ -84,8 +82,8 @@ namespace Vocaluxe.Menu
             STexture = new STexture(-1);
 
             SelText = false;
-            Text = new CText(_Base, _PartyModeID);
-            SText = new CText(_Base, _PartyModeID);
+            Text = new CText(_PartyModeID);
+            SText = new CText(_PartyModeID);
             Selected = false;
             Visible = true;
             EditMode = false;
@@ -103,7 +101,6 @@ namespace Vocaluxe.Menu
         public CButton(CButton button)
         {
             _PartyModeID = button._PartyModeID;
-            _Base = button._Base;
             _Theme = new SThemeButton();
             _Theme.ColorName = button._Theme.ColorName;
             _Theme.SColorName = button._Theme.SColorName;
@@ -150,7 +147,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
-                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
+                _ThemeLoaded &= CBase.Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
@@ -162,7 +159,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/SColor", ref _Theme.SColorName, String.Empty))
             {
-                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.SColorName, SkinIndex, ref SColor);
+                _ThemeLoaded &= CBase.Base.Theme.GetColor(_Theme.SColorName, SkinIndex, ref SColor);
             }
             else
             {
@@ -301,7 +298,7 @@ namespace Vocaluxe.Menu
 
         public void Draw(bool ForceDraw)
         {
-            if (!Visible && _Base.Settings.GetGameState() != EGameState.EditTheme && !ForceDraw)
+            if (!Visible && CBase.Base.Settings.GetGameState() != EGameState.EditTheme && !ForceDraw)
                 return;
 
             STexture texture = new STexture(-1);
@@ -311,13 +308,13 @@ namespace Vocaluxe.Menu
                 if (Texture.index != -1)
                     texture = Texture;
                 else
-                    texture = _Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+                    texture = CBase.Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
 
-                _Base.Drawing.DrawTexture(texture, Rect, Color);
+                CBase.Base.Drawing.DrawTexture(texture, Rect, Color);
                 
                 if (Reflection)
                 {
-                    _Base.Drawing.DrawTextureReflection(texture, Rect, Color, Rect, ReflectionSpace, ReflectionHeight);
+                    CBase.Base.Drawing.DrawTextureReflection(texture, Rect, Color, Rect, ReflectionSpace, ReflectionHeight);
                     Text.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
                 }
                 else
@@ -328,13 +325,13 @@ namespace Vocaluxe.Menu
                 if (Texture.index != -1)
                     texture = Texture;
                 else
-                    texture = _Base.Theme.GetSkinTexture(_Theme.STextureName, _PartyModeID);
+                    texture = CBase.Base.Theme.GetSkinTexture(_Theme.STextureName, _PartyModeID);
 
-                _Base.Drawing.DrawTexture(texture, Rect, SColor);
+                CBase.Base.Drawing.DrawTexture(texture, Rect, SColor);
 
                 if (Reflection)
                 {
-                    _Base.Drawing.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
+                    CBase.Base.Drawing.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
                     Text.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
                 }
                 else
@@ -345,13 +342,13 @@ namespace Vocaluxe.Menu
                 if (STexture.index != -1)
                     texture = STexture;
                 else
-                    texture = _Base.Theme.GetSkinTexture(_Theme.STextureName, _PartyModeID);
+                    texture = CBase.Base.Theme.GetSkinTexture(_Theme.STextureName, _PartyModeID);
 
-                _Base.Drawing.DrawTexture(texture, Rect, SColor);
+                CBase.Base.Drawing.DrawTexture(texture, Rect, SColor);
 
                 if (Reflection)
                 {
-                    _Base.Drawing.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
+                    CBase.Base.Drawing.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
                     SText.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
                 }
                 else
@@ -374,10 +371,10 @@ namespace Vocaluxe.Menu
             Text.LoadTextures();
 
             if (_Theme.ColorName != String.Empty)
-                Color = _Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+                Color = CBase.Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
             if (_Theme.SColorName != String.Empty)
-                SColor = _Base.Theme.GetColor(_Theme.SColorName, _PartyModeID);
+                SColor = CBase.Base.Theme.GetColor(_Theme.SColorName, _PartyModeID);
         }
 
         public void ReloadTextures()

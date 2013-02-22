@@ -91,7 +91,6 @@ namespace Vocaluxe.Menu.SongMenu
     abstract class CSongMenuFramework : ISongMenu
     {
         protected int _PartyModeID;
-        protected Basic _Base;
         protected SThemeSongMenu _Theme;
         private bool _ThemeLoaded;
 
@@ -233,22 +232,21 @@ namespace Vocaluxe.Menu.SongMenu
             _Visible = Visible;
         }
 
-        public CSongMenuFramework(Basic Base, int PartyModeID)
+        public CSongMenuFramework(int PartyModeID)
         {
             _PartyModeID = PartyModeID;
-            _Base = Base;
             _Theme = new SThemeSongMenu();
 
-            _Theme.songMenuTileBoard.TextArtist = new CText(_Base, _PartyModeID);
-            _Theme.songMenuTileBoard.TextTitle = new CText(_Base, _PartyModeID);
-            _Theme.songMenuTileBoard.TextSongLength = new CText(_Base, _PartyModeID);
+            _Theme.songMenuTileBoard.TextArtist = new CText(_PartyModeID);
+            _Theme.songMenuTileBoard.TextTitle = new CText(_PartyModeID);
+            _Theme.songMenuTileBoard.TextSongLength = new CText(_PartyModeID);
 
-            _Theme.songMenuTileBoard.StaticCoverBig = new CStatic(_Base, _PartyModeID);
-            _Theme.songMenuTileBoard.StaticTextBG = new CStatic(_Base, _PartyModeID);
-            _Theme.songMenuTileBoard.StaticDuetIcon = new CStatic(_Base, _PartyModeID);
-            _Theme.songMenuTileBoard.StaticVideoIcon = new CStatic(_Base, _PartyModeID);
-            _Theme.songMenuTileBoard.StaticMedleyCalcIcon = new CStatic(_Base, _PartyModeID);
-            _Theme.songMenuTileBoard.StaticMedleyTagIcon = new CStatic(_Base, _PartyModeID);
+            _Theme.songMenuTileBoard.StaticCoverBig = new CStatic(_PartyModeID);
+            _Theme.songMenuTileBoard.StaticTextBG = new CStatic(_PartyModeID);
+            _Theme.songMenuTileBoard.StaticDuetIcon = new CStatic(_PartyModeID);
+            _Theme.songMenuTileBoard.StaticVideoIcon = new CStatic(_PartyModeID);
+            _Theme.songMenuTileBoard.StaticMedleyCalcIcon = new CStatic(_PartyModeID);
+            _Theme.songMenuTileBoard.StaticMedleyTagIcon = new CStatic(_PartyModeID);
 
             _ThemeLoaded = false;
         }
@@ -272,7 +270,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
-                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref _Color);
+                _ThemeLoaded &= CBase.Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref _Color);
             }
             else
             {
@@ -443,17 +441,17 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (_streams.Count > 0 && _video != -1)
             {
-                if (_Base.Video.IsFinished(_video) || _Base.Sound.IsFinished(_actsongstream))
+                if (CBase.Base.Video.IsFinished(_video) || CBase.Base.Sound.IsFinished(_actsongstream))
                 {
-                    _Base.Video.Close(_video);
+                    CBase.Base.Video.Close(_video);
                     _video = -1;
                     return;
                 }
 
-                float time = _Base.Sound.GetPosition(_actsongstream);
+                float time = CBase.Base.Sound.GetPosition(_actsongstream);
                 
                 float vtime = 0f;
-                _Base.Video.GetFrame(_video, ref _vidtex, time, ref vtime);
+                CBase.Base.Video.GetFrame(_video, ref _vidtex, time, ref vtime);
                 if (_VideoFadeTimer.ElapsedMilliseconds <= 3000L)
                 {
                     _vidtex.color.A = (_VideoFadeTimer.ElapsedMilliseconds / 3000f);
@@ -476,14 +474,14 @@ namespace Vocaluxe.Menu.SongMenu
         {
             foreach (int stream in _streams)
             {
-                _Base.Sound.FadeAndStop(stream, 0f, 0.75f);
+                CBase.Base.Sound.FadeAndStop(stream, 0f, 0.75f);
             }
             _streams.Clear();
 
-            _Base.Video.Close(_video);
+            CBase.Base.Video.Close(_video);
             _video = -1;
 
-            _Base.Drawing.RemoveTexture(ref _vidtex);            
+            CBase.Base.Drawing.RemoveTexture(ref _vidtex);            
 
             _timer.Stop();
             _timer.Reset();
@@ -509,7 +507,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (_video != -1)
             {
-                _Base.Drawing.DrawTexture(_vidtex, new SRectF(0, 0, 1280, 720, 0));
+                CBase.Base.Drawing.DrawTexture(_vidtex, new SRectF(0, 0, 1280, 720, 0));
             }
             
         }
@@ -520,7 +518,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             foreach (int stream in _streams)
             {
-                _Base.Sound.SetStreamVolumeMax(stream, _MaxVolume);
+                CBase.Base.Sound.SetStreamVolumeMax(stream, _MaxVolume);
             }
         }
 
@@ -541,7 +539,7 @@ namespace Vocaluxe.Menu.SongMenu
 
         public virtual CStatic GetSelectedSongCover()
         {
-            return new CStatic(_Base, _PartyModeID);
+            return new CStatic(_PartyModeID);
         }
 
         public virtual int GetSelectedCategory()
@@ -581,7 +579,7 @@ namespace Vocaluxe.Menu.SongMenu
             Init();
 
             if (_Theme.ColorName != String.Empty)
-                _Color = _Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+                _Color = CBase.Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
         }
 
         public void ReloadTextures()
@@ -595,11 +593,11 @@ namespace Vocaluxe.Menu.SongMenu
             if (!_Initialized)
                 return;
 
-            if (Category >= _Base.Songs.GetNumCategories())
+            if (Category >= CBase.Base.Songs.GetNumCategories())
                 return;
 
             Reset();
-            _Base.Songs.SetCategory(Category);
+            CBase.Base.Songs.SetCategory(Category);
         }
 
         protected virtual void ShowCategories()
@@ -607,59 +605,59 @@ namespace Vocaluxe.Menu.SongMenu
             if (!_Initialized)
                 return;
 
-            if (_Base.Songs.GetCurrentCategoryIndex() != -1)
+            if (CBase.Base.Songs.GetCurrentCategoryIndex() != -1)
                 Reset();
 
             Reset();
-            _Base.Songs.SetCategory(-1);
+            CBase.Base.Songs.SetCategory(-1);
         }
 
         public void ApplyVolume()
         {
-            _Base.Sound.SetStreamVolume(_actsongstream, _Base.Config.GetPreviewMusicVolume());
+            CBase.Base.Sound.SetStreamVolume(_actsongstream, CBase.Base.Config.GetPreviewMusicVolume());
         }
 
         protected void SelectSong(int nr)
         {
-            if (_Base.Songs.GetCurrentCategoryIndex() >= 0 && (_Base.Songs.GetNumVisibleSongs() > 0) && (nr >= 0) && ((_actsong != nr) || (_streams.Count == 0)))
+            if (CBase.Base.Songs.GetCurrentCategoryIndex() >= 0 && (CBase.Base.Songs.GetNumVisibleSongs() > 0) && (nr >= 0) && ((_actsong != nr) || (_streams.Count == 0)))
             {
                 foreach (int stream in _streams)
                 {
-                    _Base.Sound.FadeAndStop(stream, 0f, 1f);
+                    CBase.Base.Sound.FadeAndStop(stream, 0f, 1f);
                 }
                 _streams.Clear();
 
-                _Base.Video.Close(_video);
+                CBase.Base.Video.Close(_video);
                 _video = -1;
 
-                _Base.Drawing.RemoveTexture(ref _vidtex);
+                CBase.Base.Drawing.RemoveTexture(ref _vidtex);
 
                 _actsong = nr;
-                if (_actsong >= _Base.Songs.GetNumVisibleSongs())
+                if (_actsong >= CBase.Base.Songs.GetNumVisibleSongs())
                     _actsong = 0;
 
 
-                int _stream = _Base.Sound.Load(Path.Combine(_Base.Songs.GetVisibleSong(_actsong).Folder, _Base.Songs.GetVisibleSong(_actsong).MP3FileName), true);
-                _Base.Sound.SetStreamVolumeMax(_stream, _MaxVolume);
-                _Base.Sound.SetStreamVolume(_stream, 0f);
+                int _stream = CBase.Base.Sound.Load(Path.Combine(CBase.Base.Songs.GetVisibleSong(_actsong).Folder, CBase.Base.Songs.GetVisibleSong(_actsong).MP3FileName), true);
+                CBase.Base.Sound.SetStreamVolumeMax(_stream, _MaxVolume);
+                CBase.Base.Sound.SetStreamVolume(_stream, 0f);
 
-                float startposition = _Base.Songs.GetVisibleSong(_actsong).PreviewStart;
+                float startposition = CBase.Base.Songs.GetVisibleSong(_actsong).PreviewStart;
 
                 if (startposition == 0f)
-                    startposition = _Base.Sound.GetLength(_stream) / 4f;
+                    startposition = CBase.Base.Sound.GetLength(_stream) / 4f;
 
-                _Base.Sound.SetPosition(_stream, startposition);
-                _Base.Sound.Play(_stream);
-                _Base.Sound.Fade(_stream, 100f, 3f);
+                CBase.Base.Sound.SetPosition(_stream, startposition);
+                CBase.Base.Sound.Play(_stream);
+                CBase.Base.Sound.Fade(_stream, 100f, 3f);
                 _streams.Add(_stream);
                 _actsongstream = _stream;
                 
-                if (_Base.Songs.GetVisibleSong(_actsong).VideoFileName != String.Empty && _Base.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
+                if (CBase.Base.Songs.GetVisibleSong(_actsong).VideoFileName != String.Empty && CBase.Base.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
                 {
-                    _video = _Base.Video.Load(Path.Combine(_Base.Songs.GetVisibleSong(_actsong).Folder, _Base.Songs.GetVisibleSong(_actsong).VideoFileName));
+                    _video = CBase.Base.Video.Load(Path.Combine(CBase.Base.Songs.GetVisibleSong(_actsong).Folder, CBase.Base.Songs.GetVisibleSong(_actsong).VideoFileName));
                     if (_video == -1)
                         return;
-                    _Base.Video.Skip(_video, startposition, _Base.Songs.GetVisibleSong(_actsong).VideoGap);
+                    CBase.Base.Video.Skip(_video, startposition, CBase.Base.Songs.GetVisibleSong(_actsong).VideoGap);
                     _VideoFadeTimer.Stop();
                     _VideoFadeTimer.Reset();
                     _VideoFadeTimer.Start();
@@ -671,14 +669,14 @@ namespace Vocaluxe.Menu.SongMenu
         {
             foreach (int stream in _streams)
             {
-                _Base.Sound.FadeAndStop(stream, 0f, 0.75f);
+                CBase.Base.Sound.FadeAndStop(stream, 0f, 0.75f);
             }
             _streams.Clear();
 
-            _Base.Video.Close(_video);
+            CBase.Base.Video.Close(_video);
             _video = -1;
 
-            _Base.Drawing.RemoveTexture(ref _vidtex);
+            CBase.Base.Drawing.RemoveTexture(ref _vidtex);
 
             _timer.Stop();
             _timer.Reset();

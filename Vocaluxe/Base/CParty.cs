@@ -323,7 +323,7 @@ namespace Vocaluxe.Base
 
                 if (Screen != null)
                 {
-                    Screen.Initialize(CMain.Base);
+                    Screen.Initialize();
                     Screen.AssingPartyMode(pm.PartyMode);
                     Screen.SetPartyModeID(pm.PartyModeID);
                     Screen.LoadTheme(XmlPath);

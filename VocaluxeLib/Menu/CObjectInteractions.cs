@@ -14,7 +14,6 @@ namespace Vocaluxe.Menu
 {
     class CObjectInteractions
     {
-        private Basic _Base;
         private List<CInteraction> _Interactions;
         private int _Selection = 0;
 
@@ -38,9 +37,8 @@ namespace Vocaluxe.Menu
             get { return _ScreenArea; }
         }
 
-        public CObjectInteractions(Basic Base)
+        public CObjectInteractions()
         {
-            _Base = Base;
             Init();
         }
 
@@ -61,7 +59,7 @@ namespace Vocaluxe.Menu
             _MouseDY = 0;
 
             Active = false;
-            _ScreenArea = new SRectF(0f, 0f, _Base.Settings.GetRenderW(), _Base.Settings.GetRenderH(), 0f);
+            _ScreenArea = new SRectF(0f, 0f, CBase.Base.Settings.GetRenderW(), CBase.Base.Settings.GetRenderH(), 0f);
         }
 
         public void Clear()
@@ -117,7 +115,7 @@ namespace Vocaluxe.Menu
         #region MenuHandler
         public bool HandleInput(KeyEvent KeyEvent)
         {
-            if (!_Base.Settings.IsTabNavigation())
+            if (!CBase.Base.Settings.IsTabNavigation())
             {
                 if (KeyEvent.Key == Keys.Left)
                 {
@@ -191,7 +189,7 @@ namespace Vocaluxe.Menu
                 switch (KeyEvent.Key)
                 {
                     case Keys.S:
-                        _Base.Graphics.SaveTheme();
+                        CBase.Base.Graphics.SaveTheme();
                         break;
 
                     case Keys.Up:
@@ -476,10 +474,10 @@ namespace Vocaluxe.Menu
 
         public void SelectByMouse(int x, int y)
         {
-            float z = _Base.Settings.GetZFar();
+            float z = CBase.Base.Settings.GetZFar();
             for (int i = 0; i < _Interactions.Count; i++)
             {
-                if ((_Base.Settings.GetGameState() == EGameState.EditTheme) || (!_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i)))
+                if ((CBase.Base.Settings.GetGameState() == EGameState.EditTheme) || (!_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i)))
                 {
                     if (_IsMouseOver(x, y, _Interactions[i]))
                     {
@@ -542,7 +540,7 @@ namespace Vocaluxe.Menu
                 case EType.TSelectSlide:
                     return _SelectSlides[interact.Num].Rect.Z;
             }
-            return _Base.Settings.GetZFar();
+            return CBase.Base.Settings.GetZFar();
         }
 
         private float _GetZValue(int interaction)
@@ -559,13 +557,13 @@ namespace Vocaluxe.Menu
                     return _SelectSlides[_Interactions[interaction].Num].Rect.Z;
             }
 
-            return _Base.Settings.GetZFar();
+            return CBase.Base.Settings.GetZFar();
         }
 
         private void _NextInteraction()
         {
             _UnsetSelected();
-            if (_Base.Settings.GetGameState() != EGameState.EditTheme)
+            if (CBase.Base.Settings.GetGameState() != EGameState.EditTheme)
             {
                 bool found = false;
                 int start = _Selection;
@@ -592,7 +590,7 @@ namespace Vocaluxe.Menu
         private void _PrevInteraction()
         {
             _UnsetSelected();
-            if (_Base.Settings.GetGameState() != EGameState.EditTheme)
+            if (CBase.Base.Settings.GetGameState() != EGameState.EditTheme)
             {
                 bool found = false;
                 int start = _Selection;
@@ -739,13 +737,13 @@ namespace Vocaluxe.Menu
                 switch (Key.Key)
                 {
                     case Keys.Up:
-                        actualRect = new SRectF(actualRect.X, _Base.Settings.GetRenderH(), 1, 1, actualRect.Z);
+                        actualRect = new SRectF(actualRect.X, CBase.Base.Settings.GetRenderH(), 1, 1, actualRect.Z);
                         break;
                     case Keys.Down:
                         actualRect = new SRectF(actualRect.X, 0, 1, 1, actualRect.Z);
                         break;
                     case Keys.Left:
-                        actualRect = new SRectF(_Base.Settings.GetRenderW(), actualRect.Y, 1, 1, actualRect.Z);
+                        actualRect = new SRectF(CBase.Base.Settings.GetRenderW(), actualRect.Y, 1, 1, actualRect.Z);
                         break;
                     case Keys.Right:
                         actualRect = new SRectF(0, actualRect.Y, 1, 1, actualRect.Z);

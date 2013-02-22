@@ -25,14 +25,13 @@ namespace Vocaluxe.Menu
     {
         class CTile
         {
-            private Basic _Base;
             public int PlayerNr;
             public CStatic Avatar;
             public CText Name;
 
             public CTile(Basic Base)
             {
-                _Base = Base;
+                CBase.Base = Base;
             }
 
             public CTile(CStatic av, CText tex, int pl)
@@ -44,7 +43,6 @@ namespace Vocaluxe.Menu
         }
 
         private int _PartyModeID;
-        private Basic _Base;
         private SThemeNameSelection _Theme;
         private bool _ThemeLoaded;
 
@@ -84,10 +82,9 @@ namespace Vocaluxe.Menu
         private CStatic PlayerSelector;
 
 
-        public CNameSelection(Basic Base, int PartyModeID)
+        public CNameSelection(int PartyModeID)
         {
             _PartyModeID = PartyModeID;
-            _Base = Base;
             _Theme = new SThemeNameSelection();
 
             _Tiles = new List<CTile>();
@@ -98,7 +95,7 @@ namespace Vocaluxe.Menu
         {
             PrepareTiles();
 
-            PlayerSelector = new CStatic(_Base, _PartyModeID);
+            PlayerSelector = new CStatic(_PartyModeID);
             PlayerSelector.Texture = _TextureTileSelected;
             PlayerSelector.Rect = new SRectF(0, 0, (_TileW + 6), (_TileH + 6), (Rect.Z - 0.5f));
             PlayerSelector.Visible = false;
@@ -123,7 +120,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/ColorEmptyTile", ref _Theme.ColorEmptyTileName, String.Empty))
             {
-                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorEmptyTileName, SkinIndex, ref ColorEmptyTile);
+                _ThemeLoaded &= CBase.Base.Theme.GetColor(_Theme.ColorEmptyTileName, SkinIndex, ref ColorEmptyTile);
             }
             else
             {
@@ -147,7 +144,7 @@ namespace Vocaluxe.Menu
             _ThemeLoaded &= xmlReader.TryGetEnumValue<EStyle>(item + "/Tiles/Name/Style", ref _Theme.NameStyle);
             if (xmlReader.GetValue(item + "/Tiles/Name/Color", ref _Theme.NameColorName, String.Empty))
             {
-                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.NameColorName, SkinIndex, ref _Theme.NameColor);
+                _ThemeLoaded &= CBase.Base.Theme.GetColor(_Theme.NameColorName, SkinIndex, ref _Theme.NameColor);
             }
             else
             {
@@ -371,7 +368,7 @@ namespace Vocaluxe.Menu
             if (active && Selection != -1)
             {
                 _player = player;
-                PlayerSelector.Color = _Base.Theme.GetPlayerColor(player);
+                PlayerSelector.Color = CBase.Base.Theme.GetPlayerColor(player);
             }
             //Normal activation
             else if (active)
@@ -379,7 +376,7 @@ namespace Vocaluxe.Menu
                 Selection = 0;
                 _actualSelection = 0;
                 _player = player;
-                PlayerSelector.Color = _Base.Theme.GetPlayerColor(player);
+                PlayerSelector.Color = CBase.Base.Theme.GetPlayerColor(player);
                 PlayerSelector.Visible = true;
             }
             //Deactivate
@@ -414,9 +411,9 @@ namespace Vocaluxe.Menu
             {
                 if ((i + offset * _Tiles.Count) < VisibleProfiles.Count)
                 {
-                    _Tiles[i].Avatar.Texture = _Base.Profiles.GetProfiles()[VisibleProfiles[i + offset * _Tiles.Count]].Avatar.Texture;
+                    _Tiles[i].Avatar.Texture = CBase.Base.Profiles.GetProfiles()[VisibleProfiles[i + offset * _Tiles.Count]].Avatar.Texture;
                     _Tiles[i].Avatar.Color = new SColorF(1, 1, 1, 1);
-                    _Tiles[i].Name.Text = _Base.Profiles.GetProfiles()[VisibleProfiles[i + offset * _Tiles.Count]].PlayerName;
+                    _Tiles[i].Name.Text = CBase.Base.Profiles.GetProfiles()[VisibleProfiles[i + offset * _Tiles.Count]].PlayerName;
                     _Tiles[i].PlayerNr = VisibleProfiles[i + offset * _Tiles.Count];
                 }
                 else
@@ -466,7 +463,7 @@ namespace Vocaluxe.Menu
                 }
             }
 
-            return new CStatic(_Base, _PartyModeID);
+            return new CStatic(_PartyModeID);
         }
 
         public void UnloadTextures()
@@ -475,14 +472,14 @@ namespace Vocaluxe.Menu
 
         public void LoadTextures()
         {
-            _TextureEmptyTile = _Base.Theme.GetSkinTexture(_Theme.TextureEmptyTileName, _PartyModeID);
-            _TextureTileSelected = _Base.Theme.GetSkinTexture(_Theme.TextureTileSelectedName, _PartyModeID);
+            _TextureEmptyTile = CBase.Base.Theme.GetSkinTexture(_Theme.TextureEmptyTileName, _PartyModeID);
+            _TextureTileSelected = CBase.Base.Theme.GetSkinTexture(_Theme.TextureTileSelectedName, _PartyModeID);
 
             if (_Theme.ColorEmptyTileName != String.Empty)
-                ColorEmptyTile = _Base.Theme.GetColor(_Theme.ColorEmptyTileName, _PartyModeID);
+                ColorEmptyTile = CBase.Base.Theme.GetColor(_Theme.ColorEmptyTileName, _PartyModeID);
 
             if (_Theme.NameColorName != String.Empty)
-                _Theme.NameColor = _Base.Theme.GetColor(_Theme.NameColorName, _PartyModeID);
+                _Theme.NameColor = CBase.Base.Theme.GetColor(_Theme.NameColorName, _PartyModeID);
         }
 
         public void ReloadTextures()
@@ -501,8 +498,8 @@ namespace Vocaluxe.Menu
                 for (int j = 0; j < _NumW; j++)
                 {
                     SRectF rect = new SRectF(Rect.X + j * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
-                    CStatic tileStatic = new CStatic(_Base, _PartyModeID, _TextureEmptyTile, ColorEmptyTile, rect);
-                    CText tileText = new CText(_Base, rect.X + rect.W / 2, rect.Y + rect.H + _Theme.NameSpace, rect.Z, _Theme.NameHeight, rect.W, EAlignment.Center, _Theme.NameStyle, _Theme.NameFont, _Theme.NameColor, "");
+                    CStatic tileStatic = new CStatic(_PartyModeID, _TextureEmptyTile, ColorEmptyTile, rect);
+                    CText tileText = new CText(rect.X + rect.W / 2, rect.Y + rect.H + _Theme.NameSpace, rect.Z, _Theme.NameHeight, rect.W, EAlignment.Center, _Theme.NameStyle, _Theme.NameFont, _Theme.NameColor, "");
                     _Tiles.Add(new CTile(tileStatic, tileText, -1));
                 }
             }
@@ -511,18 +508,18 @@ namespace Vocaluxe.Menu
         private void UpdateVisibleProfiles()
         {
             VisibleProfiles.Clear();
-            for (int i = 0; i < _Base.Profiles.GetProfiles().Length; i++)
+            for (int i = 0; i < CBase.Base.Profiles.GetProfiles().Length; i++)
             {
                 bool visible = false;
                 //Show profile only if active
-                if (_Base.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON)
+                if (CBase.Base.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON)
                 {
                     visible = true;
                 }
-                for (int p = 0; p < _Base.Game.GetNumPlayer(); p++)
+                for (int p = 0; p < CBase.Base.Game.GetNumPlayer(); p++)
                 {
                     //Don't show profile if is selected, but if selected and guest
-                    if (_Base.Game.GetPlayer()[p].ProfileID == i && _Base.Profiles.GetProfiles()[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
+                    if (CBase.Base.Game.GetPlayer()[p].ProfileID == i && CBase.Base.Profiles.GetProfiles()[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
                     {
                         visible = false;
                     }

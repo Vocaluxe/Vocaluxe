@@ -38,7 +38,7 @@ namespace Vocaluxe
             {
                 // Init Log
                 CLog.Init();
-                CXMLReader.Base = CMain.Base;
+                CBase.Base = CMain.Base;
 
                 CSettings.CreateFolders();
                 Application.DoEvents();

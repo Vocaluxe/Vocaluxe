@@ -11,21 +11,19 @@ namespace Vocaluxe.Menu.SongMenu
     public class CSongMenu : ISongMenu
     {
         private int _PartyModeID;
-        private Basic _Base;
 
         private ISongMenu _SongMenu;
         private ESongMenu _Type;
 
-        public CSongMenu(Basic Base, int PartyModeID)
+        public CSongMenu(int PartyModeID)
         {
             _PartyModeID = PartyModeID;
-            _Base = Base;
             CreateSongMenu();
         }
 
         public void UpdateSongMenuType()
         {
-            if (_Type != _Base.Config.GetSongMenuType())
+            if (_Type != CBase.Base.Config.GetSongMenuType())
                 CreateSongMenu();
         }
 
@@ -208,7 +206,7 @@ namespace Vocaluxe.Menu.SongMenu
                 _SongMenu.OnHide();
             }
 
-            switch (_Base.Config.GetSongMenuType())
+            switch (CBase.Base.Config.GetSongMenuType())
             {
                 //case ESongMenu.TR_CONFIG_LIST:
                 //    _SongMenu = new CSongMenuList();
@@ -219,7 +217,7 @@ namespace Vocaluxe.Menu.SongMenu
                 //    break;
 
                 case ESongMenu.TR_CONFIG_TILE_BOARD:
-                    _SongMenu = new CSongMenuTileBoard(_Base, _PartyModeID);
+                    _SongMenu = new CSongMenuTileBoard(_PartyModeID);
                     break;
 
                 //case ESongMenu.TR_CONFIG_BOOK:
@@ -227,7 +225,7 @@ namespace Vocaluxe.Menu.SongMenu
                 //    break;
             }
 
-            _Type = _Base.Config.GetSongMenuType();
+            _Type = CBase.Base.Config.GetSongMenuType();
         }
     }
 }

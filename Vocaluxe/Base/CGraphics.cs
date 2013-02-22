@@ -251,14 +251,14 @@ namespace Vocaluxe.Base
             for (int i = 0; i < _Screens.Count; i++)
             {
                 CLog.StartBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
-                _Screens[i].Initialize(CMain.Base);
+                _Screens[i].Initialize();
                 _Screens[i].LoadTheme(CTheme.GetThemeScreensPath(-1));
                 CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
 			{
-                _PopupScreens[i].Initialize(CMain.Base);
+                _PopupScreens[i].Initialize();
                 _PopupScreens[i].LoadTheme(CTheme.GetThemeScreensPath(-1));
 			}
         }

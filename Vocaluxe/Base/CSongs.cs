@@ -1022,7 +1022,7 @@ namespace Vocaluxe.Base
             CLog.StartBenchmark(2, "Read TXTs");
             foreach (string file in files)
             {
-                CSong Song = new CSong(CMain.Base);
+                CSong Song = new CSong();
                 if (Song.ReadTXTSong(file))
                 {
                     Song.ID = _Songs.Count;

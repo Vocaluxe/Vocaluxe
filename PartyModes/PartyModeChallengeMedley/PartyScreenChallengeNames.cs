@@ -108,7 +108,7 @@ namespace Vocaluxe.PartyModes
             }
             catch (Exception e)
             {
-                _Base.Log.LogError("Error in party mode screen challenge names. Can't cast received data from game mode " + _ThemeName + ". " + e.Message); ;
+                CBase.Base.Log.LogError("Error in party mode screen challenge names. Can't cast received data from game mode " + _ThemeName + ". " + e.Message); ;
             }
 
         }
@@ -175,7 +175,7 @@ namespace Vocaluxe.PartyModes
                             chooseAvatarStatic.Rect = PlayerChooseButtons[i].Button.Rect;
                             chooseAvatarStatic.Rect.Z = -100;
                             chooseAvatarStatic.Color = new SColorF(1, 1, 1, 1);
-                            chooseAvatarStatic.Texture = _Base.Profiles.GetProfiles()[SelectedPlayerNr].Avatar.Texture;
+                            chooseAvatarStatic.Texture = CBase.Base.Profiles.GetProfiles()[SelectedPlayerNr].Avatar.Texture;
                         }
                     }
                 }
@@ -223,7 +223,7 @@ namespace Vocaluxe.PartyModes
                                 PlayerDestinationButtons[added].SColor = new SColorF(1, 1, 1, 1);
                                 PlayerDestinationButtons[added].Texture = chooseAvatarStatic.Texture;
                                 PlayerDestinationButtons[added].STexture = chooseAvatarStatic.Texture;
-                                PlayerDestinationButtons[added].Text.Text = _Base.Profiles.GetProfiles()[SelectedPlayerNr].PlayerName;
+                                PlayerDestinationButtons[added].Text.Text = CBase.Base.Profiles.GetProfiles()[SelectedPlayerNr].PlayerName;
                                 //Update Tiles-List
                                 UpdateButtonPlayerChoose();
                             }
@@ -368,9 +368,9 @@ namespace Vocaluxe.PartyModes
                     if ((i + Offset * NumButtonPlayerChoose) < PlayerChooseButtonsVisibleProfiles.Count)
                     {
                         PlayerChooseButtons[i].ProfileID = PlayerChooseButtonsVisibleProfiles[i + Offset * NumButtonPlayerChoose];
-                        PlayerChooseButtons[i].Button.Text.Text = _Base.Profiles.GetProfiles()[PlayerChooseButtonsVisibleProfiles[i + Offset * NumButtonPlayerChoose]].PlayerName;
-                        PlayerChooseButtons[i].Button.Texture = _Base.Profiles.GetProfiles()[PlayerChooseButtonsVisibleProfiles[i + Offset * NumButtonPlayerChoose]].Avatar.Texture;
-                        PlayerChooseButtons[i].Button.STexture = _Base.Profiles.GetProfiles()[PlayerChooseButtonsVisibleProfiles[i + Offset * NumButtonPlayerChoose]].Avatar.Texture;
+                        PlayerChooseButtons[i].Button.Text.Text = CBase.Base.Profiles.GetProfiles()[PlayerChooseButtonsVisibleProfiles[i + Offset * NumButtonPlayerChoose]].PlayerName;
+                        PlayerChooseButtons[i].Button.Texture = CBase.Base.Profiles.GetProfiles()[PlayerChooseButtonsVisibleProfiles[i + Offset * NumButtonPlayerChoose]].Avatar.Texture;
+                        PlayerChooseButtons[i].Button.STexture = CBase.Base.Profiles.GetProfiles()[PlayerChooseButtonsVisibleProfiles[i + Offset * NumButtonPlayerChoose]].Avatar.Texture;
                         PlayerChooseButtons[i].Button.Color = new SColorF(1, 1, 1, 0.6f);
                         PlayerChooseButtons[i].Button.SColor = new SColorF(1, 1, 1, 1);
                         PlayerChooseButtons[i].Button.Enabled = true;
@@ -392,11 +392,11 @@ namespace Vocaluxe.PartyModes
         private void UpdateVisibleProfiles()
         {
             PlayerChooseButtonsVisibleProfiles.Clear();
-            for (int i = 0; i < _Base.Profiles.GetProfiles().Length; i++)
+            for (int i = 0; i < CBase.Base.Profiles.GetProfiles().Length; i++)
             {
                 bool visible = false;
                 //Show profile only if active
-                if (_Base.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON)
+                if (CBase.Base.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON)
                 {
                     visible = true;
 
@@ -440,9 +440,9 @@ namespace Vocaluxe.PartyModes
                     {
                         PlayerDestinationButtons[i].Color = new SColorF(1, 1, 1, 0.6f);
                         PlayerDestinationButtons[i].SColor = new SColorF(1, 1, 1, 1);
-                        PlayerDestinationButtons[i].Texture = _Base.Profiles.GetProfiles()[Data.ScreenNames.ProfileIDs[i]].Avatar.Texture;
-                        PlayerDestinationButtons[i].STexture = _Base.Profiles.GetProfiles()[Data.ScreenNames.ProfileIDs[i]].Avatar.Texture;
-                        PlayerDestinationButtons[i].Text.Text = _Base.Profiles.GetProfiles()[Data.ScreenNames.ProfileIDs[i]].PlayerName;
+                        PlayerDestinationButtons[i].Texture = CBase.Base.Profiles.GetProfiles()[Data.ScreenNames.ProfileIDs[i]].Avatar.Texture;
+                        PlayerDestinationButtons[i].STexture = CBase.Base.Profiles.GetProfiles()[Data.ScreenNames.ProfileIDs[i]].Avatar.Texture;
+                        PlayerDestinationButtons[i].Text.Text = CBase.Base.Profiles.GetProfiles()[Data.ScreenNames.ProfileIDs[i]].PlayerName;
                         PlayerDestinationButtons[i].Enabled = true;
                     }
                 }
@@ -483,9 +483,9 @@ namespace Vocaluxe.PartyModes
                         //Update texture and name
                         PlayerDestinationButtons[added].Color = new SColorF(1, 1, 1, 0.6f);
                         PlayerDestinationButtons[added].SColor = new SColorF(1, 1, 1, 1);
-                        PlayerDestinationButtons[added].Texture = _Base.Profiles.GetProfiles()[PlayerChooseButtons[i].ProfileID].Avatar.Texture;
-                        PlayerDestinationButtons[added].STexture = _Base.Profiles.GetProfiles()[PlayerChooseButtons[i].ProfileID].Avatar.Texture;
-                        PlayerDestinationButtons[added].Text.Text = _Base.Profiles.GetProfiles()[PlayerChooseButtons[i].ProfileID].PlayerName;
+                        PlayerDestinationButtons[added].Texture = CBase.Base.Profiles.GetProfiles()[PlayerChooseButtons[i].ProfileID].Avatar.Texture;
+                        PlayerDestinationButtons[added].STexture = CBase.Base.Profiles.GetProfiles()[PlayerChooseButtons[i].ProfileID].Avatar.Texture;
+                        PlayerDestinationButtons[added].Text.Text = CBase.Base.Profiles.GetProfiles()[PlayerChooseButtons[i].ProfileID].PlayerName;
                         PlayerDestinationButtons[added].Enabled = true;
                         //Update Tiles-List
                         UpdateButtonPlayerChoose();

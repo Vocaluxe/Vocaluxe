@@ -11,7 +11,6 @@ namespace Vocaluxe.Menu.SongMenu
 {
     class CSongMenuTileBoard : CSongMenuFramework
     {
-        new private Basic _Base;
         private SRectF _ScrollRect;
         private List<CStatic> _Tiles;
         private CStatic _CoverBig;
@@ -42,10 +41,9 @@ namespace Vocaluxe.Menu.SongMenu
 
         private bool _SmallView = false;
 
-        public CSongMenuTileBoard(Basic Base, int PartyModeID)
-            : base(Base, PartyModeID)
+        public CSongMenuTileBoard(int PartyModeID)
+            : base(PartyModeID)
         {
-            _Base = Base;
         }
         
         public override int GetActualSelection()
@@ -69,8 +67,8 @@ namespace Vocaluxe.Menu.SongMenu
             _TileW = (int)((_Theme.songMenuTileBoard.TileRect.W - _SpaceW * (_NumW - 1)) / _NumW);
             _TileH = (int)((_Theme.songMenuTileBoard.TileRect.H - _SpaceH * (_NumH - 1)) / _NumH);
 
-            _CoverTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
-            _CoverBigTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
+            _CoverTexture = CBase.Base.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
+            _CoverBigTexture = CBase.Base.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
 
             _Tiles = new List<CStatic>();
             for (int i = 0; i < _NumH; i++)
@@ -79,12 +77,12 @@ namespace Vocaluxe.Menu.SongMenu
                 {
                     SRectF rect = new SRectF(_Theme.songMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
                         _Theme.songMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
-                    CStatic tile = new CStatic(_Base, _PartyModeID, _CoverTexture, Color, rect);
+                    CStatic tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
                     _Tiles.Add(tile);
                 }
             }
 
-            _ScrollRect = new SRectF(0, 0, _Base.Settings.GetRenderW(), _Base.Settings.GetRenderH(), _Theme.songMenuTileBoard.TileRect.Z);
+            _ScrollRect = new SRectF(0, 0, CBase.Base.Settings.GetRenderW(), CBase.Base.Settings.GetRenderH(), _Theme.songMenuTileBoard.TileRect.Z);
 
             _PreviewSelected = -1;
             _Offset = 0;
@@ -118,7 +116,7 @@ namespace Vocaluxe.Menu.SongMenu
        
         public override void OnShow()
         {
-            if (_Base.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && _Base.Songs.GetNumCategories() > 0 && _Base.Songs.GetCurrentCategoryIndex() == -1)
+            if (CBase.Base.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && CBase.Base.Songs.GetNumCategories() > 0 && CBase.Base.Songs.GetCurrentCategoryIndex() == -1)
             {
                 EnterCategory(0);
             }
@@ -129,13 +127,13 @@ namespace Vocaluxe.Menu.SongMenu
             //AfterCategoryChange();
             SetSelectedSong(_ActSong);
             AfterCategoryChange();
-            _Base.Songs.UpdateRandomSongList();
+            CBase.Base.Songs.UpdateRandomSongList();
 
             int actcat = _PreviewSelected;
-            if ((_Base.Songs.GetNumCategories() > 0) && (actcat < 0))
+            if ((CBase.Base.Songs.GetNumCategories() > 0) && (actcat < 0))
             {
-                _CoverBig.Texture = _Base.Songs.GetCategory(0).CoverTextureSmall;
-                _Artist.Text = _Base.Songs.GetCategory(0).Name;
+                _CoverBig.Texture = CBase.Base.Songs.GetCategory(0).CoverTextureSmall;
+                _Artist.Text = CBase.Base.Songs.GetCategory(0).Name;
                 _Title.Text = String.Empty;
                 _SongLength.Text = String.Empty;
                 _PreviewSelected = 0;
@@ -146,7 +144,7 @@ namespace Vocaluxe.Menu.SongMenu
                 _MedleyTagIcon.Visible = false;
             }
 
-            if (_Base.Songs.GetNumVisibleSongs() == 0 && _Base.Songs.GetSearchFilter() != String.Empty)
+            if (CBase.Base.Songs.GetNumVisibleSongs() == 0 && CBase.Base.Songs.GetSearchFilter() != String.Empty)
             {
                 _CoverBig.Texture = _CoverBigTexture;
                 _Artist.Text = String.Empty;
@@ -207,7 +205,7 @@ namespace Vocaluxe.Menu.SongMenu
                     switch (KeyEvent.Key)
                     {
                         case Keys.Enter:
-                            if (_Base.Songs.GetCurrentCategoryIndex() < 0)
+                            if (CBase.Base.Songs.GetCurrentCategoryIndex() < 0)
                             {
                                 EnterCategory(_PreviewSelected);
                                 KeyEvent.Handled = true;
@@ -220,71 +218,71 @@ namespace Vocaluxe.Menu.SongMenu
 
                         case Keys.Escape:
                         case Keys.Back:
-                            if (_Base.Songs.GetCurrentCategoryIndex() > -1 && _Base.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
+                            if (CBase.Base.Songs.GetCurrentCategoryIndex() > -1 && CBase.Base.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
                             {
                                 ShowCategories();
                                 KeyEvent.Handled = true;
                             }
-                            //else if (_Base.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF)
+                            //else if (CBase.Base.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF)
                             //{
                             //    CGraphics.FadeTo(EScreens.ScreenMain);
                             //}
                             break;
 
                         case Keys.PageUp:
-                            if (_Base.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
+                            if (CBase.Base.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
                             {
                                 PrevCategory();
                             }
                             break;
 
                         case Keys.PageDown:
-                            if (_Base.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
+                            if (CBase.Base.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
                             {
                                 NextCategory();
                             }
                             break;
 
                         case Keys.Left:
-                            if (_Locked > 0 && (!SongOptions.Selection.RandomOnly || SongOptions.Selection.CategoryChangeAllowed && _Base.Songs.GetCurrentCategoryIndex() < 0))
+                            if (_Locked > 0 && (!SongOptions.Selection.RandomOnly || SongOptions.Selection.CategoryChangeAllowed && CBase.Base.Songs.GetCurrentCategoryIndex() < 0))
                             {
                                 _Locked--;
-                                if (_Base.Songs.GetCurrentCategoryIndex() < 0 && _Locked < _Base.Songs.GetNumCategories() - _NumW ||
-                                    _Base.Songs.GetCurrentCategoryIndex() >= 0 && _Locked < _Base.Songs.GetNumVisibleSongs() - _NumW)
+                                if (CBase.Base.Songs.GetCurrentCategoryIndex() < 0 && _Locked < CBase.Base.Songs.GetNumCategories() - _NumW ||
+                                    CBase.Base.Songs.GetCurrentCategoryIndex() >= 0 && _Locked < CBase.Base.Songs.GetNumVisibleSongs() - _NumW)
                                     UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
                             }
                             break;
 
                         case Keys.Right:
-                            if (_Base.Songs.GetCurrentCategoryIndex() < 0 && SongOptions.Selection.CategoryChangeAllowed)
+                            if (CBase.Base.Songs.GetCurrentCategoryIndex() < 0 && SongOptions.Selection.CategoryChangeAllowed)
                             {
-                                if (_Locked < _Base.Songs.GetNumCategories() - 1)
+                                if (_Locked < CBase.Base.Songs.GetNumCategories() - 1)
                                 {
                                     _Locked++;
-                                    if (_Locked < _Base.Songs.GetNumCategories() - _NumW)
+                                    if (_Locked < CBase.Base.Songs.GetNumCategories() - _NumW)
                                         UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
                                 }
 
                             }
                             else
                             {
-                                if (_Base.Songs.GetCurrentCategoryIndex() != -1 && _Locked < _Base.Songs.GetNumVisibleSongs() - 1 && !SongOptions.Selection.RandomOnly)
+                                if (CBase.Base.Songs.GetCurrentCategoryIndex() != -1 && _Locked < CBase.Base.Songs.GetNumVisibleSongs() - 1 && !SongOptions.Selection.RandomOnly)
                                 {
                                     _Locked++;
-                                    if (_Locked < _Base.Songs.GetNumVisibleSongs() - _NumW)
+                                    if (_Locked < CBase.Base.Songs.GetNumVisibleSongs() - _NumW)
                                         UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
                                 }
                             }
                             break;
 
                         case Keys.Up:
-                            if (KeyEvent.ModSHIFT && _Base.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
+                            if (KeyEvent.ModSHIFT && CBase.Base.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
                             {
                                 PrevCategory();
                                 break;
                             }
 
-                            if (_Locked > _NumW - 1 && (!SongOptions.Selection.RandomOnly || SongOptions.Selection.CategoryChangeAllowed && _Base.Songs.GetCurrentCategoryIndex() < 0))
+                            if (_Locked > _NumW - 1 && (!SongOptions.Selection.RandomOnly || SongOptions.Selection.CategoryChangeAllowed && CBase.Base.Songs.GetCurrentCategoryIndex() < 0))
                             {
                                 _Locked -= _NumW;
                                 UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
@@ -292,28 +290,28 @@ namespace Vocaluxe.Menu.SongMenu
                             break;
 
                         case Keys.Down:
-                            if (KeyEvent.ModSHIFT && _Base.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
+                            if (KeyEvent.ModSHIFT && CBase.Base.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
                             {
                                 NextCategory();
                                 break;
                             }
 
-                            if (_Base.Songs.GetCurrentCategoryIndex() < 0 && SongOptions.Selection.CategoryChangeAllowed)
+                            if (CBase.Base.Songs.GetCurrentCategoryIndex() < 0 && SongOptions.Selection.CategoryChangeAllowed)
                             {
-                                if (_Locked < _Base.Songs.GetNumCategories() - _NumW)
+                                if (_Locked < CBase.Base.Songs.GetNumCategories() - _NumW)
                                 {
                                     _Locked += _NumW;
-                                    if (_Locked < _Base.Songs.GetNumCategories() - _NumW)
+                                    if (_Locked < CBase.Base.Songs.GetNumCategories() - _NumW)
                                         UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
                                 }
 
                             }
                             else
                             {
-                                if (_Locked < _Base.Songs.GetNumVisibleSongs() - _NumW && !SongOptions.Selection.RandomOnly)
+                                if (_Locked < CBase.Base.Songs.GetNumVisibleSongs() - _NumW && !SongOptions.Selection.RandomOnly)
                                 {
                                     _Locked += _NumW;
-                                    if (_Locked < _Base.Songs.GetNumVisibleSongs() - _NumW)
+                                    if (_Locked < CBase.Base.Songs.GetNumVisibleSongs() - _NumW)
                                         UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));
                                 }
                             }
@@ -343,13 +341,13 @@ namespace Vocaluxe.Menu.SongMenu
             bool sel = false;
             int lastselection = _actualSelection;
 
-            if (!SongOptions.Selection.RandomOnly || _Base.Songs.GetCurrentCategoryIndex() < 0 && SongOptions.Selection.CategoryChangeAllowed)
+            if (!SongOptions.Selection.RandomOnly || CBase.Base.Songs.GetCurrentCategoryIndex() < 0 && SongOptions.Selection.CategoryChangeAllowed)
             {
                 foreach (CStatic tile in _Tiles)
                 {
                     if ((tile.Texture.index != _CoverTexture.index) && CHelper.IsInBounds(tile.Rect, MouseEvent) && !sel)
                     {
-                        if (MouseEvent.LB || _Base.Songs.GetCurrentCategoryIndex() == -1)
+                        if (MouseEvent.LB || CBase.Base.Songs.GetCurrentCategoryIndex() == -1)
                         {
                             if (_PreviewSelected == i + _Offset)
                                 _Locked = _PreviewSelected;
@@ -374,29 +372,29 @@ namespace Vocaluxe.Menu.SongMenu
                 sel = true;
 
             if (MouseEvent.Sender == ESender.WiiMote && _actualSelection != lastselection && _actualSelection != -1)
-                _Base.Input.SetRumble(0.050f);
+                CBase.Base.Input.SetRumble(0.050f);
 
             if (!sel)
                 _actualSelection = -1;
 
-            if ((MouseEvent.RB) && (_Base.Songs.GetNumCategories() > 0) && _Base.Songs.GetCurrentCategoryIndex() >= 0 && _Base.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
+            if ((MouseEvent.RB) && (CBase.Base.Songs.GetNumCategories() > 0) && CBase.Base.Songs.GetCurrentCategoryIndex() >= 0 && CBase.Base.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && SongOptions.Selection.CategoryChangeAllowed)
             {
                 ShowCategories();
                 MouseEvent.Handled = true;
                 return;
             }
-            else if (MouseEvent.RB && _Base.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && !SongOptions.Selection.PartyMode)
+            else if (MouseEvent.RB && CBase.Base.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && !SongOptions.Selection.PartyMode)
             {
-                _Base.Graphics.FadeTo(EScreens.ScreenMain);
+                CBase.Base.Graphics.FadeTo(EScreens.ScreenMain);
             }
-            else if (_PreviewSelected != -1 && MouseEvent.LB && _Base.Songs.GetCurrentCategoryIndex() != -1 && !SongOptions.Selection.PartyMode)
+            else if (_PreviewSelected != -1 && MouseEvent.LB && CBase.Base.Songs.GetCurrentCategoryIndex() != -1 && !SongOptions.Selection.PartyMode)
             {
                 if (CHelper.IsInBounds(_CoverBig.Rect, MouseEvent) || CHelper.IsInBounds(_TextBG.Rect, MouseEvent))
                 {
                     _Locked = _PreviewSelected;
                 }
             }
-            else if ((MouseEvent.LB) && (_Base.Songs.GetCurrentCategoryIndex() == -1))
+            else if ((MouseEvent.LB) && (CBase.Base.Songs.GetCurrentCategoryIndex() == -1))
             {
                 foreach (CStatic tile in _Tiles)
                 {
@@ -411,10 +409,10 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (MouseEvent.Wheel > 0)
             {
-                if (CHelper.IsInBounds(_ScrollRect, MouseEvent) && (!SongOptions.Selection.RandomOnly || _Base.Songs.GetCurrentCategoryIndex() < 0 && SongOptions.Selection.CategoryChangeAllowed))
+                if (CHelper.IsInBounds(_ScrollRect, MouseEvent) && (!SongOptions.Selection.RandomOnly || CBase.Base.Songs.GetCurrentCategoryIndex() < 0 && SongOptions.Selection.CategoryChangeAllowed))
                 {
-                    if (_Base.Songs.GetCurrentCategoryIndex() >= 0 && _Base.Songs.GetNumVisibleSongs() > _Offset + _NumW * MouseEvent.Wheel + _NumW * (_NumH - 1) ||
-                        _Base.Songs.GetCurrentCategoryIndex() < 0 && _Base.Songs.GetNumCategories() > _Offset + _NumW * MouseEvent.Wheel + _NumW * (_NumH - 1))
+                    if (CBase.Base.Songs.GetCurrentCategoryIndex() >= 0 && CBase.Base.Songs.GetNumVisibleSongs() > _Offset + _NumW * MouseEvent.Wheel + _NumW * (_NumH - 1) ||
+                        CBase.Base.Songs.GetCurrentCategoryIndex() < 0 && CBase.Base.Songs.GetNumCategories() > _Offset + _NumW * MouseEvent.Wheel + _NumW * (_NumH - 1))
                     {
                         _Offset += _NumW * MouseEvent.Wheel;
                         UpdateList(_Offset);
@@ -424,7 +422,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (MouseEvent.Wheel < 0)
             {
-                if (CHelper.IsInBounds(_ScrollRect, MouseEvent) && (!SongOptions.Selection.RandomOnly || _Base.Songs.GetCurrentCategoryIndex() < 0 && SongOptions.Selection.CategoryChangeAllowed))
+                if (CHelper.IsInBounds(_ScrollRect, MouseEvent) && (!SongOptions.Selection.RandomOnly || CBase.Base.Songs.GetCurrentCategoryIndex() < 0 && SongOptions.Selection.CategoryChangeAllowed))
                 {
                     _Offset += _NumW * MouseEvent.Wheel;
                     if (_Offset < 0)
@@ -451,12 +449,12 @@ namespace Vocaluxe.Menu.SongMenu
                 }
             }
 
-            if (_Base.Songs.GetCurrentCategoryIndex() >= 0)
+            if (CBase.Base.Songs.GetCurrentCategoryIndex() >= 0)
             {
                 int actsong = _PreviewSelected;
-                if ((_Base.Songs.GetNumVisibleSongs() > actsong) && (actsong >= 0))
+                if ((CBase.Base.Songs.GetNumVisibleSongs() > actsong) && (actsong >= 0))
                 {
-                    CSong song = _Base.Songs.GetVisibleSong(actsong);
+                    CSong song = CBase.Base.Songs.GetVisibleSong(actsong);
 
                     _CoverBig.Texture = song.CoverTextureSmall;
                     _Artist.Text = song.Artist;
@@ -466,7 +464,7 @@ namespace Vocaluxe.Menu.SongMenu
                     _MedleyCalcIcon.Visible = song.Medley.Source == EMedleySource.Calculated;
                     _MedleyTagIcon.Visible = song.Medley.Source == EMedleySource.Tag;
 
-                    float Time = _Base.Sound.GetLength(_SongStream);
+                    float Time = CBase.Base.Sound.GetLength(_SongStream);
                     if (song.Finish != 0)
                         Time = song.Finish;
 
@@ -479,16 +477,16 @@ namespace Vocaluxe.Menu.SongMenu
             else
             {
                 int actcat = _PreviewSelected;
-                if ((_Base.Songs.GetNumCategories() > actcat) && (actcat >= 0))
+                if ((CBase.Base.Songs.GetNumCategories() > actcat) && (actcat >= 0))
                 {
-                    _CoverBig.Texture = _Base.Songs.GetCategory(actcat).CoverTextureSmall;
-                    _Artist.Text = _Base.Songs.GetCategory(actcat).Name;
+                    _CoverBig.Texture = CBase.Base.Songs.GetCategory(actcat).CoverTextureSmall;
+                    _Artist.Text = CBase.Base.Songs.GetCategory(actcat).Name;
 
-                    int num = _Base.Songs.NumSongsInCategory(actcat);
+                    int num = CBase.Base.Songs.NumSongsInCategory(actcat);
                     if (num != 1)
-                        _Title.Text = _Base.Language.Translate("TR_SCREENSONG_NUMSONGS").Replace("%v", num.ToString());
+                        _Title.Text = CBase.Base.Language.Translate("TR_SCREENSONG_NUMSONGS").Replace("%v", num.ToString());
                     else
-                        _Title.Text = _Base.Language.Translate("TR_SCREENSONG_NUMSONG").Replace("%v", num.ToString());
+                        _Title.Text = CBase.Base.Language.Translate("TR_SCREENSONG_NUMSONG").Replace("%v", num.ToString());
 
                     _SongLength.Text = String.Empty;
                     _DuetIcon.Visible = false;
@@ -510,9 +508,9 @@ namespace Vocaluxe.Menu.SongMenu
                 RectangleF rect = new RectangleF(0f, 0f, _vidtex.width, _vidtex.height);
                 CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
 
-                _Base.Drawing.DrawTexture(_vidtex, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z),
+                CBase.Base.Drawing.DrawTexture(_vidtex, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z),
                     _vidtex.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false);
-                _Base.Drawing.DrawTextureReflection(_vidtex, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z),
+                CBase.Base.Drawing.DrawTextureReflection(_vidtex, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z),
                     _vidtex.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
             }
 
@@ -540,7 +538,7 @@ namespace Vocaluxe.Menu.SongMenu
                 if (tile.Selected)
                     return new CStatic(tile);
             }
-            return new CStatic(_Base, _PartyModeID);
+            return new CStatic(_PartyModeID);
         }
 
         public override void SetSelectedSong(int VisibleSongNr)
@@ -550,7 +548,7 @@ namespace Vocaluxe.Menu.SongMenu
             if (VisibleSongNr < 0)
                 return;
 
-            if (_Base.Songs.GetNumVisibleSongs() > VisibleSongNr)
+            if (CBase.Base.Songs.GetNumVisibleSongs() > VisibleSongNr)
             {
                 bool sel = false;
                 foreach (CStatic tile in _Tiles)
@@ -607,7 +605,7 @@ namespace Vocaluxe.Menu.SongMenu
             if (CategoryNr < 0)
                 return;
 
-            if (_Base.Songs.GetNumCategories() > CategoryNr)
+            if (CBase.Base.Songs.GetNumCategories() > CategoryNr)
             {
                 bool sel = false;
                 foreach (CStatic tile in _Tiles)
@@ -680,19 +678,19 @@ namespace Vocaluxe.Menu.SongMenu
 
         private void NextCategory()
         {
-            if (_Base.Songs.GetCurrentCategoryIndex() > -1)
+            if (CBase.Base.Songs.GetCurrentCategoryIndex() > -1)
             {
-                _Base.Songs.NextCategory();
-                EnterCategory(_Base.Songs.GetCurrentCategoryIndex());
+                CBase.Base.Songs.NextCategory();
+                EnterCategory(CBase.Base.Songs.GetCurrentCategoryIndex());
             }
         }
 
         private void PrevCategory()
         {
-            if (_Base.Songs.GetCurrentCategoryIndex() > -1)
+            if (CBase.Base.Songs.GetCurrentCategoryIndex() > -1)
             {
-                _Base.Songs.PrevCategory();
-                EnterCategory(_Base.Songs.GetCurrentCategoryIndex());
+                CBase.Base.Songs.PrevCategory();
+                EnterCategory(CBase.Base.Songs.GetCurrentCategoryIndex());
             }
         }
 
@@ -709,26 +707,26 @@ namespace Vocaluxe.Menu.SongMenu
             if (_actualSelection >= 0 && _actualSelection < _Tiles.Count)
                 _Tiles[_actualSelection].Selected = true;
            
-            if ((_LastKnownNumSongs == _Base.Songs.GetNumVisibleSongs()) && (_LastKnownCategory == _Base.Songs.GetCurrentCategoryIndex()))
+            if ((_LastKnownNumSongs == CBase.Base.Songs.GetNumVisibleSongs()) && (_LastKnownCategory == CBase.Base.Songs.GetCurrentCategoryIndex()))
                 return;
 
-            _LastKnownCategory = _Base.Songs.GetCurrentCategoryIndex();
-            _LastKnownNumSongs = _Base.Songs.GetNumVisibleSongs();
+            _LastKnownCategory = CBase.Base.Songs.GetCurrentCategoryIndex();
+            _LastKnownNumSongs = CBase.Base.Songs.GetNumVisibleSongs();
             UpdateList(0);
-            _Base.Songs.UpdateRandomSongList();
+            CBase.Base.Songs.UpdateRandomSongList();
         }
 
         private void UpdateList(int offset)
         {
-            if (_Base.Songs.GetCurrentCategoryIndex() > -1)
+            if (CBase.Base.Songs.GetCurrentCategoryIndex() > -1)
             {
-                if (offset >= (_Base.Songs.GetNumVisibleSongs() / _NumW) * _NumW - (_NumW * (_NumH - 1)))
-                    offset = (_Base.Songs.GetNumVisibleSongs() / _NumW) * _NumW - (_NumW * (_NumH - 1));
+                if (offset >= (CBase.Base.Songs.GetNumVisibleSongs() / _NumW) * _NumW - (_NumW * (_NumH - 1)))
+                    offset = (CBase.Base.Songs.GetNumVisibleSongs() / _NumW) * _NumW - (_NumW * (_NumH - 1));
             }
             else
             {
-                if (offset >= (_Base.Songs.GetNumCategories() / _NumW) * _NumW - (_NumW * (_NumH - 1)))
-                    offset = (_Base.Songs.GetNumCategories() / _NumW) * _NumW - (_NumW * (_NumH - 1));
+                if (offset >= (CBase.Base.Songs.GetNumCategories() / _NumW) * _NumW - (_NumW * (_NumH - 1)))
+                    offset = (CBase.Base.Songs.GetNumCategories() / _NumW) * _NumW - (_NumW * (_NumH - 1));
             }
 
             if (offset < 0)
@@ -736,11 +734,11 @@ namespace Vocaluxe.Menu.SongMenu
 
             for (int i = 0; i < _Tiles.Count; i++)
             {
-                if (_Base.Songs.GetCurrentCategoryIndex() >= 0)
+                if (CBase.Base.Songs.GetCurrentCategoryIndex() >= 0)
                 {
-                    if (_Base.Songs.GetNumVisibleSongs() > i + offset)
+                    if (CBase.Base.Songs.GetNumVisibleSongs() > i + offset)
                     {
-                        _Tiles[i].Texture = _Base.Songs.GetVisibleSong(i + offset).CoverTextureSmall;
+                        _Tiles[i].Texture = CBase.Base.Songs.GetVisibleSong(i + offset).CoverTextureSmall;
                         _Tiles[i].Color = new SColorF(1f, 1f, 1f, 1f);
                     }
                     else
@@ -750,11 +748,11 @@ namespace Vocaluxe.Menu.SongMenu
                     }
                 }
 
-                if (_Base.Songs.GetCurrentCategoryIndex() == -1)
+                if (CBase.Base.Songs.GetCurrentCategoryIndex() == -1)
                 {
-                    if (_Base.Songs.GetNumCategories() > i + offset)
+                    if (CBase.Base.Songs.GetNumCategories() > i + offset)
                     {
-                        _Tiles[i].Texture = _Base.Songs.GetCategory(i + offset).CoverTextureSmall;
+                        _Tiles[i].Texture = CBase.Base.Songs.GetCategory(i + offset).CoverTextureSmall;
                         _Tiles[i].Color = new SColorF(1f, 1f, 1f, 1f);
                     }
                     else
@@ -781,8 +779,8 @@ namespace Vocaluxe.Menu.SongMenu
                 _TileW = (int)((_Theme.songMenuTileBoard.TileRectSmall.W - _SpaceW * (_NumW - 1)) / _NumW);
                 _TileH = (int)((_Theme.songMenuTileBoard.TileRectSmall.H - _SpaceH * (_NumH - 1)) / _NumH);
 
-                _CoverTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
-                _CoverBigTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
+                _CoverTexture = CBase.Base.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
+                _CoverBigTexture = CBase.Base.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
 
                 _Tiles = new List<CStatic>();
                 for (int i = 0; i < _NumH; i++)
@@ -791,13 +789,13 @@ namespace Vocaluxe.Menu.SongMenu
                     {
                         SRectF rect = new SRectF(_Theme.songMenuTileBoard.TileRectSmall.X + j * (_TileW + _SpaceW),
                             _Theme.songMenuTileBoard.TileRectSmall.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
-                        CStatic tile = new CStatic(_Base, _PartyModeID, _CoverTexture, Color, rect);
+                        CStatic tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
                         _Tiles.Add(tile);
                     }
                 }
 
                 _Rect = _Theme.songMenuTileBoard.TileRectSmall;
-                _ScrollRect = new SRectF(0, 0, _Base.Settings.GetRenderW(), _Base.Settings.GetRenderH(), _Theme.songMenuTileBoard.TileRectSmall.Z);
+                _ScrollRect = new SRectF(0, 0, CBase.Base.Settings.GetRenderW(), CBase.Base.Settings.GetRenderH(), _Theme.songMenuTileBoard.TileRectSmall.Z);
             }
             else
             {
@@ -807,8 +805,8 @@ namespace Vocaluxe.Menu.SongMenu
                 _TileW = (int)((_Theme.songMenuTileBoard.TileRect.W - _SpaceW * (_NumW - 1)) / _NumW);
                 _TileH = (int)((_Theme.songMenuTileBoard.TileRect.H - _SpaceH * (_NumH - 1)) / _NumH);
 
-                _CoverTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
-                _CoverBigTexture = _Base.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
+                _CoverTexture = CBase.Base.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
+                _CoverBigTexture = CBase.Base.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
 
                 _Tiles = new List<CStatic>();
                 for (int i = 0; i < _NumH; i++)
@@ -817,13 +815,13 @@ namespace Vocaluxe.Menu.SongMenu
                     {
                         SRectF rect = new SRectF(_Theme.songMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
                             _Theme.songMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
-                        CStatic tile = new CStatic(_Base, _PartyModeID, _CoverTexture, Color, rect);
+                        CStatic tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
                         _Tiles.Add(tile);
                     }
                 }
 
                 _Rect = _Theme.songMenuTileBoard.TileRect;
-                _ScrollRect = new SRectF(0, 0, _Base.Settings.GetRenderW(), _Base.Settings.GetRenderH(), _Theme.songMenuTileBoard.TileRect.Z);
+                _ScrollRect = new SRectF(0, 0, CBase.Base.Settings.GetRenderW(), CBase.Base.Settings.GetRenderH(), _Theme.songMenuTileBoard.TileRect.Z);
             }
 
             UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)));

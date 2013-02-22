@@ -8,7 +8,6 @@ namespace Vocaluxe.Menu.SongMenu
 {
     class CSongMenuDreidel : CSongMenuFramework
     {
-        new private Basic _Base;
         /*
         private SRectF _ScrollRect;
         private CStatic _CoverBig;
@@ -29,10 +28,9 @@ namespace Vocaluxe.Menu.SongMenu
         }
         */
 
-        public CSongMenuDreidel(Basic Base, int PartyModeID)
-            : base(Base, PartyModeID)
+        public CSongMenuDreidel(int PartyModeID)
+            : base(PartyModeID)
         {
-            _Base = Base;
         }
 
         public override void Init()

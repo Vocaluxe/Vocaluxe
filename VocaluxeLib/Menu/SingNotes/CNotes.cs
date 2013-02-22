@@ -83,7 +83,6 @@ namespace Vocaluxe.Menu.SingNotes
 
     public class CNote
     {
-        private Basic _Base;
         private int _StartBeat;
         private int _Duration;
         private int _Tone;
@@ -93,9 +92,8 @@ namespace Vocaluxe.Menu.SingNotes
         private bool _Perfect;          // for drawing perfect note effect
 
         #region Contructors
-        public CNote(Basic Base)
+        public CNote()
         {
-            _Base = Base;
             StartBeat = 0;
             Duration = 1;
             Tone = 0;
@@ -107,7 +105,6 @@ namespace Vocaluxe.Menu.SingNotes
 
         public CNote(CNote note)
         {
-            _Base = note._Base;
             _StartBeat = note._StartBeat;
             _Duration = note._Duration;
             _Tone = note._Tone;
@@ -117,8 +114,8 @@ namespace Vocaluxe.Menu.SingNotes
             _Perfect = note._Perfect;
         }
 
-        public CNote(Basic Base, int StartBeat, int Duration, int Tone, string Text)
-            : this(Base)
+        public CNote(int StartBeat, int Duration, int Tone, string Text)
+            : this()
         {
             this.StartBeat = StartBeat;
             this.Duration = Duration;
@@ -127,8 +124,8 @@ namespace Vocaluxe.Menu.SingNotes
             this.Text = Text;
         }
 
-        public CNote(Basic Base, int StartBeat, int Duration, int Tone, string Text, bool Hit)
-            : this(Base)
+        public CNote(int StartBeat, int Duration, int Tone, string Text, bool Hit)
+            : this()
         {
             this.StartBeat = StartBeat;
             this.Duration = Duration;
@@ -138,14 +135,14 @@ namespace Vocaluxe.Menu.SingNotes
             this.Hit = Hit;
         }
 
-        public CNote(Basic Base, int StartBeat, int Duration, int Tone, string Text, ENoteType NoteType)
-            : this(Base, StartBeat, Duration, Tone, Text)
+        public CNote(int StartBeat, int Duration, int Tone, string Text, ENoteType NoteType)
+            : this(StartBeat, Duration, Tone, Text)
         {
             this.NoteType = NoteType;
         }
 
-        public CNote(Basic Base, int StartBeat, int Duration, int Tone, string Text, bool Hit, ENoteType NoteType)
-            : this(Base, StartBeat, Duration, Tone, Text)
+        public CNote(int StartBeat, int Duration, int Tone, string Text, bool Hit, ENoteType NoteType)
+            : this(StartBeat, Duration, Tone, Text)
         {
             this.NoteType = NoteType;
             this.Hit = Hit;
@@ -194,7 +191,7 @@ namespace Vocaluxe.Menu.SingNotes
             get { return _Tone; }
             set
             {
-                if ((value >= _Base.Settings.GetToneMin()) && (value <= _Base.Settings.GetToneMax()))
+                if ((value >= CBase.Base.Settings.GetToneMin()) && (value <= CBase.Base.Settings.GetToneMax()))
                     _Tone = value;
             }
         }

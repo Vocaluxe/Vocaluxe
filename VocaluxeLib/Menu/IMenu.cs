@@ -12,7 +12,7 @@ namespace Vocaluxe.Menu
 {
     public interface IMenu
     {
-        void Initialize(Basic Base);
+        void Initialize();
 
         void LoadTheme(string XmlPath);
         void SaveTheme();

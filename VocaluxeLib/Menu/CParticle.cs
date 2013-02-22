@@ -26,7 +26,6 @@ namespace Vocaluxe.Menu
     {
         #region private vars
         private int _PartyModeID;
-        private Basic _Base;
         private string _TextureName;
         private STexture _Texture;
         private SRectF _Rect;
@@ -93,10 +92,9 @@ namespace Vocaluxe.Menu
         #endregion public vars
 
         #region Constructors
-        public CParticle(Basic Base, int PartyModeID, string textureName, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticleType type)
+        public CParticle(int PartyModeID, string textureName, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticleType type)
         {
             _PartyModeID = PartyModeID;
-            _Base = Base;
             _TextureName = textureName;
             _Texture = new STexture(-1);
             _Color = color;
@@ -114,13 +112,12 @@ namespace Vocaluxe.Menu
             _Timer = new Stopwatch();
             _Age = 0f;
             _MaxAge = maxage;
-            _Rotation = (float)(_Base.Game.GetRandomDouble() * 360.0);
+            _Rotation = (float)(CBase.Base.Game.GetRandomDouble() * 360.0);
         }
 
-        public CParticle(Basic Base, int PartyModeID, STexture texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticleType type)
+        public CParticle(int PartyModeID, STexture texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize, EParticleType type)
         {
             _PartyModeID = PartyModeID;
-            _Base = Base;
             _TextureName = String.Empty;
             _Texture = texture;
             _Color = color;
@@ -138,7 +135,7 @@ namespace Vocaluxe.Menu
             _Timer = new Stopwatch();
             _Age = 0f;
             _MaxAge = maxage;
-            _Rotation = (float)(_Base.Game.GetRandomDouble() * 360.0);
+            _Rotation = (float)(CBase.Base.Game.GetRandomDouble() * 360.0);
         }
         #endregion Constructors
 
@@ -200,7 +197,7 @@ namespace Vocaluxe.Menu
                     break;
 
                 case EParticleType.Snow:
-                    int maxy = (int)Math.Round(_Base.Settings.GetRenderH() - _Size * 0.4f);
+                    int maxy = (int)Math.Round(CBase.Base.Settings.GetRenderH() - _Size * 0.4f);
 
                     if (Math.Round(Y) < maxy)
                     {
@@ -291,16 +288,15 @@ namespace Vocaluxe.Menu
         public void Draw()
         {
             if (_TextureName != String.Empty)
-                _Base.Drawing.DrawTexture(_Base.Theme.GetSkinTexture(_TextureName, _PartyModeID), _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
+                CBase.Base.Drawing.DrawTexture(CBase.Base.Theme.GetSkinTexture(_TextureName, _PartyModeID), _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
             else
-                _Base.Drawing.DrawTexture(_Texture, _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
+                CBase.Base.Drawing.DrawTexture(_Texture, _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
         }
     }
 
     public class CParticleEffect : IMenuElement
     {
         private int _PartyModeID;
-        private Basic _Base;
         private SThemeParticleEffect _Theme;
         private bool _ThemeLoaded;
 
@@ -333,10 +329,9 @@ namespace Vocaluxe.Menu
             }
         }
 
-        public CParticleEffect(Basic Base, int PartyModeID) 
+        public CParticleEffect(int PartyModeID) 
         {
             _PartyModeID = PartyModeID;
-            _Base = Base;
             _Theme = new SThemeParticleEffect();
             _Stars = new List<CParticle>();
             _SpawnTimer = new Stopwatch();
@@ -344,10 +339,9 @@ namespace Vocaluxe.Menu
             Visible = true;
         }
 
-        public CParticleEffect(Basic Base, int PartyModeID, int MaxNumber, SColorF Color, SRectF Rect, string TextureName, float Size, EParticleType Type)
+        public CParticleEffect(int PartyModeID, int MaxNumber, SColorF Color, SRectF Rect, string TextureName, float Size, EParticleType Type)
         {
             _PartyModeID = PartyModeID;
-            _Base = Base;
             _Theme = new SThemeParticleEffect();
             _Stars = new List<CParticle>();
             this.Rect = Rect;
@@ -362,10 +356,9 @@ namespace Vocaluxe.Menu
             Visible = true;
         }
 
-        public CParticleEffect(Basic Base, int PartyModeID, int MaxNumber, SColorF Color, SRectF Rect, STexture Texture, float Size, EParticleType Type)
+        public CParticleEffect(int PartyModeID, int MaxNumber, SColorF Color, SRectF Rect, STexture Texture, float Size, EParticleType Type)
         {
             _PartyModeID = PartyModeID;
-            _Base = Base;
             _Theme = new SThemeParticleEffect();
             _Stars = new List<CParticle>();
             this.Rect = Rect;
@@ -395,7 +388,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
-                _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
+                _ThemeLoaded &= CBase.Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
@@ -479,7 +472,7 @@ namespace Vocaluxe.Menu
 
             while (_Stars.Count < _MaxNumber && DoSpawn)
             {
-                float size = _Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
+                float size = CBase.Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
                 float lifetime = 0f;
                 float vx = 0f;
                 float vy = 0f;
@@ -490,29 +483,29 @@ namespace Vocaluxe.Menu
                 switch (_Type)
                 {
                     case EParticleType.Twinkle:
-                        size = _Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
-                        lifetime = _Base.Game.GetRandom(500) / 1000f + 0.5f;
-                        vx = -_Base.Game.GetRandom(10000) / 50f + 100f;
-                        vy = -_Base.Game.GetRandom(10000) / 50f + 100f;
-                        vr = -_Base.Game.GetRandom(500) / 100f + 2.5f;
+                        size = CBase.Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
+                        lifetime = CBase.Base.Game.GetRandom(500) / 1000f + 0.5f;
+                        vx = -CBase.Base.Game.GetRandom(10000) / 50f + 100f;
+                        vy = -CBase.Base.Game.GetRandom(10000) / 50f + 100f;
+                        vr = -CBase.Base.Game.GetRandom(500) / 100f + 2.5f;
                         vsize = lifetime * 2f;
                         break;
 
                     case EParticleType.Star:
-                        size = _Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
-                        lifetime = _Base.Game.GetRandom(1000) / 500f + 0.2f;
-                        vx = -_Base.Game.GetRandom(1000) / 50f + 10f;
-                        vy = -_Base.Game.GetRandom(1000) / 50f + 10f;
-                        vr = -_Base.Game.GetRandom(500) / 100f + 2.5f;
+                        size = CBase.Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
+                        lifetime = CBase.Base.Game.GetRandom(1000) / 500f + 0.2f;
+                        vx = -CBase.Base.Game.GetRandom(1000) / 50f + 10f;
+                        vy = -CBase.Base.Game.GetRandom(1000) / 50f + 10f;
+                        vr = -CBase.Base.Game.GetRandom(500) / 100f + 2.5f;
                         vsize = lifetime * 2f;
                         break;
 
                     case EParticleType.Snow:
-                        size = _Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
-                        lifetime = _Base.Game.GetRandom(5000) / 50f + 10f;
-                        vx = -_Base.Game.GetRandom(1000) / 50f + 10f;
-                        vy = _Base.Game.GetRandom(1000) / 50f + Math.Abs(vx) + 10f;
-                        vr = -_Base.Game.GetRandom(200) / 50f + 2f;
+                        size = CBase.Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
+                        lifetime = CBase.Base.Game.GetRandom(5000) / 50f + 10f;
+                        vx = -CBase.Base.Game.GetRandom(1000) / 50f + 10f;
+                        vy = CBase.Base.Game.GetRandom(1000) / 50f + Math.Abs(vx) + 10f;
+                        vr = -CBase.Base.Game.GetRandom(200) / 50f + 2f;
                         vsize = lifetime * 2f;
 
                         _NextSpawnTime = lifetime / _MaxNumber;
@@ -520,20 +513,20 @@ namespace Vocaluxe.Menu
                         break;
 
                     case EParticleType.Flare:
-                        size = _Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
-                        lifetime = _Base.Game.GetRandom(500) / 1000f + 0.1f;
-                        vx = -_Base.Game.GetRandom(2000) / 50f;
-                        vy = -_Base.Game.GetRandom(2000) / 50f + 20f;
-                        vr = -_Base.Game.GetRandom(2000) / 50f + 20f;
+                        size = CBase.Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
+                        lifetime = CBase.Base.Game.GetRandom(500) / 1000f + 0.1f;
+                        vx = -CBase.Base.Game.GetRandom(2000) / 50f;
+                        vy = -CBase.Base.Game.GetRandom(2000) / 50f + 20f;
+                        vr = -CBase.Base.Game.GetRandom(2000) / 50f + 20f;
                         vsize = lifetime * 2f;
                         break;
 
                     case EParticleType.PerfNoteStar:
-                        size = _Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
-                        lifetime = _Base.Game.GetRandom(1000) / 500f + 1.2f;
+                        size = CBase.Base.Game.GetRandom((int)_Size / 2) + _Size / 2;
+                        lifetime = CBase.Base.Game.GetRandom(1000) / 500f + 1.2f;
                         vx = 0f;
                         vy = 0f;
-                        vr = _Base.Game.GetRandom(500) / 50f + 10f;
+                        vr = CBase.Base.Game.GetRandom(500) / 50f + 10f;
                         vsize = lifetime * 2f;
                         break;
 
@@ -553,16 +546,16 @@ namespace Vocaluxe.Menu
                 CParticle star;
                 if (_Theme.TextureName != String.Empty)
                 {
-                    star = new CParticle(_Base, _PartyModeID, _Theme.TextureName, Color,
-                        _Base.Game.GetRandom(w) + Rect.X - size / 4f,
-                        _Base.Game.GetRandom(h) + Rect.Y - size / 4f,
+                    star = new CParticle(_PartyModeID, _Theme.TextureName, Color,
+                        CBase.Base.Game.GetRandom(w) + Rect.X - size / 4f,
+                        CBase.Base.Game.GetRandom(h) + Rect.Y - size / 4f,
                         size, lifetime, Rect.Z, vx, vy, vr, vsize, _Type);
                 }
                 else
                 {
-                    star = new CParticle(_Base, _PartyModeID, Texture, Color,
-                        _Base.Game.GetRandom(w) + Rect.X - size / 4f,
-                        _Base.Game.GetRandom(h) + Rect.Y - size / 4f,
+                    star = new CParticle(_PartyModeID, Texture, Color,
+                        CBase.Base.Game.GetRandom(w) + Rect.X - size / 4f,
+                        CBase.Base.Game.GetRandom(h) + Rect.Y - size / 4f,
                         size, lifetime, Rect.Z, vx, vy, vr, vsize, _Type);
                 }
 
@@ -619,9 +612,9 @@ namespace Vocaluxe.Menu
         public void LoadTextures()
         {
             if (_Theme.ColorName != String.Empty)
-                Color = _Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+                Color = CBase.Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
             if(_Theme.TextureName != String.Empty)
-                Texture = _Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+                Texture = CBase.Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
         }
 
         public void ReloadTextures()
