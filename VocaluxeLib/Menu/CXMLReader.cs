@@ -7,8 +7,9 @@ namespace Vocaluxe.Menu
 {
     public class CXMLReader
     {
+        public static Basic Base;
         private XPathNavigator _Navigator;
-
+        
         public CXMLReader(string uri)
         {
             XPathDocument xPathDoc = new XPathDocument(uri);
@@ -20,7 +21,7 @@ namespace Vocaluxe.Menu
             get { return _Navigator; }
         }
 
-        public static CXMLReader OpenFile(string sUri)
+        public CXMLReader OpenFile(string sUri)
         {
             try
             {
@@ -28,7 +29,9 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                //TODO: How to log from here?
+                if (Base != null)
+                    Base.Log.LogError("Can't open XML file: " + sUri);
+
                 return null;
             }
         }
