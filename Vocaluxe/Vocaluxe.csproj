@@ -209,6 +209,7 @@
     <Compile Include="Lib\Input\WiiMote\WiiMoteLib.cs" />
     <Compile Include="Lib\Playlist\CPlaylistFile.cs" />
     <Compile Include="Lib\Sound\CDirectSoundRecord.cs" />
+    <Compile Include="Lib\Sound\CGstreamerAudio.cs" />
     <Compile Include="Lib\Sound\COpenALPlay.cs" />
     <Compile Include="Lib\Sound\COpenALRecord.cs" />
     <Compile Include="Base\CSound.cs" />
@@ -217,11 +218,14 @@
     <Compile Include="Lib\Sound\Decoder\CAudioDecoder.cs" />
     <Compile Include="Lib\Sound\Decoder\CAudioDecoderFFmpeg.cs" />
     <Compile Include="Lib\Sound\Decoder\IAudioDecoder.cs" />
+    <Compile Include="Lib\Sound\Gstreamer\CGstreamerAudioWrapper.cs" />
     <Compile Include="Lib\Sound\IPlayback.cs" />
     <Compile Include="Lib\Sound\IRecord.cs" />
     <Compile Include="Lib\Video\Acinerella\CAcinerella.cs" />
     <Compile Include="Lib\Video\CVideoDecoder.cs" />
     <Compile Include="Lib\Video\CVideoDecoderFFmpeg.cs" />
+    <Compile Include="Lib\Video\CVideoDecoderGstreamer.cs" />
+    <Compile Include="Lib\Video\Gstreamer\CGstreamerVideoWrapper.cs" />
     <Compile Include="Lib\Video\IVideoDecoder.cs" />
     <Compile Include="Lib\Webcam\CAForgeNet.cs" />
     <Compile Include="Lib\Webcam\IWebcam.cs" />

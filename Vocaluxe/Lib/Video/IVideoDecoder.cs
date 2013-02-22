@@ -36,5 +36,7 @@ namespace Vocaluxe.Lib.Video
         void Resume(int StreamID);
 
         bool Finished(int StreamID);
+
+        void Update();
     }
 }

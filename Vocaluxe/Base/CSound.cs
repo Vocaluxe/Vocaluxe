@@ -31,6 +31,10 @@ namespace Vocaluxe.Base
                     _Playback = new COpenALPlay();
                     break;
 
+                case EPlaybackLib.Gstreamer:
+                    _Playback = new CGstreamerAudio();
+                    break;
+
                 default:
                     _Playback = new CPortAudioPlay();
                     break;

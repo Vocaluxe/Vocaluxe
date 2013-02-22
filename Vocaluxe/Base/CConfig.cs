@@ -57,7 +57,7 @@ namespace Vocaluxe.Base
         public static ELyricStyle LyricStyle = ELyricStyle.Slide;
 
         // Sound
-        public static EPlaybackLib PlayBackLib = EPlaybackLib.PortAudio;
+        public static EPlaybackLib PlayBackLib = EPlaybackLib.Gstreamer;
         public static ERecordLib RecordLib = ERecordLib.PortAudio;
         public static EBufferSize AudioBufferSize = EBufferSize.b2048;
         public static int AudioLatency = 0;

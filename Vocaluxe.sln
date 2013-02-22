@@ -1,9 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vocaluxe", "Vocaluxe\Vocaluxe.csproj", "{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6F3E1874-F28A-40E9-AFBD-31934D593679} = {6F3E1874-F28A-40E9-AFBD-31934D593679}
+		{ED007796-367F-4142-AA55-5450C7645C2C} = {ED007796-367F-4142-AA55-5450C7645C2C}
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC} = {D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}
 	EndProjectSection
 EndProject
@@ -14,6 +15,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyModeChallenge", "PartyModes\PartyModeChallenge\PartyModeChallenge.csproj", "{5A4053F1-5AD5-441F-B254-D97A088127B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyModeChallengeMedley", "PartyModes\PartyModeChallengeMedley\PartyModeChallengeMedley.csproj", "{6F3E1874-F28A-40E9-AFBD-31934D593678}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GstreamerHelper", "GstreamerHelper\GstreamerHelper.vcxproj", "{ED007796-367F-4142-AA55-5450C7645C2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +110,18 @@ Global
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseWin|x64.Build.0 = ReleaseWin|x64
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseWin|x86.ActiveCfg = ReleaseWin|x86
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseWin|x86.Build.0 = ReleaseWin|x86
+		{ED007796-367F-4142-AA55-5450C7645C2C}.DebugLinux|x64.ActiveCfg = DebugWin|x64
+		{ED007796-367F-4142-AA55-5450C7645C2C}.DebugLinux|x86.ActiveCfg = DebugWin|Win32
+		{ED007796-367F-4142-AA55-5450C7645C2C}.DebugWin|x64.ActiveCfg = DebugWin|x64
+		{ED007796-367F-4142-AA55-5450C7645C2C}.DebugWin|x64.Build.0 = DebugWin|x64
+		{ED007796-367F-4142-AA55-5450C7645C2C}.DebugWin|x86.ActiveCfg = DebugWin|Win32
+		{ED007796-367F-4142-AA55-5450C7645C2C}.DebugWin|x86.Build.0 = DebugWin|Win32
+		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseLinux|x64.ActiveCfg = ReleaseWin|x64
+		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseLinux|x86.ActiveCfg = ReleaseWin|Win32
+		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseWin|x64.ActiveCfg = ReleaseWin|x64
+		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseWin|x64.Build.0 = ReleaseWin|x64
+		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseWin|x86.ActiveCfg = ReleaseWin|Win32
+		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseWin|x86.Build.0 = ReleaseWin|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

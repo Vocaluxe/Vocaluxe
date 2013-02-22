@@ -22,7 +22,9 @@ namespace Vocaluxe.Base
                 case EVideoDecoder.FFmpeg:
                     _VideoDecoder = new CVideoDecoderFFmpeg();
                     break;
-
+                case EVideoDecoder.Gstreamer:
+                    _VideoDecoder = new CVideoDecoderGstreamer();
+                    break;
                 default:
                     _VideoDecoder = new CVideoDecoderFFmpeg();
                     break;
@@ -91,6 +93,11 @@ namespace Vocaluxe.Base
         public static bool VdFinished(int StreamID)
         {
             return _VideoDecoder.Finished(StreamID);
+        }
+
+        public static void Update()
+        {
+            _VideoDecoder.Update();
         }
 
         #endregion Interface
