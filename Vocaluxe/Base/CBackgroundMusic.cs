@@ -392,16 +392,7 @@ namespace Vocaluxe.Base
 
         public static void CheckAndApplyConfig(EOffOn NewOnOff, EBackgroundMusicSource NewSource, float NewVolume)
         {
-            if (CConfig.BackgroundMusic != NewOnOff)
-            {
-                CConfig.BackgroundMusic = NewOnOff;
-                if (NewOnOff == EOffOn.TR_CONFIG_ON)
-                    Play();
-                else
-                    Pause();
-            }
-
-            if (CConfig.BackgroundMusicSource != NewSource)
+            if (CConfig.BackgroundMusicSource != NewSource || (NewOnOff == EOffOn.TR_CONFIG_ON && !_OwnMusicAdded && !_BackgroundMusicAdded))
             {
                 CConfig.BackgroundMusicSource = NewSource;
 
@@ -428,6 +419,15 @@ namespace Vocaluxe.Base
                             AddOwnMusic();
                         break;
                 }
+            }
+
+            if (CConfig.BackgroundMusic != NewOnOff)
+            {
+                CConfig.BackgroundMusic = NewOnOff;
+                if (NewOnOff == EOffOn.TR_CONFIG_ON)
+                    Play();
+                else
+                    Pause();
             }
 
             if (CConfig.BackgroundMusicVolume != NewVolume)
