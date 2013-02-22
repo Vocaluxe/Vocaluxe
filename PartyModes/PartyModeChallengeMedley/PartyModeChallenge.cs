@@ -177,19 +177,19 @@ namespace Vocaluxe.PartyModes
         {
             _Stage = EStage.NotStarted;
 
-            _ScreenSongOptions.Sorting.IgnoreArticles = _Base.Config.GetIgnoreArticles();
-            _ScreenSongOptions.Sorting.SongSorting = _Base.Config.GetSongSorting();
+            _ScreenSongOptions.Sorting.IgnoreArticles = CBase.Config.GetIgnoreArticles();
+            _ScreenSongOptions.Sorting.SongSorting = CBase.Config.GetSongSorting();
             _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_OFF;
             _ScreenSongOptions.Selection.SongIndex = -1;
 
-            if (_Base.Config.GetTabs() == EOffOn.TR_CONFIG_ON && _ScreenSongOptions.Sorting.SongSorting != ESongSorting.TR_CONFIG_NONE)
+            if (CBase.Config.GetTabs() == EOffOn.TR_CONFIG_ON && _ScreenSongOptions.Sorting.SongSorting != ESongSorting.TR_CONFIG_NONE)
                 _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_ON;
 
             ToScreenMain.ResultTable = new List<ResultTableRow>();
             GameData.ResultTable = new List<ResultTableRow>();
 
-            _Base.Songs.SortSongs(ESongSorting.TR_CONFIG_NONE, EOffOn.TR_CONFIG_OFF, EOffOn.TR_CONFIG_OFF, String.Empty, false);
-            _Base.Songs.SetCategory(0);
+            CBase.Songs.SortSongs(ESongSorting.TR_CONFIG_NONE, EOffOn.TR_CONFIG_OFF, EOffOn.TR_CONFIG_OFF, String.Empty, false);
+            CBase.Songs.SetCategory(0);
 
             return true;
         }
@@ -209,11 +209,11 @@ namespace Vocaluxe.PartyModes
                         GameData.NumRounds = data.ScreenConfig.NumRounds;
 
                         _Stage = EStage.Config;
-                        _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
+                        CBase.Graphics.FadeTo(EScreens.ScreenPartyDummy);
                     }
                     catch (Exception e)
                     {
-                        _Base.Log.LogError("Error in party mode challenge. Can't cast received data from screen " + ScreenName + ". " + e.Message);
+                        CBase.Log.LogError("Error in party mode challenge. Can't cast received data from screen " + ScreenName + ". " + e.Message);
                     }
                     break;
 
@@ -229,11 +229,11 @@ namespace Vocaluxe.PartyModes
                             _Stage = EStage.Names;
                         }
 
-                        _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
+                        CBase.Graphics.FadeTo(EScreens.ScreenPartyDummy);
                     }
                     catch (Exception e)
                     {
-                        _Base.Log.LogError("Error in party mode challenge. Can't cast received data from screen " + ScreenName + ". " + e.Message);
+                        CBase.Log.LogError("Error in party mode challenge. Can't cast received data from screen " + ScreenName + ". " + e.Message);
                     }
                     break;
 
@@ -248,18 +248,18 @@ namespace Vocaluxe.PartyModes
                     }
                     catch (Exception e)
                     {
-                        _Base.Log.LogError("Error in party mode challenge. Can't cast received data from screen " + ScreenName + ". " + e.Message);
+                        CBase.Log.LogError("Error in party mode challenge. Can't cast received data from screen " + ScreenName + ". " + e.Message);
                     }
 
 
                     if (_Stage == EStage.Singing)
                         StartNextRound();
                     if (_Stage == EStage.Config)
-                        _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
+                        CBase.Graphics.FadeTo(EScreens.ScreenPartyDummy);
                     break;
 
                 default:
-                    _Base.Log.LogError("Error in party mode challenge. Wrong screen is sending: " + ScreenName);
+                    CBase.Log.LogError("Error in party mode challenge. Wrong screen is sending: " + ScreenName);
                     break;
             }
         }
@@ -267,7 +267,7 @@ namespace Vocaluxe.PartyModes
         public override void UpdateGame()
         {
             /*
-            if (_Base.Songs.GetCurrentCategoryIndex() != -1 || _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)
+            if (CBase.Songs.GetCurrentCategoryIndex() != -1 || _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)
                 _ScreenSongOptions.Selection.RandomOnly = true;
             else
                 _ScreenSongOptions.Selection.RandomOnly = false;*/
@@ -303,7 +303,7 @@ namespace Vocaluxe.PartyModes
                     _Screens.TryGetValue("PartyScreenChallengeMain", out Screen);
                     if (_Screens != null)
                     {
-                        _Base.Songs.ResetPartySongSung();
+                        CBase.Songs.ResetPartySongSung();
                         ToScreenMain.ResultTable = new List<ResultTableRow>();
                         GameData.ResultTable = new List<ResultTableRow>();
                         GameData.Rounds = new ChallengeRounds(GameData.NumRounds, GameData.NumPlayer, GameData.NumPlayerAtOnce);
@@ -351,9 +351,9 @@ namespace Vocaluxe.PartyModes
 
         public override ScreenSongOptions GetScreenSongOptions()
         {
-            _ScreenSongOptions.Sorting.SongSorting = _Base.Config.GetSongSorting();
-            _ScreenSongOptions.Sorting.Tabs = _Base.Config.GetTabs();
-            _ScreenSongOptions.Sorting.IgnoreArticles = _Base.Config.GetIgnoreArticles();
+            _ScreenSongOptions.Sorting.SongSorting = CBase.Config.GetSongSorting();
+            _ScreenSongOptions.Sorting.Tabs = CBase.Config.GetTabs();
+            _ScreenSongOptions.Sorting.IgnoreArticles = CBase.Config.GetIgnoreArticles();
 
             return _ScreenSongOptions;
         }
@@ -370,8 +370,8 @@ namespace Vocaluxe.PartyModes
 
                 if (GameData.CatSongIndices != null)
                 {
-                    if (GameData.CatSongIndices[_Base.Songs.GetCurrentCategoryIndex()] == -1)
-                        GameData.CatSongIndices[_Base.Songs.GetCurrentCategoryIndex()] = SongIndex;
+                    if (GameData.CatSongIndices[CBase.Songs.GetCurrentCategoryIndex()] == -1)
+                        GameData.CatSongIndices[CBase.Songs.GetCurrentCategoryIndex()] = SongIndex;
                 }
             }
 
@@ -451,7 +451,7 @@ namespace Vocaluxe.PartyModes
         public override void LeavingHighscore()
         {
             GameData.CurrentRoundNr++;
-            _Base.Graphics.FadeTo(EScreens.ScreenPartyDummy);
+            CBase.Graphics.FadeTo(EScreens.ScreenPartyDummy);
         }
 
         private void StartNextRound()
@@ -463,24 +463,24 @@ namespace Vocaluxe.PartyModes
             GameData.CatSongIndices = null;
 
             if (RandomizeSongs())
-                _Base.Graphics.FadeTo(EScreens.ScreenSing);
+                CBase.Graphics.FadeTo(EScreens.ScreenSing);
         }
 
         private bool RandomizeSongs()
         {
-            _Base.Game.Reset();
-            _Base.Game.ClearSongs();
+            CBase.Game.Reset();
+            CBase.Game.ClearSongs();
 
             #region PlayerNames
-            _Base.Game.SetNumPlayer(GameData.NumPlayerAtOnce);
-            SPlayer[] player = _Base.Game.GetPlayer();
+            CBase.Game.SetNumPlayer(GameData.NumPlayerAtOnce);
+            SPlayer[] player = CBase.Game.GetPlayer();
             if (player == null)
                 return false;
 
             if (player.Length < GameData.NumPlayerAtOnce)
                 return false;
 
-            SProfile[] profiles = _Base.Profiles.GetProfiles();
+            SProfile[] profiles = CBase.Profiles.GetProfiles();
             Combination c = GameData.Rounds.GetRound(GameData.CurrentRoundNr - 1);
 
             for (int i = 0; i < GameData.NumPlayerAtOnce; i++)
@@ -504,17 +504,17 @@ namespace Vocaluxe.PartyModes
             #endregion PlayerNames
 
             #region SongQueque            
-            if (_Base.Songs.GetNumVisibleSongs() < NumSongs)
-                _Base.Songs.ResetPartySongSung();
+            if (CBase.Songs.GetNumVisibleSongs() < NumSongs)
+                CBase.Songs.ResetPartySongSung();
             
             EGameMode gm = EGameMode.TR_GAMEMODE_MEDLEY;
             List<int> IDs = new List<int>();
 
-            CSong[] VisSongs = _Base.Songs.GetSongsNotSung();
+            CSong[] VisSongs = CBase.Songs.GetSongsNotSung();
             if (VisSongs == null)
             {
-                _Base.Log.LogError("PartyChallengeMedleyMode Error: There are no songs!");
-                _Base.Graphics.FadeTo(EScreens.ScreenParty);
+                CBase.Log.LogError("PartyChallengeMedleyMode Error: There are no songs!");
+                CBase.Graphics.FadeTo(EScreens.ScreenParty);
                 return false;
             }
                       
@@ -530,17 +530,17 @@ namespace Vocaluxe.PartyModes
 
             if (IDs.Count == 0)
             {
-                _Base.Log.LogError("PartyChallengeMedleyMode Error: There are no medley songs!");
-                _Base.Graphics.FadeTo(EScreens.ScreenParty);
+                CBase.Log.LogError("PartyChallengeMedleyMode Error: There are no medley songs!");
+                CBase.Graphics.FadeTo(EScreens.ScreenParty);
                 return false;
             }
 
             int s = 0;
             while (s < NumSongs && IDs.Count > 0)
             {
-                int SongID = IDs[_Base.Game.GetRandom(IDs.Count)];
-                _Base.Game.AddSong(SongID, gm);
-                _Base.Songs.AddPartySongSung(SongID);
+                int SongID = IDs[CBase.Game.GetRandom(IDs.Count)];
+                CBase.Game.AddSong(SongID, gm);
+                CBase.Songs.AddPartySongSung(SongID);
                 IDs.Remove(SongID);
                 s++;
             }
@@ -583,7 +583,7 @@ namespace Vocaluxe.PartyModes
 
         private void SetTeamNames()
         {
-            SProfile[] profiles = _Base.Profiles.GetProfiles();
+            SProfile[] profiles = CBase.Profiles.GetProfiles();
 
             if (profiles == null)
             {
@@ -641,7 +641,7 @@ namespace Vocaluxe.PartyModes
             }
             else
             {
-                CPoints GamePoints = _Base.Game.GetPoints();
+                CPoints GamePoints = CBase.Game.GetPoints();
                 if (GamePoints == null || GamePoints.NumPlayer < GameData.NumPlayerAtOnce)
                     return;
 
@@ -771,16 +771,16 @@ namespace Vocaluxe.PartyModes
 
         private void CreateCatSongIndices()
         {
-            if (GameData.CatSongIndices == null && _Base.Songs.GetNumCategories() > 0 && _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_ON)
+            if (GameData.CatSongIndices == null && CBase.Songs.GetNumCategories() > 0 && _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_ON)
             {
-                GameData.CatSongIndices = new int[_Base.Songs.GetNumCategories()];
+                GameData.CatSongIndices = new int[CBase.Songs.GetNumCategories()];
                 for (int i = 0; i < GameData.CatSongIndices.Length; i++)
                 {
                     GameData.CatSongIndices[i] = -1;
                 }
             }
             
-            if (_Base.Songs.GetNumCategories() == 0 || _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)
+            if (CBase.Songs.GetNumCategories() == 0 || _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)
                 GameData.CatSongIndices = null;
         }
     }

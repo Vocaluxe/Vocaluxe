@@ -68,7 +68,7 @@ namespace Vocaluxe.PartyModes
     public interface IPartyMode
     {
         bool Init();
-        void Initialize(Basic Base);
+        void Initialize();
         void AddScreen(CMenuParty Screen, string ScreenName);
         void DataFromScreen(string ScreenName, Object Data);
 

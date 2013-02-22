@@ -33,7 +33,7 @@ namespace Vocaluxe.Menu
                 if (_Texture.index != -1)
                     return _Texture;
                 else
-                    return CBase.Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+                    return CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
             }
 
             set { _Texture = value; }
@@ -141,7 +141,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
@@ -241,7 +241,7 @@ namespace Vocaluxe.Menu
             if (_Texture.index != -1)
                 texture = _Texture;
             else
-                texture = CBase.Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+                texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
 
             SRectF bounds = new SRectF(
                 Rect.X - Rect.W * (scale - 1f),
@@ -265,18 +265,18 @@ namespace Vocaluxe.Menu
             }
             
             SColorF color = new SColorF(Color.R, Color.G, Color.B, Color.A * Alpha);
-            if (Visible || ForceDraw || (CBase.Base.Settings.GetGameState() == EGameState.EditTheme))
+            if (Visible || ForceDraw || (CBase.Settings.GetGameState() == EGameState.EditTheme))
             {
-                CBase.Base.Drawing.DrawTexture(texture, rect, color, bounds);
+                CBase.Drawing.DrawTexture(texture, rect, color, bounds);
                 if (Reflection)
                 {
-                    CBase.Base.Drawing.DrawTextureReflection(texture, rect, color, bounds, ReflectionSpace, ReflectionHeight);
+                    CBase.Drawing.DrawTextureReflection(texture, rect, color, bounds, ReflectionSpace, ReflectionHeight);
                 }
             }
 
-            if (Selected && (CBase.Base.Settings.GetGameState() == EGameState.EditTheme))
+            if (Selected && (CBase.Settings.GetGameState() == EGameState.EditTheme))
             {
-                CBase.Base.Drawing.DrawColor(new SColorF(1f, 1f, 1f, 0.5f), rect);
+                CBase.Drawing.DrawColor(new SColorF(1f, 1f, 1f, 0.5f), rect);
             }
         }
 
@@ -287,7 +287,7 @@ namespace Vocaluxe.Menu
         public void LoadTextures()
         {
             if (_Theme.ColorName != String.Empty)
-                Color = CBase.Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+                Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
         }
 
         public void ReloadTextures()

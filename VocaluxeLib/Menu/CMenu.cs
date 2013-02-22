@@ -144,7 +144,7 @@ namespace Vocaluxe.Menu
             _MouseDY = 0;
 
             _Active = false;
-            _ScreenArea = new SRectF(0f, 0f, CBase.Base.Settings.GetRenderW(), CBase.Base.Settings.GetRenderH(), 0f);
+            _ScreenArea = new SRectF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), 0f);
             
             _ThemeName = String.Empty;
             _ThemeBackgrounds = null;
@@ -164,7 +164,7 @@ namespace Vocaluxe.Menu
 
         protected void FadeTo(EScreens NextScreen)
         {
-            CBase.Base.Graphics.FadeTo(NextScreen);
+            CBase.Graphics.FadeTo(NextScreen);
         }
 
         #region ThemeHandler
@@ -183,14 +183,14 @@ namespace Vocaluxe.Menu
                 if (xmlReader != null)
                     xmlReader = null;
 
-                CBase.Base.Log.LogError("Error loading theme file " + file + ": " + e.Message);
+                CBase.Log.LogError("Error loading theme file " + file + ": " + e.Message);
             }
 
             bool VersionCheck = false;
             if (xmlReader != null)
                 VersionCheck = CheckVersion(_ScreenVersion, xmlReader);
 
-            int SkinIndex = CBase.Base.Theme.GetSkinIndex(_PartyModeID);
+            int SkinIndex = CBase.Theme.GetSkinIndex(_PartyModeID);
 
             if (xmlReader != null && VersionCheck && SkinIndex != -1)
             {
@@ -208,7 +208,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CBase.Base.Log.LogError("Can't load Background \"" + _ThemeBackgrounds[i] + "\" in screen " + _ThemeName);
+                            CBase.Log.LogError("Can't load Background \"" + _ThemeBackgrounds[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -224,7 +224,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CBase.Base.Log.LogError("Can't load Static \"" + _ThemeStatics[i] + "\" in screen " + _ThemeName);
+                            CBase.Log.LogError("Can't load Static \"" + _ThemeStatics[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -240,7 +240,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CBase.Base.Log.LogError("Can't load Text \"" + _ThemeTexts[i] + "\" in screen " + _ThemeName);
+                            CBase.Log.LogError("Can't load Text \"" + _ThemeTexts[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -256,7 +256,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CBase.Base.Log.LogError("Can't load Button \"" + _ThemeButtons[i] + "\" in screen " + _ThemeName);
+                            CBase.Log.LogError("Can't load Button \"" + _ThemeButtons[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -272,7 +272,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CBase.Base.Log.LogError("Can't load SelectSlide \"" + _ThemeSelectSlides[i] + "\" in screen " + _ThemeName);
+                            CBase.Log.LogError("Can't load SelectSlide \"" + _ThemeSelectSlides[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -288,7 +288,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CBase.Base.Log.LogError("Can't load SongMenu \"" + _ThemeSongMenus[i] + "\" in screen " + _ThemeName);
+                            CBase.Log.LogError("Can't load SongMenu \"" + _ThemeSongMenus[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -304,7 +304,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CBase.Base.Log.LogError("Can't load Lyric \"" + _ThemeLyrics[i] + "\" in screen " + _ThemeName);
+                            CBase.Log.LogError("Can't load Lyric \"" + _ThemeLyrics[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -320,7 +320,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CBase.Base.Log.LogError("Can't load SingBar \"" + _ThemeSingNotes[i] + "\" in screen " + _ThemeName);
+                            CBase.Log.LogError("Can't load SingBar \"" + _ThemeSingNotes[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -336,7 +336,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CBase.Base.Log.LogError("Can't load NameSelection \"" + _ThemeNameSelections[i] + "\" in screen " + _ThemeName);
+                            CBase.Log.LogError("Can't load NameSelection \"" + _ThemeNameSelections[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -352,7 +352,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CBase.Base.Log.LogError("Can't load equalizer \"" + _ThemeEqualizers[i] + "\" in screen " + _ThemeName);
+                            CBase.Log.LogError("Can't load equalizer \"" + _ThemeEqualizers[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -368,7 +368,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CBase.Base.Log.LogError("Can't load Playlist \"" + _ThemePlaylists[i] + "\" in screen " + _ThemeName);
+                            CBase.Log.LogError("Can't load Playlist \"" + _ThemePlaylists[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -384,7 +384,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CBase.Base.Log.LogError("Can't load ParticleEffect \"" + _ThemeParticleEffects[i] + "\" in screen " + _ThemeName);
+                            CBase.Log.LogError("Can't load ParticleEffect \"" + _ThemeParticleEffects[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -400,7 +400,7 @@ namespace Vocaluxe.Menu
                         }
                         else
                         {
-                            CBase.Base.Log.LogError("Can't load ThemeSetting \"" + _ThemeScreenSettings[i] + "\" in screen " + _ThemeName);
+                            CBase.Log.LogError("Can't load ThemeSetting \"" + _ThemeScreenSettings[i] + "\" in screen " + _ThemeName);
                         }
                     }
                 }
@@ -934,7 +934,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CBase.Base.Log.LogError("Can't find Background Element \"" + key + "\" in Screen " + _ThemeName);
+                CBase.Log.LogError("Can't find Background Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -947,7 +947,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CBase.Base.Log.LogError("Can't find Statics Element \"" + key + "\" in Screen " + _ThemeName);
+                CBase.Log.LogError("Can't find Statics Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -960,7 +960,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CBase.Base.Log.LogError("Can't find Text Element \"" + key + "\" in Screen " + _ThemeName);
+                CBase.Log.LogError("Can't find Text Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -973,7 +973,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CBase.Base.Log.LogError("Can't find Button Element \"" + key + "\" in Screen " + _ThemeName);
+                CBase.Log.LogError("Can't find Button Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -986,7 +986,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CBase.Base.Log.LogError("Can't find SongMenu Element \"" + key + "\" in Screen " + _ThemeName);
+                CBase.Log.LogError("Can't find SongMenu Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -999,7 +999,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CBase.Base.Log.LogError("Can't find Lyric Element \"" + key + "\" in Screen " + _ThemeName);
+                CBase.Log.LogError("Can't find Lyric Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -1012,7 +1012,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CBase.Base.Log.LogError("Can't find SelectSlide Element \"" + key + "\" in Screen " + _ThemeName);
+                CBase.Log.LogError("Can't find SelectSlide Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -1025,7 +1025,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CBase.Base.Log.LogError("Can't find SingBar Element \"" + key + "\" in Screen " + _ThemeName);
+                CBase.Log.LogError("Can't find SingBar Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -1038,7 +1038,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CBase.Base.Log.LogError("Can't find NameSelection Element \"" + key + "\" in Screen " + _ThemeName);
+                CBase.Log.LogError("Can't find NameSelection Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -1051,7 +1051,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CBase.Base.Log.LogError("Can't find Equalizer Element \"" + key + "\" in Screen " + _ThemeName);
+                CBase.Log.LogError("Can't find Equalizer Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -1064,7 +1064,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CBase.Base.Log.LogError("Can't find Playlist Element \"" + key + "\" in Screen " + _ThemeName);
+                CBase.Log.LogError("Can't find Playlist Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -1077,7 +1077,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CBase.Base.Log.LogError("Can't find ParticleEffect Element \"" + key + "\" in Screen " + _ThemeName);
+                CBase.Log.LogError("Can't find ParticleEffect Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -1090,7 +1090,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CBase.Base.Log.LogError("Can't find ScreenSetting Element \"" + key + "\" in Screen " + _ThemeName);
+                CBase.Log.LogError("Can't find ScreenSetting Element \"" + key + "\" in Screen " + _ThemeName);
                 throw;
             }
         }
@@ -1100,7 +1100,7 @@ namespace Vocaluxe.Menu
         #region MenuHandler
         public virtual bool HandleInput(KeyEvent KeyEvent)
         {
-            if (!CBase.Base.Settings.IsTabNavigation())
+            if (!CBase.Settings.IsTabNavigation())
             {
                 if (KeyEvent.Key == Keys.Left)
                 {
@@ -1174,7 +1174,7 @@ namespace Vocaluxe.Menu
                 switch (KeyEvent.Key)
                 {
                     case Keys.S:
-                        CBase.Base.Graphics.SaveTheme();
+                        CBase.Graphics.SaveTheme();
                         break;
 
                     case Keys.R:
@@ -1587,10 +1587,10 @@ namespace Vocaluxe.Menu
 
         public void SelectByMouse(int x, int y)
         {
-            float z = CBase.Base.Settings.GetZFar();
+            float z = CBase.Settings.GetZFar();
             for (int i = 0; i < _Interactions.Count; i++)
             {
-                if ((CBase.Base.Settings.GetGameState() == EGameState.EditTheme) || (!_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i)))
+                if ((CBase.Settings.GetGameState() == EGameState.EditTheme) || (!_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i)))
                 {
                     if (_IsMouseOver(x, y, _Interactions[i]))
                     {
@@ -1641,7 +1641,7 @@ namespace Vocaluxe.Menu
                         return true;
                     break;
                 case EType.TText:
-                    RectangleF bounds = CBase.Base.Drawing.GetTextBounds(_Texts[interact.Num]);
+                    RectangleF bounds = CBase.Drawing.GetTextBounds(_Texts[interact.Num]);
                     if (CHelper.IsInBounds(new SRectF(_Texts[interact.Num].X, _Texts[interact.Num].Y, bounds.Width, bounds.Height, _Texts[interact.Num].Z), x, y))
                         return true;
                     break;
@@ -1698,7 +1698,7 @@ namespace Vocaluxe.Menu
                 case EType.TParticleEffect:
                     return _ParticleEffects[interact.Num].Rect.Z;
             }
-            return CBase.Base.Settings.GetZFar();
+            return CBase.Settings.GetZFar();
         }
 
         private float _GetZValue(int interaction)
@@ -1736,13 +1736,13 @@ namespace Vocaluxe.Menu
                     return _ParticleEffects[_Interactions[interaction].Num].Rect.Z;
             }
 
-            return CBase.Base.Settings.GetZFar();
+            return CBase.Settings.GetZFar();
         }
 
         private void _NextInteraction()
         {
             _UnsetSelected();
-            if (CBase.Base.Settings.GetGameState() != EGameState.EditTheme)
+            if (CBase.Settings.GetGameState() != EGameState.EditTheme)
             {
                 bool found = false;
                 int start = _Selection;
@@ -1769,7 +1769,7 @@ namespace Vocaluxe.Menu
         private void _PrevInteraction()
         {
             _UnsetSelected();
-            if (CBase.Base.Settings.GetGameState() != EGameState.EditTheme)
+            if (CBase.Settings.GetGameState() != EGameState.EditTheme)
             {
                 bool found = false;
                 int start = _Selection;
@@ -1916,13 +1916,13 @@ namespace Vocaluxe.Menu
                 switch (Key.Key)
                 {
                     case Keys.Up:
-                        actualRect = new SRectF(actualRect.X, CBase.Base.Settings.GetRenderH(), 1, 1, actualRect.Z);
+                        actualRect = new SRectF(actualRect.X, CBase.Settings.GetRenderH(), 1, 1, actualRect.Z);
                         break;
                     case Keys.Down:
                         actualRect = new SRectF(actualRect.X, 0, 1, 1, actualRect.Z);
                         break;
                     case Keys.Left:
-                        actualRect = new SRectF(CBase.Base.Settings.GetRenderW(), actualRect.Y, 1, 1, actualRect.Z);
+                        actualRect = new SRectF(CBase.Settings.GetRenderW(), actualRect.Y, 1, 1, actualRect.Z);
                         break;
                     case Keys.Right:
                         actualRect = new SRectF(0, actualRect.Y, 1, 1, actualRect.Z);
@@ -2516,7 +2516,7 @@ namespace Vocaluxe.Menu
                     msg += "the file is for newer program versions! ";
 
                 msg += "Current screen version is " + Version.ToString();
-                CBase.Base.Log.LogError(msg);
+                CBase.Log.LogError(msg);
             }
             return false;
         }
@@ -2568,11 +2568,11 @@ namespace Vocaluxe.Menu
 
         private void ReloadThemeEditMode()
         {
-            CBase.Base.Theme.UnloadSkins();
-            CBase.Base.Theme.ListSkins();
-            CBase.Base.Theme.LoadSkins();
-            CBase.Base.Theme.LoadTheme();
-            CBase.Base.Graphics.ReloadTheme();
+            CBase.Theme.UnloadSkins();
+            CBase.Theme.ListSkins();
+            CBase.Theme.LoadSkins();
+            CBase.Theme.LoadTheme();
+            CBase.Graphics.ReloadTheme();
 
             OnShow();
             OnShowFinish();

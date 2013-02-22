@@ -93,7 +93,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
@@ -105,7 +105,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/MaxColor", ref _Theme.MaxColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
@@ -260,10 +260,10 @@ namespace Vocaluxe.Menu
                     color = MaxColor;
                 }
 
-                CBase.Base.Drawing.DrawColor(color, bar);
+                CBase.Drawing.DrawColor(color, bar);
 
                 if (Reflection)
-                    CBase.Base.Drawing.DrawColorReflection(color, bar, ReflectionSpace, ReflectionHeight);
+                    CBase.Drawing.DrawColorReflection(color, bar, ReflectionSpace, ReflectionHeight);
             }
         }
 
@@ -274,10 +274,10 @@ namespace Vocaluxe.Menu
         public void LoadTextures()
         {
             if (_Theme.ColorName != String.Empty)
-                Color = CBase.Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+                Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
             if (_Theme.MaxColorName != String.Empty)
-                MaxColor = CBase.Base.Theme.GetColor(_Theme.MaxColorName, _PartyModeID);
+                MaxColor = CBase.Theme.GetColor(_Theme.MaxColorName, _PartyModeID);
         }
 
         public void ReloadTextures()

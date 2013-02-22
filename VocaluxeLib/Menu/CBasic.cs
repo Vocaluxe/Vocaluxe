@@ -6,56 +6,51 @@ namespace Vocaluxe.Menu
 {
     public static class CBase
     {
-        public static Basic Base;
-    }
+        public static IConfig Config;
+        public static ISettings Settings;
+        public static ITheme Theme;
+        public static IHelper Helper;
+        public static ILog Log;
+        public static IBackgroundMusic BackgroundMusic;
+        public static IDrawing Drawing;
+        public static IGraphics Graphics;
+        public static IFonts Fonts;
+        public static ILanguage Language;
+        public static IGame Game;
+        public static IProfiles Profiles;
+        public static IRecording Record;
+        public static ISongs Songs;
+        public static IVideo Video;
+        public static ISound Sound;
+        public static ICover Cover;
+        public static IDataBase DataBase;
+        public static IInputs Input;
+        public static IPlaylist Playlist;
 
-    public class Basic
-    {
-        public IConfig Config;
-        public ISettings Settings;
-        public ITheme Theme;
-        public IHelper Helper;
-        public ILog Log;
-        public IBackgroundMusic BackgroundMusic;
-        public IDrawing Drawing;
-        public IGraphics Graphics;
-        public IFonts Fonts;
-        public ILanguage Language;
-        public IGame Game;
-        public IProfiles Profiles;
-        public IRecording Record;
-        public ISongs Songs;
-        public IVideo Video;
-        public ISound Sound;
-        public ICover Cover;
-        public IDataBase DataBase;
-        public IInputs Input;
-        public IPlaylist Playlist;
-
-        public Basic(IConfig Config, ISettings Settings, ITheme Theme, IHelper Helper, ILog Log, IBackgroundMusic BackgroundMusic,
-            IDrawing Draw, IGraphics Graphics, IFonts Fonts, ILanguage Language, IGame Game, IProfiles Profiles, IRecording Record,
-            ISongs Songs, IVideo Video, ISound Sound, ICover Cover, IDataBase DataBase, IInputs Input, IPlaylist Playlist)
+        public static void Assign(IConfig config, ISettings settings, ITheme theme, IHelper helper, ILog log, IBackgroundMusic backgroundMusic,
+            IDrawing draw, IGraphics graphics, IFonts fonts, ILanguage language, IGame game, IProfiles profiles, IRecording record,
+            ISongs songs, IVideo video, ISound sound, ICover cover, IDataBase dataBase, IInputs input, IPlaylist playlist)
         {
-            this.Config = Config;
-            this.Settings = Settings;
-            this.Theme = Theme;
-            this.Helper = Helper;
-            this.Log = Log;
-            this.BackgroundMusic = BackgroundMusic;
-            this.Drawing = Draw;
-            this.Graphics = Graphics;
-            this.Fonts = Fonts;
-            this.Language = Language;
-            this.Game = Game;
-            this.Profiles = Profiles;
-            this.Record = Record;
-            this.Songs = Songs;
-            this.Video = Video;
-            this.Sound = Sound;
-            this.Cover = Cover;
-            this.DataBase = DataBase;
-            this.Input = Input;
-            this.Playlist = Playlist;
+            Config = config;
+            Settings = settings;
+            Theme = theme;
+            Helper = helper;
+            Log = log;
+            BackgroundMusic = backgroundMusic;
+            Drawing = draw;
+            Graphics = graphics;
+            Fonts = fonts;
+            Language = language;
+            Game = game;
+            Profiles = profiles;
+            Record = record;
+            Songs = songs;
+            Video = video;
+            Sound = sound;
+            Cover = cover;
+            DataBase = dataBase;
+            Input = input;
+            Playlist = playlist;
         }
     }
 }

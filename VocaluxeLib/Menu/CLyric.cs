@@ -118,7 +118,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
@@ -130,7 +130,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/SColor", ref _Theme.SColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Base.Theme.GetColor(_Theme.SColorName, SkinIndex, ref ColorProcessed);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColorName, SkinIndex, ref ColorProcessed);
             }
             else
             {
@@ -218,7 +218,7 @@ namespace Vocaluxe.Menu
                 if (n.Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;
                 
-                RectangleF rect = CBase.Base.Drawing.GetTextBounds(_Text);
+                RectangleF rect = CBase.Drawing.GetTextBounds(_Text);
                 _width += rect.Width;
                 _Notes.Add(n);
             }
@@ -237,7 +237,7 @@ namespace Vocaluxe.Menu
         #region draw
         public void Draw(float ActualBeat)
         {
-            if (Visible || CBase.Base.Settings.GetGameState() == EGameState.EditTheme)
+            if (Visible || CBase.Settings.GetGameState() == EGameState.EditTheme)
             {
                 switch (_Style)
                 {
@@ -269,7 +269,7 @@ namespace Vocaluxe.Menu
                 _Text.X = x;
                 _Text.Style = EStyle.Bold;
                 _Text.Text = note.Text;
-                RectangleF rect = CBase.Base.Drawing.GetTextBounds(_Text);
+                RectangleF rect = CBase.Drawing.GetTextBounds(_Text);
 
                 if (note.Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;
@@ -329,7 +329,7 @@ namespace Vocaluxe.Menu
                 _Text.X = x;
                 _Text.Style = EStyle.Bold;
                 _Text.Text = _Notes[note].Text;
-                RectangleF rect = CBase.Base.Drawing.GetTextBounds(_Text);
+                RectangleF rect = CBase.Drawing.GetTextBounds(_Text);
 
                 if (_Notes[note].Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;
@@ -382,7 +382,7 @@ namespace Vocaluxe.Menu
                 if (_Notes[zoom_note].Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;
 
-                RectangleF rect = CBase.Base.Drawing.GetTextBounds(_Text);
+                RectangleF rect = CBase.Drawing.GetTextBounds(_Text);
 
                 float diff = end_beat - _Notes[zoom_note].StartBeat;
                 if (diff <= 0f)
@@ -400,7 +400,7 @@ namespace Vocaluxe.Menu
                 float tz = _Text.Z;
 
                 _Text.Height += _Text.Height * p * 0.4f;
-                RectangleF rectz = CBase.Base.Drawing.GetTextBounds(_Text);
+                RectangleF rectz = CBase.Drawing.GetTextBounds(_Text);
                 _Text.X -= (rectz.Width - rect.Width) / 2f;
                 _Text.Y -= (rectz.Height - rect.Height) / 2f;
                 _Text.Z -= 0.1f;
@@ -423,7 +423,7 @@ namespace Vocaluxe.Menu
                 _Text.X = x;
                 _Text.Style = EStyle.Bold;
                 _Text.Text = note.Text;
-                RectangleF rect = CBase.Base.Drawing.GetTextBounds(_Text);
+                RectangleF rect = CBase.Drawing.GetTextBounds(_Text);
 
                 if (note.Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;
@@ -465,7 +465,7 @@ namespace Vocaluxe.Menu
                 _Text.X = x;
                 _Text.Style = EStyle.Bold;
                 _Text.Text = _Notes[note].Text;
-                RectangleF rect = CBase.Base.Drawing.GetTextBounds(_Text);
+                RectangleF rect = CBase.Drawing.GetTextBounds(_Text);
 
                 if (_Notes[note].Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;
@@ -548,10 +548,10 @@ namespace Vocaluxe.Menu
         public void LoadTextures()
         {
             if (_Theme.ColorName != String.Empty)
-                Color = CBase.Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+                Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
             if (_Theme.SColorName != String.Empty)
-                ColorProcessed = CBase.Base.Theme.GetColor(_Theme.SColorName, _PartyModeID);
+                ColorProcessed = CBase.Theme.GetColor(_Theme.SColorName, _PartyModeID);
         }
 
         public void ReloadTextures()

@@ -270,7 +270,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref _Color);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, ref _Color);
             }
             else
             {
@@ -441,17 +441,17 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (_streams.Count > 0 && _video != -1)
             {
-                if (CBase.Base.Video.IsFinished(_video) || CBase.Base.Sound.IsFinished(_actsongstream))
+                if (CBase.Video.IsFinished(_video) || CBase.Sound.IsFinished(_actsongstream))
                 {
-                    CBase.Base.Video.Close(_video);
+                    CBase.Video.Close(_video);
                     _video = -1;
                     return;
                 }
 
-                float time = CBase.Base.Sound.GetPosition(_actsongstream);
+                float time = CBase.Sound.GetPosition(_actsongstream);
                 
                 float vtime = 0f;
-                CBase.Base.Video.GetFrame(_video, ref _vidtex, time, ref vtime);
+                CBase.Video.GetFrame(_video, ref _vidtex, time, ref vtime);
                 if (_VideoFadeTimer.ElapsedMilliseconds <= 3000L)
                 {
                     _vidtex.color.A = (_VideoFadeTimer.ElapsedMilliseconds / 3000f);
@@ -474,14 +474,14 @@ namespace Vocaluxe.Menu.SongMenu
         {
             foreach (int stream in _streams)
             {
-                CBase.Base.Sound.FadeAndStop(stream, 0f, 0.75f);
+                CBase.Sound.FadeAndStop(stream, 0f, 0.75f);
             }
             _streams.Clear();
 
-            CBase.Base.Video.Close(_video);
+            CBase.Video.Close(_video);
             _video = -1;
 
-            CBase.Base.Drawing.RemoveTexture(ref _vidtex);            
+            CBase.Drawing.RemoveTexture(ref _vidtex);            
 
             _timer.Stop();
             _timer.Reset();
@@ -507,7 +507,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (_video != -1)
             {
-                CBase.Base.Drawing.DrawTexture(_vidtex, new SRectF(0, 0, 1280, 720, 0));
+                CBase.Drawing.DrawTexture(_vidtex, new SRectF(0, 0, 1280, 720, 0));
             }
             
         }
@@ -518,7 +518,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             foreach (int stream in _streams)
             {
-                CBase.Base.Sound.SetStreamVolumeMax(stream, _MaxVolume);
+                CBase.Sound.SetStreamVolumeMax(stream, _MaxVolume);
             }
         }
 
@@ -579,7 +579,7 @@ namespace Vocaluxe.Menu.SongMenu
             Init();
 
             if (_Theme.ColorName != String.Empty)
-                _Color = CBase.Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+                _Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
         }
 
         public void ReloadTextures()
@@ -593,11 +593,11 @@ namespace Vocaluxe.Menu.SongMenu
             if (!_Initialized)
                 return;
 
-            if (Category >= CBase.Base.Songs.GetNumCategories())
+            if (Category >= CBase.Songs.GetNumCategories())
                 return;
 
             Reset();
-            CBase.Base.Songs.SetCategory(Category);
+            CBase.Songs.SetCategory(Category);
         }
 
         protected virtual void ShowCategories()
@@ -605,59 +605,59 @@ namespace Vocaluxe.Menu.SongMenu
             if (!_Initialized)
                 return;
 
-            if (CBase.Base.Songs.GetCurrentCategoryIndex() != -1)
+            if (CBase.Songs.GetCurrentCategoryIndex() != -1)
                 Reset();
 
             Reset();
-            CBase.Base.Songs.SetCategory(-1);
+            CBase.Songs.SetCategory(-1);
         }
 
         public void ApplyVolume()
         {
-            CBase.Base.Sound.SetStreamVolume(_actsongstream, CBase.Base.Config.GetPreviewMusicVolume());
+            CBase.Sound.SetStreamVolume(_actsongstream, CBase.Config.GetPreviewMusicVolume());
         }
 
         protected void SelectSong(int nr)
         {
-            if (CBase.Base.Songs.GetCurrentCategoryIndex() >= 0 && (CBase.Base.Songs.GetNumVisibleSongs() > 0) && (nr >= 0) && ((_actsong != nr) || (_streams.Count == 0)))
+            if (CBase.Songs.GetCurrentCategoryIndex() >= 0 && (CBase.Songs.GetNumVisibleSongs() > 0) && (nr >= 0) && ((_actsong != nr) || (_streams.Count == 0)))
             {
                 foreach (int stream in _streams)
                 {
-                    CBase.Base.Sound.FadeAndStop(stream, 0f, 1f);
+                    CBase.Sound.FadeAndStop(stream, 0f, 1f);
                 }
                 _streams.Clear();
 
-                CBase.Base.Video.Close(_video);
+                CBase.Video.Close(_video);
                 _video = -1;
 
-                CBase.Base.Drawing.RemoveTexture(ref _vidtex);
+                CBase.Drawing.RemoveTexture(ref _vidtex);
 
                 _actsong = nr;
-                if (_actsong >= CBase.Base.Songs.GetNumVisibleSongs())
+                if (_actsong >= CBase.Songs.GetNumVisibleSongs())
                     _actsong = 0;
 
 
-                int _stream = CBase.Base.Sound.Load(Path.Combine(CBase.Base.Songs.GetVisibleSong(_actsong).Folder, CBase.Base.Songs.GetVisibleSong(_actsong).MP3FileName), true);
-                CBase.Base.Sound.SetStreamVolumeMax(_stream, _MaxVolume);
-                CBase.Base.Sound.SetStreamVolume(_stream, 0f);
+                int _stream = CBase.Sound.Load(Path.Combine(CBase.Songs.GetVisibleSong(_actsong).Folder, CBase.Songs.GetVisibleSong(_actsong).MP3FileName), true);
+                CBase.Sound.SetStreamVolumeMax(_stream, _MaxVolume);
+                CBase.Sound.SetStreamVolume(_stream, 0f);
 
-                float startposition = CBase.Base.Songs.GetVisibleSong(_actsong).PreviewStart;
+                float startposition = CBase.Songs.GetVisibleSong(_actsong).PreviewStart;
 
                 if (startposition == 0f)
-                    startposition = CBase.Base.Sound.GetLength(_stream) / 4f;
+                    startposition = CBase.Sound.GetLength(_stream) / 4f;
 
-                CBase.Base.Sound.SetPosition(_stream, startposition);
-                CBase.Base.Sound.Play(_stream);
-                CBase.Base.Sound.Fade(_stream, 100f, 3f);
+                CBase.Sound.SetPosition(_stream, startposition);
+                CBase.Sound.Play(_stream);
+                CBase.Sound.Fade(_stream, 100f, 3f);
                 _streams.Add(_stream);
                 _actsongstream = _stream;
                 
-                if (CBase.Base.Songs.GetVisibleSong(_actsong).VideoFileName != String.Empty && CBase.Base.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
+                if (CBase.Songs.GetVisibleSong(_actsong).VideoFileName != String.Empty && CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
                 {
-                    _video = CBase.Base.Video.Load(Path.Combine(CBase.Base.Songs.GetVisibleSong(_actsong).Folder, CBase.Base.Songs.GetVisibleSong(_actsong).VideoFileName));
+                    _video = CBase.Video.Load(Path.Combine(CBase.Songs.GetVisibleSong(_actsong).Folder, CBase.Songs.GetVisibleSong(_actsong).VideoFileName));
                     if (_video == -1)
                         return;
-                    CBase.Base.Video.Skip(_video, startposition, CBase.Base.Songs.GetVisibleSong(_actsong).VideoGap);
+                    CBase.Video.Skip(_video, startposition, CBase.Songs.GetVisibleSong(_actsong).VideoGap);
                     _VideoFadeTimer.Stop();
                     _VideoFadeTimer.Reset();
                     _VideoFadeTimer.Start();
@@ -669,14 +669,14 @@ namespace Vocaluxe.Menu.SongMenu
         {
             foreach (int stream in _streams)
             {
-                CBase.Base.Sound.FadeAndStop(stream, 0f, 0.75f);
+                CBase.Sound.FadeAndStop(stream, 0f, 0.75f);
             }
             _streams.Clear();
 
-            CBase.Base.Video.Close(_video);
+            CBase.Video.Close(_video);
             _video = -1;
 
-            CBase.Base.Drawing.RemoveTexture(ref _vidtex);
+            CBase.Drawing.RemoveTexture(ref _vidtex);
 
             _timer.Stop();
             _timer.Reset();

@@ -191,7 +191,7 @@ namespace Vocaluxe.Menu.SingNotes
             get { return _Tone; }
             set
             {
-                if ((value >= CBase.Base.Settings.GetToneMin()) && (value <= CBase.Base.Settings.GetToneMax()))
+                if ((value >= CBase.Settings.GetToneMin()) && (value <= CBase.Settings.GetToneMax()))
                     _Tone = value;
             }
         }

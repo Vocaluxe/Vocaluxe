@@ -85,7 +85,7 @@ namespace Vocaluxe.Screens
             base.Init();
 
             ButtonsJoker.Clear();
-            for (int i = 0; i < CMain.Base.Settings.GetMaxNumPlayer(); i++)
+            for (int i = 0; i < CMain.Settings.GetMaxNumPlayer(); i++)
             {
                 ButtonsJoker.Add("ButtonJoker" + (i + 1));
             }
@@ -105,7 +105,7 @@ namespace Vocaluxe.Screens
             blist.Add(ButtonOptionsStartMedley);
 
             TextsPlayer.Clear();
-            for (int i = 0; i < CMain.Base.Settings.GetMaxNumPlayer(); i++)
+            for (int i = 0; i < CMain.Settings.GetMaxNumPlayer(); i++)
             {
                 TextsPlayer.Add("TextPlayer" + (i + 1));
             }
@@ -824,7 +824,7 @@ namespace Vocaluxe.Screens
                 if (!SongMenus[htSongMenus(SongMenu)].IsSmallView())
                     SongMenus[htSongMenus(SongMenu)].SetSmallView(true);
 
-                for (int i = 0; i < CMain.Base.Settings.GetMaxNumPlayer(); i++)
+                for (int i = 0; i < CMain.Settings.GetMaxNumPlayer(); i++)
                 {
                     if (i < _sso.Selection.NumJokers.Length)
                     {
@@ -857,7 +857,7 @@ namespace Vocaluxe.Screens
                 if (_sso.Selection.PartyMode && SongMenus[htSongMenus(SongMenu)].IsSmallView())
                     SongMenus[htSongMenus(SongMenu)].SetSmallView(false);
 
-                for (int i = 0; i < CMain.Base.Settings.GetMaxNumPlayer(); i++)
+                for (int i = 0; i < CMain.Settings.GetMaxNumPlayer(); i++)
                 {
                     Buttons[htButtons(ButtonsJoker[i])].Visible = false;
                     Texts[htTexts(TextsPlayer[i])].Visible = false;

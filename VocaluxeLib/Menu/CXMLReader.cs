@@ -28,7 +28,7 @@ namespace Vocaluxe.Menu
             }
             catch (Exception)
             {
-                CBase.Base.Log.LogError("Can't open XML file: " + sUri);
+                CBase.Log.LogError("Can't open XML file: " + sUri);
                 return null;
             }
         }

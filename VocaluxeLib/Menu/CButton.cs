@@ -147,7 +147,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
@@ -159,7 +159,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/SColor", ref _Theme.SColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Base.Theme.GetColor(_Theme.SColorName, SkinIndex, ref SColor);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColorName, SkinIndex, ref SColor);
             }
             else
             {
@@ -298,7 +298,7 @@ namespace Vocaluxe.Menu
 
         public void Draw(bool ForceDraw)
         {
-            if (!Visible && CBase.Base.Settings.GetGameState() != EGameState.EditTheme && !ForceDraw)
+            if (!Visible && CBase.Settings.GetGameState() != EGameState.EditTheme && !ForceDraw)
                 return;
 
             STexture texture = new STexture(-1);
@@ -308,13 +308,13 @@ namespace Vocaluxe.Menu
                 if (Texture.index != -1)
                     texture = Texture;
                 else
-                    texture = CBase.Base.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+                    texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
 
-                CBase.Base.Drawing.DrawTexture(texture, Rect, Color);
+                CBase.Drawing.DrawTexture(texture, Rect, Color);
                 
                 if (Reflection)
                 {
-                    CBase.Base.Drawing.DrawTextureReflection(texture, Rect, Color, Rect, ReflectionSpace, ReflectionHeight);
+                    CBase.Drawing.DrawTextureReflection(texture, Rect, Color, Rect, ReflectionSpace, ReflectionHeight);
                     Text.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
                 }
                 else
@@ -325,13 +325,13 @@ namespace Vocaluxe.Menu
                 if (Texture.index != -1)
                     texture = Texture;
                 else
-                    texture = CBase.Base.Theme.GetSkinTexture(_Theme.STextureName, _PartyModeID);
+                    texture = CBase.Theme.GetSkinTexture(_Theme.STextureName, _PartyModeID);
 
-                CBase.Base.Drawing.DrawTexture(texture, Rect, SColor);
+                CBase.Drawing.DrawTexture(texture, Rect, SColor);
 
                 if (Reflection)
                 {
-                    CBase.Base.Drawing.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
+                    CBase.Drawing.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
                     Text.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
                 }
                 else
@@ -342,13 +342,13 @@ namespace Vocaluxe.Menu
                 if (STexture.index != -1)
                     texture = STexture;
                 else
-                    texture = CBase.Base.Theme.GetSkinTexture(_Theme.STextureName, _PartyModeID);
+                    texture = CBase.Theme.GetSkinTexture(_Theme.STextureName, _PartyModeID);
 
-                CBase.Base.Drawing.DrawTexture(texture, Rect, SColor);
+                CBase.Drawing.DrawTexture(texture, Rect, SColor);
 
                 if (Reflection)
                 {
-                    CBase.Base.Drawing.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
+                    CBase.Drawing.DrawTextureReflection(texture, Rect, SColor, Rect, ReflectionSpace, ReflectionHeight);
                     SText.DrawRelative(Rect.X, Rect.Y, ReflectionSpace, ReflectionHeight, Rect.H);
                 }
                 else
@@ -371,10 +371,10 @@ namespace Vocaluxe.Menu
             Text.LoadTextures();
 
             if (_Theme.ColorName != String.Empty)
-                Color = CBase.Base.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+                Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
             if (_Theme.SColorName != String.Empty)
-                SColor = CBase.Base.Theme.GetColor(_Theme.SColorName, _PartyModeID);
+                SColor = CBase.Theme.GetColor(_Theme.SColorName, _PartyModeID);
         }
 
         public void ReloadTextures()

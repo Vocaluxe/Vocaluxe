@@ -122,7 +122,7 @@ namespace Vocaluxe.PartyModes
             }
             catch (Exception e)
             {
-                CBase.Base.Log.LogError("Error in party mode screen challenge main. Can't cast received data from game mode " + _ThemeName + ". " + e.Message); ;
+                CBase.Log.LogError("Error in party mode screen challenge main. Can't cast received data from game mode " + _ThemeName + ". " + e.Message); ;
             }
 
         }
@@ -331,7 +331,7 @@ namespace Vocaluxe.PartyModes
 
         private void UpdateNextPlayerPositions()
         {
-            float x = CBase.Base.Settings.GetRenderW()/2 - ((GameState.NumPlayerAtOnce * Statics[htStatics(StaticNextPlayer)].Rect.W) + ((GameState.NumPlayerAtOnce-1) * 15))/2;
+            float x = CBase.Settings.GetRenderW()/2 - ((GameState.NumPlayerAtOnce * Statics[htStatics(StaticNextPlayer)].Rect.W) + ((GameState.NumPlayerAtOnce-1) * 15))/2;
             float static_y = 590;
             float text_y = 550;
             for (int i = 0; i < GameState.NumPlayerAtOnce; i++)
@@ -359,13 +359,13 @@ namespace Vocaluxe.PartyModes
             if (GameState.CurrentRoundNr <= GameState.Combs.Count)
             {
                 Texts[htTexts(TextNextPlayerMessage)].Visible = true;
-                SProfile[] profiles = CBase.Base.Profiles.GetProfiles();
+                SProfile[] profiles = CBase.Profiles.GetProfiles();
                 for (int i = 0; i < GameState.NumPlayerAtOnce; i++)
                 {
                     int pid = GameState.Combs[GameState.CurrentRoundNr - 1].Player[i];
                     NextPlayerStatics[i].Texture = profiles[GameState.ProfileIDs[pid]].Avatar.Texture;
                     NextPlayerTexts[i].Text = profiles[GameState.ProfileIDs[pid]].PlayerName;
-                    NextPlayerTexts[i].Color = CBase.Base.Theme.GetPlayerColor((i + 1));
+                    NextPlayerTexts[i].Color = CBase.Theme.GetPlayerColor((i + 1));
                 }
             }
             else
@@ -432,7 +432,7 @@ namespace Vocaluxe.PartyModes
 
             RoundsTableScrollArea.X = x;
             RoundsTableScrollArea.Y = y;
-            RoundsTableScrollArea.W = CBase.Base.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20;
+            RoundsTableScrollArea.W = CBase.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20;
 
             float delta = Texts[htTexts(TextRoundNumber)].Height;
 
@@ -455,8 +455,8 @@ namespace Vocaluxe.PartyModes
                     for (int column = row * NumPlayerInOneRow; column < num; column++)
                     {
                         //Player
-                        float _x = x + 15 + (CBase.Base.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20) / NumPlayerInThisRow * (column - row * NumPlayerInOneRow) + ((CBase.Base.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20) / NumPlayerInThisRow) / 2;
-                        float maxw = ((CBase.Base.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20) / NumPlayerInThisRow) / 2 - 5;
+                        float _x = x + 15 + (CBase.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20) / NumPlayerInThisRow * (column - row * NumPlayerInOneRow) + ((CBase.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20) / NumPlayerInThisRow) / 2;
+                        float maxw = ((CBase.Settings.GetRenderW() - Texts[htTexts(TextRoundNumber)].X - 20) / NumPlayerInThisRow) / 2 - 5;
                         RoundsTable[round].TextPlayer[column].X = _x;
                         RoundsTable[round].TextPlayer[column].Y = y;
                         RoundsTable[round].TextPlayer[column].MaxWidth = maxw;
@@ -475,7 +475,7 @@ namespace Vocaluxe.PartyModes
 
         private void UpdateRoundsTable()
         {
-            SProfile[] profile = CBase.Base.Profiles.GetProfiles();
+            SProfile[] profile = CBase.Profiles.GetProfiles();
             for (int i = 0; i < RoundsTable.Count; i++)
             {
                 for(int p = 0; p < RoundsTable[i].TextPlayer.Count; p++)
@@ -569,7 +569,7 @@ namespace Vocaluxe.PartyModes
 
         private void UpdatePlayerTable()
         {
-            SProfile[] profiles = CBase.Base.Profiles.GetProfiles();
+            SProfile[] profiles = CBase.Profiles.GetProfiles();
 
             for (int i = 0; i < PlayerTable.Count; i++)
             {
@@ -641,7 +641,7 @@ namespace Vocaluxe.PartyModes
         private string GetPlayerWinString()
         {
             string s = "";
-            SProfile[] profiles = CBase.Base.Profiles.GetProfiles();
+            SProfile[] profiles = CBase.Profiles.GetProfiles();
 
             for (int i = 0; i < GameState.ResultTable.Count; i++)
             {
