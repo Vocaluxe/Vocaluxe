@@ -1,6 +1,11 @@
 #pragma once
 #include <string>
+#include <map>
+#include <queue>
 #include "gst/gst.h"
+#include "GstreamerAudioStream.h"
+#include "gst\gst.h"
+
 #define DllExport extern "C" __declspec(dllexport)
 
 using namespace std;

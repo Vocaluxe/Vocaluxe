@@ -1,11 +1,5 @@
 #include "stdafx.h"
 #include "GstreamerAudio.h"
-#include "GstreamerAudioStream.h"
-#include "gst\gst.h"
-#include <string>
-#include <sstream>
-#include <map>
-#include <queue>
 
 #define DllExport extern "C" __declspec(dllexport)
 

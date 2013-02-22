@@ -2,8 +2,10 @@
 #pragma warning(disable: 4244) // possible loss of data
 #pragma warning(disable: 4267) // possible loss of data
 #pragma warning(disable: 4800)
+
 #include <string>
 #include "gst/gst.h"
+#include "GstreamerAudio.h"
 
 using namespace std;
 
@@ -49,8 +51,6 @@ private:
 	gboolean Running;
 	gboolean Loop;
 
-	gboolean Playing;
-	gboolean Paused;
 	gboolean Finished;
 
 	gdouble MaxVolume;

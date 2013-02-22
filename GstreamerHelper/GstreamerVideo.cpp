@@ -23,6 +23,7 @@ DllExport bool InitVideo()
 #endif
 
 	gst_init(NULL, NULL);
+
 	GstRegistry* registry = gst_registry_get();
 
 #if _WIN64

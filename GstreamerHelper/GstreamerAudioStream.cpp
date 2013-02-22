@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "GstreamerAudioStream.h"
-#include "GstreamerAudio.h"
-#include "gst/gst.h"
-#include <string>
+
 
 typedef enum {
   GST_PLAY_FLAG_VIDEO         = (1 << 0),
@@ -28,8 +26,6 @@ GstreamerAudioStream::GstreamerAudioStream(int id)
 	Running = true;
 
 	Finished = false;
-	Playing = false;
-	Paused = false;
 
 	//Fading
 	FadeTimer = g_timer_new();
@@ -76,7 +72,6 @@ int GstreamerAudioStream::Load(const wchar_t* Media)
 
 	gst_element_set_state(Element, GST_STATE_PAUSED);
 	gst_bus_timed_pop_filtered(Bus, -1, GST_MESSAGE_ASYNC_DONE);
-	Paused = true;
 	RefreshDuration();
 
 	return ID;
@@ -132,16 +127,12 @@ void GstreamerAudioStream::Play(void)
 
 void GstreamerAudioStream::Play(bool Loop)
 {
-	Playing = true;
-	Paused = false;
 	this->Loop = Loop;
 	Play();
 }
 
 void GstreamerAudioStream::Pause()
 {
-	Playing = false;
-	Paused = true;
 	Running = true;
 	if(Element)
 		gst_element_set_state(Element, GST_STATE_PAUSED);
@@ -154,8 +145,6 @@ void GstreamerAudioStream::Stop()
 	{
 		gst_element_set_state(Element, GST_STATE_NULL);
 		gst_element_seek_simple(Element, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH, 0);
-		Running = true;
-		Playing = false;
 	}
 }
 

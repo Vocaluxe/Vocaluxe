@@ -1,5 +1,6 @@
 #pragma once
 #include <mutex>
+#include <thread>
 #include "gst/gst.h"
 #include "GstreamerVideo.h"
 #include "gst\app\gstappsink.h"
@@ -32,36 +33,39 @@ public:
     bool IsFinished();
 
 private:
-	GMainLoop *MainLoop;
-	GMainContext *Context;
-	VocaluxeClock *Clock;
+	struct BufferFrame {
+		GstSample *Sample;
+		GstBuffer *Buffer;
+		GstMapInfo Memory;
+		gboolean Displayed;
+	};
+
+	thread CopyThread;
 
 	GstAppSink *Appsink;
 	GstElement *Element;
 	GstBus *Bus;
 	GstMessage *Message;
 
-	ApplicationFrame Frame;
-	GstMapInfo Mapinfo;
-	GstSample *Sample;
-	GstBuffer *Buffer;
-	GstCaps *BufferCaps;
-	GstStructure *BufferStructure;
+	BufferFrame FrameBuffer[5];
+	gboolean BufferFull;
 	mutex Mutex;
 
 	gboolean Loop;
 
 	gboolean Running;
+	volatile gboolean Copying;
 
 	gboolean Paused;
 	gboolean Finished;
 
 	gfloat Duration;
 
+	ApplicationFrame ReturnFrame;
+
 	void RefreshDuration();
 
-	GstFlowReturn NewBufferRecieved(GstAppSink *Sink);
-	static GstFlowReturn fake_callback(GstAppSink *sink ,gpointer data);
+	void Copy();
 };
 
 

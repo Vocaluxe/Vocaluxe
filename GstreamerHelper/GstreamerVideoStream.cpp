@@ -19,9 +19,6 @@ GstreamerVideoStream::GstreamerVideoStream(int ID)
 {
 	this->ID = ID;
 
-	g_main_loop_new(Context, false);
-	Clock = vocaluxe_clock_new("external");
-
 	Loop = false;
 
 	Running = true;
@@ -29,6 +26,15 @@ GstreamerVideoStream::GstreamerVideoStream(int ID)
 	Paused = false;
 	Finished = false;
 	Closed = false;
+	Copying = true;
+
+	BufferFull = false;
+	for(int i = 0; i < 5; i++)
+	{
+		FrameBuffer[i].Sample = NULL;
+		FrameBuffer[i].Buffer = NULL;
+		FrameBuffer[i].Displayed = true;
+	}
 
 	Duration = -1.0;
 }
@@ -42,12 +48,10 @@ GstreamerVideoStream::~GstreamerVideoStream(void)
 int GstreamerVideoStream::LoadVideo(const wchar_t* Filename)
 {
 	Element = gst_element_factory_make("playbin", "playbin");
-
-
 	Appsink = (GstAppSink*) gst_element_factory_make("appsink", "appsink");
 
 	Bus = gst_element_get_bus(Element);
-	if(!Element)
+	if(!Element || !Appsink)
 	{
 		LogVideoError ("Could not create element!");
 		return -1;
@@ -56,8 +60,7 @@ int GstreamerVideoStream::LoadVideo(const wchar_t* Filename)
 	g_object_set(Element, "uri", Filename, NULL);
 	g_object_set(Element, "video-sink", Appsink, NULL);
 	g_object_set(Element, "flags", GST_PLAY_FLAG_VIDEO, NULL); 
-	g_object_set (Appsink, "emit-signals", TRUE, "sync", TRUE, NULL);
-	g_signal_connect(Appsink,"new-sample", G_CALLBACK(fake_callback),(gpointer)this);
+	g_object_set (Appsink, "emit-signals", FALSE, "sync", FALSE, NULL);
 
 	GstCaps *caps;
 	caps = gst_caps_new_simple ("video/x-raw",
@@ -67,70 +70,74 @@ int GstreamerVideoStream::LoadVideo(const wchar_t* Filename)
 	gst_app_sink_set_caps(Appsink, caps);
 
 	gst_app_sink_set_drop(Appsink, false);
-	gst_app_sink_set_max_buffers(Appsink, 1);
+	gst_app_sink_set_max_buffers(Appsink, 5);
 
-	gst_pipeline_use_clock((GstPipeline *)Element, (GstClock*) Clock);
 	gst_element_set_state(Element, GST_STATE_PLAYING);
-	gst_element_set_state((GstElement*)Appsink, GST_STATE_PLAYING);
+	//gst_element_set_state(GST_ELEMENT (Appsink), GST_STATE_PLAYING);
 	gst_bus_timed_pop_filtered(Bus, -1, GST_MESSAGE_ASYNC_DONE);
+	CopyThread = thread (&GstreamerVideoStream::Copy, this);
 
-	Paused = true;
 	RefreshDuration();
 
 	return ID;
 }
 
-GstFlowReturn GstreamerVideoStream::fake_callback(GstAppSink *sink,gpointer data)  {
-
-     GstreamerVideoStream* instance = (GstreamerVideoStream*)data;
-	 return instance->NewBufferRecieved(sink);
-}
-
-GstFlowReturn GstreamerVideoStream::NewBufferRecieved(GstAppSink *sink)
+void GstreamerVideoStream::Copy()
 {
-	float VideoTime = 0.0;
-	int Width = 0;
-	int Height = 0;
-	int Size = -1;
-	
-	Sample = gst_app_sink_pull_sample(Appsink);
-	if(Sample) {
-		BufferCaps = gst_sample_get_caps (Sample);
-		BufferStructure = gst_caps_get_structure (BufferCaps, 0);
-
-		Buffer = gst_sample_get_buffer(Sample);
-		gst_buffer_map(Buffer, &Mapinfo, GST_MAP_READ);
-
-		Size = Mapinfo.size;
-		gst_structure_get_int (BufferStructure, "width", &Width);
-		gst_structure_get_int (BufferStructure, "height", &Height);
-		VideoTime = (float) (Buffer->pts / GST_SECOND);
-
-		if(Buffer && &Mapinfo)
+	while(Copying)
+	{
+		int num = -1;
+		for (int i = 0; i < 5; i++)
 		{
-			gst_buffer_unmap(Buffer, &Mapinfo);
-			gst_buffer_unref(Buffer);
+			if(FrameBuffer[i].Displayed)
+			{
+
+				num = i;
+				GstSample *sample;
+				sample = gst_app_sink_pull_sample(Appsink);
+				Mutex.lock();
+				if(FrameBuffer[i].Buffer)
+				{
+					if(FrameBuffer[i].Memory.data)
+						gst_buffer_unmap(FrameBuffer[i].Buffer, &FrameBuffer[i].Memory);
+					gst_buffer_unref(FrameBuffer[i].Buffer);
+				}
+				//if(FrameBuffer[i].Sample)
+					//gst_sample_unref(FrameBuffer[i].Sample);
+
+
+				FrameBuffer[i].Displayed = false;
+				FrameBuffer[i].Sample = sample;
+				Mutex.unlock();
+
+				//gst_element_send_event (Element, gst_event_new_step (GST_FORMAT_BUFFERS, 1, 1.0, TRUE, FALSE));
+				break;
+			}
 		}
-		if(BufferCaps)
-			gst_caps_unref(BufferCaps);
-
-		if(BufferStructure)
-			gst_object_unref(BufferStructure);
+		if(num == -1)
+			BufferFull = true;
 	}
-
-	Mutex.lock();
-	Frame.buffer = Mapinfo.data;
-	Frame.height = Height;
-	Frame.width = Width;
-	Frame.size = Size;
-	Frame.videotime = VideoTime;
-	Mutex.unlock();
-
-	return GST_FLOW_OK;
 }
 
 bool GstreamerVideoStream::CloseVideo()
 {
+	Copying = false;
+	CopyThread.join();
+
+	for(int i= 0; i< 5; i++)
+	{
+		if(FrameBuffer[i].Buffer)
+		{
+			if(FrameBuffer[i].Memory.data)
+				gst_buffer_unmap(FrameBuffer[i].Buffer, &FrameBuffer[i].Memory);
+			gst_buffer_unref(FrameBuffer[i].Buffer);
+		}
+		//if(FrameBuffer[i].Sample)
+			//gst_sample_unref(FrameBuffer[i].Sample);
+	}
+
+	if(Element)
+		gst_element_set_state(Element, GST_STATE_NULL);
 
 	if(Appsink)
 		gst_object_unref(Appsink);
@@ -138,16 +145,8 @@ bool GstreamerVideoStream::CloseVideo()
 		gst_object_unref(Bus);
 	//if(Buffer && &Mapinfo)
 		//gst_buffer_unmap(Buffer, &Mapinfo);
-	if(Buffer)
-		gst_buffer_unref(Buffer);
-	if(BufferCaps)
-		gst_caps_unref(BufferCaps);
 
-	if(BufferStructure)
-		gst_object_unref(BufferStructure);
 
-	if(Element)
-		gst_element_set_state(Element, GST_STATE_NULL);
 	if(Element)
 		gst_object_unref(Element);
 	return true;
@@ -162,8 +161,51 @@ float GstreamerVideoStream::GetVideoLength()
 
 struct ApplicationFrame GstreamerVideoStream::GetFrame(float Time)
 {
-	vocaluxe_clock_set_time(Clock, Time);
-	return Frame;
+	float VideoTime = 0.0;
+	int Width = 0;
+	int Height = 0;
+	int Size = -1;
+
+	Mutex.lock();
+	for(int i = 0; i < 5; i++)
+	{
+		if(!FrameBuffer[i].Displayed)
+		{
+			if(FrameBuffer[i].Sample) {
+				GstBuffer *Buffer = gst_sample_get_buffer(FrameBuffer[i].Sample);
+				GstMapInfo Mapinfo;
+
+				GstCaps *BufferCaps = gst_sample_get_caps (FrameBuffer[i].Sample);
+				GstStructure *BufferStructure = gst_caps_get_structure (BufferCaps, 0);
+
+				gst_buffer_map(Buffer, &Mapinfo, GST_MAP_READ);
+
+				Size = Mapinfo.size;
+				gst_structure_get_int (BufferStructure, "width", &Width);
+				gst_structure_get_int (BufferStructure, "height", &Height);
+				VideoTime = (float) (Buffer->pts / GST_SECOND);
+
+				ReturnFrame.data = Mapinfo.data;
+				ReturnFrame.height = Height;
+				ReturnFrame.width = Width;
+				ReturnFrame.size = Size;
+				ReturnFrame.videotime = VideoTime;
+
+				FrameBuffer[i].Memory = Mapinfo;
+				FrameBuffer[i].Buffer = Buffer;
+
+				if(BufferCaps)
+					gst_caps_unref(BufferCaps);
+
+				if(BufferStructure)
+					gst_object_unref(BufferStructure);
+			}
+			FrameBuffer[i].Displayed = true;
+			break;
+		}
+	}
+	Mutex.unlock();
+	return ReturnFrame;
 }
 
 bool GstreamerVideoStream::Skip(float Start, float Gap)
@@ -179,9 +221,9 @@ bool GstreamerVideoStream::Skip(float Start, float Gap)
 void GstreamerVideoStream::SetVideoLoop(bool Loop)
 {
 	if(Loop)
-		gst_pipeline_auto_clock((GstPipeline *)Element);
+		g_object_set(Element, "sync", TRUE, NULL);
 	else
-		gst_pipeline_use_clock((GstPipeline *)Element, (GstClock*) Clock);
+		g_object_set(Element, "sync", FALSE, NULL);
 	this->Loop = Loop;
 }
 
@@ -217,7 +259,6 @@ void GstreamerVideoStream::RefreshDuration()
 void GstreamerVideoStream::UpdateVideo()
 {
 	if(Running) {
-		g_main_context_iteration(Context, false);
 		Message = gst_bus_pop (Bus);
    
 		/* Parse message */

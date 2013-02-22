@@ -11,7 +11,7 @@ using namespace std;
 	static LogCallback Log;
 
 	struct ApplicationFrame {
-		guint8* buffer;
+		guint8* data;
 		int size;
 		int width;
 		int height;
