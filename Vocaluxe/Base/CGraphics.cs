@@ -319,6 +319,7 @@ namespace Vocaluxe.Base
             Mouse.CopyEvents();
             Keys.CopyEvents();
 
+            CVideo.Update();
             CSound.Update();
             CBackgroundMusic.Update();
             CInput.Update();
