@@ -148,6 +148,7 @@ Sing screen
 = 5. Help & Suppport            =
 =================================
 Bug Tracker:			http://84.200.73.138/redmine/projects/vocaluxe
+Translations:			https://www.transifex.com/projects/p/vocaluxe/
 GitHub Wiki:			https://github.com/Vocaluxe/Vocaluxe/wiki
 Support Forum (German):	http://www.ultra-star.de
 Song-DataBase (USDB):	http://usdb.animux.de/
