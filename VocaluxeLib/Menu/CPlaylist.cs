@@ -2,9 +2,8 @@
 using System.Drawing;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml;
-using System.Xml.XPath;
 using System.Windows.Forms;
+using System.Xml;
 
 using Vocaluxe.Menu.SongMenu;
 
@@ -236,57 +235,57 @@ namespace Vocaluxe.Menu
             _Interactions.AddButton(_Theme.ButtonPlaylistSing);
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
+        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/SkinBackground", navigator, ref _Theme.TextureBackgroundName, String.Empty);
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/SkinBackgroundSelected", navigator, ref _Theme.STextureBackgroundName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackground", ref _Theme.TextureBackgroundName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundSelected", ref _Theme.STextureBackgroundName, String.Empty);
 
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/X", navigator, ref Rect.X);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Y", navigator, ref Rect.Y);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Z", navigator, ref Rect.Z);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/W", navigator, ref Rect.W);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/H", navigator, ref Rect.H);
-            if (CHelper.GetValueFromXML(item + "/ColorBackground", navigator, ref _Theme.ColorBackgroundName, String.Empty))
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref Rect.Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
+            if (xmlReader.GetValue(item + "/ColorBackground", ref _Theme.ColorBackgroundName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorBackgroundName, SkinIndex, ref BackgroundColor);
             }
             else
             {
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/BackgroundR", navigator, ref BackgroundColor.R);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/BackgroundG", navigator, ref BackgroundColor.G);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/BackgroundB", navigator, ref BackgroundColor.B);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/BackgroundA", navigator, ref BackgroundColor.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundR", ref BackgroundColor.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundG", ref BackgroundColor.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundB", ref BackgroundColor.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundA", ref BackgroundColor.A);
             }
-            if (CHelper.GetValueFromXML(item + "/SColorBackground", navigator, ref _Theme.SColorBackgroundName, String.Empty))
+            if (xmlReader.GetValue(item + "/SColorBackground", ref _Theme.SColorBackgroundName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.SColorBackgroundName, SkinIndex, ref BackgroundSColor);
             }
             else
             {
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SBackgroundR", navigator, ref BackgroundSColor.R);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SBackgroundG", navigator, ref BackgroundSColor.G);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SBackgroundB", navigator, ref BackgroundSColor.B);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SBackgroundA", navigator, ref BackgroundSColor.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundR", ref BackgroundSColor.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundG", ref BackgroundSColor.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundB", ref BackgroundSColor.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundA", ref BackgroundSColor.A);
             }
 
-            _ThemeLoaded &= _Theme.Text1.LoadTheme(item, "TextPart1", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.Text1.LoadTheme(item, "TextPart1", xmlReader, SkinIndex);
 
-            _ThemeLoaded &= _Theme.StaticCover.LoadTheme(item, "StaticCover", navigator, SkinIndex);
-            _ThemeLoaded &= _Theme.StaticPlaylistHeader.LoadTheme(item, "StaticPlaylistHeader", navigator, SkinIndex);
-            _ThemeLoaded &= _Theme.StaticPlaylistFooter.LoadTheme(item, "StaticPlaylistFooter", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.StaticCover.LoadTheme(item, "StaticCover", xmlReader, SkinIndex);
+            _ThemeLoaded &= _Theme.StaticPlaylistHeader.LoadTheme(item, "StaticPlaylistHeader", xmlReader, SkinIndex);
+            _ThemeLoaded &= _Theme.StaticPlaylistFooter.LoadTheme(item, "StaticPlaylistFooter", xmlReader, SkinIndex);
 
-            _ThemeLoaded &= _Theme.ButtonPlaylistName.LoadTheme(item, "ButtonPlaylistName", navigator, SkinIndex);
-            _ThemeLoaded &= _Theme.ButtonPlaylistSing.LoadTheme(item, "ButtonPlaylistSing", navigator, SkinIndex);
-            _ThemeLoaded &= _Theme.ButtonPlaylistClose.LoadTheme(item, "ButtonPlaylistClose", navigator, SkinIndex);
-            _ThemeLoaded &= _Theme.ButtonPlaylistSave.LoadTheme(item, "ButtonPlaylistSave", navigator, SkinIndex);
-            _ThemeLoaded &= _Theme.ButtonPlaylistDelete.LoadTheme(item, "ButtonPlaylistDelete", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.ButtonPlaylistName.LoadTheme(item, "ButtonPlaylistName", xmlReader, SkinIndex);
+            _ThemeLoaded &= _Theme.ButtonPlaylistSing.LoadTheme(item, "ButtonPlaylistSing", xmlReader, SkinIndex);
+            _ThemeLoaded &= _Theme.ButtonPlaylistClose.LoadTheme(item, "ButtonPlaylistClose", xmlReader, SkinIndex);
+            _ThemeLoaded &= _Theme.ButtonPlaylistSave.LoadTheme(item, "ButtonPlaylistSave", xmlReader, SkinIndex);
+            _ThemeLoaded &= _Theme.ButtonPlaylistDelete.LoadTheme(item, "ButtonPlaylistDelete", xmlReader, SkinIndex);
 
-            _ThemeLoaded &= _Theme.SelectSlideGameMode.LoadTheme(item, "SelectSlideGameMode", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.SelectSlideGameMode.LoadTheme(item, "SelectSlideGameMode", xmlReader, SkinIndex);
 
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/EntryHeight", navigator, ref _Theme.EntryHeight);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/EntryHeight", ref _Theme.EntryHeight);
             if (_ThemeLoaded)
             {
                 _Theme.Name = ElementName;

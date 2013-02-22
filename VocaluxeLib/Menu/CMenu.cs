@@ -6,7 +6,6 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.XPath;
 
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SingNotes;
@@ -176,45 +175,37 @@ namespace Vocaluxe.Menu
         {
             string file = Path.Combine(XmlPath, _ThemeName + ".xml");
 
-            XPathDocument xPathDoc = null;
-            XPathNavigator navigator = null;
+            CXMLReader xmlReader = null;
             
-            bool loaded = false;
             try
             {
-                xPathDoc = new XPathDocument(file);
-                navigator = xPathDoc.CreateNavigator();
-                loaded = true;
+                xmlReader = new CXMLReader(file);
             }
             catch (Exception e)
             {
-                loaded = false;
-                if (navigator != null)
-                    navigator = null;
-
-                if (xPathDoc != null)
-                    xPathDoc = null;
+                if (xmlReader != null)
+                    xmlReader = null;
 
                 _Base.Log.LogError("Error loading theme file " + file + ": " + e.Message);
             }
 
             bool VersionCheck = false;
-            if (loaded)
-                VersionCheck = CheckVersion(_ScreenVersion, navigator);
+            if (xmlReader != null)
+                VersionCheck = CheckVersion(_ScreenVersion, xmlReader);
 
             int SkinIndex = _Base.Theme.GetSkinIndex(_PartyModeID);
 
-            if (loaded && VersionCheck && SkinIndex != -1)
+            if (xmlReader != null && VersionCheck && SkinIndex != -1)
             {
                 _ThemePath = XmlPath;
-                LoadThemeBasics(navigator, SkinIndex);
+                LoadThemeBasics(xmlReader, SkinIndex);
 
                 if (_ThemeBackgrounds != null)
                 {
                     for (int i = 0; i < _ThemeBackgrounds.Length; i++)
                     {
                         CBackground background = new CBackground(_Base, _PartyModeID);
-                        if (background.LoadTheme("//root/" + _ThemeName, _ThemeBackgrounds[i], navigator, SkinIndex))
+                        if (background.LoadTheme("//root/" + _ThemeName, _ThemeBackgrounds[i], xmlReader, SkinIndex))
                         {
                             _htBackgrounds.Add(_ThemeBackgrounds[i], AddBackground(background));
                         }
@@ -230,7 +221,7 @@ namespace Vocaluxe.Menu
                     for (int i = 0; i < _ThemeStatics.Length; i++)
                     {
                         CStatic stat = new CStatic(_Base, _PartyModeID);
-                        if (stat.LoadTheme("//root/" + _ThemeName, _ThemeStatics[i], navigator, SkinIndex))
+                        if (stat.LoadTheme("//root/" + _ThemeName, _ThemeStatics[i], xmlReader, SkinIndex))
                         {
                             _htStatics.Add(_ThemeStatics[i], AddStatic(stat));
                         }
@@ -246,7 +237,7 @@ namespace Vocaluxe.Menu
                     for (int i = 0; i < _ThemeTexts.Length; i++)
                     {
                         CText text = new CText(_Base, _PartyModeID);
-                        if (text.LoadTheme("//root/" + _ThemeName, _ThemeTexts[i], navigator, SkinIndex))
+                        if (text.LoadTheme("//root/" + _ThemeName, _ThemeTexts[i], xmlReader, SkinIndex))
                         {
                             _htTexts.Add(_ThemeTexts[i], AddText(text));
                         }
@@ -262,7 +253,7 @@ namespace Vocaluxe.Menu
                     for (int i = 0; i < _ThemeButtons.Length; i++)
                     {
                         CButton button = new CButton(_Base, _PartyModeID);
-                        if (button.LoadTheme("//root/" + _ThemeName, _ThemeButtons[i], navigator, SkinIndex))
+                        if (button.LoadTheme("//root/" + _ThemeName, _ThemeButtons[i], xmlReader, SkinIndex))
                         {
                             _htButtons.Add(_ThemeButtons[i], AddButton(button));
                         }
@@ -278,7 +269,7 @@ namespace Vocaluxe.Menu
                     for (int i = 0; i < _ThemeSelectSlides.Length; i++)
                     {
                         CSelectSlide slide = new CSelectSlide(_Base, _PartyModeID);
-                        if (slide.LoadTheme("//root/" + _ThemeName, _ThemeSelectSlides[i], navigator, SkinIndex))
+                        if (slide.LoadTheme("//root/" + _ThemeName, _ThemeSelectSlides[i], xmlReader, SkinIndex))
                         {
                             _htSelectSlides.Add(_ThemeSelectSlides[i], AddSelectSlide(slide));
                         }
@@ -294,7 +285,7 @@ namespace Vocaluxe.Menu
                     for (int i = 0; i < _ThemeSongMenus.Length; i++)
                     {
                         CSongMenu sm = new CSongMenu(_Base, _PartyModeID);
-                        if (sm.LoadTheme("//root/" + _ThemeName, _ThemeSongMenus[i], navigator, SkinIndex))
+                        if (sm.LoadTheme("//root/" + _ThemeName, _ThemeSongMenus[i], xmlReader, SkinIndex))
                         {
                             _htSongMenus.Add(_ThemeSongMenus[i], AddSongMenu(sm));
                         }
@@ -310,7 +301,7 @@ namespace Vocaluxe.Menu
                     for (int i = 0; i < _ThemeLyrics.Length; i++)
                     {
                         CLyric lyric = new CLyric(_Base, _PartyModeID);
-                        if (lyric.LoadTheme("//root/" + _ThemeName, _ThemeLyrics[i], navigator, SkinIndex))
+                        if (lyric.LoadTheme("//root/" + _ThemeName, _ThemeLyrics[i], xmlReader, SkinIndex))
                         {
                             _htLyrics.Add(_ThemeLyrics[i], AddLyric(lyric));
                         }
@@ -326,7 +317,7 @@ namespace Vocaluxe.Menu
                     for (int i = 0; i < _ThemeSingNotes.Length; i++)
                     {
                         CSingNotes notes = new CSingNotesClassic(_Base, _PartyModeID);
-                        if (notes.LoadTheme("//root/" + _ThemeName, _ThemeSingNotes[i], navigator, SkinIndex))
+                        if (notes.LoadTheme("//root/" + _ThemeName, _ThemeSingNotes[i], xmlReader, SkinIndex))
                         {
                             _htSingNotes.Add(_ThemeSingNotes[i], AddSingNote(notes));
                         }
@@ -342,7 +333,7 @@ namespace Vocaluxe.Menu
                     for (int i = 0; i < _ThemeNameSelections.Length; i++)
                     {
                         CNameSelection nsel = new CNameSelection(_Base, _PartyModeID);
-                        if (nsel.LoadTheme("//root/" + _ThemeName, _ThemeNameSelections[i], navigator, SkinIndex))
+                        if (nsel.LoadTheme("//root/" + _ThemeName, _ThemeNameSelections[i], xmlReader, SkinIndex))
                         {
                             _htNameSelections.Add(_ThemeNameSelections[i], AddNameSelection(nsel));
                         }
@@ -358,7 +349,7 @@ namespace Vocaluxe.Menu
                     for (int i = 0; i < _ThemeEqualizers.Length; i++)
                     {
                         CEqualizer eq = new CEqualizer(_Base, _PartyModeID);
-                        if (eq.LoadTheme("//root/" + _ThemeName, _ThemeEqualizers[i], navigator, SkinIndex))
+                        if (eq.LoadTheme("//root/" + _ThemeName, _ThemeEqualizers[i], xmlReader, SkinIndex))
                         {
                             _htEqualizers.Add(_ThemeEqualizers[i], AddEqualizer(eq));
                         }
@@ -374,7 +365,7 @@ namespace Vocaluxe.Menu
                     for (int i = 0; i < _ThemePlaylists.Length; i++)
                     {
                         CPlaylist pls = new CPlaylist(_Base, _PartyModeID);
-                        if (pls.LoadTheme("//root/" + _ThemeName, _ThemePlaylists[i], navigator, SkinIndex))
+                        if (pls.LoadTheme("//root/" + _ThemeName, _ThemePlaylists[i], xmlReader, SkinIndex))
                         {
                             _htPlaylists.Add(_ThemePlaylists[i], AddPlaylist(pls));
                         }
@@ -390,7 +381,7 @@ namespace Vocaluxe.Menu
                     for (int i = 0; i < _ThemeParticleEffects.Length; i++)
                     {
                         CParticleEffect pe = new CParticleEffect(_Base, _PartyModeID);
-                        if (pe.LoadTheme("//root/" + _ThemeName, _ThemeParticleEffects[i], navigator, SkinIndex))
+                        if (pe.LoadTheme("//root/" + _ThemeName, _ThemeParticleEffects[i], xmlReader, SkinIndex))
                         {
                             _htParticleEffects.Add(_ThemeParticleEffects[i], AddParticleEffect(pe));
                         }
@@ -406,7 +397,7 @@ namespace Vocaluxe.Menu
                     for (int i = 0; i < _ThemeScreenSettings.Length; i++)
                     {
                         CScreenSetting se = new CScreenSetting(_Base, _PartyModeID);
-                        if (se.LoadTheme("//root/" + _ThemeName, _ThemeScreenSettings[i], navigator, SkinIndex))
+                        if (se.LoadTheme("//root/" + _ThemeName, _ThemeScreenSettings[i], xmlReader, SkinIndex))
                         {
                             _htScreenSettings.Add(_ThemeScreenSettings[i], AddScreenSetting(se));
                         }
@@ -416,10 +407,6 @@ namespace Vocaluxe.Menu
                         }
                     }
                 }
-            }
-            else
-            {
-
             }
         }
 
@@ -2516,10 +2503,10 @@ namespace Vocaluxe.Menu
             }
         }
 
-        private bool CheckVersion(int Version, XPathNavigator navigator)
+        private bool CheckVersion(int Version, CXMLReader xmlReader)
         {
             int version = 0;
-            CHelper.TryGetIntValueFromXML("//root/" + _ThemeName + "/ScreenVersion", navigator, ref version);
+            xmlReader.TryGetIntValue("//root/" + _ThemeName + "/ScreenVersion", ref version);
 
             if (version == Version)
                 return true;
@@ -2537,14 +2524,14 @@ namespace Vocaluxe.Menu
             return false;
         }
 
-        private void LoadThemeBasics(XPathNavigator navigator, int SkinIndex)
+        private void LoadThemeBasics(CXMLReader xmlReader, int SkinIndex)
         {
             string value = String.Empty;
 
             // Backgrounds
             CBackground background = new CBackground(_Base, _PartyModeID);
             int i = 1;
-            while (background.LoadTheme("//root/" + _ThemeName, "Background" + i.ToString(), navigator, SkinIndex))
+            while (background.LoadTheme("//root/" + _ThemeName, "Background" + i.ToString(), xmlReader, SkinIndex))
             {
                 AddBackground(background);
                 background = new CBackground(_Base, _PartyModeID);
@@ -2554,7 +2541,7 @@ namespace Vocaluxe.Menu
             // Statics
             CStatic stat = new CStatic(_Base, _PartyModeID);
             i = 1;
-            while (stat.LoadTheme("//root/" + _ThemeName, "Static" + i.ToString(), navigator, SkinIndex))
+            while (stat.LoadTheme("//root/" + _ThemeName, "Static" + i.ToString(), xmlReader, SkinIndex))
             {
                 AddStatic(stat);
                 stat = new CStatic(_Base, _PartyModeID);
@@ -2564,7 +2551,7 @@ namespace Vocaluxe.Menu
             // Texts
             CText text = new CText(_Base, _PartyModeID);
             i = 1;
-            while (text.LoadTheme("//root/" + _ThemeName, "Text" + i.ToString(), navigator, SkinIndex))
+            while (text.LoadTheme("//root/" + _ThemeName, "Text" + i.ToString(), xmlReader, SkinIndex))
             {
                 AddText(text);
                 text = new CText(_Base, _PartyModeID);
@@ -2574,7 +2561,7 @@ namespace Vocaluxe.Menu
             // ParticleEffects
             CParticleEffect  partef = new CParticleEffect(_Base, _PartyModeID);
             i = 1;
-            while (partef.LoadTheme("//root/" + _ThemeName, "ParticleEffect" + i.ToString(), navigator, SkinIndex))
+            while (partef.LoadTheme("//root/" + _ThemeName, "ParticleEffect" + i.ToString(), xmlReader, SkinIndex))
             {
                 AddParticleEffect(partef);
                 partef = new CParticleEffect(_Base, _PartyModeID);

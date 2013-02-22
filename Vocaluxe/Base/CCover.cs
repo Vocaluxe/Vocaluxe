@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
-using System.Xml.XPath;
 
 using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
@@ -164,32 +163,14 @@ namespace Vocaluxe.Base
 
             foreach (string file in files)
             {
-                bool loaded = false;
-                XPathDocument xPathDoc = null;
-                XPathNavigator navigator = null;
+                CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(path, file));
 
-                try
-                {
-                    xPathDoc = new XPathDocument(Path.Combine(path, file));
-                    navigator = xPathDoc.CreateNavigator();
-                    loaded = true;
-                }
-                catch (Exception)
-                {
-                    loaded = false;
-                    if (navigator != null)
-                        navigator = null;
-
-                    if (xPathDoc != null)
-                        xPathDoc = null;
-                }
-
-                if (loaded)
+                if (xmlReader != null)
                 {
                     SCoverTheme coverTheme = new SCoverTheme();
 
-                    CHelper.GetValueFromXML("//root/Info/Name", navigator, ref coverTheme.Name, String.Empty);
-                    CHelper.GetValueFromXML("//root/Info/Folder", navigator, ref coverTheme.Folder, String.Empty);
+                    xmlReader.GetValue("//root/Info/Name", ref coverTheme.Name, String.Empty);
+                    xmlReader.GetValue("//root/Info/Folder", ref coverTheme.Folder, String.Empty);
 
                     if (coverTheme.Folder != String.Empty && coverTheme.Name != String.Empty)
                     {
@@ -213,39 +194,21 @@ namespace Vocaluxe.Base
             if (coverTheme.Name != String.Empty)
             {
 
-                bool loaded = false;
-                XPathDocument xPathDoc = null;
-                XPathNavigator navigator = null;
+                CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.sFolderCover, coverTheme.File));
 
-                try
-                {
-                    xPathDoc = new XPathDocument(Path.Combine(CSettings.sFolderCover, coverTheme.File));
-                    navigator = xPathDoc.CreateNavigator();
-                    loaded = true;
-                }
-                catch (Exception)
-                {
-                    loaded = false;
-                    if (navigator != null)
-                        navigator = null;
-
-                    if (xPathDoc != null)
-                        xPathDoc = null;
-                }
-
-                if (loaded)
+                if (xmlReader != null)
                 {
                     lock (_MutexCover)
                     {
                         _Cover.Clear();
-                        List<string> cover = CHelper.GetValuesFromXML("Cover", navigator);
+                        List<string> cover = xmlReader.GetValues("Cover");
                         for (int i = 0; i < cover.Count; i++)
                         {
                             SCover sk = new SCover();
                             string name = String.Empty;
                             string value = String.Empty;
-                            CHelper.GetValueFromXML("//root/Cover/" + cover[i] + "/Name", navigator, ref name, String.Empty);
-                            CHelper.GetValueFromXML("//root/Cover/" + cover[i] + "/Path", navigator, ref value, String.Empty);
+                            xmlReader.GetValue("//root/Cover/" + cover[i] + "/Name", ref name, String.Empty);
+                            xmlReader.GetValue("//root/Cover/" + cover[i] + "/Path", ref value, String.Empty);
                             sk.Name = name;
                             sk.Value = Path.Combine(coverTheme.Folder,value);
                             if (File.Exists(Path.Combine(CSettings.sFolderCover, Path.Combine(coverTheme.Folder, value))))

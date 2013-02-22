@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
-using System.Xml.XPath;
 
 using Vocaluxe.PartyModes;
 
@@ -259,61 +258,61 @@ namespace Vocaluxe.Menu.SongMenu
             return _Theme.Name;
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
+        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/CoverBackground", navigator, ref _Theme.CoverBackgroundName, String.Empty);
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/CoverBigBackground", navigator, ref _Theme.CoverBigBackgroundName, String.Empty);
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/DuetIcon", navigator, ref _Theme.DuetIconName, String.Empty);
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/VideoIcon", navigator, ref _Theme.VideoIconName, String.Empty);
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/MedleyCalcIcon", navigator, ref _Theme.MedleyCalcIcon, String.Empty);
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/MedleyTagIcon", navigator, ref _Theme.MedleyTagIcon, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/CoverBackground", ref _Theme.CoverBackgroundName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/CoverBigBackground", ref _Theme.CoverBigBackgroundName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/DuetIcon", ref _Theme.DuetIconName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/VideoIcon", ref _Theme.VideoIconName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/MedleyCalcIcon", ref _Theme.MedleyCalcIcon, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/MedleyTagIcon", ref _Theme.MedleyTagIcon, String.Empty);
 
-            if (CHelper.GetValueFromXML(item + "/Color", navigator, ref _Theme.ColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref _Color);
             }
             else
             {
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/R", navigator, ref _Color.R);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/G", navigator, ref _Color.G);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/B", navigator, ref _Color.B);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/A", navigator, ref _Color.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref _Color.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref _Color.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref _Color.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref _Color.A);
             }
 
             #region SongMenuTileBoard
-            _ThemeLoaded &= CHelper.TryGetIntValueFromXML(item + "/SongMenuTileBoard/NumW", navigator, ref _Theme.songMenuTileBoard.numW);
-            _ThemeLoaded &= CHelper.TryGetIntValueFromXML(item + "/SongMenuTileBoard/NumH", navigator, ref _Theme.songMenuTileBoard.numH);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/SpaceW", navigator, ref _Theme.songMenuTileBoard.spaceW);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/SpaceH", navigator, ref _Theme.songMenuTileBoard.spaceH);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/SongMenuTileBoard/NumW", ref _Theme.songMenuTileBoard.numW);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/SongMenuTileBoard/NumH", ref _Theme.songMenuTileBoard.numH);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/SpaceW", ref _Theme.songMenuTileBoard.spaceW);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/SpaceH", ref _Theme.songMenuTileBoard.spaceH);
 
-            _ThemeLoaded &= CHelper.TryGetIntValueFromXML(item + "/SongMenuTileBoard/NumWsmall", navigator, ref _Theme.songMenuTileBoard.numWsmall);
-            _ThemeLoaded &= CHelper.TryGetIntValueFromXML(item + "/SongMenuTileBoard/NumHsmall", navigator, ref _Theme.songMenuTileBoard.numHsmall);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/SongMenuTileBoard/NumWsmall", ref _Theme.songMenuTileBoard.numWsmall);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/SongMenuTileBoard/NumHsmall", ref _Theme.songMenuTileBoard.numHsmall);
 
-            _ThemeLoaded &= _Theme.songMenuTileBoard.TextArtist.LoadTheme(item + "/SongMenuTileBoard", "TextArtist", navigator, SkinIndex);
-            _ThemeLoaded &= _Theme.songMenuTileBoard.TextTitle.LoadTheme(item + "/SongMenuTileBoard", "TextTitle", navigator, SkinIndex);
-            _ThemeLoaded &= _Theme.songMenuTileBoard.TextSongLength.LoadTheme(item + "/SongMenuTileBoard", "TextSongLength", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.songMenuTileBoard.TextArtist.LoadTheme(item + "/SongMenuTileBoard", "TextArtist", xmlReader, SkinIndex);
+            _ThemeLoaded &= _Theme.songMenuTileBoard.TextTitle.LoadTheme(item + "/SongMenuTileBoard", "TextTitle", xmlReader, SkinIndex);
+            _ThemeLoaded &= _Theme.songMenuTileBoard.TextSongLength.LoadTheme(item + "/SongMenuTileBoard", "TextSongLength", xmlReader, SkinIndex);
 
-            _ThemeLoaded &= _Theme.songMenuTileBoard.StaticCoverBig.LoadTheme(item + "/SongMenuTileBoard", "StaticCoverBig", navigator, SkinIndex);
-            _ThemeLoaded &= _Theme.songMenuTileBoard.StaticTextBG.LoadTheme(item + "/SongMenuTileBoard", "StaticTextBG", navigator, SkinIndex);
-            _ThemeLoaded &= _Theme.songMenuTileBoard.StaticDuetIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticDuetIcon", navigator, SkinIndex);
-            _ThemeLoaded &= _Theme.songMenuTileBoard.StaticVideoIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticVideoIcon", navigator, SkinIndex);
-            _ThemeLoaded &= _Theme.songMenuTileBoard.StaticMedleyCalcIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticMedleyCalcIcon", navigator, SkinIndex);
-            _ThemeLoaded &= _Theme.songMenuTileBoard.StaticMedleyTagIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticMedleyTagIcon", navigator, SkinIndex);
+            _ThemeLoaded &= _Theme.songMenuTileBoard.StaticCoverBig.LoadTheme(item + "/SongMenuTileBoard", "StaticCoverBig", xmlReader, SkinIndex);
+            _ThemeLoaded &= _Theme.songMenuTileBoard.StaticTextBG.LoadTheme(item + "/SongMenuTileBoard", "StaticTextBG", xmlReader, SkinIndex);
+            _ThemeLoaded &= _Theme.songMenuTileBoard.StaticDuetIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticDuetIcon", xmlReader, SkinIndex);
+            _ThemeLoaded &= _Theme.songMenuTileBoard.StaticVideoIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticVideoIcon", xmlReader, SkinIndex);
+            _ThemeLoaded &= _Theme.songMenuTileBoard.StaticMedleyCalcIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticMedleyCalcIcon", xmlReader, SkinIndex);
+            _ThemeLoaded &= _Theme.songMenuTileBoard.StaticMedleyTagIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticMedleyTagIcon", xmlReader, SkinIndex);
 
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectX", navigator, ref _Theme.songMenuTileBoard.TileRect.X);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectY", navigator, ref _Theme.songMenuTileBoard.TileRect.Y);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectZ", navigator, ref _Theme.songMenuTileBoard.TileRect.Z);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectW", navigator, ref _Theme.songMenuTileBoard.TileRect.W);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectH", navigator, ref _Theme.songMenuTileBoard.TileRect.H);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectX", ref _Theme.songMenuTileBoard.TileRect.X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectY", ref _Theme.songMenuTileBoard.TileRect.Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectZ", ref _Theme.songMenuTileBoard.TileRect.Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectW", ref _Theme.songMenuTileBoard.TileRect.W);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectH", ref _Theme.songMenuTileBoard.TileRect.H);
 
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectSmallX", navigator, ref _Theme.songMenuTileBoard.TileRectSmall.X);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectSmallY", navigator, ref _Theme.songMenuTileBoard.TileRectSmall.Y);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectSmallZ", navigator, ref _Theme.songMenuTileBoard.TileRectSmall.Z);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectSmallW", navigator, ref _Theme.songMenuTileBoard.TileRectSmall.W);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/SongMenuTileBoard/TileRectSmallH", navigator, ref _Theme.songMenuTileBoard.TileRectSmall.H);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectSmallX", ref _Theme.songMenuTileBoard.TileRectSmall.X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectSmallY", ref _Theme.songMenuTileBoard.TileRectSmall.Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectSmallZ", ref _Theme.songMenuTileBoard.TileRectSmall.Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectSmallW", ref _Theme.songMenuTileBoard.TileRectSmall.W);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectSmallH", ref _Theme.songMenuTileBoard.TileRectSmall.H);
 
             #endregion SongMenuTileBoard
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
-using System.Xml.XPath;
 
 using Vocaluxe.Base;
 using Vocaluxe.GameModes;
@@ -122,76 +121,63 @@ namespace Vocaluxe.Lib.Playlist
 
         private void LoadPlaylist()
         {
-            bool loaded = false;
-            XPathDocument xPathDoc = null;
-            XPathNavigator navigator = null;
+            CXMLReader xmlReader;
 
             try
             {
-                xPathDoc = new XPathDocument(PlaylistFile);
-                navigator = xPathDoc.CreateNavigator();
-                loaded = true;
+                xmlReader = new CXMLReader(PlaylistFile);
             }
             catch (Exception e)
             {
-                loaded = false;
-                if (navigator != null)
-                    navigator = null;
-
-                if (xPathDoc != null)
-                    xPathDoc = null;
-
                 CLog.LogError("Error opening Playlist File " + PlaylistFile + ": " + e.Message);
+                return;
             }
 
-            if (loaded)
+            string value = String.Empty;
+            if (xmlReader.GetValue("//root/Info/PlaylistName", ref value, value))
             {
-                string value = String.Empty;
-                if (CHelper.GetValueFromXML("//root/Info/PlaylistName", navigator, ref value, value))
+                PlaylistName = value;
+
+                Songs = new List<CPlaylistSong>();
+
+                List<string> songs = xmlReader.GetValues("Songs");
+                string artist = String.Empty;
+                string title = String.Empty;
+                EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+
+                for (int i = 0; i < songs.Count; i++)
                 {
-                    PlaylistName = value;
+                    xmlReader.GetValue("//root/Songs/" + songs[i] + "/Artist", ref artist, String.Empty);
+                    xmlReader.GetValue("//root/Songs/" + songs[i] + "/Title", ref title, String.Empty);
+                    xmlReader.TryGetEnumValue<EGameMode>("//root/Songs/" + songs[i] + "/GameMode", ref gm);
 
-                    Songs = new List<CPlaylistSong>();
+                    CPlaylistSong song = new CPlaylistSong();
+                    song.SongID = -1;
+                    CSong[] AllSongs = CSongs.AllSongs;
 
-                    List<string> songs = CHelper.GetValuesFromXML("Songs", navigator);
-                    string artist = String.Empty;
-                    string title = String.Empty;
-                    EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
-
-                    for (int i = 0; i < songs.Count; i++)
+                    for (int s = 0; s < AllSongs.Length; s++)
                     {
-                        CHelper.GetValueFromXML("//root/Songs/" + songs[i] + "/Artist", navigator, ref artist, String.Empty);
-                        CHelper.GetValueFromXML("//root/Songs/" + songs[i] + "/Title", navigator, ref title, String.Empty);
-                        CHelper.TryGetEnumValueFromXML<EGameMode>("//root/Songs/" + songs[i] + "/GameMode", navigator, ref gm);
-
-                        CPlaylistSong song = new CPlaylistSong();
-                        song.SongID = -1;
-                        CSong[] AllSongs = CSongs.AllSongs;
-
-                        for (int s = 0; s < AllSongs.Length; s++)
+                        if (AllSongs[s].Artist == artist && AllSongs[s].Title == title)
                         {
-                            if (AllSongs[s].Artist == artist && AllSongs[s].Title == title)
-                            {
-                                song.SongID = AllSongs[s].ID;
-                                break;
-                            }
-                        }
-
-                        if (song.SongID != -1)
-                        {
-                            song.GameMode = gm;
-                            Songs.Add(song);
-                        }
-                        else
-                        {
-                            CLog.LogError("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + PlaylistFile);
+                            song.SongID = AllSongs[s].ID;
+                            break;
                         }
                     }
+
+                    if (song.SongID != -1)
+                    {
+                        song.GameMode = gm;
+                        Songs.Add(song);
+                    }
+                    else
+                    {
+                        CLog.LogError("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + PlaylistFile);
+                    }
                 }
-                else
-                {
-                    CLog.LogError("Can't find PlaylistName in Playlist File: " + PlaylistFile);
-                }
+            }
+            else
+            {
+                CLog.LogError("Can't find PlaylistName in Playlist File: " + PlaylistFile);
             }
         }
 

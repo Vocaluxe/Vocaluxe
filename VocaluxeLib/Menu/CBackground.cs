@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Xml;
-using System.Xml.XPath;
 
 namespace Vocaluxe.Menu
 {
@@ -55,28 +54,28 @@ namespace Vocaluxe.Menu
         #endregion Constructors
 
         #region public
-        public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
+        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EBackgroundTypes>(item + "/Type", navigator, ref _Theme.Type);
+            _ThemeLoaded &= xmlReader.TryGetEnumValue<EBackgroundTypes>(item + "/Type", ref _Theme.Type);
             
-            bool vid = CHelper.GetValueFromXML(item + "/Video", navigator, ref _Theme.VideoName, String.Empty);
-            bool tex = CHelper.GetValueFromXML(item + "/Skin", navigator, ref _Theme.TextureName, String.Empty);
+            bool vid = xmlReader.GetValue(item + "/Video", ref _Theme.VideoName, String.Empty);
+            bool tex = xmlReader.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
             _ThemeLoaded &= vid || tex || _Theme.Type == EBackgroundTypes.None;
                 
-            if (CHelper.GetValueFromXML(item + "/Color", navigator, ref _Theme.ColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
             }
             else
             {
                 bool success = true;
-                success &= CHelper.TryGetFloatValueFromXML(item + "/R", navigator, ref Color.R);
-                success &= CHelper.TryGetFloatValueFromXML(item + "/G", navigator, ref Color.G);
-                success &= CHelper.TryGetFloatValueFromXML(item + "/B", navigator, ref Color.B);
-                success &= CHelper.TryGetFloatValueFromXML(item + "/A", navigator, ref Color.A);
+                success &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
+                success &= xmlReader.TryGetFloatValue(item + "/G", ref Color.G);
+                success &= xmlReader.TryGetFloatValue(item + "/B", ref Color.B);
+                success &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
 
                 if (_Theme.Type != EBackgroundTypes.None)
                     _ThemeLoaded &= success;

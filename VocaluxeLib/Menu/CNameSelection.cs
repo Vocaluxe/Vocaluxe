@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-using System.Xml;
-using System.Xml.XPath;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace Vocaluxe.Menu
 {
@@ -109,54 +108,54 @@ namespace Vocaluxe.Menu
             UpdateList(0);
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, XPathNavigator navigator, int SkinIndex)
+        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
         {
             string item = XmlPath + "/" + ElementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/X", navigator, ref Rect.X);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Y", navigator, ref Rect.Y);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Z", navigator, ref Rect.Z);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/W", navigator, ref Rect.W);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/H", navigator, ref Rect.H);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref Rect.Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/SkinEmptyTile", navigator, ref _Theme.TextureEmptyTileName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinEmptyTile", ref _Theme.TextureEmptyTileName, String.Empty);
 
-            if (CHelper.GetValueFromXML(item + "/ColorEmptyTile", navigator, ref _Theme.ColorEmptyTileName, String.Empty))
+            if (xmlReader.GetValue(item + "/ColorEmptyTile", ref _Theme.ColorEmptyTileName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.ColorEmptyTileName, SkinIndex, ref ColorEmptyTile);
             }
             else
             {
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/R", navigator, ref ColorEmptyTile.R);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/G", navigator, ref ColorEmptyTile.G);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/B", navigator, ref ColorEmptyTile.B);
-                _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/A", navigator, ref ColorEmptyTile.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref ColorEmptyTile.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref ColorEmptyTile.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref ColorEmptyTile.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref ColorEmptyTile.A);
             }
 
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/SkinTileSelected", navigator, ref _Theme.TextureTileSelectedName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinTileSelected", ref _Theme.TextureTileSelectedName, String.Empty);
 
-            _ThemeLoaded &= CHelper.TryGetIntValueFromXML(item + "/Tiles/W", navigator, ref _TileW);
-            _ThemeLoaded &= CHelper.TryGetIntValueFromXML(item + "/Tiles/H", navigator, ref _TileH);
-            _ThemeLoaded &= CHelper.TryGetIntValueFromXML(item + "/Tiles/NumW", navigator, ref _NumW);
-            _ThemeLoaded &= CHelper.TryGetIntValueFromXML(item + "/Tiles/NumH", navigator, ref _NumH);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Tiles/SpaceW", navigator, ref _SpaceW);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Tiles/SpaceH", navigator, ref _SpaceH);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Tiles/Name/Space", navigator, ref _Theme.NameSpace);
-            _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Tiles/Name/H", navigator, ref _Theme.NameHeight);
-            _ThemeLoaded &= CHelper.GetValueFromXML(item + "/Tiles/Name/Font", navigator, ref _Theme.NameFont, "Normal");
-            _ThemeLoaded &= CHelper.TryGetEnumValueFromXML<EStyle>(item + "/Tiles/Name/Style", navigator, ref _Theme.NameStyle);
-            if (CHelper.GetValueFromXML(item + "/Tiles/Name/Color", navigator, ref _Theme.NameColorName, String.Empty))
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/W", ref _TileW);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/H", ref _TileH);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/NumW", ref _NumW);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/NumH", ref _NumH);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceW", ref _SpaceW);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceH", ref _SpaceH);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/Space", ref _Theme.NameSpace);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/H", ref _Theme.NameHeight);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Tiles/Name/Font", ref _Theme.NameFont, "Normal");
+            _ThemeLoaded &= xmlReader.TryGetEnumValue<EStyle>(item + "/Tiles/Name/Style", ref _Theme.NameStyle);
+            if (xmlReader.GetValue(item + "/Tiles/Name/Color", ref _Theme.NameColorName, String.Empty))
             {
                 _ThemeLoaded &= _Base.Theme.GetColor(_Theme.NameColorName, SkinIndex, ref _Theme.NameColor);
             }
             else
             {
-                if (CHelper.TryGetFloatValueFromXML(item + "/Tiles/Name/R", navigator, ref _Theme.NameColor.R))
+                if (xmlReader.TryGetFloatValue(item + "/Tiles/Name/R", ref _Theme.NameColor.R))
                 {
-                    _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Tiles/Name/G", navigator, ref _Theme.NameColor.G);
-                    _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Tiles/Name/B", navigator, ref _Theme.NameColor.B);
-                    _ThemeLoaded &= CHelper.TryGetFloatValueFromXML(item + "/Tiles/Name/A", navigator, ref _Theme.NameColor.A);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/G", ref _Theme.NameColor.G);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/B", ref _Theme.NameColor.B);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/A", ref _Theme.NameColor.A);
                 }
             }
 
