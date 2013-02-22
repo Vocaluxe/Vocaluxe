@@ -71,13 +71,13 @@
 	- PortAudio Record and Playback
 
 -------------------------------------------------------------
-+ v0.1.0 (reached: 07.04.2012):
++ v0.1.0 Rising Star (reached: 07.04.2012):
 	- Menu Background Music
 	- Jukebox light (bg music controls)
 	- Theme System Update
 	- A nicer Theme!
 
-+ v0.2.0 (reached: 21.12.2012):
++ v0.2.0 Sparkling Sky (reached: 21.12.2012):
 	- Medley
 	- Sing Short Version Mode
 	- Show Avatars and Player Name in Sing Screen
@@ -88,11 +88,14 @@
 	- Spectrum Analyzer (Record Screen and Player Selection Screen)
 	- WiiMote Support
  
- + v0.3.0:
+ + v0.3.0 (reached: ??.0?.2013):
 	- Party Mode Support
 	- Party Mode: Challenge Mode (with more than 2 player at once)
 	- Party Mode: Challenge Medley Mode
 	- Party Mode: Tic, Tac, Toe
+	- GStreamer Audio Support
+
+ + v0.4.0 (reached: ??.??.201?):
 
 -----------------
 just some ideas:
