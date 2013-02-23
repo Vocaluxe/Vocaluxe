@@ -58,12 +58,13 @@ namespace Vocaluxe.Menu
 
             try
             {
-                chr = (char)sr.Peek();
-                while ((chr.CompareTo(' ') != 0) && ((int)chr != 19) && ((int)chr != 16) && ((int)chr != 13))
+                int tmp = sr.Peek();
+                //Check for ' ', ?, ?, \n, \r
+                while (tmp != 32 && tmp != 19 && tmp != 16 && tmp != 13 && tmp != 10)
                 {
                     chr = (char)sr.Read();
                     value += chr.ToString();
-                    chr = (char)sr.Peek();
+                    tmp = sr.Peek();
                 }
             }
             catch (Exception)
