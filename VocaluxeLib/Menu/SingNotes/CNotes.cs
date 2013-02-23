@@ -19,6 +19,11 @@ namespace Vocaluxe.Menu.SingNotes
         {
         }
 
+        public int LinesCount
+        {
+            get { return _Lines.Count; }
+        }
+
         public CNotes(CNotes notes)
         {
             foreach (CLines lines in notes._Lines)
@@ -270,10 +275,10 @@ namespace Vocaluxe.Menu.SingNotes
 
     public class CLine
     {
-        private int _StartBeat;
-        private int _EndBeat;
-        private bool _PerfectLine;      // for drawing perfect line effect
-        private bool _VisibleInTimeLine;
+        private int _StartBeat = int.MinValue;
+        private int _EndBeat = int.MinValue;
+        private bool _PerfectLine = false;      // for drawing perfect line effect
+        private bool _VisibleInTimeLine = true;
         
         private int _MinBeat = int.MaxValue;
         private int _MaxBeat = int.MinValue;
@@ -282,10 +287,6 @@ namespace Vocaluxe.Menu.SingNotes
         #region Constructors
         public CLine()
         {
-            StartBeat = int.MinValue;
-            EndBeat = int.MaxValue;
-            _PerfectLine = false;
-            _VisibleInTimeLine = true;
         }
 
         public CLine(CLine line)
@@ -338,18 +339,12 @@ namespace Vocaluxe.Menu.SingNotes
 
         public int FirstNoteBeat
         {
-            get
-            {
-                return _MinBeat;
-            }
+            get { return _MinBeat; }
         }
 
         public int LastNoteBeat
         {
-            get
-            {
-                return _MaxBeat;
-            }
+            get { return _MaxBeat; }
         }
 
         public string Lyrics
@@ -385,10 +380,7 @@ namespace Vocaluxe.Menu.SingNotes
         
         public CNote[] Notes
         {
-            get
-            {
-                return _Notes.ToArray();
-            }
+            get { return _Notes.ToArray(); }
         }
 
         public CNote FirstNote
@@ -418,15 +410,11 @@ namespace Vocaluxe.Menu.SingNotes
             get
             {
                 int Min = int.MaxValue;
+                int Max = int.MinValue;
                 foreach (CNote note in _Notes)
                 {
                     if (note.Tone < Min)
                         Min = note.Tone;
-                }
-
-                int Max = int.MinValue;
-                foreach (CNote note in _Notes)
-                {
                     if (note.Tone > Max)
                         Max = note.Tone;
                 }
@@ -452,21 +440,49 @@ namespace Vocaluxe.Menu.SingNotes
             return _PerfectLine;
         }
 
-        public void AddNote(CNote Note)
+        public int FindPreviousNote(int Beat)
         {
-            _Notes.Add(Note);
-            updateMinMaxBeat(Note);
-        }
-
-        public bool InsertNote(CNote Note, int Index)
-        {
-            if (_Notes.Count >= Index)
+            //If no notes -> No previous note
+            if (_Notes.Count == 0)
+                return -1;
+            int start = 0;
+            int end = _Notes.Count - 1;
+            //Ensure that start.StartBeat<=Beat && end.StartBeat>Beat
+            if (_Notes[0].StartBeat > Beat)
+                return -1;
+            if (_Notes[end].StartBeat <= Beat)
+                return end;
+            //Binary search
+            while (end - start > 1)
             {
-                _Notes.Insert(Index, Note);
-                updateMinMaxBeat(Note);
-                return true;
+                int mid = (start + end) / 2;
+                if (_Notes[mid].StartBeat <= Beat)
+                    start = mid;
+                else
+                    end = mid;
             }
-            return false;
+            return start;
+        }
+        
+        public bool AddNote(CNote Note)
+        {
+            if (_Notes.Count == 0)
+                _Notes.Add(Note);
+            else
+            {
+                int insPos = FindPreviousNote(Note.StartBeat);
+                //Flamefire: May be a performance hit as notes are also used for sung notes
+                //But for song loading this might be very helpful!
+                //Check for overlapping notes
+                /*if (insPos >= 0 && _Notes[insPos].EndBeat > Note.StartBeat)
+                    return false;
+                if (insPos < _Notes.Count - 1 && _Notes[insPos+1].StartBeat > Note.EndBeat)
+                    return false;
+                 * */
+                _Notes.Insert(insPos + 1, Note);
+            }
+            updateMinMaxBeat(Note);
+            return true;
         }
 
         public bool DeleteNote(int Index)
@@ -474,7 +490,8 @@ namespace Vocaluxe.Menu.SingNotes
             if (_Notes.Count > Index)
             {
                 _Notes.RemoveAt(Index);
-                updateMinMaxBeat();
+                if (Index == 0 || Index == _Notes.Count - 1)
+                    updateMinMaxBeat();
                 return true;
             }
             return false;
@@ -485,9 +502,7 @@ namespace Vocaluxe.Menu.SingNotes
             if (_Notes.Count > Index)
             {
                 _Notes.RemoveAt(Index);
-                _Notes.Insert(Index, Note);
-                updateMinMaxBeat();
-                return true;
+                return AddNote(Note);
             }
             return false;
         }
@@ -497,7 +512,7 @@ namespace Vocaluxe.Menu.SingNotes
             if (_Notes.Count > 0)
             {
                 _Notes[_Notes.Count - 1].Duration++;
-                updateMinMaxBeat();
+                _MaxBeat++;
             }
             return false;
         }
@@ -505,8 +520,7 @@ namespace Vocaluxe.Menu.SingNotes
         public void DeleteAllNotes()
         {
             _Notes.Clear();
-            _MinBeat = int.MaxValue;
-            _MaxBeat = int.MinValue;
+            updateMinMaxBeat();
         }
 
         public void SetMedley(int StartBeat, int EndBeat)
@@ -535,11 +549,15 @@ namespace Vocaluxe.Menu.SingNotes
 
         private void updateMinMaxBeat()
         {
-            _MinBeat = int.MaxValue;
-            _MaxBeat = int.MinValue;
-            foreach (CNote note in _Notes)
+            if (_Notes.Count > 0)
             {
-                updateMinMaxBeat(note);
+                _MinBeat = _Notes[0].StartBeat;
+                _MaxBeat = _Notes[_Notes.Count - 1].EndBeat;
+            }
+            else
+            {
+                _MinBeat = int.MaxValue;
+                _MaxBeat = int.MinValue;
             }
         }
 
@@ -631,28 +649,40 @@ namespace Vocaluxe.Menu.SingNotes
         }
 
         #region Methods
-        public void AddLine(CLine Line)
+        //Find last line with StartBeat<=Beat
+        public int FindPreviousLine(int Beat)
         {
-            AddLine(Line, false);
-        }
-        public void AddLine(CLine Line, bool updateTimings)
-        {
-            _Lines.Add(Line);
-            if (updateTimings)
+            //If no line -> No previous line
+            if (_Lines.Count == 0)
+                return -1;
+            int start = 0;
+            int end = _Lines.Count - 1;
+            //Ensure that start.StartBeat<=Beat && end.StartBeat>Beat
+            if (_Lines[0].StartBeat > Beat)
+                return -1;
+            if (_Lines[end].StartBeat <= Beat)
+                return end;
+            //Binary search
+            while (end - start > 1)
             {
-                UpdateTimings();
+                int mid = (start + end) / 2;
+                if (_Lines[mid].StartBeat <= Beat)
+                    start = mid;
+                else
+                    end = mid;
             }
+            return start;
         }
 
-        public bool InsertLine(CLine Line, int Index)
+        public void AddLine(CLine Line)
         {
-            if (_Lines.Count >= Index)
+            if (_Lines.Count == 0)
+                _Lines.Add(Line);
+            else
             {
-                _Lines.Insert(Index, Line);
-                UpdateTimings();
-                return true;
+                int insPos = FindPreviousLine(Line.StartBeat);
+                _Lines.Insert(insPos + 1, Line);
             }
-            return false;
         }
 
         public bool DeleteLine(int Index)
@@ -671,31 +701,35 @@ namespace Vocaluxe.Menu.SingNotes
             _Lines.Clear();
         }
 
-        public bool AddNote(CNote Note, int LineIndex, bool updateTimings)
+        public bool AddNote(CNote Note, bool updateTimings = false)
         {
-            if (_Lines.Count > LineIndex)
+            int LineIndex = FindPreviousLine(Note.StartBeat);
+            if (LineIndex < 0)
+            {
+                //Note is before ALL lines
+                CLine Line = new CLine();
+                Line.StartBeat = Note.StartBeat;
+                Line.AddNote(Note);
+                _Lines.Insert(0, Line);
+            }
+            else
+            {
+                if (!_Lines[LineIndex].AddNote(Note))
+                    return false;
+            }
+            if (updateTimings)
+                UpdateTimings();
+            return true;
+        }
+
+        public bool InsertNote(CNote Note, int LineIndex, bool updateTimings = false)
+        {
+            if (_Lines.Count > LineIndex && _Lines[LineIndex].StartBeat <= Note.StartBeat)
             {
                 _Lines[LineIndex].AddNote(Note);
                 if (updateTimings)
-                {
                     UpdateTimings();
-                }
                 return true;
-            }
-            return false;
-        }
-        public bool AddNote(CNote Note, int LineIndex)
-        {
-            return AddNote(Note, LineIndex, true);
-        }
-
-        public bool InsertNote(CNote Note, int LineIndex, int NoteIndex)
-        {
-            if (_Lines.Count > LineIndex)
-            {
-                bool res = _Lines[LineIndex].InsertNote(Note, NoteIndex);
-                UpdateTimings();
-                return res;
             }
             return false;
         }
@@ -706,7 +740,7 @@ namespace Vocaluxe.Menu.SingNotes
 
             if (_Lines.Count > 0)
             {
-               _Lines[0].StartBeat = -10000;
+                _Lines[0].StartBeat = -10000;
             }
 
             for (int i = 1; i < _Lines.Count; i++)
@@ -719,7 +753,6 @@ namespace Vocaluxe.Menu.SingNotes
                     min = LastNote.EndBeat;
                     max = FirstNote.StartBeat;
 
-                    s = 0;
                     switch (max - min)
                     {
                         case 0:

@@ -780,21 +780,11 @@ namespace Vocaluxe.Menu.SongMenu
             return true;
         }
 
-        private void ParseNote(int Player, ENoteType NoteType, int Start, int Length, int Tone, string Text)
+        private bool ParseNote(int Player, ENoteType NoteType, int Start, int Length, int Tone, string Text)
         {
             CNote note = new CNote(Start, Length, Tone, Text, NoteType);
             CLines lines = this.Notes.GetLines(Player);
-            
-            if (lines.LineCount == 0)
-            {
-                CLine line = new CLine();
-                line.AddNote(note);
-                lines.AddLine(line, false);
-            }
-            else
-            {
-                lines.AddNote(note, lines.LineCount - 1, false);
-            }        
+            return lines.AddNote(note);
         }
 
         private void NewSentence(int Player, int Start)
@@ -802,14 +792,7 @@ namespace Vocaluxe.Menu.SongMenu
             CLines lines = Notes.GetLines(Player);
             CLine line = new CLine();
             line.StartBeat = Start;
-            if (lines.LineCount == 0)
-            {
-                lines.AddLine(line);
-            }
-            else
-            {
-                lines.AddLine(line);
-            }        
+            lines.AddLine(line);   
         }
 
         public void LoadSmallCover()
