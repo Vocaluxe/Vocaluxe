@@ -1072,6 +1072,7 @@ namespace Vocaluxe.Base
             {
                 song.ReadNotes();
                 song.LoadSmallCover();
+                _CoverLoadIndex++;
             }
             GC.Collect();
             _CoverLoaded = true;
