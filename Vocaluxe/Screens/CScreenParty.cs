@@ -199,7 +199,7 @@ namespace Vocaluxe.Screens
             if (index >= _PartyModeInfos.Count)
                 return;
 
-            if (CMain.Base.Config.GetMaxNumMics() == 0)
+            if (CMain.Config.GetMaxNumMics() == 0)
                 return; //TODO: Add message!
 
             if (_PartyModeInfos[index].Playable)

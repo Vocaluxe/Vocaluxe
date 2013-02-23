@@ -163,7 +163,7 @@ namespace Vocaluxe.Base
 
             foreach (string file in files)
             {
-                CXMLReader xmlReader = new CXMLReader((Path.Combine(path, file)));
+                CXMLReader xmlReader = CXMLReader.OpenFile((Path.Combine(path, file)));
 
                 if (xmlReader != null)
                 {
@@ -194,7 +194,7 @@ namespace Vocaluxe.Base
             if (coverTheme.Name != String.Empty)
             {
 
-                CXMLReader xmlReader = new CXMLReader((Path.Combine(CSettings.sFolderCover, coverTheme.File)));
+                CXMLReader xmlReader = CXMLReader.OpenFile((Path.Combine(CSettings.sFolderCover, coverTheme.File)));
 
                 if (xmlReader != null)
                 {

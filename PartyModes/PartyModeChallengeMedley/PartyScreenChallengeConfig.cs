@@ -63,7 +63,7 @@ namespace Vocaluxe.PartyModes
             }
             catch (Exception e)
             {
-                CBase.Base.Log.LogError("Error in party mode screen challenge config. Can't cast received data from game mode " + _ThemeName + ". " + e.Message);;
+                CBase.Log.LogError("Error in party mode screen challenge config. Can't cast received data from game mode " + _ThemeName + ". " + e.Message);;
             }
 
         }
@@ -133,7 +133,7 @@ namespace Vocaluxe.PartyModes
         {
             base.OnShow();
 
-            _MaxNumMics = CBase.Base.Config.GetMaxNumMics();
+            _MaxNumMics = CBase.Config.GetMaxNumMics();
             if (_MaxNumMics > 6)
                 _MaxNumMics = 6;
 

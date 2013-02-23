@@ -25,13 +25,13 @@ namespace Vocaluxe.PartyModes
 
         public override ScreenSongOptions GetScreenSongOptions()
         {
-            _ScreenSongOptions.Sorting.SongSorting = _Base.Config.GetSongSorting();
-            _ScreenSongOptions.Sorting.Tabs = _Base.Config.GetTabs();
+            _ScreenSongOptions.Sorting.SongSorting = CBase.Config.GetSongSorting();
+            _ScreenSongOptions.Sorting.Tabs = CBase.Config.GetTabs();
 
             if (_ScreenSongOptions.Sorting.SearchActive)
                 _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_OFF;
 
-            _ScreenSongOptions.Sorting.IgnoreArticles = _Base.Config.GetIgnoreArticles();
+            _ScreenSongOptions.Sorting.IgnoreArticles = CBase.Config.GetIgnoreArticles();
 
             return _ScreenSongOptions;
         }

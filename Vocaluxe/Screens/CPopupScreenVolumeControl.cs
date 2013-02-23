@@ -113,7 +113,10 @@ namespace Vocaluxe.Screens
                     if (CSongs.Category != -1)
                         CConfig.PreviewMusicVolume = SelectSlides[htSelectSlides(SelectSlideVolume)].Selection * 5;
                     else
+                    {
                         CConfig.BackgroundMusicVolume = SelectSlides[htSelectSlides(SelectSlideVolume)].Selection * 5;
+                        CBackgroundMusic.ApplyVolume();
+                    }
                     break;
 
                 case EScreens.ScreenSing:
@@ -133,7 +136,10 @@ namespace Vocaluxe.Screens
             switch (CGraphics.CurrentScreen)
             {
                 case EScreens.ScreenSong:
-                    SelectSlides[htSelectSlides(SelectSlideVolume)].Selection = (int)(CConfig.PreviewMusicVolume / 5);
+                    if(CSongs.Category != -1)
+                        SelectSlides[htSelectSlides(SelectSlideVolume)].Selection = (int)(CConfig.PreviewMusicVolume / 5);
+                    else
+                        SelectSlides[htSelectSlides(SelectSlideVolume)].Selection = ((int)CConfig.BackgroundMusicVolume / 5);
                     break;
 
                 case EScreens.ScreenSing:

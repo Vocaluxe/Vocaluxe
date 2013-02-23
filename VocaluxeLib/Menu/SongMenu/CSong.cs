@@ -303,7 +303,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             this.Folder = Path.GetDirectoryName(FilePath);
 
-            foreach (string folder in CBase.Base.Config.GetSongFolder())
+            foreach (string folder in CBase.Config.GetSongFolder())
             {
                 if (this.Folder.Contains(folder))
                 {
@@ -423,7 +423,7 @@ namespace Vocaluxe.Menu.SongMenu
                                     }
                                     else
                                     {
-                                        CBase.Base.Log.LogError("Can't find audio file: " + Path.Combine(this.Folder, Value));
+                                        CBase.Log.LogError("Can't find audio file: " + Path.Combine(this.Folder, Value));
                                         return false;
                                     }
                                     break;
@@ -473,7 +473,7 @@ namespace Vocaluxe.Menu.SongMenu
                                     if (File.Exists(Path.Combine(this.Folder, Value)))
                                         this.VideoFileName = Value;
                                     else
-                                        CBase.Base.Log.LogError("Can't find video file: " + Path.Combine(this.Folder, Value));                                   
+                                        CBase.Log.LogError("Can't find video file: " + Path.Combine(this.Folder, Value));
                                     break;
                                 case "VIDEOGAP":
                                     CHelper.TryParse(Value, out this.VideoGap);
@@ -519,31 +519,31 @@ namespace Vocaluxe.Menu.SongMenu
                 if (sr.EndOfStream)
                 {
                     //No other data then header
-                    CBase.Base.Log.LogError("Lyrics/Notes missing: " + FilePath);
+                    CBase.Log.LogError("Lyrics/Notes missing: " + FilePath);
                     return false;
                 }
 
                 if ((HeaderFlags & EHeaderFlags.Title) == 0)
                 {
-                    CBase.Base.Log.LogError("Title tag missing: " + FilePath);
+                    CBase.Log.LogError("Title tag missing: " + FilePath);
                     return false;
                 }
 
                 if ((HeaderFlags & EHeaderFlags.Artist) == 0)
                 {
-                    CBase.Base.Log.LogError("Artist tag missing: " + FilePath);
+                    CBase.Log.LogError("Artist tag missing: " + FilePath);
                     return false;
                 }
 
                 if ((HeaderFlags & EHeaderFlags.MP3) == 0)
                 {
-                    CBase.Base.Log.LogError("MP3 tag missing: " + FilePath);
+                    CBase.Log.LogError("MP3 tag missing: " + FilePath);
                     return false;
                 }
 
                 if ((HeaderFlags & EHeaderFlags.BPM) == 0)
                 {
-                    CBase.Base.Log.LogError("BPM tag missing: " + FilePath);
+                    CBase.Log.LogError("BPM tag missing: " + FilePath);
                     return false;
                 }
 
@@ -552,7 +552,7 @@ namespace Vocaluxe.Menu.SongMenu
                 {
                     if (this.Medley.StartBeat > this.Medley.EndBeat)
                     {
-                        CBase.Base.Log.LogError("MedleyStartBeat is bigger than MedleyEndBeat in file: " + FilePath);
+                        CBase.Log.LogError("MedleyStartBeat is bigger than MedleyEndBeat in file: " + FilePath);
                         HeaderFlags = HeaderFlags - EHeaderFlags.MedleyStartBeat - EHeaderFlags.MedleyEndBeat;
                     }
                 }
@@ -562,7 +562,7 @@ namespace Vocaluxe.Menu.SongMenu
                     //PreviewStart is not set or <=0
                     if ((HeaderFlags & EHeaderFlags.MedleyStartBeat) != 0)
                         //fallback to MedleyStart
-                        this.PreviewStart = CBase.Base.Game.GetTimeFromBeats(this.Medley.StartBeat, this.BPM);
+                        this.PreviewStart = CBase.Game.GetTimeFromBeats(this.Medley.StartBeat, this.BPM);
                     else
                         //else set to 0, it will be set in FindRefrainStart
                         this.PreviewStart = 0f;
@@ -571,8 +571,8 @@ namespace Vocaluxe.Menu.SongMenu
                 if ((HeaderFlags & EHeaderFlags.MedleyStartBeat) != 0 && (HeaderFlags & EHeaderFlags.MedleyEndBeat) != 0)
                 {
                     this.Medley.Source = EMedleySource.Tag;
-                    this.Medley.FadeInTime = CBase.Base.Settings.GetDefaultMedleyFadeInTime();
-                    this.Medley.FadeOutTime = CBase.Base.Settings.GetDefaultMedleyFadeOutTime();
+                    this.Medley.FadeInTime = CBase.Settings.GetDefaultMedleyFadeInTime();
+                    this.Medley.FadeOutTime = CBase.Settings.GetDefaultMedleyFadeOutTime();
                 }
                 #endregion check medley tags
 
@@ -580,7 +580,7 @@ namespace Vocaluxe.Menu.SongMenu
             }
             catch (Exception e)
             {
-                CBase.Base.Log.LogError("Error reading txt header in file \"" + FilePath + "\": " + e.Message);
+                CBase.Log.LogError("Error reading txt header in file \"" + FilePath + "\": " + e.Message);
                 return false;
             }
 
@@ -612,7 +612,7 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (!File.Exists(FilePath))
             {
-                CBase.Base.Log.LogError("Error loading song. The file does not exist: " + FilePath);
+                CBase.Log.LogError("Error loading song. The file does not exist: " + FilePath);
                 return false;
             }
 
@@ -654,7 +654,7 @@ namespace Vocaluxe.Menu.SongMenu
 
                 if (sr.EndOfStream)
                 {
-                    CBase.Base.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". No lyrics/notes found: " + FilePath);
+                    CBase.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". No lyrics/notes found: " + FilePath);
                     return false;
                 }
 
@@ -676,7 +676,7 @@ namespace Vocaluxe.Menu.SongMenu
                                 Player = 2;
                             else
                             {
-                                CBase.Base.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". Wrong or missing number after \"P\": " + FilePath);
+                                CBase.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". Wrong or missing number after \"P\": " + FilePath);
                                 return false;
                             }
                             sr.ReadLine();
@@ -722,10 +722,9 @@ namespace Vocaluxe.Menu.SongMenu
                         case '-':
                             if (isNewSentence)
                             {
-                                CBase.Base.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". Double sentence break: " + FilePath);
+                                CBase.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". Double sentence break: " + FilePath);
                                 return false;
                             }
-
                             sr.Read();
                             Param1 = CHelper.TryReadInt(sr);
 
@@ -751,7 +750,7 @@ namespace Vocaluxe.Menu.SongMenu
                             sr.ReadLine();
                             break;
                         default:
-                            CBase.Base.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". Unexpected or missing character (" + TempC + "): " + FilePath);
+                            CBase.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". Unexpected or missing character (" + TempC + "): " + FilePath);
                             return false;
                     }
                     int c = 0;
@@ -770,7 +769,7 @@ namespace Vocaluxe.Menu.SongMenu
             }
             catch (Exception e)
             {
-                CBase.Base.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". An unhandled exception occured (" + e.Message + "): " + FilePath);
+                CBase.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". An unhandled exception occured (" + e.Message + "): " + FilePath);
                 return false;
             }
             FindRefrain();
@@ -819,11 +818,11 @@ namespace Vocaluxe.Menu.SongMenu
                 return;
             if (this.CoverFileName != String.Empty)
             {
-                if (!CBase.Base.DataBase.GetCover(Path.Combine(this.Folder, this.CoverFileName), ref _CoverTextureSmall, CBase.Base.Config.GetCoverSize()))
-                    _CoverTextureSmall = CBase.Base.Cover.GetNoCover();
+                if (!CBase.DataBase.GetCover(Path.Combine(this.Folder, this.CoverFileName), ref _CoverTextureSmall, CBase.Config.GetCoverSize()))
+                    _CoverTextureSmall = CBase.Cover.GetNoCover();
             }
             else
-                _CoverTextureSmall = CBase.Base.Cover.GetNoCover();
+                _CoverTextureSmall = CBase.Cover.GetNoCover();
 
             _CoverSmallLoaded = true;
         }
@@ -864,12 +863,12 @@ namespace Vocaluxe.Menu.SongMenu
             if (DuetPart1 == String.Empty)
             {
                 DuetPart1 = "Part 1";
-                CBase.Base.Log.LogError("Warning: Can't find #P1-tag for duets in \"" + this.Artist + " - " + this.Title + "\".");
+                CBase.Log.LogError("Warning: Can't find #P1-tag for duets in \"" + this.Artist + " - " + this.Title + "\".");
             }
             if (DuetPart2 == String.Empty)
             {
                 DuetPart2 = "Part 2";
-                CBase.Base.Log.LogError("Warning: Can't find #P2-tag for duets in \"" + this.Artist + " - " + this.Title + "\".");
+                CBase.Log.LogError("Warning: Can't find #P2-tag for duets in \"" + this.Artist + " - " + this.Title + "\".");
             }
         }
 
@@ -960,7 +959,7 @@ namespace Vocaluxe.Menu.SongMenu
             CLines lines = this.Notes.GetLines(0);
 
             // set medley vars
-            if (series.Count > 0 && series[longest].length > CBase.Base.Settings.GetMedleyMinSeriesLength())
+            if (series.Count > 0 && series[longest].length > CBase.Settings.GetMedleyMinSeriesLength())
             {
                 this.Medley.StartBeat = lines.Line[series[longest].start].FirstNoteBeat;
                 this.Medley.EndBeat = lines.Line[series[longest].end].LastNoteBeat;
@@ -968,16 +967,16 @@ namespace Vocaluxe.Menu.SongMenu
                 bool foundEnd = false;
                 
                 // set end if duration > MedleyMinDuration
-                if (CBase.Base.Game.GetTimeFromBeats(this.Medley.StartBeat, this.BPM) + CBase.Base.Settings.GetMedleyMinDuration() >
-                    CBase.Base.Game.GetTimeFromBeats(this.Medley.EndBeat, this.BPM))
+                if (CBase.Game.GetTimeFromBeats(this.Medley.StartBeat, this.BPM) + CBase.Settings.GetMedleyMinDuration() >
+                    CBase.Game.GetTimeFromBeats(this.Medley.EndBeat, this.BPM))
                     foundEnd = true;
 
                 if (!foundEnd)
                 {
                     for (int i = series[longest].start + 1; i < lines.LineCount - 1; i++)
                     {
-                        if (CBase.Base.Game.GetTimeFromBeats(this.Medley.StartBeat, this.BPM) + CBase.Base.Settings.GetMedleyMinDuration() >
-                            CBase.Base.Game.GetTimeFromBeats(lines.Line[i].LastNoteBeat, this.BPM))
+                        if (CBase.Game.GetTimeFromBeats(this.Medley.StartBeat, this.BPM) + CBase.Settings.GetMedleyMinDuration() >
+                            CBase.Game.GetTimeFromBeats(lines.Line[i].LastNoteBeat, this.BPM))
                         {
                             foundEnd = true;
                             this.Medley.EndBeat = lines.Line[i].LastNoteBeat;
@@ -988,15 +987,15 @@ namespace Vocaluxe.Menu.SongMenu
                 if (foundEnd)
                 {
                     this.Medley.Source = EMedleySource.Calculated;
-                    this.Medley.FadeInTime = CBase.Base.Settings.GetDefaultMedleyFadeInTime();
-                    this.Medley.FadeOutTime = CBase.Base.Settings.GetDefaultMedleyFadeOutTime();
+                    this.Medley.FadeInTime = CBase.Settings.GetDefaultMedleyFadeInTime();
+                    this.Medley.FadeOutTime = CBase.Settings.GetDefaultMedleyFadeOutTime();
                 }
             }
             
             if (this.PreviewStart == 0f)
             {
                 if (this.Medley.Source == EMedleySource.Calculated)
-                    this.PreviewStart = CBase.Base.Game.GetTimeFromBeats(this.Medley.StartBeat, this.BPM); 
+                    this.PreviewStart = CBase.Game.GetTimeFromBeats(this.Medley.StartBeat, this.BPM); 
             }
         }
 

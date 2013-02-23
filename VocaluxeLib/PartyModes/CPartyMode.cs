@@ -8,7 +8,6 @@ namespace Vocaluxe.PartyModes
 {
     public abstract class CPartyMode : IPartyMode
     {
-        protected Basic _Base;
         protected ScreenSongOptions _ScreenSongOptions;
         protected Dictionary<string, CMenuParty> _Screens;
         protected string _Folder;
@@ -28,9 +27,8 @@ namespace Vocaluxe.PartyModes
             return false;
         }
 
-        public void Initialize(Basic Base)
+        public void Initialize()
         {
-            _Base = Base;
         }
 
         public void AddScreen(CMenuParty Screen, string ScreenName)
@@ -122,17 +120,17 @@ namespace Vocaluxe.PartyModes
 
         public virtual void FinishedSinging()
         {
-            _Base.Graphics.FadeTo(EScreens.ScreenScore);
+            CBase.Graphics.FadeTo(EScreens.ScreenScore);
         }
 
         public virtual void LeavingScore()
         {
-            _Base.Graphics.FadeTo(EScreens.ScreenHighscore);
+            CBase.Graphics.FadeTo(EScreens.ScreenHighscore);
         }
 
         public virtual void LeavingHighscore()
         {
-            _Base.Graphics.FadeTo(EScreens.ScreenSong);
+            CBase.Graphics.FadeTo(EScreens.ScreenSong);
         }
         #endregion Implementation
     }

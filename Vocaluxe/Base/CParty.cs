@@ -55,7 +55,7 @@ namespace Vocaluxe.Base
             SPartyMode pm = new SPartyMode();
             pm.PartyMode = new CPartyModeNone();
             pm.ScreenFiles = new List<string>();
-            pm.PartyMode.Initialize(CMain.Base);
+            pm.PartyMode.Initialize();
             pm.PartyModeID = _IDs.Dequeue();
             _NormalGameModeID = pm.PartyModeID;
             _PartyModes.Add(pm.PartyModeID, pm);
@@ -297,7 +297,7 @@ namespace Vocaluxe.Base
                 CLog.LogError("Error casting PartyMode file: " + file + "; " + e.Message);
                 return pm;
             }
-            pm.PartyMode.Initialize(CMain.Base);
+            pm.PartyMode.Initialize();
 
             if (!CTheme.AddTheme(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), "Theme.xml")), pm.PartyModeID))
                 return pm;

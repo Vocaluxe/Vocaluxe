@@ -125,12 +125,12 @@ namespace Vocaluxe.Menu
 
         private STexture GetTextureValue(string _string)
         {
-            return CBase.Base.Theme.GetSkinTexture(_string, _PartyModeID);
+            return CBase.Theme.GetSkinTexture(_string, _PartyModeID);
         }
 
         private SColorF GetColorValue(string _string)
         {
-            return CBase.Base.Theme.GetColor(_string, _PartyModeID);
+            return CBase.Theme.GetColor(_string, _PartyModeID);
         }
         #endregion Private
 

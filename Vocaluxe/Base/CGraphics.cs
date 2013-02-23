@@ -503,7 +503,8 @@ namespace Vocaluxe.Base
             MouseEvent InputMouseEvent = new MouseEvent();
 
             bool PopupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing &&
-                _CurrentScreen != EScreens.ScreenSong && _CurrentScreen != EScreens.ScreenCredits && !CBackgroundMusic.Disabled;
+                (_CurrentScreen != EScreens.ScreenSong || (_CurrentScreen == EScreens.ScreenSong && CSongs.Category == -1 && CConfig.Tabs ==EOffOn.TR_CONFIG_ON)) 
+                && _CurrentScreen != EScreens.ScreenCredits && !CBackgroundMusic.Disabled;
 
             bool PopupVolumeControlAllowed = _CurrentScreen != EScreens.ScreenCredits && _CurrentScreen != EScreens.ScreenOptionsRecord;
 
@@ -560,7 +561,10 @@ namespace Vocaluxe.Base
                                     _Screens[(int)_CurrentScreen].ApplyVolume();
                                 }
                                 else
+                                {
                                     CConfig.BackgroundMusicVolume += Diff;
+                                    CBackgroundMusic.ApplyVolume();
+                                }
                                 break;
 
                             case EScreens.ScreenSing:

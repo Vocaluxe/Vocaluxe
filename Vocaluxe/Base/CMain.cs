@@ -32,9 +32,11 @@ namespace Vocaluxe.Base
         public static IInputs Input = new BInputs();
         public static IPlaylist Playlist = new BPlaylist();
 
-
-        public static Basic Base = new Basic(
-            Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language, Game, Profiles, Record, Songs, Video, Sound, Cover, DataBase, Input, Playlist);
+        public static void Init()
+        {
+            CBase.Assign(Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language,
+                Game, Profiles, Record, Songs, Video, Sound, Cover, DataBase, Input, Playlist);
+        }
     }
 
     class BConfig : IConfig

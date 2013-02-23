@@ -38,8 +38,8 @@ namespace Vocaluxe
             {
                 // Init Log
                 CLog.Init();
-                CBase.Base = CMain.Base;
 
+                CMain.Init();
                 CSettings.CreateFolders();
                 Application.DoEvents();
 

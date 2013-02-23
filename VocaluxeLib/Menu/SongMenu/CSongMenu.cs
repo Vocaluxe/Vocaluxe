@@ -23,7 +23,7 @@ namespace Vocaluxe.Menu.SongMenu
 
         public void UpdateSongMenuType()
         {
-            if (_Type != CBase.Base.Config.GetSongMenuType())
+            if (_Type != CBase.Config.GetSongMenuType())
                 CreateSongMenu();
         }
 
@@ -206,7 +206,7 @@ namespace Vocaluxe.Menu.SongMenu
                 _SongMenu.OnHide();
             }
 
-            switch (CBase.Base.Config.GetSongMenuType())
+            switch (CBase.Config.GetSongMenuType())
             {
                 //case ESongMenu.TR_CONFIG_LIST:
                 //    _SongMenu = new CSongMenuList();
@@ -225,7 +225,7 @@ namespace Vocaluxe.Menu.SongMenu
                 //    break;
             }
 
-            _Type = CBase.Base.Config.GetSongMenuType();
+            _Type = CBase.Config.GetSongMenuType();
         }
     }
 }
