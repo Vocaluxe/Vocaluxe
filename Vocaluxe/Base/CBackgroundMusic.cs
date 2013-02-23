@@ -247,12 +247,12 @@ namespace Vocaluxe.Base
                     if (_RepeatSong)
                     {
                         //Seek to #Start-Tag, if found
-                        if (_CurrentPlaylistElement.Start != 0f)
+                        if (_CurrentPlaylistElement.Start != 0f && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
                             CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
                         else
                             CSound.SetPosition(_CurrentMusicStream, 0);
                         if (_VideoEnabled && _Video != -1)
-                            if (_CurrentPlaylistElement.Start != 0f)
+                            if (_CurrentPlaylistElement.Start != 0f && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
                                 CVideo.VdSkip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
                             else
                                 CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
@@ -290,7 +290,7 @@ namespace Vocaluxe.Base
                 CSound.SetStreamVolumeMax(_CurrentMusicStream, CConfig.BackgroundMusicVolume);
 
                 //Seek to #Start-Tag, if found
-                if (_CurrentPlaylistElement.Start != 0f)
+                if (_CurrentPlaylistElement.Start != 0f && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
                     CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
 
                 if (_VideoEnabled)
@@ -310,12 +310,12 @@ namespace Vocaluxe.Base
                 if (CSound.GetPosition(_CurrentMusicStream) >= 1.5f)
                 {
                     //Seek to #Start-Tag, if found
-                    if (_CurrentPlaylistElement.Start != 0f)
+                    if (_CurrentPlaylistElement.Start != 0f && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
                         CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
                     else
                         CSound.SetPosition(_CurrentMusicStream, 0);
                     if (_VideoEnabled && _Video != -1)
-                        if(_CurrentPlaylistElement.Start != 0f)
+                        if (_CurrentPlaylistElement.Start != 0f && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
                             CVideo.VdSkip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
                         else
                             CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
@@ -340,12 +340,12 @@ namespace Vocaluxe.Base
             else if (_CurrentMusicStream != -1)
             {
                 //Seek to #Start-Tag, if found
-                if (_CurrentPlaylistElement.Start != 0f)
+                if (_CurrentPlaylistElement.Start != 0f && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
                     CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
                 else
                     CSound.SetPosition(_CurrentMusicStream, 0);
                 if (_VideoEnabled && _Video != -1)
-                    if (_CurrentPlaylistElement.Start != 0f)
+                    if (_CurrentPlaylistElement.Start != 0f && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
                         CVideo.VdSkip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
                     else
                         CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
@@ -519,7 +519,7 @@ namespace Vocaluxe.Base
             if (_Video == -1)
             {
                 _Video = CVideo.VdLoad(_CurrentPlaylistElement.VideoFilePath);
-                if (_CurrentPlaylistElement.Start != 0f)
+                if (_CurrentPlaylistElement.Start != 0f && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
                     CVideo.VdSkip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
                 else
                     CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
