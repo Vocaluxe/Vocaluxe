@@ -498,22 +498,21 @@ namespace Vocaluxe.Menu.SongMenu
 
             _TextBG.Draw();
 
-            _CoverBig.Draw(1f, EAspect.Crop);
-            //Flamefire: Why draw twice?
-            //if (_vidtex.color.A < 1)
-            //    _CoverBig.Draw(1f, EAspect.Crop);
 
             if (_vidtex.index != -1 && _Video != -1)
             {
+                if (_vidtex.color.A < 1)
+                    _CoverBig.Draw(1f, EAspect.Crop);
                 RectangleF bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
                 RectangleF rect = new RectangleF(0f, 0f, _vidtex.width, _vidtex.height);
                 CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
+                SRectF vidRect = new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z);
+                SRectF vidRectBounds = new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f);
 
-                CBase.Drawing.DrawTexture(_vidtex, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z),
-                    _vidtex.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false);
-                CBase.Drawing.DrawTextureReflection(_vidtex, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z),
-                    _vidtex.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
-            }
+                CBase.Drawing.DrawTexture(_vidtex, vidRect, _vidtex.color, vidRectBounds, false);
+                CBase.Drawing.DrawTextureReflection(_vidtex, vidRect, _vidtex.color, vidRectBounds, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
+            }else
+                _CoverBig.Draw(1f, EAspect.Crop);
 
 
             
