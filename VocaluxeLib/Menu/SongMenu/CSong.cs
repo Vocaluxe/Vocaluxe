@@ -69,7 +69,8 @@ namespace Vocaluxe.Menu.SongMenu
 
     public class CSong
     {
-        private bool _CoverLoaded = false;
+        private bool _CoverSmallLoaded = false;
+        private bool _CoverBigLoaded = false;
         private bool _NotesLoaded = false;
         private STexture _CoverTextureSmall = new STexture(-1);
         private STexture _CoverTextureBig = new STexture(-1);
@@ -96,34 +97,24 @@ namespace Vocaluxe.Menu.SongMenu
 
         public bool CoverSmallLoaded
         {
-            get { return _CoverLoaded; }
+            get { return _CoverSmallLoaded; }
+        }
+        public bool CoverBigLoaded
+        {
+            get { return _CoverBigLoaded; }
         }
         public bool NotesLoaded
         {
             get { return _NotesLoaded; }
         }
 
-        public bool CoverBigLoaded = false;
-
         public STexture CoverTextureSmall
         {
             get
             {
-                if (!_CoverLoaded)
+                if (!_CoverSmallLoaded)
                 {
-                    //Why in hell would you load the notes to get the cover???
-                    //if (!_NotesLoaded)
-                    //    this.ReadNotes();
-
-                    if (this.CoverFileName != String.Empty)
-                    {
-                        if (!CBase.Base.DataBase.GetCover(Path.Combine(this.Folder, this.CoverFileName), ref _CoverTextureSmall, CBase.Base.Config.GetCoverSize()))
-                            _CoverTextureSmall = CBase.Base.Cover.GetNoCover();
-                    }
-                    else
-                        _CoverTextureSmall = CBase.Base.Cover.GetNoCover();
-
-                    _CoverLoaded = true;
+                    LoadSmallCover();
                 }
                 return _CoverTextureSmall;
             }
@@ -131,14 +122,23 @@ namespace Vocaluxe.Menu.SongMenu
             set
             {
                 _CoverTextureSmall = value;
-                _CoverLoaded = true;
+                _CoverSmallLoaded = true;
             }
         }
 
         public STexture CoverTextureBig
         {
-            get { return _CoverTextureBig; }
-            set { _CoverTextureBig = value; }
+            get
+            {
+                if (_CoverBigLoaded)
+                    return _CoverTextureBig;
+                else 
+                    return _CoverTextureSmall;
+            }
+            set {
+                _CoverTextureBig = value;
+                _CoverBigLoaded = true;
+            }
         }
 
         public string Title = String.Empty;
@@ -238,8 +238,8 @@ namespace Vocaluxe.Menu.SongMenu
             this.VideoFileName = song.VideoFileName;
 
             this.VideoAspect = song.VideoAspect;
-            this._CoverLoaded = song._CoverLoaded;
-            this.CoverBigLoaded = song.CoverBigLoaded;
+            this._CoverSmallLoaded = song._CoverSmallLoaded;
+            this._CoverBigLoaded = song._CoverBigLoaded;
             this._NotesLoaded = song._NotesLoaded;
 
             this.Artist = song.Artist;
@@ -604,8 +604,12 @@ namespace Vocaluxe.Menu.SongMenu
         {
             return ReadNotes(Path.Combine(this.Folder, this.FileName));
         }
-        public bool ReadNotes(string FilePath)
+        public bool ReadNotes(string FilePath, bool forceReload=false)
         {
+            //Skip loading if already done and no reload is forced
+            if (_NotesLoaded && !forceReload)
+                return true;
+
             if (!File.Exists(FilePath))
             {
                 CBase.Base.Log.LogError("Error loading song. The file does not exist: " + FilePath);
@@ -809,6 +813,21 @@ namespace Vocaluxe.Menu.SongMenu
             }        
         }
 
+        public void LoadSmallCover()
+        {
+            if (_CoverSmallLoaded)
+                return;
+            if (this.CoverFileName != String.Empty)
+            {
+                if (!CBase.Base.DataBase.GetCover(Path.Combine(this.Folder, this.CoverFileName), ref _CoverTextureSmall, CBase.Base.Config.GetCoverSize()))
+                    _CoverTextureSmall = CBase.Base.Cover.GetNoCover();
+            }
+            else
+                _CoverTextureSmall = CBase.Base.Cover.GetNoCover();
+
+            _CoverSmallLoaded = true;
+        }
+
         private void CheckFiles()
         {
             CHelper Helper = new CHelper();
@@ -861,24 +880,12 @@ namespace Vocaluxe.Menu.SongMenu
             public int length;
         }
 
-        private void FindRefrain()
+        private List<Series> GetSeries()
         {
-            if (this.IsDuet)
-            {
-                this.Medley.Source = EMedleySource.None;
-                return;
-            }
-
-            if (this.Medley.Source == EMedleySource.Tag)
-                return;
-
-            if (!this.CalculateMedley)
-                return;
-
             CLines lines = this.Notes.GetLines(0);
 
             if (lines.LineCount == 0)
-                return;
+                return null;
 
             // build sentences list
             List<string> sentences = new List<string>();
@@ -921,6 +928,26 @@ namespace Vocaluxe.Menu.SongMenu
                     }
                 }
             }
+            return series;
+        }
+
+        private void FindRefrain()
+        {
+            if (this.IsDuet)
+            {
+                this.Medley.Source = EMedleySource.None;
+                return;
+            }
+
+            if (this.Medley.Source == EMedleySource.Tag)
+                return;
+
+            if (!this.CalculateMedley)
+                return;
+
+            List<Series> series = GetSeries();
+            if (series == null)
+                return;
 
             // search for longest series
             int longest = 0;
@@ -929,6 +956,8 @@ namespace Vocaluxe.Menu.SongMenu
                 if (series[i].length > series[longest].length)
                     longest = i;
             }
+
+            CLines lines = this.Notes.GetLines(0);
 
             // set medley vars
             if (series.Count > 0 && series[longest].length > CBase.Base.Settings.GetMedleyMinSeriesLength())
@@ -972,52 +1001,11 @@ namespace Vocaluxe.Menu.SongMenu
         }
 
         private void FindShortEnd(){
-            CLines lines = this.Notes.GetLines(0);
-
-            if (lines.LineCount == 0)
+            List<Series> series = GetSeries();
+            if (series == null)
                 return;
 
-            // build sentences list
-            List<string> sentences = new List<string>();
-            foreach (CLine line in lines.Line)
-            {
-                if (line.Points != 0)
-                    sentences.Add(line.Lyrics);
-                else
-                    sentences.Add(String.Empty);
-            }
-
-            // find equal sentences series
-            List<Series> series = new List<Series>();
-            for (int i = 0; i < lines.LineCount - 1; i++)
-            {
-                for (int j = i + 1; j < lines.LineCount; j++)
-                {
-                    if (sentences[i] == sentences[j] && sentences[i] != String.Empty)
-                    {
-                        Series tempSeries = new Series();
-                        tempSeries.start = i;
-                        tempSeries.end = i;
-
-                        int max = 0;
-                        if (j + j - i - 1 > lines.LineCount - 1)
-                            max = lines.LineCount - 1 - j;
-                        else
-                            max = j - i - 1;
-
-                        for (int k = 1; k <= max; k++)
-                        {
-                            if (sentences[i + k] == sentences[j + k] && sentences[i + k] != String.Empty)
-                                tempSeries.end = i + k;
-                            else
-                                break;
-                        }
-
-                        tempSeries.length = tempSeries.end - tempSeries.start + 1;
-                        series.Add(tempSeries);
-                    }
-                }
-            }
+            CLines lines = this.Notes.GetLines(0);
 
             //Calculate length of singing
             int stop = (lines.Line[lines.Line.Length - 1].LastNoteBeat - lines.Line[0].FirstNoteBeat) / 2 + lines.Line[0].StartBeat;

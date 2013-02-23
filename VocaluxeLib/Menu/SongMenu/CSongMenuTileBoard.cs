@@ -132,7 +132,7 @@ namespace Vocaluxe.Menu.SongMenu
             int actcat = _PreviewSelected;
             if ((CBase.Base.Songs.GetNumCategories() > 0) && (actcat < 0))
             {
-                _CoverBig.Texture = CBase.Base.Songs.GetCategory(0).CoverTextureSmall;
+                _CoverBig.Texture = CBase.Base.Songs.GetCategory(0).CoverTextureBig;
                 _Artist.Text = CBase.Base.Songs.GetCategory(0).Name;
                 _Title.Text = String.Empty;
                 _SongLength.Text = String.Empty;
@@ -456,7 +456,7 @@ namespace Vocaluxe.Menu.SongMenu
                 {
                     CSong song = CBase.Base.Songs.GetVisibleSong(actsong);
 
-                    _CoverBig.Texture = song.CoverTextureSmall;
+                    _CoverBig.Texture = song.CoverTextureBig;
                     _Artist.Text = song.Artist;
                     _Title.Text = song.Title;
                     _DuetIcon.Visible = song.IsDuet;
@@ -479,7 +479,7 @@ namespace Vocaluxe.Menu.SongMenu
                 int actcat = _PreviewSelected;
                 if ((CBase.Base.Songs.GetNumCategories() > actcat) && (actcat >= 0))
                 {
-                    _CoverBig.Texture = CBase.Base.Songs.GetCategory(actcat).CoverTextureSmall;
+                    _CoverBig.Texture = CBase.Base.Songs.GetCategory(actcat).CoverTextureBig;
                     _Artist.Text = CBase.Base.Songs.GetCategory(actcat).Name;
 
                     int num = CBase.Base.Songs.NumSongsInCategory(actcat);
@@ -499,8 +499,9 @@ namespace Vocaluxe.Menu.SongMenu
             _TextBG.Draw();
 
             _CoverBig.Draw(1f, EAspect.Crop);
-            if (_vidtex.color.A < 1)
-                _CoverBig.Draw(1f, EAspect.Crop);
+            //Flamefire: Why draw twice?
+            //if (_vidtex.color.A < 1)
+            //    _CoverBig.Draw(1f, EAspect.Crop);
 
             if (_vidtex.index != -1 && _Video != -1)
             {

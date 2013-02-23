@@ -209,7 +209,7 @@ namespace Vocaluxe.Screens
                         }
                         CConfig.PlayerInfo = (EPlayerInfo)mode;
                         CConfig.SaveConfig();
-                        SetVisuability();
+                        SetVisibility();
                         break;
 
                     case Keys.S:
@@ -432,7 +432,7 @@ namespace Vocaluxe.Screens
             {
                 Statics[htStatics(StaticAvatars[p, CGame.NumPlayer - 1])].Aspect = EAspect.Crop;
             }
-            SetVisuability();
+            SetVisibility();
 
             UpdateAvatars();
             UpdateNames();
@@ -592,7 +592,7 @@ namespace Vocaluxe.Screens
                 return;
             }
 
-            if (!song.CoverSmallLoaded)
+            if (!song.NotesLoaded)
                 song.ReadNotes();
 
             string songname = song.Artist + " - " + song.Title;
@@ -911,7 +911,7 @@ namespace Vocaluxe.Screens
             }
         }
 
-        private void SetVisuability()
+        private void SetVisibility()
         {
             Statics[htStatics(StaticLyricsDuet)].Visible = false;
             Statics[htStatics(StaticLyricHelper)].Visible = false;
