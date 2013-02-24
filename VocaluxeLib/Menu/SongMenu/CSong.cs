@@ -31,8 +31,13 @@ namespace Vocaluxe.Menu.SongMenu
     public class CCategory
     {
         public string Name = String.Empty;
-        public STexture CoverTextureSmall = new STexture();
-        public STexture CoverTextureBig = new STexture();
+        public STexture CoverTextureSmall = new STexture(-1);
+        public STexture CoverTextureBig = new STexture(-1);
+
+        public CCategory(string name)
+        {
+            Name = name;
+        }
 
         public CCategory(string name, STexture CoverSmall, STexture CoverBig)
         {
