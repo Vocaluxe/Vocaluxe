@@ -508,6 +508,11 @@ namespace Vocaluxe.Base
                 && _CurrentScreen != EScreens.ScreenCredits && !CBackgroundMusic.Disabled;
 
             bool PopupVolumeControlAllowed = _CurrentScreen != EScreens.ScreenCredits && _CurrentScreen != EScreens.ScreenOptionsRecord;
+            //Hide volume control for bg-music if bg-music is disabled
+            if (PopupVolumeControlAllowed && (_CurrentScreen != EScreens.ScreenSong || (_CurrentScreen == EScreens.ScreenSong && CSongs.Category == -1)) 
+                && _CurrentScreen != EScreens.ScreenSing && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_OFF)
+                PopupVolumeControlAllowed = false;
+
 
             bool Resume = true;
             bool EventsAvailable = false;
@@ -532,14 +537,9 @@ namespace Vocaluxe.Base
                         HidePopup(EPopupScreens.PopupPlayerControl);
                 }
 
-                if (PopupVolumeControlAllowed && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
+                if (PopupPlayerControlAllowed && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
                 {
-                    int Diff = 0;
-                    if ((KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Add || KeyEvent.Key == Keys.PageUp)) || (KeyEvent.Sender == ESender.WiiMote && KeyEvent.Key == Keys.Add))
-                        Diff = 5;
-                    else if ((KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Subtract || KeyEvent.Key == Keys.PageDown)) || (KeyEvent.Sender == ESender.WiiMote && KeyEvent.Key == Keys.Subtract))
-                        Diff = -5;
-                    else if (KeyEvent.Key == Keys.MediaNextTrack)
+                    if (KeyEvent.Key == Keys.MediaNextTrack)
                         CMain.BackgroundMusic.Next();
                     else if (KeyEvent.Key == Keys.MediaPreviousTrack)
                         CMain.BackgroundMusic.Previous();
@@ -550,6 +550,15 @@ namespace Vocaluxe.Base
                         else
                             CMain.BackgroundMusic.Play();
                     }
+                }
+
+                if (PopupVolumeControlAllowed)
+                {
+                    int Diff = 0;
+                    if ((KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Add || KeyEvent.Key == Keys.PageUp)) || (KeyEvent.Sender == ESender.WiiMote && KeyEvent.Key == Keys.Add))
+                        Diff = 5;
+                    else if ((KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Subtract || KeyEvent.Key == Keys.PageDown)) || (KeyEvent.Sender == ESender.WiiMote && KeyEvent.Key == Keys.Subtract))
+                        Diff = -5;
 
                     if (Diff != 0)
                     {
