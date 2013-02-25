@@ -871,7 +871,7 @@ namespace Vocaluxe.Base
         {
             _Cursor.UnloadTextures();
 
-            if (CTheme.Cursor.color != string.Empty)
+            if (CTheme.Cursor.color.Length > 0)
             {
                 SColorF color;
                 color = CTheme.GetColor(CTheme.Cursor.color, -1);

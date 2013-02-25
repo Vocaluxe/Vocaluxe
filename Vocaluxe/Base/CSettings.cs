@@ -145,7 +145,7 @@ namespace Vocaluxe.Base
         {
             string sVersion = sProgramName;
 
-            if (sProgramCodeName != String.Empty)
+            if (sProgramCodeName.Length > 0)
                 sVersion += " \"" + sProgramCodeName + "\"";
 
             return sVersion += " " + GetVersionText();

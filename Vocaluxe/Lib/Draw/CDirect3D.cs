@@ -493,13 +493,14 @@ namespace Vocaluxe.Lib.Draw
 
                 //This creates a new white texture and adds it to the texture pool
                 //This texture is used for the DrawRect method
-                Bitmap blankMap = new Bitmap(1, 1);
-                Graphics g = Graphics.FromImage(blankMap);
-                g.Clear(Color.White);
-                g.Dispose();
-                _BlankTexture = AddTexture(blankMap);
+                using (Bitmap blankMap = new Bitmap(1, 1))
+                {
+                    Graphics g = Graphics.FromImage(blankMap);
+                    g.Clear(Color.White);
+                    g.Dispose();
+                    _BlankTexture = AddTexture(blankMap);
 
-                blankMap.Dispose();
+                }
                 return true;
             }
             else
@@ -560,7 +561,7 @@ namespace Vocaluxe.Lib.Draw
                         }
                     }
                     //Apply fullscreen mode
-                    if ((CSettings.bFullScreen && !_fullscreen) || (!CSettings.bFullScreen && _fullscreen))
+                    if (CSettings.bFullScreen != _fullscreen)
                     {
                         if (!_fullscreen)
                             EnterFullScreen();
@@ -575,10 +576,9 @@ namespace Vocaluxe.Lib.Draw
                     //Calculate the FPS Rate and restart the timer after a frame
                     CTime.CalculateFPS();
                     CTime.Restart();
-                }
-                else
-                    this.Close();
+                }                    
             }
+            this.Close();
         }
 
         /// <summary>
@@ -881,8 +881,15 @@ namespace Vocaluxe.Lib.Draw
                     CLog.LogError("Error loading Texture: " + TexturePath);
                     return new STexture(-1);
                 }
-                STexture s = AddTexture(bmp, TexturePath);
-                bmp.Dispose();
+                STexture s;
+                try
+                {
+                    s = AddTexture(bmp, TexturePath);
+                }
+                finally
+                {
+                    bmp.Dispose();
+                }
                 return s;
             }
             CLog.LogError("Can't find File: " + TexturePath);

@@ -409,7 +409,7 @@ namespace Vocaluxe.Menu
 
         public virtual void SaveTheme()
         {
-            if (_ThemePath == String.Empty)
+            if (_ThemePath.Length == 0)
                 return;
 
             XmlWriterSettings settings = new XmlWriterSettings();
@@ -418,98 +418,99 @@ namespace Vocaluxe.Menu
             settings.ConformanceLevel = ConformanceLevel.Document;
 
             string file = Path.Combine(_ThemePath, _ThemeName + ".xml");
-            XmlWriter writer = XmlWriter.Create(file, settings);
-
-            writer.WriteStartDocument();
-            writer.WriteStartElement("root");
-
-            writer.WriteStartElement(_ThemeName);
-
-            // Screen Version
-            writer.WriteElementString("ScreenVersion", _ScreenVersion.ToString());
-
-            // Backgrounds
-            for (int i = 0; i < _Backgrounds.Count; i++)
-                _Backgrounds[i].SaveTheme(writer);
-
-            // Statics
-            for (int i = 0; i < _Statics.Count; i++)
-                _Statics[i].SaveTheme(writer);
-
-            // Texts
-            for (int i = 0; i < _Texts.Count; i++)
+            using (XmlWriter writer = XmlWriter.Create(file, settings))
             {
-                _Texts[i].SaveTheme(writer);
+
+                writer.WriteStartDocument();
+                writer.WriteStartElement("root");
+
+                writer.WriteStartElement(_ThemeName);
+
+                // Screen Version
+                writer.WriteElementString("ScreenVersion", _ScreenVersion.ToString());
+
+                // Backgrounds
+                for (int i = 0; i < _Backgrounds.Count; i++)
+                    _Backgrounds[i].SaveTheme(writer);
+
+                // Statics
+                for (int i = 0; i < _Statics.Count; i++)
+                    _Statics[i].SaveTheme(writer);
+
+                // Texts
+                for (int i = 0; i < _Texts.Count; i++)
+                {
+                    _Texts[i].SaveTheme(writer);
+                }
+
+                // Buttons
+                for (int i = 0; i < _Buttons.Count; i++)
+                {
+                    _Buttons[i].SaveTheme(writer);
+                }
+
+                // SelectSlides
+                for (int i = 0; i < _SelectSlides.Count; i++)
+                {
+                    _SelectSlides[i].SaveTheme(writer);
+                }
+
+                // SongMenus
+                for (int i = 0; i < _SongMenus.Count; i++)
+                {
+                    _SongMenus[i].SaveTheme(writer);
+                }
+
+                // Lyrics
+                for (int i = 0; i < _Lyrics.Count; i++)
+                {
+                    _Lyrics[i].SaveTheme(writer);
+                }
+
+                // SingBars
+                for (int i = 0; i < _SingNotes.Count; i++)
+                {
+                    _SingNotes[i].SaveTheme(writer);
+                }
+
+                // NameSelections
+                for (int i = 0; i < _NameSelections.Count; i++)
+                {
+                    _NameSelections[i].SaveTheme(writer);
+                }
+
+                //Equalizers
+                for (int i = 0; i < _Equalizers.Count; i++)
+                {
+                    _Equalizers[i].SaveTheme(writer);
+                }
+
+                //Playlists
+                for (int i = 0; i < _Playlists.Count; i++)
+                {
+                    _Playlists[i].SaveTheme(writer);
+                }
+
+                //ParticleEffects
+                for (int i = 0; i < _ParticleEffects.Count; i++)
+                {
+                    _ParticleEffects[i].SaveTheme(writer);
+                }
+
+                //ScreenSettings
+                for (int i = 0; i < _ScreenSettings.Count; i++)
+                {
+                    _ScreenSettings[i].SaveTheme(writer);
+                }
+
+                writer.WriteEndElement();
+
+                // End of File
+                writer.WriteEndElement(); //end of root
+                writer.WriteEndDocument();
+
+                writer.Flush();
             }
-
-            // Buttons
-            for (int i = 0; i < _Buttons.Count; i++)
-            {
-                _Buttons[i].SaveTheme(writer);
-            }
-
-            // SelectSlides
-            for (int i = 0; i < _SelectSlides.Count; i++)
-            {
-                _SelectSlides[i].SaveTheme(writer);
-            }
-
-            // SongMenus
-            for (int i = 0; i < _SongMenus.Count; i++)
-            {
-                _SongMenus[i].SaveTheme(writer);
-            }
-
-            // Lyrics
-            for (int i = 0; i < _Lyrics.Count; i++)
-            {
-                _Lyrics[i].SaveTheme(writer);
-            }
-
-            // SingBars
-            for (int i = 0; i < _SingNotes.Count; i++)
-            {
-                _SingNotes[i].SaveTheme(writer);
-            }
-
-            // NameSelections
-            for (int i = 0; i < _NameSelections.Count; i++)
-            {
-                _NameSelections[i].SaveTheme(writer);
-            }
-
-            //Equalizers
-            for (int i = 0; i < _Equalizers.Count; i++)
-            {
-                _Equalizers[i].SaveTheme(writer);
-            }
-
-            //Playlists
-            for (int i = 0; i < _Playlists.Count; i++)
-            {
-                _Playlists[i].SaveTheme(writer);
-            }
-
-            //ParticleEffects
-            for (int i = 0; i < _ParticleEffects.Count; i++)
-            {
-                _ParticleEffects[i].SaveTheme(writer);
-            }
-
-            //ScreenSettings
-            for (int i = 0; i < _ScreenSettings.Count; i++)
-            {
-                _ScreenSettings[i].SaveTheme(writer);
-            }
-
-            writer.WriteEndElement();
-
-            // End of File
-            writer.WriteEndElement(); //end of root
-            writer.WriteEndDocument();
-
-            writer.Flush();
-            writer.Close();
         }
 
         public virtual void ReloadTextures()
@@ -649,7 +650,7 @@ namespace Vocaluxe.Menu
 
         public virtual void ReloadTheme(string XmlPath)
         {
-            if (_ThemePath == String.Empty)
+            if (_ThemePath.Length == 0)
                 return;
 
             UnloadTextures();

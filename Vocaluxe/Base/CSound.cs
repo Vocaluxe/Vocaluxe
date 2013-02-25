@@ -165,7 +165,7 @@ namespace Vocaluxe.Base
                     break;
             }
 
-            if (file == String.Empty)
+            if (file.Length == 0)
                 return -1;
 
             int stream = CSound.Load(file);

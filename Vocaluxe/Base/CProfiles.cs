@@ -59,8 +59,8 @@ namespace Vocaluxe.Base
             profile.Avatar = new SAvatar(-1);
             profile.GuestProfile = EOffOn.TR_CONFIG_OFF;
             profile.Active = EOffOn.TR_CONFIG_ON;
-            
-            if (FileName != String.Empty)
+
+            if (FileName.Length > 0)
                 profile.ProfileFile = Path.Combine(CSettings.sFolderProfiles, FileName);
             else
                 profile.ProfileFile = String.Empty;
@@ -253,7 +253,7 @@ namespace Vocaluxe.Base
         {
             if (ProfileID < 0 || ProfileID >= _Profiles.Count)
                 return;
-            if (_Profiles[ProfileID].ProfileFile != String.Empty)
+            if (_Profiles[ProfileID].ProfileFile.Length > 0)
             {
                 try
                 {
@@ -293,7 +293,7 @@ namespace Vocaluxe.Base
             if (ProfileID < 0 || ProfileID >= _Profiles.Count)
                 return;
 
-            if (_Profiles[ProfileID].ProfileFile == String.Empty)
+            if (_Profiles[ProfileID].ProfileFile.Length == 0)
             {
                 string filename = string.Empty;
                 foreach (char chr in _Profiles[ProfileID].PlayerName)
@@ -302,7 +302,7 @@ namespace Vocaluxe.Base
                         filename += chr.ToString();
                 }
 
-                if (filename == String.Empty)
+                if (filename.Length == 0)
                     filename = "1";
 
                 int i = 0;
@@ -330,29 +330,30 @@ namespace Vocaluxe.Base
                 CLog.LogError("Error creating/opening Profile File " + _Profiles[ProfileID].ProfileFile + ": " + e.Message);
                 return;
             }
-
-            if (writer == null)
+            try
             {
-                CLog.LogError("Error creating/opening Profile File " + _Profiles[ProfileID].ProfileFile);
-                return;
+
+                writer.WriteStartDocument();
+                writer.WriteStartElement("root");
+
+                writer.WriteStartElement("Info");
+                writer.WriteElementString("PlayerName", _Profiles[ProfileID].PlayerName);
+                writer.WriteElementString("Difficulty", Enum.GetName(typeof(EGameDifficulty), _Profiles[ProfileID].Difficulty));
+                writer.WriteElementString("Avatar", _Profiles[ProfileID].Avatar.FileName);
+                writer.WriteElementString("GuestProfile", Enum.GetName(typeof(EOffOn), _Profiles[ProfileID].GuestProfile));
+                writer.WriteElementString("Active", Enum.GetName(typeof(EOffOn), _Profiles[ProfileID].Active));
+                writer.WriteEndElement();
+
+                writer.WriteEndElement(); //end of root
+                writer.WriteEndDocument();
+
+                writer.Flush();
             }
-
-            writer.WriteStartDocument();
-            writer.WriteStartElement("root");
-
-            writer.WriteStartElement("Info");
-            writer.WriteElementString("PlayerName", _Profiles[ProfileID].PlayerName);
-            writer.WriteElementString("Difficulty", Enum.GetName(typeof(EGameDifficulty), _Profiles[ProfileID].Difficulty));
-            writer.WriteElementString("Avatar", _Profiles[ProfileID].Avatar.FileName);
-            writer.WriteElementString("GuestProfile", Enum.GetName(typeof(EOffOn), _Profiles[ProfileID].GuestProfile));
-            writer.WriteElementString("Active", Enum.GetName(typeof(EOffOn), _Profiles[ProfileID].Active));
-            writer.WriteEndElement();
-
-            writer.WriteEndElement(); //end of root
-            writer.WriteEndDocument();
-
-            writer.Flush();
-            writer.Close();
+            finally
+            {
+                writer.Close();
+                writer = null;
+            }
         }
 
         private static void LoadProfile(string FileName)

@@ -164,7 +164,7 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<Color>: Lyric text color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName != String.Empty)
+                if (_Theme.ColorName.Length > 0)
                 {
                     writer.WriteElementString("Color", _Theme.ColorName);
                 }
@@ -178,7 +178,7 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<SColor>: Highlighted lyric color from ColorScheme (high priority)");
                 writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
-                if (_Theme.SColorName != String.Empty)
+                if (_Theme.SColorName.Length > 0)
                 {
                     writer.WriteElementString("SColor", _Theme.SColorName);
                 }
@@ -547,10 +547,10 @@ namespace Vocaluxe.Menu
 
         public void LoadTextures()
         {
-            if (_Theme.ColorName != String.Empty)
+            if (_Theme.ColorName.Length > 0)
                 Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
-            if (_Theme.SColorName != String.Empty)
+            if (_Theme.SColorName.Length > 0)
                 ColorProcessed = CBase.Theme.GetColor(_Theme.SColorName, _PartyModeID);
         }
 

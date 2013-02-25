@@ -350,7 +350,7 @@ namespace Vocaluxe.Menu.SongMenu
 
                 writer.WriteComment("<Color>: Tile color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName != String.Empty)
+                if (_Theme.ColorName.Length > 0)
                 {
                     writer.WriteElementString("Color", _Theme.ColorName);
                 }
@@ -578,7 +578,7 @@ namespace Vocaluxe.Menu.SongMenu
         {
             Init();
 
-            if (_Theme.ColorName != String.Empty)
+            if (_Theme.ColorName.Length > 0)
                 _Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
         }
 
@@ -652,7 +652,7 @@ namespace Vocaluxe.Menu.SongMenu
                 _streams.Add(_stream);
                 _actsongstream = _stream;
                 
-                if (CBase.Songs.GetVisibleSong(_actsong).VideoFileName != String.Empty && CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
+                if (CBase.Songs.GetVisibleSong(_actsong).VideoFileName.Length > 0 && CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
                 {
                     _video = CBase.Video.Load(Path.Combine(CBase.Songs.GetVisibleSong(_actsong).Folder, CBase.Songs.GetVisibleSong(_actsong).VideoFileName));
                     if (_video == -1)

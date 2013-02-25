@@ -22,6 +22,7 @@ namespace Vocaluxe.Base
         public static void Close()
         {
             _Input.Close();
+            _Input = null;
         }
 
         public static bool Connect()

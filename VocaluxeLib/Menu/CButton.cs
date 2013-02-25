@@ -227,7 +227,7 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<Color>: Button color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName != String.Empty)
+                if (_Theme.ColorName.Length > 0)
                 {
                     writer.WriteElementString("Color", _Theme.ColorName);
                 }
@@ -241,7 +241,7 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<SColor>: Selected button color from ColorScheme (high priority)");
                 writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
-                if (_Theme.SColorName != String.Empty)
+                if (_Theme.SColorName.Length > 0)
                 {
                     writer.WriteElementString("SColor", _Theme.SColorName);
                 }
@@ -370,10 +370,10 @@ namespace Vocaluxe.Menu
         {
             Text.LoadTextures();
 
-            if (_Theme.ColorName != String.Empty)
+            if (_Theme.ColorName.Length > 0)
                 Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
-            if (_Theme.SColorName != String.Empty)
+            if (_Theme.SColorName.Length > 0)
                 SColor = CBase.Theme.GetColor(_Theme.SColorName, _PartyModeID);
         }
 

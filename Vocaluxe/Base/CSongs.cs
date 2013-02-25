@@ -64,7 +64,7 @@ namespace Vocaluxe.Base
             get { return _SearchFilter; }
             set
             {
-                if (value != String.Empty)
+                if (value.Length > 0)
                 {
                     _Sort(_SongSorting, EOffOn.TR_CONFIG_OFF, _IgnoreArticles, value, false, _ShowDuetSongs);
                 }
@@ -409,14 +409,14 @@ namespace Vocaluxe.Base
             _FilteredSongs.Clear();
 
             string[] searchStrings = null;
-            if (_SearchFilter != String.Empty)
+            if (_SearchFilter.Length > 0)
                 searchStrings = _SearchFilter.ToUpper().Split(new char[] { ' ' });
 
             foreach (CSong song in _Songs)
             {
                 if (!song.IsDuet || _ShowDuetSongs)
                 {
-                    if (_SearchFilter == String.Empty)
+                    if (_SearchFilter.Length == 0)
                         _FilteredSongs.Add(song);
                     else if (searchStrings != null)
                     {
@@ -480,7 +480,7 @@ namespace Vocaluxe.Base
             FieldInfo field = null;
             bool isString = false;
             List<SongPointer> SortList = new List<SongPointer>();
-            if (fieldName == String.Empty)
+            if (fieldName.Length == 0)
                 _FilteredSongs.ForEach((song) => SortList.Add(new SongPointer(song.ID, "")));
             {
                 field = Type.GetType("Vocaluxe.Menu.SongMenu.CSong,VocaluxeLib").GetField(fieldName, BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public);
@@ -657,7 +657,7 @@ namespace Vocaluxe.Base
                     for (int i = 0; i < _SongsSortList.Length; i++)
                     {
                         string Year = _SongsSortList[i].SortString;
-                        if (Year != "")
+                        if (Year.Length > 0)
                         {
                             Year = Year.Substring(0, 3);
                             _SongsSortList[i].SortString = Year + "0 - " + Year + "9";

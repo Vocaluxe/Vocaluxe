@@ -622,7 +622,7 @@ namespace Vocaluxe.Screens
 
             CDraw.RemoveTexture(ref _CurrentVideoTexture);
 
-            if (song.VideoFileName != String.Empty)
+            if (song.VideoFileName.Length > 0)
             {
                 _CurrentVideo = CVideo.VdLoad(Path.Combine(song.Folder, song.VideoFileName));
                 CVideo.VdSkip(_CurrentVideo, song.Start, song.VideoGap);
@@ -630,7 +630,7 @@ namespace Vocaluxe.Screens
             }
 
             CDraw.RemoveTexture(ref _Background);
-            if (song.BackgroundFileName != String.Empty)
+            if (song.BackgroundFileName.Length > 0)
                 _Background = CDraw.AddTexture(Path.Combine(song.Folder, song.BackgroundFileName));
 
             SingNotes[htSingNotes(SingBars)].Reset();

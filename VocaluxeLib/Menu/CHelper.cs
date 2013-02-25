@@ -73,8 +73,9 @@ namespace Vocaluxe.Menu
                 return 0;
             }
             int result = 0;
-            int.TryParse(value, out result);
-            return result;
+            if(int.TryParse(value, out result))
+                return result;
+            return 0;
         }
 
         public static void SetRect(RectangleF Bounds, ref RectangleF Rect, float RectAspect, EAspect Aspect)

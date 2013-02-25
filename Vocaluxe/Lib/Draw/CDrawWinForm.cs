@@ -246,9 +246,8 @@ namespace Vocaluxe.Lib.Draw
                     CTime.CalculateFPS();
                     CTime.Restart();
                 }
-                else
-                    this.Close();
             }
+            this.Close();
         }
 
         public bool Unload()
@@ -396,8 +395,10 @@ namespace Vocaluxe.Lib.Draw
 
                 if (!found)
                 {
-                    Bitmap bmp = new Bitmap(TexturePath);
-                    return AddTexture(bmp);
+                    using (Bitmap bmp = new Bitmap(TexturePath))
+                    {
+                        return AddTexture(bmp);
+                    }
                 }
             }
             
@@ -433,11 +434,13 @@ namespace Vocaluxe.Lib.Draw
 
         public STexture AddTexture(int W, int H, ref byte[] Data)
         {
-            Bitmap bmp = new Bitmap(W, H);
-            BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            Marshal.Copy(Data, 0, bmp_data.Scan0, Data.Length);
-            bmp.UnlockBits(bmp_data);
-            return AddTexture(bmp);
+            using (Bitmap bmp = new Bitmap(W, H))
+            {
+                BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                Marshal.Copy(Data, 0, bmp_data.Scan0, Data.Length);
+                bmp.UnlockBits(bmp_data);
+                return AddTexture(bmp);
+            }
         }
 
         public bool UpdateTexture(ref STexture Texture, IntPtr Data)
@@ -525,23 +528,25 @@ namespace Vocaluxe.Lib.Draw
         {
             Bitmap newBitmap = new Bitmap(original.Width, original.Height);
 
-            Graphics g = Graphics.FromImage(newBitmap);
+            using (Graphics g = Graphics.FromImage(newBitmap))
+            {
 
-            ColorMatrix cm = new ColorMatrix();
-            cm.Matrix33 = color.A;
-            cm.Matrix00 = color.R;
-            cm.Matrix11 = color.G;
-            cm.Matrix22 = color.B;
-            cm.Matrix44 = 1;
+                ColorMatrix cm = new ColorMatrix();
+                cm.Matrix33 = color.A;
+                cm.Matrix00 = color.R;
+                cm.Matrix11 = color.G;
+                cm.Matrix22 = color.B;
+                cm.Matrix44 = 1;
 
-            ImageAttributes ia = new ImageAttributes();
-            ia.SetColorMatrix(cm);
+                using (ImageAttributes ia = new ImageAttributes())
+                {
+                    ia.SetColorMatrix(cm);
 
-            g.DrawImage(original, new Rectangle(0, 0, original.Width, original.Height),
-                0, 0, original.Width, original.Height, GraphicsUnit.Pixel, ia);
+                    g.DrawImage(original, new Rectangle(0, 0, original.Width, original.Height),
+                        0, 0, original.Width, original.Height, GraphicsUnit.Pixel, ia);
 
-            ia.Dispose();
-            g.Dispose();
+                }
+            }
 
             return newBitmap;
         }

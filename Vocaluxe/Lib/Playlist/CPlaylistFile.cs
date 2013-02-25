@@ -43,7 +43,7 @@ namespace Vocaluxe.Lib.Playlist
 
         public void SavePlaylist()
         {
-            if (PlaylistFile == string.Empty)
+            if (PlaylistFile.Length == 0)
             {
                 string filename = string.Empty;
                 foreach (char chr in PlaylistName)
@@ -52,7 +52,7 @@ namespace Vocaluxe.Lib.Playlist
                         filename += chr.ToString();
                 }
 
-                if (filename == String.Empty)
+                if (filename.Length == 0)
                     filename = "1";
 
                 int i = 0;
@@ -85,37 +85,43 @@ namespace Vocaluxe.Lib.Playlist
                 return;
             }
 
-            writer.WriteStartDocument();
-            writer.WriteStartElement("root");
-
-            writer.WriteStartElement("Info");
-            writer.WriteElementString("PlaylistName", PlaylistName);
-            writer.WriteEndElement();
-
-            writer.WriteStartElement("Songs");
-            for (int i = 0; i < Songs.Count; i++)
+            try
             {
-                CSong song = CSongs.GetSong(Songs[i].SongID);
-                if (song != null)
+                writer.WriteStartDocument();
+                writer.WriteStartElement("root");
+
+                writer.WriteStartElement("Info");
+                writer.WriteElementString("PlaylistName", PlaylistName);
+                writer.WriteEndElement();
+
+                writer.WriteStartElement("Songs");
+                for (int i = 0; i < Songs.Count; i++)
                 {
-                    writer.WriteStartElement("Song" + (i + 1).ToString());
-                    writer.WriteElementString("Artist", song.Artist);
-                    writer.WriteElementString("Title", song.Title);
-                    writer.WriteElementString("GameMode", Enum.GetName(typeof(EGameMode), Songs[i].GameMode));
-                    writer.WriteEndElement();
+                    CSong song = CSongs.GetSong(Songs[i].SongID);
+                    if (song != null)
+                    {
+                        writer.WriteStartElement("Song" + (i + 1).ToString());
+                        writer.WriteElementString("Artist", song.Artist);
+                        writer.WriteElementString("Title", song.Title);
+                        writer.WriteElementString("GameMode", Enum.GetName(typeof(EGameMode), Songs[i].GameMode));
+                        writer.WriteEndElement();
+                    }
+                    else
+                    {
+                        CLog.LogError("Playlist.SavePlaylist(): Can't find Song. This should never happen!");
+                    }
                 }
-                else
-                {
-                    CLog.LogError("Playlist.SavePlaylist(): Can't find Song. This should never happen!");
-                }
+                writer.WriteEndElement();
+
+                writer.WriteEndElement(); //end of root
+                writer.WriteEndDocument();
+
+                writer.Flush();
             }
-            writer.WriteEndElement();
-
-            writer.WriteEndElement(); //end of root
-            writer.WriteEndDocument();
-
-            writer.Flush();
-            writer.Close();
+            finally
+            {
+                writer.Close();
+            }
         }
 
         private void LoadPlaylist()

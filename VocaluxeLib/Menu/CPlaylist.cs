@@ -360,7 +360,7 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<ColorBackground>: Button color from ColorScheme (high priority)");
                 writer.WriteComment("or <BackgroundR>, <BackgroundG>, <BackgroundB>, <BackgroundA> (lower priority)");
-                if (_Theme.ColorBackgroundName != String.Empty)
+                if (_Theme.ColorBackgroundName.Length > 0)
                 {
                     writer.WriteElementString("ColorBackground", _Theme.ColorBackgroundName);
                 }
@@ -374,7 +374,7 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<SColorBackground>: Selected paylist-entry color from ColorScheme (high priority)");
                 writer.WriteComment("or <SBackgroundR>, <SBackgroundG>, <SBackgroundB>, <SBackgroundA> (lower priority)");
-                if (_Theme.SColorBackgroundName != String.Empty)
+                if (_Theme.SColorBackgroundName.Length > 0)
                 {
                     writer.WriteElementString("SColorBackground", _Theme.SColorBackgroundName);
                 }
@@ -467,10 +467,10 @@ namespace Vocaluxe.Menu
 
         public void LoadTextures()
         {
-            if (_Theme.ColorBackgroundName != String.Empty)
+            if (_Theme.ColorBackgroundName.Length > 0)
                 BackgroundColor = CBase.Theme.GetColor(_Theme.ColorBackgroundName, _PartyModeID);
 
-            if (_Theme.SColorBackgroundName != String.Empty)
+            if (_Theme.SColorBackgroundName.Length > 0)
                 BackgroundSColor = CBase.Theme.GetColor(_Theme.SColorBackgroundName, _PartyModeID);
 
             _Theme.Text1.LoadTextures();

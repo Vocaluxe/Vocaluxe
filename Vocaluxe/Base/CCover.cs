@@ -171,7 +171,7 @@ namespace Vocaluxe.Base
                     xmlReader.GetValue("//root/Info/Name", ref coverTheme.Name, String.Empty);
                     xmlReader.GetValue("//root/Info/Folder", ref coverTheme.Folder, String.Empty);
 
-                    if (coverTheme.Folder != String.Empty && coverTheme.Name != String.Empty)
+                    if (coverTheme.Folder.Length > 0 && coverTheme.Name.Length > 0)
                     {
                         coverTheme.File = file;
 
@@ -190,7 +190,7 @@ namespace Vocaluxe.Base
 
             coverTheme = CoverTheme(coverThemeName);
 
-            if (coverTheme.Name != String.Empty)
+            if (coverTheme.Name.Length > 0)
             {
 
                 CXMLReader xmlReader = CXMLReader.OpenFile((Path.Combine(CSettings.sFolderCover, coverTheme.File)));

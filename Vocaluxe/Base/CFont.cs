@@ -36,66 +36,76 @@ namespace Vocaluxe.Base
 
             float factor = GetFactor(chr, flags);
             CFonts.Height = SIZEh * factor;
-            Bitmap bmp = new Bitmap(10, 10);
-            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
+            Font fo;
+            Size sizeB;
+            SizeF size;
+            System.Drawing.Graphics g;
+            using (Bitmap bmp = new Bitmap(10, 10))
+            {
+                g = System.Drawing.Graphics.FromImage(bmp);
 
-            Font fo = CFonts.GetFont();
-            Size sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
+                fo = CFonts.GetFont();
+                sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
 
-            SizeF size = g.MeasureString(chr.ToString(), fo);
-            
-            g.Dispose();
-            bmp.Dispose();
+                size = g.MeasureString(chr.ToString(), fo);
 
-            bmp = new Bitmap((int)(sizeB.Width * 2f), sizeB.Height);
-            g = System.Drawing.Graphics.FromImage(bmp);
-            g.Clear(System.Drawing.Color.Transparent);
+                g.Dispose();
+            }
 
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            CFonts.Height = SIZEh;
-            fo = CFonts.GetFont();
+            using (Bitmap bmp = new Bitmap((int)(sizeB.Width * 2f), sizeB.Height))
+            {
+                g = System.Drawing.Graphics.FromImage(bmp);
+                g.Clear(System.Drawing.Color.Transparent);
 
-            PointF point = new PointF(
-                    outline * Math.Abs(sizeB.Width - size.Width) + (sizeB.Width - size.Width) / 2f + SIZEh / 5f,
-                    (sizeB.Height - size.Height - (size.Height + SIZEh/4f) * (1f - factor)) / 2f);
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+                CFonts.Height = SIZEh;
+                fo = CFonts.GetFont();
 
-            GraphicsPath path = new GraphicsPath();
-            path.AddString(
-                chr.ToString(),
-                fo.FontFamily,
-                (int)fo.Style,
-                SIZEh,
-                point,
-                new StringFormat());
+                PointF point = new PointF(
+                        outline * Math.Abs(sizeB.Width - size.Width) + (sizeB.Width - size.Width) / 2f + SIZEh / 5f,
+                        (sizeB.Height - size.Height - (size.Height + SIZEh / 4f) * (1f - factor)) / 2f);
 
-            Pen pen = new Pen(
-                Color.FromArgb(
-                    (int)CFonts.OutlineColor.A * 255,
-                    (int)CFonts.OutlineColor.R * 255,
-                    (int)CFonts.OutlineColor.G * 255,
-                    (int)CFonts.OutlineColor.B * 255),
-                SIZEh * outline);
+                using (GraphicsPath path = new GraphicsPath())
+                {
+                    path.AddString(
+                        chr.ToString(),
+                        fo.FontFamily,
+                        (int)fo.Style,
+                        SIZEh,
+                        point,
+                        new StringFormat());
 
-            pen.LineJoin = LineJoin.Round;
-            g.DrawPath(pen, path);
-            g.FillPath(Brushes.White, path);
+                    using (Pen pen = new Pen(
+                        Color.FromArgb(
+                            (int)CFonts.OutlineColor.A * 255,
+                            (int)CFonts.OutlineColor.R * 255,
+                            (int)CFonts.OutlineColor.G * 255,
+                            (int)CFonts.OutlineColor.B * 255),
+                        SIZEh * outline))
+                    {
 
-            /*
-            g.DrawString(
-                chr.ToString(),
-                fo,
-                Brushes.White,
-                point);
-             * */
+                        pen.LineJoin = LineJoin.Round;
+                        g.DrawPath(pen, path);
+                        g.FillPath(Brushes.White, path);
+                    }
+                }
 
-            Texture = CDraw.AddTexture(bmp);
-            //bmp.Save("test.png", ImageFormat.Png);
-            Chr = chr;
-            width = (int)((1f + outline / 2f) * sizeB.Width * Texture.width/factor / bmp.Width);
+                /*
+                g.DrawString(
+                    chr.ToString(),
+                    fo,
+                    Brushes.White,
+                    point);
+                 * */
 
-            bmp.Dispose();
+                Texture = CDraw.AddTexture(bmp);
+                //bmp.Save("test.png", ImageFormat.Png);
+                Chr = chr;
+                width = (int)((1f + outline / 2f) * sizeB.Width * Texture.width / factor / bmp.Width);
+
+            }
             g.Dispose();
             fo.Dispose();
         }
@@ -114,23 +124,31 @@ namespace Vocaluxe.Base
 
             CFonts.Style = EStyle.Normal;
             CFonts.Height = SIZEh;
-            Bitmap bmp = new Bitmap(10, 10);
-            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
+            float h_style, h_normal;
+            using (Bitmap bmp = new Bitmap(10, 10))
+            {
+                using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp))
+                {
 
-            Font fo = CFonts.GetFont();
-            Size sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
-            //SizeF size = g.MeasureString(chr.ToString(), fo);
-            float h_normal = sizeB.Height;
+                    Font fo = CFonts.GetFont();
+                    Size sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
+                    //SizeF size = g.MeasureString(chr.ToString(), fo);
+                    h_normal = sizeB.Height;
+                }
+                CFonts.Style = style;
 
-            CFonts.Style = style;
-            bmp = new Bitmap(10, 10);
-            g = System.Drawing.Graphics.FromImage(bmp);
+            }
+            using (Bitmap bmp = new Bitmap(10, 10))
+            {
+                using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp))
+                {
 
-            fo = CFonts.GetFont();
-            sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
-            //size = g.MeasureString(chr.ToString(), fo);
-            float h_style = sizeB.Height;
-            g.Dispose();
+                    Font fo = CFonts.GetFont();
+                    Size sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
+                    //size = g.MeasureString(chr.ToString(), fo);
+                    h_style = sizeB.Height;
+                }
+            }
             return h_normal / h_style;
         }
     }
@@ -415,7 +433,7 @@ namespace Vocaluxe.Base
             if (h <= 0f)
                 return;
 
-            if (Text == String.Empty)
+            if (Text.Length == 0)
                 return;
 
             Height = h;
@@ -452,7 +470,7 @@ namespace Vocaluxe.Base
             if (h <= 0f)
                 return;
 
-            if (Text == String.Empty)
+            if (Text.Length == 0)
                 return;
 
             Height = h;
@@ -489,7 +507,7 @@ namespace Vocaluxe.Base
             if (h <= 0f)
                 return;
 
-            if (Text == String.Empty)
+            if (Text.Length == 0)
                 return;
 
             Height = h;
@@ -955,7 +973,7 @@ namespace Vocaluxe.Base
 
         private static int GetFontIndex(string ThemeName, string FontName)
         {
-            if (ThemeName == String.Empty || FontName == String.Empty)
+            if (ThemeName.Length == 0 || FontName.Length == 0)
                 return -1;
 
             for (int i = 0; i < _Fonts.Count; i++)
@@ -969,7 +987,7 @@ namespace Vocaluxe.Base
 
         private static int GetFontIndexParty(int PartyModeID, string FontName)
         {
-            if (PartyModeID == -1 || FontName == String.Empty)
+            if (PartyModeID == -1 || FontName.Length == 0)
                 return -1;
 
             for (int i = 0; i < _Fonts.Count; i++)

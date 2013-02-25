@@ -73,7 +73,9 @@ namespace Vocaluxe.Base
 
         public static bool Unload()
         {
-            return _Draw.Unload();
+            bool result = _Draw.Unload();
+            _Draw = null;
+            return result;
         }
 
         public static int GetScreenWidth()
@@ -166,20 +168,22 @@ namespace Vocaluxe.Base
             if (!System.IO.File.Exists(TexturePath))
                 return new STexture(-1);
 
-            Bitmap origin = new Bitmap(TexturePath);
-            int w = MaxSize;
-            int h = MaxSize;
+            using (Bitmap origin = new Bitmap(TexturePath))
+            {
+                int w = MaxSize;
+                int h = MaxSize;
 
-            if (origin.Width >= origin.Height && origin.Width > w)
-                h = (int)Math.Round((float)w / origin.Width * origin.Height);
-            else if (origin.Height > origin.Width && origin.Height > h)
-                w = (int)Math.Round((float)h / origin.Height * origin.Width);
+                if (origin.Width >= origin.Height && origin.Width > w)
+                    h = (int)Math.Round((float)w / origin.Width * origin.Height);
+                else if (origin.Height > origin.Width && origin.Height > h)
+                    w = (int)Math.Round((float)h / origin.Height * origin.Width);
 
-            Bitmap bmp = new Bitmap(origin, w, h);
-            STexture tex = _Draw.AddTexture(bmp);
-            bmp.Dispose();
-            origin.Dispose();
-            return tex;
+                using (Bitmap bmp = new Bitmap(origin, w, h))
+                {
+                    STexture tex = _Draw.AddTexture(bmp);
+                    return tex;
+                }
+            }
         }
 
         public static STexture AddTexture(int W, int H, IntPtr Data)
