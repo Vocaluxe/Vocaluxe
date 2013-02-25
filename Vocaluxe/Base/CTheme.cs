@@ -147,17 +147,9 @@ namespace Vocaluxe.Base
 
         public static bool LoadSkin(int SkinIndex)
         {
-            CXMLReader xmlReader;
-
-            try
-            {
-                xmlReader = new CXMLReader(Path.Combine(_Skins[SkinIndex].Path, _Skins[SkinIndex].FileName));
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error loading skin " + _Skins[SkinIndex].FileName + ": " + e.Message);
+            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(_Skins[SkinIndex].Path, _Skins[SkinIndex].FileName));
+            if (xmlReader == null)
                 return false;
-            }
 
             string value = String.Empty;
 
@@ -264,17 +256,9 @@ namespace Vocaluxe.Base
                 return false;
             }
 
-            CXMLReader xmlReader;
-
-            try
-            {
-                xmlReader = new CXMLReader(Path.Combine(_Themes[ThemeIndex].Path, _Themes[ThemeIndex].FileName));
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error loading theme " + _Themes[ThemeIndex].FileName + ": " + e.Message);
+            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(_Themes[ThemeIndex].Path, _Themes[ThemeIndex].FileName));
+            if (xmlReader == null)
                 return false;
-            }
 
             int skinIndex = GetSkinIndex(_Themes[ThemeIndex].PartyModeID);
 
@@ -419,17 +403,9 @@ namespace Vocaluxe.Base
 
         public static bool AddTheme(string FilePath, int PartyModeID)
         {
-            CXMLReader xmlReader;
-
-            try
-            {
-                xmlReader = new CXMLReader(FilePath);
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error loading theme " + FilePath + ": " + e.Message);
+            CXMLReader xmlReader = CXMLReader.OpenFile(FilePath);
+            if (xmlReader == null)
                 return false;
-            }
 
             Theme theme = new Theme();
 
@@ -494,17 +470,9 @@ namespace Vocaluxe.Base
 
             foreach (string file in files)
             {
-                CXMLReader xmlReader;
-
-                try
-                {
-                    xmlReader = new CXMLReader(Path.Combine(path, file));
-                }
-                catch (Exception e)
-                {
-                    CLog.LogError("Error loading skin " + file + ": " + e.Message);
+                CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(path, file));
+                if (xmlReader == null)
                     continue;
-                }
 
                 Skin skin = new Skin();
 

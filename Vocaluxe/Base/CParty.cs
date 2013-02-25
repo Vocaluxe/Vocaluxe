@@ -220,18 +220,11 @@ namespace Vocaluxe.Base
             pm.ScreenFiles = new List<string>();
             pm.NoErrors = false;
 
-            CXMLReader xmlReader;
+            CXMLReader xmlReader = CXMLReader.OpenFile(file);
 
-            try
-            {
-                xmlReader = new CXMLReader(file);
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error opening party mode file " + file + ": " + e.Message);
-
+            //Error...
+            if (xmlReader == null)
                 return pm;
-            }
 
             bool loaded = true;
 

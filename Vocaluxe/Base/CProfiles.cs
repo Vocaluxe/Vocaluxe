@@ -360,17 +360,9 @@ namespace Vocaluxe.Base
             SProfile profile = new SProfile();
             profile.ProfileFile = Path.Combine(CSettings.sFolderProfiles, FileName);
 
-            CXMLReader xmlReader;
-
-            try
-            {
-                xmlReader = new CXMLReader(profile.ProfileFile);
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error opening Profile File " + FileName + ": " + e.Message);
+            CXMLReader xmlReader = CXMLReader.OpenFile(profile.ProfileFile);
+            if (xmlReader == null)
                 return;
-            }
 
             string value = String.Empty;
             if (xmlReader.GetValue("//root/Info/PlayerName", ref value, value))

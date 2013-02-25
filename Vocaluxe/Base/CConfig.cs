@@ -121,19 +121,9 @@ namespace Vocaluxe.Base
 
         public static bool LoadConfig()
         {
-            #region Inits
-            CXMLReader xmlReader;
-
-            try
-            {
-                xmlReader = new CXMLReader(CSettings.sFileConfig);
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error opening Config.xml " + CSettings.sFileConfig + ": " + e.Message);
+            CXMLReader xmlReader = CXMLReader.OpenFile(CSettings.sFileConfig);
+            if (xmlReader == null)
                 return false;
-            }
-            #endregion Inits
 
             string value = string.Empty;
 
