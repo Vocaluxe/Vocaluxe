@@ -176,7 +176,8 @@ namespace Vocaluxe.Menu.SongMenu
 
         public List<string> Edition = new List<string>();
         public List<string> Genre = new List<string>();
-        public string Year = "0000";
+        public string Year = "";
+
         public List<string> Language = new List<string>();
 
         // Notes
@@ -449,7 +450,7 @@ namespace Vocaluxe.Menu.SongMenu
                                     break;
                                 case "YEAR":
                                     int num = 0;
-                                    if (Value.Length == 4 && int.TryParse(Value, out num))
+                                    if (Value.Length == 4 && int.TryParse(Value, out num) && num != 0)
                                     {
                                         this.Year = Value;
                                     }
