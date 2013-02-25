@@ -14,7 +14,6 @@ namespace Vocaluxe.Lib.Playlist
     public class CPlaylistFile
     {
         private static XmlWriterSettings _settings = new XmlWriterSettings();
-        private static CHelper Helper = new CHelper();
 
         public string PlaylistName;
         public string PlaylistFile;
@@ -121,17 +120,9 @@ namespace Vocaluxe.Lib.Playlist
 
         private void LoadPlaylist()
         {
-            CXMLReader xmlReader;
-
-            try
-            {
-                xmlReader = new CXMLReader(PlaylistFile);
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error opening Playlist File " + PlaylistFile + ": " + e.Message);
+            CXMLReader xmlReader = CXMLReader.OpenFile(PlaylistFile);
+            if (xmlReader == null)
                 return;
-            }
 
             string value = String.Empty;
             if (xmlReader.GetValue("//root/Info/PlaylistName", ref value, value))

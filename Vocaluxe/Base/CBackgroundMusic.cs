@@ -15,7 +15,6 @@ namespace Vocaluxe.Base
 {
     static class CBackgroundMusic
     {
-        private static CHelper Helper = new CHelper();
         private static int _CurrentMusicStream = -1;
         private static int _PreviousMusicIndex = 0;
         private static PlaylistElement _CurrentPlaylistElement = new PlaylistElement();
@@ -155,7 +154,7 @@ namespace Vocaluxe.Base
 
             foreach(string ending in CSettings.MusicFileTypes)
             {
-                templist.AddRange(Helper.ListFiles(CSettings.sFolderBackgroundMusic, ending, true, true));
+                templist.AddRange(CHelper.ListFiles(CSettings.sFolderBackgroundMusic, ending, true, true));
             }
 
             foreach (string path in templist)

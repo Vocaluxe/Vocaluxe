@@ -147,17 +147,9 @@ namespace Vocaluxe.Base
 
         public static bool LoadSkin(int SkinIndex)
         {
-            CXMLReader xmlReader;
-
-            try
-            {
-                xmlReader = new CXMLReader(Path.Combine(_Skins[SkinIndex].Path, _Skins[SkinIndex].FileName));
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error loading skin " + _Skins[SkinIndex].FileName + ": " + e.Message);
+            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(_Skins[SkinIndex].Path, _Skins[SkinIndex].FileName));
+            if (xmlReader == null)
                 return false;
-            }
 
             string value = String.Empty;
 
@@ -264,17 +256,9 @@ namespace Vocaluxe.Base
                 return false;
             }
 
-            CXMLReader xmlReader;
-
-            try
-            {
-                xmlReader = new CXMLReader(Path.Combine(_Themes[ThemeIndex].Path, _Themes[ThemeIndex].FileName));
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error loading theme " + _Themes[ThemeIndex].FileName + ": " + e.Message);
+            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(_Themes[ThemeIndex].Path, _Themes[ThemeIndex].FileName));
+            if (xmlReader == null)
                 return false;
-            }
 
             int skinIndex = GetSkinIndex(_Themes[ThemeIndex].PartyModeID);
 
@@ -406,11 +390,10 @@ namespace Vocaluxe.Base
 
         private static void ListThemes()
         {
-            CHelper Helper = new CHelper();
             _Themes.Clear();
 
             string path = Path.Combine(Directory.GetCurrentDirectory(), CSettings.sFolderThemes);
-            List<string> files = Helper.ListFiles(path, "*.xml", false);
+            List<string> files = CHelper.ListFiles(path, "*.xml", false);
 
             foreach (string file in files)
             {
@@ -420,17 +403,9 @@ namespace Vocaluxe.Base
 
         public static bool AddTheme(string FilePath, int PartyModeID)
         {
-            CXMLReader xmlReader;
-
-            try
-            {
-                xmlReader = new CXMLReader(FilePath);
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error loading theme " + FilePath + ": " + e.Message);
+            CXMLReader xmlReader = CXMLReader.OpenFile(FilePath);
+            if (xmlReader == null)
                 return false;
-            }
 
             Theme theme = new Theme();
 
@@ -469,7 +444,6 @@ namespace Vocaluxe.Base
 
         public static void ListSkins()
         {
-            CHelper Helper = new CHelper();
             int themeIndex = GetThemeIndex(-1);
             _Skins.Clear();
 
@@ -483,8 +457,6 @@ namespace Vocaluxe.Base
 
         public static void ListSkins(int ThemeIndex)
         {
-            CHelper Helper = new CHelper();
-
             if (ThemeIndex < 0 || ThemeIndex >= _Themes.Count)
             {
                 CLog.LogError("Error List Skins. Can't find Theme index: " + ThemeIndex.ToString());
@@ -494,21 +466,13 @@ namespace Vocaluxe.Base
             Theme theme = _Themes[ThemeIndex];
 
             string path = Path.Combine(theme.Path, theme.SkinFolder);
-            List<string> files = Helper.ListFiles(path, "*.xml", false);
+            List<string> files = CHelper.ListFiles(path, "*.xml", false);
 
             foreach (string file in files)
             {
-                CXMLReader xmlReader;
-
-                try
-                {
-                    xmlReader = new CXMLReader(Path.Combine(path, file));
-                }
-                catch (Exception e)
-                {
-                    CLog.LogError("Error loading skin " + file + ": " + e.Message);
+                CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(path, file));
+                if (xmlReader == null)
                     continue;
-                }
 
                 Skin skin = new Skin();
 

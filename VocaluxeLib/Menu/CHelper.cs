@@ -7,8 +7,9 @@ using System.Text;
 
 namespace Vocaluxe.Menu
 {
-    public class CHelper
+    public static class CHelper
     {
+
         public static int nCk(int n, int k)
         {
             if (k > n)
@@ -128,17 +129,17 @@ namespace Vocaluxe.Menu
 
 
 
-        public List<string> ListFiles(string path, string cast)
+        public static List<string> ListFiles(string path, string cast)
         {
             return ListFiles(path, cast, false, false);
         }
 
-        public List<string> ListFiles(string path, string cast, bool recursive)
+        public static List<string> ListFiles(string path, string cast, bool recursive)
         {
             return ListFiles(path, cast, recursive, false);
         }
 
-        public List<string> ListFiles(string path, string cast, bool recursive, bool fullpath)
+        public static List<string> ListFiles(string path, string cast, bool recursive, bool fullpath)
         {
             List<string> files = new List<string>();
             DirectoryInfo dir = new DirectoryInfo(path);
@@ -151,7 +152,6 @@ namespace Vocaluxe.Menu
                     if (!fullpath)
                         files.Add(file.Name);
                     else
-                        //files.Add(Path.Combine(file.DirectoryName, file.Name));
                         files.Add(file.FullName);
                 }
 

@@ -673,17 +673,10 @@ namespace Vocaluxe.Base
         /// <returns></returns>
         private static bool LoadFontList()
         {
-            CXMLReader xmlReader;
-
-            try
-            {
-                xmlReader = new CXMLReader(System.IO.Path.Combine(CSettings.sFolderFonts, CSettings.sFileFonts));
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error loading default fonts: " + e.Message);
+            CXMLReader xmlReader = CXMLReader.OpenFile(System.IO.Path.Combine(CSettings.sFolderFonts, CSettings.sFileFonts));
+            if (xmlReader == null)
                 return false;
-            }
+
             _Fonts.Clear();
 
             string value = string.Empty;

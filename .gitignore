@@ -28,3 +28,7 @@ Output/Songs
 /Vocaluxe/Vocaluxe.csproj.user
 
 /Output/Config.xml
+
+*.ipch
+
+*.log
