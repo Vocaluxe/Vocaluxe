@@ -284,270 +284,279 @@ namespace Vocaluxe.Base
         public static bool SaveConfig()
         {
             
-            XmlWriter writer = XmlWriter.Create(CSettings.sFileConfig, _settings);
-            writer.WriteStartDocument();
-            writer.WriteStartElement("root");
-
-            #region Info
-            writer.WriteStartElement("Info");
-
-            writer.WriteElementString("Version", CSettings.GetFullVersionText());
-            writer.WriteElementString("Time", System.DateTime.Now.ToString());
-            writer.WriteElementString("Platform", System.Environment.OSVersion.Platform.ToString());
-            writer.WriteElementString("OSVersion", System.Environment.OSVersion.ToString());
-            writer.WriteElementString("ProcessorCount", System.Environment.ProcessorCount.ToString());
-
-            writer.WriteElementString("Screens", Screen.AllScreens.Length.ToString());
-            writer.WriteElementString("PrimaryScreenResolution", Screen.PrimaryScreen.Bounds.Size.ToString());
-
-            writer.WriteElementString("Directory", System.Environment.CurrentDirectory.ToString());
-            
-            writer.WriteEndElement();
-            #endregion Info
-
-            #region Debug
-            writer.WriteStartElement("Debug");
-
-            writer.WriteComment("DebugLevel: " + CHelper.ListStrings(Enum.GetNames(typeof(EDebugLevel))));
-            writer.WriteElementString("DebugLevel", Enum.GetName(typeof(EDebugLevel), DebugLevel));
-
-            writer.WriteEndElement();
-            #endregion Debug
-
-            #region Graphics
-            writer.WriteStartElement("Graphics");
-
-            writer.WriteComment("Renderer: " + CHelper.ListStrings(Enum.GetNames(typeof(ERenderer))));
-            writer.WriteElementString("Renderer", Enum.GetName(typeof(ERenderer), Renderer));
-
-            writer.WriteComment("TextureQuality: " + CHelper.ListStrings(Enum.GetNames(typeof(ETextureQuality))));
-            writer.WriteElementString("TextureQuality", Enum.GetName(typeof(ETextureQuality), TextureQuality));
-
-            writer.WriteComment("CoverSize (pixels): 32, 64, 128, 256, 512, 1024 (default: 128)");
-            writer.WriteElementString("CoverSize", CoverSize.ToString());
-
-            writer.WriteComment("Screen width and height (pixels)");
-            writer.WriteElementString("ScreenW", ScreenW.ToString());
-            writer.WriteElementString("ScreenH", ScreenH.ToString());
-
-            writer.WriteComment("AAMode: " + CHelper.ListStrings(Enum.GetNames(typeof(EAntiAliasingModes))));
-            writer.WriteElementString("AAMode", Enum.GetName(typeof(EAntiAliasingModes), AAMode));
-
-            writer.WriteComment("Colors: " + CHelper.ListStrings(Enum.GetNames(typeof(EColorDeep))));
-            writer.WriteElementString("Colors", Enum.GetName(typeof(EColorDeep), Colors));
-
-            writer.WriteComment("MaxFPS should be between 1..200");
-            writer.WriteElementString("MaxFPS", MaxFPS.ToString("#"));
-
-            writer.WriteComment("VSync: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-            writer.WriteElementString("VSync", Enum.GetName(typeof(EOffOn), VSync));
-
-            writer.WriteComment("FullScreen: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-            writer.WriteElementString("FullScreen", Enum.GetName(typeof(EOffOn), FullScreen));
-
-            writer.WriteComment("FadeTime should be between 0..3 Seconds");
-            writer.WriteElementString("FadeTime", FadeTime.ToString("#0.00"));
-
-            writer.WriteEndElement();
-            #endregion Graphics
-
-            #region Theme
-            writer.WriteStartElement("Theme");
-
-            writer.WriteComment("Theme name");
-            writer.WriteElementString("Name", Theme);
-
-            writer.WriteComment("Skin name");
-            writer.WriteElementString("Skin", Skin);
-
-            writer.WriteComment("Name of cover-theme");
-            writer.WriteElementString("Cover", CoverTheme);
-
-            writer.WriteComment("Draw note-lines:" + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-            writer.WriteElementString("DrawNoteLines", Enum.GetName(typeof(EOffOn), DrawNoteLines));
-
-            writer.WriteComment("Draw tone-helper:" + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-            writer.WriteElementString("DrawToneHelper", Enum.GetName(typeof(EOffOn), DrawToneHelper));
-
-            writer.WriteComment("Look of timer:" + CHelper.ListStrings(Enum.GetNames(typeof(ETimerLook))));
-            writer.WriteElementString("TimerLook", Enum.GetName(typeof(ETimerLook), TimerLook));
-
-            writer.WriteComment("Information about players on SingScreen:" + CHelper.ListStrings(Enum.GetNames(typeof(EPlayerInfo))));
-            writer.WriteElementString("PlayerInfo", Enum.GetName(typeof(EPlayerInfo), PlayerInfo));
-
-            writer.WriteComment("Fade player-information with lyrics and notebars:" + CHelper.ListStrings(Enum.GetNames(typeof(EFadePlayerInfo))));
-            writer.WriteElementString("FadePlayerInfo", Enum.GetName(typeof(EFadePlayerInfo), FadePlayerInfo));
-
-            writer.WriteComment("Cover Loading:" + CHelper.ListStrings(Enum.GetNames(typeof(ECoverLoading))));
-            writer.WriteElementString("CoverLoading", Enum.GetName(typeof(ECoverLoading), CoverLoading));
-
-            writer.WriteComment("Lyric Style:" + CHelper.ListStrings(Enum.GetNames(typeof(ELyricStyle))));
-            writer.WriteElementString("LyricStyle", Enum.GetName(typeof(ELyricStyle), LyricStyle));
-
-            writer.WriteEndElement();
-            #endregion Theme
-
-            #region Sound
-            writer.WriteStartElement("Sound");
-
-            writer.WriteComment("PlayBackLib: " + CHelper.ListStrings(Enum.GetNames(typeof(EPlaybackLib))));
-            writer.WriteElementString("PlayBackLib", Enum.GetName(typeof(EPlaybackLib), PlayBackLib));
-
-            writer.WriteComment("RecordLib: " + CHelper.ListStrings(Enum.GetNames(typeof(ERecordLib))));
-            writer.WriteElementString("RecordLib", Enum.GetName(typeof(ERecordLib), RecordLib));
-
-            writer.WriteComment("AudioBufferSize: " + CHelper.ListStrings(Enum.GetNames(typeof(EBufferSize))));
-            writer.WriteElementString("AudioBufferSize", Enum.GetName(typeof(EBufferSize), AudioBufferSize));
-
-            writer.WriteComment("AudioLatency from -500 to 500 ms");
-            writer.WriteElementString("AudioLatency", AudioLatency.ToString());
-
-            writer.WriteComment("Background Music");
-            writer.WriteElementString("BackgroundMusic", Enum.GetName(typeof(EOffOn), BackgroundMusic));
-
-            writer.WriteComment("Background Music Volume from 0 to 100");
-            writer.WriteElementString("BackgroundMusicVolume", BackgroundMusicVolume.ToString());
-
-            writer.WriteComment("Background Music Source");
-            writer.WriteElementString("BackgroundMusicSource", Enum.GetName(typeof(EBackgroundMusicSource), BackgroundMusicSource));
-
-            writer.WriteComment("Preview Volume from 0 to 100");
-            writer.WriteElementString("PreviewMusicVolume", PreviewMusicVolume.ToString());
-
-            writer.WriteComment("Game Volume from 0 to 100");
-            writer.WriteElementString("GameMusicVolume", GameMusicVolume.ToString());
-
-            writer.WriteEndElement();
-            #endregion Sound
-
-            #region Game
-            writer.WriteStartElement("Game");
-
-            writer.WriteComment("Game-Language:");
-            writer.WriteElementString("Language", Language);
-
-            // SongFolder
-            // Check, if program was started with songfolder-parameters
-            if (SongFolderOld.Count > 0)
+            XmlWriter writer = null;
+            try
             {
-                //Write "old" song-folders to config.
-                writer.WriteComment("SongFolder: SongFolder1, SongFolder2, SongFolder3, ...");
-                for (int i = 0; i < SongFolderOld.Count; i++)
+                writer = XmlWriter.Create(CSettings.sFileConfig, _settings);
+                writer.WriteStartDocument();
+                writer.WriteStartElement("root");
+
+                #region Info
+                writer.WriteStartElement("Info");
+
+                writer.WriteElementString("Version", CSettings.GetFullVersionText());
+                writer.WriteElementString("Time", System.DateTime.Now.ToString());
+                writer.WriteElementString("Platform", System.Environment.OSVersion.Platform.ToString());
+                writer.WriteElementString("OSVersion", System.Environment.OSVersion.ToString());
+                writer.WriteElementString("ProcessorCount", System.Environment.ProcessorCount.ToString());
+
+                writer.WriteElementString("Screens", Screen.AllScreens.Length.ToString());
+                writer.WriteElementString("PrimaryScreenResolution", Screen.PrimaryScreen.Bounds.Size.ToString());
+
+                writer.WriteElementString("Directory", System.Environment.CurrentDirectory.ToString());
+
+                writer.WriteEndElement();
+                #endregion Info
+
+                #region Debug
+                writer.WriteStartElement("Debug");
+
+                writer.WriteComment("DebugLevel: " + CHelper.ListStrings(Enum.GetNames(typeof(EDebugLevel))));
+                writer.WriteElementString("DebugLevel", Enum.GetName(typeof(EDebugLevel), DebugLevel));
+
+                writer.WriteEndElement();
+                #endregion Debug
+
+                #region Graphics
+                writer.WriteStartElement("Graphics");
+
+                writer.WriteComment("Renderer: " + CHelper.ListStrings(Enum.GetNames(typeof(ERenderer))));
+                writer.WriteElementString("Renderer", Enum.GetName(typeof(ERenderer), Renderer));
+
+                writer.WriteComment("TextureQuality: " + CHelper.ListStrings(Enum.GetNames(typeof(ETextureQuality))));
+                writer.WriteElementString("TextureQuality", Enum.GetName(typeof(ETextureQuality), TextureQuality));
+
+                writer.WriteComment("CoverSize (pixels): 32, 64, 128, 256, 512, 1024 (default: 128)");
+                writer.WriteElementString("CoverSize", CoverSize.ToString());
+
+                writer.WriteComment("Screen width and height (pixels)");
+                writer.WriteElementString("ScreenW", ScreenW.ToString());
+                writer.WriteElementString("ScreenH", ScreenH.ToString());
+
+                writer.WriteComment("AAMode: " + CHelper.ListStrings(Enum.GetNames(typeof(EAntiAliasingModes))));
+                writer.WriteElementString("AAMode", Enum.GetName(typeof(EAntiAliasingModes), AAMode));
+
+                writer.WriteComment("Colors: " + CHelper.ListStrings(Enum.GetNames(typeof(EColorDeep))));
+                writer.WriteElementString("Colors", Enum.GetName(typeof(EColorDeep), Colors));
+
+                writer.WriteComment("MaxFPS should be between 1..200");
+                writer.WriteElementString("MaxFPS", MaxFPS.ToString("#"));
+
+                writer.WriteComment("VSync: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("VSync", Enum.GetName(typeof(EOffOn), VSync));
+
+                writer.WriteComment("FullScreen: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("FullScreen", Enum.GetName(typeof(EOffOn), FullScreen));
+
+                writer.WriteComment("FadeTime should be between 0..3 Seconds");
+                writer.WriteElementString("FadeTime", FadeTime.ToString("#0.00"));
+
+                writer.WriteEndElement();
+                #endregion Graphics
+
+                #region Theme
+                writer.WriteStartElement("Theme");
+
+                writer.WriteComment("Theme name");
+                writer.WriteElementString("Name", Theme);
+
+                writer.WriteComment("Skin name");
+                writer.WriteElementString("Skin", Skin);
+
+                writer.WriteComment("Name of cover-theme");
+                writer.WriteElementString("Cover", CoverTheme);
+
+                writer.WriteComment("Draw note-lines:" + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("DrawNoteLines", Enum.GetName(typeof(EOffOn), DrawNoteLines));
+
+                writer.WriteComment("Draw tone-helper:" + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("DrawToneHelper", Enum.GetName(typeof(EOffOn), DrawToneHelper));
+
+                writer.WriteComment("Look of timer:" + CHelper.ListStrings(Enum.GetNames(typeof(ETimerLook))));
+                writer.WriteElementString("TimerLook", Enum.GetName(typeof(ETimerLook), TimerLook));
+
+                writer.WriteComment("Information about players on SingScreen:" + CHelper.ListStrings(Enum.GetNames(typeof(EPlayerInfo))));
+                writer.WriteElementString("PlayerInfo", Enum.GetName(typeof(EPlayerInfo), PlayerInfo));
+
+                writer.WriteComment("Fade player-information with lyrics and notebars:" + CHelper.ListStrings(Enum.GetNames(typeof(EFadePlayerInfo))));
+                writer.WriteElementString("FadePlayerInfo", Enum.GetName(typeof(EFadePlayerInfo), FadePlayerInfo));
+
+                writer.WriteComment("Cover Loading:" + CHelper.ListStrings(Enum.GetNames(typeof(ECoverLoading))));
+                writer.WriteElementString("CoverLoading", Enum.GetName(typeof(ECoverLoading), CoverLoading));
+
+                writer.WriteComment("Lyric Style:" + CHelper.ListStrings(Enum.GetNames(typeof(ELyricStyle))));
+                writer.WriteElementString("LyricStyle", Enum.GetName(typeof(ELyricStyle), LyricStyle));
+
+                writer.WriteEndElement();
+                #endregion Theme
+
+                #region Sound
+                writer.WriteStartElement("Sound");
+
+                writer.WriteComment("PlayBackLib: " + CHelper.ListStrings(Enum.GetNames(typeof(EPlaybackLib))));
+                writer.WriteElementString("PlayBackLib", Enum.GetName(typeof(EPlaybackLib), PlayBackLib));
+
+                writer.WriteComment("RecordLib: " + CHelper.ListStrings(Enum.GetNames(typeof(ERecordLib))));
+                writer.WriteElementString("RecordLib", Enum.GetName(typeof(ERecordLib), RecordLib));
+
+                writer.WriteComment("AudioBufferSize: " + CHelper.ListStrings(Enum.GetNames(typeof(EBufferSize))));
+                writer.WriteElementString("AudioBufferSize", Enum.GetName(typeof(EBufferSize), AudioBufferSize));
+
+                writer.WriteComment("AudioLatency from -500 to 500 ms");
+                writer.WriteElementString("AudioLatency", AudioLatency.ToString());
+
+                writer.WriteComment("Background Music");
+                writer.WriteElementString("BackgroundMusic", Enum.GetName(typeof(EOffOn), BackgroundMusic));
+
+                writer.WriteComment("Background Music Volume from 0 to 100");
+                writer.WriteElementString("BackgroundMusicVolume", BackgroundMusicVolume.ToString());
+
+                writer.WriteComment("Background Music Source");
+                writer.WriteElementString("BackgroundMusicSource", Enum.GetName(typeof(EBackgroundMusicSource), BackgroundMusicSource));
+
+                writer.WriteComment("Preview Volume from 0 to 100");
+                writer.WriteElementString("PreviewMusicVolume", PreviewMusicVolume.ToString());
+
+                writer.WriteComment("Game Volume from 0 to 100");
+                writer.WriteElementString("GameMusicVolume", GameMusicVolume.ToString());
+
+                writer.WriteEndElement();
+                #endregion Sound
+
+                #region Game
+                writer.WriteStartElement("Game");
+
+                writer.WriteComment("Game-Language:");
+                writer.WriteElementString("Language", Language);
+
+                // SongFolder
+                // Check, if program was started with songfolder-parameters
+                if (SongFolderOld.Count > 0)
                 {
-                    writer.WriteElementString("SongFolder" + (i + 1).ToString(), SongFolderOld[i]);
+                    //Write "old" song-folders to config.
+                    writer.WriteComment("SongFolder: SongFolder1, SongFolder2, SongFolder3, ...");
+                    for (int i = 0; i < SongFolderOld.Count; i++)
+                    {
+                        writer.WriteElementString("SongFolder" + (i + 1).ToString(), SongFolderOld[i]);
+                    }
                 }
-            }
-            else
-            {
-                //Write "normal" song-folders to config.
-                writer.WriteComment("SongFolder: SongFolder1, SongFolder2, SongFolder3, ...");
-                for (int i = 0; i < SongFolder.Count; i++)
+                else
                 {
-                    writer.WriteElementString("SongFolder" + (i + 1).ToString(), SongFolder[i]);
+                    //Write "normal" song-folders to config.
+                    writer.WriteComment("SongFolder: SongFolder1, SongFolder2, SongFolder3, ...");
+                    for (int i = 0; i < SongFolder.Count; i++)
+                    {
+                        writer.WriteElementString("SongFolder" + (i + 1).ToString(), SongFolder[i]);
+                    }
                 }
-            }
 
-            writer.WriteComment("SongMenu: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongMenu))));
-            writer.WriteElementString("SongMenu", Enum.GetName(typeof(ESongMenu), SongMenu));
+                writer.WriteComment("SongMenu: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongMenu))));
+                writer.WriteElementString("SongMenu", Enum.GetName(typeof(ESongMenu), SongMenu));
 
-            writer.WriteComment("SongSorting: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongSorting))));
-            writer.WriteElementString("SongSorting", Enum.GetName(typeof(ESongSorting), SongSorting));
+                writer.WriteComment("SongSorting: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongSorting))));
+                writer.WriteElementString("SongSorting", Enum.GetName(typeof(ESongSorting), SongSorting));
 
-            writer.WriteComment("Ignore articles on song-sorting: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-            writer.WriteElementString("IgnoreArticles", Enum.GetName(typeof(EOffOn), IgnoreArticles));
+                writer.WriteComment("Ignore articles on song-sorting: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("IgnoreArticles", Enum.GetName(typeof(EOffOn), IgnoreArticles));
 
-            writer.WriteComment("ScoreAnimationTime: Values >= 1 or 0 for no animation. Time is in seconds.");
-            writer.WriteElementString("ScoreAnimationTime", ScoreAnimationTime.ToString());
+                writer.WriteComment("ScoreAnimationTime: Values >= 1 or 0 for no animation. Time is in seconds.");
+                writer.WriteElementString("ScoreAnimationTime", ScoreAnimationTime.ToString());
 
-            writer.WriteComment("TimerMode: " + CHelper.ListStrings(Enum.GetNames(typeof(ETimerMode))));
-            writer.WriteElementString("TimerMode", Enum.GetName(typeof(ETimerMode), TimerMode));
+                writer.WriteComment("TimerMode: " + CHelper.ListStrings(Enum.GetNames(typeof(ETimerMode))));
+                writer.WriteElementString("TimerMode", Enum.GetName(typeof(ETimerMode), TimerMode));
 
-            writer.WriteComment("NumPlayer: 1.." + CSettings.MaxNumPlayer.ToString());
-            writer.WriteElementString("NumPlayer", NumPlayer.ToString());
+                writer.WriteComment("NumPlayer: 1.." + CSettings.MaxNumPlayer.ToString());
+                writer.WriteElementString("NumPlayer", NumPlayer.ToString());
 
-            writer.WriteComment("Order songs in tabs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-            writer.WriteElementString("Tabs", Enum.GetName(typeof(EOffOn), Tabs));
+                writer.WriteComment("Order songs in tabs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("Tabs", Enum.GetName(typeof(EOffOn), Tabs));
 
-            writer.WriteComment("Lyrics also on Top of screen: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-            writer.WriteElementString("LyricsOnTop", Enum.GetName(typeof(EOffOn), LyricsOnTop));
+                writer.WriteComment("Lyrics also on Top of screen: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("LyricsOnTop", Enum.GetName(typeof(EOffOn), LyricsOnTop));
 
-            writer.WriteComment("MinLineBreakTime: Value >= 0 in s. Minimum time the text is shown before it is to be sung");
-            writer.WriteElementString("MinLineBreakTime", MinLineBreakTime.ToString());
+                writer.WriteComment("MinLineBreakTime: Value >= 0 in s. Minimum time the text is shown before it is to be sung");
+                writer.WriteElementString("MinLineBreakTime", MinLineBreakTime.ToString());
 
-            writer.WriteComment("Default profile for players 1..." + CSettings.MaxNumPlayer.ToString() + ":");
-            writer.WriteStartElement("Players");
-            for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
-            {
-                writer.WriteElementString("Player" + i.ToString(), Path.GetFileName(Players[i - 1]));
-            }
-            writer.WriteEndElement();
-
-            writer.WriteEndElement();
-            #endregion Game
-            
-            #region Video
-            writer.WriteStartElement("Video");
-
-            writer.WriteComment("VideoDecoder: " + CHelper.ListStrings(Enum.GetNames(typeof(EVideoDecoder))));
-            writer.WriteElementString("VideoDecoder", Enum.GetName(typeof(EVideoDecoder), VideoDecoder));
-
-            writer.WriteComment("VideoBackgrounds: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-            writer.WriteElementString("VideoBackgrounds", Enum.GetName(typeof(EOffOn), VideoBackgrounds));
-
-            writer.WriteComment("VideoPreview: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-            writer.WriteElementString("VideoPreview", Enum.GetName(typeof(EOffOn), VideoPreview));
-
-            writer.WriteComment("Show Videos while singing: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-            writer.WriteElementString("VideosInSongs", Enum.GetName(typeof(EOffOn), VideosInSongs));
-
-            writer.WriteComment("Show backgroundmusic videos as background: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-            writer.WriteElementString("VideosToBackground", Enum.GetName(typeof(EOffOn), VideosToBackground));
-
-            writer.WriteComment("WebcamLib: " + CHelper.ListStrings(Enum.GetNames(typeof(EWebcamLib))));
-            writer.WriteElementString("WebcamLib", Enum.GetName(typeof(EWebcamLib), WebcamLib));
-
-            writer.WriteStartElement("WebcamConfig");
-
-            writer.WriteElementString("MonikerString", WebcamConfig.MonikerString);
-            writer.WriteElementString("Framerate", WebcamConfig.Framerate.ToString());
-            writer.WriteElementString("Width", WebcamConfig.Width.ToString());
-            writer.WriteElementString("Height", WebcamConfig.Height.ToString());
-
-            writer.WriteEndElement();
-
-            writer.WriteEndElement();
-            #endregion Video
-
-            #region Record
-            writer.WriteStartElement("Record");
-
-            for (int p = 1; p <= CSettings.MaxNumPlayer; p++)
-            {
-                if (MicConfig[p - 1].DeviceName != String.Empty && MicConfig[p - 1].InputName != String.Empty && MicConfig[p - 1].Channel > 0)
+                writer.WriteComment("Default profile for players 1..." + CSettings.MaxNumPlayer.ToString() + ":");
+                writer.WriteStartElement("Players");
+                for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
                 {
-                    writer.WriteStartElement("MicConfig" + p.ToString());
-
-                    writer.WriteElementString("DeviceName", MicConfig[p - 1].DeviceName);
-                    writer.WriteElementString("DeviceDriver", MicConfig[p - 1].DeviceDriver);
-                    writer.WriteElementString("InputName", MicConfig[p - 1].InputName);
-                    writer.WriteElementString("Channel", MicConfig[p - 1].Channel.ToString());
-
-                    writer.WriteEndElement();
+                    writer.WriteElementString("Player" + i.ToString(), Path.GetFileName(Players[i - 1]));
                 }
+                writer.WriteEndElement();
+
+                writer.WriteEndElement();
+                #endregion Game
+
+                #region Video
+                writer.WriteStartElement("Video");
+
+                writer.WriteComment("VideoDecoder: " + CHelper.ListStrings(Enum.GetNames(typeof(EVideoDecoder))));
+                writer.WriteElementString("VideoDecoder", Enum.GetName(typeof(EVideoDecoder), VideoDecoder));
+
+                writer.WriteComment("VideoBackgrounds: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("VideoBackgrounds", Enum.GetName(typeof(EOffOn), VideoBackgrounds));
+
+                writer.WriteComment("VideoPreview: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("VideoPreview", Enum.GetName(typeof(EOffOn), VideoPreview));
+
+                writer.WriteComment("Show Videos while singing: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("VideosInSongs", Enum.GetName(typeof(EOffOn), VideosInSongs));
+
+                writer.WriteComment("Show backgroundmusic videos as background: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("VideosToBackground", Enum.GetName(typeof(EOffOn), VideosToBackground));
+
+                writer.WriteComment("WebcamLib: " + CHelper.ListStrings(Enum.GetNames(typeof(EWebcamLib))));
+                writer.WriteElementString("WebcamLib", Enum.GetName(typeof(EWebcamLib), WebcamLib));
+
+                writer.WriteStartElement("WebcamConfig");
+
+                writer.WriteElementString("MonikerString", WebcamConfig.MonikerString);
+                writer.WriteElementString("Framerate", WebcamConfig.Framerate.ToString());
+                writer.WriteElementString("Width", WebcamConfig.Width.ToString());
+                writer.WriteElementString("Height", WebcamConfig.Height.ToString());
+
+                writer.WriteEndElement();
+
+                writer.WriteEndElement();
+                #endregion Video
+
+                #region Record
+                writer.WriteStartElement("Record");
+
+                for (int p = 1; p <= CSettings.MaxNumPlayer; p++)
+                {
+                    if (MicConfig[p - 1].DeviceName != String.Empty && MicConfig[p - 1].InputName != String.Empty && MicConfig[p - 1].Channel > 0)
+                    {
+                        writer.WriteStartElement("MicConfig" + p.ToString());
+
+                        writer.WriteElementString("DeviceName", MicConfig[p - 1].DeviceName);
+                        writer.WriteElementString("DeviceDriver", MicConfig[p - 1].DeviceDriver);
+                        writer.WriteElementString("InputName", MicConfig[p - 1].InputName);
+                        writer.WriteElementString("Channel", MicConfig[p - 1].Channel.ToString());
+
+                        writer.WriteEndElement();
+                    }
+                }
+
+                writer.WriteComment("Mic delay in ms. 0, 20, 40, 60 ... 500");
+                writer.WriteElementString("MicDelay", MicDelay.ToString());
+
+                writer.WriteEndElement();
+                #endregion Record
+
+                // End of File
+                writer.WriteEndElement(); //end of root
+                writer.WriteEndDocument();
+                writer.Flush();
+                writer.Close();
             }
-
-            writer.WriteComment("Mic delay in ms. 0, 20, 40, 60 ... 500");
-            writer.WriteElementString("MicDelay", MicDelay.ToString());
-
-            writer.WriteEndElement();
-            #endregion Record
-
-            // End of File
-            writer.WriteEndElement(); //end of root
-            writer.WriteEndDocument();
-
-            writer.Flush();
-            writer.Close();
+            catch (Exception)
+            {
+                writer = null;
+                return false;
+            }
+            writer = null;
             return true;
         }
         

@@ -104,7 +104,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
     public struct TAc_decoder
     {
         //Pointer on the Acinerella instance
-        public IntPtr pAcInstance;
+        private IntPtr pAcInstance;
         //Contains the type of the decoder.
         public TAc_decoder_type dec_type;
 

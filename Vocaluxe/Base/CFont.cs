@@ -135,11 +135,11 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CFont
+    class CFont:IDisposable
     {
         private List<CGlyph> _Glyphs;
         private Hashtable _htGlyphs;
-        private PrivateFontCollection fonts;
+        private PrivateFontCollection fonts = null;
         private FontFamily family;
         private float SIZEh;
         
@@ -267,6 +267,16 @@ namespace Vocaluxe.Base
                 glyph.UnloadTexture();
             }
             _Glyphs.Clear();
+        }
+
+        public void Dispose()
+        {
+            if (fonts != null)
+            {
+                fonts.Dispose();
+                fonts = null;
+            }
+            GC.SuppressFinalize(this);
         }
     }
 

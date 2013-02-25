@@ -381,6 +381,23 @@ namespace Vocaluxe.Base
             get { return _Categories.ToArray(); }
         }
 
+        public static CSong GetVisibleSongByIndex(int index)
+        {
+            if (index < 0)
+                return null;
+
+            foreach (SongPointer sp in _SongsSortList)
+            {
+                if (sp.Visible)
+                {
+                    if (index == 0)
+                        return _Songs[sp.SongID];
+                    index--;
+                }
+            }
+            return null;
+        }
+
         private static void _FilterSongs(String SearchFilter, bool ShowDuetSongs)
         {
             if (_Init && _SearchFilter == SearchFilter && _ShowDuetSongs == ShowDuetSongs)

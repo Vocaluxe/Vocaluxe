@@ -1439,90 +1439,80 @@ namespace Vocaluxe.Base
             if (File.Exists(ImagePath))
             {
 
-                SQLiteConnection connection = new SQLiteConnection();
-                connection.ConnectionString = "Data Source=" + _CreditsRessourcesFilePath;
-                SQLiteCommand command;
-                try
+                using (SQLiteConnection connection = new SQLiteConnection())
                 {
-                    connection.Open();
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-                command = new SQLiteCommand(connection);
-
-                SQLiteDataReader reader = null;
-
-                if (reader != null)
-                    reader.Close();
-
-                Bitmap origin;
-                try
-                {
-                    origin = new Bitmap(ImagePath);
-                }
-                catch (Exception)
-                {
-                    CLog.LogError("Error loading Texture: " + ImagePath);
-                    tex = new STexture(-1);
-
-                    if (reader != null)
+                    connection.ConnectionString = "Data Source=" + _CreditsRessourcesFilePath;
+                    try
                     {
-                        reader.Close();
-                        reader.Dispose();
+                        connection.Open();
                     }
-                    command.Dispose();
-                    connection.Close();
-                    connection.Dispose();
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                    using (SQLiteCommand command = new SQLiteCommand(connection))
+                    {
 
-                    return false;
-                }
+                        Bitmap origin;
+                        try
+                        {
+                            origin = new Bitmap(ImagePath);
+                        }
+                        catch (Exception)
+                        {
+                            CLog.LogError("Error loading Texture: " + ImagePath);
+                            tex = new STexture(-1);
 
-                int w = origin.Width;
-                int h = origin.Height;
+                            connection.Close();
 
-                Bitmap bmp = new Bitmap(w, h);
-                Graphics g = Graphics.FromImage(bmp);
-                g.DrawImage(origin, new Rectangle(0, 0, w, h));
-                g.Dispose();
-                if (origin != null)
-                    origin.Dispose();
-                tex = CDraw.AddTexture(bmp);
-                byte[] data = new byte[w * h * 4];
+                            return false;
+                        }
 
-                BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                Marshal.Copy(bmp_data.Scan0, data, 0, w * h * 4);
-                bmp.UnlockBits(bmp_data);
-                bmp.Dispose();
+                        int w = origin.Width;
+                        int h = origin.Height;
 
-                command.CommandText = "INSERT INTO Images (Path, width, height) " +
-                    "VALUES (@path, " + w.ToString() + ", " + h.ToString() + ")";
-                command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = Path.GetFileName(ImagePath);
-                command.ExecuteNonQuery();
+                        Bitmap bmp = new Bitmap(w, h);
+                        Graphics g = Graphics.FromImage(bmp);
+                        g.DrawImage(origin, new Rectangle(0, 0, w, h));
+                        g.Dispose();
+                        origin.Dispose();
+                        tex = CDraw.AddTexture(bmp);
+                        byte[] data = new byte[w * h * 4];
 
-                command.CommandText = "SELECT id FROM Images WHERE [Path] = @path";
-                command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = Path.GetFileName(ImagePath);
-                reader = null;
-                try
-                {
-                    reader = command.ExecuteReader();
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                        BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                        Marshal.Copy(bmp_data.Scan0, data, 0, w * h * 4);
+                        bmp.UnlockBits(bmp_data);
+                        bmp.Dispose();
 
-                if (reader != null)
-                {
-                    reader.Read();
-                    int id = reader.GetInt32(0);
-                    reader.Close();
-                    command.CommandText = "INSERT INTO ImageData (ImageID, Data) " +
-                    "VALUES ('" + id.ToString() + "', @data)";
-                    command.Parameters.Add("@data", System.Data.DbType.Binary, 20).Value = data;
-                    command.ExecuteReader();
-                    result = true;
+                        command.CommandText = "INSERT INTO Images (Path, width, height) " +
+                            "VALUES (@path, " + w.ToString() + ", " + h.ToString() + ")";
+                        command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = Path.GetFileName(ImagePath);
+                        command.ExecuteNonQuery();
+
+                        command.CommandText = "SELECT id FROM Images WHERE [Path] = @path";
+                        command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = Path.GetFileName(ImagePath);
+                        SQLiteDataReader reader = null;
+                        try
+                        {
+                            reader = command.ExecuteReader();
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+
+                        if (reader != null)
+                        {
+                            reader.Read();
+                            int id = reader.GetInt32(0);
+                            reader.Close();
+                            command.CommandText = "INSERT INTO ImageData (ImageID, Data) " +
+                            "VALUES ('" + id.ToString() + "', @data)";
+                            command.Parameters.Add("@data", System.Data.DbType.Binary, 20).Value = data;
+                            command.ExecuteReader();
+                            result = true;
+                        }
+                    }
                 }
             }
 
