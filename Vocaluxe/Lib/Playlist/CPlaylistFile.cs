@@ -14,7 +14,6 @@ namespace Vocaluxe.Lib.Playlist
     public class CPlaylistFile
     {
         private static XmlWriterSettings _settings = new XmlWriterSettings();
-        private static CHelper Helper = new CHelper();
 
         public string PlaylistName;
         public string PlaylistFile;

@@ -818,11 +818,9 @@ namespace Vocaluxe.Menu.SongMenu
 
         private void CheckFiles()
         {
-            CHelper Helper = new CHelper();
-
             if(this.CoverFileName == String.Empty){
-                List<string> files = Helper.ListFiles(this.Folder, "*.jpg", false);
-                files.AddRange(Helper.ListFiles(this.Folder, "*.png", false));
+                List<string> files = CHelper.ListFiles(this.Folder, "*.jpg", false);
+                files.AddRange(CHelper.ListFiles(this.Folder, "*.png", false));
                 foreach(String file in files)
                 {
                     if (Regex.IsMatch(file, @".[CO].", RegexOptions.IgnoreCase) && (Regex.IsMatch(file, @"" + Regex.Escape(this.Title), RegexOptions.IgnoreCase) || Regex.IsMatch(file, @"" + Regex.Escape(this.Artist), RegexOptions.IgnoreCase)))
@@ -834,8 +832,8 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (this.BackgroundFileName == String.Empty)
             {
-                List<string> files = Helper.ListFiles(this.Folder, "*.jpg", false);
-                files.AddRange(Helper.ListFiles(this.Folder, "*.png", false));
+                List<string> files = CHelper.ListFiles(this.Folder, "*.jpg", false);
+                files.AddRange(CHelper.ListFiles(this.Folder, "*.png", false));
                 foreach (String file in files)
                 {
 

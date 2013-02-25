@@ -28,7 +28,6 @@ namespace Vocaluxe.Base
     {
         private static XmlWriterSettings _settings = new XmlWriterSettings();
         private static List<SLanguage> _Languages;
-        private static CHelper Helper = new CHelper();
         private static int _CurrentLanguage = 0;
         private static int _FallbackLanguage = 0;
 
@@ -62,7 +61,7 @@ namespace Vocaluxe.Base
             _settings.ConformanceLevel = ConformanceLevel.Document;
 
             List<string> files = new List<string>();
-            files.AddRange(Helper.ListFiles(CSettings.sFolderLanguages, "*.xml", true, true));
+            files.AddRange(CHelper.ListFiles(CSettings.sFolderLanguages, "*.xml", true, true));
             
             foreach (string file in files)
 	        {
@@ -228,7 +227,7 @@ namespace Vocaluxe.Base
         public static bool LoadPartyLanguageFiles(int PartyModeID, string Path)
         {
             List<string> files = new List<string>();
-            files.AddRange(Helper.ListFiles(Path, "*.xml", true, true));
+            files.AddRange(CHelper.ListFiles(Path, "*.xml", true, true));
 
             foreach (string file in files)
             {

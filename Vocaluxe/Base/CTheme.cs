@@ -406,11 +406,10 @@ namespace Vocaluxe.Base
 
         private static void ListThemes()
         {
-            CHelper Helper = new CHelper();
             _Themes.Clear();
 
             string path = Path.Combine(Directory.GetCurrentDirectory(), CSettings.sFolderThemes);
-            List<string> files = Helper.ListFiles(path, "*.xml", false);
+            List<string> files = CHelper.ListFiles(path, "*.xml", false);
 
             foreach (string file in files)
             {
@@ -469,7 +468,6 @@ namespace Vocaluxe.Base
 
         public static void ListSkins()
         {
-            CHelper Helper = new CHelper();
             int themeIndex = GetThemeIndex(-1);
             _Skins.Clear();
 
@@ -483,8 +481,6 @@ namespace Vocaluxe.Base
 
         public static void ListSkins(int ThemeIndex)
         {
-            CHelper Helper = new CHelper();
-
             if (ThemeIndex < 0 || ThemeIndex >= _Themes.Count)
             {
                 CLog.LogError("Error List Skins. Can't find Theme index: " + ThemeIndex.ToString());
@@ -494,7 +490,7 @@ namespace Vocaluxe.Base
             Theme theme = _Themes[ThemeIndex];
 
             string path = Path.Combine(theme.Path, theme.SkinFolder);
-            List<string> files = Helper.ListFiles(path, "*.xml", false);
+            List<string> files = CHelper.ListFiles(path, "*.xml", false);
 
             foreach (string file in files)
             {

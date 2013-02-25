@@ -41,7 +41,6 @@ namespace Vocaluxe.Base
         private static SongPointer[] _SongsSortList = new SongPointer[0];
         private static List<CSong> _SongsForRandom = new List<CSong>();
 
-        private static CHelper Helper = new CHelper();
         private static bool _SongsLoaded = false;
         private static bool _CoverLoaded = false;
         private static int _CoverLoadIndex = -1;
@@ -707,8 +706,8 @@ namespace Vocaluxe.Base
             foreach (string p in CConfig.SongFolder)
             {
                 string path = p;
-                files.AddRange(Helper.ListFiles(path, "*.txt", true, true));
-                files.AddRange(Helper.ListFiles(path, "*.txd", true, true));
+                files.AddRange(CHelper.ListFiles(path, "*.txt", true, true));
+                files.AddRange(CHelper.ListFiles(path, "*.txd", true, true));
             }
             CLog.StopBenchmark(2, "List Songs");
 
