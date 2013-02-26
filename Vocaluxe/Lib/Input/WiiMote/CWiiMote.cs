@@ -11,9 +11,9 @@ using Vocaluxe.Menu;
 
 namespace Vocaluxe.Lib.Input.WiiMote
 {
-    class CWiiMote : IInput 
+    class CWiiMote : IInput, IDisposable 
     {
-        WiiMoteLib _WiiMote;
+        WiiMoteLib _WiiMote = null;
 
         private List<KeyEvent> _KeysPool;
         private List<KeyEvent> _CurrentKeysPool;
@@ -323,6 +323,16 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 }
                 _MousePool.Clear();
             }
+        }
+
+        public void Dispose()
+        {
+            if (_WiiMote != null)
+            {
+                _WiiMote.Dispose();
+                _WiiMote = null;
+            }
+            GC.SuppressFinalize(this);
         }
     }
 }

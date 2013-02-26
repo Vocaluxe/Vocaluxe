@@ -500,9 +500,8 @@ namespace Vocaluxe.Lib.Draw
                     CTime.CalculateFPS();
                     CTime.Restart();
                 }
-                else
-                    this.Close();
             }
+            this.Close();
         }
 
         public bool Unload()
@@ -617,17 +616,18 @@ namespace Vocaluxe.Lib.Draw
             int width = GetScreenWidth();
             int height = GetScreenHeight();
 
-            Bitmap screen = new Bitmap(width, height);
+            using (Bitmap screen = new Bitmap(width, height))
+            {
 
 
-            BitmapData bmp_data = screen.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                BitmapData bmp_data = screen.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-            GL.ReadPixels(0, 0, width, height, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0);
-            screen.UnlockBits(bmp_data);
+                GL.ReadPixels(0, 0, width, height, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0);
+                screen.UnlockBits(bmp_data);
 
-            screen.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            screen.Save(Path.Combine(path, file + i.ToString("00000") + ".bmp"), ImageFormat.Bmp);
-            screen.Dispose();
+                screen.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                screen.Save(Path.Combine(path, file + i.ToString("00000") + ".bmp"), ImageFormat.Bmp);
+            }
         }
 
         public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2)
@@ -733,7 +733,14 @@ namespace Vocaluxe.Lib.Draw
                     CLog.LogError("Error loading Texture: " + TexturePath);
                     return new STexture(-1);
                 }
-                return AddTexture(bmp, TexturePath);
+                try
+                {
+                    return AddTexture(bmp, TexturePath);
+                }
+                finally
+                {
+                    bmp.Dispose();
+                }
             }
             CLog.LogError("Can't find File: " + TexturePath);
             return new STexture(-1);
@@ -799,27 +806,28 @@ namespace Vocaluxe.Lib.Draw
             texture.w2 = (float)MathHelper.NextPowerOfTwo(w);
             texture.h2 = (float)MathHelper.NextPowerOfTwo(h);
 
-            Bitmap bmp2 = new Bitmap((int)texture.w2, (int)texture.h2);
-            Graphics g = Graphics.FromImage(bmp2);
-            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
-            g.Dispose();
+            using (Bitmap bmp2 = new Bitmap((int)texture.w2, (int)texture.h2))
+            {
+                Graphics g = Graphics.FromImage(bmp2);
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
+                g.Dispose();
 
-            texture.width_ratio = 1f;
-            texture.height_ratio = 1f;
+                texture.width_ratio = 1f;
+                texture.height_ratio = 1f;
 
-            BitmapData bmp_data = bmp2.LockBits(new Rectangle(0, 0, bmp2.Width, bmp2.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                BitmapData bmp_data = bmp2.LockBits(new Rectangle(0, 0, bmp2.Width, bmp2.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, (int)texture.w2, (int)texture.h2, 0,
-                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, (int)texture.w2, (int)texture.h2, 0,
+                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
-            GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, bmp_data.Width, bmp_data.Height,
-                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0);
+                GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, bmp_data.Width, bmp_data.Height,
+                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0);
 
-            bmp2.UnlockBits(bmp_data);
-            bmp2.Dispose();
+                bmp2.UnlockBits(bmp_data);
+            }
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);

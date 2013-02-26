@@ -165,7 +165,7 @@ namespace Vocaluxe.Base
                     break;
             }
 
-            if (file == String.Empty)
+            if (file.Length == 0)
                 return -1;
 
             int stream = CSound.Load(file);
@@ -300,7 +300,7 @@ namespace Vocaluxe.Base
         #endregion Record
     }
 
-    class CBuffer
+    class CBuffer : IDisposable
     {
         private const double _BaseToneFreq = 65.4064;
         private const int _NumHalfTones = 47;
@@ -315,7 +315,7 @@ namespace Vocaluxe.Base
         private double _MaxVolume = 0.0;
         private bool _NewSamples;
 
-        private MemoryStream _Stream;                       // full buffer
+        private MemoryStream _Stream = null;                       // full buffer
 
         public CBuffer()
         {
@@ -553,6 +553,16 @@ namespace Vocaluxe.Base
             }
 
             return 1 - AccumDist / _AnalysisBuffer.Length;
+        }
+
+        public void Dispose()
+        {
+            if (_Stream != null)
+            {
+                _Stream.Dispose();
+                _Stream = null;
+            }
+            GC.SuppressFinalize(this);
         }
     }
 

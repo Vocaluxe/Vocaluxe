@@ -105,7 +105,7 @@ namespace Vocaluxe.Base
         {
             if (PlaylistID < 0 || PlaylistID >= _Playlists.Count)
                 return;
-            if (_Playlists[PlaylistID].PlaylistFile != String.Empty)
+            if (_Playlists[PlaylistID].PlaylistFile.Length > 0)
             {
                 try
                 {
@@ -233,46 +233,47 @@ namespace Vocaluxe.Base
             try
             {
 
-                sr = new StreamReader(file, Encoding.Default, true);
-
-                int pos = -1;
-                string line;
-                while((line = sr.ReadLine()) != null)
+                using (sr = new StreamReader(file, Encoding.Default, true))
                 {
-                    pos = line.IndexOf(":");
-                    if (pos > 0)
+
+                    int pos = -1;
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
                     {
-                        //Name or comment
-                        if (line[0] == '#')
+                        pos = line.IndexOf(":");
+                        if (pos > 0)
                         {
-                            string Identifier = line.Substring(1, pos - 1).Trim();
-                            string Value = line.Substring(pos + 1, line.Length - pos - 1).Trim();
-                            if (Identifier.ToUpper() == "NAME")
+                            //Name or comment
+                            if (line[0] == '#')
                             {
-                                pl.PlaylistName = Value;
-                            }
-                        }
-                        //Song
-                        else
-                        {
-                            string Artist = line.Substring(0, pos - 1).Trim();
-                            string Title = line.Substring(pos + 1, line.Length - pos - 1).Trim();
-                            bool found = false;
-                            for (int s = 0; s < AllSongs.Length; s++)
-                            {
-                                if (AllSongs[s].Artist == Artist && AllSongs[s].Title == Title)
+                                string Identifier = line.Substring(1, pos - 1).Trim();
+                                string Value = line.Substring(pos + 1, line.Length - pos - 1).Trim();
+                                if (Identifier.ToUpper() == "NAME")
                                 {
-                                    pl.AddSong(AllSongs[s].ID);
-                                    found = true;
-                                    break;
+                                    pl.PlaylistName = Value;
                                 }
                             }
-                            if (!found)
-                                CLog.LogError("Can't find song '" + Title + "' from '" + Artist + "' in playlist file: " + file);
+                            //Song
+                            else
+                            {
+                                string Artist = line.Substring(0, pos - 1).Trim();
+                                string Title = line.Substring(pos + 1, line.Length - pos - 1).Trim();
+                                bool found = false;
+                                for (int s = 0; s < AllSongs.Length; s++)
+                                {
+                                    if (AllSongs[s].Artist == Artist && AllSongs[s].Title == Title)
+                                    {
+                                        pl.AddSong(AllSongs[s].ID);
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                if (!found)
+                                    CLog.LogError("Can't find song '" + Title + "' from '" + Artist + "' in playlist file: " + file);
+                            }
                         }
                     }
                 }
-                sr.Close();
                 File.Delete(file);
             }
             catch

@@ -674,8 +674,11 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
 		protected virtual void Dispose(bool disposing)
 		{
-			if(disposing)
-				Disconnect();
+            if (disposing)
+            {
+                Disconnect();
+                _ReadDone.Close();
+            }
 		}
 		#endregion
 	}

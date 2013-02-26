@@ -413,7 +413,7 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<Color>: SelectSlide color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName != String.Empty)
+                if (_Theme.ColorName.Length > 0)
                 {
                     writer.WriteElementString("Color", _Theme.ColorName);
                 }
@@ -427,7 +427,7 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<SColor>: Selected SelectSlide color from ColorScheme (high priority)");
                 writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
-                if (_Theme.SColorName != String.Empty)
+                if (_Theme.SColorName.Length > 0)
                 {
                     writer.WriteElementString("SColor", _Theme.SColorName);
                 }
@@ -441,7 +441,7 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)");
                 writer.WriteComment("or <HR>, <HG>, <HB>, <HA> (lower priority)");
-                if (_Theme.HColorName != String.Empty)
+                if (_Theme.HColorName.Length > 0)
                 {
                     writer.WriteElementString("HColor", _Theme.HColorName);
                 }
@@ -455,7 +455,7 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<ArrowColor>: Arrow color from ColorScheme (high priority)");
                 writer.WriteComment("or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)");
-                if (_Theme.ArrowColorName != String.Empty)
+                if (_Theme.ArrowColorName.Length > 0)
                 {
                     writer.WriteElementString("ArrowColor", _Theme.ArrowColorName);
                 }
@@ -469,7 +469,7 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<ArrowSColor>: Selected arrow color from ColorScheme (high priority)");
                 writer.WriteComment("or <ArrowSR>, <ArrowSG>, <ArrowSB>, <ArrowSA> (lower priority)");
-                if (_Theme.SArrowColorName != String.Empty)
+                if (_Theme.SArrowColorName.Length > 0)
                 {
                     writer.WriteElementString("ArrowSColor", _Theme.SArrowColorName);
                 }
@@ -483,7 +483,7 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<TextColor>: Text color from ColorScheme (high priority)");
                 writer.WriteComment("or <TextR>, <TextG>, <TextB>, <TextA> (lower priority)");
-                if (_Theme.TextColorName != String.Empty)
+                if (_Theme.TextColorName.Length > 0)
                 {
                     writer.WriteElementString("TextColor", _Theme.TextColorName);
                 }
@@ -497,7 +497,7 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<TextSColor>: Selected text color from ColorScheme (high priority)");
                 writer.WriteComment("or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)");
-                if (_Theme.STextColorName != String.Empty)
+                if (_Theme.STextColorName.Length > 0)
                 {
                     writer.WriteElementString("TextSColor", _Theme.STextColorName);
                 }
@@ -817,25 +817,25 @@ namespace Vocaluxe.Menu
 
         public void LoadTextures()
         {
-            if (_Theme.ColorName != String.Empty)
+            if (_Theme.ColorName.Length > 0)
                 Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
-            if (_Theme.SColorName != String.Empty)
+            if (_Theme.SColorName.Length > 0)
                 SColor = CBase.Theme.GetColor(_Theme.SColorName, _PartyModeID);
 
-            if (_Theme.HColorName != String.Empty)
+            if (_Theme.HColorName.Length > 0)
                 HColor = CBase.Theme.GetColor(_Theme.HColorName, _PartyModeID);
 
-            if (_Theme.ArrowColorName != String.Empty)
+            if (_Theme.ArrowColorName.Length > 0)
                 ColorArrow = CBase.Theme.GetColor(_Theme.ArrowColorName, _PartyModeID);
 
-            if (_Theme.SArrowColorName != String.Empty)
+            if (_Theme.SArrowColorName.Length > 0)
                 SColorArrow = CBase.Theme.GetColor(_Theme.SArrowColorName, _PartyModeID);
 
-            if (_Theme.TextColorName != String.Empty)
+            if (_Theme.TextColorName.Length > 0)
                 TextColor = CBase.Theme.GetColor(_Theme.TextColorName, _PartyModeID);
 
-            if (_Theme.SColorName != String.Empty)
+            if (_Theme.SColorName.Length > 0)
                 STextColor = CBase.Theme.GetColor(_Theme.STextColorName, _PartyModeID);
         }
 

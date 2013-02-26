@@ -330,7 +330,7 @@ namespace Vocaluxe.Menu.SongMenu
             this.FileName = Path.GetFileName(FilePath);
 
             EHeaderFlags HeaderFlags = new EHeaderFlags();
-            StreamReader sr;
+            StreamReader sr = null;
             try
             {
 
@@ -362,6 +362,8 @@ namespace Vocaluxe.Menu.SongMenu
                             {
                                 case "ENCODING":
                                     this.Encoding = CEncoding.GetEncoding(Value);
+                                    sr.Dispose();
+                                    sr = null;
                                     sr = new StreamReader(FilePath, this.Encoding);
                                     Identifier = String.Empty;
 
@@ -369,9 +371,9 @@ namespace Vocaluxe.Menu.SongMenu
                                     while (!sr.EndOfStream)
                                     {
                                         line = sr.ReadLine();
-                                        if (line.Length == 0) 
+                                        if (line.Length == 0)
                                             continue;
-                                        if(!line[0].ToString().Equals("#")) break;
+                                        if (!line[0].ToString().Equals("#")) break;
 
                                         pos = line.IndexOf(":");
 
@@ -384,39 +386,39 @@ namespace Vocaluxe.Menu.SongMenu
                                     }
                                     break;
                                 case "TITLE":
-                                    if (Value != String.Empty)
+                                    if (Value.Length > 0)
                                     {
                                         this.Title = Value;
                                         HeaderFlags |= EHeaderFlags.Title;
                                     }
                                     break;
                                 case "ARTIST":
-                                    if (Value != String.Empty)
+                                    if (Value.Length > 0)
                                     {
                                         this.Artist = Value;
                                         HeaderFlags |= EHeaderFlags.Artist;
                                     }
                                     break;
                                 case "TITLE-ON-SORTING":
-                                    if (Value != String.Empty)
+                                    if (Value.Length > 0)
                                     {
                                         this.TitleSorting = Value;
                                     }
                                     break;
                                 case "ARTIST-ON-SORTING":
-                                    if (Value != String.Empty)
+                                    if (Value.Length > 0)
                                     {
                                         this.ArtistSorting = Value;
                                     }
                                     break;
                                 case "P1":
-                                    if (Value != String.Empty)
+                                    if (Value.Length > 0)
                                     {
                                         this.DuetPart1 = Value;
                                     }
                                     break;
                                 case "P2":
-                                    if (Value != String.Empty)
+                                    if (Value.Length > 0)
                                     {
                                         this.DuetPart2 = Value;
                                     }
@@ -586,19 +588,21 @@ namespace Vocaluxe.Menu.SongMenu
             }
             catch (Exception e)
             {
+                if (sr != null)
+                    sr.Dispose();
                 CBase.Log.LogError("Error reading txt header in file \"" + FilePath + "\": " + e.Message);
                 return false;
             }
-
+            sr.Dispose();
             CheckFiles();
 
             //Before saving this tags to .txt: Check, if ArtistSorting and Artist are equal, then don't save this tag.
-            if (this.ArtistSorting == String.Empty) 
+            if (this.ArtistSorting.Length == 0)
             {
                 this.ArtistSorting = this.Artist;
             }
 
-            if (this.TitleSorting == String.Empty)
+            if (this.TitleSorting.Length == 0)
             {
                 this.TitleSorting = this.Title;
             }
@@ -634,7 +638,7 @@ namespace Vocaluxe.Menu.SongMenu
             int Player = 0;
             int FileLineNo = 0;
 
-            StreamReader sr;
+            StreamReader sr = null;
             try
             {
 
@@ -776,8 +780,11 @@ namespace Vocaluxe.Menu.SongMenu
             catch (Exception e)
             {
                 CBase.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". An unhandled exception occured (" + e.Message + "): " + FilePath);
+                if(sr != null)
+                    sr.Dispose();
                 return false;
             }
+            sr.Dispose();
             FindRefrain();
             FindShortEnd();
             _NotesLoaded = true;
@@ -805,7 +812,7 @@ namespace Vocaluxe.Menu.SongMenu
         {
             if (_CoverSmallLoaded)
                 return;
-            if (this.CoverFileName != String.Empty)
+            if (this.CoverFileName.Length > 0)
             {
                 if (!CBase.DataBase.GetCover(Path.Combine(this.Folder, this.CoverFileName), ref _CoverTextureSmall, CBase.Config.GetCoverSize()))
                     _CoverTextureSmall = CBase.Cover.GetNoCover();
@@ -818,7 +825,7 @@ namespace Vocaluxe.Menu.SongMenu
 
         private void CheckFiles()
         {
-            if(this.CoverFileName == String.Empty){
+            if(this.CoverFileName.Length == 0){
                 List<string> files = CHelper.ListFiles(this.Folder, "*.jpg", false);
                 files.AddRange(CHelper.ListFiles(this.Folder, "*.png", false));
                 foreach(String file in files)
@@ -830,7 +837,7 @@ namespace Vocaluxe.Menu.SongMenu
                 }
             }
 
-            if (this.BackgroundFileName == String.Empty)
+            if (this.BackgroundFileName.Length == 0)
             {
                 List<string> files = CHelper.ListFiles(this.Folder, "*.jpg", false);
                 files.AddRange(CHelper.ListFiles(this.Folder, "*.png", false));
@@ -847,12 +854,12 @@ namespace Vocaluxe.Menu.SongMenu
 
         private void CheckDuet()
         {
-            if (DuetPart1 == String.Empty)
+            if (DuetPart1.Length == 0)
             {
                 DuetPart1 = "Part 1";
                 CBase.Log.LogError("Warning: Can't find #P1-tag for duets in \"" + this.Artist + " - " + this.Title + "\".");
             }
-            if (DuetPart2 == String.Empty)
+            if (DuetPart2.Length == 0)
             {
                 DuetPart2 = "Part 2";
                 CBase.Log.LogError("Warning: Can't find #P2-tag for duets in \"" + this.Artist + " - " + this.Title + "\".");
@@ -889,7 +896,7 @@ namespace Vocaluxe.Menu.SongMenu
             {
                 for (int j = i + 1; j < lines.LineCount; j++)
                 {
-                    if (sentences[i] == sentences[j] && sentences[i] != String.Empty)
+                    if (sentences[i] == sentences[j] && sentences[i].Length > 0)
                     {
                         Series tempSeries = new Series();
                         tempSeries.start = i;
@@ -903,7 +910,7 @@ namespace Vocaluxe.Menu.SongMenu
 
                         for (int k = 1; k <= max; k++)
                         {
-                            if (sentences[i + k] == sentences[j + k] && sentences[i + k] != String.Empty)
+                            if (sentences[i + k] == sentences[j + k] && sentences[i + k].Length > 0)
                                 tempSeries.end = i + k;
                             else
                                 break;

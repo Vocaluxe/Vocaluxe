@@ -6,11 +6,11 @@ using System.Text;
 
 namespace Vocaluxe.Base
 {
-    class Log
+    class Log:IDisposable
     {
         private string _LogFileName;
         private string _LogName;
-        private StreamWriter _LogFile;
+        private StreamWriter _LogFile = null;
 
         public Log(string FileName, string LogName)
         {
@@ -55,6 +55,16 @@ namespace Vocaluxe.Base
             _LogFile.WriteLine(_LogName + " " + CSettings.GetFullVersionText() + " " + DateTime.Now.ToString());
             _LogFile.WriteLine("----------------------------------------");
             _LogFile.WriteLine();
+        }
+
+        public void Dispose()
+        {
+            if (_LogFile != null)
+            {
+                _LogFile.Dispose();
+                _LogFile = null;
+            }
+            GC.SuppressFinalize(this);
         }
     }
 

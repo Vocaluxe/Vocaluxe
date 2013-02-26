@@ -36,26 +36,27 @@ namespace Vocaluxe.Lib.Sound
             int id = 0;
             foreach (DeviceInformation dev in devices)
             {
-                DirectSoundCapture ds = new DirectSoundCapture(dev.DriverGuid);
+                using (DirectSoundCapture ds = new DirectSoundCapture(dev.DriverGuid))
+                {
 
-                SRecordDevice device = new SRecordDevice();
-                device.Driver = dev.DriverGuid.ToString();
-                device.ID = id;
-                device.Name = dev.Description;
-                device.Inputs = new List<SInput>();
+                    SRecordDevice device = new SRecordDevice();
+                    device.Driver = dev.DriverGuid.ToString();
+                    device.ID = id;
+                    device.Name = dev.Description;
+                    device.Inputs = new List<SInput>();
 
-                SInput inp = new SInput();
-                inp.Name = "Default";
-                inp.Channels = ds.Capabilities.Channels;
+                    SInput inp = new SInput();
+                    inp.Name = "Default";
+                    inp.Channels = ds.Capabilities.Channels;
 
-                if (inp.Channels > 2)
-                    inp.Channels = 2; //more are not supported in vocaluxe
+                    if (inp.Channels > 2)
+                        inp.Channels = 2; //more are not supported in vocaluxe
 
-                device.Inputs.Add(inp);
-                _Devices.Add(device);
+                    device.Inputs.Add(inp);
+                    _Devices.Add(device);
 
-                id++;
-                ds.Dispose();
+                    id++;
+                }
             }
 
             _DeviceConfig = _Devices.ToArray();
@@ -68,11 +69,7 @@ namespace Vocaluxe.Lib.Sound
         {
             if (_initialized)
             {
-                foreach (SoundCardSource source in _Sources)
-                {
-                    source.Stop();
-                    source.Dispose();
-                }
+                Stop();
                 _initialized = false;
             }
             //System.IO.File.WriteAllBytes("test0.raw", _Buffer[0].Buffer);
@@ -131,7 +128,10 @@ namespace Vocaluxe.Lib.Sound
             foreach (SoundCardSource source in _Sources)
             {
                 source.Stop();
+                source.Dispose();
             }
+            _Sources.Clear();
+
             return true;
         }
         public void AnalyzeBuffer(int Player)

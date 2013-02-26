@@ -1105,13 +1105,13 @@ namespace Vocaluxe.Screens
                 SongID = CSongs.VisibleSongs[SongIndex].ID;
             }
 
-            if (NewFilterString == String.Empty && _sso.Sorting.Tabs == EOffOn.TR_CONFIG_ON)
+            if (NewFilterString.Length == 0 && _sso.Sorting.Tabs == EOffOn.TR_CONFIG_ON)
             {
                 CSongs.Category = -1;
                 refresh = true;
             }
 
-            if (NewFilterString != String.Empty && CSongs.Category != 0)
+            if (NewFilterString.Length > 0 && CSongs.Category != 0)
             {
                 CSongs.Category = 0;
                 refresh = true;

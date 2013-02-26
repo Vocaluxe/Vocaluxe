@@ -42,7 +42,7 @@ namespace Vocaluxe.Menu
             Init();
         }
 
-        protected virtual void Init()
+        protected void Init()
         {
             _Interactions = new List<CInteraction>();
             _Selection = 0;

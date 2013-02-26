@@ -164,7 +164,7 @@ namespace Vocaluxe.Lib.Webcam
                 return false;
 
             //No MonikerString found, try first webcam
-            if (Config.MonikerString == String.Empty)
+            if (Config.MonikerString.Length == 0)
                 _Webcam = new VideoCaptureDevice(_WebcamDevices[0].MonikerString);
             else //Found MonikerString
                 _Webcam = new VideoCaptureDevice(Config.MonikerString);

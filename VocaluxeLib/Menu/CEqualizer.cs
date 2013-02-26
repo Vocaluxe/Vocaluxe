@@ -165,7 +165,7 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<Color>: Equalizer color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName != String.Empty)
+                if (_Theme.ColorName.Length > 0)
                 {
                     writer.WriteElementString("Color", _Theme.ColorName);
                 }
@@ -178,7 +178,7 @@ namespace Vocaluxe.Menu
                 }
                 writer.WriteComment("<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)");
                 writer.WriteComment("or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)");
-                if (_Theme.ColorName != String.Empty)
+                if (_Theme.ColorName.Length > 0)
                 {
                     writer.WriteElementString("MaxColor", _Theme.ColorName);
                 }
@@ -273,10 +273,10 @@ namespace Vocaluxe.Menu
 
         public void LoadTextures()
         {
-            if (_Theme.ColorName != String.Empty)
+            if (_Theme.ColorName.Length > 0)
                 Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
-            if (_Theme.MaxColorName != String.Empty)
+            if (_Theme.MaxColorName.Length > 0)
                 MaxColor = CBase.Theme.GetColor(_Theme.MaxColorName, _PartyModeID);
         }
 

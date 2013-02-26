@@ -287,7 +287,7 @@ namespace Vocaluxe.Menu
 
         public void Draw()
         {
-            if (_TextureName != String.Empty)
+            if (_TextureName.Length > 0)
                 CBase.Drawing.DrawTexture(CBase.Theme.GetSkinTexture(_TextureName, _PartyModeID), _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
             else
                 CBase.Drawing.DrawTexture(_Texture, _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
@@ -428,7 +428,7 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<Color>: ParticleEffect color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName != String.Empty)
+                if (_Theme.ColorName.Length > 0)
                 {
                     writer.WriteElementString("Color", _Theme.ColorName);
                 }
@@ -544,7 +544,7 @@ namespace Vocaluxe.Menu
                     h = 0;
 
                 CParticle star;
-                if (_Theme.TextureName != String.Empty)
+                if (_Theme.TextureName.Length > 0)
                 {
                     star = new CParticle(_PartyModeID, _Theme.TextureName, Color,
                         CBase.Game.GetRandom(w) + Rect.X - size / 4f,
@@ -611,9 +611,9 @@ namespace Vocaluxe.Menu
 
         public void LoadTextures()
         {
-            if (_Theme.ColorName != String.Empty)
+            if (_Theme.ColorName.Length > 0)
                 Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
-            if(_Theme.TextureName != String.Empty)
+            if(_Theme.TextureName.Length > 0)
                 Texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
         }
 

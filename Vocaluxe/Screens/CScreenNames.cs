@@ -597,7 +597,7 @@ namespace Vocaluxe.Screens
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
             {
                 //Update texture and name
-                if (CConfig.Players[i] != String.Empty)
+                if (CConfig.Players[i].Length > 0)
                 {
                     Statics[htStatics(StaticPlayerAvatar[i])].Texture = CProfiles.Profiles[CGame.Player[i].ProfileID].Avatar.Texture;
                     Texts[htTexts(TextPlayer[i])].Text = CProfiles.Profiles[CGame.Player[i].ProfileID].PlayerName;
@@ -692,7 +692,7 @@ namespace Vocaluxe.Screens
                     Statics[htStatics("StaticPlayer" + i)].Visible = true;
                     Statics[htStatics("StaticPlayerAvatar" + i)].Visible = true;
                     Texts[htTexts("TextPlayer" + i)].Visible = true;
-                    if (Texts[htTexts("TextPlayer" + i)].Text == string.Empty)
+                    if (Texts[htTexts("TextPlayer" + i)].Text.Length == 0)
                     {
                         Texts[htTexts("TextPlayer" + i)].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + i.ToString();
                     }

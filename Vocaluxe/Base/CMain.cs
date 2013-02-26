@@ -605,23 +605,11 @@ namespace Vocaluxe.Base
 
         public CSong GetVisibleSong(int VisibleIndex)
         {
-            if (VisibleIndex >= CSongs.NumVisibleSongs)
-                return null;
-
-            CSong song = CSongs.VisibleSongs[VisibleIndex];
-            //Flamefire: Why copy the song-instance??? Cover and stuff will be loaded twice!
-            //And for unknown reason causes no-big-cover bug if covers are not loaded on startup
-            return song;
-            //if (song == null)
-            //    return null;
-
-            //return new CSong(song);
+            return CSongs.GetVisibleSongByIndex(VisibleIndex);
         }
 
         public CSong GetSongByID(int SongID)
         {
-            //Flamefire: Why copy?
-            //return new CSong(CSongs.GetSong(SongID));
             return CSongs.GetSong(SongID);
         }
 

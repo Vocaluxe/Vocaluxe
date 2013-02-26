@@ -344,28 +344,30 @@ namespace Vocaluxe.Base
             Params.IncludeDebugInformation = true;
 #endif
 
-            CodeDomProvider CDP = CodeDomProvider.CreateProvider("CSharp");
-            CompilerResults CompileResult = null;
+            using (CodeDomProvider CDP = CodeDomProvider.CreateProvider("CSharp"))
+            {
+                CompilerResults CompileResult = null;
 
-            try
-            {
-                CompileResult = CDP.CompileAssemblyFromFile(Params, files);
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.Message);
-                return null;
-            }
-            
-            if (CompileResult.Errors.Count > 0)
-            {
-                for (int i = 0; i < CompileResult.Errors.Count; i++)
+                try
                 {
-                    CLog.LogError("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + CompileResult.Errors[i].ErrorText);
-                }               
-                return null;
+                    CompileResult = CDP.CompileAssemblyFromFile(Params, files);
+                }
+                catch (Exception e)
+                {
+                    CLog.LogError("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.Message);
+                    return null;
+                }
+
+                if (CompileResult.Errors.Count > 0)
+                {
+                    for (int i = 0; i < CompileResult.Errors.Count; i++)
+                    {
+                        CLog.LogError("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + CompileResult.Errors[i].ErrorText);
+                    }
+                    return null;
+                }
+                return CompileResult.CompiledAssembly;
             }
-            return CompileResult.CompiledAssembly;
         }
 
         private static CMenuParty GetPartyScreenInstance(Assembly Assembly, string ScreenName, string XmlPath)

@@ -43,7 +43,7 @@ namespace Vocaluxe.Base
 
         private static bool _SongsLoaded = false;
         private static bool _CoverLoaded = false;
-        private static int _CoverLoadIndex = -1;
+        private static int _CoverLoadIndex = 0;
         private static int _CatIndex = -1;
         private static bool _Init = false;
         private static List<CCategory> _Categories = new List<CCategory>();
@@ -56,15 +56,13 @@ namespace Vocaluxe.Base
         private static EOffOn _IgnoreArticles = CConfig.IgnoreArticles;
         private static ESongSorting _SongSorting = CConfig.SongSorting;
         private static bool _ShowDuetSongs = true;
-
-        private static Thread _CoverLoaderThread = null;
                     
         public static string SearchFilter
         {
             get { return _SearchFilter; }
             set
             {
-                if (value != String.Empty)
+                if (value.Length > 0)
                 {
                     _Sort(_SongSorting, EOffOn.TR_CONFIG_OFF, _IgnoreArticles, value, false, _ShowDuetSongs);
                 }
@@ -180,10 +178,10 @@ namespace Vocaluxe.Base
             if (!SongsLoaded)
                 return -1;
 
-            if (_Songs.Count > _CoverLoadIndex + 1)
+            if (_CoverLoadIndex < _Songs.Count)
             {
-                _CoverLoadIndex++;
                 Song = _Songs[_CoverLoadIndex];
+                _CoverLoadIndex++;
                 return _CoverLoadIndex;
             }
 
@@ -191,7 +189,7 @@ namespace Vocaluxe.Base
         }
         public static int NumSongsWithCoverLoaded
         {
-            get { return _CoverLoadIndex + 1; }
+            get { return _CoverLoadIndex; }
         }
 
         public static void SetCoverSmall(int SongIndex, STexture Texture)
@@ -200,11 +198,7 @@ namespace Vocaluxe.Base
                 return;
 
             if (SongIndex < _Songs.Count)
-            {
                 _Songs[SongIndex].CoverTextureSmall = Texture;
-                if (SongIndex == _Songs.Count - 1)
-                    _CoverLoaded = true;
-            }
 
         }
         public static void SetCoverBig(int SongIndex, STexture Texture)
@@ -213,11 +207,7 @@ namespace Vocaluxe.Base
                 return;
 
             if (SongIndex < _Songs.Count)
-            {
                 _Songs[SongIndex].CoverTextureBig = Texture;
-                if (SongIndex == _Songs.Count - 1)
-                    _CoverLoaded = true;
-            }
 
         }
 
@@ -381,6 +371,23 @@ namespace Vocaluxe.Base
             get { return _Categories.ToArray(); }
         }
 
+        public static CSong GetVisibleSongByIndex(int index)
+        {
+            if (index < 0)
+                return null;
+
+            foreach (SongPointer sp in _SongsSortList)
+            {
+                if (sp.Visible)
+                {
+                    if (index == 0)
+                        return _Songs[sp.SongID];
+                    index--;
+                }
+            }
+            return null;
+        }
+
         private static void _FilterSongs(String SearchFilter, bool ShowDuetSongs)
         {
             if (_Init && _SearchFilter == SearchFilter && _ShowDuetSongs == ShowDuetSongs)
@@ -392,14 +399,14 @@ namespace Vocaluxe.Base
             _FilteredSongs.Clear();
 
             string[] searchStrings = null;
-            if (_SearchFilter != String.Empty)
+            if (_SearchFilter.Length > 0)
                 searchStrings = _SearchFilter.ToUpper().Split(new char[] { ' ' });
 
             foreach (CSong song in _Songs)
             {
                 if (!song.IsDuet || _ShowDuetSongs)
                 {
-                    if (_SearchFilter == String.Empty)
+                    if (_SearchFilter.Length == 0)
                         _FilteredSongs.Add(song);
                     else if (searchStrings != null)
                     {
@@ -463,7 +470,7 @@ namespace Vocaluxe.Base
             FieldInfo field = null;
             bool isString = false;
             List<SongPointer> SortList = new List<SongPointer>();
-            if (fieldName == String.Empty)
+            if (fieldName.Length == 0)
                 _FilteredSongs.ForEach((song) => SortList.Add(new SongPointer(song.ID, "")));
             {
                 field = Type.GetType("Vocaluxe.Menu.SongMenu.CSong,VocaluxeLib").GetField(fieldName, BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public);
@@ -640,7 +647,7 @@ namespace Vocaluxe.Base
                     for (int i = 0; i < _SongsSortList.Length; i++)
                     {
                         string Year = _SongsSortList[i].SortString;
-                        if (Year != "")
+                        if (Year.Length > 0)
                         {
                             Year = Year.Substring(0, 3);
                             _SongsSortList[i].SortString = Year + "0 - " + Year + "9";
@@ -735,32 +742,48 @@ namespace Vocaluxe.Base
             if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
             {
                 CLog.StartBenchmark(2, "Load Covers/Notes");
-                _LoadCover();
+                _LoadCoverAndNotes();
                 CLog.StopBenchmark(2, "Load Covers/Notes");
             }
             CLog.StopBenchmark(1, "Load Songs ");
             GC.Collect();
         }
 
-        public static void LoadCover()
+        public static void LoadCover(int WaitTime, int NumLoads)
         {
             if (CConfig.Renderer == ERenderer.TR_CONFIG_SOFTWARE)
-                return;
+                return; //should be removed as soon as the other renderer are ready for queque
 
             if (!SongsLoaded || CoverLoaded)
                 return;
 
-            if (_CoverLoaderThread == null)
+            if (!_CoverLoadTimer.IsRunning)
             {
-                _CoverLoaderThread = new Thread(new ThreadStart(_LoadCover));
-                _CoverLoaderThread.Name = "CoverLoader";
-                _CoverLoaderThread.Priority = ThreadPriority.BelowNormal;
-                _CoverLoaderThread.IsBackground = true;
-                _CoverLoaderThread.Start();
+                _CoverLoadTimer.Reset();
+                _CoverLoadTimer.Start();
+            }
+
+            if (_CoverLoadTimer.ElapsedMilliseconds >= WaitTime)
+            {
+                for (int i = 0; i < NumLoads; i++)
+                {
+                    CSong song = null;
+                    int n = GetNextSongWithoutCover(ref song);
+
+                    if (n < 0)
+                        return;
+
+                    song.LoadSmallCover();
+
+                    if (n == NumAllSongs)
+                        CDataBase.CommitCovers();
+                }
+                _CoverLoadTimer.Reset();
+                _CoverLoadTimer.Start();
             }
         }
 
-        private static void _LoadCover()
+        private static void _LoadCoverAndNotes()
         {
             foreach(CSong song in _Songs)
             {
