@@ -734,18 +734,18 @@ namespace Vocaluxe.Lib.Draw
             Surface textureSurface = tex.GetSurfaceLevel(0);
             Surface.FromSurface(textureSurface, backbufferSurface, Filter.Default, 0);
             backbufferSurface.Dispose();
-            _D3DTextures.Add(_IDs.Peek(), tex);
-
-            texture.color = new SColorF(1f, 1f, 1f, 1f);
-            texture.rect = new SRectF(0f, 0f, texture.width, texture.height, 0f);
-            texture.width = w;
-            texture.height = h;
-            texture.w2 = CheckForNextPowerOf2(texture.width);
-            texture.h2 = CheckForNextPowerOf2(texture.height);
-            texture.index = _IDs.Dequeue();
-
             lock (MutexTexture)
             {
+                _D3DTextures.Add(_IDs.Peek(), tex);
+
+                texture.color = new SColorF(1f, 1f, 1f, 1f);
+                texture.rect = new SRectF(0f, 0f, texture.width, texture.height, 0f);
+                texture.width = w;
+                texture.height = h;
+                texture.w2 = CheckForNextPowerOf2(texture.width);
+                texture.h2 = CheckForNextPowerOf2(texture.height);
+                texture.index = _IDs.Dequeue();
+
                 _Textures[texture.index] = texture;
             }
             return texture;
@@ -899,14 +899,13 @@ namespace Vocaluxe.Lib.Draw
         /// <summary>
         /// Adds a texture and stores it in the Vram
         /// </summary>
-        /// <param name="bmp">The Bitmap of which the texute will be created from</param>
+        /// <param name="bmp">The Bitmap of which the texure will be created from</param>
         /// <param name="TexturePath">The path to the texture</param>
         /// <returns>A STexture object containing the added texture</returns>
         public STexture AddTexture(Bitmap bmp, string TexturePath)
         {
-            STexture texture = new STexture(-1);
             if (bmp.Height == 0 || bmp.Width == 0)
-                return texture;
+                return new STexture(-1);
             int MaxSize;
             //Apply the right max size
             switch (CConfig.TextureQuality)
@@ -934,7 +933,7 @@ namespace Vocaluxe.Lib.Draw
             int w = bmp.Width;
             int h = bmp.Height;
 
-            if (w > MaxSize)
+            if (w > MaxSize && w > h)
             {
                 h = (int)Math.Round((float)MaxSize / bmp.Width * bmp.Height);
                 w = MaxSize;
@@ -946,68 +945,47 @@ namespace Vocaluxe.Lib.Draw
                 h = MaxSize;
             }
 
-            texture.width = w;
-            texture.height = h;
-
             //Older graphics card can only handle textures with sizes being powers of two
-            texture.w2 = (float)CheckForNextPowerOf2(w);
-            texture.h2 = (float)CheckForNextPowerOf2(h);
+            w = (int)CheckForNextPowerOf2(w);
+            h = (int)CheckForNextPowerOf2(h);
 
-            if (texture.w2 != bmp.Width || texture.h2 != bmp.Height)
+            Bitmap bmp2 = null;
+            byte[] Data;
+            try
             {
-                //Create a new Bitmap with the new sizes
-                Bitmap bmp2 = new Bitmap((int)texture.w2, (int)texture.h2);
-                //Scale the texture
-                Graphics g = Graphics.FromImage(bmp2);
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-                g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
-                g.Dispose();
-                bmp = bmp2;
+
+                if (w != bmp.Width || h != bmp.Height)
+                {
+                    //Create a new Bitmap with the new sizes
+                    bmp2 = new Bitmap(w, h);
+                    //Scale the texture
+                    Graphics g = Graphics.FromImage(bmp2);
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                    g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
+                    g.Dispose();
+                    bmp = bmp2;
+                }
+
+                //Fill the new Bitmap with the texture data
+                BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                Data = new byte[4 * w * h];
+                Marshal.Copy(bmp_data.Scan0, Data, 0, Data.Length);
+                bmp.UnlockBits(bmp_data);
+            }
+            finally
+            {
+                if (bmp2 != null)
+                    bmp2.Dispose();
             }
 
-            texture.width_ratio = 1f;
-            texture.height_ratio = 1f;
-
-            //Fill the new Bitmap with the texture data
-            BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, (int)texture.w2, (int)texture.h2), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            byte[] Data = new byte[4 * (int)texture.w2 * (int)texture.h2];
-            Marshal.Copy(bmp_data.Scan0, Data, 0, Data.Length);
-            bmp.UnlockBits(bmp_data);
-
-            //Create a new texture in the managed pool, which does not need to be recreated on a lost device
-            //because a copy of the texture is hold in the Ram
-            Texture t = new Texture(_Device, (int)texture.w2, (int)texture.h2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
-            //Lock the texture and fill it with the data
-            DataRectangle rect = t.LockRectangle(0, LockFlags.Discard);
-            for (int i = 0; i < Data.Length; )
-            {
-                rect.Data.Write(Data, i, 4 * (int)texture.w2);
-                i += 4 * (int)texture.w2;
-                rect.Data.Position = rect.Data.Position - 4 * (int)texture.w2;
-                rect.Data.Position += rect.Pitch;
-            }
-            t.UnlockRectangle(0);
-
-            bmp_data = null;
-
-            // Add to Texture List
-            texture.color = new SColorF(1f, 1f, 1f, 1f);
-            texture.rect = new SRectF(0f, 0f, texture.width, texture.height, 0f);
-            texture.TexturePath = String.Empty;
-            lock (MutexTexture)
-            {
-                _D3DTextures.Add(_IDs.Peek(), t);
-                texture.index = _IDs.Dequeue();
-                _Textures[texture.index] = texture;
-            }
-            return texture;
+            return AddTexture(w, h, ref Data);
         }
 
         /// <summary>
         /// Adds a texture and stores it in the Vram
         /// </summary>
-        /// <param name="bmp">The Bitmap of which the texute will be created from</param>
+        /// <param name="bmp">The Bitmap of which the texure will be created from</param>
         /// <returns>A STexture object containing the added texture</returns>
         public STexture AddTexture(Bitmap bmp)
         {
@@ -1019,6 +997,59 @@ namespace Vocaluxe.Lib.Draw
             byte[] PointerData = new Byte[4 * W * H];
             Marshal.Copy(Data, PointerData, 0, PointerData.Length);
             return AddTexture(W, H, ref PointerData);
+        }
+
+       public STexture AddTexture(int W, int H, ref byte[] Data)
+        {
+            STexture texture = new STexture(-1);
+
+            Texture t = _CreateTexture(W, H, ref Data, ref texture);
+
+            lock (MutexTexture)
+            {
+                _D3DTextures.Add(_IDs.Peek(), t);
+                texture.index = _IDs.Dequeue();
+                _Textures[texture.index] = texture;
+            }
+            return texture;
+        }
+
+        private Texture _CreateTexture(int W, int H, ref byte[] Data, ref STexture sTexture)
+        {
+            sTexture.width = W;
+            sTexture.height = H;
+            sTexture.w2 = CheckForNextPowerOf2(W);
+            sTexture.h2 = CheckForNextPowerOf2(H);
+            sTexture.width_ratio = W / sTexture.w2;
+            sTexture.height_ratio = H / sTexture.h2;
+
+            //Create a new texture in the managed pool, which does not need to be recreated on a lost device
+            //because a copy of the texture is hold in the Ram
+            Texture t = null;
+            try
+            {
+                t = new Texture(_Device, (int)sTexture.w2, (int)sTexture.h2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
+                //Lock the texture and fill it with the data
+                DataRectangle rect = t.LockRectangle(0, LockFlags.Discard);
+                for (int i = 0; i < Data.Length; i += 4 * W)
+                {
+                    rect.Data.Write(Data, i, 4 * (int)sTexture.w2);
+                    rect.Data.Position = rect.Data.Position - 4 * (int)sTexture.w2;
+                    rect.Data.Position += rect.Pitch;
+                }
+                t.UnlockRectangle(0);
+
+                sTexture.color = new SColorF(1f, 1f, 1f, 1f);
+                sTexture.rect = new SRectF(0f, 0f, sTexture.width, sTexture.height, 0f);
+                sTexture.TexturePath = String.Empty;
+            }
+            catch (Exception)
+            {
+                if (t != null)
+                    t.Dispose();
+                throw;
+            }
+            return t;
         }
 
         public STexture QuequeTexture(int W, int H, ref byte[] Data)
@@ -1043,39 +1074,6 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        public STexture AddTexture(int W, int H, ref byte[] Data)
-        {
-            STexture texture = new STexture(-1);
-            texture.width = W;
-            texture.height = H;
-            texture.w2 = CheckForNextPowerOf2(texture.width);
-            texture.h2 = CheckForNextPowerOf2(texture.height);
-            texture.width_ratio = texture.width / texture.w2;
-            texture.height_ratio = texture.height / texture.h2;
-
-            Texture t = new Texture(_Device, (int)texture.w2, (int)texture.h2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
-            DataRectangle rect = t.LockRectangle(0, LockFlags.Discard);
-            for (int i = 0; i < Data.Length; )
-            {
-                rect.Data.Write(Data, i, 4 * W);
-                i += 4 * W;
-                rect.Data.Position = rect.Data.Position - 4 * W;
-                rect.Data.Position += rect.Pitch;
-            }
-            t.UnlockRectangle(0);
-
-            texture.color = new SColorF(1f, 1f, 1f, 1f);
-            texture.rect = new SRectF(0f, 0f, texture.width, texture.height, 0f);
-            texture.TexturePath = String.Empty;
-
-            lock (MutexTexture)
-            {
-                _D3DTextures.Add(_IDs.Peek(), t);
-                texture.index = _IDs.Dequeue();
-                _Textures[texture.index] = texture;
-            }
-            return texture;
-        }
         #endregion adding
 
         #region updating
@@ -1103,18 +1101,22 @@ namespace Vocaluxe.Lib.Draw
         {
             if ((Texture.index >= 0) && (_Textures.Count > 0) && _TextureExists(ref Texture))
             {
-                DataRectangle rect = _D3DTextures[Texture.index].LockRectangle(0, LockFlags.Discard);
-                for (int i = 0; i < Data.Length; )
+                lock (MutexTexture)
                 {
-                    rect.Data.Write(Data, i, 4 * (int)Texture.width);
-                    i += 4 * (int)Texture.width;
-                    rect.Data.Position = rect.Data.Position - 4 * (int)Texture.width;
-                    rect.Data.Position += rect.Pitch;
+                    DataRectangle rect = _D3DTextures[Texture.index].LockRectangle(0, LockFlags.Discard);
+                    int W = (int)Texture.width;
+                    for (int i = 0; i < Data.Length; i += 4 * W)
+                    {
+                        rect.Data.Write(Data, i, 4 * W);
+                        rect.Data.Position -= 4 * W;
+                        rect.Data.Position += rect.Pitch;
+                    }
+                    _D3DTextures[Texture.index].UnlockRectangle(0);
                 }
-                _D3DTextures[Texture.index].UnlockRectangle(0);
 
-                Texture.height_ratio = Texture.height / CheckForNextPowerOf2(Texture.height);
-                Texture.width_ratio = Texture.width / CheckForNextPowerOf2(Texture.width);
+                //Flamefire: Unneccesary as height can not be changed by this! (Texture gets copied)
+                //Texture.height_ratio = Texture.height / CheckForNextPowerOf2(Texture.height);
+                //Texture.width_ratio = Texture.width / CheckForNextPowerOf2(Texture.width);
                 return true;
 
                 /*Surface s = _D3DTextures[Texture.index].GetSurfaceLevel(0);
@@ -1460,36 +1462,14 @@ namespace Vocaluxe.Lib.Draw
                     return;
 
                 STextureQueque q = _Queque[0];
-                STexture texture = new STexture(-1);
+                STexture texture;
                 if (_Textures.ContainsKey(q.ID))
                     texture = _Textures[q.ID];
-                if (texture.index < 0)
+                else
                     return;
 
-                texture.width = q.width;
-                texture.height = q.height;
-                texture.w2 = CheckForNextPowerOf2(texture.width);
-                texture.h2 = CheckForNextPowerOf2(texture.height);
-
-                texture.width_ratio = texture.width / texture.w2;
-                texture.height_ratio = texture.height / texture.h2;
-
-                Texture t = new Texture(_Device, (int)texture.w2, (int)texture.h2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
-                DataRectangle rect = t.LockRectangle(0, LockFlags.Discard);
-                for (int i = 0; i < q.data.Length; )
-                {
-                    rect.Data.Write(q.data, i, 4 * q.width);
-                    i += 4 * q.width;
-                    rect.Data.Position = rect.Data.Position - 4 * q.width;
-                    rect.Data.Position += rect.Pitch;
-                }
-                t.UnlockRectangle(0);
+                Texture t = _CreateTexture(q.width, q.height, ref q.data, ref texture);
                 _D3DTextures[q.ID] = t;
-
-                // Add to Texture List
-                texture.color = new SColorF(1f, 1f, 1f, 1f);
-                texture.rect = new SRectF(0f, 0f, texture.width, texture.height, 0f);
-                texture.TexturePath = String.Empty;
 
                 _Textures[texture.index] = texture;
                 _Queque.RemoveAt(0);
