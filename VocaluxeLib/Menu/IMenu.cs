@@ -324,10 +324,10 @@ namespace Vocaluxe.Menu
     [Flags]
     public enum EModifier
     {
-        None,
-        Shift,
-        Alt,
-        Ctrl
+        None = 0,
+        Shift = 1,
+        Alt = 2,
+        Ctrl = 4
     }
 
     public enum ESender
@@ -361,23 +361,14 @@ namespace Vocaluxe.Menu
             Key = key;
             Handled = false;
 
-            EModifier mALT = EModifier.None;
-            EModifier mSHIFT = EModifier.None;
-            EModifier mCTRL = EModifier.None;
+            Mod = EModifier.None;
 
             if (alt)
-                mALT = EModifier.Alt;
-
+                Mod |= EModifier.Alt;
             if (shift)
-                mSHIFT = EModifier.Shift;
-
+                Mod |= EModifier.Shift;
             if (ctrl)
-                mCTRL = EModifier.Ctrl;
-
-            if (!alt && !shift && !ctrl)
-                Mod = EModifier.None;
-            else
-                Mod = mALT | mSHIFT | mCTRL;
+                Mod |= EModifier.Ctrl;
         }
     }
 

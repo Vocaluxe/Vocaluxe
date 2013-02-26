@@ -109,39 +109,41 @@ Vocaluxe.exe -ConfigFile MyConfig.xml -ScoreFile C:\Vocaluxe\Highscores\MyHighsc
 =================================
 = 4. Controls                   =
 =================================
-[Mouse]					to navigate through the screens: Left button: select/manipulate elements,
-						Right button: go to previous screen.
-[Cursor] 				to navigate through the screens.
-[Enter]  				to confirm
+[Mouse]				to navigate through the screens: Left button: select/manipulate elements,
+								 Right button: go to previous screen.
+[Cursor] 			to navigate through the screens.
+[Enter]  			to confirm
 [Escape] or [Back] 		to go to the previous screen.
 
-[ALT] + [P]				to take a ScreenShot. Screenshots are saved in the directory "Screenshots".
+[ALT] + [P]			to take a ScreenShot. Screenshots are saved in the directory "Screenshots".
 [ALT] + [ENTER]			to toggle full screen mode.
 [SHIFT] + [F1] 			to toggle theme edit mode. The theme edit mode is experimental. It allows you
 						to change the size and position of the element on the screens. You can save
 						your changes with [S] before leaving the theme edit mode.
-[TAB]					to open the background music controls (not on all screens).
+[TAB]				to open the background music controls (not on all screens).
 [SHIFT] + [+]			to increase volume
 [SHIFT] + [-]			to decrease volume
 
 Song screen
+[F3]				to open/close the song search menu
+[SPACE]				to open/close the song menu
 [CTRL] + [R]			to select a random song
-[F3]					to open/close the song search menu
-[A]						to sing all songs
-[SHIFT] + [A]			to sing all songs from a category
-[SPACE]					to open/close the song menu
+[CTRL] + [A]			to sing all songs
+[CTRL] + [V]			to sing all songs from a category
+[NUM_1]..[NUM_6]		to use a Joker for team 1..6
+[A]..[Z]			to jump to category/song title starting with that letter
 
 Name selection screen
-[1]..[6]				to activate player selection.
-[Cursor]				to select a profile.
-[Enter]					to confirm a selection.
+[1]..[6]			to activate player selection.
+[Cursor]			to select a profile.
+[Enter]				to confirm a selection.
 
 Sing screen
-[P]						to toggle pause.
+[P]				to toggle pause.
 [CTRL] + [S]			to skip a song if there is another one in the playlist.
-[T]						to change the time format of the timer.
-[I]						to change view of player information.
-[W]						to activate the configured webcam.
+[T]				to change the time format of the timer.
+[I]				to change view of player information.
+[W]				to activate the configured webcam.
 
 
 =================================
