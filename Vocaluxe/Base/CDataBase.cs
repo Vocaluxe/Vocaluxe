@@ -1011,8 +1011,6 @@ namespace Vocaluxe.Base
         #region Cover
         public static bool GetCover(string CoverPath, ref STexture tex, int MaxSize)
         {
-            bool result = false;
-
             if (!File.Exists(CoverPath))
             {
                 CLog.LogError("Can't find File: " + CoverPath);
@@ -1048,10 +1046,11 @@ namespace Vocaluxe.Base
 
                     if (reader.HasRows)
                     {
-                        result = true;
                         reader.Read();
                         byte[] data = GetBytes(reader);
+                        reader.Dispose();
                         tex = CDraw.QuequeTexture(w, h, ref data);
+                        return true;
                     }
                 }
                 else
@@ -1120,19 +1119,17 @@ namespace Vocaluxe.Base
                     {
                         reader.Read();
                         int id = reader.GetInt32(0);
+                        reader.Dispose();
                         command.CommandText = "INSERT INTO CoverData (CoverID, Data) VALUES (@id, @data)";
                         command.Parameters.Add("@id", DbType.Int32).Value = id;
                         command.Parameters.Add("@data", System.Data.DbType.Binary, 20).Value = data;
                         command.ExecuteReader();
-                        result = true;
+                        return true;
                     }
                 }
-
-                if (reader != null)
-                    reader.Dispose();
             }
 
-            return result;
+            return false;
         }
 
         public static void CommitCovers()
@@ -1284,14 +1281,7 @@ namespace Vocaluxe.Base
 
                         command.CommandText = "SELECT Data FROM ImageData WHERE ImageID = @id";
                         command.Parameters.Add("@id",DbType.Int32).Value=id;
-                        try
-                        {
-                            reader = command.ExecuteReader();
-                        }
-                        catch (Exception)
-                        {
-                            throw;
-                        }
+                        reader = command.ExecuteReader();
 
                         if (reader.HasRows)
                         {

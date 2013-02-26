@@ -324,7 +324,7 @@ namespace Vocaluxe.Base
             CInput.Update();
 
             if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC && _CurrentScreen != EScreens.ScreenSing)
-                CSongs.LoadCover();
+                CSongs.LoadCover(30, 1);
 
             if (CSettings.GameState != EGameState.EditTheme)
             {
