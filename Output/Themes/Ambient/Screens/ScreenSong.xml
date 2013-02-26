@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenSong>
-    <ScreenVersion>4</ScreenVersion>
+    <ScreenVersion>5</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>Video</Type>
@@ -954,7 +954,7 @@
       <SkinSelected>Button</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
       <X>40</X>
-      <Y>135</Y>
+      <Y>225</Y>
       <Z>-2,11</Z>
       <W>360</W>
       <H>40</H>
@@ -1003,7 +1003,7 @@
       <SkinSelected>Button</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
       <X>40</X>
-      <Y>180</Y>
+      <Y>270</Y>
       <Z>-2,11</Z>
       <W>360</W>
       <H>40</H>
@@ -1045,14 +1045,14 @@
       <!--   <Space>: Reflection Space of selected button-->
       <!--   <Height>: Reflection Height of selected button-->
     </ButtonOptionsSingAllVisible>
-    <ButtonOptionsOpenPlaylist>
+    <ButtonOptionsOpenSelectedItem>
       <!--<Skin>: Texture name-->
       <Skin>Button</Skin>
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>Button</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
       <X>40</X>
-      <Y>270</Y>
+      <Y>135</Y>
       <Z>-2,11</Z>
       <W>360</W>
       <H>40</H>
@@ -1085,7 +1085,7 @@
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
         <!--<Text>: Nothing or translation tag-->
-        <Text>TR_SCREENSONG_BUTTON_OPENPLAYLIST</Text>
+        <Text>TR_SCREENSONG_BUTTON_OPEN_SELECTED_ITEM</Text>
       </Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
@@ -1093,7 +1093,7 @@
       <!--<SReflection> If exists:-->
       <!--   <Space>: Reflection Space of selected button-->
       <!--   <Height>: Reflection Height of selected button-->
-    </ButtonOptionsOpenPlaylist>
+    </ButtonOptionsOpenSelectedItem>
     <ButtonOpenOptions>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
@@ -1449,19 +1449,19 @@
       <SkinHighlighted>SelectSlide</SkinHighlighted>
       <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
       <X>40</X>
-      <Y>225</Y>
+      <Y>180</Y>
       <Z>-2,11</Z>
       <W>360</W>
       <H>40</H>
       <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
       <ArrowLeftX>45</ArrowLeftX>
-      <ArrowLeftY>235</ArrowLeftY>
+      <ArrowLeftY>190</ArrowLeftY>
       <ArrowLeftZ>-2,12</ArrowLeftZ>
       <ArrowLeftW>30</ArrowLeftW>
       <ArrowLeftH>30</ArrowLeftH>
       <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
       <ArrowRightX>365</ArrowRightX>
-      <ArrowRightY>235</ArrowRightY>
+      <ArrowRightY>190</ArrowRightY>
       <ArrowRightZ>-2,12</ArrowRightZ>
       <ArrowRightW>30</ArrowRightW>
       <ArrowRightH>30</ArrowRightH>

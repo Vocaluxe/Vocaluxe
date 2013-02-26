@@ -588,6 +588,16 @@ namespace Vocaluxe.Menu.SongMenu
             LoadTextures();
         }
 
+        public bool EnterCurrentCategory()
+        {
+            if (!_Initialized)
+                return false;
+            if (CBase.Songs.GetCurrentCategoryIndex() >= 0 || _PreviewSelected < 0 || _PreviewSelected >= CBase.Songs.GetNumCategories())
+                return false;
+            EnterCategory(_PreviewSelected);
+            return true;
+        }
+
         protected virtual void EnterCategory(int Category)
         {
             if (!_Initialized)
@@ -605,8 +615,8 @@ namespace Vocaluxe.Menu.SongMenu
             if (!_Initialized)
                 return;
 
-            if (CBase.Songs.GetCurrentCategoryIndex() != -1)
-                Reset();
+            if (CBase.Songs.GetCurrentCategoryIndex() == -1)
+                return;
 
             Reset();
             CBase.Songs.SetCategory(-1);

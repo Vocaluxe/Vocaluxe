@@ -29,6 +29,8 @@ namespace Vocaluxe.Menu.SongMenu
         void SetSelectedCategory(int CategoryNr);
         int GetActualSelection();
 
+        bool EnterCurrentCategory();
+
         bool IsSelected();
         void SetSelected(bool Selected);
 

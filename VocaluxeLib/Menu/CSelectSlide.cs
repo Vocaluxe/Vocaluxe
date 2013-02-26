@@ -79,6 +79,11 @@ namespace Vocaluxe.Menu
                 }
             }
         }
+        public bool ValueSelected
+        {
+            get { return _Selected && !_ArrowLeftSelected && !_ArrowRightSelected; }
+        }
+
         public bool Visible = true;
         public bool Highlighted = false;
         

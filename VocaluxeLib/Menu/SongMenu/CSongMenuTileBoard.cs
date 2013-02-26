@@ -163,11 +163,7 @@ namespace Vocaluxe.Menu.SongMenu
         {
             base.HandleInput(ref KeyEvent, SongOptions);
 
-            if (KeyEvent.KeyPressed)
-            {
-                //
-            }
-            else
+            if (!KeyEvent.KeyPressed)
             {
                 if (!(KeyEvent.Key == Keys.Left || KeyEvent.Key == Keys.Right || KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down ||
                     KeyEvent.Key == Keys.Escape || KeyEvent.Key == Keys.Back || KeyEvent.Key == Keys.Enter ||

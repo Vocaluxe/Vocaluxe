@@ -139,6 +139,11 @@ namespace Vocaluxe.Base
             }
         }
 
+        public static bool IsInCategory
+        {
+            get { return _CatIndex >= 0; }
+        }
+
         /// <summary>
         /// Returns the number of song in the category specified with CatIndex
         /// </summary>
