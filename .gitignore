@@ -32,3 +32,5 @@ Output/Songs
 *.ipch
 
 *.log
+
+/Output/Playlists/*.xml

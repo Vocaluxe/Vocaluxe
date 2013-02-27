@@ -182,9 +182,13 @@
     <Compile Include="Base\CLanguage.cs" />
     <Compile Include="Base\CLog.cs" />
     <Compile Include="Base\CMain.cs" />
+    <Compile Include="Base\CObservable.cs" />
     <Compile Include="Base\CParty.cs" />
     <Compile Include="Base\CPlaylists.cs" />
     <Compile Include="Base\CProfiles.cs" />
+    <Compile Include="Base\CSongCategorizer.cs" />
+    <Compile Include="Base\CSongFilter.cs" />
+    <Compile Include="Base\CSongSorter.cs" />
     <Compile Include="Base\CUtility.cs" />
     <Compile Include="Base\CSettings.cs" />
     <Compile Include="Base\CSongs.cs" />

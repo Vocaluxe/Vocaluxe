@@ -153,7 +153,7 @@ namespace Vocaluxe.PartyModes
 
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchActive = false;
-            _ScreenSongOptions.Sorting.ShowDuetSongs = false;
+            _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.NoDuets;
             
             _Stage = EStage.NotStarted;
 

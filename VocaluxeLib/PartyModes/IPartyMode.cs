@@ -20,7 +20,7 @@ namespace Vocaluxe.PartyModes
         public EOffOn IgnoreArticles;
         public string SearchString;
         public bool SearchActive;
-        public bool ShowDuetSongs;
+        public EDuetOptions DuetOptions;
     }
 
     /// <summary>
