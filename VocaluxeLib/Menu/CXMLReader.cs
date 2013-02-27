@@ -9,7 +9,8 @@ namespace Vocaluxe.Menu
     {
         private XPathNavigator _Navigator;
         
-        public CXMLReader(string uri)
+        //Private method. Use OpenFile factory method to get an instance
+        private CXMLReader(string uri)
         {
             XPathDocument xPathDoc = new XPathDocument(uri);
             _Navigator = xPathDoc.CreateNavigator();
@@ -26,9 +27,9 @@ namespace Vocaluxe.Menu
             {
                 return new CXMLReader(sUri);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                CBase.Log.LogError("Can't open XML file: " + sUri);
+                CBase.Log.LogError("Can't open XML file: " + sUri + ": " + e.Message);
                 return null;
             }
         }

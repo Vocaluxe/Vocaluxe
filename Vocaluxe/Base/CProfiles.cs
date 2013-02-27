@@ -12,7 +12,6 @@ namespace Vocaluxe.Base
     static class CProfiles
     {
         private static XmlWriterSettings _settings = new XmlWriterSettings();
-        private static CHelper Helper = new CHelper();
         private static List<SProfile> _Profiles;
         private static List<SAvatar> _Avatars = new List<SAvatar>();
 
@@ -86,7 +85,7 @@ namespace Vocaluxe.Base
         {
             _Profiles = new List<SProfile>();
             List<string> files = new List<string>();
-            files.AddRange(Helper.ListFiles(CSettings.sFolderProfiles, "*.xml", true, true));
+            files.AddRange(CHelper.ListFiles(CSettings.sFolderProfiles, "*.xml", true, true));
 
             foreach (string file in files)
             {
@@ -106,10 +105,10 @@ namespace Vocaluxe.Base
             _Avatars.Clear();
 
             List<string> files = new List<string>();
-            files.AddRange(Helper.ListFiles(CSettings.sFolderProfiles, "*.png", true, true));
-            files.AddRange(Helper.ListFiles(CSettings.sFolderProfiles, "*.jpg", true, true));
-            files.AddRange(Helper.ListFiles(CSettings.sFolderProfiles, "*.jpeg", true, true));
-            files.AddRange(Helper.ListFiles(CSettings.sFolderProfiles, "*.bmp", true, true));
+            files.AddRange(CHelper.ListFiles(CSettings.sFolderProfiles, "*.png", true, true));
+            files.AddRange(CHelper.ListFiles(CSettings.sFolderProfiles, "*.jpg", true, true));
+            files.AddRange(CHelper.ListFiles(CSettings.sFolderProfiles, "*.jpeg", true, true));
+            files.AddRange(CHelper.ListFiles(CSettings.sFolderProfiles, "*.bmp", true, true));
 
             foreach (string file in files)
             {
@@ -361,17 +360,9 @@ namespace Vocaluxe.Base
             SProfile profile = new SProfile();
             profile.ProfileFile = Path.Combine(CSettings.sFolderProfiles, FileName);
 
-            CXMLReader xmlReader;
-
-            try
-            {
-                xmlReader = new CXMLReader(profile.ProfileFile);
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error opening Profile File " + FileName + ": " + e.Message);
+            CXMLReader xmlReader = CXMLReader.OpenFile(profile.ProfileFile);
+            if (xmlReader == null)
                 return;
-            }
 
             string value = String.Empty;
             if (xmlReader.GetValue("//root/Info/PlayerName", ref value, value))

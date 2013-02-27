@@ -530,7 +530,12 @@ namespace Vocaluxe.Menu.SingNotes
 
 
             CBase.Drawing.DrawTexture(NoteBegin, new SRectF(r.X, r.Y, dx, r.H, r.Z), Color);
-            CBase.Drawing.DrawTexture(NoteMiddle, new SRectF(r.X + dx, r.Y, r.W - 2 * dx, r.H, r.Z), Color);
+
+            if (r.W - 2 * dx >= 2 * dx)
+                CBase.Drawing.DrawTexture(NoteMiddle, new SRectF(r.X + dx, r.Y, r.W - 2 * dx, r.H, r.Z), Color);
+            else
+                CBase.Drawing.DrawTexture(NoteMiddle, new SRectF(r.X + dx, r.Y, 2 * dx, r.H, r.Z), Color, new SRectF(r.X + dx, r.Y, r.W - 2 * dx, r.H, r.Z));
+
             CBase.Drawing.DrawTexture(NoteEnd, new SRectF(r.X + r.W - dx, r.Y, dx, r.H, r.Z), Color);
         }
 
@@ -573,7 +578,12 @@ namespace Vocaluxe.Menu.SingNotes
             SColorF col = new SColorF(Color.R, Color.G, Color.B, Color.A * alpha);
 
             CBase.Drawing.DrawTexture(NoteBackgroundBegin, new SRectF(r.X, r.Y, dx, r.H, r.Z), col);
-            CBase.Drawing.DrawTexture(NoteBackgroundMiddle, new SRectF(r.X + dx, r.Y, r.W - 2 * dx, r.H, r.Z), col);
+
+            if (r.W - 2 * dx >= 2 * dx)
+                CBase.Drawing.DrawTexture(NoteBackgroundMiddle, new SRectF(r.X + dx, r.Y, r.W - 2 * dx, r.H, r.Z), col);
+            else
+                CBase.Drawing.DrawTexture(NoteBackgroundMiddle, new SRectF(r.X + dx, r.Y, 2 * dx, r.H, r.Z), col, new SRectF(r.X + dx, r.Y, r.W - 2 * dx, r.H, r.Z));
+
             CBase.Drawing.DrawTexture(NoteBackgroundEnd, new SRectF(r.X + r.W - dx, r.Y, dx, r.H, r.Z), col);
         }
 

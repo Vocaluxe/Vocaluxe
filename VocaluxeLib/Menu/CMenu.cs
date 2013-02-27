@@ -172,27 +172,16 @@ namespace Vocaluxe.Menu
         {
             string file = Path.Combine(XmlPath, _ThemeName + ".xml");
 
-            CXMLReader xmlReader = null;
-            
-            try
-            {
-                xmlReader = new CXMLReader(file);
-            }
-            catch (Exception e)
-            {
-                if (xmlReader != null)
-                    xmlReader = null;
-
-                CBase.Log.LogError("Error loading theme file " + file + ": " + e.Message);
-            }
+            CXMLReader xmlReader = CXMLReader.OpenFile(file);
+            if (xmlReader == null)
+                return;
 
             bool VersionCheck = false;
-            if (xmlReader != null)
-                VersionCheck = CheckVersion(_ScreenVersion, xmlReader);
+            VersionCheck = CheckVersion(_ScreenVersion, xmlReader);
 
             int SkinIndex = CBase.Theme.GetSkinIndex(_PartyModeID);
 
-            if (xmlReader != null && VersionCheck && SkinIndex != -1)
+            if (VersionCheck && SkinIndex != -1)
             {
                 _ThemePath = XmlPath;
                 LoadThemeBasics(xmlReader, SkinIndex);

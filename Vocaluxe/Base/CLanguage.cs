@@ -28,7 +28,6 @@ namespace Vocaluxe.Base
     {
         private static XmlWriterSettings _settings = new XmlWriterSettings();
         private static List<SLanguage> _Languages;
-        private static CHelper Helper = new CHelper();
         private static int _CurrentLanguage = 0;
         private static int _FallbackLanguage = 0;
 
@@ -62,7 +61,7 @@ namespace Vocaluxe.Base
             _settings.ConformanceLevel = ConformanceLevel.Document;
 
             List<string> files = new List<string>();
-            files.AddRange(Helper.ListFiles(CSettings.sFolderLanguages, "*.xml", true, true));
+            files.AddRange(CHelper.ListFiles(CSettings.sFolderLanguages, "*.xml", true, true));
             
             foreach (string file in files)
 	        {
@@ -228,7 +227,7 @@ namespace Vocaluxe.Base
         public static bool LoadPartyLanguageFiles(int PartyModeID, string Path)
         {
             List<string> files = new List<string>();
-            files.AddRange(Helper.ListFiles(Path, "*.xml", true, true));
+            files.AddRange(CHelper.ListFiles(Path, "*.xml", true, true));
 
             foreach (string file in files)
             {
@@ -240,17 +239,9 @@ namespace Vocaluxe.Base
 
         private static bool LoadPartyLanguageFile(int PartyModeID, string file)
         {
-            CXMLReader xmlReader;
- 
-            try
-            {
-                xmlReader = new CXMLReader(file);
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error opening Party Language File " + file + ": " + e.Message);
+            CXMLReader xmlReader = CXMLReader.OpenFile(file);
+            if (xmlReader == null)
                 return false;
-            }
 
             string value = string.Empty;
             if (xmlReader.GetValue("//resources/string[@name='language']", ref value, value))
@@ -296,17 +287,9 @@ namespace Vocaluxe.Base
             SLanguage lang = new SLanguage();
             lang.LanguageFilePath = Path.Combine(CSettings.sFolderLanguages, FileName);
 
-            CXMLReader xmlReader;
-
-            try
-            {
-                xmlReader = new CXMLReader(lang.LanguageFilePath);
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error opening Language File " + FileName + ": " + e.Message);
+            CXMLReader xmlReader = CXMLReader.OpenFile(lang.LanguageFilePath);
+            if (xmlReader == null)
                 return;
-            }
 
             string value = string.Empty;
             if (xmlReader.GetValue("//resources/string[@name='language']", ref value, value))

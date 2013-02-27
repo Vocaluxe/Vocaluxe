@@ -157,9 +157,8 @@ namespace Vocaluxe.Base
         {
             _CoverThemes.Clear();
 
-            CHelper Helper = new CHelper();
             string path = CSettings.sFolderCover;
-            List<string> files = Helper.ListFiles(path, "*.xml", false);
+            List<string> files = CHelper.ListFiles(path, "*.xml", false);
 
             foreach (string file in files)
             {
@@ -230,13 +229,12 @@ namespace Vocaluxe.Base
                     }
                 }
 
-                CHelper Helper = new CHelper();
                 List<string> files = new List<string>();
 
-                files.AddRange(Helper.ListFiles(Path.Combine(CSettings.sFolderCover, coverTheme.Folder), "*.png", true, true));
-                files.AddRange(Helper.ListFiles(Path.Combine(CSettings.sFolderCover, coverTheme.Folder), "*.jpg", true, true));
-                files.AddRange(Helper.ListFiles(Path.Combine(CSettings.sFolderCover, coverTheme.Folder), "*.jpeg", true, true));
-                files.AddRange(Helper.ListFiles(Path.Combine(CSettings.sFolderCover, coverTheme.Folder), "*.bmp", true, true));
+                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.sFolderCover, coverTheme.Folder), "*.png", true, true));
+                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.sFolderCover, coverTheme.Folder), "*.jpg", true, true));
+                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.sFolderCover, coverTheme.Folder), "*.jpeg", true, true));
+                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.sFolderCover, coverTheme.Folder), "*.bmp", true, true));
 
 
                 foreach (string file in files)

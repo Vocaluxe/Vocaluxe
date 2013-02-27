@@ -31,9 +31,14 @@ namespace Vocaluxe.Menu.SongMenu
     public class CCategory
     {
         public string Name = String.Empty;
-        private STexture _CoverTextureSmall = new STexture();
-        private STexture _CoverTextureBig = new STexture();
+        private STexture _CoverTextureSmall = new STexture(-1);
+        private STexture _CoverTextureBig = new STexture(-1);
         private bool _CoverBigLoaded = false;
+
+        public CCategory(string name)
+        {
+            Name = name;
+        }
 
         public STexture CoverTextureSmall
         {
@@ -201,7 +206,8 @@ namespace Vocaluxe.Menu.SongMenu
 
         public List<string> Edition = new List<string>();
         public List<string> Genre = new List<string>();
-        public string Year = "0000";
+        public string Year = "";
+
         public List<string> Language = new List<string>();
 
         // Notes
@@ -474,7 +480,7 @@ namespace Vocaluxe.Menu.SongMenu
                                     break;
                                 case "YEAR":
                                     int num = 0;
-                                    if (Value.Length == 4 && int.TryParse(Value, out num))
+                                    if (Value.Length == 4 && int.TryParse(Value, out num) && num != 0)
                                     {
                                         this.Year = Value;
                                     }
@@ -842,11 +848,9 @@ namespace Vocaluxe.Menu.SongMenu
 
         private void CheckFiles()
         {
-            CHelper Helper = new CHelper();
-
             if(this.CoverFileName == String.Empty){
-                List<string> files = Helper.ListFiles(this.Folder, "*.jpg", false);
-                files.AddRange(Helper.ListFiles(this.Folder, "*.png", false));
+                List<string> files = CHelper.ListFiles(this.Folder, "*.jpg", false);
+                files.AddRange(CHelper.ListFiles(this.Folder, "*.png", false));
                 foreach(String file in files)
                 {
                     if (Regex.IsMatch(file, @".[CO].", RegexOptions.IgnoreCase) && (Regex.IsMatch(file, @"" + Regex.Escape(this.Title), RegexOptions.IgnoreCase) || Regex.IsMatch(file, @"" + Regex.Escape(this.Artist), RegexOptions.IgnoreCase)))
@@ -858,8 +862,8 @@ namespace Vocaluxe.Menu.SongMenu
 
             if (this.BackgroundFileName == String.Empty)
             {
-                List<string> files = Helper.ListFiles(this.Folder, "*.jpg", false);
-                files.AddRange(Helper.ListFiles(this.Folder, "*.png", false));
+                List<string> files = CHelper.ListFiles(this.Folder, "*.jpg", false);
+                files.AddRange(CHelper.ListFiles(this.Folder, "*.png", false));
                 foreach (String file in files)
                 {
 

@@ -15,7 +15,6 @@ namespace Vocaluxe.Base
     static class CPlaylists
     {
         private static List<CPlaylistFile> _Playlists;
-        private static CHelper Helper = new CHelper();
 
         public static CPlaylistFile[] Playlists
         {
@@ -51,7 +50,7 @@ namespace Vocaluxe.Base
         public static void ConvertUSDXPlaylists()
         {
             List<string> files = new List<string>();
-            files.AddRange(Helper.ListFiles(CSettings.sFolderPlaylists, "*.upl", true, true));
+            files.AddRange(CHelper.ListFiles(CSettings.sFolderPlaylists, "*.upl", true, true));
 
             foreach (string file in files)
             {
@@ -65,7 +64,7 @@ namespace Vocaluxe.Base
         {
             _Playlists = new List<CPlaylistFile>();
             List<string> files = new List<string>();
-            files.AddRange(Helper.ListFiles(CSettings.sFolderPlaylists, "*.xml", true, true));
+            files.AddRange(CHelper.ListFiles(CSettings.sFolderPlaylists, "*.xml", true, true));
 
             foreach (string file in files)
             {

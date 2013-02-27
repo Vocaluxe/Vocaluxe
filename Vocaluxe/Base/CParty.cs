@@ -34,7 +34,6 @@ namespace Vocaluxe.Base
     {
         const int PartyModeSystemVersion = 1;
 
-        private static CHelper Helper;
         private static Dictionary<int, SPartyMode> _PartyModes;
         private static Queue<int> _IDs;
 
@@ -44,7 +43,6 @@ namespace Vocaluxe.Base
         #region public stuff
         public static void Init()
         {
-            Helper = new CHelper();
             _PartyModes = new Dictionary<int, SPartyMode>();
             _IDs = new Queue<int>(1000);
 
@@ -206,7 +204,7 @@ namespace Vocaluxe.Base
         private static void LoadPartyModes()
         {
             List<string> files = new List<string>();
-            files.AddRange(Helper.ListFiles(CSettings.sFolderPartyModes, "*.xml", false, true));
+            files.AddRange(CHelper.ListFiles(CSettings.sFolderPartyModes, "*.xml", false, true));
 
             foreach (string file in files)
             {
@@ -222,18 +220,11 @@ namespace Vocaluxe.Base
             pm.ScreenFiles = new List<string>();
             pm.NoErrors = false;
 
-            CXMLReader xmlReader;
+            CXMLReader xmlReader = CXMLReader.OpenFile(file);
 
-            try
-            {
-                xmlReader = new CXMLReader(file);
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error opening party mode file " + file + ": " + e.Message);
-
+            //Error...
+            if (xmlReader == null)
                 return pm;
-            }
 
             bool loaded = true;
 
@@ -269,7 +260,7 @@ namespace Vocaluxe.Base
             string PathToCode = Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeCode);
 
             List<string> FilesToCompile = new List<string>();
-            FilesToCompile.AddRange(Helper.ListFiles(PathToCode, "*.cs", false, true));
+            FilesToCompile.AddRange(CHelper.ListFiles(PathToCode, "*.cs", false, true));
             
             Assembly Output = CompileFiles(FilesToCompile.ToArray());
             if (Output == null)
