@@ -57,13 +57,14 @@ namespace Vocaluxe.Base
         public static ELyricStyle LyricStyle = ELyricStyle.Slide;
 
         // Sound
-        public static EPlaybackLib PlayBackLib = EPlaybackLib.PortAudio;
+        public static EPlaybackLib PlayBackLib = EPlaybackLib.Gstreamer;
         public static ERecordLib RecordLib = ERecordLib.PortAudio;
         public static EBufferSize AudioBufferSize = EBufferSize.b2048;
         public static int AudioLatency = 0;
         public static int BackgroundMusicVolume = 30;
         public static EOffOn BackgroundMusic = EOffOn.TR_CONFIG_ON;
         public static EBackgroundMusicSource BackgroundMusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
+        public static EOffOn BackgroundMusicUseStart = EOffOn.TR_CONFIG_ON;
         public static int PreviewMusicVolume = 50;
         public static int GameMusicVolume = 80;
 
@@ -169,6 +170,7 @@ namespace Vocaluxe.Base
             xmlReader.TryGetEnumValue("//root/Sound/BackgroundMusic", ref BackgroundMusic);
             xmlReader.TryGetIntValueRange("//root/Sound/BackgroundMusicVolume", ref BackgroundMusicVolume);
             xmlReader.TryGetEnumValue("//root/Sound/BackgroundMusicSource", ref BackgroundMusicSource);
+            xmlReader.TryGetEnumValue<EOffOn>("//root/Sound/BackgroundMusicUseStart", ref BackgroundMusicUseStart);
             xmlReader.TryGetIntValueRange("//root/Sound/PreviewMusicVolume", ref PreviewMusicVolume);
             xmlReader.TryGetIntValueRange("//root/Sound/GameMusicVolume", ref GameMusicVolume);
             #endregion Sound
@@ -404,6 +406,11 @@ namespace Vocaluxe.Base
 
                     writer.WriteComment("Background Music Source");
                     writer.WriteElementString("BackgroundMusicSource", Enum.GetName(typeof(EBackgroundMusicSource), BackgroundMusicSource));
+            writer.WriteComment("Background Music use start-tag of songs");
+            writer.WriteElementString("BackgroundMusicUseStart", Enum.GetName(typeof(EOffOn), BackgroundMusicUseStart));
+
+            writer.WriteComment("Preview Volume from 0 to 100");
+            writer.WriteElementString("PreviewMusicVolume", PreviewMusicVolume.ToString());
 
                     writer.WriteComment("Preview Volume from 0 to 100");
                     writer.WriteElementString("PreviewMusicVolume", PreviewMusicVolume.ToString());
