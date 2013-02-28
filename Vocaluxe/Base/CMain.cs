@@ -585,12 +585,12 @@ namespace Vocaluxe.Base
 
         public EOffOn GetTabs()
         {
-            return CSongs.Tabs;
+            return CSongs.Categorizer.Tabs;
         }
 
         public string GetSearchFilter()
         {
-            return CSongs.SearchFilter;
+            return CSongs.Filter.SearchString;
         }
 
         public void SetCategory(int CategoryIndex)
@@ -646,9 +646,9 @@ namespace Vocaluxe.Base
             CSongs.ResetPartySongSung(CatIndex);
         }
 
-        public void SortSongs(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, String SearchString, bool ShowDuetSongs)
+        public void SortSongs(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, String SearchString, EDuetOptions DuetOptions)
         {
-            CSongs.Sort(Sorting, Tabs, IgnoreArticles, SearchString, ShowDuetSongs);
+            CSongs.Sort(Sorting, Tabs, IgnoreArticles, SearchString, DuetOptions);
         }
 
         public void NextCategory()

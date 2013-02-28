@@ -248,7 +248,7 @@ namespace Vocaluxe.Menu
         void ResetPartySongSung();
         void ResetPartySongSung(int CatIndex);
 
-        void SortSongs(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, String SearchString, bool ShowDuetSongs);
+        void SortSongs(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, String SearchString, EDuetOptions DuetOptions);
 
         void NextCategory();
         void PrevCategory();
@@ -656,6 +656,13 @@ namespace Vocaluxe.Menu
         //TR_CONFIG_DREIDEL,	    //as in ultrastar deluxe
         TR_CONFIG_TILE_BOARD,	//chessboard like
         //TR_CONFIG_BOOK          //for playlists
+    }
+
+    public enum EDuetOptions
+    {
+        All,
+        Duets,
+        NoDuets
     }
 
     public enum ESongSorting

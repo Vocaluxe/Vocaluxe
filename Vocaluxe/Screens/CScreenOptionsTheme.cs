@@ -178,7 +178,9 @@ namespace Vocaluxe.Screens
             if (_OldCoverTheme != SelectSlides[htSelectSlides(SelectSlideCover)].Selection)
             {
                 CCover.ReloadCover();
-                CSongs.Sort(CConfig.SongSorting, CConfig.Tabs, CConfig.IgnoreArticles, String.Empty);
+                CSongs.Filter.SearchString = String.Empty;
+                CSongs.Sorter.SetOptions(CConfig.SongSorting, CConfig.IgnoreArticles);
+                CSongs.Categorizer.Tabs = CConfig.Tabs;
             }
 
             if (_OldTheme != SelectSlides[htSelectSlides(SelectSlideTheme)].Selection)

@@ -155,7 +155,7 @@ namespace Vocaluxe.PartyModes
 
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchActive = false;
-            _ScreenSongOptions.Sorting.ShowDuetSongs = false;
+            _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.NoDuets;
             
             _Stage = EStage.NotStarted;
 
@@ -188,7 +188,7 @@ namespace Vocaluxe.PartyModes
             ToScreenMain.ResultTable = new List<ResultTableRow>();
             GameData.ResultTable = new List<ResultTableRow>();
 
-            CBase.Songs.SortSongs(ESongSorting.TR_CONFIG_NONE, EOffOn.TR_CONFIG_OFF, EOffOn.TR_CONFIG_OFF, String.Empty, false);
+            CBase.Songs.SortSongs(ESongSorting.TR_CONFIG_NONE, EOffOn.TR_CONFIG_OFF, EOffOn.TR_CONFIG_OFF, String.Empty, EDuetOptions.NoDuets);
             CBase.Songs.SetCategory(0);
 
             return true;

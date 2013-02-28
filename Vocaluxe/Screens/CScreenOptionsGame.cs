@@ -24,9 +24,6 @@ namespace Vocaluxe.Screens
 
         private const string ButtonExit = "ButtonExit";
 
-        private ESongSorting _SongSortingOld;
-        private EOffOn _TabsOld;
-        private string _LanguageOld;
         private string[] _Languages;
         private int _CurrentLang = -1;
 
@@ -133,15 +130,6 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override void OnShow()
-        {
-            base.OnShow();
-
-            _SongSortingOld = CConfig.SongSorting;
-            _TabsOld = CConfig.Tabs;
-            _LanguageOld = CConfig.Language;
-        }
-
         public override bool UpdateGame()
         {
             return true;
@@ -164,17 +152,10 @@ namespace Vocaluxe.Screens
 
             CConfig.SaveConfig();
 
-            if (_SongSortingOld != CConfig.SongSorting || _TabsOld != CConfig.Tabs || _LanguageOld != CConfig.Language)
-            {
-                CSongs.Sort(CConfig.SongSorting, CConfig.Tabs, CConfig.IgnoreArticles, String.Empty);
-                CSongs.Category = -1;
-            }
+            CSongs.Sorter.SongSorting = CConfig.SongSorting;
+            CSongs.Categorizer.Tabs = CConfig.Tabs;
 
             CLanguage.SetLanguage(CConfig.Language);
-
-            _SongSortingOld = CConfig.SongSorting;
-            _TabsOld = CConfig.Tabs;
-            _LanguageOld = CConfig.Language;
         }
     }
 }
