@@ -45,6 +45,9 @@ GstreamerAudioStream::~GstreamerAudioStream(void)
 	Close();
 }
 
+// Loads a stream but does not wait for it to get initialized, 
+// so querying duration or position directly after initialization might
+// return strange values! To work around this use the prescan load function!
 int GstreamerAudioStream::Load(const wchar_t* Media)
 {
 	Element = gst_element_factory_make("playbin", "playbin");
@@ -71,15 +74,18 @@ int GstreamerAudioStream::Load(const wchar_t* Media)
 	g_object_set(Element, "flags", GST_PLAY_FLAG_AUDIO, NULL); 
 
 	gst_element_set_state(Element, GST_STATE_PAUSED);
-	gst_bus_timed_pop_filtered(Bus, -1, GST_MESSAGE_ASYNC_DONE);
+	//gst_bus_timed_pop_filtered(Bus, -1, GST_MESSAGE_ASYNC_DONE);
 	RefreshDuration();
 
 	return ID;
 }
 
+//Loads a stream and waits for its initialization
 int GstreamerAudioStream::Load(const wchar_t* Media, bool Prescan)
 {
 	Load(Media);
+	if(Prescan)
+		gst_bus_timed_pop_filtered(Bus, -1, GST_MESSAGE_ASYNC_DONE);
 	return ID;
 }
 
