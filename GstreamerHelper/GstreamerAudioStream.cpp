@@ -93,21 +93,22 @@ void GstreamerAudioStream::Close(void)
 {
 	if(Element)
 		gst_element_set_state(Element, GST_STATE_NULL);
-	
 	if(Bus)
-		g_object_unref(Bus);
+		gst_object_unref(Bus);
 	if(Element)
-		g_object_unref(Element);
+		gst_object_unref(Element);
+	if(Message)
+		gst_message_unref(Message);
 	if(Convert)
-		g_object_unref(Convert);
+		gst_object_unref(Convert);
 	if(Audiosink)
-		g_object_unref(Audiosink);
+		gst_object_unref(Audiosink);
 	if(Pad)
-		g_object_unref(Pad);
+		gst_object_unref(Pad);
 	if(GhostPad)
-		g_object_unref(GhostPad);
+		gst_object_unref(GhostPad);
 	if(SinkBin)
-		g_object_unref(SinkBin);
+		gst_object_unref(SinkBin);
 	if(FadeTimer)
 		g_timer_destroy (FadeTimer);
 
