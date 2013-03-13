@@ -160,38 +160,38 @@ namespace Vocaluxe.Screens
             {
                 if (_Pos + p < _Scores[_Round].Count)
                 {
-                    Texts[htTexts(TextNumber[p])].Visible = true;
-                    Texts[htTexts(TextName[p])].Visible = true;
-                    Texts[htTexts(TextScore[p])].Visible = true;
-                    Texts[htTexts(TextDate[p])].Visible = true;
+                    Texts[TextNumber[p]].Visible = true;
+                    Texts[TextName[p]].Visible = true;
+                    Texts[TextScore[p]].Visible = true;
+                    Texts[TextDate[p]].Visible = true;
 
-                    Texts[htTexts(TextNumber[p])].Text = (_Pos + p + 1).ToString();
+                    Texts[TextNumber[p]].Text = (_Pos + p + 1).ToString();
 
                     string name = _Scores[_Round][_Pos + p].Name;
                     name += " [" + CLanguage.Translate(Enum.GetName(typeof(EGameDifficulty), _Scores[_Round][_Pos + p].Difficulty)) + "]";
                     if (_IsDuet)
                         name += " (P" + (_Scores[_Round][_Pos + p].LineNr + 1).ToString() + ")";
-                    Texts[htTexts(TextName[p])].Text = name;
+                    Texts[TextName[p]].Text = name;
 
-                    Texts[htTexts(TextScore[p])].Text = _Scores[_Round][_Pos + p].Score.ToString("00000");
-                    Texts[htTexts(TextDate[p])].Text = _Scores[_Round][_Pos + p].Date;
+                    Texts[TextScore[p]].Text = _Scores[_Round][_Pos + p].Score.ToString("00000");
+                    Texts[TextDate[p]].Text = _Scores[_Round][_Pos + p].Date;
 
                     if (isNewEntry(_Scores[_Round][_Pos + p].ID) == true)
                     {
-                        ParticleEffects[htParticleEffects(ParticleEffectNew[p])].Visible = true;
+                        ParticleEffects[ParticleEffectNew[p]].Visible = true;
                     }
                     else
                     {
-                        ParticleEffects[htParticleEffects(ParticleEffectNew[p])].Visible = false;
+                        ParticleEffects[ParticleEffectNew[p]].Visible = false;
                     }
                 }
                 else
                 {
-                    Texts[htTexts(TextNumber[p])].Visible = false;
-                    Texts[htTexts(TextName[p])].Visible = false;
-                    Texts[htTexts(TextScore[p])].Visible = false;
-                    Texts[htTexts(TextDate[p])].Visible = false;
-                    ParticleEffects[htParticleEffects(ParticleEffectNew[p])].Visible = false;
+                    Texts[TextNumber[p]].Visible = false;
+                    Texts[TextName[p]].Visible = false;
+                    Texts[TextScore[p]].Visible = false;
+                    Texts[TextDate[p]].Visible = false;
+                    ParticleEffects[ParticleEffectNew[p]].Visible = false;
                 }
             } 
             return true;
@@ -275,33 +275,33 @@ namespace Vocaluxe.Screens
             if (song == null)
                 return;
 
-            Texts[htTexts(TextSongName)].Text = song.Artist + " - " + song.Title;
+            Texts[TextSongName].Text = song.Artist + " - " + song.Title;
             if (points.NumRounds > 1)
             {
-                Texts[htTexts(TextSongName)].Text += " (" + (_Round+1) + "/" + points.NumRounds + ")";
+                Texts[TextSongName].Text += " (" + (_Round+1) + "/" + points.NumRounds + ")";
             }
 
             switch (CGame.GetGameMode(_Round))
             {
                 case EGameMode.TR_GAMEMODE_NORMAL:
-                    Texts[htTexts(TextSongMode)].Text = "TR_GAMEMODE_NORMAL";
+                    Texts[TextSongMode].Text = "TR_GAMEMODE_NORMAL";
                     break;
 
                 case EGameMode.TR_GAMEMODE_MEDLEY:
-                    Texts[htTexts(TextSongMode)].Text = "TR_GAMEMODE_MEDLEY";
+                    Texts[TextSongMode].Text = "TR_GAMEMODE_MEDLEY";
                     break;
 
                 case EGameMode.TR_GAMEMODE_DUET:
-                    Texts[htTexts(TextSongMode)].Text = "TR_GAMEMODE_DUET";
+                    Texts[TextSongMode].Text = "TR_GAMEMODE_DUET";
                     _IsDuet = true;
                     break;
 
                 case EGameMode.TR_GAMEMODE_SHORTSONG:
-                    Texts[htTexts(TextSongMode)].Text = "TR_GAMEMODE_SHORTSONG";
+                    Texts[TextSongMode].Text = "TR_GAMEMODE_SHORTSONG";
                     break;
 
                 default:
-                    Texts[htTexts(TextSongMode)].Text = "TR_GAMEMODE_NORMAL";
+                    Texts[TextSongMode].Text = "TR_GAMEMODE_NORMAL";
                     break;
             }
 

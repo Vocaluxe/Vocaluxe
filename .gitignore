@@ -34,3 +34,16 @@ Output/Songs
 *.log
 
 /Output/Playlists/*.xml
+/Output/x64/gstreamer/GstreamerHelper.dll
+*.tlog
+*.suo
+*.obj
+*.lastbuildstate
+*.pch
+*.idb
+*.exp
+
+*.ilk
+*.lib
+*.opensdf
+*.sdf

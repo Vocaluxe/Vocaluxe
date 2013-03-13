@@ -103,7 +103,7 @@ namespace Vocaluxe.PartyModes
 			base.LoadTheme(XmlPath);
 
             CreateFields();
-            Buttons[htButtons(ButtonField)].Visible = false;
+            Buttons[ButtonField].Visible = false;
         }
 
         public override void DataToScreen(object ReceivedData)
@@ -150,11 +150,11 @@ namespace Vocaluxe.PartyModes
                     case Keys.Enter:
                         if (!ExitPopupVisible)
                         {
-                            if (Buttons[htButtons(ButtonNextRound)].Selected)
+                            if (Buttons[ButtonNextRound].Selected)
                                 NextRound();
-                            if (Buttons[htButtons(ButtonBack)].Selected && GameData.CurrentRoundNr == 1 && Status != EStatus.FieldSelected)
+                            if (Buttons[ButtonBack].Selected && GameData.CurrentRoundNr == 1 && Status != EStatus.FieldSelected)
                                 Back();
-                            if (Buttons[htButtons(ButtonExit)].Selected && (GameData.CurrentRoundNr > 1 || Status == EStatus.FieldSelected) && Status != EStatus.None)
+                            if (Buttons[ButtonExit].Selected && (GameData.CurrentRoundNr > 1 || Status == EStatus.FieldSelected) && Status != EStatus.None)
                                 ShowPopup(true);
                             else if (Status == EStatus.None)
                                 EndParty();
@@ -181,21 +181,21 @@ namespace Vocaluxe.PartyModes
                             }
                             if (Status == EStatus.FieldSelected)
                             {
-                                if (Buttons[htButtons(ButtonJokerRandomT1)].Selected)
+                                if (Buttons[ButtonJokerRandomT1].Selected)
                                     UseJoker(0, 0);
-                                if (Buttons[htButtons(ButtonJokerRandomT2)].Selected)
+                                if (Buttons[ButtonJokerRandomT2].Selected)
                                     UseJoker(1, 0);
-                                if (Buttons[htButtons(ButtonJokerRetryT1)].Selected)
+                                if (Buttons[ButtonJokerRetryT1].Selected)
                                     UseJoker(0, 1);
-                                if (Buttons[htButtons(ButtonJokerRetryT2)].Selected)
+                                if (Buttons[ButtonJokerRetryT2].Selected)
                                     UseJoker(1, 1);
                             }
                         }
                         else
                         {
-                            if (Buttons[htButtons(ButtonPopupYes)].Selected)
+                            if (Buttons[ButtonPopupYes].Selected)
                                 EndParty();
-                            if (Buttons[htButtons(ButtonPopupNo)].Selected)
+                            if (Buttons[ButtonPopupNo].Selected)
                                 ShowPopup(false);
                         }
                         break;
@@ -212,11 +212,11 @@ namespace Vocaluxe.PartyModes
             {
                 if (!ExitPopupVisible)
                 {
-                    if (Buttons[htButtons(ButtonNextRound)].Selected)
+                    if (Buttons[ButtonNextRound].Selected)
                         NextRound();
-                    if (Buttons[htButtons(ButtonBack)].Selected)
+                    if (Buttons[ButtonBack].Selected)
                         Back();
-                    if (Buttons[htButtons(ButtonExit)].Selected)
+                    if (Buttons[ButtonExit].Selected)
                         if (Status == EStatus.None)
                             EndParty();
                         else
@@ -244,22 +244,22 @@ namespace Vocaluxe.PartyModes
                     }
                     if(Status == EStatus.FieldSelected)
                     {
-                        if (Buttons[htButtons(ButtonJokerRandomT1)].Selected)
+                        if (Buttons[ButtonJokerRandomT1].Selected)
                             UseJoker(0, 0);
-                        if (Buttons[htButtons(ButtonJokerRandomT2)].Selected)
+                        if (Buttons[ButtonJokerRandomT2].Selected)
                             UseJoker(1, 0);
-                        if (Buttons[htButtons(ButtonJokerRetryT1)].Selected)
+                        if (Buttons[ButtonJokerRetryT1].Selected)
                             UseJoker(0, 1);
-                        if (Buttons[htButtons(ButtonJokerRetryT2)].Selected)
+                        if (Buttons[ButtonJokerRetryT2].Selected)
                             UseJoker(1, 1);
 
                     }
                 }
                 else
                 {
-                    if (Buttons[htButtons(ButtonPopupYes)].Selected)
+                    if (Buttons[ButtonPopupYes].Selected)
                         EndParty();
-                    if (Buttons[htButtons(ButtonPopupNo)].Selected)
+                    if (Buttons[ButtonPopupNo].Selected)
                         ShowPopup(false);
                 }
             }
@@ -294,15 +294,15 @@ namespace Vocaluxe.PartyModes
             {
                 BuildWinnerPossibilities(); 
                 SelectedField = -1;
-                Buttons[htButtons(ButtonBack)].Visible = true;
-                Buttons[htButtons(ButtonExit)].Visible = false;
-                SetInteractionToButton(Buttons[htButtons(ButtonBack)]);
+                Buttons[ButtonBack].Visible = true;
+                Buttons[ButtonExit].Visible = false;
+                SetInteractionToButton(Buttons[ButtonBack]);
             }
             else
             {
-                Buttons[htButtons(ButtonBack)].Visible = false;
-                Buttons[htButtons(ButtonExit)].Visible = true;
-                SetInteractionToButton(Buttons[htButtons(ButtonExit)]);
+                Buttons[ButtonBack].Visible = false;
+                Buttons[ButtonExit].Visible = true;
+                SetInteractionToButton(Buttons[ButtonExit]);
             }
 
             Status = EStatus.FieldChoosing;
@@ -314,36 +314,36 @@ namespace Vocaluxe.PartyModes
             if (GameData.CurrentRoundNr <= GameData.NumFields && Winner == 0)
             {
                 UpdateTeamChoosingMessage();
-                Texts[htTexts(TextNextPlayerT1)].Visible = false;
-                Texts[htTexts(TextNextPlayerT2)].Visible = false;
-                Texts[htTexts(TextNextPlayerNameT1)].Visible = false;
-                Texts[htTexts(TextNextPlayerNameT2)].Visible = false;
-                Statics[htStatics(StaticAvatarT1)].Visible = false;
-                Statics[htStatics(StaticAvatarT2)].Visible = false;
-                Buttons[htButtons(ButtonJokerRandomT1)].Visible = false;
-                Buttons[htButtons(ButtonJokerRandomT2)].Visible = false;
-                Buttons[htButtons(ButtonJokerRetryT1)].Visible = false;
-                Buttons[htButtons(ButtonJokerRetryT2)].Visible = false;
-                Buttons[htButtons(ButtonNextRound)].Visible = false;
-                Texts[htTexts(TextFinishMessage)].Visible = false;
+                Texts[TextNextPlayerT1].Visible = false;
+                Texts[TextNextPlayerT2].Visible = false;
+                Texts[TextNextPlayerNameT1].Visible = false;
+                Texts[TextNextPlayerNameT2].Visible = false;
+                Statics[StaticAvatarT1].Visible = false;
+                Statics[StaticAvatarT2].Visible = false;
+                Buttons[ButtonJokerRandomT1].Visible = false;
+                Buttons[ButtonJokerRandomT2].Visible = false;
+                Buttons[ButtonJokerRetryT1].Visible = false;
+                Buttons[ButtonJokerRetryT2].Visible = false;
+                Buttons[ButtonNextRound].Visible = false;
+                Texts[TextFinishMessage].Visible = false;
             }
             else
             {
                 Status = EStatus.None;
-                Buttons[htButtons(ButtonNextRound)].Visible = false;
-                Texts[htTexts(TextFinishMessage)].Visible = true;
-                Texts[htTexts(TextTeamChoosing)].Visible = false;
+                Buttons[ButtonNextRound].Visible = false;
+                Texts[TextFinishMessage].Visible = true;
+                Texts[TextTeamChoosing].Visible = false;
                 if (Winner > 0)
                 {
-                    Texts[htTexts(TextFinishMessage)].Color = CBase.Theme.GetPlayerColor(Winner);
-                    Texts[htTexts(TextFinishMessage)].Text = CBase.Language.Translate("TR_SCREENMAIN_WINNER", _PartyModeID) + " " + CBase.Language.Translate("TR_TEAM", _PartyModeID) + " " + Winner;
+                    Texts[TextFinishMessage].Color = CBase.Theme.GetPlayerColor(Winner);
+                    Texts[TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_WINNER", _PartyModeID) + " " + CBase.Language.Translate("TR_TEAM", _PartyModeID) + " " + Winner;
                 }
                 else
                 {
-                    Texts[htTexts(TextFinishMessage)].Color = new SColorF(1, 1, 1, 1);
-                    Texts[htTexts(TextFinishMessage)].Text = CBase.Language.Translate("TR_SCREENMAIN_NOWINNER", _PartyModeID);
+                    Texts[TextFinishMessage].Color = new SColorF(1, 1, 1, 1);
+                    Texts[TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_NOWINNER", _PartyModeID);
                 }
-                SetInteractionToButton(Buttons[htButtons(ButtonExit)]);
+                SetInteractionToButton(Buttons[ButtonExit]);
             }
 
             ShowPopup(false);
@@ -372,7 +372,7 @@ namespace Vocaluxe.PartyModes
             for (int i = 0; i < 25; i++)
             {
                 Field f = new Field();
-                f.Button = GetNewButton(Buttons[htButtons(ButtonField)]);
+                f.Button = GetNewButton(Buttons[ButtonField]);
                 f.Button.Visible = false;
                 f.Content = new Round();
                 AddButton(f.Button);
@@ -429,9 +429,9 @@ namespace Vocaluxe.PartyModes
             for (int i = 0; i < GameData.Rounds.Count; i++)
             {
                 Fields[i].Button.Enabled = true;
-                Fields[i].Button.Texture = Buttons[htButtons(ButtonField)].Texture;
-                Fields[i].Button.Color = Buttons[htButtons(ButtonField)].Color;
-                Fields[i].Button.SColor = Buttons[htButtons(ButtonField)].SColor;
+                Fields[i].Button.Texture = Buttons[ButtonField].Texture;
+                Fields[i].Button.Color = Buttons[ButtonField].Color;
+                Fields[i].Button.SColor = Buttons[ButtonField].SColor;
                 Fields[i].Content = GameData.Rounds[i];
                 if (Fields[i].Content.Finished)
                 {
@@ -500,25 +500,25 @@ namespace Vocaluxe.PartyModes
             GameData.Rounds[SelectedField].SingerTeam2 = SingerTeam2;
             UpdateFieldContents();
 
-            Texts[htTexts(TextNextPlayerT1)].Visible = true;
-            Texts[htTexts(TextNextPlayerT2)].Visible = true;
-            Texts[htTexts(TextNextPlayerNameT1)].Visible = true;
-            Texts[htTexts(TextNextPlayerNameT2)].Visible = true;
+            Texts[TextNextPlayerT1].Visible = true;
+            Texts[TextNextPlayerT2].Visible = true;
+            Texts[TextNextPlayerNameT1].Visible = true;
+            Texts[TextNextPlayerNameT2].Visible = true;
             SProfile[] profiles =  CBase.Profiles.GetProfiles();
-            Texts[htTexts(TextNextPlayerNameT1)].Text = profiles[GameData.ProfileIDsTeam1[GameData.Rounds[SelectedField].SingerTeam1]].PlayerName;
-            Texts[htTexts(TextNextPlayerNameT2)].Text = profiles[GameData.ProfileIDsTeam2[GameData.Rounds[SelectedField].SingerTeam2]].PlayerName;
-            Statics[htStatics(StaticAvatarT1)].Visible = true;
-            Statics[htStatics(StaticAvatarT2)].Visible = true;
-            Statics[htStatics(StaticAvatarT1)].Texture = profiles[GameData.ProfileIDsTeam1[GameData.Rounds[SelectedField].SingerTeam1]].Avatar.Texture;
-            Statics[htStatics(StaticAvatarT2)].Texture = profiles[GameData.ProfileIDsTeam2[GameData.Rounds[SelectedField].SingerTeam2]].Avatar.Texture;
+            Texts[TextNextPlayerNameT1].Text = profiles[GameData.ProfileIDsTeam1[GameData.Rounds[SelectedField].SingerTeam1]].PlayerName;
+            Texts[TextNextPlayerNameT2].Text = profiles[GameData.ProfileIDsTeam2[GameData.Rounds[SelectedField].SingerTeam2]].PlayerName;
+            Statics[StaticAvatarT1].Visible = true;
+            Statics[StaticAvatarT2].Visible = true;
+            Statics[StaticAvatarT1].Texture = profiles[GameData.ProfileIDsTeam1[GameData.Rounds[SelectedField].SingerTeam1]].Avatar.Texture;
+            Statics[StaticAvatarT2].Texture = profiles[GameData.ProfileIDsTeam2[GameData.Rounds[SelectedField].SingerTeam2]].Avatar.Texture;
 
             UpdateJokerButtons();
 
-            Buttons[htButtons(ButtonNextRound)].Visible = true;
-            Buttons[htButtons(ButtonExit)].Visible = true;
-            Buttons[htButtons(ButtonBack)].Visible = false;
+            Buttons[ButtonNextRound].Visible = true;
+            Buttons[ButtonExit].Visible = true;
+            Buttons[ButtonBack].Visible = false;
 
-            SetInteractionToButton(Buttons[htButtons(ButtonNextRound)]);
+            SetInteractionToButton(Buttons[ButtonNextRound]);
         }
 
         private void FieldSelectedAgain()
@@ -539,25 +539,25 @@ namespace Vocaluxe.PartyModes
             GameData.Rounds[SelectedField].SingerTeam2 = GameData.Rounds[OldSelectedField].SingerTeam2;
             UpdateFieldContents();
 
-            Texts[htTexts(TextNextPlayerT1)].Visible = true;
-            Texts[htTexts(TextNextPlayerT2)].Visible = true;
-            Texts[htTexts(TextNextPlayerNameT1)].Visible = true;
-            Texts[htTexts(TextNextPlayerNameT2)].Visible = true;
+            Texts[TextNextPlayerT1].Visible = true;
+            Texts[TextNextPlayerT2].Visible = true;
+            Texts[TextNextPlayerNameT1].Visible = true;
+            Texts[TextNextPlayerNameT2].Visible = true;
             SProfile[] profiles = CBase.Profiles.GetProfiles();
-            Texts[htTexts(TextNextPlayerNameT1)].Text = profiles[GameData.ProfileIDsTeam1[GameData.Rounds[SelectedField].SingerTeam1]].PlayerName;
-            Texts[htTexts(TextNextPlayerNameT2)].Text = profiles[GameData.ProfileIDsTeam2[GameData.Rounds[SelectedField].SingerTeam2]].PlayerName;
-            Statics[htStatics(StaticAvatarT1)].Visible = true;
-            Statics[htStatics(StaticAvatarT2)].Visible = true;
-            Statics[htStatics(StaticAvatarT1)].Texture = profiles[GameData.ProfileIDsTeam1[GameData.Rounds[SelectedField].SingerTeam1]].Avatar.Texture;
-            Statics[htStatics(StaticAvatarT2)].Texture = profiles[GameData.ProfileIDsTeam2[GameData.Rounds[SelectedField].SingerTeam2]].Avatar.Texture;
+            Texts[TextNextPlayerNameT1].Text = profiles[GameData.ProfileIDsTeam1[GameData.Rounds[SelectedField].SingerTeam1]].PlayerName;
+            Texts[TextNextPlayerNameT2].Text = profiles[GameData.ProfileIDsTeam2[GameData.Rounds[SelectedField].SingerTeam2]].PlayerName;
+            Statics[StaticAvatarT1].Visible = true;
+            Statics[StaticAvatarT2].Visible = true;
+            Statics[StaticAvatarT1].Texture = profiles[GameData.ProfileIDsTeam1[GameData.Rounds[SelectedField].SingerTeam1]].Avatar.Texture;
+            Statics[StaticAvatarT2].Texture = profiles[GameData.ProfileIDsTeam2[GameData.Rounds[SelectedField].SingerTeam2]].Avatar.Texture;
 
             UpdateJokerButtons();
 
-            Buttons[htButtons(ButtonNextRound)].Visible = true;
-            Buttons[htButtons(ButtonExit)].Visible = true;
-            Buttons[htButtons(ButtonBack)].Visible = false;
+            Buttons[ButtonNextRound].Visible = true;
+            Buttons[ButtonExit].Visible = true;
+            Buttons[ButtonBack].Visible = false;
 
-            SetInteractionToButton(Buttons[htButtons(ButtonNextRound)]);
+            SetInteractionToButton(Buttons[ButtonNextRound]);
         }
 
         private void UseJoker(int TeamNr, int JokerNum)
@@ -595,28 +595,28 @@ namespace Vocaluxe.PartyModes
 
         private void UpdateTeamChoosingMessage()
         {
-            Texts[htTexts(TextTeamChoosing)].Color = CBase.Theme.GetPlayerColor(GameData.Team + 1);
-            Texts[htTexts(TextTeamChoosing)].Text = CBase.Language.Translate("TR_TEAM", _PartyModeID) + " " + (GameData.Team + 1) + "! " + CBase.Language.Translate("TR_SCREENMAIN_TEAM_CHOOSE", _PartyModeID);
+            Texts[TextTeamChoosing].Color = CBase.Theme.GetPlayerColor(GameData.Team + 1);
+            Texts[TextTeamChoosing].Text = CBase.Language.Translate("TR_TEAM", _PartyModeID) + " " + (GameData.Team + 1) + "! " + CBase.Language.Translate("TR_SCREENMAIN_TEAM_CHOOSE", _PartyModeID);
             if (Status == EStatus.JokerRetry || Status == EStatus.FieldChoosing)
-                Texts[htTexts(TextTeamChoosing)].Visible = true;
+                Texts[TextTeamChoosing].Visible = true;
             else
-                Texts[htTexts(TextTeamChoosing)].Visible = false;
+                Texts[TextTeamChoosing].Visible = false;
         }
 
         private void UpdateJokerButtons()
         {
-            Buttons[htButtons(ButtonJokerRandomT1)].Visible = true;
-            Buttons[htButtons(ButtonJokerRandomT2)].Visible = true;
-            Buttons[htButtons(ButtonJokerRandomT1)].Text.Text = GameData.NumJokerRandom[0].ToString();
-            Buttons[htButtons(ButtonJokerRandomT2)].Text.Text = GameData.NumJokerRandom[1].ToString();
-            Buttons[htButtons(ButtonJokerRandomT1)].Enabled = GameData.NumJokerRandom[0] > 0;
-            Buttons[htButtons(ButtonJokerRandomT2)].Enabled = GameData.NumJokerRandom[1] > 0;
-            Buttons[htButtons(ButtonJokerRetryT1)].Visible = true;
-            Buttons[htButtons(ButtonJokerRetryT2)].Visible = true;
-            Buttons[htButtons(ButtonJokerRetryT1)].Text.Text = GameData.NumJokerRetry[0].ToString();
-            Buttons[htButtons(ButtonJokerRetryT2)].Text.Text = GameData.NumJokerRetry[1].ToString();
-            Buttons[htButtons(ButtonJokerRetryT1)].Enabled = GameData.NumJokerRetry[0] > 0;
-            Buttons[htButtons(ButtonJokerRetryT2)].Enabled = GameData.NumJokerRetry[1] > 0;
+            Buttons[ButtonJokerRandomT1].Visible = true;
+            Buttons[ButtonJokerRandomT2].Visible = true;
+            Buttons[ButtonJokerRandomT1].Text.Text = GameData.NumJokerRandom[0].ToString();
+            Buttons[ButtonJokerRandomT2].Text.Text = GameData.NumJokerRandom[1].ToString();
+            Buttons[ButtonJokerRandomT1].Enabled = GameData.NumJokerRandom[0] > 0;
+            Buttons[ButtonJokerRandomT2].Enabled = GameData.NumJokerRandom[1] > 0;
+            Buttons[ButtonJokerRetryT1].Visible = true;
+            Buttons[ButtonJokerRetryT2].Visible = true;
+            Buttons[ButtonJokerRetryT1].Text.Text = GameData.NumJokerRetry[0].ToString();
+            Buttons[ButtonJokerRetryT2].Text.Text = GameData.NumJokerRetry[1].ToString();
+            Buttons[ButtonJokerRetryT1].Enabled = GameData.NumJokerRetry[0] > 0;
+            Buttons[ButtonJokerRetryT2].Enabled = GameData.NumJokerRetry[1] > 0;
         }
 
         private void NextRound()
@@ -642,13 +642,13 @@ namespace Vocaluxe.PartyModes
         {
             ExitPopupVisible = Visible;
 
-            Statics[htStatics(StaticPopupBG)].Visible = ExitPopupVisible;
-            Texts[htTexts(TextPopupReallyExit)].Visible = ExitPopupVisible;
-            Buttons[htButtons(ButtonPopupYes)].Visible = ExitPopupVisible;
-            Buttons[htButtons(ButtonPopupNo)].Visible = ExitPopupVisible;
+            Statics[StaticPopupBG].Visible = ExitPopupVisible;
+            Texts[TextPopupReallyExit].Visible = ExitPopupVisible;
+            Buttons[ButtonPopupYes].Visible = ExitPopupVisible;
+            Buttons[ButtonPopupNo].Visible = ExitPopupVisible;
 
             if (ExitPopupVisible)
-                SetInteractionToButton(Buttons[htButtons(ButtonPopupNo)]);
+                SetInteractionToButton(Buttons[ButtonPopupNo]);
         }
 
         private void Back()

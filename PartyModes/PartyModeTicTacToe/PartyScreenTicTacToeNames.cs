@@ -144,16 +144,16 @@ namespace Vocaluxe.PartyModes
                             break;
 
                         case Keys.Enter:
-                            if (Buttons[htButtons(ButtonBack)].Selected)
+                            if (Buttons[ButtonBack].Selected)
                                 Back();
 
-                            if (Buttons[htButtons(ButtonNext)].Selected)
+                            if (Buttons[ButtonNext].Selected)
                                 Next();
 
-                            if (Buttons[htButtons(ButtonPlayerChooseScrollUp)].Selected)
+                            if (Buttons[ButtonPlayerChooseScrollUp].Selected)
                                 Scroll(-1);
 
-                            if (Buttons[htButtons(ButtonPlayerChooseScrollDown)].Selected)
+                            if (Buttons[ButtonPlayerChooseScrollDown].Selected)
                                 Scroll(1);
 
                             if (!OnAdd())
@@ -277,16 +277,16 @@ namespace Vocaluxe.PartyModes
 
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
             {
-                if (Buttons[htButtons(ButtonBack)].Selected)
+                if (Buttons[ButtonBack].Selected)
                     Back();
 
-                if (Buttons[htButtons(ButtonNext)].Selected)
+                if (Buttons[ButtonNext].Selected)
                     Next();
 
-                if (Buttons[htButtons(ButtonPlayerChooseScrollUp)].Selected)
+                if (Buttons[ButtonPlayerChooseScrollUp].Selected)
                     Scroll(-1);
 
-                if (Buttons[htButtons(ButtonPlayerChooseScrollDown)].Selected)
+                if (Buttons[ButtonPlayerChooseScrollDown].Selected)
                     Scroll(1);
             }
 
@@ -354,13 +354,13 @@ namespace Vocaluxe.PartyModes
 
         private void AddButtonPlayerDestination()
         {
-            Buttons[htButtons(ButtonPlayerDestination)].Visible = false;
+            Buttons[ButtonPlayerDestination].Visible = false;
             PlayerDestinationButtons = new List<CButton>();
             int row = 0;
             int column = 0;
             for (int i = 1; i <= _PartyMode.GetMaxPlayer(); i++)
             {
-                CButton b = GetNewButton(Buttons[htButtons(ButtonPlayerDestination)]);
+                CButton b = GetNewButton(Buttons[ButtonPlayerDestination]);
                 b.Rect.X = PlayerDestinationButtonsFirstX + column * (b.Rect.W + PlayerDestinationButtonsSpaceH);
                 b.Rect.Y = PlayerDestinationButtonsFirstY + row * (b.Rect.H + PlayerDestinationButtonsSpaceW);
                 PlayerDestinationButtons.Add(b);
@@ -378,13 +378,13 @@ namespace Vocaluxe.PartyModes
 
         private void AddButtonPlayerChoose()
         {
-            Buttons[htButtons(ButtonPlayerChoose)].Visible = false;
+            Buttons[ButtonPlayerChoose].Visible = false;
             PlayerChooseButtons = new List<CPlayerChooseButton>();
             int row = 0;
             int column = 0;
             for (int i = 1; i <= PlayerChooseButtonsNumH * PlayerChooseButtonsNumW; i++)
             {
-                CButton b = GetNewButton(Buttons[htButtons(ButtonPlayerChoose)]);
+                CButton b = GetNewButton(Buttons[ButtonPlayerChoose]);
                 b.Rect.X = PlayerChooseButtonsFirstX + column * (b.Rect.W + PlayerChooseButtonsSpaceH);
                 b.Rect.Y = PlayerChooseButtonsFirstY + row * (b.Rect.H + PlayerChooseButtonsSpaceW);
                 CPlayerChooseButton pcb = new CPlayerChooseButton();
@@ -414,8 +414,8 @@ namespace Vocaluxe.PartyModes
             {
                 UpdateButtonPlayerChoose(PlayerChooseButtonsOffset);
             }
-            Buttons[htButtons(ButtonPlayerChooseScrollUp)].Enabled = PlayerChooseButtonsOffset > 0;
-            Buttons[htButtons(ButtonPlayerChooseScrollDown)].Enabled = PlayerChooseButtonsVisibleProfiles.Count > PlayerChooseButtons.Count + PlayerChooseButtonsOffset * PlayerChooseButtonsNumH;
+            Buttons[ButtonPlayerChooseScrollUp].Enabled = PlayerChooseButtonsOffset > 0;
+            Buttons[ButtonPlayerChooseScrollDown].Enabled = PlayerChooseButtonsVisibleProfiles.Count > PlayerChooseButtons.Count + PlayerChooseButtonsOffset * PlayerChooseButtonsNumH;
         }
 
         private void UpdateButtonPlayerChoose(int Offset)
@@ -442,10 +442,10 @@ namespace Vocaluxe.PartyModes
                     {
                         PlayerChooseButtons[i].ProfileID = -1;
                         PlayerChooseButtons[i].Button.Text.Text = String.Empty;
-                        PlayerChooseButtons[i].Button.Texture = Buttons[htButtons(ButtonPlayerChoose)].Texture;
-                        PlayerChooseButtons[i].Button.STexture = Buttons[htButtons(ButtonPlayerChoose)].STexture;
-                        PlayerChooseButtons[i].Button.Color = Buttons[htButtons(ButtonPlayerChoose)].Color;
-                        PlayerChooseButtons[i].Button.SColor = Buttons[htButtons(ButtonPlayerChoose)].SColor;
+                        PlayerChooseButtons[i].Button.Texture = Buttons[ButtonPlayerChoose].Texture;
+                        PlayerChooseButtons[i].Button.STexture = Buttons[ButtonPlayerChoose].STexture;
+                        PlayerChooseButtons[i].Button.Color = Buttons[ButtonPlayerChoose].Color;
+                        PlayerChooseButtons[i].Button.SColor = Buttons[ButtonPlayerChoose].SColor;
                         PlayerChooseButtons[i].Button.Enabled = false;
                     }
                 }
@@ -534,10 +534,10 @@ namespace Vocaluxe.PartyModes
                 }
                 else
                 {
-                    PlayerDestinationButtons[i].Color = Buttons[htButtons(ButtonPlayerDestination)].Color;
-                    PlayerDestinationButtons[i].SColor = Buttons[htButtons(ButtonPlayerDestination)].SColor;
-                    PlayerDestinationButtons[i].Texture = Buttons[htButtons(ButtonPlayerDestination)].Texture;
-                    PlayerDestinationButtons[i].STexture = Buttons[htButtons(ButtonPlayerDestination)].STexture;
+                    PlayerDestinationButtons[i].Color = Buttons[ButtonPlayerDestination].Color;
+                    PlayerDestinationButtons[i].SColor = Buttons[ButtonPlayerDestination].SColor;
+                    PlayerDestinationButtons[i].Texture = Buttons[ButtonPlayerDestination].Texture;
+                    PlayerDestinationButtons[i].STexture = Buttons[ButtonPlayerDestination].STexture;
                     PlayerDestinationButtons[i].Text.Text = String.Empty;
                     PlayerDestinationButtons[i].Enabled = false;
                 }
@@ -558,10 +558,10 @@ namespace Vocaluxe.PartyModes
                 }
                 else
                 {
-                    PlayerDestinationButtons[i + PlayerDestinationButtonsNumH].Color = Buttons[htButtons(ButtonPlayerDestination)].Color;
-                    PlayerDestinationButtons[i + PlayerDestinationButtonsNumH].SColor = Buttons[htButtons(ButtonPlayerDestination)].SColor;
-                    PlayerDestinationButtons[i + PlayerDestinationButtonsNumH].Texture = Buttons[htButtons(ButtonPlayerDestination)].Texture;
-                    PlayerDestinationButtons[i + PlayerDestinationButtonsNumH].STexture = Buttons[htButtons(ButtonPlayerDestination)].STexture;
+                    PlayerDestinationButtons[i + PlayerDestinationButtonsNumH].Color = Buttons[ButtonPlayerDestination].Color;
+                    PlayerDestinationButtons[i + PlayerDestinationButtonsNumH].SColor = Buttons[ButtonPlayerDestination].SColor;
+                    PlayerDestinationButtons[i + PlayerDestinationButtonsNumH].Texture = Buttons[ButtonPlayerDestination].Texture;
+                    PlayerDestinationButtons[i + PlayerDestinationButtonsNumH].STexture = Buttons[ButtonPlayerDestination].STexture;
                     PlayerDestinationButtons[i + PlayerDestinationButtonsNumH].Text.Text = String.Empty;
                     PlayerDestinationButtons[i + PlayerDestinationButtonsNumH].Enabled = false;
                 }
@@ -572,11 +572,11 @@ namespace Vocaluxe.PartyModes
         {
             if (Data.ScreenNames.ProfileIDsTeam1.Count == NumPlayerTeam1 && Data.ScreenNames.ProfileIDsTeam2.Count == NumPlayerTeam2)
             {
-                Buttons[htButtons(ButtonNext)].Visible = true;
-                SetInteractionToButton(Buttons[htButtons(ButtonNext)]);
+                Buttons[ButtonNext].Visible = true;
+                SetInteractionToButton(Buttons[ButtonNext]);
             }
             else
-                Buttons[htButtons(ButtonNext)].Visible = false;
+                Buttons[ButtonNext].Visible = false;
         }
 
         private bool OnAdd()

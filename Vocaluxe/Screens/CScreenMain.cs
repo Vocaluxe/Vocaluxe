@@ -74,22 +74,22 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Enter:
-                        if (Buttons[htButtons(ButtonSing)].Selected)
+                        if (Buttons[ButtonSing].Selected)
                         {
                             CParty.SetNormalGameMode();
                             CGraphics.FadeTo(EScreens.ScreenSong);
                         }
 
-                        if (Buttons[htButtons(ButtonParty)].Selected)
+                        if (Buttons[ButtonParty].Selected)
                             CGraphics.FadeTo(EScreens.ScreenParty);
 
-                        if (Buttons[htButtons(ButtonOptions)].Selected)
+                        if (Buttons[ButtonOptions].Selected)
                             CGraphics.FadeTo(EScreens.ScreenOptions);
 
-                        if (Buttons[htButtons(ButtonProfiles)].Selected)
+                        if (Buttons[ButtonProfiles].Selected)
                             CGraphics.FadeTo(EScreens.ScreenProfiles);
 
-                        if (Buttons[htButtons(ButtonExit)].Selected)
+                        if (Buttons[ButtonExit].Selected)
                             return false;
 
                         break;
@@ -104,22 +104,22 @@ namespace Vocaluxe.Screens
 
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
             {
-                if (Buttons[htButtons(ButtonSing)].Selected)
+                if (Buttons[ButtonSing].Selected)
                 {
                     CParty.SetNormalGameMode();
                     CGraphics.FadeTo(EScreens.ScreenSong);
                 }
 
-                if (Buttons[htButtons(ButtonParty)].Selected)
+                if (Buttons[ButtonParty].Selected)
                     CGraphics.FadeTo(EScreens.ScreenParty);
 
-                if (Buttons[htButtons(ButtonOptions)].Selected)
+                if (Buttons[ButtonOptions].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptions);
 
-                if (Buttons[htButtons(ButtonProfiles)].Selected)
+                if (Buttons[ButtonProfiles].Selected)
                     CGraphics.FadeTo(EScreens.ScreenProfiles);
 
-                if (Buttons[htButtons(ButtonExit)].Selected)
+                if (Buttons[ButtonExit].Selected)
                     return false;
             }
             

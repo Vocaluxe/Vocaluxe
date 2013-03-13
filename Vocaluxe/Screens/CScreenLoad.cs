@@ -106,7 +106,7 @@ namespace Vocaluxe.Screens
             _SongLoaderThread = new Thread(new ThreadStart(CSongs.LoadSongs));
             _SongLoaderThread.Name = "SongLoader";
 
-            Texts[htTexts(TextStatus)].Text = CLanguage.Translate("TR_SCREENLOAD_TOTAL") + ": 0 " +
+            Texts[TextStatus].Text = CLanguage.Translate("TR_SCREENLOAD_TOTAL") + ": 0 " +
                 CLanguage.Translate("TR_SCREENLOAD_SONGS") + " (0 " +
                 CLanguage.Translate("TR_SCREENLOAD_LOADED") + ")";
 
@@ -175,7 +175,7 @@ namespace Vocaluxe.Screens
             if (CSettings.GameState == EGameState.Normal)
                 CGraphics.FadeTo(EScreens.ScreenMain);
 
-            Texts[htTexts(TextStatus)].Text =
+            Texts[TextStatus].Text =
                 CLanguage.Translate("TR_SCREENLOAD_TOTAL") + ": " + CSongs.NumAllSongs.ToString() + " " +
                 CLanguage.Translate("TR_SCREENLOAD_SONGS") + " (" + CSongs.NumSongsWithCoverLoaded + " " +
                 CLanguage.Translate("TR_SCREENLOAD_LOADED") + ")";

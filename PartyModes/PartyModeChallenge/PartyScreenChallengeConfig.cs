@@ -88,10 +88,10 @@ namespace Vocaluxe.PartyModes
                     case Keys.Enter:
                         UpdateSlides();
 
-                        if (Buttons[htButtons(ButtonBack)].Selected)
+                        if (Buttons[ButtonBack].Selected)
                             Back();
 
-                        if (Buttons[htButtons(ButtonNext)].Selected)
+                        if (Buttons[ButtonNext].Selected)
                             Next();
                         break;
 
@@ -114,10 +114,10 @@ namespace Vocaluxe.PartyModes
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
             {
                 UpdateSlides();
-                if (Buttons[htButtons(ButtonBack)].Selected)
+                if (Buttons[ButtonBack].Selected)
                     Back();
 
-                if (Buttons[htButtons(ButtonNext)].Selected)
+                if (Buttons[ButtonNext].Selected)
                     Next();
             }
 
@@ -161,12 +161,12 @@ namespace Vocaluxe.PartyModes
         private void RebuildSlides()
         {
             // build num player slide (min player ... max player);
-            SelectSlides[htSelectSlides(SelectSlideNumPlayers)].Clear();
+            SelectSlides[SelectSlideNumPlayers].Clear();
             for (int i = _PartyMode.GetMinPlayer(); i <= _PartyMode.GetMaxPlayer(); i++)
             {
-                SelectSlides[htSelectSlides(SelectSlideNumPlayers)].AddValue(i.ToString());
+                SelectSlides[SelectSlideNumPlayers].AddValue(i.ToString());
             }
-            SelectSlides[htSelectSlides(SelectSlideNumPlayers)].Selection = Data.ScreenConfig.NumPlayer - _PartyMode.GetMinPlayer();
+            SelectSlides[SelectSlideNumPlayers].Selection = Data.ScreenConfig.NumPlayer - _PartyMode.GetMinPlayer();
 
             UpdateMicsAtOnce();
             SetRoundSteps();
@@ -177,9 +177,9 @@ namespace Vocaluxe.PartyModes
         {
             int player = Data.ScreenConfig.NumPlayer;
             int mics = Data.ScreenConfig.NumPlayerAtOnce;
-            Data.ScreenConfig.NumPlayer = SelectSlides[htSelectSlides(SelectSlideNumPlayers)].Selection + _PartyMode.GetMinPlayer();
-            Data.ScreenConfig.NumPlayerAtOnce = SelectSlides[htSelectSlides(SelectSlideNumMics)].Selection + _PartyMode.GetMinPlayer();
-            Data.ScreenConfig.NumRounds = (SelectSlides[htSelectSlides(SelectSlideNumRounds)].Selection + 1) * _RoundSteps;
+            Data.ScreenConfig.NumPlayer = SelectSlides[SelectSlideNumPlayers].Selection + _PartyMode.GetMinPlayer();
+            Data.ScreenConfig.NumPlayerAtOnce = SelectSlides[SelectSlideNumMics].Selection + _PartyMode.GetMinPlayer();
+            Data.ScreenConfig.NumRounds = (SelectSlides[SelectSlideNumRounds].Selection + 1) * _RoundSteps;
 
             UpdateMicsAtOnce();
             SetRoundSteps();
@@ -208,23 +208,23 @@ namespace Vocaluxe.PartyModes
                 Data.ScreenConfig.NumPlayerAtOnce = MaxNum;
 
             // build mics at once slide
-            SelectSlides[htSelectSlides(SelectSlideNumMics)].Clear();
+            SelectSlides[SelectSlideNumMics].Clear();
             for (int i = 1; i <= MaxNum; i++)
             {
-                SelectSlides[htSelectSlides(SelectSlideNumMics)].AddValue(i.ToString());
+                SelectSlides[SelectSlideNumMics].AddValue(i.ToString());
             }
-            SelectSlides[htSelectSlides(SelectSlideNumMics)].Selection = Data.ScreenConfig.NumPlayerAtOnce - _PartyMode.GetMinPlayer();
+            SelectSlides[SelectSlideNumMics].Selection = Data.ScreenConfig.NumPlayerAtOnce - _PartyMode.GetMinPlayer();
         }
 
         private void UpdateSlideRounds()
         {
             // build num rounds slide
-            SelectSlides[htSelectSlides(SelectSlideNumRounds)].Clear();
+            SelectSlides[SelectSlideNumRounds].Clear();
             for (int i = _RoundSteps; i <= _MaxNumRounds; i += _RoundSteps)
             {
-                SelectSlides[htSelectSlides(SelectSlideNumRounds)].AddValue(i.ToString());
+                SelectSlides[SelectSlideNumRounds].AddValue(i.ToString());
             }
-            SelectSlides[htSelectSlides(SelectSlideNumRounds)].Selection = Data.ScreenConfig.NumRounds / _RoundSteps - 1;
+            SelectSlides[SelectSlideNumRounds].Selection = Data.ScreenConfig.NumRounds / _RoundSteps - 1;
         }
 
         private void SetRoundSteps()

@@ -36,8 +36,8 @@ namespace Vocaluxe.Screens
         public override void LoadTheme(string XmlPath)
         {
             base.LoadTheme(XmlPath);
-            SelectSlides[htSelectSlides(SelectSlideLyricStyle)].SetValues<ELyricStyle>((int)CConfig.LyricStyle);
-            SelectSlides[htSelectSlides(SelectSlideLyricsOnTop)].SetValues<EOffOn>((int)CConfig.LyricsOnTop);
+            SelectSlides[SelectSlideLyricStyle].SetValues<ELyricStyle>((int)CConfig.LyricStyle);
+            SelectSlides[SelectSlideLyricsOnTop].SetValues<EOffOn>((int)CConfig.LyricsOnTop);
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -64,7 +64,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Enter:
-                        if (Buttons[htButtons(ButtonExit)].Selected)
+                        if (Buttons[ButtonExit].Selected)
                         {
                             SaveConfig();
                             CGraphics.FadeTo(EScreens.ScreenOptions);
@@ -95,7 +95,7 @@ namespace Vocaluxe.Screens
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
             {
                 SaveConfig();
-                if (Buttons[htButtons(ButtonExit)].Selected)
+                if (Buttons[ButtonExit].Selected)
                 {
                     CGraphics.FadeTo(EScreens.ScreenOptions);
                 }
@@ -116,8 +116,8 @@ namespace Vocaluxe.Screens
 
         private void SaveConfig()
         {
-            CConfig.LyricsOnTop = (EOffOn)SelectSlides[htSelectSlides(SelectSlideLyricsOnTop)].Selection;
-            CConfig.LyricStyle = (ELyricStyle)SelectSlides[htSelectSlides(SelectSlideLyricStyle)].Selection;
+            CConfig.LyricsOnTop = (EOffOn)SelectSlides[SelectSlideLyricsOnTop].Selection;
+            CConfig.LyricStyle = (ELyricStyle)SelectSlides[SelectSlideLyricStyle].Selection;
             CConfig.SaveConfig();
         }
     }
