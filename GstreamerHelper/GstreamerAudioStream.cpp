@@ -45,6 +45,9 @@ GstreamerAudioStream::~GstreamerAudioStream(void)
 	Close();
 }
 
+// Loads a stream but does not wait for it to get initialized, 
+// so querying duration or position directly after initialization might
+// return strange values! To work around this use the prescan load function!
 int GstreamerAudioStream::Load(const wchar_t* Media)
 {
 	Element = gst_element_factory_make("playbin", "playbin");
@@ -71,15 +74,18 @@ int GstreamerAudioStream::Load(const wchar_t* Media)
 	g_object_set(Element, "flags", GST_PLAY_FLAG_AUDIO, NULL); 
 
 	gst_element_set_state(Element, GST_STATE_PAUSED);
-	gst_bus_timed_pop_filtered(Bus, -1, GST_MESSAGE_ASYNC_DONE);
+	//gst_bus_timed_pop_filtered(Bus, -1, GST_MESSAGE_ASYNC_DONE);
 	RefreshDuration();
 
 	return ID;
 }
 
+//Loads a stream and waits for its initialization
 int GstreamerAudioStream::Load(const wchar_t* Media, bool Prescan)
 {
 	Load(Media);
+	if(Prescan)
+		gst_bus_timed_pop_filtered(Bus, -1, GST_MESSAGE_ASYNC_DONE);
 	return ID;
 }
 
@@ -87,21 +93,22 @@ void GstreamerAudioStream::Close(void)
 {
 	if(Element)
 		gst_element_set_state(Element, GST_STATE_NULL);
-	
 	if(Bus)
-		g_object_unref(Bus);
+		gst_object_unref(Bus);
 	if(Element)
-		g_object_unref(Element);
+		gst_object_unref(Element);
+	if(Message)
+		gst_message_unref(Message);
 	if(Convert)
-		g_object_unref(Convert);
+		gst_object_unref(Convert);
 	if(Audiosink)
-		g_object_unref(Audiosink);
+		gst_object_unref(Audiosink);
 	if(Pad)
-		g_object_unref(Pad);
+		gst_object_unref(Pad);
 	if(GhostPad)
-		g_object_unref(GhostPad);
+		gst_object_unref(GhostPad);
 	if(SinkBin)
-		g_object_unref(SinkBin);
+		gst_object_unref(SinkBin);
 	if(FadeTimer)
 		g_timer_destroy (FadeTimer);
 
@@ -220,14 +227,14 @@ void GstreamerAudioStream::FadeAndPause(float TargetVolume, float Seconds)
 {
     PauseStreamAfterFade = true;
 
-    Fade(TargetVolume, FadeTime);
+    Fade(TargetVolume, Seconds);
 }
 
 void GstreamerAudioStream::FadeAndStop(float TargetVolume, float Seconds)
 {
     CloseStreamAfterFade = true;
 
-    Fade(TargetVolume, FadeTime);
+    Fade(TargetVolume, Seconds);
 }
 
 bool GstreamerAudioStream::IsPlaying()

@@ -210,6 +210,8 @@ namespace Vocaluxe.Screens
                         CConfig.PlayerInfo = (EPlayerInfo)mode;
                         CConfig.SaveConfig();
                         SetVisibility();
+                        if (CGame.GetSong() != null)
+                            SetDuetLyricsVisibility(CGame.GetSong().IsDuet); //make sure duet lyrics remain visible
                         break;
 
                     case Keys.S:
@@ -635,7 +637,7 @@ namespace Vocaluxe.Screens
 
             SingNotes[htSingNotes(SingBars)].Reset();
 
-            bool LyricsOnTop = (CGame.NumPlayer != 1) && CConfig.LyricsOnTop == EOffOn.TR_CONFIG_ON;
+            
             if (song.IsDuet)
             {
                 Texts[htTexts(TextDuetName1)].Text = song.DuetPart1;
@@ -659,24 +661,9 @@ namespace Vocaluxe.Screens
                         CGame.Player[i].LineNr = duet_player[i];
                     }
                 }
-                Statics[htStatics(StaticLyricsDuet)].Visible = true;
-                Lyrics[htLyrics(LyricMainDuet)].Visible = true;
-                Lyrics[htLyrics(LyricSubDuet)].Visible = true;
-
-                Lyrics[htLyrics(LyricMainTop)].Visible = false;
-                Lyrics[htLyrics(LyricSubTop)].Visible = false;
-                Statics[htStatics(StaticLyricsTop)].Visible = false;
+                
             }
-            else
-            {
-                Statics[htStatics(StaticLyricsDuet)].Visible = false;
-                Lyrics[htLyrics(LyricMainDuet)].Visible = false;
-                Lyrics[htLyrics(LyricSubDuet)].Visible = false;
-
-                Lyrics[htLyrics(LyricMainTop)].Visible = LyricsOnTop;
-                Lyrics[htLyrics(LyricSubTop)].Visible = LyricsOnTop;
-                Statics[htStatics(StaticLyricsTop)].Visible = LyricsOnTop;
-            }
+            SetDuetLyricsVisibility(song.IsDuet);
 
             for (int p = 0; p < CGame.NumPlayer; p++)
             {
@@ -709,6 +696,27 @@ namespace Vocaluxe.Screens
             }
 
             StartSong();
+        }
+
+        private void SetDuetLyricsVisibility(bool isDuet)
+        {
+            Statics[htStatics(StaticLyricsDuet)].Visible = isDuet;
+            Lyrics[htLyrics(LyricMainDuet)].Visible = isDuet;
+            Lyrics[htLyrics(LyricSubDuet)].Visible = isDuet;
+
+            if (isDuet)
+            {
+                Lyrics[htLyrics(LyricMainTop)].Visible = false;
+                Lyrics[htLyrics(LyricSubTop)].Visible = false;
+                Statics[htStatics(StaticLyricsTop)].Visible = false;
+            }
+            else
+            {
+                bool LyricsOnTop = (CGame.NumPlayer != 1) && CConfig.LyricsOnTop == EOffOn.TR_CONFIG_ON;
+                Lyrics[htLyrics(LyricMainTop)].Visible = LyricsOnTop;
+                Lyrics[htLyrics(LyricSubTop)].Visible = LyricsOnTop;
+                Statics[htStatics(StaticLyricsTop)].Visible = LyricsOnTop;
+            }
         }
 
         private void StartSong()
