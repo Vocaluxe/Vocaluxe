@@ -112,7 +112,7 @@ namespace Vocaluxe.Base
             List<SongPointer> SortList = new List<SongPointer>();
             if (fieldName.Length == 0)
                 CSongs.Filter.FilteredSongs.ForEach((song) => SortList.Add(new SongPointer(song.ID, "")));
-            {
+            else{
                 field = Type.GetType("Vocaluxe.Menu.SongMenu.CSong,VocaluxeLib").GetField(fieldName, BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public);
                 isString = field.FieldType == typeof(string);
                 if (!isString && field.FieldType != typeof(List<String>))
