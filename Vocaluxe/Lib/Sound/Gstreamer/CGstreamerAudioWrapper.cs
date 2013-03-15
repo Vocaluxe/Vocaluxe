@@ -26,6 +26,7 @@ namespace Vocaluxe.Lib.Sound.Gstreamer
         public static extern void SetLogCallback(LogCallback c);
 
         [DllImport(Dll)]
+        [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool Init();
 
         [DllImport(Dll)]
@@ -41,7 +42,8 @@ namespace Vocaluxe.Lib.Sound.Gstreamer
         public static extern int Load(string Media);
 
         [DllImport(Dll, EntryPoint="LoadPrescan")]
-        public static extern int Load(string Media, bool Prescan);
+        public static extern int Load(string Media,
+            [MarshalAs(UnmanagedType.U1)] bool Prescan);
 
         [DllImport(Dll)]
         public static extern void Close(int Stream);
@@ -50,7 +52,8 @@ namespace Vocaluxe.Lib.Sound.Gstreamer
         public static extern void Play(int Stream);
 
         [DllImport(Dll, EntryPoint="PlayLoop")]
-        public static extern void Play(int Stream, bool Loop);
+        public static extern void Play(int Stream,
+            [MarshalAs(UnmanagedType.U1)] bool Loop);
 
         [DllImport(Dll)]
         public static extern void Pause(int Stream);
@@ -80,12 +83,15 @@ namespace Vocaluxe.Lib.Sound.Gstreamer
         public static extern float GetPosition(int Stream);
 
         [DllImport(Dll)]
+        [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool IsPlaying(int Stream);
 
         [DllImport(Dll)]
+        [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool IsPaused(int Stream);
 
         [DllImport(Dll)]
+        [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool IsFinished(int Stream);
 
         [DllImport(Dll)]

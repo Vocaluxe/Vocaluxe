@@ -119,7 +119,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public Int32 stream_index;
 
         //Pointer to the buffer which contains the data.
-        public IntPtr buffer;
+        internal IntPtr buffer;
         //Size of the data in the buffer.
         public Int32 buffer_size;
     }

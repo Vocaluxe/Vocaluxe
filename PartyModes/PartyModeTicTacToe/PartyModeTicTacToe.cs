@@ -4,6 +4,7 @@ using System.Text;
 
 using Vocaluxe.Menu;
 
+[assembly: System.Runtime.InteropServices.ComVisible(false)]
 namespace Vocaluxe.PartyModes
 {
     public enum ESongSource

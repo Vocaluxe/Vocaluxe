@@ -21,7 +21,8 @@ namespace Vocaluxe.Lib.Webcam
         private VideoCaptureDevice _Webcam;
         private FilterInfoCollection _WebcamDevices;
         private SWebcamConfig _Config;
-        byte[] data = new byte[1];
+        private byte[] data = new byte[1];
+        private static object _mutexData =  new object();
         int _Width, _Height;
 
         public void Close()
@@ -39,7 +40,7 @@ namespace Vocaluxe.Lib.Webcam
         {
             if (_Webcam != null && _Width > 0 && _Height > 0 && data.Length == _Width * _Height * 4)
             {
-                lock (data)
+                lock (_mutexData)
                 {
                     if (Frame.index == -1 || _Width != Frame.width || _Height != Frame.height)
                     {
@@ -59,7 +60,7 @@ namespace Vocaluxe.Lib.Webcam
         {
             if (_Webcam != null && _Width > 0 && _Height > 0 && data.Length == _Height * _Width * 4)
             {
-                lock (data)
+                lock (_mutexData)
                 {
                     Bitmap bmp = new Bitmap(_Width, _Height);
                     BitmapData bitmapdata = bmp.LockBits(new Rectangle(0, 0, _Width, _Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
@@ -106,7 +107,7 @@ namespace Vocaluxe.Lib.Webcam
         {
             if (!_Paused)
             {
-                lock (data)
+                lock (_mutexData)
                 {
                     if (_Width != e.Frame.Width || _Height != e.Frame.Height || data.Length != e.Frame.Width * e.Frame.Height * 4)
                         data = new byte[4 * e.Frame.Width * e.Frame.Height];

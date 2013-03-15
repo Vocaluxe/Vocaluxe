@@ -23,7 +23,8 @@ namespace Vocaluxe.Lib.Video
         {
             bool retval = CGstreamerVideoWrapper.InitVideo();
             Log = new CGstreamerVideoWrapper.LogCallback(LogHandler);
-            GC.SuppressFinalize(Log);
+            //Really needed? CodeAnalysis complains
+            //GC.SuppressFinalize(Log);
             CGstreamerVideoWrapper.SetVideoLogCallback(Log);
             return retval;
         }

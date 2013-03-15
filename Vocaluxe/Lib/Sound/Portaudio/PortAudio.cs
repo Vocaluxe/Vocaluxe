@@ -159,7 +159,7 @@ namespace PortAudioSharp {
 			public int channelCount;
 			public PaSampleFormat sampleFormat;
 			public double suggestedLatency;
-			public IntPtr hostApiSpecificStreamInfo;
+			internal IntPtr hostApiSpecificStreamInfo;
 			
 			public override string ToString() {
 				return "[" + this.GetType().Name + "]" + "\n"

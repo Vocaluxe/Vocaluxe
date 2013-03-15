@@ -5,6 +5,7 @@ using System.Text;
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SongMenu;
 
+[assembly: System.Runtime.InteropServices.ComVisible(false)]
 namespace Vocaluxe.PartyModes
 {
     #region Communication

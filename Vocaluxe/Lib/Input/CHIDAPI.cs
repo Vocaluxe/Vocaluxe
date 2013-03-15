@@ -22,7 +22,7 @@ namespace Vocaluxe.Lib.Input
         public ushort UsagePage;
         public ushort Usage;
         public int InterfaceNumber;
-        public IntPtr Next;
+        internal IntPtr Next;
     }
     public static class CHIDAPI
     {

@@ -38,7 +38,6 @@ namespace Vocaluxe.Base
         private static bool _CoverLoaded = false;
         private static int _CoverLoadIndex = 0;
         private static int _CatIndex = -1;
-        private static bool _Init = false;
         private static List<CCategory> _CategoriesForRandom = new List<CCategory>();
 
         private static Stopwatch _CoverLoadTimer = new Stopwatch();

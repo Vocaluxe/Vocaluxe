@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Vocaluxe.Menu.SingNotes
 {
-    interface ISingNotes
+    public interface ISingNotes
     {
         void Reset();
         int AddPlayer(SRectF Rect, SColorF Color, int PlayerNr);

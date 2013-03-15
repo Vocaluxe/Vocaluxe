@@ -213,7 +213,7 @@ namespace Vocaluxe.Lib.Video
         public bool displayed;
     }
 
-    class Decoder
+    class Decoder: IDisposable
     {
         private IntPtr _instance = IntPtr.Zero;     // acinerella instance
         private IntPtr _videodecoder = IntPtr.Zero; // acinerella video decoder instance
@@ -804,5 +804,11 @@ namespace Vocaluxe.Lib.Video
             return (Int64)_fs.Seek((long)pos, (SeekOrigin)whence);
         }
         #endregion Callbacks
+
+        public void Dispose()
+        {
+            _fs.Dispose();
+            _fs = null;
+        }
     }
 }

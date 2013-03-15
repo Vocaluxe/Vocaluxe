@@ -23,7 +23,8 @@ namespace Vocaluxe.Lib.Sound
         {
             Init();
             Log = new CGstreamerAudioWrapper.LogCallback(LogHandler);
-            GC.SuppressFinalize(Log);
+            //Is this really needed? CodaAnalyzer complains about it...
+            //GC.SuppressFinalize(Log);
             CGstreamerAudioWrapper.SetLogCallback(Log);
         }
 

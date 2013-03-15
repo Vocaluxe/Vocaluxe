@@ -13,7 +13,7 @@ using Vocaluxe.Lib.Sound.Decoder;
 
 namespace Vocaluxe.Lib.Sound
 {
-    class COpenALPlay : IPlayback
+    class COpenALPlay : IPlayback, IDisposable
     {
         private bool _Initialized = false;
         private List<OpenAlStream> _Decoder = new List<OpenAlStream>();
@@ -397,9 +397,15 @@ namespace Vocaluxe.Lib.Sound
 
             }
         }
+
+        public void Dispose()
+        {
+            AC.Dispose();
+            AC = null;
+        }
     }
 
-    class OpenAlStream
+    class OpenAlStream: IDisposable
     {
         const int buffer_size = 2048;
         const int buffer_count = 5;
@@ -912,6 +918,12 @@ namespace Vocaluxe.Lib.Sound
             _CurrentTime = _TimeCode - _data.BytesNotRead / _BytesPerSecond - 0.1f;
             _Timer.Reset();
             _Timer.Start();
+        }
+
+        public void Dispose()
+        {
+            EventDecode.Close();
+            EventDecode = null;
         }
     }
 }

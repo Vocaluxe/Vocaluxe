@@ -6,7 +6,7 @@ using System.Text;
 namespace Vocaluxe.Lib.Video.Gstreamer
 {
     public struct NativeFrame {
-        public IntPtr buffer;
+        internal IntPtr buffer;
         public int Size;
         public int Width;
         public int Height;
@@ -43,6 +43,7 @@ namespace Vocaluxe.Lib.Video.Gstreamer
         public static extern void SetVideoLogCallback(LogCallback c);
 
         [DllImport(Dll)]
+        [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool InitVideo();
 
         [DllImport(Dll)]
@@ -52,6 +53,7 @@ namespace Vocaluxe.Lib.Video.Gstreamer
         public static extern int LoadVideo(string VideoFileName);
 
         [DllImport(Dll)]
+        [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool CloseVideo(int StreamID);
 
         [DllImport(Dll)]
@@ -86,10 +88,12 @@ namespace Vocaluxe.Lib.Video.Gstreamer
         }
 
         [DllImport(Dll)]
+        [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool Skip(int StreamID, float Start, float Gap);
 
         [DllImport(Dll)]
-        public static extern void SetVideoLoop(int StreamID, bool Loop);
+        public static extern void SetVideoLoop(int StreamID,
+            [MarshalAs(UnmanagedType.U1)] bool Loop);
 
         [DllImport(Dll)]
         public static extern void PauseVideo(int StreamID);
@@ -98,9 +102,11 @@ namespace Vocaluxe.Lib.Video.Gstreamer
         public static extern void ResumeVideo(int StreamID);
 
         [DllImport(Dll)]
+        [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool Finished(int StreamID);
 
         [DllImport(Dll)]
+        [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool UpdateVideo();
 
     }

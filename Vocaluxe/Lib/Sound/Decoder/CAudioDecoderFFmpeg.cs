@@ -9,7 +9,7 @@ using Vocaluxe.Lib.Video.Acinerella;
 
 namespace Vocaluxe.Lib.Sound.Decoder
 {
-    class CAudioDecoderFFmpeg: CAudioDecoder
+    class CAudioDecoderFFmpeg: CAudioDecoder, IDisposable
     {
         private TAc_read_callback _rc;
         private TAc_seek_callback _sc;
@@ -219,5 +219,11 @@ namespace Vocaluxe.Lib.Sound.Decoder
             return (Int64)_fs.Seek((long)pos, (SeekOrigin)whence);
         }
         #endregion Callbacks
+
+        public void Dispose()
+        {
+            _fs.Dispose();
+            _fs = null;
+        }
     }
 }

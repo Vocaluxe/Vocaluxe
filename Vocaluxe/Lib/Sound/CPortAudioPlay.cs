@@ -382,7 +382,7 @@ namespace Vocaluxe.Lib.Sound
         }
     }
 
-    class PortAudioStream
+    class PortAudioStream: IDisposable
     {
         const long BUFSIZE = 1000000L;
         const long BEGINREFILL = 800000L;
@@ -450,6 +450,11 @@ namespace Vocaluxe.Lib.Sound
         {
             _SyncTimer = new CSyncTimer(0f, 1f, 0.02f);
             _DecoderThread = new Thread(Execute);
+        }
+
+        ~PortAudioStream()
+        {
+            Dispose();
         }
 
         public void Free(CLOSEPROC close_proc, int StreamID)
@@ -979,6 +984,16 @@ namespace Vocaluxe.Lib.Sound
                     if (_pauseStreamAfterFade)
                         Paused = true;
                 }
+            }
+        }
+
+        public void Dispose()
+        {
+            if (EventDecode != null)
+            {
+                EventDecode.Close();
+                EventDecode = null;
+                GC.SuppressFinalize(this);
             }
         }
     }

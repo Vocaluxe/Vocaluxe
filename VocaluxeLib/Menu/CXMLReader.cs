@@ -21,15 +21,15 @@ namespace Vocaluxe.Menu
             get { return _Navigator; }
         }
 
-        public static CXMLReader OpenFile(string sUri)
+        public static CXMLReader OpenFile(string sFile)
         {
             try
             {
-                return new CXMLReader(sUri);
+                return new CXMLReader(sFile);
             }
             catch (Exception e)
             {
-                CBase.Log.LogError("Can't open XML file: " + sUri + ": " + e.Message);
+                CBase.Log.LogError("Can't open XML file: " + sFile + ": " + e.Message);
                 return null;
             }
         }
