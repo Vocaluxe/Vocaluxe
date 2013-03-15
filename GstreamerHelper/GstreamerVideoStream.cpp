@@ -180,7 +180,7 @@ struct ApplicationFrame GstreamerVideoStream::GetFrame(float Time)
 
 				gst_buffer_map(Buffer, &Mapinfo, GST_MAP_READ);
 
-				Size = Mapinfo.size;
+				Size = (int) Mapinfo.size;
 				gst_structure_get_int (BufferStructure, "width", &Width);
 				gst_structure_get_int (BufferStructure, "height", &Height);
 				VideoTime = (float) (Buffer->pts / GST_SECOND);
@@ -210,7 +210,7 @@ struct ApplicationFrame GstreamerVideoStream::GetFrame(float Time)
 
 bool GstreamerVideoStream::Skip(float Start, float Gap)
 {
-	if(!gst_element_seek_simple(Element, GST_FORMAT_TIME, (GstSeekFlags)(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE), (Start + Gap) * GST_SECOND))
+	if(!gst_element_seek_simple(Element, GST_FORMAT_TIME, (GstSeekFlags)(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE), (gint64)((Start + Gap) * GST_SECOND)))
 	{
 		LogVideoError("Seek failed");
 		return true;

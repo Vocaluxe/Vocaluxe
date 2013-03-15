@@ -70,7 +70,7 @@ vocaluxe_clock_get_internal_time (GstClock * clock)
 
   _vocaluxeclock = GST_VOCALUXE_CLOCK_CAST (clock);
 
-  result = _vocaluxeclock->time * GST_SECOND;
+  result = (GstClockTime) _vocaluxeclock->time * GST_SECOND;
   return result;
 }
 

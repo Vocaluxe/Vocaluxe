@@ -32,3 +32,4 @@ Output/Songs
 *.ipch
 
 *.log
+/Output/x64/gstreamer/GstreamerHelper.dll

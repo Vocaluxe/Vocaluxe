@@ -42,7 +42,7 @@ namespace Vocaluxe.Lib.Video
                 i = CGstreamerVideoWrapper.LoadVideo(u.AbsoluteUri);
                 return i;
             }
-            catch (Exception e) { }
+            catch (Exception) { }
             return i;
         }
 
