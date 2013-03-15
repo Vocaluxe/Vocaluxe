@@ -65,7 +65,7 @@ DllExport bool CloseVideo(int Stream)
 
 DllExport int GetVideoNumStreams()
 {
-	return VideoStreams.size();
+	return (int) VideoStreams.size();
 }
 
 DllExport float GetVideoLength(int Stream)
@@ -85,6 +85,13 @@ DllExport struct ApplicationFrame GetFrame(int Stream, float Time)
 	{
 		return it->second->GetFrame(Time);
 	}
+	struct ApplicationFrame returnFrame;
+	returnFrame.size=0;
+	returnFrame.width=0;
+	returnFrame.height=0;
+	returnFrame.data=NULL;
+	returnFrame.videotime=0;
+	return returnFrame;
 }
 
 DllExport bool Skip(int Stream, float Start, float Gap)
