@@ -664,7 +664,6 @@ namespace Vocaluxe.Base
                     //Check if there are inputs.
                     if (Devices[dev].Inputs.Count >= 1)
                     {
-                        bool micfound = false;
                         //Check if there is one or more channels
                         if (Devices[dev].Inputs[0].Channels >= 1)
                         {
@@ -674,21 +673,16 @@ namespace Vocaluxe.Base
                             MicConfig[0].InputName = Devices[dev].Inputs[0].Name;
                             MicConfig[0].Channel = 1;
 
-                            micfound = true;
-                        }
-                        if (Devices[dev].Inputs[0].Channels >= 2)
-                        {
-                            //Set this device to player 2
-                            MicConfig[1].DeviceName = Devices[dev].Name;
-                            MicConfig[1].DeviceDriver = Devices[dev].Driver;
-                            MicConfig[1].InputName = Devices[dev].Inputs[0].Name;
-                            MicConfig[1].Channel = 2;
+                            if (Devices[dev].Inputs[0].Channels >= 2)
+                            {
+                                //Set this device to player 2
+                                MicConfig[1].DeviceName = Devices[dev].Name;
+                                MicConfig[1].DeviceDriver = Devices[dev].Driver;
+                                MicConfig[1].InputName = Devices[dev].Inputs[0].Name;
+                                MicConfig[1].Channel = 2;
 
-                            micfound = true;
-                        }
-                        if (micfound)
-                        {
-                            return true;
+                                return true;
+                            }
                         }
                     }
                 }
@@ -820,17 +814,6 @@ namespace Vocaluxe.Base
                 switch (param)
                 {
                     case "songfolder":
-                        //Check if SongFolders from config.xml are saved
-                        if (SongFolderOld.Count == 0)
-                        {
-                            SongFolderOld.Clear();
-                            SongFolderOld.AddRange(SongFolder);
-                            SongFolder.Clear();
-                        }
-                        //Add parameter-value to SongFolder
-                        SongFolder.Add(value);
-                        break;
-
                     case "songpath":
                         //Check if SongFolders from config.xml are saved
                         if (SongFolderOld.Count == 0)

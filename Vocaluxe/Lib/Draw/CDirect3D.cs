@@ -27,7 +27,7 @@ namespace Vocaluxe.Lib.Draw
         private bool _Run;
 
         private Direct3D _D3D;
-        private Device _Device;
+        private Device _Device = null;
         private PresentParameters _PresentParameters;
 
         private bool _fullscreen = false;
@@ -123,52 +123,37 @@ namespace Vocaluxe.Lib.Draw
 
             //Apply antialiasing and check if antialiasing mode is supported
             #region Antialiasing
-            int quality = 0;
-            if (CConfig.AAMode == EAntiAliasingModes.x0)
+            int quality = 1;
+            MultisampleType msType;
+            switch (CConfig.AAMode)
             {
-                _PresentParameters.Multisample = MultisampleType.None;
-                _PresentParameters.MultisampleQuality = quality;
+                case EAntiAliasingModes.x2:
+                    msType = MultisampleType.TwoSamples;
+                    break;
+                case EAntiAliasingModes.x4:
+                    msType = MultisampleType.FourSamples;
+                    break;
+                case EAntiAliasingModes.x8:
+                    msType = MultisampleType.EightSamples;
+                    break;
+                case EAntiAliasingModes.x16:
+                case EAntiAliasingModes.x32://x32 is not supported, fallback to x16
+                    msType = MultisampleType.SixteenSamples;
+                    break;
+                default:
+                    msType = MultisampleType.None;
+                    break;
             }
-            else if (CConfig.AAMode == EAntiAliasingModes.x2)
+
+            if (!_D3D.CheckDeviceMultisampleType(_D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, _D3D.Adapters.DefaultAdapter.CurrentDisplayMode.Format, false, msType, out quality))
             {
-                if (_D3D.CheckDeviceMultisampleType(_D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, _D3D.Adapters.DefaultAdapter.CurrentDisplayMode.Format, false, MultisampleType.TwoSamples, out quality))
-                {
-                    _PresentParameters.Multisample = MultisampleType.TwoSamples;
-                    _PresentParameters.MultisampleQuality = quality - 1;
-                }
-                else
-                    CLog.LogError("[Direct3D] This AAMode is not supported by this device or driver, fallback to no AA");
-            }
-            else if (CConfig.AAMode == EAntiAliasingModes.x4)
-            {
-                if (_D3D.CheckDeviceMultisampleType(_D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, _D3D.Adapters.DefaultAdapter.CurrentDisplayMode.Format, false, MultisampleType.FourSamples, out quality))
-                {
-                    _PresentParameters.Multisample = MultisampleType.FourSamples;
-                    _PresentParameters.MultisampleQuality = quality - 1;
-                }
-                else
-                    CLog.LogError("[Direct3D] This AAMode is not supported by this device or driver, fallback to no AA");
-            }
-            else if (CConfig.AAMode == EAntiAliasingModes.x8)
-            {
-                if (_D3D.CheckDeviceMultisampleType(_D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, _D3D.Adapters.DefaultAdapter.CurrentDisplayMode.Format, false, MultisampleType.EightSamples, out quality))
-                {
-                    _PresentParameters.Multisample = MultisampleType.EightSamples;
-                    _PresentParameters.MultisampleQuality = quality - 1;
-                }
-                else
-                    CLog.LogError("[Direct3D] This AAMode is not supported by this device or driver, fallback to no AA");
-            }
-            else if (CConfig.AAMode == EAntiAliasingModes.x16 || CConfig.AAMode == EAntiAliasingModes.x32) //x32 is not supported, fallback to x16
-            {
-                if (_D3D.CheckDeviceMultisampleType(_D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, _D3D.Adapters.DefaultAdapter.CurrentDisplayMode.Format, false, MultisampleType.SixteenSamples, out quality))
-                {
-                    _PresentParameters.Multisample = MultisampleType.SixteenSamples;
-                    _PresentParameters.MultisampleQuality = quality - 1;
-                }
-                else
-                    CLog.LogError("[Direct3D] This AAMode is not supported by this device or driver, fallback to no AA");
-            }
+                CLog.LogError("[Direct3D] This AAMode is not supported by this device or driver, fallback to no AA");
+                msType = MultisampleType.None;
+                quality = 1;
+            }                
+
+            _PresentParameters.Multisample = msType;
+            _PresentParameters.MultisampleQuality = quality - 1;
             #endregion Antialiasing
 
             //Apply the VSync configuration
@@ -194,14 +179,6 @@ namespace Vocaluxe.Lib.Draw
             try
             {
                 _Device = new Device(_D3D, _D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, Handle, flags, _PresentParameters);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Something went wrong during device creating, please check if your DirectX redistributables " +
-                    "and graphic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109",
-                    CSettings.sProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                CLog.LogError(e.Message + " - Something went wrong during device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
-                Environment.Exit(Environment.ExitCode);
             }
             finally
             {

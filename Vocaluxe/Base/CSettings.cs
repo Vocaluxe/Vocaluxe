@@ -192,8 +192,7 @@ namespace Vocaluxe.Base
             foreach (string folder in Folders)
             {
                 string path = Path.Combine(Environment.CurrentDirectory, folder);
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);   
+                CreateFolder(path);  
             }       
         }
 

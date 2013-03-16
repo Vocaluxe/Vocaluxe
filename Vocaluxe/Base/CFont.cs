@@ -155,40 +155,18 @@ namespace Vocaluxe.Base
 
     class CFont:IDisposable
     {
-        private List<CGlyph> _Glyphs;
-        private Hashtable _htGlyphs;
+        private Dictionary<char, CGlyph> _Glyphs;
         private PrivateFontCollection fonts = null;
         private FontFamily family;
         private float SIZEh;
         
         public string FilePath;
-        
-        
-        public Font GetFont()
-        {
-            if (fonts == null)
-            {
-                fonts = new PrivateFontCollection();
-                try
-                {
-                    fonts.AddFontFile(FilePath);
-                    family = fonts.Families[0];
-                }
-                catch (Exception e)
-                {
-                    CLog.LogError("Error opening font file " + FilePath + ": " + e.Message);
-                }      
-            }
-            
-            return new Font(family, CFonts.Height, CFonts.GetFontStyle(), GraphicsUnit.Pixel);
-        }
-
+               
         public CFont(string File)
         {
             FilePath = File;
-       
-            _Glyphs = new List<CGlyph>();
-            _htGlyphs = new Hashtable();
+
+            _Glyphs = new Dictionary<char, CGlyph>();
 
             switch (CConfig.TextureQuality)
             {
@@ -213,74 +191,95 @@ namespace Vocaluxe.Base
             }
         }
 
-        public void DrawGlyph(char chr, float x, float y, float h, float z, SColorF color)
+        public Font GetFont()
         {
-            AddGlyph(chr);
+            if (fonts == null)
+            {
+                fonts = new PrivateFontCollection();
+                try
+                {
+                    fonts.AddFontFile(FilePath);
+                    family = fonts.Families[0];
+                }
+                catch (Exception e)
+                {
+                    CLog.LogError("Error opening font file " + FilePath + ": " + e.Message);
+                }
+            }
 
-            CFonts.Height = h;
-            CGlyph glyph = _Glyphs[(int)_htGlyphs[chr]];
-            float factor = h / glyph.Texture.height;
-            float d = glyph.SIZEh / 5f * factor;
-            CDraw.DrawTexture(glyph.Texture, new SRectF(x - d, y, glyph.Texture.width * factor, h, z), color);
+            return new Font(family, CFonts.Height, CFonts.GetFontStyle(), GraphicsUnit.Pixel);
         }
 
-        public void DrawGlyphReflection(char chr, float x, float y, float h, float z, SColorF color, float rspace, float rheight)
+        public void DrawGlyph(char chr, float x, float y, float h, float z, SColorF color)
         {
-            AddGlyph(chr);
-
-            CFonts.Height = h;
-            CGlyph glyph = _Glyphs[(int)_htGlyphs[chr]];
-            float factor = h / glyph.Texture.height;
-            float d = glyph.SIZEh / 5f * factor;
-            SRectF rect = new SRectF(x - d, y, glyph.Texture.width * factor, h, z);
-            CDraw.DrawTextureReflection(glyph.Texture, rect, color, rect, rspace, rheight);
+            STexture texture;
+            SRectF rect;
+            _GetGlyphTextureAndRect(chr, x, y, z, h, out texture, out rect);
+            CDraw.DrawTexture(texture, rect, color);
         }
 
         public void DrawGlyph(char chr, float x, float y, float h, float z, SColorF color, float begin, float end)
         {
+            STexture texture;
+            SRectF rect;
+            _GetGlyphTextureAndRect(chr, x, y, z, h, out texture, out rect);
+            CDraw.DrawTexture(texture, rect, color, begin, end);
+        }
+
+        public void DrawGlyphReflection(char chr, float x, float y, float h, float z, SColorF color, float rspace, float rheight)
+        {
+            STexture texture;
+            SRectF rect;
+            _GetGlyphTextureAndRect(chr, x, y, z, h, out texture, out rect);
+            CDraw.DrawTextureReflection(texture, rect, color, rect, rspace, rheight);
+        }
+
+        private void _GetGlyphTextureAndRect(char chr, float x, float y, float z, float h, out STexture texture, out SRectF rect)
+        {
             AddGlyph(chr);
 
             CFonts.Height = h;
-            CGlyph glyph = _Glyphs[(int)_htGlyphs[chr]];
-            float factor = h / glyph.Texture.height;
-            float width = glyph.Texture.width * factor;
+            CGlyph glyph = _Glyphs[chr];
+            texture = glyph.Texture;
+            float factor = h / texture.height;
+            float width = texture.width * factor;
             float d = glyph.SIZEh / 5f * factor;
-
-            CDraw.DrawTexture(glyph.Texture, new SRectF(x - d, y, width, h, z), color, begin, end);
+            rect = new SRectF(x - d, y, width, h, z);
         }
 
         public float GetWidth(char chr)
         {
             AddGlyph(chr);
 
-            CGlyph glyph = _Glyphs[(int)_htGlyphs[chr]];
+            CGlyph glyph = _Glyphs[chr];
             float factor = CFonts.Height / glyph.Texture.height;
             return glyph.width * factor;
         }
 
         public float GetHeight(char chr)
         {
+            return CFonts.Height;
+            /*WTF???
             AddGlyph(chr);
 
-            CGlyph glyph = _Glyphs[(int)_htGlyphs[chr]];
+            CGlyph glyph = _Glyphs[chr];
             float factor = CFonts.Height / glyph.Texture.height;
-            return glyph.Texture.height * factor;
+            return glyph.Texture.height * factor;*/
         }
 
         public void AddGlyph(char chr)
         {
-            if (_htGlyphs.ContainsKey(chr))
+            if (_Glyphs.ContainsKey(chr))
                 return;
 
             float h = CFonts.Height;
-            _Glyphs.Add(new CGlyph(chr, SIZEh));
-            _htGlyphs.Add(chr, _Glyphs.Count - 1);
+            _Glyphs.Add(chr, new CGlyph(chr, SIZEh));
             CFonts.Height = h;
         }
 
         public void UnloadAllGlyphs()
         {
-            foreach (CGlyph glyph in _Glyphs)
+            foreach (CGlyph glyph in _Glyphs.Values)
             {
                 glyph.UnloadTexture();
             }
@@ -293,6 +292,7 @@ namespace Vocaluxe.Base
             {
                 fonts.Dispose();
                 fonts = null;
+                UnloadAllGlyphs();
             }
             GC.SuppressFinalize(this);
         }

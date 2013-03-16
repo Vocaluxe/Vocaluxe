@@ -220,16 +220,16 @@ namespace Vocaluxe.Menu
         {
             if (Elements != null)
             {
-                for (int i = 0; i < Elements.Length; i++)
+                foreach (string elName in Elements)
                 {
                     T Element = (T)Activator.CreateInstance(typeof(T), _PartyModeID);
-                    if (Element.LoadTheme("//root/" + _ThemeName, _ThemeBackgrounds[i], xmlReader, SkinIndex))
+                    if (Element.LoadTheme("//root/" + _ThemeName, elName, xmlReader, SkinIndex))
                     {
-                        MAddElement(Element, Elements[i]);
+                        MAddElement(Element, elName);
                     }
                     else
                     {
-                        CBase.Log.LogError("Can't load " + typeof(T).Name.Substring(1) + " \"" + Elements[i] + "\" in screen " + _ThemeName);
+                        CBase.Log.LogError("Can't load " + typeof(T).Name.Substring(1) + " \"" + elName + "\" in screen " + _ThemeName);
                     }
                 }
             }
@@ -797,11 +797,7 @@ namespace Vocaluxe.Menu
         public virtual bool HandleInputThemeEditor(KeyEvent KeyEvent)
         {
             _UnsetHighlighted(_Selection);
-            if (KeyEvent.KeyPressed)
-            {
-
-            }
-            else
+            if (!KeyEvent.KeyPressed)
             {
                 switch (KeyEvent.Key)
                 {
@@ -1311,40 +1307,7 @@ namespace Vocaluxe.Menu
 
         private float _GetZValue(int interaction)
         {
-            switch (_Interactions[interaction].Type)
-            {
-                case EType.TButton:
-                    return _Buttons[_Interactions[interaction].Num].Rect.Z;
-
-                case EType.TSelectSlide:
-                    return _SelectSlides[_Interactions[interaction].Num].Rect.Z;
-
-                case EType.TStatic:
-                    return _Statics[_Interactions[interaction].Num].Rect.Z;
-
-                case EType.TText:
-                    return _Texts[_Interactions[interaction].Num].Z;
-
-                case EType.TSongMenu:
-                    return _SongMenus[_Interactions[interaction].Num].Rect.Z;
-
-                case EType.TLyric:
-                    return _Lyrics[_Interactions[interaction].Num].Rect.Z;
-
-                case EType.TNameSelection:
-                    return _NameSelections[_Interactions[interaction].Num].Rect.Z;
-
-                case EType.TEqualizer:
-                    return _Equalizers[_Interactions[interaction].Num].Rect.Z;
-
-                case EType.TPlaylist:
-                    return _Playlists[_Interactions[interaction].Num].Rect.Z;
-
-                case EType.TParticleEffect:
-                    return _ParticleEffects[_Interactions[interaction].Num].Rect.Z;
-            }
-
-            return CBase.Settings.GetZFar();
+            return _GetZValue(_Interactions[interaction]);
         }
 
         private void _NextInteraction()
@@ -2146,7 +2109,7 @@ namespace Vocaluxe.Menu
             // Statics
             CStatic stat = new CStatic(_PartyModeID);
             i = 1;
-            while (stat.LoadTheme("//root/" + _ThemeName, "Statics[" + i.ToString(), xmlReader, SkinIndex))
+            while (stat.LoadTheme("//root/" + _ThemeName, "Static" + i.ToString(), xmlReader, SkinIndex))
             {
                 AddStatic(stat);
                 stat = new CStatic(_PartyModeID);
