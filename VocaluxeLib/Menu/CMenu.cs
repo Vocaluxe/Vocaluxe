@@ -1012,67 +1012,132 @@ namespace Vocaluxe.Menu
 
         #region Elements
 
-        public void AddBackground(CBackground bg, String key = null)
+        public void AddBackground(CBackground bg)
+        {
+            AddBackground(bg, null);
+        }
+
+        public void AddButton(CButton button)
+        {
+            AddButton(button, null);
+        }
+
+        public void AddSelectSlide(CSelectSlide slide)
+        {
+            AddSelectSlide(slide, null);
+        }
+
+        public void AddStatic(CStatic stat)
+        {
+            AddStatic(stat, null);
+        }
+
+        public void AddText(CText text)
+        {
+            AddText(text, null);
+        }
+
+        public void AddSongMenu(CSongMenu songmenu)
+        {
+            AddSongMenu(songmenu, null);
+        }
+
+        public void AddLyric(CLyric lyric)
+        {
+            AddLyric(lyric, null);
+        }
+
+        public void AddSingNote(CSingNotes sn)
+        {
+            AddSingNote(sn, null);
+        }
+
+        public void AddNameSelection(CNameSelection ns)
+        {
+            AddNameSelection(ns, null);
+        }
+
+        public void AddEqualizer(CEqualizer eq)
+        {
+            AddEqualizer(eq, null);
+        }
+
+        public void AddPlaylist(CPlaylist pls)
+        {
+            AddPlaylist(pls, null);
+        }
+
+        public void AddParticleEffect(CParticleEffect pe)
+        {
+            AddParticleEffect(pe, null);
+        }
+
+        public void AddScreenSetting(CScreenSetting se)
+        {
+            AddScreenSetting(se, null);
+        }
+        
+        public void AddBackground(CBackground bg, String key)
         {
             _AddInteraction(_Backgrounds.Add(bg, key), EType.TBackground);
         }
 
-        public void AddButton(CButton button, String key = null)
+        public void AddButton(CButton button, String key)
         {
             _AddInteraction(_Buttons.Add(button, key), EType.TButton);
         }
 
-        public void AddSelectSlide(CSelectSlide slide, String key = null)
+        public void AddSelectSlide(CSelectSlide slide, String key)
         {
             _AddInteraction(_SelectSlides.Add(slide, key), EType.TSelectSlide);
         }
 
-        public void AddStatic(CStatic stat, String key = null)
+        public void AddStatic(CStatic stat, String key)
         {
             _AddInteraction(_Statics.Add(stat, key), EType.TStatic);
         }
 
-        public void AddText(CText text, String key = null)
+        public void AddText(CText text, String key)
         {
             _AddInteraction(_Texts.Add(text, key), EType.TText);
         }
 
-        public void AddSongMenu(CSongMenu songmenu, String key = null)
+        public void AddSongMenu(CSongMenu songmenu, String key)
         {
             _AddInteraction(_SongMenus.Add(songmenu, key), EType.TSongMenu);
         }
 
-        public void AddLyric(CLyric lyric, String key = null)
+        public void AddLyric(CLyric lyric, String key)
         {
             _AddInteraction(_Lyrics.Add(lyric, key), EType.TLyric);
         }
 
-        public void AddSingNote(CSingNotes sn, String key = null)
+        public void AddSingNote(CSingNotes sn, String key)
         {
             _AddInteraction(_SingNotes.Add(sn, key), EType.TSingNote);
         }
 
-        public void AddNameSelection(CNameSelection ns, String key = null)
+        public void AddNameSelection(CNameSelection ns, String key)
         {
             _AddInteraction(_NameSelections.Add(ns, key), EType.TNameSelection);
         }
 
-        public void AddEqualizer(CEqualizer eq, String key = null)
+        public void AddEqualizer(CEqualizer eq, String key)
         {
             _AddInteraction(_Equalizers.Add(eq, key), EType.TEqualizer);
         }
 
-        public void AddPlaylist(CPlaylist pls, String key = null)
+        public void AddPlaylist(CPlaylist pls, String key)
         {
             _AddInteraction(_Playlists.Add(pls, key), EType.TPlaylist);
         }
 
-        public void AddParticleEffect(CParticleEffect pe, String key = null)
+        public void AddParticleEffect(CParticleEffect pe, String key)
         {
             _AddInteraction(_ParticleEffects.Add(pe, key), EType.TParticleEffect);
         }
 
-        public void AddScreenSetting(CScreenSetting se, String key = null)
+        public void AddScreenSetting(CScreenSetting se, String key)
         {
             _ScreenSettings.Add(se, key);
         }

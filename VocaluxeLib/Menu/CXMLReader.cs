@@ -8,10 +8,17 @@ namespace Vocaluxe.Menu
     public class CXMLReader
     {
         private XPathNavigator _Navigator;
+        private String _FileName;
+
+        public string FileName
+        {
+            get { return _FileName; }
+        }
         
         //Private method. Use OpenFile factory method to get an instance
         private CXMLReader(string uri)
         {
+            _FileName = uri;
             XPathDocument xPathDoc = new XPathDocument(uri);
             _Navigator = xPathDoc.CreateNavigator();
         }
@@ -93,7 +100,6 @@ namespace Vocaluxe.Menu
                 val = iterator.Current.Value;
                 results++;
             }
-
 
             if ((results == 0) || (results > 1))
             {

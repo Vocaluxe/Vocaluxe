@@ -360,9 +360,9 @@ namespace Vocaluxe.Base
 
                 if (CompileResult.Errors.Count > 0)
                 {
-                    for (int i = 0; i < CompileResult.Errors.Count; i++)
+                    foreach (CompilerError e in CompileResult.Errors)
                     {
-                        CLog.LogError("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + CompileResult.Errors[i].ErrorText);
+                        CLog.LogError("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.ErrorText+" in '"+e.FileName+"' ("+e.Line+")");
                     }
                     return null;
                 }

@@ -31,7 +31,7 @@ namespace Vocaluxe.PartyModes
             Warning.Height = 100f;
             Warning.X = 150;
             Warning.Y = 300;
-            Warning.Fon = "Normal";
+            Warning.Font = "Normal";
             Warning.Style = EStyle.Normal;
             Warning.Color = new SColorF(1f, 0f, 0f, 1f);
             Warning.SColor = new SColorF(1f, 0f, 0f, 1f);

@@ -534,7 +534,7 @@ namespace Vocaluxe.Lib.Draw
         public RectangleF GetTextBounds(CText text, float Height)
         {
             CFonts.Height = Height;
-            CFonts.SetFont(text.Fon);
+            CFonts.SetFont(text.Font);
             CFonts.Style = text.Style;
             return new RectangleF(text.X, text.Y, CFonts.GetTextWidth(CLanguage.Translate(text.Text)), CFonts.GetTextHeight(CLanguage.Translate(text.Text)));
         }

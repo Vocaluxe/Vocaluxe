@@ -211,26 +211,14 @@ namespace Vocaluxe.Base
             if (NumPlayer < 1 || NumPlayer > CSettings.MaxNumPlayer)
                 NumPlayer = 2;
 
-            List<string> _Languages = new List<string>();
-            _Languages = CLanguage.GetLanguages();
-
-            bool _LangExists = false;
-
-            for (i = 0; i < _Languages.Count; i++)
-            {
-                if (_Languages[i] == Language)
-                {
-                    _LangExists = true;
-                }
-            }
+            bool _LangExists = CLanguage.SetLanguage(Language);
 
             //TODO: What should we do, if English not exists?
             if(_LangExists == false){
                 Language = "English";
                     
             }
-            CLanguage.SetLanguage(Language);
-
+            
             //Read players from config
             for (i = 1; i <= CSettings.MaxNumPlayer; i++)
             {

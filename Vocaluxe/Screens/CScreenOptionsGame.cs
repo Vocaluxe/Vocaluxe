@@ -24,9 +24,6 @@ namespace Vocaluxe.Screens
 
         private const string ButtonExit = "ButtonExit";
 
-        private string[] _Languages;
-        private int _CurrentLang = -1;
-
         public CScreenOptionsGame()
         {
         }
@@ -39,24 +36,14 @@ namespace Vocaluxe.Screens
             _ScreenVersion = ScreenVersion;
             _ThemeButtons = new string[] { ButtonExit };
             _ThemeSelectSlides = new string[] { SelectSlideLanguage, SelectSlideDebugLevel, SelectSlideSongMenu, SelectSlideSongSorting, SelectSlideTabs, SelectSlideTimerMode };
-
-            _Languages = CLanguage.GetLanguages().ToArray();
-
-            for (int i = 0; i < _Languages.Length; i++)
-            {
-                if (_Languages[i] == CConfig.Language)
-                {
-                    _CurrentLang = i;
-                }
-            }
         }
 
         public override void LoadTheme(string XmlPath)
         {
             base.LoadTheme(XmlPath);
 
-            SelectSlides[SelectSlideLanguage].AddValues(_Languages);
-            SelectSlides[SelectSlideLanguage].Selection = _CurrentLang;
+            SelectSlides[SelectSlideLanguage].AddValues(CLanguage.GetLanguageNames());
+            SelectSlides[SelectSlideLanguage].Selection = CLanguage.LanguageId;
 
             SelectSlides[SelectSlideDebugLevel].SetValues<EDebugLevel>((int)CConfig.DebugLevel);
             SelectSlides[SelectSlideSongMenu].SetValues<ESongMenu>((int)CConfig.SongMenu);
@@ -70,11 +57,7 @@ namespace Vocaluxe.Screens
         {
             base.HandleInput(KeyEvent);
             
-            if (KeyEvent.KeyPressed)
-            {
-
-            }
-            else
+            if (!KeyEvent.KeyPressed)
             {
                 switch (KeyEvent.Key)
                 {
@@ -143,7 +126,8 @@ namespace Vocaluxe.Screens
 
         private void SaveConfig()
         {
-            CConfig.Language = _Languages[SelectSlides[SelectSlideLanguage].Selection];
+            CLanguage.LanguageId = SelectSlides[SelectSlideLanguage].Selection;
+            CConfig.Language = CLanguage.GetLanguageName(CLanguage.LanguageId);
             CConfig.DebugLevel = (EDebugLevel)SelectSlides[SelectSlideDebugLevel].Selection;
             CConfig.SongMenu = (ESongMenu)SelectSlides[SelectSlideSongMenu].Selection;
             CConfig.SongSorting = (ESongSorting)SelectSlides[SelectSlideSongSorting].Selection;
@@ -155,7 +139,6 @@ namespace Vocaluxe.Screens
             CSongs.Sorter.SongSorting = CConfig.SongSorting;
             CSongs.Categorizer.Tabs = CConfig.Tabs;
 
-            CLanguage.SetLanguage(CConfig.Language);
         }
     }
 }

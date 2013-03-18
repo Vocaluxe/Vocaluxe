@@ -181,15 +181,15 @@ namespace Vocaluxe.Menu
             }
         }
 
-        private string _Fon = String.Empty;
-        public string Fon
+        private string _Font = String.Empty;
+        public string Font
         {
-            get { return _Fon; }
+            get { return _Font; }
             set
             {
-                if (_Fon != value)
+                if (_Font != value)
                 {
-                    _Fon = value;
+                    _Font = value;
                     _PositionNeedsUpdate = true;
                 }
             }
@@ -264,7 +264,7 @@ namespace Vocaluxe.Menu
             Align = EAlignment.Left;
             HAlign = EHAlignment.Center;
             Style = EStyle.Normal;
-            Fon = "Normal";
+            Font = "Normal";
 
             Color = new SColorF();
             SColor = new SColorF();
@@ -295,7 +295,7 @@ namespace Vocaluxe.Menu
             Align = text._Align;
             HAlign = text._HAlign;
             Style = text._Style;
-            Fon = text._Fon;
+            Font = text._Font;
 
             Color = new SColorF(text.Color);
             SColor = new SColorF(text.SColor);
@@ -327,7 +327,7 @@ namespace Vocaluxe.Menu
             Align = align;
             HAlign = EHAlignment.Center;
             Style = style;
-            Fon = font;
+            Font = font;
 
             Color = new SColorF(r, g, b, a);
             SColor = new SColorF(r, g, b, a);
@@ -366,7 +366,7 @@ namespace Vocaluxe.Menu
             Align = align;
             HAlign = EHAlignment.Center;
             Style = style;
-            Fon = font;
+            Font = font;
 
             Color = new SColorF(r, g, b, a);
             SColor = new SColorF(r, g, b, a);
@@ -403,7 +403,7 @@ namespace Vocaluxe.Menu
             Align = align;
             HAlign = EHAlignment.Center;
             Style = style;
-            Fon = font;
+            Font = font;
 
             Color = col;
             SColor = new SColorF(col);
@@ -442,7 +442,7 @@ namespace Vocaluxe.Menu
             Align = align;
             HAlign = EHAlignment.Center;
             Style = style;
-            Fon = font;
+            Font = font;
 
             Color = col;
             SColor = new SColorF(col);
@@ -511,7 +511,7 @@ namespace Vocaluxe.Menu
             _ThemeLoaded &= xmlReader.TryGetEnumValue<EAlignment>(item + "/Align", ref _Align);
             xmlReader.TryGetEnumValue<EHAlignment>(item + "/HAlign", ref _HAlign);
             _ThemeLoaded &= xmlReader.TryGetEnumValue<EStyle>(item + "/Style", ref _Style);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Font", ref _Fon, "Normal");
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Font", ref _Font, "Normal");
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/Text", ref _Theme.Text, String.Empty);
 
@@ -531,7 +531,7 @@ namespace Vocaluxe.Menu
             Height = _Height;
             MaxWidth = _MaxWidth;
             Text = _Theme.Text;
-            Fon = _Fon;
+            Font = _Font;
             Align = _Align;
             HAlign = _HAlign;
             Style = _Style;
@@ -612,7 +612,7 @@ namespace Vocaluxe.Menu
                 writer.WriteElementString("Style", Enum.GetName(typeof(EStyle), Style));
 
                 writer.WriteComment("<Font>: Text font name");
-                writer.WriteElementString("Font", Fon);
+                writer.WriteElementString("Font", Font);
 
                 writer.WriteComment("<Text>: Nothing or translation tag");
                 if (CBase.Language.TranslationExists(_Theme.Text))
@@ -658,7 +658,7 @@ namespace Vocaluxe.Menu
             if (_PositionNeedsUpdate)
                 UpdateTextPosition();
 
-            CBase.Fonts.SetFont(Fon);
+            CBase.Fonts.SetFont(Font);
             CBase.Fonts.SetStyle(Style);
 
             SColorF CurrentColor = new SColorF(Color);
@@ -727,7 +727,7 @@ namespace Vocaluxe.Menu
 
             SColorF color = new SColorF(CurrentColor.R, CurrentColor.G, CurrentColor.B, CurrentColor.A * Alpha);
 
-            CBase.Fonts.SetFont(Fon);
+            CBase.Fonts.SetFont(Font);
             CBase.Fonts.SetStyle(Style);
 
             if (!EditMode)
@@ -766,7 +766,7 @@ namespace Vocaluxe.Menu
             float x = X + rx;
             float y = Y + ry;
 
-            CBase.Fonts.SetFont(Fon);
+            CBase.Fonts.SetFont(Font);
             CBase.Fonts.SetStyle(Style);
 
             RectangleF bounds = CBase.Fonts.GetTextBounds(this, this.Height);
@@ -813,7 +813,7 @@ namespace Vocaluxe.Menu
 
             SColorF color = new SColorF(CurrentColor.R, CurrentColor.G, CurrentColor.B, CurrentColor.A * Alpha);
 
-            CBase.Fonts.SetFont(Fon);
+            CBase.Fonts.SetFont(Font);
             CBase.Fonts.SetStyle(Style);
             
             if (!EditMode)
@@ -877,7 +877,7 @@ namespace Vocaluxe.Menu
             if (_Text.Length == 0)
                 return;
 
-            CBase.Fonts.SetFont(Fon);
+            CBase.Fonts.SetFont(Font);
             CBase.Fonts.SetStyle(Style);
 
             float h = Height;
