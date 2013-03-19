@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-using System.IO;
-
-using Vocaluxe.Base;
 using System.Diagnostics;
-using Vocaluxe.Lib.Draw;
-
+using System.IO;
+using Vocaluxe.Base;
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SongMenu;
 

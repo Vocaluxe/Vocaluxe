@@ -1,8 +1,8 @@
-﻿using System;
+﻿using SlimDX.DirectSound;
+using SlimDX.Multimedia;
+using System;
 using System.Collections.Generic;
 using System.Threading;
-using SlimDX.DirectSound;
-using SlimDX.Multimedia;
 using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Sound

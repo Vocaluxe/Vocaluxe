@@ -5,11 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 
-using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
-using Vocaluxe.Menu.SingNotes;
-using Vocaluxe.Menu.SongMenu;
-using Vocaluxe.Screens;
 
 namespace Vocaluxe.Base
 {

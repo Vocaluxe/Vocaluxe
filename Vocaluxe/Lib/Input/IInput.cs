@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Text;
 
-using Vocaluxe.Base;
 using Vocaluxe.Menu;
 
 namespace Vocaluxe.Lib.Input

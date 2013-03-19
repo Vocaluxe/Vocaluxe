@@ -3,7 +3,6 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 
 using Vocaluxe.Menu;
 using Vocaluxe.PartyModes;

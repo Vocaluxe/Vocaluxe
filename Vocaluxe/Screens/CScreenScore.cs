@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Windows.Forms;
 
 using Vocaluxe.Base;
 using Vocaluxe.Menu;
-using Vocaluxe.GameModes;
 
 using Vocaluxe.Menu.SongMenu;
 

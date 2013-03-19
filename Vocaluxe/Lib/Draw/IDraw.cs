@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
-using Vocaluxe.Base;
 using Vocaluxe.Menu;
 
 namespace Vocaluxe.Lib.Draw

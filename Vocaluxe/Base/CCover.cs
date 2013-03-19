@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using System.Xml;
 
-using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
 
 namespace Vocaluxe.Base

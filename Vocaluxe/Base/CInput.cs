@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 using Vocaluxe.Lib.Input;
 using Vocaluxe.Lib.Input.WiiMote;
 using Vocaluxe.Menu;

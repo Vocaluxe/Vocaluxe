@@ -1,18 +1,13 @@
-﻿using System;
+﻿using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
 using System.Windows.Forms;
-
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-
 using Vocaluxe.Base;
 using Vocaluxe.Menu;
 

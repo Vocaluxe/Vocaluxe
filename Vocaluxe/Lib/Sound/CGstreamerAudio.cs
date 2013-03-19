@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Sound.Gstreamer;
 

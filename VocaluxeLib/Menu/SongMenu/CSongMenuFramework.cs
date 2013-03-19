@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Xml;
-
 using Vocaluxe.PartyModes;
 
 namespace Vocaluxe.Menu.SongMenu

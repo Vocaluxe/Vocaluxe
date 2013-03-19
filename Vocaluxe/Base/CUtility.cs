@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
-using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
 
 namespace Vocaluxe.Base

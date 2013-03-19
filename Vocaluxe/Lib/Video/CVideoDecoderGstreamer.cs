@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Gstreamer;
 using Vocaluxe.Menu;

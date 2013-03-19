@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
 using Vocaluxe.Base;
-using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SingNotes;
 using Vocaluxe.Menu.SongMenu;

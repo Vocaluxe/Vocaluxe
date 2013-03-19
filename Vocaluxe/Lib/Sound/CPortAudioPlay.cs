@@ -1,13 +1,10 @@
-﻿using System;
+﻿using PortAudioSharp;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-
-using PortAudioSharp;
-
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Sound.Decoder;
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Vocaluxe.Lib.Draw;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 using Vocaluxe.Menu;

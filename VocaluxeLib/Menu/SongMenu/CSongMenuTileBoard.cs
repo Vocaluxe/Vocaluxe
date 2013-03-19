@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
-using Vocaluxe.Menu.SongMenu;
 using Vocaluxe.PartyModes;
 
 namespace Vocaluxe.Menu.SongMenu

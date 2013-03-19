@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-
 using Vocaluxe.Base;
-using Vocaluxe.Menu;
 using Vocaluxe.Lib.Webcam;
+using Vocaluxe.Menu;
 
 
 namespace Vocaluxe.Screens

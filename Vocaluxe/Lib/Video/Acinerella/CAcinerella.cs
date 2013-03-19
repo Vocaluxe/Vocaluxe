@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.IO;
 
-using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Video.Acinerella
 {

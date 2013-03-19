@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
 using Vocaluxe.Base;
-using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
 
 namespace Vocaluxe.Screens

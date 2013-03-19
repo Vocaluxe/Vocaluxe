@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Vocaluxe.Base;
-using AForge.Video;
-using System.Drawing;
+﻿using AForge.Video;
 using AForge.Video.DirectShow;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using Vocaluxe.Lib.Draw;
-using System.Threading;
-
+using Vocaluxe.Base;
 using Vocaluxe.Menu;
 
 namespace Vocaluxe.Lib.Webcam

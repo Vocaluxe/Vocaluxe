@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Vocaluxe.Base;
-using Vocaluxe.Menu;
-using System.Drawing;
-
-using SlimDX;
+﻿using SlimDX;
 using SlimDX.Direct3D9;
-using System.Windows.Forms;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
-using SlimDX.Windows;
+using System.Windows.Forms;
+using Vocaluxe.Base;
+using Vocaluxe.Menu;
 
 
 namespace Vocaluxe.Lib.Draw

@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 
 using Vocaluxe.Base;
-using Vocaluxe.Lib.Draw;
 using Vocaluxe.Lib.Video.Acinerella;
 using Vocaluxe.Menu;
 

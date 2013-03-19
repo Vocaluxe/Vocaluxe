@@ -22,9 +22,7 @@
 
 using System;
 using System.Runtime.InteropServices;
-using System.IO;
 
-using Vocaluxe.Base;
 
 namespace PortAudioSharp {
 

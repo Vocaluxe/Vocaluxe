@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
 using System.Threading;
-using System.Windows.Forms;
 
 using Vocaluxe.Base;
-using Vocaluxe.Lib.Draw;
-using Vocaluxe.Lib.Input;
 using Vocaluxe.Menu;
 
 namespace Vocaluxe.Lib.Input.WiiMote

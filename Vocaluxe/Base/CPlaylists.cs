@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 
 using Vocaluxe.Lib.Playlist;
-using Vocaluxe.GameModes;
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SongMenu;
 

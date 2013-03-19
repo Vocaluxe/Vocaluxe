@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
-using Vocaluxe.GameModes;
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SongMenu;
 

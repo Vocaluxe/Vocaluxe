@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
 
 using Vocaluxe.GameModes;
-using Vocaluxe.Lib.Draw;
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SingNotes;
 using Vocaluxe.Menu.SongMenu;
