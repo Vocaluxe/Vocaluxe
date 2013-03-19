@@ -119,7 +119,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/ColorEmptyTile", ref _Theme.ColorEmptyTileName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorEmptyTileName, SkinIndex, ref ColorEmptyTile);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorEmptyTileName, SkinIndex, out ColorEmptyTile);
             }
             else
             {
@@ -143,7 +143,7 @@ namespace Vocaluxe.Menu
             _ThemeLoaded &= xmlReader.TryGetEnumValue<EStyle>(item + "/Tiles/Name/Style", ref _Theme.NameStyle);
             if (xmlReader.GetValue(item + "/Tiles/Name/Color", ref _Theme.NameColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.NameColorName, SkinIndex, ref _Theme.NameColor);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.NameColorName, SkinIndex, out _Theme.NameColor);
             }
             else
             {

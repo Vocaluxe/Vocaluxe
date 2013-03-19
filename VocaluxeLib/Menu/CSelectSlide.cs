@@ -254,7 +254,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, out Color);
             }
             else
             {
@@ -266,7 +266,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/SColor", ref _Theme.SColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColorName, SkinIndex, ref SColor);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColorName, SkinIndex, out SColor);
             }
             else
             {
@@ -278,7 +278,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/HColor", ref _Theme.HColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.HColorName, SkinIndex, ref HColor);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.HColorName, SkinIndex, out HColor);
             }
             else
             {
@@ -302,7 +302,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/ArrowColor", ref _Theme.ArrowColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ArrowColorName, SkinIndex, ref ColorArrow);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ArrowColorName, SkinIndex, out ColorArrow);
             }
             else
             {
@@ -314,7 +314,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/ArrowSColor", ref _Theme.SArrowColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SArrowColorName, SkinIndex, ref SColorArrow);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SArrowColorName, SkinIndex, out SColorArrow);
             }
             else
             {
@@ -326,7 +326,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/TextColor", ref _Theme.TextColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.TextColorName, SkinIndex, ref TextColor);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.TextColorName, SkinIndex, out TextColor);
             }
             else
             {
@@ -338,7 +338,7 @@ namespace Vocaluxe.Menu
 
             if (xmlReader.GetValue(item + "/TextSColor", ref _Theme.STextColorName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.STextColorName, SkinIndex, ref STextColor);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.STextColorName, SkinIndex, out STextColor);
             }
             else
             {
@@ -780,9 +780,7 @@ namespace Vocaluxe.Menu
             _ValueBounds.Clear();
             for (int i = 0; i < numvis; i++)
             {
-                CText Text = new CText(0, 0, 0, TextH, MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, TextColor, String.Empty);
-                Text.PartyModeID = _ValuePartyModeIDs[i + offset];
-                Text.Text = _ValueNames[i + offset];
+                CText Text = new CText(0, 0, 0, TextH, MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, TextColor, _ValueNames[i + offset], _ValuePartyModeIDs[i + offset]);
 
                 SColorF Alpha = new SColorF(1f, 1f, 1f, 0.35f);
                 if (i + offset == _Selection)

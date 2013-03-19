@@ -855,25 +855,15 @@ namespace Vocaluxe.Base
         #region Color Handling
         public static SColorF GetColor(string ColorName, int PartyModeID)
         {
-            SColorF color = new SColorF(1f, 1f, 1f, 1f);
+            SColorF color;
 
             int SkinIndex = GetSkinIndex(PartyModeID);
-            foreach (SColorScheme scheme in _Skins[SkinIndex].ThemeColors.ColorSchemes)
-            {
-                if (scheme.Name == ColorName)
-                {
-                    color.R = scheme.Color.R;
-                    color.G = scheme.Color.G;
-                    color.B = scheme.Color.B;
-                    color.A = scheme.Color.A;
 
-                    return color;
-                }
-            }
-            return GetPlayerColor(ColorName);
+            GetColor(ColorName, SkinIndex, out color);
+            return color;
         }
 
-        public static bool GetColor(string ColorName, int SkinIndex, ref SColorF Color)
+        public static bool GetColor(string ColorName, int SkinIndex, out SColorF Color)
         {
             foreach (SColorScheme scheme in _Skins[SkinIndex].ThemeColors.ColorSchemes)
             {
@@ -885,7 +875,7 @@ namespace Vocaluxe.Base
             }
 
             bool success;
-            GetPlayerColor(ColorName, GetSkinIndex(-1), out success);
+            Color = GetPlayerColor(ColorName, GetSkinIndex(-1), out success);
             return success;
         }
 
@@ -909,19 +899,9 @@ namespace Vocaluxe.Base
 
         public static SColorF GetPlayerColor(string PlayerNrString, int SkinIndex, out bool success)
         {
-            SColorF color = new SColorF(1f, 1f, 1f, 1f);
-            if (_Skins[SkinIndex].PartyModeID != -1)
-                SkinIndex = GetSkinIndex(-1);
-
-            int selection = -1;
-            for (int i = 0; i < _Skins[SkinIndex].ThemeColors.Player.Length; i++)
-            {
-                if (PlayerNrString == "Player" + (i + 1).ToString())
-                {
-                    selection = i + 1;
-                    break;
-                }
-            }
+            int selection = 0;
+            if (PlayerNrString.StartsWith("Player"))
+                int.TryParse(PlayerNrString.Substring(6), out selection);
 
             return GetPlayerColor(selection, SkinIndex, out success);
         }

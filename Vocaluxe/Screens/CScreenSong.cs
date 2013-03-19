@@ -60,7 +60,7 @@ namespace Vocaluxe.Screens
         private string _SearchText = String.Empty;
         private bool _SearchActive = false;
 
-        private List<string> ButtonsJoker = new List<string>();
+        private readonly List<string> ButtonsJoker = new List<string>();
         private List<string> TextsPlayer = new List<string>();
         private bool _SongOptionsActive = false;
         private bool _PlaylistActive = false;

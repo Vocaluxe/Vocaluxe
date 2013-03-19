@@ -247,9 +247,9 @@ namespace Vocaluxe.Base
             return CTheme.GetColor(ColorName, PartyModeID);
         }
 
-        public bool GetColor(string ColorName, int SkinIndex, ref SColorF Color)
+        public bool GetColor(string ColorName, int SkinIndex, out SColorF Color)
         {
-            return CTheme.GetColor(ColorName, SkinIndex, ref Color);
+            return CTheme.GetColor(ColorName, SkinIndex, out Color);
         }
 
         public SColorF GetPlayerColor(int PlayerNr)

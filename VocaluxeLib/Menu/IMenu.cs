@@ -114,7 +114,7 @@ namespace Vocaluxe.Menu
         void SkinVideoPause(string VideoName, int PartyModeID);
 
         SColorF GetColor(string ColorName, int PartyModeID);
-        bool GetColor(string ColorName, int SkinIndex, ref SColorF Color);
+        bool GetColor(string ColorName, int SkinIndex, out SColorF Color);
         SColorF GetPlayerColor(int PlayerNr);
 
         void UnloadSkins();

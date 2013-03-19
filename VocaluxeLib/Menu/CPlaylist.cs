@@ -245,7 +245,7 @@ namespace Vocaluxe.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
             if (xmlReader.GetValue(item + "/ColorBackground", ref _Theme.ColorBackgroundName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorBackgroundName, SkinIndex, ref BackgroundColor);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorBackgroundName, SkinIndex, out BackgroundColor);
             }
             else
             {
@@ -256,7 +256,7 @@ namespace Vocaluxe.Menu
             }
             if (xmlReader.GetValue(item + "/SColorBackground", ref _Theme.SColorBackgroundName, String.Empty))
             {
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColorBackgroundName, SkinIndex, ref BackgroundSColor);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColorBackgroundName, SkinIndex, out BackgroundSColor);
             }
             else
             {
