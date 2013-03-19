@@ -12,7 +12,7 @@ namespace Vocaluxe.Screens
     class CScreenOptions : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        protected override int _ScreenVersion { get { return 1; } }
 
         private const string ButtonOptionsGame = "ButtonOptionsGame";
         private const string ButtonOptionsSound = "ButtonOptionsSound";
@@ -25,12 +25,10 @@ namespace Vocaluxe.Screens
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
 
-            _ThemeName = "ScreenOptions";
-            _ScreenVersion = ScreenVersion;
             _ThemeButtons = new string[] { ButtonOptionsGame, ButtonOptionsSound, ButtonOptionsRecord, ButtonOptionsVideo, ButtonOptionsLyrics, ButtonOptionsTheme };
         }
 

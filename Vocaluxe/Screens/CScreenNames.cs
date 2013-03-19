@@ -12,7 +12,7 @@ namespace Vocaluxe.Screens
     class CScreenNames : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 3;
+        protected override int _ScreenVersion { get { return 3; } }
 
         private CStatic chooseAvatarStatic;
         private int OldMouseX;
@@ -45,12 +45,9 @@ namespace Vocaluxe.Screens
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
-
-            _ThemeName = "ScreenNames";
-            _ScreenVersion = ScreenVersion;
 
             List<string> statics = new List<string>();
             foreach(string text in StaticPlayer){

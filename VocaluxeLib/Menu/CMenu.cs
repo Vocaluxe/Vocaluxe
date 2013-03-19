@@ -20,79 +20,6 @@ namespace Vocaluxe.Menu
 
     public abstract class CMenu : IMenu
     {
-        public class COrderedDictionaryLite<T> : IEnumerable<T>
-        {
-            private List<T> _Items;
-            private Dictionary<String, int> _htIndex;
-            private CMenu _Parent;
-
-            public COrderedDictionaryLite(CMenu Parent)
-            {
-                _Items = new List<T>();
-                _htIndex = new Dictionary<String, int>();
-                _Parent = Parent;
-            }
-
-            public COrderedDictionaryLite(COrderedDictionaryLite<T> Dict)
-            {
-                _Items = new List<T>(Dict._Items);
-                _htIndex = new Dictionary<String, int>(Dict._htIndex);
-                _Parent = Dict._Parent;
-            }
-
-            public T this[int index]
-            {
-                get { return _Items[index]; }
-                set { _Items[index] = value; }
-            }
-
-            public T this[string key]
-            {
-                get
-                {
-                    try
-                    {
-                        return _Items[_htIndex[key]];
-                    }
-                    catch (Exception)
-                    {
-                        CBase.Log.LogError("Can't find " + typeof(T).Name.Substring(1) + " Element \"" + key + "\" in Screen " + _Parent._ThemeName);
-                        throw;
-                    }
-                }
-                set
-                {
-                    if (!_htIndex.ContainsKey(key))
-                    {
-                        _htIndex.Add(key, _Items.Count);
-                        _Items.Add(value);
-                    }
-                    else
-                        _Items[_htIndex[key]] = value;
-                }
-            }
-
-            public int Add(T item, String key = null)
-            {
-                if (key != null)
-                    _htIndex.Add(key, _Items.Count);
-                _Items.Add(item);
-                return _Items.Count - 1;
-            }
-
-            public IEnumerator<T> GetEnumerator()
-            {
-                return _Items.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return (IEnumerator)GetEnumerator();
-            }
-        }
-
-
-
         private List<CInteraction> _Interactions;
         private int _Selection = 0;
         private string _ThemePath = String.Empty;
@@ -121,8 +48,13 @@ namespace Vocaluxe.Menu
 
         protected bool _Active;
 
-        protected int _ScreenVersion;
-        protected string _ThemeName;
+        protected abstract int _ScreenVersion { get; }
+        private string _ThemeName;
+        public string ThemeName
+        {
+            get { return _ThemeName; }
+        }
+
         protected string[] _ThemeBackgrounds;
         protected string[] _ThemeStatics;
         protected string[] _ThemeTexts;
@@ -138,15 +70,9 @@ namespace Vocaluxe.Menu
         protected string[] _ThemeScreenSettings;
 
         protected SRectF _ScreenArea;
-
         public SRectF ScreenArea
         {
             get { return _ScreenArea; }
-        }
-
-        public SRectF GetScreenArea()
-        {
-            return _ScreenArea;
         }
 
         public int ThemeScreenVersion
@@ -158,13 +84,12 @@ namespace Vocaluxe.Menu
         {
         }
 
-        public void Initialize()
+        public virtual void Init()
         {
-            Init();
-        }
+            _ThemeName = this.GetType().Name;
+            if(_ThemeName[0]=='C' && Char.IsUpper(_ThemeName[1]))
+                _ThemeName = _ThemeName.Remove(0, 1);
 
-        protected virtual void Init()
-        {
             _Interactions = new List<CInteraction>();
             _Selection = 0;
 
@@ -191,7 +116,6 @@ namespace Vocaluxe.Menu
             _Active = false;
             _ScreenArea = new SRectF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), 0f);
 
-            _ThemeName = String.Empty;
             _ThemeBackgrounds = null;
             _ThemeStatics = null;
             _ThemeTexts = null;
@@ -223,13 +147,13 @@ namespace Vocaluxe.Menu
                 foreach (string elName in Elements)
                 {
                     T Element = (T)Activator.CreateInstance(typeof(T), _PartyModeID);
-                    if (Element.LoadTheme("//root/" + _ThemeName, elName, xmlReader, SkinIndex))
+                    if (Element.LoadTheme("//root/" + ThemeName, elName, xmlReader, SkinIndex))
                     {
                         MAddElement(Element, elName);
                     }
                     else
                     {
-                        CBase.Log.LogError("Can't load " + typeof(T).Name.Substring(1) + " \"" + elName + "\" in screen " + _ThemeName);
+                        CBase.Log.LogError("Can't load " + typeof(T).Name.Substring(1) + " \"" + elName + "\" in screen " + ThemeName);
                     }
                 }
             }
@@ -237,7 +161,7 @@ namespace Vocaluxe.Menu
 
         public virtual void LoadTheme(string XmlPath)
         {
-            string file = Path.Combine(XmlPath, _ThemeName + ".xml");
+            string file = Path.Combine(XmlPath, ThemeName + ".xml");
 
             CXMLReader xmlReader = CXMLReader.OpenFile(file);
             if (xmlReader == null)
@@ -279,14 +203,14 @@ namespace Vocaluxe.Menu
             settings.Encoding = Encoding.UTF8;
             settings.ConformanceLevel = ConformanceLevel.Document;
 
-            string file = Path.Combine(_ThemePath, _ThemeName + ".xml");
+            string file = Path.Combine(_ThemePath, ThemeName + ".xml");
             using (XmlWriter writer = XmlWriter.Create(file, settings))
             {
 
                 writer.WriteStartDocument();
                 writer.WriteStartElement("root");
 
-                writer.WriteStartElement(_ThemeName);
+                writer.WriteStartElement(ThemeName);
 
                 // Screen Version
                 writer.WriteElementString("ScreenVersion", _ScreenVersion.ToString());
@@ -2139,13 +2063,13 @@ namespace Vocaluxe.Menu
         private bool CheckVersion(int Version, CXMLReader xmlReader)
         {
             int version = 0;
-            xmlReader.TryGetIntValue("//root/" + _ThemeName + "/ScreenVersion", ref version);
+            xmlReader.TryGetIntValue("//root/" + ThemeName + "/ScreenVersion", ref version);
 
             if (version == Version)
                 return true;
             else
             {
-                string msg = "Can't load screen file of screen \"" + _ThemeName + "\", ";
+                string msg = "Can't load screen file of screen \"" + ThemeName + "\", ";
                 if (version < Version)
                     msg += "the file ist outdated! ";
                 else
@@ -2164,7 +2088,7 @@ namespace Vocaluxe.Menu
             // Backgrounds
             CBackground background = new CBackground(_PartyModeID);
             int i = 1;
-            while (background.LoadTheme("//root/" + _ThemeName, "Background" + i.ToString(), xmlReader, SkinIndex))
+            while (background.LoadTheme("//root/" + ThemeName, "Background" + i.ToString(), xmlReader, SkinIndex))
             {
                 AddBackground(background);
                 background = new CBackground(_PartyModeID);
@@ -2174,7 +2098,7 @@ namespace Vocaluxe.Menu
             // Statics
             CStatic stat = new CStatic(_PartyModeID);
             i = 1;
-            while (stat.LoadTheme("//root/" + _ThemeName, "Static" + i.ToString(), xmlReader, SkinIndex))
+            while (stat.LoadTheme("//root/" + ThemeName, "Static" + i.ToString(), xmlReader, SkinIndex))
             {
                 AddStatic(stat);
                 stat = new CStatic(_PartyModeID);
@@ -2184,7 +2108,7 @@ namespace Vocaluxe.Menu
             // Texts
             CText text = new CText(_PartyModeID);
             i = 1;
-            while (text.LoadTheme("//root/" + _ThemeName, "Text" + i.ToString(), xmlReader, SkinIndex))
+            while (text.LoadTheme("//root/" + ThemeName, "Text" + i.ToString(), xmlReader, SkinIndex))
             {
                 AddText(text);
                 text = new CText(_PartyModeID);
@@ -2194,7 +2118,7 @@ namespace Vocaluxe.Menu
             // ParticleEffects
             CParticleEffect partef = new CParticleEffect(_PartyModeID);
             i = 1;
-            while (partef.LoadTheme("//root/" + _ThemeName, "ParticleEffect" + i.ToString(), xmlReader, SkinIndex))
+            while (partef.LoadTheme("//root/" + ThemeName, "ParticleEffect" + i.ToString(), xmlReader, SkinIndex))
             {
                 AddParticleEffect(partef);
                 partef = new CParticleEffect(_PartyModeID);

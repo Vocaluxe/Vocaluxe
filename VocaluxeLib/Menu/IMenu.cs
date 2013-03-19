@@ -12,7 +12,7 @@ namespace Vocaluxe.Menu
 {
     public interface IMenu
     {
-        void Initialize();
+        void Init();
 
         void LoadTheme(string XmlPath);
         void SaveTheme();
@@ -32,7 +32,7 @@ namespace Vocaluxe.Menu
         void OnClose();
 
         bool Draw();
-        SRectF GetScreenArea();
+        SRectF ScreenArea { get; }
 
         void NextInteraction();
         void PrevInteraction();

@@ -20,7 +20,7 @@ namespace Vocaluxe.Screens
     class CScreenProfiles : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 2;
+        protected override int _ScreenVersion { get { return 2; } }
 
         private const string SelectSlideProfiles = "SelectSlideProfiles";
         private const string SelectSlideDifficulty = "SelectSlideDifficulty";
@@ -48,12 +48,10 @@ namespace Vocaluxe.Screens
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
 
-            _ThemeName = "ScreenProfiles";
-            _ScreenVersion = ScreenVersion;
             _ThemeButtons = new string[] { ButtonPlayerName, ButtonExit, ButtonSave, ButtonNew, ButtonDelete, ButtonWebcam, ButtonSaveSnapshot, ButtonDiscardSnapshot, ButtonTakeSnapshot };
             _ThemeSelectSlides = new string[] { SelectSlideProfiles, SelectSlideDifficulty, SelectSlideAvatars, SelectSlideGuestProfile, SelectSlideActive };
             _ThemeStatics = new string[] { StaticAvatar };

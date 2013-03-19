@@ -10,7 +10,7 @@ namespace Vocaluxe.PartyModes
     public class PartyScreenChallengeNames : CMenuParty
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        protected override int _ScreenVersion { get { return 1; } }
 
         const string ButtonNext = "ButtonNext";
         const string ButtonBack = "ButtonBack";
@@ -57,7 +57,7 @@ namespace Vocaluxe.PartyModes
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
 
@@ -68,10 +68,8 @@ namespace Vocaluxe.PartyModes
 
             Data.ScreenNames.ProfileIDs = new List<int>();
 
-            _ThemeName = "PartyScreenChallengeNames";
             List<string> buttons = new List<string>();
             _ThemeButtons = new string[] { ButtonBack, ButtonNext, ButtonPlayerDestination, ButtonPlayerChoose };
-            _ScreenVersion = ScreenVersion;
 
             Data = new DataFromScreen();
             FromScreenNames names = new FromScreenNames();
@@ -108,7 +106,7 @@ namespace Vocaluxe.PartyModes
             }
             catch (Exception e)
             {
-                CBase.Log.LogError("Error in party mode screen challenge names. Can't cast received data from game mode " + _ThemeName + ". " + e.Message); ;
+                CBase.Log.LogError("Error in party mode screen challenge names. Can't cast received data from game mode " + ThemeName + ". " + e.Message); ;
             }
 
         }
@@ -284,11 +282,6 @@ namespace Vocaluxe.PartyModes
             if (chooseAvatarStatic.Visible)
                 chooseAvatarStatic.Draw();
             return true;
-        }
-
-        public override void OnClose()
-        {
-            base.OnClose();
         }
 
         private void AddButtonPlayerDestination()
@@ -521,14 +514,14 @@ namespace Vocaluxe.PartyModes
         {
             Data.ScreenNames.FadeToConfig = true;
             Data.ScreenNames.FadeToMain = false;
-            _PartyMode.DataFromScreen(_ThemeName, Data);
+            _PartyMode.DataFromScreen(ThemeName, Data);
         }
 
         private void Next()
         {
             Data.ScreenNames.FadeToConfig = false;
             Data.ScreenNames.FadeToMain = true;
-            _PartyMode.DataFromScreen(_ThemeName, Data);
+            _PartyMode.DataFromScreen(ThemeName, Data);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Vocaluxe.Screens
     class CScreenOptionsSound : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 3;
+        protected override int _ScreenVersion { get { return 3; } }
 
         private const string SelectSlideBackgroundMusic = "SelectSlideBackgroundMusic";
         private const string SelectSlideBackgroundMusicVolume = "SelectSlideBackgroundMusicVolume";
@@ -29,12 +29,9 @@ namespace Vocaluxe.Screens
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
-
-            _ThemeName = "ScreenOptionsSound";
-            _ScreenVersion = ScreenVersion;
 
             _ThemeButtons = new string[] { ButtonExit };
             _ThemeSelectSlides = new string[] { SelectSlideBackgroundMusic, SelectSlideBackgroundMusicVolume, SelectSlideBackgroundMusicSource, SelectSlidePreviewMusicVolume, SelectSlideGameMusicVolume };

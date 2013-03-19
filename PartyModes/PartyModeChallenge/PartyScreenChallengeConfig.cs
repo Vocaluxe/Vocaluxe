@@ -10,7 +10,7 @@ namespace Vocaluxe.PartyModes
     public class PartyScreenChallengeConfig : CMenuParty
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        protected override int _ScreenVersion { get { return 1; } }
 
         const string SelectSlideNumPlayers = "SelectSlideNumPlayers";
         const string SelectSlideNumMics = "SelectSlideNumMics";
@@ -28,14 +28,12 @@ namespace Vocaluxe.PartyModes
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
 
-            _ThemeName = "PartyScreenChallengeConfig";
             _ThemeSelectSlides = new string[] { SelectSlideNumPlayers, SelectSlideNumMics, SelectSlideNumRounds };
             _ThemeButtons = new string[] { ButtonNext, ButtonBack };
-            _ScreenVersion = ScreenVersion;
 
             Data = new DataFromScreen();
             FromScreenConfig config = new FromScreenConfig();
@@ -63,7 +61,7 @@ namespace Vocaluxe.PartyModes
             }
             catch (Exception e)
             {
-                CBase.Log.LogError("Error in party mode screen challenge config. Can't cast received data from game mode " + _ThemeName + ". " + e.Message);;
+                CBase.Log.LogError("Error in party mode screen challenge config. Can't cast received data from game mode " + ThemeName + ". " + e.Message);;
             }
 
         }
@@ -151,11 +149,6 @@ namespace Vocaluxe.PartyModes
         {
             base.Draw();
             return true;
-        }
-
-        public override void OnClose()
-        {
-            base.OnClose();
         }
 
         private void RebuildSlides()
@@ -251,7 +244,7 @@ namespace Vocaluxe.PartyModes
 
         private void Next()
         {
-            _PartyMode.DataFromScreen(_ThemeName, Data);
+            _PartyMode.DataFromScreen(ThemeName, Data);
         }
     }
 }

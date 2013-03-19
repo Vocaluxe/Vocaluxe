@@ -17,7 +17,7 @@ namespace Vocaluxe.Screens
     class CScreenSing : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 6;
+        protected override int _ScreenVersion { get { return 6; } }
 
         struct TimeRect
         {
@@ -99,12 +99,9 @@ namespace Vocaluxe.Screens
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
-
-            _ThemeName = "ScreenSing";
-            _ScreenVersion = ScreenVersion;
 
             List<string> texts = new List<string>();
             texts.Add(TextSongName);

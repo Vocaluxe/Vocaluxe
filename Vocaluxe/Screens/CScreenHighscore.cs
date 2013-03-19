@@ -13,7 +13,7 @@ namespace Vocaluxe.Screens
     class CScreenHighscore : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 2;
+        protected override int _ScreenVersion { get { return 2; } }
 
         private const int NumEntrys = 10;
         private const string TextSongName = "TextSongName";
@@ -34,12 +34,9 @@ namespace Vocaluxe.Screens
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
-
-            _ThemeName = "ScreenHighscore";
-            _ScreenVersion = ScreenVersion;
 
             List<string> texts = new List<string>();
             texts.Add(TextSongName);

@@ -1304,7 +1304,6 @@ namespace Vocaluxe.Base
         private static bool AddImageToCreditsDB(String ImagePath)
         {
             bool result = false;
-            STexture tex;
 
             if (File.Exists(ImagePath))
             {
@@ -1336,21 +1335,35 @@ namespace Vocaluxe.Base
                         int w = origin.Width;
                         int h = origin.Height;
                         byte[] data;
-                        
+
                         try
                         {
-                            using (Bitmap bmp = new Bitmap(w, h))
-                            {
-                                using (Graphics g = Graphics.FromImage(bmp))
-                                {
-                                    g.DrawImage(origin, new Rectangle(0, 0, w, h));
-                                }
-                                tex = CDraw.AddTexture(bmp);
-                                data = new byte[w * h * 4];
+                            data = new byte[w * h * 4];
 
-                                BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                                Marshal.Copy(bmp_data.Scan0, data, 0, w * h * 4);
-                                bmp.UnlockBits(bmp_data);
+                            BitmapData bmp_data = origin.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                            Marshal.Copy(bmp_data.Scan0, data, 0, w * h * 4);
+                            origin.UnlockBits(bmp_data);
+
+                            command.CommandText = "INSERT INTO Images (Path, width, height) VALUES (@path, @w, @h)";
+                            command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = Path.GetFileName(ImagePath);
+                            command.Parameters.Add("@w", System.Data.DbType.Int32, 0).Value = w;
+                            command.Parameters.Add("@h", System.Data.DbType.Int32, 0).Value = h;
+                            command.ExecuteNonQuery();
+
+                            command.CommandText = "SELECT id FROM Images WHERE [Path] = @path";
+                            command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = Path.GetFileName(ImagePath);
+                            SQLiteDataReader reader = command.ExecuteReader();
+
+                            if (reader != null)
+                            {
+                                reader.Read();
+                                int id = reader.GetInt32(0);
+                                reader.Close();
+                                command.CommandText = "INSERT INTO ImageData (ImageID, Data) VALUES (@id, @data)";
+                                command.Parameters.Add("@id", System.Data.DbType.Int32, 20).Value = id;
+                                command.Parameters.Add("@data", System.Data.DbType.Binary, 20).Value = data;
+                                command.ExecuteReader();
+                                result = true;
                             }
                         }
                         finally
@@ -1358,27 +1371,6 @@ namespace Vocaluxe.Base
                             origin.Dispose();
                         }
 
-                        command.CommandText = "INSERT INTO Images (Path, width, height) VALUES (@path, @w, @h)";
-                        command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = Path.GetFileName(ImagePath);
-                        command.Parameters.Add("@w", System.Data.DbType.Int32, 0).Value = w;
-                        command.Parameters.Add("@h", System.Data.DbType.Int32, 0).Value = h;
-                        command.ExecuteNonQuery();
-
-                        command.CommandText = "SELECT id FROM Images WHERE [Path] = @path";
-                        command.Parameters.Add("@path", System.Data.DbType.String, 0).Value = Path.GetFileName(ImagePath);
-                        SQLiteDataReader reader = command.ExecuteReader();
-
-                        if (reader != null)
-                        {
-                            reader.Read();
-                            int id = reader.GetInt32(0);
-                            reader.Close();
-                            command.CommandText = "INSERT INTO ImageData (ImageID, Data) VALUES (@id, @data)";
-                            command.Parameters.Add("@id", System.Data.DbType.Int32, 20).Value = id;
-                            command.Parameters.Add("@data", System.Data.DbType.Binary, 20).Value = data;
-                            command.ExecuteReader();
-                            result = true;
-                        }
                     }
                 }
             }

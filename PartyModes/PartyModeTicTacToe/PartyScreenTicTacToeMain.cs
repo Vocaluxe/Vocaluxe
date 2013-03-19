@@ -24,7 +24,7 @@ namespace Vocaluxe.PartyModes
     public class PartyScreenTicTacToeMain : CMenuParty
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        protected override int _ScreenVersion { get { return 1; } }
 
         const string TextPopupReallyExit = "TextPopupReallyExit";
         const string TextTeamChoosing = "TextTeamChoosing";
@@ -73,15 +73,13 @@ namespace Vocaluxe.PartyModes
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
 
-            _ThemeName = "PartyScreenTicTacToeMain";
             _ThemeTexts = new string[] { TextPopupReallyExit, TextTeamChoosing, TextFinishMessage, TextNextPlayerT1, TextNextPlayerT2, TextNextPlayerNameT1, TextNextPlayerNameT2 };
             _ThemeButtons = new string[] { ButtonNextRound, ButtonBack, ButtonExit, ButtonPopupYes, ButtonPopupNo, ButtonField, ButtonJokerRandomT1, ButtonJokerRandomT2, ButtonJokerRetryT1, ButtonJokerRetryT2 };
             _ThemeStatics = new string[] { StaticPopupBG, StaticAvatarT1, StaticAvatarT2 };
-            _ScreenVersion = ScreenVersion;
 
             Data = new DataFromScreen();
             FromScreenMain config = new FromScreenMain();
@@ -117,7 +115,7 @@ namespace Vocaluxe.PartyModes
             }
             catch (Exception e)
             {
-                CBase.Log.LogError("Error in party mode screen TicTacToe main. Can't cast received data from game mode " + _ThemeName + ". " + e.Message); ;
+                CBase.Log.LogError("Error in party mode screen TicTacToe main. Can't cast received data from game mode " + ThemeName + ". " + e.Message); ;
             }
 
         }
@@ -629,7 +627,7 @@ namespace Vocaluxe.PartyModes
             Data.ScreenMain.SingRoundNr = SelectedField;
             Data.ScreenMain.PlayerTeam1 = GameData.PlayerTeam1;
             Data.ScreenMain.PlayerTeam2 = GameData.PlayerTeam2;
-            _PartyMode.DataFromScreen(_ThemeName, Data);
+            _PartyMode.DataFromScreen(ThemeName, Data);
         }
 
         private void EndParty()
@@ -657,7 +655,7 @@ namespace Vocaluxe.PartyModes
             Data.ScreenMain.FadeToNameSelection = true;
             Data.ScreenMain.FadeToSinging = false;
             Data.ScreenMain.SingRoundNr = SelectedField;
-            _PartyMode.DataFromScreen(_ThemeName, Data);
+            _PartyMode.DataFromScreen(ThemeName, Data);
         }
 
         private int BuildWinnerPossibilities()

@@ -10,19 +10,11 @@ namespace Vocaluxe.PartyModes
     public class CScreenPartyDummy : CMenuParty
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        protected override int _ScreenVersion { get { return 1; } }
         private CText Warning;
 
         public CScreenPartyDummy()
         {
-        }
-
-        protected override void Init()
-        {
-            base.Init();
-
-            _ThemeName = "ScreenPartyDummy";
-            _ScreenVersion = ScreenVersion;
         }
 
         public override void LoadTheme(string XmlPath)
@@ -93,11 +85,6 @@ namespace Vocaluxe.PartyModes
             return true;
         }
 
-        public override void OnShow()
-        {
-            base.OnShow();
-        }
-
         public override bool UpdateGame()
         {
             return true;
@@ -109,9 +96,5 @@ namespace Vocaluxe.PartyModes
             return true;
         }
 
-        public override void OnClose()
-        {
-            base.OnClose();
-        }
     }
 }

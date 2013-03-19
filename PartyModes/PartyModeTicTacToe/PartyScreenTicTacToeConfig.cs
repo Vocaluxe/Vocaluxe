@@ -10,7 +10,7 @@ namespace Vocaluxe.PartyModes
     public class PartyScreenTicTacToeConfig : CMenuParty
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        protected override int _ScreenVersion { get { return 1; } }
 
         const string SelectSlideNumPlayerTeam1 = "SelectSlideNumPlayerTeam1";
         const string SelectSlideNumPlayerTeam2 = "SelectSlideNumPlayerTeam2";
@@ -30,14 +30,12 @@ namespace Vocaluxe.PartyModes
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
 
-            _ThemeName = "PartyScreenTicTacToeConfig";
             _ThemeSelectSlides = new string[] { SelectSlideNumPlayerTeam1, SelectSlideNumPlayerTeam2, SelectSlideNumFields, SelectSlideSongSource, SelectSlidePlaylist, SelectSlideCategory, SelectSlideGameMode };
             _ThemeButtons = new string[] { ButtonNext, ButtonBack };
-            _ScreenVersion = ScreenVersion;
 
             Data = new DataFromScreen();
             FromScreenConfig config = new FromScreenConfig();
@@ -73,7 +71,7 @@ namespace Vocaluxe.PartyModes
             }
             catch (Exception e)
             {
-                CBase.Log.LogError("Error in party mode screen TicTacToe config. Can't cast received data from game mode " + _ThemeName + ". " + e.Message);;
+                CBase.Log.LogError("Error in party mode screen TicTacToe config. Can't cast received data from game mode " + ThemeName + ". " + e.Message);;
             }
 
         }
@@ -160,11 +158,6 @@ namespace Vocaluxe.PartyModes
         {
             base.Draw();
             return true;
-        }
-
-        public override void OnClose()
-        {
-            base.OnClose();
         }
 
         private void FillSlides()
@@ -339,7 +332,7 @@ namespace Vocaluxe.PartyModes
 
         private void Next()
         {
-            _PartyMode.DataFromScreen(_ThemeName, Data);
+            _PartyMode.DataFromScreen(ThemeName, Data);
         }
     }
 }

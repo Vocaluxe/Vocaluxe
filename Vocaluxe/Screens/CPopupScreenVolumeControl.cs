@@ -15,7 +15,7 @@ namespace Vocaluxe.Screens
     class CPopupScreenVolumeControl : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        protected override int _ScreenVersion { get { return 1; } }
 
         private const string StaticBG = "StaticBG";
 
@@ -26,12 +26,9 @@ namespace Vocaluxe.Screens
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
-
-            _ThemeName = "PopupScreenVolumeControl";
-            _ScreenVersion = ScreenVersion;
 
             _ThemeStatics = new string[] { StaticBG };
             _ThemeSelectSlides = new string[] { SelectSlideVolume };

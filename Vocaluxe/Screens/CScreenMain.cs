@@ -16,7 +16,7 @@ namespace Vocaluxe.Screens
     class CScreenMain: CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        protected override int _ScreenVersion { get { return 1; } }
 
         const string ButtonSing = "ButtonSing";
         const string ButtonParty = "ButtonParty";
@@ -30,12 +30,10 @@ namespace Vocaluxe.Screens
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
 
-            _ThemeName = "ScreenMain";
-            _ScreenVersion = ScreenVersion;
             _ThemeStatics = new string[] { "StaticMenuBar" };
             _ThemeButtons = new string[] { ButtonSing, ButtonParty, ButtonOptions, ButtonProfiles, ButtonExit };
         }

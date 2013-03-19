@@ -13,20 +13,12 @@ namespace Vocaluxe.Screens
     class CScreenTest : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        protected override int _ScreenVersion { get { return 1; } }
 
         private int _TestMusic = -1;
 
         public CScreenTest()
         {
-        }
-
-        protected override void Init()
-        {
-            base.Init();
-
-            _ThemeName = "ScreenTest";
-            _ScreenVersion = ScreenVersion;
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -88,12 +80,6 @@ namespace Vocaluxe.Screens
         {
 
             return true;
-        }
-
-        public override void OnShow()
-        {
-            base.OnShow();
-
         }
 
         public override bool Draw()

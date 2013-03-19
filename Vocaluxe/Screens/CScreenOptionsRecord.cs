@@ -21,7 +21,7 @@ namespace Vocaluxe.Screens
     class CScreenOptionsRecord : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 2;
+        protected override int _ScreenVersion { get { return 2; } }
 
         private const float MaxDelayTime = 1f;
         private const string SelectSlideRecordDevices = "SelectSlideRecordDevices";
@@ -58,12 +58,9 @@ namespace Vocaluxe.Screens
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
-
-            _ThemeName = "ScreenOptionsRecord";
-            _ScreenVersion = ScreenVersion;
 
             List<string> values = new List<string>();
             values.Add(StaticWarning);

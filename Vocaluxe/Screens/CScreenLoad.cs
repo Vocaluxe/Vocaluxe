@@ -17,7 +17,7 @@ namespace Vocaluxe.Screens
     class CScreenLoad: CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        protected override int _ScreenVersion { get { return 1; } }
         const float WaitTime = 0.5f;    //wait time before starting first video
 
         const string TextStatus = "TextStatus";
@@ -38,12 +38,10 @@ namespace Vocaluxe.Screens
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
 
-            _ThemeName = "ScreenLoad";
-            _ScreenVersion = ScreenVersion;
             _ThemeTexts = new string[] { TextStatus };
             _Intros = new VideoPlayer[IntroVideo.Length];
             for (int i = 0; i < _Intros.Length; i++)

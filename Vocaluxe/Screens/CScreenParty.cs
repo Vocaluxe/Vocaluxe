@@ -11,7 +11,7 @@ namespace Vocaluxe.Screens
     class CScreenParty : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        protected override int _ScreenVersion { get { return 1; } }
 
         const string TextDescription = "TextDescription";
         const string TextTargetAudience = "TextTargetAudience";
@@ -30,12 +30,10 @@ namespace Vocaluxe.Screens
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
 
-            _ThemeName = "ScreenParty";
-            _ScreenVersion = ScreenVersion;
             _ThemeTexts = new string[] { TextDescription, TextTargetAudience, TextNumTeams, TextNumPlayers, TextAuthor, TextVersion, TextError };
             _ThemeButtons = new string[] { ButtonStart, ButtonExit };
             _ThemeSelectSlides = new string[] { SelectSlideModes };
@@ -132,11 +130,6 @@ namespace Vocaluxe.Screens
             base.Draw();
 
             return true;
-        }
-
-        public override void OnClose()
-        {
-            base.OnClose();
         }
 
         private void UpdateSelection()

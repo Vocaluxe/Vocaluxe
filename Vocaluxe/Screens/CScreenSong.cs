@@ -26,7 +26,7 @@ namespace Vocaluxe.Screens
         }
 
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 5;
+        protected override int _ScreenVersion { get { return 5; } }
 
         private const string TextCategory = "TextCategory";
         private const string TextSelection = "TextSelection";
@@ -80,7 +80,7 @@ namespace Vocaluxe.Screens
             _AvailableGameModes = new List<EGameMode>();
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
 
@@ -117,8 +117,6 @@ namespace Vocaluxe.Screens
             tlist.Add(TextSearchBar);
             tlist.Add(TextOptionsTitle);
 
-            _ThemeName = "ScreenSong";
-            _ScreenVersion = ScreenVersion;
             _ThemeStatics = new string[] { StaticSearchBar, StaticOptionsBG };
             _ThemeTexts = tlist.ToArray();
             _ThemeButtons = blist.ToArray();

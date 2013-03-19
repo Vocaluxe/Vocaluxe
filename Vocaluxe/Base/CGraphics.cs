@@ -251,14 +251,14 @@ namespace Vocaluxe.Base
             for (int i = 0; i < _Screens.Count; i++)
             {
                 CLog.StartBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
-                _Screens[i].Initialize();
+                _Screens[i].Init();
                 _Screens[i].LoadTheme(CTheme.GetThemeScreensPath(-1));
                 CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
             }
 
             for (int i = 0; i < _PopupScreens.Count; i++)
 			{
-                _PopupScreens[i].Initialize();
+                _PopupScreens[i].Init();
                 _PopupScreens[i].LoadTheme(CTheme.GetThemeScreensPath(-1));
 			}
         }
@@ -644,7 +644,7 @@ namespace Vocaluxe.Base
 
                 UpdateMousePosition(MouseEvent.X, MouseEvent.Y);
 
-                bool isOverPopupPlayerControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupPlayerControl].GetScreenArea(), MouseEvent);
+                bool isOverPopupPlayerControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupPlayerControl].ScreenArea, MouseEvent);
                 if (PopupPlayerControlAllowed && isOverPopupPlayerControl)
                 {
                     if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
@@ -654,7 +654,7 @@ namespace Vocaluxe.Base
                 if (!isOverPopupPlayerControl && _CurrentPopupScreen == EPopupScreens.PopupPlayerControl)
                     HidePopup(EPopupScreens.PopupPlayerControl);
 
-                bool isOverPopupVolumeControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupVolumeControl].GetScreenArea(), MouseEvent);
+                bool isOverPopupVolumeControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupVolumeControl].ScreenArea, MouseEvent);
                 if (PopupVolumeControlAllowed && isOverPopupVolumeControl)
                 {
                     if (_CurrentPopupScreen == EPopupScreens.NoPopup)

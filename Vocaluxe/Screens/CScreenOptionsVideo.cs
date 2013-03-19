@@ -13,7 +13,7 @@ namespace Vocaluxe.Screens
     class CScreenOptionsVideo : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 3;
+        protected override int _ScreenVersion { get { return 3; } }
 
         private const string SelectSlideVideoBackgrounds = "SelectSlideVideoBackgrounds";
         private const string SelectSlideVideoPreview = "SelectSlideVideoPreview";
@@ -35,12 +35,9 @@ namespace Vocaluxe.Screens
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
-
-            _ThemeName = "ScreenOptionsVideo";
-            _ScreenVersion = ScreenVersion;
 
             _ThemeStatics = new string[] { StaticWebcamOutput };
             _ThemeButtons = new string[] { ButtonExit };

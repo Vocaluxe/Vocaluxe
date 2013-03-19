@@ -15,7 +15,7 @@ namespace Vocaluxe.Screens
     class CPopupScreenPlayerControl : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        protected override int _ScreenVersion { get { return 1; } }
 
         private const string StaticBG = "StaticBG";
         private const string StaticCover = "StaticCover";
@@ -78,12 +78,9 @@ namespace Vocaluxe.Screens
         {
         }
 
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
-
-            _ThemeName = "PopupScreenPlayerControl";
-            _ScreenVersion = ScreenVersion;
 
             _ThemeStatics = new string[] { StaticBG, StaticCover };
             _ThemeTexts = new string[] { TextCurrentSong };
@@ -189,11 +186,6 @@ namespace Vocaluxe.Screens
             Buttons[ButtonRepeat].Pressed = CBackgroundMusic.RepeatSong;
             Buttons[ButtonSing].Visible = CBackgroundMusic.CanSing && CParty.CurrentPartyModeID == -1;
             return true;
-        }
-
-        public override void OnShow()
-        {
-            base.OnShow();
         }
 
         public override bool Draw()

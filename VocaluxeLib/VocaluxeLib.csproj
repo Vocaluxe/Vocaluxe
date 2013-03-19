@@ -123,6 +123,7 @@
     <Compile Include="Menu\CMenuParty.cs" />
     <Compile Include="Menu\CNameSelection.cs" />
     <Compile Include="Menu\CObjectInteractions.cs" />
+    <Compile Include="Menu\COrderedDictionaryLite.cs" />
     <Compile Include="Menu\CParticle.cs" />
     <Compile Include="Menu\CPlaylist.cs" />
     <Compile Include="Menu\CSelectSlide.cs" />
