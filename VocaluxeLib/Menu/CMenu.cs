@@ -1487,8 +1487,6 @@ namespace Vocaluxe.Menu
                     case Keys.Right:
                         actualRect = new SRectF(0, actualRect.Y, 1, 1, actualRect.Z);
                         break;
-                    default:
-                        break;
                 }
 
                 for (int i = 0; i < _Interactions.Count; i++)
@@ -1539,8 +1537,6 @@ namespace Vocaluxe.Menu
                         inDirection = true;
                     break;
 
-                default:
-                    break;
             }
             if (!inDirection)
                 return float.MaxValue;
@@ -1578,8 +1574,6 @@ namespace Vocaluxe.Menu
                         inDirection = true;
                     break;
 
-                default:
-                    break;
             }
             if (!inDirection)
                 return float.MaxValue;

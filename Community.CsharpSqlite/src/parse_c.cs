@@ -1540,8 +1540,6 @@ yyGrowStack(pParser);
             sqlite3IdListDelete( pParse.db, ref ( yypminor.yy90 ).b );
             //#line 1473 "parse.c"
           }
-          break;
-        default:
           break;   /* If no destructor action specified: do nothing */
       }
     }

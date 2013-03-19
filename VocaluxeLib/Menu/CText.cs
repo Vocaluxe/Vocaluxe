@@ -648,8 +648,6 @@ namespace Vocaluxe.Menu
                     case EHAlignment.Bottom:
                         sFactor = (Height - _DrawPosition.tH) * 0.5f;
                         break;
-                    default:
-                        break;
                 }
                 CBase.Fonts.DrawTextReflection(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace + sFactor, ReflectionHeight);
             }
@@ -675,8 +673,6 @@ namespace Vocaluxe.Menu
                     break;
                 case EAlignment.Right:
                     x = X - bounds.Width;
-                    break;
-                default:
                     break;
             }
 
@@ -743,8 +739,6 @@ namespace Vocaluxe.Menu
                     case EHAlignment.Bottom:
                         y += step * 0.75f;
                         break;
-                    default:
-                        break;
                 }
 
                 bounds = CBase.Fonts.GetTextBounds(this, h);
@@ -757,8 +751,6 @@ namespace Vocaluxe.Menu
                     break;
                 case EAlignment.Right:
                     x = x - bounds.Width;
-                    break;
-                default:
                     break;
             }
                        
@@ -849,8 +841,6 @@ namespace Vocaluxe.Menu
                         break;
                     case EHAlignment.Bottom:
                         y += step * 0.75f;
-                        break;
-                    default:
                         break;
                 }
 

@@ -328,8 +328,6 @@ namespace Vocaluxe.PartyModes
                         Screen.DataToScreen(ToScreenMain);
                     }
                     break;
-                default:
-                    break;
             }
             
             return Screen;

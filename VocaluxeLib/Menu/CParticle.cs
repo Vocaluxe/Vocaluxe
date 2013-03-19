@@ -177,8 +177,6 @@ namespace Vocaluxe.Menu
                         _Alpha = 1f - _Age / _MaxAge;
                         break;
 
-                    default:
-                        break;
                 }
 
             }
@@ -223,8 +221,6 @@ namespace Vocaluxe.Menu
                     Y += _Vy * timediff;
                     break;
 
-                default:
-                    break;
             }
 
 
@@ -254,8 +250,6 @@ namespace Vocaluxe.Menu
                         size = _Size * (1f - CurrentTime / _Vsize);
                         break;
 
-                    default:
-                        break;
                 }
 
                 _Rect.X += (_Rect.W - size) / 2f;
@@ -530,8 +524,6 @@ namespace Vocaluxe.Menu
                         vsize = lifetime * 2f;
                         break;
 
-                    default:
-                        break;
                 }
 
                 int w = (int)(Rect.W - size / 4f);

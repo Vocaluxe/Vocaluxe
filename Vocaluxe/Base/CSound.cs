@@ -165,8 +165,6 @@ namespace Vocaluxe.Base
                 case ESounds.T440:
                     file = Path.Combine(file, CSettings.sSoundT440);
                     break;
-                default:
-                    break;
             }
 
             if (file.Length == 0)

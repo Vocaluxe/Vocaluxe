@@ -91,8 +91,6 @@ namespace Vocaluxe.Screens
                         SelectSlides[SelectSlideProfiles].RenameValue(
                             CProfiles.AddGetPlayerName(SelectSlides[SelectSlideProfiles].Selection, KeyEvent.Unicode));
                         break;
-                    default:
-                        break;
                 }
             }
             else
