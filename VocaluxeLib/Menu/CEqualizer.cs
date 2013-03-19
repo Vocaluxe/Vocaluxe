@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace Vocaluxe.Menu
 {
-    enum EEqualizerStyle 
+    enum EEqualizerStyle
     {
         Collums
     }
@@ -27,7 +27,7 @@ namespace Vocaluxe.Menu
 
     public class CEqualizer : IMenuElement
     {
-        private int _PartyModeID;
+        private readonly int _PartyModeID;
         private SThemeEqualizer _Theme;
         private bool _ThemeLoaded;
 
@@ -87,14 +87,12 @@ namespace Vocaluxe.Menu
 
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Space", ref Space);
 
-            _ThemeLoaded &= xmlReader.TryGetEnumValue<EEqualizerStyle>(item + "/Style", ref _Theme.Style);
+            _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Style", ref _Theme.Style);
 
-            _ThemeLoaded &= xmlReader.TryGetEnumValue<EOffOn>(item + "/DrawNegative", ref _Theme.DrawNegative);
+            _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/DrawNegative", ref _Theme.DrawNegative);
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
-            {
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, out Color);
-            }
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -104,9 +102,7 @@ namespace Vocaluxe.Menu
             }
 
             if (xmlReader.GetValue(item + "/MaxColor", ref _Theme.MaxColorName, String.Empty))
-            {
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, out Color);
-            }
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/MaxR", ref MaxColor.R);
@@ -130,9 +126,7 @@ namespace Vocaluxe.Menu
                 _Theme.Name = ElementName;
                 _Bars = new float[_Theme.NumBars];
                 for (int i = 0; i < _Bars.Length; i++)
-                {
                     _Bars[i] = 0f;
-                }
                 LoadTextures();
             }
             return _ThemeLoaded;
@@ -166,9 +160,7 @@ namespace Vocaluxe.Menu
                 writer.WriteComment("<Color>: Equalizer color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
                 if (_Theme.ColorName.Length > 0)
-                {
                     writer.WriteElementString("Color", _Theme.ColorName);
-                }
                 else
                 {
                     writer.WriteElementString("R", Color.R.ToString("#0.00"));
@@ -179,9 +171,7 @@ namespace Vocaluxe.Menu
                 writer.WriteComment("<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)");
                 writer.WriteComment("or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)");
                 if (_Theme.ColorName.Length > 0)
-                {
                     writer.WriteElementString("MaxColor", _Theme.ColorName);
-                }
                 else
                 {
                     writer.WriteElementString("MaxR", Color.R.ToString("#0.00"));
@@ -213,7 +203,8 @@ namespace Vocaluxe.Menu
                 return;
             for (int i = 0; i < _Bars.Length; i++)
             {
-                if (weights.Length > i){
+                if (weights.Length > i)
+                {
                     _Bars[i] = 1f - weights[i];
                     if (_Theme.DrawNegative == EOffOn.TR_CONFIG_OFF && weights[i] < 0)
                         _Bars[i] = (1f + weights[i]);
@@ -229,9 +220,7 @@ namespace Vocaluxe.Menu
                 return;
 
             for (int i = 0; i < _Bars.Length; i++)
-            {
                 _Bars[i] = 0f;
-            }
         }
 
         public void Draw()
@@ -239,7 +228,7 @@ namespace Vocaluxe.Menu
             if (_Bars == null)
                 return;
 
-            float dx = (Rect.W ) / _Bars.Length;
+            float dx = (Rect.W) / _Bars.Length;
             int max = _Bars.Length - 1;
             float maxB = _Bars[max];
             for (int i = 0; i < _Bars.Length - 1; i++)
@@ -256,9 +245,7 @@ namespace Vocaluxe.Menu
                 SRectF bar = new SRectF(Rect.X + dx * i, Rect.Y + Rect.H - _Bars[i] * Rect.H, dx - Space, _Bars[i] * Rect.H, Rect.Z);
                 SColorF color = Color;
                 if (i == max)
-                {
                     color = MaxColor;
-                }
 
                 CBase.Drawing.DrawColor(color, bar);
 
@@ -267,9 +254,7 @@ namespace Vocaluxe.Menu
             }
         }
 
-        public void UnloadTextures()
-        {
-        }
+        public void UnloadTextures() {}
 
         public void LoadTextures()
         {
