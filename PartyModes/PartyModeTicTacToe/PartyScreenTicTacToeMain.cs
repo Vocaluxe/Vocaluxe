@@ -120,14 +120,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
         }
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            base.HandleInput(KeyEvent);
+            base.HandleInput(keyEvent);
 
-            if (KeyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) {}
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Back:
                     case Keys.Escape:
@@ -201,11 +201,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            base.HandleMouse(MouseEvent);
+            base.HandleMouse(mouseEvent);
 
-            if (MouseEvent.LB && IsMouseOver(MouseEvent))
+            if (mouseEvent.LB && IsMouseOver(mouseEvent))
             {
                 if (!ExitPopupVisible)
                 {
@@ -262,7 +262,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 }
             }
 
-            if (MouseEvent.RB)
+            if (mouseEvent.RB)
             {
                 if (!ExitPopupVisible)
                 {
@@ -277,7 +277,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     ShowPopup(false);
             }
 
-            if (MouseEvent.Wheel != 0) {}
+            if (mouseEvent.Wheel != 0) {}
 
             return true;
         }

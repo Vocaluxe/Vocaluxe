@@ -132,39 +132,39 @@ namespace Vocaluxe.Screens
             ApplyVolume();
         }
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            base.HandleInput(KeyEvent);
-            if (KeyEvent.Handled)
+            base.HandleInput(keyEvent);
+            if (keyEvent.Handled)
                 return true;
 
             if (_PlaylistActive)
             {
-                Playlists[Playlist].HandleInput(KeyEvent);
+                Playlists[Playlist].HandleInput(keyEvent);
                 return true;
             }
 
             if (!_SongOptionsActive)
             {
-                if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode) && KeyEvent.Mod != EModifier.Ctrl)
+                if (keyEvent.KeyPressed && !Char.IsControl(keyEvent.Unicode) && keyEvent.Mod != EModifier.Ctrl)
                 {
                     if (_SearchActive)
-                        ApplyNewSearchFilter(_SearchText + KeyEvent.Unicode);
+                        ApplyNewSearchFilter(_SearchText + keyEvent.Unicode);
                     else
                     {
-                        JumpTo(KeyEvent.Unicode);
+                        JumpTo(keyEvent.Unicode);
                         return true;
                     }
                 }
                 else
                 {
-                    SongMenus[SongMenu].HandleInput(ref KeyEvent, _sso);
+                    SongMenus[SongMenu].HandleInput(ref keyEvent, _sso);
                     UpdatePartyModeOptions();
 
-                    if (KeyEvent.Handled)
+                    if (keyEvent.Handled)
                         return true;
 
-                    switch (KeyEvent.Key)
+                    switch (keyEvent.Key)
                     {
                         case Keys.Escape:
                             if ((CSongs.Category < 0 || _sso.Sorting.Tabs == EOffOn.TR_CONFIG_OFF) && !_sso.Selection.PartyMode && !_SearchActive)
@@ -235,7 +235,7 @@ namespace Vocaluxe.Screens
                     }
                     if (!_SearchActive)
                     {
-                        switch (KeyEvent.Key)
+                        switch (keyEvent.Key)
                         {
                             case Keys.Space:
                                 if (!_sso.Selection.PartyMode)
@@ -243,21 +243,21 @@ namespace Vocaluxe.Screens
                                 break;
 
                             case Keys.A:
-                                if (KeyEvent.Mod == EModifier.Ctrl && !_sso.Selection.PartyMode)
+                                if (keyEvent.Mod == EModifier.Ctrl && !_sso.Selection.PartyMode)
                                     StartRandomAllSongs();
                                 break;
                             case Keys.V:
-                                if (KeyEvent.Mod == EModifier.Ctrl && !_sso.Selection.PartyMode)
+                                if (keyEvent.Mod == EModifier.Ctrl && !_sso.Selection.PartyMode)
                                     StartRandomVisibleSongs();
                                 break;
 
                             case Keys.R:
-                                if (KeyEvent.Mod == EModifier.Ctrl && !_sso.Selection.RandomOnly)
+                                if (keyEvent.Mod == EModifier.Ctrl && !_sso.Selection.RandomOnly)
                                     SelectNextRandom(-1);
                                 break;
 
                             case Keys.S:
-                                if (KeyEvent.Mod == EModifier.Ctrl && CSongs.NumVisibleSongs > 0 && !_sso.Selection.PartyMode)
+                                if (keyEvent.Mod == EModifier.Ctrl && CSongs.NumVisibleSongs > 0 && !_sso.Selection.PartyMode)
                                     StartMedleySong(SongMenus[SongMenu].GetSelectedSong());
                                 break;
 
@@ -290,7 +290,7 @@ namespace Vocaluxe.Screens
             }
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Enter:
                         if (Buttons[ButtonOptionsClose].Selected)
@@ -337,7 +337,7 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Add || KeyEvent.Key == Keys.PageUp))
+            if (keyEvent.ModSHIFT && (keyEvent.Key == Keys.Add || keyEvent.Key == Keys.PageUp))
             {
                 CConfig.PreviewMusicVolume = CConfig.PreviewMusicVolume + 5;
                 if (CConfig.PreviewMusicVolume > 100)
@@ -345,7 +345,7 @@ namespace Vocaluxe.Screens
                 CConfig.SaveConfig();
                 ApplyVolume();
             }
-            else if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Subtract || KeyEvent.Key == Keys.PageDown))
+            else if (keyEvent.ModSHIFT && (keyEvent.Key == Keys.Subtract || keyEvent.Key == Keys.PageDown))
             {
                 CConfig.PreviewMusicVolume = CConfig.PreviewMusicVolume - 5;
                 if (CConfig.PreviewMusicVolume < 0)
@@ -357,26 +357,26 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            base.HandleMouse(MouseEvent);
+            base.HandleMouse(mouseEvent);
 
             if (DragAndDropActive)
             {
-                DragAndDropCover.Rect.X += MouseEvent.X - OldMousePosX;
-                DragAndDropCover.Rect.Y += MouseEvent.Y - OldMousePosY;
+                DragAndDropCover.Rect.X += mouseEvent.X - OldMousePosX;
+                DragAndDropCover.Rect.Y += mouseEvent.Y - OldMousePosY;
             }
-            OldMousePosX = MouseEvent.X;
-            OldMousePosY = MouseEvent.Y;
+            OldMousePosX = mouseEvent.X;
+            OldMousePosY = mouseEvent.Y;
 
-            if (Playlists[Playlist].Visible && Playlists[Playlist].IsMouseOver(MouseEvent))
+            if (Playlists[Playlist].Visible && Playlists[Playlist].IsMouseOver(mouseEvent))
             {
                 _PlaylistActive = true;
                 Playlists[Playlist].Selected = _PlaylistActive;
                 SongMenus[SongMenu].SetActive(!_PlaylistActive);
                 ToggleSongOptions(ESongOptionsView.None);
             }
-            else if (CHelper.IsInBounds(SongMenus[SongMenu].Rect, MouseEvent.X, MouseEvent.Y))
+            else if (CHelper.IsInBounds(SongMenus[SongMenu].Rect, mouseEvent.X, mouseEvent.Y))
             {
                 _PlaylistActive = false;
                 Playlists[Playlist].Selected = _PlaylistActive;
@@ -386,12 +386,12 @@ namespace Vocaluxe.Screens
 
             if (Playlists[Playlist].Visible && _PlaylistActive)
             {
-                if (Playlists[Playlist].HandleMouse(MouseEvent))
+                if (Playlists[Playlist].HandleMouse(mouseEvent))
                     return true;
             }
 
 
-            if (MouseEvent.RB)
+            if (mouseEvent.RB)
             {
                 if (_SongOptionsActive)
                 {
@@ -414,10 +414,10 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            if (MouseEvent.MB && !_sso.Selection.PartyMode)
+            if (mouseEvent.MB && !_sso.Selection.PartyMode)
                 return SelectNextRandom(-1);
 
-            if (MouseEvent.LD && !_sso.Selection.PartyMode)
+            if (mouseEvent.LD && !_sso.Selection.PartyMode)
             {
                 //TODO: Causes Bug if you select a song (e.g. with Select random song) and double click a normal button.
                 //E.g. clicking to fast on Select random song starts the next random song. is this OK?
@@ -429,15 +429,15 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            SongMenus[SongMenu].HandleMouse(ref MouseEvent, _sso);
+            SongMenus[SongMenu].HandleMouse(ref mouseEvent, _sso);
             UpdatePartyModeOptions();
 
-            if (MouseEvent.Handled)
+            if (mouseEvent.Handled)
                 return true;
 
-            if (MouseEvent.LB)
+            if (mouseEvent.LB)
             {
-                if (IsMouseOver(MouseEvent))
+                if (IsMouseOver(mouseEvent))
                 {
                     if (Buttons[ButtonOpenOptions].Selected)
                     {
@@ -547,7 +547,7 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            if (MouseEvent.LBH)
+            if (mouseEvent.LBH)
             {
                 if (!DragAndDropActive && Playlists[Playlist].Visible && CSongs.NumVisibleSongs > 0 && SongMenus[SongMenu].GetActualSelection() != -1)
                 {
@@ -560,7 +560,7 @@ namespace Vocaluxe.Screens
             }
 
 
-            if (!MouseEvent.LBH && DragAndDropActive)
+            if (!mouseEvent.LBH && DragAndDropActive)
             {
                 DragAndDropActive = false;
                 Playlists[Playlist].DragAndDropSongID = -1;

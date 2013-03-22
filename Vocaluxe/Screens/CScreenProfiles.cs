@@ -71,12 +71,12 @@ namespace Vocaluxe.Screens
             SelectSlides[SelectSlideActive].SetValues<EOffOn>(0);
         }
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
             if (_EditMode == EEditMode.None)
-                base.HandleInput(KeyEvent);
+                base.HandleInput(keyEvent);
 
-            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode))
+            if (keyEvent.KeyPressed && !Char.IsControl(keyEvent.Unicode))
             {
                 switch (_EditMode)
                 {
@@ -84,13 +84,13 @@ namespace Vocaluxe.Screens
                         break;
                     case EEditMode.PlayerName:
                         SelectSlides[SelectSlideProfiles].RenameValue(
-                            CProfiles.AddGetPlayerName(SelectSlides[SelectSlideProfiles].Selection, KeyEvent.Unicode));
+                            CProfiles.AddGetPlayerName(SelectSlides[SelectSlideProfiles].Selection, keyEvent.Unicode));
                         break;
                 }
             }
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Escape:
                         CGraphics.FadeTo(EScreens.ScreenMain);
@@ -161,12 +161,12 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
             if (_EditMode == EEditMode.None)
-                base.HandleMouse(MouseEvent);
+                base.HandleMouse(mouseEvent);
 
-            if (MouseEvent.LB && IsMouseOver(MouseEvent))
+            if (mouseEvent.LB && IsMouseOver(mouseEvent))
             {
                 if (Buttons[ButtonExit].Selected)
                     CGraphics.FadeTo(EScreens.ScreenMain);
@@ -215,7 +215,7 @@ namespace Vocaluxe.Screens
                     OnTakeSnapshot();
             }
 
-            if (MouseEvent.RB)
+            if (mouseEvent.RB)
                 CGraphics.FadeTo(EScreens.ScreenMain);
             return true;
         }
@@ -325,11 +325,6 @@ namespace Vocaluxe.Screens
             base.OnClose();
 
             OnDiscardSnapshot();
-        }
-
-        public override bool Draw()
-        {
-            return base.Draw();
         }
 
         private void SaveProfiles()

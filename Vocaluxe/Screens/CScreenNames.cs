@@ -101,9 +101,9 @@ namespace Vocaluxe.Screens
                 Equalizers["EqualizerPlayer" + i].ScreenHandles = true;
         }
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            switch (KeyEvent.Key)
+            switch (keyEvent.Key)
             {
                 case Keys.Add:
                     if (CConfig.NumPlayer + 1 <= CSettings.MaxNumPlayer)
@@ -145,8 +145,8 @@ namespace Vocaluxe.Screens
             if (selectingKeyboardActive)
             {
                 //Handle left/right/up/down
-                NameSelections[NameSelection].HandleInput(KeyEvent);
-                switch (KeyEvent.Key)
+                NameSelections[NameSelection].HandleInput(keyEvent);
+                switch (keyEvent.Key)
                 {
                     case Keys.Enter:
                         //Check, if a player is selected
@@ -340,9 +340,9 @@ namespace Vocaluxe.Screens
                 //Normal Keyboard handling
             else
             {
-                base.HandleInput(KeyEvent);
+                base.HandleInput(keyEvent);
                 bool processed = false;
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Escape:
                     case Keys.Back:
@@ -409,28 +409,28 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            base.HandleMouse(MouseEvent);
+            base.HandleMouse(mouseEvent);
 
             //Check if LeftButton is hold and Select-Mode inactive
-            if (MouseEvent.LBH && !selectingMouseActive)
+            if (mouseEvent.LBH && !selectingMouseActive)
             {
                 //Save mouse-coords
-                OldMouseX = MouseEvent.X;
-                OldMouseY = MouseEvent.Y;
+                OldMouseX = mouseEvent.X;
+                OldMouseY = mouseEvent.Y;
                 //Check if mouse if over tile
-                if (NameSelections[NameSelection].isOverTile(MouseEvent))
+                if (NameSelections[NameSelection].isOverTile(mouseEvent))
                 {
                     //Get player-number of tile
-                    SelectedPlayerNr = NameSelections[NameSelection].TilePlayerNr(MouseEvent);
+                    SelectedPlayerNr = NameSelections[NameSelection].TilePlayerNr(mouseEvent);
                     if (SelectedPlayerNr != -1)
                     {
                         //Activate mouse-selecting
                         selectingMouseActive = true;
 
                         //Update of Drag/Drop-Texture
-                        CStatic SelectedPlayer = NameSelections[NameSelection].TilePlayerAvatar(MouseEvent);
+                        CStatic SelectedPlayer = NameSelections[NameSelection].TilePlayerAvatar(mouseEvent);
                         chooseAvatarStatic.Visible = true;
                         chooseAvatarStatic.Rect = SelectedPlayer.Rect;
                         chooseAvatarStatic.Rect.Z = CSettings.zNear;
@@ -441,13 +441,13 @@ namespace Vocaluxe.Screens
             }
 
             //Check if LeftButton is hold and Select-Mode active
-            if (MouseEvent.LBH && selectingMouseActive)
+            if (mouseEvent.LBH && selectingMouseActive)
             {
                 //Update coords for Drag/Drop-Texture
-                chooseAvatarStatic.Rect.X += (MouseEvent.X - OldMouseX);
-                chooseAvatarStatic.Rect.Y += (MouseEvent.Y - OldMouseY);
-                OldMouseX = MouseEvent.X;
-                OldMouseY = MouseEvent.Y;
+                chooseAvatarStatic.Rect.X += (mouseEvent.X - OldMouseX);
+                chooseAvatarStatic.Rect.Y += (mouseEvent.Y - OldMouseY);
+                OldMouseX = mouseEvent.X;
+                OldMouseY = mouseEvent.Y;
             }
                 // LeftButton isn't hold anymore, but Selec-Mode is still active -> "Drop" of Avatar
             else if (selectingMouseActive)
@@ -462,7 +462,7 @@ namespace Vocaluxe.Screens
                         if (Statics[StaticPlayer[i]].Visible)
                         {
                             //Check if Mouse is in area
-                            if (CHelper.IsInBounds(Statics[StaticPlayer[i]].Rect, MouseEvent))
+                            if (CHelper.IsInBounds(Statics[StaticPlayer[i]].Rect, mouseEvent))
                             {
                                 //Update Game-infos with new player
                                 CGame.Player[i].Name = CProfiles.Profiles[SelectedPlayerNr].PlayerName;
@@ -488,9 +488,9 @@ namespace Vocaluxe.Screens
                 chooseAvatarStatic.Visible = false;
             }
 
-            if (MouseEvent.LB && IsMouseOver(MouseEvent)) {}
+            if (mouseEvent.LB && IsMouseOver(mouseEvent)) {}
 
-            if (MouseEvent.LB && IsMouseOver(MouseEvent))
+            if (mouseEvent.LB && IsMouseOver(mouseEvent))
             {
                 bool processed = false;
 
@@ -512,13 +512,13 @@ namespace Vocaluxe.Screens
                 NameSelections[NameSelection].UpdateList();
             }
 
-            if (MouseEvent.RB)
+            if (mouseEvent.RB)
             {
                 bool exit = true;
                 //Remove profile-selection
                 for (int i = 0; i < CConfig.NumPlayer; i++)
                 {
-                    if (CHelper.IsInBounds(Statics[StaticPlayer[i]].Rect, MouseEvent))
+                    if (CHelper.IsInBounds(Statics[StaticPlayer[i]].Rect, mouseEvent))
                     {
                         CGame.Player[i].ProfileID = -1;
                         CGame.Player[i].Name = String.Empty;
@@ -541,11 +541,11 @@ namespace Vocaluxe.Screens
             }
 
             //Check mouse-wheel for scrolling
-            if (MouseEvent.Wheel != 0)
+            if (mouseEvent.Wheel != 0)
             {
-                if (CHelper.IsInBounds(NameSelections[NameSelection].Rect, MouseEvent))
+                if (CHelper.IsInBounds(NameSelections[NameSelection].Rect, mouseEvent))
                 {
-                    int offset = NameSelections[NameSelection]._Offset + MouseEvent.Wheel;
+                    int offset = NameSelections[NameSelection]._Offset + mouseEvent.Wheel;
                     NameSelections[NameSelection].UpdateList(offset);
                 }
             }

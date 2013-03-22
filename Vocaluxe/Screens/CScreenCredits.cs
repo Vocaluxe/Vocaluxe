@@ -226,11 +226,11 @@ namespace Vocaluxe.Screens
 
         public override void ReloadTextures() {}
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            if (!KeyEvent.KeyPressed || Char.IsControl(KeyEvent.Unicode))
+            if (!keyEvent.KeyPressed || Char.IsControl(keyEvent.Unicode))
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Escape:
                     case Keys.Back:
@@ -243,9 +243,9 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            if (MouseEvent.LB || MouseEvent.RB)
+            if (mouseEvent.LB || mouseEvent.RB)
                 CGraphics.FadeTo(EScreens.ScreenMain);
             return true;
         }

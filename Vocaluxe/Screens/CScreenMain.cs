@@ -28,19 +28,14 @@ namespace Vocaluxe.Screens
             _ThemeButtons = new[] {ButtonSing, ButtonParty, ButtonOptions, ButtonProfiles, ButtonExit};
         }
 
-        public override void LoadTheme(string XmlPath)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            base.LoadTheme(XmlPath);
-        }
+            base.HandleInput(keyEvent);
 
-        public override bool HandleInput(KeyEvent KeyEvent)
-        {
-            base.HandleInput(KeyEvent);
-
-            if (KeyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) {}
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.O:
                         CGraphics.FadeTo(EScreens.ScreenOptions);
@@ -83,11 +78,11 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            base.HandleMouse(MouseEvent);
+            base.HandleMouse(mouseEvent);
 
-            if (MouseEvent.LB && IsMouseOver(MouseEvent))
+            if (mouseEvent.LB && IsMouseOver(mouseEvent))
             {
                 if (Buttons[ButtonSing].Selected)
                 {

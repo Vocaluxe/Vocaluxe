@@ -157,17 +157,17 @@ namespace Vocaluxe.Screens
             Buttons[ButtonContinue].Visible = false;
         }
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            base.HandleInput(KeyEvent);
+            base.HandleInput(keyEvent);
 
-            if (KeyEvent.KeyPressed)
+            if (keyEvent.KeyPressed)
             {
                 //
             }
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Escape:
                         TogglePause();
@@ -206,7 +206,7 @@ namespace Vocaluxe.Screens
                     case Keys.S:
                         if (CGame.NumRounds > CGame.RoundNr)
                         {
-                            if (KeyEvent.ModCTRL)
+                            if (keyEvent.ModCTRL)
                                 LoadNextSong();
                         }
                         break;
@@ -234,7 +234,7 @@ namespace Vocaluxe.Screens
 
                     case Keys.Add:
                     case Keys.PageUp:
-                        if (KeyEvent.ModSHIFT)
+                        if (keyEvent.ModSHIFT)
                         {
                             CConfig.GameMusicVolume = CConfig.GameMusicVolume + 5;
                             if (CConfig.GameMusicVolume > 100)
@@ -246,7 +246,7 @@ namespace Vocaluxe.Screens
 
                     case Keys.Subtract:
                     case Keys.PageDown:
-                        if (KeyEvent.ModSHIFT)
+                        if (keyEvent.ModSHIFT)
                         {
                             CConfig.GameMusicVolume = CConfig.GameMusicVolume - 5;
                             if (CConfig.GameMusicVolume < 0)
@@ -261,18 +261,18 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            base.HandleMouse(MouseEvent);
+            base.HandleMouse(mouseEvent);
 
-            if (MouseEvent.RB)
+            if (mouseEvent.RB)
             {
                 TogglePause();
                 if (_Pause)
                     SetInteractionToButton(Buttons[ButtonContinue]);
             }
 
-            if (MouseEvent.LB && IsMouseOver(MouseEvent) && _Pause)
+            if (mouseEvent.LB && IsMouseOver(mouseEvent) && _Pause)
             {
                 if (Buttons[ButtonContinue].Selected && _Pause)
                     TogglePause();

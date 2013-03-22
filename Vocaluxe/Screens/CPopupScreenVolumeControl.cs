@@ -32,39 +32,39 @@ namespace Vocaluxe.Screens
                 {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
         }
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
             UpdateSlides();
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            base.HandleMouse(MouseEvent);
-            if (MouseEvent.LB)
+            base.HandleMouse(mouseEvent);
+            if (mouseEvent.LB)
             {
                 SaveConfig();
                 return true;
             }
-            else if (MouseEvent.Wheel > 0 && CHelper.IsInBounds(_ScreenArea, MouseEvent))
+            else if (mouseEvent.Wheel > 0 && CHelper.IsInBounds(_ScreenArea, mouseEvent))
             {
-                if (SelectSlides[SelectSlideVolume].Selection - MouseEvent.Wheel >= 0)
-                    SelectSlides[SelectSlideVolume].Selection = SelectSlides[SelectSlideVolume].Selection - MouseEvent.Wheel;
-                else if (SelectSlides[SelectSlideVolume].Selection - MouseEvent.Wheel < 0)
+                if (SelectSlides[SelectSlideVolume].Selection - mouseEvent.Wheel >= 0)
+                    SelectSlides[SelectSlideVolume].Selection = SelectSlides[SelectSlideVolume].Selection - mouseEvent.Wheel;
+                else if (SelectSlides[SelectSlideVolume].Selection - mouseEvent.Wheel < 0)
                     SelectSlides[SelectSlideVolume].Selection = 0;
                 SaveConfig();
                 return true;
             }
-            else if (MouseEvent.Wheel < 0 && CHelper.IsInBounds(_ScreenArea, MouseEvent))
+            else if (mouseEvent.Wheel < 0 && CHelper.IsInBounds(_ScreenArea, mouseEvent))
             {
-                if (SelectSlides[SelectSlideVolume].Selection - MouseEvent.Wheel < SelectSlides[SelectSlideVolume].NumValues)
-                    SelectSlides[SelectSlideVolume].Selection = SelectSlides[SelectSlideVolume].Selection - MouseEvent.Wheel;
-                else if (SelectSlides[SelectSlideVolume].Selection - MouseEvent.Wheel >= SelectSlides[SelectSlideVolume].NumValues)
+                if (SelectSlides[SelectSlideVolume].Selection - mouseEvent.Wheel < SelectSlides[SelectSlideVolume].NumValues)
+                    SelectSlides[SelectSlideVolume].Selection = SelectSlides[SelectSlideVolume].Selection - mouseEvent.Wheel;
+                else if (SelectSlides[SelectSlideVolume].Selection - mouseEvent.Wheel >= SelectSlides[SelectSlideVolume].NumValues)
                     SelectSlides[SelectSlideVolume].Selection = SelectSlides[SelectSlideVolume].NumValues - 1;
                 SaveConfig();
                 return true;
             }
-            else if (MouseEvent.RB)
+            else if (mouseEvent.RB)
                 return false;
             return true;
         }

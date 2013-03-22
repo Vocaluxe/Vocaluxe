@@ -81,11 +81,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             Data.ScreenNames = names;
         }
 
-        public override void LoadTheme(string XmlPath)
-        {
-            base.LoadTheme(XmlPath);
-        }
-
         public override void DataToScreen(object ReceivedData)
         {
             DataToScreenNames config = new DataToScreenNames();
@@ -114,14 +109,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
         }
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            base.HandleInput(KeyEvent);
+            base.HandleInput(keyEvent);
 
-            if (KeyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) {}
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Back:
                     case Keys.Escape:
@@ -153,16 +148,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            base.HandleMouse(MouseEvent);
+            base.HandleMouse(mouseEvent);
 
             //Check if LeftButton is hold and Select-Mode inactive
-            if (MouseEvent.LBH && !SelectingMouseActive)
+            if (mouseEvent.LBH && !SelectingMouseActive)
             {
                 //Save mouse-coords
-                OldMouseX = MouseEvent.X;
-                OldMouseY = MouseEvent.Y;
+                OldMouseX = mouseEvent.X;
+                OldMouseY = mouseEvent.Y;
                 //Check if mouse if over tile
                 for (int i = 0; i < PlayerChooseButtons.Count; i++)
                 {
@@ -186,13 +181,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
 
             //Check if LeftButton is hold and Select-Mode active
-            if (MouseEvent.LBH && SelectingMouseActive)
+            if (mouseEvent.LBH && SelectingMouseActive)
             {
                 //Update coords for Drag/Drop-Texture
-                chooseAvatarStatic.Rect.X += (MouseEvent.X - OldMouseX);
-                chooseAvatarStatic.Rect.Y += (MouseEvent.Y - OldMouseY);
-                OldMouseX = MouseEvent.X;
-                OldMouseY = MouseEvent.Y;
+                chooseAvatarStatic.Rect.X += (mouseEvent.X - OldMouseX);
+                chooseAvatarStatic.Rect.Y += (mouseEvent.Y - OldMouseY);
+                OldMouseX = mouseEvent.X;
+                OldMouseY = mouseEvent.Y;
 
                 return true;
             }
@@ -209,7 +204,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         if (PlayerDestinationButtons[i].Visible)
                         {
                             //Check if Mouse is in area
-                            if (CHelper.IsInBounds(PlayerDestinationButtons[i].Rect, MouseEvent))
+                            if (CHelper.IsInBounds(PlayerDestinationButtons[i].Rect, mouseEvent))
                             {
                                 int added = -1;
                                 //Add Player-ID to list.
@@ -260,7 +255,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 return true;
             }
 
-            if (MouseEvent.LB && IsMouseOver(MouseEvent))
+            if (mouseEvent.LB && IsMouseOver(mouseEvent))
             {
                 if (Buttons[ButtonBack].Selected)
                     Back();
@@ -275,13 +270,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     Scroll(1);
             }
 
-            if (MouseEvent.LD && IsMouseOver(MouseEvent))
+            if (mouseEvent.LD && IsMouseOver(mouseEvent))
             {
                 if (!OnAdd())
                     OnRemove();
             }
 
-            if (MouseEvent.RB)
+            if (mouseEvent.RB)
                 Back();
 
             return true;

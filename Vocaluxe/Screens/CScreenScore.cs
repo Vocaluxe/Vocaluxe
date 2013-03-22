@@ -56,12 +56,12 @@ namespace Vocaluxe.Screens
             StaticPointsBarDrawnPoints = new double[CSettings.MaxNumPlayer];
         }
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            if (KeyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) {}
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Escape:
                     case Keys.Back:
@@ -81,17 +81,17 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            base.HandleMouse(MouseEvent);
+            base.HandleMouse(mouseEvent);
 
-            if (MouseEvent.Wheel != 0)
-                ChangeRound(MouseEvent.Wheel);
+            if (mouseEvent.Wheel != 0)
+                ChangeRound(mouseEvent.Wheel);
 
-            if (MouseEvent.LB)
+            if (mouseEvent.LB)
                 LeaveScreen();
 
-            if (MouseEvent.RB)
+            if (mouseEvent.RB)
                 LeaveScreen();
 
             return true;

@@ -589,64 +589,64 @@ namespace VocaluxeLib.Menu
         #endregion ElementHandler
 
         #region MenuHandler
-        public virtual bool HandleInput(KeyEvent KeyEvent)
+        public virtual bool HandleInput(KeyEvent keyEvent)
         {
             if (!CBase.Settings.IsTabNavigation())
             {
-                if (KeyEvent.Key == Keys.Left)
+                if (keyEvent.Key == Keys.Left)
                 {
-                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != EModifier.Shift)
-                        KeyEvent.Handled = PrevElement();
+                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && keyEvent.Mod != EModifier.Shift)
+                        keyEvent.Handled = PrevElement();
                     else
-                        KeyEvent.Handled = _NextInteraction(KeyEvent);
+                        keyEvent.Handled = _NextInteraction(keyEvent);
                 }
 
-                if (KeyEvent.Key == Keys.Right)
+                if (keyEvent.Key == Keys.Right)
                 {
-                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && KeyEvent.Mod != EModifier.Shift)
-                        KeyEvent.Handled = NextElement();
+                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && keyEvent.Mod != EModifier.Shift)
+                        keyEvent.Handled = NextElement();
                     else
-                        KeyEvent.Handled = _NextInteraction(KeyEvent);
+                        keyEvent.Handled = _NextInteraction(keyEvent);
                 }
 
-                if (KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down)
-                    KeyEvent.Handled = _NextInteraction(KeyEvent);
+                if (keyEvent.Key == Keys.Up || keyEvent.Key == Keys.Down)
+                    keyEvent.Handled = _NextInteraction(keyEvent);
             }
             else
             {
-                if (KeyEvent.Key == Keys.Tab)
+                if (keyEvent.Key == Keys.Tab)
                 {
-                    if (KeyEvent.Mod == EModifier.Shift)
+                    if (keyEvent.Mod == EModifier.Shift)
                         PrevInteraction();
                     else
                         NextInteraction();
                 }
 
-                if (KeyEvent.Key == Keys.Left)
+                if (keyEvent.Key == Keys.Left)
                     PrevElement();
 
-                if (KeyEvent.Key == Keys.Right)
+                if (keyEvent.Key == Keys.Right)
                     NextElement();
             }
 
             return true;
         }
 
-        public virtual bool HandleMouse(MouseEvent MouseEvent)
+        public virtual bool HandleMouse(MouseEvent mouseEvent)
         {
             int selection = _Selection;
-            ProcessMouseMove(MouseEvent.X, MouseEvent.Y);
+            ProcessMouseMove(mouseEvent.X, mouseEvent.Y);
             if (selection != _Selection)
             {
                 _UnsetHighlighted(selection);
                 _SetHighlighted(_Selection);
             }
 
-            if (MouseEvent.LB)
-                ProcessMouseClick(MouseEvent.X, MouseEvent.Y);
+            if (mouseEvent.LB)
+                ProcessMouseClick(mouseEvent.X, mouseEvent.Y);
 
-            _PrevMouseX = MouseEvent.X;
-            _PrevMouseY = MouseEvent.Y;
+            _PrevMouseX = mouseEvent.X;
+            _PrevMouseY = mouseEvent.Y;
 
             return true;
         }

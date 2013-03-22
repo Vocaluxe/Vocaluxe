@@ -46,11 +46,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             Data.ScreenConfig = config;
         }
 
-        public override void LoadTheme(string XmlPath)
-        {
-            base.LoadTheme(XmlPath);
-        }
-
         public override void DataToScreen(object ReceivedData)
         {
             DataToScreenConfig config = new DataToScreenConfig();
@@ -72,14 +67,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
         }
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            base.HandleInput(KeyEvent);
+            base.HandleInput(keyEvent);
 
-            if (KeyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) {}
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Back:
                     case Keys.Escape:
@@ -108,11 +103,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            base.HandleMouse(MouseEvent);
+            base.HandleMouse(mouseEvent);
 
-            if (MouseEvent.LB && IsMouseOver(MouseEvent))
+            if (mouseEvent.LB && IsMouseOver(mouseEvent))
             {
                 UpdateSlides();
                 if (Buttons[ButtonBack].Selected)
@@ -122,7 +117,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     Next();
             }
 
-            if (MouseEvent.RB)
+            if (mouseEvent.RB)
                 Back();
 
             return true;

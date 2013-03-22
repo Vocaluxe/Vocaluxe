@@ -35,19 +35,14 @@ namespace Vocaluxe.Screens
             _ThemeSelectSlides = new[] {SelectSlideModes};
         }
 
-        public override void LoadTheme(string XmlPath)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            base.LoadTheme(XmlPath);
-        }
+            base.HandleInput(keyEvent);
 
-        public override bool HandleInput(KeyEvent KeyEvent)
-        {
-            base.HandleInput(KeyEvent);
-
-            if (KeyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) {}
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Back:
                     case Keys.Escape:
@@ -72,11 +67,11 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            base.HandleMouse(MouseEvent);
+            base.HandleMouse(mouseEvent);
 
-            if (MouseEvent.LB && IsMouseOver(MouseEvent))
+            if (mouseEvent.LB && IsMouseOver(mouseEvent))
             {
                 if (Buttons[ButtonStart].Selected)
                     StartPartyMode();
@@ -88,7 +83,7 @@ namespace Vocaluxe.Screens
                     UpdateSelection();
             }
 
-            if (MouseEvent.RB)
+            if (mouseEvent.RB)
                 CGraphics.FadeTo(EScreens.ScreenMain);
 
             return true;

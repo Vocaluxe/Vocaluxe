@@ -18,8 +18,8 @@ namespace VocaluxeLib.Menu
         void UnloadTextures();
         void ReloadTheme(string XmlPath);
 
-        bool HandleInput(KeyEvent KeyEvent);
-        bool HandleMouse(MouseEvent MouseEvent);
+        bool HandleInput(KeyEvent keyEvent);
+        bool HandleMouse(MouseEvent mouseEvent);
         bool HandleInputThemeEditor(KeyEvent KeyEvent);
         bool HandleMouseThemeEditor(MouseEvent MouseEvent);
 

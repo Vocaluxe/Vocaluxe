@@ -16,12 +16,12 @@ namespace Vocaluxe.Screens
 
         private int _TestMusic = -1;
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode)) {}
+            if (keyEvent.KeyPressed && !Char.IsControl(keyEvent.Unicode)) {}
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Escape:
                     case Keys.Back:
@@ -49,14 +49,14 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            if (MouseEvent.LB && IsMouseOver(MouseEvent)) {}
+            if (mouseEvent.LB && IsMouseOver(mouseEvent)) {}
 
-            if (MouseEvent.LB)
+            if (mouseEvent.LB)
                 CGraphics.FadeTo(EScreens.ScreenMain);
 
-            if (MouseEvent.RB)
+            if (mouseEvent.RB)
                 CGraphics.FadeTo(EScreens.ScreenMain);
             return true;
         }
@@ -64,11 +64,6 @@ namespace Vocaluxe.Screens
         public override bool UpdateGame()
         {
             return true;
-        }
-
-        public override bool Draw()
-        {
-            return base.Draw();
         }
 
         private void PlayFile()

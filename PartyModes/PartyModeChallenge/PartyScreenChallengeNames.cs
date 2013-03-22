@@ -76,11 +76,6 @@ namespace VocaluxeLib.PartyModes.Challenge
             Data.ScreenNames = names;
         }
 
-        public override void LoadTheme(string XmlPath)
-        {
-            base.LoadTheme(XmlPath);
-        }
-
         public override void DataToScreen(object ReceivedData)
         {
             DataToScreenNames config = new DataToScreenNames();
@@ -103,14 +98,14 @@ namespace VocaluxeLib.PartyModes.Challenge
             }
         }
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            base.HandleInput(KeyEvent);
+            base.HandleInput(keyEvent);
 
-            if (KeyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) {}
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Back:
                     case Keys.Escape:
@@ -136,9 +131,9 @@ namespace VocaluxeLib.PartyModes.Challenge
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            base.HandleMouse(MouseEvent);
+            base.HandleMouse(mouseEvent);
 
             /*
             //Check if LeftButton is hold and Select-Mode inactive
@@ -169,13 +164,13 @@ namespace VocaluxeLib.PartyModes.Challenge
             }*/
 
             //Check if LeftButton is hold and Select-Mode active
-            if (MouseEvent.LBH && SelectingMouseActive)
+            if (mouseEvent.LBH && SelectingMouseActive)
             {
                 //Update coords for Drag/Drop-Texture
-                chooseAvatarStatic.Rect.X += (MouseEvent.X - OldMouseX);
-                chooseAvatarStatic.Rect.Y += (MouseEvent.Y - OldMouseY);
-                OldMouseX = MouseEvent.X;
-                OldMouseY = MouseEvent.Y;
+                chooseAvatarStatic.Rect.X += (mouseEvent.X - OldMouseX);
+                chooseAvatarStatic.Rect.Y += (mouseEvent.Y - OldMouseY);
+                OldMouseX = mouseEvent.X;
+                OldMouseY = mouseEvent.Y;
             }
                 // LeftButton isn't hold anymore, but Selec-Mode is still active -> "Drop" of Avatar
             else if (SelectingMouseActive)
@@ -190,7 +185,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                         if (PlayerDestinationButtons[i].Visible)
                         {
                             //Check if Mouse is in area
-                            if (CHelper.IsInBounds(PlayerDestinationButtons[i].Rect, MouseEvent))
+                            if (CHelper.IsInBounds(PlayerDestinationButtons[i].Rect, mouseEvent))
                             {
                                 int added = -1;
                                 //Add Player-ID to list.
@@ -223,7 +218,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 chooseAvatarStatic.Visible = false;
             }
 
-            if (MouseEvent.LB && IsMouseOver(MouseEvent))
+            if (mouseEvent.LB && IsMouseOver(mouseEvent))
             {
                 if (Buttons[ButtonBack].Selected)
                     Back();
@@ -235,7 +230,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                     OnRemove();
             }
 
-            if (MouseEvent.RB)
+            if (mouseEvent.RB)
                 Back();
 
             return true;

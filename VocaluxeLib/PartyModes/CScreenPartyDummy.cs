@@ -34,14 +34,14 @@ namespace VocaluxeLib.PartyModes
 
         public override void UnloadTextures() {}
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            base.HandleInput(KeyEvent);
+            base.HandleInput(keyEvent);
 
-            if (KeyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) {}
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Back:
                     case Keys.Escape:
@@ -52,13 +52,13 @@ namespace VocaluxeLib.PartyModes
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            base.HandleMouse(MouseEvent);
+            base.HandleMouse(mouseEvent);
 
-            if (MouseEvent.LB && IsMouseOver(MouseEvent)) {}
+            if (mouseEvent.LB && IsMouseOver(mouseEvent)) {}
 
-            if (MouseEvent.RB)
+            if (mouseEvent.RB)
                 FadeTo(EScreens.ScreenParty);
 
             return true;

@@ -76,12 +76,12 @@ namespace Vocaluxe.Screens
             _NewEntryIDs = new List<int>();
         }
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode)) {}
+            if (keyEvent.KeyPressed && !Char.IsControl(keyEvent.Unicode)) {}
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Escape:
                     case Keys.Back:
@@ -110,17 +110,17 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            if (MouseEvent.LB && IsMouseOver(MouseEvent)) {}
+            if (mouseEvent.LB && IsMouseOver(mouseEvent)) {}
 
-            if (MouseEvent.LB)
+            if (mouseEvent.LB)
                 LeaveScreen();
 
-            if (MouseEvent.RB)
+            if (mouseEvent.RB)
                 LeaveScreen();
 
-            if (MouseEvent.MB)
+            if (mouseEvent.MB)
             {
                 int LastRound = _Round;
                 ChangeRound(1);
@@ -131,7 +131,7 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            ChangePos(MouseEvent.Wheel);
+            ChangePos(mouseEvent.Wheel);
             return true;
         }
 
@@ -189,11 +189,6 @@ namespace Vocaluxe.Screens
             UpdateRound();
 
             UpdateGame();
-        }
-
-        public override bool Draw()
-        {
-            return base.Draw();
         }
 
         private bool isNewEntry(int id)
