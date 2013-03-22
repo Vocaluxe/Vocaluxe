@@ -22,41 +22,43 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         public List<CText> TextScores;
     }
 
-
     public class PartyScreenChallengeMedleyMain : CMenuParty
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion { get { return 1; } }
+        protected override int _ScreenVersion
+        {
+            get { return 1; }
+        }
 
-        const string TextPosition = "TextPosition";
-        const string TextPlayerName = "TextPlayerName";
-        const string TextNumPlayed = "TextNumPlayed";
-        const string TextWon = "TextWon";
-        const string TextSingPoints = "TextSingPoints";
-        const string TextGamePoints = "TextGamePoints";
-        const string TextNextPlayer = "TextNextPlayer";
-        const string TextPopupReallyExit = "TextPopupReallyExit";
-        const string TextRoundPlayer = "TextRoundPlayer";
-        const string TextRoundScore = "TextRoundScore";
-        const string TextRoundNumber = "TextRoundNumber";
-        const string TextFinishMessage = "TextFinishMessage";
-        const string TextFinishPlayerWin = "TextFinishPlayerWin";
-        const string TextNextPlayerMessage = "TextNextPlayerMessage";
+        private const string TextPosition = "TextPosition";
+        private const string TextPlayerName = "TextPlayerName";
+        private const string TextNumPlayed = "TextNumPlayed";
+        private const string TextWon = "TextWon";
+        private const string TextSingPoints = "TextSingPoints";
+        private const string TextGamePoints = "TextGamePoints";
+        private const string TextNextPlayer = "TextNextPlayer";
+        private const string TextPopupReallyExit = "TextPopupReallyExit";
+        private const string TextRoundPlayer = "TextRoundPlayer";
+        private const string TextRoundScore = "TextRoundScore";
+        private const string TextRoundNumber = "TextRoundNumber";
+        private const string TextFinishMessage = "TextFinishMessage";
+        private const string TextFinishPlayerWin = "TextFinishPlayerWin";
+        private const string TextNextPlayerMessage = "TextNextPlayerMessage";
 
-        const string ButtonNextRound = "ButtonNextRound";
-        const string ButtonBack = "ButtonBack";
-        const string ButtonExit = "ButtonExit";
-        const string ButtonPopupYes = "ButtonPopupYes";
-        const string ButtonPopupNo = "ButtonPopupNo";
-        const string ButtonPlayerScrollUp = "ButtonPlayerScrollUp";
-        const string ButtonPlayerScrollDown = "ButtonPlayerScrollDown";
-        const string ButtonRoundsScrollUp = "ButtonRoundsScrollUp";
-        const string ButtonRoundsScrollDown = "ButtonRoundsScrollDown";
+        private const string ButtonNextRound = "ButtonNextRound";
+        private const string ButtonBack = "ButtonBack";
+        private const string ButtonExit = "ButtonExit";
+        private const string ButtonPopupYes = "ButtonPopupYes";
+        private const string ButtonPopupNo = "ButtonPopupNo";
+        private const string ButtonPlayerScrollUp = "ButtonPlayerScrollUp";
+        private const string ButtonPlayerScrollDown = "ButtonPlayerScrollDown";
+        private const string ButtonRoundsScrollUp = "ButtonRoundsScrollUp";
+        private const string ButtonRoundsScrollDown = "ButtonRoundsScrollDown";
 
-        const string StaticPopupBG = "StaticPopupBG";
-        const string StaticNextPlayer = "StaticNextPlayer";
+        private const string StaticPopupBG = "StaticPopupBG";
+        private const string StaticNextPlayer = "StaticNextPlayer";
 
-        private bool ExitPopupVisible = false;
+        private bool ExitPopupVisible;
 
         private DataFromScreen Data;
         private DataToScreenMain GameState;
@@ -68,8 +70,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         private SRectF RoundsTableScrollArea;
         private SRectF PlayerTableScrollArea;
-        private int RoundsTableOffset = 0;
-        private int PlayerTableOffset = 0;
+        private int RoundsTableOffset;
+        private int PlayerTableOffset;
         private int NumPlayerVisible = 10;
         private int NumRoundsVisible = 3;
 
@@ -83,14 +85,19 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         {
             base.Init();
 
-            _ThemeTexts = new string[] { TextPosition, TextPlayerName, TextNumPlayed, TextWon, TextSingPoints, TextGamePoints, TextNextPlayer, TextPopupReallyExit, TextRoundNumber, TextRoundPlayer, TextRoundScore, TextFinishMessage, TextFinishPlayerWin, TextNextPlayerMessage };
-            _ThemeButtons = new string[] { ButtonNextRound, ButtonBack, ButtonExit, ButtonPopupYes, ButtonPopupNo, ButtonPlayerScrollDown, ButtonPlayerScrollUp, ButtonRoundsScrollDown, ButtonRoundsScrollUp };
-            _ThemeStatics = new string[] { StaticPopupBG, StaticNextPlayer };
+            _ThemeTexts = new[]
+                {
+                    TextPosition, TextPlayerName, TextNumPlayed, TextWon, TextSingPoints, TextGamePoints, TextNextPlayer, TextPopupReallyExit, TextRoundNumber, TextRoundPlayer,
+                    TextRoundScore, TextFinishMessage, TextFinishPlayerWin, TextNextPlayerMessage
+                };
+            _ThemeButtons = new[]
+                {ButtonNextRound, ButtonBack, ButtonExit, ButtonPopupYes, ButtonPopupNo, ButtonPlayerScrollDown, ButtonPlayerScrollUp, ButtonRoundsScrollDown, ButtonRoundsScrollUp};
+            _ThemeStatics = new[] {StaticPopupBG, StaticNextPlayer};
         }
 
         public override void LoadTheme(string XmlPath)
         {
-			base.LoadTheme(XmlPath);
+            base.LoadTheme(XmlPath);
 
             GameState = new DataToScreenMain();
             BuildPlayerTable();
@@ -118,19 +125,16 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             }
             catch (Exception e)
             {
-                CBase.Log.LogError("Error in party mode screen challenge main. Can't cast received data from game mode " + ThemeName + ". " + e.Message); ;
+                CBase.Log.LogError("Error in party mode screen challenge main. Can't cast received data from game mode " + ThemeName + ". " + e.Message);
+                ;
             }
-
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
         {
             base.HandleInput(KeyEvent);
 
-            if (KeyEvent.KeyPressed)
-            {
-
-            }
+            if (KeyEvent.KeyPressed) {}
             else
             {
                 switch (KeyEvent.Key)
@@ -138,10 +142,12 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                     case Keys.Back:
                     case Keys.Escape:
                         if (!ExitPopupVisible)
+                        {
                             if (GameState.CurrentRoundNr == 1)
                                 Back();
                             else
                                 ShowPopup(true);
+                        }
                         else
                             ShowPopup(false);
                         break;
@@ -212,19 +218,21 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             if (MouseEvent.RB)
             {
                 if (!ExitPopupVisible)
+                {
                     if (GameState.CurrentRoundNr == 1)
                         Back();
                     else
                         ShowPopup(true);
+                }
                 else
                     ShowPopup(false);
             }
 
             if (MouseEvent.Wheel != 0)
             {
-                if(CHelper.IsInBounds(RoundsTableScrollArea, MouseEvent))
+                if (CHelper.IsInBounds(RoundsTableScrollArea, MouseEvent))
                     ScrollRoundsTable(MouseEvent.Wheel);
-                if(CHelper.IsInBounds(PlayerTableScrollArea, MouseEvent))
+                if (CHelper.IsInBounds(PlayerTableScrollArea, MouseEvent))
                     ScrollPlayerTable(MouseEvent.Wheel);
             }
 
@@ -322,7 +330,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         private void UpdateNextPlayerPositions()
         {
-            float x = CBase.Settings.GetRenderW()/2 - ((GameState.NumPlayerAtOnce * Statics[StaticNextPlayer].Rect.W) + ((GameState.NumPlayerAtOnce-1) * 15))/2;
+            float x = CBase.Settings.GetRenderW() / 2 - ((GameState.NumPlayerAtOnce * Statics[StaticNextPlayer].Rect.W) + ((GameState.NumPlayerAtOnce - 1) * 15)) / 2;
             float static_y = 590;
             float text_y = 550;
             for (int i = 0; i < GameState.NumPlayerAtOnce; i++)
@@ -446,7 +454,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                     for (int column = row * NumPlayerInOneRow; column < num; column++)
                     {
                         //Player
-                        float _x = x + 15 + (CBase.Settings.GetRenderW() - Texts[TextRoundNumber].X - 20) / NumPlayerInThisRow * (column - row * NumPlayerInOneRow) + ((CBase.Settings.GetRenderW() - Texts[TextRoundNumber].X - 20) / NumPlayerInThisRow) / 2;
+                        float _x = x + 15 + (CBase.Settings.GetRenderW() - Texts[TextRoundNumber].X - 20) / NumPlayerInThisRow * (column - row * NumPlayerInOneRow) +
+                                   ((CBase.Settings.GetRenderW() - Texts[TextRoundNumber].X - 20) / NumPlayerInThisRow) / 2;
                         float maxw = ((CBase.Settings.GetRenderW() - Texts[TextRoundNumber].X - 20) / NumPlayerInThisRow) / 2 - 5;
                         RoundsTable[round].TextPlayer[column].X = _x;
                         RoundsTable[round].TextPlayer[column].Y = y;
@@ -469,7 +478,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             SProfile[] profile = CBase.Profiles.GetProfiles();
             for (int i = 0; i < RoundsTable.Count; i++)
             {
-                for(int p = 0; p < RoundsTable[i].TextPlayer.Count; p++)
+                for (int p = 0; p < RoundsTable[i].TextPlayer.Count; p++)
                 {
                     if (GameState.Combs.Count > i + RoundsTableOffset && GameState.Combs[i + RoundsTableOffset].Player.Count > p)
                     {
@@ -497,7 +506,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                     {
                         RoundsTable[i].TextPlayer[p].Visible = false;
                         RoundsTable[i].TextScores[p].Visible = false;
-                    }                   
+                    }
                 }
             }
 
@@ -566,7 +575,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             {
                 TableRow row = PlayerTable[i];
 
-                if (i+PlayerTableOffset < GameState.ResultTable.Count)
+                if (i + PlayerTableOffset < GameState.ResultTable.Count)
                 {
                     row.Pos.Visible = true;
                     row.Name.Visible = true;
@@ -576,11 +585,11 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                     row.GamePoints.Visible = true;
 
                     row.Pos.Text = GameState.ResultTable[i + PlayerTableOffset].Position.ToString() + ".";
-                    row.Name.Text = profiles[GameState.ResultTable[i+PlayerTableOffset].PlayerID].PlayerName;
-                    row.Rounds.Text = GameState.ResultTable[i+PlayerTableOffset].NumRounds.ToString();
-                    row.Won.Text = GameState.ResultTable[i+PlayerTableOffset].NumWon.ToString();
-                    row.SingPoints.Text = GameState.ResultTable[i+PlayerTableOffset].NumSingPoints.ToString();
-                    row.GamePoints.Text = GameState.ResultTable[i+PlayerTableOffset].NumGamePoints.ToString();
+                    row.Name.Text = profiles[GameState.ResultTable[i + PlayerTableOffset].PlayerID].PlayerName;
+                    row.Rounds.Text = GameState.ResultTable[i + PlayerTableOffset].NumRounds.ToString();
+                    row.Won.Text = GameState.ResultTable[i + PlayerTableOffset].NumWon.ToString();
+                    row.SingPoints.Text = GameState.ResultTable[i + PlayerTableOffset].NumSingPoints.ToString();
+                    row.GamePoints.Text = GameState.ResultTable[i + PlayerTableOffset].NumGamePoints.ToString();
                 }
                 else
                 {

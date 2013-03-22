@@ -8,14 +8,17 @@ namespace VocaluxeLib.PartyModes.TicTacToe
     public class PartyScreenTicTacToeNames : CMenuParty
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion { get { return 1; } }
+        protected override int _ScreenVersion
+        {
+            get { return 1; }
+        }
 
-        const string ButtonNext = "ButtonNext";
-        const string ButtonBack = "ButtonBack";
-        const string ButtonPlayerDestination = "ButtonPlayerDestination";
-        const string ButtonPlayerChoose = "ButtonPlayerChoose";
-        const string ButtonPlayerChooseScrollUp = "ButtonPlayerChooseScrollUp";
-        const string ButtonPlayerChooseScrollDown = "ButtonPlayerChooseScrollDown";
+        private const string ButtonNext = "ButtonNext";
+        private const string ButtonBack = "ButtonBack";
+        private const string ButtonPlayerDestination = "ButtonPlayerDestination";
+        private const string ButtonPlayerChoose = "ButtonPlayerChoose";
+        private const string ButtonPlayerChooseScrollUp = "ButtonPlayerChooseScrollUp";
+        private const string ButtonPlayerChooseScrollDown = "ButtonPlayerChooseScrollDown";
 
         private List<CPlayerChooseButton> PlayerChooseButtons;
         private List<CButton> PlayerDestinationButtons;
@@ -34,28 +37,24 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private const int PlayerChooseButtonsFirstY = 105;
         private const int PlayerChooseButtonsSpaceH = 15;
         private const int PlayerChooseButtonsSpaceW = 25;
-        private int PlayerChooseButtonsOffset = 0;
+        private int PlayerChooseButtonsOffset;
 
         private CStatic chooseAvatarStatic;
-        private bool SelectingMouseActive = false;
-        private int OldMouseX = 0;
-        private int OldMouseY = 0;
+        private bool SelectingMouseActive;
+        private int OldMouseX;
+        private int OldMouseY;
         private int SelectedPlayerNr = -1;
-        private bool ButtonsAdded = false;
+        private bool ButtonsAdded;
 
         private int NumPlayerTeam1 = 2;
         private int NumPlayerTeam2 = 2;
-        
+
         private DataFromScreen Data;
 
         private class CPlayerChooseButton
         {
             public CButton Button;
             public int ProfileID;
-        }
-
-        public PartyScreenTicTacToeNames()
-        {
         }
 
         public override void Init()
@@ -71,7 +70,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             Data.ScreenNames.ProfileIDsTeam2 = new List<int>();
 
             List<string> buttons = new List<string>();
-            _ThemeButtons = new string[] { ButtonBack, ButtonNext, ButtonPlayerDestination, ButtonPlayerChoose, ButtonPlayerChooseScrollUp, ButtonPlayerChooseScrollDown };
+            _ThemeButtons = new[] {ButtonBack, ButtonNext, ButtonPlayerDestination, ButtonPlayerChoose, ButtonPlayerChooseScrollUp, ButtonPlayerChooseScrollDown};
 
             Data = new DataFromScreen();
             FromScreenNames names = new FromScreenNames();
@@ -84,7 +83,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         public override void LoadTheme(string XmlPath)
         {
-			base.LoadTheme(XmlPath);
+            base.LoadTheme(XmlPath);
         }
 
         public override void DataToScreen(object ReceivedData)
@@ -105,62 +104,53 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 NumPlayerTeam2 = config.NumPlayerTeam2;
 
                 while (Data.ScreenNames.ProfileIDsTeam1.Count > NumPlayerTeam1)
-                {
                     Data.ScreenNames.ProfileIDsTeam1.RemoveAt(Data.ScreenNames.ProfileIDsTeam1.Count - 1);
-                }
                 while (Data.ScreenNames.ProfileIDsTeam2.Count > NumPlayerTeam2)
-                {
                     Data.ScreenNames.ProfileIDsTeam2.RemoveAt(Data.ScreenNames.ProfileIDsTeam2.Count - 1);
-                }
-
-                
             }
             catch (Exception e)
             {
-                CBase.Log.LogError("Error in party mode screen TicTacToe names. Can't cast received data from game mode " + ThemeName + ". " + e.Message); ;
+                CBase.Log.LogError("Error in party mode screen TicTacToe names. Can't cast received data from game mode " + ThemeName + ". " + e.Message);
+                ;
             }
-
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
         {
             base.HandleInput(KeyEvent);
 
-            if (KeyEvent.KeyPressed)
+            if (KeyEvent.KeyPressed) {}
+            else
+            {
+                switch (KeyEvent.Key)
                 {
+                    case Keys.Back:
+                    case Keys.Escape:
+                        Back();
+                        break;
 
-                }
-                else
-                {
-                    switch (KeyEvent.Key)
-                    {
-                        case Keys.Back:
-                        case Keys.Escape:
+                    case Keys.Enter:
+                        if (Buttons[ButtonBack].Selected)
                             Back();
-                            break;
 
-                        case Keys.Enter:
-                            if (Buttons[ButtonBack].Selected)
-                                Back();
+                        if (Buttons[ButtonNext].Selected)
+                            Next();
 
-                            if (Buttons[ButtonNext].Selected)
-                                Next();
+                        if (Buttons[ButtonPlayerChooseScrollUp].Selected)
+                            Scroll(-1);
 
-                            if (Buttons[ButtonPlayerChooseScrollUp].Selected)
-                                Scroll(-1);
+                        if (Buttons[ButtonPlayerChooseScrollDown].Selected)
+                            Scroll(1);
 
-                            if (Buttons[ButtonPlayerChooseScrollDown].Selected)
-                                Scroll(1);
-
-                            if (!OnAdd())
-                                OnRemove();
-                            break;
-
-                        case Keys.Delete:
+                        if (!OnAdd())
                             OnRemove();
-                            break;
-                    }
+                        break;
+
+                    case Keys.Delete:
+                        OnRemove();
+                        break;
                 }
+            }
             return true;
         }
 
@@ -195,7 +185,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 }
                 return true;
             }
-            
+
             //Check if LeftButton is hold and Select-Mode active
             if (MouseEvent.LBH && SelectingMouseActive)
             {
@@ -207,7 +197,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
                 return true;
             }
-            // LeftButton isn't hold anymore, but Selec-Mode is still active -> "Drop" of Avatar
+                // LeftButton isn't hold anymore, but Selec-Mode is still active -> "Drop" of Avatar
             else if (SelectingMouseActive)
             {
                 //Check if really a player was selected
@@ -217,7 +207,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     for (int i = 0; i < PlayerDestinationButtons.Count; i++)
                     {
                         //Check first, if area is "active"
-                        if (PlayerDestinationButtons[i].Visible == true)
+                        if (PlayerDestinationButtons[i].Visible)
                         {
                             //Check if Mouse is in area
                             if (CHelper.IsInBounds(PlayerDestinationButtons[i].Rect, MouseEvent))
@@ -286,14 +276,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     Scroll(1);
             }
 
-            if(MouseEvent.LD && IsMouseOver(MouseEvent))
+            if (MouseEvent.LD && IsMouseOver(MouseEvent))
+            {
                 if (!OnAdd())
                     OnRemove();
+            }
 
             if (MouseEvent.RB)
-            {
                 Back();
-            }
 
             return true;
         }
@@ -335,12 +325,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 PlayerChooseButtonsOffset += Offset;
                 UpdateButtonPlayerChoose();
             }
-            else if (PlayerChooseButtonsVisibleProfiles.Count < PlayerChooseButtons.Count + (PlayerChooseButtonsOffset + Offset) * PlayerChooseButtonsNumH) 
+            else if (PlayerChooseButtonsVisibleProfiles.Count < PlayerChooseButtons.Count + (PlayerChooseButtonsOffset + Offset) * PlayerChooseButtonsNumH)
             {
                 PlayerChooseButtonsOffset += Offset;
                 UpdateButtonPlayerChoose();
             }
-
         }
 
         private void AddButtonPlayerDestination()
@@ -397,16 +386,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void UpdateButtonPlayerChoose()
         {
             UpdateVisibleProfiles();
-            if ((PlayerChooseButtonsNumW * PlayerChooseButtonsNumH) * (PlayerChooseButtonsOffset + 1) - PlayerChooseButtonsVisibleProfiles.Count >= (PlayerChooseButtonsNumW * PlayerChooseButtonsNumH) * PlayerChooseButtonsOffset)
-            {
+            if ((PlayerChooseButtonsNumW * PlayerChooseButtonsNumH) * (PlayerChooseButtonsOffset + 1) - PlayerChooseButtonsVisibleProfiles.Count >=
+                (PlayerChooseButtonsNumW * PlayerChooseButtonsNumH) * PlayerChooseButtonsOffset)
                 UpdateButtonPlayerChoose(PlayerChooseButtonsOffset - 1);
-            }
             else
-            {
                 UpdateButtonPlayerChoose(PlayerChooseButtonsOffset);
-            }
             Buttons[ButtonPlayerChooseScrollUp].Enabled = PlayerChooseButtonsOffset > 0;
-            Buttons[ButtonPlayerChooseScrollDown].Enabled = PlayerChooseButtonsVisibleProfiles.Count > PlayerChooseButtons.Count + PlayerChooseButtonsOffset * PlayerChooseButtonsNumH;
+            Buttons[ButtonPlayerChooseScrollDown].Enabled = PlayerChooseButtonsVisibleProfiles.Count >
+                                                            PlayerChooseButtons.Count + PlayerChooseButtonsOffset * PlayerChooseButtonsNumH;
         }
 
         private void UpdateButtonPlayerChoose(int Offset)
@@ -475,9 +462,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     }
                 }
                 if (visible)
-                {
                     PlayerChooseButtonsVisibleProfiles.Add(i);
-                }
             }
         }
 
@@ -632,11 +617,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     }
                 }
             }
-            for (int i = PlayerDestinationButtonsNumH; i < PlayerDestinationButtonsNumH*2; i++)
+            for (int i = PlayerDestinationButtonsNumH; i < PlayerDestinationButtonsNumH * 2; i++)
             {
                 if (PlayerDestinationButtons[i].Selected)
                 {
-                    if (((i-PlayerDestinationButtonsNumH) + 1) <= Data.ScreenNames.ProfileIDsTeam2.Count)
+                    if (((i - PlayerDestinationButtonsNumH) + 1) <= Data.ScreenNames.ProfileIDsTeam2.Count)
                     {
                         Data.ScreenNames.ProfileIDsTeam2.RemoveAt(i - PlayerDestinationButtonsNumH);
                         UpdateButtonNext();
