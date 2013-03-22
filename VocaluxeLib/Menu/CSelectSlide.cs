@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Xml;
 
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     struct SThemeSelectSlide
     {

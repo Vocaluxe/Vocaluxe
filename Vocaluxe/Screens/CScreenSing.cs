@@ -6,9 +6,9 @@ using System.IO;
 using System.Windows.Forms;
 
 using Vocaluxe.Base;
-using Vocaluxe.Menu;
-using Vocaluxe.Menu.SingNotes;
-using Vocaluxe.Menu.SongMenu;
+using VocaluxeLib.Menu;
+using VocaluxeLib.Menu.SingNotes;
+using VocaluxeLib.Menu.SongMenu;
 
 namespace Vocaluxe.Screens
 {

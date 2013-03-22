@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
-using Vocaluxe.PartyModes;
+using VocaluxeLib.PartyModes;
 
-namespace Vocaluxe.Menu.SongMenu
+namespace VocaluxeLib.Menu.SongMenu
 {
     struct SThemeSongMenu
     {

@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Drawing;
 using System.Xml;
 
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     enum EEqualizerStyle
     {

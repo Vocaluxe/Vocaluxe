@@ -4,8 +4,8 @@ using System.IO;
 using System.Text;
 
 using Vocaluxe.Lib.Playlist;
-using Vocaluxe.Menu;
-using Vocaluxe.Menu.SongMenu;
+using VocaluxeLib.Menu;
+using VocaluxeLib.Menu.SongMenu;
 
 namespace Vocaluxe.Base
 {

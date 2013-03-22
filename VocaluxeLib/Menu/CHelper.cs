@@ -5,7 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     public static class CHelper
     {

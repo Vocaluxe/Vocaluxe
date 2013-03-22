@@ -1,8 +1,7 @@
 ﻿using System.Xml;
+using VocaluxeLib.PartyModes;
 
-using Vocaluxe.PartyModes;
-
-namespace Vocaluxe.Menu.SongMenu
+namespace VocaluxeLib.Menu.SongMenu
 {
     public class CSongMenu : ISongMenu
     {

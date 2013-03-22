@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     public class COrderedDictionaryLite<T> : IEnumerable<T>
     {

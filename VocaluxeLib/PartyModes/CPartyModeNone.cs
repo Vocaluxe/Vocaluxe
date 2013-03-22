@@ -1,8 +1,7 @@
 ﻿using System;
+using VocaluxeLib.Menu;
 
-using Vocaluxe.Menu;
-
-namespace Vocaluxe.PartyModes
+namespace VocaluxeLib.PartyModes
 {
     public class CPartyModeNone : CPartyMode
     {

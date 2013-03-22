@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Input
 {

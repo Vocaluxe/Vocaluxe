@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     enum ESettingType
     {

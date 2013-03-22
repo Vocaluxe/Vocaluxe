@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Webcam
 {

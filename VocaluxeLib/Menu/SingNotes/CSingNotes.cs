@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml;
 
-namespace Vocaluxe.Menu.SingNotes
+namespace VocaluxeLib.Menu.SingNotes
 {
     struct SPlayerNotes
     {

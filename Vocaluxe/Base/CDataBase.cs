@@ -16,8 +16,8 @@ using SQLiteCommand = Mono.Data.Sqlite.SqliteCommand;
 using SQLiteDataReader = Mono.Data.Sqlite.SqliteDataReader;
 #endif
 using Community.CsharpSqlite;
-using Vocaluxe.Menu;
-using Vocaluxe.Menu.SongMenu;
+using VocaluxeLib.Menu;
+using VocaluxeLib.Menu.SongMenu;
 
 namespace Vocaluxe.Base
 {

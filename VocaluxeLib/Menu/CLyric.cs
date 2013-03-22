@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Xml;
+using VocaluxeLib.Menu.SingNotes;
 
-using Vocaluxe.Menu.SingNotes;
-
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     struct SNote
     {

@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
+using VocaluxeLib.Menu.SongMenu;
 
-namespace Vocaluxe.PartyModes.TicTacToe
+namespace VocaluxeLib.PartyModes.TicTacToe
 {
     public class Field
     {
@@ -480,7 +481,7 @@ namespace Vocaluxe.PartyModes.TicTacToe
                 SingerTeam2 = GameData.PlayerTeam2[0];
                 GameData.PlayerTeam2.RemoveAt(0);
             }
-            Menu.SongMenu.CSong Song = CBase.Songs.GetSongByID(SongID);
+            CSong Song = CBase.Songs.GetSongByID(SongID);
 
             CBase.BackgroundMusic.SetStatus(true);
 
@@ -520,7 +521,7 @@ namespace Vocaluxe.PartyModes.TicTacToe
         private void FieldSelectedAgain()
         {
             int SongID = Fields[SelectedField].Content.SongID;
-            Menu.SongMenu.CSong Song = CBase.Songs.GetSongByID(SongID);
+            CSong Song = CBase.Songs.GetSongByID(SongID);
             CBase.BackgroundMusic.SetStatus(true);
 
             PreviewStream = CBase.Sound.Load(Song.GetMP3(), false);

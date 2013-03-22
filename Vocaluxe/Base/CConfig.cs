@@ -9,7 +9,7 @@ using System.Xml;
 
 using Vocaluxe.Lib.Sound;
 using Vocaluxe.Lib.Webcam;
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {

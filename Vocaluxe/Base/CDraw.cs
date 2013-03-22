@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using Vocaluxe.Lib.Draw;
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {

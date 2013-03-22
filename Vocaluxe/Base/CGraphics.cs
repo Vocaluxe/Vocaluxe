@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-
-using Vocaluxe.Menu;
-using Vocaluxe.PartyModes;
 using Vocaluxe.Screens;
+using VocaluxeLib.Menu;
+using VocaluxeLib.PartyModes;
 
 namespace Vocaluxe.Base
 {

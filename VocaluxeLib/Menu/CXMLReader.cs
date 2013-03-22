@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Xml.XPath;
 
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     public class CXMLReader
     {

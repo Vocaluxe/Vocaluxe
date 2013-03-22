@@ -1,8 +1,8 @@
 using System;
 using System.Windows.Forms;
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
-namespace Vocaluxe.PartyModes.ChallengeMedley
+namespace VocaluxeLib.PartyModes.ChallengeMedley
 {
     public class PartyScreenChallengeMedleyConfig : CMenuParty
     {

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using VocaluxeLib.Menu;
 
-using Vocaluxe.Menu;
-
-namespace Vocaluxe.PartyModes
+namespace VocaluxeLib.PartyModes
 {
     public abstract class CPartyMode : IPartyMode
     {

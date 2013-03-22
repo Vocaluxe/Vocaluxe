@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     interface IMenuElement
     {

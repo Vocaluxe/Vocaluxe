@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
-
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Draw
 {

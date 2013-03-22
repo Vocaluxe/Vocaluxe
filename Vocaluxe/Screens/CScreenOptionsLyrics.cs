@@ -1,7 +1,7 @@
 ﻿using System.Windows.Forms;
 
 using Vocaluxe.Base;
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {

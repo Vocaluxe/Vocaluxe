@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using VocaluxeLib.Menu.SingNotes;
 
-using Vocaluxe.Menu.SingNotes;
-
-namespace Vocaluxe.Menu.SongMenu
+namespace VocaluxeLib.Menu.SongMenu
 {
     [Flags]
     enum EHeaderFlags

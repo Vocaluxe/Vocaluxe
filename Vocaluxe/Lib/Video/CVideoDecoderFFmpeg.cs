@@ -7,7 +7,7 @@ using System.Threading;
 
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Acinerella;
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Video
 {

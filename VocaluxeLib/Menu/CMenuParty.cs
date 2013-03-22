@@ -1,8 +1,7 @@
 ﻿using System;
+using VocaluxeLib.PartyModes;
 
-using Vocaluxe.PartyModes;
-
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     public abstract class CMenuParty : CMenu
     {

@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
+using VocaluxeLib.Menu.SongMenu;
 
-using Vocaluxe.Menu.SongMenu;
-
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     public enum EEditMode
     {

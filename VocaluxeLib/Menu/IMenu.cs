@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using VocaluxeLib.Menu.SingNotes;
+using VocaluxeLib.Menu.SongMenu;
+using VocaluxeLib.PartyModes;
 
-using Vocaluxe.Menu.SingNotes;
-using Vocaluxe.Menu.SongMenu;
-using Vocaluxe.PartyModes;
-
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     public interface IMenu
     {

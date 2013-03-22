@@ -1,7 +1,7 @@
 ﻿
-using Vocaluxe.PartyModes;
+using VocaluxeLib.PartyModes;
 
-namespace Vocaluxe.Menu.SongMenu
+namespace VocaluxeLib.Menu.SongMenu
 {
     interface ISongMenu : IMenuElement
     {

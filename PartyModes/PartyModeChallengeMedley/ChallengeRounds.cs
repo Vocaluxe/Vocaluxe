@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Vocaluxe.PartyModes.ChallengeMedley
+namespace VocaluxeLib.PartyModes.ChallengeMedley
 {
     public class ChallengeRounds
     {

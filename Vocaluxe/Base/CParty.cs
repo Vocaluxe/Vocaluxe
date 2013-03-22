@@ -3,9 +3,8 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-
-using Vocaluxe.Menu;
-using Vocaluxe.PartyModes;
+using VocaluxeLib.Menu;
+using VocaluxeLib.PartyModes;
 
 namespace Vocaluxe.Base
 {

@@ -6,8 +6,7 @@ using System.Drawing.Text;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
-
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {  

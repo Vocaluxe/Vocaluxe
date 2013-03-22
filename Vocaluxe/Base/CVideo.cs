@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
 using Vocaluxe.Lib.Video;
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {

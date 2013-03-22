@@ -1,5 +1,5 @@
 ﻿
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     public static class CBase
     {

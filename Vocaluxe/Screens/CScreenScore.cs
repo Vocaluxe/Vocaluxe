@@ -4,9 +4,8 @@ using System.Diagnostics;
 using System.Windows.Forms;
 
 using Vocaluxe.Base;
-using Vocaluxe.Menu;
-
-using Vocaluxe.Menu.SongMenu;
+using VocaluxeLib.Menu;
+using VocaluxeLib.Menu.SongMenu;
 
 namespace Vocaluxe.Screens
 {

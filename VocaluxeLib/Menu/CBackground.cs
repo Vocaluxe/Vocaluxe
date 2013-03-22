@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Xml;
 
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     public enum EBackgroundTypes
     {

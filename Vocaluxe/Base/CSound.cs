@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 
 using Vocaluxe.Lib.Sound;
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {

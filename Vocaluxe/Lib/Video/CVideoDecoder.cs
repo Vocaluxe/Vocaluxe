@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
-
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Video
 {

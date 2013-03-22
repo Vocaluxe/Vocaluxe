@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Vocaluxe.Menu;
-using Vocaluxe.Menu.SongMenu;
+using VocaluxeLib.Menu;
+using VocaluxeLib.Menu.SongMenu;
 
 [assembly: System.Runtime.InteropServices.ComVisible(false)]
-namespace Vocaluxe.PartyModes.ChallengeMedley
+namespace VocaluxeLib.PartyModes.ChallengeMedley
 {
     #region Communication
     #region ToScreen

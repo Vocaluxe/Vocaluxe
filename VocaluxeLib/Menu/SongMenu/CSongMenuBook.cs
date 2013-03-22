@@ -1,5 +1,5 @@
 ﻿
-namespace Vocaluxe.Menu.SongMenu
+namespace VocaluxeLib.Menu.SongMenu
 {
     class CSongMenuBook : CSongMenuFramework
     {

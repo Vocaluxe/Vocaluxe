@@ -5,11 +5,10 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using VocaluxeLib.Menu.SingNotes;
+using VocaluxeLib.Menu.SongMenu;
 
-using Vocaluxe.Menu.SingNotes;
-using Vocaluxe.Menu.SongMenu;
-
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     struct ZSort
     {

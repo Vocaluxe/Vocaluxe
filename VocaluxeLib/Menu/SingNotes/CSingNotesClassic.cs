@@ -1,5 +1,5 @@
 ﻿
-namespace Vocaluxe.Menu.SingNotes
+namespace VocaluxeLib.Menu.SingNotes
 {
     class CSingNotesClassic : CSingNotes
     {
