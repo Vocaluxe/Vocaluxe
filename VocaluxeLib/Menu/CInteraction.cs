@@ -35,15 +35,15 @@
         {
             get
             {
-                return (_Type == EType.TBackground ||
-                        _Type == EType.TNameSelection ||
-                        _Type == EType.TText ||
-                        _Type == EType.TStatic ||
-                        _Type == EType.TSongMenu ||
-                        _Type == EType.TLyric ||
-                        _Type == EType.TSingNote ||
-                        _Type == EType.TEqualizer ||
-                        _Type == EType.TPlaylist);
+                return _Type == EType.TBackground ||
+                       _Type == EType.TNameSelection ||
+                       _Type == EType.TText ||
+                       _Type == EType.TStatic ||
+                       _Type == EType.TSongMenu ||
+                       _Type == EType.TLyric ||
+                       _Type == EType.TSingNote ||
+                       _Type == EType.TEqualizer ||
+                       _Type == EType.TPlaylist;
             }
         }
 

@@ -225,8 +225,9 @@ namespace Vocaluxe.Base
         {
             if (_AllFileNames.Count > 0)
             {
-                if (_PreviousMusicIndex == _PreviousFileNames.Count - 1 || _PreviousFileNames.Count == 0) //We are not currently in the previous list
+                if (_PreviousMusicIndex == _PreviousFileNames.Count - 1 || _PreviousFileNames.Count == 0)
                 {
+                    //We are not currently in the previous list
                     Stop();
                     if (_NotPlayedFileNames.Count == 0)
                         _NotPlayedFileNames.AddRange(_AllFileNames);
@@ -237,8 +238,9 @@ namespace Vocaluxe.Base
                     _PreviousFileNames.Add(_CurrentPlaylistElement);
                     _PreviousMusicIndex = _PreviousFileNames.Count - 1;
                 }
-                else if (_PreviousFileNames.Count > 0) //We are in the previous list
+                else if (_PreviousFileNames.Count > 0)
                 {
+                    //We are in the previous list
                     Stop();
                     _PreviousMusicIndex++;
 
@@ -453,7 +455,7 @@ namespace Vocaluxe.Base
                 float vtime = 0f;
                 CVideo.VdGetFrame(_Video, ref _CurrentVideoTexture, CSound.GetPosition(_CurrentMusicStream), ref vtime);
                 if (_FadeTimer.ElapsedMilliseconds <= 3000L)
-                    _CurrentVideoTexture.color.A = (_FadeTimer.ElapsedMilliseconds / 3000f);
+                    _CurrentVideoTexture.color.A = _FadeTimer.ElapsedMilliseconds / 3000f;
                 else
                 {
                     _CurrentVideoTexture.color.A = 1f;

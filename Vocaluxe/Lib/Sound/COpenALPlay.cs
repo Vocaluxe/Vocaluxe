@@ -584,7 +584,6 @@ namespace Vocaluxe.Lib.Sound
                 _state = 0;
                 //AL.SourceQueueBuffers(_source, _buffers.Length, _buffers);
             }
-
             catch (Exception)
             {
                 _Initialized = false;

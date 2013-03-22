@@ -124,9 +124,8 @@ namespace Vocaluxe.Base
 
             string value = string.Empty;
 
-            #region Debug
+
             xmlReader.TryGetEnumValue("//root/Debug/DebugLevel", ref DebugLevel);
-            #endregion Debug
 
             #region Graphics
             xmlReader.TryGetEnumValue("//root/Graphics/Renderer", ref Renderer);
@@ -259,7 +258,7 @@ namespace Vocaluxe.Base
                 writer.WriteStartDocument();
                 writer.WriteStartElement("root");
 
-                #region Info
+
                 writer.WriteStartElement("Info");
 
                 writer.WriteElementString("Version", CSettings.GetFullVersionText());
@@ -274,7 +273,6 @@ namespace Vocaluxe.Base
                 writer.WriteElementString("Directory", Environment.CurrentDirectory);
 
                 writer.WriteEndElement();
-                #endregion Info
 
                 #region Debug
                 writer.WriteStartElement("Debug");

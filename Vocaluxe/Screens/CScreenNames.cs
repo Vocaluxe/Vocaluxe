@@ -444,8 +444,8 @@ namespace Vocaluxe.Screens
             if (mouseEvent.LBH && selectingMouseActive)
             {
                 //Update coords for Drag/Drop-Texture
-                chooseAvatarStatic.Rect.X += (mouseEvent.X - OldMouseX);
-                chooseAvatarStatic.Rect.Y += (mouseEvent.Y - OldMouseY);
+                chooseAvatarStatic.Rect.X += mouseEvent.X - OldMouseX;
+                chooseAvatarStatic.Rect.Y += mouseEvent.Y - OldMouseY;
                 OldMouseX = mouseEvent.X;
                 OldMouseY = mouseEvent.Y;
             }
@@ -556,8 +556,8 @@ namespace Vocaluxe.Screens
         {
             for (int i = 1; i <= CGame.NumPlayer; i++)
             {
-                CSound.AnalyzeBuffer((i - 1));
-                Equalizers["EqualizerPlayer" + i].Update(CSound.ToneWeigth((i - 1)));
+                CSound.AnalyzeBuffer(i - 1);
+                Equalizers["EqualizerPlayer" + i].Update(CSound.ToneWeigth(i - 1));
             }
             return true;
         }

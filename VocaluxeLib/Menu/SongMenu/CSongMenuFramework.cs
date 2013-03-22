@@ -110,8 +110,9 @@ namespace VocaluxeLib.Menu.SongMenu
 
         protected float _MaxVolume = 100f;
 
-        protected int _PreviewSelected //for preview only
+        protected int _PreviewSelected
         {
+            //for preview only
             get
             {
                 if ((_SelectedInternal != _SelectedPending) && (_timer.ElapsedMilliseconds >= _PendingTime))
@@ -158,8 +159,9 @@ namespace VocaluxeLib.Menu.SongMenu
             _SelectedInternal = _SelectedPending;
         }
 
-        protected int _Locked //the real selected song for singing
+        protected int _Locked
         {
+            //the real selected song for singing
             get { return _LockedInternal; }
             set { _LockedInternal = value; }
         }
@@ -439,7 +441,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 float vtime = 0f;
                 CBase.Video.GetFrame(_video, ref _vidtex, time, ref vtime);
                 if (_VideoFadeTimer.ElapsedMilliseconds <= 3000L)
-                    _vidtex.color.A = (_VideoFadeTimer.ElapsedMilliseconds / 3000f);
+                    _vidtex.color.A = _VideoFadeTimer.ElapsedMilliseconds / 3000f;
                 else
                 {
                     _vidtex.color.A = 1f;

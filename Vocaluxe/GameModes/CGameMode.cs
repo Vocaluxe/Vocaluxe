@@ -148,7 +148,7 @@ namespace Vocaluxe.GameModes
 
         public virtual bool IsFinished()
         {
-            return (_CurrentSong == _SongQueque.Count || _SongQueque.Count == 0);
+            return _CurrentSong == _SongQueque.Count || _SongQueque.Count == 0;
         }
 
         public virtual int GetCurrentRoundNr()

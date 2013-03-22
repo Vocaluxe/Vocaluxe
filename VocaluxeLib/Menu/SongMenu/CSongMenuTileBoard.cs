@@ -341,7 +341,7 @@ namespace VocaluxeLib.Menu.SongMenu
             if (!sel)
                 _actualSelection = -1;
 
-            if ((MouseEvent.RB) && (CBase.Songs.GetNumCategories() > 0) && CBase.Songs.GetCurrentCategoryIndex() >= 0 && CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON &&
+            if (MouseEvent.RB && (CBase.Songs.GetNumCategories() > 0) && CBase.Songs.GetCurrentCategoryIndex() >= 0 && CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON &&
                 SongOptions.Selection.CategoryChangeAllowed)
             {
                 ShowCategories();
@@ -355,7 +355,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 if (CHelper.IsInBounds(_CoverBig.Rect, MouseEvent) || CHelper.IsInBounds(_TextBG.Rect, MouseEvent))
                     _Locked = _PreviewSelected;
             }
-            else if ((MouseEvent.LB) && (CBase.Songs.GetCurrentCategoryIndex() == -1))
+            else if (MouseEvent.LB && (CBase.Songs.GetCurrentCategoryIndex() == -1))
             {
                 foreach (CStatic tile in _Tiles)
                 {
@@ -605,7 +605,7 @@ namespace VocaluxeLib.Menu.SongMenu
         private void UpdateList(int offset, bool force = false)
         {
             bool isInCategory = CBase.Songs.GetCurrentCategoryIndex() >= 0;
-            int itemCount = (isInCategory) ? CBase.Songs.GetNumVisibleSongs() : CBase.Songs.GetNumCategories();
+            int itemCount = isInCategory ? CBase.Songs.GetNumVisibleSongs() : CBase.Songs.GetNumCategories();
 
             if (offset >= (itemCount / _NumW) * _NumW - (_NumW * (_NumH - 1)))
                 offset = (itemCount / _NumW) * _NumW - (_NumW * (_NumH - 1));

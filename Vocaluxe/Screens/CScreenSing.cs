@@ -465,7 +465,7 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            base.DrawBG();
+            this.DrawBG();
 
             foreach (CStatic stat in Statics)
                 stat.Draw();
@@ -652,7 +652,6 @@ namespace Vocaluxe.Screens
                     NoteLines[3] = SingNotes[SingBars].AddPlayer(new SRectF(640f, 350f, 590f, 200f, -0.5f), CTheme.ThemeColors.Player[3]);
                     break;
             */
-
 
             _TimerSongText.Stop();
             _TimerSongText.Reset();
@@ -908,16 +907,16 @@ namespace Vocaluxe.Screens
                 {
                     if (player <= numplayer)
                     {
-                        Texts[TextScores[player, numplayer]].Visible = (numplayer + 1 == CGame.NumPlayer);
-                        Texts[TextNames[player, numplayer]].Visible = ((numplayer + 1 == CGame.NumPlayer)
+                        Texts[TextScores[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
+                        Texts[TextNames[player, numplayer]].Visible = (numplayer + 1 == CGame.NumPlayer)
                                                                        &&
                                                                        (CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
-                                                                        CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_NAME));
-                        Statics[StaticScores[player, numplayer]].Visible = (numplayer + 1 == CGame.NumPlayer);
-                        Statics[StaticAvatars[player, numplayer]].Visible = ((numplayer + 1 == CGame.NumPlayer)
+                                                                        CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_NAME);
+                        Statics[StaticScores[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
+                        Statics[StaticAvatars[player, numplayer]].Visible = (numplayer + 1 == CGame.NumPlayer)
                                                                              &&
                                                                              (CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
-                                                                              CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_AVATAR));
+                                                                              CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_AVATAR);
                     }
                 }
             }
@@ -1328,7 +1327,7 @@ namespace Vocaluxe.Screens
                                                           new SRectF(
                                                               stat.Rect.X + stat.Rect.W * ((CGame.GetTimeFromBeats(trect.startBeat, song.BPM) + song.Gap - song.Start) / TotalTime),
                                                               stat.Rect.Y,
-                                                              stat.Rect.W * (CGame.GetTimeFromBeats((trect.endBeat - trect.startBeat), song.BPM) / TotalTime),
+                                                              stat.Rect.W * (CGame.GetTimeFromBeats(trect.endBeat - trect.startBeat, song.BPM) / TotalTime),
                                                               stat.Rect.H,
                                                               stat.Rect.Z));
 

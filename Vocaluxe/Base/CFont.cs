@@ -89,7 +89,6 @@ namespace Vocaluxe.Base
                     Brushes.White,
                     point);
                  * */
-
                 Texture = CDraw.AddTexture(bmp);
                 //bmp.Save("test.png", ImageFormat.Png);
                 Chr = chr;

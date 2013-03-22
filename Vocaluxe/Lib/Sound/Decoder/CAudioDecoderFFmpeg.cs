@@ -186,7 +186,6 @@ namespace Vocaluxe.Lib.Sound.Decoder
                 TimeStamp = (float)Decoder.timecode;
                 _CurrentTime = TimeStamp;
                 //Console.WriteLine(_CurrentTime.ToString("#0.000") + " Buffer size: " + Decoder.buffer_size.ToString());
-
                 Buffer = new byte[Decoder.buffer_size];
 
                 if (Decoder.buffer_size > 0)

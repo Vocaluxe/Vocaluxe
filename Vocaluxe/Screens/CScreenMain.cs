@@ -19,7 +19,6 @@ namespace Vocaluxe.Screens
         private const string ButtonExit = "ButtonExit";
 
         //CParticleEffect Snowflakes;
-
         public override void Init()
         {
             base.Init();
@@ -121,15 +120,14 @@ namespace Vocaluxe.Screens
 
         public override bool Draw()
         {
-            base.DrawBG();
+            this.DrawBG();
 
             //if (Snowflakes == null)
             //    Snowflakes = new CParticleEffect(300, new SColorF(1, 1, 1, 1), new SRectF(0, 0, CSettings.iRenderW, 0, 0.5f), "Snowflake", 25, EParticeType.Snow);
 
             //Snowflakes.Update();
             //Snowflakes.Draw();
-
-            base.DrawFG();
+            this.DrawFG();
 
             if (CSettings.VersionRevision != ERevision.Release)
             {

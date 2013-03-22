@@ -127,9 +127,9 @@ namespace Vocaluxe.Base
         {
             Keys keys = Control.ModifierKeys;
 
-            _ModSHIFT = ((keys & Keys.Shift) == Keys.Shift);
-            _ModALT = ((keys & Keys.Alt) == Keys.Alt);
-            _ModCTRL = ((keys & Keys.Control) == Keys.Control);
+            _ModSHIFT = (keys & Keys.Shift) == Keys.Shift;
+            _ModALT = (keys & Keys.Alt) == Keys.Alt;
+            _ModCTRL = (keys & Keys.Control) == Keys.Control;
         }
 
         public void KeyDown(KeyEventArgs e)
@@ -252,9 +252,9 @@ namespace Vocaluxe.Base
         {
             Keys keys = Control.ModifierKeys;
 
-            _ModSHIFT = ((keys & Keys.Shift) == Keys.Shift);
-            _ModALT = ((keys & Keys.Alt) == Keys.Alt);
-            _ModCTRL = ((keys & Keys.Control) == Keys.Control);
+            _ModSHIFT = (keys & Keys.Shift) == Keys.Shift;
+            _ModALT = (keys & Keys.Alt) == Keys.Alt;
+            _ModCTRL = (keys & Keys.Control) == Keys.Control;
         }
 
         public void MouseMove(MouseEventArgs e)

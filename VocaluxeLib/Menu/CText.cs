@@ -49,8 +49,9 @@ namespace VocaluxeLib.Menu
         private STextPosition _DrawPosition = new STextPosition(0);
 
         private float _X;
-        public float X //left
+        public float X
         {
+            //left
             get { return _X; }
             set
             {
@@ -63,8 +64,9 @@ namespace VocaluxeLib.Menu
         }
 
         private float _Y;
-        public float Y //higher
+        public float Y
         {
+            //higher
             get { return _Y; }
             set
             {
@@ -238,7 +240,7 @@ namespace VocaluxeLib.Menu
             {
                 if (_EditMode != value)
                 {
-                    _Text = (value) ? _Text + "|" : _Text.Substring(0, _Text.Length - 1);
+                    _Text = value ? _Text + "|" : _Text.Substring(0, _Text.Length - 1);
                     _EditMode = value;
                     _PositionNeedsUpdate = true;
                 }

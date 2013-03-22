@@ -204,7 +204,7 @@ namespace VocaluxeLib.Menu
                 {
                     _Bars[i] = 1f - weights[i];
                     if (_Theme.DrawNegative == EOffOn.TR_CONFIG_OFF && weights[i] < 0)
-                        _Bars[i] = (1f + weights[i]);
+                        _Bars[i] = 1f + weights[i];
                 }
                 else
                     _Bars[i] = 0f;
@@ -225,7 +225,7 @@ namespace VocaluxeLib.Menu
             if (_Bars == null)
                 return;
 
-            float dx = (Rect.W) / _Bars.Length;
+            float dx = Rect.W / _Bars.Length;
             int max = _Bars.Length - 1;
             float maxB = _Bars[max];
             for (int i = 0; i < _Bars.Length - 1; i++)

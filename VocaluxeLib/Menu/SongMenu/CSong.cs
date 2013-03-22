@@ -1035,7 +1035,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public object Clone()
         {
-            return base.MemberwiseClone();
+            return this.MemberwiseClone();
         }
     }
 }

@@ -363,7 +363,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                     int pid = GameState.Combs[GameState.CurrentRoundNr - 1].Player[i];
                     NextPlayerStatics[i].Texture = profiles[GameState.ProfileIDs[pid]].Avatar.Texture;
                     NextPlayerTexts[i].Text = profiles[GameState.ProfileIDs[pid]].PlayerName;
-                    NextPlayerTexts[i].Color = CBase.Theme.GetPlayerColor((i + 1));
+                    NextPlayerTexts[i].Color = CBase.Theme.GetPlayerColor(i + 1);
                 }
             }
             else

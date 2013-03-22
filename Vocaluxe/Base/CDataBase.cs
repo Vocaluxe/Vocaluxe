@@ -59,9 +59,9 @@ namespace Vocaluxe.Base
             player.Points = Score;
             player.LineNr = LineNr;
             player.DateTicks = Date;
-            player.Medley = (Medley == 1);
-            player.Duet = (Duet == 1);
-            player.ShortSong = (ShortSong == 1);
+            player.Medley = Medley == 1;
+            player.Duet = Duet == 1;
+            player.ShortSong = ShortSong == 1;
             player.Difficulty = (EGameDifficulty)Diff;
 
             using (SQLiteConnection connection = new SQLiteConnection())
@@ -528,14 +528,16 @@ namespace Vocaluxe.Base
                     if (reader == null)
                     {
                         // create new database/tables
-                        if (version == 1) //Check for USDX 1.1 DB
+                        if (version == 1)
                         {
+                            //Check for USDX 1.1 DB
                             CreateHighscoreDBV1(FilePath);
                             ConvertFrom110(FilePath);
                             UpdateDatabase(1, connection);
                         }
-                        else if (version == 0 && scoresTableExists) //Check for USDX 1.01 or CMD Mod DB
+                        else if (version == 0 && scoresTableExists)
                         {
+                            //Check for USDX 1.01 or CMD Mod DB
                             CreateHighscoreDBV1(FilePath);
                             ConvertFrom101(FilePath);
                             UpdateDatabase(1, connection);
@@ -546,14 +548,16 @@ namespace Vocaluxe.Base
                     else if (reader.FieldCount == 0)
                     {
                         // create new database/tables
-                        if (version == 1) //Check for USDX 1.1 DB
+                        if (version == 1)
                         {
+                            //Check for USDX 1.1 DB
                             CreateHighscoreDBV1(FilePath);
                             ConvertFrom110(FilePath);
                             UpdateDatabase(1, connection);
                         }
-                        else if (version == 0 && scoresTableExists) //Check for USDX 1.01 or CMD Mod DB
+                        else if (version == 0 && scoresTableExists)
                         {
+                            //Check for USDX 1.01 or CMD Mod DB
                             CreateHighscoreDBV1(FilePath);
                             ConvertFrom101(FilePath);
                             UpdateDatabase(1, connection);
@@ -753,8 +757,9 @@ namespace Vocaluxe.Base
                         command.CommandText =
                             "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, Difficulty) SELECT SongID, Player, Score, '0', '0', '0', '0', Difficulty from US_Scores";
                     }
-                    else // This is a CMD 1.01 DB
+                    else
                     {
+                        // This is a CMD 1.01 DB
                         command.CommandText =
                             "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, Difficulty) SELECT SongID, Player, Score, '0', Date, '0', '0', Difficulty from US_Scores";
                     }
@@ -782,7 +787,6 @@ namespace Vocaluxe.Base
                         else
                         {
                             //Sqlite3.sqlite3_step(Stmt);
-
                             Encoding UTF8 = Encoding.UTF8;
                             Encoding CP1252 = Encoding.GetEncoding(1252);
 
@@ -821,7 +825,6 @@ namespace Vocaluxe.Base
                         else
                         {
                             //Sqlite3.sqlite3_step(Stmt);
-
                             Encoding UTF8 = Encoding.UTF8;
                             Encoding CP1252 = Encoding.GetEncoding(1252);
 

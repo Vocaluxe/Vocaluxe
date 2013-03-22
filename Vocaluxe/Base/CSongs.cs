@@ -96,7 +96,7 @@ namespace Vocaluxe.Base
                     _CatIndex = value;
 
                     for (int i = 0; i < Sorter.SortedSongs.Length; i++)
-                        Sorter.SortedSongs[i].Visible = (Sorter.SortedSongs[i].CatIndex == _CatIndex && !Sorter.SortedSongs[i].PartyHidden);
+                        Sorter.SortedSongs[i].Visible = Sorter.SortedSongs[i].CatIndex == _CatIndex && !Sorter.SortedSongs[i].PartyHidden;
                 }
             }
         }
@@ -223,7 +223,7 @@ namespace Vocaluxe.Base
             for (int i = 0; i < Sorter.SortedSongs.Length; i++)
             {
                 Sorter.SortedSongs[i].PartyHidden = false;
-                Sorter.SortedSongs[i].Visible = (Sorter.SortedSongs[i].CatIndex == _CatIndex && !Sorter.SortedSongs[i].PartyHidden);
+                Sorter.SortedSongs[i].Visible = Sorter.SortedSongs[i].CatIndex == _CatIndex && !Sorter.SortedSongs[i].PartyHidden;
             }
         }
 
@@ -234,7 +234,7 @@ namespace Vocaluxe.Base
                 if (Sorter.SortedSongs[i].CatIndex == CatIndex)
                 {
                     Sorter.SortedSongs[i].PartyHidden = false;
-                    Sorter.SortedSongs[i].Visible = (Sorter.SortedSongs[i].CatIndex == _CatIndex && !Sorter.SortedSongs[i].PartyHidden);
+                    Sorter.SortedSongs[i].Visible = Sorter.SortedSongs[i].CatIndex == _CatIndex && !Sorter.SortedSongs[i].PartyHidden;
                 }
             }
         }

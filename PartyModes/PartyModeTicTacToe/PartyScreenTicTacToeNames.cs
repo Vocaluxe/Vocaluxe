@@ -184,8 +184,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             if (mouseEvent.LBH && SelectingMouseActive)
             {
                 //Update coords for Drag/Drop-Texture
-                chooseAvatarStatic.Rect.X += (mouseEvent.X - OldMouseX);
-                chooseAvatarStatic.Rect.Y += (mouseEvent.Y - OldMouseY);
+                chooseAvatarStatic.Rect.X += mouseEvent.X - OldMouseX;
+                chooseAvatarStatic.Rect.Y += mouseEvent.Y - OldMouseY;
                 OldMouseX = mouseEvent.X;
                 OldMouseY = mouseEvent.Y;
 

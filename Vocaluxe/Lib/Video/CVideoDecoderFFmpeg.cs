@@ -353,7 +353,6 @@ namespace Vocaluxe.Lib.Video
                 _Finished = false;
             }
             //EventDecode.Set();
-
             return true;
         }
 
@@ -413,11 +412,10 @@ namespace Vocaluxe.Lib.Video
         {
             DoOpen();
             //EventDecode.Set();
-
             while (!_terminated)
             {
-                //if (EventDecode.WaitOne(10))
                 {
+                    //if (EventDecode.WaitOne(10))
                     lock (MutexSyncSignals)
                     {
                         _Time = _SetTime;

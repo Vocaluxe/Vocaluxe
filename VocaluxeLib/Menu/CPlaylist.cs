@@ -181,7 +181,6 @@ namespace VocaluxeLib.Menu
         public int DragAndDropSongID = -1;
 
         //private static
-
         public CPlaylist(int PartyModeID)
         {
             _PartyModeID = PartyModeID;
@@ -511,16 +510,18 @@ namespace VocaluxeLib.Menu
                 }
                 else
                 {
-                    if (CurrentPlaylistElement == -1 || PlaylistElementContents.Count == 0) //no song is selected
+                    if (CurrentPlaylistElement == -1 || PlaylistElementContents.Count == 0)
                     {
+                        //no song is selected
                         _Interactions.HandleInput(KeyEvent);
                         CurrentPlaylistElement = GetSelectedSelectionNr();
 
                         if (CurrentPlaylistElement != -1)
                             return true;
                     }
-                    else if (CurrentPlaylistElement != -1) //a song is selected
+                    else if (CurrentPlaylistElement != -1)
                     {
+                        //a song is selected
                         int ScrollLimit = PlaylistElements.Count / 2;
 
                         //special actions if a song is selected

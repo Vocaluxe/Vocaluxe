@@ -106,7 +106,7 @@ namespace Vocaluxe.Screens
                 _Round = 1;
             _Points = CGame.GetPoints();
 
-            SetVisuability();
+            SetVisibility();
             UpdateRatings();
         }
 
@@ -276,7 +276,7 @@ namespace Vocaluxe.Screens
                     }
                 }
                 for (int p = 0; p < player.Length; p++)
-                    player[p].Points = (int)Math.Round((player[p].Points / CGame.NumRounds));
+                    player[p].Points = (int)Math.Round(player[p].Points / CGame.NumRounds);
             }
 
             for (int p = 0; p < player.Length; p++)
@@ -345,7 +345,7 @@ namespace Vocaluxe.Screens
             timer.Start();
         }
 
-        private void SetVisuability()
+        private void SetVisibility()
         {
             for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
             {
@@ -353,13 +353,13 @@ namespace Vocaluxe.Screens
                 {
                     if (player <= numplayer)
                     {
-                        Texts[TextNames[player, numplayer]].Visible = (numplayer + 1 == CGame.NumPlayer);
-                        Texts[TextScores[player, numplayer]].Visible = (numplayer + 1 == CGame.NumPlayer);
-                        Texts[TextRatings[player, numplayer]].Visible = (numplayer + 1 == CGame.NumPlayer);
-                        Texts[TextDifficulty[player, numplayer]].Visible = (numplayer + 1 == CGame.NumPlayer);
-                        Statics[StaticPointsBar[player, numplayer]].Visible = (numplayer + 1 == CGame.NumPlayer);
-                        Statics[StaticPointsBarBG[player, numplayer]].Visible = (numplayer + 1 == CGame.NumPlayer);
-                        Statics[StaticAvatar[player, numplayer]].Visible = (numplayer + 1 == CGame.NumPlayer);
+                        Texts[TextNames[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
+                        Texts[TextScores[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
+                        Texts[TextRatings[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
+                        Texts[TextDifficulty[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
+                        Statics[StaticPointsBar[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
+                        Statics[StaticPointsBarBG[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
+                        Statics[StaticAvatar[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
 
                         Statics[StaticAvatar[player, numplayer]].Texture = new STexture(-1);
                     }

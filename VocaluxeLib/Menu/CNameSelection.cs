@@ -91,7 +91,7 @@ namespace VocaluxeLib.Menu
 
             PlayerSelector = new CStatic(_PartyModeID);
             PlayerSelector.Texture = _TextureTileSelected;
-            PlayerSelector.Rect = new SRectF(0, 0, (_TileW + 6), (_TileH + 6), (Rect.Z - 0.5f));
+            PlayerSelector.Rect = new SRectF(0, 0, _TileW + 6, _TileH + 6, Rect.Z - 0.5f);
             PlayerSelector.Visible = false;
 
             UpdateVisibleProfiles();
@@ -317,7 +317,7 @@ namespace VocaluxeLib.Menu
                             _actualSelection = _actualSelection - _Tiles.Count + _NumW;
                             if (_Tiles[_actualSelection].PlayerNr == -1)
                             {
-                                for (int i = (_Tiles.Count - 1); i >= 0; i--)
+                                for (int i = _Tiles.Count - 1; i >= 0; i--)
                                 {
                                     if (_Tiles[i].PlayerNr != -1)
                                     {

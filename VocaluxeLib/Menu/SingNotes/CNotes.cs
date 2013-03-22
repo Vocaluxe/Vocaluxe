@@ -414,7 +414,7 @@ namespace VocaluxeLib.Menu.SingNotes
             if (CompareLine.Points == 0)
                 return false;
 
-            _PerfectLine = (Points == CompareLine.Points);
+            _PerfectLine = Points == CompareLine.Points;
             return _PerfectLine;
         }
 

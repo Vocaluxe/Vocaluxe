@@ -583,7 +583,6 @@ namespace Vocaluxe.Lib.Sound
 
                 _paStreamCallback = _PaStreamCallback;
             }
-
             catch (Exception)
             {
                 _Initialized = false;

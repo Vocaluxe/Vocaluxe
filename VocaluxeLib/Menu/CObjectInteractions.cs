@@ -312,7 +312,7 @@ namespace VocaluxeLib.Menu
                 return;
 
 
-            items.Sort(delegate(ZSort s1, ZSort s2) { return (s2.z.CompareTo(s1.z)); });
+            items.Sort(delegate(ZSort s1, ZSort s2) { return s2.z.CompareTo(s1.z); });
 
             for (int i = 0; i < items.Count; i++)
                 _DrawInteraction(items[i].ID);

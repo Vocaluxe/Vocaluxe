@@ -91,7 +91,7 @@ namespace Vocaluxe.Lib.Draw
                 control = new GLControl();
 
             control.MakeCurrent();
-            control.VSync = (CConfig.VSync == EOffOn.TR_CONFIG_ON);
+            control.VSync = CConfig.VSync == EOffOn.TR_CONFIG_ON;
 
             Controls.Add(control);
 
@@ -877,7 +877,6 @@ namespace Vocaluxe.Lib.Draw
 
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
-
             OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter,
                                                    (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
             OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter,
@@ -886,7 +885,6 @@ namespace Vocaluxe.Lib.Draw
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
             //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             //GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-
             OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
 
             // Add to Texture List
@@ -946,7 +944,6 @@ namespace Vocaluxe.Lib.Draw
 
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
-
             OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter,
                                                    (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
             OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter,
@@ -955,7 +952,6 @@ namespace Vocaluxe.Lib.Draw
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
             //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             //GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-
             OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
 
             // Add to Texture List
@@ -1093,7 +1089,6 @@ namespace Vocaluxe.Lib.Draw
 
                 //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
                 //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
-
                 OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter,
                                                        (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
                 OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter,
@@ -1102,7 +1097,6 @@ namespace Vocaluxe.Lib.Draw
                 //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
                 //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
                 //GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-
                 OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
 
                 return true;
@@ -1132,7 +1126,7 @@ namespace Vocaluxe.Lib.Draw
         {
             lock (MutexTexture)
             {
-                if (_Textures.ContainsKey((Texture.index)))
+                if (_Textures.ContainsKey(Texture.index))
                 {
                     if (_Textures[Texture.index].ID > 0)
                     {

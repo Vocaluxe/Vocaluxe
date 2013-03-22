@@ -142,7 +142,7 @@ namespace Vocaluxe.Screens
             else
                 _timer.Start();
 
-            bool next = (CConfig.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART || CSongs.CoverLoaded);
+            bool next = CConfig.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART || CSongs.CoverLoaded;
 
             if ((_IntroOutPlayed || _SkipIntro) && next && CSettings.GameState != EGameState.EditTheme && CSongs.SongsLoaded)
                 CSettings.GameState = EGameState.Normal;

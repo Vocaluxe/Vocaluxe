@@ -121,17 +121,17 @@ namespace Vocaluxe.Screens
             {
                 case EScreens.ScreenSong:
                     if (CSongs.IsInCategory)
-                        SelectSlides[SelectSlideVolume].Selection = (CConfig.PreviewMusicVolume / 5);
+                        SelectSlides[SelectSlideVolume].Selection = CConfig.PreviewMusicVolume / 5;
                     else
-                        SelectSlides[SelectSlideVolume].Selection = (CConfig.BackgroundMusicVolume / 5);
+                        SelectSlides[SelectSlideVolume].Selection = CConfig.BackgroundMusicVolume / 5;
                     break;
 
                 case EScreens.ScreenSing:
-                    SelectSlides[SelectSlideVolume].Selection = (CConfig.GameMusicVolume / 5);
+                    SelectSlides[SelectSlideVolume].Selection = CConfig.GameMusicVolume / 5;
                     break;
 
                 default:
-                    SelectSlides[SelectSlideVolume].Selection = (CConfig.BackgroundMusicVolume / 5);
+                    SelectSlides[SelectSlideVolume].Selection = CConfig.BackgroundMusicVolume / 5;
                     break;
             }
         }

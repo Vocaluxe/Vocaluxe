@@ -115,7 +115,6 @@ namespace VocaluxeLib.Menu
             {
                 if (_Selection >= 0 && _ValueIndexes.Count > _Selection)
                     return _ValueIndexes[_Selection];
-
                 else
                     return -1;
             }
@@ -726,7 +725,6 @@ namespace VocaluxeLib.Menu
             float x = Rect.X + (Rect.W - TextRelativeX) * 0.1f;
             float dx = (Rect.W - TextRelativeX) * 0.8f / _NumVisible;
             //float y = Rect.Y + (Rect.H - TextH);
-
             int offset = _Selection - _NumVisible / 2;
 
             if (_ValueNames.Count - _NumVisible - offset < 0)
@@ -810,7 +808,7 @@ namespace VocaluxeLib.Menu
 
         public object Clone()
         {
-            return base.MemberwiseClone();
+            return this.MemberwiseClone();
         }
 
         #region ThemeEdit

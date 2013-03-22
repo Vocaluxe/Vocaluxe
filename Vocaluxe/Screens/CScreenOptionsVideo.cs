@@ -188,9 +188,9 @@ namespace Vocaluxe.Screens
                 devices = null;
             }
 
-            SelectSlides[SelectSlideWebcamDevices].Visible = (devices != null && devices.Length > 0);
-            SelectSlides[SelectSlideWebcamCapabilities].Visible = (devices != null && devices.Length > 0);
-            Statics[StaticWebcamOutput].Visible = (devices != null && devices.Length > 0);
+            SelectSlides[SelectSlideWebcamDevices].Visible = devices != null && devices.Length > 0;
+            SelectSlides[SelectSlideWebcamCapabilities].Visible = devices != null && devices.Length > 0;
+            Statics[StaticWebcamOutput].Visible = devices != null && devices.Length > 0;
         }
 
         private void SaveConfig()

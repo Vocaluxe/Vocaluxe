@@ -688,7 +688,7 @@ namespace VocaluxeLib.Menu.SingNotes
             if (XOffset > Rect.W)
                 XOffset = Rect.W;
 
-            float dy = Rect.H / (CBase.Settings.GetNumNoteLines());
+            float dy = Rect.H / CBase.Settings.GetNumNoteLines();
             SRectF rect = new SRectF(
                 Rect.X - dy + XOffset,
                 Rect.Y + dy * (CBase.Settings.GetNumNoteLines() - 1 - (TonePlayer - BaseLine) / 2f),

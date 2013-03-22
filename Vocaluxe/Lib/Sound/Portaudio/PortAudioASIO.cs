@@ -19,7 +19,6 @@
   * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
   * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   */
-
 using System;
 using System.Runtime.InteropServices;
 
@@ -28,9 +27,6 @@ namespace PortAudioSharp
     /// <summary> PortAudio v.19 bindings for .NET - ASIO bindings </summary>
     public partial class PortAudio
     {
-        #region **** PORTAUDIO CALLBACKS ****
-        #endregion
-
         #region **** PORTAUDIO DATA STRUCTURES ****
         [StructLayout(LayoutKind.Sequential)]
         public struct PaAsioStreamInfo
@@ -61,17 +57,17 @@ namespace PortAudioSharp
         #endregion
 
         #region **** PORTAUDIO FUNCTIONS ****
-//		/// <summary> Retrieve legal latency settings for the specificed device, in samples. </summary>
-//		/// <param name="device"> The global index of the device about which the query is being made. </param>
-//		/// <param name="minLatency"> A pointer to the location which will recieve the minimum latency value. </param>
-//		/// <param name="maxLatency"> A pointer to the location which will recieve the maximum latency value. </param>
-//		/// <param name="preferredLatency"> A pointer to the location which will recieve the preferred latency value. </param>
-//		/// <param name="granularity"> A pointer to the location which will recieve the granularity. This value 
-//		/// 	determines which values between minLatency and maxLatency are available. ie the step size,
-//		/// 	if granularity is -1 then available latency settings are powers of two. </param>
-//		/// See ASIOGetBufferSize in the ASIO SDK.
-//		PaError PaAsio_GetAvailableLatencyValues( PaDeviceIndex device, long *minLatency, long *maxLatency, 
-//			long *preferredLatency, long *granularity );
+        //		/// <summary> Retrieve legal latency settings for the specificed device, in samples. </summary>
+        //		/// <param name="device"> The global index of the device about which the query is being made. </param>
+        //		/// <param name="minLatency"> A pointer to the location which will recieve the minimum latency value. </param>
+        //		/// <param name="maxLatency"> A pointer to the location which will recieve the maximum latency value. </param>
+        //		/// <param name="preferredLatency"> A pointer to the location which will recieve the preferred latency value. </param>
+        //		/// <param name="granularity"> A pointer to the location which will recieve the granularity. This value 
+        //		/// 	determines which values between minLatency and maxLatency are available. ie the step size,
+        //		/// 	if granularity is -1 then available latency settings are powers of two. </param>
+        //		/// See ASIOGetBufferSize in the ASIO SDK.
+        //		PaError PaAsio_GetAvailableLatencyValues( PaDeviceIndex device, long *minLatency, long *maxLatency, 
+        //			long *preferredLatency, long *granularity );
 
         /// <summary> Display the ASIO control panel for the specified device. </summary>
         /// <param name="device"> The global index of the device whose control panel is to be displayed. </param>
@@ -82,15 +78,15 @@ namespace PortAudioSharp
         [DllImport("PortAudio.dll")]
         public static extern PaError PaAsio_ShowControlPanel(int device, IntPtr systemSpecific);
 
-//	 	/// <summary> Retrieve a pointer to a string containing the name of the specified input channel. </summary>
-//	 	/// The string is valid until Pa_Terminate is called.
-//	 	/// The string will be no longer than 32 characters including the null terminator.
-//		PaError PaAsio_GetInputChannelName(PaDeviceIndex device, int channelIndex, const char** channelName );
+        //	 	/// <summary> Retrieve a pointer to a string containing the name of the specified input channel. </summary>
+        //	 	/// The string is valid until Pa_Terminate is called.
+        //	 	/// The string will be no longer than 32 characters including the null terminator.
+        //		PaError PaAsio_GetInputChannelName(PaDeviceIndex device, int channelIndex, const char** channelName );
 
-//		/// <summary> Retrieve a pointer to a string containing the name of the specified input channel. </summary>
-//		/// The string is valid until Pa_Terminate is called. 
-//		/// The string will be no longer than 32 characters including the null terminator.
-//		PaError PaAsio_GetOutputChannelName( PaDeviceIndex device, int channelIndex, const char** channelName );
+        //		/// <summary> Retrieve a pointer to a string containing the name of the specified input channel. </summary>
+        //		/// The string is valid until Pa_Terminate is called. 
+        //		/// The string will be no longer than 32 characters including the null terminator.
+        //		PaError PaAsio_GetOutputChannelName( PaDeviceIndex device, int channelIndex, const char** channelName );
 
         /// <summary> Set the sample rate of an open paASIO stream. </summary>
         /// <param name="">stream</param>

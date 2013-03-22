@@ -90,8 +90,9 @@ namespace Vocaluxe.Lib.Input
         private static extern IntPtr hid_enumerate(ushort VendorID, ushort ProductID);
 
         //HIDDeviceInfo
-        public static IntPtr Enumerate(ushort VendorID, ushort ProductID) //HIDDeviceInfo
+        public static IntPtr Enumerate(ushort VendorID, ushort ProductID)
         {
+            //HIDDeviceInfo
             return hid_enumerate(VendorID, ProductID);
         }
 

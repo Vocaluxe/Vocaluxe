@@ -220,7 +220,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
             close_proc: TAc_openclose_callback;
             proberesult: PAc_proberesult): integer; cdecl; external ac_dll;
         */
-
         [DllImport(AcDll, EntryPoint = "ac_open", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private static extern Int32 _ac_open(
             IntPtr PAc_instance,

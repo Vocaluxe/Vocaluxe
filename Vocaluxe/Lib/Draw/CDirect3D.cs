@@ -117,7 +117,6 @@ namespace Vocaluxe.Lib.Draw
             _PresentParameters.MultisampleQuality = 0;
 
             //Apply antialiasing and check if antialiasing mode is supported
-
             #region Antialiasing
             int quality = 1;
             MultisampleType msType;

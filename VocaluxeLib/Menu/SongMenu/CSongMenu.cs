@@ -212,7 +212,6 @@ namespace VocaluxeLib.Menu.SongMenu
                     //case ESongMenu.TR_CONFIG_DREIDEL:
                     //    _SongMenu = new CSongMenuDreidel();
                     //    break;
-
                 case ESongMenu.TR_CONFIG_TILE_BOARD:
                     _SongMenu = new CSongMenuTileBoard(_PartyModeID);
                     break;

@@ -123,7 +123,7 @@ namespace Vocaluxe.Base
             CPlaylistFile pl = new CPlaylistFile();
             pl.PlaylistName = "New Playlist";
             _Playlists.Add(pl);
-            return (_Playlists.Count - 1);
+            return _Playlists.Count - 1;
         }
 
         public static void AddPlaylistSong(int PlaylistID, int SongID)

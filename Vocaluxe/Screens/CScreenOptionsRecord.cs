@@ -318,8 +318,8 @@ namespace Vocaluxe.Screens
                 UpdateChannels();
             }
 
-            SelectSlides[SelectSlideRecordChannel1].Visible = (_devices != null);
-            SelectSlides[SelectSlideRecordChannel2].Visible = (_devices != null);
+            SelectSlides[SelectSlideRecordChannel1].Visible = _devices != null;
+            SelectSlides[SelectSlideRecordChannel2].Visible = _devices != null;
 
             Statics[StaticWarning].Visible = false;
             Texts[TextWarning].Visible = false;
@@ -335,7 +335,7 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            SelectSlides[SelectSlideDelay].Selection = (CConfig.MicDelay / 20);
+            SelectSlides[SelectSlideDelay].Selection = CConfig.MicDelay / 20;
 
             _DelayTestRunning = false;
             _DelaySound = -1;

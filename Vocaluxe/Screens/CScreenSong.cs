@@ -1208,7 +1208,7 @@ namespace Vocaluxe.Screens
         private void OpenPlaylistAction()
         {
             //Open a playlist
-            if (Playlists[Playlist].ActivePlaylistID != (SelectSlides[SelectSlideOptionsPlaylistOpen].Selection))
+            if (Playlists[Playlist].ActivePlaylistID != SelectSlides[SelectSlideOptionsPlaylistOpen].Selection)
             {
                 Playlists[Playlist].ActivePlaylistID = SelectSlides[SelectSlideOptionsPlaylistOpen].Selection;
                 SetSelectSlidePlaylistToCurrentPlaylist();

@@ -194,7 +194,7 @@ namespace VocaluxeLib.Menu
 
         public static bool IsInBounds(SRectF bounds, int x, int y)
         {
-            return ((bounds.X <= x) && (bounds.X + bounds.W >= x) && (bounds.Y <= y) && (bounds.Y + bounds.H >= y));
+            return (bounds.X <= x) && (bounds.X + bounds.W >= x) && (bounds.Y <= y) && (bounds.Y + bounds.H >= y);
         }
     }
 

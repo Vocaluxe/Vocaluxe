@@ -21,7 +21,6 @@
             return _actualSelection;
         }
         */
-
         public CSongMenuDreidel(int PartyModeID)
             : base(PartyModeID) {}
 

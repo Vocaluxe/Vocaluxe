@@ -489,7 +489,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
             }
 
             int size = (buff[3] >> 4) + 1;
-            int offset = (buff[4] << 8 | buff[5]);
+            int offset = buff[4] << 8 | buff[5];
 
             Array.Copy(buff, 6, _ReadBuff, offset - _Address, size);
 

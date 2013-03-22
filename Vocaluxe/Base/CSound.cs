@@ -423,7 +423,6 @@ namespace Vocaluxe.Base
             // voice passthrough (send data to playback-device)
             //if (assigned(fVoiceStream)) then
             //fVoiceStream.WriteData(Buffer, BufferSize);
-
             lock (_AnalysisBufferLock)
             {
                 Add(buffer);
@@ -490,7 +489,6 @@ namespace Vocaluxe.Base
             // Note: at the lowest tone (~65Hz) and a buffer-size of 4096
             // at 44.1 (or 48kHz) only 6 (or 5) samples are compared, this might be
             // too few samples -> use a bigger buffer-size
-
             for (int ToneIndex = 0; ToneIndex < _NumHalfTones; ToneIndex++)
             {
                 double CurFreq = _BaseToneFreq * Math.Pow(HalftoneBase, ToneIndex);
@@ -614,7 +612,6 @@ namespace Vocaluxe.Base
                     _SetValue -= 0.000025f;
             }
             //Console.WriteLine(diff.ToString());
-
             return dt;
         }
 

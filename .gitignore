@@ -35,3 +35,5 @@ Output/Songs
 *.nativecodeanalysis*
 *.lastcodeanalysissucceeded
 /PartyModes/*/*/*.dll
+
+*.Cache

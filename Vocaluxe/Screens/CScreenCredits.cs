@@ -259,17 +259,17 @@ namespace Vocaluxe.Screens
 
         public CParticleEffect _GetStarParticles(int NumStars, bool isRed, SRectF Rect, bool BigParticles)
         {
-            SColorF partColor = (isRed) ? new SColorF(1, 0, 0, 1) : new SColorF(0.149f, 0.415f, 0.819f, 1);
-            int partSize = (BigParticles) ? 35 : 25;
+            SColorF partColor = isRed ? new SColorF(1, 0, 0, 1) : new SColorF(0.149f, 0.415f, 0.819f, 1);
+            int partSize = BigParticles ? 35 : 25;
             return GetNewParticleEffect(NumStars, partColor, Rect, _TexPerfectNoteStar, partSize, EParticleType.Star);
         }
 
         private void _AddNewCreditName(STexture Texture, int ParticleOffsetX, int ParticleOffsetY, bool BigParticles)
         {
             bool isRight = _CreditNames.Count % 2 == 0;
-            int partRectSize = (BigParticles) ? 25 : 20;
-            int partCount = (BigParticles) ? 8 : 6;
-            STexture TexDot = (isRight) ? _TexRedDot : _TexBlueDot;
+            int partRectSize = BigParticles ? 25 : 20;
+            int partCount = BigParticles ? 8 : 6;
+            STexture TexDot = isRight ? _TexRedDot : _TexBlueDot;
 
             CStatic Image = GetNewStatic(Texture, new SColorF(1, 1, 1, 1), new SRectF(-1, -1, 400, 120, -4));
 
@@ -438,7 +438,7 @@ namespace Vocaluxe.Screens
                                 else if (_CreditNames[i].Y <= 360f)
                                 {
                                     //Fade names out
-                                    float alpha = ((360 - _CreditNames[i].Y) / 200);
+                                    float alpha = (360 - _CreditNames[i].Y) / 200;
                                     //Catch some bad alpha-values
                                     if (alpha > 1)
                                         alpha = 1;

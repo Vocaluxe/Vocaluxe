@@ -86,7 +86,7 @@ namespace VocaluxeLib.Menu
 
         public bool IsAlive
         {
-            get { return (_Age < _MaxAge || _MaxAge == 0f); }
+            get { return _Age < _MaxAge || _MaxAge == 0f; }
         }
         #endregion public vars
 
@@ -314,7 +314,7 @@ namespace VocaluxeLib.Menu
 
         public bool IsAlive
         {
-            get { return (_Stars.Count > 0 || !_SpawnTimer.IsRunning); }
+            get { return _Stars.Count > 0 || !_SpawnTimer.IsRunning; }
         }
 
         public CParticleEffect(int PartyModeID)
