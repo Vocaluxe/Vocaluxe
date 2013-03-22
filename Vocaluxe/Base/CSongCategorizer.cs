@@ -8,7 +8,7 @@ namespace Vocaluxe.Base
 {
     class CSongCategorizer : CObservable
     {
-        private List<CCategory> _Categories = new List<CCategory>();
+        private readonly List<CCategory> _Categories = new List<CCategory>();
         private EOffOn _Tabs = CConfig.Tabs;
 
         public CSongCategorizer()
@@ -18,7 +18,11 @@ namespace Vocaluxe.Base
 
         public List<CCategory> Categories
         {
-            get { _FillCategories(); return _Categories; }
+            get
+            {
+                _FillCategories();
+                return _Categories;
+            }
         }
 
         public EOffOn Tabs
@@ -48,9 +52,7 @@ namespace Vocaluxe.Base
                 Char firstLetter = Char.ToUpper(CSongs.Sorter.SortedSongs[i].SortString.Normalize(NormalizationForm.FormD)[0]);
 
                 if (!Char.IsLetter(firstLetter))
-                {
                     firstLetter = '#';
-                }
                 if (firstLetter.ToString() != category)
                 {
                     if (firstLetter != '#' || NotLetterCat == -1)
@@ -97,7 +99,6 @@ namespace Vocaluxe.Base
                     CSongs.Sorter.SortedSongs[i].CatIndex = NoCategoryIndex;
                 }
             }
-
         }
 
         private void _CreateCategories()
@@ -130,6 +131,7 @@ namespace Vocaluxe.Base
             else
             {
                 if (Sorting == ESongSorting.TR_CONFIG_DECADE)
+                {
                     for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
                     {
                         string Year = CSongs.Sorter.SortedSongs[i].SortString;
@@ -139,6 +141,7 @@ namespace Vocaluxe.Base
                             CSongs.Sorter.SortedSongs[i].SortString = Year + "0 - " + Year + "9";
                         }
                     }
+                }
                 _CreateCategoriesNormal(NoCategoryName);
             }
         }
@@ -155,17 +158,13 @@ namespace Vocaluxe.Base
                 //No categories. So don't create them!
                 _Categories.Add(new CCategory(""));
                 for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
-                {
                     CSongs.Sorter.SortedSongs[i].CatIndex = 0;
-                }
             }
             else
                 _CreateCategories();
 
             foreach (CCategory cat in _Categories)
-            {
                 cat.CoverTextureSmall = CCover.Cover(cat.Name);
-            }
             _Changed = false;
         }
     }

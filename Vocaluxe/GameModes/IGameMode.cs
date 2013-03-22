@@ -20,7 +20,7 @@ namespace Vocaluxe.GameModes
         void NextRound(SPlayer[] Player);
         bool IsFinished();
         int GetCurrentRoundNr();
-        
+
         CPoints GetPoints();
 
         int GetNumSongs();

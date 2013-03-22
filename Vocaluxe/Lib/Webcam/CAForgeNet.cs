@@ -11,14 +11,14 @@ namespace Vocaluxe.Lib.Webcam
 {
     class CAForgeNet : IWebcam
     {
-        private List<SWebcamDevice> _Devices = new List<SWebcamDevice>();
+        private readonly List<SWebcamDevice> _Devices = new List<SWebcamDevice>();
         private bool _Paused;
         private VideoCaptureDevice _Webcam;
         private FilterInfoCollection _WebcamDevices;
         private SWebcamConfig _Config;
         private byte[] data = new byte[1];
-        private static object _mutexData =  new object();
-        int _Width, _Height;
+        private static readonly object _mutexData = new object();
+        private int _Width, _Height;
 
         public void Close()
         {
@@ -26,7 +26,7 @@ namespace Vocaluxe.Lib.Webcam
             {
                 _Webcam.SignalToStop();
                 _Webcam.WaitForStop();
-                _Webcam.NewFrame -= new NewFrameEventHandler(OnFrame);
+                _Webcam.NewFrame -= OnFrame;
                 data = new byte[1];
             }
         }
@@ -43,9 +43,7 @@ namespace Vocaluxe.Lib.Webcam
                         Frame = CDraw.AddTexture(_Width, _Height, ref data);
                     }
                     else
-                    {
                         CDraw.UpdateTexture(ref Frame, ref data);
-                    }
                 }
             }
             return false;
@@ -74,23 +72,24 @@ namespace Vocaluxe.Lib.Webcam
             int num = 0;
             foreach (FilterInfo info in _WebcamDevices)
             {
-                SWebcamDevice device = new SWebcamDevice {
-                    ID = num,
-                    Name = info.Name,
-                    MonikerString = info.MonikerString,
-                    Capabilities = new List<SCapabilities>()
-                };
+                SWebcamDevice device = new SWebcamDevice
+                    {
+                        ID = num,
+                        Name = info.Name,
+                        MonikerString = info.MonikerString,
+                        Capabilities = new List<SCapabilities>()
+                    };
                 num++;
                 VideoCaptureDevice tmpdev = new VideoCaptureDevice(info.MonikerString);
 
-                for (int i = 0; i < tmpdev.VideoCapabilities.Length; i++ )
+                for (int i = 0; i < tmpdev.VideoCapabilities.Length; i++)
                 {
                     SCapabilities item = new SCapabilities
-                    {
-                        Framerate = tmpdev.VideoCapabilities[i].FrameRate,
-                        Height = tmpdev.VideoCapabilities[i].FrameSize.Height,
-                        Width = tmpdev.VideoCapabilities[i].FrameSize.Width
-                    };
+                        {
+                            Framerate = tmpdev.VideoCapabilities[i].FrameRate,
+                            Height = tmpdev.VideoCapabilities[i].FrameSize.Height,
+                            Width = tmpdev.VideoCapabilities[i].FrameSize.Width
+                        };
                     device.Capabilities.Add(item);
                 }
                 _Devices.Add(device);
@@ -119,18 +118,16 @@ namespace Vocaluxe.Lib.Webcam
         public void Pause()
         {
             if (_Webcam != null)
-            {
                 _Paused = true;
-            }
         }
 
         public void Start()
         {
             if (_Webcam != null)
             {
-                _Webcam.NewFrame -= new NewFrameEventHandler(OnFrame);
+                _Webcam.NewFrame -= OnFrame;
                 //Subscribe to NewFrame event
-                _Webcam.NewFrame += new NewFrameEventHandler(OnFrame);
+                _Webcam.NewFrame += OnFrame;
                 _Webcam.Start();
                 _Paused = false;
             }
@@ -139,9 +136,7 @@ namespace Vocaluxe.Lib.Webcam
         public void Stop()
         {
             if (_Webcam != null)
-            {
                 _Webcam.SignalToStop();
-            }
         }
 
         public SWebcamDevice[] GetDevices()

@@ -1,4 +1,7 @@
-﻿using OpenTK;
+﻿using System.Drawing.Drawing2D;
+using System.Threading;
+using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
@@ -27,59 +30,55 @@ namespace Vocaluxe.Lib.Draw
         public int height;
         public byte[] data;
     }
-    
+
     class COpenGL : Form, IDraw
     {
         #region private vars
-
-        private CKeys _Keys;
-        private CMouse _Mouse;
+        private readonly CKeys _Keys;
+        private readonly CMouse _Mouse;
         private bool _Run;
-                        
-        GLControl control = null;
+
+        private readonly GLControl control;
 
         private SClientRect _restore;
-        private bool _fullscreen = false;
+        private bool _fullscreen;
 
-        private Dictionary<int, STexture> _Textures;
-        private Queue<int> _IDs;
-        private List<STextureQueque> _Queque;
+        private readonly Dictionary<int, STexture> _Textures;
+        private readonly Queue<int> _IDs;
+        private readonly List<STextureQueque> _Queque;
 
-        private Object MutexTexture = new Object();
+        private readonly Object MutexTexture = new Object();
 
         private int h = 1;
         private int w = 1;
-        private int y = 0;
-        private int x = 0;
+        private int y;
+        private int x;
 
-        private bool _UsePBO = false;
-        
+        private bool _UsePBO;
         #endregion private vars
 
         public COpenGL()
         {
-            this.Icon = new System.Drawing.Icon(Path.Combine(System.Environment.CurrentDirectory, CSettings.sIcon));
+            Icon = new Icon(Path.Combine(Environment.CurrentDirectory, CSettings.sIcon));
 
             _Textures = new Dictionary<int, STexture>();
             _Queque = new List<STextureQueque>();
             _IDs = new Queue<int>(1000000);
 
             for (int i = 1; i < 1000000; i++)
-            {
                 _IDs.Enqueue(i);
-            }
 
             //Check AA Mode
             CConfig.AAMode = (EAntiAliasingModes)CheckAntiAliasingMode((int)CConfig.AAMode);
 
-            OpenTK.Graphics.ColorFormat cf = new OpenTK.Graphics.ColorFormat(32);
-            OpenTK.Graphics.GraphicsMode gm;
+            ColorFormat cf = new ColorFormat(32);
+            GraphicsMode gm;
 
             bool ok = false;
             try
             {
-                gm = new OpenTK.Graphics.GraphicsMode(cf, 24, 0, (int)CConfig.AAMode);
-                control = new GLControl(gm, 2, 1, OpenTK.Graphics.GraphicsContextFlags.Default);
+                gm = new GraphicsMode(cf, 24, 0, (int)CConfig.AAMode);
+                control = new GLControl(gm, 2, 1, GraphicsContextFlags.Default);
                 if (control.GraphicsMode != null)
                     ok = true;
             }
@@ -94,43 +93,43 @@ namespace Vocaluxe.Lib.Draw
             control.MakeCurrent();
             control.VSync = (CConfig.VSync == EOffOn.TR_CONFIG_ON);
 
-            this.Controls.Add(control);
-                       
-            
-            _Keys = new CKeys();
-            this.Paint += new PaintEventHandler(this.OnPaintEvent);
-            this.Closing += new CancelEventHandler(this.OnClosingEvent);
-            this.Resize += new EventHandler(this.OnResizeEvent);
-            
-            control.KeyDown += new KeyEventHandler(this.OnKeyDownEvent);
-            control.PreviewKeyDown += new PreviewKeyDownEventHandler(this.OnPreviewKeyDownEvent);
-            control.KeyPress += new KeyPressEventHandler(this.OnKeyPressEvent);
-            control.KeyUp += new KeyEventHandler(this.OnKeyUpEvent);
-            
-            _Mouse = new CMouse();
-            control.MouseMove += new MouseEventHandler(this.OnMouseMove);
-            control.MouseWheel += new MouseEventHandler(this.OnMouseWheel);
-            control.MouseDown += new MouseEventHandler(this.OnMouseDown);
-            control.MouseUp += new MouseEventHandler(this.OnMouseUp);
-            control.MouseLeave += new EventHandler(this.OnMouseLeave);
-            control.MouseEnter += new EventHandler(this.OnMouseEnter);            
+            Controls.Add(control);
 
-            this.ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH);
-            this.CenterToScreen();
+
+            _Keys = new CKeys();
+            Paint += OnPaintEvent;
+            Closing += OnClosingEvent;
+            Resize += OnResizeEvent;
+
+            control.KeyDown += OnKeyDownEvent;
+            control.PreviewKeyDown += OnPreviewKeyDownEvent;
+            control.KeyPress += OnKeyPressEvent;
+            control.KeyUp += OnKeyUpEvent;
+
+            _Mouse = new CMouse();
+            control.MouseMove += OnMouseMove;
+            control.MouseWheel += OnMouseWheel;
+            control.MouseDown += OnMouseDown;
+            control.MouseUp += OnMouseUp;
+            control.MouseLeave += OnMouseLeave;
+            control.MouseEnter += OnMouseEnter;
+
+            ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH);
+            CenterToScreen();
         }
 
         #region Helpers
         private int CheckAntiAliasingMode(int SetValue)
         {
             int _Result = 0;
-            OpenTK.Graphics.GraphicsMode _mode = null;
+            GraphicsMode _mode = null;
             bool _done = false;
 
             while (!_done && (_Result <= 32))
             {
                 try
                 {
-                    _mode = new OpenTK.Graphics.GraphicsMode(16, 0, 0, _Result);
+                    _mode = new GraphicsMode(16, 0, 0, _Result);
                 }
                 catch (Exception)
                 {
@@ -164,9 +163,8 @@ namespace Vocaluxe.Lib.Draw
                         _done = true;
                         _Result /= 2;
                         if (_Result == 1)
-                            _Result = 0;                        
+                            _Result = 0;
                     }
-                    
                 }
                 else
                 {
@@ -175,7 +173,6 @@ namespace Vocaluxe.Lib.Draw
                     if (_Result == 1)
                         _Result = 0;
                 }
-
             }
 
             if (_Result > 64)
@@ -190,14 +187,14 @@ namespace Vocaluxe.Lib.Draw
         private int CheckColorDeep(int SetValue)
         {
             int _Result = 8;
-            OpenTK.Graphics.GraphicsMode _mode = null;
+            GraphicsMode _mode = null;
             bool _done = false;
 
             while (!_done && (_Result <= 32))
             {
                 try
                 {
-                    _mode = new OpenTK.Graphics.GraphicsMode(_Result, 0, 0, 0);
+                    _mode = new GraphicsMode(_Result, 0, 0, 0);
                 }
                 catch (Exception)
                 {
@@ -212,9 +209,7 @@ namespace Vocaluxe.Lib.Draw
                     try
                     {
                         if (_mode.ColorFormat == _Result)
-                        {
                             _Result += 8;
-                        }
                         else
                         {
                             _done = true;
@@ -230,7 +225,6 @@ namespace Vocaluxe.Lib.Draw
                         if (_Result == 0)
                             _Result = 8;
                     }
-
                 }
                 else
                 {
@@ -263,28 +257,28 @@ namespace Vocaluxe.Lib.Draw
             _fullscreen = true;
             CConfig.FullScreen = EOffOn.TR_CONFIG_ON;
 
-            _restore.location = this.Location;
-            _restore.width = this.Width;
-            _restore.height = this.Height;
+            _restore.location = Location;
+            _restore.width = Width;
+            _restore.height = Height;
 
-            this.FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.None;
 
             int ScreenNr = 0;
             for (int i = 0; i < Screen.AllScreens.Length; i++)
             {
                 Screen scr = Screen.AllScreens[i];
-                if (scr.Bounds.Top <= this.Top && scr.Bounds.Left <= this.Left)
+                if (scr.Bounds.Top <= Top && scr.Bounds.Left <= Left)
                     ScreenNr = i;
             }
 
-            this.DesktopBounds = new Rectangle(Screen.AllScreens[ScreenNr].Bounds.Location,
-                new Size(Screen.AllScreens[ScreenNr].Bounds.Width, Screen.AllScreens[ScreenNr].Bounds.Height));
+            DesktopBounds = new Rectangle(Screen.AllScreens[ScreenNr].Bounds.Location,
+                                          new Size(Screen.AllScreens[ScreenNr].Bounds.Width, Screen.AllScreens[ScreenNr].Bounds.Height));
 
-            if (this.WindowState == FormWindowState.Maximized)
+            if (WindowState == FormWindowState.Maximized)
             {
-                this.WindowState = FormWindowState.Normal;
+                WindowState = FormWindowState.Normal;
                 RResize();
-                this.WindowState = FormWindowState.Maximized;
+                WindowState = FormWindowState.Maximized;
             }
             else
                 RResize();
@@ -297,23 +291,17 @@ namespace Vocaluxe.Lib.Draw
             _fullscreen = false;
             CConfig.FullScreen = EOffOn.TR_CONFIG_OFF;
 
-            this.FormBorderStyle = FormBorderStyle.Sizable;
-            this.DesktopBounds = new Rectangle(_restore.location, new Size(_restore.width, _restore.height));
+            FormBorderStyle = FormBorderStyle.Sizable;
+            DesktopBounds = new Rectangle(_restore.location, new Size(_restore.width, _restore.height));
 
             CConfig.SaveConfig();
         }
         #endregion Helpers
 
         #region form events
-        private void OnPaintEvent(object sender, PaintEventArgs e)
-        {
+        private void OnPaintEvent(object sender, PaintEventArgs e) {}
 
-        }
-
-        private void OnResizeEvent(object sender, EventArgs e)
-        {
-            
-        }
+        private void OnResizeEvent(object sender, EventArgs e) {}
 
         private void OnClosingEvent(object sender, CancelEventArgs e)
         {
@@ -322,14 +310,14 @@ namespace Vocaluxe.Lib.Draw
 
         protected override void OnLoad(EventArgs e)
         {
-            GL.ClearColor(Color.Black);
+            OpenTK.Graphics.OpenGL.GL.ClearColor(Color.Black);
         }
 
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
 
-            control.ClientSize = this.ClientSize;
+            control.ClientSize = ClientSize;
             RResize();
         }
 
@@ -390,69 +378,68 @@ namespace Vocaluxe.Lib.Draw
         #endregion
 
         #region keyboard event handlers
-        private void OnPreviewKeyDownEvent(object sender, System.Windows.Forms.PreviewKeyDownEventArgs e)
-		{
-			OnKeyDownEvent(sender, new KeyEventArgs(e.KeyData));
-		}
-		
-        private void OnKeyDownEvent(object sender, System.Windows.Forms.KeyEventArgs e)
+        private void OnPreviewKeyDownEvent(object sender, PreviewKeyDownEventArgs e)
+        {
+            OnKeyDownEvent(sender, new KeyEventArgs(e.KeyData));
+        }
+
+        private void OnKeyDownEvent(object sender, KeyEventArgs e)
         {
             _Keys.KeyDown(e);
         }
 
-        		
         private void OnKeyPressEvent(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             _Keys.KeyPress(e);
         }
 
-        private void OnKeyUpEvent(object sender, System.Windows.Forms.KeyEventArgs e)
+        private void OnKeyUpEvent(object sender, KeyEventArgs e)
         {
             _Keys.KeyUp(e);
         }
         #endregion keyboard event handlers
-      
+
         private void RResize()
-        { 
+        {
             h = control.Height;
             w = control.Width;
             y = 0;
             x = 0;
 
 
-            if ((float)w / (float)h > CSettings.GetRenderAspect())
+            if (w / (float)h > CSettings.GetRenderAspect())
             {
-                w = (int)Math.Round((float)h * CSettings.GetRenderAspect());
+                w = (int)Math.Round(h * CSettings.GetRenderAspect());
                 x = (control.Width - w) / 2;
             }
             else
             {
-                h = (int)Math.Round((float)w / CSettings.GetRenderAspect());
+                h = (int)Math.Round(w / CSettings.GetRenderAspect());
                 y = (control.Height - h) / 2;
             }
-            
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadIdentity();
-            GL.Ortho(0, CSettings.iRenderW, CSettings.iRenderH, 0, (double)CSettings.zNear, (double)CSettings.zFar);
-            GL.Viewport(x, y, w, h);
+
+            OpenTK.Graphics.OpenGL.GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
+            OpenTK.Graphics.OpenGL.GL.LoadIdentity();
+            OpenTK.Graphics.OpenGL.GL.Ortho(0, CSettings.iRenderW, CSettings.iRenderH, 0, CSettings.zNear, CSettings.zFar);
+            OpenTK.Graphics.OpenGL.GL.Viewport(x, y, w, h);
         }
 
-
         #region implementation
+
         #region main stuff
         public bool Init()
         {
-            this.Text = CSettings.GetFullVersionText();
-            
-            // Init Texturing
-            GL.Enable(EnableCap.Texture2D);
-            
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-            GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
+            Text = CSettings.GetFullVersionText();
 
-            GL.DepthRange(CSettings.zFar, CSettings.zNear);
-            GL.DepthFunc(DepthFunction.Lequal);
-            GL.Enable(EnableCap.DepthTest);
+            // Init Texturing
+            OpenTK.Graphics.OpenGL.GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Texture2D);
+
+            OpenTK.Graphics.OpenGL.GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
+            OpenTK.Graphics.OpenGL.GL.PixelStore(OpenTK.Graphics.OpenGL.PixelStoreParameter.UnpackAlignment, 1);
+
+            OpenTK.Graphics.OpenGL.GL.DepthRange(CSettings.zFar, CSettings.zNear);
+            OpenTK.Graphics.OpenGL.GL.DepthFunc(OpenTK.Graphics.OpenGL.DepthFunction.Lequal);
+            OpenTK.Graphics.OpenGL.GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.DepthTest);
 
             return true;
         }
@@ -461,7 +448,7 @@ namespace Vocaluxe.Lib.Draw
         {
             _Run = true;
             int delay = 0;
-            this.Show();
+            Show();
 
             if (CConfig.FullScreen == EOffOn.TR_CONFIG_ON)
             {
@@ -490,24 +477,22 @@ namespace Vocaluxe.Lib.Draw
                         delay = (int)Math.Floor(CConfig.CalcCycleTime() - CTime.GetMilliseconds());
 
                     if (delay >= 1 && CConfig.VSync == EOffOn.TR_CONFIG_OFF)
-                        System.Threading.Thread.Sleep(delay);
+                        Thread.Sleep(delay);
 
                     CTime.CalculateFPS();
                     CTime.Restart();
                 }
             }
-            this.Close();
+            Close();
         }
 
         public bool Unload()
         {
             STexture[] textures = new STexture[_Textures.Count];
             _Textures.Values.CopyTo(textures, 0);
-            for (int i = 0; i < _Textures.Count; i++ )
-            {
+            for (int i = 0; i < _Textures.Count; i++)
                 RemoveTexture(ref textures[i]);
-            }
-            
+
             return true;
         }
 
@@ -538,35 +523,38 @@ namespace Vocaluxe.Lib.Draw
         #region Basic Draw Methods
         public void ClearScreen()
         {
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            OpenTK.Graphics.OpenGL.GL.Clear(OpenTK.Graphics.OpenGL.ClearBufferMask.ColorBufferBit | OpenTK.Graphics.OpenGL.ClearBufferMask.DepthBufferBit);
         }
 
         public STexture CopyScreen()
         {
             STexture texture = new STexture(-1);
 
-            int id = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, id);
+            int id = OpenTK.Graphics.OpenGL.GL.GenTexture();
+            OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, id);
             texture.ID = id;
 
             texture.width = w;
             texture.height = h;
-            texture.w2 = (float)MathHelper.NextPowerOfTwo(texture.width);
-            texture.h2 = (float)MathHelper.NextPowerOfTwo(texture.height);
+            texture.w2 = MathHelper.NextPowerOfTwo(texture.width);
+            texture.h2 = MathHelper.NextPowerOfTwo(texture.height);
 
             texture.width_ratio = texture.width / texture.w2;
             texture.height_ratio = texture.height / texture.h2;
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, (int)texture.w2, (int)texture.h2, 0,
-                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+            OpenTK.Graphics.OpenGL.GL.TexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgba, (int)texture.w2,
+                                                 (int)texture.h2, 0,
+                                                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, IntPtr.Zero);
 
-            GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, x, y,
-                (int)texture.width, (int)texture.height);
+            OpenTK.Graphics.OpenGL.GL.CopyTexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, 0, 0, x, y,
+                                                        (int)texture.width, (int)texture.height);
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter,
+                                                   (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
+            OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter,
+                                                   (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Linear);
 
-            GL.BindTexture(TextureTarget.Texture2D, 0);
+            OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
 
             // Add to Texture List
             texture.color = new SColorF(1f, 1f, 1f, 1f);
@@ -590,12 +578,12 @@ namespace Vocaluxe.Lib.Draw
             }
             else
             {
-                GL.BindTexture(TextureTarget.Texture2D, Texture.ID);
+                OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, Texture.ID);
 
-                GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0,
-                    (int)Texture.width, (int)Texture.height);
+                OpenTK.Graphics.OpenGL.GL.CopyTexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, 0, 0, 0, 0,
+                                                            (int)Texture.width, (int)Texture.height);
 
-                GL.BindTexture(TextureTarget.Texture2D, 0);
+                OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
             }
         }
 
@@ -603,7 +591,7 @@ namespace Vocaluxe.Lib.Draw
         {
             string file = "Screenshot_";
             string path = Path.Combine(Environment.CurrentDirectory, CSettings.sFolderScreenshots);
-            
+
             int i = 0;
             while (File.Exists(Path.Combine(path, file + i.ToString("00000") + ".bmp")))
                 i++;
@@ -613,11 +601,9 @@ namespace Vocaluxe.Lib.Draw
 
             using (Bitmap screen = new Bitmap(width, height))
             {
-
-
                 BitmapData bmp_data = screen.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-                GL.ReadPixels(0, 0, width, height, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0);
+                OpenTK.Graphics.OpenGL.GL.ReadPixels(0, 0, width, height, OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, bmp_data.Scan0);
                 screen.UnlockBits(bmp_data);
 
                 screen.RotateFlip(RotateFlipType.RotateNoneFlipY);
@@ -625,10 +611,7 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2)
-        {
-
-        }
+        public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2) {}
 
         // Draw Basic Text (must be deleted later)
         public void DrawText(string Text, int x, int y, int h)
@@ -643,22 +626,21 @@ namespace Vocaluxe.Lib.Draw
 
         public void DrawColor(SColorF color, SRectF rect)
         {
-            GL.Enable(EnableCap.Blend);
-            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+            OpenTK.Graphics.OpenGL.GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
+            OpenTK.Graphics.OpenGL.GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
 
-            GL.Begin(BeginMode.Quads);
-            GL.Vertex3(rect.X, rect.Y, rect.Z + CGraphics.ZOffset);
-            GL.Vertex3(rect.X, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
-            GL.Vertex3(rect.X + rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
-            GL.Vertex3(rect.X + rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
-            GL.End();
+            OpenTK.Graphics.OpenGL.GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
+            OpenTK.Graphics.OpenGL.GL.Vertex3(rect.X, rect.Y, rect.Z + CGraphics.ZOffset);
+            OpenTK.Graphics.OpenGL.GL.Vertex3(rect.X, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
+            OpenTK.Graphics.OpenGL.GL.Vertex3(rect.X + rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
+            OpenTK.Graphics.OpenGL.GL.Vertex3(rect.X + rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
+            OpenTK.Graphics.OpenGL.GL.End();
 
-            GL.Disable(EnableCap.Blend);
+            OpenTK.Graphics.OpenGL.GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
         }
 
         public void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
         {
-
             if (rect.H < height)
                 height = rect.H;
 
@@ -680,35 +662,33 @@ namespace Vocaluxe.Lib.Draw
                 ry2 = rect.Y + rect.H + space + height;
 
 
-            GL.Enable(EnableCap.Blend);
+            OpenTK.Graphics.OpenGL.GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
 
             if (rect.Rotation != 0f)
             {
-                GL.Translate(0.5f, 0.5f, 0);
-                GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
-                GL.Translate(-0.5f, -0.5f, 0);
+                OpenTK.Graphics.OpenGL.GL.Translate(0.5f, 0.5f, 0);
+                OpenTK.Graphics.OpenGL.GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
+                OpenTK.Graphics.OpenGL.GL.Translate(-0.5f, -0.5f, 0);
             }
 
-            GL.Begin(BeginMode.Quads);
+            OpenTK.Graphics.OpenGL.GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
 
-            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-            GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
+            OpenTK.Graphics.OpenGL.GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+            OpenTK.Graphics.OpenGL.GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
 
-            GL.Color4(color.R, color.G, color.B, 0f);
-            GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
+            OpenTK.Graphics.OpenGL.GL.Color4(color.R, color.G, color.B, 0f);
+            OpenTK.Graphics.OpenGL.GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
 
-            GL.Color4(color.R, color.G, color.B, 0f);
-            GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
+            OpenTK.Graphics.OpenGL.GL.Color4(color.R, color.G, color.B, 0f);
+            OpenTK.Graphics.OpenGL.GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
 
-            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-            GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
+            OpenTK.Graphics.OpenGL.GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+            OpenTK.Graphics.OpenGL.GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
 
-            GL.End();
+            OpenTK.Graphics.OpenGL.GL.End();
 
-            GL.Disable(EnableCap.Blend);
-
+            OpenTK.Graphics.OpenGL.GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
         }
-
         #endregion Basic Draw Methods
 
         #region Textures
@@ -716,7 +696,7 @@ namespace Vocaluxe.Lib.Draw
         #region adding
         public STexture AddTexture(string TexturePath)
         {
-            if (System.IO.File.Exists(TexturePath))
+            if (File.Exists(TexturePath))
             {
                 Bitmap bmp;
                 try
@@ -724,7 +704,7 @@ namespace Vocaluxe.Lib.Draw
                     bmp = new Bitmap(TexturePath);
                 }
                 catch (Exception)
-                { 
+                {
                     CLog.LogError("Error loading Texture: " + TexturePath);
                     return new STexture(-1);
                 }
@@ -791,21 +771,21 @@ namespace Vocaluxe.Lib.Draw
                 h = MaxSize;
             }
 
-            int id = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, id);
+            int id = OpenTK.Graphics.OpenGL.GL.GenTexture();
+            OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, id);
             texture.ID = id;
 
             texture.width = w;
             texture.height = h;
 
-            texture.w2 = (float)MathHelper.NextPowerOfTwo(w);
-            texture.h2 = (float)MathHelper.NextPowerOfTwo(h);
+            texture.w2 = MathHelper.NextPowerOfTwo(w);
+            texture.h2 = MathHelper.NextPowerOfTwo(h);
 
             using (Bitmap bmp2 = new Bitmap((int)texture.w2, (int)texture.h2))
             {
                 Graphics g = Graphics.FromImage(bmp2);
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.SmoothingMode = SmoothingMode.HighQuality;
                 g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
                 g.Dispose();
 
@@ -815,25 +795,31 @@ namespace Vocaluxe.Lib.Draw
                 BitmapData bmp_data = bmp2.LockBits(new Rectangle(0, 0, bmp2.Width, bmp2.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
 
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, (int)texture.w2, (int)texture.h2, 0,
-                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+                OpenTK.Graphics.OpenGL.GL.TexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgba, (int)texture.w2,
+                                                     (int)texture.h2, 0,
+                                                     OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, IntPtr.Zero);
 
-                GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, bmp_data.Width, bmp_data.Height,
-                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, bmp_data.Scan0);
+                OpenTK.Graphics.OpenGL.GL.TexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, 0, 0, bmp_data.Width, bmp_data.Height,
+                                                        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, bmp_data.Scan0);
 
                 bmp2.UnlockBits(bmp_data);
             }
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
+            OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS,
+                                                   (int)OpenTK.Graphics.OpenGL.TextureParameterName.ClampToEdge);
+            OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapT,
+                                                   (int)OpenTK.Graphics.OpenGL.TextureParameterName.ClampToEdge);
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter,
+                                                   (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
+            OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter,
+                                                   (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Linear);
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
-                    //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-            GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-                
+            OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter,
+                                                   (int)OpenTK.Graphics.OpenGL.TextureMinFilter.LinearMipmapLinear);
+            //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            OpenTK.Graphics.OpenGL.GL.Ext.GenerateMipmap(OpenTK.Graphics.OpenGL.GenerateMipmapTarget.Texture2D);
+
 
             // Add to Texture List
             texture.color = new SColorF(1f, 1f, 1f, 1f);
@@ -857,10 +843,11 @@ namespace Vocaluxe.Lib.Draw
             {
                 try
                 {
-                    GL.GenBuffers(1, out texture.PBO);
-                    GL.BindBuffer(BufferTarget.PixelUnpackBuffer, texture.PBO);
-                    GL.BufferData(BufferTarget.PixelUnpackBuffer, (IntPtr)(W * H * 4), IntPtr.Zero, BufferUsageHint.StreamDraw);
-                    GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
+                    OpenTK.Graphics.OpenGL.GL.GenBuffers(1, out texture.PBO);
+                    OpenTK.Graphics.OpenGL.GL.BindBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, texture.PBO);
+                    OpenTK.Graphics.OpenGL.GL.BufferData(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, (IntPtr)(W * H * 4), IntPtr.Zero,
+                                                         OpenTK.Graphics.OpenGL.BufferUsageHint.StreamDraw);
+                    OpenTK.Graphics.OpenGL.GL.BindBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, 0);
                 }
                 catch (Exception)
                 {
@@ -868,36 +855,39 @@ namespace Vocaluxe.Lib.Draw
                 }
             }
 
-            int id = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, id);
+            int id = OpenTK.Graphics.OpenGL.GL.GenTexture();
+            OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, id);
             texture.ID = id;
 
             texture.width = W;
             texture.height = H;
-            texture.w2 = (float)MathHelper.NextPowerOfTwo(texture.width);
-            texture.h2 = (float)MathHelper.NextPowerOfTwo(texture.height);
+            texture.w2 = MathHelper.NextPowerOfTwo(texture.width);
+            texture.h2 = MathHelper.NextPowerOfTwo(texture.height);
 
             texture.width_ratio = texture.width / texture.w2;
             texture.height_ratio = texture.height / texture.h2;
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, (int)texture.w2, (int)texture.h2, 0,
-                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+            OpenTK.Graphics.OpenGL.GL.TexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgba, (int)texture.w2,
+                                                 (int)texture.h2, 0,
+                                                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, IntPtr.Zero);
 
-            GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, W, H,
-                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, Data);
+            OpenTK.Graphics.OpenGL.GL.TexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, 0, 0, W, H,
+                                                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, Data);
 
 
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter,
+                                                   (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
+            OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter,
+                                                   (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Linear);
 
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
             //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             //GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
-            GL.BindTexture(TextureTarget.Texture2D, 0);
+            OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
 
             // Add to Texture List
             texture.color = new SColorF(1f, 1f, 1f, 1f);
@@ -909,7 +899,7 @@ namespace Vocaluxe.Lib.Draw
                 texture.index = _IDs.Dequeue();
                 _Textures[texture.index] = texture;
             }
-            
+
             return texture;
         }
 
@@ -921,10 +911,11 @@ namespace Vocaluxe.Lib.Draw
             {
                 try
                 {
-                    GL.GenBuffers(1, out texture.PBO);
-                    GL.BindBuffer(BufferTarget.PixelUnpackBuffer, texture.PBO);
-                    GL.BufferData(BufferTarget.PixelUnpackBuffer, (IntPtr)Data.Length, IntPtr.Zero, BufferUsageHint.StreamDraw);
-                    GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
+                    OpenTK.Graphics.OpenGL.GL.GenBuffers(1, out texture.PBO);
+                    OpenTK.Graphics.OpenGL.GL.BindBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, texture.PBO);
+                    OpenTK.Graphics.OpenGL.GL.BufferData(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, (IntPtr)Data.Length, IntPtr.Zero,
+                                                         OpenTK.Graphics.OpenGL.BufferUsageHint.StreamDraw);
+                    OpenTK.Graphics.OpenGL.GL.BindBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, 0);
                 }
                 catch (Exception)
                 {
@@ -933,36 +924,39 @@ namespace Vocaluxe.Lib.Draw
                 }
             }
 
-            int id = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, id);
+            int id = OpenTK.Graphics.OpenGL.GL.GenTexture();
+            OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, id);
             texture.ID = id;
 
             texture.width = W;
             texture.height = H;
-            texture.w2 = (float)MathHelper.NextPowerOfTwo(texture.width);
-            texture.h2 = (float)MathHelper.NextPowerOfTwo(texture.height);
+            texture.w2 = MathHelper.NextPowerOfTwo(texture.width);
+            texture.h2 = MathHelper.NextPowerOfTwo(texture.height);
 
             texture.width_ratio = texture.width / texture.w2;
             texture.height_ratio = texture.height / texture.h2;
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, (int)texture.w2, (int)texture.h2, 0,
-                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+            OpenTK.Graphics.OpenGL.GL.TexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgba, (int)texture.w2,
+                                                 (int)texture.h2, 0,
+                                                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, IntPtr.Zero);
 
-            GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, W, H,
-                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, Data);
+            OpenTK.Graphics.OpenGL.GL.TexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, 0, 0, W, H,
+                                                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, Data);
 
 
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter,
+                                                   (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
+            OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter,
+                                                   (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Linear);
 
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
             //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             //GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
-            GL.BindTexture(TextureTarget.Texture2D, 0);
+            OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
 
             // Add to Texture List
             texture.color = new SColorF(1f, 1f, 1f, 1f);
@@ -974,7 +968,7 @@ namespace Vocaluxe.Lib.Draw
                 texture.index = _IDs.Dequeue();
                 _Textures[texture.index] = texture;
             }
-            
+
             return texture;
         }
 
@@ -990,13 +984,13 @@ namespace Vocaluxe.Lib.Draw
             texture.width = W;
 
             lock (MutexTexture)
-	        {
+            {
                 texture.index = _IDs.Dequeue();
                 queque.ID = texture.index;
                 _Queque.Add(queque);
                 _Textures[texture.index] = texture;
-	        }
-            
+            }
+
             return texture;
         }
         #endregion adding
@@ -1010,22 +1004,22 @@ namespace Vocaluxe.Lib.Draw
                 {
                     try
                     {
-                        GL.BindBuffer(BufferTarget.PixelUnpackBuffer, Texture.PBO);
-                                
-                        IntPtr Buffer = GL.MapBuffer(BufferTarget.PixelUnpackBuffer, BufferAccess.WriteOnly);
+                        OpenTK.Graphics.OpenGL.GL.BindBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, Texture.PBO);
+
+                        IntPtr Buffer = OpenTK.Graphics.OpenGL.GL.MapBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, OpenTK.Graphics.OpenGL.BufferAccess.WriteOnly);
                         byte[] d = new byte[(int)Texture.height * (int)Texture.width * 4];
 
                         Marshal.Copy(Data, d, 0, (int)Texture.height * (int)Texture.width * 4);
                         Marshal.Copy(d, 0, Buffer, (int)Texture.height * (int)Texture.width * 4);
-                                
-                        GL.UnmapBuffer(BufferTarget.PixelUnpackBuffer);
 
-                        GL.BindTexture(TextureTarget.Texture2D, Texture.ID);
-                        GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (int)Texture.width, (int)Texture.height,
-                            OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+                        OpenTK.Graphics.OpenGL.GL.UnmapBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer);
 
-                        GL.BindTexture(TextureTarget.Texture2D, 0);
-                        GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
+                        OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, Texture.ID);
+                        OpenTK.Graphics.OpenGL.GL.TexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, 0, 0, (int)Texture.width, (int)Texture.height,
+                                                                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, IntPtr.Zero);
+
+                        OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
+                        OpenTK.Graphics.OpenGL.GL.BindBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, 0);
 
                         return true;
                     }
@@ -1035,25 +1029,29 @@ namespace Vocaluxe.Lib.Draw
                     }
                 }
 
-                GL.BindTexture(TextureTarget.Texture2D, Texture.ID);
+                OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, Texture.ID);
 
-                GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (int)Texture.width, (int)Texture.height,
-                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, Data);
+                OpenTK.Graphics.OpenGL.GL.TexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, 0, 0, (int)Texture.width, (int)Texture.height,
+                                                        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, Data);
 
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
+                OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS,
+                                                       (int)OpenTK.Graphics.OpenGL.TextureParameterName.ClampToEdge);
+                OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapT,
+                                                       (int)OpenTK.Graphics.OpenGL.TextureParameterName.ClampToEdge);
 
                 //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter,
+                                                       (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Linear);
 
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
+                OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter,
+                                                       (int)OpenTK.Graphics.OpenGL.TextureMinFilter.LinearMipmapLinear);
                 //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-                GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+                OpenTK.Graphics.OpenGL.GL.Ext.GenerateMipmap(OpenTK.Graphics.OpenGL.GenerateMipmapTarget.Texture2D);
 
-                GL.BindTexture(TextureTarget.Texture2D, 0);
+                OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
 
                 return true;
-            }         
+            }
             return false;
         }
 
@@ -1065,19 +1063,19 @@ namespace Vocaluxe.Lib.Draw
                 {
                     try
                     {
-                        GL.BindBuffer(BufferTarget.PixelUnpackBuffer, Texture.PBO);
-                                
-                        IntPtr Buffer = GL.MapBuffer(BufferTarget.PixelUnpackBuffer, BufferAccess.WriteOnly);
+                        OpenTK.Graphics.OpenGL.GL.BindBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, Texture.PBO);
+
+                        IntPtr Buffer = OpenTK.Graphics.OpenGL.GL.MapBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, OpenTK.Graphics.OpenGL.BufferAccess.WriteOnly);
                         Marshal.Copy(Data, 0, Buffer, Data.Length);
 
-                        GL.UnmapBuffer(BufferTarget.PixelUnpackBuffer);
+                        OpenTK.Graphics.OpenGL.GL.UnmapBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer);
 
-                        GL.BindTexture(TextureTarget.Texture2D, Texture.ID);
-                        GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (int)Texture.width, (int)Texture.height,
-                            OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+                        OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, Texture.ID);
+                        OpenTK.Graphics.OpenGL.GL.TexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, 0, 0, (int)Texture.width, (int)Texture.height,
+                                                                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, IntPtr.Zero);
 
-                        GL.BindTexture(TextureTarget.Texture2D, 0);
-                        GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
+                        OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
+                        OpenTK.Graphics.OpenGL.GL.BindBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, 0);
 
                         return true;
                     }
@@ -1088,22 +1086,24 @@ namespace Vocaluxe.Lib.Draw
                     }
                 }
 
-                GL.BindTexture(TextureTarget.Texture2D, Texture.ID);
+                OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, Texture.ID);
 
-                GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (int)Texture.width, (int)Texture.height,
-                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, Data);
+                OpenTK.Graphics.OpenGL.GL.TexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, 0, 0, (int)Texture.width, (int)Texture.height,
+                                                        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, Data);
 
                 //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
                 //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
 
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter,
+                                                       (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
+                OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter,
+                                                       (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Linear);
 
                 //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
                 //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
                 //GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
-                GL.BindTexture(TextureTarget.Texture2D, 0);
+                OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
 
                 return true;
             }
@@ -1118,9 +1118,9 @@ namespace Vocaluxe.Lib.Draw
                 lock (MutexTexture)
                 {
                     _IDs.Enqueue(Texture.index);
-                    GL.DeleteTexture(Texture.ID);
+                    OpenTK.Graphics.OpenGL.GL.DeleteTexture(Texture.ID);
                     if (Texture.PBO > 0)
-                        GL.DeleteBuffers(1, ref Texture.PBO);
+                        OpenTK.Graphics.OpenGL.GL.DeleteBuffers(1, ref Texture.PBO);
                     _Textures.Remove(Texture.index);
                     Texture.index = -1;
                     Texture.ID = -1;
@@ -1132,9 +1132,9 @@ namespace Vocaluxe.Lib.Draw
         {
             lock (MutexTexture)
             {
-                if(_Textures.ContainsKey((Texture.index)))
+                if (_Textures.ContainsKey((Texture.index)))
                 {
-                    if(_Textures[Texture.index].ID > 0)
+                    if (_Textures[Texture.index].ID > 0)
                     {
                         Texture = _Textures[Texture.index];
                         return true;
@@ -1183,7 +1183,7 @@ namespace Vocaluxe.Lib.Draw
 
             if (_TextureExists(ref Texture))
             {
-                GL.BindTexture(TextureTarget.Texture2D, Texture.ID);
+                OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, Texture.ID);
 
                 float x1 = (bounds.X - rect.X) / rect.W * Texture.width_ratio;
                 float x2 = (bounds.X + bounds.W - rect.X) / rect.W * Texture.width_ratio;
@@ -1220,60 +1220,60 @@ namespace Vocaluxe.Lib.Draw
                 if (ry2 > bounds.Y + bounds.H)
                     ry2 = bounds.Y + bounds.H;
 
-                GL.Enable(EnableCap.Blend);
-                GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+                OpenTK.Graphics.OpenGL.GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
+                OpenTK.Graphics.OpenGL.GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
 
-                GL.MatrixMode(MatrixMode.Texture);
-                GL.PushMatrix();
+                OpenTK.Graphics.OpenGL.GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Texture);
+                OpenTK.Graphics.OpenGL.GL.PushMatrix();
 
                 if (rect.Rotation != 0f)
                 {
-                    GL.Translate(0.5f, 0.5f, 0);
-                    GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
-                    GL.Translate(-0.5f, -0.5f, 0);
+                    OpenTK.Graphics.OpenGL.GL.Translate(0.5f, 0.5f, 0);
+                    OpenTK.Graphics.OpenGL.GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
+                    OpenTK.Graphics.OpenGL.GL.Translate(-0.5f, -0.5f, 0);
                 }
 
                 if (!mirrored)
                 {
-                    GL.Begin(BeginMode.Quads);
+                    OpenTK.Graphics.OpenGL.GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
 
-                    GL.TexCoord2(x1, y1);
-                    GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
+                    OpenTK.Graphics.OpenGL.GL.TexCoord2(x1, y1);
+                    OpenTK.Graphics.OpenGL.GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
 
-                    GL.TexCoord2(x1, y2);
-                    GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
+                    OpenTK.Graphics.OpenGL.GL.TexCoord2(x1, y2);
+                    OpenTK.Graphics.OpenGL.GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
 
-                    GL.TexCoord2(x2, y2);
-                    GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
+                    OpenTK.Graphics.OpenGL.GL.TexCoord2(x2, y2);
+                    OpenTK.Graphics.OpenGL.GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
 
-                    GL.TexCoord2(x2, y1);
-                    GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
+                    OpenTK.Graphics.OpenGL.GL.TexCoord2(x2, y1);
+                    OpenTK.Graphics.OpenGL.GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
 
-                    GL.End();
+                    OpenTK.Graphics.OpenGL.GL.End();
                 }
                 else
                 {
-                    GL.Begin(BeginMode.Quads);
+                    OpenTK.Graphics.OpenGL.GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
 
-                    GL.TexCoord2(x2, y2);
-                    GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
+                    OpenTK.Graphics.OpenGL.GL.TexCoord2(x2, y2);
+                    OpenTK.Graphics.OpenGL.GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
 
-                    GL.TexCoord2(x2, y1);
-                    GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
+                    OpenTK.Graphics.OpenGL.GL.TexCoord2(x2, y1);
+                    OpenTK.Graphics.OpenGL.GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
 
-                    GL.TexCoord2(x1, y1);
-                    GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
+                    OpenTK.Graphics.OpenGL.GL.TexCoord2(x1, y1);
+                    OpenTK.Graphics.OpenGL.GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
 
-                    GL.TexCoord2(x1, y2);
-                    GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
+                    OpenTK.Graphics.OpenGL.GL.TexCoord2(x1, y2);
+                    OpenTK.Graphics.OpenGL.GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
 
-                    GL.End();
+                    OpenTK.Graphics.OpenGL.GL.End();
                 }
 
-                GL.PopMatrix();
+                OpenTK.Graphics.OpenGL.GL.PopMatrix();
 
-                GL.Disable(EnableCap.Blend);
-                GL.BindTexture(TextureTarget.Texture2D, 0);
+                OpenTK.Graphics.OpenGL.GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
+                OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
             }
         }
 
@@ -1281,31 +1281,31 @@ namespace Vocaluxe.Lib.Draw
         {
             if (_TextureExists(ref Texture))
             {
-                GL.BindTexture(TextureTarget.Texture2D, Texture.ID);
+                OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, Texture.ID);
 
-                GL.Enable(EnableCap.Blend);
-                GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-
-
-                GL.Begin(BeginMode.Quads);
-
-                GL.TexCoord2(0f + begin * Texture.width_ratio, 0f);
-                GL.Vertex3(rect.X + begin * rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
-
-                GL.TexCoord2(0f + begin * Texture.width_ratio, Texture.height_ratio);
-                GL.Vertex3(rect.X + begin * rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
-
-                GL.TexCoord2(Texture.width_ratio * end, Texture.height_ratio);
-                GL.Vertex3(rect.X + end * rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
-
-                GL.TexCoord2(Texture.width_ratio * end, 0f);
-                GL.Vertex3(rect.X + end * rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
-
-                GL.End();
+                OpenTK.Graphics.OpenGL.GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
+                OpenTK.Graphics.OpenGL.GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
 
 
-                GL.Disable(EnableCap.Blend);
-                GL.BindTexture(TextureTarget.Texture2D, 0);
+                OpenTK.Graphics.OpenGL.GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
+
+                OpenTK.Graphics.OpenGL.GL.TexCoord2(0f + begin * Texture.width_ratio, 0f);
+                OpenTK.Graphics.OpenGL.GL.Vertex3(rect.X + begin * rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
+
+                OpenTK.Graphics.OpenGL.GL.TexCoord2(0f + begin * Texture.width_ratio, Texture.height_ratio);
+                OpenTK.Graphics.OpenGL.GL.Vertex3(rect.X + begin * rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
+
+                OpenTK.Graphics.OpenGL.GL.TexCoord2(Texture.width_ratio * end, Texture.height_ratio);
+                OpenTK.Graphics.OpenGL.GL.Vertex3(rect.X + end * rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
+
+                OpenTK.Graphics.OpenGL.GL.TexCoord2(Texture.width_ratio * end, 0f);
+                OpenTK.Graphics.OpenGL.GL.Vertex3(rect.X + end * rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
+
+                OpenTK.Graphics.OpenGL.GL.End();
+
+
+                OpenTK.Graphics.OpenGL.GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
+                OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
             }
         }
 
@@ -1313,7 +1313,7 @@ namespace Vocaluxe.Lib.Draw
         {
             if (rect.W == 0f || rect.H == 0f || bounds.H == 0f || bounds.W == 0f || color.A == 0f || height <= 0f)
                 return;
-            
+
             if (bounds.X > rect.X + rect.W || bounds.X + bounds.W < rect.X)
                 return;
 
@@ -1325,7 +1325,7 @@ namespace Vocaluxe.Lib.Draw
 
             if (_TextureExists(ref Texture))
             {
-                GL.BindTexture(TextureTarget.Texture2D, Texture.ID);
+                OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, Texture.ID);
 
                 float x1 = (bounds.X - rect.X) / rect.W * Texture.width_ratio;
                 float x2 = (bounds.X + bounds.W - rect.X) / rect.W * Texture.width_ratio;
@@ -1362,44 +1362,44 @@ namespace Vocaluxe.Lib.Draw
                 if (ry2 > bounds.Y + bounds.H + space + height)
                     ry2 = bounds.Y + bounds.H + space + height;
 
-                GL.Enable(EnableCap.Blend);
+                OpenTK.Graphics.OpenGL.GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
 
-                GL.MatrixMode(MatrixMode.Texture);
-                GL.PushMatrix();
+                OpenTK.Graphics.OpenGL.GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Texture);
+                OpenTK.Graphics.OpenGL.GL.PushMatrix();
 
                 if (rect.Rotation != 0f)
                 {
-                    GL.Translate(0.5f, 0.5f, 0);
-                    GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
-                    GL.Translate(-0.5f, -0.5f, 0);
+                    OpenTK.Graphics.OpenGL.GL.Translate(0.5f, 0.5f, 0);
+                    OpenTK.Graphics.OpenGL.GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
+                    OpenTK.Graphics.OpenGL.GL.Translate(-0.5f, -0.5f, 0);
                 }
 
 
-                GL.Begin(BeginMode.Quads);
+                OpenTK.Graphics.OpenGL.GL.Begin(OpenTK.Graphics.OpenGL.BeginMode.Quads);
 
-                GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-                GL.TexCoord2(x2, y2);
-                GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
+                OpenTK.Graphics.OpenGL.GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+                OpenTK.Graphics.OpenGL.GL.TexCoord2(x2, y2);
+                OpenTK.Graphics.OpenGL.GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
 
-                GL.Color4(color.R, color.G, color.B, 0f);
-                GL.TexCoord2(x2, y1);
-                GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
+                OpenTK.Graphics.OpenGL.GL.Color4(color.R, color.G, color.B, 0f);
+                OpenTK.Graphics.OpenGL.GL.TexCoord2(x2, y1);
+                OpenTK.Graphics.OpenGL.GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
 
-                GL.Color4(color.R, color.G, color.B, 0f);
-                GL.TexCoord2(x1, y1);
-                GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
+                OpenTK.Graphics.OpenGL.GL.Color4(color.R, color.G, color.B, 0f);
+                OpenTK.Graphics.OpenGL.GL.TexCoord2(x1, y1);
+                OpenTK.Graphics.OpenGL.GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
 
-                GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-                GL.TexCoord2(x1, y2);
-                GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
+                OpenTK.Graphics.OpenGL.GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+                OpenTK.Graphics.OpenGL.GL.TexCoord2(x1, y2);
+                OpenTK.Graphics.OpenGL.GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
 
-                GL.End();
+                OpenTK.Graphics.OpenGL.GL.End();
 
 
-                GL.PopMatrix();
+                OpenTK.Graphics.OpenGL.GL.PopMatrix();
 
-                GL.Disable(EnableCap.Blend);
-                GL.BindTexture(TextureTarget.Texture2D, 0);
+                OpenTK.Graphics.OpenGL.GL.Disable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
+                OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
             }
         }
         #endregion drawing
@@ -1419,9 +1419,7 @@ namespace Vocaluxe.Lib.Draw
                 STextureQueque q = _Queque[0];
                 STexture texture = new STexture(-1);
                 if (_Textures.ContainsKey(q.ID))
-                {
                     texture = _Textures[q.ID];
-                }
 
                 if (texture.index < 1)
                     return;
@@ -1430,10 +1428,11 @@ namespace Vocaluxe.Lib.Draw
                 {
                     try
                     {
-                        GL.GenBuffers(1, out texture.PBO);
-                        GL.BindBuffer(BufferTarget.PixelUnpackBuffer, texture.PBO);
-                        GL.BufferData(BufferTarget.PixelUnpackBuffer, (IntPtr)q.data.Length, IntPtr.Zero, BufferUsageHint.StreamDraw);
-                        GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
+                        OpenTK.Graphics.OpenGL.GL.GenBuffers(1, out texture.PBO);
+                        OpenTK.Graphics.OpenGL.GL.BindBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, texture.PBO);
+                        OpenTK.Graphics.OpenGL.GL.BufferData(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, (IntPtr)q.data.Length, IntPtr.Zero,
+                                                             OpenTK.Graphics.OpenGL.BufferUsageHint.StreamDraw);
+                        OpenTK.Graphics.OpenGL.GL.BindBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, 0);
                     }
                     catch (Exception)
                     {
@@ -1442,34 +1441,40 @@ namespace Vocaluxe.Lib.Draw
                     }
                 }
 
-                int id = GL.GenTexture();
-                GL.BindTexture(TextureTarget.Texture2D, id);
+                int id = OpenTK.Graphics.OpenGL.GL.GenTexture();
+                OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, id);
                 texture.ID = id;
 
                 texture.width = q.width;
                 texture.height = q.height;
-                texture.w2 = (float)MathHelper.NextPowerOfTwo(texture.width);
-                texture.h2 = (float)MathHelper.NextPowerOfTwo(texture.height);
+                texture.w2 = MathHelper.NextPowerOfTwo(texture.width);
+                texture.h2 = MathHelper.NextPowerOfTwo(texture.height);
 
                 texture.width_ratio = texture.width / texture.w2;
                 texture.height_ratio = texture.height / texture.h2;
 
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, (int)texture.w2, (int)texture.h2, 0,
-                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+                OpenTK.Graphics.OpenGL.GL.TexImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, OpenTK.Graphics.OpenGL.PixelInternalFormat.Rgba, (int)texture.w2,
+                                                     (int)texture.h2, 0,
+                                                     OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, IntPtr.Zero);
 
-                GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, q.width, q.height,
-                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, q.data);
+                OpenTK.Graphics.OpenGL.GL.TexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, 0, 0, q.width, q.height,
+                                                        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, q.data);
 
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
+                OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapS,
+                                                       (int)OpenTK.Graphics.OpenGL.TextureParameterName.ClampToEdge);
+                OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureWrapT,
+                                                       (int)OpenTK.Graphics.OpenGL.TextureParameterName.ClampToEdge);
 
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMagFilter,
+                                                       (int)OpenTK.Graphics.OpenGL.TextureMagFilter.Linear);
+                OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter,
+                                                       (int)OpenTK.Graphics.OpenGL.TextureMinFilter.Linear);
 
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
-                GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+                OpenTK.Graphics.OpenGL.GL.TexParameter(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, OpenTK.Graphics.OpenGL.TextureParameterName.TextureMinFilter,
+                                                       (int)OpenTK.Graphics.OpenGL.TextureMinFilter.LinearMipmapLinear);
+                OpenTK.Graphics.OpenGL.GL.Ext.GenerateMipmap(OpenTK.Graphics.OpenGL.GenerateMipmapTarget.Texture2D);
 
-                GL.BindTexture(TextureTarget.Texture2D, 0);
+                OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
 
                 // Add to Texture List
                 texture.color = new SColorF(1f, 1f, 1f, 1f);

@@ -8,6 +8,7 @@ using VocaluxeLib.PartyModes;
 
 namespace Vocaluxe.Base
 {
+
     #region Structs
     struct SPartyMode
     {
@@ -27,10 +28,9 @@ namespace Vocaluxe.Base
     }
     #endregion Structs
 
-
     static class CParty
     {
-        const int PartyModeSystemVersion = 1;
+        private const int PartyModeSystemVersion = 1;
 
         private static Dictionary<int, SPartyMode> _PartyModes;
         private static Queue<int> _IDs;
@@ -81,7 +81,7 @@ namespace Vocaluxe.Base
         {
             List<SPartyModeInfos> infos = new List<SPartyModeInfos>();
 
-            int[] UsedKeys  = new int[_PartyModes.Count];
+            int[] UsedKeys = new int[_PartyModes.Count];
             _PartyModes.Keys.CopyTo(UsedKeys, 0);
 
             for (int i = 0; i < UsedKeys.Length; i++)
@@ -115,7 +115,7 @@ namespace Vocaluxe.Base
             }
             return infos;
         }
-                
+
         public static void SetNormalGameMode()
         {
             CSongs.ResetPartySongSung();
@@ -164,7 +164,7 @@ namespace Vocaluxe.Base
 
         public static void OnCategoryChange(int CategoryIndex, ref ScreenSongOptions ScreenSongOptions)
         {
-            _CurrentPartyMode.PartyMode.OnCategoryChange(CategoryIndex,  ref ScreenSongOptions);
+            _CurrentPartyMode.PartyMode.OnCategoryChange(CategoryIndex, ref ScreenSongOptions);
         }
 
         public static void SetSearchString(string SearchString, bool Visible)
@@ -213,7 +213,7 @@ namespace Vocaluxe.Base
 
         private static SPartyMode LoadPartyMode(string file)
         {
-            SPartyMode pm =  new SPartyMode();
+            SPartyMode pm = new SPartyMode();
             pm.PartyModeID = _IDs.Dequeue();
             pm.ScreenFiles = new List<string>();
             pm.NoErrors = false;
@@ -226,7 +226,7 @@ namespace Vocaluxe.Base
 
             bool loaded = true;
 
-            loaded &= xmlReader.TryGetIntValue("//root/PartyModeSystemVersion", ref pm.PartyModeSystemVersion);                
+            loaded &= xmlReader.TryGetIntValue("//root/PartyModeSystemVersion", ref pm.PartyModeSystemVersion);
             loaded &= xmlReader.GetValue("//root/Info/Name", ref pm.Name, "ERROR Name");
             loaded &= xmlReader.GetValue("//root/Info/Description", ref pm.Description, "ERROR Description");
             loaded &= xmlReader.GetValue("//root/Info/Author", ref pm.Author, "ERROR Author");
@@ -259,7 +259,7 @@ namespace Vocaluxe.Base
 
             List<string> FilesToCompile = new List<string>();
             FilesToCompile.AddRange(CHelper.ListFiles(PathToCode, "*.cs", false, true));
-            
+
             Assembly Output = CompileFiles(FilesToCompile.ToArray());
             if (Output == null)
                 return pm;
@@ -355,9 +355,7 @@ namespace Vocaluxe.Base
                 if (CompileResult.Errors.Count > 0)
                 {
                     foreach (CompilerError e in CompileResult.Errors)
-                    {
-                        CLog.LogError("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.ErrorText+" in '"+e.FileName+"' ("+e.Line+")");
-                    }
+                        CLog.LogError("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.ErrorText + " in '" + e.FileName + "' (" + e.Line + ")");
                     return null;
                 }
                 return CompileResult.CompiledAssembly;

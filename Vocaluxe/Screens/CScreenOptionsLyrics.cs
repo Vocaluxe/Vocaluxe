@@ -1,5 +1,4 @@
 ﻿using System.Windows.Forms;
-
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 
@@ -8,23 +7,22 @@ namespace Vocaluxe.Screens
     class CScreenOptionsLyrics : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion { get { return 1; } }
+        protected override int _ScreenVersion
+        {
+            get { return 1; }
+        }
 
         private const string SelectSlideLyricStyle = "SelectSlideLyricStyle";
         private const string SelectSlideLyricsOnTop = "SelectSlideLyricsOnTop";
 
         private const string ButtonExit = "ButtonExit";
 
-        public CScreenOptionsLyrics()
-        {
-        }
-
         public override void Init()
         {
             base.Init();
 
-            _ThemeButtons = new string[] { ButtonExit };
-            _ThemeSelectSlides = new string[] { SelectSlideLyricStyle, SelectSlideLyricsOnTop };
+            _ThemeButtons = new[] {ButtonExit};
+            _ThemeSelectSlides = new[] {SelectSlideLyricStyle, SelectSlideLyricsOnTop};
         }
 
         public override void LoadTheme(string XmlPath)
@@ -38,10 +36,7 @@ namespace Vocaluxe.Screens
         {
             base.HandleInput(KeyEvent);
 
-            if (KeyEvent.KeyPressed)
-            {
-
-            }
+            if (KeyEvent.KeyPressed) {}
             else
             {
                 switch (KeyEvent.Key)
@@ -90,9 +85,7 @@ namespace Vocaluxe.Screens
             {
                 SaveConfig();
                 if (Buttons[ButtonExit].Selected)
-                {
                     CGraphics.FadeTo(EScreens.ScreenOptions);
-                }
             }
             return true;
         }

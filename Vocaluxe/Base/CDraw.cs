@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
-
 using Vocaluxe.Lib.Draw;
 using VocaluxeLib.Menu;
 
@@ -9,8 +9,8 @@ namespace Vocaluxe.Base
 {
     static class CDraw
     {
-        private static IDraw _Draw = null;
-        
+        private static IDraw _Draw;
+
         public static void InitDraw()
         {
             switch (CConfig.Renderer)
@@ -27,9 +27,9 @@ namespace Vocaluxe.Base
                     catch (Exception e)
                     {
                         MessageBox.Show(e.Message + " - Error in initializing of OpenGL. Please check whether" +
-                            " your graphic card drivers are up to date.");
+                                        " your graphic card drivers are up to date.");
                         CLog.LogError(e.Message + " - Error in initializing of OpenGL. Please check whether" +
-                            " your graphic card drivers are up to date.");
+                                      " your graphic card drivers are up to date.");
                         Environment.Exit(Environment.ExitCode);
                     }
                     break;
@@ -43,12 +43,12 @@ namespace Vocaluxe.Base
                     catch (Exception e)
                     {
                         MessageBox.Show(e.Message + " - Error in initializing of Direct3D. Please check if " +
-                            "your DirectX redistributables and graphic card drivers are up to date. You can " +
-                            "download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109",
-                    CSettings.sProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        "your DirectX redistributables and graphic card drivers are up to date. You can " +
+                                        "download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109",
+                                        CSettings.sProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         CLog.LogError(e.Message + " - Error in initializing of Direct3D. Please check if " +
-                            "your DirectX redistributables and graphic card drivers are up to date. You can " +
-                            "download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
+                                      "your DirectX redistributables and graphic card drivers are up to date. You can " +
+                                      "download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
                         Environment.Exit(Environment.ExitCode);
                     }
                     break;
@@ -139,7 +139,7 @@ namespace Vocaluxe.Base
         {
             _Draw.MakeScreenShot();
         }
-        
+
         // Draw Basic Text (must be deleted later)
         public static void DrawText(string Text, int x, int y, int h)
         {
@@ -161,7 +161,7 @@ namespace Vocaluxe.Base
             if (MaxSize == 0)
                 return _Draw.AddTexture(TexturePath);
 
-            if (!System.IO.File.Exists(TexturePath))
+            if (!File.Exists(TexturePath))
                 return new STexture(-1);
 
             using (Bitmap origin = new Bitmap(TexturePath))
@@ -257,7 +257,7 @@ namespace Vocaluxe.Base
 
             CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, Aspect);
             DrawTexture(Texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, StaticBounds.Rect.Z),
-                    Texture.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false);
+                        Texture.color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false);
         }
 
         public static void DrawTextureReflection(STexture Texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)

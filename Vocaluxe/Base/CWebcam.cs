@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-
 using Vocaluxe.Lib.Webcam;
 using VocaluxeLib.Menu;
 

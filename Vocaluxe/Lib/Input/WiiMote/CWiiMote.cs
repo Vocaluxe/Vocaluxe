@@ -8,17 +8,17 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Input.WiiMote
 {
-    class CWiiMote : IInput, IDisposable 
+    class CWiiMote : IInput, IDisposable
     {
-        WiiMoteLib _WiiMote = null;
+        private WiiMoteLib _WiiMote;
 
         private List<KeyEvent> _KeysPool;
         private List<KeyEvent> _CurrentKeysPool;
-        private Object _KeyCopyLock = new Object();
+        private readonly Object _KeyCopyLock = new Object();
 
         private List<MouseEvent> _MousePool;
         private List<MouseEvent> _CurrentMousePool;
-        private Object _MouseCopyLock = new Object();
+        private readonly Object _MouseCopyLock = new Object();
 
         private bool[] _ButtonStates;
         private Point _OldPosition;
@@ -69,7 +69,6 @@ namespace Vocaluxe.Lib.Input.WiiMote
             }
             return true;
         }
-        
 
         public bool Disconnect()
         {
@@ -95,7 +94,8 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 _CurrentKeysPool.RemoveAt(0);
                 return true;
             }
-            else return false;                          
+            else
+                return false;
         }
 
         public bool PollMouseEvent(ref MouseEvent MouseEvent)
@@ -106,7 +106,8 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 _CurrentMousePool.RemoveAt(0);
                 return true;
             }
-            else return false;    
+            else
+                return false;
         }
 
         public void SetRumble(float Duration)
@@ -116,7 +117,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 _RumbleTimer.Set(Duration);
             }
         }
-        
+
         private void MainLoop()
         {
             _WiiMote = new WiiMoteLib();
@@ -163,7 +164,8 @@ namespace Vocaluxe.Lib.Input.WiiMote
             }
             catch
             {
-                return false; ;
+                return false;
+                ;
             }
 
             _WiiMote.SetReportType(InputReport.IRAccel, IRSensitivity.Max, false);
@@ -190,7 +192,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
             Point p = ws.IRState.Position;
             p.X = 1023 - p.X;
-            
+
             //key events
             bool alt = false;
             bool shift = false;
@@ -255,13 +257,13 @@ namespace Vocaluxe.Lib.Input.WiiMote
             //mouse events
             float reducing = 0.15f;
             float factor = 1f / (1f - reducing * 2f);
-            float rx = (((float)p.X / 1024f) - reducing) * factor;
-            float ry = (((float)p.Y / 768f) - reducing) * factor;
+            float rx = ((p.X / 1024f) - reducing) * factor;
+            float ry = ((p.Y / 768f) - reducing) * factor;
 
-            int x = (int)(rx * (float)CSettings.iRenderW);
-            int y = (int)(ry * (float)CSettings.iRenderH);
+            int x = (int)(rx * CSettings.iRenderW);
+            int y = (int)(ry * CSettings.iRenderH);
 
-            
+
             bool ld = false;
             bool lbh = !lb && ws.ButtonState.A;
             bool rbh = false;
@@ -306,18 +308,14 @@ namespace Vocaluxe.Lib.Input.WiiMote
             lock (_KeyCopyLock)
             {
                 foreach (KeyEvent e in _KeysPool)
-                {
                     _CurrentKeysPool.Add(e);
-                }
                 _KeysPool.Clear();
             }
 
             lock (_MouseCopyLock)
             {
                 foreach (MouseEvent e in _MousePool)
-                {
                     _CurrentMousePool.Add(e);
-                }
                 _MousePool.Clear();
             }
         }

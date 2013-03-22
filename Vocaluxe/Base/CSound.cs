@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-
 using Vocaluxe.Lib.Sound;
 using VocaluxeLib.Menu;
 
@@ -15,7 +14,7 @@ namespace Vocaluxe.Base
     static class CSound
     {
         #region Playback
-        private static IPlayback _Playback = null;
+        private static IPlayback _Playback;
 
         public static bool PlaybackInit()
         {
@@ -150,8 +149,8 @@ namespace Vocaluxe.Base
         {
             _Playback.SetPosition(Stream, Position);
         }
-
         #endregion Stream Handling
+
         #endregion Playback
 
         #region Sounds
@@ -168,16 +167,16 @@ namespace Vocaluxe.Base
             if (file.Length == 0)
                 return -1;
 
-            int stream = CSound.Load(file);
-            float length = CSound.GetLength(stream);
-            CSound.Play(stream);
-            CSound.FadeAndStop(stream, 100f, length);
+            int stream = Load(file);
+            float length = GetLength(stream);
+            Play(stream);
+            FadeAndStop(stream, 100f, length);
             return stream;
         }
         #endregion Sounds
 
         #region Record
-        private static IRecord _Record = null;
+        private static IRecord _Record;
 
         public static bool RecordInit()
         {
@@ -197,7 +196,7 @@ namespace Vocaluxe.Base
                     _Record = new CPortAudioRecord();
                     break;
             }
-            
+
             return true;
         }
 
@@ -209,7 +208,7 @@ namespace Vocaluxe.Base
         public static bool RecordStart()
         {
             SRecordDevice[] devices = RecordGetDevices();
-            
+
             return _Record.Start(devices);
         }
 
@@ -261,23 +260,23 @@ namespace Vocaluxe.Base
         public static SRecordDevice[] RecordGetDevices()
         {
             SRecordDevice[] devices = _Record.RecordDevices();
-			
-			if (devices != null)
-			{
-	            for (int dev = 0; dev < devices.Length; dev++)
-	            {
-	                for (int inp = 0; inp < devices[dev].Inputs.Count; inp++)
-	                {
-	                    SInput input = devices[dev].Inputs[inp];
-	
-	                    input.PlayerChannel1 = GetPlayerFromMicConfig(devices[dev].Name, devices[dev].Driver, input.Name, 1);
-	                    input.PlayerChannel2 = GetPlayerFromMicConfig(devices[dev].Name, devices[dev].Driver, input.Name, 2);
-	
-	                    devices[dev].Inputs[inp] = input;
-	                }
-	            }
-				return devices;
-			}
+
+            if (devices != null)
+            {
+                for (int dev = 0; dev < devices.Length; dev++)
+                {
+                    for (int inp = 0; inp < devices[dev].Inputs.Count; inp++)
+                    {
+                        SInput input = devices[dev].Inputs[inp];
+
+                        input.PlayerChannel1 = GetPlayerFromMicConfig(devices[dev].Name, devices[dev].Driver, input.Name, 1);
+                        input.PlayerChannel2 = GetPlayerFromMicConfig(devices[dev].Name, devices[dev].Driver, input.Name, 2);
+
+                        devices[dev].Inputs[inp] = input;
+                    }
+                }
+                return devices;
+            }
 
             return null;
         }
@@ -291,9 +290,7 @@ namespace Vocaluxe.Base
                     CConfig.MicConfig[p].DeviceDriver == devicedriver &&
                     CConfig.MicConfig[p].InputName == input &&
                     CConfig.MicConfig[p].Channel == channel)
-                {
                     return p + 1;
-                }
             }
             return 0;
         }
@@ -305,25 +302,23 @@ namespace Vocaluxe.Base
         private const double _BaseToneFreq = 65.4064;
         private const int _NumHalfTones = 47;
 
-        private float[] _ToneWeigth;
+        private readonly float[] _ToneWeigth;
         private Int16[] _AnalysisBuffer = new Int16[4096];
-        private Object _AnalysisBufferLock = new Object();
+        private readonly Object _AnalysisBufferLock = new Object();
 
-        private bool _ToneValid = false;
-        private int _Tone = 0;
-        private int _ToneAbs = 0;
-        private double _MaxVolume = 0.0;
+        private bool _ToneValid;
+        private int _Tone;
+        private int _ToneAbs;
+        private double _MaxVolume;
         private bool _NewSamples;
 
-        private MemoryStream _Stream = null;                       // full buffer
+        private MemoryStream _Stream; // full buffer
 
         public CBuffer()
         {
             _ToneWeigth = new float[_NumHalfTones];
             for (int i = 0; i < _ToneWeigth.Length; i++)
-            {
                 _ToneWeigth[i] = 0.99f;
-            }
             _Stream = new MemoryStream();
             _NewSamples = false;
         }
@@ -335,12 +330,12 @@ namespace Vocaluxe.Base
 
         public int ToneAbs
         {
-            get 
+            get
             {
                 lock (_AnalysisBufferLock)
                 {
-                    return _ToneAbs; 
-                } 
+                    return _ToneAbs;
+                }
             }
         }
 
@@ -422,7 +417,6 @@ namespace Vocaluxe.Base
 
         public void ProcessNewBuffer(byte[] buffer)
         {
-
             // apply software boost
             //BoostBuffer(Buffer, BufferSize);
 
@@ -469,7 +463,7 @@ namespace Vocaluxe.Base
                 _MaxVolume = 0;
                 for (int i = 0; i < _AnalysisBuffer.Length / 4; i++)
                 {
-                    float Volume = Math.Abs((float)_AnalysisBuffer[i]) / (float)Int16.MaxValue;
+                    float Volume = Math.Abs((float)_AnalysisBuffer[i]) / Int16.MaxValue;
                     if (Volume > MaxVolume)
                         _MaxVolume = Volume;
                 }
@@ -478,12 +472,8 @@ namespace Vocaluxe.Base
                     AnalyzeByAutocorrelation(true);
                 else
                     AnalyzeByAutocorrelation(false);
-
             }
-            catch (Exception)
-            {
-
-            }
+            catch (Exception) {}
         }
 
         private void AnalyzeByAutocorrelation(bool valid)
@@ -521,9 +511,7 @@ namespace Vocaluxe.Base
             if (valid && MaxWeight - MinWeight > 0.01)
             {
                 for (int i = 0; i < Weigth.Length; i++)
-                {
                     _ToneWeigth[i] = Weigth[i];
-                }
 
                 _ToneAbs = MaxTone;
                 _Tone = MaxTone % 12;
@@ -535,18 +523,18 @@ namespace Vocaluxe.Base
 
         private double AnalyzeAutocorrelationFreq(double Freq)
         {
-            int SampleIndex = 0;                                            // index of sample to analyze
-            int SamplesPerPeriod = (int)Math.Round(44100.0 / Freq);         // samples in one period
-            int CorrelatingSampleIndex = SampleIndex + SamplesPerPeriod;    // index of sample one period ahead
+            int SampleIndex = 0; // index of sample to analyze
+            int SamplesPerPeriod = (int)Math.Round(44100.0 / Freq); // samples in one period
+            int CorrelatingSampleIndex = SampleIndex + SamplesPerPeriod; // index of sample one period ahead
 
-            double AccumDist = 0.0;                                         // accumulated distances
+            double AccumDist = 0.0; // accumulated distances
 
             // compare correlating samples
             while (CorrelatingSampleIndex < _AnalysisBuffer.Length)
             {
                 // calc distance (correlation: 1-dist) to corresponding sample in next period
                 // distance (0=equal .. 1=totally different) between correlated samples
-                double Dist = Math.Abs((double)_AnalysisBuffer[SampleIndex] - _AnalysisBuffer[CorrelatingSampleIndex]) / (double)Int16.MaxValue;
+                double Dist = Math.Abs((double)_AnalysisBuffer[SampleIndex] - _AnalysisBuffer[CorrelatingSampleIndex]) / Int16.MaxValue;
                 AccumDist += Dist;
                 SampleIndex++;
                 CorrelatingSampleIndex++;
@@ -568,10 +556,10 @@ namespace Vocaluxe.Base
 
     class CSyncTimer
     {
-        private PT1 _ExternTime;
-        private Stopwatch _Timer;
+        private readonly PT1 _ExternTime;
+        private readonly Stopwatch _Timer;
         private float _SetValue;
-  
+
         public float Time
         {
             get
@@ -648,9 +636,9 @@ namespace Vocaluxe.Base
         private float _CurrentTime;
         private float _OldTime;
 
-        private Stopwatch _STimer;
-        private float _K;
-        private float _T;
+        private readonly Stopwatch _STimer;
+        private readonly float _K;
+        private readonly float _T;
 
         public float Time
         {
@@ -698,7 +686,7 @@ namespace Vocaluxe.Base
 
             if (Stopwatch.IsHighResolution && ticks != 0)
                 dt = (float)(ticks * nanosecPerTick / 1000000000.0);
-                        
+
             float Ts = 0f;
             if (dt > 0)
                 Ts = 1 / (_T / dt + 1);

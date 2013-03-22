@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Xml;
 using VocaluxeLib.Menu;
 
@@ -23,10 +24,10 @@ namespace Vocaluxe.Base
 
     static class CLanguage
     {
-        private static XmlWriterSettings _settings = new XmlWriterSettings();
+        private static readonly XmlWriterSettings _settings = new XmlWriterSettings();
         private static List<SLanguage> _Languages;
-        private static int _CurrentLanguage = 0;
-        private static int _FallbackLanguage = 0;
+        private static int _CurrentLanguage;
+        private static int _FallbackLanguage;
 
         public static int LanguageId
         {
@@ -48,9 +49,7 @@ namespace Vocaluxe.Base
             string[] Languages = new string[_Languages.Count];
 
             for (int i = 0; i < _Languages.Count; i++)
-            {
-                Languages[i]=_Languages[i].Name;
-            }
+                Languages[i] = _Languages[i].Name;
 
             return Languages;
         }
@@ -59,16 +58,14 @@ namespace Vocaluxe.Base
         {
             _Languages = new List<SLanguage>();
             _settings.Indent = true;
-            _settings.Encoding = System.Text.Encoding.UTF8;
+            _settings.Encoding = Encoding.UTF8;
             _settings.ConformanceLevel = ConformanceLevel.Document;
 
             List<string> files = new List<string>();
             files.AddRange(CHelper.ListFiles(CSettings.sFolderLanguages, "*.xml", true, true));
-            
+
             foreach (string file in files)
-	        {
-		        LoadLanguageFile(file);
-	        }
+                LoadLanguageFile(file);
         }
 
         public static bool SetLanguage(string Language)
@@ -102,7 +99,7 @@ namespace Vocaluxe.Base
             if (KeyWord == null)
                 return "Error";
 
-            if (KeyWord.Length < 3 ||  KeyWord.Substring(0, 3) != "TR_")
+            if (KeyWord.Length < 3 || KeyWord.Substring(0, 3) != "TR_")
                 return KeyWord;
 
             string result;
@@ -170,7 +167,7 @@ namespace Vocaluxe.Base
             Texts = new Dictionary<string, string>();
             List<string> names = xmlReader.GetAttributes("resources", "name");
             string value = string.Empty;
-            foreach(string name in names)
+            foreach (string name in names)
             {
                 if (xmlReader.GetValue("//resources/string[@name='" + name + "']", ref value, ""))
                 {
@@ -206,7 +203,7 @@ namespace Vocaluxe.Base
                 lang.PartyModeID = PartyModeID;
                 if (!_LoadLanguageEntries(xmlReader, ref lang.Texts))
                     return false;
-       
+
                 _Languages[nr].PartyModeTexts.Add(lang);
                 return true;
             }
@@ -245,10 +242,10 @@ namespace Vocaluxe.Base
         private static int GetPartyModeNr(int PartyModeID, int Language)
         {
             for (int i = 0; i < _Languages[Language].PartyModeTexts.Count; i++)
-			{
+            {
                 if (_Languages[Language].PartyModeTexts[i].PartyModeID == PartyModeID)
                     return i;
-			}
+            }
             return -1;
         }
     }

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
@@ -14,50 +15,50 @@ namespace Vocaluxe.Lib.Draw
     class CDrawWinForm : Form, IDraw
     {
         private bool _Run;
-        private Bitmap _backbuffer;
-        private Graphics _g;
-        private bool _fullscreen = false;
-        
-        private CKeys _Keys;
-        private CMouse _Mouse;
+        private readonly Bitmap _backbuffer;
+        private readonly Graphics _g;
+        private bool _fullscreen;
+
+        private readonly CKeys _Keys;
+        private readonly CMouse _Mouse;
 
         private FormBorderStyle _brdStyle;
         private bool _topMost;
         private Rectangle _bounds;
-        
-        private List<STexture> _Textures;
-        private List<Bitmap> _Bitmaps;
 
-        private Color ClearColor = Color.DarkBlue;
+        private readonly List<STexture> _Textures;
+        private readonly List<Bitmap> _Bitmaps;
+
+        private readonly Color ClearColor = Color.DarkBlue;
 
         public CDrawWinForm()
         {
-            this.Icon = new System.Drawing.Icon(Path.Combine(System.Environment.CurrentDirectory, CSettings.sIcon));
+            Icon = new Icon(Path.Combine(Environment.CurrentDirectory, CSettings.sIcon));
 
             _Textures = new List<STexture>();
             _Bitmaps = new List<Bitmap>();
 
             _Keys = new CKeys();
             _Mouse = new CMouse();
-            this.ClientSize = new Size(1280, 720);
+            ClientSize = new Size(1280, 720);
 
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.Opaque, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.Opaque, true);
 
             // Create the backbuffer
             _backbuffer = new Bitmap(CSettings.iRenderW, CSettings.iRenderH);
             _g = Graphics.FromImage(_backbuffer);
             _g.Clear(Color.DarkBlue);
 
-            this.Paint += new PaintEventHandler(this.OnPaintEvent);
-            this.Closing += new CancelEventHandler(this.OnClosingEvent);
-            this.KeyDown += new KeyEventHandler(this.OnKeyDownEvent);
-            this.KeyPress += new KeyPressEventHandler(this.OnKeyPressEvent);
-            this.KeyUp += new KeyEventHandler(this.OnKeyUpEvent);
-            this.Resize += new EventHandler(this.OnResizeEvent);
+            Paint += OnPaintEvent;
+            Closing += OnClosingEvent;
+            KeyDown += OnKeyDownEvent;
+            KeyPress += OnKeyPressEvent;
+            KeyUp += OnKeyUpEvent;
+            Resize += OnResizeEvent;
 
-            this.MouseMove += new MouseEventHandler(this.OnMouseMove);
-            this.MouseDown += new MouseEventHandler(this.OnMouseDown);
-            this.MouseUp += new MouseEventHandler(this.OnMouseUp);
+            MouseMove += OnMouseMove;
+            MouseDown += OnMouseDown;
+            MouseUp += OnMouseUp;
 
             FlipBuffer();
             Cursor.Show();
@@ -71,33 +72,29 @@ namespace Vocaluxe.Lib.Draw
 
         private void DrawBuffer()
         {
-            Graphics gFrontBuffer = Graphics.FromHwnd(this.Handle);
-            int h = this.ClientSize.Height;
-            int w = this.ClientSize.Width;
+            Graphics gFrontBuffer = Graphics.FromHwnd(Handle);
+            int h = ClientSize.Height;
+            int w = ClientSize.Width;
             int y = 0;
             int x = 0;
 
-            if ((float)this.ClientSize.Width / (float)this.ClientSize.Height > CSettings.GetRenderAspect())
+            if (ClientSize.Width / (float)ClientSize.Height > CSettings.GetRenderAspect())
             {
-                w = (int)Math.Round((float)this.ClientSize.Height * CSettings.GetRenderAspect());
-                x = (this.ClientSize.Width - w) / 2;
+                w = (int)Math.Round(ClientSize.Height * CSettings.GetRenderAspect());
+                x = (ClientSize.Width - w) / 2;
             }
             else
             {
-                h = (int)Math.Round((float)this.ClientSize.Width / CSettings.GetRenderAspect());
-                y = (this.ClientSize.Height - h) / 2;
+                h = (int)Math.Round(ClientSize.Width / CSettings.GetRenderAspect());
+                y = (ClientSize.Height - h) / 2;
             }
 
             gFrontBuffer.DrawImage(_backbuffer, new Rectangle(x, y, w, h), new Rectangle(0, 0, _backbuffer.Width, _backbuffer.Height), GraphicsUnit.Pixel);
         }
 
-        private void OnPaintEvent(object sender, PaintEventArgs e)
-        {
-            
-        }
+        private void OnPaintEvent(object sender, PaintEventArgs e) {}
 
         #region FullScreenStuff
-
         private void ToggleFullScreen()
         {
             if (!_fullscreen)
@@ -142,7 +139,7 @@ namespace Vocaluxe.Lib.Draw
 
         private void OnResizeEvent(object sender, EventArgs e)
         {
-            Graphics gFrontBuffer = Graphics.FromHwnd(this.Handle);
+            Graphics gFrontBuffer = Graphics.FromHwnd(Handle);
             gFrontBuffer.Clear(Color.Black);
         }
 
@@ -172,17 +169,17 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        private void OnKeyDownEvent(object sender, System.Windows.Forms.KeyEventArgs e)
+        private void OnKeyDownEvent(object sender, KeyEventArgs e)
         {
             _Keys.KeyDown(e);
         }
 
-        private void OnKeyPressEvent(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        private void OnKeyPressEvent(object sender, KeyPressEventArgs e)
         {
             _Keys.KeyPress(e);
         }
 
-        private void OnKeyUpEvent(object sender, System.Windows.Forms.KeyEventArgs e)
+        private void OnKeyUpEvent(object sender, KeyEventArgs e)
         {
             _Keys.KeyUp(e);
         }
@@ -206,7 +203,7 @@ namespace Vocaluxe.Lib.Draw
 
         public bool Init()
         {
-            this.Text = CSettings.GetFullVersionText();
+            Text = CSettings.GetFullVersionText();
             return true;
         }
 
@@ -214,7 +211,7 @@ namespace Vocaluxe.Lib.Draw
         {
             _Run = true;
             int delay = 0;
-            this.Show();
+            Show();
 
             if (CConfig.FullScreen == EOffOn.TR_CONFIG_ON)
             {
@@ -230,7 +227,7 @@ namespace Vocaluxe.Lib.Draw
                 {
                     _Run = _Run && CGraphics.Draw();
                     _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
-                    FlipBuffer();          
+                    FlipBuffer();
 
                     if ((CSettings.bFullScreen && !_fullscreen) || (!CSettings.bFullScreen && _fullscreen))
                         ToggleFullScreen();
@@ -239,29 +236,29 @@ namespace Vocaluxe.Lib.Draw
                         delay = (int)Math.Floor(CConfig.CalcCycleTime() - CTime.GetMilliseconds());
 
                     if (delay >= 1)
-                        System.Threading.Thread.Sleep(delay);
+                        Thread.Sleep(delay);
 
                     CTime.CalculateFPS();
                     CTime.Restart();
                 }
             }
-            this.Close();
+            Close();
         }
 
         public bool Unload()
         {
-            this.Dispose();
+            Dispose();
             return true;
         }
 
         public int GetScreenWidth()
         {
-            return this.ClientSize.Width;
+            return ClientSize.Width;
         }
 
         public int GetScreenHeight()
         {
-            return this.ClientSize.Height;
+            return ClientSize.Height;
         }
 
         public RectangleF GetTextBounds(CText text)
@@ -309,16 +306,14 @@ namespace Vocaluxe.Lib.Draw
                 Texture = CopyScreen();
             }
             else
-            {
                 _Bitmaps[Texture.index] = new Bitmap(_backbuffer);
-            }
         }
 
         public void MakeScreenShot()
         {
             string file = "Screenshot_";
             string path = Path.Combine(Environment.CurrentDirectory, CSettings.sFolderScreenshots);
-            
+
             int i = 0;
             while (File.Exists(Path.Combine(path, file + i.ToString("00000") + ".png")))
                 i++;
@@ -343,16 +338,9 @@ namespace Vocaluxe.Lib.Draw
             CFonts.DrawText(Text, h, x, y, z, new SColorF(1, 1, 1, 1));
         }
 
+        public void DrawColor(SColorF color, SRectF rect) {}
 
-        public void DrawColor(SColorF color, SRectF rect)
-        {
-
-        }
-
-        public void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
-        {
-
-        }
+        public void DrawColorReflection(SColorF color, SRectF rect, float space, float height) {}
 
         public STexture AddTexture(Bitmap bmp)
         {
@@ -378,10 +366,10 @@ namespace Vocaluxe.Lib.Draw
         public STexture AddTexture(string TexturePath)
         {
             STexture texture = new STexture();
-            if (System.IO.File.Exists(TexturePath))
+            if (File.Exists(TexturePath))
             {
                 bool found = false;
-                foreach(STexture tex in _Textures)
+                foreach (STexture tex in _Textures)
                 {
                     if (tex.TexturePath == TexturePath)
                     {
@@ -394,12 +382,10 @@ namespace Vocaluxe.Lib.Draw
                 if (!found)
                 {
                     using (Bitmap bmp = new Bitmap(TexturePath))
-                    {
                         return AddTexture(bmp);
-                    }
                 }
             }
-            
+
             return texture;
         }
 
@@ -434,7 +420,7 @@ namespace Vocaluxe.Lib.Draw
         {
             using (Bitmap bmp = new Bitmap(W, H))
             {
-                BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
                 Marshal.Copy(Data, 0, bmp_data.Scan0, Data.Length);
                 bmp.UnlockBits(bmp_data);
                 return AddTexture(bmp);
@@ -451,7 +437,7 @@ namespace Vocaluxe.Lib.Draw
             if ((Texture.index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > Texture.index))
             {
                 BitmapData bmp_data = _Bitmaps[Texture.index].LockBits(new Rectangle(0, 0, _Bitmaps[Texture.index].Width, _Bitmaps[Texture.index].Height),
-                    ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                                                                       ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
                 Marshal.Copy(Data, 0, bmp_data.Scan0, Data.Length);
                 _Bitmaps[Texture.index].UnlockBits(bmp_data);
             }
@@ -461,41 +447,31 @@ namespace Vocaluxe.Lib.Draw
         public void DrawTexture(STexture Texture)
         {
             if ((Texture.index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > Texture.index))
-            {
-                DrawTexture(Texture, Texture.rect, Texture.color);   
-            }
+                DrawTexture(Texture, Texture.rect, Texture.color);
         }
 
         public void DrawTexture(STexture Texture, SRectF rect)
         {
             if ((Texture.index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > Texture.index))
-            {
                 DrawTexture(Texture, rect, Texture.color);
-            }
         }
 
         public void DrawTexture(STexture Texture, SRectF rect, SColorF color)
         {
             if ((Texture.index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > Texture.index))
-            {
-                DrawTexture(Texture, rect, color, rect, false);   
-            }
+                DrawTexture(Texture, rect, color, rect, false);
         }
 
         public void DrawTexture(STexture Texture, SRectF rect, SColorF color, SRectF bounds)
         {
             if ((Texture.index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > Texture.index))
-            {
                 DrawTexture(Texture, rect, color, bounds, false);
-            }
         }
 
         public void DrawTexture(STexture Texture, SRectF rect, SColorF color, bool mirrored)
         {
             if ((Texture.index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > Texture.index))
-            {
                 DrawTexture(Texture, rect, color, rect, mirrored);
-            }
         }
 
         public void DrawTexture(STexture Texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored)
@@ -508,14 +484,9 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        public void DrawTexture(STexture Texture, SRectF rect, SColorF color, float begin, float end)
-        {
+        public void DrawTexture(STexture Texture, SRectF rect, SColorF color, float begin, float end) {}
 
-        }
-
-        public void DrawTextureReflection(STexture Texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
-        {
-        }
+        public void DrawTextureReflection(STexture Texture, SRectF rect, SColorF color, SRectF bounds, float space, float height) {}
 
         public int TextureCount()
         {
@@ -528,7 +499,6 @@ namespace Vocaluxe.Lib.Draw
 
             using (Graphics g = Graphics.FromImage(newBitmap))
             {
-
                 ColorMatrix cm = new ColorMatrix();
                 cm.Matrix33 = color.A;
                 cm.Matrix00 = color.R;
@@ -541,8 +511,7 @@ namespace Vocaluxe.Lib.Draw
                     ia.SetColorMatrix(cm);
 
                     g.DrawImage(original, new Rectangle(0, 0, original.Width, original.Height),
-                        0, 0, original.Width, original.Height, GraphicsUnit.Pixel, ia);
-
+                                0, 0, original.Width, original.Height, GraphicsUnit.Pixel, ia);
                 }
             }
 

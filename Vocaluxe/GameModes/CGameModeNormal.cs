@@ -1,5 +1,4 @@
-﻿
-namespace Vocaluxe.GameModes
+﻿namespace Vocaluxe.GameModes
 {
     // Nomal singing
     class CGameModeNormal : CGameMode

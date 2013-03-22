@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-
 using Vocaluxe.Lib.Playlist;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 
 namespace Vocaluxe.Base
 {
-
     static class CPlaylists
     {
         private static List<CPlaylistFile> _Playlists;
@@ -21,13 +19,11 @@ namespace Vocaluxe.Base
 
         public static string[] PlaylistNames
         {
-            get 
+            get
             {
                 List<string> names = new List<string>();
-                for (int i = 0; i < _Playlists.Count; i++) 
-                {
+                for (int i = 0; i < _Playlists.Count; i++)
                     names.Add(_Playlists[i].PlaylistName);
-                }
                 return names.ToArray();
             }
         }
@@ -84,9 +80,7 @@ namespace Vocaluxe.Base
             List<string> result = new List<string>();
 
             foreach (CPlaylistFile playlist in _Playlists)
-	        {
-		        result.Add(playlist.PlaylistName);
-	        }
+                result.Add(playlist.PlaylistName);
 
             return result.ToArray();
         }
@@ -131,8 +125,6 @@ namespace Vocaluxe.Base
             _Playlists.Add(pl);
             return (_Playlists.Count - 1);
         }
-
-
 
         public static void AddPlaylistSong(int PlaylistID, int SongID)
         {
@@ -230,10 +222,8 @@ namespace Vocaluxe.Base
             StreamReader sr;
             try
             {
-
                 using (sr = new StreamReader(file, Encoding.Default, true))
                 {
-
                     int pos = -1;
                     string line;
                     while ((line = sr.ReadLine()) != null)
@@ -247,11 +237,9 @@ namespace Vocaluxe.Base
                                 string Identifier = line.Substring(1, pos - 1).Trim();
                                 string Value = line.Substring(pos + 1, line.Length - pos - 1).Trim();
                                 if (Identifier.ToUpper() == "NAME")
-                                {
                                     pl.PlaylistName = Value;
-                                }
                             }
-                            //Song
+                                //Song
                             else
                             {
                                 string Artist = line.Substring(0, pos - 1).Trim();
@@ -277,7 +265,7 @@ namespace Vocaluxe.Base
             catch
             {
                 return null;
-            }          
+            }
 
             return pl;
         }

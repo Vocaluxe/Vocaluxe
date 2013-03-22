@@ -1,5 +1,4 @@
-﻿
-namespace Vocaluxe.Lib.Sound.Decoder
+﻿namespace Vocaluxe.Lib.Sound.Decoder
 {
     struct FormatInfo
     {

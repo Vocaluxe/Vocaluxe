@@ -3,7 +3,8 @@ using System.Runtime.InteropServices;
 
 namespace Vocaluxe.Lib.Video.Gstreamer
 {
-    public struct NativeFrame {
+    public struct NativeFrame
+    {
         internal IntPtr buffer;
         public int Size;
         public int Width;
@@ -22,7 +23,7 @@ namespace Vocaluxe.Lib.Video.Gstreamer
 
     public static class CGstreamerVideoWrapper
     {
-#region arch
+        #region arch
 #if ARCH_X86
 #if WIN
         private const string Dll = "x86\\gstreamerhelper.dll";
@@ -34,7 +35,8 @@ namespace Vocaluxe.Lib.Video.Gstreamer
         private const string Dll = "x64\\gstreamer\\gstreamerhelper.dll";
 #endif
 #endif
-#endregion arch
+        #endregion arch
+
         public delegate void LogCallback(string message);
 
         [DllImport(Dll)]
@@ -60,7 +62,7 @@ namespace Vocaluxe.Lib.Video.Gstreamer
         [DllImport(Dll)]
         public static extern float GetVideoLength(int StreamID);
 
-        [DllImport(Dll, EntryPoint="GetFrame")]
+        [DllImport(Dll, EntryPoint = "GetFrame")]
         public static extern NativeFrame GetFrameNative(int StreamID, float Time);
 
         public static ManagedFrame GetFrame(int StreamID, float Time)
@@ -82,7 +84,6 @@ namespace Vocaluxe.Lib.Video.Gstreamer
             m.Videotime = f.Videotime;
             m.Width = f.Width;
             return m;
-
         }
 
         [DllImport(Dll)]
@@ -91,7 +92,7 @@ namespace Vocaluxe.Lib.Video.Gstreamer
 
         [DllImport(Dll)]
         public static extern void SetVideoLoop(int StreamID,
-            [MarshalAs(UnmanagedType.U1)] bool Loop);
+                                               [MarshalAs(UnmanagedType.U1)] bool Loop);
 
         [DllImport(Dll)]
         public static extern void PauseVideo(int StreamID);
@@ -106,6 +107,5 @@ namespace Vocaluxe.Lib.Video.Gstreamer
         [DllImport(Dll)]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool UpdateVideo();
-
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
-
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 
@@ -9,32 +8,31 @@ namespace Vocaluxe.Screens
     class CScreenParty : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion { get { return 1; } }
+        protected override int _ScreenVersion
+        {
+            get { return 1; }
+        }
 
-        const string TextDescription = "TextDescription";
-        const string TextTargetAudience = "TextTargetAudience";
-        const string TextNumTeams = "TextNumTeams";
-        const string TextNumPlayers = "TextNumPlayers";
-        const string TextAuthor = "TextAuthor";
-        const string TextVersion = "TextVersion";
-        const string TextError = "TextError";
-        const string ButtonStart = "ButtonStart";
-        const string ButtonExit = "ButtonExit";
-        const string SelectSlideModes = "SelectSlideModes";
+        private const string TextDescription = "TextDescription";
+        private const string TextTargetAudience = "TextTargetAudience";
+        private const string TextNumTeams = "TextNumTeams";
+        private const string TextNumPlayers = "TextNumPlayers";
+        private const string TextAuthor = "TextAuthor";
+        private const string TextVersion = "TextVersion";
+        private const string TextError = "TextError";
+        private const string ButtonStart = "ButtonStart";
+        private const string ButtonExit = "ButtonExit";
+        private const string SelectSlideModes = "SelectSlideModes";
 
         private List<SPartyModeInfos> _PartyModeInfos;
-
-        public CScreenParty()
-        {
-        }
 
         public override void Init()
         {
             base.Init();
 
-            _ThemeTexts = new string[] { TextDescription, TextTargetAudience, TextNumTeams, TextNumPlayers, TextAuthor, TextVersion, TextError };
-            _ThemeButtons = new string[] { ButtonStart, ButtonExit };
-            _ThemeSelectSlides = new string[] { SelectSlideModes };
+            _ThemeTexts = new[] {TextDescription, TextTargetAudience, TextNumTeams, TextNumPlayers, TextAuthor, TextVersion, TextError};
+            _ThemeButtons = new[] {ButtonStart, ButtonExit};
+            _ThemeSelectSlides = new[] {SelectSlideModes};
         }
 
         public override void LoadTheme(string XmlPath)
@@ -46,10 +44,7 @@ namespace Vocaluxe.Screens
         {
             base.HandleInput(KeyEvent);
 
-            if (KeyEvent.KeyPressed)
-            {
-                
-            }
+            if (KeyEvent.KeyPressed) {}
             else
             {
                 switch (KeyEvent.Key)
@@ -73,7 +68,7 @@ namespace Vocaluxe.Screens
                             UpdateSelection();
                         break;
                 }
-            }            
+            }
             return true;
         }
 
@@ -94,10 +89,8 @@ namespace Vocaluxe.Screens
             }
 
             if (MouseEvent.RB)
-            {
                 CGraphics.FadeTo(EScreens.ScreenMain);
-            }
-            
+
             return true;
         }
 
@@ -109,9 +102,7 @@ namespace Vocaluxe.Screens
 
             SelectSlides[SelectSlideModes].Clear();
             foreach (SPartyModeInfos info in _PartyModeInfos)
-            {
                 SelectSlides[SelectSlideModes].AddValue(info.Name, info.PartyModeID);
-            }
             SelectSlides[SelectSlideModes].Selection = 0;
             UpdateSelection();
 

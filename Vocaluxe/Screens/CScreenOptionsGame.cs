@@ -1,5 +1,4 @@
 ﻿using System.Windows.Forms;
-
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 
@@ -8,7 +7,10 @@ namespace Vocaluxe.Screens
     class CScreenOptionsGame : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion { get { return 1; } }
+        protected override int _ScreenVersion
+        {
+            get { return 1; }
+        }
 
         private const string SelectSlideLanguage = "SelectSlideLanguage";
         private const string SelectSlideDebugLevel = "SelectSlideDebugLevel";
@@ -19,16 +21,12 @@ namespace Vocaluxe.Screens
 
         private const string ButtonExit = "ButtonExit";
 
-        public CScreenOptionsGame()
-        {
-        }
-
         public override void Init()
         {
             base.Init();
 
-            _ThemeButtons = new string[] { ButtonExit };
-            _ThemeSelectSlides = new string[] { SelectSlideLanguage, SelectSlideDebugLevel, SelectSlideSongMenu, SelectSlideSongSorting, SelectSlideTabs, SelectSlideTimerMode };
+            _ThemeButtons = new[] {ButtonExit};
+            _ThemeSelectSlides = new[] {SelectSlideLanguage, SelectSlideDebugLevel, SelectSlideSongMenu, SelectSlideSongSorting, SelectSlideTabs, SelectSlideTimerMode};
         }
 
         public override void LoadTheme(string XmlPath)
@@ -43,13 +41,12 @@ namespace Vocaluxe.Screens
             SelectSlides[SelectSlideSongSorting].SetValues<ESongSorting>((int)CConfig.SongSorting);
             SelectSlides[SelectSlideTabs].SetValues<EOffOn>((int)CConfig.Tabs);
             SelectSlides[SelectSlideTimerMode].SetValues<ETimerMode>((int)CConfig.TimerMode);
-            
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
         {
             base.HandleInput(KeyEvent);
-            
+
             if (!KeyEvent.KeyPressed)
             {
                 switch (KeyEvent.Key)
@@ -70,9 +67,9 @@ namespace Vocaluxe.Screens
                         {
                             SaveConfig();
                             CGraphics.FadeTo(EScreens.ScreenOptions);
-                        }                        
+                        }
                         break;
-                        
+
                     case Keys.Left:
                         SaveConfig();
                         break;
@@ -99,9 +96,7 @@ namespace Vocaluxe.Screens
             {
                 SaveConfig();
                 if (Buttons[ButtonExit].Selected)
-                {
                     CGraphics.FadeTo(EScreens.ScreenOptions);
-                }
             }
             return true;
         }
@@ -131,7 +126,6 @@ namespace Vocaluxe.Screens
 
             CSongs.Sorter.SongSorting = CConfig.SongSorting;
             CSongs.Categorizer.Tabs = CConfig.Tabs;
-
         }
     }
 }

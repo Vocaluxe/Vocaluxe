@@ -1,4 +1,5 @@
-﻿using PortAudioSharp;
+﻿using System.Threading;
+using PortAudioSharp;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -8,15 +9,14 @@ namespace Vocaluxe.Lib.Sound
 {
     class CPortAudioRecord : IRecord
     {
-        private bool _initialized = false;
-        private List<SRecordDevice> _Devices = null;
+        private bool _initialized;
+        private List<SRecordDevice> _Devices;
         private SRecordDevice[] _DeviceConfig;
 
         private PortAudio.PaStreamCallbackDelegate _myRecProc;
         private IntPtr[] _recHandle;
 
-        private CBuffer[] _Buffer;
-
+        private readonly CBuffer[] _Buffer;
 
         public CPortAudioRecord()
         {
@@ -24,15 +24,13 @@ namespace Vocaluxe.Lib.Sound
 
             _Buffer = new CBuffer[CSettings.MaxNumPlayer];
             for (int i = 0; i < _Buffer.Length; i++)
-            {
                 _Buffer[i] = new CBuffer();
-            }
 
             Init();
         }
 
         /// <summary>
-        /// Init PortAudio and list record devices
+        ///     Init PortAudio and list record devices
         /// </summary>
         /// <returns>true if success</returns>
         public bool Init()
@@ -76,7 +74,7 @@ namespace Vocaluxe.Lib.Sound
                 }
 
                 _recHandle = new IntPtr[_Devices.Count];
-                _myRecProc = new PortAudio.PaStreamCallbackDelegate(myPaStreamCallback);
+                _myRecProc = myPaStreamCallback;
 
                 _DeviceConfig = _Devices.ToArray();
             }
@@ -91,7 +89,7 @@ namespace Vocaluxe.Lib.Sound
         }
 
         /// <summary>
-        /// Start Voice Capturing
+        ///     Start Voice Capturing
         /// </summary>
         /// <param name="DeviceConfig"></param>
         /// <returns></returns>
@@ -110,24 +108,20 @@ namespace Vocaluxe.Lib.Sound
                 return false;
 
             for (int i = 0; i < _Buffer.Length; i++)
-            {
                 _Buffer[i].Reset();
-            }
 
             for (int i = 0; i < _recHandle.Length; i++)
             {
                 int waitcount = 0;
                 while (waitcount < 5 && PortAudio.Pa_IsStreamStopped(_recHandle[i]) == PortAudio.PaError.paStreamIsNotStopped)
                 {
-                    System.Threading.Thread.Sleep(1);
+                    Thread.Sleep(1);
                     waitcount++;
                 }
             }
 
             for (int i = 0; i < _recHandle.Length; i++)
-            {
                 _recHandle[i] = IntPtr.Zero;
-            }
 
             _DeviceConfig = DeviceConfig;
             bool[] active = new bool[DeviceConfig.Length];
@@ -172,7 +166,7 @@ namespace Vocaluxe.Lib.Sound
         }
 
         /// <summary>
-        /// Stop Voice Capturing
+        ///     Stop Voice Capturing
         /// </summary>
         /// <returns></returns>
         public bool Stop()
@@ -181,14 +175,12 @@ namespace Vocaluxe.Lib.Sound
                 return false;
 
             for (int i = 0; i < _recHandle.Length; i++)
-            {
                 PortAudio.Pa_StopStream(_recHandle[i]);
-            }
             return true;
         }
 
         /// <summary>
-        /// Stop all voice capturing streams and terminate PortAudio
+        ///     Stop all voice capturing streams and terminate PortAudio
         /// </summary>
         public void CloseAll()
         {
@@ -204,7 +196,7 @@ namespace Vocaluxe.Lib.Sound
         }
 
         /// <summary>
-        /// Detect Pitch and Volume of the newest voice buffer
+        ///     Detect Pitch and Volume of the newest voice buffer
         /// </summary>
         /// <param name="Player"></param>
         public void AnalyzeBuffer(int Player)
@@ -326,7 +318,7 @@ namespace Vocaluxe.Lib.Sound
             }
             catch (Exception e)
             {
-                CLog.LogError("Error on Stream Callback (rec): " + e.ToString());
+                CLog.LogError("Error on Stream Callback (rec): " + e);
             }
 
             return PortAudio.PaStreamCallbackResult.paContinue;
@@ -346,7 +338,7 @@ namespace Vocaluxe.Lib.Sound
                 }
                 return true;
             }
-            
+
             return false;
         }
 

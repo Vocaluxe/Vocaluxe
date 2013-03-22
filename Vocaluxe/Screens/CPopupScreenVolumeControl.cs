@@ -1,5 +1,4 @@
-﻿
-using Vocaluxe.Base;
+﻿using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
@@ -7,24 +6,21 @@ namespace Vocaluxe.Screens
     class CPopupScreenVolumeControl : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion { get { return 1; } }
+        protected override int _ScreenVersion
+        {
+            get { return 1; }
+        }
 
         private const string StaticBG = "StaticBG";
 
         private const string SelectSlideVolume = "SelectSlideVolume";
 
-
-        public CPopupScreenVolumeControl()
-        {
-        }
-
         public override void Init()
         {
             base.Init();
 
-            _ThemeStatics = new string[] { StaticBG };
-            _ThemeSelectSlides = new string[] { SelectSlideVolume };
-
+            _ThemeStatics = new[] {StaticBG};
+            _ThemeSelectSlides = new[] {SelectSlideVolume};
         }
 
         public override void LoadTheme(string XmlPath)
@@ -32,7 +28,8 @@ namespace Vocaluxe.Screens
             base.LoadTheme(XmlPath);
 
             _ScreenArea = Statics[StaticBG].Rect;
-            SelectSlides[SelectSlideVolume].AddValues(new string[] { "0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100" });
+            SelectSlides[SelectSlideVolume].AddValues(new[]
+                {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
@@ -68,9 +65,7 @@ namespace Vocaluxe.Screens
                 return true;
             }
             else if (MouseEvent.RB)
-            {
                 return false;
-            }
             return true;
         }
 
@@ -125,18 +120,18 @@ namespace Vocaluxe.Screens
             switch (CGraphics.CurrentScreen)
             {
                 case EScreens.ScreenSong:
-                    if(CSongs.IsInCategory)
-                        SelectSlides[SelectSlideVolume].Selection = (int)(CConfig.PreviewMusicVolume / 5);
+                    if (CSongs.IsInCategory)
+                        SelectSlides[SelectSlideVolume].Selection = (CConfig.PreviewMusicVolume / 5);
                     else
-                        SelectSlides[SelectSlideVolume].Selection = ((int)CConfig.BackgroundMusicVolume / 5);
+                        SelectSlides[SelectSlideVolume].Selection = (CConfig.BackgroundMusicVolume / 5);
                     break;
 
                 case EScreens.ScreenSing:
-                    SelectSlides[SelectSlideVolume].Selection = ((int)CConfig.GameMusicVolume / 5);
+                    SelectSlides[SelectSlideVolume].Selection = (CConfig.GameMusicVolume / 5);
                     break;
 
                 default:
-                    SelectSlides[SelectSlideVolume].Selection = ((int)CConfig.BackgroundMusicVolume / 5);
+                    SelectSlides[SelectSlideVolume].Selection = (CConfig.BackgroundMusicVolume / 5);
                     break;
             }
         }

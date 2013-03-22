@@ -6,7 +6,7 @@ using VocaluxeLib.Menu.SongMenu;
 
 namespace Vocaluxe.Base
 {
-    class CSongSorter:CObservable
+    class CSongSorter : CObservable
     {
         private SongPointer[] _SortedSongs = new SongPointer[0];
         private EOffOn _IgnoreArticles = CConfig.IgnoreArticles;
@@ -19,7 +19,11 @@ namespace Vocaluxe.Base
 
         public SongPointer[] SortedSongs
         {
-            get { _SortSongs(); return _SortedSongs; }
+            get
+            {
+                _SortSongs();
+                return _SortedSongs;
+            }
         }
 
         public EOffOn IgnoreArticles
@@ -72,18 +76,14 @@ namespace Vocaluxe.Base
                 {
                     res = CSongs.Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(CSongs.Songs[s2.SongID].ArtistSorting.ToUpper());
                     if (res == 0)
-                    {
                         return CSongs.Songs[s1.SongID].TitleSorting.ToUpper().CompareTo(CSongs.Songs[s2.SongID].TitleSorting.ToUpper());
-                    }
                     return res;
                 }
                 else
                 {
                     res = CSongs.Songs[s1.SongID].Artist.ToUpper().CompareTo(CSongs.Songs[s2.SongID].Artist.ToUpper());
                     if (res == 0)
-                    {
                         return CSongs.Songs[s1.SongID].Title.ToUpper().CompareTo(CSongs.Songs[s2.SongID].Title.ToUpper());
-                    }
                     return res;
                 }
             }
@@ -110,7 +110,8 @@ namespace Vocaluxe.Base
             List<SongPointer> SortList = new List<SongPointer>();
             if (fieldName.Length == 0)
                 CSongs.Filter.FilteredSongs.ForEach((song) => SortList.Add(new SongPointer(song.ID, "")));
-            else{
+            else
+            {
                 field = Type.GetType("Vocaluxe.Menu.SongMenu.CSong,VocaluxeLib").GetField(fieldName, BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public);
                 isString = field.FieldType == typeof(string);
                 if (!isString && field.FieldType != typeof(List<String>))
@@ -124,15 +125,11 @@ namespace Vocaluxe.Base
                     {
                         List<String> values = (List<String>)value;
                         if (values.Count == 0)
-                        {
                             SortList.Add(new SongPointer(song.ID, ""));
-                        }
                         else
                         {
                             foreach (String sortString in (List<String>)value)
-                            {
                                 SortList.Add(new SongPointer(song.ID, sortString));
-                            }
                         }
                     }
                 }

@@ -1,7 +1,4 @@
-﻿
-namespace Vocaluxe.Lib.Sound
+﻿namespace Vocaluxe.Lib.Sound
 {
-    class COpenALRecord
-    {
-    }
+    class COpenALRecord {}
 }

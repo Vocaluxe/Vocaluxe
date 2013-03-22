@@ -27,16 +27,16 @@ namespace Vocaluxe.Base
 
     static class CSongs
     {
-        private static List<CSong> _Songs = new List<CSong>();
-        private static List<CSong> _SongsForRandom = new List<CSong>();
+        private static readonly List<CSong> _Songs = new List<CSong>();
+        private static readonly List<CSong> _SongsForRandom = new List<CSong>();
 
-        private static bool _SongsLoaded = false;
-        private static bool _CoverLoaded = false;
-        private static int _CoverLoadIndex = 0;
+        private static bool _SongsLoaded;
+        private static bool _CoverLoaded;
+        private static int _CoverLoadIndex;
         private static int _CatIndex = -1;
-        private static List<CCategory> _CategoriesForRandom = new List<CCategory>();
+        private static readonly List<CCategory> _CategoriesForRandom = new List<CCategory>();
 
-        private static Stopwatch _CoverLoadTimer = new Stopwatch();
+        private static readonly Stopwatch _CoverLoadTimer = new Stopwatch();
 
         public static CSongFilter Filter = new CSongFilter();
         public static CSongSorter Sorter = new CSongSorter();
@@ -54,7 +54,7 @@ namespace Vocaluxe.Base
 
         public static bool CoverLoaded
         {
-            get 
+            get
             {
                 if (_SongsLoaded && NumAllSongs == 0)
                     _CoverLoaded = true;
@@ -96,9 +96,7 @@ namespace Vocaluxe.Base
                     _CatIndex = value;
 
                     for (int i = 0; i < Sorter.SortedSongs.Length; i++)
-                    {
                         Sorter.SortedSongs[i].Visible = (Sorter.SortedSongs[i].CatIndex == _CatIndex && !Sorter.SortedSongs[i].PartyHidden);
-                    }
                 }
             }
         }
@@ -109,7 +107,7 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
-        /// Returns the number of song in the category specified with CatIndex
+        ///     Returns the number of song in the category specified with CatIndex
         /// </summary>
         /// <param name="CatIndex">Category index</param>
         /// <returns></returns>
@@ -134,6 +132,7 @@ namespace Vocaluxe.Base
             else
                 Category++;
         }
+
         public static void PrevCategory()
         {
             if (Category == 0)
@@ -156,6 +155,7 @@ namespace Vocaluxe.Base
 
             return -2;
         }
+
         public static int NumSongsWithCoverLoaded
         {
             get { return _CoverLoadIndex; }
@@ -168,8 +168,8 @@ namespace Vocaluxe.Base
 
             if (SongIndex < _Songs.Count)
                 _Songs[SongIndex].CoverTextureSmall = Texture;
-
         }
+
         public static void SetCoverBig(int SongIndex, STexture Texture)
         {
             if (!_SongsLoaded)
@@ -177,7 +177,6 @@ namespace Vocaluxe.Base
 
             if (SongIndex < _Songs.Count)
                 _Songs[SongIndex].CoverTextureBig = Texture;
-
         }
 
         public static string GetCurrentCategoryName()
@@ -255,14 +254,12 @@ namespace Vocaluxe.Base
         public static int GetRandomSong()
         {
             if (_SongsForRandom.Count == 0)
-            {
                 UpdateRandomSongList();
-            }
 
             if (_SongsForRandom.Count == 0)
                 return -1;
 
-            CSong song = _SongsForRandom[CGame.Rand.Next(0, _SongsForRandom.Count-1)];
+            CSong song = _SongsForRandom[CGame.Rand.Next(0, _SongsForRandom.Count - 1)];
             _SongsForRandom.Remove(song);
             return GetVisibleSongNumber(song.ID);
         }
@@ -309,7 +306,7 @@ namespace Vocaluxe.Base
 
         public static CSong[] SongsNotSung
         {
-            get 
+            get
             {
                 List<CSong> songs = new List<CSong>();
                 foreach (SongPointer sp in Sorter.SortedSongs)
@@ -456,7 +453,7 @@ namespace Vocaluxe.Base
 
         private static void _LoadCoverAndNotes()
         {
-            foreach(CSong song in _Songs)
+            foreach (CSong song in _Songs)
             {
                 song.ReadNotes();
                 song.LoadSmallCover();

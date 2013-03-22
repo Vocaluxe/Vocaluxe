@@ -11,16 +11,15 @@ namespace Vocaluxe.Lib.Sound
 {
     class COpenALPlay : IPlayback, IDisposable
     {
-        private bool _Initialized = false;
-        private List<OpenAlStream> _Decoder = new List<OpenAlStream>();
+        private bool _Initialized;
+        private readonly List<OpenAlStream> _Decoder = new List<OpenAlStream>();
         private CLOSEPROC closeproc;
         private int _Count = 1;
         private AudioContext AC;
 
-        private Object MutexDecoder = new Object();
+        private readonly Object MutexDecoder = new Object();
 
         private List<AudioStreams> _Streams;
-               
 
         public COpenALPlay()
         {
@@ -33,11 +32,11 @@ namespace Vocaluxe.Lib.Sound
                 CloseAll();
 
             AC = new AudioContext();
-            
-            AC.MakeCurrent();
-            
 
-            closeproc = new CLOSEPROC(close_proc);
+            AC.MakeCurrent();
+
+
+            closeproc = close_proc;
             _Initialized = true;
 
             _Streams = new List<AudioStreams>();
@@ -49,10 +48,8 @@ namespace Vocaluxe.Lib.Sound
             lock (MutexDecoder)
             {
                 for (int i = 0; i < _Decoder.Count; i++)
-                {
                     _Decoder[i].Free(closeproc, i + 1, MutexDecoder);
-                }
-            }   
+            }
         }
 
         public void SetGlobalVolume(float Volume)
@@ -81,11 +78,8 @@ namespace Vocaluxe.Lib.Sound
                 lock (MutexDecoder)
                 {
                     foreach (OpenAlStream stream in _Decoder)
-                    {
                         stream.UploadData();
-                    }
                 }
-
             }
         }
 
@@ -110,7 +104,6 @@ namespace Vocaluxe.Lib.Sound
                     _Streams.Add(stream);
                     return stream.handle;
                 }
-
             }
             return 0;
         }
@@ -122,11 +115,8 @@ namespace Vocaluxe.Lib.Sound
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(Stream))
-                    {
                         _Decoder[GetStreamIndex(Stream)].Free(closeproc, Stream, MutexDecoder);
-                    }
                 }
-
             }
         }
 
@@ -144,10 +134,9 @@ namespace Vocaluxe.Lib.Sound
                     if (AlreadyAdded(Stream))
                     {
                         _Decoder[GetStreamIndex(Stream)].Loop = Loop;
-                        _Decoder[GetStreamIndex(Stream)].Play();                        
+                        _Decoder[GetStreamIndex(Stream)].Play();
                     }
                 }
-
             }
         }
 
@@ -158,11 +147,8 @@ namespace Vocaluxe.Lib.Sound
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(Stream))
-                    {
                         _Decoder[GetStreamIndex(Stream)].Paused = true;
-                    }
                 }
-
             }
         }
 
@@ -178,11 +164,8 @@ namespace Vocaluxe.Lib.Sound
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(Stream))
-                    {
                         _Decoder[GetStreamIndex(Stream)].Fade(TargetVolume, Seconds);
-                    }
                 }
-
             }
         }
 
@@ -193,11 +176,8 @@ namespace Vocaluxe.Lib.Sound
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(Stream))
-                    {
                         _Decoder[GetStreamIndex(Stream)].FadeAndPause(TargetVolume, Seconds);
-                    }
                 }
-
             }
         }
 
@@ -208,11 +188,8 @@ namespace Vocaluxe.Lib.Sound
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(Stream))
-                    {
                         _Decoder[GetStreamIndex(Stream)].FadeAndStop(TargetVolume, Seconds, closeproc, Stream);
-                    }
                 }
-
             }
         }
 
@@ -223,11 +200,8 @@ namespace Vocaluxe.Lib.Sound
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(Stream))
-                    {
                         _Decoder[GetStreamIndex(Stream)].Volume = Volume;
-                    }
                 }
-
             }
         }
 
@@ -238,11 +212,8 @@ namespace Vocaluxe.Lib.Sound
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(Stream))
-                    {
                         _Decoder[GetStreamIndex(Stream)].VolumeMax = Volume;
-                    }
                 }
-
             }
         }
 
@@ -253,11 +224,8 @@ namespace Vocaluxe.Lib.Sound
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(Stream))
-                    {
                         return _Decoder[GetStreamIndex(Stream)].Length;
-                    }
                 }
-
             }
             return 0f;
         }
@@ -269,9 +237,7 @@ namespace Vocaluxe.Lib.Sound
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(Stream))
-                    {
                         return _Decoder[GetStreamIndex(Stream)].Position;
-                    }
                 }
 
                 return 0f;
@@ -286,11 +252,8 @@ namespace Vocaluxe.Lib.Sound
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(Stream))
-                    {
                         return !_Decoder[GetStreamIndex(Stream)].Paused && !_Decoder[GetStreamIndex(Stream)].Finished;
-                    }
                 }
-
             }
             return false;
         }
@@ -302,11 +265,8 @@ namespace Vocaluxe.Lib.Sound
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(Stream))
-                    {
                         return _Decoder[GetStreamIndex(Stream)].Paused;
-                    }
                 }
-
             }
             return false;
         }
@@ -318,11 +278,8 @@ namespace Vocaluxe.Lib.Sound
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(Stream))
-                    {
                         return _Decoder[GetStreamIndex(Stream)].Finished;
-                    }
                 }
-
             }
             return true;
         }
@@ -334,24 +291,18 @@ namespace Vocaluxe.Lib.Sound
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(Stream))
-                    {
                         _Decoder[GetStreamIndex(Stream)].Skip(Position);
-                    }
                 }
-
             }
         }
         #endregion Stream Handling
-
 
         private bool AlreadyAdded(int Stream)
         {
             foreach (AudioStreams st in _Streams)
             {
                 if (st.handle == Stream)
-                {
                     return true;
-                }
             }
             return false;
         }
@@ -371,9 +322,7 @@ namespace Vocaluxe.Lib.Sound
             if (_Initialized)
             {
                 if (AlreadyAdded(Stream))
-                {
                     Close(Stream);
-                }
             }
         }
 
@@ -390,7 +339,6 @@ namespace Vocaluxe.Lib.Sound
                         _Streams.RemoveAt(Index);
                     }
                 }
-
             }
         }
 
@@ -401,70 +349,68 @@ namespace Vocaluxe.Lib.Sound
         }
     }
 
-    class OpenAlStream: IDisposable
+    class OpenAlStream : IDisposable
     {
-        const int buffer_size = 2048;
-        const int buffer_count = 5;
-        const long BUFSIZE = 50000L;
+        private const int buffer_size = 2048;
+        private const int buffer_count = 5;
+        private const long BUFSIZE = 50000L;
 
-        Object CloseMutex;
+        private Object CloseMutex;
 
         private int[] _buffers;
         private int _state;
         private int _source;
         private FormatInfo _format;
-                
+
         private bool _Initialized;
         private int _ByteCount = 4;
         private float _Volume = 1f;
         private float _VolumeMax = 1f;
 
-        private Stopwatch _fadeTimer = new Stopwatch();
+        private readonly Stopwatch _fadeTimer = new Stopwatch();
 
-        private float _fadeTime = 0f;
+        private float _fadeTime;
         private float _targetVolume = 1f;
         private float _startVolume = 1f;
-        private bool _closeStreamAfterFade = false;
-        private bool _pauseStreamAfterFade = false;
-        private bool _fading = false;
-
+        private bool _closeStreamAfterFade;
+        private bool _pauseStreamAfterFade;
+        private bool _fading;
 
         private Stopwatch _FadeTimer = new Stopwatch();
-        private Stopwatch _Timer = new Stopwatch();
+        private readonly Stopwatch _Timer = new Stopwatch();
 
         private CLOSEPROC _Closeproc;
         private int _StreamID;
         private string _FileName;
         private IAudioDecoder _Decoder;
         private float _BytesPerSecond;
-        private bool _NoMoreData = false;
-        
+        private bool _NoMoreData;
 
-        private bool _FileOpened = false;
+        private bool _FileOpened;
 
-        private bool _waiting = false;
-        private bool _skip = false;
-        
-        private bool _Loop = false;
-        private float _Duration = 0f;
-        private float _CurrentTime = 0f;
-        private float _TimeCode = 0f;
-        
-        private bool _Paused = false;
+        private bool _waiting;
+        private bool _skip;
+
+        private bool _Loop;
+        private float _Duration;
+        private float _CurrentTime;
+        private float _TimeCode;
+
+        private bool _Paused;
 
         private RingBuffer _data;
-        private float _SetStart = 0f;
-        private float _Start = 0f;
-        private bool _SetLoop = false;
-        private bool _SetSkip = false;
-        private bool _terminated = false;
+        private float _SetStart;
+        private float _Start;
+        private bool _SetLoop;
+        private bool _SetSkip;
+        private bool _terminated;
 
-        private Thread _DecoderThread;
+        private readonly Thread _DecoderThread;
 
-        AutoResetEvent EventDecode = new AutoResetEvent(false);
-        
-        Object MutexData = new Object();
-        Object MutexSyncSignals = new Object();
+        private AutoResetEvent EventDecode = new AutoResetEvent(false);
+
+        private readonly Object MutexData = new Object();
+        private readonly Object MutexSyncSignals = new Object();
 
         public OpenAlStream()
         {
@@ -571,7 +517,7 @@ namespace Vocaluxe.Lib.Sound
         }
 
         public void Fade(float TargetVolume, float FadeTime)
-        {         
+        {
             _fading = true;
             _fadeTimer.Stop();
             _fadeTimer.Reset();
@@ -619,7 +565,7 @@ namespace Vocaluxe.Lib.Sound
             if (_FileOpened)
                 return -1;
 
-            if (!System.IO.File.Exists(FileName))
+            if (!File.Exists(FileName))
                 return -1;
 
             if (_FileOpened)
@@ -633,10 +579,8 @@ namespace Vocaluxe.Lib.Sound
                 _source = AL.GenSource();
                 _buffers = new int[buffer_count];
                 for (int i = 0; i < buffer_count; i++)
-			    {
                     _buffers[i] = AL.GenBuffer();
-			    }
-               
+
                 _state = 0;
                 //AL.SourceQueueBuffers(_source, _buffers.Length, _buffers);
             }
@@ -647,7 +591,7 @@ namespace Vocaluxe.Lib.Sound
                 CLog.LogError("Error Init OpenAL Playback");
                 return -1;
             }
-            
+
             _FileName = FileName;
             _Decoder.Open(FileName);
             _Duration = _Decoder.GetLength();
@@ -675,7 +619,6 @@ namespace Vocaluxe.Lib.Sound
             }
             return -1;
         }
-
 
         public bool Skip(float Time)
         {
@@ -719,7 +662,6 @@ namespace Vocaluxe.Lib.Sound
                     }
 
                     DoDecode();
-                    
                 }
                 if (!_terminated)
                 {
@@ -729,12 +671,11 @@ namespace Vocaluxe.Lib.Sound
                             _skip = true;
 
                         _SetSkip = false;
-                        
+
                         _Start = _SetStart;
                         _Loop = _SetLoop;
                     }
                 }
-
             }
 
             DoFree();
@@ -779,9 +720,7 @@ namespace Vocaluxe.Lib.Sound
                     DoSkip();
                 }
                 else
-                {
                     _NoMoreData = true;
-                }
                 return;
             }
 
@@ -801,7 +740,7 @@ namespace Vocaluxe.Lib.Sound
                     Stop();
                     AL.DeleteSource(_source);
                     AL.DeleteBuffers(_buffers);
-                }  
+                }
             }
 
             _Closeproc(_StreamID);
@@ -812,7 +751,7 @@ namespace Vocaluxe.Lib.Sound
         {
             if (_fading)
             {
-                if ((float)_fadeTimer.ElapsedMilliseconds / 1000f < _fadeTime)
+                if (_fadeTimer.ElapsedMilliseconds / 1000f < _fadeTime)
                     _Volume = _startVolume + (_targetVolume - _startVolume) * ((_fadeTimer.ElapsedMilliseconds / 1000f) / _fadeTime);
                 else
                 {
@@ -860,28 +799,28 @@ namespace Vocaluxe.Lib.Sound
                     {
                         _data.Read(ref buf);
 
-                        
-                            byte[] b = new byte[2];
-                            for (int i = 0; i < buf.Length; i += _ByteCount)
+
+                        byte[] b = new byte[2];
+                        for (int i = 0; i < buf.Length; i += _ByteCount)
+                        {
+                            b[0] = buf[i];
+                            b[1] = buf[i + 1];
+
+                            b = BitConverter.GetBytes((Int16)(BitConverter.ToInt16(b, 0) * _Volume * _VolumeMax));
+                            buf[i] = b[0];
+                            buf[i + 1] = b[1];
+
+                            if (_ByteCount == 4)
                             {
-                                b[0] = buf[i];
-                                b[1] = buf[i + 1];
+                                b[0] = buf[i + 2];
+                                b[1] = buf[i + 3];
 
                                 b = BitConverter.GetBytes((Int16)(BitConverter.ToInt16(b, 0) * _Volume * _VolumeMax));
-                                buf[i] = b[0];
-                                buf[i + 1] = b[1];
-
-                                if (_ByteCount == 4)
-                                {
-                                    b[0] = buf[i + 2];
-                                    b[1] = buf[i + 3];
-
-                                    b = BitConverter.GetBytes((Int16)(BitConverter.ToInt16(b, 0) * _Volume * _VolumeMax));
-                                    buf[i + 2] = b[0];
-                                    buf[i + 3] = b[1];
-                                }
+                                buf[i + 2] = b[0];
+                                buf[i + 3] = b[1];
                             }
-                        
+                        }
+
 
                         int buffer = 0;
                         if (!doit)
@@ -906,9 +845,7 @@ namespace Vocaluxe.Lib.Sound
                 }
                 AL.GetSource(_source, ALGetSourcei.SourceState, out _state);
                 if ((ALSourceState)_state != ALSourceState.Playing)
-                {
                     AL.SourcePlay(_source);
-                }
             }
 
             _CurrentTime = _TimeCode - _data.BytesNotRead / _BytesPerSecond - 0.1f;
@@ -923,4 +860,3 @@ namespace Vocaluxe.Lib.Sound
         }
     }
 }
-

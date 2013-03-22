@@ -11,12 +11,12 @@ namespace Vocaluxe
     // just a small comment for the new develop branch
     static class MainProgram
     {
-        static SplashScreen _SplashScreen;
-        
+        private static SplashScreen _SplashScreen;
+
         [STAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(AssemblyResolver);
+            AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolver;
 
             // Close program if there is another instance running
             if (!EnsureSingleInstance())
@@ -180,7 +180,7 @@ namespace Vocaluxe
             CloseProgram();
         }
 
-        static void CloseProgram()
+        private static void CloseProgram()
         {
             // Unloading
             try
@@ -194,15 +194,12 @@ namespace Vocaluxe
                 CDataBase.CloseConnections();
                 CWebcam.Close();
             }
-            catch (Exception)
-            {
-            }
-            
+            catch (Exception) {}
         }
 
-        static Assembly AssemblyResolver(Object sender, ResolveEventArgs args)
+        private static Assembly AssemblyResolver(Object sender, ResolveEventArgs args)
         {
-            string[] arr = args.Name.Split(new Char[] { ',' });
+            string[] arr = args.Name.Split(new[] {','});
             if (arr != null)
             {
 #if ARCH_X86
@@ -218,7 +215,7 @@ namespace Vocaluxe
             return null;
         }
 
-        static bool EnsureSingleInstance()
+        private static bool EnsureSingleInstance()
         {
             Process currentProcess = Process.GetCurrentProcess();
             Process[] processes = Process.GetProcesses();
@@ -238,7 +235,7 @@ namespace Vocaluxe
 
     class SplashScreen : Form
     {
-        Bitmap logo;
+        private readonly Bitmap logo;
 
         public SplashScreen()
         {
@@ -248,52 +245,49 @@ namespace Vocaluxe
                 try
                 {
                     logo = new Bitmap(path);
-                    this.ClientSize = new Size(logo.Width, logo.Height);
+                    ClientSize = new Size(logo.Width, logo.Height);
                 }
                 catch (Exception e)
                 {
                     CLog.LogError("Error loading logo: " + e.Message);
                 }
-                
             }
             else
                 CLog.LogError("Can't find " + path);
 
-            path = Path.Combine(System.Environment.CurrentDirectory, CSettings.sIcon);
+            path = Path.Combine(Environment.CurrentDirectory, CSettings.sIcon);
             if (File.Exists(path))
             {
                 try
                 {
-                    this.Icon = new System.Drawing.Icon(path);
+                    Icon = new Icon(path);
                 }
                 catch (Exception e)
                 {
-                    CLog.LogError("Error loading icon: " + e.Message);                    
+                    CLog.LogError("Error loading icon: " + e.Message);
                 }
             }
             else
                 CLog.LogError("Can't find " + path);
 
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            this.BackColor = Color.Transparent;
+            BackColor = Color.Transparent;
 
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;         
-            this.Text = CSettings.sProgramName;
-            this.CenterToScreen();
-            this.Show();
-        }
-        
-        protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
-        {          
+            FormBorderStyle = FormBorderStyle.None;
+            Text = CSettings.sProgramName;
+            CenterToScreen();
+            Show();
         }
 
-        protected override void OnPaintBackground(System.Windows.Forms.PaintEventArgs e)
+        protected override void OnPaint(PaintEventArgs e) {}
+
+        protected override void OnPaintBackground(PaintEventArgs e)
         {
             if (logo == null)
                 return;
 
             Graphics g = e.Graphics;
-            g.DrawImage(logo, new Rectangle(0, 0, this.Width, this.Height));
-        }       
+            g.DrawImage(logo, new Rectangle(0, 0, Width, Height));
+        }
     }
 }

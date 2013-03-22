@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
-
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 
@@ -15,11 +14,11 @@ enum EDirection
 
 class CCreditName
 {
-    private CStatic _Image;
-    private CStatic _ImgDot;
-    private CParticleEffect _Particle;
-    private int _ParticleOffsetX;
-    private int _ParticleOffsetY;
+    private readonly CStatic _Image;
+    private readonly CStatic _ImgDot;
+    private readonly CParticleEffect _Particle;
+    private readonly int _ParticleOffsetX;
+    private readonly int _ParticleOffsetY;
     public EDirection Direction;
     public float StartTimeUp;
     public bool Active;
@@ -29,17 +28,14 @@ class CCreditName
         _Image = Image;
         _ImgDot = ImgDot;
         _Particle = Particle;
-        _ParticleOffsetX = (int)Math.Round(ParticleOffsetX * (float)Image.Rect.W / Image.Texture.w2 - Particle.Rect.W / 2);
-        _ParticleOffsetY = (int)Math.Round(ParticleOffsetY * (float)Image.Rect.H / Image.Texture.h2 - Particle.Rect.H / 2);
+        _ParticleOffsetX = (int)Math.Round(ParticleOffsetX * Image.Rect.W / Image.Texture.w2 - Particle.Rect.W / 2);
+        _ParticleOffsetY = (int)Math.Round(ParticleOffsetY * Image.Rect.H / Image.Texture.h2 - Particle.Rect.H / 2);
         Active = true;
     }
 
     public float X
     {
-        get
-        {
-            return _Image.Rect.X;
-        }
+        get { return _Image.Rect.X; }
         set
         {
             _Image.Rect.X = value;
@@ -49,10 +45,7 @@ class CCreditName
     }
     public float Y
     {
-        get
-        {
-            return _Image.Rect.Y;
-        }
+        get { return _Image.Rect.Y; }
         set
         {
             _Image.Rect.Y = value;
@@ -61,8 +54,14 @@ class CCreditName
         }
     }
 
-    public float W { get { return _Image.Rect.W; } }
-    public float H { get { return _Image.Rect.H; } }
+    public float W
+    {
+        get { return _Image.Rect.W; }
+    }
+    public float H
+    {
+        get { return _Image.Rect.H; }
+    }
 
     public float Alpha
     {
@@ -90,7 +89,10 @@ namespace Vocaluxe.Screens
     class CScreenCredits : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion { get { return 1; } }
+        protected override int _ScreenVersion
+        {
+            get { return 1; }
+        }
 
         private CStatic logo;
         private CParticleEffect starsRed;
@@ -119,10 +121,6 @@ namespace Vocaluxe.Screens
         private STexture _TexNamePantero;
         private STexture _TexNamePinky007;
 
-        public CScreenCredits()
-        {
-        }
-
         public override void Init()
         {
             base.Init();
@@ -139,29 +137,29 @@ namespace Vocaluxe.Screens
             string[] words;
 
             paragraph = "Inspired by the achievements of UltraStar Deluxe and its variants and pursuing the goal of making " +
-                "a good thing even better, we ended up rewriting the game from scratch. And a new implementation in a new " +
-                "programming language called for a new name - and VOCALUXE [ˈvoʊˈkəˈlʌks] it is!";
-            words = paragraph.Split(new Char[] { ' ' });
+                        "a good thing even better, we ended up rewriting the game from scratch. And a new implementation in a new " +
+                        "programming language called for a new name - and VOCALUXE [ˈvoʊˈkəˈlʌks] it is!";
+            words = paragraph.Split(new[] {' '});
             paragraphs.Add(words);
 
             paragraph = "This first public version has already implemented many of the original features and it is fully " +
-                "compatible with all the song files in your existing song collection. The code design allows a much faster " +
-                "implementation of new features, thus the roadmap for the next few stable releases is packed and we expect much " +
-                "shorter release cycles than ever before. And, of course, our and your ideas may be the features of tomorrow.";
-            words = paragraph.Split(new Char[] { ' ' });
+                        "compatible with all the song files in your existing song collection. The code design allows a much faster " +
+                        "implementation of new features, thus the roadmap for the next few stable releases is packed and we expect much " +
+                        "shorter release cycles than ever before. And, of course, our and your ideas may be the features of tomorrow.";
+            words = paragraph.Split(new[] {' '});
             paragraphs.Add(words);
 
             paragraph = "We appreciate the feedback in the beta release phase and are, of course, always open for bug reports, " +
-                "suggestions for improvements and ideas for new features. We would also like to thank the translators who make " +
-                "Vocaluxe an international experience from the very beginning and all those diligent song makers out there - " +
-                "there's something for everyone in the huge collection of available songs! Last but not least, thanks to " +
-                "Kosal Sen's Philly Sans type used in the Vocaluxe Logo.";
-            words = paragraph.Split(new Char[] { ' ' });
+                        "suggestions for improvements and ideas for new features. We would also like to thank the translators who make " +
+                        "Vocaluxe an international experience from the very beginning and all those diligent song makers out there - " +
+                        "there's something for everyone in the huge collection of available songs! Last but not least, thanks to " +
+                        "Kosal Sen's Philly Sans type used in the Vocaluxe Logo.";
+            words = paragraph.Split(new[] {' '});
             paragraphs.Add(words);
 
             paragraph = "Go ahead and grab your mics, crank up your stereo, warm up your voice and get ready to sing to the best " +
-                "of your abilities!";
-            words = paragraph.Split(new Char[] { ' ' });
+                        "of your abilities!";
+            words = paragraph.Split(new[] {' '});
             paragraphs.Add(words);
         }
 
@@ -218,16 +216,15 @@ namespace Vocaluxe.Screens
                     }
                 }
             }
-
         }
 
-        public override void ReloadTheme(string XmlPath) { }
+        public override void ReloadTheme(string XmlPath) {}
 
-        public override void SaveTheme() { }
+        public override void SaveTheme() {}
 
-        public override void UnloadTextures() { }
+        public override void UnloadTextures() {}
 
-        public override void ReloadTextures() { }
+        public override void ReloadTextures() {}
 
         public override bool HandleInput(KeyEvent KeyEvent)
         {
@@ -249,18 +246,14 @@ namespace Vocaluxe.Screens
         public override bool HandleMouse(MouseEvent MouseEvent)
         {
             if (MouseEvent.LB || MouseEvent.RB)
-            {
                 CGraphics.FadeTo(EScreens.ScreenMain);
-            }
             return true;
         }
 
         public override bool UpdateGame()
         {
             if (!animation())
-            {
                 CGraphics.FadeTo(EScreens.ScreenMain);
-            }
             return true;
         }
 
@@ -297,12 +290,10 @@ namespace Vocaluxe.Screens
             {
                 credit.X = -450;
                 credit.Direction = EDirection.Left;
-
             }
             credit.Y = 580;
             _CreditNames.Add(credit);
         }
-
 
         public override void OnShow()
         {
@@ -356,17 +347,13 @@ namespace Vocaluxe.Screens
 
             //Draw credit-entries
             foreach (CCreditName cn in _CreditNames)
-            {
                 cn.Draw();
-            }
 
             //Draw Text
             if (TextTimer.IsRunning)
             {
                 for (int i = 0; i < paragraphTexts.Count; i++)
-                {
                     paragraphTexts[i].Draw();
-                }
             }
             return true;
         }
@@ -382,9 +369,7 @@ namespace Vocaluxe.Screens
                 starsRed.Rect.Y = logo.Rect.Y;
                 starsBlue.Rect.Y = logo.Rect.Y;
                 if (LogoTimer.ElapsedMilliseconds >= 2000 && !CreditsTimer.IsRunning)
-                {
                     CreditsTimer.Start();
-                }
                 if (LogoTimer.ElapsedMilliseconds >= 3000)
                 {
                     LogoTimer.Stop();
@@ -413,14 +398,14 @@ namespace Vocaluxe.Screens
                                         _CreditNames[i].Direction = EDirection.Up;
                                         _CreditNames[i].StartTimeUp = CreditsTimer.ElapsedMilliseconds;
                                     }
-
                                 }
                                 break;
 
                             case EDirection.Left:
                                 if (i * 4000f <= CreditsTimer.ElapsedMilliseconds)
                                 {
-                                    _CreditNames[i].X = CSettings.iRenderW - (((CSettings.iRenderW - _CreditNames[i].W) / 2) / 3000f) * (CreditsTimer.ElapsedMilliseconds - (i * 4000f));
+                                    _CreditNames[i].X = CSettings.iRenderW -
+                                                        (((CSettings.iRenderW - _CreditNames[i].W) / 2) / 3000f) * (CreditsTimer.ElapsedMilliseconds - (i * 4000f));
 
                                     //Check if name is in middle of screen and should go up
                                     if (_CreditNames[i].X <= (CSettings.iRenderW - _CreditNames[i].W) / 2)
@@ -428,7 +413,6 @@ namespace Vocaluxe.Screens
                                         _CreditNames[i].Direction = EDirection.Up;
                                         _CreditNames[i].StartTimeUp = CreditsTimer.ElapsedMilliseconds;
                                     }
-
                                 }
                                 break;
 
@@ -457,13 +441,9 @@ namespace Vocaluxe.Screens
                                     float alpha = ((360 - _CreditNames[i].Y) / 200);
                                     //Catch some bad alpha-values
                                     if (alpha > 1)
-                                    {
                                         alpha = 1;
-                                    }
                                     else if (alpha < 0)
-                                    {
                                         alpha = 0;
-                                    }
                                     _CreditNames[i].Alpha = 1 - alpha;
                                 }
 
@@ -474,9 +454,7 @@ namespace Vocaluxe.Screens
             }
 
             if (TextTimer.IsRunning)
-            {
                 active = TextTimer.ElapsedMilliseconds <= 60000;
-            }
 
             return active;
         }

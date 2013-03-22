@@ -5,11 +5,11 @@ using System.Text;
 
 namespace Vocaluxe.Base
 {
-    class Log:IDisposable
+    class Log : IDisposable
     {
-        private string _LogFileName;
-        private string _LogName;
-        private StreamWriter _LogFile = null;
+        private readonly string _LogFileName;
+        private readonly string _LogName;
+        private StreamWriter _LogFile;
 
         public Log(string FileName, string LogName)
         {
@@ -26,9 +26,7 @@ namespace Vocaluxe.Base
                     _LogFile.Flush();
                     _LogFile.Close();
                 }
-                catch (Exception)
-                {
-                }
+                catch (Exception) {}
             }
         }
 
@@ -42,9 +40,7 @@ namespace Vocaluxe.Base
                 _LogFile.WriteLine(Text);
                 _LogFile.Flush();
             }
-            catch (Exception)
-            {
-            }            
+            catch (Exception) {}
         }
 
         private void Open()
@@ -77,8 +73,8 @@ namespace Vocaluxe.Base
 
         private static int _NumErrors;
         private static Stopwatch[] _BenchmarkTimer;
-        private static double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
-        
+        private static readonly double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
+
         public static void Init()
         {
             _ErrorLog = new Log(CSettings.sFileErrorLog, "ErrorLog");
@@ -88,9 +84,7 @@ namespace Vocaluxe.Base
             _NumErrors = 0;
             _BenchmarkTimer = new Stopwatch[MAXBenchmarks];
             for (int i = 0; i < _BenchmarkTimer.Length; i++)
-            {
                 _BenchmarkTimer[i] = new Stopwatch();
-            }
         }
 
         public static void CloseAll()
@@ -128,9 +122,7 @@ namespace Vocaluxe.Base
 
                 string space = String.Empty;
                 for (int i = 0; i < BenchmarkNr; i++)
-			    {
-			        space += "  ";
-			    }
+                    space += "  ";
                 _BenchmarkLog.Add(space + "Start " + Text);
 
                 _BenchmarkTimer[BenchmarkNr].Start();
@@ -145,15 +137,13 @@ namespace Vocaluxe.Base
 
                 string space = String.Empty;
                 for (int i = 0; i < BenchmarkNr; i++)
-                {
                     space += "  ";
-                }
 
                 float ms;
                 if (Stopwatch.IsHighResolution && nanosecPerTick != 0.0)
                     ms = (float)((nanosecPerTick * _BenchmarkTimer[BenchmarkNr].ElapsedTicks) / (1000.0 * 1000.0));
                 else
-                    ms = (float)_BenchmarkTimer[BenchmarkNr].ElapsedMilliseconds;
+                    ms = _BenchmarkTimer[BenchmarkNr].ElapsedMilliseconds;
 
                 _BenchmarkLog.Add(space + "Stop " + Text + ", Elapsed Time: " + ms.ToString("0.000") + "ms");
                 _BenchmarkLog.Add(String.Empty);

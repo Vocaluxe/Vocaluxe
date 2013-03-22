@@ -13,14 +13,13 @@ namespace Vocaluxe.Lib.Video
         private void LogHandler(string text)
         {
             CLog.LogError(text);
-
         }
         #endregion log
 
         public bool Init()
         {
             bool retval = CGstreamerVideoWrapper.InitVideo();
-            Log = new CGstreamerVideoWrapper.LogCallback(LogHandler);
+            Log = LogHandler;
             //Really needed? CodeAnalysis complains
             //GC.SuppressFinalize(Log);
             CGstreamerVideoWrapper.SetVideoLogCallback(Log);
@@ -41,7 +40,7 @@ namespace Vocaluxe.Lib.Video
                 i = CGstreamerVideoWrapper.LoadVideo(u.AbsoluteUri);
                 return i;
             }
-            catch (Exception) { }
+            catch (Exception) {}
             return i;
         }
 
@@ -109,9 +108,7 @@ namespace Vocaluxe.Lib.Video
                     frame = CDraw.AddTexture(Width, Height, ref Data);
                 }
                 else
-                {
                     CDraw.UpdateTexture(ref frame, ref Data);
-                }
                 Data = null;
             }
         }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
@@ -11,7 +10,10 @@ namespace Vocaluxe.Screens
     class CScreenHighscore : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion { get { return 2; } }
+        protected override int _ScreenVersion
+        {
+            get { return 2; }
+        }
 
         private const int NumEntrys = 10;
         private const string TextSongName = "TextSongName";
@@ -27,10 +29,6 @@ namespace Vocaluxe.Screens
         private int _Round;
         private int _Pos;
         private bool _IsDuet;
-
-        public CScreenHighscore()
-        {
-        }
 
         public override void Init()
         {
@@ -70,9 +68,7 @@ namespace Vocaluxe.Screens
 
             ParticleEffectNew = new string[NumEntrys];
             for (int i = 0; i < NumEntrys; i++)
-            {
                 ParticleEffectNew[i] = "ParticleEffectNew" + (i + 1).ToString();
-            }
 
             _ThemeTexts = texts.ToArray();
             _ThemeParticleEffects = ParticleEffectNew;
@@ -82,10 +78,7 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(KeyEvent KeyEvent)
         {
-            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode))
-            {
-                
-            }
+            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode)) {}
             else
             {
                 switch (KeyEvent.Key)
@@ -119,20 +112,13 @@ namespace Vocaluxe.Screens
 
         public override bool HandleMouse(MouseEvent MouseEvent)
         {
-            if (MouseEvent.LB && IsMouseOver(MouseEvent))
-            {
-                
-            }
+            if (MouseEvent.LB && IsMouseOver(MouseEvent)) {}
 
             if (MouseEvent.LB)
-            {
                 LeaveScreen();
-            }
 
             if (MouseEvent.RB)
-            {
                 LeaveScreen();
-            }
 
             if (MouseEvent.MB)
             {
@@ -171,14 +157,10 @@ namespace Vocaluxe.Screens
                     Texts[TextScore[p]].Text = _Scores[_Round][_Pos + p].Score.ToString("00000");
                     Texts[TextDate[p]].Text = _Scores[_Round][_Pos + p].Date;
 
-                    if (isNewEntry(_Scores[_Round][_Pos + p].ID) == true)
-                    {
+                    if (isNewEntry(_Scores[_Round][_Pos + p].ID))
                         ParticleEffects[ParticleEffectNew[p]].Visible = true;
-                    }
                     else
-                    {
                         ParticleEffects[ParticleEffectNew[p]].Visible = false;
-                    }
                 }
                 else
                 {
@@ -188,7 +170,7 @@ namespace Vocaluxe.Screens
                     Texts[TextDate[p]].Visible = false;
                     ParticleEffects[ParticleEffectNew[p]].Visible = false;
                 }
-            } 
+            }
             return true;
         }
 
@@ -200,9 +182,7 @@ namespace Vocaluxe.Screens
             CPoints _Points = CGame.GetPoints();
             _Scores = new List<SScores>[_Points.NumRounds];
             for (int i = 0; i < _Scores.Length; i++)
-            {
                 _Scores[i] = new List<SScores>();
-            }
             _NewEntryIDs.Clear();
             AddScoresToDB();
             LoadScores();
@@ -218,12 +198,10 @@ namespace Vocaluxe.Screens
 
         private bool isNewEntry(int id)
         {
-            for(int i=0; i<_NewEntryIDs.Count; i++)
+            for (int i = 0; i < _NewEntryIDs.Count; i++)
             {
                 if (_NewEntryIDs[i] == id)
-                {
                     return true;
-                }
             }
 
             return false;
@@ -253,7 +231,7 @@ namespace Vocaluxe.Screens
             if (points == null)
                 return;
 
-            _Pos = 0;            
+            _Pos = 0;
             for (int round = 0; round < points.NumRounds; round++)
             {
                 SPlayer player = points.GetPlayer(round, CGame.NumPlayer)[0];
@@ -266,15 +244,13 @@ namespace Vocaluxe.Screens
             _IsDuet = false;
             CPoints points = CGame.GetPoints();
             SPlayer player = points.GetPlayer(_Round, CGame.NumPlayer)[0];
-            CSong song = CGame.GetSong(_Round+1);
+            CSong song = CGame.GetSong(_Round + 1);
             if (song == null)
                 return;
 
             Texts[TextSongName].Text = song.Artist + " - " + song.Title;
             if (points.NumRounds > 1)
-            {
-                Texts[TextSongName].Text += " (" + (_Round+1) + "/" + points.NumRounds + ")";
-            }
+                Texts[TextSongName].Text += " (" + (_Round + 1) + "/" + points.NumRounds + ")";
 
             switch (CGame.GetGameMode(_Round))
             {

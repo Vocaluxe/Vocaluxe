@@ -1,5 +1,4 @@
 ﻿using System.Windows.Forms;
-
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 
@@ -8,7 +7,10 @@ namespace Vocaluxe.Screens
     class CScreenOptionsSound : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion { get { return 3; } }
+        protected override int _ScreenVersion
+        {
+            get { return 3; }
+        }
 
         private const string SelectSlideBackgroundMusic = "SelectSlideBackgroundMusic";
         private const string SelectSlideBackgroundMusicVolume = "SelectSlideBackgroundMusicVolume";
@@ -21,41 +23,37 @@ namespace Vocaluxe.Screens
         private int _BackgroundMusicVolume;
         private EOffOn _BackgroundMusic;
 
-        public CScreenOptionsSound()
-        {
-        }
-
         public override void Init()
         {
             base.Init();
 
-            _ThemeButtons = new string[] { ButtonExit };
-            _ThemeSelectSlides = new string[] { SelectSlideBackgroundMusic, SelectSlideBackgroundMusicVolume, SelectSlideBackgroundMusicSource, SelectSlidePreviewMusicVolume, SelectSlideGameMusicVolume };
+            _ThemeButtons = new[] {ButtonExit};
+            _ThemeSelectSlides = new[]
+                {SelectSlideBackgroundMusic, SelectSlideBackgroundMusicVolume, SelectSlideBackgroundMusicSource, SelectSlidePreviewMusicVolume, SelectSlideGameMusicVolume};
         }
 
         public override void LoadTheme(string XmlPath)
         {
             base.LoadTheme(XmlPath);
             SelectSlides[SelectSlideBackgroundMusic].SetValues<EOffOn>((int)CConfig.BackgroundMusic);
-            SelectSlides[SelectSlideBackgroundMusicVolume].AddValues(new string[] { "0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
+            SelectSlides[SelectSlideBackgroundMusicVolume].AddValues(new[]
+                {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
             SelectSlides[SelectSlideBackgroundMusicVolume].Selection = CConfig.BackgroundMusicVolume / 5;
             SelectSlides[SelectSlideBackgroundMusicSource].SetValues<EBackgroundMusicSource>((int)CConfig.BackgroundMusicSource);
             SelectSlides[SelectSlideBackgroundMusicSource].Selection = (int)CConfig.BackgroundMusicSource;
-            SelectSlides[SelectSlidePreviewMusicVolume].AddValues(new string[] { "0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100" });
+            SelectSlides[SelectSlidePreviewMusicVolume].AddValues(new[]
+                {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
             SelectSlides[SelectSlidePreviewMusicVolume].Selection = CConfig.PreviewMusicVolume / 5;
-            SelectSlides[SelectSlideGameMusicVolume].AddValues(new string[] { "0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100" });
+            SelectSlides[SelectSlideGameMusicVolume].AddValues(new[]
+                {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
             SelectSlides[SelectSlideGameMusicVolume].Selection = CConfig.GameMusicVolume / 5;
-
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
         {
             base.HandleInput(KeyEvent);
 
-            if (KeyEvent.KeyPressed)
-            {
-
-            }
+            if (KeyEvent.KeyPressed) {}
             else
             {
                 switch (KeyEvent.Key)
@@ -76,7 +74,7 @@ namespace Vocaluxe.Screens
                         {
                             SaveConfig();
                             CGraphics.FadeTo(EScreens.ScreenOptions);
-                        }   
+                        }
                         break;
 
                     case Keys.Left:
@@ -104,9 +102,7 @@ namespace Vocaluxe.Screens
             {
                 SaveConfig();
                 if (Buttons[ButtonExit].Selected)
-                {
                     CGraphics.FadeTo(EScreens.ScreenOptions);
-                }
             }
             return true;
         }
@@ -114,9 +110,7 @@ namespace Vocaluxe.Screens
         public override bool UpdateGame()
         {
             if (_BackgroundMusicVolume != CConfig.BackgroundMusicVolume)
-            {
                 SelectSlides[SelectSlideBackgroundMusicVolume].Selection = CConfig.BackgroundMusicVolume / 5;
-            }
             return true;
         }
 
@@ -135,6 +129,7 @@ namespace Vocaluxe.Screens
             SelectSlides[SelectSlideGameMusicVolume].Selection = CConfig.GameMusicVolume / 5;
             SelectSlides[SelectSlidePreviewMusicVolume].Selection = CConfig.PreviewMusicVolume / 5;
         }
+
         private void SaveConfig()
         {
             CConfig.GameMusicVolume = SelectSlides[SelectSlideGameMusicVolume].Selection * 5;

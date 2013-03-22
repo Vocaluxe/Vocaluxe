@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 
@@ -9,7 +8,10 @@ namespace Vocaluxe.Screens
     class CScreenOptionsTheme : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion { get { return 3; } }
+        protected override int _ScreenVersion
+        {
+            get { return 3; }
+        }
 
         private const string SelectSlideTheme = "SelectSlideTheme";
         private const string SelectSlideSkin = "SelectSlideSkin";
@@ -28,25 +30,22 @@ namespace Vocaluxe.Screens
 
         private int _TempSkin;
 
-        public CScreenOptionsTheme()
-        {
-        }
-
         public override void Init()
         {
             base.Init();
 
-            _ThemeButtons = new string[] { ButtonExit };
-            _ThemeSelectSlides = new string[] {
-                SelectSlideTheme,
-                SelectSlideSkin,
-                SelectSlideCover,
-                SelectSlideNoteLines,
-                SelectSlideToneHelper,
-                SelectSlideTimerLook,
-                SelectSlideFadeInfo,
-                SelectSlideCoverLoading
-            };
+            _ThemeButtons = new[] {ButtonExit};
+            _ThemeSelectSlides = new[]
+                {
+                    SelectSlideTheme,
+                    SelectSlideSkin,
+                    SelectSlideCover,
+                    SelectSlideNoteLines,
+                    SelectSlideToneHelper,
+                    SelectSlideTimerLook,
+                    SelectSlideFadeInfo,
+                    SelectSlideCoverLoading
+                };
         }
 
         public override void LoadTheme(string XmlPath)
@@ -72,10 +71,7 @@ namespace Vocaluxe.Screens
         {
             base.HandleInput(KeyEvent);
 
-            if (KeyEvent.KeyPressed)
-            {
-
-            }
+            if (KeyEvent.KeyPressed) {}
             else
             {
                 switch (KeyEvent.Key)
@@ -92,9 +88,7 @@ namespace Vocaluxe.Screens
 
                     case Keys.Enter:
                         if (Buttons[ButtonExit].Selected)
-                        {
                             Close();
-                        }
                         break;
 
                     case Keys.Left:
@@ -114,16 +108,12 @@ namespace Vocaluxe.Screens
             base.HandleMouse(MouseEvent);
 
             if (MouseEvent.RB)
-            {
                 Close();
-            }
 
             if (MouseEvent.LB && IsMouseOver(MouseEvent))
             {
                 if (Buttons[ButtonExit].Selected)
-                {
                     Close();
-                }
                 else
                     OnChange();
             }
@@ -212,7 +202,7 @@ namespace Vocaluxe.Screens
                 CConfig.Skin = CTheme.SkinNames[0];
                 _OldSkin = 0;
                 _TempSkin = _OldSkin;
-                
+
                 CConfig.SaveConfig();
 
                 CTheme.LoadSkins();

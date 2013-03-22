@@ -7,7 +7,7 @@ namespace Vocaluxe.Lib.Video
     {
         public int handle;
         public string file;
-        
+
         public VideoStreams(int stream)
         {
             handle = stream;

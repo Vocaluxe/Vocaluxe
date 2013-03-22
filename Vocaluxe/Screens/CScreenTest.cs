@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 
@@ -10,20 +9,16 @@ namespace Vocaluxe.Screens
     class CScreenTest : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion { get { return 1; } }
+        protected override int _ScreenVersion
+        {
+            get { return 1; }
+        }
 
         private int _TestMusic = -1;
 
-        public CScreenTest()
-        {
-        }
-
         public override bool HandleInput(KeyEvent KeyEvent)
         {
-            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode))
-            {
-                
-            }
+            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode)) {}
             else
             {
                 switch (KeyEvent.Key)
@@ -36,7 +31,7 @@ namespace Vocaluxe.Screens
                     case Keys.Enter:
                         CGraphics.FadeTo(EScreens.ScreenMain);
                         break;
-                    
+
                     case Keys.F:
                         //FadeAndPause();
                         break;
@@ -56,26 +51,18 @@ namespace Vocaluxe.Screens
 
         public override bool HandleMouse(MouseEvent MouseEvent)
         {
-            if (MouseEvent.LB && IsMouseOver(MouseEvent))
-            {
-                
-            }
+            if (MouseEvent.LB && IsMouseOver(MouseEvent)) {}
 
             if (MouseEvent.LB)
-            {
                 CGraphics.FadeTo(EScreens.ScreenMain);
-            }
 
             if (MouseEvent.RB)
-            {
                 CGraphics.FadeTo(EScreens.ScreenMain);
-            }
             return true;
         }
 
         public override bool UpdateGame()
         {
-
             return true;
         }
 

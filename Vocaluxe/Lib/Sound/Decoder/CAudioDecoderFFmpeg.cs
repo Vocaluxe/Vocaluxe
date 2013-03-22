@@ -1,13 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
-
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Acinerella;
 
 namespace Vocaluxe.Lib.Sound.Decoder
 {
-    class CAudioDecoderFFmpeg: CAudioDecoder, IDisposable
+    class CAudioDecoderFFmpeg : CAudioDecoder, IDisposable
     {
         private TAc_read_callback _rc;
         private TAc_seek_callback _sc;
@@ -15,18 +14,18 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
         private IntPtr _instance = IntPtr.Zero;
         private IntPtr _audiodecoder = IntPtr.Zero;
-        
+
         private TAc_instance _Instance;
         private FormatInfo _FormatInfo;
         private float _CurrentTime;
 
         private string _FileName;
-        private bool _FileOpened = false;
+        private bool _FileOpened;
 
         public override void Init()
         {
-            _rc = new TAc_read_callback(read_proc);
-            _sc = new TAc_seek_callback(seek_proc);
+            _rc = read_proc;
+            _sc = seek_proc;
 
             _FileOpened = false;
 
@@ -67,9 +66,9 @@ namespace Vocaluxe.Lib.Sound.Decoder
                     }
                     catch (Exception)
                     {
-                        return;                        
+                        return;
                     }
-                    
+
                     AudioStreamIndex = i;
                     break;
                 }
@@ -134,7 +133,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
             if (!_Initialized && !_FileOpened)
                 return 0f;
 
-            return (float)_Instance.info.duration / 1000f;
+            return _Instance.info.duration / 1000f;
         }
 
         public override void SetPosition(float Time)
@@ -187,12 +186,12 @@ namespace Vocaluxe.Lib.Sound.Decoder
                 TimeStamp = (float)Decoder.timecode;
                 _CurrentTime = TimeStamp;
                 //Console.WriteLine(_CurrentTime.ToString("#0.000") + " Buffer size: " + Decoder.buffer_size.ToString());
-                
+
                 Buffer = new byte[Decoder.buffer_size];
 
                 if (Decoder.buffer_size > 0)
                     Marshal.Copy(Decoder.buffer, Buffer, 0, Buffer.Length);
-                
+
                 return;
             }
 
@@ -214,7 +213,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
         private Int64 seek_proc(IntPtr sender, Int64 pos, Int32 whence)
         {
-            return (Int64)_fs.Seek((long)pos, (SeekOrigin)whence);
+            return _fs.Seek(pos, (SeekOrigin)whence);
         }
         #endregion Callbacks
 

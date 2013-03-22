@@ -14,7 +14,11 @@ namespace Vocaluxe.Base
 
         public List<CSong> FilteredSongs
         {
-            get { _FilterSongs(); return _FilteredSongs; }
+            get
+            {
+                _FilterSongs();
+                return _FilteredSongs;
+            }
         }
 
         public String SearchString
@@ -62,7 +66,7 @@ namespace Vocaluxe.Base
 
             string[] searchStrings = null;
             if (_SearchString.Length > 0)
-                searchStrings = _SearchString.ToUpper().Split(new char[] { ' ' });
+                searchStrings = _SearchString.ToUpper().Split(new[] {' '});
 
             foreach (CSong song in CSongs.Songs)
             {
@@ -77,9 +81,7 @@ namespace Vocaluxe.Base
                         bool contains = true;
 
                         foreach (string str in searchStrings)
-                        {
                             contains &= search.Contains(str);
-                        }
                         if (contains)
                             _FilteredSongs.Add(song);
                     }
@@ -87,6 +89,5 @@ namespace Vocaluxe.Base
             }
             _Changed = false;
         }
-
     }
 }

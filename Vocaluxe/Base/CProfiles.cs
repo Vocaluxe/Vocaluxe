@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Xml;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
-{    
+{
     static class CProfiles
     {
-        private static XmlWriterSettings _settings = new XmlWriterSettings();
+        private static readonly XmlWriterSettings _settings = new XmlWriterSettings();
         private static List<SProfile> _Profiles;
-        private static List<SAvatar> _Avatars = new List<SAvatar>();
+        private static readonly List<SAvatar> _Avatars = new List<SAvatar>();
 
         public static SProfile[] Profiles
         {
@@ -31,11 +32,11 @@ namespace Vocaluxe.Base
         {
             get { return _Avatars.Count; }
         }
-        
+
         public static void Init()
         {
             _settings.Indent = true;
-            _settings.Encoding = System.Text.Encoding.UTF8;
+            _settings.Encoding = Encoding.UTF8;
             _settings.ConformanceLevel = ConformanceLevel.Document;
 
             LoadAvatars();
@@ -64,7 +65,7 @@ namespace Vocaluxe.Base
 
             if (File.Exists(profile.ProfileFile))
                 return -1;
-            
+
             _Profiles.Add(profile);
             return _Profiles.Count - 1;
         }
@@ -72,9 +73,7 @@ namespace Vocaluxe.Base
         public static void SaveProfiles()
         {
             for (int i = 0; i < _Profiles.Count; i++)
-            {
                 SaveProfile(i);
-            }
             LoadProfiles();
         }
 
@@ -85,9 +84,7 @@ namespace Vocaluxe.Base
             files.AddRange(CHelper.ListFiles(CSettings.sFolderProfiles, "*.xml", true, true));
 
             foreach (string file in files)
-            {
                 LoadProfile(file);
-            }
 
             SortProfilesByName();
         }
@@ -210,7 +207,7 @@ namespace Vocaluxe.Base
         public static bool IsGuestProfile(int ProfileNr)
         {
             if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
-                return true;    // this will prevent from saving dummy profiles to highscore db
+                return true; // this will prevent from saving dummy profiles to highscore db
 
             return _Profiles[ProfileNr].GuestProfile == EOffOn.TR_CONFIG_ON;
         }
@@ -303,13 +300,11 @@ namespace Vocaluxe.Base
                     filename = "1";
 
                 int i = 0;
-                while(File.Exists(Path.Combine(CSettings.sFolderProfiles, filename + ".xml")))
+                while (File.Exists(Path.Combine(CSettings.sFolderProfiles, filename + ".xml")))
                 {
                     i++;
-                    if(!File.Exists(Path.Combine(CSettings.sFolderProfiles, filename + i + ".xml")))
-                    {
+                    if (!File.Exists(Path.Combine(CSettings.sFolderProfiles, filename + i + ".xml")))
                         filename += i;
-                    }
                 }
 
                 SProfile profile = _Profiles[ProfileID];
@@ -329,7 +324,6 @@ namespace Vocaluxe.Base
             }
             try
             {
-
                 writer.WriteStartDocument();
                 writer.WriteStartElement("root");
 
@@ -368,26 +362,22 @@ namespace Vocaluxe.Base
                 profile.PlayerName = value;
 
                 profile.Difficulty = EGameDifficulty.TR_CONFIG_EASY;
-                xmlReader.TryGetEnumValue<EGameDifficulty>("//root/Info/Difficulty", ref profile.Difficulty);
+                xmlReader.TryGetEnumValue("//root/Info/Difficulty", ref profile.Difficulty);
 
                 profile.Avatar = new SAvatar(-1);
                 if (xmlReader.GetValue("//root/Info/Avatar", ref value, value))
-                {
                     profile.Avatar = GetAvatar(value);
-                }
 
                 profile.GuestProfile = EOffOn.TR_CONFIG_OFF;
-                xmlReader.TryGetEnumValue<EOffOn>("//root/Info/GuestProfile", ref profile.GuestProfile);
+                xmlReader.TryGetEnumValue("//root/Info/GuestProfile", ref profile.GuestProfile);
 
                 profile.Active = EOffOn.TR_CONFIG_ON;
-                xmlReader.TryGetEnumValue<EOffOn>("//root/Info/Active", ref profile.Active);
+                xmlReader.TryGetEnumValue("//root/Info/Active", ref profile.Active);
 
                 _Profiles.Add(profile);
             }
             else
-            {
                 CLog.LogError("Can't find PlayerName in Profile File: " + FileName);
-            }
         }
         #endregion private methods
     }

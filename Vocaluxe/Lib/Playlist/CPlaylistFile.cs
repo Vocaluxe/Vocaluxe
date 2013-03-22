@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Xml;
-
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
@@ -11,13 +11,13 @@ namespace Vocaluxe.Lib.Playlist
 {
     public class CPlaylistFile
     {
-        private static XmlWriterSettings _settings = new XmlWriterSettings();
+        private static readonly XmlWriterSettings _settings = new XmlWriterSettings();
 
         public string PlaylistName;
         public string PlaylistFile;
         public List<CPlaylistSong> Songs = new List<CPlaylistSong>();
 
-        public CPlaylistFile() 
+        public CPlaylistFile()
         {
             Init();
             PlaylistName = string.Empty;
@@ -34,10 +34,9 @@ namespace Vocaluxe.Lib.Playlist
         private void Init()
         {
             _settings.Indent = true;
-            _settings.Encoding = System.Text.Encoding.UTF8;
+            _settings.Encoding = Encoding.UTF8;
             _settings.ConformanceLevel = ConformanceLevel.Document;
         }
-
 
         public void SavePlaylist()
         {
@@ -58,9 +57,7 @@ namespace Vocaluxe.Lib.Playlist
                 {
                     i++;
                     if (!File.Exists(Path.Combine(CSettings.sFolderPlaylists, filename + i + ".xml")))
-                    {
                         filename += i;
-                    }
                 }
 
                 PlaylistFile = Path.Combine(CSettings.sFolderPlaylists, filename + ".xml");
@@ -105,9 +102,7 @@ namespace Vocaluxe.Lib.Playlist
                         writer.WriteEndElement();
                     }
                     else
-                    {
                         CLog.LogError("Playlist.SavePlaylist(): Can't find Song. This should never happen!");
-                    }
                 }
                 writer.WriteEndElement();
 
@@ -144,7 +139,7 @@ namespace Vocaluxe.Lib.Playlist
                 {
                     xmlReader.GetValue("//root/Songs/" + songs[i] + "/Artist", ref artist, String.Empty);
                     xmlReader.GetValue("//root/Songs/" + songs[i] + "/Title", ref title, String.Empty);
-                    xmlReader.TryGetEnumValue<EGameMode>("//root/Songs/" + songs[i] + "/GameMode", ref gm);
+                    xmlReader.TryGetEnumValue("//root/Songs/" + songs[i] + "/GameMode", ref gm);
 
                     CPlaylistSong song = new CPlaylistSong();
                     song.SongID = -1;
@@ -165,15 +160,11 @@ namespace Vocaluxe.Lib.Playlist
                         Songs.Add(song);
                     }
                     else
-                    {
                         CLog.LogError("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + PlaylistFile);
-                    }
                 }
             }
             else
-            {
                 CLog.LogError("Can't find PlaylistName in Playlist File: " + PlaylistFile);
-            }
         }
 
         public void AddSong(int SongID)
@@ -185,7 +176,7 @@ namespace Vocaluxe.Lib.Playlist
             else
                 song.GameMode = EGameMode.TR_GAMEMODE_NORMAL;
 
-            Songs.Add(song);            
+            Songs.Add(song);
         }
 
         public void AddSong(int SongID, EGameMode gm)
@@ -194,7 +185,7 @@ namespace Vocaluxe.Lib.Playlist
             song.SongID = SongID;
             song.GameMode = gm;
 
-            Songs.Add(song);   
+            Songs.Add(song);
         }
 
         public void DeleteSong(int SongNr)
@@ -205,17 +196,13 @@ namespace Vocaluxe.Lib.Playlist
         public void SongUp(int SongNr)
         {
             if (SongNr < Songs.Count - 1 && SongNr > 0)
-            {
                 Songs.Reverse(SongNr - 1, 2);
-            }
         }
 
         public void SongDown(int SongNr)
         {
             if (SongNr < Songs.Count - 1 && SongNr >= 0)
-            {
                 Songs.Reverse(SongNr, 2);
-            }
         }
 
         public void SongMove(int SourceNr, int DestNr)

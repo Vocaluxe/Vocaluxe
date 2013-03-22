@@ -31,7 +31,7 @@ namespace Vocaluxe.Lib.Input
 
     class RumbleTimer
     {
-        private Stopwatch _timer;
+        private readonly Stopwatch _timer;
         private float _duration;
 
         public bool ShouldStart
@@ -86,8 +86,8 @@ namespace Vocaluxe.Lib.Input
 
     class CGesture
     {
-        Point _Begin;
-        bool _locked;
+        private Point _Begin;
+        private bool _locked;
 
         public CGesture()
         {

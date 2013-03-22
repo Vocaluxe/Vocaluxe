@@ -8,6 +8,7 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {
+
     #region Structs
     struct Theme
     {
@@ -79,15 +80,15 @@ namespace Vocaluxe.Base
     static class CTheme
     {
         // Version number for main theme and skin files. Increment it, if you've changed something on the theme files!
-        const int ThemeSystemVersion = 5;
-        const int SkinSystemVersion = 3;
+        private const int ThemeSystemVersion = 5;
+        private const int SkinSystemVersion = 3;
 
         #region Vars
-        private static XmlWriterSettings _settings = new XmlWriterSettings();
-        private static List<Theme> _Themes = new List<Theme>();
+        private static readonly XmlWriterSettings _settings = new XmlWriterSettings();
+        private static readonly List<Theme> _Themes = new List<Theme>();
         public static string[] ThemeNames
         {
-            get 
+            get
             {
                 List<string> names = new List<string>();
                 foreach (Theme th in _Themes)
@@ -99,7 +100,7 @@ namespace Vocaluxe.Base
             }
         }
 
-        private static List<Skin> _Skins = new List<Skin>();
+        private static readonly List<Skin> _Skins = new List<Skin>();
         public static string[] SkinNames
         {
             get
@@ -120,7 +121,7 @@ namespace Vocaluxe.Base
         #region Theme and Skin loading and writing
         public static void InitTheme()
         {
-            _settings.Indent = true; 
+            _settings.Indent = true;
             _settings.Encoding = Encoding.UTF8;
             _settings.ConformanceLevel = ConformanceLevel.Document;
 
@@ -272,8 +273,8 @@ namespace Vocaluxe.Base
             else
             {
                 CFonts.LoadPartyModeFonts(_Themes[ThemeIndex].PartyModeID,
-                    Path.Combine(_Themes[ThemeIndex].Path, CSettings.sFolderPartyModeFonts),
-                    xmlReader);
+                                          Path.Combine(_Themes[ThemeIndex].Path, CSettings.sFolderPartyModeFonts),
+                                          xmlReader);
             }
             return true;
         }
@@ -286,7 +287,7 @@ namespace Vocaluxe.Base
             {
                 if (_Themes[i].Name == CConfig.Theme && _Themes[i].PartyModeID == -1 || _Themes[i].PartyModeID != -1)
                     SaveTheme(i);
-            }   
+            }
         }
 
         private static void SaveTheme(int ThemeIndex)
@@ -360,9 +361,7 @@ namespace Vocaluxe.Base
                     writer.WriteStartElement("Skins");
 
                     foreach (SkinElement element in _Skins[SkinIndex].SkinList.Values)
-                    {
                         writer.WriteElementString(element.Name, element.Value);
-                    }
                     writer.WriteEndElement();
                     #endregion Skins
 
@@ -370,9 +369,7 @@ namespace Vocaluxe.Base
                     writer.WriteStartElement("Videos");
 
                     foreach (SkinElement element in _Skins[SkinIndex].VideoList)
-                    {
                         writer.WriteElementString(element.Name, element.Value);
-                    }
                     writer.WriteEndElement();
                     #endregion Videos
 
@@ -393,9 +390,7 @@ namespace Vocaluxe.Base
             List<string> files = CHelper.ListFiles(path, "*.xml", false);
 
             foreach (string file in files)
-            {
                 AddTheme(Path.Combine(path, file), -1);
-            }          
         }
 
         public static bool AddTheme(string FilePath, int PartyModeID)
@@ -433,7 +428,7 @@ namespace Vocaluxe.Base
                 else
                     msg += "the file is for newer program versions! ";
 
-                msg += "Current ThemeSystemVersion is " + ThemeSystemVersion.ToString()+ " but found " + version;
+                msg += "Current ThemeSystemVersion is " + ThemeSystemVersion.ToString() + " but found " + version;
                 CLog.LogError(msg);
             }
             return true;
@@ -449,7 +444,7 @@ namespace Vocaluxe.Base
                 CLog.LogError("Error List Skins. Can't find Theme: " + CConfig.Theme);
                 return;
             }
-            ListSkins(themeIndex);    
+            ListSkins(themeIndex);
         }
 
         public static void ListSkins(int ThemeIndex)
@@ -533,15 +528,11 @@ namespace Vocaluxe.Base
             for (int i = 0; i < _Skins.Count; i++)
             {
                 if (PartyModeID != -1 && _Skins[i].PartyModeID == PartyModeID)
-                {
                     return i;
-                }
                 else if (PartyModeID == -1 && _Skins[i].Name == CConfig.Skin)
-                {
                     return i;
-                }
             }
-            
+
             return -1;
         }
 
@@ -550,13 +541,9 @@ namespace Vocaluxe.Base
             for (int i = 0; i < _Themes.Count; i++)
             {
                 if (PartyModeID != -1 && _Themes[i].PartyModeID == PartyModeID)
-                {
                     return i;
-                }
                 else if (PartyModeID == -1 && _Themes[i].Name == CConfig.Theme)
-                {
                     return i;
-                }
             }
 
             return -1;
@@ -582,9 +569,7 @@ namespace Vocaluxe.Base
         {
             int SkinIndex = GetSkinIndex(PartyModeID);
             if (SkinIndex != -1 && TextureName != null && _Skins[SkinIndex].SkinList.ContainsKey(TextureName))
-            {
                 return _Skins[SkinIndex].SkinList[TextureName].Texture;
-            }
             return new STexture(-1);
         }
 
@@ -763,7 +748,7 @@ namespace Vocaluxe.Base
         {
             string value = String.Empty;
             xmlReader.GetValue("//root/Cursor/Skin", ref Cursor.SkinName, value);
-            
+
             xmlReader.TryGetFloatValue("//root/Cursor/W", ref Cursor.w);
             xmlReader.TryGetFloatValue("//root/Cursor/H", ref Cursor.h);
 
@@ -832,9 +817,7 @@ namespace Vocaluxe.Base
             writer.WriteElementString("H", Cursor.h.ToString("#0.000"));
 
             if (Cursor.color.Length > 0)
-            {
                 writer.WriteElementString("Color", Cursor.color);
-            }
             else
             {
                 writer.WriteElementString("R", Cursor.r.ToString("#0.000"));

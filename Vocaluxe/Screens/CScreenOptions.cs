@@ -1,5 +1,4 @@
 ﻿using System.Windows.Forms;
-
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 
@@ -8,7 +7,10 @@ namespace Vocaluxe.Screens
     class CScreenOptions : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion { get { return 1; } }
+        protected override int _ScreenVersion
+        {
+            get { return 1; }
+        }
 
         private const string ButtonOptionsGame = "ButtonOptionsGame";
         private const string ButtonOptionsSound = "ButtonOptionsSound";
@@ -17,25 +19,18 @@ namespace Vocaluxe.Screens
         private const string ButtonOptionsLyrics = "ButtonOptionsLyrics";
         private const string ButtonOptionsTheme = "ButtonOptionsTheme";
 
-        public CScreenOptions()
-        {
-        }
-
         public override void Init()
         {
             base.Init();
 
-            _ThemeButtons = new string[] { ButtonOptionsGame, ButtonOptionsSound, ButtonOptionsRecord, ButtonOptionsVideo, ButtonOptionsLyrics, ButtonOptionsTheme };
+            _ThemeButtons = new[] {ButtonOptionsGame, ButtonOptionsSound, ButtonOptionsRecord, ButtonOptionsVideo, ButtonOptionsLyrics, ButtonOptionsTheme};
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
         {
             base.HandleInput(KeyEvent);
 
-            if (KeyEvent.KeyPressed)
-            {
-
-            }
+            if (KeyEvent.KeyPressed) {}
             else
             {
                 switch (KeyEvent.Key)
@@ -101,9 +96,7 @@ namespace Vocaluxe.Screens
             }
 
             if (MouseEvent.RB)
-            {
                 CGraphics.FadeTo(EScreens.ScreenMain);
-            }
             return true;
         }
 

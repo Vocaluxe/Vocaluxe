@@ -1,4 +1,4 @@
- /*
+/*
   * PortAudioSharp - PortAudio bindings for .NET
   * Copyright 2006-2011 Riccardo Gerosa and individual contributors as indicated
   * by the @authors tag. See the copyright.txt in the distribution for a
@@ -23,50 +23,44 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace PortAudioSharp {
+namespace PortAudioSharp
+{
+    /// <summary> PortAudio v.19 bindings for .NET - ASIO bindings </summary>
+    public partial class PortAudio
+    {
+        #region **** PORTAUDIO CALLBACKS ****
+        #endregion
 
-	/// <summary> PortAudio v.19 bindings for .NET - ASIO bindings </summary>
-	public partial class PortAudio
-	{	
-		#region **** PORTAUDIO CALLBACKS ****
-		
-		#endregion
-		
-		#region **** PORTAUDIO DATA STRUCTURES ****
-		
-		[StructLayout (LayoutKind.Sequential)]
-		public struct PaAsioStreamInfo {
-			public ulong size;             /**< sizeof(PaAsioStreamInfo) */
-			public int hostApiType;    /**< paASIO */
-			public ulong version;          /**< 1 */
-			public ulong flags;
-	
-			/// Support for opening only specific channels of an ASIO device.
-			/// If the paAsioUseChannelSelectors flag is set, channelSelectors is a
-			/// pointer to an array of integers specifying the device channels to use.
-			/// When used, the length of the channelSelectors array must match the
-			/// corresponding channelCount parameter to Pa_OpenStream() otherwise a
-			/// crash may result.
-			/// The values in the selectors array must specify channels within the
-			/// range of supported channels for the device or paInvalidChannelCount will
-			/// result.
-			IntPtr channelSelectors;
-		}
-		
-		#endregion
-		
-		#region **** PORTAUDIO DEFINES ****
-		
-		public const int paAsioUseChannelSelectors = 0x01;
-		
-		#endregion
-		
-		#region **** PORTAUDIO ENUMERATIONS ****
-		
-		#endregion
-		
-		#region **** PORTAUDIO FUNCTIONS ****
-		
+        #region **** PORTAUDIO DATA STRUCTURES ****
+        [StructLayout(LayoutKind.Sequential)]
+        public struct PaAsioStreamInfo
+        {
+            public ulong size; /**< sizeof(PaAsioStreamInfo) */
+            public int hostApiType; /**< paASIO */
+            public ulong version; /**< 1 */
+            public ulong flags;
+
+            /// Support for opening only specific channels of an ASIO device.
+            /// If the paAsioUseChannelSelectors flag is set, channelSelectors is a
+            /// pointer to an array of integers specifying the device channels to use.
+            /// When used, the length of the channelSelectors array must match the
+            /// corresponding channelCount parameter to Pa_OpenStream() otherwise a
+            /// crash may result.
+            /// The values in the selectors array must specify channels within the
+            /// range of supported channels for the device or paInvalidChannelCount will
+            /// result.
+            private readonly IntPtr channelSelectors;
+        }
+        #endregion
+
+        #region **** PORTAUDIO DEFINES ****
+        public const int paAsioUseChannelSelectors = 0x01;
+        #endregion
+
+        #region **** PORTAUDIO ENUMERATIONS ****
+        #endregion
+
+        #region **** PORTAUDIO FUNCTIONS ****
 //		/// <summary> Retrieve legal latency settings for the specificed device, in samples. </summary>
 //		/// <param name="device"> The global index of the device about which the query is being made. </param>
 //		/// <param name="minLatency"> A pointer to the location which will recieve the minimum latency value. </param>
@@ -79,35 +73,35 @@ namespace PortAudioSharp {
 //		PaError PaAsio_GetAvailableLatencyValues( PaDeviceIndex device, long *minLatency, long *maxLatency, 
 //			long *preferredLatency, long *granularity );
 
-		/// <summary> Display the ASIO control panel for the specified device. </summary>
-		/// <param name="device"> The global index of the device whose control panel is to be displayed. </param>
-		/// <param name="systemSpecific">On Windows, the calling application's main window handle, 
-		/// 	on Macintosh this value should be zero.</param>
-		[DllImport ("PortAudio.dll")]
-	 	public static extern PortAudio.PaError PaAsio_ShowControlPanel(int device, IntPtr systemSpecific);
-	 	
+        /// <summary> Display the ASIO control panel for the specified device. </summary>
+        /// <param name="device"> The global index of the device whose control panel is to be displayed. </param>
+        /// <param name="systemSpecific">
+        ///     On Windows, the calling application's main window handle,
+        ///     on Macintosh this value should be zero.
+        /// </param>
+        [DllImport("PortAudio.dll")]
+        public static extern PaError PaAsio_ShowControlPanel(int device, IntPtr systemSpecific);
+
 //	 	/// <summary> Retrieve a pointer to a string containing the name of the specified input channel. </summary>
 //	 	/// The string is valid until Pa_Terminate is called.
 //	 	/// The string will be no longer than 32 characters including the null terminator.
 //		PaError PaAsio_GetInputChannelName(PaDeviceIndex device, int channelIndex, const char** channelName );
-	 	
+
 //		/// <summary> Retrieve a pointer to a string containing the name of the specified input channel. </summary>
 //		/// The string is valid until Pa_Terminate is called. 
 //		/// The string will be no longer than 32 characters including the null terminator.
 //		PaError PaAsio_GetOutputChannelName( PaDeviceIndex device, int channelIndex, const char** channelName );
-	 	
-	 	/// <summary> Set the sample rate of an open paASIO stream. </summary>
-		/// <param name="">stream</param> The stream to operate on.
-		/// <param name="sampleRate"></param> The new sample rate. 
-		/// Note that this function may fail if the stream is alredy running and the 
-		/// ASIO driver does not support switching the sample rate of a running stream.
-		/// <returns> paIncompatibleStreamHostApi if stream is not a paASIO stream. </returns>
-		[DllImport ("PortAudio.dll")]
-	 	public static extern PortAudio.PaError PaAsio_SetStreamSampleRate(IntPtr stream, double sampleRate);
-		
-		#endregion
-		
-	}
-	
+
+        /// <summary> Set the sample rate of an open paASIO stream. </summary>
+        /// <param name="">stream</param>
+        /// The stream to operate on.
+        /// <param name="sampleRate"></param>
+        /// The new sample rate. 
+        /// Note that this function may fail if the stream is alredy running and the 
+        /// ASIO driver does not support switching the sample rate of a running stream.
+        /// <returns> paIncompatibleStreamHostApi if stream is not a paASIO stream. </returns>
+        [DllImport("PortAudio.dll")]
+        public static extern PaError PaAsio_SetStreamSampleRate(IntPtr stream, double sampleRate);
+        #endregion
+    }
 }
-	

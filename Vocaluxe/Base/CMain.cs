@@ -32,7 +32,7 @@ namespace Vocaluxe.Base
         public static void Init()
         {
             CBase.Assign(Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language,
-                Game, Profiles, Record, Songs, Video, Sound, Cover, DataBase, Input, Playlist);
+                         Game, Profiles, Record, Songs, Video, Sound, Cover, DataBase, Input, Playlist);
         }
     }
 
@@ -273,12 +273,9 @@ namespace Vocaluxe.Base
         {
             CTheme.LoadTheme();
         }
-
     }
 
-    class BHelper : IHelper
-    {
-    }
+    class BHelper : IHelper {}
 
     class BBackgroundMusic : IBackgroundMusic
     {
@@ -326,7 +323,6 @@ namespace Vocaluxe.Base
         {
             CBackgroundMusic.Play();
         }
-
 
         public void ApplyVolume()
         {
@@ -685,7 +681,6 @@ namespace Vocaluxe.Base
         {
             return CVideo.VdClose(VideoStream);
         }
-
     }
 
     class BSound : ISound
@@ -796,8 +791,6 @@ namespace Vocaluxe.Base
         {
             return CPlaylists.NumPlaylists;
         }
-
-
 
         public void AddPlaylistSong(int PlaylistID, int SongID)
         {

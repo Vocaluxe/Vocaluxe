@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
-
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Acinerella;
 using VocaluxeLib.Menu;
@@ -15,18 +14,17 @@ namespace Vocaluxe.Lib.Video
 
     class CVideoDecoderFFmpeg : CVideoDecoder
     {
-        private List<Decoder> _Decoder = new List<Decoder>();
+        private readonly List<Decoder> _Decoder = new List<Decoder>();
         private CLOSEPROC closeproc;
         private int _Count = 1;
 
-        private Object MutexDecoder = new Object();
-                
-        
+        private readonly Object MutexDecoder = new Object();
+
         public override bool Init()
         {
-            closeproc = new CLOSEPROC(close_proc);
+            closeproc = close_proc;
             CloseAll();
-                        
+
             return base.Init();
         }
 
@@ -35,9 +33,7 @@ namespace Vocaluxe.Lib.Video
             lock (MutexDecoder)
             {
                 for (int i = 0; i < _Decoder.Count; i++)
-			    {
-			        _Decoder[i].Free(closeproc, i+1);
-			    }
+                    _Decoder[i].Free(closeproc, i + 1);
             }
         }
 
@@ -56,7 +52,6 @@ namespace Vocaluxe.Lib.Video
                     _Streams.Add(stream);
                     return stream.handle;
                 }
-                
             }
             return -1;
         }
@@ -73,7 +68,6 @@ namespace Vocaluxe.Lib.Video
                         return true;
                     }
                 }
-                
             }
             return false;
         }
@@ -85,11 +79,8 @@ namespace Vocaluxe.Lib.Video
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(StreamID))
-                    {
                         return _Decoder[GetStreamIndex(StreamID)].GetFrame(ref Frame, Time, ref VideoTime);
-                    }
                 }
-                
             }
             return false;
         }
@@ -101,11 +92,8 @@ namespace Vocaluxe.Lib.Video
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(StreamID))
-                    {
                         return _Decoder[GetStreamIndex(StreamID)].Length;
-                    }
                 }
-                
             }
             return 0f;
         }
@@ -117,11 +105,8 @@ namespace Vocaluxe.Lib.Video
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(StreamID))
-                    {
                         return _Decoder[GetStreamIndex(StreamID)].Skip(Start, Gap);
-                    }
                 }
-                
             }
             return false;
         }
@@ -133,11 +118,8 @@ namespace Vocaluxe.Lib.Video
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(StreamID))
-                    {
                         _Decoder[GetStreamIndex(StreamID)].Loop = Loop;
-                    }
                 }
-                
             }
         }
 
@@ -148,11 +130,8 @@ namespace Vocaluxe.Lib.Video
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(StreamID))
-                    {
                         _Decoder[GetStreamIndex(StreamID)].Paused = true;
-                    }
                 }
-
             }
         }
 
@@ -163,11 +142,8 @@ namespace Vocaluxe.Lib.Video
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(StreamID))
-                    {
                         _Decoder[GetStreamIndex(StreamID)].Paused = false;
-                    }
                 }
-
             }
         }
 
@@ -178,9 +154,7 @@ namespace Vocaluxe.Lib.Video
                 lock (MutexDecoder)
                 {
                     if (AlreadyAdded(StreamID))
-                    {
                         return _Decoder[GetStreamIndex(StreamID)].Finished;
-                    }
                 }
             }
             return true;
@@ -199,7 +173,6 @@ namespace Vocaluxe.Lib.Video
                         _Streams.RemoveAt(Index);
                     }
                 }
-                
             }
         }
     }
@@ -211,62 +184,61 @@ namespace Vocaluxe.Lib.Video
         public bool displayed;
     }
 
-    class Decoder: IDisposable
+    class Decoder : IDisposable
     {
-        private IntPtr _instance = IntPtr.Zero;     // acinerella instance
+        private IntPtr _instance = IntPtr.Zero; // acinerella instance
         private IntPtr _videodecoder = IntPtr.Zero; // acinerella video decoder instance
-          
-        private Stopwatch _LoopTimer = new Stopwatch();
-        private CLOSEPROC _Closeproc;               // delegate for stream closing
-        private int _StreamID;                      // stream ID for stream closing
-        private string _FileName;                   // current video file name
-                
-        private FileStream _fs;                     // video file stream
-        private TAc_read_callback _rc;              // read callback for acinerella
-        private TAc_seek_callback _sc;              // seek callback for acinerella
-        
-        private bool _FileOpened = false;
-        
-        private float _VideoTimeBase = 0f;          // frame time
-        private float _VideoDecoderTime = 0f;       // time of last decoded frame
-        private float _CurrentVideoTime = 0f;       // current video position
-        private bool _BufferFull = false;           // buffer is full, waiting for free frame slot
 
-        private bool _skip = false;                 // do skip
-        private float _Time = 0f;
-        private float _Gap = 0f;
-        private float _Start = 0f;
-        private bool _Loop = false;
-        private float _Duration = 0f;
-        private float _VideoSkipTime = 0f;          // = VideoGap
-        private float _SkipTime = 0f;               // = Start + VideoGap
-        
-        private bool _Paused = false;
-        private bool _NoMoreFrames = false;
-        private bool _Finished = false;
-        private bool _BeforeLoop = false;
-        
-        
-        private int _Width = 0;
-        private int _Height = 0;
-        private float _SetTime = 0f;
-        private float _SetGap = 0f;
-        private float _SetStart = 0f;
-        private bool _SetLoop = false;
-        private bool _SetSkip = false;
-        private bool _terminated = false;
-                
-        private Thread _thread;
+        private readonly Stopwatch _LoopTimer = new Stopwatch();
+        private CLOSEPROC _Closeproc; // delegate for stream closing
+        private int _StreamID; // stream ID for stream closing
+        private string _FileName; // current video file name
+
+        private FileStream _fs; // video file stream
+        private readonly TAc_read_callback _rc; // read callback for acinerella
+        private readonly TAc_seek_callback _sc; // seek callback for acinerella
+
+        private bool _FileOpened;
+
+        private float _VideoTimeBase; // frame time
+        private float _VideoDecoderTime; // time of last decoded frame
+        private float _CurrentVideoTime; // current video position
+        private bool _BufferFull; // buffer is full, waiting for free frame slot
+
+        private bool _skip; // do skip
+        private float _Time;
+        private float _Gap;
+        private float _Start;
+        private bool _Loop;
+        private float _Duration;
+        private float _VideoSkipTime; // = VideoGap
+        private float _SkipTime; // = Start + VideoGap
+
+        private bool _Paused;
+        private bool _NoMoreFrames;
+        private bool _Finished;
+        private bool _BeforeLoop;
+
+        private int _Width;
+        private int _Height;
+        private float _SetTime;
+        private float _SetGap;
+        private float _SetStart;
+        private bool _SetLoop;
+        private bool _SetSkip;
+        private bool _terminated;
+
+        private readonly Thread _thread;
         //AutoResetEvent EventDecode = new AutoResetEvent(false);
-        SFrameBuffer[] _FrameBuffer = new SFrameBuffer[5];
-        private bool _NewFrame = false;
-        Object MutexFramebuffer = new Object();
-        Object MutexSyncSignals = new Object();
+        private readonly SFrameBuffer[] _FrameBuffer = new SFrameBuffer[5];
+        private bool _NewFrame;
+        private readonly Object MutexFramebuffer = new Object();
+        private readonly Object MutexSyncSignals = new Object();
 
         public Decoder()
         {
-            _rc = new TAc_read_callback(read_proc);
-            _sc = new TAc_seek_callback(seek_proc);            
+            _rc = read_proc;
+            _sc = seek_proc;
             _thread = new Thread(Execute);
         }
 
@@ -274,7 +246,7 @@ namespace Vocaluxe.Lib.Video
         {
             _Closeproc = close_proc;
             _StreamID = StreamID;
-            _terminated = true;                 
+            _terminated = true;
         }
 
         public float Length
@@ -291,19 +263,15 @@ namespace Vocaluxe.Lib.Video
         public bool Paused
         {
             get { return _Paused; }
-            set 
-            { 
+            set
+            {
                 lock (MutexSyncSignals)
                 {
                     _Paused = value;
                     if (_Paused)
-                    {
                         _LoopTimer.Stop();
-                    }
                     else
-                    {
                         _LoopTimer.Start();
-                    }
                 }
             }
         }
@@ -316,10 +284,7 @@ namespace Vocaluxe.Lib.Video
 
         public bool Finished
         {
-            get
-            {
-                return _Finished;
-            }
+            get { return _Finished; }
         }
 
         public bool Open(string FileName)
@@ -327,7 +292,7 @@ namespace Vocaluxe.Lib.Video
             if (_FileOpened)
                 return false;
 
-            if (!System.IO.File.Exists(FileName))
+            if (!File.Exists(FileName))
                 return false;
 
             _FileName = FileName;
@@ -336,7 +301,7 @@ namespace Vocaluxe.Lib.Video
             _thread.Start();
             return true;
         }
-       
+
         public bool GetFrame(ref STexture frame, float Time, ref float VideoTime)
         {
             if (!_FileOpened)
@@ -348,7 +313,7 @@ namespace Vocaluxe.Lib.Video
             if (_SetLoop)
             {
                 lock (MutexSyncSignals)
-                { 
+                {
                     _SetTime += _LoopTimer.ElapsedMilliseconds / 1000f;
                     VideoTime = _SetTime;
 
@@ -357,7 +322,7 @@ namespace Vocaluxe.Lib.Video
                     _LoopTimer.Start();
                 }
 
-                
+
                 UploadNewFrame(ref frame);
                 //EventDecode.Set();
                 return true;
@@ -367,7 +332,7 @@ namespace Vocaluxe.Lib.Video
             {
                 lock (MutexSyncSignals)
                 {
-                    _SetTime = Time;                   
+                    _SetTime = Time;
                 }
                 UploadNewFrame(ref frame);
                 VideoTime = _CurrentVideoTime;
@@ -394,10 +359,10 @@ namespace Vocaluxe.Lib.Video
 
         #region Threading
         private void DoSkip()
-        {            
+        {
             _VideoSkipTime = _Gap;
             _SkipTime = _Start + _Gap;
-            _BeforeLoop = false;           
+            _BeforeLoop = false;
 
             if (_SkipTime > 0)
             {
@@ -407,29 +372,28 @@ namespace Vocaluxe.Lib.Video
                     CAcinerella.ac_seek(_videodecoder, -1, (Int64)(_SkipTime * 1000f));
                 }
                 catch (Exception e)
-                {                   
+                {
                     CLog.LogError("Error seeking video file \"" + _FileName + "\": " + e.Message);
                 }
-                
             }
             else
             {
                 _VideoDecoderTime = 0f;
-                try 
-	            {
-                    CAcinerella.ac_seek(_videodecoder, -1, (Int64)0);
-	            }
-	            catch (Exception e)
-	            {
+                try
+                {
+                    CAcinerella.ac_seek(_videodecoder, -1, 0);
+                }
+                catch (Exception e)
+                {
                     CLog.LogError("Error seeking video file \"" + _FileName + "\": " + e.Message);
-	            }              
+                }
             }
 
             lock (MutexSyncSignals)
             {
                 _CurrentVideoTime = _VideoDecoderTime;
             }
-            
+
             lock (MutexFramebuffer)
             {
                 for (int i = 0; i < _FrameBuffer.Length; i++)
@@ -438,7 +402,7 @@ namespace Vocaluxe.Lib.Video
                     _FrameBuffer[i].time = -1f;
                 }
             }
-            
+
             _BufferFull = false;
             _skip = false;
             _NewFrame = false;
@@ -478,7 +442,7 @@ namespace Vocaluxe.Lib.Video
                 }
             }
 
-            DoFree(); 
+            DoFree();
         }
 
         private void DoOpen()
@@ -501,7 +465,7 @@ namespace Vocaluxe.Lib.Video
                 CLog.LogError("Error opening video file: " + _FileName);
                 ok = false;
             }
-            
+
 
             if (!Instance.opened || !ok)
             {
@@ -509,7 +473,7 @@ namespace Vocaluxe.Lib.Video
                 return;
             }
 
-            _Duration = (float)Instance.info.duration / 1000f;
+            _Duration = Instance.info.duration / 1000f;
 
             int VideoStreamIndex = -1;
 
@@ -521,7 +485,7 @@ namespace Vocaluxe.Lib.Video
                 if (Info.stream_type == TAc_stream_type.AC_STREAM_TYPE_VIDEO)
                 {
                     _videodecoder = CAcinerella.ac_create_decoder(_instance, i);
-                    
+
                     VideoStreamIndex = i;
                     break;
                 }
@@ -587,7 +551,6 @@ namespace Vocaluxe.Lib.Video
                 {
                     CLog.LogError("Error AcSkipFrame " + _FileName);
                 }
-                
             }
 
             if (!_BeforeLoop && (!DropFrame || FrameFinished != 0))
@@ -638,9 +601,7 @@ namespace Vocaluxe.Lib.Video
                     DoSkip();
                 }
                 else
-                {
                     _NoMoreFrames = true;
-                }
                 return;
             }
             else
@@ -656,7 +617,7 @@ namespace Vocaluxe.Lib.Video
                 return;
 
             int num = -1;
-            
+
             lock (MutexFramebuffer)
             {
                 for (int i = 0; i < _FrameBuffer.Length; i++)
@@ -669,9 +630,7 @@ namespace Vocaluxe.Lib.Video
                 }
 
                 if (num == -1)
-                {
                     _BufferFull = true;
-                }
                 else
                 {
                     TAc_decoder Videodecoder = (TAc_decoder)Marshal.PtrToStructure(_videodecoder, typeof(TAc_decoder));
@@ -721,9 +680,7 @@ namespace Vocaluxe.Lib.Video
                         frame = CDraw.AddTexture(_Width, _Height, ref _FrameBuffer[num].data);
                     }
                     else
-                    {
                         CDraw.UpdateTexture(ref frame, ref _FrameBuffer[num].data);
-                    }
 
                     lock (MutexSyncSignals)
                     {
@@ -750,9 +707,7 @@ namespace Vocaluxe.Lib.Video
                 float td = _SetTime + _VideoSkipTime - _FrameBuffer[i].time;
 
                 if (td > _VideoTimeBase * 2f)
-                {
                     _FrameBuffer[i].displayed = true;
-                }
 
                 if (!_FrameBuffer[i].displayed && (td < diff) && (td > _VideoTimeBase))
                 {
@@ -799,7 +754,7 @@ namespace Vocaluxe.Lib.Video
 
         private Int64 seek_proc(IntPtr sender, Int64 pos, Int32 whence)
         {
-            return (Int64)_fs.Seek((long)pos, (SeekOrigin)whence);
+            return _fs.Seek(pos, (SeekOrigin)whence);
         }
         #endregion Callbacks
 

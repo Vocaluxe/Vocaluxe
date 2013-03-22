@@ -1,48 +1,43 @@
 ﻿using System.Windows.Forms;
-
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenMain: CMenu
+    class CScreenMain : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion { get { return 1; } }
+        protected override int _ScreenVersion
+        {
+            get { return 1; }
+        }
 
-        const string ButtonSing = "ButtonSing";
-        const string ButtonParty = "ButtonParty";
-        const string ButtonOptions = "ButtonOptions";
-        const string ButtonProfiles = "ButtonProfiles";
-        const string ButtonExit = "ButtonExit";
+        private const string ButtonSing = "ButtonSing";
+        private const string ButtonParty = "ButtonParty";
+        private const string ButtonOptions = "ButtonOptions";
+        private const string ButtonProfiles = "ButtonProfiles";
+        private const string ButtonExit = "ButtonExit";
 
         //CParticleEffect Snowflakes;
-        
-        public CScreenMain()
-        {
-        }
 
         public override void Init()
         {
             base.Init();
 
-            _ThemeStatics = new string[] { "StaticMenuBar" };
-            _ThemeButtons = new string[] { ButtonSing, ButtonParty, ButtonOptions, ButtonProfiles, ButtonExit };
+            _ThemeStatics = new[] {"StaticMenuBar"};
+            _ThemeButtons = new[] {ButtonSing, ButtonParty, ButtonOptions, ButtonProfiles, ButtonExit};
         }
 
         public override void LoadTheme(string XmlPath)
         {
-            base.LoadTheme(XmlPath);            
+            base.LoadTheme(XmlPath);
         }
 
         public override bool HandleInput(KeyEvent KeyEvent)
         {
             base.HandleInput(KeyEvent);
 
-            if (KeyEvent.KeyPressed)
-            {
-                
-            }
+            if (KeyEvent.KeyPressed) {}
             else
             {
                 switch (KeyEvent.Key)
@@ -84,7 +79,7 @@ namespace Vocaluxe.Screens
 
                         break;
                 }
-            }            
+            }
             return true;
         }
 
@@ -112,7 +107,7 @@ namespace Vocaluxe.Screens
                 if (Buttons[ButtonExit].Selected)
                     return false;
             }
-            
+
             return true;
         }
 

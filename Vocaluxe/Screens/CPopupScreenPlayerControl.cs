@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 
@@ -10,7 +9,10 @@ namespace Vocaluxe.Screens
     class CPopupScreenPlayerControl : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion { get { return 1; } }
+        protected override int _ScreenVersion
+        {
+            get { return 1; }
+        }
 
         private const string StaticBG = "StaticBG";
         private const string StaticCover = "StaticCover";
@@ -25,14 +27,11 @@ namespace Vocaluxe.Screens
         private const string ButtonToBackgroundVideo = "ButtonToBackgroundVideo";
 
         private const string TextCurrentSong = "TextCurrentSong";
-        private bool _VideoPreview = false;
+        private bool _VideoPreview;
 
         private bool VideoPreview
         {
-            get
-            {
-                return _VideoPreview;
-            }
+            get { return _VideoPreview; }
             set
             {
                 _VideoPreview = value;
@@ -45,10 +44,7 @@ namespace Vocaluxe.Screens
 
         private bool VideoBackground
         {
-            get
-            {
-                return CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON;
-            }
+            get { return CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON; }
             set
             {
                 if (!value)
@@ -69,16 +65,12 @@ namespace Vocaluxe.Screens
             }
         }
 
-        public CPopupScreenPlayerControl()
-        {
-        }
-
         public override void Init()
         {
             base.Init();
 
-            _ThemeStatics = new string[] { StaticBG, StaticCover };
-            _ThemeTexts = new string[] { TextCurrentSong };
+            _ThemeStatics = new[] {StaticBG, StaticCover};
+            _ThemeTexts = new[] {TextCurrentSong};
 
             List<string> buttons = new List<string>();
             buttons.Add(ButtonPlay);
@@ -102,10 +94,7 @@ namespace Vocaluxe.Screens
         public override bool HandleInput(KeyEvent KeyEvent)
         {
             base.HandleInput(KeyEvent);
-            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode))
-            {
-
-            }
+            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode)) {}
             else
             {
                 switch (KeyEvent.Key)
@@ -160,11 +149,13 @@ namespace Vocaluxe.Screens
                     StartSong(CBackgroundMusic.SongID, CBackgroundMusic.Duet);
                 if (Buttons[ButtonToBackgroundVideo].Selected)
                     VideoBackground = !VideoBackground;
-            } else if (MouseEvent.LB)
+            }
+            else if (MouseEvent.LB)
             {
                 //CGraphics.HidePopup(EPopupScreens.PopupPlayerControl);
                 return false;
-            } else if (MouseEvent.RB)
+            }
+            else if (MouseEvent.RB)
             {
                 //CGraphics.HidePopup(EPopupScreens.PopupPlayerControl);
                 return false;
@@ -174,7 +165,6 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-
             Statics[StaticCover].Visible = !_VideoPreview || !CBackgroundMusic.SongHasVideo;
             Buttons[ButtonToBackgroundVideo].Pressed = VideoBackground;
             Buttons[ButtonShowVideo].Pressed = _VideoPreview;
@@ -193,7 +183,7 @@ namespace Vocaluxe.Screens
             Buttons[ButtonPause].Visible = CBackgroundMusic.Playing;
             Buttons[ButtonPlay].Visible = !CBackgroundMusic.Playing;
             Texts[TextCurrentSong].Text = CBackgroundMusic.ArtistAndTitle;
-            
+
             return base.Draw();
         }
 
