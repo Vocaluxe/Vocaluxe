@@ -434,7 +434,7 @@ namespace Vocaluxe.Base
                 else
                     msg += "the file is for newer program versions! ";
 
-                msg += "Current ThemeSystemVersion is " + ThemeSystemVersion.ToString();
+                msg += "Current ThemeSystemVersion is " + ThemeSystemVersion.ToString()+ " but found " + version;
                 CLog.LogError(msg);
             }
             return true;

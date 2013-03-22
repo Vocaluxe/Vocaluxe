@@ -8,7 +8,7 @@
     <ProjectGuid>{6F3E1874-F28A-40E9-AFBD-31934D593679}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PartyModeTicTacToe</RootNamespace>
+    <RootNamespace>Vocaluxe.PartyModes.TicTacToe</RootNamespace>
     <AssemblyName>PartyModeTicTacToe</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>

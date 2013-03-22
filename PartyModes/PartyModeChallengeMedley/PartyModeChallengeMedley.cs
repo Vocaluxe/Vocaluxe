@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-
 using Vocaluxe.Menu;
 using Vocaluxe.Menu.SongMenu;
 
 [assembly: System.Runtime.InteropServices.ComVisible(false)]
-namespace Vocaluxe.PartyModes
+namespace Vocaluxe.PartyModes.ChallengeMedley
 {
     #region Communication
     #region ToScreen
@@ -96,7 +95,7 @@ namespace Vocaluxe.PartyModes
     #endregion FromScreen
     #endregion Communication
 
-    public sealed class PartyModeChallenge : CPartyMode
+    public sealed class PartyModeChallengeMedley : CPartyMode
     {
         private const int MaxPlayer = 12;
         private const int MinPlayer = 1;
@@ -145,7 +144,7 @@ namespace Vocaluxe.PartyModes
         private Data GameData;
         private EStage _Stage;
 
-        public PartyModeChallenge()
+        public PartyModeChallengeMedley()
         {
             _ScreenSongOptions.Selection.RandomOnly = false;
             _ScreenSongOptions.Selection.PartyMode = true;
@@ -199,7 +198,7 @@ namespace Vocaluxe.PartyModes
             DataFromScreen data = new DataFromScreen();
             switch (ScreenName)
             {
-                case "PartyScreenChallengeConfig":
+                case "PartyScreenChallengeMedleyConfig":
                     
                     try
                     {
@@ -217,7 +216,7 @@ namespace Vocaluxe.PartyModes
                     }
                     break;
 
-                case "PartyScreenChallengeNames":
+                case "PartyScreenChallengeMedleyNames":
                     try
                     {
                         data = (DataFromScreen)Data;
@@ -237,7 +236,7 @@ namespace Vocaluxe.PartyModes
                     }
                     break;
 
-                case "PartyScreenChallengeMain":
+                case "PartyScreenChallengeMedleyMain":
                     try
                     {
                         data = (DataFromScreen)Data;
@@ -281,7 +280,7 @@ namespace Vocaluxe.PartyModes
             switch (_Stage)
             {
                 case EStage.NotStarted:
-                    _Screens.TryGetValue("PartyScreenChallengeConfig", out Screen);
+                    _Screens.TryGetValue("PartyScreenChallengeMedleyConfig", out Screen);
                     if (_Screens != null)
                     {
                         ToScreenConfig.NumPlayer = GameData.NumPlayer;
@@ -291,7 +290,7 @@ namespace Vocaluxe.PartyModes
                     }
                     break;
                 case EStage.Config:
-                    _Screens.TryGetValue("PartyScreenChallengeNames", out Screen);
+                    _Screens.TryGetValue("PartyScreenChallengeMedleyNames", out Screen);
                     if (_Screens != null)
                     {
                         ToScreenNames.NumPlayer = GameData.NumPlayer;
@@ -300,7 +299,7 @@ namespace Vocaluxe.PartyModes
                     }
                     break;
                 case EStage.Names:
-                    _Screens.TryGetValue("PartyScreenChallengeMain", out Screen);
+                    _Screens.TryGetValue("PartyScreenChallengeMedleyMain", out Screen);
                     if (_Screens != null)
                     {
                         CBase.Songs.ResetPartySongSung();
@@ -322,7 +321,7 @@ namespace Vocaluxe.PartyModes
                     //nothing to do
                     break;
                 case EStage.Singing:
-                    _Screens.TryGetValue("PartyScreenChallengeMain", out Screen);
+                    _Screens.TryGetValue("PartyScreenChallengeMedleyMain", out Screen);
                     if (_Screens != null)
                     {
                         UpdateScores();

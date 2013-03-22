@@ -8,8 +8,8 @@
     <ProjectGuid>{6F3E1874-F28A-40E9-AFBD-31934D593678}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PartyModeChallenge</RootNamespace>
-    <AssemblyName>PartyModeChallenge</AssemblyName>
+    <RootNamespace>Vocaluxe.PartyModes.ChallengeMedley</RootNamespace>
+    <AssemblyName>PartyModeChallengeMedley</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -112,16 +112,16 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="PartyModeChallenge.cs">
+    <Compile Include="PartyModeChallengeMedley.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="PartyScreenChallengeConfig.cs">
+    <Compile Include="PartyScreenChallengeMedleyConfig.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="PartyScreenChallengeMain.cs">
+    <Compile Include="PartyScreenChallengeMedleyMain.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="PartyScreenChallengeNames.cs">
+    <Compile Include="PartyScreenChallengeMedleyNames.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>

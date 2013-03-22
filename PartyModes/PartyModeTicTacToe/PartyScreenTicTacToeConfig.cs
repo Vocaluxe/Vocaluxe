@@ -1,9 +1,8 @@
 using System;
 using System.Windows.Forms;
-
 using Vocaluxe.Menu;
 
-namespace Vocaluxe.PartyModes
+namespace Vocaluxe.PartyModes.TicTacToe
 {
     public class PartyScreenTicTacToeConfig : CMenuParty
     {

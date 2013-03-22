@@ -271,7 +271,7 @@ namespace Vocaluxe.Base
                 return pm;
             }
 
-            object Instance = Output.CreateInstance("Vocaluxe.PartyModes." + pm.PartyModeFile);
+            object Instance = Output.CreateInstance("Vocaluxe.PartyModes." + pm.Folder + "." + pm.PartyModeFile);
             if (Instance == null)
             {
                 CLog.LogError("Error creating Instance of PartyMode file: " + file);
@@ -305,11 +305,7 @@ namespace Vocaluxe.Base
             foreach (string screenfile in pm.ScreenFiles)
             {
                 string XmlPath = Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeScreens);
-                CMenuParty Screen = GetPartyScreenInstance(
-                    Output,
-                    screenfile,
-                    Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeScreens)
-                    );
+                CMenuParty Screen = GetPartyScreenInstance(Output, screenfile, pm.Folder);
 
                 if (Screen != null)
                 {
@@ -369,12 +365,12 @@ namespace Vocaluxe.Base
             }
         }
 
-        private static CMenuParty GetPartyScreenInstance(Assembly Assembly, string ScreenName, string XmlPath)
+        private static CMenuParty GetPartyScreenInstance(Assembly Assembly, string ScreenName, string partyModeName)
         {
             if (Assembly == null)
                 return null;
 
-            object Instance = Assembly.CreateInstance("Vocaluxe.PartyModes." + ScreenName);
+            object Instance = Assembly.CreateInstance("Vocaluxe.PartyModes." + partyModeName + "." + ScreenName);
             if (Instance == null)
             {
                 CLog.LogError("Error creating Instance of PartyScreen: " + ScreenName);

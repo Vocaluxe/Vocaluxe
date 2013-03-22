@@ -1,11 +1,10 @@
 using System;
 using System.Windows.Forms;
-
 using Vocaluxe.Menu;
 
-namespace Vocaluxe.PartyModes
+namespace Vocaluxe.PartyModes.ChallengeMedley
 {
-    public class PartyScreenChallengeConfig : CMenuParty
+    public class PartyScreenChallengeMedleyConfig : CMenuParty
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion { get { return 1; } }
@@ -22,7 +21,7 @@ namespace Vocaluxe.PartyModes
 
         DataFromScreen Data;
 
-        public PartyScreenChallengeConfig()
+        public PartyScreenChallengeMedleyConfig()
         {
         }
 

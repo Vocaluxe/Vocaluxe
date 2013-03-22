@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
 using Vocaluxe.Menu;
 
-namespace Vocaluxe.PartyModes
+namespace Vocaluxe.PartyModes.Challenge
 {
     struct TableRow
     {

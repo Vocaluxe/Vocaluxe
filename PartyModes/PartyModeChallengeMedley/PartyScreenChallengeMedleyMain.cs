@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
 using Vocaluxe.Menu;
 
-namespace Vocaluxe.PartyModes
+namespace Vocaluxe.PartyModes.ChallengeMedley
 {
     struct TableRow
     {
@@ -24,7 +23,7 @@ namespace Vocaluxe.PartyModes
     }
 
 
-    public class PartyScreenChallengeMain : CMenuParty
+    public class PartyScreenChallengeMedleyMain : CMenuParty
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion { get { return 1; } }
@@ -74,7 +73,7 @@ namespace Vocaluxe.PartyModes
         private int NumPlayerVisible = 10;
         private int NumRoundsVisible = 3;
 
-        public PartyScreenChallengeMain()
+        public PartyScreenChallengeMedleyMain()
         {
             Data = new DataFromScreen();
             Data.ScreenMain = new FromScreenMain();

@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-
 using Vocaluxe.Menu;
 
 [assembly: System.Runtime.InteropServices.ComVisible(false)]
-namespace Vocaluxe.PartyModes
+namespace Vocaluxe.PartyModes.TicTacToe
 {
     public enum ESongSource
     {
