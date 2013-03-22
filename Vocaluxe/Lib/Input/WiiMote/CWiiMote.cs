@@ -165,7 +165,6 @@ namespace Vocaluxe.Lib.Input.WiiMote
             catch
             {
                 return false;
-                ;
             }
 
             _WiiMote.SetReportType(InputReport.IRAccel, IRSensitivity.Max, false);

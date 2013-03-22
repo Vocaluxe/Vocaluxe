@@ -111,7 +111,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             catch (Exception e)
             {
                 CBase.Log.LogError("Error in party mode screen TicTacToe names. Can't cast received data from game mode " + ThemeName + ". " + e.Message);
-                ;
             }
         }
 

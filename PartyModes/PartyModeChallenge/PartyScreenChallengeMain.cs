@@ -126,7 +126,6 @@ namespace VocaluxeLib.PartyModes.Challenge
             catch (Exception e)
             {
                 CBase.Log.LogError("Error in party mode screen challenge main. Can't cast received data from game mode " + ThemeName + ". " + e.Message);
-                ;
             }
         }
 
