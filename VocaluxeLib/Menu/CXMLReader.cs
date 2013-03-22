@@ -6,14 +6,14 @@ namespace VocaluxeLib.Menu
 {
     public class CXMLReader
     {
-        private XPathNavigator _Navigator;
-        private String _FileName;
+        private readonly XPathNavigator _Navigator;
+        private readonly String _FileName;
 
         public string FileName
         {
             get { return _FileName; }
         }
-        
+
         //Private method. Use OpenFile factory method to get an instance
         private CXMLReader(string uri)
         {
@@ -39,14 +39,14 @@ namespace VocaluxeLib.Menu
                 return null;
             }
         }
-        
+
         public bool TryGetEnumValue<T>(string Cast, ref T value)
             where T : struct
         {
             string val = String.Empty;
             if (GetValue(Cast, ref val, Enum.GetName(typeof(T), value)))
             {
-                CHelper.TryParse<T>(val, out value, true);
+                CHelper.TryParse(val, out value, true);
                 return true;
             }
             return false;
@@ -56,13 +56,11 @@ namespace VocaluxeLib.Menu
         {
             string val = String.Empty;
             if (GetValue(Cast, ref val, value.ToString()))
-            {
                 return int.TryParse(val, out value);
-            }
             return false;
         }
 
-        public bool TryGetIntValueRange(string Cast,ref int value, int min = 0, int max = 100)
+        public bool TryGetIntValueRange(string Cast, ref int value, int min = 0, int max = 100)
         {
             bool result = TryGetIntValue(Cast, ref value);
             if (result)
@@ -79,9 +77,7 @@ namespace VocaluxeLib.Menu
         {
             string val = String.Empty;
             if (GetValue(Cast, ref val, value.ToString()))
-            {
                 return CHelper.TryParse(val, out value);
-            }
             return false;
         }
 
@@ -110,7 +106,6 @@ namespace VocaluxeLib.Menu
                 Value = val;
                 return true;
             }
-
         }
 
         public List<string> GetValues(string Cast)

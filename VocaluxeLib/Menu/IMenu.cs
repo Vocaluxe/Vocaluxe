@@ -121,9 +121,7 @@ namespace VocaluxeLib.Menu
         void LoadTheme();
     }
 
-    public interface IHelper
-    {
-    }
+    public interface IHelper {}
 
     public interface IBackgroundMusic
     {
@@ -146,7 +144,7 @@ namespace VocaluxeLib.Menu
     public interface IDrawing
     {
         RectangleF GetTextBounds(CText text);
-        
+
         void DrawTexture(STexture Texture, SRectF Rect);
         void DrawTexture(STexture Texture, SRectF Rect, SColorF Color);
         void DrawTexture(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds);
@@ -301,7 +299,7 @@ namespace VocaluxeLib.Menu
         void DeletePlaylist(int PlaylistID);
         void SavePlaylist(int PlaylistID);
         int GetNumPlaylists();
-        
+
         void AddPlaylistSong(int PlaylistID, int SongID);
         void AddPlaylistSong(int PlaylistID, int SongID, EGameMode GameMode);
         void InsertPlaylistSong(int PlaylistID, int PositionIndex, int SongID, EGameMode GameMode);
@@ -314,7 +312,6 @@ namespace VocaluxeLib.Menu
         int GetPlaylistSongCount(int PlaylistID);
         CPlaylistSong GetPlaylistSong(int PlaylistID, int SongIndex);
     }
-
 
     [Flags]
     public enum EModifier
@@ -373,14 +370,14 @@ namespace VocaluxeLib.Menu
         public bool Handled;
         public int X;
         public int Y;
-        public bool LB;     //left button click
-        public bool LD;     //left button double click
-        public bool RB;     //right button click
-        public bool MB;     //middle button click
+        public bool LB; //left button click
+        public bool LD; //left button double click
+        public bool RB; //right button click
+        public bool MB; //middle button click
 
-        public bool LBH;    //left button hold (when moving)
-        public bool RBH;    //right button hold (when moving)
-        public bool MBH;    //middle button hold (when moving)
+        public bool LBH; //left button hold (when moving)
+        public bool RBH; //right button hold (when moving)
+        public bool MBH; //middle button hold (when moving)
 
         public bool ModALT;
         public bool ModSHIFT;
@@ -525,8 +522,8 @@ namespace VocaluxeLib.Menu
         public float height;
         public SRectF rect;
 
-        public float w2;    //power of 2 width
-        public float h2;    //power of 2 height
+        public float w2; //power of 2 width
+        public float h2; //power of 2 height
         public float width_ratio;
         public float height_ratio;
 
@@ -599,12 +596,12 @@ namespace VocaluxeLib.Menu
     public enum EDebugLevel
     {
         // don't change the order!
-        TR_CONFIG_OFF,		    //no debug infos
+        TR_CONFIG_OFF, //no debug infos
         TR_CONFIG_ONLY_FPS,
         TR_CONFIG_LEVEL1,
         TR_CONFIG_LEVEL2,
         TR_CONFIG_LEVEL3,
-        TR_CONFIG_LEVEL_MAX	    //all debug infos
+        TR_CONFIG_LEVEL_MAX //all debug infos
     }
 
     public enum EBufferSize
@@ -651,7 +648,7 @@ namespace VocaluxeLib.Menu
     {
         //TR_CONFIG_LIST,		    //a simple list
         //TR_CONFIG_DREIDEL,	    //as in ultrastar deluxe
-        TR_CONFIG_TILE_BOARD,	//chessboard like
+        TR_CONFIG_TILE_BOARD, //chessboard like
         //TR_CONFIG_BOOK          //for playlists
     }
 
@@ -733,7 +730,6 @@ namespace VocaluxeLib.Menu
         Slide,
         Zoom
     }
-
     #endregion EnumsConfig
 
     public enum EAlignment
@@ -812,11 +808,11 @@ namespace VocaluxeLib.Menu
 
     public class CPoints
     {
-        private SPlayer[,] _Rounds;
+        private readonly SPlayer[,] _Rounds;
 
         public CPoints(int NumRounds, SPlayer[] Player)
         {
-            _Rounds = new SPlayer[NumRounds, Player.Length];
+            _Rounds = new SPlayer[NumRounds,Player.Length];
 
             for (int round = 0; round < NumRounds; round++)
             {

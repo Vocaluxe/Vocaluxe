@@ -8,7 +8,6 @@ namespace VocaluxeLib.Menu.SingNotes
         int AddPlayer(SRectF Rect, SColorF Color, int PlayerNr);
         void RemovePlayer(int ID);
 
-
         void AddLine(int ID, CLine[] Line, int LineNr, int Player);
         void RemoveLine(int ID);
 

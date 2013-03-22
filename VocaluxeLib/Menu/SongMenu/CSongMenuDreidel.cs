@@ -1,5 +1,4 @@
-﻿
-namespace VocaluxeLib.Menu.SongMenu
+﻿namespace VocaluxeLib.Menu.SongMenu
 {
     class CSongMenuDreidel : CSongMenuFramework
     {
@@ -24,9 +23,7 @@ namespace VocaluxeLib.Menu.SongMenu
         */
 
         public CSongMenuDreidel(int PartyModeID)
-            : base(PartyModeID)
-        {
-        }
+            : base(PartyModeID) {}
 
         public override void Init()
         {

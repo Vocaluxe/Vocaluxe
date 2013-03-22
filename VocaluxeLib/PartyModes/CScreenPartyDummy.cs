@@ -6,12 +6,11 @@ namespace VocaluxeLib.PartyModes
     public class CScreenPartyDummy : CMenuParty
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        protected override int _ScreenVersion { get { return 1; } }
-        private CText Warning;
-
-        public CScreenPartyDummy()
+        protected override int _ScreenVersion
         {
+            get { return 1; }
         }
+        private CText Warning;
 
         public override void LoadTheme(string XmlPath)
         {
@@ -27,30 +26,19 @@ namespace VocaluxeLib.PartyModes
             AddText(Warning);
         }
 
-        public override void ReloadTheme(string XmlPath)
-        {
-        }
+        public override void ReloadTheme(string XmlPath) {}
 
-        public override void ReloadTextures()
-        {
-        }
+        public override void ReloadTextures() {}
 
-        public override void SaveTheme()
-        {
-        }
+        public override void SaveTheme() {}
 
-        public override void UnloadTextures()
-        {
-        }
+        public override void UnloadTextures() {}
 
         public override bool HandleInput(KeyEvent KeyEvent)
         {
             base.HandleInput(KeyEvent);
 
-            if (KeyEvent.KeyPressed)
-            {
-
-            }
+            if (KeyEvent.KeyPressed) {}
             else
             {
                 switch (KeyEvent.Key)
@@ -68,15 +56,10 @@ namespace VocaluxeLib.PartyModes
         {
             base.HandleMouse(MouseEvent);
 
-            if (MouseEvent.LB && IsMouseOver(MouseEvent))
-            {
-
-            }
+            if (MouseEvent.LB && IsMouseOver(MouseEvent)) {}
 
             if (MouseEvent.RB)
-            {
                 FadeTo(EScreens.ScreenParty);
-            }
 
             return true;
         }
@@ -91,6 +74,5 @@ namespace VocaluxeLib.PartyModes
             base.Draw();
             return true;
         }
-
     }
 }

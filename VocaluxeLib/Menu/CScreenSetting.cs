@@ -20,7 +20,7 @@ namespace VocaluxeLib.Menu
 
     public class CScreenSetting : IMenuElement
     {
-        private int _PartyModeID;
+        private readonly int _PartyModeID;
 
         private SScreenSetting _Theme;
         private bool _ThemeLoaded;
@@ -50,12 +50,10 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded = true;
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/Value", ref _Theme.Value, String.Empty);
-            _ThemeLoaded &= xmlReader.TryGetEnumValue<ESettingType>(item + "/Type", ref _Theme.Type);
+            _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Type", ref _Theme.Type);
 
             if (_ThemeLoaded)
-            {
                 _Theme.Name = ElementName;
-            }
             return _ThemeLoaded;
         }
 
@@ -65,7 +63,7 @@ namespace VocaluxeLib.Menu
             {
                 writer.WriteStartElement(_Theme.Name);
 
-                writer.WriteComment("<Type>: Type of theme-setting-value: "+ CHelper.ListStrings(Enum.GetNames(typeof(ESettingType))));
+                writer.WriteComment("<Type>: Type of theme-setting-value: " + CHelper.ListStrings(Enum.GetNames(typeof(ESettingType))));
                 writer.WriteElementString("Type", Enum.GetName(typeof(ESettingType), _Theme.Type));
                 writer.WriteComment("<Value>: Value of theme-setting");
                 writer.WriteElementString("Value", _Theme.Value);
@@ -95,17 +93,11 @@ namespace VocaluxeLib.Menu
             return null;
         }
 
-        public void UnloadTextures()
-        {
-        }
+        public void UnloadTextures() {}
 
-        public void LoadTextures()
-        {
-        }
+        public void LoadTextures() {}
 
-        public void ReloadTextures()
-        {
-        }
+        public void ReloadTextures() {}
 
         #region Private
         private int GetIntValue(string _string)
@@ -132,13 +124,9 @@ namespace VocaluxeLib.Menu
         #endregion Private
 
         #region ThemeEdit
-        public void MoveElement(int stepX, int stepY)
-        {
-        }
+        public void MoveElement(int stepX, int stepY) {}
 
-        public void ResizeElement(int stepW, int stepH)
-        {
-        }
+        public void ResizeElement(int stepW, int stepH) {}
         #endregion ThemeEdit
     }
 }

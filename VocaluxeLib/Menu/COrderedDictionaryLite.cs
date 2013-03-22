@@ -6,9 +6,9 @@ namespace VocaluxeLib.Menu
 {
     public class COrderedDictionaryLite<T> : IEnumerable<T>
     {
-        private List<T> _Items;
-        private Dictionary<String, int> _htIndex;
-        private CMenu _Parent;
+        private readonly List<T> _Items;
+        private readonly Dictionary<String, int> _htIndex;
+        private readonly CMenu _Parent;
 
         public COrderedDictionaryLite(CMenu Parent)
         {

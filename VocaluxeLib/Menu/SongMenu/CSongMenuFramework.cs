@@ -10,7 +10,7 @@ namespace VocaluxeLib.Menu.SongMenu
     struct SThemeSongMenu
     {
         public string Name;
-        
+
         public string CoverBackgroundName;
         public string CoverBigBackgroundName;
         public string DuetIconName;
@@ -27,47 +27,41 @@ namespace VocaluxeLib.Menu.SongMenu
         public SThemeSongMenuTileBoard songMenuTileBoard;
     }
 
-    struct SThemeSongMenuBook
-    {
-    }
+    struct SThemeSongMenuBook {}
 
-    struct SThemeSongMenuDreidel
-    {
-    }
+    struct SThemeSongMenuDreidel {}
 
-    struct SThemeSongMenuList
-    {
-    }
+    struct SThemeSongMenuList {}
 
     struct SThemeSongMenuTileBoard
     {
         /// <summary>
-        /// Number of tiles horizontal
+        ///     Number of tiles horizontal
         /// </summary>
         public int numW;
 
         /// <summary>
-        /// Number of tiles vertical
+        ///     Number of tiles vertical
         /// </summary>
         public int numH;
 
         /// <summary>
-        /// Number of tiles horizontal in small-modus
+        ///     Number of tiles horizontal in small-modus
         /// </summary>
         public int numWsmall;
 
         /// <summary>
-        /// Number of tiles vertical in small-modus
+        ///     Number of tiles vertical in small-modus
         /// </summary>
         public int numHsmall;
 
         /// <summary>
-        /// Space between tiles horizontal
+        ///     Space between tiles horizontal
         /// </summary>
         public float spaceW;
 
         /// <summary>
-        /// Space between tiles vertical
+        ///     Space between tiles vertical
         /// </summary>
         public float spaceH;
 
@@ -92,9 +86,9 @@ namespace VocaluxeLib.Menu.SongMenu
         protected SThemeSongMenu _Theme;
         private bool _ThemeLoaded;
 
-        private Stopwatch _timer = new Stopwatch();
-        private Stopwatch _VideoFadeTimer = new Stopwatch();
-        private List<int> _streams = new List<int>();
+        private readonly Stopwatch _timer = new Stopwatch();
+        private readonly Stopwatch _VideoFadeTimer = new Stopwatch();
+        private readonly List<int> _streams = new List<int>();
         private int _video = -1;
         private int _actsong = -1;
         private int _actsongstream = -1;
@@ -155,7 +149,6 @@ namespace VocaluxeLib.Menu.SongMenu
                     _SelectedInternal = _SelectedPending;
                 }
             }
-
         }
 
         protected virtual void SetSelectedNow()
@@ -165,7 +158,7 @@ namespace VocaluxeLib.Menu.SongMenu
             _SelectedInternal = _SelectedPending;
         }
 
-        protected int _Locked   //the real selected song for singing
+        protected int _Locked //the real selected song for singing
         {
             get { return _LockedInternal; }
             set { _LockedInternal = value; }
@@ -206,7 +199,7 @@ namespace VocaluxeLib.Menu.SongMenu
             return _actsong;
         }
 
-        private bool _Selected = false;
+        private bool _Selected;
         private bool _Visible = true;
 
         public bool IsSelected()
@@ -267,9 +260,7 @@ namespace VocaluxeLib.Menu.SongMenu
             _ThemeLoaded &= xmlReader.GetValue(item + "/MedleyTagIcon", ref _Theme.MedleyTagIcon, String.Empty);
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
-            {
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, out _Color);
-            }
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref _Color.R);
@@ -309,7 +300,6 @@ namespace VocaluxeLib.Menu.SongMenu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectSmallZ", ref _Theme.songMenuTileBoard.TileRectSmall.Z);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectSmallW", ref _Theme.songMenuTileBoard.TileRectSmall.W);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectSmallH", ref _Theme.songMenuTileBoard.TileRectSmall.H);
-
             #endregion SongMenuTileBoard
 
             if (_ThemeLoaded)
@@ -349,9 +339,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 writer.WriteComment("<Color>: Tile color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
                 if (_Theme.ColorName.Length > 0)
-                {
                     writer.WriteElementString("Color", _Theme.ColorName);
-                }
                 else
                 {
                     writer.WriteElementString("R", _Color.R.ToString("#0.00"));
@@ -406,7 +394,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 _Theme.songMenuTileBoard.StaticVideoIcon.SaveTheme(writer);
                 _Theme.songMenuTileBoard.StaticMedleyCalcIcon.SaveTheme(writer);
                 _Theme.songMenuTileBoard.StaticMedleyTagIcon.SaveTheme(writer);
-                                
+
                 writer.WriteEndElement();
                 #endregion SongMenuTileBoard
 
@@ -447,13 +435,11 @@ namespace VocaluxeLib.Menu.SongMenu
                 }
 
                 float time = CBase.Sound.GetPosition(_actsongstream);
-                
+
                 float vtime = 0f;
                 CBase.Video.GetFrame(_video, ref _vidtex, time, ref vtime);
                 if (_VideoFadeTimer.ElapsedMilliseconds <= 3000L)
-                {
                     _vidtex.color.A = (_VideoFadeTimer.ElapsedMilliseconds / 3000f);
-                }
                 else
                 {
                     _vidtex.color.A = 1f;
@@ -471,15 +457,13 @@ namespace VocaluxeLib.Menu.SongMenu
         public virtual void OnHide()
         {
             foreach (int stream in _streams)
-            {
                 CBase.Sound.FadeAndStop(stream, 0f, 0.75f);
-            }
             _streams.Clear();
 
             CBase.Video.Close(_video);
             _video = -1;
 
-            CBase.Drawing.RemoveTexture(ref _vidtex);            
+            CBase.Drawing.RemoveTexture(ref _vidtex);
 
             _timer.Stop();
             _timer.Reset();
@@ -504,10 +488,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 return;
 
             if (_video != -1)
-            {
                 CBase.Drawing.DrawTexture(_vidtex, new SRectF(0, 0, 1280, 720, 0));
-            }
-            
         }
 
         public virtual void ApplyVolume(float VolumeMax)
@@ -515,9 +496,7 @@ namespace VocaluxeLib.Menu.SongMenu
             _MaxVolume = VolumeMax;
 
             foreach (int stream in _streams)
-            {
                 CBase.Sound.SetStreamVolumeMax(stream, _MaxVolume);
-            }
         }
 
         public virtual bool IsActive()
@@ -568,9 +547,7 @@ namespace VocaluxeLib.Menu.SongMenu
             return false;
         }
 
-        public virtual void UnloadTextures()
-        {
-        }
+        public virtual void UnloadTextures() {}
 
         public virtual void LoadTextures()
         {
@@ -630,9 +607,7 @@ namespace VocaluxeLib.Menu.SongMenu
             if (CBase.Songs.GetCurrentCategoryIndex() >= 0 && (CBase.Songs.GetNumVisibleSongs() > 0) && (nr >= 0) && ((_actsong != nr) || (_streams.Count == 0)))
             {
                 foreach (int stream in _streams)
-                {
                     CBase.Sound.FadeAndStop(stream, 0f, 1f);
-                }
                 _streams.Clear();
 
                 CBase.Video.Close(_video);
@@ -659,7 +634,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 CBase.Sound.Fade(_stream, 100f, 3f);
                 _streams.Add(_stream);
                 _actsongstream = _stream;
-                
+
                 if (CBase.Songs.GetVisibleSong(_actsong).VideoFileName.Length > 0 && CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
                 {
                     _video = CBase.Video.Load(Path.Combine(CBase.Songs.GetVisibleSong(_actsong).Folder, CBase.Songs.GetVisibleSong(_actsong).VideoFileName));
@@ -676,9 +651,7 @@ namespace VocaluxeLib.Menu.SongMenu
         protected void Reset()
         {
             foreach (int stream in _streams)
-            {
                 CBase.Sound.FadeAndStop(stream, 0f, 0.75f);
-            }
             _streams.Clear();
 
             CBase.Video.Close(_video);

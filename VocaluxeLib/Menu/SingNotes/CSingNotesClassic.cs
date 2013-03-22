@@ -1,12 +1,8 @@
-﻿
-namespace VocaluxeLib.Menu.SingNotes
+﻿namespace VocaluxeLib.Menu.SingNotes
 {
     class CSingNotesClassic : CSingNotes
     {
         public CSingNotesClassic(int PartyModeID)
-            : base(PartyModeID)
-        {
-
-        }
+            : base(PartyModeID) {}
     }
 }

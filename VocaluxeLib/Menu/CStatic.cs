@@ -13,7 +13,7 @@ namespace VocaluxeLib.Menu
 
     public class CStatic : IMenuElement
     {
-        private int _PartyModeID;
+        private readonly int _PartyModeID;
 
         private SThemeStatic _Theme;
         private bool _ThemeLoaded;
@@ -138,9 +138,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
-            {
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, out Color);
-            }
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -185,9 +183,7 @@ namespace VocaluxeLib.Menu
                 writer.WriteComment("<Color>: Static color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
                 if (_Theme.ColorName.Length > 0)
-                {
                     writer.WriteElementString("Color", _Theme.ColorName);
-                }
                 else
                 {
                     writer.WriteElementString("R", Color.R.ToString("#0.00"));
@@ -261,26 +257,20 @@ namespace VocaluxeLib.Menu
                 rect.W = rect2.Width;
                 rect.H = rect2.Height;
             }
-            
+
             SColorF color = new SColorF(Color.R, Color.G, Color.B, Color.A * Alpha);
             if (Visible || ForceDraw || (CBase.Settings.GetGameState() == EGameState.EditTheme))
             {
                 CBase.Drawing.DrawTexture(texture, rect, color, bounds);
                 if (Reflection)
-                {
                     CBase.Drawing.DrawTextureReflection(texture, rect, color, bounds, ReflectionSpace, ReflectionHeight);
-                }
             }
 
             if (Selected && (CBase.Settings.GetGameState() == EGameState.EditTheme))
-            {
                 CBase.Drawing.DrawColor(new SColorF(1f, 1f, 1f, 0.5f), rect);
-            }
         }
 
-        public void UnloadTextures()
-        {
-        }
+        public void UnloadTextures() {}
 
         public void LoadTextures()
         {

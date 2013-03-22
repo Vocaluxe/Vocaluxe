@@ -27,9 +27,7 @@ namespace VocaluxeLib.Menu
             _PartyMode = PartyMode;
         }
 
-        public virtual void DataToScreen(Object Data)
-        {
-        }
+        public virtual void DataToScreen(Object Data) {}
 
         /*
         public sealed override void LoadTheme()
@@ -48,6 +46,5 @@ namespace VocaluxeLib.Menu
         {
         }
         */
-        
     }
 }

@@ -1,5 +1,4 @@
-﻿
-namespace VocaluxeLib.Menu
+﻿namespace VocaluxeLib.Menu
 {
     public static class CBase
     {
@@ -25,8 +24,8 @@ namespace VocaluxeLib.Menu
         public static IPlaylist Playlist;
 
         public static void Assign(IConfig config, ISettings settings, ITheme theme, IHelper helper, ILog log, IBackgroundMusic backgroundMusic,
-            IDrawing draw, IGraphics graphics, IFonts fonts, ILanguage language, IGame game, IProfiles profiles, IRecording record,
-            ISongs songs, IVideo video, ISound sound, ICover cover, IDataBase dataBase, IInputs input, IPlaylist playlist)
+                                  IDrawing draw, IGraphics graphics, IFonts fonts, ILanguage language, IGame game, IProfiles profiles, IRecording record,
+                                  ISongs songs, IVideo video, ISound sound, ICover cover, IDataBase dataBase, IInputs input, IPlaylist playlist)
         {
             Config = config;
             Settings = settings;

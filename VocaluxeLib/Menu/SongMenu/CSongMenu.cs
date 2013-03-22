@@ -5,7 +5,7 @@ namespace VocaluxeLib.Menu.SongMenu
 {
     public class CSongMenu : ISongMenu
     {
-        private int _PartyModeID;
+        private readonly int _PartyModeID;
 
         private ISongMenu _SongMenu;
         private ESongMenu _Type;
@@ -154,7 +154,6 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             _SongMenu.SetSmallView(SmallView);
         }
-
         #endregion ISongMenu
 
         #region IMenuElement
@@ -202,27 +201,25 @@ namespace VocaluxeLib.Menu.SongMenu
         private void CreateSongMenu()
         {
             if (_SongMenu != null)
-            {
                 _SongMenu.OnHide();
-            }
 
             switch (CBase.Config.GetSongMenuType())
             {
-                //case ESongMenu.TR_CONFIG_LIST:
-                //    _SongMenu = new CSongMenuList();
-                //    break;
+                    //case ESongMenu.TR_CONFIG_LIST:
+                    //    _SongMenu = new CSongMenuList();
+                    //    break;
 
-                //case ESongMenu.TR_CONFIG_DREIDEL:
-                //    _SongMenu = new CSongMenuDreidel();
-                //    break;
+                    //case ESongMenu.TR_CONFIG_DREIDEL:
+                    //    _SongMenu = new CSongMenuDreidel();
+                    //    break;
 
                 case ESongMenu.TR_CONFIG_TILE_BOARD:
                     _SongMenu = new CSongMenuTileBoard(_PartyModeID);
                     break;
 
-                //case ESongMenu.TR_CONFIG_BOOK:
-                //    _SongMenu = new CSongMenuBook();
-                //    break;
+                    //case ESongMenu.TR_CONFIG_BOOK:
+                    //    _SongMenu = new CSongMenuBook();
+                    //    break;
             }
 
             _Type = CBase.Config.GetSongMenuType();

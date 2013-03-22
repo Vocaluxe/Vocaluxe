@@ -9,7 +9,6 @@ namespace VocaluxeLib.Menu
 {
     public static class CHelper
     {
-
         public static int nCk(int n, int k)
         {
             if (k > n)
@@ -29,14 +28,12 @@ namespace VocaluxeLib.Menu
             long nk = k;
 
             for (long i = 1; i <= k - 1; i++)
-            {
                 result = result * (n - i) / (i + 1);
-            }
             return (int)result;
         }
 
         /// <summary>
-        /// Concat strings into one string with ", " as separator.
+        ///     Concat strings into one string with ", " as separator.
         /// </summary>
         public static string ListStrings(string[] str)
         {
@@ -73,7 +70,7 @@ namespace VocaluxeLib.Menu
                 return 0;
             }
             int result = 0;
-            if(int.TryParse(value, out result))
+            if (int.TryParse(value, out result))
                 return result;
             return 0;
         }
@@ -128,8 +125,6 @@ namespace VocaluxeLib.Menu
             Rect = new RectangleF(Left, Upper, Rigth - Left, Lower - Upper);
         }
 
-
-
         public static List<string> ListFiles(string path, string cast)
         {
             return ListFiles(path, cast, false, false);
@@ -147,7 +142,6 @@ namespace VocaluxeLib.Menu
 
             try
             {
-
                 foreach (FileInfo file in dir.GetFiles(cast))
                 {
                     if (!fullpath)
@@ -159,15 +153,10 @@ namespace VocaluxeLib.Menu
                 if (recursive)
                 {
                     foreach (DirectoryInfo di in dir.GetDirectories())
-                    {
                         files.AddRange(ListFiles(di.FullName, cast, recursive, fullpath));
-                    }
                 }
             }
-            catch (Exception)
-            {
-
-            }
+            catch (Exception) {}
 
             return files;
         }
@@ -175,11 +164,11 @@ namespace VocaluxeLib.Menu
         public static bool TryParse<T>(string value, out T result)
             where T : struct
         {
-            return TryParse<T>(value, out result, false);
+            return TryParse(value, out result, false);
         }
 
         public static bool TryParse<T>(string value, out T result, bool ignoreCase)
-           where T : struct
+            where T : struct
         {
             result = default(T);
             try
@@ -187,7 +176,7 @@ namespace VocaluxeLib.Menu
                 result = (T)Enum.Parse(typeof(T), value, ignoreCase);
                 return true;
             }
-            catch { }
+            catch {}
 
             return false;
         }

@@ -26,10 +26,10 @@ namespace VocaluxeLib.Menu
 
     public class CBackground : IMenuElement
     {
-        private int _PartyModeID;
+        private readonly int _PartyModeID;
         private SThemeBackground _Theme;
         private bool _ThemeLoaded;
-                       
+
         public SColorF Color;
 
         public string GetThemeName()
@@ -43,7 +43,7 @@ namespace VocaluxeLib.Menu
             _PartyModeID = PartyModeID;
             _ThemeLoaded = false;
             _Theme = new SThemeBackground();
-            
+
             Color = new SColorF(0f, 0f, 0f, 1f);
         }
         #endregion Constructors
@@ -54,16 +54,14 @@ namespace VocaluxeLib.Menu
             string item = XmlPath + "/" + ElementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.TryGetEnumValue<EBackgroundTypes>(item + "/Type", ref _Theme.Type);
-            
+            _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Type", ref _Theme.Type);
+
             bool vid = xmlReader.GetValue(item + "/Video", ref _Theme.VideoName, String.Empty);
             bool tex = xmlReader.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
             _ThemeLoaded &= vid || tex || _Theme.Type == EBackgroundTypes.None;
-                
+
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
-            {
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, out Color);
-            }
             else
             {
                 bool success = true;
@@ -80,7 +78,7 @@ namespace VocaluxeLib.Menu
             {
                 _Theme.Name = ElementName;
                 LoadTextures();
-            }            
+            }
             return _ThemeLoaded;
         }
 
@@ -102,9 +100,7 @@ namespace VocaluxeLib.Menu
                 writer.WriteComment("<Color>: Background color for type \"Color\" from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
                 if (_Theme.ColorName.Length > 0)
-                {
                     writer.WriteElementString("Color", _Theme.ColorName);
-                }
                 else
                 {
                     if (_Theme.Type != EBackgroundTypes.None)
@@ -152,19 +148,17 @@ namespace VocaluxeLib.Menu
 
             if (_Theme.TextureName.Length > 0 &&
                 (_Theme.Type == EBackgroundTypes.Texture ||
-                (_Theme.Type == EBackgroundTypes.Video && (CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_OFF || !ok))))
+                 (_Theme.Type == EBackgroundTypes.Video && (CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_OFF || !ok))))
                 ok = DrawTexture();
-            
+
             if (_Theme.Type == EBackgroundTypes.Color || _Theme.Type == EBackgroundTypes.Texture && !ok ||
                 (_Theme.Type == EBackgroundTypes.Video && CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_OFF && !ok))
                 DrawColor();
-            
+
             return true;
         }
 
-        public void UnloadTextures()
-        {
-        }
+        public void UnloadTextures() {}
 
         public void LoadTextures()
         {
@@ -175,14 +169,14 @@ namespace VocaluxeLib.Menu
         public void ReloadTextures()
         {
             UnloadTextures();
-            LoadTextures();            
+            LoadTextures();
         }
         #endregion public
 
         #region internal
         private void DrawColor()
         {
-            SRectF bounds = new SRectF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), CBase.Settings.GetZFar()/4);
+            SRectF bounds = new SRectF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), CBase.Settings.GetZFar() / 4);
 
             CBase.Drawing.DrawColor(Color, bounds);
         }
@@ -234,13 +228,9 @@ namespace VocaluxeLib.Menu
         #endregion internal
 
         #region ThemeEdit
-        public void MoveElement(int stepX, int stepY)
-        {
-        }
+        public void MoveElement(int stepX, int stepY) {}
 
-        public void ResizeElement(int stepW, int stepH)
-        {
-        }
+        public void ResizeElement(int stepW, int stepH) {}
         #endregion ThemeEdit
     }
 }

@@ -18,7 +18,7 @@ namespace VocaluxeLib.Menu
     {
         private SThemeButton _Theme;
         private bool _ThemeLoaded;
-        private int _PartyModeID;
+        private readonly int _PartyModeID;
 
         public STexture Texture;
         public STexture STexture;
@@ -29,7 +29,7 @@ namespace VocaluxeLib.Menu
         public bool SelText;
         public CText Text;
         public CText SText;
-        
+
         public bool Reflection;
         public float ReflectionSpace;
         public float ReflectionHeight;
@@ -135,7 +135,7 @@ namespace VocaluxeLib.Menu
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
             _ThemeLoaded &= xmlReader.GetValue(item + "/SkinSelected", ref _Theme.STextureName, String.Empty);
-            
+
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref Rect.Z);
@@ -143,9 +143,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
-            {
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, out Color);
-            }
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -155,9 +153,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/SColor", ref _Theme.SColorName, String.Empty))
-            {
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColorName, SkinIndex, out SColor);
-            }
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref SColor.R);
@@ -174,8 +170,8 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= SText.LoadTheme(item, "SText", xmlReader, SkinIndex, true);
                 SText.Z = Rect.Z;
             }
-            
-            
+
+
             //Reflections
             if (xmlReader.ItemExists(item + "/Reflection"))
             {
@@ -225,9 +221,7 @@ namespace VocaluxeLib.Menu
                 writer.WriteComment("<Color>: Button color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
                 if (_Theme.ColorName.Length > 0)
-                {
                     writer.WriteElementString("Color", _Theme.ColorName);
-                }
                 else
                 {
                     writer.WriteElementString("R", Color.R.ToString("#0.00"));
@@ -239,9 +233,7 @@ namespace VocaluxeLib.Menu
                 writer.WriteComment("<SColor>: Selected button color from ColorScheme (high priority)");
                 writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
                 if (_Theme.SColorName.Length > 0)
-                {
                     writer.WriteElementString("SColor", _Theme.SColorName);
-                }
                 else
                 {
                     writer.WriteElementString("SR", SColor.R.ToString("#0.00"));
@@ -308,7 +300,7 @@ namespace VocaluxeLib.Menu
                     texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
 
                 CBase.Drawing.DrawTexture(texture, Rect, Color);
-                
+
                 if (Reflection)
                 {
                     CBase.Drawing.DrawTextureReflection(texture, Rect, Color, Rect, ReflectionSpace, ReflectionHeight);
@@ -317,7 +309,7 @@ namespace VocaluxeLib.Menu
                 else
                     Text.DrawRelative(Rect.X, Rect.Y);
             }
-            else if(!SelText)
+            else if (!SelText)
             {
                 if (Texture.index != -1)
                     texture = Texture;
@@ -334,7 +326,7 @@ namespace VocaluxeLib.Menu
                 else
                     Text.DrawRelative(Rect.X, Rect.Y);
             }
-            else if(SelText)
+            else if (SelText)
             {
                 if (STexture.index != -1)
                     texture = STexture;
@@ -377,7 +369,7 @@ namespace VocaluxeLib.Menu
         public void ReloadTextures()
         {
             UnloadTextures();
-            LoadTextures();            
+            LoadTextures();
         }
 
         #region ThemeEdit

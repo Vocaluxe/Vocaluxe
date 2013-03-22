@@ -3,18 +3,16 @@ using System.Collections.Generic;
 
 namespace VocaluxeLib.Menu.SingNotes
 {
-    public class CNotes 
+    public class CNotes
     {
-        private List<CLines> _Lines = new List<CLines>();
-        
+        private readonly List<CLines> _Lines = new List<CLines>();
+
         public CLines[] Lines
         {
             get { return _Lines.ToArray(); }
         }
 
-        public CNotes()
-        {
-        }
+        public CNotes() {}
 
         public int LinesCount
         {
@@ -24,17 +22,13 @@ namespace VocaluxeLib.Menu.SingNotes
         public CNotes(CNotes notes)
         {
             foreach (CLines lines in notes._Lines)
-            {
                 _Lines.Add(new CLines(lines));
-            }
         }
 
         public CLines GetLines(int Index)
         {
             while (Index >= _Lines.Count)
-            {
                 _Lines.Add(new CLines());
-            }
 
             return _Lines[Index];
         }
@@ -77,9 +71,7 @@ namespace VocaluxeLib.Menu.SingNotes
         public void SetMedley(int StartBeat, int EndBeat)
         {
             foreach (CLines lines in _Lines)
-            {
                 lines.SetMedley(StartBeat, EndBeat);
-            }
         }
     }
 
@@ -90,8 +82,8 @@ namespace VocaluxeLib.Menu.SingNotes
         private int _Tone;
         private ENoteType _NoteType;
         private string _Text;
-        private bool _Hit;              // for drawing player notes
-        private bool _Perfect;          // for drawing perfect note effect
+        private bool _Hit; // for drawing player notes
+        private bool _Perfect; // for drawing perfect note effect
 
         #region Contructors
         public CNote()
@@ -122,7 +114,7 @@ namespace VocaluxeLib.Menu.SingNotes
             this.StartBeat = StartBeat;
             this.Duration = Duration;
             this.Tone = Tone;
-            this.NoteType = ENoteType.Normal;
+            NoteType = ENoteType.Normal;
             this.Text = Text;
         }
 
@@ -132,7 +124,7 @@ namespace VocaluxeLib.Menu.SingNotes
             this.StartBeat = StartBeat;
             this.Duration = Duration;
             this.Tone = Tone;
-            this.NoteType = ENoteType.Normal;
+            NoteType = ENoteType.Normal;
             this.Text = Text;
             this.Hit = Hit;
         }
@@ -172,10 +164,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public int EndBeat
         {
-            get
-            {
-                return _StartBeat + _Duration - 1;
-            }
+            get { return _StartBeat + _Duration - 1; }
         }
 
         public int Duration
@@ -274,24 +263,20 @@ namespace VocaluxeLib.Menu.SingNotes
     {
         private int _StartBeat = int.MinValue;
         private int _EndBeat = int.MinValue;
-        private bool _PerfectLine = false;      // for drawing perfect line effect
+        private bool _PerfectLine; // for drawing perfect line effect
         private bool _VisibleInTimeLine = true;
-        
+
         private int _MinBeat = int.MaxValue;
         private int _MaxBeat = int.MinValue;
-        private List<CNote> _Notes = new List<CNote>();
+        private readonly List<CNote> _Notes = new List<CNote>();
 
         #region Constructors
-        public CLine()
-        {
-        }
+        public CLine() {}
 
         public CLine(CLine line)
         {
             foreach (CNote note in line._Notes)
-            {
                 _Notes.Add(new CNote(note));
-            }
             _StartBeat = line._StartBeat;
             _EndBeat = line._EndBeat;
             _PerfectLine = line._PerfectLine;
@@ -350,9 +335,7 @@ namespace VocaluxeLib.Menu.SingNotes
             {
                 string lyrics = String.Empty;
                 foreach (CNote note in _Notes)
-                {
                     lyrics += note.Text;
-                }
                 return lyrics;
             }
         }
@@ -368,13 +351,11 @@ namespace VocaluxeLib.Menu.SingNotes
             {
                 int points = 0;
                 foreach (CNote note in _Notes)
-                {
                     points += note.Points;
-                }
                 return points;
             }
         }
-        
+
         public CNote[] Notes
         {
             get { return _Notes.ToArray(); }
@@ -416,7 +397,7 @@ namespace VocaluxeLib.Menu.SingNotes
                         Max = note.Tone;
                 }
 
-                return Min - (Max-Min)/4;
+                return Min - (Max - Min) / 4;
             }
         }
         #endregion Properties
@@ -433,7 +414,7 @@ namespace VocaluxeLib.Menu.SingNotes
             if (CompareLine.Points == 0)
                 return false;
 
-            _PerfectLine = (this.Points == CompareLine.Points);
+            _PerfectLine = (Points == CompareLine.Points);
             return _PerfectLine;
         }
 
@@ -460,7 +441,7 @@ namespace VocaluxeLib.Menu.SingNotes
             }
             return start;
         }
-        
+
         public bool AddNote(CNote Note)
         {
             if (_Notes.Count == 0)
@@ -534,14 +515,10 @@ namespace VocaluxeLib.Menu.SingNotes
         private void updateMinMaxBeat(CNote Note)
         {
             if (Note.StartBeat < _MinBeat)
-            {
                 _MinBeat = Note.StartBeat;
-            }
 
             if (Note.EndBeat > _MaxBeat)
-            {
                 _MaxBeat = Note.EndBeat;
-            }
         }
 
         private void updateMinMaxBeat()
@@ -557,24 +534,19 @@ namespace VocaluxeLib.Menu.SingNotes
                 _MaxBeat = int.MinValue;
             }
         }
-
         #endregion Methods
     }
 
     public class CLines
     {
-        private List<CLine> _Lines = new List<CLine>();
+        private readonly List<CLine> _Lines = new List<CLine>();
 
-        public CLines()
-        {
-        }
+        public CLines() {}
 
         public CLines(CLines lines)
         {
             foreach (CLine line in lines._Lines)
-            {
                 _Lines.Add(new CLine(line));
-            }
         }
 
         public CLine[] Line
@@ -587,7 +559,7 @@ namespace VocaluxeLib.Menu.SingNotes
         }
 
         /// <summary>
-        /// Total song length in beats
+        ///     Total song length in beats
         /// </summary>
         public int Length
         {
@@ -624,9 +596,7 @@ namespace VocaluxeLib.Menu.SingNotes
             {
                 int points = 0;
                 foreach (CLine line in _Lines)
-                {
                     points += line.Points;
-                }
                 return points;
             }
         }
@@ -730,15 +700,14 @@ namespace VocaluxeLib.Menu.SingNotes
             }
             return false;
         }
+
         public void UpdateTimings()
         {
             CNote LastNote, FirstNote;
             int min, max, s;
 
             if (_Lines.Count > 0)
-            {
                 _Lines[0].StartBeat = -10000;
-            }
 
             for (int i = 1; i < _Lines.Count; i++)
             {
@@ -776,17 +745,13 @@ namespace VocaluxeLib.Menu.SingNotes
 
             LastNote = _Lines[_Lines.Count - 1].LastNote;
             if (LastNote != null)
-            {
                 _Lines[_Lines.Count - 1].EndBeat = LastNote.EndBeat;
-            }
         }
 
         public void SetMedley(int StartBeat, int EndBeat)
         {
             foreach (CLine line in _Lines)
-            {
                 line.SetMedley(StartBeat, EndBeat);
-            }
         }
         #endregion Methods
     }

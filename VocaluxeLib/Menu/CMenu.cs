@@ -19,7 +19,7 @@ namespace VocaluxeLib.Menu
     public abstract class CMenu : IMenu
     {
         private List<CInteraction> _Interactions;
-        private int _Selection = 0;
+        private int _Selection;
         private string _ThemePath = String.Empty;
         protected int _PartyModeID = -1;
 
@@ -36,7 +36,6 @@ namespace VocaluxeLib.Menu
         private COrderedDictionaryLite<CPlaylist> _Playlists;
         private COrderedDictionaryLite<CParticleEffect> _ParticleEffects;
         private COrderedDictionaryLite<CScreenSetting> _ScreenSettings;
-
 
         private int _PrevMouseX;
         private int _PrevMouseY;
@@ -78,14 +77,10 @@ namespace VocaluxeLib.Menu
             get { return _ScreenVersion; }
         }
 
-        public CMenu()
-        {
-        }
-
         public virtual void Init()
         {
-            _ThemeName = this.GetType().Name;
-            if(_ThemeName[0]=='C' && Char.IsUpper(_ThemeName[1]))
+            _ThemeName = GetType().Name;
+            if (_ThemeName[0] == 'C' && Char.IsUpper(_ThemeName[1]))
                 _ThemeName = _ThemeName.Remove(0, 1);
 
             _Interactions = new List<CInteraction>();
@@ -135,7 +130,6 @@ namespace VocaluxeLib.Menu
         }
 
         #region ThemeHandler
-
         protected delegate void DAddElement<T>(T Element, String key);
 
         private void LoadThemeElement<T>(string[] Elements, DAddElement<T> MAddElement, CXMLReader xmlReader, int SkinIndex) where T : IMenuElement
@@ -146,13 +140,9 @@ namespace VocaluxeLib.Menu
                 {
                     T Element = (T)Activator.CreateInstance(typeof(T), _PartyModeID);
                     if (Element.LoadTheme("//root/" + ThemeName, elName, xmlReader, SkinIndex))
-                    {
                         MAddElement(Element, elName);
-                    }
                     else
-                    {
                         CBase.Log.LogError("Can't load " + typeof(T).Name.Substring(1) + " \"" + elName + "\" in screen " + ThemeName);
-                    }
                 }
             }
         }
@@ -204,7 +194,6 @@ namespace VocaluxeLib.Menu
             string file = Path.Combine(_ThemePath, ThemeName + ".xml");
             using (XmlWriter writer = XmlWriter.Create(file, settings))
             {
-
                 writer.WriteStartDocument();
                 writer.WriteStartElement("root");
 
@@ -278,136 +267,84 @@ namespace VocaluxeLib.Menu
         public virtual void ReloadTextures()
         {
             foreach (CBackground background in _Backgrounds)
-            {
                 background.ReloadTextures();
-            }
 
             foreach (CButton button in _Buttons)
-            {
                 button.ReloadTextures();
-            }
 
             foreach (CText text in _Texts)
-            {
                 text.ReloadTextures();
-            }
 
             foreach (CStatic stat in _Statics)
-            {
                 stat.ReloadTextures();
-            }
 
             foreach (CSelectSlide slide in _SelectSlides)
-            {
                 slide.ReloadTextures();
-            }
 
             foreach (CSongMenu sm in _SongMenus)
-            {
                 sm.ReloadTextures();
-            }
 
             foreach (CLyric lyric in _Lyrics)
-            {
                 lyric.ReloadTextures();
-            }
 
             foreach (CSingNotes sn in _SingNotes)
-            {
                 sn.ReloadTextures();
-            }
 
             foreach (CNameSelection ns in _NameSelections)
-            {
                 ns.ReloadTextures();
-            }
 
             foreach (CEqualizer eq in _Equalizers)
-            {
                 eq.ReloadTextures();
-            }
 
             foreach (CPlaylist pls in _Playlists)
-            {
                 pls.ReloadTextures();
-            }
 
             foreach (CParticleEffect pe in _ParticleEffects)
-            {
                 pe.ReloadTextures();
-            }
 
             foreach (CScreenSetting se in _ScreenSettings)
-            {
                 se.ReloadTextures();
-            }
         }
 
         public virtual void UnloadTextures()
         {
             foreach (CBackground background in _Backgrounds)
-            {
                 background.UnloadTextures();
-            }
 
             foreach (CButton button in _Buttons)
-            {
                 button.UnloadTextures();
-            }
 
             foreach (CText text in _Texts)
-            {
                 text.UnloadTextures();
-            }
 
             foreach (CStatic stat in _Statics)
-            {
                 stat.UnloadTextures();
-            }
 
             foreach (CSelectSlide slide in _SelectSlides)
-            {
                 slide.UnloadTextures();
-            }
 
             foreach (CSongMenu sm in _SongMenus)
-            {
                 sm.UnloadTextures();
-            }
 
             foreach (CLyric lyric in _Lyrics)
-            {
                 lyric.UnloadTextures();
-            }
 
             foreach (CSingNotes sn in _SingNotes)
-            {
                 sn.UnloadTextures();
-            }
 
             foreach (CNameSelection ns in _NameSelections)
-            {
                 ns.UnloadTextures();
-            }
             foreach (CPlaylist pls in _Playlists)
-            {
                 pls.UnloadTextures();
-            }
 
             foreach (CEqualizer eq in _Equalizers)
-            {
                 eq.UnloadTextures();
-            }
 
             foreach (CParticleEffect pe in _ParticleEffects)
-            {
                 pe.UnloadTextures();
-            }
 
             foreach (CScreenSetting se in _ScreenSettings)
-            {
                 se.UnloadTextures();
-            }
         }
 
         public virtual void ReloadTheme(string XmlPath)
@@ -489,6 +426,7 @@ namespace VocaluxeLib.Menu
         #endregion GetLists
 
         #region ElementHandler
+
         #region Create Elements
         public CButton GetNewButton()
         {
@@ -514,7 +452,6 @@ namespace VocaluxeLib.Menu
         {
             return new CText(x, y, z, h, mw, align, style, font, col, text);
         }
-
 
         public CBackground GetNewBackground()
         {
@@ -633,7 +570,6 @@ namespace VocaluxeLib.Menu
             get { return _Equalizers; }
         }
 
-
         public COrderedDictionaryLite<CPlaylist> Playlists
         {
             get { return _Playlists; }
@@ -649,6 +585,7 @@ namespace VocaluxeLib.Menu
             get { return _ScreenSettings; }
         }
         #endregion Get Arrays
+
         #endregion ElementHandler
 
         #region MenuHandler
@@ -673,9 +610,7 @@ namespace VocaluxeLib.Menu
                 }
 
                 if (KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down)
-                {
                     KeyEvent.Handled = _NextInteraction(KeyEvent);
-                }
             }
             else
             {
@@ -837,9 +772,7 @@ namespace VocaluxeLib.Menu
 
         public abstract bool UpdateGame();
 
-        public virtual void ApplyVolume()
-        {
-        }
+        public virtual void ApplyVolume() {}
 
         public virtual void OnShow()
         {
@@ -862,17 +795,13 @@ namespace VocaluxeLib.Menu
         protected void ResumeBG()
         {
             foreach (CBackground bg in _Backgrounds)
-            {
                 bg.Resume();
-            }
         }
 
         protected void PauseBG()
         {
             foreach (CBackground bg in _Backgrounds)
-            {
                 bg.Pause();
-            }
         }
 
         #region Drawing
@@ -886,9 +815,7 @@ namespace VocaluxeLib.Menu
         public void DrawBG()
         {
             foreach (CBackground bg in _Backgrounds)
-            {
                 bg.Draw();
-            }
         }
 
         public void DrawFG()
@@ -901,15 +828,15 @@ namespace VocaluxeLib.Menu
             for (int i = 0; i < _Interactions.Count; i++)
             {
                 if (_IsVisible(i) && (
-                    _Interactions[i].Type == EType.TButton ||
-                    _Interactions[i].Type == EType.TSelectSlide ||
-                    _Interactions[i].Type == EType.TStatic ||
-                    _Interactions[i].Type == EType.TNameSelection ||
-                    _Interactions[i].Type == EType.TText ||
-                    _Interactions[i].Type == EType.TSongMenu ||
-                    _Interactions[i].Type == EType.TEqualizer ||
-                    _Interactions[i].Type == EType.TPlaylist ||
-                    _Interactions[i].Type == EType.TParticleEffect))
+                                         _Interactions[i].Type == EType.TButton ||
+                                         _Interactions[i].Type == EType.TSelectSlide ||
+                                         _Interactions[i].Type == EType.TStatic ||
+                                         _Interactions[i].Type == EType.TNameSelection ||
+                                         _Interactions[i].Type == EType.TText ||
+                                         _Interactions[i].Type == EType.TSongMenu ||
+                                         _Interactions[i].Type == EType.TEqualizer ||
+                                         _Interactions[i].Type == EType.TPlaylist ||
+                                         _Interactions[i].Type == EType.TParticleEffect))
                 {
                     ZSort zs = new ZSort();
                     zs.ID = i;
@@ -925,15 +852,11 @@ namespace VocaluxeLib.Menu
             items.Sort(delegate(ZSort s1, ZSort s2) { return (s2.z.CompareTo(s1.z)); });
 
             for (int i = 0; i < items.Count; i++)
-            {
                 _DrawInteraction(items[i].ID);
-            }
-
         }
         #endregion Drawing
 
         #region Elements
-
         public void AddBackground(CBackground bg)
         {
             AddBackground(bg, null);
@@ -998,7 +921,7 @@ namespace VocaluxeLib.Menu
         {
             AddScreenSetting(se, null);
         }
-        
+
         public void AddBackground(CBackground bg, String key)
         {
             _AddInteraction(_Backgrounds.Add(bg, key), EType.TBackground);
@@ -1085,7 +1008,7 @@ namespace VocaluxeLib.Menu
         }
 
         /// <summary>
-        /// Selects the next element in a menu Interaction.
+        ///     Selects the next element in a menu Interaction.
         /// </summary>
         /// <returns>True if the next element is selected. False if either there is no next element or the Interaction does not provide such a method.</returns>
         public bool NextElement()
@@ -1097,7 +1020,7 @@ namespace VocaluxeLib.Menu
         }
 
         /// <summary>
-        /// Selects the previous element in a menu Interaction.
+        ///     Selects the previous element in a menu Interaction.
         /// </summary>
         /// <returns>True if the previous element is selected. False if either there is no next element or the Interaction does not provide such a method.</returns>
         public bool PrevElement()
@@ -1154,9 +1077,7 @@ namespace VocaluxeLib.Menu
             if (_Interactions[_Selection].Type == EType.TSelectSlide)
             {
                 if (_SelectSlides[_Interactions[_Selection].Num].Visible)
-                {
                     _SelectSlides[_Interactions[_Selection].Num].ProcessMouseLBClick(x, y);
-                }
             }
         }
 
@@ -1170,9 +1091,7 @@ namespace VocaluxeLib.Menu
             if (_Interactions[_Selection].Type == EType.TSelectSlide)
             {
                 if (_SelectSlides[_Interactions[_Selection].Num].Visible)
-                {
                     _SelectSlides[_Interactions[_Selection].Num].ProcessMouseMove(x, y);
-                }
             }
         }
 
@@ -1352,7 +1271,7 @@ namespace VocaluxeLib.Menu
         }
 
         /// <summary>
-        /// Selects the next best interaction in a menu.
+        ///     Selects the next best interaction in a menu.
         /// </summary>
         /// <param name="Key"></param>
         /// <returns></returns>
@@ -1364,9 +1283,7 @@ namespace VocaluxeLib.Menu
             int[] elements = new int[4];
 
             for (int i = 0; i < 4; i++)
-            {
                 Directions[i] = new KeyEvent();
-            }
 
             Directions[0].Key = Keys.Up;
             Directions[1].Key = Keys.Right;
@@ -1374,9 +1291,7 @@ namespace VocaluxeLib.Menu
             Directions[3].Key = Keys.Left;
 
             for (int i = 0; i < 4; i++)
-            {
                 elements[i] = _GetNextElement(Directions[i], out Distances[i], out stages[i]);
-            }
 
             int element = _Selection;
             int stage = int.MaxValue;
@@ -1534,7 +1449,6 @@ namespace VocaluxeLib.Menu
                     if (vector.X > 0f && (targetRect.Y + targetRect.H > actualRect.Y && actualRect.Y + actualRect.H > targetRect.Y))
                         inDirection = true;
                     break;
-
             }
             if (!inDirection)
                 return float.MaxValue;
@@ -1571,7 +1485,6 @@ namespace VocaluxeLib.Menu
                     if (vector.X > 0f)
                         inDirection = true;
                     break;
-
             }
             if (!inDirection)
                 return float.MaxValue;
@@ -1580,7 +1493,7 @@ namespace VocaluxeLib.Menu
         }
 
         /// <summary>
-        /// Selects the next element in a menu interaction.
+        ///     Selects the next element in a menu interaction.
         /// </summary>
         /// <returns>True if the next element is selected. False if either there is no next element or the interaction does not provide such a method.</returns>
         private bool _NextElement()
@@ -1592,10 +1505,10 @@ namespace VocaluxeLib.Menu
         }
 
         /// <summary>
-        /// Selects the previous element in a menu interaction.
+        ///     Selects the previous element in a menu interaction.
         /// </summary>
         /// <returns>
-        /// True if the previous element is selected. False if either there is no previous element or the interaction does not provide such a method.
+        ///     True if the previous element is selected. False if either there is no previous element or the interaction does not provide such a method.
         /// </returns>
         private bool _PrevElement()
         {
@@ -1753,9 +1666,7 @@ namespace VocaluxeLib.Menu
                 return;
 
             if (_Interactions[_Selection].Type == EType.TSelectSlide)
-            {
                 _SelectSlides[_Interactions[_Selection].Num].Highlighted = !_SelectSlides[_Interactions[_Selection].Num].Highlighted;
-            }
         }
 
         private bool _IsHighlighted()
@@ -1944,13 +1855,12 @@ namespace VocaluxeLib.Menu
                     _ParticleEffects[_Interactions[interaction].Num].Draw();
                     break;
 
-                //TODO:
-                //case EType.TLyric:
-                //    _Lyrics[_Interactions[interaction].Num].Draw(0);
-                //    break;
+                    //TODO:
+                    //case EType.TLyric:
+                    //    _Lyrics[_Interactions[interaction].Num].Draw(0);
+                    //    break;
             }
         }
-
         #endregion InteractionHandling
 
         #region Theme Handling

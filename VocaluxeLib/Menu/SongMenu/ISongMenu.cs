@@ -1,5 +1,4 @@
-﻿
-using VocaluxeLib.PartyModes;
+﻿using VocaluxeLib.PartyModes;
 
 namespace VocaluxeLib.Menu.SongMenu
 {

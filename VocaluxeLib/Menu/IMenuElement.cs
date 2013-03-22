@@ -12,7 +12,7 @@ namespace VocaluxeLib.Menu
         void UnloadTextures();
         void LoadTextures();
         void ReloadTextures();
-        
+
         void MoveElement(int stepX, int stepY);
         void ResizeElement(int stepW, int stepH);
     }
