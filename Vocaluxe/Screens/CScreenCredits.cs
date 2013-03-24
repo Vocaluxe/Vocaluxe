@@ -139,14 +139,14 @@ namespace Vocaluxe.Screens
             paragraph = "Inspired by the achievements of UltraStar Deluxe and its variants and pursuing the goal of making " +
                         "a good thing even better, we ended up rewriting the game from scratch. And a new implementation in a new " +
                         "programming language called for a new name - and VOCALUXE [ˈvoʊˈkəˈlʌks] it is!";
-            words = paragraph.Split(new[] {' '});
+            words = paragraph.Split(new char[] {' '});
             paragraphs.Add(words);
 
             paragraph = "This first public version has already implemented many of the original features and it is fully " +
                         "compatible with all the song files in your existing song collection. The code design allows a much faster " +
                         "implementation of new features, thus the roadmap for the next few stable releases is packed and we expect much " +
                         "shorter release cycles than ever before. And, of course, our and your ideas may be the features of tomorrow.";
-            words = paragraph.Split(new[] {' '});
+            words = paragraph.Split(new char[] {' '});
             paragraphs.Add(words);
 
             paragraph = "We appreciate the feedback in the beta release phase and are, of course, always open for bug reports, " +
@@ -154,12 +154,12 @@ namespace Vocaluxe.Screens
                         "Vocaluxe an international experience from the very beginning and all those diligent song makers out there - " +
                         "there's something for everyone in the huge collection of available songs! Last but not least, thanks to " +
                         "Kosal Sen's Philly Sans type used in the Vocaluxe Logo.";
-            words = paragraph.Split(new[] {' '});
+            words = paragraph.Split(new char[] {' '});
             paragraphs.Add(words);
 
             paragraph = "Go ahead and grab your mics, crank up your stereo, warm up your voice and get ready to sing to the best " +
                         "of your abilities!";
-            words = paragraph.Split(new[] {' '});
+            words = paragraph.Split(new char[] {' '});
             paragraphs.Add(words);
         }
 

@@ -66,7 +66,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             Data.ScreenNames.ProfileIDs = new List<int>();
 
             List<string> buttons = new List<string>();
-            _ThemeButtons = new[] {ButtonBack, ButtonNext, ButtonPlayerDestination, ButtonPlayerChoose};
+            _ThemeButtons = new string[] {ButtonBack, ButtonNext, ButtonPlayerDestination, ButtonPlayerChoose};
 
             Data = new DataFromScreen();
             FromScreenNames names = new FromScreenNames();

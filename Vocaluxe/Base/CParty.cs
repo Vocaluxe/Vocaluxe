@@ -270,7 +270,7 @@ namespace Vocaluxe.Base
                 return pm;
             }
 
-            object Instance = Output.CreateInstance("Vocaluxe.PartyModes." + pm.Folder + "." + pm.PartyModeFile);
+            object Instance = Output.CreateInstance(typeof(IPartyMode).Namespace + "." + pm.Folder + "." + pm.PartyModeFile);
             if (Instance == null)
             {
                 CLog.LogError("Error creating Instance of PartyMode file: " + file);
@@ -367,7 +367,7 @@ namespace Vocaluxe.Base
             if (Assembly == null)
                 return null;
 
-            object Instance = Assembly.CreateInstance("Vocaluxe.PartyModes." + partyModeName + "." + ScreenName);
+            object Instance = Assembly.CreateInstance(typeof(IPartyMode).Namespace + "." + partyModeName + "." + ScreenName);
             if (Instance == null)
             {
                 CLog.LogError("Error creating Instance of PartyScreen: " + ScreenName);

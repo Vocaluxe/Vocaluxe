@@ -66,7 +66,7 @@ namespace Vocaluxe.Base
 
             string[] searchStrings = null;
             if (_SearchString.Length > 0)
-                searchStrings = _SearchString.ToUpper().Split(new[] {' '});
+                searchStrings = _SearchString.ToUpper().Split(new char[] {' '});
 
             foreach (CSong song in CSongs.Songs)
             {

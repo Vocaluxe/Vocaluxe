@@ -808,7 +808,7 @@ namespace VocaluxeLib.Menu
 
         public object Clone()
         {
-            return this.MemberwiseClone();
+            return MemberwiseClone();
         }
 
         #region ThemeEdit

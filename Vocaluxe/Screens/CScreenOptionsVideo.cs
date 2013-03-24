@@ -34,9 +34,9 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeStatics = new[] {StaticWebcamOutput};
-            _ThemeButtons = new[] {ButtonExit};
-            _ThemeSelectSlides = new[]
+            _ThemeStatics = new string[] {StaticWebcamOutput};
+            _ThemeButtons = new string[] {ButtonExit};
+            _ThemeSelectSlides = new string[]
                 {
                     SelectSlideVideoBackgrounds, SelectSlideVideoPreview, SelectSlideVideosInSongs, SelectSlideVideosToBackground, SelectSlideWebcamDevices,
                     SelectSlideWebcamCapabilities

@@ -85,14 +85,14 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             base.Init();
 
-            _ThemeTexts = new[]
+            _ThemeTexts = new string[]
                 {
                     TextPosition, TextPlayerName, TextNumPlayed, TextWon, TextSingPoints, TextGamePoints, TextNextPlayer, TextPopupReallyExit, TextRoundNumber, TextRoundPlayer,
                     TextRoundScore, TextFinishMessage, TextFinishPlayerWin, TextNextPlayerMessage
                 };
-            _ThemeButtons = new[]
+            _ThemeButtons = new string[]
                 {ButtonNextRound, ButtonBack, ButtonExit, ButtonPopupYes, ButtonPopupNo, ButtonPlayerScrollDown, ButtonPlayerScrollUp, ButtonRoundsScrollDown, ButtonRoundsScrollUp};
-            _ThemeStatics = new[] {StaticPopupBG, StaticNextPlayer};
+            _ThemeStatics = new string[] {StaticPopupBG, StaticNextPlayer};
         }
 
         public override void LoadTheme(string XmlPath)

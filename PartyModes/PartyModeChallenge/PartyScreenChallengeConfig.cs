@@ -28,8 +28,8 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             base.Init();
 
-            _ThemeSelectSlides = new[] {SelectSlideNumPlayers, SelectSlideNumMics, SelectSlideNumRounds};
-            _ThemeButtons = new[] {ButtonNext, ButtonBack};
+            _ThemeSelectSlides = new string[] {SelectSlideNumPlayers, SelectSlideNumMics, SelectSlideNumRounds};
+            _ThemeButtons = new string[] {ButtonNext, ButtonBack};
 
             Data = new DataFromScreen();
             FromScreenConfig config = new FromScreenConfig();

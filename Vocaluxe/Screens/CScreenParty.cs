@@ -30,9 +30,9 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeTexts = new[] {TextDescription, TextTargetAudience, TextNumTeams, TextNumPlayers, TextAuthor, TextVersion, TextError};
-            _ThemeButtons = new[] {ButtonStart, ButtonExit};
-            _ThemeSelectSlides = new[] {SelectSlideModes};
+            _ThemeTexts = new string[] {TextDescription, TextTargetAudience, TextNumTeams, TextNumPlayers, TextAuthor, TextVersion, TextError};
+            _ThemeButtons = new string[] {ButtonStart, ButtonExit};
+            _ThemeSelectSlides = new string[] {SelectSlideModes};
         }
 
         public override bool HandleInput(KeyEvent keyEvent)

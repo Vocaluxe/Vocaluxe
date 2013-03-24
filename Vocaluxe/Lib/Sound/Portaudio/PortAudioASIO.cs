@@ -53,9 +53,6 @@ namespace PortAudioSharp
         public const int paAsioUseChannelSelectors = 0x01;
         #endregion
 
-        #region **** PORTAUDIO ENUMERATIONS ****
-        #endregion
-
         #region **** PORTAUDIO FUNCTIONS ****
         //		/// <summary> Retrieve legal latency settings for the specificed device, in samples. </summary>
         //		/// <param name="device"> The global index of the device about which the query is being made. </param>

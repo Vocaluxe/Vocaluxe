@@ -69,8 +69,8 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeStatics = new[] {StaticBG, StaticCover};
-            _ThemeTexts = new[] {TextCurrentSong};
+            _ThemeStatics = new string[] {StaticBG, StaticCover};
+            _ThemeTexts = new string[] {TextCurrentSong};
 
             List<string> buttons = new List<string>();
             buttons.Add(ButtonPlay);

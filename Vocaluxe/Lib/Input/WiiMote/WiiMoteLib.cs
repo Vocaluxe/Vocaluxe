@@ -633,7 +633,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
         private void WriteData(int address, byte data)
         {
-            WriteData(address, 1, new[] {data});
+            WriteData(address, 1, new byte[] {data});
         }
 
         private void WriteData(int address, byte size, byte[] buff)

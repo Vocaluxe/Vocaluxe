@@ -34,8 +34,8 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new[] {ButtonExit};
-            _ThemeSelectSlides = new[]
+            _ThemeButtons = new string[] {ButtonExit};
+            _ThemeSelectSlides = new string[]
                 {
                     SelectSlideTheme,
                     SelectSlideSkin,

@@ -23,8 +23,8 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeStatics = new[] {"StaticMenuBar"};
-            _ThemeButtons = new[] {ButtonSing, ButtonParty, ButtonOptions, ButtonProfiles, ButtonExit};
+            _ThemeStatics = new string[] {"StaticMenuBar"};
+            _ThemeButtons = new string[] {ButtonSing, ButtonParty, ButtonOptions, ButtonProfiles, ButtonExit};
         }
 
         public override bool HandleInput(KeyEvent keyEvent)
@@ -120,14 +120,14 @@ namespace Vocaluxe.Screens
 
         public override bool Draw()
         {
-            this.DrawBG();
+            DrawBG();
 
             //if (Snowflakes == null)
             //    Snowflakes = new CParticleEffect(300, new SColorF(1, 1, 1, 1), new SRectF(0, 0, CSettings.iRenderW, 0, 0.5f), "Snowflake", 25, EParticeType.Snow);
 
             //Snowflakes.Update();
             //Snowflakes.Draw();
-            this.DrawFG();
+            DrawFG();
 
             if (CSettings.VersionRevision != ERevision.Release)
             {

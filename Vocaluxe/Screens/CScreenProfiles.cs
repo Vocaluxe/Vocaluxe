@@ -48,9 +48,10 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new[] {ButtonPlayerName, ButtonExit, ButtonSave, ButtonNew, ButtonDelete, ButtonWebcam, ButtonSaveSnapshot, ButtonDiscardSnapshot, ButtonTakeSnapshot};
-            _ThemeSelectSlides = new[] {SelectSlideProfiles, SelectSlideDifficulty, SelectSlideAvatars, SelectSlideGuestProfile, SelectSlideActive};
-            _ThemeStatics = new[] {StaticAvatar};
+            _ThemeButtons = new string[]
+                {ButtonPlayerName, ButtonExit, ButtonSave, ButtonNew, ButtonDelete, ButtonWebcam, ButtonSaveSnapshot, ButtonDiscardSnapshot, ButtonTakeSnapshot};
+            _ThemeSelectSlides = new string[] {SelectSlideProfiles, SelectSlideDifficulty, SelectSlideAvatars, SelectSlideGuestProfile, SelectSlideActive};
+            _ThemeStatics = new string[] {StaticAvatar};
 
             _EditMode = EEditMode.None;
         }

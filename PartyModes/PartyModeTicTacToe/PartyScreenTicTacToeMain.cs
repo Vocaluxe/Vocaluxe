@@ -74,13 +74,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             base.Init();
 
-            _ThemeTexts = new[] {TextPopupReallyExit, TextTeamChoosing, TextFinishMessage, TextNextPlayerT1, TextNextPlayerT2, TextNextPlayerNameT1, TextNextPlayerNameT2};
-            _ThemeButtons = new[]
+            _ThemeTexts = new string[] {TextPopupReallyExit, TextTeamChoosing, TextFinishMessage, TextNextPlayerT1, TextNextPlayerT2, TextNextPlayerNameT1, TextNextPlayerNameT2};
+            _ThemeButtons = new string[]
                 {
                     ButtonNextRound, ButtonBack, ButtonExit, ButtonPopupYes, ButtonPopupNo, ButtonField, ButtonJokerRandomT1, ButtonJokerRandomT2, ButtonJokerRetryT1,
                     ButtonJokerRetryT2
                 };
-            _ThemeStatics = new[] {StaticPopupBG, StaticAvatarT1, StaticAvatarT2};
+            _ThemeStatics = new string[] {StaticPopupBG, StaticAvatarT1, StaticAvatarT2};
 
             Data = new DataFromScreen();
             FromScreenMain config = new FromScreenMain();

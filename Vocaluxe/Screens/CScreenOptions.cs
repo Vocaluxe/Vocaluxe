@@ -23,7 +23,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new[] {ButtonOptionsGame, ButtonOptionsSound, ButtonOptionsRecord, ButtonOptionsVideo, ButtonOptionsLyrics, ButtonOptionsTheme};
+            _ThemeButtons = new string[] {ButtonOptionsGame, ButtonOptionsSound, ButtonOptionsRecord, ButtonOptionsVideo, ButtonOptionsLyrics, ButtonOptionsTheme};
         }
 
         public override bool HandleInput(KeyEvent keyEvent)

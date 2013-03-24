@@ -151,8 +151,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             _ScreenSongOptions.Selection.RandomOnly = false;
             _ScreenSongOptions.Selection.PartyMode = true;
             _ScreenSongOptions.Selection.CategoryChangeAllowed = true;
-            _ScreenSongOptions.Selection.NumJokers = new[] {5, 5};
-            _ScreenSongOptions.Selection.TeamNames = new[] {"foo", "bar"};
+            _ScreenSongOptions.Selection.NumJokers = new int[] {5, 5};
+            _ScreenSongOptions.Selection.TeamNames = new string[] {"foo", "bar"};
 
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchActive = false;
@@ -549,30 +549,30 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             switch (GameData.NumPlayerAtOnce)
             {
                 case 1:
-                    _ScreenSongOptions.Selection.NumJokers = new[] {10};
+                    _ScreenSongOptions.Selection.NumJokers = new int[] {10};
                     break;
 
                 case 2:
-                    _ScreenSongOptions.Selection.NumJokers = new[] {5, 5};
+                    _ScreenSongOptions.Selection.NumJokers = new int[] {5, 5};
                     break;
 
                 case 3:
-                    _ScreenSongOptions.Selection.NumJokers = new[] {4, 4, 4};
+                    _ScreenSongOptions.Selection.NumJokers = new int[] {4, 4, 4};
                     break;
 
                 case 4:
-                    _ScreenSongOptions.Selection.NumJokers = new[] {3, 3, 3, 3};
+                    _ScreenSongOptions.Selection.NumJokers = new int[] {3, 3, 3, 3};
                     break;
 
                 case 5:
-                    _ScreenSongOptions.Selection.NumJokers = new[] {2, 2, 2, 2, 2};
+                    _ScreenSongOptions.Selection.NumJokers = new int[] {2, 2, 2, 2, 2};
                     break;
 
                 case 6:
-                    _ScreenSongOptions.Selection.NumJokers = new[] {2, 2, 2, 2, 2, 2};
+                    _ScreenSongOptions.Selection.NumJokers = new int[] {2, 2, 2, 2, 2, 2};
                     break;
                 default:
-                    _ScreenSongOptions.Selection.NumJokers = new[] {5, 5};
+                    _ScreenSongOptions.Selection.NumJokers = new int[] {5, 5};
                     break;
             }
         }
@@ -583,13 +583,13 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
             if (profiles == null)
             {
-                _ScreenSongOptions.Selection.TeamNames = new[] {"foo", "bar"};
+                _ScreenSongOptions.Selection.TeamNames = new string[] {"foo", "bar"};
                 return;
             }
 
             if (GameData.NumPlayerAtOnce < 1 || GameData.ProfileIDs.Count < GameData.NumPlayerAtOnce || profiles.Length < GameData.NumPlayerAtOnce)
             {
-                _ScreenSongOptions.Selection.TeamNames = new[] {"foo", "bar"};
+                _ScreenSongOptions.Selection.TeamNames = new string[] {"foo", "bar"};
                 return;
             }
 

@@ -17,7 +17,7 @@ namespace Vocaluxe.Screens
 
         private const string TextStatus = "TextStatus";
 
-        private readonly string[] IntroVideo = new[] {"IntroIn", "IntroMid", "IntroOut"};
+        private readonly string[] IntroVideo = new string[] {"IntroIn", "IntroMid", "IntroOut"};
 
         private Thread _SongLoaderThread;
         private Stopwatch _timer;
@@ -32,7 +32,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeTexts = new[] {TextStatus};
+            _ThemeTexts = new string[] {TextStatus};
             _Intros = new VideoPlayer[IntroVideo.Length];
             for (int i = 0; i < _Intros.Length; i++)
                 _Intros[i] = new VideoPlayer();

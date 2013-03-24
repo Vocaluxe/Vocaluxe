@@ -30,9 +30,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             base.Init();
 
-            _ThemeSelectSlides = new[]
+            _ThemeSelectSlides = new string[]
                 {SelectSlideNumPlayerTeam1, SelectSlideNumPlayerTeam2, SelectSlideNumFields, SelectSlideSongSource, SelectSlidePlaylist, SelectSlideCategory, SelectSlideGameMode};
-            _ThemeButtons = new[] {ButtonNext, ButtonBack};
+            _ThemeButtons = new string[] {ButtonNext, ButtonBack};
 
             Data = new DataFromScreen();
             FromScreenConfig config = new FromScreenConfig();

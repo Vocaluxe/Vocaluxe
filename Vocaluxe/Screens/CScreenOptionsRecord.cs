@@ -41,7 +41,7 @@ namespace Vocaluxe.Screens
         private const string EqualizerChannel1 = "EqualizerChannel1";
         private const string EqualizerChannel2 = "EqualizerChannel2";
 
-        private readonly string[] StaticEnergyChannel = new[] {"StaticEnergyChannel1", "StaticEnergyChannel2"};
+        private readonly string[] StaticEnergyChannel = new string[] {"StaticEnergyChannel1", "StaticEnergyChannel2"};
         private float[] ChannelEnergy;
 
         private SRecordDevice[] _devices;
@@ -61,10 +61,10 @@ namespace Vocaluxe.Screens
             values.AddRange(StaticEnergyChannel);
             _ThemeStatics = values.ToArray();
 
-            _ThemeTexts = new[] {TextWarning, TextDelayChannel1, TextDelayChannel2};
-            _ThemeButtons = new[] {ButtonExit, ButtonDelayTest};
-            _ThemeSelectSlides = new[] {SelectSlideRecordDevices, SelectSlideRecordInputs, SelectSlideRecordChannel1, SelectSlideRecordChannel2, SelectSlideDelay};
-            _ThemeEqualizers = new[] {EqualizerChannel1, EqualizerChannel2};
+            _ThemeTexts = new string[] {TextWarning, TextDelayChannel1, TextDelayChannel2};
+            _ThemeButtons = new string[] {ButtonExit, ButtonDelayTest};
+            _ThemeSelectSlides = new string[] {SelectSlideRecordDevices, SelectSlideRecordInputs, SelectSlideRecordChannel1, SelectSlideRecordChannel2, SelectSlideDelay};
+            _ThemeEqualizers = new string[] {EqualizerChannel1, EqualizerChannel2};
         }
 
         public override void LoadTheme(string XmlPath)

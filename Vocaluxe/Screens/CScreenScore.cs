@@ -51,7 +51,7 @@ namespace Vocaluxe.Screens
 
             _ThemeStatics = statics.ToArray();
 
-            _ThemeScreenSettings = new[] {ScreenSettingShortScore, ScreenSettingShortRating, ScreenSettingShortDifficulty, ScreenSettingAnimationDirection};
+            _ThemeScreenSettings = new string[] {ScreenSettingShortScore, ScreenSettingShortRating, ScreenSettingShortDifficulty, ScreenSettingAnimationDirection};
 
             StaticPointsBarDrawnPoints = new double[CSettings.MaxNumPlayer];
         }

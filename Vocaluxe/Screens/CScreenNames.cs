@@ -26,12 +26,13 @@ namespace Vocaluxe.Screens
         private const string StaticWarningMics = "StaticWarningMics";
         private const string TextWarningProfiles = "TextWarningProfiles";
         private const string StaticWarningProfiles = "StaticWarningProfiles";
-        private readonly string[] StaticPlayer = new[] {"StaticPlayer1", "StaticPlayer2", "StaticPlayer3", "StaticPlayer4", "StaticPlayer5", "StaticPlayer6"};
-        private readonly string[] StaticPlayerAvatar = new[]
+        private readonly string[] StaticPlayer = new string[] {"StaticPlayer1", "StaticPlayer2", "StaticPlayer3", "StaticPlayer4", "StaticPlayer5", "StaticPlayer6"};
+        private readonly string[] StaticPlayerAvatar = new string[]
             {"StaticPlayerAvatar1", "StaticPlayerAvatar2", "StaticPlayerAvatar3", "StaticPlayerAvatar4", "StaticPlayerAvatar5", "StaticPlayerAvatar6"};
-        private readonly string[] TextPlayer = new[] {"TextPlayer1", "TextPlayer2", "TextPlayer3", "TextPlayer4", "TextPlayer5", "TextPlayer6"};
-        private readonly string[] EqualizerPlayer = new[] {"EqualizerPlayer1", "EqualizerPlayer2", "EqualizerPlayer3", "EqualizerPlayer4", "EqualizerPlayer5", "EqualizerPlayer6"};
-        private readonly string[] SelectSlideDuetPlayer = new[]
+        private readonly string[] TextPlayer = new string[] {"TextPlayer1", "TextPlayer2", "TextPlayer3", "TextPlayer4", "TextPlayer5", "TextPlayer6"};
+        private readonly string[] EqualizerPlayer = new string[]
+            {"EqualizerPlayer1", "EqualizerPlayer2", "EqualizerPlayer3", "EqualizerPlayer4", "EqualizerPlayer5", "EqualizerPlayer6"};
+        private readonly string[] SelectSlideDuetPlayer = new string[]
             {"SelectSlideDuetPlayer1", "SelectSlideDuetPlayer2", "SelectSlideDuetPlayer3", "SelectSlideDuetPlayer4", "SelectSlideDuetPlayer5", "SelectSlideDuetPlayer6"};
         private readonly STexture[] OriginalPlayerAvatarTextures = new STexture[CSettings.MaxNumPlayer];
 

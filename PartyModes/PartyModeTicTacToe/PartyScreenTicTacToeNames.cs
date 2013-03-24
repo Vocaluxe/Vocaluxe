@@ -70,7 +70,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             Data.ScreenNames.ProfileIDsTeam2 = new List<int>();
 
             List<string> buttons = new List<string>();
-            _ThemeButtons = new[] {ButtonBack, ButtonNext, ButtonPlayerDestination, ButtonPlayerChoose, ButtonPlayerChooseScrollUp, ButtonPlayerChooseScrollDown};
+            _ThemeButtons = new string[] {ButtonBack, ButtonNext, ButtonPlayerDestination, ButtonPlayerChoose, ButtonPlayerChooseScrollUp, ButtonPlayerChooseScrollDown};
 
             Data = new DataFromScreen();
             FromScreenNames names = new FromScreenNames();

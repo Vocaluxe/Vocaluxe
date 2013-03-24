@@ -199,7 +199,7 @@ namespace Vocaluxe
 
         private static Assembly AssemblyResolver(Object sender, ResolveEventArgs args)
         {
-            string[] arr = args.Name.Split(new[] {','});
+            string[] arr = args.Name.Split(new char[] {','});
             if (arr != null)
             {
 #if ARCH_X86

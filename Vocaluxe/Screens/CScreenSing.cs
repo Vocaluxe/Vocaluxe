@@ -131,8 +131,8 @@ namespace Vocaluxe.Screens
             buttons.Add(ButtonSkip);
             _ThemeButtons = buttons.ToArray();
 
-            _ThemeLyrics = new[] {LyricMain, LyricSub, LyricMainDuet, LyricSubDuet, LyricMainTop, LyricSubTop};
-            _ThemeSingNotes = new[] {SingBars};
+            _ThemeLyrics = new string[] {LyricMain, LyricSub, LyricMainDuet, LyricSubDuet, LyricMainTop, LyricSubTop};
+            _ThemeSingNotes = new string[] {SingBars};
 
             _TimeRects = new List<TimeRect>();
             _TimerSongText = new Stopwatch();
@@ -465,7 +465,7 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            this.DrawBG();
+            DrawBG();
 
             foreach (CStatic stat in Statics)
                 stat.Draw();
@@ -652,7 +652,6 @@ namespace Vocaluxe.Screens
                     NoteLines[3] = SingNotes[SingBars].AddPlayer(new SRectF(640f, 350f, 590f, 200f, -0.5f), CTheme.ThemeColors.Player[3]);
                     break;
             */
-
             _TimerSongText.Stop();
             _TimerSongText.Reset();
             _TimerDuetText1.Stop();
@@ -909,14 +908,14 @@ namespace Vocaluxe.Screens
                     {
                         Texts[TextScores[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
                         Texts[TextNames[player, numplayer]].Visible = (numplayer + 1 == CGame.NumPlayer)
-                                                                       &&
-                                                                       (CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
-                                                                        CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_NAME);
+                                                                      &&
+                                                                      (CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
+                                                                       CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_NAME);
                         Statics[StaticScores[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
                         Statics[StaticAvatars[player, numplayer]].Visible = (numplayer + 1 == CGame.NumPlayer)
-                                                                             &&
-                                                                             (CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
-                                                                              CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_AVATAR);
+                                                                            &&
+                                                                            (CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
+                                                                             CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_AVATAR);
                     }
                 }
             }

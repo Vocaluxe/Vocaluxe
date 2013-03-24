@@ -27,8 +27,8 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new[] {ButtonExit};
-            _ThemeSelectSlides = new[]
+            _ThemeButtons = new string[] {ButtonExit};
+            _ThemeSelectSlides = new string[]
                 {SelectSlideBackgroundMusic, SelectSlideBackgroundMusicVolume, SelectSlideBackgroundMusicSource, SelectSlidePreviewMusicVolume, SelectSlideGameMusicVolume};
         }
 
@@ -36,15 +36,15 @@ namespace Vocaluxe.Screens
         {
             base.LoadTheme(XmlPath);
             SelectSlides[SelectSlideBackgroundMusic].SetValues<EOffOn>((int)CConfig.BackgroundMusic);
-            SelectSlides[SelectSlideBackgroundMusicVolume].AddValues(new[]
+            SelectSlides[SelectSlideBackgroundMusicVolume].AddValues(new string[]
                 {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
             SelectSlides[SelectSlideBackgroundMusicVolume].Selection = CConfig.BackgroundMusicVolume / 5;
             SelectSlides[SelectSlideBackgroundMusicSource].SetValues<EBackgroundMusicSource>((int)CConfig.BackgroundMusicSource);
             SelectSlides[SelectSlideBackgroundMusicSource].Selection = (int)CConfig.BackgroundMusicSource;
-            SelectSlides[SelectSlidePreviewMusicVolume].AddValues(new[]
+            SelectSlides[SelectSlidePreviewMusicVolume].AddValues(new string[]
                 {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
             SelectSlides[SelectSlidePreviewMusicVolume].Selection = CConfig.PreviewMusicVolume / 5;
-            SelectSlides[SelectSlideGameMusicVolume].AddValues(new[]
+            SelectSlides[SelectSlideGameMusicVolume].AddValues(new string[]
                 {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
             SelectSlides[SelectSlideGameMusicVolume].Selection = CConfig.GameMusicVolume / 5;
         }

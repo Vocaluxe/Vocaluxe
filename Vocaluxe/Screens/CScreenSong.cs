@@ -109,12 +109,12 @@ namespace Vocaluxe.Screens
             tlist.Add(TextSearchBar);
             tlist.Add(TextOptionsTitle);
 
-            _ThemeStatics = new[] {StaticSearchBar, StaticOptionsBG};
+            _ThemeStatics = new string[] {StaticSearchBar, StaticOptionsBG};
             _ThemeTexts = tlist.ToArray();
             _ThemeButtons = blist.ToArray();
-            _ThemeSelectSlides = new[] {SelectSlideOptionsMode, SelectSlideOptionsPlaylistAdd, SelectSlideOptionsPlaylistOpen, SelectSlideOptionsNumMedleySongs};
-            _ThemeSongMenus = new[] {SongMenu};
-            _ThemePlaylists = new[] {Playlist};
+            _ThemeSelectSlides = new string[] {SelectSlideOptionsMode, SelectSlideOptionsPlaylistAdd, SelectSlideOptionsPlaylistOpen, SelectSlideOptionsNumMedleySongs};
+            _ThemeSongMenus = new string[] {SongMenu};
+            _ThemePlaylists = new string[] {Playlist};
         }
 
         public override void LoadTheme(string XmlPath)
