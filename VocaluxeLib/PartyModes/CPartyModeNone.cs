@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using VocaluxeLib.Menu;
 
-using Vocaluxe.Menu;
-
-namespace Vocaluxe.PartyModes
+namespace VocaluxeLib.PartyModes
 {
     public class CPartyModeNone : CPartyMode
     {
@@ -20,7 +17,7 @@ namespace Vocaluxe.PartyModes
 
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchActive = false;
-            _ScreenSongOptions.Sorting.ShowDuetSongs = true;
+            _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.All;
         }
 
         public override ScreenSongOptions GetScreenSongOptions()

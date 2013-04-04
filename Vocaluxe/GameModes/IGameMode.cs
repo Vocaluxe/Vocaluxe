@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Vocaluxe.Base;
-using Vocaluxe.Menu;
-using Vocaluxe.Menu.SongMenu;
+﻿using VocaluxeLib.Menu;
+using VocaluxeLib.Menu.SongMenu;
 
 namespace Vocaluxe.GameModes
 {
@@ -25,7 +20,7 @@ namespace Vocaluxe.GameModes
         void NextRound(SPlayer[] Player);
         bool IsFinished();
         int GetCurrentRoundNr();
-        
+
         CPoints GetPoints();
 
         int GetNumSongs();

@@ -8,8 +8,8 @@
     <ProjectGuid>{5A4053F1-5AD5-441F-B254-D97A088127B6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PartyModeChallenge</RootNamespace>
-    <AssemblyName>PartyModeChallenge</AssemblyName>
+    <RootNamespace>VocaluxeLib.PartyModes.Challenge</RootNamespace>
+    <AssemblyName>Challenge</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>bin</OutputPath>
     <DefineConstants>TRACE;DEBUG;WIN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,7 +30,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>bin</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -42,17 +42,18 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>bin</OutputPath>
     <DefineConstants>TRACE;DEBUG;WIN</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>..\..\CheckingRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWin|x64'">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>bin</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -64,7 +65,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>bin</OutputPath>
     <DefineConstants>TRACE;DEBUG;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -74,7 +75,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>bin</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -86,7 +87,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>bin</OutputPath>
     <DefineConstants>TRACE;DEBUG;LINUX</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -96,7 +97,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\Output\PartyModes\Challenge\Code</OutputPath>
+    <OutputPath>bin</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -107,21 +108,12 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ChallengeRounds.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="PartyModeChallenge.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="PartyScreenChallengeConfig.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="PartyScreenChallengeMain.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="PartyScreenChallengeNames.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="ChallengeRounds.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="PartyModeChallenge.cs" />
+    <Compile Include="PartyScreenChallengeConfig.cs" />
+    <Compile Include="PartyScreenChallengeMain.cs" />
+    <Compile Include="PartyScreenChallengeNames.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\VocaluxeLib\VocaluxeLib.csproj">
@@ -137,7 +129,14 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>cd $(SolutionDir)Partymodes\
+xcopy "$(ProjectDir)*.cs" "$(SolutionDir)Output\PartyModes\$(TargetName)\Code\" /EXCLUDE:Excludes.txt /I /Y</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

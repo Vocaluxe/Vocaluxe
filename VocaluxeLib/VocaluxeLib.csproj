@@ -46,6 +46,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>..\CheckingRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWin|x64'">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -110,6 +111,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Menu\CBackground.cs" />
     <Compile Include="Menu\CBasic.cs" />
     <Compile Include="Menu\CButton.cs" />
@@ -121,6 +123,7 @@
     <Compile Include="Menu\CMenuParty.cs" />
     <Compile Include="Menu\CNameSelection.cs" />
     <Compile Include="Menu\CObjectInteractions.cs" />
+    <Compile Include="Menu\COrderedDictionaryLite.cs" />
     <Compile Include="Menu\CParticle.cs" />
     <Compile Include="Menu\CPlaylist.cs" />
     <Compile Include="Menu\CSelectSlide.cs" />

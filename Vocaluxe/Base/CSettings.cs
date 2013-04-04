@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {
@@ -31,23 +29,21 @@ namespace Vocaluxe.Base
         public const EArch ARCH = EArch.x64;
 #endif
 
-
         public static EGameState GameState = EGameState.Start;
 
         public const string sProgramName = "Vocaluxe";
         public const string sProgramCodeName = "Shining Heaven";
 
         public const int iVersionMajor = 0;
-        public const int iVersionMinor = 3;      // milestones
-        public const int iVersionSub = 0;        // patches
+        public const int iVersionMinor = 3; // milestones
+        public const int iVersionSub = 0; // patches
         public const ERevision VersionRevision = ERevision.Alpha;
 
-        public const int iBuild = 76;             // Increase on every published version! Never Reset!
+        public const int iBuild = 76; // Increase on every published version! Never Reset!
 
         public const int iDatabaseHighscoreVersion = 2;
         public const int iDatabaseCoverVersion = 1;
         public const int iDatabaseCreditsRessourcesVersion = 1;
-        
 
         public static int iRenderW = 1280;
         public static int iRenderH = 720;
@@ -91,7 +87,6 @@ namespace Vocaluxe.Base
         public const string sFolderBackgroundMusic = "BackgroundMusic";
         public static string sFolderPlaylists = "Playlists";
 
-
         public static string sFolderPartyModes = "PartyModes";
         public const string sFolderPartyModeCode = "Code";
         public const string sFolderPartyModeScreens = "Screens";
@@ -105,7 +100,7 @@ namespace Vocaluxe.Base
         public const int NumNoteLines = 11;
         public static int MouseMoveDiffMin = 2;
         public const float MouseMoveOffTime = 3f;
-        
+
         public const int MaxNumPlayer = 6;
         public const int MaxScore = 10000;
         public const int LinebonusScore = 1000;
@@ -124,17 +119,20 @@ namespace Vocaluxe.Base
 
         public const float BackgroundMusicFadeTime = 0.5f;
 
-        public static List<string> MusicFileTypes = new List<string>()
-        { 
-            "*.mp3","*.wma","*.ogg","*.wav" 
-        };
-        
+        public static List<string> MusicFileTypes = new List<string>
+            {
+                "*.mp3",
+                "*.wma",
+                "*.ogg",
+                "*.wav"
+            };
+
         public static string GetVersionText()
         {
             string sVersion = "v" + iVersionMajor.ToString() + "." +
-                iVersionMinor.ToString() + "." +
-                iVersionSub.ToString() + " (" + Enum.GetName(typeof(EArch), ARCH) + ")";
-            
+                              iVersionMinor.ToString() + "." +
+                              iVersionSub.ToString() + " (" + Enum.GetName(typeof(EArch), ARCH) + ")";
+
             if (VersionRevision != ERevision.Release)
                 sVersion += " " + GetVersionStatus() + String.Format(" ({0:0000)}", iBuild);
 
@@ -145,7 +143,7 @@ namespace Vocaluxe.Base
         {
             string sVersion = sProgramName;
 
-            if (sProgramCodeName != String.Empty)
+            if (sProgramCodeName.Length > 0)
                 sVersion += " \"" + sProgramCodeName + "\"";
 
             return sVersion += " " + GetVersionText();
@@ -163,7 +161,7 @@ namespace Vocaluxe.Base
 
         public static float GetRenderAspect()
         {
-            return (float)iRenderW / (float)iRenderH;
+            return iRenderW / (float)iRenderH;
         }
 
         public static void MouseInactive()
@@ -192,15 +190,14 @@ namespace Vocaluxe.Base
             foreach (string folder in Folders)
             {
                 string path = Path.Combine(Environment.CurrentDirectory, folder);
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);   
-            }       
+                CreateFolder(path);
+            }
         }
 
         public static void CreateFolder(string path)
         {
             if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);  
+                Directory.CreateDirectory(path);
         }
     }
 }

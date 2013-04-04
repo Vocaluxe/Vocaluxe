@@ -1,29 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+using VocaluxeLib.Menu;
 
-using Vocaluxe.Menu;
-
-namespace Vocaluxe.PartyModes
+namespace VocaluxeLib.PartyModes
 {
     public class CScreenPartyDummy : CMenuParty
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        protected override int _ScreenVersion
+        {
+            get { return 1; }
+        }
         private CText Warning;
-
-        public CScreenPartyDummy()
-        {
-        }
-
-        protected override void Init()
-        {
-            base.Init();
-
-            _ThemeName = "ScreenPartyDummy";
-            _ScreenVersion = ScreenVersion;
-        }
 
         public override void LoadTheme(string XmlPath)
         {
@@ -31,7 +18,7 @@ namespace Vocaluxe.PartyModes
             Warning.Height = 100f;
             Warning.X = 150;
             Warning.Y = 300;
-            Warning.Fon = "Normal";
+            Warning.Font = "Normal";
             Warning.Style = EStyle.Normal;
             Warning.Color = new SColorF(1f, 0f, 0f, 1f);
             Warning.SColor = new SColorF(1f, 0f, 0f, 1f);
@@ -39,33 +26,22 @@ namespace Vocaluxe.PartyModes
             AddText(Warning);
         }
 
-        public override void ReloadTheme(string XmlPath)
+        public override void ReloadTheme(string XmlPath) {}
+
+        public override void ReloadTextures() {}
+
+        public override void SaveTheme() {}
+
+        public override void UnloadTextures() {}
+
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-        }
+            base.HandleInput(keyEvent);
 
-        public override void ReloadTextures()
-        {
-        }
-
-        public override void SaveTheme()
-        {
-        }
-
-        public override void UnloadTextures()
-        {
-        }
-
-        public override bool HandleInput(KeyEvent KeyEvent)
-        {
-            base.HandleInput(KeyEvent);
-
-            if (KeyEvent.KeyPressed)
-            {
-
-            }
+            if (keyEvent.KeyPressed) {}
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Back:
                     case Keys.Escape:
@@ -76,26 +52,16 @@ namespace Vocaluxe.PartyModes
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            base.HandleMouse(MouseEvent);
+            base.HandleMouse(mouseEvent);
 
-            if (MouseEvent.LB && IsMouseOver(MouseEvent))
-            {
+            if (mouseEvent.LB && IsMouseOver(mouseEvent)) {}
 
-            }
-
-            if (MouseEvent.RB)
-            {
+            if (mouseEvent.RB)
                 FadeTo(EScreens.ScreenParty);
-            }
 
             return true;
-        }
-
-        public override void OnShow()
-        {
-            base.OnShow();
         }
 
         public override bool UpdateGame()
@@ -107,11 +73,6 @@ namespace Vocaluxe.PartyModes
         {
             base.Draw();
             return true;
-        }
-
-        public override void OnClose()
-        {
-            base.OnClose();
         }
     }
 }

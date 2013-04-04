@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Vocaluxe.GameModes
+﻿namespace Vocaluxe.GameModes
 {
     // Nomal singing
     class CGameModeNormal : CGameMode

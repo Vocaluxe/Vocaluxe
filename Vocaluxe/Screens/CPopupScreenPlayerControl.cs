@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Windows.Forms;
-
 using Vocaluxe.Base;
-using Vocaluxe.GameModes;
-using Vocaluxe.Lib.Draw;
-using Vocaluxe.Menu;
-using Vocaluxe.Menu.SongMenu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
     class CPopupScreenPlayerControl : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        protected override int _ScreenVersion
+        {
+            get { return 1; }
+        }
 
         private const string StaticBG = "StaticBG";
         private const string StaticCover = "StaticCover";
@@ -30,14 +27,11 @@ namespace Vocaluxe.Screens
         private const string ButtonToBackgroundVideo = "ButtonToBackgroundVideo";
 
         private const string TextCurrentSong = "TextCurrentSong";
-        private bool _VideoPreview = false;
+        private bool _VideoPreview;
 
         private bool VideoPreview
         {
-            get
-            {
-                return _VideoPreview;
-            }
+            get { return _VideoPreview; }
             set
             {
                 _VideoPreview = value;
@@ -50,10 +44,7 @@ namespace Vocaluxe.Screens
 
         private bool VideoBackground
         {
-            get
-            {
-                return CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON;
-            }
+            get { return CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON; }
             set
             {
                 if (!value)
@@ -74,19 +65,12 @@ namespace Vocaluxe.Screens
             }
         }
 
-        public CPopupScreenPlayerControl()
-        {
-        }
-
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
 
-            _ThemeName = "PopupScreenPlayerControl";
-            _ScreenVersion = ScreenVersion;
-
-            _ThemeStatics = new string[] { StaticBG, StaticCover };
-            _ThemeTexts = new string[] { TextCurrentSong };
+            _ThemeStatics = new string[] {StaticBG, StaticCover};
+            _ThemeTexts = new string[] {TextCurrentSong};
 
             List<string> buttons = new List<string>();
             buttons.Add(ButtonPlay);
@@ -104,19 +88,16 @@ namespace Vocaluxe.Screens
         {
             base.LoadTheme(XmlPath);
 
-            _ScreenArea = Statics[htStatics(StaticBG)].Rect;
+            _ScreenArea = Statics[StaticBG].Rect;
         }
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            base.HandleInput(KeyEvent);
-            if (KeyEvent.KeyPressed && !Char.IsControl(KeyEvent.Unicode))
-            {
-
-            }
+            base.HandleInput(keyEvent);
+            if (keyEvent.KeyPressed && !Char.IsControl(keyEvent.Unicode)) {}
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Escape:
                     case Keys.Back:
@@ -124,21 +105,21 @@ namespace Vocaluxe.Screens
                         return false;
 
                     case Keys.Enter:
-                        if (Buttons[htButtons(ButtonNext)].Selected)
+                        if (Buttons[ButtonNext].Selected)
                             CBackgroundMusic.Next();
-                        if (Buttons[htButtons(ButtonPrevious)].Selected)
+                        if (Buttons[ButtonPrevious].Selected)
                             CBackgroundMusic.Previous();
-                        if (Buttons[htButtons(ButtonPlay)].Selected)
+                        if (Buttons[ButtonPlay].Selected)
                             CBackgroundMusic.Play();
-                        if (Buttons[htButtons(ButtonPause)].Selected)
+                        if (Buttons[ButtonPause].Selected)
                             CBackgroundMusic.Pause();
-                        if (Buttons[htButtons(ButtonRepeat)].Selected)
+                        if (Buttons[ButtonRepeat].Selected)
                             CBackgroundMusic.RepeatSong = !CBackgroundMusic.RepeatSong;
-                        if (Buttons[htButtons(ButtonShowVideo)].Selected)
+                        if (Buttons[ButtonShowVideo].Selected)
                             VideoPreview = !VideoPreview;
-                        if (Buttons[htButtons(ButtonSing)].Selected)
+                        if (Buttons[ButtonSing].Selected)
                             StartSong(CBackgroundMusic.SongID, CBackgroundMusic.Duet);
-                        if (Buttons[htButtons(ButtonToBackgroundVideo)].Selected)
+                        if (Buttons[ButtonToBackgroundVideo].Selected)
                             VideoBackground = !VideoBackground;
                         break;
                 }
@@ -147,32 +128,34 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            base.HandleMouse(MouseEvent);
-            if (MouseEvent.LB && IsMouseOver(MouseEvent))
+            base.HandleMouse(mouseEvent);
+            if (mouseEvent.LB && IsMouseOver(mouseEvent))
             {
-                if (Buttons[htButtons(ButtonNext)].Selected)
+                if (Buttons[ButtonNext].Selected)
                     CBackgroundMusic.Next();
-                if (Buttons[htButtons(ButtonPrevious)].Selected)
+                if (Buttons[ButtonPrevious].Selected)
                     CBackgroundMusic.Previous();
-                if (Buttons[htButtons(ButtonPlay)].Selected)
+                if (Buttons[ButtonPlay].Selected)
                     CBackgroundMusic.Play();
-                if (Buttons[htButtons(ButtonPause)].Selected)
+                if (Buttons[ButtonPause].Selected)
                     CBackgroundMusic.Pause();
-                if (Buttons[htButtons(ButtonRepeat)].Selected)
+                if (Buttons[ButtonRepeat].Selected)
                     CBackgroundMusic.RepeatSong = !CBackgroundMusic.RepeatSong;
-                if (Buttons[htButtons(ButtonShowVideo)].Selected)
+                if (Buttons[ButtonShowVideo].Selected)
                     VideoPreview = !VideoPreview;
-                if (Buttons[htButtons(ButtonSing)].Selected)
+                if (Buttons[ButtonSing].Selected)
                     StartSong(CBackgroundMusic.SongID, CBackgroundMusic.Duet);
-                if (Buttons[htButtons(ButtonToBackgroundVideo)].Selected)
+                if (Buttons[ButtonToBackgroundVideo].Selected)
                     VideoBackground = !VideoBackground;
-            } else if (MouseEvent.LB)
+            }
+            else if (mouseEvent.LB)
             {
                 //CGraphics.HidePopup(EPopupScreens.PopupPlayerControl);
                 return false;
-            } else if (MouseEvent.RB)
+            }
+            else if (mouseEvent.RB)
             {
                 //CGraphics.HidePopup(EPopupScreens.PopupPlayerControl);
                 return false;
@@ -182,31 +165,25 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-
-            Statics[htStatics(StaticCover)].Visible = !_VideoPreview || !CBackgroundMusic.SongHasVideo;
-            Buttons[htButtons(ButtonToBackgroundVideo)].Pressed = VideoBackground;
-            Buttons[htButtons(ButtonShowVideo)].Pressed = _VideoPreview;
-            Buttons[htButtons(ButtonRepeat)].Pressed = CBackgroundMusic.RepeatSong;
-            Buttons[htButtons(ButtonSing)].Visible = CBackgroundMusic.CanSing && CParty.CurrentPartyModeID == -1;
+            Statics[StaticCover].Visible = !_VideoPreview || !CBackgroundMusic.SongHasVideo;
+            Buttons[ButtonToBackgroundVideo].Pressed = VideoBackground;
+            Buttons[ButtonShowVideo].Pressed = _VideoPreview;
+            Buttons[ButtonRepeat].Pressed = CBackgroundMusic.RepeatSong;
+            Buttons[ButtonSing].Visible = CBackgroundMusic.CanSing && CParty.CurrentPartyModeID == -1;
             return true;
-        }
-
-        public override void OnShow()
-        {
-            base.OnShow();
         }
 
         public override bool Draw()
         {
             if (!_Active)
                 return false;
-            Statics[htStatics(StaticCover)].Texture = CBackgroundMusic.Cover;
+            Statics[StaticCover].Texture = CBackgroundMusic.Cover;
             if (CBackgroundMusic.VideoEnabled && VideoPreview && CBackgroundMusic.SongHasVideo)
-                CDraw.DrawTexture(Statics[htStatics(StaticCover)], CBackgroundMusic.GetVideoTexture(), EAspect.Crop);
-            Buttons[htButtons(ButtonPause)].Visible = CBackgroundMusic.Playing;
-            Buttons[htButtons(ButtonPlay)].Visible = !CBackgroundMusic.Playing;
-            Texts[htTexts(TextCurrentSong)].Text = CBackgroundMusic.ArtistAndTitle;
-            
+                CDraw.DrawTexture(Statics[StaticCover], CBackgroundMusic.GetVideoTexture(), EAspect.Crop);
+            Buttons[ButtonPause].Visible = CBackgroundMusic.Playing;
+            Buttons[ButtonPlay].Visible = !CBackgroundMusic.Playing;
+            Texts[TextCurrentSong].Text = CBackgroundMusic.ArtistAndTitle;
+
             return base.Draw();
         }
 

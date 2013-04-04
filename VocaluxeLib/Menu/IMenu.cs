@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
+using VocaluxeLib.Menu.SingNotes;
+using VocaluxeLib.Menu.SongMenu;
+using VocaluxeLib.PartyModes;
 
-using Vocaluxe.Menu.SingNotes;
-using Vocaluxe.Menu.SongMenu;
-using Vocaluxe.PartyModes;
-
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     public interface IMenu
     {
-        void Initialize();
+        void Init();
 
         void LoadTheme(string XmlPath);
         void SaveTheme();
@@ -20,8 +18,8 @@ namespace Vocaluxe.Menu
         void UnloadTextures();
         void ReloadTheme(string XmlPath);
 
-        bool HandleInput(KeyEvent KeyEvent);
-        bool HandleMouse(MouseEvent MouseEvent);
+        bool HandleInput(KeyEvent keyEvent);
+        bool HandleMouse(MouseEvent mouseEvent);
         bool HandleInputThemeEditor(KeyEvent KeyEvent);
         bool HandleMouseThemeEditor(MouseEvent MouseEvent);
 
@@ -32,7 +30,7 @@ namespace Vocaluxe.Menu
         void OnClose();
 
         bool Draw();
-        SRectF GetScreenArea();
+        SRectF ScreenArea { get; }
 
         void NextInteraction();
         void PrevInteraction();
@@ -114,7 +112,7 @@ namespace Vocaluxe.Menu
         void SkinVideoPause(string VideoName, int PartyModeID);
 
         SColorF GetColor(string ColorName, int PartyModeID);
-        bool GetColor(string ColorName, int SkinIndex, ref SColorF Color);
+        bool GetColor(string ColorName, int SkinIndex, out SColorF Color);
         SColorF GetPlayerColor(int PlayerNr);
 
         void UnloadSkins();
@@ -123,9 +121,7 @@ namespace Vocaluxe.Menu
         void LoadTheme();
     }
 
-    public interface IHelper
-    {
-    }
+    public interface IHelper {}
 
     public interface IBackgroundMusic
     {
@@ -148,7 +144,7 @@ namespace Vocaluxe.Menu
     public interface IDrawing
     {
         RectangleF GetTextBounds(CText text);
-        
+
         void DrawTexture(STexture Texture, SRectF Rect);
         void DrawTexture(STexture Texture, SRectF Rect, SColorF Color);
         void DrawTexture(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds);
@@ -248,7 +244,7 @@ namespace Vocaluxe.Menu
         void ResetPartySongSung();
         void ResetPartySongSung(int CatIndex);
 
-        void SortSongs(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, String SearchString, bool ShowDuetSongs);
+        void SortSongs(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, String SearchString, EDuetOptions DuetOptions);
 
         void NextCategory();
         void PrevCategory();
@@ -303,7 +299,7 @@ namespace Vocaluxe.Menu
         void DeletePlaylist(int PlaylistID);
         void SavePlaylist(int PlaylistID);
         int GetNumPlaylists();
-        
+
         void AddPlaylistSong(int PlaylistID, int SongID);
         void AddPlaylistSong(int PlaylistID, int SongID, EGameMode GameMode);
         void InsertPlaylistSong(int PlaylistID, int PositionIndex, int SongID, EGameMode GameMode);
@@ -317,17 +313,13 @@ namespace Vocaluxe.Menu
         CPlaylistSong GetPlaylistSong(int PlaylistID, int SongIndex);
     }
 
-    public interface IPlaylists
-    {
-    }
-
     [Flags]
     public enum EModifier
     {
-        None,
-        Shift,
-        Alt,
-        Ctrl
+        None = 0,
+        Shift = 1,
+        Alt = 2,
+        Ctrl = 4
     }
 
     public enum ESender
@@ -361,23 +353,14 @@ namespace Vocaluxe.Menu
             Key = key;
             Handled = false;
 
-            EModifier mALT = EModifier.None;
-            EModifier mSHIFT = EModifier.None;
-            EModifier mCTRL = EModifier.None;
+            Mod = EModifier.None;
 
             if (alt)
-                mALT = EModifier.Alt;
-
+                Mod |= EModifier.Alt;
             if (shift)
-                mSHIFT = EModifier.Shift;
-
+                Mod |= EModifier.Shift;
             if (ctrl)
-                mCTRL = EModifier.Ctrl;
-
-            if (!alt && !shift && !ctrl)
-                Mod = EModifier.None;
-            else
-                Mod = mALT | mSHIFT | mCTRL;
+                Mod |= EModifier.Ctrl;
         }
     }
 
@@ -387,14 +370,14 @@ namespace Vocaluxe.Menu
         public bool Handled;
         public int X;
         public int Y;
-        public bool LB;     //left button click
-        public bool LD;     //left button double click
-        public bool RB;     //right button click
-        public bool MB;     //middle button click
+        public bool LB; //left button click
+        public bool LD; //left button double click
+        public bool RB; //right button click
+        public bool MB; //middle button click
 
-        public bool LBH;    //left button hold (when moving)
-        public bool RBH;    //right button hold (when moving)
-        public bool MBH;    //middle button hold (when moving)
+        public bool LBH; //left button hold (when moving)
+        public bool RBH; //right button hold (when moving)
+        public bool MBH; //middle button hold (when moving)
 
         public bool ModALT;
         public bool ModSHIFT;
@@ -539,8 +522,8 @@ namespace Vocaluxe.Menu
         public float height;
         public SRectF rect;
 
-        public float w2;    //power of 2 width
-        public float h2;    //power of 2 height
+        public float w2; //power of 2 width
+        public float h2; //power of 2 height
         public float width_ratio;
         public float height_ratio;
 
@@ -613,12 +596,12 @@ namespace Vocaluxe.Menu
     public enum EDebugLevel
     {
         // don't change the order!
-        TR_CONFIG_OFF,		    //no debug infos
+        TR_CONFIG_OFF, //no debug infos
         TR_CONFIG_ONLY_FPS,
         TR_CONFIG_LEVEL1,
         TR_CONFIG_LEVEL2,
         TR_CONFIG_LEVEL3,
-        TR_CONFIG_LEVEL_MAX	    //all debug infos
+        TR_CONFIG_LEVEL_MAX //all debug infos
     }
 
     public enum EBufferSize
@@ -665,8 +648,15 @@ namespace Vocaluxe.Menu
     {
         //TR_CONFIG_LIST,		    //a simple list
         //TR_CONFIG_DREIDEL,	    //as in ultrastar deluxe
-        TR_CONFIG_TILE_BOARD,	//chessboard like
+        TR_CONFIG_TILE_BOARD, //chessboard like
         //TR_CONFIG_BOOK          //for playlists
+    }
+
+    public enum EDuetOptions
+    {
+        All,
+        Duets,
+        NoDuets
     }
 
     public enum ESongSorting
@@ -740,7 +730,6 @@ namespace Vocaluxe.Menu
         Slide,
         Zoom
     }
-
     #endregion EnumsConfig
 
     public enum EAlignment
@@ -819,11 +808,11 @@ namespace Vocaluxe.Menu
 
     public class CPoints
     {
-        private SPlayer[,] _Rounds;
+        private readonly SPlayer[,] _Rounds;
 
         public CPoints(int NumRounds, SPlayer[] Player)
         {
-            _Rounds = new SPlayer[NumRounds, Player.Length];
+            _Rounds = new SPlayer[NumRounds,Player.Length];
 
             for (int round = 0; round < NumRounds; round++)
             {

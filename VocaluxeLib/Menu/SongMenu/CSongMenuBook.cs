@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Vocaluxe.Menu.SongMenu
+﻿namespace VocaluxeLib.Menu.SongMenu
 {
     class CSongMenuBook : CSongMenuFramework
     {
         public CSongMenuBook(int PartyModeID)
-            : base(PartyModeID)
-        {
-        }
+            : base(PartyModeID) {}
     }
 }

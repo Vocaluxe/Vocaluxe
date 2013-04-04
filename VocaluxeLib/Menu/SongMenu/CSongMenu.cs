@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
+﻿using System.Xml;
+using VocaluxeLib.PartyModes;
 
-using Vocaluxe.Menu;
-using Vocaluxe.PartyModes;
-
-namespace Vocaluxe.Menu.SongMenu
+namespace VocaluxeLib.Menu.SongMenu
 {
     public class CSongMenu : ISongMenu
     {
-        private int _PartyModeID;
+        private readonly int _PartyModeID;
 
         private ISongMenu _SongMenu;
         private ESongMenu _Type;
@@ -115,6 +110,11 @@ namespace Vocaluxe.Menu.SongMenu
             _SongMenu.SetSelectedCategory(CategoryNr);
         }
 
+        public bool EnterCurrentCategory()
+        {
+            return _SongMenu.EnterCurrentCategory();
+        }
+
         public int GetActualSelection()
         {
             return _SongMenu.GetActualSelection();
@@ -154,7 +154,6 @@ namespace Vocaluxe.Menu.SongMenu
         {
             _SongMenu.SetSmallView(SmallView);
         }
-
         #endregion ISongMenu
 
         #region IMenuElement
@@ -202,27 +201,24 @@ namespace Vocaluxe.Menu.SongMenu
         private void CreateSongMenu()
         {
             if (_SongMenu != null)
-            {
                 _SongMenu.OnHide();
-            }
 
             switch (CBase.Config.GetSongMenuType())
             {
-                //case ESongMenu.TR_CONFIG_LIST:
-                //    _SongMenu = new CSongMenuList();
-                //    break;
+                    //case ESongMenu.TR_CONFIG_LIST:
+                    //    _SongMenu = new CSongMenuList();
+                    //    break;
 
-                //case ESongMenu.TR_CONFIG_DREIDEL:
-                //    _SongMenu = new CSongMenuDreidel();
-                //    break;
-
+                    //case ESongMenu.TR_CONFIG_DREIDEL:
+                    //    _SongMenu = new CSongMenuDreidel();
+                    //    break;
                 case ESongMenu.TR_CONFIG_TILE_BOARD:
                     _SongMenu = new CSongMenuTileBoard(_PartyModeID);
                     break;
 
-                //case ESongMenu.TR_CONFIG_BOOK:
-                //    _SongMenu = new CSongMenuBook();
-                //    break;
+                    //case ESongMenu.TR_CONFIG_BOOK:
+                    //    _SongMenu = new CSongMenuBook();
+                    //    break;
             }
 
             _Type = CBase.Config.GetSongMenuType();

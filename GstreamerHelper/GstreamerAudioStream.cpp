@@ -227,14 +227,14 @@ void GstreamerAudioStream::FadeAndPause(float TargetVolume, float Seconds)
 {
     PauseStreamAfterFade = true;
 
-    Fade(TargetVolume, FadeTime);
+    Fade(TargetVolume, Seconds);
 }
 
 void GstreamerAudioStream::FadeAndStop(float TargetVolume, float Seconds)
 {
     CloseStreamAfterFade = true;
 
-    Fade(TargetVolume, FadeTime);
+    Fade(TargetVolume, Seconds);
 }
 
 bool GstreamerAudioStream::IsPlaying()

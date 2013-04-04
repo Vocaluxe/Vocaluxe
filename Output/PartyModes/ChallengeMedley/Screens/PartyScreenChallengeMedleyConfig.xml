@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <PartyScreenChallengeConfig>
+  <PartyScreenChallengeMedleyConfig>
     <ScreenVersion>1</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
@@ -454,5 +454,5 @@
       <!--<NumVisible>: Number of visible elements in the slide-->
       <NumVisible>10</NumVisible>
     </SelectSlideNumRounds>    
-  </PartyScreenChallengeConfig>
+  </PartyScreenChallengeMedleyConfig>
 </root>

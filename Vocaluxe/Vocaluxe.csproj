@@ -13,6 +13,9 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <StartupObject>Vocaluxe.MainProgram</StartupObject>
+    <ApplicationIcon>Vocaluxe.ico</ApplicationIcon>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -27,9 +30,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <StartupObject>Vocaluxe.MainProgram</StartupObject>
-    <ApplicationIcon>Vocaluxe.ico</ApplicationIcon>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWin|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -63,6 +63,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>..\CheckingRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWin|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -181,9 +182,13 @@
     <Compile Include="Base\CLanguage.cs" />
     <Compile Include="Base\CLog.cs" />
     <Compile Include="Base\CMain.cs" />
+    <Compile Include="Base\CObservable.cs" />
     <Compile Include="Base\CParty.cs" />
     <Compile Include="Base\CPlaylists.cs" />
     <Compile Include="Base\CProfiles.cs" />
+    <Compile Include="Base\CSongCategorizer.cs" />
+    <Compile Include="Base\CSongFilter.cs" />
+    <Compile Include="Base\CSongSorter.cs" />
     <Compile Include="Base\CUtility.cs" />
     <Compile Include="Base\CSettings.cs" />
     <Compile Include="Base\CSongs.cs" />
@@ -193,6 +198,7 @@
     <Compile Include="GameModes\CGameMode.cs" />
     <Compile Include="GameModes\CGameModeNormal.cs" />
     <Compile Include="GameModes\IGameMode.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Lib\Draw\CDirect3D.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -233,6 +239,7 @@
     <Compile Include="Program.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\CPopupScreenPlayerControl.cs" />
     <Compile Include="Screens\CPopupScreenVolumeControl.cs" />
     <Compile Include="Screens\CScreenCredits.cs" />

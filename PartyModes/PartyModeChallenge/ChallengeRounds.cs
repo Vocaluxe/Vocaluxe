@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-using Vocaluxe.Menu;
-
-namespace Vocaluxe.PartyModes
+namespace VocaluxeLib.PartyModes.Challenge
 {
     public class ChallengeRounds
     {
-        private Random _Rand;
-        private int _NumPlayer;
+        private readonly Random _Rand;
+        private readonly int _NumPlayer;
 
         public List<Combination> Rounds;
 
         public ChallengeRounds(int NumRounds, int NumPlayer, int NumPlayerAtOnce)
         {
             Rounds = new List<Combination>();
-            _Rand = new Random(System.DateTime.Now.Millisecond);
+            _Rand = new Random(DateTime.Now.Millisecond);
 
             if (NumPlayerAtOnce < 1 || NumRounds < 1 || NumPlayer == 0)
                 _NumPlayer = 0;
@@ -41,26 +38,19 @@ namespace Vocaluxe.PartyModes
             Rounds.Add(Combinations.GetNextCombination(null));
 
             for (int i = 1; i < NumRounds; i++)
-            {
-
                 Rounds.Add(Combinations.GetNextCombination(GetPlayerDemand(i)));
-            }
         }
 
         private List<int> GetPlayerDemand(int RoundIndex)
         {
             List<int> NumPlayed = new List<int>(_NumPlayer);
             for (int i = 0; i < _NumPlayer; i++)
-            {
                 NumPlayed.Add(0);
-            }
 
             for (int i = 0; i < RoundIndex; i++)
             {
                 foreach (int PlayerIndex in Rounds[i].Player)
-                {
                     NumPlayed[PlayerIndex]++;
-                }
             }
 
             int max = 0;
@@ -95,7 +85,6 @@ namespace Vocaluxe.PartyModes
                     }
                     else
                         last.Add(i);
-
                 }
             }
 
@@ -129,17 +118,17 @@ namespace Vocaluxe.PartyModes
 
     class Combinations
     {
-        private List<Combination> _Combs;
-        private Random _Rand;
-        private int _NumPlayer;
-        private int _NumMics;
+        private readonly List<Combination> _Combs;
+        private readonly Random _Rand;
+        private readonly int _NumPlayer;
+        private readonly int _NumMics;
 
         public Combinations(int NumPlayer, int NumMics, Random Rand)
         {
             _Combs = new List<Combination>();
             _NumMics = NumMics;
             _NumPlayer = NumPlayer;
-            _Rand = Rand;            
+            _Rand = Rand;
         }
 
         public Combination GetNextCombination(List<int> PlayerNrDemand)
@@ -150,9 +139,7 @@ namespace Vocaluxe.PartyModes
             Combination combs = new Combination();
 
             if (_NumPlayer == _NumMics)
-            {
                 return _Combs[0];
-            }
 
             //filter against PlayerNrDemand
             List<Combination> combsFiltered = new List<Combination>();
@@ -179,18 +166,14 @@ namespace Vocaluxe.PartyModes
             if (combsFiltered.Count == 0)
             {
                 for (int i = 0; i < _Combs.Count; i++)
-                {
                     combsFiltered.Add(_Combs[i]);
-                }
             }
 
             int num = combsFiltered.Count;
             int rand = _Rand.Next(num);
             Combination c = new Combination();
             for (int i = 0; i < combsFiltered[rand].Player.Count; i++)
-            {
                 c.Player.Add(combsFiltered[rand].Player[i]);
-            }
             _Combs.Remove(combsFiltered[rand]);
 
             return combsFiltered[rand];
@@ -209,9 +192,7 @@ namespace Vocaluxe.PartyModes
                 for (int j = 0; j < _NumPlayer; j++)
                 {
                     if ((i & (1 << j)) > 0)
-                    {
                         c.Player.Add(j);
-                    }
                 }
 
                 if (c.Player.Count == _NumMics)
@@ -243,9 +224,7 @@ namespace Vocaluxe.PartyModes
         {
             bool result = true;
             foreach (int p in PlayerIndices)
-            {
                 result &= IsAvailable(p);
-            }
             return result;
         }
 
@@ -253,9 +232,7 @@ namespace Vocaluxe.PartyModes
         {
             bool result = false;
             foreach (int p in PlayerIndices)
-            {
                 result |= IsAvailable(p);
-            }
             return result;
         }
     }

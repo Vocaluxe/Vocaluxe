@@ -1,28 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Vocaluxe.Base;
-using AForge.Video;
-using System.Drawing;
+﻿using AForge.Video;
 using AForge.Video.DirectShow;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using Vocaluxe.Lib.Draw;
-using System.Threading;
-
-using Vocaluxe.Menu;
+using Vocaluxe.Base;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Webcam
 {
     class CAForgeNet : IWebcam
     {
-        private List<SWebcamDevice> _Devices = new List<SWebcamDevice>();
+        private readonly List<SWebcamDevice> _Devices = new List<SWebcamDevice>();
         private bool _Paused;
         private VideoCaptureDevice _Webcam;
         private FilterInfoCollection _WebcamDevices;
         private SWebcamConfig _Config;
-        byte[] data = new byte[1];
-        int _Width, _Height;
+        private byte[] data = new byte[1];
+        private static readonly object _mutexData = new object();
+        private int _Width, _Height;
 
         public void Close()
         {
@@ -30,7 +26,7 @@ namespace Vocaluxe.Lib.Webcam
             {
                 _Webcam.SignalToStop();
                 _Webcam.WaitForStop();
-                _Webcam.NewFrame -= new NewFrameEventHandler(OnFrame);
+                _Webcam.NewFrame -= OnFrame;
                 data = new byte[1];
             }
         }
@@ -39,7 +35,7 @@ namespace Vocaluxe.Lib.Webcam
         {
             if (_Webcam != null && _Width > 0 && _Height > 0 && data.Length == _Width * _Height * 4)
             {
-                lock (data)
+                lock (_mutexData)
                 {
                     if (Frame.index == -1 || _Width != Frame.width || _Height != Frame.height)
                     {
@@ -47,9 +43,7 @@ namespace Vocaluxe.Lib.Webcam
                         Frame = CDraw.AddTexture(_Width, _Height, ref data);
                     }
                     else
-                    {
                         CDraw.UpdateTexture(ref Frame, ref data);
-                    }
                 }
             }
             return false;
@@ -59,7 +53,7 @@ namespace Vocaluxe.Lib.Webcam
         {
             if (_Webcam != null && _Width > 0 && _Height > 0 && data.Length == _Height * _Width * 4)
             {
-                lock (data)
+                lock (_mutexData)
                 {
                     Bitmap bmp = new Bitmap(_Width, _Height);
                     BitmapData bitmapdata = bmp.LockBits(new Rectangle(0, 0, _Width, _Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
@@ -78,23 +72,24 @@ namespace Vocaluxe.Lib.Webcam
             int num = 0;
             foreach (FilterInfo info in _WebcamDevices)
             {
-                SWebcamDevice device = new SWebcamDevice {
-                    ID = num,
-                    Name = info.Name,
-                    MonikerString = info.MonikerString,
-                    Capabilities = new List<SCapabilities>()
-                };
+                SWebcamDevice device = new SWebcamDevice
+                    {
+                        ID = num,
+                        Name = info.Name,
+                        MonikerString = info.MonikerString,
+                        Capabilities = new List<SCapabilities>()
+                    };
                 num++;
                 VideoCaptureDevice tmpdev = new VideoCaptureDevice(info.MonikerString);
 
-                for (int i = 0; i < tmpdev.VideoCapabilities.Length; i++ )
+                for (int i = 0; i < tmpdev.VideoCapabilities.Length; i++)
                 {
                     SCapabilities item = new SCapabilities
-                    {
-                        Framerate = tmpdev.VideoCapabilities[i].FrameRate,
-                        Height = tmpdev.VideoCapabilities[i].FrameSize.Height,
-                        Width = tmpdev.VideoCapabilities[i].FrameSize.Width
-                    };
+                        {
+                            Framerate = tmpdev.VideoCapabilities[i].FrameRate,
+                            Height = tmpdev.VideoCapabilities[i].FrameSize.Height,
+                            Width = tmpdev.VideoCapabilities[i].FrameSize.Width
+                        };
                     device.Capabilities.Add(item);
                 }
                 _Devices.Add(device);
@@ -106,7 +101,7 @@ namespace Vocaluxe.Lib.Webcam
         {
             if (!_Paused)
             {
-                lock (data)
+                lock (_mutexData)
                 {
                     if (_Width != e.Frame.Width || _Height != e.Frame.Height || data.Length != e.Frame.Width * e.Frame.Height * 4)
                         data = new byte[4 * e.Frame.Width * e.Frame.Height];
@@ -123,18 +118,16 @@ namespace Vocaluxe.Lib.Webcam
         public void Pause()
         {
             if (_Webcam != null)
-            {
                 _Paused = true;
-            }
         }
 
         public void Start()
         {
             if (_Webcam != null)
             {
-                _Webcam.NewFrame -= new NewFrameEventHandler(OnFrame);
+                _Webcam.NewFrame -= OnFrame;
                 //Subscribe to NewFrame event
-                _Webcam.NewFrame += new NewFrameEventHandler(OnFrame);
+                _Webcam.NewFrame += OnFrame;
                 _Webcam.Start();
                 _Paused = false;
             }
@@ -143,9 +136,7 @@ namespace Vocaluxe.Lib.Webcam
         public void Stop()
         {
             if (_Webcam != null)
-            {
                 _Webcam.SignalToStop();
-            }
         }
 
         public SWebcamDevice[] GetDevices()
@@ -164,7 +155,7 @@ namespace Vocaluxe.Lib.Webcam
                 return false;
 
             //No MonikerString found, try first webcam
-            if (Config.MonikerString == String.Empty)
+            if (Config.MonikerString.Length == 0)
                 _Webcam = new VideoCaptureDevice(_WebcamDevices[0].MonikerString);
             else //Found MonikerString
                 _Webcam = new VideoCaptureDevice(Config.MonikerString);

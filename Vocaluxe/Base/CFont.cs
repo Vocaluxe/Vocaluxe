@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-
-using Vocaluxe.Lib.Draw;
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
-{  
+{
     class CGlyph
     {
-        private float _SIZEh = 50f;
+        private readonly float _SIZEh = 50f;
         public float SIZEh
         {
             get { return _SIZEh; }
@@ -26,77 +22,79 @@ namespace Vocaluxe.Base
         public STexture Texture;
         public char Chr;
         public int width;
-        
+
         public CGlyph(char chr, float MaxHigh)
         {
             _SIZEh = MaxHigh;
-            
+
             float outline = CFonts.Outline;
             TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
 
             float factor = GetFactor(chr, flags);
             CFonts.Height = SIZEh * factor;
-            Bitmap bmp = new Bitmap(10, 10);
-            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
+            Font fo;
+            Size sizeB;
+            SizeF size;
+            using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
+            {
+                fo = CFonts.GetFont();
+                sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
 
-            Font fo = CFonts.GetFont();
-            Size sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
+                size = g.MeasureString(chr.ToString(), fo);
+            }
 
-            SizeF size = g.MeasureString(chr.ToString(), fo);
-            
-            g.Dispose();
-            bmp.Dispose();
+            using (Bitmap bmp = new Bitmap((int)(sizeB.Width * 2f), sizeB.Height))
+            {
+                Graphics g = Graphics.FromImage(bmp);
+                g.Clear(Color.Transparent);
 
-            bmp = new Bitmap((int)(sizeB.Width * 2f), sizeB.Height);
-            g = System.Drawing.Graphics.FromImage(bmp);
-            g.Clear(System.Drawing.Color.Transparent);
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+                CFonts.Height = SIZEh;
+                fo = CFonts.GetFont();
 
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            CFonts.Height = SIZEh;
-            fo = CFonts.GetFont();
-
-            PointF point = new PointF(
+                PointF point = new PointF(
                     outline * Math.Abs(sizeB.Width - size.Width) + (sizeB.Width - size.Width) / 2f + SIZEh / 5f,
-                    (sizeB.Height - size.Height - (size.Height + SIZEh/4f) * (1f - factor)) / 2f);
+                    (sizeB.Height - size.Height - (size.Height + SIZEh / 4f) * (1f - factor)) / 2f);
 
-            GraphicsPath path = new GraphicsPath();
-            path.AddString(
-                chr.ToString(),
-                fo.FontFamily,
-                (int)fo.Style,
-                SIZEh,
-                point,
-                new StringFormat());
+                using (GraphicsPath path = new GraphicsPath())
+                {
+                    path.AddString(
+                        chr.ToString(),
+                        fo.FontFamily,
+                        (int)fo.Style,
+                        SIZEh,
+                        point,
+                        new StringFormat());
 
-            Pen pen = new Pen(
-                Color.FromArgb(
-                    (int)CFonts.OutlineColor.A * 255,
-                    (int)CFonts.OutlineColor.R * 255,
-                    (int)CFonts.OutlineColor.G * 255,
-                    (int)CFonts.OutlineColor.B * 255),
-                SIZEh * outline);
+                    using (Pen pen = new Pen(
+                        Color.FromArgb(
+                            (int)CFonts.OutlineColor.A * 255,
+                            (int)CFonts.OutlineColor.R * 255,
+                            (int)CFonts.OutlineColor.G * 255,
+                            (int)CFonts.OutlineColor.B * 255),
+                        SIZEh * outline))
+                    {
+                        pen.LineJoin = LineJoin.Round;
+                        g.DrawPath(pen, path);
+                        g.FillPath(Brushes.White, path);
+                    }
+                }
 
-            pen.LineJoin = LineJoin.Round;
-            g.DrawPath(pen, path);
-            g.FillPath(Brushes.White, path);
-
-            /*
-            g.DrawString(
-                chr.ToString(),
-                fo,
-                Brushes.White,
-                point);
-             * */
-
-            Texture = CDraw.AddTexture(bmp);
-            //bmp.Save("test.png", ImageFormat.Png);
-            Chr = chr;
-            width = (int)((1f + outline / 2f) * sizeB.Width * Texture.width/factor / bmp.Width);
-
-            bmp.Dispose();
-            g.Dispose();
+                /*
+                g.DrawString(
+                    chr.ToString(),
+                    fo,
+                    Brushes.White,
+                    point);
+                 * */
+                Texture = CDraw.AddTexture(bmp);
+                //bmp.Save("test.png", ImageFormat.Png);
+                Chr = chr;
+                width = (int)((1f + outline / 2f) * sizeB.Width * Texture.width / factor / bmp.Width);
+                g.Dispose();
+            }
             fo.Dispose();
         }
 
@@ -114,63 +112,40 @@ namespace Vocaluxe.Base
 
             CFonts.Style = EStyle.Normal;
             CFonts.Height = SIZEh;
-            Bitmap bmp = new Bitmap(10, 10);
-            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
-
-            Font fo = CFonts.GetFont();
-            Size sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
-            //SizeF size = g.MeasureString(chr.ToString(), fo);
-            float h_normal = sizeB.Height;
-
+            float h_style, h_normal;
+            using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
+            {
+                Font fo = CFonts.GetFont();
+                Size sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
+                //SizeF size = g.MeasureString(chr.ToString(), fo);
+                h_normal = sizeB.Height;
+            }
             CFonts.Style = style;
-            bmp = new Bitmap(10, 10);
-            g = System.Drawing.Graphics.FromImage(bmp);
-
-            fo = CFonts.GetFont();
-            sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
-            //size = g.MeasureString(chr.ToString(), fo);
-            float h_style = sizeB.Height;
-            g.Dispose();
+            using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
+            {
+                Font fo = CFonts.GetFont();
+                Size sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
+                //size = g.MeasureString(chr.ToString(), fo);
+                h_style = sizeB.Height;
+            }
             return h_normal / h_style;
         }
     }
 
-    class CFont
+    class CFont : IDisposable
     {
-        private List<CGlyph> _Glyphs;
-        private Hashtable _htGlyphs;
+        private readonly Dictionary<char, CGlyph> _Glyphs;
         private PrivateFontCollection fonts;
         private FontFamily family;
-        private float SIZEh;
-        
+        private readonly float SIZEh;
+
         public string FilePath;
-        
-        
-        public Font GetFont()
-        {
-            if (fonts == null)
-            {
-                fonts = new PrivateFontCollection();
-                try
-                {
-                    fonts.AddFontFile(FilePath);
-                    family = fonts.Families[0];
-                }
-                catch (Exception e)
-                {
-                    CLog.LogError("Error opening font file " + FilePath + ": " + e.Message);
-                }      
-            }
-            
-            return new Font(family, CFonts.Height, CFonts.GetFontStyle(), GraphicsUnit.Pixel);
-        }
 
         public CFont(string File)
         {
             FilePath = File;
-       
-            _Glyphs = new List<CGlyph>();
-            _htGlyphs = new Hashtable();
+
+            _Glyphs = new Dictionary<char, CGlyph>();
 
             switch (CConfig.TextureQuality)
             {
@@ -195,78 +170,108 @@ namespace Vocaluxe.Base
             }
         }
 
-        public void DrawGlyph(char chr, float x, float y, float h, float z, SColorF color)
+        public Font GetFont()
         {
-            AddGlyph(chr);
+            if (fonts == null)
+            {
+                fonts = new PrivateFontCollection();
+                try
+                {
+                    fonts.AddFontFile(FilePath);
+                    family = fonts.Families[0];
+                }
+                catch (Exception e)
+                {
+                    CLog.LogError("Error opening font file " + FilePath + ": " + e.Message);
+                }
+            }
 
-            CFonts.Height = h;
-            CGlyph glyph = _Glyphs[(int)_htGlyphs[chr]];
-            float factor = h / glyph.Texture.height;
-            float d = glyph.SIZEh / 5f * factor;
-            CDraw.DrawTexture(glyph.Texture, new SRectF(x - d, y, glyph.Texture.width * factor, h, z), color);
+            return new Font(family, CFonts.Height, CFonts.GetFontStyle(), GraphicsUnit.Pixel);
         }
 
-        public void DrawGlyphReflection(char chr, float x, float y, float h, float z, SColorF color, float rspace, float rheight)
+        public void DrawGlyph(char chr, float x, float y, float h, float z, SColorF color)
         {
-            AddGlyph(chr);
-
-            CFonts.Height = h;
-            CGlyph glyph = _Glyphs[(int)_htGlyphs[chr]];
-            float factor = h / glyph.Texture.height;
-            float d = glyph.SIZEh / 5f * factor;
-            SRectF rect = new SRectF(x - d, y, glyph.Texture.width * factor, h, z);
-            CDraw.DrawTextureReflection(glyph.Texture, rect, color, rect, rspace, rheight);
+            STexture texture;
+            SRectF rect;
+            _GetGlyphTextureAndRect(chr, x, y, z, h, out texture, out rect);
+            CDraw.DrawTexture(texture, rect, color);
         }
 
         public void DrawGlyph(char chr, float x, float y, float h, float z, SColorF color, float begin, float end)
         {
+            STexture texture;
+            SRectF rect;
+            _GetGlyphTextureAndRect(chr, x, y, z, h, out texture, out rect);
+            CDraw.DrawTexture(texture, rect, color, begin, end);
+        }
+
+        public void DrawGlyphReflection(char chr, float x, float y, float h, float z, SColorF color, float rspace, float rheight)
+        {
+            STexture texture;
+            SRectF rect;
+            _GetGlyphTextureAndRect(chr, x, y, z, h, out texture, out rect);
+            CDraw.DrawTextureReflection(texture, rect, color, rect, rspace, rheight);
+        }
+
+        private void _GetGlyphTextureAndRect(char chr, float x, float y, float z, float h, out STexture texture, out SRectF rect)
+        {
             AddGlyph(chr);
 
             CFonts.Height = h;
-            CGlyph glyph = _Glyphs[(int)_htGlyphs[chr]];
-            float factor = h / glyph.Texture.height;
-            float width = glyph.Texture.width * factor;
+            CGlyph glyph = _Glyphs[chr];
+            texture = glyph.Texture;
+            float factor = h / texture.height;
+            float width = texture.width * factor;
             float d = glyph.SIZEh / 5f * factor;
-
-            CDraw.DrawTexture(glyph.Texture, new SRectF(x - d, y, width, h, z), color, begin, end);
+            rect = new SRectF(x - d, y, width, h, z);
         }
 
         public float GetWidth(char chr)
         {
             AddGlyph(chr);
 
-            CGlyph glyph = _Glyphs[(int)_htGlyphs[chr]];
+            CGlyph glyph = _Glyphs[chr];
             float factor = CFonts.Height / glyph.Texture.height;
             return glyph.width * factor;
         }
 
         public float GetHeight(char chr)
         {
+            return CFonts.Height;
+            /*WTF???
             AddGlyph(chr);
 
-            CGlyph glyph = _Glyphs[(int)_htGlyphs[chr]];
+            CGlyph glyph = _Glyphs[chr];
             float factor = CFonts.Height / glyph.Texture.height;
-            return glyph.Texture.height * factor;
+            return glyph.Texture.height * factor;*/
         }
 
         public void AddGlyph(char chr)
         {
-            if (_htGlyphs.ContainsKey(chr))
+            if (_Glyphs.ContainsKey(chr))
                 return;
 
             float h = CFonts.Height;
-            _Glyphs.Add(new CGlyph(chr, SIZEh));
-            _htGlyphs.Add(chr, _Glyphs.Count - 1);
+            _Glyphs.Add(chr, new CGlyph(chr, SIZEh));
             CFonts.Height = h;
         }
 
         public void UnloadAllGlyphs()
         {
-            foreach (CGlyph glyph in _Glyphs)
-            {
+            foreach (CGlyph glyph in _Glyphs.Values)
                 glyph.UnloadTexture();
-            }
             _Glyphs.Clear();
+        }
+
+        public void Dispose()
+        {
+            if (fonts != null)
+            {
+                fonts.Dispose();
+                fonts = null;
+                UnloadAllGlyphs();
+            }
+            GC.SuppressFinalize(this);
         }
     }
 
@@ -284,7 +289,7 @@ namespace Vocaluxe.Base
         public string FileBold;
         public string FileBoldItalic;
 
-        public float Outline;       //0..1, 0=not outline 1=100% outline
+        public float Outline; //0..1, 0=not outline 1=100% outline
         public SColorF OutlineColor;
 
         public CFont Normal;
@@ -295,14 +300,13 @@ namespace Vocaluxe.Base
 
     static class CFonts
     {
-        private static XmlWriterSettings _settings = new XmlWriterSettings();
-                
+        private static readonly XmlWriterSettings _settings = new XmlWriterSettings();
+
         private static List<SFont> _Fonts;
         private static int _CurrentFont;
         private static float _Height = 1f;
 
-        public static int PartyModeID
-        { get; set; }
+        public static int PartyModeID { get; set; }
 
         public static EStyle Style = EStyle.Normal;
 
@@ -354,14 +358,14 @@ namespace Vocaluxe.Base
         public static void Init()
         {
             _settings.Indent = true;
-            _settings.Encoding = System.Text.Encoding.UTF8;
+            _settings.Encoding = Encoding.UTF8;
             _settings.ConformanceLevel = ConformanceLevel.Document;
 
             _CurrentFont = 0;
             PartyModeID = -1;
             BuildFonts();
         }
-        
+
         public static void BuildFonts()
         {
             _Fonts = new List<SFont>();
@@ -372,21 +376,24 @@ namespace Vocaluxe.Base
 
         public static Font GetFont()
         {
+            return _GetCurrentFont().GetFont();
+        }
+
+        private static CFont _GetCurrentFont()
+        {
             switch (Style)
             {
                 case EStyle.Normal:
-                    return _Fonts[_CurrentFont].Normal.GetFont();
+                    return _Fonts[_CurrentFont].Normal;
                 case EStyle.Italic:
-                    return _Fonts[_CurrentFont].Italic.GetFont();
+                    return _Fonts[_CurrentFont].Italic;
                 case EStyle.Bold:
-                    return _Fonts[_CurrentFont].Bold.GetFont();
+                    return _Fonts[_CurrentFont].Bold;
                 case EStyle.BoldItalic:
-                    return _Fonts[_CurrentFont].BoldItalic.GetFont();
-                default:
-                    break;
+                    return _Fonts[_CurrentFont].BoldItalic;
             }
-            // should never happen...
-            return null;
+            //Just in case...
+            return _Fonts[_CurrentFont].Normal;
         }
 
         #region DrawText
@@ -405,35 +412,17 @@ namespace Vocaluxe.Base
             if (h <= 0f)
                 return;
 
-            if (Text == String.Empty)
+            if (Text.Length == 0)
                 return;
 
             Height = h;
+            CFont Font = _GetCurrentFont();
 
             float dx = x;
             foreach (char chr in Text)
             {
-                switch (Style)
-                {
-                    case EStyle.Normal:
-                        _Fonts[_CurrentFont].Normal.DrawGlyph(chr, dx, y, Height, z, color);
-                        dx += _Fonts[_CurrentFont].Normal.GetWidth(chr);
-                        break;
-                    case EStyle.Italic:
-                        _Fonts[_CurrentFont].Italic.DrawGlyph(chr, dx, y, Height, z, color);
-                        dx += _Fonts[_CurrentFont].Italic.GetWidth(chr);
-                        break;
-                    case EStyle.Bold:
-                        _Fonts[_CurrentFont].Bold.DrawGlyph(chr, dx, y, Height, z, color);
-                        dx += _Fonts[_CurrentFont].Bold.GetWidth(chr);
-                        break;
-                    case EStyle.BoldItalic:
-                        _Fonts[_CurrentFont].BoldItalic.DrawGlyph(chr, dx, y, Height, z, color);
-                        dx += _Fonts[_CurrentFont].BoldItalic.GetWidth(chr);
-                        break;
-                    default:
-                        break;
-                }
+                Font.DrawGlyph(chr, dx, y, Height, z, color);
+                dx += Font.GetWidth(chr);
             }
         }
 
@@ -442,35 +431,17 @@ namespace Vocaluxe.Base
             if (h <= 0f)
                 return;
 
-            if (Text == String.Empty)
+            if (Text.Length == 0)
                 return;
 
             Height = h;
+            CFont Font = _GetCurrentFont();
 
             float dx = x;
             foreach (char chr in Text)
             {
-                switch (Style)
-                {
-                    case EStyle.Normal:
-                        _Fonts[_CurrentFont].Normal.DrawGlyphReflection(chr, dx, y, Height, z, color, rspace, rheight);
-                        dx += _Fonts[_CurrentFont].Normal.GetWidth(chr);
-                        break;
-                    case EStyle.Italic:
-                        _Fonts[_CurrentFont].Italic.DrawGlyphReflection(chr, dx, y, Height, z, color, rspace, rheight);
-                        dx += _Fonts[_CurrentFont].Italic.GetWidth(chr);
-                        break;
-                    case EStyle.Bold:
-                        _Fonts[_CurrentFont].Bold.DrawGlyphReflection(chr, dx, y, Height, z, color, rspace, rheight);
-                        dx += _Fonts[_CurrentFont].Bold.GetWidth(chr);
-                        break;
-                    case EStyle.BoldItalic:
-                        _Fonts[_CurrentFont].BoldItalic.DrawGlyphReflection(chr, dx, y, Height, z, color, rspace, rheight);
-                        dx += _Fonts[_CurrentFont].BoldItalic.GetWidth(chr);
-                        break;
-                    default:
-                        break;
-                }
+                Font.DrawGlyphReflection(chr, dx, y, Height, z, color, rspace, rheight);
+                dx += Font.GetWidth(chr);
             }
         }
 
@@ -479,7 +450,7 @@ namespace Vocaluxe.Base
             if (h <= 0f)
                 return;
 
-            if (Text == String.Empty)
+            if (Text.Length == 0)
                 return;
 
             Height = h;
@@ -492,56 +463,23 @@ namespace Vocaluxe.Base
             float x1 = x + w * begin;
             float x2 = x + w * end;
 
+            CFont Font = _GetCurrentFont();
+
             foreach (char chr in Text)
             {
-                float w2 = 0f;
-                switch (Style)
-                {
-                    case EStyle.Normal:
-                        w2 = _Fonts[_CurrentFont].Normal.GetWidth(chr);
-                        break;
-                    case EStyle.Italic:
-                        w2 = _Fonts[_CurrentFont].Italic.GetWidth(chr);
-                        break;
-                    case EStyle.Bold:
-                        w2 = _Fonts[_CurrentFont].Bold.GetWidth(chr);
-                        break;
-                    case EStyle.BoldItalic:
-                        w2 = _Fonts[_CurrentFont].BoldItalic.GetWidth(chr);
-                        break;
-                    default:
-                        break;
-                }
-                
+                float w2 = Font.GetWidth(chr);
                 float b = (x1 - dx) / w2;
-                if (b < 0f)
-                    b = 0f;
 
                 if (b < 1f)
                 {
+                    if (b < 0f)
+                        b = 0f;
                     float e = (x2 - dx) / w2;
-                    if (e > 1f)
-                        e = 1f;
-
                     if (e > 0f)
                     {
-                        switch (Style)
-                        {
-                            case EStyle.Normal:
-                                _Fonts[_CurrentFont].Normal.DrawGlyph(chr, dx, y, Height, z, color, b, e);
-                                break;
-                            case EStyle.Italic:
-                                _Fonts[_CurrentFont].Italic.DrawGlyph(chr, dx, y, Height, z, color, b, e);
-                                break;
-                            case EStyle.Bold:
-                                _Fonts[_CurrentFont].Bold.DrawGlyph(chr, dx, y, Height, z, color, b, e);
-                                break;
-                            case EStyle.BoldItalic:
-                                _Fonts[_CurrentFont].BoldItalic.DrawGlyph(chr, dx, y, Height, z, color, b, e);
-                                break;
-                            default:
-                                break;
-                        }
+                        if (e > 1f)
+                            e = 1f;
+                        Font.DrawGlyph(chr, dx, y, Height, z, color, b, e);
                     }
                 }
                 dx += w2;
@@ -566,8 +504,8 @@ namespace Vocaluxe.Base
             }
         }
 
-	    public static void SetFont(string FontName)
-	    {
+        public static void SetFont(string FontName)
+        {
             int Index = -1;
 
             if (PartyModeID != -1)
@@ -597,7 +535,7 @@ namespace Vocaluxe.Base
                     return;
                 }
             }
-	    }
+        }
 
         public static RectangleF GetTextBounds(CText text)
         {
@@ -607,32 +545,16 @@ namespace Vocaluxe.Base
         public static RectangleF GetTextBounds(CText text, float height)
         {
             Height = height;
-            return new RectangleF(text.X, text.Y, GetTextWidth(CLanguage.Translate(text.Text, text.TranslationID)), GetTextHeight(CLanguage.Translate(text.Text, text.TranslationID)));
+            return new RectangleF(text.X, text.Y, GetTextWidth(CLanguage.Translate(text.Text, text.TranslationID)),
+                                  GetTextHeight(CLanguage.Translate(text.Text, text.TranslationID)));
         }
 
         public static float GetTextWidth(string text)
         {
             float dx = 0;
+            CFont Font = _GetCurrentFont();
             foreach (char chr in text)
-            {
-                switch (Style)
-                {
-                    case EStyle.Normal:
-                        dx += _Fonts[_CurrentFont].Normal.GetWidth(chr);
-                        break;
-                    case EStyle.Italic:
-                        dx += _Fonts[_CurrentFont].Italic.GetWidth(chr);
-                        break;
-                    case EStyle.Bold:
-                        dx += _Fonts[_CurrentFont].Bold.GetWidth(chr);
-                        break;
-                    case EStyle.BoldItalic:
-                        dx += _Fonts[_CurrentFont].BoldItalic.GetWidth(chr);
-                        break;
-                    default:
-                        break;
-                }
-            }
+                dx += Font.GetWidth(chr);
             return dx;
         }
 
@@ -640,102 +562,17 @@ namespace Vocaluxe.Base
         {
             //return TextRenderer.MeasureText(text, GetFont()).Height;
             float h = 0f;
+            CFont Font = _GetCurrentFont();
             foreach (char chr in text)
             {
-                float hh = 0f;
-                switch (Style)
-                {
-                    case EStyle.Normal:
-                        hh = _Fonts[_CurrentFont].Normal.GetHeight(chr);
-                        break;
-                    case EStyle.Italic:
-                        hh = _Fonts[_CurrentFont].Italic.GetHeight(chr);
-                        break;
-                    case EStyle.Bold:
-                        hh = _Fonts[_CurrentFont].Bold.GetHeight(chr);
-                        break;
-                    case EStyle.BoldItalic:
-                        hh = _Fonts[_CurrentFont].BoldItalic.GetHeight(chr);
-                        break;
-                    default:
-                        break;
-                }
-            
-                if (hh>h)
+                float hh = Font.GetHeight(chr);
+                if (hh > h)
                     h = hh;
             }
             return h;
         }
 
-        /// <summary>
-        /// Load default fonts
-        /// </summary>
-        /// <returns></returns>
-        private static bool LoadFontList()
-        {
-            CXMLReader xmlReader = CXMLReader.OpenFile(System.IO.Path.Combine(CSettings.sFolderFonts, CSettings.sFileFonts));
-            if (xmlReader == null)
-                return false;
-
-            _Fonts.Clear();
-
-            string value = string.Empty;
-            int i = 1;
-            while (xmlReader.GetValue("//root/Font" + i.ToString() + "/Folder", ref value, value))
-            {
-                string Folder = value;
-
-                xmlReader.GetValue("//root/Font" + i.ToString() + "/FileNormal", ref value, value);
-                value = Path.Combine(Directory.GetCurrentDirectory(),
-                    Path.Combine(CSettings.sFolderFonts, Path.Combine(Folder, value)));
-                CFont f = new CFont(value);
-                SFont sf = new SFont();
-                sf.Normal = f;
-
-                string name = String.Empty;
-                xmlReader.GetValue("//root/Font" + i.ToString() + "/Name", ref name, value);
-                sf.Name = name;
-                sf.IsThemeFont = false;
-                sf.ThemeName = String.Empty;
-                sf.PartyModeID = -1;
-                    
-                xmlReader.GetValue("//root/Font" + i.ToString() + "/FileItalic", ref value, value);
-                value = Path.Combine(Directory.GetCurrentDirectory(),
-                    Path.Combine(CSettings.sFolderFonts, Path.Combine(Folder, value)));
-                f = new CFont(value);
-                sf.Italic = f;
-
-                xmlReader.GetValue("//root/Font" + i.ToString() + "/FileBold", ref value, value);
-                value = Path.Combine(Directory.GetCurrentDirectory(),
-                    Path.Combine(CSettings.sFolderFonts, Path.Combine(Folder, value)));
-                f = new CFont(value);
-                sf.Bold = f;
-
-                xmlReader.GetValue("//root/Font" + i.ToString() + "/FileBoldItalic", ref value, value);
-                value = Path.Combine(Directory.GetCurrentDirectory(),
-                    Path.Combine(CSettings.sFolderFonts, Path.Combine(Folder, value)));
-                f = new CFont(value);
-                sf.BoldItalic = f;
-
-                sf.Outline = 0f;
-                xmlReader.TryGetFloatValue("//root/Font" + i.ToString() + "/Outline", ref sf.Outline);
-
-                sf.OutlineColor = new SColorF(0f, 0f, 0f, 1f);
-                xmlReader.TryGetFloatValue("//root/Font" + i.ToString() + "/OutlineColorR", ref sf.OutlineColor.R);
-                xmlReader.TryGetFloatValue("//root/Font" + i.ToString() + "/OutlineColorG", ref sf.OutlineColor.G);
-                xmlReader.TryGetFloatValue("//root/Font" + i.ToString() + "/OutlineColorB", ref sf.OutlineColor.B);
-                xmlReader.TryGetFloatValue("//root/Font" + i.ToString() + "/OutlineColorA", ref sf.OutlineColor.A);
-
-                _Fonts.Add(sf);
-                i++;
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Loads theme fonts from skin file
-        /// </summary>
-        public static void LoadThemeFonts(string ThemeName, string FontFolder, CXMLReader xmlReader)
+        private static void _LoadFontFiles(CXMLReader xmlReader, string FontFolder, string ThemeName = "", int PartyModeId = -1)
         {
             string value = string.Empty;
             int i = 1;
@@ -743,23 +580,22 @@ namespace Vocaluxe.Base
             {
                 SFont sf = new SFont();
                 sf.Folder = value;
-
-                sf.IsThemeFont = true;
+                sf.IsThemeFont = ThemeName.Length > 0;
                 sf.ThemeName = ThemeName;
-                sf.PartyModeID = -1;
+                sf.PartyModeID = PartyModeId;
 
                 bool ok = true;
+
+                string name = String.Empty;
+                ok &= xmlReader.GetValue("//root/Fonts/Font" + i.ToString() + "/Name", ref name, value);
+                sf.Name = name;
 
                 ok &= xmlReader.GetValue("//root/Fonts/Font" + i.ToString() + "/FileNormal", ref value, value);
                 sf.FileNormal = value;
                 value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
                 CFont f = new CFont(value);
                 sf.Normal = f;
-                
-                string name = String.Empty;
-                ok &= xmlReader.GetValue("//root/Fonts/Font" + i.ToString() + "/Name", ref name, value);
-                sf.Name = name;
-                
+
                 ok &= xmlReader.GetValue("//root/Fonts/Font" + i.ToString() + "/FileItalic", ref value, value);
                 sf.FileItalic = value;
                 value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
@@ -791,11 +627,52 @@ namespace Vocaluxe.Base
                     _Fonts.Add(sf);
                 else
                 {
-                    CLog.LogError("Error loading theme fonts for theme \"" + ThemeName + "\": Error in Font" + i.ToString());
+                    string fontTypes;
+                    if (PartyModeId >= 0)
+                        fontTypes = "theme fonts for party mode";
+                    else if (ThemeName.Length > 0)
+                        fontTypes = "theme fonts for theme \"" + ThemeName + "\"";
+                    else
+                        fontTypes = "basic fonts";
+                    CLog.LogError("Error loading " + fontTypes + ": Error in Font" + i.ToString());
                 }
                 i++;
             }
+        }
 
+        /// <summary>
+        ///     Load default fonts
+        /// </summary>
+        /// <returns></returns>
+        private static bool LoadFontList()
+        {
+            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.sFolderFonts, CSettings.sFileFonts));
+            if (xmlReader == null)
+                return false;
+
+            _Fonts.Clear();
+
+            _LoadFontFiles(xmlReader, Path.Combine(Directory.GetCurrentDirectory(), CSettings.sFolderFonts));
+            return true;
+        }
+
+        /// <summary>
+        ///     Loads theme fonts from skin file
+        /// </summary>
+        public static void LoadThemeFonts(string ThemeName, string FontFolder, CXMLReader xmlReader)
+        {
+            _LoadFontFiles(xmlReader, FontFolder, ThemeName);
+            CLog.StartBenchmark(1, "BuildGlyphs");
+            BuildGlyphs();
+            CLog.StopBenchmark(1, "BuildGlyphs");
+        }
+
+        /// <summary>
+        ///     Loads party mode fonts from skin file
+        /// </summary>
+        public static void LoadPartyModeFonts(int PartyModeID, string FontFolder, CXMLReader xmlReader)
+        {
+            _LoadFontFiles(xmlReader, FontFolder, "", PartyModeID);
             CLog.StartBenchmark(1, "BuildGlyphs");
             BuildGlyphs();
             CLog.StopBenchmark(1, "BuildGlyphs");
@@ -867,78 +744,9 @@ namespace Vocaluxe.Base
             }
         }
 
-        /// <summary>
-        /// Loads party mode fonts from skin file
-        /// </summary>
-        public static void LoadPartyModeFonts(int PartyModeID, string FontFolder, CXMLReader xmlReader)
-        {
-            string value = string.Empty;
-            int i = 1;
-            while (xmlReader.GetValue("//root/Fonts/Font" + i.ToString() + "/Folder", ref value, value))
-            {
-                SFont sf = new SFont();
-                sf.Folder = value;
-
-                sf.IsThemeFont = false;
-                sf.ThemeName = String.Empty;
-                sf.PartyModeID = PartyModeID;
-
-                bool ok = true;
-
-                ok &= xmlReader.GetValue("//root/Fonts/Font" + i.ToString() + "/FileNormal", ref value, value);
-                sf.FileNormal = value;
-                value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
-                CFont f = new CFont(value);
-                sf.Normal = f;
-
-                string name = String.Empty;
-                ok &= xmlReader.GetValue("//root/Fonts/Font" + i.ToString() + "/Name", ref name, value);
-                sf.Name = name;
-
-                ok &= xmlReader.GetValue("//root/Fonts/Font" + i.ToString() + "/FileItalic", ref value, value);
-                sf.FileItalic = value;
-                value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
-                f = new CFont(value);
-                sf.Italic = f;
-
-                ok &= xmlReader.GetValue("//root/Fonts/Font" + i.ToString() + "/FileBold", ref value, value);
-                sf.FileBold = value;
-                value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
-                f = new CFont(value);
-                sf.Bold = f;
-
-                ok &= xmlReader.GetValue("//root/Fonts/Font" + i.ToString() + "/FileBoldItalic", ref value, value);
-                sf.FileBoldItalic = value;
-                value = Path.Combine(FontFolder, Path.Combine(sf.Folder, value));
-                f = new CFont(value);
-                sf.BoldItalic = f;
-
-                sf.Outline = 0f;
-                ok &= xmlReader.TryGetFloatValue("//root/Fonts/Font" + i.ToString() + "/Outline", ref sf.Outline);
-
-                sf.OutlineColor = new SColorF(0f, 0f, 0f, 1f);
-                ok &= xmlReader.TryGetFloatValue("//root/Fonts/Font" + i.ToString() + "/OutlineColorR", ref sf.OutlineColor.R);
-                ok &= xmlReader.TryGetFloatValue("//root/Fonts/Font" + i.ToString() + "/OutlineColorG", ref sf.OutlineColor.G);
-                ok &= xmlReader.TryGetFloatValue("//root/Fonts/Font" + i.ToString() + "/OutlineColorB", ref sf.OutlineColor.B);
-                ok &= xmlReader.TryGetFloatValue("//root/Fonts/Font" + i.ToString() + "/OutlineColorA", ref sf.OutlineColor.A);
-
-                if (ok)
-                    _Fonts.Add(sf);
-                else
-                {
-                    CLog.LogError("Error loading theme fonts for party mode from Folder \"" + FontFolder + "\": Error in Font" + i.ToString());
-                }
-                i++;
-            }
-
-            CLog.StartBenchmark(1, "BuildGlyphs");
-            BuildGlyphs();
-            CLog.StopBenchmark(1, "BuildGlyphs");
-        }
-
         private static int GetFontIndex(string ThemeName, string FontName)
         {
-            if (ThemeName == String.Empty || FontName == String.Empty)
+            if (ThemeName.Length == 0 || FontName.Length == 0)
                 return -1;
 
             for (int i = 0; i < _Fonts.Count; i++)
@@ -952,7 +760,7 @@ namespace Vocaluxe.Base
 
         private static int GetFontIndexParty(int PartyModeID, string FontName)
         {
-            if (PartyModeID == -1 || FontName == String.Empty)
+            if (PartyModeID == -1 || FontName.Length == 0)
                 return -1;
 
             for (int i = 0; i < _Fonts.Count; i++)
@@ -986,7 +794,6 @@ namespace Vocaluxe.Base
             }
             Style = EStyle.Normal;
             SetFont("Normal");
-            
         }
     }
 }

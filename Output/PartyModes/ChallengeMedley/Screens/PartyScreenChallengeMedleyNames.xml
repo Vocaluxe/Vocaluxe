@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <PartyScreenChallengeNames>
+  <PartyScreenChallengeMedleyNames>
     <ScreenVersion>1</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
@@ -270,5 +270,5 @@
       <!--   <Space>: Reflection Space of selected button-->
       <!--   <Height>: Reflection Height of selected button-->
     </ButtonPlayerChoose>
-  </PartyScreenChallengeNames>
+  </PartyScreenChallengeMedleyNames>
 </root>

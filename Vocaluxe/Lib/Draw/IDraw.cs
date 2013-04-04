@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
-
-using Vocaluxe.Base;
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Draw
 {
@@ -19,7 +15,7 @@ namespace Vocaluxe.Lib.Draw
 
         RectangleF GetTextBounds(CText text);
         RectangleF GetTextBounds(CText text, float Height);
-       
+
         // Basic Draw Methods
         void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2);
         void DrawColor(SColorF color, SRectF rect);
@@ -40,7 +36,7 @@ namespace Vocaluxe.Lib.Draw
         STexture QuequeTexture(int W, int H, ref byte[] Data);
         bool UpdateTexture(ref STexture Texture, ref byte[] Data);
         bool UpdateTexture(ref STexture Texture, IntPtr Data);
-        
+
         void RemoveTexture(ref STexture Texture);
         void DrawTexture(STexture Texture);
         void DrawTexture(STexture Texture, SRectF rect);

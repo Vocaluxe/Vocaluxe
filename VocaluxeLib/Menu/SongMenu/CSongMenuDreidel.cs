@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-
-namespace Vocaluxe.Menu.SongMenu
+﻿namespace VocaluxeLib.Menu.SongMenu
 {
     class CSongMenuDreidel : CSongMenuFramework
     {
@@ -27,11 +21,8 @@ namespace Vocaluxe.Menu.SongMenu
             return _actualSelection;
         }
         */
-
         public CSongMenuDreidel(int PartyModeID)
-            : base(PartyModeID)
-        {
-        }
+            : base(PartyModeID) {}
 
         public override void Init()
         {

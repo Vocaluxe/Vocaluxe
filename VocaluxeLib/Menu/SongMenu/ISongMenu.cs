@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using VocaluxeLib.PartyModes;
 
-using Vocaluxe.PartyModes;
-
-namespace Vocaluxe.Menu.SongMenu
+namespace VocaluxeLib.Menu.SongMenu
 {
     interface ISongMenu : IMenuElement
     {
@@ -28,6 +24,8 @@ namespace Vocaluxe.Menu.SongMenu
         int GetSelectedCategory();
         void SetSelectedCategory(int CategoryNr);
         int GetActualSelection();
+
+        bool EnterCurrentCategory();
 
         bool IsSelected();
         void SetSelected(bool Selected);
