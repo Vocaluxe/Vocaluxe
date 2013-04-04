@@ -49,7 +49,7 @@ namespace Vocaluxe.Base
         public static ETimerLook TimerLook = ETimerLook.TR_CONFIG_TIMERLOOK_EXPANDED;
         public static EPlayerInfo PlayerInfo = EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH;
         public static EFadePlayerInfo FadePlayerInfo = EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_OFF;
-        public static ECoverLoading CoverLoading = ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART;
+        public static ECoverLoading CoverLoading = ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC;
         public static ELyricStyle LyricStyle = ELyricStyle.Slide;
 
         // Sound
