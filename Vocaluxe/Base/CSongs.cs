@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
+
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 
@@ -41,6 +43,8 @@ namespace Vocaluxe.Base
         public static CSongFilter Filter = new CSongFilter();
         public static CSongSorter Sorter = new CSongSorter();
         public static CSongCategorizer Categorizer = new CSongCategorizer();
+
+        private static Thread _CoverLoaderThread = null;
 
         public static List<CSong> Songs
         {
@@ -391,9 +395,7 @@ namespace Vocaluxe.Base
                 {
                     Song.ID = _Songs.Count;
                     _Songs.Add(Song);
-                    //Workaround to load notes if they are not loaded with the covers as there is no seperate progress indicator
-                    if (CConfig.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
-                        Song.ReadNotes();
+                    Song.ReadNotes();
                 }
             }
             CLog.StopBenchmark(2, "Read TXTs");
@@ -410,14 +412,14 @@ namespace Vocaluxe.Base
             if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
             {
                 CLog.StartBenchmark(2, "Load Covers/Notes");
-                _LoadCoverAndNotes();
+                _LoadCover();
                 CLog.StopBenchmark(2, "Load Covers/Notes");
             }
             CLog.StopBenchmark(1, "Load Songs ");
             GC.Collect();
         }
 
-        public static void LoadCover(int WaitTime, int NumLoads)
+        public static void LoadCover()
         {
             if (CConfig.Renderer == ERenderer.TR_CONFIG_SOFTWARE)
                 return; //should be removed as soon as the other renderer are ready for queque
@@ -425,12 +427,16 @@ namespace Vocaluxe.Base
             if (!SongsLoaded || CoverLoaded)
                 return;
 
-            if (!_CoverLoadTimer.IsRunning)
+            if (_CoverLoaderThread == null)
             {
-                _CoverLoadTimer.Reset();
-                _CoverLoadTimer.Start();
+                _CoverLoaderThread = new Thread(new ThreadStart(_LoadCover));
+                _CoverLoaderThread.Name = "CoverLoader";
+                _CoverLoaderThread.Priority = ThreadPriority.BelowNormal;
+                _CoverLoaderThread.IsBackground = true;
+                _CoverLoaderThread.Start();
             }
 
+            /*
             if (_CoverLoadTimer.ElapsedMilliseconds >= WaitTime)
             {
                 for (int i = 0; i < NumLoads; i++)
@@ -449,13 +455,13 @@ namespace Vocaluxe.Base
                 _CoverLoadTimer.Reset();
                 _CoverLoadTimer.Start();
             }
+             * */
         }
 
-        private static void _LoadCoverAndNotes()
+        private static void _LoadCover()
         {
             foreach (CSong song in _Songs)
             {
-                song.ReadNotes();
                 song.LoadSmallCover();
                 _CoverLoadIndex++;
             }
