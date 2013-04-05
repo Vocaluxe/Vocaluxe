@@ -61,10 +61,10 @@ namespace Vocaluxe.Lib.Video
 
         public bool GetFrame(int StreamID, ref STexture Frame, float Time, ref float VideoTime)
         {
-            ManagedFrame frame = CGstreamerVideoWrapper.GetFrame(StreamID, Time);
-            VideoTime = frame.Videotime;
+            ManagedFrame managedFrame = CGstreamerVideoWrapper.GetFrame(StreamID, Time);
+            VideoTime = managedFrame.Videotime;
 
-            UploadNewFrame(ref Frame, ref frame.buffer, frame.Width, frame.Height);
+            UploadNewFrame(ref Frame, ref managedFrame.buffer, managedFrame.Width, managedFrame.Height);
             return true;
         }
 

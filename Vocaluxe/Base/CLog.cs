@@ -5,13 +5,13 @@ using System.Text;
 
 namespace Vocaluxe.Base
 {
-    class Log : IDisposable
+    class LogFile : IDisposable
     {
         private readonly string _LogFileName;
         private readonly string _LogName;
         private StreamWriter _LogFile;
 
-        public Log(string FileName, string LogName)
+        public LogFile(string FileName, string LogName)
         {
             _LogName = LogName;
             _LogFileName = FileName;
@@ -67,9 +67,9 @@ namespace Vocaluxe.Base
     {
         private const int MAXBenchmarks = 10;
 
-        private static Log _ErrorLog;
-        private static Log _PerformanceLog;
-        private static Log _BenchmarkLog;
+        private static LogFile _ErrorLog;
+        private static LogFile _PerformanceLog;
+        private static LogFile _BenchmarkLog;
 
         private static int _NumErrors;
         private static Stopwatch[] _BenchmarkTimer;
@@ -77,9 +77,9 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            _ErrorLog = new Log(CSettings.sFileErrorLog, "ErrorLog");
-            _PerformanceLog = new Log(CSettings.sFilePerformanceLog, "PerformanceLog");
-            _BenchmarkLog = new Log(CSettings.sFileBenchmarkLog, "BenchmarkLog");
+            _ErrorLog = new LogFile(CSettings.sFileErrorLog, "ErrorLog");
+            _PerformanceLog = new LogFile(CSettings.sFilePerformanceLog, "PerformanceLog");
+            _BenchmarkLog = new LogFile(CSettings.sFileBenchmarkLog, "BenchmarkLog");
 
             _NumErrors = 0;
             _BenchmarkTimer = new Stopwatch[MAXBenchmarks];

@@ -189,13 +189,13 @@ namespace Vocaluxe.Base
             return lastInsertID;
         }
 
-        public static void LoadScore(ref List<SScores> Score, SPlayer player)
+        public static void LoadScore(ref List<SScores> Scores, SPlayer player)
         {
             using (SQLiteConnection connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
 
-                Score = new List<SScores>();
+                Scores = new List<SScores>();
 
                 try
                 {
@@ -244,7 +244,7 @@ namespace Vocaluxe.Base
                                 score.LineNr = reader.GetInt32(4);
                                 score.ID = reader.GetInt32(5);
 
-                                Score.Add(score);
+                                Scores.Add(score);
                             }
                             reader.Dispose();
                         }

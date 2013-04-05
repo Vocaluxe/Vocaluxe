@@ -463,9 +463,9 @@ namespace VocaluxeLib.Menu
             return new CStatic(_PartyModeID);
         }
 
-        public CStatic GetNewStatic(CStatic Static)
+        public CStatic GetNewStatic(CStatic oldStatic)
         {
-            return new CStatic(Static);
+            return new CStatic(oldStatic);
         }
 
         public CStatic GetNewStatic(STexture Texture, SColorF Color, SRectF Rect)
@@ -1962,22 +1962,22 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private bool CheckVersion(int Version, CXMLReader xmlReader)
+        private bool CheckVersion(int reqVersion, CXMLReader xmlReader)
         {
-            int version = 0;
-            xmlReader.TryGetIntValue("//root/" + ThemeName + "/ScreenVersion", ref version);
+            int actualVersion = 0;
+            xmlReader.TryGetIntValue("//root/" + ThemeName + "/ScreenVersion", ref actualVersion);
 
-            if (version == Version)
+            if (actualVersion == reqVersion)
                 return true;
             else
             {
                 string msg = "Can't load screen file of screen \"" + ThemeName + "\", ";
-                if (version < Version)
+                if (actualVersion < reqVersion)
                     msg += "the file ist outdated! ";
                 else
                     msg += "the file is for newer program versions! ";
 
-                msg += "Current screen version is " + Version.ToString();
+                msg += "Current screen version is " + reqVersion.ToString();
                 CBase.Log.LogError(msg);
             }
             return false;

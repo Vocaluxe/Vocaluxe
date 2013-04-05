@@ -225,21 +225,21 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         public override void DataFromScreen(string ScreenName, Object Data)
         {
-            DataFromScreen data = new DataFromScreen();
+            DataFromScreen dataFrom = new DataFromScreen();
             switch (ScreenName)
             {
                 case "PartyScreenTicTacToeConfig":
 
                     try
                     {
-                        data = (DataFromScreen)Data;
-                        GameData.NumPlayerTeam1 = data.ScreenConfig.NumPlayerTeam1;
-                        GameData.NumPlayerTeam2 = data.ScreenConfig.NumPlayerTeam2;
-                        GameData.NumFields = data.ScreenConfig.NumFields;
-                        GameData.SongSource = data.ScreenConfig.SongSource;
-                        GameData.CategoryID = data.ScreenConfig.CategoryID;
-                        GameData.PlaylistID = data.ScreenConfig.PlaylistID;
-                        GameData.GameMode = data.ScreenConfig.GameMode;
+                        dataFrom = (DataFromScreen)Data;
+                        GameData.NumPlayerTeam1 = dataFrom.ScreenConfig.NumPlayerTeam1;
+                        GameData.NumPlayerTeam2 = dataFrom.ScreenConfig.NumPlayerTeam2;
+                        GameData.NumFields = dataFrom.ScreenConfig.NumFields;
+                        GameData.SongSource = dataFrom.ScreenConfig.SongSource;
+                        GameData.CategoryID = dataFrom.ScreenConfig.CategoryID;
+                        GameData.PlaylistID = dataFrom.ScreenConfig.PlaylistID;
+                        GameData.GameMode = dataFrom.ScreenConfig.GameMode;
 
                         _Stage = EStage.Config;
                         CBase.Graphics.FadeTo(EScreens.ScreenPartyDummy);
@@ -253,8 +253,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 case "PartyScreenTicTacToeNames":
                     try
                     {
-                        data = (DataFromScreen)Data;
-                        if (data.ScreenNames.FadeToConfig)
+                        dataFrom = (DataFromScreen)Data;
+                        if (dataFrom.ScreenNames.FadeToConfig)
                             _Stage = EStage.NotStarted;
                         else
                         {
@@ -262,8 +262,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                                 GameData.Team = 0;
                             else
                                 GameData.Team = 1;
-                            GameData.ProfileIDsTeam1 = data.ScreenNames.ProfileIDsTeam1;
-                            GameData.ProfileIDsTeam2 = data.ScreenNames.ProfileIDsTeam2;
+                            GameData.ProfileIDsTeam1 = dataFrom.ScreenNames.ProfileIDsTeam1;
+                            GameData.ProfileIDsTeam2 = dataFrom.ScreenNames.ProfileIDsTeam2;
                             _Stage = EStage.Names;
                         }
 
@@ -278,17 +278,17 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 case "PartyScreenTicTacToeMain":
                     try
                     {
-                        data = (DataFromScreen)Data;
-                        if (data.ScreenMain.FadeToSinging)
+                        dataFrom = (DataFromScreen)Data;
+                        if (dataFrom.ScreenMain.FadeToSinging)
                         {
                             _Stage = EStage.Singing;
-                            GameData.Rounds = data.ScreenMain.Rounds;
-                            GameData.SingRoundNr = data.ScreenMain.SingRoundNr;
-                            GameData.Songs = data.ScreenMain.Songs;
-                            GameData.PlayerTeam1 = data.ScreenMain.PlayerTeam1;
-                            GameData.PlayerTeam2 = data.ScreenMain.PlayerTeam2;
+                            GameData.Rounds = dataFrom.ScreenMain.Rounds;
+                            GameData.SingRoundNr = dataFrom.ScreenMain.SingRoundNr;
+                            GameData.Songs = dataFrom.ScreenMain.Songs;
+                            GameData.PlayerTeam1 = dataFrom.ScreenMain.PlayerTeam1;
+                            GameData.PlayerTeam2 = dataFrom.ScreenMain.PlayerTeam2;
                         }
-                        if (data.ScreenMain.FadeToNameSelection)
+                        if (dataFrom.ScreenMain.FadeToNameSelection)
                             _Stage = EStage.Config;
                     }
                     catch (Exception e)
@@ -298,7 +298,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
 
                     if (_Stage == EStage.Singing)
-                        StartRound(data.ScreenMain.SingRoundNr);
+                        StartRound(dataFrom.ScreenMain.SingRoundNr);
                     if (_Stage == EStage.Config)
                         CBase.Graphics.FadeTo(EScreens.ScreenPartyDummy);
                     break;

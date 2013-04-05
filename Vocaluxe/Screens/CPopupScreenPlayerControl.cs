@@ -27,15 +27,15 @@ namespace Vocaluxe.Screens
         private const string ButtonToBackgroundVideo = "ButtonToBackgroundVideo";
 
         private const string TextCurrentSong = "TextCurrentSong";
-        private bool _VideoPreview;
+        private bool _VideoPreviewInt;
 
         private bool VideoPreview
         {
-            get { return _VideoPreview; }
+            get { return _VideoPreviewInt; }
             set
             {
-                _VideoPreview = value;
-                if (!_VideoPreview && !VideoBackground)
+                _VideoPreviewInt = value;
+                if (!_VideoPreviewInt && !VideoBackground)
                     CBackgroundMusic.VideoEnabled = false;
                 else
                     CBackgroundMusic.VideoEnabled = true;
@@ -52,7 +52,7 @@ namespace Vocaluxe.Screens
                     if (CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON)
                     {
                         CConfig.VideosToBackground = EOffOn.TR_CONFIG_OFF;
-                        if (!_VideoPreview)
+                        if (!_VideoPreviewInt)
                             CBackgroundMusic.VideoEnabled = false;
                     }
                 }
@@ -165,9 +165,9 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-            Statics[StaticCover].Visible = !_VideoPreview || !CBackgroundMusic.SongHasVideo;
+            Statics[StaticCover].Visible = !_VideoPreviewInt || !CBackgroundMusic.SongHasVideo;
             Buttons[ButtonToBackgroundVideo].Pressed = VideoBackground;
-            Buttons[ButtonShowVideo].Pressed = _VideoPreview;
+            Buttons[ButtonShowVideo].Pressed = _VideoPreviewInt;
             Buttons[ButtonRepeat].Pressed = CBackgroundMusic.RepeatSong;
             Buttons[ButtonSing].Visible = CBackgroundMusic.CanSing && CParty.CurrentPartyModeID == -1;
             return true;

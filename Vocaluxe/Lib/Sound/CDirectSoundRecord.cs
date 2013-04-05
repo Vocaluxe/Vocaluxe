@@ -250,7 +250,7 @@ namespace Vocaluxe.Lib.Sound
         {
             private volatile bool running;
             private readonly int bufferSize;
-            private CaptureBuffer buffer;
+            private CaptureBuffer CaptureBuffer;
             private CaptureBufferDescription bufferDescription;
             private DirectSoundCapture captureDevice;
             private readonly WaveFormat waveFormat;
@@ -310,9 +310,9 @@ namespace Vocaluxe.Lib.Sound
                 bufferDescription.Format = waveFormat;
                 bufferDescription.WaveMapped = false;
 
-                buffer = new CaptureBuffer(captureDevice, bufferDescription);
+                CaptureBuffer = new CaptureBuffer(captureDevice, bufferDescription);
 
-                bufferPortionSize = buffer.SizeInBytes / bufferPortionCount;
+                bufferPortionSize = CaptureBuffer.SizeInBytes / bufferPortionCount;
                 notifications = new List<NotificationPosition>();
 
                 for (int i = 0; i < bufferPortionCount; i++)
@@ -323,13 +323,13 @@ namespace Vocaluxe.Lib.Sound
                     notifications.Add(notification);
                 }
 
-                buffer.SetNotificationPositions(notifications.ToArray());
+                CaptureBuffer.SetNotificationPositions(notifications.ToArray());
                 waitHandles = new WaitHandle[notifications.Count];
 
                 for (int i = 0; i < notifications.Count; i++)
                     waitHandles[i] = notifications[i].Event;
 
-                captureThread = new Thread(CaptureThread);
+                captureThread = new Thread(DoCapture);
                 captureThread.IsBackground = true;
 
                 running = true;
@@ -346,10 +346,10 @@ namespace Vocaluxe.Lib.Sound
                     captureThread = null;
                 }
 
-                if (buffer != null)
+                if (CaptureBuffer != null)
                 {
-                    buffer.Dispose();
-                    buffer = null;
+                    CaptureBuffer.Dispose();
+                    CaptureBuffer = null;
                 }
 
                 if (notifications != null)
@@ -368,7 +368,7 @@ namespace Vocaluxe.Lib.Sound
                 Start();
             }
 
-            private void CaptureThread()
+            private void DoCapture()
             {
                 int bufferPortionSamples = bufferPortionSize / sizeof(byte);
 
@@ -376,13 +376,13 @@ namespace Vocaluxe.Lib.Sound
                 byte[] bufferPortion = new byte[bufferPortionSamples];
                 int bufferPortionIndex;
 
-                buffer.Start(true);
+                CaptureBuffer.Start(true);
 
                 while (running)
                 {
                     bufferPortionIndex = WaitHandle.WaitAny(waitHandles);
 
-                    buffer.Read(
+                    CaptureBuffer.Read(
                         bufferPortion,
                         0,
                         bufferPortionSamples,
@@ -391,7 +391,7 @@ namespace Vocaluxe.Lib.Sound
                     SampleDataReady(this, new SampleDataEventArgs(bufferPortion, guid));
                 }
 
-                buffer.Stop();
+                CaptureBuffer.Stop();
             }
 
             public void Dispose()

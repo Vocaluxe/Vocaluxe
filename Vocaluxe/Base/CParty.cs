@@ -330,12 +330,12 @@ namespace Vocaluxe.Base
             if (files.Length == 0)
                 return null;
 
-            CompilerParameters Params = new CompilerParameters();
-            Params.ReferencedAssemblies.Add("System.Windows.Forms.dll");
-            Params.ReferencedAssemblies.Add("VocaluxeLib.dll");
-            Params.GenerateInMemory = true;
+            CompilerParameters compilerParams = new CompilerParameters();
+            compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
+            compilerParams.ReferencedAssemblies.Add("VocaluxeLib.dll");
+            compilerParams.GenerateInMemory = true;
 #if DEBUG
-            Params.IncludeDebugInformation = true;
+            compilerParams.IncludeDebugInformation = true;
 #endif
 
             using (CodeDomProvider CDP = CodeDomProvider.CreateProvider("CSharp"))
@@ -344,7 +344,7 @@ namespace Vocaluxe.Base
 
                 try
                 {
-                    CompileResult = CDP.CompileAssemblyFromFile(Params, files);
+                    CompileResult = CDP.CompileAssemblyFromFile(compilerParams, files);
                 }
                 catch (Exception e)
                 {

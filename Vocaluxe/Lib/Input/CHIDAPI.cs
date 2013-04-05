@@ -148,12 +148,12 @@ namespace Vocaluxe.Lib.Input
         public static int ReadTimeout(IntPtr Device, out byte[] Data, int length, int milliseconds)
         {
             Data = new byte[length];
-            IntPtr data = Marshal.AllocHGlobal(length);
+            IntPtr dataPtr = Marshal.AllocHGlobal(length);
 
             int result = -1;
             try
             {
-                result = hid_read_timeout(Device, data, length, milliseconds);
+                result = hid_read_timeout(Device, dataPtr, length, milliseconds);
             }
             catch (Exception e)
             {
@@ -162,11 +162,11 @@ namespace Vocaluxe.Lib.Input
             }
 
             if (result != -1)
-                Marshal.Copy(data, Data, 0, result);
+                Marshal.Copy(dataPtr, Data, 0, result);
             else
                 Data = null;
 
-            Marshal.FreeHGlobal(data);
+            Marshal.FreeHGlobal(dataPtr);
             return result;
         }
 
@@ -176,12 +176,12 @@ namespace Vocaluxe.Lib.Input
         public static int Read(IntPtr Device, out byte[] Data, int length)
         {
             Data = new byte[length];
-            IntPtr data = Marshal.AllocHGlobal(length);
+            IntPtr dataPtr = Marshal.AllocHGlobal(length);
 
             int result = -1;
             try
             {
-                result = hid_read(Device, data, length);
+                result = hid_read(Device, dataPtr, length);
             }
             catch (Exception e)
             {
@@ -190,11 +190,11 @@ namespace Vocaluxe.Lib.Input
             }
 
             if (result != -1)
-                Marshal.Copy(data, Data, 0, result);
+                Marshal.Copy(dataPtr, Data, 0, result);
             else
                 Data = null;
 
-            Marshal.FreeHGlobal(data);
+            Marshal.FreeHGlobal(dataPtr);
             return result;
         }
 

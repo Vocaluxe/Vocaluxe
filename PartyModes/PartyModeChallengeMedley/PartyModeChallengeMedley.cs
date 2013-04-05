@@ -197,17 +197,17 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         public override void DataFromScreen(string ScreenName, Object Data)
         {
-            DataFromScreen data = new DataFromScreen();
+            DataFromScreen dataFrom = new DataFromScreen();
             switch (ScreenName)
             {
                 case "PartyScreenChallengeMedleyConfig":
 
                     try
                     {
-                        data = (DataFromScreen)Data;
-                        GameData.NumPlayer = data.ScreenConfig.NumPlayer;
-                        GameData.NumPlayerAtOnce = data.ScreenConfig.NumPlayerAtOnce;
-                        GameData.NumRounds = data.ScreenConfig.NumRounds;
+                        dataFrom = (DataFromScreen)Data;
+                        GameData.NumPlayer = dataFrom.ScreenConfig.NumPlayer;
+                        GameData.NumPlayerAtOnce = dataFrom.ScreenConfig.NumPlayerAtOnce;
+                        GameData.NumRounds = dataFrom.ScreenConfig.NumRounds;
 
                         _Stage = EStage.Config;
                         CBase.Graphics.FadeTo(EScreens.ScreenPartyDummy);
@@ -221,12 +221,12 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 case "PartyScreenChallengeMedleyNames":
                     try
                     {
-                        data = (DataFromScreen)Data;
-                        if (data.ScreenNames.FadeToConfig)
+                        dataFrom = (DataFromScreen)Data;
+                        if (dataFrom.ScreenNames.FadeToConfig)
                             _Stage = EStage.NotStarted;
                         else
                         {
-                            GameData.ProfileIDs = data.ScreenNames.ProfileIDs;
+                            GameData.ProfileIDs = dataFrom.ScreenNames.ProfileIDs;
                             _Stage = EStage.Names;
                         }
 
@@ -241,10 +241,10 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 case "PartyScreenChallengeMedleyMain":
                     try
                     {
-                        data = (DataFromScreen)Data;
-                        if (data.ScreenMain.FadeToSongSelection)
+                        dataFrom = (DataFromScreen)Data;
+                        if (dataFrom.ScreenMain.FadeToSongSelection)
                             _Stage = EStage.Singing;
-                        if (data.ScreenMain.FadeToNameSelection)
+                        if (dataFrom.ScreenMain.FadeToNameSelection)
                             _Stage = EStage.Config;
                     }
                     catch (Exception e)

@@ -674,7 +674,7 @@ namespace VocaluxeLib.Menu.SingNotes
         {
             int TonePlayer = CBase.Record.GetToneAbs(_PlayerNotes[n].PlayerNr);
 
-            SRectF Rect = _PlayerNotes[n].Rect;
+            SRectF noteBounds = _PlayerNotes[n].Rect;
 
             while (TonePlayer - BaseLine < 0)
                 TonePlayer += 12;
@@ -685,16 +685,16 @@ namespace VocaluxeLib.Menu.SingNotes
             if (XOffset < 0f)
                 XOffset = 0f;
 
-            if (XOffset > Rect.W)
-                XOffset = Rect.W;
+            if (XOffset > noteBounds.W)
+                XOffset = noteBounds.W;
 
-            float dy = Rect.H / CBase.Settings.GetNumNoteLines();
-            SRectF rect = new SRectF(
-                Rect.X - dy + XOffset,
-                Rect.Y + dy * (CBase.Settings.GetNumNoteLines() - 1 - (TonePlayer - BaseLine) / 2f),
+            float dy = noteBounds.H / CBase.Settings.GetNumNoteLines();
+            SRectF drawRect = new SRectF(
+                noteBounds.X - dy + XOffset,
+                noteBounds.Y + dy * (CBase.Settings.GetNumNoteLines() - 1 - (TonePlayer - BaseLine) / 2f),
                 dy,
                 dy,
-                Rect.Z
+                noteBounds.Z
                 );
 
             SColorF color = new SColorF(
@@ -704,7 +704,7 @@ namespace VocaluxeLib.Menu.SingNotes
                 _PlayerNotes[n].Color.A * _PlayerNotes[n].Alpha);
 
             STexture ToneHelper = CBase.Theme.GetSkinTexture(_Theme.SkinToneHelperName, _PartyModeID);
-            CBase.Drawing.DrawTexture(ToneHelper, rect, color);
+            CBase.Drawing.DrawTexture(ToneHelper, drawRect, color);
 
 
             while (TonePlayer - BaseLine < 12)
@@ -713,15 +713,15 @@ namespace VocaluxeLib.Menu.SingNotes
             while (TonePlayer - BaseLine > 24)
                 TonePlayer -= 12;
 
-            rect = new SRectF(
-                Rect.X - dy + XOffset,
-                Rect.Y + dy * (CBase.Settings.GetNumNoteLines() - 1 - (TonePlayer - BaseLine) / 2f),
+            drawRect = new SRectF(
+                noteBounds.X - dy + XOffset,
+                noteBounds.Y + dy * (CBase.Settings.GetNumNoteLines() - 1 - (TonePlayer - BaseLine) / 2f),
                 dy,
                 dy,
-                Rect.Z
+                noteBounds.Z
                 );
 
-            CBase.Drawing.DrawTexture(ToneHelper, rect, color);
+            CBase.Drawing.DrawTexture(ToneHelper, drawRect, color);
         }
 
         #region ThemeEdit
