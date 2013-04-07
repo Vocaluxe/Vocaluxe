@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Türkçe</string>
+  <string name="TR_PARTYMODE_NAME">XOX oyunu</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Özel bir şekilde XOX oyna</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Strateji, şans ve becerilerle eğlenceli turlar</string>
+  <string name="TR_BUTTON_NEXT">Sonraki</string>
+  <string name="TR_BUTTON_BACK">Önceki</string>
+  <string name="TR_BUTTON_START">Başla</string>
+  <string name="TR_BUTTON_EXIT">Çıkış</string>
+  <string name="TR_BUTTON_YES">Evet</string>
+  <string name="TR_BUTTON_NO">Hayır</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Başla</string>
+  <string name="TR_SONGS">Şarkılar</string>
+  <string name="TR_TEAM">Takım</string>
+  <string name="TR_PLAYLIST">Çalma Listesi</string>
+  <string name="TR_CATEGORY">Kategori</string>
+  <string name="TR_ALLSONGS">Tüm Şarkılar</string>
+  <string name="TR_SCREENCONFIG_TITLE">XOX: Yapılandırma</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST1">1. takımdaki oyuncu sayısı</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST2">2. takımdaki oyuncu sayısı</string>
+  <string name="TR_SCREENCONFIG_NUMFIELDS">Bölge sayısı</string>
+  <string name="TR_SCREENCONFIG_SONGSOURCE">Şarkı Kaynağı</string>
+  <string name="TR_SCREENCONFIG_GAMEMODE">Oyun Modu</string>
+  <string name="TR_SCREENNAMES_TITLE">XOX: Oyuncu Seç</string>
+  <string name="TR_SCREENNAMES_TEAM1">1. Takım</string>
+  <string name="TR_SCREENNAMES_TEAM2">2. Takım</string>
+  <string name="TR_SCREENMAIN_TITLE">XOX</string>
+  <string name="TR_SCREENMAIN_TEAM_CHOOSE">Bir bölge seç.</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Sonraki oyuncu</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">XOX oyunundan gerçekten çıkmak istiyor musunuz?</string>
+  <string name="TR_SCREENMAIN_WINNER">Ve kazanan...</string>
+  <string name="TR_SCREENMAIN_NOWINNER">Bu turdan hiç kazanan çıkmadı...</string>
+</resources>

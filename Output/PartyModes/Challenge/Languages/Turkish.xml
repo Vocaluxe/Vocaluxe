@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Türkçe</string>
+  <string name="TR_PARTYMODE_NAME">Yarışma Modu</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Biraz yarışma turu oyna.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Düello yarışmalarıyla ilgilenen herkes için.</string>
+  <string name="TR_BUTTON_NEXT">Sonraki</string>
+  <string name="TR_BUTTON_BACK">Önceki</string>
+  <string name="TR_BUTTON_START">Başla</string>
+  <string name="TR_BUTTON_EXIT">Çıkış</string>
+  <string name="TR_BUTTON_YES">Evet</string>
+  <string name="TR_BUTTON_NO">Hayır</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Sonraki Tur</string>
+  <string name="TR_SCREENCONFIG_TITLE">Yarışma Modu: Yapılandırma</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Oyuncu sayısı</string>
+  <string name="TR_SCREENCONFIG_NUMMICS">Mikrofon sayısı</string>
+  <string name="TR_SCREENCONFIG_NUMROUNDS">Tur sayısı</string>
+  <string name="TR_SCREENNAMES_TITLE">Yarışma Modu: Oyuncu Seçiniz</string>
+  <string name="TR_SCREENMAIN_TITLE">Yarışma Modu: Genel Bakış</string>
+  <string name="TR_SCREENMAIN_TABLE_POS">Pozisyon</string>
+  <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">İsim</string>
+  <string name="TR_SCREENMAIN_TABLE_NUMPLAYED">Turlar</string>
+  <string name="TR_SCREENMAIN_TABLE_WON">Kazanma</string>
+  <string name="TR_SCREENMAIN_TABLE_SINGPOINTS">Şarkı Söyleme Puanı</string>
+  <string name="TR_SCREENMAIN_TABLE_GAMEPOINTS">Skor</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Gerçekten çıkmak istiyor musunuz?</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Sonraki turun oyuncusu:</string>
+  <string name="TR_SCREENMAIN_FINISH">Tüm turlar tamamlandı! Kazanan...</string>
+</resources>
