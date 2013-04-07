@@ -220,6 +220,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             close_proc: TAc_openclose_callback;
             proberesult: PAc_proberesult): integer; cdecl; external ac_dll;
         */
+        /*
         [DllImport(AcDll, EntryPoint = "ac_open", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private static extern Int32 _ac_open(
             IntPtr PAc_instance,
@@ -244,6 +245,23 @@ namespace Vocaluxe.Lib.Video.Acinerella
             lock (_lock)
             {
                 return _ac_open(PAc_instance, sender, open_proc, read_proc, seek_proc, close_proc, proberesult);
+            }
+        }*/
+
+        [DllImport(AcDll, EntryPoint = "ac_open", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        private static extern Int32 _ac_open2(
+            IntPtr PAc_instance,
+            string filename
+            );
+
+        public static Int32 ac_open2(
+            IntPtr PAc_instance,
+            string filename
+            )
+        {
+            lock (_lock)
+            {
+                return _ac_open2(PAc_instance, filename);
             }
         }
 
@@ -296,17 +314,26 @@ namespace Vocaluxe.Lib.Video.Acinerella
         [DllImport(AcDll, EntryPoint = "ac_free_package", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         public static extern void ac_free_package(IntPtr PAc_package);
 
-        // Creates an decoder for the specified stream number. Returns NIL if no decoder
-        // could be found.
-        //function ac_create_decoder(pacInstance: PAc_instance; nb: integer): PAc_decoder; cdecl; external ac_dll;
-        [DllImport(AcDll, EntryPoint = "ac_create_decoder", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        private static extern IntPtr _ac_create_decoder(IntPtr PAc_instance, Int32 nb);
 
-        public static IntPtr ac_create_decoder(IntPtr PAc_instance, Int32 nb)
+        [DllImport(AcDll, EntryPoint = "ac_create_video_decoder", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
+        private static extern IntPtr _ac_create_video_decoder(IntPtr PAc_instance);
+
+        public static IntPtr ac_create_video_decoder(IntPtr PAc_instance)
         {
             lock (_lock)
             {
-                return _ac_create_decoder(PAc_instance, nb);
+                return _ac_create_video_decoder(PAc_instance);
+            }
+        }
+
+        [DllImport(AcDll, EntryPoint = "ac_create_audio_decoder", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
+        private static extern IntPtr _ac_create_audio_decoder(IntPtr PAc_instance);
+
+        public static IntPtr ac_create_audio_decoder(IntPtr PAc_instance)
+        {
+            lock (_lock)
+            {
+                return _ac_create_audio_decoder(PAc_instance);
             }
         }
 

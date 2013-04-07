@@ -194,10 +194,6 @@ namespace Vocaluxe.Lib.Video
         private int _StreamID; // stream ID for stream closing
         private string _FileName; // current video file name
 
-        private FileStream _fs; // video file stream
-        private readonly TAc_read_callback _rc; // read callback for acinerella
-        private readonly TAc_seek_callback _sc; // seek callback for acinerella
-
         private bool _FileOpened;
 
         private float _VideoTimeBase; // frame time
@@ -237,8 +233,6 @@ namespace Vocaluxe.Lib.Video
 
         public Decoder()
         {
-            _rc = read_proc;
-            _sc = seek_proc;
             _thread = new Thread(Execute);
         }
 
@@ -359,6 +353,9 @@ namespace Vocaluxe.Lib.Video
         #region Threading
         private void DoSkip()
         {
+            if (!_FileOpened)
+                return;
+
             _VideoSkipTime = _Gap;
             _SkipTime = _Start + _Gap;
             _BeforeLoop = false;
@@ -449,14 +446,11 @@ namespace Vocaluxe.Lib.Video
             TAc_instance Instance = new TAc_instance();
             try
             {
-                _fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-
-
                 _instance = CAcinerella.ac_init();
-                CAcinerella.ac_open(_instance, IntPtr.Zero, null, _rc, _sc, null, IntPtr.Zero);
+                CAcinerella.ac_open2(_instance, _FileName);
 
                 Instance = (TAc_instance)Marshal.PtrToStructure(_instance, typeof(TAc_instance));
-                ok = true;
+                ok = Instance.opened;
             }
             catch (Exception)
             {
@@ -474,28 +468,25 @@ namespace Vocaluxe.Lib.Video
             _Duration = Instance.info.duration / 1000f;
 
             int VideoStreamIndex = -1;
-
-            TAc_stream_info Info = new TAc_stream_info();
-            for (int i = 0; i < Instance.stream_count; i++)
+            TAc_decoder Videodecoder;
+            try
             {
-                CAcinerella.ac_get_stream_info(_instance, i, out Info);
-
-                if (Info.stream_type == TAc_stream_type.AC_STREAM_TYPE_VIDEO)
-                {
-                    _videodecoder = CAcinerella.ac_create_decoder(_instance, i);
-
-                    VideoStreamIndex = i;
-                    break;
-                }
+                _videodecoder = CAcinerella.ac_create_video_decoder(_instance);
+                Videodecoder = (TAc_decoder)Marshal.PtrToStructure(_videodecoder, typeof(TAc_decoder));
+                VideoStreamIndex = Videodecoder.stream_index;
             }
+            catch (Exception)
+            {
+                CLog.LogError("Error opening video file (can't find decoder): " + _FileName);
+                return;
+            }
+
 
             if (VideoStreamIndex < 0)
             {
                 //Free();
                 return;
             }
-
-            TAc_decoder Videodecoder = (TAc_decoder)Marshal.PtrToStructure(_videodecoder, typeof(TAc_decoder));
 
             _Width = Videodecoder.stream_info.video_info.frame_width;
             _Height = Videodecoder.stream_info.video_info.frame_height;
@@ -656,9 +647,6 @@ namespace Vocaluxe.Lib.Video
                     _NewFrame = false;
                 }
             }
-
-            //if (!_BufferFull)
-            //    EventDecode.Set();
         }
 
         private void UploadNewFrame(ref STexture frame)
@@ -685,7 +673,6 @@ namespace Vocaluxe.Lib.Video
                         _CurrentVideoTime = _FrameBuffer[num].time;
                     }
                     _Finished = false;
-                    //EventDecode.Set();
                 }
                 else
                 {
@@ -738,28 +725,8 @@ namespace Vocaluxe.Lib.Video
         }
         #endregion Threading
 
-        #region Callbacks
-        private Int32 read_proc(IntPtr sender, IntPtr buf, Int32 size)
-        {
-            Int32 r = 0;
-
-            byte[] bb = new byte[size];
-            r = _fs.Read(bb, 0, size);
-            Marshal.Copy(bb, 0, buf, size);
-
-            return r;
-        }
-
-        private Int64 seek_proc(IntPtr sender, Int64 pos, Int32 whence)
-        {
-            return _fs.Seek(pos, (SeekOrigin)whence);
-        }
-        #endregion Callbacks
-
         public void Dispose()
         {
-            _fs.Dispose();
-            _fs = null;
         }
     }
 }
