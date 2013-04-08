@@ -1342,7 +1342,7 @@ namespace Vocaluxe.Screens
         {
             for (int i = 0; i < CGame.NumPlayer; i++)
             {
-                if (CGame.Player[i].ProfileID > -1 && CProfiles.NumProfiles > CGame.Player[i].ProfileID)
+                if (CGame.Player[i].ProfileID > -1 && CProfiles.NumProfiles > 0)
                     Statics[StaticAvatars[i, CGame.NumPlayer - 1]].Texture = CProfiles.Profiles[CGame.Player[i].ProfileID].Avatar.Texture;
                 else
                     Statics[StaticAvatars[i, CGame.NumPlayer - 1]].Visible = false;
@@ -1353,7 +1353,7 @@ namespace Vocaluxe.Screens
         {
             for (int i = 0; i < CGame.NumPlayer; i++)
             {
-                if (CGame.Player[i].ProfileID > -1 && CProfiles.NumProfiles > CGame.Player[i].ProfileID)
+                if (CGame.Player[i].ProfileID > -1 && CProfiles.NumProfiles > 0)
                     Texts[TextNames[i, CGame.NumPlayer - 1]].Text = CProfiles.Profiles[CGame.Player[i].ProfileID].PlayerName;
                 else
                     Texts[TextNames[i, CGame.NumPlayer - 1]].Visible = false;

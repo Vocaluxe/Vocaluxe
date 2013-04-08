@@ -580,7 +580,7 @@ namespace Vocaluxe.Screens
                 //Update texture and name
                 if (CConfig.Players[i].Length > 0)
                 {
-                    if (CGame.Player[i].ProfileID > -1 && CProfiles.NumProfiles > CGame.Player[i].ProfileID)
+                    if (CGame.Player[i].ProfileID > -1 && CProfiles.NumProfiles > 0)
                     {
                         Statics[StaticPlayerAvatar[i]].Texture = CProfiles.Profiles[CGame.Player[i].ProfileID].Avatar.Texture;
                         Texts[TextPlayer[i]].Text = CProfiles.Profiles[CGame.Player[i].ProfileID].PlayerName;
