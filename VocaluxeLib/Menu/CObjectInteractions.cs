@@ -1,21 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
-using System.Text;
 using System.Windows.Forms;
 
-using Vocaluxe.Menu;
-using Vocaluxe.Menu.SingNotes;
-using Vocaluxe.Menu.SongMenu;
-
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     class CObjectInteractions
     {
         private List<CInteraction> _Interactions;
-        private int _Selection = 0;
+        private int _Selection;
 
         private List<CStatic> _Statics;
         private List<CText> _Texts;
@@ -42,7 +35,7 @@ namespace Vocaluxe.Menu
             Init();
         }
 
-        protected virtual void Init()
+        protected void Init()
         {
             _Interactions = new List<CInteraction>();
             _Selection = 0;
@@ -80,6 +73,7 @@ namespace Vocaluxe.Menu
 
             Active = false;
         }
+
         #region GetLists
         public List<CButton> GetButtons()
         {
@@ -93,23 +87,19 @@ namespace Vocaluxe.Menu
         #endregion GetLists
 
         #region ElementHandler
+
         #region Get Arrays
         public CButton[] Buttons
         {
-            get
-            {
-                return _Buttons.ToArray();
-            }
+            get { return _Buttons.ToArray(); }
         }
 
         public CSelectSlide[] SelectSlides
         {
-            get
-            {
-                return _SelectSlides.ToArray();
-            }
+            get { return _SelectSlides.ToArray(); }
         }
         #endregion Get Arrays
+
         #endregion ElementHandler
 
         #region MenuHandler
@@ -134,9 +124,7 @@ namespace Vocaluxe.Menu
                 }
 
                 if (KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down)
-                {
                     KeyEvent.Handled = _NextInteraction(KeyEvent);
-                }
             }
             else
             {
@@ -180,10 +168,7 @@ namespace Vocaluxe.Menu
         public bool HandleInputThemeEditor(KeyEvent KeyEvent)
         {
             _UnsetHighlighted(_Selection);
-            if (KeyEvent.KeyPressed)
-            {
-
-            }
+            if (KeyEvent.KeyPressed) {}
             else
             {
                 switch (KeyEvent.Key)
@@ -308,13 +293,13 @@ namespace Vocaluxe.Menu
             for (int i = 0; i < _Interactions.Count; i++)
             {
                 if (_IsVisible(i) && (
-                    _Interactions[i].Type == EType.TButton ||
-                    _Interactions[i].Type == EType.TSelectSlide ||
-                    _Interactions[i].Type == EType.TStatic ||
-                    _Interactions[i].Type == EType.TNameSelection ||
-                    _Interactions[i].Type == EType.TText ||
-                    _Interactions[i].Type == EType.TSongMenu ||
-                    _Interactions[i].Type == EType.TEqualizer))
+                                         _Interactions[i].Type == EType.TButton ||
+                                         _Interactions[i].Type == EType.TSelectSlide ||
+                                         _Interactions[i].Type == EType.TStatic ||
+                                         _Interactions[i].Type == EType.TNameSelection ||
+                                         _Interactions[i].Type == EType.TText ||
+                                         _Interactions[i].Type == EType.TSongMenu ||
+                                         _Interactions[i].Type == EType.TEqualizer))
                 {
                     ZSort zs = new ZSort();
                     zs.ID = i;
@@ -327,13 +312,10 @@ namespace Vocaluxe.Menu
                 return;
 
 
-            items.Sort(delegate(ZSort s1, ZSort s2) { return (s2.z.CompareTo(s1.z)); });
+            items.Sort(delegate(ZSort s1, ZSort s2) { return s2.z.CompareTo(s1.z); });
 
             for (int i = 0; i < items.Count; i++)
-            {
                 _DrawInteraction(items[i].ID);
-            }
-
         }
         #endregion Drawing
 
@@ -381,7 +363,7 @@ namespace Vocaluxe.Menu
         }
 
         /// <summary>
-        /// Selects the next element in a menu interaction.
+        ///     Selects the next element in a menu interaction.
         /// </summary>
         /// <returns>True if the next element is selected. False if either there is no next element or the interaction does not provide such a method.</returns>
         public bool NextElement()
@@ -393,7 +375,7 @@ namespace Vocaluxe.Menu
         }
 
         /// <summary>
-        /// Selects the previous element in a menu interaction.
+        ///     Selects the previous element in a menu interaction.
         /// </summary>
         /// <returns>True if the previous element is selected. False if either there is no next element or the interaction does not provide such a method.</returns>
         public bool PrevElement()
@@ -450,9 +432,7 @@ namespace Vocaluxe.Menu
             if (_Interactions[_Selection].Type == EType.TSelectSlide)
             {
                 if (_SelectSlides[_Interactions[_Selection].Num].Visible)
-                {
                     _SelectSlides[_Interactions[_Selection].Num].ProcessMouseLBClick(x, y);
-                }
             }
         }
 
@@ -466,9 +446,7 @@ namespace Vocaluxe.Menu
             if (_Interactions[_Selection].Type == EType.TSelectSlide)
             {
                 if (_SelectSlides[_Interactions[_Selection].Num].Visible)
-                {
                     _SelectSlides[_Interactions[_Selection].Num].ProcessMouseMove(x, y);
-                }
             }
         }
 
@@ -615,7 +593,7 @@ namespace Vocaluxe.Menu
         }
 
         /// <summary>
-        /// Selects the next best interaction in a menu.
+        ///     Selects the next best interaction in a menu.
         /// </summary>
         /// <param name="Key"></param>
         /// <returns></returns>
@@ -627,9 +605,7 @@ namespace Vocaluxe.Menu
             int[] elements = new int[4];
 
             for (int i = 0; i < 4; i++)
-            {
                 Directions[i] = new KeyEvent();
-            }
 
             Directions[0].Key = Keys.Up;
             Directions[1].Key = Keys.Right;
@@ -637,9 +613,7 @@ namespace Vocaluxe.Menu
             Directions[3].Key = Keys.Left;
 
             for (int i = 0; i < 4; i++)
-            {
                 elements[i] = _GetNextElement(Directions[i], out Distances[i], out stages[i]);
-            }
 
             int element = _Selection;
             int stage = int.MaxValue;
@@ -748,8 +722,6 @@ namespace Vocaluxe.Menu
                     case Keys.Right:
                         actualRect = new SRectF(0, actualRect.Y, 1, 1, actualRect.Z);
                         break;
-                    default:
-                        break;
                 }
 
                 for (int i = 0; i < _Interactions.Count; i++)
@@ -799,9 +771,6 @@ namespace Vocaluxe.Menu
                     if (vector.X > 0f && (targetRect.Y + targetRect.H > actualRect.Y && actualRect.Y + actualRect.H > targetRect.Y))
                         inDirection = true;
                     break;
-
-                default:
-                    break;
             }
             if (!inDirection)
                 return float.MaxValue;
@@ -838,9 +807,6 @@ namespace Vocaluxe.Menu
                     if (vector.X > 0f)
                         inDirection = true;
                     break;
-
-                default:
-                    break;
             }
             if (!inDirection)
                 return float.MaxValue;
@@ -849,7 +815,7 @@ namespace Vocaluxe.Menu
         }
 
         /// <summary>
-        /// Selects the next element in a menu interaction.
+        ///     Selects the next element in a menu interaction.
         /// </summary>
         /// <returns>True if the next element is selected. False if either there is no next element or the interaction does not provide such a method.</returns>
         private bool _NextElement()
@@ -861,10 +827,10 @@ namespace Vocaluxe.Menu
         }
 
         /// <summary>
-        /// Selects the previous element in a menu interaction.
+        ///     Selects the previous element in a menu interaction.
         /// </summary>
         /// <returns>
-        /// True if the previous element is selected. False if either there is no previous element or the interaction does not provide such a method.
+        ///     True if the previous element is selected. False if either there is no previous element or the interaction does not provide such a method.
         /// </returns>
         private bool _PrevElement()
         {
@@ -974,9 +940,7 @@ namespace Vocaluxe.Menu
                 return;
 
             if (_Interactions[_Selection].Type == EType.TSelectSlide)
-            {
                 _SelectSlides[_Interactions[_Selection].Num].Highlighted = !_SelectSlides[_Interactions[_Selection].Num].Highlighted;
-            }
         }
 
         private bool _IsHighlighted()
@@ -1084,7 +1048,6 @@ namespace Vocaluxe.Menu
                     break;
             }
         }
-
         #endregion InteractionHandling
 
         #region Theme Handling

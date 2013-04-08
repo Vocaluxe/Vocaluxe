@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Vocaluxe.Menu;
+﻿using System.Collections.Generic;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Video
 {
@@ -25,7 +22,7 @@ namespace Vocaluxe.Lib.Video
         {
             return _Streams.Count;
         }
-        
+
         public virtual int Load(string VideoFileName)
         {
             return 0;
@@ -51,35 +48,25 @@ namespace Vocaluxe.Lib.Video
             return true;
         }
 
-        public virtual void SetLoop(int StreamID, bool Loop)
-        {
-        }
+        public virtual void SetLoop(int StreamID, bool Loop) {}
 
-        public virtual void Pause(int StreamID)
-        {
-        }
+        public virtual void Pause(int StreamID) {}
 
-        public virtual void Resume(int StreamID)
-        {
-        }
+        public virtual void Resume(int StreamID) {}
 
         public virtual bool Finished(int StreamID)
         {
             return false;
         }
 
-        public virtual void Update()
-        {
-        }
+        public virtual void Update() {}
 
         protected bool AlreadyAdded(int StreamID)
         {
             foreach (VideoStreams st in _Streams)
             {
                 if (st.handle == StreamID)
-                {
                     return true;
-                }
             }
             return false;
         }

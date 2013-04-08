@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using System.Collections.Generic;
 using Vocaluxe.Base;
-using Vocaluxe.Menu;
-using Vocaluxe.Menu.SongMenu;
+using VocaluxeLib.Menu;
+using VocaluxeLib.Menu.SongMenu;
 
 namespace Vocaluxe.GameModes
 {
@@ -37,9 +34,7 @@ namespace Vocaluxe.GameModes
         public virtual EGameMode GetCurrentGameMode()
         {
             if (_CurrentSong >= 0 && _CurrentSong < _SongQueque.Count)
-            {
                 return _SongQueque[_CurrentSong].GameMode;
-            }
             return EGameMode.TR_GAMEMODE_NORMAL;
         }
 
@@ -153,7 +148,7 @@ namespace Vocaluxe.GameModes
 
         public virtual bool IsFinished()
         {
-            return (_CurrentSong == _SongQueque.Count || _SongQueque.Count == 0);
+            return _CurrentSong == _SongQueque.Count || _SongQueque.Count == 0;
         }
 
         public virtual int GetCurrentRoundNr()
@@ -210,7 +205,7 @@ namespace Vocaluxe.GameModes
 
         public virtual EGameMode GetGameMode(int Num)
         {
-            if(Num - 1 < _SongQueque.Count && Num > -1)
+            if (Num - 1 < _SongQueque.Count && Num > -1)
                 return _SongQueque[Num].GameMode;
 
             return EGameMode.TR_GAMEMODE_NORMAL;
@@ -222,8 +217,6 @@ namespace Vocaluxe.GameModes
         }
         #endregion Implementation
 
-        protected virtual void SongManipulation(int SongIndex)
-        {
-        }
+        protected virtual void SongManipulation(int SongIndex) {}
     }
 }

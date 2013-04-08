@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Vocaluxe.Lib.Sound
 {
@@ -55,18 +53,15 @@ namespace Vocaluxe.Lib.Sound
 
     class RingBuffer
     {
-        private byte[] _data;
-        private long _size;
+        private readonly byte[] _data;
+        private readonly long _size;
         private long _readPos;
         private long _writePos;
         private long _bytesNotRead;
 
         public long BytesNotRead
         {
-            get
-            {
-                return _bytesNotRead;
-            }
+            get { return _bytesNotRead; }
         }
 
         public RingBuffer(long size)

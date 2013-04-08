@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 using System.Xml;
+using VocaluxeLib.Menu.SingNotes;
 
-using Vocaluxe.Menu.SingNotes;
-
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     struct SNote
     {
@@ -27,11 +25,11 @@ namespace Vocaluxe.Menu
 
     public class CLyric : IMenuElement
     {
-        private int _PartyModeID;
+        private readonly int _PartyModeID;
         private SThemeLyrics _Theme;
         private bool _ThemeLoaded;
 
-        private List<SNote> _Notes;
+        private readonly List<SNote> _Notes;
         private CText _Text;
 
         private float _X;
@@ -117,9 +115,7 @@ namespace Vocaluxe.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _H);
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
-            {
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, ref Color);
-            }
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -129,9 +125,7 @@ namespace Vocaluxe.Menu
             }
 
             if (xmlReader.GetValue(item + "/SColor", ref _Theme.SColorName, String.Empty))
-            {
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColorName, SkinIndex, ref ColorProcessed);
-            }
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColorName, SkinIndex, out ColorProcessed);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref ColorProcessed.R);
@@ -164,10 +158,8 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<Color>: Lyric text color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName != String.Empty)
-                {
+                if (_Theme.ColorName.Length > 0)
                     writer.WriteElementString("Color", _Theme.ColorName);
-                }
                 else
                 {
                     writer.WriteElementString("R", Color.R.ToString("#0.00"));
@@ -178,10 +170,8 @@ namespace Vocaluxe.Menu
 
                 writer.WriteComment("<SColor>: Highlighted lyric color from ColorScheme (high priority)");
                 writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
-                if (_Theme.SColorName != String.Empty)
-                {
+                if (_Theme.SColorName.Length > 0)
                     writer.WriteElementString("SColor", _Theme.SColorName);
-                }
                 else
                 {
                     writer.WriteElementString("SR", ColorProcessed.R.ToString("#0.00"));
@@ -217,7 +207,7 @@ namespace Vocaluxe.Menu
 
                 if (n.Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;
-                
+
                 RectangleF rect = CBase.Drawing.GetTextBounds(_Text);
                 _width += rect.Width;
                 _Notes.Add(n);
@@ -231,7 +221,7 @@ namespace Vocaluxe.Menu
 
         public float GetCurrentLyricPosX()
         {
-            return _X - _width / 2;  
+            return _X - _width / 2;
         }
 
         #region draw
@@ -256,14 +246,14 @@ namespace Vocaluxe.Menu
                     default:
                         DrawSlide(ActualBeat);
                         break;
-                }            
+                }
             }
         }
 
         private void DrawSlide(float CurrentBeat)
         {
             float x = _X - _width / 2;
-            
+
             foreach (SNote note in _Notes)
             {
                 _Text.X = x;
@@ -279,7 +269,7 @@ namespace Vocaluxe.Menu
                     if (CurrentBeat <= note.EndBeat)
                     {
                         _Text.Color = ColorProcessed;
-                       
+
 
                         float diff = note.EndBeat - note.StartBeat;
                         if (diff == 0)
@@ -293,17 +283,16 @@ namespace Vocaluxe.Menu
                     }
                     else
                     {
-                        _Text.Color = ColorProcessed;                 
+                        _Text.Color = ColorProcessed;
                         _Text.Draw();
                     }
-
                 }
                 else
                 {
-                    _Text.Color = Color;                   
+                    _Text.Color = Color;
                     _Text.Draw();
                 }
-                
+
                 x += rect.Width;
             }
         }
@@ -336,9 +325,9 @@ namespace Vocaluxe.Menu
 
                 if (CurrentBeat >= _Notes[note].StartBeat)
                 {
-                    bool last = note == _Notes.Count -1;
+                    bool last = note == _Notes.Count - 1;
                     int endbeat = _Notes[note].EndBeat;
-                    if (note < _Notes.Count -1)
+                    if (note < _Notes.Count - 1)
                         endbeat = _Notes[note + 1].StartBeat - 1;
 
                     if (CurrentBeat <= endbeat)
@@ -357,7 +346,6 @@ namespace Vocaluxe.Menu
 
                         _Text.Draw();
                     }
-
                 }
                 else
                 {
@@ -365,7 +353,7 @@ namespace Vocaluxe.Menu
                     _Text.Color = Color;
                     _Text.Draw();
                 }
-                
+
                 x += rect.Width;
             }
 
@@ -430,16 +418,16 @@ namespace Vocaluxe.Menu
 
                 if (CurrentBeat >= note.StartBeat)
                 {
-                    _Text.Color = ColorProcessed;                
+                    _Text.Color = ColorProcessed;
                     _Text.Draw();
                 }
                 else
                 {
                     // not passed
-                    _Text.Color = Color;                    
+                    _Text.Color = Color;
                     _Text.Draw();
                 }
-                
+
                 x += rect.Width;
             }
         }
@@ -493,15 +481,14 @@ namespace Vocaluxe.Menu
 
                         _Text.Draw();
                     }
-
                 }
                 else
                 {
                     // not passed
-                    _Text.Color = Color;                   
+                    _Text.Color = Color;
                     _Text.Draw();
                 }
-                
+
                 x += rect.Width;
             }
 
@@ -541,16 +528,14 @@ namespace Vocaluxe.Menu
         }
         #endregion draw
 
-        public void UnloadTextures()
-        {
-        }
+        public void UnloadTextures() {}
 
         public void LoadTextures()
         {
-            if (_Theme.ColorName != String.Empty)
+            if (_Theme.ColorName.Length > 0)
                 Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
-            if (_Theme.SColorName != String.Empty)
+            if (_Theme.SColorName.Length > 0)
                 ColorProcessed = CBase.Theme.GetColor(_Theme.SColorName, _PartyModeID);
         }
 

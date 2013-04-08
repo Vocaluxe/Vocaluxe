@@ -57,7 +57,7 @@ private:
 	volatile gboolean Copying;
 
 	gboolean Paused;
-	gboolean Finished;
+	bool Finished;
 
 	gfloat Duration;
 

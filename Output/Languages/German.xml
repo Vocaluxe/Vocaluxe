@@ -112,6 +112,7 @@
   <string name="TR_SCREENSONG_BUTTON_SINGALL">Alle Songs singen</string>
   <string name="TR_SCREENSONG_BUTTON_SINGALLVISIBLE">Alle sichtbaren Songs singen</string>
   <string name="TR_SCREENSONG_BUTTON_OPENPLAYLIST">Playlist öffnen</string>
+  <string name="TR_SCREENSONG_BUTTON_OPEN_SELECTED_ITEM">Auswählen</string>
   <string name="TR_SCREENSONG_BUTTON_RANDOMMEDLEY">Zufälliges Medley singen</string>
   <string name="TR_SCREENSONG_BUTTON_STARTMEDLEY">Medley-Songs singen</string>
   <string name="TR_SCREENSONG_NEWPLAYLIST">Neue Playlist</string>

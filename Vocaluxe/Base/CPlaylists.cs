@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
-
 using Vocaluxe.Lib.Playlist;
-using Vocaluxe.GameModes;
-using Vocaluxe.Menu;
-using Vocaluxe.Menu.SongMenu;
+using VocaluxeLib.Menu;
+using VocaluxeLib.Menu.SongMenu;
 
 namespace Vocaluxe.Base
 {
-
     static class CPlaylists
     {
         private static List<CPlaylistFile> _Playlists;
@@ -23,13 +19,11 @@ namespace Vocaluxe.Base
 
         public static string[] PlaylistNames
         {
-            get 
+            get
             {
                 List<string> names = new List<string>();
-                for (int i = 0; i < _Playlists.Count; i++) 
-                {
+                for (int i = 0; i < _Playlists.Count; i++)
                     names.Add(_Playlists[i].PlaylistName);
-                }
                 return names.ToArray();
             }
         }
@@ -86,9 +80,7 @@ namespace Vocaluxe.Base
             List<string> result = new List<string>();
 
             foreach (CPlaylistFile playlist in _Playlists)
-	        {
-		        result.Add(playlist.PlaylistName);
-	        }
+                result.Add(playlist.PlaylistName);
 
             return result.ToArray();
         }
@@ -105,7 +97,7 @@ namespace Vocaluxe.Base
         {
             if (PlaylistID < 0 || PlaylistID >= _Playlists.Count)
                 return;
-            if (_Playlists[PlaylistID].PlaylistFile != String.Empty)
+            if (_Playlists[PlaylistID].PlaylistFile.Length > 0)
             {
                 try
                 {
@@ -131,10 +123,8 @@ namespace Vocaluxe.Base
             CPlaylistFile pl = new CPlaylistFile();
             pl.PlaylistName = "New Playlist";
             _Playlists.Add(pl);
-            return (_Playlists.Count - 1);
+            return _Playlists.Count - 1;
         }
-
-
 
         public static void AddPlaylistSong(int PlaylistID, int SongID)
         {
@@ -232,53 +222,50 @@ namespace Vocaluxe.Base
             StreamReader sr;
             try
             {
-
-                sr = new StreamReader(file, Encoding.Default, true);
-
-                int pos = -1;
-                string line;
-                while((line = sr.ReadLine()) != null)
+                using (sr = new StreamReader(file, Encoding.Default, true))
                 {
-                    pos = line.IndexOf(":");
-                    if (pos > 0)
+                    int pos = -1;
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
                     {
-                        //Name or comment
-                        if (line[0] == '#')
+                        pos = line.IndexOf(":");
+                        if (pos > 0)
                         {
-                            string Identifier = line.Substring(1, pos - 1).Trim();
-                            string Value = line.Substring(pos + 1, line.Length - pos - 1).Trim();
-                            if (Identifier.ToUpper() == "NAME")
+                            //Name or comment
+                            if (line[0] == '#')
                             {
-                                pl.PlaylistName = Value;
+                                string Identifier = line.Substring(1, pos - 1).Trim();
+                                string Value = line.Substring(pos + 1, line.Length - pos - 1).Trim();
+                                if (Identifier.ToUpper() == "NAME")
+                                    pl.PlaylistName = Value;
                             }
-                        }
-                        //Song
-                        else
-                        {
-                            string Artist = line.Substring(0, pos - 1).Trim();
-                            string Title = line.Substring(pos + 1, line.Length - pos - 1).Trim();
-                            bool found = false;
-                            for (int s = 0; s < AllSongs.Length; s++)
+                                //Song
+                            else
                             {
-                                if (AllSongs[s].Artist == Artist && AllSongs[s].Title == Title)
+                                string Artist = line.Substring(0, pos - 1).Trim();
+                                string Title = line.Substring(pos + 1, line.Length - pos - 1).Trim();
+                                bool found = false;
+                                for (int s = 0; s < AllSongs.Length; s++)
                                 {
-                                    pl.AddSong(AllSongs[s].ID);
-                                    found = true;
-                                    break;
+                                    if (AllSongs[s].Artist == Artist && AllSongs[s].Title == Title)
+                                    {
+                                        pl.AddSong(AllSongs[s].ID);
+                                        found = true;
+                                        break;
+                                    }
                                 }
+                                if (!found)
+                                    CLog.LogError("Can't find song '" + Title + "' from '" + Artist + "' in playlist file: " + file);
                             }
-                            if (!found)
-                                CLog.LogError("Can't find song '" + Title + "' from '" + Artist + "' in playlist file: " + file);
                         }
                     }
                 }
-                sr.Close();
                 File.Delete(file);
             }
             catch
             {
                 return null;
-            }          
+            }
 
             return pl;
         }

@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Vocaluxe.Lib.Video.Gstreamer
 {
-    public struct NativeFrame {
-        public IntPtr buffer;
+    public struct NativeFrame
+    {
+        internal IntPtr buffer;
         public int Size;
         public int Width;
         public int Height;
@@ -24,10 +23,10 @@ namespace Vocaluxe.Lib.Video.Gstreamer
 
     public static class CGstreamerVideoWrapper
     {
-#region arch
+        #region arch
 #if ARCH_X86
 #if WIN
-        private const string Dll = "x86\\gstreamerhelper.dll";
+        private const string Dll = "x86\\gstreamer\\gstreamerhelper.dll";
 #endif
 #endif
 
@@ -36,31 +35,35 @@ namespace Vocaluxe.Lib.Video.Gstreamer
         private const string Dll = "x64\\gstreamer\\gstreamerhelper.dll";
 #endif
 #endif
-#endregion arch
+        #endregion arch
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void LogCallback(string message);
 
-        [DllImport(Dll)]
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SetVideoLogCallback(LogCallback c);
 
-        [DllImport(Dll)]
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool InitVideo();
 
-        [DllImport(Dll)]
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
         public static extern void CloseAllVideos();
 
-        [DllImport(Dll)]
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
         public static extern int LoadVideo(string VideoFileName);
 
-        [DllImport(Dll)]
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool CloseVideo(int StreamID);
 
-        [DllImport(Dll)]
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetVideoNumStreams();
 
-        [DllImport(Dll)]
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
         public static extern float GetVideoLength(int StreamID);
 
-        [DllImport(Dll, EntryPoint="GetFrame")]
+        [DllImport(Dll, EntryPoint = "GetFrame", CallingConvention = CallingConvention.Cdecl)]
         public static extern NativeFrame GetFrameNative(int StreamID, float Time);
 
         public static ManagedFrame GetFrame(int StreamID, float Time)
@@ -82,26 +85,28 @@ namespace Vocaluxe.Lib.Video.Gstreamer
             m.Videotime = f.Videotime;
             m.Width = f.Width;
             return m;
-
         }
 
-        [DllImport(Dll)]
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool Skip(int StreamID, float Start, float Gap);
 
-        [DllImport(Dll)]
-        public static extern void SetVideoLoop(int StreamID, bool Loop);
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SetVideoLoop(int StreamID,
+                                               [MarshalAs(UnmanagedType.U1)] bool Loop);
 
-        [DllImport(Dll)]
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
         public static extern void PauseVideo(int StreamID);
 
-        [DllImport(Dll)]
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
         public static extern void ResumeVideo(int StreamID);
 
-        [DllImport(Dll)]
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool Finished(int StreamID);
 
-        [DllImport(Dll)]
+        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool UpdateVideo();
-
     }
 }

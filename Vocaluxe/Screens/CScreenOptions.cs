@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-
+﻿using System.Windows.Forms;
 using Vocaluxe.Base;
-using Vocaluxe.Menu;
-
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
     class CScreenOptions : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        const int ScreenVersion = 1;
+        protected override int _ScreenVersion
+        {
+            get { return 1; }
+        }
 
         private const string ButtonOptionsGame = "ButtonOptionsGame";
         private const string ButtonOptionsSound = "ButtonOptionsSound";
@@ -21,30 +19,21 @@ namespace Vocaluxe.Screens
         private const string ButtonOptionsLyrics = "ButtonOptionsLyrics";
         private const string ButtonOptionsTheme = "ButtonOptionsTheme";
 
-        public CScreenOptions()
-        {
-        }
-
-        protected override void Init()
+        public override void Init()
         {
             base.Init();
 
-            _ThemeName = "ScreenOptions";
-            _ScreenVersion = ScreenVersion;
-            _ThemeButtons = new string[] { ButtonOptionsGame, ButtonOptionsSound, ButtonOptionsRecord, ButtonOptionsVideo, ButtonOptionsLyrics, ButtonOptionsTheme };
+            _ThemeButtons = new string[] {ButtonOptionsGame, ButtonOptionsSound, ButtonOptionsRecord, ButtonOptionsVideo, ButtonOptionsLyrics, ButtonOptionsTheme};
         }
 
-        public override bool HandleInput(KeyEvent KeyEvent)
+        public override bool HandleInput(KeyEvent keyEvent)
         {
-            base.HandleInput(KeyEvent);
+            base.HandleInput(keyEvent);
 
-            if (KeyEvent.KeyPressed)
-            {
-
-            }
+            if (keyEvent.KeyPressed) {}
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.Escape:
                     case Keys.Back:
@@ -57,22 +46,22 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Enter:
-                        if (Buttons[htButtons(ButtonOptionsGame)].Selected)
+                        if (Buttons[ButtonOptionsGame].Selected)
                             CGraphics.FadeTo(EScreens.ScreenOptionsGame);
 
-                        if (Buttons[htButtons(ButtonOptionsSound)].Selected)
+                        if (Buttons[ButtonOptionsSound].Selected)
                             CGraphics.FadeTo(EScreens.ScreenOptionsSound);
 
-                        if (Buttons[htButtons(ButtonOptionsRecord)].Selected)
+                        if (Buttons[ButtonOptionsRecord].Selected)
                             CGraphics.FadeTo(EScreens.ScreenOptionsRecord);
 
-                        if (Buttons[htButtons(ButtonOptionsVideo)].Selected)
+                        if (Buttons[ButtonOptionsVideo].Selected)
                             CGraphics.FadeTo(EScreens.ScreenOptionsVideo);
 
-                        if (Buttons[htButtons(ButtonOptionsLyrics)].Selected)
+                        if (Buttons[ButtonOptionsLyrics].Selected)
                             CGraphics.FadeTo(EScreens.ScreenOptionsLyrics);
 
-                        if (Buttons[htButtons(ButtonOptionsTheme)].Selected)
+                        if (Buttons[ButtonOptionsTheme].Selected)
                             CGraphics.FadeTo(EScreens.ScreenOptionsTheme);
 
                         break;
@@ -81,35 +70,33 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent MouseEvent)
+        public override bool HandleMouse(MouseEvent mouseEvent)
         {
-            base.HandleMouse(MouseEvent);
+            base.HandleMouse(mouseEvent);
 
-            if (MouseEvent.LB && IsMouseOver(MouseEvent))
+            if (mouseEvent.LB && IsMouseOver(mouseEvent))
             {
-                if (Buttons[htButtons(ButtonOptionsGame)].Selected)
+                if (Buttons[ButtonOptionsGame].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptionsGame);
 
-                if (Buttons[htButtons(ButtonOptionsSound)].Selected)
+                if (Buttons[ButtonOptionsSound].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptionsSound);
 
-                if (Buttons[htButtons(ButtonOptionsRecord)].Selected)
+                if (Buttons[ButtonOptionsRecord].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptionsRecord);
 
-                if (Buttons[htButtons(ButtonOptionsVideo)].Selected)
+                if (Buttons[ButtonOptionsVideo].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptionsVideo);
 
-                if (Buttons[htButtons(ButtonOptionsLyrics)].Selected)
+                if (Buttons[ButtonOptionsLyrics].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptionsLyrics);
 
-                if (Buttons[htButtons(ButtonOptionsTheme)].Selected)
+                if (Buttons[ButtonOptionsTheme].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptionsTheme);
             }
 
-            if (MouseEvent.RB)
-            {
+            if (mouseEvent.RB)
                 CGraphics.FadeTo(EScreens.ScreenMain);
-            }
             return true;
         }
 

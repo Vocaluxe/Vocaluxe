@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Vocaluxe.Menu.SingNotes
+﻿namespace VocaluxeLib.Menu.SingNotes
 {
     class CSingNotesClassic : CSingNotes
     {
         public CSingNotesClassic(int PartyModeID)
-            : base(PartyModeID)
-        {
-
-        }
+            : base(PartyModeID) {}
     }
 }

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using VocaluxeLib.Menu;
 
-using Vocaluxe.Menu;
-
-namespace Vocaluxe.PartyModes
+namespace VocaluxeLib.PartyModes
 {
     public abstract class CPartyMode : IPartyMode
     {
@@ -27,22 +25,16 @@ namespace Vocaluxe.PartyModes
             return false;
         }
 
-        public void Initialize()
-        {
-        }
+        public void Initialize() {}
 
         public void AddScreen(CMenuParty Screen, string ScreenName)
         {
             _Screens.Add(ScreenName, Screen);
         }
 
-        public virtual void DataFromScreen(string ScreenName, Object Data)
-        {
-        }
+        public virtual void DataFromScreen(string ScreenName, Object Data) {}
 
-        public virtual void UpdateGame()
-        {
-        }
+        public virtual void UpdateGame() {}
 
         public virtual CMenuParty GetNextPartyScreen(out EScreens AlternativeScreen)
         {
@@ -65,13 +57,9 @@ namespace Vocaluxe.PartyModes
             return new ScreenSongOptions();
         }
 
-        public virtual void OnSongChange(int SongIndex, ref ScreenSongOptions ScreenSongOptions)
-        {
-        }
+        public virtual void OnSongChange(int SongIndex, ref ScreenSongOptions ScreenSongOptions) {}
 
-        public virtual void OnCategoryChange(int CategoryIndex, ref ScreenSongOptions ScreenSongOptions)
-        {
-        }
+        public virtual void OnCategoryChange(int CategoryIndex, ref ScreenSongOptions ScreenSongOptions) {}
 
         public virtual int GetMaxPlayer()
         {
@@ -98,9 +86,7 @@ namespace Vocaluxe.PartyModes
             return 1;
         }
 
-        public virtual void SetSearchString(string SearchString, bool Visible)
-        {
-        }
+        public virtual void SetSearchString(string SearchString, bool Visible) {}
 
         public virtual void JokerUsed(int TeamNr)
         {
@@ -114,9 +100,7 @@ namespace Vocaluxe.PartyModes
                 _ScreenSongOptions.Selection.NumJokers[TeamNr]--;
         }
 
-        public virtual void SongSelected(int SongID)
-        {
-        }
+        public virtual void SongSelected(int SongID) {}
 
         public virtual void FinishedSinging()
         {

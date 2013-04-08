@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
-using System.IO;
-using System.Text;
 using System.Windows.Forms;
-
-using Vocaluxe.Lib.Draw;
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {
     static class CTime
     {
-        private static Stopwatch _Stopwatch = new Stopwatch();
-        private static float _fps = 0.0f;
-        private static double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
+        private static readonly Stopwatch _Stopwatch = new Stopwatch();
+        private static float _fps;
+        private static readonly double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
 
         public static void Reset()
         {
@@ -28,7 +22,6 @@ namespace Vocaluxe.Base
             _Stopwatch.Start();
         }
 
-		
         public static void Restart()
         {
             Reset();
@@ -48,7 +41,7 @@ namespace Vocaluxe.Base
                 if (Stopwatch.IsHighResolution && ticks != 0)
                     return (float)((nanosecPerTick * ticks) / (1000.0 * 1000.0));
                 else
-                    return (float)_Stopwatch.ElapsedMilliseconds;
+                    return _Stopwatch.ElapsedMilliseconds;
             }
             else
                 return 0f;
@@ -59,14 +52,11 @@ namespace Vocaluxe.Base
             float ms = GetMilliseconds();
 
             if (ms > 0)
-            {
                 _fps = 1 / ms;
-            }
 
             return _fps * 1000f;
         }
 
-        
         public static double GetFPS()
         {
             return _fps * 1000f;
@@ -75,10 +65,10 @@ namespace Vocaluxe.Base
 
     class CKeys
     {
-        private List<KeyEvent> _KeysPool;
-        private List<KeyEvent> _ActualPool;
+        private readonly List<KeyEvent> _KeysPool;
+        private readonly List<KeyEvent> _ActualPool;
 
-        private Object _CopyLock = new Object();
+        private readonly Object _CopyLock = new Object();
 
         private bool _ModALT;
         private bool _ModCTRL;
@@ -86,8 +76,7 @@ namespace Vocaluxe.Base
         private bool _KeyPressed;
         private Keys _Keys;
         private Char _char;
-        private System.Diagnostics.Stopwatch _timer;
-
+        private readonly Stopwatch _timer;
 
         public CKeys()
         {
@@ -100,7 +89,7 @@ namespace Vocaluxe.Base
 
             _KeysPool = new List<KeyEvent>();
             _ActualPool = new List<KeyEvent>();
-            _timer = new System.Diagnostics.Stopwatch();
+            _timer = new Stopwatch();
         }
 
         private void Add(bool alt, bool shift, bool ctrl, bool pressed, char unicode, Keys key)
@@ -121,12 +110,9 @@ namespace Vocaluxe.Base
                     {
                         _KeysPool.Add(pool);
                     }
-                    catch (Exception)
-                    {
-
-                    }
+                    catch (Exception) {}
                 }
-                
+
                 _timer.Reset();
                 _timer.Start();
             }
@@ -141,11 +127,10 @@ namespace Vocaluxe.Base
         {
             Keys keys = Control.ModifierKeys;
 
-            _ModSHIFT = ((keys & Keys.Shift) == Keys.Shift);
-            _ModALT = ((keys & Keys.Alt) == Keys.Alt);
-            _ModCTRL = ((keys & Keys.Control) == Keys.Control);
+            _ModSHIFT = (keys & Keys.Shift) == Keys.Shift;
+            _ModALT = (keys & Keys.Alt) == Keys.Alt;
+            _ModCTRL = (keys & Keys.Control) == Keys.Control;
         }
-        
 
         public void KeyDown(KeyEventArgs e)
         {
@@ -168,7 +153,7 @@ namespace Vocaluxe.Base
         public void KeyPress(KeyPressEventArgs e)
         {
             CheckModifiers();
-            
+
             Add(_ModALT, _ModSHIFT, _ModCTRL, true, e.KeyChar, Keys.None);
             _char = e.KeyChar;
             _KeyPressed = true;
@@ -188,7 +173,8 @@ namespace Vocaluxe.Base
                 Del(0);
                 return true;
             }
-            else return false;
+            else
+                return false;
         }
 
         public void CopyEvents()
@@ -196,30 +182,27 @@ namespace Vocaluxe.Base
             lock (_CopyLock)
             {
                 foreach (KeyEvent e in _KeysPool)
-                {
                     _ActualPool.Add(e);
-                }
                 _KeysPool.Clear();
             }
         }
-
     }
 
     class CMouse
     {
-        private List<MouseEvent> _EventsPool;
-        private List<MouseEvent> _CurrentPool;
+        private readonly List<MouseEvent> _EventsPool;
+        private readonly List<MouseEvent> _CurrentPool;
 
-        private int _x = 0;
-        private int _y = 0;
-        
-        private Object _CopyLock = new Object();
+        private int _x;
+        private int _y;
+
+        private readonly Object _CopyLock = new Object();
 
         private bool _ModALT;
         private bool _ModCTRL;
         private bool _ModSHIFT;
 
-        private System.Diagnostics.Stopwatch _timer;
+        private readonly Stopwatch _timer;
 
         public int X
         {
@@ -242,19 +225,19 @@ namespace Vocaluxe.Base
             _EventsPool = new List<MouseEvent>();
             _CurrentPool = new List<MouseEvent>();
 
-            _timer = new System.Diagnostics.Stopwatch();
+            _timer = new Stopwatch();
         }
 
         private void Add(bool alt, bool shift, bool ctrl, int x, int y, bool lb, bool ld, bool rb, int wheel, bool lbh, bool rbh, bool mb, bool mbh)
         {
-            x = (int)((float)x * (float)CSettings.iRenderW / (float)CDraw.GetScreenWidth());
-            y = (int)((float)y * (float)CSettings.iRenderH / (float)CDraw.GetScreenHeight());
+            x = (int)(x * (float)CSettings.iRenderW / CDraw.GetScreenWidth());
+            y = (int)(y * (float)CSettings.iRenderH / CDraw.GetScreenHeight());
 
             MouseEvent pool = new MouseEvent(ESender.Mouse, alt, shift, ctrl, x, y, lb, ld, rb, -wheel / 120, lbh, rbh, mb, mbh);
 
             lock (_CopyLock)
             {
-                _EventsPool.Add(pool);   
+                _EventsPool.Add(pool);
             }
             _x = x;
             _y = y;
@@ -269,9 +252,9 @@ namespace Vocaluxe.Base
         {
             Keys keys = Control.ModifierKeys;
 
-            _ModSHIFT = ((keys & Keys.Shift) == Keys.Shift);
-            _ModALT = ((keys & Keys.Alt) == Keys.Alt);
-            _ModCTRL = ((keys & Keys.Control) == Keys.Control);
+            _ModSHIFT = (keys & Keys.Shift) == Keys.Shift;
+            _ModALT = (keys & Keys.Alt) == Keys.Alt;
+            _ModCTRL = (keys & Keys.Control) == Keys.Control;
         }
 
         public void MouseMove(MouseEventArgs e)
@@ -308,9 +291,7 @@ namespace Vocaluxe.Base
                 }
             }
             else
-            {
                 _timer.Reset();
-            }
 
             Add(_ModALT, _ModSHIFT, _ModCTRL, e.X, e.Y, lb, ld, e.Button == MouseButtons.Right, e.Delta, false, false,
                 e.Button == MouseButtons.Middle, false);
@@ -330,7 +311,8 @@ namespace Vocaluxe.Base
                 Del(0);
                 return true;
             }
-            else return false;
+            else
+                return false;
         }
 
         public void CopyEvents()
@@ -338,12 +320,9 @@ namespace Vocaluxe.Base
             lock (_CopyLock)
             {
                 foreach (MouseEvent e in _EventsPool)
-                {
                     _CurrentPool.Add(e);
-                }
                 _EventsPool.Clear();
             }
         }
-
     }
 }

@@ -113,7 +113,7 @@ struct _ac_audio_stream_info {
   /*Bits per sample. Can be 8 or 16 Bit.*/
   int bit_depth;
   /*Count of channels in the audio stream.*/
-  int channel_count;
+  int channel_count;  
 };
 typedef struct _ac_audio_stream_info ac_audio_stream_info;
 
@@ -167,44 +167,17 @@ typedef struct _ac_package ac_package;
 /*Pointer on TAc_package*/
 typedef ac_package* lp_ac_package;
 
-typedef void* lp_ac_proberesult;
-
-/*Callback function used to ask the application to read data. Should return
-   the number of bytes read or an value smaller than zero if an error occured.*/
-typedef int CALL_CONVT (*ac_read_callback)(void *sender, char *buf, int size);
-/*Callback function used to ask the application to seek. return 0 if succeed , -1 on failure.*/
-typedef int64_t CALL_CONVT (*ac_seek_callback)(void *sender, int64_t pos, int whence);
-/*Callback function that is used to notify the application when the data stream
-   is opened or closed. For example the file pointer should be resetted to zero
-   when the "open" function is called.*/
-typedef int CALL_CONVT (*ac_openclose_callback)(void *sender);
-
-typedef void* CALL_CONVT (*ac_malloc_callback)(size_t size);
-typedef void* CALL_CONVT (*ac_realloc_callback)(void *ptr, size_t size);
-typedef void CALL_CONVT (*ac_free_callback)(void *ptr);
-
 /*Initializes an Acinerella instance.*/
 extern lp_ac_instance CALL_CONVT ac_init(void);
 extern void CALL_CONVT ac_free(lp_ac_instance pacInstance);
 
-/*Opens a media file.
- @param(inst specifies the Acinerella Instance the stream should be opened for)
- @param(sender specifies a pointer that is sent to all callback functions to
-  allow you to do object orientated programming. May be NULL.)
- @param(open_proc specifies the callback function that is called, when the
-  media file is opened. May be NULL.)
- @param(seek_proc specifies the callback function that is called, when the ffmpeg decoder
-  wants to seek in the file. May be NULL)
- @param(close_proc specifies the callback function that is called when the media
-  file is closed. May be NULL.)*/
-extern int CALL_CONVT ac_open(
+/*Opens a media file.*/
+  
+extern int CALL_CONVT ac_open2(
   lp_ac_instance pacInstance,
-  void *sender, 
-  ac_openclose_callback open_proc,
-  ac_read_callback read_proc,
-  ac_seek_callback seek_proc,
-  ac_openclose_callback close_proc,
-  lp_ac_proberesult proberesult);
+  const char* filename
+);
+  
 /*Closes an opened media file.*/
 extern void CALL_CONVT ac_close(lp_ac_instance pacInstance);
   
@@ -216,9 +189,8 @@ extern lp_ac_package CALL_CONVT ac_read_package(lp_ac_instance pacInstance);
 /*Frees a package that has been read.*/
 extern void CALL_CONVT ac_free_package(lp_ac_package pPackage);
 
-/*Creates an decoder for the specified stream number. Returns NIL if no decoder
- could be found.*/
-extern lp_ac_decoder CALL_CONVT ac_create_decoder(lp_ac_instance pacInstance, int nb);
+extern lp_ac_decoder CALL_CONVT ac_create_audio_decoder(lp_ac_instance pacInstance);
+extern lp_ac_decoder CALL_CONVT ac_create_video_decoder(lp_ac_instance pacInstance);
 /*Frees an created decoder.*/
 extern void CALL_CONVT ac_free_decoder(lp_ac_decoder pDecoder);
 /*Decodes a package using the specified decoder. The decodec data is stored in the
@@ -235,7 +207,4 @@ but seeks the whole file forward. The stream number paremter (nb) is only used f
 The parameter "dir" specifies the seek direction: 0 for forward, -1 for backward.
 The target_pos paremeter is in milliseconds. Returns 1 if the functions succeded.*/
 extern int CALL_CONVT ac_seek(lp_ac_decoder pDecoder, int dir, int64_t target_pos);
-
-extern lp_ac_proberesult CALL_CONVT ac_probe_input_buffer(void* buf, int bufsize, char* filename, int* score_max);
-
 #endif /*VIDEOPLAY_H*/

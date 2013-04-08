@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Sound.Gstreamer;
 
@@ -22,8 +19,9 @@ namespace Vocaluxe.Lib.Sound
         public CGstreamerAudio()
         {
             Init();
-            Log = new CGstreamerAudioWrapper.LogCallback(LogHandler);
-            GC.SuppressFinalize(Log);
+            Log = LogHandler;
+            //Is this really needed? CodaAnalyzer complains about it...
+            //GC.SuppressFinalize(Log);
             CGstreamerAudioWrapper.SetLogCallback(Log);
         }
 

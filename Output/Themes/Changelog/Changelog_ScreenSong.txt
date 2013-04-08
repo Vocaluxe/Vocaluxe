@@ -1,6 +1,14 @@
 ScreenSong
 
 ++++++++++
+Version 5:
+
+Add:
+<ButtonOptionsOpenSelectedItem>
+Remove:
+ButtonOptionsOpenPlaylist
+
+++++++++++
 Version 4:
 
 Add:

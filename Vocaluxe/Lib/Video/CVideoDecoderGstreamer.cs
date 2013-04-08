@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Gstreamer;
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Video
 {
@@ -15,15 +13,15 @@ namespace Vocaluxe.Lib.Video
         private void LogHandler(string text)
         {
             CLog.LogError(text);
-
         }
         #endregion log
 
         public bool Init()
         {
             bool retval = CGstreamerVideoWrapper.InitVideo();
-            Log = new CGstreamerVideoWrapper.LogCallback(LogHandler);
-            GC.SuppressFinalize(Log);
+            Log = LogHandler;
+            //Really needed? CodeAnalysis complains
+            //GC.SuppressFinalize(Log);
             CGstreamerVideoWrapper.SetVideoLogCallback(Log);
             return retval;
         }
@@ -42,7 +40,7 @@ namespace Vocaluxe.Lib.Video
                 i = CGstreamerVideoWrapper.LoadVideo(u.AbsoluteUri);
                 return i;
             }
-            catch (Exception e) { }
+            catch (Exception) {}
             return i;
         }
 
@@ -110,9 +108,7 @@ namespace Vocaluxe.Lib.Video
                     frame = CDraw.AddTexture(Width, Height, ref Data);
                 }
                 else
-                {
                     CDraw.UpdateTexture(ref frame, ref Data);
-                }
                 Data = null;
             }
         }

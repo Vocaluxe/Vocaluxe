@@ -3,13 +3,12 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
-
-using Vocaluxe.Menu;
-using Vocaluxe.PartyModes;
+using VocaluxeLib.Menu;
+using VocaluxeLib.PartyModes;
 
 namespace Vocaluxe.Base
 {
+
     #region Structs
     struct SPartyMode
     {
@@ -29,10 +28,9 @@ namespace Vocaluxe.Base
     }
     #endregion Structs
 
-
     static class CParty
     {
-        const int PartyModeSystemVersion = 1;
+        private const int PartyModeSystemVersion = 1;
 
         private static Dictionary<int, SPartyMode> _PartyModes;
         private static Queue<int> _IDs;
@@ -83,7 +81,7 @@ namespace Vocaluxe.Base
         {
             List<SPartyModeInfos> infos = new List<SPartyModeInfos>();
 
-            int[] UsedKeys  = new int[_PartyModes.Count];
+            int[] UsedKeys = new int[_PartyModes.Count];
             _PartyModes.Keys.CopyTo(UsedKeys, 0);
 
             for (int i = 0; i < UsedKeys.Length; i++)
@@ -117,7 +115,7 @@ namespace Vocaluxe.Base
             }
             return infos;
         }
-                
+
         public static void SetNormalGameMode()
         {
             CSongs.ResetPartySongSung();
@@ -166,7 +164,7 @@ namespace Vocaluxe.Base
 
         public static void OnCategoryChange(int CategoryIndex, ref ScreenSongOptions ScreenSongOptions)
         {
-            _CurrentPartyMode.PartyMode.OnCategoryChange(CategoryIndex,  ref ScreenSongOptions);
+            _CurrentPartyMode.PartyMode.OnCategoryChange(CategoryIndex, ref ScreenSongOptions);
         }
 
         public static void SetSearchString(string SearchString, bool Visible)
@@ -215,7 +213,7 @@ namespace Vocaluxe.Base
 
         private static SPartyMode LoadPartyMode(string file)
         {
-            SPartyMode pm =  new SPartyMode();
+            SPartyMode pm = new SPartyMode();
             pm.PartyModeID = _IDs.Dequeue();
             pm.ScreenFiles = new List<string>();
             pm.NoErrors = false;
@@ -228,7 +226,7 @@ namespace Vocaluxe.Base
 
             bool loaded = true;
 
-            loaded &= xmlReader.TryGetIntValue("//root/PartyModeSystemVersion", ref pm.PartyModeSystemVersion);                
+            loaded &= xmlReader.TryGetIntValue("//root/PartyModeSystemVersion", ref pm.PartyModeSystemVersion);
             loaded &= xmlReader.GetValue("//root/Info/Name", ref pm.Name, "ERROR Name");
             loaded &= xmlReader.GetValue("//root/Info/Description", ref pm.Description, "ERROR Description");
             loaded &= xmlReader.GetValue("//root/Info/Author", ref pm.Author, "ERROR Author");
@@ -261,7 +259,7 @@ namespace Vocaluxe.Base
 
             List<string> FilesToCompile = new List<string>();
             FilesToCompile.AddRange(CHelper.ListFiles(PathToCode, "*.cs", false, true));
-            
+
             Assembly Output = CompileFiles(FilesToCompile.ToArray());
             if (Output == null)
                 return pm;
@@ -272,7 +270,7 @@ namespace Vocaluxe.Base
                 return pm;
             }
 
-            object Instance = Output.CreateInstance("Vocaluxe.PartyModes." + pm.PartyModeFile);
+            object Instance = Output.CreateInstance(typeof(IPartyMode).Namespace + "." + pm.Folder + "." + pm.PartyModeFile);
             if (Instance == null)
             {
                 CLog.LogError("Error creating Instance of PartyMode file: " + file);
@@ -306,15 +304,11 @@ namespace Vocaluxe.Base
             foreach (string screenfile in pm.ScreenFiles)
             {
                 string XmlPath = Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeScreens);
-                CMenuParty Screen = GetPartyScreenInstance(
-                    Output,
-                    screenfile,
-                    Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeScreens)
-                    );
+                CMenuParty Screen = GetPartyScreenInstance(Output, screenfile, pm.Folder);
 
                 if (Screen != null)
                 {
-                    Screen.Initialize();
+                    Screen.Init();
                     Screen.AssingPartyMode(pm.PartyMode);
                     Screen.SetPartyModeID(pm.PartyModeID);
                     Screen.LoadTheme(XmlPath);
@@ -344,36 +338,36 @@ namespace Vocaluxe.Base
             Params.IncludeDebugInformation = true;
 #endif
 
-            CodeDomProvider CDP = CodeDomProvider.CreateProvider("CSharp");
-            CompilerResults CompileResult = null;
+            using (CodeDomProvider CDP = CodeDomProvider.CreateProvider("CSharp"))
+            {
+                CompilerResults CompileResult = null;
 
-            try
-            {
-                CompileResult = CDP.CompileAssemblyFromFile(Params, files);
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.Message);
-                return null;
-            }
-            
-            if (CompileResult.Errors.Count > 0)
-            {
-                for (int i = 0; i < CompileResult.Errors.Count; i++)
+                try
                 {
-                    CLog.LogError("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + CompileResult.Errors[i].ErrorText);
-                }               
-                return null;
+                    CompileResult = CDP.CompileAssemblyFromFile(Params, files);
+                }
+                catch (Exception e)
+                {
+                    CLog.LogError("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.Message);
+                    return null;
+                }
+
+                if (CompileResult.Errors.Count > 0)
+                {
+                    foreach (CompilerError e in CompileResult.Errors)
+                        CLog.LogError("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.ErrorText + " in '" + e.FileName + "' (" + e.Line + ")");
+                    return null;
+                }
+                return CompileResult.CompiledAssembly;
             }
-            return CompileResult.CompiledAssembly;
         }
 
-        private static CMenuParty GetPartyScreenInstance(Assembly Assembly, string ScreenName, string XmlPath)
+        private static CMenuParty GetPartyScreenInstance(Assembly Assembly, string ScreenName, string partyModeName)
         {
             if (Assembly == null)
                 return null;
 
-            object Instance = Assembly.CreateInstance("Vocaluxe.PartyModes." + ScreenName);
+            object Instance = Assembly.CreateInstance(typeof(IPartyMode).Namespace + "." + partyModeName + "." + ScreenName);
             if (Instance == null)
             {
                 CLog.LogError("Error creating Instance of PartyScreen: " + ScreenName);

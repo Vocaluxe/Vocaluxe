@@ -10,9 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>VocaluxeLib</RootNamespace>
     <AssemblyName>VocaluxeLib</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWin|x86' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,6 +46,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <CodeAnalysisRuleSet>..\CheckingRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWin|x64'">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -110,6 +111,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Menu\CBackground.cs" />
     <Compile Include="Menu\CBasic.cs" />
     <Compile Include="Menu\CButton.cs" />
@@ -121,13 +123,16 @@
     <Compile Include="Menu\CMenuParty.cs" />
     <Compile Include="Menu\CNameSelection.cs" />
     <Compile Include="Menu\CObjectInteractions.cs" />
+    <Compile Include="Menu\COrderedDictionaryLite.cs" />
     <Compile Include="Menu\CParticle.cs" />
     <Compile Include="Menu\CPlaylist.cs" />
+    <Compile Include="Menu\CPoints.cs" />
     <Compile Include="Menu\CSelectSlide.cs" />
     <Compile Include="Menu\CStatic.cs" />
     <Compile Include="Menu\CText.cs" />
     <Compile Include="Menu\CScreenSetting.cs" />
     <Compile Include="Menu\CXMLReader.cs" />
+    <Compile Include="Menu\Enums.cs" />
     <Compile Include="Menu\IMenu.cs" />
     <Compile Include="Menu\IMenuElement.cs" />
     <Compile Include="Menu\SingNotes\CNotes.cs" />
@@ -142,6 +147,7 @@
     <Compile Include="Menu\SongMenu\CSongMenuList.cs" />
     <Compile Include="Menu\SongMenu\CSongMenuTileBoard.cs" />
     <Compile Include="Menu\SongMenu\ISongMenu.cs" />
+    <Compile Include="Menu\Structs.cs" />
     <Compile Include="PartyModes\CPartyMode.cs" />
     <Compile Include="PartyModes\CPartyModeNone.cs" />
     <Compile Include="PartyModes\CScreenPartyDummy.cs" />

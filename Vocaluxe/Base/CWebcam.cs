@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-
+﻿using System.Drawing;
 using Vocaluxe.Lib.Webcam;
-using Vocaluxe.Lib.Draw;
-using Vocaluxe.Menu;
-
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {

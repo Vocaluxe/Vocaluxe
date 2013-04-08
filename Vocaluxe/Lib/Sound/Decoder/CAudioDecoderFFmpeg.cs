@@ -1,37 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
-
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Acinerella;
 
 namespace Vocaluxe.Lib.Sound.Decoder
 {
-    class CAudioDecoderFFmpeg: CAudioDecoder
+    class CAudioDecoderFFmpeg : CAudioDecoder, IDisposable
     {
-        private TAc_read_callback _rc;
-        private TAc_seek_callback _sc;
-        private FileStream _fs;
-
         private IntPtr _instance = IntPtr.Zero;
         private IntPtr _audiodecoder = IntPtr.Zero;
-        
+
         private TAc_instance _Instance;
         private FormatInfo _FormatInfo;
         private float _CurrentTime;
 
         private string _FileName;
-        private bool _FileOpened = false;
+        private bool _FileOpened;
 
         public override void Init()
         {
-            _rc = new TAc_read_callback(read_proc);
-            _sc = new TAc_seek_callback(seek_proc);
-
             _FileOpened = false;
-
             _Initialized = true;
         }
 
@@ -41,12 +30,19 @@ namespace Vocaluxe.Lib.Sound.Decoder
                 return;
 
             _FileName = FileName;
-            _fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
 
-            _instance = CAcinerella.ac_init();
-            CAcinerella.ac_open(_instance, IntPtr.Zero, null, _rc, _sc, null, IntPtr.Zero);
-
-            _Instance = (TAc_instance)Marshal.PtrToStructure(_instance, typeof(TAc_instance));
+            try
+            {
+                _instance = CAcinerella.ac_init();
+                CAcinerella.ac_open2(_instance, _FileName);
+                _Instance = (TAc_instance)Marshal.PtrToStructure(_instance, typeof(TAc_instance));
+            }
+            catch (Exception)
+            {
+                CLog.LogError("Error opening audio file: " + _FileName);
+                return;
+            }
+            
 
             if (!_Instance.opened)
             {
@@ -55,26 +51,17 @@ namespace Vocaluxe.Lib.Sound.Decoder
             }
 
             int AudioStreamIndex = -1;
-
-            TAc_stream_info Info = new TAc_stream_info();
-            for (int i = 0; i < _Instance.stream_count; i++)
+            TAc_decoder Audiodecoder;
+            try
             {
-                CAcinerella.ac_get_stream_info(_instance, i, out Info);
-
-                if (Info.stream_type == TAc_stream_type.AC_STREAM_TYPE_AUDIO)
-                {
-                    try
-                    {
-                        _audiodecoder = CAcinerella.ac_create_decoder(_instance, i);
-                    }
-                    catch (Exception)
-                    {
-                        return;                        
-                    }
-                    
-                    AudioStreamIndex = i;
-                    break;
-                }
+                _audiodecoder = CAcinerella.ac_create_audio_decoder(_instance);
+                Audiodecoder = (TAc_decoder)Marshal.PtrToStructure(_audiodecoder, typeof(TAc_decoder));
+                AudioStreamIndex = Audiodecoder.stream_index;
+            }
+            catch (Exception)
+            {
+                CLog.LogError("Error opening audio file (can't find decoder): " + _FileName);
+                return;
             }
 
             if (AudioStreamIndex < 0)
@@ -82,8 +69,6 @@ namespace Vocaluxe.Lib.Sound.Decoder
                 //Free();
                 return;
             }
-
-            TAc_decoder Audiodecoder = (TAc_decoder)Marshal.PtrToStructure(_audiodecoder, typeof(TAc_decoder));
 
             _FormatInfo = new FormatInfo();
 
@@ -136,7 +121,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
             if (!_Initialized && !_FileOpened)
                 return 0f;
 
-            return (float)_Instance.info.duration / 1000f;
+            return _Instance.info.duration / 1000f;
         }
 
         public override void SetPosition(float Time)
@@ -189,12 +174,11 @@ namespace Vocaluxe.Lib.Sound.Decoder
                 TimeStamp = (float)Decoder.timecode;
                 _CurrentTime = TimeStamp;
                 //Console.WriteLine(_CurrentTime.ToString("#0.000") + " Buffer size: " + Decoder.buffer_size.ToString());
-                
                 Buffer = new byte[Decoder.buffer_size];
 
                 if (Decoder.buffer_size > 0)
                     Marshal.Copy(Decoder.buffer, Buffer, 0, Buffer.Length);
-                
+
                 return;
             }
 
@@ -202,22 +186,8 @@ namespace Vocaluxe.Lib.Sound.Decoder
             TimeStamp = 0f;
         }
 
-        #region Callbacks
-        private Int32 read_proc(IntPtr sender, IntPtr buf, Int32 size)
+        public void Dispose()
         {
-            Int32 r = 0;
-
-            byte[] bb = new byte[size];
-            r = _fs.Read(bb, 0, size);
-            Marshal.Copy(bb, 0, buf, size);
-
-            return r;
         }
-
-        private Int64 seek_proc(IntPtr sender, Int64 pos, Int32 whence)
-        {
-            return (Int64)_fs.Seek((long)pos, (SeekOrigin)whence);
-        }
-        #endregion Callbacks
     }
 }

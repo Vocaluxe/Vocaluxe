@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Engels</string>
+  <string name="TR_PARTYMODE_NAME">Uitdaging Medley</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Speel Uitdaging met alleen 5 Medleys</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Voor iedereen geïnteresseerd in duelleren en Medleys.</string>
+  <string name="TR_BUTTON_NEXT">Volgende</string>
+  <string name="TR_BUTTON_BACK">Vorige</string>
+  <string name="TR_BUTTON_START">Start</string>
+  <string name="TR_BUTTON_EXIT">Afsluiten</string>
+  <string name="TR_BUTTON_YES">Ja</string>
+  <string name="TR_BUTTON_NO">Nee</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Volgende Ronde</string>
+  <string name="TR_SCREENCONFIG_TITLE">Uitdaging Medley: Configuratie</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Aantal spelers</string>
+  <string name="TR_SCREENCONFIG_NUMMICS">Aantal microfoons</string>
+  <string name="TR_SCREENCONFIG_NUMROUNDS">Aantal rondes</string>
+  <string name="TR_SCREENNAMES_TITLE">Uitdaging Medley: Kies speler</string>
+  <string name="TR_SCREENMAIN_TITLE">Uitdaging Medley: Overzicht</string>
+  <string name="TR_SCREENMAIN_TABLE_POS">#</string>
+  <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">Naam</string>
+  <string name="TR_SCREENMAIN_TABLE_NUMPLAYED">Rondes</string>
+  <string name="TR_SCREENMAIN_TABLE_WON">Overwinningen</string>
+  <string name="TR_SCREENMAIN_TABLE_SINGPOINTS">Zingpunten</string>
+  <string name="TR_SCREENMAIN_TABLE_GAMEPOINTS">Score</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Wil je echt afsluiten?</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Speler van volgende ronde:</string>
+  <string name="TR_SCREENMAIN_FINISH">Alle rondes zijn gezonden! De winnaar is...</string>
+</resources>

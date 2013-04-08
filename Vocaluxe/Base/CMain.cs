@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
-
-using Vocaluxe.GameModes;
-using Vocaluxe.Menu;
-using Vocaluxe.Menu.SongMenu;
+using VocaluxeLib.Menu;
+using VocaluxeLib.Menu.SongMenu;
 
 namespace Vocaluxe.Base
 {
@@ -35,7 +32,7 @@ namespace Vocaluxe.Base
         public static void Init()
         {
             CBase.Assign(Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language,
-                Game, Profiles, Record, Songs, Video, Sound, Cover, DataBase, Input, Playlist);
+                         Game, Profiles, Record, Songs, Video, Sound, Cover, DataBase, Input, Playlist);
         }
     }
 
@@ -247,9 +244,9 @@ namespace Vocaluxe.Base
             return CTheme.GetColor(ColorName, PartyModeID);
         }
 
-        public bool GetColor(string ColorName, int SkinIndex, ref SColorF Color)
+        public bool GetColor(string ColorName, int SkinIndex, out SColorF Color)
         {
-            return CTheme.GetColor(ColorName, SkinIndex, ref Color);
+            return CTheme.GetColor(ColorName, SkinIndex, out Color);
         }
 
         public SColorF GetPlayerColor(int PlayerNr)
@@ -276,12 +273,9 @@ namespace Vocaluxe.Base
         {
             CTheme.LoadTheme();
         }
-
     }
 
-    class BHelper : IHelper
-    {
-    }
+    class BHelper : IHelper {}
 
     class BBackgroundMusic : IBackgroundMusic
     {
@@ -329,7 +323,6 @@ namespace Vocaluxe.Base
         {
             CBackgroundMusic.Play();
         }
-
 
         public void ApplyVolume()
         {
@@ -585,12 +578,12 @@ namespace Vocaluxe.Base
 
         public EOffOn GetTabs()
         {
-            return CSongs.Tabs;
+            return CSongs.Categorizer.Tabs;
         }
 
         public string GetSearchFilter()
         {
-            return CSongs.SearchFilter;
+            return CSongs.Filter.SearchString;
         }
 
         public void SetCategory(int CategoryIndex)
@@ -605,23 +598,11 @@ namespace Vocaluxe.Base
 
         public CSong GetVisibleSong(int VisibleIndex)
         {
-            if (VisibleIndex >= CSongs.NumVisibleSongs)
-                return null;
-
-            CSong song = CSongs.VisibleSongs[VisibleIndex];
-            //Flamefire: Why copy the song-instance??? Cover and stuff will be loaded twice!
-            //And for unknown reason causes no-big-cover bug if covers are not loaded on startup
-            return song;
-            //if (song == null)
-            //    return null;
-
-            //return new CSong(song);
+            return CSongs.GetVisibleSongByIndex(VisibleIndex);
         }
 
         public CSong GetSongByID(int SongID)
         {
-            //Flamefire: Why copy?
-            //return new CSong(CSongs.GetSong(SongID));
             return CSongs.GetSong(SongID);
         }
 
@@ -658,9 +639,9 @@ namespace Vocaluxe.Base
             CSongs.ResetPartySongSung(CatIndex);
         }
 
-        public void SortSongs(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, String SearchString, bool ShowDuetSongs)
+        public void SortSongs(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, String SearchString, EDuetOptions DuetOptions)
         {
-            CSongs.Sort(Sorting, Tabs, IgnoreArticles, SearchString, ShowDuetSongs);
+            CSongs.Sort(Sorting, Tabs, IgnoreArticles, SearchString, DuetOptions);
         }
 
         public void NextCategory()
@@ -700,7 +681,6 @@ namespace Vocaluxe.Base
         {
             return CVideo.VdClose(VideoStream);
         }
-
     }
 
     class BSound : ISound
@@ -811,8 +791,6 @@ namespace Vocaluxe.Base
         {
             return CPlaylists.NumPlaylists;
         }
-
-
 
         public void AddPlaylistSong(int PlaylistID, int SongID)
         {

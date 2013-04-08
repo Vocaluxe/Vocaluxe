@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using VocaluxeLib.PartyModes;
 
-using Vocaluxe.PartyModes;
-
-namespace Vocaluxe.Menu
+namespace VocaluxeLib.Menu
 {
     public abstract class CMenuParty : CMenu
     {
@@ -30,9 +27,7 @@ namespace Vocaluxe.Menu
             _PartyMode = PartyMode;
         }
 
-        public virtual void DataToScreen(Object Data)
-        {
-        }
+        public virtual void DataToScreen(Object Data) {}
 
         /*
         public sealed override void LoadTheme()
@@ -51,6 +46,5 @@ namespace Vocaluxe.Menu
         {
         }
         */
-        
     }
 }

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Drawing;
-using System.Text;
-
-using Vocaluxe.Menu;
 using Vocaluxe.Lib.Video;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {
@@ -99,7 +95,6 @@ namespace Vocaluxe.Base
         {
             _VideoDecoder.Update();
         }
-
         #endregion Interface
 
         #endregion VideoDecoder
@@ -109,7 +104,7 @@ namespace Vocaluxe.Base
     {
         private STexture _VideoTexture;
         private int _VideoStream;
-        private Stopwatch _VideoTimer;
+        private readonly Stopwatch _VideoTimer;
         private bool _Finished;
         private bool _Loaded;
 
@@ -159,7 +154,6 @@ namespace Vocaluxe.Base
         {
             if (!_Finished)
             {
-
                 float VideoTime = _VideoTimer.ElapsedMilliseconds / 1000f;
                 _Finished = CVideo.VdFinished(_VideoStream);
 

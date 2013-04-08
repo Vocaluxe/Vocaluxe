@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Vocaluxe.Menu
+﻿namespace VocaluxeLib.Menu
 {
     public enum EType
     {
@@ -22,8 +18,8 @@ namespace Vocaluxe.Menu
 
     class CInteraction
     {
-        private int _Num;
-        private EType _Type;
+        private readonly int _Num;
+        private readonly EType _Type;
 
         public int Num
         {
@@ -39,15 +35,15 @@ namespace Vocaluxe.Menu
         {
             get
             {
-                return (_Type == EType.TBackground ||
-                    _Type == EType.TNameSelection ||
-                    _Type == EType.TText ||
-                    _Type == EType.TStatic ||
-                    _Type == EType.TSongMenu ||
-                    _Type == EType.TLyric ||
-                    _Type == EType.TSingNote ||
-                    _Type == EType.TEqualizer ||
-                    _Type == EType.TPlaylist);
+                return _Type == EType.TBackground ||
+                       _Type == EType.TNameSelection ||
+                       _Type == EType.TText ||
+                       _Type == EType.TStatic ||
+                       _Type == EType.TSongMenu ||
+                       _Type == EType.TLyric ||
+                       _Type == EType.TSingNote ||
+                       _Type == EType.TEqualizer ||
+                       _Type == EType.TPlaylist;
             }
         }
 

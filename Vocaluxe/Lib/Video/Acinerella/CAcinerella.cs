@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.IO;
-
-using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Video.Acinerella
 {
@@ -34,7 +31,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
         AC_OUTPUT_RGBA32 = 2,
         AC_OUTPUT_BGRA32 = 3
     }
-
 
     // Contains information about the whole file/stream that has been opened. Default 
     // values are "" for strings and -1 for integer values.
@@ -95,16 +91,15 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public TAc_stream_type stream_type;
         //Additional info about the stream
         public TAc_audio_stream_info audio_info;
-        public TAc_video_stream_info video_info;    
+        public TAc_video_stream_info video_info;
     }
-
 
     // Contains information about an Acinerella video/audio decoder.
     [StructLayout(LayoutKind.Sequential)]
     public struct TAc_decoder
     {
         //Pointer on the Acinerella instance
-        public IntPtr pAcInstance;
+        private readonly IntPtr pAcInstance;
         //Contains the type of the decoder.
         public TAc_decoder_type dec_type;
 
@@ -119,7 +114,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public Int32 stream_index;
 
         //Pointer to the buffer which contains the data.
-        public IntPtr buffer;
+        internal IntPtr buffer;
         //Size of the data in the buffer.
         public Int32 buffer_size;
     }
@@ -131,7 +126,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
         //The stream the package belongs to.
         public Int32 stream_index;
     }
-
 
     // Callback function used to ask the application to read data. Should return
     // the number of bytes read or an value smaller than zero if an error occured.
@@ -155,7 +149,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate Int32 TAc_openclose_callback(IntPtr sender);
 
-
     public static class CAcinerella
     {
 #if ARCH_X86
@@ -178,7 +171,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 #endif
 #endif
 
-        private static Object _lock = new Object();
+        private static readonly Object _lock = new Object();
 
         // Defines the type of an Acinerella media stream. Currently only video and
         // audio streams are supported, subtitle and data streams will be marked as
@@ -227,6 +220,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             close_proc: TAc_openclose_callback;
             proberesult: PAc_proberesult): integer; cdecl; external ac_dll;
         */
+        /*
         [DllImport(AcDll, EntryPoint = "ac_open", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private static extern Int32 _ac_open(
             IntPtr PAc_instance,
@@ -252,8 +246,25 @@ namespace Vocaluxe.Lib.Video.Acinerella
             {
                 return _ac_open(PAc_instance, sender, open_proc, read_proc, seek_proc, close_proc, proberesult);
             }
+        }*/
+
+        [DllImport(AcDll, EntryPoint = "ac_open", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        private static extern Int32 _ac_open2(
+            IntPtr PAc_instance,
+            string filename
+            );
+
+        public static Int32 ac_open2(
+            IntPtr PAc_instance,
+            string filename
+            )
+        {
+            lock (_lock)
+            {
+                return _ac_open2(PAc_instance, filename);
+            }
         }
-        
+
         // Closes an opened media file.
         //procedure ac_close(inst: PAc_instance);cdecl; external ac_dll;
         [DllImport(AcDll, EntryPoint = "ac_close", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
@@ -266,7 +277,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 _ac_close(PAc_instance);
             }
         }
-        
+
         // Stores information in "pInfo" about stream number "nb".
         //procedure ac_get_stream_info(
         //inst: PAc_instance; nb: integer; pinfo: PAc_stream_info); cdecl; external ac_dll;
@@ -303,20 +314,29 @@ namespace Vocaluxe.Lib.Video.Acinerella
         [DllImport(AcDll, EntryPoint = "ac_free_package", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         public static extern void ac_free_package(IntPtr PAc_package);
 
-        // Creates an decoder for the specified stream number. Returns NIL if no decoder
-        // could be found.
-        //function ac_create_decoder(pacInstance: PAc_instance; nb: integer): PAc_decoder; cdecl; external ac_dll;
-        [DllImport(AcDll, EntryPoint = "ac_create_decoder", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        private static extern IntPtr _ac_create_decoder(IntPtr PAc_instance, Int32 nb);
 
-        public static IntPtr ac_create_decoder(IntPtr PAc_instance, Int32 nb)
+        [DllImport(AcDll, EntryPoint = "ac_create_video_decoder", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
+        private static extern IntPtr _ac_create_video_decoder(IntPtr PAc_instance);
+
+        public static IntPtr ac_create_video_decoder(IntPtr PAc_instance)
         {
             lock (_lock)
             {
-                return _ac_create_decoder(PAc_instance, nb);
+                return _ac_create_video_decoder(PAc_instance);
             }
         }
-        
+
+        [DllImport(AcDll, EntryPoint = "ac_create_audio_decoder", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
+        private static extern IntPtr _ac_create_audio_decoder(IntPtr PAc_instance);
+
+        public static IntPtr ac_create_audio_decoder(IntPtr PAc_instance)
+        {
+            lock (_lock)
+            {
+                return _ac_create_audio_decoder(PAc_instance);
+            }
+        }
+
         // Frees an created decoder.
         //procedure ac_free_decoder(pDecoder: PAc_decoder); cdecl; external ac_dll;
         [DllImport(AcDll, EntryPoint = "ac_free_decoder", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
@@ -358,7 +378,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
         [DllImport(AcDll, EntryPoint = "ac_get_frame", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private static extern Int32 _ac_get_frame(IntPtr PAcInstance, IntPtr PAc_decoder);
 
-
         public static Int32 ac_get_frame(IntPtr PAcInstance, IntPtr PAc_decoder)
         {
             lock (_lock)
@@ -366,6 +385,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 return _ac_get_frame(PAcInstance, PAc_decoder);
             }
         }
+
         [DllImport(AcDll, EntryPoint = "ac_skip_frames", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private static extern Int32 _ac_skip_frames(IntPtr PAcInstance, IntPtr PAc_decoder, Int32 num);
 

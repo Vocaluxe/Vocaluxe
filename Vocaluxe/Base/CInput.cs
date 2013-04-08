@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Vocaluxe.Lib.Input;
+﻿using Vocaluxe.Lib.Input;
 using Vocaluxe.Lib.Input.WiiMote;
-using Vocaluxe.Menu;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {
     static class CInput
     {
-        static IInput _Input;
+        private static IInput _Input;
 
         public static void Init()
         {
@@ -22,6 +18,7 @@ namespace Vocaluxe.Base
         public static void Close()
         {
             _Input.Close();
+            _Input = null;
         }
 
         public static bool Connect()

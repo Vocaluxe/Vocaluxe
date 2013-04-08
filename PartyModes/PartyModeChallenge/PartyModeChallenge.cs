@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Runtime.InteropServices;
+using VocaluxeLib.Menu;
 
-using Vocaluxe.Menu;
+[assembly: ComVisible(false)]
 
-namespace Vocaluxe.PartyModes
+namespace VocaluxeLib.PartyModes.Challenge
 {
+
     #region Communication
+
     #region ToScreen
     public struct DataToScreenConfig
     {
@@ -52,9 +55,7 @@ namespace Vocaluxe.PartyModes
                 {
                     res = row.NumSingPoints.CompareTo(NumSingPoints);
                     if (res == 0)
-                    {
                         res = row.NumWon.CompareTo(NumWon);
-                    }
                 }
                 return res;
             }
@@ -62,7 +63,6 @@ namespace Vocaluxe.PartyModes
             throw new ArgumentException("object is not a ResultTableRow");
         }
     }
-
     #endregion ToScreen
 
     #region FromScreen
@@ -93,6 +93,7 @@ namespace Vocaluxe.PartyModes
         public bool FadeToNameSelection;
     }
     #endregion FromScreen
+
     #endregion Communication
 
     public sealed class PartyModeChallenge : CPartyMode
@@ -103,7 +104,7 @@ namespace Vocaluxe.PartyModes
         private const int MinTeams = 0;
         private const int MaxNumRounds = 100;
 
-        enum EStage
+        private enum EStage
         {
             NotStarted,
             Config,
@@ -112,7 +113,7 @@ namespace Vocaluxe.PartyModes
             Singing
         }
 
-        struct Data
+        private struct Data
         {
             public int NumPlayer;
             public int NumPlayerAtOnce;
@@ -128,7 +129,7 @@ namespace Vocaluxe.PartyModes
             public int[] CatSongIndices;
         }
 
-        struct Stats
+        private struct Stats
         {
             public int ProfileID;
             public int SingPoints;
@@ -148,13 +149,13 @@ namespace Vocaluxe.PartyModes
             _ScreenSongOptions.Selection.RandomOnly = false;
             _ScreenSongOptions.Selection.PartyMode = true;
             _ScreenSongOptions.Selection.CategoryChangeAllowed = true;
-            _ScreenSongOptions.Selection.NumJokers = new int[] { 5, 5 };
-            _ScreenSongOptions.Selection.TeamNames = new string[] { "foo", "bar" };
+            _ScreenSongOptions.Selection.NumJokers = new int[] {5, 5};
+            _ScreenSongOptions.Selection.TeamNames = new string[] {"foo", "bar"};
 
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchActive = false;
-            _ScreenSongOptions.Sorting.ShowDuetSongs = false;
-            
+            _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.NoDuets;
+
             _Stage = EStage.NotStarted;
 
             ToScreenConfig = new DataToScreenConfig();
@@ -195,7 +196,7 @@ namespace Vocaluxe.PartyModes
             switch (ScreenName)
             {
                 case "PartyScreenChallengeConfig":
-                    
+
                     try
                     {
                         data = (DataFromScreen)Data;
@@ -327,10 +328,8 @@ namespace Vocaluxe.PartyModes
                         Screen.DataToScreen(ToScreenMain);
                     }
                     break;
-                default:
-                    break;
             }
-            
+
             return Screen;
         }
 
@@ -441,7 +440,6 @@ namespace Vocaluxe.PartyModes
 
         public override void SongSelected(int SongID)
         {
-
             EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
 
             CBase.Game.Reset();
@@ -503,30 +501,30 @@ namespace Vocaluxe.PartyModes
             switch (GameData.NumPlayerAtOnce)
             {
                 case 1:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] { 10 };
+                    _ScreenSongOptions.Selection.NumJokers = new int[] {10};
                     break;
 
                 case 2:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] { 5, 5 };
+                    _ScreenSongOptions.Selection.NumJokers = new int[] {5, 5};
                     break;
 
                 case 3:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] { 4, 4, 4 };
+                    _ScreenSongOptions.Selection.NumJokers = new int[] {4, 4, 4};
                     break;
 
                 case 4:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] { 3, 3, 3, 3 };
+                    _ScreenSongOptions.Selection.NumJokers = new int[] {3, 3, 3, 3};
                     break;
 
                 case 5:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] { 2, 2, 2, 2, 2 };
+                    _ScreenSongOptions.Selection.NumJokers = new int[] {2, 2, 2, 2, 2};
                     break;
 
                 case 6:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] { 2, 2, 2, 2, 2, 2 };
+                    _ScreenSongOptions.Selection.NumJokers = new int[] {2, 2, 2, 2, 2, 2};
                     break;
                 default:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] { 5, 5 };
+                    _ScreenSongOptions.Selection.NumJokers = new int[] {5, 5};
                     break;
             }
         }
@@ -537,16 +535,16 @@ namespace Vocaluxe.PartyModes
 
             if (profiles == null)
             {
-                _ScreenSongOptions.Selection.TeamNames = new string[] { "foo", "bar" };
+                _ScreenSongOptions.Selection.TeamNames = new string[] {"foo", "bar"};
                 return;
             }
 
             if (GameData.NumPlayerAtOnce < 1 || GameData.ProfileIDs.Count < GameData.NumPlayerAtOnce || profiles.Length < GameData.NumPlayerAtOnce)
             {
-                _ScreenSongOptions.Selection.TeamNames = new string[] { "foo", "bar" };
+                _ScreenSongOptions.Selection.TeamNames = new string[] {"foo", "bar"};
                 return;
             }
-            
+
             _ScreenSongOptions.Selection.TeamNames = new string[GameData.NumPlayerAtOnce];
             Combination c = GameData.Rounds.GetRound(GameData.CurrentRoundNr - 1);
 
@@ -580,13 +578,11 @@ namespace Vocaluxe.PartyModes
                     GameData.ResultTable.Add(row);
                 }
 
-                GameData.Results = new int[GameData.NumRounds, GameData.NumPlayerAtOnce];
+                GameData.Results = new int[GameData.NumRounds,GameData.NumPlayerAtOnce];
                 for (int i = 0; i < GameData.NumRounds; i++)
                 {
                     for (int j = 0; j < GameData.NumPlayerAtOnce; j++)
-                    {
                         GameData.Results[i, j] = 0;
-                    }
                 }
             }
             else
@@ -599,9 +595,7 @@ namespace Vocaluxe.PartyModes
                     return;
 
                 for (int j = 0; j < GameData.NumPlayerAtOnce; j++)
-                {
                     GameData.Results[GameData.CurrentRoundNr - 2, j] = (int)Math.Round(results[j].Points);
-                }
 
                 List<Stats> points = GetPointsForPlayer(results);
 
@@ -609,13 +603,13 @@ namespace Vocaluxe.PartyModes
                 {
                     int index = -1;
                     for (int j = 0; j < GameData.ResultTable.Count; j++)
-			        {
+                    {
                         if (points[i].ProfileID == GameData.ResultTable[j].PlayerID)
                         {
                             index = j;
                             break;
                         }
-			        }
+                    }
 
                     if (index != -1)
                     {
@@ -638,7 +632,7 @@ namespace Vocaluxe.PartyModes
             int pos = 1;
             int lastPoints = 0;
             int lastSingPoints = 0;
-            for (int i = 0; i < GameData.ResultTable.Count; i++ )
+            for (int i = 0; i < GameData.ResultTable.Count; i++)
             {
                 if (lastPoints > GameData.ResultTable[i].NumGamePoints || lastSingPoints > GameData.ResultTable[i].NumSingPoints)
                     pos++;
@@ -651,7 +645,7 @@ namespace Vocaluxe.PartyModes
         private List<Stats> GetPointsForPlayer(SPlayer[] Results)
         {
             List<Stats> result = new List<Stats>();
-            for(int i = 0; i < GameData.NumPlayerAtOnce; i++)
+            for (int i = 0; i < GameData.NumPlayerAtOnce; i++)
             {
                 Stats stat = new Stats();
                 stat.ProfileID = Results[i].ProfileID;
@@ -698,7 +692,6 @@ namespace Vocaluxe.PartyModes
             }
 
 
-
             return result;
         }
 
@@ -708,11 +701,9 @@ namespace Vocaluxe.PartyModes
             {
                 GameData.CatSongIndices = new int[CBase.Songs.GetNumCategories()];
                 for (int i = 0; i < GameData.CatSongIndices.Length; i++)
-                {
                     GameData.CatSongIndices[i] = -1;
-                }
             }
-            
+
             if (CBase.Songs.GetNumCategories() == 0 || _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)
                 GameData.CatSongIndices = null;
         }
