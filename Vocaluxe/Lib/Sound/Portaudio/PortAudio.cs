@@ -291,10 +291,10 @@ namespace PortAudioSharp
 #endif
 #endif
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Pa_GetVersion();
 
-        [DllImport(PaDll, EntryPoint = "Pa_GetVersionText")]
+        [DllImport(PaDll, EntryPoint = "Pa_GetVersionText", CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr IntPtr_Pa_GetVersionText();
 
         public static string Pa_GetVersionText()
@@ -303,7 +303,7 @@ namespace PortAudioSharp
             return Marshal.PtrToStringAnsi(strptr);
         }
 
-        [DllImport(PaDll, EntryPoint = "Pa_GetErrorText")]
+        [DllImport(PaDll, EntryPoint = "Pa_GetErrorText", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr IntPtr_Pa_GetErrorText(PaError errorCode);
 
         public static string Pa_GetErrorText(PaError errorCode)
@@ -312,19 +312,19 @@ namespace PortAudioSharp
             return Marshal.PtrToStringAnsi(strptr);
         }
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_Initialize();
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_Terminate();
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Pa_GetHostApiCount();
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Pa_GetDefaultHostApi();
 
-        [DllImport(PaDll, EntryPoint = "Pa_GetHostApiInfo")]
+        [DllImport(PaDll, EntryPoint = "Pa_GetHostApiInfo", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr IntPtr_Pa_GetHostApiInfo(int hostApi);
 
         public static PaHostApiInfo Pa_GetHostApiInfo(int hostApi)
@@ -333,13 +333,13 @@ namespace PortAudioSharp
             return (PaHostApiInfo)Marshal.PtrToStructure(structptr, typeof(PaHostApiInfo));
         }
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Pa_HostApiTypeIdToHostApiIndex(PaHostApiTypeId type);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Pa_HostApiDeviceIndexToDeviceIndex(int hostApi, int hostApiDeviceIndex);
 
-        [DllImport(PaDll, EntryPoint = "Pa_GetLastHostErrorInfo")]
+        [DllImport(PaDll, EntryPoint = "Pa_GetLastHostErrorInfo", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr IntPtr_Pa_GetLastHostErrorInfo();
 
         public static PaHostErrorInfo Pa_GetLastHostErrorInfo()
@@ -348,16 +348,16 @@ namespace PortAudioSharp
             return (PaHostErrorInfo)Marshal.PtrToStructure(structptr, typeof(PaHostErrorInfo));
         }
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Pa_GetDeviceCount();
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Pa_GetDefaultInputDevice();
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Pa_GetDefaultOutputDevice();
 
-        [DllImport(PaDll, EntryPoint = "Pa_GetDeviceInfo")]
+        [DllImport(PaDll, EntryPoint = "Pa_GetDeviceInfo", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr IntPtr_Pa_GetDeviceInfo(int device);
 
         public static PaDeviceInfo Pa_GetDeviceInfo(int device)
@@ -366,13 +366,13 @@ namespace PortAudioSharp
             return (PaDeviceInfo)Marshal.PtrToStructure(structptr, typeof(PaDeviceInfo));
         }
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_IsFormatSupported(
             ref PaStreamParameters inputParameters,
             ref PaStreamParameters outputParameters,
             double sampleRate);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_OpenStream(
             out IntPtr stream,
             ref PaStreamParameters inputParameters,
@@ -383,7 +383,7 @@ namespace PortAudioSharp
             PaStreamCallbackDelegate streamCallback,
             IntPtr userData);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_OpenStream(
             out IntPtr stream,
             ref PaStreamParameters inputParameters,
@@ -394,7 +394,7 @@ namespace PortAudioSharp
             PaStreamCallbackDelegate streamCallback,
             IntPtr userData);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_OpenStream(
             out IntPtr stream,
             IntPtr inputParameters,
@@ -405,7 +405,7 @@ namespace PortAudioSharp
             PaStreamCallbackDelegate streamCallback,
             IntPtr userData);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_OpenDefaultStream(
             out IntPtr stream,
             int numInputChannels,
@@ -416,30 +416,30 @@ namespace PortAudioSharp
             PaStreamCallbackDelegate streamCallback,
             IntPtr userData);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_CloseStream(IntPtr stream);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_SetStreamFinishedCallback(
             ref IntPtr stream,
             [MarshalAs(UnmanagedType.FunctionPtr)] PaStreamFinishedCallbackDelegate streamFinishedCallback);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_StartStream(IntPtr stream);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_StopStream(IntPtr stream);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_AbortStream(IntPtr stream);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_IsStreamStopped(IntPtr stream);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_IsStreamActive(IntPtr stream);
 
-        [DllImport(PaDll, EntryPoint = "Pa_GetStreamInfo")]
+        [DllImport(PaDll, EntryPoint = "Pa_GetStreamInfo", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr IntPtr_Pa_GetStreamInfo(IntPtr stream);
 
         public static PaStreamInfo Pa_GetStreamInfo(IntPtr stream)
@@ -448,106 +448,106 @@ namespace PortAudioSharp
             return (PaStreamInfo)Marshal.PtrToStructure(structptr, typeof(PaStreamInfo));
         }
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern double Pa_GetStreamTime(IntPtr stream);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern double Pa_GetStreamCpuLoad(IntPtr stream);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_ReadStream(
             IntPtr stream,
             [Out] float[] buffer,
             uint frames);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_ReadStream(
             IntPtr stream,
             [Out] byte[] buffer,
             uint frames);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_ReadStream(
             IntPtr stream,
             [Out] sbyte[] buffer,
             uint frames);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_ReadStream(
             IntPtr stream,
             [Out] ushort[] buffer,
             uint frames);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_ReadStream(
             IntPtr stream,
             [Out] short[] buffer,
             uint frames);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_ReadStream(
             IntPtr stream,
             [Out] uint[] buffer,
             uint frames);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_ReadStream(
             IntPtr stream,
             [Out] int[] buffer,
             uint frames);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_WriteStream(
             IntPtr stream,
             [In] float[] buffer,
             uint frames);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_WriteStream(
             IntPtr stream,
             [In] byte[] buffer,
             uint frames);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_WriteStream(
             IntPtr stream,
             [In] sbyte[] buffer,
             uint frames);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_WriteStream(
             IntPtr stream,
             [In] ushort[] buffer,
             uint frames);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_WriteStream(
             IntPtr stream,
             [In] short[] buffer,
             uint frames);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_WriteStream(
             IntPtr stream,
             [In] uint[] buffer,
             uint frames);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_WriteStream(
             IntPtr stream,
             [In] int[] buffer,
             uint frames);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Pa_GetStreamReadAvailable(IntPtr stream);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Pa_GetStreamWriteAvailable(IntPtr stream);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError Pa_GetSampleSize(PaSampleFormat format);
 
-        [DllImport(PaDll)]
+        [DllImport(PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Pa_Sleep(int msec);
         #endregion
 

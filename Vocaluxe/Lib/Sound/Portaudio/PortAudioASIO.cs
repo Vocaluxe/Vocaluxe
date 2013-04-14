@@ -72,7 +72,7 @@ namespace PortAudioSharp
         ///     On Windows, the calling application's main window handle,
         ///     on Macintosh this value should be zero.
         /// </param>
-        [DllImport("PortAudio.dll")]
+        [DllImport("PortAudio.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError PaAsio_ShowControlPanel(int device, IntPtr systemSpecific);
 
         //	 	/// <summary> Retrieve a pointer to a string containing the name of the specified input channel. </summary>
@@ -93,7 +93,7 @@ namespace PortAudioSharp
         /// Note that this function may fail if the stream is alredy running and the 
         /// ASIO driver does not support switching the sample rate of a running stream.
         /// <returns> paIncompatibleStreamHostApi if stream is not a paASIO stream. </returns>
-        [DllImport("PortAudio.dll")]
+        [DllImport("PortAudio.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern PaError PaAsio_SetStreamSampleRate(IntPtr stream, double sampleRate);
         #endregion
     }

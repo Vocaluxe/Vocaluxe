@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Engels</string>
+  <string name="TR_PARTYMODE_NAME">Drie-op-een-rij</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Speel Drie-op-een-rij op een speciale manier</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Grappige rondes met strategie, geluk en kunde</string>
+  <string name="TR_BUTTON_NEXT">Volgende</string>
+  <string name="TR_BUTTON_BACK">Vorige</string>
+  <string name="TR_BUTTON_START">Start</string>
+  <string name="TR_BUTTON_EXIT">Afsluiten</string>
+  <string name="TR_BUTTON_YES">Ja</string>
+  <string name="TR_BUTTON_NO">Nee</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Start</string>
+  <string name="TR_SONGS">Liedjes</string>
+  <string name="TR_TEAM">Team</string>
+  <string name="TR_PLAYLIST">Afspeellijst</string>
+  <string name="TR_CATEGORY">Categorie</string>
+  <string name="TR_ALLSONGS">Alle liedjes</string>
+  <string name="TR_SCREENCONFIG_TITLE">Drie-op-een-rij: configuratie</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST1">Aantal spelers in team 1</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST2">Aantal spelers in team 2</string>
+  <string name="TR_SCREENCONFIG_NUMFIELDS">Aantal vakjes</string>
+  <string name="TR_SCREENCONFIG_SONGSOURCE">Liedjesbron</string>
+  <string name="TR_SCREENCONFIG_GAMEMODE">Spelmodus</string>
+  <string name="TR_SCREENNAMES_TITLE">Drie-op-een-rij: Kies speler</string>
+  <string name="TR_SCREENNAMES_TEAM1">Team 1</string>
+  <string name="TR_SCREENNAMES_TEAM2">Team 2</string>
+  <string name="TR_SCREENMAIN_TITLE">Drie-op-een-rij</string>
+  <string name="TR_SCREENMAIN_TEAM_CHOOSE">Kies een vakje.</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Volgende speler</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Drie-op-een-rij afsluiten?</string>
+  <string name="TR_SCREENMAIN_WINNER">En de winnaar is...</string>
+  <string name="TR_SCREENMAIN_NOWINNER">Er is geen winnaar in deze ronde...</string>
+</resources>

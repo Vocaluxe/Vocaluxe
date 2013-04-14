@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Türkçe</string>
+  <string name="TR_PARTYMODE_NAME">Potpuri Yarış Modu</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Sadece 5 Potpuri kullanarak yarışma turları oyna.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Düel yarışmaları ve Potpuri ile ilgilenen herkes için.</string>
+  <string name="TR_BUTTON_NEXT">Sonraki</string>
+  <string name="TR_BUTTON_BACK">Önceki</string>
+  <string name="TR_BUTTON_START">Başla</string>
+  <string name="TR_BUTTON_EXIT">Çık</string>
+  <string name="TR_BUTTON_YES">Evet</string>
+  <string name="TR_BUTTON_NO">Hayır</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Sonraki Tur</string>
+  <string name="TR_SCREENCONFIG_TITLE">Potpuri Yarış Modu: Yapılandırma</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Oyuncu sayısı</string>
+  <string name="TR_SCREENCONFIG_NUMMICS">Mikrofon sayısı</string>
+  <string name="TR_SCREENCONFIG_NUMROUNDS">Tur sayısı</string>
+  <string name="TR_SCREENNAMES_TITLE">Potpuri Yarışma Modu: Oyuncu Seçimi</string>
+  <string name="TR_SCREENMAIN_TITLE">Potpuri Yarışma Modu: Genel Bakış</string>
+  <string name="TR_SCREENMAIN_TABLE_POS">Pos</string>
+  <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">İsim</string>
+  <string name="TR_SCREENMAIN_TABLE_NUMPLAYED">Tur</string>
+  <string name="TR_SCREENMAIN_TABLE_WON">Kazanma</string>
+  <string name="TR_SCREENMAIN_TABLE_SINGPOINTS">Şarkı Söyleme Puanı</string>
+  <string name="TR_SCREENMAIN_TABLE_GAMEPOINTS">Skor</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Gerçekten çıkmak istiyor musunuz?</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Sonraki tur oyuncusu:</string>
+  <string name="TR_SCREENMAIN_FINISH">Tüm turlar tamamlandı! Kazanan...</string>
+</resources>

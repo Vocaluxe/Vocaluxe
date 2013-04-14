@@ -1000,7 +1000,7 @@ namespace VocaluxeLib.Menu.SongMenu
             CLines lines = Notes.GetLines(0);
 
             //Calculate length of singing
-            int stop = (lines.Line[lines.Line.Length - 1].LastNoteBeat - lines.Line[0].FirstNoteBeat) / 2 + lines.Line[0].StartBeat;
+            int stop = (lines.Line[lines.Line.Length - 1].LastNoteBeat - lines.Line[0].FirstNote.StartBeat) / 2 + lines.Line[0].FirstNote.StartBeat;
 
             //Check if stop is in series
             for (int i = 0; i < series.Count; i++)

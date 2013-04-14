@@ -184,11 +184,9 @@ void GstreamerAudioStream::RefreshDuration()
 {
 	if(Element)
 	{
-		gint64 time;
-		if(!gst_element_query_duration(Element, GST_FORMAT_TIME, &time)) {
-			LogError("Could not query duration");
-		}
-		Duration = (gfloat)((gdouble)(time/GST_SECOND));
+		gint64 time = -1000;
+		if(gst_element_query_duration(Element, GST_FORMAT_TIME, &time))
+			Duration = (gfloat)((gdouble)(time/GST_SECOND));
 	}
 }
 
@@ -196,9 +194,11 @@ float GstreamerAudioStream::GetPosition()
 {
 	if(Element)
 	{
-		gint64 time;
-		gst_element_query_position(Element, GST_FORMAT_TIME, &time);
-		return (float)((gdouble)time/GST_SECOND);
+		gint64 time = 0;
+		if (gst_element_query_position(Element, GST_FORMAT_TIME, &time))
+			return (float)((gdouble)time/GST_SECOND);
+		else
+			return -1;
 	}
 	else return -1;
 }
