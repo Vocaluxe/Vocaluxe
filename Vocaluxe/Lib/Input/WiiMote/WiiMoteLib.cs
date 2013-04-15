@@ -69,7 +69,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
     public struct AccelCalibrationInfo
     {
         public byte X0, Y0, Z0; //zero point
-        public byte XG, YG, ZG; //gravity
+        public byte GravityX, GravityY, GravityZ; //gravity
     }
 
     public struct Buttons
@@ -413,11 +413,11 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _WiiMoteState.AccelState.RawValues.Z = buff[5];
 
             _WiiMoteState.AccelState.Values.X = ((float)_WiiMoteState.AccelState.RawValues.X - _WiiMoteState.AccelCalibrationInfo.X0) /
-                                                ((float)_WiiMoteState.AccelCalibrationInfo.XG - _WiiMoteState.AccelCalibrationInfo.X0);
+                                                ((float)_WiiMoteState.AccelCalibrationInfo.GravityX - _WiiMoteState.AccelCalibrationInfo.X0);
             _WiiMoteState.AccelState.Values.Y = ((float)_WiiMoteState.AccelState.RawValues.Y - _WiiMoteState.AccelCalibrationInfo.Y0) /
-                                                ((float)_WiiMoteState.AccelCalibrationInfo.YG - _WiiMoteState.AccelCalibrationInfo.Y0);
+                                                ((float)_WiiMoteState.AccelCalibrationInfo.GravityY - _WiiMoteState.AccelCalibrationInfo.Y0);
             _WiiMoteState.AccelState.Values.Z = ((float)_WiiMoteState.AccelState.RawValues.Z - _WiiMoteState.AccelCalibrationInfo.Z0) /
-                                                ((float)_WiiMoteState.AccelCalibrationInfo.ZG - _WiiMoteState.AccelCalibrationInfo.Z0);
+                                                ((float)_WiiMoteState.AccelCalibrationInfo.GravityZ - _WiiMoteState.AccelCalibrationInfo.Z0);
         }
 
         private void ParseIR(byte[] buff)
@@ -517,9 +517,9 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _WiiMoteState.AccelCalibrationInfo.X0 = buff[0];
             _WiiMoteState.AccelCalibrationInfo.Y0 = buff[1];
             _WiiMoteState.AccelCalibrationInfo.Z0 = buff[2];
-            _WiiMoteState.AccelCalibrationInfo.XG = buff[4];
-            _WiiMoteState.AccelCalibrationInfo.YG = buff[5];
-            _WiiMoteState.AccelCalibrationInfo.ZG = buff[6];
+            _WiiMoteState.AccelCalibrationInfo.GravityX = buff[4];
+            _WiiMoteState.AccelCalibrationInfo.GravityY = buff[5];
+            _WiiMoteState.AccelCalibrationInfo.GravityZ = buff[6];
 
             return true;
         }

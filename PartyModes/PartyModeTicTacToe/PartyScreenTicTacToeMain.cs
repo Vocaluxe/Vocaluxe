@@ -430,25 +430,25 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 Fields[i].Button.Enabled = true;
                 Fields[i].Button.Texture = Buttons[ButtonField].Texture;
                 Fields[i].Button.Color = Buttons[ButtonField].Color;
-                Fields[i].Button.SColor = Buttons[ButtonField].SColor;
+                Fields[i].Button.SelColor = Buttons[ButtonField].SelColor;
                 Fields[i].Content = GameData.Rounds[i];
                 if (Fields[i].Content.Finished)
                 {
                     Fields[i].Button.Enabled = false;
                     Fields[i].Button.Texture = CBase.Songs.GetSongByID(Fields[i].Content.SongID).CoverTextureBig;
                     Fields[i].Button.Color = CBase.Theme.GetPlayerColor(Fields[i].Content.Winner);
-                    Fields[i].Button.SColor = CBase.Theme.GetPlayerColor(Fields[i].Content.Winner);
+                    Fields[i].Button.SelColor = CBase.Theme.GetPlayerColor(Fields[i].Content.Winner);
                 }
                 if (Status == EStatus.FieldSelected && SelectedField == i)
                 {
                     Fields[i].Button.Texture = CBase.Songs.GetSongByID(Fields[i].Content.SongID).CoverTextureBig;
                     Fields[i].Button.Color = new SColorF(1, 1, 1, 1);
-                    Fields[i].Button.SColor = new SColorF(1, 1, 1, 1);
+                    Fields[i].Button.SelColor = new SColorF(1, 1, 1, 1);
                     Fields[i].Button.Enabled = false;
                 }
                 if (Status == EStatus.JokerRetry && Fields[i].Content.Finished)
                 {
-                    Fields[i].Button.SColor = CBase.Theme.GetPlayerColor(GameData.Team + 1);
+                    Fields[i].Button.SelColor = CBase.Theme.GetPlayerColor(GameData.Team + 1);
                     Fields[i].Button.Enabled = true;
                 }
                 if (Status == EStatus.JokerRetry && !Fields[i].Content.Finished)

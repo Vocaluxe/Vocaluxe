@@ -51,7 +51,7 @@ namespace Vocaluxe.Base
         public static int zNear = -100;
         public static int zFar = 100;
 
-        public static bool bFullScreen = false;
+        public static bool IsFullScreen = false;
         public static int iVertexBufferElements = 10000;
 
         public const string sIcon = "Vocaluxe.ico";

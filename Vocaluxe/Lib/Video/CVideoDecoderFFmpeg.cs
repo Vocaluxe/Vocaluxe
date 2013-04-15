@@ -443,13 +443,13 @@ namespace Vocaluxe.Lib.Video
         private void DoOpen()
         {
             bool ok = false;
-            TAc_instance Instance = new TAc_instance();
+            AC_instance Instance = new AC_instance();
             try
             {
                 _instance = CAcinerella.ac_init();
                 CAcinerella.ac_open2(_instance, _FileName);
 
-                Instance = (TAc_instance)Marshal.PtrToStructure(_instance, typeof(TAc_instance));
+                Instance = (AC_instance)Marshal.PtrToStructure(_instance, typeof(AC_instance));
                 ok = Instance.opened;
             }
             catch (Exception)
@@ -468,11 +468,11 @@ namespace Vocaluxe.Lib.Video
             _Duration = Instance.info.duration / 1000f;
 
             int VideoStreamIndex = -1;
-            TAc_decoder Videodecoder;
+            AC_decoder Videodecoder;
             try
             {
                 _videodecoder = CAcinerella.ac_create_video_decoder(_instance);
-                Videodecoder = (TAc_decoder)Marshal.PtrToStructure(_videodecoder, typeof(TAc_decoder));
+                Videodecoder = (AC_decoder)Marshal.PtrToStructure(_videodecoder, typeof(AC_decoder));
                 VideoStreamIndex = Videodecoder.stream_index;
             }
             catch (Exception)
@@ -622,7 +622,7 @@ namespace Vocaluxe.Lib.Video
                     _BufferFull = true;
                 else
                 {
-                    TAc_decoder Videodecoder = (TAc_decoder)Marshal.PtrToStructure(_videodecoder, typeof(TAc_decoder));
+                    AC_decoder Videodecoder = (AC_decoder)Marshal.PtrToStructure(_videodecoder, typeof(AC_decoder));
 
                     _VideoDecoderTime = (float)Videodecoder.timecode;
                     _FrameBuffer[num].time = _VideoDecoderTime;

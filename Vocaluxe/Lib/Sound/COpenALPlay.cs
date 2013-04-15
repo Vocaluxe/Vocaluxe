@@ -15,7 +15,7 @@ namespace Vocaluxe.Lib.Sound
         private readonly List<OpenAlStream> _Decoder = new List<OpenAlStream>();
         private CLOSEPROC closeproc;
         private int _Count = 1;
-        private AudioContext AC;
+        private AudioContext _Context;
 
         private readonly Object MutexDecoder = new Object();
 
@@ -31,9 +31,9 @@ namespace Vocaluxe.Lib.Sound
             if (_Initialized)
                 CloseAll();
 
-            AC = new AudioContext();
+            _Context = new AudioContext();
 
-            AC.MakeCurrent();
+            _Context.MakeCurrent();
 
 
             closeproc = close_proc;
@@ -344,8 +344,8 @@ namespace Vocaluxe.Lib.Sound
 
         public void Dispose()
         {
-            AC.Dispose();
-            AC = null;
+            _Context.Dispose();
+            _Context = null;
         }
     }
 

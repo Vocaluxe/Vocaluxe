@@ -18,8 +18,8 @@ namespace VocaluxeLib.Menu
         private CXMLReader(string uri)
         {
             _FileName = uri;
-            XPathDocument xPathDoc = new XPathDocument(uri);
-            _Navigator = xPathDoc.CreateNavigator();
+            XPathDocument xmlDoc = new XPathDocument(uri);
+            _Navigator = xmlDoc.CreateNavigator();
         }
 
         public XPathNavigator Navigator
@@ -27,15 +27,15 @@ namespace VocaluxeLib.Menu
             get { return _Navigator; }
         }
 
-        public static CXMLReader OpenFile(string sFile)
+        public static CXMLReader OpenFile(string fileName)
         {
             try
             {
-                return new CXMLReader(sFile);
+                return new CXMLReader(fileName);
             }
             catch (Exception e)
             {
-                CBase.Log.LogError("Can't open XML file: " + sFile + ": " + e.Message);
+                CBase.Log.LogError("Can't open XML file: " + fileName + ": " + e.Message);
                 return null;
             }
         }

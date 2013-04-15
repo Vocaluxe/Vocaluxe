@@ -130,9 +130,9 @@ namespace VocaluxeLib.Menu
         }
 
         #region ThemeHandler
-        protected delegate void DAddElement<T>(T Element, String key);
+        protected delegate void AddElementHandler<T>(T Element, String key);
 
-        private void LoadThemeElement<T>(string[] Elements, DAddElement<T> MAddElement, CXMLReader xmlReader, int SkinIndex) where T : IMenuElement
+        private void LoadThemeElement<T>(string[] Elements, AddElementHandler<T> AddElementHandler, CXMLReader xmlReader, int SkinIndex) where T : IMenuElement
         {
             if (Elements != null)
             {
@@ -140,7 +140,7 @@ namespace VocaluxeLib.Menu
                 {
                     T Element = (T)Activator.CreateInstance(typeof(T), _PartyModeID);
                     if (Element.LoadTheme("//root/" + ThemeName, elName, xmlReader, SkinIndex))
-                        MAddElement(Element, elName);
+                        AddElementHandler(Element, elName);
                     else
                         CBase.Log.LogError("Can't load " + typeof(T).Name.Substring(1) + " \"" + elName + "\" in screen " + ThemeName);
                 }
@@ -595,7 +595,7 @@ namespace VocaluxeLib.Menu
             {
                 if (keyEvent.Key == Keys.Left)
                 {
-                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && keyEvent.Mod != EModifier.Shift)
+                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.SelectSlide && keyEvent.Mod != EModifier.Shift)
                         keyEvent.Handled = PrevElement();
                     else
                         keyEvent.Handled = _NextInteraction(keyEvent);
@@ -603,7 +603,7 @@ namespace VocaluxeLib.Menu
 
                 if (keyEvent.Key == Keys.Right)
                 {
-                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.TSelectSlide && keyEvent.Mod != EModifier.Shift)
+                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.SelectSlide && keyEvent.Mod != EModifier.Shift)
                         keyEvent.Handled = NextElement();
                     else
                         keyEvent.Handled = _NextInteraction(keyEvent);
@@ -828,15 +828,15 @@ namespace VocaluxeLib.Menu
             for (int i = 0; i < _Interactions.Count; i++)
             {
                 if (_IsVisible(i) && (
-                                         _Interactions[i].Type == EType.TButton ||
-                                         _Interactions[i].Type == EType.TSelectSlide ||
-                                         _Interactions[i].Type == EType.TStatic ||
-                                         _Interactions[i].Type == EType.TNameSelection ||
-                                         _Interactions[i].Type == EType.TText ||
-                                         _Interactions[i].Type == EType.TSongMenu ||
-                                         _Interactions[i].Type == EType.TEqualizer ||
-                                         _Interactions[i].Type == EType.TPlaylist ||
-                                         _Interactions[i].Type == EType.TParticleEffect))
+                                         _Interactions[i].Type == EType.Button ||
+                                         _Interactions[i].Type == EType.SelectSlide ||
+                                         _Interactions[i].Type == EType.Static ||
+                                         _Interactions[i].Type == EType.NameSelection ||
+                                         _Interactions[i].Type == EType.Text ||
+                                         _Interactions[i].Type == EType.SongMenu ||
+                                         _Interactions[i].Type == EType.Equalizer ||
+                                         _Interactions[i].Type == EType.Playlist ||
+                                         _Interactions[i].Type == EType.ParticleEffect))
                 {
                     ZSort zs = new ZSort();
                     zs.ID = i;
@@ -924,62 +924,62 @@ namespace VocaluxeLib.Menu
 
         public void AddBackground(CBackground bg, String key)
         {
-            _AddInteraction(_Backgrounds.Add(bg, key), EType.TBackground);
+            _AddInteraction(_Backgrounds.Add(bg, key), EType.Background);
         }
 
         public void AddButton(CButton button, String key)
         {
-            _AddInteraction(_Buttons.Add(button, key), EType.TButton);
+            _AddInteraction(_Buttons.Add(button, key), EType.Button);
         }
 
         public void AddSelectSlide(CSelectSlide slide, String key)
         {
-            _AddInteraction(_SelectSlides.Add(slide, key), EType.TSelectSlide);
+            _AddInteraction(_SelectSlides.Add(slide, key), EType.SelectSlide);
         }
 
         public void AddStatic(CStatic stat, String key)
         {
-            _AddInteraction(_Statics.Add(stat, key), EType.TStatic);
+            _AddInteraction(_Statics.Add(stat, key), EType.Static);
         }
 
         public void AddText(CText text, String key)
         {
-            _AddInteraction(_Texts.Add(text, key), EType.TText);
+            _AddInteraction(_Texts.Add(text, key), EType.Text);
         }
 
         public void AddSongMenu(CSongMenu songmenu, String key)
         {
-            _AddInteraction(_SongMenus.Add(songmenu, key), EType.TSongMenu);
+            _AddInteraction(_SongMenus.Add(songmenu, key), EType.SongMenu);
         }
 
         public void AddLyric(CLyric lyric, String key)
         {
-            _AddInteraction(_Lyrics.Add(lyric, key), EType.TLyric);
+            _AddInteraction(_Lyrics.Add(lyric, key), EType.Lyric);
         }
 
         public void AddSingNote(CSingNotes sn, String key)
         {
-            _AddInteraction(_SingNotes.Add(sn, key), EType.TSingNote);
+            _AddInteraction(_SingNotes.Add(sn, key), EType.SingNote);
         }
 
         public void AddNameSelection(CNameSelection ns, String key)
         {
-            _AddInteraction(_NameSelections.Add(ns, key), EType.TNameSelection);
+            _AddInteraction(_NameSelections.Add(ns, key), EType.NameSelection);
         }
 
         public void AddEqualizer(CEqualizer eq, String key)
         {
-            _AddInteraction(_Equalizers.Add(eq, key), EType.TEqualizer);
+            _AddInteraction(_Equalizers.Add(eq, key), EType.Equalizer);
         }
 
         public void AddPlaylist(CPlaylist pls, String key)
         {
-            _AddInteraction(_Playlists.Add(pls, key), EType.TPlaylist);
+            _AddInteraction(_Playlists.Add(pls, key), EType.Playlist);
         }
 
         public void AddParticleEffect(CParticleEffect pe, String key)
         {
-            _AddInteraction(_ParticleEffects.Add(pe, key), EType.TParticleEffect);
+            _AddInteraction(_ParticleEffects.Add(pe, key), EType.ParticleEffect);
         }
 
         public void AddScreenSetting(CScreenSetting se, String key)
@@ -1035,7 +1035,7 @@ namespace VocaluxeLib.Menu
         {
             for (int i = 0; i < _Interactions.Count; i++)
             {
-                if (_Interactions[i].Type == EType.TButton)
+                if (_Interactions[i].Type == EType.Button)
                 {
                     if (_Buttons[_Interactions[i].Num] == button)
                     {
@@ -1054,7 +1054,7 @@ namespace VocaluxeLib.Menu
         {
             for (int i = 0; i < _Interactions.Count; i++)
             {
-                if (_Interactions[i].Type == EType.TSelectSlide)
+                if (_Interactions[i].Type == EType.SelectSlide)
                 {
                     if (_SelectSlides[_Interactions[i].Num] == slide)
                     {
@@ -1074,7 +1074,7 @@ namespace VocaluxeLib.Menu
             if (_Selection >= _Interactions.Count || _Selection < 0)
                 return;
 
-            if (_Interactions[_Selection].Type == EType.TSelectSlide)
+            if (_Interactions[_Selection].Type == EType.SelectSlide)
             {
                 if (_SelectSlides[_Interactions[_Selection].Num].Visible)
                     _SelectSlides[_Interactions[_Selection].Num].ProcessMouseLBClick(x, y);
@@ -1088,7 +1088,7 @@ namespace VocaluxeLib.Menu
             if (_Selection >= _Interactions.Count || _Selection < 0)
                 return;
 
-            if (_Interactions[_Selection].Type == EType.TSelectSlide)
+            if (_Interactions[_Selection].Type == EType.SelectSlide)
             {
                 if (_SelectSlides[_Interactions[_Selection].Num].Visible)
                     _SelectSlides[_Interactions[_Selection].Num].ProcessMouseMove(x, y);
@@ -1136,46 +1136,46 @@ namespace VocaluxeLib.Menu
         {
             switch (interact.Type)
             {
-                case EType.TButton:
+                case EType.Button:
                     if (CHelper.IsInBounds(_Buttons[interact.Num].Rect, x, y))
                         return true;
                     break;
-                case EType.TSelectSlide:
+                case EType.SelectSlide:
                     if (CHelper.IsInBounds(_SelectSlides[interact.Num].Rect, x, y) ||
                         CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowLeft, x, y) ||
                         CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowRight, x, y))
                         return true;
                     break;
-                case EType.TStatic:
+                case EType.Static:
                     if (CHelper.IsInBounds(_Statics[interact.Num].Rect, x, y))
                         return true;
                     break;
-                case EType.TText:
+                case EType.Text:
                     RectangleF bounds = CBase.Drawing.GetTextBounds(_Texts[interact.Num]);
                     if (CHelper.IsInBounds(new SRectF(_Texts[interact.Num].X, _Texts[interact.Num].Y, bounds.Width, bounds.Height, _Texts[interact.Num].Z), x, y))
                         return true;
                     break;
-                case EType.TSongMenu:
+                case EType.SongMenu:
                     if (CHelper.IsInBounds(_SongMenus[interact.Num].Rect, x, y))
                         return true;
                     break;
-                case EType.TLyric:
+                case EType.Lyric:
                     if (CHelper.IsInBounds(_Lyrics[interact.Num].Rect, x, y))
                         return true;
                     break;
-                case EType.TNameSelection:
+                case EType.NameSelection:
                     if (CHelper.IsInBounds(_NameSelections[interact.Num].Rect, x, y))
                         return true;
                     break;
-                case EType.TEqualizer:
+                case EType.Equalizer:
                     if (CHelper.IsInBounds(_Equalizers[interact.Num].Rect, x, y))
                         return true;
                     break;
-                case EType.TPlaylist:
+                case EType.Playlist:
                     if (CHelper.IsInBounds(_Playlists[interact.Num].Rect, x, y))
                         return true;
                     break;
-                case EType.TParticleEffect:
+                case EType.ParticleEffect:
                     if (CHelper.IsInBounds(_ParticleEffects[interact.Num].Rect, x, y))
                         return true;
                     break;
@@ -1187,25 +1187,25 @@ namespace VocaluxeLib.Menu
         {
             switch (interact.Type)
             {
-                case EType.TButton:
+                case EType.Button:
                     return _Buttons[interact.Num].Rect.Z;
-                case EType.TSelectSlide:
+                case EType.SelectSlide:
                     return _SelectSlides[interact.Num].Rect.Z;
-                case EType.TStatic:
+                case EType.Static:
                     return _Statics[interact.Num].Rect.Z;
-                case EType.TSongMenu:
+                case EType.SongMenu:
                     return _SongMenus[interact.Num].Rect.Z;
-                case EType.TText:
+                case EType.Text:
                     return _Texts[interact.Num].Z;
-                case EType.TLyric:
+                case EType.Lyric:
                     return _Lyrics[interact.Num].Rect.Z;
-                case EType.TNameSelection:
+                case EType.NameSelection:
                     return _NameSelections[interact.Num].Rect.Z;
-                case EType.TEqualizer:
+                case EType.Equalizer:
                     return _Equalizers[interact.Num].Rect.Z;
-                case EType.TPlaylist:
+                case EType.Playlist:
                     return _Playlists[interact.Num].Rect.Z;
-                case EType.TParticleEffect:
+                case EType.ParticleEffect:
                     return _ParticleEffects[interact.Num].Rect.Z;
             }
             return CBase.Settings.GetZFar();
@@ -1498,7 +1498,7 @@ namespace VocaluxeLib.Menu
         /// <returns>True if the next element is selected. False if either there is no next element or the interaction does not provide such a method.</returns>
         private bool _NextElement()
         {
-            if (_Interactions[_Selection].Type == EType.TSelectSlide)
+            if (_Interactions[_Selection].Type == EType.SelectSlide)
                 return _SelectSlides[_Interactions[_Selection].Num].NextValue();
 
             return false;
@@ -1512,7 +1512,7 @@ namespace VocaluxeLib.Menu
         /// </returns>
         private bool _PrevElement()
         {
-            if (_Interactions[_Selection].Type == EType.TSelectSlide)
+            if (_Interactions[_Selection].Type == EType.SelectSlide)
                 return _SelectSlides[_Interactions[_Selection].Num].PrevValue();
 
             return false;
@@ -1522,34 +1522,34 @@ namespace VocaluxeLib.Menu
         {
             switch (_Interactions[_Selection].Type)
             {
-                case EType.TButton:
+                case EType.Button:
                     _Buttons[_Interactions[_Selection].Num].Selected = true;
                     break;
-                case EType.TSelectSlide:
+                case EType.SelectSlide:
                     _SelectSlides[_Interactions[_Selection].Num].Selected = true;
                     break;
-                case EType.TStatic:
+                case EType.Static:
                     _Statics[_Interactions[_Selection].Num].Selected = true;
                     break;
-                case EType.TText:
+                case EType.Text:
                     _Texts[_Interactions[_Selection].Num].Selected = true;
                     break;
-                case EType.TSongMenu:
+                case EType.SongMenu:
                     _SongMenus[_Interactions[_Selection].Num].Selected = true;
                     break;
-                case EType.TLyric:
+                case EType.Lyric:
                     _Lyrics[_Interactions[_Selection].Num].Selected = true;
                     break;
-                case EType.TNameSelection:
+                case EType.NameSelection:
                     _NameSelections[_Interactions[_Selection].Num].Selected = true;
                     break;
-                case EType.TEqualizer:
+                case EType.Equalizer:
                     _Equalizers[_Interactions[_Selection].Num].Selected = true;
                     break;
-                case EType.TPlaylist:
+                case EType.Playlist:
                     _Playlists[_Interactions[_Selection].Num].Selected = true;
                     break;
-                case EType.TParticleEffect:
+                case EType.ParticleEffect:
                     _ParticleEffects[_Interactions[_Selection].Num].Selected = true;
                     break;
             }
@@ -1559,34 +1559,34 @@ namespace VocaluxeLib.Menu
         {
             switch (_Interactions[_Selection].Type)
             {
-                case EType.TButton:
+                case EType.Button:
                     _Buttons[_Interactions[_Selection].Num].Selected = false;
                     break;
-                case EType.TSelectSlide:
+                case EType.SelectSlide:
                     _SelectSlides[_Interactions[_Selection].Num].Selected = false;
                     break;
-                case EType.TStatic:
+                case EType.Static:
                     _Statics[_Interactions[_Selection].Num].Selected = false;
                     break;
-                case EType.TText:
+                case EType.Text:
                     _Texts[_Interactions[_Selection].Num].Selected = false;
                     break;
-                case EType.TSongMenu:
+                case EType.SongMenu:
                     _SongMenus[_Interactions[_Selection].Num].Selected = false;
                     break;
-                case EType.TLyric:
+                case EType.Lyric:
                     _Lyrics[_Interactions[_Selection].Num].Selected = false;
                     break;
-                case EType.TNameSelection:
+                case EType.NameSelection:
                     _NameSelections[_Interactions[_Selection].Num].Selected = false;
                     break;
-                case EType.TEqualizer:
+                case EType.Equalizer:
                     _Equalizers[_Interactions[_Selection].Num].Selected = false;
                     break;
-                case EType.TPlaylist:
+                case EType.Playlist:
                     _Playlists[_Interactions[_Selection].Num].Selected = false;
                     break;
-                case EType.TParticleEffect:
+                case EType.ParticleEffect:
                     _ParticleEffects[_Interactions[_Selection].Num].Selected = false;
                     break;
             }
@@ -1599,28 +1599,28 @@ namespace VocaluxeLib.Menu
 
             switch (_Interactions[selection].Type)
             {
-                case EType.TButton:
+                case EType.Button:
                     //_Buttons[_Interactions[selection].Num].Selected = true;
                     break;
-                case EType.TSelectSlide:
+                case EType.SelectSlide:
                     _SelectSlides[_Interactions[selection].Num].Highlighted = true;
                     break;
-                case EType.TStatic:
+                case EType.Static:
                     //_Statics[_Interactions[selection].Num].Selected = true;
                     break;
-                case EType.TText:
+                case EType.Text:
                     //_Texts[_Interactions[selection].Num].Selected = true;
                     break;
-                case EType.TSongMenu:
+                case EType.SongMenu:
                     //_SongMenus[_Interactions[selection].Num].Selected = true;
                     break;
-                case EType.TLyric:
+                case EType.Lyric:
                     //_Lyrics[_Interactions[selection].Num].Selected = true;
                     break;
-                case EType.TNameSelection:
+                case EType.NameSelection:
                     //_NameSelections[_Interactions[selection].Num].Selected = true;
                     break;
-                case EType.TPlaylist:
+                case EType.Playlist:
                     //_Playlists[_Interactions[_Selection].Num].Selected = true;
                     break;
             }
@@ -1633,28 +1633,28 @@ namespace VocaluxeLib.Menu
 
             switch (_Interactions[selection].Type)
             {
-                case EType.TButton:
+                case EType.Button:
                     //_Buttons[_Interactions[selection].Num].Selected = false;
                     break;
-                case EType.TSelectSlide:
+                case EType.SelectSlide:
                     _SelectSlides[_Interactions[selection].Num].Highlighted = false;
                     break;
-                case EType.TStatic:
+                case EType.Static:
                     //_Statics[_Interactions[selection].Num].Selected = false;
                     break;
-                case EType.TText:
+                case EType.Text:
                     //_Texts[_Interactions[selection].Num].Selected = false;
                     break;
-                case EType.TSongMenu:
+                case EType.SongMenu:
                     //_SongMenus[_Interactions[selection].Num].Selected = false;
                     break;
-                case EType.TLyric:
+                case EType.Lyric:
                     //_Lyrics[_Interactions[selection].Num].Selected = false;
                     break;
-                case EType.TNameSelection:
+                case EType.NameSelection:
                     //_NameSelections[_Interactions[selection].Num].Selected = false;
                     break;
-                case EType.TPlaylist:
+                case EType.Playlist:
                     //_Playlists[_Interactions[_Selection].Num].Selected = true;
                     break;
             }
@@ -1665,7 +1665,7 @@ namespace VocaluxeLib.Menu
             if (_Selection >= _Interactions.Count || _Selection < 0)
                 return;
 
-            if (_Interactions[_Selection].Type == EType.TSelectSlide)
+            if (_Interactions[_Selection].Type == EType.SelectSlide)
                 _SelectSlides[_Interactions[_Selection].Num].Highlighted = !_SelectSlides[_Interactions[_Selection].Num].Highlighted;
         }
 
@@ -1674,7 +1674,7 @@ namespace VocaluxeLib.Menu
             if (_Selection >= _Interactions.Count || _Selection < 0)
                 return false;
 
-            if (_Interactions[_Selection].Type == EType.TSelectSlide)
+            if (_Interactions[_Selection].Type == EType.SelectSlide)
                 return _SelectSlides[_Interactions[_Selection].Num].Highlighted;
 
             return false;
@@ -1687,34 +1687,34 @@ namespace VocaluxeLib.Menu
 
             switch (_Interactions[interaction].Type)
             {
-                case EType.TButton:
+                case EType.Button:
                     return _Buttons[_Interactions[interaction].Num].Visible;
 
-                case EType.TSelectSlide:
+                case EType.SelectSlide:
                     return _SelectSlides[_Interactions[interaction].Num].Visible;
 
-                case EType.TStatic:
+                case EType.Static:
                     return _Statics[_Interactions[interaction].Num].Visible;
 
-                case EType.TText:
+                case EType.Text:
                     return _Texts[_Interactions[interaction].Num].Visible;
 
-                case EType.TSongMenu:
+                case EType.SongMenu:
                     return _SongMenus[_Interactions[interaction].Num].Visible;
 
-                case EType.TLyric:
+                case EType.Lyric:
                     return _Lyrics[_Interactions[interaction].Num].Visible;
 
-                case EType.TNameSelection:
+                case EType.NameSelection:
                     return _NameSelections[_Interactions[interaction].Num].Visible;
 
-                case EType.TEqualizer:
+                case EType.Equalizer:
                     return _Equalizers[_Interactions[interaction].Num].Visible;
 
-                case EType.TPlaylist:
+                case EType.Playlist:
                     return _Playlists[_Interactions[interaction].Num].Visible;
 
-                case EType.TParticleEffect:
+                case EType.ParticleEffect:
                     return _ParticleEffects[_Interactions[interaction].Num].Visible;
             }
 
@@ -1728,34 +1728,34 @@ namespace VocaluxeLib.Menu
 
             switch (_Interactions[interaction].Type)
             {
-                case EType.TButton:
+                case EType.Button:
                     return _Buttons[_Interactions[interaction].Num].Enabled;
 
-                case EType.TSelectSlide:
+                case EType.SelectSlide:
                     return _SelectSlides[_Interactions[interaction].Num].Visible;
 
-                case EType.TStatic:
+                case EType.Static:
                     return false; //_Statics[_Interactions[interaction].Num].Visible;
 
-                case EType.TText:
+                case EType.Text:
                     return false; //_Texts[_Interactions[interaction].Num].Visible;
 
-                case EType.TSongMenu:
+                case EType.SongMenu:
                     return _SongMenus[_Interactions[interaction].Num].Visible;
 
-                case EType.TLyric:
+                case EType.Lyric:
                     return false; //_Lyrics[_Interactions[interaction].Num].Visible;
 
-                case EType.TNameSelection:
+                case EType.NameSelection:
                     return _NameSelections[_Interactions[interaction].Num].Visible;
 
-                case EType.TEqualizer:
+                case EType.Equalizer:
                     return false; //_Equalizers[_Interactions[interaction].Num].Visible;
 
-                case EType.TPlaylist:
+                case EType.Playlist:
                     return _Playlists[_Interactions[interaction].Num].Visible;
 
-                case EType.TParticleEffect:
+                case EType.ParticleEffect:
                     return false; //_ParticleEffects[_Interactions[interaction].Num].Visible;
             }
 
@@ -1767,34 +1767,34 @@ namespace VocaluxeLib.Menu
             SRectF Result = new SRectF();
             switch (_Interactions[interaction].Type)
             {
-                case EType.TButton:
+                case EType.Button:
                     return _Buttons[_Interactions[interaction].Num].Rect;
 
-                case EType.TSelectSlide:
+                case EType.SelectSlide:
                     return _SelectSlides[_Interactions[interaction].Num].Rect;
 
-                case EType.TStatic:
+                case EType.Static:
                     return _Statics[_Interactions[interaction].Num].Rect;
 
-                case EType.TText:
+                case EType.Text:
                     return _Texts[_Interactions[interaction].Num].Bounds;
 
-                case EType.TSongMenu:
+                case EType.SongMenu:
                     return _SongMenus[_Interactions[interaction].Num].Rect;
 
-                case EType.TLyric:
+                case EType.Lyric:
                     return _Lyrics[_Interactions[interaction].Num].Rect;
 
-                case EType.TNameSelection:
+                case EType.NameSelection:
                     return _NameSelections[_Interactions[interaction].Num].Rect;
 
-                case EType.TEqualizer:
+                case EType.Equalizer:
                     return _Equalizers[_Interactions[interaction].Num].Rect;
 
-                case EType.TPlaylist:
+                case EType.Playlist:
                     return _Playlists[_Interactions[interaction].Num].Rect;
 
-                case EType.TParticleEffect:
+                case EType.ParticleEffect:
                     return _ParticleEffects[_Interactions[interaction].Num].Rect;
             }
 
@@ -1814,31 +1814,31 @@ namespace VocaluxeLib.Menu
         {
             switch (_Interactions[interaction].Type)
             {
-                case EType.TButton:
+                case EType.Button:
                     _Buttons[_Interactions[interaction].Num].Draw();
                     break;
 
-                case EType.TSelectSlide:
+                case EType.SelectSlide:
                     _SelectSlides[_Interactions[interaction].Num].Draw();
                     break;
 
-                case EType.TStatic:
+                case EType.Static:
                     _Statics[_Interactions[interaction].Num].Draw();
                     break;
 
-                case EType.TText:
+                case EType.Text:
                     _Texts[_Interactions[interaction].Num].Draw();
                     break;
 
-                case EType.TSongMenu:
+                case EType.SongMenu:
                     _SongMenus[_Interactions[interaction].Num].Draw();
                     break;
 
-                case EType.TNameSelection:
+                case EType.NameSelection:
                     _NameSelections[_Interactions[interaction].Num].Draw();
                     break;
 
-                case EType.TEqualizer:
+                case EType.Equalizer:
                     if (!_Equalizers[_Interactions[interaction].Num].ScreenHandles)
                     {
                         //TODO:
@@ -1847,11 +1847,11 @@ namespace VocaluxeLib.Menu
                     }
                     break;
 
-                case EType.TPlaylist:
+                case EType.Playlist:
                     _Playlists[_Interactions[interaction].Num].Draw();
                     break;
 
-                case EType.TParticleEffect:
+                case EType.ParticleEffect:
                     _ParticleEffects[_Interactions[interaction].Num].Draw();
                     break;
 
@@ -1870,43 +1870,43 @@ namespace VocaluxeLib.Menu
             {
                 switch (_Interactions[_Selection].Type)
                 {
-                    case EType.TButton:
+                    case EType.Button:
                         _Buttons[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
 
-                    case EType.TSelectSlide:
+                    case EType.SelectSlide:
                         _SelectSlides[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
 
-                    case EType.TStatic:
+                    case EType.Static:
                         _Statics[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
 
-                    case EType.TText:
+                    case EType.Text:
                         _Texts[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
 
-                    case EType.TSongMenu:
+                    case EType.SongMenu:
                         _SongMenus[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
 
-                    case EType.TLyric:
+                    case EType.Lyric:
                         _Lyrics[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
 
-                    case EType.TNameSelection:
+                    case EType.NameSelection:
                         _NameSelections[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
 
-                    case EType.TEqualizer:
+                    case EType.Equalizer:
                         _Equalizers[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
 
-                    case EType.TPlaylist:
+                    case EType.Playlist:
                         _Playlists[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
 
-                    case EType.TParticleEffect:
+                    case EType.ParticleEffect:
                         _ParticleEffects[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
                         break;
                 }
@@ -1919,43 +1919,43 @@ namespace VocaluxeLib.Menu
             {
                 switch (_Interactions[_Selection].Type)
                 {
-                    case EType.TButton:
+                    case EType.Button:
                         _Buttons[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
 
-                    case EType.TSelectSlide:
+                    case EType.SelectSlide:
                         _SelectSlides[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
 
-                    case EType.TStatic:
+                    case EType.Static:
                         _Statics[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
 
-                    case EType.TText:
+                    case EType.Text:
                         _Texts[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
 
-                    case EType.TSongMenu:
+                    case EType.SongMenu:
                         _SongMenus[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
 
-                    case EType.TLyric:
+                    case EType.Lyric:
                         _Lyrics[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
 
-                    case EType.TNameSelection:
+                    case EType.NameSelection:
                         _NameSelections[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
 
-                    case EType.TEqualizer:
+                    case EType.Equalizer:
                         _Equalizers[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
 
-                    case EType.TPlaylist:
+                    case EType.Playlist:
                         _Playlists[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
 
-                    case EType.TParticleEffect:
+                    case EType.ParticleEffect:
                         _ParticleEffects[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
                         break;
                 }

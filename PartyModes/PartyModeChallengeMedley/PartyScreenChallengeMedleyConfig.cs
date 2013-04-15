@@ -162,7 +162,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
             if (player != Data.ScreenConfig.NumPlayer || mics != Data.ScreenConfig.NumPlayerAtOnce)
             {
-                int num = CHelper.nCk(Data.ScreenConfig.NumPlayer, Data.ScreenConfig.NumPlayerAtOnce);
+                int num = CHelper.CombinationCount(Data.ScreenConfig.NumPlayer, Data.ScreenConfig.NumPlayerAtOnce);
                 while (num > _MaxNumRounds)
                     num -= _RoundSteps;
                 Data.ScreenConfig.NumRounds = num;

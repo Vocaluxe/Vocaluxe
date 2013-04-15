@@ -9,7 +9,7 @@ namespace VocaluxeLib.Menu
 {
     public static class CHelper
     {
-        public static int nCk(int n, int k)
+        public static int CombinationCount(int n, int k)
         {
             if (k > n)
                 return 0;
@@ -24,8 +24,6 @@ namespace VocaluxeLib.Menu
                 k = n - k;
 
             long result = n;
-            long nl = n;
-            long nk = k;
 
             for (long i = 1; i <= k - 1; i++)
                 result = result * (n - i) / (i + 1);

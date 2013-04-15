@@ -65,7 +65,7 @@ namespace Vocaluxe.Base
 
     static class CLog
     {
-        private const int MAXBenchmarks = 10;
+        private const int MaxBenchmarks = 10;
 
         private static LogFile _ErrorLog;
         private static LogFile _PerformanceLog;
@@ -82,7 +82,7 @@ namespace Vocaluxe.Base
             _BenchmarkLog = new LogFile(CSettings.sFileBenchmarkLog, "BenchmarkLog");
 
             _NumErrors = 0;
-            _BenchmarkTimer = new Stopwatch[MAXBenchmarks];
+            _BenchmarkTimer = new Stopwatch[MaxBenchmarks];
             for (int i = 0; i < _BenchmarkTimer.Length; i++)
                 _BenchmarkTimer[i] = new Stopwatch();
         }
@@ -115,7 +115,7 @@ namespace Vocaluxe.Base
         #region LogBenchmark
         public static void StartBenchmark(int BenchmarkNr, string Text)
         {
-            if (BenchmarkNr >= 0 && BenchmarkNr < MAXBenchmarks)
+            if (BenchmarkNr >= 0 && BenchmarkNr < MaxBenchmarks)
             {
                 _BenchmarkTimer[BenchmarkNr].Stop();
                 _BenchmarkTimer[BenchmarkNr].Reset();
@@ -131,7 +131,7 @@ namespace Vocaluxe.Base
 
         public static void StopBenchmark(int BenchmarkNr, string Text)
         {
-            if (BenchmarkNr >= 0 && BenchmarkNr < MAXBenchmarks)
+            if (BenchmarkNr >= 0 && BenchmarkNr < MaxBenchmarks)
             {
                 _BenchmarkTimer[BenchmarkNr].Stop();
 

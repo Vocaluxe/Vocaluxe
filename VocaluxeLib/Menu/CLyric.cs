@@ -20,7 +20,7 @@ namespace VocaluxeLib.Menu
         public string Name;
 
         public string ColorName;
-        public string SColorName;
+        public string SelColorName;
     }
 
     public class CLyric : IMenuElement
@@ -124,8 +124,8 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            if (xmlReader.GetValue(item + "/SColor", ref _Theme.SColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColorName, SkinIndex, out ColorProcessed);
+            if (xmlReader.GetValue(item + "/SColor", ref _Theme.SelColorName, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorName, SkinIndex, out ColorProcessed);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref ColorProcessed.R);
@@ -170,8 +170,8 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<SColor>: Highlighted lyric color from ColorScheme (high priority)");
                 writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
-                if (_Theme.SColorName.Length > 0)
-                    writer.WriteElementString("SColor", _Theme.SColorName);
+                if (_Theme.SelColorName.Length > 0)
+                    writer.WriteElementString("SColor", _Theme.SelColorName);
                 else
                 {
                     writer.WriteElementString("SR", ColorProcessed.R.ToString("#0.00"));
@@ -535,8 +535,8 @@ namespace VocaluxeLib.Menu
             if (_Theme.ColorName.Length > 0)
                 Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
-            if (_Theme.SColorName.Length > 0)
-                ColorProcessed = CBase.Theme.GetColor(_Theme.SColorName, _PartyModeID);
+            if (_Theme.SelColorName.Length > 0)
+                ColorProcessed = CBase.Theme.GetColor(_Theme.SelColorName, _PartyModeID);
         }
 
         public void ReloadTextures()

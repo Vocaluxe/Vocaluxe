@@ -215,7 +215,7 @@ namespace Vocaluxe.Lib.Draw
 
             if (CConfig.FullScreen == EOffOn.TR_CONFIG_ON)
             {
-                CSettings.bFullScreen = true;
+                CSettings.IsFullScreen = true;
                 Maximize(this);
             }
 
@@ -229,7 +229,7 @@ namespace Vocaluxe.Lib.Draw
                     _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
                     FlipBuffer();
 
-                    if ((CSettings.bFullScreen && !_fullscreen) || (!CSettings.bFullScreen && _fullscreen))
+                    if ((CSettings.IsFullScreen && !_fullscreen) || (!CSettings.IsFullScreen && _fullscreen))
                         ToggleFullScreen();
 
                     if (CTime.IsRunning())

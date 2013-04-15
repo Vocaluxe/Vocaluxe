@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Vocaluxe.Lib.Video.Acinerella
 {
-    public enum TAc_stream_type : sbyte
+    public enum AC_stream_type : sbyte
     {
         /*The type of the media stream is not known. This kind of stream can not be
         decoded.*/
@@ -15,7 +15,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
     }
 
     //Defines the type of an Acinerella media decoder.
-    public enum TAc_decoder_type : byte
+    public enum AC_decoder_type : byte
     {
         //This decoder is used to decode a video stream.
         AC_DECODER_TYPE_VIDEO = 0,
@@ -24,7 +24,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
     }
 
     //Defines the format video/image data is outputted in
-    public enum TAc_output_format : byte
+    public enum AC_output_format : byte
     {
         AC_OUTPUT_RGB24 = 0,
         AC_OUTPUT_BGR24 = 1,
@@ -35,7 +35,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
     // Contains information about the whole file/stream that has been opened. Default 
     // values are "" for strings and -1 for integer values.
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-    public struct TAc_file_info
+    public struct AC_file_info
     {
         public Int64 duration;
     }
@@ -44,7 +44,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
     // decode one file at once. There can be only 26 Acinerella instances opened at
     // once.
     [StructLayout(LayoutKind.Sequential)]
-    public struct TAc_instance
+    public struct AC_instance
     {
         //If true, the instance currently opened a media file
         public bool opened;
@@ -52,14 +52,14 @@ namespace Vocaluxe.Lib.Video.Acinerella
         //after calling the ac_open function.
         public Int32 stream_count;
         //Set this value to change the image output format
-        public TAc_output_format output_format;
+        public AC_output_format output_format;
         //Contains information about the opened stream/file
-        public TAc_file_info info;
+        public AC_file_info info;
     }
 
     // Contains information about an Acinerella audio stream.
     [StructLayout(LayoutKind.Sequential)]
-    public struct TAc_audio_stream_info
+    public struct AC_audio_stream_info
     {
         //Samples per second. Default values are 44100 or 48000.
         public Int32 samples_per_second;
@@ -71,7 +71,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
     // Contains information about an Acinerella video stream.
     [StructLayout(LayoutKind.Sequential)]
-    public struct TAc_video_stream_info
+    public struct AC_video_stream_info
     {
         //The width of one frame.
         public Int32 frame_width;
@@ -85,23 +85,23 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
     // Contains information about an Acinerella stream.
     [StructLayout(LayoutKind.Sequential)]
-    public struct TAc_stream_info
+    public struct AC_stream_info
     {
         //Contains the type of the stream.
-        public TAc_stream_type stream_type;
+        public AC_stream_type stream_type;
         //Additional info about the stream
-        public TAc_audio_stream_info audio_info;
-        public TAc_video_stream_info video_info;
+        public AC_audio_stream_info audio_info;
+        public AC_video_stream_info video_info;
     }
 
     // Contains information about an Acinerella video/audio decoder.
     [StructLayout(LayoutKind.Sequential)]
-    public struct TAc_decoder
+    public struct AC_decoder
     {
         //Pointer on the Acinerella instance
-        private readonly IntPtr pAcInstance;
+        private readonly IntPtr ACInstancePtr;
         //Contains the type of the decoder.
-        public TAc_decoder_type dec_type;
+        public AC_decoder_type dec_type;
 
         //The timecode of the currently decoded picture in seconds.
         public double timecode;
@@ -109,7 +109,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public double video_clock;
 
         //Contains information about the stream the decoder is attached to.
-        public TAc_stream_info stream_info;
+        public AC_stream_info stream_info;
         //The index of the stream the decoder is attached to.
         public Int32 stream_index;
 
@@ -121,7 +121,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
     // Contains information about an Acinerella package.
     [StructLayout(LayoutKind.Sequential)]
-    public struct TAc_package
+    public struct AC_package
     {
         //The stream the package belongs to.
         public Int32 stream_index;
@@ -131,7 +131,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
     // the number of bytes read or an value smaller than zero if an error occured.
     //TAc_read_callback = function(sender: Pointer; byte[] buf, int size): integer; cdecl;
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate Int32 TAc_read_callback(
+    public delegate Int32 AC_read_callback(
         IntPtr sender,
         IntPtr buf,
         Int32 size
@@ -140,14 +140,14 @@ namespace Vocaluxe.Lib.Video.Acinerella
     // Callback function used to ask the application to seek. return 0 if succeed , -1 on failure.
     //TAc_seek_callback = function(sender: Pointer; pos: int64; whence: integer): int64; cdecl;
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate Int64 TAc_seek_callback(IntPtr sender, Int64 pos, Int32 whence);
+    public delegate Int64 AC_seek_callback(IntPtr sender, Int64 pos, Int32 whence);
 
     // Callback function that is used to notify the application when the data stream
     // is opened or closed. For example the file pointer should be resetted to zero
     // when the "open" function is called.
     // TAc_openclose_callback = function(sender: Pointer): integer; cdecl;
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate Int32 TAc_openclose_callback(IntPtr sender);
+    public delegate Int32 AC_openclose_callback(IntPtr sender);
 
     public static class CAcinerella
     {
@@ -285,13 +285,13 @@ namespace Vocaluxe.Lib.Video.Acinerella
         private static extern void _ac_get_stream_info(
             IntPtr PAc_instance,
             Int32 nb,
-            out TAc_stream_info Info
+            out AC_stream_info Info
             );
 
         public static void ac_get_stream_info(
             IntPtr PAc_instance,
             Int32 nb,
-            out TAc_stream_info Info
+            out AC_stream_info Info
             )
         {
             lock (_lock)

@@ -670,7 +670,7 @@ namespace VocaluxeLib.Menu.SingNotes
             _PlayerNotes[n].PerfectLineTwinkle.Add(twinkle);
         }
 
-        private void DrawToneHelper(int n, int BaseLine, float XOffset)
+        private void DrawToneHelper(int n, int BaseLine, float OffsetX)
         {
             int TonePlayer = CBase.Record.GetToneAbs(_PlayerNotes[n].PlayerNr);
 
@@ -682,15 +682,15 @@ namespace VocaluxeLib.Menu.SingNotes
             while (TonePlayer - BaseLine > 12)
                 TonePlayer -= 12;
 
-            if (XOffset < 0f)
-                XOffset = 0f;
+            if (OffsetX < 0f)
+                OffsetX = 0f;
 
-            if (XOffset > noteBounds.W)
-                XOffset = noteBounds.W;
+            if (OffsetX > noteBounds.W)
+                OffsetX = noteBounds.W;
 
             float dy = noteBounds.H / CBase.Settings.GetNumNoteLines();
             SRectF drawRect = new SRectF(
-                noteBounds.X - dy + XOffset,
+                noteBounds.X - dy + OffsetX,
                 noteBounds.Y + dy * (CBase.Settings.GetNumNoteLines() - 1 - (TonePlayer - BaseLine) / 2f),
                 dy,
                 dy,
@@ -714,7 +714,7 @@ namespace VocaluxeLib.Menu.SingNotes
                 TonePlayer -= 12;
 
             drawRect = new SRectF(
-                noteBounds.X - dy + XOffset,
+                noteBounds.X - dy + OffsetX,
                 noteBounds.Y + dy * (CBase.Settings.GetNumNoteLines() - 1 - (TonePlayer - BaseLine) / 2f),
                 dy,
                 dy,

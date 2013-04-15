@@ -236,7 +236,7 @@ namespace PortAudioSharp
             paOutputUnderflowed,
             paHostApiNotFound,
             paInvalidHostApi,
-            paCanNotReadFromACallbackStream,
+            paCanNotReadFromCallbackStream,
             paCanNotWriteToACallbackStream,
             paCanNotReadFromAnOutputOnlyStream,
             paCanNotWriteToAnInputOnlyStream,

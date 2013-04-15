@@ -588,7 +588,7 @@ namespace Vocaluxe.Base
                 if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.F1))
                     CSettings.GameState = EGameState.EditTheme;
                 else if (KeyEvent.ModALT && (KeyEvent.Key == Keys.Enter))
-                    CSettings.bFullScreen = !CSettings.bFullScreen;
+                    CSettings.IsFullScreen = !CSettings.IsFullScreen;
                 else if (KeyEvent.ModALT && (KeyEvent.Key == Keys.P))
                     CDraw.MakeScreenShot();
                 else
@@ -684,7 +684,7 @@ namespace Vocaluxe.Base
                     _Screens[(int)_CurrentScreen].NextInteraction();
                 }
                 else if (KeyEvent.ModALT && (KeyEvent.Key == Keys.Enter))
-                    CSettings.bFullScreen = !CSettings.bFullScreen;
+                    CSettings.IsFullScreen = !CSettings.IsFullScreen;
                 else if (KeyEvent.ModALT && (KeyEvent.Key == Keys.P))
                     CDraw.MakeScreenShot();
                 else

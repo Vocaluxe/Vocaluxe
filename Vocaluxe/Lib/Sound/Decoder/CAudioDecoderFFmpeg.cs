@@ -11,7 +11,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
         private IntPtr _instance = IntPtr.Zero;
         private IntPtr _audiodecoder = IntPtr.Zero;
 
-        private TAc_instance _Instance;
+        private AC_instance _Instance;
         private FormatInfo _FormatInfo;
         private float _CurrentTime;
 
@@ -35,7 +35,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
             {
                 _instance = CAcinerella.ac_init();
                 CAcinerella.ac_open2(_instance, _FileName);
-                _Instance = (TAc_instance)Marshal.PtrToStructure(_instance, typeof(TAc_instance));
+                _Instance = (AC_instance)Marshal.PtrToStructure(_instance, typeof(AC_instance));
             }
             catch (Exception)
             {
@@ -51,11 +51,11 @@ namespace Vocaluxe.Lib.Sound.Decoder
             }
 
             int AudioStreamIndex = -1;
-            TAc_decoder Audiodecoder;
+            AC_decoder Audiodecoder;
             try
             {
                 _audiodecoder = CAcinerella.ac_create_audio_decoder(_instance);
-                Audiodecoder = (TAc_decoder)Marshal.PtrToStructure(_audiodecoder, typeof(TAc_decoder));
+                Audiodecoder = (AC_decoder)Marshal.PtrToStructure(_audiodecoder, typeof(AC_decoder));
                 AudioStreamIndex = Audiodecoder.stream_index;
             }
             catch (Exception)
@@ -169,7 +169,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
             if (FrameFinished == 1)
             {
-                TAc_decoder Decoder = (TAc_decoder)Marshal.PtrToStructure(_audiodecoder, typeof(TAc_decoder));
+                AC_decoder Decoder = (AC_decoder)Marshal.PtrToStructure(_audiodecoder, typeof(AC_decoder));
 
                 TimeStamp = (float)Decoder.timecode;
                 _CurrentTime = TimeStamp;

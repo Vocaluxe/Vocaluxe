@@ -41,10 +41,10 @@ namespace VocaluxeLib.Menu
         public string Name;
 
         public string ColorBackgroundName;
-        public string SColorBackgroundName;
+        public string SelColorBackgroundName;
 
         public string TextureBackgroundName;
-        public string STextureBackgroundName;
+        public string SelTextureBackgroundName;
 
         public float EntryHeight;
 
@@ -141,7 +141,7 @@ namespace VocaluxeLib.Menu
         public SRectF CompleteRect;
         public SRectF Rect;
         public SColorF BackgroundColor;
-        public SColorF BackgroundSColor;
+        public SColorF BackgroundSelColor;
 
         public bool Visible;
 
@@ -199,7 +199,7 @@ namespace VocaluxeLib.Menu
             CompleteRect = new SRectF();
             Rect = new SRectF();
             BackgroundColor = new SColorF();
-            BackgroundSColor = new SColorF();
+            BackgroundSelColor = new SColorF();
 
             PlaylistElements = new List<PlaylistElement>();
             PlaylistElementContents = new List<PlaylistElementContent>();
@@ -231,7 +231,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded = true;
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackground", ref _Theme.TextureBackgroundName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundSelected", ref _Theme.STextureBackgroundName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundSelected", ref _Theme.SelTextureBackgroundName, String.Empty);
 
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
@@ -247,14 +247,14 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundB", ref BackgroundColor.B);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundA", ref BackgroundColor.A);
             }
-            if (xmlReader.GetValue(item + "/SColorBackground", ref _Theme.SColorBackgroundName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColorBackgroundName, SkinIndex, out BackgroundSColor);
+            if (xmlReader.GetValue(item + "/SColorBackground", ref _Theme.SelColorBackgroundName, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorBackgroundName, SkinIndex, out BackgroundSelColor);
             else
             {
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundR", ref BackgroundSColor.R);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundG", ref BackgroundSColor.G);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundB", ref BackgroundSColor.B);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundA", ref BackgroundSColor.A);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundR", ref BackgroundSelColor.R);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundG", ref BackgroundSelColor.G);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundB", ref BackgroundSelColor.B);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundA", ref BackgroundSelColor.A);
             }
 
             _ThemeLoaded &= _Theme.Text1.LoadTheme(item, "TextPart1", xmlReader, SkinIndex);
@@ -347,7 +347,7 @@ namespace VocaluxeLib.Menu
                 writer.WriteElementString("SkinBackground", _Theme.TextureBackgroundName);
 
                 writer.WriteComment("<SkinBackgroundSelected>: Texture name for selected playlist-entry");
-                writer.WriteElementString("SkinBackgroundSelected", _Theme.STextureBackgroundName);
+                writer.WriteElementString("SkinBackgroundSelected", _Theme.SelTextureBackgroundName);
 
                 writer.WriteComment("<ColorBackground>: Button color from ColorScheme (high priority)");
                 writer.WriteComment("or <BackgroundR>, <BackgroundG>, <BackgroundB>, <BackgroundA> (lower priority)");
@@ -363,14 +363,14 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<SColorBackground>: Selected paylist-entry color from ColorScheme (high priority)");
                 writer.WriteComment("or <SBackgroundR>, <SBackgroundG>, <SBackgroundB>, <SBackgroundA> (lower priority)");
-                if (_Theme.SColorBackgroundName.Length > 0)
-                    writer.WriteElementString("SColorBackground", _Theme.SColorBackgroundName);
+                if (_Theme.SelColorBackgroundName.Length > 0)
+                    writer.WriteElementString("SColorBackground", _Theme.SelColorBackgroundName);
                 else
                 {
-                    writer.WriteElementString("SBackgroundR", BackgroundSColor.R.ToString("#0.00"));
-                    writer.WriteElementString("SBackgroundG", BackgroundSColor.G.ToString("#0.00"));
-                    writer.WriteElementString("SBackgroundB", BackgroundSColor.B.ToString("#0.00"));
-                    writer.WriteElementString("SBackgroundA", BackgroundSColor.A.ToString("#0.00"));
+                    writer.WriteElementString("SBackgroundR", BackgroundSelColor.R.ToString("#0.00"));
+                    writer.WriteElementString("SBackgroundG", BackgroundSelColor.G.ToString("#0.00"));
+                    writer.WriteElementString("SBackgroundB", BackgroundSelColor.B.ToString("#0.00"));
+                    writer.WriteElementString("SBackgroundA", BackgroundSelColor.A.ToString("#0.00"));
                 }
 
                 writer.WriteComment("Positions of <TextPart1>, <TextPart2>, <TextPart3>, <StaticCover> and <SelectSlideGameMode> are relative to playlist-entry!");
@@ -414,8 +414,8 @@ namespace VocaluxeLib.Menu
             {
                 if (i == CurrentPlaylistElement && _Selected)
                 {
-                    PlaylistElements[i].Background.Texture = CBase.Theme.GetSkinTexture(_Theme.STextureBackgroundName, _PartyModeID);
-                    PlaylistElements[i].Background.Color = BackgroundSColor;
+                    PlaylistElements[i].Background.Texture = CBase.Theme.GetSkinTexture(_Theme.SelTextureBackgroundName, _PartyModeID);
+                    PlaylistElements[i].Background.Color = BackgroundSelColor;
                 }
                 else
                 {
@@ -455,8 +455,8 @@ namespace VocaluxeLib.Menu
             if (_Theme.ColorBackgroundName.Length > 0)
                 BackgroundColor = CBase.Theme.GetColor(_Theme.ColorBackgroundName, _PartyModeID);
 
-            if (_Theme.SColorBackgroundName.Length > 0)
-                BackgroundSColor = CBase.Theme.GetColor(_Theme.SColorBackgroundName, _PartyModeID);
+            if (_Theme.SelColorBackgroundName.Length > 0)
+                BackgroundSelColor = CBase.Theme.GetColor(_Theme.SelColorBackgroundName, _PartyModeID);
 
             _Theme.Text1.LoadTextures();
             _Theme.ButtonPlaylistClose.LoadTextures();

@@ -211,7 +211,7 @@ namespace Vocaluxe.Lib.Draw
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            RResize();
+            DoResize();
         }
 
         protected override void WndProc(ref Message m)
@@ -240,7 +240,7 @@ namespace Vocaluxe.Lib.Draw
         /// <summary>
         ///     Resizes the viewport
         /// </summary>
-        private void RResize()
+        private void DoResize()
         {
             // The window was minimized, so restore it to the last known size
             if (ClientSize.Width == 0 || ClientSize.Height == 0)
@@ -308,11 +308,11 @@ namespace Vocaluxe.Lib.Draw
             if (WindowState == FormWindowState.Maximized)
             {
                 WindowState = FormWindowState.Normal;
-                RResize();
+                DoResize();
                 WindowState = FormWindowState.Maximized;
             }
             else
-                RResize();
+                DoResize();
 
             CConfig.SaveConfig();
         }
@@ -486,13 +486,13 @@ namespace Vocaluxe.Lib.Draw
 
             if (CConfig.FullScreen == EOffOn.TR_CONFIG_ON)
             {
-                CSettings.bFullScreen = true;
+                CSettings.IsFullScreen = true;
                 EnterFullScreen();
             }
 
             //Resize window if aspect ratio is incorrect
             if (w / (float)h != CSettings.GetRenderAspect())
-                RResize();
+                DoResize();
 
             while (_Run)
             {
@@ -530,7 +530,7 @@ namespace Vocaluxe.Lib.Draw
                         }
                     }
                     //Apply fullscreen mode
-                    if (CSettings.bFullScreen != _fullscreen)
+                    if (CSettings.IsFullScreen != _fullscreen)
                     {
                         if (!_fullscreen)
                             EnterFullScreen();

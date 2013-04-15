@@ -633,7 +633,7 @@ namespace Vocaluxe.Base
         private float _CurrentTime;
         private float _OldTime;
 
-        private readonly Stopwatch _STimer;
+        private readonly Stopwatch _Timer;
         private readonly float _K;
         private readonly float _T;
 
@@ -642,8 +642,8 @@ namespace Vocaluxe.Base
             get
             {
                 double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
-                long ticks = _STimer.ElapsedTicks;
-                float dt = _STimer.ElapsedMilliseconds / 1000f;
+                long ticks = _Timer.ElapsedTicks;
+                float dt = _Timer.ElapsedMilliseconds / 1000f;
 
                 if (Stopwatch.IsHighResolution && ticks != 0)
                     dt = (float)(ticks * nanosecPerTick / 1000000000.0);
@@ -658,8 +658,8 @@ namespace Vocaluxe.Base
 
                 _CurrentTime = value;
                 _OldTime = value;
-                _STimer.Reset();
-                _STimer.Start();
+                _Timer.Reset();
+                _Timer.Start();
             }
         }
 
@@ -668,18 +668,18 @@ namespace Vocaluxe.Base
             _CurrentTime = CurrentTime;
             _OldTime = CurrentTime;
 
-            _STimer = new Stopwatch();
+            _Timer = new Stopwatch();
             _K = K;
             _T = T;
         }
 
         public float Update(float NewTime)
         {
-            _STimer.Stop();
+            _Timer.Stop();
 
             double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
-            long ticks = _STimer.ElapsedTicks;
-            float dt = _STimer.ElapsedMilliseconds / 1000f;
+            long ticks = _Timer.ElapsedTicks;
+            float dt = _Timer.ElapsedMilliseconds / 1000f;
 
             if (Stopwatch.IsHighResolution && ticks != 0)
                 dt = (float)(ticks * nanosecPerTick / 1000000000.0);
@@ -691,20 +691,20 @@ namespace Vocaluxe.Base
             _CurrentTime = Ts * (_K * NewTime - _OldTime) + _OldTime;
             _OldTime = _CurrentTime;
 
-            _STimer.Reset();
-            _STimer.Start();
+            _Timer.Reset();
+            _Timer.Start();
 
             return _CurrentTime;
         }
 
         public void Pause()
         {
-            _STimer.Stop();
+            _Timer.Stop();
         }
 
         public void Resume()
         {
-            _STimer.Start();
+            _Timer.Start();
         }
     }
 }

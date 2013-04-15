@@ -21,7 +21,7 @@ namespace VocaluxeLib.PartyModes
             Warning.Font = "Normal";
             Warning.Style = EStyle.Normal;
             Warning.Color = new SColorF(1f, 0f, 0f, 1f);
-            Warning.SColor = new SColorF(1f, 0f, 0f, 1f);
+            Warning.SelColor = new SColorF(1f, 0f, 0f, 1f);
             Warning.Text = "SOMETHING WENT WRONG!";
             AddText(Warning);
         }

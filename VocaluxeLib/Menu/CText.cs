@@ -10,14 +10,14 @@ namespace VocaluxeLib.Menu
 
         public string Text;
         public string ColorName;
-        public string SColorName; //for Buttons
+        public string SelColorName; //for Buttons
     }
 
     struct STextPosition
     {
         public float X;
         public float Y;
-        public float tH;
+        public float textHeight;
         public float Width;
         public float Height;
 
@@ -25,7 +25,7 @@ namespace VocaluxeLib.Menu
         {
             X = 0f;
             Y = 0f;
-            tH = 0f;
+            textHeight = 0f;
             Width = 0f;
             Height = 0f;
         }
@@ -189,7 +189,7 @@ namespace VocaluxeLib.Menu
         }
 
         public SColorF Color; //normal Color
-        public SColorF SColor; //selected Color for Buttons
+        public SColorF SelColor; //selected Color for Buttons
 
         public bool Reflection = false;
         public float ReflectionSpace;
@@ -273,7 +273,7 @@ namespace VocaluxeLib.Menu
             _Font = text._Font;
 
             Color = new SColorF(text.Color);
-            SColor = new SColorF(text.SColor);
+            SelColor = new SColorF(text.SelColor);
             Reflection = text.Reflection;
             ReflectionSpace = text.ReflectionSpace;
             ReflectionHeight = text.ReflectionHeight;
@@ -306,7 +306,7 @@ namespace VocaluxeLib.Menu
             Font = font;
 
             Color = new SColorF(r, g, b, a);
-            SColor = new SColorF(r, g, b, a);
+            SelColor = new SColorF(r, g, b, a);
 
             Text = text;
 
@@ -341,7 +341,7 @@ namespace VocaluxeLib.Menu
             Font = font;
 
             Color = new SColorF(r, g, b, a);
-            SColor = new SColorF(r, g, b, a);
+            SelColor = new SColorF(r, g, b, a);
 
             Text = text;
 
@@ -374,7 +374,7 @@ namespace VocaluxeLib.Menu
             Font = font;
 
             Color = col;
-            SColor = new SColorF(col);
+            SelColor = new SColorF(col);
 
             Text = text;
 
@@ -409,7 +409,7 @@ namespace VocaluxeLib.Menu
             Font = font;
 
             Color = col;
-            SColor = new SColorF(col);
+            SelColor = new SColorF(col);
 
             Text = text;
 
@@ -452,15 +452,15 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            if (xmlReader.GetValue(item + "/SColor", ref _Theme.SColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColorName, SkinIndex, out SColor);
+            if (xmlReader.GetValue(item + "/SColor", ref _Theme.SelColorName, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorName, SkinIndex, out SelColor);
             else
             {
-                if (xmlReader.TryGetFloatValue(item + "/SR", ref SColor.R))
+                if (xmlReader.TryGetFloatValue(item + "/SR", ref SelColor.R))
                 {
-                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SG", ref SColor.G);
-                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SB", ref SColor.B);
-                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SA", ref SColor.A);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SG", ref SelColor.G);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SB", ref SelColor.B);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SA", ref SelColor.A);
                 }
             }
 
@@ -534,14 +534,14 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<SColor>: Selected Text color from ColorScheme (high priority)");
                 writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
-                if (_Theme.SColorName.Length > 0)
-                    writer.WriteElementString("SColor", _Theme.SColorName);
+                if (_Theme.SelColorName.Length > 0)
+                    writer.WriteElementString("SColor", _Theme.SelColorName);
                 else
                 {
-                    writer.WriteElementString("SR", SColor.R.ToString("#0.00"));
-                    writer.WriteElementString("SG", SColor.G.ToString("#0.00"));
-                    writer.WriteElementString("SB", SColor.B.ToString("#0.00"));
-                    writer.WriteElementString("SA", SColor.A.ToString("#0.00"));
+                    writer.WriteElementString("SR", SelColor.R.ToString("#0.00"));
+                    writer.WriteElementString("SG", SelColor.G.ToString("#0.00"));
+                    writer.WriteElementString("SB", SelColor.B.ToString("#0.00"));
+                    writer.WriteElementString("SA", SelColor.A.ToString("#0.00"));
                 }
 
                 writer.WriteComment("<Align>: Text align horizontal: " + CHelper.ListStrings(Enum.GetNames(typeof(EAlignment))));
@@ -605,28 +605,28 @@ namespace VocaluxeLib.Menu
 
             SColorF CurrentColor = new SColorF(Color);
             if (Selected)
-                CurrentColor = new SColorF(SColor);
+                CurrentColor = new SColorF(SelColor);
 
             SColorF color = new SColorF(CurrentColor.R, CurrentColor.G, CurrentColor.B, CurrentColor.A * Alpha);
 
-            CBase.Fonts.DrawText(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color);
+            CBase.Fonts.DrawText(_Text, _DrawPosition.textHeight, _DrawPosition.X, _DrawPosition.Y, Z, color);
 
             if (Reflection)
             {
-                float sFactor = 0f;
+                float factor = 0f;
                 switch (HAlign)
                 {
                     case EHAlignment.Top:
-                        sFactor = (Height - _DrawPosition.tH) * 1.5f;
+                        factor = (Height - _DrawPosition.textHeight) * 1.5f;
                         break;
                     case EHAlignment.Center:
-                        sFactor = (Height - _DrawPosition.tH) * 1.0f;
+                        factor = (Height - _DrawPosition.textHeight) * 1.0f;
                         break;
                     case EHAlignment.Bottom:
-                        sFactor = (Height - _DrawPosition.tH) * 0.5f;
+                        factor = (Height - _DrawPosition.textHeight) * 0.5f;
                         break;
                 }
-                CBase.Fonts.DrawTextReflection(_Text, _DrawPosition.tH, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace + sFactor, ReflectionHeight);
+                CBase.Fonts.DrawTextReflection(_Text, _DrawPosition.textHeight, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace + factor, ReflectionHeight);
             }
 
             if (Selected && (CBase.Settings.GetGameState() == EGameState.EditTheme))
@@ -655,7 +655,7 @@ namespace VocaluxeLib.Menu
 
             SColorF CurrentColor = new SColorF(Color);
             if (Selected)
-                CurrentColor = new SColorF(SColor);
+                CurrentColor = new SColorF(SelColor);
 
             SColorF color = new SColorF(CurrentColor.R, CurrentColor.G, CurrentColor.B, CurrentColor.A * Alpha);
 
@@ -732,7 +732,7 @@ namespace VocaluxeLib.Menu
 
             SColorF CurrentColor = new SColorF(Color);
             if (Selected)
-                CurrentColor = new SColorF(SColor);
+                CurrentColor = new SColorF(SelColor);
 
             SColorF color = new SColorF(CurrentColor.R, CurrentColor.G, CurrentColor.B, CurrentColor.A * Alpha);
 
@@ -760,8 +760,8 @@ namespace VocaluxeLib.Menu
             if (_Theme.ColorName.Length > 0)
                 Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
-            if (_Theme.SColorName.Length > 0)
-                SColor = CBase.Theme.GetColor(_Theme.SColorName, _PartyModeID);
+            if (_Theme.SelColorName.Length > 0)
+                SelColor = CBase.Theme.GetColor(_Theme.SelColorName, _PartyModeID);
         }
 
         public void ReloadTextures()
@@ -831,7 +831,7 @@ namespace VocaluxeLib.Menu
 
             _DrawPosition.X = x;
             _DrawPosition.Y = y;
-            _DrawPosition.tH = h;
+            _DrawPosition.textHeight = h;
             _DrawPosition.Width = bounds.Width;
             _DrawPosition.Height = bounds.Height;
 

@@ -277,11 +277,11 @@ namespace Vocaluxe.Lib.Draw
             if (WindowState == FormWindowState.Maximized)
             {
                 WindowState = FormWindowState.Normal;
-                RResize();
+                DoResize();
                 WindowState = FormWindowState.Maximized;
             }
             else
-                RResize();
+                DoResize();
 
             CConfig.SaveConfig();
         }
@@ -318,7 +318,7 @@ namespace Vocaluxe.Lib.Draw
             base.OnResize(e);
 
             control.ClientSize = ClientSize;
-            RResize();
+            DoResize();
         }
 
         protected override void WndProc(ref Message m)
@@ -399,7 +399,7 @@ namespace Vocaluxe.Lib.Draw
         }
         #endregion keyboard event handlers
 
-        private void RResize()
+        private void DoResize()
         {
             h = control.Height;
             w = control.Width;
@@ -452,7 +452,7 @@ namespace Vocaluxe.Lib.Draw
 
             if (CConfig.FullScreen == EOffOn.TR_CONFIG_ON)
             {
-                CSettings.bFullScreen = true;
+                CSettings.IsFullScreen = true;
                 EnterFullScreen();
             }
 
@@ -468,7 +468,7 @@ namespace Vocaluxe.Lib.Draw
                     _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
                     control.SwapBuffers();
 
-                    if ((CSettings.bFullScreen && !_fullscreen) || (!CSettings.bFullScreen && _fullscreen))
+                    if ((CSettings.IsFullScreen && !_fullscreen) || (!CSettings.IsFullScreen && _fullscreen))
                         ToggleFullScreen();
 
                     CheckQueque();
