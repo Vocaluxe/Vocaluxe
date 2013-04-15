@@ -420,7 +420,7 @@ namespace Vocaluxe.Lib.Draw
 
             OpenTK.Graphics.OpenGL.GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
             OpenTK.Graphics.OpenGL.GL.LoadIdentity();
-            OpenTK.Graphics.OpenGL.GL.Ortho(0, CSettings.iRenderW, CSettings.iRenderH, 0, CSettings.zNear, CSettings.zFar);
+            OpenTK.Graphics.OpenGL.GL.Ortho(0, CSettings.iRenderW, CSettings.iRenderH, 0, CSettings.ZNear, CSettings.ZFar);
             OpenTK.Graphics.OpenGL.GL.Viewport(x, y, w, h);
         }
 
@@ -437,7 +437,7 @@ namespace Vocaluxe.Lib.Draw
             OpenTK.Graphics.OpenGL.GL.BlendFunc(OpenTK.Graphics.OpenGL.BlendingFactorSrc.SrcAlpha, OpenTK.Graphics.OpenGL.BlendingFactorDest.OneMinusSrcAlpha);
             OpenTK.Graphics.OpenGL.GL.PixelStore(OpenTK.Graphics.OpenGL.PixelStoreParameter.UnpackAlignment, 1);
 
-            OpenTK.Graphics.OpenGL.GL.DepthRange(CSettings.zFar, CSettings.zNear);
+            OpenTK.Graphics.OpenGL.GL.DepthRange(CSettings.ZFar, CSettings.ZNear);
             OpenTK.Graphics.OpenGL.GL.DepthFunc(OpenTK.Graphics.OpenGL.DepthFunction.Lequal);
             OpenTK.Graphics.OpenGL.GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.DepthTest);
 

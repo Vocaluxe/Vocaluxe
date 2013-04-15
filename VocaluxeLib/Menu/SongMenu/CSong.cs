@@ -866,7 +866,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private struct Series
         {
-            public int start;
+            public int Start;
             public int end;
             public int length;
         }
@@ -897,7 +897,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     if (sentences[i] == sentences[j] && sentences[i].Length > 0)
                     {
                         Series tempSeries = new Series();
-                        tempSeries.start = i;
+                        tempSeries.Start = i;
                         tempSeries.end = i;
 
                         int max = 0;
@@ -914,7 +914,7 @@ namespace VocaluxeLib.Menu.SongMenu
                                 break;
                         }
 
-                        tempSeries.length = tempSeries.end - tempSeries.start + 1;
+                        tempSeries.length = tempSeries.end - tempSeries.Start + 1;
                         series.Add(tempSeries);
                     }
                 }
@@ -953,7 +953,7 @@ namespace VocaluxeLib.Menu.SongMenu
             // set medley vars
             if (series.Count > 0 && series[longest].length > CBase.Settings.GetMedleyMinSeriesLength())
             {
-                Medley.StartBeat = lines.Line[series[longest].start].FirstNoteBeat;
+                Medley.StartBeat = lines.Line[series[longest].Start].FirstNoteBeat;
                 Medley.EndBeat = lines.Line[series[longest].end].LastNoteBeat;
 
                 bool foundEnd = false;
@@ -965,7 +965,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
                 if (!foundEnd)
                 {
-                    for (int i = series[longest].start + 1; i < lines.LineCount - 1; i++)
+                    for (int i = series[longest].Start + 1; i < lines.LineCount - 1; i++)
                     {
                         if (CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM) + CBase.Settings.GetMedleyMinDuration() >
                             CBase.Game.GetTimeFromBeats(lines.Line[i].LastNoteBeat, BPM))
@@ -1005,11 +1005,11 @@ namespace VocaluxeLib.Menu.SongMenu
             //Check if stop is in series
             for (int i = 0; i < series.Count; i++)
             {
-                if (lines.Line[series[i].start].FirstNoteBeat < stop && lines.Line[series[i].end].LastNoteBeat > stop)
+                if (lines.Line[series[i].Start].FirstNoteBeat < stop && lines.Line[series[i].end].LastNoteBeat > stop)
                 {
-                    if (stop < (lines.Line[series[i].start].FirstNoteBeat + ((lines.Line[series[i].end].LastNoteBeat - lines.Line[series[i].start].FirstNoteBeat) / 2)))
+                    if (stop < (lines.Line[series[i].Start].FirstNoteBeat + ((lines.Line[series[i].end].LastNoteBeat - lines.Line[series[i].Start].FirstNoteBeat) / 2)))
                     {
-                        ShortEnd = lines.Line[series[i].start - 1].LastNote.EndBeat;
+                        ShortEnd = lines.Line[series[i].Start - 1].LastNote.EndBeat;
                         return;
                     }
                     else

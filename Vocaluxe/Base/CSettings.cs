@@ -48,8 +48,8 @@ namespace Vocaluxe.Base
         public static int iRenderW = 1280;
         public static int iRenderH = 720;
 
-        public static int zNear = -100;
-        public static int zFar = 100;
+        public const int ZNear = -100;
+        public const int ZFar = 100;
 
         public static bool IsFullScreen = false;
         public static int iVertexBufferElements = 10000;
@@ -57,7 +57,7 @@ namespace Vocaluxe.Base
         public const string sIcon = "Vocaluxe.ico";
         public const string sLogo = "Logo.png";
         public const string FallbackLanguage = "English";
-        public static string sBassRegistration = "Registration.xml";
+        public const string sBassRegistration = "Registration.xml";
         public static string sFileConfig = "Config.xml";
         public const string sFileCover = "Cover.xml";
         public const string sFileFonts = "Fonts.xml";
@@ -87,7 +87,7 @@ namespace Vocaluxe.Base
         public const string sFolderBackgroundMusic = "BackgroundMusic";
         public static string sFolderPlaylists = "Playlists";
 
-        public static string sFolderPartyModes = "PartyModes";
+        public const string sFolderPartyModes = "PartyModes";
         public const string sFolderPartyModeCode = "Code";
         public const string sFolderPartyModeScreens = "Screens";
         public const string sFolderPartyModeLanguages = "Languages";

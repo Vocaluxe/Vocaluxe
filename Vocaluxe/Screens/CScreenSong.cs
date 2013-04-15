@@ -552,7 +552,7 @@ namespace Vocaluxe.Screens
                 if (!DragAndDropActive && Playlists[Playlist].Visible && CSongs.NumVisibleSongs > 0 && SongMenus[SongMenu].GetActualSelection() != -1)
                 {
                     DragAndDropCover = SongMenus[SongMenu].GetSelectedSongCover();
-                    DragAndDropCover.Rect.Z = CSettings.zNear;
+                    DragAndDropCover.Rect.Z = CSettings.ZNear;
                     Playlists[Playlist].DragAndDropSongID = CSongs.VisibleSongs[SongMenus[SongMenu].GetActualSelection()].ID;
                     DragAndDropActive = true;
                     return true;

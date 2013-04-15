@@ -425,11 +425,11 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             if (NumRoundsVisible > GameState.Combs.Count)
                 NumRoundsVisible = GameState.Combs.Count;
 
-            float x = Texts[TextRoundNumber].X;
-            float y = Texts[TextRoundNumber].Y;
+            float numberX = Texts[TextRoundNumber].X;
+            float numberY = Texts[TextRoundNumber].Y;
 
-            RoundsTableScrollArea.X = x;
-            RoundsTableScrollArea.Y = y;
+            RoundsTableScrollArea.X = numberX;
+            RoundsTableScrollArea.Y = numberY;
             RoundsTableScrollArea.W = CBase.Settings.GetRenderW() - Texts[TextRoundNumber].X - 20;
 
             float delta = Texts[TextRoundNumber].Height;
@@ -438,8 +438,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             for (int round = 0; round < RoundsTable.Count; round++)
             {
                 //Round-number
-                RoundsTable[round].Number.X = x;
-                RoundsTable[round].Number.Y = y;
+                RoundsTable[round].Number.X = numberX;
+                RoundsTable[round].Number.Y = numberY;
                 int NumInnerRows = (int)Math.Ceiling(GameState.NumPlayerAtOnce / ((double)NumPlayerInOneRow));
                 for (int row = 0; row < NumInnerRows; row++)
                 {
@@ -453,23 +453,23 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                     for (int column = row * NumPlayerInOneRow; column < num; column++)
                     {
                         //Player
-                        float _x = x + 15 + (CBase.Settings.GetRenderW() - Texts[TextRoundNumber].X - 20) / NumPlayerInThisRow * (column - row * NumPlayerInOneRow) +
+                        float _x = numberX + 15 + (CBase.Settings.GetRenderW() - Texts[TextRoundNumber].X - 20) / NumPlayerInThisRow * (column - row * NumPlayerInOneRow) +
                                    ((CBase.Settings.GetRenderW() - Texts[TextRoundNumber].X - 20) / NumPlayerInThisRow) / 2;
                         float maxw = ((CBase.Settings.GetRenderW() - Texts[TextRoundNumber].X - 20) / NumPlayerInThisRow) / 2 - 5;
                         RoundsTable[round].TextPlayer[column].X = _x;
-                        RoundsTable[round].TextPlayer[column].Y = y;
+                        RoundsTable[round].TextPlayer[column].Y = numberY;
                         RoundsTable[round].TextPlayer[column].MaxWidth = maxw;
                         //Score
                         RoundsTable[round].TextScores[column] = RoundsTable[round].TextScores[column];
                         RoundsTable[round].TextScores[column].X = _x;
-                        RoundsTable[round].TextScores[column].Y = y + delta;
+                        RoundsTable[round].TextScores[column].Y = numberY + delta;
                         RoundsTable[round].TextScores[column].MaxWidth = maxw;
                     }
-                    y = y + delta + delta;
+                    numberY = numberY + delta + delta;
                 }
-                y = y + delta / 2;
+                numberY = numberY + delta / 2;
             }
-            RoundsTableScrollArea.H = y - RoundsTableScrollArea.Y;
+            RoundsTableScrollArea.H = numberY - RoundsTableScrollArea.Y;
         }
 
         private void UpdateRoundsTable()

@@ -171,7 +171,7 @@ namespace Vocaluxe.Base
             RectangleF rect = new RectangleF(0f, 0f, _VideoTexture.width, _VideoTexture.height);
             CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
 
-            CDraw.DrawTexture(_VideoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CSettings.zFar / 4));
+            CDraw.DrawTexture(_VideoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CSettings.ZFar / 4));
         }
 
         public void PreLoad()

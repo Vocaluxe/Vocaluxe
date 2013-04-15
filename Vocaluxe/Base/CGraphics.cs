@@ -244,7 +244,7 @@ namespace Vocaluxe.Base
                 new SColorF(CTheme.Cursor.r, CTheme.Cursor.g, CTheme.Cursor.b, CTheme.Cursor.a),
                 CTheme.Cursor.w,
                 CTheme.Cursor.h,
-                CSettings.zNear);
+                CSettings.ZNear);
 
             for (int i = 0; i < _Screens.Count; i++)
             {
@@ -361,7 +361,7 @@ namespace Vocaluxe.Base
                     float factor = (float)ms / FadeTime;
 
                     _GlobalAlpha = 1f; // -factor / 100f;
-                    _ZOffset = CSettings.zFar / 2;
+                    _ZOffset = CSettings.ZFar / 2;
 
                     if (_CurrentScreen == EScreens.ScreenPartyDummy)
                     {
@@ -739,8 +739,8 @@ namespace Vocaluxe.Base
                 CFonts.Height = 30f;
                 RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.zNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.zNear);
+                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
 
@@ -750,8 +750,8 @@ namespace Vocaluxe.Base
 
                 RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.zNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.zNear);
+                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
 
@@ -761,8 +761,8 @@ namespace Vocaluxe.Base
 
                 RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.zNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.zNear);
+                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
 
@@ -772,8 +772,8 @@ namespace Vocaluxe.Base
 
                 RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.zNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.zNear);
+                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
 
@@ -784,8 +784,8 @@ namespace Vocaluxe.Base
 
                 RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.zNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.zNear);
+                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
 
@@ -795,8 +795,8 @@ namespace Vocaluxe.Base
 
                 RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.zNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.zNear);
+                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
 
 
@@ -804,16 +804,16 @@ namespace Vocaluxe.Base
 
                 rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.zNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.zNear);
+                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
 
                 txt = CSound.RecordGetToneAbs(1).ToString(CLanguage.Translate("TR_DEBUG_TONE_ABS") + " P2: 00");
 
                 rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.zNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.zNear);
+                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
 
 
@@ -821,8 +821,8 @@ namespace Vocaluxe.Base
 
                 rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.zNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.zNear);
+                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
 
@@ -832,8 +832,8 @@ namespace Vocaluxe.Base
 
                 RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.zNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.zNear);
+                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
 
@@ -843,8 +843,8 @@ namespace Vocaluxe.Base
 
                 RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.zNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.zNear);
+                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
         }
@@ -868,7 +868,7 @@ namespace Vocaluxe.Base
                 new SColorF(CTheme.Cursor.r, CTheme.Cursor.g, CTheme.Cursor.b, CTheme.Cursor.a),
                 CTheme.Cursor.w,
                 CTheme.Cursor.h,
-                CSettings.zNear);
+                CSettings.ZNear);
         }
         #endregion private stuff
     }

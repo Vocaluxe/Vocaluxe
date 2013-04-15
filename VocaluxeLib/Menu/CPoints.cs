@@ -8,17 +8,17 @@ namespace VocaluxeLib.Menu
     {
         private readonly SPlayer[,] _Rounds;
 
-        public CPoints(int NumRounds, SPlayer[] Player)
+        public CPoints(int NumRounds, SPlayer[] Players)
         {
-            _Rounds = new SPlayer[NumRounds, Player.Length];
+            _Rounds = new SPlayer[NumRounds, Players.Length];
 
             for (int round = 0; round < NumRounds; round++)
             {
-                for (int player = 0; player < Player.Length; player++)
+                for (int player = 0; player < Players.Length; player++)
                 {
-                    _Rounds[round, player].ProfileID = Player[player].ProfileID;
-                    _Rounds[round, player].Name = Player[player].Name;
-                    _Rounds[round, player].Difficulty = Player[player].Difficulty;
+                    _Rounds[round, player].ProfileID = Players[player].ProfileID;
+                    _Rounds[round, player].Name = Players[player].Name;
+                    _Rounds[round, player].Difficulty = Players[player].Difficulty;
                     _Rounds[round, player].Points = 0f;
                     _Rounds[round, player].PointsGoldenNotes = 0f;
                     _Rounds[round, player].PointsLineBonus = 0f;
@@ -30,21 +30,21 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        public void SetPoints(int Round, int SongID, SPlayer[] Player, bool Medley, bool Duet, bool ShortSong)
+        public void SetPoints(int Round, int SongID, SPlayer[] Players, bool Medley, bool Duet, bool ShortSong)
         {
             long DateTicks = DateTime.Now.Ticks;
-            for (int player = 0; player < Player.Length; player++)
+            for (int player = 0; player < Players.Length; player++)
             {
                 _Rounds[Round, player].SongID = SongID;
-                _Rounds[Round, player].LineNr = Player[player].LineNr;
-                _Rounds[Round, player].Points = Player[player].Points;
-                _Rounds[Round, player].PointsGoldenNotes = Player[player].PointsGoldenNotes;
-                _Rounds[Round, player].PointsLineBonus = Player[player].PointsLineBonus;
+                _Rounds[Round, player].LineNr = Players[player].LineNr;
+                _Rounds[Round, player].Points = Players[player].Points;
+                _Rounds[Round, player].PointsGoldenNotes = Players[player].PointsGoldenNotes;
+                _Rounds[Round, player].PointsLineBonus = Players[player].PointsLineBonus;
                 _Rounds[Round, player].Medley = Medley;
                 _Rounds[Round, player].Duet = Duet;
                 _Rounds[Round, player].ShortSong = ShortSong;
                 _Rounds[Round, player].DateTicks = DateTicks;
-                _Rounds[Round, player].SongFinished = Player[player].SongFinished;
+                _Rounds[Round, player].SongFinished = Players[player].SongFinished;
             }
         }
 

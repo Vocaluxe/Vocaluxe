@@ -354,7 +354,6 @@ namespace Vocaluxe.Lib.Sound
         private static PortAudio.PaDeviceInfo _outputDeviceInfo;
         private IntPtr _Ptr = new IntPtr(0);
 
-        private Stopwatch _FadeTimer = new Stopwatch();
 
         private CLOSEPROC _Closeproc;
         private PortAudio.PaStreamCallbackDelegate _paStreamCallback;
@@ -581,7 +580,7 @@ namespace Vocaluxe.Lib.Sound
                     }
                 }
 
-                _paStreamCallback = _PaStreamCallback;
+                _paStreamCallback = _ProcessNewData;
             }
             catch (Exception)
             {
@@ -790,7 +789,7 @@ namespace Vocaluxe.Lib.Sound
         #endregion Threading
 
         #region Callbacks
-        private PortAudio.PaStreamCallbackResult _PaStreamCallback(
+        private PortAudio.PaStreamCallbackResult _ProcessNewData(
             IntPtr input,
             IntPtr output,
             uint frameCount,

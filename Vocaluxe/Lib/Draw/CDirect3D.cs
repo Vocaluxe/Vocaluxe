@@ -402,7 +402,7 @@ namespace Vocaluxe.Lib.Draw
                 Text = CSettings.GetFullVersionText();
                 SlimDX.Matrix translate = SlimDX.Matrix.Translation(new Vector3(-CSettings.iRenderW / 2, CSettings.iRenderH / 2, 0));
                 SlimDX.Matrix projection = SlimDX.Matrix.OrthoOffCenterLH(-CSettings.iRenderW / 2, CSettings.iRenderW / 2, -CSettings.iRenderH / 2, CSettings.iRenderH / 2,
-                                                                          CSettings.zNear, CSettings.zFar);
+                                                                          CSettings.ZNear, CSettings.ZFar);
                 _VertexBuffer = new VertexBuffer(_Device, CSettings.iVertexBufferElements * (4 * Marshal.SizeOf(typeof(TexturedColoredVertex))), Usage.WriteOnly | Usage.Dynamic,
                                                  VertexFormat.Position | VertexFormat.Texture1 | VertexFormat.Diffuse, Pool.Default);
 

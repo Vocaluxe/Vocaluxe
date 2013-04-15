@@ -376,7 +376,6 @@ namespace Vocaluxe.Lib.Sound
         private bool _pauseStreamAfterFade;
         private bool _fading;
 
-        private Stopwatch _FadeTimer = new Stopwatch();
         private readonly Stopwatch _Timer = new Stopwatch();
 
         private CLOSEPROC _Closeproc;

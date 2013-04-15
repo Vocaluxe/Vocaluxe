@@ -153,12 +153,12 @@ namespace Vocaluxe.Base
 
         public float GetZFar()
         {
-            return CSettings.zFar;
+            return CSettings.ZFar;
         }
 
         public float GetZNear()
         {
-            return CSettings.zNear;
+            return CSettings.ZNear;
         }
 
         public EGameState GetGameState()

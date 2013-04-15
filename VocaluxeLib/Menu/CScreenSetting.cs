@@ -100,11 +100,11 @@ namespace VocaluxeLib.Menu
         public void ReloadTextures() {}
 
         #region Private
-        private int GetIntValue(string _string)
+        private int GetIntValue(string value)
         {
             try
             {
-                return Convert.ToInt32(_string);
+                return Convert.ToInt32(value);
             }
             catch (Exception)
             {
@@ -112,14 +112,14 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private STexture GetTextureValue(string _string)
+        private STexture GetTextureValue(string value)
         {
-            return CBase.Theme.GetSkinTexture(_string, _PartyModeID);
+            return CBase.Theme.GetSkinTexture(value, _PartyModeID);
         }
 
-        private SColorF GetColorValue(string _string)
+        private SColorF GetColorValue(string value)
         {
-            return CBase.Theme.GetColor(_string, _PartyModeID);
+            return CBase.Theme.GetColor(value, _PartyModeID);
         }
         #endregion Private
 

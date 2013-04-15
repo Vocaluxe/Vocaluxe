@@ -8,7 +8,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
 {
     class CAudioDecoderFFmpeg : CAudioDecoder, IDisposable
     {
-        private IntPtr _instance = IntPtr.Zero;
+        private IntPtr _InstancePtr = IntPtr.Zero;
         private IntPtr _audiodecoder = IntPtr.Zero;
 
         private AC_instance _Instance;
@@ -33,9 +33,9 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
             try
             {
-                _instance = CAcinerella.ac_init();
-                CAcinerella.ac_open2(_instance, _FileName);
-                _Instance = (AC_instance)Marshal.PtrToStructure(_instance, typeof(AC_instance));
+                _InstancePtr = CAcinerella.ac_init();
+                CAcinerella.ac_open2(_InstancePtr, _FileName);
+                _Instance = (AC_instance)Marshal.PtrToStructure(_InstancePtr, typeof(AC_instance));
             }
             catch (Exception)
             {
@@ -54,7 +54,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
             AC_decoder Audiodecoder;
             try
             {
-                _audiodecoder = CAcinerella.ac_create_audio_decoder(_instance);
+                _audiodecoder = CAcinerella.ac_create_audio_decoder(_InstancePtr);
                 Audiodecoder = (AC_decoder)Marshal.PtrToStructure(_audiodecoder, typeof(AC_decoder));
                 AudioStreamIndex = Audiodecoder.stream_index;
             }
@@ -99,11 +99,11 @@ namespace Vocaluxe.Lib.Sound.Decoder
             if (_audiodecoder != IntPtr.Zero)
                 CAcinerella.ac_free_decoder(_audiodecoder);
 
-            if (_instance != IntPtr.Zero)
-                CAcinerella.ac_close(_instance);
+            if (_InstancePtr != IntPtr.Zero)
+                CAcinerella.ac_close(_InstancePtr);
 
-            if (_instance != IntPtr.Zero)
-                CAcinerella.ac_free(_instance);
+            if (_InstancePtr != IntPtr.Zero)
+                CAcinerella.ac_free(_InstancePtr);
 
             _FileOpened = false;
         }
@@ -160,7 +160,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
             int FrameFinished = 0;
             try
             {
-                FrameFinished = CAcinerella.ac_get_audio_frame(_instance, _audiodecoder);
+                FrameFinished = CAcinerella.ac_get_audio_frame(_InstancePtr, _audiodecoder);
             }
             catch (Exception)
             {
