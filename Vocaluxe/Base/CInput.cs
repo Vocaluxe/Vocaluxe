@@ -41,19 +41,19 @@ namespace Vocaluxe.Base
             _Input.Update();
         }
 
-        public static bool PollKeyEvent(ref KeyEvent KeyEvent)
+        public static bool PollKeyEvent(ref SKeyEvent keyEvent)
         {
-            return _Input.PollKeyEvent(ref KeyEvent);
+            return _Input.PollKeyEvent(ref keyEvent);
         }
 
-        public static bool PollMouseEvent(ref MouseEvent MouseEvent)
+        public static bool PollMouseEvent(ref SMouseEvent mouseEvent)
         {
-            return _Input.PollMouseEvent(ref MouseEvent);
+            return _Input.PollMouseEvent(ref mouseEvent);
         }
 
-        public static void SetRumble(float Duration)
+        public static void SetRumble(float duration)
         {
-            _Input.SetRumble(Duration);
+            _Input.SetRumble(duration);
         }
     }
 }

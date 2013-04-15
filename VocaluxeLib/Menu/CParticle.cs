@@ -91,10 +91,10 @@ namespace VocaluxeLib.Menu
         #endregion public vars
 
         #region Constructors
-        public CParticle(int PartyModeID, string textureName, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize,
+        public CParticle(int partyModeID, string textureName, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize,
                          EParticleType type)
         {
-            _PartyModeID = PartyModeID;
+            _PartyModeID = partyModeID;
             _TextureName = textureName;
             _Texture = new STexture(-1);
             _Color = color;
@@ -115,10 +115,10 @@ namespace VocaluxeLib.Menu
             _Rotation = (float)(CBase.Game.GetRandomDouble() * 360.0);
         }
 
-        public CParticle(int PartyModeID, STexture texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize,
+        public CParticle(int partyModeID, STexture texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize,
                          EParticleType type)
         {
-            _PartyModeID = PartyModeID;
+            _PartyModeID = partyModeID;
             _TextureName = String.Empty;
             _Texture = texture;
             _Color = color;
@@ -148,10 +148,10 @@ namespace VocaluxeLib.Menu
             if (!_Timer.IsRunning)
                 _Timer.Start();
 
-            float CurrentTime = _Timer.ElapsedMilliseconds / 1000f;
-            float timediff = CurrentTime - _LastTime;
+            float currentTime = _Timer.ElapsedMilliseconds / 1000f;
+            float timediff = currentTime - _LastTime;
 
-            _Age = CurrentTime;
+            _Age = currentTime;
 
             // update alpha
             if (_MaxAge > 0f)
@@ -200,7 +200,7 @@ namespace VocaluxeLib.Menu
                     {
                         float vdx = 0f;
                         if (_Vx != 0)
-                            vdx = (float)Math.Sin(CurrentTime / _Vx * Math.PI);
+                            vdx = (float)Math.Sin(currentTime / _Vx * Math.PI);
 
                         X += _Vx * timediff * (0.5f + vdx);
 
@@ -229,23 +229,23 @@ namespace VocaluxeLib.Menu
                 switch (_Type)
                 {
                     case EParticleType.Twinkle:
-                        size = _Size * (1f - CurrentTime / _Vsize);
+                        size = _Size * (1f - currentTime / _Vsize);
                         break;
 
                     case EParticleType.Star:
-                        size = _Size * (1f - CurrentTime / _Vsize);
+                        size = _Size * (1f - currentTime / _Vsize);
                         break;
 
                     case EParticleType.Snow:
-                        size = _Size * (float)Math.Sqrt((Math.Sin(CurrentTime / _Vsize * Math.PI * 2 - 0.5 * Math.PI) + 1) / 2);
+                        size = _Size * (float)Math.Sqrt((Math.Sin(currentTime / _Vsize * Math.PI * 2 - 0.5 * Math.PI) + 1) / 2);
                         break;
 
                     case EParticleType.Flare:
-                        size = _Size * (1f - CurrentTime / _Vsize);
+                        size = _Size * (1f - currentTime / _Vsize);
                         break;
 
                     case EParticleType.PerfNoteStar:
-                        size = _Size * (1f - CurrentTime / _Vsize);
+                        size = _Size * (1f - currentTime / _Vsize);
                         break;
                 }
 
@@ -258,12 +258,12 @@ namespace VocaluxeLib.Menu
             // update rotation
             if (_Vr != 0f)
             {
-                float r = CurrentTime * _Vr / 60f;
+                float r = currentTime * _Vr / 60f;
                 _Angle = _Rotation + 360f * (r - (float)Math.Floor(r));
                 _Rect.Rotation = _Angle;
             }
 
-            _LastTime = CurrentTime;
+            _LastTime = currentTime;
         }
 
         public void Pause()
@@ -317,9 +317,9 @@ namespace VocaluxeLib.Menu
             get { return _Stars.Count > 0 || !_SpawnTimer.IsRunning; }
         }
 
-        public CParticleEffect(int PartyModeID)
+        public CParticleEffect(int partyModeID)
         {
-            _PartyModeID = PartyModeID;
+            _PartyModeID = partyModeID;
             _Theme = new SThemeParticleEffect();
             _Stars = new List<CParticle>();
             _SpawnTimer = new Stopwatch();
@@ -327,43 +327,43 @@ namespace VocaluxeLib.Menu
             Visible = true;
         }
 
-        public CParticleEffect(int PartyModeID, int MaxNumber, SColorF Color, SRectF Rect, string TextureName, float Size, EParticleType Type)
+        public CParticleEffect(int partyModeID, int maxNumber, SColorF color, SRectF rect, string textureName, float size, EParticleType type)
         {
-            _PartyModeID = PartyModeID;
+            _PartyModeID = partyModeID;
             _Theme = new SThemeParticleEffect();
             _Stars = new List<CParticle>();
-            this.Rect = Rect;
-            this.Color = Color;
-            _Theme.TextureName = TextureName;
+            this.Rect = rect;
+            this.Color = color;
+            _Theme.TextureName = textureName;
             Texture = new STexture(-1);
-            _MaxNumber = MaxNumber;
-            _Size = Size;
-            _Type = Type;
+            _MaxNumber = maxNumber;
+            _Size = size;
+            _Type = type;
             _SpawnTimer = new Stopwatch();
             _NextSpawnTime = 0f;
             Visible = true;
         }
 
-        public CParticleEffect(int PartyModeID, int MaxNumber, SColorF Color, SRectF Rect, STexture Texture, float Size, EParticleType Type)
+        public CParticleEffect(int partyModeID, int maxNumber, SColorF color, SRectF rect, STexture texture, float size, EParticleType type)
         {
-            _PartyModeID = PartyModeID;
+            _PartyModeID = partyModeID;
             _Theme = new SThemeParticleEffect();
             _Stars = new List<CParticle>();
-            this.Rect = Rect;
-            this.Color = Color;
+            this.Rect = rect;
+            this.Color = color;
             _Theme.TextureName = String.Empty;
-            this.Texture = Texture;
-            _MaxNumber = MaxNumber;
-            _Size = Size;
-            _Type = Type;
+            this.Texture = texture;
+            _MaxNumber = maxNumber;
+            _Size = size;
+            _Type = type;
             _SpawnTimer = new Stopwatch();
             _NextSpawnTime = 0f;
             Visible = true;
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
+        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
-            string item = XmlPath + "/" + ElementName;
+            string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
@@ -375,7 +375,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, out Color);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -390,7 +390,7 @@ namespace VocaluxeLib.Menu
 
             if (_ThemeLoaded)
             {
-                _Theme.Name = ElementName;
+                _Theme.Name = elementName;
                 LoadTextures();
             }
             return _ThemeLoaded;
@@ -439,22 +439,22 @@ namespace VocaluxeLib.Menu
 
         public void Update()
         {
-            bool DoSpawn = false;
+            bool doSpawn = false;
             if (!_SpawnTimer.IsRunning)
             {
                 _SpawnTimer.Start();
                 _NextSpawnTime = 0f;
-                DoSpawn = true;
+                doSpawn = true;
             }
 
             if (_SpawnTimer.ElapsedMilliseconds / 1000f > _NextSpawnTime && _NextSpawnTime >= 0f)
             {
-                DoSpawn = true;
+                doSpawn = true;
                 _SpawnTimer.Reset();
                 _SpawnTimer.Start();
             }
 
-            while (_Stars.Count < _MaxNumber && DoSpawn)
+            while (_Stars.Count < _MaxNumber && doSpawn)
             {
                 float size = CBase.Game.GetRandom((int)_Size / 2) + _Size / 2;
                 float lifetime = 0f;
@@ -493,7 +493,7 @@ namespace VocaluxeLib.Menu
                         vsize = lifetime * 2f;
 
                         _NextSpawnTime = lifetime / _MaxNumber;
-                        DoSpawn = false;
+                        doSpawn = false;
                         break;
 
                     case EParticleType.Flare:

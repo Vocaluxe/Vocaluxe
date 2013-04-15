@@ -138,9 +138,9 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        public CSelectSlide(int PartyModeID)
+        public CSelectSlide(int partyModeID)
         {
-            _PartyModeID = PartyModeID;
+            _PartyModeID = partyModeID;
             _Theme = new SThemeSelectSlide();
             _ThemeLoaded = false;
 
@@ -225,9 +225,9 @@ namespace VocaluxeLib.Menu
             Visible = slide.Visible;
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
+        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
-            string item = XmlPath + "/" + ElementName;
+            string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
@@ -247,7 +247,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, out Color);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -257,7 +257,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/SColor", ref _Theme.SelColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorName, SkinIndex, out SelColor);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorName, skinIndex, out SelColor);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref SelColor.R);
@@ -267,7 +267,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/HColor", ref _Theme.HighlightColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.HighlightColorName, SkinIndex, out HighlightColor);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.HighlightColorName, skinIndex, out HighlightColor);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/HR", ref HighlightColor.R);
@@ -289,7 +289,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightH", ref RectArrowRight.H);
 
             if (xmlReader.GetValue(item + "/ArrowColor", ref _Theme.ArrowColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ArrowColorName, SkinIndex, out ColorArrow);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ArrowColorName, skinIndex, out ColorArrow);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowR", ref ColorArrow.R);
@@ -299,7 +299,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/ArrowSColor", ref _Theme.SelArrowColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelArrowColorName, SkinIndex, out SelColorArrow);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelArrowColorName, skinIndex, out SelColorArrow);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSR", ref SelColorArrow.R);
@@ -309,7 +309,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/TextColor", ref _Theme.TextColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.TextColorName, SkinIndex, out TextColor);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.TextColorName, skinIndex, out TextColor);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextR", ref TextColor.R);
@@ -319,7 +319,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/TextSColor", ref _Theme.SelTextColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelTextColorName, SkinIndex, out SelTextColor);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelTextColorName, skinIndex, out SelTextColor);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSR", ref SelTextColor.R);
@@ -341,7 +341,7 @@ namespace VocaluxeLib.Menu
 
             if (_ThemeLoaded)
             {
-                _Theme.Name = ElementName;
+                _Theme.Name = elementName;
                 LoadTextures();
             }
             return _ThemeLoaded;
@@ -515,9 +515,9 @@ namespace VocaluxeLib.Menu
             AddValue(value, _PartyModeID);
         }
 
-        public void AddValue(string value, int PartyModeID)
+        public void AddValue(string value, int partyModeID)
         {
-            AddValue(value, new STexture(-1), _ValueIndexes.Count, PartyModeID);
+            AddValue(value, new STexture(-1), _ValueIndexes.Count, partyModeID);
         }
 
         public void AddValue(string value, STexture texture)
@@ -525,17 +525,17 @@ namespace VocaluxeLib.Menu
             AddValue(value, texture, _ValueIndexes.Count, _PartyModeID);
         }
 
-        private void AddValue(string value, STexture texture, int valueIndex)
+        private void _AddValue(string value, STexture texture, int valueIndex)
         {
             AddValue(value, texture, valueIndex, _PartyModeID);
         }
 
-        public void AddValue(string value, STexture texture, int valueIndex, int PartyModeID)
+        public void AddValue(string value, STexture texture, int valueIndex, int partyModeID)
         {
             _ValueNames.Add(value);
             _Textures.Add(texture);
             _ValueIndexes.Add(valueIndex);
-            _ValuePartyModeIDs.Add(PartyModeID);
+            _ValuePartyModeIDs.Add(partyModeID);
 
             if (Selection == -1)
                 Selection = 0;
@@ -546,7 +546,7 @@ namespace VocaluxeLib.Menu
         public void AddValues(string[] values)
         {
             foreach (string value in values)
-                AddValue(value, new STexture(-1), _PartyModeID);
+                _AddValue(value, new STexture(-1), _PartyModeID);
 
             _ValueBounds.Clear();
         }
@@ -570,30 +570,30 @@ namespace VocaluxeLib.Menu
             Selection = selection;
         }
 
-        public void RenameValue(string NewName)
+        public void RenameValue(string newName)
         {
-            RenameValue(Selection, NewName);
+            RenameValue(Selection, newName);
         }
 
-        public void RenameValue(int selection, string NewName)
+        public void RenameValue(int selection, string newName)
         {
-            RenameValue(selection, NewName, new STexture(-1));
+            RenameValue(selection, newName, new STexture(-1));
         }
 
-        public void RenameValue(int selection, string NewName, STexture NewTexture)
+        public void RenameValue(int selection, string newName, STexture newTexture)
         {
             if (selection < 0 && selection >= _ValueNames.Count)
                 return;
 
-            _ValueNames[selection] = NewName;
-            _Textures[selection] = NewTexture;
+            _ValueNames[selection] = newName;
+            _Textures[selection] = newTexture;
         }
 
-        public bool SetSelectionByValueIndex(int ValueIndex)
+        public bool SetSelectionByValueIndex(int valueIndex)
         {
             for (int i = 0; i < _ValueIndexes.Count; i++)
             {
-                if (_ValueIndexes[i] == ValueIndex)
+                if (_ValueIndexes[i] == valueIndex)
                 {
                     Selection = i;
                     return true;
@@ -683,40 +683,40 @@ namespace VocaluxeLib.Menu
             if (!Visible && CBase.Settings.GetGameState() != EGameState.EditTheme)
                 return;
 
-            STexture Texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
-            STexture TextureArrowLeft = CBase.Theme.GetSkinTexture(_Theme.TextureArrowLeftName, _PartyModeID);
-            STexture TextureArrowRight = CBase.Theme.GetSkinTexture(_Theme.TextureArrowRightName, _PartyModeID);
+            STexture texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+            STexture textureArrowLeft = CBase.Theme.GetSkinTexture(_Theme.TextureArrowLeftName, _PartyModeID);
+            STexture textureArrowRight = CBase.Theme.GetSkinTexture(_Theme.TextureArrowRightName, _PartyModeID);
 
             STexture selTexture = CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
             STexture selTextureArrowLeft = CBase.Theme.GetSkinTexture(_Theme.SelTextureArrowLeftName, _PartyModeID);
-            STexture SelTextureArrowRight = CBase.Theme.GetSkinTexture(_Theme.SelTextureArrowRightName, _PartyModeID);
+            STexture selTextureArrowRight = CBase.Theme.GetSkinTexture(_Theme.SelTextureArrowRightName, _PartyModeID);
 
-            STexture HighlightTexture = CBase.Theme.GetSkinTexture(_Theme.HighlightTextureName, _PartyModeID);
+            STexture highlightTexture = CBase.Theme.GetSkinTexture(_Theme.HighlightTextureName, _PartyModeID);
 
             if (Selected)
             {
                 if (Highlighted)
-                    CBase.Drawing.DrawTexture(HighlightTexture, Rect, HighlightColor);
+                    CBase.Drawing.DrawTexture(highlightTexture, Rect, HighlightColor);
                 else
                     CBase.Drawing.DrawTexture(selTexture, Rect, SelColor);
             }
             else
-                CBase.Drawing.DrawTexture(Texture, Rect, Color);
+                CBase.Drawing.DrawTexture(texture, Rect, Color);
 
             if (_Selection > 0 || CBase.Settings.GetGameState() == EGameState.EditTheme)
             {
                 if (_ArrowLeftSelected)
                     CBase.Drawing.DrawTexture(selTextureArrowLeft, RectArrowLeft, SelColorArrow);
                 else
-                    CBase.Drawing.DrawTexture(TextureArrowLeft, RectArrowLeft, ColorArrow);
+                    CBase.Drawing.DrawTexture(textureArrowLeft, RectArrowLeft, ColorArrow);
             }
 
             if (_Selection < _ValueNames.Count - 1 || CBase.Settings.GetGameState() == EGameState.EditTheme)
             {
                 if (_ArrowRightSelected)
-                    CBase.Drawing.DrawTexture(SelTextureArrowRight, RectArrowRight, SelColorArrow);
+                    CBase.Drawing.DrawTexture(selTextureArrowRight, RectArrowRight, SelColorArrow);
                 else
-                    CBase.Drawing.DrawTexture(TextureArrowRight, RectArrowRight, ColorArrow);
+                    CBase.Drawing.DrawTexture(textureArrowRight, RectArrowRight, ColorArrow);
             }
 
             if (_NumVisible < 1 || _ValueNames.Count == 0)
@@ -741,36 +741,36 @@ namespace VocaluxeLib.Menu
             _ValueBounds.Clear();
             for (int i = 0; i < numvis; i++)
             {
-                CText Text = new CText(0, 0, 0, TextH, MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, TextColor, _ValueNames[i + offset],
+                CText text = new CText(0, 0, 0, TextH, MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, TextColor, _ValueNames[i + offset],
                                        _ValuePartyModeIDs[i + offset]);
 
-                SColorF Alpha = new SColorF(1f, 1f, 1f, 0.35f);
+                SColorF alpha = new SColorF(1f, 1f, 1f, 0.35f);
                 if (i + offset == _Selection)
                 {
-                    Text.Color = SelTextColor;
-                    Alpha = new SColorF(1f, 1f, 1f, 1f);
+                    text.Color = SelTextColor;
+                    alpha = new SColorF(1f, 1f, 1f, 1f);
                 }
 
-                RectangleF bounds = CBase.Drawing.GetTextBounds(Text);
-                Text.X = (x + dx / 2f + dx * i) + TextRelativeX;
+                RectangleF bounds = CBase.Drawing.GetTextBounds(text);
+                text.X = (x + dx / 2f + dx * i) + TextRelativeX;
 
                 if (!WithTextures)
-                    Text.Y = (int)((Rect.Y + (Rect.H - bounds.Height) / 2) + TextRelativeY);
+                    text.Y = (int)((Rect.Y + (Rect.H - bounds.Height) / 2) + TextRelativeY);
                 else
-                    Text.Y = (int)((Rect.Y + (Rect.H - bounds.Height)) + TextRelativeY);
+                    text.Y = (int)((Rect.Y + (Rect.H - bounds.Height)) + TextRelativeY);
 
-                Text.Z = Rect.Z;
-                Text.Draw();
+                text.Z = Rect.Z;
+                text.Draw();
 
                 if (WithTextures)
                 {
-                    float dh = Text.Y - Rect.Y - Rect.H * 0.1f;
-                    SRectF rect = new SRectF(Text.X - dh / 2, Rect.Y + Rect.H * 0.05f, dh, dh, Rect.Z);
-                    CBase.Drawing.DrawTexture(_Textures[i + offset], rect, Alpha);
+                    float dh = text.Y - Rect.Y - Rect.H * 0.1f;
+                    SRectF rect = new SRectF(text.X - dh / 2, Rect.Y + Rect.H * 0.05f, dh, dh, Rect.Z);
+                    CBase.Drawing.DrawTexture(_Textures[i + offset], rect, alpha);
                     _ValueBounds.Add(rect);
                 }
                 else
-                    _ValueBounds.Add(new SRectF(Text.X - bounds.Width / 2f, Text.Y, bounds.Width, bounds.Height, Rect.Z));
+                    _ValueBounds.Add(new SRectF(text.X - bounds.Width / 2f, text.Y, bounds.Width, bounds.Height, Rect.Z));
             }
         }
 

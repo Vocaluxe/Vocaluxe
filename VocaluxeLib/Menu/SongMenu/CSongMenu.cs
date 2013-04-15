@@ -10,16 +10,16 @@ namespace VocaluxeLib.Menu.SongMenu
         private ISongMenu _SongMenu;
         private ESongMenu _Type;
 
-        public CSongMenu(int PartyModeID)
+        public CSongMenu(int partyModeID)
         {
-            _PartyModeID = PartyModeID;
-            CreateSongMenu();
+            _PartyModeID = partyModeID;
+            _CreateSongMenu();
         }
 
         public void UpdateSongMenuType()
         {
             if (_Type != CBase.Config.GetSongMenuType())
-                CreateSongMenu();
+                _CreateSongMenu();
         }
 
         public bool Selected
@@ -40,9 +40,9 @@ namespace VocaluxeLib.Menu.SongMenu
         }
 
         #region ISongMenu
-        public void Update(ScreenSongOptions SongOptions)
+        public void Update(SScreenSongOptions songOptions)
         {
-            _SongMenu.Update(SongOptions);
+            _SongMenu.Update(songOptions);
         }
 
         public void OnShow()
@@ -55,14 +55,14 @@ namespace VocaluxeLib.Menu.SongMenu
             _SongMenu.OnHide();
         }
 
-        public void HandleInput(ref KeyEvent KeyEvent, ScreenSongOptions SongOptions)
+        public void HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions songOptions)
         {
-            _SongMenu.HandleInput(ref KeyEvent, SongOptions);
+            _SongMenu.HandleInput(ref keyEvent, songOptions);
         }
 
-        public void HandleMouse(ref MouseEvent MouseEvent, ScreenSongOptions SongOptions)
+        public void HandleMouse(ref SMouseEvent mouseEvent, SScreenSongOptions songOptions)
         {
-            _SongMenu.HandleMouse(ref MouseEvent, SongOptions);
+            _SongMenu.HandleMouse(ref mouseEvent, songOptions);
         }
 
         public void Draw()
@@ -70,9 +70,9 @@ namespace VocaluxeLib.Menu.SongMenu
             _SongMenu.Draw();
         }
 
-        public void ApplyVolume(float VolumeMax)
+        public void ApplyVolume(float volumeMax)
         {
-            _SongMenu.ApplyVolume(VolumeMax);
+            _SongMenu.ApplyVolume(volumeMax);
         }
 
         public bool IsActive()
@@ -80,9 +80,9 @@ namespace VocaluxeLib.Menu.SongMenu
             return _SongMenu.IsActive();
         }
 
-        public void SetActive(bool Active)
+        public void SetActive(bool active)
         {
-            _SongMenu.SetActive(Active);
+            _SongMenu.SetActive(active);
         }
 
         public int GetSelectedSong()
@@ -95,9 +95,9 @@ namespace VocaluxeLib.Menu.SongMenu
             return _SongMenu.GetSelectedSongCover();
         }
 
-        public void SetSelectedSong(int VisibleSongNr)
+        public void SetSelectedSong(int visibleSongNr)
         {
-            _SongMenu.SetSelectedSong(VisibleSongNr);
+            _SongMenu.SetSelectedSong(visibleSongNr);
         }
 
         public int GetSelectedCategory()
@@ -105,9 +105,9 @@ namespace VocaluxeLib.Menu.SongMenu
             return _SongMenu.GetSelectedCategory();
         }
 
-        public void SetSelectedCategory(int CategoryNr)
+        public void SetSelectedCategory(int categoryNr)
         {
-            _SongMenu.SetSelectedCategory(CategoryNr);
+            _SongMenu.SetSelectedCategory(categoryNr);
         }
 
         public bool EnterCurrentCategory()
@@ -125,9 +125,9 @@ namespace VocaluxeLib.Menu.SongMenu
             return _SongMenu.IsSelected();
         }
 
-        public void SetSelected(bool Selected)
+        public void SetSelected(bool selected)
         {
-            _SongMenu.SetSelected(Selected);
+            _SongMenu.SetSelected(selected);
         }
 
         public bool IsVisible()
@@ -135,9 +135,9 @@ namespace VocaluxeLib.Menu.SongMenu
             return _SongMenu.IsVisible();
         }
 
-        public void SetVisible(bool Visible)
+        public void SetVisible(bool visible)
         {
-            _SongMenu.SetVisible(Visible);
+            _SongMenu.SetVisible(visible);
         }
 
         public SRectF GetRect()
@@ -150,9 +150,9 @@ namespace VocaluxeLib.Menu.SongMenu
             return _SongMenu.IsSmallView();
         }
 
-        public void SetSmallView(bool SmallView)
+        public void SetSmallView(bool smallView)
         {
-            _SongMenu.SetSmallView(SmallView);
+            _SongMenu.SetSmallView(smallView);
         }
         #endregion ISongMenu
 
@@ -162,9 +162,9 @@ namespace VocaluxeLib.Menu.SongMenu
             return _SongMenu.GetThemeName();
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
+        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
-            return _SongMenu.LoadTheme(XmlPath, ElementName, xmlReader, SkinIndex);
+            return _SongMenu.LoadTheme(xmlPath, elementName, xmlReader, skinIndex);
         }
 
         public bool SaveTheme(XmlWriter writer)
@@ -198,7 +198,7 @@ namespace VocaluxeLib.Menu.SongMenu
         }
         #endregion IMenuElement
 
-        private void CreateSongMenu()
+        private void _CreateSongMenu()
         {
             if (_SongMenu != null)
                 _SongMenu.OnHide();

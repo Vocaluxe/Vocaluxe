@@ -5,7 +5,7 @@ using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes.Challenge
 {
-    struct TableRow
+    struct STableRow
     {
         public CText Pos;
         public CText Name;
@@ -15,14 +15,14 @@ namespace VocaluxeLib.PartyModes.Challenge
         public CText GamePoints;
     }
 
-    class RoundsTableRow
+    class CRoundsTableRow
     {
         public CText Number;
         public List<CText> TextPlayer;
         public List<CText> TextScores;
     }
 
-    public class PartyScreenChallengeMain : CMenuParty
+    public class CPartyScreenChallengeMain : CMenuParty
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -30,55 +30,55 @@ namespace VocaluxeLib.PartyModes.Challenge
             get { return 1; }
         }
 
-        private const string TextPosition = "TextPosition";
-        private const string TextPlayerName = "TextPlayerName";
-        private const string TextNumPlayed = "TextNumPlayed";
-        private const string TextWon = "TextWon";
-        private const string TextSingPoints = "TextSingPoints";
-        private const string TextGamePoints = "TextGamePoints";
-        private const string TextNextPlayer = "TextNextPlayer";
-        private const string TextPopupReallyExit = "TextPopupReallyExit";
-        private const string TextRoundPlayer = "TextRoundPlayer";
-        private const string TextRoundScore = "TextRoundScore";
-        private const string TextRoundNumber = "TextRoundNumber";
-        private const string TextFinishMessage = "TextFinishMessage";
-        private const string TextFinishPlayerWin = "TextFinishPlayerWin";
-        private const string TextNextPlayerMessage = "TextNextPlayerMessage";
+        private const string _TextPosition = "TextPosition";
+        private const string _TextPlayerName = "TextPlayerName";
+        private const string _TextNumPlayed = "TextNumPlayed";
+        private const string _TextWon = "TextWon";
+        private const string _TextSingPoints = "TextSingPoints";
+        private const string _TextGamePoints = "TextGamePoints";
+        private const string _TextNextPlayer = "TextNextPlayer";
+        private const string _TextPopupReallyExit = "TextPopupReallyExit";
+        private const string _TextRoundPlayer = "TextRoundPlayer";
+        private const string _TextRoundScore = "TextRoundScore";
+        private const string _TextRoundNumber = "TextRoundNumber";
+        private const string _TextFinishMessage = "TextFinishMessage";
+        private const string _TextFinishPlayerWin = "TextFinishPlayerWin";
+        private const string _TextNextPlayerMessage = "TextNextPlayerMessage";
 
-        private const string ButtonNextRound = "ButtonNextRound";
-        private const string ButtonBack = "ButtonBack";
-        private const string ButtonExit = "ButtonExit";
-        private const string ButtonPopupYes = "ButtonPopupYes";
-        private const string ButtonPopupNo = "ButtonPopupNo";
-        private const string ButtonPlayerScrollUp = "ButtonPlayerScrollUp";
-        private const string ButtonPlayerScrollDown = "ButtonPlayerScrollDown";
-        private const string ButtonRoundsScrollUp = "ButtonRoundsScrollUp";
-        private const string ButtonRoundsScrollDown = "ButtonRoundsScrollDown";
+        private const string _ButtonNextRound = "ButtonNextRound";
+        private const string _ButtonBack = "ButtonBack";
+        private const string _ButtonExit = "ButtonExit";
+        private const string _ButtonPopupYes = "ButtonPopupYes";
+        private const string _ButtonPopupNo = "ButtonPopupNo";
+        private const string _ButtonPlayerScrollUp = "ButtonPlayerScrollUp";
+        private const string _ButtonPlayerScrollDown = "ButtonPlayerScrollDown";
+        private const string _ButtonRoundsScrollUp = "ButtonRoundsScrollUp";
+        private const string _ButtonRoundsScrollDown = "ButtonRoundsScrollDown";
 
-        private const string StaticPopupBG = "StaticPopupBG";
-        private const string StaticNextPlayer = "StaticNextPlayer";
+        private const string _StaticPopupBG = "StaticPopupBG";
+        private const string _StaticNextPlayer = "StaticNextPlayer";
 
-        private bool ExitPopupVisible;
+        private bool _ExitPopupVisible;
 
-        private DataFromScreen Data;
-        private DataToScreenMain GameState;
-        private List<TableRow> PlayerTable;
-        private List<RoundsTableRow> RoundsTable;
+        private SDataFromScreen _Data;
+        private SDataToScreenMain _GameState;
+        private List<STableRow> _PlayerTable;
+        private List<CRoundsTableRow> _RoundsTable;
 
-        private List<CText> NextPlayerTexts;
-        private List<CStatic> NextPlayerStatics;
+        private List<CText> _NextPlayerTexts;
+        private List<CStatic> _NextPlayerStatics;
 
-        private SRectF RoundsTableScrollArea;
-        private SRectF PlayerTableScrollArea;
-        private int RoundsTableOffset;
-        private int PlayerTableOffset;
-        private int NumPlayerVisible = 10;
-        private int NumRoundsVisible = 3;
+        private SRectF _RoundsTableScrollArea;
+        private SRectF _PlayerTableScrollArea;
+        private int _RoundsTableOffset;
+        private int _PlayerTableOffset;
+        private int _NumPlayerVisible = 10;
+        private int _NumRoundsVisible = 3;
 
-        public PartyScreenChallengeMain()
+        public CPartyScreenChallengeMain()
         {
-            Data = new DataFromScreen();
-            Data.ScreenMain = new FromScreenMain();
+            _Data = new SDataFromScreen();
+            _Data.ScreenMain = new SFromScreenMain();
         }
 
         public override void Init()
@@ -87,41 +87,41 @@ namespace VocaluxeLib.PartyModes.Challenge
 
             _ThemeTexts = new string[]
                 {
-                    TextPosition, TextPlayerName, TextNumPlayed, TextWon, TextSingPoints, TextGamePoints, TextNextPlayer, TextPopupReallyExit, TextRoundNumber, TextRoundPlayer,
-                    TextRoundScore, TextFinishMessage, TextFinishPlayerWin, TextNextPlayerMessage
+                    _TextPosition, _TextPlayerName, _TextNumPlayed, _TextWon, _TextSingPoints, _TextGamePoints, _TextNextPlayer, _TextPopupReallyExit, _TextRoundNumber, _TextRoundPlayer,
+                    _TextRoundScore, _TextFinishMessage, _TextFinishPlayerWin, _TextNextPlayerMessage
                 };
             _ThemeButtons = new string[]
-                {ButtonNextRound, ButtonBack, ButtonExit, ButtonPopupYes, ButtonPopupNo, ButtonPlayerScrollDown, ButtonPlayerScrollUp, ButtonRoundsScrollDown, ButtonRoundsScrollUp};
-            _ThemeStatics = new string[] {StaticPopupBG, StaticNextPlayer};
+                {_ButtonNextRound, _ButtonBack, _ButtonExit, _ButtonPopupYes, _ButtonPopupNo, _ButtonPlayerScrollDown, _ButtonPlayerScrollUp, _ButtonRoundsScrollDown, _ButtonRoundsScrollUp};
+            _ThemeStatics = new string[] {_StaticPopupBG, _StaticNextPlayer};
         }
 
-        public override void LoadTheme(string XmlPath)
+        public override void LoadTheme(string xmlPath)
         {
-            base.LoadTheme(XmlPath);
+            base.LoadTheme(xmlPath);
 
-            GameState = new DataToScreenMain();
-            BuildPlayerTable();
-            CreateRoundsTable();
-            NextPlayerTexts = new List<CText>();
-            NextPlayerStatics = new List<CStatic>();
+            _GameState = new SDataToScreenMain();
+            _BuildPlayerTable();
+            _CreateRoundsTable();
+            _NextPlayerTexts = new List<CText>();
+            _NextPlayerStatics = new List<CStatic>();
 
             for (int i = 0; i < _PartyMode.GetMaxPlayer(); i++)
             {
-                NextPlayerTexts.Add(GetNewText(Texts[TextNextPlayer]));
-                AddText(NextPlayerTexts[NextPlayerTexts.Count - 1]);
-                NextPlayerStatics.Add(GetNewStatic(Statics[StaticNextPlayer]));
-                AddStatic(NextPlayerStatics[NextPlayerStatics.Count - 1]);
+                _NextPlayerTexts.Add(GetNewText(Texts[_TextNextPlayer]));
+                AddText(_NextPlayerTexts[_NextPlayerTexts.Count - 1]);
+                _NextPlayerStatics.Add(GetNewStatic(Statics[_StaticNextPlayer]));
+                AddStatic(_NextPlayerStatics[_NextPlayerStatics.Count - 1]);
             }
         }
 
-        public override void DataToScreen(object ReceivedData)
+        public override void DataToScreen(object receivedData)
         {
-            DataToScreenMain data = new DataToScreenMain();
+            SDataToScreenMain data = new SDataToScreenMain();
 
             try
             {
-                data = (DataToScreenMain)ReceivedData;
-                GameState = data;
+                data = (SDataToScreenMain)receivedData;
+                _GameState = data;
             }
             catch (Exception e)
             {
@@ -129,7 +129,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             }
         }
 
-        public override bool HandleInput(KeyEvent keyEvent)
+        public override bool HandleInput(SKeyEvent keyEvent)
         {
             base.HandleInput(keyEvent);
 
@@ -140,41 +140,41 @@ namespace VocaluxeLib.PartyModes.Challenge
                 {
                     case Keys.Back:
                     case Keys.Escape:
-                        if (!ExitPopupVisible)
+                        if (!_ExitPopupVisible)
                         {
-                            if (GameState.CurrentRoundNr == 1)
-                                Back();
+                            if (_GameState.CurrentRoundNr == 1)
+                                _Back();
                             else
-                                ShowPopup(true);
+                                _ShowPopup(true);
                         }
                         else
-                            ShowPopup(false);
+                            _ShowPopup(false);
                         break;
 
                     case Keys.Enter:
-                        if (!ExitPopupVisible)
+                        if (!_ExitPopupVisible)
                         {
-                            if (Buttons[ButtonNextRound].Selected)
-                                NextRound();
-                            if (Buttons[ButtonBack].Selected && GameState.CurrentRoundNr == 1)
-                                Back();
-                            if (Buttons[ButtonExit].Selected && GameState.CurrentRoundNr > 1)
-                                ShowPopup(true);
-                            if (Buttons[ButtonPlayerScrollUp].Selected)
-                                ScrollPlayerTable(-1);
-                            if (Buttons[ButtonPlayerScrollDown].Selected)
-                                ScrollPlayerTable(1);
-                            if (Buttons[ButtonRoundsScrollUp].Selected)
-                                ScrollRoundsTable(-1);
-                            if (Buttons[ButtonRoundsScrollDown].Selected)
-                                ScrollRoundsTable(1);
+                            if (Buttons[_ButtonNextRound].Selected)
+                                _NextRound();
+                            if (Buttons[_ButtonBack].Selected && _GameState.CurrentRoundNr == 1)
+                                _Back();
+                            if (Buttons[_ButtonExit].Selected && _GameState.CurrentRoundNr > 1)
+                                _ShowPopup(true);
+                            if (Buttons[_ButtonPlayerScrollUp].Selected)
+                                _ScrollPlayerTable(-1);
+                            if (Buttons[_ButtonPlayerScrollDown].Selected)
+                                _ScrollPlayerTable(1);
+                            if (Buttons[_ButtonRoundsScrollUp].Selected)
+                                _ScrollRoundsTable(-1);
+                            if (Buttons[_ButtonRoundsScrollDown].Selected)
+                                _ScrollRoundsTable(1);
                         }
                         else
                         {
-                            if (Buttons[ButtonPopupYes].Selected)
-                                EndParty();
-                            if (Buttons[ButtonPopupNo].Selected)
-                                ShowPopup(false);
+                            if (Buttons[_ButtonPopupYes].Selected)
+                                _EndParty();
+                            if (Buttons[_ButtonPopupNo].Selected)
+                                _ShowPopup(false);
                         }
                         break;
                 }
@@ -182,57 +182,57 @@ namespace VocaluxeLib.PartyModes.Challenge
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent mouseEvent)
+        public override bool HandleMouse(SMouseEvent mouseEvent)
         {
             base.HandleMouse(mouseEvent);
 
             if (mouseEvent.LB && IsMouseOver(mouseEvent))
             {
-                if (!ExitPopupVisible)
+                if (!_ExitPopupVisible)
                 {
-                    if (Buttons[ButtonNextRound].Selected)
-                        NextRound();
-                    if (Buttons[ButtonBack].Selected && GameState.CurrentRoundNr == 1)
-                        Back();
-                    if (Buttons[ButtonExit].Selected && GameState.CurrentRoundNr > 1)
-                        ShowPopup(true);
-                    if (Buttons[ButtonPlayerScrollUp].Selected)
-                        ScrollPlayerTable(-1);
-                    if (Buttons[ButtonPlayerScrollDown].Selected)
-                        ScrollPlayerTable(1);
-                    if (Buttons[ButtonRoundsScrollUp].Selected)
-                        ScrollRoundsTable(-1);
-                    if (Buttons[ButtonRoundsScrollDown].Selected)
-                        ScrollRoundsTable(1);
+                    if (Buttons[_ButtonNextRound].Selected)
+                        _NextRound();
+                    if (Buttons[_ButtonBack].Selected && _GameState.CurrentRoundNr == 1)
+                        _Back();
+                    if (Buttons[_ButtonExit].Selected && _GameState.CurrentRoundNr > 1)
+                        _ShowPopup(true);
+                    if (Buttons[_ButtonPlayerScrollUp].Selected)
+                        _ScrollPlayerTable(-1);
+                    if (Buttons[_ButtonPlayerScrollDown].Selected)
+                        _ScrollPlayerTable(1);
+                    if (Buttons[_ButtonRoundsScrollUp].Selected)
+                        _ScrollRoundsTable(-1);
+                    if (Buttons[_ButtonRoundsScrollDown].Selected)
+                        _ScrollRoundsTable(1);
                 }
                 else
                 {
-                    if (Buttons[ButtonPopupYes].Selected)
-                        EndParty();
-                    if (Buttons[ButtonPopupNo].Selected)
-                        ShowPopup(false);
+                    if (Buttons[_ButtonPopupYes].Selected)
+                        _EndParty();
+                    if (Buttons[_ButtonPopupNo].Selected)
+                        _ShowPopup(false);
                 }
             }
 
             if (mouseEvent.RB)
             {
-                if (!ExitPopupVisible)
+                if (!_ExitPopupVisible)
                 {
-                    if (GameState.CurrentRoundNr == 1)
-                        Back();
+                    if (_GameState.CurrentRoundNr == 1)
+                        _Back();
                     else
-                        ShowPopup(true);
+                        _ShowPopup(true);
                 }
                 else
-                    ShowPopup(false);
+                    _ShowPopup(false);
             }
 
             if (mouseEvent.Wheel != 0)
             {
-                if (CHelper.IsInBounds(RoundsTableScrollArea, mouseEvent))
-                    ScrollRoundsTable(mouseEvent.Wheel);
-                if (CHelper.IsInBounds(PlayerTableScrollArea, mouseEvent))
-                    ScrollPlayerTable(mouseEvent.Wheel);
+                if (CHelper.IsInBounds(_RoundsTableScrollArea, mouseEvent))
+                    _ScrollRoundsTable(mouseEvent.Wheel);
+                if (CHelper.IsInBounds(_PlayerTableScrollArea, mouseEvent))
+                    _ScrollPlayerTable(mouseEvent.Wheel);
             }
 
             return true;
@@ -242,46 +242,46 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             base.OnShow();
 
-            PlayerTableOffset = 0;
-            RoundsTableOffset = 0;
+            _PlayerTableOffset = 0;
+            _RoundsTableOffset = 0;
 
-            UpdatePlayerTable();
-            UpdateNextPlayerPositions();
-            UpdateNextPlayerContents();
-            if (GameState.CurrentRoundNr == 1)
-                BuildRoundsTable();
+            _UpdatePlayerTable();
+            _UpdateNextPlayerPositions();
+            _UpdateNextPlayerContents();
+            if (_GameState.CurrentRoundNr == 1)
+                _BuildRoundsTable();
             else
-                ScrollRoundsTable(GameState.CurrentRoundNr - 2);
-            UpdateRoundsTable();
+                _ScrollRoundsTable(_GameState.CurrentRoundNr - 2);
+            _UpdateRoundsTable();
 
-            if (GameState.CurrentRoundNr == 1)
+            if (_GameState.CurrentRoundNr == 1)
             {
-                Buttons[ButtonBack].Visible = true;
-                Buttons[ButtonExit].Visible = false;
-            }
-            else
-            {
-                Buttons[ButtonBack].Visible = false;
-                Buttons[ButtonExit].Visible = true;
-            }
-
-            if (GameState.CurrentRoundNr <= GameState.Combs.Count)
-            {
-                Buttons[ButtonNextRound].Visible = true;
-                Texts[TextFinishMessage].Visible = false;
-                Texts[TextFinishPlayerWin].Visible = false;
-                SetInteractionToButton(Buttons[ButtonNextRound]);
+                Buttons[_ButtonBack].Visible = true;
+                Buttons[_ButtonExit].Visible = false;
             }
             else
             {
-                Buttons[ButtonNextRound].Visible = false;
-                Texts[TextFinishMessage].Visible = true;
-                Texts[TextFinishPlayerWin].Visible = true;
-                Texts[TextFinishPlayerWin].Text = GetPlayerWinString();
-                SetInteractionToButton(Buttons[ButtonExit]);
+                Buttons[_ButtonBack].Visible = false;
+                Buttons[_ButtonExit].Visible = true;
             }
 
-            ShowPopup(false);
+            if (_GameState.CurrentRoundNr <= _GameState.Combs.Count)
+            {
+                Buttons[_ButtonNextRound].Visible = true;
+                Texts[_TextFinishMessage].Visible = false;
+                Texts[_TextFinishPlayerWin].Visible = false;
+                SetInteractionToButton(Buttons[_ButtonNextRound]);
+            }
+            else
+            {
+                Buttons[_ButtonNextRound].Visible = false;
+                Texts[_TextFinishMessage].Visible = true;
+                Texts[_TextFinishPlayerWin].Visible = true;
+                Texts[_TextFinishPlayerWin].Text = _GetPlayerWinString();
+                SetInteractionToButton(Buttons[_ButtonExit]);
+            }
+
+            _ShowPopup(false);
         }
 
         public override bool UpdateGame()
@@ -295,246 +295,246 @@ namespace VocaluxeLib.PartyModes.Challenge
             return true;
         }
 
-        private void NextRound()
+        private void _NextRound()
         {
-            Data.ScreenMain.FadeToNameSelection = false;
-            Data.ScreenMain.FadeToSongSelection = true;
-            _PartyMode.DataFromScreen(ThemeName, Data);
+            _Data.ScreenMain.FadeToNameSelection = false;
+            _Data.ScreenMain.FadeToSongSelection = true;
+            _PartyMode.DataFromScreen(ThemeName, _Data);
         }
 
-        private void EndParty()
+        private void _EndParty()
         {
-            FadeTo(EScreens.ScreenParty);
+            _FadeTo(EScreens.ScreenParty);
         }
 
-        private void ShowPopup(bool Visible)
+        private void _ShowPopup(bool visible)
         {
-            ExitPopupVisible = Visible;
+            _ExitPopupVisible = visible;
 
-            Statics[StaticPopupBG].Visible = ExitPopupVisible;
-            Texts[TextPopupReallyExit].Visible = ExitPopupVisible;
-            Buttons[ButtonPopupYes].Visible = ExitPopupVisible;
-            Buttons[ButtonPopupNo].Visible = ExitPopupVisible;
+            Statics[_StaticPopupBG].Visible = _ExitPopupVisible;
+            Texts[_TextPopupReallyExit].Visible = _ExitPopupVisible;
+            Buttons[_ButtonPopupYes].Visible = _ExitPopupVisible;
+            Buttons[_ButtonPopupNo].Visible = _ExitPopupVisible;
 
-            if (ExitPopupVisible)
-                SetInteractionToButton(Buttons[ButtonPopupNo]);
+            if (_ExitPopupVisible)
+                SetInteractionToButton(Buttons[_ButtonPopupNo]);
         }
 
-        private void Back()
+        private void _Back()
         {
-            Data.ScreenMain.FadeToNameSelection = true;
-            Data.ScreenMain.FadeToSongSelection = false;
-            _PartyMode.DataFromScreen(ThemeName, Data);
+            _Data.ScreenMain.FadeToNameSelection = true;
+            _Data.ScreenMain.FadeToSongSelection = false;
+            _PartyMode.DataFromScreen(ThemeName, _Data);
         }
 
-        private void UpdateNextPlayerPositions()
+        private void _UpdateNextPlayerPositions()
         {
-            float x = CBase.Settings.GetRenderW() / 2 - ((GameState.NumPlayerAtOnce * Statics[StaticNextPlayer].Rect.W) + ((GameState.NumPlayerAtOnce - 1) * 15)) / 2;
-            float static_y = 590;
-            float text_y = 550;
-            for (int i = 0; i < GameState.NumPlayerAtOnce; i++)
+            float x = CBase.Settings.GetRenderW() / 2 - ((_GameState.NumPlayerAtOnce * Statics[_StaticNextPlayer].Rect.W) + ((_GameState.NumPlayerAtOnce - 1) * 15)) / 2;
+            float staticY = 590;
+            float textY = 550;
+            for (int i = 0; i < _GameState.NumPlayerAtOnce; i++)
             {
                 //static
-                NextPlayerStatics[i].Rect.X = x;
-                NextPlayerStatics[i].Rect.Y = static_y;
-                NextPlayerStatics[i].Visible = true;
+                _NextPlayerStatics[i].Rect.X = x;
+                _NextPlayerStatics[i].Rect.Y = staticY;
+                _NextPlayerStatics[i].Visible = true;
                 //text
-                NextPlayerTexts[i].X = x + Statics[StaticNextPlayer].Rect.W / 2;
-                NextPlayerTexts[i].Y = text_y;
-                NextPlayerTexts[i].Visible = true;
+                _NextPlayerTexts[i].X = x + Statics[_StaticNextPlayer].Rect.W / 2;
+                _NextPlayerTexts[i].Y = textY;
+                _NextPlayerTexts[i].Visible = true;
 
-                x += Statics[StaticNextPlayer].Rect.W + 15;
+                x += Statics[_StaticNextPlayer].Rect.W + 15;
             }
-            for (int i = GameState.NumPlayerAtOnce; i < _PartyMode.GetMaxPlayer(); i++)
+            for (int i = _GameState.NumPlayerAtOnce; i < _PartyMode.GetMaxPlayer(); i++)
             {
-                NextPlayerStatics[i].Visible = false;
-                NextPlayerTexts[i].Visible = false;
+                _NextPlayerStatics[i].Visible = false;
+                _NextPlayerTexts[i].Visible = false;
             }
         }
 
-        private void UpdateNextPlayerContents()
+        private void _UpdateNextPlayerContents()
         {
-            if (GameState.CurrentRoundNr <= GameState.Combs.Count)
+            if (_GameState.CurrentRoundNr <= _GameState.Combs.Count)
             {
-                Texts[TextNextPlayerMessage].Visible = true;
+                Texts[_TextNextPlayerMessage].Visible = true;
                 SProfile[] profiles = CBase.Profiles.GetProfiles();
-                for (int i = 0; i < GameState.NumPlayerAtOnce; i++)
+                for (int i = 0; i < _GameState.NumPlayerAtOnce; i++)
                 {
-                    int pid = GameState.Combs[GameState.CurrentRoundNr - 1].Player[i];
-                    NextPlayerStatics[i].Texture = profiles[GameState.ProfileIDs[pid]].Avatar.Texture;
-                    NextPlayerTexts[i].Text = profiles[GameState.ProfileIDs[pid]].PlayerName;
-                    NextPlayerTexts[i].Color = CBase.Theme.GetPlayerColor(i + 1);
+                    int pid = _GameState.Combs[_GameState.CurrentRoundNr - 1].Player[i];
+                    _NextPlayerStatics[i].Texture = profiles[_GameState.ProfileIDs[pid]].Avatar.Texture;
+                    _NextPlayerTexts[i].Text = profiles[_GameState.ProfileIDs[pid]].PlayerName;
+                    _NextPlayerTexts[i].Color = CBase.Theme.GetPlayerColor(i + 1);
                 }
             }
             else
             {
-                Texts[TextNextPlayerMessage].Visible = false;
-                for (int i = 0; i < GameState.NumPlayerAtOnce; i++)
+                Texts[_TextNextPlayerMessage].Visible = false;
+                for (int i = 0; i < _GameState.NumPlayerAtOnce; i++)
                 {
-                    NextPlayerStatics[i].Visible = false;
-                    NextPlayerTexts[i].Visible = false;
+                    _NextPlayerStatics[i].Visible = false;
+                    _NextPlayerTexts[i].Visible = false;
                 }
             }
         }
 
-        private void CreateRoundsTable()
+        private void _CreateRoundsTable()
         {
             //Create lists
-            RoundsTable = new List<RoundsTableRow>();
+            _RoundsTable = new List<CRoundsTableRow>();
             for (int i = 0; i < 5; i++)
             {
-                RoundsTableRow rtr = new RoundsTableRow();
+                CRoundsTableRow rtr = new CRoundsTableRow();
                 rtr.TextPlayer = new List<CText>();
                 rtr.TextScores = new List<CText>();
-                RoundsTable.Add(rtr);
+                _RoundsTable.Add(rtr);
             }
             //Create statics and texts for rounds
-            for (int round = 0; round < RoundsTable.Count; round++)
+            for (int round = 0; round < _RoundsTable.Count; round++)
             {
                 //Round-number
-                CText text = GetNewText(Texts[TextRoundNumber]);
+                CText text = GetNewText(Texts[_TextRoundNumber]);
                 AddText(text);
-                RoundsTable[round].Number = text;
+                _RoundsTable[round].Number = text;
                 for (int row = 0; row < 2; row++)
                 {
                     for (int column = 0; column < 3; column++)
                     {
                         //Player
-                        text = GetNewText(Texts[TextRoundPlayer]);
+                        text = GetNewText(Texts[_TextRoundPlayer]);
                         AddText(text);
-                        RoundsTable[round].TextPlayer.Add(text);
+                        _RoundsTable[round].TextPlayer.Add(text);
                         //Score
-                        text = GetNewText(Texts[TextRoundScore]);
+                        text = GetNewText(Texts[_TextRoundScore]);
                         AddText(text);
-                        RoundsTable[round].TextScores.Add(text);
+                        _RoundsTable[round].TextScores.Add(text);
                     }
                 }
             }
         }
 
-        private void BuildRoundsTable()
+        private void _BuildRoundsTable()
         {
-            RoundsTableScrollArea = new SRectF();
+            _RoundsTableScrollArea = new SRectF();
 
-            int NumPlayerInOneRow = 3;
-            if (GameState.NumPlayerAtOnce <= NumPlayerInOneRow)
-                NumRoundsVisible = 5;
+            int numPlayerInOneRow = 3;
+            if (_GameState.NumPlayerAtOnce <= numPlayerInOneRow)
+                _NumRoundsVisible = 5;
             else
-                NumRoundsVisible = 3;
+                _NumRoundsVisible = 3;
 
-            if (NumRoundsVisible > GameState.Combs.Count)
-                NumRoundsVisible = GameState.Combs.Count;
+            if (_NumRoundsVisible > _GameState.Combs.Count)
+                _NumRoundsVisible = _GameState.Combs.Count;
 
-            float numberX = Texts[TextRoundNumber].X;
-            float numberY = Texts[TextRoundNumber].Y;
+            float numberX = Texts[_TextRoundNumber].X;
+            float numberY = Texts[_TextRoundNumber].Y;
 
-            RoundsTableScrollArea.X = numberX;
-            RoundsTableScrollArea.Y = numberY;
-            RoundsTableScrollArea.W = CBase.Settings.GetRenderW() - Texts[TextRoundNumber].X - 20;
+            _RoundsTableScrollArea.X = numberX;
+            _RoundsTableScrollArea.Y = numberY;
+            _RoundsTableScrollArea.W = CBase.Settings.GetRenderW() - Texts[_TextRoundNumber].X - 20;
 
-            float delta = Texts[TextRoundNumber].Height;
+            float delta = Texts[_TextRoundNumber].Height;
 
             //Update statics and texts for rounds
-            for (int round = 0; round < RoundsTable.Count; round++)
+            for (int round = 0; round < _RoundsTable.Count; round++)
             {
                 //Round-number
-                RoundsTable[round].Number.X = numberX;
-                RoundsTable[round].Number.Y = numberY;
-                int NumInnerRows = (int)Math.Ceiling(GameState.NumPlayerAtOnce / ((double)NumPlayerInOneRow));
-                for (int row = 0; row < NumInnerRows; row++)
+                _RoundsTable[round].Number.X = numberX;
+                _RoundsTable[round].Number.Y = numberY;
+                int numInnerRows = (int)Math.Ceiling(_GameState.NumPlayerAtOnce / ((double)numPlayerInOneRow));
+                for (int row = 0; row < numInnerRows; row++)
                 {
-                    int num = (row + 1) * NumPlayerInOneRow;
-                    int NumPlayerInThisRow = NumPlayerInOneRow;
-                    if (num > GameState.NumPlayerAtOnce)
+                    int num = (row + 1) * numPlayerInOneRow;
+                    int numPlayerInThisRow = numPlayerInOneRow;
+                    if (num > _GameState.NumPlayerAtOnce)
                     {
-                        num = GameState.NumPlayerAtOnce;
-                        NumPlayerInThisRow = GameState.NumPlayerAtOnce - (row * NumPlayerInOneRow);
+                        num = _GameState.NumPlayerAtOnce;
+                        numPlayerInThisRow = _GameState.NumPlayerAtOnce - (row * numPlayerInOneRow);
                     }
-                    for (int column = row * NumPlayerInOneRow; column < num; column++)
+                    for (int column = row * numPlayerInOneRow; column < num; column++)
                     {
                         //Player
-                        float _x = numberX + 15 + (CBase.Settings.GetRenderW() - Texts[TextRoundNumber].X - 20) / NumPlayerInThisRow * (column - row * NumPlayerInOneRow) +
-                                   ((CBase.Settings.GetRenderW() - Texts[TextRoundNumber].X - 20) / NumPlayerInThisRow) / 2;
-                        float maxw = ((CBase.Settings.GetRenderW() - Texts[TextRoundNumber].X - 20) / NumPlayerInThisRow) / 2 - 5;
-                        RoundsTable[round].TextPlayer[column].X = _x;
-                        RoundsTable[round].TextPlayer[column].Y = numberY;
-                        RoundsTable[round].TextPlayer[column].MaxWidth = maxw;
+                        float x = numberX + 15 + (CBase.Settings.GetRenderW() - Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow * (column - row * numPlayerInOneRow) +
+                                   ((CBase.Settings.GetRenderW() - Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow) / 2;
+                        float maxw = ((CBase.Settings.GetRenderW() - Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow) / 2 - 5;
+                        _RoundsTable[round].TextPlayer[column].X = x;
+                        _RoundsTable[round].TextPlayer[column].Y = numberY;
+                        _RoundsTable[round].TextPlayer[column].MaxWidth = maxw;
                         //Score
-                        RoundsTable[round].TextScores[column] = RoundsTable[round].TextScores[column];
-                        RoundsTable[round].TextScores[column].X = _x;
-                        RoundsTable[round].TextScores[column].Y = numberY + delta;
-                        RoundsTable[round].TextScores[column].MaxWidth = maxw;
+                        _RoundsTable[round].TextScores[column] = _RoundsTable[round].TextScores[column];
+                        _RoundsTable[round].TextScores[column].X = x;
+                        _RoundsTable[round].TextScores[column].Y = numberY + delta;
+                        _RoundsTable[round].TextScores[column].MaxWidth = maxw;
                     }
                     numberY = numberY + delta + delta;
                 }
                 numberY = numberY + delta / 2;
             }
-            RoundsTableScrollArea.H = numberY - RoundsTableScrollArea.Y;
+            _RoundsTableScrollArea.H = numberY - _RoundsTableScrollArea.Y;
         }
 
-        private void UpdateRoundsTable()
+        private void _UpdateRoundsTable()
         {
             SProfile[] profile = CBase.Profiles.GetProfiles();
-            for (int i = 0; i < RoundsTable.Count; i++)
+            for (int i = 0; i < _RoundsTable.Count; i++)
             {
-                for (int p = 0; p < RoundsTable[i].TextPlayer.Count; p++)
+                for (int p = 0; p < _RoundsTable[i].TextPlayer.Count; p++)
                 {
-                    if (GameState.Combs.Count > i + RoundsTableOffset && GameState.Combs[i + RoundsTableOffset].Player.Count > p)
+                    if (_GameState.Combs.Count > i + _RoundsTableOffset && _GameState.Combs[i + _RoundsTableOffset].Player.Count > p)
                     {
-                        RoundsTable[i].Number.Visible = true;
-                        RoundsTable[i].TextPlayer[p].Visible = true;
-                        RoundsTable[i].TextScores[p].Visible = true;
-                        RoundsTable[i].Number.Text = (i + 1 + RoundsTableOffset).ToString() + ")";
-                        int pID = GameState.ProfileIDs[GameState.Combs[i + RoundsTableOffset].Player[p]];
-                        RoundsTable[i].TextPlayer[p].Text = profile[pID].PlayerName;
-                        if ((GameState.CurrentRoundNr - 1) > i + RoundsTableOffset)
-                            RoundsTable[i].TextScores[p].Text = GameState.Results[i + RoundsTableOffset, p].ToString();
+                        _RoundsTable[i].Number.Visible = true;
+                        _RoundsTable[i].TextPlayer[p].Visible = true;
+                        _RoundsTable[i].TextScores[p].Visible = true;
+                        _RoundsTable[i].Number.Text = (i + 1 + _RoundsTableOffset).ToString() + ")";
+                        int pID = _GameState.ProfileIDs[_GameState.Combs[i + _RoundsTableOffset].Player[p]];
+                        _RoundsTable[i].TextPlayer[p].Text = profile[pID].PlayerName;
+                        if ((_GameState.CurrentRoundNr - 1) > i + _RoundsTableOffset)
+                            _RoundsTable[i].TextScores[p].Text = _GameState.Results[i + _RoundsTableOffset, p].ToString();
                         else
-                            RoundsTable[i].TextScores[p].Text = "";
+                            _RoundsTable[i].TextScores[p].Text = "";
                     }
                     else
                     {
-                        RoundsTable[i].TextPlayer[p].Visible = false;
-                        RoundsTable[i].TextScores[p].Visible = false;
+                        _RoundsTable[i].TextPlayer[p].Visible = false;
+                        _RoundsTable[i].TextScores[p].Visible = false;
                     }
                 }
-                if (GameState.Combs.Count < i + RoundsTableOffset || i + 1 > NumRoundsVisible)
+                if (_GameState.Combs.Count < i + _RoundsTableOffset || i + 1 > _NumRoundsVisible)
                 {
-                    RoundsTable[i].Number.Visible = false;
-                    for (int p = 0; p < RoundsTable[i].TextPlayer.Count; p++)
+                    _RoundsTable[i].Number.Visible = false;
+                    for (int p = 0; p < _RoundsTable[i].TextPlayer.Count; p++)
                     {
-                        RoundsTable[i].TextPlayer[p].Visible = false;
-                        RoundsTable[i].TextScores[p].Visible = false;
+                        _RoundsTable[i].TextPlayer[p].Visible = false;
+                        _RoundsTable[i].TextScores[p].Visible = false;
                     }
                 }
             }
 
-            Buttons[ButtonRoundsScrollUp].Visible = RoundsTableOffset > 0;
-            Buttons[ButtonRoundsScrollDown].Visible = GameState.Combs.Count - NumRoundsVisible - RoundsTableOffset > 0;
+            Buttons[_ButtonRoundsScrollUp].Visible = _RoundsTableOffset > 0;
+            Buttons[_ButtonRoundsScrollDown].Visible = _GameState.Combs.Count - _NumRoundsVisible - _RoundsTableOffset > 0;
         }
 
-        private void BuildPlayerTable()
+        private void _BuildPlayerTable()
         {
-            PlayerTableScrollArea = new SRectF();
-            PlayerTableScrollArea.X = Texts[TextPosition].X;
-            PlayerTableScrollArea.Y = Texts[TextPosition].Y;
-            PlayerTableScrollArea.W = Texts[TextGamePoints].X - Texts[TextPosition].X;
+            _PlayerTableScrollArea = new SRectF();
+            _PlayerTableScrollArea.X = Texts[_TextPosition].X;
+            _PlayerTableScrollArea.Y = Texts[_TextPosition].Y;
+            _PlayerTableScrollArea.W = Texts[_TextGamePoints].X - Texts[_TextPosition].X;
 
-            PlayerTable = new List<TableRow>();
-            float delta = Texts[TextPosition].Height * 1.2f;
+            _PlayerTable = new List<STableRow>();
+            float delta = Texts[_TextPosition].Height * 1.2f;
 
             float h = 0;
 
             for (int i = 0; i < 10; i++)
             {
-                TableRow row = new TableRow();
+                STableRow row = new STableRow();
 
-                row.Pos = GetNewText(Texts[TextPosition]);
-                row.Name = GetNewText(Texts[TextPlayerName]);
-                row.Rounds = GetNewText(Texts[TextNumPlayed]);
-                row.Won = GetNewText(Texts[TextWon]);
-                row.SingPoints = GetNewText(Texts[TextSingPoints]);
-                row.GamePoints = GetNewText(Texts[TextGamePoints]);
+                row.Pos = GetNewText(Texts[_TextPosition]);
+                row.Name = GetNewText(Texts[_TextPlayerName]);
+                row.Rounds = GetNewText(Texts[_TextNumPlayed]);
+                row.Won = GetNewText(Texts[_TextWon]);
+                row.SingPoints = GetNewText(Texts[_TextSingPoints]);
+                row.GamePoints = GetNewText(Texts[_TextGamePoints]);
 
                 row.Pos.Y += delta * (i + 1);
                 row.Name.Y += delta * (i + 1);
@@ -559,22 +559,22 @@ namespace VocaluxeLib.PartyModes.Challenge
                 AddText(row.SingPoints);
                 AddText(row.GamePoints);
 
-                PlayerTable.Add(row);
+                _PlayerTable.Add(row);
 
                 h = delta * (i + 1);
             }
-            PlayerTableScrollArea.H = h + delta;
+            _PlayerTableScrollArea.H = h + delta;
         }
 
-        private void UpdatePlayerTable()
+        private void _UpdatePlayerTable()
         {
             SProfile[] profiles = CBase.Profiles.GetProfiles();
 
-            for (int i = 0; i < PlayerTable.Count; i++)
+            for (int i = 0; i < _PlayerTable.Count; i++)
             {
-                TableRow row = PlayerTable[i];
+                STableRow row = _PlayerTable[i];
 
-                if (i + PlayerTableOffset < GameState.ResultTable.Count)
+                if (i + _PlayerTableOffset < _GameState.ResultTable.Count)
                 {
                     row.Pos.Visible = true;
                     row.Name.Visible = true;
@@ -583,12 +583,12 @@ namespace VocaluxeLib.PartyModes.Challenge
                     row.SingPoints.Visible = true;
                     row.GamePoints.Visible = true;
 
-                    row.Pos.Text = GameState.ResultTable[i + PlayerTableOffset].Position.ToString() + ".";
-                    row.Name.Text = profiles[GameState.ResultTable[i + PlayerTableOffset].PlayerID].PlayerName;
-                    row.Rounds.Text = GameState.ResultTable[i + PlayerTableOffset].NumRounds.ToString();
-                    row.Won.Text = GameState.ResultTable[i + PlayerTableOffset].NumWon.ToString();
-                    row.SingPoints.Text = GameState.ResultTable[i + PlayerTableOffset].NumSingPoints.ToString();
-                    row.GamePoints.Text = GameState.ResultTable[i + PlayerTableOffset].NumGamePoints.ToString();
+                    row.Pos.Text = _GameState.ResultTable[i + _PlayerTableOffset].Position.ToString() + ".";
+                    row.Name.Text = profiles[_GameState.ResultTable[i + _PlayerTableOffset].PlayerID].PlayerName;
+                    row.Rounds.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumRounds.ToString();
+                    row.Won.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumWon.ToString();
+                    row.SingPoints.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumSingPoints.ToString();
+                    row.GamePoints.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumGamePoints.ToString();
                 }
                 else
                 {
@@ -601,54 +601,54 @@ namespace VocaluxeLib.PartyModes.Challenge
                 }
             }
 
-            Buttons[ButtonPlayerScrollUp].Visible = PlayerTableOffset > 0;
-            Buttons[ButtonPlayerScrollDown].Visible = GameState.ProfileIDs.Count - NumPlayerVisible - PlayerTableOffset > 0;
+            Buttons[_ButtonPlayerScrollUp].Visible = _PlayerTableOffset > 0;
+            Buttons[_ButtonPlayerScrollDown].Visible = _GameState.ProfileIDs.Count - _NumPlayerVisible - _PlayerTableOffset > 0;
         }
 
-        private void ScrollPlayerTable(int Offset)
+        private void _ScrollPlayerTable(int offset)
         {
-            if (GameState.ProfileIDs.Count <= NumPlayerVisible)
-                PlayerTableOffset = 0;
-            else if (Offset < 0 && PlayerTableOffset + Offset >= 0)
-                PlayerTableOffset += Offset;
-            else if (Offset < 0 && PlayerTableOffset + Offset < 0)
-                PlayerTableOffset = 0;
-            else if (Offset > 0 && PlayerTableOffset + Offset <= GameState.ProfileIDs.Count - NumPlayerVisible)
-                PlayerTableOffset += Offset;
-            else if (Offset > 0 && PlayerTableOffset + Offset > GameState.ProfileIDs.Count - NumPlayerVisible)
-                PlayerTableOffset = GameState.ProfileIDs.Count - NumPlayerVisible;
+            if (_GameState.ProfileIDs.Count <= _NumPlayerVisible)
+                _PlayerTableOffset = 0;
+            else if (offset < 0 && _PlayerTableOffset + offset >= 0)
+                _PlayerTableOffset += offset;
+            else if (offset < 0 && _PlayerTableOffset + offset < 0)
+                _PlayerTableOffset = 0;
+            else if (offset > 0 && _PlayerTableOffset + offset <= _GameState.ProfileIDs.Count - _NumPlayerVisible)
+                _PlayerTableOffset += offset;
+            else if (offset > 0 && _PlayerTableOffset + offset > _GameState.ProfileIDs.Count - _NumPlayerVisible)
+                _PlayerTableOffset = _GameState.ProfileIDs.Count - _NumPlayerVisible;
 
-            UpdatePlayerTable();
+            _UpdatePlayerTable();
         }
 
-        private void ScrollRoundsTable(int Offset)
+        private void _ScrollRoundsTable(int offset)
         {
-            if (GameState.Combs.Count <= NumRoundsVisible)
-                RoundsTableOffset = 0;
-            else if (Offset < 0 && RoundsTableOffset + Offset >= 0)
-                RoundsTableOffset += Offset;
-            else if (Offset < 0 && RoundsTableOffset + Offset < 0)
-                RoundsTableOffset = 0;
-            else if (Offset > 0 && RoundsTableOffset + Offset <= GameState.Combs.Count - NumRoundsVisible)
-                RoundsTableOffset += Offset;
-            else if (Offset > 0 && RoundsTableOffset + Offset > GameState.Combs.Count - NumRoundsVisible)
-                RoundsTableOffset = GameState.Combs.Count - NumRoundsVisible;
+            if (_GameState.Combs.Count <= _NumRoundsVisible)
+                _RoundsTableOffset = 0;
+            else if (offset < 0 && _RoundsTableOffset + offset >= 0)
+                _RoundsTableOffset += offset;
+            else if (offset < 0 && _RoundsTableOffset + offset < 0)
+                _RoundsTableOffset = 0;
+            else if (offset > 0 && _RoundsTableOffset + offset <= _GameState.Combs.Count - _NumRoundsVisible)
+                _RoundsTableOffset += offset;
+            else if (offset > 0 && _RoundsTableOffset + offset > _GameState.Combs.Count - _NumRoundsVisible)
+                _RoundsTableOffset = _GameState.Combs.Count - _NumRoundsVisible;
 
-            UpdateRoundsTable();
+            _UpdateRoundsTable();
         }
 
-        private string GetPlayerWinString()
+        private string _GetPlayerWinString()
         {
             string s = "";
             SProfile[] profiles = CBase.Profiles.GetProfiles();
 
-            for (int i = 0; i < GameState.ResultTable.Count; i++)
+            for (int i = 0; i < _GameState.ResultTable.Count; i++)
             {
-                if (GameState.ResultTable[i].Position == 1)
+                if (_GameState.ResultTable[i].Position == 1)
                 {
                     if (i > 0)
                         s += ", ";
-                    s += profiles[GameState.ResultTable[i].PlayerID].PlayerName;
+                    s += profiles[_GameState.ResultTable[i].PlayerID].PlayerName;
                 }
                 else
                     break;

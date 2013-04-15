@@ -6,7 +6,7 @@ namespace VocaluxeLib.PartyModes
 {
     public abstract class CPartyMode : IPartyMode
     {
-        protected ScreenSongOptions _ScreenSongOptions;
+        protected SScreenSongOptions _ScreenSongOptions;
         protected Dictionary<string, CMenuParty> _Screens;
         protected string _Folder;
 
@@ -14,9 +14,9 @@ namespace VocaluxeLib.PartyModes
         {
             _Screens = new Dictionary<string, CMenuParty>();
             _Folder = String.Empty;
-            _ScreenSongOptions = new ScreenSongOptions();
-            _ScreenSongOptions.Selection = new SelectionOptions();
-            _ScreenSongOptions.Sorting = new SortingOptions();
+            _ScreenSongOptions = new SScreenSongOptions();
+            _ScreenSongOptions.Selection = new SSelectionOptions();
+            _ScreenSongOptions.Sorting = new SSortingOptions();
         }
 
         #region Implementation
@@ -27,18 +27,18 @@ namespace VocaluxeLib.PartyModes
 
         public void Initialize() {}
 
-        public void AddScreen(CMenuParty Screen, string ScreenName)
+        public void AddScreen(CMenuParty screen, string screenName)
         {
-            _Screens.Add(ScreenName, Screen);
+            _Screens.Add(screenName, screen);
         }
 
-        public virtual void DataFromScreen(string ScreenName, Object Data) {}
+        public virtual void DataFromScreen(string screenName, Object data) {}
 
         public virtual void UpdateGame() {}
 
-        public virtual CMenuParty GetNextPartyScreen(out EScreens AlternativeScreen)
+        public virtual CMenuParty GetNextPartyScreen(out EScreens alternativeScreen)
         {
-            AlternativeScreen = EScreens.ScreenMain;
+            alternativeScreen = EScreens.ScreenMain;
             return null;
         }
 
@@ -52,14 +52,14 @@ namespace VocaluxeLib.PartyModes
             return EScreens.ScreenSong;
         }
 
-        public virtual ScreenSongOptions GetScreenSongOptions()
+        public virtual SScreenSongOptions GetScreenSongOptions()
         {
-            return new ScreenSongOptions();
+            return new SScreenSongOptions();
         }
 
-        public virtual void OnSongChange(int SongIndex, ref ScreenSongOptions ScreenSongOptions) {}
+        public virtual void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions) {}
 
-        public virtual void OnCategoryChange(int CategoryIndex, ref ScreenSongOptions ScreenSongOptions) {}
+        public virtual void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions) {}
 
         public virtual int GetMaxPlayer()
         {
@@ -86,21 +86,21 @@ namespace VocaluxeLib.PartyModes
             return 1;
         }
 
-        public virtual void SetSearchString(string SearchString, bool Visible) {}
+        public virtual void SetSearchString(string searchString, bool visible) {}
 
-        public virtual void JokerUsed(int TeamNr)
+        public virtual void JokerUsed(int teamNr)
         {
             if (_ScreenSongOptions.Selection.NumJokers == null)
                 return;
 
-            if (_ScreenSongOptions.Selection.NumJokers.Length < TeamNr)
+            if (_ScreenSongOptions.Selection.NumJokers.Length < teamNr)
                 return;
 
-            if (_ScreenSongOptions.Selection.NumJokers[TeamNr] > 0)
-                _ScreenSongOptions.Selection.NumJokers[TeamNr]--;
+            if (_ScreenSongOptions.Selection.NumJokers[teamNr] > 0)
+                _ScreenSongOptions.Selection.NumJokers[teamNr]--;
         }
 
-        public virtual void SongSelected(int SongID) {}
+        public virtual void SongSelected(int songID) {}
 
         public virtual void FinishedSinging()
         {

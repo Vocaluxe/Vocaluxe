@@ -9,7 +9,7 @@ namespace Vocaluxe.Base
 {
     static class CProfiles
     {
-        private static readonly XmlWriterSettings _settings = new XmlWriterSettings();
+        private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
         private static List<SProfile> _Profiles;
         private static readonly List<SAvatar> _Avatars = new List<SAvatar>();
 
@@ -35,9 +35,9 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            _settings.Indent = true;
-            _settings.Encoding = Encoding.UTF8;
-            _settings.ConformanceLevel = ConformanceLevel.Document;
+            _Settings.Indent = true;
+            _Settings.Encoding = Encoding.UTF8;
+            _Settings.ConformanceLevel = ConformanceLevel.Document;
 
             LoadAvatars();
             LoadProfiles();
@@ -48,7 +48,7 @@ namespace Vocaluxe.Base
             return NewProfile(String.Empty);
         }
 
-        public static int NewProfile(string FileName)
+        public static int NewProfile(string fileName)
         {
             SProfile profile = new SProfile();
 
@@ -58,8 +58,8 @@ namespace Vocaluxe.Base
             profile.GuestProfile = EOffOn.TR_CONFIG_OFF;
             profile.Active = EOffOn.TR_CONFIG_ON;
 
-            if (FileName.Length > 0)
-                profile.ProfileFile = Path.Combine(CSettings.sFolderProfiles, FileName);
+            if (fileName.Length > 0)
+                profile.ProfileFile = Path.Combine(CSettings.FolderProfiles, fileName);
             else
                 profile.ProfileFile = String.Empty;
 
@@ -73,7 +73,7 @@ namespace Vocaluxe.Base
         public static void SaveProfiles()
         {
             for (int i = 0; i < _Profiles.Count; i++)
-                SaveProfile(i);
+                _SaveProfile(i);
             LoadProfiles();
         }
 
@@ -81,12 +81,12 @@ namespace Vocaluxe.Base
         {
             _Profiles = new List<SProfile>();
             List<string> files = new List<string>();
-            files.AddRange(CHelper.ListFiles(CSettings.sFolderProfiles, "*.xml", true, true));
+            files.AddRange(CHelper.ListFiles(CSettings.FolderProfiles, "*.xml", true, true));
 
             foreach (string file in files)
-                LoadProfile(file);
+                _LoadProfile(file);
 
-            SortProfilesByName();
+            _SortProfilesByName();
         }
 
         public static void LoadAvatars()
@@ -99,16 +99,16 @@ namespace Vocaluxe.Base
             _Avatars.Clear();
 
             List<string> files = new List<string>();
-            files.AddRange(CHelper.ListFiles(CSettings.sFolderProfiles, "*.png", true, true));
-            files.AddRange(CHelper.ListFiles(CSettings.sFolderProfiles, "*.jpg", true, true));
-            files.AddRange(CHelper.ListFiles(CSettings.sFolderProfiles, "*.jpeg", true, true));
-            files.AddRange(CHelper.ListFiles(CSettings.sFolderProfiles, "*.bmp", true, true));
+            files.AddRange(CHelper.ListFiles(CSettings.FolderProfiles, "*.png", true, true));
+            files.AddRange(CHelper.ListFiles(CSettings.FolderProfiles, "*.jpg", true, true));
+            files.AddRange(CHelper.ListFiles(CSettings.FolderProfiles, "*.jpeg", true, true));
+            files.AddRange(CHelper.ListFiles(CSettings.FolderProfiles, "*.bmp", true, true));
 
             foreach (string file in files)
             {
                 STexture tex = CDraw.AddTexture(file);
 
-                if (tex.index != -1)
+                if (tex.Index != -1)
                 {
                     SAvatar avatar = new SAvatar();
                     avatar.Texture = tex;
@@ -118,179 +118,179 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static string AddGetPlayerName(int ProfileNr, char Chr)
+        public static string AddGetPlayerName(int profileNr, char chr)
         {
-            if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
+            if (profileNr < 0 || profileNr >= _Profiles.Count)
                 return String.Empty;
 
-            SProfile profile = _Profiles[ProfileNr];
-            profile.PlayerName += Chr;
-            _Profiles[ProfileNr] = profile;
+            SProfile profile = _Profiles[profileNr];
+            profile.PlayerName += chr;
+            _Profiles[profileNr] = profile;
 
             return profile.PlayerName;
         }
 
-        public static string GetPlayerName(int ProfileNr)
+        public static string GetPlayerName(int profileNr)
         {
-            if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
+            if (profileNr < 0 || profileNr >= _Profiles.Count)
                 return String.Empty;
 
-            return _Profiles[ProfileNr].PlayerName;
+            return _Profiles[profileNr].PlayerName;
         }
 
-        public static string GetDeleteCharInPlayerName(int ProfileNr)
+        public static string GetDeleteCharInPlayerName(int profileNr)
         {
-            if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
+            if (profileNr < 0 || profileNr >= _Profiles.Count)
                 return String.Empty;
 
-            SProfile profile = _Profiles[ProfileNr];
+            SProfile profile = _Profiles[profileNr];
             if (profile.PlayerName.Length > 0)
                 profile.PlayerName = profile.PlayerName.Remove(profile.PlayerName.Length - 1);
-            _Profiles[ProfileNr] = profile;
+            _Profiles[profileNr] = profile;
 
             return profile.PlayerName;
         }
 
-        public static EGameDifficulty GetDifficulty(int ProfileNr)
+        public static EGameDifficulty GetDifficulty(int profileNr)
         {
-            if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
+            if (profileNr < 0 || profileNr >= _Profiles.Count)
                 return EGameDifficulty.TR_CONFIG_NORMAL;
 
-            return _Profiles[ProfileNr].Difficulty;
+            return _Profiles[profileNr].Difficulty;
         }
 
-        public static void SetDifficulty(int ProfileNr, EGameDifficulty Difficulty)
+        public static void SetDifficulty(int profileNr, EGameDifficulty difficulty)
         {
-            if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
+            if (profileNr < 0 || profileNr >= _Profiles.Count)
                 return;
 
-            SProfile profile = _Profiles[ProfileNr];
-            profile.Difficulty = Difficulty;
-            _Profiles[ProfileNr] = profile;
+            SProfile profile = _Profiles[profileNr];
+            profile.Difficulty = difficulty;
+            _Profiles[profileNr] = profile;
         }
 
-        public static EOffOn GetGuestProfile(int ProfileNr)
+        public static EOffOn GetGuestProfile(int profileNr)
         {
-            if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
+            if (profileNr < 0 || profileNr >= _Profiles.Count)
                 return EOffOn.TR_CONFIG_OFF;
 
-            return _Profiles[ProfileNr].GuestProfile;
+            return _Profiles[profileNr].GuestProfile;
         }
 
-        public static EOffOn GetActive(int ProfileNr)
+        public static EOffOn GetActive(int profileNr)
         {
-            if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
+            if (profileNr < 0 || profileNr >= _Profiles.Count)
                 return EOffOn.TR_CONFIG_OFF;
 
-            return _Profiles[ProfileNr].Active;
+            return _Profiles[profileNr].Active;
         }
 
-        public static void SetGuestProfile(int ProfileNr, EOffOn Option)
+        public static void SetGuestProfile(int profileNr, EOffOn option)
         {
-            if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
+            if (profileNr < 0 || profileNr >= _Profiles.Count)
                 return;
 
-            SProfile profile = _Profiles[ProfileNr];
-            profile.GuestProfile = Option;
-            _Profiles[ProfileNr] = profile;
+            SProfile profile = _Profiles[profileNr];
+            profile.GuestProfile = option;
+            _Profiles[profileNr] = profile;
         }
 
-        public static void SetActive(int ProfileNr, EOffOn Option)
+        public static void SetActive(int profileNr, EOffOn option)
         {
-            if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
+            if (profileNr < 0 || profileNr >= _Profiles.Count)
                 return;
-            SProfile profile = _Profiles[ProfileNr];
-            profile.Active = Option;
-            _Profiles[ProfileNr] = profile;
+            SProfile profile = _Profiles[profileNr];
+            profile.Active = option;
+            _Profiles[profileNr] = profile;
         }
 
-        public static bool IsGuestProfile(int ProfileNr)
+        public static bool IsGuestProfile(int profileNr)
         {
-            if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
+            if (profileNr < 0 || profileNr >= _Profiles.Count)
                 return true; // this will prevent from saving dummy profiles to highscore db
 
-            return _Profiles[ProfileNr].GuestProfile == EOffOn.TR_CONFIG_ON;
+            return _Profiles[profileNr].GuestProfile == EOffOn.TR_CONFIG_ON;
         }
 
-        public static bool IsActive(int ProfileNr)
+        public static bool IsActive(int profileNr)
         {
-            if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
+            if (profileNr < 0 || profileNr >= _Profiles.Count)
                 return false;
-            return _Profiles[ProfileNr].Active == EOffOn.TR_CONFIG_ON;
+            return _Profiles[profileNr].Active == EOffOn.TR_CONFIG_ON;
         }
 
-        public static void SetAvatar(int ProfileNr, int AvatarNr)
+        public static void SetAvatar(int profileNr, int avatarNr)
         {
-            if (ProfileNr < 0 || ProfileNr >= _Profiles.Count || AvatarNr < 0 || AvatarNr >= _Avatars.Count)
+            if (profileNr < 0 || profileNr >= _Profiles.Count || avatarNr < 0 || avatarNr >= _Avatars.Count)
                 return;
 
-            SProfile profile = _Profiles[ProfileNr];
-            profile.Avatar = _Avatars[AvatarNr];
-            _Profiles[ProfileNr] = profile;
+            SProfile profile = _Profiles[profileNr];
+            profile.Avatar = _Avatars[avatarNr];
+            _Profiles[profileNr] = profile;
         }
 
-        public static int GetAvatarNr(int ProfileNr)
+        public static int GetAvatarNr(int profileNr)
         {
-            if (ProfileNr < 0 || ProfileNr >= _Profiles.Count)
+            if (profileNr < 0 || profileNr >= _Profiles.Count)
                 return 0;
 
             for (int i = 0; i < _Avatars.Count; i++)
             {
-                if (_Profiles[ProfileNr].Avatar.FileName == _Avatars[i].FileName)
+                if (_Profiles[profileNr].Avatar.FileName == _Avatars[i].FileName)
                     return i;
             }
 
             return 0;
         }
 
-        public static void DeleteProfile(int ProfileID)
+        public static void DeleteProfile(int profileID)
         {
-            if (ProfileID < 0 || ProfileID >= _Profiles.Count)
+            if (profileID < 0 || profileID >= _Profiles.Count)
                 return;
-            if (_Profiles[ProfileID].ProfileFile.Length > 0)
+            if (_Profiles[profileID].ProfileFile.Length > 0)
             {
                 try
                 {
-                    File.Delete(_Profiles[ProfileID].ProfileFile);
-                    _Profiles.RemoveAt(ProfileID);
+                    File.Delete(_Profiles[profileID].ProfileFile);
+                    _Profiles.RemoveAt(profileID);
                 }
                 catch (Exception)
                 {
-                    CLog.LogError("Can't delete Profile File " + _Profiles[ProfileID].ProfileFile + ".xml");
+                    CLog.LogError("Can't delete Profile File " + _Profiles[profileID].ProfileFile + ".xml");
                 }
             }
         }
 
-        private static void SortProfilesByName()
+        private static void _SortProfilesByName()
         {
-            _Profiles.Sort(CompareByPlayerName);
+            _Profiles.Sort(_CompareByPlayerName);
         }
 
-        private static int CompareByPlayerName(SProfile a, SProfile b)
+        private static int _CompareByPlayerName(SProfile a, SProfile b)
         {
             return String.Compare(a.PlayerName, b.PlayerName);
         }
 
         #region private methods
-        private static SAvatar GetAvatar(string FileName)
+        private static SAvatar _GetAvatar(string fileName)
         {
             foreach (SAvatar avatar in _Avatars)
             {
-                if (FileName == avatar.FileName)
+                if (fileName == avatar.FileName)
                     return avatar;
             }
             return new SAvatar(-1);
         }
 
-        private static void SaveProfile(int ProfileID)
+        private static void _SaveProfile(int profileID)
         {
-            if (ProfileID < 0 || ProfileID >= _Profiles.Count)
+            if (profileID < 0 || profileID >= _Profiles.Count)
                 return;
 
-            if (_Profiles[ProfileID].ProfileFile.Length == 0)
+            if (_Profiles[profileID].ProfileFile.Length == 0)
             {
                 string filename = string.Empty;
-                foreach (char chr in _Profiles[ProfileID].PlayerName)
+                foreach (char chr in _Profiles[profileID].PlayerName)
                 {
                     if (char.IsLetter(chr))
                         filename += chr.ToString();
@@ -300,26 +300,26 @@ namespace Vocaluxe.Base
                     filename = "1";
 
                 int i = 0;
-                while (File.Exists(Path.Combine(CSettings.sFolderProfiles, filename + ".xml")))
+                while (File.Exists(Path.Combine(CSettings.FolderProfiles, filename + ".xml")))
                 {
                     i++;
-                    if (!File.Exists(Path.Combine(CSettings.sFolderProfiles, filename + i + ".xml")))
+                    if (!File.Exists(Path.Combine(CSettings.FolderProfiles, filename + i + ".xml")))
                         filename += i;
                 }
 
-                SProfile profile = _Profiles[ProfileID];
-                profile.ProfileFile = Path.Combine(CSettings.sFolderProfiles, filename + ".xml");
-                _Profiles[ProfileID] = profile;
+                SProfile profile = _Profiles[profileID];
+                profile.ProfileFile = Path.Combine(CSettings.FolderProfiles, filename + ".xml");
+                _Profiles[profileID] = profile;
             }
 
             XmlWriter writer;
             try
             {
-                writer = XmlWriter.Create(_Profiles[ProfileID].ProfileFile, _settings);
+                writer = XmlWriter.Create(_Profiles[profileID].ProfileFile, _Settings);
             }
             catch (Exception e)
             {
-                CLog.LogError("Error creating/opening Profile File " + _Profiles[ProfileID].ProfileFile + ": " + e.Message);
+                CLog.LogError("Error creating/opening Profile File " + _Profiles[profileID].ProfileFile + ": " + e.Message);
                 return;
             }
             try
@@ -328,11 +328,11 @@ namespace Vocaluxe.Base
                 writer.WriteStartElement("root");
 
                 writer.WriteStartElement("Info");
-                writer.WriteElementString("PlayerName", _Profiles[ProfileID].PlayerName);
-                writer.WriteElementString("Difficulty", Enum.GetName(typeof(EGameDifficulty), _Profiles[ProfileID].Difficulty));
-                writer.WriteElementString("Avatar", _Profiles[ProfileID].Avatar.FileName);
-                writer.WriteElementString("GuestProfile", Enum.GetName(typeof(EOffOn), _Profiles[ProfileID].GuestProfile));
-                writer.WriteElementString("Active", Enum.GetName(typeof(EOffOn), _Profiles[ProfileID].Active));
+                writer.WriteElementString("PlayerName", _Profiles[profileID].PlayerName);
+                writer.WriteElementString("Difficulty", Enum.GetName(typeof(EGameDifficulty), _Profiles[profileID].Difficulty));
+                writer.WriteElementString("Avatar", _Profiles[profileID].Avatar.FileName);
+                writer.WriteElementString("GuestProfile", Enum.GetName(typeof(EOffOn), _Profiles[profileID].GuestProfile));
+                writer.WriteElementString("Active", Enum.GetName(typeof(EOffOn), _Profiles[profileID].Active));
                 writer.WriteEndElement();
 
                 writer.WriteEndElement(); //end of root
@@ -347,10 +347,10 @@ namespace Vocaluxe.Base
             }
         }
 
-        private static void LoadProfile(string FileName)
+        private static void _LoadProfile(string fileName)
         {
             SProfile profile = new SProfile();
-            profile.ProfileFile = Path.Combine(CSettings.sFolderProfiles, FileName);
+            profile.ProfileFile = Path.Combine(CSettings.FolderProfiles, fileName);
 
             CXMLReader xmlReader = CXMLReader.OpenFile(profile.ProfileFile);
             if (xmlReader == null)
@@ -366,7 +366,7 @@ namespace Vocaluxe.Base
 
                 profile.Avatar = new SAvatar(-1);
                 if (xmlReader.GetValue("//root/Info/Avatar", ref value, value))
-                    profile.Avatar = GetAvatar(value);
+                    profile.Avatar = _GetAvatar(value);
 
                 profile.GuestProfile = EOffOn.TR_CONFIG_OFF;
                 xmlReader.TryGetEnumValue("//root/Info/GuestProfile", ref profile.GuestProfile);
@@ -377,7 +377,7 @@ namespace Vocaluxe.Base
                 _Profiles.Add(profile);
             }
             else
-                CLog.LogError("Can't find PlayerName in Profile File: " + FileName);
+                CLog.LogError("Can't find PlayerName in Profile File: " + fileName);
         }
         #endregion private methods
     }

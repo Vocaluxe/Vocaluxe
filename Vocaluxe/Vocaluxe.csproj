@@ -13,7 +13,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <StartupObject>Vocaluxe.MainProgram</StartupObject>
+    <StartupObject>Vocaluxe.CMainProgram</StartupObject>
     <ApplicationIcon>Vocaluxe.ico</ApplicationIcon>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>

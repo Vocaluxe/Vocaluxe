@@ -34,14 +34,14 @@ namespace Vocaluxe.Base
 
         public int X
         {
-            get { return (int)_Cursor.rect.X; }
-            set { UpdatePosition(value, (int)_Cursor.rect.Y); }
+            get { return (int)_Cursor.Rect.X; }
+            set { UpdatePosition(value, (int)_Cursor.Rect.Y); }
         }
 
         public int Y
         {
-            get { return (int)_Cursor.rect.Y; }
-            set { UpdatePosition((int)_Cursor.rect.X, value); }
+            get { return (int)_Cursor.Rect.Y; }
+            set { UpdatePosition((int)_Cursor.Rect.X, value); }
         }
 
         public bool IsActive
@@ -60,10 +60,10 @@ namespace Vocaluxe.Base
             _CursorName = textureName;
             _Cursor = CDraw.AddTexture(CTheme.GetSkinFilePath(_CursorName, -1));
 
-            _Cursor.color = color;
-            _Cursor.rect.W = w;
-            _Cursor.rect.H = h;
-            _Cursor.rect.Z = z;
+            _Cursor.Color = color;
+            _Cursor.Rect.W = w;
+            _Cursor.Rect.H = h;
+            _Cursor.Rect.Z = z;
 
             _Movetimer = new Stopwatch();
         }
@@ -73,7 +73,7 @@ namespace Vocaluxe.Base
             if (_Movetimer.IsRunning && _Movetimer.ElapsedMilliseconds / 1000f > CSettings.MouseMoveOffTime)
             {
                 _Movetimer.Stop();
-                Fade(0f, 0.5f);
+                _Fade(0f, 0.5f);
             }
 
 
@@ -83,14 +83,14 @@ namespace Vocaluxe.Base
                 if (t < _CursorFadingTime)
                 {
                     if (_CursorTargetAlpha >= _CursorStartAlpha)
-                        _Cursor.color.A = _CursorStartAlpha + (_CursorTargetAlpha - _CursorStartAlpha) * t / _CursorFadingTime;
+                        _Cursor.Color.A = _CursorStartAlpha + (_CursorTargetAlpha - _CursorStartAlpha) * t / _CursorFadingTime;
                     else
-                        _Cursor.color.A = (_CursorStartAlpha - _CursorTargetAlpha) * (1f - t / _CursorFadingTime);
+                        _Cursor.Color.A = (_CursorStartAlpha - _CursorTargetAlpha) * (1f - t / _CursorFadingTime);
                 }
                 else
                 {
                     _CursorFadingTimer.Stop();
-                    _Cursor.color.A = _CursorTargetAlpha;
+                    _Cursor.Color.A = _CursorTargetAlpha;
                 }
             }
 
@@ -100,19 +100,19 @@ namespace Vocaluxe.Base
 
         public void UpdatePosition(int x, int y)
         {
-            if (Math.Abs(_Cursor.rect.X - x) > CSettings.MouseMoveDiffMin ||
-                Math.Abs(_Cursor.rect.Y - y) > CSettings.MouseMoveDiffMin)
+            if (Math.Abs(_Cursor.Rect.X - x) > CSettings.MouseMoveDiffMin ||
+                Math.Abs(_Cursor.Rect.Y - y) > CSettings.MouseMoveDiffMin)
             {
                 if (_CursorTargetAlpha == 0f)
-                    Fade(1f, 0.2f);
+                    _Fade(1f, 0.2f);
 
                 _Movetimer.Reset();
                 _Movetimer.Start();
                 CSettings.MouseActive();
             }
 
-            _Cursor.rect.X = x;
-            _Cursor.rect.Y = y;
+            _Cursor.Rect.X = x;
+            _Cursor.Rect.Y = y;
         }
 
         public void UnloadTextures()
@@ -130,17 +130,17 @@ namespace Vocaluxe.Base
         public void FadeOut()
         {
             _Movetimer.Stop();
-            Fade(0f, 0.5f);
+            _Fade(0f, 0.5f);
         }
 
         public void FadeIn()
         {
             _Movetimer.Reset();
             _Movetimer.Start();
-            Fade(1f, 0.2f);
+            _Fade(1f, 0.2f);
         }
 
-        private void Fade(float targetAlpha, float time)
+        private void _Fade(float targetAlpha, float time)
         {
             _CursorFadingTimer.Stop();
             _CursorFadingTimer.Reset();
@@ -153,7 +153,7 @@ namespace Vocaluxe.Base
             if (time >= 0f)
                 _CursorFadingTime = time;
 
-            _CursorStartAlpha = _Cursor.color.A;
+            _CursorStartAlpha = _Cursor.Color.A;
             _CursorFadingTimer.Start();
         }
     }
@@ -175,7 +175,7 @@ namespace Vocaluxe.Base
         private static readonly List<IMenu> _PopupScreens = new List<IMenu>();
 
         private static Stopwatch _VolumePopupTimer;
-        private static bool CursorOverVolumeControl;
+        private static bool _CursorOverVolumeControl;
 
         public static float GlobalAlpha
         {
@@ -241,9 +241,9 @@ namespace Vocaluxe.Base
         {
             _Cursor = new CCursor(
                 CTheme.Cursor.SkinName,
-                new SColorF(CTheme.Cursor.r, CTheme.Cursor.g, CTheme.Cursor.b, CTheme.Cursor.a),
-                CTheme.Cursor.w,
-                CTheme.Cursor.h,
+                new SColorF(CTheme.Cursor.R, CTheme.Cursor.G, CTheme.Cursor.B, CTheme.Cursor.A),
+                CTheme.Cursor.W,
+                CTheme.Cursor.H,
                 CSettings.ZNear);
 
             for (int i = 0; i < _Screens.Count; i++)
@@ -263,7 +263,7 @@ namespace Vocaluxe.Base
 
         public static void ReloadTheme()
         {
-            ReloadCursor();
+            _ReloadCursor();
             for (int i = 0; i < _Screens.Count; i++)
                 _Screens[i].ReloadTheme(CTheme.GetThemeScreensPath(-1));
 
@@ -273,7 +273,7 @@ namespace Vocaluxe.Base
 
         public static void ReloadSkin()
         {
-            ReloadCursor();
+            _ReloadCursor();
             for (int i = 0; i < _Screens.Count; i++)
                 _Screens[i].ReloadTextures();
 
@@ -297,13 +297,13 @@ namespace Vocaluxe.Base
             _Screens[(int)_CurrentScreen].OnShowFinish();
         }
 
-        public static bool UpdateGameLogic(CKeys Keys, CMouse Mouse)
+        public static bool UpdateGameLogic(CKeys keys, CMouse mouse)
         {
-            bool _Run = true;
-            _Cursor.CursorVisible = Mouse.Visible;
+            bool run = true;
+            _Cursor.CursorVisible = mouse.Visible;
 
-            Mouse.CopyEvents();
-            Keys.CopyEvents();
+            mouse.CopyEvents();
+            keys.CopyEvents();
 
             CVideo.Update();
             CSound.Update();
@@ -315,17 +315,17 @@ namespace Vocaluxe.Base
 
             if (CSettings.GameState != EGameState.EditTheme)
             {
-                _Run &= HandleInputs(Keys, Mouse);
-                _Run &= Update();
+                run &= _HandleInputs(keys, mouse);
+                run &= _Update();
                 CParty.UpdateGame();
             }
             else
             {
-                _Run &= HandleInputThemeEditor(Keys, Mouse);
-                _Run &= Update();
+                run &= _HandleInputThemeEditor(keys, mouse);
+                run &= _Update();
             }
 
-            return _Run;
+            return run;
         }
 
         public static bool Draw()
@@ -350,15 +350,15 @@ namespace Vocaluxe.Base
 
             if (_Fading)
             {
-                long FadeTime = (long)(CConfig.FadeTime * 1000);
+                long fadeTime = (long)(CConfig.FadeTime * 1000);
 
-                if ((_FadingTimer.ElapsedMilliseconds < FadeTime) && (CConfig.FadeTime > 0))
+                if ((_FadingTimer.ElapsedMilliseconds < fadeTime) && (CConfig.FadeTime > 0))
                 {
                     long ms = 1;
                     if (_FadingTimer.ElapsedMilliseconds > 0)
                         ms = _FadingTimer.ElapsedMilliseconds;
 
-                    float factor = (float)ms / FadeTime;
+                    float factor = (float)ms / fadeTime;
 
                     _GlobalAlpha = 1f; // -factor / 100f;
                     _ZOffset = CSettings.ZFar / 2;
@@ -429,14 +429,14 @@ namespace Vocaluxe.Base
                 _PopupScreens[i].Draw();
 
             _Cursor.Draw();
-            DrawDebugInfos();
+            _DrawDebugInfos();
 
             return true;
         }
 
-        public static void FadeTo(EScreens Screen)
+        public static void FadeTo(EScreens screen)
         {
-            if (Screen == EScreens.ScreenPartyDummy)
+            if (screen == EScreens.ScreenPartyDummy)
             {
                 EScreens alt;
                 CMenu scr = CParty.GetNextPartyScreen(out alt);
@@ -448,22 +448,22 @@ namespace Vocaluxe.Base
                 _Screens[(int)EScreens.ScreenPartyDummy] = scr;
             }
 
-            _NextScreen = Screen;
+            _NextScreen = screen;
         }
 
-        public static void ShowPopup(EPopupScreens PopupScreen)
+        public static void ShowPopup(EPopupScreens popupScreen)
         {
-            _PopupScreens[(int)PopupScreen].OnShow();
-            _PopupScreens[(int)PopupScreen].OnShowFinish();
-            _CurrentPopupScreen = PopupScreen;
+            _PopupScreens[(int)popupScreen].OnShow();
+            _PopupScreens[(int)popupScreen].OnShowFinish();
+            _CurrentPopupScreen = popupScreen;
         }
 
-        public static void HidePopup(EPopupScreens PopupScreen)
+        public static void HidePopup(EPopupScreens popupScreen)
         {
-            if (_CurrentPopupScreen != PopupScreen)
+            if (_CurrentPopupScreen != popupScreen)
                 return;
 
-            _PopupScreens[(int)PopupScreen].OnClose();
+            _PopupScreens[(int)popupScreen].OnClose();
             _CurrentPopupScreen = EPopupScreens.NoPopup;
         }
 
@@ -479,41 +479,41 @@ namespace Vocaluxe.Base
         #endregion public methods
 
         #region private stuff
-        private static bool HandleInputs(CKeys keys, CMouse Mouse)
+        private static bool _HandleInputs(CKeys keys, CMouse mouse)
         {
-            KeyEvent KeyEvent = new KeyEvent();
-            MouseEvent MouseEvent = new MouseEvent();
-            KeyEvent InputKeyEvent = new KeyEvent();
-            MouseEvent InputMouseEvent = new MouseEvent();
+            SKeyEvent keyEvent = new SKeyEvent();
+            SMouseEvent mouseEvent = new SMouseEvent();
+            SKeyEvent inputKeyEvent = new SKeyEvent();
+            SMouseEvent inputMouseEvent = new SMouseEvent();
 
-            bool PopupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing &&
+            bool popupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing &&
                                              (_CurrentScreen != EScreens.ScreenSong ||
                                               (_CurrentScreen == EScreens.ScreenSong && !CSongs.IsInCategory && CConfig.Tabs == EOffOn.TR_CONFIG_ON))
                                              && _CurrentScreen != EScreens.ScreenCredits && !CBackgroundMusic.Disabled;
 
-            bool PopupVolumeControlAllowed = _CurrentScreen != EScreens.ScreenCredits && _CurrentScreen != EScreens.ScreenOptionsRecord;
+            bool popupVolumeControlAllowed = _CurrentScreen != EScreens.ScreenCredits && _CurrentScreen != EScreens.ScreenOptionsRecord;
             //Hide volume control for bg-music if bg-music is disabled
-            if (PopupVolumeControlAllowed && (_CurrentScreen != EScreens.ScreenSong || (_CurrentScreen == EScreens.ScreenSong && CSongs.Category == -1))
+            if (popupVolumeControlAllowed && (_CurrentScreen != EScreens.ScreenSong || (_CurrentScreen == EScreens.ScreenSong && CSongs.Category == -1))
                 && _CurrentScreen != EScreens.ScreenSing && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_OFF)
-                PopupVolumeControlAllowed = false;
+                popupVolumeControlAllowed = false;
 
 
-            bool Resume = true;
-            bool EventsAvailable = false;
-            bool InputEventsAvailable = CInput.PollKeyEvent(ref InputKeyEvent);
+            bool resume = true;
+            bool eventsAvailable = false;
+            bool inputEventsAvailable = CInput.PollKeyEvent(ref inputKeyEvent);
 
-            while ((EventsAvailable = keys.PollEvent(ref KeyEvent)) || InputEventsAvailable)
+            while ((eventsAvailable = keys.PollEvent(ref keyEvent)) || inputEventsAvailable)
             {
-                if (!EventsAvailable)
-                    KeyEvent = InputKeyEvent;
+                if (!eventsAvailable)
+                    keyEvent = inputKeyEvent;
 
-                if (KeyEvent.Key == Keys.Left || KeyEvent.Key == Keys.Right || KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down)
+                if (keyEvent.Key == Keys.Left || keyEvent.Key == Keys.Right || keyEvent.Key == Keys.Up || keyEvent.Key == Keys.Down)
                 {
                     CSettings.MouseInactive();
                     _Cursor.FadeOut();
                 }
 
-                if (PopupPlayerControlAllowed && KeyEvent.Key == Keys.Tab)
+                if (popupPlayerControlAllowed && keyEvent.Key == Keys.Tab)
                 {
                     if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
                         ShowPopup(EPopupScreens.PopupPlayerControl);
@@ -521,13 +521,13 @@ namespace Vocaluxe.Base
                         HidePopup(EPopupScreens.PopupPlayerControl);
                 }
 
-                if (PopupPlayerControlAllowed && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
+                if (popupPlayerControlAllowed && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
                 {
-                    if (KeyEvent.Key == Keys.MediaNextTrack)
+                    if (keyEvent.Key == Keys.MediaNextTrack)
                         CMain.BackgroundMusic.Next();
-                    else if (KeyEvent.Key == Keys.MediaPreviousTrack)
+                    else if (keyEvent.Key == Keys.MediaPreviousTrack)
                         CMain.BackgroundMusic.Previous();
-                    else if (KeyEvent.Key == Keys.MediaPlayPause)
+                    else if (keyEvent.Key == Keys.MediaPlayPause)
                     {
                         if (CMain.BackgroundMusic.IsPlaying())
                             CMain.BackgroundMusic.Pause();
@@ -536,46 +536,46 @@ namespace Vocaluxe.Base
                     }
                 }
 
-                if (PopupVolumeControlAllowed)
+                if (popupVolumeControlAllowed)
                 {
-                    int Diff = 0;
-                    if ((KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Add || KeyEvent.Key == Keys.PageUp)) || (KeyEvent.Sender == ESender.WiiMote && KeyEvent.Key == Keys.Add))
-                        Diff = 5;
-                    else if ((KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.Subtract || KeyEvent.Key == Keys.PageDown)) ||
-                             (KeyEvent.Sender == ESender.WiiMote && KeyEvent.Key == Keys.Subtract))
-                        Diff = -5;
+                    int diff = 0;
+                    if ((keyEvent.ModShift && (keyEvent.Key == Keys.Add || keyEvent.Key == Keys.PageUp)) || (keyEvent.Sender == ESender.WiiMote && keyEvent.Key == Keys.Add))
+                        diff = 5;
+                    else if ((keyEvent.ModShift && (keyEvent.Key == Keys.Subtract || keyEvent.Key == Keys.PageDown)) ||
+                             (keyEvent.Sender == ESender.WiiMote && keyEvent.Key == Keys.Subtract))
+                        diff = -5;
 
-                    if (Diff != 0)
+                    if (diff != 0)
                     {
                         switch (CurrentScreen)
                         {
                             case EScreens.ScreenSong:
                                 if (CSongs.IsInCategory)
                                 {
-                                    CConfig.PreviewMusicVolume += Diff;
+                                    CConfig.PreviewMusicVolume += diff;
                                     _Screens[(int)_CurrentScreen].ApplyVolume();
                                 }
                                 else
                                 {
-                                    CConfig.BackgroundMusicVolume += Diff;
+                                    CConfig.BackgroundMusicVolume += diff;
                                     CBackgroundMusic.ApplyVolume();
                                 }
                                 break;
 
                             case EScreens.ScreenSing:
-                                CConfig.GameMusicVolume += Diff;
+                                CConfig.GameMusicVolume += diff;
                                 _Screens[(int)_CurrentScreen].ApplyVolume();
                                 break;
 
                             default:
-                                CConfig.BackgroundMusicVolume += Diff;
+                                CConfig.BackgroundMusicVolume += diff;
                                 CBackgroundMusic.ApplyVolume();
                                 break;
                         }
                         CConfig.SaveConfig();
                     }
 
-                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && Diff != 0)
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && diff != 0)
                     {
                         ShowPopup(EPopupScreens.PopupVolumeControl);
                         _VolumePopupTimer.Reset();
@@ -585,11 +585,11 @@ namespace Vocaluxe.Base
                     CMain.BackgroundMusic.ApplyVolume();
                 }
 
-                if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.F1))
+                if (keyEvent.ModShift && (keyEvent.Key == Keys.F1))
                     CSettings.GameState = EGameState.EditTheme;
-                else if (KeyEvent.ModALT && (KeyEvent.Key == Keys.Enter))
+                else if (keyEvent.ModAlt && (keyEvent.Key == Keys.Enter))
                     CSettings.IsFullScreen = !CSettings.IsFullScreen;
-                else if (KeyEvent.ModALT && (KeyEvent.Key == Keys.P))
+                else if (keyEvent.ModAlt && (keyEvent.Key == Keys.P))
                     CDraw.MakeScreenShot();
                 else
                 {
@@ -597,34 +597,34 @@ namespace Vocaluxe.Base
                     {
                         bool handled = false;
                         if (_CurrentPopupScreen != EPopupScreens.NoPopup)
-                            handled = _PopupScreens[(int)_CurrentPopupScreen].HandleInput(KeyEvent);
+                            handled = _PopupScreens[(int)_CurrentPopupScreen].HandleInput(keyEvent);
 
                         if (!handled)
-                            Resume &= _Screens[(int)_CurrentScreen].HandleInput(KeyEvent);
+                            resume &= _Screens[(int)_CurrentScreen].HandleInput(keyEvent);
                     }
                 }
 
-                if (!EventsAvailable)
-                    InputEventsAvailable = CInput.PollKeyEvent(ref InputKeyEvent);
+                if (!eventsAvailable)
+                    inputEventsAvailable = CInput.PollKeyEvent(ref inputKeyEvent);
             }
 
-            InputEventsAvailable = CInput.PollMouseEvent(ref InputMouseEvent);
+            inputEventsAvailable = CInput.PollMouseEvent(ref inputMouseEvent);
 
-            while ((EventsAvailable = Mouse.PollEvent(ref MouseEvent)) || InputEventsAvailable)
+            while ((eventsAvailable = mouse.PollEvent(ref mouseEvent)) || inputEventsAvailable)
             {
-                if (!EventsAvailable)
-                    MouseEvent = InputMouseEvent;
+                if (!eventsAvailable)
+                    mouseEvent = inputMouseEvent;
 
-                if (MouseEvent.Wheel != 0)
+                if (mouseEvent.Wheel != 0)
                 {
                     CSettings.MouseActive();
                     _Cursor.FadeIn();
                 }
 
-                UpdateMousePosition(MouseEvent.X, MouseEvent.Y);
+                _UpdateMousePosition(mouseEvent.X, mouseEvent.Y);
 
-                bool isOverPopupPlayerControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupPlayerControl].ScreenArea, MouseEvent);
-                if (PopupPlayerControlAllowed && isOverPopupPlayerControl)
+                bool isOverPopupPlayerControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupPlayerControl].ScreenArea, mouseEvent);
+                if (popupPlayerControlAllowed && isOverPopupPlayerControl)
                 {
                     if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
                         ShowPopup(EPopupScreens.PopupPlayerControl);
@@ -633,8 +633,8 @@ namespace Vocaluxe.Base
                 if (!isOverPopupPlayerControl && _CurrentPopupScreen == EPopupScreens.PopupPlayerControl)
                     HidePopup(EPopupScreens.PopupPlayerControl);
 
-                bool isOverPopupVolumeControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupVolumeControl].ScreenArea, MouseEvent);
-                if (PopupVolumeControlAllowed && isOverPopupVolumeControl)
+                bool isOverPopupVolumeControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupVolumeControl].ScreenArea, mouseEvent);
+                if (popupVolumeControlAllowed && isOverPopupVolumeControl)
                 {
                     if (_CurrentPopupScreen == EPopupScreens.NoPopup)
                     {
@@ -644,7 +644,7 @@ namespace Vocaluxe.Base
                     }
                 }
 
-                if (CursorOverVolumeControl && !isOverPopupVolumeControl)
+                if (_CursorOverVolumeControl && !isOverPopupVolumeControl)
                 {
                     if (_CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
                     {
@@ -652,64 +652,64 @@ namespace Vocaluxe.Base
                         _VolumePopupTimer.Reset();
                     }
                 }
-                CursorOverVolumeControl = isOverPopupVolumeControl;
+                _CursorOverVolumeControl = isOverPopupVolumeControl;
 
 
                 bool handled = false;
                 if (_CurrentPopupScreen != EPopupScreens.NoPopup)
-                    handled = _PopupScreens[(int)_CurrentPopupScreen].HandleMouse(MouseEvent);
+                    handled = _PopupScreens[(int)_CurrentPopupScreen].HandleMouse(mouseEvent);
 
                 if (handled && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
                     _Screens[(int)_CurrentScreen].ApplyVolume();
 
-                if (!handled && !_Fading && (_Cursor.IsActive || MouseEvent.LB || MouseEvent.RB || MouseEvent.MB))
-                    Resume &= _Screens[(int)_CurrentScreen].HandleMouse(MouseEvent);
+                if (!handled && !_Fading && (_Cursor.IsActive || mouseEvent.LB || mouseEvent.RB || mouseEvent.MB))
+                    resume &= _Screens[(int)_CurrentScreen].HandleMouse(mouseEvent);
 
-                if (!EventsAvailable)
-                    InputEventsAvailable = CInput.PollMouseEvent(ref InputMouseEvent);
+                if (!eventsAvailable)
+                    inputEventsAvailable = CInput.PollMouseEvent(ref inputMouseEvent);
             }
-            return Resume;
+            return resume;
         }
 
-        private static bool HandleInputThemeEditor(CKeys keys, CMouse Mouse)
+        private static bool _HandleInputThemeEditor(CKeys keys, CMouse mouse)
         {
-            KeyEvent KeyEvent = new KeyEvent();
-            MouseEvent MouseEvent = new MouseEvent();
+            SKeyEvent keyEvent = new SKeyEvent();
+            SMouseEvent mouseEvent = new SMouseEvent();
 
-            while (keys.PollEvent(ref KeyEvent))
+            while (keys.PollEvent(ref keyEvent))
             {
-                if (KeyEvent.ModSHIFT && (KeyEvent.Key == Keys.F1))
+                if (keyEvent.ModShift && (keyEvent.Key == Keys.F1))
                 {
                     CSettings.GameState = EGameState.Normal;
                     _Screens[(int)_CurrentScreen].NextInteraction();
                 }
-                else if (KeyEvent.ModALT && (KeyEvent.Key == Keys.Enter))
+                else if (keyEvent.ModAlt && (keyEvent.Key == Keys.Enter))
                     CSettings.IsFullScreen = !CSettings.IsFullScreen;
-                else if (KeyEvent.ModALT && (KeyEvent.Key == Keys.P))
+                else if (keyEvent.ModAlt && (keyEvent.Key == Keys.P))
                     CDraw.MakeScreenShot();
                 else
                 {
                     if (!_Fading)
-                        _Screens[(int)_CurrentScreen].HandleInputThemeEditor(KeyEvent);
+                        _Screens[(int)_CurrentScreen].HandleInputThemeEditor(keyEvent);
                 }
             }
 
-            while (Mouse.PollEvent(ref MouseEvent))
+            while (mouse.PollEvent(ref mouseEvent))
             {
                 if (!_Fading)
-                    _Screens[(int)_CurrentScreen].HandleMouseThemeEditor(MouseEvent);
+                    _Screens[(int)_CurrentScreen].HandleMouseThemeEditor(mouseEvent);
 
-                UpdateMousePosition(MouseEvent.X, MouseEvent.Y);
+                _UpdateMousePosition(mouseEvent.X, mouseEvent.Y);
             }
             return true;
         }
 
-        private static void UpdateMousePosition(int x, int y)
+        private static void _UpdateMousePosition(int x, int y)
         {
             _Cursor.UpdatePosition(x, y);
         }
 
-        private static bool Update()
+        private static bool _Update()
         {
             if (_VolumePopupTimer.IsRunning && _VolumePopupTimer.ElapsedMilliseconds >= 1500 && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
             {
@@ -725,21 +725,21 @@ namespace Vocaluxe.Base
             return _Screens[(int)_CurrentScreen].UpdateGame();
         }
 
-        private static void DrawDebugInfos()
+        private static void _DrawDebugInfos()
         {
             string txt = String.Empty;
             CFonts.Style = EStyle.Normal;
             CFonts.SetFont("Normal");
-            SColorF Gray = new SColorF(1f, 1f, 1f, 0.5f);
+            SColorF gray = new SColorF(1f, 1f, 1f, 0.5f);
 
             float dy = 0;
             if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_ONLY_FPS)
             {
                 txt = CTime.GetFPS().ToString("FPS: 000");
                 CFonts.Height = 30f;
-                RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
+                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
@@ -748,9 +748,9 @@ namespace Vocaluxe.Base
             {
                 txt = CSound.GetStreamCount().ToString(CLanguage.Translate("TR_DEBUG_AUDIO_STREAMS") + ": 00");
 
-                RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
+                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
@@ -759,9 +759,9 @@ namespace Vocaluxe.Base
             {
                 txt = CVideo.GetNumStreams().ToString(CLanguage.Translate("TR_DEBUG_VIDEO_STREAMS") + ": 00");
 
-                RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
+                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
@@ -770,9 +770,9 @@ namespace Vocaluxe.Base
             {
                 txt = CDraw.TextureCount().ToString(CLanguage.Translate("TR_DEBUG_TEXTURES") + ": 00000");
 
-                RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
+                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
@@ -782,9 +782,9 @@ namespace Vocaluxe.Base
                 long memory = GC.GetTotalMemory(false);
                 txt = (memory / 1000000L).ToString(CLanguage.Translate("TR_DEBUG_MEMORY") + ": 00000 MB");
 
-                RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
+                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
@@ -793,35 +793,35 @@ namespace Vocaluxe.Base
             {
                 txt = CSound.RecordGetToneAbs(0).ToString(CLanguage.Translate("TR_DEBUG_TONE_ABS") + " P1: 00");
 
-                RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
+                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
 
 
                 txt = CSound.RecordGetMaxVolume(0).ToString(CLanguage.Translate("TR_DEBUG_MAX_VOLUME") + " P1: 0.000");
 
-                rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
+                rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
 
                 txt = CSound.RecordGetToneAbs(1).ToString(CLanguage.Translate("TR_DEBUG_TONE_ABS") + " P2: 00");
 
-                rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
+                rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
 
 
                 txt = CSound.RecordGetMaxVolume(1).ToString(CLanguage.Translate("TR_DEBUG_MAX_VOLUME") + " P2: 0.000");
 
-                rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
+                rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
@@ -830,9 +830,9 @@ namespace Vocaluxe.Base
             {
                 txt = CSongs.NumSongsWithCoverLoaded.ToString(CLanguage.Translate("TR_DEBUG_SONGS") + ": 00000");
 
-                RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
+                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
@@ -841,33 +841,33 @@ namespace Vocaluxe.Base
             {
                 txt = _Cursor.X.ToString(CLanguage.Translate("TR_DEBUG_MOUSE") + " : (0000/") + _Cursor.Y.ToString("0000)");
 
-                RectangleF rect = new RectangleF(CSettings.iRenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
+                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
 
-                CDraw.DrawColor(Gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 dy += rect.Height;
             }
         }
 
-        private static void ReloadCursor()
+        private static void _ReloadCursor()
         {
             _Cursor.UnloadTextures();
 
-            if (CTheme.Cursor.color.Length > 0)
+            if (CTheme.Cursor.Color.Length > 0)
             {
                 SColorF color;
-                color = CTheme.GetColor(CTheme.Cursor.color, -1);
-                CTheme.Cursor.r = color.R;
-                CTheme.Cursor.g = color.G;
-                CTheme.Cursor.b = color.B;
-                CTheme.Cursor.a = color.A;
+                color = CTheme.GetColor(CTheme.Cursor.Color, -1);
+                CTheme.Cursor.R = color.R;
+                CTheme.Cursor.G = color.G;
+                CTheme.Cursor.B = color.B;
+                CTheme.Cursor.A = color.A;
             }
 
             _Cursor = new CCursor(
                 CTheme.Cursor.SkinName,
-                new SColorF(CTheme.Cursor.r, CTheme.Cursor.g, CTheme.Cursor.b, CTheme.Cursor.a),
-                CTheme.Cursor.w,
-                CTheme.Cursor.h,
+                new SColorF(CTheme.Cursor.R, CTheme.Cursor.G, CTheme.Cursor.B, CTheme.Cursor.A),
+                CTheme.Cursor.W,
+                CTheme.Cursor.H,
                 CSettings.ZNear);
         }
         #endregion private stuff

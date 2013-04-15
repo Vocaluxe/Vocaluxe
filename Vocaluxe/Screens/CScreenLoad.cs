@@ -13,18 +13,18 @@ namespace Vocaluxe.Screens
         {
             get { return 1; }
         }
-        private const float WaitTime = 0.5f; //wait time before starting first video
+        private const float _WaitTime = 0.5f; //wait time before starting first video
 
-        private const string TextStatus = "TextStatus";
+        private const string _TextStatus = "TextStatus";
 
-        private readonly string[] IntroVideo = new string[] {"IntroIn", "IntroMid", "IntroOut"};
+        private readonly string[] _IntroVideo = new string[] {"IntroIn", "IntroMid", "IntroOut"};
 
         private Thread _SongLoaderThread;
-        private Stopwatch _timer;
+        private Stopwatch _Timer;
         private bool _SkipIntro;
         private int _CurrentIntroVideoNr;
         private bool _IntroOutPlayed;
-        private VideoPlayer[] _Intros;
+        private CVideoPlayer[] _Intros;
 
         private bool _BGMusicStartet;
 
@@ -32,14 +32,14 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeTexts = new string[] {TextStatus};
-            _Intros = new VideoPlayer[IntroVideo.Length];
+            _ThemeTexts = new string[] {_TextStatus};
+            _Intros = new CVideoPlayer[_IntroVideo.Length];
             for (int i = 0; i < _Intros.Length; i++)
-                _Intros[i] = new VideoPlayer();
-            _timer = new Stopwatch();
+                _Intros[i] = new CVideoPlayer();
+            _Timer = new Stopwatch();
         }
 
-        public override bool HandleInput(KeyEvent keyEvent)
+        public override bool HandleInput(SKeyEvent keyEvent)
         {
             base.HandleInput(keyEvent);
 
@@ -59,7 +59,7 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent mouseEvent)
+        public override bool HandleMouse(SMouseEvent mouseEvent)
         {
             base.HandleMouse(mouseEvent);
 
@@ -87,7 +87,7 @@ namespace Vocaluxe.Screens
             _SongLoaderThread = new Thread(CSongs.LoadSongs);
             _SongLoaderThread.Name = "SongLoader";
 
-            Texts[TextStatus].Text = CLanguage.Translate("TR_SCREENLOAD_TOTAL") + ": 0 " +
+            Texts[_TextStatus].Text = CLanguage.Translate("TR_SCREENLOAD_TOTAL") + ": 0 " +
                                      CLanguage.Translate("TR_SCREENLOAD_SONGS") + " (0 " +
                                      CLanguage.Translate("TR_SCREENLOAD_LOADED") + ")";
 
@@ -98,7 +98,7 @@ namespace Vocaluxe.Screens
             if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
             {
                 for (int i = 0; i < _Intros.Length; i++)
-                    _Intros[i].Load(IntroVideo[i]);
+                    _Intros[i].Load(_IntroVideo[i]);
             }
 
             _BGMusicStartet = false;
@@ -117,7 +117,7 @@ namespace Vocaluxe.Screens
             CLog.StartBenchmark(0, "Load Songs Full");
             _SongLoaderThread.IsBackground = true;
             _SongLoaderThread.Start();
-            _timer.Start();
+            _Timer.Start();
 
             if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON &&
                 CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC && !_BGMusicStartet)
@@ -135,12 +135,12 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-            CheckStartIntroVideos();
+            _CheckStartIntroVideos();
 
             if (CSettings.GameState == EGameState.EditTheme)
-                _timer.Stop();
+                _Timer.Stop();
             else
-                _timer.Start();
+                _Timer.Start();
 
             bool next = CConfig.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART || CSongs.CoverLoaded;
 
@@ -150,7 +150,7 @@ namespace Vocaluxe.Screens
             if (CSettings.GameState == EGameState.Normal)
                 CGraphics.FadeTo(EScreens.ScreenMain);
 
-            Texts[TextStatus].Text =
+            Texts[_TextStatus].Text =
                 CLanguage.Translate("TR_SCREENLOAD_TOTAL") + ": " + CSongs.NumAllSongs.ToString() + " " +
                 CLanguage.Translate("TR_SCREENLOAD_SONGS") + " (" + CSongs.NumSongsWithCoverLoaded + " " +
                 CLanguage.Translate("TR_SCREENLOAD_LOADED") + ")";
@@ -183,8 +183,8 @@ namespace Vocaluxe.Screens
         public override void OnClose()
         {
             base.OnClose();
-            _timer.Stop();
-            _timer.Reset();
+            _Timer.Stop();
+            _Timer.Reset();
 
             for (int i = 0; i < _Intros.Length; i++)
                 _Intros[i].Close();
@@ -199,7 +199,7 @@ namespace Vocaluxe.Screens
             CLog.StopBenchmark(0, "Init Playlists");
         }
 
-        private void CheckStartIntroVideos()
+        private void _CheckStartIntroVideos()
         {
             if (_IntroOutPlayed)
                 return;

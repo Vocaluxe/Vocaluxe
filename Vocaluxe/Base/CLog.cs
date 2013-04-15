@@ -5,16 +5,16 @@ using System.Text;
 
 namespace Vocaluxe.Base
 {
-    class LogFile : IDisposable
+    class CLogFile : IDisposable
     {
         private readonly string _LogFileName;
         private readonly string _LogName;
         private StreamWriter _LogFile;
 
-        public LogFile(string FileName, string LogName)
+        public CLogFile(string fileName, string logName)
         {
-            _LogName = LogName;
-            _LogFileName = FileName;
+            _LogName = logName;
+            _LogFileName = fileName;
         }
 
         public void Close()
@@ -30,20 +30,20 @@ namespace Vocaluxe.Base
             }
         }
 
-        public void Add(string Text)
+        public void Add(string text)
         {
             if (_LogFile == null)
-                Open();
+                _Open();
 
             try
             {
-                _LogFile.WriteLine(Text);
+                _LogFile.WriteLine(text);
                 _LogFile.Flush();
             }
             catch (Exception) {}
         }
 
-        private void Open()
+        private void _Open()
         {
             _LogFile = new StreamWriter(Path.Combine(Environment.CurrentDirectory, _LogFileName), false, Encoding.UTF8);
 
@@ -65,24 +65,24 @@ namespace Vocaluxe.Base
 
     static class CLog
     {
-        private const int MaxBenchmarks = 10;
+        private const int _MaxBenchmarks = 10;
 
-        private static LogFile _ErrorLog;
-        private static LogFile _PerformanceLog;
-        private static LogFile _BenchmarkLog;
+        private static CLogFile _ErrorLog;
+        private static CLogFile _PerformanceLog;
+        private static CLogFile _BenchmarkLog;
 
         private static int _NumErrors;
         private static Stopwatch[] _BenchmarkTimer;
-        private static readonly double nanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
+        private static readonly double _NanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
 
         public static void Init()
         {
-            _ErrorLog = new LogFile(CSettings.sFileErrorLog, "ErrorLog");
-            _PerformanceLog = new LogFile(CSettings.sFilePerformanceLog, "PerformanceLog");
-            _BenchmarkLog = new LogFile(CSettings.sFileBenchmarkLog, "BenchmarkLog");
+            _ErrorLog = new CLogFile(CSettings.FileErrorLog, "ErrorLog");
+            _PerformanceLog = new CLogFile(CSettings.FilePerformanceLog, "PerformanceLog");
+            _BenchmarkLog = new CLogFile(CSettings.FileBenchmarkLog, "BenchmarkLog");
 
             _NumErrors = 0;
-            _BenchmarkTimer = new Stopwatch[MaxBenchmarks];
+            _BenchmarkTimer = new Stopwatch[_MaxBenchmarks];
             for (int i = 0; i < _BenchmarkTimer.Length; i++)
                 _BenchmarkTimer[i] = new Stopwatch();
         }
@@ -95,57 +95,57 @@ namespace Vocaluxe.Base
         }
 
         #region LogError
-        public static void LogError(string ErrorText)
+        public static void LogError(string errorText)
         {
             _NumErrors++;
 
-            _ErrorLog.Add(_NumErrors.ToString() + ") " + ErrorText);
+            _ErrorLog.Add(_NumErrors.ToString() + ") " + errorText);
             _ErrorLog.Add(String.Empty);
         }
         #endregion LogError
 
         #region LogPerformance
-        public static void LogPerformance(string Text)
+        public static void LogPerformance(string text)
         {
-            _PerformanceLog.Add(Text);
+            _PerformanceLog.Add(text);
             _PerformanceLog.Add("-------------------------------");
         }
         #endregion LogPerformance
 
         #region LogBenchmark
-        public static void StartBenchmark(int BenchmarkNr, string Text)
+        public static void StartBenchmark(int benchmarkNr, string text)
         {
-            if (BenchmarkNr >= 0 && BenchmarkNr < MaxBenchmarks)
+            if (benchmarkNr >= 0 && benchmarkNr < _MaxBenchmarks)
             {
-                _BenchmarkTimer[BenchmarkNr].Stop();
-                _BenchmarkTimer[BenchmarkNr].Reset();
+                _BenchmarkTimer[benchmarkNr].Stop();
+                _BenchmarkTimer[benchmarkNr].Reset();
 
                 string space = String.Empty;
-                for (int i = 0; i < BenchmarkNr; i++)
+                for (int i = 0; i < benchmarkNr; i++)
                     space += "  ";
-                _BenchmarkLog.Add(space + "Start " + Text);
+                _BenchmarkLog.Add(space + "Start " + text);
 
-                _BenchmarkTimer[BenchmarkNr].Start();
+                _BenchmarkTimer[benchmarkNr].Start();
             }
         }
 
-        public static void StopBenchmark(int BenchmarkNr, string Text)
+        public static void StopBenchmark(int benchmarkNr, string text)
         {
-            if (BenchmarkNr >= 0 && BenchmarkNr < MaxBenchmarks)
+            if (benchmarkNr >= 0 && benchmarkNr < _MaxBenchmarks)
             {
-                _BenchmarkTimer[BenchmarkNr].Stop();
+                _BenchmarkTimer[benchmarkNr].Stop();
 
                 string space = String.Empty;
-                for (int i = 0; i < BenchmarkNr; i++)
+                for (int i = 0; i < benchmarkNr; i++)
                     space += "  ";
 
                 float ms;
-                if (Stopwatch.IsHighResolution && nanosecPerTick != 0.0)
-                    ms = (float)((nanosecPerTick * _BenchmarkTimer[BenchmarkNr].ElapsedTicks) / (1000.0 * 1000.0));
+                if (Stopwatch.IsHighResolution && _NanosecPerTick != 0.0)
+                    ms = (float)((_NanosecPerTick * _BenchmarkTimer[benchmarkNr].ElapsedTicks) / (1000.0 * 1000.0));
                 else
-                    ms = _BenchmarkTimer[BenchmarkNr].ElapsedMilliseconds;
+                    ms = _BenchmarkTimer[benchmarkNr].ElapsedMilliseconds;
 
-                _BenchmarkLog.Add(space + "Stop " + Text + ", Elapsed Time: " + ms.ToString("0.000") + "ms");
+                _BenchmarkLog.Add(space + "Stop " + text + ", Elapsed Time: " + ms.ToString("0.000") + "ms");
                 _BenchmarkLog.Add(String.Empty);
             }
         }

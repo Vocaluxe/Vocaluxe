@@ -9,19 +9,23 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 {
     public enum ESongSource
     {
+        // ReSharper disable InconsistentNaming
         TR_ALLSONGS,
         TR_CATEGORY,
         TR_PLAYLIST
+        // ReSharper restore InconsistentNaming
     }
 
     public enum EPartyGameMode
     {
+        // ReSharper disable InconsistentNaming
         TR_GAMEMODE_NORMAL,
         TR_GAMEMODE_SHORTSONG,
         TR_GAMEMODE_DUET
+        // ReSharper restore InconsistentNaming
     }
 
-    public class Round
+    public class CRound
     {
         public int SongID;
         public int SingerTeam1;
@@ -35,7 +39,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
     #region Communication
 
     #region ToScreen
-    public struct DataToScreenConfig
+    public struct SDataToScreenConfig
     {
         public int NumPlayerTeam1;
         public int NumPlayerTeam2;
@@ -46,7 +50,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         public EPartyGameMode GameMode;
     }
 
-    public struct DataToScreenNames
+    public struct SDataToScreenNames
     {
         public int NumPlayerTeam1;
         public int NumPlayerTeam2;
@@ -54,14 +58,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         public List<int> ProfileIDsTeam2;
     }
 
-    public struct DataToScreenMain
+    public struct SDataToScreenMain
     {
         public int CurrentRoundNr;
         public int Team;
         public int NumPlayerTeam1;
         public int NumPlayerTeam2;
         public int NumFields;
-        public List<Round> Rounds;
+        public List<CRound> Rounds;
         public List<int> Songs;
         public List<int> ProfileIDsTeam1;
         public List<int> ProfileIDsTeam2;
@@ -71,14 +75,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         public int[] NumJokerRetry;
     }
 
-    public struct DataFromScreen
+    public struct SDataFromScreen
     {
-        public FromScreenConfig ScreenConfig;
-        public FromScreenNames ScreenNames;
-        public FromScreenMain ScreenMain;
+        public SFromScreenConfig ScreenConfig;
+        public SFromScreenNames ScreenNames;
+        public SFromScreenMain ScreenMain;
     }
 
-    public struct FromScreenConfig
+    public struct SFromScreenConfig
     {
         public int NumPlayerTeam1;
         public int NumPlayerTeam2;
@@ -89,7 +93,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         public EPartyGameMode GameMode;
     }
 
-    public struct FromScreenNames
+    public struct SFromScreenNames
     {
         public bool FadeToConfig;
         public bool FadeToMain;
@@ -97,13 +101,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         public List<int> ProfileIDsTeam2;
     }
 
-    public struct FromScreenMain
+    public struct SFromScreenMain
     {
         public bool FadeToSinging;
         public bool FadeToNameSelection;
         public List<int> PlayerTeam1;
         public List<int> PlayerTeam2;
-        public List<Round> Rounds;
+        public List<CRound> Rounds;
         public int SingRoundNr;
         public List<int> Songs;
     }
@@ -111,13 +115,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
     #endregion Communication
 
-    public sealed class PartyModeTicTacToe : CPartyMode
+    public sealed class CPartyModeTicTacToe : CPartyMode
     {
-        private const int MaxPlayer = 20;
-        private const int MinPlayer = 2;
-        private const int MaxTeams = 2;
-        private const int MinTeams = 2;
-        private const int NumFields = 9;
+        private const int _MaxPlayer = 20;
+        private const int _MinPlayer = 2;
+        private const int _MaxTeams = 2;
+        private const int _MinTeams = 2;
+        private const int _NumFields = 9;
 
         private enum EStage
         {
@@ -128,7 +132,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             Singing
         }
 
-        private struct Data
+        private struct SData
         {
             public int NumPlayerTeam1;
             public int NumPlayerTeam2;
@@ -145,7 +149,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             public EPartyGameMode GameMode;
 
-            public List<Round> Rounds;
+            public List<CRound> Rounds;
             public List<int> Songs;
 
             public int CurrentRoundNr;
@@ -155,14 +159,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             public int[] NumJokerRetry;
         }
 
-        private DataToScreenConfig ToScreenConfig;
-        private DataToScreenNames ToScreenNames;
-        private DataToScreenMain ToScreenMain;
+        private SDataToScreenConfig _ToScreenConfig;
+        private SDataToScreenNames _ToScreenNames;
+        private SDataToScreenMain _ToScreenMain;
 
-        private Data GameData;
+        private SData _GameData;
         private EStage _Stage;
 
-        public PartyModeTicTacToe()
+        public CPartyModeTicTacToe()
         {
             _ScreenSongOptions.Selection.RandomOnly = false;
             _ScreenSongOptions.Selection.PartyMode = true;
@@ -176,28 +180,28 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             _Stage = EStage.NotStarted;
 
-            ToScreenConfig = new DataToScreenConfig();
-            ToScreenNames = new DataToScreenNames();
-            ToScreenMain = new DataToScreenMain();
+            _ToScreenConfig = new SDataToScreenConfig();
+            _ToScreenNames = new SDataToScreenNames();
+            _ToScreenMain = new SDataToScreenMain();
 
-            GameData = new Data();
-            GameData.NumFields = 9;
-            GameData.NumPlayerTeam1 = 2;
-            GameData.NumPlayerTeam2 = 2;
-            GameData.ProfileIDsTeam1 = new List<int>();
-            GameData.ProfileIDsTeam2 = new List<int>();
-            GameData.PlayerTeam1 = new List<int>();
-            GameData.PlayerTeam2 = new List<int>();
-            GameData.CurrentRoundNr = 0;
-            GameData.SingRoundNr = 0;
-            GameData.SongSource = ESongSource.TR_ALLSONGS;
-            GameData.PlaylistID = 0;
-            GameData.CategoryID = 0;
-            GameData.GameMode = EPartyGameMode.TR_GAMEMODE_NORMAL;
-            GameData.Rounds = new List<Round>();
-            GameData.Songs = new List<int>();
-            GameData.NumJokerRandom = new int[2];
-            GameData.NumJokerRetry = new int[2];
+            _GameData = new SData();
+            _GameData.NumFields = 9;
+            _GameData.NumPlayerTeam1 = 2;
+            _GameData.NumPlayerTeam2 = 2;
+            _GameData.ProfileIDsTeam1 = new List<int>();
+            _GameData.ProfileIDsTeam2 = new List<int>();
+            _GameData.PlayerTeam1 = new List<int>();
+            _GameData.PlayerTeam2 = new List<int>();
+            _GameData.CurrentRoundNr = 0;
+            _GameData.SingRoundNr = 0;
+            _GameData.SongSource = ESongSource.TR_ALLSONGS;
+            _GameData.PlaylistID = 0;
+            _GameData.CategoryID = 0;
+            _GameData.GameMode = EPartyGameMode.TR_GAMEMODE_NORMAL;
+            _GameData.Rounds = new List<CRound>();
+            _GameData.Songs = new List<int>();
+            _GameData.NumJokerRandom = new int[2];
+            _GameData.NumJokerRetry = new int[2];
         }
 
         public override bool Init()
@@ -212,58 +216,58 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             if (CBase.Config.GetTabs() == EOffOn.TR_CONFIG_ON && _ScreenSongOptions.Sorting.SongSorting != ESongSorting.TR_CONFIG_NONE)
                 _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_ON;
 
-            ToScreenMain.Rounds = new List<Round>();
-            ToScreenMain.Songs = new List<int>();
-            ToScreenMain.PlayerTeam1 = new List<int>();
-            ToScreenMain.PlayerTeam2 = new List<int>();
-            GameData.Songs = new List<int>();
-            GameData.Rounds = new List<Round>();
-            GameData.PlayerTeam1 = new List<int>();
-            GameData.PlayerTeam2 = new List<int>();
+            _ToScreenMain.Rounds = new List<CRound>();
+            _ToScreenMain.Songs = new List<int>();
+            _ToScreenMain.PlayerTeam1 = new List<int>();
+            _ToScreenMain.PlayerTeam2 = new List<int>();
+            _GameData.Songs = new List<int>();
+            _GameData.Rounds = new List<CRound>();
+            _GameData.PlayerTeam1 = new List<int>();
+            _GameData.PlayerTeam2 = new List<int>();
             return true;
         }
 
-        public override void DataFromScreen(string ScreenName, Object Data)
+        public override void DataFromScreen(string screenName, Object data)
         {
-            DataFromScreen dataFrom = new DataFromScreen();
-            switch (ScreenName)
+            SDataFromScreen dataFrom = new SDataFromScreen();
+            switch (screenName)
             {
                 case "PartyScreenTicTacToeConfig":
 
                     try
                     {
-                        dataFrom = (DataFromScreen)Data;
-                        GameData.NumPlayerTeam1 = dataFrom.ScreenConfig.NumPlayerTeam1;
-                        GameData.NumPlayerTeam2 = dataFrom.ScreenConfig.NumPlayerTeam2;
-                        GameData.NumFields = dataFrom.ScreenConfig.NumFields;
-                        GameData.SongSource = dataFrom.ScreenConfig.SongSource;
-                        GameData.CategoryID = dataFrom.ScreenConfig.CategoryID;
-                        GameData.PlaylistID = dataFrom.ScreenConfig.PlaylistID;
-                        GameData.GameMode = dataFrom.ScreenConfig.GameMode;
+                        dataFrom = (SDataFromScreen)data;
+                        _GameData.NumPlayerTeam1 = dataFrom.ScreenConfig.NumPlayerTeam1;
+                        _GameData.NumPlayerTeam2 = dataFrom.ScreenConfig.NumPlayerTeam2;
+                        _GameData.NumFields = dataFrom.ScreenConfig.NumFields;
+                        _GameData.SongSource = dataFrom.ScreenConfig.SongSource;
+                        _GameData.CategoryID = dataFrom.ScreenConfig.CategoryID;
+                        _GameData.PlaylistID = dataFrom.ScreenConfig.PlaylistID;
+                        _GameData.GameMode = dataFrom.ScreenConfig.GameMode;
 
                         _Stage = EStage.Config;
                         CBase.Graphics.FadeTo(EScreens.ScreenPartyDummy);
                     }
                     catch (Exception e)
                     {
-                        CBase.Log.LogError("Error in party mode TicTacToe. Can't cast received data from screen " + ScreenName + ". " + e.Message);
+                        CBase.Log.LogError("Error in party mode TicTacToe. Can't cast received data from screen " + screenName + ". " + e.Message);
                     }
                     break;
 
                 case "PartyScreenTicTacToeNames":
                     try
                     {
-                        dataFrom = (DataFromScreen)Data;
+                        dataFrom = (SDataFromScreen)data;
                         if (dataFrom.ScreenNames.FadeToConfig)
                             _Stage = EStage.NotStarted;
                         else
                         {
                             if (CBase.Game.GetRandom(100) < 50)
-                                GameData.Team = 0;
+                                _GameData.Team = 0;
                             else
-                                GameData.Team = 1;
-                            GameData.ProfileIDsTeam1 = dataFrom.ScreenNames.ProfileIDsTeam1;
-                            GameData.ProfileIDsTeam2 = dataFrom.ScreenNames.ProfileIDsTeam2;
+                                _GameData.Team = 1;
+                            _GameData.ProfileIDsTeam1 = dataFrom.ScreenNames.ProfileIDsTeam1;
+                            _GameData.ProfileIDsTeam2 = dataFrom.ScreenNames.ProfileIDsTeam2;
                             _Stage = EStage.Names;
                         }
 
@@ -271,40 +275,40 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     }
                     catch (Exception e)
                     {
-                        CBase.Log.LogError("Error in party mode TicTacToe. Can't cast received data from screen " + ScreenName + ". " + e.Message);
+                        CBase.Log.LogError("Error in party mode TicTacToe. Can't cast received data from screen " + screenName + ". " + e.Message);
                     }
                     break;
 
                 case "PartyScreenTicTacToeMain":
                     try
                     {
-                        dataFrom = (DataFromScreen)Data;
+                        dataFrom = (SDataFromScreen)data;
                         if (dataFrom.ScreenMain.FadeToSinging)
                         {
                             _Stage = EStage.Singing;
-                            GameData.Rounds = dataFrom.ScreenMain.Rounds;
-                            GameData.SingRoundNr = dataFrom.ScreenMain.SingRoundNr;
-                            GameData.Songs = dataFrom.ScreenMain.Songs;
-                            GameData.PlayerTeam1 = dataFrom.ScreenMain.PlayerTeam1;
-                            GameData.PlayerTeam2 = dataFrom.ScreenMain.PlayerTeam2;
+                            _GameData.Rounds = dataFrom.ScreenMain.Rounds;
+                            _GameData.SingRoundNr = dataFrom.ScreenMain.SingRoundNr;
+                            _GameData.Songs = dataFrom.ScreenMain.Songs;
+                            _GameData.PlayerTeam1 = dataFrom.ScreenMain.PlayerTeam1;
+                            _GameData.PlayerTeam2 = dataFrom.ScreenMain.PlayerTeam2;
                         }
                         if (dataFrom.ScreenMain.FadeToNameSelection)
                             _Stage = EStage.Config;
                     }
                     catch (Exception e)
                     {
-                        CBase.Log.LogError("Error in party mode TicTacToe. Can't cast received data from screen " + ScreenName + ". " + e.Message);
+                        CBase.Log.LogError("Error in party mode TicTacToe. Can't cast received data from screen " + screenName + ". " + e.Message);
                     }
 
 
                     if (_Stage == EStage.Singing)
-                        StartRound(dataFrom.ScreenMain.SingRoundNr);
+                        _StartRound(dataFrom.ScreenMain.SingRoundNr);
                     if (_Stage == EStage.Config)
                         CBase.Graphics.FadeTo(EScreens.ScreenPartyDummy);
                     break;
 
                 default:
-                    CBase.Log.LogError("Error in party mode TicTacToe. Wrong screen is sending: " + ScreenName);
+                    CBase.Log.LogError("Error in party mode TicTacToe. Wrong screen is sending: " + screenName);
                     break;
             }
         }
@@ -318,100 +322,100 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _ScreenSongOptions.Selection.RandomOnly = false;*/
         }
 
-        public override CMenuParty GetNextPartyScreen(out EScreens AlternativeScreen)
+        public override CMenuParty GetNextPartyScreen(out EScreens alternativeScreen)
         {
-            CMenuParty Screen = null;
-            AlternativeScreen = EScreens.ScreenSong;
+            CMenuParty screen = null;
+            alternativeScreen = EScreens.ScreenSong;
 
             switch (_Stage)
             {
                 case EStage.NotStarted:
-                    _Screens.TryGetValue("PartyScreenTicTacToeConfig", out Screen);
+                    _Screens.TryGetValue("PartyScreenTicTacToeConfig", out screen);
                     if (_Screens != null)
                     {
-                        ToScreenConfig.NumPlayerTeam1 = GameData.NumPlayerTeam1;
-                        ToScreenConfig.NumPlayerTeam2 = GameData.NumPlayerTeam2;
-                        ToScreenConfig.NumFields = GameData.NumFields;
-                        ToScreenConfig.SongSource = GameData.SongSource;
-                        ToScreenConfig.CategoryID = GameData.CategoryID;
-                        ToScreenConfig.PlaylistID = GameData.PlaylistID;
-                        ToScreenConfig.GameMode = GameData.GameMode;
-                        Screen.DataToScreen(ToScreenConfig);
+                        _ToScreenConfig.NumPlayerTeam1 = _GameData.NumPlayerTeam1;
+                        _ToScreenConfig.NumPlayerTeam2 = _GameData.NumPlayerTeam2;
+                        _ToScreenConfig.NumFields = _GameData.NumFields;
+                        _ToScreenConfig.SongSource = _GameData.SongSource;
+                        _ToScreenConfig.CategoryID = _GameData.CategoryID;
+                        _ToScreenConfig.PlaylistID = _GameData.PlaylistID;
+                        _ToScreenConfig.GameMode = _GameData.GameMode;
+                        screen.DataToScreen(_ToScreenConfig);
                     }
                     break;
                 case EStage.Config:
-                    _Screens.TryGetValue("PartyScreenTicTacToeNames", out Screen);
+                    _Screens.TryGetValue("PartyScreenTicTacToeNames", out screen);
                     if (_Screens != null)
                     {
-                        ToScreenNames.NumPlayerTeam1 = GameData.NumPlayerTeam1;
-                        ToScreenNames.NumPlayerTeam2 = GameData.NumPlayerTeam2;
-                        ToScreenNames.ProfileIDsTeam1 = GameData.ProfileIDsTeam1;
-                        ToScreenNames.ProfileIDsTeam2 = GameData.ProfileIDsTeam2;
-                        Screen.DataToScreen(ToScreenNames);
+                        _ToScreenNames.NumPlayerTeam1 = _GameData.NumPlayerTeam1;
+                        _ToScreenNames.NumPlayerTeam2 = _GameData.NumPlayerTeam2;
+                        _ToScreenNames.ProfileIDsTeam1 = _GameData.ProfileIDsTeam1;
+                        _ToScreenNames.ProfileIDsTeam2 = _GameData.ProfileIDsTeam2;
+                        screen.DataToScreen(_ToScreenNames);
                     }
                     break;
                 case EStage.Names:
-                    _Screens.TryGetValue("PartyScreenTicTacToeMain", out Screen);
+                    _Screens.TryGetValue("PartyScreenTicTacToeMain", out screen);
                     if (_Screens != null)
                     {
-                        if (GameData.Team == 1)
-                            GameData.Team = 0;
+                        if (_GameData.Team == 1)
+                            _GameData.Team = 0;
                         else
-                            GameData.Team = 1;
+                            _GameData.Team = 1;
                         CBase.Songs.ResetPartySongSung();
-                        GameData.CurrentRoundNr = 1;
-                        ToScreenMain.CurrentRoundNr = 1;
-                        ToScreenMain.NumPlayerTeam1 = GameData.NumPlayerTeam1;
-                        ToScreenMain.NumPlayerTeam2 = GameData.NumPlayerTeam2;
-                        ToScreenMain.NumFields = GameData.NumFields;
-                        ToScreenMain.ProfileIDsTeam1 = GameData.ProfileIDsTeam1;
-                        ToScreenMain.ProfileIDsTeam2 = GameData.ProfileIDsTeam2;
-                        CreateRounds();
-                        SetNumJokers();
-                        PreparePlayerList(0);
-                        PrepareSongList();
-                        ToScreenMain.Rounds = GameData.Rounds;
-                        ToScreenMain.Songs = GameData.Songs;
-                        ToScreenMain.PlayerTeam1 = GameData.PlayerTeam1;
-                        ToScreenMain.PlayerTeam1 = GameData.PlayerTeam2;
-                        ToScreenMain.NumJokerRandom = GameData.NumJokerRandom;
-                        ToScreenMain.NumJokerRetry = GameData.NumJokerRetry;
-                        ToScreenMain.Team = GameData.Team;
-                        Screen.DataToScreen(ToScreenMain);
+                        _GameData.CurrentRoundNr = 1;
+                        _ToScreenMain.CurrentRoundNr = 1;
+                        _ToScreenMain.NumPlayerTeam1 = _GameData.NumPlayerTeam1;
+                        _ToScreenMain.NumPlayerTeam2 = _GameData.NumPlayerTeam2;
+                        _ToScreenMain.NumFields = _GameData.NumFields;
+                        _ToScreenMain.ProfileIDsTeam1 = _GameData.ProfileIDsTeam1;
+                        _ToScreenMain.ProfileIDsTeam2 = _GameData.ProfileIDsTeam2;
+                        _CreateRounds();
+                        _SetNumJokers();
+                        _PreparePlayerList(0);
+                        _PrepareSongList();
+                        _ToScreenMain.Rounds = _GameData.Rounds;
+                        _ToScreenMain.Songs = _GameData.Songs;
+                        _ToScreenMain.PlayerTeam1 = _GameData.PlayerTeam1;
+                        _ToScreenMain.PlayerTeam1 = _GameData.PlayerTeam2;
+                        _ToScreenMain.NumJokerRandom = _GameData.NumJokerRandom;
+                        _ToScreenMain.NumJokerRetry = _GameData.NumJokerRetry;
+                        _ToScreenMain.Team = _GameData.Team;
+                        screen.DataToScreen(_ToScreenMain);
                     }
                     break;
                 case EStage.Main:
                     //nothing to do
                     break;
                 case EStage.Singing:
-                    _Screens.TryGetValue("PartyScreenTicTacToeMain", out Screen);
+                    _Screens.TryGetValue("PartyScreenTicTacToeMain", out screen);
                     if (_Screens != null)
                     {
-                        if (GameData.Team == 1)
-                            GameData.Team = 0;
+                        if (_GameData.Team == 1)
+                            _GameData.Team = 0;
                         else
-                            GameData.Team = 1;
-                        UpdateSongList();
-                        UpdatePlayerList();
-                        ToScreenMain.CurrentRoundNr = GameData.CurrentRoundNr;
-                        ToScreenMain.NumPlayerTeam1 = GameData.NumPlayerTeam1;
-                        ToScreenMain.NumPlayerTeam2 = GameData.NumPlayerTeam2;
-                        ToScreenMain.NumFields = GameData.NumFields;
-                        ToScreenMain.ProfileIDsTeam1 = GameData.ProfileIDsTeam1;
-                        ToScreenMain.ProfileIDsTeam2 = GameData.ProfileIDsTeam2;
-                        ToScreenMain.Rounds = GameData.Rounds;
-                        ToScreenMain.Songs = GameData.Songs;
-                        ToScreenMain.PlayerTeam1 = GameData.PlayerTeam1;
-                        ToScreenMain.PlayerTeam2 = GameData.PlayerTeam2;
-                        ToScreenMain.NumJokerRandom = GameData.NumJokerRandom;
-                        ToScreenMain.NumJokerRetry = GameData.NumJokerRetry;
-                        ToScreenMain.Team = GameData.Team;
-                        Screen.DataToScreen(ToScreenMain);
+                            _GameData.Team = 1;
+                        _UpdateSongList();
+                        _UpdatePlayerList();
+                        _ToScreenMain.CurrentRoundNr = _GameData.CurrentRoundNr;
+                        _ToScreenMain.NumPlayerTeam1 = _GameData.NumPlayerTeam1;
+                        _ToScreenMain.NumPlayerTeam2 = _GameData.NumPlayerTeam2;
+                        _ToScreenMain.NumFields = _GameData.NumFields;
+                        _ToScreenMain.ProfileIDsTeam1 = _GameData.ProfileIDsTeam1;
+                        _ToScreenMain.ProfileIDsTeam2 = _GameData.ProfileIDsTeam2;
+                        _ToScreenMain.Rounds = _GameData.Rounds;
+                        _ToScreenMain.Songs = _GameData.Songs;
+                        _ToScreenMain.PlayerTeam1 = _GameData.PlayerTeam1;
+                        _ToScreenMain.PlayerTeam2 = _GameData.PlayerTeam2;
+                        _ToScreenMain.NumJokerRandom = _GameData.NumJokerRandom;
+                        _ToScreenMain.NumJokerRetry = _GameData.NumJokerRetry;
+                        _ToScreenMain.Team = _GameData.Team;
+                        screen.DataToScreen(_ToScreenMain);
                     }
                     break;
             }
 
-            return Screen;
+            return screen;
         }
 
         public override EScreens GetStartScreen()
@@ -424,7 +428,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             return EScreens.ScreenPartyDummy;
         }
 
-        public override ScreenSongOptions GetScreenSongOptions()
+        public override SScreenSongOptions GetScreenSongOptions()
         {
             _ScreenSongOptions.Sorting.SongSorting = CBase.Config.GetSongSorting();
             _ScreenSongOptions.Sorting.Tabs = CBase.Config.GetTabs();
@@ -433,54 +437,54 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             return _ScreenSongOptions;
         }
 
-        public override void OnSongChange(int SongIndex, ref ScreenSongOptions ScreenSongOptions)
+        public override void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions)
         {
-            ScreenSongOptions = _ScreenSongOptions;
+            screenSongOptions = _ScreenSongOptions;
         }
 
-        public override void OnCategoryChange(int CategoryIndex, ref ScreenSongOptions ScreenSongOptions)
+        public override void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions)
         {
-            ScreenSongOptions = _ScreenSongOptions;
+            screenSongOptions = _ScreenSongOptions;
         }
 
-        public override void SetSearchString(string SearchString, bool Visible)
+        public override void SetSearchString(string searchString, bool visible)
         {
-            _ScreenSongOptions.Sorting.SearchString = SearchString;
-            _ScreenSongOptions.Sorting.SearchActive = Visible;
+            _ScreenSongOptions.Sorting.SearchString = searchString;
+            _ScreenSongOptions.Sorting.SearchActive = visible;
         }
 
         public override int GetMaxPlayer()
         {
-            return MaxPlayer;
+            return _MaxPlayer;
         }
 
         public override int GetMinPlayer()
         {
-            return MinPlayer;
+            return _MinPlayer;
         }
 
         public override int GetMaxTeams()
         {
-            return MaxTeams;
+            return _MaxTeams;
         }
 
         public override int GetMinTeams()
         {
-            return MinTeams;
+            return _MinTeams;
         }
 
         public override int GetMaxNumRounds()
         {
-            return NumFields;
+            return _NumFields;
         }
 
-        public override void JokerUsed(int TeamNr) {}
+        public override void JokerUsed(int teamNr) {}
 
-        public override void SongSelected(int SongID)
+        public override void SongSelected(int songID)
         {
             EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
 
-            switch (GameData.GameMode)
+            switch (_GameData.GameMode)
             {
                 case EPartyGameMode.TR_GAMEMODE_NORMAL:
                     gm = EGameMode.TR_GAMEMODE_NORMAL;
@@ -494,131 +498,131 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     gm = EGameMode.TR_GAMEMODE_SHORTSONG;
                     break;
             }
-            CBase.Game.AddSong(SongID, gm);
+            CBase.Game.AddSong(songID, gm);
 
-            CBase.Songs.AddPartySongSung(SongID);
+            CBase.Songs.AddPartySongSung(songID);
             CBase.Graphics.FadeTo(EScreens.ScreenSing);
         }
 
         public override void LeavingHighscore()
         {
-            UpdateScores();
+            _UpdateScores();
             CBase.Graphics.FadeTo(EScreens.ScreenPartyDummy);
         }
 
-        private void CreateRounds()
+        private void _CreateRounds()
         {
-            GameData.Rounds = new List<Round>();
-            for (int i = 0; i < GameData.NumFields; i++)
+            _GameData.Rounds = new List<CRound>();
+            for (int i = 0; i < _GameData.NumFields; i++)
             {
-                Round r = new Round();
-                GameData.Rounds.Add(r);
+                CRound r = new CRound();
+                _GameData.Rounds.Add(r);
             }
         }
 
-        private void PreparePlayerList(int Team)
+        private void _PreparePlayerList(int team)
         {
-            if (Team == 0)
+            if (team == 0)
             {
-                GameData.PlayerTeam1 = new List<int>();
-                GameData.PlayerTeam2 = new List<int>();
+                _GameData.PlayerTeam1 = new List<int>();
+                _GameData.PlayerTeam2 = new List<int>();
 
                 //Prepare Player-IDs
-                List<int> IDs1 = new List<int>();
-                List<int> IDs2 = new List<int>();
+                List<int> iDs1 = new List<int>();
+                List<int> iDs2 = new List<int>();
                 int num = 0;
                 int random = 0;
                 //Add IDs to team-list
-                while (GameData.PlayerTeam1.Count < GameData.NumFields + GameData.NumJokerRetry[0] && IDs1.Count == 0 &&
-                       GameData.PlayerTeam2.Count < GameData.NumFields + GameData.NumJokerRetry[1] && IDs2.Count == 0)
+                while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] && iDs1.Count == 0 &&
+                       _GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] && iDs2.Count == 0)
                 {
-                    if (IDs1.Count == 0)
+                    if (iDs1.Count == 0)
                     {
-                        for (int i = 0; i < GameData.NumPlayerTeam1; i++)
-                            IDs1.Add(i);
+                        for (int i = 0; i < _GameData.NumPlayerTeam1; i++)
+                            iDs1.Add(i);
                     }
-                    if (IDs2.Count == 0)
+                    if (iDs2.Count == 0)
                     {
-                        for (int i = 0; i < GameData.NumPlayerTeam2; i++)
-                            IDs2.Add(i);
+                        for (int i = 0; i < _GameData.NumPlayerTeam2; i++)
+                            iDs2.Add(i);
                     }
-                    if (GameData.PlayerTeam1.Count < GameData.NumFields + GameData.NumJokerRetry[0])
+                    if (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0])
                     {
-                        random = CBase.Game.GetRandom((IDs1.Count - 1) * 10);
+                        random = CBase.Game.GetRandom((iDs1.Count - 1) * 10);
                         num = (int)Math.Round((double)random / 10);
-                        if (num >= IDs1.Count)
-                            num = IDs1.Count - 1;
-                        GameData.PlayerTeam1.Add(IDs1[num]);
-                        IDs1.RemoveAt(num);
+                        if (num >= iDs1.Count)
+                            num = iDs1.Count - 1;
+                        _GameData.PlayerTeam1.Add(iDs1[num]);
+                        iDs1.RemoveAt(num);
                     }
-                    if (GameData.PlayerTeam2.Count < GameData.NumFields + GameData.NumJokerRetry[1])
+                    if (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
                     {
-                        random = CBase.Game.GetRandom((IDs2.Count - 1) * 20);
+                        random = CBase.Game.GetRandom((iDs2.Count - 1) * 20);
                         num = (int)Math.Round((double)random / 20);
-                        if (num >= IDs2.Count)
-                            num = IDs2.Count - 1;
-                        GameData.PlayerTeam2.Add(IDs2[num]);
-                        IDs2.RemoveAt(num);
+                        if (num >= iDs2.Count)
+                            num = iDs2.Count - 1;
+                        _GameData.PlayerTeam2.Add(iDs2[num]);
+                        iDs2.RemoveAt(num);
                     }
                 }
             }
-            else if (Team == 1)
+            else if (team == 1)
             {
                 //Prepare Player-IDs
-                List<int> IDs = new List<int>();
+                List<int> iDs = new List<int>();
                 int num = 0;
                 int random = 0;
                 //Add IDs to team-list
-                while (GameData.PlayerTeam1.Count < GameData.NumFields + GameData.NumJokerRetry[0] && IDs.Count == 0)
+                while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] && iDs.Count == 0)
                 {
-                    if (IDs.Count == 0)
+                    if (iDs.Count == 0)
                     {
-                        for (int i = 0; i < GameData.NumPlayerTeam1; i++)
-                            IDs.Add(i);
+                        for (int i = 0; i < _GameData.NumPlayerTeam1; i++)
+                            iDs.Add(i);
                     }
-                    if (GameData.PlayerTeam1.Count < GameData.NumFields + GameData.NumJokerRetry[0])
+                    if (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0])
                     {
-                        random = CBase.Game.GetRandom((IDs.Count - 1) * 10);
+                        random = CBase.Game.GetRandom((iDs.Count - 1) * 10);
                         num = (int)Math.Round((double)random / 10);
-                        if (num >= IDs.Count)
-                            num = IDs.Count - 1;
-                        GameData.PlayerTeam1.Add(IDs[num]);
-                        IDs.RemoveAt(num);
+                        if (num >= iDs.Count)
+                            num = iDs.Count - 1;
+                        _GameData.PlayerTeam1.Add(iDs[num]);
+                        iDs.RemoveAt(num);
                     }
                 }
             }
-            else if (Team == 2)
+            else if (team == 2)
             {
                 //Prepare Player-IDs
-                List<int> IDs = new List<int>();
+                List<int> iDs = new List<int>();
                 int num = 0;
                 int random = 0;
                 //Add IDs to team-list
-                while (GameData.PlayerTeam2.Count < GameData.NumFields + GameData.NumJokerRetry[1] && IDs.Count == 0)
+                while (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] && iDs.Count == 0)
                 {
-                    if (IDs.Count == 0)
+                    if (iDs.Count == 0)
                     {
-                        for (int i = 0; i < GameData.NumPlayerTeam2; i++)
-                            IDs.Add(i);
+                        for (int i = 0; i < _GameData.NumPlayerTeam2; i++)
+                            iDs.Add(i);
                     }
-                    if (GameData.PlayerTeam2.Count < GameData.NumFields + GameData.NumJokerRetry[1])
+                    if (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
                     {
-                        random = CBase.Game.GetRandom((IDs.Count - 1) * 20);
+                        random = CBase.Game.GetRandom((iDs.Count - 1) * 20);
                         num = (int)Math.Round((double)random / 20);
-                        if (num >= IDs.Count)
-                            num = IDs.Count - 1;
-                        GameData.PlayerTeam2.Add(IDs[num]);
-                        IDs.RemoveAt(num);
+                        if (num >= iDs.Count)
+                            num = iDs.Count - 1;
+                        _GameData.PlayerTeam2.Add(iDs[num]);
+                        iDs.RemoveAt(num);
                     }
                 }
             }
         }
 
-        private void PrepareSongList()
+        private void _PrepareSongList()
         {
             EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
 
-            switch (GameData.GameMode)
+            switch (_GameData.GameMode)
             {
                 case EPartyGameMode.TR_GAMEMODE_NORMAL:
                     gm = EGameMode.TR_GAMEMODE_NORMAL;
@@ -633,19 +637,19 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     break;
             }
 
-            while (GameData.Songs.Count < (GameData.NumFields + GameData.NumJokerRandom[0] + GameData.NumJokerRandom[1]))
+            while (_GameData.Songs.Count < (_GameData.NumFields + _GameData.NumJokerRandom[0] + _GameData.NumJokerRandom[1]))
             {
-                List<int> Songs = new List<int>();
-                switch (GameData.SongSource)
+                List<int> songs = new List<int>();
+                switch (_GameData.SongSource)
                 {
                     case ESongSource.TR_PLAYLIST:
-                        for (int i = 0; i < CBase.Playlist.GetPlaylistSongCount(GameData.PlaylistID); i++)
+                        for (int i = 0; i < CBase.Playlist.GetPlaylistSongCount(_GameData.PlaylistID); i++)
                         {
-                            int id = CBase.Playlist.GetPlaylistSong(GameData.PlaylistID, i).SongID;
+                            int id = CBase.Playlist.GetPlaylistSong(_GameData.PlaylistID, i).SongID;
                             foreach (EGameMode mode in CBase.Songs.GetSongByID(id).AvailableGameModes)
                             {
                                 if (mode == gm)
-                                    Songs.Add(id);
+                                    songs.Add(id);
                             }
                         }
                         break;
@@ -656,47 +660,47 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                             foreach (EGameMode mode in CBase.Songs.GetSongByID(i).AvailableGameModes)
                             {
                                 if (mode == gm)
-                                    Songs.Add(i);
+                                    songs.Add(i);
                             }
                         }
                         break;
 
                     case ESongSource.TR_CATEGORY:
-                        CBase.Songs.SetCategory(GameData.CategoryID);
-                        for (int i = 0; i < CBase.Songs.NumSongsInCategory(GameData.CategoryID); i++)
+                        CBase.Songs.SetCategory(_GameData.CategoryID);
+                        for (int i = 0; i < CBase.Songs.NumSongsInCategory(_GameData.CategoryID); i++)
                         {
                             foreach (EGameMode mode in CBase.Songs.GetVisibleSong(i).AvailableGameModes)
                             {
                                 if (mode == gm)
-                                    Songs.Add(CBase.Songs.GetVisibleSong(i).ID);
+                                    songs.Add(CBase.Songs.GetVisibleSong(i).ID);
                             }
                         }
                         CBase.Songs.SetCategory(-1);
                         break;
                 }
-                while (Songs.Count > 0)
+                while (songs.Count > 0)
                 {
-                    GameData.Songs.Add(Songs[CBase.Game.GetRandom(Songs.Count - 1)]);
-                    Songs.Remove(GameData.Songs[GameData.Songs.Count - 1]);
+                    _GameData.Songs.Add(songs[CBase.Game.GetRandom(songs.Count - 1)]);
+                    songs.Remove(_GameData.Songs[_GameData.Songs.Count - 1]);
                 }
             }
         }
 
-        private void UpdatePlayerList()
+        private void _UpdatePlayerList()
         {
-            if (GameData.PlayerTeam1.Count == 0)
-                PreparePlayerList(1);
-            if (GameData.PlayerTeam2.Count == 0)
-                PreparePlayerList(2);
+            if (_GameData.PlayerTeam1.Count == 0)
+                _PreparePlayerList(1);
+            if (_GameData.PlayerTeam2.Count == 0)
+                _PreparePlayerList(2);
         }
 
-        private void UpdateSongList()
+        private void _UpdateSongList()
         {
-            if (GameData.Songs.Count == 0)
-                PrepareSongList();
+            if (_GameData.Songs.Count == 0)
+                _PrepareSongList();
         }
 
-        private void StartRound(int RoundNr)
+        private void _StartRound(int roundNr)
         {
             CBase.Game.Reset();
             CBase.Game.ClearSongs();
@@ -711,7 +715,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 return;
 
             SProfile[] profiles = CBase.Profiles.GetProfiles();
-            Round r = GameData.Rounds[RoundNr];
+            CRound r = _GameData.Rounds[roundNr];
             bool isDuet = CBase.Songs.GetSongByID(r.SongID).IsDuet;
 
             for (int i = 0; i < 2; i++)
@@ -725,19 +729,19 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             //try to fill with the right data
             if (r != null)
             {
-                if (GameData.ProfileIDsTeam1[r.SingerTeam1] < profiles.Length)
+                if (_GameData.ProfileIDsTeam1[r.SingerTeam1] < profiles.Length)
                 {
-                    player[0].Name = profiles[GameData.ProfileIDsTeam1[r.SingerTeam1]].PlayerName;
-                    player[0].Difficulty = profiles[GameData.ProfileIDsTeam1[r.SingerTeam1]].Difficulty;
-                    player[0].ProfileID = GameData.ProfileIDsTeam1[r.SingerTeam1];
+                    player[0].Name = profiles[_GameData.ProfileIDsTeam1[r.SingerTeam1]].PlayerName;
+                    player[0].Difficulty = profiles[_GameData.ProfileIDsTeam1[r.SingerTeam1]].Difficulty;
+                    player[0].ProfileID = _GameData.ProfileIDsTeam1[r.SingerTeam1];
                     if (isDuet)
                         player[0].LineNr = 0;
                 }
-                if (GameData.ProfileIDsTeam2[r.SingerTeam2] < profiles.Length)
+                if (_GameData.ProfileIDsTeam2[r.SingerTeam2] < profiles.Length)
                 {
-                    player[1].Name = profiles[GameData.ProfileIDsTeam2[r.SingerTeam2]].PlayerName;
-                    player[1].Difficulty = profiles[GameData.ProfileIDsTeam2[r.SingerTeam2]].Difficulty;
-                    player[1].ProfileID = GameData.ProfileIDsTeam2[r.SingerTeam2];
+                    player[1].Name = profiles[_GameData.ProfileIDsTeam2[r.SingerTeam2]].PlayerName;
+                    player[1].Difficulty = profiles[_GameData.ProfileIDsTeam2[r.SingerTeam2]].Difficulty;
+                    player[1].ProfileID = _GameData.ProfileIDsTeam2[r.SingerTeam2];
                     if (isDuet)
                         player[1].LineNr = 1;
                 }
@@ -747,37 +751,37 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 return;
         }
 
-        private void SetNumJokers()
+        private void _SetNumJokers()
         {
-            switch (GameData.NumFields)
+            switch (_GameData.NumFields)
             {
                 case 9:
-                    GameData.NumJokerRandom[0] = 1;
-                    GameData.NumJokerRandom[1] = 1;
-                    GameData.NumJokerRetry[0] = 0;
-                    GameData.NumJokerRetry[1] = 0;
+                    _GameData.NumJokerRandom[0] = 1;
+                    _GameData.NumJokerRandom[1] = 1;
+                    _GameData.NumJokerRetry[0] = 0;
+                    _GameData.NumJokerRetry[1] = 0;
                     break;
 
                 case 16:
-                    GameData.NumJokerRandom[0] = 2;
-                    GameData.NumJokerRandom[1] = 2;
-                    GameData.NumJokerRetry[0] = 1;
-                    GameData.NumJokerRetry[1] = 1;
+                    _GameData.NumJokerRandom[0] = 2;
+                    _GameData.NumJokerRandom[1] = 2;
+                    _GameData.NumJokerRetry[0] = 1;
+                    _GameData.NumJokerRetry[1] = 1;
                     break;
 
                 case 25:
-                    GameData.NumJokerRandom[0] = 3;
-                    GameData.NumJokerRandom[1] = 3;
-                    GameData.NumJokerRetry[0] = 2;
-                    GameData.NumJokerRetry[1] = 2;
+                    _GameData.NumJokerRandom[0] = 3;
+                    _GameData.NumJokerRandom[1] = 3;
+                    _GameData.NumJokerRetry[0] = 2;
+                    _GameData.NumJokerRetry[1] = 2;
                     break;
             }
         }
 
-        private void UpdateScores()
+        private void _UpdateScores()
         {
-            if (!GameData.Rounds[GameData.SingRoundNr].Finished)
-                GameData.CurrentRoundNr++;
+            if (!_GameData.Rounds[_GameData.SingRoundNr].Finished)
+                _GameData.CurrentRoundNr++;
 
             SPlayer[] results = CBase.Game.GetPlayer();
             if (results == null)
@@ -786,17 +790,17 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             if (results.Length < 2)
                 return;
 
-            GameData.Rounds[GameData.SingRoundNr].PointsTeam1 = (int)Math.Round(results[0].Points);
-            GameData.Rounds[GameData.SingRoundNr].PointsTeam2 = (int)Math.Round(results[1].Points);
-            GameData.Rounds[GameData.SingRoundNr].Finished = true;
-            if (GameData.Rounds[GameData.SingRoundNr].PointsTeam1 < GameData.Rounds[GameData.SingRoundNr].PointsTeam2)
-                GameData.Rounds[GameData.SingRoundNr].Winner = 2;
-            else if (GameData.Rounds[GameData.SingRoundNr].PointsTeam1 > GameData.Rounds[GameData.SingRoundNr].PointsTeam2)
-                GameData.Rounds[GameData.SingRoundNr].Winner = 1;
+            _GameData.Rounds[_GameData.SingRoundNr].PointsTeam1 = (int)Math.Round(results[0].Points);
+            _GameData.Rounds[_GameData.SingRoundNr].PointsTeam2 = (int)Math.Round(results[1].Points);
+            _GameData.Rounds[_GameData.SingRoundNr].Finished = true;
+            if (_GameData.Rounds[_GameData.SingRoundNr].PointsTeam1 < _GameData.Rounds[_GameData.SingRoundNr].PointsTeam2)
+                _GameData.Rounds[_GameData.SingRoundNr].Winner = 2;
+            else if (_GameData.Rounds[_GameData.SingRoundNr].PointsTeam1 > _GameData.Rounds[_GameData.SingRoundNr].PointsTeam2)
+                _GameData.Rounds[_GameData.SingRoundNr].Winner = 1;
             else
             {
-                GameData.Rounds[GameData.SingRoundNr].Finished = false;
-                GameData.CurrentRoundNr--;
+                _GameData.Rounds[_GameData.SingRoundNr].Finished = false;
+                _GameData.CurrentRoundNr--;
             }
         }
     }

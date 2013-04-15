@@ -4,37 +4,37 @@ namespace VocaluxeLib.Menu.SongMenu
 {
     interface ISongMenu : IMenuElement
     {
-        void Update(ScreenSongOptions SongOptions);
+        void Update(SScreenSongOptions songOptions);
         void OnShow();
         void OnHide();
 
-        void HandleInput(ref KeyEvent KeyEvent, ScreenSongOptions SongOptions);
-        void HandleMouse(ref MouseEvent MouseEvent, ScreenSongOptions SongOptions);
+        void HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions songOptions);
+        void HandleMouse(ref SMouseEvent mouseEvent, SScreenSongOptions songOptions);
         void Draw();
 
-        void ApplyVolume(float VolumeMax);
+        void ApplyVolume(float volumeMax);
 
         int GetSelectedSong();
         CStatic GetSelectedSongCover();
-        void SetSelectedSong(int VisibleSongNr);
+        void SetSelectedSong(int visibleSongNr);
 
         bool IsActive();
-        void SetActive(bool Active);
+        void SetActive(bool active);
 
         int GetSelectedCategory();
-        void SetSelectedCategory(int CategoryNr);
+        void SetSelectedCategory(int categoryNr);
         int GetActualSelection();
 
         bool EnterCurrentCategory();
 
         bool IsSelected();
-        void SetSelected(bool Selected);
+        void SetSelected(bool selected);
 
         bool IsVisible();
-        void SetVisible(bool Visible);
+        void SetVisible(bool visible);
 
         bool IsSmallView();
-        void SetSmallView(bool SmallView);
+        void SetSmallView(bool smallView);
 
         SRectF GetRect();
     }

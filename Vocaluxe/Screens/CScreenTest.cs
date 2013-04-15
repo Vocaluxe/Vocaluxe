@@ -16,7 +16,7 @@ namespace Vocaluxe.Screens
 
         private int _TestMusic = -1;
 
-        public override bool HandleInput(KeyEvent keyEvent)
+        public override bool HandleInput(SKeyEvent keyEvent)
         {
             if (keyEvent.KeyPressed && !Char.IsControl(keyEvent.Unicode)) {}
             else
@@ -49,7 +49,7 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent mouseEvent)
+        public override bool HandleMouse(SMouseEvent mouseEvent)
         {
             if (mouseEvent.LB && IsMouseOver(mouseEvent)) {}
 
@@ -66,7 +66,7 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        private void PlayFile()
+        private void _PlayFile()
         {
             if (_TestMusic == -1)
                 _TestMusic = CSound.Load(Path.Combine(Environment.CurrentDirectory, "Test.mp3"));
@@ -75,12 +75,12 @@ namespace Vocaluxe.Screens
             CSound.Fade(_TestMusic, 100f, 2f);
         }
 
-        private void PauseFile()
+        private void _PauseFile()
         {
             CSound.Pause(_TestMusic);
         }
 
-        private void FadeAndPause()
+        private void _FadeAndPause()
         {
             CSound.FadeAndPause(_TestMusic, 0f, 2f);
         }

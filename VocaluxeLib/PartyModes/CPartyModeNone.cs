@@ -20,7 +20,7 @@ namespace VocaluxeLib.PartyModes
             _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.All;
         }
 
-        public override ScreenSongOptions GetScreenSongOptions()
+        public override SScreenSongOptions GetScreenSongOptions()
         {
             _ScreenSongOptions.Sorting.SongSorting = CBase.Config.GetSongSorting();
             _ScreenSongOptions.Sorting.Tabs = CBase.Config.GetTabs();
@@ -33,10 +33,10 @@ namespace VocaluxeLib.PartyModes
             return _ScreenSongOptions;
         }
 
-        public override void SetSearchString(string SearchString, bool Visible)
+        public override void SetSearchString(string searchString, bool visible)
         {
-            _ScreenSongOptions.Sorting.SearchString = SearchString;
-            _ScreenSongOptions.Sorting.SearchActive = Visible;
+            _ScreenSongOptions.Sorting.SearchString = searchString;
+            _ScreenSongOptions.Sorting.SearchActive = visible;
         }
     }
 }

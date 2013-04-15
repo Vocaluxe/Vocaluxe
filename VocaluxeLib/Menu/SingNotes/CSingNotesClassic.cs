@@ -2,7 +2,7 @@
 {
     class CSingNotesClassic : CSingNotes
     {
-        public CSingNotesClassic(int PartyModeID)
-            : base(PartyModeID) {}
+        public CSingNotesClassic(int partyModeID)
+            : base(partyModeID) {}
     }
 }

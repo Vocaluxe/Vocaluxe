@@ -10,14 +10,14 @@ namespace Vocaluxe.Lib.Input.WiiMote
 {
     class CWiiMote : IInput, IDisposable
     {
-        private WiiMoteLib _WiiMote;
+        private CWiiMoteLib _WiiMote;
 
-        private List<KeyEvent> _KeysPool;
-        private List<KeyEvent> _CurrentKeysPool;
+        private List<SKeyEvent> _KeysPool;
+        private List<SKeyEvent> _CurrentKeysPool;
         private readonly Object _KeyCopyLock = new Object();
 
-        private List<MouseEvent> _MousePool;
-        private List<MouseEvent> _CurrentMousePool;
+        private List<SMouseEvent> _MousePool;
+        private List<SMouseEvent> _CurrentMousePool;
         private readonly Object _MouseCopyLock = new Object();
 
         private bool[] _ButtonStates;
@@ -27,25 +27,25 @@ namespace Vocaluxe.Lib.Input.WiiMote
         private Thread _HandlerThread;
         private Object _Sync;
         private bool _Active;
-        private RumbleTimer _RumbleTimer;
+        private CRumbleTimer _RumbleTimer;
 
         private CGesture _Gesture;
 
         public bool Init()
         {
             _Sync = new Object();
-            _RumbleTimer = new RumbleTimer();
+            _RumbleTimer = new CRumbleTimer();
             _Gesture = new CGesture();
 
             _Active = true;
-            _HandlerThread = new Thread(MainLoop);
+            _HandlerThread = new Thread(_MainLoop);
             _HandlerThread.Priority = ThreadPriority.BelowNormal;
 
-            _KeysPool = new List<KeyEvent>();
-            _CurrentKeysPool = new List<KeyEvent>();
+            _KeysPool = new List<SKeyEvent>();
+            _CurrentKeysPool = new List<SKeyEvent>();
 
-            _MousePool = new List<MouseEvent>();
-            _CurrentMousePool = new List<MouseEvent>();
+            _MousePool = new List<SMouseEvent>();
+            _CurrentMousePool = new List<SMouseEvent>();
 
             _ButtonStates = new bool[11];
             _OldPosition = new Point();
@@ -83,14 +83,14 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
         public void Update()
         {
-            CopyEvents();
+            _CopyEvents();
         }
 
-        public bool PollKeyEvent(ref KeyEvent KeyEvent)
+        public bool PollKeyEvent(ref SKeyEvent keyEvent)
         {
             if (_CurrentKeysPool.Count > 0)
             {
-                KeyEvent = _CurrentKeysPool[0];
+                keyEvent = _CurrentKeysPool[0];
                 _CurrentKeysPool.RemoveAt(0);
                 return true;
             }
@@ -98,11 +98,11 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 return false;
         }
 
-        public bool PollMouseEvent(ref MouseEvent MouseEvent)
+        public bool PollMouseEvent(ref SMouseEvent mouseEvent)
         {
             if (_CurrentMousePool.Count > 0)
             {
-                MouseEvent = _CurrentMousePool[0];
+                mouseEvent = _CurrentMousePool[0];
                 _CurrentMousePool.RemoveAt(0);
                 return true;
             }
@@ -110,18 +110,18 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 return false;
         }
 
-        public void SetRumble(float Duration)
+        public void SetRumble(float duration)
         {
             lock (_Sync)
             {
-                _RumbleTimer.Set(Duration);
+                _RumbleTimer.Set(duration);
             }
         }
 
-        private void MainLoop()
+        private void _MainLoop()
         {
-            _WiiMote = new WiiMoteLib();
-            _WiiMote.WiiMoteChanged += wm_WiiMoteChanged;
+            _WiiMote = new CWiiMoteLib();
+            _WiiMote.WiiMoteChanged += _WmWiiMoteChanged;
 
             while (_Active)
             {
@@ -129,23 +129,23 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
                 if (!_WiiMote.Connected)
                 {
-                    if (!DoConnect())
+                    if (!_DoConnect())
                         Thread.Sleep(1000);
                 }
                 else
                 {
-                    bool StartRumble = false;
-                    bool StopRumble = false;
+                    bool startRumble = false;
+                    bool stopRumble = false;
                     lock (_Sync)
                     {
-                        StartRumble = _RumbleTimer.ShouldStart;
-                        StopRumble = _RumbleTimer.ShouldStop;
+                        startRumble = _RumbleTimer.ShouldStart;
+                        stopRumble = _RumbleTimer.ShouldStop;
                     }
 
-                    if (StartRumble)
+                    if (startRumble)
                         _WiiMote.SetRumble(true);
 
-                    if (StopRumble)
+                    if (stopRumble)
                         _WiiMote.SetRumble(false);
                 }
             }
@@ -155,7 +155,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _Connected = false;
         }
 
-        private bool DoConnect()
+        private bool _DoConnect()
         {
             try
             {
@@ -167,7 +167,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 return false;
             }
 
-            _WiiMote.SetReportType(InputReport.IRAccel, IRSensitivity.Max, false);
+            _WiiMote.SetReportType(EInputReport.IRAccel, EIRSensitivity.Max, false);
             _WiiMote.SetLEDs(false, false, true, false);
 
             _WiiMote.SetRumble(true);
@@ -182,12 +182,12 @@ namespace Vocaluxe.Lib.Input.WiiMote
             return true;
         }
 
-        private void wm_WiiMoteChanged(object sender, WiiMoteChangedEventArgs args)
+        private void _WmWiiMoteChanged(object sender, CWiiMoteChangedEventArgs args)
         {
             if (!_Active)
                 return;
 
-            WiiMoteStatus ws = args.WiiMoteState;
+            CWiiMoteStatus ws = args.WiiMoteState;
 
             Point p = ws.IRState.Position;
             p.X = 1023 - p.X;
@@ -245,7 +245,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
             if (alt || shift || ctrl || pressed || unicode != char.MinValue || key != Keys.None)
             {
-                KeyEvent pool = new KeyEvent(ESender.WiiMote, alt, shift, ctrl, pressed, unicode, key);
+                SKeyEvent pool = new SKeyEvent(ESender.WiiMote, alt, shift, ctrl, pressed, unicode, key);
 
                 lock (_KeyCopyLock)
                 {
@@ -259,8 +259,8 @@ namespace Vocaluxe.Lib.Input.WiiMote
             float rx = ((p.X / 1024f) - reducing) * factor;
             float ry = ((p.Y / 768f) - reducing) * factor;
 
-            int x = (int)(rx * CSettings.iRenderW);
-            int y = (int)(ry * CSettings.iRenderH);
+            int x = (int)(rx * CSettings.RenderW);
+            int y = (int)(ry * CSettings.RenderH);
 
 
             bool ld = false;
@@ -275,17 +275,17 @@ namespace Vocaluxe.Lib.Input.WiiMote
             if (gesture == EGesture.ScrollDown)
                 wheel = 1;
 
-            MouseEvent mpool = new MouseEvent();
+            SMouseEvent mpool = new SMouseEvent();
             bool trigger = false;
 
             if (!lb && !rb && (p.X != _OldPosition.X || p.Y != _OldPosition.Y))
             {
-                mpool = new MouseEvent(ESender.WiiMote, alt, shift, ctrl, x, y, false, false, false, wheel, lbh, rbh, false, mbh);
+                mpool = new SMouseEvent(ESender.WiiMote, alt, shift, ctrl, x, y, false, false, false, wheel, lbh, rbh, false, mbh);
                 trigger = true;
             }
             else if (lb || rb)
             {
-                mpool = new MouseEvent(ESender.WiiMote, alt, shift, ctrl, x, y, lb, ld, rb, wheel, false, false, mb, false);
+                mpool = new SMouseEvent(ESender.WiiMote, alt, shift, ctrl, x, y, lb, ld, rb, wheel, false, false, mb, false);
                 trigger = true;
             }
 
@@ -302,18 +302,18 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _OldPosition.Y = p.Y;
         }
 
-        private void CopyEvents()
+        private void _CopyEvents()
         {
             lock (_KeyCopyLock)
             {
-                foreach (KeyEvent e in _KeysPool)
+                foreach (SKeyEvent e in _KeysPool)
                     _CurrentKeysPool.Add(e);
                 _KeysPool.Clear();
             }
 
             lock (_MouseCopyLock)
             {
-                foreach (MouseEvent e in _MousePool)
+                foreach (SMouseEvent e in _MousePool)
                     _CurrentMousePool.Add(e);
                 _MousePool.Clear();
             }

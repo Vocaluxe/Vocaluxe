@@ -12,12 +12,12 @@ namespace Vocaluxe.Base
     {
         private static int _CurrentMusicStream = -1;
         private static int _PreviousMusicIndex;
-        private static PlaylistElement _CurrentPlaylistElement = new PlaylistElement();
+        private static CPlaylistElement _CurrentPlaylistElement = new CPlaylistElement();
 
-        private static readonly List<PlaylistElement> _AllFileNames = new List<PlaylistElement>();
-        private static readonly List<PlaylistElement> _NotPlayedFileNames = new List<PlaylistElement>();
-        private static readonly List<PlaylistElement> _BGMusicFileNames = new List<PlaylistElement>();
-        private static readonly List<PlaylistElement> _PreviousFileNames = new List<PlaylistElement>();
+        private static readonly List<CPlaylistElement> _AllFileNames = new List<CPlaylistElement>();
+        private static readonly List<CPlaylistElement> _NotPlayedFileNames = new List<CPlaylistElement>();
+        private static readonly List<CPlaylistElement> _BGMusicFileNames = new List<CPlaylistElement>();
+        private static readonly List<CPlaylistElement> _PreviousFileNames = new List<CPlaylistElement>();
 
         private static int _Video = -1;
         private static STexture _CurrentVideoTexture = new STexture(-1);
@@ -114,10 +114,10 @@ namespace Vocaluxe.Base
             List<string> templist = new List<string>();
 
             foreach (string ending in CSettings.MusicFileTypes)
-                templist.AddRange(CHelper.ListFiles(CSettings.sFolderBackgroundMusic, ending, true, true));
+                templist.AddRange(CHelper.ListFiles(CSettings.FolderBackgroundMusic, ending, true, true));
 
             foreach (string path in templist)
-                _BGMusicFileNames.Add(new PlaylistElement(path));
+                _BGMusicFileNames.Add(new CPlaylistElement(path));
 
             if (CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC)
                 AddBackgroundMusic();
@@ -147,7 +147,7 @@ namespace Vocaluxe.Base
                     else
                         Next();
 
-                    if (!IsBackgroundFile(_CurrentPlaylistElement))
+                    if (!_IsBackgroundFile(_CurrentPlaylistElement))
                         _CanSing = true;
                     else
                         _CanSing = false;
@@ -169,7 +169,7 @@ namespace Vocaluxe.Base
             CSound.FadeAndStop(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
             _CurrentMusicStream = -1;
 
-            _CurrentPlaylistElement = new PlaylistElement();
+            _CurrentPlaylistElement = new CPlaylistElement();
             _Playing = false;
         }
 
@@ -254,7 +254,7 @@ namespace Vocaluxe.Base
                     CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
 
                 if (_VideoEnabled)
-                    LoadVideo();
+                    _LoadVideo();
                 CSound.SetStreamVolume(_CurrentMusicStream, 0f);
                 Play();
             }
@@ -294,7 +294,7 @@ namespace Vocaluxe.Base
                     _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.MusicFilePath);
                     CSound.SetStreamVolumeMax(_CurrentMusicStream, CConfig.BackgroundMusicVolume);
                     if (_VideoEnabled)
-                        LoadVideo();
+                        _LoadVideo();
                     CSound.SetStreamVolume(_CurrentMusicStream, 0f);
                     Play();
                 }
@@ -327,8 +327,8 @@ namespace Vocaluxe.Base
             {
                 foreach (CSong song in CSongs.AllSongs)
                 {
-                    _AllFileNames.Add(new PlaylistElement(song));
-                    _NotPlayedFileNames.Add(new PlaylistElement(song));
+                    _AllFileNames.Add(new CPlaylistElement(song));
+                    _NotPlayedFileNames.Add(new CPlaylistElement(song));
                 }
             }
             _OwnMusicAdded = true;
@@ -345,7 +345,7 @@ namespace Vocaluxe.Base
                 _NotPlayedFileNames.AddRange(_BGMusicFileNames);
             }
 
-            if (Playing && !IsBackgroundFile(_CurrentPlaylistElement) || _AllFileNames.Count == 0)
+            if (Playing && !_IsBackgroundFile(_CurrentPlaylistElement) || _AllFileNames.Count == 0)
                 Next();
 
             _OwnMusicAdded = false;
@@ -370,18 +370,18 @@ namespace Vocaluxe.Base
                 AddOwnMusic();
                 _BackgroundMusicAdded = false;
 
-                if (Playing && IsBackgroundFile(_CurrentPlaylistElement) || _AllFileNames.Count == 0)
+                if (Playing && _IsBackgroundFile(_CurrentPlaylistElement) || _AllFileNames.Count == 0)
                     Next();
             }
         }
 
-        public static void CheckAndApplyConfig(EOffOn NewOnOff, EBackgroundMusicSource NewSource, float NewVolume)
+        public static void CheckAndApplyConfig(EOffOn newOnOff, EBackgroundMusicSource newSource, float newVolume)
         {
-            if (CConfig.BackgroundMusicSource != NewSource || (NewOnOff == EOffOn.TR_CONFIG_ON && !_OwnMusicAdded && !_BackgroundMusicAdded))
+            if (CConfig.BackgroundMusicSource != newSource || (newOnOff == EOffOn.TR_CONFIG_ON && !_OwnMusicAdded && !_BackgroundMusicAdded))
             {
-                CConfig.BackgroundMusicSource = NewSource;
+                CConfig.BackgroundMusicSource = newSource;
 
-                switch (NewSource)
+                switch (newSource)
                 {
                     case EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC:
                         if (!_BackgroundMusicAdded)
@@ -406,18 +406,18 @@ namespace Vocaluxe.Base
                 }
             }
 
-            if (CConfig.BackgroundMusic != NewOnOff)
+            if (CConfig.BackgroundMusic != newOnOff)
             {
-                CConfig.BackgroundMusic = NewOnOff;
-                if (NewOnOff == EOffOn.TR_CONFIG_ON)
+                CConfig.BackgroundMusic = newOnOff;
+                if (newOnOff == EOffOn.TR_CONFIG_ON)
                     Play();
                 else
                     Pause();
             }
 
-            if (CConfig.BackgroundMusicVolume != NewVolume)
+            if (CConfig.BackgroundMusicVolume != newVolume)
             {
-                CConfig.BackgroundMusicVolume = (int)NewVolume;
+                CConfig.BackgroundMusicVolume = (int)newVolume;
                 ApplyVolume();
             }
 
@@ -445,7 +445,7 @@ namespace Vocaluxe.Base
                 }
             }
             else
-                LoadVideo();
+                _LoadVideo();
         }
 
         public static STexture GetVideoTexture()
@@ -455,10 +455,10 @@ namespace Vocaluxe.Base
                 float vtime = 0f;
                 CVideo.VdGetFrame(_Video, ref _CurrentVideoTexture, CSound.GetPosition(_CurrentMusicStream), ref vtime);
                 if (_FadeTimer.ElapsedMilliseconds <= 3000L)
-                    _CurrentVideoTexture.color.A = _FadeTimer.ElapsedMilliseconds / 3000f;
+                    _CurrentVideoTexture.Color.A = _FadeTimer.ElapsedMilliseconds / 3000f;
                 else
                 {
-                    _CurrentVideoTexture.color.A = 1f;
+                    _CurrentVideoTexture.Color.A = 1f;
                     _FadeTimer.Stop();
                 }
                 return _CurrentVideoTexture;
@@ -466,9 +466,9 @@ namespace Vocaluxe.Base
             return new STexture(-1);
         }
 
-        private static bool IsBackgroundFile(PlaylistElement element)
+        private static bool _IsBackgroundFile(CPlaylistElement element)
         {
-            foreach (PlaylistElement elements in _BGMusicFileNames)
+            foreach (CPlaylistElement elements in _BGMusicFileNames)
             {
                 if (elements.MusicFilePath == element.MusicFilePath)
                     return true;
@@ -476,7 +476,7 @@ namespace Vocaluxe.Base
             return false;
         }
 
-        private static void LoadVideo()
+        private static void _LoadVideo()
         {
             if (_Video == -1)
             {
@@ -493,7 +493,7 @@ namespace Vocaluxe.Base
     }
 }
 
-class PlaylistElement
+class CPlaylistElement
 {
     private readonly CSong _Song;
 
@@ -606,7 +606,7 @@ class PlaylistElement
         }
     }
 
-    public PlaylistElement(CSong song)
+    public CPlaylistElement(CSong song)
     {
         MusicFilePath = string.Empty;
         _SongID = song.ID;
@@ -614,13 +614,13 @@ class PlaylistElement
         _Song = song;
     }
 
-    public PlaylistElement(string FilePath)
+    public CPlaylistElement(string filePath)
     {
-        MusicFilePath = FilePath;
+        MusicFilePath = filePath;
         _SongID = -1;
     }
 
-    public PlaylistElement()
+    public CPlaylistElement()
     {
         MusicFilePath = string.Empty;
         _SongID = -1;

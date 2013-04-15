@@ -9,17 +9,19 @@ using Vocaluxe.Base;
 namespace Vocaluxe
 {
     // just a small comment for the new develop branch
-    static class MainProgram
+    static class CMainProgram
     {
-        private static SplashScreen _SplashScreen;
+        private static CSplashScreen _SplashScreen;
 
         [STAThread]
+// ReSharper disable InconsistentNaming
         private static void Main(string[] args)
+// ReSharper restore InconsistentNaming
         {
-            AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolver;
+            AppDomain.CurrentDomain.AssemblyResolve += _AssemblyResolver;
 
             // Close program if there is another instance running
-            if (!EnsureSingleInstance())
+            if (!_EnsureSingleInstance())
             {
                 //TODO: put it into language file
                 MessageBox.Show("Another Instance of Vocaluxe is already runnning!");
@@ -53,7 +55,7 @@ namespace Vocaluxe
                 CLog.StopBenchmark(0, "Init Config");
 
                 Application.DoEvents();
-                _SplashScreen = new SplashScreen();
+                _SplashScreen = new CSplashScreen();
                 Application.DoEvents();
 
                 // Init Draw
@@ -159,7 +161,7 @@ namespace Vocaluxe
             {
                 MessageBox.Show("Error on start up: " + e.Message + e.StackTrace);
                 CLog.LogError("Error on start up: " + e.Message + e.StackTrace);
-                CloseProgram();
+                _CloseProgram();
                 Environment.Exit(Environment.ExitCode);
             }
             Application.DoEvents();
@@ -177,10 +179,10 @@ namespace Vocaluxe
                 CLog.LogError("Unhandled error: " + e.Message + e.StackTrace);
             }
 
-            CloseProgram();
+            _CloseProgram();
         }
 
-        private static void CloseProgram()
+        private static void _CloseProgram()
         {
             // Unloading
             try
@@ -197,7 +199,7 @@ namespace Vocaluxe
             catch (Exception) {}
         }
 
-        private static Assembly AssemblyResolver(Object sender, ResolveEventArgs args)
+        private static Assembly _AssemblyResolver(Object sender, ResolveEventArgs args)
         {
             string[] arr = args.Name.Split(new char[] {','});
             if (arr != null)
@@ -215,7 +217,7 @@ namespace Vocaluxe
             return null;
         }
 
-        private static bool EnsureSingleInstance()
+        private static bool _EnsureSingleInstance()
         {
             Process currentProcess = Process.GetCurrentProcess();
             Process[] processes = Process.GetProcesses();
@@ -233,19 +235,19 @@ namespace Vocaluxe
         }
     }
 
-    class SplashScreen : Form
+    class CSplashScreen : Form
     {
-        private readonly Bitmap logo;
+        private readonly Bitmap _Logo;
 
-        public SplashScreen()
+        public CSplashScreen()
         {
-            string path = Path.Combine(Environment.CurrentDirectory, Path.Combine(CSettings.sFolderGraphics, CSettings.sLogo));
+            string path = Path.Combine(Environment.CurrentDirectory, Path.Combine(CSettings.FolderGraphics, CSettings.Logo));
             if (File.Exists(path))
             {
                 try
                 {
-                    logo = new Bitmap(path);
-                    ClientSize = new Size(logo.Width, logo.Height);
+                    _Logo = new Bitmap(path);
+                    ClientSize = new Size(_Logo.Width, _Logo.Height);
                 }
                 catch (Exception e)
                 {
@@ -255,7 +257,7 @@ namespace Vocaluxe
             else
                 CLog.LogError("Can't find " + path);
 
-            path = Path.Combine(Environment.CurrentDirectory, CSettings.sIcon);
+            path = Path.Combine(Environment.CurrentDirectory, CSettings.Icon);
             if (File.Exists(path))
             {
                 try
@@ -274,7 +276,7 @@ namespace Vocaluxe
             BackColor = Color.Transparent;
 
             FormBorderStyle = FormBorderStyle.None;
-            Text = CSettings.sProgramName;
+            Text = CSettings.ProgramName;
             CenterToScreen();
             Show();
         }
@@ -283,11 +285,11 @@ namespace Vocaluxe
 
         protected override void OnPaintBackground(PaintEventArgs e)
         {
-            if (logo == null)
+            if (_Logo == null)
                 return;
 
             Graphics g = e.Graphics;
-            g.DrawImage(logo, new Rectangle(0, 0, Width, Height));
+            g.DrawImage(_Logo, new Rectangle(0, 0, Width, Height));
         }
     }
 }

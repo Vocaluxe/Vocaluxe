@@ -13,7 +13,7 @@ namespace Vocaluxe.Base
 
         public CSongCategorizer()
         {
-            CSongs.Filter.ObjectChanged += HandleSortedSongsChanged;
+            CSongs.Filter.ObjectChanged += _HandleSortedSongsChanged;
         }
 
         public List<CCategory> Categories
@@ -38,7 +38,7 @@ namespace Vocaluxe.Base
             }
         }
 
-        private void HandleSortedSongsChanged(object sender, EventArgs args)
+        private void _HandleSortedSongsChanged(object sender, EventArgs args)
         {
             _SetChanged();
         }
@@ -46,7 +46,7 @@ namespace Vocaluxe.Base
         private void _CreateCategoriesLetter()
         {
             string category = "";
-            int NotLetterCat = -1;
+            int notLetterCat = -1;
             for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
             {
                 Char firstLetter = Char.ToUpper(CSongs.Sorter.SortedSongs[i].SortString.Normalize(NormalizationForm.FormD)[0]);
@@ -55,7 +55,7 @@ namespace Vocaluxe.Base
                     firstLetter = '#';
                 if (firstLetter.ToString() != category)
                 {
-                    if (firstLetter != '#' || NotLetterCat == -1)
+                    if (firstLetter != '#' || notLetterCat == -1)
                     {
                         category = firstLetter.ToString();
                         _Categories.Add(new CCategory(category));
@@ -63,20 +63,20 @@ namespace Vocaluxe.Base
                         CSongs.Sorter.SortedSongs[i].CatIndex = _Categories.Count - 1;
 
                         if (firstLetter == '#')
-                            NotLetterCat = CSongs.Sorter.SortedSongs[i].CatIndex;
+                            notLetterCat = CSongs.Sorter.SortedSongs[i].CatIndex;
                     }
                     else
-                        CSongs.Sorter.SortedSongs[i].CatIndex = NotLetterCat;
+                        CSongs.Sorter.SortedSongs[i].CatIndex = notLetterCat;
                 }
                 else
                     CSongs.Sorter.SortedSongs[i].CatIndex = _Categories.Count - 1;
             }
         }
 
-        private void _CreateCategoriesNormal(string NoCategoryName)
+        private void _CreateCategoriesNormal(string noCategoryName)
         {
             string category = "";
-            int NoCategoryIndex = -1;
+            int noCategoryIndex = -1;
             for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
             {
                 if (CSongs.Sorter.SortedSongs[i].SortString.Length > 0)
@@ -90,59 +90,59 @@ namespace Vocaluxe.Base
                 }
                 else
                 {
-                    if (NoCategoryIndex < 0)
+                    if (noCategoryIndex < 0)
                     {
-                        category = NoCategoryName;
+                        category = noCategoryName;
                         _Categories.Add(new CCategory(category));
-                        NoCategoryIndex = _Categories.Count - 1;
+                        noCategoryIndex = _Categories.Count - 1;
                     }
-                    CSongs.Sorter.SortedSongs[i].CatIndex = NoCategoryIndex;
+                    CSongs.Sorter.SortedSongs[i].CatIndex = noCategoryIndex;
                 }
             }
         }
 
         private void _CreateCategories()
         {
-            string NoCategoryName = "";
+            string noCategoryName = "";
 
-            ESongSorting Sorting = CSongs.Sorter.SongSorting;
+            ESongSorting sorting = CSongs.Sorter.SongSorting;
 
-            switch (Sorting)
+            switch (sorting)
             {
                 case ESongSorting.TR_CONFIG_EDITION:
-                    NoCategoryName = CLanguage.Translate("TR_SCREENSONG_NOEDITION");
+                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_NOEDITION");
                     break;
                 case ESongSorting.TR_CONFIG_GENRE:
-                    NoCategoryName = CLanguage.Translate("TR_SCREENSONG_NOGENRE");
+                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_NOGENRE");
                     break;
                 case ESongSorting.TR_CONFIG_DECADE:
                 case ESongSorting.TR_CONFIG_YEAR:
-                    NoCategoryName = CLanguage.Translate("TR_SCREENSONG_NOYEAR");
+                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_NOYEAR");
                     break;
                 case ESongSorting.TR_CONFIG_LANGUAGE:
-                    NoCategoryName = CLanguage.Translate("TR_SCREENSONG_NOLANGUAGE");
+                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_NOLANGUAGE");
                     break;
                 case ESongSorting.TR_CONFIG_NONE:
-                    NoCategoryName = CLanguage.Translate("TR_SCREENSONG_ALLSONGS");
+                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_ALLSONGS");
                     break;
             }
-            if (Sorting == ESongSorting.TR_CONFIG_ARTIST_LETTER || Sorting == ESongSorting.TR_CONFIG_TITLE_LETTER)
+            if (sorting == ESongSorting.TR_CONFIG_ARTIST_LETTER || sorting == ESongSorting.TR_CONFIG_TITLE_LETTER)
                 _CreateCategoriesLetter();
             else
             {
-                if (Sorting == ESongSorting.TR_CONFIG_DECADE)
+                if (sorting == ESongSorting.TR_CONFIG_DECADE)
                 {
                     for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
                     {
-                        string Year = CSongs.Sorter.SortedSongs[i].SortString;
-                        if (Year.Length > 0)
+                        string year = CSongs.Sorter.SortedSongs[i].SortString;
+                        if (year.Length > 0)
                         {
-                            Year = Year.Substring(0, 3);
-                            CSongs.Sorter.SortedSongs[i].SortString = Year + "0 - " + Year + "9";
+                            year = year.Substring(0, 3);
+                            CSongs.Sorter.SortedSongs[i].SortString = year + "0 - " + year + "9";
                         }
                     }
                 }
-                _CreateCategoriesNormal(NoCategoryName);
+                _CreateCategoriesNormal(noCategoryName);
             }
         }
 

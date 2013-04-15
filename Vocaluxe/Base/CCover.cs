@@ -23,7 +23,7 @@ namespace Vocaluxe.Base
 
     abstract class CCover
     {
-        private static readonly XmlWriterSettings _settings = new XmlWriterSettings();
+        private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
         private static readonly List<SCover> _Cover = new List<SCover>();
         private static readonly List<SCoverTheme> _CoverThemes = new List<SCoverTheme>();
         private static STexture _NoCover = new STexture(-1);
@@ -37,12 +37,12 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            _settings.Indent = true;
-            _settings.Encoding = Encoding.UTF8;
-            _settings.ConformanceLevel = ConformanceLevel.Document;
+            _Settings.Indent = true;
+            _Settings.Encoding = Encoding.UTF8;
+            _Settings.ConformanceLevel = ConformanceLevel.Document;
 
-            LoadCoverThemes();
-            LoadCover(CConfig.CoverTheme);
+            _LoadCoverThemes();
+            _LoadCover(CConfig.CoverTheme);
         }
 
         /// <summary>
@@ -52,11 +52,11 @@ namespace Vocaluxe.Base
         {
             get
             {
-                List<string> CoverThemes = new List<string>();
+                List<string> coverThemes = new List<string>();
                 for (int i = 0; i < _CoverThemes.Count; i++)
-                    CoverThemes.Add(_CoverThemes[i].Name);
+                    coverThemes.Add(_CoverThemes[i].Name);
 
-                return CoverThemes.ToArray();
+                return coverThemes.ToArray();
             }
         }
 
@@ -77,14 +77,14 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Returns a STexture for a given cover name. Returns "NoCover" if the cover does not exist.
         /// </summary>
-        public static STexture Cover(string Name)
+        public static STexture Cover(string name)
         {
             STexture cov = _NoCover;
             lock (_MutexCover)
             {
                 foreach (SCover cover in _Cover)
                 {
-                    if (cover.Name == Name)
+                    if (cover.Name == name)
                     {
                         cov = cover.Texture;
                         break;
@@ -97,14 +97,14 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Returns true if a cover with the given name exists.
         /// </summary>
-        public static bool CoverExists(string Name)
+        public static bool CoverExists(string name)
         {
             STexture cov = _NoCover;
             lock (_MutexCover)
             {
                 foreach (SCover cover in _Cover)
                 {
-                    if (cover.Name == Name)
+                    if (cover.Name == name)
                         return true;
                 }
             }
@@ -122,13 +122,13 @@ namespace Vocaluxe.Base
                 CDraw.RemoveTexture(ref texture);
             }
             _Cover.Clear();
-            LoadCover(CConfig.CoverTheme);
+            _LoadCover(CConfig.CoverTheme);
         }
 
         /// <summary>
         ///     Returns a SCoverTheme by cover-theme-name
         /// </summary>
-        private static SCoverTheme CoverTheme(string coverThemeName)
+        private static SCoverTheme _CoverTheme(string coverThemeName)
         {
             SCoverTheme coverTheme = new SCoverTheme();
             for (int i = 0; i < _CoverThemes.Count; i++)
@@ -145,11 +145,11 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Loads all cover-themes to list.
         /// </summary>
-        private static void LoadCoverThemes()
+        private static void _LoadCoverThemes()
         {
             _CoverThemes.Clear();
 
-            string path = CSettings.sFolderCover;
+            string path = CSettings.FolderCover;
             List<string> files = CHelper.ListFiles(path, "*.xml", false);
 
             foreach (string file in files)
@@ -176,15 +176,15 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Loads all cover which are defined in the cover config file.
         /// </summary>
-        private static void LoadCover(string coverThemeName)
+        private static void _LoadCover(string coverThemeName)
         {
             SCoverTheme coverTheme = new SCoverTheme();
 
-            coverTheme = CoverTheme(coverThemeName);
+            coverTheme = _CoverTheme(coverThemeName);
 
             if (coverTheme.Name.Length > 0)
             {
-                CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.sFolderCover, coverTheme.File));
+                CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.FolderCover, coverTheme.File));
 
                 if (xmlReader != null)
                 {
@@ -201,8 +201,8 @@ namespace Vocaluxe.Base
                             xmlReader.GetValue("//root/Cover/" + cover[i] + "/Path", ref value, String.Empty);
                             sk.Name = name;
                             sk.Value = Path.Combine(coverTheme.Folder, value);
-                            if (File.Exists(Path.Combine(CSettings.sFolderCover, Path.Combine(coverTheme.Folder, value))))
-                                sk.Texture = CDraw.AddTexture(Path.Combine(CSettings.sFolderCover, Path.Combine(coverTheme.Folder, value)));
+                            if (File.Exists(Path.Combine(CSettings.FolderCover, Path.Combine(coverTheme.Folder, value))))
+                                sk.Texture = CDraw.AddTexture(Path.Combine(CSettings.FolderCover, Path.Combine(coverTheme.Folder, value)));
                             else
                                 sk.Texture = _NoCover;
 
@@ -216,10 +216,10 @@ namespace Vocaluxe.Base
 
                 List<string> files = new List<string>();
 
-                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.sFolderCover, coverTheme.Folder), "*.png", true, true));
-                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.sFolderCover, coverTheme.Folder), "*.jpg", true, true));
-                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.sFolderCover, coverTheme.Folder), "*.jpeg", true, true));
-                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.sFolderCover, coverTheme.Folder), "*.bmp", true, true));
+                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.FolderCover, coverTheme.Folder), "*.png", true, true));
+                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.FolderCover, coverTheme.Folder), "*.jpg", true, true));
+                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.FolderCover, coverTheme.Folder), "*.jpeg", true, true));
+                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.FolderCover, coverTheme.Folder), "*.bmp", true, true));
 
 
                 foreach (string file in files)
@@ -235,7 +235,7 @@ namespace Vocaluxe.Base
                         sk.Name = name;
                         sk.Value = Path.Combine(coverTheme.Folder, Path.GetFileName(file));
 
-                        sk.Texture = CDraw.AddTexture(Path.Combine(CSettings.sFolderCover, sk.Value));
+                        sk.Texture = CDraw.AddTexture(Path.Combine(CSettings.FolderCover, sk.Value));
 
                         _Cover.Add(sk);
                     }

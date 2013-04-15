@@ -17,7 +17,7 @@ namespace VocaluxeLib.Menu
     {
         public float X;
         public float Y;
-        public float textHeight;
+        public float TextHeight;
         public float Width;
         public float Height;
 
@@ -25,7 +25,7 @@ namespace VocaluxeLib.Menu
         {
             X = 0f;
             Y = 0f;
-            textHeight = 0f;
+            TextHeight = 0f;
             Width = 0f;
             Height = 0f;
         }
@@ -249,9 +249,9 @@ namespace VocaluxeLib.Menu
 
         public float Alpha = 1f;
 
-        public CText(int PartyModeID)
+        public CText(int partyModeID)
         {
-            _PartyModeID = PartyModeID;
+            _PartyModeID = partyModeID;
             _TranslationID = _PartyModeID;
             _Font = "Normal";
         }
@@ -390,12 +390,12 @@ namespace VocaluxeLib.Menu
             ReflectionHeight = rheight;
         }
 
-        public CText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text, int PartyModeID = -1)
+        public CText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text, int partyModeID = -1)
         {
             _Theme = new SThemeText();
             _ThemeLoaded = false;
             _ButtonText = false;
-            _PartyModeID = PartyModeID;
+            _PartyModeID = partyModeID;
             _TranslationID = _PartyModeID;
 
             X = x;
@@ -423,27 +423,27 @@ namespace VocaluxeLib.Menu
             Reflection = false;
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
+        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
-            return LoadTheme(XmlPath, ElementName, xmlReader, SkinIndex, false);
+            return LoadTheme(xmlPath, elementName, xmlReader, skinIndex, false);
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex, bool ButtonText)
+        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex, bool buttonText)
         {
-            string item = XmlPath + "/" + ElementName;
+            string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _X);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Y);
 
-            if (!ButtonText)
+            if (!buttonText)
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Z);
 
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Height);
             xmlReader.TryGetFloatValue(item + "/MaxW", ref _MaxWidth);
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, out Color);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -453,7 +453,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/SColor", ref _Theme.SelColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorName, SkinIndex, out SelColor);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorName, skinIndex, out SelColor);
             else
             {
                 if (xmlReader.TryGetFloatValue(item + "/SR", ref SelColor.R))
@@ -471,7 +471,7 @@ namespace VocaluxeLib.Menu
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/Text", ref _Theme.Text, String.Empty);
 
-            if (xmlReader.ItemExists(item + "/Reflection") && !ButtonText)
+            if (xmlReader.ItemExists(item + "/Reflection") && !buttonText)
             {
                 Reflection = true;
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref ReflectionSpace);
@@ -481,8 +481,8 @@ namespace VocaluxeLib.Menu
                 Reflection = false;
 
             // Set values
-            _Theme.Name = ElementName;
-            _ButtonText = ButtonText;
+            _Theme.Name = elementName;
+            _ButtonText = buttonText;
             _PositionNeedsUpdate = true;
 
             if (_ThemeLoaded)
@@ -589,27 +589,27 @@ namespace VocaluxeLib.Menu
             Draw(true);
         }
 
-        public void Draw(bool ForceDraw = false)
+        public void Draw(bool forceDraw = false)
         {
-            if (!ForceDraw && !Visible && CBase.Settings.GetGameState() != EGameState.EditTheme)
+            if (!forceDraw && !Visible && CBase.Settings.GetGameState() != EGameState.EditTheme)
                 return;
 
             // Update Text
             Text = Text;
 
             if (_PositionNeedsUpdate)
-                UpdateTextPosition();
+                _UpdateTextPosition();
 
             CBase.Fonts.SetFont(Font);
             CBase.Fonts.SetStyle(Style);
 
-            SColorF CurrentColor = new SColorF(Color);
+            SColorF currentColor = new SColorF(Color);
             if (Selected)
-                CurrentColor = new SColorF(SelColor);
+                currentColor = new SColorF(SelColor);
 
-            SColorF color = new SColorF(CurrentColor.R, CurrentColor.G, CurrentColor.B, CurrentColor.A * Alpha);
+            SColorF color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
-            CBase.Fonts.DrawText(_Text, _DrawPosition.textHeight, _DrawPosition.X, _DrawPosition.Y, Z, color);
+            CBase.Fonts.DrawText(_Text, _DrawPosition.TextHeight, _DrawPosition.X, _DrawPosition.Y, Z, color);
 
             if (Reflection)
             {
@@ -617,16 +617,16 @@ namespace VocaluxeLib.Menu
                 switch (HAlign)
                 {
                     case EHAlignment.Top:
-                        factor = (Height - _DrawPosition.textHeight) * 1.5f;
+                        factor = (Height - _DrawPosition.TextHeight) * 1.5f;
                         break;
                     case EHAlignment.Center:
-                        factor = (Height - _DrawPosition.textHeight) * 1.0f;
+                        factor = (Height - _DrawPosition.TextHeight) * 1.0f;
                         break;
                     case EHAlignment.Bottom:
-                        factor = (Height - _DrawPosition.textHeight) * 0.5f;
+                        factor = (Height - _DrawPosition.TextHeight) * 0.5f;
                         break;
                 }
-                CBase.Fonts.DrawTextReflection(_Text, _DrawPosition.textHeight, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace + factor, ReflectionHeight);
+                CBase.Fonts.DrawTextReflection(_Text, _DrawPosition.TextHeight, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace + factor, ReflectionHeight);
             }
 
             if (Selected && (CBase.Settings.GetGameState() == EGameState.EditTheme))
@@ -653,11 +653,11 @@ namespace VocaluxeLib.Menu
                     break;
             }
 
-            SColorF CurrentColor = new SColorF(Color);
+            SColorF currentColor = new SColorF(Color);
             if (Selected)
-                CurrentColor = new SColorF(SelColor);
+                currentColor = new SColorF(SelColor);
 
-            SColorF color = new SColorF(CurrentColor.R, CurrentColor.G, CurrentColor.B, CurrentColor.A * Alpha);
+            SColorF color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
             CBase.Fonts.SetFont(Font);
             CBase.Fonts.SetStyle(Style);
@@ -730,11 +730,11 @@ namespace VocaluxeLib.Menu
             }
 
 
-            SColorF CurrentColor = new SColorF(Color);
+            SColorF currentColor = new SColorF(Color);
             if (Selected)
-                CurrentColor = new SColorF(SelColor);
+                currentColor = new SColorF(SelColor);
 
-            SColorF color = new SColorF(CurrentColor.R, CurrentColor.G, CurrentColor.B, CurrentColor.A * Alpha);
+            SColorF color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
             CBase.Fonts.SetFont(Font);
             CBase.Fonts.SetStyle(Style);
@@ -785,7 +785,7 @@ namespace VocaluxeLib.Menu
         }
         #endregion ThemeEdit
 
-        private void UpdateTextPosition()
+        private void _UpdateTextPosition()
         {
             if (_Text.Length == 0)
                 return;
@@ -831,7 +831,7 @@ namespace VocaluxeLib.Menu
 
             _DrawPosition.X = x;
             _DrawPosition.Y = y;
-            _DrawPosition.textHeight = h;
+            _DrawPosition.TextHeight = h;
             _DrawPosition.Width = bounds.Width;
             _DrawPosition.Height = bounds.Height;
 

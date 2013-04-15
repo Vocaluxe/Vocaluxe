@@ -5,12 +5,12 @@ namespace Vocaluxe.Lib.Video
 {
     abstract class CVideoDecoder : IVideoDecoder
     {
-        protected List<VideoStreams> _Streams = new List<VideoStreams>();
+        protected List<SVideoStreams> _Streams = new List<SVideoStreams>();
         protected bool _Initialized = false;
 
         public virtual bool Init()
         {
-            _Streams = new List<VideoStreams>();
+            _Streams = new List<SVideoStreams>();
             _Initialized = true;
 
             return true;
@@ -23,59 +23,59 @@ namespace Vocaluxe.Lib.Video
             return _Streams.Count;
         }
 
-        public virtual int Load(string VideoFileName)
+        public virtual int Load(string videoFileName)
         {
             return 0;
         }
 
-        public virtual bool Close(int StreamID)
+        public virtual bool Close(int streamID)
         {
             return true;
         }
 
-        public virtual float GetLength(int StreamID)
+        public virtual float GetLength(int streamID)
         {
             return 0f;
         }
 
-        public virtual bool GetFrame(int StreamID, ref STexture Frame, float Time, ref float VideoTime)
+        public virtual bool GetFrame(int streamID, ref STexture frame, float time, ref float videoTime)
         {
             return true;
         }
 
-        public virtual bool Skip(int StreamID, float Start, float Gap)
+        public virtual bool Skip(int streamID, float start, float gap)
         {
             return true;
         }
 
-        public virtual void SetLoop(int StreamID, bool Loop) {}
+        public virtual void SetLoop(int streamID, bool loop) {}
 
-        public virtual void Pause(int StreamID) {}
+        public virtual void Pause(int streamID) {}
 
-        public virtual void Resume(int StreamID) {}
+        public virtual void Resume(int streamID) {}
 
-        public virtual bool Finished(int StreamID)
+        public virtual bool Finished(int streamID)
         {
             return false;
         }
 
         public virtual void Update() {}
 
-        protected bool AlreadyAdded(int StreamID)
+        protected bool _AlreadyAdded(int streamID)
         {
-            foreach (VideoStreams st in _Streams)
+            foreach (SVideoStreams st in _Streams)
             {
-                if (st.handle == StreamID)
+                if (st.Handle == streamID)
                     return true;
             }
             return false;
         }
 
-        protected int GetStreamIndex(int StreamID)
+        protected int _GetStreamIndex(int streamID)
         {
             for (int i = 0; i < _Streams.Count; i++)
             {
-                if (_Streams[i].handle == StreamID)
+                if (_Streams[i].Handle == streamID)
                     return i;
             }
             return -1;

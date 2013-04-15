@@ -32,10 +32,10 @@ namespace VocaluxeLib.Menu
 
         public CObjectInteractions()
         {
-            Init();
+            _Init();
         }
 
-        protected void Init()
+        protected void _Init()
         {
             _Interactions = new List<CInteraction>();
             _Selection = 0;
@@ -103,115 +103,115 @@ namespace VocaluxeLib.Menu
         #endregion ElementHandler
 
         #region MenuHandler
-        public bool HandleInput(KeyEvent KeyEvent)
+        public bool HandleInput(SKeyEvent keyEvent)
         {
             if (!CBase.Settings.IsTabNavigation())
             {
-                if (KeyEvent.Key == Keys.Left)
+                if (keyEvent.Key == Keys.Left)
                 {
-                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.SelectSlide && KeyEvent.Mod != EModifier.Shift)
-                        KeyEvent.Handled = PrevElement();
+                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.SelectSlide && keyEvent.Mod != EModifier.Shift)
+                        keyEvent.Handled = PrevElement();
                     else
-                        KeyEvent.Handled = _NextInteraction(KeyEvent);
+                        keyEvent.Handled = _NextInteraction(keyEvent);
                 }
 
-                if (KeyEvent.Key == Keys.Right)
+                if (keyEvent.Key == Keys.Right)
                 {
-                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.SelectSlide && KeyEvent.Mod != EModifier.Shift)
-                        KeyEvent.Handled = NextElement();
+                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.SelectSlide && keyEvent.Mod != EModifier.Shift)
+                        keyEvent.Handled = NextElement();
                     else
-                        KeyEvent.Handled = _NextInteraction(KeyEvent);
+                        keyEvent.Handled = _NextInteraction(keyEvent);
                 }
 
-                if (KeyEvent.Key == Keys.Up || KeyEvent.Key == Keys.Down)
-                    KeyEvent.Handled = _NextInteraction(KeyEvent);
+                if (keyEvent.Key == Keys.Up || keyEvent.Key == Keys.Down)
+                    keyEvent.Handled = _NextInteraction(keyEvent);
             }
             else
             {
-                if (KeyEvent.Key == Keys.Tab)
+                if (keyEvent.Key == Keys.Tab)
                 {
-                    if (KeyEvent.Mod == EModifier.Shift)
+                    if (keyEvent.Mod == EModifier.Shift)
                         PrevInteraction();
                     else
                         NextInteraction();
                 }
 
-                if (KeyEvent.Key == Keys.Left)
+                if (keyEvent.Key == Keys.Left)
                     PrevElement();
 
-                if (KeyEvent.Key == Keys.Right)
+                if (keyEvent.Key == Keys.Right)
                     NextElement();
             }
 
             return true;
         }
 
-        public bool HandleMouse(MouseEvent MouseEvent)
+        public bool HandleMouse(SMouseEvent mouseEvent)
         {
             int selection = _Selection;
-            ProcessMouseMove(MouseEvent.X, MouseEvent.Y);
+            ProcessMouseMove(mouseEvent.X, mouseEvent.Y);
             if (selection != _Selection)
             {
                 _UnsetHighlighted(selection);
                 _SetHighlighted(_Selection);
             }
 
-            if (MouseEvent.LB)
-                ProcessMouseClick(MouseEvent.X, MouseEvent.Y);
+            if (mouseEvent.LB)
+                ProcessMouseClick(mouseEvent.X, mouseEvent.Y);
 
-            _PrevMouseX = MouseEvent.X;
-            _PrevMouseY = MouseEvent.Y;
+            _PrevMouseX = mouseEvent.X;
+            _PrevMouseY = mouseEvent.Y;
 
             return true;
         }
 
-        public bool HandleInputThemeEditor(KeyEvent KeyEvent)
+        public bool HandleInputThemeEditor(SKeyEvent keyEvent)
         {
             _UnsetHighlighted(_Selection);
-            if (KeyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) {}
             else
             {
-                switch (KeyEvent.Key)
+                switch (keyEvent.Key)
                 {
                     case Keys.S:
                         CBase.Graphics.SaveTheme();
                         break;
 
                     case Keys.Up:
-                        if (KeyEvent.Mod == EModifier.Ctrl)
-                            MoveElement(0, -1);
+                        if (keyEvent.Mod == EModifier.Ctrl)
+                            _MoveElement(0, -1);
 
-                        if (KeyEvent.Mod == EModifier.Shift)
-                            ResizeElement(0, 1);
+                        if (keyEvent.Mod == EModifier.Shift)
+                            _ResizeElement(0, 1);
 
                         break;
                     case Keys.Down:
-                        if (KeyEvent.Mod == EModifier.Ctrl)
-                            MoveElement(0, 1);
+                        if (keyEvent.Mod == EModifier.Ctrl)
+                            _MoveElement(0, 1);
 
-                        if (KeyEvent.Mod == EModifier.Shift)
-                            ResizeElement(0, -1);
+                        if (keyEvent.Mod == EModifier.Shift)
+                            _ResizeElement(0, -1);
 
                         break;
 
                     case Keys.Right:
-                        if (KeyEvent.Mod == EModifier.Ctrl)
-                            MoveElement(1, 0);
+                        if (keyEvent.Mod == EModifier.Ctrl)
+                            _MoveElement(1, 0);
 
-                        if (KeyEvent.Mod == EModifier.Shift)
-                            ResizeElement(1, 0);
+                        if (keyEvent.Mod == EModifier.Shift)
+                            _ResizeElement(1, 0);
 
-                        if (KeyEvent.Mod == EModifier.None)
+                        if (keyEvent.Mod == EModifier.None)
                             NextInteraction();
                         break;
                     case Keys.Left:
-                        if (KeyEvent.Mod == EModifier.Ctrl)
-                            MoveElement(-1, 0);
+                        if (keyEvent.Mod == EModifier.Ctrl)
+                            _MoveElement(-1, 0);
 
-                        if (KeyEvent.Mod == EModifier.Shift)
-                            ResizeElement(-1, 0);
+                        if (keyEvent.Mod == EModifier.Shift)
+                            _ResizeElement(-1, 0);
 
-                        if (KeyEvent.Mod == EModifier.None)
+                        if (keyEvent.Mod == EModifier.None)
                             PrevInteraction();
                         break;
                 }
@@ -219,64 +219,64 @@ namespace VocaluxeLib.Menu
             return true;
         }
 
-        public bool HandleMouseThemeEditor(MouseEvent MouseEvent)
+        public bool HandleMouseThemeEditor(SMouseEvent mouseEvent)
         {
             _UnsetHighlighted(_Selection);
-            _MouseDX = MouseEvent.X - _PrevMouseX;
-            _MouseDY = MouseEvent.Y - _PrevMouseY;
+            _MouseDX = mouseEvent.X - _PrevMouseX;
+            _MouseDY = mouseEvent.Y - _PrevMouseY;
 
             int stepX = 0;
             int stepY = 0;
 
-            if ((MouseEvent.Mod & EModifier.Ctrl) == EModifier.Ctrl)
+            if ((mouseEvent.Mod & EModifier.Ctrl) == EModifier.Ctrl)
             {
-                _PrevMouseX = MouseEvent.X;
-                _PrevMouseY = MouseEvent.Y;
+                _PrevMouseX = mouseEvent.X;
+                _PrevMouseY = mouseEvent.Y;
             }
             else
             {
-                while (Math.Abs(MouseEvent.X - _PrevMouseX) >= 5)
+                while (Math.Abs(mouseEvent.X - _PrevMouseX) >= 5)
                 {
-                    if (MouseEvent.X - _PrevMouseX >= 5)
+                    if (mouseEvent.X - _PrevMouseX >= 5)
                         stepX += 5;
 
-                    if (MouseEvent.X - _PrevMouseX <= -5)
+                    if (mouseEvent.X - _PrevMouseX <= -5)
                         stepX -= 5;
 
-                    _PrevMouseX = MouseEvent.X - (_MouseDX - stepX);
+                    _PrevMouseX = mouseEvent.X - (_MouseDX - stepX);
                 }
 
-                while (Math.Abs(MouseEvent.Y - _PrevMouseY) >= 5)
+                while (Math.Abs(mouseEvent.Y - _PrevMouseY) >= 5)
                 {
-                    if (MouseEvent.Y - _PrevMouseY >= 5)
+                    if (mouseEvent.Y - _PrevMouseY >= 5)
                         stepY += 5;
 
-                    if (MouseEvent.Y - _PrevMouseY <= -5)
+                    if (mouseEvent.Y - _PrevMouseY <= -5)
                         stepY -= 5;
 
-                    _PrevMouseY = MouseEvent.Y - (_MouseDY - stepY);
+                    _PrevMouseY = mouseEvent.Y - (_MouseDY - stepY);
                 }
             }
 
-            if (MouseEvent.LBH)
+            if (mouseEvent.LBH)
             {
                 //if (IsMouseOver(MouseEvent.X, _PrevMouseY))
                 //{
-                if (MouseEvent.Mod == EModifier.None)
-                    MoveElement(stepX, stepY);
+                if (mouseEvent.Mod == EModifier.None)
+                    _MoveElement(stepX, stepY);
 
-                if (MouseEvent.Mod == EModifier.Ctrl)
-                    MoveElement(_MouseDX, _MouseDY);
+                if (mouseEvent.Mod == EModifier.Ctrl)
+                    _MoveElement(_MouseDX, _MouseDY);
 
-                if (MouseEvent.Mod == EModifier.Shift)
-                    ResizeElement(stepX, stepY);
+                if (mouseEvent.Mod == EModifier.Shift)
+                    _ResizeElement(stepX, stepY);
 
-                if (MouseEvent.Mod == (EModifier.Shift | EModifier.Ctrl))
-                    ResizeElement(_MouseDX, _MouseDY);
+                if (mouseEvent.Mod == (EModifier.Shift | EModifier.Ctrl))
+                    _ResizeElement(_MouseDX, _MouseDY);
                 //}
             }
             else
-                ProcessMouseMove(MouseEvent.X, MouseEvent.Y);
+                ProcessMouseMove(mouseEvent.X, mouseEvent.Y);
 
             return true;
         }
@@ -288,7 +288,7 @@ namespace VocaluxeLib.Menu
             if (_Interactions.Count <= 0)
                 return;
 
-            List<ZSort> items = new List<ZSort>();
+            List<SZSort> items = new List<SZSort>();
 
             for (int i = 0; i < _Interactions.Count; i++)
             {
@@ -301,9 +301,9 @@ namespace VocaluxeLib.Menu
                                          _Interactions[i].Type == EType.SongMenu ||
                                          _Interactions[i].Type == EType.Equalizer))
                 {
-                    ZSort zs = new ZSort();
+                    SZSort zs = new SZSort();
                     zs.ID = i;
-                    zs.z = _GetZValue(i);
+                    zs.Z = _GetZValue(i);
                     items.Add(zs);
                 }
             }
@@ -312,7 +312,7 @@ namespace VocaluxeLib.Menu
                 return;
 
 
-            items.Sort(delegate(ZSort s1, ZSort s2) { return s2.z.CompareTo(s1.z); });
+            items.Sort(delegate(SZSort s1, SZSort s2) { return s2.Z.CompareTo(s1.Z); });
 
             for (int i = 0; i < items.Count; i++)
                 _DrawInteraction(items[i].ID);
@@ -471,9 +471,9 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        public bool IsMouseOver(MouseEvent MouseEvent)
+        public bool IsMouseOver(SMouseEvent mouseEvent)
         {
-            return IsMouseOver(MouseEvent.X, MouseEvent.Y);
+            return IsMouseOver(mouseEvent.X, mouseEvent.Y);
         }
 
         public bool IsMouseOver(int x, int y)
@@ -595,25 +595,25 @@ namespace VocaluxeLib.Menu
         /// <summary>
         ///     Selects the next best interaction in a menu.
         /// </summary>
-        /// <param name="Key"></param>
+        /// <param name="key"></param>
         /// <returns></returns>
-        private bool _NextInteraction(KeyEvent Key)
+        private bool _NextInteraction(SKeyEvent key)
         {
-            KeyEvent[] Directions = new KeyEvent[4];
-            float[] Distances = new float[4];
+            SKeyEvent[] directions = new SKeyEvent[4];
+            float[] distances = new float[4];
             int[] stages = new int[4];
             int[] elements = new int[4];
 
             for (int i = 0; i < 4; i++)
-                Directions[i] = new KeyEvent();
+                directions[i] = new SKeyEvent();
 
-            Directions[0].Key = Keys.Up;
-            Directions[1].Key = Keys.Right;
-            Directions[2].Key = Keys.Down;
-            Directions[3].Key = Keys.Left;
+            directions[0].Key = Keys.Up;
+            directions[1].Key = Keys.Right;
+            directions[2].Key = Keys.Down;
+            directions[3].Key = Keys.Left;
 
             for (int i = 0; i < 4; i++)
-                elements[i] = _GetNextElement(Directions[i], out Distances[i], out stages[i]);
+                elements[i] = _GetNextElement(directions[i], out distances[i], out stages[i]);
 
             int element = _Selection;
             int stage = int.MaxValue;
@@ -621,7 +621,7 @@ namespace VocaluxeLib.Menu
             int direction = -1;
 
             int mute = -1;
-            switch (Key.Key)
+            switch (key.Key)
             {
                 case Keys.Up:
                     mute = 2;
@@ -639,11 +639,11 @@ namespace VocaluxeLib.Menu
 
             for (int i = 0; i < 4; i++)
             {
-                if (i != mute && elements[i] != _Selection && (stages[i] <= stage && Directions[i].Key == Key.Key))
+                if (i != mute && elements[i] != _Selection && (stages[i] <= stage && directions[i].Key == key.Key))
                 {
                     stage = stages[i];
                     element = elements[i];
-                    distance = Distances[i];
+                    distance = distances[i];
                     direction = i;
                 }
             }
@@ -651,7 +651,7 @@ namespace VocaluxeLib.Menu
             if (direction != -1)
             {
                 // select the new element
-                if (Directions[direction].Key == Key.Key)
+                if (directions[direction].Key == key.Key)
                 {
                     _UnsetHighlighted(_Selection);
                     _UnsetSelected();
@@ -666,24 +666,24 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-        private int _GetNextElement(KeyEvent Key, out float Distance, out int Stage)
+        private int _GetNextElement(SKeyEvent key, out float distance, out int stage)
         {
-            Distance = float.MaxValue;
+            distance = float.MaxValue;
             int min = _Selection;
             SRectF actualRect = _GetRect(_Selection);
-            Stage = int.MaxValue;
+            stage = int.MaxValue;
 
             for (int i = 0; i < _Interactions.Count; i++)
             {
                 if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i))
                 {
                     SRectF targetRect = _GetRect(i);
-                    float dist = _GetDistanceDirect(Key, actualRect, targetRect);
-                    if (dist >= 0f && dist < Distance)
+                    float dist = _GetDistanceDirect(key, actualRect, targetRect);
+                    if (dist >= 0f && dist < distance)
                     {
-                        Distance = dist;
+                        distance = dist;
                         min = i;
-                        Stage = 10;
+                        stage = 10;
                     }
                 }
             }
@@ -695,12 +695,12 @@ namespace VocaluxeLib.Menu
                     if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i))
                     {
                         SRectF targetRect = _GetRect(i);
-                        float dist = _GetDistance180(Key, actualRect, targetRect);
-                        if (dist >= 0f && dist < Distance)
+                        float dist = _GetDistance180(key, actualRect, targetRect);
+                        if (dist >= 0f && dist < distance)
                         {
-                            Distance = dist;
+                            distance = dist;
                             min = i;
-                            Stage = 20;
+                            stage = 20;
                         }
                     }
                 }
@@ -708,7 +708,7 @@ namespace VocaluxeLib.Menu
 
             if (min == _Selection)
             {
-                switch (Key.Key)
+                switch (key.Key)
                 {
                     case Keys.Up:
                         actualRect = new SRectF(actualRect.X, CBase.Settings.GetRenderH(), 1, 1, actualRect.Z);
@@ -729,12 +729,12 @@ namespace VocaluxeLib.Menu
                     if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i))
                     {
                         SRectF targetRect = _GetRect(i);
-                        float dist = _GetDistance180(Key, actualRect, targetRect);
-                        if (dist >= 0f && dist < Distance)
+                        float dist = _GetDistance180(key, actualRect, targetRect);
+                        if (dist >= 0f && dist < distance)
                         {
-                            Distance = dist;
+                            distance = dist;
                             min = i;
-                            Stage = 30;
+                            stage = 30;
                         }
                     }
                 }
@@ -742,7 +742,7 @@ namespace VocaluxeLib.Menu
             return min;
         }
 
-        private float _GetDistanceDirect(KeyEvent Key, SRectF actualRect, SRectF targetRect)
+        private float _GetDistanceDirect(SKeyEvent key, SRectF actualRect, SRectF targetRect)
         {
             PointF source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
             PointF dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
@@ -750,7 +750,7 @@ namespace VocaluxeLib.Menu
             PointF vector = new PointF(dest.X - source.X, dest.Y - source.Y);
             float distance = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
             bool inDirection = false;
-            switch (Key.Key)
+            switch (key.Key)
             {
                 case Keys.Up:
                     if (vector.Y < 0f && (targetRect.X + targetRect.W > actualRect.X && actualRect.X + actualRect.W > targetRect.X))
@@ -778,7 +778,7 @@ namespace VocaluxeLib.Menu
                 return distance;
         }
 
-        private float _GetDistance180(KeyEvent Key, SRectF actualRect, SRectF targetRect)
+        private float _GetDistance180(SKeyEvent key, SRectF actualRect, SRectF targetRect)
         {
             PointF source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
             PointF dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
@@ -786,7 +786,7 @@ namespace VocaluxeLib.Menu
             PointF vector = new PointF(dest.X - source.X, dest.Y - source.Y);
             float distance = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
             bool inDirection = false;
-            switch (Key.Key)
+            switch (key.Key)
             {
                 case Keys.Up:
                     if (vector.Y < 0f)
@@ -996,7 +996,7 @@ namespace VocaluxeLib.Menu
 
         private SRectF _GetRect(int interaction)
         {
-            SRectF Result = new SRectF();
+            SRectF result = new SRectF();
             switch (_Interactions[interaction].Type)
             {
                 case EType.Button:
@@ -1006,7 +1006,7 @@ namespace VocaluxeLib.Menu
                     return _SelectSlides[_Interactions[interaction].Num].Rect;
             }
 
-            return Result;
+            return result;
         }
 
         private void _AddInteraction(int num, EType type)
@@ -1051,7 +1051,7 @@ namespace VocaluxeLib.Menu
         #endregion InteractionHandling
 
         #region Theme Handling
-        private void MoveElement(int stepX, int stepY)
+        private void _MoveElement(int stepX, int stepY)
         {
             if (_Interactions.Count > 0)
             {
@@ -1068,7 +1068,7 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private void ResizeElement(int stepW, int stepH)
+        private void _ResizeElement(int stepW, int stepH)
         {
             if (_Interactions.Count > 0)
             {

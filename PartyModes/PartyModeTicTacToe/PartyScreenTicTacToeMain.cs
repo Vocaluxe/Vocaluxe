@@ -6,9 +6,9 @@ using VocaluxeLib.Menu.SongMenu;
 
 namespace VocaluxeLib.PartyModes.TicTacToe
 {
-    public class Field
+    public class CField
     {
-        public Round Content;
+        public CRound Content;
         public CButton Button;
     }
 
@@ -20,7 +20,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         None
     }
 
-    public class PartyScreenTicTacToeMain : CMenuParty
+    public class CPartyScreenTicTacToeMain : CMenuParty
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -28,91 +28,91 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             get { return 1; }
         }
 
-        private const string TextPopupReallyExit = "TextPopupReallyExit";
-        private const string TextTeamChoosing = "TextTeamChoosing";
-        private const string TextFinishMessage = "TextFinishMessage";
-        private const string TextNextPlayerT1 = "TextNextPlayerT1";
-        private const string TextNextPlayerT2 = "TextNextPlayerT2";
-        private const string TextNextPlayerNameT1 = "TextNextPlayerNameT1";
-        private const string TextNextPlayerNameT2 = "TextNextPlayerNameT2";
+        private const string _TextPopupReallyExit = "TextPopupReallyExit";
+        private const string _TextTeamChoosing = "TextTeamChoosing";
+        private const string _TextFinishMessage = "TextFinishMessage";
+        private const string _TextNextPlayerT1 = "TextNextPlayerT1";
+        private const string _TextNextPlayerT2 = "TextNextPlayerT2";
+        private const string _TextNextPlayerNameT1 = "TextNextPlayerNameT1";
+        private const string _TextNextPlayerNameT2 = "TextNextPlayerNameT2";
 
-        private const string ButtonNextRound = "ButtonNextRound";
-        private const string ButtonBack = "ButtonBack";
-        private const string ButtonExit = "ButtonExit";
-        private const string ButtonPopupYes = "ButtonPopupYes";
-        private const string ButtonPopupNo = "ButtonPopupNo";
-        private const string ButtonField = "ButtonField";
+        private const string _ButtonNextRound = "ButtonNextRound";
+        private const string _ButtonBack = "ButtonBack";
+        private const string _ButtonExit = "ButtonExit";
+        private const string _ButtonPopupYes = "ButtonPopupYes";
+        private const string _ButtonPopupNo = "ButtonPopupNo";
+        private const string _ButtonField = "ButtonField";
 
-        private const string ButtonJokerRandomT1 = "ButtonJokerRandomT1";
-        private const string ButtonJokerRandomT2 = "ButtonJokerRandomT2";
-        private const string ButtonJokerRetryT1 = "ButtonJokerRetryT1";
-        private const string ButtonJokerRetryT2 = "ButtonJokerRetryT2";
+        private const string _ButtonJokerRandomT1 = "ButtonJokerRandomT1";
+        private const string _ButtonJokerRandomT2 = "ButtonJokerRandomT2";
+        private const string _ButtonJokerRetryT1 = "ButtonJokerRetryT1";
+        private const string _ButtonJokerRetryT2 = "ButtonJokerRetryT2";
 
-        private const string StaticPopupBG = "StaticPopupBG";
-        private const string StaticAvatarT1 = "StaticAvatarT1";
-        private const string StaticAvatarT2 = "StaticAvatarT2";
+        private const string _StaticPopupBG = "StaticPopupBG";
+        private const string _StaticAvatarT1 = "StaticAvatarT1";
+        private const string _StaticAvatarT2 = "StaticAvatarT2";
 
-        private bool ExitPopupVisible;
+        private bool _ExitPopupVisible;
 
-        private DataFromScreen Data;
-        private DataToScreenMain GameData;
+        private SDataFromScreen _Data;
+        private SDataToScreenMain _GameData;
 
-        private List<Field> Fields;
-        private float FieldFirstX = 25;
-        private float FieldFirstY = 25;
-        private int FieldSpace = 10;
-        private float FieldSize = 100;
+        private List<CField> _Fields;
+        private float _FieldFirstX = 25;
+        private float _FieldFirstY = 25;
+        private int _FieldSpace = 10;
+        private float _FieldSize = 100;
 
-        private int PreviewStream = -1;
-        private int SelectedField = -1;
-        private int OldSelectedField = -1;
+        private int _PreviewStream = -1;
+        private int _SelectedField = -1;
+        private int _OldSelectedField = -1;
 
-        private int[,] Possibilities;
-        private EStatus Status;
+        private int[,] _Possibilities;
+        private EStatus _Status;
 
         public override void Init()
         {
             base.Init();
 
-            _ThemeTexts = new string[] {TextPopupReallyExit, TextTeamChoosing, TextFinishMessage, TextNextPlayerT1, TextNextPlayerT2, TextNextPlayerNameT1, TextNextPlayerNameT2};
+            _ThemeTexts = new string[] {_TextPopupReallyExit, _TextTeamChoosing, _TextFinishMessage, _TextNextPlayerT1, _TextNextPlayerT2, _TextNextPlayerNameT1, _TextNextPlayerNameT2};
             _ThemeButtons = new string[]
                 {
-                    ButtonNextRound, ButtonBack, ButtonExit, ButtonPopupYes, ButtonPopupNo, ButtonField, ButtonJokerRandomT1, ButtonJokerRandomT2, ButtonJokerRetryT1,
-                    ButtonJokerRetryT2
+                    _ButtonNextRound, _ButtonBack, _ButtonExit, _ButtonPopupYes, _ButtonPopupNo, _ButtonField, _ButtonJokerRandomT1, _ButtonJokerRandomT2, _ButtonJokerRetryT1,
+                    _ButtonJokerRetryT2
                 };
-            _ThemeStatics = new string[] {StaticPopupBG, StaticAvatarT1, StaticAvatarT2};
+            _ThemeStatics = new string[] {_StaticPopupBG, _StaticAvatarT1, _StaticAvatarT2};
 
-            Data = new DataFromScreen();
-            FromScreenMain config = new FromScreenMain();
-            GameData = new DataToScreenMain();
+            _Data = new SDataFromScreen();
+            SFromScreenMain config = new SFromScreenMain();
+            _GameData = new SDataToScreenMain();
             config.SingRoundNr = 1;
-            config.Rounds = new List<Round>();
+            config.Rounds = new List<CRound>();
             config.Songs = new List<int>();
             config.PlayerTeam1 = new List<int>();
             config.PlayerTeam2 = new List<int>();
             config.FadeToNameSelection = false;
             config.FadeToSinging = false;
-            Data.ScreenMain = config;
+            _Data.ScreenMain = config;
 
-            Fields = new List<Field>();
+            _Fields = new List<CField>();
         }
 
-        public override void LoadTheme(string XmlPath)
+        public override void LoadTheme(string xmlPath)
         {
-            base.LoadTheme(XmlPath);
+            base.LoadTheme(xmlPath);
 
-            CreateFields();
-            Buttons[ButtonField].Visible = false;
+            _CreateFields();
+            Buttons[_ButtonField].Visible = false;
         }
 
-        public override void DataToScreen(object ReceivedData)
+        public override void DataToScreen(object receivedData)
         {
-            DataToScreenMain config = new DataToScreenMain();
+            SDataToScreenMain config = new SDataToScreenMain();
 
             try
             {
-                config = (DataToScreenMain)ReceivedData;
-                GameData = config;
+                config = (SDataToScreenMain)receivedData;
+                _GameData = config;
             }
             catch (Exception e)
             {
@@ -120,7 +120,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
         }
 
-        public override bool HandleInput(KeyEvent keyEvent)
+        public override bool HandleInput(SKeyEvent keyEvent)
         {
             base.HandleInput(keyEvent);
 
@@ -131,69 +131,69 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 {
                     case Keys.Back:
                     case Keys.Escape:
-                        if (!ExitPopupVisible)
+                        if (!_ExitPopupVisible)
                         {
-                            if (GameData.CurrentRoundNr == 1 && Status != EStatus.FieldSelected)
-                                Back();
-                            else if (Status == EStatus.None)
-                                EndParty();
+                            if (_GameData.CurrentRoundNr == 1 && _Status != EStatus.FieldSelected)
+                                _Back();
+                            else if (_Status == EStatus.None)
+                                _EndParty();
                             else
-                                ShowPopup(true);
+                                _ShowPopup(true);
                         }
                         else
-                            ShowPopup(false);
+                            _ShowPopup(false);
                         break;
 
                     case Keys.Enter:
-                        if (!ExitPopupVisible)
+                        if (!_ExitPopupVisible)
                         {
-                            if (Buttons[ButtonNextRound].Selected)
-                                NextRound();
-                            if (Buttons[ButtonBack].Selected && GameData.CurrentRoundNr == 1 && Status != EStatus.FieldSelected)
-                                Back();
-                            if (Buttons[ButtonExit].Selected && (GameData.CurrentRoundNr > 1 || Status == EStatus.FieldSelected) && Status != EStatus.None)
-                                ShowPopup(true);
-                            else if (Status == EStatus.None)
-                                EndParty();
-                            for (int i = 0; i < GameData.NumFields; i++)
+                            if (Buttons[_ButtonNextRound].Selected)
+                                _NextRound();
+                            if (Buttons[_ButtonBack].Selected && _GameData.CurrentRoundNr == 1 && _Status != EStatus.FieldSelected)
+                                _Back();
+                            if (Buttons[_ButtonExit].Selected && (_GameData.CurrentRoundNr > 1 || _Status == EStatus.FieldSelected) && _Status != EStatus.None)
+                                _ShowPopup(true);
+                            else if (_Status == EStatus.None)
+                                _EndParty();
+                            for (int i = 0; i < _GameData.NumFields; i++)
                             {
-                                switch (Status)
+                                switch (_Status)
                                 {
                                     case EStatus.FieldChoosing:
-                                        if (Fields[i].Button.Selected)
+                                        if (_Fields[i].Button.Selected)
                                         {
-                                            SelectedField = i;
-                                            FieldSelected();
+                                            _SelectedField = i;
+                                            _FieldSelected();
                                         }
                                         break;
 
                                     case EStatus.JokerRetry:
-                                        if (Fields[i].Button.Selected)
+                                        if (_Fields[i].Button.Selected)
                                         {
-                                            SelectedField = i;
-                                            FieldSelectedAgain();
+                                            _SelectedField = i;
+                                            _FieldSelectedAgain();
                                         }
                                         break;
                                 }
                             }
-                            if (Status == EStatus.FieldSelected)
+                            if (_Status == EStatus.FieldSelected)
                             {
-                                if (Buttons[ButtonJokerRandomT1].Selected)
-                                    UseJoker(0, 0);
-                                if (Buttons[ButtonJokerRandomT2].Selected)
-                                    UseJoker(1, 0);
-                                if (Buttons[ButtonJokerRetryT1].Selected)
-                                    UseJoker(0, 1);
-                                if (Buttons[ButtonJokerRetryT2].Selected)
-                                    UseJoker(1, 1);
+                                if (Buttons[_ButtonJokerRandomT1].Selected)
+                                    _UseJoker(0, 0);
+                                if (Buttons[_ButtonJokerRandomT2].Selected)
+                                    _UseJoker(1, 0);
+                                if (Buttons[_ButtonJokerRetryT1].Selected)
+                                    _UseJoker(0, 1);
+                                if (Buttons[_ButtonJokerRetryT2].Selected)
+                                    _UseJoker(1, 1);
                             }
                         }
                         else
                         {
-                            if (Buttons[ButtonPopupYes].Selected)
-                                EndParty();
-                            if (Buttons[ButtonPopupNo].Selected)
-                                ShowPopup(false);
+                            if (Buttons[_ButtonPopupYes].Selected)
+                                _EndParty();
+                            if (Buttons[_ButtonPopupNo].Selected)
+                                _ShowPopup(false);
                         }
                         break;
                 }
@@ -201,80 +201,80 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent mouseEvent)
+        public override bool HandleMouse(SMouseEvent mouseEvent)
         {
             base.HandleMouse(mouseEvent);
 
             if (mouseEvent.LB && IsMouseOver(mouseEvent))
             {
-                if (!ExitPopupVisible)
+                if (!_ExitPopupVisible)
                 {
-                    if (Buttons[ButtonNextRound].Selected)
-                        NextRound();
-                    if (Buttons[ButtonBack].Selected)
-                        Back();
-                    if (Buttons[ButtonExit].Selected)
+                    if (Buttons[_ButtonNextRound].Selected)
+                        _NextRound();
+                    if (Buttons[_ButtonBack].Selected)
+                        _Back();
+                    if (Buttons[_ButtonExit].Selected)
                     {
-                        if (Status == EStatus.None)
-                            EndParty();
+                        if (_Status == EStatus.None)
+                            _EndParty();
                         else
-                            ShowPopup(true);
+                            _ShowPopup(true);
                     }
-                    for (int i = 0; i < GameData.NumFields; i++)
+                    for (int i = 0; i < _GameData.NumFields; i++)
                     {
-                        switch (Status)
+                        switch (_Status)
                         {
                             case EStatus.FieldChoosing:
-                                if (Fields[i].Button.Selected)
+                                if (_Fields[i].Button.Selected)
                                 {
-                                    SelectedField = i;
-                                    FieldSelected();
+                                    _SelectedField = i;
+                                    _FieldSelected();
                                 }
                                 break;
 
                             case EStatus.JokerRetry:
-                                if (Fields[i].Button.Selected)
+                                if (_Fields[i].Button.Selected)
                                 {
-                                    SelectedField = i;
-                                    FieldSelectedAgain();
+                                    _SelectedField = i;
+                                    _FieldSelectedAgain();
                                 }
                                 break;
                         }
                     }
-                    if (Status == EStatus.FieldSelected)
+                    if (_Status == EStatus.FieldSelected)
                     {
-                        if (Buttons[ButtonJokerRandomT1].Selected)
-                            UseJoker(0, 0);
-                        if (Buttons[ButtonJokerRandomT2].Selected)
-                            UseJoker(1, 0);
-                        if (Buttons[ButtonJokerRetryT1].Selected)
-                            UseJoker(0, 1);
-                        if (Buttons[ButtonJokerRetryT2].Selected)
-                            UseJoker(1, 1);
+                        if (Buttons[_ButtonJokerRandomT1].Selected)
+                            _UseJoker(0, 0);
+                        if (Buttons[_ButtonJokerRandomT2].Selected)
+                            _UseJoker(1, 0);
+                        if (Buttons[_ButtonJokerRetryT1].Selected)
+                            _UseJoker(0, 1);
+                        if (Buttons[_ButtonJokerRetryT2].Selected)
+                            _UseJoker(1, 1);
                     }
                 }
                 else
                 {
-                    if (Buttons[ButtonPopupYes].Selected)
-                        EndParty();
-                    if (Buttons[ButtonPopupNo].Selected)
-                        ShowPopup(false);
+                    if (Buttons[_ButtonPopupYes].Selected)
+                        _EndParty();
+                    if (Buttons[_ButtonPopupNo].Selected)
+                        _ShowPopup(false);
                 }
             }
 
             if (mouseEvent.RB)
             {
-                if (!ExitPopupVisible)
+                if (!_ExitPopupVisible)
                 {
-                    if (GameData.CurrentRoundNr == 1 && Status != EStatus.FieldSelected)
-                        Back();
-                    else if (Status == EStatus.None)
-                        EndParty();
+                    if (_GameData.CurrentRoundNr == 1 && _Status != EStatus.FieldSelected)
+                        _Back();
+                    else if (_Status == EStatus.None)
+                        _EndParty();
                     else
-                        ShowPopup(true);
+                        _ShowPopup(true);
                 }
                 else
-                    ShowPopup(false);
+                    _ShowPopup(false);
             }
 
             if (mouseEvent.Wheel != 0) {}
@@ -286,66 +286,66 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             base.OnShow();
 
-            PreviewStream = -1;
+            _PreviewStream = -1;
 
-            if (GameData.CurrentRoundNr == 1)
+            if (_GameData.CurrentRoundNr == 1)
             {
-                BuildWinnerPossibilities();
-                SelectedField = -1;
-                Buttons[ButtonBack].Visible = true;
-                Buttons[ButtonExit].Visible = false;
-                SetInteractionToButton(Buttons[ButtonBack]);
+                _BuildWinnerPossibilities();
+                _SelectedField = -1;
+                Buttons[_ButtonBack].Visible = true;
+                Buttons[_ButtonExit].Visible = false;
+                SetInteractionToButton(Buttons[_ButtonBack]);
             }
             else
             {
-                Buttons[ButtonBack].Visible = false;
-                Buttons[ButtonExit].Visible = true;
-                SetInteractionToButton(Buttons[ButtonExit]);
+                Buttons[_ButtonBack].Visible = false;
+                Buttons[_ButtonExit].Visible = true;
+                SetInteractionToButton(Buttons[_ButtonExit]);
             }
 
-            Status = EStatus.FieldChoosing;
+            _Status = EStatus.FieldChoosing;
 
-            UpdateFields();
-            UpdateFieldContents();
+            _UpdateFields();
+            _UpdateFieldContents();
 
-            int Winner = GetWinner();
-            if (GameData.CurrentRoundNr <= GameData.NumFields && Winner == 0)
+            int winner = _GetWinner();
+            if (_GameData.CurrentRoundNr <= _GameData.NumFields && winner == 0)
             {
-                UpdateTeamChoosingMessage();
-                Texts[TextNextPlayerT1].Visible = false;
-                Texts[TextNextPlayerT2].Visible = false;
-                Texts[TextNextPlayerNameT1].Visible = false;
-                Texts[TextNextPlayerNameT2].Visible = false;
-                Statics[StaticAvatarT1].Visible = false;
-                Statics[StaticAvatarT2].Visible = false;
-                Buttons[ButtonJokerRandomT1].Visible = false;
-                Buttons[ButtonJokerRandomT2].Visible = false;
-                Buttons[ButtonJokerRetryT1].Visible = false;
-                Buttons[ButtonJokerRetryT2].Visible = false;
-                Buttons[ButtonNextRound].Visible = false;
-                Texts[TextFinishMessage].Visible = false;
+                _UpdateTeamChoosingMessage();
+                Texts[_TextNextPlayerT1].Visible = false;
+                Texts[_TextNextPlayerT2].Visible = false;
+                Texts[_TextNextPlayerNameT1].Visible = false;
+                Texts[_TextNextPlayerNameT2].Visible = false;
+                Statics[_StaticAvatarT1].Visible = false;
+                Statics[_StaticAvatarT2].Visible = false;
+                Buttons[_ButtonJokerRandomT1].Visible = false;
+                Buttons[_ButtonJokerRandomT2].Visible = false;
+                Buttons[_ButtonJokerRetryT1].Visible = false;
+                Buttons[_ButtonJokerRetryT2].Visible = false;
+                Buttons[_ButtonNextRound].Visible = false;
+                Texts[_TextFinishMessage].Visible = false;
             }
             else
             {
-                Status = EStatus.None;
-                Buttons[ButtonNextRound].Visible = false;
-                Texts[TextFinishMessage].Visible = true;
-                Texts[TextTeamChoosing].Visible = false;
-                if (Winner > 0)
+                _Status = EStatus.None;
+                Buttons[_ButtonNextRound].Visible = false;
+                Texts[_TextFinishMessage].Visible = true;
+                Texts[_TextTeamChoosing].Visible = false;
+                if (winner > 0)
                 {
-                    Texts[TextFinishMessage].Color = CBase.Theme.GetPlayerColor(Winner);
-                    Texts[TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_WINNER", _PartyModeID) + " " + CBase.Language.Translate("TR_TEAM", _PartyModeID) + " " +
-                                                    Winner;
+                    Texts[_TextFinishMessage].Color = CBase.Theme.GetPlayerColor(winner);
+                    Texts[_TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_WINNER", _PartyModeID) + " " + CBase.Language.Translate("TR_TEAM", _PartyModeID) + " " +
+                                                    winner;
                 }
                 else
                 {
-                    Texts[TextFinishMessage].Color = new SColorF(1, 1, 1, 1);
-                    Texts[TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_NOWINNER", _PartyModeID);
+                    Texts[_TextFinishMessage].Color = new SColorF(1, 1, 1, 1);
+                    Texts[_TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_NOWINNER", _PartyModeID);
                 }
-                SetInteractionToButton(Buttons[ButtonExit]);
+                SetInteractionToButton(Buttons[_ButtonExit]);
             }
 
-            ShowPopup(false);
+            _ShowPopup(false);
         }
 
         public override bool UpdateGame()
@@ -363,345 +363,345 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             base.OnClose();
             CBase.BackgroundMusic.SetStatus(false);
-            CBase.Sound.FadeAndStop(PreviewStream, 0f, 0.5f);
+            CBase.Sound.FadeAndStop(_PreviewStream, 0f, 0.5f);
         }
 
-        private void CreateFields()
+        private void _CreateFields()
         {
             for (int i = 0; i < 25; i++)
             {
-                Field f = new Field();
-                f.Button = GetNewButton(Buttons[ButtonField]);
+                CField f = new CField();
+                f.Button = GetNewButton(Buttons[_ButtonField]);
                 f.Button.Visible = false;
-                f.Content = new Round();
+                f.Content = new CRound();
                 AddButton(f.Button);
-                Fields.Add(f);
+                _Fields.Add(f);
             }
         }
 
-        private void UpdateFields()
+        private void _UpdateFields()
         {
-            int NumOneRow = (int)Math.Sqrt(GameData.NumFields);
-            float FieldSizeY = (CBase.Settings.GetRenderH() - 150 - NumOneRow * FieldSpace) / NumOneRow;
-            float FieldSizeX = (CBase.Settings.GetRenderW() - 300 - NumOneRow * FieldSpace) / NumOneRow;
-            if (FieldSizeX < FieldSizeY)
-                FieldSize = FieldSizeX;
+            int numOneRow = (int)Math.Sqrt(_GameData.NumFields);
+            float fieldSizeY = (CBase.Settings.GetRenderH() - 150 - numOneRow * _FieldSpace) / numOneRow;
+            float fieldSizeX = (CBase.Settings.GetRenderW() - 300 - numOneRow * _FieldSpace) / numOneRow;
+            if (fieldSizeX < fieldSizeY)
+                _FieldSize = fieldSizeX;
             else
-                FieldSize = FieldSizeY;
-            FieldFirstX = CBase.Settings.GetRenderW() / 2 - (NumOneRow * FieldSize + (NumOneRow - 1) * FieldSpace) / 2;
-            FieldFirstY = 140 + (CBase.Settings.GetRenderH() - 140) / 2 - (NumOneRow * FieldSize + NumOneRow * FieldSpace) / 2;
+                _FieldSize = fieldSizeY;
+            _FieldFirstX = CBase.Settings.GetRenderW() / 2 - (numOneRow * _FieldSize + (numOneRow - 1) * _FieldSpace) / 2;
+            _FieldFirstY = 140 + (CBase.Settings.GetRenderH() - 140) / 2 - (numOneRow * _FieldSize + numOneRow * _FieldSpace) / 2;
             int row = 0;
             int column = 0;
-            float x = FieldFirstX;
-            float y = FieldFirstY;
-            for (int i = 0; i < Fields.Count; i++)
+            float x = _FieldFirstX;
+            float y = _FieldFirstY;
+            for (int i = 0; i < _Fields.Count; i++)
             {
-                if (i < GameData.NumFields)
+                if (i < _GameData.NumFields)
                 {
-                    Fields[i].Button.Rect.W = FieldSize;
-                    Fields[i].Button.Rect.H = FieldSize;
-                    Fields[i].Button.Rect.X = x;
-                    Fields[i].Button.Rect.Y = y;
-                    Fields[i].Button.Visible = true;
-                    Fields[i].Button.Enabled = true;
+                    _Fields[i].Button.Rect.W = _FieldSize;
+                    _Fields[i].Button.Rect.H = _FieldSize;
+                    _Fields[i].Button.Rect.X = x;
+                    _Fields[i].Button.Rect.Y = y;
+                    _Fields[i].Button.Visible = true;
+                    _Fields[i].Button.Enabled = true;
                     column++;
-                    if ((i + 1) >= NumOneRow * (row + 1))
+                    if ((i + 1) >= numOneRow * (row + 1))
                     {
                         column = 0;
                         row++;
-                        y = FieldFirstY + FieldSize * row + FieldSpace * row;
-                        x = FieldFirstX;
+                        y = _FieldFirstY + _FieldSize * row + _FieldSpace * row;
+                        x = _FieldFirstX;
                     }
                     else
-                        x = FieldFirstX + FieldSize * column + FieldSpace * column;
+                        x = _FieldFirstX + _FieldSize * column + _FieldSpace * column;
                 }
                 else
                 {
-                    Fields[i].Button.Visible = false;
-                    Fields[i].Button.Enabled = false;
+                    _Fields[i].Button.Visible = false;
+                    _Fields[i].Button.Enabled = false;
                 }
             }
         }
 
-        private void UpdateFieldContents()
+        private void _UpdateFieldContents()
         {
-            for (int i = 0; i < GameData.Rounds.Count; i++)
+            for (int i = 0; i < _GameData.Rounds.Count; i++)
             {
-                Fields[i].Button.Enabled = true;
-                Fields[i].Button.Texture = Buttons[ButtonField].Texture;
-                Fields[i].Button.Color = Buttons[ButtonField].Color;
-                Fields[i].Button.SelColor = Buttons[ButtonField].SelColor;
-                Fields[i].Content = GameData.Rounds[i];
-                if (Fields[i].Content.Finished)
+                _Fields[i].Button.Enabled = true;
+                _Fields[i].Button.Texture = Buttons[_ButtonField].Texture;
+                _Fields[i].Button.Color = Buttons[_ButtonField].Color;
+                _Fields[i].Button.SelColor = Buttons[_ButtonField].SelColor;
+                _Fields[i].Content = _GameData.Rounds[i];
+                if (_Fields[i].Content.Finished)
                 {
-                    Fields[i].Button.Enabled = false;
-                    Fields[i].Button.Texture = CBase.Songs.GetSongByID(Fields[i].Content.SongID).CoverTextureBig;
-                    Fields[i].Button.Color = CBase.Theme.GetPlayerColor(Fields[i].Content.Winner);
-                    Fields[i].Button.SelColor = CBase.Theme.GetPlayerColor(Fields[i].Content.Winner);
+                    _Fields[i].Button.Enabled = false;
+                    _Fields[i].Button.Texture = CBase.Songs.GetSongByID(_Fields[i].Content.SongID).CoverTextureBig;
+                    _Fields[i].Button.Color = CBase.Theme.GetPlayerColor(_Fields[i].Content.Winner);
+                    _Fields[i].Button.SelColor = CBase.Theme.GetPlayerColor(_Fields[i].Content.Winner);
                 }
-                if (Status == EStatus.FieldSelected && SelectedField == i)
+                if (_Status == EStatus.FieldSelected && _SelectedField == i)
                 {
-                    Fields[i].Button.Texture = CBase.Songs.GetSongByID(Fields[i].Content.SongID).CoverTextureBig;
-                    Fields[i].Button.Color = new SColorF(1, 1, 1, 1);
-                    Fields[i].Button.SelColor = new SColorF(1, 1, 1, 1);
-                    Fields[i].Button.Enabled = false;
+                    _Fields[i].Button.Texture = CBase.Songs.GetSongByID(_Fields[i].Content.SongID).CoverTextureBig;
+                    _Fields[i].Button.Color = new SColorF(1, 1, 1, 1);
+                    _Fields[i].Button.SelColor = new SColorF(1, 1, 1, 1);
+                    _Fields[i].Button.Enabled = false;
                 }
-                if (Status == EStatus.JokerRetry && Fields[i].Content.Finished)
+                if (_Status == EStatus.JokerRetry && _Fields[i].Content.Finished)
                 {
-                    Fields[i].Button.SelColor = CBase.Theme.GetPlayerColor(GameData.Team + 1);
-                    Fields[i].Button.Enabled = true;
+                    _Fields[i].Button.SelColor = CBase.Theme.GetPlayerColor(_GameData.Team + 1);
+                    _Fields[i].Button.Enabled = true;
                 }
-                if (Status == EStatus.JokerRetry && !Fields[i].Content.Finished)
-                    Fields[i].Button.Enabled = false;
-                if (Status == EStatus.FieldSelected)
-                    Fields[i].Button.Enabled = false;
+                if (_Status == EStatus.JokerRetry && !_Fields[i].Content.Finished)
+                    _Fields[i].Button.Enabled = false;
+                if (_Status == EStatus.FieldSelected)
+                    _Fields[i].Button.Enabled = false;
             }
         }
 
-        private void FieldSelected()
+        private void _FieldSelected()
         {
-            int SongID = 0;
-            int SingerTeam1 = 0;
-            int SingerTeam2 = 0;
-            if (GameData.Songs.Count > 0)
+            int songID = 0;
+            int singerTeam1 = 0;
+            int singerTeam2 = 0;
+            if (_GameData.Songs.Count > 0)
             {
-                SongID = GameData.Songs[0];
-                GameData.Songs.RemoveAt(0);
+                songID = _GameData.Songs[0];
+                _GameData.Songs.RemoveAt(0);
             }
-            if (GameData.PlayerTeam1.Count > 0)
+            if (_GameData.PlayerTeam1.Count > 0)
             {
-                SingerTeam1 = GameData.PlayerTeam1[0];
-                GameData.PlayerTeam1.RemoveAt(0);
+                singerTeam1 = _GameData.PlayerTeam1[0];
+                _GameData.PlayerTeam1.RemoveAt(0);
             }
 
-            if (GameData.PlayerTeam2.Count > 0)
+            if (_GameData.PlayerTeam2.Count > 0)
             {
-                SingerTeam2 = GameData.PlayerTeam2[0];
-                GameData.PlayerTeam2.RemoveAt(0);
+                singerTeam2 = _GameData.PlayerTeam2[0];
+                _GameData.PlayerTeam2.RemoveAt(0);
             }
-            CSong Song = CBase.Songs.GetSongByID(SongID);
+            CSong song = CBase.Songs.GetSongByID(songID);
 
             CBase.BackgroundMusic.SetStatus(true);
 
-            PreviewStream = CBase.Sound.Load(Song.GetMP3(), false);
-            CBase.Sound.SetPosition(PreviewStream, Song.PreviewStart);
-            CBase.Sound.SetStreamVolume(PreviewStream, 0f);
-            CBase.Sound.Play(PreviewStream);
-            CBase.Sound.Fade(PreviewStream, CBase.Config.GetBackgroundMusicVolume(), 1f);
-            Status = EStatus.FieldSelected;
-            Fields[SelectedField].Content.SongID = SongID;
-            GameData.Rounds[SelectedField].SongID = SongID;
-            GameData.Rounds[SelectedField].SingerTeam1 = SingerTeam1;
-            GameData.Rounds[SelectedField].SingerTeam2 = SingerTeam2;
-            UpdateFieldContents();
+            _PreviewStream = CBase.Sound.Load(song.GetMP3(), false);
+            CBase.Sound.SetPosition(_PreviewStream, song.PreviewStart);
+            CBase.Sound.SetStreamVolume(_PreviewStream, 0f);
+            CBase.Sound.Play(_PreviewStream);
+            CBase.Sound.Fade(_PreviewStream, CBase.Config.GetBackgroundMusicVolume(), 1f);
+            _Status = EStatus.FieldSelected;
+            _Fields[_SelectedField].Content.SongID = songID;
+            _GameData.Rounds[_SelectedField].SongID = songID;
+            _GameData.Rounds[_SelectedField].SingerTeam1 = singerTeam1;
+            _GameData.Rounds[_SelectedField].SingerTeam2 = singerTeam2;
+            _UpdateFieldContents();
 
-            Texts[TextNextPlayerT1].Visible = true;
-            Texts[TextNextPlayerT2].Visible = true;
-            Texts[TextNextPlayerNameT1].Visible = true;
-            Texts[TextNextPlayerNameT2].Visible = true;
+            Texts[_TextNextPlayerT1].Visible = true;
+            Texts[_TextNextPlayerT2].Visible = true;
+            Texts[_TextNextPlayerNameT1].Visible = true;
+            Texts[_TextNextPlayerNameT2].Visible = true;
             SProfile[] profiles = CBase.Profiles.GetProfiles();
-            Texts[TextNextPlayerNameT1].Text = profiles[GameData.ProfileIDsTeam1[GameData.Rounds[SelectedField].SingerTeam1]].PlayerName;
-            Texts[TextNextPlayerNameT2].Text = profiles[GameData.ProfileIDsTeam2[GameData.Rounds[SelectedField].SingerTeam2]].PlayerName;
-            Statics[StaticAvatarT1].Visible = true;
-            Statics[StaticAvatarT2].Visible = true;
-            Statics[StaticAvatarT1].Texture = profiles[GameData.ProfileIDsTeam1[GameData.Rounds[SelectedField].SingerTeam1]].Avatar.Texture;
-            Statics[StaticAvatarT2].Texture = profiles[GameData.ProfileIDsTeam2[GameData.Rounds[SelectedField].SingerTeam2]].Avatar.Texture;
+            Texts[_TextNextPlayerNameT1].Text = profiles[_GameData.ProfileIDsTeam1[_GameData.Rounds[_SelectedField].SingerTeam1]].PlayerName;
+            Texts[_TextNextPlayerNameT2].Text = profiles[_GameData.ProfileIDsTeam2[_GameData.Rounds[_SelectedField].SingerTeam2]].PlayerName;
+            Statics[_StaticAvatarT1].Visible = true;
+            Statics[_StaticAvatarT2].Visible = true;
+            Statics[_StaticAvatarT1].Texture = profiles[_GameData.ProfileIDsTeam1[_GameData.Rounds[_SelectedField].SingerTeam1]].Avatar.Texture;
+            Statics[_StaticAvatarT2].Texture = profiles[_GameData.ProfileIDsTeam2[_GameData.Rounds[_SelectedField].SingerTeam2]].Avatar.Texture;
 
-            UpdateJokerButtons();
+            _UpdateJokerButtons();
 
-            Buttons[ButtonNextRound].Visible = true;
-            Buttons[ButtonExit].Visible = true;
-            Buttons[ButtonBack].Visible = false;
+            Buttons[_ButtonNextRound].Visible = true;
+            Buttons[_ButtonExit].Visible = true;
+            Buttons[_ButtonBack].Visible = false;
 
-            SetInteractionToButton(Buttons[ButtonNextRound]);
+            SetInteractionToButton(Buttons[_ButtonNextRound]);
         }
 
-        private void FieldSelectedAgain()
+        private void _FieldSelectedAgain()
         {
-            int SongID = Fields[SelectedField].Content.SongID;
-            CSong Song = CBase.Songs.GetSongByID(SongID);
+            int songID = _Fields[_SelectedField].Content.SongID;
+            CSong song = CBase.Songs.GetSongByID(songID);
             CBase.BackgroundMusic.SetStatus(true);
 
-            PreviewStream = CBase.Sound.Load(Song.GetMP3(), false);
-            CBase.Sound.SetPosition(PreviewStream, Song.PreviewStart);
-            CBase.Sound.SetStreamVolume(PreviewStream, 0f);
-            CBase.Sound.Play(PreviewStream);
-            CBase.Sound.Fade(PreviewStream, CBase.Config.GetBackgroundMusicVolume(), 1f);
-            Status = EStatus.FieldSelected;
-            Fields[SelectedField].Content.SongID = SongID;
-            GameData.Rounds[SelectedField].SongID = SongID;
-            GameData.Rounds[SelectedField].SingerTeam1 = GameData.Rounds[OldSelectedField].SingerTeam1;
-            GameData.Rounds[SelectedField].SingerTeam2 = GameData.Rounds[OldSelectedField].SingerTeam2;
-            UpdateFieldContents();
+            _PreviewStream = CBase.Sound.Load(song.GetMP3(), false);
+            CBase.Sound.SetPosition(_PreviewStream, song.PreviewStart);
+            CBase.Sound.SetStreamVolume(_PreviewStream, 0f);
+            CBase.Sound.Play(_PreviewStream);
+            CBase.Sound.Fade(_PreviewStream, CBase.Config.GetBackgroundMusicVolume(), 1f);
+            _Status = EStatus.FieldSelected;
+            _Fields[_SelectedField].Content.SongID = songID;
+            _GameData.Rounds[_SelectedField].SongID = songID;
+            _GameData.Rounds[_SelectedField].SingerTeam1 = _GameData.Rounds[_OldSelectedField].SingerTeam1;
+            _GameData.Rounds[_SelectedField].SingerTeam2 = _GameData.Rounds[_OldSelectedField].SingerTeam2;
+            _UpdateFieldContents();
 
-            Texts[TextNextPlayerT1].Visible = true;
-            Texts[TextNextPlayerT2].Visible = true;
-            Texts[TextNextPlayerNameT1].Visible = true;
-            Texts[TextNextPlayerNameT2].Visible = true;
+            Texts[_TextNextPlayerT1].Visible = true;
+            Texts[_TextNextPlayerT2].Visible = true;
+            Texts[_TextNextPlayerNameT1].Visible = true;
+            Texts[_TextNextPlayerNameT2].Visible = true;
             SProfile[] profiles = CBase.Profiles.GetProfiles();
-            Texts[TextNextPlayerNameT1].Text = profiles[GameData.ProfileIDsTeam1[GameData.Rounds[SelectedField].SingerTeam1]].PlayerName;
-            Texts[TextNextPlayerNameT2].Text = profiles[GameData.ProfileIDsTeam2[GameData.Rounds[SelectedField].SingerTeam2]].PlayerName;
-            Statics[StaticAvatarT1].Visible = true;
-            Statics[StaticAvatarT2].Visible = true;
-            Statics[StaticAvatarT1].Texture = profiles[GameData.ProfileIDsTeam1[GameData.Rounds[SelectedField].SingerTeam1]].Avatar.Texture;
-            Statics[StaticAvatarT2].Texture = profiles[GameData.ProfileIDsTeam2[GameData.Rounds[SelectedField].SingerTeam2]].Avatar.Texture;
+            Texts[_TextNextPlayerNameT1].Text = profiles[_GameData.ProfileIDsTeam1[_GameData.Rounds[_SelectedField].SingerTeam1]].PlayerName;
+            Texts[_TextNextPlayerNameT2].Text = profiles[_GameData.ProfileIDsTeam2[_GameData.Rounds[_SelectedField].SingerTeam2]].PlayerName;
+            Statics[_StaticAvatarT1].Visible = true;
+            Statics[_StaticAvatarT2].Visible = true;
+            Statics[_StaticAvatarT1].Texture = profiles[_GameData.ProfileIDsTeam1[_GameData.Rounds[_SelectedField].SingerTeam1]].Avatar.Texture;
+            Statics[_StaticAvatarT2].Texture = profiles[_GameData.ProfileIDsTeam2[_GameData.Rounds[_SelectedField].SingerTeam2]].Avatar.Texture;
 
-            UpdateJokerButtons();
+            _UpdateJokerButtons();
 
-            Buttons[ButtonNextRound].Visible = true;
-            Buttons[ButtonExit].Visible = true;
-            Buttons[ButtonBack].Visible = false;
+            Buttons[_ButtonNextRound].Visible = true;
+            Buttons[_ButtonExit].Visible = true;
+            Buttons[_ButtonBack].Visible = false;
 
-            SetInteractionToButton(Buttons[ButtonNextRound]);
+            SetInteractionToButton(Buttons[_ButtonNextRound]);
         }
 
-        private void UseJoker(int TeamNr, int JokerNum)
+        private void _UseJoker(int teamNr, int jokerNum)
         {
-            switch (JokerNum)
+            switch (jokerNum)
             {
                     //Random-Joker
                 case 0:
-                    if (GameData.NumJokerRandom[TeamNr] > 0)
+                    if (_GameData.NumJokerRandom[teamNr] > 0)
                     {
-                        GameData.NumJokerRandom[TeamNr]--;
-                        if (!CBase.Sound.IsFinished(PreviewStream))
-                            CBase.Sound.FadeAndStop(PreviewStream, 0, 1);
-                        FieldSelected();
+                        _GameData.NumJokerRandom[teamNr]--;
+                        if (!CBase.Sound.IsFinished(_PreviewStream))
+                            CBase.Sound.FadeAndStop(_PreviewStream, 0, 1);
+                        _FieldSelected();
                     }
                     break;
 
                     //Retry-Joker
                 case 1:
-                    if (GameData.NumJokerRetry[TeamNr] > 0 && GameData.CurrentRoundNr > 1)
+                    if (_GameData.NumJokerRetry[teamNr] > 0 && _GameData.CurrentRoundNr > 1)
                     {
-                        GameData.NumJokerRetry[TeamNr]--;
-                        GameData.Team = TeamNr;
-                        if (!CBase.Sound.IsFinished(PreviewStream))
-                            CBase.Sound.FadeAndStop(PreviewStream, 0, 1);
-                        Status = EStatus.JokerRetry;
-                        OldSelectedField = SelectedField;
-                        SelectedField = -1;
-                        UpdateFieldContents();
+                        _GameData.NumJokerRetry[teamNr]--;
+                        _GameData.Team = teamNr;
+                        if (!CBase.Sound.IsFinished(_PreviewStream))
+                            CBase.Sound.FadeAndStop(_PreviewStream, 0, 1);
+                        _Status = EStatus.JokerRetry;
+                        _OldSelectedField = _SelectedField;
+                        _SelectedField = -1;
+                        _UpdateFieldContents();
                     }
                     break;
             }
-            UpdateJokerButtons();
+            _UpdateJokerButtons();
         }
 
-        private void UpdateTeamChoosingMessage()
+        private void _UpdateTeamChoosingMessage()
         {
-            Texts[TextTeamChoosing].Color = CBase.Theme.GetPlayerColor(GameData.Team + 1);
-            Texts[TextTeamChoosing].Text = CBase.Language.Translate("TR_TEAM", _PartyModeID) + " " + (GameData.Team + 1) + "! " +
+            Texts[_TextTeamChoosing].Color = CBase.Theme.GetPlayerColor(_GameData.Team + 1);
+            Texts[_TextTeamChoosing].Text = CBase.Language.Translate("TR_TEAM", _PartyModeID) + " " + (_GameData.Team + 1) + "! " +
                                            CBase.Language.Translate("TR_SCREENMAIN_TEAM_CHOOSE", _PartyModeID);
-            if (Status == EStatus.JokerRetry || Status == EStatus.FieldChoosing)
-                Texts[TextTeamChoosing].Visible = true;
+            if (_Status == EStatus.JokerRetry || _Status == EStatus.FieldChoosing)
+                Texts[_TextTeamChoosing].Visible = true;
             else
-                Texts[TextTeamChoosing].Visible = false;
+                Texts[_TextTeamChoosing].Visible = false;
         }
 
-        private void UpdateJokerButtons()
+        private void _UpdateJokerButtons()
         {
-            Buttons[ButtonJokerRandomT1].Visible = true;
-            Buttons[ButtonJokerRandomT2].Visible = true;
-            Buttons[ButtonJokerRandomT1].Text.Text = GameData.NumJokerRandom[0].ToString();
-            Buttons[ButtonJokerRandomT2].Text.Text = GameData.NumJokerRandom[1].ToString();
-            Buttons[ButtonJokerRandomT1].Enabled = GameData.NumJokerRandom[0] > 0;
-            Buttons[ButtonJokerRandomT2].Enabled = GameData.NumJokerRandom[1] > 0;
-            Buttons[ButtonJokerRetryT1].Visible = true;
-            Buttons[ButtonJokerRetryT2].Visible = true;
-            Buttons[ButtonJokerRetryT1].Text.Text = GameData.NumJokerRetry[0].ToString();
-            Buttons[ButtonJokerRetryT2].Text.Text = GameData.NumJokerRetry[1].ToString();
-            Buttons[ButtonJokerRetryT1].Enabled = GameData.NumJokerRetry[0] > 0;
-            Buttons[ButtonJokerRetryT2].Enabled = GameData.NumJokerRetry[1] > 0;
+            Buttons[_ButtonJokerRandomT1].Visible = true;
+            Buttons[_ButtonJokerRandomT2].Visible = true;
+            Buttons[_ButtonJokerRandomT1].Text.Text = _GameData.NumJokerRandom[0].ToString();
+            Buttons[_ButtonJokerRandomT2].Text.Text = _GameData.NumJokerRandom[1].ToString();
+            Buttons[_ButtonJokerRandomT1].Enabled = _GameData.NumJokerRandom[0] > 0;
+            Buttons[_ButtonJokerRandomT2].Enabled = _GameData.NumJokerRandom[1] > 0;
+            Buttons[_ButtonJokerRetryT1].Visible = true;
+            Buttons[_ButtonJokerRetryT2].Visible = true;
+            Buttons[_ButtonJokerRetryT1].Text.Text = _GameData.NumJokerRetry[0].ToString();
+            Buttons[_ButtonJokerRetryT2].Text.Text = _GameData.NumJokerRetry[1].ToString();
+            Buttons[_ButtonJokerRetryT1].Enabled = _GameData.NumJokerRetry[0] > 0;
+            Buttons[_ButtonJokerRetryT2].Enabled = _GameData.NumJokerRetry[1] > 0;
         }
 
-        private void NextRound()
+        private void _NextRound()
         {
-            CBase.Sound.FadeAndStop(PreviewStream, 0f, 0.5f);
-            Data.ScreenMain.Rounds = GameData.Rounds;
-            Data.ScreenMain.FadeToNameSelection = false;
-            Data.ScreenMain.FadeToSinging = true;
-            Data.ScreenMain.Songs = GameData.Songs;
-            Data.ScreenMain.SingRoundNr = SelectedField;
-            Data.ScreenMain.PlayerTeam1 = GameData.PlayerTeam1;
-            Data.ScreenMain.PlayerTeam2 = GameData.PlayerTeam2;
-            _PartyMode.DataFromScreen(ThemeName, Data);
+            CBase.Sound.FadeAndStop(_PreviewStream, 0f, 0.5f);
+            _Data.ScreenMain.Rounds = _GameData.Rounds;
+            _Data.ScreenMain.FadeToNameSelection = false;
+            _Data.ScreenMain.FadeToSinging = true;
+            _Data.ScreenMain.Songs = _GameData.Songs;
+            _Data.ScreenMain.SingRoundNr = _SelectedField;
+            _Data.ScreenMain.PlayerTeam1 = _GameData.PlayerTeam1;
+            _Data.ScreenMain.PlayerTeam2 = _GameData.PlayerTeam2;
+            _PartyMode.DataFromScreen(ThemeName, _Data);
         }
 
-        private void EndParty()
+        private void _EndParty()
         {
-            CBase.Sound.FadeAndStop(PreviewStream, 0f, 0.5f);
-            FadeTo(EScreens.ScreenParty);
+            CBase.Sound.FadeAndStop(_PreviewStream, 0f, 0.5f);
+            _FadeTo(EScreens.ScreenParty);
         }
 
-        private void ShowPopup(bool Visible)
+        private void _ShowPopup(bool visible)
         {
-            ExitPopupVisible = Visible;
+            _ExitPopupVisible = visible;
 
-            Statics[StaticPopupBG].Visible = ExitPopupVisible;
-            Texts[TextPopupReallyExit].Visible = ExitPopupVisible;
-            Buttons[ButtonPopupYes].Visible = ExitPopupVisible;
-            Buttons[ButtonPopupNo].Visible = ExitPopupVisible;
+            Statics[_StaticPopupBG].Visible = _ExitPopupVisible;
+            Texts[_TextPopupReallyExit].Visible = _ExitPopupVisible;
+            Buttons[_ButtonPopupYes].Visible = _ExitPopupVisible;
+            Buttons[_ButtonPopupNo].Visible = _ExitPopupVisible;
 
-            if (ExitPopupVisible)
-                SetInteractionToButton(Buttons[ButtonPopupNo]);
+            if (_ExitPopupVisible)
+                SetInteractionToButton(Buttons[_ButtonPopupNo]);
         }
 
-        private void Back()
+        private void _Back()
         {
-            CBase.Sound.FadeAndStop(PreviewStream, 0f, 0.5f);
-            Data.ScreenMain.FadeToNameSelection = true;
-            Data.ScreenMain.FadeToSinging = false;
-            Data.ScreenMain.SingRoundNr = SelectedField;
-            _PartyMode.DataFromScreen(ThemeName, Data);
+            CBase.Sound.FadeAndStop(_PreviewStream, 0f, 0.5f);
+            _Data.ScreenMain.FadeToNameSelection = true;
+            _Data.ScreenMain.FadeToSinging = false;
+            _Data.ScreenMain.SingRoundNr = _SelectedField;
+            _PartyMode.DataFromScreen(ThemeName, _Data);
         }
 
-        private int BuildWinnerPossibilities()
+        private int _BuildWinnerPossibilities()
         {
-            int NumOneRow = (int)Math.Sqrt(GameData.NumFields);
-            Possibilities = new int[(NumOneRow * 2) + 2,NumOneRow];
-            for (int i = 0; i < Possibilities.GetLength(0); i++)
+            int numOneRow = (int)Math.Sqrt(_GameData.NumFields);
+            _Possibilities = new int[(numOneRow * 2) + 2,numOneRow];
+            for (int i = 0; i < _Possibilities.GetLength(0); i++)
             {
-                if (i < NumOneRow)
+                if (i < numOneRow)
                 {
-                    for (int c = 0; c < NumOneRow; c++)
-                        Possibilities[i, c] = i * NumOneRow + c;
+                    for (int c = 0; c < numOneRow; c++)
+                        _Possibilities[i, c] = i * numOneRow + c;
                 }
-                else if (i < NumOneRow * 2)
+                else if (i < numOneRow * 2)
                 {
-                    for (int c = 0; c < NumOneRow; c++)
-                        Possibilities[i, c] = (i - NumOneRow) + (c * NumOneRow);
+                    for (int c = 0; c < numOneRow; c++)
+                        _Possibilities[i, c] = (i - numOneRow) + (c * numOneRow);
                 }
-                else if (i == Possibilities.GetLength(0) - 2)
+                else if (i == _Possibilities.GetLength(0) - 2)
                 {
-                    for (int c = 0; c < NumOneRow; c++)
-                        Possibilities[i, c] = (NumOneRow + 1) * c;
+                    for (int c = 0; c < numOneRow; c++)
+                        _Possibilities[i, c] = (numOneRow + 1) * c;
                 }
-                else if (i == Possibilities.GetLength(0) - 1)
+                else if (i == _Possibilities.GetLength(0) - 1)
                 {
-                    for (int c = 0; c < NumOneRow; c++)
-                        Possibilities[i, c] = (NumOneRow - 1) * c + (NumOneRow - 1);
+                    for (int c = 0; c < numOneRow; c++)
+                        _Possibilities[i, c] = (numOneRow - 1) * c + (numOneRow - 1);
                 }
             }
             return 0;
         }
 
-        private int GetWinner()
+        private int _GetWinner()
         {
-            for (int i = 0; i < Possibilities.GetLength(0); i++)
+            for (int i = 0; i < _Possibilities.GetLength(0); i++)
             {
-                List<int> Check = new List<int>();
-                for (int j = 0; j < Possibilities.GetLength(1); j++)
+                List<int> check = new List<int>();
+                for (int j = 0; j < _Possibilities.GetLength(1); j++)
                 {
-                    if (Fields[Possibilities[i, j]].Content.Winner > 0)
-                        Check.Add(Fields[Possibilities[i, j]].Content.Winner);
+                    if (_Fields[_Possibilities[i, j]].Content.Winner > 0)
+                        check.Add(_Fields[_Possibilities[i, j]].Content.Winner);
                 }
-                if (Check.Count == Possibilities.GetLength(1))
+                if (check.Count == _Possibilities.GetLength(1))
                 {
                     //Check for winner
-                    if (Check.Contains(1) && !Check.Contains(2))
+                    if (check.Contains(1) && !check.Contains(2))
                         return 1;
-                    else if (Check.Contains(2) && !Check.Contains(1))
+                    else if (check.Contains(2) && !check.Contains(1))
                         return 2;
                 }
             }
