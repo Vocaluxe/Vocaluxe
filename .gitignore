@@ -37,3 +37,4 @@ Output/Songs
 /PartyModes/*/*/*.dll
 
 *.Cache
+/Output/x86/gstreamer/GstreamerHelper.dll

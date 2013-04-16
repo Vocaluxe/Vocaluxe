@@ -153,11 +153,11 @@ namespace Vocaluxe.Lib.Video.Acinerella
     {
 #if ARCH_X86
 #if WIN
-        private const string AcDll = "x86\\acinerella.dll";
+        private const string _AcDll = "x86\\acinerella.dll";
 #endif
 
 #if LINUX
-        private const string AcDll = "x86/libacinerella.so";
+        private const string _AcDll = "x86/libacinerella.so";
 #endif
 #endif
 
@@ -167,7 +167,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 #endif
 
 #if LINUX
-        private const string AcDll = "x64/libacinerella.so";
+        private const string _AcDll = "x64/libacinerella.so";
 #endif
 #endif
 
