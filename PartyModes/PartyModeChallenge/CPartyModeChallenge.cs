@@ -277,8 +277,8 @@ namespace VocaluxeLib.PartyModes.Challenge
             switch (_Stage)
             {
                 case EStage.NotStarted:
-                    _Screens.TryGetValue("PartyScreenChallengeConfig", out screen);
-                    if (_Screens != null)
+                    _Screens.TryGetValue("CPartyScreenChallengeConfig", out screen);
+                    if (screen != null)
                     {
                         _ToScreenConfig.NumPlayer = _GameData.NumPlayer;
                         _ToScreenConfig.NumPlayerAtOnce = _GameData.NumPlayerAtOnce;
@@ -287,8 +287,8 @@ namespace VocaluxeLib.PartyModes.Challenge
                     }
                     break;
                 case EStage.Config:
-                    _Screens.TryGetValue("PartyScreenChallengeNames", out screen);
-                    if (_Screens != null)
+                    _Screens.TryGetValue("CPartyScreenChallengeNames", out screen);
+                    if (screen != null)
                     {
                         _ToScreenNames.NumPlayer = _GameData.NumPlayer;
                         _ToScreenNames.ProfileIDs = _GameData.ProfileIDs;
@@ -296,8 +296,8 @@ namespace VocaluxeLib.PartyModes.Challenge
                     }
                     break;
                 case EStage.Names:
-                    _Screens.TryGetValue("PartyScreenChallengeMain", out screen);
-                    if (_Screens != null)
+                    _Screens.TryGetValue("CPartyScreenChallengeMain", out screen);
+                    if (screen != null)
                     {
                         CBase.Songs.ResetPartySongSung();
                         _ToScreenMain.ResultTable = new List<CResultTableRow>();
@@ -318,8 +318,8 @@ namespace VocaluxeLib.PartyModes.Challenge
                     //nothing to do
                     break;
                 case EStage.Singing:
-                    _Screens.TryGetValue("PartyScreenChallengeMain", out screen);
-                    if (_Screens != null)
+                    _Screens.TryGetValue("CPartyScreenChallengeMain", out screen);
+                    if (screen != null)
                     {
                         _UpdateScores();
                         _ToScreenMain.CurrentRoundNr = _GameData.CurrentRoundNr;

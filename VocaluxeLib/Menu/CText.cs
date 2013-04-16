@@ -278,7 +278,7 @@ namespace VocaluxeLib.Menu
             ReflectionSpace = text.ReflectionSpace;
             ReflectionHeight = text.ReflectionHeight;
 
-            _Text = text._Text;
+            Text = text.Text;
             Selected = text.Selected;
             Visible = text.Visible;
             Alpha = text.Alpha;

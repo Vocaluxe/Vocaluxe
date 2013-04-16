@@ -330,8 +330,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             switch (_Stage)
             {
                 case EStage.NotStarted:
-                    _Screens.TryGetValue("PartyScreenTicTacToeConfig", out screen);
-                    if (_Screens != null)
+                    _Screens.TryGetValue("CPartyScreenTicTacToeConfig", out screen);
+                    if (screen != null)
                     {
                         _ToScreenConfig.NumPlayerTeam1 = _GameData.NumPlayerTeam1;
                         _ToScreenConfig.NumPlayerTeam2 = _GameData.NumPlayerTeam2;
@@ -344,8 +344,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     }
                     break;
                 case EStage.Config:
-                    _Screens.TryGetValue("PartyScreenTicTacToeNames", out screen);
-                    if (_Screens != null)
+                    _Screens.TryGetValue("CPartyScreenTicTacToeNames", out screen);
+                    if (screen != null)
                     {
                         _ToScreenNames.NumPlayerTeam1 = _GameData.NumPlayerTeam1;
                         _ToScreenNames.NumPlayerTeam2 = _GameData.NumPlayerTeam2;
@@ -355,8 +355,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     }
                     break;
                 case EStage.Names:
-                    _Screens.TryGetValue("PartyScreenTicTacToeMain", out screen);
-                    if (_Screens != null)
+                    _Screens.TryGetValue("CPartyScreenTicTacToeMain", out screen);
+                    if (screen != null)
                     {
                         if (_GameData.Team == 1)
                             _GameData.Team = 0;
@@ -388,8 +388,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     //nothing to do
                     break;
                 case EStage.Singing:
-                    _Screens.TryGetValue("PartyScreenTicTacToeMain", out screen);
-                    if (_Screens != null)
+                    _Screens.TryGetValue("CPartyScreenTicTacToeMain", out screen);
+                    if (screen != null)
                     {
                         if (_GameData.Team == 1)
                             _GameData.Team = 0;

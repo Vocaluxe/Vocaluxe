@@ -570,9 +570,6 @@ namespace Vocaluxe.Screens
                 return;
             }
 
-            if (!song.NotesLoaded)
-                song.ReadNotes();
-
             string songname = song.Artist + " - " + song.Title;
             int rounds = CGame.GetNumSongs();
             if (rounds > 1)

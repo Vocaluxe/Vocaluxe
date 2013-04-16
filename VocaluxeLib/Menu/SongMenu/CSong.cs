@@ -613,10 +613,10 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public bool ReadNotes()
         {
-            return ReadNotes(Path.Combine(Folder, FileName));
+            return _ReadNotes(Path.Combine(Folder, FileName));
         }
 
-        public bool ReadNotes(string filePath, bool forceReload = false)
+        private bool _ReadNotes(string filePath, bool forceReload = false)
         {
             //Skip loading if already done and no reload is forced
             if (_NotesLoaded && !forceReload)

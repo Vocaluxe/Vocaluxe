@@ -282,8 +282,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             switch (_Stage)
             {
                 case EStage.NotStarted:
-                    _Screens.TryGetValue("PartyScreenChallengeMedleyConfig", out screen);
-                    if (_Screens != null)
+                    _Screens.TryGetValue("CPartyScreenChallengeMedleyConfig", out screen);
+                    if (screen != null)
                     {
                         _ToScreenConfig.NumPlayer = _GameData.NumPlayer;
                         _ToScreenConfig.NumPlayerAtOnce = _GameData.NumPlayerAtOnce;
@@ -292,8 +292,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                     }
                     break;
                 case EStage.Config:
-                    _Screens.TryGetValue("PartyScreenChallengeMedleyNames", out screen);
-                    if (_Screens != null)
+                    _Screens.TryGetValue("CPartyScreenChallengeMedleyNames", out screen);
+                    if (screen != null)
                     {
                         _ToScreenNames.NumPlayer = _GameData.NumPlayer;
                         _ToScreenNames.ProfileIDs = _GameData.ProfileIDs;
@@ -301,8 +301,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                     }
                     break;
                 case EStage.Names:
-                    _Screens.TryGetValue("PartyScreenChallengeMedleyMain", out screen);
-                    if (_Screens != null)
+                    _Screens.TryGetValue("CPartyScreenChallengeMedleyMain", out screen);
+                    if (screen != null)
                     {
                         CBase.Songs.ResetPartySongSung();
                         _ToScreenMain.ResultTable = new List<CResultTableRow>();
@@ -323,8 +323,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                     //nothing to do
                     break;
                 case EStage.Singing:
-                    _Screens.TryGetValue("PartyScreenChallengeMedleyMain", out screen);
-                    if (_Screens != null)
+                    _Screens.TryGetValue("CPartyScreenChallengeMedleyMain", out screen);
+                    if (screen != null)
                     {
                         _UpdateScores();
                         _ToScreenMain.CurrentRoundNr = _GameData.CurrentRoundNr;
@@ -510,7 +510,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             CSong[] visSongs = CBase.Songs.GetSongsNotSung();
             if (visSongs == null)
             {
-                CBase.Log.LogError("PartyChallengeMedleyMode Error: There are no songs!");
+                CBase.Log.LogError("CPartyChallengeMedleyMode Error: There are no songs!");
                 CBase.Graphics.FadeTo(EScreens.ScreenParty);
                 return false;
             }
@@ -526,7 +526,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
             if (iDs.Count == 0)
             {
-                CBase.Log.LogError("PartyChallengeMedleyMode Error: There are no medley songs!");
+                CBase.Log.LogError("CPartyChallengeMedleyMode Error: There are no medley songs!");
                 CBase.Graphics.FadeTo(EScreens.ScreenParty);
                 return false;
             }
