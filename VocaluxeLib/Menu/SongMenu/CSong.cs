@@ -230,9 +230,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public static CSong LoadSong(string filePath)
         {
             CSong song = new CSong();
-            if (song.ReadHeader(filePath))
-                return song;
-            return null;
+            return song.ReadHeader(filePath) ? song : null;
         }
 
         public CSong(CSong song)
@@ -785,11 +783,19 @@ namespace VocaluxeLib.Menu.SongMenu
                 return false;
             }
             sr.Dispose();
-            _FindRefrain();
-            _FindShortEnd();
-            _NotesLoaded = true;
-            if (IsDuet)
-                _CheckDuet();
+            try
+            {
+                _FindRefrain();
+                _FindShortEnd();
+                _NotesLoaded = true;
+                if (IsDuet)
+                    _CheckDuet();
+            }
+            catch (Exception e)
+            {
+                CBase.Log.LogError("Error loading song. An unhandled exception occured (" + e.Message + "): " + filePath);
+                return false;
+            }
             return true;
         }
 
