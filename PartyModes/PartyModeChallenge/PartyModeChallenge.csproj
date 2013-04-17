@@ -107,7 +107,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ChallengeRounds.cs" />
+    <Compile Include="CChallengeRounds.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="CPartyModeChallenge.cs" />
     <Compile Include="CPartyScreenChallengeConfig.cs" />
