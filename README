@@ -19,7 +19,7 @@
 Vocaluxe is a free and open source singing game, inspired by the original UltraStar (developed by corvus5) and the great Ultrastar Deluxe project - yet it is an entirely new development in C#. It allows up to three players (currently) to sing along with music using microphones in order to score points, depending on the pitch of the voice and the rhythm of singing. It features mouse and keyboard navigation, a multi-language interface, and singer profiles with avatars and supports songs in CP1250/52 and UTF8 encodings.
 
 Supported Operating Systems / Requirements:
-- WinXP, Vista, Windows 7 with .NET 2.0
+- WinXP, Vista, Windows 7 with .NET 4.0
 - 1 GHz CPU, 512 MB RAM, Graphics card with OpenGL 2.1 or DirectX 9.0 support
 
 

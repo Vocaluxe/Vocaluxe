@@ -33,7 +33,7 @@ namespace Vocaluxe.Base
         public const int VersionSub = 0; // patches
         public const ERevision VersionRevision = ERevision.Alpha;
 
-        public const int Build = 77; // Increase on every published version! Never Reset!
+        public const int Build = 78; // Increase on every published version! Never Reset!
 
         public const int DatabaseHighscoreVersion = 2;
         public const int DatabaseCoverVersion = 1;

@@ -23,8 +23,9 @@ Vocaluxe is an entirely new development in C#, inspired by the original UltraSta
 and the great Ultrastar Deluxe project.
 
 Supported Operating Systems / Requirements:
-- WinXP, Vista, Windows 7 with .NET 2.0
+- WinXP, Vista, Windows 7 or Windows 8 with .NET 4.0
 - 1 GHz CPU, 512 MB RAM, Graphics card with OpenGL 2.1 or DirectX 9.0 support
+- Visual C++ Redistributable Packages 2008 and 2012
 
 
 =================================
