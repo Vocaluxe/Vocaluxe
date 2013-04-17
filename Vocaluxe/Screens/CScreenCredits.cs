@@ -28,8 +28,8 @@ class CCreditName
         _Image = image;
         _ImgDot = imgDot;
         _Particle = particle;
-        _ParticleOffsetX = (int)Math.Round(particleOffsetX * image.Rect.W / image.Texture.W2 - particle.Rect.W / 2);
-        _ParticleOffsetY = (int)Math.Round(particleOffsetY * image.Rect.H / image.Texture.H2 - particle.Rect.H / 2);
+        _ParticleOffsetX = (int)Math.Round(particleOffsetX * image.Rect.W / image.Texture.Width - particle.Rect.W / 2);
+        _ParticleOffsetY = (int)Math.Round(particleOffsetY * image.Rect.H / image.Texture.Height - particle.Rect.H / 2);
         Active = true;
     }
 

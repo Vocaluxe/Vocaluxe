@@ -1,10 +1,30 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using System.Runtime.ExceptionServices;
 
 namespace Vocaluxe
 {
@@ -13,13 +33,33 @@ namespace Vocaluxe
     {
         private static CSplashScreen _SplashScreen;
 
-        [STAThread]
-// ReSharper disable InconsistentNaming
+        [STAThread, HandleProcessCorruptedStateExceptions]
+        // ReSharper disable InconsistentNaming
         private static void Main(string[] args)
-// ReSharper restore InconsistentNaming
+            // ReSharper restore InconsistentNaming
         {
+            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
             AppDomain.CurrentDomain.AssemblyResolve += _AssemblyResolver;
+            try
+            {
+                _Run(args);
+            }
+            catch (Exception e)
+            {
+                string stackTrace = "";
+                try
+                {
+                    stackTrace = e.StackTrace;
+                }
+                catch {}
+                MessageBox.Show("Unhandled error: " + e.Message + stackTrace);
+                CLog.LogError("Unhandled error: " + e.Message + stackTrace);
+            }
+            _CloseProgram();
+        }
 
+        private static void _Run(string[] args)
+        {
             // Close program if there is another instance running
             if (!_EnsureSingleInstance())
             {
@@ -169,17 +209,7 @@ namespace Vocaluxe
             // Start Main Loop
             _SplashScreen.Close();
 
-            try
-            {
-                CDraw.MainLoop();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Unhandled error: " + e.Message + e.StackTrace);
-                CLog.LogError("Unhandled error: " + e.Message + e.StackTrace);
-            }
-
-            _CloseProgram();
+            CDraw.MainLoop();
         }
 
         private static void _CloseProgram()
@@ -187,32 +217,68 @@ namespace Vocaluxe
             // Unloading
             try
             {
+                CLog.CloseAll();
                 CInput.Close();
                 CSound.RecordCloseAll();
                 CSound.CloseAllStreams();
                 CVideo.VdCloseAll();
                 CDraw.Unload();
-                CLog.CloseAll();
                 CDataBase.CloseConnections();
                 CWebcam.Close();
             }
             catch (Exception) {}
         }
 
+        [HandleProcessCorruptedStateExceptions]
+        private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args)
+        {
+            Exception e = (Exception)args.ExceptionObject;
+            string stackTrace = "";
+            try
+            {
+                stackTrace = e.StackTrace;
+            }
+            catch {}
+            MessageBox.Show("Unhandled exception: " + e.Message + stackTrace);
+            CLog.LogError("Unhandled exception: " + e.Message + stackTrace);
+        }
+
         private static Assembly _AssemblyResolver(Object sender, ResolveEventArgs args)
         {
+            // a fix to handle mscorlib.resources
+            if (args.Name.IndexOf(".resources", StringComparison.Ordinal) >= 0)
+                return null;
+
             string[] arr = args.Name.Split(new char[] {','});
-            if (arr != null)
+            if (arr.Length > 0)
             {
+                
 #if ARCH_X86
-                Assembly assembly = Assembly.LoadFrom(Path.Combine("x86", arr[0] + ".dll"));
+                string path="x86";
 #endif
 
 #if ARCH_X64
-                Assembly assembly = Assembly.LoadFrom(Path.Combine("x64", arr[0] + ".dll"));
+                string path="x64";
 #endif
-
-                return assembly;
+                path = Path.Combine(path, arr[0] + ".dll");
+                try
+                {
+                    Assembly assembly;
+                    try
+                    {
+                        assembly = Assembly.LoadFrom(path);
+                    }
+                    catch (FileLoadException)
+                    {
+                        //possibly loading from network, this would work always but better use the normal LoadFrom for more specific errors
+                        assembly = Assembly.Load(File.ReadAllBytes(path));
+                    }
+                    return assembly;
+                }
+                catch (Exception e)
+                {
+                    CLog.LogError("Cannot load assembly "+args.Name+" from "+path+": "+e);
+                }
             }
             return null;
         }
@@ -222,74 +288,7 @@ namespace Vocaluxe
             Process currentProcess = Process.GetCurrentProcess();
             Process[] processes = Process.GetProcesses();
 
-            if (processes == null)
-                return true;
-
-            for (int i = 0; i < processes.Length; i++)
-            {
-                if (processes[i].Id != currentProcess.Id && currentProcess.ProcessName == processes[i].ProcessName)
-                    return false;
-            }
-
-            return true;
-        }
-    }
-
-    class CSplashScreen : Form
-    {
-        private readonly Bitmap _Logo;
-
-        public CSplashScreen()
-        {
-            string path = Path.Combine(Environment.CurrentDirectory, Path.Combine(CSettings.FolderGraphics, CSettings.Logo));
-            if (File.Exists(path))
-            {
-                try
-                {
-                    _Logo = new Bitmap(path);
-                    ClientSize = new Size(_Logo.Width, _Logo.Height);
-                }
-                catch (Exception e)
-                {
-                    CLog.LogError("Error loading logo: " + e.Message);
-                }
-            }
-            else
-                CLog.LogError("Can't find " + path);
-
-            path = Path.Combine(Environment.CurrentDirectory, CSettings.Icon);
-            if (File.Exists(path))
-            {
-                try
-                {
-                    Icon = new Icon(path);
-                }
-                catch (Exception e)
-                {
-                    CLog.LogError("Error loading icon: " + e.Message);
-                }
-            }
-            else
-                CLog.LogError("Can't find " + path);
-
-            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            BackColor = Color.Transparent;
-
-            FormBorderStyle = FormBorderStyle.None;
-            Text = CSettings.ProgramName;
-            CenterToScreen();
-            Show();
-        }
-
-        protected override void OnPaint(PaintEventArgs e) {}
-
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            if (_Logo == null)
-                return;
-
-            Graphics g = e.Graphics;
-            g.DrawImage(_Logo, new Rectangle(0, 0, Width, Height));
+            return processes.All(t => t.Id == currentProcess.Id || currentProcess.ProcessName != t.ProcessName);
         }
     }
 }

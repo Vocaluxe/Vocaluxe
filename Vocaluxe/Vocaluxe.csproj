@@ -195,6 +195,9 @@
     <Compile Include="Base\CTheme.cs" />
     <Compile Include="Base\CVideo.cs" />
     <Compile Include="Base\CWebcam.cs" />
+    <Compile Include="CSplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="GameModes\CGameMode.cs" />
     <Compile Include="GameModes\CGameModeNormal.cs" />
     <Compile Include="GameModes\IGameMode.cs" />
@@ -205,10 +208,10 @@
     <Compile Include="Lib\Draw\CDrawWinForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Lib\Draw\IDraw.cs" />
     <Compile Include="Lib\Draw\COpenGL.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Lib\Draw\IDraw.cs" />
     <Compile Include="Lib\Input\CHIDAPI.cs" />
     <Compile Include="Lib\Input\IInput.cs" />
     <Compile Include="Lib\Input\WiiMote\CWiiMote.cs" />
@@ -236,9 +239,7 @@
     <Compile Include="Lib\Webcam\CAForgeNet.cs" />
     <Compile Include="Lib\Webcam\IWebcam.cs" />
     <Compile Include="Base\CGraphics.cs" />
-    <Compile Include="Program.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screens\CPopupScreenPlayerControl.cs" />
     <Compile Include="Screens\CPopupScreenVolumeControl.cs" />
@@ -276,16 +277,6 @@
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 und x64%29 und Update für .NET Framework 4 %28KB2468871%29</ProductName>
       <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
       <Visible>False</Visible>

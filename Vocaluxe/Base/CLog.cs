@@ -19,15 +19,14 @@ namespace Vocaluxe.Base
 
         public void Close()
         {
-            if (_LogFile != null)
+            if (_LogFile == null)
+                return;
+            try
             {
-                try
-                {
-                    _LogFile.Flush();
-                    _LogFile.Close();
-                }
-                catch (Exception) {}
+                _LogFile.Flush();
+                _LogFile.Close();
             }
+            catch (Exception) {}
         }
 
         public void Add(string text)
@@ -47,7 +46,7 @@ namespace Vocaluxe.Base
         {
             _LogFile = new StreamWriter(Path.Combine(Environment.CurrentDirectory, _LogFileName), false, Encoding.UTF8);
 
-            _LogFile.WriteLine(_LogName + " " + CSettings.GetFullVersionText() + " " + DateTime.Now.ToString());
+            _LogFile.WriteLine(_LogName + " " + CSettings.GetFullVersionText() + " " + DateTime.Now);
             _LogFile.WriteLine("----------------------------------------");
             _LogFile.WriteLine();
         }
@@ -99,7 +98,7 @@ namespace Vocaluxe.Base
         {
             _NumErrors++;
 
-            _ErrorLog.Add(_NumErrors.ToString() + ") " + errorText);
+            _ErrorLog.Add(_NumErrors + ") " + errorText);
             _ErrorLog.Add(String.Empty);
         }
         #endregion LogError

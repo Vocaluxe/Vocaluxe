@@ -1,4 +1,23 @@
-﻿using System.Drawing.Drawing2D;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System.Drawing.Drawing2D;
 using System.Threading;
 using SlimDX;
 using SlimDX.Direct3D9;
@@ -117,6 +136,7 @@ namespace Vocaluxe.Lib.Draw
             _PresentParameters.MultisampleQuality = 0;
 
             //Apply antialiasing and check if antialiasing mode is supported
+
             #region Antialiasing
             int quality = 1;
             MultisampleType msType;
@@ -912,38 +932,11 @@ namespace Vocaluxe.Lib.Draw
                 h = maxSize;
             }
 
-            //Older graphics card can only handle textures with sizes being powers of two
-            w = (int)_CheckForNextPowerOf2(w);
-            h = (int)_CheckForNextPowerOf2(h);
-
-            Bitmap bmp2 = null;
-            byte[] data;
-            try
-            {
-                if (w != bmp.Width || h != bmp.Height)
-                {
-                    //Create a new Bitmap with the new sizes
-                    bmp2 = new Bitmap(w, h);
-                    //Scale the texture
-                    Graphics g = Graphics.FromImage(bmp2);
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-                    g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
-                    g.Dispose();
-                    bmp = bmp2;
-                }
-
-                //Fill the new Bitmap with the texture data
-                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                data = new byte[4 * w * h];
-                Marshal.Copy(bmpData.Scan0, data, 0, data.Length);
-                bmp.UnlockBits(bmpData);
-            }
-            finally
-            {
-                if (bmp2 != null)
-                    bmp2.Dispose();
-            }
+            //Fill the new Bitmap with the texture data
+            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+            byte[] data = new byte[4 * w * h];
+            Marshal.Copy(bmpData.Scan0, data, 0, data.Length);
+            bmp.UnlockBits(bmpData);
 
             return AddTexture(w, h, ref data);
         }
@@ -997,10 +990,11 @@ namespace Vocaluxe.Lib.Draw
                 t = new Texture(_Device, (int)texture.W2, (int)texture.H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
                 //Lock the texture and fill it with the data
                 DataRectangle rect = t.LockRectangle(0, LockFlags.Discard);
-                for (int i = 0; i < data.Length; i += 4 * w)
+                int rowWidth = 4 * (int)texture.W2;
+                for (int i = 0; i + rowWidth <= data.Length; i += 4 * w)
                 {
-                    rect.Data.Write(data, i, 4 * (int)texture.W2);
-                    rect.Data.Position = rect.Data.Position - 4 * (int)texture.W2;
+                    rect.Data.Write(data, i, rowWidth);
+                    rect.Data.Position = rect.Data.Position - rowWidth;
                     rect.Data.Position += rect.Pitch;
                 }
                 t.UnlockRectangle(0);
