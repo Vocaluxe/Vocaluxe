@@ -12,11 +12,11 @@ namespace Vocaluxe.Screens
             get { return 1; }
         }
 
-        private const string ButtonSing = "ButtonSing";
-        private const string ButtonParty = "ButtonParty";
-        private const string ButtonOptions = "ButtonOptions";
-        private const string ButtonProfiles = "ButtonProfiles";
-        private const string ButtonExit = "ButtonExit";
+        private const string _ButtonSing = "ButtonSing";
+        private const string _ButtonParty = "ButtonParty";
+        private const string _ButtonOptions = "ButtonOptions";
+        private const string _ButtonProfiles = "ButtonProfiles";
+        private const string _ButtonExit = "ButtonExit";
 
         //CParticleEffect Snowflakes;
         public override void Init()
@@ -24,10 +24,10 @@ namespace Vocaluxe.Screens
             base.Init();
 
             _ThemeStatics = new string[] {"StaticMenuBar"};
-            _ThemeButtons = new string[] {ButtonSing, ButtonParty, ButtonOptions, ButtonProfiles, ButtonExit};
+            _ThemeButtons = new string[] {_ButtonSing, _ButtonParty, _ButtonOptions, _ButtonProfiles, _ButtonExit};
         }
 
-        public override bool HandleInput(KeyEvent keyEvent)
+        public override bool HandleInput(SKeyEvent keyEvent)
         {
             base.HandleInput(keyEvent);
 
@@ -53,22 +53,22 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Enter:
-                        if (Buttons[ButtonSing].Selected)
+                        if (Buttons[_ButtonSing].Selected)
                         {
                             CParty.SetNormalGameMode();
                             CGraphics.FadeTo(EScreens.ScreenSong);
                         }
 
-                        if (Buttons[ButtonParty].Selected)
+                        if (Buttons[_ButtonParty].Selected)
                             CGraphics.FadeTo(EScreens.ScreenParty);
 
-                        if (Buttons[ButtonOptions].Selected)
+                        if (Buttons[_ButtonOptions].Selected)
                             CGraphics.FadeTo(EScreens.ScreenOptions);
 
-                        if (Buttons[ButtonProfiles].Selected)
+                        if (Buttons[_ButtonProfiles].Selected)
                             CGraphics.FadeTo(EScreens.ScreenProfiles);
 
-                        if (Buttons[ButtonExit].Selected)
+                        if (Buttons[_ButtonExit].Selected)
                             return false;
 
                         break;
@@ -77,28 +77,28 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent mouseEvent)
+        public override bool HandleMouse(SMouseEvent mouseEvent)
         {
             base.HandleMouse(mouseEvent);
 
             if (mouseEvent.LB && IsMouseOver(mouseEvent))
             {
-                if (Buttons[ButtonSing].Selected)
+                if (Buttons[_ButtonSing].Selected)
                 {
                     CParty.SetNormalGameMode();
                     CGraphics.FadeTo(EScreens.ScreenSong);
                 }
 
-                if (Buttons[ButtonParty].Selected)
+                if (Buttons[_ButtonParty].Selected)
                     CGraphics.FadeTo(EScreens.ScreenParty);
 
-                if (Buttons[ButtonOptions].Selected)
+                if (Buttons[_ButtonOptions].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptions);
 
-                if (Buttons[ButtonProfiles].Selected)
+                if (Buttons[_ButtonProfiles].Selected)
                     CGraphics.FadeTo(EScreens.ScreenProfiles);
 
-                if (Buttons[ButtonExit].Selected)
+                if (Buttons[_ButtonExit].Selected)
                     return false;
             }
 

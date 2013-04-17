@@ -1,6 +1,6 @@
 ﻿namespace Vocaluxe.Lib.Sound.Decoder
 {
-    struct FormatInfo
+    struct SFormatInfo
     {
         public int ChannelCount;
         public int SamplesPerSecond;
@@ -12,15 +12,15 @@
         void Init();
         void Close();
 
-        void Open(string FileName);
-        void Open(string FileName, bool Loop);
-        FormatInfo GetFormatInfo();
+        void Open(string fileName);
+        void Open(string fileName, bool loop);
+        SFormatInfo GetFormatInfo();
 
         float GetLength();
 
-        void SetPosition(float Time);
+        void SetPosition(float time);
         float GetPosition();
 
-        void Decode(out byte[] Buffer, out float TimeStamp);
+        void Decode(out byte[] buffer, out float timeStamp);
     }
 }

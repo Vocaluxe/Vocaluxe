@@ -3,58 +3,58 @@ using System.Collections.Generic;
 
 namespace VocaluxeLib.PartyModes.ChallengeMedley
 {
-    public class ChallengeRounds
+    public class CChallengeRounds
     {
         private readonly Random _Rand;
         private readonly int _NumPlayer;
 
-        public List<Combination> Rounds;
+        public List<CCombination> Rounds;
 
-        public ChallengeRounds(int NumRounds, int NumPlayer, int NumPlayerAtOnce)
+        public CChallengeRounds(int numRounds, int numPlayer, int numPlayerAtOnce)
         {
-            Rounds = new List<Combination>();
+            Rounds = new List<CCombination>();
             _Rand = new Random(DateTime.Now.Millisecond);
 
-            if (NumPlayerAtOnce < 1 || NumRounds < 1 || NumPlayer == 0)
+            if (numPlayerAtOnce < 1 || numRounds < 1 || numPlayer == 0)
                 _NumPlayer = 0;
             else
             {
-                _NumPlayer = NumPlayer;
-                BuildRounds(NumRounds, NumPlayerAtOnce, _Rand);
+                _NumPlayer = numPlayer;
+                _BuildRounds(numRounds, numPlayerAtOnce, _Rand);
             }
         }
 
-        public Combination GetRound(int RoundNr)
+        public CCombination GetRound(int roundNr)
         {
-            if (RoundNr >= Rounds.Count || _NumPlayer == 0 || Rounds.Count == 0)
+            if (roundNr >= Rounds.Count || _NumPlayer == 0 || Rounds.Count == 0)
                 return null;
 
-            return Rounds[RoundNr];
+            return Rounds[roundNr];
         }
 
-        private void BuildRounds(int NumRounds, int NumPlayerAtOnce, Random Rand)
+        private void _BuildRounds(int numRounds, int numPlayerAtOnce, Random rand)
         {
-            Combinations Combinations = new Combinations(_NumPlayer, NumPlayerAtOnce, Rand);
-            Rounds.Add(Combinations.GetNextCombination(null));
+            CCombinations combinations = new CCombinations(_NumPlayer, numPlayerAtOnce, rand);
+            Rounds.Add(combinations.GetNextCombination(null));
 
-            for (int i = 1; i < NumRounds; i++)
-                Rounds.Add(Combinations.GetNextCombination(GetPlayerDemand(i)));
+            for (int i = 1; i < numRounds; i++)
+                Rounds.Add(combinations.GetNextCombination(_GetPlayerDemand(i)));
         }
 
-        private List<int> GetPlayerDemand(int RoundIndex)
+        private List<int> _GetPlayerDemand(int roundIndex)
         {
-            List<int> NumPlayed = new List<int>(_NumPlayer);
+            List<int> numPlayed = new List<int>(_NumPlayer);
             for (int i = 0; i < _NumPlayer; i++)
-                NumPlayed.Add(0);
+                numPlayed.Add(0);
 
-            for (int i = 0; i < RoundIndex; i++)
+            for (int i = 0; i < roundIndex; i++)
             {
-                foreach (int PlayerIndex in Rounds[i].Player)
-                    NumPlayed[PlayerIndex]++;
+                foreach (int playerIndex in Rounds[i].Player)
+                    numPlayed[playerIndex]++;
             }
 
             int max = 0;
-            foreach (int p in NumPlayed)
+            foreach (int p in numPlayed)
             {
                 if (p > max)
                     max = p;
@@ -65,20 +65,20 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             List<int> other = new List<int>();
             List<int> last = new List<int>();
 
-            for (int i = 0; i < NumPlayed.Count; i++)
+            for (int i = 0; i < numPlayed.Count; i++)
             {
-                if (RoundIndex == 0 || NumPlayed[i] < max)
+                if (roundIndex == 0 || numPlayed[i] < max)
                 {
-                    if (RoundIndex == 0 || RoundIndex > 0 && NumPlayed[i] < max && !Rounds[RoundIndex - 1].IsAvailable(i))
+                    if (roundIndex == 0 || roundIndex > 0 && numPlayed[i] < max && !Rounds[roundIndex - 1].IsAvailable(i))
                         result.Add(i);
-                    else if (NumPlayed[i] < max)
+                    else if (numPlayed[i] < max)
                         other.Add(i);
                 }
                 else
                 {
-                    if (RoundIndex > 0)
+                    if (roundIndex > 0)
                     {
-                        if (!Rounds[RoundIndex - 1].IsAvailable(i))
+                        if (!Rounds[roundIndex - 1].IsAvailable(i))
                             other.Add(i);
                         else
                             last.Add(i);
@@ -116,48 +116,48 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         }
     }
 
-    class Combinations
+    class CCombinations
     {
-        private readonly List<Combination> _Combs;
+        private readonly List<CCombination> _Combs;
         private readonly Random _Rand;
         private readonly int _NumPlayer;
         private readonly int _NumMics;
 
-        public Combinations(int NumPlayer, int NumMics, Random Rand)
+        public CCombinations(int numPlayer, int numMics, Random rand)
         {
-            _Combs = new List<Combination>();
-            _NumMics = NumMics;
-            _NumPlayer = NumPlayer;
-            _Rand = Rand;
+            _Combs = new List<CCombination>();
+            _NumMics = numMics;
+            _NumPlayer = numPlayer;
+            _Rand = rand;
         }
 
-        public Combination GetNextCombination(List<int> PlayerNrDemand)
+        public CCombination GetNextCombination(List<int> playerNrDemand)
         {
             if (_Combs.Count == 0)
-                Create();
+                _Create();
 
-            Combination combs = new Combination();
+            CCombination combs = new CCombination();
 
             if (_NumPlayer == _NumMics)
                 return _Combs[0];
 
             //filter against PlayerNrDemand
-            List<Combination> combsFiltered = new List<Combination>();
-            if (PlayerNrDemand != null)
+            List<CCombination> combsFiltered = new List<CCombination>();
+            if (playerNrDemand != null)
             {
                 for (int i = 0; i < _Combs.Count; i++)
                 {
-                    if (_Combs[i].IsAvailableAll(PlayerNrDemand))
+                    if (_Combs[i].IsAvailableAll(playerNrDemand))
                         combsFiltered.Add(_Combs[i]);
                 }
             }
 
             //1st fallback
-            if (PlayerNrDemand != null && combsFiltered.Count == 0)
+            if (playerNrDemand != null && combsFiltered.Count == 0)
             {
                 for (int i = 0; i < _Combs.Count; i++)
                 {
-                    if (_Combs[i].IsAvailableSomeone(PlayerNrDemand))
+                    if (_Combs[i].IsAvailableSomeone(playerNrDemand))
                         combsFiltered.Add(_Combs[i]);
                 }
             }
@@ -171,7 +171,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
             int num = combsFiltered.Count;
             int rand = _Rand.Next(num);
-            Combination c = new Combination();
+            CCombination c = new CCombination();
             for (int i = 0; i < combsFiltered[rand].Player.Count; i++)
                 c.Player.Add(combsFiltered[rand].Player[i]);
             _Combs.Remove(combsFiltered[rand]);
@@ -179,7 +179,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             return combsFiltered[rand];
         }
 
-        private void Create()
+        private void _Create()
         {
             _Combs.Clear();
 
@@ -187,7 +187,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
             for (int i = 1; i <= num; i++)
             {
-                Combination c = new Combination();
+                CCombination c = new CCombination();
 
                 for (int j = 0; j < _NumPlayer; j++)
                 {
@@ -201,37 +201,37 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         }
     }
 
-    public class Combination
+    public class CCombination
     {
         public List<int> Player;
 
-        public Combination()
+        public CCombination()
         {
             Player = new List<int>();
         }
 
-        public bool IsAvailable(int PlayerIndex)
+        public bool IsAvailable(int playerIndex)
         {
             foreach (int p in Player)
             {
-                if (p == PlayerIndex)
+                if (p == playerIndex)
                     return true;
             }
             return false;
         }
 
-        public bool IsAvailableAll(List<int> PlayerIndices)
+        public bool IsAvailableAll(List<int> playerIndices)
         {
             bool result = true;
-            foreach (int p in PlayerIndices)
+            foreach (int p in playerIndices)
                 result &= IsAvailable(p);
             return result;
         }
 
-        public bool IsAvailableSomeone(List<int> PlayerIndices)
+        public bool IsAvailableSomeone(List<int> playerIndices)
         {
             bool result = false;
-            foreach (int p in PlayerIndices)
+            foreach (int p in playerIndices)
                 result |= IsAvailable(p);
             return result;
         }

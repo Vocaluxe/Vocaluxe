@@ -36,11 +36,11 @@ namespace Vocaluxe.Lib.Webcam
         void Stop();
         void Close();
 
-        bool GetFrame(ref STexture Frame);
+        bool GetFrame(ref STexture frame);
         Bitmap GetBitmap();
         SWebcamConfig GetConfig();
         SWebcamDevice[] GetDevices();
 
-        bool Select(SWebcamConfig sWebcamConfig);
+        bool Select(SWebcamConfig webcamConfig);
     }
 }

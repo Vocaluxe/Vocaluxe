@@ -9,15 +9,15 @@ namespace Vocaluxe.GameModes
 
         EGameMode GetCurrentGameMode();
 
-        bool AddVisibleSong(int VisibleIndex, EGameMode GameMode);
-        bool AddSong(int AbsoluteIndex, EGameMode GameMode);
-        bool RemoveVisibleSong(int VisibleIndex);
-        bool RemoveSong(int AbsoluteIndex);
+        bool AddVisibleSong(int visibleIndex, EGameMode gameMode);
+        bool AddSong(int absoluteIndex, EGameMode gameMode);
+        bool RemoveVisibleSong(int visibleIndex);
+        bool RemoveSong(int absoluteIndex);
         void ClearSongs();
 
         void Reset();
-        void Start(SPlayer[] Player);
-        void NextRound(SPlayer[] Player);
+        void Start(SPlayer[] player);
+        void NextRound(SPlayer[] player);
         bool IsFinished();
         int GetCurrentRoundNr();
 
@@ -25,7 +25,7 @@ namespace Vocaluxe.GameModes
 
         int GetNumSongs();
         CSong GetSong();
-        CSong GetSong(int Num);
-        EGameMode GetGameMode(int Num);
+        CSong GetSong(int num);
+        EGameMode GetGameMode(int num);
     }
 }

@@ -2,7 +2,7 @@
 {
     class CSongMenuList : CSongMenuFramework
     {
-        public CSongMenuList(int PartyModeID)
-            : base(PartyModeID) {}
+        public CSongMenuList(int partyModeID)
+            : base(partyModeID) {}
     }
 }

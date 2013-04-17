@@ -15,25 +15,25 @@ namespace Vocaluxe.Lib.Draw
     class CDrawWinForm : Form, IDraw
     {
         private bool _Run;
-        private readonly Bitmap _backbuffer;
-        private readonly Graphics _g;
-        private bool _fullscreen;
+        private readonly Bitmap _Backbuffer;
+        private readonly Graphics _G;
+        private bool _Fullscreen;
 
         private readonly CKeys _Keys;
         private readonly CMouse _Mouse;
 
-        private FormBorderStyle _brdStyle;
-        private bool _topMost;
-        private Rectangle _bounds;
+        private FormBorderStyle _BrdStyle;
+        private bool _TopMost;
+        private Rectangle _Bounds;
 
         private readonly List<STexture> _Textures;
         private readonly List<Bitmap> _Bitmaps;
 
-        private readonly Color ClearColor = Color.DarkBlue;
+        private readonly Color _ClearColor = Color.DarkBlue;
 
         public CDrawWinForm()
         {
-            Icon = new Icon(Path.Combine(Environment.CurrentDirectory, CSettings.sIcon));
+            Icon = new Icon(Path.Combine(Environment.CurrentDirectory, CSettings.Icon));
 
             _Textures = new List<STexture>();
             _Bitmaps = new List<Bitmap>();
@@ -45,34 +45,34 @@ namespace Vocaluxe.Lib.Draw
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.Opaque, true);
 
             // Create the backbuffer
-            _backbuffer = new Bitmap(CSettings.iRenderW, CSettings.iRenderH);
-            _g = Graphics.FromImage(_backbuffer);
-            _g.Clear(Color.DarkBlue);
+            _Backbuffer = new Bitmap(CSettings.RenderW, CSettings.RenderH);
+            _G = Graphics.FromImage(_Backbuffer);
+            _G.Clear(Color.DarkBlue);
 
-            Paint += OnPaintEvent;
-            Closing += OnClosingEvent;
-            KeyDown += OnKeyDownEvent;
-            KeyPress += OnKeyPressEvent;
-            KeyUp += OnKeyUpEvent;
-            Resize += OnResizeEvent;
+            Paint += _OnPaintEvent;
+            Closing += _OnClosingEvent;
+            KeyDown += _OnKeyDownEvent;
+            KeyPress += _OnKeyPressEvent;
+            KeyUp += _OnKeyUpEvent;
+            Resize += _OnResizeEvent;
 
-            MouseMove += OnMouseMove;
-            MouseDown += OnMouseDown;
-            MouseUp += OnMouseUp;
+            MouseMove += _OnMouseMove;
+            MouseDown += _OnMouseDown;
+            MouseUp += _OnMouseUp;
 
-            FlipBuffer();
+            _FlipBuffer();
             Cursor.Show();
         }
 
-        private void FlipBuffer()
+        private void _FlipBuffer()
         {
-            DrawBuffer();
-            _g.Clear(ClearColor);
+            _DrawBuffer();
+            _G.Clear(_ClearColor);
         }
 
-        private void DrawBuffer()
+        private void _DrawBuffer()
         {
-            Graphics gFrontBuffer = Graphics.FromHwnd(Handle);
+            Graphics frontBuffer = Graphics.FromHwnd(Handle);
             int h = ClientSize.Height;
             int w = ClientSize.Width;
             int y = 0;
@@ -89,61 +89,61 @@ namespace Vocaluxe.Lib.Draw
                 y = (ClientSize.Height - h) / 2;
             }
 
-            gFrontBuffer.DrawImage(_backbuffer, new Rectangle(x, y, w, h), new Rectangle(0, 0, _backbuffer.Width, _backbuffer.Height), GraphicsUnit.Pixel);
+            frontBuffer.DrawImage(_Backbuffer, new Rectangle(x, y, w, h), new Rectangle(0, 0, _Backbuffer.Width, _Backbuffer.Height), GraphicsUnit.Pixel);
         }
 
-        private void OnPaintEvent(object sender, PaintEventArgs e) {}
+        private void _OnPaintEvent(object sender, PaintEventArgs e) {}
 
         #region FullScreenStuff
-        private void ToggleFullScreen()
+        private void _ToggleFullScreen()
         {
-            if (!_fullscreen)
-                Maximize(this);
+            if (!_Fullscreen)
+                _Maximize(this);
             else
-                Restore(this);
+                _Restore(this);
         }
 
-        private void Maximize(Form targetForm)
+        private void _Maximize(Form targetForm)
         {
-            if (!_fullscreen)
+            if (!_Fullscreen)
             {
-                Save(targetForm);
+                _Save(targetForm);
                 targetForm.FormBorderStyle = FormBorderStyle.None;
                 targetForm.Bounds = Screen.PrimaryScreen.Bounds;
                 targetForm.TopMost = true;
-                _fullscreen = true;
+                _Fullscreen = true;
 
                 CConfig.FullScreen = EOffOn.TR_CONFIG_ON;
                 CConfig.SaveConfig();
             }
         }
 
-        private void Save(Form targetForm)
+        private void _Save(Form targetForm)
         {
-            _brdStyle = targetForm.FormBorderStyle;
-            _topMost = targetForm.TopMost;
-            _bounds = targetForm.Bounds;
+            _BrdStyle = targetForm.FormBorderStyle;
+            _TopMost = targetForm.TopMost;
+            _Bounds = targetForm.Bounds;
         }
 
-        private void Restore(Form targetForm)
+        private void _Restore(Form targetForm)
         {
-            targetForm.FormBorderStyle = _brdStyle;
-            targetForm.TopMost = _topMost;
-            targetForm.Bounds = _bounds;
-            _fullscreen = false;
+            targetForm.FormBorderStyle = _BrdStyle;
+            targetForm.TopMost = _TopMost;
+            targetForm.Bounds = _Bounds;
+            _Fullscreen = false;
 
             CConfig.FullScreen = EOffOn.TR_CONFIG_OFF;
             CConfig.SaveConfig();
         }
         #endregion FullScreenStuff
 
-        private void OnResizeEvent(object sender, EventArgs e)
+        private void _OnResizeEvent(object sender, EventArgs e)
         {
-            Graphics gFrontBuffer = Graphics.FromHwnd(Handle);
-            gFrontBuffer.Clear(Color.Black);
+            Graphics frontBuffer = Graphics.FromHwnd(Handle);
+            frontBuffer.Clear(Color.Black);
         }
 
-        private void OnClosingEvent(object sender, CancelEventArgs e)
+        private void _OnClosingEvent(object sender, CancelEventArgs e)
         {
             _Run = false;
         }
@@ -169,33 +169,33 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        private void OnKeyDownEvent(object sender, KeyEventArgs e)
+        private void _OnKeyDownEvent(object sender, KeyEventArgs e)
         {
             _Keys.KeyDown(e);
         }
 
-        private void OnKeyPressEvent(object sender, KeyPressEventArgs e)
+        private void _OnKeyPressEvent(object sender, KeyPressEventArgs e)
         {
             _Keys.KeyPress(e);
         }
 
-        private void OnKeyUpEvent(object sender, KeyEventArgs e)
+        private void _OnKeyUpEvent(object sender, KeyEventArgs e)
         {
             _Keys.KeyUp(e);
         }
 
         #region mouse event handlers
-        private void OnMouseMove(object sender, MouseEventArgs e)
+        private void _OnMouseMove(object sender, MouseEventArgs e)
         {
             _Mouse.MouseMove(e);
         }
 
-        private void OnMouseDown(object sender, MouseEventArgs e)
+        private void _OnMouseDown(object sender, MouseEventArgs e)
         {
             _Mouse.MouseDown(e);
         }
 
-        private void OnMouseUp(object sender, MouseEventArgs e)
+        private void _OnMouseUp(object sender, MouseEventArgs e)
         {
             _Mouse.MouseUp(e);
         }
@@ -215,8 +215,8 @@ namespace Vocaluxe.Lib.Draw
 
             if (CConfig.FullScreen == EOffOn.TR_CONFIG_ON)
             {
-                CSettings.bFullScreen = true;
-                Maximize(this);
+                CSettings.IsFullScreen = true;
+                _Maximize(this);
             }
 
             while (_Run)
@@ -227,10 +227,10 @@ namespace Vocaluxe.Lib.Draw
                 {
                     _Run = _Run && CGraphics.Draw();
                     _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
-                    FlipBuffer();
+                    _FlipBuffer();
 
-                    if ((CSettings.bFullScreen && !_fullscreen) || (!CSettings.bFullScreen && _fullscreen))
-                        ToggleFullScreen();
+                    if ((CSettings.IsFullScreen && !_Fullscreen) || (!CSettings.IsFullScreen && _Fullscreen))
+                        _ToggleFullScreen();
 
                     if (CTime.IsRunning())
                         delay = (int)Math.Floor(CConfig.CalcCycleTime() - CTime.GetMilliseconds());
@@ -266,9 +266,9 @@ namespace Vocaluxe.Lib.Draw
             return GetTextBounds(text, text.Height);
         }
 
-        public RectangleF GetTextBounds(CText text, float Height)
+        public RectangleF GetTextBounds(CText text, float height)
         {
-            CFonts.Height = Height;
+            CFonts.Height = height;
             CFonts.SetFont(text.Font);
             CFonts.Style = text.Style;
             return new RectangleF(text.X, text.Y, CFonts.GetTextWidth(CLanguage.Translate(text.Text)), CFonts.GetTextHeight(CLanguage.Translate(text.Text)));
@@ -276,66 +276,66 @@ namespace Vocaluxe.Lib.Draw
 
         public void ClearScreen()
         {
-            _g.Clear(ClearColor);
+            _G.Clear(_ClearColor);
         }
 
         public STexture CopyScreen()
         {
             STexture texture = new STexture(0);
-            Bitmap bmp = new Bitmap(_backbuffer);
+            Bitmap bmp = new Bitmap(_Backbuffer);
             _Bitmaps.Add(bmp);
 
-            texture.index = _Bitmaps.Count - 1;
+            texture.Index = _Bitmaps.Count - 1;
 
-            texture.width = bmp.Width;
-            texture.height = bmp.Height;
+            texture.Width = bmp.Width;
+            texture.Height = bmp.Height;
 
             // Add to Texture List
-            texture.color = new SColorF(1f, 1f, 1f, 1f);
-            texture.rect = new SRectF(0f, 0f, texture.width, texture.height, 0f);
+            texture.Color = new SColorF(1f, 1f, 1f, 1f);
+            texture.Rect = new SRectF(0f, 0f, texture.Width, texture.Height, 0f);
             _Textures.Add(texture);
 
             return texture;
         }
 
-        public void CopyScreen(ref STexture Texture)
+        public void CopyScreen(ref STexture texture)
         {
-            if ((Texture.index == 0) || (Texture.width != GetScreenWidth()) || (Texture.height != GetScreenHeight()))
+            if ((texture.Index == 0) || (texture.Width != GetScreenWidth()) || (texture.Height != GetScreenHeight()))
             {
-                RemoveTexture(ref Texture);
-                Texture = CopyScreen();
+                RemoveTexture(ref texture);
+                texture = CopyScreen();
             }
             else
-                _Bitmaps[Texture.index] = new Bitmap(_backbuffer);
+                _Bitmaps[texture.Index] = new Bitmap(_Backbuffer);
         }
 
         public void MakeScreenShot()
         {
             string file = "Screenshot_";
-            string path = Path.Combine(Environment.CurrentDirectory, CSettings.sFolderScreenshots);
+            string path = Path.Combine(Environment.CurrentDirectory, CSettings.FolderScreenshots);
 
             int i = 0;
             while (File.Exists(Path.Combine(path, file + i.ToString("00000") + ".png")))
                 i++;
 
-            _backbuffer.Save(Path.Combine(path, file + i.ToString("00000") + ".png"), ImageFormat.Png);
+            _Backbuffer.Save(Path.Combine(path, file + i.ToString("00000") + ".png"), ImageFormat.Png);
         }
 
         public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2)
         {
-            _g.DrawLine(new Pen(Color.FromArgb(a, r, g, b), w), new Point(x1, y1), new Point(x2, y2));
+            _G.DrawLine(new Pen(Color.FromArgb(a, r, g, b), w), new Point(x1, y1), new Point(x2, y2));
         }
 
         // Draw Basic Text
-        public void DrawText(string Text, int x, int y, int h)
+        public void DrawText(string text, int x, int y, int h)
         {
-            DrawText(Text, x, y, h, 0f);
+            DrawText(text, x, y, h, 0f);
         }
 
         // Draw Basic Text
-        public void DrawText(string Text, int x, int y, float h, float z)
+        public void DrawText(string text, int x, int y, float h, float z)
         {
-            CFonts.DrawText(Text, h, x, y, z, new SColorF(1, 1, 1, 1));
+            CFonts.DrawText(text, h, x, y, z, new SColorF(1, 1, 1, 1));
         }
 
         public void DrawColor(SColorF color, SRectF rect) {}
@@ -348,14 +348,14 @@ namespace Vocaluxe.Lib.Draw
             _Bitmaps.Add(bmp2);
             STexture texture = new STexture();
 
-            texture.index = _Bitmaps.Count - 1;
+            texture.Index = _Bitmaps.Count - 1;
 
-            texture.width = bmp.Width;
-            texture.height = bmp.Height;
+            texture.Width = bmp.Width;
+            texture.Height = bmp.Height;
 
             // Add to Texture List
-            texture.color = new SColorF(1f, 1f, 1f, 1f);
-            texture.rect = new SRectF(0f, 0f, texture.width, texture.height, 0f);
+            texture.Color = new SColorF(1f, 1f, 1f, 1f);
+            texture.Rect = new SRectF(0f, 0f, texture.Width, texture.Height, 0f);
             texture.TexturePath = String.Empty;
 
             _Textures.Add(texture);
@@ -363,15 +363,15 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        public STexture AddTexture(string TexturePath)
+        public STexture AddTexture(string texturePath)
         {
             STexture texture = new STexture();
-            if (File.Exists(TexturePath))
+            if (File.Exists(texturePath))
             {
                 bool found = false;
                 foreach (STexture tex in _Textures)
                 {
-                    if (tex.TexturePath == TexturePath)
+                    if (tex.TexturePath == texturePath)
                     {
                         texture = tex;
                         found = true;
@@ -381,7 +381,7 @@ namespace Vocaluxe.Lib.Draw
 
                 if (!found)
                 {
-                    using (Bitmap bmp = new Bitmap(TexturePath))
+                    using (Bitmap bmp = new Bitmap(texturePath))
                         return AddTexture(bmp);
                 }
             }
@@ -389,104 +389,104 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        public void RemoveTexture(ref STexture Texture)
+        public void RemoveTexture(ref STexture texture)
         {
-            if ((Texture.index >= 0) && (_Textures.Count > 0))
+            if ((texture.Index >= 0) && (_Textures.Count > 0))
             {
                 for (int i = 0; i < _Textures.Count; i++)
                 {
-                    if (_Textures[i].index == Texture.index)
+                    if (_Textures[i].Index == texture.Index)
                     {
-                        _Bitmaps[Texture.index].Dispose();
+                        _Bitmaps[texture.Index].Dispose();
                         _Textures.RemoveAt(i);
-                        Texture.index = -1;
+                        texture.Index = -1;
                         break;
                     }
                 }
             }
         }
 
-        public STexture AddTexture(int W, int H, IntPtr Data)
+        public STexture AddTexture(int w, int h, IntPtr data)
         {
             return new STexture(-1);
         }
 
-        public STexture QuequeTexture(int W, int H, ref byte[] Data)
+        public STexture QuequeTexture(int w, int h, ref byte[] data)
         {
-            return AddTexture(W, H, ref Data);
+            return AddTexture(w, h, ref data);
         }
 
-        public STexture AddTexture(int W, int H, ref byte[] Data)
+        public STexture AddTexture(int w, int h, ref byte[] data)
         {
-            using (Bitmap bmp = new Bitmap(W, H))
+            using (Bitmap bmp = new Bitmap(w, h))
             {
-                BitmapData bmp_data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-                Marshal.Copy(Data, 0, bmp_data.Scan0, Data.Length);
-                bmp.UnlockBits(bmp_data);
+                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
+                bmp.UnlockBits(bmpData);
                 return AddTexture(bmp);
             }
         }
 
-        public bool UpdateTexture(ref STexture Texture, IntPtr Data)
+        public bool UpdateTexture(ref STexture texture, IntPtr data)
         {
             return true;
         }
 
-        public bool UpdateTexture(ref STexture Texture, ref byte[] Data)
+        public bool UpdateTexture(ref STexture texture, ref byte[] data)
         {
-            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > Texture.index))
+            if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
             {
-                BitmapData bmp_data = _Bitmaps[Texture.index].LockBits(new Rectangle(0, 0, _Bitmaps[Texture.index].Width, _Bitmaps[Texture.index].Height),
+                BitmapData bmpData = _Bitmaps[texture.Index].LockBits(new Rectangle(0, 0, _Bitmaps[texture.Index].Width, _Bitmaps[texture.Index].Height),
                                                                        ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-                Marshal.Copy(Data, 0, bmp_data.Scan0, Data.Length);
-                _Bitmaps[Texture.index].UnlockBits(bmp_data);
+                Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
+                _Bitmaps[texture.Index].UnlockBits(bmpData);
             }
             return true;
         }
 
-        public void DrawTexture(STexture Texture)
+        public void DrawTexture(STexture texture)
         {
-            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > Texture.index))
-                DrawTexture(Texture, Texture.rect, Texture.color);
+            if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
+                DrawTexture(texture, texture.Rect, texture.Color);
         }
 
-        public void DrawTexture(STexture Texture, SRectF rect)
+        public void DrawTexture(STexture texture, SRectF rect)
         {
-            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > Texture.index))
-                DrawTexture(Texture, rect, Texture.color);
+            if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
+                DrawTexture(texture, rect, texture.Color);
         }
 
-        public void DrawTexture(STexture Texture, SRectF rect, SColorF color)
+        public void DrawTexture(STexture texture, SRectF rect, SColorF color)
         {
-            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > Texture.index))
-                DrawTexture(Texture, rect, color, rect, false);
+            if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
+                DrawTexture(texture, rect, color, rect, false);
         }
 
-        public void DrawTexture(STexture Texture, SRectF rect, SColorF color, SRectF bounds)
+        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds)
         {
-            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > Texture.index))
-                DrawTexture(Texture, rect, color, bounds, false);
+            if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
+                DrawTexture(texture, rect, color, bounds, false);
         }
 
-        public void DrawTexture(STexture Texture, SRectF rect, SColorF color, bool mirrored)
+        public void DrawTexture(STexture texture, SRectF rect, SColorF color, bool mirrored)
         {
-            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > Texture.index))
-                DrawTexture(Texture, rect, color, rect, mirrored);
+            if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
+                DrawTexture(texture, rect, color, rect, mirrored);
         }
 
-        public void DrawTexture(STexture Texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored)
+        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored)
         {
-            if ((Texture.index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > Texture.index))
+            if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
             {
-                Bitmap ColoredBitmap = ColorizeBitmap(_Bitmaps[Texture.index], color);
-                _g.DrawImage(ColoredBitmap, new RectangleF(rect.X, rect.Y, rect.W, rect.H));
-                ColoredBitmap.Dispose();
+                Bitmap coloredBitmap = ColorizeBitmap(_Bitmaps[texture.Index], color);
+                _G.DrawImage(coloredBitmap, new RectangleF(rect.X, rect.Y, rect.W, rect.H));
+                coloredBitmap.Dispose();
             }
         }
 
-        public void DrawTexture(STexture Texture, SRectF rect, SColorF color, float begin, float end) {}
+        public void DrawTexture(STexture texture, SRectF rect, SColorF color, float begin, float end) {}
 
-        public void DrawTextureReflection(STexture Texture, SRectF rect, SColorF color, SRectF bounds, float space, float height) {}
+        public void DrawTextureReflection(STexture texture, SRectF rect, SColorF color, SRectF bounds, float space, float height) {}
 
         public int TextureCount()
         {

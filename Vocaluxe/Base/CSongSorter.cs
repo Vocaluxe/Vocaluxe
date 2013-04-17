@@ -8,16 +8,16 @@ namespace Vocaluxe.Base
 {
     class CSongSorter : CObservable
     {
-        private SongPointer[] _SortedSongs = new SongPointer[0];
+        private SSongPointer[] _SortedSongs = new SSongPointer[0];
         private EOffOn _IgnoreArticles = CConfig.IgnoreArticles;
         private ESongSorting _SongSorting = CConfig.SongSorting;
 
         public CSongSorter()
         {
-            CSongs.Filter.ObjectChanged += HandleFilteredSongsChanged;
+            CSongs.Filter.ObjectChanged += _HandleFilteredSongsChanged;
         }
 
-        public SongPointer[] SortedSongs
+        public SSongPointer[] SortedSongs
         {
             get
             {
@@ -62,12 +62,12 @@ namespace Vocaluxe.Base
             }
         }
 
-        private void HandleFilteredSongsChanged(object sender, EventArgs args)
+        private void _HandleFilteredSongsChanged(object sender, EventArgs args)
         {
             _SetChanged();
         }
 
-        private int _SortByFieldArtistTitle(SongPointer s1, SongPointer s2)
+        private int _SortByFieldArtistTitle(SSongPointer s1, SSongPointer s2)
         {
             int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
             if (res == 0)
@@ -90,7 +90,7 @@ namespace Vocaluxe.Base
             return res;
         }
 
-        private int _SortByFieldTitle(SongPointer s1, SongPointer s2)
+        private int _SortByFieldTitle(SSongPointer s1, SSongPointer s2)
         {
             int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
             if (res == 0)
@@ -103,13 +103,13 @@ namespace Vocaluxe.Base
             return res;
         }
 
-        private List<SongPointer> _CreateSortList(string fieldName)
+        private List<SSongPointer> _CreateSortList(string fieldName)
         {
             FieldInfo field = null;
             bool isString = false;
-            List<SongPointer> SortList = new List<SongPointer>();
+            List<SSongPointer> sortList = new List<SSongPointer>();
             if (fieldName.Length == 0)
-                CSongs.Filter.FilteredSongs.ForEach((song) => SortList.Add(new SongPointer(song.ID, "")));
+                CSongs.Filter.FilteredSongs.ForEach((song) => sortList.Add(new SSongPointer(song.ID, "")));
             else
             {
                 field = typeof(CSong).GetField(fieldName, BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public);
@@ -120,21 +120,21 @@ namespace Vocaluxe.Base
                 {
                     object value = field.GetValue(song);
                     if (isString)
-                        SortList.Add(new SongPointer(song.ID, (String)value));
+                        sortList.Add(new SSongPointer(song.ID, (String)value));
                     else
                     {
                         List<String> values = (List<String>)value;
                         if (values.Count == 0)
-                            SortList.Add(new SongPointer(song.ID, ""));
+                            sortList.Add(new SSongPointer(song.ID, ""));
                         else
                         {
                             foreach (String sortString in (List<String>)value)
-                                SortList.Add(new SongPointer(song.ID, sortString));
+                                sortList.Add(new SSongPointer(song.ID, sortString));
                         }
                     }
                 }
             }
-            return SortList;
+            return sortList;
         }
 
         private void _SortSongs()
@@ -177,19 +177,19 @@ namespace Vocaluxe.Base
                     fieldName = "";
                     break;
             }
-            List<SongPointer> SortList = _CreateSortList(fieldName);
+            List<SSongPointer> sortList = _CreateSortList(fieldName);
             switch (_SongSorting)
             {
                 case ESongSorting.TR_CONFIG_ARTIST_LETTER:
                 case ESongSorting.TR_CONFIG_ARTIST:
                 case ESongSorting.TR_CONFIG_NONE:
-                    SortList.Sort(_SortByFieldTitle);
+                    sortList.Sort(_SortByFieldTitle);
                     break;
                 default:
-                    SortList.Sort(_SortByFieldArtistTitle);
+                    sortList.Sort(_SortByFieldArtistTitle);
                     break;
             }
-            _SortedSongs = SortList.ToArray();
+            _SortedSongs = sortList.ToArray();
             _Changed = false;
         }
     }

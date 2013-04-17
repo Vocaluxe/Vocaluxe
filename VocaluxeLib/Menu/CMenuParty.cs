@@ -12,9 +12,9 @@ namespace VocaluxeLib.Menu
             _PartyMode = new CPartyModeNone();
         }
 
-        public void SetPartyModeID(int PartyModeID)
+        public void SetPartyModeID(int partyModeID)
         {
-            _PartyModeID = PartyModeID;
+            _PartyModeID = partyModeID;
         }
 
         public int GetPartyModeID()
@@ -22,12 +22,12 @@ namespace VocaluxeLib.Menu
             return _PartyModeID;
         }
 
-        public void AssingPartyMode(IPartyMode PartyMode)
+        public void AssingPartyMode(IPartyMode partyMode)
         {
-            _PartyMode = PartyMode;
+            _PartyMode = partyMode;
         }
 
-        public virtual void DataToScreen(Object Data) {}
+        public virtual void DataToScreen(Object data) {}
 
         /*
         public sealed override void LoadTheme()

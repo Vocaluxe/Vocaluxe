@@ -13,85 +13,79 @@ namespace Vocaluxe.Base
         Release
     }
 
-    enum EArch
-    {
-        x86,
-        x64
-    }
-
     static class CSettings
     {
 #if ARCH_X86
-        public const EArch ARCH = EArch.x86;
+        public const String Arch = "x86";
 #endif
 
 #if ARCH_X64
-        public const EArch ARCH = EArch.x64;
+        public const String Arch = "x64";
 #endif
 
         public static EGameState GameState = EGameState.Start;
 
-        public const string sProgramName = "Vocaluxe";
-        public const string sProgramCodeName = "Shining Heaven";
+        public const string ProgramName = "Vocaluxe";
+        public const string ProgramCodeName = "Shining Heaven";
 
-        public const int iVersionMajor = 0;
-        public const int iVersionMinor = 3; // milestones
-        public const int iVersionSub = 0; // patches
+        public const int VersionMajor = 0;
+        public const int VersionMinor = 3; // milestones
+        public const int VersionSub = 0; // patches
         public const ERevision VersionRevision = ERevision.Alpha;
 
-        public const int iBuild = 77; // Increase on every published version! Never Reset!
+        public const int Build = 77; // Increase on every published version! Never Reset!
 
-        public const int iDatabaseHighscoreVersion = 2;
-        public const int iDatabaseCoverVersion = 1;
-        public const int iDatabaseCreditsRessourcesVersion = 1;
+        public const int DatabaseHighscoreVersion = 2;
+        public const int DatabaseCoverVersion = 1;
+        public const int DatabaseCreditsRessourcesVersion = 1;
 
-        public static int iRenderW = 1280;
-        public static int iRenderH = 720;
+        public static int RenderW = 1280;
+        public static int RenderH = 720;
 
-        public static int zNear = -100;
-        public static int zFar = 100;
+        public const int ZNear = -100;
+        public const int ZFar = 100;
 
-        public static bool bFullScreen = false;
-        public static int iVertexBufferElements = 10000;
+        public static bool IsFullScreen = false;
+        public static int VertexBufferElements = 10000;
 
-        public const string sIcon = "Vocaluxe.ico";
-        public const string sLogo = "Logo.png";
+        public const string Icon = "Vocaluxe.ico";
+        public const string Logo = "Logo.png";
         public const string FallbackLanguage = "English";
-        public static string sBassRegistration = "Registration.xml";
-        public static string sFileConfig = "Config.xml";
-        public const string sFileCover = "Cover.xml";
-        public const string sFileFonts = "Fonts.xml";
+        public const string BassRegistration = "Registration.xml";
+        public static string FileConfig = "Config.xml";
+        public const string FileCover = "Cover.xml";
+        public const string FileFonts = "Fonts.xml";
 
-        public const string sFileOldHighscoreDB = "Ultrastar.db";
-        public static string sFileHighscoreDB = "HighscoreDB.sqlite";
-        public const string sFileCoverDB = "CoverDB.sqlite";
-        public const string sFileCreditsRessourcesDB = "CreditsRessourcesDB.sqlite";
-        public const string sFilePerformanceLog = "Performance.log";
-        public const string sFileErrorLog = "Error.log";
-        public const string sFileBenchmarkLog = "Benchmark.log";
+        public const string FileOldHighscoreDB = "Ultrastar.db";
+        public static string FileHighscoreDB = "HighscoreDB.sqlite";
+        public const string FileCoverDB = "CoverDB.sqlite";
+        public const string FileCreditsRessourcesDB = "CreditsRessourcesDB.sqlite";
+        public const string FilePerformanceLog = "Performance.log";
+        public const string FileErrorLog = "Error.log";
+        public const string FileBenchmarkLog = "Benchmark.log";
 
-        public const string sSoundT440 = "440Hz.mp3";
+        public const string SoundT440 = "440Hz.mp3";
 
-        public const string sFolderCover = "Cover";
-        public const string sFolderGraphics = "Graphics";
-        public const string sFolderFonts = "Fonts";
-        public const string sFolderThemes = "Themes";
-        public const string sFolderSkins = "Skins";
-        public const string sFolderThemeFonts = "Fonts";
-        public const string sFolderScreens = "Screens";
-        public static string sFolderProfiles = "Profiles";
-        public const string sFolderSongs = "Songs";
-        public const string sFolderSounds = "Sounds";
-        public const string sFolderLanguages = "Languages";
-        public const string sFolderScreenshots = "Screenshots";
-        public const string sFolderBackgroundMusic = "BackgroundMusic";
-        public static string sFolderPlaylists = "Playlists";
+        public const string FolderCover = "Cover";
+        public const string FolderGraphics = "Graphics";
+        public const string FolderFonts = "Fonts";
+        public const string FolderThemes = "Themes";
+        public const string FolderSkins = "Skins";
+        public const string FolderThemeFonts = "Fonts";
+        public const string FolderScreens = "Screens";
+        public static string FolderProfiles = "Profiles";
+        public const string FolderSongs = "Songs";
+        public const string FolderSounds = "Sounds";
+        public const string FolderLanguages = "Languages";
+        public const string FolderScreenshots = "Screenshots";
+        public const string FolderBackgroundMusic = "BackgroundMusic";
+        public static string FolderPlaylists = "Playlists";
 
-        public static string sFolderPartyModes = "PartyModes";
-        public const string sFolderPartyModeCode = "Code";
-        public const string sFolderPartyModeScreens = "Screens";
-        public const string sFolderPartyModeLanguages = "Languages";
-        public const string sFolderPartyModeFonts = "Fonts";
+        public const string FolderPartyModes = "PartyModes";
+        public const string FolderPartyModeCode = "Code";
+        public const string FolderPartyModeScreens = "Screens";
+        public const string FolderPartyModeLanguages = "Languages";
+        public const string FolderPartyModeFonts = "Fonts";
 
         //public const String[] ToneStrings = new String[]{ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
         public const int ToneMin = -36;
@@ -129,39 +123,39 @@ namespace Vocaluxe.Base
 
         public static string GetVersionText()
         {
-            string sVersion = "v" + iVersionMajor.ToString() + "." +
-                              iVersionMinor.ToString() + "." +
-                              iVersionSub.ToString() + " (" + Enum.GetName(typeof(EArch), ARCH) + ")";
+            string version = "v" + VersionMajor.ToString() + "." +
+                              VersionMinor.ToString() + "." +
+                              VersionSub.ToString() + " (" + Arch + ")";
 
             if (VersionRevision != ERevision.Release)
-                sVersion += " " + GetVersionStatus() + String.Format(" ({0:0000)}", iBuild);
+                version += " " + GetVersionStatus() + String.Format(" ({0:0000)}", Build);
 
-            return sVersion;
+            return version;
         }
 
         public static string GetFullVersionText()
         {
-            string sVersion = sProgramName;
+            string version = ProgramName;
 
-            if (sProgramCodeName.Length > 0)
-                sVersion += " \"" + sProgramCodeName + "\"";
+            if (ProgramCodeName.Length > 0)
+                version += " \"" + ProgramCodeName + "\"";
 
-            return sVersion += " " + GetVersionText();
+            return version + " " + GetVersionText();
         }
 
         public static string GetVersionStatus()
         {
-            string _Result = String.Empty;
+            string result = String.Empty;
 
             if (VersionRevision != ERevision.Release)
-                _Result = Enum.GetName(typeof(ERevision), VersionRevision);
+                result = Enum.GetName(typeof(ERevision), VersionRevision);
 
-            return _Result;
+            return result;
         }
 
         public static float GetRenderAspect()
         {
-            return iRenderW / (float)iRenderH;
+            return RenderW / (float)RenderH;
         }
 
         public static void MouseInactive()
@@ -176,18 +170,18 @@ namespace Vocaluxe.Base
 
         public static void CreateFolders()
         {
-            List<string> Folders = new List<string>();
+            List<string> folders = new List<string>();
 
-            Folders.Add(sFolderCover);
-            Folders.Add(sFolderFonts);
-            Folders.Add(sFolderProfiles);
-            Folders.Add(sFolderSongs);
-            Folders.Add(sFolderScreenshots);
-            Folders.Add(sFolderBackgroundMusic);
-            Folders.Add(sFolderSounds);
-            Folders.Add(sFolderPlaylists);
+            folders.Add(FolderCover);
+            folders.Add(FolderFonts);
+            folders.Add(FolderProfiles);
+            folders.Add(FolderSongs);
+            folders.Add(FolderScreenshots);
+            folders.Add(FolderBackgroundMusic);
+            folders.Add(FolderSounds);
+            folders.Add(FolderPlaylists);
 
-            foreach (string folder in Folders)
+            foreach (string folder in folders)
             {
                 string path = Path.Combine(Environment.CurrentDirectory, folder);
                 CreateFolder(path);

@@ -41,17 +41,17 @@ namespace Vocaluxe.Lib.Sound
         bool Init();
         void CloseAll();
 
-        bool Start(SRecordDevice[] DeviceConfig);
+        bool Start(SRecordDevice[] deviceConfig);
         bool Stop();
-        void AnalyzeBuffer(int Player);
+        void AnalyzeBuffer(int player);
 
-        int GetToneAbs(int Player);
-        int GetTone(int Player);
-        void SetTone(int Player, int Tone);
-        float GetMaxVolume(int Player);
-        bool ToneValid(int Player);
-        int NumHalfTones(int Player);
-        float[] ToneWeigth(int Player);
+        int GetToneAbs(int player);
+        int GetTone(int player);
+        void SetTone(int player, int tone);
+        float GetMaxVolume(int player);
+        bool ToneValid(int player);
+        int NumHalfTones(int player);
+        float[] ToneWeigth(int player);
 
         SRecordDevice[] RecordDevices();
     }

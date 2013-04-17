@@ -30,9 +30,9 @@ namespace VocaluxeLib.Menu
             return _Theme.Name;
         }
 
-        public CScreenSetting(int PartyModeID)
+        public CScreenSetting(int partyModeID)
         {
-            _PartyModeID = PartyModeID;
+            _PartyModeID = partyModeID;
             _Theme = new SScreenSetting();
             _ThemeLoaded = false;
         }
@@ -44,16 +44,16 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded = ts._ThemeLoaded;
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
+        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
-            string item = XmlPath + "/" + ElementName;
+            string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/Value", ref _Theme.Value, String.Empty);
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Type", ref _Theme.Type);
 
             if (_ThemeLoaded)
-                _Theme.Name = ElementName;
+                _Theme.Name = elementName;
             return _ThemeLoaded;
         }
 
@@ -78,16 +78,16 @@ namespace VocaluxeLib.Menu
             switch (_Theme.Type)
             {
                 case ESettingType.Int:
-                    return GetIntValue(_Theme.Value);
+                    return _GetIntValue(_Theme.Value);
 
                 case ESettingType.String:
                     return _Theme.Value;
 
                 case ESettingType.Color:
-                    return GetColorValue(_Theme.Value);
+                    return _GetColorValue(_Theme.Value);
 
                 case ESettingType.Texture:
-                    return GetTextureValue(_Theme.Value);
+                    return _GetTextureValue(_Theme.Value);
             }
 
             return null;
@@ -100,11 +100,11 @@ namespace VocaluxeLib.Menu
         public void ReloadTextures() {}
 
         #region Private
-        private int GetIntValue(string _string)
+        private int _GetIntValue(string value)
         {
             try
             {
-                return Convert.ToInt32(_string);
+                return Convert.ToInt32(value);
             }
             catch (Exception)
             {
@@ -112,14 +112,14 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private STexture GetTextureValue(string _string)
+        private STexture _GetTextureValue(string value)
         {
-            return CBase.Theme.GetSkinTexture(_string, _PartyModeID);
+            return CBase.Theme.GetSkinTexture(value, _PartyModeID);
         }
 
-        private SColorF GetColorValue(string _string)
+        private SColorF _GetColorValue(string value)
         {
-            return CBase.Theme.GetColor(_string, _PartyModeID);
+            return CBase.Theme.GetColor(value, _PartyModeID);
         }
         #endregion Private
 

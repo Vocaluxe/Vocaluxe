@@ -2,104 +2,104 @@
 
 namespace Vocaluxe.Lib.Sound
 {
-    struct AudioStreams
+    struct SAudioStreams
     {
-        public int handle;
-        public string file;
+        public int Handle;
+        public string File;
 
-        public AudioStreams(int stream)
+        public SAudioStreams(int stream)
         {
-            handle = stream;
-            file = String.Empty;
+            Handle = stream;
+            File = String.Empty;
         }
     }
 
-    delegate void CLOSEPROC(int StreamID);
+    delegate void Closeproc(int streamID);
 
     interface IPlayback
     {
         bool Init();
-        void SetGlobalVolume(float Volume);
+        void SetGlobalVolume(float volume);
         int GetStreamCount();
         void CloseAll();
 
         #region Stream Handling
-        int Load(string Media);
-        int Load(string Media, bool Prescan);
-        void Close(int Stream);
+        int Load(string media);
+        int Load(string media, bool prescan);
+        void Close(int stream);
 
-        void Play(int Stream);
-        void Play(int Stream, bool Loop);
-        void Pause(int Stream);
-        void Stop(int Stream);
-        void Fade(int Stream, float TargetVolume, float Seconds);
-        void FadeAndPause(int Stream, float TargetVolume, float Seconds);
-        void FadeAndStop(int Stream, float TargetVolume, float Seconds);
-        void SetStreamVolume(int Stream, float Volume);
-        void SetStreamVolumeMax(int Stream, float Volume);
+        void Play(int stream);
+        void Play(int stream, bool loop);
+        void Pause(int stream);
+        void Stop(int stream);
+        void Fade(int stream, float targetVolume, float seconds);
+        void FadeAndPause(int stream, float targetVolume, float seconds);
+        void FadeAndStop(int stream, float targetVolume, float seconds);
+        void SetStreamVolume(int stream, float volume);
+        void SetStreamVolumeMax(int stream, float volume);
 
-        float GetLength(int Stream);
-        float GetPosition(int Stream);
+        float GetLength(int stream);
+        float GetPosition(int stream);
 
-        bool IsPlaying(int Stream);
-        bool IsPaused(int Stream);
-        bool IsFinished(int Stream);
+        bool IsPlaying(int stream);
+        bool IsPaused(int stream);
+        bool IsFinished(int stream);
 
-        void SetPosition(int Stream, float Position);
+        void SetPosition(int stream, float position);
 
         void Update();
         #endregion Stream Handling
     }
 
-    class RingBuffer
+    class CRingBuffer
     {
-        private readonly byte[] _data;
-        private readonly long _size;
-        private long _readPos;
-        private long _writePos;
-        private long _bytesNotRead;
+        private readonly byte[] _Data;
+        private readonly long _Size;
+        private long _ReadPos;
+        private long _WritePos;
+        private long _BytesNotRead;
 
         public long BytesNotRead
         {
-            get { return _bytesNotRead; }
+            get { return _BytesNotRead; }
         }
 
-        public RingBuffer(long size)
+        public CRingBuffer(long size)
         {
-            _size = size;
-            _data = new byte[size];
-            _readPos = 0L;
-            _writePos = 0L;
-            _bytesNotRead = 0L;
+            _Size = size;
+            _Data = new byte[size];
+            _ReadPos = 0L;
+            _WritePos = 0L;
+            _BytesNotRead = 0L;
         }
 
-        public void Write(byte[] Data)
+        public void Write(byte[] data)
         {
             long written = 0L;
-            while (written < Data.Length)
+            while (written < data.Length)
             {
-                _data[_writePos] = Data[written];
-                _writePos++;
-                if (_writePos >= _size)
-                    _writePos = 0L;
+                _Data[_WritePos] = data[written];
+                _WritePos++;
+                if (_WritePos >= _Size)
+                    _WritePos = 0L;
 
                 written++;
-                _bytesNotRead++;
+                _BytesNotRead++;
             }
         }
 
-        public void Read(ref byte[] Data)
+        public void Read(ref byte[] data)
         {
             long read = 0L;
-            while (read < Data.Length && _bytesNotRead > 0L)
+            while (read < data.Length && _BytesNotRead > 0L)
             {
-                Data[read] = _data[_readPos];
-                _readPos++;
-                if (_readPos >= _size)
-                    _readPos = 0L;
+                data[read] = _Data[_ReadPos];
+                _ReadPos++;
+                if (_ReadPos >= _Size)
+                    _ReadPos = 0L;
 
                 read++;
-                _bytesNotRead--;
+                _BytesNotRead--;
             }
         }
     }

@@ -5,12 +5,12 @@ using VocaluxeLib.Menu.SongMenu;
 
 namespace Vocaluxe.GameModes
 {
-    struct SongQueque
+    struct SSongQueque
     {
         public int SongID;
         public EGameMode GameMode;
 
-        public SongQueque(int songID, EGameMode gameMode)
+        public SSongQueque(int songID, EGameMode gameMode)
         {
             SongID = songID;
             GameMode = gameMode;
@@ -20,14 +20,14 @@ namespace Vocaluxe.GameModes
     abstract class CGameMode : IGameMode
     {
         protected bool _Initialized = false;
-        protected List<SongQueque> _SongQueque;
+        protected List<SSongQueque> _SongQueque;
         protected int _CurrentSong;
         protected CPoints _Points;
 
         #region Implementation
         public virtual void Init()
         {
-            _SongQueque = new List<SongQueque>();
+            _SongQueque = new List<SSongQueque>();
             Reset();
         }
 
@@ -38,43 +38,43 @@ namespace Vocaluxe.GameModes
             return EGameMode.TR_GAMEMODE_NORMAL;
         }
 
-        public virtual bool AddVisibleSong(int VisibleIndex, EGameMode GameMode)
+        public virtual bool AddVisibleSong(int visibleIndex, EGameMode gameMode)
         {
-            if (CSongs.VisibleSongs.Length > VisibleIndex)
+            if (CSongs.VisibleSongs.Length > visibleIndex)
             {
-                int SongID = CSongs.VisibleSongs[VisibleIndex].ID;
-                if (GameMode == EGameMode.TR_GAMEMODE_DUET && !CSongs.GetSong(SongID).IsDuet)
+                int songID = CSongs.VisibleSongs[visibleIndex].ID;
+                if (gameMode == EGameMode.TR_GAMEMODE_DUET && !CSongs.GetSong(songID).IsDuet)
                     return false;
 
-                _SongQueque.Add(new SongQueque(SongID, GameMode));
+                _SongQueque.Add(new SSongQueque(songID, gameMode));
                 return true;
             }
             return false;
         }
 
-        public virtual bool AddSong(int AbsoluteIndex, EGameMode GameMode)
+        public virtual bool AddSong(int absoluteIndex, EGameMode gameMode)
         {
-            if (CSongs.AllSongs.Length > AbsoluteIndex)
+            if (CSongs.AllSongs.Length > absoluteIndex)
             {
-                int SongID = CSongs.AllSongs[AbsoluteIndex].ID;
-                if (GameMode == EGameMode.TR_GAMEMODE_DUET && !CSongs.GetSong(SongID).IsDuet)
+                int songID = CSongs.AllSongs[absoluteIndex].ID;
+                if (gameMode == EGameMode.TR_GAMEMODE_DUET && !CSongs.GetSong(songID).IsDuet)
                     return false;
 
-                _SongQueque.Add(new SongQueque(SongID, GameMode));
+                _SongQueque.Add(new SSongQueque(songID, gameMode));
                 return true;
             }
             return false;
         }
 
-        public virtual bool RemoveVisibleSong(int VisibleIndex)
+        public virtual bool RemoveVisibleSong(int visibleIndex)
         {
-            if (CSongs.VisibleSongs.Length > VisibleIndex)
+            if (CSongs.VisibleSongs.Length > visibleIndex)
             {
                 int index = -1;
-                int SongID = CSongs.VisibleSongs[VisibleIndex].ID;
+                int songID = CSongs.VisibleSongs[visibleIndex].ID;
                 for (int i = 0; i < _SongQueque.Count; i++)
                 {
-                    if (_SongQueque[i].SongID == SongID)
+                    if (_SongQueque[i].SongID == songID)
                     {
                         index = i;
                         break;
@@ -90,15 +90,15 @@ namespace Vocaluxe.GameModes
             return false;
         }
 
-        public virtual bool RemoveSong(int AbsoluteIndex)
+        public virtual bool RemoveSong(int absoluteIndex)
         {
-            if (CSongs.AllSongs.Length > AbsoluteIndex)
+            if (CSongs.AllSongs.Length > absoluteIndex)
             {
                 int index = -1;
-                int SongID = CSongs.AllSongs[AbsoluteIndex].ID;
+                int songID = CSongs.AllSongs[absoluteIndex].ID;
                 for (int i = 0; i < _SongQueque.Count; i++)
                 {
-                    if (_SongQueque[i].SongID == SongID)
+                    if (_SongQueque[i].SongID == songID)
                     {
                         index = i;
                         break;
@@ -123,12 +123,12 @@ namespace Vocaluxe.GameModes
             _CurrentSong = -1;
         }
 
-        public virtual void Start(SPlayer[] Player)
+        public virtual void Start(SPlayer[] player)
         {
-            _Points = new CPoints(_SongQueque.Count, Player);
+            _Points = new CPoints(_SongQueque.Count, player);
         }
 
-        public virtual void NextRound(SPlayer[] Player)
+        public virtual void NextRound(SPlayer[] player)
         {
             if (_CurrentSong < _SongQueque.Count && _SongQueque.Count > 0)
             {
@@ -137,7 +137,7 @@ namespace Vocaluxe.GameModes
                     _Points.SetPoints(
                         _CurrentSong,
                         _SongQueque[_CurrentSong].SongID,
-                        Player,
+                        player,
                         _SongQueque[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_MEDLEY,
                         _SongQueque[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_DUET,
                         _SongQueque[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_SHORTSONG);
@@ -195,18 +195,18 @@ namespace Vocaluxe.GameModes
             return _SongQueque.Count;
         }
 
-        public virtual CSong GetSong(int Num)
+        public virtual CSong GetSong(int num)
         {
-            if (Num - 1 < _SongQueque.Count && Num - 1 > -1)
-                return CSongs.GetSong(_SongQueque[Num - 1].SongID);
+            if (num - 1 < _SongQueque.Count && num - 1 > -1)
+                return CSongs.GetSong(_SongQueque[num - 1].SongID);
 
             return null;
         }
 
-        public virtual EGameMode GetGameMode(int Num)
+        public virtual EGameMode GetGameMode(int num)
         {
-            if (Num - 1 < _SongQueque.Count && Num > -1)
-                return _SongQueque[Num].GameMode;
+            if (num - 1 < _SongQueque.Count && num > -1)
+                return _SongQueque[num].GameMode;
 
             return EGameMode.TR_GAMEMODE_NORMAL;
         }
@@ -217,6 +217,6 @@ namespace Vocaluxe.GameModes
         }
         #endregion Implementation
 
-        protected virtual void SongManipulation(int SongIndex) {}
+        protected virtual void _SongManipulation(int songIndex) {}
     }
 }

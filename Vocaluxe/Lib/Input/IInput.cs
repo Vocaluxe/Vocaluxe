@@ -23,24 +23,24 @@ namespace Vocaluxe.Lib.Input
         bool IsConnected();
         void Update();
 
-        bool PollKeyEvent(ref KeyEvent KeyEvent);
-        bool PollMouseEvent(ref MouseEvent MouseEvent);
+        bool PollKeyEvent(ref SKeyEvent keyEvent);
+        bool PollMouseEvent(ref SMouseEvent mouseEvent);
 
-        void SetRumble(float Duration);
+        void SetRumble(float duration);
     }
 
-    class RumbleTimer
+    class CRumbleTimer
     {
-        private readonly Stopwatch _timer;
-        private float _duration;
+        private readonly Stopwatch _Timer;
+        private float _Duration;
 
         public bool ShouldStart
         {
             get
             {
-                if (!_timer.IsRunning && _duration != 0f)
+                if (!_Timer.IsRunning && _Duration != 0f)
                 {
-                    _timer.Start();
+                    _Timer.Start();
                     return true;
                 }
 
@@ -52,10 +52,10 @@ namespace Vocaluxe.Lib.Input
         {
             get
             {
-                if (_timer.IsRunning && _timer.ElapsedMilliseconds / 1000f >= _duration)
+                if (_Timer.IsRunning && _Timer.ElapsedMilliseconds / 1000f >= _Duration)
                 {
-                    _timer.Reset();
-                    _duration = 0f;
+                    _Timer.Reset();
+                    _Duration = 0f;
                     return true;
                 }
 
@@ -63,76 +63,76 @@ namespace Vocaluxe.Lib.Input
             }
         }
 
-        public RumbleTimer()
+        public CRumbleTimer()
         {
-            _timer = new Stopwatch();
-            _duration = 0f;
+            _Timer = new Stopwatch();
+            _Duration = 0f;
         }
 
-        public void Set(float Duration)
+        public void Set(float duration)
         {
-            if (!_timer.IsRunning)
+            if (!_Timer.IsRunning)
             {
-                _duration = Duration;
-                _timer.Reset();
+                _Duration = duration;
+                _Timer.Reset();
             }
         }
 
         public void Reset()
         {
-            _duration = 0f;
+            _Duration = 0f;
         }
     }
 
     class CGesture
     {
         private Point _Begin;
-        private bool _locked;
+        private bool _Locked;
 
         public CGesture()
         {
-            _locked = false;
+            _Locked = false;
         }
 
-        public void SetLockPosition(Point Position)
+        public void SetLockPosition(Point position)
         {
-            _locked = true;
-            _Begin = new Point(Position.X, Position.Y);
+            _Locked = true;
+            _Begin = new Point(position.X, position.Y);
         }
 
         public void Reset()
         {
-            _locked = false;
+            _Locked = false;
         }
 
-        public EGesture GetGesture(Point NewPosition)
+        public EGesture GetGesture(Point newPosition)
         {
-            if (!_locked)
+            if (!_Locked)
                 return EGesture.None;
 
-            int dx = NewPosition.X - _Begin.X;
-            int dy = NewPosition.Y - _Begin.Y;
+            int dx = newPosition.X - _Begin.X;
+            int dy = newPosition.Y - _Begin.Y;
 
             //Back/Escape
             if (dx < -150 && Math.Abs(dy) < 150)
             {
-                _locked = false;
+                _Locked = false;
                 return EGesture.Back;
             }
 
             //ScrollDown
             if (Math.Abs(dx) < 150 && dy > 30)
             {
-                _Begin.Y = NewPosition.Y;
-                _Begin.X = NewPosition.X;
+                _Begin.Y = newPosition.Y;
+                _Begin.X = newPosition.X;
                 return EGesture.ScrollDown;
             }
 
             //ScrollUp
             if (Math.Abs(dx) < 150 && dy < -30)
             {
-                _Begin.Y = NewPosition.Y;
-                _Begin.X = NewPosition.X;
+                _Begin.Y = newPosition.Y;
+                _Begin.X = newPosition.X;
                 return EGesture.ScrollUp;
             }
 

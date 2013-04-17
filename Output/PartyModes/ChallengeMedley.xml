@@ -6,14 +6,14 @@
     <Author>brunzel</Author>
 	<Description>TR_PARTYMODE_DESCRIPTION</Description>
     <Folder>ChallengeMedley</Folder>
-	<PartyModeFile>PartyModeChallengeMedley</PartyModeFile>
+	<PartyModeFile>CPartyModeChallengeMedley</PartyModeFile>
     <PartyModeVersionMajor>0</PartyModeVersionMajor>
     <PartyModeVersionMinor>1</PartyModeVersionMinor>
 	<TargetAudience>TR_PARTYMODE_AUDIENCE</TargetAudience>
   </Info>
   <PartyScreens>
-    <ScreenFile>PartyScreenChallengeMedleyMain</ScreenFile>
-	<ScreenFile>PartyScreenChallengeMedleyConfig</ScreenFile>
-	<ScreenFile>PartyScreenChallengeMedleyNames</ScreenFile>
+    <ScreenFile>CPartyScreenChallengeMedleyMain</ScreenFile>
+	<ScreenFile>CPartyScreenChallengeMedleyConfig</ScreenFile>
+	<ScreenFile>CPartyScreenChallengeMedleyNames</ScreenFile>
   </PartyScreens>
 </root>

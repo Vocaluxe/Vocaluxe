@@ -5,7 +5,7 @@ using Vocaluxe.Base;
 namespace Vocaluxe.Lib.Input
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    public struct HIDDeviceInfo
+    public struct SHIDDeviceInfo
     {
         [MarshalAs(UnmanagedType.LPTStr)] public String Path;
         public ushort VendorString;
@@ -20,29 +20,29 @@ namespace Vocaluxe.Lib.Input
         internal IntPtr Next;
     }
 
-    public static class CHIDAPI
+    public static class CHIDApi
     {
 #if ARCH_X86
 #if WIN
-        private const string HIDapiDll = "x86\\hidapi.dll";
+        private const string _HIDApiDll = "x86\\hidapi.dll";
 #endif
 
 #if LINUX
-        private const string HIDapiDll = "libhidapi.so";
+        private const string _HIDApiDll = "libhidapi.so";
 #endif
 #endif
 
 #if ARCH_X64
 #if WIN
-        private const string HIDapiDll = "x64\\hidapi.dll";
+        private const string _HIDApiDll = "x64\\hidapi.dll";
 #endif
 
 #if LINUX
-        private const string HIDapiDll = "libhidapi.so";
+        private const string _HIDApiDll = "libhidapi.so";
 #endif
 #endif
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_init", CharSet = CharSet.Unicode)]
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_init", CharSet = CharSet.Unicode)]
         private static extern int hid_init();
 
         public static bool Init()
@@ -64,7 +64,7 @@ namespace Vocaluxe.Lib.Input
             return false;
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_exit", CharSet = CharSet.Unicode)]
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_exit", CharSet = CharSet.Unicode)]
         private static extern int hid_exit();
 
         public static bool Exit()
@@ -86,33 +86,33 @@ namespace Vocaluxe.Lib.Input
             return false;
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_enumerate", CharSet = CharSet.Ansi)]
-        private static extern IntPtr hid_enumerate(ushort VendorID, ushort ProductID);
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_enumerate", CharSet = CharSet.Ansi)]
+        private static extern IntPtr hid_enumerate(ushort vendorID, ushort productID);
 
         //HIDDeviceInfo
-        public static IntPtr Enumerate(ushort VendorID, ushort ProductID)
+        public static IntPtr Enumerate(ushort vendorID, ushort productID)
         {
             //HIDDeviceInfo
-            return hid_enumerate(VendorID, ProductID);
+            return hid_enumerate(vendorID, productID);
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_free_enumeration", CharSet = CharSet.Unicode)]
-        private static extern void hid_free_enumeration(HIDDeviceInfo devs);
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_free_enumeration", CharSet = CharSet.Unicode)]
+        private static extern void hid_free_enumeration(SHIDDeviceInfo devs);
 
-        public static void FreeEnumeration(HIDDeviceInfo devs)
+        public static void FreeEnumeration(SHIDDeviceInfo devs)
         {
             hid_free_enumeration(devs);
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_open", CharSet = CharSet.Unicode)]
-        private static extern IntPtr hid_open(ushort VendorID, ushort ProductID, IntPtr SerialNumber);
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_open", CharSet = CharSet.Unicode)]
+        private static extern IntPtr hid_open(ushort vendorID, ushort productID, IntPtr serialNumber);
 
-        public static bool Open(ushort VendorID, ushort ProductID, out IntPtr Handle)
+        public static bool Open(ushort vendorID, ushort productID, out IntPtr handle)
         {
-            Handle = IntPtr.Zero;
+            handle = IntPtr.Zero;
             try
             {
-                Handle = hid_open(VendorID, ProductID, IntPtr.Zero);
+                handle = hid_open(vendorID, productID, IntPtr.Zero);
             }
             catch (Exception e)
             {
@@ -120,40 +120,40 @@ namespace Vocaluxe.Lib.Input
                 return false;
             }
 
-            if (Handle != IntPtr.Zero)
+            if (handle != IntPtr.Zero)
                 return true;
 
             return false;
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_open_path", CharSet = CharSet.Unicode)]
-        private static extern IntPtr hid_open_path(string Path);
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_open_path", CharSet = CharSet.Unicode)]
+        private static extern IntPtr hid_open_path(string path);
 
-        public static IntPtr OpenPath(string Path)
+        public static IntPtr OpenPath(string path)
         {
-            return hid_open_path(Path);
+            return hid_open_path(path);
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_write", CharSet = CharSet.Unicode)]
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_write", CharSet = CharSet.Unicode)]
         private static extern int hid_write(IntPtr device, byte[] data, int length);
 
-        public static int Write(IntPtr Device, byte[] Data)
+        public static int Write(IntPtr device, byte[] data)
         {
-            return hid_write(Device, Data, Data.Length);
+            return hid_write(device, data, data.Length);
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_read_timeout", CharSet = CharSet.Unicode)]
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_read_timeout", CharSet = CharSet.Unicode)]
         private static extern int hid_read_timeout(IntPtr device, IntPtr data, int length, int milliseconds);
 
-        public static int ReadTimeout(IntPtr Device, out byte[] Data, int length, int milliseconds)
+        public static int ReadTimeout(IntPtr device, out byte[] data, int length, int milliseconds)
         {
-            Data = new byte[length];
-            IntPtr data = Marshal.AllocHGlobal(length);
+            data = new byte[length];
+            IntPtr dataPtr = Marshal.AllocHGlobal(length);
 
             int result = -1;
             try
             {
-                result = hid_read_timeout(Device, data, length, milliseconds);
+                result = hid_read_timeout(device, dataPtr, length, milliseconds);
             }
             catch (Exception e)
             {
@@ -162,26 +162,26 @@ namespace Vocaluxe.Lib.Input
             }
 
             if (result != -1)
-                Marshal.Copy(data, Data, 0, result);
+                Marshal.Copy(dataPtr, data, 0, result);
             else
-                Data = null;
+                data = null;
 
-            Marshal.FreeHGlobal(data);
+            Marshal.FreeHGlobal(dataPtr);
             return result;
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_read", CharSet = CharSet.Unicode)]
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_read", CharSet = CharSet.Unicode)]
         private static extern int hid_read(IntPtr device, IntPtr data, int length);
 
-        public static int Read(IntPtr Device, out byte[] Data, int length)
+        public static int Read(IntPtr device, out byte[] data, int length)
         {
-            Data = new byte[length];
-            IntPtr data = Marshal.AllocHGlobal(length);
+            data = new byte[length];
+            IntPtr dataPtr = Marshal.AllocHGlobal(length);
 
             int result = -1;
             try
             {
-                result = hid_read(Device, data, length);
+                result = hid_read(device, dataPtr, length);
             }
             catch (Exception e)
             {
@@ -190,46 +190,46 @@ namespace Vocaluxe.Lib.Input
             }
 
             if (result != -1)
-                Marshal.Copy(data, Data, 0, result);
+                Marshal.Copy(dataPtr, data, 0, result);
             else
-                Data = null;
+                data = null;
 
-            Marshal.FreeHGlobal(data);
+            Marshal.FreeHGlobal(dataPtr);
             return result;
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_set_nonblocking", CharSet = CharSet.Unicode)]
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_set_nonblocking", CharSet = CharSet.Unicode)]
         private static extern int hid_set_nonblocking(IntPtr device, bool nonblock);
 
-        public static int Read(IntPtr Device, bool Nonblocking)
+        public static int Read(IntPtr device, bool nonblocking)
         {
-            return hid_set_nonblocking(Device, Nonblocking);
+            return hid_set_nonblocking(device, nonblocking);
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_send_feature_report", CharSet = CharSet.Unicode)]
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_send_feature_report", CharSet = CharSet.Unicode)]
         private static extern int hid_send_feature_report(IntPtr device, string data, int length);
 
-        public static int SendFeatureReport(IntPtr Device, string Data)
+        public static int SendFeatureReport(IntPtr device, string data)
         {
-            return hid_send_feature_report(Device, Data, Data.Length);
+            return hid_send_feature_report(device, data, data.Length);
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_get_feature_report", CharSet = CharSet.Unicode)]
-        private static extern int hid_get_feature_report(IntPtr device, string Data, int length);
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_get_feature_report", CharSet = CharSet.Unicode)]
+        private static extern int hid_get_feature_report(IntPtr device, string data, int length);
 
-        public static int GetFeatureReport(IntPtr Device, string Data)
+        public static int GetFeatureReport(IntPtr device, string data)
         {
-            return hid_get_feature_report(Device, Data, Data.Length);
+            return hid_get_feature_report(device, data, data.Length);
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_close", CharSet = CharSet.Unicode)]
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_close", CharSet = CharSet.Unicode)]
         private static extern void hid_close(IntPtr device);
 
-        public static bool Close(IntPtr Device)
+        public static bool Close(IntPtr device)
         {
             try
             {
-                hid_close(Device);
+                hid_close(device);
             }
             catch (Exception e)
             {
@@ -239,44 +239,44 @@ namespace Vocaluxe.Lib.Input
             return true;
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_get_manufacturer_string", CharSet = CharSet.Unicode)]
-        private static extern int hid_get_manufacturer_string(IntPtr device, string Data, int maxlength);
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_get_manufacturer_string", CharSet = CharSet.Unicode)]
+        private static extern int hid_get_manufacturer_string(IntPtr device, string data, int maxlength);
 
-        public static int GetManufacturerString(IntPtr Device, string Data, int MaxLength)
+        public static int GetManufacturerString(IntPtr device, string data, int maxLength)
         {
-            return hid_get_manufacturer_string(Device, Data, MaxLength);
+            return hid_get_manufacturer_string(device, data, maxLength);
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_get_product_string", CharSet = CharSet.Unicode)]
-        private static extern int hid_get_product_string(IntPtr device, string Data, int maxlength);
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_get_product_string", CharSet = CharSet.Unicode)]
+        private static extern int hid_get_product_string(IntPtr device, string data, int maxlength);
 
-        public static int GetProductString(IntPtr Device, string Data, int MaxLength)
+        public static int GetProductString(IntPtr device, string data, int maxLength)
         {
-            return hid_get_product_string(Device, Data, MaxLength);
+            return hid_get_product_string(device, data, maxLength);
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_get_serial_number_string", CharSet = CharSet.Unicode)]
-        private static extern int hid_get_serial_number_string(IntPtr device, string Data, int maxlength);
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_get_serial_number_string", CharSet = CharSet.Unicode)]
+        private static extern int hid_get_serial_number_string(IntPtr device, string data, int maxlength);
 
-        public static int GetSerialNumberString(IntPtr Device, string Data, int MaxLength)
+        public static int GetSerialNumberString(IntPtr device, string data, int maxLength)
         {
-            return hid_get_serial_number_string(Device, Data, MaxLength);
+            return hid_get_serial_number_string(device, data, maxLength);
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_get_indexed_string", CharSet = CharSet.Unicode)]
-        private static extern int hid_get_indexed_string(IntPtr device, string Data, int maxlength);
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_get_indexed_string", CharSet = CharSet.Unicode)]
+        private static extern int hid_get_indexed_string(IntPtr device, string data, int maxlength);
 
-        public static int GetIndexedString(IntPtr Device, string Data, int MaxLength)
+        public static int GetIndexedString(IntPtr device, string data, int maxLength)
         {
-            return hid_get_indexed_string(Device, Data, MaxLength);
+            return hid_get_indexed_string(device, data, maxLength);
         }
 
-        [DllImport(HIDapiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_error", CharSet = CharSet.Unicode)]
+        [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_error", CharSet = CharSet.Unicode)]
         private static extern string hid_error(IntPtr device);
 
-        public static string Error(IntPtr Device)
+        public static string Error(IntPtr device)
         {
-            return hid_error(Device);
+            return hid_error(device);
         }
     }
 }
