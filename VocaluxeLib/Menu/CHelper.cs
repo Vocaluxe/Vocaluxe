@@ -9,7 +9,7 @@ namespace VocaluxeLib.Menu
 {
     public static class CHelper
     {
-        public static int nCk(int n, int k)
+        public static int CombinationCount(int n, int k)
         {
             if (k > n)
                 return 0;
@@ -24,8 +24,6 @@ namespace VocaluxeLib.Menu
                 k = n - k;
 
             long result = n;
-            long nl = n;
-            long nk = k;
 
             for (long i = 1; i <= k - 1; i++)
                 result = result * (n - i) / (i + 1);
@@ -37,16 +35,16 @@ namespace VocaluxeLib.Menu
         /// </summary>
         public static string ListStrings(string[] str)
         {
-            string _Result = string.Empty;
+            string result = string.Empty;
 
             for (int i = 0; i < str.Length; i++)
             {
-                _Result += str[i];
+                result += str[i];
                 if (i < str.Length - 1)
-                    _Result += ", ";
+                    result += ", ";
             }
 
-            return _Result;
+            return result;
         }
 
         public static int TryReadInt(StreamReader sr)
@@ -75,54 +73,54 @@ namespace VocaluxeLib.Menu
             return 0;
         }
 
-        public static void SetRect(RectangleF Bounds, ref RectangleF Rect, float RectAspect, EAspect Aspect)
+        public static void SetRect(RectangleF bounds, ref RectangleF rect, float rectAspect, EAspect aspect)
         {
-            float rW = Bounds.Right - Bounds.Left;
-            float rH = Bounds.Bottom - Bounds.Top;
+            float rW = bounds.Right - bounds.Left;
+            float rH = bounds.Bottom - bounds.Top;
             float rA = rW / rH;
 
-            float ScaledWidth = rW;
-            float ScaledHeight = rH;
+            float scaledWidth = rW;
+            float scaledHeight = rH;
 
-            switch (Aspect)
+            switch (aspect)
             {
                 case EAspect.Crop:
-                    if (rA >= RectAspect)
+                    if (rA >= rectAspect)
                     {
-                        ScaledWidth = rW;
-                        ScaledHeight = rH * rA / RectAspect;
+                        scaledWidth = rW;
+                        scaledHeight = rH * rA / rectAspect;
                     }
                     else
                     {
-                        ScaledHeight = rH;
-                        ScaledWidth = rW * RectAspect / rA;
+                        scaledHeight = rH;
+                        scaledWidth = rW * rectAspect / rA;
                     }
                     break;
                 case EAspect.LetterBox:
-                    if (RectAspect >= 1)
+                    if (rectAspect >= 1)
                     {
-                        ScaledWidth = rW;
-                        ScaledHeight = rH * rA / RectAspect;
+                        scaledWidth = rW;
+                        scaledHeight = rH * rA / rectAspect;
                     }
                     else
                     {
-                        ScaledHeight = rH;
-                        ScaledWidth = rW * RectAspect / rA;
+                        scaledHeight = rH;
+                        scaledWidth = rW * rectAspect / rA;
                     }
                     break;
                 default:
-                    ScaledWidth = rW;
-                    ScaledHeight = rH;
+                    scaledWidth = rW;
+                    scaledHeight = rH;
                     break;
             }
 
-            float Left = (rW - ScaledWidth) / 2 + Bounds.Left;
-            float Rigth = Left + ScaledWidth;
+            float left = (rW - scaledWidth) / 2 + bounds.Left;
+            float rigth = left + scaledWidth;
 
-            float Upper = (rH - ScaledHeight) / 2 + Bounds.Top;
-            float Lower = Upper + ScaledHeight;
+            float upper = (rH - scaledHeight) / 2 + bounds.Top;
+            float lower = upper + scaledHeight;
 
-            Rect = new RectangleF(Left, Upper, Rigth - Left, Lower - Upper);
+            rect = new RectangleF(left, upper, rigth - left, lower - upper);
         }
 
         public static List<string> ListFiles(string path, string cast)
@@ -187,9 +185,9 @@ namespace VocaluxeLib.Menu
             return float.TryParse(value, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, NumberFormatInfo.InvariantInfo, out result);
         }
 
-        public static bool IsInBounds(SRectF bounds, MouseEvent MouseEvent)
+        public static bool IsInBounds(SRectF bounds, SMouseEvent mouseEvent)
         {
-            return IsInBounds(bounds, MouseEvent.X, MouseEvent.Y);
+            return IsInBounds(bounds, mouseEvent.X, mouseEvent.Y);
         }
 
         public static bool IsInBounds(SRectF bounds, int x, int y)
@@ -200,9 +198,9 @@ namespace VocaluxeLib.Menu
 
     static class CEncoding
     {
-        public static Encoding GetEncoding(string EncodingName)
+        public static Encoding GetEncoding(string encodingName)
         {
-            switch (EncodingName)
+            switch (encodingName)
             {
                 case "AUTO":
                     return Encoding.Default;
@@ -219,17 +217,17 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        public static string GetEncodingName(Encoding Enc)
+        public static string GetEncodingName(Encoding enc)
         {
-            string Result = "UTF8";
+            string result = "UTF8";
 
-            if (Enc.CodePage == 1250)
-                Result = "CP1250";
+            if (enc.CodePage == 1250)
+                result = "CP1250";
 
-            if (Enc.CodePage == 1252)
-                Result = "CP1252";
+            if (enc.CodePage == 1252)
+                result = "CP1252";
 
-            return Result;
+            return result;
         }
     }
 }

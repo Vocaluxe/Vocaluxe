@@ -3,18 +3,18 @@ using System.Runtime.InteropServices;
 
 namespace Vocaluxe.Lib.Video.Gstreamer
 {
-    public struct NativeFrame
+    public struct SNativeFrame
     {
-        internal IntPtr buffer;
+        internal IntPtr Buffer;
         public int Size;
         public int Width;
         public int Height;
         public float Videotime;
     }
 
-    public struct ManagedFrame
+    public struct SManagedFrame
     {
-        public byte[] buffer;
+        public byte[] Buffer;
         public int Size;
         public int Width;
         public int Height;
@@ -26,13 +26,13 @@ namespace Vocaluxe.Lib.Video.Gstreamer
         #region arch
 #if ARCH_X86
 #if WIN
-        private const string Dll = "x86\\gstreamer\\gstreamerhelper.dll";
+        private const string _Dll = "x86\\gstreamer\\gstreamerhelper.dll";
 #endif
 #endif
 
 #if ARCH_X64
 #if WIN
-        private const string Dll = "x64\\gstreamer\\gstreamerhelper.dll";
+        private const string _Dll = "x64\\gstreamer\\gstreamerhelper.dll";
 #endif
 #endif
         #endregion arch
@@ -40,46 +40,46 @@ namespace Vocaluxe.Lib.Video.Gstreamer
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate void LogCallback(string message);
 
-        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SetVideoLogCallback(LogCallback c);
 
-        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool InitVideo();
 
-        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
         public static extern void CloseAllVideos();
 
-        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int LoadVideo(string VideoFileName);
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int LoadVideo(string videoFileName);
 
-        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
-        public static extern bool CloseVideo(int StreamID);
+        public static extern bool CloseVideo(int streamID);
 
-        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetVideoNumStreams();
 
-        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
-        public static extern float GetVideoLength(int StreamID);
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
+        public static extern float GetVideoLength(int streamID);
 
-        [DllImport(Dll, EntryPoint = "GetFrame", CallingConvention = CallingConvention.Cdecl)]
-        public static extern NativeFrame GetFrameNative(int StreamID, float Time);
+        [DllImport(_Dll, EntryPoint = "GetFrame", CallingConvention = CallingConvention.Cdecl)]
+        public static extern SNativeFrame GetFrameNative(int streamID, float time);
 
-        public static ManagedFrame GetFrame(int StreamID, float Time)
+        public static SManagedFrame GetFrame(int streamID, float time)
         {
-            NativeFrame f = GetFrameNative(StreamID, Time);
+            SNativeFrame f = GetFrameNative(streamID, time);
 
             byte[] buffer = null;
 
             if (f.Size > 0)
             {
                 buffer = new byte[f.Size];
-                Marshal.Copy(f.buffer, buffer, 0, f.Size);
+                Marshal.Copy(f.Buffer, buffer, 0, f.Size);
             }
 
-            ManagedFrame m;
-            m.buffer = buffer;
+            SManagedFrame m;
+            m.Buffer = buffer;
             m.Height = f.Height;
             m.Size = f.Size;
             m.Videotime = f.Videotime;
@@ -87,25 +87,25 @@ namespace Vocaluxe.Lib.Video.Gstreamer
             return m;
         }
 
-        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
-        public static extern bool Skip(int StreamID, float Start, float Gap);
+        public static extern bool Skip(int streamID, float start, float gap);
 
-        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SetVideoLoop(int StreamID,
-                                               [MarshalAs(UnmanagedType.U1)] bool Loop);
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SetVideoLoop(int streamID,
+                                               [MarshalAs(UnmanagedType.U1)] bool loop);
 
-        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void PauseVideo(int StreamID);
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void PauseVideo(int streamID);
 
-        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void ResumeVideo(int StreamID);
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void ResumeVideo(int streamID);
 
-        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
-        public static extern bool Finished(int StreamID);
+        public static extern bool Finished(int streamID);
 
-        [DllImport(Dll, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool UpdateVideo();
     }

@@ -7,21 +7,21 @@ namespace VocaluxeLib.Menu
     public class COrderedDictionaryLite<T> : IEnumerable<T>
     {
         private readonly List<T> _Items;
-        private readonly Dictionary<String, int> _htIndex;
+        private readonly Dictionary<String, int> _HtIndex;
         private readonly CMenu _Parent;
 
-        public COrderedDictionaryLite(CMenu Parent)
+        public COrderedDictionaryLite(CMenu parent)
         {
             _Items = new List<T>();
-            _htIndex = new Dictionary<String, int>();
-            _Parent = Parent;
+            _HtIndex = new Dictionary<String, int>();
+            _Parent = parent;
         }
 
-        public COrderedDictionaryLite(COrderedDictionaryLite<T> Dict)
+        public COrderedDictionaryLite(COrderedDictionaryLite<T> dict)
         {
-            _Items = new List<T>(Dict._Items);
-            _htIndex = new Dictionary<String, int>(Dict._htIndex);
-            _Parent = Dict._Parent;
+            _Items = new List<T>(dict._Items);
+            _HtIndex = new Dictionary<String, int>(dict._HtIndex);
+            _Parent = dict._Parent;
         }
 
         public T this[int index]
@@ -36,7 +36,7 @@ namespace VocaluxeLib.Menu
             {
                 try
                 {
-                    return _Items[_htIndex[key]];
+                    return _Items[_HtIndex[key]];
                 }
                 catch (Exception)
                 {
@@ -46,20 +46,20 @@ namespace VocaluxeLib.Menu
             }
             set
             {
-                if (!_htIndex.ContainsKey(key))
+                if (!_HtIndex.ContainsKey(key))
                 {
-                    _htIndex.Add(key, _Items.Count);
+                    _HtIndex.Add(key, _Items.Count);
                     _Items.Add(value);
                 }
                 else
-                    _Items[_htIndex[key]] = value;
+                    _Items[_HtIndex[key]] = value;
             }
         }
 
         public int Add(T item, String key = null)
         {
             if (key != null)
-                _htIndex.Add(key, _Items.Count);
+                _HtIndex.Add(key, _Items.Count);
             _Items.Add(item);
             return _Items.Count - 1;
         }

@@ -55,21 +55,23 @@ namespace VocaluxeLib.Menu
     #region Config
     public enum ERenderer
     {
+        // ReSharper disable InconsistentNaming
 #if WIN
         TR_CONFIG_DIRECT3D,
 #endif
         TR_CONFIG_OPENGL,
         TR_CONFIG_SOFTWARE
+        // ReSharper restore InconsistentNaming
     }
 
     public enum EAntiAliasingModes
     {
-        x0 = 0,
-        x2 = 2,
-        x4 = 4,
-        x8 = 8,
-        x16 = 16,
-        x32 = 32
+        X0 = 0,
+        X2 = 2,
+        X4 = 4,
+        X8 = 8,
+        X16 = 16,
+        X32 = 32
     }
 
     public enum EColorDeep
@@ -82,21 +84,26 @@ namespace VocaluxeLib.Menu
 
     public enum ETextureQuality
     {
+        // ReSharper disable InconsistentNaming
         TR_CONFIG_TEXTURE_LOWEST,
         TR_CONFIG_TEXTURE_LOW,
         TR_CONFIG_TEXTURE_MEDIUM,
         TR_CONFIG_TEXTURE_HIGH,
         TR_CONFIG_TEXTURE_HIGHEST
+        // ReSharper restore InconsistentNaming
     }
 
     public enum EOffOn
     {
+        // ReSharper disable InconsistentNaming
         TR_CONFIG_OFF,
         TR_CONFIG_ON
+        // ReSharper restore InconsistentNaming
     }
 
     public enum EDebugLevel
     {
+        // ReSharper disable InconsistentNaming
         // don't change the order!
         TR_CONFIG_OFF, //no debug infos
         TR_CONFIG_ONLY_FPS,
@@ -104,19 +111,20 @@ namespace VocaluxeLib.Menu
         TR_CONFIG_LEVEL2,
         TR_CONFIG_LEVEL3,
         TR_CONFIG_LEVEL_MAX //all debug infos
+        // ReSharper restore InconsistentNaming
     }
 
     public enum EBufferSize
     {
-        b0 = 0,
-        b512 = 512,
-        b1024 = 1024,
-        b1536 = 1536,
-        b2048 = 2048,
-        b2560 = 2560,
-        b3072 = 3072,
-        b3584 = 3584,
-        b4096 = 4096
+        B0 = 0,
+        B512 = 512,
+        B1024 = 1024,
+        B1536 = 1536,
+        B2048 = 2048,
+        B2560 = 2560,
+        B3072 = 3072,
+        B3584 = 3584,
+        B4096 = 4096
     }
 
     public enum EPlaybackLib
@@ -148,10 +156,12 @@ namespace VocaluxeLib.Menu
 
     public enum ESongMenu
     {
+        // ReSharper disable InconsistentNaming
         //TR_CONFIG_LIST,		    //a simple list
         //TR_CONFIG_DREIDEL,	    //as in ultrastar deluxe
         TR_CONFIG_TILE_BOARD, //chessboard like
         //TR_CONFIG_BOOK          //for playlists
+        // ReSharper restore InconsistentNaming
     }
 
     public enum EDuetOptions
@@ -163,6 +173,7 @@ namespace VocaluxeLib.Menu
 
     public enum ESongSorting
     {
+        // ReSharper disable InconsistentNaming
         TR_CONFIG_NONE,
         //TR_CONFIG_RANDOM,
         TR_CONFIG_FOLDER,
@@ -174,55 +185,70 @@ namespace VocaluxeLib.Menu
         TR_CONFIG_LANGUAGE,
         TR_CONFIG_YEAR,
         TR_CONFIG_DECADE
+        // ReSharper restore InconsistentNaming
     }
 
     public enum ECoverLoading
     {
+        // ReSharper disable InconsistentNaming
         TR_CONFIG_COVERLOADING_ONDEMAND,
         TR_CONFIG_COVERLOADING_ATSTART,
         TR_CONFIG_COVERLOADING_DYNAMIC
+        // ReSharper restore InconsistentNaming
     }
 
     public enum EGameDifficulty
     {
+        // ReSharper disable InconsistentNaming
         TR_CONFIG_EASY,
         TR_CONFIG_NORMAL,
         TR_CONFIG_HARD
+        // ReSharper restore InconsistentNaming
     }
 
     public enum ETimerMode
     {
+        // ReSharper disable InconsistentNaming
         TR_CONFIG_TIMERMODE_CURRENT,
         TR_CONFIG_TIMERMODE_REMAINING,
         TR_CONFIG_TIMERMODE_TOTAL
+        // ReSharper restore InconsistentNaming
     }
 
     public enum ETimerLook
     {
+        // ReSharper disable InconsistentNaming
         TR_CONFIG_TIMERLOOK_NORMAL,
         TR_CONFIG_TIMERLOOK_EXPANDED
+        // ReSharper restore InconsistentNaming
     }
 
     public enum EBackgroundMusicSource
     {
+        // ReSharper disable InconsistentNaming
         TR_CONFIG_NO_OWN_MUSIC,
         TR_CONFIG_OWN_MUSIC,
         TR_CONFIG_ONLY_OWN_MUSIC
+        // ReSharper restore InconsistentNaming
     }
 
     public enum EPlayerInfo
     {
+        // ReSharper disable InconsistentNaming
         TR_CONFIG_PLAYERINFO_BOTH,
         TR_CONFIG_PLAYERINFO_NAME,
         TR_CONFIG_PLAYERINFO_AVATAR,
         TR_CONFIG_PLAYERINFO_OFF
+        // ReSharper restore InconsistentNaming
     }
 
     public enum EFadePlayerInfo
     {
+        // ReSharper disable InconsistentNaming
         TR_CONFIG_FADEPLAYERINFO_ALL,
         TR_CONFIG_FADEPLAYERINFO_INFO,
         TR_CONFIG_FADEPLAYERINFO_OFF
+        // ReSharper restore InconsistentNaming
     }
 
     public enum ELyricStyle
@@ -243,10 +269,12 @@ namespace VocaluxeLib.Menu
 
     public enum EGameMode
     {
+        // ReSharper disable InconsistentNaming
         TR_GAMEMODE_NORMAL,
         TR_GAMEMODE_MEDLEY,
         TR_GAMEMODE_DUET,
         TR_GAMEMODE_SHORTSONG
+        // ReSharper restore InconsistentNaming
     }
 
     public enum ENoteType

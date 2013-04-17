@@ -48,9 +48,9 @@ namespace VocaluxeLib.Menu
 
         private float[] _Bars;
 
-        public CEqualizer(int PartyModeID)
+        public CEqualizer(int partyModeID)
         {
-            _PartyModeID = PartyModeID;
+            _PartyModeID = partyModeID;
             _Theme = new SThemeEqualizer();
             _ThemeLoaded = false;
 
@@ -67,9 +67,9 @@ namespace VocaluxeLib.Menu
             ReflectionHeight = 0f;
         }
 
-        public bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex)
+        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
-            string item = XmlPath + "/" + ElementName;
+            string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
@@ -89,7 +89,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/DrawNegative", ref _Theme.DrawNegative);
 
             if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, out Color);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -99,7 +99,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/MaxColor", ref _Theme.MaxColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, SkinIndex, out Color);
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/MaxR", ref MaxColor.R);
@@ -120,7 +120,7 @@ namespace VocaluxeLib.Menu
 
             if (_ThemeLoaded)
             {
-                _Theme.Name = ElementName;
+                _Theme.Name = elementName;
                 _Bars = new float[_Theme.NumBars];
                 for (int i = 0; i < _Bars.Length; i++)
                     _Bars[i] = 0f;

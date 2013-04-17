@@ -25,41 +25,41 @@ namespace VocaluxeLib.Menu.SingNotes
                 _Lines.Add(new CLines(lines));
         }
 
-        public CLines GetLines(int Index)
+        public CLines GetLines(int index)
         {
-            while (Index >= _Lines.Count)
+            while (index >= _Lines.Count)
                 _Lines.Add(new CLines());
 
-            return _Lines[Index];
+            return _Lines[index];
         }
 
-        public int GetPoints(int Index)
+        public int GetPoints(int index)
         {
-            if (Index >= _Lines.Count)
+            if (index >= _Lines.Count)
                 return 0;
 
-            return _Lines[Index].Points;
+            return _Lines[index].Points;
         }
 
-        public int GetNumLinesWithPoints(int Index)
+        public int GetNumLinesWithPoints(int index)
         {
-            if (Index >= _Lines.Count)
+            if (index >= _Lines.Count)
                 return 0;
 
-            return _Lines[Index].NumLinesWithPoints;
+            return _Lines[index].NumLinesWithPoints;
         }
 
-        public void AddLines(CLines Lines)
+        public void AddLines(CLines lines)
         {
-            _Lines.Add(Lines);
+            _Lines.Add(lines);
         }
 
-        public bool ReplaceLinesAt(int Index, CLines Lines)
+        public bool ReplaceLinesAt(int index, CLines lines)
         {
-            if (Index >= _Lines.Count)
+            if (index >= _Lines.Count)
                 return false;
 
-            _Lines[Index] = Lines;
+            _Lines[index] = lines;
             return true;
         }
 
@@ -68,10 +68,10 @@ namespace VocaluxeLib.Menu.SingNotes
             _Lines.Clear();
         }
 
-        public void SetMedley(int StartBeat, int EndBeat)
+        public void SetMedley(int startBeat, int endBeat)
         {
             foreach (CLines lines in _Lines)
-                lines.SetMedley(StartBeat, EndBeat);
+                lines.SetMedley(startBeat, endBeat);
         }
     }
 
@@ -108,38 +108,38 @@ namespace VocaluxeLib.Menu.SingNotes
             _Perfect = note._Perfect;
         }
 
-        public CNote(int StartBeat, int Duration, int Tone, string Text)
+        public CNote(int startBeat, int duration, int tone, string text)
             : this()
         {
-            this.StartBeat = StartBeat;
-            this.Duration = Duration;
-            this.Tone = Tone;
+            this.StartBeat = startBeat;
+            this.Duration = duration;
+            this.Tone = tone;
             NoteType = ENoteType.Normal;
-            this.Text = Text;
+            this.Text = text;
         }
 
-        public CNote(int StartBeat, int Duration, int Tone, string Text, bool Hit)
+        public CNote(int startBeat, int duration, int tone, string text, bool hit)
             : this()
         {
-            this.StartBeat = StartBeat;
-            this.Duration = Duration;
-            this.Tone = Tone;
+            this.StartBeat = startBeat;
+            this.Duration = duration;
+            this.Tone = tone;
             NoteType = ENoteType.Normal;
-            this.Text = Text;
-            this.Hit = Hit;
+            this.Text = text;
+            this.Hit = hit;
         }
 
-        public CNote(int StartBeat, int Duration, int Tone, string Text, ENoteType NoteType)
-            : this(StartBeat, Duration, Tone, Text)
+        public CNote(int startBeat, int duration, int tone, string text, ENoteType noteType)
+            : this(startBeat, duration, tone, text)
         {
-            this.NoteType = NoteType;
+            this.NoteType = noteType;
         }
 
-        public CNote(int StartBeat, int Duration, int Tone, string Text, bool Hit, ENoteType NoteType)
-            : this(StartBeat, Duration, Tone, Text)
+        public CNote(int startBeat, int duration, int tone, string text, bool hit, ENoteType noteType)
+            : this(startBeat, duration, tone, text)
         {
-            this.NoteType = NoteType;
-            this.Hit = Hit;
+            this.NoteType = noteType;
+            this.Hit = hit;
         }
         #endregion Constructors
 
@@ -237,24 +237,24 @@ namespace VocaluxeLib.Menu.SingNotes
         #endregion Properties
 
         #region Methods
-        public bool IsPerfect(CNote CompareNote)
+        public bool IsPerfect(CNote compareNote)
         {
-            bool Result = true;
+            bool result = true;
 
             if (!Hit)
-                Result = false;
+                result = false;
 
-            if (StartBeat != CompareNote.StartBeat)
-                Result = false;
+            if (StartBeat != compareNote.StartBeat)
+                result = false;
 
-            if (EndBeat != CompareNote.EndBeat)
-                Result = false;
+            if (EndBeat != compareNote.EndBeat)
+                result = false;
 
-            if (Tone != CompareNote.Tone)
-                Result = false;
+            if (Tone != compareNote.Tone)
+                result = false;
 
-            Perfect = Result;
-            return Result;
+            Perfect = result;
+            return result;
         }
         #endregion Methods
     }
@@ -387,38 +387,38 @@ namespace VocaluxeLib.Menu.SingNotes
         {
             get
             {
-                int Min = int.MaxValue;
-                int Max = int.MinValue;
+                int min = int.MaxValue;
+                int max = int.MinValue;
                 foreach (CNote note in _Notes)
                 {
-                    if (note.Tone < Min)
-                        Min = note.Tone;
-                    if (note.Tone > Max)
-                        Max = note.Tone;
+                    if (note.Tone < min)
+                        min = note.Tone;
+                    if (note.Tone > max)
+                        max = note.Tone;
                 }
 
-                return Min - (Max - Min) / 4;
+                return min - (max - min) / 4;
             }
         }
         #endregion Properties
 
         #region Methods
-        public bool IsPerfect(CLine CompareLine)
+        public bool IsPerfect(CLine compareLine)
         {
             if (_Notes.Count == 0)
                 return false;
 
-            if (_Notes.Count != CompareLine.NoteCount)
+            if (_Notes.Count != compareLine.NoteCount)
                 return false;
 
-            if (CompareLine.Points == 0)
+            if (compareLine.Points == 0)
                 return false;
 
-            _PerfectLine = Points == CompareLine.Points;
+            _PerfectLine = Points == compareLine.Points;
             return _PerfectLine;
         }
 
-        public int FindPreviousNote(int Beat)
+        public int FindPreviousNote(int beat)
         {
             //If no notes -> No previous note
             if (_Notes.Count == 0)
@@ -426,15 +426,15 @@ namespace VocaluxeLib.Menu.SingNotes
             int start = 0;
             int end = _Notes.Count - 1;
             //Ensure that start.StartBeat<=Beat && end.StartBeat>Beat
-            if (_Notes[0].StartBeat > Beat)
+            if (_Notes[0].StartBeat > beat)
                 return -1;
-            if (_Notes[end].StartBeat <= Beat)
+            if (_Notes[end].StartBeat <= beat)
                 return end;
             //Binary search
             while (end - start > 1)
             {
                 int mid = (start + end) / 2;
-                if (_Notes[mid].StartBeat <= Beat)
+                if (_Notes[mid].StartBeat <= beat)
                     start = mid;
                 else
                     end = mid;
@@ -442,13 +442,13 @@ namespace VocaluxeLib.Menu.SingNotes
             return start;
         }
 
-        public bool AddNote(CNote Note)
+        public bool AddNote(CNote note)
         {
             if (_Notes.Count == 0)
-                _Notes.Add(Note);
+                _Notes.Add(note);
             else
             {
-                int insPos = FindPreviousNote(Note.StartBeat);
+                int insPos = FindPreviousNote(note.StartBeat);
                 //Flamefire: May be a performance hit as notes are also used for sung notes
                 //But for song loading this might be very helpful!
                 //Check for overlapping notes
@@ -457,30 +457,30 @@ namespace VocaluxeLib.Menu.SingNotes
                 if (insPos < _Notes.Count - 1 && _Notes[insPos+1].StartBeat > Note.EndBeat)
                     return false;
                  * */
-                _Notes.Insert(insPos + 1, Note);
+                _Notes.Insert(insPos + 1, note);
             }
-            updateMinMaxBeat(Note);
+            _UpdateMinMaxBeat(note);
             return true;
         }
 
-        public bool DeleteNote(int Index)
+        public bool DeleteNote(int index)
         {
-            if (_Notes.Count > Index)
+            if (_Notes.Count > index)
             {
-                _Notes.RemoveAt(Index);
-                if (Index == 0 || Index == _Notes.Count - 1)
-                    updateMinMaxBeat();
+                _Notes.RemoveAt(index);
+                if (index == 0 || index == _Notes.Count - 1)
+                    _UpdateMinMaxBeat();
                 return true;
             }
             return false;
         }
 
-        public bool ReplaceNote(int Index, CNote Note)
+        public bool ReplaceNote(int index, CNote note)
         {
-            if (_Notes.Count > Index)
+            if (_Notes.Count > index)
             {
-                _Notes.RemoveAt(Index);
-                return AddNote(Note);
+                _Notes.RemoveAt(index);
+                return AddNote(note);
             }
             return false;
         }
@@ -498,30 +498,30 @@ namespace VocaluxeLib.Menu.SingNotes
         public void DeleteAllNotes()
         {
             _Notes.Clear();
-            updateMinMaxBeat();
+            _UpdateMinMaxBeat();
         }
 
-        public void SetMedley(int StartBeat, int EndBeat)
+        public void SetMedley(int startBeat, int endBeat)
         {
             foreach (CNote note in _Notes)
             {
-                if (note.StartBeat < StartBeat || note.EndBeat > EndBeat)
+                if (note.StartBeat < startBeat || note.EndBeat > endBeat)
                     note.NoteType = ENoteType.Freestyle;
             }
 
-            _VisibleInTimeLine = _MinBeat >= StartBeat && _MaxBeat <= EndBeat;
+            _VisibleInTimeLine = _MinBeat >= startBeat && _MaxBeat <= endBeat;
         }
 
-        private void updateMinMaxBeat(CNote Note)
+        private void _UpdateMinMaxBeat(CNote note)
         {
-            if (Note.StartBeat < _MinBeat)
-                _MinBeat = Note.StartBeat;
+            if (note.StartBeat < _MinBeat)
+                _MinBeat = note.StartBeat;
 
-            if (Note.EndBeat > _MaxBeat)
-                _MaxBeat = Note.EndBeat;
+            if (note.EndBeat > _MaxBeat)
+                _MaxBeat = note.EndBeat;
         }
 
-        private void updateMinMaxBeat()
+        private void _UpdateMinMaxBeat()
         {
             if (_Notes.Count > 0)
             {
@@ -617,7 +617,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
         #region Methods
         //Find last line with StartBeat<=Beat
-        public int FindPreviousLine(int Beat)
+        public int FindPreviousLine(int beat)
         {
             //If no line -> No previous line
             if (_Lines.Count == 0)
@@ -625,15 +625,15 @@ namespace VocaluxeLib.Menu.SingNotes
             int start = 0;
             int end = _Lines.Count - 1;
             //Ensure that start.StartBeat<=Beat && end.StartBeat>Beat
-            if (_Lines[0].StartBeat > Beat)
+            if (_Lines[0].StartBeat > beat)
                 return -1;
-            if (_Lines[end].StartBeat <= Beat)
+            if (_Lines[end].StartBeat <= beat)
                 return end;
             //Binary search
             while (end - start > 1)
             {
                 int mid = (start + end) / 2;
-                if (_Lines[mid].StartBeat <= Beat)
+                if (_Lines[mid].StartBeat <= beat)
                     start = mid;
                 else
                     end = mid;
@@ -641,22 +641,22 @@ namespace VocaluxeLib.Menu.SingNotes
             return start;
         }
 
-        public void AddLine(CLine Line)
+        public void AddLine(CLine line)
         {
             if (_Lines.Count == 0)
-                _Lines.Add(Line);
+                _Lines.Add(line);
             else
             {
-                int insPos = FindPreviousLine(Line.StartBeat);
-                _Lines.Insert(insPos + 1, Line);
+                int insPos = FindPreviousLine(line.StartBeat);
+                _Lines.Insert(insPos + 1, line);
             }
         }
 
-        public bool DeleteLine(int Index)
+        public bool DeleteLine(int index)
         {
-            if (_Lines.Count > Index)
+            if (_Lines.Count > index)
             {
-                _Lines.RemoveAt(Index);
+                _Lines.RemoveAt(index);
                 UpdateTimings();
                 return true;
             }
@@ -668,20 +668,20 @@ namespace VocaluxeLib.Menu.SingNotes
             _Lines.Clear();
         }
 
-        public bool AddNote(CNote Note, bool updateTimings = false)
+        public bool AddNote(CNote note, bool updateTimings = false)
         {
-            int LineIndex = FindPreviousLine(Note.StartBeat);
-            if (LineIndex < 0)
+            int lineIndex = FindPreviousLine(note.StartBeat);
+            if (lineIndex < 0)
             {
                 //Note is before ALL lines
-                CLine Line = new CLine();
-                Line.StartBeat = Note.StartBeat;
-                Line.AddNote(Note);
-                _Lines.Insert(0, Line);
+                CLine line = new CLine();
+                line.StartBeat = note.StartBeat;
+                line.AddNote(note);
+                _Lines.Insert(0, line);
             }
             else
             {
-                if (!_Lines[LineIndex].AddNote(Note))
+                if (!_Lines[lineIndex].AddNote(note))
                     return false;
             }
             if (updateTimings)
@@ -689,11 +689,11 @@ namespace VocaluxeLib.Menu.SingNotes
             return true;
         }
 
-        public bool InsertNote(CNote Note, int LineIndex, bool updateTimings = false)
+        public bool InsertNote(CNote note, int lineIndex, bool updateTimings = false)
         {
-            if (_Lines.Count > LineIndex && _Lines[LineIndex].StartBeat <= Note.StartBeat)
+            if (_Lines.Count > lineIndex && _Lines[lineIndex].StartBeat <= note.StartBeat)
             {
-                _Lines[LineIndex].AddNote(Note);
+                _Lines[lineIndex].AddNote(note);
                 if (updateTimings)
                     UpdateTimings();
                 return true;
@@ -703,7 +703,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public void UpdateTimings()
         {
-            CNote LastNote, FirstNote;
+            CNote lastNote;
             int min, max, s;
 
             if (_Lines.Count > 0)
@@ -711,13 +711,13 @@ namespace VocaluxeLib.Menu.SingNotes
 
             for (int i = 1; i < _Lines.Count; i++)
             {
-                LastNote = _Lines[i - 1].LastNote;
-                FirstNote = _Lines[i].FirstNote;
+                lastNote = _Lines[i - 1].LastNote;
+                CNote firstNote = _Lines[i].FirstNote;
 
-                if ((LastNote != null) && (FirstNote != null))
+                if ((lastNote != null) && (firstNote != null))
                 {
-                    min = LastNote.EndBeat;
-                    max = FirstNote.StartBeat;
+                    min = lastNote.EndBeat;
+                    max = firstNote.StartBeat;
 
                     switch (max - min)
                     {
@@ -743,15 +743,15 @@ namespace VocaluxeLib.Menu.SingNotes
                 }
             }
 
-            LastNote = _Lines[_Lines.Count - 1].LastNote;
-            if (LastNote != null)
-                _Lines[_Lines.Count - 1].EndBeat = LastNote.EndBeat;
+            lastNote = _Lines[_Lines.Count - 1].LastNote;
+            if (lastNote != null)
+                _Lines[_Lines.Count - 1].EndBeat = lastNote.EndBeat;
         }
 
-        public void SetMedley(int StartBeat, int EndBeat)
+        public void SetMedley(int startBeat, int endBeat)
         {
             foreach (CLine line in _Lines)
-                line.SetMedley(StartBeat, EndBeat);
+                line.SetMedley(startBeat, endBeat);
         }
         #endregion Methods
     }

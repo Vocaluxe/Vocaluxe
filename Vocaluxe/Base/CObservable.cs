@@ -7,7 +7,7 @@ namespace Vocaluxe.Base
         public event EventHandler ObjectChanged = delegate { };
         protected bool _Changed = true;
 
-        protected void NotifyObservers()
+        protected void _NotifyObservers()
         {
             ObjectChanged.Invoke(this, null);
         }
@@ -15,7 +15,7 @@ namespace Vocaluxe.Base
         protected void _SetChanged()
         {
             _Changed = true;
-            NotifyObservers();
+            _NotifyObservers();
         }
     }
 }

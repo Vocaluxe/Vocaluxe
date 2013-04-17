@@ -46,49 +46,49 @@ namespace Vocaluxe.Base
             return _VideoDecoder.GetNumStreams();
         }
 
-        public static int VdLoad(string VideoFileName)
+        public static int VdLoad(string videoFileName)
         {
-            return _VideoDecoder.Load(VideoFileName);
+            return _VideoDecoder.Load(videoFileName);
         }
 
-        public static bool VdClose(int StreamID)
+        public static bool VdClose(int streamID)
         {
-            return _VideoDecoder.Close(StreamID);
+            return _VideoDecoder.Close(streamID);
         }
 
-        public static float VdGetLength(int StreamID)
+        public static float VdGetLength(int streamID)
         {
-            return _VideoDecoder.GetLength(StreamID);
+            return _VideoDecoder.GetLength(streamID);
         }
 
-        public static bool VdGetFrame(int StreamID, ref STexture Frame, float Time, ref float VideoTime)
+        public static bool VdGetFrame(int streamID, ref STexture frame, float time, ref float videoTime)
         {
-            return _VideoDecoder.GetFrame(StreamID, ref Frame, Time, ref VideoTime);
+            return _VideoDecoder.GetFrame(streamID, ref frame, time, ref videoTime);
         }
 
-        public static bool VdSkip(int StreamID, float Start, float Gap)
+        public static bool VdSkip(int streamID, float start, float gap)
         {
-            return _VideoDecoder.Skip(StreamID, Start, Gap);
+            return _VideoDecoder.Skip(streamID, start, gap);
         }
 
-        public static void VdSetLoop(int StreamID, bool Loop)
+        public static void VdSetLoop(int streamID, bool loop)
         {
-            _VideoDecoder.SetLoop(StreamID, Loop);
+            _VideoDecoder.SetLoop(streamID, loop);
         }
 
-        public static void VdPause(int StreamID)
+        public static void VdPause(int streamID)
         {
-            _VideoDecoder.Pause(StreamID);
+            _VideoDecoder.Pause(streamID);
         }
 
-        public static void VdResume(int StreamID)
+        public static void VdResume(int streamID)
         {
-            _VideoDecoder.Resume(StreamID);
+            _VideoDecoder.Resume(streamID);
         }
 
-        public static bool VdFinished(int StreamID)
+        public static bool VdFinished(int streamID)
         {
-            return _VideoDecoder.Finished(StreamID);
+            return _VideoDecoder.Finished(streamID);
         }
 
         public static void Update()
@@ -100,7 +100,7 @@ namespace Vocaluxe.Base
         #endregion VideoDecoder
     }
 
-    class VideoPlayer
+    class CVideoPlayer
     {
         private STexture _VideoTexture;
         private int _VideoStream;
@@ -118,7 +118,7 @@ namespace Vocaluxe.Base
             set { CVideo.VdSetLoop(_VideoStream, value); }
         }
 
-        public VideoPlayer()
+        public CVideoPlayer()
         {
             _VideoTimer = new Stopwatch();
             _VideoTexture = new STexture(-1);
@@ -126,9 +126,9 @@ namespace Vocaluxe.Base
             _Loaded = false;
         }
 
-        public void Load(string VideoName)
+        public void Load(string videoName)
         {
-            _VideoStream = CVideo.VdLoad(CTheme.GetVideoFilePath(VideoName, -1));
+            _VideoStream = CVideo.VdLoad(CTheme.GetVideoFilePath(videoName, -1));
             _Loaded = true;
         }
 
@@ -154,34 +154,34 @@ namespace Vocaluxe.Base
         {
             if (!_Finished)
             {
-                float VideoTime = _VideoTimer.ElapsedMilliseconds / 1000f;
+                float videoTime = _VideoTimer.ElapsedMilliseconds / 1000f;
                 _Finished = CVideo.VdFinished(_VideoStream);
 
                 STexture tex = new STexture(-1);
-                tex.height = 0f;
-                CVideo.VdGetFrame(_VideoStream, ref tex, VideoTime, ref VideoTime);
+                tex.Height = 0f;
+                CVideo.VdGetFrame(_VideoStream, ref tex, videoTime, ref videoTime);
 
-                if (tex.height > 0)
+                if (tex.Height > 0)
                 {
                     CDraw.RemoveTexture(ref _VideoTexture);
                     _VideoTexture = tex;
                 }
             }
-            RectangleF bounds = new RectangleF(0f, 0f, CSettings.iRenderW, CSettings.iRenderH);
-            RectangleF rect = new RectangleF(0f, 0f, _VideoTexture.width, _VideoTexture.height);
+            RectangleF bounds = new RectangleF(0f, 0f, CSettings.RenderW, CSettings.RenderH);
+            RectangleF rect = new RectangleF(0f, 0f, _VideoTexture.Width, _VideoTexture.Height);
             CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
 
-            CDraw.DrawTexture(_VideoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CSettings.zFar / 4));
+            CDraw.DrawTexture(_VideoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CSettings.ZFar / 4));
         }
 
         public void PreLoad()
         {
-            float VideoTime = 0f;
-            while (_VideoTexture.index == -1 && VideoTime < 1f)
+            float videoTime = 0f;
+            while (_VideoTexture.Index == -1 && videoTime < 1f)
             {
                 float dummy = 0f;
                 CVideo.VdGetFrame(_VideoStream, ref _VideoTexture, 0, ref dummy);
-                VideoTime += 0.05f;
+                videoTime += 0.05f;
             }
         }
 

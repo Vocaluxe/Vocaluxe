@@ -107,12 +107,12 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ChallengeRounds.cs" />
+    <Compile Include="CChallengeRounds.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="PartyModeChallengeMedley.cs" />
-    <Compile Include="PartyScreenChallengeMedleyConfig.cs" />
-    <Compile Include="PartyScreenChallengeMedleyMain.cs" />
-    <Compile Include="PartyScreenChallengeMedleyNames.cs" />
+    <Compile Include="CPartyModeChallengeMedley.cs" />
+    <Compile Include="CPartyScreenChallengeMedleyConfig.cs" />
+    <Compile Include="CPartyScreenChallengeMedleyMain.cs" />
+    <Compile Include="CPartyScreenChallengeMedleyNames.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\VocaluxeLib\VocaluxeLib.csproj">
@@ -123,10 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

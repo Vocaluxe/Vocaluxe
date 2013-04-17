@@ -56,7 +56,7 @@ namespace VocaluxeLib.Menu.SongMenu
             }
             set
             {
-                if (value.index != -1)
+                if (value.Index != -1)
                 {
                     _CoverTextureBig = value;
                     _CoverBigLoaded = true;
@@ -64,11 +64,11 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
-        public CCategory(string name, STexture CoverSmall, STexture CoverBig)
+        public CCategory(string name, STexture coverSmall, STexture coverBig)
         {
             Name = name;
-            CoverTextureSmall = CoverSmall;
-            CoverTextureBig = CoverBig;
+            CoverTextureSmall = coverSmall;
+            CoverTextureBig = coverBig;
         }
 
         public CCategory(CCategory cat)
@@ -227,12 +227,10 @@ namespace VocaluxeLib.Menu.SongMenu
         //No point creating a song without a text file --> Use factory method LoadSong
         private CSong() {}
 
-        public static CSong LoadSong(string FilePath)
+        public static CSong LoadSong(string filePath)
         {
-            CSong Song = new CSong();
-            if (Song.ReadHeader(FilePath))
-                return Song;
-            return null;
+            CSong song = new CSong();
+            return song.ReadHeader(filePath) ? song : null;
         }
 
         public CSong(CSong song)
@@ -316,12 +314,12 @@ namespace VocaluxeLib.Menu.SongMenu
             return Path.Combine(Folder, VideoFileName);
         }
 
-        public bool ReadHeader(string FilePath)
+        public bool ReadHeader(string filePath)
         {
-            if (!File.Exists(FilePath))
+            if (!File.Exists(filePath))
                 return false;
 
-            Folder = Path.GetDirectoryName(FilePath);
+            Folder = Path.GetDirectoryName(filePath);
 
             foreach (string folder in CBase.Config.GetSongFolder())
             {
@@ -341,19 +339,19 @@ namespace VocaluxeLib.Menu.SongMenu
                 }
             }
 
-            FileName = Path.GetFileName(FilePath);
+            FileName = Path.GetFileName(filePath);
 
-            EHeaderFlags HeaderFlags = new EHeaderFlags();
+            EHeaderFlags headerFlags = new EHeaderFlags();
             StreamReader sr = null;
             try
             {
-                sr = new StreamReader(FilePath, Encoding.Default, true);
+                sr = new StreamReader(filePath, Encoding.Default, true);
 
                 string line;
 
                 int pos = -1;
-                string Identifier = String.Empty;
-                string Value = String.Empty;
+                string identifier = String.Empty;
+                string value = String.Empty;
 
                 while (!sr.EndOfStream)
                 {
@@ -367,19 +365,19 @@ namespace VocaluxeLib.Menu.SongMenu
 
                     if (pos > 0)
                     {
-                        Identifier = line.Substring(1, pos - 1).Trim().ToUpper();
-                        Value = line.Substring(pos + 1, line.Length - pos - 1).Trim();
+                        identifier = line.Substring(1, pos - 1).Trim().ToUpper();
+                        value = line.Substring(pos + 1, line.Length - pos - 1).Trim();
 
-                        if (Value.Length > 0)
+                        if (value.Length > 0)
                         {
-                            switch (Identifier)
+                            switch (identifier)
                             {
                                 case "ENCODING":
-                                    Encoding = CEncoding.GetEncoding(Value);
+                                    Encoding = CEncoding.GetEncoding(value);
                                     sr.Dispose();
                                     sr = null;
-                                    sr = new StreamReader(FilePath, Encoding);
-                                    Identifier = String.Empty;
+                                    sr = new StreamReader(filePath, Encoding);
+                                    identifier = String.Empty;
 
                                     //Scip everything till encoding
                                     while (!sr.EndOfStream)
@@ -394,136 +392,136 @@ namespace VocaluxeLib.Menu.SongMenu
 
                                         if (pos > 0)
                                         {
-                                            Identifier = line.Substring(1, pos - 1).Trim().ToUpper();
-                                            if (Identifier == "ENCODING")
+                                            identifier = line.Substring(1, pos - 1).Trim().ToUpper();
+                                            if (identifier == "ENCODING")
                                                 break;
                                         }
                                     }
                                     break;
                                 case "TITLE":
-                                    if (Value.Length > 0)
+                                    if (value.Length > 0)
                                     {
-                                        Title = Value;
-                                        HeaderFlags |= EHeaderFlags.Title;
+                                        Title = value;
+                                        headerFlags |= EHeaderFlags.Title;
                                     }
                                     break;
                                 case "ARTIST":
-                                    if (Value.Length > 0)
+                                    if (value.Length > 0)
                                     {
-                                        Artist = Value;
-                                        HeaderFlags |= EHeaderFlags.Artist;
+                                        Artist = value;
+                                        headerFlags |= EHeaderFlags.Artist;
                                     }
                                     break;
                                 case "TITLE-ON-SORTING":
-                                    if (Value.Length > 0)
-                                        TitleSorting = Value;
+                                    if (value.Length > 0)
+                                        TitleSorting = value;
                                     break;
                                 case "ARTIST-ON-SORTING":
-                                    if (Value.Length > 0)
-                                        ArtistSorting = Value;
+                                    if (value.Length > 0)
+                                        ArtistSorting = value;
                                     break;
                                 case "P1":
-                                    if (Value.Length > 0)
-                                        DuetPart1 = Value;
+                                    if (value.Length > 0)
+                                        DuetPart1 = value;
                                     break;
                                 case "P2":
-                                    if (Value.Length > 0)
-                                        DuetPart2 = Value;
+                                    if (value.Length > 0)
+                                        DuetPart2 = value;
                                     break;
                                 case "MP3":
-                                    if (File.Exists(Path.Combine(Folder, Value)))
+                                    if (File.Exists(Path.Combine(Folder, value)))
                                     {
-                                        MP3FileName = Value;
-                                        HeaderFlags |= EHeaderFlags.MP3;
+                                        MP3FileName = value;
+                                        headerFlags |= EHeaderFlags.MP3;
                                     }
                                     else
                                     {
-                                        CBase.Log.LogError("Can't find audio file: " + Path.Combine(Folder, Value));
+                                        CBase.Log.LogError("Can't find audio file: " + Path.Combine(Folder, value));
                                         return false;
                                     }
                                     break;
                                 case "BPM":
-                                    if (CHelper.TryParse(Value, out BPM))
+                                    if (CHelper.TryParse(value, out BPM))
                                     {
                                         BPM *= 4;
-                                        HeaderFlags |= EHeaderFlags.BPM;
+                                        headerFlags |= EHeaderFlags.BPM;
                                     }
                                     break;
                                 case "EDITION":
-                                    if (Value.Length > 1)
-                                        Edition.Add(Value);
+                                    if (value.Length > 1)
+                                        Edition.Add(value);
                                     break;
                                 case "GENRE":
-                                    if (Value.Length > 1)
-                                        Genre.Add(Value);
+                                    if (value.Length > 1)
+                                        Genre.Add(value);
                                     break;
                                 case "YEAR":
                                     int num = 0;
-                                    if (Value.Length == 4 && int.TryParse(Value, out num) && num != 0)
-                                        Year = Value;
+                                    if (value.Length == 4 && int.TryParse(value, out num) && num != 0)
+                                        Year = value;
                                     break;
                                 case "LANGUAGE":
-                                    if (Value.Length > 1)
-                                        Language.Add(Value);
+                                    if (value.Length > 1)
+                                        Language.Add(value);
                                     break;
                                 case "COMMENT":
-                                    if (Value.Length > 1)
-                                        Comment.Add(Value);
+                                    if (value.Length > 1)
+                                        Comment.Add(value);
                                     break;
                                 case "GAP":
-                                    if (CHelper.TryParse(Value, out Gap))
+                                    if (CHelper.TryParse(value, out Gap))
                                         Gap /= 1000f;
                                     break;
                                 case "COVER":
-                                    if (File.Exists(Path.Combine(Folder, Value)))
-                                        CoverFileName = Value;
+                                    if (File.Exists(Path.Combine(Folder, value)))
+                                        CoverFileName = value;
                                     break;
                                 case "BACKGROUND":
-                                    if (File.Exists(Path.Combine(Folder, Value)))
-                                        BackgroundFileName = Value;
+                                    if (File.Exists(Path.Combine(Folder, value)))
+                                        BackgroundFileName = value;
                                     break;
                                 case "VIDEO":
-                                    if (File.Exists(Path.Combine(Folder, Value)))
-                                        VideoFileName = Value;
+                                    if (File.Exists(Path.Combine(Folder, value)))
+                                        VideoFileName = value;
                                     else
-                                        CBase.Log.LogError("Can't find video file: " + Path.Combine(Folder, Value));
+                                        CBase.Log.LogError("Can't find video file: " + Path.Combine(Folder, value));
                                     break;
                                 case "VIDEOGAP":
-                                    CHelper.TryParse(Value, out VideoGap);
+                                    CHelper.TryParse(value, out VideoGap);
                                     break;
                                 case "VIDEOASPECT":
-                                    CHelper.TryParse(Value, out VideoAspect, true);
+                                    CHelper.TryParse(value, out VideoAspect, true);
                                     break;
                                 case "START":
-                                    CHelper.TryParse(Value, out Start);
+                                    CHelper.TryParse(value, out Start);
                                     break;
                                 case "END":
-                                    if (CHelper.TryParse(Value, out Finish))
+                                    if (CHelper.TryParse(value, out Finish))
                                         Finish /= 1000f;
                                     break;
                                 case "PREVIEWSTART":
-                                    if (CHelper.TryParse(Value, out PreviewStart))
+                                    if (CHelper.TryParse(value, out PreviewStart))
                                     {
                                         if (PreviewStart < 0f)
                                             PreviewStart = 0f;
                                         else
-                                            HeaderFlags |= EHeaderFlags.PreviewStart;
+                                            headerFlags |= EHeaderFlags.PreviewStart;
                                     }
                                     break;
                                 case "MEDLEYSTARTBEAT":
-                                    if (int.TryParse(Value, out Medley.StartBeat))
-                                        HeaderFlags |= EHeaderFlags.MedleyStartBeat;
+                                    if (int.TryParse(value, out Medley.StartBeat))
+                                        headerFlags |= EHeaderFlags.MedleyStartBeat;
                                     break;
                                 case "MEDLEYENDBEAT":
-                                    if (int.TryParse(Value, out Medley.EndBeat))
-                                        HeaderFlags |= EHeaderFlags.MedleyEndBeat;
+                                    if (int.TryParse(value, out Medley.EndBeat))
+                                        headerFlags |= EHeaderFlags.MedleyEndBeat;
                                     break;
                                 case "CALCMEDLEY":
-                                    if (Value.ToUpper() == "OFF")
+                                    if (value.ToUpper() == "OFF")
                                         CalculateMedley = false;
                                     break;
                                 case "RELATIVE":
-                                    if (Value.ToUpper() == "YES" && Value.ToUpper() != "NO")
+                                    if (value.ToUpper() == "YES" && value.ToUpper() != "NO")
                                         Relative = EOffOn.TR_CONFIG_ON;
                                     break;
                             }
@@ -534,48 +532,48 @@ namespace VocaluxeLib.Menu.SongMenu
                 if (sr.EndOfStream)
                 {
                     //No other data then header
-                    CBase.Log.LogError("Lyrics/Notes missing: " + FilePath);
+                    CBase.Log.LogError("Lyrics/Notes missing: " + filePath);
                     return false;
                 }
 
-                if ((HeaderFlags & EHeaderFlags.Title) == 0)
+                if ((headerFlags & EHeaderFlags.Title) == 0)
                 {
-                    CBase.Log.LogError("Title tag missing: " + FilePath);
+                    CBase.Log.LogError("Title tag missing: " + filePath);
                     return false;
                 }
 
-                if ((HeaderFlags & EHeaderFlags.Artist) == 0)
+                if ((headerFlags & EHeaderFlags.Artist) == 0)
                 {
-                    CBase.Log.LogError("Artist tag missing: " + FilePath);
+                    CBase.Log.LogError("Artist tag missing: " + filePath);
                     return false;
                 }
 
-                if ((HeaderFlags & EHeaderFlags.MP3) == 0)
+                if ((headerFlags & EHeaderFlags.MP3) == 0)
                 {
-                    CBase.Log.LogError("MP3 tag missing: " + FilePath);
+                    CBase.Log.LogError("MP3 tag missing: " + filePath);
                     return false;
                 }
 
-                if ((HeaderFlags & EHeaderFlags.BPM) == 0)
+                if ((headerFlags & EHeaderFlags.BPM) == 0)
                 {
-                    CBase.Log.LogError("BPM tag missing: " + FilePath);
+                    CBase.Log.LogError("BPM tag missing: " + filePath);
                     return false;
                 }
 
                 #region check medley tags
-                if ((HeaderFlags & EHeaderFlags.MedleyStartBeat) != 0 && (HeaderFlags & EHeaderFlags.MedleyEndBeat) != 0)
+                if ((headerFlags & EHeaderFlags.MedleyStartBeat) != 0 && (headerFlags & EHeaderFlags.MedleyEndBeat) != 0)
                 {
                     if (Medley.StartBeat > Medley.EndBeat)
                     {
-                        CBase.Log.LogError("MedleyStartBeat is bigger than MedleyEndBeat in file: " + FilePath);
-                        HeaderFlags = HeaderFlags - EHeaderFlags.MedleyStartBeat - EHeaderFlags.MedleyEndBeat;
+                        CBase.Log.LogError("MedleyStartBeat is bigger than MedleyEndBeat in file: " + filePath);
+                        headerFlags = headerFlags - EHeaderFlags.MedleyStartBeat - EHeaderFlags.MedleyEndBeat;
                     }
                 }
 
-                if ((HeaderFlags & EHeaderFlags.PreviewStart) == 0 || PreviewStart == 0f)
+                if ((headerFlags & EHeaderFlags.PreviewStart) == 0 || PreviewStart == 0f)
                 {
                     //PreviewStart is not set or <=0
-                    if ((HeaderFlags & EHeaderFlags.MedleyStartBeat) != 0)
+                    if ((headerFlags & EHeaderFlags.MedleyStartBeat) != 0)
                         //fallback to MedleyStart
                         PreviewStart = CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM);
                     else
@@ -583,7 +581,7 @@ namespace VocaluxeLib.Menu.SongMenu
                         PreviewStart = 0f;
                 }
 
-                if ((HeaderFlags & EHeaderFlags.MedleyStartBeat) != 0 && (HeaderFlags & EHeaderFlags.MedleyEndBeat) != 0)
+                if ((headerFlags & EHeaderFlags.MedleyStartBeat) != 0 && (headerFlags & EHeaderFlags.MedleyEndBeat) != 0)
                 {
                     Medley.Source = EMedleySource.Tag;
                     Medley.FadeInTime = CBase.Settings.GetDefaultMedleyFadeInTime();
@@ -597,11 +595,11 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 if (sr != null)
                     sr.Dispose();
-                CBase.Log.LogError("Error reading txt header in file \"" + FilePath + "\": " + e.Message);
+                CBase.Log.LogError("Error reading txt header in file \"" + filePath + "\": " + e.Message);
                 return false;
             }
             sr.Dispose();
-            CheckFiles();
+            _CheckFiles();
 
             //Before saving this tags to .txt: Check, if ArtistSorting and Artist are equal, then don't save this tag.
             if (ArtistSorting.Length == 0)
@@ -615,37 +613,37 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public bool ReadNotes()
         {
-            return ReadNotes(Path.Combine(Folder, FileName));
+            return _ReadNotes(Path.Combine(Folder, FileName));
         }
 
-        public bool ReadNotes(string FilePath, bool forceReload = false)
+        private bool _ReadNotes(string filePath, bool forceReload = false)
         {
             //Skip loading if already done and no reload is forced
             if (_NotesLoaded && !forceReload)
                 return true;
 
-            if (!File.Exists(FilePath))
+            if (!File.Exists(filePath))
             {
-                CBase.Log.LogError("Error loading song. The file does not exist: " + FilePath);
+                CBase.Log.LogError("Error loading song. The file does not exist: " + filePath);
                 return false;
             }
 
-            char TempC = char.MinValue;
-            int Param1 = 0;
-            int Param2 = 0;
-            int Param3 = 0;
+            char tempC = char.MinValue;
+            int param1 = 0;
+            int param2 = 0;
+            int param3 = 0;
             int currentPos = 0;
-            string ParamS = String.Empty;
+            string paramS = String.Empty;
             bool isNewSentence = false;
 
             string line = String.Empty;
-            int Player = 0;
-            int FileLineNo = 0;
+            int player = 0;
+            int fileLineNo = 0;
 
             StreamReader sr = null;
             try
             {
-                sr = new StreamReader(FilePath, Encoding, true);
+                sr = new StreamReader(filePath, Encoding, true);
 
                 Notes.Reset();
 
@@ -653,42 +651,42 @@ namespace VocaluxeLib.Menu.SongMenu
                 while (!sr.EndOfStream)
                 {
                     line = sr.ReadLine();
-                    FileLineNo++;
+                    fileLineNo++;
 
-                    TempC = (char)sr.Peek();
-                    if ((TempC == '#') || (TempC == '\r') || (TempC == '\n'))
+                    tempC = (char)sr.Peek();
+                    if ((tempC == '#') || (tempC == '\r') || (tempC == '\n'))
                         continue;
-                    if ((TempC == ':') || (TempC == 'F') || (TempC == '*') || (TempC == 'P'))
+                    if ((tempC == ':') || (tempC == 'F') || (tempC == '*') || (tempC == 'P'))
                     {
-                        TempC = (char)sr.Read();
+                        tempC = (char)sr.Read();
                         break;
                     }
                 }
 
                 if (sr.EndOfStream)
                 {
-                    CBase.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". No lyrics/notes found: " + FilePath);
+                    CBase.Log.LogError("Error loading song. Line No.: " + fileLineNo.ToString() + ". No lyrics/notes found: " + filePath);
                     return false;
                 }
 
                 do
                 {
                     char chr;
-                    switch (TempC)
+                    switch (tempC)
                     {
                         case 'P':
                             while ((chr = (char)sr.Read()) == ' ') {}
 
-                            int.TryParse(chr.ToString(), out Param1);
-                            if (Param1 == 1)
-                                Player = 0;
-                            else if (Param1 == 2)
-                                Player = 1;
-                            else if (Param1 == 3)
-                                Player = 2;
+                            int.TryParse(chr.ToString(), out param1);
+                            if (param1 == 1)
+                                player = 0;
+                            else if (param1 == 2)
+                                player = 1;
+                            else if (param1 == 3)
+                                player = 2;
                             else
                             {
-                                CBase.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". Wrong or missing number after \"P\": " + FilePath);
+                                CBase.Log.LogError("Error loading song. Line No.: " + fileLineNo.ToString() + ". Wrong or missing number after \"P\": " + filePath);
                                 return false;
                             }
                             sr.ReadLine();
@@ -697,72 +695,72 @@ namespace VocaluxeLib.Menu.SongMenu
                         case '*':
                         case 'F':
                             sr.Read();
-                            Param1 = CHelper.TryReadInt(sr);
+                            param1 = CHelper.TryReadInt(sr);
 
                             sr.Read();
-                            Param2 = CHelper.TryReadInt(sr);
+                            param2 = CHelper.TryReadInt(sr);
 
                             sr.Read();
-                            Param3 = CHelper.TryReadInt(sr);
+                            param3 = CHelper.TryReadInt(sr);
 
                             sr.Read();
-                            ParamS = sr.ReadLine();
+                            paramS = sr.ReadLine();
 
-                            ENoteType NoteType;
+                            ENoteType noteType;
 
-                            if (TempC.CompareTo('*') == 0)
-                                NoteType = ENoteType.Golden;
-                            else if (TempC.CompareTo('F') == 0)
-                                NoteType = ENoteType.Freestyle;
+                            if (tempC.CompareTo('*') == 0)
+                                noteType = ENoteType.Golden;
+                            else if (tempC.CompareTo('F') == 0)
+                                noteType = ENoteType.Freestyle;
                             else
-                                NoteType = ENoteType.Normal;
+                                noteType = ENoteType.Normal;
 
                             if (Relative == EOffOn.TR_CONFIG_ON)
-                                Param1 += currentPos;
+                                param1 += currentPos;
 
-                            if (Player != 2)
+                            if (player != 2)
                                 // one singer
-                                ParseNote(Player, NoteType, Param1, Param2, Param3, ParamS);
+                                _ParseNote(player, noteType, param1, param2, param3, paramS);
                             else
                             {
                                 // both singer
-                                ParseNote(0, NoteType, Param1, Param2, Param3, ParamS);
-                                ParseNote(1, NoteType, Param1, Param2, Param3, ParamS);
+                                _ParseNote(0, noteType, param1, param2, param3, paramS);
+                                _ParseNote(1, noteType, param1, param2, param3, paramS);
                             }
                             isNewSentence = false;
                             break;
                         case '-':
                             if (isNewSentence)
                             {
-                                CBase.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". Double sentence break: " + FilePath);
+                                CBase.Log.LogError("Error loading song. Line No.: " + fileLineNo.ToString() + ". Double sentence break: " + filePath);
                                 return false;
                             }
                             sr.Read();
-                            Param1 = CHelper.TryReadInt(sr);
+                            param1 = CHelper.TryReadInt(sr);
 
                             if (Relative == EOffOn.TR_CONFIG_ON)
                             {
-                                Param1 += currentPos;
+                                param1 += currentPos;
                                 sr.Read();
-                                Param2 = CHelper.TryReadInt(sr);
-                                currentPos += Param2;
+                                param2 = CHelper.TryReadInt(sr);
+                                currentPos += param2;
                             }
 
-                            if (Player != 2)
+                            if (player != 2)
                                 // one singer
-                                NewSentence(Player, Param1);
+                                _NewSentence(player, param1);
                             else
                             {
                                 // both singer
-                                NewSentence(0, Param1);
-                                NewSentence(1, Param1);
+                                _NewSentence(0, param1);
+                                _NewSentence(1, param1);
                             }
 
                             isNewSentence = true;
                             sr.ReadLine();
                             break;
                         default:
-                            CBase.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". Unexpected or missing character (" + TempC + "): " + FilePath);
+                            CBase.Log.LogError("Error loading song. Line No.: " + fileLineNo.ToString() + ". Unexpected or missing character (" + tempC + "): " + filePath);
                             return false;
                     }
                     int c = 0;
@@ -770,41 +768,49 @@ namespace VocaluxeLib.Menu.SongMenu
                     {
                         c = sr.Read();
                     } while (!sr.EndOfStream && (c == 19 || c == 16 || c == 13 || c == 10));
-                    TempC = (char)c;
-                    FileLineNo++;
-                } while (!sr.EndOfStream && (TempC != 'E'));
+                    tempC = (char)c;
+                    fileLineNo++;
+                } while (!sr.EndOfStream && (tempC != 'E'));
 
                 foreach (CLines lines in Notes.Lines)
                     lines.UpdateTimings();
             }
             catch (Exception e)
             {
-                CBase.Log.LogError("Error loading song. Line No.: " + FileLineNo.ToString() + ". An unhandled exception occured (" + e.Message + "): " + FilePath);
+                CBase.Log.LogError("Error loading song. Line No.: " + fileLineNo.ToString() + ". An unhandled exception occured (" + e.Message + "): " + filePath);
                 if (sr != null)
                     sr.Dispose();
                 return false;
             }
             sr.Dispose();
-            FindRefrain();
-            FindShortEnd();
-            _NotesLoaded = true;
-            if (IsDuet)
-                CheckDuet();
+            try
+            {
+                _FindRefrain();
+                _FindShortEnd();
+                _NotesLoaded = true;
+                if (IsDuet)
+                    _CheckDuet();
+            }
+            catch (Exception e)
+            {
+                CBase.Log.LogError("Error loading song. An unhandled exception occured (" + e.Message + "): " + filePath);
+                return false;
+            }
             return true;
         }
 
-        private bool ParseNote(int Player, ENoteType NoteType, int Start, int Length, int Tone, string Text)
+        private bool _ParseNote(int player, ENoteType noteType, int start, int length, int tone, string text)
         {
-            CNote note = new CNote(Start, Length, Tone, Text, NoteType);
-            CLines lines = Notes.GetLines(Player);
+            CNote note = new CNote(start, length, tone, text, noteType);
+            CLines lines = Notes.GetLines(player);
             return lines.AddNote(note);
         }
 
-        private void NewSentence(int Player, int Start)
+        private void _NewSentence(int player, int start)
         {
-            CLines lines = Notes.GetLines(Player);
+            CLines lines = Notes.GetLines(player);
             CLine line = new CLine();
-            line.StartBeat = Start;
+            line.StartBeat = start;
             lines.AddLine(line);
         }
 
@@ -823,7 +829,7 @@ namespace VocaluxeLib.Menu.SongMenu
             _CoverSmallLoaded = true;
         }
 
-        private void CheckFiles()
+        private void _CheckFiles()
         {
             if (CoverFileName.Length == 0)
             {
@@ -850,7 +856,7 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
-        private void CheckDuet()
+        private void _CheckDuet()
         {
             if (DuetPart1.Length == 0)
             {
@@ -864,14 +870,14 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
-        private struct Series
+        private struct SSeries
         {
-            public int start;
-            public int end;
-            public int length;
+            public int Start;
+            public int End;
+            public int Length;
         }
 
-        private List<Series> GetSeries()
+        private List<SSeries> _GetSeries()
         {
             CLines lines = Notes.GetLines(0);
 
@@ -889,16 +895,16 @@ namespace VocaluxeLib.Menu.SongMenu
             }
 
             // find equal sentences series
-            List<Series> series = new List<Series>();
+            List<SSeries> series = new List<SSeries>();
             for (int i = 0; i < lines.LineCount - 1; i++)
             {
                 for (int j = i + 1; j < lines.LineCount; j++)
                 {
                     if (sentences[i] == sentences[j] && sentences[i].Length > 0)
                     {
-                        Series tempSeries = new Series();
-                        tempSeries.start = i;
-                        tempSeries.end = i;
+                        SSeries tempSeries = new SSeries();
+                        tempSeries.Start = i;
+                        tempSeries.End = i;
 
                         int max = 0;
                         if (j + j - i - 1 > lines.LineCount - 1)
@@ -909,12 +915,12 @@ namespace VocaluxeLib.Menu.SongMenu
                         for (int k = 1; k <= max; k++)
                         {
                             if (sentences[i + k] == sentences[j + k] && sentences[i + k].Length > 0)
-                                tempSeries.end = i + k;
+                                tempSeries.End = i + k;
                             else
                                 break;
                         }
 
-                        tempSeries.length = tempSeries.end - tempSeries.start + 1;
+                        tempSeries.Length = tempSeries.End - tempSeries.Start + 1;
                         series.Add(tempSeries);
                     }
                 }
@@ -922,7 +928,7 @@ namespace VocaluxeLib.Menu.SongMenu
             return series;
         }
 
-        private void FindRefrain()
+        private void _FindRefrain()
         {
             if (IsDuet)
             {
@@ -936,7 +942,7 @@ namespace VocaluxeLib.Menu.SongMenu
             if (!CalculateMedley)
                 return;
 
-            List<Series> series = GetSeries();
+            List<SSeries> series = _GetSeries();
             if (series == null)
                 return;
 
@@ -944,17 +950,17 @@ namespace VocaluxeLib.Menu.SongMenu
             int longest = 0;
             for (int i = 0; i < series.Count; i++)
             {
-                if (series[i].length > series[longest].length)
+                if (series[i].Length > series[longest].Length)
                     longest = i;
             }
 
             CLines lines = Notes.GetLines(0);
 
             // set medley vars
-            if (series.Count > 0 && series[longest].length > CBase.Settings.GetMedleyMinSeriesLength())
+            if (series.Count > 0 && series[longest].Length > CBase.Settings.GetMedleyMinSeriesLength())
             {
-                Medley.StartBeat = lines.Line[series[longest].start].FirstNoteBeat;
-                Medley.EndBeat = lines.Line[series[longest].end].LastNoteBeat;
+                Medley.StartBeat = lines.Line[series[longest].Start].FirstNoteBeat;
+                Medley.EndBeat = lines.Line[series[longest].End].LastNoteBeat;
 
                 bool foundEnd = false;
 
@@ -965,7 +971,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
                 if (!foundEnd)
                 {
-                    for (int i = series[longest].start + 1; i < lines.LineCount - 1; i++)
+                    for (int i = series[longest].Start + 1; i < lines.LineCount - 1; i++)
                     {
                         if (CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM) + CBase.Settings.GetMedleyMinDuration() >
                             CBase.Game.GetTimeFromBeats(lines.Line[i].LastNoteBeat, BPM))
@@ -991,9 +997,9 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
-        private void FindShortEnd()
+        private void _FindShortEnd()
         {
-            List<Series> series = GetSeries();
+            List<SSeries> series = _GetSeries();
             if (series == null)
                 return;
 
@@ -1005,16 +1011,16 @@ namespace VocaluxeLib.Menu.SongMenu
             //Check if stop is in series
             for (int i = 0; i < series.Count; i++)
             {
-                if (lines.Line[series[i].start].FirstNoteBeat < stop && lines.Line[series[i].end].LastNoteBeat > stop)
+                if (lines.Line[series[i].Start].FirstNoteBeat < stop && lines.Line[series[i].End].LastNoteBeat > stop)
                 {
-                    if (stop < (lines.Line[series[i].start].FirstNoteBeat + ((lines.Line[series[i].end].LastNoteBeat - lines.Line[series[i].start].FirstNoteBeat) / 2)))
+                    if (stop < (lines.Line[series[i].Start].FirstNoteBeat + ((lines.Line[series[i].End].LastNoteBeat - lines.Line[series[i].Start].FirstNoteBeat) / 2)))
                     {
-                        ShortEnd = lines.Line[series[i].start - 1].LastNote.EndBeat;
+                        ShortEnd = lines.Line[series[i].Start - 1].LastNote.EndBeat;
                         return;
                     }
                     else
                     {
-                        ShortEnd = lines.Line[series[i].end].LastNote.EndBeat;
+                        ShortEnd = lines.Line[series[i].End].LastNote.EndBeat;
                         return;
                     }
                 }

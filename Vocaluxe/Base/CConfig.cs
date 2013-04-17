@@ -13,7 +13,7 @@ namespace Vocaluxe.Base
 {
     static class CConfig
     {
-        private static readonly XmlWriterSettings _settings = new XmlWriterSettings();
+        private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
 
         // Debug
         public static EDebugLevel DebugLevel = EDebugLevel.TR_CONFIG_OFF;
@@ -31,7 +31,7 @@ namespace Vocaluxe.Base
         public static int ScreenW = 1024;
         public static int ScreenH = 576;
 
-        public static EAntiAliasingModes AAMode = EAntiAliasingModes.x0;
+        public static EAntiAliasingModes AAMode = EAntiAliasingModes.X0;
         public static EColorDeep Colors = EColorDeep.Bit32;
 
         public static EOffOn VSync = EOffOn.TR_CONFIG_ON;
@@ -55,7 +55,7 @@ namespace Vocaluxe.Base
         // Sound
         public static EPlaybackLib PlayBackLib = EPlaybackLib.Gstreamer;
         public static ERecordLib RecordLib = ERecordLib.PortAudio;
-        public static EBufferSize AudioBufferSize = EBufferSize.b2048;
+        public static EBufferSize AudioBufferSize = EBufferSize.B2048;
         public static int AudioLatency = 0;
         public static int BackgroundMusicVolume = 30;
         public static EOffOn BackgroundMusic = EOffOn.TR_CONFIG_ON;
@@ -97,20 +97,20 @@ namespace Vocaluxe.Base
         private static readonly List<string> _Values = new List<string>();
 
         //Variables to save old values for commandline-parameters
-        private static readonly List<string> SongFolderOld = new List<string>();
+        private static readonly List<string> _SongFolderOld = new List<string>();
 
         public static void Init()
         {
-            _settings.Indent = true;
-            _settings.Encoding = Encoding.UTF8;
-            _settings.ConformanceLevel = ConformanceLevel.Document;
+            _Settings.Indent = true;
+            _Settings.Encoding = Encoding.UTF8;
+            _Settings.ConformanceLevel = ConformanceLevel.Document;
 
-            SongFolder.Add(Path.Combine(Directory.GetCurrentDirectory(), CSettings.sFolderSongs));
+            SongFolder.Add(Path.Combine(Directory.GetCurrentDirectory(), CSettings.FolderSongs));
 
             MicConfig = new SMicConfig[CSettings.MaxNumPlayer];
 
             // Init config file
-            if (!File.Exists(CSettings.sFileConfig))
+            if (!File.Exists(CSettings.FileConfig))
                 SaveConfig();
 
             LoadConfig();
@@ -118,7 +118,7 @@ namespace Vocaluxe.Base
 
         public static bool LoadConfig()
         {
-            CXMLReader xmlReader = CXMLReader.OpenFile(CSettings.sFileConfig);
+            CXMLReader xmlReader = CXMLReader.OpenFile(CSettings.FileConfig);
             if (xmlReader == null)
                 return false;
 
@@ -204,10 +204,10 @@ namespace Vocaluxe.Base
             if (NumPlayer < 1 || NumPlayer > CSettings.MaxNumPlayer)
                 NumPlayer = 2;
 
-            bool _LangExists = CLanguage.SetLanguage(Language);
+            bool langExists = CLanguage.SetLanguage(Language);
 
             //TODO: What should we do, if English not exists?
-            if (_LangExists == false)
+            if (langExists == false)
                 Language = "English";
 
             //Read players from config
@@ -254,7 +254,7 @@ namespace Vocaluxe.Base
             XmlWriter writer = null;
             try
             {
-                writer = XmlWriter.Create(CSettings.sFileConfig, _settings);
+                writer = XmlWriter.Create(CSettings.FileConfig, _Settings);
                 writer.WriteStartDocument();
                 writer.WriteStartElement("root");
 
@@ -402,12 +402,12 @@ namespace Vocaluxe.Base
 
                 // SongFolder
                 // Check, if program was started with songfolder-parameters
-                if (SongFolderOld.Count > 0)
+                if (_SongFolderOld.Count > 0)
                 {
                     //Write "old" song-folders to config.
                     writer.WriteComment("SongFolder: SongFolder1, SongFolder2, SongFolder3, ...");
-                    for (int i = 0; i < SongFolderOld.Count; i++)
-                        writer.WriteElementString("SongFolder" + (i + 1).ToString(), SongFolderOld[i]);
+                    for (int i = 0; i < _SongFolderOld.Count; i++)
+                        writer.WriteElementString("SongFolder" + (i + 1).ToString(), _SongFolderOld[i]);
                 }
                 else
                 {
@@ -540,15 +540,15 @@ namespace Vocaluxe.Base
         /// <returns></returns>
         public static bool IsMicConfig()
         {
-            SRecordDevice[] Devices = CSound.RecordGetDevices();
-            if (Devices == null)
+            SRecordDevice[] devices = CSound.RecordGetDevices();
+            if (devices == null)
                 return false;
 
-            for (int dev = 0; dev < Devices.Length; dev++)
+            for (int dev = 0; dev < devices.Length; dev++)
             {
-                for (int inp = 0; inp < Devices[dev].Inputs.Count; inp++)
+                for (int inp = 0; inp < devices[dev].Inputs.Count; inp++)
                 {
-                    if (Devices[dev].Inputs[inp].PlayerChannel1 != 0 || Devices[dev].Inputs[inp].PlayerChannel2 != 0)
+                    if (devices[dev].Inputs[inp].PlayerChannel1 != 0 || devices[dev].Inputs[inp].PlayerChannel2 != 0)
                         return true;
                 }
             }
@@ -562,17 +562,17 @@ namespace Vocaluxe.Base
         /// <returns></returns>
         public static bool IsMicConfig(int player)
         {
-            SRecordDevice[] Devices = CSound.RecordGetDevices();
-            if (Devices == null)
+            SRecordDevice[] devices = CSound.RecordGetDevices();
+            if (devices == null)
                 return false;
 
-            if (Devices != null)
+            if (devices != null)
             {
-                for (int dev = 0; dev < Devices.Length; dev++)
+                for (int dev = 0; dev < devices.Length; dev++)
                 {
-                    for (int inp = 0; inp < Devices[dev].Inputs.Count; inp++)
+                    for (int inp = 0; inp < devices[dev].Inputs.Count; inp++)
                     {
-                        if (Devices[dev].Inputs[inp].PlayerChannel1 == player || Devices[dev].Inputs[inp].PlayerChannel2 == player)
+                        if (devices[dev].Inputs[inp].PlayerChannel1 == player || devices[dev].Inputs[inp].PlayerChannel2 == player)
                             return true;
                     }
                 }
@@ -588,30 +588,30 @@ namespace Vocaluxe.Base
         {
             //Look for (usb-)mic
             //SRecordDevice[] Devices = new SRecordDevice[CSound.RecordGetDevices().Length];
-            SRecordDevice[] Devices = CSound.RecordGetDevices();
-            if (Devices == null)
+            SRecordDevice[] devices = CSound.RecordGetDevices();
+            if (devices == null)
                 return false;
 
-            for (int dev = 0; dev < Devices.Length; dev++)
+            for (int dev = 0; dev < devices.Length; dev++)
             {
                 //Has Device some signal-names in name -> This could be a (usb-)mic
-                if (Regex.IsMatch(Devices[dev].Name, @"Usb|Wireless", RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(devices[dev].Name, @"ReplacedStr:::0:::", RegexOptions.IgnoreCase))
                 {
                     //Check if there are inputs.
-                    if (Devices[dev].Inputs.Count >= 1)
+                    if (devices[dev].Inputs.Count >= 1)
                     {
                         //Check if there is one or more channels
-                        if (Devices[dev].Inputs[0].Channels >= 2)
+                        if (devices[dev].Inputs[0].Channels >= 2)
                         {
                             //Set this device to player 1
-                            MicConfig[0].DeviceName = Devices[dev].Name;
-                            MicConfig[0].DeviceDriver = Devices[dev].Driver;
-                            MicConfig[0].InputName = Devices[dev].Inputs[0].Name;
+                            MicConfig[0].DeviceName = devices[dev].Name;
+                            MicConfig[0].DeviceDriver = devices[dev].Driver;
+                            MicConfig[0].InputName = devices[dev].Inputs[0].Name;
                             MicConfig[0].Channel = 1;
                             //Set this device to player 2
-                            MicConfig[1].DeviceName = Devices[dev].Name;
-                            MicConfig[1].DeviceDriver = Devices[dev].Driver;
-                            MicConfig[1].InputName = Devices[dev].Inputs[0].Name;
+                            MicConfig[1].DeviceName = devices[dev].Name;
+                            MicConfig[1].DeviceDriver = devices[dev].Driver;
+                            MicConfig[1].InputName = devices[dev].Inputs[0].Name;
                             MicConfig[1].Channel = 2;
 
                             return true;
@@ -619,30 +619,30 @@ namespace Vocaluxe.Base
                     }
                 }
             }
-            //If no usb-mics found -> Look for Devices with "mic" or "mik"
-            for (int dev = 0; dev < Devices.Length; dev++)
+            //If no usb-mics found -> Look for Devices with "ReplacedStr:::1:::" or "ReplacedStr:::2:::"
+            for (int dev = 0; dev < devices.Length; dev++)
             {
                 //Has Device some signal-names in name -> This could be a mic
-                if (Regex.IsMatch(Devices[dev].Name, @"Mic|Mik", RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(devices[dev].Name, @"ReplacedStr:::3:::", RegexOptions.IgnoreCase))
                 {
                     //Check if there are inputs.
-                    if (Devices[dev].Inputs.Count >= 1)
+                    if (devices[dev].Inputs.Count >= 1)
                     {
                         //Check if there is one or more channels
-                        if (Devices[dev].Inputs[0].Channels >= 1)
+                        if (devices[dev].Inputs[0].Channels >= 1)
                         {
                             //Set this device to player 1
-                            MicConfig[0].DeviceName = Devices[dev].Name;
-                            MicConfig[0].DeviceDriver = Devices[dev].Driver;
-                            MicConfig[0].InputName = Devices[dev].Inputs[0].Name;
+                            MicConfig[0].DeviceName = devices[dev].Name;
+                            MicConfig[0].DeviceDriver = devices[dev].Driver;
+                            MicConfig[0].InputName = devices[dev].Inputs[0].Name;
                             MicConfig[0].Channel = 1;
 
-                            if (Devices[dev].Inputs[0].Channels >= 2)
+                            if (devices[dev].Inputs[0].Channels >= 2)
                             {
                                 //Set this device to player 2
-                                MicConfig[1].DeviceName = Devices[dev].Name;
-                                MicConfig[1].DeviceDriver = Devices[dev].Driver;
-                                MicConfig[1].InputName = Devices[dev].Inputs[0].Name;
+                                MicConfig[1].DeviceName = devices[dev].Name;
+                                MicConfig[1].DeviceDriver = devices[dev].Driver;
+                                MicConfig[1].InputName = devices[dev].Inputs[0].Name;
                                 MicConfig[1].Channel = 2;
 
                                 return true;
@@ -661,30 +661,30 @@ namespace Vocaluxe.Base
         /// <param name="args">Parameters</param>
         public static void LoadCommandLineParams(string[] args)
         {
-            Regex SpliterParam = new Regex(@"-{1,2}|\/", RegexOptions.IgnoreCase);
+            Regex spliterParam = new Regex(@"ReplacedStr:::0:::", RegexOptions.IgnoreCase);
 
             //Complete argument string
             string arguments = string.Empty;
             foreach (string arg in args)
                 arguments += arg + " ";
 
-            args = SpliterParam.Split(arguments);
+            args = spliterParam.Split(arguments);
 
             foreach (string text in args)
             {
-                Regex SpliterVal = new Regex(@"\s", RegexOptions.IgnoreCase);
+                Regex spliterVal = new Regex(@"ReplacedStr:::2:::", RegexOptions.IgnoreCase);
 
                 //Array for parts of an arg
                 string[] parts;
 
                 //split arg with Spilter-Regex and save in parts
-                parts = SpliterVal.Split(text, 2);
+                parts = spliterVal.Split(text, 2);
 
                 switch (parts.Length)
                 {
                         //Only found a parameter
                     case 1:
-                        if (!Regex.IsMatch(parts[0], @"\s") && parts[0].Length > 0)
+                        if (!Regex.IsMatch(parts[0], @"ReplacedStr:::3:::") && parts[0].Length > 0)
                         {
                             //Add parameter
                             _Params.Add(parts[0]);
@@ -697,7 +697,7 @@ namespace Vocaluxe.Base
 
                         //Found parameter and value
                     case 2:
-                        if (!Regex.IsMatch(parts[0], @"\s") && parts[0].Length > 0)
+                        if (!Regex.IsMatch(parts[0], @"ReplacedStr:::5:::") && parts[0].Length > 0)
                         {
                             //Add parameter
                             _Params.Add(parts[0]);
@@ -729,24 +729,24 @@ namespace Vocaluxe.Base
                 {
                     case "configfile":
                         //Check if value is valid                      
-                        if (CheckFile(value))
-                            CSettings.sFileConfig = value;
+                        if (_CheckFile(value))
+                            CSettings.FileConfig = value;
                         break;
 
                     case "scorefile":
                         //Check if value is valid
-                        if (CheckFile(value))
-                            CSettings.sFileHighscoreDB = value;
+                        if (_CheckFile(value))
+                            CSettings.FileHighscoreDB = value;
                         break;
 
                     case "playlistfolder":
                         CSettings.CreateFolder(value);
-                        CSettings.sFolderPlaylists = value;
+                        CSettings.FolderPlaylists = value;
                         break;
 
                     case "profilefolder":
                         CSettings.CreateFolder(value);
-                        CSettings.sFolderProfiles = value;
+                        CSettings.FolderProfiles = value;
                         break;
                 }
             }
@@ -772,10 +772,10 @@ namespace Vocaluxe.Base
                     case "songfolder":
                     case "songpath":
                         //Check if SongFolders from config.xml are saved
-                        if (SongFolderOld.Count == 0)
+                        if (_SongFolderOld.Count == 0)
                         {
-                            SongFolderOld.Clear();
-                            SongFolderOld.AddRange(SongFolder);
+                            _SongFolderOld.Clear();
+                            _SongFolderOld.AddRange(SongFolder);
                             SongFolder.Clear();
                         }
                         //Add parameter-value to SongFolder
@@ -785,7 +785,7 @@ namespace Vocaluxe.Base
             }
         }
 
-        private static bool CheckFile(string value)
+        private static bool _CheckFile(string value)
         {
             char[] chars = Path.GetInvalidPathChars();
             for (int i = 0; i < chars.Length; i++)

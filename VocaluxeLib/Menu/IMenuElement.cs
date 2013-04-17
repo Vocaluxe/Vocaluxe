@@ -6,7 +6,7 @@ namespace VocaluxeLib.Menu
     {
         string GetThemeName();
 
-        bool LoadTheme(string XmlPath, string ElementName, CXMLReader xmlReader, int SkinIndex);
+        bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex);
         bool SaveTheme(XmlWriter writer);
 
         void UnloadTextures();

@@ -6,14 +6,14 @@
     <Author>flokuep</Author>
 	<Description>TR_PARTYMODE_DESCRIPTION</Description>
     <Folder>TicTacToe</Folder>
-	<PartyModeFile>PartyModeTicTacToe</PartyModeFile>
+	<PartyModeFile>CPartyModeTicTacToe</PartyModeFile>
     <PartyModeVersionMajor>0</PartyModeVersionMajor>
     <PartyModeVersionMinor>1</PartyModeVersionMinor>
 	<TargetAudience>TR_PARTYMODE_AUDIENCE</TargetAudience>
   </Info>
   <PartyScreens>
-    <ScreenFile>PartyScreenTicTacToeMain</ScreenFile>
-	<ScreenFile>PartyScreenTicTacToeConfig</ScreenFile>
-	<ScreenFile>PartyScreenTicTacToeNames</ScreenFile>
+    <ScreenFile>CPartyScreenTicTacToeMain</ScreenFile>
+	<ScreenFile>CPartyScreenTicTacToeConfig</ScreenFile>
+	<ScreenFile>CPartyScreenTicTacToeNames</ScreenFile>
   </PartyScreens>
 </root>

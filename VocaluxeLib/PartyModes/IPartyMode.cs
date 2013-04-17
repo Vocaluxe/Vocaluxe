@@ -5,13 +5,13 @@ namespace VocaluxeLib.PartyModes
 {
 
     #region Structs
-    public struct ScreenSongOptions
+    public struct SScreenSongOptions
     {
-        public SortingOptions Sorting;
-        public SelectionOptions Selection;
+        public SSortingOptions Sorting;
+        public SSelectionOptions Selection;
     }
 
-    public struct SortingOptions
+    public struct SSortingOptions
     {
         public ESongSorting SongSorting;
         public EOffOn Tabs;
@@ -24,7 +24,7 @@ namespace VocaluxeLib.PartyModes
     /// <summary>
     ///     Configuration of song selection options
     /// </summary>
-    public struct SelectionOptions
+    public struct SSelectionOptions
     {
         /// <summary>
         ///     If != -1, the SongMenu should set the song selection on the provided song index (visible index) if possible
@@ -67,18 +67,18 @@ namespace VocaluxeLib.PartyModes
     {
         bool Init();
         void Initialize();
-        void AddScreen(CMenuParty Screen, string ScreenName);
-        void DataFromScreen(string ScreenName, Object Data);
+        void AddScreen(CMenuParty screen, string screenName);
+        void DataFromScreen(string screenName, Object data);
 
         void UpdateGame();
 
-        CMenuParty GetNextPartyScreen(out EScreens AlternativeScreen);
+        CMenuParty GetNextPartyScreen(out EScreens alternativeScreen);
         EScreens GetStartScreen();
         EScreens GetMainScreen();
-        ScreenSongOptions GetScreenSongOptions();
+        SScreenSongOptions GetScreenSongOptions();
 
-        void OnSongChange(int SongIndex, ref ScreenSongOptions ScreenSongOptions);
-        void OnCategoryChange(int CategoryIndex, ref ScreenSongOptions ScreenSongOptions);
+        void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions);
+        void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions);
 
         int GetMaxPlayer();
         int GetMinPlayer();
@@ -86,10 +86,10 @@ namespace VocaluxeLib.PartyModes
         int GetMinTeams();
         int GetMaxNumRounds();
 
-        void SetSearchString(string SearchString, bool Visible);
+        void SetSearchString(string searchString, bool visible);
 
-        void JokerUsed(int TeamNr);
-        void SongSelected(int SongID);
+        void JokerUsed(int teamNr);
+        void SongSelected(int songID);
         void FinishedSinging();
         void LeavingScore();
         void LeavingHighscore();
