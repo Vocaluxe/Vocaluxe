@@ -82,7 +82,7 @@
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
       <!--<Text>: Nothing or translation tag-->
-      <Text>TR_SCREENCONFIG_NUMPLAYERT1</Text>
+      <Text>TR_SCREENCONFIG_NUMPLAYERST1</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
@@ -111,7 +111,7 @@
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
       <!--<Text>: Nothing or translation tag-->
-      <Text>TR_SCREENCONFIG_NUMPLAYERT2</Text>
+      <Text>TR_SCREENCONFIG_NUMPLAYERST2</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->

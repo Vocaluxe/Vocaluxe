@@ -12,13 +12,13 @@ namespace Vocaluxe.Screens
             get { return 3; }
         }
 
-        private const string SelectSlideBackgroundMusic = "SelectSlideBackgroundMusic";
-        private const string SelectSlideBackgroundMusicVolume = "SelectSlideBackgroundMusicVolume";
-        private const string SelectSlideBackgroundMusicSource = "SelectSlideBackgroundMusicSource";
-        private const string SelectSlidePreviewMusicVolume = "SelectSlidePreviewMusicVolume";
-        private const string SelectSlideGameMusicVolume = "SelectSlideGameMusicVolume";
+        private const string _SelectSlideBackgroundMusic = "SelectSlideBackgroundMusic";
+        private const string _SelectSlideBackgroundMusicVolume = "SelectSlideBackgroundMusicVolume";
+        private const string _SelectSlideBackgroundMusicSource = "SelectSlideBackgroundMusicSource";
+        private const string _SelectSlidePreviewMusicVolume = "SelectSlidePreviewMusicVolume";
+        private const string _SelectSlideGameMusicVolume = "SelectSlideGameMusicVolume";
 
-        private const string ButtonExit = "ButtonExit";
+        private const string _ButtonExit = "ButtonExit";
 
         private int _BackgroundMusicVolume;
         private EOffOn _BackgroundMusic;
@@ -27,29 +27,29 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new string[] {ButtonExit};
+            _ThemeButtons = new string[] {_ButtonExit};
             _ThemeSelectSlides = new string[]
-                {SelectSlideBackgroundMusic, SelectSlideBackgroundMusicVolume, SelectSlideBackgroundMusicSource, SelectSlidePreviewMusicVolume, SelectSlideGameMusicVolume};
+                {_SelectSlideBackgroundMusic, _SelectSlideBackgroundMusicVolume, _SelectSlideBackgroundMusicSource, _SelectSlidePreviewMusicVolume, _SelectSlideGameMusicVolume};
         }
 
-        public override void LoadTheme(string XmlPath)
+        public override void LoadTheme(string xmlPath)
         {
-            base.LoadTheme(XmlPath);
-            SelectSlides[SelectSlideBackgroundMusic].SetValues<EOffOn>((int)CConfig.BackgroundMusic);
-            SelectSlides[SelectSlideBackgroundMusicVolume].AddValues(new string[]
+            base.LoadTheme(xmlPath);
+            SelectSlides[_SelectSlideBackgroundMusic].SetValues<EOffOn>((int)CConfig.BackgroundMusic);
+            SelectSlides[_SelectSlideBackgroundMusicVolume].AddValues(new string[]
                 {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
-            SelectSlides[SelectSlideBackgroundMusicVolume].Selection = CConfig.BackgroundMusicVolume / 5;
-            SelectSlides[SelectSlideBackgroundMusicSource].SetValues<EBackgroundMusicSource>((int)CConfig.BackgroundMusicSource);
-            SelectSlides[SelectSlideBackgroundMusicSource].Selection = (int)CConfig.BackgroundMusicSource;
-            SelectSlides[SelectSlidePreviewMusicVolume].AddValues(new string[]
+            SelectSlides[_SelectSlideBackgroundMusicVolume].Selection = CConfig.BackgroundMusicVolume / 5;
+            SelectSlides[_SelectSlideBackgroundMusicSource].SetValues<EBackgroundMusicSource>((int)CConfig.BackgroundMusicSource);
+            SelectSlides[_SelectSlideBackgroundMusicSource].Selection = (int)CConfig.BackgroundMusicSource;
+            SelectSlides[_SelectSlidePreviewMusicVolume].AddValues(new string[]
                 {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
-            SelectSlides[SelectSlidePreviewMusicVolume].Selection = CConfig.PreviewMusicVolume / 5;
-            SelectSlides[SelectSlideGameMusicVolume].AddValues(new string[]
+            SelectSlides[_SelectSlidePreviewMusicVolume].Selection = CConfig.PreviewMusicVolume / 5;
+            SelectSlides[_SelectSlideGameMusicVolume].AddValues(new string[]
                 {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
-            SelectSlides[SelectSlideGameMusicVolume].Selection = CConfig.GameMusicVolume / 5;
+            SelectSlides[_SelectSlideGameMusicVolume].Selection = CConfig.GameMusicVolume / 5;
         }
 
-        public override bool HandleInput(KeyEvent keyEvent)
+        public override bool HandleInput(SKeyEvent keyEvent)
         {
             base.HandleInput(keyEvent);
 
@@ -60,7 +60,7 @@ namespace Vocaluxe.Screens
                 {
                     case Keys.Escape:
                     case Keys.Back:
-                        SaveConfig();
+                        _SaveConfig();
                         CGraphics.FadeTo(EScreens.ScreenOptions);
                         break;
 
@@ -70,38 +70,38 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Enter:
-                        if (Buttons[ButtonExit].Selected)
+                        if (Buttons[_ButtonExit].Selected)
                         {
-                            SaveConfig();
+                            _SaveConfig();
                             CGraphics.FadeTo(EScreens.ScreenOptions);
                         }
                         break;
 
                     case Keys.Left:
-                        SaveConfig();
+                        _SaveConfig();
                         break;
 
                     case Keys.Right:
-                        SaveConfig();
+                        _SaveConfig();
                         break;
                 }
             }
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent mouseEvent)
+        public override bool HandleMouse(SMouseEvent mouseEvent)
         {
             base.HandleMouse(mouseEvent);
 
             if (mouseEvent.RB)
             {
-                SaveConfig();
+                _SaveConfig();
                 CGraphics.FadeTo(EScreens.ScreenOptions);
             }
             if (mouseEvent.LB && IsMouseOver(mouseEvent))
             {
-                SaveConfig();
-                if (Buttons[ButtonExit].Selected)
+                _SaveConfig();
+                if (Buttons[_ButtonExit].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptions);
             }
             return true;
@@ -110,7 +110,7 @@ namespace Vocaluxe.Screens
         public override bool UpdateGame()
         {
             if (_BackgroundMusicVolume != CConfig.BackgroundMusicVolume)
-                SelectSlides[SelectSlideBackgroundMusicVolume].Selection = CConfig.BackgroundMusicVolume / 5;
+                SelectSlides[_SelectSlideBackgroundMusicVolume].Selection = CConfig.BackgroundMusicVolume / 5;
             return true;
         }
 
@@ -126,21 +126,21 @@ namespace Vocaluxe.Screens
             _BackgroundMusic = CConfig.BackgroundMusic;
             _BackgroundMusicVolume = CConfig.BackgroundMusicVolume;
 
-            SelectSlides[SelectSlideGameMusicVolume].Selection = CConfig.GameMusicVolume / 5;
-            SelectSlides[SelectSlidePreviewMusicVolume].Selection = CConfig.PreviewMusicVolume / 5;
+            SelectSlides[_SelectSlideGameMusicVolume].Selection = CConfig.GameMusicVolume / 5;
+            SelectSlides[_SelectSlidePreviewMusicVolume].Selection = CConfig.PreviewMusicVolume / 5;
         }
 
-        private void SaveConfig()
+        private void _SaveConfig()
         {
-            CConfig.GameMusicVolume = SelectSlides[SelectSlideGameMusicVolume].Selection * 5;
-            CConfig.PreviewMusicVolume = SelectSlides[SelectSlidePreviewMusicVolume].Selection * 5;
+            CConfig.GameMusicVolume = SelectSlides[_SelectSlideGameMusicVolume].Selection * 5;
+            CConfig.PreviewMusicVolume = SelectSlides[_SelectSlidePreviewMusicVolume].Selection * 5;
             CConfig.SaveConfig();
 
-            EOffOn NewOffOn = (EOffOn)SelectSlides[SelectSlideBackgroundMusic].Selection;
-            EBackgroundMusicSource NewSource = (EBackgroundMusicSource)SelectSlides[SelectSlideBackgroundMusicSource].Selection;
-            float NewVolume = SelectSlides[SelectSlideBackgroundMusicVolume].Selection * 5;
+            EOffOn newOffOn = (EOffOn)SelectSlides[_SelectSlideBackgroundMusic].Selection;
+            EBackgroundMusicSource newSource = (EBackgroundMusicSource)SelectSlides[_SelectSlideBackgroundMusicSource].Selection;
+            float newVolume = SelectSlides[_SelectSlideBackgroundMusicVolume].Selection * 5;
 
-            CBackgroundMusic.CheckAndApplyConfig(NewOffOn, NewSource, NewVolume);
+            CBackgroundMusic.CheckAndApplyConfig(newOffOn, newSource, newVolume);
         }
     }
 }

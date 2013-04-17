@@ -8,16 +8,16 @@
 
         public virtual void Close() {}
 
-        public void Open(string FileName)
+        public void Open(string fileName)
         {
-            Open(FileName, false);
+            Open(fileName, false);
         }
 
-        public virtual void Open(string FileName, bool Loop) {}
+        public virtual void Open(string fileName, bool loop) {}
 
-        public virtual FormatInfo GetFormatInfo()
+        public virtual SFormatInfo GetFormatInfo()
         {
-            return new FormatInfo();
+            return new SFormatInfo();
         }
 
         public virtual float GetLength()
@@ -25,17 +25,17 @@
             return 0f;
         }
 
-        public virtual void SetPosition(float Time) {}
+        public virtual void SetPosition(float time) {}
 
         public virtual float GetPosition()
         {
             return 0f;
         }
 
-        public virtual void Decode(out byte[] Buffer, out float TimeStamp)
+        public virtual void Decode(out byte[] buffer, out float timeStamp)
         {
-            Buffer = null;
-            TimeStamp = 0f;
+            buffer = null;
+            timeStamp = 0f;
         }
     }
 }

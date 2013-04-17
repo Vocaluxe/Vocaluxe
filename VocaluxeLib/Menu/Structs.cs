@@ -22,12 +22,12 @@ namespace VocaluxeLib.Menu
             A = a;
         }
 
-        public SColorF(SColorF Color)
+        public SColorF(SColorF color)
         {
-            R = Color.R;
-            G = Color.G;
-            B = Color.B;
-            A = Color.A;
+            R = color.R;
+            G = color.G;
+            B = color.B;
+            A = color.A;
         }
     }
 
@@ -61,7 +61,7 @@ namespace VocaluxeLib.Menu
         }
     }
 
-    public struct SPoint3f
+    public struct SPoint3F
     {
         public float X;
         public float Y;
@@ -77,63 +77,63 @@ namespace VocaluxeLib.Menu
 
     public struct STexture
     {
-        public int index;
+        public int Index;
         public int PBO;
         public int ID;
 
         public string TexturePath;
 
-        public float width;
-        public float height;
-        public SRectF rect;
+        public float Width;
+        public float Height;
+        public SRectF Rect;
 
-        public float w2; //power of 2 width
-        public float h2; //power of 2 height
-        public float width_ratio;
-        public float height_ratio;
+        public float W2; //power of 2 width
+        public float H2; //power of 2 height
+        public float WidthRatio;
+        public float HeightRatio;
 
-        public SColorF color;
+        public SColorF Color;
 
-        public STexture(int Index)
+        public STexture(int index)
         {
-            index = Index;
+            Index = index;
             PBO = 0;
             ID = -1;
             TexturePath = String.Empty;
 
-            width = 1f;
-            height = 1f;
-            rect = new SRectF(0f, 0f, 1f, 1f, 0f);
+            Width = 1f;
+            Height = 1f;
+            Rect = new SRectF(0f, 0f, 1f, 1f, 0f);
 
-            w2 = 2f;
-            h2 = 2f;
-            width_ratio = 0.5f;
-            height_ratio = 0.5f;
+            W2 = 2f;
+            H2 = 2f;
+            WidthRatio = 0.5f;
+            HeightRatio = 0.5f;
 
-            color = new SColorF(1f, 1f, 1f, 1f);
+            Color = new SColorF(1f, 1f, 1f, 1f);
         }
     }
     #endregion Drawing
 
     #region Inputs
-    public struct KeyEvent
+    public struct SKeyEvent
     {
         public ESender Sender;
-        public bool ModALT;
-        public bool ModSHIFT;
-        public bool ModCTRL;
+        public bool ModAlt;
+        public bool ModShift;
+        public bool ModCtrl;
         public bool KeyPressed;
         public bool Handled;
         public Keys Key;
         public Char Unicode;
         public EModifier Mod;
 
-        public KeyEvent(ESender sender, bool alt, bool shift, bool ctrl, bool pressed, char unicode, Keys key)
+        public SKeyEvent(ESender sender, bool alt, bool shift, bool ctrl, bool pressed, char unicode, Keys key)
         {
             Sender = sender;
-            ModALT = alt;
-            ModSHIFT = shift;
-            ModCTRL = ctrl;
+            ModAlt = alt;
+            ModShift = shift;
+            ModCtrl = ctrl;
             KeyPressed = pressed;
             Unicode = unicode;
             Key = key;
@@ -150,7 +150,7 @@ namespace VocaluxeLib.Menu
         }
     }
 
-    public struct MouseEvent
+    public struct SMouseEvent
     {
         public ESender Sender;
         public bool Handled;
@@ -165,14 +165,14 @@ namespace VocaluxeLib.Menu
         public bool RBH; //right button hold (when moving)
         public bool MBH; //middle button hold (when moving)
 
-        public bool ModALT;
-        public bool ModSHIFT;
-        public bool ModCTRL;
+        public bool ModAlt;
+        public bool ModShift;
+        public bool ModCtrl;
 
         public EModifier Mod;
         public int Wheel;
 
-        public MouseEvent(ESender sender, bool alt, bool shift, bool ctrl, int x, int y, bool lb, bool ld, bool rb, int wheel, bool lbh, bool rbh, bool mb, bool mbh)
+        public SMouseEvent(ESender sender, bool alt, bool shift, bool ctrl, int x, int y, bool lb, bool ld, bool rb, int wheel, bool lbh, bool rbh, bool mb, bool mbh)
         {
             Sender = sender;
             Handled = false;
@@ -187,27 +187,27 @@ namespace VocaluxeLib.Menu
             RBH = rbh;
             MBH = mbh;
 
-            ModALT = alt;
-            ModSHIFT = shift;
-            ModCTRL = ctrl;
+            ModAlt = alt;
+            ModShift = shift;
+            ModCtrl = ctrl;
 
-            EModifier mALT = EModifier.None;
-            EModifier mSHIFT = EModifier.None;
-            EModifier mCTRL = EModifier.None;
+            EModifier mAlt = EModifier.None;
+            EModifier mShift = EModifier.None;
+            EModifier mCtrl = EModifier.None;
 
             if (alt)
-                mALT = EModifier.Alt;
+                mAlt = EModifier.Alt;
 
             if (shift)
-                mSHIFT = EModifier.Shift;
+                mShift = EModifier.Shift;
 
             if (ctrl)
-                mCTRL = EModifier.Ctrl;
+                mCtrl = EModifier.Ctrl;
 
             if (!alt && !shift && !ctrl)
                 Mod = EModifier.None;
             else
-                Mod = mALT | mSHIFT | mCTRL;
+                Mod = mAlt | mShift | mCtrl;
 
             Wheel = wheel;
         }

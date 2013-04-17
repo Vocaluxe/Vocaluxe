@@ -10,7 +10,7 @@ namespace Vocaluxe.Lib.Video
         #region log
         public CGstreamerVideoWrapper.LogCallback Log;
 
-        private void LogHandler(string text)
+        private void _LogHandler(string text)
         {
             CLog.LogError(text);
         }
@@ -19,7 +19,7 @@ namespace Vocaluxe.Lib.Video
         public bool Init()
         {
             bool retval = CGstreamerVideoWrapper.InitVideo();
-            Log = LogHandler;
+            Log = _LogHandler;
             //Really needed? CodeAnalysis complains
             //GC.SuppressFinalize(Log);
             CGstreamerVideoWrapper.SetVideoLogCallback(Log);
@@ -31,12 +31,12 @@ namespace Vocaluxe.Lib.Video
             CGstreamerVideoWrapper.CloseAllVideos();
         }
 
-        public int Load(string VideoFileName)
+        public int Load(string videoFileName)
         {
             int i = -1;
             try
             {
-                Uri u = new Uri(VideoFileName);
+                Uri u = new Uri(videoFileName);
                 i = CGstreamerVideoWrapper.LoadVideo(u.AbsoluteUri);
                 return i;
             }
@@ -44,9 +44,9 @@ namespace Vocaluxe.Lib.Video
             return i;
         }
 
-        public bool Close(int StreamID)
+        public bool Close(int streamID)
         {
-            return CGstreamerVideoWrapper.CloseVideo(StreamID);
+            return CGstreamerVideoWrapper.CloseVideo(streamID);
         }
 
         public int GetNumStreams()
@@ -54,43 +54,43 @@ namespace Vocaluxe.Lib.Video
             return CGstreamerVideoWrapper.GetVideoNumStreams();
         }
 
-        public float GetLength(int StreamID)
+        public float GetLength(int streamID)
         {
-            return CGstreamerVideoWrapper.GetVideoLength(StreamID);
+            return CGstreamerVideoWrapper.GetVideoLength(streamID);
         }
 
-        public bool GetFrame(int StreamID, ref STexture Frame, float Time, ref float VideoTime)
+        public bool GetFrame(int streamID, ref STexture frame, float time, ref float videoTime)
         {
-            ManagedFrame frame = CGstreamerVideoWrapper.GetFrame(StreamID, Time);
-            VideoTime = frame.Videotime;
+            SManagedFrame managedFrame = CGstreamerVideoWrapper.GetFrame(streamID, time);
+            videoTime = managedFrame.Videotime;
 
-            UploadNewFrame(ref Frame, ref frame.buffer, frame.Width, frame.Height);
+            _UploadNewFrame(ref frame, ref managedFrame.Buffer, managedFrame.Width, managedFrame.Height);
             return true;
         }
 
-        public bool Skip(int StreamID, float Start, float Gap)
+        public bool Skip(int streamID, float start, float gap)
         {
-            return CGstreamerVideoWrapper.Skip(StreamID, Start, Gap);
+            return CGstreamerVideoWrapper.Skip(streamID, start, gap);
         }
 
-        public void SetLoop(int StreamID, bool Loop)
+        public void SetLoop(int streamID, bool loop)
         {
-            CGstreamerVideoWrapper.SetVideoLoop(StreamID, Loop);
+            CGstreamerVideoWrapper.SetVideoLoop(streamID, loop);
         }
 
-        public void Pause(int StreamID)
+        public void Pause(int streamID)
         {
-            CGstreamerVideoWrapper.PauseVideo(StreamID);
+            CGstreamerVideoWrapper.PauseVideo(streamID);
         }
 
-        public void Resume(int StreamID)
+        public void Resume(int streamID)
         {
-            CGstreamerVideoWrapper.ResumeVideo(StreamID);
+            CGstreamerVideoWrapper.ResumeVideo(streamID);
         }
 
-        public bool Finished(int StreamID)
+        public bool Finished(int streamID)
         {
-            return CGstreamerVideoWrapper.Finished(StreamID);
+            return CGstreamerVideoWrapper.Finished(streamID);
         }
 
         public void Update()
@@ -98,18 +98,18 @@ namespace Vocaluxe.Lib.Video
             CGstreamerVideoWrapper.UpdateVideo();
         }
 
-        private void UploadNewFrame(ref STexture frame, ref byte[] Data, int Width, int Height)
+        private void _UploadNewFrame(ref STexture frame, ref byte[] data, int width, int height)
         {
-            if (Data != null)
+            if (data != null)
             {
-                if (frame.index == -1 || Width != frame.width || Height != frame.height || Data.Length == 0)
+                if (frame.Index == -1 || width != frame.Width || height != frame.Height || data.Length == 0)
                 {
                     CDraw.RemoveTexture(ref frame);
-                    frame = CDraw.AddTexture(Width, Height, ref Data);
+                    frame = CDraw.AddTexture(width, height, ref data);
                 }
                 else
-                    CDraw.UpdateTexture(ref frame, ref Data);
-                Data = null;
+                    CDraw.UpdateTexture(ref frame, ref data);
+                data = null;
             }
         }
     }

@@ -8,26 +8,26 @@ namespace Vocaluxe.Base
 {
     static class CMain
     {
-        public static IConfig Config = new BConfig();
-        public static ISettings Settings = new BSettings();
-        public static ITheme Theme = new BTheme();
-        public static IHelper Helper = new BHelper();
-        public static IBackgroundMusic BackgroundMusic = new BBackgroundMusic();
-        public static IDrawing Draw = new BDraw();
-        public static IGraphics Graphics = new BGraphics();
-        public static ILog Log = new BLog();
-        public static IFonts Fonts = new BFonts();
-        public static ILanguage Language = new BLanguage();
-        public static IGame Game = new BGame();
-        public static IProfiles Profiles = new BProfiles();
-        public static IRecording Record = new BRecord();
-        public static ISongs Songs = new BSongs();
-        public static IVideo Video = new BVideo();
-        public static ISound Sound = new BSound();
-        public static ICover Cover = new BCover();
-        public static IDataBase DataBase = new BDataBase();
-        public static IInputs Input = new BInputs();
-        public static IPlaylist Playlist = new BPlaylist();
+        public static IConfig Config = new CBconfig();
+        public static ISettings Settings = new CBsettings();
+        public static ITheme Theme = new CBtheme();
+        public static IHelper Helper = new CBhelper();
+        public static IBackgroundMusic BackgroundMusic = new CBbackgroundMusic();
+        public static IDrawing Draw = new CBdraw();
+        public static IGraphics Graphics = new CBGraphics();
+        public static ILog Log = new CBlog();
+        public static IFonts Fonts = new CBfonts();
+        public static ILanguage Language = new CBlanguage();
+        public static IGame Game = new CBGame();
+        public static IProfiles Profiles = new CBprofiles();
+        public static IRecording Record = new CBrecord();
+        public static ISongs Songs = new CBsongs();
+        public static IVideo Video = new CBvideo();
+        public static ISound Sound = new CBsound();
+        public static ICover Cover = new CBcover();
+        public static IDataBase DataBase = new CBdataBase();
+        public static IInputs Input = new CBinputs();
+        public static IPlaylist Playlist = new CBplaylist();
 
         public static void Init()
         {
@@ -36,16 +36,16 @@ namespace Vocaluxe.Base
         }
     }
 
-    class BConfig : IConfig
+    class CBconfig : IConfig
     {
-        public void SetBackgroundMusicVolume(int NewVolume)
+        public void SetBackgroundMusicVolume(int newVolume)
         {
-            if (NewVolume < 0)
+            if (newVolume < 0)
                 CConfig.BackgroundMusicVolume = 0;
-            else if (NewVolume > 100)
+            else if (newVolume > 100)
                 CConfig.BackgroundMusicVolume = 100;
             else
-                CConfig.BackgroundMusicVolume = NewVolume;
+                CConfig.BackgroundMusicVolume = newVolume;
 
             CConfig.SaveConfig();
         }
@@ -115,9 +115,9 @@ namespace Vocaluxe.Base
             return CConfig.IgnoreArticles;
         }
 
-        public bool IsMicConfigured(int PlayerNr)
+        public bool IsMicConfigured(int playerNr)
         {
-            return CConfig.IsMicConfig(PlayerNr);
+            return CConfig.IsMicConfig(playerNr);
         }
 
         public int GetMaxNumMics()
@@ -134,16 +134,16 @@ namespace Vocaluxe.Base
         }
     }
 
-    class BSettings : ISettings
+    class CBsettings : ISettings
     {
         public int GetRenderW()
         {
-            return CSettings.iRenderW;
+            return CSettings.RenderW;
         }
 
         public int GetRenderH()
         {
-            return CSettings.iRenderH;
+            return CSettings.RenderH;
         }
 
         public bool IsTabNavigation()
@@ -153,12 +153,12 @@ namespace Vocaluxe.Base
 
         public float GetZFar()
         {
-            return CSettings.zFar;
+            return CSettings.ZFar;
         }
 
         public float GetZNear()
         {
-            return CSettings.zNear;
+            return CSettings.ZNear;
         }
 
         public EGameState GetGameState()
@@ -207,51 +207,51 @@ namespace Vocaluxe.Base
         }
     }
 
-    class BTheme : ITheme
+    class CBtheme : ITheme
     {
-        public string GetThemeScreensPath(int PartyModeID)
+        public string GetThemeScreensPath(int partyModeID)
         {
-            return CTheme.GetThemeScreensPath(PartyModeID);
+            return CTheme.GetThemeScreensPath(partyModeID);
         }
 
-        public int GetSkinIndex(int PartyModeID)
+        public int GetSkinIndex(int partyModeID)
         {
-            return CTheme.GetSkinIndex(PartyModeID);
+            return CTheme.GetSkinIndex(partyModeID);
         }
 
-        public STexture GetSkinTexture(string TextureName, int PartyModeID)
+        public STexture GetSkinTexture(string textureName, int partyModeID)
         {
-            return CTheme.GetSkinTexture(TextureName, PartyModeID);
+            return CTheme.GetSkinTexture(textureName, partyModeID);
         }
 
-        public STexture GetSkinVideoTexture(string VideoName, int PartyModeID)
+        public STexture GetSkinVideoTexture(string videoName, int partyModeID)
         {
-            return CTheme.GetSkinVideoTexture(VideoName, PartyModeID);
+            return CTheme.GetSkinVideoTexture(videoName, partyModeID);
         }
 
-        public void SkinVideoResume(string VideoName, int PartyModeID)
+        public void SkinVideoResume(string videoName, int partyModeID)
         {
-            CTheme.SkinVideoResume(VideoName, PartyModeID);
+            CTheme.SkinVideoResume(videoName, partyModeID);
         }
 
-        public void SkinVideoPause(string VideoName, int PartyModeID)
+        public void SkinVideoPause(string videoName, int partyModeID)
         {
-            CTheme.SkinVideoPause(VideoName, PartyModeID);
+            CTheme.SkinVideoPause(videoName, partyModeID);
         }
 
-        public SColorF GetColor(string ColorName, int PartyModeID)
+        public SColorF GetColor(string colorName, int partyModeID)
         {
-            return CTheme.GetColor(ColorName, PartyModeID);
+            return CTheme.GetColor(colorName, partyModeID);
         }
 
-        public bool GetColor(string ColorName, int SkinIndex, out SColorF Color)
+        public bool GetColor(string colorName, int skinIndex, out SColorF color)
         {
-            return CTheme.GetColor(ColorName, SkinIndex, out Color);
+            return CTheme.GetColor(colorName, skinIndex, out color);
         }
 
-        public SColorF GetPlayerColor(int PlayerNr)
+        public SColorF GetPlayerColor(int playerNr)
         {
-            return CTheme.GetPlayerColor(PlayerNr);
+            return CTheme.GetPlayerColor(playerNr);
         }
 
         public void UnloadSkins()
@@ -275,9 +275,9 @@ namespace Vocaluxe.Base
         }
     }
 
-    class BHelper : IHelper {}
+    class CBhelper : IHelper {}
 
-    class BBackgroundMusic : IBackgroundMusic
+    class CBbackgroundMusic : IBackgroundMusic
     {
         public bool IsDisabled()
         {
@@ -299,9 +299,9 @@ namespace Vocaluxe.Base
             return CBackgroundMusic.VideoEnabled;
         }
 
-        public void SetStatus(bool Disabled)
+        public void SetStatus(bool disabled)
         {
-            CBackgroundMusic.Disabled = Disabled;
+            CBackgroundMusic.Disabled = disabled;
         }
 
         public void Next()
@@ -335,55 +335,55 @@ namespace Vocaluxe.Base
         }
     }
 
-    class BDraw : IDrawing
+    class CBdraw : IDrawing
     {
         public RectangleF GetTextBounds(CText text)
         {
             return CDraw.GetTextBounds(text);
         }
 
-        public void DrawTexture(STexture Texture, SRectF Rect)
+        public void DrawTexture(STexture texture, SRectF rect)
         {
-            CDraw.DrawTexture(Texture, Rect);
+            CDraw.DrawTexture(texture, rect);
         }
 
-        public void DrawTexture(STexture Texture, SRectF Rect, SColorF Color)
+        public void DrawTexture(STexture texture, SRectF rect, SColorF color)
         {
-            CDraw.DrawTexture(Texture, Rect, Color);
+            CDraw.DrawTexture(texture, rect, color);
         }
 
-        public void DrawTexture(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds)
+        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds)
         {
-            CDraw.DrawTexture(Texture, Rect, Color, Bounds);
+            CDraw.DrawTexture(texture, rect, color, bounds);
         }
 
-        public void DrawTexture(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds, bool Mirrored)
+        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored)
         {
-            CDraw.DrawTexture(Texture, Rect, Color, Bounds, Mirrored);
+            CDraw.DrawTexture(texture, rect, color, bounds, mirrored);
         }
 
-        public void DrawTextureReflection(STexture Texture, SRectF Rect, SColorF Color, SRectF Bounds, float ReflectionSpace, float ReflectionHeight)
+        public void DrawTextureReflection(STexture texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight)
         {
-            CDraw.DrawTextureReflection(Texture, Rect, Color, Bounds, ReflectionSpace, ReflectionHeight);
+            CDraw.DrawTextureReflection(texture, rect, color, bounds, reflectionSpace, reflectionHeight);
         }
 
-        public void RemoveTexture(ref STexture Texture)
+        public void RemoveTexture(ref STexture texture)
         {
-            CDraw.RemoveTexture(ref Texture);
+            CDraw.RemoveTexture(ref texture);
         }
 
-        public void DrawColor(SColorF Color, SRectF Rect)
+        public void DrawColor(SColorF color, SRectF rect)
         {
-            CDraw.DrawColor(Color, Rect);
+            CDraw.DrawColor(color, rect);
         }
 
-        public void DrawColorReflection(SColorF Color, SRectF Rect, float Space, float Height)
+        public void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
         {
-            CDraw.DrawColorReflection(Color, Rect, Space, Height);
+            CDraw.DrawColorReflection(color, rect, space, height);
         }
     }
 
-    class BGraphics : IGraphics
+    class CBGraphics : IGraphics
     {
         public void ReloadTheme()
         {
@@ -395,9 +395,9 @@ namespace Vocaluxe.Base
             CGraphics.SaveTheme();
         }
 
-        public void FadeTo(EScreens NextScreen)
+        public void FadeTo(EScreens nextScreen)
         {
-            CGraphics.FadeTo(NextScreen);
+            CGraphics.FadeTo(nextScreen);
         }
 
         public float GetGlobalAlpha()
@@ -406,75 +406,75 @@ namespace Vocaluxe.Base
         }
     }
 
-    class BLog : ILog
+    class CBlog : ILog
     {
-        public void LogError(string ErrorText)
+        public void LogError(string errorText)
         {
-            CLog.LogError(ErrorText);
+            CLog.LogError(errorText);
         }
     }
 
-    class BFonts : IFonts
+    class CBfonts : IFonts
     {
-        public void SetFont(string FontName)
+        public void SetFont(string fontName)
         {
-            CFonts.SetFont(FontName);
+            CFonts.SetFont(fontName);
         }
 
-        public void SetStyle(EStyle FontStyle)
+        public void SetStyle(EStyle fontStyle)
         {
-            CFonts.Style = FontStyle;
+            CFonts.Style = fontStyle;
         }
 
-        public RectangleF GetTextBounds(CText Text, float TextHeight)
+        public RectangleF GetTextBounds(CText text, float textHeight)
         {
-            return CFonts.GetTextBounds(Text, TextHeight);
+            return CFonts.GetTextBounds(text, textHeight);
         }
 
-        public void DrawText(string Text, float TextHeight, float x, float y, float z, SColorF Color)
+        public void DrawText(string text, float textHeight, float x, float y, float z, SColorF color)
         {
-            CFonts.DrawText(Text, TextHeight, x, y, z, Color);
+            CFonts.DrawText(text, textHeight, x, y, z, color);
         }
 
-        public void DrawTextReflection(string Text, float TextHeight, float x, float y, float z, SColorF Color, float ReflectionSpace, float ReflectionHeight)
+        public void DrawTextReflection(string text, float textHeight, float x, float y, float z, SColorF color, float reflectionSpace, float reflectionHeight)
         {
-            CFonts.DrawTextReflection(Text, TextHeight, x, y, z, Color, ReflectionSpace, ReflectionHeight);
+            CFonts.DrawTextReflection(text, textHeight, x, y, z, color, reflectionSpace, reflectionHeight);
         }
 
-        public void DrawText(string Text, float TextHeight, float x, float y, float z, SColorF Color, float Begin, float End)
+        public void DrawText(string text, float textHeight, float x, float y, float z, SColorF color, float begin, float end)
         {
-            CFonts.DrawText(Text, TextHeight, x, y, z, Color, Begin, End);
+            CFonts.DrawText(text, textHeight, x, y, z, color, begin, end);
         }
     }
 
-    class BLanguage : ILanguage
+    class CBlanguage : ILanguage
     {
-        public string Translate(string KeyWord)
+        public string Translate(string keyWord)
         {
-            return CLanguage.Translate(KeyWord);
+            return CLanguage.Translate(keyWord);
         }
 
-        public string Translate(string KeyWord, int PartyModeID)
+        public string Translate(string keyWord, int partyModeID)
         {
-            return CLanguage.Translate(KeyWord, PartyModeID);
+            return CLanguage.Translate(keyWord, partyModeID);
         }
 
-        public bool TranslationExists(string KeyWord)
+        public bool TranslationExists(string keyWord)
         {
-            return CLanguage.TranslationExists(KeyWord);
+            return CLanguage.TranslationExists(keyWord);
         }
     }
 
-    class BGame : IGame
+    class CBGame : IGame
     {
         public int GetNumPlayer()
         {
             return CGame.NumPlayer;
         }
 
-        public void SetNumPlayer(int NumPlayer)
+        public void SetNumPlayer(int numPlayer)
         {
-            CGame.NumPlayer = NumPlayer;
+            CGame.NumPlayer = numPlayer;
         }
 
         public SPlayer[] GetPlayer()
@@ -497,9 +497,9 @@ namespace Vocaluxe.Base
             return CGame.ActBeatD;
         }
 
-        public int GetRandom(int Max)
+        public int GetRandom(int max)
         {
-            return CGame.Rand.Next(Max);
+            return CGame.Rand.Next(max);
         }
 
         public double GetRandomDouble()
@@ -507,14 +507,14 @@ namespace Vocaluxe.Base
             return CGame.Rand.NextDouble();
         }
 
-        public float GetTimeFromBeats(float Beat, float BPM)
+        public float GetTimeFromBeats(float beat, float bpm)
         {
-            return CGame.GetTimeFromBeats(Beat, BPM);
+            return CGame.GetTimeFromBeats(beat, bpm);
         }
 
-        public void AddSong(int SongID, EGameMode GameMode)
+        public void AddSong(int songID, EGameMode gameMode)
         {
-            CGame.AddSong(SongID, GameMode);
+            CGame.AddSong(songID, gameMode);
         }
 
         public void Reset()
@@ -533,7 +533,7 @@ namespace Vocaluxe.Base
         }
     }
 
-    class BProfiles : IProfiles
+    class CBprofiles : IProfiles
     {
         public SProfile[] GetProfiles()
         {
@@ -541,15 +541,15 @@ namespace Vocaluxe.Base
         }
     }
 
-    class BRecord : IRecording
+    class CBrecord : IRecording
     {
-        public int GetToneAbs(int PlayerNr)
+        public int GetToneAbs(int playerNr)
         {
-            return CSound.RecordGetToneAbs(PlayerNr);
+            return CSound.RecordGetToneAbs(playerNr);
         }
     }
 
-    class BSongs : ISongs
+    class CBsongs : ISongs
     {
         public int GetNumSongs()
         {
@@ -566,9 +566,9 @@ namespace Vocaluxe.Base
             return CSongs.NumCategories;
         }
 
-        public int NumSongsInCategory(int CategoryIndex)
+        public int NumSongsInCategory(int categoryIndex)
         {
-            return CSongs.NumSongsInCategory(CategoryIndex);
+            return CSongs.NumSongsInCategory(categoryIndex);
         }
 
         public int GetCurrentCategoryIndex()
@@ -586,9 +586,9 @@ namespace Vocaluxe.Base
             return CSongs.Filter.SearchString;
         }
 
-        public void SetCategory(int CategoryIndex)
+        public void SetCategory(int categoryIndex)
         {
-            CSongs.Category = CategoryIndex;
+            CSongs.Category = categoryIndex;
         }
 
         public void UpdateRandomSongList()
@@ -596,14 +596,14 @@ namespace Vocaluxe.Base
             CSongs.UpdateRandomSongList();
         }
 
-        public CSong GetVisibleSong(int VisibleIndex)
+        public CSong GetVisibleSong(int visibleIndex)
         {
-            return CSongs.GetVisibleSongByIndex(VisibleIndex);
+            return CSongs.GetVisibleSongByIndex(visibleIndex);
         }
 
-        public CSong GetSongByID(int SongID)
+        public CSong GetSongByID(int songID)
         {
-            return CSongs.GetSong(SongID);
+            return CSongs.GetSong(songID);
         }
 
         public CSong[] GetSongs()
@@ -616,17 +616,17 @@ namespace Vocaluxe.Base
             return CSongs.SongsNotSung;
         }
 
-        public CCategory GetCategory(int Index)
+        public CCategory GetCategory(int index)
         {
-            if (Index >= CSongs.NumCategories)
+            if (index >= CSongs.NumCategories)
                 return null;
 
-            return new CCategory(CSongs.Categories[Index]);
+            return new CCategory(CSongs.Categories[index]);
         }
 
-        public void AddPartySongSung(int SongID)
+        public void AddPartySongSung(int songID)
         {
-            CSongs.AddPartySongSung(SongID);
+            CSongs.AddPartySongSung(songID);
         }
 
         public void ResetPartySongSung()
@@ -634,14 +634,14 @@ namespace Vocaluxe.Base
             CSongs.ResetPartySongSung();
         }
 
-        public void ResetPartySongSung(int CatIndex)
+        public void ResetPartySongSung(int catIndex)
         {
-            CSongs.ResetPartySongSung(CatIndex);
+            CSongs.ResetPartySongSung(catIndex);
         }
 
-        public void SortSongs(ESongSorting Sorting, EOffOn Tabs, EOffOn IgnoreArticles, String SearchString, EDuetOptions DuetOptions)
+        public void SortSongs(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions)
         {
-            CSongs.Sort(Sorting, Tabs, IgnoreArticles, SearchString, DuetOptions);
+            CSongs.Sort(sorting, tabs, ignoreArticles, searchString, duetOptions);
         }
 
         public void NextCategory()
@@ -655,88 +655,88 @@ namespace Vocaluxe.Base
         }
     }
 
-    class BVideo : IVideo
+    class CBvideo : IVideo
     {
-        public int Load(string VideoFileName)
+        public int Load(string videoFileName)
         {
-            return CVideo.VdLoad(VideoFileName);
+            return CVideo.VdLoad(videoFileName);
         }
 
-        public bool Skip(int VideoStream, float StartPosition, float VideoGap)
+        public bool Skip(int videoStream, float startPosition, float videoGap)
         {
-            return CVideo.VdSkip(VideoStream, StartPosition, VideoGap);
+            return CVideo.VdSkip(videoStream, startPosition, videoGap);
         }
 
-        public bool GetFrame(int VideoStream, ref STexture VideoTexture, float Time, ref float VideoTime)
+        public bool GetFrame(int videoStream, ref STexture videoTexture, float time, ref float videoTime)
         {
-            return CVideo.VdGetFrame(VideoStream, ref VideoTexture, Time, ref VideoTime);
+            return CVideo.VdGetFrame(videoStream, ref videoTexture, time, ref videoTime);
         }
 
-        public bool IsFinished(int VideoStream)
+        public bool IsFinished(int videoStream)
         {
-            return CVideo.VdFinished(VideoStream);
+            return CVideo.VdFinished(videoStream);
         }
 
-        public bool Close(int VideoStream)
+        public bool Close(int videoStream)
         {
-            return CVideo.VdClose(VideoStream);
+            return CVideo.VdClose(videoStream);
         }
     }
 
-    class BSound : ISound
+    class CBsound : ISound
     {
-        public int Load(string SoundFile, bool Prescan)
+        public int Load(string soundFile, bool prescan)
         {
-            return CSound.Load(SoundFile, Prescan);
+            return CSound.Load(soundFile, prescan);
         }
 
-        public void SetPosition(int SoundStream, float NewPosition)
+        public void SetPosition(int soundStream, float newPosition)
         {
-            CSound.SetPosition(SoundStream, NewPosition);
+            CSound.SetPosition(soundStream, newPosition);
         }
 
-        public void Play(int SoundStream)
+        public void Play(int soundStream)
         {
-            CSound.Play(SoundStream);
+            CSound.Play(soundStream);
         }
 
-        public void Fade(int SoundStream, float TargetVolume, float Duration)
+        public void Fade(int soundStream, float targetVolume, float duration)
         {
-            CSound.Fade(SoundStream, TargetVolume, Duration);
+            CSound.Fade(soundStream, targetVolume, duration);
         }
 
-        public bool IsFinished(int SoundStream)
+        public bool IsFinished(int soundStream)
         {
-            return CSound.IsFinished(SoundStream);
+            return CSound.IsFinished(soundStream);
         }
 
-        public float GetPosition(int SoundStream)
+        public float GetPosition(int soundStream)
         {
-            return CSound.GetPosition(SoundStream);
+            return CSound.GetPosition(soundStream);
         }
 
-        public float GetLength(int SoundStream)
+        public float GetLength(int soundStream)
         {
-            return CSound.GetLength(SoundStream);
+            return CSound.GetLength(soundStream);
         }
 
-        public void FadeAndStop(int SoundStream, float TargetVolume, float Duration)
+        public void FadeAndStop(int soundStream, float targetVolume, float duration)
         {
-            CSound.FadeAndStop(SoundStream, TargetVolume, Duration);
+            CSound.FadeAndStop(soundStream, targetVolume, duration);
         }
 
-        public void SetStreamVolume(int SoundStream, float Volume)
+        public void SetStreamVolume(int soundStream, float volume)
         {
-            CSound.SetStreamVolume(SoundStream, Volume);
+            CSound.SetStreamVolume(soundStream, volume);
         }
 
-        public void SetStreamVolumeMax(int SoundStream, float MaxVolume)
+        public void SetStreamVolumeMax(int soundStream, float maxVolume)
         {
-            CSound.SetStreamVolumeMax(SoundStream, MaxVolume);
+            CSound.SetStreamVolumeMax(soundStream, maxVolume);
         }
     }
 
-    class BCover : ICover
+    class CBcover : ICover
     {
         public STexture GetNoCover()
         {
@@ -744,27 +744,27 @@ namespace Vocaluxe.Base
         }
     }
 
-    class BDataBase : IDataBase
+    class CBdataBase : IDataBase
     {
-        public bool GetCover(string FileName, ref STexture Texture, int CoverSize)
+        public bool GetCover(string fileName, ref STexture texture, int coverSize)
         {
-            return CDataBase.GetCover(FileName, ref Texture, CoverSize);
+            return CDataBase.GetCover(fileName, ref texture, coverSize);
         }
     }
 
-    class BInputs : IInputs
+    class CBinputs : IInputs
     {
-        public void SetRumble(float Duration)
+        public void SetRumble(float duration)
         {
-            CInput.SetRumble(Duration);
+            CInput.SetRumble(duration);
         }
     }
 
-    class BPlaylist : IPlaylist
+    class CBplaylist : IPlaylist
     {
-        public void SetPlaylistName(int PlaylistID, string Name)
+        public void SetPlaylistName(int playlistID, string name)
         {
-            CPlaylists.SetPlaylistName(PlaylistID, Name);
+            CPlaylists.SetPlaylistName(playlistID, name);
         }
 
         public string[] GetPlaylistNames()
@@ -772,19 +772,19 @@ namespace Vocaluxe.Base
             return CPlaylists.GetPlaylistNames();
         }
 
-        public string GetPlaylistName(int PlaylistID)
+        public string GetPlaylistName(int playlistID)
         {
-            return CPlaylists.GetPlaylistName(PlaylistID);
+            return CPlaylists.GetPlaylistName(playlistID);
         }
 
-        public void DeletePlaylist(int PlaylistID)
+        public void DeletePlaylist(int playlistID)
         {
-            CPlaylists.DeletePlaylist(PlaylistID);
+            CPlaylists.DeletePlaylist(playlistID);
         }
 
-        public void SavePlaylist(int PlaylistID)
+        public void SavePlaylist(int playlistID)
         {
-            CPlaylists.SavePlaylist(PlaylistID);
+            CPlaylists.SavePlaylist(playlistID);
         }
 
         public int GetNumPlaylists()
@@ -792,49 +792,49 @@ namespace Vocaluxe.Base
             return CPlaylists.NumPlaylists;
         }
 
-        public void AddPlaylistSong(int PlaylistID, int SongID)
+        public void AddPlaylistSong(int playlistID, int songID)
         {
-            CPlaylists.AddPlaylistSong(PlaylistID, SongID);
+            CPlaylists.AddPlaylistSong(playlistID, songID);
         }
 
-        public void AddPlaylistSong(int PlaylistID, int SongID, EGameMode GameMode)
+        public void AddPlaylistSong(int playlistID, int songID, EGameMode gameMode)
         {
-            CPlaylists.AddPlaylistSong(PlaylistID, SongID, GameMode);
+            CPlaylists.AddPlaylistSong(playlistID, songID, gameMode);
         }
 
-        public void InsertPlaylistSong(int PlaylistID, int PositionIndex, int SongID, EGameMode GameMode)
+        public void InsertPlaylistSong(int playlistID, int positionIndex, int songID, EGameMode gameMode)
         {
-            CPlaylists.InsertPlaylistSong(PlaylistID, PositionIndex, SongID, GameMode);
+            CPlaylists.InsertPlaylistSong(playlistID, positionIndex, songID, gameMode);
         }
 
-        public void MovePlaylistSong(int PlaylistID, int SourceIndex, int DestIndex)
+        public void MovePlaylistSong(int playlistID, int sourceIndex, int destIndex)
         {
-            CPlaylists.MovePlaylistSong(PlaylistID, SourceIndex, DestIndex);
+            CPlaylists.MovePlaylistSong(playlistID, sourceIndex, destIndex);
         }
 
-        public void MovePlaylistSongDown(int PlaylistID, int SongIndex)
+        public void MovePlaylistSongDown(int playlistID, int songIndex)
         {
-            CPlaylists.MovePlaylistSongDown(PlaylistID, SongIndex);
+            CPlaylists.MovePlaylistSongDown(playlistID, songIndex);
         }
 
-        public void MovePlaylistSongUp(int PlaylistID, int SongIndex)
+        public void MovePlaylistSongUp(int playlistID, int songIndex)
         {
-            CPlaylists.MovePlaylistSongUp(PlaylistID, SongIndex);
+            CPlaylists.MovePlaylistSongUp(playlistID, songIndex);
         }
 
-        public void DeletePlaylistSong(int PlaylistID, int SongIndex)
+        public void DeletePlaylistSong(int playlistID, int songIndex)
         {
-            CPlaylists.DeletePlaylistSong(PlaylistID, SongIndex);
+            CPlaylists.DeletePlaylistSong(playlistID, songIndex);
         }
 
-        public int GetPlaylistSongCount(int PlaylistID)
+        public int GetPlaylistSongCount(int playlistID)
         {
-            return CPlaylists.GetPlaylistSongCount(PlaylistID);
+            return CPlaylists.GetPlaylistSongCount(playlistID);
         }
 
-        public CPlaylistSong GetPlaylistSong(int PlaylistID, int SongIndex)
+        public CPlaylistSong GetPlaylistSong(int playlistID, int songIndex)
         {
-            return CPlaylists.GetPlaylistSong(PlaylistID, SongIndex);
+            return CPlaylists.GetPlaylistSong(playlistID, songIndex);
         }
     }
 }

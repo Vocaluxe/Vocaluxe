@@ -21,8 +21,8 @@
             return _actualSelection;
         }
         */
-        public CSongMenuDreidel(int PartyModeID)
-            : base(PartyModeID) {}
+        public CSongMenuDreidel(int partyModeID)
+            : base(partyModeID) {}
 
         public override void Init()
         {

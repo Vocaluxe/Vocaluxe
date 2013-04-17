@@ -30,7 +30,7 @@ namespace Vocaluxe.Base
 
     static class CParty
     {
-        private const int PartyModeSystemVersion = 1;
+        private const int _PartyModeSystemVersion = 1;
 
         private static Dictionary<int, SPartyMode> _PartyModes;
         private static Queue<int> _IDs;
@@ -58,7 +58,7 @@ namespace Vocaluxe.Base
             _CurrentPartyMode = pm;
 
             //load other party modes
-            LoadPartyModes();
+            _LoadPartyModes();
         }
 
         public static int CurrentPartyModeID
@@ -81,15 +81,15 @@ namespace Vocaluxe.Base
         {
             List<SPartyModeInfos> infos = new List<SPartyModeInfos>();
 
-            int[] UsedKeys = new int[_PartyModes.Count];
-            _PartyModes.Keys.CopyTo(UsedKeys, 0);
+            int[] usedKeys = new int[_PartyModes.Count];
+            _PartyModes.Keys.CopyTo(usedKeys, 0);
 
-            for (int i = 0; i < UsedKeys.Length; i++)
+            for (int i = 0; i < usedKeys.Length; i++)
             {
-                if (UsedKeys[i] != _NormalGameModeID)
+                if (usedKeys[i] != _NormalGameModeID)
                 {
                     SPartyMode mode = new SPartyMode();
-                    _PartyModes.TryGetValue(UsedKeys[i], out mode);
+                    _PartyModes.TryGetValue(usedKeys[i], out mode);
 
                     if (mode.PartyMode != null)
                     {
@@ -122,17 +122,17 @@ namespace Vocaluxe.Base
             SetPartyMode(_NormalGameModeID);
         }
 
-        public static void SetPartyMode(int PartyModeID)
+        public static void SetPartyMode(int partyModeID)
         {
-            if (!_PartyModes.TryGetValue(PartyModeID, out _CurrentPartyMode))
-                CLog.LogError("CParty: Can't find party mode ID: " + PartyModeID.ToString());
+            if (!_PartyModes.TryGetValue(partyModeID, out _CurrentPartyMode))
+                CLog.LogError("CParty: Can't find party mode ID: " + partyModeID.ToString());
 
             _CurrentPartyMode.PartyMode.Init();
         }
 
-        public static CMenu GetNextPartyScreen(out EScreens AlternativeScreen)
+        public static CMenu GetNextPartyScreen(out EScreens alternativeScreen)
         {
-            return _CurrentPartyMode.PartyMode.GetNextPartyScreen(out AlternativeScreen);
+            return _CurrentPartyMode.PartyMode.GetNextPartyScreen(out alternativeScreen);
         }
         #endregion public stuff
 
@@ -152,34 +152,34 @@ namespace Vocaluxe.Base
             return _CurrentPartyMode.PartyMode.GetMainScreen();
         }
 
-        public static ScreenSongOptions GetSongSelectionOptions()
+        public static SScreenSongOptions GetSongSelectionOptions()
         {
             return _CurrentPartyMode.PartyMode.GetScreenSongOptions();
         }
 
-        public static void OnSongChange(int SongIndex, ref ScreenSongOptions ScreenSongOptions)
+        public static void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions)
         {
-            _CurrentPartyMode.PartyMode.OnSongChange(SongIndex, ref ScreenSongOptions);
+            _CurrentPartyMode.PartyMode.OnSongChange(songIndex, ref screenSongOptions);
         }
 
-        public static void OnCategoryChange(int CategoryIndex, ref ScreenSongOptions ScreenSongOptions)
+        public static void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions)
         {
-            _CurrentPartyMode.PartyMode.OnCategoryChange(CategoryIndex, ref ScreenSongOptions);
+            _CurrentPartyMode.PartyMode.OnCategoryChange(categoryIndex, ref screenSongOptions);
         }
 
-        public static void SetSearchString(string SearchString, bool Visible)
+        public static void SetSearchString(string searchString, bool visible)
         {
-            _CurrentPartyMode.PartyMode.SetSearchString(SearchString, Visible);
+            _CurrentPartyMode.PartyMode.SetSearchString(searchString, visible);
         }
 
-        public static void JokerUsed(int TeamNr)
+        public static void JokerUsed(int teamNr)
         {
-            _CurrentPartyMode.PartyMode.JokerUsed(TeamNr);
+            _CurrentPartyMode.PartyMode.JokerUsed(teamNr);
         }
 
-        public static void SongSelected(int SongID)
+        public static void SongSelected(int songID)
         {
-            _CurrentPartyMode.PartyMode.SongSelected(SongID);
+            _CurrentPartyMode.PartyMode.SongSelected(songID);
         }
 
         public static void FinishedSinging()
@@ -199,19 +199,19 @@ namespace Vocaluxe.Base
         #endregion Interface
 
         #region private stuff
-        private static void LoadPartyModes()
+        private static void _LoadPartyModes()
         {
             List<string> files = new List<string>();
-            files.AddRange(CHelper.ListFiles(CSettings.sFolderPartyModes, "*.xml", false, true));
+            files.AddRange(CHelper.ListFiles(CSettings.FolderPartyModes, "*.xml", false, true));
 
             foreach (string file in files)
             {
-                SPartyMode pm = LoadPartyMode(file);
+                SPartyMode pm = _LoadPartyMode(file);
                 _PartyModes.Add(pm.PartyModeID, pm);
             }
         }
 
-        private static SPartyMode LoadPartyMode(string file)
+        private static SPartyMode _LoadPartyMode(string file)
         {
             SPartyMode pm = new SPartyMode();
             pm.PartyModeID = _IDs.Dequeue();
@@ -243,7 +243,7 @@ namespace Vocaluxe.Base
                 return pm;
             }
 
-            if (pm.PartyModeSystemVersion != PartyModeSystemVersion)
+            if (pm.PartyModeSystemVersion != _PartyModeSystemVersion)
             {
                 CLog.LogError("Error loading PartyMode file (wrong PartyModeSystemVersion): " + file);
                 return pm;
@@ -255,23 +255,23 @@ namespace Vocaluxe.Base
                 return pm;
             }
 
-            string PathToCode = Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeCode);
+            string pathToCode = Path.Combine(Path.Combine(CSettings.FolderPartyModes, pm.Folder), CSettings.FolderPartyModeCode);
 
-            List<string> FilesToCompile = new List<string>();
-            FilesToCompile.AddRange(CHelper.ListFiles(PathToCode, "*.cs", false, true));
+            List<string> filesToCompile = new List<string>();
+            filesToCompile.AddRange(CHelper.ListFiles(pathToCode, "*.cs", false, true));
 
-            Assembly Output = CompileFiles(FilesToCompile.ToArray());
-            if (Output == null)
+            Assembly output = _CompileFiles(filesToCompile.ToArray());
+            if (output == null)
                 return pm;
 
-            if (!CLanguage.LoadPartyLanguageFiles(pm.PartyModeID, Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeLanguages)))
+            if (!CLanguage.LoadPartyLanguageFiles(pm.PartyModeID, Path.Combine(Path.Combine(CSettings.FolderPartyModes, pm.Folder), CSettings.FolderPartyModeLanguages)))
             {
                 CLog.LogError("Error loading language files for PartyMode: " + file);
                 return pm;
             }
 
-            object Instance = Output.CreateInstance(typeof(IPartyMode).Namespace + "." + pm.Folder + "." + pm.PartyModeFile);
-            if (Instance == null)
+            object instance = output.CreateInstance(typeof(IPartyMode).Namespace + "." + pm.Folder + "." + pm.PartyModeFile);
+            if (instance == null)
             {
                 CLog.LogError("Error creating Instance of PartyMode file: " + file);
                 return pm;
@@ -279,7 +279,7 @@ namespace Vocaluxe.Base
 
             try
             {
-                pm.PartyMode = (IPartyMode)Instance;
+                pm.PartyMode = (IPartyMode)instance;
             }
             catch (Exception e)
             {
@@ -288,31 +288,31 @@ namespace Vocaluxe.Base
             }
             pm.PartyMode.Initialize();
 
-            if (!CTheme.AddTheme(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), "Theme.xml")), pm.PartyModeID))
+            if (!CTheme.AddTheme(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine(Path.Combine(CSettings.FolderPartyModes, pm.Folder), "Theme.xml")), pm.PartyModeID))
                 return pm;
 
-            int ThemeIndex = CTheme.GetThemeIndex(pm.PartyModeID);
-            CTheme.ListSkins(ThemeIndex);
-            int SkinIndex = CTheme.GetSkinIndex(pm.PartyModeID);
+            int themeIndex = CTheme.GetThemeIndex(pm.PartyModeID);
+            CTheme.ListSkins(themeIndex);
+            int skinIndex = CTheme.GetSkinIndex(pm.PartyModeID);
 
-            if (!CTheme.LoadSkin(SkinIndex))
+            if (!CTheme.LoadSkin(skinIndex))
                 return pm;
 
-            if (!CTheme.LoadTheme(ThemeIndex))
+            if (!CTheme.LoadTheme(themeIndex))
                 return pm;
 
             foreach (string screenfile in pm.ScreenFiles)
             {
-                string XmlPath = Path.Combine(Path.Combine(CSettings.sFolderPartyModes, pm.Folder), CSettings.sFolderPartyModeScreens);
-                CMenuParty Screen = GetPartyScreenInstance(Output, screenfile, pm.Folder);
+                string xmlPath = Path.Combine(Path.Combine(CSettings.FolderPartyModes, pm.Folder), CSettings.FolderPartyModeScreens);
+                CMenuParty screen = _GetPartyScreenInstance(output, screenfile, pm.Folder);
 
-                if (Screen != null)
+                if (screen != null)
                 {
-                    Screen.Init();
-                    Screen.AssingPartyMode(pm.PartyMode);
-                    Screen.SetPartyModeID(pm.PartyModeID);
-                    Screen.LoadTheme(XmlPath);
-                    pm.PartyMode.AddScreen(Screen, screenfile);
+                    screen.Init();
+                    screen.AssingPartyMode(pm.PartyMode);
+                    screen.SetPartyModeID(pm.PartyModeID);
+                    screen.LoadTheme(xmlPath);
+                    pm.PartyMode.AddScreen(screen, screenfile);
                 }
                 else
                     return pm;
@@ -322,7 +322,7 @@ namespace Vocaluxe.Base
             return pm;
         }
 
-        private static Assembly CompileFiles(string[] files)
+        private static Assembly _CompileFiles(string[] files)
         {
             if (files == null)
                 return null;
@@ -330,21 +330,21 @@ namespace Vocaluxe.Base
             if (files.Length == 0)
                 return null;
 
-            CompilerParameters Params = new CompilerParameters();
-            Params.ReferencedAssemblies.Add("System.Windows.Forms.dll");
-            Params.ReferencedAssemblies.Add("VocaluxeLib.dll");
-            Params.GenerateInMemory = true;
+            CompilerParameters compilerParams = new CompilerParameters();
+            compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
+            compilerParams.ReferencedAssemblies.Add("VocaluxeLib.dll");
+            compilerParams.GenerateInMemory = true;
 #if DEBUG
-            Params.IncludeDebugInformation = true;
+            compilerParams.IncludeDebugInformation = true;
 #endif
 
-            using (CodeDomProvider CDP = CodeDomProvider.CreateProvider("CSharp"))
+            using (CodeDomProvider cdp = CodeDomProvider.CreateProvider("CSharp"))
             {
-                CompilerResults CompileResult = null;
+                CompilerResults compileResult = null;
 
                 try
                 {
-                    CompileResult = CDP.CompileAssemblyFromFile(Params, files);
+                    compileResult = cdp.CompileAssemblyFromFile(compilerParams, files);
                 }
                 catch (Exception e)
                 {
@@ -352,39 +352,39 @@ namespace Vocaluxe.Base
                     return null;
                 }
 
-                if (CompileResult.Errors.Count > 0)
+                if (compileResult.Errors.Count > 0)
                 {
-                    foreach (CompilerError e in CompileResult.Errors)
+                    foreach (CompilerError e in compileResult.Errors)
                         CLog.LogError("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.ErrorText + " in '" + e.FileName + "' (" + e.Line + ")");
                     return null;
                 }
-                return CompileResult.CompiledAssembly;
+                return compileResult.CompiledAssembly;
             }
         }
 
-        private static CMenuParty GetPartyScreenInstance(Assembly Assembly, string ScreenName, string partyModeName)
+        private static CMenuParty _GetPartyScreenInstance(Assembly assembly, string screenName, string partyModeName)
         {
-            if (Assembly == null)
+            if (assembly == null)
                 return null;
 
-            object Instance = Assembly.CreateInstance(typeof(IPartyMode).Namespace + "." + partyModeName + "." + ScreenName);
-            if (Instance == null)
+            object instance = assembly.CreateInstance(typeof(IPartyMode).Namespace + "." + partyModeName + "." + screenName);
+            if (instance == null)
             {
-                CLog.LogError("Error creating Instance of PartyScreen: " + ScreenName);
+                CLog.LogError("Error creating Instance of PartyScreen: " + screenName);
                 return null;
             }
 
-            CMenuParty Screen = null;
+            CMenuParty screen = null;
             try
             {
-                Screen = (CMenuParty)Instance;
+                screen = (CMenuParty)instance;
             }
             catch (Exception e)
             {
-                CLog.LogError("Error casting PartyScreen: " + ScreenName + "; " + e.Message);
+                CLog.LogError("Error casting PartyScreen: " + screenName + "; " + e.Message);
                 return null;
             }
-            return Screen;
+            return screen;
         }
         #endregion private stuff
     }

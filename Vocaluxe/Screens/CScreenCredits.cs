@@ -23,13 +23,13 @@ class CCreditName
     public float StartTimeUp;
     public bool Active;
 
-    public CCreditName(CStatic Image, CStatic ImgDot, CParticleEffect Particle, int ParticleOffsetX, int ParticleOffsetY)
+    public CCreditName(CStatic image, CStatic imgDot, CParticleEffect particle, int particleOffsetX, int particleOffsetY)
     {
-        _Image = Image;
-        _ImgDot = ImgDot;
-        _Particle = Particle;
-        _ParticleOffsetX = (int)Math.Round(ParticleOffsetX * Image.Rect.W / Image.Texture.w2 - Particle.Rect.W / 2);
-        _ParticleOffsetY = (int)Math.Round(ParticleOffsetY * Image.Rect.H / Image.Texture.h2 - Particle.Rect.H / 2);
+        _Image = image;
+        _ImgDot = imgDot;
+        _Particle = particle;
+        _ParticleOffsetX = (int)Math.Round(particleOffsetX * image.Rect.W / image.Texture.Width - particle.Rect.W / 2);
+        _ParticleOffsetY = (int)Math.Round(particleOffsetY * image.Rect.H / image.Texture.Height - particle.Rect.H / 2);
         Active = true;
     }
 
@@ -94,17 +94,17 @@ namespace Vocaluxe.Screens
             get { return 1; }
         }
 
-        private CStatic logo;
-        private CParticleEffect starsRed;
-        private CParticleEffect starsBlue;
+        private CStatic _Logo;
+        private CParticleEffect _StarsRed;
+        private CParticleEffect _StarsBlue;
         private List<CCreditName> _CreditNames;
 
-        private Stopwatch LogoTimer;
-        private Stopwatch CreditsTimer;
-        private Stopwatch TextTimer;
+        private Stopwatch _LogoTimer;
+        private Stopwatch _CreditsTimer;
+        private Stopwatch _TextTimer;
 
-        private List<string[]> paragraphs;
-        private List<CText> paragraphTexts;
+        private List<string[]> _Paragraphs;
+        private List<CText> _ParagraphTexts;
 
         private STexture _TexLogo;
         private STexture _TexPerfectNoteStar;
@@ -125,13 +125,13 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            LogoTimer = new Stopwatch();
-            CreditsTimer = new Stopwatch();
-            TextTimer = new Stopwatch();
+            _LogoTimer = new Stopwatch();
+            _CreditsTimer = new Stopwatch();
+            _TextTimer = new Stopwatch();
 
             //Text for last part of credits.
-            paragraphTexts = new List<CText>();
-            paragraphs = new List<string[]>();
+            _ParagraphTexts = new List<CText>();
+            _Paragraphs = new List<string[]>();
 
             string paragraph;
             string[] words;
@@ -140,14 +140,14 @@ namespace Vocaluxe.Screens
                         "a good thing even better, we ended up rewriting the game from scratch. And a new implementation in a new " +
                         "programming language called for a new name - and VOCALUXE [ˈvoʊˈkəˈlʌks] it is!";
             words = paragraph.Split(new char[] {' '});
-            paragraphs.Add(words);
+            _Paragraphs.Add(words);
 
             paragraph = "This first public version has already implemented many of the original features and it is fully " +
                         "compatible with all the song files in your existing song collection. The code design allows a much faster " +
                         "implementation of new features, thus the roadmap for the next few stable releases is packed and we expect much " +
                         "shorter release cycles than ever before. And, of course, our and your ideas may be the features of tomorrow.";
             words = paragraph.Split(new char[] {' '});
-            paragraphs.Add(words);
+            _Paragraphs.Add(words);
 
             paragraph = "We appreciate the feedback in the beta release phase and are, of course, always open for bug reports, " +
                         "suggestions for improvements and ideas for new features. We would also like to thank the translators who make " +
@@ -155,15 +155,15 @@ namespace Vocaluxe.Screens
                         "there's something for everyone in the huge collection of available songs! Last but not least, thanks to " +
                         "Kosal Sen's Philly Sans type used in the Vocaluxe Logo.";
             words = paragraph.Split(new char[] {' '});
-            paragraphs.Add(words);
+            _Paragraphs.Add(words);
 
             paragraph = "Go ahead and grab your mics, crank up your stereo, warm up your voice and get ready to sing to the best " +
                         "of your abilities!";
             words = paragraph.Split(new char[] {' '});
-            paragraphs.Add(words);
+            _Paragraphs.Add(words);
         }
 
-        public override void LoadTheme(string XmlPath)
+        public override void LoadTheme(string xmlPath)
         {
             //Vocaluxe-Logo
             CDataBase.GetCreditsRessource("Logo_voc.png", ref _TexLogo);
@@ -185,32 +185,32 @@ namespace Vocaluxe.Screens
 
             //Prepare Text
             int lastY = 280;
-            for (int i = 0; i < paragraphs.Count; i++)
+            for (int i = 0; i < _Paragraphs.Count; i++)
             {
                 string line = "";
-                for (int e = 0; e < paragraphs[i].Length; e++)
+                for (int e = 0; e < _Paragraphs[i].Length; e++)
                 {
-                    if (paragraphs[i][e] != null)
+                    if (_Paragraphs[i][e] != null)
                     {
-                        string newline = line + " " + paragraphs[i][e];
+                        string newline = line + " " + _Paragraphs[i][e];
                         CText text = GetNewText(75, lastY, -2, 30, -1, EAlignment.Left, EStyle.Bold, "Outline", new SColorF(1, 1, 1, 1), line);
-                        if (CDraw.GetTextBounds(text).Width < (CSettings.iRenderW - 220))
+                        if (CDraw.GetTextBounds(text).Width < (CSettings.RenderW - 220))
                         {
-                            line = line + " " + paragraphs[i][e];
+                            line = line + " " + _Paragraphs[i][e];
 
                             //Check if all words are used
-                            if ((e + 1) == paragraphs[i].Length)
+                            if ((e + 1) == _Paragraphs[i].Length)
                             {
                                 text.Text = line;
-                                paragraphTexts.Add(text);
+                                _ParagraphTexts.Add(text);
                                 line = "";
                                 lastY += 40;
                             }
                         }
                         else
                         {
-                            paragraphTexts.Add(text);
-                            line = " " + paragraphs[i][e];
+                            _ParagraphTexts.Add(text);
+                            line = " " + _Paragraphs[i][e];
                             lastY += 27;
                         }
                     }
@@ -218,7 +218,7 @@ namespace Vocaluxe.Screens
             }
         }
 
-        public override void ReloadTheme(string XmlPath) {}
+        public override void ReloadTheme(string xmlPath) {}
 
         public override void SaveTheme() {}
 
@@ -226,7 +226,7 @@ namespace Vocaluxe.Screens
 
         public override void ReloadTextures() {}
 
-        public override bool HandleInput(KeyEvent keyEvent)
+        public override bool HandleInput(SKeyEvent keyEvent)
         {
             if (!keyEvent.KeyPressed || Char.IsControl(keyEvent.Unicode))
             {
@@ -243,7 +243,7 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(MouseEvent mouseEvent)
+        public override bool HandleMouse(SMouseEvent mouseEvent)
         {
             if (mouseEvent.LB || mouseEvent.RB)
                 CGraphics.FadeTo(EScreens.ScreenMain);
@@ -252,38 +252,38 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-            if (!animation())
+            if (!_Animation())
                 CGraphics.FadeTo(EScreens.ScreenMain);
             return true;
         }
 
-        public CParticleEffect _GetStarParticles(int NumStars, bool isRed, SRectF Rect, bool BigParticles)
+        public CParticleEffect GetStarParticles(int numStars, bool isRed, SRectF rect, bool bigParticles)
         {
             SColorF partColor = isRed ? new SColorF(1, 0, 0, 1) : new SColorF(0.149f, 0.415f, 0.819f, 1);
-            int partSize = BigParticles ? 35 : 25;
-            return GetNewParticleEffect(NumStars, partColor, Rect, _TexPerfectNoteStar, partSize, EParticleType.Star);
+            int partSize = bigParticles ? 35 : 25;
+            return GetNewParticleEffect(numStars, partColor, rect, _TexPerfectNoteStar, partSize, EParticleType.Star);
         }
 
-        private void _AddNewCreditName(STexture Texture, int ParticleOffsetX, int ParticleOffsetY, bool BigParticles)
+        private void _AddNewCreditName(STexture texture, int particleOffsetX, int particleOffsetY, bool bigParticles)
         {
             bool isRight = _CreditNames.Count % 2 == 0;
-            int partRectSize = BigParticles ? 25 : 20;
-            int partCount = BigParticles ? 8 : 6;
-            STexture TexDot = isRight ? _TexRedDot : _TexBlueDot;
+            int partRectSize = bigParticles ? 25 : 20;
+            int partCount = bigParticles ? 8 : 6;
+            STexture texDot = isRight ? _TexRedDot : _TexBlueDot;
 
-            CStatic Image = GetNewStatic(Texture, new SColorF(1, 1, 1, 1), new SRectF(-1, -1, 400, 120, -4));
+            CStatic image = GetNewStatic(texture, new SColorF(1, 1, 1, 1), new SRectF(-1, -1, 400, 120, -4));
 
             SRectF particleRect = new SRectF(-1, -1, partRectSize, partRectSize, -6);
             SRectF imgDotRect = new SRectF(particleRect);
             imgDotRect.Z = -5;
-            CStatic ImgDot = GetNewStatic(TexDot, new SColorF(1, 1, 1, 1), imgDotRect);
-            CParticleEffect Particle = _GetStarParticles(partCount, isRight, particleRect, BigParticles);
+            CStatic imgDot = GetNewStatic(texDot, new SColorF(1, 1, 1, 1), imgDotRect);
+            CParticleEffect particle = GetStarParticles(partCount, isRight, particleRect, bigParticles);
 
-            CCreditName credit = new CCreditName(Image, ImgDot, Particle, ParticleOffsetX, ParticleOffsetY);
+            CCreditName credit = new CCreditName(image, imgDot, particle, particleOffsetX, particleOffsetY);
 
             if (isRight)
             {
-                credit.X = CSettings.iRenderW;
+                credit.X = CSettings.RenderW;
                 credit.Direction = EDirection.Right;
             }
             else
@@ -300,13 +300,13 @@ namespace Vocaluxe.Screens
             base.OnShow();
 
             //Vocaluxe-Logo
-            logo = GetNewStatic(_TexLogo, new SColorF(1, 1, 1, 1), new SRectF((CSettings.iRenderW - _TexLogo.width) / 2, -270, _TexLogo.width, _TexLogo.height, -2));
+            _Logo = GetNewStatic(_TexLogo, new SColorF(1, 1, 1, 1), new SRectF((CSettings.RenderW - _TexLogo.Width) / 2, -270, _TexLogo.Width, _TexLogo.Height, -2));
 
             //Little stars for logo
-            int numstars = (int)(logo.Rect.W * 0.25f / 2f);
-            SRectF partRect = new SRectF(logo.Rect.X, logo.Rect.Y, logo.Rect.W, logo.Rect.H, -1);
-            starsRed = _GetStarParticles(numstars, true, partRect, true);
-            starsBlue = _GetStarParticles(numstars, false, partRect, true);
+            int numstars = (int)(_Logo.Rect.W * 0.25f / 2f);
+            SRectF partRect = new SRectF(_Logo.Rect.X, _Logo.Rect.Y, _Logo.Rect.W, _Logo.Rect.H, -1);
+            _StarsRed = GetStarParticles(numstars, true, partRect, true);
+            _StarsBlue = GetStarParticles(numstars, false, partRect, true);
 
             //Credit names
             _CreditNames = new List<CCreditName>();
@@ -320,16 +320,16 @@ namespace Vocaluxe.Screens
             _AddNewCreditName(_TexNamePantero, 311, 45, false);
             _AddNewCreditName(_TexNamePinky007, 113, 50, false);
 
-            TextTimer.Reset();
-            LogoTimer.Reset();
-            CreditsTimer.Reset();
+            _TextTimer.Reset();
+            _LogoTimer.Reset();
+            _CreditsTimer.Reset();
         }
 
         public override void OnShowFinish()
         {
             base.OnShowFinish();
 
-            LogoTimer.Start();
+            _LogoTimer.Start();
         }
 
         public override bool Draw()
@@ -337,47 +337,47 @@ namespace Vocaluxe.Screens
             base.Draw();
 
             //Draw background
-            CDraw.DrawColor(new SColorF(0, 0.18f, 0.474f, 1), new SRectF(0, 0, CSettings.iRenderW, CSettings.iRenderH, 0));
+            CDraw.DrawColor(new SColorF(0, 0.18f, 0.474f, 1), new SRectF(0, 0, CSettings.RenderW, CSettings.RenderH, 0));
 
             //Draw stars
-            starsBlue.Draw();
-            starsRed.Draw();
+            _StarsBlue.Draw();
+            _StarsRed.Draw();
 
-            logo.Draw();
+            _Logo.Draw();
 
             //Draw credit-entries
             foreach (CCreditName cn in _CreditNames)
                 cn.Draw();
 
             //Draw Text
-            if (TextTimer.IsRunning)
+            if (_TextTimer.IsRunning)
             {
-                for (int i = 0; i < paragraphTexts.Count; i++)
-                    paragraphTexts[i].Draw();
+                for (int i = 0; i < _ParagraphTexts.Count; i++)
+                    _ParagraphTexts[i].Draw();
             }
             return true;
         }
 
-        private bool animation()
+        private bool _Animation()
         {
             bool active = false;
-            if (LogoTimer.IsRunning)
+            if (_LogoTimer.IsRunning)
             {
                 active = true;
 
-                logo.Rect.Y = -270 + (270f / 3000f) * LogoTimer.ElapsedMilliseconds;
-                starsRed.Rect.Y = logo.Rect.Y;
-                starsBlue.Rect.Y = logo.Rect.Y;
-                if (LogoTimer.ElapsedMilliseconds >= 2000 && !CreditsTimer.IsRunning)
-                    CreditsTimer.Start();
-                if (LogoTimer.ElapsedMilliseconds >= 3000)
+                _Logo.Rect.Y = -270 + (270f / 3000f) * _LogoTimer.ElapsedMilliseconds;
+                _StarsRed.Rect.Y = _Logo.Rect.Y;
+                _StarsBlue.Rect.Y = _Logo.Rect.Y;
+                if (_LogoTimer.ElapsedMilliseconds >= 2000 && !_CreditsTimer.IsRunning)
+                    _CreditsTimer.Start();
+                if (_LogoTimer.ElapsedMilliseconds >= 3000)
                 {
-                    LogoTimer.Stop();
-                    LogoTimer.Reset();
+                    _LogoTimer.Stop();
+                    _LogoTimer.Reset();
                 }
             }
 
-            if (CreditsTimer.IsRunning)
+            if (_CreditsTimer.IsRunning)
             {
                 active = true;
 
@@ -388,36 +388,36 @@ namespace Vocaluxe.Screens
                         switch (_CreditNames[i].Direction)
                         {
                             case EDirection.Right:
-                                if (i * 4000f <= CreditsTimer.ElapsedMilliseconds)
+                                if (i * 4000f <= _CreditsTimer.ElapsedMilliseconds)
                                 {
-                                    _CreditNames[i].X = -450 + (((CSettings.iRenderW - _CreditNames[i].W) / 2) / 3000f) * (CreditsTimer.ElapsedMilliseconds - (i * 4000f));
+                                    _CreditNames[i].X = -450 + (((CSettings.RenderW - _CreditNames[i].W) / 2) / 3000f) * (_CreditsTimer.ElapsedMilliseconds - (i * 4000f));
 
                                     //Check if name is in middle of screen and should go up
-                                    if (_CreditNames[i].X >= (CSettings.iRenderW - _CreditNames[i].W) / 2)
+                                    if (_CreditNames[i].X >= (CSettings.RenderW - _CreditNames[i].W) / 2)
                                     {
                                         _CreditNames[i].Direction = EDirection.Up;
-                                        _CreditNames[i].StartTimeUp = CreditsTimer.ElapsedMilliseconds;
+                                        _CreditNames[i].StartTimeUp = _CreditsTimer.ElapsedMilliseconds;
                                     }
                                 }
                                 break;
 
                             case EDirection.Left:
-                                if (i * 4000f <= CreditsTimer.ElapsedMilliseconds)
+                                if (i * 4000f <= _CreditsTimer.ElapsedMilliseconds)
                                 {
-                                    _CreditNames[i].X = CSettings.iRenderW -
-                                                        (((CSettings.iRenderW - _CreditNames[i].W) / 2) / 3000f) * (CreditsTimer.ElapsedMilliseconds - (i * 4000f));
+                                    _CreditNames[i].X = CSettings.RenderW -
+                                                        (((CSettings.RenderW - _CreditNames[i].W) / 2) / 3000f) * (_CreditsTimer.ElapsedMilliseconds - (i * 4000f));
 
                                     //Check if name is in middle of screen and should go up
-                                    if (_CreditNames[i].X <= (CSettings.iRenderW - _CreditNames[i].W) / 2)
+                                    if (_CreditNames[i].X <= (CSettings.RenderW - _CreditNames[i].W) / 2)
                                     {
                                         _CreditNames[i].Direction = EDirection.Up;
-                                        _CreditNames[i].StartTimeUp = CreditsTimer.ElapsedMilliseconds;
+                                        _CreditNames[i].StartTimeUp = _CreditsTimer.ElapsedMilliseconds;
                                     }
                                 }
                                 break;
 
                             case EDirection.Up:
-                                _CreditNames[i].Y = 580 - (430f / 3000f) * (CreditsTimer.ElapsedMilliseconds - _CreditNames[i].StartTimeUp);
+                                _CreditNames[i].Y = 580 - (430f / 3000f) * (_CreditsTimer.ElapsedMilliseconds - _CreditNames[i].StartTimeUp);
 
                                 //Set name inactive
                                 if (_CreditNames[i].Y <= 160f)
@@ -427,11 +427,11 @@ namespace Vocaluxe.Screens
                                     if (i == _CreditNames.Count - 1)
                                     {
                                         //Stop and reset timer for next time
-                                        CreditsTimer.Stop();
-                                        CreditsTimer.Reset();
+                                        _CreditsTimer.Stop();
+                                        _CreditsTimer.Reset();
 
                                         //Start Text-Timer
-                                        TextTimer.Start();
+                                        _TextTimer.Start();
                                         active = true;
                                     }
                                 }
@@ -453,8 +453,8 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            if (TextTimer.IsRunning)
-                active = TextTimer.ElapsedMilliseconds <= 60000;
+            if (_TextTimer.IsRunning)
+                active = _TextTimer.ElapsedMilliseconds <= 60000;
 
             return active;
         }
