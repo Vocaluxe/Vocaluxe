@@ -919,29 +919,35 @@ namespace Vocaluxe.Lib.Draw
 
             int w = bmp.Width;
             int h = bmp.Height;
+            float ratio = (float)w / h;
+            int newW = w;
+            int newH = h;
 
             if (w > maxSize && w > h)
-            {
-                h = (int)Math.Round((float)maxSize / bmp.Width * bmp.Height);
-                w = maxSize;
-            }
-
-            if (h > maxSize)
-            {
-                w = (int)Math.Round((float)maxSize / bmp.Height * bmp.Width);
-                h = maxSize;
-            }
-
-            //Older graphics card can only handle textures with sizes being powers of two
-            w = (int)_CheckForNextPowerOf2(w);
-            h = (int)_CheckForNextPowerOf2(h);
+                newW = maxSize;
+            else if (h > maxSize)
+                newH = maxSize;
+            else if (w > h)
+                newW = (int)_CheckForNextPowerOf2(w);
+            else
+                newH = (int)_CheckForNextPowerOf2(h);
 
             Bitmap bmp2 = null;
             byte[] data;
             try
             {
-                if (w != bmp.Width || h != bmp.Height)
+                if (w != newW || h != newH)
                 {
+                    if (w != newW)
+                    {
+                        w = newW;
+                        h = (int)Math.Round(w / ratio);
+                    }
+                    else
+                    {
+                        h = newH;
+                        w = (int)Math.Round(h * ratio);
+                    }
                     //Create a new Bitmap with the new sizes
                     bmp2 = new Bitmap(w, h);
                     //Scale the texture
