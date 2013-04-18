@@ -79,6 +79,9 @@ namespace Vocaluxe.Base
 
         public static void LoadProfiles()
         {
+            List<SProfile> _OldProfiles = null;
+            if (_Profiles != null)
+                _OldProfiles = _Profiles;
             _Profiles = new List<SProfile>();
             List<string> files = new List<string>();
             files.AddRange(CHelper.ListFiles(CSettings.FolderProfiles, "*.xml", true, true));
@@ -87,6 +90,28 @@ namespace Vocaluxe.Base
                 _LoadProfile(file);
 
             _SortProfilesByName();
+
+            //Find profile-id if new profile is created
+            if (_OldProfiles != null)
+            {
+                int _NewProfileId = -1;
+                for (int i = 0; i < _OldProfiles.Count; i++)
+                {
+                    if (_Profiles[i].ProfileFile != _OldProfiles[i].ProfileFile)
+                    {
+                        _NewProfileId = i;
+                        break;
+                    }
+                }
+                if (_NewProfileId != -1)
+                {
+                    for (int i = 0; i < CGame.Player.Length; i++)
+                    {
+                        if (CGame.Player[i].ProfileID >= _NewProfileId)
+                            CGame.Player[i].ProfileID++;
+                    }
+                }
+            }
         }
 
         public static void LoadAvatars()
