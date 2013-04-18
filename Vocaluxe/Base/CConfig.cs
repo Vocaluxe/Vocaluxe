@@ -804,12 +804,12 @@ namespace Vocaluxe.Base
         ///     Use saved players from config now for games
         /// </summary>
         public static void UsePlayers()
-        {
-            for (int i = 0; i < CProfiles.Profiles.Length; i++)
+        {            
+            for (int j = 0; j < CSettings.MaxNumPlayer; j++)
             {
-                for (int j = 0; j < CSettings.MaxNumPlayer; j++)
+                if (Players[j].Length > 0)
                 {
-                    if (Players[j].Length > 0)
+                    for (int i = 0; i < CProfiles.Profiles.Length; i++)
                     {
                         if (Path.GetFileName(CProfiles.Profiles[i].ProfileFile) == Players[j] && CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
                         {
@@ -819,9 +819,9 @@ namespace Vocaluxe.Base
                             CGame.Player[j].ProfileID = i;
                         }
                     }
-                    else
-                        CGame.Player[j].ProfileID = -1;
                 }
+                else
+                    CGame.Player[j].ProfileID = -1;
             }
         }
     }
