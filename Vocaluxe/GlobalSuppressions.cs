@@ -1,12 +1,22 @@
-﻿// Diese Datei wird von der Codeanalyse zur Wartung der SuppressMessage- 
-// Attribute verwendet, die auf dieses Projekt angewendet werden.
-// Unterdrückungen auf Projektebene haben entweder kein Ziel oder 
-// erhalten ein spezifisches Ziel mit Namespace-, Typ-, Memberbereich usw.
-//
-// Wenn Sie dieser Datei eine Unterdrückung hinzufügen möchten, klicken Sie mit der 
-// rechten Maustaste auf die Meldung in der Fehlerliste, zeigen Sie auf 
-// "Meldung(en) unterdrücken", und klicken Sie auf "In Projektunterdrückungsdatei".
-// Sie müssen dieser Datei nicht manuell Unterdrückungen hinzufügen.
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
 using System.Diagnostics.CodeAnalysis;
 
 [assembly:

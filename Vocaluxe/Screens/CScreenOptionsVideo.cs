@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Webcam;
@@ -175,7 +194,8 @@ namespace Vocaluxe.Screens
                         _Config.MonikerString = devices[SelectSlides[_SelectSlideWebcamDevices].Selection].MonikerString;
                         _Config.Width = devices[SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[SelectSlides[_SelectSlideWebcamCapabilities].Selection].Width;
                         _Config.Height = devices[SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[SelectSlides[_SelectSlideWebcamCapabilities].Selection].Height;
-                        _Config.Framerate = devices[SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[SelectSlides[_SelectSlideWebcamCapabilities].Selection].Framerate;
+                        _Config.Framerate =
+                            devices[SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[SelectSlides[_SelectSlideWebcamCapabilities].Selection].Framerate;
                         CWebcam.Close();
                         CWebcam.Select(CConfig.WebcamConfig);
                         CWebcam.Start();
@@ -218,7 +238,7 @@ namespace Vocaluxe.Screens
                 for (int i = 0; i < d[SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities.Count; i++)
                 {
                     SelectSlides[_SelectSlideWebcamCapabilities].AddValue(d[_DeviceNr].Capabilities[i].Width.ToString() + " x " + d[_DeviceNr].Capabilities[i].Height.ToString() +
-                                                                         " @ " + d[_DeviceNr].Capabilities[i].Framerate.ToString() + "FPS");
+                                                                          " @ " + d[_DeviceNr].Capabilities[i].Framerate.ToString() + "FPS");
                 }
                 SelectSlides[_SelectSlideWebcamCapabilities].Selection = 0;
 

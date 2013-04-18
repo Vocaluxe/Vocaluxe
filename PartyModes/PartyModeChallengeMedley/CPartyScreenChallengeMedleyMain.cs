@@ -1,3 +1,22 @@
+#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -87,11 +106,15 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
             _ThemeTexts = new string[]
                 {
-                    _TextPosition, _TextPlayerName, _TextNumPlayed, _TextWon, _TextSingPoints, _TextGamePoints, _TextNextPlayer, _TextPopupReallyExit, _TextRoundNumber, _TextRoundPlayer,
+                    _TextPosition, _TextPlayerName, _TextNumPlayed, _TextWon, _TextSingPoints, _TextGamePoints, _TextNextPlayer, _TextPopupReallyExit, _TextRoundNumber,
+                    _TextRoundPlayer,
                     _TextRoundScore, _TextFinishMessage, _TextFinishPlayerWin, _TextNextPlayerMessage
                 };
             _ThemeButtons = new string[]
-                {_ButtonNextRound, _ButtonBack, _ButtonExit, _ButtonPopupYes, _ButtonPopupNo, _ButtonPlayerScrollDown, _ButtonPlayerScrollUp, _ButtonRoundsScrollDown, _ButtonRoundsScrollUp};
+                {
+                    _ButtonNextRound, _ButtonBack, _ButtonExit, _ButtonPopupYes, _ButtonPopupNo, _ButtonPlayerScrollDown, _ButtonPlayerScrollUp, _ButtonRoundsScrollDown,
+                    _ButtonRoundsScrollUp
+                };
             _ThemeStatics = new string[] {_StaticPopupBG, _StaticNextPlayer};
         }
 
@@ -454,7 +477,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                     {
                         //Player
                         float x = numberX + 15 + (CBase.Settings.GetRenderW() - Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow * (column - row * numPlayerInOneRow) +
-                                   ((CBase.Settings.GetRenderW() - Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow) / 2;
+                                  ((CBase.Settings.GetRenderW() - Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow) / 2;
                         float maxw = ((CBase.Settings.GetRenderW() - Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow) / 2 - 5;
                         _RoundsTable[round].TextPlayer[column].X = x;
                         _RoundsTable[round].TextPlayer[column].Y = numberY;

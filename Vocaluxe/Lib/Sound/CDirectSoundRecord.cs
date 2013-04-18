@@ -1,4 +1,23 @@
-﻿using SlimDX.DirectSound;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using SlimDX.DirectSound;
 using SlimDX.Multimedia;
 using System;
 using System.Collections.Generic;
@@ -265,8 +284,8 @@ namespace Vocaluxe.Lib.Sound
 
             public CSoundCardSource(Guid guid, short channels)
             {
-                this._Guid = guid;
-                this._Channels = channels;
+                _Guid = guid;
+                _Channels = channels;
                 _WaveFormat = new WaveFormat();
                 SampleRateKhz = 44.1;
                 _BufferSize = 2048;
@@ -400,9 +419,9 @@ namespace Vocaluxe.Lib.Sound
                 GC.SuppressFinalize(this);
             }
 
-// ReSharper disable InconsistentNaming
+            // ReSharper disable InconsistentNaming
             protected virtual void Dispose(bool disposing)
-// ReSharper restore InconsistentNaming
+                // ReSharper restore InconsistentNaming
             {
                 if (disposing)
                 {

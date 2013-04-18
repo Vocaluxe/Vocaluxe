@@ -252,9 +252,8 @@ namespace Vocaluxe
             string[] arr = args.Name.Split(new char[] {','});
             if (arr.Length > 0)
             {
-                
 #if ARCH_X86
-                string path="x86";
+                string path = "x86";
 #endif
 
 #if ARCH_X64
@@ -277,7 +276,7 @@ namespace Vocaluxe
                 }
                 catch (Exception e)
                 {
-                    CLog.LogError("Cannot load assembly "+args.Name+" from "+path+": "+e);
+                    CLog.LogError("Cannot load assembly " + args.Name + " from " + path + ": " + e);
                 }
             }
             return null;

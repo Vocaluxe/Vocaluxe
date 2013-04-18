@@ -1,8 +1,26 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 
@@ -44,7 +62,7 @@ namespace Vocaluxe.Base
         public static CSongSorter Sorter = new CSongSorter();
         public static CSongCategorizer Categorizer = new CSongCategorizer();
 
-        private static Thread _CoverLoaderThread = null;
+        private static Thread _CoverLoaderThread;
 
         public static List<CSong> Songs
         {
@@ -394,7 +412,7 @@ namespace Vocaluxe.Base
                 if (song != null)
                 {
                     song.ID = _Songs.Count;
-                    if(song.ReadNotes())
+                    if (song.ReadNotes())
                         _Songs.Add(song);
                 }
             }
@@ -429,7 +447,7 @@ namespace Vocaluxe.Base
 
             if (_CoverLoaderThread == null)
             {
-                _CoverLoaderThread = new Thread(new ThreadStart(_LoadCover));
+                _CoverLoaderThread = new Thread(_LoadCover);
                 _CoverLoaderThread.Name = "CoverLoader";
                 _CoverLoaderThread.Priority = ThreadPriority.BelowNormal;
                 _CoverLoaderThread.IsBackground = true;

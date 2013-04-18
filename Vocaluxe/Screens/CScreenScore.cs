@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -141,15 +160,15 @@ namespace Vocaluxe.Screens
                         if (direction.ToLower() == "vertical")
                         {
                             Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.W = ((float)_StaticPointsBarDrawnPoints[p]) *
-                                                                                      (Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.W / 10000);
+                                                                                       (Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.W / 10000);
                         }
                         else
                         {
                             Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H = ((float)_StaticPointsBarDrawnPoints[p]) *
-                                                                                      (Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.H / 10000);
+                                                                                       (Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.H / 10000);
                             Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.Y = Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.H +
-                                                                                      Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.Y -
-                                                                                      Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H;
+                                                                                       Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.Y -
+                                                                                       Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H;
                         }
                     }
                 }
@@ -302,14 +321,14 @@ namespace Vocaluxe.Screens
                 if (CGame.NumPlayer < (int)ScreenSettings[_ScreenSettingShortDifficulty].GetValue())
                 {
                     Texts[_TextDifficulty[p, CGame.NumPlayer - 1]].Text = CLanguage.Translate("TR_SCREENSCORE_GAMEDIFFICULTY") + ": " +
-                                                                         CLanguage.Translate(player[p].Difficulty.ToString());
+                                                                          CLanguage.Translate(player[p].Difficulty.ToString());
                 }
                 else
                     Texts[_TextDifficulty[p, CGame.NumPlayer - 1]].Text = CLanguage.Translate(player[p].Difficulty.ToString());
                 if (CGame.NumPlayer < (int)ScreenSettings[_ScreenSettingShortRating].GetValue())
                 {
                     Texts[_TextRatings[p, CGame.NumPlayer - 1]].Text = CLanguage.Translate("TR_SCREENSCORE_RATING") + ": " +
-                                                                      CLanguage.Translate(GetRating((int)Math.Round(player[p].Points)));
+                                                                       CLanguage.Translate(GetRating((int)Math.Round(player[p].Points)));
                 }
                 else
                     Texts[_TextRatings[p, CGame.NumPlayer - 1]].Text = CLanguage.Translate(GetRating((int)Math.Round(player[p].Points)));
@@ -322,8 +341,8 @@ namespace Vocaluxe.Screens
                 {
                     Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H = 0;
                     Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.Y = Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.H +
-                                                                              Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.Y -
-                                                                              Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H;
+                                                                               Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.Y -
+                                                                               Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H;
                 }
                 if (player[p].ProfileID >= 0 && player[p].ProfileID < CProfiles.NumProfiles)
                     Statics[_StaticAvatar[p, CGame.NumPlayer - 1]].Texture = CProfiles.Profiles[player[p].ProfileID].Avatar.Texture;
@@ -335,8 +354,8 @@ namespace Vocaluxe.Screens
                 {
                     Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H = ((float)player[p].Points) * (Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.H / 10000);
                     Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.Y = Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.H +
-                                                                              Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.Y -
-                                                                              Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H;
+                                                                               Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.Y -
+                                                                               Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H;
                     _StaticPointsBarDrawnPoints[p] = player[p].Points;
                 }
             }

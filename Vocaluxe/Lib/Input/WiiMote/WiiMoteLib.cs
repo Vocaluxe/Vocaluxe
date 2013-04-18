@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Drawing;
 using System.Threading;
 using Vocaluxe.Base;
@@ -116,9 +135,9 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
     public class CWiiMoteLib : IDisposable
     {
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         private const ushort _VID = 0x057e;
-// ReSharper restore InconsistentNaming
+        // ReSharper restore InconsistentNaming
         private const ushort _PID = 0x0306; //Wiimotion
         private const ushort _PIDPlus = 0x0330; //Wiimotion Plus
 
@@ -133,9 +152,9 @@ namespace Vocaluxe.Lib.Input.WiiMote
         // output commands
         private enum EOutputReport : byte
         {
-// ReSharper disable InconsistentNaming
+            // ReSharper disable InconsistentNaming
             LEDs = 0x11,
-// ReSharper restore InconsistentNaming
+            // ReSharper restore InconsistentNaming
             Type = 0x12,
             IR = 0x13,
             Status = 0x15,
@@ -667,9 +686,9 @@ namespace Vocaluxe.Lib.Input.WiiMote
             GC.SuppressFinalize(this);
         }
 
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         protected virtual void Dispose(bool disposing)
-// ReSharper restore InconsistentNaming
+            // ReSharper restore InconsistentNaming
         {
             if (disposing)
             {
