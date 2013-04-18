@@ -633,12 +633,7 @@ namespace Vocaluxe.Lib.Draw
         public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2) {}
 
         // Draw Basic Text (must be deleted later)
-        public void DrawText(string text, int x, int y, int h)
-        {
-            DrawText(text, x, y, h, 0f);
-        }
-
-        public void DrawText(string text, int x, int y, float h, float z)
+        public void DrawText(string text, int x, int y, int h, int z=0)
         {
             CFonts.DrawText(text, h, x, y, z, new SColorF(1, 1, 1, 1));
         }

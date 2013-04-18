@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -75,7 +76,7 @@ namespace Vocaluxe.Base
         public static EPlaybackLib PlayBackLib = EPlaybackLib.Gstreamer;
         public static ERecordLib RecordLib = ERecordLib.PortAudio;
         public static EBufferSize AudioBufferSize = EBufferSize.B2048;
-        public static int AudioLatency = 0;
+        public static int AudioLatency;
         public static int BackgroundMusicVolume = 30;
         public static EOffOn BackgroundMusic = EOffOn.TR_CONFIG_ON;
         public static EBackgroundMusicSource BackgroundMusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
@@ -84,7 +85,7 @@ namespace Vocaluxe.Base
         public static int GameMusicVolume = 80;
 
         // Game
-        public static List<string> SongFolder = new List<string>();
+        public static readonly List<string> SongFolder = new List<string>();
         public static ESongMenu SongMenu = ESongMenu.TR_CONFIG_TILE_BOARD;
         public static ESongSorting SongSorting = ESongSorting.TR_CONFIG_ARTIST;
         public static EOffOn IgnoreArticles = EOffOn.TR_CONFIG_ON;
@@ -94,7 +95,7 @@ namespace Vocaluxe.Base
         public static EOffOn Tabs = EOffOn.TR_CONFIG_OFF;
         public static string Language = "English";
         public static EOffOn LyricsOnTop = EOffOn.TR_CONFIG_OFF;
-        public static string[] Players = new string[CSettings.MaxNumPlayer];
+        public static readonly string[] Players = new string[CSettings.MaxNumPlayer];
 
         public static float MinLineBreakTime = 0.1f; //Minimum time to show the text before it is (to be) sung (if possible)
 
@@ -132,17 +133,14 @@ namespace Vocaluxe.Base
             if (!File.Exists(CSettings.FileConfig))
                 SaveConfig();
 
-            LoadConfig();
+            _LoadConfig();
         }
 
-        public static bool LoadConfig()
+        private static void _LoadConfig()
         {
             CXMLReader xmlReader = CXMLReader.OpenFile(CSettings.FileConfig);
             if (xmlReader == null)
-                return false;
-
-            string value = string.Empty;
-
+                return;
 
             xmlReader.TryGetEnumValue("//root/Debug/DebugLevel", ref DebugLevel);
 
@@ -191,7 +189,7 @@ namespace Vocaluxe.Base
 
             #region Game
             // Songfolder
-            value = string.Empty;
+            string value = string.Empty;
             int i = 1;
             while (xmlReader.GetValue("//root/Game/SongFolder" + i.ToString(), ref value, value))
             {
@@ -251,7 +249,6 @@ namespace Vocaluxe.Base
 
             #region Record
             MicConfig = new SMicConfig[CSettings.MaxNumPlayer];
-            value = string.Empty;
             for (int p = 1; p <= CSettings.MaxNumPlayer; p++)
             {
                 MicConfig[p - 1] = new SMicConfig(0);
@@ -264,8 +261,6 @@ namespace Vocaluxe.Base
             xmlReader.TryGetIntValueRange("//root/Record/MicDelay", ref MicDelay, 0, 500);
             MicDelay = (int)(20 * Math.Round(MicDelay / 20.0));
             #endregion Record
-
-            return true;
         }
 
         public static bool SaveConfig()
@@ -585,8 +580,6 @@ namespace Vocaluxe.Base
             if (devices == null)
                 return false;
 
-            if (devices != null)
-            {
                 for (int dev = 0; dev < devices.Length; dev++)
                 {
                     for (int inp = 0; inp < devices[dev].Inputs.Count; inp++)
@@ -596,8 +589,6 @@ namespace Vocaluxe.Base
                     }
                 }
                 return false;
-            }
-            return false;
         }
 
         /// <summary>
@@ -683,9 +674,7 @@ namespace Vocaluxe.Base
             Regex spliterParam = new Regex(@"ReplacedStr:::0:::", RegexOptions.IgnoreCase);
 
             //Complete argument string
-            string arguments = string.Empty;
-            foreach (string arg in args)
-                arguments += arg + " ";
+            string arguments = args.Aggregate(string.Empty, (current, arg) => current + (arg + " "));
 
             args = spliterParam.Split(arguments);
 
@@ -693,11 +682,8 @@ namespace Vocaluxe.Base
             {
                 Regex spliterVal = new Regex(@"ReplacedStr:::2:::", RegexOptions.IgnoreCase);
 
-                //Array for parts of an arg
-                string[] parts;
-
                 //split arg with Spilter-Regex and save in parts
-                parts = spliterVal.Split(text, 2);
+                string[] parts = spliterVal.Split(text, 2);
 
                 switch (parts.Length)
                 {
@@ -812,11 +798,7 @@ namespace Vocaluxe.Base
                 if (value.Contains(chars[i].ToString()))
                     return false;
             }
-            if (Path.GetFileName(value).Length == 0)
-                return false;
-            if (!Path.HasExtension(value))
-                return false;
-            return true;
+            return !String.IsNullOrEmpty(Path.GetFileName(value)) && Path.HasExtension(value);
         }
 
         /// <summary>

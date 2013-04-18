@@ -346,13 +346,7 @@ namespace Vocaluxe.Lib.Draw
         }
 
         // Draw Basic Text
-        public void DrawText(string text, int x, int y, int h)
-        {
-            DrawText(text, x, y, h, 0f);
-        }
-
-        // Draw Basic Text
-        public void DrawText(string text, int x, int y, float h, float z)
+        public void DrawText(string text, int x, int y, int h, int z=0)
         {
             CFonts.DrawText(text, h, x, y, z, new SColorF(1, 1, 1, 1));
         }
