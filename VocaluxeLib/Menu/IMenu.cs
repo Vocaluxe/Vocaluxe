@@ -20,8 +20,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
-using VocaluxeLib.Menu.SingNotes;
 using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.PartyModes;
 
@@ -273,7 +271,7 @@ namespace VocaluxeLib.Menu
     {
         int Load(string videoFileName);
         bool Skip(int videoStream, float startPosition, float videoGap);
-        bool GetFrame(int videoStream, ref STexture videoTexture, float time, ref float videoTime);
+        bool GetFrame(int videoStream, ref STexture videoTexture, float time, out float videoTime);
         bool IsFinished(int videoStream);
         bool Close(int videoStream);
     }

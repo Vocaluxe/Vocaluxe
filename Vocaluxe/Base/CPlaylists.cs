@@ -243,39 +243,37 @@ namespace Vocaluxe.Base
             {
                 using (sr = new StreamReader(file, Encoding.Default, true))
                 {
-                    int pos = -1;
                     string line;
                     while ((line = sr.ReadLine()) != null)
                     {
-                        pos = line.IndexOf(":");
-                        if (pos > 0)
+                        int pos = line.IndexOf(":", StringComparison.Ordinal);
+                        if (pos <= 0)
+                            continue;
+                        //Name or comment
+                        if (line[0] == '#')
                         {
-                            //Name or comment
-                            if (line[0] == '#')
+                            string identifier = line.Substring(1, pos - 1).Trim();
+                            string value = line.Substring(pos + 1, line.Length - pos - 1).Trim();
+                            if (identifier.ToUpper() == "NAME")
+                                pl.PlaylistName = value;
+                        }
+                            //Song
+                        else
+                        {
+                            string artist = line.Substring(0, pos - 1).Trim();
+                            string title = line.Substring(pos + 1, line.Length - pos - 1).Trim();
+                            bool found = false;
+                            for (int s = 0; s < allSongs.Length; s++)
                             {
-                                string identifier = line.Substring(1, pos - 1).Trim();
-                                string value = line.Substring(pos + 1, line.Length - pos - 1).Trim();
-                                if (identifier.ToUpper() == "NAME")
-                                    pl.PlaylistName = value;
-                            }
-                                //Song
-                            else
-                            {
-                                string artist = line.Substring(0, pos - 1).Trim();
-                                string title = line.Substring(pos + 1, line.Length - pos - 1).Trim();
-                                bool found = false;
-                                for (int s = 0; s < allSongs.Length; s++)
+                                if (allSongs[s].Artist == artist && allSongs[s].Title == title)
                                 {
-                                    if (allSongs[s].Artist == artist && allSongs[s].Title == title)
-                                    {
-                                        pl.AddSong(allSongs[s].ID);
-                                        found = true;
-                                        break;
-                                    }
+                                    pl.AddSong(allSongs[s].ID);
+                                    found = true;
+                                    break;
                                 }
-                                if (!found)
-                                    CLog.LogError("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + file);
                             }
+                            if (!found)
+                                CLog.LogError("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + file);
                         }
                     }
                 }

@@ -68,7 +68,7 @@ namespace VocaluxeLib.Menu
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Value", ref _Theme.Value, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Value", out _Theme.Value, String.Empty);
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Type", ref _Theme.Type);
 
             if (_ThemeLoaded)

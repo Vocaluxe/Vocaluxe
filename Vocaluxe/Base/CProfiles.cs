@@ -362,7 +362,6 @@ namespace Vocaluxe.Base
             finally
             {
                 writer.Close();
-                writer = null;
             }
         }
 
@@ -376,7 +375,7 @@ namespace Vocaluxe.Base
                 return;
 
             string value = String.Empty;
-            if (xmlReader.GetValue("//root/Info/PlayerName", ref value, value))
+            if (xmlReader.GetValue("//root/Info/PlayerName", out value, value))
             {
                 profile.PlayerName = value;
 
@@ -384,7 +383,7 @@ namespace Vocaluxe.Base
                 xmlReader.TryGetEnumValue("//root/Info/Difficulty", ref profile.Difficulty);
 
                 profile.Avatar = new SAvatar(-1);
-                if (xmlReader.GetValue("//root/Info/Avatar", ref value, value))
+                if (xmlReader.GetValue("//root/Info/Avatar", out value, value))
                     profile.Avatar = _GetAvatar(value);
 
                 profile.GuestProfile = EOffOn.TR_CONFIG_OFF;

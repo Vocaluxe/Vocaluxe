@@ -112,19 +112,19 @@ namespace VocaluxeLib.Menu.SongMenu
         private int _Actsongstream = -1;
         protected STexture _Vidtex = new STexture(-1);
 
-        protected bool _Initialized = false;
-        protected int _LastKnownNumSongs = 0;
+        protected bool _Initialized;
+        protected int _LastKnownNumSongs;
         protected int _LastKnownCategory = -1;
 
-        protected SRectF _Rect = new SRectF();
-        protected SColorF _Color = new SColorF();
+        protected SRectF _Rect;
+        protected SColorF _Color;
 
         private int _SelectedInternal = -1;
         private int _SelectedPending = -1;
         protected long _PendingTime = 500L;
 
         private int _LockedInternal = -1;
-        protected bool _Active = false;
+        protected bool _Active;
 
         protected float _MaxVolume = 100f;
 
@@ -269,14 +269,14 @@ namespace VocaluxeLib.Menu.SongMenu
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/CoverBackground", ref _Theme.CoverBackgroundName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/CoverBigBackground", ref _Theme.CoverBigBackgroundName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/DuetIcon", ref _Theme.DuetIconName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/VideoIcon", ref _Theme.VideoIconName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/MedleyCalcIcon", ref _Theme.MedleyCalcIcon, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/MedleyTagIcon", ref _Theme.MedleyTagIcon, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/CoverBackground", out _Theme.CoverBackgroundName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/CoverBigBackground", out _Theme.CoverBigBackgroundName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/DuetIcon", out _Theme.DuetIconName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/VideoIcon", out _Theme.VideoIconName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/MedleyCalcIcon", out _Theme.MedleyCalcIcon, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/MedleyTagIcon", out _Theme.MedleyTagIcon, String.Empty);
 
-            if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out _Color);
             else
             {
@@ -453,8 +453,8 @@ namespace VocaluxeLib.Menu.SongMenu
 
                 float time = CBase.Sound.GetPosition(_Actsongstream);
 
-                float vtime = 0f;
-                CBase.Video.GetFrame(_Video, ref _Vidtex, time, ref vtime);
+                float vtime;
+                CBase.Video.GetFrame(_Video, ref _Vidtex, time, out vtime);
                 if (_VideoFadeTimer.ElapsedMilliseconds <= 3000L)
                     _Vidtex.Color.A = _VideoFadeTimer.ElapsedMilliseconds / 3000f;
                 else
@@ -489,14 +489,10 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public virtual void HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions songOptions)
         {
-            if (!_Initialized)
-                return;
         }
 
         public virtual void HandleMouse(ref SMouseEvent mouseEvent, SScreenSongOptions songOptions)
         {
-            if (!_Initialized)
-                return;
         }
 
         public virtual void Draw()
@@ -543,20 +539,14 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public virtual void SetSelectedSong(int visibleSongNr)
         {
-            if (!_Initialized)
-                return;
         }
 
         public virtual void SetSelectedCategory(int categoryNr)
         {
-            if (!_Initialized)
-                return;
         }
 
         public virtual void SetSmallView(bool smallView)
         {
-            if (!_Initialized)
-                return;
         }
 
         public virtual bool IsSmallView()

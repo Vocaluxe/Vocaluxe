@@ -64,7 +64,7 @@ namespace Vocaluxe.Base
         public const int ZNear = -100;
         public const int ZFar = 100;
 
-        public static bool IsFullScreen = false;
+        public static bool IsFullScreen;
         public static int VertexBufferElements = 10000;
 
         public const string Icon = "Vocaluxe.ico";
@@ -142,12 +142,14 @@ namespace Vocaluxe.Base
 
         public static string GetVersionText()
         {
-            string version = "v" + VersionMajor.ToString() + "." +
-                             VersionMinor.ToString() + "." +
-                             VersionSub.ToString() + " (" + Arch + ")";
+            string version = "v" + VersionMajor + "." +
+                             VersionMinor + "." +
+                             VersionSub + " (" + Arch + ")";
 
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
             if (VersionRevision != ERevision.Release)
-                version += " " + GetVersionStatus() + String.Format(" ({0:0000)}", Build);
+// ReSharper restore ConditionIsAlwaysTrueOrFalse
+                version += " " + _GetVersionStatus() + String.Format(" ({0:0000)}", Build);
 
             return version;
         }
@@ -162,11 +164,13 @@ namespace Vocaluxe.Base
             return version + " " + GetVersionText();
         }
 
-        public static string GetVersionStatus()
+        private static string _GetVersionStatus()
         {
-            string result = String.Empty;
+            string result;
 
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
             if (VersionRevision != ERevision.Release)
+// ReSharper restore ConditionIsAlwaysTrueOrFalse
                 result = Enum.GetName(typeof(ERevision), VersionRevision);
 
             return result;

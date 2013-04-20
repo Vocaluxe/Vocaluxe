@@ -62,8 +62,8 @@ namespace VocaluxeLib.Menu
         public bool TryGetEnumValue<T>(string cast, ref T value)
             where T : struct
         {
-            string val = String.Empty;
-            if (GetValue(cast, ref val, Enum.GetName(typeof(T), value)))
+            string val;
+            if (GetValue(cast, out val, Enum.GetName(typeof(T), value)))
             {
                 CHelper.TryParse(val, out value, true);
                 return true;
@@ -73,8 +73,8 @@ namespace VocaluxeLib.Menu
 
         public bool TryGetIntValue(string cast, ref int value)
         {
-            string val = String.Empty;
-            if (GetValue(cast, ref val, value.ToString()))
+            string val;
+            if (GetValue(cast, out val, value.ToString()))
                 return int.TryParse(val, out value);
             return false;
         }
@@ -94,37 +94,31 @@ namespace VocaluxeLib.Menu
 
         public bool TryGetFloatValue(string cast, ref float value)
         {
-            string val = String.Empty;
-            if (GetValue(cast, ref val, value.ToString()))
-                return CHelper.TryParse(val, out value);
-            return false;
+            string val;
+            return GetValue(cast, out val, value.ToString()) && CHelper.TryParse(val, out value);
         }
 
-        public bool GetValue(string cast, ref string value, string defaultValue)
+        public bool GetValue(string cast, out string value, string defaultValue)
         {
-            XPathNodeIterator iterator;
-            int results = 0;
+            int resultCt = 0;
             string val = string.Empty;
 
             _Navigator.MoveToFirstChild();
-            iterator = _Navigator.Select(cast);
+            XPathNodeIterator iterator = _Navigator.Select(cast);
 
             while (iterator.MoveNext())
             {
                 val = iterator.Current.Value;
-                results++;
+                resultCt++;
             }
 
-            if ((results == 0) || (results > 1))
+            if (resultCt!=1)
             {
                 value = defaultValue;
                 return false;
             }
-            else
-            {
-                value = val;
-                return true;
-            }
+            value = val;
+            return true;
         }
 
         public List<string> GetValues(string cast)

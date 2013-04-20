@@ -44,6 +44,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public CSongMenuDreidel(int partyModeID)
             : base(partyModeID) {}
 
+// ReSharper disable RedundantOverridenMember
         public override void Init()
         {
             base.Init();
@@ -58,5 +59,6 @@ namespace VocaluxeLib.Menu.SongMenu
             _SongLength = _Theme.songMenuDreidel.TextSongLength;
              **/
         }
+// ReSharper restore RedundantOverridenMember
     }
 }

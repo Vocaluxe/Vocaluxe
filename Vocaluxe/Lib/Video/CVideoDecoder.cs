@@ -25,7 +25,7 @@ namespace Vocaluxe.Lib.Video
     abstract class CVideoDecoder : IVideoDecoder
     {
         protected List<SVideoStreams> _Streams = new List<SVideoStreams>();
-        protected bool _Initialized = false;
+        protected bool _Initialized;
 
         public virtual bool Init()
         {
@@ -57,10 +57,7 @@ namespace Vocaluxe.Lib.Video
             return 0f;
         }
 
-        public virtual bool GetFrame(int streamID, ref STexture frame, float time, ref float videoTime)
-        {
-            return true;
-        }
+        public abstract bool GetFrame(int streamID, ref STexture frame, float time, out float videoTime);
 
         public virtual bool Skip(int streamID, float start, float gap)
         {

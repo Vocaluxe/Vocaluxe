@@ -216,7 +216,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         public override void DataFromScreen(string screenName, Object data)
         {
-            SDataFromScreen dataFrom = new SDataFromScreen();
+            SDataFromScreen dataFrom;
             switch (screenName)
             {
                 case "PartyScreenChallengeMedleyConfig":
@@ -376,10 +376,11 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             return _ScreenSongOptions;
         }
 
+// ReSharper disable RedundantAssignment
         public override void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions)
+// ReSharper restore RedundantAssignment
         {
-            if (_ScreenSongOptions.Selection.SongIndex != -1)
-                _ScreenSongOptions.Selection.SongIndex = -1;
+            _ScreenSongOptions.Selection.SongIndex = -1;
 
             if (_ScreenSongOptions.Selection.SelectNextRandomSong && songIndex != -1)
             {
@@ -396,7 +397,9 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             screenSongOptions = _ScreenSongOptions;
         }
 
+// ReSharper disable RedundantAssignment
         public override void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions)
+// ReSharper restore RedundantAssignment
         {
             if (_GameData.CatSongIndices != null && categoryIndex != -1)
             {

@@ -13,6 +13,7 @@
   <string name="TR_DEBUG_MAX_VOLUME">Max Volume</string>
   <string name="TR_DEBUG_SONGS">Loaded songs</string>
   <string name="TR_DEBUG_MOUSE">Mouse</string>
+  <string name="TR_DEBUG_MEMORY">Memory usage</string>
   <string name="TR_GAMEMODE_NORMAL">Normal</string>
   <string name="TR_GAMEMODE_DUET">Duet</string>
   <string name="TR_GAMEMODE_MEDLEY">Medley</string>

@@ -93,12 +93,6 @@ namespace Vocaluxe.Lib.Playlist
                 return;
             }
 
-            if (writer == null)
-            {
-                CLog.LogError("Error creating/opening Playlist File " + PlaylistFile);
-                return;
-            }
-
             try
             {
                 writer.WriteStartDocument();
@@ -114,7 +108,7 @@ namespace Vocaluxe.Lib.Playlist
                     CSong song = CSongs.GetSong(Songs[i].SongID);
                     if (song != null)
                     {
-                        writer.WriteStartElement("Song" + (i + 1).ToString());
+                        writer.WriteStartElement("Song" + (i + 1));
                         writer.WriteElementString("Artist", song.Artist);
                         writer.WriteElementString("Title", song.Title);
                         writer.WriteElementString("GameMode", Enum.GetName(typeof(EGameMode), Songs[i].GameMode));
@@ -143,40 +137,37 @@ namespace Vocaluxe.Lib.Playlist
                 return;
 
             string value = String.Empty;
-            if (xmlReader.GetValue("//root/Info/PlaylistName", ref value, value))
+            if (xmlReader.GetValue("//root/Info/PlaylistName", out value, value))
             {
                 PlaylistName = value;
 
                 Songs = new List<CPlaylistSong>();
 
                 List<string> songs = xmlReader.GetValues("Songs");
-                string artist = String.Empty;
-                string title = String.Empty;
                 EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
 
-                for (int i = 0; i < songs.Count; i++)
-                {
-                    xmlReader.GetValue("//root/Songs/" + songs[i] + "/Artist", ref artist, String.Empty);
-                    xmlReader.GetValue("//root/Songs/" + songs[i] + "/Title", ref title, String.Empty);
-                    xmlReader.TryGetEnumValue("//root/Songs/" + songs[i] + "/GameMode", ref gm);
+                foreach (string song in songs) {
+                    string artist;
+                    string title;
+                    xmlReader.GetValue("//root/Songs/" + song + "/Artist", out artist, String.Empty);
+                    xmlReader.GetValue("//root/Songs/" + song + "/Title", out title, String.Empty);
+                    xmlReader.TryGetEnumValue("//root/Songs/" + song + "/GameMode", ref gm);
 
-                    CPlaylistSong song = new CPlaylistSong();
-                    song.SongID = -1;
+                    CPlaylistSong playlistSong = new CPlaylistSong();
+                    playlistSong.SongID = -1;
                     CSong[] allSongs = CSongs.AllSongs;
 
-                    for (int s = 0; s < allSongs.Length; s++)
-                    {
-                        if (allSongs[s].Artist == artist && allSongs[s].Title == title)
-                        {
-                            song.SongID = allSongs[s].ID;
-                            break;
-                        }
+                    foreach (CSong curSong in allSongs) {
+                        if (curSong.Artist != artist || curSong.Title != title)
+                            continue;
+                        playlistSong.SongID = curSong.ID;
+                        break;
                     }
 
-                    if (song.SongID != -1)
+                    if (playlistSong.SongID != -1)
                     {
-                        song.GameMode = gm;
-                        Songs.Add(song);
+                        playlistSong.GameMode = gm;
+                        Songs.Add(playlistSong);
                     }
                     else
                         CLog.LogError("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + PlaylistFile);

@@ -42,7 +42,7 @@ namespace VocaluxeLib.PartyModes
             _Warning.Color = new SColorF(1f, 0f, 0f, 1f);
             _Warning.SelColor = new SColorF(1f, 0f, 0f, 1f);
             _Warning.Text = "SOMETHING WENT WRONG!";
-            AddText(_Warning);
+            _AddText(_Warning);
         }
 
         public override void ReloadTheme(string xmlPath) {}
@@ -75,7 +75,7 @@ namespace VocaluxeLib.PartyModes
         {
             base.HandleMouse(mouseEvent);
 
-            if (mouseEvent.LB && IsMouseOver(mouseEvent)) {}
+            if (mouseEvent.LB && _IsMouseOver(mouseEvent)) {}
 
             if (mouseEvent.RB)
                 _FadeTo(EScreens.ScreenParty);

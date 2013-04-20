@@ -445,14 +445,10 @@ namespace Vocaluxe.Base
             if (!SongsLoaded || CoverLoaded)
                 return;
 
-            if (_CoverLoaderThread == null)
-            {
-                _CoverLoaderThread = new Thread(_LoadCover);
-                _CoverLoaderThread.Name = "CoverLoader";
-                _CoverLoaderThread.Priority = ThreadPriority.BelowNormal;
-                _CoverLoaderThread.IsBackground = true;
-                _CoverLoaderThread.Start();
-            }
+            if (_CoverLoaderThread != null)
+                return;
+            _CoverLoaderThread = new Thread(_LoadCover) {Name = "CoverLoader", Priority = ThreadPriority.BelowNormal, IsBackground = true};
+            _CoverLoaderThread.Start();
 
             /*
             if (_CoverLoadTimer.ElapsedMilliseconds >= WaitTime)

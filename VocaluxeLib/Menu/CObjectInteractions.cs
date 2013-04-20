@@ -636,7 +636,6 @@ namespace VocaluxeLib.Menu
 
             int element = _Selection;
             int stage = int.MaxValue;
-            float distance = float.MaxValue;
             int direction = -1;
 
             int mute = -1;
@@ -662,7 +661,6 @@ namespace VocaluxeLib.Menu
                 {
                     stage = stages[i];
                     element = elements[i];
-                    distance = distances[i];
                     direction = i;
                 }
             }
@@ -1039,7 +1037,7 @@ namespace VocaluxeLib.Menu
 
         private void _DrawInteraction(int interaction)
         {
-            bool sel = false;
+            bool sel;
             switch (_Interactions[interaction].Type)
             {
                 case EType.Static:

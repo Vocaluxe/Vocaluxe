@@ -70,7 +70,7 @@ namespace Vocaluxe.Screens
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
-            if (mouseEvent.LB && IsMouseOver(mouseEvent)) {}
+            if (mouseEvent.LB && _IsMouseOver(mouseEvent)) {}
 
             if (mouseEvent.LB)
                 CGraphics.FadeTo(EScreens.ScreenMain);

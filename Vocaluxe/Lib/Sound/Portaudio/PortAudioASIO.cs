@@ -20,10 +20,10 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace PortAudioSharp
+namespace Vocaluxe.Lib.Sound.PortAudio
 {
     /// <summary> PortAudio v.19 bindings for .NET - ASIO bindings </summary>
-    public partial class CPortAudio
+    public static partial class CPortAudio
     {
         #region **** PORTAUDIO DATA STRUCTURES ****
         [StructLayout(LayoutKind.Sequential)]

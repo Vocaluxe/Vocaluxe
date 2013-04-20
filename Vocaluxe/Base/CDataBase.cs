@@ -176,7 +176,6 @@ namespace Vocaluxe.Base
                 if (reader != null)
                 {
                     reader.Dispose();
-                    reader = null;
                 }
 
                 command.CommandText = "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, ShortSong, Difficulty) " +
@@ -208,7 +207,7 @@ namespace Vocaluxe.Base
             return lastInsertID;
         }
 
-        public static void LoadScore(ref List<SScores> scores, SPlayer player)
+        public static void LoadScore(out List<SScores> scores, SPlayer player)
         {
             using (SQLiteConnection connection = new SQLiteConnection())
             {
@@ -344,9 +343,6 @@ namespace Vocaluxe.Base
                 }
             }
 
-            if (reader != null)
-                reader.Dispose();
-
             return -1;
         }
 
@@ -374,7 +370,7 @@ namespace Vocaluxe.Base
                     command.CommandText = "SELECT Artist, Title, NumPlayed FROM Songs WHERE [id] = @id";
                     command.Parameters.Add("@id", DbType.String, 0).Value = songID;
 
-                    SQLiteDataReader reader = null;
+                    SQLiteDataReader reader;
                     try
                     {
                         reader = command.ExecuteReader();
@@ -516,11 +512,10 @@ namespace Vocaluxe.Base
                     return false;
                 }
 
-                SQLiteDataReader reader = null;
                 using (SQLiteCommand command = new SQLiteCommand(connection))
                 {
                     command.CommandText = "PRAGMA user_version";
-                    reader = command.ExecuteReader();
+                    SQLiteDataReader reader = command.ExecuteReader();
                     reader.Read();
 
                     int version = reader.GetInt32(0);
@@ -636,16 +631,8 @@ namespace Vocaluxe.Base
                     List<SData> scores = new List<SData>();
                     List<SData> songs = new List<SData>();
 
-                    SQLiteDataReader reader = null;
                     command.CommandText = "SELECT id, PlayerName, Date FROM Scores";
-                    try
-                    {
-                        reader = command.ExecuteReader();
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
+                    SQLiteDataReader reader = command.ExecuteReader();
 
                     if (reader != null && reader.HasRows)
                     {

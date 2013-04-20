@@ -80,9 +80,9 @@ namespace Vocaluxe.Base
             return _VideoDecoder.GetLength(streamID);
         }
 
-        public static bool VdGetFrame(int streamID, ref STexture frame, float time, ref float videoTime)
+        public static bool VdGetFrame(int streamID, ref STexture frame, float time, out float videoTime)
         {
-            return _VideoDecoder.GetFrame(streamID, ref frame, time, ref videoTime);
+            return _VideoDecoder.GetFrame(streamID, ref frame, time, out videoTime);
         }
 
         public static bool VdSkip(int streamID, float start, float gap)
@@ -178,7 +178,7 @@ namespace Vocaluxe.Base
 
                 STexture tex = new STexture(-1);
                 tex.Height = 0f;
-                CVideo.VdGetFrame(_VideoStream, ref tex, videoTime, ref videoTime);
+                CVideo.VdGetFrame(_VideoStream, ref tex, videoTime, out videoTime);
 
                 if (tex.Height > 0)
                 {
@@ -188,7 +188,7 @@ namespace Vocaluxe.Base
             }
             RectangleF bounds = new RectangleF(0f, 0f, CSettings.RenderW, CSettings.RenderH);
             RectangleF rect = new RectangleF(0f, 0f, _VideoTexture.Width, _VideoTexture.Height);
-            CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
+            CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, EAspect.Crop);
 
             CDraw.DrawTexture(_VideoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CSettings.ZFar / 4));
         }
@@ -198,8 +198,8 @@ namespace Vocaluxe.Base
             float videoTime = 0f;
             while (_VideoTexture.Index == -1 && videoTime < 1f)
             {
-                float dummy = 0f;
-                CVideo.VdGetFrame(_VideoStream, ref _VideoTexture, 0, ref dummy);
+                float dummy;
+                CVideo.VdGetFrame(_VideoStream, ref _VideoTexture, 0, out dummy);
                 videoTime += 0.05f;
             }
         }

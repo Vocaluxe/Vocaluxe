@@ -42,35 +42,18 @@ namespace VocaluxeLib.Menu
         private string _ThemePath = String.Empty;
         protected int _PartyModeID = -1;
 
-        private COrderedDictionaryLite<CBackground> _Backgrounds;
-        private COrderedDictionaryLite<CButton> _Buttons;
-        private COrderedDictionaryLite<CText> _Texts;
-        private COrderedDictionaryLite<CStatic> _Statics;
-        private COrderedDictionaryLite<CSelectSlide> _SelectSlides;
-        private COrderedDictionaryLite<CSongMenu> _SongMenus;
-        private COrderedDictionaryLite<CLyric> _Lyrics;
-        private COrderedDictionaryLite<CSingNotes> _SingNotes;
-        private COrderedDictionaryLite<CNameSelection> _NameSelections;
-        private COrderedDictionaryLite<CEqualizer> _Equalizers;
-        private COrderedDictionaryLite<CPlaylist> _Playlists;
-        private COrderedDictionaryLite<CParticleEffect> _ParticleEffects;
-        private COrderedDictionaryLite<CScreenSetting> _ScreenSettings;
-
         private int _PrevMouseX;
         private int _PrevMouseY;
 
-        protected int _MouseDX;
-        protected int _MouseDY;
+        private int _MouseDX;
+        private int _MouseDY;
 
         protected bool _Active;
 
         protected abstract int _ScreenVersion { get; }
-        private string _ThemeName;
-        public string ThemeName
-        {
-            get { return _ThemeName; }
-        }
+        public string ThemeName { get; private set; }
 
+        // ReSharper disable MemberCanBePrivate.Global
         protected string[] _ThemeBackgrounds;
         protected string[] _ThemeStatics;
         protected string[] _ThemeTexts;
@@ -85,22 +68,32 @@ namespace VocaluxeLib.Menu
         protected string[] _ThemeParticleEffects;
         protected string[] _ThemeScreenSettings;
 
+        protected COrderedDictionaryLite<CButton> _Buttons { get; private set; }
+        protected COrderedDictionaryLite<CText> _Texts { get; private set; }
+        protected COrderedDictionaryLite<CBackground> _Backgrounds { get; private set; }
+        protected COrderedDictionaryLite<CStatic> _Statics { get; private set; }
+        protected COrderedDictionaryLite<CSelectSlide> _SelectSlides { get; private set; }
+        protected COrderedDictionaryLite<CSongMenu> _SongMenus { get; private set; }
+        protected COrderedDictionaryLite<CLyric> _Lyrics { get; private set; }
+        protected COrderedDictionaryLite<CSingNotes> _SingNotes { get; private set; }
+        protected COrderedDictionaryLite<CNameSelection> _NameSelections { get; private set; }
+        protected COrderedDictionaryLite<CEqualizer> _Equalizers { get; private set; }
+        protected COrderedDictionaryLite<CPlaylist> _Playlists { get; private set; }
+        protected COrderedDictionaryLite<CParticleEffect> _ParticleEffects { get; private set; }
+        protected COrderedDictionaryLite<CScreenSetting> _ScreenSettings { get; private set; }
+        // ReSharper restore MemberCanBePrivate.Global
+
         protected SRectF _ScreenArea;
         public SRectF ScreenArea
         {
             get { return _ScreenArea; }
         }
 
-        public int ThemeScreenVersion
-        {
-            get { return _ScreenVersion; }
-        }
-
         public virtual void Init()
         {
-            _ThemeName = GetType().Name;
-            if (_ThemeName[0] == 'C' && Char.IsUpper(_ThemeName[1]))
-                _ThemeName = _ThemeName.Remove(0, 1);
+            ThemeName = GetType().Name;
+            if (ThemeName[0] == 'C' && Char.IsUpper(ThemeName[1]))
+                ThemeName = ThemeName.Remove(0, 1);
 
             _Interactions = new List<CInteraction>();
             _Selection = 0;
@@ -149,7 +142,7 @@ namespace VocaluxeLib.Menu
         }
 
         #region ThemeHandler
-        protected delegate void AddElementHandler<T>(T element, String key);
+        private delegate void AddElementHandler<in T>(T element, String key);
 
         private void _LoadThemeElement<T>(string[] elements, AddElementHandler<T> addElementHandler, CXMLReader xmlReader, int skinIndex) where T : IMenuElement
         {
@@ -174,8 +167,7 @@ namespace VocaluxeLib.Menu
             if (xmlReader == null)
                 return;
 
-            bool versionCheck = false;
-            versionCheck = _CheckVersion(_ScreenVersion, xmlReader);
+            bool versionCheck = _CheckVersion(_ScreenVersion, xmlReader);
 
             int skinIndex = CBase.Theme.GetSkinIndex(_PartyModeID);
 
@@ -184,19 +176,19 @@ namespace VocaluxeLib.Menu
                 _ThemePath = xmlPath;
                 _LoadThemeBasics(xmlReader, skinIndex);
 
-                _LoadThemeElement<CBackground>(_ThemeBackgrounds, AddBackground, xmlReader, skinIndex);
-                _LoadThemeElement<CStatic>(_ThemeStatics, AddStatic, xmlReader, skinIndex);
-                _LoadThemeElement<CText>(_ThemeTexts, AddText, xmlReader, skinIndex);
-                _LoadThemeElement<CButton>(_ThemeButtons, AddButton, xmlReader, skinIndex);
-                _LoadThemeElement<CSelectSlide>(_ThemeSelectSlides, AddSelectSlide, xmlReader, skinIndex);
-                _LoadThemeElement<CSongMenu>(_ThemeSongMenus, AddSongMenu, xmlReader, skinIndex);
-                _LoadThemeElement<CLyric>(_ThemeLyrics, AddLyric, xmlReader, skinIndex);
-                _LoadThemeElement<CSingNotesClassic>(_ThemeSingNotes, AddSingNote, xmlReader, skinIndex);
-                _LoadThemeElement<CNameSelection>(_ThemeNameSelections, AddNameSelection, xmlReader, skinIndex);
-                _LoadThemeElement<CEqualizer>(_ThemeEqualizers, AddEqualizer, xmlReader, skinIndex);
-                _LoadThemeElement<CPlaylist>(_ThemePlaylists, AddPlaylist, xmlReader, skinIndex);
-                _LoadThemeElement<CParticleEffect>(_ThemeParticleEffects, AddParticleEffect, xmlReader, skinIndex);
-                _LoadThemeElement<CScreenSetting>(_ThemeScreenSettings, AddScreenSetting, xmlReader, skinIndex);
+                _LoadThemeElement<CBackground>(_ThemeBackgrounds, _AddBackground, xmlReader, skinIndex);
+                _LoadThemeElement<CStatic>(_ThemeStatics, _AddStatic, xmlReader, skinIndex);
+                _LoadThemeElement<CText>(_ThemeTexts, _AddText, xmlReader, skinIndex);
+                _LoadThemeElement<CButton>(_ThemeButtons, _AddButton, xmlReader, skinIndex);
+                _LoadThemeElement<CSelectSlide>(_ThemeSelectSlides, _AddSelectSlide, xmlReader, skinIndex);
+                _LoadThemeElement<CSongMenu>(_ThemeSongMenus, _AddSongMenu, xmlReader, skinIndex);
+                _LoadThemeElement<CLyric>(_ThemeLyrics, _AddLyric, xmlReader, skinIndex);
+                _LoadThemeElement<CSingNotesClassic>(_ThemeSingNotes, _AddSingNote, xmlReader, skinIndex);
+                _LoadThemeElement<CNameSelection>(_ThemeNameSelections, _AddNameSelection, xmlReader, skinIndex);
+                _LoadThemeElement<CEqualizer>(_ThemeEqualizers, _AddEqualizer, xmlReader, skinIndex);
+                _LoadThemeElement<CPlaylist>(_ThemePlaylists, _AddPlaylist, xmlReader, skinIndex);
+                _LoadThemeElement<CParticleEffect>(_ThemeParticleEffects, _AddParticleEffect, xmlReader, skinIndex);
+                _LoadThemeElement<CScreenSetting>(_ThemeScreenSettings, _AddScreenSetting, xmlReader, skinIndex);
             }
         }
 
@@ -205,10 +197,7 @@ namespace VocaluxeLib.Menu
             if (_ThemePath.Length == 0)
                 return;
 
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.Encoding = Encoding.UTF8;
-            settings.ConformanceLevel = ConformanceLevel.Document;
+            XmlWriterSettings settings = new XmlWriterSettings {Indent = true, Encoding = Encoding.UTF8, ConformanceLevel = ConformanceLevel.Document};
 
             string file = Path.Combine(_ThemePath, ThemeName + ".xml");
             using (XmlWriter writer = XmlWriter.Create(file, settings))
@@ -447,12 +436,14 @@ namespace VocaluxeLib.Menu
         #region ElementHandler
 
         #region Create Elements
+// ReSharper disable UnusedMember.Global
+        // ReSharper disable MemberCanBeProtected.Global
         public CButton GetNewButton()
         {
             return new CButton(_PartyModeID);
         }
 
-        public CButton GetNewButton(CButton button)
+        public static CButton GetNewButton(CButton button)
         {
             return new CButton(button);
         }
@@ -462,12 +453,12 @@ namespace VocaluxeLib.Menu
             return new CText(_PartyModeID);
         }
 
-        public CText GetNewText(CText text)
+        public static CText GetNewText(CText text)
         {
             return new CText(text);
         }
 
-        public CText GetNewText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text)
+        public static CText GetNewText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text)
         {
             return new CText(x, y, z, h, mw, align, style, font, col, text);
         }
@@ -482,7 +473,7 @@ namespace VocaluxeLib.Menu
             return new CStatic(_PartyModeID);
         }
 
-        public CStatic GetNewStatic(CStatic oldStatic)
+        public static CStatic GetNewStatic(CStatic oldStatic)
         {
             return new CStatic(oldStatic);
         }
@@ -497,7 +488,7 @@ namespace VocaluxeLib.Menu
             return new CSelectSlide(_PartyModeID);
         }
 
-        public CSelectSlide GetNewSelectSlide(CSelectSlide slide)
+        public static CSelectSlide GetNewSelectSlide(CSelectSlide slide)
         {
             return new CSelectSlide(slide);
         }
@@ -536,74 +527,9 @@ namespace VocaluxeLib.Menu
         {
             return new CParticleEffect(_PartyModeID, maxNumber, color, area, texture, size, type);
         }
+        // ReSharper restore MemberCanBeProtected.Global
+        // ReSharper restore UnusedMember.Global
         #endregion Create Elements
-
-        #region Get Elements
-        public COrderedDictionaryLite<CButton> Buttons
-        {
-            get { return _Buttons; }
-        }
-
-        public COrderedDictionaryLite<CText> Texts
-        {
-            get { return _Texts; }
-        }
-
-        public COrderedDictionaryLite<CBackground> Backgrounds
-        {
-            get { return _Backgrounds; }
-        }
-
-        public COrderedDictionaryLite<CStatic> Statics
-        {
-            get { return _Statics; }
-        }
-
-        public COrderedDictionaryLite<CSelectSlide> SelectSlides
-        {
-            get { return _SelectSlides; }
-        }
-
-        public COrderedDictionaryLite<CSongMenu> SongMenus
-        {
-            get { return _SongMenus; }
-        }
-
-        public COrderedDictionaryLite<CLyric> Lyrics
-        {
-            get { return _Lyrics; }
-        }
-
-        public COrderedDictionaryLite<CSingNotes> SingNotes
-        {
-            get { return _SingNotes; }
-        }
-
-        public COrderedDictionaryLite<CNameSelection> NameSelections
-        {
-            get { return _NameSelections; }
-        }
-
-        public COrderedDictionaryLite<CEqualizer> Equalizers
-        {
-            get { return _Equalizers; }
-        }
-
-        public COrderedDictionaryLite<CPlaylist> Playlists
-        {
-            get { return _Playlists; }
-        }
-
-        public COrderedDictionaryLite<CParticleEffect> ParticleEffects
-        {
-            get { return _ParticleEffects; }
-        }
-
-        public COrderedDictionaryLite<CScreenSetting> ScreenSettings
-        {
-            get { return _ScreenSettings; }
-        }
-        #endregion Get Arrays
 
         #endregion ElementHandler
 
@@ -826,18 +752,18 @@ namespace VocaluxeLib.Menu
         #region Drawing
         public virtual bool Draw()
         {
-            DrawBG();
-            DrawFG();
+            _DrawBG();
+            _DrawFG();
             return true;
         }
 
-        public void DrawBG()
+        protected void _DrawBG()
         {
             foreach (CBackground bg in _Backgrounds)
                 bg.Draw();
         }
 
-        public void DrawFG()
+        protected void _DrawFG()
         {
             if (_Interactions.Count <= 0)
                 return;
@@ -846,29 +772,20 @@ namespace VocaluxeLib.Menu
 
             for (int i = 0; i < _Interactions.Count; i++)
             {
-                if (_IsVisible(i) && (
-                                         _Interactions[i].Type == EType.Button ||
-                                         _Interactions[i].Type == EType.SelectSlide ||
-                                         _Interactions[i].Type == EType.Static ||
-                                         _Interactions[i].Type == EType.NameSelection ||
-                                         _Interactions[i].Type == EType.Text ||
-                                         _Interactions[i].Type == EType.SongMenu ||
-                                         _Interactions[i].Type == EType.Equalizer ||
-                                         _Interactions[i].Type == EType.Playlist ||
-                                         _Interactions[i].Type == EType.ParticleEffect))
-                {
-                    SZSort zs = new SZSort();
-                    zs.ID = i;
-                    zs.Z = _GetZValue(i);
-                    items.Add(zs);
-                }
+                if (!_IsVisible(i) ||
+                    (_Interactions[i].Type != EType.Button && _Interactions[i].Type != EType.SelectSlide && _Interactions[i].Type != EType.Static &&
+                     _Interactions[i].Type != EType.NameSelection && _Interactions[i].Type != EType.Text && _Interactions[i].Type != EType.SongMenu &&
+                     _Interactions[i].Type != EType.Equalizer && _Interactions[i].Type != EType.Playlist && _Interactions[i].Type != EType.ParticleEffect))
+                    continue;
+                SZSort zs = new SZSort {ID = i, Z = _GetZValue(i)};
+                items.Add(zs);
             }
 
             if (items.Count <= 0)
                 return;
 
 
-            items.Sort(delegate(SZSort s1, SZSort s2) { return s2.Z.CompareTo(s1.Z); });
+            items.Sort((s1, s2) => s2.Z.CompareTo(s1.Z));
 
             for (int i = 0; i < items.Count; i++)
                 _DrawInteraction(items[i].ID);
@@ -876,139 +793,76 @@ namespace VocaluxeLib.Menu
         #endregion Drawing
 
         #region Elements
-        public void AddBackground(CBackground bg)
-        {
-            AddBackground(bg, null);
-        }
-
-        public void AddButton(CButton button)
-        {
-            AddButton(button, null);
-        }
-
-        public void AddSelectSlide(CSelectSlide slide)
-        {
-            AddSelectSlide(slide, null);
-        }
-
-        public void AddStatic(CStatic stat)
-        {
-            AddStatic(stat, null);
-        }
-
-        public void AddText(CText text)
-        {
-            AddText(text, null);
-        }
-
-        public void AddSongMenu(CSongMenu songmenu)
-        {
-            AddSongMenu(songmenu, null);
-        }
-
-        public void AddLyric(CLyric lyric)
-        {
-            AddLyric(lyric, null);
-        }
-
-        public void AddSingNote(CSingNotes sn)
-        {
-            AddSingNote(sn, null);
-        }
-
-        public void AddNameSelection(CNameSelection ns)
-        {
-            AddNameSelection(ns, null);
-        }
-
-        public void AddEqualizer(CEqualizer eq)
-        {
-            AddEqualizer(eq, null);
-        }
-
-        public void AddPlaylist(CPlaylist pls)
-        {
-            AddPlaylist(pls, null);
-        }
-
-        public void AddParticleEffect(CParticleEffect pe)
-        {
-            AddParticleEffect(pe, null);
-        }
-
-        public void AddScreenSetting(CScreenSetting se)
-        {
-            AddScreenSetting(se, null);
-        }
-
-        public void AddBackground(CBackground bg, String key)
+// ReSharper disable MemberCanBePrivate.Global
+        protected void _AddBackground(CBackground bg, String key = null)
         {
             _AddInteraction(_Backgrounds.Add(bg, key), EType.Background);
         }
 
-        public void AddButton(CButton button, String key)
+        protected void _AddButton(CButton button, String key = null)
         {
             _AddInteraction(_Buttons.Add(button, key), EType.Button);
         }
 
-        public void AddSelectSlide(CSelectSlide slide, String key)
+        protected void _AddSelectSlide(CSelectSlide slide, String key = null)
         {
             _AddInteraction(_SelectSlides.Add(slide, key), EType.SelectSlide);
         }
 
-        public void AddStatic(CStatic stat, String key)
+        protected void _AddStatic(CStatic stat, String key = null)
         {
             _AddInteraction(_Statics.Add(stat, key), EType.Static);
         }
 
-        public void AddText(CText text, String key)
+        protected void _AddText(CText text, String key = null)
         {
             _AddInteraction(_Texts.Add(text, key), EType.Text);
         }
 
-        public void AddSongMenu(CSongMenu songmenu, String key)
+        protected void _AddSongMenu(CSongMenu songmenu, String key = null)
         {
             _AddInteraction(_SongMenus.Add(songmenu, key), EType.SongMenu);
         }
 
-        public void AddLyric(CLyric lyric, String key)
+        protected void _AddLyric(CLyric lyric, String key = null)
         {
             _AddInteraction(_Lyrics.Add(lyric, key), EType.Lyric);
         }
 
-        public void AddSingNote(CSingNotes sn, String key)
+        protected void _AddSingNote(CSingNotes sn, String key = null)
         {
             _AddInteraction(_SingNotes.Add(sn, key), EType.SingNote);
         }
 
-        public void AddNameSelection(CNameSelection ns, String key)
+        protected void _AddNameSelection(CNameSelection ns, String key = null)
         {
             _AddInteraction(_NameSelections.Add(ns, key), EType.NameSelection);
         }
 
-        public void AddEqualizer(CEqualizer eq, String key)
+        protected void _AddEqualizer(CEqualizer eq, String key = null)
         {
             _AddInteraction(_Equalizers.Add(eq, key), EType.Equalizer);
         }
 
-        public void AddPlaylist(CPlaylist pls, String key)
+        protected void _AddPlaylist(CPlaylist pls, String key = null)
         {
             _AddInteraction(_Playlists.Add(pls, key), EType.Playlist);
         }
 
-        public void AddParticleEffect(CParticleEffect pe, String key)
+        protected void _AddParticleEffect(CParticleEffect pe, String key = null)
         {
             _AddInteraction(_ParticleEffects.Add(pe, key), EType.ParticleEffect);
         }
 
-        public void AddScreenSetting(CScreenSetting se, String key)
+        protected void _AddScreenSetting(CScreenSetting se, String key = null)
         {
             _ScreenSettings.Add(se, key);
         }
+        // ReSharper restore MemberCanBePrivate.Global
         #endregion Elements
 
         #region InteractionHandling
-        public void CheckInteraction()
+        protected void _CheckInteraction()
         {
             if (!_IsEnabled(_Selection) || !_IsVisible(_Selection))
                 PrevInteraction();
@@ -1050,26 +904,23 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-        public bool SetInteractionToButton(CButton button)
+        protected void _SetInteractionToButton(CButton button)
         {
             for (int i = 0; i < _Interactions.Count; i++)
             {
-                if (_Interactions[i].Type == EType.Button)
-                {
-                    if (_Buttons[_Interactions[i].Num] == button)
-                    {
-                        _UnsetSelected();
-                        _UnsetHighlighted(_Selection);
-                        _Selection = i;
-                        _SetSelected();
-                        return true;
-                    }
-                }
+                if (_Interactions[i].Type != EType.Button)
+                    continue;
+                if (_Buttons[_Interactions[i].Num] != button)
+                    continue;
+                _UnsetSelected();
+                _UnsetHighlighted(_Selection);
+                _Selection = i;
+                _SetSelected();
+                return;
             }
-            return false;
         }
 
-        public bool SetInteractionToSelectSlide(CSelectSlide slide)
+        protected void _SetInteractionToSelectSlide(CSelectSlide slide)
         {
             for (int i = 0; i < _Interactions.Count; i++)
             {
@@ -1081,11 +932,10 @@ namespace VocaluxeLib.Menu
                         _UnsetHighlighted(_Selection);
                         _Selection = i;
                         _SetSelected();
-                        return true;
+                        return;
                     }
                 }
             }
-            return false;
         }
 
         public void ProcessMouseClick(int x, int y)
@@ -1102,7 +952,7 @@ namespace VocaluxeLib.Menu
 
         public void ProcessMouseMove(int x, int y)
         {
-            SelectByMouse(x, y);
+            _SelectByMouse(x, y);
 
             if (_Selection >= _Interactions.Count || _Selection < 0)
                 return;
@@ -1114,41 +964,35 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        public void SelectByMouse(int x, int y)
+        private void _SelectByMouse(int x, int y)
         {
             float z = CBase.Settings.GetZFar();
             for (int i = 0; i < _Interactions.Count; i++)
             {
-                if ((CBase.Settings.GetGameState() == EGameState.EditTheme) || (!_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i)))
-                {
-                    if (_IsMouseOver(x, y, _Interactions[i]))
-                    {
-                        if (_GetZValue(_Interactions[i]) <= z)
-                        {
-                            z = _GetZValue(_Interactions[i]);
-                            _UnsetSelected();
-                            _Selection = i;
-                            _SetSelected();
-                        }
-                    }
-                }
+                if ((CBase.Settings.GetGameState() != EGameState.EditTheme) && (_Interactions[i].ThemeEditorOnly || !_IsVisible(i) || !_IsEnabled(i)))
+                    continue;
+                if (!_IsMouseOver(x, y, _Interactions[i]))
+                    continue;
+                if (_GetZValue(_Interactions[i]) > z)
+                    continue;
+                z = _GetZValue(_Interactions[i]);
+                _UnsetSelected();
+                _Selection = i;
+                _SetSelected();
             }
         }
 
-        public bool IsMouseOver(SMouseEvent mouseEvent)
+        protected bool _IsMouseOver(SMouseEvent mouseEvent)
         {
-            return IsMouseOver(mouseEvent.X, mouseEvent.Y);
+            return _IsMouseOver(mouseEvent.X, mouseEvent.Y);
         }
 
-        public bool IsMouseOver(int x, int y)
+        private bool _IsMouseOver(int x, int y)
         {
             if (_Selection >= _Interactions.Count || _Selection < 0)
                 return false;
 
-            if (_Interactions.Count > 0)
-                return _IsMouseOver(x, y, _Interactions[_Selection]);
-            else
-                return false;
+            return _Interactions.Count > 0 && _IsMouseOver(x, y, _Interactions[_Selection]);
         }
 
         private bool _IsMouseOver(int x, int y, CInteraction interact)
@@ -1314,7 +1158,6 @@ namespace VocaluxeLib.Menu
 
             int element = _Selection;
             int stage = int.MaxValue;
-            float distance = float.MaxValue;
             int direction = -1;
 
             int mute = -1;
@@ -1340,7 +1183,6 @@ namespace VocaluxeLib.Menu
                 {
                     stage = stages[i];
                     element = elements[i];
-                    distance = distances[i];
                     direction = i;
                 }
             }
@@ -1469,10 +1311,7 @@ namespace VocaluxeLib.Menu
                         inDirection = true;
                     break;
             }
-            if (!inDirection)
-                return float.MaxValue;
-            else
-                return distance;
+            return !inDirection ? float.MaxValue : distance;
         }
 
         private float _GetDistance180(SKeyEvent key, SRectF actualRect, SRectF targetRect)
@@ -1505,10 +1344,7 @@ namespace VocaluxeLib.Menu
                         inDirection = true;
                     break;
             }
-            if (!inDirection)
-                return float.MaxValue;
-            else
-                return distance;
+            return !inDirection ? float.MaxValue : distance;
         }
 
         /// <summary>
@@ -1679,6 +1515,7 @@ namespace VocaluxeLib.Menu
             }
         }
 
+// ReSharper disable UnusedMember.Local
         private void _ToggleHighlighted()
         {
             if (_Selection >= _Interactions.Count || _Selection < 0)
@@ -1693,11 +1530,9 @@ namespace VocaluxeLib.Menu
             if (_Selection >= _Interactions.Count || _Selection < 0)
                 return false;
 
-            if (_Interactions[_Selection].Type == EType.SelectSlide)
-                return _SelectSlides[_Interactions[_Selection].Num].Highlighted;
-
-            return false;
+            return _Interactions[_Selection].Type == EType.SelectSlide && _SelectSlides[_Interactions[_Selection].Num].Highlighted;
         }
+        // ReSharper restore UnusedMember.Local
 
         private bool _IsVisible(int interaction)
         {
@@ -1988,30 +1823,25 @@ namespace VocaluxeLib.Menu
 
             if (actualVersion == reqVersion)
                 return true;
+            string msg = "Can't load screen file of screen \"" + ThemeName + "\", ";
+            if (actualVersion < reqVersion)
+                msg += "the file ist outdated! ";
             else
-            {
-                string msg = "Can't load screen file of screen \"" + ThemeName + "\", ";
-                if (actualVersion < reqVersion)
-                    msg += "the file ist outdated! ";
-                else
-                    msg += "the file is for newer program versions! ";
+                msg += "the file is for newer program versions! ";
 
-                msg += "Current screen version is " + reqVersion.ToString();
-                CBase.Log.LogError(msg);
-            }
+            msg += "Current screen version is " + reqVersion;
+            CBase.Log.LogError(msg);
             return false;
         }
 
         private void _LoadThemeBasics(CXMLReader xmlReader, int skinIndex)
         {
-            string value = String.Empty;
-
             // Backgrounds
             CBackground background = new CBackground(_PartyModeID);
             int i = 1;
-            while (background.LoadTheme("//root/" + ThemeName, "Background" + i.ToString(), xmlReader, skinIndex))
+            while (background.LoadTheme("//root/" + ThemeName, "Background" + i, xmlReader, skinIndex))
             {
-                AddBackground(background);
+                _AddBackground(background);
                 background = new CBackground(_PartyModeID);
                 i++;
             }
@@ -2019,9 +1849,9 @@ namespace VocaluxeLib.Menu
             // Statics
             CStatic stat = new CStatic(_PartyModeID);
             i = 1;
-            while (stat.LoadTheme("//root/" + ThemeName, "Static" + i.ToString(), xmlReader, skinIndex))
+            while (stat.LoadTheme("//root/" + ThemeName, "Static" + i, xmlReader, skinIndex))
             {
-                AddStatic(stat);
+                _AddStatic(stat);
                 stat = new CStatic(_PartyModeID);
                 i++;
             }
@@ -2029,9 +1859,9 @@ namespace VocaluxeLib.Menu
             // Texts
             CText text = new CText(_PartyModeID);
             i = 1;
-            while (text.LoadTheme("//root/" + ThemeName, "Text" + i.ToString(), xmlReader, skinIndex))
+            while (text.LoadTheme("//root/" + ThemeName, "Text" + i, xmlReader, skinIndex))
             {
-                AddText(text);
+                _AddText(text);
                 text = new CText(_PartyModeID);
                 i++;
             }
@@ -2039,9 +1869,9 @@ namespace VocaluxeLib.Menu
             // ParticleEffects
             CParticleEffect partef = new CParticleEffect(_PartyModeID);
             i = 1;
-            while (partef.LoadTheme("//root/" + ThemeName, "ParticleEffect" + i.ToString(), xmlReader, skinIndex))
+            while (partef.LoadTheme("//root/" + ThemeName, "ParticleEffect" + i, xmlReader, skinIndex))
             {
-                AddParticleEffect(partef);
+                _AddParticleEffect(partef);
                 partef = new CParticleEffect(_PartyModeID);
                 i++;
             }

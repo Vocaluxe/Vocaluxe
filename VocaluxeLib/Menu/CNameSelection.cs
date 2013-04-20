@@ -46,8 +46,6 @@ namespace VocaluxeLib.Menu
             public readonly CStatic Avatar;
             public readonly CText Name;
 
-            public CTile() {}
-
             public CTile(CStatic av, CText tex, int pl)
             {
                 Avatar = av;
@@ -65,7 +63,7 @@ namespace VocaluxeLib.Menu
             return _Theme.Name;
         }
 
-        public bool Selected = false;
+        public bool Selected;
         public bool Visible = true;
 
         public SRectF Rect;
@@ -85,7 +83,7 @@ namespace VocaluxeLib.Menu
         private int _TileW;
         private int _TileH;
 
-        public int Offset = 0;
+        public int Offset;
         private int _ActualSelection = -1;
         public int Selection = -1;
 
@@ -129,9 +127,9 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinEmptyTile", ref _Theme.TextureEmptyTileName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinEmptyTile", out _Theme.TextureEmptyTileName, String.Empty);
 
-            if (xmlReader.GetValue(item + "/ColorEmptyTile", ref _Theme.ColorEmptyTileName, String.Empty))
+            if (xmlReader.GetValue(item + "/ColorEmptyTile", out _Theme.ColorEmptyTileName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorEmptyTileName, skinIndex, out ColorEmptyTile);
             else
             {
@@ -141,7 +139,7 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref ColorEmptyTile.A);
             }
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinTileSelected", ref _Theme.TextureTileSelectedName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinTileSelected", out _Theme.TextureTileSelectedName, String.Empty);
 
             _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/W", ref _TileW);
             _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/H", ref _TileH);
@@ -151,9 +149,9 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceH", ref _SpaceH);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/Space", ref _Theme.NameSpace);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/H", ref _Theme.NameHeight);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Tiles/Name/Font", ref _Theme.NameFont, "Normal");
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Tiles/Name/Font", out _Theme.NameFont, "Normal");
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Tiles/Name/Style", ref _Theme.NameStyle);
-            if (xmlReader.GetValue(item + "/Tiles/Name/Color", ref _Theme.NameColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/Tiles/Name/Color", out _Theme.NameColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.NameColorName, skinIndex, out _Theme.NameColor);
             else
             {
@@ -493,10 +491,8 @@ namespace VocaluxeLib.Menu
             _VisibleProfiles.Clear();
             for (int i = 0; i < CBase.Profiles.GetProfiles().Length; i++)
             {
-                bool visible = false;
+                bool visible = CBase.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON;
                 //Show profile only if active
-                if (CBase.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON)
-                    visible = true;
                 for (int p = 0; p < CBase.Game.GetNumPlayer(); p++)
                 {
                     //Don't show profile if is selected, but if selected and guest

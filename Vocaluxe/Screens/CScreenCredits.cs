@@ -451,7 +451,6 @@ namespace Vocaluxe.Screens
 
                                         //Start Text-Timer
                                         _TextTimer.Start();
-                                        active = true;
                                     }
                                 }
                                 else if (_CreditNames[i].Y <= 360f)

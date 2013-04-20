@@ -43,7 +43,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private List<CButton> _PlayerDestinationButtons;
         //PlayerDestinationButtons-Option
         private const int _PlayerDestinationButtonsNumH = 10;
-        private const int _PlayerDestinationButtonsNumW = 2;
         private const int _PlayerDestinationButtonsFirstX = 58;
         private const int _PlayerDestinationButtonsFirstY = 380;
         private const int _PlayerDestinationButtonsSpaceH = 15;
@@ -102,11 +101,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         public override void DataToScreen(object receivedData)
         {
-            SDataToScreenNames config = new SDataToScreenNames();
-
             try
             {
-                config = (SDataToScreenNames)receivedData;
+                SDataToScreenNames config = (SDataToScreenNames)receivedData;
                 _Data.ScreenNames.ProfileIDsTeam1 = config.ProfileIDsTeam1;
                 _Data.ScreenNames.ProfileIDsTeam2 = config.ProfileIDsTeam2;
                 if (_Data.ScreenNames.ProfileIDsTeam1 == null)
@@ -143,16 +140,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         break;
 
                     case Keys.Enter:
-                        if (Buttons[_ButtonBack].Selected)
+                        if (_Buttons[_ButtonBack].Selected)
                             _Back();
 
-                        if (Buttons[_ButtonNext].Selected)
+                        if (_Buttons[_ButtonNext].Selected)
                             _Next();
 
-                        if (Buttons[_ButtonPlayerChooseScrollUp].Selected)
+                        if (_Buttons[_ButtonPlayerChooseScrollUp].Selected)
                             _Scroll(-1);
 
-                        if (Buttons[_ButtonPlayerChooseScrollDown].Selected)
+                        if (_Buttons[_ButtonPlayerChooseScrollDown].Selected)
                             _Scroll(1);
 
                         if (!_OnAdd())
@@ -274,22 +271,22 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 return true;
             }
 
-            if (mouseEvent.LB && IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
             {
-                if (Buttons[_ButtonBack].Selected)
+                if (_Buttons[_ButtonBack].Selected)
                     _Back();
 
-                if (Buttons[_ButtonNext].Selected)
+                if (_Buttons[_ButtonNext].Selected)
                     _Next();
 
-                if (Buttons[_ButtonPlayerChooseScrollUp].Selected)
+                if (_Buttons[_ButtonPlayerChooseScrollUp].Selected)
                     _Scroll(-1);
 
-                if (Buttons[_ButtonPlayerChooseScrollDown].Selected)
+                if (_Buttons[_ButtonPlayerChooseScrollDown].Selected)
                     _Scroll(1);
             }
 
-            if (mouseEvent.LD && IsMouseOver(mouseEvent))
+            if (mouseEvent.LD && _IsMouseOver(mouseEvent))
             {
                 if (!_OnAdd())
                     _OnRemove();
@@ -347,13 +344,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _AddButtonPlayerDestination()
         {
-            Buttons[_ButtonPlayerDestination].Visible = false;
+            _Buttons[_ButtonPlayerDestination].Visible = false;
             _PlayerDestinationButtons = new List<CButton>();
             int row = 0;
             int column = 0;
             for (int i = 1; i <= _PartyMode.GetMaxPlayer(); i++)
             {
-                CButton b = GetNewButton(Buttons[_ButtonPlayerDestination]);
+                CButton b = GetNewButton(_Buttons[_ButtonPlayerDestination]);
                 b.Rect.X = _PlayerDestinationButtonsFirstX + column * (b.Rect.W + _PlayerDestinationButtonsSpaceH);
                 b.Rect.Y = _PlayerDestinationButtonsFirstY + row * (b.Rect.H + _PlayerDestinationButtonsSpaceW);
                 _PlayerDestinationButtons.Add(b);
@@ -365,19 +362,19 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 }
                 b.Visible = true;
                 b.Enabled = false;
-                AddButton(b);
+                _AddButton(b);
             }
         }
 
         private void _AddButtonPlayerChoose()
         {
-            Buttons[_ButtonPlayerChoose].Visible = false;
+            _Buttons[_ButtonPlayerChoose].Visible = false;
             _PlayerChooseButtons = new List<CPlayerChooseButton>();
             int row = 0;
             int column = 0;
             for (int i = 1; i <= _PlayerChooseButtonsNumH * _PlayerChooseButtonsNumW; i++)
             {
-                CButton b = GetNewButton(Buttons[_ButtonPlayerChoose]);
+                CButton b = GetNewButton(_Buttons[_ButtonPlayerChoose]);
                 b.Rect.X = _PlayerChooseButtonsFirstX + column * (b.Rect.W + _PlayerChooseButtonsSpaceH);
                 b.Rect.Y = _PlayerChooseButtonsFirstY + row * (b.Rect.H + _PlayerChooseButtonsSpaceW);
                 CPlayerChooseButton pcb = new CPlayerChooseButton();
@@ -392,7 +389,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 }
                 b.Visible = true;
                 b.Enabled = false;
-                AddButton(b);
+                _AddButton(b);
             }
         }
 
@@ -404,8 +401,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _UpdateButtonPlayerChoose(_PlayerChooseButtonsOffset - 1);
             else
                 _UpdateButtonPlayerChoose(_PlayerChooseButtonsOffset);
-            Buttons[_ButtonPlayerChooseScrollUp].Enabled = _PlayerChooseButtonsOffset > 0;
-            Buttons[_ButtonPlayerChooseScrollDown].Enabled = _PlayerChooseButtonsVisibleProfiles.Count >
+            _Buttons[_ButtonPlayerChooseScrollUp].Enabled = _PlayerChooseButtonsOffset > 0;
+            _Buttons[_ButtonPlayerChooseScrollDown].Enabled = _PlayerChooseButtonsVisibleProfiles.Count >
                                                              _PlayerChooseButtons.Count + _PlayerChooseButtonsOffset * _PlayerChooseButtonsNumH;
         }
 
@@ -435,10 +432,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     {
                         _PlayerChooseButtons[i].ProfileID = -1;
                         _PlayerChooseButtons[i].Button.Text.Text = String.Empty;
-                        _PlayerChooseButtons[i].Button.Texture = Buttons[_ButtonPlayerChoose].Texture;
-                        _PlayerChooseButtons[i].Button.SelTexture = Buttons[_ButtonPlayerChoose].SelTexture;
-                        _PlayerChooseButtons[i].Button.Color = Buttons[_ButtonPlayerChoose].Color;
-                        _PlayerChooseButtons[i].Button.SelColor = Buttons[_ButtonPlayerChoose].SelColor;
+                        _PlayerChooseButtons[i].Button.Texture = _Buttons[_ButtonPlayerChoose].Texture;
+                        _PlayerChooseButtons[i].Button.SelTexture = _Buttons[_ButtonPlayerChoose].SelTexture;
+                        _PlayerChooseButtons[i].Button.Color = _Buttons[_ButtonPlayerChoose].Color;
+                        _PlayerChooseButtons[i].Button.SelColor = _Buttons[_ButtonPlayerChoose].SelColor;
                         _PlayerChooseButtons[i].Button.Enabled = false;
                     }
                 }
@@ -525,10 +522,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 }
                 else
                 {
-                    _PlayerDestinationButtons[i].Color = Buttons[_ButtonPlayerDestination].Color;
-                    _PlayerDestinationButtons[i].SelColor = Buttons[_ButtonPlayerDestination].SelColor;
-                    _PlayerDestinationButtons[i].Texture = Buttons[_ButtonPlayerDestination].Texture;
-                    _PlayerDestinationButtons[i].SelTexture = Buttons[_ButtonPlayerDestination].SelTexture;
+                    _PlayerDestinationButtons[i].Color = _Buttons[_ButtonPlayerDestination].Color;
+                    _PlayerDestinationButtons[i].SelColor = _Buttons[_ButtonPlayerDestination].SelColor;
+                    _PlayerDestinationButtons[i].Texture = _Buttons[_ButtonPlayerDestination].Texture;
+                    _PlayerDestinationButtons[i].SelTexture = _Buttons[_ButtonPlayerDestination].SelTexture;
                     _PlayerDestinationButtons[i].Text.Text = String.Empty;
                     _PlayerDestinationButtons[i].Enabled = false;
                 }
@@ -549,10 +546,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 }
                 else
                 {
-                    _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].Color = Buttons[_ButtonPlayerDestination].Color;
-                    _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].SelColor = Buttons[_ButtonPlayerDestination].SelColor;
-                    _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].Texture = Buttons[_ButtonPlayerDestination].Texture;
-                    _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].SelTexture = Buttons[_ButtonPlayerDestination].SelTexture;
+                    _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].Color = _Buttons[_ButtonPlayerDestination].Color;
+                    _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].SelColor = _Buttons[_ButtonPlayerDestination].SelColor;
+                    _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].Texture = _Buttons[_ButtonPlayerDestination].Texture;
+                    _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].SelTexture = _Buttons[_ButtonPlayerDestination].SelTexture;
                     _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].Text.Text = String.Empty;
                     _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].Enabled = false;
                 }
@@ -563,11 +560,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             if (_Data.ScreenNames.ProfileIDsTeam1.Count == _NumPlayerTeam1 && _Data.ScreenNames.ProfileIDsTeam2.Count == _NumPlayerTeam2)
             {
-                Buttons[_ButtonNext].Visible = true;
-                SetInteractionToButton(Buttons[_ButtonNext]);
+                _Buttons[_ButtonNext].Visible = true;
+                _SetInteractionToButton(_Buttons[_ButtonNext]);
             }
             else
-                Buttons[_ButtonNext].Visible = false;
+                _Buttons[_ButtonNext].Visible = false;
         }
 
         private bool _OnAdd()
@@ -590,7 +587,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _PlayerDestinationButtons[added].Enabled = true;
                         //Update Tiles-List
                         _UpdateButtonPlayerChoose();
-                        CheckInteraction();
+                        _CheckInteraction();
                         return true;
                     }
                     else if (_Data.ScreenNames.ProfileIDsTeam2.Count < _NumPlayerTeam2)
@@ -607,7 +604,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _PlayerDestinationButtons[added].Enabled = true;
                         //Update Tiles-List
                         _UpdateButtonPlayerChoose();
-                        CheckInteraction();
+                        _CheckInteraction();
                         return true;
                     }
                 }
@@ -627,7 +624,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _UpdateButtonNext();
                         _UpdateButtonPlayerDestination();
                         _UpdateButtonPlayerChoose();
-                        CheckInteraction();
+                        _CheckInteraction();
                         return true;
                     }
                 }
@@ -642,7 +639,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _UpdateButtonNext();
                         _UpdateButtonPlayerDestination();
                         _UpdateButtonPlayerChoose();
-                        CheckInteraction();
+                        _CheckInteraction();
                         return true;
                     }
                 }

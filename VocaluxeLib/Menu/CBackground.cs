@@ -75,11 +75,11 @@ namespace VocaluxeLib.Menu
 
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Type", ref _Theme.Type);
 
-            bool vid = xmlReader.GetValue(item + "/Video", ref _Theme.VideoName, String.Empty);
-            bool tex = xmlReader.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
+            bool vid = xmlReader.GetValue(item + "/Video", out _Theme.VideoName, String.Empty);
+            bool tex = xmlReader.GetValue(item + "/Skin", out _Theme.TextureName, String.Empty);
             _ThemeLoaded &= vid || tex || _Theme.Type == EBackgroundTypes.None;
 
-            if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
             else
             {
@@ -207,7 +207,7 @@ namespace VocaluxeLib.Menu
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect = new RectangleF(0f, 0f, texture.Width, texture.Height);
-                CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
+                CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, EAspect.Crop);
 
                 CBase.Drawing.DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
                 return true;
@@ -222,7 +222,7 @@ namespace VocaluxeLib.Menu
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect = new RectangleF(0f, 0f, videoTexture.Width, videoTexture.Height);
-                CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
+                CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, EAspect.Crop);
 
                 CBase.Drawing.DrawTexture(videoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
                 return true;
@@ -237,7 +237,7 @@ namespace VocaluxeLib.Menu
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect = new RectangleF(0f, 0f, videoTexture.Width, videoTexture.Height);
-                CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
+                CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, EAspect.Crop);
 
                 CBase.Drawing.DrawTexture(videoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
                 return true;

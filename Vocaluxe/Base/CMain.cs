@@ -686,9 +686,9 @@ namespace Vocaluxe.Base
             return CVideo.VdSkip(videoStream, startPosition, videoGap);
         }
 
-        public bool GetFrame(int videoStream, ref STexture videoTexture, float time, ref float videoTime)
+        public bool GetFrame(int videoStream, ref STexture videoTexture, float time, out float videoTime)
         {
-            return CVideo.VdGetFrame(videoStream, ref videoTexture, time, ref videoTime);
+            return CVideo.VdGetFrame(videoStream, ref videoTexture, time, out videoTime);
         }
 
         public bool IsFinished(int videoStream)

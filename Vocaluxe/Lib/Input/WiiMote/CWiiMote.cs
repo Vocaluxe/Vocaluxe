@@ -153,8 +153,8 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 }
                 else
                 {
-                    bool startRumble = false;
-                    bool stopRumble = false;
+                    bool startRumble;
+                    bool stopRumble;
                     lock (_Sync)
                     {
                         startRumble = _RumbleTimer.ShouldStart;
@@ -211,13 +211,6 @@ namespace Vocaluxe.Lib.Input.WiiMote
             Point p = ws.IRState.Position;
             p.X = 1023 - p.X;
 
-            //key events
-            bool alt = false;
-            bool shift = false;
-            bool ctrl = false;
-            bool pressed = false;
-            char unicode = char.MinValue;
-
             EGesture gesture = _Gesture.GetGesture(p);
             bool lb = false;
             bool rb = gesture == EGesture.Back;
@@ -262,9 +255,9 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _ButtonStates[10] = ws.ButtonState.Two;
 
 
-            if (alt || shift || ctrl || pressed || unicode != char.MinValue || key != Keys.None)
+            if (key != Keys.None)
             {
-                SKeyEvent pool = new SKeyEvent(ESender.WiiMote, alt, shift, ctrl, pressed, unicode, key);
+                SKeyEvent pool = new SKeyEvent(ESender.WiiMote, false, false, false, false, char.MinValue, key);
 
                 lock (_KeyCopyLock)
                 {
@@ -273,8 +266,8 @@ namespace Vocaluxe.Lib.Input.WiiMote
             }
 
             //mouse events
-            float reducing = 0.15f;
-            float factor = 1f / (1f - reducing * 2f);
+            const float reducing = 0.15f;
+            const float factor = 1f / (1f - reducing * 2f);
             float rx = ((p.X / 1024f) - reducing) * factor;
             float ry = ((p.Y / 768f) - reducing) * factor;
 
@@ -282,11 +275,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
             int y = (int)(ry * CSettings.RenderH);
 
 
-            bool ld = false;
             bool lbh = !lb && ws.ButtonState.A;
-            bool rbh = false;
-            bool mb = false;
-            bool mbh = false;
 
             int wheel = 0;
             if (gesture == EGesture.ScrollUp)
@@ -299,12 +288,12 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
             if (!lb && !rb && (p.X != _OldPosition.X || p.Y != _OldPosition.Y))
             {
-                mpool = new SMouseEvent(ESender.WiiMote, alt, shift, ctrl, x, y, false, false, false, wheel, lbh, rbh, false, mbh);
+                mpool = new SMouseEvent(ESender.WiiMote, false, false, false, x, y, false, false, false, wheel, lbh, false, false, false);
                 trigger = true;
             }
             else if (lb || rb)
             {
-                mpool = new SMouseEvent(ESender.WiiMote, alt, shift, ctrl, x, y, lb, ld, rb, wheel, false, false, mb, false);
+                mpool = new SMouseEvent(ESender.WiiMote, false, false, false, x, y, lb, false, rb, wheel, false, false, false, false);
                 trigger = true;
             }
 

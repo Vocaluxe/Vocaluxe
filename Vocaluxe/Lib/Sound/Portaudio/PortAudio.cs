@@ -20,7 +20,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace PortAudioSharp
+namespace Vocaluxe.Lib.Sound.PortAudio
 {
     /**
 		<summary>
@@ -28,7 +28,7 @@ namespace PortAudioSharp
 		</summary>
 	*/
 
-    public partial class CPortAudio
+    public static partial class CPortAudio
     {
         #region **** PORTAUDIO CALLBACKS ****
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -549,10 +549,5 @@ namespace PortAudioSharp
         [DllImport(_PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Pa_Sleep(int msec);
         #endregion
-
-        private CPortAudio()
-        {
-            // This is a static class
-        }
     }
 }

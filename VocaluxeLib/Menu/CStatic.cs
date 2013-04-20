@@ -148,7 +148,7 @@ namespace VocaluxeLib.Menu
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.TextureName, String.Empty);
 
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
@@ -156,7 +156,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
-            if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
             else
             {
@@ -268,8 +268,8 @@ namespace VocaluxeLib.Menu
             if (aspect != EAspect.Stretch)
             {
                 RectangleF bounds2 = new RectangleF(bounds.X, bounds.Y, bounds.W, bounds.H);
-                RectangleF rect2 = new RectangleF(0f, 0f, texture.Width, texture.Height);
-                CHelper.SetRect(bounds2, ref rect2, texture.Width / texture.Height, aspect);
+                RectangleF rect2;
+                CHelper.SetRect(bounds2, out rect2, texture.Width / texture.Height, aspect);
 
                 rect.X = rect2.X;
                 rect.Y = rect2.Y;

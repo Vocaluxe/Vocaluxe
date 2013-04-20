@@ -155,9 +155,7 @@ namespace Vocaluxe.Base
         {
             _CheckModifiers();
 
-            bool repeat = false;
-            if (_Keys == e.KeyCode)
-                repeat = true;
+            bool repeat = _Keys == e.KeyCode;
 
             if (!_Timer.IsRunning || (_Timer.ElapsedMilliseconds > 75) || !repeat)
             {
@@ -212,9 +210,6 @@ namespace Vocaluxe.Base
         private readonly List<SMouseEvent> _EventsPool;
         private readonly List<SMouseEvent> _CurrentPool;
 
-        private int _X;
-        private int _Y;
-
         private readonly Object _CopyLock = new Object();
 
         private bool _ModAlt;
@@ -223,17 +218,7 @@ namespace Vocaluxe.Base
 
         private readonly Stopwatch _Timer;
 
-        public int X
-        {
-            get { return _X; }
-        }
-
-        public int Y
-        {
-            get { return _Y; }
-        }
-
-        public bool Visible = false;
+        public bool Visible;
 
         public CMouse()
         {
@@ -258,8 +243,6 @@ namespace Vocaluxe.Base
             {
                 _EventsPool.Add(pool);
             }
-            _X = x;
-            _Y = y;
         }
 
         private void _Del(int index)
@@ -324,14 +307,11 @@ namespace Vocaluxe.Base
 
         public bool PollEvent(ref SMouseEvent mouseEvent)
         {
-            if (_CurrentPool.Count > 0)
-            {
-                mouseEvent = _CurrentPool[0];
-                _Del(0);
-                return true;
-            }
-            else
+            if (_CurrentPool.Count <= 0)
                 return false;
+            mouseEvent = _CurrentPool[0];
+            _Del(0);
+            return true;
         }
 
         public void CopyEvents()

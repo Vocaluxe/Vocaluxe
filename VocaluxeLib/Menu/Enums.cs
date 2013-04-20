@@ -94,7 +94,7 @@ namespace VocaluxeLib.Menu
         X32 = 32
     }
 
-    public enum EColorDeep
+    public enum EColorDepth
     {
         Bit8 = 8,
         Bit16 = 16,
@@ -136,6 +136,7 @@ namespace VocaluxeLib.Menu
 
     public enum EBufferSize
     {
+// ReSharper disable UnusedMember.Global
         B0 = 0,
         B512 = 512,
         B1024 = 1024,
@@ -145,6 +146,7 @@ namespace VocaluxeLib.Menu
         B3072 = 3072,
         B3584 = 3584,
         B4096 = 4096
+        // ReSharper restore UnusedMember.Global
     }
 
     public enum EPlaybackLib

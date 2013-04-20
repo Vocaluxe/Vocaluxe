@@ -68,7 +68,6 @@ namespace VocaluxeLib.Menu
 
         public static int TryReadInt(StreamReader sr)
         {
-            char chr = '0';
             string value = String.Empty;
 
             try
@@ -77,7 +76,7 @@ namespace VocaluxeLib.Menu
                 //Check for ' ', ?, ?, \n, \r
                 while (tmp != 32 && tmp != 19 && tmp != 16 && tmp != 13 && tmp != 10)
                 {
-                    chr = (char)sr.Read();
+                    char chr = (char)sr.Read();
                     value += chr.ToString();
                     tmp = sr.Peek();
                 }
@@ -86,20 +85,18 @@ namespace VocaluxeLib.Menu
             {
                 return 0;
             }
-            int result = 0;
-            if (int.TryParse(value, out result))
-                return result;
-            return 0;
+            int result;
+            return int.TryParse(value, out result) ? result : 0;
         }
 
-        public static void SetRect(RectangleF bounds, ref RectangleF rect, float rectAspect, EAspect aspect)
+        public static void SetRect(RectangleF bounds, out RectangleF rect, float rectAspect, EAspect aspect)
         {
             float rW = bounds.Right - bounds.Left;
             float rH = bounds.Bottom - bounds.Top;
             float rA = rW / rH;
 
-            float scaledWidth = rW;
-            float scaledHeight = rH;
+            float scaledWidth;
+            float scaledHeight;
 
             switch (aspect)
             {
@@ -161,16 +158,13 @@ namespace VocaluxeLib.Menu
             {
                 foreach (FileInfo file in dir.GetFiles(cast))
                 {
-                    if (!fullpath)
-                        files.Add(file.Name);
-                    else
-                        files.Add(file.FullName);
+                    files.Add(!fullpath ? file.Name : file.FullName);
                 }
 
                 if (recursive)
                 {
                     foreach (DirectoryInfo di in dir.GetDirectories())
-                        files.AddRange(ListFiles(di.FullName, cast, recursive, fullpath));
+                        files.AddRange(ListFiles(di.FullName, cast, true, fullpath));
                 }
             }
             catch (Exception) {}

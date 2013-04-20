@@ -124,15 +124,13 @@ namespace Vocaluxe.Base
 
         private List<SSongPointer> _CreateSortList(string fieldName)
         {
-            FieldInfo field = null;
-            bool isString = false;
             List<SSongPointer> sortList = new List<SSongPointer>();
             if (fieldName.Length == 0)
-                CSongs.Filter.FilteredSongs.ForEach((song) => sortList.Add(new SSongPointer(song.ID, "")));
+                CSongs.Filter.FilteredSongs.ForEach(song => sortList.Add(new SSongPointer(song.ID, "")));
             else
             {
-                field = typeof(CSong).GetField(fieldName, BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public);
-                isString = field.FieldType == typeof(string);
+                FieldInfo field = typeof(CSong).GetField(fieldName, BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public);
+                bool isString = field.FieldType == typeof(string);
                 if (!isString && field.FieldType != typeof(List<String>))
                     throw new Exception("Unkown sort field type");
                 foreach (CSong song in CSongs.Filter.FilteredSongs)
@@ -147,7 +145,7 @@ namespace Vocaluxe.Base
                             sortList.Add(new SSongPointer(song.ID, ""));
                         else
                         {
-                            foreach (String sortString in (List<String>)value)
+                            foreach (String sortString in values)
                                 sortList.Add(new SSongPointer(song.ID, sortString));
                         }
                     }

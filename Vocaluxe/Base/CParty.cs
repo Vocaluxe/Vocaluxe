@@ -107,7 +107,7 @@ namespace Vocaluxe.Base
             {
                 if (usedKeys[i] != _NormalGameModeID)
                 {
-                    SPartyMode mode = new SPartyMode();
+                    SPartyMode mode;
                     _PartyModes.TryGetValue(usedKeys[i], out mode);
 
                     if (mode.PartyMode != null)
@@ -144,7 +144,7 @@ namespace Vocaluxe.Base
         public static void SetPartyMode(int partyModeID)
         {
             if (!_PartyModes.TryGetValue(partyModeID, out _CurrentPartyMode))
-                CLog.LogError("CParty: Can't find party mode ID: " + partyModeID.ToString());
+                CLog.LogError("CParty: Can't find party mode ID: " + partyModeID);
 
             _CurrentPartyMode.PartyMode.Init();
         }
@@ -246,15 +246,15 @@ namespace Vocaluxe.Base
             bool loaded = true;
 
             loaded &= xmlReader.TryGetIntValue("//root/PartyModeSystemVersion", ref pm.PartyModeSystemVersion);
-            loaded &= xmlReader.GetValue("//root/Info/Name", ref pm.Name, "ERROR Name");
-            loaded &= xmlReader.GetValue("//root/Info/Description", ref pm.Description, "ERROR Description");
-            loaded &= xmlReader.GetValue("//root/Info/Author", ref pm.Author, "ERROR Author");
-            loaded &= xmlReader.GetValue("//root/Info/Folder", ref pm.Folder, "ERROR Folder");
-            loaded &= xmlReader.GetValue("//root/Info/PartyModeFile", ref pm.PartyModeFile, "ERROR PartyModeFile");
+            loaded &= xmlReader.GetValue("//root/Info/Name", out pm.Name, "ERROR Name");
+            loaded &= xmlReader.GetValue("//root/Info/Description", out pm.Description, "ERROR Description");
+            loaded &= xmlReader.GetValue("//root/Info/Author", out pm.Author, "ERROR Author");
+            loaded &= xmlReader.GetValue("//root/Info/Folder", out pm.Folder, "ERROR Folder");
+            loaded &= xmlReader.GetValue("//root/Info/PartyModeFile", out pm.PartyModeFile, "ERROR PartyModeFile");
             loaded &= xmlReader.GetInnerValues("PartyScreens", ref pm.ScreenFiles);
             loaded &= xmlReader.TryGetIntValue("//root/Info/PartyModeVersionMajor", ref pm.PartyModeVersionMajor);
             loaded &= xmlReader.TryGetIntValue("//root/Info/PartyModeVersionMinor", ref pm.PartyModeVersionMinor);
-            loaded &= xmlReader.GetValue("//root/Info/TargetAudience", ref pm.TargetAudience, "ERROR TargetAudience");
+            loaded &= xmlReader.GetValue("//root/Info/TargetAudience", out pm.TargetAudience, "ERROR TargetAudience");
 
             if (!loaded)
             {
@@ -359,7 +359,7 @@ namespace Vocaluxe.Base
 
             using (CodeDomProvider cdp = CodeDomProvider.CreateProvider("CSharp"))
             {
-                CompilerResults compileResult = null;
+                CompilerResults compileResult;
 
                 try
                 {
@@ -393,7 +393,7 @@ namespace Vocaluxe.Base
                 return null;
             }
 
-            CMenuParty screen = null;
+            CMenuParty screen;
             try
             {
                 screen = (CMenuParty)instance;

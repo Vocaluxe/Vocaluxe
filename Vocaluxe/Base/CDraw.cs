@@ -274,7 +274,7 @@ namespace Vocaluxe.Base
             if (rect.Height <= 0f)
                 return;
 
-            CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, aspect);
+            CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, aspect);
             DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, staticBounds.Rect.Z),
                         texture.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false);
         }

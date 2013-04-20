@@ -18,11 +18,11 @@
 #endregion
 
 using System.Threading;
-using PortAudioSharp;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Vocaluxe.Base;
+using Vocaluxe.Lib.Sound.PortAudio;
 
 namespace Vocaluxe.Lib.Sound
 {
@@ -77,7 +77,7 @@ namespace Vocaluxe.Lib.Sound
 
                         dev.ID = i;
                         dev.Name = info.Name;
-                        dev.Driver = info.Name + i.ToString();
+                        dev.Driver = info.Name + i;
                         dev.Inputs = new List<SInput>();
 
                         SInput inp = new SInput();
@@ -155,7 +155,6 @@ namespace Vocaluxe.Lib.Sound
                 }
             }
 
-            bool result = true;
             for (int i = 0; i < _RecHandle.Length; i++)
             {
                 if (active[i])
@@ -181,7 +180,7 @@ namespace Vocaluxe.Lib.Sound
                         return false;
                 }
             }
-            return result;
+            return true;
         }
 
         /// <summary>

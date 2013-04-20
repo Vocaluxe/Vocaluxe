@@ -66,7 +66,7 @@ namespace Vocaluxe.Lib.Input
 
         public static bool Init()
         {
-            int result = -1;
+            int result;
             try
             {
                 result = hid_init();
@@ -77,10 +77,7 @@ namespace Vocaluxe.Lib.Input
                 return false;
             }
 
-            if (result == 0)
-                return true;
-
-            return false;
+            return result == 0;
         }
 
         [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_exit", CharSet = CharSet.Unicode)]
@@ -88,7 +85,7 @@ namespace Vocaluxe.Lib.Input
 
         public static bool Exit()
         {
-            int result = -1;
+            int result;
             try
             {
                 result = hid_exit();
@@ -99,10 +96,7 @@ namespace Vocaluxe.Lib.Input
                 return false;
             }
 
-            if (result == 0)
-                return true;
-
-            return false;
+            return result == 0;
         }
 
         [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_enumerate", CharSet = CharSet.Ansi)]
@@ -169,7 +163,7 @@ namespace Vocaluxe.Lib.Input
             data = new byte[length];
             IntPtr dataPtr = Marshal.AllocHGlobal(length);
 
-            int result = -1;
+            int result;
             try
             {
                 result = hid_read_timeout(device, dataPtr, length, milliseconds);
@@ -197,7 +191,7 @@ namespace Vocaluxe.Lib.Input
             data = new byte[length];
             IntPtr dataPtr = Marshal.AllocHGlobal(length);
 
-            int result = -1;
+            int result;
             try
             {
                 result = hid_read(device, dataPtr, length);

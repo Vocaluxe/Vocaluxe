@@ -47,8 +47,8 @@ namespace Vocaluxe.Screens
         public override void LoadTheme(string xmlPath)
         {
             base.LoadTheme(xmlPath);
-            SelectSlides[_SelectSlideLyricStyle].SetValues<ELyricStyle>((int)CConfig.LyricStyle);
-            SelectSlides[_SelectSlideLyricsOnTop].SetValues<EOffOn>((int)CConfig.LyricsOnTop);
+            _SelectSlides[_SelectSlideLyricStyle].SetValues<ELyricStyle>((int)CConfig.LyricStyle);
+            _SelectSlides[_SelectSlideLyricsOnTop].SetValues<EOffOn>((int)CConfig.LyricsOnTop);
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -72,7 +72,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Enter:
-                        if (Buttons[_ButtonExit].Selected)
+                        if (_Buttons[_ButtonExit].Selected)
                         {
                             _SaveConfig();
                             CGraphics.FadeTo(EScreens.ScreenOptions);
@@ -100,10 +100,10 @@ namespace Vocaluxe.Screens
                 _SaveConfig();
                 CGraphics.FadeTo(EScreens.ScreenOptions);
             }
-            if (mouseEvent.LB && IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
             {
                 _SaveConfig();
-                if (Buttons[_ButtonExit].Selected)
+                if (_Buttons[_ButtonExit].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptions);
             }
             return true;
@@ -122,8 +122,8 @@ namespace Vocaluxe.Screens
 
         private void _SaveConfig()
         {
-            CConfig.LyricsOnTop = (EOffOn)SelectSlides[_SelectSlideLyricsOnTop].Selection;
-            CConfig.LyricStyle = (ELyricStyle)SelectSlides[_SelectSlideLyricStyle].Selection;
+            CConfig.LyricsOnTop = (EOffOn)_SelectSlides[_SelectSlideLyricsOnTop].Selection;
+            CConfig.LyricStyle = (ELyricStyle)_SelectSlides[_SelectSlideLyricStyle].Selection;
             CConfig.SaveConfig();
         }
     }

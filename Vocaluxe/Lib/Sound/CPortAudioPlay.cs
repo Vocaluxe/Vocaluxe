@@ -17,7 +17,6 @@
 //  */
 #endregion
 
-using PortAudioSharp;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,6 +25,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Sound.Decoder;
+using Vocaluxe.Lib.Sound.PortAudio;
 
 namespace Vocaluxe.Lib.Sound
 {

@@ -210,7 +210,7 @@ namespace VocaluxeLib.Menu
         public SColorF Color; //normal Color
         public SColorF SelColor; //selected Color for Buttons
 
-        public bool Reflection = false;
+        public bool Reflection;
         public float ReflectionSpace;
         public float ReflectionHeight;
 
@@ -249,7 +249,7 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        public bool Selected = false;
+        public bool Selected;
         public bool Visible = true;
         private bool _EditMode;
         public bool EditMode
@@ -461,7 +461,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Height);
             xmlReader.TryGetFloatValue(item + "/MaxW", ref _MaxWidth);
 
-            if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
             else
             {
@@ -471,7 +471,7 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            if (xmlReader.GetValue(item + "/SColor", ref _Theme.SelColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorName, skinIndex, out SelColor);
             else
             {
@@ -486,9 +486,9 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Align", ref _Align);
             xmlReader.TryGetEnumValue(item + "/HAlign", ref _HAlign);
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Style", ref _Style);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Font", ref _Font, "Normal");
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Font", out _Font, "Normal");
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Text", ref _Theme.Text, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Text", out _Theme.Text, String.Empty);
 
             if (xmlReader.ItemExists(item + "/Reflection") && !buttonText)
             {

@@ -264,8 +264,8 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <Compile Include="Lib\Sound\Portaudio\PortAudio.cs" />
-    <Compile Include="Lib\Sound\Portaudio\PortAudioASIO.cs" />
+    <Compile Include="Lib\Sound\PortAudio\PortAudio.cs" />
+    <Compile Include="Lib\Sound\PortAudio\PortAudioASIO.cs" />
     <None Include="Doc\SQLite.NET.chm" />
   </ItemGroup>
   <ItemGroup>

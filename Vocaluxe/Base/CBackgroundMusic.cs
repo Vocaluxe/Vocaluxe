@@ -460,7 +460,6 @@ namespace Vocaluxe.Base
                     CVideo.VdClose(_Video);
                     CDraw.RemoveTexture(ref _CurrentVideoTexture);
                     _Video = -1;
-                    return;
                 }
             }
             else
@@ -471,8 +470,8 @@ namespace Vocaluxe.Base
         {
             if (_Video != -1)
             {
-                float vtime = 0f;
-                CVideo.VdGetFrame(_Video, ref _CurrentVideoTexture, CSound.GetPosition(_CurrentMusicStream), ref vtime);
+                float vtime;
+                CVideo.VdGetFrame(_Video, ref _CurrentVideoTexture, CSound.GetPosition(_CurrentMusicStream), out vtime);
                 if (_FadeTimer.ElapsedMilliseconds <= 3000L)
                     _CurrentVideoTexture.Color.A = _FadeTimer.ElapsedMilliseconds / 3000f;
                 else

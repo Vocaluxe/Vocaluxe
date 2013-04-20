@@ -181,24 +181,23 @@ namespace Vocaluxe.Base
             return true;
         }
 
-        private static bool _LoadLanguageEntries(CXMLReader xmlReader, ref Dictionary<string, string> texts)
+        private static bool _LoadLanguageEntries(CXMLReader xmlReader, out Dictionary<string, string> texts)
         {
             texts = new Dictionary<string, string>();
             List<string> names = xmlReader.GetAttributes("resources", "name");
-            string value = string.Empty;
             foreach (string name in names)
             {
-                if (xmlReader.GetValue("//resources/string[@name='" + name + "']", ref value, ""))
+                string value;
+                if (!xmlReader.GetValue("//resources/string[@name='" + name + "']", out value, ""))
+                    continue;
+                try
                 {
-                    try
-                    {
-                        texts.Add(name, value);
-                    }
-                    catch (Exception e)
-                    {
-                        CLog.LogError("Error reading language file " + xmlReader.FileName + ": " + e.Message);
-                        return false;
-                    }
+                    texts.Add(name, value);
+                }
+                catch (Exception e)
+                {
+                    CLog.LogError("Error reading language file " + xmlReader.FileName + ": " + e.Message);
+                    return false;
                 }
             }
             return true;
@@ -211,7 +210,7 @@ namespace Vocaluxe.Base
                 return false;
 
             string value = string.Empty;
-            if (xmlReader.GetValue("//resources/string[@name='language']", ref value, value))
+            if (xmlReader.GetValue("//resources/string[@name='language']", out value, value))
             {
                 int nr = GetLanguageNr(value);
 
@@ -220,7 +219,7 @@ namespace Vocaluxe.Base
 
                 SPartyLanguage lang = new SPartyLanguage();
                 lang.PartyModeID = partyModeID;
-                if (!_LoadLanguageEntries(xmlReader, ref lang.Texts))
+                if (!_LoadLanguageEntries(xmlReader, out lang.Texts))
                     return false;
 
                 _Languages[nr].PartyModeTexts.Add(lang);
@@ -243,7 +242,7 @@ namespace Vocaluxe.Base
                 return;
 
             string value = string.Empty;
-            if (xmlReader.GetValue("//resources/string[@name='language']", ref value, value))
+            if (xmlReader.GetValue("//resources/string[@name='language']", out value, value))
             {
                 lang.Name = value;
 
@@ -252,7 +251,7 @@ namespace Vocaluxe.Base
 
                 lang.PartyModeTexts = new List<SPartyLanguage>();
 
-                _LoadLanguageEntries(xmlReader, ref lang.Texts);
+                _LoadLanguageEntries(xmlReader, out lang.Texts);
 
                 _Languages.Add(lang);
             }

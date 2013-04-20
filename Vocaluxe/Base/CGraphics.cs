@@ -518,7 +518,7 @@ namespace Vocaluxe.Base
 
 
             bool resume = true;
-            bool eventsAvailable = false;
+            bool eventsAvailable;
             bool inputEventsAvailable = CInput.PollKeyEvent(ref inputKeyEvent);
 
             while ((eventsAvailable = keys.PollEvent(ref keyEvent)) || inputEventsAvailable)
@@ -746,125 +746,49 @@ namespace Vocaluxe.Base
 
         private static void _DrawDebugInfos()
         {
-            string txt = String.Empty;
+            if (CConfig.DebugLevel == EDebugLevel.TR_CONFIG_OFF)
+                return;
+
+            List<String> debugOutput = new List<string>();
+            debugOutput.Add(CTime.GetFPS().ToString("FPS: 000"));
+
+            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
+            {
+                debugOutput.Add(CSound.GetStreamCount().ToString(CLanguage.Translate("TR_DEBUG_AUDIO_STREAMS") + ": 00"));
+                debugOutput.Add(CVideo.GetNumStreams().ToString(CLanguage.Translate("TR_DEBUG_VIDEO_STREAMS") + ": 00"));
+                debugOutput.Add(CDraw.TextureCount().ToString(CLanguage.Translate("TR_DEBUG_TEXTURES") + ": 00000"));
+                long memory = GC.GetTotalMemory(false);
+                debugOutput.Add((memory / 1000000L).ToString(CLanguage.Translate("TR_DEBUG_MEMORY") + ": 00000 MB"));
+
+                if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL2)
+                {
+                    debugOutput.Add(CSound.RecordGetToneAbs(0).ToString(CLanguage.Translate("TR_DEBUG_TONE_ABS") + " P1: 00"));
+                    debugOutput.Add(CSound.RecordGetMaxVolume(0).ToString(CLanguage.Translate("TR_DEBUG_MAX_VOLUME") + " P1: 0.000"));
+                    debugOutput.Add(CSound.RecordGetToneAbs(1).ToString(CLanguage.Translate("TR_DEBUG_TONE_ABS") + " P2: 00"));
+                    debugOutput.Add(CSound.RecordGetMaxVolume(1).ToString(CLanguage.Translate("TR_DEBUG_MAX_VOLUME") + " P2: 0.000"));
+
+                    if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL3)
+                    {
+                        debugOutput.Add(CSongs.NumSongsWithCoverLoaded.ToString(CLanguage.Translate("TR_DEBUG_SONGS") + ": 00000"));
+
+                        if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL_MAX)
+                        {
+                            debugOutput.Add(_Cursor.X.ToString(CLanguage.Translate("TR_DEBUG_MOUSE") + " : (0000/") + _Cursor.Y.ToString("0000)"));
+                        }
+                    }
+                }
+            }
             CFonts.Style = EStyle.Normal;
             CFonts.SetFont("Normal");
+            CFonts.Height = 30;
             SColorF gray = new SColorF(1f, 1f, 1f, 0.5f);
-
-            float dy = 0;
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_ONLY_FPS)
+            float y = 0;
+            foreach (var txt in debugOutput)
             {
-                txt = CTime.GetFPS().ToString("FPS: 000");
-                CFonts.Height = 30f;
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
+                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), y, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
                 CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-            }
-
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
-            {
-                txt = CSound.GetStreamCount().ToString(CLanguage.Translate("TR_DEBUG_AUDIO_STREAMS") + ": 00");
-
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-            }
-
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
-            {
-                txt = CVideo.GetNumStreams().ToString(CLanguage.Translate("TR_DEBUG_VIDEO_STREAMS") + ": 00");
-
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-            }
-
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
-            {
-                txt = CDraw.TextureCount().ToString(CLanguage.Translate("TR_DEBUG_TEXTURES") + ": 00000");
-
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-            }
-
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
-            {
-                long memory = GC.GetTotalMemory(false);
-                txt = (memory / 1000000L).ToString(CLanguage.Translate("TR_DEBUG_MEMORY") + ": 00000 MB");
-
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-            }
-
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL2)
-            {
-                txt = CSound.RecordGetToneAbs(0).ToString(CLanguage.Translate("TR_DEBUG_TONE_ABS") + " P1: 00");
-
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-
-
-                txt = CSound.RecordGetMaxVolume(0).ToString(CLanguage.Translate("TR_DEBUG_MAX_VOLUME") + " P1: 0.000");
-
-                rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-
-                txt = CSound.RecordGetToneAbs(1).ToString(CLanguage.Translate("TR_DEBUG_TONE_ABS") + " P2: 00");
-
-                rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-
-
-                txt = CSound.RecordGetMaxVolume(1).ToString(CLanguage.Translate("TR_DEBUG_MAX_VOLUME") + " P2: 0.000");
-
-                rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-            }
-
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL3)
-            {
-                txt = CSongs.NumSongsWithCoverLoaded.ToString(CLanguage.Translate("TR_DEBUG_SONGS") + ": 00000");
-
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-            }
-
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL_MAX)
-            {
-                txt = _Cursor.X.ToString(CLanguage.Translate("TR_DEBUG_MOUSE") + " : (0000/") + _Cursor.Y.ToString("0000)");
-
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
+                y += rect.Height;
             }
         }
 

@@ -52,7 +52,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         public int PointsTeam1;
         public int PointsTeam2;
         public int Winner;
-        public bool Finished = false;
+        public bool Finished;
     }
 
     #region Communication
@@ -456,12 +456,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             return _ScreenSongOptions;
         }
 
+// ReSharper disable RedundantAssignment
         public override void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions)
+// ReSharper restore RedundantAssignment
         {
             screenSongOptions = _ScreenSongOptions;
         }
 
+// ReSharper disable RedundantAssignment
         public override void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions)
+// ReSharper restore RedundantAssignment
         {
             screenSongOptions = _ScreenSongOptions;
         }
@@ -541,99 +545,101 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _PreparePlayerList(int team)
         {
-            if (team == 0)
+            switch (team)
             {
-                _GameData.PlayerTeam1 = new List<int>();
-                _GameData.PlayerTeam2 = new List<int>();
+                case 0:
+                    {
+                        _GameData.PlayerTeam1 = new List<int>();
+                        _GameData.PlayerTeam2 = new List<int>();
 
-                //Prepare Player-IDs
-                List<int> iDs1 = new List<int>();
-                List<int> iDs2 = new List<int>();
-                int num = 0;
-                int random = 0;
-                //Add IDs to team-list
-                while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] && iDs1.Count == 0 &&
-                       _GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] && iDs2.Count == 0)
-                {
-                    if (iDs1.Count == 0)
-                    {
-                        for (int i = 0; i < _GameData.NumPlayerTeam1; i++)
-                            iDs1.Add(i);
+                        //Prepare Player-IDs
+                        List<int> ids1 = new List<int>();
+                        List<int> ids2 = new List<int>();
+                        //Add IDs to team-list
+                        while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] && ids1.Count == 0 &&
+                               _GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] && ids2.Count == 0)
+                        {
+                            if (ids1.Count == 0)
+                            {
+                                for (int i = 0; i < _GameData.NumPlayerTeam1; i++)
+                                    ids1.Add(i);
+                            }
+                            if (ids2.Count == 0)
+                            {
+                                for (int i = 0; i < _GameData.NumPlayerTeam2; i++)
+                                    ids2.Add(i);
+                            }
+                            int num;
+                            int random;
+                            if (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0])
+                            {
+                                random = CBase.Game.GetRandom((ids1.Count - 1) * 10);
+                                num = (int)Math.Round((double)random / 10);
+                                if (num >= ids1.Count)
+                                    num = ids1.Count - 1;
+                                _GameData.PlayerTeam1.Add(ids1[num]);
+                                ids1.RemoveAt(num);
+                            }
+                            if (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
+                            {
+                                random = CBase.Game.GetRandom((ids2.Count - 1) * 20);
+                                num = (int)Math.Round((double)random / 20);
+                                if (num >= ids2.Count)
+                                    num = ids2.Count - 1;
+                                _GameData.PlayerTeam2.Add(ids2[num]);
+                                ids2.RemoveAt(num);
+                            }
+                        }
                     }
-                    if (iDs2.Count == 0)
+                    break;
+                case 1:
                     {
-                        for (int i = 0; i < _GameData.NumPlayerTeam2; i++)
-                            iDs2.Add(i);
+                        //Prepare Player-IDs
+                        List<int> iDs = new List<int>();
+                        //Add IDs to team-list
+                        while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] && iDs.Count == 0)
+                        {
+                            if (iDs.Count == 0)
+                            {
+                                for (int i = 0; i < _GameData.NumPlayerTeam1; i++)
+                                    iDs.Add(i);
+                            }
+                            if (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0])
+                            {
+                                int random = CBase.Game.GetRandom((iDs.Count - 1) * 10);
+                                int num = (int)Math.Round((double)random / 10);
+                                if (num >= iDs.Count)
+                                    num = iDs.Count - 1;
+                                _GameData.PlayerTeam1.Add(iDs[num]);
+                                iDs.RemoveAt(num);
+                            }
+                        }
                     }
-                    if (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0])
+                    break;
+                case 2:
                     {
-                        random = CBase.Game.GetRandom((iDs1.Count - 1) * 10);
-                        num = (int)Math.Round((double)random / 10);
-                        if (num >= iDs1.Count)
-                            num = iDs1.Count - 1;
-                        _GameData.PlayerTeam1.Add(iDs1[num]);
-                        iDs1.RemoveAt(num);
+                        //Prepare Player-IDs
+                        List<int> ids = new List<int>();
+                        //Add IDs to team-list
+                        while (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] && ids.Count == 0)
+                        {
+                            if (ids.Count == 0)
+                            {
+                                for (int i = 0; i < _GameData.NumPlayerTeam2; i++)
+                                    ids.Add(i);
+                            }
+                            if (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
+                            {
+                                int random = CBase.Game.GetRandom((ids.Count - 1) * 20);
+                                int num = (int)Math.Round((double)random / 20);
+                                if (num >= ids.Count)
+                                    num = ids.Count - 1;
+                                _GameData.PlayerTeam2.Add(ids[num]);
+                                ids.RemoveAt(num);
+                            }
+                        }
                     }
-                    if (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
-                    {
-                        random = CBase.Game.GetRandom((iDs2.Count - 1) * 20);
-                        num = (int)Math.Round((double)random / 20);
-                        if (num >= iDs2.Count)
-                            num = iDs2.Count - 1;
-                        _GameData.PlayerTeam2.Add(iDs2[num]);
-                        iDs2.RemoveAt(num);
-                    }
-                }
-            }
-            else if (team == 1)
-            {
-                //Prepare Player-IDs
-                List<int> iDs = new List<int>();
-                int num = 0;
-                int random = 0;
-                //Add IDs to team-list
-                while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] && iDs.Count == 0)
-                {
-                    if (iDs.Count == 0)
-                    {
-                        for (int i = 0; i < _GameData.NumPlayerTeam1; i++)
-                            iDs.Add(i);
-                    }
-                    if (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0])
-                    {
-                        random = CBase.Game.GetRandom((iDs.Count - 1) * 10);
-                        num = (int)Math.Round((double)random / 10);
-                        if (num >= iDs.Count)
-                            num = iDs.Count - 1;
-                        _GameData.PlayerTeam1.Add(iDs[num]);
-                        iDs.RemoveAt(num);
-                    }
-                }
-            }
-            else if (team == 2)
-            {
-                //Prepare Player-IDs
-                List<int> iDs = new List<int>();
-                int num = 0;
-                int random = 0;
-                //Add IDs to team-list
-                while (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] && iDs.Count == 0)
-                {
-                    if (iDs.Count == 0)
-                    {
-                        for (int i = 0; i < _GameData.NumPlayerTeam2; i++)
-                            iDs.Add(i);
-                    }
-                    if (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
-                    {
-                        random = CBase.Game.GetRandom((iDs.Count - 1) * 20);
-                        num = (int)Math.Round((double)random / 20);
-                        if (num >= iDs.Count)
-                            num = iDs.Count - 1;
-                        _GameData.PlayerTeam2.Add(iDs[num]);
-                        iDs.RemoveAt(num);
-                    }
-                }
+                    break;
             }
         }
 
@@ -766,8 +772,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 }
                 SongSelected(r.SongID);
             }
-            else
-                return;
         }
 
         private void _SetNumJokers()

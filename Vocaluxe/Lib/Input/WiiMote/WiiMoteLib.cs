@@ -29,15 +29,17 @@ namespace Vocaluxe.Lib.Input.WiiMote
     #region DataTypes
     public class CWiiMoteStatus
     {
-        public SAccelCalibrationInfo AccelCalibrationInfo = new SAccelCalibrationInfo();
+        public SAccelCalibrationInfo AccelCalibrationInfo;
 
-        public SAccelStatus AccelState = new SAccelStatus();
+        public SAccelStatus AccelState;
 
-        public SButtons ButtonState = new SButtons();
+        public SButtons ButtonState;
 
-        public SIRState IRState = new SIRState();
+        public SIRState IRState;
 
+        // ReSharper disable NotAccessedField.Global
         public byte Battery;
+        // ReSharper restore NotAccessedField.Global
 
         public bool Rumble;
 
@@ -68,7 +70,9 @@ namespace Vocaluxe.Lib.Input.WiiMote
     {
         public bool Active;
         public Point Position; // X: 0-1023; Y: 0-767
+        // ReSharper disable NotAccessedField.Global
         public int Width; // 0-15      
+        // ReSharper restore NotAccessedField.Global
     }
 
     public struct SIRState
@@ -82,7 +86,9 @@ namespace Vocaluxe.Lib.Input.WiiMote
     public struct SAccelStatus
     {
         public SPoint3 RawValues; //0-255
+        // ReSharper disable NotAccessedField.Global
         public SPoint3F Values; //0-3
+        // ReSharper restore NotAccessedField.Global
     }
 
     public struct SAccelCalibrationInfo
@@ -124,7 +130,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
     #region Events
     public class CWiiMoteChangedEventArgs : EventArgs
     {
-        public CWiiMoteStatus WiiMoteState;
+        public readonly CWiiMoteStatus WiiMoteState;
 
         public CWiiMoteChangedEventArgs(CWiiMoteStatus ws)
         {
@@ -133,7 +139,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
     }
     #endregion Events
 
-    public class CWiiMoteLib : IDisposable
+    public sealed class CWiiMoteLib : IDisposable
     {
         // ReSharper disable InconsistentNaming
         private const ushort _VID = 0x057e;
@@ -152,6 +158,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
         // output commands
         private enum EOutputReport : byte
         {
+            // ReSharper disable UnusedMember.Local
             // ReSharper disable InconsistentNaming
             LEDs = 0x11,
             // ReSharper restore InconsistentNaming
@@ -163,6 +170,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
             SpeakerData = 0x18,
             SpeakerMute = 0x19,
             IR2 = 0x1a,
+            // ReSharper restore UnusedMember.Local
         };
 
         // data handling
@@ -176,11 +184,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
         private bool _Active;
         private bool _Error;
 
-        private bool _Connected;
-        public bool Connected
-        {
-            get { return _Connected; }
-        }
+        public bool Connected { get; private set; }
 
         private readonly CWiiMoteStatus _WiiMoteState = new CWiiMoteStatus();
         private readonly AutoResetEvent _ReadDone = new AutoResetEvent(false);
@@ -189,11 +193,16 @@ namespace Vocaluxe.Lib.Input.WiiMote
         #region Interface
         public CWiiMoteLib()
         {
-            _Connected = false;
+            Connected = false;
             _Active = true;
             _Error = false;
             _Reader = new Thread(_ReaderLoop);
             _Reader.Start();
+        }
+
+        ~CWiiMoteLib()
+        {
+            Dispose(false);
         }
 
         private bool _TryConnect(ushort pid)
@@ -210,7 +219,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
         public bool Connect()
         {
-            _Connected = false;
+            Connected = false;
 
             if (_Error)
                 return false;
@@ -220,7 +229,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
             if (!CHIDApi.Init())
             {
                 CLog.LogError("WiiMoteLib: Can't initialize HID API");
-                string msg = "Please install the Visual C++ Redistributable Packages 2008!";
+                const string msg = "Please install the Visual C++ Redistributable Packages 2008!";
                 CLog.LogError(msg);
 
                 _Active = false;
@@ -229,25 +238,25 @@ namespace Vocaluxe.Lib.Input.WiiMote
             }
 
             //Try WiiMotion
-            _Connected = _TryConnect(_PID);
+            Connected = _TryConnect(_PID);
 
             //Try WiiMotion Plus
-            if (!_Connected)
-                _Connected = _TryConnect(_PIDPlus);
+            if (!Connected)
+                Connected = _TryConnect(_PIDPlus);
 
-            return _Connected;
+            return Connected;
         }
 
         public void Disconnect()
         {
-            _Connected = false;
+            Connected = false;
             _Active = false;
             CHIDApi.Exit();
         }
 
         public void SetReportType(EInputReport type, EIRSensitivity irSensitivity, bool continuous)
         {
-            if (!_Connected)
+            if (!Connected)
                 return;
 
             switch (type)
@@ -275,18 +284,17 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _WiiMoteState.LEDState.LED3 = led3;
             _WiiMoteState.LEDState.LED4 = led4;
 
-            if (!_Connected)
+            if (!Connected)
                 return;
 
             _ClearReport();
 
             _Buff[0] = (byte)EOutputReport.LEDs;
-            _Buff[1] = (byte)(
-                                 (led1 ? 0x10 : 0x00) |
-                                 (led2 ? 0x20 : 0x00) |
-                                 (led3 ? 0x40 : 0x00) |
-                                 (led4 ? 0x80 : 0x00) |
-                                 _RumbleBit);
+            _Buff[1] = (byte)((led1 ? 0x10 : 0x00) |
+                              (led2 ? 0x20 : 0x00) |
+                              (led3 ? 0x40 : 0x00) |
+                              (led4 ? 0x80 : 0x00) |
+                              _RumbleBit);
 
             CHIDApi.Write(_Handle, _Buff);
         }
@@ -301,11 +309,6 @@ namespace Vocaluxe.Lib.Input.WiiMote
                     _WiiMoteState.LEDState.LED3,
                     _WiiMoteState.LEDState.LED4);
         }
-
-        public CWiiMoteStatus WiiMoteState
-        {
-            get { return _WiiMoteState; }
-        }
         #endregion Interface
 
         #region Private stuff
@@ -315,7 +318,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
             {
                 Thread.Sleep(5);
 
-                if (_Handle != IntPtr.Zero && _Connected)
+                if (_Handle != IntPtr.Zero && Connected)
                 {
                     byte[] buff = new byte[_ReportLength];
 
@@ -341,7 +344,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
         {
             if (buff == null)
             {
-                _Connected = false;
+                Connected = false;
                 return false;
             }
 
@@ -408,6 +411,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
             return true;
         }
 
+        /*
         private byte[] _DecryptBuffer(byte[] buff)
         {
             for (int i = 0; i < buff.Length; i++)
@@ -415,6 +419,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
             return buff;
         }
+*/
 
         private void _ParseButtons(byte[] buff)
         {
@@ -450,14 +455,15 @@ namespace Vocaluxe.Lib.Input.WiiMote
             switch (_WiiMoteState.IRState.Mode)
             {
                 case EIRMode.Basic:
-                    if (_WiiMoteState.IRState.Sensors[0].Active = !(buff[6] == 0xff && buff[7] == 0xff))
+                    _WiiMoteState.IRState.Sensors[0].Active = !(buff[6] == 0xff && buff[7] == 0xff);
+                    if (_WiiMoteState.IRState.Sensors[0].Active)
                     {
                         _WiiMoteState.IRState.Sensors[0].Position.X = buff[6] | ((buff[8] >> 4) & 0x03) << 8;
                         _WiiMoteState.IRState.Sensors[0].Position.Y = buff[7] | ((buff[8] >> 6) & 0x03) << 8;
                         _WiiMoteState.IRState.Sensors[0].Width = 0;
                     }
-
-                    if (_WiiMoteState.IRState.Sensors[1].Active = !(buff[9] == 0xff && buff[10] == 0xff))
+                    _WiiMoteState.IRState.Sensors[1].Active = !(buff[9] == 0xff && buff[10] == 0xff);
+                    if (_WiiMoteState.IRState.Sensors[1].Active)
                     {
                         _WiiMoteState.IRState.Sensors[1].Position.X = buff[9] | ((buff[8] >> 0) & 0x03) << 8;
                         _WiiMoteState.IRState.Sensors[1].Position.Y = buff[10] | ((buff[8] >> 2) & 0x03) << 8;
@@ -467,12 +473,12 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 case EIRMode.Extended:
                     for (int i = 0; i < 4; i++)
                     {
-                        if (_WiiMoteState.IRState.Sensors[i].Active = !(buff[6 + i * 3] == 0xff && buff[7 + i * 3] == 0xff && buff[8 + i * 3] == 0xff))
-                        {
-                            _WiiMoteState.IRState.Sensors[i].Position.X = buff[6 + i * 3] | ((buff[8 + i * 3] >> 4) & 0x03) << 8;
-                            _WiiMoteState.IRState.Sensors[i].Position.Y = buff[7 + i * 3] | ((buff[8 + i * 3] >> 6) & 0x03) << 8;
-                            _WiiMoteState.IRState.Sensors[i].Width = buff[8 + i * 3] & 0x0f;
-                        }
+                        _WiiMoteState.IRState.Sensors[i].Active = !(buff[6 + i * 3] == 0xff && buff[7 + i * 3] == 0xff && buff[8 + i * 3] == 0xff);
+                        if (!_WiiMoteState.IRState.Sensors[i].Active)
+                            continue;
+                        _WiiMoteState.IRState.Sensors[i].Position.X = buff[6 + i * 3] | ((buff[8 + i * 3] >> 4) & 0x03) << 8;
+                        _WiiMoteState.IRState.Sensors[i].Position.Y = buff[7 + i * 3] | ((buff[8 + i * 3] >> 6) & 0x03) << 8;
+                        _WiiMoteState.IRState.Sensors[i].Width = buff[8 + i * 3] & 0x0f;
                     }
                     break;
             }
@@ -504,13 +510,13 @@ namespace Vocaluxe.Lib.Input.WiiMote
             if ((buff[3] & 0x08) != 0)
             {
                 CLog.LogError("Error reading data from WiiMote: Bytes do not exist");
-                _Connected = false;
+                Connected = false;
             }
 
             if ((buff[3] & 0x07) != 0)
             {
                 CLog.LogError("Error reading data from WiiMote: Attempt to read from write-only registers.");
-                _Connected = false;
+                Connected = false;
             }
 
             int size = (buff[3] >> 4) + 1;
@@ -524,12 +530,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
         private byte _RumbleBit
         {
-            get
-            {
-                if (_WiiMoteState.Rumble)
-                    return 0x1;
-                return 0x0;
-            }
+            get { return (byte)(_WiiMoteState.Rumble ? 1 : 0); }
         }
 
         private bool _ReadCalibration()
@@ -649,7 +650,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
             if (!_ReadDone.WaitOne(1000, false))
             {
-                _Connected = false;
+                Connected = false;
                 return null;
             }
 
@@ -687,7 +688,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
         }
 
         // ReSharper disable InconsistentNaming
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
             // ReSharper restore InconsistentNaming
         {
             if (disposing)

@@ -72,22 +72,22 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Enter:
-                        if (Buttons[_ButtonSing].Selected)
+                        if (_Buttons[_ButtonSing].Selected)
                         {
                             CParty.SetNormalGameMode();
                             CGraphics.FadeTo(EScreens.ScreenSong);
                         }
 
-                        if (Buttons[_ButtonParty].Selected)
+                        if (_Buttons[_ButtonParty].Selected)
                             CGraphics.FadeTo(EScreens.ScreenParty);
 
-                        if (Buttons[_ButtonOptions].Selected)
+                        if (_Buttons[_ButtonOptions].Selected)
                             CGraphics.FadeTo(EScreens.ScreenOptions);
 
-                        if (Buttons[_ButtonProfiles].Selected)
+                        if (_Buttons[_ButtonProfiles].Selected)
                             CGraphics.FadeTo(EScreens.ScreenProfiles);
 
-                        if (Buttons[_ButtonExit].Selected)
+                        if (_Buttons[_ButtonExit].Selected)
                             return false;
 
                         break;
@@ -100,30 +100,31 @@ namespace Vocaluxe.Screens
         {
             base.HandleMouse(mouseEvent);
 
-            if (mouseEvent.LB && IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
             {
-                if (Buttons[_ButtonSing].Selected)
+                if (_Buttons[_ButtonSing].Selected)
                 {
                     CParty.SetNormalGameMode();
                     CGraphics.FadeTo(EScreens.ScreenSong);
                 }
 
-                if (Buttons[_ButtonParty].Selected)
+                if (_Buttons[_ButtonParty].Selected)
                     CGraphics.FadeTo(EScreens.ScreenParty);
 
-                if (Buttons[_ButtonOptions].Selected)
+                if (_Buttons[_ButtonOptions].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptions);
 
-                if (Buttons[_ButtonProfiles].Selected)
+                if (_Buttons[_ButtonProfiles].Selected)
                     CGraphics.FadeTo(EScreens.ScreenProfiles);
 
-                if (Buttons[_ButtonExit].Selected)
+                if (_Buttons[_ButtonExit].Selected)
                     return false;
             }
 
             return true;
         }
 
+// ReSharper disable RedundantOverridenMember
         public override void OnShow()
         {
             base.OnShow();
@@ -131,6 +132,7 @@ namespace Vocaluxe.Screens
             //if (Snowflakes != null)
             //    Snowflakes.Resume();
         }
+// ReSharper restore RedundantOverridenMember
 
         public override bool UpdateGame()
         {
@@ -139,16 +141,18 @@ namespace Vocaluxe.Screens
 
         public override bool Draw()
         {
-            DrawBG();
+            _DrawBG();
 
             //if (Snowflakes == null)
             //    Snowflakes = new CParticleEffect(300, new SColorF(1, 1, 1, 1), new SRectF(0, 0, CSettings.iRenderW, 0, 0.5f), "Snowflake", 25, EParticeType.Snow);
 
             //Snowflakes.Update();
             //Snowflakes.Draw();
-            DrawFG();
+            _DrawFG();
 
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
             if (CSettings.VersionRevision != ERevision.Release)
+// ReSharper restore ConditionIsAlwaysTrueOrFalse
             {
                 CFonts.SetFont("Normal");
                 CFonts.Style = EStyle.Normal;
@@ -158,6 +162,7 @@ namespace Vocaluxe.Screens
             return true;
         }
 
+// ReSharper disable RedundantOverridenMember
         public override void OnClose()
         {
             base.OnClose();
@@ -165,5 +170,6 @@ namespace Vocaluxe.Screens
             //if (Snowflakes != null)
             //    Snowflakes.Pause();
         }
+// ReSharper restore RedundantOverridenMember
     }
 }

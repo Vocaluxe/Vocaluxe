@@ -18,7 +18,6 @@
 #endregion
 
 using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Acinerella;
@@ -69,7 +68,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
                 return;
             }
 
-            int audioStreamIndex = -1;
+            int audioStreamIndex;
             SACDecoder audiodecoder;
             try
             {
@@ -176,7 +175,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
                 return;
             }
 
-            int frameFinished = 0;
+            int frameFinished;
             try
             {
                 frameFinished = CAcinerella.AcGetAudioFrame(_InstancePtr, _Audiodecoder);

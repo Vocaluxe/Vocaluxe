@@ -792,7 +792,7 @@ namespace Vocaluxe.Lib.Sound
             if (_Paused)
                 return;
 
-            int queuedCount = 0;
+            int queuedCount;
             bool doit = true;
             AL.GetSource(_Source, ALGetSourcei.BuffersQueued, out queuedCount);
 
@@ -801,7 +801,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 AL.GetSource(_Source, ALGetSourcei.BuffersProcessed, out processedCount);
                 doit = false;
-                Console.WriteLine("Buffers Processed on Stream " + _Source.ToString() + " = " + processedCount.ToString());
+                Console.WriteLine("Buffers Processed on Stream " + _Source + " = " + processedCount);
                 if (processedCount < 1)
                     return;
             }
@@ -839,7 +839,7 @@ namespace Vocaluxe.Lib.Sound
                         }
 
 
-                        int buffer = 0;
+                        int buffer;
                         if (!doit)
                             buffer = AL.SourceUnqueueBuffer(_Source);
                         else
@@ -850,11 +850,9 @@ namespace Vocaluxe.Lib.Sound
 
                         if (buffer != 0)
                         {
-                            if (_Format.ChannelCount == 2)
-                                AL.BufferData(buffer, ALFormat.Stereo16, buf, buf.Length, _Format.SamplesPerSecond);
-                            else
-                                AL.BufferData(buffer, ALFormat.Mono16, buf, buf.Length, _Format.SamplesPerSecond);
-                            Console.WriteLine("Write to Buffer: " + buffer.ToString());
+                            ALFormat alFormat = (_Format.ChannelCount == 2)?ALFormat.Stereo16:ALFormat.Mono16;
+                            AL.BufferData(buffer, alFormat, buf, buf.Length, _Format.SamplesPerSecond);
+                            Console.WriteLine("Write to Buffer: " + buffer);
                             AL.SourceQueueBuffer(_Source, buffer);
                         }
                     }

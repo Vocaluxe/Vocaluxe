@@ -258,10 +258,7 @@ namespace VocaluxeLib.Menu.SingNotes
         #region Methods
         public bool IsPerfect(CNote compareNote)
         {
-            bool result = true;
-
-            if (!Hit)
-                result = false;
+            bool result = Hit;
 
             if (StartBeat != compareNote.StartBeat)
                 result = false;

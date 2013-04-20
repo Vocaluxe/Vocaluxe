@@ -78,7 +78,7 @@ namespace Vocaluxe.Lib.Video
             return CGstreamerVideoWrapper.GetVideoLength(streamID);
         }
 
-        public bool GetFrame(int streamID, ref STexture frame, float time, ref float videoTime)
+        public bool GetFrame(int streamID, ref STexture frame, float time, out float videoTime)
         {
             SManagedFrame managedFrame = CGstreamerVideoWrapper.GetFrame(streamID, time);
             videoTime = managedFrame.Videotime;

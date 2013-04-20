@@ -189,7 +189,7 @@ namespace VocaluxeLib.Menu
 
         public EEditMode EditMode;
         public int ActivePlaylistID = -1;
-        public int Offset = 0;
+        public int Offset;
         public int CurrentPlaylistElement = -1;
 
         private CPlaylistElement _ChangeOrderElement;
@@ -249,15 +249,15 @@ namespace VocaluxeLib.Menu
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackground", ref _Theme.TextureBackgroundName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundSelected", ref _Theme.SelTextureBackgroundName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackground", out _Theme.TextureBackgroundName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundSelected", out _Theme.SelTextureBackgroundName, String.Empty);
 
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref Rect.Z);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
-            if (xmlReader.GetValue(item + "/ColorBackground", ref _Theme.ColorBackgroundName, String.Empty))
+            if (xmlReader.GetValue(item + "/ColorBackground", out _Theme.ColorBackgroundName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorBackgroundName, skinIndex, out BackgroundColor);
             else
             {
@@ -266,7 +266,7 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundB", ref BackgroundColor.B);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundA", ref BackgroundColor.A);
             }
-            if (xmlReader.GetValue(item + "/SColorBackground", ref _Theme.SelColorBackgroundName, String.Empty))
+            if (xmlReader.GetValue(item + "/SColorBackground", out _Theme.SelColorBackgroundName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorBackgroundName, skinIndex, out BackgroundSelColor);
             else
             {
@@ -1227,7 +1227,7 @@ namespace VocaluxeLib.Menu
                         CSong song = CBase.Songs.GetSongByID(pec.SongID);
                         _PlaylistElements[i].Cover.Texture = song.CoverTextureSmall;
                         string t1 = _Theme.Text1.Text.Replace("%a", song.Artist).Replace("%t", song.Title);
-                        _PlaylistElements[i].Text1.Text = /*(Offset + i + 1).ToString() + ") " + */ song.Artist + " - " + song.Title; //TODO: Add text field for the number
+                        _PlaylistElements[i].Text1.Text = /*(Offset + i + 1) + ") " + */ song.Artist + " - " + song.Title; //TODO: Add text field for the number
                         _PlaylistElements[i].SelectSlide.Clear();
                         for (int g = 0; g < pec.Modes.Length; g++)
                         {

@@ -26,8 +26,8 @@ namespace Vocaluxe.GameModes
 {
     struct SSongQueque
     {
-        public int SongID;
-        public EGameMode GameMode;
+        public readonly int SongID;
+        public readonly EGameMode GameMode;
 
         public SSongQueque(int songID, EGameMode gameMode)
         {
@@ -38,10 +38,9 @@ namespace Vocaluxe.GameModes
 
     abstract class CGameMode : IGameMode
     {
-        protected bool _Initialized = false;
-        protected List<SSongQueque> _SongQueque;
-        protected int _CurrentSong;
-        protected CPoints _Points;
+        private List<SSongQueque> _SongQueque;
+        private int _CurrentSong;
+        private CPoints _Points;
 
         #region Implementation
         public virtual void Init()
@@ -235,7 +234,5 @@ namespace Vocaluxe.GameModes
             return _Points;
         }
         #endregion Implementation
-
-        protected virtual void _SongManipulation(int songIndex) {}
     }
 }

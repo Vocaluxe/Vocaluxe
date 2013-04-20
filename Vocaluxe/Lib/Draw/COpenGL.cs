@@ -21,7 +21,6 @@ using System.Drawing.Drawing2D;
 using System.Threading;
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -89,14 +88,12 @@ namespace Vocaluxe.Lib.Draw
 
             //Check AA Mode
             CConfig.AAMode = (EAntiAliasingModes)_CheckAntiAliasingMode((int)CConfig.AAMode);
-
-            ColorFormat cf = new ColorFormat(32);
-            GraphicsMode gm;
+            CConfig.ColorDepth = (EColorDepth)_CheckColorDepth((int)CConfig.ColorDepth);
 
             bool ok = false;
             try
             {
-                gm = new GraphicsMode(cf, 24, 0, (int)CConfig.AAMode);
+                GraphicsMode gm = new GraphicsMode((int)CConfig.ColorDepth, 24, 0, (int)CConfig.AAMode);
                 _Control = new GLControl(gm, 2, 1, GraphicsContextFlags.Default);
                 if (_Control.GraphicsMode != null)
                     ok = true;
@@ -140,127 +137,60 @@ namespace Vocaluxe.Lib.Draw
         #region Helpers
         private int _CheckAntiAliasingMode(int setValue)
         {
-            int result = 0;
-            GraphicsMode mode = null;
-            bool done = false;
+            int samples = 0;
 
-            while (!done && (result <= 32))
+            if (setValue > 32)
+                setValue = 32;
+
+            while (samples<=setValue)
             {
+                GraphicsMode mode;
                 try
                 {
-                    mode = new GraphicsMode(16, 0, 0, result);
+                    mode = new GraphicsMode(16, 0, 0, samples);
                 }
                 catch (Exception)
                 {
-                    done = true;
-                    result /= 2;
-                    if (result == 1)
-                        result = 0;
+                    break;
                 }
 
-                if (mode != null)
-                {
-                    try
-                    {
-                        if (mode.Samples == result)
-                        {
-                            if (result == 0)
-                                result = 2;
-                            else
-                                result *= 2;
-                        }
-                        else
-                        {
-                            done = true;
-                            result /= 2;
-                            if (result == 1)
-                                result = 0;
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        done = true;
-                        result /= 2;
-                        if (result == 1)
-                            result = 0;
-                    }
-                }
+                if (mode.Samples != samples)
+                    break;
+                if (samples == 0)
+                    samples = 2;
                 else
-                {
-                    done = true;
-                    result /= 2;
-                    if (result == 1)
-                        result = 0;
-                }
+                    samples *= 2;
             }
 
-            if (result > 64)
-                result = 32;
-
-            if (setValue < result)
-                return setValue;
-            else
-                return result;
+            if (samples == 2)
+                return 0;
+            return samples / 2;
         }
 
-        private int _CheckColorDeep(int setValue)
+        private int _CheckColorDepth(int setValue)
         {
-            int result = 8;
-            GraphicsMode mode = null;
-            bool done = false;
+            int result = 16;
 
-            while (!done && (result <= 32))
+            if (setValue > 32)
+                setValue = 32;
+
+            while (result <= setValue)
             {
+                GraphicsMode mode;
                 try
                 {
                     mode = new GraphicsMode(result, 0, 0, 0);
                 }
                 catch (Exception)
                 {
-                    done = true;
-                    result -= 8;
-                    if (result == 0)
-                        result = 8;
+                    break;
                 }
-
-                if (mode != null)
-                {
-                    try
-                    {
-                        if (mode.ColorFormat == result)
-                            result += 8;
-                        else
-                        {
-                            done = true;
-                            result -= 8;
-                            if (result == 0)
-                                result = 8;
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        done = true;
-                        result -= 8;
-                        if (result == 0)
-                            result = 8;
-                    }
-                }
-                else
-                {
-                    done = true;
-                    result -= 8;
-                    if (result == 0)
-                        result = 8;
-                }
+                if (mode.ColorFormat != result)
+                    break;
+                result += 8;
             }
 
-            if (result > 32)
-                result = 32;
-
-            if (setValue < result)
-                return setValue;
-            else
-                return result;
+            return result - 8;
         }
 
         private void _ToggleFullScreen()
@@ -590,7 +520,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void CopyScreen(ref STexture texture)
         {
-            if (!_TextureExists(ref texture) || (texture.Width != GetScreenWidth()) || (texture.Height != GetScreenHeight()))
+            if (!_TextureExists(ref texture) || Math.Abs(texture.Width - GetScreenWidth()) > 1 || Math.Abs(texture.Height - GetScreenHeight()) > 1)
             {
                 RemoveTexture(ref texture);
                 texture = CopyScreen();
@@ -608,7 +538,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void MakeScreenShot()
         {
-            string file = "Screenshot_";
+            const string file = "Screenshot_";
             string path = Path.Combine(Environment.CurrentDirectory, CSettings.FolderScreenshots);
 
             int i = 0;
@@ -678,7 +608,7 @@ namespace Vocaluxe.Lib.Draw
 
             OpenTK.Graphics.OpenGL.GL.Enable(OpenTK.Graphics.OpenGL.EnableCap.Blend);
 
-            if (rect.Rotation != 0f)
+            if (Math.Abs(rect.Rotation) > 0.001)
             {
                 OpenTK.Graphics.OpenGL.GL.Translate(0.5f, 0.5f, 0);
                 OpenTK.Graphics.OpenGL.GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
@@ -724,7 +654,7 @@ namespace Vocaluxe.Lib.Draw
                 }
                 try
                 {
-                    return AddTexture(bmp, texturePath);
+                    return AddTexture(bmp);
                 }
                 finally
                 {
@@ -736,11 +666,6 @@ namespace Vocaluxe.Lib.Draw
         }
 
         public STexture AddTexture(Bitmap bmp)
-        {
-            return AddTexture(bmp, String.Empty);
-        }
-
-        public STexture AddTexture(Bitmap bmp, string texturePath)
         {
             STexture texture = new STexture(-1);
 
@@ -985,11 +910,8 @@ namespace Vocaluxe.Lib.Draw
         public STexture QuequeTexture(int w, int h, ref byte[] data)
         {
             STexture texture = new STexture(-1);
-            STextureQueque queque = new STextureQueque();
+            STextureQueque queque = new STextureQueque {Data = data, Height = h, Width = w};
 
-            queque.Data = data;
-            queque.Height = h;
-            queque.Width = w;
             texture.Height = h;
             texture.Width = w;
 
@@ -1071,29 +993,21 @@ namespace Vocaluxe.Lib.Draw
             {
                 if (_UsePBO)
                 {
-                    try
-                    {
-                        OpenTK.Graphics.OpenGL.GL.BindBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, texture.PBO);
+                    OpenTK.Graphics.OpenGL.GL.BindBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, texture.PBO);
 
-                        IntPtr buffer = OpenTK.Graphics.OpenGL.GL.MapBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, OpenTK.Graphics.OpenGL.BufferAccess.WriteOnly);
-                        Marshal.Copy(data, 0, buffer, data.Length);
+                    IntPtr buffer = OpenTK.Graphics.OpenGL.GL.MapBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, OpenTK.Graphics.OpenGL.BufferAccess.WriteOnly);
+                    Marshal.Copy(data, 0, buffer, data.Length);
 
-                        OpenTK.Graphics.OpenGL.GL.UnmapBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer);
+                    OpenTK.Graphics.OpenGL.GL.UnmapBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer);
 
-                        OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, texture.ID);
-                        OpenTK.Graphics.OpenGL.GL.TexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, 0, 0, (int)texture.Width, (int)texture.Height,
-                                                                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, IntPtr.Zero);
+                    OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, texture.ID);
+                    OpenTK.Graphics.OpenGL.GL.TexSubImage2D(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0, 0, 0, (int)texture.Width, (int)texture.Height,
+                                                            OpenTK.Graphics.OpenGL.PixelFormat.Bgra, OpenTK.Graphics.OpenGL.PixelType.UnsignedByte, IntPtr.Zero);
 
-                        OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
-                        OpenTK.Graphics.OpenGL.GL.BindBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, 0);
+                    OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, 0);
+                    OpenTK.Graphics.OpenGL.GL.BindBuffer(OpenTK.Graphics.OpenGL.BufferTarget.PixelUnpackBuffer, 0);
 
-                        return true;
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                        //_UsePBO = false;
-                    }
+                    return true;
                 }
 
                 OpenTK.Graphics.OpenGL.GL.BindTexture(OpenTK.Graphics.OpenGL.TextureTarget.Texture2D, texture.ID);
@@ -1180,7 +1094,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored)
         {
-            if (rect.W == 0f || rect.H == 0f || bounds.H == 0f || bounds.W == 0f || color.A == 0f)
+            if (Math.Abs(rect.W) < float.Epsilon || Math.Abs(rect.H) < float.Epsilon || Math.Abs(bounds.H) < float.Epsilon || Math.Abs(bounds.W) < float.Epsilon || Math.Abs(color.A) < float.Epsilon)
                 return;
 
             if (bounds.X > rect.X + rect.W || bounds.X + bounds.W < rect.X)
@@ -1234,7 +1148,7 @@ namespace Vocaluxe.Lib.Draw
                 OpenTK.Graphics.OpenGL.GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Texture);
                 OpenTK.Graphics.OpenGL.GL.PushMatrix();
 
-                if (rect.Rotation != 0f)
+                if (Math.Abs(rect.Rotation) > float.Epsilon)
                 {
                     OpenTK.Graphics.OpenGL.GL.Translate(0.5f, 0.5f, 0);
                     OpenTK.Graphics.OpenGL.GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
@@ -1319,7 +1233,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void DrawTextureReflection(STexture texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
         {
-            if (rect.W == 0f || rect.H == 0f || bounds.H == 0f || bounds.W == 0f || color.A == 0f || height <= 0f)
+            if (Math.Abs(rect.W) < float.Epsilon || Math.Abs(rect.H) < float.Epsilon || Math.Abs(bounds.H) < float.Epsilon || Math.Abs(bounds.W) < float.Epsilon || Math.Abs(color.A) < float.Epsilon || height <= float.Epsilon)
                 return;
 
             if (bounds.X > rect.X + rect.W || bounds.X + bounds.W < rect.X)
@@ -1375,7 +1289,7 @@ namespace Vocaluxe.Lib.Draw
                 OpenTK.Graphics.OpenGL.GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Texture);
                 OpenTK.Graphics.OpenGL.GL.PushMatrix();
 
-                if (rect.Rotation != 0f)
+                if (Math.Abs(rect.Rotation) > float.Epsilon)
                 {
                     OpenTK.Graphics.OpenGL.GL.Translate(0.5f, 0.5f, 0);
                     OpenTK.Graphics.OpenGL.GL.Rotate(-rect.Rotation, 0f, 0f, 1f);

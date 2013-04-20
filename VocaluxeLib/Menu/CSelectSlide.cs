@@ -103,7 +103,7 @@ namespace VocaluxeLib.Menu
         }
 
         public bool Visible = true;
-        public bool Highlighted = false;
+        public bool Highlighted;
 
         private bool _ArrowLeftSelected;
         private bool _ArrowRightSelected;
@@ -115,7 +115,7 @@ namespace VocaluxeLib.Menu
 
         private readonly List<SRectF> _ValueBounds = new List<SRectF>();
 
-        public bool WithTextures = false;
+        public bool WithTextures;
 
         private int _Selection = -1;
         public int Selection
@@ -249,15 +249,15 @@ namespace VocaluxeLib.Menu
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeft", ref _Theme.TextureArrowLeftName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRight", ref _Theme.TextureArrowRightName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.TextureName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeft", out _Theme.TextureArrowLeftName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRight", out _Theme.TextureArrowRightName, String.Empty);
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinSelected", ref _Theme.SelTextureName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeftSelected", ref _Theme.SelTextureArrowLeftName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRightSelected", ref _Theme.SelTextureArrowRightName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinSelected", out _Theme.SelTextureName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeftSelected", out _Theme.SelTextureArrowLeftName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRightSelected", out _Theme.SelTextureArrowRightName, String.Empty);
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinHighlighted", ref _Theme.HighlightTextureName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinHighlighted", out _Theme.HighlightTextureName, String.Empty);
 
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
@@ -265,7 +265,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
-            if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
             else
             {
@@ -275,7 +275,7 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            if (xmlReader.GetValue(item + "/SColor", ref _Theme.SelColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorName, skinIndex, out SelColor);
             else
             {
@@ -285,7 +285,7 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SA", ref SelColor.A);
             }
 
-            if (xmlReader.GetValue(item + "/HColor", ref _Theme.HighlightColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/HColor", out _Theme.HighlightColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.HighlightColorName, skinIndex, out HighlightColor);
             else
             {
@@ -307,7 +307,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightW", ref RectArrowRight.W);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightH", ref RectArrowRight.H);
 
-            if (xmlReader.GetValue(item + "/ArrowColor", ref _Theme.ArrowColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/ArrowColor", out _Theme.ArrowColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ArrowColorName, skinIndex, out ColorArrow);
             else
             {
@@ -317,7 +317,7 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowA", ref ColorArrow.A);
             }
 
-            if (xmlReader.GetValue(item + "/ArrowSColor", ref _Theme.SelArrowColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/ArrowSColor", out _Theme.SelArrowColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelArrowColorName, skinIndex, out SelColorArrow);
             else
             {
@@ -327,7 +327,7 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSA", ref SelColorArrow.A);
             }
 
-            if (xmlReader.GetValue(item + "/TextColor", ref _Theme.TextColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/TextColor", out _Theme.TextColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.TextColorName, skinIndex, out TextColor);
             else
             {
@@ -337,7 +337,7 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextA", ref TextColor.A);
             }
 
-            if (xmlReader.GetValue(item + "/TextSColor", ref _Theme.SelTextColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/TextSColor", out _Theme.SelTextColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelTextColorName, skinIndex, out SelTextColor);
             else
             {
@@ -353,7 +353,7 @@ namespace VocaluxeLib.Menu
             if (xmlReader.TryGetFloatValue(item + "/TextRelativeY", ref TextRelativeY))
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextRelativeY", ref TextRelativeY);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextMaxW", ref MaxW);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/TextFont", ref _Theme.TextFont, "Normal");
+            _ThemeLoaded &= xmlReader.GetValue(item + "/TextFont", out _Theme.TextFont, "Normal");
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/TextStyle", ref _Theme.TextStyle);
 
             _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/NumVisible", ref _NumVisible);

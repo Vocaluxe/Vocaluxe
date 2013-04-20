@@ -91,14 +91,15 @@ namespace Vocaluxe.Lib.Video
             return false;
         }
 
-        public override bool GetFrame(int streamID, ref STexture frame, float time, ref float videoTime)
+        public override bool GetFrame(int streamID, ref STexture frame, float time, out float videoTime)
         {
+            videoTime = 0;
             if (_Initialized)
             {
                 lock (_MutexDecoder)
                 {
                     if (_AlreadyAdded(streamID))
-                        return _Decoder[_GetStreamIndex(streamID)].GetFrame(ref frame, time, ref videoTime);
+                        return _Decoder[_GetStreamIndex(streamID)].GetFrame(ref frame, time, out videoTime);
                 }
             }
             return false;
@@ -315,8 +316,9 @@ namespace Vocaluxe.Lib.Video
             return true;
         }
 
-        public bool GetFrame(ref STexture frame, float time, ref float videoTime)
+        public bool GetFrame(ref STexture frame, float time, out float videoTime)
         {
+            videoTime = 0;
             if (!_FileOpened)
                 return false;
 
@@ -461,7 +463,7 @@ namespace Vocaluxe.Lib.Video
 
         private void _DoOpen()
         {
-            bool ok = false;
+            bool ok;
             SACInstance instance = new SACInstance();
             try
             {
@@ -486,7 +488,7 @@ namespace Vocaluxe.Lib.Video
 
             _Duration = instance.Info.Duration / 1000f;
 
-            int videoStreamIndex = -1;
+            int videoStreamIndex;
             SACDecoder videodecoder;
             try
             {
@@ -541,9 +543,7 @@ namespace Vocaluxe.Lib.Video
             float myTime = _Time + _VideoSkipTime;
             float timeDifference = myTime - _VideoDecoderTime;
 
-            bool dropFrame = false;
-            if (timeDifference >= (framedropcount - 1) * _VideoTimeBase)
-                dropFrame = true;
+            bool dropFrame = timeDifference >= (framedropcount - 1) * _VideoTimeBase;
 
             if (_Terminated)
                 return;
@@ -610,7 +610,6 @@ namespace Vocaluxe.Lib.Video
                 }
                 else
                     _NoMoreFrames = true;
-                return;
             }
             else
             {
