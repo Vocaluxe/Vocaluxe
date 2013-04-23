@@ -95,7 +95,7 @@ namespace VocaluxeLib.Menu
 
     public enum EColorDepth
     {
-// ReSharper disable UnusedMember.Global
+        // ReSharper disable UnusedMember.Global
         Bit8 = 8,
         Bit16 = 16,
         Bit24 = 24,
@@ -127,9 +127,9 @@ namespace VocaluxeLib.Menu
         // ReSharper disable InconsistentNaming
         // don't change the order!
         TR_CONFIG_OFF, //no debug infos
-// ReSharper disable UnusedMember.Global
+        // ReSharper disable UnusedMember.Global
         TR_CONFIG_ONLY_FPS,
-// ReSharper restore UnusedMember.Global
+        // ReSharper restore UnusedMember.Global
         TR_CONFIG_LEVEL1,
         TR_CONFIG_LEVEL2,
         TR_CONFIG_LEVEL3,
@@ -216,9 +216,9 @@ namespace VocaluxeLib.Menu
     public enum ECoverLoading
     {
         // ReSharper disable InconsistentNaming
-// ReSharper disable UnusedMember.Global
+        // ReSharper disable UnusedMember.Global
         TR_CONFIG_COVERLOADING_ONDEMAND,
-// ReSharper restore UnusedMember.Global
+        // ReSharper restore UnusedMember.Global
         TR_CONFIG_COVERLOADING_ATSTART,
         TR_CONFIG_COVERLOADING_DYNAMIC
         // ReSharper restore InconsistentNaming
@@ -231,7 +231,7 @@ namespace VocaluxeLib.Menu
         TR_CONFIG_EASY,
         TR_CONFIG_NORMAL,
         TR_CONFIG_HARD
-// ReSharper restore UnusedMember.Global
+        // ReSharper restore UnusedMember.Global
         // ReSharper restore InconsistentNaming
     }
 
@@ -267,9 +267,9 @@ namespace VocaluxeLib.Menu
         TR_CONFIG_PLAYERINFO_BOTH,
         TR_CONFIG_PLAYERINFO_NAME,
         TR_CONFIG_PLAYERINFO_AVATAR,
-// ReSharper disable UnusedMember.Global
+        // ReSharper disable UnusedMember.Global
         TR_CONFIG_PLAYERINFO_OFF
-// ReSharper restore UnusedMember.Global
+        // ReSharper restore UnusedMember.Global
         // ReSharper restore InconsistentNaming
     }
 

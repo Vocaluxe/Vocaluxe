@@ -28,7 +28,6 @@ namespace Vocaluxe.Lib.Sound
         //static float LastPosition;
 
         #region log
-
         private static void _LogHandler(string text)
         {
             CLog.LogError(text);

@@ -597,10 +597,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public int NumLinesWithPoints
         {
-            get
-            {
-                return _Lines.Count(line => line.Points > 0f);
-            }
+            get { return _Lines.Count(line => line.Points > 0f); }
         }
 
         #region Methods

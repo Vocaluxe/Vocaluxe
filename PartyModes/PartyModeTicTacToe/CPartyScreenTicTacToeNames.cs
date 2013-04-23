@@ -173,7 +173,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _OldMouseX = mouseEvent.X;
                 _OldMouseY = mouseEvent.Y;
                 //Check if mouse if over tile
-                foreach (CPlayerChooseButton chooseButton in _PlayerChooseButtons) {
+                foreach (CPlayerChooseButton chooseButton in _PlayerChooseButtons)
+                {
                     if (chooseButton.Button.Selected)
                     {
                         _SelectedPlayerNr = chooseButton.ProfileID;
@@ -445,9 +446,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 bool visible = false;
                 //Show profile only if active
                 if (CBase.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON)
-                {
                     visible = _Data.ScreenNames.ProfileIDsTeam1.All(t => t != i) && _Data.ScreenNames.ProfileIDsTeam2.All(t => t != i);
-                }
                 if (visible)
                     _PlayerChooseButtonsVisibleProfiles.Add(i);
             }

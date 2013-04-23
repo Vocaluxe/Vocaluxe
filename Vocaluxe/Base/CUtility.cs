@@ -171,9 +171,9 @@ namespace Vocaluxe.Base
             _KeyPressed = true;
         }
 
-// ReSharper disable UnusedParameter.Global
+        // ReSharper disable UnusedParameter.Global
         public void KeyUp(KeyEventArgs e)
-// ReSharper restore UnusedParameter.Global
+            // ReSharper restore UnusedParameter.Global
         {
             _CheckModifiers();
             _KeyPressed = false;
@@ -288,9 +288,9 @@ namespace Vocaluxe.Base
                  e.Button == MouseButtons.Middle, false);
         }
 
-// ReSharper disable UnusedParameter.Global
+        // ReSharper disable UnusedParameter.Global
         public void MouseUp(MouseEventArgs e)
-// ReSharper restore UnusedParameter.Global
+            // ReSharper restore UnusedParameter.Global
         {
             //CheckModifiers();
             //Add(_ModALT, _ModSHIFT, _ModCTRL, e.X, e.Y, e.Button == MouseButtons.Left, e.Button == MouseButtons.Right, e.Delta);

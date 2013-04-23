@@ -201,7 +201,8 @@ namespace Vocaluxe.Screens
 
             //Prepare Text
             int lastY = 280;
-            foreach (string[] paragraph in _Paragraphs) {
+            foreach (string[] paragraph in _Paragraphs)
+            {
                 string line = "";
                 for (int e = 0; e < paragraph.Length; e++)
                 {

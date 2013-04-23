@@ -557,7 +557,7 @@ namespace Vocaluxe.Base
         {
             //return TextRenderer.MeasureText(text, GetFont()).Height;
             CFont font = _GetCurrentFont();
-            return text==""?0:text.Select(font.GetHeight).Max();
+            return text == "" ? 0 : text.Select(font.GetHeight).Max();
         }
 
         private static void _LoadFontFiles(CXMLReader xmlReader, string fontFolder, string themeName = "", int partyModeId = -1)

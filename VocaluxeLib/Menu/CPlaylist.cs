@@ -500,24 +500,27 @@ namespace VocaluxeLib.Menu
                 {
                     if (keyEvent.KeyPressed && !Char.IsControl(keyEvent.Unicode))
                         _Theme.ButtonPlaylistName.Text.Text = _Theme.ButtonPlaylistName.Text.Text + keyEvent.Unicode;
-                    else switch (keyEvent.Key)
+                    else
                     {
-                        case Keys.Enter:
-                            CBase.Playlist.SetPlaylistName(ActivePlaylistID, _Theme.ButtonPlaylistName.Text.Text);
-                            CBase.Playlist.SavePlaylist(ActivePlaylistID);
-                            EditMode = EEditMode.None;
-                            _Theme.ButtonPlaylistName.EditMode = false;
-                            break;
-                        case Keys.Escape:
-                            _Theme.ButtonPlaylistName.Text.Text = CBase.Playlist.GetPlaylistName(ActivePlaylistID);
-                            EditMode = EEditMode.None;
-                            _Theme.ButtonPlaylistName.EditMode = false;
-                            break;
-                        case Keys.Delete:
-                        case Keys.Back:
-                            if (_Theme.ButtonPlaylistName.Text.Text != "")
-                                _Theme.ButtonPlaylistName.Text.Text = _Theme.ButtonPlaylistName.Text.Text.Remove(_Theme.ButtonPlaylistName.Text.Text.Length - 1);
-                            break;
+                        switch (keyEvent.Key)
+                        {
+                            case Keys.Enter:
+                                CBase.Playlist.SetPlaylistName(ActivePlaylistID, _Theme.ButtonPlaylistName.Text.Text);
+                                CBase.Playlist.SavePlaylist(ActivePlaylistID);
+                                EditMode = EEditMode.None;
+                                _Theme.ButtonPlaylistName.EditMode = false;
+                                break;
+                            case Keys.Escape:
+                                _Theme.ButtonPlaylistName.Text.Text = CBase.Playlist.GetPlaylistName(ActivePlaylistID);
+                                EditMode = EEditMode.None;
+                                _Theme.ButtonPlaylistName.EditMode = false;
+                                break;
+                            case Keys.Delete:
+                            case Keys.Back:
+                                if (_Theme.ButtonPlaylistName.Text.Text != "")
+                                    _Theme.ButtonPlaylistName.Text.Text = _Theme.ButtonPlaylistName.Text.Text.Remove(_Theme.ButtonPlaylistName.Text.Text.Length - 1);
+                                break;
+                        }
                     }
                     return true;
                 }
@@ -786,7 +789,7 @@ namespace VocaluxeLib.Menu
                     case Keys.PageDown:
                         _SetSelectionToLastEntry();
                         break;
-                        case Keys.PageUp:
+                    case Keys.PageUp:
                         _SetSelectionToFirstEntry();
                         break;
                 }

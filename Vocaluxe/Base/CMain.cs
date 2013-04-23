@@ -58,7 +58,7 @@ namespace Vocaluxe.Base
     {
         public void SetBackgroundMusicVolume(int newVolume)
         {
-           CConfig.BackgroundMusicVolume = newVolume;
+            CConfig.BackgroundMusicVolume = newVolume;
         }
 
         public int GetBackgroundMusicVolume()

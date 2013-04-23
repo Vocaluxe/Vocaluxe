@@ -92,7 +92,7 @@ namespace Vocaluxe.Base
                 if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
                 {
                     res = String.Compare(CSongs.Songs[s1.SongID].ArtistSorting, CSongs.Songs[s2.SongID].ArtistSorting, StringComparison.OrdinalIgnoreCase);
-                    return res != 0 ? res: String.Compare(CSongs.Songs[s1.SongID].TitleSorting, CSongs.Songs[s2.SongID].TitleSorting, StringComparison.OrdinalIgnoreCase);
+                    return res != 0 ? res : String.Compare(CSongs.Songs[s1.SongID].TitleSorting, CSongs.Songs[s2.SongID].TitleSorting, StringComparison.OrdinalIgnoreCase);
                 }
                 res = String.Compare(CSongs.Songs[s1.SongID].Artist, CSongs.Songs[s2.SongID].Artist, StringComparison.OrdinalIgnoreCase);
                 return res != 0 ? res : String.Compare(CSongs.Songs[s1.SongID].Title, CSongs.Songs[s2.SongID].Title, StringComparison.OrdinalIgnoreCase);

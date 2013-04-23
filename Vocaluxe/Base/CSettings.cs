@@ -47,7 +47,6 @@ namespace Vocaluxe.Base
 
         public static EGameState GameState = EGameState.Start;
 
-
         //Adjusting of programName and version now in the assembly config.
         //I'd use the major and minor for Main releases, build number for every public release and revision for every bugfix version without any features
         //As it is different than before, this is open for discussion.

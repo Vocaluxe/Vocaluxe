@@ -265,7 +265,8 @@ namespace Vocaluxe.Base
                 CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
             }
 
-            foreach (IMenu popup in _PopupScreens) {
+            foreach (IMenu popup in _PopupScreens)
+            {
                 popup.Init();
                 popup.LoadTheme(CTheme.GetThemeScreensPath(-1));
             }

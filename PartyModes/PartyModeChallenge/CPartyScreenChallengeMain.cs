@@ -409,7 +409,8 @@ namespace VocaluxeLib.PartyModes.Challenge
                 _RoundsTable.Add(rtr);
             }
             //Create statics and texts for rounds
-            foreach (CRoundsTableRow roundRow in _RoundsTable) {
+            foreach (CRoundsTableRow roundRow in _RoundsTable)
+            {
                 //Round-number
                 CText text = GetNewText(_Texts[_TextRoundNumber]);
                 _AddText(text);
@@ -451,7 +452,8 @@ namespace VocaluxeLib.PartyModes.Challenge
             float delta = _Texts[_TextRoundNumber].Height;
 
             //Update statics and texts for rounds
-            foreach (CRoundsTableRow roundRow in _RoundsTable) {
+            foreach (CRoundsTableRow roundRow in _RoundsTable)
+            {
                 //Round-number
                 roundRow.Number.X = numberX;
                 roundRow.Number.Y = numberY;

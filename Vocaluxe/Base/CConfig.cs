@@ -121,13 +121,14 @@ namespace Vocaluxe.Base
         public static int BackgroundMusicVolume
         {
             get { return _BackgroundMusicVolume; }
-            set {
-            if (value < 0)
-                _BackgroundMusicVolume = 0;
-            else if (value > 100)
-                _BackgroundMusicVolume = 100;
-            else
-                _BackgroundMusicVolume = value;
+            set
+            {
+                if (value < 0)
+                    _BackgroundMusicVolume = 0;
+                else if (value > 100)
+                    _BackgroundMusicVolume = 100;
+                else
+                    _BackgroundMusicVolume = value;
                 SaveConfig();
             }
         }

@@ -1223,7 +1223,7 @@ namespace Vocaluxe.Base
         }
 
         //If you want to add an image to db, call this method!
-/*
+        /*
         private static bool _AddImageToCreditsDB(String imagePath)
         {
             bool result = false;
@@ -1353,7 +1353,7 @@ namespace Vocaluxe.Base
             return true;
         }
 
-/*
+        /*
         private static void _CreateCreditsRessourcesDB()
         {
             using (SQLiteConnection connection = new SQLiteConnection())

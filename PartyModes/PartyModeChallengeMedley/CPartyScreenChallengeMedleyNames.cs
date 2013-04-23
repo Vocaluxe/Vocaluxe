@@ -453,7 +453,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         private bool _OnAdd()
         {
-            foreach (CPlayerChooseButton chooseButton in _PlayerChooseButtons) {
+            foreach (CPlayerChooseButton chooseButton in _PlayerChooseButtons)
+            {
                 if (chooseButton.Button.Selected && chooseButton.ProfileID != -1)
                 {
                     if (_Data.ScreenNames.ProfileIDs.Count < _NumPlayer)

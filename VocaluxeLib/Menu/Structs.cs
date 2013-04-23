@@ -181,7 +181,7 @@ namespace VocaluxeLib.Menu
         public readonly bool MB; //middle button click
 
         public readonly bool LBH; //left button hold (when moving)
-// ReSharper disable MemberCanBePrivate.Global
+        // ReSharper disable MemberCanBePrivate.Global
         public readonly bool RBH; //right button hold (when moving)
         public readonly bool MBH; //middle button hold (when moving)
         // ReSharper restore MemberCanBePrivate.Global
@@ -228,9 +228,9 @@ namespace VocaluxeLib.Menu
         public string FileName;
         public STexture Texture;
 
-// ReSharper disable UnusedParameter.Local
+        // ReSharper disable UnusedParameter.Local
         public SAvatar(int dummy)
-// ReSharper restore UnusedParameter.Local
+            // ReSharper restore UnusedParameter.Local
         {
             FileName = String.Empty;
             Texture = new STexture(-1);

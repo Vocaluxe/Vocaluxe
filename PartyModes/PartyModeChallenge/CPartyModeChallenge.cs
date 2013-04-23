@@ -636,7 +636,8 @@ namespace VocaluxeLib.PartyModes.Challenge
             int pos = 1;
             int lastPoints = 0;
             int lastSingPoints = 0;
-            foreach (CResultTableRow resultRow in _GameData.ResultTable) {
+            foreach (CResultTableRow resultRow in _GameData.ResultTable)
+            {
                 if (lastPoints > resultRow.NumGamePoints || lastSingPoints > resultRow.NumSingPoints)
                     pos++;
                 resultRow.Position = pos;

@@ -100,9 +100,9 @@ namespace VocaluxeLib.Menu.SongMenu
         public float FadeInTime;
         public float FadeOutTime;
 
-// ReSharper disable UnusedParameter.Local
+        // ReSharper disable UnusedParameter.Local
         public SMedley(int dummy)
-// ReSharper restore UnusedParameter.Local
+            // ReSharper restore UnusedParameter.Local
         {
             Source = EMedleySource.None;
             StartBeat = 0;
@@ -883,9 +883,7 @@ namespace VocaluxeLib.Menu.SongMenu
             // build sentences list
             List<string> sentences = new List<string>();
             foreach (CLine line in lines.Line)
-            {
                 sentences.Add(line.Points != 0 ? line.Lyrics : String.Empty);
-            }
 
             // find equal sentences series
             List<SSeries> series = new List<SSeries>();

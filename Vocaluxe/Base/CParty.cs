@@ -101,7 +101,8 @@ namespace Vocaluxe.Base
             int[] pmIDs = new int[_PartyModes.Count];
             _PartyModes.Keys.CopyTo(pmIDs, 0);
 
-            foreach (int pmID in pmIDs) {
+            foreach (int pmID in pmIDs)
+            {
                 if (pmID != _NormalGameModeID)
                 {
                     SPartyMode mode;

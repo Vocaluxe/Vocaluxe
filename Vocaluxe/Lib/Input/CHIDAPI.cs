@@ -26,7 +26,7 @@ namespace Vocaluxe.Lib.Input
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SHIDDeviceInfo
     {
-// ReSharper disable MemberCanBePrivate.Global
+        // ReSharper disable MemberCanBePrivate.Global
         [MarshalAs(UnmanagedType.LPTStr)] public readonly String Path;
         public readonly ushort VendorString;
         public readonly ushort ProductID;

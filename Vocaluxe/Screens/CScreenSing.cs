@@ -631,9 +631,7 @@ namespace Vocaluxe.Screens
                 if (CGame.GetNumSongs() > 1)
                 {
                     for (int i = 0; i < CGame.NumPlayer; i++)
-                    {
-                            CGame.Player[i].LineNr = (i+1) % 2;
-                    }
+                        CGame.Player[i].LineNr = (i + 1) % 2;
                 }
                 else
                 {
@@ -644,9 +642,7 @@ namespace Vocaluxe.Screens
             _SetDuetLyricsVisibility(song.IsDuet);
 
             for (int p = 0; p < CGame.NumPlayer; p++)
-            {
-                _NoteLines[p] = _SingNotes[_SingBars].AddPlayer(_SingNotes[_SingBars].BarPos[p, CGame.NumPlayer - 1],CTheme.GetPlayerColor(p + 1),p);
-            }
+                _NoteLines[p] = _SingNotes[_SingBars].AddPlayer(_SingNotes[_SingBars].BarPos[p, CGame.NumPlayer - 1], CTheme.GetPlayerColor(p + 1), p);
 
             /*
                 case 4:

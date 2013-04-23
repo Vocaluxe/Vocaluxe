@@ -106,10 +106,12 @@ namespace VocaluxeLib.Menu
         {
             _PrepareTiles();
 
-            _PlayerSelector = new CStatic(_PartyModeID) {
-                Texture = _TextureTileSelected, 
-                Rect = new SRectF(0, 0, _TileW + 6, _TileH + 6, Rect.Z - 0.5f), 
-                Visible = false};
+            _PlayerSelector = new CStatic(_PartyModeID)
+                {
+                    Texture = _TextureTileSelected,
+                    Rect = new SRectF(0, 0, _TileW + 6, _TileH + 6, Rect.Z - 0.5f),
+                    Visible = false
+                };
 
             _UpdateVisibleProfiles();
 

@@ -89,10 +89,7 @@ namespace Vocaluxe.Base
 
         public static int NumVisibleSongs
         {
-            get
-            {
-                return Sorter.SortedSongs.Count(sp => sp.Visible);
-            }
+            get { return Sorter.SortedSongs.Count(sp => sp.Visible); }
         }
 
         public static int NumCategories
