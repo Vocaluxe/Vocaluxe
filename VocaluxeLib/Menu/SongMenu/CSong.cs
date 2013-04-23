@@ -217,17 +217,13 @@ namespace VocaluxeLib.Menu.SongMenu
         public List<string> Language = new List<string>();
 
         // Notes
-        public CNotes Notes = new CNotes();
+        public readonly CNotes Notes = new CNotes();
 
         public EGameMode[] AvailableGameModes
         {
             get
             {
-                List<EGameMode> gms = new List<EGameMode>();
-                if (IsDuet)
-                    gms.Add(EGameMode.TR_GAMEMODE_DUET);
-                else
-                    gms.Add(EGameMode.TR_GAMEMODE_NORMAL);
+                List<EGameMode> gms = new List<EGameMode> {IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL};
                 if (Medley.Source != EMedleySource.None)
                     gms.Add(EGameMode.TR_GAMEMODE_MEDLEY);
                 gms.Add(EGameMode.TR_GAMEMODE_SHORTSONG);
@@ -250,12 +246,14 @@ namespace VocaluxeLib.Menu.SongMenu
             _CoverTextureSmall = song._CoverTextureSmall;
             _CoverTextureBig = song._CoverTextureBig;
 
-            Medley = new SMedley();
-            Medley.Source = song.Medley.Source;
-            Medley.StartBeat = song.Medley.StartBeat;
-            Medley.EndBeat = song.Medley.EndBeat;
-            Medley.FadeInTime = song.Medley.FadeInTime;
-            Medley.FadeOutTime = song.Medley.FadeOutTime;
+            Medley = new SMedley
+                {
+                    Source = song.Medley.Source,
+                    StartBeat = song.Medley.StartBeat,
+                    EndBeat = song.Medley.EndBeat,
+                    FadeInTime = song.Medley.FadeInTime,
+                    FadeOutTime = song.Medley.FadeOutTime
+                };
 
             CalculateMedley = song.CalculateMedley;
             PreviewStart = song.PreviewStart;
@@ -806,8 +804,7 @@ namespace VocaluxeLib.Menu.SongMenu
         private void _NewSentence(int player, int start)
         {
             CLines lines = Notes.GetLines(player);
-            CLine line = new CLine();
-            line.StartBeat = start;
+            CLine line = new CLine {StartBeat = start};
             lines.AddLine(line);
         }
 
@@ -830,8 +827,8 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             if (CoverFileName == "")
             {
-                List<string> files = CHelper.ListFiles(Folder, "*.jpg", false);
-                files.AddRange(CHelper.ListFiles(Folder, "*.png", false));
+                List<string> files = CHelper.ListFiles(Folder, "*.jpg");
+                files.AddRange(CHelper.ListFiles(Folder, "*.png"));
                 foreach (String file in files)
                 {
                     if (Regex.IsMatch(file, @".[CO].", RegexOptions.IgnoreCase) &&
@@ -842,8 +839,8 @@ namespace VocaluxeLib.Menu.SongMenu
 
             if (BackgroundFileName == "")
             {
-                List<string> files = CHelper.ListFiles(Folder, "*.jpg", false);
-                files.AddRange(CHelper.ListFiles(Folder, "*.png", false));
+                List<string> files = CHelper.ListFiles(Folder, "*.jpg");
+                files.AddRange(CHelper.ListFiles(Folder, "*.png"));
                 foreach (String file in files)
                 {
                     if (Regex.IsMatch(file, @".[BG].", RegexOptions.IgnoreCase) &&
@@ -885,10 +882,7 @@ namespace VocaluxeLib.Menu.SongMenu
             List<string> sentences = new List<string>();
             foreach (CLine line in lines.Line)
             {
-                if (line.Points != 0)
-                    sentences.Add(line.Lyrics);
-                else
-                    sentences.Add(String.Empty);
+                sentences.Add(line.Points != 0 ? line.Lyrics : String.Empty);
             }
 
             // find equal sentences series

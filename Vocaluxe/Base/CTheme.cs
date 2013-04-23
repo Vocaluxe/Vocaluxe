@@ -197,9 +197,7 @@ namespace Vocaluxe.Base
                 try
                 {
                     xmlReader.GetValue("//root/Videos/" + _Skins[skinIndex].VideoList[i].Name, out value, String.Empty);
-                    SSkinElement sk = new SSkinElement();
-                    sk.Name = _Skins[skinIndex].VideoList[i].Name;
-                    sk.Value = value;
+                    SSkinElement sk = new SSkinElement {Name = _Skins[skinIndex].VideoList[i].Name, Value = value};
                     sk.VideoIndex = CVideo.VdLoad(Path.Combine(_Skins[skinIndex].Path, sk.Value));
                     CVideo.VdSetLoop(sk.VideoIndex, true);
                     CVideo.VdPause(sk.VideoIndex);
@@ -406,7 +404,7 @@ namespace Vocaluxe.Base
             _Themes.Clear();
 
             string path = Path.Combine(Directory.GetCurrentDirectory(), CSettings.FolderThemes);
-            List<string> files = CHelper.ListFiles(path, "*.xml", false);
+            List<string> files = CHelper.ListFiles(path, "*.xml");
 
             foreach (string file in files)
                 AddTheme(Path.Combine(path, file), -1);
@@ -477,7 +475,7 @@ namespace Vocaluxe.Base
             STheme theme = _Themes[themeIndex];
 
             string path = Path.Combine(theme.Path, theme.SkinFolder);
-            List<string> files = CHelper.ListFiles(path, "*.xml", false);
+            List<string> files = CHelper.ListFiles(path, "*.xml");
 
             foreach (string file in files)
             {
@@ -508,9 +506,7 @@ namespace Vocaluxe.Base
                         List<string> names = xmlReader.GetValues("Skins");
                         foreach (string str in names)
                         {
-                            SSkinElement sk = new SSkinElement();
-                            sk.Name = str;
-                            sk.Value = String.Empty;
+                            SSkinElement sk = new SSkinElement {Name = str, Value = String.Empty};
                             skin.SkinList[str] = sk;
                         }
 
@@ -518,9 +514,7 @@ namespace Vocaluxe.Base
                         names = xmlReader.GetValues("Videos");
                         foreach (string str in names)
                         {
-                            SSkinElement sk = new SSkinElement();
-                            sk.Name = str;
-                            sk.Value = String.Empty;
+                            SSkinElement sk = new SSkinElement {Name = str, Value = String.Empty};
                             skin.VideoList.Add(sk);
                         }
                         _Skins.Add(skin);
@@ -711,9 +705,8 @@ namespace Vocaluxe.Base
                 int i = 1;
                 while (xmlReader.TryGetFloatValue("//root/Colors/Player" + i + "/R", ref value))
                 {
-                    SColorF color = new SColorF();
+                    SColorF color = new SColorF {R = value};
 
-                    color.R = value;
                     xmlReader.TryGetFloatValue("//root/Colors/Player" + i + "/G", ref color.G);
                     xmlReader.TryGetFloatValue("//root/Colors/Player" + i + "/B", ref color.B);
                     xmlReader.TryGetFloatValue("//root/Colors/Player" + i + "/A", ref color.A);
@@ -728,8 +721,7 @@ namespace Vocaluxe.Base
             List<string> names = xmlReader.GetValues("ColorSchemes");
             foreach (string str in names)
             {
-                SColorScheme scheme = new SColorScheme();
-                scheme.Name = str;
+                SColorScheme scheme = new SColorScheme {Name = str};
 
                 xmlReader.TryGetFloatValue("//root/ColorSchemes/" + str + "/R", ref scheme.Color.R);
                 xmlReader.TryGetFloatValue("//root/ColorSchemes/" + str + "/G", ref scheme.Color.G);

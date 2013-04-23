@@ -397,8 +397,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
                     if (note.EndBeat >= CBase.Game.GetCurrentBeatD() && note.Hit && note.NoteType == ENoteType.Golden)
                     {
-                        SRectF re = new SRectF(rect);
-                        re.W = (CBase.Game.GetMidBeatD() - note.StartBeat) / beats * w;
+                        SRectF re = new SRectF(rect) {W = (CBase.Game.GetMidBeatD() - note.StartBeat) / beats * w};
                         _AddFlare(re, n);
                     }
 

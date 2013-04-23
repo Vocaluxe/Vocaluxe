@@ -76,8 +76,7 @@ namespace Vocaluxe.Screens
             statics.Add(_StaticWarningProfiles);
             _ThemeStatics = statics.ToArray();
 
-            List<string> texts = new List<string>();
-            texts.Add(_SelectSlidePlayerNumber);
+            List<string> texts = new List<string> {_SelectSlidePlayerNumber};
             texts.AddRange(_SelectSlideDuetPlayer);
             _ThemeSelectSlides = texts.ToArray();
 
@@ -597,16 +596,10 @@ namespace Vocaluxe.Screens
                 if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
                 {
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Clear();
-                    if (i + 1 <= CGame.NumPlayer)
-                        _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = true;
-                    else
-                        _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = false;
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = i + 1 <= CGame.NumPlayer;
                     _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart1);
                     _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart2);
-                    if ((i + 1) % 2 == 0)
-                        _SelectSlides[_SelectSlideDuetPlayer[i]].Selection = 1;
-                    else
-                        _SelectSlides[_SelectSlideDuetPlayer[i]].Selection = 0;
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].Selection = i % 2;
                 }
                 else
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = false;

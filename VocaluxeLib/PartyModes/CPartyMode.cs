@@ -26,16 +26,12 @@ namespace VocaluxeLib.PartyModes
     public abstract class CPartyMode : IPartyMode
     {
         protected SScreenSongOptions _ScreenSongOptions;
-        protected Dictionary<string, CMenuParty> _Screens;
-        protected string _Folder;
+        protected readonly Dictionary<string, CMenuParty> _Screens;
 
         public CPartyMode()
         {
             _Screens = new Dictionary<string, CMenuParty>();
-            _Folder = String.Empty;
-            _ScreenSongOptions = new SScreenSongOptions();
-            _ScreenSongOptions.Selection = new SSelectionOptions();
-            _ScreenSongOptions.Sorting = new SSortingOptions();
+            _ScreenSongOptions = new SScreenSongOptions {Selection = new SSelectionOptions(), Sorting = new SSortingOptions()};
         }
 
         #region Implementation

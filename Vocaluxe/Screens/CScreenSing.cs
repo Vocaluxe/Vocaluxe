@@ -118,36 +118,30 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            List<string> texts = new List<string>();
-            texts.Add(_TextSongName);
-            texts.Add(_TextTime);
-            texts.Add(_TextPause);
-            texts.Add(_TextDuetName1);
-            texts.Add(_TextDuetName2);
+            List<string> texts = new List<string> {_TextSongName, _TextTime, _TextPause, _TextDuetName1, _TextDuetName2};
             _BuildTextStrings(ref texts);
             _ThemeTexts = texts.ToArray();
 
-            List<string> statics = new List<string>();
-            statics.Add(_StaticSongText);
-            statics.Add(_StaticLyrics);
-            statics.Add(_StaticLyricsDuet);
-            statics.Add(_StaticLyricsTop);
-            statics.Add(_StaticTimeBar);
-            statics.Add(_StaticTimeLine);
-            statics.Add(_StaticTimeLineExpandedNormal);
-            statics.Add(_StaticTimeLineExpandedHighlighted);
-            statics.Add(_StaticTimePointer);
-            statics.Add(_StaticLyricHelper);
-            statics.Add(_StaticLyricHelperDuet);
-            statics.Add(_StaticLyricHelperTop);
-            statics.Add(_StaticPauseBG);
+            List<string> statics = new List<string>
+                {
+                    _StaticSongText,
+                    _StaticLyrics,
+                    _StaticLyricsDuet,
+                    _StaticLyricsTop,
+                    _StaticTimeBar,
+                    _StaticTimeLine,
+                    _StaticTimeLineExpandedNormal,
+                    _StaticTimeLineExpandedHighlighted,
+                    _StaticTimePointer,
+                    _StaticLyricHelper,
+                    _StaticLyricHelperDuet,
+                    _StaticLyricHelperTop,
+                    _StaticPauseBG
+                };
             _BuildStaticStrings(ref statics);
             _ThemeStatics = statics.ToArray();
 
-            List<string> buttons = new List<string>();
-            buttons.Add(_ButtonCancel);
-            buttons.Add(_ButtonContinue);
-            buttons.Add(_ButtonSkip);
+            List<string> buttons = new List<string> {_ButtonCancel, _ButtonContinue, _ButtonSkip};
             _ThemeButtons = buttons.ToArray();
 
             _ThemeLyrics = new string[] {_LyricMain, _LyricSub, _LyricMainDuet, _LyricSubDuet, _LyricMainTop, _LyricSubTop};
@@ -638,10 +632,7 @@ namespace Vocaluxe.Screens
                 {
                     for (int i = 0; i < CGame.NumPlayer; i++)
                     {
-                        if ((i % 2) == 0)
-                            CGame.Player[i].LineNr = 1;
-                        else
-                            CGame.Player[i].LineNr = 0;
+                            CGame.Player[i].LineNr = (i+1) % 2;
                     }
                 }
                 else

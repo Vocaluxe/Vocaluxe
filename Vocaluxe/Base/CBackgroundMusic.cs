@@ -161,10 +161,7 @@ namespace Vocaluxe.Base
                     else
                         Next();
 
-                    if (!_IsBackgroundFile(_CurrentPlaylistElement))
-                        _CanSing = true;
-                    else
-                        _CanSing = false;
+                    _CanSing = !_IsBackgroundFile(_CurrentPlaylistElement);
                 }
             }
         }

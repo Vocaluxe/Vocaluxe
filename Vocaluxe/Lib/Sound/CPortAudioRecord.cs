@@ -73,17 +73,10 @@ namespace Vocaluxe.Lib.Sound
                     CPortAudio.SPaDeviceInfo info = CPortAudio.PaGetDeviceInfo(i);
                     if (info.HostApi == hostAPI && info.MaxInputChannels > 0)
                     {
-                        SRecordDevice dev = new SRecordDevice();
+                        SRecordDevice dev = new SRecordDevice {ID = i, Name = info.Name, Driver = info.Name + i, Inputs = new List<SInput>()};
 
-                        dev.ID = i;
-                        dev.Name = info.Name;
-                        dev.Driver = info.Name + i;
-                        dev.Inputs = new List<SInput>();
+                        SInput inp = new SInput {Name = "Default", Channels = info.MaxInputChannels};
 
-                        SInput inp = new SInput();
-                        inp.Name = "Default";
-
-                        inp.Channels = info.MaxInputChannels;
                         if (inp.Channels > 2)
                             inp.Channels = 2; //more are not supported in vocaluxe
 
@@ -156,11 +149,13 @@ namespace Vocaluxe.Lib.Sound
             {
                 if (active[i])
                 {
-                    CPortAudio.SPaStreamParameters inputParams = new CPortAudio.SPaStreamParameters();
-                    inputParams.ChannelCount = _DeviceConfig[i].Inputs[0].Channels;
-                    inputParams.Device = _DeviceConfig[i].ID;
-                    inputParams.SampleFormat = CPortAudio.EPaSampleFormat.PaInt16;
-                    inputParams.SuggestedLatency = CPortAudio.PaGetDeviceInfo(_DeviceConfig[i].ID).DefaultLowInputLatency;
+                    CPortAudio.SPaStreamParameters inputParams = new CPortAudio.SPaStreamParameters
+                        {
+                            ChannelCount = _DeviceConfig[i].Inputs[0].Channels,
+                            Device = _DeviceConfig[i].ID,
+                            SampleFormat = CPortAudio.EPaSampleFormat.PaInt16,
+                            SuggestedLatency = CPortAudio.PaGetDeviceInfo(_DeviceConfig[i].ID).DefaultLowInputLatency
+                        };
 
                     if (_ErrorCheck("OpenStream (rec)", CPortAudio.Pa_OpenStream(
                         out _RecHandle[i],

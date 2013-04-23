@@ -577,10 +577,7 @@ namespace VocaluxeLib.Menu
                 writer.WriteElementString("Font", Font);
 
                 writer.WriteComment("<Text>: Nothing or translation tag");
-                if (CBase.Language.TranslationExists(_Theme.Text))
-                    writer.WriteElementString("Text", _Theme.Text);
-                else
-                    writer.WriteElementString("Text", string.Empty);
+                writer.WriteElementString("Text", CBase.Language.TranslationExists(_Theme.Text) ? _Theme.Text : string.Empty);
 
                 if (!_ButtonText)
                 {

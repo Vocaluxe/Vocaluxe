@@ -203,17 +203,19 @@ namespace VocaluxeLib.Menu
         public CPlaylist(int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SThemePlaylist();
-            _Theme.Text1 = new CText(_PartyModeID);
-            _Theme.StaticCover = new CStatic(_PartyModeID);
-            _Theme.StaticPlaylistFooter = new CStatic(_PartyModeID);
-            _Theme.StaticPlaylistHeader = new CStatic(_PartyModeID);
-            _Theme.ButtonPlaylistName = new CButton(_PartyModeID);
-            _Theme.ButtonPlaylistClose = new CButton(_PartyModeID);
-            _Theme.ButtonPlaylistDelete = new CButton(_PartyModeID);
-            _Theme.ButtonPlaylistSave = new CButton(_PartyModeID);
-            _Theme.ButtonPlaylistSing = new CButton(_PartyModeID);
-            _Theme.SelectSlideGameMode = new CSelectSlide(_PartyModeID);
+            _Theme = new SThemePlaylist
+                {
+                    Text1 = new CText(_PartyModeID),
+                    StaticCover = new CStatic(_PartyModeID),
+                    StaticPlaylistFooter = new CStatic(_PartyModeID),
+                    StaticPlaylistHeader = new CStatic(_PartyModeID),
+                    ButtonPlaylistName = new CButton(_PartyModeID),
+                    ButtonPlaylistClose = new CButton(_PartyModeID),
+                    ButtonPlaylistDelete = new CButton(_PartyModeID),
+                    ButtonPlaylistSave = new CButton(_PartyModeID),
+                    ButtonPlaylistSing = new CButton(_PartyModeID),
+                    SelectSlideGameMode = new CSelectSlide(_PartyModeID)
+                };
 
             CompleteRect = new SRectF();
             Rect = new SRectF();
@@ -626,8 +628,7 @@ namespace VocaluxeLib.Menu
                                     CBase.Playlist.MovePlaylistSongUp(ActivePlaylistID, CurrentPlaylistElement + Offset);
                                     UpdatePlaylist();
 
-                                    SKeyEvent key = new SKeyEvent();
-                                    key.Key = Keys.Up;
+                                    SKeyEvent key = new SKeyEvent {Key = Keys.Up};
 
                                     if (CurrentPlaylistElement > scrollLimit)
                                     {
@@ -656,8 +657,7 @@ namespace VocaluxeLib.Menu
                                     CBase.Playlist.MovePlaylistSongDown(ActivePlaylistID, CurrentPlaylistElement + Offset);
                                     UpdatePlaylist();
 
-                                    SKeyEvent key = new SKeyEvent();
-                                    key.Key = Keys.Down;
+                                    SKeyEvent key = new SKeyEvent {Key = Keys.Down};
 
                                     if (CurrentPlaylistElement >= scrollLimit)
                                     {
@@ -795,10 +795,7 @@ namespace VocaluxeLib.Menu
                 return;
 
             int off = _PlaylistElementContents.Count - _PlaylistElements.Count;
-            if (off >= 0)
-                Offset = off;
-            else
-                Offset = 0;
+            Offset = off >= 0 ? off : 0;
 
             Update();
 
@@ -839,10 +836,7 @@ namespace VocaluxeLib.Menu
                 return;
 
             int off = _PlaylistElementContents.Count - _PlaylistElements.Count;
-            if (off >= 0)
-                Offset = off;
-            else
-                Offset = 0;
+            Offset = off >= 0 ? off : 0;
 
             Update();
         }
@@ -1100,12 +1094,13 @@ namespace VocaluxeLib.Menu
 
             for (int i = 0; i < Math.Floor(Rect.H / _Theme.EntryHeight); i++)
             {
-                CPlaylistElement en = new CPlaylistElement();
+                CPlaylistElement en = new CPlaylistElement
+                    {
+                        Background = new CStatic(_PartyModeID, _Theme.TextureBackgroundName, BackgroundColor,
+                                                 new SRectF(Rect.X, Rect.Y + (i * _Theme.EntryHeight), Rect.W, _Theme.EntryHeight, Rect.Z)),
+                        Cover = new CStatic(_Theme.StaticCover)
+                    };
 
-                en.Background = new CStatic(_PartyModeID, _Theme.TextureBackgroundName, BackgroundColor,
-                                            new SRectF(Rect.X, Rect.Y + (i * _Theme.EntryHeight), Rect.W, _Theme.EntryHeight, Rect.Z));
-
-                en.Cover = new CStatic(_Theme.StaticCover);
                 en.Cover.Rect.Y += Rect.Y + (i * _Theme.EntryHeight);
                 en.Cover.Rect.X += Rect.X;
 
@@ -1140,10 +1135,12 @@ namespace VocaluxeLib.Menu
                 _PlaylistElementContents.Clear();
                 for (int i = 0; i < CBase.Playlist.GetPlaylistSongCount(ActivePlaylistID); i++)
                 {
-                    CPlaylistElementContent pec = new CPlaylistElementContent();
-                    pec.SongID = CBase.Playlist.GetPlaylistSong(ActivePlaylistID, i).SongID;
-                    pec.Modes = CBase.Songs.GetSongByID(CBase.Playlist.GetPlaylistSong(ActivePlaylistID, i).SongID).AvailableGameModes;
-                    pec.Mode = CBase.Playlist.GetPlaylistSong(ActivePlaylistID, i).GameMode;
+                    CPlaylistElementContent pec = new CPlaylistElementContent
+                        {
+                            SongID = CBase.Playlist.GetPlaylistSong(ActivePlaylistID, i).SongID,
+                            Modes = CBase.Songs.GetSongByID(CBase.Playlist.GetPlaylistSong(ActivePlaylistID, i).SongID).AvailableGameModes,
+                            Mode = CBase.Playlist.GetPlaylistSong(ActivePlaylistID, i).GameMode
+                        };
                     _PlaylistElementContents.Add(pec);
                 }
                 Update();
@@ -1157,8 +1154,7 @@ namespace VocaluxeLib.Menu
             _PlaylistElementContents.Clear();
             for (int i = 0; i < CBase.Playlist.GetPlaylistSongCount(ActivePlaylistID); i++)
             {
-                CPlaylistElementContent pec = new CPlaylistElementContent();
-                pec.SongID = CBase.Playlist.GetPlaylistSong(ActivePlaylistID, i).SongID;
+                CPlaylistElementContent pec = new CPlaylistElementContent {SongID = CBase.Playlist.GetPlaylistSong(ActivePlaylistID, i).SongID};
                 pec.Modes = CBase.Songs.GetSongByID(pec.SongID).AvailableGameModes;
                 pec.Mode = CBase.Playlist.GetPlaylistSong(ActivePlaylistID, i).GameMode;
                 _PlaylistElementContents.Add(pec);

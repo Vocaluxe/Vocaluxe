@@ -320,9 +320,7 @@ namespace VocaluxeLib.Menu
                                          _Interactions[i].Type == EType.SongMenu ||
                                          _Interactions[i].Type == EType.Equalizer))
                 {
-                    SZSort zs = new SZSort();
-                    zs.ID = i;
-                    zs.Z = _GetZValue(i);
+                    SZSort zs = new SZSort {ID = i, Z = _GetZValue(i)};
                     items.Add(zs);
                 }
             }
@@ -331,7 +329,7 @@ namespace VocaluxeLib.Menu
                 return;
 
 
-            items.Sort(delegate(SZSort s1, SZSort s2) { return s2.Z.CompareTo(s1.Z); });
+            items.Sort((s1, s2) => s2.Z.CompareTo(s1.Z));
 
             for (int i = 0; i < items.Count; i++)
                 _DrawInteraction(items[i].ID);

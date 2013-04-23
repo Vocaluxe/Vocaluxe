@@ -237,18 +237,21 @@ namespace VocaluxeLib.Menu.SongMenu
         public CSongMenuFramework(int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SThemeSongMenu();
-
-            _Theme.SongMenuTileBoard.TextArtist = new CText(_PartyModeID);
-            _Theme.SongMenuTileBoard.TextTitle = new CText(_PartyModeID);
-            _Theme.SongMenuTileBoard.TextSongLength = new CText(_PartyModeID);
-
-            _Theme.SongMenuTileBoard.StaticCoverBig = new CStatic(_PartyModeID);
-            _Theme.SongMenuTileBoard.StaticTextBG = new CStatic(_PartyModeID);
-            _Theme.SongMenuTileBoard.StaticDuetIcon = new CStatic(_PartyModeID);
-            _Theme.SongMenuTileBoard.StaticVideoIcon = new CStatic(_PartyModeID);
-            _Theme.SongMenuTileBoard.StaticMedleyCalcIcon = new CStatic(_PartyModeID);
-            _Theme.SongMenuTileBoard.StaticMedleyTagIcon = new CStatic(_PartyModeID);
+            _Theme = new SThemeSongMenu
+                {
+                    SongMenuTileBoard =
+                        {
+                            TextArtist = new CText(_PartyModeID),
+                            TextTitle = new CText(_PartyModeID),
+                            TextSongLength = new CText(_PartyModeID),
+                            StaticCoverBig = new CStatic(_PartyModeID),
+                            StaticTextBG = new CStatic(_PartyModeID),
+                            StaticDuetIcon = new CStatic(_PartyModeID),
+                            StaticVideoIcon = new CStatic(_PartyModeID),
+                            StaticMedleyCalcIcon = new CStatic(_PartyModeID),
+                            StaticMedleyTagIcon = new CStatic(_PartyModeID)
+                        }
+                };
 
             _ThemeLoaded = false;
         }

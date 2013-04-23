@@ -53,9 +53,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            List<string> texts = new List<string>();
-            texts.Add(_TextSongName);
-            texts.Add(_TextSongMode);
+            List<string> texts = new List<string> {_TextSongName, _TextSongMode};
 
             _TextNumber = new string[_NumEntrys];
             for (int i = 0; i < _NumEntrys; i++)
@@ -176,10 +174,7 @@ namespace Vocaluxe.Screens
                     _Texts[_TextScore[p]].Text = _Scores[_Round][_Pos + p].Score.ToString("00000");
                     _Texts[_TextDate[p]].Text = _Scores[_Round][_Pos + p].Date;
 
-                    if (_IsNewEntry(_Scores[_Round][_Pos + p].ID))
-                        _ParticleEffects[_ParticleEffectNew[p]].Visible = true;
-                    else
-                        _ParticleEffects[_ParticleEffectNew[p]].Visible = false;
+                    _ParticleEffects[_ParticleEffectNew[p]].Visible = _IsNewEntry(_Scores[_Round][_Pos + p].ID);
                 }
                 else
                 {

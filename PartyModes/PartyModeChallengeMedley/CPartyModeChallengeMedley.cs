@@ -182,14 +182,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             _ToScreenNames = new SDataToScreenNames();
             _ToScreenMain = new SDataToScreenMain();
 
-            _GameData = new SData();
-            _GameData.NumPlayer = 4;
-            _GameData.NumPlayerAtOnce = 2;
-            _GameData.NumRounds = 2;
-            _GameData.CurrentRoundNr = 1;
-            _GameData.ProfileIDs = new List<int>();
-            _GameData.CatSongIndices = null;
-            _GameData.Results = null;
+            _GameData = new SData {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 2, CurrentRoundNr = 1, ProfileIDs = new List<int>(), CatSongIndices = null, Results = null};
         }
 
         public override bool Init()
@@ -637,13 +630,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             {
                 for (int i = 0; i < _GameData.NumPlayer; i++)
                 {
-                    CResultTableRow row = new CResultTableRow();
-                    row.PlayerID = _GameData.ProfileIDs[i];
-                    row.NumPlayed = 0;
-                    row.NumRounds = 0;
-                    row.NumWon = 0;
-                    row.NumSingPoints = 0;
-                    row.NumGamePoints = 0;
+                    CResultTableRow row = new CResultTableRow {PlayerID = _GameData.ProfileIDs[i], NumPlayed = 0, NumRounds = 0, NumWon = 0, NumSingPoints = 0, NumGamePoints = 0};
                     _GameData.ResultTable.Add(row);
                 }
 
@@ -732,15 +719,11 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             List<SStats> result = new List<SStats>();
             for (int i = 0; i < _GameData.NumPlayerAtOnce; i++)
             {
-                SStats stat = new SStats();
-                stat.ProfileID = results[i].ProfileID;
-                stat.SingPoints = (int)Math.Round(results[i].Points);
-                stat.Won = 0;
-                stat.GamePoints = 0;
+                SStats stat = new SStats {ProfileID = results[i].ProfileID, SingPoints = (int)Math.Round(results[i].Points), Won = 0, GamePoints = 0};
                 result.Add(stat);
             }
 
-            result.Sort(delegate(SStats s1, SStats s2) { return s1.SingPoints.CompareTo(s2.SingPoints); });
+            result.Sort((s1, s2) => s1.SingPoints.CompareTo(s2.SingPoints));
 
             int current = result[result.Count - 1].SingPoints;
             int points = result.Count;

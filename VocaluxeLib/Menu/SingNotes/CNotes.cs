@@ -678,8 +678,7 @@ namespace VocaluxeLib.Menu.SingNotes
             if (lineIndex < 0)
             {
                 //Note is before ALL lines
-                CLine line = new CLine();
-                line.StartBeat = note.StartBeat;
+                CLine line = new CLine {StartBeat = note.StartBeat};
                 line.AddNote(note);
                 _Lines.Insert(0, line);
             }

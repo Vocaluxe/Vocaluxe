@@ -603,11 +603,13 @@ namespace Vocaluxe.Lib.Sound
 
             IntPtr data = new IntPtr(0);
 
-            CPortAudio.SPaStreamParameters outputParams = new CPortAudio.SPaStreamParameters();
-            outputParams.ChannelCount = format.ChannelCount;
-            outputParams.Device = _ApiInfo.DefaultOutputDevice;
-            outputParams.SampleFormat = CPortAudio.EPaSampleFormat.PaInt16;
-            outputParams.SuggestedLatency = _OutputDeviceInfo.DefaultLowOutputLatency;
+            CPortAudio.SPaStreamParameters outputParams = new CPortAudio.SPaStreamParameters
+                {
+                    ChannelCount = format.ChannelCount,
+                    Device = _ApiInfo.DefaultOutputDevice,
+                    SampleFormat = CPortAudio.EPaSampleFormat.PaInt16,
+                    SuggestedLatency = _OutputDeviceInfo.DefaultLowOutputLatency
+                };
 
             uint bufsize = (uint)CConfig.AudioBufferSize;
             lock (_Mutex)

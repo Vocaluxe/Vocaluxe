@@ -53,10 +53,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             _ThemeButtons = new string[] {_ButtonNext, _ButtonBack};
 
             _Data = new SDataFromScreen();
-            SFromScreenConfig config = new SFromScreenConfig();
-            config.NumPlayer = 4;
-            config.NumPlayerAtOnce = 2;
-            config.NumRounds = 12;
+            SFromScreenConfig config = new SFromScreenConfig {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 12};
             _Data.ScreenConfig = config;
         }
 
@@ -227,10 +224,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             int res = _Data.ScreenConfig.NumPlayer / _Data.ScreenConfig.NumPlayerAtOnce;
             int mod = _Data.ScreenConfig.NumPlayer % _Data.ScreenConfig.NumPlayerAtOnce;
 
-            if (mod == 0)
-                _RoundSteps = res;
-            else
-                _RoundSteps = _Data.ScreenConfig.NumPlayer;
+            _RoundSteps = mod == 0 ? res : _Data.ScreenConfig.NumPlayer;
         }
 
         private void _Back()

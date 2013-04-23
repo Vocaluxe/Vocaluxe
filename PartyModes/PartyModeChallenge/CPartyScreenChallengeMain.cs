@@ -98,8 +98,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         public CPartyScreenChallengeMain()
         {
-            _Data = new SDataFromScreen();
-            _Data.ScreenMain = new SFromScreenMain();
+            _Data = new SDataFromScreen {ScreenMain = new SFromScreenMain()};
         }
 
         public override void Init()
@@ -406,9 +405,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _RoundsTable = new List<CRoundsTableRow>();
             for (int i = 0; i < 5; i++)
             {
-                CRoundsTableRow rtr = new CRoundsTableRow();
-                rtr.TextPlayer = new List<CText>();
-                rtr.TextScores = new List<CText>();
+                CRoundsTableRow rtr = new CRoundsTableRow {TextPlayer = new List<CText>(), TextScores = new List<CText>()};
                 _RoundsTable.Add(rtr);
             }
             //Create statics and texts for rounds
@@ -438,11 +435,8 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             _RoundsTableScrollArea = new SRectF();
 
-            int numPlayerInOneRow = 3;
-            if (_GameState.NumPlayerAtOnce <= numPlayerInOneRow)
-                _NumRoundsVisible = 5;
-            else
-                _NumRoundsVisible = 3;
+            const int numPlayerInOneRow = 3;
+            _NumRoundsVisible = _GameState.NumPlayerAtOnce <= numPlayerInOneRow ? 5 : 3;
 
             if (_NumRoundsVisible > _GameState.Combs.Count)
                 _NumRoundsVisible = _GameState.Combs.Count;
@@ -536,10 +530,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private void _BuildPlayerTable()
         {
-            _PlayerTableScrollArea = new SRectF();
-            _PlayerTableScrollArea.X = _Texts[_TextPosition].X;
-            _PlayerTableScrollArea.Y = _Texts[_TextPosition].Y;
-            _PlayerTableScrollArea.W = _Texts[_TextGamePoints].X - _Texts[_TextPosition].X;
+            _PlayerTableScrollArea = new SRectF {X = _Texts[_TextPosition].X, Y = _Texts[_TextPosition].Y, W = _Texts[_TextGamePoints].X - _Texts[_TextPosition].X};
 
             _PlayerTable = new List<STableRow>();
             float delta = _Texts[_TextPosition].Height * 1.2f;
@@ -548,14 +539,15 @@ namespace VocaluxeLib.PartyModes.Challenge
 
             for (int i = 0; i < 10; i++)
             {
-                STableRow row = new STableRow();
-
-                row.Pos = GetNewText(_Texts[_TextPosition]);
-                row.Name = GetNewText(_Texts[_TextPlayerName]);
-                row.Rounds = GetNewText(_Texts[_TextNumPlayed]);
-                row.Won = GetNewText(_Texts[_TextWon]);
-                row.SingPoints = GetNewText(_Texts[_TextSingPoints]);
-                row.GamePoints = GetNewText(_Texts[_TextGamePoints]);
+                STableRow row = new STableRow
+                    {
+                        Pos = GetNewText(_Texts[_TextPosition]),
+                        Name = GetNewText(_Texts[_TextPlayerName]),
+                        Rounds = GetNewText(_Texts[_TextNumPlayed]),
+                        Won = GetNewText(_Texts[_TextWon]),
+                        SingPoints = GetNewText(_Texts[_TextSingPoints]),
+                        GamePoints = GetNewText(_Texts[_TextGamePoints])
+                    };
 
                 row.Pos.Y += delta * (i + 1);
                 row.Name.Y += delta * (i + 1);

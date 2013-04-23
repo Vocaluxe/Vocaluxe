@@ -67,9 +67,7 @@ namespace Vocaluxe.Base
                 _IDs.Enqueue(i);
 
             //add dummy normal game mode and set it as default
-            SPartyMode pm = new SPartyMode();
-            pm.PartyMode = new CPartyModeNone();
-            pm.ScreenFiles = new List<string>();
+            SPartyMode pm = new SPartyMode {PartyMode = new CPartyModeNone(), ScreenFiles = new List<string>()};
             pm.PartyMode.Initialize();
             pm.PartyModeID = _IDs.Dequeue();
             _NormalGameModeID = pm.PartyModeID;
@@ -231,10 +229,7 @@ namespace Vocaluxe.Base
 
         private static SPartyMode _LoadPartyMode(string file)
         {
-            SPartyMode pm = new SPartyMode();
-            pm.PartyModeID = _IDs.Dequeue();
-            pm.ScreenFiles = new List<string>();
-            pm.NoErrors = false;
+            SPartyMode pm = new SPartyMode {PartyModeID = _IDs.Dequeue(), ScreenFiles = new List<string>(), NoErrors = false};
 
             CXMLReader xmlReader = CXMLReader.OpenFile(file);
 

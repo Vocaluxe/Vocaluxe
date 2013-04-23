@@ -212,8 +212,7 @@ namespace Vocaluxe.Base
                 if (nr == -1)
                     return true;
 
-                SPartyLanguage lang = new SPartyLanguage();
-                lang.PartyModeID = partyModeID;
+                SPartyLanguage lang = new SPartyLanguage {PartyModeID = partyModeID};
                 if (!_LoadLanguageEntries(xmlReader, out lang.Texts))
                     return false;
 
@@ -226,8 +225,7 @@ namespace Vocaluxe.Base
 
         private static void _LoadLanguageFile(string fileName)
         {
-            SLanguage lang = new SLanguage();
-            lang.LanguageFilePath = Path.Combine(CSettings.FolderLanguages, fileName);
+            SLanguage lang = new SLanguage {LanguageFilePath = Path.Combine(CSettings.FolderLanguages, fileName)};
 
             CXMLReader xmlReader = CXMLReader.OpenFile(lang.LanguageFilePath);
             if (xmlReader == null)

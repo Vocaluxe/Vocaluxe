@@ -154,8 +154,7 @@ namespace Vocaluxe.Lib.Playlist
                     xmlReader.GetValue("//root/Songs/" + song + "/Title", out title, String.Empty);
                     xmlReader.TryGetEnumValue("//root/Songs/" + song + "/GameMode", ref gm);
 
-                    CPlaylistSong playlistSong = new CPlaylistSong();
-                    playlistSong.SongID = -1;
+                    CPlaylistSong playlistSong = new CPlaylistSong {SongID = -1};
                     CSong[] allSongs = CSongs.AllSongs;
 
                     foreach (CSong curSong in allSongs)
@@ -181,21 +180,14 @@ namespace Vocaluxe.Lib.Playlist
 
         public void AddSong(int songID)
         {
-            CPlaylistSong song = new CPlaylistSong();
-            song.SongID = songID;
-            if (CSongs.GetSong(songID).IsDuet)
-                song.GameMode = EGameMode.TR_GAMEMODE_DUET;
-            else
-                song.GameMode = EGameMode.TR_GAMEMODE_NORMAL;
+            CPlaylistSong song = new CPlaylistSong {SongID = songID, GameMode = CSongs.GetSong(songID).IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL};
 
             Songs.Add(song);
         }
 
         public void AddSong(int songID, EGameMode gm)
         {
-            CPlaylistSong song = new CPlaylistSong();
-            song.SongID = songID;
-            song.GameMode = gm;
+            CPlaylistSong song = new CPlaylistSong {SongID = songID, GameMode = gm};
 
             Songs.Add(song);
         }

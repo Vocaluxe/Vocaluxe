@@ -75,8 +75,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            List<string> values = new List<string>();
-            values.Add(_StaticWarning);
+            List<string> values = new List<string> {_StaticWarning};
             values.AddRange(_StaticEnergyChannel);
             _ThemeStatics = values.ToArray();
 

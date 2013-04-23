@@ -197,16 +197,7 @@ namespace Vocaluxe.Base
 
         public static void CreateFolders()
         {
-            List<string> folders = new List<string>();
-
-            folders.Add(FolderCover);
-            folders.Add(FolderFonts);
-            folders.Add(FolderProfiles);
-            folders.Add(FolderSongs);
-            folders.Add(FolderScreenshots);
-            folders.Add(FolderBackgroundMusic);
-            folders.Add(FolderSounds);
-            folders.Add(FolderPlaylists);
+            List<string> folders = new List<string> {FolderCover, FolderFonts, FolderProfiles, FolderSongs, FolderScreenshots, FolderBackgroundMusic, FolderSounds, FolderPlaylists};
 
             foreach (string folder in folders)
             {

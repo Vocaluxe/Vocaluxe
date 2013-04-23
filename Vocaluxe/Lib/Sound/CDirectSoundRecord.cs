@@ -55,15 +55,9 @@ namespace Vocaluxe.Lib.Sound
             {
                 using (DirectSoundCapture ds = new DirectSoundCapture(dev.DriverGuid))
                 {
-                    SRecordDevice device = new SRecordDevice();
-                    device.Driver = dev.DriverGuid.ToString();
-                    device.ID = id;
-                    device.Name = dev.Description;
-                    device.Inputs = new List<SInput>();
+                    SRecordDevice device = new SRecordDevice {Driver = dev.DriverGuid.ToString(), ID = id, Name = dev.Description, Inputs = new List<SInput>()};
 
-                    SInput inp = new SInput();
-                    inp.Name = "Default";
-                    inp.Channels = ds.Capabilities.Channels;
+                    SInput inp = new SInput {Name = "Default", Channels = ds.Capabilities.Channels};
 
                     if (inp.Channels > 2)
                         inp.Channels = 2; //more are not supported in vocaluxe
@@ -120,8 +114,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 if (active[i])
                 {
-                    CSoundCardSource source = new CSoundCardSource(guid[i], channels[i]);
-                    source.SampleRateKhz = 44.1;
+                    CSoundCardSource source = new CSoundCardSource(guid[i], channels[i]) {SampleRateKhz = 44.1};
                     source.SampleDataReady += _OnDataReady;
                     source.Start();
 
@@ -336,9 +329,7 @@ namespace Vocaluxe.Lib.Sound
 
                 for (int i = 0; i < _BufferPortionCount; i++)
                 {
-                    NotificationPosition notification = new NotificationPosition();
-                    notification.Offset = _BufferPortionCount - 1 + (_BufferPortionSize * i);
-                    notification.Event = new AutoResetEvent(false);
+                    NotificationPosition notification = new NotificationPosition {Offset = _BufferPortionCount - 1 + (_BufferPortionSize * i), Event = new AutoResetEvent(false)};
                     _Notifications.Add(notification);
                 }
 
@@ -348,8 +339,7 @@ namespace Vocaluxe.Lib.Sound
                 for (int i = 0; i < _Notifications.Count; i++)
                     _WaitHandles[i] = _Notifications[i].Event;
 
-                _CaptureThread = new Thread(_DoCapture);
-                _CaptureThread.IsBackground = true;
+                _CaptureThread = new Thread(_DoCapture) {IsBackground = true};
 
                 _Running = true;
                 _CaptureThread.Start();

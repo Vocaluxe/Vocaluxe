@@ -121,8 +121,7 @@ namespace VocaluxeLib.Menu
         public CStatic(int partyModeID, string textureSkinName, SColorF color, SRectF rect)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SThemeStatic();
-            _Theme.TextureName = textureSkinName;
+            _Theme = new SThemeStatic {TextureName = textureSkinName};
             _ThemeLoaded = false;
 
             _Texture = new STexture(-1);
@@ -244,11 +243,7 @@ namespace VocaluxeLib.Menu
 
         public void Draw(float scale, float z, EAspect aspect, bool forceDraw)
         {
-            STexture texture;
-            if (_Texture.Index != -1)
-                texture = _Texture;
-            else
-                texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+            STexture texture = _Texture.Index != -1 ? _Texture : CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
 
             SRectF bounds = new SRectF(
                 Rect.X - Rect.W * (scale - 1f),

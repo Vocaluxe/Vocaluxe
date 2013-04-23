@@ -73,15 +73,17 @@ namespace Vocaluxe.Base
         public static int AddScore(string playerName, int score, int lineNr, long date, int medley, int duet, int shortSong, int diff,
                                    string artist, string title, int numPlayed, string filePath)
         {
-            SPlayer player = new SPlayer();
-            player.Name = playerName;
-            player.Points = score;
-            player.LineNr = lineNr;
-            player.DateTicks = date;
-            player.Medley = medley == 1;
-            player.Duet = duet == 1;
-            player.ShortSong = shortSong == 1;
-            player.Difficulty = (EGameDifficulty)diff;
+            SPlayer player = new SPlayer
+                {
+                    Name = playerName,
+                    Points = score,
+                    LineNr = lineNr,
+                    DateTicks = date,
+                    Medley = medley == 1,
+                    Duet = duet == 1,
+                    ShortSong = shortSong == 1,
+                    Difficulty = (EGameDifficulty)diff
+                };
 
             using (SQLiteConnection connection = new SQLiteConnection())
             {
@@ -252,13 +254,15 @@ namespace Vocaluxe.Base
                         {
                             while (reader.Read())
                             {
-                                SScores score = new SScores();
-                                score.Name = reader.GetString(0);
-                                score.Score = reader.GetInt32(1);
-                                score.Date = new DateTime(reader.GetInt64(2)).ToString("dd/MM/yyyy");
-                                score.Difficulty = (EGameDifficulty)reader.GetInt32(3);
-                                score.LineNr = reader.GetInt32(4);
-                                score.ID = reader.GetInt32(5);
+                                SScores score = new SScores
+                                    {
+                                        Name = reader.GetString(0),
+                                        Score = reader.GetInt32(1),
+                                        Date = new DateTime(reader.GetInt64(2)).ToString("dd/MM/yyyy"),
+                                        Difficulty = (EGameDifficulty)reader.GetInt32(3),
+                                        LineNr = reader.GetInt32(4),
+                                        ID = reader.GetInt32(5)
+                                    };
 
                                 scores.Add(score);
                             }
@@ -633,9 +637,7 @@ namespace Vocaluxe.Base
                     {
                         while (reader.Read())
                         {
-                            SData data = new SData();
-                            data.Id = reader.GetInt32(0);
-                            data.Str1 = reader.GetString(1);
+                            SData data = new SData {Id = reader.GetInt32(0), Str1 = reader.GetString(1)};
                             Int64 ticks = 0;
 
                             try
@@ -659,10 +661,7 @@ namespace Vocaluxe.Base
                     {
                         while (reader.Read())
                         {
-                            SData data = new SData();
-                            data.Id = reader.GetInt32(0);
-                            data.Str1 = reader.GetString(1);
-                            data.Str2 = reader.GetString(2);
+                            SData data = new SData {Id = reader.GetInt32(0), Str1 = reader.GetString(1), Str2 = reader.GetString(2)};
                             songs.Add(data);
                         }
                     }
@@ -793,21 +792,13 @@ namespace Vocaluxe.Base
 
                             while (Sqlite3.sqlite3_step(stmt) == Sqlite3.SQLITE_ROW)
                             {
-                                SData data = new SData();
-
-                                data.Id = Sqlite3.sqlite3_column_int(stmt, 0);
+                                SData data = new SData {Id = Sqlite3.sqlite3_column_int(stmt, 0)};
 
                                 byte[] bytes = Sqlite3.sqlite3_column_rawbytes(stmt, 1);
-                                if (bytes != null)
-                                    data.Str1 = utf8.GetString(Encoding.Convert(cp1252, utf8, bytes));
-                                else
-                                    data.Str1 = "Someone";
+                                data.Str1 = bytes != null ? utf8.GetString(Encoding.Convert(cp1252, utf8, bytes)) : "Someone";
 
                                 bytes = Sqlite3.sqlite3_column_rawbytes(stmt, 2);
-                                if (bytes != null)
-                                    data.Str2 = utf8.GetString(Encoding.Convert(cp1252, utf8, bytes));
-                                else
-                                    data.Str2 = "Someone";
+                                data.Str2 = bytes != null ? utf8.GetString(Encoding.Convert(cp1252, utf8, bytes)) : "Someone";
 
                                 songs.Add(data);
                             }
@@ -831,15 +822,10 @@ namespace Vocaluxe.Base
 
                             while (Sqlite3.sqlite3_step(stmt) == Sqlite3.SQLITE_ROW)
                             {
-                                SData data = new SData();
-
-                                data.Id = Sqlite3.sqlite3_column_int(stmt, 0);
+                                SData data = new SData {Id = Sqlite3.sqlite3_column_int(stmt, 0)};
 
                                 byte[] bytes = Sqlite3.sqlite3_column_rawbytes(stmt, 1);
-                                if (bytes != null)
-                                    data.Str1 = utf8.GetString(Encoding.Convert(cp1252, utf8, bytes));
-                                else
-                                    data.Str1 = "Someone";
+                                data.Str1 = bytes != null ? utf8.GetString(Encoding.Convert(cp1252, utf8, bytes)) : "Someone";
 
                                 if (dateExists)
                                     data.Ticks = _UnixTimeToTicks(Sqlite3.sqlite3_column_int(stmt, 2));
@@ -986,8 +972,7 @@ namespace Vocaluxe.Base
 
             if (_ConnectionCover == null)
             {
-                _ConnectionCover = new SQLiteConnection();
-                _ConnectionCover.ConnectionString = "Data Source=" + _CoverFilePath;
+                _ConnectionCover = new SQLiteConnection {ConnectionString = "Data Source=" + _CoverFilePath};
                 _ConnectionCover.Open();
             }
 

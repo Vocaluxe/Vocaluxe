@@ -176,8 +176,7 @@ namespace Vocaluxe.Base
                 float videoTime = _VideoTimer.ElapsedMilliseconds / 1000f;
                 _Finished = CVideo.VdFinished(_VideoStream);
 
-                STexture tex = new STexture(-1);
-                tex.Height = 0f;
+                STexture tex = new STexture(-1) {Height = 0f};
                 CVideo.VdGetFrame(_VideoStream, ref tex, videoTime, out videoTime);
 
                 if (tex.Height > 0)

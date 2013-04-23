@@ -158,10 +158,7 @@ namespace Vocaluxe.Base
             if (!_Timer.IsRunning || (_Timer.ElapsedMilliseconds > 75) || !repeat)
             {
                 _Keys = e.KeyCode;
-                if (repeat)
-                    _Add(_ModAlt, _ModShift, _ModCtrl, _KeyPressed, _Char, _Keys);
-                else
-                    _Add(_ModAlt, _ModShift, _ModCtrl, _KeyPressed, Char.MinValue, _Keys);
+                _Add(_ModAlt, _ModShift, _ModCtrl, _KeyPressed, repeat ? _Char : Char.MinValue, _Keys);
             }
         }
 

@@ -69,18 +69,15 @@ namespace Vocaluxe.Base
 
         public static int NewProfile(string fileName)
         {
-            SProfile profile = new SProfile();
-
-            profile.PlayerName = String.Empty;
-            profile.Difficulty = EGameDifficulty.TR_CONFIG_EASY;
-            profile.Avatar = new SAvatar(-1);
-            profile.GuestProfile = EOffOn.TR_CONFIG_OFF;
-            profile.Active = EOffOn.TR_CONFIG_ON;
-
-            if (fileName != "")
-                profile.ProfileFile = Path.Combine(CSettings.FolderProfiles, fileName);
-            else
-                profile.ProfileFile = String.Empty;
+            SProfile profile = new SProfile
+                {
+                    PlayerName = String.Empty,
+                    Difficulty = EGameDifficulty.TR_CONFIG_EASY,
+                    Avatar = new SAvatar(-1),
+                    GuestProfile = EOffOn.TR_CONFIG_OFF,
+                    Active = EOffOn.TR_CONFIG_ON,
+                    ProfileFile = fileName != "" ? Path.Combine(CSettings.FolderProfiles, fileName) : String.Empty
+                };
 
             if (File.Exists(profile.ProfileFile))
                 return -1;
@@ -129,9 +126,7 @@ namespace Vocaluxe.Base
 
                 if (tex.Index != -1)
                 {
-                    SAvatar avatar = new SAvatar();
-                    avatar.Texture = tex;
-                    avatar.FileName = Path.GetFileName(file);
+                    SAvatar avatar = new SAvatar {Texture = tex, FileName = Path.GetFileName(file)};
                     _Avatars.Add(avatar);
                 }
             }
@@ -367,8 +362,7 @@ namespace Vocaluxe.Base
 
         private static void _LoadProfile(string fileName)
         {
-            SProfile profile = new SProfile();
-            profile.ProfileFile = Path.Combine(CSettings.FolderProfiles, fileName);
+            SProfile profile = new SProfile {ProfileFile = Path.Combine(CSettings.FolderProfiles, fileName)};
 
             CXMLReader xmlReader = CXMLReader.OpenFile(profile.ProfileFile);
             if (xmlReader == null)

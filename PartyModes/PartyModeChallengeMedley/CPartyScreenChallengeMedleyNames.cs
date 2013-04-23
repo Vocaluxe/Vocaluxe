@@ -88,10 +88,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             _ThemeButtons = new string[] {_ButtonBack, _ButtonNext, _ButtonPlayerDestination, _ButtonPlayerChoose};
 
             _Data = new SDataFromScreen();
-            SFromScreenNames names = new SFromScreenNames();
-            names.FadeToConfig = false;
-            names.FadeToMain = false;
-            names.ProfileIDs = new List<int>();
+            SFromScreenNames names = new SFromScreenNames {FadeToConfig = false, FadeToMain = false, ProfileIDs = new List<int>()};
             _Data.ScreenNames = names;
         }
 
@@ -316,9 +313,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 CButton b = GetNewButton(_Buttons[_ButtonPlayerChoose]);
                 b.Rect.X = _PlayerChooseButtonsFirstX + column * (b.Rect.W + _PlayerChooseButtonsSpaceH);
                 b.Rect.Y = _PlayerChooseButtonsFirstY + row * (b.Rect.H + _PlayerChooseButtonsSpaceW);
-                CPlayerChooseButton pcb = new CPlayerChooseButton();
-                pcb.Button = b;
-                pcb.ProfileID = -1;
+                CPlayerChooseButton pcb = new CPlayerChooseButton {Button = b, ProfileID = -1};
                 _PlayerChooseButtons.Add(pcb);
                 column++;
                 if (column >= _PlayerChooseButtonsNumH)

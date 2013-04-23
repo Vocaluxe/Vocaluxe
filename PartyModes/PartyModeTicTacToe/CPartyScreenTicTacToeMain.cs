@@ -388,8 +388,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             for (int i = 0; i < 25; i++)
             {
-                CField f = new CField();
-                f.Button = GetNewButton(_Buttons[_ButtonField]);
+                CField f = new CField {Button = GetNewButton(_Buttons[_ButtonField])};
                 f.Button.Visible = false;
                 f.Content = new CRound();
                 _AddButton(f.Button);

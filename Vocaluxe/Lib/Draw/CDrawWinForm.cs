@@ -359,15 +359,9 @@ namespace Vocaluxe.Lib.Draw
         {
             Bitmap bmp2 = new Bitmap(bmp);
             _Bitmaps.Add(bmp2);
-            STexture texture = new STexture();
-
-            texture.Index = _Bitmaps.Count - 1;
-
-            texture.Width = bmp.Width;
-            texture.Height = bmp.Height;
+            STexture texture = new STexture {Index = _Bitmaps.Count - 1, Width = bmp.Width, Height = bmp.Height, Color = new SColorF(1f, 1f, 1f, 1f)};
 
             // Add to Texture List
-            texture.Color = new SColorF(1f, 1f, 1f, 1f);
             texture.Rect = new SRectF(0f, 0f, texture.Width, texture.Height, 0f);
             texture.TexturePath = String.Empty;
 
@@ -512,12 +506,7 @@ namespace Vocaluxe.Lib.Draw
 
             using (Graphics g = Graphics.FromImage(newBitmap))
             {
-                ColorMatrix cm = new ColorMatrix();
-                cm.Matrix33 = color.A;
-                cm.Matrix00 = color.R;
-                cm.Matrix11 = color.G;
-                cm.Matrix22 = color.B;
-                cm.Matrix44 = 1;
+                ColorMatrix cm = new ColorMatrix {Matrix33 = color.A, Matrix00 = color.R, Matrix11 = color.G, Matrix22 = color.B, Matrix44 = 1};
 
                 using (ImageAttributes ia = new ImageAttributes())
                 {

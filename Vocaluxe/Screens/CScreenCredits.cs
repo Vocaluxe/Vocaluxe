@@ -291,8 +291,7 @@ namespace Vocaluxe.Screens
             CStatic image = GetNewStatic(texture, new SColorF(1, 1, 1, 1), new SRectF(-1, -1, 400, 120, -4));
 
             SRectF particleRect = new SRectF(-1, -1, partRectSize, partRectSize, -6);
-            SRectF imgDotRect = new SRectF(particleRect);
-            imgDotRect.Z = -5;
+            SRectF imgDotRect = new SRectF(particleRect) {Z = -5};
             CStatic imgDot = GetNewStatic(texDot, new SColorF(1, 1, 1, 1), imgDotRect);
             CParticleEffect particle = _GetStarParticles(partCount, isRight, particleRect, bigParticles);
 

@@ -577,11 +577,7 @@ namespace Vocaluxe.Base
             int i = 1;
             while (xmlReader.GetValue("//root/Fonts/Font" + i + "/Folder", out value, value))
             {
-                SFont sf = new SFont();
-                sf.Folder = value;
-                sf.IsThemeFont = themeName != "";
-                sf.ThemeName = themeName;
-                sf.PartyModeID = partyModeId;
+                SFont sf = new SFont {Folder = value, IsThemeFont = themeName != "", ThemeName = themeName, PartyModeID = partyModeId};
 
                 bool ok = true;
 

@@ -803,10 +803,7 @@ namespace Vocaluxe.Screens
                     gm = _AvailableGameModes[_SelectSlides[_SelectSlideOptionsMode].Selection];
                 else
                 {
-                    if (CSongs.VisibleSongs[songNr].IsDuet)
-                        gm = EGameMode.TR_GAMEMODE_DUET;
-                    else
-                        gm = EGameMode.TR_GAMEMODE_NORMAL;
+                    gm = CSongs.VisibleSongs[songNr].IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL;
                 }
 
                 CGame.Reset();
@@ -823,10 +820,7 @@ namespace Vocaluxe.Screens
             if (CSongs.Category >= 0 && songNr >= 0 && CSongs.NumVisibleSongs > songNr)
             {
                 EGameMode gm;
-                if (CSongs.VisibleSongs[songNr].IsDuet)
-                    gm = EGameMode.TR_GAMEMODE_DUET;
-                else
-                    gm = EGameMode.TR_GAMEMODE_NORMAL;
+                gm = CSongs.VisibleSongs[songNr].IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL;
 
                 CGame.Reset();
                 CGame.ClearSongs();

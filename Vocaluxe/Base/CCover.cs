@@ -164,7 +164,7 @@ namespace Vocaluxe.Base
             _CoverThemes.Clear();
 
             const string path = CSettings.FolderCover;
-            List<string> files = CHelper.ListFiles(path, "*.xml", false);
+            List<string> files = CHelper.ListFiles(path, "*.xml");
 
             foreach (string file in files)
             {

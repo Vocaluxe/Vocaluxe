@@ -93,11 +93,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _ThemeButtons = new string[] {_ButtonBack, _ButtonNext, _ButtonPlayerDestination, _ButtonPlayerChoose, _ButtonPlayerChooseScrollUp, _ButtonPlayerChooseScrollDown};
 
             _Data = new SDataFromScreen();
-            SFromScreenNames names = new SFromScreenNames();
-            names.FadeToConfig = false;
-            names.FadeToMain = false;
-            names.ProfileIDsTeam1 = new List<int>();
-            names.ProfileIDsTeam2 = new List<int>();
+            SFromScreenNames names = new SFromScreenNames {FadeToConfig = false, FadeToMain = false, ProfileIDsTeam1 = new List<int>(), ProfileIDsTeam2 = new List<int>()};
             _Data.ScreenNames = names;
         }
 
@@ -378,9 +374,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 CButton b = GetNewButton(_Buttons[_ButtonPlayerChoose]);
                 b.Rect.X = _PlayerChooseButtonsFirstX + column * (b.Rect.W + _PlayerChooseButtonsSpaceH);
                 b.Rect.Y = _PlayerChooseButtonsFirstY + row * (b.Rect.H + _PlayerChooseButtonsSpaceW);
-                CPlayerChooseButton pcb = new CPlayerChooseButton();
-                pcb.Button = b;
-                pcb.ProfileID = -1;
+                CPlayerChooseButton pcb = new CPlayerChooseButton {Button = b, ProfileID = -1};
                 _PlayerChooseButtons.Add(pcb);
                 column++;
                 if (column >= _PlayerChooseButtonsNumH)

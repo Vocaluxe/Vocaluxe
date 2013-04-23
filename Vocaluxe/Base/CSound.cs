@@ -486,16 +486,19 @@ namespace Vocaluxe.Base
                         _MaxVolume = volume;
                 }
 
-                if (_MaxVolume >= 0.02f)
-                    _AnalyzeByAutocorrelation(true);
-                else
-                    _AnalyzeByAutocorrelation(false);
+                _AnalyzeByAutocorrelation(_MaxVolume >= 0.02f);
             }
             catch (Exception) {}
         }
 
         private void _AnalyzeByAutocorrelation(bool valid)
         {
+            if (!valid)
+            {
+                _ToneValid = false;
+                return;
+            }
+
             const double halftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
 
             // prepare to analyze
@@ -525,7 +528,7 @@ namespace Vocaluxe.Base
                 weigth[toneIndex] = (float)curWeight;
             }
 
-            if (valid && maxWeight - minWeight > 0.01)
+            if (maxWeight - minWeight > 0.01)
             {
                 for (int i = 0; i < weigth.Length; i++)
                     _ToneWeigth[i] = weigth[i];

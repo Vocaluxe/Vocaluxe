@@ -748,8 +748,7 @@ namespace Vocaluxe.Base
             if (CConfig.DebugLevel == EDebugLevel.TR_CONFIG_OFF)
                 return;
 
-            List<String> debugOutput = new List<string>();
-            debugOutput.Add(CTime.GetFPS().ToString("FPS: 000"));
+            List<String> debugOutput = new List<string> {CTime.GetFPS().ToString("FPS: 000")};
 
             if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
             {

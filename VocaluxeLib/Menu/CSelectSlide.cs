@@ -187,29 +187,24 @@ namespace VocaluxeLib.Menu
         public CSelectSlide(CSelectSlide slide)
         {
             _PartyModeID = slide._PartyModeID;
-            _Theme = new SThemeSelectSlide();
-
-            _Theme.TextureArrowLeftName = slide._Theme.TextureArrowLeftName;
-            _Theme.TextureArrowRightName = slide._Theme.TextureArrowRightName;
-
-            _Theme.SelTextureName = slide._Theme.SelTextureName;
-            _Theme.SelTextureArrowLeftName = slide._Theme.SelTextureArrowLeftName;
-            _Theme.SelTextureArrowRightName = slide._Theme.SelTextureArrowRightName;
-
-            _Theme.HighlightTextureName = slide._Theme.HighlightTextureName;
-
-            _Theme.ColorName = slide._Theme.ColorName;
-            _Theme.SelColorName = slide._Theme.SelColorName;
-            _Theme.HighlightColorName = slide._Theme.HighlightColorName;
-
-            _Theme.ArrowColorName = slide._Theme.ArrowColorName;
-            _Theme.SelArrowColorName = slide._Theme.SelArrowColorName;
-
-            _Theme.TextColorName = slide._Theme.TextColorName;
-            _Theme.SelTextColorName = slide._Theme.SelTextColorName;
-
-            _Theme.TextFont = slide._Theme.TextFont;
-            _Theme.TextStyle = slide._Theme.TextStyle;
+            _Theme = new SThemeSelectSlide
+                {
+                    TextureArrowLeftName = slide._Theme.TextureArrowLeftName,
+                    TextureArrowRightName = slide._Theme.TextureArrowRightName,
+                    SelTextureName = slide._Theme.SelTextureName,
+                    SelTextureArrowLeftName = slide._Theme.SelTextureArrowLeftName,
+                    SelTextureArrowRightName = slide._Theme.SelTextureArrowRightName,
+                    HighlightTextureName = slide._Theme.HighlightTextureName,
+                    ColorName = slide._Theme.ColorName,
+                    SelColorName = slide._Theme.SelColorName,
+                    HighlightColorName = slide._Theme.HighlightColorName,
+                    ArrowColorName = slide._Theme.ArrowColorName,
+                    SelArrowColorName = slide._Theme.SelArrowColorName,
+                    TextColorName = slide._Theme.TextColorName,
+                    SelTextColorName = slide._Theme.SelTextColorName,
+                    TextFont = slide._Theme.TextFont,
+                    TextStyle = slide._Theme.TextStyle
+                };
 
             _ThemeLoaded = false;
 

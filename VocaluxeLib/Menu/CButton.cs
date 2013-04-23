@@ -117,11 +117,13 @@ namespace VocaluxeLib.Menu
         public CButton(CButton button)
         {
             _PartyModeID = button._PartyModeID;
-            _Theme = new SThemeButton();
-            _Theme.ColorName = button._Theme.ColorName;
-            _Theme.SelColorName = button._Theme.SelColorName;
-            _Theme.TextureName = button._Theme.TextureName;
-            _Theme.SelTextureName = button._Theme.SelTextureName;
+            _Theme = new SThemeButton
+                {
+                    ColorName = button._Theme.ColorName,
+                    SelColorName = button._Theme.SelColorName,
+                    TextureName = button._Theme.TextureName,
+                    SelTextureName = button._Theme.SelTextureName
+                };
 
             Rect = new SRectF(button.Rect);
             Color = new SColorF(button.Color);
@@ -303,10 +305,7 @@ namespace VocaluxeLib.Menu
 
             if (!Selected && !Pressed || !Enabled)
             {
-                if (Texture.Index != -1)
-                    texture = Texture;
-                else
-                    texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+                texture = Texture.Index != -1 ? Texture : CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
 
                 CBase.Drawing.DrawTexture(texture, Rect, Color);
 
@@ -320,10 +319,7 @@ namespace VocaluxeLib.Menu
             }
             else if (!IsSelText)
             {
-                if (Texture.Index != -1)
-                    texture = Texture;
-                else
-                    texture = CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
+                texture = Texture.Index != -1 ? Texture : CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
 
                 CBase.Drawing.DrawTexture(texture, Rect, SelColor);
 
@@ -337,10 +333,7 @@ namespace VocaluxeLib.Menu
             }
             else if (IsSelText)
             {
-                if (SelTexture.Index != -1)
-                    texture = SelTexture;
-                else
-                    texture = CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
+                texture = SelTexture.Index != -1 ? SelTexture : CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
 
                 CBase.Drawing.DrawTexture(texture, Rect, SelColor);
 
