@@ -28,14 +28,6 @@ using VocaluxeLib.PartyModes;
 
 namespace Vocaluxe.Base
 {
-    enum EPopupScreens
-    {
-        PopupPlayerControl = 0,
-        PopupVolumeControl = 1,
-
-        NoPopup = -1
-    }
-
     class CCursor
     {
         private readonly Stopwatch _CursorFadingTimer;

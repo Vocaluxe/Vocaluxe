@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
@@ -477,12 +478,7 @@ namespace Vocaluxe.Base
 
         private static bool _IsBackgroundFile(CPlaylistElement element)
         {
-            foreach (CPlaylistElement elements in _BGMusicFileNames)
-            {
-                if (elements.MusicFilePath == element.MusicFilePath)
-                    return true;
-            }
-            return false;
+            return _BGMusicFileNames.Any(elements => elements.MusicFilePath == element.MusicFilePath);
         }
 
         private static void _LoadVideo()

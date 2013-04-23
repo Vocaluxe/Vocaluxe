@@ -18,6 +18,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Linq;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Video
@@ -79,12 +80,7 @@ namespace Vocaluxe.Lib.Video
 
         protected bool _AlreadyAdded(int streamID)
         {
-            foreach (SVideoStreams st in _Streams)
-            {
-                if (st.Handle == streamID)
-                    return true;
-            }
-            return false;
+            return _Streams.Any(st => st.Handle == streamID);
         }
 
         protected int _GetStreamIndex(int streamID)

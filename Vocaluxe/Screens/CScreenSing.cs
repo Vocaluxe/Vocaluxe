@@ -90,7 +90,7 @@ namespace Vocaluxe.Screens
         private int _CurrentBeat;
         private int _CurrentStream = -1;
         //private int _NextStream = -1;
-        private float _Volume = 100f;
+        private const float _Volume = 100f;
         private int _CurrentVideo = -1;
         private EAspect _VideoAspect = EAspect.Crop;
         private STexture _CurrentVideoTexture = new STexture(-1);
@@ -769,7 +769,7 @@ namespace Vocaluxe.Screens
                     for (int j = 0; j < CGame.NumPlayer; j++)
                     {
                         if (CGame.Player[j].LineNr == i)
-                            _SingNotes[_SingBars].AddLine(_NoteLines[j], line, nr, j);
+                            _SingNotes[_SingBars].AddLine(_NoteLines[j], line, nr);
                     }
 
                     if (i == 0 && !song.IsDuet || i == 1 && song.IsDuet)

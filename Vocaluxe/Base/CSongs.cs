@@ -19,7 +19,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
@@ -28,7 +28,7 @@ namespace Vocaluxe.Base
 {
     public struct SSongPointer
     {
-        public int SongID;
+        public readonly int SongID;
         public string SortString;
 
         public int CatIndex;
@@ -56,11 +56,9 @@ namespace Vocaluxe.Base
         private static int _CatIndex = -1;
         private static readonly List<CCategory> _CategoriesForRandom = new List<CCategory>();
 
-        private static readonly Stopwatch _CoverLoadTimer = new Stopwatch();
-
-        public static CSongFilter Filter = new CSongFilter();
-        public static CSongSorter Sorter = new CSongSorter();
-        public static CSongCategorizer Categorizer = new CSongCategorizer();
+        public static readonly CSongFilter Filter = new CSongFilter();
+        public static readonly CSongSorter Sorter = new CSongSorter();
+        public static readonly CSongCategorizer Categorizer = new CSongCategorizer();
 
         private static Thread _CoverLoaderThread;
 
@@ -93,13 +91,7 @@ namespace Vocaluxe.Base
         {
             get
             {
-                int result = 0;
-                foreach (SSongPointer sp in Sorter.SortedSongs)
-                {
-                    if (sp.Visible)
-                        result++;
-                }
-                return result;
+                return Sorter.SortedSongs.Count(sp => sp.Visible);
             }
         }
 
@@ -210,12 +202,7 @@ namespace Vocaluxe.Base
 
         public static CSong GetSong(int songID)
         {
-            foreach (CSong song in _Songs)
-            {
-                if (song.ID == songID)
-                    return song;
-            }
-            return null;
+            return _Songs.FirstOrDefault(song => song.ID == songID);
         }
 
         public static void AddPartySongSung(int songID)

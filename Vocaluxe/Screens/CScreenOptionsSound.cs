@@ -40,7 +40,6 @@ namespace Vocaluxe.Screens
         private const string _ButtonExit = "ButtonExit";
 
         private int _BackgroundMusicVolume;
-        private EOffOn _BackgroundMusic;
 
         public override void Init()
         {
@@ -142,7 +141,6 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
-            _BackgroundMusic = CConfig.BackgroundMusic;
             _BackgroundMusicVolume = CConfig.BackgroundMusicVolume;
 
             _SelectSlides[_SelectSlideGameMusicVolume].Selection = CConfig.GameMusicVolume / 5;

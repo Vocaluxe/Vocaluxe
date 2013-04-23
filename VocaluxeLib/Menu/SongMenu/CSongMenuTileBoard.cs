@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using VocaluxeLib.PartyModes;
 
@@ -180,15 +181,7 @@ namespace VocaluxeLib.Menu.SongMenu
                       keyEvent.Key == Keys.PageDown || keyEvent.Key == Keys.PageUp))
                     return;
 
-                bool sel = false;
-                foreach (CStatic tile in _Tiles)
-                {
-                    if (tile.Selected)
-                    {
-                        sel = true;
-                        break;
-                    }
-                }
+                bool sel = _Tiles.Any(tile => tile.Selected);
 
                 if ((_Locked == -1 || !sel) &&
                     (keyEvent.Key != Keys.Escape && keyEvent.Key != Keys.Back && keyEvent.Key != Keys.PageUp && keyEvent.Key != Keys.PageDown))
@@ -500,15 +493,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         protected void _SetSelectedTile(int itemNr)
         {
-            bool sel = false;
-            foreach (CStatic tile in _Tiles)
-            {
-                if (tile.Selected)
-                {
-                    sel = true;
-                    break;
-                }
-            }
+            bool sel = _Tiles.Any(tile => tile.Selected);
 
             if (_Locked == -1 || !sel)
             {

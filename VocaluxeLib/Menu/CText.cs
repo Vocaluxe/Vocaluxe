@@ -40,13 +40,13 @@ namespace VocaluxeLib.Menu
         public float Width;
         public float Height;
 
-        public STextPosition(int dummy)
+        public STextPosition(float initVal)
         {
-            X = 0f;
-            Y = 0f;
-            TextHeight = 0f;
-            Width = 0f;
-            Height = 0f;
+            X = initVal;
+            Y = initVal;
+            TextHeight = initVal;
+            Width = initVal;
+            Height = initVal;
         }
     }
 

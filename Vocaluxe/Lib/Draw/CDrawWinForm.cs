@@ -330,7 +330,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void MakeScreenShot()
         {
-            string file = "Screenshot_";
+            const string file = "Screenshot_";
             string path = Path.Combine(Environment.CurrentDirectory, CSettings.FolderScreenshots);
 
             int i = 0;

@@ -26,17 +26,19 @@ namespace Vocaluxe.Lib.Input
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SHIDDeviceInfo
     {
-        [MarshalAs(UnmanagedType.LPTStr)] public String Path;
-        public ushort VendorString;
-        public ushort ProductID;
-        public String SerialNumber;
-        public ushort ReleaseNumber;
-        public String ManufacturerString;
-        public String ProductString;
-        public ushort UsagePage;
-        public ushort Usage;
-        public int InterfaceNumber;
+// ReSharper disable MemberCanBePrivate.Global
+        [MarshalAs(UnmanagedType.LPTStr)] public readonly String Path;
+        public readonly ushort VendorString;
+        public readonly ushort ProductID;
+        public readonly String SerialNumber;
+        public readonly ushort ReleaseNumber;
+        public readonly String ManufacturerString;
+        public readonly String ProductString;
+        public readonly ushort UsagePage;
+        public readonly ushort Usage;
+        public readonly int InterfaceNumber;
         internal IntPtr Next;
+        // ReSharper restore MemberCanBePrivate.Global
     }
 
     public static class CHIDApi

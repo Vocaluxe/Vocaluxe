@@ -87,17 +87,14 @@ namespace Vocaluxe.Lib.Webcam
         public bool Init()
         {
             _WebcamDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            int num = 0;
             foreach (FilterInfo info in _WebcamDevices)
             {
                 SWebcamDevice device = new SWebcamDevice
                     {
-                        ID = num,
                         Name = info.Name,
                         MonikerString = info.MonikerString,
                         Capabilities = new List<SCapabilities>()
                     };
-                num++;
                 VideoCaptureDevice tmpdev = new VideoCaptureDevice(info.MonikerString);
 
                 foreach (VideoCapabilities capabilities in tmpdev.VideoCapabilities)

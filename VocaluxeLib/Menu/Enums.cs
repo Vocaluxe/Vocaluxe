@@ -95,10 +95,12 @@ namespace VocaluxeLib.Menu
 
     public enum EColorDepth
     {
+// ReSharper disable UnusedMember.Global
         Bit8 = 8,
         Bit16 = 16,
         Bit24 = 24,
         Bit32 = 32
+        // ReSharper restore UnusedMember.Global
     }
 
     public enum ETextureQuality
@@ -338,5 +340,13 @@ namespace VocaluxeLib.Menu
         ScreenPartyDummy = 18,
 
         ScreenNull = -1
+    }
+
+    public enum EPopupScreens
+    {
+        PopupPlayerControl = 0,
+        PopupVolumeControl = 1,
+
+        NoPopup = -1
     }
 }

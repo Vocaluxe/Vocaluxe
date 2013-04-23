@@ -283,26 +283,6 @@ namespace Vocaluxe.Base
             return _GetDataBaseSongID(song.Artist, song.Title, 0, command);
         }
 
-        private static int _GetDataBaseSongID(string artist, string title, string filePath, int defNumPlayed)
-        {
-            using (SQLiteConnection connection = new SQLiteConnection())
-            {
-                connection.ConnectionString = "Data Source=" + filePath;
-
-                try
-                {
-                    connection.Open();
-                }
-                catch (Exception)
-                {
-                    return -1;
-                }
-
-                using (SQLiteCommand command = new SQLiteCommand(connection))
-                    return _GetDataBaseSongID(artist, title, defNumPlayed, command);
-            }
-        }
-
         private static int _GetDataBaseSongID(string artist, string title, int defNumPlayed, SQLiteCommand command)
         {
             command.CommandText = "SELECT id FROM Songs WHERE [Title] = @title AND [Artist] = @artist";

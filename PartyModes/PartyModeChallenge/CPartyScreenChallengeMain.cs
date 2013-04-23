@@ -93,7 +93,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         private SRectF _PlayerTableScrollArea;
         private int _RoundsTableOffset;
         private int _PlayerTableOffset;
-        private int _NumPlayerVisible = 10;
+        private const int _NumPlayerVisible = 10;
         private int _NumRoundsVisible = 3;
 
         public CPartyScreenChallengeMain()

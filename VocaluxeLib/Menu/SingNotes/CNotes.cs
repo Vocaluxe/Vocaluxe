@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace VocaluxeLib.Menu.SingNotes
 {
@@ -572,19 +573,8 @@ namespace VocaluxeLib.Menu.SingNotes
                 if (_Lines.Count == 0)
                     return 0;
 
-                int startbeat = int.MaxValue;
-                for (int i = 0; i < _Lines.Count; i++)
-                {
-                    if (_Lines[i].FirstNoteBeat < startbeat)
-                        startbeat = _Lines[i].FirstNoteBeat;
-                }
-
-                int endbeat = int.MinValue;
-                for (int i = 0; i < _Lines.Count; i++)
-                {
-                    if (_Lines[i].LastNoteBeat < endbeat)
-                        endbeat = _Lines[i].LastNoteBeat;
-                }
+                int startbeat = _Lines.Max(line => line.FirstNoteBeat);
+                int endbeat = _Lines.Min(line => line.LastNoteBeat);
 
                 int result = endbeat - startbeat;
                 if (result > 0)
@@ -609,13 +599,7 @@ namespace VocaluxeLib.Menu.SingNotes
         {
             get
             {
-                int num = 0;
-                foreach (CLine line in _Lines)
-                {
-                    if (line.Points > 0f)
-                        num++;
-                }
-                return num;
+                return _Lines.Count(line => line.Points > 0f);
             }
         }
 

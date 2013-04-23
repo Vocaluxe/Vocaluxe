@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
@@ -207,13 +208,7 @@ namespace Vocaluxe.Screens
 
         private bool _IsNewEntry(int id)
         {
-            for (int i = 0; i < _NewEntryIDs.Count; i++)
-            {
-                if (_NewEntryIDs[i] == id)
-                    return true;
-            }
-
-            return false;
+            return _NewEntryIDs.Any(t => t == id);
         }
 
         private void _AddScoresToDB()

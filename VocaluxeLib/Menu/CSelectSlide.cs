@@ -115,7 +115,7 @@ namespace VocaluxeLib.Menu
 
         private readonly List<SRectF> _ValueBounds = new List<SRectF>();
 
-        public bool WithTextures;
+        public readonly bool WithTextures;
 
         private int _Selection = -1;
         public int Selection

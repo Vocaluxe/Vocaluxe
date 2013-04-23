@@ -93,7 +93,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         private SRectF _PlayerTableScrollArea;
         private int _RoundsTableOffset;
         private int _PlayerTableOffset;
-        private int _NumPlayerVisible = 10;
+        private const int _NumPlayerVisible = 10;
         private int _NumRoundsVisible = 3;
 
         public CPartyScreenChallengeMedleyMain()
@@ -598,7 +598,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
                     row.Pos.Text = _GameState.ResultTable[i + _PlayerTableOffset].Position + ".";
                     row.Name.Text = profiles[_GameState.ResultTable[i + _PlayerTableOffset].PlayerID].PlayerName;
-                    row.Rounds.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumRounds.ToString();
+                    row.Rounds.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumPlayed.ToString();
                     row.Won.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumWon.ToString();
                     row.SingPoints.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumSingPoints.ToString();
                     row.GamePoints.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumGamePoints.ToString();

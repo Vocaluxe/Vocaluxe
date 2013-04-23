@@ -137,15 +137,15 @@ namespace VocaluxeLib.Menu
     #region Inputs
     public struct SKeyEvent
     {
-        public ESender Sender;
-        public bool ModAlt;
-        public bool ModShift;
-        public bool ModCtrl;
-        public bool KeyPressed;
+        public readonly ESender Sender;
+        public readonly bool ModAlt;
+        public readonly bool ModShift;
+        public readonly bool ModCtrl;
+        public readonly bool KeyPressed;
         public bool Handled;
         public Keys Key;
-        public Char Unicode;
-        public EModifier Mod;
+        public readonly Char Unicode;
+        public readonly EModifier Mod;
 
         public SKeyEvent(ESender sender, bool alt, bool shift, bool ctrl, bool pressed, char unicode, Keys key)
         {
@@ -171,27 +171,25 @@ namespace VocaluxeLib.Menu
 
     public struct SMouseEvent
     {
-        public ESender Sender;
+        public readonly ESender Sender;
         public bool Handled;
-        public int X;
-        public int Y;
-        public bool LB; //left button click
-        public bool LD; //left button double click
-        public bool RB; //right button click
-        public bool MB; //middle button click
+        public readonly int X;
+        public readonly int Y;
+        public readonly bool LB; //left button click
+        public readonly bool LD; //left button double click
+        public readonly bool RB; //right button click
+        public readonly bool MB; //middle button click
 
-        public bool LBH; //left button hold (when moving)
-        public bool RBH; //right button hold (when moving)
-        public bool MBH; //middle button hold (when moving)
+        public readonly bool LBH; //left button hold (when moving)
+// ReSharper disable MemberCanBePrivate.Global
+        public readonly bool RBH; //right button hold (when moving)
+        public readonly bool MBH; //middle button hold (when moving)
+        // ReSharper restore MemberCanBePrivate.Global
 
-        public bool ModAlt;
-        public bool ModShift;
-        public bool ModCtrl;
+        public readonly EModifier Mod;
+        public readonly int Wheel;
 
-        public EModifier Mod;
-        public int Wheel;
-
-        public SMouseEvent(ESender sender, bool alt, bool shift, bool ctrl, int x, int y, bool lb, bool ld, bool rb, int wheel, bool lbh, bool rbh, bool mb, bool mbh)
+        public SMouseEvent(ESender sender, EModifier mod, int x, int y, bool lb, bool ld, bool rb, int wheel, bool lbh, bool rbh, bool mb, bool mbh)
         {
             Sender = sender;
             Handled = false;
@@ -206,27 +204,7 @@ namespace VocaluxeLib.Menu
             RBH = rbh;
             MBH = mbh;
 
-            ModAlt = alt;
-            ModShift = shift;
-            ModCtrl = ctrl;
-
-            EModifier mAlt = EModifier.None;
-            EModifier mShift = EModifier.None;
-            EModifier mCtrl = EModifier.None;
-
-            if (alt)
-                mAlt = EModifier.Alt;
-
-            if (shift)
-                mShift = EModifier.Shift;
-
-            if (ctrl)
-                mCtrl = EModifier.Ctrl;
-
-            if (!alt && !shift && !ctrl)
-                Mod = EModifier.None;
-            else
-                Mod = mAlt | mShift | mCtrl;
+            Mod = mod;
 
             Wheel = wheel;
         }
@@ -250,7 +228,9 @@ namespace VocaluxeLib.Menu
         public string FileName;
         public STexture Texture;
 
+// ReSharper disable UnusedParameter.Local
         public SAvatar(int dummy)
+// ReSharper restore UnusedParameter.Local
         {
             FileName = String.Empty;
             Texture = new STexture(-1);

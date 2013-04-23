@@ -853,13 +853,13 @@ namespace Vocaluxe.Screens
             CGame.Reset();
             CGame.ClearSongs();
 
-            List<int> iDs = new List<int>();
+            List<int> ids = new List<int>();
             for (int i = 0; i < CSongs.AllSongs.Length; i++)
-                iDs.Add(i);
+                ids.Add(i);
 
-            while (iDs.Count > 0)
+            while (ids.Count > 0)
             {
-                int songNr = iDs[CGame.Rand.Next(iDs.Count)];
+                int songNr = ids[CGame.Rand.Next(ids.Count)];
 
                 EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
                 if (CSongs.AllSongs[songNr].IsDuet)
@@ -867,7 +867,7 @@ namespace Vocaluxe.Screens
 
                 CGame.AddSong(songNr, gm);
 
-                iDs.Remove(songNr);
+                ids.Remove(songNr);
             }
 
             if (CGame.GetNumSongs() > 0)
@@ -879,13 +879,13 @@ namespace Vocaluxe.Screens
             CGame.Reset();
             CGame.ClearSongs();
 
-            List<int> iDs = new List<int>();
+            List<int> ids = new List<int>();
             for (int i = 0; i < CSongs.VisibleSongs.Length; i++)
-                iDs.Add(CSongs.VisibleSongs[i].ID);
+                ids.Add(CSongs.VisibleSongs[i].ID);
 
-            while (iDs.Count > 0)
+            while (ids.Count > 0)
             {
-                int songNr = iDs[CGame.Rand.Next(iDs.Count)];
+                int songNr = ids[CGame.Rand.Next(ids.Count)];
 
                 EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
                 if (CSongs.AllSongs[songNr].IsDuet)
@@ -893,7 +893,7 @@ namespace Vocaluxe.Screens
 
                 CGame.AddSong(songNr, gm);
 
-                iDs.Remove(songNr);
+                ids.Remove(songNr);
             }
 
             if (CGame.GetNumSongs() > 0)
@@ -905,21 +905,21 @@ namespace Vocaluxe.Screens
             CGame.Reset();
             CGame.ClearSongs();
 
-            List<int> iDs = new List<int>();
+            List<int> ids = new List<int>();
             if (allSongs)
             {
                 for (int i = 0; i < CSongs.AllSongs.Length; i++)
-                    iDs.Add(i);
+                    ids.Add(i);
             }
             else
             {
                 for (int i = 0; i < CSongs.VisibleSongs.Length; i++)
-                    iDs.Add(CSongs.VisibleSongs[i].ID);
+                    ids.Add(CSongs.VisibleSongs[i].ID);
             }
             int s = 0;
-            while (s < numSongs && iDs.Count > 0)
+            while (s < numSongs && ids.Count > 0)
             {
-                int songNr = iDs[CGame.Rand.Next(iDs.Count)];
+                int songNr = ids[CGame.Rand.Next(ids.Count)];
 
                 foreach (EGameMode gm in CSongs.AllSongs[songNr].AvailableGameModes)
                 {
@@ -931,7 +931,7 @@ namespace Vocaluxe.Screens
                     }
                 }
 
-                iDs.Remove(songNr);
+                ids.Remove(songNr);
             }
 
             if (CGame.GetNumSongs() > 0)

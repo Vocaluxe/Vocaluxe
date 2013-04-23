@@ -277,12 +277,12 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
             if (!lb && !rb && (p.X != _OldPosition.X || p.Y != _OldPosition.Y))
             {
-                mpool = new SMouseEvent(ESender.WiiMote, false, false, false, x, y, false, false, false, wheel, lbh, false, false, false);
+                mpool = new SMouseEvent(ESender.WiiMote, EModifier.None, x, y, false, false, false, wheel, lbh, false, false, false);
                 trigger = true;
             }
             else if (lb || rb)
             {
-                mpool = new SMouseEvent(ESender.WiiMote, false, false, false, x, y, lb, false, rb, wheel, false, false, false, false);
+                mpool = new SMouseEvent(ESender.WiiMote, EModifier.None, x, y, lb, false, rb, wheel, false, false, false, false);
                 trigger = true;
             }
 

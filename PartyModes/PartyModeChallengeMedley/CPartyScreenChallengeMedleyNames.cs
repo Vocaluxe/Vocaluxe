@@ -55,7 +55,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         private const int _PlayerChooseButtonsFirstY = 105;
         private const int _PlayerChooseButtonsSpaceH = 15;
         private const int _PlayerChooseButtonsSpaceW = 25;
-        private int _PlayerChooseButtonsOffset = 0;
+        private const int _PlayerChooseButtonsOffset = 0;
 
         private CStatic _ChooseAvatarStatic;
         private bool _SelectingMouseActive;
@@ -88,7 +88,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             _ThemeButtons = new string[] {_ButtonBack, _ButtonNext, _ButtonPlayerDestination, _ButtonPlayerChoose};
 
             _Data = new SDataFromScreen();
-            SFromScreenNames names = new SFromScreenNames {FadeToConfig = false, FadeToMain = false, ProfileIDs = new List<int>()};
+            SFromScreenNames names = new SFromScreenNames {FadeToConfig = false, ProfileIDs = new List<int>()};
             _Data.ScreenNames = names;
         }
 
@@ -339,7 +339,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         private void _UpdateButtonPlayerChoose(int offset)
         {
-            int numButtonPlayerChoose = _PlayerChooseButtonsNumW * _PlayerChooseButtonsNumH;
+            const int numButtonPlayerChoose = _PlayerChooseButtonsNumW * _PlayerChooseButtonsNumH;
             if (offset < 0)
                 offset = 0;
 
@@ -501,14 +501,12 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         private void _Back()
         {
             _Data.ScreenNames.FadeToConfig = true;
-            _Data.ScreenNames.FadeToMain = false;
             _PartyMode.DataFromScreen(ThemeName, _Data);
         }
 
         private void _Next()
         {
             _Data.ScreenNames.FadeToConfig = false;
-            _Data.ScreenNames.FadeToMain = true;
             _PartyMode.DataFromScreen(ThemeName, _Data);
         }
     }

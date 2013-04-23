@@ -242,10 +242,5 @@ namespace Vocaluxe.Screens
                 _ResumeBG();
             }
         }
-
-        private void _AfterSkinReload()
-        {
-            _Active = true;
-        }
     }
 }

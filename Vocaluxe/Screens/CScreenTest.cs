@@ -18,7 +18,6 @@
 #endregion
 
 using System;
-using System.IO;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
@@ -33,7 +32,9 @@ namespace Vocaluxe.Screens
             get { return 1; }
         }
 
+/*
         private int _TestMusic = -1;
+*/
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
@@ -85,23 +86,25 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        private void _PlayFile()
-        {
-            if (_TestMusic == -1)
-                _TestMusic = CSound.Load(Path.Combine(Environment.CurrentDirectory, "Test.mp3"));
+        /*
+                private void _PlayFile()
+                {
+                    if (_TestMusic == -1)
+                        _TestMusic = CSound.Load(Path.Combine(Environment.CurrentDirectory, "Test.mp3"));
 
-            CSound.Play(_TestMusic);
-            CSound.Fade(_TestMusic, 100f, 2f);
-        }
+                    CSound.Play(_TestMusic);
+                    CSound.Fade(_TestMusic, 100f, 2f);
+                }
 
-        private void _PauseFile()
-        {
-            CSound.Pause(_TestMusic);
-        }
 
-        private void _FadeAndPause()
-        {
-            CSound.FadeAndPause(_TestMusic, 0f, 2f);
-        }
+                private void _PauseFile()
+                {
+                    CSound.Pause(_TestMusic);
+                }
+
+                private void _FadeAndPause()
+                {
+                    CSound.FadeAndPause(_TestMusic, 0f, 2f);
+                }*/
     }
 }

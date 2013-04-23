@@ -17,6 +17,7 @@
 //  */
 #endregion
 
+using System.Linq;
 using OpenTK.Audio;
 using System;
 using System.Collections.Generic;
@@ -312,12 +313,7 @@ namespace Vocaluxe.Lib.Sound
 
         private bool _AlreadyAdded(int stream)
         {
-            foreach (SAudioStreams st in _Streams)
-            {
-                if (st.Handle == stream)
-                    return true;
-            }
-            return false;
+            return _Streams.Any(st => st.Handle == stream);
         }
 
         private int _GetStreamIndex(int stream)

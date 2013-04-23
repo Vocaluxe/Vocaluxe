@@ -93,7 +93,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _ThemeButtons = new string[] {_ButtonBack, _ButtonNext, _ButtonPlayerDestination, _ButtonPlayerChoose, _ButtonPlayerChooseScrollUp, _ButtonPlayerChooseScrollDown};
 
             _Data = new SDataFromScreen();
-            SFromScreenNames names = new SFromScreenNames {FadeToConfig = false, FadeToMain = false, ProfileIDsTeam1 = new List<int>(), ProfileIDsTeam2 = new List<int>()};
+            SFromScreenNames names = new SFromScreenNames {FadeToConfig = false, ProfileIDsTeam1 = new List<int>(), ProfileIDsTeam2 = new List<int>()};
             _Data.ScreenNames = names;
         }
 
@@ -403,7 +403,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _UpdateButtonPlayerChoose(int offset)
         {
-            int numButtonPlayerChoose = _PlayerChooseButtonsNumW * _PlayerChooseButtonsNumH;
+            const int numButtonPlayerChoose = _PlayerChooseButtonsNumW * _PlayerChooseButtonsNumH;
             if (offset < 0)
                 offset = 0;
 
@@ -446,27 +446,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 //Show profile only if active
                 if (CBase.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON)
                 {
-                    visible = true;
-
-                    for (int p = 0; p < _Data.ScreenNames.ProfileIDsTeam1.Count; p++)
-                    {
-                        //Don't show profile if is selected
-                        if (_Data.ScreenNames.ProfileIDsTeam1[p] == i)
-                        {
-                            visible = false;
-                            break;
-                        }
-                    }
-
-                    for (int p = 0; p < _Data.ScreenNames.ProfileIDsTeam2.Count; p++)
-                    {
-                        //Don't show profile if is selected
-                        if (_Data.ScreenNames.ProfileIDsTeam2[p] == i)
-                        {
-                            visible = false;
-                            break;
-                        }
-                    }
+                    visible = _Data.ScreenNames.ProfileIDsTeam1.All(t => t != i) && _Data.ScreenNames.ProfileIDsTeam2.All(t => t != i);
                 }
                 if (visible)
                     _PlayerChooseButtonsVisibleProfiles.Add(i);
@@ -642,14 +622,12 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void _Back()
         {
             _Data.ScreenNames.FadeToConfig = true;
-            _Data.ScreenNames.FadeToMain = false;
             _PartyMode.DataFromScreen(ThemeName, _Data);
         }
 
         private void _Next()
         {
             _Data.ScreenNames.FadeToConfig = false;
-            _Data.ScreenNames.FadeToMain = true;
             _PartyMode.DataFromScreen(ThemeName, _Data);
         }
     }

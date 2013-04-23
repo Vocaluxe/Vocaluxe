@@ -81,8 +81,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
     {
         public int CurrentRoundNr;
         public int Team;
-        public int NumPlayerTeam1;
-        public int NumPlayerTeam2;
         public int NumFields;
         public List<CRound> Rounds;
         public List<int> Songs;
@@ -115,7 +113,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
     public struct SFromScreenNames
     {
         public bool FadeToConfig;
-        public bool FadeToMain;
         public List<int> ProfileIDsTeam1;
         public List<int> ProfileIDsTeam2;
     }
@@ -380,8 +377,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         CBase.Songs.ResetPartySongSung();
                         _GameData.CurrentRoundNr = 1;
                         _ToScreenMain.CurrentRoundNr = 1;
-                        _ToScreenMain.NumPlayerTeam1 = _GameData.NumPlayerTeam1;
-                        _ToScreenMain.NumPlayerTeam2 = _GameData.NumPlayerTeam2;
                         _ToScreenMain.NumFields = _GameData.NumFields;
                         _ToScreenMain.ProfileIDsTeam1 = _GameData.ProfileIDsTeam1;
                         _ToScreenMain.ProfileIDsTeam2 = _GameData.ProfileIDsTeam2;
@@ -410,8 +405,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _UpdateSongList();
                         _UpdatePlayerList();
                         _ToScreenMain.CurrentRoundNr = _GameData.CurrentRoundNr;
-                        _ToScreenMain.NumPlayerTeam1 = _GameData.NumPlayerTeam1;
-                        _ToScreenMain.NumPlayerTeam2 = _GameData.NumPlayerTeam2;
                         _ToScreenMain.NumFields = _GameData.NumFields;
                         _ToScreenMain.ProfileIDsTeam1 = _GameData.ProfileIDsTeam1;
                         _ToScreenMain.ProfileIDsTeam2 = _GameData.ProfileIDsTeam2;
@@ -588,23 +581,23 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 case 1:
                     {
                         //Prepare Player-IDs
-                        List<int> iDs = new List<int>();
+                        List<int> ids = new List<int>();
                         //Add IDs to team-list
-                        while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] && iDs.Count == 0)
+                        while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] && ids.Count == 0)
                         {
-                            if (iDs.Count == 0)
+                            if (ids.Count == 0)
                             {
                                 for (int i = 0; i < _GameData.NumPlayerTeam1; i++)
-                                    iDs.Add(i);
+                                    ids.Add(i);
                             }
                             if (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0])
                             {
-                                int random = CBase.Game.GetRandom((iDs.Count - 1) * 10);
+                                int random = CBase.Game.GetRandom((ids.Count - 1) * 10);
                                 int num = (int)Math.Round((double)random / 10);
-                                if (num >= iDs.Count)
-                                    num = iDs.Count - 1;
-                                _GameData.PlayerTeam1.Add(iDs[num]);
-                                iDs.RemoveAt(num);
+                                if (num >= ids.Count)
+                                    num = ids.Count - 1;
+                                _GameData.PlayerTeam1.Add(ids[num]);
+                                ids.RemoveAt(num);
                             }
                         }
                     }

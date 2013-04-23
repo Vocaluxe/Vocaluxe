@@ -47,7 +47,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
     public class CCategory
     {
-        public string Name = String.Empty;
+        public readonly string Name;
         private STexture _CoverTextureSmall = new STexture(-1);
         private STexture _CoverTextureBig = new STexture(-1);
         private bool _CoverBigLoaded;
@@ -100,7 +100,9 @@ namespace VocaluxeLib.Menu.SongMenu
         public float FadeInTime;
         public float FadeOutTime;
 
+// ReSharper disable UnusedParameter.Local
         public SMedley(int dummy)
+// ReSharper restore UnusedParameter.Local
         {
             Source = EMedleySource.None;
             StartBeat = 0;
@@ -210,11 +212,11 @@ namespace VocaluxeLib.Menu.SongMenu
             get { return Notes.Lines.Length > 1; }
         }
 
-        public List<string> Edition = new List<string>();
-        public List<string> Genre = new List<string>();
+        public readonly List<string> Edition = new List<string>();
+        public readonly List<string> Genre = new List<string>();
         public string Year = "";
 
-        public List<string> Language = new List<string>();
+        public readonly List<string> Language = new List<string>();
 
         // Notes
         public readonly CNotes Notes = new CNotes();

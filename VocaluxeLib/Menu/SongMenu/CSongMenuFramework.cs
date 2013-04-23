@@ -95,7 +95,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
     abstract class CSongMenuFramework : ISongMenu
     {
-        protected int _PartyModeID;
+        protected readonly int _PartyModeID;
         protected SThemeSongMenu _Theme;
         private bool _ThemeLoaded;
 
@@ -164,7 +164,7 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
-        protected virtual void _SetSelectedNow()
+        protected void _SetSelectedNow()
         {
             _Timer.Stop();
             _Timer.Reset();
@@ -425,7 +425,7 @@ namespace VocaluxeLib.Menu.SongMenu
             _Initialized = true;
         }
 
-        public virtual void UpdateRect(SRectF rect)
+        public void UpdateRect(SRectF rect)
         {
             _Rect = rect;
             Init();

@@ -79,7 +79,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private List<CField> _Fields;
         private float _FieldFirstX = 25;
         private float _FieldFirstY = 25;
-        private int _FieldSpace = 10;
+        private const int _FieldSpace = 10;
         private float _FieldSize = 100;
 
         private int _PreviewStream = -1;

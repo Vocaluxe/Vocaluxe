@@ -23,6 +23,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
@@ -39,8 +40,7 @@ namespace Vocaluxe.Base
         }
 
         public STexture Texture;
-        public char Chr;
-        public int Width;
+        public readonly int Width;
 
         public CGlyph(char chr, float maxHigh)
         {
@@ -110,7 +110,6 @@ namespace Vocaluxe.Base
                  * */
                 Texture = CDraw.AddTexture(bmp);
                 //bmp.Save("test.png", ImageFormat.Png);
-                Chr = chr;
                 Width = (int)((1f + outline / 2f) * sizeB.Width * Texture.Width / factor / bmp.Width);
                 g.Dispose();
             }
@@ -158,7 +157,7 @@ namespace Vocaluxe.Base
         private FontFamily _Family;
         private readonly float _Sizeh;
 
-        public string FilePath;
+        public readonly string FilePath;
 
         public CFont(string file)
         {
@@ -550,25 +549,15 @@ namespace Vocaluxe.Base
 
         public static float GetTextWidth(string text)
         {
-            float dx = 0;
             CFont font = _GetCurrentFont();
-            foreach (char chr in text)
-                dx += font.GetWidth(chr);
-            return dx;
+            return text.Sum(chr => font.GetWidth(chr));
         }
 
         public static float GetTextHeight(string text)
         {
             //return TextRenderer.MeasureText(text, GetFont()).Height;
-            float h = 0f;
             CFont font = _GetCurrentFont();
-            foreach (char chr in text)
-            {
-                float hh = font.GetHeight(chr);
-                if (hh > h)
-                    h = hh;
-            }
-            return h;
+            return text==""?0:text.Select(font.GetHeight).Max();
         }
 
         private static void _LoadFontFiles(CXMLReader xmlReader, string fontFolder, string themeName = "", int partyModeId = -1)
@@ -769,7 +758,7 @@ namespace Vocaluxe.Base
 
         private static void _BuildGlyphs()
         {
-            string text = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPGRSTUVWGXZ1234567890";
+            const string text = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPGRSTUVWGXZ1234567890";
 
             for (int i = 0; i < _Fonts.Count; i++)
             {

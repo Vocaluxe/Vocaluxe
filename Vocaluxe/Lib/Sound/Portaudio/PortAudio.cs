@@ -28,7 +28,9 @@ namespace Vocaluxe.Lib.Sound.PortAudio
 		</summary>
 	*/
     // ReSharper disable UnusedMember.Global
-
+    // ReSharper disable FieldCanBeMadeReadOnly.Global
+// ReSharper disable MemberCanBePrivate.Global
+ 
     public static class CPortAudio
     {
         #region **** PORTAUDIO CALLBACKS ****
@@ -50,7 +52,8 @@ namespace Vocaluxe.Lib.Sound.PortAudio
         public struct SPaDeviceInfo
         {
             public int StructVersion;
-            [MarshalAs(UnmanagedType.LPStr)] public string Name;
+            [MarshalAs(UnmanagedType.LPStr)]
+            public string Name;
             public int HostApi;
             public int MaxInputChannels;
             public int MaxOutputChannels;
@@ -552,5 +555,7 @@ namespace Vocaluxe.Lib.Sound.PortAudio
         #endregion
     }
     // ReSharper restore UnusedMember.Global
+    // ReSharper restore FieldCanBeMadeReadOnly.Global
+    // ReSharper restore MemberCanBePrivate.Global
 
 }

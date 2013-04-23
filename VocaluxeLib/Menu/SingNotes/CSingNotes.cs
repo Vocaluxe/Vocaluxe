@@ -195,13 +195,13 @@ namespace VocaluxeLib.Menu.SingNotes
             return false;
         }
 
-        public virtual void Reset()
+        public void Reset()
         {
             _PlayerNotes.Clear();
             _ActID = 0;
         }
 
-        public virtual int AddPlayer(SRectF rect, SColorF color, int playerNr)
+        public int AddPlayer(SRectF rect, SColorF color, int playerNr)
         {
             SPlayerNotes notes = new SPlayerNotes
                 {
@@ -224,9 +224,7 @@ namespace VocaluxeLib.Menu.SingNotes
             return notes.ID;
         }
 
-        public virtual void RemovePlayer(int id) {}
-
-        public virtual void AddLine(int id, CLine[] line, int lineNr, int player)
+        public void AddLine(int id, CLine[] line, int lineNr)
         {
             if (line == null)
                 return;
@@ -238,10 +236,10 @@ namespace VocaluxeLib.Menu.SingNotes
             if (lineNr == _PlayerNotes[n].LineNr)
                 return;
 
-            SPlayerNotes notes = _PlayerNotes[n];
-
             if (line.Length <= lineNr)
                 return;
+
+            SPlayerNotes notes = _PlayerNotes[n];
 
             notes.Lines = line;
             notes.LineNr = lineNr;
@@ -253,11 +251,7 @@ namespace VocaluxeLib.Menu.SingNotes
             _PlayerNotes.Add(notes);
         }
 
-        public virtual void RemoveLine(int id) {}
-
-        public virtual void AddNote(int id, CNote note) {}
-
-        public virtual void SetAlpha(int id, float alpha)
+        public void SetAlpha(int id, float alpha)
         {
             int n = _FindPlayerLine(id);
             if (n == -1)
@@ -268,7 +262,7 @@ namespace VocaluxeLib.Menu.SingNotes
             _PlayerNotes[n] = pn;
         }
 
-        public virtual float GetAlpha(int id)
+        public float GetAlpha(int id)
         {
             int n = _FindPlayerLine(id);
             if (n == -1)
@@ -277,12 +271,12 @@ namespace VocaluxeLib.Menu.SingNotes
             return _PlayerNotes[n].Alpha;
         }
 
-        public virtual void Draw(int id, int player)
+        public void Draw(int id, int player)
         {
             Draw(id, null, player);
         }
 
-        public virtual void Draw(int id, List<CLine> singLine, int player)
+        public void Draw(int id, List<CLine> singLine, int player)
         {
             int n = _FindPlayerLine(id);
             if (n == -1)
@@ -463,9 +457,6 @@ namespace VocaluxeLib.Menu.SingNotes
 
         private int _FindPlayerLine(int id)
         {
-            if (id < 0 || id > _PlayerNotes.Count)
-                return -1;
-
             for (int i = 0; i < _PlayerNotes.Count; i++)
             {
                 if (_PlayerNotes[i].ID == id)

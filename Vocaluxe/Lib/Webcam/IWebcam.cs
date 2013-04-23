@@ -25,7 +25,6 @@ namespace Vocaluxe.Lib.Webcam
 {
     struct SWebcamDevice
     {
-        public int ID;
         public string Name;
         public string MonikerString;
         public List<SCapabilities> Capabilities;

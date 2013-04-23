@@ -36,7 +36,6 @@ namespace Vocaluxe.Lib.Video.Gstreamer
     public struct SManagedFrame
     {
         public byte[] Buffer;
-        public int Size;
         public int Width;
         public int Height;
         public float Videotime;
@@ -102,7 +101,6 @@ namespace Vocaluxe.Lib.Video.Gstreamer
             SManagedFrame m;
             m.Buffer = buffer;
             m.Height = f.Height;
-            m.Size = f.Size;
             m.Videotime = f.Videotime;
             m.Width = f.Width;
             return m;
