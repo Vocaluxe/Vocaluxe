@@ -24,7 +24,7 @@ using Vocaluxe.Lib.Video.Acinerella;
 
 namespace Vocaluxe.Lib.Sound.Decoder
 {
-    class CAudioDecoderFFmpeg : CAudioDecoder, IDisposable
+    class CAudioDecoderFFmpeg : IAudioDecoder, IDisposable
     {
         private IntPtr _InstancePtr = IntPtr.Zero;
         private IntPtr _Audiodecoder = IntPtr.Zero;
@@ -36,17 +36,12 @@ namespace Vocaluxe.Lib.Sound.Decoder
         private string _FileName;
         private bool _FileOpened;
 
-        public override void Init()
+        public void Init()
         {
-            _FileOpened = false;
-            _Initialized = true;
         }
 
-        public override void Open(string fileName, bool loop)
+        public void Open(string fileName, bool loop)
         {
-            if (!_Initialized)
-                return;
-
             _FileName = fileName;
 
             try
@@ -88,11 +83,12 @@ namespace Vocaluxe.Lib.Sound.Decoder
                 return;
             }
 
-            _FormatInfo = new SFormatInfo();
-
-            _FormatInfo.SamplesPerSecond = audiodecoder.StreamInfo.AudioInfo.SamplesPerSecond;
-            _FormatInfo.BitDepth = audiodecoder.StreamInfo.AudioInfo.BitDepth;
-            _FormatInfo.ChannelCount = audiodecoder.StreamInfo.AudioInfo.ChannelCount;
+            _FormatInfo = new SFormatInfo
+                {
+                    SamplesPerSecond = audiodecoder.StreamInfo.AudioInfo.SamplesPerSecond,
+                    BitDepth = audiodecoder.StreamInfo.AudioInfo.BitDepth,
+                    ChannelCount = audiodecoder.StreamInfo.AudioInfo.ChannelCount
+                };
 
             _CurrentTime = 0f;
 
@@ -104,13 +100,8 @@ namespace Vocaluxe.Lib.Sound.Decoder
             _FileOpened = true;
         }
 
-        public override void Close()
+        public void Close()
         {
-            if (!_Initialized)
-                return;
-
-            _Initialized = false;
-
             if (!_FileOpened)
                 return;
 
@@ -126,25 +117,25 @@ namespace Vocaluxe.Lib.Sound.Decoder
             _FileOpened = false;
         }
 
-        public override SFormatInfo GetFormatInfo()
+        public SFormatInfo GetFormatInfo()
         {
-            if (!_Initialized && !_FileOpened)
+            if (!_FileOpened)
                 return new SFormatInfo();
 
             return _FormatInfo;
         }
 
-        public override float GetLength()
+        public float GetLength()
         {
-            if (!_Initialized && !_FileOpened)
+            if (!_FileOpened)
                 return 0f;
 
             return _Instance.Info.Duration / 1000f;
         }
 
-        public override void SetPosition(float time)
+        public void SetPosition(float time)
         {
-            if (!_Initialized && !_FileOpened)
+            if (!_FileOpened)
                 return;
 
             try
@@ -158,17 +149,14 @@ namespace Vocaluxe.Lib.Sound.Decoder
             }
         }
 
-        public override float GetPosition()
+        public float GetPosition()
         {
-            if (!_Initialized && !_FileOpened)
-                return 0f;
-
-            return _CurrentTime;
+            return !_FileOpened ? 0f : _CurrentTime;
         }
 
-        public override void Decode(out byte[] buffer, out float timeStamp)
+        public void Decode(out byte[] buffer, out float timeStamp)
         {
-            if (!_Initialized && !_FileOpened)
+            if (!_FileOpened)
             {
                 buffer = null;
                 timeStamp = 0f;

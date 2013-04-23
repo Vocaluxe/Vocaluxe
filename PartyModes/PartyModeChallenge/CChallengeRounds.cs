@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace VocaluxeLib.PartyModes.Challenge
 {
@@ -27,7 +28,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         private readonly Random _Rand;
         private readonly int _NumPlayer;
 
-        public List<CCombination> Rounds;
+        public readonly List<CCombination> Rounds;
 
         public CChallengeRounds(int numRounds, int numPlayer, int numPlayerAtOnce)
         {
@@ -60,7 +61,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 Rounds.Add(combinations.GetNextCombination(_GetPlayerDemand(i)));
         }
 
-        private List<int> _GetPlayerDemand(int roundIndex)
+        private IEnumerable<int> _GetPlayerDemand(int roundIndex)
         {
             List<int> numPlayed = new List<int>(_NumPlayer);
             for (int i = 0; i < _NumPlayer; i++)
@@ -72,12 +73,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                     numPlayed[playerIndex]++;
             }
 
-            int max = 0;
-            foreach (int p in numPlayed)
-            {
-                if (p > max)
-                    max = p;
-            }
+            int max = numPlayed.Max();
 
             int num = Rounds[0].Player.Count;
             List<int> result = new List<int>();
@@ -150,12 +146,10 @@ namespace VocaluxeLib.PartyModes.Challenge
             _Rand = rand;
         }
 
-        public CCombination GetNextCombination(List<int> playerNrDemand)
+        public CCombination GetNextCombination(IEnumerable<int> playerNrDemand)
         {
             if (_Combs.Count == 0)
                 _Create();
-
-            CCombination combs = new CCombination();
 
             if (_NumPlayer == _NumMics)
                 return _Combs[0];
@@ -164,28 +158,19 @@ namespace VocaluxeLib.PartyModes.Challenge
             List<CCombination> combsFiltered = new List<CCombination>();
             if (playerNrDemand != null)
             {
-                for (int i = 0; i < _Combs.Count; i++)
-                {
-                    if (_Combs[i].IsAvailableAll(playerNrDemand))
-                        combsFiltered.Add(_Combs[i]);
-                }
+                combsFiltered.AddRange(_Combs.Where(t => t.IsAvailableAll(playerNrDemand)));
             }
 
             //1st fallback
             if (playerNrDemand != null && combsFiltered.Count == 0)
             {
-                for (int i = 0; i < _Combs.Count; i++)
-                {
-                    if (_Combs[i].IsAvailableSomeone(playerNrDemand))
-                        combsFiltered.Add(_Combs[i]);
-                }
+                combsFiltered.AddRange(_Combs.Where(t => t.IsAvailableSomeone(playerNrDemand)));
             }
 
             //2nd fallback
             if (combsFiltered.Count == 0)
             {
-                for (int i = 0; i < _Combs.Count; i++)
-                    combsFiltered.Add(_Combs[i]);
+                combsFiltered.AddRange(_Combs);
             }
 
             int num = combsFiltered.Count;
@@ -222,7 +207,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
     public class CCombination
     {
-        public List<int> Player;
+        public readonly List<int> Player;
 
         public CCombination()
         {
@@ -231,28 +216,17 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         public bool IsAvailable(int playerIndex)
         {
-            foreach (int p in Player)
-            {
-                if (p == playerIndex)
-                    return true;
-            }
-            return false;
+            return Player.Any(p => p == playerIndex);
         }
 
-        public bool IsAvailableAll(List<int> playerIndices)
+        public bool IsAvailableAll(IEnumerable<int> playerIndices)
         {
-            bool result = true;
-            foreach (int p in playerIndices)
-                result &= IsAvailable(p);
-            return result;
+            return playerIndices.All(IsAvailable);
         }
 
-        public bool IsAvailableSomeone(List<int> playerIndices)
+        public bool IsAvailableSomeone(IEnumerable<int> playerIndices)
         {
-            bool result = false;
-            foreach (int p in playerIndices)
-                result |= IsAvailable(p);
-            return result;
+            return playerIndices.Any(IsAvailable);
         }
     }
 }

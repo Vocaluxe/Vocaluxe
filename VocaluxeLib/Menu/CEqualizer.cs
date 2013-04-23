@@ -241,7 +241,7 @@ namespace VocaluxeLib.Menu
 
         public void Draw()
         {
-            if (_Bars == null)
+            if (_Bars == null || _Theme.Style!=EEqualizerStyle.Collums)
                 return;
 
             float dx = Rect.W / _Bars.Length;

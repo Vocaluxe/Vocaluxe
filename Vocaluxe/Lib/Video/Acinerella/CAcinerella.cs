@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 
 namespace Vocaluxe.Lib.Video.Acinerella
 {
+    // ReSharper disable UnusedMember.Global
     public enum EACStreamType : sbyte
     {
         /*The type of the media stream is not known. This kind of stream can not be
@@ -51,12 +52,14 @@ namespace Vocaluxe.Lib.Video.Acinerella
         ACOutputBGra32 = 3
     }
 
+    // ReSharper disable MemberCanBePrivate.Global
+
     // Contains information about the whole file/stream that has been opened. Default 
     // values are "" for strings and -1 for integer values.
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public struct SACFileInfo
     {
-        public Int64 Duration;
+        public readonly Int64 Duration;
     }
 
     // TAc_instance represents an Acinerella instance. Each instance can open and
@@ -66,12 +69,12 @@ namespace Vocaluxe.Lib.Video.Acinerella
     public struct SACInstance
     {
         //If true, the instance currently opened a media file
-        public bool Opened;
+        public readonly bool Opened;
         //Contains the count of streams the media file has. This value is available
         //after calling the ac_open function.
-        public Int32 StreamCount;
+        public readonly Int32 StreamCount;
         //Set this value to change the image output format
-        public EACOutputFormat OutputFormat;
+        public readonly EACOutputFormat OutputFormat;
         //Contains information about the opened stream/file
         public SACFileInfo Info;
     }
@@ -81,11 +84,11 @@ namespace Vocaluxe.Lib.Video.Acinerella
     public struct SACAudioStreamInfo
     {
         //Samples per second. Default values are 44100 or 48000.
-        public Int32 SamplesPerSecond;
+        public readonly Int32 SamplesPerSecond;
         //Bits per sample. Can be 8 or 16 Bit.
-        public Int32 BitDepth;
+        public readonly Int32 BitDepth;
         //Count of channels in the audio stream.
-        public Int32 ChannelCount;
+        public readonly Int32 ChannelCount;
     }
 
     // Contains information about an Acinerella video stream.
@@ -93,13 +96,13 @@ namespace Vocaluxe.Lib.Video.Acinerella
     public struct SACVideoStreamInfo
     {
         //The width of one frame.
-        public Int32 FrameWidth;
+        public readonly Int32 FrameWidth;
         //The height of one frame.
-        public Int32 FrameHeight;
+        public readonly Int32 FrameHeight;
         //The width of one pixel. 1.07 for 4:3 format, 1,42 for the 16:9 format
-        public float PixelAspect;
+        public readonly float PixelAspect;
         //Frames per second that should be played.
-        public double FramesPerSecond;
+        public readonly double FramesPerSecond;
     }
 
     // Contains information about an Acinerella stream.
@@ -107,7 +110,8 @@ namespace Vocaluxe.Lib.Video.Acinerella
     public struct SACStreamInfo
     {
         //Contains the type of the stream.
-        public EACStreamType StreamType;
+        public readonly EACStreamType StreamType;
+
         //Additional info about the stream
         public SACAudioStreamInfo AudioInfo;
         public SACVideoStreamInfo VideoInfo;
@@ -120,31 +124,32 @@ namespace Vocaluxe.Lib.Video.Acinerella
         //Pointer on the Acinerella instance
         private readonly IntPtr _ACInstancePtr;
         //Contains the type of the decoder.
-        public EACDecoderType DecType;
+        public readonly EACDecoderType DecType;
 
         //The timecode of the currently decoded picture in seconds.
-        public double Timecode;
+        public readonly double Timecode;
 
-        public double VideoClock;
+        public readonly double VideoClock;
 
         //Contains information about the stream the decoder is attached to.
         public SACStreamInfo StreamInfo;
         //The index of the stream the decoder is attached to.
-        public Int32 StreamIndex;
+        public readonly Int32 StreamIndex;
 
         //Pointer to the buffer which contains the data.
         internal IntPtr Buffer;
         //Size of the data in the buffer.
-        public Int32 BufferSize;
+        public readonly Int32 BufferSize;
     }
-
     // Contains information about an Acinerella package.
     [StructLayout(LayoutKind.Sequential)]
     public struct SACPackage
     {
         //The stream the package belongs to.
-        public Int32 StreamIndex;
+        public readonly Int32 StreamIndex;
     }
+
+    // ReSharper restore MemberCanBePrivate.Global
 
     // Callback function used to ask the application to read data. Should return
     // the number of bytes read or an value smaller than zero if an error occured.
@@ -273,7 +278,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
             string filename
             );
 
+// ReSharper disable UnusedMethodReturnValue.Global
         public static Int32 AcOpen2(
+// ReSharper restore UnusedMethodReturnValue.Global
             IntPtr pAcInstance,
             string filename
             )
@@ -423,7 +430,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
         [DllImport(_AcDll, EntryPoint = "ac_seek", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private static extern Int32 _ac_seek(IntPtr pAcDecoder, Int32 dir, Int64 targetPos);
 
+// ReSharper disable UnusedMethodReturnValue.Global
         public static Int32 AcSeek(IntPtr pAcDecoder, Int32 dir, Int64 targetPos)
+// ReSharper restore UnusedMethodReturnValue.Global
         {
             lock (_Lock)
             {
@@ -441,4 +450,5 @@ namespace Vocaluxe.Lib.Video.Acinerella
             out Int32 scoreMax
             );
     }
+    // ReSharper restore UnusedMember.Global
 }

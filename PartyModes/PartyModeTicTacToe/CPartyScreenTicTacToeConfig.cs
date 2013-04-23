@@ -18,12 +18,15 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes.TicTacToe
 {
+// ReSharper disable UnusedMember.Global
     public class CPartyScreenTicTacToeConfig : CMenuParty
+// ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -57,14 +60,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _ThemeButtons = new string[] {_ButtonNext, _ButtonBack};
 
             _Data = new SDataFromScreen();
-            SFromScreenConfig config = new SFromScreenConfig();
-            config.PlaylistID = 0;
-            config.NumFields = 9;
-            config.NumPlayerTeam1 = 2;
-            config.NumPlayerTeam2 = 2;
-            config.GameMode = EPartyGameMode.TR_GAMEMODE_NORMAL;
-            config.CategoryID = 0;
-            config.SongSource = ESongSource.TR_ALLSONGS;
+            SFromScreenConfig config = new SFromScreenConfig
+                {
+                    PlaylistID = 0,
+                    NumFields = 9,
+                    NumPlayerTeam1 = 2,
+                    NumPlayerTeam2 = 2,
+                    GameMode = EPartyGameMode.TR_GAMEMODE_NORMAL,
+                    CategoryID = 0,
+                    SongSource = ESongSource.TR_ALLSONGS
+                };
             _Data.ScreenConfig = config;
         }
 
@@ -263,14 +268,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         for (int i = 0; i < CBase.Playlist.GetPlaylistSongCount(_Data.ScreenConfig.PlaylistID); i++)
                         {
                             int id = CBase.Playlist.GetPlaylistSong(_Data.ScreenConfig.PlaylistID, i).SongID;
-                            foreach (EGameMode mode in CBase.Songs.GetSongByID(id).AvailableGameModes)
-                            {
-                                if (mode == gm)
-                                {
-                                    _ConfigOk = true;
-                                    break;
-                                }
-                            }
+                            _ConfigOk = CBase.Songs.GetSongByID(id).AvailableGameModes.Any(mode => mode == gm);
                             if (_ConfigOk)
                                 break;
                         }
@@ -291,14 +289,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _ConfigOk = false;
                         for (int i = 0; i < CBase.Songs.NumSongsInCategory(_Data.ScreenConfig.CategoryID); i++)
                         {
-                            foreach (EGameMode mode in CBase.Songs.GetVisibleSong(i).AvailableGameModes)
-                            {
-                                if (mode == gm)
-                                {
-                                    _ConfigOk = true;
-                                    break;
-                                }
-                            }
+                            _ConfigOk=CBase.Songs.GetVisibleSong(i).AvailableGameModes.Any(mode => mode == gm);
                             if (_ConfigOk)
                                 break;
                         }
@@ -316,14 +307,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 {
                     for (int i = 0; i < CBase.Songs.GetNumSongs(); i++)
                     {
-                        foreach (EGameMode mode in CBase.Songs.GetSongByID(i).AvailableGameModes)
-                        {
-                            if (mode == gm)
-                            {
-                                _ConfigOk = true;
-                                break;
-                            }
-                        }
+                        _ConfigOk = CBase.Songs.GetSongByID(i).AvailableGameModes.Any(mode => mode == gm);
                         if (_ConfigOk)
                             break;
                     }

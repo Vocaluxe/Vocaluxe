@@ -66,10 +66,9 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         public int CompareTo(object obj)
         {
-            if (obj is CResultTableRow)
+            CResultTableRow row = obj as CResultTableRow;
+            if (row != null)
             {
-                CResultTableRow row = (CResultTableRow)obj;
-
                 int res = row.NumGamePoints.CompareTo(NumGamePoints);
                 if (res == 0)
                 {

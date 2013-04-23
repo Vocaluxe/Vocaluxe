@@ -17,6 +17,7 @@
 //  */
 #endregion
 
+using System;
 using AForge.Video;
 using AForge.Video.DirectShow;
 using System.Collections.Generic;
@@ -56,7 +57,7 @@ namespace Vocaluxe.Lib.Webcam
             {
                 lock (_MutexData)
                 {
-                    if (frame.Index == -1 || _Width != frame.Width || _Height != frame.Height)
+                    if (frame.Index == -1 || Math.Abs(_Width - frame.Width) > float.Epsilon || Math.Abs(_Height - frame.Height) > float.Epsilon)
                     {
                         CDraw.RemoveTexture(ref frame);
                         frame = CDraw.AddTexture(_Width, _Height, ref _Data);
@@ -81,8 +82,7 @@ namespace Vocaluxe.Lib.Webcam
                     return bmp;
                 }
             }
-            else
-                return null;
+            return null;
         }
 
         public bool Init()
@@ -101,13 +101,12 @@ namespace Vocaluxe.Lib.Webcam
                 num++;
                 VideoCaptureDevice tmpdev = new VideoCaptureDevice(info.MonikerString);
 
-                for (int i = 0; i < tmpdev.VideoCapabilities.Length; i++)
-                {
+                foreach (VideoCapabilities capabilities in tmpdev.VideoCapabilities) {
                     SCapabilities item = new SCapabilities
                         {
-                            Framerate = tmpdev.VideoCapabilities[i].FrameRate,
-                            Height = tmpdev.VideoCapabilities[i].FrameSize.Height,
-                            Width = tmpdev.VideoCapabilities[i].FrameSize.Width
+                            Framerate = capabilities.FrameRate,
+                            Height = capabilities.FrameSize.Height,
+                            Width = capabilities.FrameSize.Width
                         };
                     device.Capabilities.Add(item);
                 }
@@ -174,10 +173,7 @@ namespace Vocaluxe.Lib.Webcam
                 return false;
 
             //No MonikerString found, try first webcam
-            if (config.MonikerString.Length == 0)
-                _Webcam = new VideoCaptureDevice(_WebcamDevices[0].MonikerString);
-            else //Found MonikerString
-                _Webcam = new VideoCaptureDevice(config.MonikerString);
+            _Webcam = config.MonikerString == "" ? new VideoCaptureDevice(_WebcamDevices[0].MonikerString) : new VideoCaptureDevice(config.MonikerString);
 
             if (_Webcam == null)
                 return false;

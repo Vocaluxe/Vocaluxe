@@ -31,8 +31,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
         void Init();
         void Close();
 
-        void Open(string fileName);
-        void Open(string fileName, bool loop);
+        void Open(string fileName, bool loop=false);
         SFormatInfo GetFormatInfo();
 
         float GetLength();

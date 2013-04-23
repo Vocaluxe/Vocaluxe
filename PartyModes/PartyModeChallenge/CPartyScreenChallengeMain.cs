@@ -41,7 +41,9 @@ namespace VocaluxeLib.PartyModes.Challenge
         public List<CText> TextScores;
     }
 
+// ReSharper disable UnusedMember.Global
     public class CPartyScreenChallengeMain : CMenuParty
+// ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -350,9 +352,9 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private void _UpdateNextPlayerPositions()
         {
-            float x = CBase.Settings.GetRenderW() / 2 - ((_GameState.NumPlayerAtOnce * _Statics[_StaticNextPlayer].Rect.W) + ((_GameState.NumPlayerAtOnce - 1) * 15)) / 2;
-            float staticY = 590;
-            float textY = 550;
+            float x = (float) CBase.Settings.GetRenderW() / 2 - ((_GameState.NumPlayerAtOnce * _Statics[_StaticNextPlayer].Rect.W) + ((_GameState.NumPlayerAtOnce - 1) * 15)) / 2;
+            const float staticY = 590;
+            const float textY = 550;
             for (int i = 0; i < _GameState.NumPlayerAtOnce; i++)
             {
                 //static
@@ -606,7 +608,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
                     row.Pos.Text = _GameState.ResultTable[i + _PlayerTableOffset].Position + ".";
                     row.Name.Text = profiles[_GameState.ResultTable[i + _PlayerTableOffset].PlayerID].PlayerName;
-                    row.Rounds.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumRounds.ToString();
+                    row.Rounds.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumPlayed.ToString();
                     row.Won.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumWon.ToString();
                     row.SingPoints.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumSingPoints.ToString();
                     row.GamePoints.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumGamePoints.ToString();

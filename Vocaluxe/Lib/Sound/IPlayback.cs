@@ -24,12 +24,10 @@ namespace Vocaluxe.Lib.Sound
     struct SAudioStreams
     {
         public int Handle;
-        public string File;
 
         public SAudioStreams(int stream)
         {
             Handle = stream;
-            File = String.Empty;
         }
     }
 

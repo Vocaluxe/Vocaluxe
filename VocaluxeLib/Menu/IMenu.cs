@@ -138,8 +138,6 @@ namespace VocaluxeLib.Menu
         void LoadTheme();
     }
 
-    public interface IHelper {}
-
     public interface IBackgroundMusic
     {
         bool IsDisabled();

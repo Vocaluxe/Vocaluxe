@@ -67,7 +67,6 @@ namespace Vocaluxe.Lib.Video
                 {
                     _Decoder.Add(decoder);
                     stream.Handle = _Count++;
-                    stream.File = videoFileName;
                     _Streams.Add(stream);
                     return stream.Handle;
                 }
@@ -232,7 +231,6 @@ namespace Vocaluxe.Lib.Video
 
         private bool _Paused;
         private bool _NoMoreFrames;
-        private bool _Finished;
         private bool _BeforeLoop;
 
         private int _Width;
@@ -240,7 +238,6 @@ namespace Vocaluxe.Lib.Video
         private float _SetTime;
         private float _SetGap;
         private float _SetStart;
-        private bool _SetLoop;
         private bool _SetSkip;
         private bool _Terminated;
 
@@ -267,16 +264,12 @@ namespace Vocaluxe.Lib.Video
         {
             get
             {
-                if (_FileOpened)
-                    return _Duration;
-
-                return 0f;
+                return _FileOpened ? _Duration : 0f;
             }
         }
 
         public bool Paused
         {
-            get { return _Paused; }
             set
             {
                 lock (_MutexSyncSignals)
@@ -290,16 +283,9 @@ namespace Vocaluxe.Lib.Video
             }
         }
 
-        public bool Loop
-        {
-            get { return _SetLoop; }
-            set { _SetLoop = value; }
-        }
+        public bool Loop { private get; set; }
 
-        public bool Finished
-        {
-            get { return _Finished; }
-        }
+        public bool Finished { get; private set; }
 
         public bool Open(string fileName)
         {
@@ -325,7 +311,7 @@ namespace Vocaluxe.Lib.Video
             if (_Paused)
                 return false;
 
-            if (_SetLoop)
+            if (Loop)
             {
                 lock (_MutexSyncSignals)
                 {
@@ -343,7 +329,7 @@ namespace Vocaluxe.Lib.Video
                 return true;
             }
 
-            if (_SetTime != time)
+            if (Math.Abs(_SetTime - time) > float.Epsilon)
             {
                 lock (_MutexSyncSignals)
                 {
@@ -365,7 +351,7 @@ namespace Vocaluxe.Lib.Video
                 _SetGap = gap;
                 _SetSkip = true;
                 _NoMoreFrames = false;
-                _Finished = false;
+                Finished = false;
             }
             //EventDecode.Set();
             return true;
@@ -443,7 +429,7 @@ namespace Vocaluxe.Lib.Video
                         _SetSkip = false;
                         _Gap = _SetGap;
                         _Start = _SetStart;
-                        _Loop = _SetLoop;
+                        _Loop = Loop;
                     }
 
                     if (_Skip)
@@ -678,7 +664,7 @@ namespace Vocaluxe.Lib.Video
 
                 if (num >= 0)
                 {
-                    if (frame.Index == -1 || _Width != frame.Width || _Height != frame.Height)
+                    if (frame.Index == -1 || Math.Abs(_Width - frame.Width) > float.Epsilon || Math.Abs(_Height - frame.Height) > float.Epsilon)
                     {
                         CDraw.RemoveTexture(ref frame);
                         frame = CDraw.AddTexture(_Width, _Height, ref _FrameBuffer[num].Data);
@@ -690,12 +676,12 @@ namespace Vocaluxe.Lib.Video
                     {
                         _CurrentVideoTime = _FrameBuffer[num].Time;
                     }
-                    _Finished = false;
+                    Finished = false;
                 }
                 else
                 {
                     if (_NoMoreFrames)
-                        _Finished = true;
+                        Finished = true;
                 }
             }
         }

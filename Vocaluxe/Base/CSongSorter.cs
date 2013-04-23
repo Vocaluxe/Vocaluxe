@@ -130,6 +130,11 @@ namespace Vocaluxe.Base
             else
             {
                 FieldInfo field = typeof(CSong).GetField(fieldName, BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public);
+                if (field == null)
+                {
+                    CLog.LogError("Unknow sorting field: "+fieldName);
+                    return _CreateSortList("");
+                }
                 bool isString = field.FieldType == typeof(string);
                 if (!isString && field.FieldType != typeof(List<String>))
                     throw new Exception("Unkown sort field type");

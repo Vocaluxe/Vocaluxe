@@ -185,6 +185,7 @@ namespace Vocaluxe
                 // Init Input
                 CLog.StartBenchmark(0, "Init Input");
                 CInput.Init();
+                CInput.Connect();
                 CLog.StopBenchmark(0, "Init Input");
 
                 // Init Game;

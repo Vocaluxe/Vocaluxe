@@ -46,12 +46,6 @@ namespace VocaluxeLib.Menu.SongMenu
         public SThemeSongMenuTileBoard SongMenuTileBoard;
     }
 
-    struct SThemeSongMenuBook {}
-
-    struct SThemeSongMenuDreidel {}
-
-    struct SThemeSongMenuList {}
-
     struct SThemeSongMenuTileBoard
     {
         /// <summary>

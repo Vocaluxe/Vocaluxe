@@ -37,7 +37,10 @@ namespace VocaluxeLib.Menu
         public ESettingType Type;
     }
 
+// ReSharper disable ClassNeverInstantiated.Global
+    //Instantiated by reflection
     public class CScreenSetting : IMenuElement
+// ReSharper restore ClassNeverInstantiated.Global
     {
         private readonly int _PartyModeID;
 
@@ -54,13 +57,6 @@ namespace VocaluxeLib.Menu
             _PartyModeID = partyModeID;
             _Theme = new SScreenSetting();
             _ThemeLoaded = false;
-        }
-
-        public CScreenSetting(CScreenSetting ts)
-        {
-            _PartyModeID = ts._PartyModeID;
-            _Theme = ts._Theme;
-            _ThemeLoaded = ts._ThemeLoaded;
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)

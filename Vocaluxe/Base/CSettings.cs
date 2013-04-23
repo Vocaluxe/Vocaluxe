@@ -26,10 +26,12 @@ namespace Vocaluxe.Base
 {
     enum ERevision
     {
+        // ReSharper disable UnusedMember.Global
         Alpha,
         Beta,
         RC,
         Release
+        // ReSharper restore UnusedMember.Global
     }
 
     static class CSettings

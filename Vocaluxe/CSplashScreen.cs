@@ -71,6 +71,18 @@ namespace Vocaluxe
             Show();
         }
 
+        public override sealed string Text
+        {
+            get { return base.Text; }
+            set { base.Text = value; }
+        }
+
+        public override sealed Color BackColor
+        {
+            get { return base.BackColor; }
+            set { base.BackColor = value; }
+        }
+
         protected override void OnPaint(PaintEventArgs e) {}
 
         protected override void OnPaintBackground(PaintEventArgs e)

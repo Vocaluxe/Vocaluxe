@@ -104,7 +104,6 @@ namespace Vocaluxe.Lib.Sound
                 {
                     _Decoder.Add(decoder);
                     stream.Handle = _Count++;
-                    stream.File = media;
                     _Streams.Add(stream);
                     return stream.Handle;
                 }
@@ -376,7 +375,6 @@ namespace Vocaluxe.Lib.Sound
         private Closeproc _Closeproc;
         private CPortAudio.PaStreamCallbackDelegate _PaStreamCallback;
         private int _StreamID;
-        private string _FileName;
         private IAudioDecoder _Decoder;
         private float _BytesPerSecond;
         private bool _NoMoreData;
@@ -489,7 +487,7 @@ namespace Vocaluxe.Lib.Sound
                 {
                     if (Finished)
                         _SyncTimer.Pause();
-
+                    //TODO: Why not use Decoder.GetPosition()?
                     return _SyncTimer.Time;
                 }
             }
@@ -607,7 +605,6 @@ namespace Vocaluxe.Lib.Sound
                 return -1;
             }
 
-            _FileName = fileName;
             _Decoder.Open(fileName);
             _Duration = _Decoder.GetLength();
 
@@ -800,6 +797,7 @@ namespace Vocaluxe.Lib.Sound
                         _Initialized = false;
                     }
                 }
+                _Decoder.Close();
             }
 
             _Closeproc(_StreamID);

@@ -144,7 +144,7 @@ namespace VocaluxeLib.Menu
         #region ThemeHandler
         private delegate void AddElementHandler<in T>(T element, String key);
 
-        private void _LoadThemeElement<T>(string[] elements, AddElementHandler<T> addElementHandler, CXMLReader xmlReader, int skinIndex) where T : IMenuElement
+        private void _LoadThemeElement<T>(IEnumerable<string> elements, AddElementHandler<T> addElementHandler, CXMLReader xmlReader, int skinIndex) where T : IMenuElement
         {
             if (elements != null)
             {

@@ -400,13 +400,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void _UpdateFields()
         {
             int numOneRow = (int)Math.Sqrt(_GameData.NumFields);
-            float fieldSizeY = (CBase.Settings.GetRenderH() - 150 - numOneRow * _FieldSpace) / numOneRow;
-            float fieldSizeX = (CBase.Settings.GetRenderW() - 300 - numOneRow * _FieldSpace) / numOneRow;
-            if (fieldSizeX < fieldSizeY)
-                _FieldSize = fieldSizeX;
-            else
-                _FieldSize = fieldSizeY;
-            _FieldFirstX = CBase.Settings.GetRenderW() / 2 - (numOneRow * _FieldSize + (numOneRow - 1) * _FieldSpace) / 2;
+            float fieldSizeY = ((float)CBase.Settings.GetRenderH() - 150 - numOneRow * _FieldSpace) / numOneRow;
+            float fieldSizeX = ((float)CBase.Settings.GetRenderW() - 300 - numOneRow * _FieldSpace) / numOneRow;
+            _FieldSize = Math.Min(fieldSizeX, fieldSizeY);
+            _FieldFirstX = (float)CBase.Settings.GetRenderW() / 2 - (numOneRow * _FieldSize + (numOneRow - 1) * _FieldSpace) / 2;
             _FieldFirstY = 140 + (CBase.Settings.GetRenderH() - 140) / 2 - (numOneRow * _FieldSize + numOneRow * _FieldSpace) / 2;
             int row = 0;
             int column = 0;

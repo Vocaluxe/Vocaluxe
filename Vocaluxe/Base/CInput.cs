@@ -40,14 +40,14 @@ namespace Vocaluxe.Base
             _Input = null;
         }
 
-        public static bool Connect()
+        public static void Connect()
         {
-            return _Input.Connect();
+            _Input.Connect();
         }
 
-        public static bool Disconnect()
+        public static void Disconnect()
         {
-            return _Input.Disconnect();
+            _Input.Disconnect();
         }
 
         public static bool IsConnected()

@@ -119,7 +119,6 @@ namespace Vocaluxe.Lib.Sound
                 {
                     _Decoder.Add(decoder);
                     stream.Handle = _Count++;
-                    stream.File = media;
                     _Streams.Add(stream);
                     return stream.Handle;
                 }
@@ -399,7 +398,6 @@ namespace Vocaluxe.Lib.Sound
 
         private Closeproc _Closeproc;
         private int _StreamID;
-        private string _FileName;
         private IAudioDecoder _Decoder;
         private float _BytesPerSecond;
         private bool _NoMoreData;
@@ -506,7 +504,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 if (Finished)
                     _Timer.Stop();
-
+                //TODO: Why not use Decoder.GetPosition()?
                 return _CurrentTime + _Timer.ElapsedMilliseconds / 1000f;
             }
         }
@@ -586,9 +584,6 @@ namespace Vocaluxe.Lib.Sound
             if (!File.Exists(fileName))
                 return -1;
 
-            if (_FileOpened)
-                return -1;
-
             _Decoder = new CAudioDecoderFFmpeg();
             _Decoder.Init();
 
@@ -609,7 +604,6 @@ namespace Vocaluxe.Lib.Sound
                 return -1;
             }
 
-            _FileName = fileName;
             _Decoder.Open(fileName);
             _Duration = _Decoder.GetLength();
 
@@ -619,9 +613,7 @@ namespace Vocaluxe.Lib.Sound
             _CurrentTime = 0f;
             _Timer.Reset();
 
-            SAudioStreams stream = new SAudioStreams(0);
-
-            stream.Handle = _Buffers[0];
+            SAudioStreams stream = new SAudioStreams(0) {Handle = _Buffers[0]};
 
             if (stream.Handle != 0)
             {
@@ -634,6 +626,7 @@ namespace Vocaluxe.Lib.Sound
 
                 return stream.Handle;
             }
+            _Initialized = true;
             return -1;
         }
 
@@ -758,6 +751,7 @@ namespace Vocaluxe.Lib.Sound
                     AL.DeleteSource(_Source);
                     AL.DeleteBuffers(_Buffers);
                 }
+                _Decoder.Close();
             }
 
             _Closeproc(_StreamID);

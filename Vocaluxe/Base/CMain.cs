@@ -30,7 +30,6 @@ namespace Vocaluxe.Base
         public static IConfig Config = new CBconfig();
         public static ISettings Settings = new CBsettings();
         public static ITheme Theme = new CBtheme();
-        public static IHelper Helper = new CBhelper();
         public static IBackgroundMusic BackgroundMusic = new CBbackgroundMusic();
         public static IDrawing Draw = new CBdraw();
         public static IGraphics Graphics = new CBGraphics();
@@ -50,7 +49,7 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            CBase.Assign(Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language,
+            CBase.Assign(Config, Settings, Theme, Log, BackgroundMusic, Draw, Graphics, Fonts, Language,
                          Game, Profiles, Record, Songs, Video, Sound, Cover, DataBase, Input, Playlist);
         }
     }
@@ -293,8 +292,6 @@ namespace Vocaluxe.Base
             CTheme.LoadTheme();
         }
     }
-
-    class CBhelper : IHelper {}
 
     class CBbackgroundMusic : IBackgroundMusic
     {

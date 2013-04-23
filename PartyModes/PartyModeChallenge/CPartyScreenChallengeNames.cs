@@ -89,7 +89,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _ThemeButtons = new string[] {_ButtonBack, _ButtonNext, _ButtonPlayerDestination, _ButtonPlayerChoose};
 
             _Data = new SDataFromScreen();
-            SFromScreenNames names = new SFromScreenNames {FadeToConfig = false, FadeToMain = false, ProfileIDs = new List<int>()};
+            SFromScreenNames names = new SFromScreenNames {FadeBack = false, ProfileIDs = new List<int>()};
             _Data.ScreenNames = names;
         }
 
@@ -485,15 +485,13 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private void _Back()
         {
-            _Data.ScreenNames.FadeToConfig = true;
-            _Data.ScreenNames.FadeToMain = false;
+            _Data.ScreenNames.FadeBack = true;
             _PartyMode.DataFromScreen(ThemeName, _Data);
         }
 
         private void _Next()
         {
-            _Data.ScreenNames.FadeToConfig = false;
-            _Data.ScreenNames.FadeToMain = true;
+            _Data.ScreenNames.FadeBack = false;
             _PartyMode.DataFromScreen(ThemeName, _Data);
         }
     }

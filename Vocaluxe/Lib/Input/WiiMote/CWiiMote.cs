@@ -50,15 +50,13 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
         private CGesture _Gesture;
 
-        public bool Init()
+        public void Init()
         {
             _Sync = new Object();
             _RumbleTimer = new CRumbleTimer();
             _Gesture = new CGesture();
 
-            _Active = true;
-            _HandlerThread = new Thread(_MainLoop);
-            _HandlerThread.Priority = ThreadPriority.BelowNormal;
+            _HandlerThread = new Thread(_MainLoop) {Priority = ThreadPriority.BelowNormal};
 
             _KeysPool = new List<SKeyEvent>();
             _CurrentKeysPool = new List<SKeyEvent>();
@@ -68,10 +66,6 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
             _ButtonStates = new bool[11];
             _OldPosition = new Point();
-
-            _HandlerThread.Start();
-
-            return true;
         }
 
         public void Close()
@@ -79,20 +73,17 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _Active = false;
         }
 
-        public bool Connect()
+        public void Connect()
         {
-            if (!_Active)
-            {
-                _Active = true;
-                _HandlerThread.Start();
-            }
-            return true;
+            if (_Active)
+                return;
+            _Active = true;
+            _HandlerThread.Start();
         }
 
-        public bool Disconnect()
+        public void Disconnect()
         {
             _Active = false;
-            return true;
         }
 
         public bool IsConnected()
@@ -113,8 +104,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 _CurrentKeysPool.RemoveAt(0);
                 return true;
             }
-            else
-                return false;
+            return false;
         }
 
         public bool PollMouseEvent(ref SMouseEvent mouseEvent)
@@ -125,8 +115,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 _CurrentMousePool.RemoveAt(0);
                 return true;
             }
-            else
-                return false;
+            return false;
         }
 
         public void SetRumble(float duration)

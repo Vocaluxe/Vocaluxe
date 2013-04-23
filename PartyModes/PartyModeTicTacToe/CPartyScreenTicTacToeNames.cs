@@ -24,7 +24,9 @@ using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes.TicTacToe
 {
+// ReSharper disable UnusedMember.Global
     public class CPartyScreenTicTacToeNames : CMenuParty
+// ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion

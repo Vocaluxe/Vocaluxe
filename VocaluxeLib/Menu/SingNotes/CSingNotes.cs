@@ -57,7 +57,7 @@ namespace VocaluxeLib.Menu.SingNotes
         public string SkinPerfectNoteStarName;
     }
 
-    public abstract class CSingNotes : ISingNotes, IMenuElement
+    public abstract class CSingNotes : IMenuElement
     {
         protected int _PartyModeID;
         private SThemeSingBar _Theme;

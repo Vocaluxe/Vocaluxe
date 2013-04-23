@@ -34,10 +34,10 @@ namespace Vocaluxe.Lib.Input
 
     interface IInput
     {
-        bool Init();
+        void Init();
         void Close();
-        bool Connect();
-        bool Disconnect();
+        void Connect();
+        void Disconnect();
 
         bool IsConnected();
         void Update();

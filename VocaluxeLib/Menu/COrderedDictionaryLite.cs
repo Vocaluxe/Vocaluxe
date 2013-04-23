@@ -36,13 +36,6 @@ namespace VocaluxeLib.Menu
             _Parent = parent;
         }
 
-        public COrderedDictionaryLite(COrderedDictionaryLite<T> dict)
-        {
-            _Items = new List<T>(dict._Items);
-            _HtIndex = new Dictionary<String, int>(dict._HtIndex);
-            _Parent = dict._Parent;
-        }
-
         public T this[int index]
         {
             get { return _Items[index]; }

@@ -24,7 +24,6 @@ namespace VocaluxeLib.Menu
         public static IConfig Config;
         public static ISettings Settings;
         public static ITheme Theme;
-        public static IHelper Helper;
         public static ILog Log;
         public static IBackgroundMusic BackgroundMusic;
         public static IDrawing Drawing;
@@ -42,14 +41,13 @@ namespace VocaluxeLib.Menu
         public static IInputs Input;
         public static IPlaylist Playlist;
 
-        public static void Assign(IConfig config, ISettings settings, ITheme theme, IHelper helper, ILog log, IBackgroundMusic backgroundMusic,
+        public static void Assign(IConfig config, ISettings settings, ITheme theme, ILog log, IBackgroundMusic backgroundMusic,
                                   IDrawing draw, IGraphics graphics, IFonts fonts, ILanguage language, IGame game, IProfiles profiles, IRecording record,
                                   ISongs songs, IVideo video, ISound sound, ICover cover, IDataBase dataBase, IInputs input, IPlaylist playlist)
         {
             Config = config;
             Settings = settings;
             Theme = theme;
-            Helper = helper;
             Log = log;
             BackgroundMusic = backgroundMusic;
             Drawing = draw;

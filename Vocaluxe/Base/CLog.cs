@@ -36,6 +36,15 @@ namespace Vocaluxe.Base
             _LogFileName = fileName;
         }
 
+        private void _Open()
+        {
+            _LogFile = new StreamWriter(Path.Combine(Environment.CurrentDirectory, _LogFileName), false, Encoding.UTF8);
+
+            _LogFile.WriteLine(_LogName + " " + CSettings.GetFullVersionText() + " " + DateTime.Now);
+            _LogFile.WriteLine("----------------------------------------");
+            _LogFile.WriteLine();
+        }
+
         public void Close()
         {
             if (_LogFile == null)
@@ -53,21 +62,10 @@ namespace Vocaluxe.Base
             if (_LogFile == null)
                 _Open();
 
-            try
-            {
-                _LogFile.WriteLine(text);
-                _LogFile.Flush();
-            }
-            catch (Exception) {}
-        }
-
-        private void _Open()
-        {
-            _LogFile = new StreamWriter(Path.Combine(Environment.CurrentDirectory, _LogFileName), false, Encoding.UTF8);
-
-            _LogFile.WriteLine(_LogName + " " + CSettings.GetFullVersionText() + " " + DateTime.Now);
-            _LogFile.WriteLine("----------------------------------------");
-            _LogFile.WriteLine();
+// ReSharper disable PossibleNullReferenceException
+            _LogFile.WriteLine(text);
+// ReSharper restore PossibleNullReferenceException
+            _LogFile.Flush();
         }
 
         public void Dispose()

@@ -58,17 +58,15 @@ namespace VocaluxeLib.PartyModes.Challenge
         public int Position;
         public int PlayerID;
         public int NumPlayed;
-        public int NumRounds;
         public int NumWon;
         public int NumSingPoints;
         public int NumGamePoints;
 
         public int CompareTo(object obj)
         {
-            if (obj is CResultTableRow)
+            CResultTableRow row = obj as CResultTableRow;
+            if (row != null)
             {
-                CResultTableRow row = (CResultTableRow)obj;
-
                 int res = row.NumGamePoints.CompareTo(NumGamePoints);
                 if (res == 0)
                 {
@@ -101,8 +99,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
     public struct SFromScreenNames
     {
-        public bool FadeToConfig;
-        public bool FadeToMain;
+        public bool FadeBack;
         public List<int> ProfileIDs;
     }
 
@@ -236,7 +233,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                     try
                     {
                         dataFrom = (SDataFromScreen)data;
-                        if (dataFrom.ScreenNames.FadeToConfig)
+                        if (dataFrom.ScreenNames.FadeBack)
                             _Stage = EStage.NotStarted;
                         else
                         {
@@ -590,13 +587,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             {
                 for (int i = 0; i < _GameData.NumPlayer; i++)
                 {
-                    CResultTableRow row = new CResultTableRow();
-                    row.PlayerID = _GameData.ProfileIDs[i];
-                    row.NumPlayed = 0;
-                    row.NumRounds = 0;
-                    row.NumWon = 0;
-                    row.NumSingPoints = 0;
-                    row.NumGamePoints = 0;
+                    CResultTableRow row = new CResultTableRow {PlayerID = _GameData.ProfileIDs[i], NumPlayed = 0, NumWon = 0, NumSingPoints = 0, NumGamePoints = 0};
                     _GameData.ResultTable.Add(row);
                 }
 
@@ -633,18 +624,16 @@ namespace VocaluxeLib.PartyModes.Challenge
                         }
                     }
 
-                    if (index != -1)
-                    {
-                        CResultTableRow row = _GameData.ResultTable[index];
+                    if (index == -1)
+                        continue;
+                    CResultTableRow row = _GameData.ResultTable[index];
 
-                        row.NumPlayed++;
-                        row.NumWon += points[i].Won;
-                        row.NumRounds += 1;
-                        row.NumSingPoints += points[i].SingPoints;
-                        row.NumGamePoints += points[i].GamePoints;
+                    row.NumPlayed++;
+                    row.NumWon += points[i].Won;
+                    row.NumSingPoints += points[i].SingPoints;
+                    row.NumGamePoints += points[i].GamePoints;
 
-                        _GameData.ResultTable[index] = row;
-                    }
+                    _GameData.ResultTable[index] = row;
                 }
             }
 

@@ -25,12 +25,10 @@ namespace Vocaluxe.Lib.Video
     struct SVideoStreams
     {
         public int Handle;
-        public string File;
 
         public SVideoStreams(int stream)
         {
             Handle = stream;
-            File = String.Empty;
         }
     }
 
