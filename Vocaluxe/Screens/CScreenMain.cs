@@ -124,7 +124,7 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-// ReSharper disable RedundantOverridenMember
+        // ReSharper disable RedundantOverridenMember
         public override void OnShow()
         {
             base.OnShow();
@@ -132,7 +132,8 @@ namespace Vocaluxe.Screens
             //if (Snowflakes != null)
             //    Snowflakes.Resume();
         }
-// ReSharper restore RedundantOverridenMember
+
+        // ReSharper restore RedundantOverridenMember
 
         public override bool UpdateGame()
         {
@@ -150,9 +151,9 @@ namespace Vocaluxe.Screens
             //Snowflakes.Draw();
             _DrawFG();
 
-// ReSharper disable ConditionIsAlwaysTrueOrFalse
+            // ReSharper disable ConditionIsAlwaysTrueOrFalse
             if (CSettings.VersionRevision != ERevision.Release)
-// ReSharper restore ConditionIsAlwaysTrueOrFalse
+                // ReSharper restore ConditionIsAlwaysTrueOrFalse
             {
                 CFonts.SetFont("Normal");
                 CFonts.Style = EStyle.Normal;
@@ -162,7 +163,7 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-// ReSharper disable RedundantOverridenMember
+        // ReSharper disable RedundantOverridenMember
         public override void OnClose()
         {
             base.OnClose();
@@ -170,6 +171,7 @@ namespace Vocaluxe.Screens
             //if (Snowflakes != null)
             //    Snowflakes.Pause();
         }
-// ReSharper restore RedundantOverridenMember
+
+        // ReSharper restore RedundantOverridenMember
     }
 }

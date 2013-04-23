@@ -353,7 +353,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 {
                     _Texts[_TextFinishMessage].Color = CBase.Theme.GetPlayerColor(winner);
                     _Texts[_TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_WINNER", _PartyModeID) + " " + CBase.Language.Translate("TR_TEAM", _PartyModeID) + " " +
-                                                     winner;
+                                                      winner;
                 }
                 else
                 {
@@ -607,7 +607,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             _Texts[_TextTeamChoosing].Color = CBase.Theme.GetPlayerColor(_GameData.Team + 1);
             _Texts[_TextTeamChoosing].Text = CBase.Language.Translate("TR_TEAM", _PartyModeID) + " " + (_GameData.Team + 1) + "! " +
-                                            CBase.Language.Translate("TR_SCREENMAIN_TEAM_CHOOSE", _PartyModeID);
+                                             CBase.Language.Translate("TR_SCREENMAIN_TEAM_CHOOSE", _PartyModeID);
             if (_Status == EStatus.JokerRetry || _Status == EStatus.FieldChoosing)
                 _Texts[_TextTeamChoosing].Visible = true;
             else

@@ -36,9 +36,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
         private string _FileName;
         private bool _FileOpened;
 
-        public void Init()
-        {
-        }
+        public void Init() {}
 
         public void Open(string fileName, bool loop)
         {

@@ -230,7 +230,7 @@ namespace Vocaluxe.Screens
                         }
                         break;
                     case Keys.W:
-                        if (CWebcam.GetDevices().Length > 0)
+                        if (CWebcam.IsDeviceAvailable())
                         {
                             _Webcam = !_Webcam;
                             if (_Webcam)
@@ -614,7 +614,7 @@ namespace Vocaluxe.Screens
 
             CDraw.RemoveTexture(ref _CurrentVideoTexture);
 
-            if (song.VideoFileName.Length > 0)
+            if (song.VideoFileName != "")
             {
                 _CurrentVideo = CVideo.VdLoad(Path.Combine(song.Folder, song.VideoFileName));
                 CVideo.VdSkip(_CurrentVideo, song.Start, song.VideoGap);
@@ -622,7 +622,7 @@ namespace Vocaluxe.Screens
             }
 
             CDraw.RemoveTexture(ref _Background);
-            if (song.BackgroundFileName.Length > 0)
+            if (song.BackgroundFileName != "")
                 _Background = CDraw.AddTexture(Path.Combine(song.Folder, song.BackgroundFileName));
 
             _SingNotes[_SingBars].Reset();
@@ -924,14 +924,14 @@ namespace Vocaluxe.Screens
                     {
                         _Texts[_TextScores[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
                         _Texts[_TextNames[player, numplayer]].Visible = (numplayer + 1 == CGame.NumPlayer)
-                                                                       &&
-                                                                       (CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
-                                                                        CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_NAME);
+                                                                        &&
+                                                                        (CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
+                                                                         CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_NAME);
                         _Statics[_StaticScores[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
                         _Statics[_StaticAvatars[player, numplayer]].Visible = (numplayer + 1 == CGame.NumPlayer)
-                                                                             &&
-                                                                             (CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
-                                                                              CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_AVATAR);
+                                                                              &&
+                                                                              (CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
+                                                                               CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_AVATAR);
                     }
                 }
             }
@@ -1325,7 +1325,8 @@ namespace Vocaluxe.Screens
                         return;
 
                     CLines[] partLines = song.Notes.Lines;
-                    foreach (CLines partLine in partLines) {
+                    foreach (CLines partLine in partLines)
+                    {
                         CLine[] line = partLine.Line;
                         for (int j = 0; j < line.Length; j++)
                         {

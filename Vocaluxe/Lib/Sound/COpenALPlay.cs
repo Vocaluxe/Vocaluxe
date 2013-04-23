@@ -844,7 +844,7 @@ namespace Vocaluxe.Lib.Sound
 
                         if (buffer != 0)
                         {
-                            ALFormat alFormat = (_Format.ChannelCount == 2)?ALFormat.Stereo16:ALFormat.Mono16;
+                            ALFormat alFormat = (_Format.ChannelCount == 2) ? ALFormat.Stereo16 : ALFormat.Mono16;
                             AL.BufferData(buffer, alFormat, buf, buf.Length, _Format.SamplesPerSecond);
                             Console.WriteLine("Write to Buffer: " + buffer);
                             AL.SourceQueueBuffer(_Source, buffer);

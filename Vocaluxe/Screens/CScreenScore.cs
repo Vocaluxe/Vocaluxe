@@ -156,15 +156,15 @@ namespace Vocaluxe.Screens
                         if (direction.ToLower() == "vertical")
                         {
                             _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.W = ((float)_StaticPointsBarDrawnPoints[p]) *
-                                                                                       (_Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.W / 10000);
+                                                                                        (_Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.W / 10000);
                         }
                         else
                         {
                             _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H = ((float)_StaticPointsBarDrawnPoints[p]) *
-                                                                                       (_Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.H / 10000);
+                                                                                        (_Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.H / 10000);
                             _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.Y = _Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.H +
-                                                                                       _Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.Y -
-                                                                                       _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H;
+                                                                                        _Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.Y -
+                                                                                        _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H;
                         }
                     }
                 }
@@ -316,14 +316,14 @@ namespace Vocaluxe.Screens
                 if (CGame.NumPlayer < (int)_ScreenSettings[_ScreenSettingShortDifficulty].GetValue())
                 {
                     _Texts[_TextDifficulty[p, CGame.NumPlayer - 1]].Text = CLanguage.Translate("TR_SCREENSCORE_GAMEDIFFICULTY") + ": " +
-                                                                          CLanguage.Translate(player[p].Difficulty.ToString());
+                                                                           CLanguage.Translate(player[p].Difficulty.ToString());
                 }
                 else
                     _Texts[_TextDifficulty[p, CGame.NumPlayer - 1]].Text = CLanguage.Translate(player[p].Difficulty.ToString());
                 if (CGame.NumPlayer < (int)_ScreenSettings[_ScreenSettingShortRating].GetValue())
                 {
                     _Texts[_TextRatings[p, CGame.NumPlayer - 1]].Text = CLanguage.Translate("TR_SCREENSCORE_RATING") + ": " +
-                                                                       CLanguage.Translate(_GetRating((int)Math.Round(player[p].Points)));
+                                                                        CLanguage.Translate(_GetRating((int)Math.Round(player[p].Points)));
                 }
                 else
                     _Texts[_TextRatings[p, CGame.NumPlayer - 1]].Text = CLanguage.Translate(_GetRating((int)Math.Round(player[p].Points)));
@@ -336,8 +336,8 @@ namespace Vocaluxe.Screens
                 {
                     _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H = 0;
                     _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.Y = _Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.H +
-                                                                               _Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.Y -
-                                                                               _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H;
+                                                                                _Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.Y -
+                                                                                _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H;
                 }
                 if (player[p].ProfileID >= 0 && player[p].ProfileID < CProfiles.NumProfiles)
                     _Statics[_StaticAvatar[p, CGame.NumPlayer - 1]].Texture = CProfiles.Profiles[player[p].ProfileID].Avatar.Texture;
@@ -349,8 +349,8 @@ namespace Vocaluxe.Screens
                 {
                     _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H = ((float)player[p].Points) * (_Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.H / 10000);
                     _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.Y = _Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.H +
-                                                                               _Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.Y -
-                                                                               _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H;
+                                                                                _Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.Y -
+                                                                                _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H;
                     _StaticPointsBarDrawnPoints[p] = player[p].Points;
                 }
             }

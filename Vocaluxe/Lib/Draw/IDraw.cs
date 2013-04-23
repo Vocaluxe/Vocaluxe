@@ -46,7 +46,7 @@ namespace Vocaluxe.Lib.Draw
         void MakeScreenShot();
 
         // Draw Basic Text (must be deleted later)
-        void DrawText(string text, int x, int y, int h, int z=0);
+        void DrawText(string text, int x, int y, int h, int z = 0);
 
         STexture AddTexture(string texturePath);
         STexture AddTexture(Bitmap bitmap);

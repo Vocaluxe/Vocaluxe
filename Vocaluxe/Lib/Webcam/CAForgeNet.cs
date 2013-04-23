@@ -101,7 +101,8 @@ namespace Vocaluxe.Lib.Webcam
                 num++;
                 VideoCaptureDevice tmpdev = new VideoCaptureDevice(info.MonikerString);
 
-                foreach (VideoCapabilities capabilities in tmpdev.VideoCapabilities) {
+                foreach (VideoCapabilities capabilities in tmpdev.VideoCapabilities)
+                {
                     SCapabilities item = new SCapabilities
                         {
                             Framerate = capabilities.FrameRate,
@@ -160,6 +161,11 @@ namespace Vocaluxe.Lib.Webcam
         public SWebcamDevice[] GetDevices()
         {
             return _Devices.ToArray();
+        }
+
+        public bool IsDeviceAvailable()
+        {
+            return _Devices.Count > 0;
         }
 
         public bool Select(SWebcamConfig config)

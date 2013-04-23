@@ -116,7 +116,7 @@ namespace Vocaluxe.Base
         {
             if (playlistID < 0 || playlistID >= _Playlists.Count)
                 return;
-            if (_Playlists[playlistID].PlaylistFile.Length > 0)
+            if (_Playlists[playlistID].PlaylistFile != "")
             {
                 try
                 {

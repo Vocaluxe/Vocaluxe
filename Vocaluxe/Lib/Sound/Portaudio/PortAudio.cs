@@ -28,7 +28,7 @@ namespace Vocaluxe.Lib.Sound.PortAudio
 		</summary>
 	*/
 
-    public static partial class CPortAudio
+    public static class CPortAudio
     {
         #region **** PORTAUDIO CALLBACKS ****
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

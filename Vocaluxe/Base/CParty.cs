@@ -343,10 +343,7 @@ namespace Vocaluxe.Base
 
         private static Assembly _CompileFiles(string[] files)
         {
-            if (files == null)
-                return null;
-
-            if (files.Length == 0)
+            if (files == null || files.Length == 0)
                 return null;
 
             CompilerParameters compilerParams = new CompilerParameters();

@@ -116,7 +116,7 @@ namespace Vocaluxe.Base
         {
             get
             {
-                if (_CurrentPlaylistElement.Artist.Length > 0 && _CurrentPlaylistElement.Title.Length > 0)
+                if (_CurrentPlaylistElement.Artist != "" && _CurrentPlaylistElement.Title != "")
                     return _CurrentPlaylistElement.Artist + " - " + _CurrentPlaylistElement.Title;
                 else
                     return Path.GetFileNameWithoutExtension(_CurrentPlaylistElement.MusicFilePath);

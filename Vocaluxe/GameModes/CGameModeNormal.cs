@@ -20,6 +20,5 @@
 namespace Vocaluxe.GameModes
 {
     // Nomal singing
-    class CGameModeNormal : CGameMode
-    {}
+    class CGameModeNormal : CGameMode {}
 }

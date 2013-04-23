@@ -368,9 +368,9 @@ namespace VocaluxeLib.PartyModes.Challenge
             return _ScreenSongOptions;
         }
 
-// ReSharper disable RedundantAssignment
+        // ReSharper disable RedundantAssignment
         public override void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions)
-// ReSharper restore RedundantAssignment
+            // ReSharper restore RedundantAssignment
         {
             _ScreenSongOptions.Selection.SongIndex = -1;
 
@@ -389,9 +389,9 @@ namespace VocaluxeLib.PartyModes.Challenge
             screenSongOptions = _ScreenSongOptions;
         }
 
-// ReSharper disable RedundantAssignment
+        // ReSharper disable RedundantAssignment
         public override void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions)
-// ReSharper restore RedundantAssignment
+            // ReSharper restore RedundantAssignment
         {
             if (_GameData.CatSongIndices != null && categoryIndex != -1)
             {

@@ -24,7 +24,7 @@ namespace Vocaluxe.Lib.Video.Gstreamer
 {
     public struct SNativeFrame
     {
-// ReSharper disable UnassignedField.Global
+        // ReSharper disable UnassignedField.Global
         internal IntPtr Buffer;
         public int Size;
         public int Width;

@@ -157,21 +157,15 @@ namespace VocaluxeLib.PartyModes.Challenge
             //filter against PlayerNrDemand
             List<CCombination> combsFiltered = new List<CCombination>();
             if (playerNrDemand != null)
-            {
                 combsFiltered.AddRange(_Combs.Where(t => t.IsAvailableAll(playerNrDemand)));
-            }
 
             //1st fallback
             if (playerNrDemand != null && combsFiltered.Count == 0)
-            {
                 combsFiltered.AddRange(_Combs.Where(t => t.IsAvailableSomeone(playerNrDemand)));
-            }
 
             //2nd fallback
             if (combsFiltered.Count == 0)
-            {
                 combsFiltered.AddRange(_Combs);
-            }
 
             int num = combsFiltered.Count;
             int rand = _Rand.Next(num);

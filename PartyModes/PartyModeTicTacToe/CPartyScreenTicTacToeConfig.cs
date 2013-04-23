@@ -24,9 +24,9 @@ using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes.TicTacToe
 {
-// ReSharper disable UnusedMember.Global
+    // ReSharper disable UnusedMember.Global
     public class CPartyScreenTicTacToeConfig : CMenuParty
-// ReSharper restore UnusedMember.Global
+        // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -289,7 +289,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _ConfigOk = false;
                         for (int i = 0; i < CBase.Songs.NumSongsInCategory(_Data.ScreenConfig.CategoryID); i++)
                         {
-                            _ConfigOk=CBase.Songs.GetVisibleSong(i).AvailableGameModes.Any(mode => mode == gm);
+                            _ConfigOk = CBase.Songs.GetVisibleSong(i).AvailableGameModes.Any(mode => mode == gm);
                             if (_ConfigOk)
                                 break;
                         }

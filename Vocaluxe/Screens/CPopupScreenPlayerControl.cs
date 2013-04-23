@@ -90,7 +90,7 @@ namespace Vocaluxe.Screens
             _ThemeStatics = new string[] {_StaticBG, _StaticCover};
             _ThemeTexts = new string[] {_TextCurrentSong};
 
-            _ThemeButtons = new string[]{_ButtonPlay,_ButtonPause,_ButtonPrevious,_ButtonNext,_ButtonRepeat,_ButtonShowVideo,_ButtonSing,_ButtonToBackgroundVideo};
+            _ThemeButtons = new string[] {_ButtonPlay, _ButtonPause, _ButtonPrevious, _ButtonNext, _ButtonRepeat, _ButtonShowVideo, _ButtonSing, _ButtonToBackgroundVideo};
         }
 
         public override void LoadTheme(string xmlPath)

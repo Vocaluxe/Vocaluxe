@@ -341,9 +341,7 @@ namespace Vocaluxe.Base
         public static float Height
         {
             get { return _Height; }
-            set {
-                _Height = value < 0f ? 0f : value;
-            }
+            set { _Height = value < 0f ? 0f : value; }
         }
 
         public static float Outline
@@ -413,7 +411,7 @@ namespace Vocaluxe.Base
             if (h <= 0f)
                 return;
 
-            if (text.Length == 0)
+            if (text == "")
                 return;
 
             Height = h;
@@ -432,7 +430,7 @@ namespace Vocaluxe.Base
             if (h <= 0f)
                 return;
 
-            if (text.Length == 0)
+            if (text == "")
                 return;
 
             Height = h;
@@ -451,7 +449,7 @@ namespace Vocaluxe.Base
             if (h <= 0f)
                 return;
 
-            if (text.Length == 0)
+            if (text == "")
                 return;
 
             Height = h;
@@ -581,7 +579,7 @@ namespace Vocaluxe.Base
             {
                 SFont sf = new SFont();
                 sf.Folder = value;
-                sf.IsThemeFont = themeName.Length > 0;
+                sf.IsThemeFont = themeName != "";
                 sf.ThemeName = themeName;
                 sf.PartyModeID = partyModeId;
 
@@ -631,7 +629,7 @@ namespace Vocaluxe.Base
                     string fontTypes;
                     if (partyModeId >= 0)
                         fontTypes = "theme fonts for party mode";
-                    else if (themeName.Length > 0)
+                    else if (themeName != "")
                         fontTypes = "theme fonts for theme \"" + themeName + "\"";
                     else
                         fontTypes = "basic fonts";
@@ -747,7 +745,7 @@ namespace Vocaluxe.Base
 
         private static int _GetFontIndex(string themeName, string fontName)
         {
-            if (themeName.Length == 0 || fontName.Length == 0)
+            if (themeName == "" || fontName == "")
                 return -1;
 
             for (int i = 0; i < _Fonts.Count; i++)
@@ -761,7 +759,7 @@ namespace Vocaluxe.Base
 
         private static int _GetFontIndexParty(int partyModeID, string fontName)
         {
-            if (partyModeID == -1 || fontName.Length == 0)
+            if (partyModeID == -1 || fontName == "")
                 return -1;
 
             for (int i = 0; i < _Fonts.Count; i++)

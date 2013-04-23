@@ -541,7 +541,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<Color>: Text color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName.Length > 0)
+                if (_Theme.ColorName != "")
                     writer.WriteElementString("Color", _Theme.ColorName);
                 else
                 {
@@ -553,7 +553,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<SColor>: Selected Text color from ColorScheme (high priority)");
                 writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
-                if (_Theme.SelColorName.Length > 0)
+                if (_Theme.SelColorName != "")
                     writer.WriteElementString("SColor", _Theme.SelColorName);
                 else
                 {
@@ -776,10 +776,10 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (_Theme.ColorName.Length > 0)
+            if (_Theme.ColorName != "")
                 Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
-            if (_Theme.SelColorName.Length > 0)
+            if (_Theme.SelColorName != "")
                 SelColor = CBase.Theme.GetColor(_Theme.SelColorName, _PartyModeID);
         }
 
@@ -806,7 +806,7 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateTextPosition()
         {
-            if (_Text.Length == 0)
+            if (_Text == "")
                 return;
 
             CBase.Fonts.SetFont(Font);

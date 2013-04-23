@@ -245,7 +245,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
             SPlayerNotes notes = _PlayerNotes[n];
 
-            if (line.Length == 0 || line.Length <= lineNr)
+            if (line.Length <= lineNr)
                 return;
 
             notes.Lines = line;

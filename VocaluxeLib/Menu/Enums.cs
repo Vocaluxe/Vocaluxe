@@ -136,7 +136,7 @@ namespace VocaluxeLib.Menu
 
     public enum EBufferSize
     {
-// ReSharper disable UnusedMember.Global
+        // ReSharper disable UnusedMember.Global
         B0 = 0,
         B512 = 512,
         B1024 = 1024,

@@ -37,10 +37,10 @@ namespace VocaluxeLib.Menu
         public ESettingType Type;
     }
 
-// ReSharper disable ClassNeverInstantiated.Global
+    // ReSharper disable ClassNeverInstantiated.Global
     //Instantiated by reflection
     public class CScreenSetting : IMenuElement
-// ReSharper restore ClassNeverInstantiated.Global
+        // ReSharper restore ClassNeverInstantiated.Global
     {
         private readonly int _PartyModeID;
 

@@ -62,9 +62,9 @@ namespace Vocaluxe.Base
             if (_LogFile == null)
                 _Open();
 
-// ReSharper disable PossibleNullReferenceException
+            // ReSharper disable PossibleNullReferenceException
             _LogFile.WriteLine(text);
-// ReSharper restore PossibleNullReferenceException
+            // ReSharper restore PossibleNullReferenceException
             _LogFile.Flush();
         }
 

@@ -98,7 +98,7 @@ namespace Vocaluxe.Base
             int noCategoryIndex = -1;
             for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
             {
-                if (CSongs.Sorter.SortedSongs[i].SortString.Length > 0)
+                if (CSongs.Sorter.SortedSongs[i].SortString != "")
                 {
                     if (CSongs.Sorter.SortedSongs[i].SortString != category)
                     {
@@ -154,7 +154,7 @@ namespace Vocaluxe.Base
                     for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
                     {
                         string year = CSongs.Sorter.SortedSongs[i].SortString;
-                        if (year.Length > 0)
+                        if (year != "")
                         {
                             year = year.Substring(0, 3);
                             CSongs.Sorter.SortedSongs[i].SortString = year + "0 - " + year + "9";

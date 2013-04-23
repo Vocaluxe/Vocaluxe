@@ -141,6 +141,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         //Size of the data in the buffer.
         public readonly Int32 BufferSize;
     }
+
     // Contains information about an Acinerella package.
     [StructLayout(LayoutKind.Sequential)]
     public struct SACPackage
@@ -278,9 +279,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
             string filename
             );
 
-// ReSharper disable UnusedMethodReturnValue.Global
+        // ReSharper disable UnusedMethodReturnValue.Global
         public static Int32 AcOpen2(
-// ReSharper restore UnusedMethodReturnValue.Global
+            // ReSharper restore UnusedMethodReturnValue.Global
             IntPtr pAcInstance,
             string filename
             )
@@ -430,9 +431,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
         [DllImport(_AcDll, EntryPoint = "ac_seek", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private static extern Int32 _ac_seek(IntPtr pAcDecoder, Int32 dir, Int64 targetPos);
 
-// ReSharper disable UnusedMethodReturnValue.Global
+        // ReSharper disable UnusedMethodReturnValue.Global
         public static Int32 AcSeek(IntPtr pAcDecoder, Int32 dir, Int64 targetPos)
-// ReSharper restore UnusedMethodReturnValue.Global
+            // ReSharper restore UnusedMethodReturnValue.Global
         {
             lock (_Lock)
             {
@@ -450,5 +451,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
             out Int32 scoreMax
             );
     }
+
     // ReSharper restore UnusedMember.Global
 }

@@ -125,14 +125,14 @@ namespace Vocaluxe.Base
         private List<SSongPointer> _CreateSortList(string fieldName)
         {
             List<SSongPointer> sortList = new List<SSongPointer>();
-            if (fieldName.Length == 0)
+            if (fieldName == "")
                 CSongs.Filter.FilteredSongs.ForEach(song => sortList.Add(new SSongPointer(song.ID, "")));
             else
             {
                 FieldInfo field = typeof(CSong).GetField(fieldName, BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public);
                 if (field == null)
                 {
-                    CLog.LogError("Unknow sorting field: "+fieldName);
+                    CLog.LogError("Unknow sorting field: " + fieldName);
                     return _CreateSortList("");
                 }
                 bool isString = field.FieldType == typeof(string);

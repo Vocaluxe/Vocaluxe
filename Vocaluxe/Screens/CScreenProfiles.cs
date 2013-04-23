@@ -82,10 +82,7 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonSaveSnapshot].Visible = false;
             _Buttons[_ButtonDiscardSnapshot].Visible = false;
             _Buttons[_ButtonTakeSnapshot].Visible = false;
-            if (CWebcam.GetDevices().Length > 0)
-                _Buttons[_ButtonWebcam].Visible = true;
-            else
-                _Buttons[_ButtonWebcam].Visible = false;
+            _Buttons[_ButtonWebcam].Visible = CWebcam.IsDeviceAvailable();
             _SelectSlides[_SelectSlideDifficulty].SetValues<EGameDifficulty>(0);
             _SelectSlides[_SelectSlideGuestProfile].SetValues<EOffOn>(0);
             _SelectSlides[_SelectSlideActive].SetValues<EOffOn>(0);
@@ -132,13 +129,13 @@ namespace Vocaluxe.Screens
                         }
                         else if (_Buttons[_ButtonDelete].Selected)
                             _DeleteProfile();
-                        else if (_Buttons[_ButtonWebcam].Selected && CWebcam.GetDevices().Length > 0)
+                        else if (_Buttons[_ButtonWebcam].Selected && CWebcam.IsDeviceAvailable())
                             _OnWebcam();
-                        else if (_Buttons[_ButtonSaveSnapshot].Selected && CWebcam.GetDevices().Length > 0)
+                        else if (_Buttons[_ButtonSaveSnapshot].Selected && CWebcam.IsDeviceAvailable())
                             _OnSaveSnapshot();
-                        else if (_Buttons[_ButtonDiscardSnapshot].Selected && CWebcam.GetDevices().Length > 0)
+                        else if (_Buttons[_ButtonDiscardSnapshot].Selected && CWebcam.IsDeviceAvailable())
                             _OnDiscardSnapshot();
-                        else if (_Buttons[_ButtonTakeSnapshot].Selected && CWebcam.GetDevices().Length > 0)
+                        else if (_Buttons[_ButtonTakeSnapshot].Selected && CWebcam.IsDeviceAvailable())
                             _OnTakeSnapshot();
                         break;
 
@@ -212,7 +209,7 @@ namespace Vocaluxe.Screens
                 {
                     CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].Selection,
                                         _SelectSlides[_SelectSlideAvatars].Selection);
-                    if (CWebcam.GetDevices().Length > 0 && _WebcamTexture.Index > 0)
+                    if (CWebcam.IsDeviceAvailable() && _WebcamTexture.Index > 0)
                         _OnDiscardSnapshot();
                 }
                 else if (_SelectSlides[_SelectSlideGuestProfile].Selected)
@@ -225,13 +222,13 @@ namespace Vocaluxe.Screens
                     CProfiles.SetActive(_SelectSlides[_SelectSlideProfiles].Selection,
                                         (EOffOn)_SelectSlides[_SelectSlideActive].Selection);
                 }
-                else if (_Buttons[_ButtonWebcam].Selected && CWebcam.GetDevices().Length > 0)
+                else if (_Buttons[_ButtonWebcam].Selected && CWebcam.IsDeviceAvailable())
                     _OnWebcam();
-                else if (_Buttons[_ButtonSaveSnapshot].Selected && CWebcam.GetDevices().Length > 0)
+                else if (_Buttons[_ButtonSaveSnapshot].Selected && CWebcam.IsDeviceAvailable())
                     _OnSaveSnapshot();
-                else if (_Buttons[_ButtonDiscardSnapshot].Selected && CWebcam.GetDevices().Length > 0)
+                else if (_Buttons[_ButtonDiscardSnapshot].Selected && CWebcam.IsDeviceAvailable())
                     _OnDiscardSnapshot();
-                else if (_Buttons[_ButtonTakeSnapshot].Selected && CWebcam.GetDevices().Length > 0)
+                else if (_Buttons[_ButtonTakeSnapshot].Selected && CWebcam.IsDeviceAvailable())
                     _OnTakeSnapshot();
             }
 
@@ -313,7 +310,7 @@ namespace Vocaluxe.Screens
 
                 int avatarNr = CProfiles.GetAvatarNr(_SelectSlides[_SelectSlideProfiles].Selection);
                 _SelectSlides[_SelectSlideAvatars].Selection = avatarNr;
-                if (CWebcam.GetDevices().Length > 0 && _WebcamTexture.Index > 0)
+                if (CWebcam.IsDeviceAvailable() && _WebcamTexture.Index > 0)
                 {
                     if (_Snapshot == null)
                         CWebcam.GetFrame(ref _WebcamTexture);

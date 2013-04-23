@@ -105,8 +105,8 @@ namespace Vocaluxe.Screens
             _SongLoaderThread = new Thread(CSongs.LoadSongs) {Name = "SongLoader"};
 
             _Texts[_TextStatus].Text = CLanguage.Translate("TR_SCREENLOAD_TOTAL") + ": 0 " +
-                                      CLanguage.Translate("TR_SCREENLOAD_SONGS") + " (0 " +
-                                      CLanguage.Translate("TR_SCREENLOAD_LOADED") + ")";
+                                       CLanguage.Translate("TR_SCREENLOAD_SONGS") + " (0 " +
+                                       CLanguage.Translate("TR_SCREENLOAD_LOADED") + ")";
 
             _SkipIntro = false;
             _CurrentIntroVideoNr = -1;

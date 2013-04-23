@@ -233,7 +233,7 @@ namespace Vocaluxe.Screens
                             break;
 
                         case Keys.Back:
-                            if (_SearchActive && _SearchText.Length > 0)
+                            if (_SearchActive && _SearchText != "")
                                 _ApplyNewSearchFilter(_SearchText.Remove(_SearchText.Length - 1));
 
                             if ((CSongs.Category < 0 || _Sso.Sorting.Tabs == EOffOn.TR_CONFIG_OFF) && !_Sso.Selection.PartyMode && !_SearchActive)
@@ -1041,13 +1041,13 @@ namespace Vocaluxe.Screens
             if (songIndex != -1 && CSongs.NumVisibleSongs > 0 && CSongs.NumVisibleSongs > songIndex)
                 songID = CSongs.VisibleSongs[songIndex].ID;
 
-            if (newFilterString.Length == 0 && _Sso.Sorting.Tabs == EOffOn.TR_CONFIG_ON)
+            if (newFilterString == "" && _Sso.Sorting.Tabs == EOffOn.TR_CONFIG_ON)
             {
                 CSongs.Category = -1;
                 refresh = true;
             }
 
-            if (newFilterString.Length > 0 && CSongs.Category != 0)
+            if (newFilterString != "" && CSongs.Category != 0)
             {
                 CSongs.Category = 0;
                 refresh = true;

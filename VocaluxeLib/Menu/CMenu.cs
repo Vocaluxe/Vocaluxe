@@ -194,7 +194,7 @@ namespace VocaluxeLib.Menu
 
         public virtual void SaveTheme()
         {
-            if (_ThemePath.Length == 0)
+            if (_ThemePath == "")
                 return;
 
             XmlWriterSettings settings = new XmlWriterSettings {Indent = true, Encoding = Encoding.UTF8, ConformanceLevel = ConformanceLevel.Document};
@@ -357,7 +357,7 @@ namespace VocaluxeLib.Menu
 
         public virtual void ReloadTheme(string xmlPath)
         {
-            if (_ThemePath.Length == 0)
+            if (_ThemePath == "")
                 return;
 
             UnloadTextures();
@@ -436,7 +436,7 @@ namespace VocaluxeLib.Menu
         #region ElementHandler
 
         #region Create Elements
-// ReSharper disable UnusedMember.Global
+        // ReSharper disable UnusedMember.Global
         // ReSharper disable MemberCanBeProtected.Global
         public CButton GetNewButton()
         {
@@ -527,6 +527,7 @@ namespace VocaluxeLib.Menu
         {
             return new CParticleEffect(_PartyModeID, maxNumber, color, area, texture, size, type);
         }
+
         // ReSharper restore MemberCanBeProtected.Global
         // ReSharper restore UnusedMember.Global
         #endregion Create Elements
@@ -793,7 +794,7 @@ namespace VocaluxeLib.Menu
         #endregion Drawing
 
         #region Elements
-// ReSharper disable MemberCanBePrivate.Global
+        // ReSharper disable MemberCanBePrivate.Global
         protected void _AddBackground(CBackground bg, String key = null)
         {
             _AddInteraction(_Backgrounds.Add(bg, key), EType.Background);
@@ -858,6 +859,7 @@ namespace VocaluxeLib.Menu
         {
             _ScreenSettings.Add(se, key);
         }
+
         // ReSharper restore MemberCanBePrivate.Global
         #endregion Elements
 
@@ -1515,7 +1517,7 @@ namespace VocaluxeLib.Menu
             }
         }
 
-// ReSharper disable UnusedMember.Local
+        // ReSharper disable UnusedMember.Local
         private void _ToggleHighlighted()
         {
             if (_Selection >= _Interactions.Count || _Selection < 0)
@@ -1532,6 +1534,7 @@ namespace VocaluxeLib.Menu
 
             return _Interactions[_Selection].Type == EType.SelectSlide && _SelectSlides[_Interactions[_Selection].Num].Highlighted;
         }
+
         // ReSharper restore UnusedMember.Local
 
         private bool _IsVisible(int interaction)

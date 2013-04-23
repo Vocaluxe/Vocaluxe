@@ -23,9 +23,9 @@ using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes.ChallengeMedley
 {
-// ReSharper disable UnusedMember.Global
+    // ReSharper disable UnusedMember.Global
     public class CPartyScreenChallengeMedleyConfig : CMenuParty
-// ReSharper restore UnusedMember.Global
+        // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion

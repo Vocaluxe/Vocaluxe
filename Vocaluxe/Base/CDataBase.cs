@@ -174,9 +174,7 @@ namespace Vocaluxe.Base
                 }
 
                 if (reader != null)
-                {
                     reader.Dispose();
-                }
 
                 command.CommandText = "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, ShortSong, Difficulty) " +
                                       "VALUES (@SongID, @PlayerName, @Score, @LineNr, @Date, @Medley, @Duet, @ShortSong, @Difficulty)";

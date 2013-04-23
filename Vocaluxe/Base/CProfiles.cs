@@ -77,7 +77,7 @@ namespace Vocaluxe.Base
             profile.GuestProfile = EOffOn.TR_CONFIG_OFF;
             profile.Active = EOffOn.TR_CONFIG_ON;
 
-            if (fileName.Length > 0)
+            if (fileName != "")
                 profile.ProfileFile = Path.Combine(CSettings.FolderProfiles, fileName);
             else
                 profile.ProfileFile = String.Empty;
@@ -163,7 +163,7 @@ namespace Vocaluxe.Base
                 return String.Empty;
 
             SProfile profile = _Profiles[profileNr];
-            if (profile.PlayerName.Length > 0)
+            if (profile.PlayerName != "")
                 profile.PlayerName = profile.PlayerName.Remove(profile.PlayerName.Length - 1);
             _Profiles[profileNr] = profile;
 
@@ -266,7 +266,7 @@ namespace Vocaluxe.Base
         {
             if (profileID < 0 || profileID >= _Profiles.Count)
                 return;
-            if (_Profiles[profileID].ProfileFile.Length > 0)
+            if (_Profiles[profileID].ProfileFile != "")
             {
                 try
                 {
@@ -306,7 +306,7 @@ namespace Vocaluxe.Base
             if (profileID < 0 || profileID >= _Profiles.Count)
                 return;
 
-            if (_Profiles[profileID].ProfileFile.Length == 0)
+            if (_Profiles[profileID].ProfileFile == "")
             {
                 string filename = string.Empty;
                 foreach (char chr in _Profiles[profileID].PlayerName)
@@ -315,7 +315,7 @@ namespace Vocaluxe.Base
                         filename += chr.ToString();
                 }
 
-                if (filename.Length == 0)
+                if (filename == "")
                     filename = "1";
 
                 int i = 0;

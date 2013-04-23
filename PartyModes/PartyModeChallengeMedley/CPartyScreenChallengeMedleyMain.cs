@@ -41,9 +41,9 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         public List<CText> TextScores;
     }
 
-// ReSharper disable UnusedMember.Global
+    // ReSharper disable UnusedMember.Global
     public class CPartyScreenChallengeMedleyMain : CMenuParty
-// ReSharper restore UnusedMember.Global
+        // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -352,7 +352,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         private void _UpdateNextPlayerPositions()
         {
-            float x = (float) CBase.Settings.GetRenderW() / 2 - ((_GameState.NumPlayerAtOnce * _Statics[_StaticNextPlayer].Rect.W) + ((_GameState.NumPlayerAtOnce - 1) * 15)) / 2;
+            float x = (float)CBase.Settings.GetRenderW() / 2 - ((_GameState.NumPlayerAtOnce * _Statics[_StaticNextPlayer].Rect.W) + ((_GameState.NumPlayerAtOnce - 1) * 15)) / 2;
             const float staticY = 590;
             const float textY = 550;
             for (int i = 0; i < _GameState.NumPlayerAtOnce; i++)

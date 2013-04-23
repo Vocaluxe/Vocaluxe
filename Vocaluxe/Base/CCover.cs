@@ -177,7 +177,7 @@ namespace Vocaluxe.Base
                     xmlReader.GetValue("//root/Info/Name", out coverTheme.Name, String.Empty);
                     xmlReader.GetValue("//root/Info/Folder", out coverTheme.Folder, String.Empty);
 
-                    if (coverTheme.Folder.Length > 0 && coverTheme.Name.Length > 0)
+                    if (coverTheme.Folder != "" && coverTheme.Name != "")
                     {
                         coverTheme.File = file;
 
@@ -239,9 +239,9 @@ namespace Vocaluxe.Base
 
                 if (_CoverExists(name))
                     continue;
-// ReSharper disable AssignNullToNotNullAttribute
+                // ReSharper disable AssignNullToNotNullAttribute
                 SCover sk = new SCover {Name = name, Value = Path.Combine(coverTheme.Folder, Path.GetFileName(file))};
-// ReSharper restore AssignNullToNotNullAttribute
+                // ReSharper restore AssignNullToNotNullAttribute
 
                 sk.Texture = CDraw.AddTexture(Path.Combine(CSettings.FolderCover, sk.Value));
 

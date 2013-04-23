@@ -154,7 +154,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 _MedleyTagIcon.Visible = false;
             }
 
-            if (CBase.Songs.GetNumVisibleSongs() == 0 && CBase.Songs.GetSearchFilter().Length > 0)
+            if (CBase.Songs.GetNumVisibleSongs() == 0 && CBase.Songs.GetSearchFilter() != "")
             {
                 _CoverBig.Texture = _CoverBigTexture;
                 _Artist.Text = String.Empty;
@@ -418,7 +418,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     _Artist.Text = song.Artist;
                     _Title.Text = song.Title;
                     _DuetIcon.Visible = song.IsDuet;
-                    _VideoIcon.Visible = song.VideoFileName.Length > 0;
+                    _VideoIcon.Visible = song.VideoFileName != "";
                     _MedleyCalcIcon.Visible = song.Medley.Source == EMedleySource.Calculated;
                     _MedleyTagIcon.Visible = song.Medley.Source == EMedleySource.Tag;
 

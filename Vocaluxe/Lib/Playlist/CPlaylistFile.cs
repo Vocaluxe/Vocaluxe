@@ -59,7 +59,7 @@ namespace Vocaluxe.Lib.Playlist
 
         public void SavePlaylist()
         {
-            if (PlaylistFile.Length == 0)
+            if (PlaylistFile == "")
             {
                 string filename = string.Empty;
                 foreach (char chr in PlaylistName)
@@ -68,7 +68,7 @@ namespace Vocaluxe.Lib.Playlist
                         filename += chr.ToString();
                 }
 
-                if (filename.Length == 0)
+                if (filename == "")
                     filename = "1";
 
                 int i = 0;
@@ -146,7 +146,8 @@ namespace Vocaluxe.Lib.Playlist
                 List<string> songs = xmlReader.GetValues("Songs");
                 EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
 
-                foreach (string song in songs) {
+                foreach (string song in songs)
+                {
                     string artist;
                     string title;
                     xmlReader.GetValue("//root/Songs/" + song + "/Artist", out artist, String.Empty);
@@ -157,7 +158,8 @@ namespace Vocaluxe.Lib.Playlist
                     playlistSong.SongID = -1;
                     CSong[] allSongs = CSongs.AllSongs;
 
-                    foreach (CSong curSong in allSongs) {
+                    foreach (CSong curSong in allSongs)
+                    {
                         if (curSong.Artist != artist || curSong.Title != title)
                             continue;
                         playlistSong.SongID = curSong.ID;

@@ -183,7 +183,7 @@ namespace Vocaluxe.Base
                     break;
             }
 
-            if (file.Length == 0)
+            if (file == "")
                 return -1;
 
             int stream = Load(file);

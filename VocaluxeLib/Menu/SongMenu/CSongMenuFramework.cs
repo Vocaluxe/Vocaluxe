@@ -349,7 +349,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
                 writer.WriteComment("<Color>: Tile color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName.Length > 0)
+                if (_Theme.ColorName != "")
                     writer.WriteElementString("Color", _Theme.ColorName);
                 else
                 {
@@ -481,13 +481,9 @@ namespace VocaluxeLib.Menu.SongMenu
             _SelectedInternal = _SelectedPending;
         }
 
-        public virtual void HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions songOptions)
-        {
-        }
+        public virtual void HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions songOptions) {}
 
-        public virtual void HandleMouse(ref SMouseEvent mouseEvent, SScreenSongOptions songOptions)
-        {
-        }
+        public virtual void HandleMouse(ref SMouseEvent mouseEvent, SScreenSongOptions songOptions) {}
 
         public virtual void Draw()
         {
@@ -531,17 +527,11 @@ namespace VocaluxeLib.Menu.SongMenu
             return -1;
         }
 
-        public virtual void SetSelectedSong(int visibleSongNr)
-        {
-        }
+        public virtual void SetSelectedSong(int visibleSongNr) {}
 
-        public virtual void SetSelectedCategory(int categoryNr)
-        {
-        }
+        public virtual void SetSelectedCategory(int categoryNr) {}
 
-        public virtual void SetSmallView(bool smallView)
-        {
-        }
+        public virtual void SetSmallView(bool smallView) {}
 
         public virtual bool IsSmallView()
         {
@@ -554,7 +544,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             Init();
 
-            if (_Theme.ColorName.Length > 0)
+            if (_Theme.ColorName != "")
                 _Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
         }
 
@@ -635,7 +625,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 _Streams.Add(stream);
                 _Actsongstream = stream;
 
-                if (CBase.Songs.GetVisibleSong(_Actsong).VideoFileName.Length > 0 && CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
+                if (CBase.Songs.GetVisibleSong(_Actsong).VideoFileName != "" && CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
                 {
                     _Video = CBase.Video.Load(Path.Combine(CBase.Songs.GetVisibleSong(_Actsong).Folder, CBase.Songs.GetVisibleSong(_Actsong).VideoFileName));
                     if (_Video == -1)

@@ -456,16 +456,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             return _ScreenSongOptions;
         }
 
-// ReSharper disable RedundantAssignment
+        // ReSharper disable RedundantAssignment
         public override void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions)
-// ReSharper restore RedundantAssignment
+            // ReSharper restore RedundantAssignment
         {
             screenSongOptions = _ScreenSongOptions;
         }
 
-// ReSharper disable RedundantAssignment
+        // ReSharper disable RedundantAssignment
         public override void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions)
-// ReSharper restore RedundantAssignment
+            // ReSharper restore RedundantAssignment
         {
             screenSongOptions = _ScreenSongOptions;
         }

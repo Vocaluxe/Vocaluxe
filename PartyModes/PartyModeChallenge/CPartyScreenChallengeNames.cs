@@ -25,9 +25,9 @@ using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes.Challenge
 {
-// ReSharper disable UnusedMember.Global
+    // ReSharper disable UnusedMember.Global
     public class CPartyScreenChallengeNames : CMenuParty
-// ReSharper restore UnusedMember.Global
+        // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -382,9 +382,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 bool visible = false;
                 //Show profile only if active
                 if (CBase.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON)
-                {
                     visible = _Data.ScreenNames.ProfileIDs.All(profileID => profileID != i);
-                }
                 if (visible)
                     _PlayerChooseButtonsVisibleProfiles.Add(i);
             }

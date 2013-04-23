@@ -772,9 +772,7 @@ namespace Vocaluxe.Base
                         debugOutput.Add(CSongs.NumSongsWithCoverLoaded.ToString(CLanguage.Translate("TR_DEBUG_SONGS") + ": 00000"));
 
                         if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL_MAX)
-                        {
                             debugOutput.Add(_Cursor.X.ToString(CLanguage.Translate("TR_DEBUG_MOUSE") + " : (0000/") + _Cursor.Y.ToString("0000)"));
-                        }
                     }
                 }
             }
@@ -783,7 +781,7 @@ namespace Vocaluxe.Base
             CFonts.Height = 30;
             SColorF gray = new SColorF(1f, 1f, 1f, 0.5f);
             float y = 0;
-            foreach (var txt in debugOutput)
+            foreach (string txt in debugOutput)
             {
                 RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), y, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
                 CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
@@ -796,7 +794,7 @@ namespace Vocaluxe.Base
         {
             _Cursor.UnloadTextures();
 
-            if (CTheme.Cursor.Color.Length > 0)
+            if (CTheme.Cursor.Color != "")
             {
                 SColorF color;
                 color = CTheme.GetColor(CTheme.Cursor.Color, -1);

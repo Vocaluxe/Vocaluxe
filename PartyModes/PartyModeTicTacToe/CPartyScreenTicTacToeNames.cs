@@ -24,9 +24,9 @@ using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes.TicTacToe
 {
-// ReSharper disable UnusedMember.Global
+    // ReSharper disable UnusedMember.Global
     public class CPartyScreenTicTacToeNames : CMenuParty
-// ReSharper restore UnusedMember.Global
+        // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -405,7 +405,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _UpdateButtonPlayerChoose(_PlayerChooseButtonsOffset);
             _Buttons[_ButtonPlayerChooseScrollUp].Enabled = _PlayerChooseButtonsOffset > 0;
             _Buttons[_ButtonPlayerChooseScrollDown].Enabled = _PlayerChooseButtonsVisibleProfiles.Count >
-                                                             _PlayerChooseButtons.Count + _PlayerChooseButtonsOffset * _PlayerChooseButtonsNumH;
+                                                              _PlayerChooseButtons.Count + _PlayerChooseButtonsOffset * _PlayerChooseButtonsNumH;
         }
 
         private void _UpdateButtonPlayerChoose(int offset)

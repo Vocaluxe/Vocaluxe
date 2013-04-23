@@ -505,7 +505,7 @@ namespace Vocaluxe.Base
 
                 for (int p = 1; p <= CSettings.MaxNumPlayer; p++)
                 {
-                    if (MicConfig[p - 1].DeviceName.Length > 0 && MicConfig[p - 1].InputName.Length > 0 && MicConfig[p - 1].Channel > 0)
+                    if (MicConfig[p - 1].DeviceName != "" && MicConfig[p - 1].InputName != "" && MicConfig[p - 1].Channel > 0)
                     {
                         writer.WriteStartElement("MicConfig" + p);
 
@@ -580,15 +580,15 @@ namespace Vocaluxe.Base
             if (devices == null)
                 return false;
 
-                for (int dev = 0; dev < devices.Length; dev++)
+            for (int dev = 0; dev < devices.Length; dev++)
+            {
+                for (int inp = 0; inp < devices[dev].Inputs.Count; inp++)
                 {
-                    for (int inp = 0; inp < devices[dev].Inputs.Count; inp++)
-                    {
-                        if (devices[dev].Inputs[inp].PlayerChannel1 == player || devices[dev].Inputs[inp].PlayerChannel2 == player)
-                            return true;
-                    }
+                    if (devices[dev].Inputs[inp].PlayerChannel1 == player || devices[dev].Inputs[inp].PlayerChannel2 == player)
+                        return true;
                 }
-                return false;
+            }
+            return false;
         }
 
         /// <summary>
@@ -689,7 +689,7 @@ namespace Vocaluxe.Base
                 {
                         //Only found a parameter
                     case 1:
-                        if (!Regex.IsMatch(parts[0], @"ReplacedStr:::3:::") && parts[0].Length > 0)
+                        if (!Regex.IsMatch(parts[0], @"ReplacedStr:::3:::") && parts[0] != "")
                         {
                             //Add parameter
                             _Params.Add(parts[0]);
@@ -702,7 +702,7 @@ namespace Vocaluxe.Base
 
                         //Found parameter and value
                     case 2:
-                        if (!Regex.IsMatch(parts[0], @"ReplacedStr:::5:::") && parts[0].Length > 0)
+                        if (!Regex.IsMatch(parts[0], @"ReplacedStr:::5:::") && parts[0] != "")
                         {
                             //Add parameter
                             _Params.Add(parts[0]);
@@ -810,7 +810,7 @@ namespace Vocaluxe.Base
             {
                 for (int j = 0; j < CSettings.MaxNumPlayer; j++)
                 {
-                    if (Players[j].Length > 0)
+                    if (Players[j] != "")
                     {
                         if (Path.GetFileName(CProfiles.Profiles[i].ProfileFile) == Players[j] && CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
                         {

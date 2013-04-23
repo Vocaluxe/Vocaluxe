@@ -262,10 +262,7 @@ namespace Vocaluxe.Lib.Video
 
         public float Length
         {
-            get
-            {
-                return _FileOpened ? _Duration : 0f;
-            }
+            get { return _FileOpened ? _Duration : 0f; }
         }
 
         public bool Paused

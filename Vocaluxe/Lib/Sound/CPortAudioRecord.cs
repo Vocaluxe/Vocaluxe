@@ -120,19 +120,16 @@ namespace Vocaluxe.Lib.Sound
             if (deviceConfig == null)
                 return false;
 
-            if (_RecHandle == null)
+            if (_RecHandle == null || _RecHandle.Length == 0)
                 return false;
 
-            if (_RecHandle.Length == 0)
-                return false;
+            foreach (CBuffer buffer in _Buffer)
+                buffer.Reset();
 
-            for (int i = 0; i < _Buffer.Length; i++)
-                _Buffer[i].Reset();
-
-            for (int i = 0; i < _RecHandle.Length; i++)
+            foreach (IntPtr handle in _RecHandle)
             {
                 int waitcount = 0;
-                while (waitcount < 5 && CPortAudio.Pa_IsStreamStopped(_RecHandle[i]) == CPortAudio.EPaError.PaStreamIsNotStopped)
+                while (waitcount < 5 && CPortAudio.Pa_IsStreamStopped(handle) == CPortAudio.EPaError.PaStreamIsNotStopped)
                 {
                     Thread.Sleep(1);
                     waitcount++;

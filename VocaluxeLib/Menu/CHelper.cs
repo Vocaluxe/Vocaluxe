@@ -157,9 +157,7 @@ namespace VocaluxeLib.Menu
             try
             {
                 foreach (FileInfo file in dir.GetFiles(cast))
-                {
                     files.Add(!fullpath ? file.Name : file.FullName);
-                }
 
                 if (recursive)
                 {

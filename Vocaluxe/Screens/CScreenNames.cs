@@ -375,7 +375,8 @@ namespace Vocaluxe.Screens
                         {
                             processed = true;
                             CGraphics.FadeTo(EScreens.ScreenSong);
-                        }else
+                        }
+                        else
                         {
                             processed = true;
                             _StartSong();
@@ -511,12 +512,10 @@ namespace Vocaluxe.Screens
             if (mouseEvent.LB && _IsMouseOver(mouseEvent))
             {
                 if (_Buttons[_ButtonBack].Selected)
-                {
                     CGraphics.FadeTo(EScreens.ScreenSong);
-                }else if (_Buttons[_ButtonStart].Selected)
-                {
+                else if (_Buttons[_ButtonStart].Selected)
                     _StartSong();
-                }else 
+                else
                     _UpdatePlayerNumber();
                 //Update Tiles-List
                 _NameSelections[_NameSelection].UpdateList();
@@ -587,7 +586,7 @@ namespace Vocaluxe.Screens
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
             {
                 //Update texture and name
-                if (CConfig.Players[i].Length > 0)
+                if (CConfig.Players[i] != "")
                 {
                     if (CGame.Player[i].ProfileID > -1 && CProfiles.NumProfiles > CGame.Player[i].ProfileID)
                     {
@@ -675,7 +674,7 @@ namespace Vocaluxe.Screens
                     _Statics["StaticPlayer" + i].Visible = true;
                     _Statics["StaticPlayerAvatar" + i].Visible = true;
                     _Texts["TextPlayer" + i].Visible = true;
-                    if (_Texts["TextPlayer" + i].Text.Length == 0)
+                    if (_Texts["TextPlayer" + i].Text == "")
                         _Texts["TextPlayer" + i].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + i;
                     _Equalizers["EqualizerPlayer" + i].Visible = true;
                     if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)

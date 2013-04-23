@@ -426,7 +426,7 @@ namespace Vocaluxe.Base
             if (version == _ThemeSystemVersion)
             {
                 xmlReader.GetValue("//root/Info/Name", out theme.Name, String.Empty);
-                if (theme.Name.Length > 0)
+                if (theme.Name != "")
                 {
                     xmlReader.GetValue("//root/Info/Author", out theme.Author, String.Empty);
                     xmlReader.GetValue("//root/Info/SkinFolder", out theme.SkinFolder, String.Empty);
@@ -493,7 +493,7 @@ namespace Vocaluxe.Base
                 if (version == _SkinSystemVersion)
                 {
                     xmlReader.GetValue("//root/Info/Name", out skin.Name, String.Empty);
-                    if (skin.Name.Length > 0)
+                    if (skin.Name != "")
                     {
                         xmlReader.GetValue("//root/Info/Author", out skin.Author, String.Empty);
                         xmlReader.TryGetIntValue("//root/Info/SkinVersionMajor", ref skin.SkinVersionMajor);
@@ -835,7 +835,7 @@ namespace Vocaluxe.Base
             writer.WriteElementString("W", Cursor.W.ToString("#0.000"));
             writer.WriteElementString("H", Cursor.H.ToString("#0.000"));
 
-            if (Cursor.Color.Length > 0)
+            if (Cursor.Color != "")
                 writer.WriteElementString("Color", Cursor.Color);
             else
             {

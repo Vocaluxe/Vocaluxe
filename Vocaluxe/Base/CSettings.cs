@@ -148,9 +148,9 @@ namespace Vocaluxe.Base
                              VersionMinor + "." +
                              VersionSub + " (" + Arch + ")";
 
-// ReSharper disable ConditionIsAlwaysTrueOrFalse
+            // ReSharper disable ConditionIsAlwaysTrueOrFalse
             if (VersionRevision != ERevision.Release)
-// ReSharper restore ConditionIsAlwaysTrueOrFalse
+                // ReSharper restore ConditionIsAlwaysTrueOrFalse
                 version += " " + _GetVersionStatus() + String.Format(" ({0:0000)}", Build);
 
             return version;
@@ -160,7 +160,7 @@ namespace Vocaluxe.Base
         {
             string version = ProgramName;
 
-            if (ProgramCodeName.Length > 0)
+            if (ProgramCodeName != "")
                 version += " \"" + ProgramCodeName + "\"";
 
             return version + " " + GetVersionText();
@@ -170,9 +170,9 @@ namespace Vocaluxe.Base
         {
             string result;
 
-// ReSharper disable ConditionIsAlwaysTrueOrFalse
+            // ReSharper disable ConditionIsAlwaysTrueOrFalse
             if (VersionRevision != ERevision.Release)
-// ReSharper restore ConditionIsAlwaysTrueOrFalse
+                // ReSharper restore ConditionIsAlwaysTrueOrFalse
                 result = Enum.GetName(typeof(ERevision), VersionRevision);
 
             return result;

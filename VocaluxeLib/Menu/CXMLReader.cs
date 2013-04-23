@@ -112,7 +112,7 @@ namespace VocaluxeLib.Menu
                 resultCt++;
             }
 
-            if (resultCt!=1)
+            if (resultCt != 1)
             {
                 value = defaultValue;
                 return false;

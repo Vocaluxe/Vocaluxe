@@ -370,7 +370,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<ColorBackground>: Button color from ColorScheme (high priority)");
                 writer.WriteComment("or <BackgroundR>, <BackgroundG>, <BackgroundB>, <BackgroundA> (lower priority)");
-                if (_Theme.ColorBackgroundName.Length > 0)
+                if (_Theme.ColorBackgroundName != "")
                     writer.WriteElementString("ColorBackground", _Theme.ColorBackgroundName);
                 else
                 {
@@ -382,7 +382,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<SColorBackground>: Selected paylist-entry color from ColorScheme (high priority)");
                 writer.WriteComment("or <SBackgroundR>, <SBackgroundG>, <SBackgroundB>, <SBackgroundA> (lower priority)");
-                if (_Theme.SelColorBackgroundName.Length > 0)
+                if (_Theme.SelColorBackgroundName != "")
                     writer.WriteElementString("SColorBackground", _Theme.SelColorBackgroundName);
                 else
                 {
@@ -471,10 +471,10 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (_Theme.ColorBackgroundName.Length > 0)
+            if (_Theme.ColorBackgroundName != "")
                 BackgroundColor = CBase.Theme.GetColor(_Theme.ColorBackgroundName, _PartyModeID);
 
-            if (_Theme.SelColorBackgroundName.Length > 0)
+            if (_Theme.SelColorBackgroundName != "")
                 BackgroundSelColor = CBase.Theme.GetColor(_Theme.SelColorBackgroundName, _PartyModeID);
 
             _Theme.Text1.LoadTextures();
@@ -523,7 +523,7 @@ namespace VocaluxeLib.Menu
                     }
                     else if (keyEvent.Key == Keys.Back || keyEvent.Key == Keys.Delete)
                     {
-                        if (_Theme.ButtonPlaylistName.Text.Text.Length > 0)
+                        if (_Theme.ButtonPlaylistName.Text.Text != "")
                             _Theme.ButtonPlaylistName.Text.Text = _Theme.ButtonPlaylistName.Text.Text.Remove(_Theme.ButtonPlaylistName.Text.Text.Length - 1);
                     }
                 }

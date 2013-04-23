@@ -84,7 +84,7 @@ namespace Vocaluxe.Base
             _FilteredSongs.Clear();
 
             string[] searchStrings = null;
-            if (_SearchString.Length > 0)
+            if (_SearchString != "")
                 searchStrings = _SearchString.ToUpper().Split(new char[] {' '});
 
             foreach (CSong song in CSongs.Songs)

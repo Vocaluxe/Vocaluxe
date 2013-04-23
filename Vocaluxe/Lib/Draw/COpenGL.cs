@@ -142,7 +142,7 @@ namespace Vocaluxe.Lib.Draw
             if (setValue > 32)
                 setValue = 32;
 
-            while (samples<=setValue)
+            while (samples <= setValue)
             {
                 GraphicsMode mode;
                 try
@@ -563,7 +563,7 @@ namespace Vocaluxe.Lib.Draw
         public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2) {}
 
         // Draw Basic Text (must be deleted later)
-        public void DrawText(string text, int x, int y, int h, int z=0)
+        public void DrawText(string text, int x, int y, int h, int z = 0)
         {
             CFonts.DrawText(text, h, x, y, z, new SColorF(1, 1, 1, 1));
         }
@@ -1094,7 +1094,8 @@ namespace Vocaluxe.Lib.Draw
 
         public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored)
         {
-            if (Math.Abs(rect.W) < float.Epsilon || Math.Abs(rect.H) < float.Epsilon || Math.Abs(bounds.H) < float.Epsilon || Math.Abs(bounds.W) < float.Epsilon || Math.Abs(color.A) < float.Epsilon)
+            if (Math.Abs(rect.W) < float.Epsilon || Math.Abs(rect.H) < float.Epsilon || Math.Abs(bounds.H) < float.Epsilon || Math.Abs(bounds.W) < float.Epsilon ||
+                Math.Abs(color.A) < float.Epsilon)
                 return;
 
             if (bounds.X > rect.X + rect.W || bounds.X + bounds.W < rect.X)
@@ -1233,7 +1234,8 @@ namespace Vocaluxe.Lib.Draw
 
         public void DrawTextureReflection(STexture texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
         {
-            if (Math.Abs(rect.W) < float.Epsilon || Math.Abs(rect.H) < float.Epsilon || Math.Abs(bounds.H) < float.Epsilon || Math.Abs(bounds.W) < float.Epsilon || Math.Abs(color.A) < float.Epsilon || height <= float.Epsilon)
+            if (Math.Abs(rect.W) < float.Epsilon || Math.Abs(rect.H) < float.Epsilon || Math.Abs(bounds.H) < float.Epsilon || Math.Abs(bounds.W) < float.Epsilon ||
+                Math.Abs(color.A) < float.Epsilon || height <= float.Epsilon)
                 return;
 
             if (bounds.X > rect.X + rect.W || bounds.X + bounds.W < rect.X)

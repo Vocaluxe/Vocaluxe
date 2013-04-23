@@ -369,7 +369,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 while (!sr.EndOfStream)
                 {
                     string line = sr.ReadLine();
-                    if (line.Length == 0)
+                    if (line == "")
                         continue;
                     if (!line[0].ToString().Equals("#"))
                         break;
@@ -381,7 +381,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     string identifier = line.Substring(1, pos - 1).Trim().ToUpper();
                     string value = line.Substring(pos + 1, line.Length - pos - 1).Trim();
 
-                    if (value.Length > 0)
+                    if (value != "")
                     {
                         switch (identifier)
                         {
@@ -395,7 +395,7 @@ namespace VocaluxeLib.Menu.SongMenu
                                 while (!sr.EndOfStream)
                                 {
                                     line = sr.ReadLine();
-                                    if (line.Length == 0)
+                                    if (line == "")
                                         continue;
                                     if (!line[0].ToString().Equals("#"))
                                         break;
@@ -411,33 +411,33 @@ namespace VocaluxeLib.Menu.SongMenu
                                 }
                                 break;
                             case "TITLE":
-                                if (value.Length > 0)
+                                if (value != "")
                                 {
                                     Title = value;
                                     headerFlags |= EHeaderFlags.Title;
                                 }
                                 break;
                             case "ARTIST":
-                                if (value.Length > 0)
+                                if (value != "")
                                 {
                                     Artist = value;
                                     headerFlags |= EHeaderFlags.Artist;
                                 }
                                 break;
                             case "TITLE-ON-SORTING":
-                                if (value.Length > 0)
+                                if (value != "")
                                     TitleSorting = value;
                                 break;
                             case "ARTIST-ON-SORTING":
-                                if (value.Length > 0)
+                                if (value != "")
                                     ArtistSorting = value;
                                 break;
                             case "P1":
-                                if (value.Length > 0)
+                                if (value != "")
                                     DuetPart1 = value;
                                 break;
                             case "P2":
-                                if (value.Length > 0)
+                                if (value != "")
                                     DuetPart2 = value;
                                 break;
                             case "MP3":
@@ -608,10 +608,10 @@ namespace VocaluxeLib.Menu.SongMenu
             _CheckFiles();
 
             //Before saving this tags to .txt: Check, if ArtistSorting and Artist are equal, then don't save this tag.
-            if (ArtistSorting.Length == 0)
+            if (ArtistSorting == "")
                 ArtistSorting = Artist;
 
-            if (TitleSorting.Length == 0)
+            if (TitleSorting == "")
                 TitleSorting = Title;
 
             return true;
@@ -821,7 +821,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             if (_CoverSmallLoaded)
                 return;
-            if (CoverFileName.Length > 0)
+            if (CoverFileName != "")
             {
                 if (!CBase.DataBase.GetCover(Path.Combine(Folder, CoverFileName), ref _CoverTextureSmall, CBase.Config.GetCoverSize()))
                     _CoverTextureSmall = CBase.Cover.GetNoCover();
@@ -834,7 +834,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void _CheckFiles()
         {
-            if (CoverFileName.Length == 0)
+            if (CoverFileName == "")
             {
                 List<string> files = CHelper.ListFiles(Folder, "*.jpg", false);
                 files.AddRange(CHelper.ListFiles(Folder, "*.png", false));
@@ -846,7 +846,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 }
             }
 
-            if (BackgroundFileName.Length == 0)
+            if (BackgroundFileName == "")
             {
                 List<string> files = CHelper.ListFiles(Folder, "*.jpg", false);
                 files.AddRange(CHelper.ListFiles(Folder, "*.png", false));
@@ -861,12 +861,12 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void _CheckDuet()
         {
-            if (DuetPart1.Length == 0)
+            if (DuetPart1 == "")
             {
                 DuetPart1 = "Part 1";
                 CBase.Log.LogError("Warning: Can't find #P1-tag for duets in \"" + Artist + " - " + Title + "\".");
             }
-            if (DuetPart2.Length == 0)
+            if (DuetPart2 == "")
             {
                 DuetPart2 = "Part 2";
                 CBase.Log.LogError("Warning: Can't find #P2-tag for duets in \"" + Artist + " - " + Title + "\".");
@@ -915,7 +915,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
                     for (int k = 1; k <= max; k++)
                     {
-                        if (sentences[i + k] == sentences[j + k] && sentences[i + k]!="")
+                        if (sentences[i + k] == sentences[j + k] && sentences[i + k] != "")
                             tempSeries.End = i + k;
                         else
                             break;
