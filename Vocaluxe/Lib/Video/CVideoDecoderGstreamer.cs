@@ -27,7 +27,7 @@ namespace Vocaluxe.Lib.Video
     class CVideoDecoderGstreamer : IVideoDecoder
     {
         #region log
-        public CGstreamerVideoWrapper.LogCallback Log;
+        private CGstreamerVideoWrapper.LogCallback Log;
 
         private void _LogHandler(string text)
         {
@@ -121,7 +121,7 @@ namespace Vocaluxe.Lib.Video
         {
             if (data != null)
             {
-                if (frame.Index == -1 || width != frame.Width || height != frame.Height || data.Length == 0)
+                if (frame.Index == -1 || width != (int)frame.Width || height != (int)frame.Height || data.Length == 0)
                 {
                     CDraw.RemoveTexture(ref frame);
                     frame = CDraw.AddTexture(width, height, ref data);

@@ -661,7 +661,7 @@ namespace Vocaluxe.Lib.Video
 
                 if (num >= 0)
                 {
-                    if (frame.Index == -1 || Math.Abs(_Width - frame.Width) > float.Epsilon || Math.Abs(_Height - frame.Height) > float.Epsilon)
+                    if (frame.Index == -1 || _Width != (int) frame.Width || _Height != (int) frame.Height)
                     {
                         CDraw.RemoveTexture(ref frame);
                         frame = CDraw.AddTexture(_Width, _Height, ref _FrameBuffer[num].Data);

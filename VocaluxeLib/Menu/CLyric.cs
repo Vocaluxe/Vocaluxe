@@ -499,17 +499,13 @@ namespace VocaluxeLib.Menu
             if (_Notes[jumpNote].Type == ENoteType.Freestyle)
                 _Text.Style = EStyle.BoldItalic;
 
-            float diff = _Notes[jumpNote].EndBeat - _Notes[jumpNote].StartBeat;
-            if (diff <= 0f)
-                diff = 1f;
+            int diff = _Notes[jumpNote].EndBeat - _Notes[jumpNote].StartBeat;
+            if (diff <= 0)
+                diff = 1;
 
-            float p = (currentBeat - _Notes[jumpNote].StartBeat) / diff;
-            if (p > 1f)
-                p = 1f;
+            float p = 1f-(currentBeat - _Notes[jumpNote].StartBeat) / diff;
 
-            p = 1f - p;
-
-            if (Math.Abs(diff - 1) < float.Epsilon)
+            if (Math.Abs(p) < float.Epsilon)
                 _Text.Draw();
             else
             {

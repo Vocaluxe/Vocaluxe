@@ -732,7 +732,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="texture">The texture in which the frame is copied to</param>
         public void CopyScreen(ref STexture texture)
         {
-            if (!_TextureExists(ref texture) || (Math.Abs(texture.Width - GetScreenWidth()) > float.Epsilon) || (Math.Abs(texture.Height - GetScreenHeight()) > float.Epsilon))
+            if (!_TextureExists(ref texture) || (int)texture.Width != GetScreenWidth() || (int)texture.Height != GetScreenHeight())
             {
                 RemoveTexture(ref texture);
                 texture = CopyScreen();
