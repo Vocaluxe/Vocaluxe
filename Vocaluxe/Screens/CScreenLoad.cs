@@ -141,7 +141,7 @@ namespace Vocaluxe.Screens
             {
                 CBackgroundMusic.AddOwnMusic();
 
-                if (!CBackgroundMusic.Playing)
+                if (!CBackgroundMusic.IsPlaying)
                     CBackgroundMusic.Next();
 
                 _BGMusicStartet = true;
@@ -177,7 +177,7 @@ namespace Vocaluxe.Screens
             {
                 CBackgroundMusic.AddOwnMusic();
 
-                if (!CBackgroundMusic.Playing)
+                if (!CBackgroundMusic.IsPlaying)
                     CBackgroundMusic.Next();
 
                 _BGMusicStartet = true;

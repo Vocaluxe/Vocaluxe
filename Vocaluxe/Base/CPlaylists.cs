@@ -227,7 +227,7 @@ namespace Vocaluxe.Base
 
         private static int _CompareByPlaylistName(CPlaylistFile a, CPlaylistFile b)
         {
-            return System.String.CompareOrdinal(a.PlaylistName, b.PlaylistName);
+            return String.CompareOrdinal(a.PlaylistName, b.PlaylistName);
         }
 
         private static CPlaylistFile _ConvertUSDXPlaylist(string file)

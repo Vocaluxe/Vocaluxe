@@ -106,7 +106,7 @@ namespace Vocaluxe.Base
             get { return File.Exists(_CurrentPlaylistElement.VideoFilePath); }
         }
 
-        public static bool Playing { get; private set; }
+        public static bool IsPlaying { get; private set; }
 
         public static string ArtistAndTitle
         {
@@ -138,12 +138,12 @@ namespace Vocaluxe.Base
             if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
                 _VideoEnabled = true;
 
-            Playing = false;
+            IsPlaying = false;
         }
 
         public static void Play()
         {
-            if (Playing)
+            if (IsPlaying)
                 return;
 
             if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
@@ -156,7 +156,7 @@ namespace Vocaluxe.Base
                         CSound.Play(_CurrentMusicStream);
                         if (_VideoEnabled && _Video != -1)
                             CVideo.VdResume(_Video);
-                        Playing = true;
+                        IsPlaying = true;
                     }
                     else
                         Next();
@@ -168,7 +168,7 @@ namespace Vocaluxe.Base
 
         public static void Stop()
         {
-            if (!Playing)
+            if (!IsPlaying)
                 return;
 
             if (_VideoEnabled && _Video != -1)
@@ -181,12 +181,12 @@ namespace Vocaluxe.Base
             _CurrentMusicStream = -1;
 
             _CurrentPlaylistElement = new CPlaylistElement();
-            Playing = false;
+            IsPlaying = false;
         }
 
         public static void Pause()
         {
-            if (!Playing)
+            if (!IsPlaying)
                 return;
 
             if (_VideoEnabled && _Video != -1)
@@ -195,7 +195,7 @@ namespace Vocaluxe.Base
                 CVideo.VdSkip(_Video, CSound.GetPosition(_CurrentMusicStream) + CSettings.BackgroundMusicFadeTime, _CurrentPlaylistElement.VideoGap);
             }
             CSound.FadeAndPause(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
-            Playing = false;
+            IsPlaying = false;
         }
 
         public static void Update()
@@ -209,7 +209,7 @@ namespace Vocaluxe.Base
                     timeToPlay = _CurrentPlaylistElement.Finish - CSound.GetPosition(_CurrentMusicStream);
 
                 bool finished = CSound.IsFinished(_CurrentMusicStream);
-                if (Playing && (timeToPlay <= CSettings.BackgroundMusicFadeTime || finished))
+                if (IsPlaying && (timeToPlay <= CSettings.BackgroundMusicFadeTime || finished))
                 {
                     if (_RepeatSong)
                     {
@@ -355,7 +355,7 @@ namespace Vocaluxe.Base
                 _NotPlayedFileNames.AddRange(_BGMusicFileNames);
             }
 
-            if (Playing && !_IsBackgroundFile(_CurrentPlaylistElement) || _AllFileNames.Count == 0)
+            if (IsPlaying && !_IsBackgroundFile(_CurrentPlaylistElement) || _AllFileNames.Count == 0)
                 Next();
 
             _OwnMusicAdded = false;
@@ -380,7 +380,7 @@ namespace Vocaluxe.Base
                 AddOwnMusic();
                 _BackgroundMusicAdded = false;
 
-                if (Playing && _IsBackgroundFile(_CurrentPlaylistElement) || _AllFileNames.Count == 0)
+                if (IsPlaying && _IsBackgroundFile(_CurrentPlaylistElement) || _AllFileNames.Count == 0)
                     Next();
             }
         }

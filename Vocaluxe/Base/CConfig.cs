@@ -77,7 +77,7 @@ namespace Vocaluxe.Base
         public static ERecordLib RecordLib = ERecordLib.PortAudio;
         public static EBufferSize AudioBufferSize = EBufferSize.B2048;
         public static int AudioLatency;
-        public static int BackgroundMusicVolume = 30;
+        private static int _BackgroundMusicVolume = 30;
         public static EOffOn BackgroundMusic = EOffOn.TR_CONFIG_ON;
         public static EBackgroundMusicSource BackgroundMusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
         public static EOffOn BackgroundMusicUseStart = EOffOn.TR_CONFIG_ON;
@@ -118,6 +118,19 @@ namespace Vocaluxe.Base
 
         //Variables to save old values for commandline-parameters
         private static readonly List<string> _SongFolderOld = new List<string>();
+        public static int BackgroundMusicVolume
+        {
+            get { return _BackgroundMusicVolume; }
+            set {
+            if (value < 0)
+                _BackgroundMusicVolume = 0;
+            else if (value > 100)
+                _BackgroundMusicVolume = 100;
+            else
+                _BackgroundMusicVolume = value;
+                SaveConfig();
+            }
+        }
 
         public static void Init()
         {
@@ -180,7 +193,7 @@ namespace Vocaluxe.Base
             xmlReader.TryGetIntValueRange("//root/Sound/AudioLatency", ref AudioLatency, -500, 500);
 
             xmlReader.TryGetEnumValue("//root/Sound/BackgroundMusic", ref BackgroundMusic);
-            xmlReader.TryGetIntValueRange("//root/Sound/BackgroundMusicVolume", ref BackgroundMusicVolume);
+            xmlReader.TryGetIntValueRange("//root/Sound/BackgroundMusicVolume", ref _BackgroundMusicVolume);
             xmlReader.TryGetEnumValue("//root/Sound/BackgroundMusicSource", ref BackgroundMusicSource);
             xmlReader.TryGetEnumValue("//root/Sound/BackgroundMusicUseStart", ref BackgroundMusicUseStart);
             xmlReader.TryGetIntValueRange("//root/Sound/PreviewMusicVolume", ref PreviewMusicVolume);
@@ -589,6 +602,19 @@ namespace Vocaluxe.Base
                 }
             }
             return false;
+        }
+
+        public static int GetMaxNumMics()
+        {
+            int max = 0;
+            for (int i = 0; i < CSettings.MaxNumPlayer; i++)
+            {
+                if (IsMicConfig(i + 1))
+                    max = i + 1;
+                else
+                    break;
+            }
+            return max;
         }
 
         /// <summary>

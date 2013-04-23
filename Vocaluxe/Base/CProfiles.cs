@@ -282,7 +282,7 @@ namespace Vocaluxe.Base
 
         private static int _CompareByPlayerName(SProfile a, SProfile b)
         {
-            return System.String.CompareOrdinal(a.PlayerName, b.PlayerName);
+            return String.CompareOrdinal(a.PlayerName, b.PlayerName);
         }
 
         #region private methods
