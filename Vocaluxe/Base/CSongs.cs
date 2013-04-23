@@ -35,9 +35,9 @@ namespace Vocaluxe.Base
         public bool Visible;
         public bool PartyHidden;
 
-        public SSongPointer(int iD, string sortString)
+        public SSongPointer(int id, string sortString)
         {
-            SongID = iD;
+            SongID = id;
             SortString = sortString;
             CatIndex = -1;
             Visible = false;

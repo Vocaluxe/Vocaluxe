@@ -85,7 +85,6 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
             _Data.ScreenNames.ProfileIDs = new List<int>();
 
-            List<string> buttons = new List<string>();
             _ThemeButtons = new string[] {_ButtonBack, _ButtonNext, _ButtonPlayerDestination, _ButtonPlayerChoose};
 
             _Data = new SDataFromScreen();
@@ -459,21 +458,20 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         private bool _OnAdd()
         {
-            for (int i = 0; i < _PlayerChooseButtons.Count; i++)
-            {
-                if (_PlayerChooseButtons[i].Button.Selected && _PlayerChooseButtons[i].ProfileID != -1)
+            foreach (CPlayerChooseButton chooseButton in _PlayerChooseButtons) {
+                if (chooseButton.Button.Selected && chooseButton.ProfileID != -1)
                 {
                     if (_Data.ScreenNames.ProfileIDs.Count < _NumPlayer)
                     {
-                        _Data.ScreenNames.ProfileIDs.Add(_PlayerChooseButtons[i].ProfileID);
+                        _Data.ScreenNames.ProfileIDs.Add(chooseButton.ProfileID);
                         int added = _Data.ScreenNames.ProfileIDs.Count - 1;
                         _UpdateButtonNext();
                         //Update texture and name
                         _PlayerDestinationButtons[added].Color = new SColorF(1, 1, 1, 0.6f);
                         _PlayerDestinationButtons[added].SelColor = new SColorF(1, 1, 1, 1);
-                        _PlayerDestinationButtons[added].Texture = CBase.Profiles.GetProfiles()[_PlayerChooseButtons[i].ProfileID].Avatar.Texture;
-                        _PlayerDestinationButtons[added].SelTexture = CBase.Profiles.GetProfiles()[_PlayerChooseButtons[i].ProfileID].Avatar.Texture;
-                        _PlayerDestinationButtons[added].Text.Text = CBase.Profiles.GetProfiles()[_PlayerChooseButtons[i].ProfileID].PlayerName;
+                        _PlayerDestinationButtons[added].Texture = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].Avatar.Texture;
+                        _PlayerDestinationButtons[added].SelTexture = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].Avatar.Texture;
+                        _PlayerDestinationButtons[added].Text.Text = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].PlayerName;
                         _PlayerDestinationButtons[added].Enabled = true;
                         //Update Tiles-List
                         _UpdateButtonPlayerChoose();

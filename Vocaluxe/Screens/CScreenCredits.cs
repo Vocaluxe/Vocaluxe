@@ -204,34 +204,32 @@ namespace Vocaluxe.Screens
 
             //Prepare Text
             int lastY = 280;
-            for (int i = 0; i < _Paragraphs.Count; i++)
-            {
+            foreach (string[] paragraph in _Paragraphs) {
                 string line = "";
-                for (int e = 0; e < _Paragraphs[i].Length; e++)
+                for (int e = 0; e < paragraph.Length; e++)
                 {
-                    if (_Paragraphs[i][e] != null)
+                    if (paragraph[e] == null)
+                        continue;
+                    string newLine = " " + paragraph[e];
+                    CText text = GetNewText(75, lastY, -2, 30, -1, EAlignment.Left, EStyle.Bold, "Outline", new SColorF(1, 1, 1, 1), line);
+                    if (CDraw.GetTextBounds(text).Width < (CSettings.RenderW - 220))
                     {
-                        string newline = line + " " + _Paragraphs[i][e];
-                        CText text = GetNewText(75, lastY, -2, 30, -1, EAlignment.Left, EStyle.Bold, "Outline", new SColorF(1, 1, 1, 1), line);
-                        if (CDraw.GetTextBounds(text).Width < (CSettings.RenderW - 220))
-                        {
-                            line = line + " " + _Paragraphs[i][e];
+                        line += newLine;
 
-                            //Check if all words are used
-                            if ((e + 1) == _Paragraphs[i].Length)
-                            {
-                                text.Text = line;
-                                _ParagraphTexts.Add(text);
-                                line = "";
-                                lastY += 40;
-                            }
-                        }
-                        else
+                        //Check if all words are used
+                        if ((e + 1) == paragraph.Length)
                         {
+                            text.Text = line;
                             _ParagraphTexts.Add(text);
-                            line = " " + _Paragraphs[i][e];
-                            lastY += 27;
+                            line = "";
+                            lastY += 40;
                         }
+                    }
+                    else
+                    {
+                        _ParagraphTexts.Add(text);
+                        line = newLine;
+                        lastY += 27;
                     }
                 }
             }
@@ -276,7 +274,7 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public CParticleEffect GetStarParticles(int numStars, bool isRed, SRectF rect, bool bigParticles)
+        private CParticleEffect _GetStarParticles(int numStars, bool isRed, SRectF rect, bool bigParticles)
         {
             SColorF partColor = isRed ? new SColorF(1, 0, 0, 1) : new SColorF(0.149f, 0.415f, 0.819f, 1);
             int partSize = bigParticles ? 35 : 25;
@@ -296,7 +294,7 @@ namespace Vocaluxe.Screens
             SRectF imgDotRect = new SRectF(particleRect);
             imgDotRect.Z = -5;
             CStatic imgDot = GetNewStatic(texDot, new SColorF(1, 1, 1, 1), imgDotRect);
-            CParticleEffect particle = GetStarParticles(partCount, isRight, particleRect, bigParticles);
+            CParticleEffect particle = _GetStarParticles(partCount, isRight, particleRect, bigParticles);
 
             CCreditName credit = new CCreditName(image, imgDot, particle, particleOffsetX, particleOffsetY);
 
@@ -324,8 +322,8 @@ namespace Vocaluxe.Screens
             //Little stars for logo
             int numstars = (int)(_Logo.Rect.W * 0.25f / 2f);
             SRectF partRect = new SRectF(_Logo.Rect.X, _Logo.Rect.Y, _Logo.Rect.W, _Logo.Rect.H, -1);
-            _StarsRed = GetStarParticles(numstars, true, partRect, true);
-            _StarsBlue = GetStarParticles(numstars, false, partRect, true);
+            _StarsRed = _GetStarParticles(numstars, true, partRect, true);
+            _StarsBlue = _GetStarParticles(numstars, false, partRect, true);
 
             //Credit names
             _CreditNames = new List<CCreditName>();
@@ -371,8 +369,8 @@ namespace Vocaluxe.Screens
             //Draw Text
             if (_TextTimer.IsRunning)
             {
-                for (int i = 0; i < _ParagraphTexts.Count; i++)
-                    _ParagraphTexts[i].Draw();
+                foreach (CText text in _ParagraphTexts)
+                    text.Draw();
             }
             return true;
         }

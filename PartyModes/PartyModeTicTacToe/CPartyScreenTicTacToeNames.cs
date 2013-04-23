@@ -90,7 +90,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _Data.ScreenNames.ProfileIDsTeam1 = new List<int>();
             _Data.ScreenNames.ProfileIDsTeam2 = new List<int>();
 
-            List<string> buttons = new List<string>();
             _ThemeButtons = new string[] {_ButtonBack, _ButtonNext, _ButtonPlayerDestination, _ButtonPlayerChoose, _ButtonPlayerChooseScrollUp, _ButtonPlayerChooseScrollDown};
 
             _Data = new SDataFromScreen();
@@ -178,18 +177,17 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _OldMouseX = mouseEvent.X;
                 _OldMouseY = mouseEvent.Y;
                 //Check if mouse if over tile
-                for (int i = 0; i < _PlayerChooseButtons.Count; i++)
-                {
-                    if (_PlayerChooseButtons[i].Button.Selected)
+                foreach (CPlayerChooseButton chooseButton in _PlayerChooseButtons) {
+                    if (chooseButton.Button.Selected)
                     {
-                        _SelectedPlayerNr = _PlayerChooseButtons[i].ProfileID;
+                        _SelectedPlayerNr = chooseButton.ProfileID;
                         if (_SelectedPlayerNr != -1)
                         {
                             //Activate mouse-selecting
                             _SelectingMouseActive = true;
                             //Update of Drag/Drop-Texture
                             _ChooseAvatarStatic.Visible = true;
-                            _ChooseAvatarStatic.Rect = _PlayerChooseButtons[i].Button.Rect;
+                            _ChooseAvatarStatic.Rect = chooseButton.Button.Rect;
                             _ChooseAvatarStatic.Rect.Z = -100;
                             _ChooseAvatarStatic.Color = new SColorF(1, 1, 1, 1);
                             _ChooseAvatarStatic.Texture = CBase.Profiles.GetProfiles()[_SelectedPlayerNr].Avatar.Texture;

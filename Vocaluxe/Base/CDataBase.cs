@@ -401,7 +401,7 @@ namespace Vocaluxe.Base
                 {
                     _CreateOrConvert(oldDBFilePath);
                     _CreateOrConvert(_HighscoreFilePath);
-                    _ImportData(oldDBFilePath, _HighscoreFilePath);
+                    _ImportData(oldDBFilePath);
 
                     File.Delete(oldDBFilePath);
                 }
@@ -916,7 +916,7 @@ namespace Vocaluxe.Base
             return true;
         }
 
-        private static bool _ImportData(string sourceDBPath, string destinationDBPath)
+        private static bool _ImportData(string sourceDBPath)
         {
             #region open db
             using (SQLiteConnection connSource = new SQLiteConnection())
@@ -936,11 +936,9 @@ namespace Vocaluxe.Base
 
                 using (SQLiteCommand cmdSource = new SQLiteCommand(connSource))
                 {
-                    SQLiteDataReader source;
-
                     #region import table scores
                     cmdSource.CommandText = "SELECT SongID, PlayerName, Score, LineNr, Date, Medley, Duet, ShortSong, Difficulty FROM Scores";
-                    source = cmdSource.ExecuteReader();
+                    SQLiteDataReader source = cmdSource.ExecuteReader();
                     if (source == null)
                         return false;
 
@@ -1260,6 +1258,7 @@ namespace Vocaluxe.Base
         }
 
         //If you want to add an image to db, call this method!
+/*
         private static bool _AddImageToCreditsDB(String imagePath)
         {
             bool result = false;
@@ -1333,6 +1332,7 @@ namespace Vocaluxe.Base
 
             return result;
         }
+*/
 
         private static bool _InitCreditsRessourcesDB()
         {
@@ -1388,6 +1388,7 @@ namespace Vocaluxe.Base
             return true;
         }
 
+/*
         private static void _CreateCreditsRessourcesDB()
         {
             using (SQLiteConnection connection = new SQLiteConnection())
@@ -1422,6 +1423,7 @@ namespace Vocaluxe.Base
                 }
             }
         }
+*/
         #endregion CreditsRessources
 
         private static byte[] _GetBytes(SQLiteDataReader reader)

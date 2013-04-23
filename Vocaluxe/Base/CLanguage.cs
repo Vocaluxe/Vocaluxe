@@ -108,12 +108,7 @@ namespace Vocaluxe.Base
             return -1;
         }
 
-        public static string Translate(string keyWord)
-        {
-            return Translate(keyWord, -1);
-        }
-
-        public static string Translate(string keyWord, int partyModeID)
+        public static string Translate(string keyWord, int partyModeID = -1)
         {
             if (keyWord == null)
                 return "Error";

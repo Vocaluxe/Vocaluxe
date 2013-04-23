@@ -100,33 +100,32 @@ namespace Vocaluxe.Base
         {
             List<SPartyModeInfos> infos = new List<SPartyModeInfos>();
 
-            int[] usedKeys = new int[_PartyModes.Count];
-            _PartyModes.Keys.CopyTo(usedKeys, 0);
+            int[] pmIDs = new int[_PartyModes.Count];
+            _PartyModes.Keys.CopyTo(pmIDs, 0);
 
-            for (int i = 0; i < usedKeys.Length; i++)
-            {
-                if (usedKeys[i] != _NormalGameModeID)
+            foreach (int pmID in pmIDs) {
+                if (pmID != _NormalGameModeID)
                 {
                     SPartyMode mode;
-                    _PartyModes.TryGetValue(usedKeys[i], out mode);
+                    _PartyModes.TryGetValue(pmID, out mode);
 
                     if (mode.PartyMode != null)
                     {
-                        SPartyModeInfos info = new SPartyModeInfos();
-
-                        info.Author = mode.Author;
-                        info.Description = mode.Description;
-                        info.Name = mode.Name;
-                        info.PartyModeID = mode.PartyModeID;
-                        info.Playable = mode.NoErrors;
-                        info.VersionMajor = mode.PartyModeVersionMajor;
-                        info.VersionMinor = mode.PartyModeVersionMinor;
-
-                        info.TargetAudience = mode.TargetAudience;
-                        info.MaxPlayers = mode.PartyMode.GetMaxPlayer();
-                        info.MinPlayers = mode.PartyMode.GetMinPlayer();
-                        info.MaxTeams = mode.PartyMode.GetMaxTeams();
-                        info.MinTeams = mode.PartyMode.GetMinTeams();
+                        SPartyModeInfos info = new SPartyModeInfos
+                            {
+                                Author = mode.Author,
+                                Description = mode.Description,
+                                Name = mode.Name,
+                                PartyModeID = mode.PartyModeID,
+                                Playable = mode.NoErrors,
+                                VersionMajor = mode.PartyModeVersionMajor,
+                                VersionMinor = mode.PartyModeVersionMinor,
+                                TargetAudience = mode.TargetAudience,
+                                MaxPlayers = mode.PartyMode.GetMaxPlayer(),
+                                MinPlayers = mode.PartyMode.GetMinPlayer(),
+                                MaxTeams = mode.PartyMode.GetMaxTeams(),
+                                MinTeams = mode.PartyMode.GetMinTeams()
+                            };
 
                         infos.Add(info);
                     }
@@ -348,6 +347,7 @@ namespace Vocaluxe.Base
 
             CompilerParameters compilerParams = new CompilerParameters();
             compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
+            compilerParams.ReferencedAssemblies.Add("System.Core.dll");
             compilerParams.ReferencedAssemblies.Add("VocaluxeLib.dll");
             compilerParams.GenerateInMemory = true;
 #if DEBUG

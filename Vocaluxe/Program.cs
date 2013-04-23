@@ -114,7 +114,7 @@ namespace Vocaluxe
 
                 // Init Playback
                 CLog.StartBenchmark(0, "Init Playback");
-                CSound.PlaybackInit();
+                CSound.Init();
                 CLog.StopBenchmark(0, "Init Playback");
 
                 Application.DoEvents();

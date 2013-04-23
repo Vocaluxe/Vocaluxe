@@ -96,8 +96,8 @@ namespace Vocaluxe.Lib.Sound
             if (!_Initialized)
                 return false;
 
-            for (int i = 0; i < _Buffer.Length; i++)
-                _Buffer[i].Reset();
+            foreach (CBuffer buffer in _Buffer)
+                buffer.Reset();
 
             _DeviceConfig = deviceConfig;
             bool[] active = new bool[deviceConfig.Length];
@@ -373,8 +373,8 @@ namespace Vocaluxe.Lib.Sound
 
                 if (_Notifications != null)
                 {
-                    for (int i = 0; i < _Notifications.Count; i++)
-                        _Notifications[i].Event.Close();
+                    foreach (NotificationPosition notification in _Notifications)
+                        notification.Event.Close();
 
                     _Notifications.Clear();
                     _Notifications = null;
@@ -420,7 +420,7 @@ namespace Vocaluxe.Lib.Sound
             }
 
             // ReSharper disable InconsistentNaming
-            protected virtual void Dispose(bool disposing)
+            protected void Dispose(bool disposing)
                 // ReSharper restore InconsistentNaming
             {
                 if (disposing)

@@ -412,17 +412,7 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-        public void Draw()
-        {
-            Draw(false);
-        }
-
-        public void ForceDraw()
-        {
-            Draw(true);
-        }
-
-        public void Draw(bool forceDraw)
+        public void Draw(bool forceDraw = false)
         {
             if (_PlaylistElements.Count <= 0)
                 LoadPlaylist(0);
@@ -1226,7 +1216,7 @@ namespace VocaluxeLib.Menu
                         CSong song = CBase.Songs.GetSongByID(pec.SongID);
                         _PlaylistElements[i].Cover.Texture = song.CoverTextureSmall;
                         string t1 = _Theme.Text1.Text.Replace("%a", song.Artist).Replace("%t", song.Title);
-                        _PlaylistElements[i].Text1.Text = /*(Offset + i + 1) + ") " + */ song.Artist + " - " + song.Title; //TODO: Add text field for the number
+                        _PlaylistElements[i].Text1.Text = /*(Offset + i + 1) + ") " + */ t1; //TODO: Add text field for the number
                         _PlaylistElements[i].SelectSlide.Clear();
                         for (int g = 0; g < pec.Modes.Length; g++)
                         {

@@ -263,11 +263,10 @@ namespace Vocaluxe.Base
                             string artist = line.Substring(0, pos - 1).Trim();
                             string title = line.Substring(pos + 1, line.Length - pos - 1).Trim();
                             bool found = false;
-                            for (int s = 0; s < allSongs.Length; s++)
-                            {
-                                if (allSongs[s].Artist == artist && allSongs[s].Title == title)
+                            foreach (CSong song in allSongs) {
+                                if (song.Artist == artist && song.Title == title)
                                 {
-                                    pl.AddSong(allSongs[s].ID);
+                                    pl.AddSong(song.ID);
                                     found = true;
                                     break;
                                 }

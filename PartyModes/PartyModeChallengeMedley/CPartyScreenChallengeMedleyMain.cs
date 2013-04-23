@@ -412,12 +412,11 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 _RoundsTable.Add(rtr);
             }
             //Create statics and texts for rounds
-            for (int round = 0; round < _RoundsTable.Count; round++)
-            {
+            foreach (CRoundsTableRow roundRow in _RoundsTable) {
                 //Round-number
                 CText text = GetNewText(_Texts[_TextRoundNumber]);
                 _AddText(text);
-                _RoundsTable[round].Number = text;
+                roundRow.Number = text;
                 for (int row = 0; row < 2; row++)
                 {
                     for (int column = 0; column < 3; column++)
@@ -425,11 +424,11 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                         //Player
                         text = GetNewText(_Texts[_TextRoundPlayer]);
                         _AddText(text);
-                        _RoundsTable[round].TextPlayer.Add(text);
+                        roundRow.TextPlayer.Add(text);
                         //Score
                         text = GetNewText(_Texts[_TextRoundScore]);
                         _AddText(text);
-                        _RoundsTable[round].TextScores.Add(text);
+                        roundRow.TextScores.Add(text);
                     }
                 }
             }
@@ -458,11 +457,10 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             float delta = _Texts[_TextRoundNumber].Height;
 
             //Update statics and texts for rounds
-            for (int round = 0; round < _RoundsTable.Count; round++)
-            {
+            foreach (CRoundsTableRow roundRow in _RoundsTable) {
                 //Round-number
-                _RoundsTable[round].Number.X = numberX;
-                _RoundsTable[round].Number.Y = numberY;
+                roundRow.Number.X = numberX;
+                roundRow.Number.Y = numberY;
                 int numInnerRows = (int)Math.Ceiling(_GameState.NumPlayerAtOnce / ((double)numPlayerInOneRow));
                 for (int row = 0; row < numInnerRows; row++)
                 {
@@ -479,14 +477,14 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                         float x = numberX + 15 + (CBase.Settings.GetRenderW() - _Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow * (column - row * numPlayerInOneRow) +
                                   ((CBase.Settings.GetRenderW() - _Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow) / 2;
                         float maxw = ((CBase.Settings.GetRenderW() - _Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow) / 2 - 5;
-                        _RoundsTable[round].TextPlayer[column].X = x;
-                        _RoundsTable[round].TextPlayer[column].Y = numberY;
-                        _RoundsTable[round].TextPlayer[column].MaxWidth = maxw;
+                        roundRow.TextPlayer[column].X = x;
+                        roundRow.TextPlayer[column].Y = numberY;
+                        roundRow.TextPlayer[column].MaxWidth = maxw;
                         //Score
-                        _RoundsTable[round].TextScores[column] = _RoundsTable[round].TextScores[column];
-                        _RoundsTable[round].TextScores[column].X = x;
-                        _RoundsTable[round].TextScores[column].Y = numberY + delta;
-                        _RoundsTable[round].TextScores[column].MaxWidth = maxw;
+                        roundRow.TextScores[column] = roundRow.TextScores[column];
+                        roundRow.TextScores[column].X = x;
+                        roundRow.TextScores[column].Y = numberY + delta;
+                        roundRow.TextScores[column].MaxWidth = maxw;
                     }
                     numberY = numberY + delta + delta;
                 }

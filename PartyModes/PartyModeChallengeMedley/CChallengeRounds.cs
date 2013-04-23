@@ -155,8 +155,6 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             if (_Combs.Count == 0)
                 _Create();
 
-            CCombination combs = new CCombination();
-
             if (_NumPlayer == _NumMics)
                 return _Combs[0];
 

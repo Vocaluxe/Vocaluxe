@@ -35,7 +35,7 @@ namespace Vocaluxe.Base
         #region Playback
         private static IPlayback _Playback;
 
-        public static bool PlaybackInit()
+        public static bool Init()
         {
             switch (CConfig.PlayBackLib)
             {
@@ -55,7 +55,7 @@ namespace Vocaluxe.Base
                     _Playback = new CPortAudioPlay();
                     break;
             }
-            return true;
+            return _Playback.Init();
         }
 
         public static void SetGlobalVolume(float volume)
@@ -613,7 +613,7 @@ namespace Vocaluxe.Base
 
             float dt = Time;
 
-            float diff = _ExternTime.Time - dt;
+            float diff = et - dt;
             if (Math.Abs(diff) > 0.05f)
             {
                 _Timer.Reset();

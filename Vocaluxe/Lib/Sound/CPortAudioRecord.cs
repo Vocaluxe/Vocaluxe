@@ -189,8 +189,8 @@ namespace Vocaluxe.Lib.Sound
             if (!_Initialized)
                 return false;
 
-            for (int i = 0; i < _RecHandle.Length; i++)
-                CPortAudio.Pa_StopStream(_RecHandle[i]);
+            foreach (IntPtr handle in _RecHandle)
+                CPortAudio.Pa_StopStream(handle);
             return true;
         }
 

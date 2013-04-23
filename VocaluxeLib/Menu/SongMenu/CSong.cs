@@ -1027,10 +1027,5 @@ namespace VocaluxeLib.Menu.SongMenu
 
             ShortEnd = stop;
         }
-
-        public object Clone()
-        {
-            return MemberwiseClone();
-        }
     }
 }

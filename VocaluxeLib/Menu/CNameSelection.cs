@@ -245,16 +245,6 @@ namespace VocaluxeLib.Menu
 
         public void Draw()
         {
-            Draw(false);
-        }
-
-        public void ForceDraw()
-        {
-            Draw(true);
-        }
-
-        public void Draw(bool forceDraw)
-        {
             int i = 0;
             foreach (CTile tile in _Tiles)
             {

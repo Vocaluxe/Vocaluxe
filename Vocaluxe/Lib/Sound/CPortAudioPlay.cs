@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Vocaluxe.Base;
@@ -39,11 +40,6 @@ namespace Vocaluxe.Lib.Sound
         private readonly Object _MutexDecoder = new Object();
 
         private List<SAudioStreams> _Streams;
-
-        public CPortAudioPlay()
-        {
-            Init();
-        }
 
         public bool Init()
         {
@@ -302,12 +298,7 @@ namespace Vocaluxe.Lib.Sound
 
         private bool _AlreadyAdded(int stream)
         {
-            foreach (SAudioStreams st in _Streams)
-            {
-                if (st.Handle == stream)
-                    return true;
-            }
-            return false;
+            return _Streams.Any(st => st.Handle == stream);
         }
 
         private int _GetStreamIndex(int stream)
@@ -318,15 +309,6 @@ namespace Vocaluxe.Lib.Sound
                     return i;
             }
             return -1;
-        }
-
-        private void _EndSync(int handle, int stream, int data, IntPtr user)
-        {
-            if (_Initialized)
-            {
-                if (_AlreadyAdded(stream))
-                    Close(stream);
-            }
         }
 
         private void _CloseProc(int streamID)

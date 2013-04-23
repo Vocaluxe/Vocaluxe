@@ -257,7 +257,6 @@ namespace Vocaluxe.Screens
         {
             _IsDuet = false;
             CPoints points = CGame.GetPoints();
-            SPlayer player = points.GetPlayer(_Round, CGame.NumPlayer)[0];
             CSong song = CGame.GetSong(_Round + 1);
             if (song == null)
                 return;

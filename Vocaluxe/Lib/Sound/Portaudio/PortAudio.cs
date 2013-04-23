@@ -27,6 +27,7 @@ namespace Vocaluxe.Lib.Sound.PortAudio
 			PortAudio v.19 bindings for .NET
 		</summary>
 	*/
+    // ReSharper disable UnusedMember.Global
 
     public static class CPortAudio
     {
@@ -550,4 +551,6 @@ namespace Vocaluxe.Lib.Sound.PortAudio
         public static extern void Pa_Sleep(int msec);
         #endregion
     }
+    // ReSharper restore UnusedMember.Global
+
 }

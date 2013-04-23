@@ -693,17 +693,12 @@ namespace VocaluxeLib.Menu
                 CBase.Drawing.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(x, Y, bounds.Width, bounds.Height, Z));
         }
 
-        public void DrawRelative(float x, float y)
-        {
-            DrawRelative(x, y, false, 0f, 0f, 0f);
-        }
-
         public void DrawRelative(float x, float y, float reflectionSpace, float reflectionHeigth, float rectHeight)
         {
             DrawRelative(x, y, true, reflectionSpace, reflectionHeigth, rectHeight);
         }
 
-        public void DrawRelative(float rx, float ry, bool reflection, float reflectionSpace, float reflectionHeight, float rectHeight)
+        public void DrawRelative(float rx, float ry, bool reflection = false, float reflectionSpace = 0f, float reflectionHeight = 0f, float rectHeight = 0f)
         {
             // Update Text
             Text = Text;

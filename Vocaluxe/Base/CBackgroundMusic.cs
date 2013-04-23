@@ -280,7 +280,6 @@ namespace Vocaluxe.Base
         {
             if (_PreviousFileNames.Count > 0 && _PreviousMusicIndex >= 0)
             {
-                float pos = CSound.GetPosition(_CurrentMusicStream);
                 if (CSound.GetPosition(_CurrentMusicStream) >= 1.5f)
                 {
                     //Seek to #Start-Tag, if found

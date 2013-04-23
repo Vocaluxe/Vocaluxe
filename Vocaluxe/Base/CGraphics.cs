@@ -273,41 +273,40 @@ namespace Vocaluxe.Base
                 CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
             }
 
-            for (int i = 0; i < _PopupScreens.Count; i++)
-            {
-                _PopupScreens[i].Init();
-                _PopupScreens[i].LoadTheme(CTheme.GetThemeScreensPath(-1));
+            foreach (IMenu popup in _PopupScreens) {
+                popup.Init();
+                popup.LoadTheme(CTheme.GetThemeScreensPath(-1));
             }
         }
 
         public static void ReloadTheme()
         {
             _ReloadCursor();
-            for (int i = 0; i < _Screens.Count; i++)
-                _Screens[i].ReloadTheme(CTheme.GetThemeScreensPath(-1));
+            foreach (IMenu screen in _Screens)
+                screen.ReloadTheme(CTheme.GetThemeScreensPath(-1));
 
-            for (int i = 0; i < _PopupScreens.Count; i++)
-                _PopupScreens[i].ReloadTheme(CTheme.GetThemeScreensPath(-1));
+            foreach (IMenu popup in _PopupScreens)
+                popup.ReloadTheme(CTheme.GetThemeScreensPath(-1));
         }
 
         public static void ReloadSkin()
         {
             _ReloadCursor();
-            for (int i = 0; i < _Screens.Count; i++)
-                _Screens[i].ReloadTextures();
+            foreach (IMenu menu in _Screens)
+                menu.ReloadTextures();
 
-            for (int i = 0; i < _PopupScreens.Count; i++)
-                _PopupScreens[i].ReloadTextures();
+            foreach (IMenu menu in _PopupScreens)
+                menu.ReloadTextures();
         }
 
         public static void SaveTheme()
         {
             CTheme.SaveTheme();
-            for (int i = 0; i < _Screens.Count; i++)
-                _Screens[i].SaveTheme();
+            foreach (IMenu screen in _Screens)
+                screen.SaveTheme();
 
-            for (int i = 0; i < _PopupScreens.Count; i++)
-                _PopupScreens[i].SaveTheme();
+            foreach (IMenu popup in _PopupScreens)
+                popup.SaveTheme();
         }
 
         public static void InitFirstScreen()
@@ -444,8 +443,8 @@ namespace Vocaluxe.Base
                 _OldScreen = _Screens[(int)_CurrentScreen];
             }
 
-            for (int i = 0; i < _PopupScreens.Count; i++)
-                _PopupScreens[i].Draw();
+            foreach (IMenu popup in _PopupScreens)
+                popup.Draw();
 
             _Cursor.Draw();
             _DrawDebugInfos();

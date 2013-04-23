@@ -28,9 +28,8 @@ namespace Vocaluxe.Lib.Sound
         //static float LastPosition;
 
         #region log
-        public CGstreamerAudioWrapper.LogCallback Log;
 
-        private void _LogHandler(string text)
+        private static void _LogHandler(string text)
         {
             CLog.LogError(text);
         }
@@ -38,11 +37,9 @@ namespace Vocaluxe.Lib.Sound
 
         public CGstreamerAudio()
         {
-            Init();
-            Log = _LogHandler;
             //Is this really needed? CodaAnalyzer complains about it...
             //GC.SuppressFinalize(Log);
-            CGstreamerAudioWrapper.SetLogCallback(Log);
+            CGstreamerAudioWrapper.SetLogCallback(_LogHandler);
         }
 
         public bool Init()

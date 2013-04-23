@@ -40,11 +40,6 @@ namespace Vocaluxe.Lib.Sound
 
         private List<SAudioStreams> _Streams;
 
-        public COpenALPlay()
-        {
-            Init();
-        }
-
         public bool Init()
         {
             if (_Initialized)
@@ -333,15 +328,6 @@ namespace Vocaluxe.Lib.Sound
                     return i;
             }
             return -1;
-        }
-
-        private void _EndSync(int handle, int stream, int data, IntPtr user)
-        {
-            if (_Initialized)
-            {
-                if (_AlreadyAdded(stream))
-                    Close(stream);
-            }
         }
 
         private void _CloseProc(int streamID)

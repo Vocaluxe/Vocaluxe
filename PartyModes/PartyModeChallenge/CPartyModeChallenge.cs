@@ -643,13 +643,12 @@ namespace VocaluxeLib.PartyModes.Challenge
             int pos = 1;
             int lastPoints = 0;
             int lastSingPoints = 0;
-            for (int i = 0; i < _GameData.ResultTable.Count; i++)
-            {
-                if (lastPoints > _GameData.ResultTable[i].NumGamePoints || lastSingPoints > _GameData.ResultTable[i].NumSingPoints)
+            foreach (CResultTableRow resultRow in _GameData.ResultTable) {
+                if (lastPoints > resultRow.NumGamePoints || lastSingPoints > resultRow.NumSingPoints)
                     pos++;
-                _GameData.ResultTable[i].Position = pos;
-                lastPoints = _GameData.ResultTable[i].NumGamePoints;
-                lastSingPoints = _GameData.ResultTable[i].NumSingPoints;
+                resultRow.Position = pos;
+                lastPoints = resultRow.NumGamePoints;
+                lastSingPoints = resultRow.NumSingPoints;
             }
         }
 

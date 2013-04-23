@@ -59,14 +59,12 @@ namespace VocaluxeLib.Menu.SingNotes
 
     public abstract class CSingNotes : IMenuElement
     {
-        protected int _PartyModeID;
+        protected readonly int _PartyModeID;
         private SThemeSingBar _Theme;
         private bool _ThemeLoaded;
 
         private readonly List<SPlayerNotes> _PlayerNotes;
         private int _ActID;
-
-        private SRectF[,] _BarPos;
 
         /// <summary>
         ///     Player bar positions
@@ -74,11 +72,7 @@ namespace VocaluxeLib.Menu.SingNotes
         /// <remarks>
         ///     first index = player number; second index = num players seen on screen
         /// </remarks>
-        public SRectF[,] BarPos
-        {
-            get { return _BarPos; }
-            set { _BarPos = value; }
-        }
+        public SRectF[,] BarPos { get; set; }
 
         public CSingNotes(int partyModeID)
         {
@@ -112,20 +106,20 @@ namespace VocaluxeLib.Menu.SingNotes
             _ThemeLoaded &= xmlReader.GetValue(item + "/SkinToneHelper", out _Theme.SkinToneHelperName, String.Empty);
             _ThemeLoaded &= xmlReader.GetValue(item + "/SkinPerfectNoteStar", out _Theme.SkinPerfectNoteStarName, String.Empty);
 
-            _BarPos = new SRectF[CBase.Settings.GetMaxNumPlayer(),CBase.Settings.GetMaxNumPlayer()];
+            BarPos = new SRectF[CBase.Settings.GetMaxNumPlayer(),CBase.Settings.GetMaxNumPlayer()];
             for (int numplayer = 0; numplayer < CBase.Settings.GetMaxNumPlayer(); numplayer++)
             {
                 for (int player = 0; player < CBase.Settings.GetMaxNumPlayer(); player++)
                 {
                     if (player <= numplayer)
                     {
-                        _BarPos[player, numplayer] = new SRectF();
+                        BarPos[player, numplayer] = new SRectF();
                         string target = "/BarPositions/P" + (player + 1) + "N" + (numplayer + 1);
-                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "X", ref _BarPos[player, numplayer].X);
-                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Y", ref _BarPos[player, numplayer].Y);
-                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Z", ref _BarPos[player, numplayer].Z);
-                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "W", ref _BarPos[player, numplayer].W);
-                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "H", ref _BarPos[player, numplayer].H);
+                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "X", ref BarPos[player, numplayer].X);
+                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Y", ref BarPos[player, numplayer].Y);
+                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Z", ref BarPos[player, numplayer].Z);
+                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "W", ref BarPos[player, numplayer].W);
+                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "H", ref BarPos[player, numplayer].H);
                     }
                 }
             }
@@ -180,16 +174,15 @@ namespace VocaluxeLib.Menu.SingNotes
                 {
                     for (int player = 0; player < CBase.Settings.GetMaxNumPlayer(); player++)
                     {
-                        if (player <= numplayer)
-                        {
-                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                        if (player > numplayer)
+                            continue;
+                        string target = "P" + (player + 1) + "N" + (numplayer + 1);
 
-                            writer.WriteElementString(target + "X", _BarPos[player, numplayer].X.ToString("#0"));
-                            writer.WriteElementString(target + "Y", _BarPos[player, numplayer].Y.ToString("#0"));
-                            writer.WriteElementString(target + "Z", _BarPos[player, numplayer].Z.ToString("#0.00"));
-                            writer.WriteElementString(target + "W", _BarPos[player, numplayer].W.ToString("#0"));
-                            writer.WriteElementString(target + "H", _BarPos[player, numplayer].H.ToString("#0"));
-                        }
+                        writer.WriteElementString(target + "X", BarPos[player, numplayer].X.ToString("#0"));
+                        writer.WriteElementString(target + "Y", BarPos[player, numplayer].Y.ToString("#0"));
+                        writer.WriteElementString(target + "Z", BarPos[player, numplayer].Z.ToString("#0.00"));
+                        writer.WriteElementString(target + "W", BarPos[player, numplayer].W.ToString("#0"));
+                        writer.WriteElementString(target + "H", BarPos[player, numplayer].H.ToString("#0"));
                     }
                 }
                 writer.WriteEndElement(); //BarPositions
@@ -210,33 +203,35 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public virtual int AddPlayer(SRectF rect, SColorF color, int playerNr)
         {
-            SPlayerNotes notes = new SPlayerNotes();
+            SPlayerNotes notes = new SPlayerNotes
+                {
+                    Rect = rect,
+                    Color = color,
+                    Alpha = 1f,
+                    ID = ++_ActID,
+                    Lines = null,
+                    LineNr = -1,
+                    PlayerNr = playerNr,
+                    Timer = new Stopwatch(),
+                    GoldenStars = new List<CParticleEffect>(),
+                    Flares = new List<CParticleEffect>(),
+                    PerfectNoteEffect = new List<CParticleEffect>(),
+                    PerfectLineTwinkle = new List<CParticleEffect>()
+                };
 
-            notes.Rect = rect;
-            notes.Color = color;
-            notes.Alpha = 1f;
-            notes.ID = ++_ActID;
-            notes.Lines = null;
-            notes.LineNr = -1;
-            notes.PlayerNr = playerNr;
-            notes.Timer = new Stopwatch();
-            notes.GoldenStars = new List<CParticleEffect>();
-            notes.Flares = new List<CParticleEffect>();
-            notes.PerfectNoteEffect = new List<CParticleEffect>();
-            notes.PerfectLineTwinkle = new List<CParticleEffect>();
             _PlayerNotes.Add(notes);
 
             return notes.ID;
         }
 
-        public virtual void RemovePlayer(int iD) {}
+        public virtual void RemovePlayer(int id) {}
 
-        public virtual void AddLine(int iD, CLine[] line, int lineNr, int player)
+        public virtual void AddLine(int id, CLine[] line, int lineNr, int player)
         {
             if (line == null)
                 return;
 
-            int n = _FindPlayerLine(iD);
+            int n = _FindPlayerLine(id);
             if (n == -1)
                 return;
 
@@ -258,13 +253,13 @@ namespace VocaluxeLib.Menu.SingNotes
             _PlayerNotes.Add(notes);
         }
 
-        public virtual void RemoveLine(int iD) {}
+        public virtual void RemoveLine(int id) {}
 
-        public virtual void AddNote(int iD, CNote note) {}
+        public virtual void AddNote(int id, CNote note) {}
 
-        public virtual void SetAlpha(int iD, float alpha)
+        public virtual void SetAlpha(int id, float alpha)
         {
-            int n = _FindPlayerLine(iD);
+            int n = _FindPlayerLine(id);
             if (n == -1)
                 return;
 
@@ -273,23 +268,23 @@ namespace VocaluxeLib.Menu.SingNotes
             _PlayerNotes[n] = pn;
         }
 
-        public virtual float GetAlpha(int iD)
+        public virtual float GetAlpha(int id)
         {
-            int n = _FindPlayerLine(iD);
+            int n = _FindPlayerLine(id);
             if (n == -1)
                 return 0f;
 
             return _PlayerNotes[n].Alpha;
         }
 
-        public virtual void Draw(int iD, int player)
+        public virtual void Draw(int id, int player)
         {
-            Draw(iD, null, player);
+            Draw(id, null, player);
         }
 
-        public virtual void Draw(int iD, List<CLine> singLine, int player)
+        public virtual void Draw(int id, List<CLine> singLine, int player)
         {
-            int n = _FindPlayerLine(iD);
+            int n = _FindPlayerLine(id);
             if (n == -1)
                 return;
 
@@ -467,30 +462,21 @@ namespace VocaluxeLib.Menu.SingNotes
             LoadTextures();
         }
 
-        private int _FindPlayerLine(int iD)
+        private int _FindPlayerLine(int id)
         {
-            if (iD < 0 || iD > _PlayerNotes.Count)
+            if (id < 0 || id > _PlayerNotes.Count)
                 return -1;
 
-            int n = -1;
             for (int i = 0; i < _PlayerNotes.Count; i++)
             {
-                if (_PlayerNotes[i].ID == iD)
-                {
-                    n = i;
-                    break;
-                }
+                if (_PlayerNotes[i].ID == id)
+                    return i;
             }
 
-            return n;
+            return -1;
         }
 
-        private void _DrawNote(SRectF rect, SColorF color)
-        {
-            _DrawNote(rect, color, 1f);
-        }
-
-        private void _DrawNote(SRectF rect, SColorF color, float factor)
+        private void _DrawNote(SRectF rect, SColorF color, float factor = 1f)
         {
             const int spacing = 0;
 
@@ -584,12 +570,7 @@ namespace VocaluxeLib.Menu.SingNotes
             }
         }
 
-        private void _AddGoldenNote(SRectF rect, int n, int nr)
-        {
-            _AddGoldenNote(rect, n, nr, 1f);
-        }
-
-        private void _AddGoldenNote(SRectF rect, int n, int nr, float factor)
+        private void _AddGoldenNote(SRectF rect, int n, int nr, float factor = 1f)
         {
             const int spacing = 0;
 
@@ -615,12 +596,7 @@ namespace VocaluxeLib.Menu.SingNotes
             }
         }
 
-        private void _AddFlare(SRectF rect, int n)
-        {
-            _AddFlare(rect, n, 1f);
-        }
-
-        private void _AddFlare(SRectF rect, int n, float factor)
+        private void _AddFlare(SRectF rect, int n, float factor = 1f)
         {
             const int spacing = 0;
 
@@ -642,12 +618,7 @@ namespace VocaluxeLib.Menu.SingNotes
             _PlayerNotes[n].Flares.Add(flares);
         }
 
-        private void _AddPerfectNote(SRectF rect, int n)
-        {
-            _AddPerfectNote(rect, n, 1f);
-        }
-
-        private void _AddPerfectNote(SRectF rect, int n, float factor)
+        private void _AddPerfectNote(SRectF rect, int n, float factor = 1f)
         {
             const int spacing = 0;
 

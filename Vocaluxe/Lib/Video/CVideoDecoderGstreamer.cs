@@ -27,7 +27,7 @@ namespace Vocaluxe.Lib.Video
     class CVideoDecoderGstreamer : IVideoDecoder
     {
         #region log
-        private CGstreamerVideoWrapper.LogCallback Log;
+        private CGstreamerVideoWrapper.LogCallback _Log;
 
         private void _LogHandler(string text)
         {
@@ -38,10 +38,10 @@ namespace Vocaluxe.Lib.Video
         public bool Init()
         {
             bool retval = CGstreamerVideoWrapper.InitVideo();
-            Log = _LogHandler;
+            _Log = _LogHandler;
             //Really needed? CodeAnalysis complains
             //GC.SuppressFinalize(Log);
-            CGstreamerVideoWrapper.SetVideoLogCallback(Log);
+            CGstreamerVideoWrapper.SetVideoLogCallback(_Log);
             return retval;
         }
 

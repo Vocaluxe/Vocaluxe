@@ -139,17 +139,7 @@ namespace VocaluxeLib.Menu
             rect = new RectangleF(left, upper, rigth - left, lower - upper);
         }
 
-        public static List<string> ListFiles(string path, string cast)
-        {
-            return ListFiles(path, cast, false, false);
-        }
-
-        public static List<string> ListFiles(string path, string cast, bool recursive)
-        {
-            return ListFiles(path, cast, recursive, false);
-        }
-
-        public static List<string> ListFiles(string path, string cast, bool recursive, bool fullpath)
+        public static List<string> ListFiles(string path, string cast, bool recursive = false, bool fullpath = false)
         {
             List<string> files = new List<string>();
             DirectoryInfo dir = new DirectoryInfo(path);
