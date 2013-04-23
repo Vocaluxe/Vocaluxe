@@ -47,7 +47,7 @@ namespace Vocaluxe.Base
             _Sizeh = maxHigh;
 
             float outline = CFonts.Outline;
-            TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
+            const TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
 
             float factor = _GetFactor(chr, flags);
             CFonts.Height = Sizeh * factor;

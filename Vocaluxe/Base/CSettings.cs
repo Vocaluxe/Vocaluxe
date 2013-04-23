@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
@@ -37,44 +38,41 @@ namespace Vocaluxe.Base
     static class CSettings
     {
 #if ARCH_X86
-        public const String Arch = "x86";
+        private const String _Arch = "x86";
 #endif
 
 #if ARCH_X64
-        public const String Arch = "x64";
+        private const String _Arch = "x64";
 #endif
 
         public static EGameState GameState = EGameState.Start;
 
-        public const string ProgramName = "Vocaluxe";
-        public const string ProgramCodeName = "Shining Heaven";
 
-        public const int VersionMajor = 0;
-        public const int VersionMinor = 3; // milestones
-        public const int VersionSub = 0; // patches
+        //Adjusting of programName and version now in the assembly config.
+        //I'd use the major and minor for Main releases, build number for every public release and revision for every bugfix version without any features
+        //As it is different than before, this is open for discussion.
+        //TODO: Remove this when this is decided
+        private const string _ProgramCodeName = "Shining Heaven";
+
         public const ERevision VersionRevision = ERevision.Alpha;
-
-        public const int Build = 78; // Increase on every published version! Never Reset!
 
         public const int DatabaseHighscoreVersion = 2;
         public const int DatabaseCoverVersion = 1;
         public const int DatabaseCreditsRessourcesVersion = 1;
 
-        public static int RenderW = 1280;
-        public static int RenderH = 720;
+        public const int RenderW = 1280;
+        public const int RenderH = 720;
 
         public const int ZNear = -100;
         public const int ZFar = 100;
 
         public static bool IsFullScreen;
-        public static int VertexBufferElements = 10000;
+        public const int VertexBufferElements = 10000;
 
         public const string Icon = "Vocaluxe.ico";
         public const string Logo = "Logo.png";
         public const string FallbackLanguage = "English";
-        public const string BassRegistration = "Registration.xml";
         public static string FileConfig = "Config.xml";
-        public const string FileCover = "Cover.xml";
         public const string FileFonts = "Fonts.xml";
 
         public const string FileOldHighscoreDB = "Ultrastar.db";
@@ -91,7 +89,6 @@ namespace Vocaluxe.Base
         public const string FolderGraphics = "Graphics";
         public const string FolderFonts = "Fonts";
         public const string FolderThemes = "Themes";
-        public const string FolderSkins = "Skins";
         public const string FolderThemeFonts = "Fonts";
         public const string FolderScreens = "Screens";
         public static string FolderProfiles = "Profiles";
@@ -130,11 +127,11 @@ namespace Vocaluxe.Base
         public const int MedleyMinSeriesLength = 3;
         public const float MedleyMinDuration = 40f;
 
-        public static bool TabNavigation = false;
+        public const bool TabNavigation = false;
 
         public const float BackgroundMusicFadeTime = 0.5f;
 
-        public static List<string> MusicFileTypes = new List<string>
+        public static readonly List<string> MusicFileTypes = new List<string>
             {
                 "*.mp3",
                 "*.wma",
@@ -142,16 +139,32 @@ namespace Vocaluxe.Base
                 "*.wav"
             };
 
-        public static string GetVersionText()
+        private static AssemblyName _Assembly
         {
-            string version = "v" + VersionMajor + "." +
-                             VersionMinor + "." +
-                             VersionSub + " (" + Arch + ")";
+            get { return Assembly.GetExecutingAssembly().GetName(); }
+        }
+
+        public static string ProgramName
+        {
+            get { return _Assembly.Name; }
+        }
+        private static string _Version
+        {
+            get
+            {
+                Version v = _Assembly.Version;
+                return "v" + v.Major + "." + v.Minor + "." + v.Build;
+            }
+        }
+
+        private static string _GetVersionText()
+        {
+            string version = _Version + " (" + _Arch + ")";
 
             // ReSharper disable ConditionIsAlwaysTrueOrFalse
             if (VersionRevision != ERevision.Release)
                 // ReSharper restore ConditionIsAlwaysTrueOrFalse
-                version += " " + _GetVersionStatus() + String.Format(" ({0:0000)}", Build);
+                version += " " + _GetVersionStatus() + String.Format(" ({0:0000)}", _Assembly.Version.Revision);
 
             return version;
         }
@@ -161,11 +174,11 @@ namespace Vocaluxe.Base
             string version = ProgramName;
 
             // ReSharper disable ConditionIsAlwaysTrueOrFalse
-            if (ProgramCodeName != "")
+            if (_ProgramCodeName != "")
                 // ReSharper restore ConditionIsAlwaysTrueOrFalse
-                version += " \"" + ProgramCodeName + "\"";
+                version += " \"" + _ProgramCodeName + "\"";
 
-            return version + " " + GetVersionText();
+            return version + " " + _GetVersionText();
         }
 
         private static string _GetVersionStatus()
