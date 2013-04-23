@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using VocaluxeLib.Menu;
 
@@ -209,8 +210,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
                 return true;
             }
-                // LeftButton isn't hold anymore, but Selec-Mode is still active -> "Drop" of Avatar
-            else if (_SelectingMouseActive)
+            // LeftButton isn't hold anymore, but Selec-Mode is still active -> "Drop" of Avatar
+            if (_SelectingMouseActive)
             {
                 //Check if really a player was selected
                 if (_SelectedPlayerNr != -1)
@@ -571,44 +572,41 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private bool _OnAdd()
         {
-            for (int i = 0; i < _PlayerChooseButtons.Count; i++)
+            foreach (CPlayerChooseButton chooseButton in _PlayerChooseButtons.Where(chooseButton => chooseButton.Button.Selected && chooseButton.ProfileID != -1))
             {
-                if (_PlayerChooseButtons[i].Button.Selected && _PlayerChooseButtons[i].ProfileID != -1)
+                if (_Data.ScreenNames.ProfileIDsTeam1.Count < _NumPlayerTeam1)
                 {
-                    if (_Data.ScreenNames.ProfileIDsTeam1.Count < _NumPlayerTeam1)
-                    {
-                        _Data.ScreenNames.ProfileIDsTeam1.Add(_PlayerChooseButtons[i].ProfileID);
-                        int added = _Data.ScreenNames.ProfileIDsTeam1.Count - 1;
-                        _UpdateButtonNext();
-                        //Update texture and name
-                        _PlayerDestinationButtons[added].Color = new SColorF(1, 1, 1, 0.6f);
-                        _PlayerDestinationButtons[added].SelColor = new SColorF(1, 1, 1, 1);
-                        _PlayerDestinationButtons[added].Texture = CBase.Profiles.GetProfiles()[_PlayerChooseButtons[i].ProfileID].Avatar.Texture;
-                        _PlayerDestinationButtons[added].SelTexture = CBase.Profiles.GetProfiles()[_PlayerChooseButtons[i].ProfileID].Avatar.Texture;
-                        _PlayerDestinationButtons[added].Text.Text = CBase.Profiles.GetProfiles()[_PlayerChooseButtons[i].ProfileID].PlayerName;
-                        _PlayerDestinationButtons[added].Enabled = true;
-                        //Update Tiles-List
-                        _UpdateButtonPlayerChoose();
-                        _CheckInteraction();
-                        return true;
-                    }
-                    else if (_Data.ScreenNames.ProfileIDsTeam2.Count < _NumPlayerTeam2)
-                    {
-                        _Data.ScreenNames.ProfileIDsTeam2.Add(_PlayerChooseButtons[i].ProfileID);
-                        int added = (_Data.ScreenNames.ProfileIDsTeam2.Count - 1) + _PlayerDestinationButtonsNumH;
-                        _UpdateButtonNext();
-                        //Update texture and name
-                        _PlayerDestinationButtons[added].Color = new SColorF(1, 1, 1, 0.6f);
-                        _PlayerDestinationButtons[added].SelColor = new SColorF(1, 1, 1, 1);
-                        _PlayerDestinationButtons[added].Texture = CBase.Profiles.GetProfiles()[_PlayerChooseButtons[i].ProfileID].Avatar.Texture;
-                        _PlayerDestinationButtons[added].SelTexture = CBase.Profiles.GetProfiles()[_PlayerChooseButtons[i].ProfileID].Avatar.Texture;
-                        _PlayerDestinationButtons[added].Text.Text = CBase.Profiles.GetProfiles()[_PlayerChooseButtons[i].ProfileID].PlayerName;
-                        _PlayerDestinationButtons[added].Enabled = true;
-                        //Update Tiles-List
-                        _UpdateButtonPlayerChoose();
-                        _CheckInteraction();
-                        return true;
-                    }
+                    _Data.ScreenNames.ProfileIDsTeam1.Add(chooseButton.ProfileID);
+                    int added = _Data.ScreenNames.ProfileIDsTeam1.Count - 1;
+                    _UpdateButtonNext();
+                    //Update texture and name
+                    _PlayerDestinationButtons[added].Color = new SColorF(1, 1, 1, 0.6f);
+                    _PlayerDestinationButtons[added].SelColor = new SColorF(1, 1, 1, 1);
+                    _PlayerDestinationButtons[added].Texture = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].Avatar.Texture;
+                    _PlayerDestinationButtons[added].SelTexture = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].Avatar.Texture;
+                    _PlayerDestinationButtons[added].Text.Text = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].PlayerName;
+                    _PlayerDestinationButtons[added].Enabled = true;
+                    //Update Tiles-List
+                    _UpdateButtonPlayerChoose();
+                    _CheckInteraction();
+                    return true;
+                }
+                if (_Data.ScreenNames.ProfileIDsTeam2.Count < _NumPlayerTeam2)
+                {
+                    _Data.ScreenNames.ProfileIDsTeam2.Add(chooseButton.ProfileID);
+                    int added = (_Data.ScreenNames.ProfileIDsTeam2.Count - 1) + _PlayerDestinationButtonsNumH;
+                    _UpdateButtonNext();
+                    //Update texture and name
+                    _PlayerDestinationButtons[added].Color = new SColorF(1, 1, 1, 0.6f);
+                    _PlayerDestinationButtons[added].SelColor = new SColorF(1, 1, 1, 1);
+                    _PlayerDestinationButtons[added].Texture = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].Avatar.Texture;
+                    _PlayerDestinationButtons[added].SelTexture = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].Avatar.Texture;
+                    _PlayerDestinationButtons[added].Text.Text = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].PlayerName;
+                    _PlayerDestinationButtons[added].Enabled = true;
+                    //Update Tiles-List
+                    _UpdateButtonPlayerChoose();
+                    _CheckInteraction();
+                    return true;
                 }
             }
             return false;

@@ -66,13 +66,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public STexture CoverTextureBig
         {
-            get
-            {
-                if (_CoverBigLoaded)
-                    return _CoverTextureBig;
-                else
-                    return _CoverTextureSmall;
-            }
+            get { return _CoverBigLoaded ? _CoverTextureBig : _CoverTextureSmall; }
             set
             {
                 if (value.Index != -1)
@@ -1016,11 +1010,8 @@ namespace VocaluxeLib.Menu.SongMenu
                         ShortEnd = lines.Line[series[i].Start - 1].LastNote.EndBeat;
                         return;
                     }
-                    else
-                    {
-                        ShortEnd = lines.Line[series[i].End].LastNote.EndBeat;
-                        return;
-                    }
+                    ShortEnd = lines.Line[series[i].End].LastNote.EndBeat;
+                    return;
                 }
             }
 

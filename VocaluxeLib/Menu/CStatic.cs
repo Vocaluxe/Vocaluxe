@@ -45,13 +45,7 @@ namespace VocaluxeLib.Menu
         private STexture _Texture;
         public STexture Texture
         {
-            get
-            {
-                if (_Texture.Index != -1)
-                    return _Texture;
-                else
-                    return CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
-            }
+            get { return _Texture.Index != -1 ? _Texture : CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID); }
 
             set { _Texture = value; }
         }

@@ -17,7 +17,6 @@
 //  */
 #endregion
 
-using System;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Video

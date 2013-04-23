@@ -205,8 +205,7 @@ namespace Vocaluxe.Base
         {
             if ((Categorizer.Categories.Count > 0) && (_CatIndex >= 0) && (Categorizer.Categories.Count > _CatIndex))
                 return Categorizer.Categories[_CatIndex].Name;
-            else
-                return String.Empty;
+            return String.Empty;
         }
 
         public static CSong GetSong(int songID)

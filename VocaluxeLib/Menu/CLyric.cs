@@ -503,7 +503,7 @@ namespace VocaluxeLib.Menu
             if (diff <= 0)
                 diff = 1;
 
-            float p = 1f-(currentBeat - _Notes[jumpNote].StartBeat) / diff;
+            float p = 1f - (currentBeat - _Notes[jumpNote].StartBeat) / diff;
 
             if (Math.Abs(p) < float.Epsilon)
                 _Text.Draw();

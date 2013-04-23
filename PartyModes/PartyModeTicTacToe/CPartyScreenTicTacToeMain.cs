@@ -711,14 +711,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     if (_Fields[_Possibilities[i, j]].Content.Winner > 0)
                         check.Add(_Fields[_Possibilities[i, j]].Content.Winner);
                 }
-                if (check.Count == _Possibilities.GetLength(1))
-                {
-                    //Check for winner
-                    if (check.Contains(1) && !check.Contains(2))
-                        return 1;
-                    else if (check.Contains(2) && !check.Contains(1))
-                        return 2;
-                }
+                if (check.Count != _Possibilities.GetLength(1))
+                    continue;
+                //Check for winner
+                if (check.Contains(1) && !check.Contains(2))
+                    return 1;
+                if (check.Contains(2) && !check.Contains(1))
+                    return 2;
             }
             return 0;
         }

@@ -463,24 +463,24 @@ namespace Vocaluxe.Screens
                         _ToggleSongOptions(ESongOptionsView.General);
                         return true;
                     }
-                    else if (_Buttons[_ButtonOptionsClose].Selected)
+                    if (_Buttons[_ButtonOptionsClose].Selected)
                     {
                         _ToggleSongOptions(ESongOptionsView.None);
                         return true;
                     }
-                    else if (_Buttons[_ButtonOptionsSing].Selected)
+                    if (_Buttons[_ButtonOptionsSing].Selected)
                     {
                         _ToggleSongOptions(ESongOptionsView.None);
                         _StartSong(_SongMenus[_SongMenu].GetSelectedSong());
                         return true;
                     }
-                    else if (_Buttons[_ButtonOptionsPlaylist].Selected)
+                    if (_Buttons[_ButtonOptionsPlaylist].Selected)
                     {
                         _ToggleSongOptions(ESongOptionsView.None);
                         _OpenAndAddPlaylistAction();
                         return true;
                     }
-                    else if (_Buttons[_ButtonOptionsRandom].Selected)
+                    if (_Buttons[_ButtonOptionsRandom].Selected)
                     {
                         if (CSongs.IsInCategory)
                         {
@@ -558,11 +558,8 @@ namespace Vocaluxe.Screens
                         _ToggleSongOptions(ESongOptionsView.Song);
                         return true;
                     }
-                    else
-                    {
-                        _ToggleSongOptions(ESongOptionsView.None);
-                        return true;
-                    }
+                    _ToggleSongOptions(ESongOptionsView.None);
+                    return true;
                 }
             }
 

@@ -59,11 +59,9 @@ namespace Vocaluxe.Base
                 long ticks = _Stopwatch.ElapsedTicks;
                 if (Stopwatch.IsHighResolution && ticks != 0)
                     return (float)((_NanosecPerTick * ticks) / (1000.0 * 1000.0));
-                else
-                    return _Stopwatch.ElapsedMilliseconds;
+                return _Stopwatch.ElapsedMilliseconds;
             }
-            else
-                return 0f;
+            return 0f;
         }
 
         public static float CalculateFPS()
@@ -190,8 +188,7 @@ namespace Vocaluxe.Base
                 _Del(0);
                 return true;
             }
-            else
-                return false;
+            return false;
         }
 
         public void CopyEvents()

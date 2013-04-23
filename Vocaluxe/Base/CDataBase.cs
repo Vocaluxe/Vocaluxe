@@ -314,31 +314,28 @@ namespace Vocaluxe.Base
                 reader.Dispose();
                 return id;
             }
-            else
+            if (reader != null)
+                reader.Close();
+
+            command.CommandText = "INSERT INTO Songs (Title, Artist, NumPlayed) " +
+                                  "VALUES (@title, @artist, @numplayed)";
+            command.Parameters.Add("@title", DbType.String, 0).Value = title;
+            command.Parameters.Add("@artist", DbType.String, 0).Value = artist;
+            command.Parameters.Add("@numplayed", DbType.Int32, 0).Value = defNumPlayed;
+            command.ExecuteNonQuery();
+
+            command.CommandText = "SELECT id FROM Songs WHERE [Title] = @title AND [Artist] = @artist";
+            command.Parameters.Add("@title", DbType.String, 0).Value = title;
+            command.Parameters.Add("@artist", DbType.String, 0).Value = artist;
+
+            reader = command.ExecuteReader();
+
+            if (reader != null)
             {
-                if (reader != null)
-                    reader.Close();
-
-                command.CommandText = "INSERT INTO Songs (Title, Artist, NumPlayed) " +
-                                      "VALUES (@title, @artist, @numplayed)";
-                command.Parameters.Add("@title", DbType.String, 0).Value = title;
-                command.Parameters.Add("@artist", DbType.String, 0).Value = artist;
-                command.Parameters.Add("@numplayed", DbType.Int32, 0).Value = defNumPlayed;
-                command.ExecuteNonQuery();
-
-                command.CommandText = "SELECT id FROM Songs WHERE [Title] = @title AND [Artist] = @artist";
-                command.Parameters.Add("@title", DbType.String, 0).Value = title;
-                command.Parameters.Add("@artist", DbType.String, 0).Value = artist;
-
-                reader = command.ExecuteReader();
-
-                if (reader != null)
-                {
-                    reader.Read();
-                    int id = reader.GetInt32(0);
-                    reader.Dispose();
-                    return id;
-                }
+                reader.Read();
+                int id = reader.GetInt32(0);
+                reader.Dispose();
+                return id;
             }
 
             return -1;

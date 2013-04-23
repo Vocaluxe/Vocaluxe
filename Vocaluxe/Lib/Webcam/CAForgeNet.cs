@@ -17,7 +17,6 @@
 //  */
 #endregion
 
-using System;
 using AForge.Video;
 using AForge.Video.DirectShow;
 using System.Collections.Generic;
@@ -57,7 +56,7 @@ namespace Vocaluxe.Lib.Webcam
             {
                 lock (_MutexData)
                 {
-                    if (frame.Index == -1 || _Width != (int) frame.Width || _Height != (int)frame.Height)
+                    if (frame.Index == -1 || _Width != (int)frame.Width || _Height != (int)frame.Height)
                     {
                         CDraw.RemoveTexture(ref frame);
                         frame = CDraw.AddTexture(_Width, _Height, ref _Data);

@@ -225,11 +225,8 @@ namespace Vocaluxe.Base
                 _Languages[nr].PartyModeTexts.Add(lang);
                 return true;
             }
-            else
-            {
-                CLog.LogError("Error reading Party Language File " + file);
-                return false;
-            }
+            CLog.LogError("Error reading Party Language File " + file);
+            return false;
         }
 
         private static void _LoadLanguageFile(string fileName)

@@ -143,7 +143,8 @@ namespace VocaluxeLib.Menu
             get { return _Bounds; }
             set
             {
-                if (Math.Abs(_Bounds.X - value.X) > 0.01 || Math.Abs(_Bounds.Y - value.Y) > 0.01 || Math.Abs(_Bounds.W - value.W) > 0.01 || Math.Abs(_Bounds.H - value.H) > 0.01 || Math.Abs(_Bounds.Z - value.Z) > 0.01)
+                if (Math.Abs(_Bounds.X - value.X) > 0.01 || Math.Abs(_Bounds.Y - value.Y) > 0.01 || Math.Abs(_Bounds.W - value.W) > 0.01 || Math.Abs(_Bounds.H - value.H) > 0.01 ||
+                    Math.Abs(_Bounds.Z - value.Z) > 0.01)
                 {
                     _Bounds = value;
                     _PositionNeedsUpdate = true;

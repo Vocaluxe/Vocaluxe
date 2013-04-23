@@ -160,7 +160,9 @@ namespace Vocaluxe.Base
         {
             string version = ProgramName;
 
+            // ReSharper disable ConditionIsAlwaysTrueOrFalse
             if (ProgramCodeName != "")
+                // ReSharper restore ConditionIsAlwaysTrueOrFalse
                 version += " \"" + ProgramCodeName + "\"";
 
             return version + " " + GetVersionText();

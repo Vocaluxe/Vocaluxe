@@ -317,7 +317,7 @@ namespace Vocaluxe.Screens
             {
                 _CurrentTime = CSound.GetPosition(_CurrentStream);
 
-                if (_FinishTime >0.001 && _CurrentTime >= _FinishTime)
+                if (_FinishTime > 0.001 && _CurrentTime >= _FinishTime)
                     finish = true;
             }
             else
@@ -1038,13 +1038,11 @@ namespace Vocaluxe.Screens
 
         private float[] _CalcFadingAlpha()
         {
-            float dt = 4f;
-            float rt = dt * 0.8f;
+            const float dt = 4f;
+            const float rt = dt * 0.8f;
 
             CSong song = CGame.GetSong();
-            if (song == null)
-                return null;
-            else if (!song.NotesLoaded)
+            if (song == null || !song.NotesLoaded)
                 return null;
 
             float[] alpha = new float[song.Notes.Lines.Length * 2];

@@ -134,8 +134,7 @@ namespace VocaluxeLib.Menu
             {
                 if (_Selection >= 0 && _ValueIndexes.Count > _Selection)
                     return _ValueIndexes[_Selection];
-                else
-                    return -1;
+                return -1;
             }
         }
 

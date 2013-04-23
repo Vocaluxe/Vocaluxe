@@ -500,10 +500,7 @@ namespace VocaluxeLib.Menu
             if (_Selection >= _Interactions.Count || _Selection < 0)
                 return false;
 
-            if (_Interactions.Count > 0)
-                return _IsMouseOver(x, y, _Interactions[_Selection]);
-            else
-                return false;
+            return _Interactions.Count > 0 && _IsMouseOver(x, y, _Interactions[_Selection]);
         }
 
         private bool _IsMouseOver(int x, int y, CInteraction interact)
@@ -789,10 +786,7 @@ namespace VocaluxeLib.Menu
                         inDirection = true;
                     break;
             }
-            if (!inDirection)
-                return float.MaxValue;
-            else
-                return distance;
+            return !inDirection ? float.MaxValue : distance;
         }
 
         private float _GetDistance180(SKeyEvent key, SRectF actualRect, SRectF targetRect)
@@ -825,10 +819,7 @@ namespace VocaluxeLib.Menu
                         inDirection = true;
                     break;
             }
-            if (!inDirection)
-                return float.MaxValue;
-            else
-                return distance;
+            return !inDirection ? float.MaxValue : distance;
         }
 
         /// <summary>

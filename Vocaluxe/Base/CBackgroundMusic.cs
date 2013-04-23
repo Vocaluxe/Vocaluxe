@@ -45,7 +45,6 @@ namespace Vocaluxe.Base
 
         private static bool _OwnMusicAdded;
         private static bool _BackgroundMusicAdded;
-        private static bool _Playing;
         private static bool _Disabled;
         private static bool _CanSing;
         private static bool _RepeatSong;
@@ -107,10 +106,7 @@ namespace Vocaluxe.Base
             get { return File.Exists(_CurrentPlaylistElement.VideoFilePath); }
         }
 
-        public static bool Playing
-        {
-            get { return _Playing; }
-        }
+        public static bool Playing { get; private set; }
 
         public static string ArtistAndTitle
         {
@@ -118,8 +114,7 @@ namespace Vocaluxe.Base
             {
                 if (_CurrentPlaylistElement.Artist != "" && _CurrentPlaylistElement.Title != "")
                     return _CurrentPlaylistElement.Artist + " - " + _CurrentPlaylistElement.Title;
-                else
-                    return Path.GetFileNameWithoutExtension(_CurrentPlaylistElement.MusicFilePath);
+                return Path.GetFileNameWithoutExtension(_CurrentPlaylistElement.MusicFilePath);
             }
         }
 
@@ -143,12 +138,12 @@ namespace Vocaluxe.Base
             if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
                 _VideoEnabled = true;
 
-            _Playing = false;
+            Playing = false;
         }
 
         public static void Play()
         {
-            if (_Playing)
+            if (Playing)
                 return;
 
             if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
@@ -161,7 +156,7 @@ namespace Vocaluxe.Base
                         CSound.Play(_CurrentMusicStream);
                         if (_VideoEnabled && _Video != -1)
                             CVideo.VdResume(_Video);
-                        _Playing = true;
+                        Playing = true;
                     }
                     else
                         Next();
@@ -176,7 +171,7 @@ namespace Vocaluxe.Base
 
         public static void Stop()
         {
-            if (!_Playing)
+            if (!Playing)
                 return;
 
             if (_VideoEnabled && _Video != -1)
@@ -189,12 +184,12 @@ namespace Vocaluxe.Base
             _CurrentMusicStream = -1;
 
             _CurrentPlaylistElement = new CPlaylistElement();
-            _Playing = false;
+            Playing = false;
         }
 
         public static void Pause()
         {
-            if (!_Playing)
+            if (!Playing)
                 return;
 
             if (_VideoEnabled && _Video != -1)
@@ -203,7 +198,7 @@ namespace Vocaluxe.Base
                 CVideo.VdSkip(_Video, CSound.GetPosition(_CurrentMusicStream) + CSettings.BackgroundMusicFadeTime, _CurrentPlaylistElement.VideoGap);
             }
             CSound.FadeAndPause(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
-            _Playing = false;
+            Playing = false;
         }
 
         public static void Update()
@@ -217,7 +212,7 @@ namespace Vocaluxe.Base
                     timeToPlay = _CurrentPlaylistElement.Finish - CSound.GetPosition(_CurrentMusicStream);
 
                 bool finished = CSound.IsFinished(_CurrentMusicStream);
-                if (_Playing && (timeToPlay <= CSettings.BackgroundMusicFadeTime || finished))
+                if (Playing && (timeToPlay <= CSettings.BackgroundMusicFadeTime || finished))
                 {
                     if (_RepeatSong)
                     {
@@ -228,7 +223,7 @@ namespace Vocaluxe.Base
                             CSound.SetPosition(_CurrentMusicStream, 0);
                         if (_VideoEnabled && _Video != -1)
                         {
-                            if (_CurrentPlaylistElement.Start >0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
+                            if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
                                 CVideo.VdSkip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
                             else
                                 CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
@@ -269,7 +264,7 @@ namespace Vocaluxe.Base
                 CSound.SetStreamVolumeMax(_CurrentMusicStream, CConfig.BackgroundMusicVolume);
 
                 //Seek to #Start-Tag, if found
-                if (_CurrentPlaylistElement.Start >0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
+                if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
                     CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
 
                 if (_VideoEnabled)
@@ -289,13 +284,13 @@ namespace Vocaluxe.Base
                 if (CSound.GetPosition(_CurrentMusicStream) >= 1.5f)
                 {
                     //Seek to #Start-Tag, if found
-                    if (_CurrentPlaylistElement.Start >0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
+                    if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
                         CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
                     else
                         CSound.SetPosition(_CurrentMusicStream, 0);
                     if (_VideoEnabled && _Video != -1)
                     {
-                        if (_CurrentPlaylistElement.Start >0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
+                        if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
                             CVideo.VdSkip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
                         else
                             CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
@@ -321,7 +316,7 @@ namespace Vocaluxe.Base
             else if (_CurrentMusicStream != -1)
             {
                 //Seek to #Start-Tag, if found
-                if (_CurrentPlaylistElement.Start >0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
+                if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
                     CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
                 else
                     CSound.SetPosition(_CurrentMusicStream, 0);
@@ -499,7 +494,7 @@ namespace Vocaluxe.Base
             if (_Video == -1)
             {
                 _Video = CVideo.VdLoad(_CurrentPlaylistElement.VideoFilePath);
-                if (_CurrentPlaylistElement.Start >0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
+                if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
                     CVideo.VdSkip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
                 else
                     CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.VideoGap);

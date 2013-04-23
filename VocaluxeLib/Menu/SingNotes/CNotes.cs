@@ -379,24 +379,12 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public CNote FirstNote
         {
-            get
-            {
-                if (_Notes.Count > 0)
-                    return _Notes[0];
-                else
-                    return null;
-            }
+            get { return _Notes.Count > 0 ? _Notes[0] : null; }
         }
 
         public CNote LastNote
         {
-            get
-            {
-                if (_Notes.Count > 0)
-                    return _Notes[_Notes.Count - 1];
-                else
-                    return null;
-            }
+            get { return _Notes.Count > 0 ? _Notes[_Notes.Count - 1] : null; }
         }
 
         public int BaseLine

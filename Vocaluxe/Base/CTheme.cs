@@ -548,7 +548,7 @@ namespace Vocaluxe.Base
             {
                 if (partyModeID != -1 && _Skins[i].PartyModeID == partyModeID)
                     return i;
-                else if (partyModeID == -1 && _Skins[i].Name == CConfig.Skin)
+                if (partyModeID == -1 && _Skins[i].Name == CConfig.Skin)
                     return i;
             }
 
@@ -561,7 +561,7 @@ namespace Vocaluxe.Base
             {
                 if (partyModeID != -1 && _Themes[i].PartyModeID == partyModeID)
                     return i;
-                else if (partyModeID == -1 && _Themes[i].Name == CConfig.Theme)
+                if (partyModeID == -1 && _Themes[i].Name == CConfig.Theme)
                     return i;
             }
 
@@ -597,22 +597,12 @@ namespace Vocaluxe.Base
             return _GetSkinFileName(skinName, GetSkinIndex(partyModeID), true);
         }
 
-        private static string _GetSkinFileName(string skinName, int skinIndex)
-        {
-            return _GetSkinFileName(skinName, skinIndex, false);
-        }
-
-        private static string _GetSkinFileName(string skinName, int skinIndex, bool returnPath)
+        private static string _GetSkinFileName(string skinName, int skinIndex, bool returnPath = false)
         {
             foreach (SSkinElement sk in _Skins[skinIndex].SkinList.Values)
             {
                 if (sk.Name == skinName)
-                {
-                    if (!returnPath)
-                        return sk.Value;
-                    else
-                        return Path.Combine(_Skins[skinIndex].Path, sk.Value);
-                }
+                    return !returnPath ? sk.Value : Path.Combine(_Skins[skinIndex].Path, sk.Value);
             }
 
             CLog.LogError("Can't find Skin Element \"" + skinName);
@@ -695,22 +685,12 @@ namespace Vocaluxe.Base
             return _GetVideoFileName(videoName, GetSkinIndex(partyModeID), true);
         }
 
-        private static string _GetVideoFileName(string videoName, int skinIndex)
-        {
-            return _GetVideoFileName(videoName, skinIndex, false);
-        }
-
-        private static string _GetVideoFileName(string videoName, int skinIndex, bool returnPath)
+        private static string _GetVideoFileName(string videoName, int skinIndex, bool returnPath = false)
         {
             foreach (SSkinElement sk in _Skins[skinIndex].VideoList)
             {
                 if (sk.Name == videoName)
-                {
-                    if (!returnPath)
-                        return sk.Value;
-                    else
-                        return Path.Combine(_Skins[skinIndex].Path, sk.Value);
-                }
+                    return !returnPath ? sk.Value : Path.Combine(_Skins[skinIndex].Path, sk.Value);
             }
 
             CLog.LogError("Can't find Video Element \"" + videoName);

@@ -50,11 +50,10 @@ namespace Vocaluxe.Base
             get { return _IgnoreArticles; }
             set
             {
-                if (value != _IgnoreArticles)
-                {
-                    _IgnoreArticles = value;
-                    _SetChanged();
-                }
+                if (value == _IgnoreArticles)
+                    return;
+                _IgnoreArticles = value;
+                _SetChanged();
             }
         }
 
@@ -63,11 +62,10 @@ namespace Vocaluxe.Base
             get { return _SongSorting; }
             set
             {
-                if (value != _SongSorting)
-                {
-                    _SongSorting = value;
-                    _SetChanged();
-                }
+                if (value == _SongSorting)
+                    return;
+                _SongSorting = value;
+                _SetChanged();
             }
         }
 
@@ -88,36 +86,28 @@ namespace Vocaluxe.Base
 
         private int _SortByFieldArtistTitle(SSongPointer s1, SSongPointer s2)
         {
-            int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
+            int res = String.Compare(s1.SortString, s2.SortString, StringComparison.OrdinalIgnoreCase);
             if (res == 0)
             {
                 if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
                 {
-                    res = CSongs.Songs[s1.SongID].ArtistSorting.ToUpper().CompareTo(CSongs.Songs[s2.SongID].ArtistSorting.ToUpper());
-                    if (res == 0)
-                        return CSongs.Songs[s1.SongID].TitleSorting.ToUpper().CompareTo(CSongs.Songs[s2.SongID].TitleSorting.ToUpper());
-                    return res;
+                    res = String.Compare(CSongs.Songs[s1.SongID].ArtistSorting, CSongs.Songs[s2.SongID].ArtistSorting, StringComparison.OrdinalIgnoreCase);
+                    return res != 0 ? res: String.Compare(CSongs.Songs[s1.SongID].TitleSorting, CSongs.Songs[s2.SongID].TitleSorting, StringComparison.OrdinalIgnoreCase);
                 }
-                else
-                {
-                    res = CSongs.Songs[s1.SongID].Artist.ToUpper().CompareTo(CSongs.Songs[s2.SongID].Artist.ToUpper());
-                    if (res == 0)
-                        return CSongs.Songs[s1.SongID].Title.ToUpper().CompareTo(CSongs.Songs[s2.SongID].Title.ToUpper());
-                    return res;
-                }
+                res = String.Compare(CSongs.Songs[s1.SongID].Artist, CSongs.Songs[s2.SongID].Artist, StringComparison.OrdinalIgnoreCase);
+                return res != 0 ? res : String.Compare(CSongs.Songs[s1.SongID].Title, CSongs.Songs[s2.SongID].Title, StringComparison.OrdinalIgnoreCase);
             }
             return res;
         }
 
         private int _SortByFieldTitle(SSongPointer s1, SSongPointer s2)
         {
-            int res = s1.SortString.ToUpper().CompareTo(s2.SortString.ToUpper());
+            int res = String.Compare(s1.SortString, s2.SortString, StringComparison.OrdinalIgnoreCase);
             if (res == 0)
             {
-                if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
-                    return CSongs.Songs[s1.SongID].TitleSorting.ToUpper().CompareTo(CSongs.Songs[s2.SongID].TitleSorting.ToUpper());
-                else
-                    return CSongs.Songs[s1.SongID].Title.ToUpper().CompareTo(CSongs.Songs[s2.SongID].Title.ToUpper());
+                return _IgnoreArticles == EOffOn.TR_CONFIG_ON
+                           ? String.Compare(CSongs.Songs[s1.SongID].TitleSorting, CSongs.Songs[s2.SongID].TitleSorting, StringComparison.OrdinalIgnoreCase) :
+                           String.Compare(CSongs.Songs[s1.SongID].Title, CSongs.Songs[s2.SongID].Title, StringComparison.OrdinalIgnoreCase);
             }
             return res;
         }
@@ -177,16 +167,10 @@ namespace Vocaluxe.Base
                     break;
                 case ESongSorting.TR_CONFIG_ARTIST_LETTER:
                 case ESongSorting.TR_CONFIG_ARTIST:
-                    if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
-                        fieldName = "ArtistSorting";
-                    else
-                        fieldName = "Artist";
+                    fieldName = _IgnoreArticles == EOffOn.TR_CONFIG_ON ? "ArtistSorting" : "Artist";
                     break;
                 case ESongSorting.TR_CONFIG_TITLE_LETTER:
-                    if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
-                        fieldName = "TitleSorting";
-                    else
-                        fieldName = "Title";
+                    fieldName = _IgnoreArticles == EOffOn.TR_CONFIG_ON ? "TitleSorting" : "Title";
                     break;
                 case ESongSorting.TR_CONFIG_YEAR:
                 case ESongSorting.TR_CONFIG_DECADE:

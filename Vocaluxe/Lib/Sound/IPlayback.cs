@@ -17,8 +17,6 @@
 //  */
 #endregion
 
-using System;
-
 namespace Vocaluxe.Lib.Sound
 {
     struct SAudioStreams

@@ -873,7 +873,7 @@ namespace VocaluxeLib.Menu
                     }
                     return true;
                 }
-                else if (mouseEvent.Wheel < 0)
+                if (mouseEvent.Wheel < 0)
                 {
                     if (Offset + mouseEvent.Wheel >= 0)
                     {
@@ -925,23 +925,23 @@ namespace VocaluxeLib.Menu
                                 ClosePlaylist();
                                 return true;
                             }
-                            else if (_Theme.ButtonPlaylistSing.Selected)
+                            if (_Theme.ButtonPlaylistSing.Selected)
                             {
                                 _StartPlaylistSongs();
                                 return true;
                             }
-                            else if (_Theme.ButtonPlaylistSave.Selected)
+                            if (_Theme.ButtonPlaylistSave.Selected)
                             {
                                 CBase.Playlist.SavePlaylist(ActivePlaylistID);
                                 return true;
                             }
-                            else if (_Theme.ButtonPlaylistDelete.Selected)
+                            if (_Theme.ButtonPlaylistDelete.Selected)
                             {
                                 CBase.Playlist.DeletePlaylist(ActivePlaylistID);
                                 ClosePlaylist();
                                 return true;
                             }
-                            else if (_Theme.ButtonPlaylistName.Selected)
+                            if (_Theme.ButtonPlaylistName.Selected)
                             {
                                 EditMode = EEditMode.PlaylistName;
                                 _Theme.ButtonPlaylistName.EditMode = true;
@@ -1159,8 +1159,7 @@ namespace VocaluxeLib.Menu
                 Update();
                 return true;
             }
-            else
-                return false;
+            return false;
         }
 
         public void UpdatePlaylist()
