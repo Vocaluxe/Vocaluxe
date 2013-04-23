@@ -794,8 +794,7 @@ namespace Vocaluxe.Base
 
             if (CTheme.Cursor.Color != "")
             {
-                SColorF color;
-                color = CTheme.GetColor(CTheme.Cursor.Color, -1);
+                SColorF color = CTheme.GetColor(CTheme.Cursor.Color, -1);
                 CTheme.Cursor.R = color.R;
                 CTheme.Cursor.G = color.G;
                 CTheme.Cursor.B = color.B;

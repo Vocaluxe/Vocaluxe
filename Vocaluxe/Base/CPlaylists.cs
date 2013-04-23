@@ -36,7 +36,7 @@ namespace Vocaluxe.Base
             get { return _Playlists.ToArray(); }
         }
 
-        public static string[] PlaylistNames
+        public static IEnumerable<string> PlaylistNames
         {
             get
             {
@@ -227,7 +227,7 @@ namespace Vocaluxe.Base
 
         private static int _CompareByPlaylistName(CPlaylistFile a, CPlaylistFile b)
         {
-            return String.Compare(a.PlaylistName, b.PlaylistName);
+            return System.String.CompareOrdinal(a.PlaylistName, b.PlaylistName);
         }
 
         private static CPlaylistFile _ConvertUSDXPlaylist(string file)
@@ -237,9 +237,9 @@ namespace Vocaluxe.Base
 
             if (!File.Exists(file))
                 return null;
-            StreamReader sr;
             try
             {
+                StreamReader sr;
                 using (sr = new StreamReader(file, Encoding.Default, true))
                 {
                     string line;

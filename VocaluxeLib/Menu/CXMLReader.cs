@@ -141,7 +141,7 @@ namespace VocaluxeLib.Menu
             return values;
         }
 
-        public List<string> GetAttributes(string cast, string attribute)
+        public IEnumerable<string> GetAttributes(string cast, string attribute)
         {
             List<string> values = new List<string>();
 
@@ -180,11 +180,10 @@ namespace VocaluxeLib.Menu
 
         public bool ItemExists(string cast)
         {
-            XPathNodeIterator iterator;
             int results = 0;
 
             _Navigator.MoveToFirstChild();
-            iterator = _Navigator.Select(cast);
+            XPathNodeIterator iterator = _Navigator.Select(cast);
 
             while (iterator.MoveNext())
                 results++;

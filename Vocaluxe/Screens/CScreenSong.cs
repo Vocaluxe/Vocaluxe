@@ -819,8 +819,7 @@ namespace Vocaluxe.Screens
         {
             if (CSongs.Category >= 0 && songNr >= 0 && CSongs.NumVisibleSongs > songNr)
             {
-                EGameMode gm;
-                gm = CSongs.VisibleSongs[songNr].IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL;
+                EGameMode gm = CSongs.VisibleSongs[songNr].IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL;
 
                 CGame.Reset();
                 CGame.ClearSongs();

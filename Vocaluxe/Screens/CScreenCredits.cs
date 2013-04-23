@@ -152,13 +152,10 @@ namespace Vocaluxe.Screens
             _ParagraphTexts = new List<CText>();
             _Paragraphs = new List<string[]>();
 
-            string paragraph;
-            string[] words;
-
-            paragraph = "Inspired by the achievements of UltraStar Deluxe and its variants and pursuing the goal of making " +
-                        "a good thing even better, we ended up rewriting the game from scratch. And a new implementation in a new " +
-                        "programming language called for a new name - and VOCALUXE [ˈvoʊˈkəˈlʌks] it is!";
-            words = paragraph.Split(new char[] {' '});
+            string paragraph = "Inspired by the achievements of UltraStar Deluxe and its variants and pursuing the goal of making " +
+                               "a good thing even better, we ended up rewriting the game from scratch. And a new implementation in a new " +
+                               "programming language called for a new name - and VOCALUXE [ˈvoʊˈkəˈlʌks] it is!";
+            string[] words = paragraph.Split(new char[] {' '});
             _Paragraphs.Add(words);
 
             paragraph = "This first public version has already implemented many of the original features and it is fully " +

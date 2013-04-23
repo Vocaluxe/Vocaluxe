@@ -63,7 +63,7 @@ namespace Vocaluxe.Base
             return _Languages[lang].Name;
         }
 
-        public static string[] GetLanguageNames()
+        public static IEnumerable<string> GetLanguageNames()
         {
             string[] languages = new string[_Languages.Count];
 
@@ -179,7 +179,7 @@ namespace Vocaluxe.Base
         private static bool _LoadLanguageEntries(CXMLReader xmlReader, out Dictionary<string, string> texts)
         {
             texts = new Dictionary<string, string>();
-            List<string> names = xmlReader.GetAttributes("resources", "name");
+            IEnumerable<string> names = xmlReader.GetAttributes("resources", "name");
             foreach (string name in names)
             {
                 string value;

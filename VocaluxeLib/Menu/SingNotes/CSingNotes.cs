@@ -74,7 +74,7 @@ namespace VocaluxeLib.Menu.SingNotes
         /// </remarks>
         public SRectF[,] BarPos { get; set; }
 
-        public CSingNotes(int partyModeID)
+        protected CSingNotes(int partyModeID)
         {
             _PartyModeID = partyModeID;
             _Theme = new SThemeSingBar();

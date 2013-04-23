@@ -237,7 +237,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             return false;
         }
 
-        public bool IsAvailableAll(List<int> playerIndices)
+        public bool IsAvailableAll(IEnumerable<int> playerIndices)
         {
             bool result = true;
             foreach (int p in playerIndices)
@@ -245,7 +245,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             return result;
         }
 
-        public bool IsAvailableSomeone(List<int> playerIndices)
+        public bool IsAvailableSomeone(IEnumerable<int> playerIndices)
         {
             bool result = false;
             foreach (int p in playerIndices)

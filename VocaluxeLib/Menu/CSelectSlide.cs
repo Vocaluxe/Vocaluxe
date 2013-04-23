@@ -556,7 +556,7 @@ namespace VocaluxeLib.Menu
             _ValueBounds.Clear();
         }
 
-        public void AddValues(string[] values)
+        public void AddValues(IEnumerable<string> values)
         {
             foreach (string value in values)
                 _AddValue(value, new STexture(-1), _PartyModeID);

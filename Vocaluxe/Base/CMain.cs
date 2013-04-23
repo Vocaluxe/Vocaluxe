@@ -27,11 +27,11 @@ namespace Vocaluxe.Base
 {
     static class CMain
     {
-        public static IConfig Config = new CBconfig();
-        public static ISettings Settings = new CBsettings();
-        public static ITheme Theme = new CBtheme();
-        public static IBackgroundMusic BackgroundMusic = new CBbackgroundMusic();
-        public static IDrawing Draw = new CBdraw();
+        public static readonly IConfig Config = new CBconfig();
+        public static readonly ISettings Settings = new CBsettings();
+        public static readonly ITheme Theme = new CBtheme();
+        public static readonly IBackgroundMusic BackgroundMusic = new CBbackgroundMusic();
+        public static readonly IDrawing Draw = new CBdraw();
         public static IGraphics Graphics = new CBGraphics();
         public static ILog Log = new CBlog();
         public static IFonts Fonts = new CBfonts();
@@ -113,7 +113,7 @@ namespace Vocaluxe.Base
             return CConfig.CoverSize;
         }
 
-        public List<string> GetSongFolder()
+        public IEnumerable<string> GetSongFolder()
         {
             return CConfig.SongFolder;
         }

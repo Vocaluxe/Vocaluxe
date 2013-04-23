@@ -383,13 +383,12 @@ namespace Vocaluxe.Lib.Sound
 
                 // Buffer type must match this.waveFormat.FormatTag and this.waveFormat.BitsPerSample
                 byte[] bufferPortion = new byte[bufferPortionSamples];
-                int bufferPortionIndex;
 
                 _CaptureBuffer.Start(true);
 
                 while (_Running)
                 {
-                    bufferPortionIndex = WaitHandle.WaitAny(_WaitHandles);
+                    int bufferPortionIndex = WaitHandle.WaitAny(_WaitHandles);
 
                     _CaptureBuffer.Read(
                         bufferPortion,

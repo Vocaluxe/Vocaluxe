@@ -86,7 +86,7 @@ namespace VocaluxeLib.Menu
 
         int GetCoverSize();
 
-        List<string> GetSongFolder();
+        IEnumerable<string> GetSongFolder();
         ESongSorting GetSongSorting();
         EOffOn GetTabs();
         EOffOn GetIgnoreArticles();

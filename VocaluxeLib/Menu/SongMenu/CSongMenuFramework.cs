@@ -234,7 +234,7 @@ namespace VocaluxeLib.Menu.SongMenu
             _Visible = visible;
         }
 
-        public CSongMenuFramework(int partyModeID)
+        protected CSongMenuFramework(int partyModeID)
         {
             _PartyModeID = partyModeID;
             _Theme = new SThemeSongMenu

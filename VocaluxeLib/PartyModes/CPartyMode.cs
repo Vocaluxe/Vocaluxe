@@ -28,7 +28,7 @@ namespace VocaluxeLib.PartyModes
         protected SScreenSongOptions _ScreenSongOptions;
         protected readonly Dictionary<string, CMenuParty> _Screens;
 
-        public CPartyMode()
+        protected CPartyMode()
         {
             _Screens = new Dictionary<string, CMenuParty>();
             _ScreenSongOptions = new SScreenSongOptions {Selection = new SSelectionOptions(), Sorting = new SSortingOptions()};

@@ -1415,10 +1415,10 @@ namespace Vocaluxe.Base
         {
             const int chunkSize = 2 * 1024;
             byte[] buffer = new byte[chunkSize];
-            long bytesRead;
             long fieldOffset = 0;
             using (MemoryStream stream = new MemoryStream())
             {
+                long bytesRead;
                 while ((bytesRead = reader.GetBytes(0, fieldOffset, buffer, 0, buffer.Length)) > 0)
                 {
                     byte[] actualRead = new byte[bytesRead];

@@ -26,7 +26,7 @@ namespace VocaluxeLib.Menu
     {
         protected IPartyMode _PartyMode;
 
-        public CMenuParty()
+        protected CMenuParty()
         {
             _PartyMode = new CPartyModeNone();
         }

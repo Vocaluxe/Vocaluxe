@@ -707,7 +707,6 @@ namespace VocaluxeLib.Menu.SingNotes
         public void UpdateTimings()
         {
             CNote lastNote;
-            int min, max, s;
 
             if (_Lines.Count > 0)
                 _Lines[0].StartBeat = -10000;
@@ -719,9 +718,10 @@ namespace VocaluxeLib.Menu.SingNotes
 
                 if ((lastNote != null) && (firstNote != null))
                 {
-                    min = lastNote.EndBeat;
-                    max = firstNote.StartBeat;
+                    int min = lastNote.EndBeat;
+                    int max = firstNote.StartBeat;
 
+                    int s;
                     switch (max - min)
                     {
                         case 0:
