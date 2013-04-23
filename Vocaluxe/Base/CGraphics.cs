@@ -122,7 +122,7 @@ namespace Vocaluxe.Base
             if (Math.Abs(_Cursor.Rect.X - x) > CSettings.MouseMoveDiffMin ||
                 Math.Abs(_Cursor.Rect.Y - y) > CSettings.MouseMoveDiffMin)
             {
-                if (_CursorTargetAlpha == 0f)
+                if (_CursorTargetAlpha < 0.01)
                     _Fade(1f, 0.2f);
 
                 _Movetimer.Reset();

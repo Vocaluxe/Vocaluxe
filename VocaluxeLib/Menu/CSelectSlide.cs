@@ -503,11 +503,11 @@ namespace VocaluxeLib.Menu
                 writer.WriteElementString("TextH", TextH.ToString("#0.00"));
 
                 writer.WriteComment("<TextRelativeX>: Text relative x-position");
-                if (TextRelativeX != 0)
+                if (Math.Abs(TextRelativeX) > 0.01)
                     writer.WriteElementString("TextRelativeX", TextRelativeX.ToString("#0.00"));
 
                 writer.WriteComment("<TextRelativeY>: Text relative y-position");
-                if (TextRelativeY != 0)
+                if (Math.Abs(TextRelativeY) > 0.01)
                     writer.WriteElementString("TextRelativeY", TextRelativeY.ToString("#0.00"));
 
                 writer.WriteComment("<TextMaxW>: Maximum text width (if exists)");

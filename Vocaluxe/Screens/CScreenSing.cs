@@ -317,7 +317,7 @@ namespace Vocaluxe.Screens
             {
                 _CurrentTime = CSound.GetPosition(_CurrentStream);
 
-                if (_FinishTime != 0 && _CurrentTime >= _FinishTime)
+                if (_FinishTime >0.001 && _CurrentTime >= _FinishTime)
                     finish = true;
             }
             else
@@ -1237,7 +1237,7 @@ namespace Vocaluxe.Screens
                 return;
 
             float totalTime = CSound.GetLength(_CurrentStream);
-            if (song.Finish != 0)
+            if (Math.Abs(song.Finish) > 0.001)
                 totalTime = song.Finish;
 
             float remainingTime = totalTime - _CurrentTime;
@@ -1316,7 +1316,7 @@ namespace Vocaluxe.Screens
                         return;
 
                     float totalTime = CSound.GetLength(_CurrentStream);
-                    if (song.Finish != 0)
+                    if (Math.Abs(song.Finish) > 0.001)
                         totalTime = song.Finish;
 
                     totalTime -= song.Start;

@@ -423,7 +423,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     _MedleyTagIcon.Visible = song.Medley.Source == EMedleySource.Tag;
 
                     float time = CBase.Sound.GetLength(_SongStream);
-                    if (song.Finish != 0)
+                    if (Math.Abs(song.Finish) > 0.001)
                         time = song.Finish;
 
                     time -= song.Start;

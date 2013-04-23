@@ -105,7 +105,7 @@ namespace VocaluxeLib.Menu
 
         public bool IsAlive
         {
-            get { return _Age < _MaxAge || _MaxAge == 0f; }
+            get { return _Age < _MaxAge || Math.Abs(_MaxAge) < float.Epsilon; }
         }
         #endregion public vars
 
@@ -218,7 +218,7 @@ namespace VocaluxeLib.Menu
                     if (Math.Round(Y) < maxy)
                     {
                         float vdx = 0f;
-                        if (_Vx != 0)
+                        if (Math.Abs(_Vx) > float.Epsilon)
                             vdx = (float)Math.Sin(currentTime / _Vx * Math.PI);
 
                         X += _Vx * timediff * (0.5f + vdx);
@@ -242,7 +242,7 @@ namespace VocaluxeLib.Menu
 
 
             // update size
-            if (_Vsize != 0f)
+            if (Math.Abs(_Vsize) > float.Epsilon)
             {
                 float size = _Size;
                 switch (_Type)
@@ -275,7 +275,7 @@ namespace VocaluxeLib.Menu
             }
 
             // update rotation
-            if (_Vr != 0f)
+            if (Math.Abs(_Vr) > 0.01)
             {
                 float r = currentTime * _Vr / 60f;
                 _Angle = _Rotation + 360f * (r - (float)Math.Floor(r));

@@ -616,7 +616,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
                 float startposition = CBase.Songs.GetVisibleSong(_Actsong).PreviewStart;
 
-                if (startposition == 0f)
+                if (Math.Abs(startposition) < 0.001)
                     startposition = CBase.Sound.GetLength(stream) / 4f;
 
                 CBase.Sound.SetPosition(stream, startposition);

@@ -316,7 +316,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
             float beats = line.LastNoteBeat - line.FirstNoteBeat + 1;
 
-            if (beats == 0)
+            if (beats < 1)
                 return;
 
             SColorF color = new SColorF(

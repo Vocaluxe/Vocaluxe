@@ -988,7 +988,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 }
             }
 
-            if (PreviewStart == 0f)
+            if (Math.Abs(PreviewStart) < 0.001)
             {
                 if (Medley.Source == EMedleySource.Calculated)
                     PreviewStart = CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM);

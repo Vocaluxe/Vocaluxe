@@ -57,7 +57,7 @@ namespace Vocaluxe.Lib.Input
         {
             get
             {
-                if (!_Timer.IsRunning && _Duration != 0f)
+                if (!_Timer.IsRunning && Math.Abs(_Duration) > float.Epsilon)
                 {
                     _Timer.Start();
                     return true;

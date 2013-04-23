@@ -74,7 +74,7 @@ namespace VocaluxeLib.Menu
             get { return _X; }
             set
             {
-                if (_X != value)
+                if (Math.Abs(_X - value) > 0.01)
                 {
                     _X = value;
                     _PositionNeedsUpdate = true;
@@ -89,7 +89,7 @@ namespace VocaluxeLib.Menu
             get { return _Y; }
             set
             {
-                if (_Y != value)
+                if (Math.Abs(_Y - value) > 0.01)
                 {
                     _Y = value;
                     _PositionNeedsUpdate = true;
@@ -110,7 +110,7 @@ namespace VocaluxeLib.Menu
             get { return _Height; }
             set
             {
-                if (_Height != value)
+                if (Math.Abs(_Height - value) > 0.01)
                 {
                     _Height = value;
                     _PositionNeedsUpdate = true;
@@ -124,7 +124,7 @@ namespace VocaluxeLib.Menu
             get { return _MaxWidth; }
             set
             {
-                if (_MaxWidth != value)
+                if (Math.Abs(_MaxWidth - value) > 0.01)
                 {
                     _MaxWidth = value;
                     if (_MaxWidth > 0)
@@ -143,7 +143,7 @@ namespace VocaluxeLib.Menu
             get { return _Bounds; }
             set
             {
-                if (_Bounds.X != value.X || _Bounds.Y != value.Y || _Bounds.W != value.W || _Bounds.H != value.H || _Bounds.Z != value.Z)
+                if (Math.Abs(_Bounds.X - value.X) > 0.01 || Math.Abs(_Bounds.Y - value.Y) > 0.01 || Math.Abs(_Bounds.W - value.W) > 0.01 || Math.Abs(_Bounds.H - value.H) > 0.01 || Math.Abs(_Bounds.Z - value.Z) > 0.01)
                 {
                     _Bounds = value;
                     _PositionNeedsUpdate = true;

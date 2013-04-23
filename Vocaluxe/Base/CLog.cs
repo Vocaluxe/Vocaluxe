@@ -156,7 +156,7 @@ namespace Vocaluxe.Base
                     space += "  ";
 
                 float ms;
-                if (Stopwatch.IsHighResolution && _NanosecPerTick != 0.0)
+                if (Stopwatch.IsHighResolution && _NanosecPerTick > 0)
                     ms = (float)((_NanosecPerTick * _BenchmarkTimer[benchmarkNr].ElapsedTicks) / (1000.0 * 1000.0));
                 else
                     ms = _BenchmarkTimer[benchmarkNr].ElapsedMilliseconds;
