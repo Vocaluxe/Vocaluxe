@@ -115,6 +115,7 @@ namespace Vocaluxe.Screens
         private STexture _TexNameBrunzel;
         private STexture _TexNameDarkice;
         private STexture _TexNameFlokuep;
+        private STexture _TexNameFlamefire;
         private STexture _TexNameMesand;
         private STexture _TexNameBohning;
         private STexture _TexNameBabene03;
@@ -177,6 +178,7 @@ namespace Vocaluxe.Screens
             CDataBase.GetCreditsRessource("brunzel.png", ref _TexNameBrunzel);
             CDataBase.GetCreditsRessource("Darkice.png", ref _TexNameDarkice);
             CDataBase.GetCreditsRessource("flokuep.png", ref _TexNameFlokuep);
+            CDataBase.GetCreditsRessource("flamefire.png", ref _TexNameFlamefire);
             CDataBase.GetCreditsRessource("bohning.png", ref _TexNameBohning);
             CDataBase.GetCreditsRessource("mesand.png", ref _TexNameMesand);
             CDataBase.GetCreditsRessource("babene03.png", ref _TexNameBabene03);
@@ -314,6 +316,7 @@ namespace Vocaluxe.Screens
             _AddNewCreditName(_TexNameBrunzel, 502, 29, true);
             _AddNewCreditName(_TexNameDarkice, 360, 55, true);
             _AddNewCreditName(_TexNameFlokuep, 214, 14, true);
+            _AddNewCreditName(_TexNameFlamefire, 496, 46, true);
             _AddNewCreditName(_TexNameBohning, 383, 54, false);
             _AddNewCreditName(_TexNameMesand, 525, 13, false);
             _AddNewCreditName(_TexNameBabene03, 33, 26, false);
