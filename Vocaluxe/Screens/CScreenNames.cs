@@ -467,7 +467,7 @@ namespace Vocaluxe.Screens
                 _OldMouseX = mouseEvent.X;
                 _OldMouseY = mouseEvent.Y;
             }
-                // LeftButton isn't hold anymore, but Selec-Mode is still active -> "ReplacedStr:::0:::" of Avatar
+                // LeftButton isn't hold anymore, but Selec-Mode is still active -> "Drop" of Avatar
             else if (_SelectingMouseActive)
             {
                 //Check if really a player was selected
@@ -476,7 +476,7 @@ namespace Vocaluxe.Screens
                     //Foreach Drop-Area
                     for (int i = 0; i < _StaticPlayer.Length; i++)
                     {
-                        //Check first, if area is "ReplacedStr:::1:::"
+                        //Check first, if area is "Active"
                         if (_Statics[_StaticPlayer[i]].Visible)
                         {
                             //Check if Mouse is in area

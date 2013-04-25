@@ -608,10 +608,10 @@ namespace Vocaluxe.Base
         public static int GetMaxNumMics()
         {
             int max = 0;
-            for (int i = 0; i < CSettings.MaxNumPlayer; i++)
+            for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
             {
-                if (IsMicConfig(i + 1))
-                    max = i + 1;
+                if (IsMicConfig(i))
+                    max = i;
                 else
                     break;
             }
@@ -632,7 +632,7 @@ namespace Vocaluxe.Base
             for (int dev = 0; dev < devices.Length; dev++)
             {
                 //Has Device some signal-names in name -> This could be a (usb-)mic
-                if (Regex.IsMatch(devices[dev].Name, @"ReplacedStr:::0:::", RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(devices[dev].Name, "Usb|Wireless", RegexOptions.IgnoreCase))
                 {
                     //Check if there are inputs.
                     if (devices[dev].Inputs.Count >= 1)
@@ -656,11 +656,11 @@ namespace Vocaluxe.Base
                     }
                 }
             }
-            //If no usb-mics found -> Look for Devices with "ReplacedStr:::1:::" or "ReplacedStr:::2:::"
+            //If no usb-mics found -> Look for Devices with "mic" or "mik" 
             for (int dev = 0; dev < devices.Length; dev++)
             {
                 //Has Device some signal-names in name -> This could be a mic
-                if (Regex.IsMatch(devices[dev].Name, @"ReplacedStr:::3:::", RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(devices[dev].Name, "Mic|Mik", RegexOptions.IgnoreCase))
                 {
                     //Check if there are inputs.
                     if (devices[dev].Inputs.Count >= 1)
@@ -698,7 +698,7 @@ namespace Vocaluxe.Base
         /// <param name="args">Parameters</param>
         public static void LoadCommandLineParams(string[] args)
         {
-            Regex spliterParam = new Regex(@"ReplacedStr:::0:::", RegexOptions.IgnoreCase);
+            Regex spliterParam = new Regex(@"-{1,2}|\/", RegexOptions.IgnoreCase);
 
             //Complete argument string
             string arguments = args.Aggregate(string.Empty, (current, arg) => current + (arg + " "));
@@ -707,7 +707,7 @@ namespace Vocaluxe.Base
 
             foreach (string text in args)
             {
-                Regex spliterVal = new Regex(@"ReplacedStr:::2:::", RegexOptions.IgnoreCase);
+                Regex spliterVal = new Regex(@"\s", RegexOptions.IgnoreCase);
 
                 //split arg with Spilter-Regex and save in parts
                 string[] parts = spliterVal.Split(text, 2);
@@ -716,7 +716,7 @@ namespace Vocaluxe.Base
                 {
                         //Only found a parameter
                     case 1:
-                        if (!Regex.IsMatch(parts[0], @"ReplacedStr:::3:::") && parts[0] != "")
+                        if (parts[0] != "")
                         {
                             //Add parameter
                             _Params.Add(parts[0]);
@@ -729,7 +729,7 @@ namespace Vocaluxe.Base
 
                         //Found parameter and value
                     case 2:
-                        if (!Regex.IsMatch(parts[0], @"ReplacedStr:::5:::") && parts[0] != "")
+                        if (parts[0] != "")
                         {
                             //Add parameter
                             _Params.Add(parts[0]);
