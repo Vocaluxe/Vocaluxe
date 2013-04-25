@@ -833,21 +833,17 @@ namespace Vocaluxe.Base
         /// </summary>
         public static void UsePlayers()
         {
-            for (int i = 0; i < CProfiles.Profiles.Length; i++)
+            for (int j = 0; j < CSettings.MaxNumPlayer; j++)
             {
-                for (int j = 0; j < CSettings.MaxNumPlayer; j++)
-                {
-                    if (Players[j] != "")
+                CGame.Players[j].ProfileID = -1;
+                if (Players[j] == "")
+                    continue;
+                for (int i = 0; i < CProfiles.Profiles.Length; i++)
+                    if (Path.GetFileName(CProfiles.Profiles[i].ProfileFile) == Players[j] && CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
                     {
-                        if (Path.GetFileName(CProfiles.Profiles[i].ProfileFile) == Players[j] && CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
-                        {
-                            //Update Game-infos with player
-                            CGame.Players[j].ProfileID = i;
-                        }
+                        //Update Game-infos with player
+                        CGame.Players[j].ProfileID = i;
                     }
-                    else
-                        CGame.Players[j].ProfileID = -1;
-                }
             }
         }
     }
