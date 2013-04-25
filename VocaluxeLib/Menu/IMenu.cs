@@ -209,7 +209,7 @@ namespace VocaluxeLib.Menu
     {
         int GetNumPlayer();
         void SetNumPlayer(int numPlayer);
-        SPlayer[] GetPlayer();
+        SPlayer[] GetPlayers();
         CPoints GetPoints();
         float GetMidBeatD();
         int GetCurrentBeatD();
@@ -233,6 +233,8 @@ namespace VocaluxeLib.Menu
     public interface IProfiles
     {
         SProfile[] GetProfiles();
+        EGameDifficulty GetDifficulty(int profileID);
+        string GetPlayerName(int profileID, int playerNum = 0);
     }
 
     public interface ISongs

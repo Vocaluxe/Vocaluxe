@@ -459,33 +459,22 @@ namespace VocaluxeLib.PartyModes.Challenge
             CBase.Game.AddSong(songID, gm);
             CBase.Game.SetNumPlayer(_GameData.NumPlayerAtOnce);
 
-            SPlayer[] player = CBase.Game.GetPlayer();
+            SPlayer[] player = CBase.Game.GetPlayers();
             if (player == null)
                 return;
 
             if (player.Length < _GameData.NumPlayerAtOnce)
                 return;
 
-            SProfile[] profiles = CBase.Profiles.GetProfiles();
             CCombination c = _GameData.Rounds.GetRound(_GameData.CurrentRoundNr - 1);
 
             for (int i = 0; i < _GameData.NumPlayerAtOnce; i++)
             {
-                //default values
-                player[i].Name = "foobar";
-                player[i].Difficulty = EGameDifficulty.TR_CONFIG_EASY;
-                player[i].ProfileID = -1;
-
                 //try to fill with the right data
                 if (c != null)
-                {
-                    if (_GameData.ProfileIDs[c.Player[i]] < profiles.Length)
-                    {
-                        player[i].Name = profiles[_GameData.ProfileIDs[c.Player[i]]].PlayerName;
-                        player[i].Difficulty = profiles[_GameData.ProfileIDs[c.Player[i]]].Difficulty;
-                        player[i].ProfileID = _GameData.ProfileIDs[c.Player[i]];
-                    }
-                }
+                    player[i].ProfileID = _GameData.ProfileIDs[c.Player[i]];
+                else
+                    player[i].ProfileID = -1;
             }
 
             CBase.Songs.AddPartySongSung(songID);
@@ -593,7 +582,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             }
             else
             {
-                SPlayer[] results = CBase.Game.GetPlayer();
+                SPlayer[] results = CBase.Game.GetPlayers();
                 if (results == null)
                     return;
 

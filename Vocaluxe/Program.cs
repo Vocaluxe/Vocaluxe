@@ -258,7 +258,7 @@ namespace Vocaluxe
 #endif
 
 #if ARCH_X64
-                string path="x64";
+                string path = "x64";
 #endif
                 path = Path.Combine(path, arr[0] + ".dll");
                 try

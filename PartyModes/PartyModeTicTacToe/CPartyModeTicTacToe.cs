@@ -718,7 +718,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             CBase.Game.SetNumPlayer(2);
 
-            SPlayer[] player = CBase.Game.GetPlayer();
+            SPlayer[] player = CBase.Game.GetPlayers();
             if (player == null)
                 return;
 
@@ -732,8 +732,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             for (int i = 0; i < 2; i++)
             {
                 //default values
-                player[i].Name = "foobar";
-                player[i].Difficulty = EGameDifficulty.TR_CONFIG_EASY;
                 player[i].ProfileID = -1;
             }
 
@@ -742,16 +740,12 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             {
                 if (_GameData.ProfileIDsTeam1[r.SingerTeam1] < profiles.Length)
                 {
-                    player[0].Name = profiles[_GameData.ProfileIDsTeam1[r.SingerTeam1]].PlayerName;
-                    player[0].Difficulty = profiles[_GameData.ProfileIDsTeam1[r.SingerTeam1]].Difficulty;
                     player[0].ProfileID = _GameData.ProfileIDsTeam1[r.SingerTeam1];
                     if (isDuet)
                         player[0].LineNr = 0;
                 }
                 if (_GameData.ProfileIDsTeam2[r.SingerTeam2] < profiles.Length)
                 {
-                    player[1].Name = profiles[_GameData.ProfileIDsTeam2[r.SingerTeam2]].PlayerName;
-                    player[1].Difficulty = profiles[_GameData.ProfileIDsTeam2[r.SingerTeam2]].Difficulty;
                     player[1].ProfileID = _GameData.ProfileIDsTeam2[r.SingerTeam2];
                     if (isDuet)
                         player[1].LineNr = 1;
@@ -792,7 +786,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             if (!_GameData.Rounds[_GameData.SingRoundNr].Finished)
                 _GameData.CurrentRoundNr++;
 
-            SPlayer[] results = CBase.Game.GetPlayer();
+            SPlayer[] results = CBase.Game.GetPlayers();
             if (results == null)
                 return;
 

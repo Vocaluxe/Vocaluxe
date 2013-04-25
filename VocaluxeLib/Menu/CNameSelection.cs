@@ -484,12 +484,15 @@ namespace VocaluxeLib.Menu
             for (int i = 0; i < CBase.Profiles.GetProfiles().Length; i++)
             {
                 bool visible = CBase.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON;
-                //Show profile only if active
-                for (int p = 0; p < CBase.Game.GetNumPlayer(); p++)
+                if (visible)
                 {
-                    //Don't show profile if is selected, but if selected and guest
-                    if (CBase.Game.GetPlayer()[p].ProfileID == i && CBase.Profiles.GetProfiles()[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
-                        visible = false;
+                    //Show profile only if active
+                    for (int p = 0; p < CBase.Game.GetNumPlayer(); p++)
+                    {
+                        //Don't show profile if is selected, but if selected and guest
+                        if (CBase.Game.GetPlayers()[p].ProfileID == i)
+                            visible = false;
+                    }
                 }
                 if (visible)
                     _VisibleProfiles.Add(i);

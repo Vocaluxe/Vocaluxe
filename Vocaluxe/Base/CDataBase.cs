@@ -70,21 +70,9 @@ namespace Vocaluxe.Base
         }
 
         #region Highscores
-        public static int AddScore(string playerName, int score, int lineNr, long date, int medley, int duet, int shortSong, int diff,
+        public static int AddScore(string playerName, int score, int lineNr, long date, int medley, int duet, int shortSong, int difficulty,
                                    string artist, string title, int numPlayed, string filePath)
         {
-            SPlayer player = new SPlayer
-                {
-                    Name = playerName,
-                    Points = score,
-                    LineNr = lineNr,
-                    DateTicks = date,
-                    Medley = medley == 1,
-                    Duet = duet == 1,
-                    ShortSong = shortSong == 1,
-                    Difficulty = (EGameDifficulty)diff
-                };
-
             using (SQLiteConnection connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + filePath;
@@ -101,7 +89,7 @@ namespace Vocaluxe.Base
                 using (SQLiteCommand command = new SQLiteCommand(connection))
                 {
                     int dataBaseSongID = _GetDataBaseSongID(artist, title, numPlayed, command);
-                    int result = _AddScore(player, command, dataBaseSongID);
+                    int result = _AddScore(playerName, score, lineNr, date, medley, duet, shortSong, difficulty, dataBaseSongID, command);
                     return result;
                 }
             }
@@ -125,42 +113,30 @@ namespace Vocaluxe.Base
                 using (SQLiteCommand command = new SQLiteCommand(connection))
                 {
                     int dataBaseSongID = _GetDataBaseSongID(player, command);
-                    int result = _AddScore(player, command, dataBaseSongID);
-
-                    return result;
+                    return _AddScore(CProfiles.GetPlayerName(player.ProfileID), (int)Math.Round(player.Points), player.LineNr, player.DateTicks, player.Medley ? 1 : 0,
+                                     player.Duet ? 1 : 0, player.ShortSong ? 1 : 0, (int)CProfiles.GetDifficulty(player.ProfileID), dataBaseSongID, command);
                 }
             }
         }
 
-        private static int _AddScore(SPlayer player, SQLiteCommand command, int dataBaseSongID)
+        private static int _AddScore(string playerName, int score, int lineNr, long date, int medley, int duet, int shortSong, int difficulty,
+                                     int dataBaseSongID, SQLiteCommand command)
         {
             int lastInsertID = -1;
 
             if (dataBaseSongID >= 0)
             {
-                int medley = 0;
-                if (player.Medley)
-                    medley = 1;
-
-                int duet = 0;
-                if (player.Duet)
-                    duet = 1;
-
-                int shortSong = 0;
-                if (player.ShortSong)
-                    shortSong = 1;
-
                 command.CommandText = "SELECT id FROM Scores WHERE SongID = @SongID AND PlayerName = @PlayerName AND Score = @Score AND " +
                                       "LineNr = @LineNr AND Date = @Date AND Medley = @Medley AND Duet = @Duet AND ShortSong = @ShortSong AND Difficulty = @Difficulty";
                 command.Parameters.Add("@SongID", DbType.Int32, 0).Value = dataBaseSongID;
-                command.Parameters.Add("@PlayerName", DbType.String, 0).Value = player.Name;
-                command.Parameters.Add("@Score", DbType.Int32, 0).Value = (int)Math.Round(player.Points);
-                command.Parameters.Add("@LineNr", DbType.Int32, 0).Value = player.LineNr;
-                command.Parameters.Add("@Date", DbType.Int64, 0).Value = player.DateTicks;
+                command.Parameters.Add("@PlayerName", DbType.String, 0).Value = playerName;
+                command.Parameters.Add("@Score", DbType.Int32, 0).Value = score;
+                command.Parameters.Add("@LineNr", DbType.Int32, 0).Value = lineNr;
+                command.Parameters.Add("@Date", DbType.Int64, 0).Value = date;
                 command.Parameters.Add("@Medley", DbType.Int32, 0).Value = medley;
                 command.Parameters.Add("@Duet", DbType.Int32, 0).Value = duet;
                 command.Parameters.Add("@ShortSong", DbType.Int32, 0).Value = shortSong;
-                command.Parameters.Add("@Difficulty", DbType.Int32, 0).Value = (int)player.Difficulty;
+                command.Parameters.Add("@Difficulty", DbType.Int32, 0).Value = difficulty;
 
                 SQLiteDataReader reader = null;
                 try
@@ -181,14 +157,14 @@ namespace Vocaluxe.Base
                 command.CommandText = "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, ShortSong, Difficulty) " +
                                       "VALUES (@SongID, @PlayerName, @Score, @LineNr, @Date, @Medley, @Duet, @ShortSong, @Difficulty)";
                 command.Parameters.Add("@SongID", DbType.Int32, 0).Value = dataBaseSongID;
-                command.Parameters.Add("@PlayerName", DbType.String, 0).Value = player.Name;
-                command.Parameters.Add("@Score", DbType.Int32, 0).Value = (int)Math.Round(player.Points);
-                command.Parameters.Add("@LineNr", DbType.Int32, 0).Value = player.LineNr;
-                command.Parameters.Add("@Date", DbType.Int64, 0).Value = player.DateTicks;
+                command.Parameters.Add("@PlayerName", DbType.String, 0).Value = playerName;
+                command.Parameters.Add("@Score", DbType.Int32, 0).Value = score;
+                command.Parameters.Add("@LineNr", DbType.Int32, 0).Value = lineNr;
+                command.Parameters.Add("@Date", DbType.Int64, 0).Value = date;
                 command.Parameters.Add("@Medley", DbType.Int32, 0).Value = medley;
                 command.Parameters.Add("@Duet", DbType.Int32, 0).Value = duet;
                 command.Parameters.Add("@ShortSong", DbType.Int32, 0).Value = shortSong;
-                command.Parameters.Add("@Difficulty", DbType.Int32, 0).Value = (int)player.Difficulty;
+                command.Parameters.Add("@Difficulty", DbType.Int32, 0).Value = difficulty;
                 command.ExecuteNonQuery();
 
                 //Read last insert line

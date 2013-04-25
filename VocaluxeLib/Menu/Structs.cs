@@ -242,8 +242,6 @@ namespace VocaluxeLib.Menu
     public struct SPlayer
     {
         public int ProfileID;
-        public string Name;
-        public EGameDifficulty Difficulty;
         public double Points;
         public double PointsLineBonus;
         public double PointsGoldenNotes;

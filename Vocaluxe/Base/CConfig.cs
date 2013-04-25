@@ -842,13 +842,11 @@ namespace Vocaluxe.Base
                         if (Path.GetFileName(CProfiles.Profiles[i].ProfileFile) == Players[j] && CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
                         {
                             //Update Game-infos with player
-                            CGame.Player[j].Name = CProfiles.Profiles[i].PlayerName;
-                            CGame.Player[j].Difficulty = CProfiles.Profiles[i].Difficulty;
-                            CGame.Player[j].ProfileID = i;
+                            CGame.Players[j].ProfileID = i;
                         }
                     }
                     else
-                        CGame.Player[j].ProfileID = -1;
+                        CGame.Players[j].ProfileID = -1;
                 }
             }
         }

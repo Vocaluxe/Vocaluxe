@@ -347,18 +347,18 @@ namespace Vocaluxe.Screens
 
                 for (int p = 0; p < CGame.NumPlayer; p++)
                 {
-                    _SingNotes[_SingBars].SetAlpha(_NoteLines[p], alpha[CGame.Player[p].LineNr * 2]);
+                    _SingNotes[_SingBars].SetAlpha(_NoteLines[p], alpha[CGame.Players[p].LineNr * 2]);
                     if (CConfig.FadePlayerInfo == EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_INFO || CConfig.FadePlayerInfo == EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_ALL)
                     {
-                        _Statics[_StaticAvatars[p, CGame.NumPlayer - 1]].Alpha = alpha[CGame.Player[p].LineNr * 2];
-                        _Texts[_TextNames[p, CGame.NumPlayer - 1]].Alpha = alpha[CGame.Player[p].LineNr * 2];
+                        _Statics[_StaticAvatars[p, CGame.NumPlayer - 1]].Alpha = alpha[CGame.Players[p].LineNr * 2];
+                        _Texts[_TextNames[p, CGame.NumPlayer - 1]].Alpha = alpha[CGame.Players[p].LineNr * 2];
                     }
                     if (CConfig.FadePlayerInfo == EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_ALL)
                     {
-                        _Statics[_StaticScores[p, CGame.NumPlayer - 1]].Alpha = alpha[CGame.Player[p].LineNr * 2];
-                        _Statics[_StaticAvatars[p, CGame.NumPlayer - 1]].Alpha = alpha[CGame.Player[p].LineNr * 2];
-                        _Texts[_TextNames[p, CGame.NumPlayer - 1]].Alpha = alpha[CGame.Player[p].LineNr * 2];
-                        _Texts[_TextScores[p, CGame.NumPlayer - 1]].Alpha = alpha[CGame.Player[p].LineNr * 2];
+                        _Statics[_StaticScores[p, CGame.NumPlayer - 1]].Alpha = alpha[CGame.Players[p].LineNr * 2];
+                        _Statics[_StaticAvatars[p, CGame.NumPlayer - 1]].Alpha = alpha[CGame.Players[p].LineNr * 2];
+                        _Texts[_TextNames[p, CGame.NumPlayer - 1]].Alpha = alpha[CGame.Players[p].LineNr * 2];
+                        _Texts[_TextScores[p, CGame.NumPlayer - 1]].Alpha = alpha[CGame.Players[p].LineNr * 2];
                     }
                 }
 
@@ -381,10 +381,10 @@ namespace Vocaluxe.Screens
 
             for (int p = 0; p < CGame.NumPlayer; p++)
             {
-                if (CGame.Player[p].Points < 10000)
-                    _Texts[_TextScores[p, CGame.NumPlayer - 1]].Text = CGame.Player[p].Points.ToString("0000");
+                if (CGame.Players[p].Points < 10000)
+                    _Texts[_TextScores[p, CGame.NumPlayer - 1]].Text = CGame.Players[p].Points.ToString("0000");
                 else
-                    _Texts[_TextScores[p, CGame.NumPlayer - 1]].Text = CGame.Player[p].Points.ToString("00000");
+                    _Texts[_TextScores[p, CGame.NumPlayer - 1]].Text = CGame.Players[p].Points.ToString("00000");
             }
 
             if (_CurrentVideo != -1 && !_FadeOut && CConfig.VideosInSongs == EOffOn.TR_CONFIG_ON)
@@ -508,7 +508,7 @@ namespace Vocaluxe.Screens
 
 
             for (int i = 0; i < CGame.NumPlayer; i++)
-                _SingNotes[_SingBars].Draw(_NoteLines[i], CGame.Player[i].SingLine, i);
+                _SingNotes[_SingBars].Draw(_NoteLines[i], CGame.Players[i].SingLine, i);
 
             _DrawLyricHelper();
 
@@ -602,7 +602,7 @@ namespace Vocaluxe.Screens
             {
                 //Save duet-assignment before resetting
                 for (int i = 0; i < duetPlayer.Length; i++)
-                    duetPlayer[i] = CGame.Player[i].LineNr;
+                    duetPlayer[i] = CGame.Players[i].LineNr;
             }
             CGame.ResetPlayer();
 
@@ -631,12 +631,12 @@ namespace Vocaluxe.Screens
                 if (CGame.GetNumSongs() > 1)
                 {
                     for (int i = 0; i < CGame.NumPlayer; i++)
-                        CGame.Player[i].LineNr = (i + 1) % 2;
+                        CGame.Players[i].LineNr = (i + 1) % 2;
                 }
                 else
                 {
                     for (int i = 0; i < CGame.NumPlayer; i++)
-                        CGame.Player[i].LineNr = duetPlayer[i];
+                        CGame.Players[i].LineNr = duetPlayer[i];
                 }
             }
             _SetDuetLyricsVisibility(song.IsDuet);
@@ -764,7 +764,7 @@ namespace Vocaluxe.Screens
                 {
                     for (int j = 0; j < CGame.NumPlayer; j++)
                     {
-                        if (CGame.Player[j].LineNr == i)
+                        if (CGame.Players[j].LineNr == i)
                             _SingNotes[_SingBars].AddLine(_NoteLines[j], line, nr);
                     }
 
@@ -1336,8 +1336,8 @@ namespace Vocaluxe.Screens
         {
             for (int i = 0; i < CGame.NumPlayer; i++)
             {
-                if (CGame.Player[i].ProfileID > -1 && CProfiles.NumProfiles > CGame.Player[i].ProfileID)
-                    _Statics[_StaticAvatars[i, CGame.NumPlayer - 1]].Texture = CProfiles.Profiles[CGame.Player[i].ProfileID].Avatar.Texture;
+                if (CProfiles.IsProfileIDValid(CGame.Players[i].ProfileID))
+                    _Statics[_StaticAvatars[i, CGame.NumPlayer - 1]].Texture = CProfiles.Profiles[CGame.Players[i].ProfileID].Avatar.Texture;
                 else
                     _Statics[_StaticAvatars[i, CGame.NumPlayer - 1]].Visible = false;
             }
@@ -1347,8 +1347,8 @@ namespace Vocaluxe.Screens
         {
             for (int i = 0; i < CGame.NumPlayer; i++)
             {
-                if (CGame.Player[i].ProfileID > -1 && CProfiles.NumProfiles > CGame.Player[i].ProfileID)
-                    _Texts[_TextNames[i, CGame.NumPlayer - 1]].Text = CProfiles.Profiles[CGame.Player[i].ProfileID].PlayerName;
+                if (CProfiles.IsProfileIDValid(CGame.Players[i].ProfileID))
+                    _Texts[_TextNames[i, CGame.NumPlayer - 1]].Text = CProfiles.Profiles[CGame.Players[i].ProfileID].PlayerName;
                 else
                     _Texts[_TextNames[i, CGame.NumPlayer - 1]].Visible = false;
             }

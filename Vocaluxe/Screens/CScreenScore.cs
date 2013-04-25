@@ -281,11 +281,7 @@ namespace Vocaluxe.Screens
                     for (int p = 0; p < player.Length; p++)
                     {
                         if (i < 1)
-                        {
                             player[p].ProfileID = points[p].ProfileID;
-                            player[p].Name = points[p].Name;
-                            player[p].Difficulty = points[p].Difficulty;
-                        }
                         player[p].Points += points[p].Points;
                     }
                 }
@@ -295,19 +291,15 @@ namespace Vocaluxe.Screens
 
             for (int p = 0; p < player.Length; p++)
             {
-                if (song != null)
+                string name = CProfiles.GetPlayerName(player[p].ProfileID, p);
+                if (song != null && song.IsDuet)
                 {
-                    if (!song.IsDuet)
-                        _Texts[_TextNames[p, CGame.NumPlayer - 1]].Text = player[p].Name;
-                    else if (player[p].LineNr == 0 && song.DuetPart1 != "Part 1")
-                        _Texts[_TextNames[p, CGame.NumPlayer - 1]].Text = player[p].Name + " (" + song.DuetPart1 + ")";
+                    if (player[p].LineNr == 0 && song.DuetPart1 != "Part 1")
+                        name += " (" + song.DuetPart1 + ")";
                     else if (player[p].LineNr == 1 && song.DuetPart2 != "Part 2")
-                        _Texts[_TextNames[p, CGame.NumPlayer - 1]].Text = player[p].Name + " (" + song.DuetPart2 + ")";
-                    else
-                        _Texts[_TextNames[p, CGame.NumPlayer - 1]].Text = player[p].Name;
+                        name += " (" + song.DuetPart2 + ")";
                 }
-                else
-                    _Texts[_TextNames[p, CGame.NumPlayer - 1]].Text = player[p].Name;
+                _Texts[_TextNames[p, CGame.NumPlayer - 1]].Text = name;
 
                 if (CGame.NumPlayer < (int)_ScreenSettings[_ScreenSettingShortScore].GetValue())
                     _Texts[_TextScores[p, CGame.NumPlayer - 1]].Text = ((int)Math.Round(player[p].Points)).ToString("0000") + " " + CLanguage.Translate("TR_SCREENSCORE_POINTS");
@@ -316,10 +308,10 @@ namespace Vocaluxe.Screens
                 if (CGame.NumPlayer < (int)_ScreenSettings[_ScreenSettingShortDifficulty].GetValue())
                 {
                     _Texts[_TextDifficulty[p, CGame.NumPlayer - 1]].Text = CLanguage.Translate("TR_SCREENSCORE_GAMEDIFFICULTY") + ": " +
-                                                                           CLanguage.Translate(player[p].Difficulty.ToString());
+                                                                           CLanguage.Translate(CProfiles.GetDifficulty(player[p].ProfileID).ToString());
                 }
                 else
-                    _Texts[_TextDifficulty[p, CGame.NumPlayer - 1]].Text = CLanguage.Translate(player[p].Difficulty.ToString());
+                    _Texts[_TextDifficulty[p, CGame.NumPlayer - 1]].Text = CLanguage.Translate(CProfiles.GetDifficulty(player[p].ProfileID).ToString());
                 if (CGame.NumPlayer < (int)_ScreenSettings[_ScreenSettingShortRating].GetValue())
                 {
                     _Texts[_TextRatings[p, CGame.NumPlayer - 1]].Text = CLanguage.Translate("TR_SCREENSCORE_RATING") + ": " +
@@ -339,7 +331,7 @@ namespace Vocaluxe.Screens
                                                                                 _Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.Y -
                                                                                 _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H;
                 }
-                if (player[p].ProfileID >= 0 && player[p].ProfileID < CProfiles.NumProfiles)
+                if (CProfiles.IsProfileIDValid(player[p].ProfileID))
                     _Statics[_StaticAvatar[p, CGame.NumPlayer - 1]].Texture = CProfiles.Profiles[player[p].ProfileID].Avatar.Texture;
             }
 

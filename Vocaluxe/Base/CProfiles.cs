@@ -62,12 +62,14 @@ namespace Vocaluxe.Base
             LoadProfiles();
         }
 
-        public static int NewProfile()
+        public static string GetPlayerName(int profileID, int playerNum = 0)
         {
-            return NewProfile(String.Empty);
+            if (IsProfileIDValid(profileID))
+                return _Profiles[profileID].PlayerName;
+            return (playerNum > 0) ? "Player " + playerNum : "Player";
         }
 
-        public static int NewProfile(string fileName)
+        public static int NewProfile(string fileName = "")
         {
             SProfile profile = new SProfile
                 {
@@ -132,125 +134,119 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static string AddGetPlayerName(int profileNr, char chr)
+        public static string AddGetPlayerName(int profileID, char chr)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (IsProfileIDValid(profileID))
                 return String.Empty;
 
-            SProfile profile = _Profiles[profileNr];
+            SProfile profile = _Profiles[profileID];
             profile.PlayerName += chr;
-            _Profiles[profileNr] = profile;
+            _Profiles[profileID] = profile;
 
             return profile.PlayerName;
         }
 
-        public static string GetPlayerName(int profileNr)
+        public static string GetDeleteCharInPlayerName(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (IsProfileIDValid(profileID))
                 return String.Empty;
 
-            return _Profiles[profileNr].PlayerName;
-        }
-
-        public static string GetDeleteCharInPlayerName(int profileNr)
-        {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
-                return String.Empty;
-
-            SProfile profile = _Profiles[profileNr];
+            SProfile profile = _Profiles[profileID];
             if (profile.PlayerName != "")
                 profile.PlayerName = profile.PlayerName.Remove(profile.PlayerName.Length - 1);
-            _Profiles[profileNr] = profile;
+            _Profiles[profileID] = profile;
 
             return profile.PlayerName;
         }
 
-        public static EGameDifficulty GetDifficulty(int profileNr)
+        public static bool IsProfileIDValid(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
-                return EGameDifficulty.TR_CONFIG_NORMAL;
-
-            return _Profiles[profileNr].Difficulty;
+            return profileID < 0 || profileID >= _Profiles.Count;
         }
 
-        public static void SetDifficulty(int profileNr, EGameDifficulty difficulty)
+        public static EGameDifficulty GetDifficulty(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            return IsProfileIDValid(profileID) ? EGameDifficulty.TR_CONFIG_NORMAL : _Profiles[profileID].Difficulty;
+        }
+
+        public static void SetDifficulty(int profileID, EGameDifficulty difficulty)
+        {
+            if (IsProfileIDValid(profileID))
                 return;
 
-            SProfile profile = _Profiles[profileNr];
+            SProfile profile = _Profiles[profileID];
             profile.Difficulty = difficulty;
-            _Profiles[profileNr] = profile;
+            _Profiles[profileID] = profile;
         }
 
-        public static EOffOn GetGuestProfile(int profileNr)
+        public static EOffOn GetGuestProfile(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (IsProfileIDValid(profileID))
                 return EOffOn.TR_CONFIG_OFF;
 
-            return _Profiles[profileNr].GuestProfile;
+            return _Profiles[profileID].GuestProfile;
         }
 
-        public static EOffOn GetActive(int profileNr)
+        public static EOffOn GetActive(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (IsProfileIDValid(profileID))
                 return EOffOn.TR_CONFIG_OFF;
 
-            return _Profiles[profileNr].Active;
+            return _Profiles[profileID].Active;
         }
 
-        public static void SetGuestProfile(int profileNr, EOffOn option)
+        public static void SetGuestProfile(int profileID, EOffOn option)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (IsProfileIDValid(profileID))
                 return;
 
-            SProfile profile = _Profiles[profileNr];
+            SProfile profile = _Profiles[profileID];
             profile.GuestProfile = option;
-            _Profiles[profileNr] = profile;
+            _Profiles[profileID] = profile;
         }
 
-        public static void SetActive(int profileNr, EOffOn option)
+        public static void SetActive(int profileID, EOffOn option)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (IsProfileIDValid(profileID))
                 return;
-            SProfile profile = _Profiles[profileNr];
+            SProfile profile = _Profiles[profileID];
             profile.Active = option;
-            _Profiles[profileNr] = profile;
+            _Profiles[profileID] = profile;
         }
 
-        public static bool IsGuestProfile(int profileNr)
+        public static bool IsGuestProfile(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (IsProfileIDValid(profileID))
                 return true; // this will prevent from saving dummy profiles to highscore db
 
-            return _Profiles[profileNr].GuestProfile == EOffOn.TR_CONFIG_ON;
+            return _Profiles[profileID].GuestProfile == EOffOn.TR_CONFIG_ON;
         }
 
-        public static bool IsActive(int profileNr)
+        public static bool IsActive(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (IsProfileIDValid(profileID))
                 return false;
-            return _Profiles[profileNr].Active == EOffOn.TR_CONFIG_ON;
+            return _Profiles[profileID].Active == EOffOn.TR_CONFIG_ON;
         }
 
-        public static void SetAvatar(int profileNr, int avatarNr)
+        public static void SetAvatar(int profileID, int avatarNr)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count || avatarNr < 0 || avatarNr >= _Avatars.Count)
+            if (IsProfileIDValid(profileID) || avatarNr < 0 || avatarNr >= _Avatars.Count)
                 return;
 
-            SProfile profile = _Profiles[profileNr];
+            SProfile profile = _Profiles[profileID];
             profile.Avatar = _Avatars[avatarNr];
-            _Profiles[profileNr] = profile;
+            _Profiles[profileID] = profile;
         }
 
-        public static int GetAvatarNr(int profileNr)
+        public static int GetAvatarNr(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (IsProfileIDValid(profileID))
                 return 0;
 
             for (int i = 0; i < _Avatars.Count; i++)
             {
-                if (_Profiles[profileNr].Avatar.FileName == _Avatars[i].FileName)
+                if (_Profiles[profileID].Avatar.FileName == _Avatars[i].FileName)
                     return i;
             }
 
@@ -259,19 +255,18 @@ namespace Vocaluxe.Base
 
         public static void DeleteProfile(int profileID)
         {
-            if (profileID < 0 || profileID >= _Profiles.Count)
+            if (IsProfileIDValid(profileID))
                 return;
-            if (_Profiles[profileID].ProfileFile != "")
+            if (_Profiles[profileID].ProfileFile == "")
+                return;
+            try
             {
-                try
-                {
-                    File.Delete(_Profiles[profileID].ProfileFile);
-                    _Profiles.RemoveAt(profileID);
-                }
-                catch (Exception)
-                {
-                    CLog.LogError("Can't delete Profile File " + _Profiles[profileID].ProfileFile + ".xml");
-                }
+                File.Delete(_Profiles[profileID].ProfileFile);
+                _Profiles.RemoveAt(profileID);
+            }
+            catch (Exception)
+            {
+                CLog.LogError("Can't delete Profile File " + _Profiles[profileID].ProfileFile + ".xml");
             }
         }
 
@@ -298,7 +293,7 @@ namespace Vocaluxe.Base
 
         private static void _SaveProfile(int profileID)
         {
-            if (profileID < 0 || profileID >= _Profiles.Count)
+            if (IsProfileIDValid(profileID))
                 return;
 
             if (_Profiles[profileID].ProfileFile == "")

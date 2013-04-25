@@ -301,7 +301,8 @@ namespace VocaluxeLib.Menu.SingNotes
 
             float w = _PlayerNotes[n].Rect.W;
             float h = _PlayerNotes[n].Rect.H;
-            float dh = h / CBase.Settings.GetNumNoteLines() * (2f - (int)CBase.Game.GetPlayer()[_PlayerNotes[n].PlayerNr].Difficulty) / 4f;
+            int profileID = CBase.Game.GetPlayers()[_PlayerNotes[n].PlayerNr].ProfileID;
+            float dh = h / CBase.Settings.GetNumNoteLines() * (2f - (int)CBase.Profiles.GetDifficulty(profileID)) / 4f;
 
             float beats = line.LastNoteBeat - line.FirstNoteBeat + 1;
 
@@ -356,7 +357,7 @@ namespace VocaluxeLib.Menu.SingNotes
             foreach (CParticleEffect perfline in _PlayerNotes[n].PerfectLineTwinkle)
                 perfline.Draw();
 
-            if (singLine == null || singLine.Count == 0 || CBase.Game.GetPlayer()[player].CurrentLine == -1 || singLine.Count <= CBase.Game.GetPlayer()[player].CurrentLine)
+            if (singLine == null || singLine.Count == 0 || CBase.Game.GetPlayers()[player].CurrentLine == -1 || singLine.Count <= CBase.Game.GetPlayers()[player].CurrentLine)
             {
                 foreach (CParticleEffect stars in _PlayerNotes[n].GoldenStars)
                 {
@@ -366,7 +367,7 @@ namespace VocaluxeLib.Menu.SingNotes
                 return;
             }
 
-            foreach (CNote note in singLine[CBase.Game.GetPlayer()[player].CurrentLine].Notes)
+            foreach (CNote note in singLine[CBase.Game.GetPlayers()[player].CurrentLine].Notes)
             {
                 if (note.StartBeat >= line.FirstNoteBeat && note.EndBeat <= line.LastNoteBeat)
                 {
@@ -403,13 +404,13 @@ namespace VocaluxeLib.Menu.SingNotes
                 }
             }
 
-            int currentLine = CBase.Game.GetPlayer()[player].SingLine.Count - 1;
+            int currentLine = CBase.Game.GetPlayers()[player].SingLine.Count - 1;
             if (currentLine > 0)
             {
-                if (CBase.Game.GetPlayer()[player].SingLine[currentLine - 1].PerfectLine)
+                if (CBase.Game.GetPlayers()[player].SingLine[currentLine - 1].PerfectLine)
                 {
                     _AddPerfectLine(n);
-                    CBase.Game.GetPlayer()[player].SingLine[currentLine - 1].PerfectLine = false;
+                    CBase.Game.GetPlayers()[player].SingLine[currentLine - 1].PerfectLine = false;
                 }
             }
 

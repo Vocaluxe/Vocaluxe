@@ -478,9 +478,9 @@ namespace Vocaluxe.Base
             CGame.NumPlayer = numPlayer;
         }
 
-        public SPlayer[] GetPlayer()
+        public SPlayer[] GetPlayers()
         {
-            return CGame.Player;
+            return CGame.Players;
         }
 
         public CPoints GetPoints()
@@ -539,6 +539,16 @@ namespace Vocaluxe.Base
         public SProfile[] GetProfiles()
         {
             return CProfiles.Profiles;
+        }
+
+        public EGameDifficulty GetDifficulty(int profileID)
+        {
+            return CProfiles.GetDifficulty(profileID);
+        }
+
+        public string GetPlayerName(int profileID, int playerNum = 0)
+        {
+            return CProfiles.GetPlayerName(profileID, playerNum);
         }
     }
 
