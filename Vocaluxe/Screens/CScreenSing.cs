@@ -16,7 +16,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 6; }
+            get { return 7; }
         }
 
         private struct STimeRect
@@ -31,6 +31,7 @@ namespace Vocaluxe.Screens
         private const string _TextPause = "TextPause";
         private const string _TextDuetName1 = "TextDuetName1";
         private const string _TextDuetName2 = "TextDuetName2";
+        private const string _TextMedleyCountdown = "TextMedleyCountdown";
         private string[,] _TextScores;
         private string[,] _TextNames;
 
@@ -105,6 +106,7 @@ namespace Vocaluxe.Screens
             texts.Add(_TextPause);
             texts.Add(_TextDuetName1);
             texts.Add(_TextDuetName2);
+            texts.Add(_TextMedleyCountdown);
             _BuildTextStrings(ref texts);
             _ThemeTexts = texts.ToArray();
 
@@ -435,6 +437,8 @@ namespace Vocaluxe.Screens
         {
             if (_Active)
             {
+                _UpdateMedleyCountdown();
+
                 if (_CurrentVideo != -1 && CConfig.VideosInSongs == EOffOn.TR_CONFIG_ON && !_Webcam)
                 {
                     RectangleF bounds = new RectangleF(0, 0, CSettings.RenderW, CSettings.RenderH);
@@ -498,6 +502,9 @@ namespace Vocaluxe.Screens
                 SingNotes[_SingBars].Draw(_NoteLines[i], CGame.Player[i].SingLine, i);
 
             _DrawLyricHelper();
+
+            if (CGame.GameMode == EGameMode.TR_GAMEMODE_MEDLEY)
+                Texts[_TextMedleyCountdown].Draw();
 
             if (_Pause)
             {
@@ -934,6 +941,34 @@ namespace Vocaluxe.Screens
 
             Statics[_StaticLyricsDuet].Alpha = 0f;
             Statics[_StaticLyricHelperDuet].Alpha = 0f;
+        }
+
+        private void _UpdateMedleyCountdown()
+        {
+            if (CGame.GetSong() != null)
+            {
+                CSong song = CGame.GetSong();
+                float currentTime = _CurrentTime - song.Start;
+                float timeToFirstMedleyNote = (CGame.GetTimeFromBeats(song.Medley.StartBeat, song.BPM) + song.Gap - song.Start);
+                if (currentTime < timeToFirstMedleyNote && CGame.GameMode == EGameMode.TR_GAMEMODE_MEDLEY)
+                {
+                    Texts[_TextMedleyCountdown].Visible = true;
+                    float timeDiff = timeToFirstMedleyNote - currentTime + 1;
+                    double t = timeDiff - Math.Truncate(timeDiff);
+                    float h = (float)(t * CSettings.RenderH);
+                    float w = CFonts.GetTextBounds(Texts[_TextMedleyCountdown], h).Width;
+                    float x = CSettings.RenderW / 2 - w / 2;
+                    float y = CSettings.RenderH / 2 - h / 2 ;
+                    Texts[_TextMedleyCountdown].X = x;
+                    Texts[_TextMedleyCountdown].Y = y;
+                    Texts[_TextMedleyCountdown].Height = h;
+                    Texts[_TextMedleyCountdown].Text = Math.Round((decimal)(timeDiff - t)).ToString();
+                }
+                else
+                {
+                    Texts[_TextMedleyCountdown].Visible = false;
+                }
+            }
         }
 
         private void _DrawLyricHelper()
