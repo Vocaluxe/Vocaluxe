@@ -490,7 +490,7 @@ namespace VocaluxeLib.Menu
                     for (int p = 0; p < CBase.Game.GetNumPlayer(); p++)
                     {
                         //Don't show profile if is selected, but if selected and guest
-                        if (CBase.Game.GetPlayers()[p].ProfileID == i)
+                        if (CBase.Game.GetPlayers()[p].ProfileID == i && CBase.Profiles.GetProfiles()[i].GuestProfile==EOffOn.TR_CONFIG_OFF)
                             visible = false;
                     }
                 }

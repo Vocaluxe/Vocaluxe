@@ -490,8 +490,6 @@ namespace Vocaluxe.Screens
                 _ChooseAvatarStatic.Visible = false;
             }
 
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent)) {}
-
             if (mouseEvent.LB && _IsMouseOver(mouseEvent))
             {
                 if (_Buttons[_ButtonBack].Selected)

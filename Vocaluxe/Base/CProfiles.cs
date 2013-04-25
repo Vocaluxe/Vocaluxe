@@ -136,7 +136,7 @@ namespace Vocaluxe.Base
 
         public static string AddGetPlayerName(int profileID, char chr)
         {
-            if (IsProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return String.Empty;
 
             SProfile profile = _Profiles[profileID];
@@ -148,7 +148,7 @@ namespace Vocaluxe.Base
 
         public static string GetDeleteCharInPlayerName(int profileID)
         {
-            if (IsProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return String.Empty;
 
             SProfile profile = _Profiles[profileID];
@@ -161,17 +161,17 @@ namespace Vocaluxe.Base
 
         public static bool IsProfileIDValid(int profileID)
         {
-            return profileID < 0 || profileID >= _Profiles.Count;
+            return profileID >= 0 && profileID < _Profiles.Count;
         }
 
         public static EGameDifficulty GetDifficulty(int profileID)
         {
-            return IsProfileIDValid(profileID) ? EGameDifficulty.TR_CONFIG_NORMAL : _Profiles[profileID].Difficulty;
+            return IsProfileIDValid(profileID) ? _Profiles[profileID].Difficulty : EGameDifficulty.TR_CONFIG_NORMAL;
         }
 
         public static void SetDifficulty(int profileID, EGameDifficulty difficulty)
         {
-            if (IsProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return;
 
             SProfile profile = _Profiles[profileID];
@@ -181,23 +181,17 @@ namespace Vocaluxe.Base
 
         public static EOffOn GetGuestProfile(int profileID)
         {
-            if (IsProfileIDValid(profileID))
-                return EOffOn.TR_CONFIG_OFF;
-
-            return _Profiles[profileID].GuestProfile;
+            return IsProfileIDValid(profileID) ? _Profiles[profileID].GuestProfile : EOffOn.TR_CONFIG_OFF;
         }
 
         public static EOffOn GetActive(int profileID)
         {
-            if (IsProfileIDValid(profileID))
-                return EOffOn.TR_CONFIG_OFF;
-
-            return _Profiles[profileID].Active;
+            return IsProfileIDValid(profileID) ? _Profiles[profileID].Active : EOffOn.TR_CONFIG_OFF;
         }
 
         public static void SetGuestProfile(int profileID, EOffOn option)
         {
-            if (IsProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return;
 
             SProfile profile = _Profiles[profileID];
@@ -207,7 +201,7 @@ namespace Vocaluxe.Base
 
         public static void SetActive(int profileID, EOffOn option)
         {
-            if (IsProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return;
             SProfile profile = _Profiles[profileID];
             profile.Active = option;
@@ -216,7 +210,7 @@ namespace Vocaluxe.Base
 
         public static bool IsGuestProfile(int profileID)
         {
-            if (IsProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return true; // this will prevent from saving dummy profiles to highscore db
 
             return _Profiles[profileID].GuestProfile == EOffOn.TR_CONFIG_ON;
@@ -224,14 +218,14 @@ namespace Vocaluxe.Base
 
         public static bool IsActive(int profileID)
         {
-            if (IsProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return false;
             return _Profiles[profileID].Active == EOffOn.TR_CONFIG_ON;
         }
 
         public static void SetAvatar(int profileID, int avatarNr)
         {
-            if (IsProfileIDValid(profileID) || avatarNr < 0 || avatarNr >= _Avatars.Count)
+            if (!IsProfileIDValid(profileID) || avatarNr < 0 || avatarNr >= _Avatars.Count)
                 return;
 
             SProfile profile = _Profiles[profileID];
@@ -241,7 +235,7 @@ namespace Vocaluxe.Base
 
         public static int GetAvatarNr(int profileID)
         {
-            if (IsProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return 0;
 
             for (int i = 0; i < _Avatars.Count; i++)
@@ -255,7 +249,7 @@ namespace Vocaluxe.Base
 
         public static void DeleteProfile(int profileID)
         {
-            if (IsProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return;
             if (_Profiles[profileID].ProfileFile == "")
                 return;
@@ -293,7 +287,7 @@ namespace Vocaluxe.Base
 
         private static void _SaveProfile(int profileID)
         {
-            if (IsProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return;
 
             if (_Profiles[profileID].ProfileFile == "")
