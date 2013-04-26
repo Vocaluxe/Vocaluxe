@@ -66,7 +66,10 @@ namespace Vocaluxe.Base
         {
             if (IsProfileIDValid(profileID))
                 return _Profiles[profileID].PlayerName;
-            return (playerNum > 0) ? "Player " + playerNum : "Player";
+            string playerName = CLanguage.Translate("TR_SCREENNAMES_PLAYER");
+            if (playerNum > 0)
+                playerName += " " + playerNum;
+            return playerName;
         }
 
         public static int NewProfile(string fileName = "")
@@ -253,32 +256,32 @@ namespace Vocaluxe.Base
                 return;
             if (_Profiles[profileID].ProfileFile == "")
                 return;
-			try
-			{
-				//Check if profile saved in config
-				for (int i = 0; i < CConfig.Players.Length; i++)
-				{
-					if (CConfig.Players[i] == _Profiles[profileID].ProfileFile)
-					{
-						CConfig.Players[i] = string.Empty;
-						CConfig.SaveConfig();
-					}
-				}
-				File.Delete(_Profiles[profileID].ProfileFile);
-				_Profiles.RemoveAt(profileID);
-				//Check if profile is selected in game
-				for (int i = 0; i < CGame.Players.Length; i++)
-				{
-					if (CGame.Players[i].ProfileID > profileID)
-						CGame.Players[i].ProfileID--;
-					else if (CGame.Players[i].ProfileID == profileID)
-						CGame.Players[i].ProfileID = -1;
-				}
-			}
-			catch (Exception)
-			{
-				CLog.LogError("Can't delete Profile File " + _Profiles[profileID].ProfileFile + ".xml");
-			}
+            try
+            {
+                //Check if profile saved in config
+                for (int i = 0; i < CConfig.Players.Length; i++)
+                {
+                    if (CConfig.Players[i] == _Profiles[profileID].ProfileFile)
+                    {
+                        CConfig.Players[i] = string.Empty;
+                        CConfig.SaveConfig();
+                    }
+                }
+                File.Delete(_Profiles[profileID].ProfileFile);
+                _Profiles.RemoveAt(profileID);
+                //Check if profile is selected in game
+                for (int i = 0; i < CGame.Players.Length; i++)
+                {
+                    if (CGame.Players[i].ProfileID > profileID)
+                        CGame.Players[i].ProfileID--;
+                    else if (CGame.Players[i].ProfileID == profileID)
+                        CGame.Players[i].ProfileID = -1;
+                }
+            }
+            catch (Exception)
+            {
+                CLog.LogError("Can't delete Profile File " + _Profiles[profileID].ProfileFile + ".xml");
+            }
         }
 
         private static void _SortProfilesByName()

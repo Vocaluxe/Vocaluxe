@@ -60,17 +60,13 @@ namespace Vocaluxe.Screens
         private int _SelectingKeyboardPlayerNr;
         private int _SelectedPlayerNr;
 
-        private int[] _PlayerNr;
-
         public override void Init()
         {
             base.Init();
 
             List<string> statics = new List<string>();
-            foreach (string text in _StaticPlayer)
-                statics.Add(text);
-            foreach (string text in _StaticPlayerAvatar)
-                statics.Add(text);
+            statics.AddRange(_StaticPlayerAvatar);
+            statics.AddRange(_StaticPlayer);
             statics.Add(_StaticWarningMics);
             statics.Add(_StaticWarningProfiles);
             _ThemeStatics = statics.ToArray();
@@ -82,8 +78,7 @@ namespace Vocaluxe.Screens
             texts.Clear();
             texts.Add(_TextWarningMics);
             texts.Add(_TextWarningProfiles);
-            foreach (string text in _TextPlayer)
-                texts.Add(text);
+            texts.AddRange(_TextPlayer);
             _ThemeTexts = texts.ToArray();
 
             texts.Clear();
@@ -107,10 +102,6 @@ namespace Vocaluxe.Screens
         public override void LoadTheme(string xmlPath)
         {
             base.LoadTheme(xmlPath);
-
-            _PlayerNr = new int[CSettings.MaxNumPlayer];
-            for (int i = 0; i < _PlayerNr.Length; i++)
-                _PlayerNr[i] = i;
 
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
                 _OriginalPlayerAvatarTextures[i] = _Statics[_StaticPlayerAvatar[i]].Texture;
@@ -164,6 +155,8 @@ namespace Vocaluxe.Screens
             {
                 //Handle left/right/up/down
                 _NameSelections[_NameSelection].HandleInput(keyEvent);
+                int numberPressed = -1;
+                bool resetSelection = false;
                 switch (keyEvent.Key)
                 {
                     case Keys.Enter:
@@ -189,12 +182,7 @@ namespace Vocaluxe.Screens
                         if (_SelectingKeyboardUnendless)
                         {
                             if (_SelectingKeyboardPlayerNr == CGame.NumPlayer)
-                            {
-                                //Reset all values
-                                _SelectingKeyboardPlayerNr = 0;
-                                _SelectingKeyboardActive = false;
-                                _NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                            }
+                                resetSelection = true;
                             else
                             {
                                 _SelectingKeyboardPlayerNr++;
@@ -202,117 +190,36 @@ namespace Vocaluxe.Screens
                             }
                         }
                         else
-                        {
-                            //Reset all values
-                            _SelectingKeyboardPlayerNr = 0;
-                            _SelectingKeyboardActive = false;
-                            _NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                        }
+                            resetSelection = true;
                         break;
 
                     case Keys.D1:
                     case Keys.NumPad1:
-                        if (_SelectingKeyboardPlayerNr == 1)
-                        {
-                            //Reset all values
-                            _SelectingKeyboardPlayerNr = 0;
-                            _SelectingKeyboardActive = false;
-                            _NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                        }
-                        else
-                        {
-                            _SelectingKeyboardPlayerNr = 1;
-                            _NameSelections[_NameSelection].KeyboardSelection(true, 1);
-                        }
-                        _SelectingKeyboardUnendless = false;
+                        numberPressed = 1;
                         break;
                     case Keys.D2:
                     case Keys.NumPad2:
-                        if (_SelectingKeyboardPlayerNr == 2)
-                        {
-                            //Reset all values
-                            _SelectingKeyboardPlayerNr = 0;
-                            _SelectingKeyboardActive = false;
-                            _NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                        }
-                        else
-                        {
-                            _SelectingKeyboardPlayerNr = 2;
-                            _NameSelections[_NameSelection].KeyboardSelection(true, 2);
-                        }
-                        _SelectingKeyboardUnendless = false;
+                        numberPressed = 2;
                         break;
                     case Keys.D3:
                     case Keys.NumPad3:
-                        if (_SelectingKeyboardPlayerNr == 3)
-                        {
-                            //Reset all values
-                            _SelectingKeyboardPlayerNr = 0;
-                            _SelectingKeyboardActive = false;
-                            _NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                        }
-                        else
-                        {
-                            _SelectingKeyboardPlayerNr = 3;
-                            _NameSelections[_NameSelection].KeyboardSelection(true, 3);
-                        }
-                        _SelectingKeyboardUnendless = false;
+                        numberPressed = 3;
                         break;
                     case Keys.D4:
                     case Keys.NumPad4:
-                        if (_SelectingKeyboardPlayerNr == 4)
-                        {
-                            //Reset all values
-                            _SelectingKeyboardPlayerNr = 0;
-                            _SelectingKeyboardActive = false;
-                            _NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                        }
-                        else
-                        {
-                            _SelectingKeyboardPlayerNr = 4;
-                            _NameSelections[_NameSelection].KeyboardSelection(true, 4);
-                        }
-                        _SelectingKeyboardUnendless = false;
+                        numberPressed = 4;
                         break;
                     case Keys.D5:
                     case Keys.NumPad5:
-                        if (_SelectingKeyboardPlayerNr == 5)
-                        {
-                            //Reset all values
-                            _SelectingKeyboardPlayerNr = 0;
-                            _SelectingKeyboardActive = false;
-                            _NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                        }
-                        else
-                        {
-                            _SelectingKeyboardPlayerNr = 5;
-                            _NameSelections[_NameSelection].KeyboardSelection(true, 5);
-                        }
-                        _SelectingKeyboardUnendless = false;
+                        numberPressed = 5;
                         break;
                     case Keys.D6:
                     case Keys.NumPad6:
-                        if (_SelectingKeyboardPlayerNr == 6)
-                        {
-                            //Reset all values
-                            _SelectingKeyboardPlayerNr = 0;
-                            _SelectingKeyboardActive = false;
-                            _NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                        }
-                        else
-                        {
-                            _SelectingKeyboardPlayerNr = 6;
-                            _NameSelections[_NameSelection].KeyboardSelection(true, 6);
-                        }
-                        _SelectingKeyboardUnendless = false;
+                        numberPressed = 6;
                         break;
 
                     case Keys.Escape:
-                        //Reset all values
-                        _SelectingKeyboardPlayerNr = 0;
-                        _SelectingKeyboardActive = false;
-                        _SelectingKeyboardUnendless = false;
-                        _NameSelections[_NameSelection].KeyboardSelection(false, -1);
+                        resetSelection = true;
                         break;
 
                     case Keys.Delete:
@@ -323,7 +230,7 @@ namespace Vocaluxe.Screens
                         CConfig.SaveConfig();
                         //Update texture and name
                         _Statics[_StaticPlayerAvatar[_SelectingKeyboardPlayerNr - 1]].Texture = _OriginalPlayerAvatarTextures[_SelectingKeyboardPlayerNr - 1];
-                        _Texts[_TextPlayer[_SelectingKeyboardPlayerNr - 1]].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + _SelectingKeyboardPlayerNr;
+                        _Texts[_TextPlayer[_SelectingKeyboardPlayerNr - 1]].Text = CProfiles.GetPlayerName(-1, _SelectingKeyboardPlayerNr);
                         //Update profile-warning
                         _CheckPlayers();
                         //Reset all values
@@ -337,10 +244,8 @@ namespace Vocaluxe.Screens
                     case Keys.F10:
                         if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
                         {
-                            if (_SelectSlides[_SelectSlideDuetPlayer[_SelectingKeyboardPlayerNr - 1]].Selection == 0)
-                                _SelectSlides[_SelectSlideDuetPlayer[_SelectingKeyboardPlayerNr - 1]].Selection = 1;
-                            else
-                                _SelectSlides[_SelectSlideDuetPlayer[_SelectingKeyboardPlayerNr - 1]].Selection = 0;
+                            CSelectSlide selectSlideDuetPart = _SelectSlides[_SelectSlideDuetPlayer[_SelectingKeyboardPlayerNr - 1]];
+                            selectSlideDuetPart.Selection = (selectSlideDuetPart.Selection + 1) % 2;
                             //Reset all values
                             _SelectingKeyboardPlayerNr = 0;
                             _SelectingKeyboardActive = false;
@@ -350,12 +255,27 @@ namespace Vocaluxe.Screens
                         }
                         break;
                 }
+                if (numberPressed > 0 || resetSelection)
+                {
+                    if (numberPressed == _SelectingKeyboardPlayerNr || resetSelection)
+                    {
+                        //Reset all values
+                        _SelectingKeyboardPlayerNr = 0;
+                        _SelectingKeyboardActive = false;
+                        _NameSelections[_NameSelection].KeyboardSelection(false, -1);
+                    }
+                    else if (numberPressed <= CConfig.NumPlayer)
+                    {
+                        _SelectingKeyboardPlayerNr = numberPressed;
+                        _NameSelections[_NameSelection].KeyboardSelection(true, numberPressed);
+                    }
+                    _SelectingKeyboardUnendless = false;
+                }
             }
                 //Normal Keyboard handling
             else
             {
                 base.HandleInput(keyEvent);
-                bool processed = false;
                 switch (keyEvent.Key)
                 {
                     case Keys.Escape:
@@ -366,15 +286,9 @@ namespace Vocaluxe.Screens
                     case Keys.Enter:
 
                         if (_Buttons[_ButtonBack].Selected)
-                        {
-                            processed = true;
                             CGraphics.FadeTo(EScreens.ScreenSong);
-                        }
                         else
-                        {
-                            processed = true;
                             _StartSong();
-                        }
 
                         break;
 
@@ -407,10 +321,11 @@ namespace Vocaluxe.Screens
                     case Keys.NumPad6:
                         _SelectingKeyboardPlayerNr = 6;
                         break;
+                    default:
+                        _UpdatePlayerNumber();
+                        break;
                 }
 
-                if (!processed)
-                    _UpdatePlayerNumber();
 
                 if (_SelectingKeyboardPlayerNr > 0 && _SelectingKeyboardPlayerNr <= CConfig.NumPlayer)
                 {
@@ -516,7 +431,7 @@ namespace Vocaluxe.Screens
                         CConfig.SaveConfig();
                         //Update texture and name
                         _Statics[_StaticPlayerAvatar[i]].Texture = _OriginalPlayerAvatarTextures[i];
-                        _Texts[_TextPlayer[i]].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + (i + 1);
+                        _Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(-1, i + 1);
                         //Update profile-warning
                         _CheckPlayers();
                         //Update Tiles-List
@@ -564,16 +479,10 @@ namespace Vocaluxe.Screens
 
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
             {
-                if (CProfiles.IsProfileIDValid(CGame.Players[i].ProfileID))
-				{
-					_Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.Profiles[CGame.Players[i].ProfileID].Avatar.Texture;
-					_Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(CGame.Players[i].ProfileID);
-                }
-                else
-                {
-                    _Statics[_StaticPlayerAvatar[i]].Texture = _OriginalPlayerAvatarTextures[i];
-                    _Texts[_TextPlayer[i]].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + (i + 1).ToString();
-                }
+                _Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.IsProfileIDValid(CGame.Players[i].ProfileID) ?
+                                                               CProfiles.Profiles[CGame.Players[i].ProfileID].Avatar.Texture :
+                                                               _OriginalPlayerAvatarTextures[i];
+                _Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(CGame.Players[i].ProfileID, i + 1);
                 if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
                 {
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Clear();
@@ -637,7 +546,7 @@ namespace Vocaluxe.Screens
                     _Statics["StaticPlayerAvatar" + i].Visible = true;
                     _Texts["TextPlayer" + i].Visible = true;
                     if (_Texts["TextPlayer" + i].Text == "")
-                        _Texts["TextPlayer" + i].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + i;
+                        _Texts["TextPlayer" + i].Text = CProfiles.GetPlayerName(-1, i);
                     _Equalizers["EqualizerPlayer" + i].Visible = true;
                     if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
                         _SelectSlides["SelectSlideDuetPlayer" + i].Visible = true;

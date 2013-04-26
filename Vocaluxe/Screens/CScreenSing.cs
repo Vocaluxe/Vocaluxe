@@ -961,15 +961,13 @@ namespace Vocaluxe.Screens
                     float h = (float)(t * CSettings.RenderH);
                     float w = CFonts.GetTextBounds(_Texts[_TextMedleyCountdown], h).Width;
                     float x = CSettings.RenderW / 2 - w / 2;
-                    float y = CSettings.RenderH / 2 - h / 2 ;
+                    float y = CSettings.RenderH / 2 - h / 2;
                     _Texts[_TextMedleyCountdown].X = x;
                     _Texts[_TextMedleyCountdown].Y = y;
                     _Texts[_TextMedleyCountdown].Height = h;
                 }
                 else
-                {
                     _Texts[_TextMedleyCountdown].Visible = false;
-                }
             }
         }
 
