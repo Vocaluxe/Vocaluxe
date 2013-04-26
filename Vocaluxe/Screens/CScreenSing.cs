@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
@@ -665,7 +666,7 @@ namespace Vocaluxe.Screens
             _TimerDuetText2.Stop();
             _TimerDuetText2.Reset();
 
-            if (song.Notes.Lines.Length != 2)
+            if (song.Notes.Voices.Length != 2)
                 _TimerSongText.Start();
 
             _StartSong();
@@ -719,21 +720,21 @@ namespace Vocaluxe.Screens
                 CWebcam.Close();
         }
 
-        private int _FindCurrentLine(CLines lines, CLine[] line, CSong song)
+        private int _FindCurrentLine(CVoice voice, CLine[] lines, CSong song)
         {
             float currentTime = _CurrentTime - song.Gap;
             //We are only interested in the last matching line, so either do not check further after line[j].StartBeat > _CurrentBeat or go backwards!
-            int j = lines.FindPreviousLine(_CurrentBeat);
+            int j = voice.FindPreviousLine(_CurrentBeat);
             for (; j >= 0; j--)
             {
-                float firstNoteTime = CGame.GetTimeFromBeats(line[j].FirstNoteBeat, song.BPM);
+                float firstNoteTime = CGame.GetTimeFromBeats(lines[j].FirstNoteBeat, song.BPM);
                 //Earlist possible line break is 10s before first note
                 if (firstNoteTime <= currentTime + 10f)
                 {
                     //First line has no predecessor or line has to be shown
                     if (j == 0 || firstNoteTime - CConfig.MinLineBreakTime <= currentTime)
                         return j;
-                    float lastNoteTime = CGame.GetTimeFromBeats(line[j - 1].LastNoteBeat, song.BPM);
+                    float lastNoteTime = CGame.GetTimeFromBeats(lines[j - 1].LastNoteBeat, song.BPM);
                     //No line break if last line is not fully evaluated (with 50% tolerance -> tested so notes are drawn)
                     if (lastNoteTime + CConfig.MicDelay / 1000f * 1.5f >= currentTime)
                         return j - 1;
@@ -760,31 +761,31 @@ namespace Vocaluxe.Screens
                 if (i > 1)
                     break; // for later
 
-                CLines lines = song.Notes.GetLines(i);
-                CLine[] line = lines.Line;
+                CVoice voice = song.Notes.GetVoice(i);
+                CLine[] lines = voice.Lines;
 
                 // find current line
-                int nr = _FindCurrentLine(lines, line, song);
+                int nr = _FindCurrentLine(voice, lines, song);
 
                 if (nr != -1)
                 {
                     for (int j = 0; j < CGame.NumPlayer; j++)
                     {
                         if (CGame.Players[j].LineNr == i)
-                            _SingNotes[_SingBars].AddLine(_NoteLines[j], line, nr);
+                            _SingNotes[_SingBars].SetLines(_NoteLines[j], lines, nr);
                     }
 
                     if (i == 0 && !song.IsDuet || i == 1 && song.IsDuet)
                     {
-                        _Lyrics[_LyricMain].SetLine(line[nr]);
-                        _Lyrics[_LyricMainTop].SetLine(line[nr]);
-                        _TimeToFirstNote = CGame.GetTimeFromBeats(line[nr].FirstNoteBeat - line[nr].StartBeat, song.BPM);
-                        _RemainingTimeToFirstNote = CGame.GetTimeFromBeats(line[nr].FirstNoteBeat - CGame.GetBeatFromTime(_CurrentTime, song.BPM, song.Gap), song.BPM);
+                        _Lyrics[_LyricMain].SetLine(lines[nr]);
+                        _Lyrics[_LyricMainTop].SetLine(lines[nr]);
+                        _TimeToFirstNote = CGame.GetTimeFromBeats(lines[nr].FirstNoteBeat - lines[nr].StartBeat, song.BPM);
+                        _RemainingTimeToFirstNote = CGame.GetTimeFromBeats(lines[nr].FirstNoteBeat - CGame.GetBeatFromTime(_CurrentTime, song.BPM, song.Gap), song.BPM);
 
-                        if (line.Length >= nr + 2)
+                        if (lines.Length >= nr + 2)
                         {
-                            _Lyrics[_LyricSub].SetLine(line[nr + 1]);
-                            _Lyrics[_LyricSubTop].SetLine(line[nr + 1]);
+                            _Lyrics[_LyricSub].SetLine(lines[nr + 1]);
+                            _Lyrics[_LyricSubTop].SetLine(lines[nr + 1]);
                         }
                         else
                         {
@@ -794,12 +795,12 @@ namespace Vocaluxe.Screens
                     }
                     if (i == 0 && song.IsDuet)
                     {
-                        _Lyrics[_LyricMainDuet].SetLine(line[nr]);
-                        _TimeToFirstNoteDuet = CGame.GetTimeFromBeats(line[nr].FirstNoteBeat - line[nr].StartBeat, song.BPM);
-                        _RemainingTimeToFirstNoteDuet = CGame.GetTimeFromBeats(line[nr].FirstNoteBeat - CGame.GetBeatFromTime(_CurrentTime, song.BPM, song.Gap), song.BPM);
+                        _Lyrics[_LyricMainDuet].SetLine(lines[nr]);
+                        _TimeToFirstNoteDuet = CGame.GetTimeFromBeats(lines[nr].FirstNoteBeat - lines[nr].StartBeat, song.BPM);
+                        _RemainingTimeToFirstNoteDuet = CGame.GetTimeFromBeats(lines[nr].FirstNoteBeat - CGame.GetBeatFromTime(_CurrentTime, song.BPM, song.Gap), song.BPM);
 
-                        if (line.Length >= nr + 2)
-                            _Lyrics[_LyricSubDuet].SetLine(line[nr + 1]);
+                        if (lines.Length >= nr + 2)
+                            _Lyrics[_LyricSubDuet].SetLine(lines[nr + 1]);
                         else
                             _Lyrics[_LyricSubDuet].Clear();
                     }
@@ -1061,22 +1062,22 @@ namespace Vocaluxe.Screens
             if (song == null || !song.NotesLoaded)
                 return null;
 
-            float[] alpha = new float[song.Notes.Lines.Length * 2];
+            float[] alpha = new float[song.Notes.Voices.Length * 2];
             float currentTime = _CurrentTime - song.Gap;
 
             for (int i = 0; i < song.Notes.LinesCount; i++)
             {
-                CLines lines = song.Notes.GetLines(i);
-                CLine[] line = lines.Line;
+                CVoice voice = song.Notes.GetVoice(i);
+                CLine[] lines = voice.Lines;
 
                 // find current line for lyric sub fading
-                int currentLineSub = _FindCurrentLine(lines, line, song);
+                int currentLineSub = _FindCurrentLine(voice, lines, song);
 
                 // find current line for lyric main fading
                 int currentLine = 0;
-                for (int j = 0; j < line.Length; j++)
+                for (int j = 0; j < lines.Length; j++)
                 {
-                    if (line[j].FirstNoteBeat <= _CurrentBeat)
+                    if (lines[j].FirstNoteBeat <= _CurrentBeat)
                         currentLine = j;
                 }
 
@@ -1085,31 +1086,31 @@ namespace Vocaluxe.Screens
                 alpha[i * 2 + 1] = 1f;
 
                 // main line alpha
-                if (currentLine == 0 && currentTime < CGame.GetTimeFromBeats(line[currentLine].FirstNoteBeat, song.BPM))
+                if (currentLine == 0 && currentTime < CGame.GetTimeFromBeats(lines[currentLine].FirstNoteBeat, song.BPM))
                 {
                     // first main line and fist note is not reached
                     // => fade in
-                    float diff = CGame.GetTimeFromBeats(line[currentLine].FirstNoteBeat, song.BPM) - currentTime;
+                    float diff = CGame.GetTimeFromBeats(lines[currentLine].FirstNoteBeat, song.BPM) - currentTime;
                     if (diff > dt)
                         alpha[i * 2] = 1f - (diff - dt) / rt;
                 }
-                else if (currentLine < line.Length - 1 && CGame.GetTimeFromBeats(line[currentLine].LastNoteBeat, song.BPM) < currentTime &&
-                         CGame.GetTimeFromBeats(line[currentLine + 1].FirstNoteBeat, song.BPM) > currentTime)
+                else if (currentLine < lines.Length - 1 && CGame.GetTimeFromBeats(lines[currentLine].LastNoteBeat, song.BPM) < currentTime &&
+                         CGame.GetTimeFromBeats(lines[currentLine + 1].FirstNoteBeat, song.BPM) > currentTime)
                 {
                     // current position is between two lines
 
                     // time between the to lines
-                    float diff = CGame.GetTimeFromBeats(line[currentLine + 1].FirstNoteBeat, song.BPM) -
-                                 CGame.GetTimeFromBeats(line[currentLine].LastNoteBeat, song.BPM);
+                    float diff = CGame.GetTimeFromBeats(lines[currentLine + 1].FirstNoteBeat, song.BPM) -
+                                 CGame.GetTimeFromBeats(lines[currentLine].LastNoteBeat, song.BPM);
 
                     // fade only if there is enough time for fading
                     if (diff > 3.3f * dt)
                     {
                         // time elapsed since last line
-                        float last = currentTime - CGame.GetTimeFromBeats(line[currentLine].LastNoteBeat, song.BPM);
+                        float last = currentTime - CGame.GetTimeFromBeats(lines[currentLine].LastNoteBeat, song.BPM);
 
                         // time to next line
-                        float next = CGame.GetTimeFromBeats(line[currentLine + 1].FirstNoteBeat, song.BPM) - currentTime;
+                        float next = CGame.GetTimeFromBeats(lines[currentLine + 1].FirstNoteBeat, song.BPM) - currentTime;
 
                         if (last < next)
                         {
@@ -1124,18 +1125,18 @@ namespace Vocaluxe.Screens
                         }
                     }
                 }
-                else if (currentLine == line.Length - 1 && CGame.GetTimeFromBeats(line[currentLine].LastNoteBeat, song.BPM) < currentTime)
+                else if (currentLine == lines.Length - 1 && CGame.GetTimeFromBeats(lines[currentLine].LastNoteBeat, song.BPM) < currentTime)
                 {
                     // last main line and last note was reached
                     // => fade out
-                    float diff = currentTime - CGame.GetTimeFromBeats(line[currentLine].LastNoteBeat, song.BPM);
+                    float diff = currentTime - CGame.GetTimeFromBeats(lines[currentLine].LastNoteBeat, song.BPM);
                     alpha[i * 2] = 1f - diff / rt;
                 }
 
                 // sub
-                if (currentLineSub < line.Length - 2)
+                if (currentLineSub < lines.Length - 2)
                 {
-                    float diff = CGame.GetTimeFromBeats(line[currentLineSub + 1].FirstNoteBeat, song.BPM) - currentTime;
+                    float diff = CGame.GetTimeFromBeats(lines[currentLineSub + 1].FirstNoteBeat, song.BPM) - currentTime;
 
                     if (diff > dt)
                         alpha[i * 2 + 1] = 1f - (diff - dt) / rt;
@@ -1338,26 +1339,21 @@ namespace Vocaluxe.Screens
                     if (totalTime <= 0f)
                         return;
 
-                    CLines[] partLines = song.Notes.Lines;
-                    foreach (CLines partLine in partLines)
+                    foreach (CVoice voice in song.Notes.Voices)
                     {
-                        CLine[] line = partLine.Line;
-                        for (int j = 0; j < line.Length; j++)
+                        foreach (CLine line in voice.Lines.Where(line => line.VisibleInTimeLine))
                         {
-                            if (line[j].VisibleInTimeLine)
-                            {
-                                STimeRect trect = new STimeRect {StartBeat = line[j].FirstNoteBeat, EndBeat = line[j].EndBeat};
-                                trect.Rect = GetNewStatic(new STexture(-1),
-                                                          new SColorF(1f, 1f, 1f, 1f),
-                                                          new SRectF(
-                                                              stat.Rect.X + stat.Rect.W * ((CGame.GetTimeFromBeats(trect.StartBeat, song.BPM) + song.Gap - song.Start) / totalTime),
-                                                              stat.Rect.Y,
-                                                              stat.Rect.W * (CGame.GetTimeFromBeats(trect.EndBeat - trect.StartBeat, song.BPM) / totalTime),
-                                                              stat.Rect.H,
-                                                              stat.Rect.Z));
+                            STimeRect trect = new STimeRect {StartBeat = line.FirstNoteBeat, EndBeat = line.EndBeat};
+                            trect.Rect = GetNewStatic(new STexture(-1),
+                                                      new SColorF(1f, 1f, 1f, 1f),
+                                                      new SRectF(
+                                                          stat.Rect.X + stat.Rect.W * ((CGame.GetTimeFromBeats(trect.StartBeat, song.BPM) + song.Gap - song.Start) / totalTime),
+                                                          stat.Rect.Y,
+                                                          stat.Rect.W * (CGame.GetTimeFromBeats(trect.EndBeat - trect.StartBeat, song.BPM) / totalTime),
+                                                          stat.Rect.H,
+                                                          stat.Rect.Z));
 
-                                _TimeRects.Add(trect);
-                            }
+                            _TimeRects.Add(trect);
                         }
                     }
                     break;

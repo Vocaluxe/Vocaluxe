@@ -778,9 +778,9 @@ namespace Vocaluxe.Base
             CPlaylists.SetPlaylistName(playlistID, name);
         }
 
-        public string[] GetPlaylistNames()
+        public List<string> GetPlaylistNames()
         {
-            return CPlaylists.GetPlaylistNames();
+            return CPlaylists.PlaylistNames;
         }
 
         public string GetPlaylistName(int playlistID)

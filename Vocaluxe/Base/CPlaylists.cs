@@ -36,14 +36,14 @@ namespace Vocaluxe.Base
             get { return _Playlists.ToArray(); }
         }
 
-        public static IEnumerable<string> PlaylistNames
+        public static List<string> PlaylistNames
         {
             get
             {
                 List<string> names = new List<string>();
                 for (int i = 0; i < _Playlists.Count; i++)
                     names.Add(_Playlists[i].PlaylistName);
-                return names.ToArray();
+                return names;
             }
         }
 
@@ -92,16 +92,6 @@ namespace Vocaluxe.Base
                 return "Error: Can't find Playlist";
 
             return _Playlists[playlistID].PlaylistName;
-        }
-
-        public static string[] GetPlaylistNames()
-        {
-            List<string> result = new List<string>();
-
-            foreach (CPlaylistFile playlist in _Playlists)
-                result.Add(playlist.PlaylistName);
-
-            return result.ToArray();
         }
 
         public static void SetPlaylistName(int playlistID, string name)

@@ -229,7 +229,7 @@ namespace Vocaluxe.Base
                         (_GameMode.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_SHORTSONG && song.ShortEnd == beat))
                         Players[p].SongFinished = true;
 
-                    CLine[] lines = song.Notes.GetLines(Players[p].LineNr).Line;
+                    CLine[] lines = song.Notes.GetVoice(Players[p].LineNr).Lines;
                     int line = -1;
 
                     for (int j = 0; j < lines.Length; j++)
@@ -293,7 +293,7 @@ namespace Vocaluxe.Base
                                 // valid
                                 //CSound.RecordSetTone(p, Tone);
                                 double points = (CSettings.MaxScore - CSettings.LinebonusScore) * (double)notes[note].PointsForBeat /
-                                                song.Notes.GetLines(Players[p].LineNr).Points;
+                                                song.Notes.GetVoice(Players[p].LineNr).Points;
                                 if (notes[note].NoteType == ENoteType.Golden)
                                     Players[p].PointsGoldenNotes += points;
 
@@ -302,8 +302,8 @@ namespace Vocaluxe.Base
                                 // update player notes (sung notes)
                                 if (Players[p].SingLine[line].NoteCount > 0)
                                 {
-                                    CNote nt = Players[p].SingLine[line].LastNote;
-                                    if (notes[note].StartBeat == beat || nt.EndBeat + 1 != beat || nt.Tone != tone || !nt.Hit)
+                                    CNote lastNote = Players[p].SingLine[line].LastNote;
+                                    if (notes[note].StartBeat == beat || lastNote.EndBeat + 1 != beat || lastNote.Tone != tone || !lastNote.Hit)
                                         Players[p].SingLine[line].AddNote(new CNote(beat, 1, tone, String.Empty, true, notes[note].NoteType));
                                     else
                                         Players[p].SingLine[line].IncLastNoteLength();
@@ -318,8 +318,8 @@ namespace Vocaluxe.Base
                             {
                                 if (Players[p].SingLine[line].NoteCount > 0)
                                 {
-                                    CNote nt = Players[p].SingLine[line].LastNote;
-                                    if (nt.Tone == tonePlayer && nt.EndBeat + 1 == beat && !nt.Hit)
+                                    CNote lastNote = Players[p].SingLine[line].LastNote;
+                                    if (lastNote.Tone == tonePlayer && lastNote.EndBeat + 1 == beat && !lastNote.Hit)
                                         Players[p].SingLine[line].IncLastNoteLength();
                                     else
                                         Players[p].SingLine[line].AddNote(new CNote(beat, 1, tonePlayer, String.Empty, false, ENoteType.Freestyle));

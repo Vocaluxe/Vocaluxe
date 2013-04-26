@@ -1194,7 +1194,6 @@ namespace Vocaluxe.Base
                                 bmp.UnlockBits(bmpData);
                                 bmp.Save(fileName);
                             }*/
-
                         }
                     }
 

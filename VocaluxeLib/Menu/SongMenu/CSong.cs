@@ -209,7 +209,7 @@ namespace VocaluxeLib.Menu.SongMenu
         private readonly bool _Selected;
         public bool IsDuet
         {
-            get { return Notes.Lines.Length > 1; }
+            get { return Notes.Voices.Length > 1; }
         }
 
         public readonly List<string> Edition = new List<string>();
@@ -769,8 +769,8 @@ namespace VocaluxeLib.Menu.SongMenu
                     fileLineNo++;
                 } while (!sr.EndOfStream && (tempC != 'E'));
 
-                foreach (CLines lines in Notes.Lines)
-                    lines.UpdateTimings();
+                foreach (CVoice voice in Notes.Voices)
+                    voice.UpdateTimings();
             }
             catch (Exception e)
             {
@@ -799,15 +799,15 @@ namespace VocaluxeLib.Menu.SongMenu
         private bool _ParseNote(int player, ENoteType noteType, int start, int length, int tone, string text)
         {
             CNote note = new CNote(start, length, tone, text, noteType);
-            CLines lines = Notes.GetLines(player);
-            return lines.AddNote(note);
+            CVoice voice = Notes.GetVoice(player);
+            return voice.AddNote(note);
         }
 
         private void _NewSentence(int player, int start)
         {
-            CLines lines = Notes.GetLines(player);
+            CVoice voice = Notes.GetVoice(player);
             CLine line = new CLine {StartBeat = start};
-            lines.AddLine(line);
+            voice.AddLine(line);
         }
 
         public void LoadSmallCover()
@@ -875,29 +875,29 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private List<SSeries> _GetSeries()
         {
-            CLines lines = Notes.GetLines(0);
+            CVoice voice = Notes.GetVoice(0);
 
-            if (lines.LineCount == 0)
+            if (voice.NumLines == 0)
                 return null;
 
             // build sentences list
             List<string> sentences = new List<string>();
-            foreach (CLine line in lines.Line)
+            foreach (CLine line in voice.Lines)
                 sentences.Add(line.Points != 0 ? line.Lyrics : String.Empty);
 
             // find equal sentences series
             List<SSeries> series = new List<SSeries>();
-            for (int i = 0; i < lines.LineCount - 1; i++)
+            for (int i = 0; i < voice.NumLines - 1; i++)
             {
-                for (int j = i + 1; j < lines.LineCount; j++)
+                for (int j = i + 1; j < voice.NumLines; j++)
                 {
                     if (sentences[i] != sentences[j] || sentences[i] == "")
                         continue;
                     SSeries tempSeries = new SSeries {Start = i, End = i};
 
                     int max;
-                    if (j + j - i > lines.LineCount)
-                        max = lines.LineCount - 1 - j;
+                    if (j + j - i > voice.NumLines)
+                        max = voice.NumLines - 1 - j;
                     else
                         max = j - i - 1;
 
@@ -942,13 +942,13 @@ namespace VocaluxeLib.Menu.SongMenu
                     longest = i;
             }
 
-            CLines lines = Notes.GetLines(0);
+            CVoice voice = Notes.GetVoice(0);
 
             // set medley vars
             if (series.Count > 0 && series[longest].Length > CBase.Settings.GetMedleyMinSeriesLength())
             {
-                Medley.StartBeat = lines.Line[series[longest].Start].FirstNoteBeat;
-                Medley.EndBeat = lines.Line[series[longest].End].LastNoteBeat;
+                Medley.StartBeat = voice.Lines[series[longest].Start].FirstNoteBeat;
+                Medley.EndBeat = voice.Lines[series[longest].End].LastNoteBeat;
 
                 bool foundEnd = CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM) + CBase.Settings.GetMedleyMinDuration() >
                                 CBase.Game.GetTimeFromBeats(Medley.EndBeat, BPM);
@@ -957,13 +957,13 @@ namespace VocaluxeLib.Menu.SongMenu
 
                 if (!foundEnd)
                 {
-                    for (int i = series[longest].Start + 1; i < lines.LineCount - 1; i++)
+                    for (int i = series[longest].Start + 1; i < voice.NumLines - 1; i++)
                     {
                         if (CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM) + CBase.Settings.GetMedleyMinDuration() >
-                            CBase.Game.GetTimeFromBeats(lines.Line[i].LastNoteBeat, BPM))
+                            CBase.Game.GetTimeFromBeats(voice.Lines[i].LastNoteBeat, BPM))
                         {
                             foundEnd = true;
-                            Medley.EndBeat = lines.Line[i].LastNoteBeat;
+                            Medley.EndBeat = voice.Lines[i].LastNoteBeat;
                         }
                     }
                 }
@@ -989,32 +989,32 @@ namespace VocaluxeLib.Menu.SongMenu
             if (series == null)
                 return;
 
-            CLines lines = Notes.GetLines(0);
+            CVoice voice = Notes.GetVoice(0);
 
             //Calculate length of singing
-            int stop = (lines.Line[lines.Line.Length - 1].LastNoteBeat - lines.Line[0].FirstNote.StartBeat) / 2 + lines.Line[0].FirstNote.StartBeat;
+            int stop = (voice.Lines[voice.Lines.Length - 1].LastNoteBeat - voice.Lines[0].FirstNote.StartBeat) / 2 + voice.Lines[0].FirstNote.StartBeat;
 
             //Check if stop is in series
             for (int i = 0; i < series.Count; i++)
             {
-                if (lines.Line[series[i].Start].FirstNoteBeat < stop && lines.Line[series[i].End].LastNoteBeat > stop)
+                if (voice.Lines[series[i].Start].FirstNoteBeat < stop && voice.Lines[series[i].End].LastNoteBeat > stop)
                 {
-                    if (stop < (lines.Line[series[i].Start].FirstNoteBeat + ((lines.Line[series[i].End].LastNoteBeat - lines.Line[series[i].Start].FirstNoteBeat) / 2)))
+                    if (stop < (voice.Lines[series[i].Start].FirstNoteBeat + ((voice.Lines[series[i].End].LastNoteBeat - voice.Lines[series[i].Start].FirstNoteBeat) / 2)))
                     {
-                        ShortEnd = lines.Line[series[i].Start - 1].LastNote.EndBeat;
+                        ShortEnd = voice.Lines[series[i].Start - 1].LastNote.EndBeat;
                         return;
                     }
-                    ShortEnd = lines.Line[series[i].End].LastNote.EndBeat;
+                    ShortEnd = voice.Lines[series[i].End].LastNote.EndBeat;
                     return;
                 }
             }
 
             //Check if stop is in line
-            for (int i = 0; i < lines.Line.Length; i++)
+            foreach (CLine line in voice.Lines)
             {
-                if (lines.Line[i].FirstNoteBeat < stop && lines.Line[i].LastNoteBeat > stop)
+                if (line.FirstNoteBeat < stop && line.LastNoteBeat > stop)
                 {
-                    ShortEnd = lines.Line[i].LastNoteBeat;
+                    ShortEnd = line.LastNoteBeat;
                     return;
                 }
             }

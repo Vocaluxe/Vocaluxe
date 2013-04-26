@@ -25,73 +25,73 @@ namespace VocaluxeLib.Menu.SingNotes
 {
     public class CNotes
     {
-        private readonly List<CLines> _Lines = new List<CLines>();
+        private readonly List<CVoice> _Voices = new List<CVoice>();
 
-        public CLines[] Lines
+        public CVoice[] Voices
         {
-            get { return _Lines.ToArray(); }
+            get { return _Voices.ToArray(); }
         }
 
         public CNotes() {}
 
         public int LinesCount
         {
-            get { return _Lines.Count; }
+            get { return _Voices.Count; }
         }
 
         public CNotes(CNotes notes)
         {
-            foreach (CLines lines in notes._Lines)
-                _Lines.Add(new CLines(lines));
+            foreach (CVoice voice in notes._Voices)
+                _Voices.Add(new CVoice(voice));
         }
 
-        public CLines GetLines(int index)
+        public CVoice GetVoice(int index)
         {
-            while (index >= _Lines.Count)
-                _Lines.Add(new CLines());
+            while (index >= _Voices.Count)
+                _Voices.Add(new CVoice());
 
-            return _Lines[index];
+            return _Voices[index];
         }
 
         public int GetPoints(int index)
         {
-            if (index >= _Lines.Count)
+            if (index >= _Voices.Count)
                 return 0;
 
-            return _Lines[index].Points;
+            return _Voices[index].Points;
         }
 
         public int GetNumLinesWithPoints(int index)
         {
-            if (index >= _Lines.Count)
+            if (index >= _Voices.Count)
                 return 0;
 
-            return _Lines[index].NumLinesWithPoints;
+            return _Voices[index].NumLinesWithPoints;
         }
 
-        public void AddLines(CLines lines)
+        public void AddVoice(CVoice voice)
         {
-            _Lines.Add(lines);
+            _Voices.Add(voice);
         }
 
-        public bool ReplaceLinesAt(int index, CLines lines)
+        public bool ReplaceVoiceAt(int index, CVoice voice)
         {
-            if (index >= _Lines.Count)
+            if (index >= _Voices.Count)
                 return false;
 
-            _Lines[index] = lines;
+            _Voices[index] = voice;
             return true;
         }
 
         public void Reset()
         {
-            _Lines.Clear();
+            _Voices.Clear();
         }
 
         public void SetMedley(int startBeat, int endBeat)
         {
-            foreach (CLines lines in _Lines)
-                lines.SetMedley(startBeat, endBeat);
+            foreach (CVoice voice in _Voices)
+                voice.SetMedley(startBeat, endBeat);
         }
     }
 
@@ -542,23 +542,23 @@ namespace VocaluxeLib.Menu.SingNotes
         #endregion Methods
     }
 
-    public class CLines
+    public class CVoice
     {
         private readonly List<CLine> _Lines = new List<CLine>();
 
-        public CLines() {}
+        public CVoice() {}
 
-        public CLines(CLines lines)
+        public CVoice(CVoice voice)
         {
-            foreach (CLine line in lines._Lines)
+            foreach (CLine line in voice._Lines)
                 _Lines.Add(new CLine(line));
         }
 
-        public CLine[] Line
+        public CLine[] Lines
         {
             get { return _Lines.ToArray(); }
         }
-        public int LineCount
+        public int NumLines
         {
             get { return _Lines.Count; }
         }
@@ -577,22 +577,13 @@ namespace VocaluxeLib.Menu.SingNotes
                 int endbeat = _Lines.Min(line => line.LastNoteBeat);
 
                 int result = endbeat - startbeat;
-                if (result > 0)
-                    return result;
-
-                return 0;
+                return result > 0 ? result : 0;
             }
         }
 
         public int Points
         {
-            get
-            {
-                int points = 0;
-                foreach (CLine line in _Lines)
-                    points += line.Points;
-                return points;
-            }
+            get { return _Lines.Sum(line => line.Points); }
         }
 
         public int NumLinesWithPoints

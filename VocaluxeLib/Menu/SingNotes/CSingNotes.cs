@@ -224,24 +224,24 @@ namespace VocaluxeLib.Menu.SingNotes
             return notes.ID;
         }
 
-        public void AddLine(int id, CLine[] line, int lineNr)
+        public void SetLines(int id, CLine[] lines, int lineNr)
         {
-            if (line == null)
+            if (lines == null)
                 return;
 
-            int n = _FindPlayerLine(id);
+            int n = _FindPlayerNotes(id);
             if (n == -1)
                 return;
 
             if (lineNr == _PlayerNotes[n].LineNr)
                 return;
 
-            if (line.Length <= lineNr)
+            if (lines.Length <= lineNr)
                 return;
 
             SPlayerNotes notes = _PlayerNotes[n];
 
-            notes.Lines = line;
+            notes.Lines = lines;
             notes.LineNr = lineNr;
             notes.GoldenStars.Clear();
             notes.Flares.Clear();
@@ -253,7 +253,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public void SetAlpha(int id, float alpha)
         {
-            int n = _FindPlayerLine(id);
+            int n = _FindPlayerNotes(id);
             if (n == -1)
                 return;
 
@@ -264,7 +264,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public float GetAlpha(int id)
         {
-            int n = _FindPlayerLine(id);
+            int n = _FindPlayerNotes(id);
             if (n == -1)
                 return 0f;
 
@@ -276,9 +276,9 @@ namespace VocaluxeLib.Menu.SingNotes
             Draw(id, null, player);
         }
 
-        public void Draw(int id, List<CLine> singLine, int player)
+        public void Draw(int id, List<CLine> singLines, int player)
         {
-            int n = _FindPlayerLine(id);
+            int n = _FindPlayerNotes(id);
             if (n == -1)
                 return;
 
@@ -357,7 +357,7 @@ namespace VocaluxeLib.Menu.SingNotes
             foreach (CParticleEffect perfline in _PlayerNotes[n].PerfectLineTwinkle)
                 perfline.Draw();
 
-            if (singLine == null || singLine.Count == 0 || CBase.Game.GetPlayers()[player].CurrentLine == -1 || singLine.Count <= CBase.Game.GetPlayers()[player].CurrentLine)
+            if (singLines == null || singLines.Count == 0 || CBase.Game.GetPlayers()[player].CurrentLine == -1 || singLines.Count <= CBase.Game.GetPlayers()[player].CurrentLine)
             {
                 foreach (CParticleEffect stars in _PlayerNotes[n].GoldenStars)
                 {
@@ -367,7 +367,7 @@ namespace VocaluxeLib.Menu.SingNotes
                 return;
             }
 
-            foreach (CNote note in singLine[CBase.Game.GetPlayers()[player].CurrentLine].Notes)
+            foreach (CNote note in singLines[CBase.Game.GetPlayers()[player].CurrentLine].Notes)
             {
                 if (note.StartBeat >= line.FirstNoteBeat && note.EndBeat <= line.LastNoteBeat)
                 {
@@ -456,7 +456,7 @@ namespace VocaluxeLib.Menu.SingNotes
             LoadTextures();
         }
 
-        private int _FindPlayerLine(int id)
+        private int _FindPlayerNotes(int id)
         {
             for (int i = 0; i < _PlayerNotes.Count; i++)
             {

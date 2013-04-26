@@ -310,7 +310,7 @@ namespace VocaluxeLib.Menu
     public interface IPlaylist
     {
         string GetPlaylistName(int playlistID);
-        string[] GetPlaylistNames();
+        List<string> GetPlaylistNames();
 
         void SetPlaylistName(int playlistID, string name);
         void DeletePlaylist(int playlistID);

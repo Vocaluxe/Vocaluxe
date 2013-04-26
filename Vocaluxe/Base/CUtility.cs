@@ -64,14 +64,12 @@ namespace Vocaluxe.Base
             return 0f;
         }
 
-        public static float CalculateFPS()
+        public static void CalculateFPS()
         {
             float ms = GetMilliseconds();
 
             if (ms > 0)
                 _Fps = 1 / ms;
-
-            return _Fps * 1000f;
         }
 
         public static double GetFPS()

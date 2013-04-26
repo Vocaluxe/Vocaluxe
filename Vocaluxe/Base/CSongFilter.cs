@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 
@@ -97,11 +98,7 @@ namespace Vocaluxe.Base
                     {
                         string search = song.Title.ToUpper() + " " + song.Artist.ToUpper() + " " + song.FolderName.ToUpper() + " " + song.FileName.ToUpper();
 
-                        bool contains = true;
-
-                        foreach (string str in searchStrings)
-                            contains &= search.Contains(str);
-                        if (contains)
+                        if (searchStrings.All(search.Contains))
                             _FilteredSongs.Add(song);
                     }
                 }

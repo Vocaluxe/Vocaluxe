@@ -18,6 +18,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using VocaluxeLib.Menu;
@@ -198,9 +199,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _SelectSlides[_SelectSlideSongSource].Clear();
             _SelectSlides[_SelectSlideSongSource].SetValues<ESongSource>((int)_Data.ScreenConfig.SongSource);
 
-            string[] playlists = CBase.Playlist.GetPlaylistNames();
+            List<string> playlists = CBase.Playlist.GetPlaylistNames();
             _SelectSlides[_SelectSlidePlaylist].Clear();
-            for (int i = 0; i < playlists.Length; i++)
+            for (int i = 0; i < playlists.Count; i++)
             {
                 string value = playlists[i] + " (" + CBase.Playlist.GetPlaylistSongCount(i) + " " + CBase.Language.Translate("TR_SONGS", _PartyModeID) + ")";
                 _SelectSlides[_SelectSlidePlaylist].AddValue(value);
