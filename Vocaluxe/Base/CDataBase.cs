@@ -1187,6 +1187,14 @@ namespace Vocaluxe.Base
                             reader.Read();
                             byte[] data = _GetBytes(reader);
                             tex = CDraw.AddTexture(w, h, ref data);
+                            /*using (Bitmap bmp = new Bitmap(w, h))
+                            {
+                                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+                                Marshal.Copy(data, 0, bmpData.Scan0, w * h * 4);
+                                bmp.UnlockBits(bmpData);
+                                bmp.Save(fileName);
+                            }*/
+
                         }
                     }
 
