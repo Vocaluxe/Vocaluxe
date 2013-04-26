@@ -116,7 +116,6 @@ namespace VocaluxeLib.Menu.SongMenu
     {
         private bool _CoverSmallLoaded;
         private bool _CoverBigLoaded;
-        private bool _NotesLoaded;
         private STexture _CoverTextureSmall = new STexture(-1);
         private STexture _CoverTextureBig = new STexture(-1);
 
@@ -140,18 +139,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public EAspect VideoAspect = EAspect.Crop;
 
-        public bool CoverSmallLoaded
-        {
-            get { return _CoverSmallLoaded; }
-        }
-        public bool CoverBigLoaded
-        {
-            get { return _CoverBigLoaded; }
-        }
-        public bool NotesLoaded
-        {
-            get { return _NotesLoaded; }
-        }
+        public bool NotesLoaded { get; private set; }
 
         public STexture CoverTextureSmall
         {
@@ -173,9 +161,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             get
             {
-                if (_CoverBigLoaded)
-                    return _CoverTextureBig;
-                return _CoverTextureSmall;
+                return _CoverBigLoaded ? _CoverTextureBig : _CoverTextureSmall;
             }
             set
             {
@@ -278,7 +264,7 @@ namespace VocaluxeLib.Menu.SongMenu
             VideoAspect = song.VideoAspect;
             _CoverSmallLoaded = song._CoverSmallLoaded;
             _CoverBigLoaded = song._CoverBigLoaded;
-            _NotesLoaded = song._NotesLoaded;
+            NotesLoaded = song.NotesLoaded;
 
             Artist = song.Artist;
             Title = song.Title;
@@ -619,7 +605,7 @@ namespace VocaluxeLib.Menu.SongMenu
         private bool _ReadNotes(string filePath, bool forceReload = false)
         {
             //Skip loading if already done and no reload is forced
-            if (_NotesLoaded && !forceReload)
+            if (NotesLoaded && !forceReload)
                 return true;
 
             if (!File.Exists(filePath))
@@ -784,7 +770,7 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 _FindRefrain();
                 _FindShortEnd();
-                _NotesLoaded = true;
+                NotesLoaded = true;
                 if (IsDuet)
                     _CheckDuet();
             }

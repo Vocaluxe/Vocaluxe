@@ -35,8 +35,8 @@ namespace Vocaluxe.SongQueue
         void ClearSongs();
 
         void Reset();
-        void Start(SPlayer[] player);
-        void NextRound(SPlayer[] player);
+        void Start(SPlayer[] players);
+        void NextRound(SPlayer[] players);
         bool IsFinished();
         int GetCurrentRoundNr();
 

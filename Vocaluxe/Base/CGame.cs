@@ -246,15 +246,9 @@ namespace Vocaluxe.Base
                         Players[p].SingLine.Add(new CLine());
 
                     CNote[] notes = lines[line].Notes;
-                    int note = -1;
-                    for (int j = 0; j < notes.Length; j++)
-                    {
-                        if (beat >= notes[j].StartBeat && beat <= notes[j].EndBeat)
-                        {
-                            note = j;
-                            break;
-                        }
-                    }
+                    int note = lines[line].FindPreviousNote(beat);
+                    if (notes[note].EndBeat < beat)
+                        note = -1;
 
                     if (note >= 0)
                     {

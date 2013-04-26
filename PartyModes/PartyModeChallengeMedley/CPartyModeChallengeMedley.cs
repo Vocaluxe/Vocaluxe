@@ -482,11 +482,11 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
             #region PlayerNames
             CBase.Game.SetNumPlayer(_GameData.NumPlayerAtOnce);
-            SPlayer[] player = CBase.Game.GetPlayers();
-            if (player == null)
+            SPlayer[] players = CBase.Game.GetPlayers();
+            if (players == null)
                 return false;
 
-            if (player.Length < _GameData.NumPlayerAtOnce)
+            if (players.Length < _GameData.NumPlayerAtOnce)
                 return false;
 
             CCombination c = _GameData.Rounds.GetRound(_GameData.CurrentRoundNr - 1);
@@ -495,9 +495,9 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             {
                 //try to fill with the right data
                 if (c != null)
-                    player[i].ProfileID = _GameData.ProfileIDs[c.Player[i]];
+                    players[i].ProfileID = _GameData.ProfileIDs[c.Player[i]];
                 else
-                    player[i].ProfileID = -1;
+                    players[i].ProfileID = -1;
             }
             #endregion PlayerNames
 

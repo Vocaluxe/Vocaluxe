@@ -718,11 +718,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             CBase.Game.SetNumPlayer(2);
 
-            SPlayer[] player = CBase.Game.GetPlayers();
-            if (player == null)
+            SPlayer[] players = CBase.Game.GetPlayers();
+            if (players == null)
                 return;
 
-            if (player.Length < 2)
+            if (players.Length < 2)
                 return;
 
             SProfile[] profiles = CBase.Profiles.GetProfiles();
@@ -732,7 +732,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             for (int i = 0; i < 2; i++)
             {
                 //default values
-                player[i].ProfileID = -1;
+                players[i].ProfileID = -1;
             }
 
             //try to fill with the right data
@@ -740,15 +740,15 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             {
                 if (_GameData.ProfileIDsTeam1[r.SingerTeam1] < profiles.Length)
                 {
-                    player[0].ProfileID = _GameData.ProfileIDsTeam1[r.SingerTeam1];
+                    players[0].ProfileID = _GameData.ProfileIDsTeam1[r.SingerTeam1];
                     if (isDuet)
-                        player[0].LineNr = 0;
+                        players[0].LineNr = 0;
                 }
                 if (_GameData.ProfileIDsTeam2[r.SingerTeam2] < profiles.Length)
                 {
-                    player[1].ProfileID = _GameData.ProfileIDsTeam2[r.SingerTeam2];
+                    players[1].ProfileID = _GameData.ProfileIDsTeam2[r.SingerTeam2];
                     if (isDuet)
-                        player[1].LineNr = 1;
+                        players[1].LineNr = 1;
                 }
                 SongSelected(r.SongID);
             }

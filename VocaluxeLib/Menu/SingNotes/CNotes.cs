@@ -423,6 +423,7 @@ namespace VocaluxeLib.Menu.SingNotes
             return _PerfectLine;
         }
 
+        //Find last note with StartBeat<=Beat
         public int FindPreviousNote(int beat)
         {
             //If no notes -> No previous note

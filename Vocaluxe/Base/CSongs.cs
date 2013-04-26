@@ -52,7 +52,6 @@ namespace Vocaluxe.Base
 
         private static bool _SongsLoaded;
         private static bool _CoverLoaded;
-        private static int _CoverLoadIndex;
         private static int _CatIndex = -1;
         private static readonly List<CCategory> _CategoriesForRandom = new List<CCategory>();
 
@@ -157,20 +156,17 @@ namespace Vocaluxe.Base
             if (!SongsLoaded)
                 return -1;
 
-            if (_CoverLoadIndex < _Songs.Count)
+            if (NumSongsWithCoverLoaded < _Songs.Count)
             {
-                song = _Songs[_CoverLoadIndex];
-                _CoverLoadIndex++;
-                return _CoverLoadIndex;
+                song = _Songs[NumSongsWithCoverLoaded];
+                NumSongsWithCoverLoaded++;
+                return NumSongsWithCoverLoaded;
             }
 
             return -2;
         }
 
-        public static int NumSongsWithCoverLoaded
-        {
-            get { return _CoverLoadIndex; }
-        }
+        public static int NumSongsWithCoverLoaded { get; private set; }
 
         public static void SetCoverSmall(int songIndex, STexture texture)
         {
@@ -392,12 +388,11 @@ namespace Vocaluxe.Base
             foreach (string file in files)
             {
                 CSong song = CSong.LoadSong(file);
-                if (song != null)
-                {
-                    song.ID = _Songs.Count;
-                    if (song.ReadNotes())
-                        _Songs.Add(song);
-                }
+                if (song == null)
+                    continue;
+                song.ID = _Songs.Count;
+                if (song.ReadNotes())
+                    _Songs.Add(song);
             }
             CLog.StopBenchmark(2, "Read TXTs");
 
@@ -460,7 +455,7 @@ namespace Vocaluxe.Base
             foreach (CSong song in _Songs)
             {
                 song.LoadSmallCover();
-                _CoverLoadIndex++;
+                NumSongsWithCoverLoaded++;
             }
             GC.Collect();
             _CoverLoaded = true;
