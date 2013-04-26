@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenSing>
-    <ScreenVersion>6</ScreenVersion>
+    <ScreenVersion>7</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>None</Type>
@@ -988,6 +988,36 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </TextSongName>
+    <TextMedleyCountdown>
+      <!--<X>, <Y>: Text position-->
+      <X>640</X>
+      <Y>18</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>32</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW />
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>TextColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Left</Align>
+      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextMedleyCountdown>
     <TextTime>
       <!--<X>, <Y>: Text position-->
       <X>1214</X>

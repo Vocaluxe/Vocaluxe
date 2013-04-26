@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -40,7 +59,7 @@ namespace Vocaluxe.Lib.Playlist
 
         public void SavePlaylist()
         {
-            if (PlaylistFile.Length == 0)
+            if (PlaylistFile == "")
             {
                 string filename = string.Empty;
                 foreach (char chr in PlaylistName)
@@ -49,7 +68,7 @@ namespace Vocaluxe.Lib.Playlist
                         filename += chr.ToString();
                 }
 
-                if (filename.Length == 0)
+                if (filename == "")
                     filename = "1";
 
                 int i = 0;
@@ -74,12 +93,6 @@ namespace Vocaluxe.Lib.Playlist
                 return;
             }
 
-            if (writer == null)
-            {
-                CLog.LogError("Error creating/opening Playlist File " + PlaylistFile);
-                return;
-            }
-
             try
             {
                 writer.WriteStartDocument();
@@ -95,7 +108,7 @@ namespace Vocaluxe.Lib.Playlist
                     CSong song = CSongs.GetSong(Songs[i].SongID);
                     if (song != null)
                     {
-                        writer.WriteStartElement("Song" + (i + 1).ToString());
+                        writer.WriteStartElement("Song" + (i + 1));
                         writer.WriteElementString("Artist", song.Artist);
                         writer.WriteElementString("Title", song.Title);
                         writer.WriteElementString("GameMode", Enum.GetName(typeof(EGameMode), Songs[i].GameMode));
@@ -124,40 +137,38 @@ namespace Vocaluxe.Lib.Playlist
                 return;
 
             string value = String.Empty;
-            if (xmlReader.GetValue("//root/Info/PlaylistName", ref value, value))
+            if (xmlReader.GetValue("//root/Info/PlaylistName", out value, value))
             {
                 PlaylistName = value;
 
                 Songs = new List<CPlaylistSong>();
 
                 List<string> songs = xmlReader.GetValues("Songs");
-                string artist = String.Empty;
-                string title = String.Empty;
                 EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
 
-                for (int i = 0; i < songs.Count; i++)
+                foreach (string song in songs)
                 {
-                    xmlReader.GetValue("//root/Songs/" + songs[i] + "/Artist", ref artist, String.Empty);
-                    xmlReader.GetValue("//root/Songs/" + songs[i] + "/Title", ref title, String.Empty);
-                    xmlReader.TryGetEnumValue("//root/Songs/" + songs[i] + "/GameMode", ref gm);
+                    string artist;
+                    string title;
+                    xmlReader.GetValue("//root/Songs/" + song + "/Artist", out artist, String.Empty);
+                    xmlReader.GetValue("//root/Songs/" + song + "/Title", out title, String.Empty);
+                    xmlReader.TryGetEnumValue("//root/Songs/" + song + "/GameMode", ref gm);
 
-                    CPlaylistSong song = new CPlaylistSong();
-                    song.SongID = -1;
+                    CPlaylistSong playlistSong = new CPlaylistSong {SongID = -1};
                     CSong[] allSongs = CSongs.AllSongs;
 
-                    for (int s = 0; s < allSongs.Length; s++)
+                    foreach (CSong curSong in allSongs)
                     {
-                        if (allSongs[s].Artist == artist && allSongs[s].Title == title)
-                        {
-                            song.SongID = allSongs[s].ID;
-                            break;
-                        }
+                        if (curSong.Artist != artist || curSong.Title != title)
+                            continue;
+                        playlistSong.SongID = curSong.ID;
+                        break;
                     }
 
-                    if (song.SongID != -1)
+                    if (playlistSong.SongID != -1)
                     {
-                        song.GameMode = gm;
-                        Songs.Add(song);
+                        playlistSong.GameMode = gm;
+                        Songs.Add(playlistSong);
                     }
                     else
                         CLog.LogError("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + PlaylistFile);
@@ -169,21 +180,14 @@ namespace Vocaluxe.Lib.Playlist
 
         public void AddSong(int songID)
         {
-            CPlaylistSong song = new CPlaylistSong();
-            song.SongID = songID;
-            if (CSongs.GetSong(songID).IsDuet)
-                song.GameMode = EGameMode.TR_GAMEMODE_DUET;
-            else
-                song.GameMode = EGameMode.TR_GAMEMODE_NORMAL;
+            CPlaylistSong song = new CPlaylistSong {SongID = songID, GameMode = CSongs.GetSong(songID).IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL};
 
             Songs.Add(song);
         }
 
         public void AddSong(int songID, EGameMode gm)
         {
-            CPlaylistSong song = new CPlaylistSong();
-            song.SongID = songID;
-            song.GameMode = gm;
+            CPlaylistSong song = new CPlaylistSong {SongID = songID, GameMode = gm};
 
             Songs.Add(song);
         }

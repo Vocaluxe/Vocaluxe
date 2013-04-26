@@ -1,35 +1,37 @@
-/*
-  * PortAudioSharp - PortAudio bindings for .NET
-  * Copyright 2006-2011 Riccardo Gerosa and individual contributors as indicated
-  * by the @authors tag. See the copyright.txt in the distribution for a
-  * full listing of individual contributors.
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software 
-  * and associated documentation files (the "Software"), to deal in the Software without restriction, 
-  * including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-  * and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
-  * subject to the following conditions:
-  *
-  * The above copyright notice and this permission notice shall be included in all copies or substantial 
-  * portions of the Software.
-  *
-  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT 
-  * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-  * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-  * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
-  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  */
+#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
 using System;
 using System.Runtime.InteropServices;
 
-namespace PortAudioSharp
+namespace Vocaluxe.Lib.Sound.PortAudio
 {
     /**
 		<summary>
 			PortAudio v.19 bindings for .NET
 		</summary>
 	*/
-    public partial class CPortAudio
+    // ReSharper disable UnusedMember.Global
+    // ReSharper disable FieldCanBeMadeReadOnly.Global
+    // ReSharper disable MemberCanBePrivate.Global
+
+    public static class CPortAudio
     {
         #region **** PORTAUDIO CALLBACKS ****
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -550,10 +552,9 @@ namespace PortAudioSharp
         [DllImport(_PaDll, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Pa_Sleep(int msec);
         #endregion
-
-        private CPortAudio()
-        {
-            // This is a static class
-        }
     }
+
+    // ReSharper restore UnusedMember.Global
+    // ReSharper restore FieldCanBeMadeReadOnly.Global
+    // ReSharper restore MemberCanBePrivate.Global
 }

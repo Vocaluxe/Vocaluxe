@@ -1,6 +1,12 @@
 ScreenSing
 
 +++++++++
+Version 7
+
+Add:
+<TextMedleyCountdown> !text-position and size will be overwritten by vocaluxe!
+
++++++++++
 Version 6
 
 Add:

@@ -1,77 +1,97 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace VocaluxeLib.Menu.SingNotes
 {
     public class CNotes
     {
-        private readonly List<CLines> _Lines = new List<CLines>();
+        private readonly List<CVoice> _Voices = new List<CVoice>();
 
-        public CLines[] Lines
+        public CVoice[] Voices
         {
-            get { return _Lines.ToArray(); }
+            get { return _Voices.ToArray(); }
         }
 
         public CNotes() {}
 
         public int LinesCount
         {
-            get { return _Lines.Count; }
+            get { return _Voices.Count; }
         }
 
         public CNotes(CNotes notes)
         {
-            foreach (CLines lines in notes._Lines)
-                _Lines.Add(new CLines(lines));
+            foreach (CVoice voice in notes._Voices)
+                _Voices.Add(new CVoice(voice));
         }
 
-        public CLines GetLines(int index)
+        public CVoice GetVoice(int index)
         {
-            while (index >= _Lines.Count)
-                _Lines.Add(new CLines());
+            while (index >= _Voices.Count)
+                _Voices.Add(new CVoice());
 
-            return _Lines[index];
+            return _Voices[index];
         }
 
         public int GetPoints(int index)
         {
-            if (index >= _Lines.Count)
+            if (index >= _Voices.Count)
                 return 0;
 
-            return _Lines[index].Points;
+            return _Voices[index].Points;
         }
 
         public int GetNumLinesWithPoints(int index)
         {
-            if (index >= _Lines.Count)
+            if (index >= _Voices.Count)
                 return 0;
 
-            return _Lines[index].NumLinesWithPoints;
+            return _Voices[index].NumLinesWithPoints;
         }
 
-        public void AddLines(CLines lines)
+        public void AddVoice(CVoice voice)
         {
-            _Lines.Add(lines);
+            _Voices.Add(voice);
         }
 
-        public bool ReplaceLinesAt(int index, CLines lines)
+        public bool ReplaceVoiceAt(int index, CVoice voice)
         {
-            if (index >= _Lines.Count)
+            if (index >= _Voices.Count)
                 return false;
 
-            _Lines[index] = lines;
+            _Voices[index] = voice;
             return true;
         }
 
         public void Reset()
         {
-            _Lines.Clear();
+            _Voices.Clear();
         }
 
         public void SetMedley(int startBeat, int endBeat)
         {
-            foreach (CLines lines in _Lines)
-                lines.SetMedley(startBeat, endBeat);
+            foreach (CVoice voice in _Voices)
+                voice.SetMedley(startBeat, endBeat);
         }
     }
 
@@ -111,35 +131,35 @@ namespace VocaluxeLib.Menu.SingNotes
         public CNote(int startBeat, int duration, int tone, string text)
             : this()
         {
-            this.StartBeat = startBeat;
-            this.Duration = duration;
-            this.Tone = tone;
+            StartBeat = startBeat;
+            Duration = duration;
+            Tone = tone;
             NoteType = ENoteType.Normal;
-            this.Text = text;
+            Text = text;
         }
 
         public CNote(int startBeat, int duration, int tone, string text, bool hit)
             : this()
         {
-            this.StartBeat = startBeat;
-            this.Duration = duration;
-            this.Tone = tone;
+            StartBeat = startBeat;
+            Duration = duration;
+            Tone = tone;
             NoteType = ENoteType.Normal;
-            this.Text = text;
-            this.Hit = hit;
+            Text = text;
+            Hit = hit;
         }
 
         public CNote(int startBeat, int duration, int tone, string text, ENoteType noteType)
             : this(startBeat, duration, tone, text)
         {
-            this.NoteType = noteType;
+            NoteType = noteType;
         }
 
         public CNote(int startBeat, int duration, int tone, string text, bool hit, ENoteType noteType)
             : this(startBeat, duration, tone, text)
         {
-            this.NoteType = noteType;
-            this.Hit = hit;
+            NoteType = noteType;
+            Hit = hit;
         }
         #endregion Constructors
 
@@ -239,10 +259,7 @@ namespace VocaluxeLib.Menu.SingNotes
         #region Methods
         public bool IsPerfect(CNote compareNote)
         {
-            bool result = true;
-
-            if (!Hit)
-                result = false;
+            bool result = Hit;
 
             if (StartBeat != compareNote.StartBeat)
                 result = false;
@@ -363,24 +380,12 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public CNote FirstNote
         {
-            get
-            {
-                if (_Notes.Count > 0)
-                    return _Notes[0];
-                else
-                    return null;
-            }
+            get { return _Notes.Count > 0 ? _Notes[0] : null; }
         }
 
         public CNote LastNote
         {
-            get
-            {
-                if (_Notes.Count > 0)
-                    return _Notes[_Notes.Count - 1];
-                else
-                    return null;
-            }
+            get { return _Notes.Count > 0 ? _Notes[_Notes.Count - 1] : null; }
         }
 
         public int BaseLine
@@ -537,23 +542,23 @@ namespace VocaluxeLib.Menu.SingNotes
         #endregion Methods
     }
 
-    public class CLines
+    public class CVoice
     {
         private readonly List<CLine> _Lines = new List<CLine>();
 
-        public CLines() {}
+        public CVoice() {}
 
-        public CLines(CLines lines)
+        public CVoice(CVoice voice)
         {
-            foreach (CLine line in lines._Lines)
+            foreach (CLine line in voice._Lines)
                 _Lines.Add(new CLine(line));
         }
 
-        public CLine[] Line
+        public CLine[] Lines
         {
             get { return _Lines.ToArray(); }
         }
-        public int LineCount
+        public int NumLines
         {
             get { return _Lines.Count; }
         }
@@ -568,51 +573,22 @@ namespace VocaluxeLib.Menu.SingNotes
                 if (_Lines.Count == 0)
                     return 0;
 
-                int startbeat = int.MaxValue;
-                for (int i = 0; i < _Lines.Count; i++)
-                {
-                    if (_Lines[i].FirstNoteBeat < startbeat)
-                        startbeat = _Lines[i].FirstNoteBeat;
-                }
-
-                int endbeat = int.MinValue;
-                for (int i = 0; i < _Lines.Count; i++)
-                {
-                    if (_Lines[i].LastNoteBeat < endbeat)
-                        endbeat = _Lines[i].LastNoteBeat;
-                }
+                int startbeat = _Lines.Max(line => line.FirstNoteBeat);
+                int endbeat = _Lines.Min(line => line.LastNoteBeat);
 
                 int result = endbeat - startbeat;
-                if (result > 0)
-                    return result;
-
-                return 0;
+                return result > 0 ? result : 0;
             }
         }
 
         public int Points
         {
-            get
-            {
-                int points = 0;
-                foreach (CLine line in _Lines)
-                    points += line.Points;
-                return points;
-            }
+            get { return _Lines.Sum(line => line.Points); }
         }
 
         public int NumLinesWithPoints
         {
-            get
-            {
-                int num = 0;
-                foreach (CLine line in _Lines)
-                {
-                    if (line.Points > 0f)
-                        num++;
-                }
-                return num;
-            }
+            get { return _Lines.Count(line => line.Points > 0f); }
         }
 
         #region Methods
@@ -674,8 +650,7 @@ namespace VocaluxeLib.Menu.SingNotes
             if (lineIndex < 0)
             {
                 //Note is before ALL lines
-                CLine line = new CLine();
-                line.StartBeat = note.StartBeat;
+                CLine line = new CLine {StartBeat = note.StartBeat};
                 line.AddNote(note);
                 _Lines.Insert(0, line);
             }
@@ -704,7 +679,6 @@ namespace VocaluxeLib.Menu.SingNotes
         public void UpdateTimings()
         {
             CNote lastNote;
-            int min, max, s;
 
             if (_Lines.Count > 0)
                 _Lines[0].StartBeat = -10000;
@@ -716,9 +690,10 @@ namespace VocaluxeLib.Menu.SingNotes
 
                 if ((lastNote != null) && (firstNote != null))
                 {
-                    min = lastNote.EndBeat;
-                    max = firstNote.StartBeat;
+                    int min = lastNote.EndBeat;
+                    int max = firstNote.StartBeat;
 
+                    int s;
                     switch (max - min)
                     {
                         case 0:

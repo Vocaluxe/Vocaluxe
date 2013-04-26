@@ -1,4 +1,23 @@
-﻿using System.Windows.Forms;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 
@@ -33,14 +52,14 @@ namespace Vocaluxe.Screens
         {
             base.LoadTheme(xmlPath);
 
-            SelectSlides[_SelectSlideLanguage].AddValues(CLanguage.GetLanguageNames());
-            SelectSlides[_SelectSlideLanguage].Selection = CLanguage.LanguageId;
+            _SelectSlides[_SelectSlideLanguage].AddValues(CLanguage.GetLanguageNames());
+            _SelectSlides[_SelectSlideLanguage].Selection = CLanguage.LanguageId;
 
-            SelectSlides[_SelectSlideDebugLevel].SetValues<EDebugLevel>((int)CConfig.DebugLevel);
-            SelectSlides[_SelectSlideSongMenu].SetValues<ESongMenu>((int)CConfig.SongMenu);
-            SelectSlides[_SelectSlideSongSorting].SetValues<ESongSorting>((int)CConfig.SongSorting);
-            SelectSlides[_SelectSlideTabs].SetValues<EOffOn>((int)CConfig.Tabs);
-            SelectSlides[_SelectSlideTimerMode].SetValues<ETimerMode>((int)CConfig.TimerMode);
+            _SelectSlides[_SelectSlideDebugLevel].SetValues<EDebugLevel>((int)CConfig.DebugLevel);
+            _SelectSlides[_SelectSlideSongMenu].SetValues<ESongMenu>((int)CConfig.SongMenu);
+            _SelectSlides[_SelectSlideSongSorting].SetValues<ESongSorting>((int)CConfig.SongSorting);
+            _SelectSlides[_SelectSlideTabs].SetValues<EOffOn>((int)CConfig.Tabs);
+            _SelectSlides[_SelectSlideTimerMode].SetValues<ETimerMode>((int)CConfig.TimerMode);
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -63,7 +82,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Enter:
-                        if (Buttons[_ButtonExit].Selected)
+                        if (_Buttons[_ButtonExit].Selected)
                         {
                             _SaveConfig();
                             CGraphics.FadeTo(EScreens.ScreenOptions);
@@ -92,10 +111,10 @@ namespace Vocaluxe.Screens
                 CGraphics.FadeTo(EScreens.ScreenOptions);
             }
 
-            if (mouseEvent.LB && IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
             {
                 _SaveConfig();
-                if (Buttons[_ButtonExit].Selected)
+                if (_Buttons[_ButtonExit].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptions);
             }
             return true;
@@ -114,13 +133,13 @@ namespace Vocaluxe.Screens
 
         private void _SaveConfig()
         {
-            CLanguage.LanguageId = SelectSlides[_SelectSlideLanguage].Selection;
+            CLanguage.LanguageId = _SelectSlides[_SelectSlideLanguage].Selection;
             CConfig.Language = CLanguage.GetLanguageName(CLanguage.LanguageId);
-            CConfig.DebugLevel = (EDebugLevel)SelectSlides[_SelectSlideDebugLevel].Selection;
-            CConfig.SongMenu = (ESongMenu)SelectSlides[_SelectSlideSongMenu].Selection;
-            CConfig.SongSorting = (ESongSorting)SelectSlides[_SelectSlideSongSorting].Selection;
-            CConfig.Tabs = (EOffOn)SelectSlides[_SelectSlideTabs].Selection;
-            CConfig.TimerMode = (ETimerMode)SelectSlides[_SelectSlideTimerMode].Selection;
+            CConfig.DebugLevel = (EDebugLevel)_SelectSlides[_SelectSlideDebugLevel].Selection;
+            CConfig.SongMenu = (ESongMenu)_SelectSlides[_SelectSlideSongMenu].Selection;
+            CConfig.SongSorting = (ESongSorting)_SelectSlides[_SelectSlideSongSorting].Selection;
+            CConfig.Tabs = (EOffOn)_SelectSlides[_SelectSlideTabs].Selection;
+            CConfig.TimerMode = (ETimerMode)_SelectSlides[_SelectSlideTimerMode].Selection;
 
             CConfig.SaveConfig();
 

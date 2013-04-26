@@ -1,8 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 
@@ -10,16 +28,16 @@ namespace Vocaluxe.Base
 {
     public struct SSongPointer
     {
-        public int SongID;
+        public readonly int SongID;
         public string SortString;
 
         public int CatIndex;
         public bool Visible;
         public bool PartyHidden;
 
-        public SSongPointer(int iD, string sortString)
+        public SSongPointer(int id, string sortString)
         {
-            SongID = iD;
+            SongID = id;
             SortString = sortString;
             CatIndex = -1;
             Visible = false;
@@ -38,13 +56,11 @@ namespace Vocaluxe.Base
         private static int _CatIndex = -1;
         private static readonly List<CCategory> _CategoriesForRandom = new List<CCategory>();
 
-        private static readonly Stopwatch _CoverLoadTimer = new Stopwatch();
+        public static readonly CSongFilter Filter = new CSongFilter();
+        public static readonly CSongSorter Sorter = new CSongSorter();
+        public static readonly CSongCategorizer Categorizer = new CSongCategorizer();
 
-        public static CSongFilter Filter = new CSongFilter();
-        public static CSongSorter Sorter = new CSongSorter();
-        public static CSongCategorizer Categorizer = new CSongCategorizer();
-
-        private static Thread _CoverLoaderThread = null;
+        private static Thread _CoverLoaderThread;
 
         public static List<CSong> Songs
         {
@@ -73,16 +89,7 @@ namespace Vocaluxe.Base
 
         public static int NumVisibleSongs
         {
-            get
-            {
-                int result = 0;
-                foreach (SSongPointer sp in Sorter.SortedSongs)
-                {
-                    if (sp.Visible)
-                        result++;
-                }
-                return result;
-            }
+            get { return Sorter.SortedSongs.Count(sp => sp.Visible); }
         }
 
         public static int NumCategories
@@ -187,18 +194,12 @@ namespace Vocaluxe.Base
         {
             if ((Categorizer.Categories.Count > 0) && (_CatIndex >= 0) && (Categorizer.Categories.Count > _CatIndex))
                 return Categorizer.Categories[_CatIndex].Name;
-            else
-                return String.Empty;
+            return String.Empty;
         }
 
         public static CSong GetSong(int songID)
         {
-            foreach (CSong song in _Songs)
-            {
-                if (song.ID == songID)
-                    return song;
-            }
-            return null;
+            return _Songs.FirstOrDefault(song => song.ID == songID);
         }
 
         public static void AddPartySongSung(int songID)
@@ -394,7 +395,7 @@ namespace Vocaluxe.Base
                 if (song != null)
                 {
                     song.ID = _Songs.Count;
-                    if(song.ReadNotes())
+                    if (song.ReadNotes())
                         _Songs.Add(song);
                 }
             }
@@ -427,14 +428,10 @@ namespace Vocaluxe.Base
             if (!SongsLoaded || CoverLoaded)
                 return;
 
-            if (_CoverLoaderThread == null)
-            {
-                _CoverLoaderThread = new Thread(new ThreadStart(_LoadCover));
-                _CoverLoaderThread.Name = "CoverLoader";
-                _CoverLoaderThread.Priority = ThreadPriority.BelowNormal;
-                _CoverLoaderThread.IsBackground = true;
-                _CoverLoaderThread.Start();
-            }
+            if (_CoverLoaderThread != null)
+                return;
+            _CoverLoaderThread = new Thread(_LoadCover) {Name = "CoverLoader", Priority = ThreadPriority.BelowNormal, IsBackground = true};
+            _CoverLoaderThread.Start();
 
             /*
             if (_CoverLoadTimer.ElapsedMilliseconds >= WaitTime)

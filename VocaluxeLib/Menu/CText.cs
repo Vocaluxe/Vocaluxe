@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Drawing;
 using System.Xml;
 
@@ -21,13 +40,13 @@ namespace VocaluxeLib.Menu
         public float Width;
         public float Height;
 
-        public STextPosition(int dummy)
+        public STextPosition(float initVal)
         {
-            X = 0f;
-            Y = 0f;
-            TextHeight = 0f;
-            Width = 0f;
-            Height = 0f;
+            X = initVal;
+            Y = initVal;
+            TextHeight = initVal;
+            Width = initVal;
+            Height = initVal;
         }
     }
 
@@ -55,7 +74,7 @@ namespace VocaluxeLib.Menu
             get { return _X; }
             set
             {
-                if (_X != value)
+                if (Math.Abs(_X - value) > 0.01)
                 {
                     _X = value;
                     _PositionNeedsUpdate = true;
@@ -70,7 +89,7 @@ namespace VocaluxeLib.Menu
             get { return _Y; }
             set
             {
-                if (_Y != value)
+                if (Math.Abs(_Y - value) > 0.01)
                 {
                     _Y = value;
                     _PositionNeedsUpdate = true;
@@ -91,7 +110,7 @@ namespace VocaluxeLib.Menu
             get { return _Height; }
             set
             {
-                if (_Height != value)
+                if (Math.Abs(_Height - value) > 0.01)
                 {
                     _Height = value;
                     _PositionNeedsUpdate = true;
@@ -105,7 +124,7 @@ namespace VocaluxeLib.Menu
             get { return _MaxWidth; }
             set
             {
-                if (_MaxWidth != value)
+                if (Math.Abs(_MaxWidth - value) > 0.01)
                 {
                     _MaxWidth = value;
                     if (_MaxWidth > 0)
@@ -124,7 +143,8 @@ namespace VocaluxeLib.Menu
             get { return _Bounds; }
             set
             {
-                if (_Bounds.X != value.X || _Bounds.Y != value.Y || _Bounds.W != value.W || _Bounds.H != value.H || _Bounds.Z != value.Z)
+                if (Math.Abs(_Bounds.X - value.X) > 0.01 || Math.Abs(_Bounds.Y - value.Y) > 0.01 || Math.Abs(_Bounds.W - value.W) > 0.01 || Math.Abs(_Bounds.H - value.H) > 0.01 ||
+                    Math.Abs(_Bounds.Z - value.Z) > 0.01)
                 {
                     _Bounds = value;
                     _PositionNeedsUpdate = true;
@@ -191,7 +211,7 @@ namespace VocaluxeLib.Menu
         public SColorF Color; //normal Color
         public SColorF SelColor; //selected Color for Buttons
 
-        public bool Reflection = false;
+        public bool Reflection;
         public float ReflectionSpace;
         public float ReflectionHeight;
 
@@ -230,7 +250,7 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        public bool Selected = false;
+        public bool Selected;
         public bool Visible = true;
         private bool _EditMode;
         public bool EditMode
@@ -442,7 +462,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Height);
             xmlReader.TryGetFloatValue(item + "/MaxW", ref _MaxWidth);
 
-            if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
             else
             {
@@ -452,7 +472,7 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            if (xmlReader.GetValue(item + "/SColor", ref _Theme.SelColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorName, skinIndex, out SelColor);
             else
             {
@@ -467,9 +487,9 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Align", ref _Align);
             xmlReader.TryGetEnumValue(item + "/HAlign", ref _HAlign);
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Style", ref _Style);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Font", ref _Font, "Normal");
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Font", out _Font, "Normal");
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Text", ref _Theme.Text, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Text", out _Theme.Text, String.Empty);
 
             if (xmlReader.ItemExists(item + "/Reflection") && !buttonText)
             {
@@ -522,7 +542,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<Color>: Text color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName.Length > 0)
+                if (_Theme.ColorName != "")
                     writer.WriteElementString("Color", _Theme.ColorName);
                 else
                 {
@@ -534,7 +554,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<SColor>: Selected Text color from ColorScheme (high priority)");
                 writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
-                if (_Theme.SelColorName.Length > 0)
+                if (_Theme.SelColorName != "")
                     writer.WriteElementString("SColor", _Theme.SelColorName);
                 else
                 {
@@ -557,10 +577,7 @@ namespace VocaluxeLib.Menu
                 writer.WriteElementString("Font", Font);
 
                 writer.WriteComment("<Text>: Nothing or translation tag");
-                if (CBase.Language.TranslationExists(_Theme.Text))
-                    writer.WriteElementString("Text", _Theme.Text);
-                else
-                    writer.WriteElementString("Text", string.Empty);
+                writer.WriteElementString("Text", CBase.Language.TranslationExists(_Theme.Text) ? _Theme.Text : string.Empty);
 
                 if (!_ButtonText)
                 {
@@ -673,17 +690,12 @@ namespace VocaluxeLib.Menu
                 CBase.Drawing.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(x, Y, bounds.Width, bounds.Height, Z));
         }
 
-        public void DrawRelative(float x, float y)
-        {
-            DrawRelative(x, y, false, 0f, 0f, 0f);
-        }
-
         public void DrawRelative(float x, float y, float reflectionSpace, float reflectionHeigth, float rectHeight)
         {
             DrawRelative(x, y, true, reflectionSpace, reflectionHeigth, rectHeight);
         }
 
-        public void DrawRelative(float rx, float ry, bool reflection, float reflectionSpace, float reflectionHeight, float rectHeight)
+        public void DrawRelative(float rx, float ry, bool reflection = false, float reflectionSpace = 0f, float reflectionHeight = 0f, float rectHeight = 0f)
         {
             // Update Text
             Text = Text;
@@ -757,10 +769,10 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (_Theme.ColorName.Length > 0)
+            if (_Theme.ColorName != "")
                 Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
-            if (_Theme.SelColorName.Length > 0)
+            if (_Theme.SelColorName != "")
                 SelColor = CBase.Theme.GetColor(_Theme.SelColorName, _PartyModeID);
         }
 
@@ -787,7 +799,7 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateTextPosition()
         {
-            if (_Text.Length == 0)
+            if (_Text == "")
                 return;
 
             CBase.Fonts.SetFont(Font);

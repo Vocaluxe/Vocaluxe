@@ -1,5 +1,23 @@
-﻿using System;
-using System.IO;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
@@ -14,7 +32,9 @@ namespace Vocaluxe.Screens
             get { return 1; }
         }
 
+        /*
         private int _TestMusic = -1;
+*/
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
@@ -51,7 +71,7 @@ namespace Vocaluxe.Screens
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
-            if (mouseEvent.LB && IsMouseOver(mouseEvent)) {}
+            if (mouseEvent.LB && _IsMouseOver(mouseEvent)) {}
 
             if (mouseEvent.LB)
                 CGraphics.FadeTo(EScreens.ScreenMain);
@@ -66,23 +86,25 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        private void _PlayFile()
-        {
-            if (_TestMusic == -1)
-                _TestMusic = CSound.Load(Path.Combine(Environment.CurrentDirectory, "Test.mp3"));
+        /*
+                private void _PlayFile()
+                {
+                    if (_TestMusic == -1)
+                        _TestMusic = CSound.Load(Path.Combine(Environment.CurrentDirectory, "Test.mp3"));
 
-            CSound.Play(_TestMusic);
-            CSound.Fade(_TestMusic, 100f, 2f);
-        }
+                    CSound.Play(_TestMusic);
+                    CSound.Fade(_TestMusic, 100f, 2f);
+                }
 
-        private void _PauseFile()
-        {
-            CSound.Pause(_TestMusic);
-        }
 
-        private void _FadeAndPause()
-        {
-            CSound.FadeAndPause(_TestMusic, 0f, 2f);
-        }
+                private void _PauseFile()
+                {
+                    CSound.Pause(_TestMusic);
+                }
+
+                private void _FadeAndPause()
+                {
+                    CSound.FadeAndPause(_TestMusic, 0f, 2f);
+                }*/
     }
 }

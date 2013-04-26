@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -300,7 +319,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void CopyScreen(ref STexture texture)
         {
-            if ((texture.Index == 0) || (texture.Width != GetScreenWidth()) || (texture.Height != GetScreenHeight()))
+            if (texture.Index == 0 || (int)texture.Width != GetScreenWidth() || (int)texture.Height != GetScreenHeight())
             {
                 RemoveTexture(ref texture);
                 texture = CopyScreen();
@@ -311,7 +330,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void MakeScreenShot()
         {
-            string file = "Screenshot_";
+            const string file = "Screenshot_";
             string path = Path.Combine(Environment.CurrentDirectory, CSettings.FolderScreenshots);
 
             int i = 0;
@@ -327,13 +346,7 @@ namespace Vocaluxe.Lib.Draw
         }
 
         // Draw Basic Text
-        public void DrawText(string text, int x, int y, int h)
-        {
-            DrawText(text, x, y, h, 0f);
-        }
-
-        // Draw Basic Text
-        public void DrawText(string text, int x, int y, float h, float z)
+        public void DrawText(string text, int x, int y, int h, int z = 0)
         {
             CFonts.DrawText(text, h, x, y, z, new SColorF(1, 1, 1, 1));
         }
@@ -346,15 +359,9 @@ namespace Vocaluxe.Lib.Draw
         {
             Bitmap bmp2 = new Bitmap(bmp);
             _Bitmaps.Add(bmp2);
-            STexture texture = new STexture();
-
-            texture.Index = _Bitmaps.Count - 1;
-
-            texture.Width = bmp.Width;
-            texture.Height = bmp.Height;
+            STexture texture = new STexture {Index = _Bitmaps.Count - 1, Width = bmp.Width, Height = bmp.Height, Color = new SColorF(1f, 1f, 1f, 1f)};
 
             // Add to Texture List
-            texture.Color = new SColorF(1f, 1f, 1f, 1f);
             texture.Rect = new SRectF(0f, 0f, texture.Width, texture.Height, 0f);
             texture.TexturePath = String.Empty;
 
@@ -437,7 +444,7 @@ namespace Vocaluxe.Lib.Draw
             if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
             {
                 BitmapData bmpData = _Bitmaps[texture.Index].LockBits(new Rectangle(0, 0, _Bitmaps[texture.Index].Width, _Bitmaps[texture.Index].Height),
-                                                                       ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                                                                      ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
                 Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
                 _Bitmaps[texture.Index].UnlockBits(bmpData);
             }
@@ -499,12 +506,7 @@ namespace Vocaluxe.Lib.Draw
 
             using (Graphics g = Graphics.FromImage(newBitmap))
             {
-                ColorMatrix cm = new ColorMatrix();
-                cm.Matrix33 = color.A;
-                cm.Matrix00 = color.R;
-                cm.Matrix11 = color.G;
-                cm.Matrix22 = color.B;
-                cm.Matrix44 = 1;
+                ColorMatrix cm = new ColorMatrix {Matrix33 = color.A, Matrix00 = color.R, Matrix11 = color.G, Matrix22 = color.B, Matrix44 = 1};
 
                 using (ImageAttributes ia = new ImageAttributes())
                 {

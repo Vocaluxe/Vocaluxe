@@ -1,4 +1,24 @@
-﻿using OpenTK.Audio;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System.Linq;
+using OpenTK.Audio;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,11 +40,6 @@ namespace Vocaluxe.Lib.Sound
         private readonly Object _MutexDecoder = new Object();
 
         private List<SAudioStreams> _Streams;
-
-        public COpenALPlay()
-        {
-            Init();
-        }
 
         public bool Init()
         {
@@ -100,7 +115,6 @@ namespace Vocaluxe.Lib.Sound
                 {
                     _Decoder.Add(decoder);
                     stream.Handle = _Count++;
-                    stream.File = media;
                     _Streams.Add(stream);
                     return stream.Handle;
                 }
@@ -299,12 +313,7 @@ namespace Vocaluxe.Lib.Sound
 
         private bool _AlreadyAdded(int stream)
         {
-            foreach (SAudioStreams st in _Streams)
-            {
-                if (st.Handle == stream)
-                    return true;
-            }
-            return false;
+            return _Streams.Any(st => st.Handle == stream);
         }
 
         private int _GetStreamIndex(int stream)
@@ -315,15 +324,6 @@ namespace Vocaluxe.Lib.Sound
                     return i;
             }
             return -1;
-        }
-
-        private void _EndSync(int handle, int stream, int data, IntPtr user)
-        {
-            if (_Initialized)
-            {
-                if (_AlreadyAdded(stream))
-                    Close(stream);
-            }
         }
 
         private void _CloseProc(int streamID)
@@ -380,7 +380,6 @@ namespace Vocaluxe.Lib.Sound
 
         private Closeproc _Closeproc;
         private int _StreamID;
-        private string _FileName;
         private IAudioDecoder _Decoder;
         private float _BytesPerSecond;
         private bool _NoMoreData;
@@ -422,7 +421,7 @@ namespace Vocaluxe.Lib.Sound
             _Closeproc = closeProc;
             _StreamID = streamID;
             _Terminated = true;
-            this._CloseMutex = closeMutex;
+            _CloseMutex = closeMutex;
         }
 
         public float Length
@@ -487,7 +486,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 if (Finished)
                     _Timer.Stop();
-
+                //TODO: Why not use Decoder.GetPosition()?
                 return _CurrentTime + _Timer.ElapsedMilliseconds / 1000f;
             }
         }
@@ -567,9 +566,6 @@ namespace Vocaluxe.Lib.Sound
             if (!File.Exists(fileName))
                 return -1;
 
-            if (_FileOpened)
-                return -1;
-
             _Decoder = new CAudioDecoderFFmpeg();
             _Decoder.Init();
 
@@ -590,7 +586,6 @@ namespace Vocaluxe.Lib.Sound
                 return -1;
             }
 
-            _FileName = fileName;
             _Decoder.Open(fileName);
             _Duration = _Decoder.GetLength();
 
@@ -600,9 +595,7 @@ namespace Vocaluxe.Lib.Sound
             _CurrentTime = 0f;
             _Timer.Reset();
 
-            SAudioStreams stream = new SAudioStreams(0);
-
-            stream.Handle = _Buffers[0];
+            SAudioStreams stream = new SAudioStreams(0) {Handle = _Buffers[0]};
 
             if (stream.Handle != 0)
             {
@@ -615,6 +608,7 @@ namespace Vocaluxe.Lib.Sound
 
                 return stream.Handle;
             }
+            _Initialized = true;
             return -1;
         }
 
@@ -739,6 +733,7 @@ namespace Vocaluxe.Lib.Sound
                     AL.DeleteSource(_Source);
                     AL.DeleteBuffers(_Buffers);
                 }
+                _Decoder.Close();
             }
 
             _Closeproc(_StreamID);
@@ -773,7 +768,7 @@ namespace Vocaluxe.Lib.Sound
             if (_Paused)
                 return;
 
-            int queuedCount = 0;
+            int queuedCount;
             bool doit = true;
             AL.GetSource(_Source, ALGetSourcei.BuffersQueued, out queuedCount);
 
@@ -782,7 +777,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 AL.GetSource(_Source, ALGetSourcei.BuffersProcessed, out processedCount);
                 doit = false;
-                Console.WriteLine("Buffers Processed on Stream " + _Source.ToString() + " = " + processedCount.ToString());
+                Console.WriteLine("Buffers Processed on Stream " + _Source + " = " + processedCount);
                 if (processedCount < 1)
                     return;
             }
@@ -820,7 +815,7 @@ namespace Vocaluxe.Lib.Sound
                         }
 
 
-                        int buffer = 0;
+                        int buffer;
                         if (!doit)
                             buffer = AL.SourceUnqueueBuffer(_Source);
                         else
@@ -831,11 +826,9 @@ namespace Vocaluxe.Lib.Sound
 
                         if (buffer != 0)
                         {
-                            if (_Format.ChannelCount == 2)
-                                AL.BufferData(buffer, ALFormat.Stereo16, buf, buf.Length, _Format.SamplesPerSecond);
-                            else
-                                AL.BufferData(buffer, ALFormat.Mono16, buf, buf.Length, _Format.SamplesPerSecond);
-                            Console.WriteLine("Write to Buffer: " + buffer.ToString());
+                            ALFormat alFormat = (_Format.ChannelCount == 2) ? ALFormat.Stereo16 : ALFormat.Mono16;
+                            AL.BufferData(buffer, alFormat, buf, buf.Length, _Format.SamplesPerSecond);
+                            Console.WriteLine("Write to Buffer: " + buffer);
                             AL.SourceQueueBuffer(_Source, buffer);
                         }
                     }

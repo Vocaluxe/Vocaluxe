@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Xml.XPath;
 
@@ -43,8 +62,8 @@ namespace VocaluxeLib.Menu
         public bool TryGetEnumValue<T>(string cast, ref T value)
             where T : struct
         {
-            string val = String.Empty;
-            if (GetValue(cast, ref val, Enum.GetName(typeof(T), value)))
+            string val;
+            if (GetValue(cast, out val, Enum.GetName(typeof(T), value)))
             {
                 CHelper.TryParse(val, out value, true);
                 return true;
@@ -54,8 +73,8 @@ namespace VocaluxeLib.Menu
 
         public bool TryGetIntValue(string cast, ref int value)
         {
-            string val = String.Empty;
-            if (GetValue(cast, ref val, value.ToString()))
+            string val;
+            if (GetValue(cast, out val, value.ToString()))
                 return int.TryParse(val, out value);
             return false;
         }
@@ -75,37 +94,31 @@ namespace VocaluxeLib.Menu
 
         public bool TryGetFloatValue(string cast, ref float value)
         {
-            string val = String.Empty;
-            if (GetValue(cast, ref val, value.ToString()))
-                return CHelper.TryParse(val, out value);
-            return false;
+            string val;
+            return GetValue(cast, out val, value.ToString()) && CHelper.TryParse(val, out value);
         }
 
-        public bool GetValue(string cast, ref string value, string defaultValue)
+        public bool GetValue(string cast, out string value, string defaultValue)
         {
-            XPathNodeIterator iterator;
-            int results = 0;
+            int resultCt = 0;
             string val = string.Empty;
 
             _Navigator.MoveToFirstChild();
-            iterator = _Navigator.Select(cast);
+            XPathNodeIterator iterator = _Navigator.Select(cast);
 
             while (iterator.MoveNext())
             {
                 val = iterator.Current.Value;
-                results++;
+                resultCt++;
             }
 
-            if ((results == 0) || (results > 1))
+            if (resultCt != 1)
             {
                 value = defaultValue;
                 return false;
             }
-            else
-            {
-                value = val;
-                return true;
-            }
+            value = val;
+            return true;
         }
 
         public List<string> GetValues(string cast)
@@ -128,7 +141,7 @@ namespace VocaluxeLib.Menu
             return values;
         }
 
-        public List<string> GetAttributes(string cast, string attribute)
+        public IEnumerable<string> GetAttributes(string cast, string attribute)
         {
             List<string> values = new List<string>();
 
@@ -167,11 +180,10 @@ namespace VocaluxeLib.Menu
 
         public bool ItemExists(string cast)
         {
-            XPathNodeIterator iterator;
             int results = 0;
 
             _Navigator.MoveToFirstChild();
-            iterator = _Navigator.Select(cast);
+            XPathNodeIterator iterator = _Navigator.Select(cast);
 
             while (iterator.MoveNext())
                 results++;

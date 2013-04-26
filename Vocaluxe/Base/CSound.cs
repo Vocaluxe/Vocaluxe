@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Diagnostics;
 using System.IO;
 using Vocaluxe.Lib.Sound;
@@ -16,7 +35,7 @@ namespace Vocaluxe.Base
         #region Playback
         private static IPlayback _Playback;
 
-        public static bool PlaybackInit()
+        public static bool Init()
         {
             switch (CConfig.PlayBackLib)
             {
@@ -36,7 +55,7 @@ namespace Vocaluxe.Base
                     _Playback = new CPortAudioPlay();
                     break;
             }
-            return true;
+            return _Playback.Init();
         }
 
         public static void SetGlobalVolume(float volume)
@@ -164,7 +183,7 @@ namespace Vocaluxe.Base
                     break;
             }
 
-            if (file.Length == 0)
+            if (file == "")
                 return -1;
 
             int stream = Load(file);
@@ -467,16 +486,19 @@ namespace Vocaluxe.Base
                         _MaxVolume = volume;
                 }
 
-                if (_MaxVolume >= 0.02f)
-                    _AnalyzeByAutocorrelation(true);
-                else
-                    _AnalyzeByAutocorrelation(false);
+                _AnalyzeByAutocorrelation(_MaxVolume >= 0.02f);
             }
             catch (Exception) {}
         }
 
         private void _AnalyzeByAutocorrelation(bool valid)
         {
+            if (!valid)
+            {
+                _ToneValid = false;
+                return;
+            }
+
             const double halftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
 
             // prepare to analyze
@@ -506,7 +528,7 @@ namespace Vocaluxe.Base
                 weigth[toneIndex] = (float)curWeight;
             }
 
-            if (valid && maxWeight - minWeight > 0.01)
+            if (maxWeight - minWeight > 0.01)
             {
                 for (int i = 0; i < weigth.Length; i++)
                     _ToneWeigth[i] = weigth[i];
@@ -594,7 +616,7 @@ namespace Vocaluxe.Base
 
             float dt = Time;
 
-            float diff = _ExternTime.Time - dt;
+            float diff = et - dt;
             if (Math.Abs(diff) > 0.05f)
             {
                 _Timer.Reset();

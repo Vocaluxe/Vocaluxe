@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -301,9 +320,7 @@ namespace VocaluxeLib.Menu
                                          _Interactions[i].Type == EType.SongMenu ||
                                          _Interactions[i].Type == EType.Equalizer))
                 {
-                    SZSort zs = new SZSort();
-                    zs.ID = i;
-                    zs.Z = _GetZValue(i);
+                    SZSort zs = new SZSort {ID = i, Z = _GetZValue(i)};
                     items.Add(zs);
                 }
             }
@@ -312,7 +329,7 @@ namespace VocaluxeLib.Menu
                 return;
 
 
-            items.Sort(delegate(SZSort s1, SZSort s2) { return s2.Z.CompareTo(s1.Z); });
+            items.Sort((s1, s2) => s2.Z.CompareTo(s1.Z));
 
             for (int i = 0; i < items.Count; i++)
                 _DrawInteraction(items[i].ID);
@@ -481,10 +498,7 @@ namespace VocaluxeLib.Menu
             if (_Selection >= _Interactions.Count || _Selection < 0)
                 return false;
 
-            if (_Interactions.Count > 0)
-                return _IsMouseOver(x, y, _Interactions[_Selection]);
-            else
-                return false;
+            return _Interactions.Count > 0 && _IsMouseOver(x, y, _Interactions[_Selection]);
         }
 
         private bool _IsMouseOver(int x, int y, CInteraction interact)
@@ -617,7 +631,6 @@ namespace VocaluxeLib.Menu
 
             int element = _Selection;
             int stage = int.MaxValue;
-            float distance = float.MaxValue;
             int direction = -1;
 
             int mute = -1;
@@ -643,7 +656,6 @@ namespace VocaluxeLib.Menu
                 {
                     stage = stages[i];
                     element = elements[i];
-                    distance = distances[i];
                     direction = i;
                 }
             }
@@ -772,10 +784,7 @@ namespace VocaluxeLib.Menu
                         inDirection = true;
                     break;
             }
-            if (!inDirection)
-                return float.MaxValue;
-            else
-                return distance;
+            return !inDirection ? float.MaxValue : distance;
         }
 
         private float _GetDistance180(SKeyEvent key, SRectF actualRect, SRectF targetRect)
@@ -808,10 +817,7 @@ namespace VocaluxeLib.Menu
                         inDirection = true;
                     break;
             }
-            if (!inDirection)
-                return float.MaxValue;
-            else
-                return distance;
+            return !inDirection ? float.MaxValue : distance;
         }
 
         /// <summary>
@@ -1020,7 +1026,7 @@ namespace VocaluxeLib.Menu
 
         private void _DrawInteraction(int interaction)
         {
-            bool sel = false;
+            bool sel;
             switch (_Interactions[interaction].Type)
             {
                 case EType.Static:

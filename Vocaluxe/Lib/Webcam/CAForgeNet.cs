@@ -1,4 +1,23 @@
-﻿using AForge.Video;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using AForge.Video;
 using AForge.Video.DirectShow;
 using System.Collections.Generic;
 using System.Drawing;
@@ -37,7 +56,7 @@ namespace Vocaluxe.Lib.Webcam
             {
                 lock (_MutexData)
                 {
-                    if (frame.Index == -1 || _Width != frame.Width || _Height != frame.Height)
+                    if (frame.Index == -1 || _Width != (int)frame.Width || _Height != (int)frame.Height)
                     {
                         CDraw.RemoveTexture(ref frame);
                         frame = CDraw.AddTexture(_Width, _Height, ref _Data);
@@ -62,33 +81,29 @@ namespace Vocaluxe.Lib.Webcam
                     return bmp;
                 }
             }
-            else
-                return null;
+            return null;
         }
 
         public bool Init()
         {
             _WebcamDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-            int num = 0;
             foreach (FilterInfo info in _WebcamDevices)
             {
                 SWebcamDevice device = new SWebcamDevice
                     {
-                        ID = num,
                         Name = info.Name,
                         MonikerString = info.MonikerString,
                         Capabilities = new List<SCapabilities>()
                     };
-                num++;
                 VideoCaptureDevice tmpdev = new VideoCaptureDevice(info.MonikerString);
 
-                for (int i = 0; i < tmpdev.VideoCapabilities.Length; i++)
+                foreach (VideoCapabilities capabilities in tmpdev.VideoCapabilities)
                 {
                     SCapabilities item = new SCapabilities
                         {
-                            Framerate = tmpdev.VideoCapabilities[i].FrameRate,
-                            Height = tmpdev.VideoCapabilities[i].FrameSize.Height,
-                            Width = tmpdev.VideoCapabilities[i].FrameSize.Width
+                            Framerate = capabilities.FrameRate,
+                            Height = capabilities.FrameSize.Height,
+                            Width = capabilities.FrameSize.Width
                         };
                     device.Capabilities.Add(item);
                 }
@@ -144,6 +159,11 @@ namespace Vocaluxe.Lib.Webcam
             return _Devices.ToArray();
         }
 
+        public bool IsDeviceAvailable()
+        {
+            return _Devices.Count > 0;
+        }
+
         public bool Select(SWebcamConfig config)
         {
             //Close old camera connection
@@ -155,10 +175,7 @@ namespace Vocaluxe.Lib.Webcam
                 return false;
 
             //No MonikerString found, try first webcam
-            if (config.MonikerString.Length == 0)
-                _Webcam = new VideoCaptureDevice(_WebcamDevices[0].MonikerString);
-            else //Found MonikerString
-                _Webcam = new VideoCaptureDevice(config.MonikerString);
+            _Webcam = config.MonikerString == "" ? new VideoCaptureDevice(_WebcamDevices[0].MonikerString) : new VideoCaptureDevice(config.MonikerString);
 
             if (_Webcam == null)
                 return false;

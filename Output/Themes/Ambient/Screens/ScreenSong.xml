@@ -1844,7 +1844,7 @@
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
         <!--<Text>: Nothing or translation tag-->
-        <Text />
+        <Text>%a - %t</Text>
         <!--<Reflection> If exists:-->
         <!--   <Space>: Reflection Space-->
         <!--   <Height>: Reflection Height-->

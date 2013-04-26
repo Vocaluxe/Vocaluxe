@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
@@ -48,9 +67,7 @@ namespace Vocaluxe.Base
                 _IDs.Enqueue(i);
 
             //add dummy normal game mode and set it as default
-            SPartyMode pm = new SPartyMode();
-            pm.PartyMode = new CPartyModeNone();
-            pm.ScreenFiles = new List<string>();
+            SPartyMode pm = new SPartyMode {PartyMode = new CPartyModeNone(), ScreenFiles = new List<string>()};
             pm.PartyMode.Initialize();
             pm.PartyModeID = _IDs.Dequeue();
             _NormalGameModeID = pm.PartyModeID;
@@ -81,33 +98,33 @@ namespace Vocaluxe.Base
         {
             List<SPartyModeInfos> infos = new List<SPartyModeInfos>();
 
-            int[] usedKeys = new int[_PartyModes.Count];
-            _PartyModes.Keys.CopyTo(usedKeys, 0);
+            int[] pmIDs = new int[_PartyModes.Count];
+            _PartyModes.Keys.CopyTo(pmIDs, 0);
 
-            for (int i = 0; i < usedKeys.Length; i++)
+            foreach (int pmID in pmIDs)
             {
-                if (usedKeys[i] != _NormalGameModeID)
+                if (pmID != _NormalGameModeID)
                 {
-                    SPartyMode mode = new SPartyMode();
-                    _PartyModes.TryGetValue(usedKeys[i], out mode);
+                    SPartyMode mode;
+                    _PartyModes.TryGetValue(pmID, out mode);
 
                     if (mode.PartyMode != null)
                     {
-                        SPartyModeInfos info = new SPartyModeInfos();
-
-                        info.Author = mode.Author;
-                        info.Description = mode.Description;
-                        info.Name = mode.Name;
-                        info.PartyModeID = mode.PartyModeID;
-                        info.Playable = mode.NoErrors;
-                        info.VersionMajor = mode.PartyModeVersionMajor;
-                        info.VersionMinor = mode.PartyModeVersionMinor;
-
-                        info.TargetAudience = mode.TargetAudience;
-                        info.MaxPlayers = mode.PartyMode.GetMaxPlayer();
-                        info.MinPlayers = mode.PartyMode.GetMinPlayer();
-                        info.MaxTeams = mode.PartyMode.GetMaxTeams();
-                        info.MinTeams = mode.PartyMode.GetMinTeams();
+                        SPartyModeInfos info = new SPartyModeInfos
+                            {
+                                Author = mode.Author,
+                                Description = mode.Description,
+                                Name = mode.Name,
+                                PartyModeID = mode.PartyModeID,
+                                Playable = mode.NoErrors,
+                                VersionMajor = mode.PartyModeVersionMajor,
+                                VersionMinor = mode.PartyModeVersionMinor,
+                                TargetAudience = mode.TargetAudience,
+                                MaxPlayers = mode.PartyMode.GetMaxPlayer(),
+                                MinPlayers = mode.PartyMode.GetMinPlayer(),
+                                MaxTeams = mode.PartyMode.GetMaxTeams(),
+                                MinTeams = mode.PartyMode.GetMinTeams()
+                            };
 
                         infos.Add(info);
                     }
@@ -125,7 +142,7 @@ namespace Vocaluxe.Base
         public static void SetPartyMode(int partyModeID)
         {
             if (!_PartyModes.TryGetValue(partyModeID, out _CurrentPartyMode))
-                CLog.LogError("CParty: Can't find party mode ID: " + partyModeID.ToString());
+                CLog.LogError("CParty: Can't find party mode ID: " + partyModeID);
 
             _CurrentPartyMode.PartyMode.Init();
         }
@@ -213,10 +230,7 @@ namespace Vocaluxe.Base
 
         private static SPartyMode _LoadPartyMode(string file)
         {
-            SPartyMode pm = new SPartyMode();
-            pm.PartyModeID = _IDs.Dequeue();
-            pm.ScreenFiles = new List<string>();
-            pm.NoErrors = false;
+            SPartyMode pm = new SPartyMode {PartyModeID = _IDs.Dequeue(), ScreenFiles = new List<string>(), NoErrors = false};
 
             CXMLReader xmlReader = CXMLReader.OpenFile(file);
 
@@ -227,15 +241,15 @@ namespace Vocaluxe.Base
             bool loaded = true;
 
             loaded &= xmlReader.TryGetIntValue("//root/PartyModeSystemVersion", ref pm.PartyModeSystemVersion);
-            loaded &= xmlReader.GetValue("//root/Info/Name", ref pm.Name, "ERROR Name");
-            loaded &= xmlReader.GetValue("//root/Info/Description", ref pm.Description, "ERROR Description");
-            loaded &= xmlReader.GetValue("//root/Info/Author", ref pm.Author, "ERROR Author");
-            loaded &= xmlReader.GetValue("//root/Info/Folder", ref pm.Folder, "ERROR Folder");
-            loaded &= xmlReader.GetValue("//root/Info/PartyModeFile", ref pm.PartyModeFile, "ERROR PartyModeFile");
+            loaded &= xmlReader.GetValue("//root/Info/Name", out pm.Name, "ERROR Name");
+            loaded &= xmlReader.GetValue("//root/Info/Description", out pm.Description, "ERROR Description");
+            loaded &= xmlReader.GetValue("//root/Info/Author", out pm.Author, "ERROR Author");
+            loaded &= xmlReader.GetValue("//root/Info/Folder", out pm.Folder, "ERROR Folder");
+            loaded &= xmlReader.GetValue("//root/Info/PartyModeFile", out pm.PartyModeFile, "ERROR PartyModeFile");
             loaded &= xmlReader.GetInnerValues("PartyScreens", ref pm.ScreenFiles);
             loaded &= xmlReader.TryGetIntValue("//root/Info/PartyModeVersionMajor", ref pm.PartyModeVersionMajor);
             loaded &= xmlReader.TryGetIntValue("//root/Info/PartyModeVersionMinor", ref pm.PartyModeVersionMinor);
-            loaded &= xmlReader.GetValue("//root/Info/TargetAudience", ref pm.TargetAudience, "ERROR TargetAudience");
+            loaded &= xmlReader.GetValue("//root/Info/TargetAudience", out pm.TargetAudience, "ERROR TargetAudience");
 
             if (!loaded)
             {
@@ -324,14 +338,12 @@ namespace Vocaluxe.Base
 
         private static Assembly _CompileFiles(string[] files)
         {
-            if (files == null)
-                return null;
-
-            if (files.Length == 0)
+            if (files == null || files.Length == 0)
                 return null;
 
             CompilerParameters compilerParams = new CompilerParameters();
             compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
+            compilerParams.ReferencedAssemblies.Add("System.Core.dll");
             compilerParams.ReferencedAssemblies.Add("VocaluxeLib.dll");
             compilerParams.GenerateInMemory = true;
 #if DEBUG
@@ -340,7 +352,7 @@ namespace Vocaluxe.Base
 
             using (CodeDomProvider cdp = CodeDomProvider.CreateProvider("CSharp"))
             {
-                CompilerResults compileResult = null;
+                CompilerResults compileResult;
 
                 try
                 {
@@ -374,7 +386,7 @@ namespace Vocaluxe.Base
                 return null;
             }
 
-            CMenuParty screen = null;
+            CMenuParty screen;
             try
             {
                 screen = (CMenuParty)instance;

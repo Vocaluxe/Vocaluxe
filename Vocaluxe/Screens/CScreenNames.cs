@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Vocaluxe.Base;
@@ -36,37 +55,30 @@ namespace Vocaluxe.Screens
             {"SelectSlideDuetPlayer1", "SelectSlideDuetPlayer2", "SelectSlideDuetPlayer3", "SelectSlideDuetPlayer4", "SelectSlideDuetPlayer5", "SelectSlideDuetPlayer6"};
         private readonly STexture[] _OriginalPlayerAvatarTextures = new STexture[CSettings.MaxNumPlayer];
 
-        private bool _SelectingMouseActive;
         private bool _SelectingKeyboardActive;
         private bool _SelectingKeyboardUnendless;
         private int _SelectingKeyboardPlayerNr;
         private int _SelectedPlayerNr;
-
-        private int[] _PlayerNr;
 
         public override void Init()
         {
             base.Init();
 
             List<string> statics = new List<string>();
-            foreach (string text in _StaticPlayer)
-                statics.Add(text);
-            foreach (string text in _StaticPlayerAvatar)
-                statics.Add(text);
+            statics.AddRange(_StaticPlayerAvatar);
+            statics.AddRange(_StaticPlayer);
             statics.Add(_StaticWarningMics);
             statics.Add(_StaticWarningProfiles);
             _ThemeStatics = statics.ToArray();
 
-            List<string> texts = new List<string>();
-            texts.Add(_SelectSlidePlayerNumber);
+            List<string> texts = new List<string> {_SelectSlidePlayerNumber};
             texts.AddRange(_SelectSlideDuetPlayer);
             _ThemeSelectSlides = texts.ToArray();
 
             texts.Clear();
             texts.Add(_TextWarningMics);
             texts.Add(_TextWarningProfiles);
-            foreach (string text in _TextPlayer)
-                texts.Add(text);
+            texts.AddRange(_TextPlayer);
             _ThemeTexts = texts.ToArray();
 
             texts.Clear();
@@ -91,15 +103,11 @@ namespace Vocaluxe.Screens
         {
             base.LoadTheme(xmlPath);
 
-            _PlayerNr = new int[CSettings.MaxNumPlayer];
-            for (int i = 0; i < _PlayerNr.Length; i++)
-                _PlayerNr[i] = i;
-
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
-                _OriginalPlayerAvatarTextures[i] = Statics[_StaticPlayerAvatar[i]].Texture;
+                _OriginalPlayerAvatarTextures[i] = _Statics[_StaticPlayerAvatar[i]].Texture;
 
             for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
-                Equalizers["EqualizerPlayer" + i].ScreenHandles = true;
+                _Equalizers["EqualizerPlayer" + i].ScreenHandles = true;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -109,20 +117,20 @@ namespace Vocaluxe.Screens
                 case Keys.Add:
                     if (CConfig.NumPlayer + 1 <= CSettings.MaxNumPlayer)
                     {
-                        SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.NumPlayer;
+                        _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.NumPlayer;
                         _UpdatePlayerNumber();
                         //Update Tiles-List
-                        NameSelections[_NameSelection].UpdateList();
+                        _NameSelections[_NameSelection].UpdateList();
                     }
                     break;
 
                 case Keys.Subtract:
                     if (CConfig.NumPlayer - 1 > 0)
                     {
-                        SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.NumPlayer - 2;
+                        _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.NumPlayer - 2;
                         _UpdatePlayerNumber();
                         //Update Tiles-List
-                        NameSelections[_NameSelection].UpdateList();
+                        _NameSelections[_NameSelection].UpdateList();
                     }
                     break;
 
@@ -138,7 +146,7 @@ namespace Vocaluxe.Screens
                             _SelectingKeyboardPlayerNr++;
                         else
                             _SelectingKeyboardPlayerNr = 1;
-                        NameSelections[_NameSelection].KeyboardSelection(true, _SelectingKeyboardPlayerNr);
+                        _NameSelections[_NameSelection].KeyboardSelection(true, _SelectingKeyboardPlayerNr);
                     }
                     break;
             }
@@ -146,203 +154,128 @@ namespace Vocaluxe.Screens
             if (_SelectingKeyboardActive)
             {
                 //Handle left/right/up/down
-                NameSelections[_NameSelection].HandleInput(keyEvent);
+                _NameSelections[_NameSelection].HandleInput(keyEvent);
+                int numberPressed = -1;
+                bool resetSelection = false;
                 switch (keyEvent.Key)
                 {
                     case Keys.Enter:
                         //Check, if a player is selected
-                        if (NameSelections[_NameSelection].Selection > -1)
+                        if (_NameSelections[_NameSelection].Selection > -1)
                         {
-                            _SelectedPlayerNr = NameSelections[_NameSelection].Selection;
+                            _SelectedPlayerNr = _NameSelections[_NameSelection].Selection;
                             //Update Game-infos with new player
-                            CGame.Player[_SelectingKeyboardPlayerNr - 1].Name = CProfiles.Profiles[_SelectedPlayerNr].PlayerName;
-                            CGame.Player[_SelectingKeyboardPlayerNr - 1].Difficulty = CProfiles.Profiles[_SelectedPlayerNr].Difficulty;
-                            CGame.Player[_SelectingKeyboardPlayerNr - 1].ProfileID = _SelectedPlayerNr;
+                            CGame.Players[_SelectingKeyboardPlayerNr - 1].ProfileID = _SelectedPlayerNr;
                             //Update config for default players.
                             CConfig.Players[_SelectingKeyboardPlayerNr - 1] = CProfiles.Profiles[_SelectedPlayerNr].ProfileFile;
                             CConfig.SaveConfig();
                             //Update texture and name
-                            Statics[_StaticPlayerAvatar[_SelectingKeyboardPlayerNr - 1]].Texture = CProfiles.Profiles[_SelectedPlayerNr].Avatar.Texture;
-                            Texts[_TextPlayer[_SelectingKeyboardPlayerNr - 1]].Text = CProfiles.Profiles[_SelectedPlayerNr].PlayerName;
+                            _Statics[_StaticPlayerAvatar[_SelectingKeyboardPlayerNr - 1]].Texture = CProfiles.Profiles[_SelectedPlayerNr].Avatar.Texture;
+                            _Texts[_TextPlayer[_SelectingKeyboardPlayerNr - 1]].Text = CProfiles.Profiles[_SelectedPlayerNr].PlayerName;
                             //Update profile-warning
                             _CheckPlayers();
                             //Update Tiles-List
-                            NameSelections[_NameSelection].UpdateList();
-                            SetInteractionToButton(Buttons[_ButtonStart]);
+                            _NameSelections[_NameSelection].UpdateList();
+                            _SetInteractionToButton(_Buttons[_ButtonStart]);
                         }
                         //Started selecting with 'P'
                         if (_SelectingKeyboardUnendless)
                         {
                             if (_SelectingKeyboardPlayerNr == CGame.NumPlayer)
-                            {
-                                //Reset all values
-                                _SelectingKeyboardPlayerNr = 0;
-                                _SelectingKeyboardActive = false;
-                                NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                            }
+                                resetSelection = true;
                             else
                             {
                                 _SelectingKeyboardPlayerNr++;
-                                NameSelections[_NameSelection].KeyboardSelection(true, _SelectingKeyboardPlayerNr);
+                                _NameSelections[_NameSelection].KeyboardSelection(true, _SelectingKeyboardPlayerNr);
                             }
                         }
                         else
-                        {
-                            //Reset all values
-                            _SelectingKeyboardPlayerNr = 0;
-                            _SelectingKeyboardActive = false;
-                            NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                        }
+                            resetSelection = true;
                         break;
 
                     case Keys.D1:
                     case Keys.NumPad1:
-                        if (_SelectingKeyboardPlayerNr == 1)
-                        {
-                            //Reset all values
-                            _SelectingKeyboardPlayerNr = 0;
-                            _SelectingKeyboardActive = false;
-                            NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                        }
-                        else
-                        {
-                            _SelectingKeyboardPlayerNr = 1;
-                            NameSelections[_NameSelection].KeyboardSelection(true, 1);
-                        }
-                        _SelectingKeyboardUnendless = false;
+                        numberPressed = 1;
                         break;
                     case Keys.D2:
                     case Keys.NumPad2:
-                        if (_SelectingKeyboardPlayerNr == 2)
-                        {
-                            //Reset all values
-                            _SelectingKeyboardPlayerNr = 0;
-                            _SelectingKeyboardActive = false;
-                            NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                        }
-                        else
-                        {
-                            _SelectingKeyboardPlayerNr = 2;
-                            NameSelections[_NameSelection].KeyboardSelection(true, 2);
-                        }
-                        _SelectingKeyboardUnendless = false;
+                        numberPressed = 2;
                         break;
                     case Keys.D3:
                     case Keys.NumPad3:
-                        if (_SelectingKeyboardPlayerNr == 3)
-                        {
-                            //Reset all values
-                            _SelectingKeyboardPlayerNr = 0;
-                            _SelectingKeyboardActive = false;
-                            NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                        }
-                        else
-                        {
-                            _SelectingKeyboardPlayerNr = 3;
-                            NameSelections[_NameSelection].KeyboardSelection(true, 3);
-                        }
-                        _SelectingKeyboardUnendless = false;
+                        numberPressed = 3;
                         break;
                     case Keys.D4:
                     case Keys.NumPad4:
-                        if (_SelectingKeyboardPlayerNr == 4)
-                        {
-                            //Reset all values
-                            _SelectingKeyboardPlayerNr = 0;
-                            _SelectingKeyboardActive = false;
-                            NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                        }
-                        else
-                        {
-                            _SelectingKeyboardPlayerNr = 4;
-                            NameSelections[_NameSelection].KeyboardSelection(true, 4);
-                        }
-                        _SelectingKeyboardUnendless = false;
+                        numberPressed = 4;
                         break;
                     case Keys.D5:
                     case Keys.NumPad5:
-                        if (_SelectingKeyboardPlayerNr == 5)
-                        {
-                            //Reset all values
-                            _SelectingKeyboardPlayerNr = 0;
-                            _SelectingKeyboardActive = false;
-                            NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                        }
-                        else
-                        {
-                            _SelectingKeyboardPlayerNr = 5;
-                            NameSelections[_NameSelection].KeyboardSelection(true, 5);
-                        }
-                        _SelectingKeyboardUnendless = false;
+                        numberPressed = 5;
                         break;
                     case Keys.D6:
                     case Keys.NumPad6:
-                        if (_SelectingKeyboardPlayerNr == 6)
-                        {
-                            //Reset all values
-                            _SelectingKeyboardPlayerNr = 0;
-                            _SelectingKeyboardActive = false;
-                            NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                        }
-                        else
-                        {
-                            _SelectingKeyboardPlayerNr = 6;
-                            NameSelections[_NameSelection].KeyboardSelection(true, 6);
-                        }
-                        _SelectingKeyboardUnendless = false;
+                        numberPressed = 6;
                         break;
 
                     case Keys.Escape:
-                        //Reset all values
-                        _SelectingKeyboardPlayerNr = 0;
-                        _SelectingKeyboardActive = false;
-                        _SelectingKeyboardUnendless = false;
-                        NameSelections[_NameSelection].KeyboardSelection(false, -1);
+                        resetSelection = true;
                         break;
 
                     case Keys.Delete:
                         //Delete profile-selection
-                        CGame.Player[_SelectingKeyboardPlayerNr - 1].ProfileID = -1;
-                        CGame.Player[_SelectingKeyboardPlayerNr - 1].Name = String.Empty;
-                        CGame.Player[_SelectingKeyboardPlayerNr - 1].Difficulty = EGameDifficulty.TR_CONFIG_EASY;
+                        CGame.Players[_SelectingKeyboardPlayerNr - 1].ProfileID = -1;
                         //Update config for default players.
                         CConfig.Players[_SelectingKeyboardPlayerNr - 1] = String.Empty;
                         CConfig.SaveConfig();
                         //Update texture and name
-                        Statics[_StaticPlayerAvatar[_SelectingKeyboardPlayerNr - 1]].Texture = _OriginalPlayerAvatarTextures[_SelectingKeyboardPlayerNr - 1];
-                        Texts[_TextPlayer[_SelectingKeyboardPlayerNr - 1]].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + _SelectingKeyboardPlayerNr.ToString();
+                        _Statics[_StaticPlayerAvatar[_SelectingKeyboardPlayerNr - 1]].Texture = _OriginalPlayerAvatarTextures[_SelectingKeyboardPlayerNr - 1];
+                        _Texts[_TextPlayer[_SelectingKeyboardPlayerNr - 1]].Text = CProfiles.GetPlayerName(-1, _SelectingKeyboardPlayerNr);
                         //Update profile-warning
                         _CheckPlayers();
                         //Reset all values
                         _SelectingKeyboardPlayerNr = 0;
                         _SelectingKeyboardActive = false;
-                        NameSelections[_NameSelection].KeyboardSelection(false, -1);
+                        _NameSelections[_NameSelection].KeyboardSelection(false, -1);
                         //Update Tiles-List
-                        NameSelections[_NameSelection].UpdateList();
+                        _NameSelections[_NameSelection].UpdateList();
                         break;
 
                     case Keys.F10:
                         if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
                         {
-                            if (SelectSlides[_SelectSlideDuetPlayer[_SelectingKeyboardPlayerNr - 1]].Selection == 0)
-                                SelectSlides[_SelectSlideDuetPlayer[_SelectingKeyboardPlayerNr - 1]].Selection = 1;
-                            else
-                                SelectSlides[_SelectSlideDuetPlayer[_SelectingKeyboardPlayerNr - 1]].Selection = 0;
+                            CSelectSlide selectSlideDuetPart = _SelectSlides[_SelectSlideDuetPlayer[_SelectingKeyboardPlayerNr - 1]];
+                            selectSlideDuetPart.Selection = (selectSlideDuetPart.Selection + 1) % 2;
                             //Reset all values
                             _SelectingKeyboardPlayerNr = 0;
                             _SelectingKeyboardActive = false;
                             _SelectingKeyboardUnendless = false;
-                            NameSelections[_NameSelection].KeyboardSelection(false, -1);
-                            SetInteractionToButton(Buttons[_ButtonStart]);
+                            _NameSelections[_NameSelection].KeyboardSelection(false, -1);
+                            _SetInteractionToButton(_Buttons[_ButtonStart]);
                         }
                         break;
+                }
+                if (numberPressed > 0 || resetSelection)
+                {
+                    if (numberPressed == _SelectingKeyboardPlayerNr || resetSelection)
+                    {
+                        //Reset all values
+                        _SelectingKeyboardPlayerNr = 0;
+                        _SelectingKeyboardActive = false;
+                        _NameSelections[_NameSelection].KeyboardSelection(false, -1);
+                    }
+                    else if (numberPressed <= CConfig.NumPlayer)
+                    {
+                        _SelectingKeyboardPlayerNr = numberPressed;
+                        _NameSelections[_NameSelection].KeyboardSelection(true, numberPressed);
+                    }
+                    _SelectingKeyboardUnendless = false;
                 }
             }
                 //Normal Keyboard handling
             else
             {
                 base.HandleInput(keyEvent);
-                bool processed = false;
                 switch (keyEvent.Key)
                 {
                     case Keys.Escape:
@@ -352,17 +285,10 @@ namespace Vocaluxe.Screens
 
                     case Keys.Enter:
 
-                        if (!processed && Buttons[_ButtonBack].Selected)
-                        {
-                            processed = true;
+                        if (_Buttons[_ButtonBack].Selected)
                             CGraphics.FadeTo(EScreens.ScreenSong);
-                        }
-
-                        if (!processed /* && Buttons[ButtonStart].Selected */)
-                        {
-                            processed = true;
+                        else
                             _StartSong();
-                        }
 
                         break;
 
@@ -395,15 +321,16 @@ namespace Vocaluxe.Screens
                     case Keys.NumPad6:
                         _SelectingKeyboardPlayerNr = 6;
                         break;
+                    default:
+                        _UpdatePlayerNumber();
+                        break;
                 }
 
-                if (!processed)
-                    _UpdatePlayerNumber();
 
                 if (_SelectingKeyboardPlayerNr > 0 && _SelectingKeyboardPlayerNr <= CConfig.NumPlayer)
                 {
                     _SelectingKeyboardActive = true;
-                    NameSelections[_NameSelection].KeyboardSelection(true, _SelectingKeyboardPlayerNr);
+                    _NameSelections[_NameSelection].KeyboardSelection(true, _SelectingKeyboardPlayerNr);
                 }
             }
 
@@ -415,23 +342,20 @@ namespace Vocaluxe.Screens
             base.HandleMouse(mouseEvent);
 
             //Check if LeftButton is hold and Select-Mode inactive
-            if (mouseEvent.LBH && !_SelectingMouseActive)
+            if (mouseEvent.LBH && _SelectedPlayerNr < 0)
             {
                 //Save mouse-coords
                 _OldMouseX = mouseEvent.X;
                 _OldMouseY = mouseEvent.Y;
                 //Check if mouse if over tile
-                if (NameSelections[_NameSelection].IsOverTile(mouseEvent))
+                if (_NameSelections[_NameSelection].IsOverTile(mouseEvent))
                 {
                     //Get player-number of tile
-                    _SelectedPlayerNr = NameSelections[_NameSelection].TilePlayerNr(mouseEvent);
+                    _SelectedPlayerNr = _NameSelections[_NameSelection].TilePlayerNr(mouseEvent);
                     if (_SelectedPlayerNr != -1)
                     {
-                        //Activate mouse-selecting
-                        _SelectingMouseActive = true;
-
                         //Update of Drag/Drop-Texture
-                        CStatic selectedPlayer = NameSelections[_NameSelection].TilePlayerAvatar(mouseEvent);
+                        CStatic selectedPlayer = _NameSelections[_NameSelection].TilePlayerAvatar(mouseEvent);
                         _ChooseAvatarStatic.Visible = true;
                         _ChooseAvatarStatic.Rect = selectedPlayer.Rect;
                         _ChooseAvatarStatic.Rect.Z = CSettings.ZNear;
@@ -442,7 +366,7 @@ namespace Vocaluxe.Screens
             }
 
             //Check if LeftButton is hold and Select-Mode active
-            if (mouseEvent.LBH && _SelectingMouseActive)
+            if (mouseEvent.LBH && _SelectedPlayerNr >= 0)
             {
                 //Update coords for Drag/Drop-Texture
                 _ChooseAvatarStatic.Rect.X += mouseEvent.X - _OldMouseX;
@@ -450,67 +374,47 @@ namespace Vocaluxe.Screens
                 _OldMouseX = mouseEvent.X;
                 _OldMouseY = mouseEvent.Y;
             }
-                // LeftButton isn't hold anymore, but Selec-Mode is still active -> "ReplacedStr:::0:::" of Avatar
-            else if (_SelectingMouseActive)
+                // LeftButton isn't hold anymore, but Selec-Mode is still active -> "Drop" of Avatar
+            else if (_SelectedPlayerNr >= 0)
             {
-                //Check if really a player was selected
-                if (_SelectedPlayerNr != -1)
+                //Foreach Drop-Area
+                for (int i = 0; i < _StaticPlayer.Length; i++)
                 {
-                    //Foreach Drop-Area
-                    for (int i = 0; i < _StaticPlayer.Length; i++)
+                    //Check first, if area is "Active"
+                    if (!_Statics[_StaticPlayer[i]].Visible)
+                        continue;
+                    //Check if Mouse is in area
+                    if (CHelper.IsInBounds(_Statics[_StaticPlayer[i]].Rect, mouseEvent))
                     {
-                        //Check first, if area is "ReplacedStr:::1:::"
-                        if (Statics[_StaticPlayer[i]].Visible)
-                        {
-                            //Check if Mouse is in area
-                            if (CHelper.IsInBounds(Statics[_StaticPlayer[i]].Rect, mouseEvent))
-                            {
-                                //Update Game-infos with new player
-                                CGame.Player[i].Name = CProfiles.Profiles[_SelectedPlayerNr].PlayerName;
-                                CGame.Player[i].Difficulty = CProfiles.Profiles[_SelectedPlayerNr].Difficulty;
-                                CGame.Player[i].ProfileID = _SelectedPlayerNr;
-                                //Update config for default players.
-                                CConfig.Players[i] = CProfiles.Profiles[_SelectedPlayerNr].ProfileFile;
-                                CConfig.SaveConfig();
-                                //Update texture and name
-                                Statics[_StaticPlayerAvatar[i]].Texture = _ChooseAvatarStatic.Texture;
-                                Texts[_TextPlayer[i]].Text = CProfiles.Profiles[_SelectedPlayerNr].PlayerName;
-                                //Update profile-warning
-                                _CheckPlayers();
-                                //Update Tiles-List
-                                NameSelections[_NameSelection].UpdateList();
-                            }
-                        }
+                        //Update Game-infos with new player
+                        CGame.Players[i].ProfileID = _SelectedPlayerNr;
+                        //Update config for default players.
+                        CConfig.Players[i] = CProfiles.Profiles[_SelectedPlayerNr].ProfileFile;
+                        CConfig.SaveConfig();
+                        //Update texture and name
+                        _Statics[_StaticPlayerAvatar[i]].Texture = _ChooseAvatarStatic.Texture;
+                        _Texts[_TextPlayer[i]].Text = CProfiles.Profiles[_SelectedPlayerNr].PlayerName;
+                        //Update profile-warning
+                        _CheckPlayers();
+                        //Update Tiles-List
+                        _NameSelections[_NameSelection].UpdateList();
                     }
-                    _SelectedPlayerNr = -1;
                 }
+                _SelectedPlayerNr = -1;
                 //Reset variables
-                _SelectingMouseActive = false;
                 _ChooseAvatarStatic.Visible = false;
             }
 
-            if (mouseEvent.LB && IsMouseOver(mouseEvent)) {}
-
-            if (mouseEvent.LB && IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
             {
-                bool processed = false;
-
-                if (!processed && Buttons[_ButtonBack].Selected)
-                {
-                    processed = true;
+                if (_Buttons[_ButtonBack].Selected)
                     CGraphics.FadeTo(EScreens.ScreenSong);
-                }
-
-                if (!processed && Buttons[_ButtonStart].Selected)
-                {
-                    processed = true;
+                else if (_Buttons[_ButtonStart].Selected)
                     _StartSong();
-                }
-
-                if (!processed)
+                else
                     _UpdatePlayerNumber();
                 //Update Tiles-List
-                NameSelections[_NameSelection].UpdateList();
+                _NameSelections[_NameSelection].UpdateList();
             }
 
             if (mouseEvent.RB)
@@ -519,21 +423,19 @@ namespace Vocaluxe.Screens
                 //Remove profile-selection
                 for (int i = 0; i < CConfig.NumPlayer; i++)
                 {
-                    if (CHelper.IsInBounds(Statics[_StaticPlayer[i]].Rect, mouseEvent))
+                    if (CHelper.IsInBounds(_Statics[_StaticPlayer[i]].Rect, mouseEvent))
                     {
-                        CGame.Player[i].ProfileID = -1;
-                        CGame.Player[i].Name = String.Empty;
-                        CGame.Player[i].Difficulty = EGameDifficulty.TR_CONFIG_EASY;
+                        CGame.Players[i].ProfileID = -1;
                         //Update config for default players.
                         CConfig.Players[i] = String.Empty;
                         CConfig.SaveConfig();
                         //Update texture and name
-                        Statics[_StaticPlayerAvatar[i]].Texture = _OriginalPlayerAvatarTextures[i];
-                        Texts[_TextPlayer[i]].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + (i + 1).ToString();
+                        _Statics[_StaticPlayerAvatar[i]].Texture = _OriginalPlayerAvatarTextures[i];
+                        _Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(-1, i + 1);
                         //Update profile-warning
                         _CheckPlayers();
                         //Update Tiles-List
-                        NameSelections[_NameSelection].UpdateList();
+                        _NameSelections[_NameSelection].UpdateList();
                         exit = false;
                     }
                 }
@@ -544,10 +446,10 @@ namespace Vocaluxe.Screens
             //Check mouse-wheel for scrolling
             if (mouseEvent.Wheel != 0)
             {
-                if (CHelper.IsInBounds(NameSelections[_NameSelection].Rect, mouseEvent))
+                if (CHelper.IsInBounds(_NameSelections[_NameSelection].Rect, mouseEvent))
                 {
-                    int offset = NameSelections[_NameSelection].Offset + mouseEvent.Wheel;
-                    NameSelections[_NameSelection].UpdateList(offset);
+                    int offset = _NameSelections[_NameSelection].Offset + mouseEvent.Wheel;
+                    _NameSelections[_NameSelection].UpdateList(offset);
                 }
             }
             return true;
@@ -558,7 +460,7 @@ namespace Vocaluxe.Screens
             for (int i = 1; i <= CGame.NumPlayer; i++)
             {
                 CSound.AnalyzeBuffer(i - 1);
-                Equalizers["EqualizerPlayer" + i].Update(CSound.ToneWeigth(i - 1));
+                _Equalizers["EqualizerPlayer" + i].Update(CSound.ToneWeigth(i - 1));
             }
             return true;
         }
@@ -568,7 +470,7 @@ namespace Vocaluxe.Screens
             base.OnShow();
             CSound.RecordStart();
 
-            NameSelections[_NameSelection].Init();
+            _NameSelections[_NameSelection].Init();
 
             _UpdateSlides();
             _UpdatePlayerNumber();
@@ -577,34 +479,23 @@ namespace Vocaluxe.Screens
 
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
             {
-                //Update texture and name
-                if (CConfig.Players[i].Length > 0)
-                {
-                    if (CGame.Player[i].ProfileID > -1 && CProfiles.NumProfiles > CGame.Player[i].ProfileID)
-                    {
-                        Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.Profiles[CGame.Player[i].ProfileID].Avatar.Texture;
-                        Texts[_TextPlayer[i]].Text = CProfiles.Profiles[CGame.Player[i].ProfileID].PlayerName;
-                    }
-                }
+                _Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.IsProfileIDValid(CGame.Players[i].ProfileID) ?
+                                                               CProfiles.Profiles[CGame.Players[i].ProfileID].Avatar.Texture :
+                                                               _OriginalPlayerAvatarTextures[i];
+                _Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(CGame.Players[i].ProfileID, i + 1);
                 if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
                 {
-                    SelectSlides[_SelectSlideDuetPlayer[i]].Clear();
-                    if (i + 1 <= CGame.NumPlayer)
-                        SelectSlides[_SelectSlideDuetPlayer[i]].Visible = true;
-                    else
-                        SelectSlides[_SelectSlideDuetPlayer[i]].Visible = false;
-                    SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart1);
-                    SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart2);
-                    if ((i + 1) % 2 == 0)
-                        SelectSlides[_SelectSlideDuetPlayer[i]].Selection = 1;
-                    else
-                        SelectSlides[_SelectSlideDuetPlayer[i]].Selection = 0;
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].Clear();
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = i + 1 <= CGame.NumPlayer;
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart1);
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart2);
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].Selection = i % 2;
                 }
                 else
-                    SelectSlides[_SelectSlideDuetPlayer[i]].Visible = false;
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = false;
             }
 
-            SetInteractionToButton(Buttons[_ButtonStart]);
+            _SetInteractionToButton(_Buttons[_ButtonStart]);
         }
 
         public override void OnClose()
@@ -620,7 +511,7 @@ namespace Vocaluxe.Screens
             if (_ChooseAvatarStatic.Visible)
                 _ChooseAvatarStatic.Draw();
             for (int i = 1; i <= CGame.NumPlayer; i++)
-                Equalizers["EqualizerPlayer" + i].Draw();
+                _Equalizers["EqualizerPlayer" + i].Draw();
             return true;
         }
 
@@ -628,20 +519,8 @@ namespace Vocaluxe.Screens
         {
             for (int i = 0; i < CGame.NumPlayer; i++)
             {
-                if (CGame.Player[i].ProfileID < 0)
-                {
-                    CGame.Player[i].Name = "Player " + (i + 1).ToString();
-                    CGame.Player[i].Difficulty = EGameDifficulty.TR_CONFIG_EASY;
-                    CGame.Player[i].ProfileID = -1;
-                }
-                else
-                {
-                    //Just a work-around for not crashing the game
-                    if (CGame.Player[i].Name == null)
-                        CGame.Player[i].Name = "";
-                }
                 if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
-                    CGame.Player[i].LineNr = SelectSlides[_SelectSlideDuetPlayer[i]].Selection;
+                    CGame.Players[i].LineNr = _SelectSlides[_SelectSlideDuetPlayer[i]].Selection;
             }
 
             CGraphics.FadeTo(EScreens.ScreenSing);
@@ -649,36 +528,36 @@ namespace Vocaluxe.Screens
 
         private void _UpdateSlides()
         {
-            SelectSlides[_SelectSlidePlayerNumber].Clear();
+            _SelectSlides[_SelectSlidePlayerNumber].Clear();
             for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
-                SelectSlides[_SelectSlidePlayerNumber].AddValue(CLanguage.Translate("TR_SCREENNAMES_" + i + "PLAYER"));
-            SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.NumPlayer - 1;
+                _SelectSlides[_SelectSlidePlayerNumber].AddValue(CLanguage.Translate("TR_SCREENNAMES_" + i + "PLAYER"));
+            _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.NumPlayer - 1;
         }
 
         private void _UpdatePlayerNumber()
         {
-            CConfig.NumPlayer = SelectSlides[_SelectSlidePlayerNumber].Selection + 1;
-            CGame.NumPlayer = SelectSlides[_SelectSlidePlayerNumber].Selection + 1;
+            CConfig.NumPlayer = _SelectSlides[_SelectSlidePlayerNumber].Selection + 1;
+            CGame.NumPlayer = _SelectSlides[_SelectSlidePlayerNumber].Selection + 1;
             for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
             {
                 if (i <= CGame.NumPlayer)
                 {
-                    Statics["StaticPlayer" + i].Visible = true;
-                    Statics["StaticPlayerAvatar" + i].Visible = true;
-                    Texts["TextPlayer" + i].Visible = true;
-                    if (Texts["TextPlayer" + i].Text.Length == 0)
-                        Texts["TextPlayer" + i].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + i.ToString();
-                    Equalizers["EqualizerPlayer" + i].Visible = true;
+                    _Statics["StaticPlayer" + i].Visible = true;
+                    _Statics["StaticPlayerAvatar" + i].Visible = true;
+                    _Texts["TextPlayer" + i].Visible = true;
+                    if (_Texts["TextPlayer" + i].Text == "")
+                        _Texts["TextPlayer" + i].Text = CProfiles.GetPlayerName(-1, i);
+                    _Equalizers["EqualizerPlayer" + i].Visible = true;
                     if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
-                        SelectSlides["SelectSlideDuetPlayer" + i].Visible = true;
+                        _SelectSlides["SelectSlideDuetPlayer" + i].Visible = true;
                 }
                 else
                 {
-                    Statics["StaticPlayer" + i].Visible = false;
-                    Statics["StaticPlayerAvatar" + i].Visible = false;
-                    Texts["TextPlayer" + i].Visible = false;
-                    Equalizers["EqualizerPlayer" + i].Visible = false;
-                    SelectSlides["SelectSlideDuetPlayer" + i].Visible = false;
+                    _Statics["StaticPlayer" + i].Visible = false;
+                    _Statics["StaticPlayerAvatar" + i].Visible = false;
+                    _Texts["TextPlayer" + i].Visible = false;
+                    _Equalizers["EqualizerPlayer" + i].Visible = false;
+                    _SelectSlides["SelectSlideDuetPlayer" + i].Visible = false;
                 }
             }
             CConfig.SaveConfig();
@@ -696,8 +575,8 @@ namespace Vocaluxe.Screens
             }
             if (playerWithoutMicro.Count > 0)
             {
-                Statics[_StaticWarningMics].Visible = true;
-                Texts[_TextWarningMics].Visible = true;
+                _Statics[_StaticWarningMics].Visible = true;
+                _Texts[_TextWarningMics].Visible = true;
 
                 if (playerWithoutMicro.Count > 1)
                 {
@@ -707,20 +586,20 @@ namespace Vocaluxe.Screens
                         if (playerWithoutMicro.Count - 1 == i)
                             playerNums += playerWithoutMicro[i].ToString();
                         else if (playerWithoutMicro.Count - 2 == i)
-                            playerNums += playerWithoutMicro[i].ToString() + " " + CLanguage.Translate("TR_GENERAL_AND") + " ";
+                            playerNums += playerWithoutMicro[i] + " " + CLanguage.Translate("TR_GENERAL_AND") + " ";
                         else
-                            playerNums += playerWithoutMicro[i].ToString() + ", ";
+                            playerNums += playerWithoutMicro[i] + ", ";
                     }
 
-                    Texts[_TextWarningMics].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_MICS_PL").Replace("%v", playerNums);
+                    _Texts[_TextWarningMics].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_MICS_PL").Replace("%v", playerNums);
                 }
                 else
-                    Texts[_TextWarningMics].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_MICS_SG").Replace("%v", playerWithoutMicro[0].ToString());
+                    _Texts[_TextWarningMics].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_MICS_SG").Replace("%v", playerWithoutMicro[0].ToString());
             }
             else
             {
-                Statics[_StaticWarningMics].Visible = false;
-                Texts[_TextWarningMics].Visible = false;
+                _Statics[_StaticWarningMics].Visible = false;
+                _Texts[_TextWarningMics].Visible = false;
             }
         }
 
@@ -729,14 +608,14 @@ namespace Vocaluxe.Screens
             List<int> playerWithoutProfile = new List<int>();
             for (int player = 0; player < CConfig.NumPlayer; player++)
             {
-                if (CGame.Player[player].ProfileID < 0)
+                if (CGame.Players[player].ProfileID < 0)
                     playerWithoutProfile.Add(player + 1);
             }
 
             if (playerWithoutProfile.Count > 0)
             {
-                Statics[_StaticWarningProfiles].Visible = true;
-                Texts[_TextWarningProfiles].Visible = true;
+                _Statics[_StaticWarningProfiles].Visible = true;
+                _Texts[_TextWarningProfiles].Visible = true;
 
                 if (playerWithoutProfile.Count > 1)
                 {
@@ -746,20 +625,20 @@ namespace Vocaluxe.Screens
                         if (playerWithoutProfile.Count - 1 == i)
                             playerNums += playerWithoutProfile[i].ToString();
                         else if (playerWithoutProfile.Count - 2 == i)
-                            playerNums += playerWithoutProfile[i].ToString() + " " + CLanguage.Translate("TR_GENERAL_AND") + " ";
+                            playerNums += playerWithoutProfile[i] + " " + CLanguage.Translate("TR_GENERAL_AND") + " ";
                         else
-                            playerNums += playerWithoutProfile[i].ToString() + ", ";
+                            playerNums += playerWithoutProfile[i] + ", ";
                     }
 
-                    Texts[_TextWarningProfiles].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_PROFILES_PL").Replace("%v", playerNums);
+                    _Texts[_TextWarningProfiles].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_PROFILES_PL").Replace("%v", playerNums);
                 }
                 else
-                    Texts[_TextWarningProfiles].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_PROFILES_SG").Replace("%v", playerWithoutProfile[0].ToString());
+                    _Texts[_TextWarningProfiles].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_PROFILES_SG").Replace("%v", playerWithoutProfile[0].ToString());
             }
             else
             {
-                Statics[_StaticWarningProfiles].Visible = false;
-                Texts[_TextWarningProfiles].Visible = false;
+                _Statics[_StaticWarningProfiles].Visible = false;
+                _Texts[_TextWarningProfiles].Visible = false;
             }
         }
     }

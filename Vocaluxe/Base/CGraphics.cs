@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -9,14 +28,6 @@ using VocaluxeLib.PartyModes;
 
 namespace Vocaluxe.Base
 {
-    enum EPopupScreens
-    {
-        PopupPlayerControl = 0,
-        PopupVolumeControl = 1,
-
-        NoPopup = -1
-    }
-
     class CCursor
     {
         private readonly Stopwatch _CursorFadingTimer;
@@ -103,7 +114,7 @@ namespace Vocaluxe.Base
             if (Math.Abs(_Cursor.Rect.X - x) > CSettings.MouseMoveDiffMin ||
                 Math.Abs(_Cursor.Rect.Y - y) > CSettings.MouseMoveDiffMin)
             {
-                if (_CursorTargetAlpha == 0f)
+                if (_CursorTargetAlpha < 0.01)
                     _Fade(1f, 0.2f);
 
                 _Movetimer.Reset();
@@ -254,41 +265,41 @@ namespace Vocaluxe.Base
                 CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
             }
 
-            for (int i = 0; i < _PopupScreens.Count; i++)
+            foreach (IMenu popup in _PopupScreens)
             {
-                _PopupScreens[i].Init();
-                _PopupScreens[i].LoadTheme(CTheme.GetThemeScreensPath(-1));
+                popup.Init();
+                popup.LoadTheme(CTheme.GetThemeScreensPath(-1));
             }
         }
 
         public static void ReloadTheme()
         {
             _ReloadCursor();
-            for (int i = 0; i < _Screens.Count; i++)
-                _Screens[i].ReloadTheme(CTheme.GetThemeScreensPath(-1));
+            foreach (IMenu screen in _Screens)
+                screen.ReloadTheme(CTheme.GetThemeScreensPath(-1));
 
-            for (int i = 0; i < _PopupScreens.Count; i++)
-                _PopupScreens[i].ReloadTheme(CTheme.GetThemeScreensPath(-1));
+            foreach (IMenu popup in _PopupScreens)
+                popup.ReloadTheme(CTheme.GetThemeScreensPath(-1));
         }
 
         public static void ReloadSkin()
         {
             _ReloadCursor();
-            for (int i = 0; i < _Screens.Count; i++)
-                _Screens[i].ReloadTextures();
+            foreach (IMenu menu in _Screens)
+                menu.ReloadTextures();
 
-            for (int i = 0; i < _PopupScreens.Count; i++)
-                _PopupScreens[i].ReloadTextures();
+            foreach (IMenu menu in _PopupScreens)
+                menu.ReloadTextures();
         }
 
         public static void SaveTheme()
         {
             CTheme.SaveTheme();
-            for (int i = 0; i < _Screens.Count; i++)
-                _Screens[i].SaveTheme();
+            foreach (IMenu screen in _Screens)
+                screen.SaveTheme();
 
-            for (int i = 0; i < _PopupScreens.Count; i++)
-                _PopupScreens[i].SaveTheme();
+            foreach (IMenu popup in _PopupScreens)
+                popup.SaveTheme();
         }
 
         public static void InitFirstScreen()
@@ -393,7 +404,7 @@ namespace Vocaluxe.Base
                     GC.Collect();
                     _CurrentScreen = _NextScreen;
                     _NextScreen = EScreens.ScreenNull;
-                    if (CBackgroundMusic.Playing)
+                    if (CBackgroundMusic.IsPlaying)
                         CBackgroundMusic.Play();
                     _Screens[(int)_CurrentScreen].OnShowFinish();
                     _Screens[(int)_CurrentScreen].ProcessMouseMove(_Cursor.X, _Cursor.Y);
@@ -425,8 +436,8 @@ namespace Vocaluxe.Base
                 _OldScreen = _Screens[(int)_CurrentScreen];
             }
 
-            for (int i = 0; i < _PopupScreens.Count; i++)
-                _PopupScreens[i].Draw();
+            foreach (IMenu popup in _PopupScreens)
+                popup.Draw();
 
             _Cursor.Draw();
             _DrawDebugInfos();
@@ -499,7 +510,7 @@ namespace Vocaluxe.Base
 
 
             bool resume = true;
-            bool eventsAvailable = false;
+            bool eventsAvailable;
             bool inputEventsAvailable = CInput.PollKeyEvent(ref inputKeyEvent);
 
             while ((eventsAvailable = keys.PollEvent(ref keyEvent)) || inputEventsAvailable)
@@ -524,15 +535,15 @@ namespace Vocaluxe.Base
                 if (popupPlayerControlAllowed && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
                 {
                     if (keyEvent.Key == Keys.MediaNextTrack)
-                        CMain.BackgroundMusic.Next();
+                        CBackgroundMusic.Next();
                     else if (keyEvent.Key == Keys.MediaPreviousTrack)
-                        CMain.BackgroundMusic.Previous();
+                        CBackgroundMusic.Previous();
                     else if (keyEvent.Key == Keys.MediaPlayPause)
                     {
-                        if (CMain.BackgroundMusic.IsPlaying())
-                            CMain.BackgroundMusic.Pause();
+                        if (CBackgroundMusic.IsPlaying)
+                            CBackgroundMusic.Pause();
                         else
-                            CMain.BackgroundMusic.Play();
+                            CBackgroundMusic.Play();
                     }
                 }
 
@@ -582,7 +593,7 @@ namespace Vocaluxe.Base
                         _VolumePopupTimer.Start();
                     }
 
-                    CMain.BackgroundMusic.ApplyVolume();
+                    CBackgroundMusic.ApplyVolume();
                 }
 
                 if (keyEvent.ModShift && (keyEvent.Key == Keys.F1))
@@ -727,125 +738,46 @@ namespace Vocaluxe.Base
 
         private static void _DrawDebugInfos()
         {
-            string txt = String.Empty;
+            if (CConfig.DebugLevel == EDebugLevel.TR_CONFIG_OFF)
+                return;
+
+            List<String> debugOutput = new List<string> {CTime.GetFPS().ToString("FPS: 000")};
+
+            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
+            {
+                debugOutput.Add(CSound.GetStreamCount().ToString(CLanguage.Translate("TR_DEBUG_AUDIO_STREAMS") + ": 00"));
+                debugOutput.Add(CVideo.GetNumStreams().ToString(CLanguage.Translate("TR_DEBUG_VIDEO_STREAMS") + ": 00"));
+                debugOutput.Add(CDraw.TextureCount().ToString(CLanguage.Translate("TR_DEBUG_TEXTURES") + ": 00000"));
+                long memory = GC.GetTotalMemory(false);
+                debugOutput.Add((memory / 1000000L).ToString(CLanguage.Translate("TR_DEBUG_MEMORY") + ": 00000 MB"));
+
+                if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL2)
+                {
+                    debugOutput.Add(CSound.RecordGetToneAbs(0).ToString(CLanguage.Translate("TR_DEBUG_TONE_ABS") + " P1: 00"));
+                    debugOutput.Add(CSound.RecordGetMaxVolume(0).ToString(CLanguage.Translate("TR_DEBUG_MAX_VOLUME") + " P1: 0.000"));
+                    debugOutput.Add(CSound.RecordGetToneAbs(1).ToString(CLanguage.Translate("TR_DEBUG_TONE_ABS") + " P2: 00"));
+                    debugOutput.Add(CSound.RecordGetMaxVolume(1).ToString(CLanguage.Translate("TR_DEBUG_MAX_VOLUME") + " P2: 0.000"));
+
+                    if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL3)
+                    {
+                        debugOutput.Add(CSongs.NumSongsWithCoverLoaded.ToString(CLanguage.Translate("TR_DEBUG_SONGS") + ": 00000"));
+
+                        if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL_MAX)
+                            debugOutput.Add(_Cursor.X.ToString(CLanguage.Translate("TR_DEBUG_MOUSE") + " : (0000/") + _Cursor.Y.ToString("0000)"));
+                    }
+                }
+            }
             CFonts.Style = EStyle.Normal;
             CFonts.SetFont("Normal");
+            CFonts.Height = 30;
             SColorF gray = new SColorF(1f, 1f, 1f, 0.5f);
-
-            float dy = 0;
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_ONLY_FPS)
+            float y = 0;
+            foreach (string txt in debugOutput)
             {
-                txt = CTime.GetFPS().ToString("FPS: 000");
-                CFonts.Height = 30f;
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
+                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), y, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
                 CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-            }
-
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
-            {
-                txt = CSound.GetStreamCount().ToString(CLanguage.Translate("TR_DEBUG_AUDIO_STREAMS") + ": 00");
-
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-            }
-
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
-            {
-                txt = CVideo.GetNumStreams().ToString(CLanguage.Translate("TR_DEBUG_VIDEO_STREAMS") + ": 00");
-
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-            }
-
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
-            {
-                txt = CDraw.TextureCount().ToString(CLanguage.Translate("TR_DEBUG_TEXTURES") + ": 00000");
-
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-            }
-
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
-            {
-                long memory = GC.GetTotalMemory(false);
-                txt = (memory / 1000000L).ToString(CLanguage.Translate("TR_DEBUG_MEMORY") + ": 00000 MB");
-
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-            }
-
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL2)
-            {
-                txt = CSound.RecordGetToneAbs(0).ToString(CLanguage.Translate("TR_DEBUG_TONE_ABS") + " P1: 00");
-
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-
-
-                txt = CSound.RecordGetMaxVolume(0).ToString(CLanguage.Translate("TR_DEBUG_MAX_VOLUME") + " P1: 0.000");
-
-                rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-
-                txt = CSound.RecordGetToneAbs(1).ToString(CLanguage.Translate("TR_DEBUG_TONE_ABS") + " P2: 00");
-
-                rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-
-
-                txt = CSound.RecordGetMaxVolume(1).ToString(CLanguage.Translate("TR_DEBUG_MAX_VOLUME") + " P2: 0.000");
-
-                rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-            }
-
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL3)
-            {
-                txt = CSongs.NumSongsWithCoverLoaded.ToString(CLanguage.Translate("TR_DEBUG_SONGS") + ": 00000");
-
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
-            }
-
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL_MAX)
-            {
-                txt = _Cursor.X.ToString(CLanguage.Translate("TR_DEBUG_MOUSE") + " : (0000/") + _Cursor.Y.ToString("0000)");
-
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), dy, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
-                dy += rect.Height;
+                y += rect.Height;
             }
         }
 
@@ -853,10 +785,9 @@ namespace Vocaluxe.Base
         {
             _Cursor.UnloadTextures();
 
-            if (CTheme.Cursor.Color.Length > 0)
+            if (CTheme.Cursor.Color != "")
             {
-                SColorF color;
-                color = CTheme.GetColor(CTheme.Cursor.Color, -1);
+                SColorF color = CTheme.GetColor(CTheme.Cursor.Color, -1);
                 CTheme.Cursor.R = color.R;
                 CTheme.Cursor.G = color.G;
                 CTheme.Cursor.B = color.B;

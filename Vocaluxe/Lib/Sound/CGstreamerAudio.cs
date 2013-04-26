@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Sound.Gstreamer;
 
@@ -7,10 +26,9 @@ namespace Vocaluxe.Lib.Sound
     class CGstreamerAudio : IPlayback
     {
         //static float LastPosition;
-        #region log
-        public CGstreamerAudioWrapper.LogCallback Log;
 
-        private void _LogHandler(string text)
+        #region log
+        private static void _LogHandler(string text)
         {
             CLog.LogError(text);
         }
@@ -18,11 +36,9 @@ namespace Vocaluxe.Lib.Sound
 
         public CGstreamerAudio()
         {
-            Init();
-            Log = _LogHandler;
             //Is this really needed? CodaAnalyzer complains about it...
             //GC.SuppressFinalize(Log);
-            CGstreamerAudioWrapper.SetLogCallback(Log);
+            CGstreamerAudioWrapper.SetLogCallback(_LogHandler);
         }
 
         public bool Init()

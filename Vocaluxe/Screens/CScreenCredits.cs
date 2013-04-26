@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -115,6 +134,7 @@ namespace Vocaluxe.Screens
         private STexture _TexNameBrunzel;
         private STexture _TexNameDarkice;
         private STexture _TexNameFlokuep;
+        private STexture _TexNameFlamefire;
         private STexture _TexNameMesand;
         private STexture _TexNameBohning;
         private STexture _TexNameBabene03;
@@ -133,13 +153,10 @@ namespace Vocaluxe.Screens
             _ParagraphTexts = new List<CText>();
             _Paragraphs = new List<string[]>();
 
-            string paragraph;
-            string[] words;
-
-            paragraph = "Inspired by the achievements of UltraStar Deluxe and its variants and pursuing the goal of making " +
-                        "a good thing even better, we ended up rewriting the game from scratch. And a new implementation in a new " +
-                        "programming language called for a new name - and VOCALUXE [ˈvoʊˈkəˈlʌks] it is!";
-            words = paragraph.Split(new char[] {' '});
+            string paragraph = "Inspired by the achievements of UltraStar Deluxe and its variants and pursuing the goal of making " +
+                               "a good thing even better, we ended up rewriting the game from scratch. And a new implementation in a new " +
+                               "programming language called for a new name - and VOCALUXE [ˈvoʊˈkəˈlʌks] it is!";
+            string[] words = paragraph.Split(new char[] {' '});
             _Paragraphs.Add(words);
 
             paragraph = "This first public version has already implemented many of the original features and it is fully " +
@@ -177,6 +194,7 @@ namespace Vocaluxe.Screens
             CDataBase.GetCreditsRessource("brunzel.png", ref _TexNameBrunzel);
             CDataBase.GetCreditsRessource("Darkice.png", ref _TexNameDarkice);
             CDataBase.GetCreditsRessource("flokuep.png", ref _TexNameFlokuep);
+            CDataBase.GetCreditsRessource("flamefire.png", ref _TexNameFlamefire);
             CDataBase.GetCreditsRessource("bohning.png", ref _TexNameBohning);
             CDataBase.GetCreditsRessource("mesand.png", ref _TexNameMesand);
             CDataBase.GetCreditsRessource("babene03.png", ref _TexNameBabene03);
@@ -185,34 +203,33 @@ namespace Vocaluxe.Screens
 
             //Prepare Text
             int lastY = 280;
-            for (int i = 0; i < _Paragraphs.Count; i++)
+            foreach (string[] paragraph in _Paragraphs)
             {
                 string line = "";
-                for (int e = 0; e < _Paragraphs[i].Length; e++)
+                for (int e = 0; e < paragraph.Length; e++)
                 {
-                    if (_Paragraphs[i][e] != null)
+                    if (paragraph[e] == null)
+                        continue;
+                    string newLine = " " + paragraph[e];
+                    CText text = GetNewText(75, lastY, -2, 30, -1, EAlignment.Left, EStyle.Bold, "Outline", new SColorF(1, 1, 1, 1), line);
+                    if (CDraw.GetTextBounds(text).Width < (CSettings.RenderW - 220))
                     {
-                        string newline = line + " " + _Paragraphs[i][e];
-                        CText text = GetNewText(75, lastY, -2, 30, -1, EAlignment.Left, EStyle.Bold, "Outline", new SColorF(1, 1, 1, 1), line);
-                        if (CDraw.GetTextBounds(text).Width < (CSettings.RenderW - 220))
-                        {
-                            line = line + " " + _Paragraphs[i][e];
+                        line += newLine;
 
-                            //Check if all words are used
-                            if ((e + 1) == _Paragraphs[i].Length)
-                            {
-                                text.Text = line;
-                                _ParagraphTexts.Add(text);
-                                line = "";
-                                lastY += 40;
-                            }
-                        }
-                        else
+                        //Check if all words are used
+                        if ((e + 1) == paragraph.Length)
                         {
+                            text.Text = line;
                             _ParagraphTexts.Add(text);
-                            line = " " + _Paragraphs[i][e];
-                            lastY += 27;
+                            line = "";
+                            lastY += 40;
                         }
+                    }
+                    else
+                    {
+                        _ParagraphTexts.Add(text);
+                        line = newLine;
+                        lastY += 27;
                     }
                 }
             }
@@ -257,7 +274,7 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public CParticleEffect GetStarParticles(int numStars, bool isRed, SRectF rect, bool bigParticles)
+        private CParticleEffect _GetStarParticles(int numStars, bool isRed, SRectF rect, bool bigParticles)
         {
             SColorF partColor = isRed ? new SColorF(1, 0, 0, 1) : new SColorF(0.149f, 0.415f, 0.819f, 1);
             int partSize = bigParticles ? 35 : 25;
@@ -274,10 +291,9 @@ namespace Vocaluxe.Screens
             CStatic image = GetNewStatic(texture, new SColorF(1, 1, 1, 1), new SRectF(-1, -1, 400, 120, -4));
 
             SRectF particleRect = new SRectF(-1, -1, partRectSize, partRectSize, -6);
-            SRectF imgDotRect = new SRectF(particleRect);
-            imgDotRect.Z = -5;
+            SRectF imgDotRect = new SRectF(particleRect) {Z = -5};
             CStatic imgDot = GetNewStatic(texDot, new SColorF(1, 1, 1, 1), imgDotRect);
-            CParticleEffect particle = GetStarParticles(partCount, isRight, particleRect, bigParticles);
+            CParticleEffect particle = _GetStarParticles(partCount, isRight, particleRect, bigParticles);
 
             CCreditName credit = new CCreditName(image, imgDot, particle, particleOffsetX, particleOffsetY);
 
@@ -305,8 +321,8 @@ namespace Vocaluxe.Screens
             //Little stars for logo
             int numstars = (int)(_Logo.Rect.W * 0.25f / 2f);
             SRectF partRect = new SRectF(_Logo.Rect.X, _Logo.Rect.Y, _Logo.Rect.W, _Logo.Rect.H, -1);
-            _StarsRed = GetStarParticles(numstars, true, partRect, true);
-            _StarsBlue = GetStarParticles(numstars, false, partRect, true);
+            _StarsRed = _GetStarParticles(numstars, true, partRect, true);
+            _StarsBlue = _GetStarParticles(numstars, false, partRect, true);
 
             //Credit names
             _CreditNames = new List<CCreditName>();
@@ -314,6 +330,7 @@ namespace Vocaluxe.Screens
             _AddNewCreditName(_TexNameBrunzel, 502, 29, true);
             _AddNewCreditName(_TexNameDarkice, 360, 55, true);
             _AddNewCreditName(_TexNameFlokuep, 214, 14, true);
+            _AddNewCreditName(_TexNameFlamefire, 496, 46, true);
             _AddNewCreditName(_TexNameBohning, 383, 54, false);
             _AddNewCreditName(_TexNameMesand, 525, 13, false);
             _AddNewCreditName(_TexNameBabene03, 33, 26, false);
@@ -352,8 +369,8 @@ namespace Vocaluxe.Screens
             //Draw Text
             if (_TextTimer.IsRunning)
             {
-                for (int i = 0; i < _ParagraphTexts.Count; i++)
-                    _ParagraphTexts[i].Draw();
+                foreach (CText text in _ParagraphTexts)
+                    text.Draw();
             }
             return true;
         }
@@ -432,7 +449,6 @@ namespace Vocaluxe.Screens
 
                                         //Start Text-Timer
                                         _TextTimer.Start();
-                                        active = true;
                                     }
                                 }
                                 else if (_CreditNames[i].Y <= 360f)

@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Xml;
 
 namespace VocaluxeLib.Menu
@@ -18,7 +37,10 @@ namespace VocaluxeLib.Menu
         public ESettingType Type;
     }
 
+    // ReSharper disable ClassNeverInstantiated.Global
+    //Instantiated by reflection
     public class CScreenSetting : IMenuElement
+        // ReSharper restore ClassNeverInstantiated.Global
     {
         private readonly int _PartyModeID;
 
@@ -37,19 +59,12 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded = false;
         }
 
-        public CScreenSetting(CScreenSetting ts)
-        {
-            _PartyModeID = ts._PartyModeID;
-            _Theme = ts._Theme;
-            _ThemeLoaded = ts._ThemeLoaded;
-        }
-
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Value", ref _Theme.Value, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Value", out _Theme.Value, String.Empty);
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Type", ref _Theme.Type);
 
             if (_ThemeLoaded)

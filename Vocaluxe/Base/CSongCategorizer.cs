@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 using VocaluxeLib.Menu;
@@ -79,7 +98,7 @@ namespace Vocaluxe.Base
             int noCategoryIndex = -1;
             for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
             {
-                if (CSongs.Sorter.SortedSongs[i].SortString.Length > 0)
+                if (CSongs.Sorter.SortedSongs[i].SortString != "")
                 {
                     if (CSongs.Sorter.SortedSongs[i].SortString != category)
                     {
@@ -135,7 +154,7 @@ namespace Vocaluxe.Base
                     for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
                     {
                         string year = CSongs.Sorter.SortedSongs[i].SortString;
-                        if (year.Length > 0)
+                        if (year != "")
                         {
                             year = year.Substring(0, 3);
                             CSongs.Sorter.SortedSongs[i].SortString = year + "0 - " + year + "9";

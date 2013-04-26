@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -17,14 +36,14 @@ namespace Vocaluxe.Base
             get { return _Playlists.ToArray(); }
         }
 
-        public static string[] PlaylistNames
+        public static List<string> PlaylistNames
         {
             get
             {
                 List<string> names = new List<string>();
                 for (int i = 0; i < _Playlists.Count; i++)
                     names.Add(_Playlists[i].PlaylistName);
-                return names.ToArray();
+                return names;
             }
         }
 
@@ -75,16 +94,6 @@ namespace Vocaluxe.Base
             return _Playlists[playlistID].PlaylistName;
         }
 
-        public static string[] GetPlaylistNames()
-        {
-            List<string> result = new List<string>();
-
-            foreach (CPlaylistFile playlist in _Playlists)
-                result.Add(playlist.PlaylistName);
-
-            return result.ToArray();
-        }
-
         public static void SetPlaylistName(int playlistID, string name)
         {
             if (playlistID >= _Playlists.Count || playlistID < 0)
@@ -97,7 +106,7 @@ namespace Vocaluxe.Base
         {
             if (playlistID < 0 || playlistID >= _Playlists.Count)
                 return;
-            if (_Playlists[playlistID].PlaylistFile.Length > 0)
+            if (_Playlists[playlistID].PlaylistFile != "")
             {
                 try
                 {
@@ -120,8 +129,7 @@ namespace Vocaluxe.Base
 
         public static int NewPlaylist()
         {
-            CPlaylistFile pl = new CPlaylistFile();
-            pl.PlaylistName = "New Playlist";
+            CPlaylistFile pl = new CPlaylistFile {PlaylistName = "New Playlist"};
             _Playlists.Add(pl);
             return _Playlists.Count - 1;
         }
@@ -209,7 +217,7 @@ namespace Vocaluxe.Base
 
         private static int _CompareByPlaylistName(CPlaylistFile a, CPlaylistFile b)
         {
-            return String.Compare(a.PlaylistName, b.PlaylistName);
+            return String.CompareOrdinal(a.PlaylistName, b.PlaylistName);
         }
 
         private static CPlaylistFile _ConvertUSDXPlaylist(string file)
@@ -219,44 +227,42 @@ namespace Vocaluxe.Base
 
             if (!File.Exists(file))
                 return null;
-            StreamReader sr;
             try
             {
+                StreamReader sr;
                 using (sr = new StreamReader(file, Encoding.Default, true))
                 {
-                    int pos = -1;
                     string line;
                     while ((line = sr.ReadLine()) != null)
                     {
-                        pos = line.IndexOf(":");
-                        if (pos > 0)
+                        int pos = line.IndexOf(":", StringComparison.Ordinal);
+                        if (pos <= 0)
+                            continue;
+                        //Name or comment
+                        if (line[0] == '#')
                         {
-                            //Name or comment
-                            if (line[0] == '#')
+                            string identifier = line.Substring(1, pos - 1).Trim();
+                            string value = line.Substring(pos + 1, line.Length - pos - 1).Trim();
+                            if (identifier.ToUpper() == "NAME")
+                                pl.PlaylistName = value;
+                        }
+                            //Song
+                        else
+                        {
+                            string artist = line.Substring(0, pos - 1).Trim();
+                            string title = line.Substring(pos + 1, line.Length - pos - 1).Trim();
+                            bool found = false;
+                            foreach (CSong song in allSongs)
                             {
-                                string identifier = line.Substring(1, pos - 1).Trim();
-                                string value = line.Substring(pos + 1, line.Length - pos - 1).Trim();
-                                if (identifier.ToUpper() == "NAME")
-                                    pl.PlaylistName = value;
-                            }
-                                //Song
-                            else
-                            {
-                                string artist = line.Substring(0, pos - 1).Trim();
-                                string title = line.Substring(pos + 1, line.Length - pos - 1).Trim();
-                                bool found = false;
-                                for (int s = 0; s < allSongs.Length; s++)
+                                if (song.Artist == artist && song.Title == title)
                                 {
-                                    if (allSongs[s].Artist == artist && allSongs[s].Title == title)
-                                    {
-                                        pl.AddSong(allSongs[s].ID);
-                                        found = true;
-                                        break;
-                                    }
+                                    pl.AddSong(song.ID);
+                                    found = true;
+                                    break;
                                 }
-                                if (!found)
-                                    CLog.LogError("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + file);
                             }
+                            if (!found)
+                                CLog.LogError("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + file);
                         }
                     }
                 }

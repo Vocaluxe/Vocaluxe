@@ -1,4 +1,23 @@
-﻿using System.Collections.Generic;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System.Collections.Generic;
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
@@ -7,8 +26,8 @@ namespace Vocaluxe.GameModes
 {
     struct SSongQueque
     {
-        public int SongID;
-        public EGameMode GameMode;
+        public readonly int SongID;
+        public readonly EGameMode GameMode;
 
         public SSongQueque(int songID, EGameMode gameMode)
         {
@@ -19,10 +38,9 @@ namespace Vocaluxe.GameModes
 
     abstract class CGameMode : IGameMode
     {
-        protected bool _Initialized = false;
-        protected List<SSongQueque> _SongQueque;
-        protected int _CurrentSong;
-        protected CPoints _Points;
+        private List<SSongQueque> _SongQueque;
+        private int _CurrentSong;
+        private CPoints _Points;
 
         #region Implementation
         public virtual void Init()
@@ -181,7 +199,7 @@ namespace Vocaluxe.GameModes
                         song.Finish = CGame.GetTimeFromBeats(song.ShortEnd, song.BPM) + CSettings.DefaultMedleyFadeOutTime + song.Gap;
 
                         // set lines to medley mode
-                        song.Notes.SetMedley(song.Notes.GetLines(0).Line[0].FirstNoteBeat, song.ShortEnd);
+                        song.Notes.SetMedley(song.Notes.GetVoice(0).Lines[0].FirstNoteBeat, song.ShortEnd);
                         break;
                 }
 
@@ -216,7 +234,5 @@ namespace Vocaluxe.GameModes
             return _Points;
         }
         #endregion Implementation
-
-        protected virtual void _SongManipulation(int songIndex) {}
     }
 }

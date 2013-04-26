@@ -1,12 +1,32 @@
-﻿using PortAudioSharp;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Sound.Decoder;
+using Vocaluxe.Lib.Sound.PortAudio;
 
 namespace Vocaluxe.Lib.Sound
 {
@@ -20,11 +40,6 @@ namespace Vocaluxe.Lib.Sound
         private readonly Object _MutexDecoder = new Object();
 
         private List<SAudioStreams> _Streams;
-
-        public CPortAudioPlay()
-        {
-            Init();
-        }
 
         public bool Init()
         {
@@ -85,7 +100,6 @@ namespace Vocaluxe.Lib.Sound
                 {
                     _Decoder.Add(decoder);
                     stream.Handle = _Count++;
-                    stream.File = media;
                     _Streams.Add(stream);
                     return stream.Handle;
                 }
@@ -284,12 +298,7 @@ namespace Vocaluxe.Lib.Sound
 
         private bool _AlreadyAdded(int stream)
         {
-            foreach (SAudioStreams st in _Streams)
-            {
-                if (st.Handle == stream)
-                    return true;
-            }
-            return false;
+            return _Streams.Any(st => st.Handle == stream);
         }
 
         private int _GetStreamIndex(int stream)
@@ -300,15 +309,6 @@ namespace Vocaluxe.Lib.Sound
                     return i;
             }
             return -1;
-        }
-
-        private void _EndSync(int handle, int stream, int data, IntPtr user)
-        {
-            if (_Initialized)
-            {
-                if (_AlreadyAdded(stream))
-                    Close(stream);
-            }
         }
 
         private void _CloseProc(int streamID)
@@ -354,11 +354,9 @@ namespace Vocaluxe.Lib.Sound
         private static CPortAudio.SPaDeviceInfo _OutputDeviceInfo;
         private IntPtr _Ptr = new IntPtr(0);
 
-
         private Closeproc _Closeproc;
         private CPortAudio.PaStreamCallbackDelegate _PaStreamCallback;
         private int _StreamID;
-        private string _FileName;
         private IAudioDecoder _Decoder;
         private float _BytesPerSecond;
         private bool _NoMoreData;
@@ -471,7 +469,7 @@ namespace Vocaluxe.Lib.Sound
                 {
                     if (Finished)
                         _SyncTimer.Pause();
-
+                    //TODO: Why not use Decoder.GetPosition()?
                     return _SyncTimer.Time;
                 }
             }
@@ -589,7 +587,6 @@ namespace Vocaluxe.Lib.Sound
                 return -1;
             }
 
-            _FileName = fileName;
             _Decoder.Open(fileName);
             _Duration = _Decoder.GetLength();
 
@@ -606,11 +603,13 @@ namespace Vocaluxe.Lib.Sound
 
             IntPtr data = new IntPtr(0);
 
-            CPortAudio.SPaStreamParameters outputParams = new CPortAudio.SPaStreamParameters();
-            outputParams.ChannelCount = format.ChannelCount;
-            outputParams.Device = _ApiInfo.DefaultOutputDevice;
-            outputParams.SampleFormat = CPortAudio.EPaSampleFormat.PaInt16;
-            outputParams.SuggestedLatency = _OutputDeviceInfo.DefaultLowOutputLatency;
+            CPortAudio.SPaStreamParameters outputParams = new CPortAudio.SPaStreamParameters
+                {
+                    ChannelCount = format.ChannelCount,
+                    Device = _ApiInfo.DefaultOutputDevice,
+                    SampleFormat = CPortAudio.EPaSampleFormat.PaInt16,
+                    SuggestedLatency = _OutputDeviceInfo.DefaultLowOutputLatency
+                };
 
             uint bufsize = (uint)CConfig.AudioBufferSize;
             lock (_Mutex)
@@ -782,6 +781,7 @@ namespace Vocaluxe.Lib.Sound
                         _Initialized = false;
                     }
                 }
+                _Decoder.Close();
             }
 
             _Closeproc(_StreamID);

@@ -1,3 +1,22 @@
+#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -33,7 +52,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         public int PointsTeam1;
         public int PointsTeam2;
         public int Winner;
-        public bool Finished = false;
+        public bool Finished;
     }
 
     #region Communication
@@ -62,8 +81,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
     {
         public int CurrentRoundNr;
         public int Team;
-        public int NumPlayerTeam1;
-        public int NumPlayerTeam2;
         public int NumFields;
         public List<CRound> Rounds;
         public List<int> Songs;
@@ -96,7 +113,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
     public struct SFromScreenNames
     {
         public bool FadeToConfig;
-        public bool FadeToMain;
         public List<int> ProfileIDsTeam1;
         public List<int> ProfileIDsTeam2;
     }
@@ -184,24 +200,26 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _ToScreenNames = new SDataToScreenNames();
             _ToScreenMain = new SDataToScreenMain();
 
-            _GameData = new SData();
-            _GameData.NumFields = 9;
-            _GameData.NumPlayerTeam1 = 2;
-            _GameData.NumPlayerTeam2 = 2;
-            _GameData.ProfileIDsTeam1 = new List<int>();
-            _GameData.ProfileIDsTeam2 = new List<int>();
-            _GameData.PlayerTeam1 = new List<int>();
-            _GameData.PlayerTeam2 = new List<int>();
-            _GameData.CurrentRoundNr = 0;
-            _GameData.SingRoundNr = 0;
-            _GameData.SongSource = ESongSource.TR_ALLSONGS;
-            _GameData.PlaylistID = 0;
-            _GameData.CategoryID = 0;
-            _GameData.GameMode = EPartyGameMode.TR_GAMEMODE_NORMAL;
-            _GameData.Rounds = new List<CRound>();
-            _GameData.Songs = new List<int>();
-            _GameData.NumJokerRandom = new int[2];
-            _GameData.NumJokerRetry = new int[2];
+            _GameData = new SData
+                {
+                    NumFields = 9,
+                    NumPlayerTeam1 = 2,
+                    NumPlayerTeam2 = 2,
+                    ProfileIDsTeam1 = new List<int>(),
+                    ProfileIDsTeam2 = new List<int>(),
+                    PlayerTeam1 = new List<int>(),
+                    PlayerTeam2 = new List<int>(),
+                    CurrentRoundNr = 0,
+                    SingRoundNr = 0,
+                    SongSource = ESongSource.TR_ALLSONGS,
+                    PlaylistID = 0,
+                    CategoryID = 0,
+                    GameMode = EPartyGameMode.TR_GAMEMODE_NORMAL,
+                    Rounds = new List<CRound>(),
+                    Songs = new List<int>(),
+                    NumJokerRandom = new int[2],
+                    NumJokerRetry = new int[2]
+                };
         }
 
         public override bool Init()
@@ -262,10 +280,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                             _Stage = EStage.NotStarted;
                         else
                         {
-                            if (CBase.Game.GetRandom(100) < 50)
-                                _GameData.Team = 0;
-                            else
-                                _GameData.Team = 1;
+                            _GameData.Team = CBase.Game.GetRandom(100) < 50 ? 0 : 1;
                             _GameData.ProfileIDsTeam1 = dataFrom.ScreenNames.ProfileIDsTeam1;
                             _GameData.ProfileIDsTeam2 = dataFrom.ScreenNames.ProfileIDsTeam2;
                             _Stage = EStage.Names;
@@ -358,15 +373,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     _Screens.TryGetValue("CPartyScreenTicTacToeMain", out screen);
                     if (screen != null)
                     {
-                        if (_GameData.Team == 1)
-                            _GameData.Team = 0;
-                        else
-                            _GameData.Team = 1;
+                        _GameData.Team = _GameData.Team == 1 ? 0 : 1;
                         CBase.Songs.ResetPartySongSung();
                         _GameData.CurrentRoundNr = 1;
                         _ToScreenMain.CurrentRoundNr = 1;
-                        _ToScreenMain.NumPlayerTeam1 = _GameData.NumPlayerTeam1;
-                        _ToScreenMain.NumPlayerTeam2 = _GameData.NumPlayerTeam2;
                         _ToScreenMain.NumFields = _GameData.NumFields;
                         _ToScreenMain.ProfileIDsTeam1 = _GameData.ProfileIDsTeam1;
                         _ToScreenMain.ProfileIDsTeam2 = _GameData.ProfileIDsTeam2;
@@ -391,15 +401,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     _Screens.TryGetValue("CPartyScreenTicTacToeMain", out screen);
                     if (screen != null)
                     {
-                        if (_GameData.Team == 1)
-                            _GameData.Team = 0;
-                        else
-                            _GameData.Team = 1;
+                        _GameData.Team = _GameData.Team == 1 ? 0 : 1;
                         _UpdateSongList();
                         _UpdatePlayerList();
                         _ToScreenMain.CurrentRoundNr = _GameData.CurrentRoundNr;
-                        _ToScreenMain.NumPlayerTeam1 = _GameData.NumPlayerTeam1;
-                        _ToScreenMain.NumPlayerTeam2 = _GameData.NumPlayerTeam2;
                         _ToScreenMain.NumFields = _GameData.NumFields;
                         _ToScreenMain.ProfileIDsTeam1 = _GameData.ProfileIDsTeam1;
                         _ToScreenMain.ProfileIDsTeam2 = _GameData.ProfileIDsTeam2;
@@ -437,12 +442,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             return _ScreenSongOptions;
         }
 
+        // ReSharper disable RedundantAssignment
         public override void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions)
+            // ReSharper restore RedundantAssignment
         {
             screenSongOptions = _ScreenSongOptions;
         }
 
+        // ReSharper disable RedundantAssignment
         public override void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions)
+            // ReSharper restore RedundantAssignment
         {
             screenSongOptions = _ScreenSongOptions;
         }
@@ -522,99 +531,101 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _PreparePlayerList(int team)
         {
-            if (team == 0)
+            switch (team)
             {
-                _GameData.PlayerTeam1 = new List<int>();
-                _GameData.PlayerTeam2 = new List<int>();
+                case 0:
+                    {
+                        _GameData.PlayerTeam1 = new List<int>();
+                        _GameData.PlayerTeam2 = new List<int>();
 
-                //Prepare Player-IDs
-                List<int> iDs1 = new List<int>();
-                List<int> iDs2 = new List<int>();
-                int num = 0;
-                int random = 0;
-                //Add IDs to team-list
-                while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] && iDs1.Count == 0 &&
-                       _GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] && iDs2.Count == 0)
-                {
-                    if (iDs1.Count == 0)
-                    {
-                        for (int i = 0; i < _GameData.NumPlayerTeam1; i++)
-                            iDs1.Add(i);
+                        //Prepare Player-IDs
+                        List<int> ids1 = new List<int>();
+                        List<int> ids2 = new List<int>();
+                        //Add IDs to team-list
+                        while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] && ids1.Count == 0 &&
+                               _GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] && ids2.Count == 0)
+                        {
+                            if (ids1.Count == 0)
+                            {
+                                for (int i = 0; i < _GameData.NumPlayerTeam1; i++)
+                                    ids1.Add(i);
+                            }
+                            if (ids2.Count == 0)
+                            {
+                                for (int i = 0; i < _GameData.NumPlayerTeam2; i++)
+                                    ids2.Add(i);
+                            }
+                            int num;
+                            int random;
+                            if (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0])
+                            {
+                                random = CBase.Game.GetRandom((ids1.Count - 1) * 10);
+                                num = (int)Math.Round((double)random / 10);
+                                if (num >= ids1.Count)
+                                    num = ids1.Count - 1;
+                                _GameData.PlayerTeam1.Add(ids1[num]);
+                                ids1.RemoveAt(num);
+                            }
+                            if (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
+                            {
+                                random = CBase.Game.GetRandom((ids2.Count - 1) * 20);
+                                num = (int)Math.Round((double)random / 20);
+                                if (num >= ids2.Count)
+                                    num = ids2.Count - 1;
+                                _GameData.PlayerTeam2.Add(ids2[num]);
+                                ids2.RemoveAt(num);
+                            }
+                        }
                     }
-                    if (iDs2.Count == 0)
+                    break;
+                case 1:
                     {
-                        for (int i = 0; i < _GameData.NumPlayerTeam2; i++)
-                            iDs2.Add(i);
+                        //Prepare Player-IDs
+                        List<int> ids = new List<int>();
+                        //Add IDs to team-list
+                        while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] && ids.Count == 0)
+                        {
+                            if (ids.Count == 0)
+                            {
+                                for (int i = 0; i < _GameData.NumPlayerTeam1; i++)
+                                    ids.Add(i);
+                            }
+                            if (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0])
+                            {
+                                int random = CBase.Game.GetRandom((ids.Count - 1) * 10);
+                                int num = (int)Math.Round((double)random / 10);
+                                if (num >= ids.Count)
+                                    num = ids.Count - 1;
+                                _GameData.PlayerTeam1.Add(ids[num]);
+                                ids.RemoveAt(num);
+                            }
+                        }
                     }
-                    if (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0])
+                    break;
+                case 2:
                     {
-                        random = CBase.Game.GetRandom((iDs1.Count - 1) * 10);
-                        num = (int)Math.Round((double)random / 10);
-                        if (num >= iDs1.Count)
-                            num = iDs1.Count - 1;
-                        _GameData.PlayerTeam1.Add(iDs1[num]);
-                        iDs1.RemoveAt(num);
+                        //Prepare Player-IDs
+                        List<int> ids = new List<int>();
+                        //Add IDs to team-list
+                        while (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] && ids.Count == 0)
+                        {
+                            if (ids.Count == 0)
+                            {
+                                for (int i = 0; i < _GameData.NumPlayerTeam2; i++)
+                                    ids.Add(i);
+                            }
+                            if (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
+                            {
+                                int random = CBase.Game.GetRandom((ids.Count - 1) * 20);
+                                int num = (int)Math.Round((double)random / 20);
+                                if (num >= ids.Count)
+                                    num = ids.Count - 1;
+                                _GameData.PlayerTeam2.Add(ids[num]);
+                                ids.RemoveAt(num);
+                            }
+                        }
                     }
-                    if (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
-                    {
-                        random = CBase.Game.GetRandom((iDs2.Count - 1) * 20);
-                        num = (int)Math.Round((double)random / 20);
-                        if (num >= iDs2.Count)
-                            num = iDs2.Count - 1;
-                        _GameData.PlayerTeam2.Add(iDs2[num]);
-                        iDs2.RemoveAt(num);
-                    }
-                }
-            }
-            else if (team == 1)
-            {
-                //Prepare Player-IDs
-                List<int> iDs = new List<int>();
-                int num = 0;
-                int random = 0;
-                //Add IDs to team-list
-                while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] && iDs.Count == 0)
-                {
-                    if (iDs.Count == 0)
-                    {
-                        for (int i = 0; i < _GameData.NumPlayerTeam1; i++)
-                            iDs.Add(i);
-                    }
-                    if (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0])
-                    {
-                        random = CBase.Game.GetRandom((iDs.Count - 1) * 10);
-                        num = (int)Math.Round((double)random / 10);
-                        if (num >= iDs.Count)
-                            num = iDs.Count - 1;
-                        _GameData.PlayerTeam1.Add(iDs[num]);
-                        iDs.RemoveAt(num);
-                    }
-                }
-            }
-            else if (team == 2)
-            {
-                //Prepare Player-IDs
-                List<int> iDs = new List<int>();
-                int num = 0;
-                int random = 0;
-                //Add IDs to team-list
-                while (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] && iDs.Count == 0)
-                {
-                    if (iDs.Count == 0)
-                    {
-                        for (int i = 0; i < _GameData.NumPlayerTeam2; i++)
-                            iDs.Add(i);
-                    }
-                    if (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
-                    {
-                        random = CBase.Game.GetRandom((iDs.Count - 1) * 20);
-                        num = (int)Math.Round((double)random / 20);
-                        if (num >= iDs.Count)
-                            num = iDs.Count - 1;
-                        _GameData.PlayerTeam2.Add(iDs[num]);
-                        iDs.RemoveAt(num);
-                    }
-                }
+                    break;
             }
         }
 
@@ -707,7 +718,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             CBase.Game.SetNumPlayer(2);
 
-            SPlayer[] player = CBase.Game.GetPlayer();
+            SPlayer[] player = CBase.Game.GetPlayers();
             if (player == null)
                 return;
 
@@ -721,8 +732,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             for (int i = 0; i < 2; i++)
             {
                 //default values
-                player[i].Name = "foobar";
-                player[i].Difficulty = EGameDifficulty.TR_CONFIG_EASY;
                 player[i].ProfileID = -1;
             }
 
@@ -731,24 +740,18 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             {
                 if (_GameData.ProfileIDsTeam1[r.SingerTeam1] < profiles.Length)
                 {
-                    player[0].Name = profiles[_GameData.ProfileIDsTeam1[r.SingerTeam1]].PlayerName;
-                    player[0].Difficulty = profiles[_GameData.ProfileIDsTeam1[r.SingerTeam1]].Difficulty;
                     player[0].ProfileID = _GameData.ProfileIDsTeam1[r.SingerTeam1];
                     if (isDuet)
                         player[0].LineNr = 0;
                 }
                 if (_GameData.ProfileIDsTeam2[r.SingerTeam2] < profiles.Length)
                 {
-                    player[1].Name = profiles[_GameData.ProfileIDsTeam2[r.SingerTeam2]].PlayerName;
-                    player[1].Difficulty = profiles[_GameData.ProfileIDsTeam2[r.SingerTeam2]].Difficulty;
                     player[1].ProfileID = _GameData.ProfileIDsTeam2[r.SingerTeam2];
                     if (isDuet)
                         player[1].LineNr = 1;
                 }
                 SongSelected(r.SongID);
             }
-            else
-                return;
         }
 
         private void _SetNumJokers()
@@ -783,7 +786,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             if (!_GameData.Rounds[_GameData.SingRoundNr].Finished)
                 _GameData.CurrentRoundNr++;
 
-            SPlayer[] results = CBase.Game.GetPlayer();
+            SPlayer[] results = CBase.Game.GetPlayers();
             if (results == null)
                 return;
 

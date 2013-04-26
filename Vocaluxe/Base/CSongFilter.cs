@@ -1,5 +1,25 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 
@@ -65,7 +85,7 @@ namespace Vocaluxe.Base
             _FilteredSongs.Clear();
 
             string[] searchStrings = null;
-            if (_SearchString.Length > 0)
+            if (_SearchString != "")
                 searchStrings = _SearchString.ToUpper().Split(new char[] {' '});
 
             foreach (CSong song in CSongs.Songs)
@@ -78,11 +98,7 @@ namespace Vocaluxe.Base
                     {
                         string search = song.Title.ToUpper() + " " + song.Artist.ToUpper() + " " + song.FolderName.ToUpper() + " " + song.FileName.ToUpper();
 
-                        bool contains = true;
-
-                        foreach (string str in searchStrings)
-                            contains &= search.Contains(str);
-                        if (contains)
+                        if (searchStrings.All(search.Contains))
                             _FilteredSongs.Add(song);
                     }
                 }

@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Drawing;
 using System.Xml;
 
@@ -56,11 +75,11 @@ namespace VocaluxeLib.Menu
 
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Type", ref _Theme.Type);
 
-            bool vid = xmlReader.GetValue(item + "/Video", ref _Theme.VideoName, String.Empty);
-            bool tex = xmlReader.GetValue(item + "/Skin", ref _Theme.TextureName, String.Empty);
+            bool vid = xmlReader.GetValue(item + "/Video", out _Theme.VideoName, String.Empty);
+            bool tex = xmlReader.GetValue(item + "/Skin", out _Theme.TextureName, String.Empty);
             _ThemeLoaded &= vid || tex || _Theme.Type == EBackgroundTypes.None;
 
-            if (xmlReader.GetValue(item + "/Color", ref _Theme.ColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
             else
             {
@@ -99,7 +118,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<Color>: Background color for type \"Color\" from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName.Length > 0)
+                if (_Theme.ColorName != "")
                     writer.WriteElementString("Color", _Theme.ColorName);
                 else
                 {
@@ -120,13 +139,13 @@ namespace VocaluxeLib.Menu
 
         public void Resume()
         {
-            if (_Theme.Type == EBackgroundTypes.Video && _Theme.VideoName.Length > 0 && CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_ON)
+            if (_Theme.Type == EBackgroundTypes.Video && _Theme.VideoName != "" && CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_ON)
                 CBase.Theme.SkinVideoResume(_Theme.VideoName, _PartyModeID);
         }
 
         public void Pause()
         {
-            if (_Theme.VideoName.Length > 0)
+            if (_Theme.VideoName != "")
                 CBase.Theme.SkinVideoPause(_Theme.VideoName, _PartyModeID);
         }
 
@@ -146,7 +165,7 @@ namespace VocaluxeLib.Menu
                 ok = _DrawVideo();
             }
 
-            if (_Theme.TextureName.Length > 0 &&
+            if (_Theme.TextureName != "" &&
                 (_Theme.Type == EBackgroundTypes.Texture ||
                  (_Theme.Type == EBackgroundTypes.Video && (CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_OFF || !ok))))
                 ok = _DrawTexture();
@@ -162,7 +181,7 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (_Theme.ColorName.Length > 0)
+            if (_Theme.ColorName != "")
                 Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
         }
 
@@ -188,7 +207,7 @@ namespace VocaluxeLib.Menu
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect = new RectangleF(0f, 0f, texture.Width, texture.Height);
-                CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
+                CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, EAspect.Crop);
 
                 CBase.Drawing.DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
                 return true;
@@ -203,7 +222,7 @@ namespace VocaluxeLib.Menu
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect = new RectangleF(0f, 0f, videoTexture.Width, videoTexture.Height);
-                CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
+                CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, EAspect.Crop);
 
                 CBase.Drawing.DrawTexture(videoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
                 return true;
@@ -218,7 +237,7 @@ namespace VocaluxeLib.Menu
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect = new RectangleF(0f, 0f, videoTexture.Width, videoTexture.Height);
-                CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
+                CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, EAspect.Crop);
 
                 CBase.Drawing.DrawTexture(videoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
                 return true;

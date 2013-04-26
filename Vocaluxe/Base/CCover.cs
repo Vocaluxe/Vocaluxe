@@ -1,6 +1,26 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using VocaluxeLib.Menu;
@@ -97,18 +117,12 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Returns true if a cover with the given name exists.
         /// </summary>
-        public static bool CoverExists(string name)
+        private static bool _CoverExists(string name)
         {
-            STexture cov = _NoCover;
             lock (_MutexCover)
             {
-                foreach (SCover cover in _Cover)
-                {
-                    if (cover.Name == name)
-                        return true;
-                }
+                return _Cover.Any(cover => cover.Name == name);
             }
-            return false;
         }
 
         /// <summary>
@@ -149,8 +163,8 @@ namespace Vocaluxe.Base
         {
             _CoverThemes.Clear();
 
-            string path = CSettings.FolderCover;
-            List<string> files = CHelper.ListFiles(path, "*.xml", false);
+            const string path = CSettings.FolderCover;
+            List<string> files = CHelper.ListFiles(path, "*.xml");
 
             foreach (string file in files)
             {
@@ -160,10 +174,10 @@ namespace Vocaluxe.Base
                 {
                     SCoverTheme coverTheme = new SCoverTheme();
 
-                    xmlReader.GetValue("//root/Info/Name", ref coverTheme.Name, String.Empty);
-                    xmlReader.GetValue("//root/Info/Folder", ref coverTheme.Folder, String.Empty);
+                    xmlReader.GetValue("//root/Info/Name", out coverTheme.Name, String.Empty);
+                    xmlReader.GetValue("//root/Info/Folder", out coverTheme.Folder, String.Empty);
 
-                    if (coverTheme.Folder.Length > 0 && coverTheme.Name.Length > 0)
+                    if (coverTheme.Folder != "" && coverTheme.Name != "")
                     {
                         coverTheme.File = file;
 
@@ -178,68 +192,60 @@ namespace Vocaluxe.Base
         /// </summary>
         private static void _LoadCover(string coverThemeName)
         {
-            SCoverTheme coverTheme = new SCoverTheme();
+            SCoverTheme coverTheme = _CoverTheme(coverThemeName);
 
-            coverTheme = _CoverTheme(coverThemeName);
+            if (coverTheme.Name == "")
+                return;
+            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.FolderCover, coverTheme.File));
 
-            if (coverTheme.Name.Length > 0)
+            if (xmlReader != null)
             {
-                CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.FolderCover, coverTheme.File));
-
-                if (xmlReader != null)
+                lock (_MutexCover)
                 {
-                    lock (_MutexCover)
-                    {
-                        _Cover.Clear();
-                        List<string> cover = xmlReader.GetValues("Cover");
-                        for (int i = 0; i < cover.Count; i++)
-                        {
-                            SCover sk = new SCover();
-                            string name = String.Empty;
-                            string value = String.Empty;
-                            xmlReader.GetValue("//root/Cover/" + cover[i] + "/Name", ref name, String.Empty);
-                            xmlReader.GetValue("//root/Cover/" + cover[i] + "/Path", ref value, String.Empty);
-                            sk.Name = name;
-                            sk.Value = Path.Combine(coverTheme.Folder, value);
-                            if (File.Exists(Path.Combine(CSettings.FolderCover, Path.Combine(coverTheme.Folder, value))))
-                                sk.Texture = CDraw.AddTexture(Path.Combine(CSettings.FolderCover, Path.Combine(coverTheme.Folder, value)));
-                            else
-                                sk.Texture = _NoCover;
-
-                            _Cover.Add(sk);
-
-                            if (sk.Name == "NoCover")
-                                _NoCover = sk.Texture;
-                        }
-                    }
-                }
-
-                List<string> files = new List<string>();
-
-                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.FolderCover, coverTheme.Folder), "*.png", true, true));
-                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.FolderCover, coverTheme.Folder), "*.jpg", true, true));
-                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.FolderCover, coverTheme.Folder), "*.jpeg", true, true));
-                files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.FolderCover, coverTheme.Folder), "*.bmp", true, true));
-
-
-                foreach (string file in files)
-                {
-                    string name = Path.GetFileNameWithoutExtension(file);
-
-                    if (!CoverExists(name))
+                    _Cover.Clear();
+                    List<string> cover = xmlReader.GetValues("Cover");
+                    foreach (string coverName in cover)
                     {
                         SCover sk = new SCover();
-
-                        string value = String.Empty;
-
+                        string name;
+                        string value;
+                        xmlReader.GetValue("//root/Cover/" + coverName + "/Name", out name, String.Empty);
+                        xmlReader.GetValue("//root/Cover/" + coverName + "/Path", out value, String.Empty);
                         sk.Name = name;
-                        sk.Value = Path.Combine(coverTheme.Folder, Path.GetFileName(file));
-
-                        sk.Texture = CDraw.AddTexture(Path.Combine(CSettings.FolderCover, sk.Value));
+                        sk.Value = Path.Combine(coverTheme.Folder, value);
+                        sk.Texture = File.Exists(Path.Combine(CSettings.FolderCover, sk.Value))
+                                         ? CDraw.AddTexture(Path.Combine(CSettings.FolderCover, Path.Combine(coverTheme.Folder, value))) : _NoCover;
 
                         _Cover.Add(sk);
+
+                        if (sk.Name == "NoCover")
+                            _NoCover = sk.Texture;
                     }
                 }
+            }
+
+            List<string> files = new List<string>();
+
+            string path = Path.Combine(CSettings.FolderCover, coverTheme.Folder);
+            files.AddRange(CHelper.ListFiles(path, "*.png", true, true));
+            files.AddRange(CHelper.ListFiles(path, "*.jpg", true, true));
+            files.AddRange(CHelper.ListFiles(path, "*.jpeg", true, true));
+            files.AddRange(CHelper.ListFiles(path, "*.bmp", true, true));
+
+
+            foreach (string file in files)
+            {
+                string name = Path.GetFileNameWithoutExtension(file);
+
+                if (_CoverExists(name))
+                    continue;
+                // ReSharper disable AssignNullToNotNullAttribute
+                SCover sk = new SCover {Name = name, Value = Path.Combine(coverTheme.Folder, Path.GetFileName(file))};
+                // ReSharper restore AssignNullToNotNullAttribute
+
+                sk.Texture = CDraw.AddTexture(Path.Combine(CSettings.FolderCover, sk.Value));
+
+                _Cover.Add(sk);
             }
         }
     }
