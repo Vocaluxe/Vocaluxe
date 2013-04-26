@@ -20,9 +20,9 @@
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 
-namespace Vocaluxe.GameModes
+namespace Vocaluxe.SongQueue
 {
-    interface IGameMode
+    interface ISongQueue
     {
         void Init();
 

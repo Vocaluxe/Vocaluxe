@@ -198,9 +198,8 @@
     <Compile Include="CSplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GameModes\CGameMode.cs" />
-    <Compile Include="GameModes\CGameModeNormal.cs" />
-    <Compile Include="GameModes\IGameMode.cs" />
+    <Compile Include="SongQueue\CSongQueue.cs" />
+    <Compile Include="SongQueue\ISongQueue.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Lib\Draw\CDirect3D.cs">
       <SubType>Form</SubType>

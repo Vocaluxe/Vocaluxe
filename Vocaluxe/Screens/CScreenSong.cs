@@ -612,7 +612,7 @@ namespace Vocaluxe.Screens
             _SearchActive = _Sso.Sorting.SearchActive;
             _SearchText = _Sso.Sorting.SearchString;
 
-            CGame.EnterNormalGame();
+            CGame.Reset();
             _SongMenus[_SongMenu].OnShow();
 
             if (_Sso.Selection.PartyMode)
