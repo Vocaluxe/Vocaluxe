@@ -564,14 +564,15 @@ namespace Vocaluxe.Screens
 
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
             {
-                //Update texture and name
-                if (CConfig.Players[i] != "")
+                if (CProfiles.IsProfileIDValid(CGame.Players[i].ProfileID))
+				{
+					_Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.Profiles[CGame.Players[i].ProfileID].Avatar.Texture;
+					_Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(CGame.Players[i].ProfileID);
+                }
+                else
                 {
-                    if (CProfiles.IsProfileIDValid(CGame.Players[i].ProfileID))
-                    {
-                        _Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.Profiles[CGame.Players[i].ProfileID].Avatar.Texture;
-                        _Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(CGame.Players[i].ProfileID);
-                    }
+                    _Statics[_StaticPlayerAvatar[i]].Texture = _OriginalPlayerAvatarTextures[i];
+                    _Texts[_TextPlayer[i]].Text = CLanguage.Translate("TR_SCREENNAMES_PLAYER") + " " + (i + 1).ToString();
                 }
                 if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
                 {
