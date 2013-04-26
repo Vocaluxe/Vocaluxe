@@ -1,4 +1,24 @@
-﻿using System.Collections.Generic;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System.Collections.Generic;
+using System.Linq;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Video
@@ -6,7 +26,7 @@ namespace Vocaluxe.Lib.Video
     abstract class CVideoDecoder : IVideoDecoder
     {
         protected List<SVideoStreams> _Streams = new List<SVideoStreams>();
-        protected bool _Initialized = false;
+        protected bool _Initialized;
 
         public virtual bool Init()
         {
@@ -38,10 +58,7 @@ namespace Vocaluxe.Lib.Video
             return 0f;
         }
 
-        public virtual bool GetFrame(int streamID, ref STexture frame, float time, ref float videoTime)
-        {
-            return true;
-        }
+        public abstract bool GetFrame(int streamID, ref STexture frame, float time, out float videoTime);
 
         public virtual bool Skip(int streamID, float start, float gap)
         {
@@ -63,12 +80,7 @@ namespace Vocaluxe.Lib.Video
 
         protected bool _AlreadyAdded(int streamID)
         {
-            foreach (SVideoStreams st in _Streams)
-            {
-                if (st.Handle == streamID)
-                    return true;
-            }
-            return false;
+            return _Streams.Any(st => st.Handle == streamID);
         }
 
         protected int _GetStreamIndex(int streamID)

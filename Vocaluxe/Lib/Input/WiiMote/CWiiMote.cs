@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
@@ -31,15 +50,13 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
         private CGesture _Gesture;
 
-        public bool Init()
+        public void Init()
         {
             _Sync = new Object();
             _RumbleTimer = new CRumbleTimer();
             _Gesture = new CGesture();
 
-            _Active = true;
-            _HandlerThread = new Thread(_MainLoop);
-            _HandlerThread.Priority = ThreadPriority.BelowNormal;
+            _HandlerThread = new Thread(_MainLoop) {Priority = ThreadPriority.BelowNormal};
 
             _KeysPool = new List<SKeyEvent>();
             _CurrentKeysPool = new List<SKeyEvent>();
@@ -49,10 +66,6 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
             _ButtonStates = new bool[11];
             _OldPosition = new Point();
-
-            _HandlerThread.Start();
-
-            return true;
         }
 
         public void Close()
@@ -60,20 +73,17 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _Active = false;
         }
 
-        public bool Connect()
+        public void Connect()
         {
-            if (!_Active)
-            {
-                _Active = true;
-                _HandlerThread.Start();
-            }
-            return true;
+            if (_Active)
+                return;
+            _Active = true;
+            _HandlerThread.Start();
         }
 
-        public bool Disconnect()
+        public void Disconnect()
         {
             _Active = false;
-            return true;
         }
 
         public bool IsConnected()
@@ -94,8 +104,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 _CurrentKeysPool.RemoveAt(0);
                 return true;
             }
-            else
-                return false;
+            return false;
         }
 
         public bool PollMouseEvent(ref SMouseEvent mouseEvent)
@@ -106,8 +115,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 _CurrentMousePool.RemoveAt(0);
                 return true;
             }
-            else
-                return false;
+            return false;
         }
 
         public void SetRumble(float duration)
@@ -134,8 +142,8 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 }
                 else
                 {
-                    bool startRumble = false;
-                    bool stopRumble = false;
+                    bool startRumble;
+                    bool stopRumble;
                     lock (_Sync)
                     {
                         startRumble = _RumbleTimer.ShouldStart;
@@ -192,13 +200,6 @@ namespace Vocaluxe.Lib.Input.WiiMote
             Point p = ws.IRState.Position;
             p.X = 1023 - p.X;
 
-            //key events
-            bool alt = false;
-            bool shift = false;
-            bool ctrl = false;
-            bool pressed = false;
-            char unicode = char.MinValue;
-
             EGesture gesture = _Gesture.GetGesture(p);
             bool lb = false;
             bool rb = gesture == EGesture.Back;
@@ -243,9 +244,9 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _ButtonStates[10] = ws.ButtonState.Two;
 
 
-            if (alt || shift || ctrl || pressed || unicode != char.MinValue || key != Keys.None)
+            if (key != Keys.None)
             {
-                SKeyEvent pool = new SKeyEvent(ESender.WiiMote, alt, shift, ctrl, pressed, unicode, key);
+                SKeyEvent pool = new SKeyEvent(ESender.WiiMote, false, false, false, false, char.MinValue, key);
 
                 lock (_KeyCopyLock)
                 {
@@ -254,8 +255,8 @@ namespace Vocaluxe.Lib.Input.WiiMote
             }
 
             //mouse events
-            float reducing = 0.15f;
-            float factor = 1f / (1f - reducing * 2f);
+            const float reducing = 0.15f;
+            const float factor = 1f / (1f - reducing * 2f);
             float rx = ((p.X / 1024f) - reducing) * factor;
             float ry = ((p.Y / 768f) - reducing) * factor;
 
@@ -263,11 +264,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
             int y = (int)(ry * CSettings.RenderH);
 
 
-            bool ld = false;
             bool lbh = !lb && ws.ButtonState.A;
-            bool rbh = false;
-            bool mb = false;
-            bool mbh = false;
 
             int wheel = 0;
             if (gesture == EGesture.ScrollUp)
@@ -280,12 +277,12 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
             if (!lb && !rb && (p.X != _OldPosition.X || p.Y != _OldPosition.Y))
             {
-                mpool = new SMouseEvent(ESender.WiiMote, alt, shift, ctrl, x, y, false, false, false, wheel, lbh, rbh, false, mbh);
+                mpool = new SMouseEvent(ESender.WiiMote, EModifier.None, x, y, false, false, false, wheel, lbh, false, false, false);
                 trigger = true;
             }
             else if (lb || rb)
             {
-                mpool = new SMouseEvent(ESender.WiiMote, alt, shift, ctrl, x, y, lb, ld, rb, wheel, false, false, mb, false);
+                mpool = new SMouseEvent(ESender.WiiMote, EModifier.None, x, y, lb, false, rb, wheel, false, false, false, false);
                 trigger = true;
             }
 

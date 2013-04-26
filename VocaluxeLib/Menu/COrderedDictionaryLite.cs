@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -15,13 +34,6 @@ namespace VocaluxeLib.Menu
             _Items = new List<T>();
             _HtIndex = new Dictionary<String, int>();
             _Parent = parent;
-        }
-
-        public COrderedDictionaryLite(COrderedDictionaryLite<T> dict)
-        {
-            _Items = new List<T>(dict._Items);
-            _HtIndex = new Dictionary<String, int>(dict._HtIndex);
-            _Parent = dict._Parent;
         }
 
         public T this[int index]

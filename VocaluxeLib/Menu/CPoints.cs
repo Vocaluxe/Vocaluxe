@@ -1,6 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 
 namespace VocaluxeLib.Menu
 {
@@ -10,15 +27,13 @@ namespace VocaluxeLib.Menu
 
         public CPoints(int numRounds, SPlayer[] players)
         {
-            _Rounds = new SPlayer[numRounds, players.Length];
+            _Rounds = new SPlayer[numRounds,players.Length];
 
             for (int round = 0; round < numRounds; round++)
             {
                 for (int player = 0; player < players.Length; player++)
                 {
                     _Rounds[round, player].ProfileID = players[player].ProfileID;
-                    _Rounds[round, player].Name = players[player].Name;
-                    _Rounds[round, player].Difficulty = players[player].Difficulty;
                     _Rounds[round, player].Points = 0f;
                     _Rounds[round, player].PointsGoldenNotes = 0f;
                     _Rounds[round, player].PointsLineBonus = 0f;
@@ -69,13 +84,11 @@ namespace VocaluxeLib.Menu
 
             for (int p = 0; p < player.Length; p++)
             {
-                player[p].Name = _Rounds[round, p].Name;
                 player[p].Points = _Rounds[round, p].Points;
                 player[p].PointsGoldenNotes = _Rounds[round, p].PointsGoldenNotes;
                 player[p].PointsLineBonus = _Rounds[round, p].PointsLineBonus;
                 player[p].SongID = _Rounds[round, p].SongID;
                 player[p].LineNr = _Rounds[round, p].LineNr;
-                player[p].Difficulty = _Rounds[round, p].Difficulty;
                 player[p].Medley = _Rounds[round, p].Medley;
                 player[p].Duet = _Rounds[round, p].Duet;
                 player[p].ShortSong = _Rounds[round, p].ShortSong;

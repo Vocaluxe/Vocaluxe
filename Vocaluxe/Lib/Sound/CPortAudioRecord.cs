@@ -1,9 +1,28 @@
-﻿using System.Threading;
-using PortAudioSharp;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System.Threading;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Vocaluxe.Base;
+using Vocaluxe.Lib.Sound.PortAudio;
 
 namespace Vocaluxe.Lib.Sound
 {
@@ -54,17 +73,10 @@ namespace Vocaluxe.Lib.Sound
                     CPortAudio.SPaDeviceInfo info = CPortAudio.PaGetDeviceInfo(i);
                     if (info.HostApi == hostAPI && info.MaxInputChannels > 0)
                     {
-                        SRecordDevice dev = new SRecordDevice();
+                        SRecordDevice dev = new SRecordDevice {ID = i, Name = info.Name, Driver = info.Name + i, Inputs = new List<SInput>()};
 
-                        dev.ID = i;
-                        dev.Name = info.Name;
-                        dev.Driver = info.Name + i.ToString();
-                        dev.Inputs = new List<SInput>();
+                        SInput inp = new SInput {Name = "Default", Channels = info.MaxInputChannels};
 
-                        SInput inp = new SInput();
-                        inp.Name = "Default";
-
-                        inp.Channels = info.MaxInputChannels;
                         if (inp.Channels > 2)
                             inp.Channels = 2; //more are not supported in vocaluxe
 
@@ -101,19 +113,16 @@ namespace Vocaluxe.Lib.Sound
             if (deviceConfig == null)
                 return false;
 
-            if (_RecHandle == null)
+            if (_RecHandle == null || _RecHandle.Length == 0)
                 return false;
 
-            if (_RecHandle.Length == 0)
-                return false;
+            foreach (CBuffer buffer in _Buffer)
+                buffer.Reset();
 
-            for (int i = 0; i < _Buffer.Length; i++)
-                _Buffer[i].Reset();
-
-            for (int i = 0; i < _RecHandle.Length; i++)
+            foreach (IntPtr handle in _RecHandle)
             {
                 int waitcount = 0;
-                while (waitcount < 5 && CPortAudio.Pa_IsStreamStopped(_RecHandle[i]) == CPortAudio.EPaError.PaStreamIsNotStopped)
+                while (waitcount < 5 && CPortAudio.Pa_IsStreamStopped(handle) == CPortAudio.EPaError.PaStreamIsNotStopped)
                 {
                     Thread.Sleep(1);
                     waitcount++;
@@ -136,16 +145,17 @@ namespace Vocaluxe.Lib.Sound
                 }
             }
 
-            bool result = true;
             for (int i = 0; i < _RecHandle.Length; i++)
             {
                 if (active[i])
                 {
-                    CPortAudio.SPaStreamParameters inputParams = new CPortAudio.SPaStreamParameters();
-                    inputParams.ChannelCount = _DeviceConfig[i].Inputs[0].Channels;
-                    inputParams.Device = _DeviceConfig[i].ID;
-                    inputParams.SampleFormat = CPortAudio.EPaSampleFormat.PaInt16;
-                    inputParams.SuggestedLatency = CPortAudio.PaGetDeviceInfo(_DeviceConfig[i].ID).DefaultLowInputLatency;
+                    CPortAudio.SPaStreamParameters inputParams = new CPortAudio.SPaStreamParameters
+                        {
+                            ChannelCount = _DeviceConfig[i].Inputs[0].Channels,
+                            Device = _DeviceConfig[i].ID,
+                            SampleFormat = CPortAudio.EPaSampleFormat.PaInt16,
+                            SuggestedLatency = CPortAudio.PaGetDeviceInfo(_DeviceConfig[i].ID).DefaultLowInputLatency
+                        };
 
                     if (_ErrorCheck("OpenStream (rec)", CPortAudio.Pa_OpenStream(
                         out _RecHandle[i],
@@ -162,7 +172,7 @@ namespace Vocaluxe.Lib.Sound
                         return false;
                 }
             }
-            return result;
+            return true;
         }
 
         /// <summary>
@@ -174,8 +184,8 @@ namespace Vocaluxe.Lib.Sound
             if (!_Initialized)
                 return false;
 
-            for (int i = 0; i < _RecHandle.Length; i++)
-                CPortAudio.Pa_StopStream(_RecHandle[i]);
+            foreach (IntPtr handle in _RecHandle)
+                CPortAudio.Pa_StopStream(handle);
             return true;
         }
 

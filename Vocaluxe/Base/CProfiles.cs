@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -43,25 +62,27 @@ namespace Vocaluxe.Base
             LoadProfiles();
         }
 
-        public static int NewProfile()
+        public static string GetPlayerName(int profileID, int playerNum = 0)
         {
-            return NewProfile(String.Empty);
+            if (IsProfileIDValid(profileID))
+                return _Profiles[profileID].PlayerName;
+            string playerName = CLanguage.Translate("TR_SCREENNAMES_PLAYER");
+            if (playerNum > 0)
+                playerName += " " + playerNum;
+            return playerName;
         }
 
-        public static int NewProfile(string fileName)
+        public static int NewProfile(string fileName = "")
         {
-            SProfile profile = new SProfile();
-
-            profile.PlayerName = String.Empty;
-            profile.Difficulty = EGameDifficulty.TR_CONFIG_EASY;
-            profile.Avatar = new SAvatar(-1);
-            profile.GuestProfile = EOffOn.TR_CONFIG_OFF;
-            profile.Active = EOffOn.TR_CONFIG_ON;
-
-            if (fileName.Length > 0)
-                profile.ProfileFile = Path.Combine(CSettings.FolderProfiles, fileName);
-            else
-                profile.ProfileFile = String.Empty;
+            SProfile profile = new SProfile
+                {
+                    PlayerName = String.Empty,
+                    Difficulty = EGameDifficulty.TR_CONFIG_EASY,
+                    Avatar = new SAvatar(-1),
+                    GuestProfile = EOffOn.TR_CONFIG_OFF,
+                    Active = EOffOn.TR_CONFIG_ON,
+                    ProfileFile = fileName != "" ? Path.Combine(CSettings.FolderProfiles, fileName) : String.Empty
+                };
 
             if (File.Exists(profile.ProfileFile))
                 return -1;
@@ -110,133 +131,119 @@ namespace Vocaluxe.Base
 
                 if (tex.Index != -1)
                 {
-                    SAvatar avatar = new SAvatar();
-                    avatar.Texture = tex;
-                    avatar.FileName = Path.GetFileName(file);
+                    SAvatar avatar = new SAvatar {Texture = tex, FileName = Path.GetFileName(file)};
                     _Avatars.Add(avatar);
                 }
             }
         }
 
-        public static string AddGetPlayerName(int profileNr, char chr)
+        public static string AddGetPlayerName(int profileID, char chr)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (!IsProfileIDValid(profileID))
                 return String.Empty;
 
-            SProfile profile = _Profiles[profileNr];
+            SProfile profile = _Profiles[profileID];
             profile.PlayerName += chr;
-            _Profiles[profileNr] = profile;
+            _Profiles[profileID] = profile;
 
             return profile.PlayerName;
         }
 
-        public static string GetPlayerName(int profileNr)
+        public static string GetDeleteCharInPlayerName(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (!IsProfileIDValid(profileID))
                 return String.Empty;
 
-            return _Profiles[profileNr].PlayerName;
-        }
-
-        public static string GetDeleteCharInPlayerName(int profileNr)
-        {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
-                return String.Empty;
-
-            SProfile profile = _Profiles[profileNr];
-            if (profile.PlayerName.Length > 0)
+            SProfile profile = _Profiles[profileID];
+            if (profile.PlayerName != "")
                 profile.PlayerName = profile.PlayerName.Remove(profile.PlayerName.Length - 1);
-            _Profiles[profileNr] = profile;
+            _Profiles[profileID] = profile;
 
             return profile.PlayerName;
         }
 
-        public static EGameDifficulty GetDifficulty(int profileNr)
+        public static bool IsProfileIDValid(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
-                return EGameDifficulty.TR_CONFIG_NORMAL;
-
-            return _Profiles[profileNr].Difficulty;
+            return profileID >= 0 && profileID < _Profiles.Count;
         }
 
-        public static void SetDifficulty(int profileNr, EGameDifficulty difficulty)
+        public static EGameDifficulty GetDifficulty(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            return IsProfileIDValid(profileID) ? _Profiles[profileID].Difficulty : EGameDifficulty.TR_CONFIG_NORMAL;
+        }
+
+        public static void SetDifficulty(int profileID, EGameDifficulty difficulty)
+        {
+            if (!IsProfileIDValid(profileID))
                 return;
 
-            SProfile profile = _Profiles[profileNr];
+            SProfile profile = _Profiles[profileID];
             profile.Difficulty = difficulty;
-            _Profiles[profileNr] = profile;
+            _Profiles[profileID] = profile;
         }
 
-        public static EOffOn GetGuestProfile(int profileNr)
+        public static EOffOn GetGuestProfile(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
-                return EOffOn.TR_CONFIG_OFF;
-
-            return _Profiles[profileNr].GuestProfile;
+            return IsProfileIDValid(profileID) ? _Profiles[profileID].GuestProfile : EOffOn.TR_CONFIG_OFF;
         }
 
-        public static EOffOn GetActive(int profileNr)
+        public static EOffOn GetActive(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
-                return EOffOn.TR_CONFIG_OFF;
-
-            return _Profiles[profileNr].Active;
+            return IsProfileIDValid(profileID) ? _Profiles[profileID].Active : EOffOn.TR_CONFIG_OFF;
         }
 
-        public static void SetGuestProfile(int profileNr, EOffOn option)
+        public static void SetGuestProfile(int profileID, EOffOn option)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (!IsProfileIDValid(profileID))
                 return;
 
-            SProfile profile = _Profiles[profileNr];
+            SProfile profile = _Profiles[profileID];
             profile.GuestProfile = option;
-            _Profiles[profileNr] = profile;
+            _Profiles[profileID] = profile;
         }
 
-        public static void SetActive(int profileNr, EOffOn option)
+        public static void SetActive(int profileID, EOffOn option)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (!IsProfileIDValid(profileID))
                 return;
-            SProfile profile = _Profiles[profileNr];
+            SProfile profile = _Profiles[profileID];
             profile.Active = option;
-            _Profiles[profileNr] = profile;
+            _Profiles[profileID] = profile;
         }
 
-        public static bool IsGuestProfile(int profileNr)
+        public static bool IsGuestProfile(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (!IsProfileIDValid(profileID))
                 return true; // this will prevent from saving dummy profiles to highscore db
 
-            return _Profiles[profileNr].GuestProfile == EOffOn.TR_CONFIG_ON;
+            return _Profiles[profileID].GuestProfile == EOffOn.TR_CONFIG_ON;
         }
 
-        public static bool IsActive(int profileNr)
+        public static bool IsActive(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (!IsProfileIDValid(profileID))
                 return false;
-            return _Profiles[profileNr].Active == EOffOn.TR_CONFIG_ON;
+            return _Profiles[profileID].Active == EOffOn.TR_CONFIG_ON;
         }
 
-        public static void SetAvatar(int profileNr, int avatarNr)
+        public static void SetAvatar(int profileID, int avatarNr)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count || avatarNr < 0 || avatarNr >= _Avatars.Count)
+            if (!IsProfileIDValid(profileID) || avatarNr < 0 || avatarNr >= _Avatars.Count)
                 return;
 
-            SProfile profile = _Profiles[profileNr];
+            SProfile profile = _Profiles[profileID];
             profile.Avatar = _Avatars[avatarNr];
-            _Profiles[profileNr] = profile;
+            _Profiles[profileID] = profile;
         }
 
-        public static int GetAvatarNr(int profileNr)
+        public static int GetAvatarNr(int profileID)
         {
-            if (profileNr < 0 || profileNr >= _Profiles.Count)
+            if (!IsProfileIDValid(profileID))
                 return 0;
 
             for (int i = 0; i < _Avatars.Count; i++)
             {
-                if (_Profiles[profileNr].Avatar.FileName == _Avatars[i].FileName)
+                if (_Profiles[profileID].Avatar.FileName == _Avatars[i].FileName)
                     return i;
             }
 
@@ -245,19 +252,35 @@ namespace Vocaluxe.Base
 
         public static void DeleteProfile(int profileID)
         {
-            if (profileID < 0 || profileID >= _Profiles.Count)
+            if (!IsProfileIDValid(profileID))
                 return;
-            if (_Profiles[profileID].ProfileFile.Length > 0)
+            if (_Profiles[profileID].ProfileFile == "")
+                return;
+            try
             {
-                try
+                //Check if profile saved in config
+                for (int i = 0; i < CConfig.Players.Length; i++)
                 {
-                    File.Delete(_Profiles[profileID].ProfileFile);
-                    _Profiles.RemoveAt(profileID);
+                    if (CConfig.Players[i] == _Profiles[profileID].ProfileFile)
+                    {
+                        CConfig.Players[i] = string.Empty;
+                        CConfig.SaveConfig();
+                    }
                 }
-                catch (Exception)
+                File.Delete(_Profiles[profileID].ProfileFile);
+                _Profiles.RemoveAt(profileID);
+                //Check if profile is selected in game
+                for (int i = 0; i < CGame.Players.Length; i++)
                 {
-                    CLog.LogError("Can't delete Profile File " + _Profiles[profileID].ProfileFile + ".xml");
+                    if (CGame.Players[i].ProfileID > profileID)
+                        CGame.Players[i].ProfileID--;
+                    else if (CGame.Players[i].ProfileID == profileID)
+                        CGame.Players[i].ProfileID = -1;
                 }
+            }
+            catch (Exception)
+            {
+                CLog.LogError("Can't delete Profile File " + _Profiles[profileID].ProfileFile + ".xml");
             }
         }
 
@@ -268,7 +291,7 @@ namespace Vocaluxe.Base
 
         private static int _CompareByPlayerName(SProfile a, SProfile b)
         {
-            return String.Compare(a.PlayerName, b.PlayerName);
+            return String.CompareOrdinal(a.PlayerName, b.PlayerName);
         }
 
         #region private methods
@@ -284,10 +307,10 @@ namespace Vocaluxe.Base
 
         private static void _SaveProfile(int profileID)
         {
-            if (profileID < 0 || profileID >= _Profiles.Count)
+            if (!IsProfileIDValid(profileID))
                 return;
 
-            if (_Profiles[profileID].ProfileFile.Length == 0)
+            if (_Profiles[profileID].ProfileFile == "")
             {
                 string filename = string.Empty;
                 foreach (char chr in _Profiles[profileID].PlayerName)
@@ -296,7 +319,7 @@ namespace Vocaluxe.Base
                         filename += chr.ToString();
                 }
 
-                if (filename.Length == 0)
+                if (filename == "")
                     filename = "1";
 
                 int i = 0;
@@ -343,21 +366,19 @@ namespace Vocaluxe.Base
             finally
             {
                 writer.Close();
-                writer = null;
             }
         }
 
         private static void _LoadProfile(string fileName)
         {
-            SProfile profile = new SProfile();
-            profile.ProfileFile = Path.Combine(CSettings.FolderProfiles, fileName);
+            SProfile profile = new SProfile {ProfileFile = Path.Combine(CSettings.FolderProfiles, fileName)};
 
             CXMLReader xmlReader = CXMLReader.OpenFile(profile.ProfileFile);
             if (xmlReader == null)
                 return;
 
             string value = String.Empty;
-            if (xmlReader.GetValue("//root/Info/PlayerName", ref value, value))
+            if (xmlReader.GetValue("//root/Info/PlayerName", out value, value))
             {
                 profile.PlayerName = value;
 
@@ -365,7 +386,7 @@ namespace Vocaluxe.Base
                 xmlReader.TryGetEnumValue("//root/Info/Difficulty", ref profile.Difficulty);
 
                 profile.Avatar = new SAvatar(-1);
-                if (xmlReader.GetValue("//root/Info/Avatar", ref value, value))
+                if (xmlReader.GetValue("//root/Info/Avatar", out value, value))
                     profile.Avatar = _GetAvatar(value);
 
                 profile.GuestProfile = EOffOn.TR_CONFIG_OFF;

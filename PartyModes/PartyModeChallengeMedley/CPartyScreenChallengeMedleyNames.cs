@@ -1,3 +1,22 @@
+#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -5,7 +24,9 @@ using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes.ChallengeMedley
 {
+    // ReSharper disable UnusedMember.Global
     public class CPartyScreenChallengeMedleyNames : CMenuParty
+        // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -22,7 +43,6 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         private List<CButton> _PlayerDestinationButtons;
         //PlayerDestinationButtons-Option
         private const int _PlayerDestinationButtonsNumH = 3;
-        private const int _PlayerDestinationButtonsNumW = 4;
         private const int _PlayerDestinationButtonsFirstX = 900;
         private const int _PlayerDestinationButtonsFirstY = 105;
         private const int _PlayerDestinationButtonsSpaceH = 15;
@@ -35,7 +55,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         private const int _PlayerChooseButtonsFirstY = 105;
         private const int _PlayerChooseButtonsSpaceH = 15;
         private const int _PlayerChooseButtonsSpaceW = 25;
-        private int _PlayerChooseButtonsOffset = 0;
+        private const int _PlayerChooseButtonsOffset = 0;
 
         private CStatic _ChooseAvatarStatic;
         private bool _SelectingMouseActive;
@@ -65,27 +85,19 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
             _Data.ScreenNames.ProfileIDs = new List<int>();
 
-            List<string> buttons = new List<string>();
             _ThemeButtons = new string[] {_ButtonBack, _ButtonNext, _ButtonPlayerDestination, _ButtonPlayerChoose};
 
             _Data = new SDataFromScreen();
-            SFromScreenNames names = new SFromScreenNames();
-            names.FadeToConfig = false;
-            names.FadeToMain = false;
-            names.ProfileIDs = new List<int>();
+            SFromScreenNames names = new SFromScreenNames {FadeToConfig = false, ProfileIDs = new List<int>()};
             _Data.ScreenNames = names;
         }
 
         public override void DataToScreen(object receivedData)
         {
-            SDataToScreenNames config = new SDataToScreenNames();
-
             try
             {
-                config = (SDataToScreenNames)receivedData;
-                _Data.ScreenNames.ProfileIDs = config.ProfileIDs;
-                if (_Data.ScreenNames.ProfileIDs == null)
-                    _Data.ScreenNames.ProfileIDs = new List<int>();
+                SDataToScreenNames config = (SDataToScreenNames)receivedData;
+                _Data.ScreenNames.ProfileIDs = config.ProfileIDs ?? new List<int>();
 
                 _NumPlayer = config.NumPlayer;
 
@@ -113,10 +125,10 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                         break;
 
                     case Keys.Enter:
-                        if (Buttons[_ButtonBack].Selected)
+                        if (_Buttons[_ButtonBack].Selected)
                             _Back();
 
-                        if (Buttons[_ButtonNext].Selected)
+                        if (_Buttons[_ButtonNext].Selected)
                             _Next();
 
                         if (!_OnAdd())
@@ -218,12 +230,12 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 _ChooseAvatarStatic.Visible = false;
             }
 
-            if (mouseEvent.LB && IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
             {
-                if (Buttons[_ButtonBack].Selected)
+                if (_Buttons[_ButtonBack].Selected)
                     _Back();
 
-                if (Buttons[_ButtonNext].Selected)
+                if (_Buttons[_ButtonNext].Selected)
                     _Next();
 
                 if (!_OnAdd())
@@ -268,13 +280,13 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         private void _AddButtonPlayerDestination()
         {
-            Buttons[_ButtonPlayerDestination].Visible = false;
+            _Buttons[_ButtonPlayerDestination].Visible = false;
             _PlayerDestinationButtons = new List<CButton>();
             int row = 0;
             int column = 0;
             for (int i = 1; i <= _PartyMode.GetMaxPlayer(); i++)
             {
-                CButton b = GetNewButton(Buttons[_ButtonPlayerDestination]);
+                CButton b = GetNewButton(_Buttons[_ButtonPlayerDestination]);
                 b.Rect.X = _PlayerDestinationButtonsFirstX + column * (b.Rect.W + _PlayerDestinationButtonsSpaceH);
                 b.Rect.Y = _PlayerDestinationButtonsFirstY + row * (b.Rect.H + _PlayerDestinationButtonsSpaceW);
                 _PlayerDestinationButtons.Add(b);
@@ -286,24 +298,22 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 }
                 b.Visible = true;
                 b.Enabled = false;
-                AddButton(b);
+                _AddButton(b);
             }
         }
 
         private void _AddButtonPlayerChoose()
         {
-            Buttons[_ButtonPlayerChoose].Visible = false;
+            _Buttons[_ButtonPlayerChoose].Visible = false;
             _PlayerChooseButtons = new List<CPlayerChooseButton>();
             int row = 0;
             int column = 0;
             for (int i = 1; i <= _PlayerChooseButtonsNumH * _PlayerChooseButtonsNumW; i++)
             {
-                CButton b = GetNewButton(Buttons[_ButtonPlayerChoose]);
+                CButton b = GetNewButton(_Buttons[_ButtonPlayerChoose]);
                 b.Rect.X = _PlayerChooseButtonsFirstX + column * (b.Rect.W + _PlayerChooseButtonsSpaceH);
                 b.Rect.Y = _PlayerChooseButtonsFirstY + row * (b.Rect.H + _PlayerChooseButtonsSpaceW);
-                CPlayerChooseButton pcb = new CPlayerChooseButton();
-                pcb.Button = b;
-                pcb.ProfileID = -1;
+                CPlayerChooseButton pcb = new CPlayerChooseButton {Button = b, ProfileID = -1};
                 _PlayerChooseButtons.Add(pcb);
                 column++;
                 if (column >= _PlayerChooseButtonsNumH)
@@ -313,7 +323,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 }
                 b.Visible = true;
                 b.Enabled = false;
-                AddButton(b);
+                _AddButton(b);
             }
         }
 
@@ -329,7 +339,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         private void _UpdateButtonPlayerChoose(int offset)
         {
-            int numButtonPlayerChoose = _PlayerChooseButtonsNumW * _PlayerChooseButtonsNumH;
+            const int numButtonPlayerChoose = _PlayerChooseButtonsNumW * _PlayerChooseButtonsNumH;
             if (offset < 0)
                 offset = 0;
 
@@ -341,8 +351,10 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                     {
                         _PlayerChooseButtons[i].ProfileID = _PlayerChooseButtonsVisibleProfiles[i + offset * numButtonPlayerChoose];
                         _PlayerChooseButtons[i].Button.Text.Text = CBase.Profiles.GetProfiles()[_PlayerChooseButtonsVisibleProfiles[i + offset * numButtonPlayerChoose]].PlayerName;
-                        _PlayerChooseButtons[i].Button.Texture = CBase.Profiles.GetProfiles()[_PlayerChooseButtonsVisibleProfiles[i + offset * numButtonPlayerChoose]].Avatar.Texture;
-                        _PlayerChooseButtons[i].Button.SelTexture = CBase.Profiles.GetProfiles()[_PlayerChooseButtonsVisibleProfiles[i + offset * numButtonPlayerChoose]].Avatar.Texture;
+                        _PlayerChooseButtons[i].Button.Texture =
+                            CBase.Profiles.GetProfiles()[_PlayerChooseButtonsVisibleProfiles[i + offset * numButtonPlayerChoose]].Avatar.Texture;
+                        _PlayerChooseButtons[i].Button.SelTexture =
+                            CBase.Profiles.GetProfiles()[_PlayerChooseButtonsVisibleProfiles[i + offset * numButtonPlayerChoose]].Avatar.Texture;
                         _PlayerChooseButtons[i].Button.Color = new SColorF(1, 1, 1, 0.6f);
                         _PlayerChooseButtons[i].Button.SelColor = new SColorF(1, 1, 1, 1);
                         _PlayerChooseButtons[i].Button.Enabled = true;
@@ -351,10 +363,10 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                     {
                         _PlayerChooseButtons[i].ProfileID = -1;
                         _PlayerChooseButtons[i].Button.Text.Text = String.Empty;
-                        _PlayerChooseButtons[i].Button.Texture = Buttons[_ButtonPlayerChoose].Texture;
-                        _PlayerChooseButtons[i].Button.SelTexture = Buttons[_ButtonPlayerChoose].SelTexture;
-                        _PlayerChooseButtons[i].Button.Color = Buttons[_ButtonPlayerChoose].Color;
-                        _PlayerChooseButtons[i].Button.SelColor = Buttons[_ButtonPlayerChoose].SelColor;
+                        _PlayerChooseButtons[i].Button.Texture = _Buttons[_ButtonPlayerChoose].Texture;
+                        _PlayerChooseButtons[i].Button.SelTexture = _Buttons[_ButtonPlayerChoose].SelTexture;
+                        _PlayerChooseButtons[i].Button.Color = _Buttons[_ButtonPlayerChoose].Color;
+                        _PlayerChooseButtons[i].Button.SelColor = _Buttons[_ButtonPlayerChoose].SelColor;
                         _PlayerChooseButtons[i].Button.Enabled = false;
                     }
                 }
@@ -418,10 +430,10 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 }
                 else
                 {
-                    _PlayerDestinationButtons[i].Color = Buttons[_ButtonPlayerDestination].Color;
-                    _PlayerDestinationButtons[i].SelColor = Buttons[_ButtonPlayerDestination].SelColor;
-                    _PlayerDestinationButtons[i].Texture = Buttons[_ButtonPlayerDestination].Texture;
-                    _PlayerDestinationButtons[i].SelTexture = Buttons[_ButtonPlayerDestination].SelTexture;
+                    _PlayerDestinationButtons[i].Color = _Buttons[_ButtonPlayerDestination].Color;
+                    _PlayerDestinationButtons[i].SelColor = _Buttons[_ButtonPlayerDestination].SelColor;
+                    _PlayerDestinationButtons[i].Texture = _Buttons[_ButtonPlayerDestination].Texture;
+                    _PlayerDestinationButtons[i].SelTexture = _Buttons[_ButtonPlayerDestination].SelTexture;
                     _PlayerDestinationButtons[i].Text.Text = String.Empty;
                     _PlayerDestinationButtons[i].Enabled = false;
                 }
@@ -432,34 +444,34 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         {
             if (_Data.ScreenNames.ProfileIDs.Count == _NumPlayer)
             {
-                Buttons[_ButtonNext].Visible = true;
-                SetInteractionToButton(Buttons[_ButtonNext]);
+                _Buttons[_ButtonNext].Visible = true;
+                _SetInteractionToButton(_Buttons[_ButtonNext]);
             }
             else
-                Buttons[_ButtonNext].Visible = false;
+                _Buttons[_ButtonNext].Visible = false;
         }
 
         private bool _OnAdd()
         {
-            for (int i = 0; i < _PlayerChooseButtons.Count; i++)
+            foreach (CPlayerChooseButton chooseButton in _PlayerChooseButtons)
             {
-                if (_PlayerChooseButtons[i].Button.Selected && _PlayerChooseButtons[i].ProfileID != -1)
+                if (chooseButton.Button.Selected && chooseButton.ProfileID != -1)
                 {
                     if (_Data.ScreenNames.ProfileIDs.Count < _NumPlayer)
                     {
-                        _Data.ScreenNames.ProfileIDs.Add(_PlayerChooseButtons[i].ProfileID);
+                        _Data.ScreenNames.ProfileIDs.Add(chooseButton.ProfileID);
                         int added = _Data.ScreenNames.ProfileIDs.Count - 1;
                         _UpdateButtonNext();
                         //Update texture and name
                         _PlayerDestinationButtons[added].Color = new SColorF(1, 1, 1, 0.6f);
                         _PlayerDestinationButtons[added].SelColor = new SColorF(1, 1, 1, 1);
-                        _PlayerDestinationButtons[added].Texture = CBase.Profiles.GetProfiles()[_PlayerChooseButtons[i].ProfileID].Avatar.Texture;
-                        _PlayerDestinationButtons[added].SelTexture = CBase.Profiles.GetProfiles()[_PlayerChooseButtons[i].ProfileID].Avatar.Texture;
-                        _PlayerDestinationButtons[added].Text.Text = CBase.Profiles.GetProfiles()[_PlayerChooseButtons[i].ProfileID].PlayerName;
+                        _PlayerDestinationButtons[added].Texture = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].Avatar.Texture;
+                        _PlayerDestinationButtons[added].SelTexture = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].Avatar.Texture;
+                        _PlayerDestinationButtons[added].Text.Text = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].PlayerName;
                         _PlayerDestinationButtons[added].Enabled = true;
                         //Update Tiles-List
                         _UpdateButtonPlayerChoose();
-                        CheckInteraction();
+                        _CheckInteraction();
                         return true;
                     }
                 }
@@ -479,7 +491,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                         _UpdateButtonNext();
                         _UpdateButtonPlayerDestination();
                         _UpdateButtonPlayerChoose();
-                        CheckInteraction();
+                        _CheckInteraction();
                         return true;
                     }
                 }
@@ -490,14 +502,12 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         private void _Back()
         {
             _Data.ScreenNames.FadeToConfig = true;
-            _Data.ScreenNames.FadeToMain = false;
             _PartyMode.DataFromScreen(ThemeName, _Data);
         }
 
         private void _Next()
         {
             _Data.ScreenNames.FadeToConfig = false;
-            _Data.ScreenNames.FadeToMain = true;
             _PartyMode.DataFromScreen(ThemeName, _Data);
         }
     }

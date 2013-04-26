@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
@@ -27,8 +46,6 @@ namespace VocaluxeLib.Menu
             public readonly CStatic Avatar;
             public readonly CText Name;
 
-            public CTile() {}
-
             public CTile(CStatic av, CText tex, int pl)
             {
                 Avatar = av;
@@ -46,7 +63,7 @@ namespace VocaluxeLib.Menu
             return _Theme.Name;
         }
 
-        public bool Selected = false;
+        public bool Selected;
         public bool Visible = true;
 
         public SRectF Rect;
@@ -66,7 +83,7 @@ namespace VocaluxeLib.Menu
         private int _TileW;
         private int _TileH;
 
-        public int Offset = 0;
+        public int Offset;
         private int _ActualSelection = -1;
         public int Selection = -1;
 
@@ -89,10 +106,12 @@ namespace VocaluxeLib.Menu
         {
             _PrepareTiles();
 
-            _PlayerSelector = new CStatic(_PartyModeID);
-            _PlayerSelector.Texture = _TextureTileSelected;
-            _PlayerSelector.Rect = new SRectF(0, 0, _TileW + 6, _TileH + 6, Rect.Z - 0.5f);
-            _PlayerSelector.Visible = false;
+            _PlayerSelector = new CStatic(_PartyModeID)
+                {
+                    Texture = _TextureTileSelected,
+                    Rect = new SRectF(0, 0, _TileW + 6, _TileH + 6, Rect.Z - 0.5f),
+                    Visible = false
+                };
 
             _UpdateVisibleProfiles();
 
@@ -110,9 +129,9 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinEmptyTile", ref _Theme.TextureEmptyTileName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinEmptyTile", out _Theme.TextureEmptyTileName, String.Empty);
 
-            if (xmlReader.GetValue(item + "/ColorEmptyTile", ref _Theme.ColorEmptyTileName, String.Empty))
+            if (xmlReader.GetValue(item + "/ColorEmptyTile", out _Theme.ColorEmptyTileName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorEmptyTileName, skinIndex, out ColorEmptyTile);
             else
             {
@@ -122,7 +141,7 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref ColorEmptyTile.A);
             }
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinTileSelected", ref _Theme.TextureTileSelectedName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinTileSelected", out _Theme.TextureTileSelectedName, String.Empty);
 
             _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/W", ref _TileW);
             _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/H", ref _TileH);
@@ -132,9 +151,9 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceH", ref _SpaceH);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/Space", ref _Theme.NameSpace);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/H", ref _Theme.NameHeight);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Tiles/Name/Font", ref _Theme.NameFont, "Normal");
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Tiles/Name/Font", out _Theme.NameFont, "Normal");
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Tiles/Name/Style", ref _Theme.NameStyle);
-            if (xmlReader.GetValue(item + "/Tiles/Name/Color", ref _Theme.NameColorName, String.Empty))
+            if (xmlReader.GetValue(item + "/Tiles/Name/Color", out _Theme.NameColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.NameColorName, skinIndex, out _Theme.NameColor);
             else
             {
@@ -173,7 +192,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<ColorEmptyTile>: Static color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorEmptyTileName.Length > 0)
+                if (_Theme.ColorEmptyTileName != "")
                     writer.WriteElementString("ColorEmptyTile", _Theme.ColorEmptyTileName);
                 else
                 {
@@ -204,7 +223,7 @@ namespace VocaluxeLib.Menu
                 writer.WriteComment("<Font>: Text font name");
                 writer.WriteElementString("Font", _Theme.NameFont);
                 writer.WriteComment("<Color>: Text color from ColorScheme (high priority)");
-                if (_Theme.NameColorName.Length > 0)
+                if (_Theme.NameColorName != "")
                     writer.WriteElementString("Color", _Theme.NameColorName);
                 else
                 {
@@ -227,16 +246,6 @@ namespace VocaluxeLib.Menu
         }
 
         public void Draw()
-        {
-            Draw(false);
-        }
-
-        public void ForceDraw()
-        {
-            Draw(true);
-        }
-
-        public void Draw(bool forceDraw)
         {
             int i = 0;
             foreach (CTile tile in _Tiles)
@@ -438,10 +447,10 @@ namespace VocaluxeLib.Menu
             _TextureEmptyTile = CBase.Theme.GetSkinTexture(_Theme.TextureEmptyTileName, _PartyModeID);
             _TextureTileSelected = CBase.Theme.GetSkinTexture(_Theme.TextureTileSelectedName, _PartyModeID);
 
-            if (_Theme.ColorEmptyTileName.Length > 0)
+            if (_Theme.ColorEmptyTileName != "")
                 ColorEmptyTile = CBase.Theme.GetColor(_Theme.ColorEmptyTileName, _PartyModeID);
 
-            if (_Theme.NameColorName.Length > 0)
+            if (_Theme.NameColorName != "")
                 _Theme.NameColor = CBase.Theme.GetColor(_Theme.NameColorName, _PartyModeID);
         }
 
@@ -474,15 +483,16 @@ namespace VocaluxeLib.Menu
             _VisibleProfiles.Clear();
             for (int i = 0; i < CBase.Profiles.GetProfiles().Length; i++)
             {
-                bool visible = false;
-                //Show profile only if active
-                if (CBase.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON)
-                    visible = true;
-                for (int p = 0; p < CBase.Game.GetNumPlayer(); p++)
+                bool visible = CBase.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON;
+                if (visible)
                 {
-                    //Don't show profile if is selected, but if selected and guest
-                    if (CBase.Game.GetPlayer()[p].ProfileID == i && CBase.Profiles.GetProfiles()[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
-                        visible = false;
+                    //Show profile only if active
+                    for (int p = 0; p < CBase.Game.GetNumPlayer(); p++)
+                    {
+                        //Don't show profile if is selected, but if selected and guest
+                        if (CBase.Game.GetPlayers()[p].ProfileID == i && CBase.Profiles.GetProfiles()[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
+                            visible = false;
+                    }
                 }
                 if (visible)
                     _VisibleProfiles.Add(i);

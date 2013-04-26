@@ -1,7 +1,27 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 
 namespace VocaluxeLib.Menu
 {
+
     #region Inputs
     [Flags]
     public enum EModifier
@@ -16,8 +36,7 @@ namespace VocaluxeLib.Menu
     {
         Mouse,
         Keyboard,
-        WiiMote,
-        Gamepad
+        WiiMote
     }
     #endregion Inputs
 
@@ -74,12 +93,14 @@ namespace VocaluxeLib.Menu
         X32 = 32
     }
 
-    public enum EColorDeep
+    public enum EColorDepth
     {
+        // ReSharper disable UnusedMember.Global
         Bit8 = 8,
         Bit16 = 16,
         Bit24 = 24,
         Bit32 = 32
+        // ReSharper restore UnusedMember.Global
     }
 
     public enum ETextureQuality
@@ -106,7 +127,9 @@ namespace VocaluxeLib.Menu
         // ReSharper disable InconsistentNaming
         // don't change the order!
         TR_CONFIG_OFF, //no debug infos
+        // ReSharper disable UnusedMember.Global
         TR_CONFIG_ONLY_FPS,
+        // ReSharper restore UnusedMember.Global
         TR_CONFIG_LEVEL1,
         TR_CONFIG_LEVEL2,
         TR_CONFIG_LEVEL3,
@@ -116,6 +139,7 @@ namespace VocaluxeLib.Menu
 
     public enum EBufferSize
     {
+        // ReSharper disable UnusedMember.Global
         B0 = 0,
         B512 = 512,
         B1024 = 1024,
@@ -125,6 +149,7 @@ namespace VocaluxeLib.Menu
         B3072 = 3072,
         B3584 = 3584,
         B4096 = 4096
+        // ReSharper restore UnusedMember.Global
     }
 
     public enum EPlaybackLib
@@ -191,7 +216,9 @@ namespace VocaluxeLib.Menu
     public enum ECoverLoading
     {
         // ReSharper disable InconsistentNaming
+        // ReSharper disable UnusedMember.Global
         TR_CONFIG_COVERLOADING_ONDEMAND,
+        // ReSharper restore UnusedMember.Global
         TR_CONFIG_COVERLOADING_ATSTART,
         TR_CONFIG_COVERLOADING_DYNAMIC
         // ReSharper restore InconsistentNaming
@@ -200,9 +227,11 @@ namespace VocaluxeLib.Menu
     public enum EGameDifficulty
     {
         // ReSharper disable InconsistentNaming
+        // ReSharper disable UnusedMember.Global
         TR_CONFIG_EASY,
         TR_CONFIG_NORMAL,
         TR_CONFIG_HARD
+        // ReSharper restore UnusedMember.Global
         // ReSharper restore InconsistentNaming
     }
 
@@ -238,7 +267,9 @@ namespace VocaluxeLib.Menu
         TR_CONFIG_PLAYERINFO_BOTH,
         TR_CONFIG_PLAYERINFO_NAME,
         TR_CONFIG_PLAYERINFO_AVATAR,
+        // ReSharper disable UnusedMember.Global
         TR_CONFIG_PLAYERINFO_OFF
+        // ReSharper restore UnusedMember.Global
         // ReSharper restore InconsistentNaming
     }
 
@@ -309,5 +340,13 @@ namespace VocaluxeLib.Menu
         ScreenPartyDummy = 18,
 
         ScreenNull = -1
+    }
+
+    public enum EPopupScreens
+    {
+        PopupPlayerControl = 0,
+        PopupVolumeControl = 1,
+
+        NoPopup = -1
     }
 }

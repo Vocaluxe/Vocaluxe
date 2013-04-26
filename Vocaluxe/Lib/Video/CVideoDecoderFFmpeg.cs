@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -48,7 +67,6 @@ namespace Vocaluxe.Lib.Video
                 {
                     _Decoder.Add(decoder);
                     stream.Handle = _Count++;
-                    stream.File = videoFileName;
                     _Streams.Add(stream);
                     return stream.Handle;
                 }
@@ -72,14 +90,15 @@ namespace Vocaluxe.Lib.Video
             return false;
         }
 
-        public override bool GetFrame(int streamID, ref STexture frame, float time, ref float videoTime)
+        public override bool GetFrame(int streamID, ref STexture frame, float time, out float videoTime)
         {
+            videoTime = 0;
             if (_Initialized)
             {
                 lock (_MutexDecoder)
                 {
                     if (_AlreadyAdded(streamID))
-                        return _Decoder[_GetStreamIndex(streamID)].GetFrame(ref frame, time, ref videoTime);
+                        return _Decoder[_GetStreamIndex(streamID)].GetFrame(ref frame, time, out videoTime);
                 }
             }
             return false;
@@ -212,7 +231,6 @@ namespace Vocaluxe.Lib.Video
 
         private bool _Paused;
         private bool _NoMoreFrames;
-        private bool _Finished;
         private bool _BeforeLoop;
 
         private int _Width;
@@ -220,7 +238,6 @@ namespace Vocaluxe.Lib.Video
         private float _SetTime;
         private float _SetGap;
         private float _SetStart;
-        private bool _SetLoop;
         private bool _SetSkip;
         private bool _Terminated;
 
@@ -245,18 +262,11 @@ namespace Vocaluxe.Lib.Video
 
         public float Length
         {
-            get
-            {
-                if (_FileOpened)
-                    return _Duration;
-
-                return 0f;
-            }
+            get { return _FileOpened ? _Duration : 0f; }
         }
 
         public bool Paused
         {
-            get { return _Paused; }
             set
             {
                 lock (_MutexSyncSignals)
@@ -270,16 +280,9 @@ namespace Vocaluxe.Lib.Video
             }
         }
 
-        public bool Loop
-        {
-            get { return _SetLoop; }
-            set { _SetLoop = value; }
-        }
+        public bool Loop { private get; set; }
 
-        public bool Finished
-        {
-            get { return _Finished; }
-        }
+        public bool Finished { get; private set; }
 
         public bool Open(string fileName)
         {
@@ -296,15 +299,16 @@ namespace Vocaluxe.Lib.Video
             return true;
         }
 
-        public bool GetFrame(ref STexture frame, float time, ref float videoTime)
+        public bool GetFrame(ref STexture frame, float time, out float videoTime)
         {
+            videoTime = 0;
             if (!_FileOpened)
                 return false;
 
             if (_Paused)
                 return false;
 
-            if (_SetLoop)
+            if (Loop)
             {
                 lock (_MutexSyncSignals)
                 {
@@ -322,7 +326,7 @@ namespace Vocaluxe.Lib.Video
                 return true;
             }
 
-            if (_SetTime != time)
+            if (Math.Abs(_SetTime - time) > float.Epsilon)
             {
                 lock (_MutexSyncSignals)
                 {
@@ -344,7 +348,7 @@ namespace Vocaluxe.Lib.Video
                 _SetGap = gap;
                 _SetSkip = true;
                 _NoMoreFrames = false;
-                _Finished = false;
+                Finished = false;
             }
             //EventDecode.Set();
             return true;
@@ -422,7 +426,7 @@ namespace Vocaluxe.Lib.Video
                         _SetSkip = false;
                         _Gap = _SetGap;
                         _Start = _SetStart;
-                        _Loop = _SetLoop;
+                        _Loop = Loop;
                     }
 
                     if (_Skip)
@@ -442,7 +446,7 @@ namespace Vocaluxe.Lib.Video
 
         private void _DoOpen()
         {
-            bool ok = false;
+            bool ok;
             SACInstance instance = new SACInstance();
             try
             {
@@ -467,7 +471,7 @@ namespace Vocaluxe.Lib.Video
 
             _Duration = instance.Info.Duration / 1000f;
 
-            int videoStreamIndex = -1;
+            int videoStreamIndex;
             SACDecoder videodecoder;
             try
             {
@@ -522,9 +526,7 @@ namespace Vocaluxe.Lib.Video
             float myTime = _Time + _VideoSkipTime;
             float timeDifference = myTime - _VideoDecoderTime;
 
-            bool dropFrame = false;
-            if (timeDifference >= (framedropcount - 1) * _VideoTimeBase)
-                dropFrame = true;
+            bool dropFrame = timeDifference >= (framedropcount - 1) * _VideoTimeBase;
 
             if (_Terminated)
                 return;
@@ -591,7 +593,6 @@ namespace Vocaluxe.Lib.Video
                 }
                 else
                     _NoMoreFrames = true;
-                return;
             }
             else
             {
@@ -660,7 +661,7 @@ namespace Vocaluxe.Lib.Video
 
                 if (num >= 0)
                 {
-                    if (frame.Index == -1 || _Width != frame.Width || _Height != frame.Height)
+                    if (frame.Index == -1 || _Width != (int)frame.Width || _Height != (int)frame.Height)
                     {
                         CDraw.RemoveTexture(ref frame);
                         frame = CDraw.AddTexture(_Width, _Height, ref _FrameBuffer[num].Data);
@@ -672,12 +673,12 @@ namespace Vocaluxe.Lib.Video
                     {
                         _CurrentVideoTime = _FrameBuffer[num].Time;
                     }
-                    _Finished = false;
+                    Finished = false;
                 }
                 else
                 {
                     if (_NoMoreFrames)
-                        _Finished = true;
+                        Finished = true;
                 }
             }
         }
@@ -725,8 +726,6 @@ namespace Vocaluxe.Lib.Video
         }
         #endregion Threading
 
-        public void Dispose()
-        {
-        }
+        public void Dispose() {}
     }
 }

@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Runtime.InteropServices;
 using Vocaluxe.Base;
 
@@ -7,17 +26,19 @@ namespace Vocaluxe.Lib.Input
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SHIDDeviceInfo
     {
-        [MarshalAs(UnmanagedType.LPTStr)] public String Path;
-        public ushort VendorString;
-        public ushort ProductID;
-        public String SerialNumber;
-        public ushort ReleaseNumber;
-        public String ManufacturerString;
-        public String ProductString;
-        public ushort UsagePage;
-        public ushort Usage;
-        public int InterfaceNumber;
+        // ReSharper disable MemberCanBePrivate.Global
+        [MarshalAs(UnmanagedType.LPTStr)] public readonly String Path;
+        public readonly ushort VendorString;
+        public readonly ushort ProductID;
+        public readonly String SerialNumber;
+        public readonly ushort ReleaseNumber;
+        public readonly String ManufacturerString;
+        public readonly String ProductString;
+        public readonly ushort UsagePage;
+        public readonly ushort Usage;
+        public readonly int InterfaceNumber;
         internal IntPtr Next;
+        // ReSharper restore MemberCanBePrivate.Global
     }
 
     public static class CHIDApi
@@ -47,7 +68,7 @@ namespace Vocaluxe.Lib.Input
 
         public static bool Init()
         {
-            int result = -1;
+            int result;
             try
             {
                 result = hid_init();
@@ -58,10 +79,7 @@ namespace Vocaluxe.Lib.Input
                 return false;
             }
 
-            if (result == 0)
-                return true;
-
-            return false;
+            return result == 0;
         }
 
         [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_exit", CharSet = CharSet.Unicode)]
@@ -69,7 +87,7 @@ namespace Vocaluxe.Lib.Input
 
         public static bool Exit()
         {
-            int result = -1;
+            int result;
             try
             {
                 result = hid_exit();
@@ -80,10 +98,7 @@ namespace Vocaluxe.Lib.Input
                 return false;
             }
 
-            if (result == 0)
-                return true;
-
-            return false;
+            return result == 0;
         }
 
         [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_enumerate", CharSet = CharSet.Ansi)]
@@ -150,7 +165,7 @@ namespace Vocaluxe.Lib.Input
             data = new byte[length];
             IntPtr dataPtr = Marshal.AllocHGlobal(length);
 
-            int result = -1;
+            int result;
             try
             {
                 result = hid_read_timeout(device, dataPtr, length, milliseconds);
@@ -178,7 +193,7 @@ namespace Vocaluxe.Lib.Input
             data = new byte[length];
             IntPtr dataPtr = Marshal.AllocHGlobal(length);
 
-            int result = -1;
+            int result;
             try
             {
                 result = hid_read(device, dataPtr, length);

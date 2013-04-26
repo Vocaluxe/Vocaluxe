@@ -1,4 +1,23 @@
-﻿using System.Windows.Forms;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System.Windows.Forms;
 using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes
@@ -23,7 +42,7 @@ namespace VocaluxeLib.PartyModes
             _Warning.Color = new SColorF(1f, 0f, 0f, 1f);
             _Warning.SelColor = new SColorF(1f, 0f, 0f, 1f);
             _Warning.Text = "SOMETHING WENT WRONG!";
-            AddText(_Warning);
+            _AddText(_Warning);
         }
 
         public override void ReloadTheme(string xmlPath) {}
@@ -56,7 +75,7 @@ namespace VocaluxeLib.PartyModes
         {
             base.HandleMouse(mouseEvent);
 
-            if (mouseEvent.LB && IsMouseOver(mouseEvent)) {}
+            if (mouseEvent.LB && _IsMouseOver(mouseEvent)) {}
 
             if (mouseEvent.RB)
                 _FadeTo(EScreens.ScreenParty);

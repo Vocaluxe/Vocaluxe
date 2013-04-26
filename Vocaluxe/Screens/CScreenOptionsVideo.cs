@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Webcam;
@@ -47,10 +66,10 @@ namespace Vocaluxe.Screens
         {
             base.LoadTheme(xmlPath);
 
-            SelectSlides[_SelectSlideVideoBackgrounds].SetValues<EOffOn>((int)CConfig.VideoBackgrounds);
-            SelectSlides[_SelectSlideVideoPreview].SetValues<EOffOn>((int)CConfig.VideoPreview);
-            SelectSlides[_SelectSlideVideosInSongs].SetValues<EOffOn>((int)CConfig.VideosInSongs);
-            SelectSlides[_SelectSlideVideosToBackground].SetValues<EOffOn>((int)CConfig.VideosToBackground);
+            _SelectSlides[_SelectSlideVideoBackgrounds].SetValues<EOffOn>((int)CConfig.VideoBackgrounds);
+            _SelectSlides[_SelectSlideVideoPreview].SetValues<EOffOn>((int)CConfig.VideoPreview);
+            _SelectSlides[_SelectSlideVideosInSongs].SetValues<EOffOn>((int)CConfig.VideosInSongs);
+            _SelectSlides[_SelectSlideVideosToBackground].SetValues<EOffOn>((int)CConfig.VideosToBackground);
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -74,7 +93,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Enter:
-                        if (Buttons[_ButtonExit].Selected)
+                        if (_Buttons[_ButtonExit].Selected)
                         {
                             _SaveConfig();
                             CGraphics.FadeTo(EScreens.ScreenOptions);
@@ -82,17 +101,17 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Left:
-                        if (SelectSlides[_SelectSlideWebcamDevices].Selected)
+                        if (_SelectSlides[_SelectSlideWebcamDevices].Selected)
                             _OnDeviceEvent();
-                        if (SelectSlides[_SelectSlideWebcamCapabilities].Selected)
+                        if (_SelectSlides[_SelectSlideWebcamCapabilities].Selected)
                             _OnCapabilitiesEvent();
                         _SaveConfig();
                         break;
 
                     case Keys.Right:
-                        if (SelectSlides[_SelectSlideWebcamDevices].Selected)
+                        if (_SelectSlides[_SelectSlideWebcamDevices].Selected)
                             _OnDeviceEvent();
-                        if (SelectSlides[_SelectSlideWebcamCapabilities].Selected)
+                        if (_SelectSlides[_SelectSlideWebcamCapabilities].Selected)
                             _OnCapabilitiesEvent();
                         _SaveConfig();
                         break;
@@ -111,14 +130,14 @@ namespace Vocaluxe.Screens
                 CGraphics.FadeTo(EScreens.ScreenOptions);
             }
 
-            if (mouseEvent.LB && IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
             {
-                if (SelectSlides[_SelectSlideWebcamDevices].Selected)
+                if (_SelectSlides[_SelectSlideWebcamDevices].Selected)
                     _OnDeviceEvent();
-                if (SelectSlides[_SelectSlideWebcamCapabilities].Selected)
+                if (_SelectSlides[_SelectSlideWebcamCapabilities].Selected)
                     _OnCapabilitiesEvent();
                 _SaveConfig();
-                if (Buttons[_ButtonExit].Selected)
+                if (_Buttons[_ButtonExit].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptions);
             }
             return true;
@@ -127,8 +146,8 @@ namespace Vocaluxe.Screens
         public override bool UpdateGame()
         {
             CWebcam.GetFrame(ref _WebcamTexture);
-            Statics[_StaticWebcamOutput].Texture = _WebcamTexture;
-            SelectSlides[_SelectSlideVideosToBackground].Selection = (int)CConfig.VideosToBackground;
+            _Statics[_StaticWebcamOutput].Texture = _WebcamTexture;
+            _SelectSlides[_SelectSlideVideosToBackground].Selection = (int)CConfig.VideosToBackground;
             return true;
         }
 
@@ -148,57 +167,56 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
-            SelectSlides[_SelectSlideWebcamDevices].Clear();
-            SelectSlides[_SelectSlideWebcamCapabilities].Clear();
+            _SelectSlides[_SelectSlideWebcamDevices].Clear();
+            _SelectSlides[_SelectSlideWebcamCapabilities].Clear();
 
             _DeviceNr = -1;
             _CapabilityNr = -1;
 
             SWebcamDevice[] devices = CWebcam.GetDevices();
 
+            bool ssVisible = false;
             try
             {
-                if (devices != null)
+                if (devices != null && devices.Length > 0)
                 {
-                    if (devices.Length > 0)
-                    {
-                        _DeviceNr = 0;
-                        _CapabilityNr = 0;
-                        _GetFirstConfiguredWebcamDevice(ref _DeviceNr, ref _CapabilityNr);
+                    _DeviceNr = 0;
+                    _CapabilityNr = 0;
+                    _GetFirstConfiguredWebcamDevice(ref _DeviceNr, ref _CapabilityNr);
 
-                        foreach (SWebcamDevice d in devices)
-                            SelectSlides[_SelectSlideWebcamDevices].AddValue(d.Name);
-                        SelectSlides[_SelectSlideWebcamDevices].Selection = _DeviceNr;
+                    foreach (SWebcamDevice d in devices)
+                        _SelectSlides[_SelectSlideWebcamDevices].AddValue(d.Name);
+                    _SelectSlides[_SelectSlideWebcamDevices].Selection = _DeviceNr;
 
-                        foreach (SCapabilities c in devices[_DeviceNr].Capabilities)
-                            SelectSlides[_SelectSlideWebcamCapabilities].AddValue(c.Width.ToString() + " x " + c.Height.ToString() + " @ " + c.Framerate.ToString() + " FPS ");
-                        _Config.MonikerString = devices[SelectSlides[_SelectSlideWebcamDevices].Selection].MonikerString;
-                        _Config.Width = devices[SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[SelectSlides[_SelectSlideWebcamCapabilities].Selection].Width;
-                        _Config.Height = devices[SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[SelectSlides[_SelectSlideWebcamCapabilities].Selection].Height;
-                        _Config.Framerate = devices[SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[SelectSlides[_SelectSlideWebcamCapabilities].Selection].Framerate;
-                        CWebcam.Close();
-                        CWebcam.Select(CConfig.WebcamConfig);
-                        CWebcam.Start();
-                    }
+                    foreach (SCapabilities c in devices[_DeviceNr].Capabilities)
+                        _SelectSlides[_SelectSlideWebcamCapabilities].AddValue(c.Width + " x " + c.Height + " @ " + c.Framerate + " FPS ");
+                    _Config.MonikerString = devices[_SelectSlides[_SelectSlideWebcamDevices].Selection].MonikerString;
+                    _Config.Width = devices[_SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Width;
+                    _Config.Height = devices[_SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Height;
+                    _Config.Framerate =
+                        devices[_SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Framerate;
+                    CWebcam.Close();
+                    CWebcam.Select(CConfig.WebcamConfig);
+                    CWebcam.Start();
+                    ssVisible = true;
                 }
             }
             catch (Exception e)
             {
                 CLog.LogError("Error on listing webcam capabilities: " + e.Message);
-                devices = null;
             }
 
-            SelectSlides[_SelectSlideWebcamDevices].Visible = devices != null && devices.Length > 0;
-            SelectSlides[_SelectSlideWebcamCapabilities].Visible = devices != null && devices.Length > 0;
-            Statics[_StaticWebcamOutput].Visible = devices != null && devices.Length > 0;
+            _SelectSlides[_SelectSlideWebcamDevices].Visible = ssVisible;
+            _SelectSlides[_SelectSlideWebcamCapabilities].Visible = ssVisible;
+            _Statics[_StaticWebcamOutput].Visible = ssVisible;
         }
 
         private void _SaveConfig()
         {
-            CConfig.VideoBackgrounds = (EOffOn)SelectSlides[_SelectSlideVideoBackgrounds].Selection;
-            CConfig.VideoPreview = (EOffOn)SelectSlides[_SelectSlideVideoPreview].Selection;
-            CConfig.VideosInSongs = (EOffOn)SelectSlides[_SelectSlideVideosInSongs].Selection;
-            CConfig.VideosToBackground = (EOffOn)SelectSlides[_SelectSlideVideosToBackground].Selection;
+            CConfig.VideoBackgrounds = (EOffOn)_SelectSlides[_SelectSlideVideoBackgrounds].Selection;
+            CConfig.VideoPreview = (EOffOn)_SelectSlides[_SelectSlideVideoPreview].Selection;
+            CConfig.VideosInSongs = (EOffOn)_SelectSlides[_SelectSlideVideosInSongs].Selection;
+            CConfig.VideosToBackground = (EOffOn)_SelectSlides[_SelectSlideVideosToBackground].Selection;
 
             CConfig.WebcamConfig = _Config;
             CBackgroundMusic.VideoEnabled = true;
@@ -208,24 +226,24 @@ namespace Vocaluxe.Screens
 
         private void _OnDeviceEvent()
         {
-            if (SelectSlides[_SelectSlideWebcamDevices].Selection != _DeviceNr)
+            if (_SelectSlides[_SelectSlideWebcamDevices].Selection != _DeviceNr)
             {
-                SelectSlides[_SelectSlideWebcamCapabilities].Clear();
-                _DeviceNr = SelectSlides[_SelectSlideWebcamDevices].Selection;
+                _SelectSlides[_SelectSlideWebcamCapabilities].Clear();
+                _DeviceNr = _SelectSlides[_SelectSlideWebcamDevices].Selection;
                 _CapabilityNr = 0;
 
-                SWebcamDevice[] d = CWebcam.GetDevices();
-                for (int i = 0; i < d[SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities.Count; i++)
+                SWebcamDevice d = CWebcam.GetDevices()[_DeviceNr];
+                for (int i = 0; i < d.Capabilities.Count; i++)
                 {
-                    SelectSlides[_SelectSlideWebcamCapabilities].AddValue(d[_DeviceNr].Capabilities[i].Width.ToString() + " x " + d[_DeviceNr].Capabilities[i].Height.ToString() +
-                                                                         " @ " + d[_DeviceNr].Capabilities[i].Framerate.ToString() + "FPS");
+                    _SelectSlides[_SelectSlideWebcamCapabilities].AddValue(d.Capabilities[i].Width + " x " + d.Capabilities[i].Height +
+                                                                           " @ " + d.Capabilities[i].Framerate + "FPS");
                 }
-                SelectSlides[_SelectSlideWebcamCapabilities].Selection = 0;
+                _SelectSlides[_SelectSlideWebcamCapabilities].Selection = 0;
 
-                _Config.MonikerString = d[SelectSlides[_SelectSlideWebcamDevices].Selection].MonikerString;
-                _Config.Width = d[SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[SelectSlides[_SelectSlideWebcamCapabilities].Selection].Width;
-                _Config.Height = d[SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[SelectSlides[_SelectSlideWebcamCapabilities].Selection].Height;
-                _Config.Framerate = d[SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[SelectSlides[_SelectSlideWebcamCapabilities].Selection].Framerate;
+                _Config.MonikerString = d.MonikerString;
+                _Config.Width = d.Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Width;
+                _Config.Height = d.Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Height;
+                _Config.Framerate = d.Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Framerate;
 
                 CWebcam.Close();
                 CWebcam.Select(_Config);
@@ -235,15 +253,15 @@ namespace Vocaluxe.Screens
 
         private void _OnCapabilitiesEvent()
         {
-            if (SelectSlides[_SelectSlideWebcamCapabilities].Selection != _CapabilityNr)
+            if (_SelectSlides[_SelectSlideWebcamCapabilities].Selection != _CapabilityNr)
             {
-                _CapabilityNr = SelectSlides[_SelectSlideWebcamCapabilities].Selection;
+                _CapabilityNr = _SelectSlides[_SelectSlideWebcamCapabilities].Selection;
 
-                SWebcamDevice[] d = CWebcam.GetDevices();
-                _Config.MonikerString = d[SelectSlides[_SelectSlideWebcamDevices].Selection].MonikerString;
-                _Config.Width = d[SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[SelectSlides[_SelectSlideWebcamCapabilities].Selection].Width;
-                _Config.Height = d[SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[SelectSlides[_SelectSlideWebcamCapabilities].Selection].Height;
-                _Config.Framerate = d[SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[SelectSlides[_SelectSlideWebcamCapabilities].Selection].Framerate;
+                SWebcamDevice d = CWebcam.GetDevices()[_SelectSlides[_SelectSlideWebcamDevices].Selection];
+                _Config.MonikerString = d.MonikerString;
+                _Config.Width = d.Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Width;
+                _Config.Height = d.Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Height;
+                _Config.Framerate = d.Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Framerate;
 
                 CWebcam.Close();
                 CWebcam.Select(_Config);
@@ -260,17 +278,16 @@ namespace Vocaluxe.Screens
 
             for (int i = 0; i < devices.Length; i++)
             {
-                if (devices[i].MonikerString == CConfig.WebcamConfig.MonikerString)
+                if (devices[i].MonikerString != CConfig.WebcamConfig.MonikerString)
+                    continue;
+                for (int j = 0; j < devices[i].Capabilities.Count; j++)
                 {
-                    for (int j = 0; j < devices[i].Capabilities.Count; j++)
+                    if (devices[i].Capabilities[j].Framerate == CConfig.WebcamConfig.Framerate && devices[i].Capabilities[j].Width == CConfig.WebcamConfig.Width &&
+                        devices[i].Capabilities[j].Height == CConfig.WebcamConfig.Height)
                     {
-                        if (devices[i].Capabilities[j].Framerate == CConfig.WebcamConfig.Framerate && devices[i].Capabilities[j].Width == CConfig.WebcamConfig.Width &&
-                            devices[i].Capabilities[j].Height == CConfig.WebcamConfig.Height)
-                        {
-                            device = i;
-                            capabilities = j;
-                            return;
-                        }
+                        device = i;
+                        capabilities = j;
+                        return;
                     }
                 }
             }

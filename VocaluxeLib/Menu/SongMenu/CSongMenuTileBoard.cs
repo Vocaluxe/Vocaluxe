@@ -1,6 +1,26 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using VocaluxeLib.PartyModes;
 
@@ -135,7 +155,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 _MedleyTagIcon.Visible = false;
             }
 
-            if (CBase.Songs.GetNumVisibleSongs() == 0 && CBase.Songs.GetSearchFilter().Length > 0)
+            if (CBase.Songs.GetNumVisibleSongs() == 0 && CBase.Songs.GetSearchFilter() != "")
             {
                 _CoverBig.Texture = _CoverBigTexture;
                 _Artist.Text = String.Empty;
@@ -161,15 +181,7 @@ namespace VocaluxeLib.Menu.SongMenu
                       keyEvent.Key == Keys.PageDown || keyEvent.Key == Keys.PageUp))
                     return;
 
-                bool sel = false;
-                foreach (CStatic tile in _Tiles)
-                {
-                    if (tile.Selected)
-                    {
-                        sel = true;
-                        break;
-                    }
-                }
+                bool sel = _Tiles.Any(tile => tile.Selected);
 
                 if ((_Locked == -1 || !sel) &&
                     (keyEvent.Key != Keys.Escape && keyEvent.Key != Keys.Back && keyEvent.Key != Keys.PageUp && keyEvent.Key != Keys.PageDown))
@@ -348,7 +360,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 mouseEvent.Handled = true;
                 return;
             }
-            else if (mouseEvent.RB && CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && !songOptions.Selection.PartyMode)
+            if (mouseEvent.RB && CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && !songOptions.Selection.PartyMode)
                 CBase.Graphics.FadeTo(EScreens.ScreenMain);
             else if (_PreviewSelected != -1 && mouseEvent.LB && CBase.Songs.GetCurrentCategoryIndex() != -1 && !songOptions.Selection.PartyMode)
             {
@@ -399,12 +411,12 @@ namespace VocaluxeLib.Menu.SongMenu
                     _Artist.Text = song.Artist;
                     _Title.Text = song.Title;
                     _DuetIcon.Visible = song.IsDuet;
-                    _VideoIcon.Visible = song.VideoFileName.Length > 0;
+                    _VideoIcon.Visible = song.VideoFileName != "";
                     _MedleyCalcIcon.Visible = song.Medley.Source == EMedleySource.Calculated;
                     _MedleyTagIcon.Visible = song.Medley.Source == EMedleySource.Tag;
 
                     float time = CBase.Sound.GetLength(_SongStream);
-                    if (song.Finish != 0)
+                    if (Math.Abs(song.Finish) > 0.001)
                         time = song.Finish;
 
                     time -= song.Start;
@@ -444,7 +456,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     _CoverBig.Draw(1f, EAspect.Crop);
                 RectangleF bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
                 RectangleF rect = new RectangleF(0f, 0f, _Vidtex.Width, _Vidtex.Height);
-                CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
+                CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, EAspect.Crop);
                 SRectF vidRect = new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z);
                 SRectF vidRectBounds = new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f);
 
@@ -481,15 +493,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         protected void _SetSelectedTile(int itemNr)
         {
-            bool sel = false;
-            foreach (CStatic tile in _Tiles)
-            {
-                if (tile.Selected)
-                {
-                    sel = true;
-                    break;
-                }
-            }
+            bool sel = _Tiles.Any(tile => tile.Selected);
 
             if (_Locked == -1 || !sel)
             {

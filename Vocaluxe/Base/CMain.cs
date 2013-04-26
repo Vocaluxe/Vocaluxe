@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using VocaluxeLib.Menu;
@@ -8,31 +27,30 @@ namespace Vocaluxe.Base
 {
     static class CMain
     {
-        public static IConfig Config = new CBconfig();
-        public static ISettings Settings = new CBsettings();
-        public static ITheme Theme = new CBtheme();
-        public static IHelper Helper = new CBhelper();
-        public static IBackgroundMusic BackgroundMusic = new CBbackgroundMusic();
-        public static IDrawing Draw = new CBdraw();
-        public static IGraphics Graphics = new CBGraphics();
-        public static ILog Log = new CBlog();
-        public static IFonts Fonts = new CBfonts();
-        public static ILanguage Language = new CBlanguage();
-        public static IGame Game = new CBGame();
-        public static IProfiles Profiles = new CBprofiles();
-        public static IRecording Record = new CBrecord();
-        public static ISongs Songs = new CBsongs();
-        public static IVideo Video = new CBvideo();
-        public static ISound Sound = new CBsound();
-        public static ICover Cover = new CBcover();
-        public static IDataBase DataBase = new CBdataBase();
-        public static IInputs Input = new CBinputs();
-        public static IPlaylist Playlist = new CBplaylist();
+        private static readonly IConfig _Config = new CBconfig();
+        private static readonly ISettings _Settings = new CBsettings();
+        private static readonly ITheme _Theme = new CBtheme();
+        private static readonly IBackgroundMusic _BackgroundMusic = new CBbackgroundMusic();
+        private static readonly IDrawing _Draw = new CBdraw();
+        private static readonly IGraphics _Graphics = new CBGraphics();
+        private static readonly ILog _Log = new CBlog();
+        private static readonly IFonts _Fonts = new CBfonts();
+        private static readonly ILanguage _Language = new CBlanguage();
+        private static readonly IGame _Game = new CBGame();
+        private static readonly IProfiles _Profiles = new CBprofiles();
+        private static readonly IRecording _Record = new CBrecord();
+        private static readonly ISongs _Songs = new CBsongs();
+        private static readonly IVideo _Video = new CBvideo();
+        private static readonly ISound _Sound = new CBsound();
+        private static readonly ICover _Cover = new CBcover();
+        private static readonly IDataBase _DataBase = new CBdataBase();
+        private static readonly IInputs _Input = new CBinputs();
+        private static readonly IPlaylist _Playlist = new CBplaylist();
 
         public static void Init()
         {
-            CBase.Assign(Config, Settings, Theme, Helper, Log, BackgroundMusic, Draw, Graphics, Fonts, Language,
-                         Game, Profiles, Record, Songs, Video, Sound, Cover, DataBase, Input, Playlist);
+            CBase.Assign(_Config, _Settings, _Theme, _Log, _BackgroundMusic, _Draw, _Graphics, _Fonts, _Language,
+                         _Game, _Profiles, _Record, _Songs, _Video, _Sound, _Cover, _DataBase, _Input, _Playlist);
         }
     }
 
@@ -40,14 +58,7 @@ namespace Vocaluxe.Base
     {
         public void SetBackgroundMusicVolume(int newVolume)
         {
-            if (newVolume < 0)
-                CConfig.BackgroundMusicVolume = 0;
-            else if (newVolume > 100)
-                CConfig.BackgroundMusicVolume = 100;
-            else
-                CConfig.BackgroundMusicVolume = newVolume;
-
-            CConfig.SaveConfig();
+            CConfig.BackgroundMusicVolume = newVolume;
         }
 
         public int GetBackgroundMusicVolume()
@@ -95,7 +106,7 @@ namespace Vocaluxe.Base
             return CConfig.CoverSize;
         }
 
-        public List<string> GetSongFolder()
+        public IEnumerable<string> GetSongFolder()
         {
             return CConfig.SongFolder;
         }
@@ -122,15 +133,7 @@ namespace Vocaluxe.Base
 
         public int GetMaxNumMics()
         {
-            int max = 0;
-            for (int i = 0; i < CSettings.MaxNumPlayer; i++)
-            {
-                if (CConfig.IsMicConfig(i + 1))
-                    max = i + 1;
-                else
-                    break;
-            }
-            return max;
+            return CConfig.GetMaxNumMics();
         }
     }
 
@@ -275,8 +278,6 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBhelper : IHelper {}
-
     class CBbackgroundMusic : IBackgroundMusic
     {
         public bool IsDisabled()
@@ -286,7 +287,7 @@ namespace Vocaluxe.Base
 
         public bool IsPlaying()
         {
-            return CBackgroundMusic.Playing;
+            return CBackgroundMusic.IsPlaying;
         }
 
         public bool SongHasVideo()
@@ -477,9 +478,9 @@ namespace Vocaluxe.Base
             CGame.NumPlayer = numPlayer;
         }
 
-        public SPlayer[] GetPlayer()
+        public SPlayer[] GetPlayers()
         {
-            return CGame.Player;
+            return CGame.Players;
         }
 
         public CPoints GetPoints()
@@ -538,6 +539,16 @@ namespace Vocaluxe.Base
         public SProfile[] GetProfiles()
         {
             return CProfiles.Profiles;
+        }
+
+        public EGameDifficulty GetDifficulty(int profileID)
+        {
+            return CProfiles.GetDifficulty(profileID);
+        }
+
+        public string GetPlayerName(int profileID, int playerNum = 0)
+        {
+            return CProfiles.GetPlayerName(profileID, playerNum);
         }
     }
 
@@ -667,9 +678,9 @@ namespace Vocaluxe.Base
             return CVideo.VdSkip(videoStream, startPosition, videoGap);
         }
 
-        public bool GetFrame(int videoStream, ref STexture videoTexture, float time, ref float videoTime)
+        public bool GetFrame(int videoStream, ref STexture videoTexture, float time, out float videoTime)
         {
-            return CVideo.VdGetFrame(videoStream, ref videoTexture, time, ref videoTime);
+            return CVideo.VdGetFrame(videoStream, ref videoTexture, time, out videoTime);
         }
 
         public bool IsFinished(int videoStream)
@@ -767,9 +778,9 @@ namespace Vocaluxe.Base
             CPlaylists.SetPlaylistName(playlistID, name);
         }
 
-        public string[] GetPlaylistNames()
+        public List<string> GetPlaylistNames()
         {
-            return CPlaylists.GetPlaylistNames();
+            return CPlaylists.PlaylistNames;
         }
 
         public string GetPlaylistName(int playlistID)

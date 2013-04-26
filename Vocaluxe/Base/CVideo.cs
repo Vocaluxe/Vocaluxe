@@ -1,4 +1,23 @@
-﻿using System.Diagnostics;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System.Diagnostics;
 using System.Drawing;
 using Vocaluxe.Lib.Video;
 using VocaluxeLib.Menu;
@@ -61,9 +80,9 @@ namespace Vocaluxe.Base
             return _VideoDecoder.GetLength(streamID);
         }
 
-        public static bool VdGetFrame(int streamID, ref STexture frame, float time, ref float videoTime)
+        public static bool VdGetFrame(int streamID, ref STexture frame, float time, out float videoTime)
         {
-            return _VideoDecoder.GetFrame(streamID, ref frame, time, ref videoTime);
+            return _VideoDecoder.GetFrame(streamID, ref frame, time, out videoTime);
         }
 
         public static bool VdSkip(int streamID, float start, float gap)
@@ -157,9 +176,8 @@ namespace Vocaluxe.Base
                 float videoTime = _VideoTimer.ElapsedMilliseconds / 1000f;
                 _Finished = CVideo.VdFinished(_VideoStream);
 
-                STexture tex = new STexture(-1);
-                tex.Height = 0f;
-                CVideo.VdGetFrame(_VideoStream, ref tex, videoTime, ref videoTime);
+                STexture tex = new STexture(-1) {Height = 0f};
+                CVideo.VdGetFrame(_VideoStream, ref tex, videoTime, out videoTime);
 
                 if (tex.Height > 0)
                 {
@@ -169,7 +187,7 @@ namespace Vocaluxe.Base
             }
             RectangleF bounds = new RectangleF(0f, 0f, CSettings.RenderW, CSettings.RenderH);
             RectangleF rect = new RectangleF(0f, 0f, _VideoTexture.Width, _VideoTexture.Height);
-            CHelper.SetRect(bounds, ref rect, rect.Width / rect.Height, EAspect.Crop);
+            CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, EAspect.Crop);
 
             CDraw.DrawTexture(_VideoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CSettings.ZFar / 4));
         }
@@ -179,8 +197,8 @@ namespace Vocaluxe.Base
             float videoTime = 0f;
             while (_VideoTexture.Index == -1 && videoTime < 1f)
             {
-                float dummy = 0f;
-                CVideo.VdGetFrame(_VideoStream, ref _VideoTexture, 0, ref dummy);
+                float dummy;
+                CVideo.VdGetFrame(_VideoStream, ref _VideoTexture, 0, out dummy);
                 videoTime += 0.05f;
             }
         }

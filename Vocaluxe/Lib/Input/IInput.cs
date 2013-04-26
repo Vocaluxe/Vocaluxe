@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using VocaluxeLib.Menu;
@@ -15,10 +34,10 @@ namespace Vocaluxe.Lib.Input
 
     interface IInput
     {
-        bool Init();
+        void Init();
         void Close();
-        bool Connect();
-        bool Disconnect();
+        void Connect();
+        void Disconnect();
 
         bool IsConnected();
         void Update();
@@ -38,7 +57,7 @@ namespace Vocaluxe.Lib.Input
         {
             get
             {
-                if (!_Timer.IsRunning && _Duration != 0f)
+                if (!_Timer.IsRunning && Math.Abs(_Duration) > float.Epsilon)
                 {
                     _Timer.Start();
                     return true;

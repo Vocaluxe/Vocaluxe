@@ -114,7 +114,7 @@ namespace Vocaluxe
 
                 // Init Playback
                 CLog.StartBenchmark(0, "Init Playback");
-                CSound.PlaybackInit();
+                CSound.Init();
                 CLog.StopBenchmark(0, "Init Playback");
 
                 Application.DoEvents();
@@ -185,6 +185,7 @@ namespace Vocaluxe
                 // Init Input
                 CLog.StartBenchmark(0, "Init Input");
                 CInput.Init();
+                CInput.Connect();
                 CLog.StopBenchmark(0, "Init Input");
 
                 // Init Game;
@@ -252,13 +253,12 @@ namespace Vocaluxe
             string[] arr = args.Name.Split(new char[] {','});
             if (arr.Length > 0)
             {
-                
 #if ARCH_X86
-                string path="x86";
+                string path = "x86";
 #endif
 
 #if ARCH_X64
-                string path="x64";
+                string path = "x64";
 #endif
                 path = Path.Combine(path, arr[0] + ".dll");
                 try
@@ -277,7 +277,7 @@ namespace Vocaluxe
                 }
                 catch (Exception e)
                 {
-                    CLog.LogError("Cannot load assembly "+args.Name+" from "+path+": "+e);
+                    CLog.LogError("Cannot load assembly " + args.Name + " from " + path + ": " + e);
                 }
             }
             return null;

@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -44,7 +63,7 @@ namespace Vocaluxe.Base
             return _Languages[lang].Name;
         }
 
-        public static string[] GetLanguageNames()
+        public static IEnumerable<string> GetLanguageNames()
         {
             string[] languages = new string[_Languages.Count];
 
@@ -89,12 +108,7 @@ namespace Vocaluxe.Base
             return -1;
         }
 
-        public static string Translate(string keyWord)
-        {
-            return Translate(keyWord, -1);
-        }
-
-        public static string Translate(string keyWord, int partyModeID)
+        public static string Translate(string keyWord, int partyModeID = -1)
         {
             if (keyWord == null)
                 return "Error";
@@ -162,24 +176,23 @@ namespace Vocaluxe.Base
             return true;
         }
 
-        private static bool _LoadLanguageEntries(CXMLReader xmlReader, ref Dictionary<string, string> texts)
+        private static bool _LoadLanguageEntries(CXMLReader xmlReader, out Dictionary<string, string> texts)
         {
             texts = new Dictionary<string, string>();
-            List<string> names = xmlReader.GetAttributes("resources", "name");
-            string value = string.Empty;
+            IEnumerable<string> names = xmlReader.GetAttributes("resources", "name");
             foreach (string name in names)
             {
-                if (xmlReader.GetValue("//resources/string[@name='" + name + "']", ref value, ""))
+                string value;
+                if (!xmlReader.GetValue("//resources/string[@name='" + name + "']", out value, ""))
+                    continue;
+                try
                 {
-                    try
-                    {
-                        texts.Add(name, value);
-                    }
-                    catch (Exception e)
-                    {
-                        CLog.LogError("Error reading language file " + xmlReader.FileName + ": " + e.Message);
-                        return false;
-                    }
+                    texts.Add(name, value);
+                }
+                catch (Exception e)
+                {
+                    CLog.LogError("Error reading language file " + xmlReader.FileName + ": " + e.Message);
+                    return false;
                 }
             }
             return true;
@@ -192,39 +205,34 @@ namespace Vocaluxe.Base
                 return false;
 
             string value = string.Empty;
-            if (xmlReader.GetValue("//resources/string[@name='language']", ref value, value))
+            if (xmlReader.GetValue("//resources/string[@name='language']", out value, value))
             {
                 int nr = GetLanguageNr(value);
 
                 if (nr == -1)
                     return true;
 
-                SPartyLanguage lang = new SPartyLanguage();
-                lang.PartyModeID = partyModeID;
-                if (!_LoadLanguageEntries(xmlReader, ref lang.Texts))
+                SPartyLanguage lang = new SPartyLanguage {PartyModeID = partyModeID};
+                if (!_LoadLanguageEntries(xmlReader, out lang.Texts))
                     return false;
 
                 _Languages[nr].PartyModeTexts.Add(lang);
                 return true;
             }
-            else
-            {
-                CLog.LogError("Error reading Party Language File " + file);
-                return false;
-            }
+            CLog.LogError("Error reading Party Language File " + file);
+            return false;
         }
 
         private static void _LoadLanguageFile(string fileName)
         {
-            SLanguage lang = new SLanguage();
-            lang.LanguageFilePath = Path.Combine(CSettings.FolderLanguages, fileName);
+            SLanguage lang = new SLanguage {LanguageFilePath = Path.Combine(CSettings.FolderLanguages, fileName)};
 
             CXMLReader xmlReader = CXMLReader.OpenFile(lang.LanguageFilePath);
             if (xmlReader == null)
                 return;
 
             string value = string.Empty;
-            if (xmlReader.GetValue("//resources/string[@name='language']", ref value, value))
+            if (xmlReader.GetValue("//resources/string[@name='language']", out value, value))
             {
                 lang.Name = value;
 
@@ -233,7 +241,7 @@ namespace Vocaluxe.Base
 
                 lang.PartyModeTexts = new List<SPartyLanguage>();
 
-                _LoadLanguageEntries(xmlReader, ref lang.Texts);
+                _LoadLanguageEntries(xmlReader, out lang.Texts);
 
                 _Languages.Add(lang);
             }

@@ -1,3 +1,22 @@
+#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -39,17 +58,15 @@ namespace VocaluxeLib.PartyModes.Challenge
         public int Position;
         public int PlayerID;
         public int NumPlayed;
-        public int NumRounds;
         public int NumWon;
         public int NumSingPoints;
         public int NumGamePoints;
 
         public int CompareTo(object obj)
         {
-            if (obj is CResultTableRow)
+            CResultTableRow row = obj as CResultTableRow;
+            if (row != null)
             {
-                CResultTableRow row = (CResultTableRow)obj;
-
                 int res = row.NumGamePoints.CompareTo(NumGamePoints);
                 if (res == 0)
                 {
@@ -82,8 +99,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
     public struct SFromScreenNames
     {
-        public bool FadeToConfig;
-        public bool FadeToMain;
+        public bool FadeBack;
         public List<int> ProfileIDs;
     }
 
@@ -162,14 +178,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _ToScreenNames = new SDataToScreenNames();
             _ToScreenMain = new SDataToScreenMain();
 
-            _GameData = new SData();
-            _GameData.NumPlayer = 4;
-            _GameData.NumPlayerAtOnce = 2;
-            _GameData.NumRounds = 2;
-            _GameData.CurrentRoundNr = 1;
-            _GameData.ProfileIDs = new List<int>();
-            _GameData.CatSongIndices = null;
-            _GameData.Results = null;
+            _GameData = new SData {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 2, CurrentRoundNr = 1, ProfileIDs = new List<int>(), CatSongIndices = null, Results = null};
         }
 
         public override bool Init()
@@ -192,7 +201,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         public override void DataFromScreen(string screenName, Object data)
         {
-            SDataFromScreen dataFrom = new SDataFromScreen();
+            SDataFromScreen dataFrom;
             switch (screenName)
             {
                 case "PartyScreenChallengeConfig":
@@ -217,7 +226,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                     try
                     {
                         dataFrom = (SDataFromScreen)data;
-                        if (dataFrom.ScreenNames.FadeToConfig)
+                        if (dataFrom.ScreenNames.FadeBack)
                             _Stage = EStage.NotStarted;
                         else
                         {
@@ -352,10 +361,11 @@ namespace VocaluxeLib.PartyModes.Challenge
             return _ScreenSongOptions;
         }
 
+        // ReSharper disable RedundantAssignment
         public override void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions)
+            // ReSharper restore RedundantAssignment
         {
-            if (_ScreenSongOptions.Selection.SongIndex != -1)
-                _ScreenSongOptions.Selection.SongIndex = -1;
+            _ScreenSongOptions.Selection.SongIndex = -1;
 
             if (_ScreenSongOptions.Selection.SelectNextRandomSong && songIndex != -1)
             {
@@ -372,7 +382,9 @@ namespace VocaluxeLib.PartyModes.Challenge
             screenSongOptions = _ScreenSongOptions;
         }
 
+        // ReSharper disable RedundantAssignment
         public override void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions)
+            // ReSharper restore RedundantAssignment
         {
             if (_GameData.CatSongIndices != null && categoryIndex != -1)
             {
@@ -440,40 +452,29 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         public override void SongSelected(int songID)
         {
-            EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+            const EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
 
             CBase.Game.Reset();
             CBase.Game.ClearSongs();
             CBase.Game.AddSong(songID, gm);
             CBase.Game.SetNumPlayer(_GameData.NumPlayerAtOnce);
 
-            SPlayer[] player = CBase.Game.GetPlayer();
+            SPlayer[] player = CBase.Game.GetPlayers();
             if (player == null)
                 return;
 
             if (player.Length < _GameData.NumPlayerAtOnce)
                 return;
 
-            SProfile[] profiles = CBase.Profiles.GetProfiles();
             CCombination c = _GameData.Rounds.GetRound(_GameData.CurrentRoundNr - 1);
 
             for (int i = 0; i < _GameData.NumPlayerAtOnce; i++)
             {
-                //default values
-                player[i].Name = "foobar";
-                player[i].Difficulty = EGameDifficulty.TR_CONFIG_EASY;
-                player[i].ProfileID = -1;
-
                 //try to fill with the right data
                 if (c != null)
-                {
-                    if (_GameData.ProfileIDs[c.Player[i]] < profiles.Length)
-                    {
-                        player[i].Name = profiles[_GameData.ProfileIDs[c.Player[i]]].PlayerName;
-                        player[i].Difficulty = profiles[_GameData.ProfileIDs[c.Player[i]]].Difficulty;
-                        player[i].ProfileID = _GameData.ProfileIDs[c.Player[i]];
-                    }
-                }
+                    player[i].ProfileID = _GameData.ProfileIDs[c.Player[i]];
+                else
+                    player[i].ProfileID = -1;
             }
 
             CBase.Songs.AddPartySongSung(songID);
@@ -568,13 +569,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             {
                 for (int i = 0; i < _GameData.NumPlayer; i++)
                 {
-                    CResultTableRow row = new CResultTableRow();
-                    row.PlayerID = _GameData.ProfileIDs[i];
-                    row.NumPlayed = 0;
-                    row.NumRounds = 0;
-                    row.NumWon = 0;
-                    row.NumSingPoints = 0;
-                    row.NumGamePoints = 0;
+                    CResultTableRow row = new CResultTableRow {PlayerID = _GameData.ProfileIDs[i], NumPlayed = 0, NumWon = 0, NumSingPoints = 0, NumGamePoints = 0};
                     _GameData.ResultTable.Add(row);
                 }
 
@@ -587,7 +582,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             }
             else
             {
-                SPlayer[] results = CBase.Game.GetPlayer();
+                SPlayer[] results = CBase.Game.GetPlayers();
                 if (results == null)
                     return;
 
@@ -611,18 +606,16 @@ namespace VocaluxeLib.PartyModes.Challenge
                         }
                     }
 
-                    if (index != -1)
-                    {
-                        CResultTableRow row = _GameData.ResultTable[index];
+                    if (index == -1)
+                        continue;
+                    CResultTableRow row = _GameData.ResultTable[index];
 
-                        row.NumPlayed++;
-                        row.NumWon += points[i].Won;
-                        row.NumRounds += 1;
-                        row.NumSingPoints += points[i].SingPoints;
-                        row.NumGamePoints += points[i].GamePoints;
+                    row.NumPlayed++;
+                    row.NumWon += points[i].Won;
+                    row.NumSingPoints += points[i].SingPoints;
+                    row.NumGamePoints += points[i].GamePoints;
 
-                        _GameData.ResultTable[index] = row;
-                    }
+                    _GameData.ResultTable[index] = row;
                 }
             }
 
@@ -632,13 +625,13 @@ namespace VocaluxeLib.PartyModes.Challenge
             int pos = 1;
             int lastPoints = 0;
             int lastSingPoints = 0;
-            for (int i = 0; i < _GameData.ResultTable.Count; i++)
+            foreach (CResultTableRow resultRow in _GameData.ResultTable)
             {
-                if (lastPoints > _GameData.ResultTable[i].NumGamePoints || lastSingPoints > _GameData.ResultTable[i].NumSingPoints)
+                if (lastPoints > resultRow.NumGamePoints || lastSingPoints > resultRow.NumSingPoints)
                     pos++;
-                _GameData.ResultTable[i].Position = pos;
-                lastPoints = _GameData.ResultTable[i].NumGamePoints;
-                lastSingPoints = _GameData.ResultTable[i].NumSingPoints;
+                resultRow.Position = pos;
+                lastPoints = resultRow.NumGamePoints;
+                lastSingPoints = resultRow.NumSingPoints;
             }
         }
 
@@ -647,15 +640,11 @@ namespace VocaluxeLib.PartyModes.Challenge
             List<SStats> result = new List<SStats>();
             for (int i = 0; i < _GameData.NumPlayerAtOnce; i++)
             {
-                SStats stat = new SStats();
-                stat.ProfileID = results[i].ProfileID;
-                stat.SingPoints = (int)Math.Round(results[i].Points);
-                stat.Won = 0;
-                stat.GamePoints = 0;
+                SStats stat = new SStats {ProfileID = results[i].ProfileID, SingPoints = (int)Math.Round(results[i].Points), Won = 0, GamePoints = 0};
                 result.Add(stat);
             }
 
-            result.Sort(delegate(SStats s1, SStats s2) { return s1.SingPoints.CompareTo(s2.SingPoints); });
+            result.Sort((s1, s2) => s1.SingPoints.CompareTo(s2.SingPoints));
 
             int current = result[result.Count - 1].SingPoints;
             int points = result.Count;

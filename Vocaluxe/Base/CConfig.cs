@@ -1,6 +1,26 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -32,7 +52,7 @@ namespace Vocaluxe.Base
         public static int ScreenH = 576;
 
         public static EAntiAliasingModes AAMode = EAntiAliasingModes.X0;
-        public static EColorDeep Colors = EColorDeep.Bit32;
+        public static EColorDepth ColorDepth = EColorDepth.Bit32;
 
         public static EOffOn VSync = EOffOn.TR_CONFIG_ON;
         public static EOffOn FullScreen = EOffOn.TR_CONFIG_ON;
@@ -56,8 +76,8 @@ namespace Vocaluxe.Base
         public static EPlaybackLib PlayBackLib = EPlaybackLib.Gstreamer;
         public static ERecordLib RecordLib = ERecordLib.PortAudio;
         public static EBufferSize AudioBufferSize = EBufferSize.B2048;
-        public static int AudioLatency = 0;
-        public static int BackgroundMusicVolume = 30;
+        public static int AudioLatency;
+        private static int _BackgroundMusicVolume = 30;
         public static EOffOn BackgroundMusic = EOffOn.TR_CONFIG_ON;
         public static EBackgroundMusicSource BackgroundMusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
         public static EOffOn BackgroundMusicUseStart = EOffOn.TR_CONFIG_ON;
@@ -65,7 +85,7 @@ namespace Vocaluxe.Base
         public static int GameMusicVolume = 80;
 
         // Game
-        public static List<string> SongFolder = new List<string>();
+        public static readonly List<string> SongFolder = new List<string>();
         public static ESongMenu SongMenu = ESongMenu.TR_CONFIG_TILE_BOARD;
         public static ESongSorting SongSorting = ESongSorting.TR_CONFIG_ARTIST;
         public static EOffOn IgnoreArticles = EOffOn.TR_CONFIG_ON;
@@ -75,7 +95,7 @@ namespace Vocaluxe.Base
         public static EOffOn Tabs = EOffOn.TR_CONFIG_OFF;
         public static string Language = "English";
         public static EOffOn LyricsOnTop = EOffOn.TR_CONFIG_OFF;
-        public static string[] Players = new string[CSettings.MaxNumPlayer];
+        public static readonly string[] Players = new string[CSettings.MaxNumPlayer];
 
         public static float MinLineBreakTime = 0.1f; //Minimum time to show the text before it is (to be) sung (if possible)
 
@@ -98,6 +118,20 @@ namespace Vocaluxe.Base
 
         //Variables to save old values for commandline-parameters
         private static readonly List<string> _SongFolderOld = new List<string>();
+        public static int BackgroundMusicVolume
+        {
+            get { return _BackgroundMusicVolume; }
+            set
+            {
+                if (value < 0)
+                    _BackgroundMusicVolume = 0;
+                else if (value > 100)
+                    _BackgroundMusicVolume = 100;
+                else
+                    _BackgroundMusicVolume = value;
+                SaveConfig();
+            }
+        }
 
         public static void Init()
         {
@@ -113,17 +147,14 @@ namespace Vocaluxe.Base
             if (!File.Exists(CSettings.FileConfig))
                 SaveConfig();
 
-            LoadConfig();
+            _LoadConfig();
         }
 
-        public static bool LoadConfig()
+        private static void _LoadConfig()
         {
             CXMLReader xmlReader = CXMLReader.OpenFile(CSettings.FileConfig);
             if (xmlReader == null)
-                return false;
-
-            string value = string.Empty;
-
+                return;
 
             xmlReader.TryGetEnumValue("//root/Debug/DebugLevel", ref DebugLevel);
 
@@ -135,7 +166,7 @@ namespace Vocaluxe.Base
             xmlReader.TryGetIntValue("//root/Graphics/ScreenW", ref ScreenW);
             xmlReader.TryGetIntValue("//root/Graphics/ScreenH", ref ScreenH);
             xmlReader.TryGetEnumValue("//root/Graphics/AAMode", ref AAMode);
-            xmlReader.TryGetEnumValue("//root/Graphics/Colors", ref Colors);
+            xmlReader.TryGetEnumValue("//root/Graphics/Colors", ref ColorDepth);
             xmlReader.TryGetFloatValue("//root/Graphics/MaxFPS", ref MaxFPS);
             xmlReader.TryGetEnumValue("//root/Graphics/VSync", ref VSync);
             xmlReader.TryGetEnumValue("//root/Graphics/FullScreen", ref FullScreen);
@@ -143,9 +174,9 @@ namespace Vocaluxe.Base
             #endregion Graphics
 
             #region Theme
-            xmlReader.GetValue("//root/Theme/Name", ref Theme, Theme);
-            xmlReader.GetValue("//root/Theme/Skin", ref Skin, Skin);
-            xmlReader.GetValue("//root/Theme/Cover", ref CoverTheme, CoverTheme);
+            xmlReader.GetValue("//root/Theme/Name", out Theme, Theme);
+            xmlReader.GetValue("//root/Theme/Skin", out Skin, Skin);
+            xmlReader.GetValue("//root/Theme/Cover", out CoverTheme, CoverTheme);
             xmlReader.TryGetEnumValue("//root/Theme/DrawNoteLines", ref DrawNoteLines);
             xmlReader.TryGetEnumValue("//root/Theme/DrawToneHelper", ref DrawToneHelper);
             xmlReader.TryGetEnumValue("//root/Theme/TimerLook", ref TimerLook);
@@ -163,7 +194,7 @@ namespace Vocaluxe.Base
             xmlReader.TryGetIntValueRange("//root/Sound/AudioLatency", ref AudioLatency, -500, 500);
 
             xmlReader.TryGetEnumValue("//root/Sound/BackgroundMusic", ref BackgroundMusic);
-            xmlReader.TryGetIntValueRange("//root/Sound/BackgroundMusicVolume", ref BackgroundMusicVolume);
+            xmlReader.TryGetIntValueRange("//root/Sound/BackgroundMusicVolume", ref _BackgroundMusicVolume);
             xmlReader.TryGetEnumValue("//root/Sound/BackgroundMusicSource", ref BackgroundMusicSource);
             xmlReader.TryGetEnumValue("//root/Sound/BackgroundMusicUseStart", ref BackgroundMusicUseStart);
             xmlReader.TryGetIntValueRange("//root/Sound/PreviewMusicVolume", ref PreviewMusicVolume);
@@ -172,9 +203,9 @@ namespace Vocaluxe.Base
 
             #region Game
             // Songfolder
-            value = string.Empty;
+            string value = string.Empty;
             int i = 1;
-            while (xmlReader.GetValue("//root/Game/SongFolder" + i.ToString(), ref value, value))
+            while (xmlReader.GetValue("//root/Game/SongFolder" + i, out value, value))
             {
                 if (i == 1)
                     SongFolder.Clear();
@@ -191,7 +222,7 @@ namespace Vocaluxe.Base
             xmlReader.TryGetEnumValue("//root/Game/TimerMode", ref TimerMode);
             xmlReader.TryGetIntValue("//root/Game/NumPlayer", ref NumPlayer);
             xmlReader.TryGetEnumValue("//root/Game/Tabs", ref Tabs);
-            xmlReader.GetValue("//root/Game/Language", ref Language, Language);
+            xmlReader.GetValue("//root/Game/Language", out Language, Language);
             xmlReader.TryGetEnumValue("//root/Game/LyricsOnTop", ref LyricsOnTop);
             xmlReader.TryGetFloatValue("//root/Game/MinLineBreakTime", ref MinLineBreakTime);
 
@@ -212,7 +243,7 @@ namespace Vocaluxe.Base
 
             //Read players from config
             for (i = 1; i <= CSettings.MaxNumPlayer; i++)
-                xmlReader.GetValue("//root/Game/Players/Player" + i.ToString(), ref Players[i - 1], string.Empty);
+                xmlReader.GetValue("//root/Game/Players/Player" + i, out Players[i - 1], string.Empty);
             #endregion Game
 
             #region Video
@@ -224,7 +255,7 @@ namespace Vocaluxe.Base
 
             xmlReader.TryGetEnumValue("//root/Video/WebcamLib", ref WebcamLib);
             WebcamConfig = new SWebcamConfig();
-            xmlReader.GetValue("//root/Video/WebcamConfig/MonikerString", ref WebcamConfig.MonikerString, String.Empty);
+            xmlReader.GetValue("//root/Video/WebcamConfig/MonikerString", out WebcamConfig.MonikerString, String.Empty);
             xmlReader.TryGetIntValue("//root/Video/WebcamConfig/Framerate", ref WebcamConfig.Framerate);
             xmlReader.TryGetIntValue("//root/Video/WebcamConfig/Width", ref WebcamConfig.Width);
             xmlReader.TryGetIntValue("//root/Video/WebcamConfig/Height", ref WebcamConfig.Height);
@@ -232,21 +263,18 @@ namespace Vocaluxe.Base
 
             #region Record
             MicConfig = new SMicConfig[CSettings.MaxNumPlayer];
-            value = string.Empty;
             for (int p = 1; p <= CSettings.MaxNumPlayer; p++)
             {
                 MicConfig[p - 1] = new SMicConfig(0);
-                xmlReader.GetValue("//root/Record/MicConfig" + p.ToString() + "/DeviceName", ref MicConfig[p - 1].DeviceName, String.Empty);
-                xmlReader.GetValue("//root/Record/MicConfig" + p.ToString() + "/DeviceDriver", ref MicConfig[p - 1].DeviceDriver, String.Empty);
-                xmlReader.GetValue("//root/Record/MicConfig" + p.ToString() + "/InputName", ref MicConfig[p - 1].InputName, String.Empty);
-                xmlReader.TryGetIntValue("//root/Record/MicConfig" + p.ToString() + "/Channel", ref MicConfig[p - 1].Channel);
+                xmlReader.GetValue("//root/Record/MicConfig" + p + "/DeviceName", out MicConfig[p - 1].DeviceName, String.Empty);
+                xmlReader.GetValue("//root/Record/MicConfig" + p + "/DeviceDriver", out MicConfig[p - 1].DeviceDriver, String.Empty);
+                xmlReader.GetValue("//root/Record/MicConfig" + p + "/InputName", out MicConfig[p - 1].InputName, String.Empty);
+                xmlReader.TryGetIntValue("//root/Record/MicConfig" + p + "/Channel", ref MicConfig[p - 1].Channel);
             }
 
             xmlReader.TryGetIntValueRange("//root/Record/MicDelay", ref MicDelay, 0, 500);
             MicDelay = (int)(20 * Math.Round(MicDelay / 20.0));
             #endregion Record
-
-            return true;
         }
 
         public static bool SaveConfig()
@@ -302,8 +330,8 @@ namespace Vocaluxe.Base
                 writer.WriteComment("AAMode: " + CHelper.ListStrings(Enum.GetNames(typeof(EAntiAliasingModes))));
                 writer.WriteElementString("AAMode", Enum.GetName(typeof(EAntiAliasingModes), AAMode));
 
-                writer.WriteComment("Colors: " + CHelper.ListStrings(Enum.GetNames(typeof(EColorDeep))));
-                writer.WriteElementString("Colors", Enum.GetName(typeof(EColorDeep), Colors));
+                writer.WriteComment("Colors: " + CHelper.ListStrings(Enum.GetNames(typeof(EColorDepth))));
+                writer.WriteElementString("Colors", Enum.GetName(typeof(EColorDepth), ColorDepth));
 
                 writer.WriteComment("MaxFPS should be between 1..200");
                 writer.WriteElementString("MaxFPS", MaxFPS.ToString("#"));
@@ -407,14 +435,14 @@ namespace Vocaluxe.Base
                     //Write "old" song-folders to config.
                     writer.WriteComment("SongFolder: SongFolder1, SongFolder2, SongFolder3, ...");
                     for (int i = 0; i < _SongFolderOld.Count; i++)
-                        writer.WriteElementString("SongFolder" + (i + 1).ToString(), _SongFolderOld[i]);
+                        writer.WriteElementString("SongFolder" + (i + 1), _SongFolderOld[i]);
                 }
                 else
                 {
                     //Write "normal" song-folders to config.
                     writer.WriteComment("SongFolder: SongFolder1, SongFolder2, SongFolder3, ...");
                     for (int i = 0; i < SongFolder.Count; i++)
-                        writer.WriteElementString("SongFolder" + (i + 1).ToString(), SongFolder[i]);
+                        writer.WriteElementString("SongFolder" + (i + 1), SongFolder[i]);
                 }
 
                 writer.WriteComment("SongMenu: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongMenu))));
@@ -432,7 +460,7 @@ namespace Vocaluxe.Base
                 writer.WriteComment("TimerMode: " + CHelper.ListStrings(Enum.GetNames(typeof(ETimerMode))));
                 writer.WriteElementString("TimerMode", Enum.GetName(typeof(ETimerMode), TimerMode));
 
-                writer.WriteComment("NumPlayer: 1.." + CSettings.MaxNumPlayer.ToString());
+                writer.WriteComment("NumPlayer: 1.." + CSettings.MaxNumPlayer);
                 writer.WriteElementString("NumPlayer", NumPlayer.ToString());
 
                 writer.WriteComment("Order songs in tabs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
@@ -444,10 +472,10 @@ namespace Vocaluxe.Base
                 writer.WriteComment("MinLineBreakTime: Value >= 0 in s. Minimum time the text is shown before it is to be sung");
                 writer.WriteElementString("MinLineBreakTime", MinLineBreakTime.ToString());
 
-                writer.WriteComment("Default profile for players 1..." + CSettings.MaxNumPlayer.ToString() + ":");
+                writer.WriteComment("Default profile for players 1..." + CSettings.MaxNumPlayer + ":");
                 writer.WriteStartElement("Players");
                 for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
-                    writer.WriteElementString("Player" + i.ToString(), Path.GetFileName(Players[i - 1]));
+                    writer.WriteElementString("Player" + i, Path.GetFileName(Players[i - 1]));
                 writer.WriteEndElement();
 
                 writer.WriteEndElement();
@@ -491,9 +519,9 @@ namespace Vocaluxe.Base
 
                 for (int p = 1; p <= CSettings.MaxNumPlayer; p++)
                 {
-                    if (MicConfig[p - 1].DeviceName.Length > 0 && MicConfig[p - 1].InputName.Length > 0 && MicConfig[p - 1].Channel > 0)
+                    if (MicConfig[p - 1].DeviceName != "" && MicConfig[p - 1].InputName != "" && MicConfig[p - 1].Channel > 0)
                     {
-                        writer.WriteStartElement("MicConfig" + p.ToString());
+                        writer.WriteStartElement("MicConfig" + p);
 
                         writer.WriteElementString("DeviceName", MicConfig[p - 1].DeviceName);
                         writer.WriteElementString("DeviceDriver", MicConfig[p - 1].DeviceDriver);
@@ -566,19 +594,28 @@ namespace Vocaluxe.Base
             if (devices == null)
                 return false;
 
-            if (devices != null)
+            for (int dev = 0; dev < devices.Length; dev++)
             {
-                for (int dev = 0; dev < devices.Length; dev++)
+                for (int inp = 0; inp < devices[dev].Inputs.Count; inp++)
                 {
-                    for (int inp = 0; inp < devices[dev].Inputs.Count; inp++)
-                    {
-                        if (devices[dev].Inputs[inp].PlayerChannel1 == player || devices[dev].Inputs[inp].PlayerChannel2 == player)
-                            return true;
-                    }
+                    if (devices[dev].Inputs[inp].PlayerChannel1 == player || devices[dev].Inputs[inp].PlayerChannel2 == player)
+                        return true;
                 }
-                return false;
             }
             return false;
+        }
+
+        public static int GetMaxNumMics()
+        {
+            int max = 0;
+            for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
+            {
+                if (IsMicConfig(i))
+                    max = i;
+                else
+                    break;
+            }
+            return max;
         }
 
         /// <summary>
@@ -595,7 +632,7 @@ namespace Vocaluxe.Base
             for (int dev = 0; dev < devices.Length; dev++)
             {
                 //Has Device some signal-names in name -> This could be a (usb-)mic
-                if (Regex.IsMatch(devices[dev].Name, @"ReplacedStr:::0:::", RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(devices[dev].Name, "Usb|Wireless", RegexOptions.IgnoreCase))
                 {
                     //Check if there are inputs.
                     if (devices[dev].Inputs.Count >= 1)
@@ -619,11 +656,11 @@ namespace Vocaluxe.Base
                     }
                 }
             }
-            //If no usb-mics found -> Look for Devices with "ReplacedStr:::1:::" or "ReplacedStr:::2:::"
+            //If no usb-mics found -> Look for Devices with "mic" or "mik" 
             for (int dev = 0; dev < devices.Length; dev++)
             {
                 //Has Device some signal-names in name -> This could be a mic
-                if (Regex.IsMatch(devices[dev].Name, @"ReplacedStr:::3:::", RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(devices[dev].Name, "Mic|Mik", RegexOptions.IgnoreCase))
                 {
                     //Check if there are inputs.
                     if (devices[dev].Inputs.Count >= 1)
@@ -661,30 +698,25 @@ namespace Vocaluxe.Base
         /// <param name="args">Parameters</param>
         public static void LoadCommandLineParams(string[] args)
         {
-            Regex spliterParam = new Regex(@"ReplacedStr:::0:::", RegexOptions.IgnoreCase);
+            Regex spliterParam = new Regex(@"-{1,2}|\/", RegexOptions.IgnoreCase);
 
             //Complete argument string
-            string arguments = string.Empty;
-            foreach (string arg in args)
-                arguments += arg + " ";
+            string arguments = args.Aggregate(string.Empty, (current, arg) => current + (arg + " "));
 
             args = spliterParam.Split(arguments);
 
             foreach (string text in args)
             {
-                Regex spliterVal = new Regex(@"ReplacedStr:::2:::", RegexOptions.IgnoreCase);
-
-                //Array for parts of an arg
-                string[] parts;
+                Regex spliterVal = new Regex(@"\s", RegexOptions.IgnoreCase);
 
                 //split arg with Spilter-Regex and save in parts
-                parts = spliterVal.Split(text, 2);
+                string[] parts = spliterVal.Split(text, 2);
 
                 switch (parts.Length)
                 {
                         //Only found a parameter
                     case 1:
-                        if (!Regex.IsMatch(parts[0], @"ReplacedStr:::3:::") && parts[0].Length > 0)
+                        if (parts[0] != "")
                         {
                             //Add parameter
                             _Params.Add(parts[0]);
@@ -697,7 +729,7 @@ namespace Vocaluxe.Base
 
                         //Found parameter and value
                     case 2:
-                        if (!Regex.IsMatch(parts[0], @"ReplacedStr:::5:::") && parts[0].Length > 0)
+                        if (parts[0] != "")
                         {
                             //Add parameter
                             _Params.Add(parts[0]);
@@ -793,11 +825,7 @@ namespace Vocaluxe.Base
                 if (value.Contains(chars[i].ToString()))
                     return false;
             }
-            if (Path.GetFileName(value).Length == 0)
-                return false;
-            if (!Path.HasExtension(value))
-                return false;
-            return true;
+            return !String.IsNullOrEmpty(Path.GetFileName(value)) && Path.HasExtension(value);
         }
 
         /// <summary>
@@ -805,22 +833,18 @@ namespace Vocaluxe.Base
         /// </summary>
         public static void UsePlayers()
         {
-            for (int i = 0; i < CProfiles.Profiles.Length; i++)
+            for (int j = 0; j < CSettings.MaxNumPlayer; j++)
             {
-                for (int j = 0; j < CSettings.MaxNumPlayer; j++)
+                CGame.Players[j].ProfileID = -1;
+                if (Players[j] == "")
+                    continue;
+                for (int i = 0; i < CProfiles.Profiles.Length; i++)
                 {
-                    if (Players[j].Length > 0)
+                    if (Path.GetFileName(CProfiles.Profiles[i].ProfileFile) == Players[j] && CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
                     {
-                        if (Path.GetFileName(CProfiles.Profiles[i].ProfileFile) == Players[j] && CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
-                        {
-                            //Update Game-infos with player
-                            CGame.Player[j].Name = CProfiles.Profiles[i].PlayerName;
-                            CGame.Player[j].Difficulty = CProfiles.Profiles[i].Difficulty;
-                            CGame.Player[j].ProfileID = i;
-                        }
+                        //Update Game-infos with player
+                        CGame.Players[j].ProfileID = i;
                     }
-                    else
-                        CGame.Player[j].ProfileID = -1;
                 }
             }
         }

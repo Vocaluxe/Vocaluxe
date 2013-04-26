@@ -1,8 +1,25 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Windows.Forms;
-using VocaluxeLib.Menu.SingNotes;
 using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.PartyModes;
 
@@ -69,7 +86,7 @@ namespace VocaluxeLib.Menu
 
         int GetCoverSize();
 
-        List<string> GetSongFolder();
+        IEnumerable<string> GetSongFolder();
         ESongSorting GetSongSorting();
         EOffOn GetTabs();
         EOffOn GetIgnoreArticles();
@@ -120,8 +137,6 @@ namespace VocaluxeLib.Menu
         void LoadSkins();
         void LoadTheme();
     }
-
-    public interface IHelper {}
 
     public interface IBackgroundMusic
     {
@@ -194,7 +209,7 @@ namespace VocaluxeLib.Menu
     {
         int GetNumPlayer();
         void SetNumPlayer(int numPlayer);
-        SPlayer[] GetPlayer();
+        SPlayer[] GetPlayers();
         CPoints GetPoints();
         float GetMidBeatD();
         int GetCurrentBeatD();
@@ -218,6 +233,8 @@ namespace VocaluxeLib.Menu
     public interface IProfiles
     {
         SProfile[] GetProfiles();
+        EGameDifficulty GetDifficulty(int profileID);
+        string GetPlayerName(int profileID, int playerNum = 0);
     }
 
     public interface ISongs
@@ -254,7 +271,7 @@ namespace VocaluxeLib.Menu
     {
         int Load(string videoFileName);
         bool Skip(int videoStream, float startPosition, float videoGap);
-        bool GetFrame(int videoStream, ref STexture videoTexture, float time, ref float videoTime);
+        bool GetFrame(int videoStream, ref STexture videoTexture, float time, out float videoTime);
         bool IsFinished(int videoStream);
         bool Close(int videoStream);
     }
@@ -293,7 +310,7 @@ namespace VocaluxeLib.Menu
     public interface IPlaylist
     {
         string GetPlaylistName(int playlistID);
-        string[] GetPlaylistNames();
+        List<string> GetPlaylistNames();
 
         void SetPlaylistName(int playlistID, string name);
         void DeletePlaylist(int playlistID);

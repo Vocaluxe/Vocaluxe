@@ -1,4 +1,23 @@
-﻿using SlimDX.DirectSound;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using SlimDX.DirectSound;
 using SlimDX.Multimedia;
 using System;
 using System.Collections.Generic;
@@ -36,15 +55,9 @@ namespace Vocaluxe.Lib.Sound
             {
                 using (DirectSoundCapture ds = new DirectSoundCapture(dev.DriverGuid))
                 {
-                    SRecordDevice device = new SRecordDevice();
-                    device.Driver = dev.DriverGuid.ToString();
-                    device.ID = id;
-                    device.Name = dev.Description;
-                    device.Inputs = new List<SInput>();
+                    SRecordDevice device = new SRecordDevice {Driver = dev.DriverGuid.ToString(), ID = id, Name = dev.Description, Inputs = new List<SInput>()};
 
-                    SInput inp = new SInput();
-                    inp.Name = "Default";
-                    inp.Channels = ds.Capabilities.Channels;
+                    SInput inp = new SInput {Name = "Default", Channels = ds.Capabilities.Channels};
 
                     if (inp.Channels > 2)
                         inp.Channels = 2; //more are not supported in vocaluxe
@@ -77,8 +90,8 @@ namespace Vocaluxe.Lib.Sound
             if (!_Initialized)
                 return false;
 
-            for (int i = 0; i < _Buffer.Length; i++)
-                _Buffer[i].Reset();
+            foreach (CBuffer buffer in _Buffer)
+                buffer.Reset();
 
             _DeviceConfig = deviceConfig;
             bool[] active = new bool[deviceConfig.Length];
@@ -101,8 +114,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 if (active[i])
                 {
-                    CSoundCardSource source = new CSoundCardSource(guid[i], channels[i]);
-                    source.SampleRateKhz = 44.1;
+                    CSoundCardSource source = new CSoundCardSource(guid[i], channels[i]) {SampleRateKhz = 44.1};
                     source.SampleDataReady += _OnDataReady;
                     source.Start();
 
@@ -265,8 +277,8 @@ namespace Vocaluxe.Lib.Sound
 
             public CSoundCardSource(Guid guid, short channels)
             {
-                this._Guid = guid;
-                this._Channels = channels;
+                _Guid = guid;
+                _Channels = channels;
                 _WaveFormat = new WaveFormat();
                 SampleRateKhz = 44.1;
                 _BufferSize = 2048;
@@ -317,9 +329,7 @@ namespace Vocaluxe.Lib.Sound
 
                 for (int i = 0; i < _BufferPortionCount; i++)
                 {
-                    NotificationPosition notification = new NotificationPosition();
-                    notification.Offset = _BufferPortionCount - 1 + (_BufferPortionSize * i);
-                    notification.Event = new AutoResetEvent(false);
+                    NotificationPosition notification = new NotificationPosition {Offset = _BufferPortionCount - 1 + (_BufferPortionSize * i), Event = new AutoResetEvent(false)};
                     _Notifications.Add(notification);
                 }
 
@@ -329,8 +339,7 @@ namespace Vocaluxe.Lib.Sound
                 for (int i = 0; i < _Notifications.Count; i++)
                     _WaitHandles[i] = _Notifications[i].Event;
 
-                _CaptureThread = new Thread(_DoCapture);
-                _CaptureThread.IsBackground = true;
+                _CaptureThread = new Thread(_DoCapture) {IsBackground = true};
 
                 _Running = true;
                 _CaptureThread.Start();
@@ -354,8 +363,8 @@ namespace Vocaluxe.Lib.Sound
 
                 if (_Notifications != null)
                 {
-                    for (int i = 0; i < _Notifications.Count; i++)
-                        _Notifications[i].Event.Close();
+                    foreach (NotificationPosition notification in _Notifications)
+                        notification.Event.Close();
 
                     _Notifications.Clear();
                     _Notifications = null;
@@ -374,13 +383,12 @@ namespace Vocaluxe.Lib.Sound
 
                 // Buffer type must match this.waveFormat.FormatTag and this.waveFormat.BitsPerSample
                 byte[] bufferPortion = new byte[bufferPortionSamples];
-                int bufferPortionIndex;
 
                 _CaptureBuffer.Start(true);
 
                 while (_Running)
                 {
-                    bufferPortionIndex = WaitHandle.WaitAny(_WaitHandles);
+                    int bufferPortionIndex = WaitHandle.WaitAny(_WaitHandles);
 
                     _CaptureBuffer.Read(
                         bufferPortion,
@@ -400,9 +408,9 @@ namespace Vocaluxe.Lib.Sound
                 GC.SuppressFinalize(this);
             }
 
-// ReSharper disable InconsistentNaming
-            protected virtual void Dispose(bool disposing)
-// ReSharper restore InconsistentNaming
+            // ReSharper disable InconsistentNaming
+            protected void Dispose(bool disposing)
+                // ReSharper restore InconsistentNaming
             {
                 if (disposing)
                 {
