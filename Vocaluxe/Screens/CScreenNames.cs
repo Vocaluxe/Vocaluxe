@@ -56,8 +56,8 @@ namespace Vocaluxe.Screens
         private readonly STexture[] _OriginalPlayerAvatarTextures = new STexture[CSettings.MaxNumPlayer];
 
         private bool _SelectingKeyboardActive;
-        private bool _SelectingKeyboardUnendless;
-        private int _SelectingKeyboardPlayerNr;
+        private bool _SelectingFast;
+        private int _SelectingFastPlayerNr;
         private int _SelectedPlayerNr;
 
         public override void Init()
@@ -137,16 +137,16 @@ namespace Vocaluxe.Screens
                 case Keys.P:
                     if (!_SelectingKeyboardActive)
                     {
-                        _SelectingKeyboardPlayerNr = 1;
-                        _SelectingKeyboardUnendless = true;
+                        _SelectingFastPlayerNr = 1;
+                        _SelectingFast = true;
                     }
                     else
                     {
-                        if (_SelectingKeyboardPlayerNr + 1 <= CGame.NumPlayer)
-                            _SelectingKeyboardPlayerNr++;
+                        if (_SelectingFastPlayerNr + 1 <= CGame.NumPlayer)
+                            _SelectingFastPlayerNr++;
                         else
-                            _SelectingKeyboardPlayerNr = 1;
-                        _NameSelections[_NameSelection].KeyboardSelection(true, _SelectingKeyboardPlayerNr);
+                            _SelectingFastPlayerNr = 1;
+                        _NameSelections[_NameSelection].FastSelection(true, _SelectingFastPlayerNr);
                     }
                     break;
             }
@@ -165,13 +165,13 @@ namespace Vocaluxe.Screens
                         {
                             _SelectedPlayerNr = _NameSelections[_NameSelection].Selection;
                             //Update Game-infos with new player
-                            CGame.Players[_SelectingKeyboardPlayerNr - 1].ProfileID = _SelectedPlayerNr;
+                            CGame.Players[_SelectingFastPlayerNr - 1].ProfileID = _SelectedPlayerNr;
                             //Update config for default players.
-                            CConfig.Players[_SelectingKeyboardPlayerNr - 1] = CProfiles.Profiles[_SelectedPlayerNr].ProfileFile;
+                            CConfig.Players[_SelectingFastPlayerNr - 1] = CProfiles.Profiles[_SelectedPlayerNr].ProfileFile;
                             CConfig.SaveConfig();
                             //Update texture and name
-                            _Statics[_StaticPlayerAvatar[_SelectingKeyboardPlayerNr - 1]].Texture = CProfiles.Profiles[_SelectedPlayerNr].Avatar.Texture;
-                            _Texts[_TextPlayer[_SelectingKeyboardPlayerNr - 1]].Text = CProfiles.Profiles[_SelectedPlayerNr].PlayerName;
+                            _Statics[_StaticPlayerAvatar[_SelectingFastPlayerNr - 1]].Texture = CProfiles.Profiles[_SelectedPlayerNr].Avatar.Texture;
+                            _Texts[_TextPlayer[_SelectingFastPlayerNr - 1]].Text = CProfiles.Profiles[_SelectedPlayerNr].PlayerName;
                             //Update profile-warning
                             _CheckPlayers();
                             //Update Tiles-List
@@ -179,14 +179,14 @@ namespace Vocaluxe.Screens
                             _SetInteractionToButton(_Buttons[_ButtonStart]);
                         }
                         //Started selecting with 'P'
-                        if (_SelectingKeyboardUnendless)
+                        if (_SelectingFast)
                         {
-                            if (_SelectingKeyboardPlayerNr == CGame.NumPlayer)
+                            if (_SelectingFastPlayerNr == CGame.NumPlayer)
                                 resetSelection = true;
                             else
                             {
-                                _SelectingKeyboardPlayerNr++;
-                                _NameSelections[_NameSelection].KeyboardSelection(true, _SelectingKeyboardPlayerNr);
+                                _SelectingFastPlayerNr++;
+                                _NameSelections[_NameSelection].FastSelection(true, _SelectingFastPlayerNr);
                             }
                         }
                         else
@@ -224,19 +224,19 @@ namespace Vocaluxe.Screens
 
                     case Keys.Delete:
                         //Delete profile-selection
-                        CGame.Players[_SelectingKeyboardPlayerNr - 1].ProfileID = -1;
+                        CGame.Players[_SelectingFastPlayerNr - 1].ProfileID = -1;
                         //Update config for default players.
-                        CConfig.Players[_SelectingKeyboardPlayerNr - 1] = String.Empty;
+                        CConfig.Players[_SelectingFastPlayerNr - 1] = String.Empty;
                         CConfig.SaveConfig();
                         //Update texture and name
-                        _Statics[_StaticPlayerAvatar[_SelectingKeyboardPlayerNr - 1]].Texture = _OriginalPlayerAvatarTextures[_SelectingKeyboardPlayerNr - 1];
-                        _Texts[_TextPlayer[_SelectingKeyboardPlayerNr - 1]].Text = CProfiles.GetPlayerName(-1, _SelectingKeyboardPlayerNr);
+                        _Statics[_StaticPlayerAvatar[_SelectingFastPlayerNr - 1]].Texture = _OriginalPlayerAvatarTextures[_SelectingFastPlayerNr - 1];
+                        _Texts[_TextPlayer[_SelectingFastPlayerNr - 1]].Text = CProfiles.GetPlayerName(-1, _SelectingFastPlayerNr);
                         //Update profile-warning
                         _CheckPlayers();
                         //Reset all values
-                        _SelectingKeyboardPlayerNr = 0;
+                        _SelectingFastPlayerNr = 0;
                         _SelectingKeyboardActive = false;
-                        _NameSelections[_NameSelection].KeyboardSelection(false, -1);
+                        _NameSelections[_NameSelection].FastSelection(false, -1);
                         //Update Tiles-List
                         _NameSelections[_NameSelection].UpdateList();
                         break;
@@ -244,32 +244,32 @@ namespace Vocaluxe.Screens
                     case Keys.F10:
                         if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
                         {
-                            CSelectSlide selectSlideDuetPart = _SelectSlides[_SelectSlideDuetPlayer[_SelectingKeyboardPlayerNr - 1]];
+                            CSelectSlide selectSlideDuetPart = _SelectSlides[_SelectSlideDuetPlayer[_SelectingFastPlayerNr - 1]];
                             selectSlideDuetPart.Selection = (selectSlideDuetPart.Selection + 1) % 2;
                             //Reset all values
-                            _SelectingKeyboardPlayerNr = 0;
+                            _SelectingFastPlayerNr = 0;
                             _SelectingKeyboardActive = false;
-                            _SelectingKeyboardUnendless = false;
-                            _NameSelections[_NameSelection].KeyboardSelection(false, -1);
+                            _SelectingFast = false;
+                            _NameSelections[_NameSelection].FastSelection(false, -1);
                             _SetInteractionToButton(_Buttons[_ButtonStart]);
                         }
                         break;
                 }
                 if (numberPressed > 0 || resetSelection)
                 {
-                    if (numberPressed == _SelectingKeyboardPlayerNr || resetSelection)
+                    if (numberPressed == _SelectingFastPlayerNr || resetSelection)
                     {
                         //Reset all values
-                        _SelectingKeyboardPlayerNr = 0;
+                        _SelectingFastPlayerNr = 0;
                         _SelectingKeyboardActive = false;
-                        _NameSelections[_NameSelection].KeyboardSelection(false, -1);
+                        _NameSelections[_NameSelection].FastSelection(false, -1);
                     }
                     else if (numberPressed <= CConfig.NumPlayer)
                     {
-                        _SelectingKeyboardPlayerNr = numberPressed;
-                        _NameSelections[_NameSelection].KeyboardSelection(true, numberPressed);
+                        _SelectingFastPlayerNr = numberPressed;
+                        _NameSelections[_NameSelection].FastSelection(true, numberPressed);
                     }
-                    _SelectingKeyboardUnendless = false;
+                    _SelectingFast = false;
                 }
             }
                 //Normal Keyboard handling
@@ -294,32 +294,32 @@ namespace Vocaluxe.Screens
 
                     case Keys.D1:
                     case Keys.NumPad1:
-                        _SelectingKeyboardPlayerNr = 1;
+                        _SelectingFastPlayerNr = 1;
                         break;
 
                     case Keys.D2:
                     case Keys.NumPad2:
-                        _SelectingKeyboardPlayerNr = 2;
+                        _SelectingFastPlayerNr = 2;
                         break;
 
                     case Keys.D3:
                     case Keys.NumPad3:
-                        _SelectingKeyboardPlayerNr = 3;
+                        _SelectingFastPlayerNr = 3;
                         break;
 
                     case Keys.D4:
                     case Keys.NumPad4:
-                        _SelectingKeyboardPlayerNr = 4;
+                        _SelectingFastPlayerNr = 4;
                         break;
 
                     case Keys.D5:
                     case Keys.NumPad5:
-                        _SelectingKeyboardPlayerNr = 5;
+                        _SelectingFastPlayerNr = 5;
                         break;
 
                     case Keys.D6:
                     case Keys.NumPad6:
-                        _SelectingKeyboardPlayerNr = 6;
+                        _SelectingFastPlayerNr = 6;
                         break;
                     default:
                         _UpdatePlayerNumber();
@@ -327,10 +327,10 @@ namespace Vocaluxe.Screens
                 }
 
 
-                if (_SelectingKeyboardPlayerNr > 0 && _SelectingKeyboardPlayerNr <= CConfig.NumPlayer)
+                if (_SelectingFastPlayerNr > 0 && _SelectingFastPlayerNr <= CConfig.NumPlayer)
                 {
                     _SelectingKeyboardActive = true;
-                    _NameSelections[_NameSelection].KeyboardSelection(true, _SelectingKeyboardPlayerNr);
+                    _NameSelections[_NameSelection].FastSelection(true, _SelectingFastPlayerNr);
                 }
             }
 
@@ -339,10 +339,15 @@ namespace Vocaluxe.Screens
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
-            base.HandleMouse(mouseEvent);
+            bool stopSelectingFast = false;
+
+            if (_SelectingFast)
+                _NameSelections[_NameSelection].HandleMouse(mouseEvent);
+            else
+                base.HandleMouse(mouseEvent);
 
             //Check if LeftButton is hold and Select-Mode inactive
-            if (mouseEvent.LBH && _SelectedPlayerNr < 0)
+            if (mouseEvent.LBH && _SelectedPlayerNr < 0 && !_SelectingFast)
             {
                 //Save mouse-coords
                 _OldMouseX = mouseEvent.X;
@@ -366,7 +371,7 @@ namespace Vocaluxe.Screens
             }
 
             //Check if LeftButton is hold and Select-Mode active
-            if (mouseEvent.LBH && _SelectedPlayerNr >= 0)
+            if (mouseEvent.LBH && _SelectedPlayerNr >= 0 && !_SelectingFast)
             {
                 //Update coords for Drag/Drop-Texture
                 _ChooseAvatarStatic.Rect.X += mouseEvent.X - _OldMouseX;
@@ -374,8 +379,8 @@ namespace Vocaluxe.Screens
                 _OldMouseX = mouseEvent.X;
                 _OldMouseY = mouseEvent.Y;
             }
-                // LeftButton isn't hold anymore, but Selec-Mode is still active -> "Drop" of Avatar
-            else if (_SelectedPlayerNr >= 0)
+                // LeftButton isn't hold anymore, but Select-Mode is still active -> "Drop" of Avatar
+            else if (_SelectedPlayerNr >= 0 && !_SelectingFast)
             {
                 //Foreach Drop-Area
                 for (int i = 0; i < _StaticPlayer.Length; i++)
@@ -405,7 +410,37 @@ namespace Vocaluxe.Screens
                 _ChooseAvatarStatic.Visible = false;
             }
 
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _SelectingFast)
+            {
+                if (_NameSelections[_NameSelection].IsOverTile(mouseEvent))
+                {
+                    //Get player-number of tile
+                    _SelectedPlayerNr = _NameSelections[_NameSelection].TilePlayerNr(mouseEvent);
+                    if (_SelectedPlayerNr != -1)
+                    {
+                        //Update Game-infos with new player
+                        CGame.Players[_SelectingFastPlayerNr - 1].ProfileID = _SelectedPlayerNr;
+                        //Update config for default players.
+                        CConfig.Players[_SelectingFastPlayerNr - 1] = CProfiles.Profiles[_SelectedPlayerNr].ProfileFile;
+                        CConfig.SaveConfig();
+                        //Update texture and name
+                        _Statics[_StaticPlayerAvatar[_SelectingFastPlayerNr - 1]].Texture = CProfiles.Profiles[_SelectedPlayerNr].Avatar.Texture;
+                        _Texts[_TextPlayer[_SelectingFastPlayerNr - 1]].Text = CProfiles.Profiles[_SelectedPlayerNr].PlayerName;
+                        //Update profile-warning
+                        _CheckPlayers();
+                        //Update Tiles-List
+                        _NameSelections[_NameSelection].UpdateList();
+                        _SelectingFastPlayerNr++;
+                        if (_SelectingFastPlayerNr <= CGame.NumPlayer)
+                            _NameSelections[_NameSelection].FastSelection(true, _SelectingFastPlayerNr);
+                        else
+                            stopSelectingFast = true;
+                    }
+                    else
+                        stopSelectingFast = true;
+                }
+            }
+            else if (mouseEvent.LB && _IsMouseOver(mouseEvent))
             {
                 if (_Buttons[_ButtonBack].Selected)
                     CGraphics.FadeTo(EScreens.ScreenSong);
@@ -417,7 +452,9 @@ namespace Vocaluxe.Screens
                 _NameSelections[_NameSelection].UpdateList();
             }
 
-            if (mouseEvent.RB)
+            if (mouseEvent.RB && _SelectingFast)
+                stopSelectingFast = true;
+            else if (mouseEvent.RB)
             {
                 bool exit = true;
                 //Remove profile-selection
@@ -443,6 +480,22 @@ namespace Vocaluxe.Screens
                     CGraphics.FadeTo(EScreens.ScreenSong);
             }
 
+            if (mouseEvent.MB && _SelectingFast)
+            {
+                _SelectingFastPlayerNr++;
+                if (_SelectingFastPlayerNr <= CGame.NumPlayer)
+                    _NameSelections[_NameSelection].FastSelection(true, _SelectingFastPlayerNr);
+                else
+                    stopSelectingFast = true;
+            }
+            else if(mouseEvent.MB)
+            {
+                _SelectingFast = true;
+                _SelectingFastPlayerNr = 1;
+                _SelectingKeyboardActive = true;
+                _NameSelections[_NameSelection].FastSelection(true, _SelectingFastPlayerNr);
+            }
+
             //Check mouse-wheel for scrolling
             if (mouseEvent.Wheel != 0)
             {
@@ -451,6 +504,14 @@ namespace Vocaluxe.Screens
                     int offset = _NameSelections[_NameSelection].Offset + mouseEvent.Wheel;
                     _NameSelections[_NameSelection].UpdateList(offset);
                 }
+            }
+
+            if (stopSelectingFast)
+            {
+                _SelectingFast = false;
+                _SelectingFastPlayerNr = 0;
+                _SelectingKeyboardActive = false;
+                _NameSelections[_NameSelection].FastSelection(false, -1);
             }
             return true;
         }
