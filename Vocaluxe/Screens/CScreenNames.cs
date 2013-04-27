@@ -140,6 +140,7 @@ namespace Vocaluxe.Screens
                     {
                         _SelectingFastPlayerNr = 1;
                         _SelectingFast = true;
+                        _ResetPlayerSelections();
                     }
                     else
                     {
@@ -570,6 +571,7 @@ namespace Vocaluxe.Screens
             }
             else if(mouseEvent.MB)
             {
+                _ResetPlayerSelections();
                 _SelectingFast = true;
                 _SelectingFastPlayerNr = 1;
                 _SelectingKeyboardActive = true;
@@ -704,6 +706,21 @@ namespace Vocaluxe.Screens
             CConfig.SaveConfig();
             _CheckMics();
             _CheckPlayers();
+        }
+
+        private void _ResetPlayerSelections()
+        {
+            for (int i = 0; i < CGame.NumPlayer; i++)
+            {
+                CGame.Players[i].ProfileID = -1;
+                //Update config for default players.
+                CConfig.Players[i] = String.Empty;
+                //Update texture and name
+                _Statics[_StaticPlayerAvatar[i]].Texture = _OriginalPlayerAvatarTextures[i];
+                _Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(-1, i + 1);
+            }
+            _NameSelections[_NameSelection].UpdateList();
+            CConfig.SaveConfig();
         }
 
         private void _CheckMics()
