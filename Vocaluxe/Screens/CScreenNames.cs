@@ -452,6 +452,33 @@ namespace Vocaluxe.Screens
                 _NameSelections[_NameSelection].UpdateList();
             }
 
+            if (mouseEvent.LD && _NameSelections[_NameSelection].IsOverTile(mouseEvent) && !_SelectingFast)
+            {
+                _SelectedPlayerNr = _NameSelections[_NameSelection].TilePlayerNr(mouseEvent);
+                if (_SelectedPlayerNr > -1)
+                {
+                    for (int i = 0; i < CGame.NumPlayer; i++)
+                    {
+                        if (CGame.Players[i].ProfileID == -1)
+                        {
+                            //Update Game-infos with new player
+                            CGame.Players[i].ProfileID = _SelectedPlayerNr;
+                            //Update config for default players.
+                            CConfig.Players[i] = CProfiles.Profiles[_SelectedPlayerNr].ProfileFile;
+                            CConfig.SaveConfig();
+                            //Update texture and name
+                            _Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.Profiles[_SelectedPlayerNr].Avatar.Texture;
+                            _Texts[_TextPlayer[i]].Text = CProfiles.Profiles[_SelectedPlayerNr].PlayerName;
+                            //Update profile-warning
+                            _CheckPlayers();
+                            //Update Tiles-List
+                            _NameSelections[_NameSelection].UpdateList();
+                            break;
+                        }
+                    }
+                }
+            }
+
             if (mouseEvent.RB && _SelectingFast)
                 stopSelectingFast = true;
             else if (mouseEvent.RB)
