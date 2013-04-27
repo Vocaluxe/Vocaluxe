@@ -57,8 +57,9 @@ namespace Vocaluxe.Screens
 
         private bool _SelectingKeyboardActive;
         private bool _SelectingFast;
-        private int _SelectingFastPlayerNr;
-        private int _SelectedPlayerNr;
+        private int _SelectingSwitchNr = -1;
+        private int _SelectingFastPlayerNr = 0;
+        private int _SelectedPlayerNr = -1;
 
         public override void Init()
         {
@@ -368,6 +369,25 @@ namespace Vocaluxe.Screens
                         _ChooseAvatarStatic.Texture = selectedPlayer.Texture;
                     }
                 }
+                else
+                {
+                    for (int i = 0; i < CGame.NumPlayer; i++)
+                    {
+                        if (CHelper.IsInBounds(_Statics[_StaticPlayer[i]].Rect, mouseEvent))
+                        {
+                            _SelectingSwitchNr = i;
+                            _SelectedPlayerNr = CGame.Players[i].ProfileID;
+                            //Update of Drag/Drop-Texture
+                            CStatic selectedPlayer = _Statics[_StaticPlayerAvatar[i]];
+                            _ChooseAvatarStatic.Visible = true;
+                            _ChooseAvatarStatic.Rect = selectedPlayer.Rect;
+                            _ChooseAvatarStatic.Rect.Z = CSettings.ZNear;
+                            _ChooseAvatarStatic.Color = new SColorF(1, 1, 1, 1);
+                            _ChooseAvatarStatic.Texture = selectedPlayer.Texture;
+                            break;
+                        }
+                    }
+                }
             }
 
             //Check if LeftButton is hold and Select-Mode active
@@ -391,6 +411,26 @@ namespace Vocaluxe.Screens
                     //Check if Mouse is in area
                     if (CHelper.IsInBounds(_Statics[_StaticPlayer[i]].Rect, mouseEvent))
                     {
+                        if (_SelectingSwitchNr > -1 && CGame.Players[i].ProfileID > -1)
+                        {
+                            //Update Game-infos with new player
+                            CGame.Players[_SelectingSwitchNr].ProfileID = CGame.Players[i].ProfileID;
+                            //Update config for default players.
+                            CConfig.Players[_SelectingSwitchNr] = CProfiles.Profiles[i].ProfileFile;
+                            //Update texture and name
+                            _Statics[_StaticPlayerAvatar[_SelectingSwitchNr]].Texture = CProfiles.Profiles[CGame.Players[i].ProfileID].Avatar.Texture;
+                            _Texts[_TextPlayer[_SelectingSwitchNr]].Text = CProfiles.Profiles[CGame.Players[i].ProfileID].PlayerName;
+                        }
+                        else if (_SelectingSwitchNr > -1)
+                        {
+                            //Update Game-infos with new player
+                            CGame.Players[_SelectingSwitchNr].ProfileID = -1;
+                            //Update config for default players.
+                            CConfig.Players[_SelectingSwitchNr] = string.Empty;
+                            //Update texture and name
+                            _Statics[_StaticPlayerAvatar[_SelectingSwitchNr]].Texture = _OriginalPlayerAvatarTextures[_SelectingSwitchNr];
+                            _Texts[_TextPlayer[_SelectingSwitchNr]].Text = CProfiles.GetPlayerName(-1, (_SelectingSwitchNr+1));
+                        }
                         //Update Game-infos with new player
                         CGame.Players[i].ProfileID = _SelectedPlayerNr;
                         //Update config for default players.
@@ -403,8 +443,21 @@ namespace Vocaluxe.Screens
                         _CheckPlayers();
                         //Update Tiles-List
                         _NameSelections[_NameSelection].UpdateList();
+                        break;
+                    }
+                    //Selected player is dropped out of area
+                    else if (_SelectingSwitchNr > -1)
+                    {
+                        //Update Game-infos with new player
+                        CGame.Players[_SelectingSwitchNr].ProfileID = -1;
+                        //Update config for default players.
+                        CConfig.Players[_SelectingSwitchNr] = string.Empty;
+                        //Update texture and name
+                        _Statics[_StaticPlayerAvatar[_SelectingSwitchNr]].Texture = _OriginalPlayerAvatarTextures[_SelectingSwitchNr];
+                        _Texts[_TextPlayer[_SelectingSwitchNr]].Text = CProfiles.GetPlayerName(-1, (_SelectingSwitchNr + 1));
                     }
                 }
+                _SelectingSwitchNr = -1;
                 _SelectedPlayerNr = -1;
                 //Reset variables
                 _ChooseAvatarStatic.Visible = false;
