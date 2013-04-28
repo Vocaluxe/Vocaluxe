@@ -252,8 +252,6 @@ namespace VocaluxeLib.Menu.SongMenu
                             StaticMedleyTagIcon = new CStatic(_PartyModeID)
                         }
                 };
-
-            _ThemeLoaded = false;
         }
 
         public string GetThemeName()
@@ -598,7 +596,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         protected void _SelectSong(int nr)
         {
-            if (CBase.Songs.GetCurrentCategoryIndex() >= 0 && (CBase.Songs.GetNumVisibleSongs() > 0) && (nr >= 0) && ((_Actsong != nr) || (_Streams.Count == 0)))
+            if (CBase.Songs.GetCurrentCategoryIndex() >= 0 && (CBase.Songs.GetNumSongsVisible() > 0) && (nr >= 0) && ((_Actsong != nr) || (_Streams.Count == 0)))
             {
                 _Streams.ForEach(soundStream => CBase.Sound.FadeAndStop(soundStream, 0f, 1f));
                 _Streams.Clear();
@@ -609,7 +607,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 CBase.Drawing.RemoveTexture(ref _Vidtex);
 
                 _Actsong = nr;
-                if (_Actsong >= CBase.Songs.GetNumVisibleSongs())
+                if (_Actsong >= CBase.Songs.GetNumSongsVisible())
                     _Actsong = 0;
 
 

@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using Vocaluxe.Base.Font;
 using VocaluxeLib.Menu;
@@ -568,9 +569,9 @@ namespace Vocaluxe.Base
             return CSongs.NumAllSongs;
         }
 
-        public int GetNumVisibleSongs()
+        public int GetNumSongsVisible()
         {
-            return CSongs.NumVisibleSongs;
+            return CSongs.NumSongsVisible;
         }
 
         public int GetNumCategories()
@@ -618,14 +619,14 @@ namespace Vocaluxe.Base
             return CSongs.GetSong(songID);
         }
 
-        public CSong[] GetSongs()
+        public ReadOnlyCollection<CSong> GetSongs()
         {
             return CSongs.AllSongs;
         }
 
-        public CSong[] GetSongsNotSung()
+        public ReadOnlyCollection<CSong> GetVisibleSongs()
         {
-            return CSongs.SongsNotSung;
+            return CSongs.VisibleSongs;
         }
 
         public CCategory GetCategory(int index)
@@ -641,12 +642,12 @@ namespace Vocaluxe.Base
             CSongs.AddPartySongSung(songID);
         }
 
-        public void ResetPartySongSung()
+        public void ResetSongSung()
         {
             CSongs.ResetPartySongSung();
         }
 
-        public void ResetPartySongSung(int catIndex)
+        public void ResetSongSung(int catIndex)
         {
             CSongs.ResetPartySongSung(catIndex);
         }

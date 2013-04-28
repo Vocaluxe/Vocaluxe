@@ -374,7 +374,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     if (screen != null)
                     {
                         _GameData.Team = _GameData.Team == 1 ? 0 : 1;
-                        CBase.Songs.ResetPartySongSung();
+                        CBase.Songs.ResetSongSung();
                         _GameData.CurrentRoundNr = 1;
                         _ToScreenMain.CurrentRoundNr = 1;
                         _ToScreenMain.NumFields = _GameData.NumFields;

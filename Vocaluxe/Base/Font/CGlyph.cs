@@ -82,7 +82,7 @@ namespace Vocaluxe.Base.Font
                     point);
                  * */
                 Texture = CDraw.AddTexture(bmp);
-                bmp.Save("font/" + chr + CFonts.Style + ".png", ImageFormat.Png);
+                //bmp.Save("font/" + chr + CFonts.Style + ".png", ImageFormat.Png);
                 Width = (int)((1f + outline / 2f) * sizeB.Width * Texture.Width / factor / bmp.Width);
                 g.Dispose();
             }

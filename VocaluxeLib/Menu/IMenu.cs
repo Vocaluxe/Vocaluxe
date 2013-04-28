@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.PartyModes;
@@ -240,7 +241,7 @@ namespace VocaluxeLib.Menu
     public interface ISongs
     {
         int GetNumSongs();
-        int GetNumVisibleSongs();
+        int GetNumSongsVisible();
         int GetNumCategories();
         int NumSongsInCategory(int categoryIndex);
 
@@ -253,13 +254,11 @@ namespace VocaluxeLib.Menu
 
         CSong GetVisibleSong(int visibleIndex);
         CSong GetSongByID(int songID);
-        CSong[] GetSongs();
-        CSong[] GetSongsNotSung();
+        ReadOnlyCollection<CSong> GetVisibleSongs();
         CCategory GetCategory(int index);
 
         void AddPartySongSung(int songID);
-        void ResetPartySongSung();
-        void ResetPartySongSung(int catIndex);
+        void ResetSongSung(int catIndex = -1);
 
         void SortSongs(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions);
 

@@ -308,7 +308,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                     _Screens.TryGetValue("CPartyScreenChallengeMain", out screen);
                     if (screen != null)
                     {
-                        CBase.Songs.ResetPartySongSung();
+                        CBase.Songs.ResetSongSung();
                         _ToScreenMain.ResultTable = new List<CResultTableRow>();
                         _GameData.ResultTable = new List<CResultTableRow>();
                         _GameData.Rounds = new CChallengeRounds(_GameData.NumRounds, _GameData.NumPlayer, _GameData.NumPlayerAtOnce);

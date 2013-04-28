@@ -60,12 +60,12 @@ namespace Vocaluxe.SongQueue
 
         public bool AddVisibleSong(int visibleIndex, EGameMode gameMode)
         {
-            return CSongs.VisibleSongs.Length > visibleIndex && _AddSong(CSongs.VisibleSongs[visibleIndex].ID, gameMode);
+            return CSongs.VisibleSongs.Count > visibleIndex && _AddSong(CSongs.VisibleSongs[visibleIndex].ID, gameMode);
         }
 
         public bool AddSong(int absoluteIndex, EGameMode gameMode)
         {
-            return CSongs.AllSongs.Length > absoluteIndex && _AddSong(CSongs.AllSongs[absoluteIndex].ID, gameMode);
+            return CSongs.AllSongs.Count > absoluteIndex && _AddSong(CSongs.AllSongs[absoluteIndex].ID, gameMode);
         }
 
         private bool _AddSong(int songID, EGameMode gameMode)
@@ -79,12 +79,12 @@ namespace Vocaluxe.SongQueue
 
         public bool RemoveVisibleSong(int visibleIndex)
         {
-            return CSongs.VisibleSongs.Length > visibleIndex && _RemoveSong(CSongs.VisibleSongs[visibleIndex].ID);
+            return CSongs.VisibleSongs.Count > visibleIndex && _RemoveSong(CSongs.VisibleSongs[visibleIndex].ID);
         }
 
         public bool RemoveSong(int absoluteIndex)
         {
-            return CSongs.AllSongs.Length > absoluteIndex && _RemoveSong(CSongs.AllSongs[absoluteIndex].ID);
+            return CSongs.AllSongs.Count > absoluteIndex && _RemoveSong(CSongs.AllSongs[absoluteIndex].ID);
         }
 
         private bool _RemoveSong(int songID)

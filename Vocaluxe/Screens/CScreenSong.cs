@@ -213,7 +213,7 @@ namespace Vocaluxe.Screens
                                 if (_Buttons[_ButtonStart].Selected)
                                     _HandlePartySongSelection(_SongMenus[_SongMenu].GetSelectedSong());
                             }
-                            if (CSongs.NumVisibleSongs > 0 && !_Sso.Selection.PartyMode)
+                            if (CSongs.NumSongsVisible > 0 && !_Sso.Selection.PartyMode)
                             {
                                 if (_SongMenus[_SongMenu].GetSelectedSong() != -1 && !_SongOptionsActive)
                                 {
@@ -276,7 +276,7 @@ namespace Vocaluxe.Screens
                                 break;
 
                             case Keys.S:
-                                if (keyEvent.Mod == EModifier.Ctrl && CSongs.NumVisibleSongs > 0 && !_Sso.Selection.PartyMode)
+                                if (keyEvent.Mod == EModifier.Ctrl && CSongs.NumSongsVisible > 0 && !_Sso.Selection.PartyMode)
                                     _StartMedleySong(_SongMenus[_SongMenu].GetSelectedSong());
                                 break;
 
@@ -442,7 +442,7 @@ namespace Vocaluxe.Screens
             {
                 //TODO: Causes Bug if you select a song (e.g. with Select random song) and double click a normal button.
                 //E.g. clicking to fast on Select random song starts the next random song. is this OK?
-                if (CSongs.NumVisibleSongs > 0 && _SongMenus[_SongMenu].GetActualSelection() != -1)
+                if (CSongs.NumSongsVisible > 0 && _SongMenus[_SongMenu].GetActualSelection() != -1)
                 {
                     _ToggleSongOptions(ESongOptionsView.None);
                     _StartVisibleSong(_SongMenus[_SongMenu].GetActualSelection());
@@ -558,7 +558,7 @@ namespace Vocaluxe.Screens
                     }
                 }
 
-                if (CSongs.NumVisibleSongs > 0 && _SongMenus[_SongMenu].GetActualSelection() != -1 && !_Sso.Selection.PartyMode)
+                if (CSongs.NumSongsVisible > 0 && _SongMenus[_SongMenu].GetActualSelection() != -1 && !_Sso.Selection.PartyMode)
                 {
                     if (_SongMenus[_SongMenu].GetSelectedSong() != -1 && !_SongOptionsActive)
                     {
@@ -572,7 +572,7 @@ namespace Vocaluxe.Screens
 
             if (mouseEvent.LBH)
             {
-                if (!_DragAndDropActive && _Playlists[_Playlist].Visible && CSongs.NumVisibleSongs > 0 && _SongMenus[_SongMenu].GetActualSelection() != -1)
+                if (!_DragAndDropActive && _Playlists[_Playlist].Visible && CSongs.NumSongsVisible > 0 && _SongMenus[_SongMenu].GetActualSelection() != -1)
                 {
                     _DragAndDropCover = _SongMenus[_SongMenu].GetSelectedSongCover();
                     _DragAndDropCover.Rect.Z = CSettings.ZNear;
@@ -653,9 +653,9 @@ namespace Vocaluxe.Screens
                 CBackgroundMusic.Disabled = false;
 
             int song = _SongMenus[_SongMenu].GetActualSelection();
-            if ((CSongs.Category >= 0 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF) && song >= 0 && song < CSongs.VisibleSongs.Length)
+            if ((CSongs.Category >= 0 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF) && song >= 0 && song < CSongs.VisibleSongs.Count)
                 _Texts[_TextSelection].Text = CSongs.VisibleSongs[song].Artist + " - " + CSongs.VisibleSongs[song].Title;
-            else if (!CSongs.IsInCategory && song >= 0 && song < CSongs.Categories.Length)
+            else if (!CSongs.IsInCategory && song >= 0 && song < CSongs.Categories.Count)
                 _Texts[_TextSelection].Text = CSongs.Categories[song].Name;
             else
                 _Texts[_TextSelection].Text = String.Empty;
@@ -822,7 +822,7 @@ namespace Vocaluxe.Screens
 
         private void _StartVisibleSong(int songNr)
         {
-            if (CSongs.Category >= 0 && songNr >= 0 && CSongs.NumVisibleSongs > songNr)
+            if (CSongs.Category >= 0 && songNr >= 0 && CSongs.NumSongsVisible > songNr)
             {
                 EGameMode gm = CSongs.VisibleSongs[songNr].IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL;
 
@@ -856,7 +856,7 @@ namespace Vocaluxe.Screens
             CGame.ClearSongs();
 
             List<int> ids = new List<int>();
-            for (int i = 0; i < CSongs.AllSongs.Length; i++)
+            for (int i = 0; i < CSongs.AllSongs.Count; i++)
                 ids.Add(i);
 
             while (ids.Count > 0)
@@ -882,7 +882,7 @@ namespace Vocaluxe.Screens
             CGame.ClearSongs();
 
             List<int> ids = new List<int>();
-            for (int i = 0; i < CSongs.VisibleSongs.Length; i++)
+            for (int i = 0; i < CSongs.VisibleSongs.Count; i++)
                 ids.Add(CSongs.VisibleSongs[i].ID);
 
             while (ids.Count > 0)
@@ -910,12 +910,12 @@ namespace Vocaluxe.Screens
             List<int> ids = new List<int>();
             if (allSongs)
             {
-                for (int i = 0; i < CSongs.AllSongs.Length; i++)
+                for (int i = 0; i < CSongs.AllSongs.Count; i++)
                     ids.Add(i);
             }
             else
             {
-                for (int i = 0; i < CSongs.VisibleSongs.Length; i++)
+                for (int i = 0; i < CSongs.VisibleSongs.Count; i++)
                     ids.Add(CSongs.VisibleSongs[i].ID);
             }
             int s = 0;
@@ -985,6 +985,21 @@ namespace Vocaluxe.Screens
             return false;
         }
 
+        private int _FindIndex<T>(IList<T> list, int start, Predicate<T> match)
+        {
+            for (int i = start; i < list.Count; i++)
+            {
+                if (match(list[i]))
+                    return i;
+            }
+            for (int i = 0; i < start; i++)
+            {
+                if (match(list[i]))
+                    return i;
+            }
+            return -1;
+        }
+
         private void _JumpTo(char letter)
         {
             int start = 0;
@@ -992,29 +1007,21 @@ namespace Vocaluxe.Screens
             if (CSongs.IsInCategory)
             {
                 //TODO: Check and use sorting method
-                CSong[] songs = CSongs.VisibleSongs;
-                int ct = songs.Length;
-                if (curSelected >= 0 && curSelected < ct - 1)
-                {
-                    CSong currentSong = CSongs.GetVisibleSongByIndex(curSelected);
-                    if (currentSong != null && currentSong.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                        start = curSelected + 1;
-                }
-                int visibleID = Array.FindIndex(songs, start, ct - start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
-                if (visibleID < 0 && start > 1)
-                    visibleID = Array.FindIndex(songs, 0, start - 1, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                var songs = CSongs.VisibleSongs;
+                int ct = songs.Count;
+                if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
+                    start = curSelected + 1;
+                int visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
                 if (visibleID > -1)
                     _SongMenus[_SongMenu].SetSelectedSong(visibleID);
             }
             else
             {
-                CCategory[] categories = CSongs.Categories;
-                int ct = categories.Length;
+                var categories = CSongs.Categories;
+                int ct = categories.Count;
                 if (curSelected >= 0 && curSelected < ct - 1 && categories[curSelected].Name.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
                     start = curSelected + 1;
-                int visibleID = Array.FindIndex(categories, start, ct - start, element => element.Name.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
-                if (visibleID < 0 && start > 1)
-                    visibleID = Array.FindIndex(categories, 0, start - 1, element => element.Name.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                int visibleID = _FindIndex(categories, start, element => element.Name.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
                 if (visibleID > -1)
                     _SongMenus[_SongMenu].SetSelectedCategory(visibleID);
             }
@@ -1030,7 +1037,7 @@ namespace Vocaluxe.Screens
 
             int songIndex = _SongMenus[_SongMenu].GetSelectedSong();
             int songID = -1;
-            if (songIndex != -1 && CSongs.NumVisibleSongs > 0 && CSongs.NumVisibleSongs > songIndex)
+            if (songIndex != -1 && CSongs.NumSongsVisible > 0 && CSongs.NumSongsVisible > songIndex)
                 songID = CSongs.VisibleSongs[songIndex].ID;
 
             if (newFilterString == "" && _Sso.Sorting.Tabs == EOffOn.TR_CONFIG_ON)
@@ -1047,7 +1054,7 @@ namespace Vocaluxe.Screens
 
             CSongs.Sort(_Sso.Sorting.SongSorting, _Sso.Sorting.Tabs, _Sso.Sorting.IgnoreArticles, newFilterString, _Sso.Sorting.DuetOptions);
 
-            if (songID == -1 || CSongs.NumVisibleSongs == 0 || CSongs.NumVisibleSongs <= songIndex || CSongs.GetVisibleSongByIndex(songIndex).ID != songID)
+            if (songID == -1 || CSongs.NumSongsVisible == 0 || CSongs.NumSongsVisible <= songIndex || CSongs.GetVisibleSongByIndex(songIndex).ID != songID)
                 refresh = true;
 
             if (refresh)
@@ -1162,12 +1169,12 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideOptionsNumMedleySongs].Clear();
             if (CSongs.IsInCategory)
             {
-                for (int i = 1; i <= CSongs.VisibleSongs.Length; i++)
+                for (int i = 1; i <= CSongs.VisibleSongs.Count; i++)
                     _SelectSlides[_SelectSlideOptionsNumMedleySongs].AddValue(i.ToString());
             }
             else
             {
-                for (int i = 1; i <= CSongs.AllSongs.Length; i++)
+                for (int i = 1; i <= CSongs.AllSongs.Count; i++)
                     _SelectSlides[_SelectSlideOptionsNumMedleySongs].AddValue(i.ToString());
             }
             if (_SelectSlides[_SelectSlideOptionsNumMedleySongs].NumValues >= 5)

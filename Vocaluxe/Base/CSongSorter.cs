@@ -27,7 +27,7 @@ namespace Vocaluxe.Base
 {
     class CSongSorter : CObservable
     {
-        private SSongPointer[] _SortedSongs = new SSongPointer[0];
+        private CSongPointer[] _SortedSongs = new CSongPointer[0];
         private EOffOn _IgnoreArticles = CConfig.IgnoreArticles;
         private ESongSorting _SongSorting = CConfig.SongSorting;
 
@@ -36,7 +36,7 @@ namespace Vocaluxe.Base
             CSongs.Filter.ObjectChanged += _HandleFilteredSongsChanged;
         }
 
-        public SSongPointer[] SortedSongs
+        public CSongPointer[] SortedSongs
         {
             get
             {
@@ -84,7 +84,7 @@ namespace Vocaluxe.Base
             _SetChanged();
         }
 
-        private int _SortByFieldArtistTitle(SSongPointer s1, SSongPointer s2)
+        private int _SortByFieldArtistTitle(CSongPointer s1, CSongPointer s2)
         {
             int res = String.Compare(s1.SortString, s2.SortString, StringComparison.OrdinalIgnoreCase);
             if (res == 0)
@@ -100,7 +100,7 @@ namespace Vocaluxe.Base
             return res;
         }
 
-        private int _SortByFieldTitle(SSongPointer s1, SSongPointer s2)
+        private int _SortByFieldTitle(CSongPointer s1, CSongPointer s2)
         {
             int res = String.Compare(s1.SortString, s2.SortString, StringComparison.OrdinalIgnoreCase);
             if (res == 0)
@@ -112,11 +112,11 @@ namespace Vocaluxe.Base
             return res;
         }
 
-        private List<SSongPointer> _CreateSortList(string fieldName)
+        private List<CSongPointer> _CreateSortList(string fieldName)
         {
-            List<SSongPointer> sortList = new List<SSongPointer>();
+            List<CSongPointer> sortList = new List<CSongPointer>();
             if (fieldName == "")
-                CSongs.Filter.FilteredSongs.ForEach(song => sortList.Add(new SSongPointer(song.ID, "")));
+                CSongs.Filter.FilteredSongs.ForEach(song => sortList.Add(new CSongPointer(song.ID, "")));
             else
             {
                 FieldInfo field = typeof(CSong).GetField(fieldName, BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public);
@@ -132,16 +132,16 @@ namespace Vocaluxe.Base
                 {
                     object value = field.GetValue(song);
                     if (isString)
-                        sortList.Add(new SSongPointer(song.ID, (String)value));
+                        sortList.Add(new CSongPointer(song.ID, (String)value));
                     else
                     {
                         List<String> values = (List<String>)value;
                         if (values.Count == 0)
-                            sortList.Add(new SSongPointer(song.ID, ""));
+                            sortList.Add(new CSongPointer(song.ID, ""));
                         else
                         {
                             foreach (String sortString in values)
-                                sortList.Add(new SSongPointer(song.ID, sortString));
+                                sortList.Add(new CSongPointer(song.ID, sortString));
                         }
                     }
                 }
@@ -183,7 +183,7 @@ namespace Vocaluxe.Base
                     fieldName = "";
                     break;
             }
-            List<SSongPointer> sortList = _CreateSortList(fieldName);
+            List<CSongPointer> sortList = _CreateSortList(fieldName);
             switch (_SongSorting)
             {
                 case ESongSorting.TR_CONFIG_ARTIST_LETTER:

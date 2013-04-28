@@ -35,12 +35,6 @@ namespace VocaluxeLib.Menu.SongMenu
             _CreateSongMenu();
         }
 
-        public void UpdateSongMenuType()
-        {
-            if (_Type != CBase.Config.GetSongMenuType())
-                _CreateSongMenu();
-        }
-
         public bool Selected
         {
             get { return _SongMenu.IsSelected(); }
