@@ -83,8 +83,6 @@ namespace Vocaluxe.Lib.Draw
         private SClientRect _Restore;
         private bool _Fullscreen;
 
-        private bool _IsV3OrHigher;
-
         private readonly Dictionary<int, STexture> _Textures;
         private readonly Queue<int> _IDs;
         private readonly List<STextureQueue> _Queue;
@@ -112,12 +110,11 @@ namespace Vocaluxe.Lib.Draw
 
             //Check AA Mode
             CConfig.AAMode = (EAntiAliasingModes)_CheckAntiAliasingMode((int)CConfig.AAMode);
-            CConfig.ColorDepth = (EColorDepth)_CheckColorDepth((int)CConfig.ColorDepth);
 
             bool ok = false;
             try
             {
-                GraphicsMode gm = new GraphicsMode((int)CConfig.ColorDepth, 24, 0, (int)CConfig.AAMode);
+                GraphicsMode gm = new GraphicsMode(32, 24, 0, (int)CConfig.AAMode);
                 _Control = new GLControl(gm, 2, 1, GraphicsContextFlags.Default);
                 if (_Control.GraphicsMode != null)
                     ok = true;
@@ -156,7 +153,6 @@ namespace Vocaluxe.Lib.Draw
 
             ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH);
             CenterToScreen();
-            _IsV3OrHigher = int.Parse(GL.GetString(OpenTK.Graphics.OpenGL.StringName.Version)[0].ToString()) >= 3;
         }
 
         #region Helpers
@@ -759,8 +755,6 @@ namespace Vocaluxe.Lib.Draw
 
                     BitmapData bmpData = bmp2.LockBits(new Rectangle(0, 0, bmp2.Width, bmp2.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-                    if (!_IsV3OrHigher)
-                        GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.GenerateMipmap, 1);
                     GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, (int)texture.W2, (int)texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
                     GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, bmpData.Width, bmpData.Height, PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
@@ -780,8 +774,7 @@ namespace Vocaluxe.Lib.Draw
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
             //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-            if (_IsV3OrHigher)
-                GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
 
             // Add to Texture List
@@ -959,8 +952,6 @@ namespace Vocaluxe.Lib.Draw
                         GL.UnmapBuffer(BufferTarget.PixelUnpackBuffer);
 
                         GL.BindTexture(TextureTarget.Texture2D, texture.ID);
-                        if (!_IsV3OrHigher)
-                            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.GenerateMipmap, 1);
                         GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (int)texture.Width, (int)texture.Height, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
                         GL.BindTexture(TextureTarget.Texture2D, 0);
@@ -985,9 +976,8 @@ namespace Vocaluxe.Lib.Draw
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
 
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
-                if (_IsV3OrHigher)
-                    //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-                    GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+                //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+                GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
                 GL.BindTexture(TextureTarget.Texture2D, 0);
 
@@ -1381,9 +1371,6 @@ namespace Vocaluxe.Lib.Draw
                 texture.WidthRatio = texture.Width / texture.W2;
                 texture.HeightRatio = texture.Height / texture.H2;
 
-                if (!_IsV3OrHigher)
-                    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.GenerateMipmap, 1);
-
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, (int)texture.W2, (int)texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
                 GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, q.Width, q.Height, PixelFormat.Bgra, PixelType.UnsignedByte, q.Data);
@@ -1395,8 +1382,7 @@ namespace Vocaluxe.Lib.Draw
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
 
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
-                if (!_IsV3OrHigher)
-                    GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+                GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
                 GL.BindTexture(TextureTarget.Texture2D, 0);
 

@@ -52,7 +52,6 @@ namespace Vocaluxe.Base
         public static int ScreenH = 576;
 
         public static EAntiAliasingModes AAMode = EAntiAliasingModes.X0;
-        public static EColorDepth ColorDepth = EColorDepth.Bit32;
 
         public static EOffOn VSync = EOffOn.TR_CONFIG_ON;
         public static EOffOn FullScreen = EOffOn.TR_CONFIG_ON;
@@ -166,7 +165,6 @@ namespace Vocaluxe.Base
             xmlReader.TryGetIntValue("//root/Graphics/ScreenW", ref ScreenW);
             xmlReader.TryGetIntValue("//root/Graphics/ScreenH", ref ScreenH);
             xmlReader.TryGetEnumValue("//root/Graphics/AAMode", ref AAMode);
-            xmlReader.TryGetEnumValue("//root/Graphics/Colors", ref ColorDepth);
             xmlReader.TryGetFloatValue("//root/Graphics/MaxFPS", ref MaxFPS);
             xmlReader.TryGetEnumValue("//root/Graphics/VSync", ref VSync);
             xmlReader.TryGetEnumValue("//root/Graphics/FullScreen", ref FullScreen);
@@ -329,9 +327,6 @@ namespace Vocaluxe.Base
 
                 writer.WriteComment("AAMode: " + CHelper.ListStrings(Enum.GetNames(typeof(EAntiAliasingModes))));
                 writer.WriteElementString("AAMode", Enum.GetName(typeof(EAntiAliasingModes), AAMode));
-
-                writer.WriteComment("Colors: " + CHelper.ListStrings(Enum.GetNames(typeof(EColorDepth))));
-                writer.WriteElementString("Colors", Enum.GetName(typeof(EColorDepth), ColorDepth));
 
                 writer.WriteComment("MaxFPS should be between 1..200");
                 writer.WriteElementString("MaxFPS", MaxFPS.ToString("#"));

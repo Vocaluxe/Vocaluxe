@@ -93,16 +93,6 @@ namespace VocaluxeLib.Menu
         X32 = 32
     }
 
-    public enum EColorDepth
-    {
-        // ReSharper disable UnusedMember.Global
-        Bit8 = 8,
-        Bit16 = 16,
-        Bit24 = 24,
-        Bit32 = 32
-        // ReSharper restore UnusedMember.Global
-    }
-
     public enum ETextureQuality
     {
         // ReSharper disable InconsistentNaming
