@@ -221,27 +221,22 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-        public void Draw()
+        public void Draw(bool forceDraw = false)
         {
-            Draw(1f, Rect.Z, Aspect, false);
+            Draw(1f, Rect.Z, Aspect, forceDraw);
         }
 
         public void Draw(EAspect aspect)
         {
-            Draw(1f, Rect.Z, aspect, false);
+            Draw(1f, Rect.Z, aspect);
         }
 
         public void Draw(float scale, EAspect aspect)
         {
-            Draw(scale, Rect.Z, aspect, false);
+            Draw(scale, Rect.Z, aspect);
         }
 
-        public void ForceDraw()
-        {
-            Draw(1f, Rect.Z, Aspect, true);
-        }
-
-        public void Draw(float scale, float z, EAspect aspect, bool forceDraw)
+        public void Draw(float scale, float z, EAspect aspect, bool forceDraw = false)
         {
             STexture texture = _Texture.Index != -1 ? _Texture : CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
 

@@ -601,11 +601,6 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-        public void ForceDraw()
-        {
-            Draw(true);
-        }
-
         public void Draw(bool forceDraw = false)
         {
             if (!forceDraw && !Visible && CBase.Settings.GetGameState() != EGameState.EditTheme)

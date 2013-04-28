@@ -31,6 +31,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using SlimDX.Windows;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Font;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Draw

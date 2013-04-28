@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using Vocaluxe.Base.Font;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 

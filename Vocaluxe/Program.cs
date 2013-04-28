@@ -25,6 +25,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using System.Runtime.ExceptionServices;
+using Vocaluxe.Base.Font;
 
 namespace Vocaluxe
 {

@@ -27,6 +27,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Font;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Draw

@@ -25,6 +25,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Font;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SingNotes;
 using VocaluxeLib.Menu.SongMenu;
@@ -522,8 +523,8 @@ namespace Vocaluxe.Screens
 
             if (_Pause)
             {
-                _Statics[_StaticPauseBG].ForceDraw();
-                _Texts[_TextPause].ForceDraw();
+                _Statics[_StaticPauseBG].Draw(true);
+                _Texts[_TextPause].Draw(true);
 
                 foreach (CButton button in _Buttons)
                     button.Draw();
