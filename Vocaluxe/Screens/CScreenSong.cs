@@ -338,7 +338,9 @@ namespace Vocaluxe.Screens
                         else if (_Buttons[_ButtonOptionsOpenSelectedItem].Selected)
                             _HandleSelectButton();
                         else if (_SelectSlides[_SelectSlideOptionsPlaylistOpen].Selected)
-                            _OpenPlaylistAction();
+                            _OpenPlaylist(_SelectSlides[_SelectSlideOptionsPlaylistOpen].Selection);
+                        else if (_SelectSlides[_SelectSlideOptionsPlaylistAdd].Selected)
+                            _OpenPlaylist(_SelectSlides[_SelectSlideOptionsPlaylistAdd].Selection - 1);
                         else if (_Buttons[_ButtonOptionsRandomMedley].Selected)
                             _ToggleSongOptions(ESongOptionsView.Medley);
                         else if (_Buttons[_ButtonOptionsStartMedley].Selected)
@@ -515,7 +517,12 @@ namespace Vocaluxe.Screens
                     }
                     else if (_SelectSlides[_SelectSlideOptionsPlaylistOpen].ValueSelected)
                     {
-                        _OpenPlaylistAction();
+                        _OpenPlaylist(_SelectSlides[_SelectSlideOptionsPlaylistOpen].Selection);
+                        return true;
+                    }
+                    else if (_SelectSlides[_SelectSlideOptionsPlaylistAdd].ValueSelected)
+                    {
+                        _OpenPlaylist(_SelectSlides[_SelectSlideOptionsPlaylistAdd].Selection - 1);
                         return true;
                     }
                     else if (_Buttons[_ButtonOptionsRandomMedley].Selected)
@@ -832,15 +839,12 @@ namespace Vocaluxe.Screens
         {
             if ((CSongs.Category >= 0) && (songNr >= 0))
             {
-                EGameMode gm;
-                if (CSongs.VisibleSongs[songNr].Medley.Source != EMedleySource.None)
-                    gm = EGameMode.TR_GAMEMODE_MEDLEY;
-                else
+                if (CSongs.VisibleSongs[songNr].Medley.Source == EMedleySource.None)
                     return;
 
                 CGame.Reset();
                 CGame.ClearSongs();
-                CGame.AddVisibleSong(songNr, gm);
+                CGame.AddVisibleSong(songNr, EGameMode.TR_GAMEMODE_MEDLEY);
 
                 CGraphics.FadeTo(EScreens.ScreenNames);
             }
@@ -1097,7 +1101,6 @@ namespace Vocaluxe.Screens
             EGameMode lastMode = EGameMode.TR_GAMEMODE_NORMAL;
             if (_AvailableGameModes.Count > 0)
                 lastMode = _AvailableGameModes[_SelectSlides[_SelectSlideOptionsMode].Selection];
-            _SetInteractionToButton(_Buttons[_ButtonOptionsSing]);
             _AvailableGameModes.Clear();
             _SelectSlides[_SelectSlideOptionsMode].Clear();
             if (CSongs.VisibleSongs[_SongMenus[_SongMenu].GetSelectedSong()].IsDuet)
@@ -1183,11 +1186,12 @@ namespace Vocaluxe.Screens
 
         private void _OpenPlaylist(int playlistID)
         {
-            if (CPlaylists.Playlists.Length > playlistID && playlistID > -1)
+            if (CPlaylists.Playlists.Length > playlistID && playlistID >= 0)
             {
                 _Playlists[_Playlist].LoadPlaylist(playlistID);
                 _SongMenus[_SongMenu].SetSmallView(true);
                 _Playlists[_Playlist].Visible = true;
+                _SetSelectSlidePlaylistToCurrentPlaylist();
             }
         }
 
@@ -1210,19 +1214,6 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideOptionsPlaylistAdd].AddValues(CPlaylists.PlaylistNames);
             _SelectSlides[_SelectSlideOptionsPlaylistOpen].Clear();
             _SelectSlides[_SelectSlideOptionsPlaylistOpen].AddValues(CPlaylists.PlaylistNames);
-        }
-
-        private void _OpenPlaylistAction()
-        {
-            //Open a playlist
-            if (_Playlists[_Playlist].ActivePlaylistID != _SelectSlides[_SelectSlideOptionsPlaylistOpen].Selection)
-            {
-                _Playlists[_Playlist].ActivePlaylistID = _SelectSlides[_SelectSlideOptionsPlaylistOpen].Selection;
-                _SetSelectSlidePlaylistToCurrentPlaylist();
-
-                //Open playlist
-                _OpenPlaylist(_Playlists[_Playlist].ActivePlaylistID);
-            }
         }
 
         private void _OpenAndAddPlaylistAction()

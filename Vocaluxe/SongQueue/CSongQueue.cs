@@ -145,7 +145,7 @@ namespace Vocaluxe.SongQueue
         public CSong GetSong()
         {
             if (_CurrentSong >= 0 && _CurrentSong < _SongQueue.Count)
-                CGameModes.Get(GetCurrentGameMode()).GetSong(_SongQueue[_CurrentSong].SongID);
+                return CGameModes.Get(_SongQueue[_CurrentSong].GameMode).GetSong(_SongQueue[_CurrentSong].SongID);
             return null;
         }
 
