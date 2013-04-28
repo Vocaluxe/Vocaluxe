@@ -418,7 +418,7 @@ namespace Vocaluxe.Base
         public static void LoadCover()
         {
             if (CConfig.Renderer == ERenderer.TR_CONFIG_SOFTWARE)
-                return; //should be removed as soon as the other renderer are ready for queque
+                return; //should be removed as soon as the other renderer are ready for queue
 
             if (!SongsLoaded || CoverLoaded)
                 return;

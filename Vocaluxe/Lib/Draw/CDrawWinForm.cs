@@ -418,7 +418,7 @@ namespace Vocaluxe.Lib.Draw
             return new STexture(-1);
         }
 
-        public STexture QuequeTexture(int w, int h, ref byte[] data)
+        public STexture EnqueueTexture(int w, int h, ref byte[] data)
         {
             return AddTexture(w, h, ref data);
         }

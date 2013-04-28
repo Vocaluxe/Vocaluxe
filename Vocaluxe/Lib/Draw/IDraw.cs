@@ -52,7 +52,7 @@ namespace Vocaluxe.Lib.Draw
         STexture AddTexture(Bitmap bitmap);
         STexture AddTexture(int w, int h, IntPtr data);
         STexture AddTexture(int w, int h, ref byte[] data);
-        STexture QuequeTexture(int w, int h, ref byte[] data);
+        STexture EnqueueTexture(int w, int h, ref byte[] data);
         bool UpdateTexture(ref STexture texture, ref byte[] data);
         bool UpdateTexture(ref STexture texture, IntPtr data);
 

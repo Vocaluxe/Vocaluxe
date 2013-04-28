@@ -948,9 +948,9 @@ namespace Vocaluxe.Screens
 
         private void _UpdateMedleyCountdown()
         {
-            if (CGame.GetSong() != null)
-            {
-                CSong song = CGame.GetSong();
+            CSong song = CGame.GetSong();
+            if (song != null)
+            {          
                 float currentTime = _CurrentTime - song.Start;
                 float timeToFirstMedleyNote = (CGame.GetTimeFromBeats(song.Medley.StartBeat, song.BPM) + song.Gap - song.Start);
                 if (currentTime < timeToFirstMedleyNote && CGame.GameMode == EGameMode.TR_GAMEMODE_MEDLEY)

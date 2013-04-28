@@ -29,12 +29,13 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using SlimDX.Windows;
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Draw
 {
-    class CDirect3D : Form, IDraw
+    class CDirect3D : RenderForm, IDraw
     {
         #region private vars
         private readonly CKeys _Keys;
@@ -51,7 +52,7 @@ namespace Vocaluxe.Lib.Draw
 
         private readonly Dictionary<int, STexture> _Textures;
         private readonly Dictionary<int, Texture> _D3DTextures;
-        private readonly List<STextureQueque> _Queque;
+        private readonly List<STextureQueue> _Queue;
         private readonly Queue<int> _IDs;
 
         private readonly Object _MutexTexture = new Object();
@@ -81,7 +82,7 @@ namespace Vocaluxe.Lib.Draw
             Icon = new Icon(Path.Combine(Environment.CurrentDirectory, CSettings.Icon));
             _Textures = new Dictionary<int, STexture>();
             _D3DTextures = new Dictionary<int, Texture>();
-            _Queque = new List<STextureQueque>();
+            _Queue = new List<STextureQueue>();
             _IDs = new Queue<int>();
 
             //Fill Queue with 100000 IDs
@@ -97,7 +98,7 @@ namespace Vocaluxe.Lib.Draw
             {
                 _D3D = new Direct3D();
             }
-            catch (Direct3D9NotFoundException e)
+            catch (Direct3DX9NotFoundException e)
             {
                 MessageBox.Show("No DirectX runtimes were found, please download and install them " +
                                 "from http://www.microsoft.com/download/en/details.aspx?id=8109",
@@ -515,13 +516,15 @@ namespace Vocaluxe.Lib.Draw
                 //We want to begin drawing
                 if (_Device.BeginScene().IsFailure)
                     CLog.LogError("Failed to begin scene");
-                _CheckQueque();
-                _Run = _Run && CGraphics.Draw();
+                _CheckQueue();
+                if (!CGraphics.Draw())
+                    _Run = false;
                 _RenderVertexBuffer();
                 //We finished drawing the frame
                 if (_Device.EndScene().IsFailure)
                     CLog.LogError("Failed to end scene");
-                _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
+                if (!CGraphics.UpdateGameLogic(_Keys, _Mouse))
+                    _Run = false;
                 try
                 {
                     //Now push the frame to the Viewport
@@ -1010,10 +1013,10 @@ namespace Vocaluxe.Lib.Draw
             return t;
         }
 
-        public STexture QuequeTexture(int w, int h, ref byte[] data)
+        public STexture EnqueueTexture(int w, int h, ref byte[] data)
         {
             STexture texture = new STexture(-1);
-            STextureQueque queque = new STextureQueque {Data = data, Height = h, Width = w};
+            STextureQueue queue = new STextureQueue {Data = data, Height = h, Width = w};
 
             texture.Height = h;
             texture.Width = w;
@@ -1022,8 +1025,8 @@ namespace Vocaluxe.Lib.Draw
             {
                 _D3DTextures.Add(_IDs.Peek(), null);
                 texture.Index = _IDs.Dequeue();
-                queque.ID = texture.Index;
-                _Queque.Add(queque);
+                queue.ID = texture.Index;
+                _Queue.Add(queue);
                 _Textures[texture.Index] = texture;
             }
             return texture;
@@ -1405,14 +1408,14 @@ namespace Vocaluxe.Lib.Draw
         }
         #endregion drawing
 
-        private void _CheckQueque()
+        private void _CheckQueue()
         {
             lock (_MutexTexture)
             {
-                if (_Queque.Count == 0)
+                if (_Queue.Count == 0)
                     return;
 
-                STextureQueque q = _Queque[0];
+                STextureQueue q = _Queue[0];
                 STexture texture;
                 if (_Textures.ContainsKey(q.ID))
                     texture = _Textures[q.ID];
@@ -1423,7 +1426,7 @@ namespace Vocaluxe.Lib.Draw
                 _D3DTextures[q.ID] = t;
 
                 _Textures[texture.Index] = texture;
-                _Queque.RemoveAt(0);
+                _Queue.RemoveAt(0);
             }
         }
 

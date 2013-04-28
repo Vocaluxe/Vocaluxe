@@ -501,7 +501,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             }
             #endregion PlayerNames
 
-            #region SongQueque            
+            #region SongQueue            
             if (CBase.Songs.GetNumVisibleSongs() < _NumSongs)
                 CBase.Songs.ResetPartySongSung();
 
@@ -542,7 +542,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 s++;
             }
             return true;
-            #endregion SongQueque
+            #endregion SongQueue
         }
 
         private void _SetNumJokers()

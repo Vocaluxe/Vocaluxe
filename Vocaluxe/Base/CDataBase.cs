@@ -956,7 +956,7 @@ namespace Vocaluxe.Base
                         reader.Read();
                         byte[] data = _GetBytes(reader);
                         reader.Dispose();
-                        tex = CDraw.QuequeTexture(w, h, ref data);
+                        tex = CDraw.EnqueueTexture(w, h, ref data);
                         return true;
                     }
                 }
@@ -1006,7 +1006,7 @@ namespace Vocaluxe.Base
                         origin.Dispose();
                     }
 
-                    tex = CDraw.QuequeTexture(w, h, ref data);
+                    tex = CDraw.EnqueueTexture(w, h, ref data);
 
                     command.CommandText = "INSERT INTO Cover (Path, width, height) VALUES (@path, @w, @h)";
                     command.Parameters.Add("@w", DbType.Int32).Value = w;
