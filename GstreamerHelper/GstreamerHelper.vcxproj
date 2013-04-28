@@ -68,7 +68,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugWin|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>bin\$(Configuration)\$(Platform)</OutDir>
+    <OutDir>bin\$(Configuration)\$(Platform)\</OutDir>
     <IncludePath>$(MSBuildProjectDirectory)\x86\lib\glib-2.0\include;$(MSBuildProjectDirectory)\x86\include\gstreamer-1.0;$(MSBuildProjectDirectory)\x86\include\glib-2.0;$(MSBuildProjectDirectory)\x86\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(MSBuildProjectDirectory)\x86\lib;$(LibraryPath)</LibraryPath>
     <GenerateManifest>false</GenerateManifest>

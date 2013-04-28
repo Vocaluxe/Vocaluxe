@@ -129,7 +129,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>cd $(SolutionDir)Partymodes\
+    <PostBuildEvent>if exist "$(SolutionDir)Output\PartyModes\$(TargetName)\Code" rd "$(SolutionDir)Output\PartyModes\$(TargetName)\Code" /S /Q
+cd $(SolutionDir)Partymodes\
 xcopy "$(ProjectDir)*.cs" "$(SolutionDir)Output\PartyModes\$(TargetName)\Code\" /EXCLUDE:Excludes.txt /I /Y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
