@@ -20,15 +20,6 @@ namespace Vocaluxe.Base.Font
 
         public static EStyle Style = EStyle.Normal;
 
-        public static int CurrentFont
-        {
-            get { return _CurrentFont; }
-            set
-            {
-                if ((value >= 0) && (value < _Fonts.Count))
-                    _CurrentFont = value;
-            }
-        }
         public static float Height
         {
             get { return _Height; }
@@ -196,35 +187,13 @@ namespace Vocaluxe.Base.Font
 
         public static void SetFont(string fontName)
         {
-            int index;
-
-            if (PartyModeID != -1)
-            {
-                index = _GetFontIndexParty(PartyModeID, fontName);
-
-                if (index >= 0 && index < _Fonts.Count)
-                {
-                    _CurrentFont = index;
-                    return;
-                }
-            }
-
-            index = _GetFontIndex(CConfig.Theme, fontName);
-
-            if (index >= 0 && index < _Fonts.Count)
-            {
+            int index = _GetPartyFontIndex(PartyModeID, fontName);
+            if (index < 0)
+                index = _GetThemeFontIndex(CConfig.Theme, fontName);
+            if (index < 0)
+                index = _GetFontIndex(fontName);
+            if (index >= 0)
                 _CurrentFont = index;
-                return;
-            }
-
-            for (int i = 0; i < _Fonts.Count; i++)
-            {
-                if (!_Fonts[i].IsThemeFont && _Fonts[i].Name == fontName)
-                {
-                    _CurrentFont = i;
-                    return;
-                }
-            }
         }
 
         public static RectangleF GetTextBounds(CText text)
@@ -420,7 +389,18 @@ namespace Vocaluxe.Base.Font
             }
         }
 
-        private static int _GetFontIndex(string themeName, string fontName)
+        private static int _GetFontIndex(string fontName)
+        {
+            for (int i = 0; i < _Fonts.Count; i++)
+            {
+                if (!_Fonts[i].IsThemeFont && _Fonts[i].Name == fontName)
+                    return i;
+            }
+
+            return -1;
+        }
+
+        private static int _GetThemeFontIndex(string themeName, string fontName)
         {
             if (themeName == "" || fontName == "")
                 return -1;
@@ -434,14 +414,14 @@ namespace Vocaluxe.Base.Font
             return -1;
         }
 
-        private static int _GetFontIndexParty(int partyModeID, string fontName)
+        private static int _GetPartyFontIndex(int partyModeID, string fontName)
         {
             if (partyModeID == -1 || fontName == "")
                 return -1;
 
             for (int i = 0; i < _Fonts.Count; i++)
             {
-                if (!_Fonts[i].IsThemeFont && _Fonts[i].Name == fontName && _Fonts[i].PartyModeID == partyModeID)
+                if (!_Fonts[i].IsThemeFont && _Fonts[i].PartyModeID == partyModeID && _Fonts[i].Name == fontName)
                     return i;
             }
 
@@ -454,7 +434,7 @@ namespace Vocaluxe.Base.Font
 
             for (int i = 0; i < _Fonts.Count; i++)
             {
-                CurrentFont = i;
+                _CurrentFont = i;
 
                 foreach (char chr in text)
                 {

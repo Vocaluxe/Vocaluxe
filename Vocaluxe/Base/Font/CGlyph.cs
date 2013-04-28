@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Windows.Forms;
 using VocaluxeLib.Menu;
@@ -9,18 +10,14 @@ namespace Vocaluxe.Base.Font
 {
     class CGlyph
     {
-        private readonly float _Sizeh = 50f;
-        public float Sizeh
-        {
-            get { return _Sizeh; }
-        }
+        public float Sizeh { get; private set; }
 
         public STexture Texture;
         public readonly int Width;
 
         public CGlyph(char chr, float maxHigh)
         {
-            _Sizeh = maxHigh;
+            Sizeh = maxHigh;
 
             float outline = CFonts.Outline;
             const TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
@@ -85,7 +82,7 @@ namespace Vocaluxe.Base.Font
                     point);
                  * */
                 Texture = CDraw.AddTexture(bmp);
-                //bmp.Save("test.png", ImageFormat.Png);
+                bmp.Save("font/" + chr + CFonts.Style + ".png", ImageFormat.Png);
                 Width = (int)((1f + outline / 2f) * sizeB.Width * Texture.Width / factor / bmp.Width);
                 g.Dispose();
             }
