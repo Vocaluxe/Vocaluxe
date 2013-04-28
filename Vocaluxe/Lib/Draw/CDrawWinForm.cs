@@ -267,6 +267,11 @@ namespace Vocaluxe.Lib.Draw
 
         public bool Unload()
         {
+            try
+            {
+                Close();
+            }
+            catch {}
             Dispose();
             return true;
         }

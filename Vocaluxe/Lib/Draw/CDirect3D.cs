@@ -582,6 +582,11 @@ namespace Vocaluxe.Lib.Draw
         /// <returns></returns>
         public bool Unload()
         {
+            try
+            {
+                Close();
+            }
+            catch {}
             //Dispose all textures
             foreach (KeyValuePair<int, Texture> p in _D3DTextures)
             {

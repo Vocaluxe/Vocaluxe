@@ -440,6 +440,11 @@ namespace Vocaluxe.Lib.Draw
 
         public bool Unload()
         {
+            try
+            {
+                Close();
+            }
+            catch {}
             STexture[] textures = new STexture[_Textures.Count];
             _Textures.Values.CopyTo(textures, 0);
             for (int i = 0; i < _Textures.Count; i++)
