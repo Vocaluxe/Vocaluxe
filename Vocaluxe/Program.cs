@@ -202,9 +202,9 @@ namespace Vocaluxe
             catch (Exception e)
             {
                 MessageBox.Show("Error on start up: " + e.Message + e.StackTrace);
-                CLog.LogError("Error on start up: " + e.Message + e.StackTrace);
+                CLog.LogError("Error on start up: " + e);
+                _SplashScreen.Close();
                 _CloseProgram();
-                Environment.Exit(Environment.ExitCode);
             }
             Application.DoEvents();
 
@@ -229,6 +229,7 @@ namespace Vocaluxe
                 CWebcam.Close();
             }
             catch (Exception) {}
+            Environment.Exit(Environment.ExitCode);
         }
 
         [HandleProcessCorruptedStateExceptions]
@@ -243,6 +244,7 @@ namespace Vocaluxe
             catch {}
             MessageBox.Show("Unhandled exception: " + e.Message + stackTrace);
             CLog.LogError("Unhandled exception: " + e.Message + stackTrace);
+            _CloseProgram();
         }
 
         private static Assembly _AssemblyResolver(Object sender, ResolveEventArgs args)
