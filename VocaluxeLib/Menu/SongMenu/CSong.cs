@@ -26,6 +26,19 @@ using VocaluxeLib.Menu.SingNotes;
 
 namespace VocaluxeLib.Menu.SongMenu
 {
+    public class CSongPointer
+    {
+        public readonly int SongID;
+        public string SortString;
+        public bool IsSung;
+
+        public CSongPointer(int id, string sortString)
+        {
+            SongID = id;
+            SortString = sortString;
+        }
+    }
+
     [Flags]
     enum EHeaderFlags
     {
@@ -40,56 +53,9 @@ namespace VocaluxeLib.Menu.SongMenu
 
     public enum EMedleySource
     {
-        None,
+        None = 0,
         Calculated,
         Tag
-    }
-
-    public class CCategory
-    {
-        public readonly string Name;
-        private STexture _CoverTextureSmall = new STexture(-1);
-        private STexture _CoverTextureBig = new STexture(-1);
-        private bool _CoverBigLoaded;
-
-        public CCategory(string name)
-        {
-            Name = name;
-        }
-
-        public STexture CoverTextureSmall
-        {
-            get { return _CoverTextureSmall; }
-
-            set { _CoverTextureSmall = value; }
-        }
-
-        public STexture CoverTextureBig
-        {
-            get { return _CoverBigLoaded ? _CoverTextureBig : _CoverTextureSmall; }
-            set
-            {
-                if (value.Index != -1)
-                {
-                    _CoverTextureBig = value;
-                    _CoverBigLoaded = true;
-                }
-            }
-        }
-
-        public CCategory(string name, STexture coverSmall, STexture coverBig)
-        {
-            Name = name;
-            CoverTextureSmall = coverSmall;
-            CoverTextureBig = coverBig;
-        }
-
-        public CCategory(CCategory cat)
-        {
-            Name = cat.Name;
-            CoverTextureSmall = cat.CoverTextureSmall;
-            CoverTextureBig = cat.CoverTextureBig;
-        }
     }
 
     public struct SMedley
@@ -99,28 +65,16 @@ namespace VocaluxeLib.Menu.SongMenu
         public int EndBeat;
         public float FadeInTime;
         public float FadeOutTime;
-
-        // ReSharper disable UnusedParameter.Local
-        public SMedley(int dummy)
-            // ReSharper restore UnusedParameter.Local
-        {
-            Source = EMedleySource.None;
-            StartBeat = 0;
-            EndBeat = 0;
-            FadeInTime = 0f;
-            FadeOutTime = 0f;
-        }
     }
 
     public class CSong
     {
         private bool _CoverSmallLoaded;
         private bool _CoverBigLoaded;
-        private bool _NotesLoaded;
         private STexture _CoverTextureSmall = new STexture(-1);
         private STexture _CoverTextureBig = new STexture(-1);
 
-        public SMedley Medley = new SMedley(0);
+        public SMedley Medley;
 
         public bool CalculateMedley = true;
         public float PreviewStart;
@@ -140,18 +94,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public EAspect VideoAspect = EAspect.Crop;
 
-        public bool CoverSmallLoaded
-        {
-            get { return _CoverSmallLoaded; }
-        }
-        public bool CoverBigLoaded
-        {
-            get { return _CoverBigLoaded; }
-        }
-        public bool NotesLoaded
-        {
-            get { return _NotesLoaded; }
-        }
+        public bool NotesLoaded { get; private set; }
 
         public STexture CoverTextureSmall
         {
@@ -171,12 +114,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public STexture CoverTextureBig
         {
-            get
-            {
-                if (_CoverBigLoaded)
-                    return _CoverTextureBig;
-                return _CoverTextureSmall;
-            }
+            get { return _CoverBigLoaded ? _CoverTextureBig : _CoverTextureSmall; }
             set
             {
                 _CoverTextureBig = value;
@@ -278,7 +216,7 @@ namespace VocaluxeLib.Menu.SongMenu
             VideoAspect = song.VideoAspect;
             _CoverSmallLoaded = song._CoverSmallLoaded;
             _CoverBigLoaded = song._CoverBigLoaded;
-            _NotesLoaded = song._NotesLoaded;
+            NotesLoaded = song.NotesLoaded;
 
             Artist = song.Artist;
             Title = song.Title;
@@ -619,7 +557,7 @@ namespace VocaluxeLib.Menu.SongMenu
         private bool _ReadNotes(string filePath, bool forceReload = false)
         {
             //Skip loading if already done and no reload is forced
-            if (_NotesLoaded && !forceReload)
+            if (NotesLoaded && !forceReload)
                 return true;
 
             if (!File.Exists(filePath))
@@ -784,7 +722,7 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 _FindRefrain();
                 _FindShortEnd();
-                _NotesLoaded = true;
+                NotesLoaded = true;
                 if (IsDuet)
                     _CheckDuet();
             }

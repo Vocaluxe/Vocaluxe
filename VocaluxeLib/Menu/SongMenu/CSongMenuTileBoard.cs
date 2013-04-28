@@ -138,7 +138,6 @@ namespace VocaluxeLib.Menu.SongMenu
             //AfterCategoryChange();
             SetSelectedSong(_ActSong);
             _AfterCategoryChange();
-            CBase.Songs.UpdateRandomSongList();
 
             int actcat = _PreviewSelected;
             if ((CBase.Songs.GetNumCategories() > 0) && (actcat < 0))
@@ -155,7 +154,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 _MedleyTagIcon.Visible = false;
             }
 
-            if (CBase.Songs.GetNumVisibleSongs() == 0 && CBase.Songs.GetSearchFilter() != "")
+            if (CBase.Songs.GetNumSongsVisible() == 0 && CBase.Songs.GetSearchFilter() != "")
             {
                 _CoverBig.Texture = _CoverBigTexture;
                 _Artist.Text = String.Empty;
@@ -253,7 +252,7 @@ namespace VocaluxeLib.Menu.SongMenu
                             }
                             else
                             {
-                                if (CBase.Songs.GetCurrentCategoryIndex() != -1 && _Locked < CBase.Songs.GetNumVisibleSongs() - 1 && !songOptions.Selection.RandomOnly)
+                                if (CBase.Songs.GetCurrentCategoryIndex() != -1 && _Locked < CBase.Songs.GetNumSongsVisible() - 1 && !songOptions.Selection.RandomOnly)
                                 {
                                     _Locked++;
                                     _UpdateList();
@@ -291,7 +290,7 @@ namespace VocaluxeLib.Menu.SongMenu
                                     _UpdateList();
                                 }
                             }
-                            else if (_Locked < CBase.Songs.GetNumVisibleSongs() - _NumW && !songOptions.Selection.RandomOnly)
+                            else if (_Locked < CBase.Songs.GetNumSongsVisible() - _NumW && !songOptions.Selection.RandomOnly)
                             {
                                 _Locked += _NumW;
                                 _UpdateList();
@@ -403,7 +402,7 @@ namespace VocaluxeLib.Menu.SongMenu
             if (CBase.Songs.GetCurrentCategoryIndex() >= 0)
             {
                 int actsong = _PreviewSelected;
-                if ((CBase.Songs.GetNumVisibleSongs() > actsong) && (actsong >= 0))
+                if ((CBase.Songs.GetNumSongsVisible() > actsong) && (actsong >= 0))
                 {
                     CSong song = CBase.Songs.GetVisibleSong(actsong);
 
@@ -529,7 +528,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             base.SetSelectedSong(visibleSongNr);
 
-            if (visibleSongNr >= 0 && visibleSongNr < CBase.Songs.GetNumVisibleSongs())
+            if (visibleSongNr >= 0 && visibleSongNr < CBase.Songs.GetNumSongsVisible())
                 _SetSelectedTile(visibleSongNr);
         }
 
@@ -592,11 +591,11 @@ namespace VocaluxeLib.Menu.SongMenu
             if (_ActualSelection >= 0 && _ActualSelection < _Tiles.Count)
                 _Tiles[_ActualSelection].Selected = true;
 
-            if ((_LastKnownNumSongs == CBase.Songs.GetNumVisibleSongs()) && (_LastKnownCategory == CBase.Songs.GetCurrentCategoryIndex()))
+            if ((_LastKnownNumSongs == CBase.Songs.GetNumSongsVisible()) && (_LastKnownCategory == CBase.Songs.GetCurrentCategoryIndex()))
                 return;
 
             _LastKnownCategory = CBase.Songs.GetCurrentCategoryIndex();
-            _LastKnownNumSongs = CBase.Songs.GetNumVisibleSongs();
+            _LastKnownNumSongs = CBase.Songs.GetNumSongsVisible();
             _UpdateList(0, true);
             CBase.Songs.UpdateRandomSongList();
         }
@@ -609,7 +608,7 @@ namespace VocaluxeLib.Menu.SongMenu
         private void _UpdateList(int offset, bool force = false)
         {
             bool isInCategory = CBase.Songs.GetCurrentCategoryIndex() >= 0;
-            int itemCount = isInCategory ? CBase.Songs.GetNumVisibleSongs() : CBase.Songs.GetNumCategories();
+            int itemCount = isInCategory ? CBase.Songs.GetNumSongsVisible() : CBase.Songs.GetNumCategories();
 
             if (offset >= (itemCount / _NumW) * _NumW - (_NumW * (_NumH - 1)))
                 offset = (itemCount / _NumW) * _NumW - (_NumW * (_NumH - 1));

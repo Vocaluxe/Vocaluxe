@@ -155,9 +155,8 @@ namespace Vocaluxe.Lib.Playlist
                     xmlReader.TryGetEnumValue("//root/Songs/" + song + "/GameMode", ref gm);
 
                     CPlaylistSong playlistSong = new CPlaylistSong {SongID = -1};
-                    CSong[] allSongs = CSongs.AllSongs;
 
-                    foreach (CSong curSong in allSongs)
+                    foreach (CSong curSong in CSongs.AllSongs)
                     {
                         if (curSong.Artist != artist || curSong.Title != title)
                             continue;

@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using Vocaluxe.Base.Font;
 using Vocaluxe.Screens;
 using VocaluxeLib.Menu;
 using VocaluxeLib.PartyModes;
@@ -504,7 +505,7 @@ namespace Vocaluxe.Base
 
             bool popupVolumeControlAllowed = _CurrentScreen != EScreens.ScreenCredits && _CurrentScreen != EScreens.ScreenOptionsRecord;
             //Hide volume control for bg-music if bg-music is disabled
-            if (popupVolumeControlAllowed && (_CurrentScreen != EScreens.ScreenSong || (_CurrentScreen == EScreens.ScreenSong && CSongs.Category == -1))
+            if (popupVolumeControlAllowed && (_CurrentScreen != EScreens.ScreenSong || CSongs.Category == -1)
                 && _CurrentScreen != EScreens.ScreenSing && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_OFF)
                 popupVolumeControlAllowed = false;
 

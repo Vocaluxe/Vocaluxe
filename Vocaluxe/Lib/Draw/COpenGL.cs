@@ -30,6 +30,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Font;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Draw
@@ -41,7 +42,7 @@ namespace Vocaluxe.Lib.Draw
         public int Height;
     };
 
-    struct STextureQueque
+    struct STextureQueue
     {
         public int ID;
         public int Width;
@@ -63,7 +64,7 @@ namespace Vocaluxe.Lib.Draw
 
         private readonly Dictionary<int, STexture> _Textures;
         private readonly Queue<int> _IDs;
-        private readonly List<STextureQueque> _Queque;
+        private readonly List<STextureQueue> _Queue;
 
         private readonly Object _MutexTexture = new Object();
 
@@ -80,7 +81,7 @@ namespace Vocaluxe.Lib.Draw
             Icon = new Icon(Path.Combine(Environment.CurrentDirectory, CSettings.Icon));
 
             _Textures = new Dictionary<int, STexture>();
-            _Queque = new List<STextureQueque>();
+            _Queue = new List<STextureQueue>();
             _IDs = new Queue<int>(1000000);
 
             for (int i = 1; i < 1000000; i++)
@@ -412,15 +413,17 @@ namespace Vocaluxe.Lib.Draw
                 if (_Run)
                 {
                     ClearScreen();
-                    _Run = _Run && CGraphics.Draw();
+                    if (!CGraphics.Draw())
+                        _Run = false;
+                    if (!CGraphics.UpdateGameLogic(_Keys, _Mouse))
+                        _Run = false;
 
-                    _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
                     _Control.SwapBuffers();
 
                     if ((CSettings.IsFullScreen && !_Fullscreen) || (!CSettings.IsFullScreen && _Fullscreen))
                         _ToggleFullScreen();
 
-                    _CheckQueque();
+                    _CheckQueue();
 
                     if (CTime.IsRunning())
                         delay = (int)Math.Floor(CConfig.CalcCycleTime() - CTime.GetMilliseconds());
@@ -437,6 +440,11 @@ namespace Vocaluxe.Lib.Draw
 
         public bool Unload()
         {
+            try
+            {
+                Close();
+            }
+            catch {}
             STexture[] textures = new STexture[_Textures.Count];
             _Textures.Values.CopyTo(textures, 0);
             for (int i = 0; i < _Textures.Count; i++)
@@ -907,10 +915,10 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        public STexture QuequeTexture(int w, int h, ref byte[] data)
+        public STexture EnqueueTexture(int w, int h, ref byte[] data)
         {
             STexture texture = new STexture(-1);
-            STextureQueque queque = new STextureQueque {Data = data, Height = h, Width = w};
+            STextureQueue queue = new STextureQueue {Data = data, Height = h, Width = w};
 
             texture.Height = h;
             texture.Width = w;
@@ -918,8 +926,8 @@ namespace Vocaluxe.Lib.Draw
             lock (_MutexTexture)
             {
                 texture.Index = _IDs.Dequeue();
-                queque.ID = texture.Index;
-                _Queque.Add(queque);
+                queue.ID = texture.Index;
+                _Queue.Add(queue);
                 _Textures[texture.Index] = texture;
             }
 
@@ -1333,14 +1341,14 @@ namespace Vocaluxe.Lib.Draw
             return _Textures.Count;
         }
 
-        private void _CheckQueque()
+        private void _CheckQueue()
         {
             lock (_MutexTexture)
             {
-                if (_Queque.Count == 0)
+                if (_Queue.Count == 0)
                     return;
 
-                STextureQueque q = _Queque[0];
+                STextureQueue q = _Queue[0];
                 STexture texture = new STexture(-1);
                 if (_Textures.ContainsKey(q.ID))
                     texture = _Textures[q.ID];
@@ -1407,7 +1415,7 @@ namespace Vocaluxe.Lib.Draw
 
                 _Textures[texture.Index] = texture;
                 q.Data = null;
-                _Queque.RemoveAt(0);
+                _Queue.RemoveAt(0);
             }
         }
         #endregion Textures

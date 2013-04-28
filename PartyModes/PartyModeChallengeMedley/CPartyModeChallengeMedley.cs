@@ -187,13 +187,10 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         {
             _Stage = EStage.NotStarted;
 
-            _ScreenSongOptions.Sorting.IgnoreArticles = CBase.Config.GetIgnoreArticles();
-            _ScreenSongOptions.Sorting.SongSorting = CBase.Config.GetSongSorting();
+            _ScreenSongOptions.Sorting.IgnoreArticles = EOffOn.TR_CONFIG_OFF;
+            _ScreenSongOptions.Sorting.SongSorting = ESongSorting.TR_CONFIG_NONE;
             _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_OFF;
             _ScreenSongOptions.Selection.SongIndex = -1;
-
-            if (CBase.Config.GetTabs() == EOffOn.TR_CONFIG_ON && _ScreenSongOptions.Sorting.SongSorting != ESongSorting.TR_CONFIG_NONE)
-                _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_ON;
 
             _ToScreenMain.ResultTable = new List<CResultTableRow>();
             _GameData.ResultTable = new List<CResultTableRow>();
@@ -313,7 +310,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                     _Screens.TryGetValue("CPartyScreenChallengeMedleyMain", out screen);
                     if (screen != null)
                     {
-                        CBase.Songs.ResetPartySongSung();
+                        CBase.Songs.ResetSongSung();
                         _ToScreenMain.ResultTable = new List<CResultTableRow>();
                         _GameData.ResultTable = new List<CResultTableRow>();
                         _GameData.Rounds = new CChallengeRounds(_GameData.NumRounds, _GameData.NumPlayer, _GameData.NumPlayerAtOnce);
@@ -482,11 +479,11 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
             #region PlayerNames
             CBase.Game.SetNumPlayer(_GameData.NumPlayerAtOnce);
-            SPlayer[] player = CBase.Game.GetPlayers();
-            if (player == null)
+            SPlayer[] players = CBase.Game.GetPlayers();
+            if (players == null)
                 return false;
 
-            if (player.Length < _GameData.NumPlayerAtOnce)
+            if (players.Length < _GameData.NumPlayerAtOnce)
                 return false;
 
             CCombination c = _GameData.Rounds.GetRound(_GameData.CurrentRoundNr - 1);
@@ -495,33 +492,32 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             {
                 //try to fill with the right data
                 if (c != null)
-                    player[i].ProfileID = _GameData.ProfileIDs[c.Player[i]];
+                    players[i].ProfileID = _GameData.ProfileIDs[c.Player[i]];
                 else
-                    player[i].ProfileID = -1;
+                    players[i].ProfileID = -1;
             }
             #endregion PlayerNames
 
-            #region SongQueque            
-            if (CBase.Songs.GetNumVisibleSongs() < _NumSongs)
-                CBase.Songs.ResetPartySongSung();
+            #region SongQueue            
+            if (CBase.Songs.GetNumSongsVisible() < _NumSongs)
+                CBase.Songs.ResetSongSung();
 
-            const EGameMode gm = EGameMode.TR_GAMEMODE_MEDLEY;
             List<int> ids = new List<int>();
 
-            CSong[] visSongs = CBase.Songs.GetSongsNotSung();
-            if (visSongs == null)
+            var visibleSongs = CBase.Songs.GetVisibleSongs();
+            if (visibleSongs.Count == 0)
             {
                 CBase.Log.LogError("CPartyChallengeMedleyMode Error: There are no songs!");
                 CBase.Graphics.FadeTo(EScreens.ScreenParty);
                 return false;
             }
 
-            for (int i = 0; i < visSongs.Length; i++)
+            foreach (CSong song in visibleSongs)
             {
-                foreach (EGameMode mode in visSongs[i].AvailableGameModes)
+                foreach (EGameMode mode in song.AvailableGameModes)
                 {
                     if (mode == EGameMode.TR_GAMEMODE_MEDLEY)
-                        ids.Add(visSongs[i].ID);
+                        ids.Add(song.ID);
                 }
             }
 
@@ -536,13 +532,13 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             while (s < _NumSongs && ids.Count > 0)
             {
                 int songID = ids[CBase.Game.GetRandom(ids.Count)];
-                CBase.Game.AddSong(songID, gm);
+                CBase.Game.AddSong(songID, EGameMode.TR_GAMEMODE_MEDLEY);
                 CBase.Songs.AddPartySongSung(songID);
                 ids.Remove(songID);
                 s++;
             }
             return true;
-            #endregion SongQueque
+            #endregion SongQueue
         }
 
         private void _SetNumJokers()

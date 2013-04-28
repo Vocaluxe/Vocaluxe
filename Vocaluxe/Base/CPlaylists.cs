@@ -223,7 +223,7 @@ namespace Vocaluxe.Base
         private static CPlaylistFile _ConvertUSDXPlaylist(string file)
         {
             CPlaylistFile pl = new CPlaylistFile();
-            CSong[] allSongs = CSongs.AllSongs;
+            var allSongs = CSongs.AllSongs;
 
             if (!File.Exists(file))
                 return null;

@@ -176,7 +176,7 @@
     <Compile Include="Base\CCover.cs" />
     <Compile Include="Base\CDataBase.cs" />
     <Compile Include="Base\CDraw.cs" />
-    <Compile Include="Base\CFont.cs" />
+    <Compile Include="Base\Font\CFont.cs" />
     <Compile Include="Base\CGame.cs" />
     <Compile Include="Base\CInput.cs" />
     <Compile Include="Base\CLanguage.cs" />
@@ -195,12 +195,16 @@
     <Compile Include="Base\CTheme.cs" />
     <Compile Include="Base\CVideo.cs" />
     <Compile Include="Base\CWebcam.cs" />
+    <Compile Include="Base\Font\CFonts.cs" />
+    <Compile Include="Base\Font\CGlyph.cs" />
     <Compile Include="CSplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GameModes\CGameMode.cs" />
-    <Compile Include="GameModes\CGameModeNormal.cs" />
+    <Compile Include="GameModes\CGameModes.cs" />
+    <Compile Include="SongQueue\CSongQueue.cs" />
     <Compile Include="GameModes\IGameMode.cs" />
+    <Compile Include="SongQueue\ISongQueue.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Lib\Draw\CDirect3D.cs">
       <SubType>Form</SubType>

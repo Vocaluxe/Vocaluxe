@@ -27,6 +27,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Font;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Draw
@@ -266,6 +267,11 @@ namespace Vocaluxe.Lib.Draw
 
         public bool Unload()
         {
+            try
+            {
+                Close();
+            }
+            catch {}
             Dispose();
             return true;
         }
@@ -418,7 +424,7 @@ namespace Vocaluxe.Lib.Draw
             return new STexture(-1);
         }
 
-        public STexture QuequeTexture(int w, int h, ref byte[] data)
+        public STexture EnqueueTexture(int w, int h, ref byte[] data)
         {
             return AddTexture(w, h, ref data);
         }
