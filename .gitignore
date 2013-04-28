@@ -38,3 +38,4 @@ Output/Songs
 /PartyModes/*/*/*.dll
 *.Cache
 /GstreamerHelper/bin/*
+/VocaluxeLib/bin
