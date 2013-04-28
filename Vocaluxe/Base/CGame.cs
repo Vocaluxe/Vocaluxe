@@ -247,7 +247,7 @@ namespace Vocaluxe.Base
 
                     CNote[] notes = lines[line].Notes;
                     int note = lines[line].FindPreviousNote(beat);
-                    if (notes[note].EndBeat < beat)
+                    if (note >= 0 && notes[note].EndBeat < beat)
                         note = -1;
 
                     if (note >= 0)
