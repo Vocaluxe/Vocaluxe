@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib.Menu;
@@ -1007,7 +1008,7 @@ namespace Vocaluxe.Screens
             if (CSongs.IsInCategory)
             {
                 //TODO: Check and use sorting method
-                var songs = CSongs.VisibleSongs;
+                ReadOnlyCollection<CSong> songs = CSongs.VisibleSongs;
                 int ct = songs.Count;
                 if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
                     start = curSelected + 1;
@@ -1017,7 +1018,7 @@ namespace Vocaluxe.Screens
             }
             else
             {
-                var categories = CSongs.Categories;
+                ReadOnlyCollection<CCategory> categories = CSongs.Categories;
                 int ct = categories.Count;
                 if (curSelected >= 0 && curSelected < ct - 1 && categories[curSelected].Name.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
                     start = curSelected + 1;

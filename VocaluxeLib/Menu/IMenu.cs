@@ -244,6 +244,7 @@ namespace VocaluxeLib.Menu
         int GetNumSongsVisible();
         int GetNumCategories();
         int NumSongsInCategory(int categoryIndex);
+        bool IsInCategory();
 
         int GetCurrentCategoryIndex();
         EOffOn GetTabs();

@@ -39,14 +39,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v110_xp</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v110_xp</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -67,29 +67,35 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugWin|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\Output\x86\gstreamer\</OutDir>
+    <LinkIncremental>
+    </LinkIncremental>
+    <OutDir>bin\$(Configuration).$(Platform)\</OutDir>
     <IncludePath>$(MSBuildProjectDirectory)\x86\lib\glib-2.0\include;$(MSBuildProjectDirectory)\x86\include\gstreamer-1.0;$(MSBuildProjectDirectory)\x86\include\glib-2.0;$(MSBuildProjectDirectory)\x86\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(MSBuildProjectDirectory)\x86\lib;$(LibraryPath)</LibraryPath>
+    <GenerateManifest>true</GenerateManifest>
+    <IntDir>obj\$(Configuration).$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugWin|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\Output\x64\gstreamer\</OutDir>
+    <OutDir>bin\$(Configuration).$(Platform)\</OutDir>
     <IncludePath>$(MSBuildProjectDirectory)\x64\lib\glib-2.0\include;$(MSBuildProjectDirectory)\x64\include\gstreamer-1.0;$(MSBuildProjectDirectory)\x64\include\glib-2.0;$(MSBuildProjectDirectory)\x64\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(MSBuildProjectDirectory)\x64\lib;$(LibraryPath)</LibraryPath>
     <CodeAnalysisRuleSet>..\CheckingRules.ruleset</CodeAnalysisRuleSet>
+    <IntDir>obj\$(Configuration).$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\Output\x86\gstreamer\</OutDir>
+    <OutDir>bin\$(Configuration).$(Platform)\</OutDir>
     <IncludePath>$(MSBuildProjectDirectory)\x86\lib\glib-2.0\include;$(MSBuildProjectDirectory)\x86\include\gstreamer-1.0;$(MSBuildProjectDirectory)\x86\include\glib-2.0;$(MSBuildProjectDirectory)\x86\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(MSBuildProjectDirectory)\x86\lib;$(LibraryPath)</LibraryPath>
+    <IntDir>obj\$(Configuration).$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\Output\x64\gstreamer\</OutDir>
+    <OutDir>bin\$(Configuration).$(Platform)\</OutDir>
     <IncludePath>$(MSBuildProjectDirectory)\x64\lib\glib-2.0\include;$(MSBuildProjectDirectory)\x64\include\gstreamer-1.0;$(MSBuildProjectDirectory)\x64\include\glib-2.0;$(MSBuildProjectDirectory)\x64\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(MSBuildProjectDirectory)\x64\lib;$(LibraryPath)</LibraryPath>
+    <IntDir>obj\$(Configuration).$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\Output\x86</OutDir>
@@ -111,6 +117,12 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>gstreamer-1.0.lib;gstcontroller-1.0.lib;gobject-2.0.lib;glib-2.0.lib;gstapp-1.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(OutDir)*.dll" "$(SolutionDir)Output\x86\gstreamer\" /I /Y</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copying binary</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugWin|x64'">
     <ClCompile>
@@ -125,6 +137,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>gstreamer-1.0.lib;gstcontroller-1.0.lib;gobject-2.0.lib;glib-2.0.lib;gstapp-1.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(OutDir)*.dll" "$(SolutionDir)Output\x64\gstreamer\" /I /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|Win32'">
     <ClCompile>
@@ -138,12 +153,18 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>gstreamer-1.0.lib;gstcontroller-1.0.lib;gobject-2.0.lib;glib-2.0.lib;gstapp-1.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(OutDir)*.dll" "$(SolutionDir)Output\x86\gstreamer\" /I /Y</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copying binary</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|x64'">
     <ClCompile>
@@ -159,11 +180,14 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>gstreamer-1.0.lib;gstcontroller-1.0.lib;gobject-2.0.lib;glib-2.0.lib;gstapp-1.0.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "$(OutDir)*.dll" "$(SolutionDir)Output\x64\gstreamer\" /I /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="GstreamerAudio.h" />
