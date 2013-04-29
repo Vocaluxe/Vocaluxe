@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
@@ -504,7 +505,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
             List<int> ids = new List<int>();
 
-            var visibleSongs = CBase.Songs.GetVisibleSongs();
+            ReadOnlyCollection<CSong> visibleSongs = CBase.Songs.GetVisibleSongs();
             if (visibleSongs.Count == 0)
             {
                 CBase.Log.LogError("CPartyChallengeMedleyMode Error: There are no songs!");

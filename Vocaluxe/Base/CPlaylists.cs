@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using Vocaluxe.Lib.Playlist;
@@ -223,7 +224,7 @@ namespace Vocaluxe.Base
         private static CPlaylistFile _ConvertUSDXPlaylist(string file)
         {
             CPlaylistFile pl = new CPlaylistFile();
-            var allSongs = CSongs.AllSongs;
+            ReadOnlyCollection<CSong> allSongs = CSongs.AllSongs;
 
             if (!File.Exists(file))
                 return null;

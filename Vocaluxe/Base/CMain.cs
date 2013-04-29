@@ -584,6 +584,11 @@ namespace Vocaluxe.Base
             return CSongs.NumSongsInCategory(categoryIndex);
         }
 
+        public bool IsInCategory()
+        {
+            return CSongs.IsInCategory;
+        }
+
         public int GetCurrentCategoryIndex()
         {
             return CSongs.Category;

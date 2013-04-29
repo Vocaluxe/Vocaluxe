@@ -52,6 +52,8 @@ namespace Vocaluxe.Base
                 if (value == _Tabs)
                     return;
                 _Tabs = value;
+                if (_Tabs == EOffOn.TR_CONFIG_ON)
+                    CSongs.Category = -1;
                 _SetChanged();
             }
         }

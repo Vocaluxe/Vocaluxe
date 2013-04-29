@@ -76,20 +76,25 @@ namespace Vocaluxe.Base
 
         public static int Category
         {
-            get { return _CatIndex; }
+            get
+            {
+                if (_CatIndex >= Categories.Count)
+                    _CatIndex = -1;
+                return _CatIndex;
+            }
             set
             {
-                if (value == -1 || IsCatIndexValid(value))
+                if (value == -1 || _IsCatIndexValid(value))
                     _CatIndex = value;
             }
         }
 
         public static bool IsInCategory
         {
-            get { return _CatIndex >= 0; }
+            get { return _IsCatIndexValid(_CatIndex); }
         }
 
-        private static bool IsCatIndexValid(int catIndex)
+        private static bool _IsCatIndexValid(int catIndex)
         {
             return catIndex >= 0 && catIndex < Categories.Count;
         }
@@ -101,7 +106,7 @@ namespace Vocaluxe.Base
         /// <returns></returns>
         public static int NumSongsInCategory(int catIndex)
         {
-            return IsCatIndexValid(catIndex) ? Categories[catIndex].Songs.Count(sp => !sp.IsSung) : 0;
+            return _IsCatIndexValid(catIndex) ? Categories[catIndex].Songs.Count(sp => !sp.IsSung) : 0;
         }
 
         public static void NextCategory()
@@ -139,7 +144,7 @@ namespace Vocaluxe.Base
 
         public static string GetCurrentCategoryName()
         {
-            return IsCatIndexValid(_CatIndex) ? Categories[_CatIndex].Name : "";
+            return _IsCatIndexValid(_CatIndex) ? Categories[_CatIndex].Name : "";
         }
 
         public static CSong GetSong(int songID)
@@ -170,7 +175,7 @@ namespace Vocaluxe.Base
 
         public static void ResetPartySongSung(int catIndex)
         {
-            if (IsCatIndexValid(catIndex))
+            if (_IsCatIndexValid(catIndex))
             {
                 foreach (CSongPointer song in Categories[catIndex].Songs)
                     song.IsSung = false;
@@ -247,7 +252,7 @@ namespace Vocaluxe.Base
             get
             {
                 List<CSong> songs = new List<CSong>();
-                if (IsCatIndexValid(_CatIndex))
+                if (_IsCatIndexValid(_CatIndex))
                 {
                     foreach (CSongPointer sp in Categories[_CatIndex].Songs)
                     {
@@ -268,14 +273,13 @@ namespace Vocaluxe.Base
         {
             if (index < 0)
                 return null;
-            var visSongs = VisibleSongs;
+            ReadOnlyCollection<CSong> visSongs = VisibleSongs;
             return (index < visSongs.Count) ? visSongs[index] : null;
         }
 
         private static void _HandleCategoriesChanged(object sender, EventArgs args)
         {
             _CategoriesForRandom.Clear();
-            Category = _CatIndex;
         }
 
         public static void Sort(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions)
