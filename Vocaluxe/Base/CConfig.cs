@@ -93,7 +93,7 @@ namespace Vocaluxe.Base
         public static int NumPlayer = 2;
         public static EOffOn Tabs = EOffOn.TR_CONFIG_OFF;
         public static string Language = "English";
-        public static EOffOn LyricsOnTop = EOffOn.TR_CONFIG_OFF;
+        public static ELyricsPosition LyricsPosition = ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM;
         public static readonly string[] Players = new string[CSettings.MaxNumPlayer];
 
         public static float MinLineBreakTime = 0.1f; //Minimum time to show the text before it is (to be) sung (if possible)
@@ -221,7 +221,7 @@ namespace Vocaluxe.Base
             xmlReader.TryGetIntValue("//root/Game/NumPlayer", ref NumPlayer);
             xmlReader.TryGetEnumValue("//root/Game/Tabs", ref Tabs);
             xmlReader.GetValue("//root/Game/Language", out Language, Language);
-            xmlReader.TryGetEnumValue("//root/Game/LyricsOnTop", ref LyricsOnTop);
+            xmlReader.TryGetEnumValue("//root/Game/LyricsOnTop", ref LyricsPosition);
             xmlReader.TryGetFloatValue("//root/Game/MinLineBreakTime", ref MinLineBreakTime);
 
             if ((ScoreAnimationTime > 0 && ScoreAnimationTime < 1) || ScoreAnimationTime < 0)
@@ -461,8 +461,8 @@ namespace Vocaluxe.Base
                 writer.WriteComment("Order songs in tabs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
                 writer.WriteElementString("Tabs", Enum.GetName(typeof(EOffOn), Tabs));
 
-                writer.WriteComment("Lyrics also on Top of screen: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("LyricsOnTop", Enum.GetName(typeof(EOffOn), LyricsOnTop));
+                writer.WriteComment("Lyrics also on Top of screen: " + CHelper.ListStrings(Enum.GetNames(typeof(ELyricsPosition))));
+                writer.WriteElementString("LyricsOnTop", Enum.GetName(typeof(ELyricsPosition), LyricsPosition));
 
                 writer.WriteComment("MinLineBreakTime: Value >= 0 in s. Minimum time the text is shown before it is to be sung");
                 writer.WriteElementString("MinLineBreakTime", MinLineBreakTime.ToString());

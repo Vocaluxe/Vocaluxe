@@ -649,6 +649,7 @@ namespace Vocaluxe.Screens
                 }
             }
             _SetDuetLyricsVisibility(song.IsDuet);
+            _SetNormalLyricsVisibility();
 
             for (int p = 0; p < CGame.NumPlayer; p++)
                 _NoteLines[p] = _SingNotes[_SingBars].AddPlayer(_SingNotes[_SingBars].BarPos[p, CGame.NumPlayer - 1], CTheme.GetPlayerColor(p + 1), p);
@@ -688,11 +689,21 @@ namespace Vocaluxe.Screens
             }
             else
             {
-                bool lyricsOnTop = (CGame.NumPlayer != 1) && CConfig.LyricsOnTop == EOffOn.TR_CONFIG_ON;
+                bool lyricsOnTop = CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_TOP 
+                                    || CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
+                                    || (CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && (CGame.NumPlayer > 2 && CGame.NumPlayer != 4));
                 _Lyrics[_LyricMainTop].Visible = lyricsOnTop;
                 _Lyrics[_LyricSubTop].Visible = lyricsOnTop;
                 _Statics[_StaticLyricsTop].Visible = lyricsOnTop;
             }
+        }
+
+        private void _SetNormalLyricsVisibility()
+        {
+            bool visible = CConfig.LyricsPosition != ELyricsPosition.TR_CONFIG_LYRICSPOSITION_TOP;
+            _Lyrics[_LyricMain].Visible = visible;
+            _Lyrics[_LyricSub].Visible = visible;
+            _Statics[_StaticLyrics].Visible = visible;
         }
 
         private void _StartSong()
@@ -999,27 +1010,30 @@ namespace Vocaluxe.Screens
                 if (time > totaltime)
                     time = totaltime;
 
-                SRectF rect = _Statics[_StaticLyricHelper].Rect;
-                SColorF color = new SColorF(
-                    _Statics[_StaticLyricHelper].Color.R,
-                    _Statics[_StaticLyricHelper].Color.G,
-                    _Statics[_StaticLyricHelper].Color.B,
-                    _Statics[_StaticLyricHelper].Color.A * _Statics[_StaticLyricHelper].Alpha * alpha);
+                if (_Statics[_StaticLyrics].Visible)
+                {
+                    SRectF rect = _Statics[_StaticLyricHelper].Rect;
+                    SColorF color = new SColorF(
+                        _Statics[_StaticLyricHelper].Color.R,
+                        _Statics[_StaticLyricHelper].Color.G,
+                        _Statics[_StaticLyricHelper].Color.B,
+                        _Statics[_StaticLyricHelper].Color.A * _Statics[_StaticLyricHelper].Alpha * alpha);
 
-                float distance = _Lyrics[_LyricMain].GetCurrentLyricPosX() - rect.X - rect.W;
-                CDraw.DrawTexture(_Statics[_StaticLyricHelper].Texture,
-                                  new SRectF(rect.X + distance * (1f - time / totaltime), rect.Y, rect.W, rect.H, rect.Z), color);
+                    float distance = _Lyrics[_LyricMain].GetCurrentLyricPosX() - rect.X - rect.W;
+                    CDraw.DrawTexture(_Statics[_StaticLyricHelper].Texture,
+                                      new SRectF(rect.X + distance * (1f - time / totaltime), rect.Y, rect.W, rect.H, rect.Z), color);
+                }
 
                 if (_Statics[_StaticLyricsTop].Visible)
                 {
-                    rect = _Statics[_StaticLyricHelperTop].Rect;
-                    color = new SColorF(
+                    SRectF rect = _Statics[_StaticLyricHelperTop].Rect;
+                    SColorF color = new SColorF(
                         _Statics[_StaticLyricHelperTop].Color.R,
                         _Statics[_StaticLyricHelperTop].Color.G,
                         _Statics[_StaticLyricHelperTop].Color.B,
                         _Statics[_StaticLyricHelperTop].Color.A * _Statics[_StaticLyricHelper].Alpha * alpha);
 
-                    distance = _Lyrics[_LyricMainTop].GetCurrentLyricPosX() - rect.X - rect.W;
+                    float distance = _Lyrics[_LyricMainTop].GetCurrentLyricPosX() - rect.X - rect.W;
                     CDraw.DrawTexture(_Statics[_StaticLyricHelperTop].Texture,
                                       new SRectF(rect.X + distance * (1f - time / totaltime), rect.Y, rect.W, rect.H, rect.Z), color);
                 }
