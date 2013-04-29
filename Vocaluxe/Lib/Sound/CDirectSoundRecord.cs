@@ -17,6 +17,7 @@
 //  */
 #endregion
 
+using System.Collections.ObjectModel;
 using SlimDX.DirectSound;
 using SlimDX.Multimedia;
 using System;
@@ -29,8 +30,7 @@ namespace Vocaluxe.Lib.Sound
     class CDirectSoundRecord : IRecord
     {
         private bool _Initialized;
-        private List<SRecordDevice> _Devices;
-        private SRecordDevice[] _DeviceConfig;
+        private List<CRecordDevice> _Devices;
         private List<CSoundCardSource> _Sources;
 
         private readonly CBuffer[] _Buffer;
@@ -47,7 +47,7 @@ namespace Vocaluxe.Lib.Sound
         public bool Init()
         {
             DeviceCollection devices = DirectSoundCapture.GetDevices();
-            _Devices = new List<SRecordDevice>();
+            _Devices = new List<CRecordDevice>();
             _Sources = new List<CSoundCardSource>();
 
             int id = 0;
@@ -55,21 +55,17 @@ namespace Vocaluxe.Lib.Sound
             {
                 using (DirectSoundCapture ds = new DirectSoundCapture(dev.DriverGuid))
                 {
-                    SRecordDevice device = new SRecordDevice {Driver = dev.DriverGuid.ToString(), ID = id, Name = dev.Description, Inputs = new List<SInput>()};
+                    CRecordDevice device = new CRecordDevice {Driver = dev.DriverGuid.ToString(), ID = id, Name = dev.Description, Channels = ds.Capabilities.Channels};
 
-                    SInput inp = new SInput {Name = "Default", Channels = ds.Capabilities.Channels};
+                    if (device.Channels > 2)
+                        device.Channels = 2; //more are not supported in vocaluxe
 
-                    if (inp.Channels > 2)
-                        inp.Channels = 2; //more are not supported in vocaluxe
-
-                    device.Inputs.Add(inp);
                     _Devices.Add(device);
 
                     id++;
                 }
             }
 
-            _DeviceConfig = _Devices.ToArray();
             _Initialized = true;
 
             return true;
@@ -85,7 +81,7 @@ namespace Vocaluxe.Lib.Sound
             //System.IO.File.WriteAllBytes("test0.raw", _Buffer[0].Buffer);
         }
 
-        public bool Start(SRecordDevice[] deviceConfig)
+        public bool Start()
         {
             if (!_Initialized)
                 return false;
@@ -93,21 +89,16 @@ namespace Vocaluxe.Lib.Sound
             foreach (CBuffer buffer in _Buffer)
                 buffer.Reset();
 
-            _DeviceConfig = deviceConfig;
-            bool[] active = new bool[deviceConfig.Length];
-            Guid[] guid = new Guid[deviceConfig.Length];
-            short[] channels = new short[deviceConfig.Length];
-            for (int dev = 0; dev < deviceConfig.Length; dev++)
+            bool[] active = new bool[_Devices.Count];
+            Guid[] guid = new Guid[_Devices.Count];
+            short[] channels = new short[_Devices.Count];
+            for (int dev = 0; dev < _Devices.Count; dev++)
             {
                 active[dev] = false;
-                for (int inp = 0; inp < deviceConfig[dev].Inputs.Count; inp++)
-                {
-                    if (deviceConfig[dev].Inputs[inp].PlayerChannel1 > 0 ||
-                        deviceConfig[dev].Inputs[inp].PlayerChannel2 > 0)
-                        active[dev] = true;
-                    guid[dev] = new Guid(deviceConfig[dev].Driver);
-                    channels[dev] = (short)deviceConfig[dev].Inputs[0].Channels;
-                }
+                if (_Devices[dev].PlayerChannel1 > 0 || _Devices[dev].PlayerChannel2 > 0)
+                    active[dev] = true;
+                guid[dev] = new Guid(_Devices[dev].Driver);
+                channels[dev] = (short)_Devices[dev].Channels;
             }
 
             for (int i = 0; i < _Devices.Count; i++)
@@ -121,8 +112,6 @@ namespace Vocaluxe.Lib.Sound
                     _Sources.Add(source);
                 }
             }
-
-            _DeviceConfig = deviceConfig;
             return true;
         }
 
@@ -189,7 +178,7 @@ namespace Vocaluxe.Lib.Sound
             return _Buffer[player].ToneValid;
         }
 
-        public SRecordDevice[] RecordDevices()
+        public ReadOnlyCollection<CRecordDevice> RecordDevices()
         {
             if (!_Initialized)
                 return null;
@@ -197,7 +186,7 @@ namespace Vocaluxe.Lib.Sound
             if (_Devices.Count == 0)
                 return null;
 
-            return _Devices.ToArray();
+            return _Devices.AsReadOnly();
         }
 
         public int NumHalfTones(int player)
@@ -232,21 +221,21 @@ namespace Vocaluxe.Lib.Sound
                     rightBuffer[i] = e.Data[i * 2 - (i % 2) + 2];
                 }
 
-                for (int i = 0; i < _DeviceConfig.Length; i++)
+                foreach (CRecordDevice device in _Devices)
                 {
-                    if (_DeviceConfig[i].Driver == e.Guid.ToString())
+                    if (device.Driver == e.Guid.ToString())
                     {
-                        if (_DeviceConfig[i].Inputs[0].PlayerChannel1 > 0)
-                            _Buffer[_DeviceConfig[i].Inputs[0].PlayerChannel1 - 1].ProcessNewBuffer(leftBuffer);
+                        if (device.PlayerChannel1 > 0)
+                            _Buffer[device.PlayerChannel1 - 1].ProcessNewBuffer(leftBuffer);
 
-                        if (_DeviceConfig[i].Inputs[0].PlayerChannel2 > 0)
-                            _Buffer[_DeviceConfig[i].Inputs[0].PlayerChannel2 - 1].ProcessNewBuffer(rightBuffer);
+                        if (device.PlayerChannel2 > 0)
+                            _Buffer[device.PlayerChannel2 - 1].ProcessNewBuffer(rightBuffer);
                     }
                 }
             }
         }
 
-        public class CSampleDataEventArgs : EventArgs
+        private class CSampleDataEventArgs : EventArgs
         {
             public CSampleDataEventArgs(byte[] data, Guid guid)
             {
@@ -258,7 +247,7 @@ namespace Vocaluxe.Lib.Sound
             public Guid Guid { get; private set; }
         }
 
-        public class CSoundCardSource : IDisposable
+        private class CSoundCardSource : IDisposable
         {
             private volatile bool _Running;
             private readonly int _BufferSize;

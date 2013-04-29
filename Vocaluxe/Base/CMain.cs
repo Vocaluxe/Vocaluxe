@@ -46,13 +46,13 @@ namespace Vocaluxe.Base
         private static readonly ISound _Sound = new CBsound();
         private static readonly ICover _Cover = new CBcover();
         private static readonly IDataBase _DataBase = new CBdataBase();
-        private static readonly IInputs _Input = new CBinputs();
+        private static readonly IControllers _Controller = new CBcontrollers();
         private static readonly IPlaylist _Playlist = new CBplaylist();
 
         public static void Init()
         {
             CBase.Assign(_Config, _Settings, _Theme, _Log, _BackgroundMusic, _Draw, _Graphics, _Fonts, _Language,
-                         _Game, _Profiles, _Record, _Songs, _Video, _Sound, _Cover, _DataBase, _Input, _Playlist);
+                         _Game, _Profiles, _Record, _Songs, _Video, _Sound, _Cover, _DataBase, _Controller, _Playlist);
         }
     }
 
@@ -770,11 +770,11 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBinputs : IInputs
+    class CBcontrollers : IControllers
     {
         public void SetRumble(float duration)
         {
-            CInput.SetRumble(duration);
+            CController.SetRumble(duration);
         }
     }
 

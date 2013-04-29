@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -266,7 +267,6 @@ namespace Vocaluxe.Base
                 MicConfig[p - 1] = new SMicConfig(0);
                 xmlReader.GetValue("//root/Record/MicConfig" + p + "/DeviceName", out MicConfig[p - 1].DeviceName, String.Empty);
                 xmlReader.GetValue("//root/Record/MicConfig" + p + "/DeviceDriver", out MicConfig[p - 1].DeviceDriver, String.Empty);
-                xmlReader.GetValue("//root/Record/MicConfig" + p + "/InputName", out MicConfig[p - 1].InputName, String.Empty);
                 xmlReader.TryGetIntValue("//root/Record/MicConfig" + p + "/Channel", ref MicConfig[p - 1].Channel);
             }
 
@@ -514,13 +514,12 @@ namespace Vocaluxe.Base
 
                 for (int p = 1; p <= CSettings.MaxNumPlayer; p++)
                 {
-                    if (MicConfig[p - 1].DeviceName != "" && MicConfig[p - 1].InputName != "" && MicConfig[p - 1].Channel > 0)
+                    if (MicConfig[p - 1].DeviceName != "" && MicConfig[p - 1].Channel > 0)
                     {
                         writer.WriteStartElement("MicConfig" + p);
 
                         writer.WriteElementString("DeviceName", MicConfig[p - 1].DeviceName);
                         writer.WriteElementString("DeviceDriver", MicConfig[p - 1].DeviceDriver);
-                        writer.WriteElementString("InputName", MicConfig[p - 1].InputName);
                         writer.WriteElementString("Channel", MicConfig[p - 1].Channel.ToString());
 
                         writer.WriteEndElement();
@@ -563,19 +562,11 @@ namespace Vocaluxe.Base
         /// <returns></returns>
         public static bool IsMicConfig()
         {
-            SRecordDevice[] devices = CSound.RecordGetDevices();
+            ReadOnlyCollection<CRecordDevice> devices = CSound.RecordGetDevices();
             if (devices == null)
                 return false;
 
-            for (int dev = 0; dev < devices.Length; dev++)
-            {
-                for (int inp = 0; inp < devices[dev].Inputs.Count; inp++)
-                {
-                    if (devices[dev].Inputs[inp].PlayerChannel1 != 0 || devices[dev].Inputs[inp].PlayerChannel2 != 0)
-                        return true;
-                }
-            }
-            return false;
+            return devices.Any(t => t.PlayerChannel1 != 0 || t.PlayerChannel2 != 0);
         }
 
         /// <summary>
@@ -585,19 +576,11 @@ namespace Vocaluxe.Base
         /// <returns></returns>
         public static bool IsMicConfig(int player)
         {
-            SRecordDevice[] devices = CSound.RecordGetDevices();
+            ReadOnlyCollection<CRecordDevice> devices = CSound.RecordGetDevices();
             if (devices == null)
                 return false;
 
-            for (int dev = 0; dev < devices.Length; dev++)
-            {
-                for (int inp = 0; inp < devices[dev].Inputs.Count; inp++)
-                {
-                    if (devices[dev].Inputs[inp].PlayerChannel1 == player || devices[dev].Inputs[inp].PlayerChannel2 == player)
-                        return true;
-                }
-            }
-            return false;
+            return devices.Any(t => t.PlayerChannel1 == player || t.PlayerChannel2 == player);
         }
 
         public static int GetMaxNumMics()
@@ -620,65 +603,53 @@ namespace Vocaluxe.Base
         {
             //Look for (usb-)mic
             //SRecordDevice[] Devices = new SRecordDevice[CSound.RecordGetDevices().Length];
-            SRecordDevice[] devices = CSound.RecordGetDevices();
+            ReadOnlyCollection<CRecordDevice> devices = CSound.RecordGetDevices();
             if (devices == null)
                 return false;
 
-            for (int dev = 0; dev < devices.Length; dev++)
+            foreach (CRecordDevice device in devices)
             {
                 //Has Device some signal-names in name -> This could be a (usb-)mic
-                if (Regex.IsMatch(devices[dev].Name, "Usb|Wireless", RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(device.Name, "Usb|Wireless", RegexOptions.IgnoreCase))
                 {
-                    //Check if there are inputs.
-                    if (devices[dev].Inputs.Count >= 1)
+                    //Check if there is one or more channels
+                    if (device.Channels >= 2)
                     {
-                        //Check if there is one or more channels
-                        if (devices[dev].Inputs[0].Channels >= 2)
-                        {
-                            //Set this device to player 1
-                            MicConfig[0].DeviceName = devices[dev].Name;
-                            MicConfig[0].DeviceDriver = devices[dev].Driver;
-                            MicConfig[0].InputName = devices[dev].Inputs[0].Name;
-                            MicConfig[0].Channel = 1;
-                            //Set this device to player 2
-                            MicConfig[1].DeviceName = devices[dev].Name;
-                            MicConfig[1].DeviceDriver = devices[dev].Driver;
-                            MicConfig[1].InputName = devices[dev].Inputs[0].Name;
-                            MicConfig[1].Channel = 2;
+                        //Set this device to player 1
+                        MicConfig[0].DeviceName = device.Name;
+                        MicConfig[0].DeviceDriver = device.Driver;
+                        MicConfig[0].Channel = 1;
+                        //Set this device to player 2
+                        MicConfig[1].DeviceName = device.Name;
+                        MicConfig[1].DeviceDriver = device.Driver;
+                        MicConfig[1].Channel = 2;
 
-                            return true;
-                        }
+                        return true;
                     }
                 }
             }
             //If no usb-mics found -> Look for Devices with "mic" or "mik" 
-            for (int dev = 0; dev < devices.Length; dev++)
+            foreach (CRecordDevice device in devices)
             {
                 //Has Device some signal-names in name -> This could be a mic
-                if (Regex.IsMatch(devices[dev].Name, "Mic|Mik", RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(device.Name, "Mic|Mik", RegexOptions.IgnoreCase))
                 {
-                    //Check if there are inputs.
-                    if (devices[dev].Inputs.Count >= 1)
+                    //Check if there is one or more channels
+                    if (device.Channels >= 1)
                     {
-                        //Check if there is one or more channels
-                        if (devices[dev].Inputs[0].Channels >= 1)
+                        //Set this device to player 1
+                        MicConfig[0].DeviceName = device.Name;
+                        MicConfig[0].DeviceDriver = device.Driver;
+                        MicConfig[0].Channel = 1;
+
+                        if (device.Channels >= 2)
                         {
-                            //Set this device to player 1
-                            MicConfig[0].DeviceName = devices[dev].Name;
-                            MicConfig[0].DeviceDriver = devices[dev].Driver;
-                            MicConfig[0].InputName = devices[dev].Inputs[0].Name;
-                            MicConfig[0].Channel = 1;
+                            //Set this device to player 2
+                            MicConfig[1].DeviceName = device.Name;
+                            MicConfig[1].DeviceDriver = device.Driver;
+                            MicConfig[1].Channel = 2;
 
-                            if (devices[dev].Inputs[0].Channels >= 2)
-                            {
-                                //Set this device to player 2
-                                MicConfig[1].DeviceName = devices[dev].Name;
-                                MicConfig[1].DeviceDriver = devices[dev].Driver;
-                                MicConfig[1].InputName = devices[dev].Inputs[0].Name;
-                                MicConfig[1].Channel = 2;
-
-                                return true;
-                            }
+                            return true;
                         }
                     }
                 }

@@ -32,7 +32,7 @@ namespace Vocaluxe.Lib.Input
         ScrollUp
     }
 
-    interface IInput
+    interface IController
     {
         void Init();
         void Close();

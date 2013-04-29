@@ -185,8 +185,8 @@ namespace Vocaluxe
 
                 // Init Input
                 CLog.StartBenchmark(0, "Init Input");
-                CInput.Init();
-                CInput.Connect();
+                CController.Init();
+                CController.Connect();
                 CLog.StopBenchmark(0, "Init Input");
 
                 // Init Game;
@@ -220,7 +220,7 @@ namespace Vocaluxe
             try
             {
                 CLog.CloseAll();
-                CInput.Close();
+                CController.Close();
                 CSound.RecordCloseAll();
                 CSound.CloseAllStreams();
                 CVideo.VdCloseAll();

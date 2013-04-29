@@ -27,7 +27,7 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Input.WiiMote
 {
-    class CWiiMote : IInput, IDisposable
+    class CWiiMote : IController, IDisposable
     {
         private CWiiMoteLib _WiiMote;
 

@@ -177,6 +177,7 @@ namespace Vocaluxe.Screens
             if (!_PartyModeInfos[index].Playable)
             {
                 _Buttons[_ButtonStart].Visible = false;
+                _Texts[_TextError].Text = "TR_SCREENPARTY_ERROR";
                 _Texts[_TextError].Visible = true;
             }
             else
@@ -193,10 +194,19 @@ namespace Vocaluxe.Screens
 
             int index = _SelectSlides[_SelectSlideModes].Selection;
             if (index >= _PartyModeInfos.Count)
-                return;
+            {
+                _Buttons[_ButtonStart].Visible = false;
+                _Texts[_TextError].Text = "TR_SCREENPARTY_ERROR";
+                _Texts[_TextError].Visible = true;
+            }
 
             if (CConfig.GetMaxNumMics() == 0)
-                return; //TODO: Add message!
+            {
+                _Buttons[_ButtonStart].Visible = false;
+                _Texts[_TextError].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_MICS_PL").Replace("%v", "");
+                _Texts[_TextError].Visible = true;
+                return;
+            }
 
             CParty.SetPartyMode(_PartyModeInfos[index].PartyModeID);
             CGraphics.FadeTo(EScreens.ScreenPartyDummy);

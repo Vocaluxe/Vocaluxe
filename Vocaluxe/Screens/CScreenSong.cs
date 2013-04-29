@@ -1157,7 +1157,9 @@ namespace Vocaluxe.Screens
             if (_SelectSlides[_SelectSlideOptionsPlaylistOpen].NumValues > 0)
                 _SelectSlides[_SelectSlideOptionsPlaylistOpen].Visible = true;
 
+            // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
             if (_Buttons[_ButtonOptionsRandom].Visible)
+                // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                 _SetInteractionToButton(_Buttons[_ButtonOptionsRandom]);
             else
                 _SetInteractionToButton(_Buttons[_ButtonOptionsRandomCategory]);
