@@ -39,7 +39,6 @@ namespace Vocaluxe.Screens
         private const string _TextAuthor = "TextAuthor";
         private const string _TextVersion = "TextVersion";
         private const string _TextError = "TextError";
-        private const string _TextErrorMics = "TextErrorMics";
         private const string _ButtonStart = "ButtonStart";
         private const string _ButtonExit = "ButtonExit";
         private const string _SelectSlideModes = "SelectSlideModes";
@@ -50,7 +49,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeTexts = new string[] {_TextDescription, _TextTargetAudience, _TextNumTeams, _TextNumPlayers, _TextAuthor, _TextVersion, _TextError, _TextErrorMics};
+            _ThemeTexts = new string[] {_TextDescription, _TextTargetAudience, _TextNumTeams, _TextNumPlayers, _TextAuthor, _TextVersion, _TextError};
             _ThemeButtons = new string[] {_ButtonStart, _ButtonExit};
             _ThemeSelectSlides = new string[] {_SelectSlideModes};
         }
@@ -121,8 +120,6 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideModes].Selection = 0;
             _UpdateSelection();
 
-            _Texts[_TextErrorMics].Visible = CConfig.GetMaxNumMics() == 0;
-
             _SetInteractionToSelectSlide(_SelectSlides[_SelectSlideModes]);
         }
 
@@ -177,8 +174,16 @@ namespace Vocaluxe.Screens
             _Texts[_TextVersion].Text = _PartyModeInfos[index].VersionMajor + "." + _PartyModeInfos[index].VersionMinor;
             _Texts[_TextVersion].TranslationID = _PartyModeInfos[index].PartyModeID;
 
-            _Buttons[_ButtonStart].Visible = _PartyModeInfos[index].Playable && CConfig.GetMaxNumMics() > 0;
-            _Texts[_TextError].Visible = !_PartyModeInfos[index].Playable;
+            if (!_PartyModeInfos[index].Playable)
+            {
+                _Buttons[_ButtonStart].Visible = false;
+                _Texts[_TextError].Visible = true;
+            }
+            else
+            {
+                _Buttons[_ButtonStart].Visible = true;
+                _Texts[_TextError].Visible = false;
+            }
         }
 
         private void _StartPartyMode()
@@ -191,7 +196,7 @@ namespace Vocaluxe.Screens
                 return;
 
             if (CConfig.GetMaxNumMics() == 0)
-                return;
+                return; //TODO: Add message!
 
             CParty.SetPartyMode(_PartyModeInfos[index].PartyModeID);
             CGraphics.FadeTo(EScreens.ScreenPartyDummy);
