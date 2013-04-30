@@ -55,27 +55,30 @@ namespace Vocaluxe.Base.Font
             //float factor = _GetFactor(chr, flags);
             System.Drawing.Font fo = CFonts.GetFont();
             SizeF fullSize, boundingSize;
+            Size bmpSize;
             using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
             {
                 fullSize = g.MeasureString(chrString, fo);
                 fullSize.Width += outlineSize;
                 if (chr != ' ')
                 {
-                    //Gets exact height and width for drawing more than 1 char. But width is to small to draw char on bitmap as e.g. italic chars will get cropped)
+                    //Gets exact height and width for drawing more than 1 char. But width is to small to draw char on bitmap as e.g. italic chars will get cropped
                     boundingSize = g.MeasureString(chrString, fo, -1, new StringFormat(StringFormat.GenericTypographic));
                     boundingSize.Width += outlineSize;
                     if (boundingSize.Height > 0)
-                        fullSize.Height = boundingSize.Height;
+                        boundingSize.Height += outlineSize;
+                    else
+                        boundingSize.Height = fullSize.Height;
+                    bmpSize = new Size((int)fullSize.Width, (int)Math.Round(boundingSize.Height));
                 }
                 else
                 {
                     boundingSize = fullSize;
-                    fullSize.Width = 1;
-                    fullSize.Height = 1;
+                    bmpSize = new Size(1, 1);
                 }
                 _BoundingBox = boundingSize;
             }
-            using (Bitmap bmp = new Bitmap((int)(fullSize.Width), (int)(fullSize.Height), PixelFormat.Format32bppArgb))
+            using (Bitmap bmp = new Bitmap(bmpSize.Width, bmpSize.Height, PixelFormat.Format32bppArgb))
             using (Graphics g = Graphics.FromImage(bmp))
             {
                 g.Clear(Color.Transparent);
@@ -91,11 +94,13 @@ namespace Vocaluxe.Base.Font
                     g.InterpolationMode = InterpolationMode.HighQualityBicubic;
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
-                    PointF point = new PointF(outlineSize / 2, 0);
+                    PointF point = new PointF(outlineSize / 2, outlineSize / 2);
 
                     using (GraphicsPath path = new GraphicsPath())
                     {
-                        path.AddString(chrString, fo.FontFamily, (int)fo.Style, CFonts.Height, point, new StringFormat());
+                        //Have to use size in em not pixels!
+                        float emSize = fo.Size * fo.FontFamily.GetCellAscent(fo.Style) / fo.FontFamily.GetEmHeight(fo.Style);
+                        path.AddString(chrString, fo.FontFamily, (int)fo.Style, emSize, point, new StringFormat());
 
                         using (Pen pen = new Pen(CFonts.OutlineColor.AsColor(), outlineSize))
                         {
@@ -148,15 +153,32 @@ namespace Vocaluxe.Base.Font
 
         private static Rectangle _GetRealBounds(Bitmap bmp)
         {
-            int minX = 0, maxX = bmp.Width - 1;
+            int minX = 0, maxX = bmp.Width - 1, minY = 0;
             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             int values = bmpData.Width * bmp.Height;
             Int32[] rgbValues = new Int32[values];
             Marshal.Copy(bmpData.Scan0, rgbValues, 0, values);
-            int index;
+            int index = 0;
             bool found = false;
+            //find from top
+            for (int y = 0; y < bmp.Height && !found; y++)
+            {
+                for (int x = 0; x < bmp.Width; x++)
+                {
+                    if (rgbValues[index] != 0)
+                    {
+                        minX = x;
+                        maxX = x;
+                        minY = y;
+                        found = true;
+                        break;
+                    }
+                    index++;
+                }
+            }
+            found = false;
             //find left
-            for (int x = 0; x < maxX && !found; x++)
+            for (int x = 0; x < minX && !found; x++)
             {
                 index = x;
                 for (int y = 0; y < bmp.Height; y++)
@@ -172,7 +194,7 @@ namespace Vocaluxe.Base.Font
             }
             found = false;
             //find right
-            for (int x = maxX; x > minX && !found; x--)
+            for (int x = bmp.Width - 1; x > maxX && !found; x--)
             {
                 index = x;
                 for (int y = 0; y < bmp.Height; y++)
@@ -186,34 +208,7 @@ namespace Vocaluxe.Base.Font
                     index += bmp.Width;
                 }
             }
-            return new Rectangle(minX, 0, maxX - minX + 1, bmp.Height);
-        }
-
-        private float _GetStyleFactor(char chr, TextFormatFlags flags)
-        {
-            if (CFonts.Style == EStyle.Normal)
-                return 1f;
-
-            EStyle style = CFonts.Style;
-
-            CFonts.Style = EStyle.Normal;
-            float hStyle, hNormal;
-            using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
-            {
-                System.Drawing.Font fo = CFonts.GetFont();
-                Size sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
-                //SizeF size = g.MeasureString(chr.ToString(), fo);
-                hNormal = sizeB.Height;
-            }
-            CFonts.Style = style;
-            using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
-            {
-                System.Drawing.Font fo = CFonts.GetFont();
-                Size sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
-                //size = g.MeasureString(chr.ToString(), fo);
-                hStyle = sizeB.Height;
-            }
-            return hNormal / hStyle;
+            return new Rectangle(minX, minY, maxX - minX + 1, bmp.Height - minY);
         }
     }
 }
