@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using VocaluxeLib.Menu.SingNotes;
 
@@ -47,6 +48,11 @@ namespace VocaluxeLib.Menu
             G = color.G;
             B = color.B;
             A = color.A;
+        }
+
+        public Color AsColor()
+        {
+            return Color.FromArgb((int)(A * 255), (int)(R * 255), (int)(G * 255), (int)(B * 255));
         }
     }
 

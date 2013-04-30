@@ -36,6 +36,24 @@ namespace Vocaluxe.Screens
         private int _TestMusic = -1;
 */
 
+        public override void Init()
+        {
+            base.Init();
+            const string test = " ÖÄÜabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPGRSTUVWGXZ1234567890";
+            CText text = new CText(10, 50, 1, EAlignment.Left, 32, 0, 1, 0, 0, 1, EStyle.Normal, "Normal", "Normal Text" + test);
+            _AddText(text);
+            text = new CText(10, 90, 1, EAlignment.Left, 32, 0, 1, 0, 0, 1, EStyle.Bold, "Normal", "Bold Text" + test);
+            _AddText(text);
+            text = new CText(10, 130, 1, EAlignment.Left, 32, 0, 1, 0, 0, 1, EStyle.Italic, "Normal", "Italic Text" + test);
+            _AddText(text);
+            text = new CText(10, 170, 1, EAlignment.Left, 32, 0, 1, 0, 0, 1, EStyle.Normal, "Outline", "Normal Text" + test);
+            _AddText(text);
+            text = new CText(10, 210, 1, EAlignment.Left, 32, 0, 1, 0, 0, 1, EStyle.Bold, "Outline", "Bold Text" + test);
+            _AddText(text);
+            text = new CText(10, 250, 1, EAlignment.Left, 32, 0, 1, 0, 0, 1, EStyle.Italic, "Outline", "Italic Text" + test);
+            _AddText(text);
+        }
+
         public override bool HandleInput(SKeyEvent keyEvent)
         {
             if (keyEvent.KeyPressed && !Char.IsControl(keyEvent.Unicode)) {}

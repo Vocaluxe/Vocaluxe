@@ -20,7 +20,9 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Drawing.Text;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using VocaluxeLib.Menu;
 
@@ -28,91 +30,190 @@ namespace Vocaluxe.Base.Font
 {
     class CGlyph
     {
-        public float Sizeh { get; private set; }
+        private STexture _Texture;
+        private readonly SizeF _BoundingBox;
+        private readonly Point _Offset;
 
-        public STexture Texture;
-        public readonly int Width;
+        public float Width
+        {
+            get { return _BoundingBox.Width * _GetFactor(); }
+        }
+
+        public float Height
+        {
+            get { return _BoundingBox.Height * _GetFactor(); }
+        }
 
         public CGlyph(char chr, float maxHigh)
         {
-            Sizeh = maxHigh;
-
+            float oldHeight = CFonts.Height;
             float outline = CFonts.Outline;
-            const TextFormatFlags flags = TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix;
+            float outlineSize = outline * maxHigh;
+            string chrString = chr.ToString();
 
-            float factor = _GetFactor(chr, flags);
-            CFonts.Height = Sizeh * factor;
-            System.Drawing.Font fo;
-            Size sizeB;
-            SizeF size;
+            CFonts.Height = maxHigh; // *factor;
+            //float factor = _GetFactor(chr, flags);
+            System.Drawing.Font fo = CFonts.GetFont();
+            SizeF fullSize;
             using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
             {
-                fo = CFonts.GetFont();
-                sizeB = TextRenderer.MeasureText(g, chr.ToString(), fo, new Size(int.MaxValue, int.MaxValue), flags);
-
-                size = g.MeasureString(chr.ToString(), fo);
+                fullSize = g.MeasureString(chrString, fo);
+                fullSize.Width += outlineSize;
+                if (chr != ' ')
+                {
+                    SizeF boundingSize = g.MeasureString(chrString, fo, -1, new StringFormat(StringFormat.GenericTypographic));
+                    boundingSize.Width += outlineSize;
+                    _BoundingBox = boundingSize;
+                }
+                else
+                {
+                    _BoundingBox = fullSize;
+                    fullSize.Width = 1;
+                    fullSize.Height = 1;
+                }
             }
-
-            using (Bitmap bmp = new Bitmap((int)(sizeB.Width * 2f), sizeB.Height))
+            using (Bitmap bmp = new Bitmap((int)(fullSize.Width), (int)(fullSize.Height), PixelFormat.Format32bppArgb))
             {
                 Graphics g = Graphics.FromImage(bmp);
                 g.Clear(Color.Transparent);
 
-                g.SmoothingMode = SmoothingMode.AntiAlias;
-                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-                CFonts.Height = Sizeh;
-                fo = CFonts.GetFont();
-
-                PointF point = new PointF(
-                    outline * Math.Abs(sizeB.Width - size.Width) + (sizeB.Width - size.Width) / 2f + Sizeh / 5f,
-                    (sizeB.Height - size.Height - (size.Height + Sizeh / 4f) * (1f - factor)) / 2f);
-
-                using (GraphicsPath path = new GraphicsPath())
+                if (chr != ' ')
                 {
-                    path.AddString(
-                        chr.ToString(),
-                        fo.FontFamily,
-                        (int)fo.Style,
-                        Sizeh,
-                        point,
-                        new StringFormat());
+                    g.SmoothingMode = SmoothingMode.AntiAlias;
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
-                    using (Pen pen = new Pen(
-                        Color.FromArgb(
-                            (int)CFonts.OutlineColor.A * 255,
-                            (int)CFonts.OutlineColor.R * 255,
-                            (int)CFonts.OutlineColor.G * 255,
-                            (int)CFonts.OutlineColor.B * 255),
-                        Sizeh * outline))
+                    PointF point = new PointF(outlineSize / 2, 0);
+
+                    using (GraphicsPath path = new GraphicsPath())
                     {
-                        pen.LineJoin = LineJoin.Round;
-                        g.DrawPath(pen, path);
-                        g.FillPath(Brushes.White, path);
+                        path.AddString(chrString, fo.FontFamily, (int)fo.Style, CFonts.Height, point, new StringFormat());
+
+                        using (Pen pen = new Pen(CFonts.OutlineColor.AsColor(), outlineSize))
+                        {
+                            pen.LineJoin = LineJoin.Round;
+                            g.DrawPath(pen, path);
+                            g.FillPath(Brushes.White, path);
+                        }
                     }
                 }
+                _Texture = CDraw.AddTexture(bmp);
 
-                /*
-                g.DrawString(
-                    chr.ToString(),
-                    fo,
-                    Brushes.White,
-                    point);
-                 * */
-                Texture = CDraw.AddTexture(bmp);
-                //bmp.Save("font/" + chr + CFonts.Style + ".png", ImageFormat.Png);
-                Width = (int)((1f + outline / 2f) * sizeB.Width * Texture.Width / factor / bmp.Width);
+                if (false)
+                {
+                    if (outline > 0)
+                        bmp.Save("font/" + chr + "o" + CFonts.Style + "2.png", ImageFormat.Png);
+                    else
+                        bmp.Save("font/" + chr + CFonts.Style + "2.png", ImageFormat.Png);
+                }
+
                 g.Dispose();
             }
             fo.Dispose();
+            CFonts.Height = oldHeight;
+        }
+
+        private float _GetFactor()
+        {
+            return CFonts.Height / _BoundingBox.Height;
         }
 
         public void UnloadTexture()
         {
-            CDraw.RemoveTexture(ref Texture);
+            CDraw.RemoveTexture(ref _Texture);
         }
 
-        private float _GetFactor(char chr, TextFormatFlags flags)
+        public void GetTextureAndRect(float x, float y, float z, out STexture texture, out SRectF rect)
+        {
+            texture = _Texture;
+            rect = new SRectF(x, y, Width, Height, z);
+        }
+
+        private Point _TrimBmp(ref Bitmap bmp)
+        {
+            int minX = 0, minY = 0, maxX = bmp.Width - 1, maxY = bmp.Width - 1;
+            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+            int values = bmpData.Width * bmp.Height;
+            Int32[] rgbValues = new Int32[values];
+            Marshal.Copy(bmpData.Scan0, rgbValues, 0, values);
+            int index = 0;
+            bool found = false;
+            //find from top
+            for (int y = 0; y < bmp.Height && !found; y++)
+            {
+                for (int x = 0; x < bmp.Width; x++)
+                {
+                    if (rgbValues[index] != 0)
+                    {
+                        minX = x;
+                        maxX = x;
+                        minY = y;
+                        found = true;
+                        break;
+                    }
+                    index++;
+                }
+            }
+            found = false;
+            //find from bottom
+            for (int y = bmp.Height - 1; y >= minY && !found; y--)
+            {
+                for (int x = 0; x < bmp.Width; x++)
+                {
+                    if (rgbValues[index] != 0)
+                    {
+                        if (x < minX)
+                            minX = x;
+                        else if (x > maxX)
+                            maxX = x;
+                        maxY = y;
+                        found = true;
+                        break;
+                    }
+                    index++;
+                }
+            }
+            //find left
+            for (int x = minX - 1; x >= 0; x--)
+            {
+                found = false;
+                index = minY * bmp.Width + x;
+                for (int y = minY; y <= maxY; y++)
+                {
+                    if (rgbValues[index] != 0)
+                    {
+                        found = true;
+                        minX = x;
+                        break;
+                    }
+                    index += bmp.Width;
+                }
+                if (!found)
+                    break;
+            }
+            //find right
+            for (int x = maxX + 1; x < bmp.Width; x++)
+            {
+                found = false;
+                index = minY * bmp.Width + x;
+                for (int y = minY; y <= maxY; y++)
+                {
+                    if (rgbValues[index] != 0)
+                    {
+                        found = true;
+                        maxX = x;
+                        break;
+                    }
+                    index += bmp.Width;
+                }
+                if (!found)
+                    break;
+            }
+            bmp = bmp.Clone(new Rectangle(minX, minY, maxX - minX, maxY - minY), PixelFormat.Format32bppArgb);
+            return new Point(minX, minY);
+        }
+
+        private float _GetStyleFactor(char chr, TextFormatFlags flags)
         {
             if (CFonts.Style == EStyle.Normal)
                 return 1f;
@@ -120,7 +221,6 @@ namespace Vocaluxe.Base.Font
             EStyle style = CFonts.Style;
 
             CFonts.Style = EStyle.Normal;
-            CFonts.Height = Sizeh;
             float hStyle, hNormal;
             using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
             {

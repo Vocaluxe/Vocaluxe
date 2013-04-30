@@ -82,74 +82,52 @@ namespace Vocaluxe.Base.Font
             return new System.Drawing.Font(_Family, CFonts.Height, CFonts.GetFontStyle(), GraphicsUnit.Pixel);
         }
 
-        public void DrawGlyph(char chr, float x, float y, float h, float z, SColorF color)
+        public void DrawGlyph(char chr, float x, float y, float z, SColorF color)
         {
             STexture texture;
             SRectF rect;
-            _GetGlyphTextureAndRect(chr, x, y, z, h, out texture, out rect);
+            GetOrAddGlyph(chr).GetTextureAndRect(x, y, z, out texture, out rect);
             CDraw.DrawTexture(texture, rect, color);
         }
 
-        public void DrawGlyph(char chr, float x, float y, float h, float z, SColorF color, float begin, float end)
+        public void DrawGlyph(char chr, float x, float y, float z, SColorF color, float begin, float end)
         {
             STexture texture;
             SRectF rect;
-            _GetGlyphTextureAndRect(chr, x, y, z, h, out texture, out rect);
+            GetOrAddGlyph(chr).GetTextureAndRect(x, y, z, out texture, out rect);
             CDraw.DrawTexture(texture, rect, color, begin, end);
         }
 
-        public void DrawGlyphReflection(char chr, float x, float y, float h, float z, SColorF color, float rspace, float rheight)
+        public void DrawGlyphReflection(char chr, float x, float y, float z, SColorF color, float rspace, float rheight)
         {
             STexture texture;
             SRectF rect;
-            _GetGlyphTextureAndRect(chr, x, y, z, h, out texture, out rect);
+            GetOrAddGlyph(chr).GetTextureAndRect(x, y, z, out texture, out rect);
             CDraw.DrawTextureReflection(texture, rect, color, rect, rspace, rheight);
-        }
-
-        private void _GetGlyphTextureAndRect(char chr, float x, float y, float z, float h, out STexture texture, out SRectF rect)
-        {
-            AddGlyph(chr);
-
-            CFonts.Height = h;
-            CGlyph glyph = _Glyphs[chr];
-            texture = glyph.Texture;
-            float factor = h / texture.Height;
-            float width = texture.Width * factor;
-            float d = glyph.Sizeh / 5f * factor;
-            rect = new SRectF(x - d, y, width, h, z);
         }
 
         public float GetWidth(char chr)
         {
-            AddGlyph(chr);
-
-            CGlyph glyph = _Glyphs[chr];
-            float factor = CFonts.Height / glyph.Texture.Height;
-            return glyph.Width * factor;
+            return GetOrAddGlyph(chr).Width;
         }
 
         public float GetHeight(char chr)
         {
-            return CFonts.Height;
-            /*WTF???
-            AddGlyph(chr);
-
-            CGlyph glyph = _Glyphs[chr];
-            float factor = CFonts.Height / glyph.Texture.height;
-            return glyph.Texture.height * factor;*/
+            return GetOrAddGlyph(chr).Height;
         }
 
-        public void AddGlyph(char chr)
+        public CGlyph GetOrAddGlyph(char chr)
         {
-            if (_Glyphs.ContainsKey(chr))
-                return;
-
-            float h = CFonts.Height;
-            _Glyphs.Add(chr, new CGlyph(chr, _Sizeh));
-            CFonts.Height = h;
+            CGlyph glyph;
+            if (!_Glyphs.TryGetValue(chr, out glyph))
+            {
+                glyph = new CGlyph(chr, _Sizeh);
+                _Glyphs.Add(chr, glyph);
+            }
+            return glyph;
         }
 
-        public void UnloadAllGlyphs()
+        public void UnloadGlyphs()
         {
             foreach (CGlyph glyph in _Glyphs.Values)
                 glyph.UnloadTexture();
@@ -162,7 +140,7 @@ namespace Vocaluxe.Base.Font
             {
                 _Fonts.Dispose();
                 _Fonts = null;
-                UnloadAllGlyphs();
+                UnloadGlyphs();
             }
             GC.SuppressFinalize(this);
         }

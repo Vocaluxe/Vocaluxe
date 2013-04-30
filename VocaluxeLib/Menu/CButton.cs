@@ -312,7 +312,7 @@ namespace VocaluxeLib.Menu
                 if (_Reflection)
                 {
                     CBase.Drawing.DrawTextureReflection(texture, Rect, Color, Rect, _ReflectionSpace, _ReflectionHeight);
-                    Text.DrawRelative(Rect.X, Rect.Y, _ReflectionSpace, _ReflectionHeight, Rect.H);
+                    Text.DrawRelative(Rect.X, Rect.Y, _ReflectionHeight, _ReflectionSpace, Rect.H);
                 }
                 else
                     Text.DrawRelative(Rect.X, Rect.Y);
@@ -326,7 +326,7 @@ namespace VocaluxeLib.Menu
                 if (_Reflection)
                 {
                     CBase.Drawing.DrawTextureReflection(texture, Rect, SelColor, Rect, _ReflectionSpace, _ReflectionHeight);
-                    Text.DrawRelative(Rect.X, Rect.Y, _ReflectionSpace, _ReflectionHeight, Rect.H);
+                    Text.DrawRelative(Rect.X, Rect.Y, _ReflectionHeight, _ReflectionSpace, Rect.H);
                 }
                 else
                     Text.DrawRelative(Rect.X, Rect.Y);
@@ -340,7 +340,7 @@ namespace VocaluxeLib.Menu
                 if (_Reflection)
                 {
                     CBase.Drawing.DrawTextureReflection(texture, Rect, SelColor, Rect, _ReflectionSpace, _ReflectionHeight);
-                    _SelText.DrawRelative(Rect.X, Rect.Y, _ReflectionSpace, _ReflectionHeight, Rect.H);
+                    _SelText.DrawRelative(Rect.X, Rect.Y, _ReflectionHeight, _ReflectionSpace, Rect.H);
                 }
                 else
                     _SelText.DrawRelative(Rect.X, Rect.Y);

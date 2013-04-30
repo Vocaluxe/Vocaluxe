@@ -1256,6 +1256,8 @@ namespace Vocaluxe.Lib.Draw
                 rx2 -= 0.5f;
                 ry2 -= 0.5f;
 
+                color.A *= CGraphics.GlobalAlpha;
+
                 if (color.A > 1)
                     color.A = 1;
                 if (color.R > 1)
@@ -1265,7 +1267,7 @@ namespace Vocaluxe.Lib.Draw
                 if (color.B > 1)
                     color.B = 1;
 
-                Color c = Color.FromArgb((int)(color.A * 255 * CGraphics.GlobalAlpha), (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
+                Color c = color.AsColor();
 
                 if (!mirrored)
                 {
@@ -1319,7 +1321,9 @@ namespace Vocaluxe.Lib.Draw
             rx2 -= 0.5f;
             ry2 -= 0.5f;
 
-            Color c = Color.FromArgb((int)(color.A * 255 * CGraphics.GlobalAlpha), (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
+            color.A *= CGraphics.GlobalAlpha;
+
+            Color c = color.AsColor();
 
             STexturedColoredVertex[] vert = new STexturedColoredVertex[4];
             vert[0] = new STexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb());
@@ -1401,8 +1405,10 @@ namespace Vocaluxe.Lib.Draw
                 rx2 -= 0.5f;
                 ry2 -= 0.5f;
 
-                Color c = Color.FromArgb((int)(color.A * 255 * CGraphics.GlobalAlpha), (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
-                Color transparent = Color.FromArgb(0, (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
+                color.A *= CGraphics.GlobalAlpha;
+                Color c = color.AsColor();
+                color.A = 0;
+                Color transparent = color.AsColor();
 
                 STexturedColoredVertex[] vert = new STexturedColoredVertex[4];
                 vert[0] = new STexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());

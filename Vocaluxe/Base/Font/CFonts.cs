@@ -121,7 +121,7 @@ namespace Vocaluxe.Base.Font
             float dx = x;
             foreach (char chr in text)
             {
-                font.DrawGlyph(chr, dx, y, Height, z, color);
+                font.DrawGlyph(chr, dx, y, z, color);
                 dx += font.GetWidth(chr);
             }
         }
@@ -140,7 +140,7 @@ namespace Vocaluxe.Base.Font
             float dx = x;
             foreach (char chr in text)
             {
-                font.DrawGlyphReflection(chr, dx, y, Height, z, color, rspace, rheight);
+                font.DrawGlyphReflection(chr, dx, y, z, color, rspace, rheight);
                 dx += font.GetWidth(chr);
             }
         }
@@ -179,7 +179,7 @@ namespace Vocaluxe.Base.Font
                     {
                         if (e > 1f)
                             e = 1f;
-                        font.DrawGlyph(chr, dx, y, Height, z, color, b, e);
+                        font.DrawGlyph(chr, dx, y, z, color, b, e);
                     }
                 }
                 dx += w2;
@@ -397,10 +397,10 @@ namespace Vocaluxe.Base.Font
             {
                 if (_Fonts[index].IsThemeFont && _Fonts[index].ThemeName == themeName)
                 {
-                    _Fonts[index].Normal.UnloadAllGlyphs();
-                    _Fonts[index].Italic.UnloadAllGlyphs();
-                    _Fonts[index].Bold.UnloadAllGlyphs();
-                    _Fonts[index].BoldItalic.UnloadAllGlyphs();
+                    _Fonts[index].Normal.UnloadGlyphs();
+                    _Fonts[index].Italic.UnloadGlyphs();
+                    _Fonts[index].Bold.UnloadGlyphs();
+                    _Fonts[index].BoldItalic.UnloadGlyphs();
                     _Fonts.RemoveAt(index);
                 }
                 else
@@ -449,7 +449,7 @@ namespace Vocaluxe.Base.Font
 
         private static void _BuildGlyphs()
         {
-            const string text = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPGRSTUVWGXZ1234567890";
+            const string text = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
             for (int i = 0; i < _Fonts.Count; i++)
             {
@@ -458,13 +458,13 @@ namespace Vocaluxe.Base.Font
                 foreach (char chr in text)
                 {
                     Style = EStyle.Normal;
-                    _Fonts[_CurrentFont].Normal.AddGlyph(chr);
+                    _Fonts[_CurrentFont].Normal.GetOrAddGlyph(chr);
                     Style = EStyle.Bold;
-                    _Fonts[_CurrentFont].Bold.AddGlyph(chr);
+                    _Fonts[_CurrentFont].Bold.GetOrAddGlyph(chr);
                     Style = EStyle.Italic;
-                    _Fonts[_CurrentFont].Italic.AddGlyph(chr);
+                    _Fonts[_CurrentFont].Italic.GetOrAddGlyph(chr);
                     Style = EStyle.BoldItalic;
-                    _Fonts[_CurrentFont].BoldItalic.AddGlyph(chr);
+                    _Fonts[_CurrentFont].BoldItalic.GetOrAddGlyph(chr);
                 }
             }
             Style = EStyle.Normal;

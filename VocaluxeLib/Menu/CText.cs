@@ -697,12 +697,7 @@ namespace VocaluxeLib.Menu
                 CBase.Drawing.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(x, Y, bounds.Width, bounds.Height, Z));
         }
 
-        public void DrawRelative(float x, float y, float reflectionSpace, float reflectionHeigth, float rectHeight)
-        {
-            DrawRelative(x, y, true, reflectionSpace, reflectionHeigth, rectHeight);
-        }
-
-        public void DrawRelative(float rx, float ry, bool reflection = false, float reflectionSpace = 0f, float reflectionHeight = 0f, float rectHeight = 0f)
+        public void DrawRelative(float rx, float ry, float reflectionHeight = 0f, float reflectionSpace = 0f, float rectHeight = 0f)
         {
             // Update Text
             Text = Text;
@@ -724,14 +719,11 @@ namespace VocaluxeLib.Menu
                 h *= factor;
                 switch (HAlign)
                 {
-                    case EHAlignment.Top:
-                        y += step * 0.25f;
-                        break;
                     case EHAlignment.Center:
                         y += step * 0.50f;
                         break;
                     case EHAlignment.Bottom:
-                        y += step * 0.75f;
+                        y += step;
                         break;
                 }
 
@@ -749,9 +741,7 @@ namespace VocaluxeLib.Menu
             }
 
 
-            SColorF currentColor = new SColorF(Color);
-            if (Selected)
-                currentColor = new SColorF(SelColor);
+            SColorF currentColor = (Selected) ? SelColor : Color;
 
             SColorF color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
@@ -760,7 +750,7 @@ namespace VocaluxeLib.Menu
 
             CBase.Fonts.DrawText(_Text, h, x, y, Z, color);
 
-            if (reflection)
+            if (reflectionHeight > 0)
             {
                 float space = (rectHeight - Y - bounds.Height) * 2f + reflectionSpace;
                 float height = reflectionHeight - (rectHeight - Y) + bounds.Height;
