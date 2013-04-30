@@ -32,7 +32,7 @@ namespace Vocaluxe.Base.Font
     {
         private STexture _Texture;
         private readonly SizeF _BoundingBox;
-        private readonly Point _Offset;
+        private readonly RectangleF _DrawBounding;
 
         public float Width
         {
@@ -54,30 +54,35 @@ namespace Vocaluxe.Base.Font
             CFonts.Height = maxHigh; // *factor;
             //float factor = _GetFactor(chr, flags);
             System.Drawing.Font fo = CFonts.GetFont();
-            SizeF fullSize;
+            SizeF fullSize, boundingSize;
             using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
             {
                 fullSize = g.MeasureString(chrString, fo);
                 fullSize.Width += outlineSize;
                 if (chr != ' ')
                 {
-                    SizeF boundingSize = g.MeasureString(chrString, fo, -1, new StringFormat(StringFormat.GenericTypographic));
+                    boundingSize = g.MeasureString(chrString, fo, -1, new StringFormat(StringFormat.GenericTypographic));
                     boundingSize.Width += outlineSize;
-                    _BoundingBox = boundingSize;
                 }
                 else
                 {
-                    _BoundingBox = fullSize;
+                    boundingSize = fullSize;
                     fullSize.Width = 1;
                     fullSize.Height = 1;
                 }
+                _BoundingBox = boundingSize;
             }
             using (Bitmap bmp = new Bitmap((int)(fullSize.Width), (int)(fullSize.Height), PixelFormat.Format32bppArgb))
+            using (Graphics g = Graphics.FromImage(bmp))
             {
-                Graphics g = Graphics.FromImage(bmp);
                 g.Clear(Color.Transparent);
 
-                if (chr != ' ')
+                if (chr == ' ')
+                {
+                    _Texture = CDraw.AddTexture(bmp);
+                    _DrawBounding = new RectangleF(0, 0, 1, 1);
+                }
+                else
                 {
                     g.SmoothingMode = SmoothingMode.AntiAlias;
                     g.InterpolationMode = InterpolationMode.HighQualityBicubic;
@@ -96,18 +101,22 @@ namespace Vocaluxe.Base.Font
                             g.FillPath(Brushes.White, path);
                         }
                     }
+                    Rectangle realBounds = _GetRealBounds(bmp);
+                    _DrawBounding = realBounds;
+                    float dx = (fullSize.Width - boundingSize.Width - 1) / 2;
+                    _DrawBounding.X -= dx;
+                    using (Bitmap bmpCropped = bmp.Clone(realBounds, PixelFormat.Format32bppArgb))
+                    {
+                        _Texture = CDraw.AddTexture(bmpCropped);
+                        if (false)
+                        {
+                            if (outline > 0)
+                                bmpCropped.Save("font/" + chr + "o" + CFonts.Style + "2.png", ImageFormat.Png);
+                            else
+                                bmpCropped.Save("font/" + chr + CFonts.Style + "2.png", ImageFormat.Png);
+                        }
+                    }
                 }
-                _Texture = CDraw.AddTexture(bmp);
-
-                if (false)
-                {
-                    if (outline > 0)
-                        bmp.Save("font/" + chr + "o" + CFonts.Style + "2.png", ImageFormat.Png);
-                    else
-                        bmp.Save("font/" + chr + CFonts.Style + "2.png", ImageFormat.Png);
-                }
-
-                g.Dispose();
             }
             fo.Dispose();
             CFonts.Height = oldHeight;
@@ -126,12 +135,17 @@ namespace Vocaluxe.Base.Font
         public void GetTextureAndRect(float x, float y, float z, out STexture texture, out SRectF rect)
         {
             texture = _Texture;
-            rect = new SRectF(x, y, Width, Height, z);
+            float factor = _GetFactor();
+            x += _DrawBounding.X * factor;
+            y += _DrawBounding.Y * factor;
+            float w = _DrawBounding.Width * factor;
+            float h = _DrawBounding.Height * factor;
+            rect = new SRectF(x, y, w, h, z);
         }
 
-        private Point _TrimBmp(ref Bitmap bmp)
+        private static Rectangle _GetRealBounds(Bitmap bmp)
         {
-            int minX = 0, minY = 0, maxX = bmp.Width - 1, maxY = bmp.Width - 1;
+            int minX = 0, minY = 0, maxX = bmp.Width - 1, maxY = bmp.Height - 1;
             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             int values = bmpData.Width * bmp.Height;
             Int32[] rgbValues = new Int32[values];
@@ -158,6 +172,7 @@ namespace Vocaluxe.Base.Font
             //find from bottom
             for (int y = bmp.Height - 1; y >= minY && !found; y--)
             {
+                index = y * bmp.Width;
                 for (int x = 0; x < bmp.Width; x++)
                 {
                     if (rgbValues[index] != 0)
@@ -209,8 +224,7 @@ namespace Vocaluxe.Base.Font
                 if (!found)
                     break;
             }
-            bmp = bmp.Clone(new Rectangle(minX, minY, maxX - minX, maxY - minY), PixelFormat.Format32bppArgb);
-            return new Point(minX, minY);
+            return new Rectangle(minX, minY, maxX - minX + 1, maxY - minY + 1);
         }
 
         private float _GetStyleFactor(char chr, TextFormatFlags flags)
