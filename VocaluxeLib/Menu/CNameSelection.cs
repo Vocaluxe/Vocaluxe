@@ -346,7 +346,23 @@ namespace VocaluxeLib.Menu
                 Selection = -1;
         }
 
-        public void KeyboardSelection(bool active, int player)
+        public void HandleMouse(SMouseEvent mevent)
+        {
+            for (int i = 0; i < _Tiles.Count; i++ )
+            {
+                if (CHelper.IsInBounds(_Tiles[i].Avatar.Rect, mevent))
+                {
+                    _ActualSelection = i;
+
+                    if (Offset * _Tiles.Count + _ActualSelection < _VisibleProfiles.Count)
+                        Selection = _VisibleProfiles[Offset * _Tiles.Count + _ActualSelection];
+                    else
+                        Selection = -1;
+                }
+            }
+        }
+
+        public void FastSelection(bool active, int player)
         {
             //Overwrite player-selection; Same profile, but other player
             if (active && Selection != -1)

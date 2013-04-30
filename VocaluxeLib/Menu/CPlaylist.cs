@@ -1138,8 +1138,8 @@ namespace VocaluxeLib.Menu
         {
             if (playlistID > -1 && playlistID < CBase.Playlist.GetNumPlaylists())
             {
-                _Theme.ButtonPlaylistName.Text.Text = CBase.Playlist.GetPlaylistName(ActivePlaylistID);
                 ActivePlaylistID = playlistID;
+                _Theme.ButtonPlaylistName.Text.Text = CBase.Playlist.GetPlaylistName(ActivePlaylistID);
                 _PlaylistElementContents.Clear();
                 for (int i = 0; i < CBase.Playlist.GetPlaylistSongCount(ActivePlaylistID); i++)
                 {

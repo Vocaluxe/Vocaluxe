@@ -180,6 +180,12 @@ namespace Vocaluxe.Screens
                 _Texts[_TextError].Text = "TR_SCREENPARTY_ERROR";
                 _Texts[_TextError].Visible = true;
             }
+            else if (CConfig.GetMaxNumMics() == 0)
+            {
+                _Buttons[_ButtonStart].Visible = false;
+                _Texts[_TextError].Text = "TR_SCREENPARTY_ERROR_MICS";
+                _Texts[_TextError].Visible = true;
+            }
             else
             {
                 _Buttons[_ButtonStart].Visible = true;
@@ -197,13 +203,6 @@ namespace Vocaluxe.Screens
             {
                 _Buttons[_ButtonStart].Visible = false;
                 _Texts[_TextError].Text = "TR_SCREENPARTY_ERROR";
-                _Texts[_TextError].Visible = true;
-            }
-
-            if (CConfig.GetMaxNumMics() == 0)
-            {
-                _Buttons[_ButtonStart].Visible = false;
-                _Texts[_TextError].Text = CLanguage.Translate("TR_SCREENNAMES_WARNING_MICS_PL").Replace("%v", "");
                 _Texts[_TextError].Visible = true;
                 return;
             }

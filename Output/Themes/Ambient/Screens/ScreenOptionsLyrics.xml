@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenOptionsLyrics>
-    <ScreenVersion>1</ScreenVersion>
+    <ScreenVersion>2</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>Video</Type>
@@ -111,7 +111,7 @@
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
       <!--<Text>: Nothing or translation tag-->
-      <Text>TR_SCREENOLYRICS_ONTOP</Text>
+      <Text>TR_SCREENOLYRICS_POSITION</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
@@ -240,7 +240,7 @@
       <!--<NumVisible>: Number of visible elements in the slide-->
       <NumVisible>4</NumVisible>
     </SelectSlideLyricStyle>
-    <SelectSlideLyricsOnTop>
+    <SelectSlideLyricsPosition>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
       <!--<SkinArrowLeft>: Texture name of left arrow-->
@@ -306,6 +306,6 @@
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
       <NumVisible>2</NumVisible>
-    </SelectSlideLyricsOnTop>
+    </SelectSlideLyricsPosition>
   </ScreenOptionsLyrics>
 </root>
