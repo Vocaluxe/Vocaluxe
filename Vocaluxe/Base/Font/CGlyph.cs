@@ -44,14 +44,14 @@ namespace Vocaluxe.Base.Font
             get { return _BoundingBox.Height * _GetFactor(); }
         }
 
-        public CGlyph(char chr, float maxHigh)
+        public CGlyph(char chr, float maxHeight)
         {
             float oldHeight = CFonts.Height;
             float outline = CFonts.Outline;
-            float outlineSize = outline * maxHigh;
+            float outlineSize = outline * maxHeight;
             string chrString = chr.ToString();
 
-            CFonts.Height = maxHigh; // *factor;
+            CFonts.Height = maxHeight; // *factor;
             //float factor = _GetFactor(chr, flags);
             System.Drawing.Font fo = CFonts.GetFont();
             SizeF fullSize, boundingSize;

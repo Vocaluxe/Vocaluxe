@@ -213,7 +213,6 @@ namespace VocaluxeLib.Menu
         public SColorF Color; //normal Color
         public SColorF SelColor; //selected Color for Buttons
 
-        public bool Reflection;
         public float ReflectionSpace;
         public float ReflectionHeight;
 
@@ -296,7 +295,6 @@ namespace VocaluxeLib.Menu
 
             Color = new SColorF(text.Color);
             SelColor = new SColorF(text.SelColor);
-            Reflection = text.Reflection;
             ReflectionSpace = text.ReflectionSpace;
             ReflectionHeight = text.ReflectionHeight;
 
@@ -341,7 +339,6 @@ namespace VocaluxeLib.Menu
             else
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
 
-            Reflection = true;
             ReflectionSpace = rspace;
             ReflectionHeight = rheight;
         }
@@ -377,8 +374,6 @@ namespace VocaluxeLib.Menu
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), MaxWidth, 3f * CBase.Settings.GetRenderH(), 0f);
             else
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
-
-            Reflection = false;
         }
 
         public CText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text, float rspace, float rheight)
@@ -413,7 +408,6 @@ namespace VocaluxeLib.Menu
             else
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
 
-            Reflection = true;
             ReflectionSpace = rspace;
             ReflectionHeight = rheight;
         }
@@ -449,8 +443,6 @@ namespace VocaluxeLib.Menu
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), MaxWidth, 3f * CBase.Settings.GetRenderH(), 0f);
             else
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
-
-            Reflection = false;
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
@@ -503,12 +495,9 @@ namespace VocaluxeLib.Menu
 
             if (xmlReader.ItemExists(item + "/Reflection") && !buttonText)
             {
-                Reflection = true;
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref ReflectionSpace);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref ReflectionHeight);
             }
-            else
-                Reflection = false;
 
             // Set values
             _Theme.Name = elementName;
@@ -598,7 +587,7 @@ namespace VocaluxeLib.Menu
                     writer.WriteComment("   <Height>: Reflection Height");
                 }
 
-                if (Reflection && !_ButtonText)
+                if (ReflectionHeight > 0 && !_ButtonText)
                 {
                     writer.WriteStartElement("Reflection");
                     writer.WriteElementString("Space", ReflectionSpace.ToString("#0"));
@@ -635,7 +624,7 @@ namespace VocaluxeLib.Menu
 
             CBase.Fonts.DrawText(_Text, _DrawPosition.TextHeight, _DrawPosition.X, _DrawPosition.Y, Z, color);
 
-            if (Reflection)
+            if (ReflectionHeight > 0)
             {
                 float factor = 0f;
                 switch (HAlign)
@@ -688,7 +677,7 @@ namespace VocaluxeLib.Menu
 
             CBase.Fonts.DrawText(Text, Height, x, Y, Z, color, begin, end);
 
-            if (Reflection)
+            if (ReflectionHeight > 0)
             {
                 // TODO
             }
