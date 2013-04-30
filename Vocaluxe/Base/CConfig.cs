@@ -222,7 +222,7 @@ namespace Vocaluxe.Base
             xmlReader.TryGetIntValue("//root/Game/NumPlayer", ref NumPlayer);
             xmlReader.TryGetEnumValue("//root/Game/Tabs", ref Tabs);
             xmlReader.GetValue("//root/Game/Language", out Language, Language);
-            xmlReader.TryGetEnumValue("//root/Game/LyricsOnTop", ref LyricsPosition);
+            xmlReader.TryGetEnumValue("//root/Game/LyricsPosition", ref LyricsPosition);
             xmlReader.TryGetFloatValue("//root/Game/MinLineBreakTime", ref MinLineBreakTime);
 
             if ((ScoreAnimationTime > 0 && ScoreAnimationTime < 1) || ScoreAnimationTime < 0)
@@ -461,8 +461,8 @@ namespace Vocaluxe.Base
                 writer.WriteComment("Order songs in tabs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
                 writer.WriteElementString("Tabs", Enum.GetName(typeof(EOffOn), Tabs));
 
-                writer.WriteComment("Lyrics also on Top of screen: " + CHelper.ListStrings(Enum.GetNames(typeof(ELyricsPosition))));
-                writer.WriteElementString("LyricsOnTop", Enum.GetName(typeof(ELyricsPosition), LyricsPosition));
+                writer.WriteComment("Position if lyrics on screen: " + CHelper.ListStrings(Enum.GetNames(typeof(ELyricsPosition))));
+                writer.WriteElementString("LyricsPosition", Enum.GetName(typeof(ELyricsPosition), LyricsPosition));
 
                 writer.WriteComment("MinLineBreakTime: Value >= 0 in s. Minimum time the text is shown before it is to be sung");
                 writer.WriteElementString("MinLineBreakTime", MinLineBreakTime.ToString());
