@@ -40,17 +40,18 @@ namespace Vocaluxe.Screens
         {
             base.Init();
             const string test = " ÖÄÜabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPGRSTUVWGXZ1234567890";
-            CText text = new CText(10, 50, 1, EAlignment.Left, 32, 0, 1, 0, 0, 1, EStyle.Normal, "Normal", "Normal Text" + test);
+            SColorF color = new SColorF(1, 0, 0, 1);
+            CText text = new CText(10, 50, 1, 32, 0, EAlignment.Left, EStyle.Normal, "Normal", color, "Normal Text" + test);
             _AddText(text);
-            text = new CText(10, 90, 1, EAlignment.Left, 32, 0, 1, 0, 0, 1, EStyle.Bold, "Normal", "Bold Text" + test);
+            text = new CText(10, 90, 1, 32, 0, EAlignment.Left, EStyle.Bold, "Normal", color, "Bold Text" + test);
             _AddText(text);
-            text = new CText(10, 130, 1, EAlignment.Left, 32, 0, 1, 0, 0, 1, EStyle.Italic, "Normal", "Italic Text" + test);
+            text = new CText(10, 130, 1, 32, 0, EAlignment.Left, EStyle.Italic, "Normal", color, "Italic Text" + test);
             _AddText(text);
-            text = new CText(10, 170, 1, EAlignment.Left, 32, 0, 1, 0, 0, 1, EStyle.Normal, "Outline", "Normal Text" + test);
+            text = new CText(10, 170, 1, 32, 0, EAlignment.Left, EStyle.Normal, "Outline", color, "Normal Text" + test);
             _AddText(text);
-            text = new CText(10, 210, 1, EAlignment.Left, 32, 0, 1, 0, 0, 1, EStyle.Bold, "Outline", "Bold Text" + test);
+            text = new CText(10, 210, 1, 32, 0, EAlignment.Left, EStyle.Bold, "Outline", color, "Bold Text" + test);
             _AddText(text);
-            text = new CText(10, 250, 1, EAlignment.Left, 32, 0, 1, 0, 0, 1, EStyle.Italic, "Outline", "Italic Text" + test);
+            text = new CText(10, 250, 1, 32, 0, EAlignment.Left, EStyle.Italic, "Outline", color, "Italic Text" + test);
             _AddText(text);
         }
 

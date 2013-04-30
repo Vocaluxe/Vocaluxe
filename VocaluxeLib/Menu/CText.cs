@@ -306,113 +306,8 @@ namespace VocaluxeLib.Menu
             _EditMode = text._EditMode;
         }
 
-        public CText(float x, float y, float z, EAlignment align, float h, float mw, float r, float g, float b, float a, EStyle style, string font, string text, float rspace,
-                     float rheight)
-        {
-            _Theme = new SThemeText();
-            _ThemeLoaded = false;
-            _ButtonText = false;
-            _PartyModeID = -1;
-            _TranslationID = -1;
-
-            X = x;
-            Y = y;
-            Z = z;
-            Height = h;
-            MaxWidth = mw;
-            Align = align;
-            HAlign = EHAlignment.Center;
-            Style = style;
-            Font = font;
-
-            Color = new SColorF(r, g, b, a);
-            SelColor = new SColorF(r, g, b, a);
-
-            Text = text;
-
-            Selected = false;
-
-            // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
-            if (MaxWidth > 0)
-                // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
-                Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), MaxWidth, 3f * CBase.Settings.GetRenderH(), 0f);
-            else
-                Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
-
-            ReflectionSpace = rspace;
-            ReflectionHeight = rheight;
-        }
-
-        public CText(float x, float y, float z, EAlignment align, float h, float mw, float r, float g, float b, float a, EStyle style, string font, string text)
-        {
-            _Theme = new SThemeText();
-            _ThemeLoaded = false;
-            _ButtonText = false;
-            _PartyModeID = -1;
-            _TranslationID = -1;
-
-            X = x;
-            Y = y;
-            Z = z;
-            Height = h;
-            MaxWidth = mw;
-            Align = align;
-            HAlign = EHAlignment.Center;
-            Style = style;
-            Font = font;
-
-            Color = new SColorF(r, g, b, a);
-            SelColor = new SColorF(r, g, b, a);
-
-            Text = text;
-
-            Selected = false;
-
-            // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
-            if (MaxWidth > 0)
-                // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
-                Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), MaxWidth, 3f * CBase.Settings.GetRenderH(), 0f);
-            else
-                Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
-        }
-
-        public CText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text, float rspace, float rheight)
-        {
-            _Theme = new SThemeText();
-            _ThemeLoaded = false;
-            _ButtonText = false;
-            _PartyModeID = -1;
-            _TranslationID = -1;
-
-            X = x;
-            Y = y;
-            Z = z;
-            Height = h;
-            MaxWidth = mw;
-            Align = align;
-            HAlign = EHAlignment.Center;
-            Style = style;
-            Font = font;
-
-            Color = col;
-            SelColor = new SColorF(col);
-
-            Text = text;
-
-            Selected = false;
-
-            // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
-            if (MaxWidth > 0)
-                // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
-                Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), MaxWidth, 3f * CBase.Settings.GetRenderH(), 0f);
-            else
-                Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
-
-            ReflectionSpace = rspace;
-            ReflectionHeight = rheight;
-        }
-
-        public CText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text, int partyModeID = -1)
+        public CText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text, int partyModeID = -1, float rheight = 0,
+                     float rspace = 0)
         {
             _Theme = new SThemeText();
             _ThemeLoaded = false;
@@ -443,6 +338,9 @@ namespace VocaluxeLib.Menu
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), MaxWidth, 3f * CBase.Settings.GetRenderH(), 0f);
             else
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
+
+            ReflectionSpace = rspace;
+            ReflectionHeight = rheight;
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
