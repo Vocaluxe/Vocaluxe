@@ -30,7 +30,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Vocaluxe.Base;
-using Vocaluxe.Base.Font;
+using Vocaluxe.Base.Fonts;
 using VocaluxeLib.Menu;
 using BeginMode = OpenTK.Graphics.OpenGL.BeginMode;
 using BlendingFactorDest = OpenTK.Graphics.OpenGL.BlendingFactorDest;

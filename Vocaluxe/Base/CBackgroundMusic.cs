@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Vocaluxe.Base;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 
@@ -496,138 +495,138 @@ namespace Vocaluxe.Base
             }
         }
     }
-}
 
-class CPlaylistElement
-{
-    private readonly CSong _Song;
-
-    private readonly int _SongID;
-    public int SongID
+    class CPlaylistElement
     {
-        get { return _SongID; }
-    }
+        private readonly CSong _Song;
 
-    private string _MusicFilePath = String.Empty;
-
-    public string MusicFilePath
-    {
-        get
+        private readonly int _SongID;
+        public int SongID
         {
-            if (_Song != null)
-                return _Song.GetMP3();
-
-            return _MusicFilePath;
+            get { return _SongID; }
         }
 
-        set { _MusicFilePath = value; }
-    }
+        private string _MusicFilePath = String.Empty;
 
-    public string VideoFilePath
-    {
-        get
+        public string MusicFilePath
         {
-            if (_Song != null)
-                return _Song.GetVideo();
+            get
+            {
+                if (_Song != null)
+                    return _Song.GetMP3();
 
-            return string.Empty;
+                return _MusicFilePath;
+            }
+
+            set { _MusicFilePath = value; }
         }
-    }
 
-    public string Title
-    {
-        get
+        public string VideoFilePath
         {
-            if (_Song != null)
-                return _Song.Title;
+            get
+            {
+                if (_Song != null)
+                    return _Song.GetVideo();
 
-            return "";
+                return string.Empty;
+            }
         }
-    }
 
-    public string Artist
-    {
-        get
+        public string Title
         {
-            if (_Song != null)
-                return _Song.Artist;
+            get
+            {
+                if (_Song != null)
+                    return _Song.Title;
 
-            return "";
+                return "";
+            }
         }
-    }
 
-    public float Start
-    {
-        get
+        public string Artist
         {
-            if (_Song != null)
-                return _Song.Start;
+            get
+            {
+                if (_Song != null)
+                    return _Song.Artist;
 
-            return 0f;
+                return "";
+            }
         }
-    }
 
-    public float Finish
-    {
-        get
+        public float Start
         {
-            if (_Song != null)
-                return _Song.Finish;
+            get
+            {
+                if (_Song != null)
+                    return _Song.Start;
 
-            return 0f;
+                return 0f;
+            }
         }
-    }
 
-    public STexture Cover
-    {
-        get
+        public float Finish
         {
-            if (_Song != null)
-                return _Song.CoverTextureSmall;
+            get
+            {
+                if (_Song != null)
+                    return _Song.Finish;
 
-            return CCover.NoCover;
+                return 0f;
+            }
         }
-    }
 
-    public float VideoGap
-    {
-        get
+        public STexture Cover
         {
-            if (_Song != null)
-                return _Song.VideoGap;
+            get
+            {
+                if (_Song != null)
+                    return _Song.CoverTextureSmall;
 
-            return 0;
+                return CCover.NoCover;
+            }
         }
-    }
 
-    public bool Duet
-    {
-        get
+        public float VideoGap
         {
-            if (_Song != null)
-                return _Song.IsDuet;
+            get
+            {
+                if (_Song != null)
+                    return _Song.VideoGap;
 
-            return false;
+                return 0;
+            }
         }
-    }
 
-    public CPlaylistElement(CSong song)
-    {
-        MusicFilePath = string.Empty;
-        _SongID = song.ID;
+        public bool Duet
+        {
+            get
+            {
+                if (_Song != null)
+                    return _Song.IsDuet;
 
-        _Song = song;
-    }
+                return false;
+            }
+        }
 
-    public CPlaylistElement(string filePath)
-    {
-        MusicFilePath = filePath;
-        _SongID = -1;
-    }
+        public CPlaylistElement(CSong song)
+        {
+            MusicFilePath = string.Empty;
+            _SongID = song.ID;
 
-    public CPlaylistElement()
-    {
-        MusicFilePath = string.Empty;
-        _SongID = -1;
+            _Song = song;
+        }
+
+        public CPlaylistElement(string filePath)
+        {
+            MusicFilePath = filePath;
+            _SongID = -1;
+        }
+
+        public CPlaylistElement()
+        {
+            MusicFilePath = string.Empty;
+            _SongID = -1;
+        }
     }
 }

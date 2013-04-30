@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using Vocaluxe.Base.Font;
+using Vocaluxe.Base.Fonts;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 

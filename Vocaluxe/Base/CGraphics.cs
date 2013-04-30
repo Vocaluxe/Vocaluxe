@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using Vocaluxe.Base.Font;
+using Vocaluxe.Base.Fonts;
 using Vocaluxe.Screens;
 using VocaluxeLib.Menu;
 using VocaluxeLib.PartyModes;
