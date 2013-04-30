@@ -302,7 +302,7 @@ namespace VocaluxeLib.Menu
         bool GetCover(string fileName, ref STexture texture, int coverSize);
     }
 
-    public interface IInputs
+    public interface IControllers
     {
         void SetRumble(float duration);
     }

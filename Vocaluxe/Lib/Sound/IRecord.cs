@@ -18,23 +18,17 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Vocaluxe.Lib.Sound
 {
-    struct SRecordDevice
+    class CRecordDevice
     {
         public int ID;
         public string Name;
         public string Driver;
-        public List<SInput> Inputs;
-    }
 
-    struct SInput
-    {
-        public string Name;
         public int Channels;
-
         public int PlayerChannel1;
         public int PlayerChannel2;
     }
@@ -43,7 +37,6 @@ namespace Vocaluxe.Lib.Sound
     {
         public string DeviceName;
         public string DeviceDriver;
-        public string InputName;
         public int Channel;
 
         // ReSharper disable UnusedParameter.Local
@@ -52,7 +45,6 @@ namespace Vocaluxe.Lib.Sound
         {
             DeviceName = String.Empty;
             DeviceDriver = String.Empty;
-            InputName = String.Empty;
             Channel = 0;
         }
     }
@@ -62,7 +54,7 @@ namespace Vocaluxe.Lib.Sound
         bool Init();
         void CloseAll();
 
-        bool Start(SRecordDevice[] deviceConfig);
+        bool Start();
         bool Stop();
         void AnalyzeBuffer(int player);
 
@@ -74,6 +66,6 @@ namespace Vocaluxe.Lib.Sound
         int NumHalfTones(int player);
         float[] ToneWeigth(int player);
 
-        SRecordDevice[] RecordDevices();
+        ReadOnlyCollection<CRecordDevice> RecordDevices();
     }
 }

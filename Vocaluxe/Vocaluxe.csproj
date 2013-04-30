@@ -178,7 +178,7 @@
     <Compile Include="Base\CDraw.cs" />
     <Compile Include="Base\Font\CFont.cs" />
     <Compile Include="Base\CGame.cs" />
-    <Compile Include="Base\CInput.cs" />
+    <Compile Include="Base\CController.cs" />
     <Compile Include="Base\CLanguage.cs" />
     <Compile Include="Base\CLog.cs" />
     <Compile Include="Base\CMain.cs" />
@@ -217,7 +217,7 @@
     </Compile>
     <Compile Include="Lib\Draw\IDraw.cs" />
     <Compile Include="Lib\Input\CHIDAPI.cs" />
-    <Compile Include="Lib\Input\IInput.cs" />
+    <Compile Include="Lib\Input\IController.cs" />
     <Compile Include="Lib\Input\WiiMote\CWiiMote.cs" />
     <Compile Include="Lib\Input\WiiMote\WiiMoteLib.cs" />
     <Compile Include="Lib\Playlist\CPlaylistFile.cs" />

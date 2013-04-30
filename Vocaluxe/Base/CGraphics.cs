@@ -320,7 +320,7 @@ namespace Vocaluxe.Base
             CVideo.Update();
             CSound.Update();
             CBackgroundMusic.Update();
-            CInput.Update();
+            CController.Update();
 
             if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC && _CurrentScreen != EScreens.ScreenSing)
                 CSongs.LoadCover();
@@ -512,7 +512,7 @@ namespace Vocaluxe.Base
 
             bool resume = true;
             bool eventsAvailable;
-            bool inputEventsAvailable = CInput.PollKeyEvent(ref inputKeyEvent);
+            bool inputEventsAvailable = CController.PollKeyEvent(ref inputKeyEvent);
 
             while ((eventsAvailable = keys.PollEvent(ref keyEvent)) || inputEventsAvailable)
             {
@@ -617,10 +617,10 @@ namespace Vocaluxe.Base
                 }
 
                 if (!eventsAvailable)
-                    inputEventsAvailable = CInput.PollKeyEvent(ref inputKeyEvent);
+                    inputEventsAvailable = CController.PollKeyEvent(ref inputKeyEvent);
             }
 
-            inputEventsAvailable = CInput.PollMouseEvent(ref inputMouseEvent);
+            inputEventsAvailable = CController.PollMouseEvent(ref inputMouseEvent);
 
             while ((eventsAvailable = mouse.PollEvent(ref mouseEvent)) || inputEventsAvailable)
             {
@@ -678,7 +678,7 @@ namespace Vocaluxe.Base
                     resume &= _Screens[(int)_CurrentScreen].HandleMouse(mouseEvent);
 
                 if (!eventsAvailable)
-                    inputEventsAvailable = CInput.PollMouseEvent(ref inputMouseEvent);
+                    inputEventsAvailable = CController.PollMouseEvent(ref inputMouseEvent);
             }
             return resume;
         }

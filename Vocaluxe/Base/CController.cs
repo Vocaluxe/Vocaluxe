@@ -23,56 +23,56 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {
-    static class CInput
+    static class CController
     {
-        private static IInput _Input;
+        private static IController _Controller;
 
         public static void Init()
         {
-            _Input = new CWiiMote();
+            _Controller = new CWiiMote();
 
-            _Input.Init();
+            _Controller.Init();
         }
 
         public static void Close()
         {
-            _Input.Close();
-            _Input = null;
+            _Controller.Close();
+            _Controller = null;
         }
 
         public static void Connect()
         {
-            _Input.Connect();
+            _Controller.Connect();
         }
 
         public static void Disconnect()
         {
-            _Input.Disconnect();
+            _Controller.Disconnect();
         }
 
         public static bool IsConnected()
         {
-            return _Input.IsConnected();
+            return _Controller.IsConnected();
         }
 
         public static void Update()
         {
-            _Input.Update();
+            _Controller.Update();
         }
 
         public static bool PollKeyEvent(ref SKeyEvent keyEvent)
         {
-            return _Input.PollKeyEvent(ref keyEvent);
+            return _Controller.PollKeyEvent(ref keyEvent);
         }
 
         public static bool PollMouseEvent(ref SMouseEvent mouseEvent)
         {
-            return _Input.PollMouseEvent(ref mouseEvent);
+            return _Controller.PollMouseEvent(ref mouseEvent);
         }
 
         public static void SetRumble(float duration)
         {
-            _Input.SetRumble(duration);
+            _Controller.SetRumble(duration);
         }
     }
 }

@@ -347,7 +347,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 sel = true;
 
             if (mouseEvent.Sender == ESender.WiiMote && _ActualSelection != lastselection && _ActualSelection != -1)
-                CBase.Input.SetRumble(0.050f);
+                CBase.Controller.SetRumble(0.050f);
 
             if (!sel)
                 _ActualSelection = -1;
@@ -392,7 +392,9 @@ namespace VocaluxeLib.Menu.SongMenu
                     tile.Draw(1.2f, tile.Rect.Z - 0.1f, EAspect.Crop);
                 else
                 {
+                    // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
                     if (tile.Texture.Index != _CoverTexture.Index)
+                        // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                         tile.Draw(1f, tile.Rect.Z, EAspect.Crop);
                     else
                         tile.Draw(1f, tile.Rect.Z, EAspect.Stretch);
@@ -433,7 +435,9 @@ namespace VocaluxeLib.Menu.SongMenu
                     _Artist.Text = CBase.Songs.GetCategory(actcat).Name;
 
                     int num = CBase.Songs.NumSongsInCategory(actcat);
+                    // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
                     if (num != 1)
+                        // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                         _Title.Text = CBase.Language.Translate("TR_SCREENSONG_NUMSONGS").Replace("%v", num.ToString());
                     else
                         _Title.Text = CBase.Language.Translate("TR_SCREENSONG_NUMSONG").Replace("%v", num.ToString());
@@ -623,10 +627,7 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 if (itemCount > i + offset)
                 {
-                    if (isInCategory)
-                        _Tiles[i].Texture = CBase.Songs.GetVisibleSong(i + offset).CoverTextureSmall;
-                    else
-                        _Tiles[i].Texture = CBase.Songs.GetCategory(i + offset).CoverTextureSmall;
+                    _Tiles[i].Texture = isInCategory ? CBase.Songs.GetVisibleSong(i + offset).CoverTextureSmall : CBase.Songs.GetCategory(i + offset).CoverTextureSmall;
                     _Tiles[i].Color = new SColorF(1f, 1f, 1f, 1f);
                 }
                 else

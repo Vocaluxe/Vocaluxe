@@ -708,17 +708,9 @@ namespace Vocaluxe.Base
                     }
 
                     //This is a USDX 1.01 DB
-                    if (!dateExists)
-                    {
-                        command.CommandText =
-                            "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, Difficulty) SELECT SongID, Player, Score, '0', '0', '0', '0', Difficulty from US_Scores";
-                    }
-                    else
-                    {
-                        // This is a CMD 1.01 DB
-                        command.CommandText =
-                            "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, Difficulty) SELECT SongID, Player, Score, '0', Date, '0', '0', Difficulty from US_Scores";
-                    }
+                    command.CommandText = !dateExists
+                                              ? "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, Difficulty) SELECT SongID, Player, Score, '0', '0', '0', '0', Difficulty from US_Scores"
+                                              : "INSERT INTO Scores (SongID, PlayerName, Score, LineNr, Date, Medley, Duet, Difficulty) SELECT SongID, Player, Score, '0', Date, '0', '0', Difficulty from US_Scores";
                     command.ExecuteNonQuery();
 
                     command.CommandText = "INSERT INTO Songs SELECT ID, Artist, Title, TimesPlayed from US_Songs";
@@ -763,7 +755,9 @@ namespace Vocaluxe.Base
 
                         stmt = new Sqlite3.Vdbe();
 
+                        // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
                         if (!dateExists)
+                            // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                             res = Sqlite3.sqlite3_prepare_v2(oldDB, "SELECT id, PlayerName FROM Scores", -1, ref stmt, 0);
                         else
                             res = Sqlite3.sqlite3_prepare_v2(oldDB, "SELECT id, PlayerName, Date FROM Scores", -1, ref stmt, 0);

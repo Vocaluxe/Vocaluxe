@@ -38,12 +38,12 @@ namespace VocaluxeLib.Menu
         public static ISound Sound;
         public static ICover Cover;
         public static IDataBase DataBase;
-        public static IInputs Input;
+        public static IControllers Controller;
         public static IPlaylist Playlist;
 
         public static void Assign(IConfig config, ISettings settings, ITheme theme, ILog log, IBackgroundMusic backgroundMusic,
                                   IDrawing draw, IGraphics graphics, IFonts fonts, ILanguage language, IGame game, IProfiles profiles, IRecording record,
-                                  ISongs songs, IVideo video, ISound sound, ICover cover, IDataBase dataBase, IInputs input, IPlaylist playlist)
+                                  ISongs songs, IVideo video, ISound sound, ICover cover, IDataBase dataBase, IControllers controller, IPlaylist playlist)
         {
             Config = config;
             Settings = settings;
@@ -62,7 +62,7 @@ namespace VocaluxeLib.Menu
             Sound = sound;
             Cover = cover;
             DataBase = dataBase;
-            Input = input;
+            Controller = controller;
             Playlist = playlist;
         }
     }

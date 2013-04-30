@@ -297,7 +297,9 @@ namespace VocaluxeLib.Menu
 
         public void Draw()
         {
+            // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
             if (_TextureName != "")
+                // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                 CBase.Drawing.DrawTexture(CBase.Theme.GetSkinTexture(_TextureName, _PartyModeID), _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
             else
                 CBase.Drawing.DrawTexture(_Texture, _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));

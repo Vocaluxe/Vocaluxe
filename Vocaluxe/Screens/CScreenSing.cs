@@ -384,7 +384,9 @@ namespace Vocaluxe.Screens
 
             for (int p = 0; p < CGame.NumPlayer; p++)
             {
+                // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
                 if (CGame.Players[p].Points < 10000)
+                    // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                     _Texts[_TextScores[p, CGame.NumPlayer - 1]].Text = CGame.Players[p].Points.ToString("0000");
                 else
                     _Texts[_TextScores[p, CGame.NumPlayer - 1]].Text = CGame.Players[p].Points.ToString("00000");

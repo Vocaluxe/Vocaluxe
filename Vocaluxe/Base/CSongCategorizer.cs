@@ -67,17 +67,17 @@ namespace Vocaluxe.Base
         {
             CCategory lastCategory = null;
             CCategory notLetterCat = null;
-            for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
+            foreach (CSongPointer songPointer in CSongs.Sorter.SortedSongs)
             {
-                Char firstLetter = Char.ToUpper(CSongs.Sorter.SortedSongs[i].SortString.Normalize(NormalizationForm.FormD)[0]);
+                Char firstLetter = Char.ToUpper(songPointer.SortString.Normalize(NormalizationForm.FormD)[0]);
                 if (Char.IsLetter(firstLetter))
                 {
-                    if (lastCategory == null || CSongs.Sorter.SortedSongs[i].SortString != lastCategory.Name)
+                    if (lastCategory == null || songPointer.SortString != lastCategory.Name)
                     {
-                        lastCategory = new CCategory(CSongs.Sorter.SortedSongs[i].SortString);
+                        lastCategory = new CCategory(songPointer.SortString);
                         _Categories.Add(lastCategory);
                     }
-                    lastCategory.Songs.Add(CSongs.Sorter.SortedSongs[i]);
+                    lastCategory.Songs.Add(songPointer);
                 }
                 else
                 {
@@ -86,7 +86,7 @@ namespace Vocaluxe.Base
                         notLetterCat = new CCategory("#");
                         _Categories.Add(notLetterCat);
                     }
-                    notLetterCat.Songs.Add(CSongs.Sorter.SortedSongs[i]);
+                    notLetterCat.Songs.Add(songPointer);
                 }
             }
         }
@@ -95,16 +95,16 @@ namespace Vocaluxe.Base
         {
             CCategory lastCategory = null;
             CCategory noCategory = null;
-            for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
+            foreach (CSongPointer songPointer in CSongs.Sorter.SortedSongs)
             {
-                if (CSongs.Sorter.SortedSongs[i].SortString != "")
+                if (songPointer.SortString != "")
                 {
-                    if (lastCategory == null || CSongs.Sorter.SortedSongs[i].SortString != lastCategory.Name)
+                    if (lastCategory == null || songPointer.SortString != lastCategory.Name)
                     {
-                        lastCategory = new CCategory(CSongs.Sorter.SortedSongs[i].SortString);
+                        lastCategory = new CCategory(songPointer.SortString);
                         _Categories.Add(lastCategory);
                     }
-                    lastCategory.Songs.Add(CSongs.Sorter.SortedSongs[i]);
+                    lastCategory.Songs.Add(songPointer);
                 }
                 else
                 {
@@ -113,7 +113,7 @@ namespace Vocaluxe.Base
                         noCategory = new CCategory(noCategoryName);
                         _Categories.Add(noCategory);
                     }
-                    noCategory.Songs.Add(CSongs.Sorter.SortedSongs[i]);
+                    noCategory.Songs.Add(songPointer);
                 }
             }
         }
@@ -149,13 +149,13 @@ namespace Vocaluxe.Base
             {
                 if (sorting == ESongSorting.TR_CONFIG_DECADE)
                 {
-                    for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
+                    foreach (CSongPointer songPointer in CSongs.Sorter.SortedSongs)
                     {
-                        string year = CSongs.Sorter.SortedSongs[i].SortString;
+                        string year = songPointer.SortString;
                         if (year != "")
                         {
                             year = year.Substring(0, 3);
-                            CSongs.Sorter.SortedSongs[i].SortString = year + "0 - " + year + "9";
+                            songPointer.SortString = year + "0 - " + year + "9";
                         }
                     }
                 }

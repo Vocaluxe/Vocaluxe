@@ -17,7 +17,6 @@
 //  */
 #endregion
 
-using System;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Font;

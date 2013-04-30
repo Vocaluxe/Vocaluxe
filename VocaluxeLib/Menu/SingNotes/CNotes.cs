@@ -348,13 +348,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public string Lyrics
         {
-            get
-            {
-                string lyrics = String.Empty;
-                foreach (CNote note in _Notes)
-                    lyrics += note.Text;
-                return lyrics;
-            }
+            get { return _Notes.Aggregate(String.Empty, (current, note) => current + note.Text); }
         }
 
         public int NoteCount
@@ -364,13 +358,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public int Points
         {
-            get
-            {
-                int points = 0;
-                foreach (CNote note in _Notes)
-                    points += note.Points;
-                return points;
-            }
+            get { return _Notes.Sum(note => note.Points); }
         }
 
         public CNote[] Notes
