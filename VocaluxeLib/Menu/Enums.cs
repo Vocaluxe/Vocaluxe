@@ -274,10 +274,12 @@ namespace VocaluxeLib.Menu
 
     public enum ELyricsPosition
     {
+        // ReSharper disable InconsistentNaming
         TR_CONFIG_LYRICSPOSITION_BOTTOM,
         TR_CONFIG_LYRICSPOSITION_TOP,
         TR_CONFIG_LYRICSPOSITION_BOTH,
         TR_CONFIG_LYRICSPOSITION_DYNAMIC
+        // ReSharper restore InconsistentNaming
     }
 
     public enum ELyricStyle
