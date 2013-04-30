@@ -61,8 +61,11 @@ namespace Vocaluxe.Base.Font
                 fullSize.Width += outlineSize;
                 if (chr != ' ')
                 {
+                    //Gets exact height and width for drawing more than 1 char. But width is to small to draw char on bitmap as e.g. italic chars will get cropped)
                     boundingSize = g.MeasureString(chrString, fo, -1, new StringFormat(StringFormat.GenericTypographic));
                     boundingSize.Width += outlineSize;
+                    if (boundingSize.Height > 0)
+                        fullSize.Height = boundingSize.Height;
                 }
                 else
                 {
@@ -145,73 +148,34 @@ namespace Vocaluxe.Base.Font
 
         private static Rectangle _GetRealBounds(Bitmap bmp)
         {
-            int minX = 0, minY = 0, maxX = bmp.Width - 1, maxY = bmp.Height - 1;
+            int minX = 0, maxX = bmp.Width - 1;
             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             int values = bmpData.Width * bmp.Height;
             Int32[] rgbValues = new Int32[values];
             Marshal.Copy(bmpData.Scan0, rgbValues, 0, values);
-            int index = 0;
+            int index;
             bool found = false;
-            //find from top
-            for (int y = 0; y < bmp.Height && !found; y++)
+            //find left
+            for (int x = 0; x < maxX && !found; x++)
             {
-                for (int x = 0; x < bmp.Width; x++)
+                index = x;
+                for (int y = 0; y < bmp.Height; y++)
                 {
                     if (rgbValues[index] != 0)
                     {
-                        minX = x;
-                        maxX = x;
-                        minY = y;
                         found = true;
+                        minX = x;
                         break;
                     }
-                    index++;
+                    index += bmp.Width;
                 }
             }
             found = false;
-            //find from bottom
-            for (int y = bmp.Height - 1; y >= minY && !found; y--)
-            {
-                index = y * bmp.Width;
-                for (int x = 0; x < bmp.Width; x++)
-                {
-                    if (rgbValues[index] != 0)
-                    {
-                        if (x < minX)
-                            minX = x;
-                        else if (x > maxX)
-                            maxX = x;
-                        maxY = y;
-                        found = true;
-                        break;
-                    }
-                    index++;
-                }
-            }
-            //find left
-            for (int x = minX - 1; x >= 0; x--)
-            {
-                found = false;
-                index = minY * bmp.Width + x;
-                for (int y = minY; y <= maxY; y++)
-                {
-                    if (rgbValues[index] != 0)
-                    {
-                        found = true;
-                        minX = x;
-                        break;
-                    }
-                    index += bmp.Width;
-                }
-                if (!found)
-                    break;
-            }
             //find right
-            for (int x = maxX + 1; x < bmp.Width; x++)
+            for (int x = maxX; x > minX && !found; x--)
             {
-                found = false;
-                index = minY * bmp.Width + x;
-                for (int y = minY; y <= maxY; y++)
+                index = x;
+                for (int y = 0; y < bmp.Height; y++)
                 {
                     if (rgbValues[index] != 0)
                     {
@@ -221,10 +185,8 @@ namespace Vocaluxe.Base.Font
                     }
                     index += bmp.Width;
                 }
-                if (!found)
-                    break;
             }
-            return new Rectangle(minX, minY, maxX - minX + 1, maxY - minY + 1);
+            return new Rectangle(minX, 0, maxX - minX + 1, bmp.Height);
         }
 
         private float _GetStyleFactor(char chr, TextFormatFlags flags)
