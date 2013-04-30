@@ -180,8 +180,8 @@ namespace Vocaluxe.Base.Font
             //find left
             for (int x = 0; x < minX && !found; x++)
             {
-                index = x;
-                for (int y = 0; y < bmp.Height; y++)
+                index = x + minY * bmp.Width;
+                for (int y = minY; y < bmp.Height; y++)
                 {
                     if (rgbValues[index] != 0)
                     {
@@ -196,8 +196,8 @@ namespace Vocaluxe.Base.Font
             //find right
             for (int x = bmp.Width - 1; x > maxX && !found; x--)
             {
-                index = x;
-                for (int y = 0; y < bmp.Height; y++)
+                index = x + minY * bmp.Width;
+                for (int y = minY; y < bmp.Height; y++)
                 {
                     if (rgbValues[index] != 0)
                     {

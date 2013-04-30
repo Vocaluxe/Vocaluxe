@@ -32,11 +32,13 @@ namespace Vocaluxe.Base.Font
         private FontFamily _Family;
         private readonly float _Sizeh;
 
-        public readonly string FilePath;
+        private readonly string _FilePath;
+
+        private Font _LastFont;
 
         public CFont(string file)
         {
-            FilePath = file;
+            _FilePath = file;
 
             _Glyphs = new Dictionary<char, CGlyph>();
 
@@ -70,12 +72,12 @@ namespace Vocaluxe.Base.Font
                 _Fonts = new PrivateFontCollection();
                 try
                 {
-                    _Fonts.AddFontFile(FilePath);
+                    _Fonts.AddFontFile(_FilePath);
                     _Family = _Fonts.Families[0];
                 }
                 catch (Exception e)
                 {
-                    CLog.LogError("Error opening font file " + FilePath + ": " + e.Message);
+                    CLog.LogError("Error opening font file " + _FilePath + ": " + e.Message);
                 }
             }
 
