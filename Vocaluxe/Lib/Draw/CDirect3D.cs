@@ -758,8 +758,14 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="y2">The end y-value</param>
         public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2)
         {
-            SColorF color = new SColorF((float)a / 255, (float)g / 255, (float)b / 255, (float)a / 255);
-            DrawTexture(_BlankTexture, new SRectF(x1, y1, x2, y2, 1), color);
+            var lineVector = new Vector2[] {new Vector2(x1, y1), new Vector2(x2, y2)};
+            using (var line = new Line(_Device))
+            {
+                line.Antialias = true;
+                line.Begin();
+                line.Draw(lineVector, new Color4((float)a / 255, (float)r / 255, (float)g / 255, (float)b / 255));
+                line.End();
+            }
         }
 
         /// <summary>

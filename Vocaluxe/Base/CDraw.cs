@@ -19,7 +19,6 @@
 
 using System;
 using System.Drawing;
-using System.Windows.Forms;
 using Vocaluxe.Lib.Draw;
 using VocaluxeLib.Menu;
 
@@ -205,7 +204,7 @@ namespace Vocaluxe.Base
 
             CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, aspect);
             DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, staticBounds.Rect.Z),
-                        texture.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false);
+                        texture.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f));
         }
 
         public static void DrawTextureReflection(STexture texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
