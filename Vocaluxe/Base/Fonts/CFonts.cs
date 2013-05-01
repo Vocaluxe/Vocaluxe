@@ -31,11 +31,13 @@ namespace Vocaluxe.Base.Fonts
     {
         private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
 
-        private static List<SFont> _Fonts;
+        private static readonly List<SFont> _Fonts = new List<SFont>();
         private static int _CurrentFont;
         private static float _Height = 1f;
 
+        // ReSharper disable MemberCanBePrivate.Global
         public static int PartyModeID { get; set; }
+        // ReSharper restore MemberCanBePrivate.Global
 
         public static EStyle Style = EStyle.Normal;
 
@@ -68,7 +70,14 @@ namespace Vocaluxe.Base.Fonts
 
         private static void _BuildFonts()
         {
-            _Fonts = new List<SFont>();
+            foreach (var font in _Fonts)
+            {
+                font.Normal.Dispose();
+                font.Bold.Dispose();
+                font.Italic.Dispose();
+                font.BoldItalic.Dispose();
+            }
+            _Fonts.Clear();
             _CurrentFont = 0;
 
             _LoadFontList();
@@ -343,8 +352,6 @@ namespace Vocaluxe.Base.Fonts
             CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.FolderFonts, CSettings.FileFonts));
             if (xmlReader == null)
                 return;
-
-            _Fonts.Clear();
 
             _LoadFontFiles(xmlReader, Path.Combine(Directory.GetCurrentDirectory(), CSettings.FolderFonts));
         }

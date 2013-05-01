@@ -34,6 +34,8 @@ namespace Vocaluxe.Base.Fonts
 
         private readonly string _FilePath;
 
+        private bool _Disposed;
+
         public CFont(string file)
         {
             _FilePath = file;
@@ -135,11 +137,12 @@ namespace Vocaluxe.Base.Fonts
 
         public void Dispose()
         {
-            if (_Fonts != null)
+            if (!_Disposed)
             {
-                _Fonts.Dispose();
-                _Fonts = null;
+                if (_Fonts != null)
+                    _Fonts.Dispose();
                 UnloadGlyphs();
+                _Disposed = true;
             }
             GC.SuppressFinalize(this);
         }
