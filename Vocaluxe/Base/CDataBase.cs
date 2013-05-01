@@ -950,7 +950,7 @@ namespace Vocaluxe.Base
                         reader.Read();
                         byte[] data = _GetBytes(reader);
                         reader.Dispose();
-                        tex = CDraw.EnqueueTexture(w, h, ref data);
+                        tex = CDraw.EnqueueTexture(w, h, data);
                         return true;
                     }
                 }
@@ -1000,7 +1000,7 @@ namespace Vocaluxe.Base
                         origin.Dispose();
                     }
 
-                    tex = CDraw.EnqueueTexture(w, h, ref data);
+                    tex = CDraw.EnqueueTexture(w, h, data);
 
                     command.CommandText = "INSERT INTO Cover (Path, width, height) VALUES (@path, @w, @h)";
                     command.Parameters.Add("@w", DbType.Int32).Value = w;
@@ -1180,7 +1180,7 @@ namespace Vocaluxe.Base
                             result = true;
                             reader.Read();
                             byte[] data = _GetBytes(reader);
-                            tex = CDraw.AddTexture(w, h, ref data);
+                            tex = CDraw.AddTexture(w, h, data);
                             /*using (Bitmap bmp = new Bitmap(w, h))
                             {
                                 BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);

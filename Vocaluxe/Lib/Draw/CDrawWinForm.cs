@@ -398,12 +398,12 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        public STexture EnqueueTexture(int w, int h, ref byte[] data)
+        public STexture EnqueueTexture(int w, int h, byte[] data)
         {
-            return AddTexture(w, h, ref data);
+            return AddTexture(w, h, data);
         }
 
-        public STexture AddTexture(int w, int h, ref byte[] data)
+        public STexture AddTexture(int w, int h, byte[] data)
         {
             using (Bitmap bmp = new Bitmap(w, h))
             {
@@ -414,7 +414,7 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        public bool UpdateTexture(ref STexture texture, ref byte[] data)
+        public bool UpdateTexture(ref STexture texture, byte[] data)
         {
             if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
             {

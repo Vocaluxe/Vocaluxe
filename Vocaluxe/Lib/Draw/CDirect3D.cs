@@ -915,14 +915,14 @@ namespace Vocaluxe.Lib.Draw
                     bmp2.Dispose();
             }
 
-            return AddTexture(w, h, ref data);
+            return AddTexture(w, h, data);
         }
 
-        public STexture AddTexture(int w, int h, ref byte[] data)
+        public STexture AddTexture(int w, int h, byte[] data)
         {
             STexture texture = new STexture(-1);
 
-            Texture t = _CreateTexture(w, h, ref data, ref texture);
+            Texture t = _CreateTexture(w, h, data, ref texture);
 
             lock (_MutexTexture)
             {
@@ -933,7 +933,7 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        private Texture _CreateTexture(int w, int h, ref byte[] data, ref STexture texture)
+        private Texture _CreateTexture(int w, int h, byte[] data, ref STexture texture)
         {
             texture.Width = w;
             texture.Height = h;
@@ -972,7 +972,7 @@ namespace Vocaluxe.Lib.Draw
             return t;
         }
 
-        public STexture EnqueueTexture(int w, int h, ref byte[] data)
+        public STexture EnqueueTexture(int w, int h, byte[] data)
         {
             STexture texture = new STexture(-1);
             STextureQueue queue = new STextureQueue {Data = data, Height = h, Width = w};
@@ -999,7 +999,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="texture">The texture to update</param>
         /// <param name="data">A byte array containing the new texture's data</param>
         /// <returns>True if succeeded</returns>
-        public bool UpdateTexture(ref STexture texture, ref byte[] data)
+        public bool UpdateTexture(ref STexture texture, byte[] data)
         {
             if ((texture.Index >= 0) && (_Textures.Count > 0) && _TextureExists(ref texture))
             {
@@ -1350,7 +1350,7 @@ namespace Vocaluxe.Lib.Draw
                 else
                     return;
 
-                Texture t = _CreateTexture(q.Width, q.Height, ref q.Data, ref texture);
+                Texture t = _CreateTexture(q.Width, q.Height, q.Data, ref texture);
                 _D3DTextures[q.ID] = t;
 
                 _Textures[texture.Index] = texture;

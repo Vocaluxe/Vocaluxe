@@ -149,19 +149,19 @@ namespace Vocaluxe.Base
             return _Draw.AddTexture(texturePath);
         }
 
-        public static STexture AddTexture(int w, int h, ref byte[] data)
+        public static STexture AddTexture(int w, int h, byte[] data)
         {
-            return _Draw.AddTexture(w, h, ref data);
+            return _Draw.AddTexture(w, h, data);
         }
 
-        public static STexture EnqueueTexture(int w, int h, ref byte[] data)
+        public static STexture EnqueueTexture(int w, int h, byte[] data)
         {
-            return _Draw.EnqueueTexture(w, h, ref data);
+            return _Draw.EnqueueTexture(w, h, data);
         }
 
-        public static bool UpdateTexture(ref STexture texture, ref byte[] data)
+        public static bool UpdateTexture(ref STexture texture, byte[] data)
         {
-            return _Draw.UpdateTexture(ref texture, ref data);
+            return _Draw.UpdateTexture(ref texture, data);
         }
 
         public static void RemoveTexture(ref STexture texture)

@@ -782,7 +782,7 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        public STexture AddTexture(int w, int h, ref byte[] data)
+        public STexture AddTexture(int w, int h, byte[] data)
         {
             STexture texture = new STexture(-1);
 
@@ -843,7 +843,7 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        public STexture EnqueueTexture(int w, int h, ref byte[] data)
+        public STexture EnqueueTexture(int w, int h, byte[] data)
         {
             STexture texture = new STexture(-1);
             STextureQueue queue = new STextureQueue {Data = data, Height = h, Width = w};
@@ -864,7 +864,7 @@ namespace Vocaluxe.Lib.Draw
         #endregion adding
 
         #region updating
-        public bool UpdateTexture(ref STexture texture, ref byte[] data)
+        public bool UpdateTexture(ref STexture texture, byte[] data)
         {
             if (_TextureExists(ref texture))
             {

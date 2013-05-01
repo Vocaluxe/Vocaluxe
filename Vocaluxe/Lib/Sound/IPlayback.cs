@@ -103,7 +103,7 @@ namespace Vocaluxe.Lib.Sound
             }
         }
 
-        public void Read(ref byte[] data)
+        public void Read(byte[] data)
         {
             long read = 0L;
             while (read < data.Length && _BytesNotRead > 0L)

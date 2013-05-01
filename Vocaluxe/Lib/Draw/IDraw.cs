@@ -41,9 +41,9 @@ namespace Vocaluxe.Lib.Draw
 
         STexture AddTexture(string texturePath);
         STexture AddTexture(Bitmap bitmap);
-        STexture AddTexture(int w, int h, ref byte[] data);
-        STexture EnqueueTexture(int w, int h, ref byte[] data);
-        bool UpdateTexture(ref STexture texture, ref byte[] data);
+        STexture AddTexture(int w, int h, byte[] data);
+        STexture EnqueueTexture(int w, int h, byte[] data);
+        bool UpdateTexture(ref STexture texture, byte[] data);
         void RemoveTexture(ref STexture texture);
 
         // Basic Draw Methods
