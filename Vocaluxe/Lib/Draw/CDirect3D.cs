@@ -521,7 +521,7 @@ namespace Vocaluxe.Lib.Draw
                 //We finished drawing the frame
                 if (_Device.EndScene().IsFailure)
                     CLog.LogError("Failed to end scene");
-                _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
+                _Run = _Run && CGraphics.UpdateGameLogic(_Keys, _Mouse);
                 try
                 {
                     //Now push the frame to the Viewport
