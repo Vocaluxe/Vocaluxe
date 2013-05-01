@@ -51,7 +51,7 @@ namespace Vocaluxe.Screens
             _AddText(text);
             text = new CText(10, 210, 1, 32, 0, EAlignment.Left, EStyle.Bold, "Outline", color, "Bold Text" + test, -1, 26, 0);
             _AddText(text);
-            text = new CText(10, 250, 1, 32, 0, EAlignment.Left, EStyle.Italic, "Outline", color, "Italic Text" + test, -1, 26, 0);
+            text = new CText(10, 250, 1, 400, 0, EAlignment.Left, EStyle.Italic, "Outline", color, "Italic Text" + test, -1, 26, 0);
             _AddText(text);
         }
 

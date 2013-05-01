@@ -110,13 +110,16 @@ namespace Vocaluxe.Base.Fonts
                             g.FillPath(Brushes.White, path);
                         }
                     }
-                    Rectangle realBounds = _GetRealBounds(bmp);
-                    _DrawBounding = realBounds;
-                    float dx = (fullSize.Width - boundingSize.Width - 1) / 2;
-                    _DrawBounding.X -= dx;
-                    using (Bitmap bmpCropped = bmp.Clone(realBounds, PixelFormat.Format32bppArgb))
+                    _DrawBounding = _GetRealBounds(bmp);
+                    using (Bitmap bmpCropped = bmp.Clone(_DrawBounding, PixelFormat.Format32bppArgb))
                     {
+                        float dx = (fullSize.Width - boundingSize.Width - 1) / 2;
+                        _DrawBounding.X -= dx;
                         _Texture = CDraw.AddTexture(bmpCropped);
+                        _DrawBounding.X *= _Texture.Width / _DrawBounding.Width;
+                        _DrawBounding.Y *= _Texture.Width / _DrawBounding.Width;
+                        _DrawBounding.Width = _Texture.Width;
+                        _DrawBounding.Height = _Texture.Height;
                         if (false)
                         {
                             if (outline > 0)
@@ -146,8 +149,8 @@ namespace Vocaluxe.Base.Fonts
             float factor = _GetFactor();
             x += _DrawBounding.X * factor;
             y += _DrawBounding.Y * factor;
-            float w = _DrawBounding.Width * factor;
             float h = _DrawBounding.Height * factor;
+            float w = _DrawBounding.Width * factor;
             rect = new SRectF(x, y, w, h, z);
         }
 
