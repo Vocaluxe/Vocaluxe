@@ -128,7 +128,7 @@ namespace Vocaluxe.Base.Fonts
             CFonts.Height = oldHeight;
         }
 
-        ~CGlyph()
+        public void UnloadTexture()
         {
             CDraw.RemoveTexture(ref _Texture);
         }

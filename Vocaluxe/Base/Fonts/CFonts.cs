@@ -418,9 +418,6 @@ namespace Vocaluxe.Base.Fonts
 
         public static void UnloadThemeFonts(string themeName)
         {
-            if (_Fonts.Count == 0)
-                return;
-
             int index = 0;
             while (index < _Fonts.Count)
             {

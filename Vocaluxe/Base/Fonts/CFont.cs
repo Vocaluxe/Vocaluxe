@@ -128,8 +128,8 @@ namespace Vocaluxe.Base.Fonts
 
         public void UnloadGlyphs()
         {
-            //foreach (CGlyph glyph in _Glyphs.Values)
-            //    glyph.UnloadTexture();
+            foreach (CGlyph glyph in _Glyphs.Values)
+                glyph.UnloadTexture();
             _Glyphs.Clear();
         }
 
