@@ -314,11 +314,9 @@ namespace Vocaluxe.Screens
                 {
                     if (_Snapshot == null)
                         CWebcam.GetFrame(ref _WebcamTexture);
-                    _Statics[_StaticAvatar].Texture = _WebcamTexture;
 
-                    RectangleF bounds = new RectangleF(_WebcamTexture.Rect.X, _WebcamTexture.Rect.Y, _WebcamTexture.Rect.W, _WebcamTexture.Rect.H);
-                    RectangleF rect = new RectangleF(0f, 0f, _WebcamTexture.Rect.W, _WebcamTexture.Rect.H);
-                    CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, EAspect.Crop);
+                    _Statics[_StaticAvatar].Aspect = EAspect.Crop;
+                    _Statics[_StaticAvatar].Texture = _WebcamTexture;
                 }
                 else
                     _Statics[_StaticAvatar].Texture = CProfiles.Avatars[avatarNr].Texture;

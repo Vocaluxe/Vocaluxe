@@ -25,6 +25,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using System.Runtime.ExceptionServices;
+using Vocaluxe.Base.Font;
 
 namespace Vocaluxe
 {
@@ -184,8 +185,8 @@ namespace Vocaluxe
 
                 // Init Input
                 CLog.StartBenchmark(0, "Init Input");
-                CInput.Init();
-                CInput.Connect();
+                CController.Init();
+                CController.Connect();
                 CLog.StopBenchmark(0, "Init Input");
 
                 // Init Game;
@@ -201,9 +202,9 @@ namespace Vocaluxe
             catch (Exception e)
             {
                 MessageBox.Show("Error on start up: " + e.Message + e.StackTrace);
-                CLog.LogError("Error on start up: " + e.Message + e.StackTrace);
+                CLog.LogError("Error on start up: " + e);
+                _SplashScreen.Close();
                 _CloseProgram();
-                Environment.Exit(Environment.ExitCode);
             }
             Application.DoEvents();
 
@@ -219,7 +220,7 @@ namespace Vocaluxe
             try
             {
                 CLog.CloseAll();
-                CInput.Close();
+                CController.Close();
                 CSound.RecordCloseAll();
                 CSound.CloseAllStreams();
                 CVideo.VdCloseAll();
@@ -228,6 +229,7 @@ namespace Vocaluxe
                 CWebcam.Close();
             }
             catch (Exception) {}
+            Environment.Exit(Environment.ExitCode);
         }
 
         [HandleProcessCorruptedStateExceptions]
@@ -242,6 +244,7 @@ namespace Vocaluxe
             catch {}
             MessageBox.Show("Unhandled exception: " + e.Message + stackTrace);
             CLog.LogError("Unhandled exception: " + e.Message + stackTrace);
+            _CloseProgram();
         }
 
         private static Assembly _AssemblyResolver(Object sender, ResolveEventArgs args)

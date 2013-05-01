@@ -19,7 +19,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
+using Vocaluxe.Base.Font;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 
@@ -44,13 +46,13 @@ namespace Vocaluxe.Base
         private static readonly ISound _Sound = new CBsound();
         private static readonly ICover _Cover = new CBcover();
         private static readonly IDataBase _DataBase = new CBdataBase();
-        private static readonly IInputs _Input = new CBinputs();
+        private static readonly IControllers _Controller = new CBcontrollers();
         private static readonly IPlaylist _Playlist = new CBplaylist();
 
         public static void Init()
         {
             CBase.Assign(_Config, _Settings, _Theme, _Log, _BackgroundMusic, _Draw, _Graphics, _Fonts, _Language,
-                         _Game, _Profiles, _Record, _Songs, _Video, _Sound, _Cover, _DataBase, _Input, _Playlist);
+                         _Game, _Profiles, _Record, _Songs, _Video, _Sound, _Cover, _DataBase, _Controller, _Playlist);
         }
     }
 
@@ -567,9 +569,9 @@ namespace Vocaluxe.Base
             return CSongs.NumAllSongs;
         }
 
-        public int GetNumVisibleSongs()
+        public int GetNumSongsVisible()
         {
-            return CSongs.NumVisibleSongs;
+            return CSongs.NumSongsVisible;
         }
 
         public int GetNumCategories()
@@ -580,6 +582,11 @@ namespace Vocaluxe.Base
         public int NumSongsInCategory(int categoryIndex)
         {
             return CSongs.NumSongsInCategory(categoryIndex);
+        }
+
+        public bool IsInCategory()
+        {
+            return CSongs.IsInCategory;
         }
 
         public int GetCurrentCategoryIndex()
@@ -617,14 +624,14 @@ namespace Vocaluxe.Base
             return CSongs.GetSong(songID);
         }
 
-        public CSong[] GetSongs()
+        public ReadOnlyCollection<CSong> GetSongs()
         {
             return CSongs.AllSongs;
         }
 
-        public CSong[] GetSongsNotSung()
+        public ReadOnlyCollection<CSong> GetVisibleSongs()
         {
-            return CSongs.SongsNotSung;
+            return CSongs.VisibleSongs;
         }
 
         public CCategory GetCategory(int index)
@@ -640,12 +647,12 @@ namespace Vocaluxe.Base
             CSongs.AddPartySongSung(songID);
         }
 
-        public void ResetPartySongSung()
+        public void ResetSongSung()
         {
             CSongs.ResetPartySongSung();
         }
 
-        public void ResetPartySongSung(int catIndex)
+        public void ResetSongSung(int catIndex)
         {
             CSongs.ResetPartySongSung(catIndex);
         }
@@ -763,11 +770,11 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBinputs : IInputs
+    class CBcontrollers : IControllers
     {
         public void SetRumble(float duration)
         {
-            CInput.SetRumble(duration);
+            CController.SetRumble(duration);
         }
     }
 

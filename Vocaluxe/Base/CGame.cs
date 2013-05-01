@@ -19,7 +19,7 @@
 
 using System;
 using System.Collections.Generic;
-using Vocaluxe.GameModes;
+using Vocaluxe.SongQueue;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SingNotes;
 using VocaluxeLib.Menu.SongMenu;
@@ -28,7 +28,7 @@ namespace Vocaluxe.Base
 {
     static class CGame
     {
-        private static IGameMode _GameMode;
+        private static ISongQueue _SongQueue;
         private static int _NumPlayer = CConfig.NumPlayer;
 
         private static int _OldBeatD;
@@ -64,103 +64,97 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            _GameMode = new CGameModeNormal();
-            _GameMode.Init();
+            _SongQueue = new CSongQueue();
+            _SongQueue.Init();
             Players = new SPlayer[CSettings.MaxNumPlayer];
             ResetPlayer();
 
             CConfig.UsePlayers();
         }
 
-        public static void EnterNormalGame()
-        {
-            _GameMode = new CGameModeNormal();
-            _GameMode.Init();
-        }
-
         public static EGameMode GameMode
         {
-            get { return _GameMode.GetCurrentGameMode(); }
+            get { return _SongQueue.GetCurrentGameMode(); }
         }
 
         public static bool AddVisibleSong(int visibleIndex, EGameMode gameMode)
         {
-            return _GameMode.AddVisibleSong(visibleIndex, gameMode);
+            return _SongQueue.AddVisibleSong(visibleIndex, gameMode);
         }
 
         public static bool AddSong(int absoluteIndex, EGameMode gameMode)
         {
-            return _GameMode.AddSong(absoluteIndex, gameMode);
+            return _SongQueue.AddSong(absoluteIndex, gameMode);
         }
 
         public static bool RemoveVisibleSong(int visibleIndex)
         {
-            return _GameMode.RemoveVisibleSong(visibleIndex);
+            return _SongQueue.RemoveVisibleSong(visibleIndex);
         }
 
         public static bool RemoveSong(int absoluteIndex)
         {
-            return _GameMode.RemoveSong(absoluteIndex);
+            return _SongQueue.RemoveSong(absoluteIndex);
         }
 
         public static void ClearSongs()
         {
-            _GameMode.ClearSongs();
+            _SongQueue.ClearSongs();
         }
 
         public static void Reset()
         {
-            _GameMode.Reset();
+            _SongQueue.Reset();
         }
 
         public static void Start()
         {
-            _GameMode.Start(Players);
+            _SongQueue.Start(Players);
         }
 
         public static void NextRound()
         {
-            _GameMode.NextRound(Players);
+            _SongQueue.NextRound(Players);
         }
 
         public static bool IsFinished()
         {
-            return _GameMode.IsFinished();
+            return _SongQueue.IsFinished();
         }
 
         public static int RoundNr
         {
-            get { return _GameMode.GetCurrentRoundNr(); }
+            get { return _SongQueue.GetCurrentRoundNr(); }
         }
 
         public static CSong GetSong()
         {
-            return _GameMode.GetSong();
+            return _SongQueue.GetSong();
         }
 
         public static CSong GetSong(int num)
         {
-            return _GameMode.GetSong(num);
+            return _SongQueue.GetSong(num);
         }
 
         public static EGameMode GetGameMode(int num)
         {
-            return _GameMode.GetGameMode(num);
+            return _SongQueue.GetGameMode(num);
         }
 
         public static int GetNumSongs()
         {
-            return _GameMode.GetNumSongs();
+            return _SongQueue.GetNumSongs();
         }
 
         public static CPoints GetPoints()
         {
-            return _GameMode.GetPoints();
+            return _SongQueue.GetPoints();
         }
 
         public static int NumRounds
         {
-            get { return _GameMode.GetNumSongs(); }
+            get { return _SongQueue.GetNumSongs(); }
         }
 
         public static int NumPlayer
@@ -200,7 +194,7 @@ namespace Vocaluxe.Base
 
         public static void UpdatePoints(float time)
         {
-            CSong song = _GameMode.GetSong();
+            CSong song = _SongQueue.GetSong();
 
             if (song == null)
                 return;
@@ -225,8 +219,8 @@ namespace Vocaluxe.Base
             {
                 for (int beat = _OldBeatD + 1; beat <= ActBeatD; beat++)
                 {
-                    if ((_GameMode.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_MEDLEY && song.Medley.EndBeat == beat) ||
-                        (_GameMode.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_SHORTSONG && song.ShortEnd == beat))
+                    if ((_SongQueue.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_MEDLEY && song.Medley.EndBeat == beat) ||
+                        (_SongQueue.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_SHORTSONG && song.ShortEnd == beat))
                         Players[p].SongFinished = true;
 
                     CLine[] lines = song.Notes.GetVoice(Players[p].LineNr).Lines;
@@ -252,15 +246,9 @@ namespace Vocaluxe.Base
                         Players[p].SingLine.Add(new CLine());
 
                     CNote[] notes = lines[line].Notes;
-                    int note = -1;
-                    for (int j = 0; j < notes.Length; j++)
-                    {
-                        if (beat >= notes[j].StartBeat && beat <= notes[j].EndBeat)
-                        {
-                            note = j;
-                            break;
-                        }
-                    }
+                    int note = lines[line].FindPreviousNote(beat);
+                    if (note >= 0 && notes[note].EndBeat < beat)
+                        note = -1;
 
                     if (note >= 0)
                     {

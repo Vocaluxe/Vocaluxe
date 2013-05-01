@@ -32,7 +32,7 @@ namespace Vocaluxe.Base
 
         public CSongCategorizer()
         {
-            CSongs.Filter.ObjectChanged += _HandleSortedSongsChanged;
+            CSongs.Sorter.ObjectChanged += _HandleSortedSongsChanged;
         }
 
         public List<CCategory> Categories
@@ -49,11 +49,12 @@ namespace Vocaluxe.Base
             get { return _Tabs; }
             set
             {
-                if (value != _Tabs)
-                {
-                    _Tabs = value;
-                    _SetChanged();
-                }
+                if (value == _Tabs)
+                    return;
+                _Tabs = value;
+                if (_Tabs == EOffOn.TR_CONFIG_ON)
+                    CSongs.Category = -1;
+                _SetChanged();
             }
         }
 
@@ -64,58 +65,55 @@ namespace Vocaluxe.Base
 
         private void _CreateCategoriesLetter()
         {
-            string category = "";
-            int notLetterCat = -1;
-            for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
+            CCategory lastCategory = null;
+            CCategory notLetterCat = null;
+            foreach (CSongPointer songPointer in CSongs.Sorter.SortedSongs)
             {
-                Char firstLetter = Char.ToUpper(CSongs.Sorter.SortedSongs[i].SortString.Normalize(NormalizationForm.FormD)[0]);
-
-                if (!Char.IsLetter(firstLetter))
-                    firstLetter = '#';
-                if (firstLetter.ToString() != category)
+                Char firstLetter = Char.ToUpper(songPointer.SortString.Normalize(NormalizationForm.FormD)[0]);
+                if (Char.IsLetter(firstLetter))
                 {
-                    if (firstLetter != '#' || notLetterCat == -1)
+                    if (lastCategory == null || songPointer.SortString != lastCategory.Name)
                     {
-                        category = firstLetter.ToString();
-                        _Categories.Add(new CCategory(category));
-
-                        CSongs.Sorter.SortedSongs[i].CatIndex = _Categories.Count - 1;
-
-                        if (firstLetter == '#')
-                            notLetterCat = CSongs.Sorter.SortedSongs[i].CatIndex;
+                        lastCategory = new CCategory(songPointer.SortString);
+                        _Categories.Add(lastCategory);
                     }
-                    else
-                        CSongs.Sorter.SortedSongs[i].CatIndex = notLetterCat;
+                    lastCategory.Songs.Add(songPointer);
                 }
                 else
-                    CSongs.Sorter.SortedSongs[i].CatIndex = _Categories.Count - 1;
+                {
+                    if (notLetterCat == null)
+                    {
+                        notLetterCat = new CCategory("#");
+                        _Categories.Add(notLetterCat);
+                    }
+                    notLetterCat.Songs.Add(songPointer);
+                }
             }
         }
 
         private void _CreateCategoriesNormal(string noCategoryName)
         {
-            string category = "";
-            int noCategoryIndex = -1;
-            for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
+            CCategory lastCategory = null;
+            CCategory noCategory = null;
+            foreach (CSongPointer songPointer in CSongs.Sorter.SortedSongs)
             {
-                if (CSongs.Sorter.SortedSongs[i].SortString != "")
+                if (songPointer.SortString != "")
                 {
-                    if (CSongs.Sorter.SortedSongs[i].SortString != category)
+                    if (lastCategory == null || songPointer.SortString != lastCategory.Name)
                     {
-                        category = CSongs.Sorter.SortedSongs[i].SortString;
-                        _Categories.Add(new CCategory(category));
+                        lastCategory = new CCategory(songPointer.SortString);
+                        _Categories.Add(lastCategory);
                     }
-                    CSongs.Sorter.SortedSongs[i].CatIndex = _Categories.Count - 1;
+                    lastCategory.Songs.Add(songPointer);
                 }
                 else
                 {
-                    if (noCategoryIndex < 0)
+                    if (noCategory == null)
                     {
-                        category = noCategoryName;
-                        _Categories.Add(new CCategory(category));
-                        noCategoryIndex = _Categories.Count - 1;
+                        noCategory = new CCategory(noCategoryName);
+                        _Categories.Add(noCategory);
                     }
-                    CSongs.Sorter.SortedSongs[i].CatIndex = noCategoryIndex;
+                    noCategory.Songs.Add(songPointer);
                 }
             }
         }
@@ -151,13 +149,13 @@ namespace Vocaluxe.Base
             {
                 if (sorting == ESongSorting.TR_CONFIG_DECADE)
                 {
-                    for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
+                    foreach (CSongPointer songPointer in CSongs.Sorter.SortedSongs)
                     {
-                        string year = CSongs.Sorter.SortedSongs[i].SortString;
+                        string year = songPointer.SortString;
                         if (year != "")
                         {
                             year = year.Substring(0, 3);
-                            CSongs.Sorter.SortedSongs[i].SortString = year + "0 - " + year + "9";
+                            songPointer.SortString = year + "0 - " + year + "9";
                         }
                     }
                 }
@@ -172,15 +170,14 @@ namespace Vocaluxe.Base
 
             _Categories.Clear();
 
-            if (_Tabs == EOffOn.TR_CONFIG_OFF)
+            if (_Tabs != EOffOn.TR_CONFIG_OFF)
+                _CreateCategories();
+            else
             {
                 //No categories. So don't create them!
                 _Categories.Add(new CCategory(""));
-                for (int i = 0; i < CSongs.Sorter.SortedSongs.Length; i++)
-                    CSongs.Sorter.SortedSongs[i].CatIndex = 0;
+                _Categories[0].Songs.AddRange(CSongs.Sorter.SortedSongs);
             }
-            else
-                _CreateCategories();
 
             foreach (CCategory cat in _Categories)
                 cat.CoverTextureSmall = CCover.Cover(cat.Name);

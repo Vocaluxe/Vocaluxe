@@ -20,6 +20,7 @@ Output/Songs
 *.log
 /Output/Playlists/*.xml
 /Output/x64/gstreamer/GstreamerHelper.dll
+/Output/x86/gstreamer/GstreamerHelper.dll
 *.tlog
 *.suo
 *.obj
@@ -35,6 +36,6 @@ Output/Songs
 *.nativecodeanalysis*
 *.lastcodeanalysissucceeded
 /PartyModes/*/*/*.dll
-
 *.Cache
-/Output/x86/gstreamer/GstreamerHelper.dll
+/GstreamerHelper/bin/*
+/VocaluxeLib/bin

@@ -504,7 +504,9 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                         _RoundsTable[i].Number.Text = (i + 1 + _RoundsTableOffset) + ")";
                         int pID = _GameState.ProfileIDs[_GameState.Combs[i + _RoundsTableOffset].Player[p]];
                         _RoundsTable[i].TextPlayer[p].Text = profile[pID].PlayerName;
+                        // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
                         if ((_GameState.CurrentRoundNr - 1) > i + _RoundsTableOffset)
+                            // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                             _RoundsTable[i].TextScores[p].Text = _GameState.Results[i + _RoundsTableOffset, p].ToString();
                         else
                             _RoundsTable[i].TextScores[p].Text = "";

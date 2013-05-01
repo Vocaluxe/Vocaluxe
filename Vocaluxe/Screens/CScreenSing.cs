@@ -25,6 +25,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Font;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SingNotes;
 using VocaluxeLib.Menu.SongMenu;
@@ -383,7 +384,9 @@ namespace Vocaluxe.Screens
 
             for (int p = 0; p < CGame.NumPlayer; p++)
             {
+                // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
                 if (CGame.Players[p].Points < 10000)
+                    // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                     _Texts[_TextScores[p, CGame.NumPlayer - 1]].Text = CGame.Players[p].Points.ToString("0000");
                 else
                     _Texts[_TextScores[p, CGame.NumPlayer - 1]].Text = CGame.Players[p].Points.ToString("00000");
@@ -450,8 +453,6 @@ namespace Vocaluxe.Screens
         {
             if (_Active)
             {
-                _UpdateMedleyCountdown();
-
                 if (_CurrentVideo != -1 && CConfig.VideosInSongs == EOffOn.TR_CONFIG_ON && !_Webcam)
                 {
                     RectangleF bounds = new RectangleF(0, 0, CSettings.RenderW, CSettings.RenderH);
@@ -517,12 +518,15 @@ namespace Vocaluxe.Screens
             _DrawLyricHelper();
 
             if (CGame.GameMode == EGameMode.TR_GAMEMODE_MEDLEY)
+            {
+                _UpdateMedleyCountdown();
                 _Texts[_TextMedleyCountdown].Draw();
+            }
 
             if (_Pause)
             {
-                _Statics[_StaticPauseBG].ForceDraw();
-                _Texts[_TextPause].ForceDraw();
+                _Statics[_StaticPauseBG].Draw(true);
+                _Texts[_TextPause].Draw(true);
 
                 foreach (CButton button in _Buttons)
                     button.Draw();
@@ -647,6 +651,7 @@ namespace Vocaluxe.Screens
                 }
             }
             _SetDuetLyricsVisibility(song.IsDuet);
+            _SetNormalLyricsVisibility();
 
             for (int p = 0; p < CGame.NumPlayer; p++)
                 _NoteLines[p] = _SingNotes[_SingBars].AddPlayer(_SingNotes[_SingBars].BarPos[p, CGame.NumPlayer - 1], CTheme.GetPlayerColor(p + 1), p);
@@ -686,11 +691,21 @@ namespace Vocaluxe.Screens
             }
             else
             {
-                bool lyricsOnTop = (CGame.NumPlayer != 1) && CConfig.LyricsOnTop == EOffOn.TR_CONFIG_ON;
+                bool lyricsOnTop = CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_TOP 
+                                    || CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
+                                    || (CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && (CGame.NumPlayer > 2 && CGame.NumPlayer != 4));
                 _Lyrics[_LyricMainTop].Visible = lyricsOnTop;
                 _Lyrics[_LyricSubTop].Visible = lyricsOnTop;
                 _Statics[_StaticLyricsTop].Visible = lyricsOnTop;
             }
+        }
+
+        private void _SetNormalLyricsVisibility()
+        {
+            bool visible = CConfig.LyricsPosition != ELyricsPosition.TR_CONFIG_LYRICSPOSITION_TOP;
+            _Lyrics[_LyricMain].Visible = visible;
+            _Lyrics[_LyricSub].Visible = visible;
+            _Statics[_StaticLyrics].Visible = visible;
         }
 
         private void _StartSong()
@@ -948,28 +963,27 @@ namespace Vocaluxe.Screens
 
         private void _UpdateMedleyCountdown()
         {
-            if (CGame.GetSong() != null)
+            CSong song = CGame.GetSong();
+            if (song == null)
+                return;
+            float timeToFirstMedleyNote = CGame.GetTimeFromBeats(song.Medley.StartBeat, song.BPM) + song.Gap;
+            if (_CurrentTime < timeToFirstMedleyNote)
             {
-                CSong song = CGame.GetSong();
-                float currentTime = _CurrentTime - song.Start;
-                float timeToFirstMedleyNote = (CGame.GetTimeFromBeats(song.Medley.StartBeat, song.BPM) + song.Gap - song.Start);
-                if (currentTime < timeToFirstMedleyNote && CGame.GameMode == EGameMode.TR_GAMEMODE_MEDLEY)
-                {
-                    float timeDiff = timeToFirstMedleyNote - currentTime + 1;
-                    double t = timeDiff - Math.Truncate(timeDiff);
-                    _Texts[_TextMedleyCountdown].Visible = true;
-                    _Texts[_TextMedleyCountdown].Text = Math.Round((decimal)(timeDiff - t)).ToString();
-                    float h = (float)(t * CSettings.RenderH);
-                    float w = CFonts.GetTextBounds(_Texts[_TextMedleyCountdown], h).Width;
-                    float x = CSettings.RenderW / 2 - w / 2;
-                    float y = CSettings.RenderH / 2 - h / 2;
-                    _Texts[_TextMedleyCountdown].X = x;
-                    _Texts[_TextMedleyCountdown].Y = y;
-                    _Texts[_TextMedleyCountdown].Height = h;
-                }
-                else
-                    _Texts[_TextMedleyCountdown].Visible = false;
+                float timeDiff = timeToFirstMedleyNote - _CurrentTime + 1;
+                float fullSeconds = (float)Math.Truncate(timeDiff);
+                float partSeconds = timeDiff - fullSeconds;
+                _Texts[_TextMedleyCountdown].Visible = true;
+                _Texts[_TextMedleyCountdown].Text = fullSeconds.ToString();
+                float h = partSeconds * CSettings.RenderH;
+                float w = CFonts.GetTextBounds(_Texts[_TextMedleyCountdown], h).Width;
+                float x = CSettings.RenderW / 2 - w / 2;
+                float y = CSettings.RenderH / 2 - h / 2;
+                _Texts[_TextMedleyCountdown].X = x;
+                _Texts[_TextMedleyCountdown].Y = y;
+                _Texts[_TextMedleyCountdown].Height = h;
             }
+            else
+                _Texts[_TextMedleyCountdown].Visible = false;
         }
 
         private void _DrawLyricHelper()
@@ -998,27 +1012,30 @@ namespace Vocaluxe.Screens
                 if (time > totaltime)
                     time = totaltime;
 
-                SRectF rect = _Statics[_StaticLyricHelper].Rect;
-                SColorF color = new SColorF(
-                    _Statics[_StaticLyricHelper].Color.R,
-                    _Statics[_StaticLyricHelper].Color.G,
-                    _Statics[_StaticLyricHelper].Color.B,
-                    _Statics[_StaticLyricHelper].Color.A * _Statics[_StaticLyricHelper].Alpha * alpha);
+                if (_Statics[_StaticLyrics].Visible)
+                {
+                    SRectF rect = _Statics[_StaticLyricHelper].Rect;
+                    SColorF color = new SColorF(
+                        _Statics[_StaticLyricHelper].Color.R,
+                        _Statics[_StaticLyricHelper].Color.G,
+                        _Statics[_StaticLyricHelper].Color.B,
+                        _Statics[_StaticLyricHelper].Color.A * _Statics[_StaticLyricHelper].Alpha * alpha);
 
-                float distance = _Lyrics[_LyricMain].GetCurrentLyricPosX() - rect.X - rect.W;
-                CDraw.DrawTexture(_Statics[_StaticLyricHelper].Texture,
-                                  new SRectF(rect.X + distance * (1f - time / totaltime), rect.Y, rect.W, rect.H, rect.Z), color);
+                    float distance = _Lyrics[_LyricMain].GetCurrentLyricPosX() - rect.X - rect.W;
+                    CDraw.DrawTexture(_Statics[_StaticLyricHelper].Texture,
+                                      new SRectF(rect.X + distance * (1f - time / totaltime), rect.Y, rect.W, rect.H, rect.Z), color);
+                }
 
                 if (_Statics[_StaticLyricsTop].Visible)
                 {
-                    rect = _Statics[_StaticLyricHelperTop].Rect;
-                    color = new SColorF(
+                    SRectF rect = _Statics[_StaticLyricHelperTop].Rect;
+                    SColorF color = new SColorF(
                         _Statics[_StaticLyricHelperTop].Color.R,
                         _Statics[_StaticLyricHelperTop].Color.G,
                         _Statics[_StaticLyricHelperTop].Color.B,
                         _Statics[_StaticLyricHelperTop].Color.A * _Statics[_StaticLyricHelper].Alpha * alpha);
 
-                    distance = _Lyrics[_LyricMainTop].GetCurrentLyricPosX() - rect.X - rect.W;
+                    float distance = _Lyrics[_LyricMainTop].GetCurrentLyricPosX() - rect.X - rect.W;
                     CDraw.DrawTexture(_Statics[_StaticLyricHelperTop].Texture,
                                       new SRectF(rect.X + distance * (1f - time / totaltime), rect.Y, rect.W, rect.H, rect.Z), color);
                 }

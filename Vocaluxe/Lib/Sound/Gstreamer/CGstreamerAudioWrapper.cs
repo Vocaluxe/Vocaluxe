@@ -26,13 +26,13 @@ namespace Vocaluxe.Lib.Sound.Gstreamer
         #region arch
 #if ARCH_X86
 #if WIN
-        private const string _Dll = "x86\\gstreamer\\gstreamerhelper.dll";
+        private const string _Dll = "x86\\gstreamer\\GstreamerHelper.dll";
 #endif
 #endif
 
 #if ARCH_X64
 #if WIN
-        private const string _Dll = "x64\\gstreamer\\gstreamerhelper.dll";
+        private const string _Dll = "x64\\gstreamer\\GstreamerHelper.dll";
 #endif
 #endif
         #endregion arch

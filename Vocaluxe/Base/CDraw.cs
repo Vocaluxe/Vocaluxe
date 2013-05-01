@@ -211,9 +211,9 @@ namespace Vocaluxe.Base
             return _Draw.AddTexture(w, h, ref data);
         }
 
-        public static STexture QuequeTexture(int w, int h, ref byte[] data)
+        public static STexture EnqueueTexture(int w, int h, ref byte[] data)
         {
-            return _Draw.QuequeTexture(w, h, ref data);
+            return _Draw.EnqueueTexture(w, h, ref data);
         }
 
         public static bool UpdateTexture(ref STexture texture, ref byte[] data)

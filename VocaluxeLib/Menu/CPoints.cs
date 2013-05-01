@@ -80,23 +80,23 @@ namespace VocaluxeLib.Menu
             if (round >= NumRounds)
                 return new SPlayer[1];
 
-            SPlayer[] player = new SPlayer[numPlayer];
+            SPlayer[] players = new SPlayer[numPlayer];
 
-            for (int p = 0; p < player.Length; p++)
+            for (int p = 0; p < players.Length; p++)
             {
-                player[p].Points = _Rounds[round, p].Points;
-                player[p].PointsGoldenNotes = _Rounds[round, p].PointsGoldenNotes;
-                player[p].PointsLineBonus = _Rounds[round, p].PointsLineBonus;
-                player[p].SongID = _Rounds[round, p].SongID;
-                player[p].LineNr = _Rounds[round, p].LineNr;
-                player[p].Medley = _Rounds[round, p].Medley;
-                player[p].Duet = _Rounds[round, p].Duet;
-                player[p].ShortSong = _Rounds[round, p].ShortSong;
-                player[p].DateTicks = _Rounds[round, p].DateTicks;
-                player[p].SongFinished = _Rounds[round, p].SongFinished;
-                player[p].ProfileID = _Rounds[round, p].ProfileID;
+                players[p].Points = _Rounds[round, p].Points;
+                players[p].PointsGoldenNotes = _Rounds[round, p].PointsGoldenNotes;
+                players[p].PointsLineBonus = _Rounds[round, p].PointsLineBonus;
+                players[p].SongID = _Rounds[round, p].SongID;
+                players[p].LineNr = _Rounds[round, p].LineNr;
+                players[p].Medley = _Rounds[round, p].Medley;
+                players[p].Duet = _Rounds[round, p].Duet;
+                players[p].ShortSong = _Rounds[round, p].ShortSong;
+                players[p].DateTicks = _Rounds[round, p].DateTicks;
+                players[p].SongFinished = _Rounds[round, p].SongFinished;
+                players[p].ProfileID = _Rounds[round, p].ProfileID;
             }
-            return player;
+            return players;
         }
     }
 }

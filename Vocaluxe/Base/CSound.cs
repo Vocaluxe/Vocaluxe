@@ -18,6 +18,7 @@
 #endregion
 
 using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using Vocaluxe.Lib.Sound;
@@ -226,9 +227,7 @@ namespace Vocaluxe.Base
 
         public static bool RecordStart()
         {
-            SRecordDevice[] devices = RecordGetDevices();
-
-            return _Record.Start(devices);
+            return _Record.Start();
         }
 
         public static bool RecordStop()
@@ -276,23 +275,16 @@ namespace Vocaluxe.Base
             return _Record.ToneWeigth(player);
         }
 
-        public static SRecordDevice[] RecordGetDevices()
+        public static ReadOnlyCollection<CRecordDevice> RecordGetDevices()
         {
-            SRecordDevice[] devices = _Record.RecordDevices();
+            ReadOnlyCollection<CRecordDevice> devices = _Record.RecordDevices();
 
             if (devices != null)
             {
-                for (int dev = 0; dev < devices.Length; dev++)
+                foreach (CRecordDevice device in devices)
                 {
-                    for (int inp = 0; inp < devices[dev].Inputs.Count; inp++)
-                    {
-                        SInput input = devices[dev].Inputs[inp];
-
-                        input.PlayerChannel1 = _GetPlayerFromMicConfig(devices[dev].Name, devices[dev].Driver, input.Name, 1);
-                        input.PlayerChannel2 = _GetPlayerFromMicConfig(devices[dev].Name, devices[dev].Driver, input.Name, 2);
-
-                        devices[dev].Inputs[inp] = input;
-                    }
+                    device.PlayerChannel1 = _GetPlayerFromMicConfig(device.Name, device.Driver, 1);
+                    device.PlayerChannel2 = _GetPlayerFromMicConfig(device.Name, device.Driver, 2);
                 }
                 return devices;
             }
@@ -300,14 +292,13 @@ namespace Vocaluxe.Base
             return null;
         }
 
-        private static int _GetPlayerFromMicConfig(string device, string devicedriver, string input, int channel)
+        private static int _GetPlayerFromMicConfig(string device, string devicedriver, int channel)
         {
             for (int p = 0; p < CSettings.MaxNumPlayer; p++)
             {
                 if (CConfig.MicConfig[p].Channel != 0 &&
                     CConfig.MicConfig[p].DeviceName == device &&
                     CConfig.MicConfig[p].DeviceDriver == devicedriver &&
-                    CConfig.MicConfig[p].InputName == input &&
                     CConfig.MicConfig[p].Channel == channel)
                     return p + 1;
             }

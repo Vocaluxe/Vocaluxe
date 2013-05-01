@@ -219,12 +219,12 @@ namespace Vocaluxe.Screens
 
             for (int round = 0; round < points.NumRounds; round++)
             {
-                SPlayer[] player = points.GetPlayer(round, CGame.NumPlayer);
+                SPlayer[] players = points.GetPlayer(round, CGame.NumPlayer);
 
-                for (int p = 0; p < player.Length; p++)
+                for (int p = 0; p < players.Length; p++)
                 {
-                    if (player[p].Points > CSettings.MinScoreForDB && player[p].SongFinished && !CProfiles.IsGuestProfile(player[p].ProfileID))
-                        _NewEntryIDs.Add(CDataBase.AddScore(player[p]));
+                    if (players[p].Points > CSettings.MinScoreForDB && players[p].SongFinished && !CProfiles.IsGuestProfile(players[p].ProfileID))
+                        _NewEntryIDs.Add(CDataBase.AddScore(players[p]));
                 }
             }
         }
@@ -255,7 +255,7 @@ namespace Vocaluxe.Screens
             if (points.NumRounds > 1)
                 _Texts[_TextSongName].Text += " (" + (_Round + 1) + "/" + points.NumRounds + ")";
 
-            switch (CGame.GetGameMode(_Round))
+            switch (CGame.GetGameMode(_Round + 1))
             {
                 case EGameMode.TR_GAMEMODE_NORMAL:
                     _Texts[_TextSongMode].Text = "TR_GAMEMODE_NORMAL";

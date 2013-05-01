@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using Vocaluxe.Base.Font;
 using Vocaluxe.Screens;
 using VocaluxeLib.Menu;
 using VocaluxeLib.PartyModes;
@@ -319,7 +320,7 @@ namespace Vocaluxe.Base
             CVideo.Update();
             CSound.Update();
             CBackgroundMusic.Update();
-            CInput.Update();
+            CController.Update();
 
             if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC && _CurrentScreen != EScreens.ScreenSing)
                 CSongs.LoadCover();
@@ -504,14 +505,14 @@ namespace Vocaluxe.Base
 
             bool popupVolumeControlAllowed = _CurrentScreen != EScreens.ScreenCredits && _CurrentScreen != EScreens.ScreenOptionsRecord;
             //Hide volume control for bg-music if bg-music is disabled
-            if (popupVolumeControlAllowed && (_CurrentScreen != EScreens.ScreenSong || (_CurrentScreen == EScreens.ScreenSong && CSongs.Category == -1))
+            if (popupVolumeControlAllowed && (_CurrentScreen != EScreens.ScreenSong || CSongs.Category == -1)
                 && _CurrentScreen != EScreens.ScreenSing && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_OFF)
                 popupVolumeControlAllowed = false;
 
 
             bool resume = true;
             bool eventsAvailable;
-            bool inputEventsAvailable = CInput.PollKeyEvent(ref inputKeyEvent);
+            bool inputEventsAvailable = CController.PollKeyEvent(ref inputKeyEvent);
 
             while ((eventsAvailable = keys.PollEvent(ref keyEvent)) || inputEventsAvailable)
             {
@@ -616,10 +617,10 @@ namespace Vocaluxe.Base
                 }
 
                 if (!eventsAvailable)
-                    inputEventsAvailable = CInput.PollKeyEvent(ref inputKeyEvent);
+                    inputEventsAvailable = CController.PollKeyEvent(ref inputKeyEvent);
             }
 
-            inputEventsAvailable = CInput.PollMouseEvent(ref inputMouseEvent);
+            inputEventsAvailable = CController.PollMouseEvent(ref inputMouseEvent);
 
             while ((eventsAvailable = mouse.PollEvent(ref mouseEvent)) || inputEventsAvailable)
             {
@@ -677,7 +678,7 @@ namespace Vocaluxe.Base
                     resume &= _Screens[(int)_CurrentScreen].HandleMouse(mouseEvent);
 
                 if (!eventsAvailable)
-                    inputEventsAvailable = CInput.PollMouseEvent(ref inputMouseEvent);
+                    inputEventsAvailable = CController.PollMouseEvent(ref inputMouseEvent);
             }
             return resume;
         }

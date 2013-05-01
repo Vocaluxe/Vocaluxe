@@ -127,7 +127,9 @@ namespace VocaluxeLib.Menu
                 if (Math.Abs(_MaxWidth - value) > 0.01)
                 {
                     _MaxWidth = value;
+                    // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
                     if (_MaxWidth > 0)
+                        // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                         Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), _MaxWidth, 3f * CBase.Settings.GetRenderH(), 0f);
                     else
                         Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
@@ -332,7 +334,9 @@ namespace VocaluxeLib.Menu
 
             Selected = false;
 
+            // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
             if (MaxWidth > 0)
+                // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), MaxWidth, 3f * CBase.Settings.GetRenderH(), 0f);
             else
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
@@ -367,7 +371,9 @@ namespace VocaluxeLib.Menu
 
             Selected = false;
 
+            // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
             if (MaxWidth > 0)
+                // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), MaxWidth, 3f * CBase.Settings.GetRenderH(), 0f);
             else
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
@@ -400,7 +406,9 @@ namespace VocaluxeLib.Menu
 
             Selected = false;
 
+            // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
             if (MaxWidth > 0)
+                // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), MaxWidth, 3f * CBase.Settings.GetRenderH(), 0f);
             else
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
@@ -435,7 +443,9 @@ namespace VocaluxeLib.Menu
 
             Selected = false;
 
+            // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
             if (MaxWidth > 0)
+                // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), MaxWidth, 3f * CBase.Settings.GetRenderH(), 0f);
             else
                 Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
@@ -509,7 +519,9 @@ namespace VocaluxeLib.Menu
             {
                 LoadTextures();
 
+                // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
                 if (MaxWidth > 0)
+                    // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                     Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), MaxWidth, 3f * CBase.Settings.GetRenderH(), 0f);
                 else
                     Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
@@ -599,11 +611,6 @@ namespace VocaluxeLib.Menu
                 return true;
             }
             return false;
-        }
-
-        public void ForceDraw()
-        {
-            Draw(true);
         }
 
         public void Draw(bool forceDraw = false)
