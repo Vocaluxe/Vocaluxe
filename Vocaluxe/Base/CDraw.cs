@@ -103,16 +103,6 @@ namespace Vocaluxe.Base
             return _Draw.GetScreenHeight();
         }
 
-        public static RectangleF GetTextBounds(CText text)
-        {
-            return _Draw.GetTextBounds(text);
-        }
-
-        public static RectangleF GetTextBounds(CText text, float height)
-        {
-            return _Draw.GetTextBounds(text, height);
-        }
-
         public static void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2)
         {
             _Draw.DrawLine(a, r, g, b, w, x1, y1, x2, y2);
@@ -157,12 +147,6 @@ namespace Vocaluxe.Base
         public static void MakeScreenShot()
         {
             _Draw.MakeScreenShot();
-        }
-
-        // Draw Basic Text (must be deleted later)
-        public static void DrawText(string text, int x, int y, int h)
-        {
-            _Draw.DrawText(text, x, y, h);
         }
 
         public static STexture AddTexture(Bitmap bitmap)

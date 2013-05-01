@@ -1016,7 +1016,7 @@ namespace VocaluxeLib.Menu
                         return true;
                     break;
                 case EType.Text:
-                    RectangleF bounds = CBase.Drawing.GetTextBounds(_Texts[interact.Num]);
+                    RectangleF bounds = CBase.Fonts.GetTextBounds(_Texts[interact.Num]);
                     if (CHelper.IsInBounds(new SRectF(_Texts[interact.Num].X, _Texts[interact.Num].Y, bounds.Width, bounds.Height, _Texts[interact.Num].Z), x, y))
                         return true;
                     break;

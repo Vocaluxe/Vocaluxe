@@ -188,6 +188,7 @@ namespace Vocaluxe.Lib.Draw
             return samples / 2;
         }
 
+        /*
         private int _CheckColorDepth(int setValue)
         {
             int result = 16;
@@ -213,6 +214,7 @@ namespace Vocaluxe.Lib.Draw
 
             return result - 8;
         }
+*/
 
         private void _ToggleFullScreen()
         {
@@ -481,19 +483,6 @@ namespace Vocaluxe.Lib.Draw
         {
             return _Control.Height;
         }
-
-        public RectangleF GetTextBounds(CText text)
-        {
-            return GetTextBounds(text, text.Height);
-        }
-
-        public RectangleF GetTextBounds(CText text, float height)
-        {
-            CFonts.Height = height;
-            CFonts.SetFont(text.Font);
-            CFonts.Style = text.Style;
-            return new RectangleF(text.X, text.Y, CFonts.GetTextWidth(CLanguage.Translate(text.Text)), CFonts.GetTextHeight(CLanguage.Translate(text.Text)));
-        }
         #endregion main stuff
 
         #region Basic Draw Methods
@@ -582,12 +571,6 @@ namespace Vocaluxe.Lib.Draw
         }
 
         public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2) {}
-
-        // Draw Basic Text (must be deleted later)
-        public void DrawText(string text, int x, int y, int h, int z = 0)
-        {
-            CFonts.DrawText(text, h, x, y, z, new SColorF(1, 1, 1, 1));
-        }
 
         public void DrawColor(SColorF color, SRectF rect)
         {

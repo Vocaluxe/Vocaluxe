@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Fonts;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
@@ -212,7 +213,7 @@ namespace Vocaluxe.Screens
                         continue;
                     string newLine = " " + paragraph[e];
                     CText text = GetNewText(75, lastY, -2, 30, -1, EAlignment.Left, EStyle.Bold, "Outline", new SColorF(1, 1, 1, 1), line);
-                    if (CDraw.GetTextBounds(text).Width < (CSettings.RenderW - 220))
+                    if (CFonts.GetTextBounds(text).Width < (CSettings.RenderW - 220))
                     {
                         line += newLine;
 

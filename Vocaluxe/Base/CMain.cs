@@ -340,11 +340,6 @@ namespace Vocaluxe.Base
 
     class CBdraw : IDrawing
     {
-        public RectangleF GetTextBounds(CText text)
-        {
-            return CDraw.GetTextBounds(text);
-        }
-
         public void DrawTexture(STexture texture, SRectF rect)
         {
             CDraw.DrawTexture(texture, rect);
@@ -427,6 +422,11 @@ namespace Vocaluxe.Base
         public void SetStyle(EStyle fontStyle)
         {
             CFonts.Style = fontStyle;
+        }
+
+        public RectangleF GetTextBounds(CText text)
+        {
+            return CFonts.GetTextBounds(text);
         }
 
         public RectangleF GetTextBounds(CText text, float textHeight)

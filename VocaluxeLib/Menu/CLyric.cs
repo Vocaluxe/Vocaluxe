@@ -216,7 +216,7 @@ namespace VocaluxeLib.Menu
                 if (n.Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;
 
-                RectangleF rect = CBase.Drawing.GetTextBounds(_Text);
+                RectangleF rect = CBase.Fonts.GetTextBounds(_Text);
                 _Width += rect.Width;
                 _Notes.Add(n);
             }
@@ -267,7 +267,7 @@ namespace VocaluxeLib.Menu
                 _Text.X = x;
                 _Text.Style = EStyle.Bold;
                 _Text.Text = note.Text;
-                RectangleF rect = CBase.Drawing.GetTextBounds(_Text);
+                RectangleF rect = CBase.Fonts.GetTextBounds(_Text);
 
                 if (note.Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;
@@ -326,7 +326,7 @@ namespace VocaluxeLib.Menu
                 _Text.X = x;
                 _Text.Style = EStyle.Bold;
                 _Text.Text = _Notes[note].Text;
-                RectangleF rect = CBase.Drawing.GetTextBounds(_Text);
+                RectangleF rect = CBase.Fonts.GetTextBounds(_Text);
 
                 if (_Notes[note].Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;
@@ -374,7 +374,7 @@ namespace VocaluxeLib.Menu
                 if (_Notes[zoomNote].Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;
 
-                RectangleF rect = CBase.Drawing.GetTextBounds(_Text);
+                RectangleF rect = CBase.Fonts.GetTextBounds(_Text);
 
                 float diff = endBeat - _Notes[zoomNote].StartBeat;
                 if (diff <= 0f)
@@ -392,7 +392,7 @@ namespace VocaluxeLib.Menu
                 float tz = _Text.Z;
 
                 _Text.Height += _Text.Height * p * 0.4f;
-                RectangleF rectz = CBase.Drawing.GetTextBounds(_Text);
+                RectangleF rectz = CBase.Fonts.GetTextBounds(_Text);
                 _Text.X -= (rectz.Width - rect.Width) / 2f;
                 _Text.Y -= (rectz.Height - rect.Height) / 2f;
                 _Text.Z -= 0.1f;
@@ -415,7 +415,7 @@ namespace VocaluxeLib.Menu
                 _Text.X = x;
                 _Text.Style = EStyle.Bold;
                 _Text.Text = note.Text;
-                RectangleF rect = CBase.Drawing.GetTextBounds(_Text);
+                RectangleF rect = CBase.Fonts.GetTextBounds(_Text);
 
                 if (note.Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;
@@ -456,7 +456,7 @@ namespace VocaluxeLib.Menu
                 _Text.X = x;
                 _Text.Style = EStyle.Bold;
                 _Text.Text = _Notes[note].Text;
-                RectangleF rect = CBase.Drawing.GetTextBounds(_Text);
+                RectangleF rect = CBase.Fonts.GetTextBounds(_Text);
 
                 if (_Notes[note].Type == ENoteType.Freestyle)
                     _Text.Style = EStyle.BoldItalic;

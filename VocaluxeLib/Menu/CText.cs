@@ -551,7 +551,7 @@ namespace VocaluxeLib.Menu
 
         public void Draw(float begin, float end)
         {
-            RectangleF bounds = CBase.Fonts.GetTextBounds(this, Height);
+            RectangleF bounds = CBase.Fonts.GetTextBounds(this);
 
             float x = X;
             switch (Align)
@@ -597,7 +597,7 @@ namespace VocaluxeLib.Menu
             CBase.Fonts.SetFont(Font);
             CBase.Fonts.SetStyle(Style);
 
-            RectangleF bounds = CBase.Fonts.GetTextBounds(this, Height);
+            RectangleF bounds = CBase.Fonts.GetTextBounds(this);
 
             if (bounds.Width > Bounds.W && Bounds.W > 0f && bounds.Width > 0f)
             {
@@ -691,7 +691,7 @@ namespace VocaluxeLib.Menu
 
             float h = Height;
             float y = Y;
-            RectangleF bounds = CBase.Fonts.GetTextBounds(this, Height);
+            RectangleF bounds = CBase.Fonts.GetTextBounds(this);
 
             if (bounds.Width > Bounds.W && Bounds.W > 0f && bounds.Width > 0f)
             {

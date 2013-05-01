@@ -31,7 +31,6 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using SlimDX.Windows;
 using Vocaluxe.Base;
-using Vocaluxe.Base.Fonts;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Draw
@@ -621,30 +620,6 @@ namespace Vocaluxe.Lib.Draw
         }
 
         /// <summary>
-        ///     Calculates the bounds for a CText object
-        /// </summary>
-        /// <param name="text">The CText object of which the bounds should be calculated for</param>
-        /// <returns>RectangleF object containing the bounds</returns>
-        public RectangleF GetTextBounds(CText text)
-        {
-            return GetTextBounds(text, text.Height);
-        }
-
-        /// <summary>
-        ///     Calculates the bounds for a CText object
-        /// </summary>
-        /// <param name="text">The CText object of which the bounds should be calculated for</param>
-        /// <param name="height">The height of the CText object</param>
-        /// <returns>RectangleF object containing the bounds</returns>
-        public RectangleF GetTextBounds(CText text, float height)
-        {
-            CFonts.Height = height;
-            CFonts.SetFont(text.Font);
-            CFonts.Style = text.Style;
-            return new RectangleF(text.X, text.Y, CFonts.GetTextWidth(CLanguage.Translate(text.Text)), CFonts.GetTextHeight(CLanguage.Translate(text.Text)));
-        }
-
-        /// <summary>
         ///     Adds a quad a list which will be added and rendered to the vertexbuffer when calling RenderToVertexBuffer to reduce vertexbuffer calls each frame to a minimum
         /// </summary>
         /// <param name="vertices">A TexturedColoredVertex array containg 4 vertices</param>
@@ -793,19 +768,6 @@ namespace Vocaluxe.Lib.Draw
         {
             SColorF color = new SColorF((float)a / 255, (float)g / 255, (float)b / 255, (float)a / 255);
             DrawTexture(_BlankTexture, new SRectF(x1, y1, x2, y2, 1), color);
-        }
-
-        /// <summary>
-        ///     Draws a text string
-        /// </summary>
-        /// <param name="text">The text to be drawn</param>
-        /// <param name="x">The text's x-position</param>
-        /// <param name="y">The text's y-position</param>
-        /// <param name="h">The text's height</param>
-        /// <param name="z">The text's z-position</param>
-        public void DrawText(string text, int x, int y, int h, int z = 0)
-        {
-            CFonts.DrawText(text, h, x, y, z, new SColorF(1f, 1f, 1f, 1f));
         }
 
         /// <summary>

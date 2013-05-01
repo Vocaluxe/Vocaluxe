@@ -159,8 +159,6 @@ namespace VocaluxeLib.Menu
 
     public interface IDrawing
     {
-        RectangleF GetTextBounds(CText text);
-
         void DrawTexture(STexture texture, SRectF rect);
         void DrawTexture(STexture texture, SRectF rect, SColorF color);
         void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds);
@@ -192,6 +190,7 @@ namespace VocaluxeLib.Menu
         void SetFont(string fontName);
         void SetStyle(EStyle fontStyle);
 
+        RectangleF GetTextBounds(CText text);
         RectangleF GetTextBounds(CText text, float textHeight);
 
         void DrawText(string text, float textHeight, float x, float y, float z, SColorF color);

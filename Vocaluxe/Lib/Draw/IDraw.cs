@@ -32,9 +32,6 @@ namespace Vocaluxe.Lib.Draw
         int GetScreenWidth();
         int GetScreenHeight();
 
-        RectangleF GetTextBounds(CText text);
-        RectangleF GetTextBounds(CText text, float height);
-
         // Basic Draw Methods
         void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2);
         void DrawColor(SColorF color, SRectF rect);
@@ -44,9 +41,6 @@ namespace Vocaluxe.Lib.Draw
         STexture CopyScreen();
         void CopyScreen(ref STexture texture);
         void MakeScreenShot();
-
-        // Draw Basic Text (must be deleted later)
-        void DrawText(string text, int x, int y, int h, int z = 0);
 
         STexture AddTexture(string texturePath);
         STexture AddTexture(Bitmap bitmap);

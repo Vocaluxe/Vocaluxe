@@ -27,7 +27,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
-using Vocaluxe.Base.Fonts;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Draw
@@ -286,19 +285,6 @@ namespace Vocaluxe.Lib.Draw
             return ClientSize.Height;
         }
 
-        public RectangleF GetTextBounds(CText text)
-        {
-            return GetTextBounds(text, text.Height);
-        }
-
-        public RectangleF GetTextBounds(CText text, float height)
-        {
-            CFonts.Height = height;
-            CFonts.SetFont(text.Font);
-            CFonts.Style = text.Style;
-            return new RectangleF(text.X, text.Y, CFonts.GetTextWidth(CLanguage.Translate(text.Text)), CFonts.GetTextHeight(CLanguage.Translate(text.Text)));
-        }
-
         public void ClearScreen()
         {
             _G.Clear(_ClearColor);
@@ -349,12 +335,6 @@ namespace Vocaluxe.Lib.Draw
         public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2)
         {
             _G.DrawLine(new Pen(Color.FromArgb(a, r, g, b), w), new Point(x1, y1), new Point(x2, y2));
-        }
-
-        // Draw Basic Text
-        public void DrawText(string text, int x, int y, int h, int z = 0)
-        {
-            CFonts.DrawText(text, h, x, y, z, new SColorF(1, 1, 1, 1));
         }
 
         public void DrawColor(SColorF color, SRectF rect) {}
@@ -491,7 +471,7 @@ namespace Vocaluxe.Lib.Draw
         {
             if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
             {
-                Bitmap coloredBitmap = ColorizeBitmap(_Bitmaps[texture.Index], color);
+                Bitmap coloredBitmap = _ColorizeBitmap(_Bitmaps[texture.Index], color);
                 _G.DrawImage(coloredBitmap, new RectangleF(rect.X, rect.Y, rect.W, rect.H));
                 coloredBitmap.Dispose();
             }
@@ -506,7 +486,7 @@ namespace Vocaluxe.Lib.Draw
             return _Textures.Count;
         }
 
-        public static Bitmap ColorizeBitmap(Bitmap original, SColorF color)
+        private static Bitmap _ColorizeBitmap(Bitmap original, SColorF color)
         {
             Bitmap newBitmap = new Bitmap(original.Width, original.Height);
 

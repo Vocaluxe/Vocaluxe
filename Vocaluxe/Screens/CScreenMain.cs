@@ -158,7 +158,7 @@ namespace Vocaluxe.Screens
             {
                 CFonts.SetFont("Normal");
                 CFonts.Style = EStyle.Normal;
-                CDraw.DrawText(CSettings.GetFullVersionText(), 10, 680, 40);
+                CFonts.DrawText(CSettings.GetFullVersionText(), 10, 680, 40);
             }
 
             return true;
