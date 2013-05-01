@@ -21,6 +21,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Vocaluxe.Base
 {
@@ -111,12 +112,17 @@ namespace Vocaluxe.Base
         }
 
         #region LogError
-        public static void LogError(string errorText)
+        public static void LogError(string errorText, bool show = false, bool exit = false, Exception e = null)
         {
             _NumErrors++;
-
-            _ErrorLog.Add(_NumErrors + ") " + errorText);
+            if (show)
+                MessageBox.Show(errorText, CSettings.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (e != null)
+                errorText += ": " + e;
+            _ErrorLog.Add(_NumErrors + ") " + errorText + "\r\n");
             _ErrorLog.Add(String.Empty);
+            if (exit)
+                Environment.Exit(Environment.ExitCode);
         }
         #endregion LogError
 

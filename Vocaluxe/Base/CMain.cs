@@ -350,12 +350,7 @@ namespace Vocaluxe.Base
             CDraw.DrawTexture(texture, rect, color);
         }
 
-        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds)
-        {
-            CDraw.DrawTexture(texture, rect, color, bounds);
-        }
-
-        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored)
+        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
             CDraw.DrawTexture(texture, rect, color, bounds, mirrored);
         }

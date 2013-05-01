@@ -264,7 +264,7 @@ namespace Vocaluxe.Lib.Draw
             Close();
         }
 
-        public bool Unload()
+        public void Unload()
         {
             try
             {
@@ -272,7 +272,6 @@ namespace Vocaluxe.Lib.Draw
             }
             catch {}
             Dispose();
-            return true;
         }
 
         public int GetScreenWidth()
@@ -399,11 +398,6 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        public STexture AddTexture(int w, int h, IntPtr data)
-        {
-            return new STexture(-1);
-        }
-
         public STexture EnqueueTexture(int w, int h, ref byte[] data)
         {
             return AddTexture(w, h, ref data);
@@ -418,11 +412,6 @@ namespace Vocaluxe.Lib.Draw
                 bmp.UnlockBits(bmpData);
                 return AddTexture(bmp);
             }
-        }
-
-        public bool UpdateTexture(ref STexture texture, IntPtr data)
-        {
-            return true;
         }
 
         public bool UpdateTexture(ref STexture texture, ref byte[] data)
@@ -449,25 +438,13 @@ namespace Vocaluxe.Lib.Draw
                 DrawTexture(texture, rect, texture.Color);
         }
 
-        public void DrawTexture(STexture texture, SRectF rect, SColorF color)
-        {
-            if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
-                DrawTexture(texture, rect, color, rect, false);
-        }
-
-        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds)
-        {
-            if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
-                DrawTexture(texture, rect, color, bounds, false);
-        }
-
-        public void DrawTexture(STexture texture, SRectF rect, SColorF color, bool mirrored)
+        public void DrawTexture(STexture texture, SRectF rect, SColorF color, bool mirrored = false)
         {
             if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
                 DrawTexture(texture, rect, color, rect, mirrored);
         }
 
-        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored)
+        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
             if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
             {
@@ -481,7 +458,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void DrawTextureReflection(STexture texture, SRectF rect, SColorF color, SRectF bounds, float space, float height) {}
 
-        public int TextureCount()
+        public int GetTextureCount()
         {
             return _Textures.Count;
         }

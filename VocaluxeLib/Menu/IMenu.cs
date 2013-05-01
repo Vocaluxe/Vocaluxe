@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using VocaluxeLib.Menu.SongMenu;
-using VocaluxeLib.PartyModes;
 
 namespace VocaluxeLib.Menu
 {
@@ -58,15 +57,6 @@ namespace VocaluxeLib.Menu
 
         void ProcessMouseClick(int x, int y);
         void ProcessMouseMove(int x, int y);
-    }
-
-    public interface IMenuParty
-    {
-        void SetPartyModeID(int partyModeID);
-        int GetPartyModeID();
-
-        void AssingPartyMode(IPartyMode partyMode);
-        void DataToScreen(Object data);
     }
 
     public interface IConfig
@@ -161,8 +151,7 @@ namespace VocaluxeLib.Menu
     {
         void DrawTexture(STexture texture, SRectF rect);
         void DrawTexture(STexture texture, SRectF rect, SColorF color);
-        void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds);
-        void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored);
+        void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false);
         void DrawTextureReflection(STexture texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight);
 
         void RemoveTexture(ref STexture texture);
