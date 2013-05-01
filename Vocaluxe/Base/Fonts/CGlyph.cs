@@ -32,6 +32,7 @@ namespace Vocaluxe.Base.Fonts
         private STexture _Texture;
         private readonly SizeF _BoundingBox;
         private readonly RectangleF _DrawBounding;
+        public readonly float MaxHeight;
 
         public float Width
         {
@@ -45,6 +46,7 @@ namespace Vocaluxe.Base.Fonts
 
         public CGlyph(char chr, float maxHeight)
         {
+            MaxHeight = maxHeight;
             float oldHeight = CFonts.Height;
             float outline = CFonts.Outline;
             float outlineSize = outline * maxHeight;

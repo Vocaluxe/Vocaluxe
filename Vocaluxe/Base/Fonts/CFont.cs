@@ -63,6 +63,7 @@ namespace Vocaluxe.Base.Fonts
                     _MaxGlyphHeight = 100f;
                     break;
             }
+            _MaxGlyphHeight = 50;
         }
 
         public Font GetFont()
@@ -124,6 +125,12 @@ namespace Vocaluxe.Base.Fonts
             {
                 glyph = new CGlyph(chr, _MaxGlyphHeight);
                 _Glyphs.Add(chr, glyph);
+            }
+            if (glyph.MaxHeight + 50 < CFonts.Height)
+            {
+                glyph.UnloadTexture();
+                glyph = new CGlyph(chr, (float)Math.Round(CFonts.Height / 50) * 50);
+                _Glyphs[chr] = glyph;
             }
             return glyph;
         }
