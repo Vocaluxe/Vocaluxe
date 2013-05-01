@@ -86,6 +86,9 @@ namespace Vocaluxe.Screens
 
         private const string _SingBars = "SingBars";
 
+        private bool _DynamicLyricsTop;
+        private bool _DynamicLyricsBottom;
+
         private SRectF _TimeLineRect;
         private List<STimeRect> _TimeRects;
         private bool _FadeOut;
@@ -650,12 +653,21 @@ namespace Vocaluxe.Screens
                         CGame.Players[i].LineNr = duetPlayer[i];
                 }
             }
-            _SetDuetLyricsVisibility(song.IsDuet);
-            _SetNormalLyricsVisibility();
+
+            _DynamicLyricsTop = false;
+            _DynamicLyricsBottom = false;
 
             for (int p = 0; p < CGame.NumPlayer; p++)
+            {
                 _NoteLines[p] = _SingNotes[_SingBars].AddPlayer(_SingNotes[_SingBars].BarPos[p, CGame.NumPlayer - 1], CTheme.GetPlayerColor(p + 1), p);
+                if (_SingNotes[_SingBars].BarPos[p, CGame.NumPlayer - 1].Y + _SingNotes[_SingBars].BarPos[p, CGame.NumPlayer - 1].H >= CSettings.RenderH / 2)
+                    _DynamicLyricsBottom = true;
+                else
+                    _DynamicLyricsTop = true;
+            }
 
+            _SetDuetLyricsVisibility(song.IsDuet);
+            _SetNormalLyricsVisibility();
             /*
                 case 4:
                     NoteLines[0] = SingNotes[SingBars].AddPlayer(new SRectF(35f, 100f, 590f, 200f, -0.5f), CTheme.ThemeColors.Player[0]);
@@ -693,7 +705,7 @@ namespace Vocaluxe.Screens
             {
                 bool lyricsOnTop = CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_TOP 
                                     || CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
-                                    || (CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && (CGame.NumPlayer > 2 && CGame.NumPlayer != 4));
+                                    || (CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && _DynamicLyricsTop);
                 _Lyrics[_LyricMainTop].Visible = lyricsOnTop;
                 _Lyrics[_LyricSubTop].Visible = lyricsOnTop;
                 _Statics[_StaticLyricsTop].Visible = lyricsOnTop;
@@ -702,7 +714,9 @@ namespace Vocaluxe.Screens
 
         private void _SetNormalLyricsVisibility()
         {
-            bool visible = CConfig.LyricsPosition != ELyricsPosition.TR_CONFIG_LYRICSPOSITION_TOP;
+            bool visible = CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM
+                            || CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
+                            || (CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && _DynamicLyricsBottom);
             _Lyrics[_LyricMain].Visible = visible;
             _Lyrics[_LyricSub].Visible = visible;
             _Statics[_StaticLyrics].Visible = visible;
