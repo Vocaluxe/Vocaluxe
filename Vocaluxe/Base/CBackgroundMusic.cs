@@ -136,7 +136,7 @@ namespace Vocaluxe.Base
 
             if (CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC)
                 AddBackgroundMusic();
-            if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
+            if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON)
                 _VideoEnabled = true;
 
             IsPlaying = false;
