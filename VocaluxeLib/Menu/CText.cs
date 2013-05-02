@@ -463,72 +463,30 @@ namespace VocaluxeLib.Menu
             // Update Text
             Text = Text;
 
-            if (_PositionNeedsUpdate)
-                _UpdateTextPosition();
-
             CBase.Fonts.SetFont(Font);
             CBase.Fonts.SetStyle(Style);
 
-            SColorF currentColor = new SColorF(Color);
-            if (Selected)
-                currentColor = new SColorF(SelColor);
-
+            SColorF currentColor = (Selected) ? SelColor : Color;
             SColorF color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
             CBase.Fonts.DrawText(_Text, Rect.H, Rect.X, Rect.Y, Z, color);
 
             if (ReflectionHeight > 0)
-            {
-                float factor = 0f;
-                switch (HAlign)
-                {
-                    case EHAlignment.Top:
-                        factor = (Height - Rect.H) * 1.5f;
-                        break;
-                    case EHAlignment.Center:
-                        factor = (Height - Rect.H) * 1.0f;
-                        break;
-                    case EHAlignment.Bottom:
-                        factor = (Height - Rect.H) * 0.5f;
-                        break;
-                }
-                CBase.Fonts.DrawTextReflection(_Text, Rect.H, Rect.X, Rect.Y, Z, color, ReflectionSpace + factor, ReflectionHeight);
-            }
+                CBase.Fonts.DrawTextReflection(_Text, Rect.H, Rect.X, Rect.Y, Z, color, ReflectionSpace, ReflectionHeight);
 
             if (Selected && (CBase.Settings.GetGameState() == EGameState.EditTheme))
-            {
-                CBase.Drawing.DrawColor(
-                    new SColorF(0.5f, 1f, 0.5f, 0.5f * CBase.Graphics.GetGlobalAlpha()),
-                    new SRectF(Rect.X, Rect.Y, Rect.W, Rect.H, Z)
-                    );
-            }
+                CBase.Drawing.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(Rect.X, Rect.Y, Rect.W, Rect.H, Z));
         }
 
         public void Draw(float begin, float end)
         {
-            RectangleF bounds = CBase.Fonts.GetTextBounds(this);
-
-            float x = X;
-            switch (Align)
-            {
-                case EAlignment.Center:
-                    x = X - bounds.Width / 2;
-                    break;
-                case EAlignment.Right:
-                    x = X - bounds.Width;
-                    break;
-            }
-
-            SColorF currentColor = new SColorF(Color);
-            if (Selected)
-                currentColor = new SColorF(SelColor);
-
-            SColorF color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
-
             CBase.Fonts.SetFont(Font);
             CBase.Fonts.SetStyle(Style);
 
-            CBase.Fonts.DrawText(Text, Height, x, Y, Z, color, begin, end);
+            SColorF currentColor = (Selected) ? SelColor : Color;
+            SColorF color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
+
+            CBase.Fonts.DrawText(Text, Rect.H, Rect.X, Rect.Y, Z, color, begin, end);
 
             if (ReflectionHeight > 0)
             {
@@ -536,72 +494,22 @@ namespace VocaluxeLib.Menu
             }
 
             if (Selected && (CBase.Settings.GetGameState() == EGameState.EditTheme))
-                CBase.Drawing.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(x, Y, bounds.Width, bounds.Height, Z));
+                CBase.Drawing.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(X, Y, Rect.W, Rect.H, Z));
         }
 
         public void DrawRelative(float rx, float ry, float reflectionHeight = 0f, float reflectionSpace = 0f, float rectHeight = 0f)
         {
-            // Update Text
-            Text = Text;
-
-            float h = Height;
-
-            float x = X + rx;
-            float y = Y + ry;
-
-            CBase.Fonts.SetFont(Font);
-            CBase.Fonts.SetStyle(Style);
-
-            RectangleF bounds = CBase.Fonts.GetTextBounds(this);
-
-            if (bounds.Width > MaxWidth && MaxWidth > 0f && bounds.Width > 0f)
-            {
-                float factor = MaxWidth / bounds.Width;
-                float step = h * (1 - factor);
-                h *= factor;
-                switch (HAlign)
-                {
-                    case EHAlignment.Center:
-                        y += step * 0.50f;
-                        break;
-                    case EHAlignment.Bottom:
-                        y += step;
-                        break;
-                }
-
-                bounds = CBase.Fonts.GetTextBounds(this, h);
-            }
-
-            switch (Align)
-            {
-                case EAlignment.Center:
-                    x = x - bounds.Width / 2;
-                    break;
-                case EAlignment.Right:
-                    x = x - bounds.Width;
-                    break;
-            }
-
-
-            SColorF currentColor = (Selected) ? SelColor : Color;
-
-            SColorF color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
-
-            CBase.Fonts.SetFont(Font);
-            CBase.Fonts.SetStyle(Style);
-
-            CBase.Fonts.DrawText(_Text, h, x, y, Z, color);
-
-            if (reflectionHeight > 0)
-            {
-                float space = (rectHeight - Y - bounds.Height) * 2f + reflectionSpace;
-                float height = reflectionHeight - (rectHeight - Y) + bounds.Height;
-
-                CBase.Fonts.DrawTextReflection(_Text, h, x, y, Z, color, space, height);
-            }
-
-            if (Selected && (CBase.Settings.GetGameState() == EGameState.EditTheme))
-                CBase.Drawing.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f * CBase.Graphics.GetGlobalAlpha()), new SRectF(x, y, bounds.Width, bounds.Height, Z));
+            var oldReflectionSpace = ReflectionSpace;
+            var oldReflectionHeight = ReflectionHeight;
+            ReflectionSpace = (rectHeight - Y - Rect.H) * 2 + reflectionSpace;
+            ReflectionHeight = reflectionHeight - (rectHeight - Y) + Rect.H;
+            X += rx;
+            Y += ry;
+            Draw(true);
+            ReflectionSpace = oldReflectionSpace;
+            ReflectionHeight = oldReflectionHeight;
+            X -= rx;
+            Y -= ry;
         }
 
         public void UnloadTextures() {}

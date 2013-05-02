@@ -999,7 +999,7 @@ namespace VocaluxeLib.Menu
 
         private bool _IsMouseOver(int x, int y, CInteraction interact)
         {
-            bool result = CHelper.IsInBounds(_GetRect(interact.Num), x, y);
+            bool result = CHelper.IsInBounds(_GetRect(interact), x, y);
             if (result)
                 return true;
             if (interact.Type == EType.SelectSlide)
@@ -1581,43 +1581,48 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-        private SRectF _GetRect(int interaction)
+        private SRectF _GetRect(CInteraction interaction)
         {
             SRectF result = new SRectF();
-            switch (_Interactions[interaction].Type)
+            switch (interaction.Type)
             {
                 case EType.Button:
-                    return _Buttons[_Interactions[interaction].Num].Rect;
+                    return _Buttons[interaction.Num].Rect;
 
                 case EType.SelectSlide:
-                    return _SelectSlides[_Interactions[interaction].Num].Rect;
+                    return _SelectSlides[interaction.Num].Rect;
 
                 case EType.Static:
-                    return _Statics[_Interactions[interaction].Num].Rect;
+                    return _Statics[interaction.Num].Rect;
 
                 case EType.Text:
-                    return _Texts[_Interactions[interaction].Num].Rect;
+                    return _Texts[interaction.Num].Rect;
 
                 case EType.SongMenu:
-                    return _SongMenus[_Interactions[interaction].Num].Rect;
+                    return _SongMenus[interaction.Num].Rect;
 
                 case EType.Lyric:
-                    return _Lyrics[_Interactions[interaction].Num].Rect;
+                    return _Lyrics[interaction.Num].Rect;
 
                 case EType.NameSelection:
-                    return _NameSelections[_Interactions[interaction].Num].Rect;
+                    return _NameSelections[interaction.Num].Rect;
 
                 case EType.Equalizer:
-                    return _Equalizers[_Interactions[interaction].Num].Rect;
+                    return _Equalizers[interaction.Num].Rect;
 
                 case EType.Playlist:
-                    return _Playlists[_Interactions[interaction].Num].Rect;
+                    return _Playlists[interaction.Num].Rect;
 
                 case EType.ParticleEffect:
-                    return _ParticleEffects[_Interactions[interaction].Num].Rect;
+                    return _ParticleEffects[interaction.Num].Rect;
             }
 
             return result;
+        }
+
+        private SRectF _GetRect(int interaction)
+        {
+            return _GetRect(_Interactions[interaction]);
         }
 
         private void _AddInteraction(int num, EType type)
