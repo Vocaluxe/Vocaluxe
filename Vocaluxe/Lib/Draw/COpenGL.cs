@@ -790,6 +790,19 @@ namespace Vocaluxe.Lib.Draw
         {
             STexture texture = new STexture(-1);
 
+            _CreateTexture(w, h, data, ref texture);
+
+            lock (_MutexTexture)
+            {
+                texture.Index = _IDs.Dequeue();
+                _Textures[texture.Index] = texture;
+            }
+
+            return texture;
+        }
+
+        private void _CreateTexture(int w, int h, byte[] data, ref STexture texture)
+        {
             if (_UsePBO)
             {
                 try
@@ -823,28 +836,20 @@ namespace Vocaluxe.Lib.Draw
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
 
-            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
-            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
 
-            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
             //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-            //GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
             // Add to Texture List
             texture.Color = new SColorF(1f, 1f, 1f, 1f);
             texture.Rect = new SRectF(0f, 0f, texture.Width, texture.Height, 0f);
             texture.TexturePath = String.Empty;
-
-            lock (_MutexTexture)
-            {
-                texture.Index = _IDs.Dequeue();
-                _Textures[texture.Index] = texture;
-            }
-
-            return texture;
         }
 
         public STexture EnqueueTexture(int w, int h, byte[] data)
@@ -1204,68 +1209,21 @@ namespace Vocaluxe.Lib.Draw
         {
             lock (_MutexTexture)
             {
-                if (_Queue.Count == 0)
-                    return;
-
-                STextureQueue q = _Queue[0];
-                STexture texture = new STexture(-1);
-                if (_Textures.ContainsKey(q.ID))
-                    texture = _Textures[q.ID];
-
-                if (texture.Index < 1)
-                    return;
-
-                if (_UsePBO)
+                while (_Queue.Count > 0)
                 {
-                    try
-                    {
-                        GL.GenBuffers(1, out texture.PBO);
-                        GL.BindBuffer(BufferTarget.PixelUnpackBuffer, texture.PBO);
-                        GL.BufferData(BufferTarget.PixelUnpackBuffer, (IntPtr)q.Data.Length, IntPtr.Zero, BufferUsageHint.StreamDraw);
-                        GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
-                    }
-                    catch (Exception)
-                    {
-                        //throw;
-                        _UsePBO = false;
-                    }
+                    STextureQueue q = _Queue[0];
+                    _Queue.RemoveAt(0);
+                    STexture texture = new STexture(-1);
+                    if (_Textures.ContainsKey(q.ID))
+                        texture = _Textures[q.ID];
+
+                    if (texture.Index < 1)
+                        continue;
+
+                    _CreateTexture(q.Width, q.Height, q.Data, ref texture);
+
+                    _Textures[texture.Index] = texture;
                 }
-
-                int id = GL.GenTexture();
-                GL.BindTexture(TextureTarget.Texture2D, id);
-                texture.ID = id;
-
-                texture.Width = q.Width;
-                texture.Height = q.Height;
-                texture.W2 = MathHelper.NextPowerOfTwo(texture.Width);
-                texture.H2 = MathHelper.NextPowerOfTwo(texture.Height);
-
-                texture.WidthRatio = texture.Width / texture.W2;
-                texture.HeightRatio = texture.Height / texture.H2;
-
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, (int)texture.W2, (int)texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
-
-                GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, q.Width, q.Height, PixelFormat.Bgra, PixelType.UnsignedByte, q.Data);
-
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
-
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
-                GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-
-                GL.BindTexture(TextureTarget.Texture2D, 0);
-
-                // Add to Texture List
-                texture.Color = new SColorF(1f, 1f, 1f, 1f);
-                texture.Rect = new SRectF(0f, 0f, texture.Width, texture.Height, 0f);
-                texture.TexturePath = String.Empty;
-
-                _Textures[texture.Index] = texture;
-                q.Data = null;
-                _Queue.RemoveAt(0);
             }
         }
         #endregion Textures

@@ -1344,21 +1344,19 @@ namespace Vocaluxe.Lib.Draw
         {
             lock (_MutexTexture)
             {
-                if (_Queue.Count == 0)
-                    return;
+                while (_Queue.Count > 0)
+                {
+                    STextureQueue q = _Queue[0];
+                    _Queue.RemoveAt(0);
+                    if (!_Textures.ContainsKey(q.ID))
+                        continue;
+                    STexture texture = _Textures[q.ID];
 
-                STextureQueue q = _Queue[0];
-                STexture texture;
-                if (_Textures.ContainsKey(q.ID))
-                    texture = _Textures[q.ID];
-                else
-                    return;
+                    Texture t = _CreateTexture(q.Width, q.Height, q.Data, ref texture);
+                    _D3DTextures[q.ID] = t;
 
-                Texture t = _CreateTexture(q.Width, q.Height, q.Data, ref texture);
-                _D3DTextures[q.ID] = t;
-
-                _Textures[texture.Index] = texture;
-                _Queue.RemoveAt(0);
+                    _Textures[texture.Index] = texture;
+                }
             }
         }
 
