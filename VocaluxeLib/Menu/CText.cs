@@ -32,24 +32,6 @@ namespace VocaluxeLib.Menu
         public string SelColorName; //for Buttons
     }
 
-    struct STextPosition
-    {
-        public float X;
-        public float Y;
-        public float TextHeight;
-        public float Width;
-        public float Height;
-
-        public STextPosition(float initVal)
-        {
-            X = initVal;
-            Y = initVal;
-            TextHeight = initVal;
-            Width = initVal;
-            Height = initVal;
-        }
-    }
-
     public class CText : IMenuElement
     {
         private SThemeText _Theme;
@@ -64,8 +46,6 @@ namespace VocaluxeLib.Menu
 
         private bool _ButtonText;
         private bool _PositionNeedsUpdate = true;
-
-        private STextPosition _DrawPosition = new STextPosition(0);
 
         private float _X;
         public float X
@@ -127,28 +107,6 @@ namespace VocaluxeLib.Menu
                 if (Math.Abs(_MaxWidth - value) > 0.01)
                 {
                     _MaxWidth = value;
-                    // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
-                    if (_MaxWidth > 0)
-                        // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
-                        Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), _MaxWidth, 3f * CBase.Settings.GetRenderH(), 0f);
-                    else
-                        Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
-
-                    _PositionNeedsUpdate = true;
-                }
-            }
-        }
-
-        private SRectF _Bounds;
-        public SRectF Bounds
-        {
-            get { return _Bounds; }
-            set
-            {
-                if (Math.Abs(_Bounds.X - value.X) > 0.01 || Math.Abs(_Bounds.Y - value.Y) > 0.01 || Math.Abs(_Bounds.W - value.W) > 0.01 || Math.Abs(_Bounds.H - value.H) > 0.01 ||
-                    Math.Abs(_Bounds.Z - value.Z) > 0.01)
-                {
-                    _Bounds = value;
                     _PositionNeedsUpdate = true;
                 }
             }
@@ -207,6 +165,20 @@ namespace VocaluxeLib.Menu
                     _Font = value;
                     _PositionNeedsUpdate = true;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Do NOT read/write this anywhere but in _UpdateTextPosition!
+        /// </summary>
+        private SRectF _Rect;
+        public SRectF Rect
+        {
+            get
+            {
+                if (_PositionNeedsUpdate)
+                    _UpdateTextPosition();
+                return _Rect;
             }
         }
 
@@ -287,7 +259,6 @@ namespace VocaluxeLib.Menu
             _Z = text._Z;
             _Height = text._Height;
             _MaxWidth = text._MaxWidth;
-            _Bounds = new SRectF(text._Bounds);
             _Align = text._Align;
             _HAlign = text._HAlign;
             _Style = text._Style;
@@ -331,13 +302,6 @@ namespace VocaluxeLib.Menu
             Text = text;
 
             Selected = false;
-
-            // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
-            if (MaxWidth > 0)
-                // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
-                Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), MaxWidth, 3f * CBase.Settings.GetRenderH(), 0f);
-            else
-                Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
 
             ReflectionSpace = rspace;
             ReflectionHeight = rheight;
@@ -403,16 +367,7 @@ namespace VocaluxeLib.Menu
             _PositionNeedsUpdate = true;
 
             if (_ThemeLoaded)
-            {
                 LoadTextures();
-
-                // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
-                if (MaxWidth > 0)
-                    // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
-                    Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), MaxWidth, 3f * CBase.Settings.GetRenderH(), 0f);
-                else
-                    Bounds = new SRectF(-CBase.Settings.GetRenderW(), -CBase.Settings.GetRenderH(), 3f * CBase.Settings.GetRenderW(), 3f * CBase.Settings.GetRenderH(), 0f);
-            }
             return _ThemeLoaded;
         }
 
@@ -520,7 +475,7 @@ namespace VocaluxeLib.Menu
 
             SColorF color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
-            CBase.Fonts.DrawText(_Text, _DrawPosition.TextHeight, _DrawPosition.X, _DrawPosition.Y, Z, color);
+            CBase.Fonts.DrawText(_Text, Rect.H, Rect.X, Rect.Y, Z, color);
 
             if (ReflectionHeight > 0)
             {
@@ -528,23 +483,23 @@ namespace VocaluxeLib.Menu
                 switch (HAlign)
                 {
                     case EHAlignment.Top:
-                        factor = (Height - _DrawPosition.TextHeight) * 1.5f;
+                        factor = (Height - Rect.H) * 1.5f;
                         break;
                     case EHAlignment.Center:
-                        factor = (Height - _DrawPosition.TextHeight) * 1.0f;
+                        factor = (Height - Rect.H) * 1.0f;
                         break;
                     case EHAlignment.Bottom:
-                        factor = (Height - _DrawPosition.TextHeight) * 0.5f;
+                        factor = (Height - Rect.H) * 0.5f;
                         break;
                 }
-                CBase.Fonts.DrawTextReflection(_Text, _DrawPosition.TextHeight, _DrawPosition.X, _DrawPosition.Y, Z, color, ReflectionSpace + factor, ReflectionHeight);
+                CBase.Fonts.DrawTextReflection(_Text, Rect.H, Rect.X, Rect.Y, Z, color, ReflectionSpace + factor, ReflectionHeight);
             }
 
             if (Selected && (CBase.Settings.GetGameState() == EGameState.EditTheme))
             {
                 CBase.Drawing.DrawColor(
                     new SColorF(0.5f, 1f, 0.5f, 0.5f * CBase.Graphics.GetGlobalAlpha()),
-                    new SRectF(_DrawPosition.X, _DrawPosition.Y, _DrawPosition.Width, _DrawPosition.Height, Z)
+                    new SRectF(Rect.X, Rect.Y, Rect.W, Rect.H, Z)
                     );
             }
         }
@@ -599,9 +554,9 @@ namespace VocaluxeLib.Menu
 
             RectangleF bounds = CBase.Fonts.GetTextBounds(this);
 
-            if (bounds.Width > Bounds.W && Bounds.W > 0f && bounds.Width > 0f)
+            if (bounds.Width > MaxWidth && MaxWidth > 0f && bounds.Width > 0f)
             {
-                float factor = Bounds.W / bounds.Width;
+                float factor = MaxWidth / bounds.Width;
                 float step = h * (1 - factor);
                 h *= factor;
                 switch (HAlign)
@@ -693,9 +648,9 @@ namespace VocaluxeLib.Menu
             float y = Y;
             RectangleF bounds = CBase.Fonts.GetTextBounds(this);
 
-            if (bounds.Width > Bounds.W && Bounds.W > 0f && bounds.Width > 0f)
+            if (bounds.Width > MaxWidth && MaxWidth > 0f && bounds.Width > 0f)
             {
-                float factor = Bounds.W / bounds.Width;
+                float factor = MaxWidth / bounds.Width;
                 float step = h * (1 - factor);
                 h *= factor;
                 switch (HAlign)
@@ -725,11 +680,10 @@ namespace VocaluxeLib.Menu
                     break;
             }
 
-            _DrawPosition.X = x;
-            _DrawPosition.Y = y;
-            _DrawPosition.TextHeight = h;
-            _DrawPosition.Width = bounds.Width;
-            _DrawPosition.Height = bounds.Height;
+            _Rect.X = x;
+            _Rect.Y = y;
+            _Rect.W = bounds.Width;
+            _Rect.H = bounds.Height;
 
             _PositionNeedsUpdate = false;
         }

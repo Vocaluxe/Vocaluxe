@@ -116,10 +116,10 @@ namespace Vocaluxe.Base.Fonts
                         float dx = (fullSize.Width - boundingSize.Width - 1) / 2;
                         _DrawBounding.X -= dx;
                         _Texture = CDraw.AddTexture(bmpCropped);
-                        _DrawBounding.X *= _Texture.Width / _DrawBounding.Width;
+                        /*_DrawBounding.X *= _Texture.Width / _DrawBounding.Width;
                         _DrawBounding.Y *= _Texture.Width / _DrawBounding.Width;
                         _DrawBounding.Width = _Texture.Width;
-                        _DrawBounding.Height = _Texture.Height;
+                        _DrawBounding.Height = _Texture.Height;*/
                         if (false)
                         {
                             if (outline > 0)

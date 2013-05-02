@@ -999,51 +999,13 @@ namespace VocaluxeLib.Menu
 
         private bool _IsMouseOver(int x, int y, CInteraction interact)
         {
-            switch (interact.Type)
+            bool result = CHelper.IsInBounds(_GetRect(interact.Num), x, y);
+            if (result)
+                return true;
+            if (interact.Type == EType.SelectSlide)
             {
-                case EType.Button:
-                    if (CHelper.IsInBounds(_Buttons[interact.Num].Rect, x, y))
-                        return true;
-                    break;
-                case EType.SelectSlide:
-                    if (CHelper.IsInBounds(_SelectSlides[interact.Num].Rect, x, y) ||
-                        CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowLeft, x, y) ||
-                        CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowRight, x, y))
-                        return true;
-                    break;
-                case EType.Static:
-                    if (CHelper.IsInBounds(_Statics[interact.Num].Rect, x, y))
-                        return true;
-                    break;
-                case EType.Text:
-                    RectangleF bounds = CBase.Fonts.GetTextBounds(_Texts[interact.Num]);
-                    if (CHelper.IsInBounds(new SRectF(_Texts[interact.Num].X, _Texts[interact.Num].Y, bounds.Width, bounds.Height, _Texts[interact.Num].Z), x, y))
-                        return true;
-                    break;
-                case EType.SongMenu:
-                    if (CHelper.IsInBounds(_SongMenus[interact.Num].Rect, x, y))
-                        return true;
-                    break;
-                case EType.Lyric:
-                    if (CHelper.IsInBounds(_Lyrics[interact.Num].Rect, x, y))
-                        return true;
-                    break;
-                case EType.NameSelection:
-                    if (CHelper.IsInBounds(_NameSelections[interact.Num].Rect, x, y))
-                        return true;
-                    break;
-                case EType.Equalizer:
-                    if (CHelper.IsInBounds(_Equalizers[interact.Num].Rect, x, y))
-                        return true;
-                    break;
-                case EType.Playlist:
-                    if (CHelper.IsInBounds(_Playlists[interact.Num].Rect, x, y))
-                        return true;
-                    break;
-                case EType.ParticleEffect:
-                    if (CHelper.IsInBounds(_ParticleEffects[interact.Num].Rect, x, y))
-                        return true;
-                    break;
+                return CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowLeft, x, y) ||
+                       CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowRight, x, y);
             }
             return false;
         }
@@ -1634,7 +1596,7 @@ namespace VocaluxeLib.Menu
                     return _Statics[_Interactions[interaction].Num].Rect;
 
                 case EType.Text:
-                    return _Texts[_Interactions[interaction].Num].Bounds;
+                    return _Texts[_Interactions[interaction].Num].Rect;
 
                 case EType.SongMenu:
                     return _SongMenus[_Interactions[interaction].Num].Rect;
