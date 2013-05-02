@@ -55,7 +55,7 @@ namespace Vocaluxe.Base.Fonts
             CFonts.Height = maxHeight; // *factor;
             //float factor = _GetFactor(chr, flags);
             Font fo = CFonts.GetFont();
-            SizeF fullSize, boundingSize;
+            SizeF fullSize;
             Size bmpSize;
             using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
             {
@@ -64,20 +64,19 @@ namespace Vocaluxe.Base.Fonts
                 if (chr != ' ')
                 {
                     //Gets exact height and width for drawing more than 1 char. But width is to small to draw char on bitmap as e.g. italic chars will get cropped
-                    boundingSize = g.MeasureString(chrString, fo, -1, new StringFormat(StringFormat.GenericTypographic));
-                    boundingSize.Width += outlineSize;
-                    if (boundingSize.Height > 0)
-                        boundingSize.Height += outlineSize;
-                    else
-                        boundingSize.Height = fullSize.Height;
-                    bmpSize = new Size((int)fullSize.Width, (int)Math.Round(boundingSize.Height));
+                    _BoundingBox = g.MeasureString(chrString, fo, -1, new StringFormat(StringFormat.GenericTypographic));
+                    _BoundingBox.Width += outlineSize;
+                    // ReSharper disable CompareOfFloatsByEqualityOperator
+                    if (_BoundingBox.Height == 0)
+                        // ReSharper restore CompareOfFloatsByEqualityOperator
+                        _BoundingBox.Height = fullSize.Height - outlineSize;
+                    bmpSize = new Size((int)fullSize.Width, (int)Math.Round(_BoundingBox.Height));
                 }
                 else
                 {
-                    boundingSize = fullSize;
+                    _BoundingBox = fullSize;
                     bmpSize = new Size(1, 1);
                 }
-                _BoundingBox = boundingSize;
             }
             using (Bitmap bmp = new Bitmap(bmpSize.Width, bmpSize.Height, PixelFormat.Format32bppArgb))
             using (Graphics g = Graphics.FromImage(bmp))
@@ -95,7 +94,7 @@ namespace Vocaluxe.Base.Fonts
                     g.InterpolationMode = InterpolationMode.HighQualityBicubic;
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
-                    PointF point = new PointF(outlineSize / 2, outlineSize / 2);
+                    PointF point = new PointF(outlineSize / 2, outlineSize / 4);
 
                     using (GraphicsPath path = new GraphicsPath())
                     {
@@ -113,7 +112,7 @@ namespace Vocaluxe.Base.Fonts
                     _DrawBounding = _GetRealBounds(bmp);
                     using (Bitmap bmpCropped = bmp.Clone(_DrawBounding, PixelFormat.Format32bppArgb))
                     {
-                        float dx = (fullSize.Width - boundingSize.Width - 1) / 2;
+                        float dx = (fullSize.Width - _BoundingBox.Width - 1) / 2;
                         _DrawBounding.X -= dx;
                         _Texture = CDraw.AddTexture(bmpCropped);
                         /*_DrawBounding.X *= _Texture.Width / _DrawBounding.Width;
