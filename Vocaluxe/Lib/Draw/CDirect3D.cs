@@ -886,11 +886,15 @@ namespace Vocaluxe.Lib.Draw
                     {
                         w = newW;
                         h = (int)Math.Round(w / ratio);
+                        if (h == 0)
+                            h = 1;
                     }
                     else
                     {
                         h = newH;
                         w = (int)Math.Round(h * ratio);
+                        if (w == 0)
+                            w = 1;
                     }
                     //Create a new Bitmap with the new sizes
                     bmp2 = new Bitmap(w, h);

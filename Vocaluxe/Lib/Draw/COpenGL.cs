@@ -713,12 +713,16 @@ namespace Vocaluxe.Lib.Draw
             if (w > maxSize)
             {
                 h = (int)Math.Round((float)maxSize / bmp.Width * bmp.Height);
+                if (h == 0)
+                    h = 1;
                 w = maxSize;
             }
 
             if (h > maxSize)
             {
                 w = (int)Math.Round((float)maxSize / bmp.Height * bmp.Width);
+                if (w == 0)
+                    w = 1;
                 h = maxSize;
             }
 
