@@ -73,6 +73,10 @@
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">All</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Only names and avatars</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Nothing</string>
+  <string name="TR_CONFIG_LYRICSPOSITION_BOTTOM">Bottom</string>
+  <string name="TR_CONFIG_LYRICSPOSITION_TOP">Top</string>
+  <string name="TR_CONFIG_LYRICSPOSITION_BOTH">Top and bottom</string>
+  <string name="TR_CONFIG_LYRICSPOSITION_DYNAMIC">Dynamic</string>  
   <string name="TR_SCREENLOAD_LOADING">Loading</string>
   <string name="TR_SCREENLOAD_TOTAL">Total</string>
   <string name="TR_SCREENLOAD_SONGS">Songs</string>
@@ -188,7 +192,7 @@
   <string name="TR_SCREENOTHEME_COVERLOADING">Cover Loading Behavior</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Lyrics Options</string>
   <string name="TR_SCREENOLYRICS_STYLE">Style</string>
-  <string name="TR_SCREENOLYRICS_ONTOP">Lyrics on top</string>
+  <string name="TR_SCREENOLYRICS_POSTION">Lyrics position</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Video Options</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video Backgrounds</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video Preview</string>
