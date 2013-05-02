@@ -237,6 +237,7 @@ namespace VocaluxeLib.Menu.SongMenu
         protected CSongMenuFramework(int partyModeID)
         {
             _PartyModeID = partyModeID;
+            _Video = -1;
             _Theme = new SThemeSongMenu
                 {
                     SongMenuTileBoard =

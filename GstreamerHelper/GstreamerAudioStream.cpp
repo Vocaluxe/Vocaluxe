@@ -92,11 +92,14 @@ int GstreamerAudioStream::Load(const wchar_t* Media, bool Prescan)
 void GstreamerAudioStream::Close(void)
 {
 	if(Element)
+	{
 		gst_element_set_state(Element, GST_STATE_NULL);
+		gst_object_unref(GST_OBJECT (Element));
+	}
+
+	/* without that there are no crashes any more. but i don't know if there is a memory leak if we do that.
 	if(Bus)
 		gst_object_unref(Bus);
-	if(Element)
-		gst_object_unref(Element);
 	if(Message)
 		gst_message_unref(Message);
 	if(Convert)
@@ -109,6 +112,8 @@ void GstreamerAudioStream::Close(void)
 		gst_object_unref(GhostPad);
 	if(SinkBin)
 		gst_object_unref(SinkBin);
+	*/
+
 	if(FadeTimer)
 		g_timer_destroy (FadeTimer);
 

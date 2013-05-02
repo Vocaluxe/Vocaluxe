@@ -83,6 +83,7 @@ DllExport void Close(int Stream)
 	if(it != Streams.end())
 	{
 		delete it->second;
+		IDs.push(it->first);
 		Streams.erase(it);
 	}
 }
@@ -236,6 +237,7 @@ DllExport void Update(void)
 	  if(p->second->Closed)
 	  {
 		delete p->second;
+		IDs.push(p->first);
 		Streams.erase(p++);
 	  }
 	  else {
