@@ -501,8 +501,8 @@ namespace VocaluxeLib.Menu
         {
             var oldReflectionSpace = ReflectionSpace;
             var oldReflectionHeight = ReflectionHeight;
-            ReflectionSpace = (rectHeight - Y - Rect.H) * 2 + reflectionSpace;
-            ReflectionHeight = reflectionHeight - (rectHeight - Y) + Rect.H;
+            ReflectionSpace = (rectHeight - Rect.Y - Rect.H) * 2 + reflectionSpace;
+            ReflectionHeight = reflectionHeight - (rectHeight - Rect.Y) + Rect.H;
             X += rx;
             Y += ry;
             Draw(true);
