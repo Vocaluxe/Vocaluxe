@@ -39,7 +39,7 @@ namespace Vocaluxe.Screens
         public override void Init()
         {
             base.Init();
-            const string test = " ÖÄÜabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPGRSTUVWGXZ1234567890";
+            const string test = "Ö ÄÜabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPGRSTUVWGXZ1234567890";
             SColorF color = new SColorF(1, 0, 0, 1);
             CText text = new CText(10, 50, 1, 32, 0, EAlignment.Left, EStyle.Normal, "Normal", color, "jÄNormal Text" + test, -1, 26, 0);
             _AddText(text);
@@ -47,11 +47,11 @@ namespace Vocaluxe.Screens
             _AddText(text);
             text = new CText(10, 130, 1, 32, 0, EAlignment.Left, EStyle.Italic, "Normal", color, "jÄItalic Text" + test, -1, 26, 0);
             _AddText(text);
-            text = new CText(10, 170, 1, 100, 0, EAlignment.Left, EStyle.Normal, "Outline", color, "jÄNormal Text" + test, -1, 50, 0);
+            text = new CText(10, 170, 1, 32, 0, EAlignment.Left, EStyle.Normal, "Outline", color, "jÄNormal Text" + test, -1, 50, 0);
             _AddText(text);
-            text = new CText(10, 210, 1, 200, 0, EAlignment.Left, EStyle.Bold, "Outline", color, "jÄBold Text" + test, -1, 100, 0);
+            text = new CText(10, 210, 1, 32, 0, EAlignment.Left, EStyle.Bold, "Outline", color, "jÄBold Text" + test, -1, 100, 0);
             _AddText(text);
-            text = new CText(10, 250, 1, 300, 0, EAlignment.Left, EStyle.Italic, "Outline", color, "jÄItalic Text" + test, -1, 150, 0);
+            text = new CText(10, 250, 1, 32, 0, EAlignment.Left, EStyle.Italic, "Outline", color, "jÄItalic Text" + test, -1, 150, 0);
             _AddText(text);
         }
 

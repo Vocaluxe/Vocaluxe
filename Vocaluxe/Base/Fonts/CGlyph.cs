@@ -52,29 +52,30 @@ namespace Vocaluxe.Base.Fonts
             float outlineSize = outline * maxHeight;
             string chrString = chr.ToString();
 
-            CFonts.Height = maxHeight; // *factor;
-            //float factor = _GetFactor(chr, flags);
+            CFonts.Height = maxHeight;
             Font fo = CFonts.GetFont();
             SizeF fullSize;
             Size bmpSize;
             using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
             {
                 fullSize = g.MeasureString(chrString, fo);
-                fullSize.Width += outlineSize;
                 if (chr != ' ')
                 {
                     //Gets exact height and width for drawing more than 1 char. But width is to small to draw char on bitmap as e.g. italic chars will get cropped
                     _BoundingBox = g.MeasureString(chrString, fo, -1, new StringFormat(StringFormat.GenericTypographic));
-                    _BoundingBox.Width += outlineSize;
                     // ReSharper disable CompareOfFloatsByEqualityOperator
                     if (_BoundingBox.Height == 0)
                         // ReSharper restore CompareOfFloatsByEqualityOperator
-                        _BoundingBox.Height = fullSize.Height - outlineSize;
+                        _BoundingBox.Height = fullSize.Height;
+                    _BoundingBox.Width += outlineSize / 2;
+                    _BoundingBox.Height += outlineSize;
+                    fullSize.Width += outlineSize;
                     bmpSize = new Size((int)fullSize.Width, (int)Math.Round(_BoundingBox.Height));
                 }
                 else
                 {
                     _BoundingBox = fullSize;
+                    _BoundingBox.Height += outlineSize;
                     bmpSize = new Size(1, 1);
                 }
             }
@@ -86,7 +87,7 @@ namespace Vocaluxe.Base.Fonts
                 if (chr == ' ')
                 {
                     _Texture = CDraw.AddTexture(bmp);
-                    _DrawBounding = new RectangleF(0, 0, 1, 1);
+                    _DrawBounding = new RectangleF(0, 0, 0, 0);
                 }
                 else
                 {
@@ -119,6 +120,7 @@ namespace Vocaluxe.Base.Fonts
                         _DrawBounding.Y *= _Texture.Width / _DrawBounding.Width;
                         _DrawBounding.Width = _Texture.Width;
                         _DrawBounding.Height = _Texture.Height;*/
+#pragma warning disable 162
                         if (false)
                         {
                             if (outline > 0)
@@ -126,6 +128,7 @@ namespace Vocaluxe.Base.Fonts
                             else
                                 bmpCropped.Save("font/" + chr + CFonts.Style + "2.png", ImageFormat.Png);
                         }
+#pragma warning restore 162
                     }
                 }
             }
