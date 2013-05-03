@@ -317,7 +317,7 @@ namespace Vocaluxe.Screens
             base.OnShow();
 
             //Vocaluxe-Logo
-            _Logo = GetNewStatic(_TexLogo, new SColorF(1, 1, 1, 1), new SRectF((CSettings.RenderW - _TexLogo.Width) / 2, -270, _TexLogo.Width, _TexLogo.Height, -2));
+            _Logo = GetNewStatic(_TexLogo, new SColorF(1, 1, 1, 1), new SRectF((float)(CSettings.RenderW - _TexLogo.Width) / 2, -270, _TexLogo.Width, _TexLogo.Height, -2));
 
             //Little stars for logo
             int numstars = (int)(_Logo.Rect.W * 0.25f / 2f);

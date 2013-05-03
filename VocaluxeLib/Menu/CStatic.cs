@@ -253,7 +253,7 @@ namespace VocaluxeLib.Menu
             {
                 RectangleF bounds2 = new RectangleF(bounds.X, bounds.Y, bounds.W, bounds.H);
                 RectangleF rect2;
-                CHelper.SetRect(bounds2, out rect2, texture.Width / texture.Height, aspect);
+                CHelper.SetRect(bounds2, out rect2, (float)texture.Width / texture.Height, aspect);
 
                 rect.X = rect2.X;
                 rect.Y = rect2.Y;

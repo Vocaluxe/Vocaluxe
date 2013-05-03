@@ -70,7 +70,7 @@ namespace Vocaluxe.Base.Fonts
 
         private static void _BuildFonts()
         {
-            foreach (var font in _Fonts)
+            foreach (SFont font in _Fonts)
             {
                 font.Normal.Dispose();
                 font.Bold.Dispose();
@@ -257,8 +257,8 @@ namespace Vocaluxe.Base.Fonts
             Height = height;
             SetFont(text.Font);
             Style = text.Style;
-            var result = new RectangleF(text.X, text.Y, GetTextWidth(CLanguage.Translate(text.Text, text.TranslationID)),
-                                        GetTextHeight(CLanguage.Translate(text.Text, text.TranslationID)));
+            RectangleF result = new RectangleF(text.X, text.Y, GetTextWidth(CLanguage.Translate(text.Text, text.TranslationID)),
+                                               GetTextHeight(CLanguage.Translate(text.Text, text.TranslationID)));
             //restore old values
             Height = oldHeight;
             _CurrentFont = oldFont;

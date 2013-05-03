@@ -310,7 +310,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void CopyScreen(ref STexture texture)
         {
-            if (texture.Index == 0 || (int)texture.Width != GetScreenWidth() || (int)texture.Height != GetScreenHeight())
+            if (texture.Index == 0 || texture.Width != GetScreenWidth() || texture.Height != GetScreenHeight())
             {
                 RemoveTexture(ref texture);
                 texture = CopyScreen();

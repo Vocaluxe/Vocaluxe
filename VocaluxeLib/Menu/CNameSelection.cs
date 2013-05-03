@@ -348,7 +348,7 @@ namespace VocaluxeLib.Menu
 
         public void HandleMouse(SMouseEvent mevent)
         {
-            for (int i = 0; i < _Tiles.Count; i++ )
+            for (int i = 0; i < _Tiles.Count; i++)
             {
                 if (CHelper.IsInBounds(_Tiles[i].Avatar.Rect, mevent))
                 {

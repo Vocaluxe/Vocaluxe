@@ -108,12 +108,12 @@ namespace VocaluxeLib.Menu
 
         public string TexturePath;
 
-        public float Width;
-        public float Height;
+        public int Width;
+        public int Height;
         public SRectF Rect;
 
-        public float W2; //power of 2 width
-        public float H2; //power of 2 height
+        public int W2; //power of 2 width
+        public int H2; //power of 2 height
         public float WidthRatio;
         public float HeightRatio;
 
@@ -126,12 +126,12 @@ namespace VocaluxeLib.Menu
             ID = -1;
             TexturePath = String.Empty;
 
-            Width = 1f;
-            Height = 1f;
+            Width = 1;
+            Height = 1;
             Rect = new SRectF(0f, 0f, 1f, 1f, 0f);
 
-            W2 = 2f;
-            H2 = 2f;
+            W2 = 1;
+            H2 = 1;
             WidthRatio = 0.5f;
             HeightRatio = 0.5f;
 

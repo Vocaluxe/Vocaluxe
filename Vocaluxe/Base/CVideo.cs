@@ -171,7 +171,7 @@ namespace Vocaluxe.Base
                 float videoTime = _VideoTimer.ElapsedMilliseconds / 1000f;
                 _Finished = CVideo.Finished(_VideoStream);
 
-                STexture tex = new STexture(-1) {Height = 0f};
+                STexture tex = new STexture(-1) {Height = 0};
                 CVideo.GetFrame(_VideoStream, ref tex, videoTime, out videoTime);
 
                 if (tex.Height > 0)
@@ -182,7 +182,7 @@ namespace Vocaluxe.Base
             }
             RectangleF bounds = new RectangleF(0f, 0f, CSettings.RenderW, CSettings.RenderH);
             RectangleF rect;
-            CHelper.SetRect(bounds, out rect, _VideoTexture.Width / _VideoTexture.Height, EAspect.Crop);
+            CHelper.SetRect(bounds, out rect, (float)_VideoTexture.Width / _VideoTexture.Height, EAspect.Crop);
 
             CDraw.DrawTexture(_VideoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CSettings.ZFar / 4));
         }

@@ -207,7 +207,7 @@ namespace VocaluxeLib.Menu
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect;
-                CHelper.SetRect(bounds, out rect, texture.Width / texture.Height, EAspect.Crop);
+                CHelper.SetRect(bounds, out rect, (float)texture.Width / texture.Height, EAspect.Crop);
 
                 CBase.Drawing.DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
                 return true;
@@ -222,7 +222,7 @@ namespace VocaluxeLib.Menu
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect;
-                CHelper.SetRect(bounds, out rect, videoTexture.Width / videoTexture.Height, EAspect.Crop);
+                CHelper.SetRect(bounds, out rect, (float)videoTexture.Width / videoTexture.Height, EAspect.Crop);
 
                 CBase.Drawing.DrawTexture(videoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
                 return true;
@@ -237,7 +237,7 @@ namespace VocaluxeLib.Menu
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect;
-                CHelper.SetRect(bounds, out rect, videoTexture.Width / videoTexture.Height, EAspect.Crop);
+                CHelper.SetRect(bounds, out rect, (float)videoTexture.Width / videoTexture.Height, EAspect.Crop);
 
                 CBase.Drawing.DrawTexture(videoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
                 return true;

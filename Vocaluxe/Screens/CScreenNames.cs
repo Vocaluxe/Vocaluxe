@@ -58,7 +58,7 @@ namespace Vocaluxe.Screens
         private bool _SelectingKeyboardActive;
         private bool _SelectingFast;
         private int _SelectingSwitchNr = -1;
-        private int _SelectingFastPlayerNr = 0;
+        private int _SelectingFastPlayerNr;
         private int _SelectedPlayerNr = -1;
 
         public override void Init()
@@ -430,7 +430,7 @@ namespace Vocaluxe.Screens
                             CConfig.Players[_SelectingSwitchNr] = string.Empty;
                             //Update texture and name
                             _Statics[_StaticPlayerAvatar[_SelectingSwitchNr]].Texture = _OriginalPlayerAvatarTextures[_SelectingSwitchNr];
-                            _Texts[_TextPlayer[_SelectingSwitchNr]].Text = CProfiles.GetPlayerName(-1, (_SelectingSwitchNr+1));
+                            _Texts[_TextPlayer[_SelectingSwitchNr]].Text = CProfiles.GetPlayerName(-1, (_SelectingSwitchNr + 1));
                         }
                         //Update Game-infos with new player
                         CGame.Players[i].ProfileID = _SelectedPlayerNr;
@@ -447,7 +447,7 @@ namespace Vocaluxe.Screens
                         break;
                     }
                     //Selected player is dropped out of area
-                    else if (_SelectingSwitchNr > -1)
+                    if (_SelectingSwitchNr > -1)
                     {
                         //Update Game-infos with new player
                         CGame.Players[_SelectingSwitchNr].ProfileID = -1;
@@ -569,7 +569,7 @@ namespace Vocaluxe.Screens
                 else
                     stopSelectingFast = true;
             }
-            else if(mouseEvent.MB)
+            else if (mouseEvent.MB)
             {
                 _ResetPlayerSelections();
                 _SelectingFast = true;

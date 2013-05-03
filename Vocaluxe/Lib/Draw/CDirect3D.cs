@@ -708,7 +708,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="texture">The texture in which the frame is copied to</param>
         public void CopyScreen(ref STexture texture)
         {
-            if (!_TextureExists(ref texture) || (int)texture.Width != GetScreenWidth() || (int)texture.Height != GetScreenHeight())
+            if (!_TextureExists(ref texture) || texture.Width != GetScreenWidth() || texture.Height != GetScreenHeight())
             {
                 RemoveTexture(ref texture);
                 texture = CopyScreen();
@@ -758,8 +758,8 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="y2">The end y-value</param>
         public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2)
         {
-            var lineVector = new Vector2[] {new Vector2(x1, y1), new Vector2(x2, y2)};
-            using (var line = new Line(_Device))
+            Vector2[] lineVector = new Vector2[] {new Vector2(x1, y1), new Vector2(x2, y2)};
+            using (Line line = new Line(_Device))
             {
                 line.Antialias = true;
                 line.Begin();
@@ -872,9 +872,9 @@ namespace Vocaluxe.Lib.Draw
             else if (h > maxSize)
                 newH = maxSize;
             else if (w > h)
-                newW = (int)_CheckForNextPowerOf2(w);
+                newW = _CheckForNextPowerOf2(w);
             else
-                newH = (int)_CheckForNextPowerOf2(h);
+                newH = _CheckForNextPowerOf2(h);
 
             Bitmap bmp2 = null;
             byte[] data;
@@ -943,18 +943,18 @@ namespace Vocaluxe.Lib.Draw
             texture.Height = h;
             texture.W2 = _CheckForNextPowerOf2(w);
             texture.H2 = _CheckForNextPowerOf2(h);
-            texture.WidthRatio = w / texture.W2;
-            texture.HeightRatio = h / texture.H2;
+            texture.WidthRatio = (float)w / texture.W2;
+            texture.HeightRatio = (float)h / texture.H2;
 
             //Create a new texture in the managed pool, which does not need to be recreated on a lost device
             //because a copy of the texture is hold in the Ram
             Texture t = null;
             try
             {
-                t = new Texture(_Device, (int)texture.W2, (int)texture.H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
+                t = new Texture(_Device, texture.W2, texture.H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
                 //Lock the texture and fill it with the data
                 DataRectangle rect = t.LockRectangle(0, LockFlags.Discard);
-                int rowWidth = 4 * (int)texture.W2;
+                int rowWidth = 4 * texture.W2;
                 for (int i = 0; i + rowWidth <= data.Length; i += 4 * w)
                 {
                     rect.Data.Write(data, i, rowWidth);
@@ -1010,7 +1010,7 @@ namespace Vocaluxe.Lib.Draw
                 lock (_MutexTexture)
                 {
                     DataRectangle rect = _D3DTextures[texture.Index].LockRectangle(0, LockFlags.Discard);
-                    int w = (int)texture.Width;
+                    int w = texture.Width;
                     for (int i = 0; i < data.Length; i += 4 * w)
                     {
                         rect.Data.Write(data, i, 4 * w);
@@ -1378,13 +1378,13 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         /// <param name="n">The value of which the next power of two will be calculated</param>
         /// <returns>The next power of two</returns>
-        private float _CheckForNextPowerOf2(float n)
+        private int _CheckForNextPowerOf2(int n)
         {
             if (_NonPowerOf2TextureSupported)
                 return n;
             if (n < 0)
                 throw new ArgumentOutOfRangeException("n", "Must be positive.");
-            return (float)Math.Pow(2, Math.Ceiling(Math.Log(n, 2)));
+            return (int)Math.Pow(2, Math.Ceiling(Math.Log(n, 2)));
         }
 
         private SlimDX.Matrix _CalculateRotationMatrix(float rot, float rx1, float rx2, float ry1, float ry2)

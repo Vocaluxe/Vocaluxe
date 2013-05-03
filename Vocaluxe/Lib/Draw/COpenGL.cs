@@ -501,12 +501,12 @@ namespace Vocaluxe.Lib.Draw
             texture.W2 = MathHelper.NextPowerOfTwo(texture.Width);
             texture.H2 = MathHelper.NextPowerOfTwo(texture.Height);
 
-            texture.WidthRatio = texture.Width / texture.W2;
-            texture.HeightRatio = texture.Height / texture.H2;
+            texture.WidthRatio = (float)texture.Width / texture.W2;
+            texture.HeightRatio = (float)texture.Height / texture.H2;
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, (int)texture.W2, (int)texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
-            GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, _X, _Y, (int)texture.Width, (int)texture.Height);
+            GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, _X, _Y, texture.Width, texture.Height);
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
@@ -537,7 +537,7 @@ namespace Vocaluxe.Lib.Draw
             {
                 GL.BindTexture(TextureTarget.Texture2D, texture.ID);
 
-                GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0, (int)texture.Width, (int)texture.Height);
+                GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0, texture.Width, texture.Height);
 
                 GL.BindTexture(TextureTarget.Texture2D, 0);
             }
@@ -737,7 +737,7 @@ namespace Vocaluxe.Lib.Draw
             texture.H2 = MathHelper.NextPowerOfTwo(h);
             try
             {
-                using (Bitmap bmp2 = new Bitmap((int)texture.W2, (int)texture.H2))
+                using (Bitmap bmp2 = new Bitmap(texture.W2, texture.H2))
                 {
                     Graphics g = Graphics.FromImage(bmp2);
                     g.InterpolationMode = InterpolationMode.HighQualityBicubic;
@@ -750,7 +750,7 @@ namespace Vocaluxe.Lib.Draw
 
                     BitmapData bmpData = bmp2.LockBits(new Rectangle(0, 0, bmp2.Width, bmp2.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, (int)texture.W2, (int)texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
                     GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, bmpData.Width, bmpData.Height, PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
 
@@ -759,7 +759,7 @@ namespace Vocaluxe.Lib.Draw
             }
             catch
             {
-                CLog.LogError(w + " " + h + " " + (int)texture.W2 + " " + (int)texture.H2);
+                CLog.LogError(w + " " + h + " " + texture.W2 + " " + texture.H2);
                 throw;
             }
 
@@ -828,10 +828,10 @@ namespace Vocaluxe.Lib.Draw
             texture.W2 = MathHelper.NextPowerOfTwo(texture.Width);
             texture.H2 = MathHelper.NextPowerOfTwo(texture.Height);
 
-            texture.WidthRatio = texture.Width / texture.W2;
-            texture.HeightRatio = texture.Height / texture.H2;
+            texture.WidthRatio = (float)texture.Width / texture.W2;
+            texture.HeightRatio = (float)texture.Height / texture.H2;
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, (int)texture.W2, (int)texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
@@ -887,7 +887,7 @@ namespace Vocaluxe.Lib.Draw
                     GL.UnmapBuffer(BufferTarget.PixelUnpackBuffer);
 
                     GL.BindTexture(TextureTarget.Texture2D, texture.ID);
-                    GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (int)texture.Width, (int)texture.Height, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+                    GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.Width, texture.Height, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
                     GL.BindTexture(TextureTarget.Texture2D, 0);
                     GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
@@ -897,7 +897,7 @@ namespace Vocaluxe.Lib.Draw
 
                 GL.BindTexture(TextureTarget.Texture2D, texture.ID);
 
-                GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, (int)texture.Width, (int)texture.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
+                GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.Width, texture.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
                 //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
                 //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);

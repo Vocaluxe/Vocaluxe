@@ -459,7 +459,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     _CoverBig.Draw(1f, EAspect.Crop);
                 RectangleF bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
                 RectangleF rect;
-                CHelper.SetRect(bounds, out rect, _Vidtex.Width / _Vidtex.Height, EAspect.Crop);
+                CHelper.SetRect(bounds, out rect, (float)_Vidtex.Width / _Vidtex.Height, EAspect.Crop);
                 SRectF vidRect = new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z);
                 SRectF vidRectBounds = new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f);
 

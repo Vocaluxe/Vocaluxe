@@ -121,7 +121,7 @@ namespace Vocaluxe.Lib.Video
         {
             if (data == null)
                 return;
-            if (frame.Index == -1 || width != (int)frame.Width || height != (int)frame.Height || data.Length == 0)
+            if (frame.Index == -1 || width != frame.Width || height != frame.Height || data.Length == 0)
             {
                 CDraw.RemoveTexture(ref frame);
                 frame = CDraw.AddTexture(width, height, data);

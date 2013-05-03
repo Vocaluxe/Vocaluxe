@@ -17,7 +17,6 @@
 //  */
 #endregion
 
-using System;
 using System.Drawing;
 using VocaluxeLib.Menu;
 

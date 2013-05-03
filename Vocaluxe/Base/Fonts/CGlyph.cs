@@ -121,6 +121,7 @@ namespace Vocaluxe.Base.Fonts
                         _DrawBounding.Width = _Texture.Width;
                         _DrawBounding.Height = _Texture.Height;*/
 #pragma warning disable 162
+                        // ReSharper disable HeuristicUnreachableCode
                         if (false)
                         {
                             if (outline > 0)
@@ -128,6 +129,7 @@ namespace Vocaluxe.Base.Fonts
                             else
                                 bmpCropped.Save("font/" + chr + CFonts.Style + "2.png", ImageFormat.Png);
                         }
+                        // ReSharper restore HeuristicUnreachableCode
 #pragma warning restore 162
                     }
                 }

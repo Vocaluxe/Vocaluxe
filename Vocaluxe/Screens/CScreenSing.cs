@@ -469,7 +469,7 @@ namespace Vocaluxe.Screens
                     background = _Background;
                 RectangleF bounds = new RectangleF(0, 0, CSettings.RenderW, CSettings.RenderH);
                 RectangleF rect;
-                CHelper.SetRect(bounds, out rect, background.Width / background.Height, aspect);
+                CHelper.SetRect(bounds, out rect, (float)background.Width / background.Height, aspect);
 
                 CDraw.DrawTexture(_Background, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, 0f),
                                   _Background.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f));

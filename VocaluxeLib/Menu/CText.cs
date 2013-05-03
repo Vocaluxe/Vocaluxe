@@ -169,7 +169,7 @@ namespace VocaluxeLib.Menu
         }
 
         /// <summary>
-        /// Do NOT read/write this anywhere but in _UpdateTextPosition!
+        ///     Do NOT read/write this anywhere but in _UpdateTextPosition!
         /// </summary>
         private SRectF _Rect;
         public SRectF Rect
@@ -499,8 +499,8 @@ namespace VocaluxeLib.Menu
 
         public void DrawRelative(float rx, float ry, float reflectionHeight = 0f, float reflectionSpace = 0f, float rectHeight = 0f)
         {
-            var oldReflectionSpace = ReflectionSpace;
-            var oldReflectionHeight = ReflectionHeight;
+            float oldReflectionSpace = ReflectionSpace;
+            float oldReflectionHeight = ReflectionHeight;
             if (reflectionHeight > 0)
             {
                 ReflectionSpace = (rectHeight - Rect.Y - Rect.H) * 2 + reflectionSpace;

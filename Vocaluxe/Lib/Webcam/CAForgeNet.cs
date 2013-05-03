@@ -56,7 +56,7 @@ namespace Vocaluxe.Lib.Webcam
             {
                 lock (_MutexData)
                 {
-                    if (frame.Index == -1 || _Width != (int)frame.Width || _Height != (int)frame.Height)
+                    if (frame.Index == -1 || _Width != frame.Width || _Height != frame.Height)
                     {
                         CDraw.RemoveTexture(ref frame);
                         frame = CDraw.AddTexture(_Width, _Height, _Data);
