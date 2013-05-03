@@ -126,6 +126,7 @@ namespace VocaluxeLib.Menu
 
         private int _W2, _H2;
         private float _WidthRatio, _HeightRatio;
+        private bool _UseFullTexture;
         /// <summary>
         /// Internal texture width (on device), a power of 2 if necessary
         /// </summary>
@@ -135,7 +136,8 @@ namespace VocaluxeLib.Menu
             set
             {
                 _W2 = value;
-                WidthRatio = (float)OrigSize.Width / _W2;
+                if (!_UseFullTexture)
+                    WidthRatio = (float)OrigSize.Width / _W2;
             }
         }
         /// <summary>
@@ -147,19 +149,49 @@ namespace VocaluxeLib.Menu
             set
             {
                 _H2 = value;
-                HeightRatio = (float)OrigSize.Height / _H2;
+                if (!_UseFullTexture)
+                    HeightRatio = (float)OrigSize.Height / _H2;
             }
         }
 
+        /// <summary>
+        /// Internal use. Specifies which part of texture memory is actually used
+        /// </summary>
         public float WidthRatio
         {
             get { return _WidthRatio; }
             private set { _WidthRatio = value; }
         }
+        /// <summary>
+        /// Internal use. Specifies which part of texture memory is actually used
+        /// </summary>
         public float HeightRatio
         {
             get { return _HeightRatio; }
             private set { _HeightRatio = value; }
+        }
+
+        /// <summary>
+        /// Internal use. Specifies if full texture memory should be used
+        /// Set to true if you resized the original image to the maximum
+        /// </summary>
+        public bool UseFullTexture
+        {
+            get { return _UseFullTexture; }
+            set
+            {
+                _UseFullTexture = value;
+                if (value)
+                {
+                    WidthRatio = 1;
+                    HeightRatio = 1;
+                }
+                else
+                {
+                    WidthRatio = (float)OrigSize.Width / _W2;
+                    HeightRatio = (float)OrigSize.Height / _H2;
+                }
+            }
         }
 
         public STexture(int index, int origWidth = 1, int origHeight = 1)
@@ -178,6 +210,7 @@ namespace VocaluxeLib.Menu
             _H2 = origHeight;
             _WidthRatio = 1;
             _HeightRatio = 1;
+            _UseFullTexture = false;
         }
     }
     #endregion Drawing

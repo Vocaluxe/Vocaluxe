@@ -717,7 +717,7 @@ namespace Vocaluxe.Lib.Draw
                 h = maxSize;
             }
 
-            STexture texture = new STexture(-1, bmp.Width, bmp.Height);
+            STexture texture = new STexture(-1, bmp.Width, bmp.Height){UseFullTexture = true};
 
             int id = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, id);
@@ -734,10 +734,6 @@ namespace Vocaluxe.Lib.Draw
                     g.SmoothingMode = SmoothingMode.HighQuality;
                     g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
                     g.Dispose();
-
-                    //TODO: Check this!
-                    //texture.WidthRatio = 1f;
-                    //texture.HeightRatio = 1f;
 
                     BitmapData bmpData = bmp2.LockBits(new Rectangle(0, 0, bmp2.Width, bmp2.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
