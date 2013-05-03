@@ -384,9 +384,7 @@ namespace VocaluxeLib.Menu.SingNotes
                         _PlayerNotes[n].Rect.Z
                         );
 
-                    float f = 0.7f;
-                    if (!note.Hit)
-                        f = 0.4f;
+                    float f = (note.Hit) ? 0.7f : 0.4f;
 
                     _DrawNote(rect, color, f);
 
@@ -469,39 +467,31 @@ namespace VocaluxeLib.Menu.SingNotes
 
         private void _DrawNote(SRectF rect, SColorF color, float factor = 1f)
         {
-            const int spacing = 0;
+            if (factor <= 0)
+                return;
 
-            float d = (1f - factor) / 2 * rect.H;
-            float dw = d;
+            float dh = (1f - factor) * rect.H / 2;
+            float dw = Math.Min(dh, rect.W / 2);
 
-            if (2 * dw > rect.W)
-                dw = rect.W / 2;
-
-            SRectF r = new SRectF(
-                rect.X + dw + spacing,
-                rect.Y + d + spacing,
-                rect.W - 2 * dw - 2 * spacing,
-                rect.H - 2 * d - 2 * spacing,
-                rect.Z
-                );
+            SRectF noteRect = new SRectF(rect.X + dw, rect.Y + dh, rect.W - 2 * dw, rect.H - 2 * dh, rect.Z);
 
             STexture noteBegin = CBase.Theme.GetSkinTexture(_Theme.SkinLeftName, _PartyModeID);
             STexture noteMiddle = CBase.Theme.GetSkinTexture(_Theme.SkinMiddleName, _PartyModeID);
             STexture noteEnd = CBase.Theme.GetSkinTexture(_Theme.SkinRightName, _PartyModeID);
 
-            float dx = noteBegin.Width * r.H / noteBegin.Height;
-            if (2 * dx > r.W)
-                dx = r.W / 2;
+            //Width of each of the ends (round parts)
+            //Need 2 of them so use minimum
+            float endsW = Math.Min(noteRect.H * noteBegin.Width / noteBegin.Height, noteRect.W / 2);
 
+            CBase.Drawing.DrawTexture(noteBegin, new SRectF(noteRect.X, noteRect.Y, endsW, noteRect.H, noteRect.Z), color);
 
-            CBase.Drawing.DrawTexture(noteBegin, new SRectF(r.X, r.Y, dx, r.H, r.Z), color);
-
-            if (r.W - 2 * dx >= 2 * dx)
-                CBase.Drawing.DrawTexture(noteMiddle, new SRectF(r.X + dx, r.Y, r.W - 2 * dx, r.H, r.Z), color);
+            SRectF middleRect = new SRectF(noteRect.X + endsW, noteRect.Y, noteRect.W - 2 * endsW, noteRect.H, noteRect.Z);
+            if (noteRect.W >= 4 * endsW)
+                CBase.Drawing.DrawTexture(noteMiddle, middleRect, color);
             else
-                CBase.Drawing.DrawTexture(noteMiddle, new SRectF(r.X + dx, r.Y, 2 * dx, r.H, r.Z), color, new SRectF(r.X + dx, r.Y, r.W - 2 * dx, r.H, r.Z));
+                CBase.Drawing.DrawTexture(noteMiddle, new SRectF(middleRect.X, middleRect.Y, 2 * endsW, middleRect.H, middleRect.Z), color, middleRect);
 
-            CBase.Drawing.DrawTexture(noteEnd, new SRectF(r.X + r.W - dx, r.Y, dx, r.H, r.Z), color);
+            CBase.Drawing.DrawTexture(noteEnd, new SRectF(noteRect.X + noteRect.W - endsW, noteRect.Y, endsW, noteRect.H, noteRect.Z), color);
         }
 
         private void _DrawNoteBG(SRectF rect, SColorF color, float factor, Stopwatch timer)
