@@ -200,9 +200,9 @@ namespace Vocaluxe.Base
                 return;
 
             RectangleF bounds = new RectangleF(staticBounds.Rect.X, staticBounds.Rect.Y, staticBounds.Rect.W, staticBounds.Rect.H);
-            RectangleF rect = new RectangleF(0f, 0f, texture.Width, texture.Height);
+            RectangleF rect;
 
-            CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, aspect);
+            CHelper.SetRect(bounds, out rect, texture.Width / texture.Height, aspect);
             DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, staticBounds.Rect.Z),
                         texture.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f));
         }

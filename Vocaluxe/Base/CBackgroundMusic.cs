@@ -155,7 +155,7 @@ namespace Vocaluxe.Base
                         CSound.Fade(_CurrentMusicStream, 100f, CSettings.BackgroundMusicFadeTime);
                         CSound.Play(_CurrentMusicStream);
                         if (_VideoEnabled && _Video != -1)
-                            CVideo.VdResume(_Video);
+                            CVideo.Resume(_Video);
                         IsPlaying = true;
                     }
                     else
@@ -173,7 +173,7 @@ namespace Vocaluxe.Base
 
             if (_VideoEnabled && _Video != -1)
             {
-                CVideo.VdClose(_Video);
+                CVideo.Close(_Video);
                 CDraw.RemoveTexture(ref _CurrentVideoTexture);
                 _Video = -1;
             }
@@ -191,8 +191,8 @@ namespace Vocaluxe.Base
 
             if (_VideoEnabled && _Video != -1)
             {
-                CVideo.VdPause(_Video);
-                CVideo.VdSkip(_Video, CSound.GetPosition(_CurrentMusicStream) + CSettings.BackgroundMusicFadeTime, _CurrentPlaylistElement.VideoGap);
+                CVideo.Pause(_Video);
+                CVideo.Skip(_Video, CSound.GetPosition(_CurrentMusicStream) + CSettings.BackgroundMusicFadeTime, _CurrentPlaylistElement.VideoGap);
             }
             CSound.FadeAndPause(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
             IsPlaying = false;
@@ -221,9 +221,9 @@ namespace Vocaluxe.Base
                         if (_VideoEnabled && _Video != -1)
                         {
                             if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                                CVideo.VdSkip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
+                                CVideo.Skip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
                             else
-                                CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
+                                CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
                         }
                     }
                     else
@@ -287,9 +287,9 @@ namespace Vocaluxe.Base
                     if (_VideoEnabled && _Video != -1)
                     {
                         if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                            CVideo.VdSkip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
+                            CVideo.Skip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
                         else
-                            CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
+                            CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
                     }
                 }
                 else
@@ -319,9 +319,9 @@ namespace Vocaluxe.Base
                 if (_VideoEnabled && _Video != -1)
                 {
                     if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                        CVideo.VdSkip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
+                        CVideo.Skip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
                     else
-                        CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
+                        CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
                 }
             }
         }
@@ -441,14 +441,14 @@ namespace Vocaluxe.Base
                 if (_VideoEnabled)
                 {
                     _VideoEnabled = false;
-                    CVideo.VdClose(_Video);
+                    CVideo.Close(_Video);
                     _Video = -1;
                     CDraw.RemoveTexture(ref _CurrentVideoTexture);
                     return;
                 }
-                if (CVideo.VdFinished(_Video))
+                if (CVideo.Finished(_Video))
                 {
-                    CVideo.VdClose(_Video);
+                    CVideo.Close(_Video);
                     CDraw.RemoveTexture(ref _CurrentVideoTexture);
                     _Video = -1;
                 }
@@ -462,7 +462,7 @@ namespace Vocaluxe.Base
             if (_Video != -1)
             {
                 float vtime;
-                CVideo.VdGetFrame(_Video, ref _CurrentVideoTexture, CSound.GetPosition(_CurrentMusicStream), out vtime);
+                CVideo.GetFrame(_Video, ref _CurrentVideoTexture, CSound.GetPosition(_CurrentMusicStream), out vtime);
                 if (_FadeTimer.ElapsedMilliseconds <= 3000L)
                     _CurrentVideoTexture.Color.A = _FadeTimer.ElapsedMilliseconds / 3000f;
                 else
@@ -484,11 +484,11 @@ namespace Vocaluxe.Base
         {
             if (_Video == -1)
             {
-                _Video = CVideo.VdLoad(_CurrentPlaylistElement.VideoFilePath);
+                _Video = CVideo.Load(_CurrentPlaylistElement.VideoFilePath);
                 if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                    CVideo.VdSkip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
+                    CVideo.Skip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
                 else
-                    CVideo.VdSkip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
+                    CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
                 _VideoEnabled = true;
                 _FadeTimer.Reset();
                 _FadeTimer.Start();

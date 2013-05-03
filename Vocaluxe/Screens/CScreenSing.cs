@@ -395,7 +395,7 @@ namespace Vocaluxe.Screens
             if (_CurrentVideo != -1 && !_FadeOut && CConfig.VideosInSongs == EOffOn.TR_CONFIG_ON)
             {
                 float vtime;
-                CVideo.VdGetFrame(_CurrentVideo, ref _CurrentVideoTexture, _CurrentTime, out vtime);
+                CVideo.GetFrame(_CurrentVideo, ref _CurrentVideoTexture, _CurrentTime, out vtime);
             }
 
             if (_Webcam)
@@ -453,34 +453,26 @@ namespace Vocaluxe.Screens
         {
             if (_Active)
             {
+                STexture background;
+                EAspect aspect = EAspect.Crop;
                 if (_CurrentVideo != -1 && CConfig.VideosInSongs == EOffOn.TR_CONFIG_ON && !_Webcam)
                 {
-                    RectangleF bounds = new RectangleF(0, 0, CSettings.RenderW, CSettings.RenderH);
-                    RectangleF rect = new RectangleF(0f, 0f, _CurrentVideoTexture.Width, _CurrentVideoTexture.Height);
-                    CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, _VideoAspect);
-
-                    CDraw.DrawTexture(_CurrentVideoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, 0f),
-                                      _CurrentVideoTexture.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false);
+                    background = _CurrentVideoTexture;
+                    aspect = _VideoAspect;
                 }
                 else if (_Webcam)
                 {
-                    RectangleF bounds = new RectangleF(0, 0, CSettings.RenderW, CSettings.RenderH);
-                    RectangleF rect = new RectangleF(0f, 0f, _CurrentWebcamFrameTexture.Width, _CurrentWebcamFrameTexture.Height);
-                    CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, _VideoAspect);
-
-                    CDraw.DrawTexture(_CurrentWebcamFrameTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, 0f),
-                                      _CurrentVideoTexture.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false);
+                    background = _CurrentWebcamFrameTexture;
+                    aspect = _VideoAspect;
                 }
                 else
-                {
-                    // Draw Background
-                    RectangleF bounds = new RectangleF(0, 0, CSettings.RenderW, CSettings.RenderH);
-                    RectangleF rect = new RectangleF(0f, 0f, _Background.Width, _Background.Height);
-                    CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, EAspect.Crop);
+                    background = _Background;
+                RectangleF bounds = new RectangleF(0, 0, CSettings.RenderW, CSettings.RenderH);
+                RectangleF rect;
+                CHelper.SetRect(bounds, out rect, background.Width / background.Height, aspect);
 
-                    CDraw.DrawTexture(_Background, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, 0f),
-                                      _Background.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f), false);
-                }
+                CDraw.DrawTexture(_Background, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, 0f),
+                                  _Background.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f));
             }
 
             _DrawBG();
@@ -556,7 +548,7 @@ namespace Vocaluxe.Screens
             CSound.RecordStop();
             if (_CurrentVideo != -1)
             {
-                CVideo.VdClose(_CurrentVideo);
+                CVideo.Close(_CurrentVideo);
                 _CurrentVideo = -1;
                 CDraw.RemoveTexture(ref _CurrentVideoTexture);
             }
@@ -621,8 +613,8 @@ namespace Vocaluxe.Screens
 
             if (song.VideoFileName != "")
             {
-                _CurrentVideo = CVideo.VdLoad(Path.Combine(song.Folder, song.VideoFileName));
-                CVideo.VdSkip(_CurrentVideo, song.Start, song.VideoGap);
+                _CurrentVideo = CVideo.Load(Path.Combine(song.Folder, song.VideoFileName));
+                CVideo.Skip(_CurrentVideo, song.Start, song.VideoGap);
                 _VideoAspect = song.VideoAspect;
             }
 
@@ -691,9 +683,9 @@ namespace Vocaluxe.Screens
             }
             else
             {
-                bool lyricsOnTop = CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_TOP 
-                                    || CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
-                                    || (CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && (CGame.NumPlayer > 2 && CGame.NumPlayer != 4));
+                bool lyricsOnTop = CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_TOP
+                                   || CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
+                                   || (CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && (CGame.NumPlayer > 2 && CGame.NumPlayer != 4));
                 _Lyrics[_LyricMainTop].Visible = lyricsOnTop;
                 _Lyrics[_LyricSubTop].Visible = lyricsOnTop;
                 _Statics[_StaticLyricsTop].Visible = lyricsOnTop;

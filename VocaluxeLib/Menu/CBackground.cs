@@ -206,8 +206,8 @@ namespace VocaluxeLib.Menu
             if (texture.Height > 0)
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
-                RectangleF rect = new RectangleF(0f, 0f, texture.Width, texture.Height);
-                CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, EAspect.Crop);
+                RectangleF rect;
+                CHelper.SetRect(bounds, out rect, texture.Width / texture.Height, EAspect.Crop);
 
                 CBase.Drawing.DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
                 return true;
@@ -221,8 +221,8 @@ namespace VocaluxeLib.Menu
             if (videoTexture.Height > 0)
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
-                RectangleF rect = new RectangleF(0f, 0f, videoTexture.Width, videoTexture.Height);
-                CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, EAspect.Crop);
+                RectangleF rect;
+                CHelper.SetRect(bounds, out rect, videoTexture.Width / videoTexture.Height, EAspect.Crop);
 
                 CBase.Drawing.DrawTexture(videoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
                 return true;
@@ -236,8 +236,8 @@ namespace VocaluxeLib.Menu
             if (videoTexture.Height > 0)
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
-                RectangleF rect = new RectangleF(0f, 0f, videoTexture.Width, videoTexture.Height);
-                CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, EAspect.Crop);
+                RectangleF rect;
+                CHelper.SetRect(bounds, out rect, videoTexture.Width / videoTexture.Height, EAspect.Crop);
 
                 CBase.Drawing.DrawTexture(videoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
                 return true;

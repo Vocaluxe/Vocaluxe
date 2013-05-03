@@ -672,27 +672,27 @@ namespace Vocaluxe.Base
     {
         public int Load(string videoFileName)
         {
-            return CVideo.VdLoad(videoFileName);
+            return CVideo.Load(videoFileName);
         }
 
         public bool Skip(int videoStream, float startPosition, float videoGap)
         {
-            return CVideo.VdSkip(videoStream, startPosition, videoGap);
+            return CVideo.Skip(videoStream, startPosition, videoGap);
         }
 
         public bool GetFrame(int videoStream, ref STexture videoTexture, float time, out float videoTime)
         {
-            return CVideo.VdGetFrame(videoStream, ref videoTexture, time, out videoTime);
+            return CVideo.GetFrame(videoStream, ref videoTexture, time, out videoTime);
         }
 
         public bool IsFinished(int videoStream)
         {
-            return CVideo.VdFinished(videoStream);
+            return CVideo.Finished(videoStream);
         }
 
         public bool Close(int videoStream)
         {
-            return CVideo.VdClose(videoStream);
+            return CVideo.Close(videoStream);
         }
     }
 
