@@ -708,30 +708,33 @@ namespace Vocaluxe.Lib.Draw
             int h = Math.Min(bmp.Height, maxSize);
             texture.W2 = MathHelper.NextPowerOfTwo(w);
             texture.H2 = MathHelper.NextPowerOfTwo(h);
+
+            Bitmap bmp2 = null;
             try
             {
-                using (Bitmap bmp2 = new Bitmap(texture.W2, texture.H2))
+                if (bmp.Width != w || bmp.Height != h)
                 {
+                    //Create a new Bitmap with the new sizes
+                    bmp2 = new Bitmap(w, h);
+                    //Scale the texture
                     using (Graphics g = Graphics.FromImage(bmp2))
                     {
                         g.InterpolationMode = InterpolationMode.HighQualityBicubic;
                         g.SmoothingMode = SmoothingMode.HighQuality;
                         g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
                     }
-
-                    BitmapData bmpData = bmp2.LockBits(new Rectangle(0, 0, bmp2.Width, bmp2.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
-
-                    GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, bmpData.Width, bmpData.Height, PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
-
-                    bmp2.UnlockBits(bmpData);
+                    bmp = bmp2;
                 }
+
+                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+                GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, bmpData.Width, bmpData.Height, PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
+                bmp.UnlockBits(bmpData);
             }
-            catch
+            finally
             {
-                CLog.LogError(w + " " + h + " " + texture.W2 + " " + texture.H2);
-                throw;
+                if (bmp2 != null)
+                    bmp2.Dispose();
             }
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
