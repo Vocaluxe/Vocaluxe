@@ -678,23 +678,21 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public STexture CopyScreen()
         {
-            STexture texture = new STexture(-1);
+            STexture texture = new STexture(-1, _W, _H);
+            texture.W2 = _CheckForNextPowerOf2(_W);
+            texture.H2 = _CheckForNextPowerOf2(_H);
+
+            texture.WidthRatio = (float)texture.OrigSize.Width / texture.W2;
+            texture.HeightRatio = (float)texture.OrigSize.Height / texture.H2;
 
             Surface backbufferSurface = _Device.GetBackBuffer(0, 0);
-            Texture tex = new Texture(_Device, _PresentParameters.BackBufferWidth, _PresentParameters.BackBufferHeight, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
+            Texture tex = new Texture(_Device, _W, _H, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
             Surface textureSurface = tex.GetSurfaceLevel(0);
-            Surface.FromSurface(textureSurface, backbufferSurface, Filter.Default, 0);
+            Surface.FromSurface(textureSurface, backbufferSurface, Filter.Default, 0, new Rectangle(0, 0, _W, _H), new Rectangle(0, 0, _W, _H));
             backbufferSurface.Dispose();
             lock (_MutexTexture)
             {
                 _D3DTextures.Add(_IDs.Peek(), tex);
-
-                texture.Color = new SColorF(1f, 1f, 1f, 1f);
-                texture.Rect = new SRectF(0f, 0f, texture.Width, texture.Height, 0f);
-                texture.Width = _W;
-                texture.Height = _H;
-                texture.W2 = _CheckForNextPowerOf2(texture.Width);
-                texture.H2 = _CheckForNextPowerOf2(texture.Height);
                 texture.Index = _IDs.Dequeue();
 
                 _Textures[texture.Index] = texture;
@@ -708,7 +706,8 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="texture">The texture in which the frame is copied to</param>
         public void CopyScreen(ref STexture texture)
         {
-            if (!_TextureExists(ref texture) || texture.Width != GetScreenWidth() || texture.Height != GetScreenHeight())
+            //Check for actual texture sizes! (W2/H2) as it may be up/downsized compared to OrigSize
+            if (!_TextureExists(ref texture) || texture.W2 != GetScreenWidth() || texture.H2 != GetScreenHeight())
             {
                 RemoveTexture(ref texture);
                 texture = CopyScreen();
@@ -924,9 +923,9 @@ namespace Vocaluxe.Lib.Draw
 
         public STexture AddTexture(int w, int h, byte[] data)
         {
-            STexture texture = new STexture(-1);
+            STexture texture = new STexture(-1, w, h);
 
-            Texture t = _CreateTexture(w, h, data, ref texture);
+            Texture t = _CreateTexture(data, ref texture);
 
             lock (_MutexTexture)
             {
@@ -937,10 +936,10 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        private Texture _CreateTexture(int w, int h, byte[] data, ref STexture texture)
+        private Texture _CreateTexture(byte[] data, ref STexture texture)
         {
-            texture.Width = w;
-            texture.Height = h;
+            int w = texture.OrigSize.Width;
+            int h = texture.OrigSize.Height;
             texture.W2 = _CheckForNextPowerOf2(w);
             texture.H2 = _CheckForNextPowerOf2(h);
             texture.WidthRatio = (float)w / texture.W2;
@@ -957,14 +956,12 @@ namespace Vocaluxe.Lib.Draw
                 int rowWidth = 4 * texture.W2;
                 for (int i = 0; i + rowWidth <= data.Length; i += 4 * w)
                 {
-                    rect.Data.Write(data, i, rowWidth);
+                    rect.Data.Write(data, i, 4 * w);
                     rect.Data.Position = rect.Data.Position - rowWidth;
                     rect.Data.Position += rect.Pitch;
                 }
                 t.UnlockRectangle(0);
 
-                texture.Color = new SColorF(1f, 1f, 1f, 1f);
-                texture.Rect = new SRectF(0f, 0f, texture.Width, texture.Height, 0f);
                 texture.TexturePath = String.Empty;
             }
             catch (Exception)
@@ -978,11 +975,8 @@ namespace Vocaluxe.Lib.Draw
 
         public STexture EnqueueTexture(int w, int h, byte[] data)
         {
-            STexture texture = new STexture(-1);
+            STexture texture = new STexture(-1, w, h);
             STextureQueue queue = new STextureQueue {Data = data, Height = h, Width = w};
-
-            texture.Height = h;
-            texture.Width = w;
 
             lock (_MutexTexture)
             {
@@ -1010,37 +1004,17 @@ namespace Vocaluxe.Lib.Draw
                 lock (_MutexTexture)
                 {
                     DataRectangle rect = _D3DTextures[texture.Index].LockRectangle(0, LockFlags.Discard);
-                    int w = texture.Width;
-                    for (int i = 0; i < data.Length; i += 4 * w)
+                    int w = texture.OrigSize.Width;
+                    int rowWidth = 4 * texture.W2;
+                    for (int i = 0; i + rowWidth <= data.Length; i += 4 * w)
                     {
                         rect.Data.Write(data, i, 4 * w);
-                        rect.Data.Position -= 4 * w;
+                        rect.Data.Position = rect.Data.Position - rowWidth;
                         rect.Data.Position += rect.Pitch;
                     }
                     _D3DTextures[texture.Index].UnlockRectangle(0);
                 }
-
-                //Flamefire: Unneccesary as height can not be changed by this! (Texture gets copied)
-                //Texture.height_ratio = Texture.height / CheckForNextPowerOf2(Texture.height);
-                //Texture.width_ratio = Texture.width / CheckForNextPowerOf2(Texture.width);
                 return true;
-
-                /*Surface s = _D3DTextures[Texture.index].GetSurfaceLevel(0);
-                DataRectangle d = s.LockRectangle(LockFlags.Discard);
-
-                for (int i = 0; i < Data.Length; )
-                {
-                    d.Data.Write(Data, i, 4 * (int)Texture.width);
-                    i += 4 * (int)Texture.width;
-                    d.Data.Position = d.Data.Position - 4 * (int)Texture.width;
-                    d.Data.Position += d.Pitch;
-                }
-
-                Texture.height_ratio = Texture.height / NextPowerOfTwo(Texture.height);
-                Texture.width_ratio = Texture.width / NextPowerOfTwo(Texture.width);
-
-                s.UnlockRectangle();
-                return true; */
             }
             return false;
         }
@@ -1351,11 +1325,15 @@ namespace Vocaluxe.Lib.Draw
                     if (!_Textures.ContainsKey(q.ID))
                         continue;
                     STexture texture = _Textures[q.ID];
+                    if (q.Width == texture.OrigSize.Width && q.Height == texture.OrigSize.Height)
+                    {
+                        Texture t = _CreateTexture(q.Data, ref texture);
+                        _D3DTextures[q.ID] = t;
 
-                    Texture t = _CreateTexture(q.Width, q.Height, q.Data, ref texture);
-                    _D3DTextures[q.ID] = t;
-
-                    _Textures[texture.Index] = texture;
+                        _Textures[texture.Index] = texture;
+                    }
+                    else
+                        CLog.LogError("Wrong texture size in queue!");
                 }
             }
         }

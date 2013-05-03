@@ -196,13 +196,13 @@ namespace Vocaluxe.Base
 
         public static void DrawTexture(CStatic staticBounds, STexture texture, EAspect aspect)
         {
-            if (texture.Height <= 0f)
+            if (texture.OrigSize.Height <= 0)
                 return;
 
             RectangleF bounds = new RectangleF(staticBounds.Rect.X, staticBounds.Rect.Y, staticBounds.Rect.W, staticBounds.Rect.H);
             RectangleF rect;
 
-            CHelper.SetRect(bounds, out rect, (float)texture.Width / texture.Height, aspect);
+            CHelper.SetRect(bounds, out rect, texture.OrigAspect, aspect);
             DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, staticBounds.Rect.Z),
                         texture.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f));
         }

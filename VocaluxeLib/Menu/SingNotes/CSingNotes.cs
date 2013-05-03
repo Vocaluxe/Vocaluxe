@@ -481,7 +481,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
             //Width of each of the ends (round parts)
             //Need 2 of them so use minimum
-            float endsW = Math.Min(noteRect.H * noteBegin.Width / noteBegin.Height, noteRect.W / 2);
+            float endsW = Math.Min(noteRect.H * noteBegin.OrigAspect, noteRect.W / 2);
 
             CBase.Drawing.DrawTexture(noteBegin, new SRectF(noteRect.X, noteRect.Y, endsW, noteRect.H, noteRect.Z), color);
 
@@ -526,7 +526,7 @@ namespace VocaluxeLib.Menu.SingNotes
             STexture noteBackgroundMiddle = CBase.Theme.GetSkinTexture(_Theme.SkinBackgroundMiddleName, _PartyModeID);
             STexture noteBackgroundEnd = CBase.Theme.GetSkinTexture(_Theme.SkinBackgroundRightName, _PartyModeID);
 
-            float dx = noteBackgroundBegin.Width * r.H / noteBackgroundBegin.Height;
+            float dx = r.H * noteBackgroundBegin.OrigAspect;
             if (2 * dx > r.W)
                 dx = r.W / 2;
 
@@ -618,7 +618,7 @@ namespace VocaluxeLib.Menu.SingNotes
                 );
 
             STexture noteBegin = CBase.Theme.GetSkinTexture(_Theme.SkinLeftName, _PartyModeID);
-            float dx = noteBegin.Width * r.H / noteBegin.Height;
+            float dx = r.H * noteBegin.OrigAspect;
             if (2 * dx > r.W)
                 dx = r.W / 2;
 

@@ -490,23 +490,20 @@ namespace Vocaluxe.Lib.Draw
 
         public STexture CopyScreen()
         {
-            STexture texture = new STexture(-1);
-
+            STexture texture = new STexture(-1, _W, _H);
             int id = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, id);
             texture.ID = id;
 
-            texture.Width = _W;
-            texture.Height = _H;
-            texture.W2 = MathHelper.NextPowerOfTwo(texture.Width);
-            texture.H2 = MathHelper.NextPowerOfTwo(texture.Height);
+            texture.W2 = MathHelper.NextPowerOfTwo(texture.OrigSize.Width);
+            texture.H2 = MathHelper.NextPowerOfTwo(texture.OrigSize.Height);
 
-            texture.WidthRatio = (float)texture.Width / texture.W2;
-            texture.HeightRatio = (float)texture.Height / texture.H2;
+            texture.WidthRatio = (float)texture.OrigSize.Width / texture.W2;
+            texture.HeightRatio = (float)texture.OrigSize.Height / texture.H2;
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
-            GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, _X, _Y, texture.Width, texture.Height);
+            GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, _X, _Y, _W, _H);
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
@@ -514,8 +511,6 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
             // Add to Texture List
-            texture.Color = new SColorF(1f, 1f, 1f, 1f);
-            texture.Rect = new SRectF(0f, 0f, texture.Width, texture.Height, 0f);
 
             lock (_MutexTexture)
             {
@@ -528,7 +523,8 @@ namespace Vocaluxe.Lib.Draw
 
         public void CopyScreen(ref STexture texture)
         {
-            if (!_TextureExists(ref texture) || Math.Abs(texture.Width - GetScreenWidth()) > 1 || Math.Abs(texture.Height - GetScreenHeight()) > 1)
+            //Check for actual texture sizes! (W2/H2) as it may be up/downsized compared to OrigSize
+            if (!_TextureExists(ref texture) || texture.W2 != GetScreenWidth() || texture.H2 != GetScreenHeight())
             {
                 RemoveTexture(ref texture);
                 texture = CopyScreen();
@@ -537,7 +533,7 @@ namespace Vocaluxe.Lib.Draw
             {
                 GL.BindTexture(TextureTarget.Texture2D, texture.ID);
 
-                GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0, texture.Width, texture.Height);
+                GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0, texture.OrigSize.Width, texture.OrigSize.Height);
 
                 GL.BindTexture(TextureTarget.Texture2D, 0);
             }
@@ -679,10 +675,8 @@ namespace Vocaluxe.Lib.Draw
 
         public STexture AddTexture(Bitmap bmp)
         {
-            STexture texture = new STexture(-1);
-
             if (bmp.Height == 0 || bmp.Width == 0)
-                return texture;
+                return new STexture(-1);
 
             int maxSize;
             switch (CConfig.TextureQuality)
@@ -726,12 +720,11 @@ namespace Vocaluxe.Lib.Draw
                 h = maxSize;
             }
 
+            STexture texture = new STexture(-1, w, h);
+
             int id = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, id);
             texture.ID = id;
-
-            texture.Width = w;
-            texture.Height = h;
 
             texture.W2 = MathHelper.NextPowerOfTwo(w);
             texture.H2 = MathHelper.NextPowerOfTwo(h);
@@ -773,8 +766,6 @@ namespace Vocaluxe.Lib.Draw
 
 
             // Add to Texture List
-            texture.Color = new SColorF(1f, 1f, 1f, 1f);
-            texture.Rect = new SRectF(0f, 0f, texture.Width, texture.Height, 0f);
             texture.TexturePath = String.Empty;
 
             lock (_MutexTexture)
@@ -788,9 +779,9 @@ namespace Vocaluxe.Lib.Draw
 
         public STexture AddTexture(int w, int h, byte[] data)
         {
-            STexture texture = new STexture(-1);
+            STexture texture = new STexture(-1, w, h);
 
-            _CreateTexture(w, h, data, ref texture);
+            _CreateTexture(data, ref texture);
 
             lock (_MutexTexture)
             {
@@ -801,8 +792,10 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        private void _CreateTexture(int w, int h, byte[] data, ref STexture texture)
+        private void _CreateTexture(byte[] data, ref STexture texture)
         {
+            int w = texture.OrigSize.Width;
+            int h = texture.OrigSize.Height;
             if (_UsePBO)
             {
                 try
@@ -823,13 +816,11 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, id);
             texture.ID = id;
 
-            texture.Width = w;
-            texture.Height = h;
-            texture.W2 = MathHelper.NextPowerOfTwo(texture.Width);
-            texture.H2 = MathHelper.NextPowerOfTwo(texture.Height);
+            texture.W2 = MathHelper.NextPowerOfTwo(w);
+            texture.H2 = MathHelper.NextPowerOfTwo(h);
 
-            texture.WidthRatio = (float)texture.Width / texture.W2;
-            texture.HeightRatio = (float)texture.Height / texture.H2;
+            texture.WidthRatio = (float)w / texture.W2;
+            texture.HeightRatio = (float)h / texture.H2;
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
@@ -847,18 +838,13 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
             // Add to Texture List
-            texture.Color = new SColorF(1f, 1f, 1f, 1f);
-            texture.Rect = new SRectF(0f, 0f, texture.Width, texture.Height, 0f);
             texture.TexturePath = String.Empty;
         }
 
         public STexture EnqueueTexture(int w, int h, byte[] data)
         {
-            STexture texture = new STexture(-1);
+            STexture texture = new STexture(-1, w, h);
             STextureQueue queue = new STextureQueue {Data = data, Height = h, Width = w};
-
-            texture.Height = h;
-            texture.Width = w;
 
             lock (_MutexTexture)
             {
@@ -887,7 +873,7 @@ namespace Vocaluxe.Lib.Draw
                     GL.UnmapBuffer(BufferTarget.PixelUnpackBuffer);
 
                     GL.BindTexture(TextureTarget.Texture2D, texture.ID);
-                    GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.Width, texture.Height, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+                    GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.OrigSize.Width, texture.OrigSize.Height, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
                     GL.BindTexture(TextureTarget.Texture2D, 0);
                     GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
@@ -897,7 +883,7 @@ namespace Vocaluxe.Lib.Draw
 
                 GL.BindTexture(TextureTarget.Texture2D, texture.ID);
 
-                GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.Width, texture.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
+                GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.OrigSize.Width, texture.OrigSize.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
                 //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
                 //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
@@ -976,100 +962,100 @@ namespace Vocaluxe.Lib.Draw
             if (bounds.Y > rect.Y + rect.H || bounds.Y + bounds.H < rect.Y)
                 return;
 
-            if (_TextureExists(ref texture))
+            if (!_TextureExists(ref texture))
+                return;
+
+            GL.BindTexture(TextureTarget.Texture2D, texture.ID);
+
+            float x1 = (bounds.X - rect.X) / rect.W * texture.WidthRatio;
+            float x2 = (bounds.X + bounds.W - rect.X) / rect.W * texture.WidthRatio;
+            float y1 = (bounds.Y - rect.Y) / rect.H * texture.HeightRatio;
+            float y2 = (bounds.Y + bounds.H - rect.Y) / rect.H * texture.HeightRatio;
+
+            if (x1 < 0)
+                x1 = 0f;
+
+            if (x2 > texture.WidthRatio)
+                x2 = texture.WidthRatio;
+
+            if (y1 < 0)
+                y1 = 0f;
+
+            if (y2 > texture.HeightRatio)
+                y2 = texture.HeightRatio;
+
+
+            float rx1 = rect.X;
+            float rx2 = rect.X + rect.W;
+            float ry1 = rect.Y;
+            float ry2 = rect.Y + rect.H;
+
+            if (rx1 < bounds.X)
+                rx1 = bounds.X;
+
+            if (rx2 > bounds.X + bounds.W)
+                rx2 = bounds.X + bounds.W;
+
+            if (ry1 < bounds.Y)
+                ry1 = bounds.Y;
+
+            if (ry2 > bounds.Y + bounds.H)
+                ry2 = bounds.Y + bounds.H;
+
+            GL.Enable(EnableCap.Blend);
+            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+
+            GL.MatrixMode(MatrixMode.Texture);
+            GL.PushMatrix();
+
+            if (Math.Abs(rect.Rotation) > float.Epsilon)
             {
-                GL.BindTexture(TextureTarget.Texture2D, texture.ID);
-
-                float x1 = (bounds.X - rect.X) / rect.W * texture.WidthRatio;
-                float x2 = (bounds.X + bounds.W - rect.X) / rect.W * texture.WidthRatio;
-                float y1 = (bounds.Y - rect.Y) / rect.H * texture.HeightRatio;
-                float y2 = (bounds.Y + bounds.H - rect.Y) / rect.H * texture.HeightRatio;
-
-                if (x1 < 0)
-                    x1 = 0f;
-
-                if (x2 > texture.WidthRatio)
-                    x2 = texture.WidthRatio;
-
-                if (y1 < 0)
-                    y1 = 0f;
-
-                if (y2 > texture.HeightRatio)
-                    y2 = texture.HeightRatio;
-
-
-                float rx1 = rect.X;
-                float rx2 = rect.X + rect.W;
-                float ry1 = rect.Y;
-                float ry2 = rect.Y + rect.H;
-
-                if (rx1 < bounds.X)
-                    rx1 = bounds.X;
-
-                if (rx2 > bounds.X + bounds.W)
-                    rx2 = bounds.X + bounds.W;
-
-                if (ry1 < bounds.Y)
-                    ry1 = bounds.Y;
-
-                if (ry2 > bounds.Y + bounds.H)
-                    ry2 = bounds.Y + bounds.H;
-
-                GL.Enable(EnableCap.Blend);
-                GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-
-                GL.MatrixMode(MatrixMode.Texture);
-                GL.PushMatrix();
-
-                if (Math.Abs(rect.Rotation) > float.Epsilon)
-                {
-                    GL.Translate(0.5f, 0.5f, 0);
-                    GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
-                    GL.Translate(-0.5f, -0.5f, 0);
-                }
-
-                if (!mirrored)
-                {
-                    GL.Begin(BeginMode.Quads);
-
-                    GL.TexCoord2(x1, y1);
-                    GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
-
-                    GL.TexCoord2(x1, y2);
-                    GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
-
-                    GL.TexCoord2(x2, y2);
-                    GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
-
-                    GL.TexCoord2(x2, y1);
-                    GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
-
-                    GL.End();
-                }
-                else
-                {
-                    GL.Begin(BeginMode.Quads);
-
-                    GL.TexCoord2(x2, y2);
-                    GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
-
-                    GL.TexCoord2(x2, y1);
-                    GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
-
-                    GL.TexCoord2(x1, y1);
-                    GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
-
-                    GL.TexCoord2(x1, y2);
-                    GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
-
-                    GL.End();
-                }
-
-                GL.PopMatrix();
-
-                GL.Disable(EnableCap.Blend);
-                GL.BindTexture(TextureTarget.Texture2D, 0);
+                GL.Translate(0.5f, 0.5f, 0);
+                GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
+                GL.Translate(-0.5f, -0.5f, 0);
             }
+
+            if (!mirrored)
+            {
+                GL.Begin(BeginMode.Quads);
+
+                GL.TexCoord2(x1, y1);
+                GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
+
+                GL.TexCoord2(x1, y2);
+                GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
+
+                GL.TexCoord2(x2, y2);
+                GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
+
+                GL.TexCoord2(x2, y1);
+                GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
+
+                GL.End();
+            }
+            else
+            {
+                GL.Begin(BeginMode.Quads);
+
+                GL.TexCoord2(x2, y2);
+                GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
+
+                GL.TexCoord2(x2, y1);
+                GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
+
+                GL.TexCoord2(x1, y1);
+                GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
+
+                GL.TexCoord2(x1, y2);
+                GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
+
+                GL.End();
+            }
+
+            GL.PopMatrix();
+
+            GL.Disable(EnableCap.Blend);
+            GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
         public void DrawTexture(STexture texture, SRectF rect, SColorF color, float begin, float end)
@@ -1220,9 +1206,14 @@ namespace Vocaluxe.Lib.Draw
                     if (texture.Index < 1)
                         continue;
 
-                    _CreateTexture(q.Width, q.Height, q.Data, ref texture);
+                    if (q.Width == texture.OrigSize.Width && q.Height == texture.OrigSize.Height)
+                    {
+                        _CreateTexture(q.Data, ref texture);
 
-                    _Textures[texture.Index] = texture;
+                        _Textures[texture.Index] = texture;
+                    }
+                    else
+                        CLog.LogError("Wrong texture size in queue!");
                 }
             }
         }

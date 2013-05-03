@@ -108,32 +108,47 @@ namespace VocaluxeLib.Menu
 
         public string TexturePath;
 
-        public int Width;
-        public int Height;
+        /// <summary>
+        /// Original size (e.g. of bmp)
+        /// </summary>
+        public readonly Size OrigSize;
+        public float OrigAspect
+        {
+            get { return (float)OrigSize.Width / OrigSize.Height; }
+        }
+
+        /// <summary>
+        /// Current size when drawn
+        /// </summary>
         public SRectF Rect;
 
-        public int W2; //power of 2 width
-        public int H2; //power of 2 height
+        /// <summary>
+        /// Internal texture width (on device), a power of 2 if necessary
+        /// </summary>
+        public int W2;
+        /// <summary>
+        /// Internal texture height (on device), a power of 2 if necessary
+        /// </summary>
+        public int H2;
         public float WidthRatio;
         public float HeightRatio;
 
         public SColorF Color;
 
-        public STexture(int index)
+        public STexture(int index, int origWidth = 1, int origHeight = 1)
         {
             Index = index;
             PBO = 0;
             ID = -1;
             TexturePath = String.Empty;
 
-            Width = 1;
-            Height = 1;
-            Rect = new SRectF(0f, 0f, 1f, 1f, 0f);
+            OrigSize = new Size(origWidth, origHeight);
+            Rect = new SRectF(0f, 0f, origWidth, origHeight, 0f);
 
-            W2 = 1;
-            H2 = 1;
-            WidthRatio = 0.5f;
-            HeightRatio = 0.5f;
+            W2 = origWidth;
+            H2 = origHeight;
+            WidthRatio = 1;
+            HeightRatio = 1;
 
             Color = new SColorF(1f, 1f, 1f, 1f);
         }

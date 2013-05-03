@@ -50,8 +50,8 @@ namespace Vocaluxe.Screens
             _Image = image;
             _ImgDot = imgDot;
             _Particle = particle;
-            _ParticleOffsetX = (int)Math.Round(particleOffsetX * image.Rect.W / image.Texture.Width - particle.Rect.W / 2);
-            _ParticleOffsetY = (int)Math.Round(particleOffsetY * image.Rect.H / image.Texture.Height - particle.Rect.H / 2);
+            _ParticleOffsetX = (int)Math.Round(particleOffsetX * image.Rect.W / image.Texture.OrigSize.Width - particle.Rect.W / 2);
+            _ParticleOffsetY = (int)Math.Round(particleOffsetY * image.Rect.H / image.Texture.OrigSize.Height - particle.Rect.H / 2);
             Active = true;
         }
 
@@ -317,7 +317,8 @@ namespace Vocaluxe.Screens
             base.OnShow();
 
             //Vocaluxe-Logo
-            _Logo = GetNewStatic(_TexLogo, new SColorF(1, 1, 1, 1), new SRectF((float)(CSettings.RenderW - _TexLogo.Width) / 2, -270, _TexLogo.Width, _TexLogo.Height, -2));
+            _Logo = GetNewStatic(_TexLogo, new SColorF(1, 1, 1, 1),
+                                 new SRectF((float)(CSettings.RenderW - _TexLogo.OrigSize.Width) / 2, -270, _TexLogo.OrigSize.Width, _TexLogo.OrigSize.Height, -2));
 
             //Little stars for logo
             int numstars = (int)(_Logo.Rect.W * 0.25f / 2f);

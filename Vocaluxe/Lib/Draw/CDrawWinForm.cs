@@ -291,18 +291,11 @@ namespace Vocaluxe.Lib.Draw
 
         public STexture CopyScreen()
         {
-            STexture texture = new STexture(0);
             Bitmap bmp = new Bitmap(_Backbuffer);
             _Bitmaps.Add(bmp);
-
-            texture.Index = _Bitmaps.Count - 1;
-
-            texture.Width = bmp.Width;
-            texture.Height = bmp.Height;
+            STexture texture = new STexture(_Bitmaps.Count - 1, bmp.Width, bmp.Height);
 
             // Add to Texture List
-            texture.Color = new SColorF(1f, 1f, 1f, 1f);
-            texture.Rect = new SRectF(0f, 0f, texture.Width, texture.Height, 0f);
             _Textures.Add(texture);
 
             return texture;
@@ -310,7 +303,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void CopyScreen(ref STexture texture)
         {
-            if (texture.Index == 0 || texture.Width != GetScreenWidth() || texture.Height != GetScreenHeight())
+            if (texture.Index == 0 || texture.W2 != GetScreenWidth() || texture.H2 != GetScreenHeight())
             {
                 RemoveTexture(ref texture);
                 texture = CopyScreen();
@@ -344,10 +337,9 @@ namespace Vocaluxe.Lib.Draw
         {
             Bitmap bmp2 = new Bitmap(bmp);
             _Bitmaps.Add(bmp2);
-            STexture texture = new STexture {Index = _Bitmaps.Count - 1, Width = bmp.Width, Height = bmp.Height, Color = new SColorF(1f, 1f, 1f, 1f)};
+            STexture texture = new STexture(_Bitmaps.Count - 1, bmp.Width, bmp.Height);
 
             // Add to Texture List
-            texture.Rect = new SRectF(0f, 0f, texture.Width, texture.Height, 0f);
             texture.TexturePath = String.Empty;
 
             _Textures.Add(texture);
