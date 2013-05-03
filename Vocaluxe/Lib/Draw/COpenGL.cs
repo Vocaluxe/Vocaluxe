@@ -498,9 +498,6 @@ namespace Vocaluxe.Lib.Draw
             texture.W2 = MathHelper.NextPowerOfTwo(texture.OrigSize.Width);
             texture.H2 = MathHelper.NextPowerOfTwo(texture.OrigSize.Height);
 
-            texture.WidthRatio = (float)texture.OrigSize.Width / texture.W2;
-            texture.HeightRatio = (float)texture.OrigSize.Height / texture.H2;
-
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
             GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, _X, _Y, _W, _H);
@@ -720,7 +717,7 @@ namespace Vocaluxe.Lib.Draw
                 h = maxSize;
             }
 
-            STexture texture = new STexture(-1, w, h);
+            STexture texture = new STexture(-1, bmp.Width, bmp.Height);
 
             int id = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, id);
@@ -738,8 +735,9 @@ namespace Vocaluxe.Lib.Draw
                     g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
                     g.Dispose();
 
-                    texture.WidthRatio = 1f;
-                    texture.HeightRatio = 1f;
+                    //TODO: Check this!
+                    //texture.WidthRatio = 1f;
+                    //texture.HeightRatio = 1f;
 
                     BitmapData bmpData = bmp2.LockBits(new Rectangle(0, 0, bmp2.Width, bmp2.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
@@ -818,9 +816,6 @@ namespace Vocaluxe.Lib.Draw
 
             texture.W2 = MathHelper.NextPowerOfTwo(w);
             texture.H2 = MathHelper.NextPowerOfTwo(h);
-
-            texture.WidthRatio = (float)w / texture.W2;
-            texture.HeightRatio = (float)h / texture.H2;
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 

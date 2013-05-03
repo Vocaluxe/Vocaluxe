@@ -122,18 +122,45 @@ namespace VocaluxeLib.Menu
         /// </summary>
         public SRectF Rect;
 
+        public SColorF Color;
+
+        private int _W2, _H2;
+        private float _WidthRatio, _HeightRatio;
         /// <summary>
         /// Internal texture width (on device), a power of 2 if necessary
         /// </summary>
-        public int W2;
+        public int W2
+        {
+            get { return _W2; }
+            set
+            {
+                _W2 = value;
+                WidthRatio = (float)OrigSize.Width / _W2;
+            }
+        }
         /// <summary>
         /// Internal texture height (on device), a power of 2 if necessary
         /// </summary>
-        public int H2;
-        public float WidthRatio;
-        public float HeightRatio;
+        public int H2
+        {
+            get { return _H2; }
+            set
+            {
+                _H2 = value;
+                HeightRatio = (float)OrigSize.Height / _H2;
+            }
+        }
 
-        public SColorF Color;
+        public float WidthRatio
+        {
+            get { return _WidthRatio; }
+            private set { _WidthRatio = value; }
+        }
+        public float HeightRatio
+        {
+            get { return _HeightRatio; }
+            private set { _HeightRatio = value; }
+        }
 
         public STexture(int index, int origWidth = 1, int origHeight = 1)
         {
@@ -145,12 +172,12 @@ namespace VocaluxeLib.Menu
             OrigSize = new Size(origWidth, origHeight);
             Rect = new SRectF(0f, 0f, origWidth, origHeight, 0f);
 
-            W2 = origWidth;
-            H2 = origHeight;
-            WidthRatio = 1;
-            HeightRatio = 1;
-
             Color = new SColorF(1f, 1f, 1f, 1f);
+
+            _W2 = origWidth;
+            _H2 = origHeight;
+            _WidthRatio = 1;
+            _HeightRatio = 1;
         }
     }
     #endregion Drawing

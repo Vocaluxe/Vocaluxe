@@ -682,9 +682,6 @@ namespace Vocaluxe.Lib.Draw
             texture.W2 = _CheckForNextPowerOf2(_W);
             texture.H2 = _CheckForNextPowerOf2(_H);
 
-            texture.WidthRatio = (float)texture.OrigSize.Width / texture.W2;
-            texture.HeightRatio = (float)texture.OrigSize.Height / texture.H2;
-
             Surface backbufferSurface = _Device.GetBackBuffer(0, 0);
             Texture tex = new Texture(_Device, _W, _H, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
             Surface textureSurface = tex.GetSurfaceLevel(0);
@@ -942,8 +939,6 @@ namespace Vocaluxe.Lib.Draw
             int h = texture.OrigSize.Height;
             texture.W2 = _CheckForNextPowerOf2(w);
             texture.H2 = _CheckForNextPowerOf2(h);
-            texture.WidthRatio = (float)w / texture.W2;
-            texture.HeightRatio = (float)h / texture.H2;
 
             //Create a new texture in the managed pool, which does not need to be recreated on a lost device
             //because a copy of the texture is hold in the Ram
