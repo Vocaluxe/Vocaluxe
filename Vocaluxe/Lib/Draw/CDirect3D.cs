@@ -857,49 +857,31 @@ namespace Vocaluxe.Lib.Draw
                     break;
             }
 
-            int w = bmp.Width;
-            int h = bmp.Height;
-            float ratio = (float)w / h;
-            int newW = w;
-            int newH = h;
+            STexture texture = new STexture(-1, bmp.Width, bmp.Height) {UseFullTexture = true};
 
-            if (w > maxSize && w > h)
-                newW = maxSize;
-            else if (h > maxSize)
-                newH = maxSize;
-            else if (w > h)
-                newW = _CheckForNextPowerOf2(w);
-            else
-                newH = _CheckForNextPowerOf2(h);
+            int w = Math.Min(bmp.Width, maxSize);
+            int h = Math.Min(bmp.Height, maxSize);
+            w = _CheckForNextPowerOf2(w);
+            h = _CheckForNextPowerOf2(h);
+
+            texture.W2 = w;
+            texture.H2 = h;
 
             Bitmap bmp2 = null;
             byte[] data;
             try
             {
-                if (w != newW || h != newH)
+                if (bmp.Width != w || bmp.Height != h)
                 {
-                    if (w != newW)
-                    {
-                        w = newW;
-                        h = (int)Math.Round(w / ratio);
-                        if (h == 0)
-                            h = 1;
-                    }
-                    else
-                    {
-                        h = newH;
-                        w = (int)Math.Round(h * ratio);
-                        if (w == 0)
-                            w = 1;
-                    }
                     //Create a new Bitmap with the new sizes
                     bmp2 = new Bitmap(w, h);
                     //Scale the texture
-                    Graphics g = Graphics.FromImage(bmp2);
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-                    g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
-                    g.Dispose();
+                    using (Graphics g = Graphics.FromImage(bmp2))
+                    {
+                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                        g.SmoothingMode = SmoothingMode.HighQuality;
+                        g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
+                    }
                     bmp = bmp2;
                 }
 
@@ -915,14 +897,18 @@ namespace Vocaluxe.Lib.Draw
                     bmp2.Dispose();
             }
 
-            return AddTexture(w, h, data);
+            return _AddTexture(texture, w, data);
         }
 
         public STexture AddTexture(int w, int h, byte[] data)
         {
-            STexture texture = new STexture(-1, w, h);
+            STexture texture = new STexture(-1, w, h) {W2 = _CheckForNextPowerOf2(w), H2 = _CheckForNextPowerOf2(h)};
+            return _AddTexture(texture, w, data);
+        }
 
-            Texture t = _CreateTexture(data, ref texture);
+        private STexture _AddTexture(STexture texture, int w, byte[] data)
+        {
+            Texture t = _CreateTexture(ref texture, w, data);
 
             lock (_MutexTexture)
             {
@@ -933,13 +919,8 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        private Texture _CreateTexture(byte[] data, ref STexture texture)
+        private Texture _CreateTexture(ref STexture texture, int w, byte[] data)
         {
-            int w = texture.OrigSize.Width;
-            int h = texture.OrigSize.Height;
-            texture.W2 = _CheckForNextPowerOf2(w);
-            texture.H2 = _CheckForNextPowerOf2(h);
-
             //Create a new texture in the managed pool, which does not need to be recreated on a lost device
             //because a copy of the texture is hold in the Ram
             Texture t = null;
@@ -1322,7 +1303,9 @@ namespace Vocaluxe.Lib.Draw
                     STexture texture = _Textures[q.ID];
                     if (q.Width == texture.OrigSize.Width && q.Height == texture.OrigSize.Height)
                     {
-                        Texture t = _CreateTexture(q.Data, ref texture);
+                        texture.W2 = _CheckForNextPowerOf2(texture.OrigSize.Width);
+                        texture.H2 = _CheckForNextPowerOf2(texture.OrigSize.Height);
+                        Texture t = _CreateTexture(ref texture, q.Width, q.Data);
                         _D3DTextures[q.ID] = t;
 
                         _Textures[texture.Index] = texture;

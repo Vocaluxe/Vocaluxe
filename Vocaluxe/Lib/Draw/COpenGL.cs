@@ -698,42 +698,26 @@ namespace Vocaluxe.Lib.Draw
                     break;
             }
 
-            int w = bmp.Width;
-            int h = bmp.Height;
-
-            if (w > maxSize)
-            {
-                h = (int)Math.Round((float)maxSize / bmp.Width * bmp.Height);
-                if (h == 0)
-                    h = 1;
-                w = maxSize;
-            }
-
-            if (h > maxSize)
-            {
-                w = (int)Math.Round((float)maxSize / bmp.Height * bmp.Width);
-                if (w == 0)
-                    w = 1;
-                h = maxSize;
-            }
-
-            STexture texture = new STexture(-1, bmp.Width, bmp.Height){UseFullTexture = true};
+            STexture texture = new STexture(-1, bmp.Width, bmp.Height) {UseFullTexture = true};
 
             int id = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, id);
             texture.ID = id;
 
+            int w = Math.Min(bmp.Width, maxSize);
+            int h = Math.Min(bmp.Height, maxSize);
             texture.W2 = MathHelper.NextPowerOfTwo(w);
             texture.H2 = MathHelper.NextPowerOfTwo(h);
             try
             {
                 using (Bitmap bmp2 = new Bitmap(texture.W2, texture.H2))
                 {
-                    Graphics g = Graphics.FromImage(bmp2);
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    g.SmoothingMode = SmoothingMode.HighQuality;
-                    g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
-                    g.Dispose();
+                    using (Graphics g = Graphics.FromImage(bmp2))
+                    {
+                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                        g.SmoothingMode = SmoothingMode.HighQuality;
+                        g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
+                    }
 
                     BitmapData bmpData = bmp2.LockBits(new Rectangle(0, 0, bmp2.Width, bmp2.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
