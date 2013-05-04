@@ -24,6 +24,7 @@ namespace ClientServerLib
         private CConnection connection;
         private List<SRequest> requests;
         private List<SRequest> responses;
+        private OnConnectionChanged onConnectionChanged;
 
         public bool Connected
         {
@@ -50,10 +51,12 @@ namespace ClientServerLib
             clientThread.Start();
         }
 
-        public void Connect(string IP = "127.0.0.1", int Port = 3000)
+        public void Connect(string IP = "127.0.0.1", int Port = 3000, OnConnectionChanged OnConnectionChanged = null)
         {
             if (!doConnect)
             {
+                if (OnConnectionChanged != null)
+                    onConnectionChanged = OnConnectionChanged;
                 ip = IP;
                 port = Port;
                 doConnect = true;
@@ -109,10 +112,12 @@ namespace ClientServerLib
                         serverEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
                         connection.TcpClient.Connect(serverEndPoint);
                         connected = true;
+                        RaiseOnConnectionChanged();
                     }
                     catch
                     {
                         connected = false;
+                        RaiseOnConnectionChanged();
                         for (int i = 0; i < 500; i++)
                         {
                             if (doConnect)
@@ -135,6 +140,7 @@ namespace ClientServerLib
                     }
 
                     connected = false;
+                    RaiseOnConnectionChanged();
                 }
 
                 if (doConnect && connected)
@@ -146,6 +152,7 @@ namespace ClientServerLib
                     catch
                     {
                         connected = false;
+                        RaiseOnConnectionChanged();
                     }
 
                 }
@@ -252,6 +259,18 @@ namespace ClientServerLib
             response.Response = connection.Decrypt(encrypted);
 
             return response;
+        }
+
+        private void RaiseOnConnectionChanged()
+        {
+            if (onConnectionChanged == null)
+                return;
+
+            try
+            {
+                onConnectionChanged(connected);
+            }
+            catch {}
         }
     }
 }

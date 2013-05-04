@@ -41,3 +41,4 @@ Output/Songs
 /VocaluxeLib/bin
 /ClientServerLib/ClientServerLib/ClientServerLib.csproj.user
 /ClientServerLib/ClientServerLib/bin/Debug/ClientServerLib.dll
+/ClientServerLib/ClientTest/bin/Debug/ClientServerLib.dll
