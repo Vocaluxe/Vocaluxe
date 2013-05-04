@@ -115,6 +115,7 @@ namespace Vocaluxe.Base
         // Server
         public static EOffOn Server = EOffOn.TR_CONFIG_ON;
         public static int ServerPort = 3000;
+        public static string ServerPassword = "vocaluxe";
 
         //Lists to save parameters and values
         private static readonly List<string> _Params = new List<string>();

@@ -9,16 +9,19 @@ using System.Text;
 using System.Windows.Forms;
 
 using ClientServerLib;
+using Vocaluxe.Base.Server;
 
 namespace ClientTest
 {
     public partial class ClientTest : Form
     {
         CClient client;
+        private bool loggedIn;
 
         public ClientTest()
         {
             client = new CClient();
+            loggedIn = false;
 
             InitializeComponent();
         }
@@ -39,7 +42,10 @@ namespace ClientTest
 
         private void btLogin_Click(object sender, EventArgs e)
         {
+            if (!client.Connected)
+                return;
 
+            client.SendMessage(CCommands.CreateCommandLogin(tbPassword.Text), OnResponse);
         }
 
         private void Connect()
@@ -67,6 +73,38 @@ namespace ClientTest
             client.Disconnect();
         }
 
+        private void OnResponse(byte[] Message)
+        {
+            if (Message == null)
+                return;
+
+            if (Message.Length < 4)
+                return;
+
+            int command = BitConverter.ToInt32(Message, 0);
+            switch (command)
+            {
+                case CCommands.ResponseLoginFailed:
+                    MessageBox.Show("Unknown Error on login", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+
+                case CCommands.ResponseLoginWrongPassword:
+                    MessageBox.Show("Wrong Password", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+
+                case CCommands.ResponseLoginOK:
+                    loggedIn = true;
+                    this.Invoke((MethodInvoker)delegate
+                    {
+                        lbConnectionStatusText.Text = "Logged in";
+                    });
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
         private void OnConnectionChanged(bool Connected)
         {
             if (Connected)
@@ -87,6 +125,7 @@ namespace ClientTest
                     btConnect.Text = "Connect";
                     btLogin.Text = "Login";
                     btLogin.Enabled = false;
+                    loggedIn = false;
                 });
             }
         }

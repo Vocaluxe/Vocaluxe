@@ -18,7 +18,6 @@ namespace ClientServerLib
         private int connectionID;
 
         public TcpClient TcpClient;
-        public bool LoggedIn;
 
         public bool KeySet
         {
@@ -34,7 +33,6 @@ namespace ClientServerLib
         {
             TcpClient = client;
             keySet = false;
-            LoggedIn = false;
             connectionID = ConnectionID;
             encoder = new UTF8Encoding();
         }

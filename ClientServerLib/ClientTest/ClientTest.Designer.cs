@@ -174,7 +174,7 @@
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.Size = new System.Drawing.Size(86, 20);
             this.tbPassword.TabIndex = 6;
-            this.tbPassword.Text = "vocaluxe";
+            this.tbPassword.UseSystemPasswordChar = true;
             // 
             // lbPassword
             // 

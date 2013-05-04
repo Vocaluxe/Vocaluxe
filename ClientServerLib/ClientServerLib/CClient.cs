@@ -33,12 +33,6 @@ namespace ClientServerLib
             get { return connected; }
         }
 
-        public bool LoggedIn
-        {
-            get { return connection.LoggedIn; }
-            set { connection.LoggedIn = value; }
-        }
-
         public CClient()
         {
             doConnect = false;

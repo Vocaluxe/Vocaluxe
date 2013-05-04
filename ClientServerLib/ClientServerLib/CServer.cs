@@ -73,28 +73,39 @@ namespace ClientServerLib
         private void ListenForClients()
         {
             tcpListener.Start();
+            TcpClient client;
 
             while (running)
             {
                 //wait for new client
-                TcpClient client = tcpListener.AcceptTcpClient();
-
-                int id = ids.Dequeue();
-                CConnection connection = new CConnection(client, id);
-
-                lock (clients)
+                try
                 {
-                    clients.Add(id, connection);
+                    client = tcpListener.AcceptTcpClient();
+                }
+                catch
+                {
+                    client = null;
                 }
 
-                Thread clientThread = new Thread(new ParameterizedThreadStart(HandleClientCom));
+                if (client != null)
+                {
+                    int id = ids.Dequeue();
+                    CConnection connection = new CConnection(client, id);
 
-                NetworkStream clientStream = client.GetStream();
-                byte[] serverParams = connection.GetKeyParams();
-                clientStream.Write(serverParams, 0, serverParams.Length);
-                clientStream.Flush();
+                    lock (clients)
+                    {
+                        clients.Add(id, connection);
+                    }
 
-                clientThread.Start(connection);
+                    Thread clientThread = new Thread(new ParameterizedThreadStart(HandleClientCom));
+
+                    NetworkStream clientStream = client.GetStream();
+                    byte[] serverParams = connection.GetKeyParams();
+                    clientStream.Write(serverParams, 0, serverParams.Length);
+                    clientStream.Flush();
+
+                    clientThread.Start(connection);
+                }
             }
         }
 
