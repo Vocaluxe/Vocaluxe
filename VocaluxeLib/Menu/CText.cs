@@ -126,15 +126,15 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private EHAlignment _HAlign = EHAlignment.Center;
-        public EHAlignment HAlign
+        private EHAlignment _ResizeAlign = EHAlignment.Center;
+        public EHAlignment ResizeAlign
         {
-            get { return _HAlign; }
+            get { return _ResizeAlign; }
             set
             {
-                if (_HAlign != value)
+                if (_ResizeAlign != value)
                 {
-                    _HAlign = value;
+                    _ResizeAlign = value;
                     _PositionNeedsUpdate = true;
                 }
             }
@@ -260,7 +260,7 @@ namespace VocaluxeLib.Menu
             _Height = text._Height;
             _MaxWidth = text._MaxWidth;
             _Align = text._Align;
-            _HAlign = text._HAlign;
+            _ResizeAlign = text._ResizeAlign;
             _Style = text._Style;
             _Font = text._Font;
 
@@ -292,7 +292,7 @@ namespace VocaluxeLib.Menu
             Height = h;
             MaxWidth = mw;
             Align = align;
-            HAlign = EHAlignment.Center;
+            ResizeAlign = EHAlignment.Center;
             Style = style;
             Font = font;
 
@@ -349,7 +349,7 @@ namespace VocaluxeLib.Menu
             }
 
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Align", ref _Align);
-            xmlReader.TryGetEnumValue(item + "/HAlign", ref _HAlign);
+            xmlReader.TryGetEnumValue(item + "/ResizeAlign", ref _ResizeAlign);
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Style", ref _Style);
             _ThemeLoaded &= xmlReader.GetValue(item + "/Font", out _Font, "Normal");
 
@@ -421,8 +421,8 @@ namespace VocaluxeLib.Menu
                 writer.WriteComment("<Align>: Text align horizontal: " + CHelper.ListStrings(Enum.GetNames(typeof(EAlignment))));
                 writer.WriteElementString("Align", Enum.GetName(typeof(EAlignment), Align));
 
-                writer.WriteComment("<HAlign>: Text align vertical (on downsizing): " + CHelper.ListStrings(Enum.GetNames(typeof(EHAlignment))));
-                writer.WriteElementString("HAlign", Enum.GetName(typeof(EHAlignment), HAlign));
+                writer.WriteComment("<ResizeAlign>: Text align vertical (on downsizing): " + CHelper.ListStrings(Enum.GetNames(typeof(EHAlignment))));
+                writer.WriteElementString("HAlign", Enum.GetName(typeof(EHAlignment), ResizeAlign));
 
                 writer.WriteComment("<Style>: Text style: " + CHelper.ListStrings(Enum.GetNames(typeof(EStyle))));
                 writer.WriteElementString("Style", Enum.GetName(typeof(EStyle), Style));
@@ -566,7 +566,7 @@ namespace VocaluxeLib.Menu
                 float factor = MaxWidth / bounds.Width;
                 float step = h * (1 - factor);
                 h *= factor;
-                switch (HAlign)
+                switch (ResizeAlign)
                 {
                     case EHAlignment.Top:
                         y += step * 0.25f;
