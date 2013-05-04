@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 using ClientServerLib;
+using Vocaluxe.Base;
+using Vocaluxe.Lib.Input;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base.Server
@@ -13,10 +16,13 @@ namespace Vocaluxe.Base.Server
         private static CServer _Server;
         private static Dictionary<int, CClientHandler> _Clients;
 
+        public static CControllerFramework Controller = new CControllerFramework();
+
         public static void Init()
         {
             _Clients = new Dictionary<int, CClientHandler>();
             _Server = new CServer(RequestHandler, CConfig.ServerPort);
+            Controller.Init();
         }
 
         public static void Start()
@@ -39,6 +45,7 @@ namespace Vocaluxe.Base.Server
             if (Message.Length < 4)
                 return null;
 
+            bool loggedIn = false;
             lock (_Clients)
             {
                 if (!_Clients.ContainsKey(ConnectionID))
@@ -46,6 +53,8 @@ namespace Vocaluxe.Base.Server
                     CClientHandler client = new CClientHandler(ConnectionID);
                     _Clients.Add(ConnectionID, client);
                 }
+
+                loggedIn = _Clients[ConnectionID].LoggedIn;
             }
 
             int command = BitConverter.ToInt32(Message, 0);
@@ -56,27 +65,38 @@ namespace Vocaluxe.Base.Server
                 case CCommands.CommandLogin:
                     SLoginData data;
 
-                    if (!CCommands.ResponseCommandLogin(Message, out data))
+                    if (!CCommands.DecodeCommandLogin(Message, out data))
                         answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseLoginFailed);
                     else
                     {
                         byte[] serverPW = CCommands.SHA256.ComputeHash(Encoding.UTF8.GetBytes(CConfig.ServerPassword));
 
-                        bool ok = true;
-                        for (int i = 0; i < 32; i++)
-                        {
-                            if (serverPW[i] != data.SHA256[i])
-                            {
-                                ok = false;
-                                break;
-                            }
-                        }
-
-                        if (!ok)
+                        if (!serverPW.SequenceEqual(data.SHA256))
                             answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseLoginWrongPassword);
                         else
+                        {
                             answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseLoginOK);
+                            _Clients[ConnectionID].LoggedIn = true;
+                        }
                     }
+                    break;
+            }
+
+            if (!loggedIn)
+                return answer;
+
+            switch (command)
+            {
+                case CCommands.CommandSendKeyEvent:
+                    Keys key;
+                    if (!CCommands.DecodeCommandSendKeyEvent(Message, out key))
+                        answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseNOK);
+                    else
+                    {
+                        answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
+                    }
+
+                    Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, key));
                     break;
 
                 default:

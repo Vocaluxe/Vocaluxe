@@ -43,7 +43,5 @@ Output/Songs
 /ClientServerLib/ClientServerLib/bin/Debug/ClientServerLib.dll
 /ClientServerLib/ClientTest/bin/Debug/ClientServerLib.dll
 /ClientServerLib/ClientServerLib/bin/ClientServerLib.dll
-/ClientServerLib/ClientTest/bin/Debug/ClientTest.exe
-/ClientServerLib/ClientTest/bin/Debug/ClientTest.vshost.exe
-/ClientServerLib/ClientTest/bin/Release/ClientTest.vshost.exe
-/ClientServerLib/ClientTest/bin/Release/ClientTest.vshost.exe.manifest
+ClientTest.exe
+*.vshost.*

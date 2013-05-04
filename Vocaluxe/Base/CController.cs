@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 
+using Vocaluxe.Base.Server;
 using Vocaluxe.Lib.Input;
 using Vocaluxe.Lib.Input.WiiMote;
 using VocaluxeLib.Menu;
@@ -40,6 +41,7 @@ namespace Vocaluxe.Base
             _MousePool = new List<SMouseEvent>();
             
             _Controller.Add(new CWiiMote());
+            _Controller.Add(CVocaluxeServer.Controller);
 
             foreach (IController controller in _Controller)
             {

@@ -6,6 +6,7 @@ using System.Runtime.Serialization.Formatters;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Security.Cryptography;
+using System.Windows.Forms;
 
 
 namespace Vocaluxe.Base.Server
@@ -14,30 +15,35 @@ namespace Vocaluxe.Base.Server
     {
         public static SHA256Managed SHA256 = new SHA256Managed();
 
+        public const int ResponseOK = 1;
+        public const int ResponseNOK = 2;
+
         public const int CommandLogin = 20;
         public const int ResponseLoginWrongPassword = 21;
         public const int ResponseLoginFailed = 22;
         public const int ResponseLoginOK = 23;
 
+
+        public const int CommandSendKeyEvent = 100;
+        public const int CommandSendKeyStroke = 101;
+
+        public const int CommandSendMouseMoveEvent = 200;
+        public const int CommandSendMouseLBDownEvent = 220;
+        public const int CommandSendMouseLBUpEvent = 221;
+        public const int CommandSendMouseRBDownEvent = 230;
+        public const int CommandSendMouseRBUpEvent = 231;
+        public const int ComamndSendMouseMBDownEvent = 240;
+        public const int ComamndSendMouseMBUpEvent = 241;
+        public const int CommandSendMouseWheelEvent = 250;
+
+        #region General
         public static byte[] CreateCommandWithoutParams(int Command)
         {
             return BitConverter.GetBytes(Command);
         }
+        #endregion General
 
-        /*
-        public static byte[] CreateResponseSendUserNames(SUsers Users)
-        {
-            return Serialize<SUsers>(ResponseSendUserNames, Users);
-        }
-
-        public static SUsers DecodeResponseSendUserNames(byte[] response)
-        {
-            SUsers users;
-            TryDeserialize<SUsers>(response, out users);
-            return users;
-        }
-        */
-
+        #region Login
         public static byte[] CreateCommandLogin(string Password)
         {
             SLoginData data = new SLoginData();
@@ -46,11 +52,25 @@ namespace Vocaluxe.Base.Server
             return Serialize<SLoginData>(CommandLogin, data);
         }
 
-        public static bool ResponseCommandLogin(byte[] Message, out SLoginData LoginData)
+        public static bool DecodeCommandLogin(byte[] Message, out SLoginData LoginData)
         {
             return TryDeserialize<SLoginData>(Message, out LoginData);
         }
+        #endregion Login
 
+        #region Keyboard
+        public static byte[] CreateCommandSendKeyEvent(Keys Key)
+        {
+            return Serialize<Keys>(CommandSendKeyEvent, Key);
+        }
+
+        public static bool DecodeCommandSendKeyEvent(byte[] Message, out Keys Key)
+        {
+            return TryDeserialize<Keys>(Message, out Key);
+        }
+        #endregion Keyboard
+
+        
         private static byte[] Serialize<T>(int Command, T obj)
         {
             byte[] command = BitConverter.GetBytes(Command);

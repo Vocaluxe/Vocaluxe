@@ -28,59 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lbServerIP = new System.Windows.Forms.Label();
-            this.lbPort = new System.Windows.Forms.Label();
-            this.tbServerIP = new System.Windows.Forms.TextBox();
-            this.tbPort = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lbConnectionStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.lbConnectionStatusText = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btConnect = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.tbDataSending = new System.Windows.Forms.TextBox();
             this.lbDateSending = new System.Windows.Forms.Label();
             this.lbDataReceiving = new System.Windows.Forms.Label();
             this.tbDataReceiving = new System.Windows.Forms.TextBox();
+            this.lbPort = new System.Windows.Forms.Label();
+            this.tbPort = new System.Windows.Forms.TextBox();
+            this.tbServerIP = new System.Windows.Forms.TextBox();
+            this.btConnect = new System.Windows.Forms.Button();
+            this.lbServerIP = new System.Windows.Forms.Label();
             this.tbPassword = new System.Windows.Forms.TextBox();
             this.lbPassword = new System.Windows.Forms.Label();
             this.btLogin = new System.Windows.Forms.Button();
+            this.btLeft = new System.Windows.Forms.Button();
+            this.btRight = new System.Windows.Forms.Button();
+            this.btUp = new System.Windows.Forms.Button();
+            this.btDown = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lbServerIP
-            // 
-            this.lbServerIP.AutoSize = true;
-            this.lbServerIP.Location = new System.Drawing.Point(3, 0);
-            this.lbServerIP.Name = "lbServerIP";
-            this.lbServerIP.Size = new System.Drawing.Size(54, 13);
-            this.lbServerIP.TabIndex = 0;
-            this.lbServerIP.Text = "Server IP:";
-            // 
-            // lbPort
-            // 
-            this.lbPort.AutoSize = true;
-            this.lbPort.Location = new System.Drawing.Point(3, 26);
-            this.lbPort.Name = "lbPort";
-            this.lbPort.Size = new System.Drawing.Size(29, 13);
-            this.lbPort.TabIndex = 1;
-            this.lbPort.Text = "Port:";
-            // 
-            // tbServerIP
-            // 
-            this.tbServerIP.Location = new System.Drawing.Point(85, -3);
-            this.tbServerIP.Name = "tbServerIP";
-            this.tbServerIP.Size = new System.Drawing.Size(86, 20);
-            this.tbServerIP.TabIndex = 2;
-            this.tbServerIP.Text = "127.0.0.1";
-            // 
-            // tbPort
-            // 
-            this.tbPort.Location = new System.Drawing.Point(85, 23);
-            this.tbPort.Name = "tbPort";
-            this.tbPort.Size = new System.Drawing.Size(86, 20);
-            this.tbPort.TabIndex = 3;
-            this.tbPort.Text = "3000";
             // 
             // statusStrip1
             // 
@@ -105,31 +73,6 @@
             this.lbConnectionStatusText.Size = new System.Drawing.Size(79, 17);
             this.lbConnectionStatusText.Text = "Disconnected";
             // 
-            // btConnect
-            // 
-            this.btConnect.Location = new System.Drawing.Point(6, 49);
-            this.btConnect.Name = "btConnect";
-            this.btConnect.Size = new System.Drawing.Size(165, 23);
-            this.btConnect.TabIndex = 5;
-            this.btConnect.Text = "Connect";
-            this.btConnect.UseVisualStyleBackColor = true;
-            this.btConnect.Click += new System.EventHandler(this.btConnect_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.btLogin);
-            this.panel1.Controls.Add(this.lbPassword);
-            this.panel1.Controls.Add(this.tbPassword);
-            this.panel1.Controls.Add(this.lbServerIP);
-            this.panel1.Controls.Add(this.btConnect);
-            this.panel1.Controls.Add(this.tbServerIP);
-            this.panel1.Controls.Add(this.tbPort);
-            this.panel1.Controls.Add(this.lbPort);
-            this.panel1.Location = new System.Drawing.Point(822, 12);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(174, 513);
-            this.panel1.TabIndex = 6;
-            // 
             // tbDataSending
             // 
             this.tbDataSending.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -137,7 +80,7 @@
             this.tbDataSending.Location = new System.Drawing.Point(12, 25);
             this.tbDataSending.Multiline = true;
             this.tbDataSending.Name = "tbDataSending";
-            this.tbDataSending.Size = new System.Drawing.Size(804, 120);
+            this.tbDataSending.Size = new System.Drawing.Size(810, 120);
             this.tbDataSending.TabIndex = 7;
             // 
             // lbDateSending
@@ -165,12 +108,56 @@
             this.tbDataReceiving.Location = new System.Drawing.Point(12, 213);
             this.tbDataReceiving.Multiline = true;
             this.tbDataReceiving.Name = "tbDataReceiving";
-            this.tbDataReceiving.Size = new System.Drawing.Size(804, 120);
+            this.tbDataReceiving.Size = new System.Drawing.Size(810, 120);
             this.tbDataReceiving.TabIndex = 9;
+            // 
+            // lbPort
+            // 
+            this.lbPort.AutoSize = true;
+            this.lbPort.Location = new System.Drawing.Point(828, 41);
+            this.lbPort.Name = "lbPort";
+            this.lbPort.Size = new System.Drawing.Size(29, 13);
+            this.lbPort.TabIndex = 1;
+            this.lbPort.Text = "Port:";
+            // 
+            // tbPort
+            // 
+            this.tbPort.Location = new System.Drawing.Point(910, 38);
+            this.tbPort.Name = "tbPort";
+            this.tbPort.Size = new System.Drawing.Size(86, 20);
+            this.tbPort.TabIndex = 3;
+            this.tbPort.Text = "3000";
+            // 
+            // tbServerIP
+            // 
+            this.tbServerIP.Location = new System.Drawing.Point(910, 12);
+            this.tbServerIP.Name = "tbServerIP";
+            this.tbServerIP.Size = new System.Drawing.Size(86, 20);
+            this.tbServerIP.TabIndex = 2;
+            this.tbServerIP.Text = "127.0.0.1";
+            // 
+            // btConnect
+            // 
+            this.btConnect.Location = new System.Drawing.Point(831, 64);
+            this.btConnect.Name = "btConnect";
+            this.btConnect.Size = new System.Drawing.Size(165, 23);
+            this.btConnect.TabIndex = 5;
+            this.btConnect.Text = "Connect";
+            this.btConnect.UseVisualStyleBackColor = true;
+            this.btConnect.Click += new System.EventHandler(this.btConnect_Click);
+            // 
+            // lbServerIP
+            // 
+            this.lbServerIP.AutoSize = true;
+            this.lbServerIP.Location = new System.Drawing.Point(828, 15);
+            this.lbServerIP.Name = "lbServerIP";
+            this.lbServerIP.Size = new System.Drawing.Size(54, 13);
+            this.lbServerIP.TabIndex = 0;
+            this.lbServerIP.Text = "Server IP:";
             // 
             // tbPassword
             // 
-            this.tbPassword.Location = new System.Drawing.Point(85, 113);
+            this.tbPassword.Location = new System.Drawing.Point(910, 128);
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.Size = new System.Drawing.Size(86, 20);
             this.tbPassword.TabIndex = 6;
@@ -179,7 +166,7 @@
             // lbPassword
             // 
             this.lbPassword.AutoSize = true;
-            this.lbPassword.Location = new System.Drawing.Point(3, 116);
+            this.lbPassword.Location = new System.Drawing.Point(828, 131);
             this.lbPassword.Name = "lbPassword";
             this.lbPassword.Size = new System.Drawing.Size(56, 13);
             this.lbPassword.TabIndex = 7;
@@ -188,7 +175,7 @@
             // btLogin
             // 
             this.btLogin.Enabled = false;
-            this.btLogin.Location = new System.Drawing.Point(6, 139);
+            this.btLogin.Location = new System.Drawing.Point(831, 154);
             this.btLogin.Name = "btLogin";
             this.btLogin.Size = new System.Drawing.Size(165, 23);
             this.btLogin.TabIndex = 8;
@@ -196,23 +183,76 @@
             this.btLogin.UseVisualStyleBackColor = true;
             this.btLogin.Click += new System.EventHandler(this.btLogin_Click);
             // 
+            // btLeft
+            // 
+            this.btLeft.Enabled = false;
+            this.btLeft.Location = new System.Drawing.Point(831, 238);
+            this.btLeft.Name = "btLeft";
+            this.btLeft.Size = new System.Drawing.Size(69, 23);
+            this.btLeft.TabIndex = 10;
+            this.btLeft.Text = "Left";
+            this.btLeft.UseVisualStyleBackColor = true;
+            this.btLeft.Click += new System.EventHandler(this.btLeft_Click);
+            // 
+            // btRight
+            // 
+            this.btRight.Enabled = false;
+            this.btRight.Location = new System.Drawing.Point(927, 238);
+            this.btRight.Name = "btRight";
+            this.btRight.Size = new System.Drawing.Size(69, 23);
+            this.btRight.TabIndex = 11;
+            this.btRight.Text = "Right";
+            this.btRight.UseVisualStyleBackColor = true;
+            this.btRight.Click += new System.EventHandler(this.brRight_Click);
+            // 
+            // btUp
+            // 
+            this.btUp.Enabled = false;
+            this.btUp.Location = new System.Drawing.Point(877, 209);
+            this.btUp.Name = "btUp";
+            this.btUp.Size = new System.Drawing.Size(69, 23);
+            this.btUp.TabIndex = 12;
+            this.btUp.Text = "Up";
+            this.btUp.UseVisualStyleBackColor = true;
+            this.btUp.Click += new System.EventHandler(this.btUp_Click);
+            // 
+            // btDown
+            // 
+            this.btDown.Enabled = false;
+            this.btDown.Location = new System.Drawing.Point(877, 267);
+            this.btDown.Name = "btDown";
+            this.btDown.Size = new System.Drawing.Size(69, 23);
+            this.btDown.TabIndex = 13;
+            this.btDown.Text = "Down";
+            this.btDown.UseVisualStyleBackColor = true;
+            this.btDown.Click += new System.EventHandler(this.btDown_Click);
+            // 
             // ClientTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 550);
+            this.Controls.Add(this.btDown);
+            this.Controls.Add(this.btUp);
+            this.Controls.Add(this.btRight);
+            this.Controls.Add(this.btLeft);
+            this.Controls.Add(this.btLogin);
             this.Controls.Add(this.tbDataReceiving);
+            this.Controls.Add(this.lbPassword);
             this.Controls.Add(this.lbDataReceiving);
+            this.Controls.Add(this.tbPassword);
             this.Controls.Add(this.lbDateSending);
+            this.Controls.Add(this.lbServerIP);
             this.Controls.Add(this.tbDataSending);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.btConnect);
+            this.Controls.Add(this.tbServerIP);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.tbPort);
+            this.Controls.Add(this.lbPort);
             this.Name = "ClientTest";
             this.Text = "ClientTest";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -220,22 +260,25 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lbServerIP;
-        private System.Windows.Forms.Label lbPort;
-        private System.Windows.Forms.TextBox tbServerIP;
-        private System.Windows.Forms.TextBox tbPort;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel lbConnectionStatus;
         private System.Windows.Forms.ToolStripStatusLabel lbConnectionStatusText;
-        private System.Windows.Forms.Button btConnect;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox tbDataSending;
         private System.Windows.Forms.Label lbDateSending;
         private System.Windows.Forms.Label lbDataReceiving;
         private System.Windows.Forms.TextBox tbDataReceiving;
-        private System.Windows.Forms.Button btLogin;
-        private System.Windows.Forms.Label lbPassword;
+        private System.Windows.Forms.Label lbPort;
+        private System.Windows.Forms.TextBox tbPort;
+        private System.Windows.Forms.TextBox tbServerIP;
+        private System.Windows.Forms.Button btConnect;
+        private System.Windows.Forms.Label lbServerIP;
         private System.Windows.Forms.TextBox tbPassword;
+        private System.Windows.Forms.Label lbPassword;
+        private System.Windows.Forms.Button btLogin;
+        private System.Windows.Forms.Button btLeft;
+        private System.Windows.Forms.Button btRight;
+        private System.Windows.Forms.Button btUp;
+        private System.Windows.Forms.Button btDown;
     }
 }
 

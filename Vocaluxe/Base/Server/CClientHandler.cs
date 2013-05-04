@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
+
+using Vocaluxe.Base;
+using Vocaluxe.Lib.Input;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base.Server
 {
@@ -13,6 +18,7 @@ namespace Vocaluxe.Base.Server
         public CClientHandler(int ConnectionID)
         {
             this.ConnectionID = ConnectionID;
+            LoggedIn = false;
         }
     }
 }

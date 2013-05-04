@@ -32,6 +32,14 @@ namespace ClientTest
             base.OnClosing(e);
         }
 
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (!client.Connected || !loggedIn)
+                return;
+
+            client.SendMessage(CCommands.CreateCommandSendKeyEvent(e.KeyCode), null);
+        }
+
         private void btConnect_Click(object sender, EventArgs e)
         {
             if (!client.Connected)
@@ -114,6 +122,10 @@ namespace ClientTest
                     lbConnectionStatusText.Text = "Connected";
                     btConnect.Text = "Disconnect";
                     btLogin.Enabled = true;
+                    btUp.Enabled = true;
+                    btDown.Enabled = true;
+                    btLeft.Enabled = true;
+                    btRight.Enabled = true;
                 });
             }
             else
@@ -126,6 +138,10 @@ namespace ClientTest
                     btLogin.Text = "Login";
                     btLogin.Enabled = false;
                     loggedIn = false;
+                    btUp.Enabled = false;
+                    btDown.Enabled = false;
+                    btLeft.Enabled = false;
+                    btRight.Enabled = false;
                 });
             }
         }
@@ -162,6 +178,38 @@ namespace ClientTest
             {
                 tbDataReceiving.Text = text;
             });
+        }
+
+        private void btUp_Click(object sender, EventArgs e)
+        {
+            if (!client.Connected || !loggedIn)
+                return;
+
+            client.SendMessage(CCommands.CreateCommandSendKeyEvent(Keys.Up), null);
+        }
+
+        private void btLeft_Click(object sender, EventArgs e)
+        {
+            if (!client.Connected || !loggedIn)
+                return;
+
+            client.SendMessage(CCommands.CreateCommandSendKeyEvent(Keys.Left), null);
+        }
+
+        private void btDown_Click(object sender, EventArgs e)
+        {
+            if (!client.Connected || !loggedIn)
+                return;
+
+            client.SendMessage(CCommands.CreateCommandSendKeyEvent(Keys.Down), null);
+        }
+
+        private void brRight_Click(object sender, EventArgs e)
+        {
+            if (!client.Connected || !loggedIn)
+                return;
+
+            client.SendMessage(CCommands.CreateCommandSendKeyEvent(Keys.Right), null);
         }
     }
 }

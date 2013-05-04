@@ -207,6 +207,7 @@
     </Compile>
     <Compile Include="GameModes\CGameMode.cs" />
     <Compile Include="GameModes\CGameModes.cs" />
+    <Compile Include="Lib\Input\CControllerFramework.cs" />
     <Compile Include="SongQueue\CSongQueue.cs" />
     <Compile Include="GameModes\IGameMode.cs" />
     <Compile Include="SongQueue\ISongQueue.cs" />
