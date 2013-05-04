@@ -41,6 +41,9 @@
             this.lbDateSending = new System.Windows.Forms.Label();
             this.lbDataReceiving = new System.Windows.Forms.Label();
             this.tbDataReceiving = new System.Windows.Forms.TextBox();
+            this.tbPassword = new System.Windows.Forms.TextBox();
+            this.lbPassword = new System.Windows.Forms.Label();
+            this.btLogin = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -114,6 +117,9 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btLogin);
+            this.panel1.Controls.Add(this.lbPassword);
+            this.panel1.Controls.Add(this.tbPassword);
             this.panel1.Controls.Add(this.lbServerIP);
             this.panel1.Controls.Add(this.btConnect);
             this.panel1.Controls.Add(this.tbServerIP);
@@ -162,6 +168,34 @@
             this.tbDataReceiving.Size = new System.Drawing.Size(804, 120);
             this.tbDataReceiving.TabIndex = 9;
             // 
+            // tbPassword
+            // 
+            this.tbPassword.Location = new System.Drawing.Point(85, 113);
+            this.tbPassword.Name = "tbPassword";
+            this.tbPassword.Size = new System.Drawing.Size(86, 20);
+            this.tbPassword.TabIndex = 6;
+            this.tbPassword.Text = "vocaluxe";
+            // 
+            // lbPassword
+            // 
+            this.lbPassword.AutoSize = true;
+            this.lbPassword.Location = new System.Drawing.Point(3, 116);
+            this.lbPassword.Name = "lbPassword";
+            this.lbPassword.Size = new System.Drawing.Size(56, 13);
+            this.lbPassword.TabIndex = 7;
+            this.lbPassword.Text = "Password:";
+            // 
+            // btLogin
+            // 
+            this.btLogin.Enabled = false;
+            this.btLogin.Location = new System.Drawing.Point(6, 139);
+            this.btLogin.Name = "btLogin";
+            this.btLogin.Size = new System.Drawing.Size(165, 23);
+            this.btLogin.TabIndex = 8;
+            this.btLogin.Text = "Login";
+            this.btLogin.UseVisualStyleBackColor = true;
+            this.btLogin.Click += new System.EventHandler(this.btLogin_Click);
+            // 
             // ClientTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -199,6 +233,9 @@
         private System.Windows.Forms.Label lbDateSending;
         private System.Windows.Forms.Label lbDataReceiving;
         private System.Windows.Forms.TextBox tbDataReceiving;
+        private System.Windows.Forms.Button btLogin;
+        private System.Windows.Forms.Label lbPassword;
+        private System.Windows.Forms.TextBox tbPassword;
     }
 }
 

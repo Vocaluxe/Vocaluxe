@@ -7,7 +7,10 @@ namespace ClientServerLib
 {
     public delegate void ResponseCallback(byte[] Response);
     public delegate byte[] HandleRequest(int ConnectionID, byte[] Message);
+    
     public delegate void OnConnectionChanged(bool Connected);
+    public delegate void OnSend(byte[] Message);
+    public delegate void OnReceived(byte[] Message);
 
     public struct SRequest
     {

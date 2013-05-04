@@ -112,6 +112,10 @@ namespace Vocaluxe.Base
         public static EWebcamLib WebcamLib = EWebcamLib.OpenCV;
         public static SWebcamConfig WebcamConfig;
 
+        // Server
+        public static EOffOn Server = EOffOn.TR_CONFIG_ON;
+        public static int ServerPort = 3000;
+
         //Lists to save parameters and values
         private static readonly List<string> _Params = new List<string>();
         private static readonly List<string> _Values = new List<string>();

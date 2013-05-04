@@ -152,6 +152,9 @@
       <HintPath>..\Output\AForge.Video.DirectShow.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ClientServerLib">
+      <HintPath>..\ClientServerLib\ClientServerLib\bin\ClientServerLib.dll</HintPath>
+    </Reference>
     <Reference Include="Community.CsharpSqlite">
       <HintPath>..\Output\Community.CsharpSqlite.dll</HintPath>
     </Reference>
@@ -197,6 +200,7 @@
     <Compile Include="Base\CWebcam.cs" />
     <Compile Include="Base\Font\CFonts.cs" />
     <Compile Include="Base\Font\CGlyph.cs" />
+    <Compile Include="Base\Server\CVocaluxeServer.cs" />
     <Compile Include="CSplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>

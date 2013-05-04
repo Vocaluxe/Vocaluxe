@@ -37,6 +37,11 @@ namespace ClientTest
                 Disconnect();
         }
 
+        private void btLogin_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void Connect()
         {
             int port = 3000;
@@ -54,7 +59,7 @@ namespace ClientTest
             }
 
             lbConnectionStatusText.Text = "Connecting...";
-            client.Connect(tbServerIP.Text, port, OnConnectionChanged);
+            client.Connect(tbServerIP.Text, port, OnConnectionChanged, OnSend, OnReceived);
         }
 
         private void Disconnect()
@@ -65,12 +70,59 @@ namespace ClientTest
         private void OnConnectionChanged(bool Connected)
         {
             if (Connected)
-                lbConnectionStatusText.Text = "Connected";
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+                    lbConnectionStatusText.Text = "Connected";
+                    btConnect.Text = "Disconnect";
+                    btLogin.Enabled = true;
+                });
+            }
             else
             {
-                client.Disconnect();
-                lbConnectionStatusText.Text = "Disconnected";
+                this.Invoke((MethodInvoker)delegate
+                {
+                    client.Disconnect();
+                    lbConnectionStatusText.Text = "Disconnected";
+                    btConnect.Text = "Connect";
+                    btLogin.Text = "Login";
+                    btLogin.Enabled = false;
+                });
             }
+        }
+
+        private void OnSend(byte[] Message)
+        {
+            if (Message == null)
+                return;
+
+            string text = String.Empty;
+            foreach (byte b in Message)
+            {
+                text += b.ToString() + " ";
+            }
+
+            this.Invoke((MethodInvoker)delegate
+            {
+                tbDataSending.Text = text;
+            });
+        }
+
+        private void OnReceived(byte[] Message)
+        {
+            if (Message == null)
+                return;
+
+            string text = String.Empty;
+            foreach (byte b in Message)
+            {
+                text += b.ToString() + " ";
+            }
+
+            this.Invoke((MethodInvoker)delegate
+            {
+                tbDataReceiving.Text = text;
+            });
         }
     }
 }

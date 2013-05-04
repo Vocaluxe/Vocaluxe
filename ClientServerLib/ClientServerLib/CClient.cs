@@ -25,6 +25,8 @@ namespace ClientServerLib
         private List<SRequest> requests;
         private List<SRequest> responses;
         private OnConnectionChanged onConnectionChanged;
+        private OnSend onSend;
+        private OnReceived onReceived;
 
         public bool Connected
         {
@@ -51,12 +53,17 @@ namespace ClientServerLib
             clientThread.Start();
         }
 
-        public void Connect(string IP = "127.0.0.1", int Port = 3000, OnConnectionChanged OnConnectionChanged = null)
+        public void Connect(string IP = "127.0.0.1", int Port = 3000,
+            OnConnectionChanged OnConnectionChanged = null,
+            OnSend OnSend = null,
+            OnReceived OnReceived = null)
         {
             if (!doConnect)
             {
-                if (OnConnectionChanged != null)
-                    onConnectionChanged = OnConnectionChanged;
+                onConnectionChanged = OnConnectionChanged;
+                onSend = OnSend;
+                onReceived = OnReceived;
+
                 ip = IP;
                 port = Port;
                 doConnect = true;
@@ -114,7 +121,7 @@ namespace ClientServerLib
                         connected = true;
                         RaiseOnConnectionChanged();
                     }
-                    catch
+                    catch (Exception e)
                     {
                         connected = false;
                         RaiseOnConnectionChanged();
@@ -134,6 +141,7 @@ namespace ClientServerLib
                     try
                     {
                         connection.TcpClient.Close();
+                        connection = new CConnection(new TcpClient(), -1);
                     }
                     catch
                     {
@@ -184,7 +192,10 @@ namespace ClientServerLib
 
                 byte[] serverParam = new byte[bytesRead];
                 Array.Copy(data, serverParam, bytesRead);
+                RaiseOnReceived(serverParam);
+
                 byte[] clientResponse = connection.CreateClientKey(serverParam);
+                RaiseOnSend(clientResponse);
                 clientStream.Write(clientResponse, 0, clientResponse.Length);
                 clientStream.Flush();
             }
@@ -206,7 +217,8 @@ namespace ClientServerLib
                     {
                         try
                         {
-                            responses[0].Callback(responses[0].Response);
+                            if (responses[0].Callback != null)
+                                responses[0].Callback(responses[0].Response);
                         }
                         finally
                         {
@@ -227,6 +239,7 @@ namespace ClientServerLib
 
             NetworkStream clientStream = connection.TcpClient.GetStream();
 
+            RaiseOnSend(request.Command);
             byte[] encrypted = connection.Encrypt(request.Command);
 
             clientStream.Write(encrypted, 0, encrypted.Length);
@@ -257,6 +270,7 @@ namespace ClientServerLib
             encrypted = new byte[bytesRead];
             Array.Copy(data, encrypted, bytesRead);
             response.Response = connection.Decrypt(encrypted);
+            RaiseOnReceived(response.Response);
 
             return response;
         }
@@ -271,6 +285,30 @@ namespace ClientServerLib
                 onConnectionChanged(connected);
             }
             catch {}
+        }
+
+        private void RaiseOnSend(byte[] Message)
+        {
+            if (onSend == null)
+                return;
+
+            try
+            {
+                onSend(Message);
+            }
+            catch { }
+        }
+
+        private void RaiseOnReceived(byte[] Message)
+        {
+            if (onReceived == null)
+                return;
+
+            try
+            {
+                onReceived(Message);
+            }
+            catch { }
         }
     }
 }

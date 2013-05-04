@@ -26,6 +26,7 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using System.Runtime.ExceptionServices;
 using Vocaluxe.Base.Font;
+using Vocaluxe.Base.Server;
 
 namespace Vocaluxe
 {
@@ -183,6 +184,13 @@ namespace Vocaluxe
 
                 Application.DoEvents();
 
+                // Init Server
+                CLog.StartBenchmark(0, "Init Server");
+                CVocaluxeServer.Init();
+                CLog.StopBenchmark(0, "Init Server");
+
+                Application.DoEvents();
+
                 // Init Input
                 CLog.StartBenchmark(0, "Init Input");
                 CController.Init();
@@ -210,6 +218,7 @@ namespace Vocaluxe
 
             // Start Main Loop
             _SplashScreen.Close();
+            CVocaluxeServer.Start();
 
             CDraw.MainLoop();
         }
@@ -219,7 +228,7 @@ namespace Vocaluxe
             // Unloading
             try
             {
-                CLog.CloseAll();
+                CVocaluxeServer.Close();
                 CController.Close();
                 CSound.RecordCloseAll();
                 CSound.CloseAllStreams();
@@ -227,6 +236,7 @@ namespace Vocaluxe
                 CDraw.Unload();
                 CDataBase.CloseConnections();
                 CWebcam.Close();
+                CLog.CloseAll();
             }
             catch (Exception) {}
             Environment.Exit(Environment.ExitCode);
