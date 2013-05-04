@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 
@@ -39,7 +40,7 @@ namespace Vocaluxe.Base
         private static readonly List<CPlaylistElement> _PreviousFileNames = new List<CPlaylistElement>();
 
         private static int _Video = -1;
-        private static STexture _CurrentVideoTexture = new STexture(-1);
+        private static CTexture _CurrentVideoTexture = new CTexture(-1);
         private static readonly Stopwatch _FadeTimer = new Stopwatch();
         private static bool _VideoEnabled;
 
@@ -118,7 +119,7 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static STexture Cover
+        public static CTexture Cover
         {
             get { return _CurrentPlaylistElement.Cover; }
         }
@@ -457,7 +458,7 @@ namespace Vocaluxe.Base
                 _LoadVideo();
         }
 
-        public static STexture GetVideoTexture()
+        public static CTexture GetVideoTexture()
         {
             if (_Video != -1)
             {
@@ -472,7 +473,7 @@ namespace Vocaluxe.Base
                 }
                 return _CurrentVideoTexture;
             }
-            return new STexture(-1);
+            return new CTexture(-1);
         }
 
         private static bool _IsBackgroundFile(CPlaylistElement element)
@@ -576,7 +577,7 @@ namespace Vocaluxe.Base
             }
         }
 
-        public STexture Cover
+        public CTexture Cover
         {
             get
             {

@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using VocaluxeLib.Draw;
 using VocaluxeLib.PartyModes;
 
 namespace VocaluxeLib.Menu.SongMenu
@@ -37,8 +38,8 @@ namespace VocaluxeLib.Menu.SongMenu
         private CStatic _MedleyCalcIcon;
         private CStatic _MedleyTagIcon;
 
-        private STexture _CoverBigTexture;
-        private STexture _CoverTexture;
+        private CTexture _CoverBigTexture;
+        private CTexture _CoverTexture;
 
         private CText _Artist;
         private CText _Title;

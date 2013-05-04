@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
+using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
@@ -69,8 +70,8 @@ namespace VocaluxeLib.Menu
         public SRectF Rect;
         private readonly List<CTile> _Tiles;
 
-        private STexture _TextureEmptyTile;
-        private STexture _TextureTileSelected;
+        private CTexture _TextureEmptyTile;
+        private CTexture _TextureTileSelected;
 
         public SColorF ColorEmptyTile;
 

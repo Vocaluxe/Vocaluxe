@@ -20,6 +20,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using Vocaluxe.Lib.Video;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
@@ -75,7 +76,7 @@ namespace Vocaluxe.Base
             return _VideoDecoder.GetLength(streamID);
         }
 
-        public static bool GetFrame(int streamID, ref STexture frame, float time, out float videoTime)
+        public static bool GetFrame(int streamID, ref CTexture frame, float time, out float videoTime)
         {
             return _VideoDecoder.GetFrame(streamID, ref frame, time, out videoTime);
         }
@@ -116,7 +117,7 @@ namespace Vocaluxe.Base
 
     class CVideoPlayer
     {
-        private STexture _VideoTexture;
+        private CTexture _VideoTexture;
         private int _VideoStream;
         private readonly Stopwatch _VideoTimer;
         private bool _Finished;
@@ -135,7 +136,7 @@ namespace Vocaluxe.Base
         public CVideoPlayer()
         {
             _VideoTimer = new Stopwatch();
-            _VideoTexture = new STexture(-1);
+            _VideoTexture = new CTexture(-1);
             _Finished = false;
             _Loaded = false;
         }
@@ -171,7 +172,7 @@ namespace Vocaluxe.Base
                 float videoTime = _VideoTimer.ElapsedMilliseconds / 1000f;
                 _Finished = CVideo.Finished(_VideoStream);
 
-                STexture tex = new STexture(-1);
+                CTexture tex = new CTexture(-1);
                 CVideo.GetFrame(_VideoStream, ref tex, videoTime, out videoTime);
 
                 if (tex.Index > 0)

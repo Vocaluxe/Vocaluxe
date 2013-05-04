@@ -23,6 +23,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
@@ -126,21 +127,21 @@ namespace Vocaluxe.Screens
         private List<string[]> _Paragraphs;
         private List<CText> _ParagraphTexts;
 
-        private STexture _TexLogo;
-        private STexture _TexPerfectNoteStar;
+        private CTexture _TexLogo;
+        private CTexture _TexPerfectNoteStar;
 
-        private STexture _TexRedDot;
-        private STexture _TexBlueDot;
+        private CTexture _TexRedDot;
+        private CTexture _TexBlueDot;
 
-        private STexture _TexNameBrunzel;
-        private STexture _TexNameDarkice;
-        private STexture _TexNameFlokuep;
-        private STexture _TexNameFlamefire;
-        private STexture _TexNameMesand;
-        private STexture _TexNameBohning;
-        private STexture _TexNameBabene03;
-        private STexture _TexNamePantero;
-        private STexture _TexNamePinky007;
+        private CTexture _TexNameBrunzel;
+        private CTexture _TexNameDarkice;
+        private CTexture _TexNameFlokuep;
+        private CTexture _TexNameFlamefire;
+        private CTexture _TexNameMesand;
+        private CTexture _TexNameBohning;
+        private CTexture _TexNameBabene03;
+        private CTexture _TexNamePantero;
+        private CTexture _TexNamePinky007;
 
         public override void Init()
         {
@@ -282,12 +283,12 @@ namespace Vocaluxe.Screens
             return GetNewParticleEffect(numStars, partColor, rect, _TexPerfectNoteStar, partSize, EParticleType.Star);
         }
 
-        private void _AddNewCreditName(STexture texture, int particleOffsetX, int particleOffsetY, bool bigParticles)
+        private void _AddNewCreditName(CTexture texture, int particleOffsetX, int particleOffsetY, bool bigParticles)
         {
             bool isRight = _CreditNames.Count % 2 == 0;
             int partRectSize = bigParticles ? 25 : 20;
             int partCount = bigParticles ? 8 : 6;
-            STexture texDot = isRight ? _TexRedDot : _TexBlueDot;
+            CTexture texDot = isRight ? _TexRedDot : _TexBlueDot;
 
             CStatic image = GetNewStatic(texture, new SColorF(1, 1, 1, 1), new SRectF(-1, -1, 400, 120, -4));
 

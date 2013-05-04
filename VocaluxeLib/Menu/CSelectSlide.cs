@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Xml;
+using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
@@ -110,7 +111,7 @@ namespace VocaluxeLib.Menu
 
         private readonly List<string> _ValueNames;
         private readonly List<int> _ValuePartyModeIDs;
-        private readonly List<STexture> _Textures;
+        private readonly List<CTexture> _Textures;
         private readonly List<int> _ValueIndexes;
 
         private readonly List<SRectF> _ValueBounds = new List<SRectF>();
@@ -178,7 +179,7 @@ namespace VocaluxeLib.Menu
             MaxW = 0f;
 
             _Selected = false;
-            _Textures = new List<STexture>();
+            _Textures = new List<CTexture>();
             _ValueIndexes = new List<int>();
             _ValueNames = new List<string>();
             _ValuePartyModeIDs = new List<int>();
@@ -226,7 +227,7 @@ namespace VocaluxeLib.Menu
             MaxW = slide.MaxW;
 
             _Selected = slide._Selected;
-            _Textures = new List<STexture>(slide._Textures);
+            _Textures = new List<CTexture>(slide._Textures);
             _ValueIndexes = new List<int>(slide._ValueIndexes);
             _ValueNames = new List<string>(slide._ValueNames);
             _ValueBounds = new List<SRectF>(slide._ValueBounds);
@@ -530,20 +531,20 @@ namespace VocaluxeLib.Menu
 
         public void AddValue(string value, int partyModeID)
         {
-            AddValue(value, new STexture(-1), _ValueIndexes.Count, partyModeID);
+            AddValue(value, new CTexture(-1), _ValueIndexes.Count, partyModeID);
         }
 
-        public void AddValue(string value, STexture texture)
+        public void AddValue(string value, CTexture texture)
         {
             AddValue(value, texture, _ValueIndexes.Count, _PartyModeID);
         }
 
-        private void _AddValue(string value, STexture texture, int valueIndex)
+        private void _AddValue(string value, CTexture texture, int valueIndex)
         {
             AddValue(value, texture, valueIndex, _PartyModeID);
         }
 
-        public void AddValue(string value, STexture texture, int valueIndex, int partyModeID)
+        public void AddValue(string value, CTexture texture, int valueIndex, int partyModeID)
         {
             _ValueNames.Add(value);
             _Textures.Add(texture);
@@ -559,12 +560,12 @@ namespace VocaluxeLib.Menu
         public void AddValues(IEnumerable<string> values)
         {
             foreach (string value in values)
-                _AddValue(value, new STexture(-1), _PartyModeID);
+                _AddValue(value, new CTexture(-1), _PartyModeID);
 
             _ValueBounds.Clear();
         }
 
-        public void AddValues(string[] values, STexture[] textures)
+        public void AddValues(string[] values, CTexture[] textures)
         {
             if (values.Length != textures.Length)
                 return;
@@ -590,10 +591,10 @@ namespace VocaluxeLib.Menu
 
         public void RenameValue(int selection, string newName)
         {
-            RenameValue(selection, newName, new STexture(-1));
+            RenameValue(selection, newName, new CTexture(-1));
         }
 
-        public void RenameValue(int selection, string newName, STexture newTexture)
+        public void RenameValue(int selection, string newName, CTexture newTexture)
         {
             if (selection < 0 && selection >= _ValueNames.Count)
                 return;
@@ -696,15 +697,15 @@ namespace VocaluxeLib.Menu
             if (!Visible && CBase.Settings.GetGameState() != EGameState.EditTheme)
                 return;
 
-            STexture texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
-            STexture textureArrowLeft = CBase.Theme.GetSkinTexture(_Theme.TextureArrowLeftName, _PartyModeID);
-            STexture textureArrowRight = CBase.Theme.GetSkinTexture(_Theme.TextureArrowRightName, _PartyModeID);
+            CTexture texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+            CTexture textureArrowLeft = CBase.Theme.GetSkinTexture(_Theme.TextureArrowLeftName, _PartyModeID);
+            CTexture textureArrowRight = CBase.Theme.GetSkinTexture(_Theme.TextureArrowRightName, _PartyModeID);
 
-            STexture selTexture = CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
-            STexture selTextureArrowLeft = CBase.Theme.GetSkinTexture(_Theme.SelTextureArrowLeftName, _PartyModeID);
-            STexture selTextureArrowRight = CBase.Theme.GetSkinTexture(_Theme.SelTextureArrowRightName, _PartyModeID);
+            CTexture selTexture = CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
+            CTexture selTextureArrowLeft = CBase.Theme.GetSkinTexture(_Theme.SelTextureArrowLeftName, _PartyModeID);
+            CTexture selTextureArrowRight = CBase.Theme.GetSkinTexture(_Theme.SelTextureArrowRightName, _PartyModeID);
 
-            STexture highlightTexture = CBase.Theme.GetSkinTexture(_Theme.HighlightTextureName, _PartyModeID);
+            CTexture highlightTexture = CBase.Theme.GetSkinTexture(_Theme.HighlightTextureName, _PartyModeID);
 
             if (Selected)
             {

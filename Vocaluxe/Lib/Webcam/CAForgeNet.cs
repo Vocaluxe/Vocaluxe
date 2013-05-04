@@ -24,6 +24,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using Vocaluxe.Base;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Webcam
@@ -50,7 +51,7 @@ namespace Vocaluxe.Lib.Webcam
             }
         }
 
-        public bool GetFrame(ref STexture frame)
+        public bool GetFrame(ref CTexture frame)
         {
             if (_Webcam != null && _Width > 0 && _Height > 0 && _Data.Length == _Width * _Height * 4)
             {

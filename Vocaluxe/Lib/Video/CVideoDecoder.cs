@@ -19,6 +19,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Video
@@ -58,7 +59,7 @@ namespace Vocaluxe.Lib.Video
             return 0f;
         }
 
-        public abstract bool GetFrame(int streamID, ref STexture frame, float time, out float videoTime);
+        public abstract bool GetFrame(int streamID, ref CTexture frame, float time, out float videoTime);
 
         public virtual bool Skip(int streamID, float start, float gap)
         {

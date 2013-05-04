@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu.SingNotes;
 
 namespace VocaluxeLib.Menu.SongMenu
@@ -71,8 +72,8 @@ namespace VocaluxeLib.Menu.SongMenu
     {
         private bool _CoverSmallLoaded;
         private bool _CoverBigLoaded;
-        private STexture _CoverTextureSmall = new STexture(-1);
-        private STexture _CoverTextureBig = new STexture(-1);
+        private CTexture _CoverTextureSmall = new CTexture(-1);
+        private CTexture _CoverTextureBig = new CTexture(-1);
 
         public SMedley Medley;
 
@@ -96,7 +97,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public bool NotesLoaded { get; private set; }
 
-        public STexture CoverTextureSmall
+        public CTexture CoverTextureSmall
         {
             get
             {
@@ -112,7 +113,7 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
-        public STexture CoverTextureBig
+        public CTexture CoverTextureBig
         {
             get { return _CoverBigLoaded ? _CoverTextureBig : _CoverTextureSmall; }
             set

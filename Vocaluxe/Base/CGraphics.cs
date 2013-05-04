@@ -24,6 +24,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Screens;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 using VocaluxeLib.PartyModes;
 
@@ -35,7 +36,7 @@ namespace Vocaluxe.Base
         private float _CursorTargetAlpha;
         private float _CursorStartAlpha;
         private float _CursorFadingTime;
-        private STexture _Cursor;
+        private CTexture _Cursor;
         private readonly string _CursorName = String.Empty;
 
         private readonly Stopwatch _Movetimer;

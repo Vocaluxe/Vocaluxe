@@ -23,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
@@ -31,7 +32,7 @@ namespace Vocaluxe.Base
     {
         public string Name;
         public string Value;
-        public STexture Texture;
+        public CTexture Texture;
     }
 
     struct SCoverTheme
@@ -46,11 +47,11 @@ namespace Vocaluxe.Base
         private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
         private static readonly List<SCover> _Cover = new List<SCover>();
         private static readonly List<SCoverTheme> _CoverThemes = new List<SCoverTheme>();
-        private static STexture _NoCover = new STexture(-1);
+        private static CTexture _NoCover = new CTexture(-1);
 
         private static readonly Object _MutexCover = new Object();
 
-        public static STexture NoCover
+        public static CTexture NoCover
         {
             get { return _NoCover; }
         }
@@ -97,9 +98,9 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Returns a STexture for a given cover name. Returns "NoCover" if the cover does not exist.
         /// </summary>
-        public static STexture Cover(string name)
+        public static CTexture Cover(string name)
         {
-            STexture cov = _NoCover;
+            CTexture cov = _NoCover;
             lock (_MutexCover)
             {
                 foreach (SCover cover in _Cover)
@@ -132,7 +133,7 @@ namespace Vocaluxe.Base
         {
             foreach (SCover cover in _Cover)
             {
-                STexture texture = cover.Texture;
+                CTexture texture = cover.Texture;
                 CDraw.RemoveTexture(ref texture);
             }
             _Cover.Clear();

@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
@@ -53,7 +54,7 @@ namespace Vocaluxe.Screens
             {"EqualizerPlayer1", "EqualizerPlayer2", "EqualizerPlayer3", "EqualizerPlayer4", "EqualizerPlayer5", "EqualizerPlayer6"};
         private readonly string[] _SelectSlideDuetPlayer = new string[]
             {"SelectSlideDuetPlayer1", "SelectSlideDuetPlayer2", "SelectSlideDuetPlayer3", "SelectSlideDuetPlayer4", "SelectSlideDuetPlayer5", "SelectSlideDuetPlayer6"};
-        private readonly STexture[] _OriginalPlayerAvatarTextures = new STexture[CSettings.MaxNumPlayer];
+        private readonly CTexture[] _OriginalPlayerAvatarTextures = new CTexture[CSettings.MaxNumPlayer];
 
         private bool _SelectingKeyboardActive;
         private bool _SelectingFast;

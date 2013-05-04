@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml;
+using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
@@ -45,7 +46,7 @@ namespace VocaluxeLib.Menu
         #region private vars
         private readonly int _PartyModeID;
         private readonly string _TextureName;
-        private readonly STexture _Texture;
+        private readonly CTexture _Texture;
         private SRectF _Rect;
         private float _Size;
         private SColorF _Color;
@@ -115,7 +116,7 @@ namespace VocaluxeLib.Menu
         {
             _PartyModeID = partyModeID;
             _TextureName = textureName;
-            _Texture = new STexture(-1);
+            _Texture = new CTexture(-1);
             _Color = color;
             _Rect = new SRectF(x, y, size, size, z);
             _Size = size;
@@ -134,7 +135,7 @@ namespace VocaluxeLib.Menu
             _Rotation = (float)(CBase.Game.GetRandomDouble() * 360.0);
         }
 
-        public CParticle(int partyModeID, STexture texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize,
+        public CParticle(int partyModeID, CTexture texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize,
                          EParticleType type)
         {
             _PartyModeID = partyModeID;
@@ -312,7 +313,7 @@ namespace VocaluxeLib.Menu
         private SThemeParticleEffect _Theme;
         private bool _ThemeLoaded;
 
-        public STexture Texture;
+        public CTexture Texture;
         public SColorF Color;
         public SRectF Rect;
 
@@ -356,7 +357,7 @@ namespace VocaluxeLib.Menu
             Rect = rect;
             Color = color;
             _Theme.TextureName = textureName;
-            Texture = new STexture(-1);
+            Texture = new CTexture(-1);
             _MaxNumber = maxNumber;
             _Size = size;
             _Type = type;
@@ -365,7 +366,7 @@ namespace VocaluxeLib.Menu
             Visible = true;
         }
 
-        public CParticleEffect(int partyModeID, int maxNumber, SColorF color, SRectF rect, STexture texture, float size, EParticleType type)
+        public CParticleEffect(int partyModeID, int maxNumber, SColorF color, SRectF rect, CTexture texture, float size, EParticleType type)
         {
             _PartyModeID = partyModeID;
             _Theme = new SThemeParticleEffect();
@@ -602,7 +603,7 @@ namespace VocaluxeLib.Menu
 
         public void UnloadTextures()
         {
-            Texture = new STexture();
+            Texture = new CTexture();
         }
 
         public void LoadTextures()

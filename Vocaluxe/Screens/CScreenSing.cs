@@ -26,6 +26,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SingNotes;
 using VocaluxeLib.Menu.SongMenu;
@@ -96,9 +97,9 @@ namespace Vocaluxe.Screens
         private const float _Volume = 100f;
         private int _CurrentVideo = -1;
         private EAspect _VideoAspect = EAspect.Crop;
-        private STexture _CurrentVideoTexture = new STexture(-1);
-        private STexture _CurrentWebcamFrameTexture = new STexture(-1);
-        private STexture _Background = new STexture(-1);
+        private CTexture _CurrentVideoTexture = new CTexture(-1);
+        private CTexture _CurrentWebcamFrameTexture = new CTexture(-1);
+        private CTexture _Background = new CTexture(-1);
 
         private float _CurrentTime;
         private float _FinishTime;
@@ -411,8 +412,8 @@ namespace Vocaluxe.Screens
             _FadeOut = false;
 
             _CurrentVideo = -1;
-            _CurrentVideoTexture = new STexture(-1);
-            _CurrentWebcamFrameTexture = new STexture(-1);
+            _CurrentVideoTexture = new CTexture(-1);
+            _CurrentWebcamFrameTexture = new CTexture(-1);
             _CurrentBeat = -100;
             _CurrentTime = 0f;
             _FinishTime = 0f;
@@ -453,7 +454,7 @@ namespace Vocaluxe.Screens
         {
             if (_Active)
             {
-                STexture background;
+                CTexture background;
                 EAspect aspect = EAspect.Crop;
                 if (_CurrentVideo != -1 && CConfig.VideosInSongs == EOffOn.TR_CONFIG_ON && !_Webcam)
                 {
@@ -1353,7 +1354,7 @@ namespace Vocaluxe.Screens
                         foreach (CLine line in voice.Lines.Where(line => line.VisibleInTimeLine))
                         {
                             STimeRect trect = new STimeRect {StartBeat = line.FirstNoteBeat, EndBeat = line.EndBeat};
-                            trect.Rect = GetNewStatic(new STexture(-1),
+                            trect.Rect = GetNewStatic(new CTexture(-1),
                                                       new SColorF(1f, 1f, 1f, 1f),
                                                       new SRectF(
                                                           stat.Rect.X + stat.Rect.W * ((CGame.GetTimeFromBeats(trect.StartBeat, song.BPM) + song.Gap - song.Start) / totalTime),

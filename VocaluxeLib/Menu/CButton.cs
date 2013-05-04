@@ -19,6 +19,7 @@
 
 using System;
 using System.Xml;
+using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
@@ -39,8 +40,8 @@ namespace VocaluxeLib.Menu
         private bool _ThemeLoaded;
         private readonly int _PartyModeID;
 
-        public STexture Texture;
-        public STexture SelTexture;
+        public CTexture Texture;
+        public CTexture SelTexture;
         public SRectF Rect;
         public SColorF Color;
         public SColorF SelColor;
@@ -94,8 +95,8 @@ namespace VocaluxeLib.Menu
             Rect = new SRectF();
             Color = new SColorF();
             SelColor = new SColorF();
-            Texture = new STexture(-1);
-            SelTexture = new STexture(-1);
+            Texture = new CTexture(-1);
+            SelTexture = new CTexture(-1);
 
             _IsSelText = false;
             Text = new CText(_PartyModeID);
@@ -301,7 +302,7 @@ namespace VocaluxeLib.Menu
             if (!Visible && CBase.Settings.GetGameState() != EGameState.EditTheme && !forceDraw)
                 return;
 
-            STexture texture;
+            CTexture texture;
 
             if (!Selected && !Pressed || !Enabled)
             {

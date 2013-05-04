@@ -20,6 +20,7 @@
 using System;
 using System.Drawing;
 using System.Xml;
+using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
@@ -202,7 +203,7 @@ namespace VocaluxeLib.Menu
 
         private bool _DrawTexture()
         {
-            STexture texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+            CTexture texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
             if (texture.OrigSize.Height > 1)
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
@@ -217,7 +218,7 @@ namespace VocaluxeLib.Menu
 
         private bool _DrawVideo()
         {
-            STexture videoTexture = CBase.Theme.GetSkinVideoTexture(_Theme.VideoName, _PartyModeID);
+            CTexture videoTexture = CBase.Theme.GetSkinVideoTexture(_Theme.VideoName, _PartyModeID);
             if (videoTexture.OrigSize.Height > 1)
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
@@ -232,7 +233,7 @@ namespace VocaluxeLib.Menu
 
         private bool _DrawBackgroundMusicVideo()
         {
-            STexture videoTexture = CBase.BackgroundMusic.GetVideoTexture();
+            CTexture videoTexture = CBase.BackgroundMusic.GetVideoTexture();
             if (videoTexture.OrigSize.Height > 1)
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());

@@ -20,6 +20,7 @@
 using System;
 using System.Drawing;
 using Vocaluxe.Lib.Draw;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
@@ -124,12 +125,12 @@ namespace Vocaluxe.Base
             _Draw.ClearScreen();
         }
 
-        public static STexture CopyScreen()
+        public static CTexture CopyScreen()
         {
             return _Draw.CopyScreen();
         }
 
-        public static void CopyScreen(ref STexture texture)
+        public static void CopyScreen(ref CTexture texture)
         {
             _Draw.CopyScreen(ref texture);
         }
@@ -139,62 +140,62 @@ namespace Vocaluxe.Base
             _Draw.MakeScreenShot();
         }
 
-        public static STexture AddTexture(Bitmap bitmap)
+        public static CTexture AddTexture(Bitmap bitmap)
         {
             return _Draw.AddTexture(bitmap);
         }
 
-        public static STexture AddTexture(string texturePath)
+        public static CTexture AddTexture(string texturePath)
         {
             return _Draw.AddTexture(texturePath);
         }
 
-        public static STexture AddTexture(int w, int h, byte[] data)
+        public static CTexture AddTexture(int w, int h, byte[] data)
         {
             return _Draw.AddTexture(w, h, data);
         }
 
-        public static STexture EnqueueTexture(int w, int h, byte[] data)
+        public static CTexture EnqueueTexture(int w, int h, byte[] data)
         {
             return _Draw.EnqueueTexture(w, h, data);
         }
 
-        public static bool UpdateTexture(ref STexture texture, byte[] data)
+        public static bool UpdateTexture(ref CTexture texture, byte[] data)
         {
             return _Draw.UpdateTexture(ref texture, data);
         }
 
-        public static void RemoveTexture(ref STexture texture)
+        public static void RemoveTexture(ref CTexture texture)
         {
             _Draw.RemoveTexture(ref texture);
         }
 
-        public static void DrawTexture(STexture texture)
+        public static void DrawTexture(CTexture texture)
         {
             _Draw.DrawTexture(texture);
         }
 
-        public static void DrawTexture(STexture texture, SRectF rect)
+        public static void DrawTexture(CTexture texture, SRectF rect)
         {
             _Draw.DrawTexture(texture, rect);
         }
 
-        public static void DrawTexture(STexture texture, SRectF rect, SColorF color, bool mirrored = false)
+        public static void DrawTexture(CTexture texture, SRectF rect, SColorF color, bool mirrored = false)
         {
             _Draw.DrawTexture(texture, rect, color, mirrored);
         }
 
-        public static void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        public static void DrawTexture(CTexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
             _Draw.DrawTexture(texture, rect, color, bounds, mirrored);
         }
 
-        public static void DrawTexture(STexture texture, SRectF rect, SColorF color, float begin, float end)
+        public static void DrawTexture(CTexture texture, SRectF rect, SColorF color, float begin, float end)
         {
             _Draw.DrawTexture(texture, rect, color, begin, end);
         }
 
-        public static void DrawTexture(CStatic staticBounds, STexture texture, EAspect aspect)
+        public static void DrawTexture(CStatic staticBounds, CTexture texture, EAspect aspect)
         {
             if (texture.OrigSize.Height <= 0)
                 return;
@@ -207,7 +208,7 @@ namespace Vocaluxe.Base
                         texture.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f));
         }
 
-        public static void DrawTextureReflection(STexture texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
+        public static void DrawTextureReflection(CTexture texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
         {
             _Draw.DrawTextureReflection(texture, rect, color, bounds, space, height);
         }

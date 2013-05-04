@@ -20,6 +20,7 @@
 using System;
 using System.Drawing;
 using System.Xml;
+using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
@@ -42,8 +43,8 @@ namespace VocaluxeLib.Menu
             return _Theme.Name;
         }
 
-        private STexture _Texture;
-        public STexture Texture
+        private CTexture _Texture;
+        public CTexture Texture
         {
             get { return _Texture.Index != -1 ? _Texture : CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID); }
 
@@ -70,7 +71,7 @@ namespace VocaluxeLib.Menu
             _Theme = new SThemeStatic();
             _ThemeLoaded = false;
 
-            _Texture = new STexture(-1);
+            _Texture = new CTexture(-1);
             Color = new SColorF();
             Rect = new SRectF();
             Reflection = false;
@@ -100,7 +101,7 @@ namespace VocaluxeLib.Menu
             Visible = s.Visible;
         }
 
-        public CStatic(int partyModeID, STexture texture, SColorF color, SRectF rect)
+        public CStatic(int partyModeID, CTexture texture, SColorF color, SRectF rect)
         {
             _PartyModeID = partyModeID;
             _Theme = new SThemeStatic();
@@ -124,7 +125,7 @@ namespace VocaluxeLib.Menu
             _Theme = new SThemeStatic {TextureName = textureSkinName};
             _ThemeLoaded = false;
 
-            _Texture = new STexture(-1);
+            _Texture = new CTexture(-1);
             Color = color;
             Rect = rect;
             Reflection = false;
@@ -238,7 +239,7 @@ namespace VocaluxeLib.Menu
 
         public void Draw(float scale, float z, EAspect aspect, bool forceDraw = false)
         {
-            STexture texture = _Texture.Index != -1 ? _Texture : CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+            CTexture texture = _Texture.Index != -1 ? _Texture : CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
 
             SRectF bounds = new SRectF(
                 Rect.X - Rect.W * (scale - 1f),

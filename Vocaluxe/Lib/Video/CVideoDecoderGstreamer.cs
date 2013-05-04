@@ -20,6 +20,7 @@
 using System;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Gstreamer;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Video
@@ -78,7 +79,7 @@ namespace Vocaluxe.Lib.Video
             return CGstreamerVideoWrapper.GetVideoLength(streamID);
         }
 
-        public bool GetFrame(int streamID, ref STexture frame, float time, out float videoTime)
+        public bool GetFrame(int streamID, ref CTexture frame, float time, out float videoTime)
         {
             SManagedFrame managedFrame = CGstreamerVideoWrapper.GetFrame(streamID, time);
             videoTime = managedFrame.Videotime;
@@ -117,7 +118,7 @@ namespace Vocaluxe.Lib.Video
             CGstreamerVideoWrapper.UpdateVideo();
         }
 
-        private void _UploadNewFrame(ref STexture frame, ref byte[] data, int width, int height)
+        private void _UploadNewFrame(ref CTexture frame, ref byte[] data, int width, int height)
         {
             if (data == null)
                 return;

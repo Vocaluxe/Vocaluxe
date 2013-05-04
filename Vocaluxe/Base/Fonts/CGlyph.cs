@@ -23,13 +23,14 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base.Fonts
 {
     class CGlyph
     {
-        private STexture _Texture;
+        private CTexture _Texture;
         private readonly SizeF _BoundingBox;
         private readonly RectangleF _DrawBounding;
         public readonly float MaxHeight;
@@ -147,7 +148,7 @@ namespace Vocaluxe.Base.Fonts
             return CFonts.Height / _BoundingBox.Height;
         }
 
-        public void GetTextureAndRect(float x, float y, float z, out STexture texture, out SRectF rect)
+        public void GetTextureAndRect(float x, float y, float z, out CTexture texture, out SRectF rect)
         {
             texture = _Texture;
             float factor = _GetFactor();

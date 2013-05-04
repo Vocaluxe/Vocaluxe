@@ -25,6 +25,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Acinerella;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Video
@@ -90,7 +91,7 @@ namespace Vocaluxe.Lib.Video
             return false;
         }
 
-        public override bool GetFrame(int streamID, ref STexture frame, float time, out float videoTime)
+        public override bool GetFrame(int streamID, ref CTexture frame, float time, out float videoTime)
         {
             videoTime = 0;
             if (_Initialized)
@@ -299,7 +300,7 @@ namespace Vocaluxe.Lib.Video
             return true;
         }
 
-        public bool GetFrame(ref STexture frame, float time, out float videoTime)
+        public bool GetFrame(ref CTexture frame, float time, out float videoTime)
         {
             videoTime = 0;
             if (!_FileOpened)
@@ -650,7 +651,7 @@ namespace Vocaluxe.Lib.Video
             }
         }
 
-        private void _UploadNewFrame(ref STexture frame)
+        private void _UploadNewFrame(ref CTexture frame)
         {
             if (!_FileOpened)
                 return;

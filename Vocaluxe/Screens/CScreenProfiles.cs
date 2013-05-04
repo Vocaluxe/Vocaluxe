@@ -23,6 +23,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
@@ -60,7 +61,7 @@ namespace Vocaluxe.Screens
 
         private EEditMode _EditMode;
 
-        private STexture _WebcamTexture = new STexture(-1);
+        private CTexture _WebcamTexture = new CTexture(-1);
         private Bitmap _Snapshot;
 
         public override void Init()

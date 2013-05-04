@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
@@ -114,7 +115,7 @@ namespace Vocaluxe.Base
         {
             for (int i = 0; i < _Avatars.Count; i++)
             {
-                STexture texture = _Avatars[i].Texture;
+                CTexture texture = _Avatars[i].Texture;
                 CDraw.RemoveTexture(ref texture);
             }
             _Avatars.Clear();
@@ -127,7 +128,7 @@ namespace Vocaluxe.Base
 
             foreach (string file in files)
             {
-                STexture tex = CDraw.AddTexture(file);
+                CTexture tex = CDraw.AddTexture(file);
 
                 if (tex.Index != -1)
                 {

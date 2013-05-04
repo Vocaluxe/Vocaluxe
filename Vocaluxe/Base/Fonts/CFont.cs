@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base.Fonts
@@ -86,7 +87,7 @@ namespace Vocaluxe.Base.Fonts
 
         public void DrawGlyph(char chr, float x, float y, float z, SColorF color)
         {
-            STexture texture;
+            CTexture texture;
             SRectF rect;
             GetOrAddGlyph(chr).GetTextureAndRect(x, y, z, out texture, out rect);
             CDraw.DrawTexture(texture, rect, color);
@@ -94,7 +95,7 @@ namespace Vocaluxe.Base.Fonts
 
         public void DrawGlyph(char chr, float x, float y, float z, SColorF color, float begin, float end)
         {
-            STexture texture;
+            CTexture texture;
             SRectF rect;
             GetOrAddGlyph(chr).GetTextureAndRect(x, y, z, out texture, out rect);
             CDraw.DrawTexture(texture, rect, color, begin, end);
@@ -102,7 +103,7 @@ namespace Vocaluxe.Base.Fonts
 
         public void DrawGlyphReflection(char chr, float x, float y, float z, SColorF color, float rspace, float rheight)
         {
-            STexture texture;
+            CTexture texture;
             SRectF rect;
             GetOrAddGlyph(chr).GetTextureAndRect(x, y, z, out texture, out rect);
             CDraw.DrawTextureReflection(texture, rect, color, rect, rspace, rheight);

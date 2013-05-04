@@ -130,6 +130,7 @@
     <Compile Include="Menu\CStatic.cs" />
     <Compile Include="Menu\CText.cs" />
     <Compile Include="Menu\CScreenSetting.cs" />
+    <Compile Include="Draw\CTexture.cs" />
     <Compile Include="Menu\CXMLReader.cs" />
     <Compile Include="Menu\Enums.cs" />
     <Compile Include="Menu\IMenu.cs" />
