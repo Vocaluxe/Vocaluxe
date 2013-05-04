@@ -39,3 +39,5 @@ Output/Songs
 *.Cache
 /GstreamerHelper/bin/*
 /VocaluxeLib/bin
+/ClientServerLib\ClientServerLib/ClientServerLib.csproj.user
+/ClientServerLib\ClientServerLib\bin\Debug/ClientServerLib.dll
