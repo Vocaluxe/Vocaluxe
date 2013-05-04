@@ -770,7 +770,7 @@ namespace Vocaluxe.Base
             }
             CFonts.Style = EStyle.Normal;
             CFonts.SetFont("Normal");
-            CFonts.Height = 30;
+            CFonts.Height = 25;
             SColorF gray = new SColorF(1f, 1f, 1f, 0.5f);
             float y = 0;
             foreach (string txt in debugOutput)

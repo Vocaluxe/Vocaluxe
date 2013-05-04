@@ -79,7 +79,7 @@
       <!--<Z>: Text position-->
       <Z>-2,11</Z>
       <!--<H>: Text height-->
-      <H>50</H>
+      <H>42</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>350</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -109,7 +109,7 @@
       <!--<Z>: Text position-->
       <Z>-2,11</Z>
       <!--<H>: Text height-->
-      <H>50</H>
+      <H>42</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>350</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -139,7 +139,7 @@
       <!--<Z>: Text position-->
       <Z>-2,11</Z>
       <!--<H>: Text height-->
-      <H>50</H>
+      <H>42</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>350</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -169,7 +169,7 @@
       <!--<Z>: Text position-->
       <Z>-2,11</Z>
       <!--<H>: Text height-->
-      <H>50</H>
+      <H>42</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>350</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -199,7 +199,7 @@
       <!--<Z>: Text position-->
       <Z>-2,11</Z>
       <!--<H>: Text height-->
-      <H>50</H>
+      <H>42</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>350</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -229,7 +229,7 @@
       <!--<Z>: Text position-->
       <Z>-2,11</Z>
       <!--<H>: Text height-->
-      <H>50</H>
+      <H>42</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>350</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -259,7 +259,7 @@
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
-      <H>32</H>
+      <H>27</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>340</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -293,7 +293,7 @@
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
-      <H>32</H>
+      <H>27</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>830</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -327,7 +327,7 @@
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
-      <H>32</H>
+      <H>27</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
@@ -356,7 +356,7 @@
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
-      <H>32</H>
+      <H>27</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <!--<Color>: Text color from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
@@ -385,7 +385,7 @@
       <!--<Z>: Text position-->
       <Z>-2,11</Z>
       <!--<H>: Text height-->
-      <H>40</H>
+      <H>34</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>350</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -430,7 +430,7 @@
         <X>40</X>
         <Y>20</Y>
         <!--<H>: Text height-->
-        <H>40</H>
+        <H>34</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>60</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -479,7 +479,7 @@
         <X>40</X>
         <Y>20</Y>
         <!--<H>: Text height-->
-        <H>40</H>
+        <H>34</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>60</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -528,7 +528,7 @@
         <X>40</X>
         <Y>20</Y>
         <!--<H>: Text height-->
-        <H>40</H>
+        <H>34</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>60</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -577,7 +577,7 @@
         <X>40</X>
         <Y>20</Y>
         <!--<H>: Text height-->
-        <H>40</H>
+        <H>34</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>60</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -626,7 +626,7 @@
         <X>40</X>
         <Y>20</Y>
         <!--<H>: Text height-->
-        <H>40</H>
+        <H>34</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>60</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -675,7 +675,7 @@
         <X>40</X>
         <Y>20</Y>
         <!--<H>: Text height-->
-        <H>40</H>
+        <H>34</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>60</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -724,7 +724,7 @@
         <X>180</X>
         <Y>5</Y>
         <!--<H>: Text height-->
-        <H>30</H>
+        <H>25</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>350</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -773,7 +773,7 @@
         <X>180</X>
         <Y>5</Y>
         <!--<H>: Text height-->
-        <H>30</H>
+        <H>25</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>350</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -822,7 +822,7 @@
         <X>180</X>
         <Y>5</Y>
         <!--<H>: Text height-->
-        <H>30</H>
+        <H>25</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>350</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -871,7 +871,7 @@
         <X>180</X>
         <Y>5</Y>
         <!--<H>: Text height-->
-        <H>30</H>
+        <H>25</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>350</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -920,7 +920,7 @@
         <X>180</X>
         <Y>5</Y>
         <!--<H>: Text height-->
-        <H>30</H>
+        <H>25</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>350</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -969,7 +969,7 @@
         <X>180</X>
         <Y>5</Y>
         <!--<H>: Text height-->
-        <H>30</H>
+        <H>25</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>350</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -1018,7 +1018,7 @@
         <X>180</X>
         <Y>5</Y>
         <!--<H>: Text height-->
-        <H>30</H>
+        <H>25</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>350</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -1067,7 +1067,7 @@
         <X>180</X>
         <Y>5</Y>
         <!--<H>: Text height-->
-        <H>30</H>
+        <H>25</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>350</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -1116,7 +1116,7 @@
         <X>180</X>
         <Y>5</Y>
         <!--<H>: Text height-->
-        <H>30</H>
+        <H>25</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>350</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -1165,7 +1165,7 @@
         <X>75</X>
         <Y>10</Y>
         <!--<H>: Text height-->
-        <H>32</H>
+        <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>142</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -1222,7 +1222,7 @@
         <X>180</X>
         <Y>5</Y>
         <!--<H>: Text height-->
-        <H>30</H>
+        <H>25</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>350</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -1271,7 +1271,7 @@
         <X>180</X>
         <Y>5</Y>
         <!--<H>: Text height-->
-        <H>30</H>
+        <H>25</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>350</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -1353,7 +1353,7 @@
       <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
-      <TextH>30,00</TextH>
+      <TextH>25,00</TextH>
       <!--<TextRelativeX>: Text relative x-position-->
       <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
@@ -1420,7 +1420,7 @@
       <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
-      <TextH>30,00</TextH>
+      <TextH>25,00</TextH>
       <!--<TextRelativeX>: Text relative x-position-->
       <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
@@ -1487,7 +1487,7 @@
       <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
-      <TextH>30,00</TextH>
+      <TextH>25,00</TextH>
       <!--<TextRelativeX>: Text relative x-position-->
       <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
@@ -1554,7 +1554,7 @@
       <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
       <TextSColor>TextSColor</TextSColor>
       <!--<TextH>: Text height-->
-      <TextH>30,00</TextH>
+      <TextH>25,00</TextH>
       <!--<TextRelativeX>: Text relative x-position-->
       <!--<TextRelativeY>: Text relative y-position-->
       <!--<TextMaxW>: Maximum text width (if exists)-->
@@ -1618,7 +1618,7 @@
           <!--<Z>: Text position-->
           <Z>-1,01</Z>
           <!--<H>: Text height-->
-          <H>46</H>
+          <H>39</H>
           <!--<MaxW>: Maximum text width (if exists)-->
           <MaxW>340</MaxW>
           <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -1648,7 +1648,7 @@
           <!--<Z>: Text position-->
           <Z>-1,01</Z>
           <!--<H>: Text height-->
-          <H>38</H>
+          <H>32</H>
           <!--<MaxW>: Maximum text width (if exists)-->
           <MaxW>340</MaxW>
           <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -1826,7 +1826,7 @@
         <!--<Z>: Text position-->
         <Z>-1,01</Z>
         <!--<H>: Text height-->
-        <H>24</H>
+        <H>22</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>235</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -1952,7 +1952,7 @@
         <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
         <TextSColor>TextSColor</TextSColor>
         <!--<TextH>: Text height-->
-        <TextH>24,00</TextH>
+        <TextH>22,00</TextH>
         <!--<TextRelativeX>: Text relative x-position-->
         <TextRelativeX>25,00</TextRelativeX>
         <!--<TextRelativeY>: Text relative y-position-->
@@ -1975,7 +1975,7 @@
         <Y>45</Y>
         <Z>-1,01</Z>
         <W>220</W>
-        <H>30</H>
+        <H>25</H>
         <!--<Color>: Button color from ColorScheme (high priority)-->
         <!--or <R>, <G>, <B>, <A> (lower priority)-->
         <Color>ButtonColor</Color>
@@ -1987,7 +1987,7 @@
           <X>0</X>
           <Y>0</Y>
           <!--<H>: Text height-->
-          <H>30</H>
+          <H>25</H>
           <!--<MaxW>: Maximum text width (if exists)-->
           <MaxW>220</MaxW>
           <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -2036,7 +2036,7 @@
           <X>180</X>
           <Y>5</Y>
           <!--<H>: Text height-->
-          <H>30</H>
+          <H>25</H>
           <!--<MaxW>: Maximum text width (if exists)-->
           <MaxW>350</MaxW>
           <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -2085,7 +2085,7 @@
           <X>180</X>
           <Y>5</Y>
           <!--<H>: Text height-->
-          <H>30</H>
+          <H>25</H>
           <!--<MaxW>: Maximum text width (if exists)-->
           <MaxW>350</MaxW>
           <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -2134,7 +2134,7 @@
           <X>180</X>
           <Y>5</Y>
           <!--<H>: Text height-->
-          <H>30</H>
+          <H>25</H>
           <!--<MaxW>: Maximum text width (if exists)-->
           <MaxW>350</MaxW>
           <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -2183,7 +2183,7 @@
           <X>180</X>
           <Y>5</Y>
           <!--<H>: Text height-->
-          <H>30</H>
+          <H>25</H>
           <!--<MaxW>: Maximum text width (if exists)-->
           <MaxW>350</MaxW>
           <!--<Color>: Text color from ColorScheme (high priority)-->

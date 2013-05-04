@@ -158,7 +158,8 @@ namespace Vocaluxe.Screens
             {
                 CFonts.SetFont("Normal");
                 CFonts.Style = EStyle.Normal;
-                CFonts.DrawText(CSettings.GetFullVersionText(), 10, 680, 40);
+                //TODO: Set Color to white!
+                CFonts.DrawText(CSettings.GetFullVersionText(), 10, 680, 34);
             }
 
             return true;

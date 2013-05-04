@@ -51,7 +51,7 @@
         <X>75</X>
         <Y>10</Y>
         <!--<H>: Text height-->
-        <H>32</H>
+        <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>142</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -108,7 +108,7 @@
         <X>75</X>
         <Y>10</Y>
         <!--<H>: Text height-->
-        <H>32</H>
+        <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>142</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -165,7 +165,7 @@
         <X>75</X>
         <Y>10</Y>
         <!--<H>: Text height-->
-        <H>32</H>
+        <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>142</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -222,7 +222,7 @@
         <X>75</X>
         <Y>10</Y>
         <!--<H>: Text height-->
-        <H>32</H>
+        <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>142</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->
@@ -279,7 +279,7 @@
         <X>75</X>
         <Y>10</Y>
         <!--<H>: Text height-->
-        <H>32</H>
+        <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>142</MaxW>
         <!--<Color>: Text color from ColorScheme (high priority)-->

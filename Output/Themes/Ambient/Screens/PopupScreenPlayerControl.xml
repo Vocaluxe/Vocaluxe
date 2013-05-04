@@ -41,7 +41,7 @@
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
-      <H>32</H>
+      <H>27</H>
       <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>769</MaxW>
       <!--<Color>: Text color from ColorScheme (high priority)-->
