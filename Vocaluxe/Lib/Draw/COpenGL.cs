@@ -706,8 +706,11 @@ namespace Vocaluxe.Lib.Draw
 
             int w = Math.Min(bmp.Width, maxSize);
             int h = Math.Min(bmp.Height, maxSize);
-            texture.W2 = MathHelper.NextPowerOfTwo(w);
-            texture.H2 = MathHelper.NextPowerOfTwo(h);
+            w = MathHelper.NextPowerOfTwo(w);
+            h = MathHelper.NextPowerOfTwo(h);
+
+            texture.W2 = w;
+            texture.H2 = h;
 
             Bitmap bmp2 = null;
             try
