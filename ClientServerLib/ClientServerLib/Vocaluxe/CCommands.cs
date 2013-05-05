@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using System.Runtime.Serialization.Formatters;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Security.Cryptography;
 
+using Newtonsoft.Json;
 
 namespace Vocaluxe.Base.Server
 {
     public static class CCommands
     {
+        private static UTF8Encoding encoder = new UTF8Encoding();
+
         public static SHA256Managed SHA256 = new SHA256Managed();
 
         public const int ResponseOK = 1;
@@ -75,9 +76,8 @@ namespace Vocaluxe.Base.Server
             byte[] data;
             using (MemoryStream ms = new MemoryStream())
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(ms, obj);
-                data = ms.ToArray();
+                string json = JsonConvert.SerializeObject(obj);
+                data = encoder.GetBytes(json);
             }
             stream.Write(data, 0, data.Length);
             return stream.ToArray();
@@ -99,11 +99,10 @@ namespace Vocaluxe.Base.Server
             {
                 try
                 {
-                    BinaryFormatter formatter = new BinaryFormatter();
-                    obj = (T)formatter.Deserialize(ms);
+                    obj = JsonConvert.DeserializeObject<T>(encoder.GetString(data));
                     return true;
                 }
-                catch (Exception e)
+                catch
                 {
                     return false;
                 }

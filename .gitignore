@@ -42,6 +42,7 @@ Output/Songs
 /ClientServerLib/ClientServerLib/ClientServerLib.csproj.user
 /ClientServerLib/ClientServerLib/bin/Debug/ClientServerLib.dll
 /ClientServerLib/ClientTest/bin/Debug/ClientServerLib.dll
+/ClientServerLib/ClientTest/bin/Release/ClientServerLib.dll
 /ClientServerLib/ClientServerLib/bin/ClientServerLib.dll
 ClientTest.exe
 *.vshost.*
