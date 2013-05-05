@@ -61,7 +61,7 @@ namespace Vocaluxe.Screens
 
         private EEditMode _EditMode;
 
-        private CTexture _WebcamTexture = new CTexture(-1);
+        private CTexture _WebcamTexture;
         private Bitmap _Snapshot;
 
         public override void Init()
@@ -210,7 +210,7 @@ namespace Vocaluxe.Screens
                 {
                     CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].Selection,
                                         _SelectSlides[_SelectSlideAvatars].Selection);
-                    if (CWebcam.IsDeviceAvailable() && _WebcamTexture.Index > 0)
+                    if (CWebcam.IsDeviceAvailable() && _WebcamTexture != null)
                         _OnDiscardSnapshot();
                 }
                 else if (_SelectSlides[_SelectSlideGuestProfile].Selected)
@@ -311,7 +311,7 @@ namespace Vocaluxe.Screens
 
                 int avatarNr = CProfiles.GetAvatarNr(_SelectSlides[_SelectSlideProfiles].Selection);
                 _SelectSlides[_SelectSlideAvatars].Selection = avatarNr;
-                if (CWebcam.IsDeviceAvailable() && _WebcamTexture.Index > 0)
+                if (CWebcam.IsDeviceAvailable() && _WebcamTexture != null)
                 {
                     if (_Snapshot == null)
                         CWebcam.GetFrame(ref _WebcamTexture);

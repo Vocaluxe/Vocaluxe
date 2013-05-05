@@ -662,13 +662,13 @@ namespace Vocaluxe.Lib.Video
 
                 if (num >= 0)
                 {
-                    if (frame.Index == -1 || _Width != frame.OrigSize.Width || _Height != frame.OrigSize.Height)
+                    if (frame == null || _Width != frame.OrigSize.Width || _Height != frame.OrigSize.Height)
                     {
                         CDraw.RemoveTexture(ref frame);
                         frame = CDraw.AddTexture(_Width, _Height, _FrameBuffer[num].Data);
                     }
                     else
-                        CDraw.UpdateTexture(ref frame, _FrameBuffer[num].Data);
+                        CDraw.UpdateTexture(frame, _FrameBuffer[num].Data);
 
                     lock (_MutexSyncSignals)
                     {

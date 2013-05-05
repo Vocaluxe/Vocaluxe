@@ -453,8 +453,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
             _TextBG.Draw();
 
-
-            if (_Vidtex.Index != -1 && _Video != -1)
+            if (_Vidtex != null && _Video != -1)
             {
                 if (_Vidtex.Color.A < 1)
                     _CoverBig.Draw(1f, EAspect.Crop);

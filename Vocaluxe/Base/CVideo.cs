@@ -119,7 +119,7 @@ namespace Vocaluxe.Base
     {
         private CTexture _VideoTexture;
         private int _VideoStream;
-        private readonly Stopwatch _VideoTimer;
+        private readonly Stopwatch _VideoTimer = new Stopwatch();
         private bool _Finished;
         private bool _Loaded;
 
@@ -131,14 +131,6 @@ namespace Vocaluxe.Base
         public bool Loop
         {
             set { CVideo.SetLoop(_VideoStream, value); }
-        }
-
-        public CVideoPlayer()
-        {
-            _VideoTimer = new Stopwatch();
-            _VideoTexture = new CTexture(-1);
-            _Finished = false;
-            _Loaded = false;
         }
 
         public void Load(string videoName)
@@ -172,14 +164,7 @@ namespace Vocaluxe.Base
                 float videoTime = _VideoTimer.ElapsedMilliseconds / 1000f;
                 _Finished = CVideo.Finished(_VideoStream);
 
-                CTexture tex = new CTexture(-1);
-                CVideo.GetFrame(_VideoStream, ref tex, videoTime, out videoTime);
-
-                if (tex.Index > 0)
-                {
-                    CDraw.RemoveTexture(ref _VideoTexture);
-                    _VideoTexture = tex;
-                }
+                CVideo.GetFrame(_VideoStream, ref _VideoTexture, videoTime, out videoTime);
             }
             RectangleF bounds = new RectangleF(0f, 0f, CSettings.RenderW, CSettings.RenderH);
             RectangleF rect;
@@ -191,7 +176,7 @@ namespace Vocaluxe.Base
         public void PreLoad()
         {
             float videoTime = 0f;
-            while (_VideoTexture.Index == -1 && videoTime < 1f)
+            while (_VideoTexture == null && videoTime < 1f)
             {
                 float dummy;
                 CVideo.GetFrame(_VideoStream, ref _VideoTexture, 0, out dummy);

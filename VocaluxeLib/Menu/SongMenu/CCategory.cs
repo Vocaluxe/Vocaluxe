@@ -25,9 +25,8 @@ namespace VocaluxeLib.Menu.SongMenu
     public class CCategory
     {
         public readonly string Name;
-        private CTexture _CoverTextureSmall = new CTexture(-1);
-        private CTexture _CoverTextureBig = new CTexture(-1);
-        private bool _CoverBigLoaded;
+        private CTexture _CoverTextureSmall;
+        private CTexture _CoverTextureBig;
         public readonly List<CSongPointer> Songs = new List<CSongPointer>();
 
         public CCategory(string name)
@@ -44,13 +43,12 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public CTexture CoverTextureBig
         {
-            get { return _CoverBigLoaded ? _CoverTextureBig : _CoverTextureSmall; }
+            get { return _CoverTextureBig ?? _CoverTextureSmall; }
             set
             {
                 if (value.Index == -1)
                     return;
                 _CoverTextureBig = value;
-                _CoverBigLoaded = true;
             }
         }
 

@@ -201,7 +201,7 @@ namespace VocaluxeLib.Menu
             // ReSharper restore UnusedParameter.Local
         {
             FileName = String.Empty;
-            Texture = new CTexture(-1);
+            Texture = null;
         }
     }
     #endregion Profiles

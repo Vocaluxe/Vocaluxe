@@ -6,11 +6,11 @@ namespace VocaluxeLib.Draw
 {
     public class CTexture
     {
-        public int Index;
+        public int Index = -1;
         public int PBO;
-        public int ID;
+        public int ID = -1;
 
-        public string TexturePath;
+        public string TexturePath = "";
 
         /// <summary>
         /// Original size (e.g. of bmp)
@@ -26,10 +26,9 @@ namespace VocaluxeLib.Draw
         /// </summary>
         public SRectF Rect;
 
-        public SColorF Color;
+        public SColorF Color = new SColorF(1f, 1f, 1f, 1f);
 
         private int _W2, _H2;
-        private float _WidthRatio, _HeightRatio;
         private bool _UseFullTexture;
         /// <summary>
         /// Internal texture width (on device), a power of 2 if necessary
@@ -61,19 +60,11 @@ namespace VocaluxeLib.Draw
         /// <summary>
         /// Internal use. Specifies which part of texture memory is actually used
         /// </summary>
-        public float WidthRatio
-        {
-            get { return _WidthRatio; }
-            private set { _WidthRatio = value; }
-        }
+        public float WidthRatio { get; private set; }
         /// <summary>
         /// Internal use. Specifies which part of texture memory is actually used
         /// </summary>
-        public float HeightRatio
-        {
-            get { return _HeightRatio; }
-            private set { _HeightRatio = value; }
-        }
+        public float HeightRatio { get; private set; }
 
         /// <summary>
         /// Internal use. Specifies if full texture memory should be used
@@ -101,20 +92,12 @@ namespace VocaluxeLib.Draw
         public CTexture(int index, int origWidth = 1, int origHeight = 1)
         {
             Index = index;
-            PBO = 0;
-            ID = -1;
-            TexturePath = String.Empty;
 
             OrigSize = new Size(origWidth, origHeight);
             Rect = new SRectF(0f, 0f, origWidth, origHeight, 0f);
 
-            Color = new SColorF(1f, 1f, 1f, 1f);
-
             _W2 = origWidth;
             _H2 = origHeight;
-            _WidthRatio = 1;
-            _HeightRatio = 1;
-            _UseFullTexture = false;
         }
     }
 }

@@ -70,10 +70,8 @@ namespace VocaluxeLib.Menu.SongMenu
 
     public class CSong
     {
-        private bool _CoverSmallLoaded;
-        private bool _CoverBigLoaded;
-        private CTexture _CoverTextureSmall = new CTexture(-1);
-        private CTexture _CoverTextureBig = new CTexture(-1);
+        private CTexture _CoverTextureSmall;
+        private CTexture _CoverTextureBig;
 
         public SMedley Medley;
 
@@ -101,26 +99,18 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             get
             {
-                if (!_CoverSmallLoaded)
+                if (_CoverTextureSmall == null)
                     LoadSmallCover();
                 return _CoverTextureSmall;
             }
 
-            set
-            {
-                _CoverTextureSmall = value;
-                _CoverSmallLoaded = true;
-            }
+            set { _CoverTextureSmall = value; }
         }
 
         public CTexture CoverTextureBig
         {
-            get { return _CoverBigLoaded ? _CoverTextureBig : _CoverTextureSmall; }
-            set
-            {
-                _CoverTextureBig = value;
-                _CoverBigLoaded = true;
-            }
+            get { return _CoverTextureBig ?? _CoverTextureSmall; }
+            set { _CoverTextureBig = value; }
         }
 
         public string Title = String.Empty;
@@ -215,8 +205,6 @@ namespace VocaluxeLib.Menu.SongMenu
             VideoFileName = song.VideoFileName;
 
             VideoAspect = song.VideoAspect;
-            _CoverSmallLoaded = song._CoverSmallLoaded;
-            _CoverBigLoaded = song._CoverBigLoaded;
             NotesLoaded = song.NotesLoaded;
 
             Artist = song.Artist;
@@ -751,7 +739,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public void LoadSmallCover()
         {
-            if (_CoverSmallLoaded)
+            if (_CoverTextureSmall != null)
                 return;
             if (CoverFileName != "")
             {
@@ -760,8 +748,6 @@ namespace VocaluxeLib.Menu.SongMenu
             }
             else
                 _CoverTextureSmall = CBase.Cover.GetNoCover();
-
-            _CoverSmallLoaded = true;
         }
 
         private void _CheckFiles()

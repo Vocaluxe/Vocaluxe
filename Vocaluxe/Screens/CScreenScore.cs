@@ -368,7 +368,7 @@ namespace Vocaluxe.Screens
                         _Statics[_StaticPointsBarBG[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
                         _Statics[_StaticAvatar[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
 
-                        _Statics[_StaticAvatar[player, numplayer]].Texture = new CTexture(-1);
+                        _Statics[_StaticAvatar[player, numplayer]].Texture = null;
                     }
                 }
             }

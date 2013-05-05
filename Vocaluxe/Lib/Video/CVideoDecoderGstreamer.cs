@@ -122,13 +122,13 @@ namespace Vocaluxe.Lib.Video
         {
             if (data == null)
                 return;
-            if (frame.Index == -1 || width != frame.OrigSize.Width || height != frame.OrigSize.Height || data.Length == 0)
+            if (frame == null || width != frame.OrigSize.Width || height != frame.OrigSize.Height || data.Length == 0)
             {
                 CDraw.RemoveTexture(ref frame);
                 frame = CDraw.AddTexture(width, height, data);
             }
             else
-                CDraw.UpdateTexture(ref frame, data);
+                CDraw.UpdateTexture(frame, data);
             data = null;
         }
     }

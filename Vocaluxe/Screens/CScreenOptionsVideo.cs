@@ -46,7 +46,7 @@ namespace Vocaluxe.Screens
         private const string _ButtonExit = "ButtonExit";
 
         private SWebcamConfig _Config;
-        private CTexture _WebcamTexture = new CTexture(-1);
+        private CTexture _WebcamTexture;
         private int _DeviceNr;
         private int _CapabilityNr;
 

@@ -350,33 +350,26 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture AddTexture(string texturePath)
         {
-            CTexture texture = new CTexture();
             if (File.Exists(texturePath))
             {
-                bool found = false;
                 foreach (CTexture tex in _Textures)
                 {
                     if (tex.TexturePath == texturePath)
-                    {
-                        texture = tex;
-                        found = true;
-                        break;
-                    }
+                        return tex;
                 }
-
-                if (!found)
+                using (Bitmap bmp = new Bitmap(texturePath))
                 {
-                    using (Bitmap bmp = new Bitmap(texturePath))
-                        return AddTexture(bmp);
+                    CTexture texture = AddTexture(bmp);
+                    texture.TexturePath = texturePath;
                 }
             }
 
-            return texture;
+            return null;
         }
 
         public void RemoveTexture(ref CTexture texture)
         {
-            if ((texture.Index >= 0) && (_Textures.Count > 0))
+            if (texture != null && texture.Index >= 0)
             {
                 for (int i = 0; i < _Textures.Count; i++)
                 {
@@ -384,11 +377,11 @@ namespace Vocaluxe.Lib.Draw
                     {
                         _Bitmaps[texture.Index].Dispose();
                         _Textures.RemoveAt(i);
-                        texture.Index = -1;
                         break;
                     }
                 }
             }
+            texture = null;
         }
 
         public CTexture EnqueueTexture(int w, int h, byte[] data)
@@ -407,7 +400,7 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        public bool UpdateTexture(ref CTexture texture, byte[] data)
+        public bool UpdateTexture(CTexture texture, byte[] data)
         {
             if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
             {
@@ -415,8 +408,9 @@ namespace Vocaluxe.Lib.Draw
                                                                       ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
                 Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
                 _Bitmaps[texture.Index].UnlockBits(bmpData);
+                return true;
             }
-            return true;
+            return false;
         }
 
         public void DrawTexture(CTexture texture)

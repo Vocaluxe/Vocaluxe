@@ -105,7 +105,7 @@ namespace VocaluxeLib.Menu.SongMenu
         private readonly List<int> _Streams = new List<int>();
         private int _Actsong = -1;
         private int _Actsongstream = -1;
-        protected CTexture _Vidtex = new CTexture(-1);
+        protected CTexture _Vidtex;
 
         protected bool _Initialized;
         protected int _LastKnownNumSongs;
@@ -464,7 +464,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public virtual void OnShow()
         {
             _Actsongstream = -1;
-            _Vidtex = new CTexture(-1);
+            _Vidtex = null;
         }
 
         public virtual void OnHide()

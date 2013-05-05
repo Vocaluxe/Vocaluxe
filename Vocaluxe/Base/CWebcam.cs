@@ -49,8 +49,7 @@ namespace Vocaluxe.Base
 
         public static bool GetFrame(ref CTexture tex)
         {
-            _Webcam.GetFrame(ref tex);
-            return true;
+            return _Webcam.GetFrame(ref tex);
         }
 
         public static Bitmap GetBitmap()

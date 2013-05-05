@@ -40,7 +40,7 @@ namespace Vocaluxe.Base
         private static readonly List<CPlaylistElement> _PreviousFileNames = new List<CPlaylistElement>();
 
         private static int _Video = -1;
-        private static CTexture _CurrentVideoTexture = new CTexture(-1);
+        private static CTexture _CurrentVideoTexture;
         private static readonly Stopwatch _FadeTimer = new Stopwatch();
         private static bool _VideoEnabled;
 
@@ -473,7 +473,7 @@ namespace Vocaluxe.Base
                 }
                 return _CurrentVideoTexture;
             }
-            return new CTexture(-1);
+            return null;
         }
 
         private static bool _IsBackgroundFile(CPlaylistElement element)

@@ -531,7 +531,7 @@ namespace VocaluxeLib.Menu
 
         public void AddValue(string value, int partyModeID)
         {
-            AddValue(value, new CTexture(-1), _ValueIndexes.Count, partyModeID);
+            AddValue(value, null, _ValueIndexes.Count, partyModeID);
         }
 
         public void AddValue(string value, CTexture texture)
@@ -560,7 +560,7 @@ namespace VocaluxeLib.Menu
         public void AddValues(IEnumerable<string> values)
         {
             foreach (string value in values)
-                _AddValue(value, new CTexture(-1), _PartyModeID);
+                _AddValue(value, null, _PartyModeID);
 
             _ValueBounds.Clear();
         }
@@ -589,12 +589,7 @@ namespace VocaluxeLib.Menu
             RenameValue(Selection, newName);
         }
 
-        public void RenameValue(int selection, string newName)
-        {
-            RenameValue(selection, newName, new CTexture(-1));
-        }
-
-        public void RenameValue(int selection, string newName, CTexture newTexture)
+        public void RenameValue(int selection, string newName, CTexture newTexture = null)
         {
             if (selection < 0 && selection >= _ValueNames.Count)
                 return;

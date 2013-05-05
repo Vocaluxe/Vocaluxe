@@ -50,7 +50,7 @@ namespace VocaluxeLib.Menu
         private SRectF _Rect;
         private float _Size;
         private SColorF _Color;
-        private float _Alpha;
+        private float _Alpha = 1;
         private float _Angle; //0..360°
         private readonly float _MaxAge; //[s]
         private float _Age; //[s]
@@ -62,7 +62,7 @@ namespace VocaluxeLib.Menu
         private float _LastTime;
         private readonly EParticleType _Type;
 
-        private readonly Stopwatch _Timer;
+        private readonly Stopwatch _Timer = new Stopwatch();
         #endregion private vars
 
         #region public vars
@@ -116,21 +116,15 @@ namespace VocaluxeLib.Menu
         {
             _PartyModeID = partyModeID;
             _TextureName = textureName;
-            _Texture = new CTexture(-1);
             _Color = color;
             _Rect = new SRectF(x, y, size, size, z);
             _Size = size;
-            _Alpha = 1f;
-            _Angle = 0f;
             _Vx = vx;
             _Vy = vy;
             _Vr = vr;
             _Vsize = vsize;
-            _LastTime = 0f;
             _Type = type;
 
-            _Timer = new Stopwatch();
-            _Age = 0f;
             _MaxAge = maxage;
             _Rotation = (float)(CBase.Game.GetRandomDouble() * 360.0);
         }
@@ -144,17 +138,12 @@ namespace VocaluxeLib.Menu
             _Color = color;
             _Rect = new SRectF(x, y, size, size, z);
             _Size = size;
-            _Alpha = 1f;
-            _Angle = 0f;
             _Vx = vx;
             _Vy = vy;
             _Vr = vr;
             _Vsize = vsize;
-            _LastTime = 0f;
             _Type = type;
 
-            _Timer = new Stopwatch();
-            _Age = 0f;
             _MaxAge = maxage;
             _Rotation = (float)(CBase.Game.GetRandomDouble() * 360.0);
         }
@@ -357,7 +346,6 @@ namespace VocaluxeLib.Menu
             Rect = rect;
             Color = color;
             _Theme.TextureName = textureName;
-            Texture = new CTexture(-1);
             _MaxNumber = maxNumber;
             _Size = size;
             _Type = type;
@@ -603,7 +591,7 @@ namespace VocaluxeLib.Menu
 
         public void UnloadTextures()
         {
-            Texture = new CTexture();
+            Texture = null;
         }
 
         public void LoadTextures()

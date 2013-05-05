@@ -80,8 +80,8 @@ namespace VocaluxeLib.Menu
                 Text.Selected = value;
             }
         }
-        public bool Visible;
-        public bool Enabled;
+        public bool Visible = true;
+        public bool Enabled = true;
 
         public string GetThemeName()
         {
@@ -91,28 +91,10 @@ namespace VocaluxeLib.Menu
         public CButton(int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SThemeButton();
-            Rect = new SRectF();
-            Color = new SColorF();
-            SelColor = new SColorF();
-            Texture = new CTexture(-1);
-            SelTexture = new CTexture(-1);
-
-            _IsSelText = false;
             Text = new CText(_PartyModeID);
             _SelText = new CText(_PartyModeID);
             Selected = false;
-            Visible = true;
             EditMode = false;
-            Enabled = true;
-
-            _Reflection = false;
-            _ReflectionSpace = 0f;
-            _ReflectionHeight = 0f;
-
-            _SelReflection = false;
-            _SelReflectionSpace = 0f;
-            _SelReflectionHeight = 0f;
         }
 
         public CButton(CButton button)
@@ -132,13 +114,10 @@ namespace VocaluxeLib.Menu
             Texture = button.Texture;
             SelTexture = button.SelTexture;
 
-            _IsSelText = false;
             Text = new CText(button.Text);
             _SelText = new CText(button._SelText);
             Selected = false;
-            Visible = true;
             EditMode = false;
-            _ThemeLoaded = false;
             Enabled = button.Enabled;
 
             _Reflection = button._Reflection;

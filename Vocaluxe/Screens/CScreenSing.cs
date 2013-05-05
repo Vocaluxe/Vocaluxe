@@ -97,9 +97,9 @@ namespace Vocaluxe.Screens
         private const float _Volume = 100f;
         private int _CurrentVideo = -1;
         private EAspect _VideoAspect = EAspect.Crop;
-        private CTexture _CurrentVideoTexture = new CTexture(-1);
-        private CTexture _CurrentWebcamFrameTexture = new CTexture(-1);
-        private CTexture _Background = new CTexture(-1);
+        private CTexture _CurrentVideoTexture;
+        private CTexture _CurrentWebcamFrameTexture;
+        private CTexture _Background;
 
         private float _CurrentTime;
         private float _FinishTime;
@@ -412,8 +412,8 @@ namespace Vocaluxe.Screens
             _FadeOut = false;
 
             _CurrentVideo = -1;
-            _CurrentVideoTexture = new CTexture(-1);
-            _CurrentWebcamFrameTexture = new CTexture(-1);
+            _CurrentVideoTexture = null;
+            _CurrentWebcamFrameTexture = null;
             _CurrentBeat = -100;
             _CurrentTime = 0f;
             _FinishTime = 0f;
@@ -468,12 +468,14 @@ namespace Vocaluxe.Screens
                 }
                 else
                     background = _Background;
-                RectangleF bounds = new RectangleF(0, 0, CSettings.RenderW, CSettings.RenderH);
-                RectangleF rect;
-                CHelper.SetRect(bounds, out rect, (float)background.OrigAspect, aspect);
-
-                CDraw.DrawTexture(_Background, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, 0f),
-                                  _Background.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f));
+                if (background != null)
+                {
+                    RectangleF bounds = new RectangleF(0, 0, CSettings.RenderW, CSettings.RenderH);
+                    RectangleF rect;
+                    CHelper.SetRect(bounds, out rect, background.OrigAspect, aspect);
+                    CDraw.DrawTexture(background, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, 0f),
+                                      background.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f));
+                }
             }
 
             _DrawBG();
@@ -1354,7 +1356,7 @@ namespace Vocaluxe.Screens
                         foreach (CLine line in voice.Lines.Where(line => line.VisibleInTimeLine))
                         {
                             STimeRect trect = new STimeRect {StartBeat = line.FirstNoteBeat, EndBeat = line.EndBeat};
-                            trect.Rect = GetNewStatic(new CTexture(-1),
+                            trect.Rect = GetNewStatic(null,
                                                       new SColorF(1f, 1f, 1f, 1f),
                                                       new SRectF(
                                                           stat.Rect.X + stat.Rect.W * ((CGame.GetTimeFromBeats(trect.StartBeat, song.BPM) + song.Gap - song.Start) / totalTime),

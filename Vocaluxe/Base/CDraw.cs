@@ -160,9 +160,9 @@ namespace Vocaluxe.Base
             return _Draw.EnqueueTexture(w, h, data);
         }
 
-        public static bool UpdateTexture(ref CTexture texture, byte[] data)
+        public static bool UpdateTexture(CTexture texture, byte[] data)
         {
-            return _Draw.UpdateTexture(ref texture, data);
+            return _Draw.UpdateTexture(texture, data);
         }
 
         public static void RemoveTexture(ref CTexture texture)
@@ -197,7 +197,7 @@ namespace Vocaluxe.Base
 
         public static void DrawTexture(CStatic staticBounds, CTexture texture, EAspect aspect)
         {
-            if (texture.OrigSize.Height <= 0)
+            if (texture == null)
                 return;
 
             RectangleF bounds = new RectangleF(staticBounds.Rect.X, staticBounds.Rect.Y, staticBounds.Rect.W, staticBounds.Rect.H);
