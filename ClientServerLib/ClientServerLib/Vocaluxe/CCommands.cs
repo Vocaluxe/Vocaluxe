@@ -6,7 +6,6 @@ using System.Runtime.Serialization.Formatters;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Security.Cryptography;
-using System.Windows.Forms;
 
 
 namespace Vocaluxe.Base.Server
@@ -24,8 +23,11 @@ namespace Vocaluxe.Base.Server
         public const int ResponseLoginOK = 23;
 
 
-        public const int CommandSendKeyEvent = 100;
-        public const int CommandSendKeyStroke = 101;
+        public const int CommandSendKeyStroke = 100;
+        public const int CommandSendKeyUp = 110;
+        public const int CommandSendKeyDown = 111;
+        public const int CommandSendKeyLeft = 112;
+        public const int CommandSendKeyRight = 113;
 
         public const int CommandSendMouseMoveEvent = 200;
         public const int CommandSendMouseLBDownEvent = 220;
@@ -59,15 +61,7 @@ namespace Vocaluxe.Base.Server
         #endregion Login
 
         #region Keyboard
-        public static byte[] CreateCommandSendKeyEvent(Keys Key)
-        {
-            return Serialize<Keys>(CommandSendKeyEvent, Key);
-        }
 
-        public static bool DecodeCommandSendKeyEvent(byte[] Message, out Keys Key)
-        {
-            return TryDeserialize<Keys>(Message, out Key);
-        }
         #endregion Keyboard
 
         
@@ -109,7 +103,7 @@ namespace Vocaluxe.Base.Server
                     obj = (T)formatter.Deserialize(ms);
                     return true;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     return false;
                 }

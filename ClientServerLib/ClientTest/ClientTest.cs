@@ -32,14 +32,6 @@ namespace ClientTest
             base.OnClosing(e);
         }
 
-        private void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            if (!client.Connected || !loggedIn)
-                return;
-
-            client.SendMessage(CCommands.CreateCommandSendKeyEvent(e.KeyCode), null);
-        }
-
         private void btConnect_Click(object sender, EventArgs e)
         {
             if (!client.Connected)
@@ -185,7 +177,7 @@ namespace ClientTest
             if (!client.Connected || !loggedIn)
                 return;
 
-            client.SendMessage(CCommands.CreateCommandSendKeyEvent(Keys.Up), null);
+            client.SendMessage(CCommands.CreateCommandWithoutParams(CCommands.CommandSendKeyUp), null);
         }
 
         private void btLeft_Click(object sender, EventArgs e)
@@ -193,7 +185,7 @@ namespace ClientTest
             if (!client.Connected || !loggedIn)
                 return;
 
-            client.SendMessage(CCommands.CreateCommandSendKeyEvent(Keys.Left), null);
+            client.SendMessage(CCommands.CreateCommandWithoutParams(CCommands.CommandSendKeyLeft), null);
         }
 
         private void btDown_Click(object sender, EventArgs e)
@@ -201,7 +193,7 @@ namespace ClientTest
             if (!client.Connected || !loggedIn)
                 return;
 
-            client.SendMessage(CCommands.CreateCommandSendKeyEvent(Keys.Down), null);
+            client.SendMessage(CCommands.CreateCommandWithoutParams(CCommands.CommandSendKeyDown), null);
         }
 
         private void brRight_Click(object sender, EventArgs e)
@@ -209,7 +201,7 @@ namespace ClientTest
             if (!client.Connected || !loggedIn)
                 return;
 
-            client.SendMessage(CCommands.CreateCommandSendKeyEvent(Keys.Right), null);
+            client.SendMessage(CCommands.CreateCommandWithoutParams(CCommands.CommandSendKeyRight), null);
         }
     }
 }

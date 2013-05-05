@@ -71,7 +71,7 @@ namespace ClientServerLib
             if (Data == null || !keySet)
                 return Data;
 
-            using (Aes aes = Aes.Create())
+            using (Aes aes = new AesManaged())
             {
                 aes.Key = dh.Key;
                 aes.GenerateIV();
@@ -117,7 +117,7 @@ namespace ClientServerLib
             Array.Copy(Data, 4, IV, 0, 16);
             int dataLength = BitConverter.ToInt32(Data, 20);
 
-            using (Aes aes = Aes.Create())
+            using (Aes aes = new AesManaged())
             {
                 aes.Key = dh.Key;
                 aes.IV = IV;

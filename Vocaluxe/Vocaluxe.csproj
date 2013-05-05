@@ -154,6 +154,7 @@
     </Reference>
     <Reference Include="ClientServerLib">
       <HintPath>..\ClientServerLib\ClientServerLib\bin\ClientServerLib.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Community.CsharpSqlite">
       <HintPath>..\Output\Community.CsharpSqlite.dll</HintPath>

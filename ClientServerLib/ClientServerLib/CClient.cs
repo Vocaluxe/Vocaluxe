@@ -115,7 +115,7 @@ namespace ClientServerLib
                         connected = true;
                         RaiseOnConnectionChanged();
                     }
-                    catch (Exception e)
+                    catch
                     {
                         connected = false;
                         RaiseOnConnectionChanged();

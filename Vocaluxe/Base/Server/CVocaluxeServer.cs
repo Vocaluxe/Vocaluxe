@@ -58,7 +58,7 @@ namespace Vocaluxe.Base.Server
             }
 
             int command = BitConverter.ToInt32(Message, 0);
-            byte[] answer = null;
+            byte[] answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseNOK); ;
 
             switch (command)
             {
@@ -84,19 +84,27 @@ namespace Vocaluxe.Base.Server
 
             if (!loggedIn)
                 return answer;
-
+            
             switch (command)
             {
-                case CCommands.CommandSendKeyEvent:
-                    Keys key;
-                    if (!CCommands.DecodeCommandSendKeyEvent(Message, out key))
-                        answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseNOK);
-                    else
-                    {
-                        answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
-                    }
+                case CCommands.CommandSendKeyUp:
+                    answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
+                    Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Up));
+                    break;
 
-                    Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, key));
+                case CCommands.CommandSendKeyDown:
+                    answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
+                    Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Down));
+                    break;
+
+                case CCommands.CommandSendKeyLeft:
+                    answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
+                    Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Left));
+                    break;
+
+                case CCommands.CommandSendKeyRight:
+                    answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
+                    Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Right));
                     break;
 
                 default:
