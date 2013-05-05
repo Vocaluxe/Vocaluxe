@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">AndroidRemote</string>
+	<string name="button_connect">Connect</string>
+	<string name="button_disconnect">Disconnect</string>
+	<string name="button_login">Login</string>
+	<string name="button_logout">Logout</string>
+	<string name="button_up">Up</string>
+	<string name="button_down">Down</string>
+	<string name="message_connected">Connected</string>
+	<string name="message_disconnected">Disconnected</string>
+	<string name="message_logged_in">Logged in</string>
+	<string name="message_logged_out">Logged out</string>
+	<string name="text_ip_address">IP Address of Vocaluxe Server:</string>
+	<string name="text_password">Password:</string>
+	<string name="ip_address">192.168.178.57</string>
+	<string name="password">vocaluxe</string>
+</resources>
