@@ -49,7 +49,6 @@ ClientTest.exe
 *.userprefs
 AndroidRemote.dll.mdb
 /ClientServerLib/AndroidRemote/bin/Newtonsoft.Json.MonoDroid.dll
-/ClientServerLib/ClientServerLib/bin/Newtonsoft.Json.dll
 /ClientServerLib/AndroidRemote/bin/AndroidRemote.dll
 /ClientServerLib/ClientTest/bin/Debug/Newtonsoft.Json.dll
 *.apk
