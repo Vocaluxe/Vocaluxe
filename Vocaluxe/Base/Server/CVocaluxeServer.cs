@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using ClientServerLib;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Input;
-using VocaluxeLib.Menu;
+using VocaluxeLib;
 
 namespace Vocaluxe.Base.Server
 {
