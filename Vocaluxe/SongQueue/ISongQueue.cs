@@ -17,8 +17,9 @@
 //  */
 #endregion
 
-using VocaluxeLib.Menu;
-using VocaluxeLib.Menu.SongMenu;
+using VocaluxeLib;
+using VocaluxeLib.Game;
+using VocaluxeLib.Songs;
 
 namespace Vocaluxe.SongQueue
 {

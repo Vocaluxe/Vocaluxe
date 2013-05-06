@@ -20,9 +20,9 @@
 using System;
 using System.Collections.Generic;
 using Vocaluxe.SongQueue;
-using VocaluxeLib.Menu;
-using VocaluxeLib.Menu.SingNotes;
-using VocaluxeLib.Menu.SongMenu;
+using VocaluxeLib;
+using VocaluxeLib.Game;
+using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base
 {

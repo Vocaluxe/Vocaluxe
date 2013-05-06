@@ -22,7 +22,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
-using VocaluxeLib.Menu;
+using VocaluxeLib;
+using VocaluxeLib.Game;
 
 namespace Vocaluxe.Base
 {

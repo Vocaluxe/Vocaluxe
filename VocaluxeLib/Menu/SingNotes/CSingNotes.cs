@@ -22,6 +22,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml;
 
+using VocaluxeLib.Songs;
+
 namespace VocaluxeLib.Menu.SingNotes
 {
     struct SPlayerNotes

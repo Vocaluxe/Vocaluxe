@@ -28,6 +28,7 @@ using System.Windows.Forms;
 using System.Xml;
 using Vocaluxe.Lib.Sound;
 using Vocaluxe.Lib.Webcam;
+using VocaluxeLib;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base

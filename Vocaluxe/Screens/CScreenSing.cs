@@ -26,9 +26,11 @@ using System.Linq;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Font;
+using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SingNotes;
 using VocaluxeLib.Menu.SongMenu;
+using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
 {

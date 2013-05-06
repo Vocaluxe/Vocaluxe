@@ -19,7 +19,7 @@
 
 using System;
 
-namespace VocaluxeLib.Menu
+namespace VocaluxeLib
 {
 
     #region Inputs

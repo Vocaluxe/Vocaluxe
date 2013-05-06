@@ -19,7 +19,7 @@
 
 using Vocaluxe.Lib.Input;
 using Vocaluxe.Lib.Input.WiiMote;
-using VocaluxeLib.Menu;
+using VocaluxeLib;
 
 namespace Vocaluxe.Base
 {

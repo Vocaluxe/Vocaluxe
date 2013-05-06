@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace VocaluxeLib.Menu.SingNotes
+namespace VocaluxeLib.Songs
 {
     public class CNotes
     {

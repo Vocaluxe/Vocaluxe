@@ -21,6 +21,7 @@ using System;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Webcam;
+using VocaluxeLib;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens

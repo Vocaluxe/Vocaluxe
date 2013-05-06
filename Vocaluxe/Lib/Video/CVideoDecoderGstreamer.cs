@@ -20,7 +20,7 @@
 using System;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Gstreamer;
-using VocaluxeLib.Menu;
+using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Video
 {

@@ -20,9 +20,9 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using VocaluxeLib.Menu.SingNotes;
+using VocaluxeLib.Songs;
 
-namespace VocaluxeLib.Menu
+namespace VocaluxeLib
 {
 
     #region Drawing

@@ -20,6 +20,7 @@
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Font;
+using VocaluxeLib;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens

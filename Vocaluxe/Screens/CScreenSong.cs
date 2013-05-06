@@ -22,9 +22,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.PartyModes;
+using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
 {
