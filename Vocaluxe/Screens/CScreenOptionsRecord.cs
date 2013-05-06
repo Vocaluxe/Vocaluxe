@@ -23,6 +23,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Sound;
+using VocaluxeLib;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens

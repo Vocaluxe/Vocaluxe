@@ -23,8 +23,9 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using Vocaluxe.Base;
+using VocaluxeLib;
 using VocaluxeLib.Menu;
-using VocaluxeLib.Menu.SongMenu;
+using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Lib.Playlist
 {

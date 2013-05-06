@@ -22,9 +22,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using VocaluxeLib.Menu.SingNotes;
 
-namespace VocaluxeLib.Menu.SongMenu
+namespace VocaluxeLib.Songs
 {
     public class CSongPointer
     {

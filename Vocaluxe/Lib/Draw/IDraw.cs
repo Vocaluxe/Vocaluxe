@@ -19,6 +19,7 @@
 
 using System;
 using System.Drawing;
+using VocaluxeLib;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Draw

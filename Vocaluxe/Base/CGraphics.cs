@@ -24,6 +24,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Vocaluxe.Base.Font;
 using Vocaluxe.Screens;
+using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.PartyModes;
 

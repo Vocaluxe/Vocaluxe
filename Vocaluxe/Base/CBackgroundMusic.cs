@@ -23,8 +23,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Vocaluxe.Base;
-using VocaluxeLib.Menu;
-using VocaluxeLib.Menu.SongMenu;
+using VocaluxeLib;
+using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base
 {

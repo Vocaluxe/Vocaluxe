@@ -21,7 +21,7 @@ using System;
 using System.Drawing;
 using System.Threading;
 using Vocaluxe.Base;
-using VocaluxeLib.Menu;
+using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Input.WiiMote
 {

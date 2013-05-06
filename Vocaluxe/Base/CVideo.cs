@@ -20,7 +20,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using Vocaluxe.Lib.Video;
-using VocaluxeLib.Menu;
+using VocaluxeLib;
 
 namespace Vocaluxe.Base
 {

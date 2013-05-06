@@ -18,8 +18,9 @@
 #endregion
 
 using System.Collections.Generic;
+using VocaluxeLib;
 
-namespace VocaluxeLib.Menu.SongMenu
+namespace VocaluxeLib.Songs
 {
     public class CCategory
     {

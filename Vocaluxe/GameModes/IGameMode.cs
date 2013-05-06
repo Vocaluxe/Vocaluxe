@@ -17,7 +17,7 @@
 //  */
 #endregion
 
-using VocaluxeLib.Menu.SongMenu;
+using VocaluxeLib.Songs;
 
 namespace Vocaluxe.GameModes
 {

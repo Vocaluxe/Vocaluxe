@@ -23,6 +23,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using VocaluxeLib.PartyModes;
+using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu.SongMenu
 {
