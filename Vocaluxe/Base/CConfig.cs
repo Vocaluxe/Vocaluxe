@@ -807,7 +807,7 @@ namespace Vocaluxe.Base
                     continue;
                 for (int i = 0; i < CProfiles.Profiles.Length; i++)
                 {
-                    if (Path.GetFileName(CProfiles.Profiles[i].ProfileFile) == Players[j] && CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
+                    if (Path.GetFileName(CProfiles.Profiles[i].FileName) == Players[j] && CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
                     {
                         //Update Game-infos with player
                         CGame.Players[j].ProfileID = i;

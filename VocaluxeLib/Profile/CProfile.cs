@@ -8,7 +8,7 @@ namespace VocaluxeLib.Profile
     public class CProfile
     {
         public string PlayerName;
-        public string ProfileFile;
+        public string FileName;
 
         public EGameDifficulty Difficulty;
         public CAvatar Avatar;

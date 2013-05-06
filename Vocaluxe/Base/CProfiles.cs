@@ -83,10 +83,10 @@ namespace Vocaluxe.Base
                     Avatar = new CAvatar(-1),
                     GuestProfile = EOffOn.TR_CONFIG_OFF,
                     Active = EOffOn.TR_CONFIG_ON,
-                    ProfileFile = fileName != "" ? Path.Combine(CSettings.FolderProfiles, fileName) : String.Empty
+                    FileName = fileName != "" ? Path.Combine(CSettings.FolderProfiles, fileName) : String.Empty
                 };
 
-            if (File.Exists(profile.ProfileFile))
+            if (File.Exists(profile.FileName))
                 return -1;
 
             _Profiles.Add(profile);
@@ -256,20 +256,20 @@ namespace Vocaluxe.Base
         {
             if (!ICProfileIDValid(profileID))
                 return;
-            if (_Profiles[profileID].ProfileFile == "")
+            if (_Profiles[profileID].FileName == "")
                 return;
             try
             {
                 //Check if profile saved in config
                 for (int i = 0; i < CConfig.Players.Length; i++)
                 {
-                    if (CConfig.Players[i] == _Profiles[profileID].ProfileFile)
+                    if (CConfig.Players[i] == _Profiles[profileID].FileName)
                     {
                         CConfig.Players[i] = string.Empty;
                         CConfig.SaveConfig();
                     }
                 }
-                File.Delete(_Profiles[profileID].ProfileFile);
+                File.Delete(_Profiles[profileID].FileName);
                 _Profiles.RemoveAt(profileID);
                 //Check if profile is selected in game
                 for (int i = 0; i < CGame.Players.Length; i++)
@@ -282,7 +282,7 @@ namespace Vocaluxe.Base
             }
             catch (Exception)
             {
-                CLog.LogError("Can't delete Profile File " + _Profiles[profileID].ProfileFile + ".xml");
+                CLog.LogError("Can't delete Profile File " + _Profiles[profileID].FileName + ".xml");
             }
         }
 
@@ -312,7 +312,7 @@ namespace Vocaluxe.Base
             if (!ICProfileIDValid(profileID))
                 return;
 
-            if (_Profiles[profileID].ProfileFile == "")
+            if (_Profiles[profileID].FileName == "")
             {
                 string filename = string.Empty;
                 foreach (char chr in _Profiles[profileID].PlayerName)
@@ -333,18 +333,18 @@ namespace Vocaluxe.Base
                 }
 
                 CProfile profile = _Profiles[profileID];
-                profile.ProfileFile = Path.Combine(CSettings.FolderProfiles, filename + ".xml");
+                profile.FileName = Path.Combine(CSettings.FolderProfiles, filename + ".xml");
                 _Profiles[profileID] = profile;
             }
 
             XmlWriter writer;
             try
             {
-                writer = XmlWriter.Create(_Profiles[profileID].ProfileFile, _Settings);
+                writer = XmlWriter.Create(_Profiles[profileID].FileName, _Settings);
             }
             catch (Exception e)
             {
-                CLog.LogError("Error creating/opening Profile File " + _Profiles[profileID].ProfileFile + ": " + e.Message);
+                CLog.LogError("Error creating/opening Profile File " + _Profiles[profileID].FileName + ": " + e.Message);
                 return;
             }
             try
@@ -373,9 +373,9 @@ namespace Vocaluxe.Base
 
         private static void _LoadProfile(string fileName)
         {
-            CProfile profile = new CProfile {ProfileFile = Path.Combine(CSettings.FolderProfiles, fileName)};
+            CProfile profile = new CProfile {FileName = Path.Combine(CSettings.FolderProfiles, fileName)};
 
-            CXMLReader xmlReader = CXMLReader.OpenFile(profile.ProfileFile);
+            CXMLReader xmlReader = CXMLReader.OpenFile(profile.FileName);
             if (xmlReader == null)
                 return;
 

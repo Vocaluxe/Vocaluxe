@@ -7,13 +7,19 @@ namespace VocaluxeLib.Profile
 {
     public class CAvatar
     {
-        public string FileName;
+        private int _ID;
+
+        public int ID
+        {
+            get { return _ID; }
+        }
+
+        public string FileName { get; set; }
         public STexture Texture;
 
-        // ReSharper disable UnusedParameter.Local
-        public CAvatar(int dummy)
-            // ReSharper restore UnusedParameter.Local
+        public CAvatar(int ID)
         {
+            _ID = ID;
             FileName = String.Empty;
             Texture = new STexture(-1);
         }

@@ -170,7 +170,7 @@ namespace Vocaluxe.Screens
                             //Update Game-infos with new player
                             CGame.Players[_SelectingFastPlayerNr - 1].ProfileID = _SelectedPlayerNr;
                             //Update config for default players.
-                            CConfig.Players[_SelectingFastPlayerNr - 1] = CProfiles.Profiles[_SelectedPlayerNr].ProfileFile;
+                            CConfig.Players[_SelectingFastPlayerNr - 1] = CProfiles.Profiles[_SelectedPlayerNr].FileName;
                             CConfig.SaveConfig();
                             //Update texture and name
                             _Statics[_StaticPlayerAvatar[_SelectingFastPlayerNr - 1]].Texture = CProfiles.Profiles[_SelectedPlayerNr].Avatar.Texture;
@@ -418,7 +418,7 @@ namespace Vocaluxe.Screens
                             //Update Game-infos with new player
                             CGame.Players[_SelectingSwitchNr].ProfileID = CGame.Players[i].ProfileID;
                             //Update config for default players.
-                            CConfig.Players[_SelectingSwitchNr] = CProfiles.Profiles[i].ProfileFile;
+                            CConfig.Players[_SelectingSwitchNr] = CProfiles.Profiles[i].FileName;
                             //Update texture and name
                             _Statics[_StaticPlayerAvatar[_SelectingSwitchNr]].Texture = CProfiles.Profiles[CGame.Players[i].ProfileID].Avatar.Texture;
                             _Texts[_TextPlayer[_SelectingSwitchNr]].Text = CProfiles.Profiles[CGame.Players[i].ProfileID].PlayerName;
@@ -436,7 +436,7 @@ namespace Vocaluxe.Screens
                         //Update Game-infos with new player
                         CGame.Players[i].ProfileID = _SelectedPlayerNr;
                         //Update config for default players.
-                        CConfig.Players[i] = CProfiles.Profiles[_SelectedPlayerNr].ProfileFile;
+                        CConfig.Players[i] = CProfiles.Profiles[_SelectedPlayerNr].FileName;
                         CConfig.SaveConfig();
                         //Update texture and name
                         _Statics[_StaticPlayerAvatar[i]].Texture = _ChooseAvatarStatic.Texture;
@@ -476,7 +476,7 @@ namespace Vocaluxe.Screens
                         //Update Game-infos with new player
                         CGame.Players[_SelectingFastPlayerNr - 1].ProfileID = _SelectedPlayerNr;
                         //Update config for default players.
-                        CConfig.Players[_SelectingFastPlayerNr - 1] = CProfiles.Profiles[_SelectedPlayerNr].ProfileFile;
+                        CConfig.Players[_SelectingFastPlayerNr - 1] = CProfiles.Profiles[_SelectedPlayerNr].FileName;
                         CConfig.SaveConfig();
                         //Update texture and name
                         _Statics[_StaticPlayerAvatar[_SelectingFastPlayerNr - 1]].Texture = CProfiles.Profiles[_SelectedPlayerNr].Avatar.Texture;
@@ -519,7 +519,7 @@ namespace Vocaluxe.Screens
                             //Update Game-infos with new player
                             CGame.Players[i].ProfileID = _SelectedPlayerNr;
                             //Update config for default players.
-                            CConfig.Players[i] = CProfiles.Profiles[_SelectedPlayerNr].ProfileFile;
+                            CConfig.Players[i] = CProfiles.Profiles[_SelectedPlayerNr].FileName;
                             CConfig.SaveConfig();
                             //Update texture and name
                             _Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.Profiles[_SelectedPlayerNr].Avatar.Texture;
