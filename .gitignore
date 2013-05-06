@@ -52,3 +52,4 @@ AndroidRemote.dll.mdb
 /ClientServerLib/ClientServerLib/bin/Newtonsoft.Json.dll
 /ClientServerLib/AndroidRemote/bin/AndroidRemote.dll
 /ClientServerLib/ClientTest/bin/Debug/Newtonsoft.Json.dll
+*.apk
