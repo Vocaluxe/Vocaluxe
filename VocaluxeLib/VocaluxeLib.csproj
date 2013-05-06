@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IBasic.cs" />
     <Compile Include="Menu\CBackground.cs" />
     <Compile Include="CBasic.cs" />
     <Compile Include="Menu\CButton.cs" />

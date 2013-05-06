@@ -30,7 +30,6 @@ namespace Vocaluxe.Base
 {
     static class CProfiles
     {
-        private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
         private static List<CProfile> _Profiles;
         private static readonly List<CAvatar> _Avatars = new List<CAvatar>();
 
@@ -56,11 +55,6 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            _Settings.Indent = true;
-            _Settings.Encoding = Encoding.UTF8;
-            _Settings.ConformanceLevel = ConformanceLevel.Document;
-
-            LoadAvatars();
             LoadProfiles();
         }
 
@@ -102,6 +96,7 @@ namespace Vocaluxe.Base
 
         public static void LoadProfiles()
         {
+            LoadAvatars();
             _Profiles = new List<CProfile>();
             List<string> files = new List<string>();
             files.AddRange(CHelper.ListFiles(CSettings.FolderProfiles, "*.xml", true, true));
@@ -337,70 +332,17 @@ namespace Vocaluxe.Base
                 _Profiles[profileID] = profile;
             }
 
-            XmlWriter writer;
-            try
-            {
-                writer = XmlWriter.Create(_Profiles[profileID].FileName, _Settings);
-            }
-            catch (Exception e)
-            {
-                CLog.LogError("Error creating/opening Profile File " + _Profiles[profileID].FileName + ": " + e.Message);
-                return;
-            }
-            try
-            {
-                writer.WriteStartDocument();
-                writer.WriteStartElement("root");
-
-                writer.WriteStartElement("Info");
-                writer.WriteElementString("PlayerName", _Profiles[profileID].PlayerName);
-                writer.WriteElementString("Difficulty", Enum.GetName(typeof(EGameDifficulty), _Profiles[profileID].Difficulty));
-                writer.WriteElementString("Avatar", _Profiles[profileID].Avatar.FileName);
-                writer.WriteElementString("GuestProfile", Enum.GetName(typeof(EOffOn), _Profiles[profileID].GuestProfile));
-                writer.WriteElementString("Active", Enum.GetName(typeof(EOffOn), _Profiles[profileID].Active));
-                writer.WriteEndElement();
-
-                writer.WriteEndElement(); //end of root
-                writer.WriteEndDocument();
-
-                writer.Flush();
-            }
-            finally
-            {
-                writer.Close();
-            }
+            _Profiles[profileID].SaveProfile();
         }
 
         private static void _LoadProfile(string fileName)
         {
             CProfile profile = new CProfile {FileName = Path.Combine(CSettings.FolderProfiles, fileName)};
-
-            CXMLReader xmlReader = CXMLReader.OpenFile(profile.FileName);
-            if (xmlReader == null)
-                return;
-
-            string value = String.Empty;
-            if (xmlReader.GetValue("//root/Info/PlayerName", out value, value))
+            if (profile.LoadProfile())
             {
-                profile.PlayerName = value;
-
-                profile.Difficulty = EGameDifficulty.TR_CONFIG_EASY;
-                xmlReader.TryGetEnumValue("//root/Info/Difficulty", ref profile.Difficulty);
-
-                profile.Avatar = new CAvatar(-1);
-                if (xmlReader.GetValue("//root/Info/Avatar", out value, value))
-                    profile.Avatar = _GetAvatar(value);
-
-                profile.GuestProfile = EOffOn.TR_CONFIG_OFF;
-                xmlReader.TryGetEnumValue("//root/Info/GuestProfile", ref profile.GuestProfile);
-
-                profile.Active = EOffOn.TR_CONFIG_ON;
-                xmlReader.TryGetEnumValue("//root/Info/Active", ref profile.Active);
-
+                profile.Avatar = _GetAvatar(profile.AvatarFileName);
                 _Profiles.Add(profile);
             }
-            else
-                CLog.LogError("Can't find PlayerName in Profile File: " + fileName);
         }
         #endregion private methods
     }

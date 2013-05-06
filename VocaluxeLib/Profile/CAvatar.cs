@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using VocaluxeLib.Menu;
+
 namespace VocaluxeLib.Profile
 {
     public class CAvatar
@@ -14,7 +16,7 @@ namespace VocaluxeLib.Profile
             get { return _ID; }
         }
 
-        public string FileName { get; set; }
+        public string FileName;
         public STexture Texture;
 
         public CAvatar(int ID)
@@ -22,6 +24,19 @@ namespace VocaluxeLib.Profile
             _ID = ID;
             FileName = String.Empty;
             Texture = new STexture(-1);
+        }
+
+        public void LoadFromFile(string NewFileName)
+        {
+            FileName = NewFileName;
+            CBase.Drawing.RemoveTexture(ref Texture);
+            Texture = CBase.Drawing.AddTexture(FileName);
+        }
+
+        public void Reload()
+        {
+            CBase.Drawing.RemoveTexture(ref Texture);
+            Texture = CBase.Drawing.AddTexture(FileName);
         }
     }
 }
