@@ -211,33 +211,6 @@ namespace VocaluxeLib
     }
     #endregion Inputs
 
-    #region Profiles
-    public struct SProfile
-    {
-        public string PlayerName;
-        public string ProfileFile;
-
-        public EGameDifficulty Difficulty;
-        public SAvatar Avatar;
-        public EOffOn GuestProfile;
-        public EOffOn Active;
-    }
-
-    public struct SAvatar
-    {
-        public string FileName;
-        public STexture Texture;
-
-        // ReSharper disable UnusedParameter.Local
-        public SAvatar(int dummy)
-            // ReSharper restore UnusedParameter.Local
-        {
-            FileName = String.Empty;
-            Texture = new STexture(-1);
-        }
-    }
-    #endregion Profiles
-
     #region Game
     public struct SPlayer
     {

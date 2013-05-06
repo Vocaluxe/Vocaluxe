@@ -25,6 +25,7 @@ using VocaluxeLib;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.PartyModes;
+using VocaluxeLib.Profile;
 using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu
@@ -236,7 +237,7 @@ namespace VocaluxeLib.Menu
 
     public interface IProfiles
     {
-        SProfile[] GetProfiles();
+        CProfile[] GetProfiles();
         EGameDifficulty GetDifficulty(int profileID);
         string GetPlayerName(int profileID, int playerNum = 0);
     }

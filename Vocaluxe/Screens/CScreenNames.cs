@@ -623,7 +623,7 @@ namespace Vocaluxe.Screens
 
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
             {
-                _Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.IsProfileIDValid(CGame.Players[i].ProfileID) ?
+                _Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.ICProfileIDValid(CGame.Players[i].ProfileID) ?
                                                                CProfiles.Profiles[CGame.Players[i].ProfileID].Avatar.Texture :
                                                                _OriginalPlayerAvatarTextures[i];
                 _Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(CGame.Players[i].ProfileID, i + 1);

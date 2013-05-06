@@ -27,6 +27,7 @@ using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Base
 {
@@ -541,7 +542,7 @@ namespace Vocaluxe.Base
 
     class CBprofiles : IProfiles
     {
-        public SProfile[] GetProfiles()
+        public CProfile[] GetProfiles()
         {
             return CProfiles.Profiles;
         }

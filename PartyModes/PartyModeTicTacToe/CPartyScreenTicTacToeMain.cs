@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Profile;
 
 namespace VocaluxeLib.PartyModes.TicTacToe
 {
@@ -513,7 +514,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _Texts[_TextNextPlayerT2].Visible = true;
             _Texts[_TextNextPlayerNameT1].Visible = true;
             _Texts[_TextNextPlayerNameT2].Visible = true;
-            SProfile[] profiles = CBase.Profiles.GetProfiles();
+            CProfile[] profiles = CBase.Profiles.GetProfiles();
             _Texts[_TextNextPlayerNameT1].Text = profiles[_GameData.ProfileIDsTeam1[_GameData.Rounds[_SelectedField].SingerTeam1]].PlayerName;
             _Texts[_TextNextPlayerNameT2].Text = profiles[_GameData.ProfileIDsTeam2[_GameData.Rounds[_SelectedField].SingerTeam2]].PlayerName;
             _Statics[_StaticAvatarT1].Visible = true;
@@ -552,7 +553,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _Texts[_TextNextPlayerT2].Visible = true;
             _Texts[_TextNextPlayerNameT1].Visible = true;
             _Texts[_TextNextPlayerNameT2].Visible = true;
-            SProfile[] profiles = CBase.Profiles.GetProfiles();
+            CProfile[] profiles = CBase.Profiles.GetProfiles();
             _Texts[_TextNextPlayerNameT1].Text = profiles[_GameData.ProfileIDsTeam1[_GameData.Rounds[_SelectedField].SingerTeam1]].PlayerName;
             _Texts[_TextNextPlayerNameT2].Text = profiles[_GameData.ProfileIDsTeam2[_GameData.Rounds[_SelectedField].SingerTeam2]].PlayerName;
             _Statics[_StaticAvatarT1].Visible = true;
