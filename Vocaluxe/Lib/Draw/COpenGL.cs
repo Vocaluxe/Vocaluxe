@@ -491,14 +491,11 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture CopyScreen()
         {
-            CTexture texture = new CTexture(-1, _W, _H);
+            CTexture texture = _GetNewTexture(_W, _H);
+
             int id = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, id);
             texture.ID = id;
-
-            texture.W2 = MathHelper.NextPowerOfTwo(texture.OrigSize.Width);
-            texture.H2 = MathHelper.NextPowerOfTwo(texture.OrigSize.Height);
-
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
             GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, _X, _Y, _W, _H);
@@ -699,20 +696,16 @@ namespace Vocaluxe.Lib.Draw
                     break;
             }
 
-            CTexture texture = new CTexture(-1, bmp.Width, bmp.Height) {UseFullTexture = true};
-
-            int id = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, id);
-            texture.ID = id;
-
             int w = Math.Min(bmp.Width, maxSize);
             int h = Math.Min(bmp.Height, maxSize);
             w = MathHelper.NextPowerOfTwo(w);
             h = MathHelper.NextPowerOfTwo(h);
 
-            texture.W2 = w;
-            texture.H2 = h;
+            CTexture texture = new CTexture(bmp.Width, bmp.Height, w, h, true);
 
+            int id = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, id);
+            texture.ID = id;
             Bitmap bmp2 = null;
             try
             {
@@ -764,9 +757,9 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture AddTexture(int w, int h, byte[] data)
         {
-            CTexture texture = new CTexture(-1, w, h);
+            CTexture texture = _GetNewTexture(w, h);
 
-            _CreateTexture(texture, data);
+            _CreateTexture(texture, w, h, data);
 
             lock (_MutexTexture)
             {
@@ -777,10 +770,8 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        private void _CreateTexture(CTexture texture, byte[] data)
+        private void _CreateTexture(CTexture texture, int w, int h, byte[] data)
         {
-            int w = texture.OrigSize.Width;
-            int h = texture.OrigSize.Height;
             if (_UsePBO)
             {
                 try
@@ -801,9 +792,6 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, id);
             texture.ID = id;
 
-            texture.W2 = MathHelper.NextPowerOfTwo(w);
-            texture.H2 = MathHelper.NextPowerOfTwo(h);
-
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, data);
@@ -818,14 +806,11 @@ namespace Vocaluxe.Lib.Draw
             //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, 0);
-
-            // Add to Texture List
-            texture.TexturePath = String.Empty;
         }
 
         public CTexture EnqueueTexture(int w, int h, byte[] data)
         {
-            CTexture texture = new CTexture(-1, w, h);
+            CTexture texture = _GetNewTexture(w, h);
             STextureQueue queue = new STextureQueue {Data = data, Height = h, Width = w};
 
             lock (_MutexTexture)
@@ -837,6 +822,11 @@ namespace Vocaluxe.Lib.Draw
             }
 
             return texture;
+        }
+
+        private CTexture _GetNewTexture(int w, int h)
+        {
+            return new CTexture(w, h, MathHelper.NextPowerOfTwo(w), MathHelper.NextPowerOfTwo(h));
         }
         #endregion adding
 
@@ -1183,7 +1173,7 @@ namespace Vocaluxe.Lib.Draw
                         continue;
 
                     if (q.Width == texture.OrigSize.Width && q.Height == texture.OrigSize.Height)
-                        _CreateTexture(texture, q.Data);
+                        _CreateTexture(texture, q.Width, q.Height, q.Data);
                     else
                         CLog.LogError("Wrong texture size in queue!");
                 }

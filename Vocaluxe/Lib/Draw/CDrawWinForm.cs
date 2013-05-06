@@ -291,7 +291,7 @@ namespace Vocaluxe.Lib.Draw
         {
             Bitmap bmp = new Bitmap(_Backbuffer);
             _Bitmaps.Add(bmp);
-            CTexture texture = new CTexture(_Bitmaps.Count - 1, bmp.Width, bmp.Height);
+            CTexture texture = _GetNewTexture(bmp.Width, bmp.Height);
 
             // Add to Texture List
             _Textures[texture.Index] = texture;
@@ -335,12 +335,17 @@ namespace Vocaluxe.Lib.Draw
         {
             Bitmap bmp2 = new Bitmap(bmp);
             _Bitmaps.Add(bmp2);
-            CTexture texture = new CTexture(_Bitmaps.Count - 1, bmp.Width, bmp.Height);
+            CTexture texture = _GetNewTexture(bmp.Width, bmp.Height);
 
             // Add to Texture List
             _Textures[texture.Index] = texture;
 
             return texture;
+        }
+
+        private CTexture _GetNewTexture(int w, int h)
+        {
+            return new CTexture(w, h) {Index = _Bitmaps.Count - 1};
         }
 
         public CTexture AddTexture(string texturePath)

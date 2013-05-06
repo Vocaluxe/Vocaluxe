@@ -18,7 +18,6 @@
 #endregion
 
 using VocaluxeLib.Draw;
-using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Video
 {

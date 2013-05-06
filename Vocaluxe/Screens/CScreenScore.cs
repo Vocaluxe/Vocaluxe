@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Vocaluxe.Base;
-using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 

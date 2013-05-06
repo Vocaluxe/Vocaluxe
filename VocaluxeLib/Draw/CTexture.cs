@@ -65,6 +65,7 @@ namespace VocaluxeLib.Draw
         /// </summary>
         public float HeightRatio { get; private set; }
 
+        /*
         /// <summary>
         /// Internal use. Specifies if full texture memory should be used
         /// Set to true if you resized the original image to the maximum
@@ -87,16 +88,25 @@ namespace VocaluxeLib.Draw
                 }
             }
         }
+*/
 
-        public CTexture(int index, int origWidth = 1, int origHeight = 1)
+        /// <summary>
+        /// Creates a new texture reference
+        /// </summary>
+        /// <param name="origWidth">Original width (Bitmap size)</param>
+        /// <param name="origHeight">Original height (Bitmap size)</param>
+        /// <param name="texWidth">Width in video memory</param>
+        /// <param name="texHeight">Height in video memory</param>
+        /// <param name="useFullTexture">True if it is using the full size of the video memory (no blank parts due to Pow-2-Issue)</param>
+        public CTexture(int origWidth, int origHeight, int texWidth = 0, int texHeight = 0, bool useFullTexture = false)
         {
-            Index = index;
-
             OrigSize = new Size(origWidth, origHeight);
             Rect = new SRectF(0f, 0f, origWidth, origHeight, 0f);
+            _UseFullTexture = useFullTexture;
 
-            _W2 = origWidth;
-            _H2 = origHeight;
+            //IMPORTANT: Use setter here to calculate ratios!
+            W2 = (texWidth > 0) ? texWidth : origWidth;
+            H2 = (texHeight > 0) ? texHeight : origHeight;
         }
     }
 }

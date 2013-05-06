@@ -20,7 +20,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Video
 {

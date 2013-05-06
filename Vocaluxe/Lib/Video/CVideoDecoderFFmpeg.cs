@@ -26,7 +26,6 @@ using System.Threading;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Acinerella;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Video
 {

@@ -679,21 +679,21 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public CTexture CopyScreen()
         {
-            CTexture texture = new CTexture(-1, _W, _H) {W2 = _CheckForNextPowerOf2(_W), H2 = _CheckForNextPowerOf2(_H)};
+            CTexture texture = _GetNewTexture(_W, _H);
 
             Surface backbufferSurface = _Device.GetBackBuffer(0, 0);
-            Texture tex = new Texture(_Device, _W, _H, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
+            Texture tex = new Texture(_Device, texture.W2, texture.H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
             Surface textureSurface = tex.GetSurfaceLevel(0);
             Surface.FromSurface(textureSurface, backbufferSurface, Filter.Default, 0, new Rectangle(0, 0, _W, _H), new Rectangle(0, 0, _W, _H));
             backbufferSurface.Dispose();
             lock (_MutexTexture)
             {
-                _D3DTextures.Add(_IDs.Peek(), tex);
                 texture.Index = _IDs.Dequeue();
+                _D3DTextures.Add(texture.Index, tex);
 
                 _Textures[texture.Index] = texture;
+                return texture;
             }
-            return texture;
         }
 
         /// <summary>
@@ -856,15 +856,10 @@ namespace Vocaluxe.Lib.Draw
                     break;
             }
 
-            CTexture texture = new CTexture(-1, bmp.Width, bmp.Height) {UseFullTexture = true};
-
             int w = Math.Min(bmp.Width, maxSize);
             int h = Math.Min(bmp.Height, maxSize);
             w = _CheckForNextPowerOf2(w);
             h = _CheckForNextPowerOf2(h);
-
-            texture.W2 = w;
-            texture.H2 = h;
 
             Bitmap bmp2 = null;
             byte[] data;
@@ -896,12 +891,13 @@ namespace Vocaluxe.Lib.Draw
                     bmp2.Dispose();
             }
 
+            CTexture texture = new CTexture(bmp.Width, bmp.Height, w, h,true);
             return _AddTexture(texture, w, data);
         }
 
         public CTexture AddTexture(int w, int h, byte[] data)
         {
-            CTexture texture = new CTexture(-1, w, h) {W2 = _CheckForNextPowerOf2(w), H2 = _CheckForNextPowerOf2(h)};
+            CTexture texture = _GetNewTexture(w, h);
             return _AddTexture(texture, w, data);
         }
 
@@ -936,8 +932,6 @@ namespace Vocaluxe.Lib.Draw
                     rect.Data.Position += rect.Pitch;
                 }
                 t.UnlockRectangle(0);
-
-                texture.TexturePath = String.Empty;
             }
             catch (Exception)
             {
@@ -950,7 +944,7 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture EnqueueTexture(int w, int h, byte[] data)
         {
-            CTexture texture = new CTexture(-1, w, h);
+            CTexture texture = _GetNewTexture(w, h);
             STextureQueue queue = new STextureQueue {Data = data, Height = h, Width = w};
 
             lock (_MutexTexture)
@@ -962,6 +956,11 @@ namespace Vocaluxe.Lib.Draw
                 _Textures[texture.Index] = texture;
             }
             return texture;
+        }
+
+        private CTexture _GetNewTexture(int w, int h)
+        {
+            return new CTexture(w, h, _CheckForNextPowerOf2(w), _CheckForNextPowerOf2(h));
         }
         #endregion adding
 

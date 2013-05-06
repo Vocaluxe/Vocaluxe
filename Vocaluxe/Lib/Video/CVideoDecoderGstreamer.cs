@@ -21,7 +21,6 @@ using System;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Gstreamer;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Video
 {
