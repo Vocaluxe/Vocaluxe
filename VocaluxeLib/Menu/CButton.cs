@@ -285,7 +285,7 @@ namespace VocaluxeLib.Menu
 
             if (!Selected && !Pressed || !Enabled)
             {
-                texture = Texture.Index != -1 ? Texture : CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+                texture = Texture ?? CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
 
                 CBase.Drawing.DrawTexture(texture, Rect, Color);
 
@@ -299,7 +299,7 @@ namespace VocaluxeLib.Menu
             }
             else if (!_IsSelText)
             {
-                texture = Texture.Index != -1 ? Texture : CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
+                texture = Texture ?? CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
 
                 CBase.Drawing.DrawTexture(texture, Rect, SelColor);
 
@@ -313,7 +313,7 @@ namespace VocaluxeLib.Menu
             }
             else if (_IsSelText)
             {
-                texture = SelTexture.Index != -1 ? SelTexture : CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
+                texture = SelTexture ?? CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
 
                 CBase.Drawing.DrawTexture(texture, Rect, SelColor);
 

@@ -883,7 +883,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void RemoveTexture(ref CTexture texture)
         {
-            if (texture != null && texture.Index > 0)
+            if (_TextureExists(texture, false))
             {
                 lock (_MutexTexture)
                 {
@@ -897,13 +897,13 @@ namespace Vocaluxe.Lib.Draw
             texture = null;
         }
 
-        private bool _TextureExists(CTexture texture)
+        private bool _TextureExists(CTexture texture, bool checkIfLoaded = true)
         {
             lock (_MutexTexture)
             {
                 if (texture != null && _Textures.ContainsKey(texture.Index))
                 {
-                    if (_Textures[texture.Index].ID > 0)
+                    if (!checkIfLoaded || _Textures[texture.Index].ID > 0)
                         return true;
                 }
             }

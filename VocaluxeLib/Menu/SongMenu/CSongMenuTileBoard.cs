@@ -323,7 +323,7 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 foreach (CStatic tile in _Tiles)
                 {
-                    if ((tile.Texture.Index != _CoverTexture.Index) && CHelper.IsInBounds(tile.Rect, mouseEvent) && !sel)
+                    if (tile.Texture != _CoverTexture && CHelper.IsInBounds(tile.Rect, mouseEvent) && !sel)
                     {
                         if (mouseEvent.LB || !CBase.Songs.IsInCategory())
                         {
@@ -371,7 +371,7 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 foreach (CStatic tile in _Tiles)
                 {
-                    if ((tile.Texture.Index != _CoverTexture.Index) && CHelper.IsInBounds(tile.Rect, mouseEvent))
+                    if (tile.Texture != _CoverTexture && CHelper.IsInBounds(tile.Rect, mouseEvent))
                     {
                         _EnterCategory(_PreviewSelected);
                         mouseEvent.Handled = true;
@@ -394,7 +394,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 else
                 {
                     // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
-                    if (tile.Texture.Index != _CoverTexture.Index)
+                    if (tile.Texture != _CoverTexture)
                         // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                         tile.Draw(1f, tile.Rect.Z, EAspect.Crop);
                     else

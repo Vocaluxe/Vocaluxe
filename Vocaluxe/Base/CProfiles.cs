@@ -130,7 +130,7 @@ namespace Vocaluxe.Base
             {
                 CTexture tex = CDraw.AddTexture(file);
 
-                if (tex.Index != -1)
+                if (tex != null)
                 {
                     SAvatar avatar = new SAvatar {Texture = tex, FileName = Path.GetFileName(file)};
                     _Avatars.Add(avatar);

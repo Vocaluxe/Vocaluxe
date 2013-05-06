@@ -1002,13 +1002,8 @@ namespace Vocaluxe.Lib.Draw
         {
             lock (_MutexTexture)
             {
-                if (texture != null && _Textures.ContainsKey(texture.Index))
-                {
-                    if (_Textures[texture.Index].ID > 0)
-                        return true;
-                }
+                return texture != null && _Textures.ContainsKey(texture.Index);
             }
-            return false;
         }
 
         /// <summary>
@@ -1017,7 +1012,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="texture">The texture to be removed</param>
         public void RemoveTexture(ref CTexture texture)
         {
-            if (texture != null && texture.Index >= 0)
+            if (_TextureExists(texture))
             {
                 lock (_MutexTexture)
                 {

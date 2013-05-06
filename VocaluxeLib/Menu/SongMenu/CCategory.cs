@@ -46,7 +46,7 @@ namespace VocaluxeLib.Menu.SongMenu
             get { return _CoverTextureBig ?? _CoverTextureSmall; }
             set
             {
-                if (value.Index == -1)
+                if (value == null)
                     return;
                 _CoverTextureBig = value;
             }

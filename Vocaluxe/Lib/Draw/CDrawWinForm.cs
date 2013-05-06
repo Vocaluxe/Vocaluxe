@@ -46,17 +46,14 @@ namespace Vocaluxe.Lib.Draw
         private bool _TopMost;
         private Rectangle _Bounds;
 
-        private readonly List<CTexture> _Textures;
-        private readonly List<Bitmap> _Bitmaps;
+        private readonly Dictionary<int, CTexture> _Textures = new Dictionary<int, CTexture>();
+        private readonly List<Bitmap> _Bitmaps = new List<Bitmap>();
 
         private readonly Color _ClearColor = Color.DarkBlue;
 
         public CDrawWinForm()
         {
             Icon = new Icon(Path.Combine(Environment.CurrentDirectory, CSettings.Icon));
-
-            _Textures = new List<CTexture>();
-            _Bitmaps = new List<Bitmap>();
 
             _Keys = new CKeys();
             _Mouse = new CMouse();
@@ -297,14 +294,14 @@ namespace Vocaluxe.Lib.Draw
             CTexture texture = new CTexture(_Bitmaps.Count - 1, bmp.Width, bmp.Height);
 
             // Add to Texture List
-            _Textures.Add(texture);
+            _Textures[texture.Index] = texture;
 
             return texture;
         }
 
         public void CopyScreen(ref CTexture texture)
         {
-            if (texture.Index == 0 || texture.W2 != GetScreenWidth() || texture.H2 != GetScreenHeight())
+            if (!_TextureExists(texture) || texture.W2 != GetScreenWidth() || texture.H2 != GetScreenHeight())
             {
                 RemoveTexture(ref texture);
                 texture = CopyScreen();
@@ -341,9 +338,7 @@ namespace Vocaluxe.Lib.Draw
             CTexture texture = new CTexture(_Bitmaps.Count - 1, bmp.Width, bmp.Height);
 
             // Add to Texture List
-            texture.TexturePath = String.Empty;
-
-            _Textures.Add(texture);
+            _Textures[texture.Index] = texture;
 
             return texture;
         }
@@ -352,7 +347,7 @@ namespace Vocaluxe.Lib.Draw
         {
             if (File.Exists(texturePath))
             {
-                foreach (CTexture tex in _Textures)
+                foreach (CTexture tex in _Textures.Values)
                 {
                     if (tex.TexturePath == texturePath)
                         return tex;
@@ -367,19 +362,17 @@ namespace Vocaluxe.Lib.Draw
             return null;
         }
 
+        private bool _TextureExists(CTexture texture)
+        {
+            return texture != null && _Textures.ContainsKey(texture.Index);
+        }
+
         public void RemoveTexture(ref CTexture texture)
         {
-            if (texture != null && texture.Index >= 0)
+            if (_TextureExists(texture))
             {
-                for (int i = 0; i < _Textures.Count; i++)
-                {
-                    if (_Textures[i].Index == texture.Index)
-                    {
-                        _Bitmaps[texture.Index].Dispose();
-                        _Textures.RemoveAt(i);
-                        break;
-                    }
-                }
+                _Bitmaps[texture.Index].Dispose();
+                _Textures.Remove(texture.Index);
             }
             texture = null;
         }
@@ -402,7 +395,7 @@ namespace Vocaluxe.Lib.Draw
 
         public bool UpdateTexture(CTexture texture, byte[] data)
         {
-            if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
+            if (_TextureExists(texture))
             {
                 BitmapData bmpData = _Bitmaps[texture.Index].LockBits(new Rectangle(0, 0, _Bitmaps[texture.Index].Width, _Bitmaps[texture.Index].Height),
                                                                       ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
@@ -415,30 +408,29 @@ namespace Vocaluxe.Lib.Draw
 
         public void DrawTexture(CTexture texture)
         {
-            if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
+            if (texture != null)
                 DrawTexture(texture, texture.Rect, texture.Color);
         }
 
         public void DrawTexture(CTexture texture, SRectF rect)
         {
-            if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
+            if (texture != null)
                 DrawTexture(texture, rect, texture.Color);
         }
 
         public void DrawTexture(CTexture texture, SRectF rect, SColorF color, bool mirrored = false)
         {
-            if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
+            if (texture != null)
                 DrawTexture(texture, rect, color, rect, mirrored);
         }
 
         public void DrawTexture(CTexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
-            if ((texture.Index >= 0) && (_Textures.Count > 0) && (_Bitmaps.Count > texture.Index))
-            {
-                Bitmap coloredBitmap = _ColorizeBitmap(_Bitmaps[texture.Index], color);
-                _G.DrawImage(coloredBitmap, new RectangleF(rect.X, rect.Y, rect.W, rect.H));
-                coloredBitmap.Dispose();
-            }
+            if (!_TextureExists(texture))
+                return;
+            Bitmap coloredBitmap = _ColorizeBitmap(_Bitmaps[texture.Index], color);
+            _G.DrawImage(coloredBitmap, new RectangleF(rect.X, rect.Y, rect.W, rect.H));
+            coloredBitmap.Dispose();
         }
 
         public void DrawTexture(CTexture texture, SRectF rect, SColorF color, float begin, float end) {}
