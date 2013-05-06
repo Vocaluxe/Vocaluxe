@@ -49,4 +49,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/btDown"
         android:enabled="false" />
+    <Button
+        android:text="@string/button_send_avatar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btSendAvatar"
+        android:enabled="true" />
+    <ImageView
+        android:src="@android:drawable/ic_menu_gallery"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imageView1" />
 </LinearLayout>

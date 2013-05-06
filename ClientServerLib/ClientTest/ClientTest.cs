@@ -118,6 +118,7 @@ namespace ClientTest
                     btDown.Enabled = true;
                     btLeft.Enabled = true;
                     btRight.Enabled = true;
+                    btSendAvatar.Enabled = true;
                 });
             }
             else
@@ -134,6 +135,7 @@ namespace ClientTest
                     btDown.Enabled = false;
                     btLeft.Enabled = false;
                     btRight.Enabled = false;
+                    btSendAvatar.Enabled = false;
                 });
             }
         }
@@ -144,9 +146,12 @@ namespace ClientTest
                 return;
 
             string text = String.Empty;
-            foreach (byte b in Message)
+            int max = Message.Length;
+            if (max > 1000)
+                max = 1000;
+            for (int i = 0; i < max; i++)
             {
-                text += b.ToString() + " ";
+                text += Message[i].ToString() + " ";
             }
 
             this.Invoke((MethodInvoker)delegate
@@ -161,9 +166,12 @@ namespace ClientTest
                 return;
 
             string text = String.Empty;
-            foreach (byte b in Message)
+            int max = Message.Length;
+            if (max > 1000)
+                max = 1000;
+            for (int i = 0; i < max; i++)
             {
-                text += b.ToString() + " ";
+                text += Message[i].ToString() + " ";
             }
 
             this.Invoke((MethodInvoker)delegate
@@ -202,6 +210,19 @@ namespace ClientTest
                 return;
 
             client.SendMessage(CCommands.CreateCommandWithoutParams(CCommands.CommandSendKeyRight), null);
+        }
+
+        private void btSendAvatar_Click(object sender, EventArgs e)
+        {
+            if (!client.Connected || !loggedIn)
+                return;
+
+            byte[] data = new byte[512 * 512 * 4];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = (byte) (i % 255);
+            }
+            client.SendMessage(CCommands.CreateCommandSendAvatarPicture(512, 512, data), null);
         }
     }
 }

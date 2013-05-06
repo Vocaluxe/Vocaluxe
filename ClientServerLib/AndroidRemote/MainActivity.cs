@@ -1,11 +1,15 @@
 using System;
+using System.Collections.Generic;
 
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
+using Android.Graphics;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Android.Provider;
 
 using ClientServerLib;
 using Vocaluxe.Base.Server;
@@ -20,7 +24,14 @@ namespace AndroidRemote
 		Button bLogin;
 		Button bUp;
 		Button bDown;
+		Button bSendAvatar;
 		bool loggedIn;
+		byte[] fileBytes;
+
+		ImageView imageView;
+		Java.IO.File file;
+		Java.IO.File dir;
+		System.IO.FileStream fs;
 		
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -46,12 +57,66 @@ namespace AndroidRemote
 			bDown.Click += delegate { 
 				client.SendMessage (CCommands.CreateCommandWithoutParams (CCommands.CommandSendKeyDown), OnResponse); 
 			};
+
+			imageView = FindViewById<ImageView>(Resource.Id.imageView1);
+
+			bSendAvatar = FindViewById<Button> (Resource.Id.btSendAvatar);
+			bSendAvatar.Click += SendAvatar;
 		}
 		
 		protected override void OnStop ()
 		{
 			base.OnStop();
-			client.Close();
+			//client.Close();
+		}
+
+		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+		{
+			base.OnActivityResult(requestCode, resultCode, data);
+			
+			// make it available in the gallery
+			Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
+			Android.Net.Uri contentUri = Android.Net.Uri.FromFile(file);
+			mediaScanIntent.SetData(contentUri);
+			SendBroadcast(mediaScanIntent);
+			System.IO.FileInfo fi = new System.IO.FileInfo(file.Path);
+			fs = new System.IO.FileStream(file.Path, System.IO.FileMode.Open);
+			fileBytes = new byte[fi.Length];
+			fs.BeginRead (fileBytes, 0, (int)fi.Length, new AsyncCallback(OnFileRead), null);
+		}
+
+		private void OnFileRead(IAsyncResult ar)
+		{
+			if (fileBytes == null)
+				return;
+
+			fs.Flush();
+			fs.Close();
+			client.SendMessage (CCommands.CreateCommandSendAvatarPictureJpg(fileBytes), OnResponse);
+		}
+
+		private bool IsThereAnAppToTakePictures()
+		{
+			Intent intent = new Intent(MediaStore.ActionImageCapture);
+			IList<ResolveInfo> availableActivities = PackageManager.QueryIntentActivities(intent, PackageInfoFlags.MatchDefaultOnly);
+			return availableActivities != null && availableActivities.Count > 0;
+		}
+
+		private void SendAvatar(object sender, EventArgs eventArgs)
+		{
+			if (!IsThereAnAppToTakePictures())
+				return;
+
+			Intent intent = new Intent(MediaStore.ActionImageCapture);
+			dir = new Java.IO.File(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryPictures), "AndroidRemote");
+			if (dir.Exists())
+			{
+				dir.Mkdirs();
+			}
+
+			file = new Java.IO.File(dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));			
+			intent.PutExtra(MediaStore.ExtraOutput, Android.Net.Uri.FromFile(file));	
+			StartActivityForResult(intent, 0);
 		}
 		
 		private void Connect()
@@ -136,6 +201,35 @@ namespace AndroidRemote
 			}
 			else
 				Toast.MakeText(this, "Not Logged In", ToastLength.Short).Show();
+		}
+	}
+
+	public static class BitmapHelpers
+	{
+		public static Bitmap LoadAndResizeBitmap(this string fileName, int width, int height)
+		{
+			// First we get the the dimensions of the file on disk
+			BitmapFactory.Options options = new BitmapFactory.Options { InJustDecodeBounds = true };
+			BitmapFactory.DecodeFile(fileName, options);
+			
+			// Next we calculate the ratio that we need to resize the image by
+			// in order to fit the requested dimensions.
+			int outHeight = options.OutHeight;
+			int outWidth = options.OutWidth;
+			int inSampleSize = 1;
+			
+			if (outHeight > height || outWidth > width)
+			{
+				inSampleSize = outWidth > outHeight
+					? outHeight / height
+						: outWidth / width;
+			}
+			
+			// Now we will load the image and have BitmapFactory resize it for us.
+			options.InSampleSize = inSampleSize;
+			options.InJustDecodeBounds = false;
+			Bitmap resizedBitmap = BitmapFactory.DecodeFile(fileName, options);
+			return resizedBitmap;
 		}
 	}
 }

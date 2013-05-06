@@ -7,6 +7,7 @@
 	<string name="button_logout">Logout</string>
 	<string name="button_up">Up</string>
 	<string name="button_down">Down</string>
+	<string name="button_send_avatar">Send Avatar Picture</string>
 	<string name="message_connected">Connected</string>
 	<string name="message_disconnected">Disconnected</string>
 	<string name="message_logged_in">Logged in</string>

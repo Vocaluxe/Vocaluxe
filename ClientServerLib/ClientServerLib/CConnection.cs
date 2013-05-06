@@ -32,6 +32,7 @@ namespace ClientServerLib
         public CConnection(TcpClient client, int ConnectionID)
         {
             TcpClient = client;
+            client.NoDelay = true;
             keySet = false;
             connectionID = ConnectionID;
             encoder = new UTF8Encoding();
@@ -125,17 +126,26 @@ namespace ClientServerLib
                 byte[] encrypted = new byte[messageLength - 24];
                 Array.Copy(Data, 24, encrypted, 0, encrypted.Length);
 
-                using (var decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
-                using (var memoryStream = new MemoryStream())
-                using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Write))
+                try
                 {
-                    cryptoStream.Write(encrypted, 0, encrypted.Length);
-                    cryptoStream.FlushFinalBlock();
-                    cryptoStream.Close();
-                    byte[] decrypted = memoryStream.ToArray();
-                    byte[] message = new byte[dataLength];
-                    Array.Copy(decrypted, message, dataLength);
-                    return message;
+                    using (var decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
+                    using (var memoryStream = new MemoryStream())
+                    using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Write))
+                    {
+                        cryptoStream.Write(encrypted, 0, encrypted.Length);
+                        cryptoStream.FlushFinalBlock();
+                        cryptoStream.Close();
+
+                        byte[] decrypted = memoryStream.ToArray();
+                        byte[] message = new byte[dataLength];
+                        Array.Copy(decrypted, message, dataLength);
+
+                        return message;
+                    }
+                }
+                catch 
+                {
+                    return null;
                 }
             }
         }

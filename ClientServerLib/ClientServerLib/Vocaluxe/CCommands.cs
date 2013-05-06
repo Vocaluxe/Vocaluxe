@@ -12,9 +12,9 @@ namespace Vocaluxe.Base.Server
     public static class CCommands
     {
         private static UTF8Encoding encoder = new UTF8Encoding();
-
         public static SHA256Managed SHA256 = new SHA256Managed();
 
+        #region Commands
         public const int ResponseOK = 1;
         public const int ResponseNOK = 2;
 
@@ -38,6 +38,10 @@ namespace Vocaluxe.Base.Server
         public const int ComamndSendMouseMBDownEvent = 240;
         public const int ComamndSendMouseMBUpEvent = 241;
         public const int CommandSendMouseWheelEvent = 250;
+
+        public const int CommandSendAvatarPicture = 500;
+        public const int CommandSendAvatarPictureJpg = 501;
+        #endregion Commands
 
         #region General
         public static byte[] CreateCommandWithoutParams(int Command)
@@ -65,7 +69,36 @@ namespace Vocaluxe.Base.Server
 
         #endregion Keyboard
 
-        
+        #region Avatar
+        public static byte[] CreateCommandSendAvatarPicture(int Width, int Height, byte[] data)
+        {
+            SAvatarPicture ap = new SAvatarPicture();
+            ap.Height = Height;
+            ap.Width = Width;
+            ap.data = new byte[data.Length];
+            Array.Copy(data, ap.data, data.Length);
+
+            return Serialize<SAvatarPicture>(CommandSendAvatarPicture, ap);
+        }
+
+        public static bool DecodeCommandSendAvatarPicture(byte[] Message, out SAvatarPicture AvatarPicture)
+        {
+            return TryDeserialize<SAvatarPicture>(Message, out AvatarPicture);
+        }
+
+        public static byte[] CreateCommandSendAvatarPictureJpg(byte[] data)
+        {
+            SAvatarPicture ap = new SAvatarPicture();
+            ap.Height = 0;
+            ap.Width = 0;
+            ap.data = new byte[data.Length];
+            Array.Copy(data, ap.data, data.Length);
+
+            return Serialize<SAvatarPicture>(CommandSendAvatarPictureJpg, ap);
+        }
+        #endregion Avatar
+
+        #region Serializing
         private static byte[] Serialize<T>(int Command, T obj)
         {
             byte[] command = BitConverter.GetBytes(Command);
@@ -108,5 +141,6 @@ namespace Vocaluxe.Base.Server
                 }
             }
         }
+        #endregion Serializing
     }
 }

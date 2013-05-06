@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 
@@ -39,11 +43,13 @@ namespace Vocaluxe.Base.Server
 
         private static byte[] RequestHandler(int ConnectionID, byte[] Message)
         {
+            byte[] answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseNOK);
+
             if (Message == null)
-                return null;
+                return answer;
 
             if (Message.Length < 4)
-                return null;
+                return answer;
 
             bool loggedIn = false;
             lock (_Clients)
@@ -58,8 +64,6 @@ namespace Vocaluxe.Base.Server
             }
 
             int command = BitConverter.ToInt32(Message, 0);
-            byte[] answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseNOK); ;
-
             switch (command)
             {
                 case CCommands.CommandLogin:
@@ -105,6 +109,64 @@ namespace Vocaluxe.Base.Server
                 case CCommands.CommandSendKeyRight:
                     answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
                     Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Right));
+                    break;
+
+                case CCommands.CommandSendAvatarPicture:
+
+                    SAvatarPicture avatarPicture;
+                    if (CCommands.DecodeCommandSendAvatarPicture(Message, out avatarPicture))
+                    {
+                        Bitmap bmp = null;
+                        bool success = false;
+                        try
+                        {
+                            bmp = new Bitmap(avatarPicture.Width, avatarPicture.Height);
+                            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+                            Marshal.Copy(avatarPicture.data, 0, bmpData.Scan0, avatarPicture.data.Length);
+                            bmp.UnlockBits(bmpData);
+
+                            const string filename = "snapshot";
+                            int i = 0;
+                            while (File.Exists(Path.Combine(CSettings.FolderProfiles, filename + i + ".png")))
+                                i++;
+                            bmp.Save(Path.Combine(CSettings.FolderProfiles, filename + i + ".png"), ImageFormat.Png);
+                            success = true;
+                        }
+                        finally
+                        {
+                            if (bmp != null)
+                                bmp.Dispose();
+                        }
+
+                        if (success)
+                            answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
+                    }
+                    break;
+
+                case CCommands.CommandSendAvatarPictureJpg:
+
+                    SAvatarPicture avatarPictureJpg;
+                    if (CCommands.DecodeCommandSendAvatarPicture(Message, out avatarPictureJpg))
+                    {
+                        bool success = false;
+                        try
+                        {
+                            string filename = Path.Combine(CSettings.FolderProfiles, "snapshot");
+                            int i = 0;
+                            while (File.Exists(filename + i + ".jpg"))
+                                i++;
+
+                            FileStream fs = File.Create(filename + i + ".jpg");
+                            fs.Write(avatarPictureJpg.data, 0, avatarPictureJpg.data.Length);
+                            fs.Flush();
+                            fs.Close();
+                            success = true;
+                        }
+                        catch {}
+
+                        if (success)
+                            answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
+                    }
                     break;
 
                 default:

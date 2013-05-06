@@ -146,8 +146,9 @@ namespace ClientServerLib
                     int messageLength = BitConverter.ToInt32(data, 0);
                     while (messageLength > bytesRead)
                     {
-                        Array.Resize<byte>(ref data, data.Length + bufferLength);
-                        bytesRead += clientStream.Read(data, data.Length - bufferLength, bufferLength);
+                        if (data.Length < messageLength + bufferLength)
+                            Array.Resize<byte>(ref data, messageLength + bufferLength);
+                        bytesRead += clientStream.Read(data, bytesRead, bufferLength);
                     }
 
                     byte[] message = new byte[bytesRead];

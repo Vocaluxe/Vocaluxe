@@ -58,7 +58,6 @@ namespace Vocaluxe.Base
             _Settings.Encoding = Encoding.UTF8;
             _Settings.ConformanceLevel = ConformanceLevel.Document;
 
-            LoadAvatars();
             LoadProfiles();
         }
 
@@ -100,6 +99,7 @@ namespace Vocaluxe.Base
 
         public static void LoadProfiles()
         {
+            LoadAvatars();
             _Profiles = new List<SProfile>();
             List<string> files = new List<string>();
             files.AddRange(CHelper.ListFiles(CSettings.FolderProfiles, "*.xml", true, true));
@@ -128,7 +128,6 @@ namespace Vocaluxe.Base
             foreach (string file in files)
             {
                 STexture tex = CDraw.AddTexture(file);
-
                 if (tex.Index != -1)
                 {
                     SAvatar avatar = new SAvatar {Texture = tex, FileName = Path.GetFileName(file)};

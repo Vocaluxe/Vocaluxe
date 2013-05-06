@@ -72,8 +72,14 @@ namespace AndroidRemote
 			// aapt resource value: 0x7f060005
 			public const int btLogin = 2131099653;
 			
+			// aapt resource value: 0x7f060008
+			public const int btSendAvatar = 2131099656;
+			
 			// aapt resource value: 0x7f060006
 			public const int btUp = 2131099654;
+			
+			// aapt resource value: 0x7f060009
+			public const int imageView1 = 2131099657;
 			
 			// aapt resource value: 0x7f060001
 			public const int tbIP = 2131099649;
@@ -137,32 +143,35 @@ namespace AndroidRemote
 			// aapt resource value: 0x7f040004
 			public const int button_logout = 2130968580;
 			
+			// aapt resource value: 0x7f040007
+			public const int button_send_avatar = 2130968583;
+			
 			// aapt resource value: 0x7f040005
 			public const int button_up = 2130968581;
 			
-			// aapt resource value: 0x7f04000d
-			public const int ip_address = 2130968589;
-			
-			// aapt resource value: 0x7f040007
-			public const int message_connected = 2130968583;
+			// aapt resource value: 0x7f04000e
+			public const int ip_address = 2130968590;
 			
 			// aapt resource value: 0x7f040008
-			public const int message_disconnected = 2130968584;
+			public const int message_connected = 2130968584;
 			
 			// aapt resource value: 0x7f040009
-			public const int message_logged_in = 2130968585;
+			public const int message_disconnected = 2130968585;
 			
 			// aapt resource value: 0x7f04000a
-			public const int message_logged_out = 2130968586;
-			
-			// aapt resource value: 0x7f04000e
-			public const int password = 2130968590;
+			public const int message_logged_in = 2130968586;
 			
 			// aapt resource value: 0x7f04000b
-			public const int text_ip_address = 2130968587;
+			public const int message_logged_out = 2130968587;
+			
+			// aapt resource value: 0x7f04000f
+			public const int password = 2130968591;
 			
 			// aapt resource value: 0x7f04000c
-			public const int text_password = 2130968588;
+			public const int text_ip_address = 2130968588;
+			
+			// aapt resource value: 0x7f04000d
+			public const int text_password = 2130968589;
 			
 			static String()
 			{

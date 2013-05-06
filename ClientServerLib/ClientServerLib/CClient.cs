@@ -24,6 +24,7 @@ namespace ClientServerLib
         private CConnection connection;
         private List<SRequest> requests;
         private List<SRequest> responses;
+        private Object mutexRequests = new Object();
         private OnConnectionChanged onConnectionChanged;
         private OnSend onSend;
         private OnReceived onReceived;
@@ -70,7 +71,7 @@ namespace ClientServerLib
             {
                 doConnect = false;
 
-                lock (requests)
+                lock (mutexRequests)
                 {
                     requests.Clear();
                 }
@@ -96,7 +97,7 @@ namespace ClientServerLib
             req.Callback = Callback;
             req.Response = null;
 
-            lock (requests)
+            lock (mutexRequests)
             {
                 requests.Add(req);
             }
@@ -195,15 +196,23 @@ namespace ClientServerLib
             }
             else
             {
-                lock (requests)
+                try
                 {
                     while (requests.Count > 0)
                     {
                         SRequest res = HandleRequest(requests[0]);
-                        responses.Add(res);
-                        requests.RemoveAt(0);
+                        lock (responses)
+                        {
+                            responses.Add(res);
+                        }
+
+                        lock (mutexRequests)
+                        {
+                            requests.RemoveAt(0);
+                        }
                     }
                 }
+                catch { };
 
                 lock (responses)
                 {
@@ -236,7 +245,16 @@ namespace ClientServerLib
             RaiseOnSend(request.Command);
             byte[] encrypted = connection.Encrypt(request.Command);
 
-            clientStream.Write(encrypted, 0, encrypted.Length);
+			int sendBytes = 0;
+			while(sendBytes < encrypted.Length)
+			{
+				int bytesToSend = encrypted.Length - sendBytes;
+				if (bytesToSend > bufferLength)
+					bytesToSend = bufferLength;
+
+				clientStream.Write(encrypted, sendBytes, bytesToSend);
+				sendBytes += bytesToSend;
+			}
             clientStream.Flush();
 
             byte[] data = new byte[bufferLength];
@@ -257,8 +275,9 @@ namespace ClientServerLib
             int messageLength = BitConverter.ToInt32(data, 0);
             while (messageLength > bytesRead)
             {
-                Array.Resize<byte>(ref data, data.Length + bufferLength);
-                bytesRead += clientStream.Read(data, data.Length - bufferLength, bufferLength);
+                if (data.Length < messageLength + bufferLength)
+                    Array.Resize<byte>(ref data, messageLength + bufferLength);
+                bytesRead += clientStream.Read(data, bytesRead, bufferLength);
             }
 
             encrypted = new byte[bytesRead];
