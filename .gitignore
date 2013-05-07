@@ -39,3 +39,16 @@ Output/Songs
 *.Cache
 /GstreamerHelper/bin/*
 /VocaluxeLib/bin
+/ClientServerLib/ClientServerLib/ClientServerLib.csproj.user
+/ClientServerLib/ClientServerLib/bin/Debug/ClientServerLib.dll
+/ClientServerLib/ClientTest/bin/Debug/ClientServerLib.dll
+/ClientServerLib/ClientTest/bin/Release/ClientServerLib.dll
+/ClientServerLib/ClientServerLib/bin/ClientServerLib.dll
+ClientTest.exe
+*.vshost.*
+*.userprefs
+AndroidRemote.dll.mdb
+/ClientServerLib/AndroidRemote/bin/Newtonsoft.Json.MonoDroid.dll
+/ClientServerLib/AndroidRemote/bin/AndroidRemote.dll
+/ClientServerLib/ClientTest/bin/Debug/Newtonsoft.Json.dll
+*.apk

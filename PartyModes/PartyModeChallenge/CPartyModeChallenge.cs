@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using VocaluxeLib.Menu;
+using VocaluxeLib.Profile;
 
 [assembly: ComVisible(false)]
 
@@ -532,7 +533,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private void _SetTeamNames()
         {
-            SProfile[] profiles = CBase.Profiles.GetProfiles();
+            CProfile[] profiles = CBase.Profiles.GetProfiles();
 
             if (profiles == null)
             {

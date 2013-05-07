@@ -22,8 +22,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
+using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base
 {

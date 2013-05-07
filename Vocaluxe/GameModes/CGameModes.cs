@@ -19,8 +19,8 @@
 
 using System.Collections.Generic;
 using Vocaluxe.Base;
-using VocaluxeLib.Menu;
-using VocaluxeLib.Menu.SongMenu;
+using VocaluxeLib;
+using VocaluxeLib.Songs;
 
 namespace Vocaluxe.GameModes
 {

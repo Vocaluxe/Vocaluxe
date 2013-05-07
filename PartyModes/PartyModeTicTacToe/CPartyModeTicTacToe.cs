@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using VocaluxeLib.Menu;
+using VocaluxeLib.Profile;
 
 [assembly: ComVisible(false)]
 
@@ -725,7 +726,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             if (players.Length < 2)
                 return;
 
-            SProfile[] profiles = CBase.Profiles.GetProfiles();
+            CProfile[] profiles = CBase.Profiles.GetProfiles();
             CRound r = _GameData.Rounds[roundNr];
             bool isDuet = CBase.Songs.GetSongByID(r.SongID).IsDuet;
 

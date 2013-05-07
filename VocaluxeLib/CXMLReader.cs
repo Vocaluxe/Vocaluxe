@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml.XPath;
 
-namespace VocaluxeLib.Menu
+namespace VocaluxeLib
 {
     public class CXMLReader
     {

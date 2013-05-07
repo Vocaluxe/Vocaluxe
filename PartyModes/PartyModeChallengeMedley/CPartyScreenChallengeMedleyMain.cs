@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using VocaluxeLib.Menu;
+using VocaluxeLib.Profile;
 
 namespace VocaluxeLib.PartyModes.ChallengeMedley
 {
@@ -379,7 +380,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             if (_GameState.CurrentRoundNr <= _GameState.Combs.Count)
             {
                 _Texts[_TextNextPlayerMessage].Visible = true;
-                SProfile[] profiles = CBase.Profiles.GetProfiles();
+                CProfile[] profiles = CBase.Profiles.GetProfiles();
                 for (int i = 0; i < _GameState.NumPlayerAtOnce; i++)
                 {
                     int pid = _GameState.Combs[_GameState.CurrentRoundNr - 1].Player[i];
@@ -491,7 +492,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         private void _UpdateRoundsTable()
         {
-            SProfile[] profile = CBase.Profiles.GetProfiles();
+            CProfile[] profile = CBase.Profiles.GetProfiles();
             for (int i = 0; i < _RoundsTable.Count; i++)
             {
                 for (int p = 0; p < _RoundsTable[i].TextPlayer.Count; p++)
@@ -585,7 +586,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         private void _UpdatePlayerTable()
         {
-            SProfile[] profiles = CBase.Profiles.GetProfiles();
+            CProfile[] profiles = CBase.Profiles.GetProfiles();
 
             for (int i = 0; i < _PlayerTable.Count; i++)
             {
@@ -657,7 +658,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         private string _GetPlayerWinString()
         {
             string s = "";
-            SProfile[] profiles = CBase.Profiles.GetProfiles();
+            CProfile[] profiles = CBase.Profiles.GetProfiles();
 
             for (int i = 0; i < _GameState.ResultTable.Count; i++)
             {

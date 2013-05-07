@@ -23,6 +23,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using VocaluxeLib;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
@@ -86,6 +87,7 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideDifficulty].SetValues<EGameDifficulty>(0);
             _SelectSlides[_SelectSlideGuestProfile].SetValues<EOffOn>(0);
             _SelectSlides[_SelectSlideActive].SetValues<EOffOn>(0);
+            _Statics[_StaticAvatar].Aspect = EAspect.Crop;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -315,7 +317,6 @@ namespace Vocaluxe.Screens
                     if (_Snapshot == null)
                         CWebcam.GetFrame(ref _WebcamTexture);
 
-                    _Statics[_StaticAvatar].Aspect = EAspect.Crop;
                     _Statics[_StaticAvatar].Texture = _WebcamTexture;
                 }
                 else

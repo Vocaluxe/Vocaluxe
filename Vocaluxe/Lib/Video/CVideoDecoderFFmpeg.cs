@@ -25,7 +25,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Acinerella;
-using VocaluxeLib.Menu;
+using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Video
 {

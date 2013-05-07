@@ -22,7 +22,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using Vocaluxe.Lib.Sound;
-using VocaluxeLib.Menu;
+using VocaluxeLib;
 
 namespace Vocaluxe.Base
 {

@@ -23,7 +23,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
-using VocaluxeLib.Menu;
+using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Input.WiiMote
 {

@@ -28,6 +28,7 @@ using System.Windows.Forms;
 using System.Xml;
 using Vocaluxe.Lib.Sound;
 using Vocaluxe.Lib.Webcam;
+using VocaluxeLib;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
@@ -111,6 +112,11 @@ namespace Vocaluxe.Base
         public static int MicDelay = 300; //[ms]
         public static EWebcamLib WebcamLib = EWebcamLib.OpenCV;
         public static SWebcamConfig WebcamConfig;
+
+        // Server
+        public static EOffOn Server = EOffOn.TR_CONFIG_ON;
+        public static int ServerPort = 3000;
+        public static string ServerPassword = "vocaluxe";
 
         //Lists to save parameters and values
         private static readonly List<string> _Params = new List<string>();
@@ -806,7 +812,7 @@ namespace Vocaluxe.Base
                     continue;
                 for (int i = 0; i < CProfiles.Profiles.Length; i++)
                 {
-                    if (Path.GetFileName(CProfiles.Profiles[i].ProfileFile) == Players[j] && CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
+                    if (Path.GetFileName(CProfiles.Profiles[i].FileName) == Players[j] && CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
                     {
                         //Update Game-infos with player
                         CGame.Players[j].ProfileID = i;

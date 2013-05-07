@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using VocaluxeLib;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens

@@ -19,7 +19,7 @@
 
 using System.Drawing;
 using Vocaluxe.Lib.Webcam;
-using VocaluxeLib.Menu;
+using VocaluxeLib;
 
 namespace Vocaluxe.Base
 {

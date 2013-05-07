@@ -17,62 +17,119 @@
 //  */
 #endregion
 
+using System;
+using System.Collections.Generic;
+
+using Vocaluxe.Base.Server;
 using Vocaluxe.Lib.Input;
 using Vocaluxe.Lib.Input.WiiMote;
-using VocaluxeLib.Menu;
+using VocaluxeLib;
 
 namespace Vocaluxe.Base
 {
     static class CController
     {
-        private static IController _Controller;
+        private static List<IController> _Controller;
+
+        private static List<SKeyEvent> _KeysPool;
+        private static List<SMouseEvent> _MousePool;
 
         public static void Init()
         {
-            _Controller = new CWiiMote();
+            _Controller = new List<IController>();
+            _KeysPool = new List<SKeyEvent>();
+            _MousePool = new List<SMouseEvent>();
+            
+            _Controller.Add(new CWiiMote());
+            _Controller.Add(CVocaluxeServer.Controller);
 
-            _Controller.Init();
+            foreach (IController controller in _Controller)
+            {
+                controller.Init();
+            }
         }
 
         public static void Close()
         {
-            _Controller.Close();
-            _Controller = null;
+            foreach (IController controller in _Controller)
+            {
+                controller.Close();
+            }
+
+            _Controller = new List<IController>();
         }
 
         public static void Connect()
         {
-            _Controller.Connect();
+            foreach (IController controller in _Controller)
+            {
+                controller.Connect();
+            }
         }
 
         public static void Disconnect()
         {
-            _Controller.Disconnect();
+            foreach (IController controller in _Controller)
+            {
+                controller.Disconnect();
+            }
         }
 
         public static bool IsConnected()
         {
-            return _Controller.IsConnected();
+            //return _Controller.IsConnected();
+            return false; //should be changed
         }
 
         public static void Update()
         {
-            _Controller.Update();
+            foreach (IController controller in _Controller)
+            {
+                controller.Update();
+
+                SKeyEvent ke = new SKeyEvent();
+                while (controller.PollKeyEvent(ref ke))
+                {
+                    _KeysPool.Add(ke);
+                }
+
+                SMouseEvent me = new SMouseEvent();
+                while (controller.PollMouseEvent(ref me))
+                {
+                    _MousePool.Add(me);
+                }
+            }
+
         }
 
         public static bool PollKeyEvent(ref SKeyEvent keyEvent)
         {
-            return _Controller.PollKeyEvent(ref keyEvent);
+            if (_KeysPool.Count > 0)
+            {
+                keyEvent = _KeysPool[0];
+                _KeysPool.RemoveAt(0);
+                return true;
+            }
+            return false;
         }
 
         public static bool PollMouseEvent(ref SMouseEvent mouseEvent)
         {
-            return _Controller.PollMouseEvent(ref mouseEvent);
+            if (_MousePool.Count > 0)
+            {
+                mouseEvent = _MousePool[0];
+                _MousePool.RemoveAt(0);
+                return true;
+            }
+            return false;
         }
 
         public static void SetRumble(float duration)
         {
-            _Controller.SetRumble(duration);
+            foreach (IController controller in _Controller)
+            {
+                controller.SetRumble(duration);
+            }
         }
     }
 }

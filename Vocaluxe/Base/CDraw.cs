@@ -22,6 +22,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Vocaluxe.Lib.Draw;
+using VocaluxeLib;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base

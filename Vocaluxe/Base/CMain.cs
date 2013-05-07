@@ -22,8 +22,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using Vocaluxe.Base.Font;
+using VocaluxeLib;
+using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
+using VocaluxeLib.Songs;
+using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Base
 {
@@ -370,6 +374,11 @@ namespace Vocaluxe.Base
             CDraw.DrawTextureReflection(texture, rect, color, bounds, reflectionSpace, reflectionHeight);
         }
 
+        public STexture AddTexture(string fileName)
+        {
+            return CDraw.AddTexture(fileName);
+        }
+
         public void RemoveTexture(ref STexture texture)
         {
             CDraw.RemoveTexture(ref texture);
@@ -538,7 +547,7 @@ namespace Vocaluxe.Base
 
     class CBprofiles : IProfiles
     {
-        public SProfile[] GetProfiles()
+        public CProfile[] GetProfiles()
         {
             return CProfiles.Profiles;
         }
