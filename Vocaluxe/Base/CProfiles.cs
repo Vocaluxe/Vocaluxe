@@ -174,10 +174,20 @@ namespace Vocaluxe.Base
             lock (_ProfileMutex)
             {
                 List<string> knownFiles = new List<string>();
-                foreach (int id in _Profiles.Keys)
+                if (_Profiles.Count > 0)
                 {
-                    _Profiles[id].LoadProfile();
-                    knownFiles.Add(_Profiles[id].FileName);
+                    int[] ids = new int[_Profiles.Keys.Count];
+                    _Profiles.Keys.CopyTo(ids, 0);
+                    for (int i = 0; i < ids.Length; i++)
+                    {
+                        if (_Profiles[ids[i]].LoadProfile())
+                        {
+                            _Profiles[ids[i]].Avatar = _GetAvatar(_Profiles[ids[i]].AvatarFileName);
+                            knownFiles.Add(_Profiles[ids[i]].FileName);
+                        }
+                        else
+                            _Profiles.Remove(ids[i]);
+                    }
                 }
 
                 List<string> files = new List<string>();
@@ -211,10 +221,17 @@ namespace Vocaluxe.Base
             lock (_AvatarMutex)
             {
                 List<string> knownFiles = new List<string>();
-                foreach (int id in _Avatars.Keys)
+                if (_Avatars.Count > 0)
                 {
-                    _Avatars[id].Reload();
-                    knownFiles.Add(_Avatars[id].FileName);
+                    int[] ids = new int[_Avatars.Keys.Count];
+                    _Avatars.Keys.CopyTo(ids, 0);
+                    for (int i = 0; i < ids.Length; i++)
+                    {
+                        if (_Avatars[ids[i]].Reload())
+                            knownFiles.Add(_Avatars[ids[i]].FileName);
+                        else
+                            _Avatars.Remove(ids[i]);
+                    }
                 }
 
                 List<string> files = new List<string>();
@@ -239,6 +256,14 @@ namespace Vocaluxe.Base
                 }
             }
             _Notification();
+        }
+
+        public static void SetPlayerName(int profileID, string PlayerName)
+        {
+            if (!ICProfileIDValid(profileID))
+                return;
+
+            _Profiles[profileID].PlayerName = PlayerName;
         }
 
         public static string AddGetPlayerName(int profileID, char chr)

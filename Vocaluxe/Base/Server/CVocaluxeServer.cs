@@ -161,6 +161,7 @@ namespace Vocaluxe.Base.Server
                             fs.Flush();
                             fs.Close();
                             success = true;
+                            CProfiles.LoadProfiles();
                         }
                         catch {}
 

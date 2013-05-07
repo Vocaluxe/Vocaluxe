@@ -28,10 +28,13 @@ namespace VocaluxeLib.Profile
             return (Texture.Index != -1);
         }
 
-        public void Reload()
+        public bool Reload()
         {
-            CBase.Drawing.RemoveTexture(ref Texture);
+            STexture oldTexture = Texture;
             Texture = CBase.Drawing.AddTexture(FileName);
+            CBase.Drawing.RemoveTexture(ref oldTexture);
+
+            return Texture.Index != -1;
         }
 
         public void Unload()
