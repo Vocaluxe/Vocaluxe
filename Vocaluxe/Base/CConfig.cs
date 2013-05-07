@@ -30,6 +30,7 @@ using Vocaluxe.Lib.Sound;
 using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
+using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Base
 {
@@ -810,12 +811,13 @@ namespace Vocaluxe.Base
                 CGame.Players[j].ProfileID = -1;
                 if (Players[j] == "")
                     continue;
-                for (int i = 0; i < CProfiles.Profiles.Length; i++)
+                CProfile[] profiles = CProfiles.GetProfiles();
+                for (int i = 0; i < profiles.Length; i++)
                 {
-                    if (Path.GetFileName(CProfiles.Profiles[i].FileName) == Players[j] && CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
+                    if (Path.GetFileName(profiles[i].FileName) == Players[j] && profiles[i].Active == EOffOn.TR_CONFIG_ON)
                     {
                         //Update Game-infos with player
-                        CGame.Players[j].ProfileID = i;
+                        CGame.Players[j].ProfileID = profiles[i].ID;
                     }
                 }
             }

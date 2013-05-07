@@ -22,6 +22,8 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
 
+using VocaluxeLib.Profile;
+
 namespace VocaluxeLib.Menu
 {
     struct SThemeNameSelection
@@ -497,16 +499,18 @@ namespace VocaluxeLib.Menu
         private void _UpdateVisibleProfiles()
         {
             _VisibleProfiles.Clear();
-            for (int i = 0; i < CBase.Profiles.GetProfiles().Length; i++)
+            CProfile[] profiles = CBase.Profiles.GetProfiles();
+
+            for (int i = 0; i < profiles.Length; i++)
             {
-                bool visible = CBase.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON;
+                bool visible = profiles[i].Active == EOffOn.TR_CONFIG_ON;
                 if (visible)
                 {
                     //Show profile only if active
                     for (int p = 0; p < CBase.Game.GetNumPlayer(); p++)
                     {
                         //Don't show profile if is selected, but if selected and guest
-                        if (CBase.Game.GetPlayers()[p].ProfileID == i && CBase.Profiles.GetProfiles()[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
+                        if (CBase.Game.GetPlayers()[p].ProfileID == profiles[i].ID && profiles[i].GuestProfile == EOffOn.TR_CONFIG_OFF)
                             visible = false;
                     }
                 }

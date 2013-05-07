@@ -18,6 +18,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -25,6 +26,7 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
+using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Screens
 {
@@ -103,7 +105,7 @@ namespace Vocaluxe.Screens
                         break;
                     case EEditMode.PlayerName:
                         _SelectSlides[_SelectSlideProfiles].RenameValue(
-                            CProfiles.AddGetPlayerName(_SelectSlides[_SelectSlideProfiles].Selection, keyEvent.Unicode));
+                            CProfiles.AddGetPlayerName(_SelectSlides[_SelectSlideProfiles].ValueIndex, keyEvent.Unicode));
                         break;
                 }
             }
@@ -145,7 +147,7 @@ namespace Vocaluxe.Screens
                         if (_EditMode == EEditMode.PlayerName)
                         {
                             _SelectSlides[_SelectSlideProfiles].RenameValue(
-                                CProfiles.GetDeleteCharInPlayerName(_SelectSlides[_SelectSlideProfiles].Selection));
+                                CProfiles.GetDeleteCharInPlayerName(_SelectSlides[_SelectSlideProfiles].ValueIndex));
                         }
                         else
                             CGraphics.FadeTo(EScreens.ScreenMain);
@@ -157,22 +159,22 @@ namespace Vocaluxe.Screens
                 }
                 if (_SelectSlides[_SelectSlideDifficulty].Selected)
                 {
-                    CProfiles.SetDifficulty(_SelectSlides[_SelectSlideProfiles].Selection,
+                    CProfiles.SetDifficulty(_SelectSlides[_SelectSlideProfiles].ValueIndex,
                                             (EGameDifficulty)_SelectSlides[_SelectSlideDifficulty].Selection);
                 }
                 else if (_SelectSlides[_SelectSlideAvatars].Selected)
                 {
-                    CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].Selection,
-                                        _SelectSlides[_SelectSlideAvatars].Selection);
+                    CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].ValueIndex,
+                                        _SelectSlides[_SelectSlideAvatars].ValueIndex);
                 }
                 else if (_SelectSlides[_SelectSlideGuestProfile].Selected)
                 {
-                    CProfiles.SetGuestProfile(_SelectSlides[_SelectSlideProfiles].Selection,
+                    CProfiles.SetGuestProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex,
                                               (EOffOn)_SelectSlides[_SelectSlideGuestProfile].Selection);
                 }
                 else if (_SelectSlides[_SelectSlideActive].Selected)
                 {
-                    CProfiles.SetActive(_SelectSlides[_SelectSlideProfiles].Selection,
+                    CProfiles.SetActive(_SelectSlides[_SelectSlideProfiles].ValueIndex,
                                         (EOffOn)_SelectSlides[_SelectSlideActive].Selection);
                 }
             }
@@ -204,24 +206,24 @@ namespace Vocaluxe.Screens
                 }
                 else if (_SelectSlides[_SelectSlideDifficulty].Selected)
                 {
-                    CProfiles.SetDifficulty(_SelectSlides[_SelectSlideProfiles].Selection,
+                    CProfiles.SetDifficulty(_SelectSlides[_SelectSlideProfiles].ValueIndex,
                                             (EGameDifficulty)_SelectSlides[_SelectSlideDifficulty].Selection);
                 }
                 else if (_SelectSlides[_SelectSlideAvatars].Selected)
                 {
-                    CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].Selection,
-                                        _SelectSlides[_SelectSlideAvatars].Selection);
+                    CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].ValueIndex,
+                                        _SelectSlides[_SelectSlideAvatars].ValueIndex);
                     if (CWebcam.IsDeviceAvailable() && _WebcamTexture.Index > 0)
                         _OnDiscardSnapshot();
                 }
                 else if (_SelectSlides[_SelectSlideGuestProfile].Selected)
                 {
-                    CProfiles.SetGuestProfile(_SelectSlides[_SelectSlideProfiles].Selection,
+                    CProfiles.SetGuestProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex,
                                               (EOffOn)_SelectSlides[_SelectSlideGuestProfile].Selection);
                 }
                 else if (_SelectSlides[_SelectSlideActive].Selected)
                 {
-                    CProfiles.SetActive(_SelectSlides[_SelectSlideProfiles].Selection,
+                    CProfiles.SetActive(_SelectSlides[_SelectSlideProfiles].ValueIndex,
                                         (EOffOn)_SelectSlides[_SelectSlideActive].Selection);
                 }
                 else if (_Buttons[_ButtonWebcam].Selected && CWebcam.IsDeviceAvailable())
@@ -272,11 +274,12 @@ namespace Vocaluxe.Screens
             CWebcam.Stop();
             CDraw.RemoveTexture(ref _WebcamTexture);
 
-            for (int j = 0; j < CProfiles.Avatars.Length; j++)
+            CAvatar[] avatars = CProfiles.GetAvatars();
+            for (int j = 0; j < avatars.Length; j++)
             {
-                if (CProfiles.Avatars[j].FileName == (filename + i + ".png"))
+                if (Path.GetFileName(avatars[j].FileName) == (filename + i + ".png"))
                 {
-                    CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].Selection, j);
+                    CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].ValueIndex, avatars[j].ID);
                     break;
                 }
             }
@@ -302,17 +305,17 @@ namespace Vocaluxe.Screens
         {
             if (_SelectSlides[_SelectSlideProfiles].Selection > -1)
             {
-                _Buttons[_ButtonPlayerName].Text.Text = CProfiles.GetPlayerName(_SelectSlides[_SelectSlideProfiles].Selection);
+                _Buttons[_ButtonPlayerName].Text.Text = CProfiles.GetPlayerName(_SelectSlides[_SelectSlideProfiles].ValueIndex);
                 if (_EditMode == EEditMode.PlayerName)
                     _Buttons[_ButtonPlayerName].Text.Text += "|";
 
-                _SelectSlides[_SelectSlideDifficulty].Selection = (int)CProfiles.GetDifficulty(_SelectSlides[_SelectSlideProfiles].Selection);
-                _SelectSlides[_SelectSlideGuestProfile].Selection = (int)CProfiles.GetGuestProfile(_SelectSlides[_SelectSlideProfiles].Selection);
-                _SelectSlides[_SelectSlideActive].Selection = (int)CProfiles.GetActive(_SelectSlides[_SelectSlideProfiles].Selection);
+                _SelectSlides[_SelectSlideDifficulty].Selection = (int)CProfiles.GetDifficulty(_SelectSlides[_SelectSlideProfiles].ValueIndex);
+                _SelectSlides[_SelectSlideGuestProfile].Selection = (int)CProfiles.GetGuestProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex);
+                _SelectSlides[_SelectSlideActive].Selection = (int)CProfiles.GetActive(_SelectSlides[_SelectSlideProfiles].ValueIndex);
 
-                int avatarNr = CProfiles.GetAvatarNr(_SelectSlides[_SelectSlideProfiles].Selection);
-                _SelectSlides[_SelectSlideAvatars].Selection = avatarNr;
-                if (CWebcam.IsDeviceAvailable() && _WebcamTexture.Index > 0)
+                int avatarID = CProfiles.GetAvatarID(_SelectSlides[_SelectSlideProfiles].ValueIndex);
+                _SelectSlides[_SelectSlideAvatars].SetSelectionByValueIndex(avatarID);
+                if (CWebcam.IsDeviceAvailable() && _WebcamTexture.Index != -1)
                 {
                     if (_Snapshot == null)
                         CWebcam.GetFrame(ref _WebcamTexture);
@@ -320,7 +323,7 @@ namespace Vocaluxe.Screens
                     _Statics[_StaticAvatar].Texture = _WebcamTexture;
                 }
                 else
-                    _Statics[_StaticAvatar].Texture = CProfiles.Avatars[avatarNr].Texture;
+                    _Statics[_StaticAvatar].Texture = CProfiles.GetAvatarTexture(avatarID);
             }
 
             return true;
@@ -353,7 +356,7 @@ namespace Vocaluxe.Screens
 
         private void _DeleteProfile()
         {
-            CProfiles.DeleteProfile(_SelectSlides[_SelectSlideProfiles].Selection);
+            CProfiles.DeleteProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex);
             _LoadProfiles();
             UpdateGame();
         }
@@ -363,34 +366,44 @@ namespace Vocaluxe.Screens
             _EditMode = EEditMode.None;
             _SelectSlides[_SelectSlideProfiles].Clear();
 
-            for (int i = 0; i < CProfiles.NumProfiles; i++)
-                _SelectSlides[_SelectSlideProfiles].AddValue(CProfiles.GetPlayerName(i));
+            CProfile[] profiles = CProfiles.GetProfiles();
+            for (int i = 0; i < profiles.Length; i++)
+                _SelectSlides[_SelectSlideProfiles].AddValue(
+                    profiles[i].PlayerName, 
+                    new STexture(-1), 
+                    profiles[i].ID, 
+                    -1);
 
             if (CProfiles.NumProfiles > 0 && CProfiles.NumAvatars > 0)
             {
-                _SelectSlides[_SelectSlideDifficulty].Selection = (int)CProfiles.GetDifficulty(_SelectSlides[_SelectSlideProfiles].Selection);
-                _SelectSlides[_SelectSlideGuestProfile].Selection = (int)CProfiles.GetGuestProfile(_SelectSlides[_SelectSlideProfiles].Selection);
-                _SelectSlides[_SelectSlideActive].Selection = (int)CProfiles.GetActive(_SelectSlides[_SelectSlideProfiles].Selection);
-                _SelectSlides[_SelectSlideAvatars].Selection = CProfiles.GetAvatarNr(_SelectSlides[_SelectSlideProfiles].Selection);
+                _SelectSlides[_SelectSlideDifficulty].Selection = (int)CProfiles.GetDifficulty(_SelectSlides[_SelectSlideProfiles].ValueIndex);
+                _SelectSlides[_SelectSlideGuestProfile].Selection = (int)CProfiles.GetGuestProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex);
+                _SelectSlides[_SelectSlideActive].Selection = (int)CProfiles.GetActive(_SelectSlides[_SelectSlideProfiles].ValueIndex);
+                _SelectSlides[_SelectSlideAvatars].SetSelectionByValueIndex(CProfiles.GetAvatarID(_SelectSlides[_SelectSlideProfiles].ValueIndex));
             }
         }
 
         private void _LoadAvatars()
         {
             _SelectSlides[_SelectSlideAvatars].Clear();
-            for (int i = 0; i < CProfiles.NumAvatars; i++)
-                _SelectSlides[_SelectSlideAvatars].AddValue(CProfiles.Avatars[i].FileName);
+            CAvatar[] avatars = CProfiles.GetAvatars();
+            for (int i = 0; i < avatars.Length; i++)
+                _SelectSlides[_SelectSlideAvatars].AddValue(
+                    Path.GetFileName(avatars[i].FileName),
+                    new STexture(-1),
+                    avatars[i].ID,
+                    -1);
         }
 
         private void _NewProfile()
         {
             _EditMode = EEditMode.None;
-            CProfiles.NewProfile();
+            int id = CProfiles.NewProfile();
             _LoadProfiles();
-            _SelectSlides[_SelectSlideProfiles].LastValue();
+            _SelectSlides[_SelectSlideProfiles].SetSelectionByValueIndex(id);
 
-            CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].Selection,
-                                _SelectSlides[_SelectSlideAvatars].Selection);
+            CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].ValueIndex,
+                                _SelectSlides[_SelectSlideAvatars].ValueIndex);
 
             _SetInteractionToButton(_Buttons[_ButtonPlayerName]);
             _EditMode = EEditMode.PlayerName;

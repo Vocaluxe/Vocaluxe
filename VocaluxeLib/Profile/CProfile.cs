@@ -16,20 +16,14 @@ namespace VocaluxeLib.Profile
                 ConformanceLevel = ConformanceLevel.Document
             };
 
-        private int _ID;
-        private int _AvatarID;
-
-        public int ID
-        {
-            get { return _ID; }
-        }
-
+        public int ID;
+        
         public string PlayerName;
         public string FileName;
         public string AvatarFileName;
 
         public EGameDifficulty Difficulty;
-        public CAvatar Avatar; //should be removed! use avatar id
+        public CAvatar Avatar;
 
         public EOffOn GuestProfile;
         public EOffOn Active;
@@ -79,6 +73,29 @@ namespace VocaluxeLib.Profile
         public void SaveProfile()
         {
             if (FileName == String.Empty)
+            {
+                string filename = string.Empty;
+                foreach (char chr in PlayerName)
+                {
+                    if (char.IsLetter(chr))
+                        filename += chr.ToString();
+                }
+
+                if (filename == "")
+                    filename = "1";
+
+                int i = 0;
+                while (File.Exists(Path.Combine(CBase.Settings.GetFolderProfiles(), filename + ".xml")))
+                {
+                    i++;
+                    if (!File.Exists(Path.Combine(CBase.Settings.GetFolderProfiles(), filename + i + ".xml")))
+                        filename += i;
+                }
+
+                FileName = Path.Combine(Environment.CurrentDirectory, CBase.Settings.GetFolderProfiles(), filename + ".xml");
+            }
+
+            if (FileName == String.Empty)
                 return;
 
             XmlWriter writer;
@@ -99,7 +116,7 @@ namespace VocaluxeLib.Profile
                 writer.WriteStartElement("Info");
                 writer.WriteElementString("PlayerName", PlayerName);
                 writer.WriteElementString("Difficulty", Enum.GetName(typeof(EGameDifficulty), Difficulty));
-                writer.WriteElementString("Avatar", Avatar.FileName);
+                writer.WriteElementString("Avatar", Path.GetFileName(Avatar.FileName));
                 writer.WriteElementString("GuestProfile", Enum.GetName(typeof(EOffOn), GuestProfile));
                 writer.WriteElementString("Active", Enum.GetName(typeof(EOffOn), Active));
                 writer.WriteEndElement();

@@ -214,6 +214,11 @@ namespace Vocaluxe.Base
         {
             return CSettings.MedleyMinDuration;
         }
+
+        public string GetFolderProfiles()
+        {
+            return CSettings.FolderProfiles;
+        }
     }
 
     class CBtheme : ITheme
@@ -549,7 +554,7 @@ namespace Vocaluxe.Base
     {
         public CProfile[] GetProfiles()
         {
-            return CProfiles.Profiles;
+            return CProfiles.GetProfiles();
         }
 
         public EGameDifficulty GetDifficulty(int profileID)
