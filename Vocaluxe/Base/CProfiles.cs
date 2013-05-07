@@ -28,6 +28,8 @@ using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Base
 {
+    
+
     static class CProfiles
     {
         private static Dictionary<int, CProfile> _Profiles;
@@ -38,7 +40,8 @@ namespace Vocaluxe.Base
         private static Queue<int> _AvatarIDs;
         private static Object _AvatarMutex = new Object();
 
-        private static List<Delegate> _Callbacks;
+        public delegate void ProfilesChangedNotification();
+        private static List<ProfilesChangedNotification> _Callbacks;
 
         public static int NumProfiles
         {
@@ -66,9 +69,20 @@ namespace Vocaluxe.Base
                 _ProfileIDs.Enqueue(i);
             }
 
-            _Callbacks = new List<Delegate>();
+            _Callbacks = new List<ProfilesChangedNotification>();
             
             LoadProfiles();
+        }
+
+        public static void AddNotificationCallback(ProfilesChangedNotification Callback)
+        {
+            if (Callback == null)
+                return;
+
+            lock (_Callbacks)
+            {
+                _Callbacks.Add(Callback);
+            }
         }
 
         public static CProfile[] GetProfiles()
@@ -139,7 +153,7 @@ namespace Vocaluxe.Base
                 profile.ID = _ProfileIDs.Dequeue();
                 _Profiles.Add(profile.ID, profile);
             }
-            
+            _Notification();
             return profile.ID;
         }
 
@@ -189,6 +203,7 @@ namespace Vocaluxe.Base
                     }
                 }
             }
+            _Notification();
         }
 
         public static void LoadAvatars()
@@ -223,6 +238,7 @@ namespace Vocaluxe.Base
                     }
                 }
             }
+            _Notification();
         }
 
         public static string AddGetPlayerName(int profileID, char chr)
@@ -385,6 +401,25 @@ namespace Vocaluxe.Base
         }
 
         #region private methods
+        private static void _Notification()
+        {
+            lock (_Callbacks)
+            {
+                for (int i = 0; i < _Callbacks.Count; i++)
+                {
+                    try
+                    {
+                        _Callbacks[i]();
+                    }
+                    catch (Exception)
+                    {
+                        _Callbacks.RemoveAt(i);
+                    }
+                }
+                
+            }
+        }
+
         private static int _CompareByPlayerName(CProfile a, CProfile b)
         {
             return String.CompareOrdinal(a.PlayerName, b.PlayerName);
@@ -409,6 +444,7 @@ namespace Vocaluxe.Base
                 return;
 
             _Profiles.Remove(profileID);
+            _Notification();
         }
         #endregion private methods
     }

@@ -356,14 +356,21 @@ namespace Vocaluxe.Screens
 
         private void _DeleteProfile()
         {
+            int selection = _SelectSlides[_SelectSlideProfiles].Selection;
             CProfiles.DeleteProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex);
             _LoadProfiles();
+
+            if (_SelectSlides[_SelectSlideProfiles].NumValues > selection)
+                _SelectSlides[_SelectSlideProfiles].Selection = selection;
+            else
+                _SelectSlides[_SelectSlideProfiles].Selection = selection - 1;
             UpdateGame();
         }
 
         private void _LoadProfiles()
         {
             _EditMode = EEditMode.None;
+            int selectedProfileID = _SelectSlides[_SelectSlideProfiles].ValueIndex;
             _SelectSlides[_SelectSlideProfiles].Clear();
 
             CProfile[] profiles = CProfiles.GetProfiles();
@@ -376,15 +383,17 @@ namespace Vocaluxe.Screens
 
             if (CProfiles.NumProfiles > 0 && CProfiles.NumAvatars > 0)
             {
-                _SelectSlides[_SelectSlideDifficulty].Selection = (int)CProfiles.GetDifficulty(_SelectSlides[_SelectSlideProfiles].ValueIndex);
-                _SelectSlides[_SelectSlideGuestProfile].Selection = (int)CProfiles.GetGuestProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex);
-                _SelectSlides[_SelectSlideActive].Selection = (int)CProfiles.GetActive(_SelectSlides[_SelectSlideProfiles].ValueIndex);
-                _SelectSlides[_SelectSlideAvatars].SetSelectionByValueIndex(CProfiles.GetAvatarID(_SelectSlides[_SelectSlideProfiles].ValueIndex));
+                _SelectSlides[_SelectSlideProfiles].SetSelectionByValueIndex(selectedProfileID);
+                _SelectSlides[_SelectSlideDifficulty].Selection = (int)CProfiles.GetDifficulty(selectedProfileID);
+                _SelectSlides[_SelectSlideGuestProfile].Selection = (int)CProfiles.GetGuestProfile(selectedProfileID);
+                _SelectSlides[_SelectSlideActive].Selection = (int)CProfiles.GetActive(selectedProfileID);
+                _SelectSlides[_SelectSlideAvatars].SetSelectionByValueIndex(CProfiles.GetAvatarID(selectedProfileID));
             }
         }
 
         private void _LoadAvatars()
         {
+            int selectedAvatarID = _SelectSlides[_SelectSlideAvatars].ValueIndex;
             _SelectSlides[_SelectSlideAvatars].Clear();
             CAvatar[] avatars = CProfiles.GetAvatars();
             for (int i = 0; i < avatars.Length; i++)
@@ -393,6 +402,7 @@ namespace Vocaluxe.Screens
                     new STexture(-1),
                     avatars[i].ID,
                     -1);
+            _SelectSlides[_SelectSlideAvatars].SetSelectionByValueIndex(selectedAvatarID);
         }
 
         private void _NewProfile()
