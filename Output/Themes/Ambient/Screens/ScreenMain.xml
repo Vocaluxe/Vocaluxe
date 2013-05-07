@@ -49,7 +49,7 @@
       <Text>
         <!--<X>, <Y>: Text position-->
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <!--<H>: Text height-->
         <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
@@ -106,7 +106,7 @@
       <Text>
         <!--<X>, <Y>: Text position-->
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <!--<H>: Text height-->
         <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
@@ -163,7 +163,7 @@
       <Text>
         <!--<X>, <Y>: Text position-->
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <!--<H>: Text height-->
         <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
@@ -220,7 +220,7 @@
       <Text>
         <!--<X>, <Y>: Text position-->
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <!--<H>: Text height-->
         <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
@@ -277,7 +277,7 @@
       <Text>
         <!--<X>, <Y>: Text position-->
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <!--<H>: Text height-->
         <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
