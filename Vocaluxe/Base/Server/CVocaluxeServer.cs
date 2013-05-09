@@ -168,8 +168,7 @@ namespace Vocaluxe.Base.Server
                                 p.AvatarFileName = AvatarFilename;
                                 p.Difficulty = (EGameDifficulty)profile.Difficulty;
                                 p.GuestProfile = EOffOn.TR_CONFIG_OFF;
-                                p.PlayerName = profile.PlayerName;
-                                p.SaveProfile();
+                                p.PlayerName = profile.PlayerName;                            
                                 CProfiles.AddProfile(p);
                                 answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
                             }

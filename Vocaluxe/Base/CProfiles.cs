@@ -134,6 +134,7 @@ namespace Vocaluxe.Base
 
                             change.Profile.ID = _ProfileIDs.Dequeue();
                             change.Profile.Avatar = _GetAvatar(change.Profile.AvatarFileName);
+                            change.Profile.SaveProfile();
                             _Profiles.Add(change.Profile.ID, change.Profile);
 
                             _ProfilesChanged = true;
