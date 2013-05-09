@@ -23,7 +23,17 @@ namespace VocaluxeLib.Profile
         public string AvatarFileName;
 
         public EGameDifficulty Difficulty;
-        public CAvatar Avatar;
+
+        private CAvatar _Avatar;
+        public CAvatar Avatar
+        {
+            get { return _Avatar; }
+            set
+            {
+                _Avatar = value;
+                AvatarFileName = _Avatar.FileName;
+            }
+        }
 
         public EOffOn GuestProfile;
         public EOffOn Active;

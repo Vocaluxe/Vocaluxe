@@ -164,6 +164,11 @@ namespace Vocaluxe.Lib.Webcam
             return _Devices.Count > 0;
         }
 
+        public bool IsCapturing()
+        {
+            return _Webcam.IsRunning;
+        }
+
         public bool Select(SWebcamConfig config)
         {
             //Close old camera connection

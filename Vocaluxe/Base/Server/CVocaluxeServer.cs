@@ -12,6 +12,7 @@ using ClientServerLib;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Input;
 using VocaluxeLib;
+using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Base.Server
 {
@@ -156,12 +157,20 @@ namespace Vocaluxe.Base.Server
                             while (File.Exists(filename + i + ".jpg"))
                                 i++;
 
-                            FileStream fs = File.Create(filename + i + ".jpg");
+                            filename = filename + i + ".jpg";
+                            FileStream fs = File.Create(filename);
                             fs.Write(avatarPictureJpg.data, 0, avatarPictureJpg.data.Length);
                             fs.Flush();
                             fs.Close();
-                            success = true;
-                            CProfiles.LoadProfiles();
+
+                            CAvatar avatar = new CAvatar(-1);
+                            success = avatar.LoadFromFile(filename);
+
+                            if (success)
+                            {
+                                CProfiles.AddAvatar(avatar);
+                            }
+                                
                         }
                         catch {}
 

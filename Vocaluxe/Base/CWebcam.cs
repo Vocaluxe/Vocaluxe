@@ -91,5 +91,10 @@ namespace Vocaluxe.Base
         {
             return _Webcam.IsDeviceAvailable();
         }
+
+        public static bool IsCapturing()
+        {
+            return _Webcam.IsCapturing();
+        }
     }
 }

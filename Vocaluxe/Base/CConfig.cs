@@ -806,12 +806,14 @@ namespace Vocaluxe.Base
         /// </summary>
         public static void UsePlayers()
         {
+            CProfile[] profiles = CProfiles.GetProfiles();
+
             for (int j = 0; j < CSettings.MaxNumPlayer; j++)
             {
                 CGame.Players[j].ProfileID = -1;
-                if (Players[j] == "")
+                if (Players[j] == "" || profiles == null)
                     continue;
-                CProfile[] profiles = CProfiles.GetProfiles();
+                
                 for (int i = 0; i < profiles.Length; i++)
                 {
                     if (Path.GetFileName(profiles[i].FileName) == Players[j] && profiles[i].Active == EOffOn.TR_CONFIG_ON)

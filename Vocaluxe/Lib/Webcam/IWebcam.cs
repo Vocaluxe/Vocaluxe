@@ -59,6 +59,7 @@ namespace Vocaluxe.Lib.Webcam
         SWebcamConfig GetConfig();
         SWebcamDevice[] GetDevices();
         bool IsDeviceAvailable();
+        bool IsCapturing();
 
         bool Select(SWebcamConfig webcamConfig);
     }
