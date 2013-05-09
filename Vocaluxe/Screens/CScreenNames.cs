@@ -103,6 +103,7 @@ namespace Vocaluxe.Screens
 
             _ChooseAvatarStatic = GetNewStatic();
             _ChooseAvatarStatic.Visible = false;
+            _ChooseAvatarStatic.Aspect = EAspect.Crop;
 
             CProfiles.AddProfileChangedCallback(new ProfileChangedCallback(_OnProfileChanged));
         }
@@ -112,7 +113,10 @@ namespace Vocaluxe.Screens
             base.LoadTheme(xmlPath);
 
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
+            {
                 _OriginalPlayerAvatarTextures[i] = _Statics[_StaticPlayerAvatar[i]].Texture;
+                _Statics[_StaticPlayerAvatar[i]].Aspect = EAspect.Crop;
+            }
 
             for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
                 _Equalizers["EqualizerPlayer" + i].ScreenHandles = true;
@@ -472,6 +476,7 @@ namespace Vocaluxe.Screens
                         //Update texture and name
                         _Statics[_StaticPlayerAvatar[_SelectingSwitchNr]].Texture = _OriginalPlayerAvatarTextures[_SelectingSwitchNr];
                         _Texts[_TextPlayer[_SelectingSwitchNr]].Text = CProfiles.GetPlayerName(-1, (_SelectingSwitchNr + 1));
+                        _NameSelections[_NameSelection].UpdateList();
                     }
                 }
                 _SelectingSwitchNr = -1;
