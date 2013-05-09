@@ -41,6 +41,9 @@ namespace Vocaluxe.Base.Server
 
         public const int CommandSendAvatarPicture = 500;
         public const int CommandSendAvatarPictureJpg = 501;
+
+        public const int CommandSendProfile = 510;
+
         #endregion Commands
 
         #region General
@@ -69,7 +72,7 @@ namespace Vocaluxe.Base.Server
 
         #endregion Keyboard
 
-        #region Avatar
+        #region Profiles
         public static byte[] CreateCommandSendAvatarPicture(int Width, int Height, byte[] data)
         {
             SAvatarPicture ap = new SAvatarPicture();
@@ -86,17 +89,39 @@ namespace Vocaluxe.Base.Server
             return TryDeserialize<SAvatarPicture>(Message, out AvatarPicture);
         }
 
-        public static byte[] CreateCommandSendAvatarPictureJpg(byte[] data)
+        public static byte[] CreateCommandSendAvatarPictureJpg(byte[] AvatarJpgData)
         {
             SAvatarPicture ap = new SAvatarPicture();
             ap.Height = 0;
             ap.Width = 0;
-            ap.data = new byte[data.Length];
-            Array.Copy(data, ap.data, data.Length);
+            ap.data = new byte[AvatarJpgData.Length];
+            Array.Copy(AvatarJpgData, ap.data, AvatarJpgData.Length);
 
             return Serialize<SAvatarPicture>(CommandSendAvatarPictureJpg, ap);
         }
-        #endregion Avatar
+
+        public static byte[] CreateCommandSendProfile(byte[] AvatarJpgData, string PlayerName, int Difficulty)
+        {
+            SAvatarPicture ap = new SAvatarPicture();
+            ap.Height = 0;
+            ap.Width = 0;
+            ap.data = new byte[AvatarJpgData.Length];
+            Array.Copy(AvatarJpgData, ap.data, AvatarJpgData.Length);
+
+            SProfile profile = new SProfile();
+            profile.Avatar = ap;
+            profile.PlayerName = PlayerName;
+            profile.Difficulty = Difficulty;
+
+            return Serialize<SProfile>(CommandSendProfile, profile);
+        }
+
+        public static bool DecodeCommandSendProfile(byte[] Message, out SProfile Profile)
+        {
+            return TryDeserialize<SProfile>(Message, out Profile);
+        }
+
+        #endregion Profiles
 
         #region Serializing
         private static byte[] Serialize<T>(int Command, T obj)

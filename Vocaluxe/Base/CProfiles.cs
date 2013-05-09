@@ -133,7 +133,9 @@ namespace Vocaluxe.Base
                                 break;
 
                             change.Profile.ID = _ProfileIDs.Dequeue();
+                            change.Profile.Avatar = _GetAvatar(change.Profile.AvatarFileName);
                             _Profiles.Add(change.Profile.ID, change.Profile);
+
                             _ProfilesChanged = true;
                             break;
 
@@ -668,9 +670,11 @@ namespace Vocaluxe.Base
 
         private static CAvatar _GetAvatar(string fileName)
         {
+            string Name = Path.GetFileName(fileName);
+
             foreach (int id in _Avatars.Keys)
             {
-                if (Path.GetFileName(_Avatars[id].FileName) == fileName)
+                if (Path.GetFileName(_Avatars[id].FileName) == Name)
                     return _Avatars[id];
             }
             return new CAvatar(-1);

@@ -149,34 +149,37 @@ namespace Vocaluxe.Base.Server
                     SAvatarPicture avatarPictureJpg;
                     if (CCommands.DecodeCommandSendAvatarPicture(Message, out avatarPictureJpg))
                     {
-                        bool success = false;
-                        try
-                        {
-                            string filename = Path.Combine(CSettings.FolderProfiles, "snapshot");
-                            int i = 0;
-                            while (File.Exists(filename + i + ".jpg"))
-                                i++;
-
-                            filename = filename + i + ".jpg";
-                            FileStream fs = File.Create(filename);
-                            fs.Write(avatarPictureJpg.data, 0, avatarPictureJpg.data.Length);
-                            fs.Flush();
-                            fs.Close();
-
-                            CAvatar avatar = new CAvatar(-1);
-                            success = avatar.LoadFromFile(filename);
-
-                            if (success)
-                            {
-                                CProfiles.AddAvatar(avatar);
-                            }
-                                
-                        }
-                        catch {}
-
-                        if (success)
+                        if (_AddAvatar(avatarPictureJpg.data) != String.Empty)
                             answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
                     }
+                    break;
+
+                case CCommands.CommandSendProfile:
+                    SProfile profile;
+                    if (CCommands.DecodeCommandSendProfile(Message, out profile))
+                    {
+                        try 
+	                    {	        
+                            string AvatarFilename = _AddAvatar(profile.Avatar.data);
+                            if (AvatarFilename != String.Empty)
+                            {
+                                CProfile p = new CProfile();
+                                p.Active = EOffOn.TR_CONFIG_ON;
+                                p.AvatarFileName = AvatarFilename;
+                                p.Difficulty = (EGameDifficulty)profile.Difficulty;
+                                p.GuestProfile = EOffOn.TR_CONFIG_OFF;
+                                p.PlayerName = profile.PlayerName;
+                                p.SaveProfile();
+                                CProfiles.AddProfile(p);
+                                answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
+                            }
+                        }
+	                    catch (Exception)
+	                    {
+
+	                    }
+                    }
+
                     break;
 
                 default:
@@ -184,6 +187,35 @@ namespace Vocaluxe.Base.Server
             }
 
             return answer;
+        }
+
+        private static string _AddAvatar(byte[] JpgData)
+        {
+            string result = String.Empty;
+            try
+            {
+                string filename = Path.Combine(CSettings.FolderProfiles, "snapshot");
+                int i = 0;
+                while (File.Exists(filename + i + ".jpg"))
+                    i++;
+
+                filename = filename + i + ".jpg";
+                FileStream fs = File.Create(filename);
+                fs.Write(JpgData, 0, JpgData.Length);
+                fs.Flush();
+                fs.Close();
+
+                CAvatar avatar = new CAvatar(-1);
+                if (avatar.LoadFromFile(filename))
+                {
+                    CProfiles.AddAvatar(avatar);
+                    result = filename;
+                }
+
+            }
+            catch { }
+
+            return result;
         }
     }
 }

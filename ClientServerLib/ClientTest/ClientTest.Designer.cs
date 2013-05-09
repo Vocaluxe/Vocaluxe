@@ -48,6 +48,7 @@
             this.btUp = new System.Windows.Forms.Button();
             this.btDown = new System.Windows.Forms.Button();
             this.btSendAvatar = new System.Windows.Forms.Button();
+            this.btSendProfile = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -239,11 +240,23 @@
             this.btSendAvatar.UseVisualStyleBackColor = true;
             this.btSendAvatar.Click += new System.EventHandler(this.btSendAvatar_Click);
             // 
+            // btSendProfile
+            // 
+            this.btSendProfile.Enabled = false;
+            this.btSendProfile.Location = new System.Drawing.Point(831, 339);
+            this.btSendProfile.Name = "btSendProfile";
+            this.btSendProfile.Size = new System.Drawing.Size(165, 23);
+            this.btSendProfile.TabIndex = 15;
+            this.btSendProfile.Text = "Send Profile";
+            this.btSendProfile.UseVisualStyleBackColor = true;
+            this.btSendProfile.Click += new System.EventHandler(this.btSendProfile_Click);
+            // 
             // ClientTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 550);
+            this.Controls.Add(this.btSendProfile);
             this.Controls.Add(this.btSendAvatar);
             this.Controls.Add(this.btDown);
             this.Controls.Add(this.btUp);
@@ -293,6 +306,7 @@
         private System.Windows.Forms.Button btUp;
         private System.Windows.Forms.Button btDown;
         private System.Windows.Forms.Button btSendAvatar;
+        private System.Windows.Forms.Button btSendProfile;
     }
 }
 

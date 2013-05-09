@@ -62,7 +62,10 @@ namespace Vocaluxe.Screens
         private int _SelectingSwitchNr = -1;
         private int _SelectingFastPlayerNr = 0;
         private int _SelectedPlayerNr = -1;
+        private bool _AvatarsChanged = false;
+        private bool _ProfilesChanged = false;
 
+        #region public methods
         public override void Init()
         {
             base.Init();
@@ -100,6 +103,8 @@ namespace Vocaluxe.Screens
 
             _ChooseAvatarStatic = GetNewStatic();
             _ChooseAvatarStatic.Visible = false;
+
+            CProfiles.AddProfileChangedCallback(new ProfileChangedCallback(_OnProfileChanged));
         }
 
         public override void LoadTheme(string xmlPath)
@@ -619,6 +624,9 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
+            if (_ProfilesChanged || _AvatarsChanged)
+                _LoadProfiles();
+
             for (int i = 1; i <= CGame.NumPlayer; i++)
             {
                 CSound.AnalyzeBuffer(i - 1);
@@ -633,6 +641,41 @@ namespace Vocaluxe.Screens
             CSound.RecordStart();
 
             _NameSelections[_NameSelection].Init();
+            _LoadProfiles();
+            _SetInteractionToButton(_Buttons[_ButtonStart]);
+        }
+
+        public override void OnClose()
+        {
+            base.OnClose();
+            CSound.RecordStop();
+        }
+
+        public override bool Draw()
+        {
+            base.Draw();
+
+            if (_ChooseAvatarStatic.Visible)
+                _ChooseAvatarStatic.Draw();
+            for (int i = 1; i <= CGame.NumPlayer; i++)
+                _Equalizers["EqualizerPlayer" + i].Draw();
+            return true;
+        }
+        #endregion public methods
+
+        #region private methods
+        private void _OnProfileChanged(EProfileChangedFlags Flags)
+        {
+            if (EProfileChangedFlags.Avatar == (EProfileChangedFlags.Avatar & Flags))
+                _AvatarsChanged = true;
+
+            if (EProfileChangedFlags.Profile == (EProfileChangedFlags.Profile & Flags))
+                _ProfilesChanged = true;
+        }
+
+        private void _LoadProfiles()
+        {
+            _NameSelections[_NameSelection].UpdateList();
 
             _UpdateSlides();
             _UpdatePlayerNumber();
@@ -657,24 +700,8 @@ namespace Vocaluxe.Screens
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = false;
             }
 
-            _SetInteractionToButton(_Buttons[_ButtonStart]);
-        }
-
-        public override void OnClose()
-        {
-            base.OnClose();
-            CSound.RecordStop();
-        }
-
-        public override bool Draw()
-        {
-            base.Draw();
-
-            if (_ChooseAvatarStatic.Visible)
-                _ChooseAvatarStatic.Draw();
-            for (int i = 1; i <= CGame.NumPlayer; i++)
-                _Equalizers["EqualizerPlayer" + i].Draw();
-            return true;
+            _ProfilesChanged = false;
+            _AvatarsChanged = false;
         }
 
         private void _StartSong()
@@ -818,5 +845,6 @@ namespace Vocaluxe.Screens
                 _Texts[_TextWarningProfiles].Visible = false;
             }
         }
+        #endregion private methods
     }
 }
