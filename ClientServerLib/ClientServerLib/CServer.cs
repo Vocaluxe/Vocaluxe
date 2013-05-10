@@ -13,6 +13,7 @@ namespace ClientServerLib
         private TcpListener tcpListener;
         private Thread listenThread;
         private int port;
+        private bool encryption;
         private int bufferLength = 8192;
         private bool running;
 
@@ -21,11 +22,12 @@ namespace ClientServerLib
         private Dictionary<int, CConnection> clients;
         private  Queue<int> ids;
 
-        public CServer(HandleRequest RequestCallback, int Port = 3000)
+        public CServer(HandleRequest RequestCallback, int Port = 3000, bool Encryption = false)
         {
             port = Port;
             running = false;
             requestCallback = RequestCallback;
+            encryption = Encryption;
 
             clients = new Dictionary<int, CConnection>();
             ids = new Queue<int>(1000);
@@ -90,7 +92,7 @@ namespace ClientServerLib
                 if (client != null)
                 {
                     int id = ids.Dequeue();
-                    CConnection connection = new CConnection(client, id);
+                    CConnection connection = new CConnection(client, id, encryption);
 
                     lock (clients)
                     {

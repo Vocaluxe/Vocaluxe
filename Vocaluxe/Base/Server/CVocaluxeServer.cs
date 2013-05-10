@@ -26,13 +26,13 @@ namespace Vocaluxe.Base.Server
         public static void Init()
         {
             _Clients = new Dictionary<int, CClientHandler>();
-            _Server = new CServer(RequestHandler, CConfig.ServerPort);
+            _Server = new CServer(RequestHandler, CConfig.ServerPort, CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON);
             Controller.Init();
         }
 
         public static void Start()
         {
-            if (CConfig.Server == EOffOn.TR_CONFIG_ON)
+            if (CConfig.ServerActive == EOffOn.TR_CONFIG_ON)
                 _Server.Start();
         }
 
