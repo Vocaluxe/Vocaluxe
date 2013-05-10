@@ -66,9 +66,21 @@ namespace Vocaluxe.Lib.Draw
     struct STextureQueue
     {
         public int Index;
-        public int Width;
-        public int Height;
+        public int TextureWidth;
+        public int TextureHeight;
+        public int DataWidth;
+        public int DataHeight;
         public byte[] Data;
+
+        public STextureQueue(int index, int textureWidth, int textureHeight, int dataWidth, int dataHeight, byte[] data)
+        {
+            Index = index;
+            TextureWidth = textureWidth;
+            TextureHeight = textureHeight;
+            DataWidth = dataWidth;
+            DataHeight = dataHeight;
+            Data = data;
+        }
     }
 
     class COpenGL : Form, IDraw
@@ -811,12 +823,11 @@ namespace Vocaluxe.Lib.Draw
         public CTexture EnqueueTexture(int w, int h, byte[] data)
         {
             CTexture texture = _GetNewTexture(w, h);
-            STextureQueue queue = new STextureQueue {Data = data, Height = h, Width = w};
 
             lock (_MutexTexture)
             {
                 texture.Index = _IDs.Dequeue();
-                queue.Index = texture.Index;
+                STextureQueue queue = new STextureQueue(texture.Index, texture.W2, texture.H2, w, h, data);
                 _Queue.Add(queue);
                 _Textures[texture.Index] = texture;
             }
@@ -1183,7 +1194,7 @@ namespace Vocaluxe.Lib.Draw
                     if (!_Textures.TryGetValue(q.Index, out texture))
                         continue;
 
-                    _CreateTexture(texture, q.Width, q.Height, q.Data);
+                    _CreateTexture(texture, q.DataWidth, q.DataHeight, q.Data);
                 }
             }
         }

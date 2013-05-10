@@ -51,10 +51,9 @@ namespace Vocaluxe.Lib.Draw
         private Size _OldSize;
         private Size _SizeBeforeMinimize;
 
-        private readonly Dictionary<int, CTexture> _Textures;
-        private readonly Dictionary<int, Texture> _D3DTextures;
-        private readonly List<STextureQueue> _Queue;
-        private readonly Queue<int> _IDs;
+        private readonly Dictionary<int, Texture> _D3DTextures = new Dictionary<int, Texture>();
+        private readonly List<STextureQueue> _Queue = new List<STextureQueue>();
+        private readonly Queue<int> _IDs = new Queue<int>();
 
         private readonly Object _MutexTexture = new Object();
 
@@ -68,9 +67,9 @@ namespace Vocaluxe.Lib.Draw
 
         private CTexture _BlankTexture;
 
-        private readonly Queue<STexturedColoredVertex> _Vertices;
-        private readonly Queue<Texture> _VerticesTextures;
-        private readonly Queue<SlimDX.Matrix> _VerticesRotationMatrices;
+        private readonly Queue<STexturedColoredVertex> _Vertices = new Queue<STexturedColoredVertex>();
+        private readonly Queue<Texture> _VerticesTextures = new Queue<Texture>();
+        private readonly Queue<SlimDX.Matrix> _VerticesRotationMatrices = new Queue<SlimDX.Matrix>();
 
         private readonly bool _NonPowerOf2TextureSupported;
         #endregion private vars
@@ -81,18 +80,10 @@ namespace Vocaluxe.Lib.Draw
         public CDirect3D()
         {
             Icon = new Icon(Path.Combine(Environment.CurrentDirectory, CSettings.Icon));
-            _Textures = new Dictionary<int, CTexture>();
-            _D3DTextures = new Dictionary<int, Texture>();
-            _Queue = new List<STextureQueue>();
-            _IDs = new Queue<int>();
 
             //Fill Queue with 100000 IDs
             for (int i = 0; i < 100000; i++)
                 _IDs.Enqueue(i);
-
-            _Vertices = new Queue<STexturedColoredVertex>();
-            _VerticesTextures = new Queue<Texture>();
-            _VerticesRotationMatrices = new Queue<SlimDX.Matrix>();
 
             _Keys = new CKeys();
             try
@@ -691,7 +682,6 @@ namespace Vocaluxe.Lib.Draw
                 texture.Index = _IDs.Dequeue();
                 _D3DTextures.Add(texture.Index, tex);
 
-                _Textures[texture.Index] = texture;
                 return texture;
             }
         }
@@ -901,57 +891,55 @@ namespace Vocaluxe.Lib.Draw
 
         private CTexture _AddTexture(CTexture texture, int w, byte[] data)
         {
-            Texture t = _CreateTexture(texture, w, data);
+            Texture t = _CreateTexture(texture.W2, texture.H2, w, data);
 
             lock (_MutexTexture)
             {
-                _D3DTextures.Add(_IDs.Peek(), t);
                 texture.Index = _IDs.Dequeue();
-                _Textures[texture.Index] = texture;
+                _D3DTextures.Add(texture.Index, t);
             }
             return texture;
         }
 
-        private Texture _CreateTexture(CTexture texture, int w, byte[] data)
+        private Texture _CreateTexture(int textureW, int textureH, int w, byte[] data)
         {
             //Create a new texture in the managed pool, which does not need to be recreated on a lost device
             //because a copy of the texture is hold in the Ram
-            Texture t = null;
-            try
+            Texture t;
+            using (t = new Texture(_Device, textureW, textureH, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed))
+                _WriteDataToTexture(t, w, data);
+            return t;
+        }
+
+        private static void _WriteDataToTexture(Texture t, int w, byte[] data)
+        {
+            //Lock the texture and fill it with the data
+            DataRectangle rect = t.LockRectangle(0, LockFlags.Discard);
+            int rowWidth = 4 * w;
+            if (rowWidth == rect.Pitch)
+                rect.Data.Write(data, 0, data.Length);
+            else
             {
-                t = new Texture(_Device, texture.W2, texture.H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
-                //Lock the texture and fill it with the data
-                DataRectangle rect = t.LockRectangle(0, LockFlags.Discard);
-                int rowWidth = 4 * w;
                 for (int i = 0; i + rowWidth <= data.Length; i += rowWidth)
                 {
                     rect.Data.Write(data, i, rowWidth);
                     //Go to next row
                     rect.Data.Position = rect.Data.Position - rowWidth + rect.Pitch;
                 }
-                t.UnlockRectangle(0);
             }
-            catch (Exception)
-            {
-                if (t != null)
-                    t.Dispose();
-                throw;
-            }
-            return t;
+            t.UnlockRectangle(0);
         }
 
         public CTexture EnqueueTexture(int w, int h, byte[] data)
         {
             CTexture texture = _GetNewTexture(w, h);
-            STextureQueue queue = new STextureQueue {Data = data, Height = h, Width = w};
 
             lock (_MutexTexture)
             {
-                _D3DTextures.Add(_IDs.Peek(), null);
                 texture.Index = _IDs.Dequeue();
-                queue.Index = texture.Index;
+                _D3DTextures.Add(texture.Index, null);
+                STextureQueue queue = new STextureQueue(texture.Index, texture.W2, texture.H2, w, h, data);
                 _Queue.Add(queue);
-                _Textures[texture.Index] = texture;
             }
             return texture;
         }
@@ -978,15 +966,7 @@ namespace Vocaluxe.Lib.Draw
                 return false;
             lock (_MutexTexture)
             {
-                DataRectangle rect = _D3DTextures[texture.Index].LockRectangle(0, LockFlags.Discard);
-                int rowWidth = 4 * w;
-                for (int i = 0; i + rowWidth <= data.Length; i += rowWidth)
-                {
-                    rect.Data.Write(data, i, rowWidth);
-                    //Go to next row
-                    rect.Data.Position = rect.Data.Position - rowWidth + rect.Pitch;
-                }
-                _D3DTextures[texture.Index].UnlockRectangle(0);
+                _WriteDataToTexture(_D3DTextures[texture.Index], w, data);
             }
             return true;
         }
@@ -1011,7 +991,7 @@ namespace Vocaluxe.Lib.Draw
         {
             lock (_MutexTexture)
             {
-                return texture != null && _Textures.ContainsKey(texture.Index);
+                return texture != null && _D3DTextures.ContainsKey(texture.Index);
             }
         }
 
@@ -1027,7 +1007,6 @@ namespace Vocaluxe.Lib.Draw
                 {
                     _D3DTextures[texture.Index].Dispose();
                     _D3DTextures.Remove(texture.Index);
-                    _Textures.Remove(texture.Index);
                     _IDs.Enqueue(texture.Index);
                 }
             }
@@ -1295,11 +1274,11 @@ namespace Vocaluxe.Lib.Draw
                 {
                     STextureQueue q = _Queue[0];
                     _Queue.RemoveAt(0);
-                    CTexture texture;
-                    if (!_Textures.TryGetValue(q.Index, out texture))
+                    Texture t;
+                    if (_D3DTextures.TryGetValue(q.Index, out t) && t != null)
                         continue;
 
-                    Texture t = _CreateTexture(texture, q.Width, q.Data);
+                    t = _CreateTexture(q.TextureWidth, q.TextureHeight, q.DataWidth, q.Data);
                     _D3DTextures[q.Index] = t;
                 }
             }
@@ -1311,7 +1290,7 @@ namespace Vocaluxe.Lib.Draw
         /// <returns>The amount of textures</returns>
         public int GetTextureCount()
         {
-            return _Textures.Count;
+            return _D3DTextures.Count;
         }
         #endregion Textures
 
