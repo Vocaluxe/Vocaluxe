@@ -193,7 +193,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<ColorEmptyTile>: Static color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorEmptyTileName != "")
+                if (!String.IsNullOrEmpty(_Theme.ColorEmptyTileName))
                     writer.WriteElementString("ColorEmptyTile", _Theme.ColorEmptyTileName);
                 else
                 {
@@ -224,7 +224,7 @@ namespace VocaluxeLib.Menu
                 writer.WriteComment("<Font>: Text font name");
                 writer.WriteElementString("Font", _Theme.NameFont);
                 writer.WriteComment("<Color>: Text color from ColorScheme (high priority)");
-                if (_Theme.NameColorName != "")
+                if (!String.IsNullOrEmpty(_Theme.NameColorName))
                     writer.WriteElementString("Color", _Theme.NameColorName);
                 else
                 {
@@ -464,10 +464,10 @@ namespace VocaluxeLib.Menu
             _TextureEmptyTile = CBase.Theme.GetSkinTexture(_Theme.TextureEmptyTileName, _PartyModeID);
             _TextureTileSelected = CBase.Theme.GetSkinTexture(_Theme.TextureTileSelectedName, _PartyModeID);
 
-            if (_Theme.ColorEmptyTileName != "")
+            if (!String.IsNullOrEmpty(_Theme.ColorEmptyTileName))
                 ColorEmptyTile = CBase.Theme.GetColor(_Theme.ColorEmptyTileName, _PartyModeID);
 
-            if (_Theme.NameColorName != "")
+            if (!String.IsNullOrEmpty(_Theme.NameColorName))
                 _Theme.NameColor = CBase.Theme.GetColor(_Theme.NameColorName, _PartyModeID);
         }
 

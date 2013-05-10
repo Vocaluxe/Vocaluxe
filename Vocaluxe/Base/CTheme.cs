@@ -809,7 +809,7 @@ namespace Vocaluxe.Base
             writer.WriteElementString("W", Cursor.W.ToString("#0.000"));
             writer.WriteElementString("H", Cursor.H.ToString("#0.000"));
 
-            if (Cursor.Color != "")
+            if (!String.IsNullOrEmpty(Cursor.Color))
                 writer.WriteElementString("Color", Cursor.Color);
             else
             {
@@ -871,7 +871,7 @@ namespace Vocaluxe.Base
         public static SColorF GetPlayerColor(string playerNrString, int skinIndex, out bool success)
         {
             int selection = 0;
-            if (playerNrString.StartsWith("Player"))
+            if (playerNrString != null && playerNrString.StartsWith("Player"))
                 int.TryParse(playerNrString.Substring(6), out selection);
 
             return GetPlayerColor(selection, skinIndex, out success);
@@ -885,13 +885,12 @@ namespace Vocaluxe.Base
         public static SColorF GetPlayerColor(int playerNr, int skinIndex, out bool success)
         {
             success = false;
-            SColorF color = new SColorF(1f, 1f, 1f, 1f);
 
             if (_Skins[skinIndex].PartyModeID != -1)
                 skinIndex = GetSkinIndex(-1);
 
             if (_Skins[skinIndex].ThemeColors.Player.Length < playerNr || playerNr < 1)
-                return color;
+                return new SColorF(1f, 1f, 1f, 1f);
 
             success = true;
             return _Skins[skinIndex].ThemeColors.Player[playerNr - 1];

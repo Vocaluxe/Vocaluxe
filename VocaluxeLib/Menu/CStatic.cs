@@ -46,7 +46,7 @@ namespace VocaluxeLib.Menu
         private CTexture _Texture;
         public CTexture Texture
         {
-            get { return _Texture?? CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID); }
+            get { return _Texture ?? CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID); }
 
             set { _Texture = value; }
         }
@@ -59,9 +59,9 @@ namespace VocaluxeLib.Menu
         public float ReflectionHeight;
 
         public bool Selected;
-        public bool Visible=true;
+        public bool Visible = true;
 
-        public float Alpha=1;
+        public float Alpha = 1;
 
         public EAspect Aspect = EAspect.Stretch;
 
@@ -161,7 +161,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<Color>: Static color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName != "")
+                if (!String.IsNullOrEmpty(_Theme.ColorName))
                     writer.WriteElementString("Color", _Theme.ColorName);
                 else
                 {
@@ -244,7 +244,7 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (_Theme.ColorName != "")
+            if (!String.IsNullOrEmpty(_Theme.ColorName))
                 Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
         }
 

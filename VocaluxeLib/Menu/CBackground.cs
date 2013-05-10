@@ -119,7 +119,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<Color>: Background color for type \"Color\" from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName != "")
+                if (!String.IsNullOrEmpty(_Theme.ColorName))
                     writer.WriteElementString("Color", _Theme.ColorName);
                 else
                 {
@@ -140,13 +140,13 @@ namespace VocaluxeLib.Menu
 
         public void Resume()
         {
-            if (_Theme.Type == EBackgroundTypes.Video && _Theme.VideoName != "" && CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_ON)
+            if (_Theme.Type == EBackgroundTypes.Video && !String.IsNullOrEmpty(_Theme.VideoName) && CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_ON)
                 CBase.Theme.SkinVideoResume(_Theme.VideoName, _PartyModeID);
         }
 
         public void Pause()
         {
-            if (_Theme.VideoName != "")
+            if (!String.IsNullOrEmpty(_Theme.VideoName))
                 CBase.Theme.SkinVideoPause(_Theme.VideoName, _PartyModeID);
         }
 
@@ -166,7 +166,7 @@ namespace VocaluxeLib.Menu
                 ok = _DrawVideo();
             }
 
-            if (_Theme.TextureName != "" &&
+            if (!String.IsNullOrEmpty(_Theme.TextureName) &&
                 (_Theme.Type == EBackgroundTypes.Texture ||
                  (_Theme.Type == EBackgroundTypes.Video && (CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_OFF || !ok))))
                 ok = _DrawTexture();
@@ -182,7 +182,7 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (_Theme.ColorName != "")
+            if (!String.IsNullOrEmpty(_Theme.ColorName))
                 Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
         }
 

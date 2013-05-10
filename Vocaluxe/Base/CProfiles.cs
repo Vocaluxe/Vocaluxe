@@ -156,7 +156,7 @@ namespace Vocaluxe.Base
                 return String.Empty;
 
             SProfile profile = _Profiles[profileID];
-            if (profile.PlayerName != "")
+            if (!String.IsNullOrEmpty(profile.PlayerName))
                 profile.PlayerName = profile.PlayerName.Remove(profile.PlayerName.Length - 1);
             _Profiles[profileID] = profile;
 
@@ -255,7 +255,7 @@ namespace Vocaluxe.Base
         {
             if (!IsProfileIDValid(profileID))
                 return;
-            if (_Profiles[profileID].ProfileFile == "")
+            if (String.IsNullOrEmpty(_Profiles[profileID].ProfileFile))
                 return;
             try
             {
@@ -311,9 +311,9 @@ namespace Vocaluxe.Base
             if (!IsProfileIDValid(profileID))
                 return;
 
-            if (_Profiles[profileID].ProfileFile == "")
+            if (String.IsNullOrEmpty(_Profiles[profileID].ProfileFile))
             {
-                string filename = string.Empty;
+                string filename = "";
                 foreach (char chr in _Profiles[profileID].PlayerName)
                 {
                     if (char.IsLetter(chr))

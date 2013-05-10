@@ -186,7 +186,7 @@ namespace Vocaluxe.Base
         {
             SCoverTheme coverTheme = _CoverTheme(coverThemeName);
 
-            if (coverTheme.Name == "")
+            if (String.IsNullOrEmpty(coverTheme.Name))
                 return;
             CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.FolderCover, coverTheme.File));
 

@@ -351,7 +351,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
                 writer.WriteComment("<Color>: Tile color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName != "")
+                if (!String.IsNullOrEmpty(_Theme.ColorName))
                     writer.WriteElementString("Color", _Theme.ColorName);
                 else
                 {
@@ -548,7 +548,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             Init();
 
-            if (_Theme.ColorName != "")
+            if (!String.IsNullOrEmpty(_Theme.ColorName))
                 _Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
         }
 

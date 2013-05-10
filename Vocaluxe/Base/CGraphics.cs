@@ -32,53 +32,31 @@ namespace Vocaluxe.Base
 {
     class CCursor
     {
-        private readonly Stopwatch _CursorFadingTimer;
-        private float _CursorTargetAlpha;
+        private readonly Stopwatch _CursorFadingTimer = new Stopwatch();
+        private float _CursorTargetAlpha = 1f;
         private float _CursorStartAlpha;
-        private float _CursorFadingTime;
+        private float _CursorFadingTime = 0.5f;
         private CTexture _Cursor;
-        private readonly string _CursorName = String.Empty;
 
-        private readonly Stopwatch _Movetimer;
+        private readonly Stopwatch _Movetimer = new Stopwatch();
 
-        public bool ShowCursor;
+        public bool ShowCursor = true;
         public bool Visible = true;
         public bool CursorVisible = true;
 
         public int X
         {
             get { return (int)_Cursor.Rect.X; }
-            set { UpdatePosition(value, (int)_Cursor.Rect.Y); }
         }
 
         public int Y
         {
             get { return (int)_Cursor.Rect.Y; }
-            set { UpdatePosition((int)_Cursor.Rect.X, value); }
         }
 
         public bool IsActive
         {
             get { return _Movetimer.IsRunning; }
-        }
-
-        public CCursor(string textureName, SColorF color, float w, float h, float z)
-        {
-            _CursorFadingTimer = new Stopwatch();
-            ShowCursor = true;
-            _CursorTargetAlpha = 1f;
-            _CursorStartAlpha = 0f;
-            _CursorFadingTime = 0.5f;
-
-            _CursorName = textureName;
-            _Cursor = CDraw.AddTexture(CTheme.GetSkinFilePath(_CursorName, -1));
-
-            _Cursor.Color = color;
-            _Cursor.Rect.W = w;
-            _Cursor.Rect.H = h;
-            _Cursor.Rect.Z = z;
-
-            _Movetimer = new Stopwatch();
         }
 
         public void Draw()
@@ -128,6 +106,17 @@ namespace Vocaluxe.Base
             _Cursor.Rect.Y = y;
         }
 
+        public void LoadTextures()
+        {
+            _Cursor = CDraw.AddTexture(CTheme.GetSkinFilePath(CTheme.Cursor.SkinName, -1));
+
+            _Cursor.Color = !String.IsNullOrEmpty(CTheme.Cursor.Color)
+                                ? CTheme.GetColor(CTheme.Cursor.Color, -1) : new SColorF(CTheme.Cursor.R, CTheme.Cursor.G, CTheme.Cursor.B, CTheme.Cursor.A);
+            _Cursor.Rect.W = CTheme.Cursor.W;
+            _Cursor.Rect.H = CTheme.Cursor.H;
+            _Cursor.Rect.Z = CSettings.ZNear;
+        }
+
         public void UnloadTextures()
         {
             CDraw.RemoveTexture(ref _Cursor);
@@ -135,9 +124,11 @@ namespace Vocaluxe.Base
 
         public void ReloadTextures()
         {
+            int x = X;
+            int y = Y;
             UnloadTextures();
-
-            _Cursor = CDraw.AddTexture(CTheme.GetSkinFilePath(_CursorName, -1));
+            LoadTextures();
+            UpdatePosition(x, y);
         }
 
         public void FadeOut()
@@ -175,7 +166,7 @@ namespace Vocaluxe.Base
     {
         private static bool _Fading;
         private static Stopwatch _FadingTimer;
-        private static CCursor _Cursor;
+        private static readonly CCursor _Cursor = new CCursor();
         private static float _GlobalAlpha;
         private static float _ZOffset;
 
@@ -252,12 +243,7 @@ namespace Vocaluxe.Base
 
         public static void LoadTheme()
         {
-            _Cursor = new CCursor(
-                CTheme.Cursor.SkinName,
-                new SColorF(CTheme.Cursor.R, CTheme.Cursor.G, CTheme.Cursor.B, CTheme.Cursor.A),
-                CTheme.Cursor.W,
-                CTheme.Cursor.H,
-                CSettings.ZNear);
+            _Cursor.LoadTextures();
 
             for (int i = 0; i < _Screens.Count; i++)
             {
@@ -276,7 +262,7 @@ namespace Vocaluxe.Base
 
         public static void ReloadTheme()
         {
-            _ReloadCursor();
+            _Cursor.ReloadTextures();
             foreach (IMenu screen in _Screens)
                 screen.ReloadTheme(CTheme.GetThemeScreensPath(-1));
 
@@ -286,7 +272,7 @@ namespace Vocaluxe.Base
 
         public static void ReloadSkin()
         {
-            _ReloadCursor();
+            _Cursor.ReloadTextures();
             foreach (IMenu menu in _Screens)
                 menu.ReloadTextures();
 
@@ -781,27 +767,6 @@ namespace Vocaluxe.Base
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 y += rect.Height;
             }
-        }
-
-        private static void _ReloadCursor()
-        {
-            _Cursor.UnloadTextures();
-
-            if (CTheme.Cursor.Color != "")
-            {
-                SColorF color = CTheme.GetColor(CTheme.Cursor.Color, -1);
-                CTheme.Cursor.R = color.R;
-                CTheme.Cursor.G = color.G;
-                CTheme.Cursor.B = color.B;
-                CTheme.Cursor.A = color.A;
-            }
-
-            _Cursor = new CCursor(
-                CTheme.Cursor.SkinName,
-                new SColorF(CTheme.Cursor.R, CTheme.Cursor.G, CTheme.Cursor.B, CTheme.Cursor.A),
-                CTheme.Cursor.W,
-                CTheme.Cursor.H,
-                CSettings.ZNear);
         }
         #endregion private stuff
     }
