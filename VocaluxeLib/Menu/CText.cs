@@ -579,7 +579,7 @@ namespace VocaluxeLib.Menu
                         break;
                 }
 
-                bounds = CBase.Fonts.GetTextBounds(this);
+                bounds = CBase.Fonts.GetTextBounds(this, h);
             }
 
             float x = X;

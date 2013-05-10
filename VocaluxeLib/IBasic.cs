@@ -146,6 +146,7 @@ namespace VocaluxeLib
         void SetStyle(EStyle fontStyle);
 
         RectangleF GetTextBounds(CText text);
+        RectangleF GetTextBounds(CText text, float textHeight);
 
         void DrawText(string text, float textHeight, float x, float y, float z, SColorF color);
         void DrawTextReflection(string text, float textHeight, float x, float y, float z, SColorF color, float reflectionSpace, float reflectionHeight);
