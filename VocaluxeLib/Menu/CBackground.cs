@@ -204,7 +204,7 @@ namespace VocaluxeLib.Menu
         private bool _DrawTexture()
         {
             CTexture texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
-            if (texture.OrigSize.Height > 1)
+            if (texture != null)
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect;
@@ -219,7 +219,7 @@ namespace VocaluxeLib.Menu
         private bool _DrawVideo()
         {
             CTexture videoTexture = CBase.Theme.GetSkinVideoTexture(_Theme.VideoName, _PartyModeID);
-            if (videoTexture.OrigSize.Height > 1)
+            if (videoTexture != null)
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect;
@@ -234,7 +234,7 @@ namespace VocaluxeLib.Menu
         private bool _DrawBackgroundMusicVideo()
         {
             CTexture videoTexture = CBase.BackgroundMusic.GetVideoTexture();
-            if (videoTexture.OrigSize.Height > 1)
+            if (videoTexture != null)
             {
                 RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect;

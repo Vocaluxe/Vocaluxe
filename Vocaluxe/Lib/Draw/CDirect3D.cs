@@ -891,7 +891,7 @@ namespace Vocaluxe.Lib.Draw
                     bmp2.Dispose();
             }
 
-            CTexture texture = new CTexture(bmp.Width, bmp.Height, w, h,true);
+            CTexture texture = new CTexture(bmp.Width, bmp.Height, w, h, true);
             return _AddTexture(texture, w, data);
         }
 
@@ -924,12 +924,12 @@ namespace Vocaluxe.Lib.Draw
                 t = new Texture(_Device, texture.W2, texture.H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
                 //Lock the texture and fill it with the data
                 DataRectangle rect = t.LockRectangle(0, LockFlags.Discard);
-                int rowWidth = 4 * texture.W2;
-                for (int i = 0; i + rowWidth <= data.Length; i += 4 * w)
+                int rowWidth = 4 * w;
+                for (int i = 0; i + rowWidth <= data.Length; i += rowWidth)
                 {
-                    rect.Data.Write(data, i, 4 * w);
-                    rect.Data.Position = rect.Data.Position - rowWidth;
-                    rect.Data.Position += rect.Pitch;
+                    rect.Data.Write(data, i, rowWidth);
+                    //Go to next row
+                    rect.Data.Position = rect.Data.Position - rowWidth + rect.Pitch;
                 }
                 t.UnlockRectangle(0);
             }
@@ -969,24 +969,36 @@ namespace Vocaluxe.Lib.Draw
         ///     Updates the data of a texture
         /// </summary>
         /// <param name="texture">The texture to update</param>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
         /// <param name="data">A byte array containing the new texture's data</param>
         /// <returns>True if succeeded</returns>
-        public bool UpdateTexture(CTexture texture, byte[] data)
+        public bool UpdateTexture(CTexture texture, int w, int h, byte[] data)
         {
-            if (!_TextureExists(texture))
+            //Check if texture exists and extend matches
+            if (!_TextureExists(texture) || texture.UsedWidth != w || texture.UsedHeight != h)
                 return false;
             lock (_MutexTexture)
             {
                 DataRectangle rect = _D3DTextures[texture.Index].LockRectangle(0, LockFlags.Discard);
-                int w = texture.OrigSize.Width;
-                int rowWidth = 4 * texture.W2;
-                for (int i = 0; i + rowWidth <= data.Length; i += 4 * w)
+                int rowWidth = 4 * w;
+                for (int i = 0; i + rowWidth <= data.Length; i += rowWidth)
                 {
-                    rect.Data.Write(data, i, 4 * w);
-                    rect.Data.Position = rect.Data.Position - rowWidth;
-                    rect.Data.Position += rect.Pitch;
+                    rect.Data.Write(data, i, rowWidth);
+                    //Go to next row
+                    rect.Data.Position = rect.Data.Position - rowWidth + rect.Pitch;
                 }
                 _D3DTextures[texture.Index].UnlockRectangle(0);
+            }
+            return true;
+        }
+
+        public bool UpdateOrAddTexture(ref CTexture texture, int w, int h, byte[] data)
+        {
+            if (!UpdateTexture(texture, w, h, data))
+            {
+                RemoveTexture(ref texture);
+                texture = AddTexture(w, h, data);
             }
             return true;
         }
@@ -1288,15 +1300,9 @@ namespace Vocaluxe.Lib.Draw
                     CTexture texture;
                     if (!_Textures.TryGetValue(q.Index, out texture))
                         continue;
-                    if (q.Width == texture.OrigSize.Width && q.Height == texture.OrigSize.Height)
-                    {
-                        texture.W2 = _CheckForNextPowerOf2(texture.OrigSize.Width);
-                        texture.H2 = _CheckForNextPowerOf2(texture.OrigSize.Height);
-                        Texture t = _CreateTexture(texture, q.Width, q.Data);
-                        _D3DTextures[q.Index] = t;
-                    }
-                    else
-                        CLog.LogError("Wrong texture size in queue!");
+
+                    Texture t = _CreateTexture(texture, q.Width, q.Data);
+                    _D3DTextures[q.Index] = t;
                 }
             }
         }

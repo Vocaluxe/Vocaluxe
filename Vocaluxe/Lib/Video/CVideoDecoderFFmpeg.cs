@@ -323,7 +323,7 @@ namespace Vocaluxe.Lib.Video
 
                 _UploadNewFrame(ref frame);
                 //EventDecode.Set();
-                return true;
+                return frame != null;
             }
 
             if (Math.Abs(_SetTime - time) > float.Epsilon)
@@ -335,7 +335,7 @@ namespace Vocaluxe.Lib.Video
                 _UploadNewFrame(ref frame);
                 videoTime = _CurrentVideoTime;
                 //EventDecode.Set();
-                return true;
+                return frame != null;
             }
             return false;
         }
@@ -661,13 +661,7 @@ namespace Vocaluxe.Lib.Video
 
                 if (num >= 0)
                 {
-                    if (frame == null || _Width != frame.OrigSize.Width || _Height != frame.OrigSize.Height)
-                    {
-                        CDraw.RemoveTexture(ref frame);
-                        frame = CDraw.AddTexture(_Width, _Height, _FrameBuffer[num].Data);
-                    }
-                    else
-                        CDraw.UpdateTexture(frame, _FrameBuffer[num].Data);
+                    CDraw.UpdateOrAddTexture(ref frame, _Width, _Height, _FrameBuffer[num].Data);
 
                     lock (_MutexSyncSignals)
                     {

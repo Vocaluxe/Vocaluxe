@@ -518,8 +518,8 @@ namespace Vocaluxe.Lib.Draw
 
         public void CopyScreen(ref CTexture texture)
         {
-            //Check for actual texture sizes! (W2/H2) as it may be up/downsized compared to OrigSize
-            if (!_TextureExists(texture) || texture.W2 != GetScreenWidth() || texture.H2 != GetScreenHeight())
+            //Check for actual texture sizes as it may be downsized compared to OrigSize
+            if (!_TextureExists(texture) || texture.UsedWidth != GetScreenWidth() || texture.UsedHeight != GetScreenHeight())
             {
                 RemoveTexture(ref texture);
                 texture = CopyScreen();
@@ -528,7 +528,7 @@ namespace Vocaluxe.Lib.Draw
             {
                 GL.BindTexture(TextureTarget.Texture2D, texture.ID);
 
-                GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0, texture.OrigSize.Width, texture.OrigSize.Height);
+                GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0, texture.UsedWidth, texture.UsedHeight);
 
                 GL.BindTexture(TextureTarget.Texture2D, 0);
             }
@@ -831,9 +831,10 @@ namespace Vocaluxe.Lib.Draw
         #endregion adding
 
         #region updating
-        public bool UpdateTexture(CTexture texture, byte[] data)
+        public bool UpdateTexture(CTexture texture, int w, int h, byte[] data)
         {
-            if (!_TextureExists(texture))
+            //Check if texture exists and extend matches
+            if (!_TextureExists(texture) || texture.UsedWidth != w || texture.UsedHeight != h)
                 return false;
             if (_UsePBO)
             {
@@ -845,7 +846,7 @@ namespace Vocaluxe.Lib.Draw
                 GL.UnmapBuffer(BufferTarget.PixelUnpackBuffer);
 
                 GL.BindTexture(TextureTarget.Texture2D, texture.ID);
-                GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.OrigSize.Width, texture.OrigSize.Height, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+                GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
                 GL.BindTexture(TextureTarget.Texture2D, 0);
                 GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
@@ -855,7 +856,7 @@ namespace Vocaluxe.Lib.Draw
 
             GL.BindTexture(TextureTarget.Texture2D, texture.ID);
 
-            GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.OrigSize.Width, texture.OrigSize.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
+            GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
             //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
@@ -867,6 +868,16 @@ namespace Vocaluxe.Lib.Draw
             //GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
+            return true;
+        }
+
+        public bool UpdateOrAddTexture(ref CTexture texture, int w, int h, byte[] data)
+        {
+            if (!UpdateTexture(texture, w, h, data))
+            {
+                RemoveTexture(ref texture);
+                texture = AddTexture(w, h, data);
+            }
             return true;
         }
         #endregion updating
@@ -1172,10 +1183,7 @@ namespace Vocaluxe.Lib.Draw
                     if (!_Textures.TryGetValue(q.Index, out texture))
                         continue;
 
-                    if (q.Width == texture.OrigSize.Width && q.Height == texture.OrigSize.Height)
-                        _CreateTexture(texture, q.Width, q.Height, q.Data);
-                    else
-                        CLog.LogError("Wrong texture size in queue!");
+                    _CreateTexture(texture, q.Width, q.Height, q.Data);
                 }
             }
         }

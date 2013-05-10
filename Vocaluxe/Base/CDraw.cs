@@ -160,9 +160,14 @@ namespace Vocaluxe.Base
             return _Draw.EnqueueTexture(w, h, data);
         }
 
-        public static bool UpdateTexture(CTexture texture, byte[] data)
+        public static bool UpdateTexture(CTexture texture, int w, int h, byte[] data)
         {
-            return _Draw.UpdateTexture(texture, data);
+            return _Draw.UpdateTexture(texture, w, h, data);
+        }
+
+        public static bool UpdateOrAddTexture(ref CTexture texture, int w, int h, byte[] data)
+        {
+            return _Draw.UpdateOrAddTexture(ref texture, w, h, data);
         }
 
         public static void RemoveTexture(ref CTexture texture)

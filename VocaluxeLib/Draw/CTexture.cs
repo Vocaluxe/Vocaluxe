@@ -28,7 +28,7 @@ namespace VocaluxeLib.Draw
         public SColorF Color = new SColorF(1f, 1f, 1f, 1f);
 
         private int _W2, _H2;
-        private bool _UseFullTexture;
+        private readonly bool _UseFullTexture;
         /// <summary>
         /// Internal texture width (on device), a power of 2 if necessary
         /// </summary>
@@ -38,7 +38,9 @@ namespace VocaluxeLib.Draw
             set
             {
                 _W2 = value;
-                if (!_UseFullTexture)
+                if (_UseFullTexture)
+                    WidthRatio = 1;
+                else
                     WidthRatio = (float)OrigSize.Width / _W2;
             }
         }
@@ -51,7 +53,9 @@ namespace VocaluxeLib.Draw
             set
             {
                 _H2 = value;
-                if (!_UseFullTexture)
+                if (_UseFullTexture)
+                    HeightRatio = 1;
+                else
                     HeightRatio = (float)OrigSize.Height / _H2;
             }
         }
@@ -64,6 +68,22 @@ namespace VocaluxeLib.Draw
         /// Internal use. Specifies which part of texture memory is actually used
         /// </summary>
         public float HeightRatio { get; private set; }
+
+        /// <summary>
+        /// Actual texture space used in x direction
+        /// </summary>
+        public int UsedWidth
+        {
+            get { return (int)(_W2 * WidthRatio); }
+        }
+
+        /// <summary>
+        /// Actual texture space used in y direction
+        /// </summary>
+        public int UsedHeight
+        {
+            get { return (int)(_H2 * HeightRatio); }
+        }
 
         /*
         /// <summary>

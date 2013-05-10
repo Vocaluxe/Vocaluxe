@@ -84,7 +84,7 @@ namespace Vocaluxe.Lib.Video
             videoTime = managedFrame.Videotime;
 
             _UploadNewFrame(ref frame, ref managedFrame.Buffer, managedFrame.Width, managedFrame.Height);
-            return true;
+            return frame != null;
         }
 
         public bool Skip(int streamID, float start, float gap)
@@ -121,13 +121,7 @@ namespace Vocaluxe.Lib.Video
         {
             if (data == null)
                 return;
-            if (frame == null || width != frame.OrigSize.Width || height != frame.OrigSize.Height || data.Length == 0)
-            {
-                CDraw.RemoveTexture(ref frame);
-                frame = CDraw.AddTexture(width, height, data);
-            }
-            else
-                CDraw.UpdateTexture(frame, data);
+            CDraw.UpdateOrAddTexture(ref frame, width, height, data);
             data = null;
         }
     }

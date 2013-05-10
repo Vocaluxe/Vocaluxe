@@ -438,19 +438,21 @@ namespace VocaluxeLib.Menu.SongMenu
             if (_Actsong != _PreviewSelected)
                 _SelectSong(_PreviewSelected);
 
-            if (_Streams.Count > 0 && _Video != -1)
+            if (_Streams.Count <= 0 || _Video == -1)
+                return;
+
+            if (CBase.Video.IsFinished(_Video) || CBase.Sound.IsFinished(_Actsongstream))
             {
-                if (CBase.Video.IsFinished(_Video) || CBase.Sound.IsFinished(_Actsongstream))
-                {
-                    CBase.Video.Close(_Video);
-                    _Video = -1;
-                    return;
-                }
+                CBase.Video.Close(_Video);
+                _Video = -1;
+                return;
+            }
 
-                float time = CBase.Sound.GetPosition(_Actsongstream);
+            float time = CBase.Sound.GetPosition(_Actsongstream);
 
-                float vtime;
-                CBase.Video.GetFrame(_Video, ref _Vidtex, time, out vtime);
+            float vtime;
+            if (CBase.Video.GetFrame(_Video, ref _Vidtex, time, out vtime))
+            {
                 if (_VideoFadeTimer.ElapsedMilliseconds <= 3000L)
                     _Vidtex.Color.A = _VideoFadeTimer.ElapsedMilliseconds / 3000f;
                 else

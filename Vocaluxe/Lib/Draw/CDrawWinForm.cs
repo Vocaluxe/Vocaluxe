@@ -398,7 +398,7 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        public bool UpdateTexture(CTexture texture, byte[] data)
+        public bool UpdateTexture(CTexture texture, int w, int h, byte[] data)
         {
             if (_TextureExists(texture))
             {
@@ -409,6 +409,16 @@ namespace Vocaluxe.Lib.Draw
                 return true;
             }
             return false;
+        }
+
+        public bool UpdateOrAddTexture(ref CTexture texture, int w, int h, byte[] data)
+        {
+            if (!UpdateTexture(texture, w, h, data))
+            {
+                RemoveTexture(ref texture);
+                texture = AddTexture(w, h, data);
+            }
+            return true;
         }
 
         public void DrawTexture(CTexture texture)
