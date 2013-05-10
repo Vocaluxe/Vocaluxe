@@ -14,6 +14,8 @@ namespace Vocaluxe.Base.Server
         private static UTF8Encoding encoder = new UTF8Encoding();
         public static SHA256Managed SHA256 = new SHA256Managed();
 
+        public const string BroadcastKeyword = "I am a Vocaluxe Server";
+
         #region Commands
         public const int ResponseOK = 1;
         public const int ResponseNOK = 2;

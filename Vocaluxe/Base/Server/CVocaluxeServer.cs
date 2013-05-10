@@ -19,6 +19,7 @@ namespace Vocaluxe.Base.Server
     static class CVocaluxeServer
     {
         private static CServer _Server;
+        private static CDiscover _Discover;
         private static Dictionary<int, CClientHandler> _Clients;
 
         public static CControllerFramework Controller = new CControllerFramework();
@@ -27,18 +28,23 @@ namespace Vocaluxe.Base.Server
         {
             _Clients = new Dictionary<int, CClientHandler>();
             _Server = new CServer(RequestHandler, CConfig.ServerPort, CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON);
+            _Discover = new CDiscover(CConfig.ServerPort, CCommands.ResponseKeyword);
             Controller.Init();
         }
 
         public static void Start()
         {
             if (CConfig.ServerActive == EOffOn.TR_CONFIG_ON)
+            {
                 _Server.Start();
+                _Discover.StartBroadcasting();
+            }
         }
 
         public static void Close()
         {
             _Server.Stop();
+            _Discover.Stop();
             _Clients = new Dictionary<int, CClientHandler>();
         }
 

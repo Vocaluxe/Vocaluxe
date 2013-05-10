@@ -19,12 +19,15 @@ namespace ClientTest
     public partial class ClientTest : Form
     {
         CClient client;
+        CDiscover discover;
+
         private bool loggedIn;
 
         public ClientTest()
         {
             client = new CClient();
             loggedIn = false;
+            discover = new CDiscover(3000, CCommands.BroadcastKeyword);
 
             InitializeComponent();
         }
@@ -32,6 +35,7 @@ namespace ClientTest
         protected override void OnClosing(CancelEventArgs e)
         {
             client.Close();
+            discover.Stop();
             base.OnClosing(e);
         }
 
@@ -261,6 +265,23 @@ namespace ClientTest
 
                 client.SendMessage(CCommands.CreateCommandSendProfile(data, "TestUser", 0), OnResponse);
             }
+        }
+
+        private void btDiscover_Click(object sender, EventArgs e)
+        {
+            tbDiscoveredServer.Text = "Searching for Vocaluxe Server:\r\n";
+            discover.Discover(_OnDiscovered);
+        }
+
+        private void _OnDiscovered(string Address, string HostName)
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                if (Address != "Timeout")
+                    tbDiscoveredServer.Text += "IP = " + Address + "; HostName = " + HostName + "\r\n";
+                else
+                    tbDiscoveredServer.Text += "Timeout" + "\r\n";
+            });
         }
     }
 }

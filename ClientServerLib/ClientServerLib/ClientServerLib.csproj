@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="CClient.cs" />
     <Compile Include="CConnection.cs" />
+    <Compile Include="CDiscover.cs" />
     <Compile Include="CServer.cs" />
     <Compile Include="DeffieHellman\BigInt.cs" />
     <Compile Include="DeffieHellman\DeffieHellman.cs" />

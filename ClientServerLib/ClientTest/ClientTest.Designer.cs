@@ -49,6 +49,9 @@
             this.btDown = new System.Windows.Forms.Button();
             this.btSendAvatar = new System.Windows.Forms.Button();
             this.btSendProfile = new System.Windows.Forms.Button();
+            this.btDiscover = new System.Windows.Forms.Button();
+            this.tbDiscoveredServer = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -251,11 +254,44 @@
             this.btSendProfile.UseVisualStyleBackColor = true;
             this.btSendProfile.Click += new System.EventHandler(this.btSendProfile_Click);
             // 
+            // btDiscover
+            // 
+            this.btDiscover.Location = new System.Drawing.Point(831, 502);
+            this.btDiscover.Name = "btDiscover";
+            this.btDiscover.Size = new System.Drawing.Size(165, 23);
+            this.btDiscover.TabIndex = 16;
+            this.btDiscover.Text = "Discover";
+            this.btDiscover.UseVisualStyleBackColor = true;
+            this.btDiscover.Click += new System.EventHandler(this.btDiscover_Click);
+            // 
+            // tbDiscoveredServer
+            // 
+            this.tbDiscoveredServer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbDiscoveredServer.Location = new System.Drawing.Point(15, 405);
+            this.tbDiscoveredServer.Multiline = true;
+            this.tbDiscoveredServer.Name = "tbDiscoveredServer";
+            this.tbDiscoveredServer.Size = new System.Drawing.Size(810, 120);
+            this.tbDiscoveredServer.TabIndex = 17;
+            this.tbDiscoveredServer.WordWrap = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 389);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(41, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "Server:";
+            // 
             // ClientTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 550);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.tbDiscoveredServer);
+            this.Controls.Add(this.btDiscover);
             this.Controls.Add(this.btSendProfile);
             this.Controls.Add(this.btSendAvatar);
             this.Controls.Add(this.btDown);
@@ -307,6 +343,9 @@
         private System.Windows.Forms.Button btDown;
         private System.Windows.Forms.Button btSendAvatar;
         private System.Windows.Forms.Button btSendProfile;
+        private System.Windows.Forms.Button btDiscover;
+        private System.Windows.Forms.TextBox tbDiscoveredServer;
+        private System.Windows.Forms.Label label1;
     }
 }
 
