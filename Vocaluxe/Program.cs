@@ -197,15 +197,23 @@ namespace Vocaluxe
                 CController.Connect();
                 CLog.StopBenchmark(0, "Init Input");
 
+                Application.DoEvents();
+
                 // Init Game;
                 CLog.StartBenchmark(0, "Init Game");
                 CGame.Init();
+                CProfiles.Update();
+                CConfig.UsePlayers();
                 CLog.StopBenchmark(0, "Init Game");
+
+                Application.DoEvents();
 
                 // Init Party Modes;
                 CLog.StartBenchmark(0, "Init Party Modes");
                 CParty.Init();
                 CLog.StopBenchmark(0, "Init Party Modes");
+
+                Application.DoEvents();
             }
             catch (Exception e)
             {

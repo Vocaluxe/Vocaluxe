@@ -5,15 +5,19 @@
 	<string name="button_disconnect">Disconnect</string>
 	<string name="button_login">Login</string>
 	<string name="button_logout">Logout</string>
-	<string name="button_up">Up</string>
-	<string name="button_down">Down</string>
 	<string name="button_send_avatar">Send Avatar Picture</string>
+	<string name="button_send_profile">Send Profile</string>
 	<string name="message_connected">Connected</string>
 	<string name="message_disconnected">Disconnected</string>
 	<string name="message_logged_in">Logged in</string>
 	<string name="message_logged_out">Logged out</string>
+	<string name="message_login_failed">Login failed</string>
+	<string name="message_wrong_password">Wrong Password</string>
+	<string name="message_ok">Success</string>
+	<string name="message_nok">Error</string>
 	<string name="text_ip_address">IP Address of Vocaluxe Server:</string>
 	<string name="text_password">Password:</string>
+	<string name="text_player_name">Player Name:</string>
 	<string name="ip_address">192.168.178.57</string>
 	<string name="password">vocaluxe</string>
 </resources>

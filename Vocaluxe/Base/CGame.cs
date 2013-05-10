@@ -68,8 +68,6 @@ namespace Vocaluxe.Base
             _SongQueue.Init();
             Players = new SPlayer[CSettings.MaxNumPlayer];
             ResetPlayer();
-
-            CConfig.UsePlayers();
         }
 
         public static EGameMode GameMode

@@ -23,6 +23,7 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
+using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Screens
 {
@@ -61,7 +62,10 @@ namespace Vocaluxe.Screens
         private int _SelectingSwitchNr = -1;
         private int _SelectingFastPlayerNr = 0;
         private int _SelectedPlayerNr = -1;
+        private bool _AvatarsChanged = false;
+        private bool _ProfilesChanged = false;
 
+        #region public methods
         public override void Init()
         {
             base.Init();
@@ -99,6 +103,9 @@ namespace Vocaluxe.Screens
 
             _ChooseAvatarStatic = GetNewStatic();
             _ChooseAvatarStatic.Visible = false;
+            _ChooseAvatarStatic.Aspect = EAspect.Crop;
+
+            CProfiles.AddProfileChangedCallback(new ProfileChangedCallback(_OnProfileChanged));
         }
 
         public override void LoadTheme(string xmlPath)
@@ -106,7 +113,10 @@ namespace Vocaluxe.Screens
             base.LoadTheme(xmlPath);
 
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
+            {
                 _OriginalPlayerAvatarTextures[i] = _Statics[_StaticPlayerAvatar[i]].Texture;
+                _Statics[_StaticPlayerAvatar[i]].Aspect = EAspect.Crop;
+            }
 
             for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
                 _Equalizers["EqualizerPlayer" + i].ScreenHandles = true;
@@ -166,15 +176,19 @@ namespace Vocaluxe.Screens
                         //Check, if a player is selected
                         if (_NameSelections[_NameSelection].Selection > -1)
                         {
+                            CProfile[] profiles = CProfiles.GetProfiles();
                             _SelectedPlayerNr = _NameSelections[_NameSelection].Selection;
+                            if (profiles.Length <= _SelectedPlayerNr)
+                                return true;
+
                             //Update Game-infos with new player
-                            CGame.Players[_SelectingFastPlayerNr - 1].ProfileID = _SelectedPlayerNr;
+                            CGame.Players[_SelectingFastPlayerNr - 1].ProfileID = profiles[_SelectedPlayerNr].ID;
                             //Update config for default players.
-                            CConfig.Players[_SelectingFastPlayerNr - 1] = CProfiles.Profiles[_SelectedPlayerNr].FileName;
+                            CConfig.Players[_SelectingFastPlayerNr - 1] = profiles[_SelectedPlayerNr].FileName;
                             CConfig.SaveConfig();
                             //Update texture and name
-                            _Statics[_StaticPlayerAvatar[_SelectingFastPlayerNr - 1]].Texture = CProfiles.Profiles[_SelectedPlayerNr].Avatar.Texture;
-                            _Texts[_TextPlayer[_SelectingFastPlayerNr - 1]].Text = CProfiles.Profiles[_SelectedPlayerNr].PlayerName;
+                            _Statics[_StaticPlayerAvatar[_SelectingFastPlayerNr - 1]].Texture = profiles[_SelectedPlayerNr].Avatar.Texture;
+                            _Texts[_TextPlayer[_SelectingFastPlayerNr - 1]].Text = profiles[_SelectedPlayerNr].PlayerName;
                             //Update profile-warning
                             _CheckPlayers();
                             //Update Tiles-List
@@ -418,10 +432,10 @@ namespace Vocaluxe.Screens
                             //Update Game-infos with new player
                             CGame.Players[_SelectingSwitchNr].ProfileID = CGame.Players[i].ProfileID;
                             //Update config for default players.
-                            CConfig.Players[_SelectingSwitchNr] = CProfiles.Profiles[i].FileName;
+                            CConfig.Players[_SelectingSwitchNr] = CProfiles.GetProfileFileName(CGame.Players[i].ProfileID);
                             //Update texture and name
-                            _Statics[_StaticPlayerAvatar[_SelectingSwitchNr]].Texture = CProfiles.Profiles[CGame.Players[i].ProfileID].Avatar.Texture;
-                            _Texts[_TextPlayer[_SelectingSwitchNr]].Text = CProfiles.Profiles[CGame.Players[i].ProfileID].PlayerName;
+                            _Statics[_StaticPlayerAvatar[_SelectingSwitchNr]].Texture = CProfiles.GetAvatarTextureFromProfile(CGame.Players[i].ProfileID);
+                            _Texts[_TextPlayer[_SelectingSwitchNr]].Text = CProfiles.GetPlayerName(CGame.Players[i].ProfileID);
                         }
                         else if (_SelectingSwitchNr > -1)
                         {
@@ -433,14 +447,19 @@ namespace Vocaluxe.Screens
                             _Statics[_StaticPlayerAvatar[_SelectingSwitchNr]].Texture = _OriginalPlayerAvatarTextures[_SelectingSwitchNr];
                             _Texts[_TextPlayer[_SelectingSwitchNr]].Text = CProfiles.GetPlayerName(-1, (_SelectingSwitchNr+1));
                         }
+
+                        CProfile[] profiles = CProfiles.GetProfiles();
+                        if (profiles.Length <= _SelectedPlayerNr)
+                            return true;
+
                         //Update Game-infos with new player
-                        CGame.Players[i].ProfileID = _SelectedPlayerNr;
+                        CGame.Players[i].ProfileID = profiles[_SelectedPlayerNr].ID;
                         //Update config for default players.
-                        CConfig.Players[i] = CProfiles.Profiles[_SelectedPlayerNr].FileName;
+                        CConfig.Players[i] = profiles[_SelectedPlayerNr].FileName;
                         CConfig.SaveConfig();
                         //Update texture and name
                         _Statics[_StaticPlayerAvatar[i]].Texture = _ChooseAvatarStatic.Texture;
-                        _Texts[_TextPlayer[i]].Text = CProfiles.Profiles[_SelectedPlayerNr].PlayerName;
+                        _Texts[_TextPlayer[i]].Text = profiles[_SelectedPlayerNr].PlayerName;
                         //Update profile-warning
                         _CheckPlayers();
                         //Update Tiles-List
@@ -457,6 +476,7 @@ namespace Vocaluxe.Screens
                         //Update texture and name
                         _Statics[_StaticPlayerAvatar[_SelectingSwitchNr]].Texture = _OriginalPlayerAvatarTextures[_SelectingSwitchNr];
                         _Texts[_TextPlayer[_SelectingSwitchNr]].Text = CProfiles.GetPlayerName(-1, (_SelectingSwitchNr + 1));
+                        _NameSelections[_NameSelection].UpdateList();
                     }
                 }
                 _SelectingSwitchNr = -1;
@@ -473,14 +493,18 @@ namespace Vocaluxe.Screens
                     _SelectedPlayerNr = _NameSelections[_NameSelection].TilePlayerNr(mouseEvent);
                     if (_SelectedPlayerNr != -1)
                     {
+                        CProfile[] profiles = CProfiles.GetProfiles();
+                        if (profiles.Length <= _SelectedPlayerNr)
+                            return true;
+
                         //Update Game-infos with new player
-                        CGame.Players[_SelectingFastPlayerNr - 1].ProfileID = _SelectedPlayerNr;
+                        CGame.Players[_SelectingFastPlayerNr - 1].ProfileID = profiles[_SelectedPlayerNr].ID;
                         //Update config for default players.
-                        CConfig.Players[_SelectingFastPlayerNr - 1] = CProfiles.Profiles[_SelectedPlayerNr].FileName;
+                        CConfig.Players[_SelectingFastPlayerNr - 1] = profiles[_SelectedPlayerNr].FileName;
                         CConfig.SaveConfig();
                         //Update texture and name
-                        _Statics[_StaticPlayerAvatar[_SelectingFastPlayerNr - 1]].Texture = CProfiles.Profiles[_SelectedPlayerNr].Avatar.Texture;
-                        _Texts[_TextPlayer[_SelectingFastPlayerNr - 1]].Text = CProfiles.Profiles[_SelectedPlayerNr].PlayerName;
+                        _Statics[_StaticPlayerAvatar[_SelectingFastPlayerNr - 1]].Texture = profiles[_SelectedPlayerNr].Avatar.Texture;
+                        _Texts[_TextPlayer[_SelectingFastPlayerNr - 1]].Text = profiles[_SelectedPlayerNr].PlayerName;
                         //Update profile-warning
                         _CheckPlayers();
                         //Update Tiles-List
@@ -516,14 +540,18 @@ namespace Vocaluxe.Screens
                     {
                         if (CGame.Players[i].ProfileID == -1)
                         {
+                            CProfile[] profiles = CProfiles.GetProfiles();
+                            if (profiles.Length <= _SelectedPlayerNr)
+                                return true;
+
                             //Update Game-infos with new player
-                            CGame.Players[i].ProfileID = _SelectedPlayerNr;
+                            CGame.Players[i].ProfileID = profiles[_SelectedPlayerNr].ID;
                             //Update config for default players.
-                            CConfig.Players[i] = CProfiles.Profiles[_SelectedPlayerNr].FileName;
+                            CConfig.Players[i] = profiles[_SelectedPlayerNr].FileName;
                             CConfig.SaveConfig();
                             //Update texture and name
-                            _Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.Profiles[_SelectedPlayerNr].Avatar.Texture;
-                            _Texts[_TextPlayer[i]].Text = CProfiles.Profiles[_SelectedPlayerNr].PlayerName;
+                            _Statics[_StaticPlayerAvatar[i]].Texture = profiles[_SelectedPlayerNr].Avatar.Texture;
+                            _Texts[_TextPlayer[i]].Text = profiles[_SelectedPlayerNr].PlayerName;
                             //Update profile-warning
                             _CheckPlayers();
                             //Update Tiles-List
@@ -601,6 +629,9 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
+            if (_ProfilesChanged || _AvatarsChanged)
+                _LoadProfiles();
+
             for (int i = 1; i <= CGame.NumPlayer; i++)
             {
                 CSound.AnalyzeBuffer(i - 1);
@@ -615,30 +646,7 @@ namespace Vocaluxe.Screens
             CSound.RecordStart();
 
             _NameSelections[_NameSelection].Init();
-
-            _UpdateSlides();
-            _UpdatePlayerNumber();
-            _CheckMics();
-            _CheckPlayers();
-
-            for (int i = 0; i < CSettings.MaxNumPlayer; i++)
-            {
-                _Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.ICProfileIDValid(CGame.Players[i].ProfileID) ?
-                                                               CProfiles.Profiles[CGame.Players[i].ProfileID].Avatar.Texture :
-                                                               _OriginalPlayerAvatarTextures[i];
-                _Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(CGame.Players[i].ProfileID, i + 1);
-                if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
-                {
-                    _SelectSlides[_SelectSlideDuetPlayer[i]].Clear();
-                    _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = i + 1 <= CGame.NumPlayer;
-                    _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart1);
-                    _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart2);
-                    _SelectSlides[_SelectSlideDuetPlayer[i]].Selection = i % 2;
-                }
-                else
-                    _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = false;
-            }
-
+            _LoadProfiles();
             _SetInteractionToButton(_Buttons[_ButtonStart]);
         }
 
@@ -657,6 +665,48 @@ namespace Vocaluxe.Screens
             for (int i = 1; i <= CGame.NumPlayer; i++)
                 _Equalizers["EqualizerPlayer" + i].Draw();
             return true;
+        }
+        #endregion public methods
+
+        #region private methods
+        private void _OnProfileChanged(EProfileChangedFlags Flags)
+        {
+            if (EProfileChangedFlags.Avatar == (EProfileChangedFlags.Avatar & Flags))
+                _AvatarsChanged = true;
+
+            if (EProfileChangedFlags.Profile == (EProfileChangedFlags.Profile & Flags))
+                _ProfilesChanged = true;
+        }
+
+        private void _LoadProfiles()
+        {
+            _NameSelections[_NameSelection].UpdateList();
+
+            _UpdateSlides();
+            _UpdatePlayerNumber();
+            _CheckMics();
+            _CheckPlayers();
+
+            for (int i = 0; i < CSettings.MaxNumPlayer; i++)
+            {
+                _Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.ICProfileIDValid(CGame.Players[i].ProfileID) ?
+                                                               CProfiles.GetAvatarTextureFromProfile(CGame.Players[i].ProfileID) :
+                                                               _OriginalPlayerAvatarTextures[i];
+                _Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(CGame.Players[i].ProfileID, i + 1);
+                if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
+                {
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].Clear();
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = i + 1 <= CGame.NumPlayer;
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart1);
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart2);
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].Selection = i % 2;
+                }
+                else
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = false;
+            }
+
+            _ProfilesChanged = false;
+            _AvatarsChanged = false;
         }
 
         private void _StartSong()
@@ -800,5 +850,6 @@ namespace Vocaluxe.Screens
                 _Texts[_TextWarningProfiles].Visible = false;
             }
         }
+        #endregion private methods
     }
 }

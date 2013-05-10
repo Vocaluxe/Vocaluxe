@@ -322,6 +322,7 @@ namespace Vocaluxe.Base
             CSound.Update();
             CBackgroundMusic.Update();
             CController.Update();
+            CProfiles.Update();
 
             if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC && _CurrentScreen != EScreens.ScreenSing)
                 CSongs.LoadCover();

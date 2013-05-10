@@ -76,6 +76,9 @@
     <Compile Include="..\ClientServerLib\Vocaluxe\VocaluxeStructs.cs">
       <Link>ClientServerLib\Vocaluxe\VocaluxeStructs.cs</Link>
     </Compile>
+    <Compile Include="..\ClientServerLib\CDiscover.cs">
+      <Link>ClientServerLib\CDiscover.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

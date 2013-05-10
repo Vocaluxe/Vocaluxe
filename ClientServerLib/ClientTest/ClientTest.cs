@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Net;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
@@ -16,12 +19,15 @@ namespace ClientTest
     public partial class ClientTest : Form
     {
         CClient client;
+        CDiscover discover;
+
         private bool loggedIn;
 
         public ClientTest()
         {
             client = new CClient();
             loggedIn = false;
+            discover = new CDiscover(3000, CCommands.BroadcastKeyword);
 
             InitializeComponent();
         }
@@ -29,6 +35,7 @@ namespace ClientTest
         protected override void OnClosing(CancelEventArgs e)
         {
             client.Close();
+            discover.Stop();
             base.OnClosing(e);
         }
 
@@ -119,6 +126,7 @@ namespace ClientTest
                     btLeft.Enabled = true;
                     btRight.Enabled = true;
                     btSendAvatar.Enabled = true;
+                    btSendProfile.Enabled = true;
                 });
             }
             else
@@ -136,6 +144,7 @@ namespace ClientTest
                     btLeft.Enabled = false;
                     btRight.Enabled = false;
                     btSendAvatar.Enabled = false;
+                    btSendProfile.Enabled = false;
                 });
             }
         }
@@ -222,7 +231,57 @@ namespace ClientTest
             {
                 data[i] = (byte) (i % 255);
             }
-            client.SendMessage(CCommands.CreateCommandSendAvatarPicture(512, 512, data), null);
+            client.SendMessage(CCommands.CreateCommandSendAvatarPicture(512, 512, data), OnResponse);
+        }
+
+        private void btSendProfile_Click(object sender, EventArgs e)
+        {
+            if (!client.Connected || !loggedIn)
+                return;
+
+            if (!File.Exists("test.jpg"))
+            {
+                byte[] data = new byte[512 * 512 * 4];
+                for (int i = 0; i < data.Length; i++)
+                {
+                    data[i] = (byte)(i % 255);
+                }
+
+                Bitmap bmp = new Bitmap(512, 512);
+                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+                Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
+                bmp.UnlockBits(bmpData);
+
+                bmp.Save("test.jpg", ImageFormat.Jpeg);
+                bmp.Dispose();
+            }
+
+            if (File.Exists("test.jpg"))
+            {
+                byte[] data = File.ReadAllBytes("test.jpg");
+
+                if (data == null)
+                    return;
+
+                client.SendMessage(CCommands.CreateCommandSendProfile(data, "TestUser", 0), OnResponse);
+            }
+        }
+
+        private void btDiscover_Click(object sender, EventArgs e)
+        {
+            tbDiscoveredServer.Text = "Searching for Vocaluxe Server:\r\n";
+            discover.Discover(_OnDiscovered);
+        }
+
+        private void _OnDiscovered(string Address, string HostName)
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                if (Address != "Timeout")
+                    tbDiscoveredServer.Text += "IP = " + Address + "; HostName = " + HostName + "\r\n";
+                else
+                    tbDiscoveredServer.Text += "Timeout" + "\r\n";
+            });
         }
     }
 }

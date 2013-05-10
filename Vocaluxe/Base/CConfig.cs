@@ -30,6 +30,7 @@ using Vocaluxe.Lib.Sound;
 using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
+using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Base
 {
@@ -114,7 +115,8 @@ namespace Vocaluxe.Base
         public static SWebcamConfig WebcamConfig;
 
         // Server
-        public static EOffOn Server = EOffOn.TR_CONFIG_ON;
+        public static EOffOn ServerActive = EOffOn.TR_CONFIG_OFF;
+        public static EOffOn ServerEncryption = EOffOn.TR_CONFIG_OFF;
         public static int ServerPort = 3000;
         public static string ServerPassword = "vocaluxe";
 
@@ -279,6 +281,16 @@ namespace Vocaluxe.Base
             xmlReader.TryGetIntValueRange("//root/Record/MicDelay", ref MicDelay, 0, 500);
             MicDelay = (int)(20 * Math.Round(MicDelay / 20.0));
             #endregion Record
+
+            #region Server
+            xmlReader.TryGetEnumValue("//root/Server/ServerActive", ref ServerActive);
+            xmlReader.TryGetEnumValue("//root/Server/ServerEncryption", ref ServerEncryption);
+            xmlReader.TryGetIntValue("//root/Server/ServerPort", ref ServerPort);
+            if (ServerPort < 1 || ServerPort > 65535)
+                ServerPort = 3000;
+
+            xmlReader.GetValue("//root/Server/ServerPassword", out ServerPassword, ServerPassword);
+            #endregion Server
         }
 
         public static bool SaveConfig()
@@ -361,25 +373,25 @@ namespace Vocaluxe.Base
                 writer.WriteComment("Name of cover-theme");
                 writer.WriteElementString("Cover", CoverTheme);
 
-                writer.WriteComment("Draw note-lines:" + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteComment("Draw note-lines: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
                 writer.WriteElementString("DrawNoteLines", Enum.GetName(typeof(EOffOn), DrawNoteLines));
 
-                writer.WriteComment("Draw tone-helper:" + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteComment("Draw tone-helper: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
                 writer.WriteElementString("DrawToneHelper", Enum.GetName(typeof(EOffOn), DrawToneHelper));
 
-                writer.WriteComment("Look of timer:" + CHelper.ListStrings(Enum.GetNames(typeof(ETimerLook))));
+                writer.WriteComment("Look of timer: " + CHelper.ListStrings(Enum.GetNames(typeof(ETimerLook))));
                 writer.WriteElementString("TimerLook", Enum.GetName(typeof(ETimerLook), TimerLook));
 
-                writer.WriteComment("Information about players on SingScreen:" + CHelper.ListStrings(Enum.GetNames(typeof(EPlayerInfo))));
+                writer.WriteComment("Information about players on SingScreen: " + CHelper.ListStrings(Enum.GetNames(typeof(EPlayerInfo))));
                 writer.WriteElementString("PlayerInfo", Enum.GetName(typeof(EPlayerInfo), PlayerInfo));
 
-                writer.WriteComment("Fade player-information with lyrics and notebars:" + CHelper.ListStrings(Enum.GetNames(typeof(EFadePlayerInfo))));
+                writer.WriteComment("Fade player-information with lyrics and notebars: " + CHelper.ListStrings(Enum.GetNames(typeof(EFadePlayerInfo))));
                 writer.WriteElementString("FadePlayerInfo", Enum.GetName(typeof(EFadePlayerInfo), FadePlayerInfo));
 
-                writer.WriteComment("Cover Loading:" + CHelper.ListStrings(Enum.GetNames(typeof(ECoverLoading))));
+                writer.WriteComment("Cover Loading: " + CHelper.ListStrings(Enum.GetNames(typeof(ECoverLoading))));
                 writer.WriteElementString("CoverLoading", Enum.GetName(typeof(ECoverLoading), CoverLoading));
 
-                writer.WriteComment("Lyric Style:" + CHelper.ListStrings(Enum.GetNames(typeof(ELyricStyle))));
+                writer.WriteComment("Lyric Style: " + CHelper.ListStrings(Enum.GetNames(typeof(ELyricStyle))));
                 writer.WriteElementString("LyricStyle", Enum.GetName(typeof(ELyricStyle), LyricStyle));
 
                 writer.WriteEndElement();
@@ -400,15 +412,16 @@ namespace Vocaluxe.Base
                 writer.WriteComment("AudioLatency from -500 to 500 ms");
                 writer.WriteElementString("AudioLatency", AudioLatency.ToString());
 
-                writer.WriteComment("Background Music");
+                writer.WriteComment("Background Music: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
                 writer.WriteElementString("BackgroundMusic", Enum.GetName(typeof(EOffOn), BackgroundMusic));
 
                 writer.WriteComment("Background Music Volume from 0 to 100");
                 writer.WriteElementString("BackgroundMusicVolume", BackgroundMusicVolume.ToString());
 
-                writer.WriteComment("Background Music Source");
+                writer.WriteComment("Background Music Source: " + CHelper.ListStrings(Enum.GetNames(typeof(EBackgroundMusicSource))));
                 writer.WriteElementString("BackgroundMusicSource", Enum.GetName(typeof(EBackgroundMusicSource), BackgroundMusicSource));
-                writer.WriteComment("Background Music use start-tag of songs");
+
+                writer.WriteComment("Background Music use start-tag of songs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
                 writer.WriteElementString("BackgroundMusicUseStart", Enum.GetName(typeof(EOffOn), BackgroundMusicUseStart));
 
                 writer.WriteComment("Preview Volume from 0 to 100");
@@ -537,6 +550,24 @@ namespace Vocaluxe.Base
 
                 writer.WriteEndElement();
                 #endregion Record
+
+                #region Server
+                writer.WriteStartElement("Server");
+
+                writer.WriteComment("Server On/Off: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("ServerActive", Enum.GetName(typeof(EOffOn), ServerActive));
+
+                writer.WriteComment("Server Encryption On/Off: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("ServerEncryption", Enum.GetName(typeof(EOffOn), ServerEncryption));
+
+                writer.WriteComment("Server Port (default: 3000) [1..65535]");
+                writer.WriteElementString("ServerPort", ServerPort.ToString());
+
+                writer.WriteComment("Server Password (default: vocaluxe)");
+                writer.WriteElementString("ServerPassword", ServerPassword);
+
+                writer.WriteEndElement();
+                #endregion Server
 
                 // End of File
                 writer.WriteEndElement(); //end of root
@@ -805,17 +836,20 @@ namespace Vocaluxe.Base
         /// </summary>
         public static void UsePlayers()
         {
+            CProfile[] profiles = CProfiles.GetProfiles();
+
             for (int j = 0; j < CSettings.MaxNumPlayer; j++)
             {
                 CGame.Players[j].ProfileID = -1;
-                if (Players[j] == "")
+                if (Players[j] == "" || profiles == null)
                     continue;
-                for (int i = 0; i < CProfiles.Profiles.Length; i++)
+                
+                for (int i = 0; i < profiles.Length; i++)
                 {
-                    if (Path.GetFileName(CProfiles.Profiles[i].FileName) == Players[j] && CProfiles.Profiles[i].Active == EOffOn.TR_CONFIG_ON)
+                    if (Path.GetFileName(profiles[i].FileName) == Players[j] && profiles[i].Active == EOffOn.TR_CONFIG_ON)
                     {
                         //Update Game-infos with player
-                        CGame.Players[j].ProfileID = i;
+                        CGame.Players[j].ProfileID = profiles[i].ID;
                     }
                 }
             }

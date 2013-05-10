@@ -66,20 +66,14 @@ namespace AndroidRemote
 			// aapt resource value: 0x7f060002
 			public const int btConnect = 2131099650;
 			
-			// aapt resource value: 0x7f060007
-			public const int btDown = 2131099655;
-			
 			// aapt resource value: 0x7f060005
 			public const int btLogin = 2131099653;
 			
-			// aapt resource value: 0x7f060008
-			public const int btSendAvatar = 2131099656;
-			
 			// aapt resource value: 0x7f060006
-			public const int btUp = 2131099654;
+			public const int btSendAvatar = 2131099654;
 			
 			// aapt resource value: 0x7f060009
-			public const int imageView1 = 2131099657;
+			public const int btSendProfile = 2131099657;
 			
 			// aapt resource value: 0x7f060001
 			public const int tbIP = 2131099649;
@@ -87,11 +81,17 @@ namespace AndroidRemote
 			// aapt resource value: 0x7f060004
 			public const int tbPassword = 2131099652;
 			
+			// aapt resource value: 0x7f060008
+			public const int tbPlayerName = 2131099656;
+			
 			// aapt resource value: 0x7f060000
 			public const int textView1 = 2131099648;
 			
 			// aapt resource value: 0x7f060003
 			public const int textView2 = 2131099651;
+			
+			// aapt resource value: 0x7f060007
+			public const int textView3 = 2131099655;
 			
 			static Id()
 			{
@@ -134,44 +134,56 @@ namespace AndroidRemote
 			// aapt resource value: 0x7f040002
 			public const int button_disconnect = 2130968578;
 			
-			// aapt resource value: 0x7f040006
-			public const int button_down = 2130968582;
-			
 			// aapt resource value: 0x7f040003
 			public const int button_login = 2130968579;
 			
 			// aapt resource value: 0x7f040004
 			public const int button_logout = 2130968580;
 			
-			// aapt resource value: 0x7f040007
-			public const int button_send_avatar = 2130968583;
-			
 			// aapt resource value: 0x7f040005
-			public const int button_up = 2130968581;
+			public const int button_send_avatar = 2130968581;
 			
-			// aapt resource value: 0x7f04000e
-			public const int ip_address = 2130968590;
+			// aapt resource value: 0x7f040006
+			public const int button_send_profile = 2130968582;
+			
+			// aapt resource value: 0x7f040012
+			public const int ip_address = 2130968594;
+			
+			// aapt resource value: 0x7f040007
+			public const int message_connected = 2130968583;
 			
 			// aapt resource value: 0x7f040008
-			public const int message_connected = 2130968584;
+			public const int message_disconnected = 2130968584;
 			
 			// aapt resource value: 0x7f040009
-			public const int message_disconnected = 2130968585;
+			public const int message_logged_in = 2130968585;
 			
 			// aapt resource value: 0x7f04000a
-			public const int message_logged_in = 2130968586;
+			public const int message_logged_out = 2130968586;
 			
 			// aapt resource value: 0x7f04000b
-			public const int message_logged_out = 2130968587;
+			public const int message_login_failed = 2130968587;
 			
-			// aapt resource value: 0x7f04000f
-			public const int password = 2130968591;
-			
-			// aapt resource value: 0x7f04000c
-			public const int text_ip_address = 2130968588;
+			// aapt resource value: 0x7f04000e
+			public const int message_nok = 2130968590;
 			
 			// aapt resource value: 0x7f04000d
-			public const int text_password = 2130968589;
+			public const int message_ok = 2130968589;
+			
+			// aapt resource value: 0x7f04000c
+			public const int message_wrong_password = 2130968588;
+			
+			// aapt resource value: 0x7f040013
+			public const int password = 2130968595;
+			
+			// aapt resource value: 0x7f04000f
+			public const int text_ip_address = 2130968591;
+			
+			// aapt resource value: 0x7f040010
+			public const int text_password = 2130968592;
+			
+			// aapt resource value: 0x7f040011
+			public const int text_player_name = 2130968593;
 			
 			static String()
 			{

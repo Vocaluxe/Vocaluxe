@@ -70,6 +70,8 @@ namespace VocaluxeLib
         float GetDefaultMedleyFadeOutTime();
         int GetMedleyMinSeriesLength();
         float GetMedleyMinDuration();
+
+        string GetFolderProfiles();
     }
 
     public interface ITheme

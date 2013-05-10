@@ -13,4 +13,11 @@ namespace Vocaluxe.Base.Server
         public int Height;
         public byte[] data;
     }
+
+    public struct SProfile
+    {
+        public SAvatarPicture Avatar;
+        public string PlayerName;
+        public int Difficulty;
+    }
 }
