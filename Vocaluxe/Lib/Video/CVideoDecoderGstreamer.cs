@@ -119,17 +119,16 @@ namespace Vocaluxe.Lib.Video
 
         private void _UploadNewFrame(ref STexture frame, ref byte[] data, int width, int height)
         {
-            if (data != null)
+            if (data == null)
+                return;
+            if (frame.Index == -1 || width != (int)frame.Width || height != (int)frame.Height || data.Length == 0)
             {
-                if (frame.Index == -1 || width != (int)frame.Width || height != (int)frame.Height || data.Length == 0)
-                {
-                    CDraw.RemoveTexture(ref frame);
-                    frame = CDraw.AddTexture(width, height, ref data);
-                }
-                else
-                    CDraw.UpdateTexture(ref frame, ref data);
-                data = null;
+                CDraw.RemoveTexture(ref frame);
+                frame = CDraw.AddTexture(width, height, data);
             }
+            else
+                CDraw.UpdateTexture(ref frame, data);
+            data = null;
         }
     }
 }

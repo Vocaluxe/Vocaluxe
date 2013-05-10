@@ -180,7 +180,7 @@
     <Compile Include="Base\CCover.cs" />
     <Compile Include="Base\CDataBase.cs" />
     <Compile Include="Base\CDraw.cs" />
-    <Compile Include="Base\Font\CFont.cs" />
+    <Compile Include="Base\Fonts\CFont.cs" />
     <Compile Include="Base\CGame.cs" />
     <Compile Include="Base\CController.cs" />
     <Compile Include="Base\CLanguage.cs" />
@@ -199,8 +199,8 @@
     <Compile Include="Base\CTheme.cs" />
     <Compile Include="Base\CVideo.cs" />
     <Compile Include="Base\CWebcam.cs" />
-    <Compile Include="Base\Font\CFonts.cs" />
-    <Compile Include="Base\Font\CGlyph.cs" />
+    <Compile Include="Base\Fonts\CFonts.cs" />
+    <Compile Include="Base\Fonts\CGlyph.cs" />
     <Compile Include="Base\Server\CClientHandler.cs" />
     <Compile Include="Base\Server\CVocaluxeServer.cs" />
     <Compile Include="CSplashScreen.cs">

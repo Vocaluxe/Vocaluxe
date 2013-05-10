@@ -23,7 +23,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using Vocaluxe.Base.Font;
+using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 

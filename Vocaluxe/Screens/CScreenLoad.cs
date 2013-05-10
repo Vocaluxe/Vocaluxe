@@ -31,10 +31,11 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 1; }
+            get { return 2; }
         }
 
         private const string _TextStatus = "TextStatus";
+        private const string _TextProgramName = "TextProgramName";
 
         private readonly string[] _IntroVideo = new string[] {"IntroIn", "IntroMid", "IntroOut"};
 
@@ -45,13 +46,13 @@ namespace Vocaluxe.Screens
         private bool _IntroOutPlayed;
         private CVideoPlayer[] _Intros;
 
-        private bool _BGMusicStartet;
+        private bool _BGMusicStarted;
 
         public override void Init()
         {
             base.Init();
 
-            _ThemeTexts = new string[] {_TextStatus};
+            _ThemeTexts = new string[] {_TextStatus, _TextProgramName};
             _Intros = new CVideoPlayer[_IntroVideo.Length];
             for (int i = 0; i < _Intros.Length; i++)
                 _Intros[i] = new CVideoPlayer();
@@ -117,9 +118,10 @@ namespace Vocaluxe.Screens
             {
                 for (int i = 0; i < _Intros.Length; i++)
                     _Intros[i].Load(_IntroVideo[i]);
+                _Texts[_TextProgramName].Visible = false;
             }
 
-            _BGMusicStartet = false;
+            _BGMusicStarted = false;
         }
 
         public override void OnShowFinish()
@@ -138,14 +140,14 @@ namespace Vocaluxe.Screens
             _Timer.Start();
 
             if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON &&
-                CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC && !_BGMusicStartet)
+                CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC && !_BGMusicStarted)
             {
                 CBackgroundMusic.AddOwnMusic();
 
                 if (!CBackgroundMusic.IsPlaying)
                     CBackgroundMusic.Next();
 
-                _BGMusicStartet = true;
+                _BGMusicStarted = true;
             }
 
             CBackgroundMusic.CanSing = false;
@@ -174,14 +176,14 @@ namespace Vocaluxe.Screens
                 CLanguage.Translate("TR_SCREENLOAD_LOADED") + ")";
 
             if (CSongs.SongsLoaded && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON &&
-                CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC && !_BGMusicStartet)
+                CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC && !_BGMusicStarted)
             {
                 CBackgroundMusic.AddOwnMusic();
 
                 if (!CBackgroundMusic.IsPlaying)
                     CBackgroundMusic.Next();
 
-                _BGMusicStartet = true;
+                _BGMusicStarted = true;
             }
 
             return true;

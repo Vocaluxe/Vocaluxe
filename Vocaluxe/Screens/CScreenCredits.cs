@@ -22,90 +22,91 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 
-enum EDirection
-{
-    Left,
-    Right,
-    Up
-}
-
-class CCreditName
-{
-    private readonly CStatic _Image;
-    private readonly CStatic _ImgDot;
-    private readonly CParticleEffect _Particle;
-    private readonly int _ParticleOffsetX;
-    private readonly int _ParticleOffsetY;
-    public EDirection Direction;
-    public float StartTimeUp;
-    public bool Active;
-
-    public CCreditName(CStatic image, CStatic imgDot, CParticleEffect particle, int particleOffsetX, int particleOffsetY)
-    {
-        _Image = image;
-        _ImgDot = imgDot;
-        _Particle = particle;
-        _ParticleOffsetX = (int)Math.Round(particleOffsetX * image.Rect.W / image.Texture.Width - particle.Rect.W / 2);
-        _ParticleOffsetY = (int)Math.Round(particleOffsetY * image.Rect.H / image.Texture.Height - particle.Rect.H / 2);
-        Active = true;
-    }
-
-    public float X
-    {
-        get { return _Image.Rect.X; }
-        set
-        {
-            _Image.Rect.X = value;
-            _ImgDot.Rect.X = value + _ParticleOffsetX;
-            _Particle.Rect.X = value + _ParticleOffsetX;
-        }
-    }
-    public float Y
-    {
-        get { return _Image.Rect.Y; }
-        set
-        {
-            _Image.Rect.Y = value;
-            _ImgDot.Rect.Y = value + _ParticleOffsetY;
-            _Particle.Rect.Y = value + _ParticleOffsetY;
-        }
-    }
-
-    public float W
-    {
-        get { return _Image.Rect.W; }
-    }
-    public float H
-    {
-        get { return _Image.Rect.H; }
-    }
-
-    public float Alpha
-    {
-        get { return _Image.Alpha; }
-        set
-        {
-            _Image.Alpha = value;
-            _ImgDot.Alpha = value;
-        }
-    }
-
-    public void Draw()
-    {
-        if (Active)
-        {
-            _Image.Draw();
-            _ImgDot.Draw();
-            _Particle.Draw();
-        }
-    }
-}
-
 namespace Vocaluxe.Screens
 {
+    enum EDirection
+    {
+        Left,
+        Right,
+        Up
+    }
+
+    class CCreditName
+    {
+        private readonly CStatic _Image;
+        private readonly CStatic _ImgDot;
+        private readonly CParticleEffect _Particle;
+        private readonly int _ParticleOffsetX;
+        private readonly int _ParticleOffsetY;
+        public EDirection Direction;
+        public float StartTimeUp;
+        public bool Active;
+
+        public CCreditName(CStatic image, CStatic imgDot, CParticleEffect particle, int particleOffsetX, int particleOffsetY)
+        {
+            _Image = image;
+            _ImgDot = imgDot;
+            _Particle = particle;
+            _ParticleOffsetX = (int)Math.Round(particleOffsetX * image.Rect.W / image.Texture.Width - particle.Rect.W / 2);
+            _ParticleOffsetY = (int)Math.Round(particleOffsetY * image.Rect.H / image.Texture.Height - particle.Rect.H / 2);
+            Active = true;
+        }
+
+        public float X
+        {
+            get { return _Image.Rect.X; }
+            set
+            {
+                _Image.Rect.X = value;
+                _ImgDot.Rect.X = value + _ParticleOffsetX;
+                _Particle.Rect.X = value + _ParticleOffsetX;
+            }
+        }
+        public float Y
+        {
+            get { return _Image.Rect.Y; }
+            set
+            {
+                _Image.Rect.Y = value;
+                _ImgDot.Rect.Y = value + _ParticleOffsetY;
+                _Particle.Rect.Y = value + _ParticleOffsetY;
+            }
+        }
+
+        public float W
+        {
+            get { return _Image.Rect.W; }
+        }
+        public float H
+        {
+            get { return _Image.Rect.H; }
+        }
+
+        public float Alpha
+        {
+            get { return _Image.Alpha; }
+            set
+            {
+                _Image.Alpha = value;
+                _ImgDot.Alpha = value;
+            }
+        }
+
+        public void Draw()
+        {
+            if (Active)
+            {
+                _Image.Draw();
+                _ImgDot.Draw();
+                _Particle.Draw();
+            }
+        }
+    }
+
     class CScreenCredits : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
@@ -213,7 +214,7 @@ namespace Vocaluxe.Screens
                         continue;
                     string newLine = " " + paragraph[e];
                     CText text = GetNewText(75, lastY, -2, 30, -1, EAlignment.Left, EStyle.Bold, "Outline", new SColorF(1, 1, 1, 1), line);
-                    if (CDraw.GetTextBounds(text).Width < (CSettings.RenderW - 220))
+                    if (CFonts.GetTextBounds(text).Width < (CSettings.RenderW - 220))
                     {
                         line += newLine;
 
