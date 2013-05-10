@@ -441,32 +441,29 @@ namespace Vocaluxe.Lib.Draw
 
             while (_Run)
             {
+                ClearScreen();
+                if (!CGraphics.Draw())
+                    _Run = false;
+                if (!CGraphics.UpdateGameLogic(_Keys, _Mouse))
+                    _Run = false;
+
+                _Control.SwapBuffers();
+
+                if (CSettings.IsFullScreen != _Fullscreen)
+                    _ToggleFullScreen();
+
+                _CheckQueue();
+
+                if (CTime.IsRunning())
+                    delay = (int)Math.Floor(CConfig.CalcCycleTime() - CTime.GetMilliseconds());
+
+                if (delay >= 1 && CConfig.VSync == EOffOn.TR_CONFIG_OFF)
+                    Thread.Sleep(delay);
+
+                CTime.CalculateFPS();
+                CTime.Restart();
+
                 Application.DoEvents();
-
-                if (_Run)
-                {
-                    ClearScreen();
-                    if (!CGraphics.Draw())
-                        _Run = false;
-                    if (!CGraphics.UpdateGameLogic(_Keys, _Mouse))
-                        _Run = false;
-
-                    _Control.SwapBuffers();
-
-                    if ((CSettings.IsFullScreen && !_Fullscreen) || (!CSettings.IsFullScreen && _Fullscreen))
-                        _ToggleFullScreen();
-
-                    _CheckQueue();
-
-                    if (CTime.IsRunning())
-                        delay = (int)Math.Floor(CConfig.CalcCycleTime() - CTime.GetMilliseconds());
-
-                    if (delay >= 1 && CConfig.VSync == EOffOn.TR_CONFIG_OFF)
-                        Thread.Sleep(delay);
-
-                    CTime.CalculateFPS();
-                    CTime.Restart();
-                }
             }
             Close();
         }
@@ -505,11 +502,10 @@ namespace Vocaluxe.Lib.Draw
         {
             CTexture texture = _GetNewTexture(_W, _H);
 
-            int id = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, id);
-            texture.ID = id;
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+            texture.ID = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, texture.ID);
 
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
             GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, _X, _Y, _W, _H);
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
@@ -540,7 +536,7 @@ namespace Vocaluxe.Lib.Draw
             {
                 GL.BindTexture(TextureTarget.Texture2D, texture.ID);
 
-                GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0, texture.UsedWidth, texture.UsedHeight);
+                GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0, GetScreenWidth(), GetScreenHeight());
 
                 GL.BindTexture(TextureTarget.Texture2D, 0);
             }
@@ -715,9 +711,8 @@ namespace Vocaluxe.Lib.Draw
 
             CTexture texture = new CTexture(bmp.Width, bmp.Height, w, h, true);
 
-            int id = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, id);
-            texture.ID = id;
+            texture.ID = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, texture.ID);
             Bitmap bmp2 = null;
             try
             {
@@ -751,10 +746,9 @@ namespace Vocaluxe.Lib.Draw
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
-            //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
-
+            GL.BindTexture(TextureTarget.Texture2D, 0);
             // Add to Texture List
             texture.TexturePath = String.Empty;
 
@@ -800,23 +794,18 @@ namespace Vocaluxe.Lib.Draw
                 }
             }
 
-            int id = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, id);
-            texture.ID = id;
+            texture.ID = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, texture.ID);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
-
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, data);
-
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
-            //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
@@ -857,6 +846,7 @@ namespace Vocaluxe.Lib.Draw
                 GL.UnmapBuffer(BufferTarget.PixelUnpackBuffer);
 
                 GL.BindTexture(TextureTarget.Texture2D, texture.ID);
+
                 GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
                 GL.BindTexture(TextureTarget.Texture2D, 0);
@@ -869,14 +859,13 @@ namespace Vocaluxe.Lib.Draw
 
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
-            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
-            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
+            GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
-            //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
-            //GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-            //GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
             return true;

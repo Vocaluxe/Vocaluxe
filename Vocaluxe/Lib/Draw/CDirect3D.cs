@@ -246,40 +246,39 @@ namespace Vocaluxe.Lib.Draw
             // The window was minimized, so restore it to the last known size
             if (ClientSize.Width == 0 || ClientSize.Height == 0)
                 ClientSize = _SizeBeforeMinimize;
-            if (_Run)
+            if (!_Run)
+                return;
+            _H = ClientSize.Height;
+            _W = ClientSize.Width;
+            _Y = 0;
+            _X = 0;
+
+            if (_W / (float)_H > CSettings.GetRenderAspect())
             {
-                _H = ClientSize.Height;
-                _W = ClientSize.Width;
-                _Y = 0;
-                _X = 0;
-
-                if (_W / (float)_H > CSettings.GetRenderAspect())
-                {
-                    //The windows's width is too big
-                    _W = (int)Math.Round(_H * CSettings.GetRenderAspect());
-                    _X = (ClientSize.Width - _W) / 2;
-                }
-                else
-                {
-                    //The windows's height is too big
-                    _H = (int)Math.Round(_W / CSettings.GetRenderAspect());
-                    _Y = (ClientSize.Height - _H) / 2;
-                }
-
-                //Apply the new sizes to the PresentParameters
-                _PresentParameters.BackBufferWidth = ClientSize.Width;
-                _PresentParameters.BackBufferHeight = ClientSize.Height;
-                ClearScreen();
-                //To set new PresentParameters the device has to be resetted
-                _Reset();
-                //All configurations got flushed due to Reset(), so apply them again
-                Init();
-
-                //Set the new Viewport
-                _Device.Viewport = new Viewport(_X, _Y, _W, _H);
-                //Store size so it can get restored after the window gets minimized
-                _SizeBeforeMinimize = ClientSize;
+                //The windows's width is too big
+                _W = (int)Math.Round(_H * CSettings.GetRenderAspect());
+                _X = (ClientSize.Width - _W) / 2;
             }
+            else
+            {
+                //The windows's height is too big
+                _H = (int)Math.Round(_W / CSettings.GetRenderAspect());
+                _Y = (ClientSize.Height - _H) / 2;
+            }
+
+            //Apply the new sizes to the PresentParameters
+            _PresentParameters.BackBufferWidth = ClientSize.Width;
+            _PresentParameters.BackBufferHeight = ClientSize.Height;
+            ClearScreen();
+            //To set new PresentParameters the device has to be resetted
+            _Reset();
+            //All configurations got flushed due to Reset(), so apply them again
+            Init();
+
+            //Set the new Viewport
+            _Device.Viewport = new Viewport(_X, _Y, _W, _H);
+            //Store size so it can get restored after the window gets minimized
+            _SizeBeforeMinimize = ClientSize;
         }
 
         /// <summary>
