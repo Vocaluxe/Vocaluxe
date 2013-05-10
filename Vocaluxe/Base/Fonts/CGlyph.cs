@@ -121,12 +121,12 @@ namespace Vocaluxe.Base.Fonts
                         _DrawBounding.Width = _Texture.Width;
                         _DrawBounding.Height = _Texture.Height;*/
 #pragma warning disable 162
-                        if (false)
+                        if (false && Char.IsLetterOrDigit(chr))
                         {
                             if (outline > 0)
-                                bmpCropped.Save("font/" + chr + "o" + CFonts.Style + "2.png", ImageFormat.Png);
+                                bmpCropped.Save("font_" + chr + "o" + CFonts.Style + "2.png", ImageFormat.Png);
                             else
-                                bmpCropped.Save("font/" + chr + CFonts.Style + "2.png", ImageFormat.Png);
+                                bmpCropped.Save("font_" + chr + CFonts.Style + "2.png", ImageFormat.Png);
                         }
 #pragma warning restore 162
                     }
@@ -213,7 +213,14 @@ namespace Vocaluxe.Base.Fonts
                     index += bmp.Width;
                 }
             }
-            return new Rectangle(minX, minY, maxX - minX + 1, bmp.Height - minY);
+
+            //Add some additional space. Textures need some extra pixel for resizing.
+            int d = 4;
+            minX = minX - d; if (minX < 0) minX = 0;
+            minY = minY - d; if (minY < 0) minY = 0;
+            maxX = maxX + d; if (maxX > bmp.Width) maxX = bmp.Width;
+
+            return new Rectangle(minX, minY, maxX - minX, bmp.Height - minY);
         }
     }
 }
