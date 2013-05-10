@@ -136,16 +136,12 @@ namespace Vocaluxe.Base
         /// </summary>
         private static SCoverTheme _CoverTheme(string coverThemeName)
         {
-            SCoverTheme coverTheme = new SCoverTheme();
             for (int i = 0; i < _CoverThemes.Count; i++)
             {
                 if (_CoverThemes[i].Name == coverThemeName)
-                {
-                    coverTheme = _CoverThemes[i];
-                    break;
-                }
+                    return _CoverThemes[i];
             }
-            return coverTheme;
+            return new SCoverTheme();
         }
 
         /// <summary>
@@ -231,7 +227,7 @@ namespace Vocaluxe.Base
                 if (_CoverExists(name))
                     continue;
                 // ReSharper disable AssignNullToNotNullAttribute
-                SCover sk = new SCover {Name = name, Texture = CDraw.AddTexture(Path.Combine(CSettings.FolderCover, Path.GetFileName(file)))};
+                SCover sk = new SCover {Name = name, Texture = CDraw.AddTexture(file)};
                 // ReSharper restore AssignNullToNotNullAttribute
 
                 _Cover.Add(sk);

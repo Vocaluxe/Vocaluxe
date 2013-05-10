@@ -735,8 +735,6 @@ namespace Vocaluxe.Lib.Draw
                 screen.Save(Path.Combine(path, file + i.ToString("00000") + ".bmp"), ImageFormat.Bmp);
                 screen.Dispose();
             }
-            Cursor.Hide();
-            _Mouse.Visible = true;
         }
 
         /// <summary>
