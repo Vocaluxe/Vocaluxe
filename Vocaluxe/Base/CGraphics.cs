@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using Vocaluxe.Base.Font;
+using Vocaluxe.Base.Fonts;
 using Vocaluxe.Screens;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
@@ -772,7 +772,7 @@ namespace Vocaluxe.Base
             }
             CFonts.Style = EStyle.Normal;
             CFonts.SetFont("Normal");
-            CFonts.Height = 30;
+            CFonts.Height = 25;
             SColorF gray = new SColorF(1f, 1f, 1f, 0.5f);
             float y = 0;
             foreach (string txt in debugOutput)

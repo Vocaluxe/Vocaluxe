@@ -999,51 +999,13 @@ namespace VocaluxeLib.Menu
 
         private bool _IsMouseOver(int x, int y, CInteraction interact)
         {
-            switch (interact.Type)
+            bool result = CHelper.IsInBounds(_GetRect(interact), x, y);
+            if (result)
+                return true;
+            if (interact.Type == EType.SelectSlide)
             {
-                case EType.Button:
-                    if (CHelper.IsInBounds(_Buttons[interact.Num].Rect, x, y))
-                        return true;
-                    break;
-                case EType.SelectSlide:
-                    if (CHelper.IsInBounds(_SelectSlides[interact.Num].Rect, x, y) ||
-                        CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowLeft, x, y) ||
-                        CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowRight, x, y))
-                        return true;
-                    break;
-                case EType.Static:
-                    if (CHelper.IsInBounds(_Statics[interact.Num].Rect, x, y))
-                        return true;
-                    break;
-                case EType.Text:
-                    RectangleF bounds = CBase.Drawing.GetTextBounds(_Texts[interact.Num]);
-                    if (CHelper.IsInBounds(new SRectF(_Texts[interact.Num].X, _Texts[interact.Num].Y, bounds.Width, bounds.Height, _Texts[interact.Num].Z), x, y))
-                        return true;
-                    break;
-                case EType.SongMenu:
-                    if (CHelper.IsInBounds(_SongMenus[interact.Num].Rect, x, y))
-                        return true;
-                    break;
-                case EType.Lyric:
-                    if (CHelper.IsInBounds(_Lyrics[interact.Num].Rect, x, y))
-                        return true;
-                    break;
-                case EType.NameSelection:
-                    if (CHelper.IsInBounds(_NameSelections[interact.Num].Rect, x, y))
-                        return true;
-                    break;
-                case EType.Equalizer:
-                    if (CHelper.IsInBounds(_Equalizers[interact.Num].Rect, x, y))
-                        return true;
-                    break;
-                case EType.Playlist:
-                    if (CHelper.IsInBounds(_Playlists[interact.Num].Rect, x, y))
-                        return true;
-                    break;
-                case EType.ParticleEffect:
-                    if (CHelper.IsInBounds(_ParticleEffects[interact.Num].Rect, x, y))
-                        return true;
-                    break;
+                return CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowLeft, x, y) ||
+                       CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowRight, x, y);
             }
             return false;
         }
@@ -1619,43 +1581,48 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-        private SRectF _GetRect(int interaction)
+        private SRectF _GetRect(CInteraction interaction)
         {
             SRectF result = new SRectF();
-            switch (_Interactions[interaction].Type)
+            switch (interaction.Type)
             {
                 case EType.Button:
-                    return _Buttons[_Interactions[interaction].Num].Rect;
+                    return _Buttons[interaction.Num].Rect;
 
                 case EType.SelectSlide:
-                    return _SelectSlides[_Interactions[interaction].Num].Rect;
+                    return _SelectSlides[interaction.Num].Rect;
 
                 case EType.Static:
-                    return _Statics[_Interactions[interaction].Num].Rect;
+                    return _Statics[interaction.Num].Rect;
 
                 case EType.Text:
-                    return _Texts[_Interactions[interaction].Num].Bounds;
+                    return _Texts[interaction.Num].Rect;
 
                 case EType.SongMenu:
-                    return _SongMenus[_Interactions[interaction].Num].Rect;
+                    return _SongMenus[interaction.Num].Rect;
 
                 case EType.Lyric:
-                    return _Lyrics[_Interactions[interaction].Num].Rect;
+                    return _Lyrics[interaction.Num].Rect;
 
                 case EType.NameSelection:
-                    return _NameSelections[_Interactions[interaction].Num].Rect;
+                    return _NameSelections[interaction.Num].Rect;
 
                 case EType.Equalizer:
-                    return _Equalizers[_Interactions[interaction].Num].Rect;
+                    return _Equalizers[interaction.Num].Rect;
 
                 case EType.Playlist:
-                    return _Playlists[_Interactions[interaction].Num].Rect;
+                    return _Playlists[interaction.Num].Rect;
 
                 case EType.ParticleEffect:
-                    return _ParticleEffects[_Interactions[interaction].Num].Rect;
+                    return _ParticleEffects[interaction.Num].Rect;
             }
 
             return result;
+        }
+
+        private SRectF _GetRect(int interaction)
+        {
+            return _GetRect(_Interactions[interaction]);
         }
 
         private void _AddInteraction(int num, EType type)

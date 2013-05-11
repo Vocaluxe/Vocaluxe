@@ -31,7 +31,6 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using SlimDX.Windows;
 using Vocaluxe.Base;
-using Vocaluxe.Base.Font;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 
@@ -102,11 +101,7 @@ namespace Vocaluxe.Lib.Draw
             }
             catch (Direct3DX9NotFoundException e)
             {
-                MessageBox.Show("No DirectX runtimes were found, please download and install them " +
-                                "from http://www.microsoft.com/download/en/details.aspx?id=8109",
-                                CSettings.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                CLog.LogError(e.Message + " - No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109");
-                Environment.Exit(Environment.ExitCode);
+                CLog.LogError("No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109", true, true, e);
             }
 
             Paint += _OnPaintEvent;
@@ -199,12 +194,9 @@ namespace Vocaluxe.Lib.Draw
             {
                 if (_Device == null || _Device.Disposed)
                 {
-                    MessageBox.Show("Something went wrong during device creating, please check if your DirectX redistributables " +
-                                    "and graphic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109",
-                                    CSettings.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     CLog.LogError(
-                        "Something went wrong during device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
-                    Environment.Exit(Environment.ExitCode);
+                        "Something went wrong during device creating, please check if your DirectX redistributables and grafic card drivers are up to date. You can download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109",
+                        true, true);
                 }
             }
 
@@ -581,7 +573,7 @@ namespace Vocaluxe.Lib.Draw
         ///     Unloads all Textures and other objects used by Direct3D for rendering
         /// </summary>
         /// <returns></returns>
-        public bool Unload()
+        public void Unload()
         {
             try
             {
@@ -589,10 +581,10 @@ namespace Vocaluxe.Lib.Draw
             }
             catch {}
             //Dispose all textures
-            foreach (KeyValuePair<int, Texture> p in _D3DTextures)
+            foreach (Texture texture in _D3DTextures.Values)
             {
-                if (p.Value != null)
-                    p.Value.Dispose();
+                if (texture != null)
+                    texture.Dispose();
             }
 
             STexturedColoredVertex.GetDeclaration(_Device).Dispose();
@@ -600,7 +592,6 @@ namespace Vocaluxe.Lib.Draw
             _IndexBuffer.Dispose();
             _Device.Dispose();
             _D3D.Dispose();
-            return true;
         }
 
         /// <summary>
@@ -619,30 +610,6 @@ namespace Vocaluxe.Lib.Draw
         public int GetScreenHeight()
         {
             return _Device.Viewport.Height;
-        }
-
-        /// <summary>
-        ///     Calculates the bounds for a CText object
-        /// </summary>
-        /// <param name="text">The CText object of which the bounds should be calculated for</param>
-        /// <returns>RectangleF object containing the bounds</returns>
-        public RectangleF GetTextBounds(CText text)
-        {
-            return GetTextBounds(text, text.Height);
-        }
-
-        /// <summary>
-        ///     Calculates the bounds for a CText object
-        /// </summary>
-        /// <param name="text">The CText object of which the bounds should be calculated for</param>
-        /// <param name="height">The height of the CText object</param>
-        /// <returns>RectangleF object containing the bounds</returns>
-        public RectangleF GetTextBounds(CText text, float height)
-        {
-            CFonts.Height = height;
-            CFonts.SetFont(text.Font);
-            CFonts.Style = text.Style;
-            return new RectangleF(text.X, text.Y, CFonts.GetTextWidth(CLanguage.Translate(text.Text)), CFonts.GetTextHeight(CLanguage.Translate(text.Text)));
         }
 
         /// <summary>
@@ -792,21 +759,14 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="y2">The end y-value</param>
         public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2)
         {
-            SColorF color = new SColorF((float)a / 255, (float)g / 255, (float)b / 255, (float)a / 255);
-            DrawTexture(_BlankTexture, new SRectF(x1, y1, x2, y2, 1), color);
-        }
-
-        /// <summary>
-        ///     Draws a text string
-        /// </summary>
-        /// <param name="text">The text to be drawn</param>
-        /// <param name="x">The text's x-position</param>
-        /// <param name="y">The text's y-position</param>
-        /// <param name="h">The text's height</param>
-        /// <param name="z">The text's z-position</param>
-        public void DrawText(string text, int x, int y, int h, int z = 0)
-        {
-            CFonts.DrawText(text, h, x, y, z, new SColorF(1f, 1f, 1f, 1f));
+            var lineVector = new Vector2[] {new Vector2(x1, y1), new Vector2(x2, y2)};
+            using (var line = new Line(_Device))
+            {
+                line.Antialias = true;
+                line.Begin();
+                line.Draw(lineVector, new Color4((float)a / 255, (float)r / 255, (float)g / 255, (float)b / 255));
+                line.End();
+            }
         }
 
         /// <summary>
@@ -927,11 +887,15 @@ namespace Vocaluxe.Lib.Draw
                     {
                         w = newW;
                         h = (int)Math.Round(w / ratio);
+                        if (h == 0)
+                            h = 1;
                     }
                     else
                     {
                         h = newH;
                         w = (int)Math.Round(h * ratio);
+                        if (w == 0)
+                            w = 1;
                     }
                     //Create a new Bitmap with the new sizes
                     bmp2 = new Bitmap(w, h);
@@ -956,21 +920,14 @@ namespace Vocaluxe.Lib.Draw
                     bmp2.Dispose();
             }
 
-            return AddTexture(w, h, ref data);
+            return AddTexture(w, h, data);
         }
 
-        public STexture AddTexture(int w, int h, IntPtr data)
-        {
-            byte[] pointerData = new Byte[4 * w * h];
-            Marshal.Copy(data, pointerData, 0, pointerData.Length);
-            return AddTexture(w, h, ref pointerData);
-        }
-
-        public STexture AddTexture(int w, int h, ref byte[] data)
+        public STexture AddTexture(int w, int h, byte[] data)
         {
             STexture texture = new STexture(-1);
 
-            Texture t = _CreateTexture(w, h, ref data, ref texture);
+            Texture t = _CreateTexture(w, h, data, ref texture);
 
             lock (_MutexTexture)
             {
@@ -981,7 +938,7 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        private Texture _CreateTexture(int w, int h, ref byte[] data, ref STexture texture)
+        private Texture _CreateTexture(int w, int h, byte[] data, ref STexture texture)
         {
             texture.Width = w;
             texture.Height = h;
@@ -1020,7 +977,7 @@ namespace Vocaluxe.Lib.Draw
             return t;
         }
 
-        public STexture EnqueueTexture(int w, int h, ref byte[] data)
+        public STexture EnqueueTexture(int w, int h, byte[] data)
         {
             STexture texture = new STexture(-1);
             STextureQueue queue = new STextureQueue {Data = data, Height = h, Width = w};
@@ -1045,23 +1002,9 @@ namespace Vocaluxe.Lib.Draw
         ///     Updates the data of a texture
         /// </summary>
         /// <param name="texture">The texture to update</param>
-        /// <param name="data">A Pointer containing the data of which the texture should be updated</param>
-        /// <returns>True if succeeded</returns>
-        public bool UpdateTexture(ref STexture texture, IntPtr data)
-        {
-            byte[] pointerData = new Byte[4 * (int)texture.Width * (int)texture.Height];
-            Marshal.Copy(data, pointerData, 0, pointerData.Length);
-
-            return UpdateTexture(ref texture, ref pointerData);
-        }
-
-        /// <summary>
-        ///     Updates the data of a texture
-        /// </summary>
-        /// <param name="texture">The texture to update</param>
         /// <param name="data">A byte array containing the new texture's data</param>
         /// <returns>True if succeeded</returns>
-        public bool UpdateTexture(ref STexture texture, ref byte[] data)
+        public bool UpdateTexture(ref STexture texture, byte[] data)
         {
             if ((texture.Index >= 0) && (_Textures.Count > 0) && _TextureExists(ref texture))
             {
@@ -1162,30 +1105,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="rect">A SRectF struct containing the destination coordinates</param>
         public void DrawTexture(STexture texture, SRectF rect)
         {
-            DrawTexture(texture, rect, texture.Color, false);
-        }
-
-        /// <summary>
-        ///     Draws a texture
-        /// </summary>
-        /// <param name="texture">The texture to be drawn</param>
-        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
-        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
-        public void DrawTexture(STexture texture, SRectF rect, SColorF color)
-        {
-            DrawTexture(texture, rect, color, false);
-        }
-
-        /// <summary>
-        ///     Draws a texture
-        /// </summary>
-        /// <param name="texture">The texture to be drawn</param>
-        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
-        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
-        /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
-        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds)
-        {
-            DrawTexture(texture, rect, color, bounds, false);
+            DrawTexture(texture, rect, texture.Color);
         }
 
         /// <summary>
@@ -1195,7 +1115,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="rect">A SRectF struct containing the destination coordinates</param>
         /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
         /// <param name="mirrored">True if the texture should be mirrored</param>
-        public void DrawTexture(STexture texture, SRectF rect, SColorF color, bool mirrored)
+        public void DrawTexture(STexture texture, SRectF rect, SColorF color, bool mirrored = false)
         {
             DrawTexture(texture, rect, color, new SRectF(0, 0, CSettings.RenderW, CSettings.RenderH, rect.Z), mirrored);
         }
@@ -1208,7 +1128,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
         /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
         /// <param name="mirrored">True if the texture should be mirrored</param>
-        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored)
+        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
             if (_TextureExists(ref texture))
             {
@@ -1257,6 +1177,8 @@ namespace Vocaluxe.Lib.Draw
                 rx2 -= 0.5f;
                 ry2 -= 0.5f;
 
+                color.A *= CGraphics.GlobalAlpha;
+
                 if (color.A > 1)
                     color.A = 1;
                 if (color.R > 1)
@@ -1266,7 +1188,7 @@ namespace Vocaluxe.Lib.Draw
                 if (color.B > 1)
                     color.B = 1;
 
-                Color c = Color.FromArgb((int)(color.A * 255 * CGraphics.GlobalAlpha), (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
+                Color c = color.AsColor();
 
                 if (!mirrored)
                 {
@@ -1320,7 +1242,9 @@ namespace Vocaluxe.Lib.Draw
             rx2 -= 0.5f;
             ry2 -= 0.5f;
 
-            Color c = Color.FromArgb((int)(color.A * 255 * CGraphics.GlobalAlpha), (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
+            color.A *= CGraphics.GlobalAlpha;
+
+            Color c = color.AsColor();
 
             STexturedColoredVertex[] vert = new STexturedColoredVertex[4];
             vert[0] = new STexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb());
@@ -1402,8 +1326,10 @@ namespace Vocaluxe.Lib.Draw
                 rx2 -= 0.5f;
                 ry2 -= 0.5f;
 
-                Color c = Color.FromArgb((int)(color.A * 255 * CGraphics.GlobalAlpha), (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
-                Color transparent = Color.FromArgb(0, (int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
+                color.A *= CGraphics.GlobalAlpha;
+                Color c = color.AsColor();
+                color.A = 0;
+                Color transparent = color.AsColor();
 
                 STexturedColoredVertex[] vert = new STexturedColoredVertex[4];
                 vert[0] = new STexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
@@ -1429,7 +1355,7 @@ namespace Vocaluxe.Lib.Draw
                 else
                     return;
 
-                Texture t = _CreateTexture(q.Width, q.Height, ref q.Data, ref texture);
+                Texture t = _CreateTexture(q.Width, q.Height, q.Data, ref texture);
                 _D3DTextures[q.ID] = t;
 
                 _Textures[texture.Index] = texture;
@@ -1441,7 +1367,7 @@ namespace Vocaluxe.Lib.Draw
         ///     Gets the count of current textures
         /// </summary>
         /// <returns>The amount of textures</returns>
-        public int TextureCount()
+        public int GetTextureCount()
         {
             return _Textures.Count;
         }

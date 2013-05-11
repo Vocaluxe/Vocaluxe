@@ -59,10 +59,10 @@ namespace Vocaluxe.Lib.Webcam
                     if (frame.Index == -1 || _Width != (int)frame.Width || _Height != (int)frame.Height)
                     {
                         CDraw.RemoveTexture(ref frame);
-                        frame = CDraw.AddTexture(_Width, _Height, ref _Data);
+                        frame = CDraw.AddTexture(_Width, _Height, _Data);
                     }
                     else
-                        CDraw.UpdateTexture(ref frame, ref _Data);
+                        CDraw.UpdateTexture(ref frame, _Data);
                 }
             }
             return false;

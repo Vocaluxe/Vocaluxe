@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using Vocaluxe.Base.Font;
+using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
@@ -349,11 +349,6 @@ namespace Vocaluxe.Base
 
     class CBdraw : IDrawing
     {
-        public RectangleF GetTextBounds(CText text)
-        {
-            return CDraw.GetTextBounds(text);
-        }
-
         public void DrawTexture(STexture texture, SRectF rect)
         {
             CDraw.DrawTexture(texture, rect);
@@ -364,12 +359,7 @@ namespace Vocaluxe.Base
             CDraw.DrawTexture(texture, rect, color);
         }
 
-        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds)
-        {
-            CDraw.DrawTexture(texture, rect, color, bounds);
-        }
-
-        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored)
+        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
             CDraw.DrawTexture(texture, rect, color, bounds, mirrored);
         }
@@ -441,6 +431,11 @@ namespace Vocaluxe.Base
         public void SetStyle(EStyle fontStyle)
         {
             CFonts.Style = fontStyle;
+        }
+
+        public RectangleF GetTextBounds(CText text)
+        {
+            return CFonts.GetTextBounds(text);
         }
 
         public RectangleF GetTextBounds(CText text, float textHeight)

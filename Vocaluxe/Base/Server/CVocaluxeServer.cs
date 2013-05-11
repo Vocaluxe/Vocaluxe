@@ -28,7 +28,7 @@ namespace Vocaluxe.Base.Server
         {
             _Clients = new Dictionary<int, CClientHandler>();
             _Server = new CServer(RequestHandler, CConfig.ServerPort, CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON);
-            _Discover = new CDiscover(CConfig.ServerPort, CCommands.ResponseKeyword);
+            _Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
             Controller.Init();
         }
 

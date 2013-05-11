@@ -664,10 +664,10 @@ namespace Vocaluxe.Lib.Video
                     if (frame.Index == -1 || _Width != (int)frame.Width || _Height != (int)frame.Height)
                     {
                         CDraw.RemoveTexture(ref frame);
-                        frame = CDraw.AddTexture(_Width, _Height, ref _FrameBuffer[num].Data);
+                        frame = CDraw.AddTexture(_Width, _Height, _FrameBuffer[num].Data);
                     }
                     else
-                        CDraw.UpdateTexture(ref frame, ref _FrameBuffer[num].Data);
+                        CDraw.UpdateTexture(ref frame, _FrameBuffer[num].Data);
 
                     lock (_MutexSyncSignals)
                     {

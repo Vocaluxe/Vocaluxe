@@ -19,7 +19,7 @@
 
 using System.Windows.Forms;
 using Vocaluxe.Base;
-using Vocaluxe.Base.Font;
+using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 

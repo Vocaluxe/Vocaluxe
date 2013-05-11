@@ -790,7 +790,7 @@ namespace Vocaluxe.Lib.Sound
                 {
                     if (_Data.BytesNotRead >= buf.Length)
                     {
-                        _Data.Read(ref buf);
+                        _Data.Read(buf);
 
 
                         byte[] b = new byte[2];

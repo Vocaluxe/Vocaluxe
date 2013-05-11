@@ -764,7 +764,7 @@ namespace VocaluxeLib.Menu
                     alpha = new SColorF(1f, 1f, 1f, 1f);
                 }
 
-                RectangleF bounds = CBase.Drawing.GetTextBounds(text);
+                RectangleF bounds = CBase.Fonts.GetTextBounds(text);
                 text.X = (x + dx / 2f + dx * i) + TextRelativeX;
 
                 if (!WithTextures)

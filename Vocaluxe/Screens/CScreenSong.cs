@@ -1198,7 +1198,7 @@ namespace Vocaluxe.Screens
 
         private void _OpenPlaylist(int playlistID)
         {
-            if (CPlaylists.Playlists.Length > playlistID && playlistID >= 0 && _Playlists[_Playlist].ActivePlaylistID != playlistID)
+            if (CPlaylists.Playlists.Length > playlistID && playlistID >= 0)
             {
                 _Playlists[_Playlist].LoadPlaylist(playlistID);
                 _SongMenus[_SongMenu].SetSmallView(true);

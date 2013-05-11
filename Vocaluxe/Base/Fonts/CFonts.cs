@@ -26,17 +26,19 @@ using System.Xml;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 
-namespace Vocaluxe.Base.Font
+namespace Vocaluxe.Base.Fonts
 {
     static class CFonts
     {
         private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
 
-        private static List<SFont> _Fonts;
+        private static readonly List<SFont> _Fonts = new List<SFont>();
         private static int _CurrentFont;
         private static float _Height = 1f;
 
+        // ReSharper disable MemberCanBePrivate.Global
         public static int PartyModeID { get; set; }
+        // ReSharper restore MemberCanBePrivate.Global
 
         public static EStyle Style = EStyle.Normal;
 
@@ -64,18 +66,25 @@ namespace Vocaluxe.Base.Font
 
             _CurrentFont = 0;
             PartyModeID = -1;
-            BuildFonts();
+            _BuildFonts();
         }
 
-        public static void BuildFonts()
+        private static void _BuildFonts()
         {
-            _Fonts = new List<SFont>();
+            foreach (var font in _Fonts)
+            {
+                font.Normal.Dispose();
+                font.Bold.Dispose();
+                font.Italic.Dispose();
+                font.BoldItalic.Dispose();
+            }
+            _Fonts.Clear();
             _CurrentFont = 0;
 
             _LoadFontList();
         }
 
-        public static System.Drawing.Font GetFont()
+        public static Font GetFont()
         {
             return _GetCurrentFont().GetFont();
         }
@@ -108,6 +117,15 @@ namespace Vocaluxe.Base.Font
             DrawText(text, Height, x, y, z, new SColorF(0f, 0f, 0f, 1f));
         }
 
+        /// <summary>
+        ///     Draws a text string
+        /// </summary>
+        /// <param name="text">The text to be drawn</param>
+        /// <param name="x">The text's x-position</param>
+        /// <param name="y">The text's y-position</param>
+        /// <param name="h">The text's height</param>
+        /// <param name="z">The text's z-position</param>
+        /// <param name="color">The text color</param>
         public static void DrawText(string text, float h, float x, float y, float z, SColorF color)
         {
             if (h <= 0f)
@@ -122,7 +140,7 @@ namespace Vocaluxe.Base.Font
             float dx = x;
             foreach (char chr in text)
             {
-                font.DrawGlyph(chr, dx, y, Height, z, color);
+                font.DrawGlyph(chr, dx, y, z, color);
                 dx += font.GetWidth(chr);
             }
         }
@@ -141,7 +159,7 @@ namespace Vocaluxe.Base.Font
             float dx = x;
             foreach (char chr in text)
             {
-                font.DrawGlyphReflection(chr, dx, y, Height, z, color, rspace, rheight);
+                font.DrawGlyphReflection(chr, dx, y, z, color, rspace, rheight);
                 dx += font.GetWidth(chr);
             }
         }
@@ -180,7 +198,7 @@ namespace Vocaluxe.Base.Font
                     {
                         if (e > 1f)
                             e = 1f;
-                        font.DrawGlyph(chr, dx, y, Height, z, color, b, e);
+                        font.DrawGlyph(chr, dx, y, z, color, b, e);
                     }
                 }
                 dx += w2;
@@ -216,16 +234,37 @@ namespace Vocaluxe.Base.Font
                 _CurrentFont = index;
         }
 
+        /// <summary>
+        ///     Calculates the bounds for a CText object
+        /// </summary>
+        /// <param name="text">The CText object of which the bounds should be calculated for</param>
+        /// <returns>RectangleF object containing the bounds</returns>
         public static RectangleF GetTextBounds(CText text)
         {
             return GetTextBounds(text, text.Height);
         }
 
+        /// <summary>
+        ///     Calculates the bounds for a CText object
+        /// </summary>
+        /// <param name="text">The CText object of which the bounds should be calculated for</param>
+        /// <param name="height">The height of the CText object</param>
+        /// <returns>RectangleF object containing the bounds</returns>
         public static RectangleF GetTextBounds(CText text, float height)
         {
+            float oldHeight = Height;
+            int oldFont = _CurrentFont;
+            EStyle oldStyle = Style;
             Height = height;
-            return new RectangleF(text.X, text.Y, GetTextWidth(CLanguage.Translate(text.Text, text.TranslationID)),
-                                  GetTextHeight(CLanguage.Translate(text.Text, text.TranslationID)));
+            SetFont(text.Font);
+            Style = text.Style;
+            var result = new RectangleF(text.X, text.Y, GetTextWidth(CLanguage.Translate(text.Text, text.TranslationID)),
+                                        GetTextHeight(CLanguage.Translate(text.Text, text.TranslationID)));
+            //restore old values
+            Height = oldHeight;
+            _CurrentFont = oldFont;
+            Style = oldStyle;
+            return result;
         }
 
         public static float GetTextWidth(string text)
@@ -309,16 +348,13 @@ namespace Vocaluxe.Base.Font
         ///     Load default fonts
         /// </summary>
         /// <returns></returns>
-        private static bool _LoadFontList()
+        private static void _LoadFontList()
         {
             CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.FolderFonts, CSettings.FileFonts));
             if (xmlReader == null)
-                return false;
-
-            _Fonts.Clear();
+                return;
 
             _LoadFontFiles(xmlReader, Path.Combine(Directory.GetCurrentDirectory(), CSettings.FolderFonts));
-            return true;
         }
 
         /// <summary>
@@ -390,18 +426,15 @@ namespace Vocaluxe.Base.Font
 
         public static void UnloadThemeFonts(string themeName)
         {
-            if (_Fonts.Count == 0)
-                return;
-
             int index = 0;
             while (index < _Fonts.Count)
             {
                 if (_Fonts[index].IsThemeFont && _Fonts[index].ThemeName == themeName)
                 {
-                    _Fonts[index].Normal.UnloadAllGlyphs();
-                    _Fonts[index].Italic.UnloadAllGlyphs();
-                    _Fonts[index].Bold.UnloadAllGlyphs();
-                    _Fonts[index].BoldItalic.UnloadAllGlyphs();
+                    _Fonts[index].Normal.UnloadGlyphs();
+                    _Fonts[index].Italic.UnloadGlyphs();
+                    _Fonts[index].Bold.UnloadGlyphs();
+                    _Fonts[index].BoldItalic.UnloadGlyphs();
                     _Fonts.RemoveAt(index);
                 }
                 else
@@ -450,7 +483,7 @@ namespace Vocaluxe.Base.Font
 
         private static void _BuildGlyphs()
         {
-            const string text = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPGRSTUVWGXZ1234567890";
+            const string text = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
             for (int i = 0; i < _Fonts.Count; i++)
             {
@@ -459,13 +492,13 @@ namespace Vocaluxe.Base.Font
                 foreach (char chr in text)
                 {
                     Style = EStyle.Normal;
-                    _Fonts[_CurrentFont].Normal.AddGlyph(chr);
+                    _Fonts[_CurrentFont].Normal.GetOrAddGlyph(chr);
                     Style = EStyle.Bold;
-                    _Fonts[_CurrentFont].Bold.AddGlyph(chr);
+                    _Fonts[_CurrentFont].Bold.GetOrAddGlyph(chr);
                     Style = EStyle.Italic;
-                    _Fonts[_CurrentFont].Italic.AddGlyph(chr);
+                    _Fonts[_CurrentFont].Italic.GetOrAddGlyph(chr);
                     Style = EStyle.BoldItalic;
-                    _Fonts[_CurrentFont].BoldItalic.AddGlyph(chr);
+                    _Fonts[_CurrentFont].BoldItalic.GetOrAddGlyph(chr);
                 }
             }
             Style = EStyle.Normal;
