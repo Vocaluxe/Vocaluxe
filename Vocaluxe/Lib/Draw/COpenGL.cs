@@ -86,6 +86,8 @@ namespace Vocaluxe.Lib.Draw
     class COpenGL : Form, IDraw
     {
         #region private vars
+        private const int _MaxID = 100000;
+
         private readonly CKeys _Keys;
         private readonly CMouse _Mouse;
         private bool _Run;
@@ -95,9 +97,9 @@ namespace Vocaluxe.Lib.Draw
         private SClientRect _Restore;
         private bool _Fullscreen;
 
-        private readonly Dictionary<int, CTexture> _Textures;
-        private readonly Queue<int> _IDs;
-        private readonly List<STextureQueue> _Queue;
+        private readonly Dictionary<int, CTexture> _Textures = new Dictionary<int, CTexture>();
+        private readonly Queue<int> _IDs = new Queue<int>(_MaxID);
+        private readonly Queue<STextureQueue> _TexturesToLoad = new Queue<STextureQueue>();
 
         private readonly Object _MutexTexture = new Object();
 
@@ -113,11 +115,7 @@ namespace Vocaluxe.Lib.Draw
         {
             Icon = new Icon(Path.Combine(Environment.CurrentDirectory, CSettings.Icon));
 
-            _Textures = new Dictionary<int, CTexture>();
-            _Queue = new List<STextureQueue>();
-            _IDs = new Queue<int>(1000000);
-
-            for (int i = 1; i < 1000000; i++)
+            for (int i = 1; i < _MaxID; i++)
                 _IDs.Enqueue(i);
 
             //Check AA Mode
@@ -816,7 +814,7 @@ namespace Vocaluxe.Lib.Draw
             {
                 texture.ID = _IDs.Dequeue();
                 STextureQueue queue = new STextureQueue(texture.ID, texture.W2, texture.H2, w, h, data);
-                _Queue.Add(queue);
+                _TexturesToLoad.Enqueue(queue);
                 _Textures[texture.ID] = texture;
             }
 
@@ -1171,10 +1169,9 @@ namespace Vocaluxe.Lib.Draw
         {
             lock (_MutexTexture)
             {
-                while (_Queue.Count > 0)
+                while (_TexturesToLoad.Count > 0)
                 {
-                    STextureQueue q = _Queue[0];
-                    _Queue.RemoveAt(0);
+                    STextureQueue q = _TexturesToLoad.Dequeue();
                     CTexture texture;
                     if (!_Textures.TryGetValue(q.ID, out texture))
                         continue;

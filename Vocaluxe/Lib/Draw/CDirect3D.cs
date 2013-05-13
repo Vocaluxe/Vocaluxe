@@ -39,6 +39,8 @@ namespace Vocaluxe.Lib.Draw
     class CDirect3D : RenderForm, IDraw
     {
         #region private vars
+        private const int _MaxID = 100000;
+
         private readonly CKeys _Keys;
         private readonly CMouse _Mouse;
         private bool _Run;
@@ -52,8 +54,8 @@ namespace Vocaluxe.Lib.Draw
         private Size _SizeBeforeMinimize;
 
         private readonly Dictionary<int, Texture> _D3DTextures = new Dictionary<int, Texture>();
-        private readonly List<STextureQueue> _Queue = new List<STextureQueue>();
-        private readonly Queue<int> _IDs = new Queue<int>();
+        private readonly Queue<STextureQueue> _TexturesToLoad = new Queue<STextureQueue>();
+        private readonly Queue<int> _IDs = new Queue<int>(_MaxID);
 
         private readonly Object _MutexTexture = new Object();
 
@@ -82,7 +84,7 @@ namespace Vocaluxe.Lib.Draw
             Icon = new Icon(Path.Combine(Environment.CurrentDirectory, CSettings.Icon));
 
             //Fill Queue with 100000 IDs
-            for (int i = 0; i < 100000; i++)
+            for (int i = 0; i < _MaxID; i++)
                 _IDs.Enqueue(i);
 
             _Keys = new CKeys();
@@ -938,7 +940,7 @@ namespace Vocaluxe.Lib.Draw
                 texture.ID = _IDs.Dequeue();
                 _D3DTextures.Add(texture.ID, null);
                 STextureQueue queue = new STextureQueue(texture.ID, texture.W2, texture.H2, w, h, data);
-                _Queue.Add(queue);
+                _TexturesToLoad.Enqueue(queue);
             }
             return texture;
         }
@@ -1269,10 +1271,9 @@ namespace Vocaluxe.Lib.Draw
         {
             lock (_MutexTexture)
             {
-                while (_Queue.Count > 0)
+                while (_TexturesToLoad.Count > 0)
                 {
-                    STextureQueue q = _Queue[0];
-                    _Queue.RemoveAt(0);
+                    STextureQueue q = _TexturesToLoad.Dequeue();
                     Texture t;
                     if (_D3DTextures.TryGetValue(q.ID, out t) && t != null)
                         continue;
