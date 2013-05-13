@@ -678,8 +678,8 @@ namespace Vocaluxe.Lib.Draw
             backbufferSurface.Dispose();
             lock (_MutexTexture)
             {
-                texture.Index = _IDs.Dequeue();
-                _D3DTextures.Add(texture.Index, tex);
+                texture.ID = _IDs.Dequeue();
+                _D3DTextures.Add(texture.ID, tex);
 
                 return texture;
             }
@@ -700,7 +700,7 @@ namespace Vocaluxe.Lib.Draw
             else
             {
                 Surface backbufferSurface = _Device.GetBackBuffer(0, 0);
-                Surface textureSurface = _D3DTextures[texture.Index].GetSurfaceLevel(0);
+                Surface textureSurface = _D3DTextures[texture.ID].GetSurfaceLevel(0);
                 Surface.FromSurface(textureSurface, backbufferSurface, Filter.Default, 0);
             }
         }
@@ -894,8 +894,8 @@ namespace Vocaluxe.Lib.Draw
 
             lock (_MutexTexture)
             {
-                texture.Index = _IDs.Dequeue();
-                _D3DTextures.Add(texture.Index, t);
+                texture.ID = _IDs.Dequeue();
+                _D3DTextures.Add(texture.ID, t);
             }
             return texture;
         }
@@ -935,9 +935,9 @@ namespace Vocaluxe.Lib.Draw
 
             lock (_MutexTexture)
             {
-                texture.Index = _IDs.Dequeue();
-                _D3DTextures.Add(texture.Index, null);
-                STextureQueue queue = new STextureQueue(texture.Index, texture.W2, texture.H2, w, h, data);
+                texture.ID = _IDs.Dequeue();
+                _D3DTextures.Add(texture.ID, null);
+                STextureQueue queue = new STextureQueue(texture.ID, texture.W2, texture.H2, w, h, data);
                 _Queue.Add(queue);
             }
             return texture;
@@ -965,7 +965,7 @@ namespace Vocaluxe.Lib.Draw
                 return false;
             lock (_MutexTexture)
             {
-                _WriteDataToTexture(_D3DTextures[texture.Index], w, data);
+                _WriteDataToTexture(_D3DTextures[texture.ID], w, data);
             }
             return true;
         }
@@ -990,7 +990,7 @@ namespace Vocaluxe.Lib.Draw
         {
             lock (_MutexTexture)
             {
-                return texture != null && _D3DTextures.ContainsKey(texture.Index);
+                return texture != null && _D3DTextures.ContainsKey(texture.ID);
             }
         }
 
@@ -1004,9 +1004,9 @@ namespace Vocaluxe.Lib.Draw
             {
                 lock (_MutexTexture)
                 {
-                    _D3DTextures[texture.Index].Dispose();
-                    _D3DTextures.Remove(texture.Index);
-                    _IDs.Enqueue(texture.Index);
+                    _D3DTextures[texture.ID].Dispose();
+                    _D3DTextures.Remove(texture.ID);
+                    _IDs.Enqueue(texture.ID);
                 }
             }
             texture = null;
@@ -1060,7 +1060,7 @@ namespace Vocaluxe.Lib.Draw
         {
             if (!_TextureExists(texture))
                 return;
-            if (_D3DTextures[texture.Index] == null)
+            if (_D3DTextures[texture.ID] == null)
                 return;
 
             //Calculate the position
@@ -1125,7 +1125,7 @@ namespace Vocaluxe.Lib.Draw
                 vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
                 vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
                 vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb());
-                _AddToVertexBuffer(vert, _D3DTextures[texture.Index], _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
+                _AddToVertexBuffer(vert, _D3DTextures[texture.ID], _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
             }
             else
             {
@@ -1134,7 +1134,7 @@ namespace Vocaluxe.Lib.Draw
                 vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, -y2), c.ToArgb());
                 vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, -y2), c.ToArgb());
                 vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, -y1), c.ToArgb());
-                _AddToVertexBuffer(vert, _D3DTextures[texture.Index], _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
+                _AddToVertexBuffer(vert, _D3DTextures[texture.ID], _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
             }
         }
 
@@ -1150,7 +1150,7 @@ namespace Vocaluxe.Lib.Draw
         {
             if (!_TextureExists(texture))
                 return;
-            if (_D3DTextures[texture.Index] == null)
+            if (_D3DTextures[texture.ID] == null)
                 return;
 
             float x1 = 0f + begin * texture.WidthRatio;
@@ -1178,7 +1178,7 @@ namespace Vocaluxe.Lib.Draw
             vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
             vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
             vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb());
-            _AddToVertexBuffer(vert, _D3DTextures[texture.Index], _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
+            _AddToVertexBuffer(vert, _D3DTextures[texture.ID], _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
         }
 
         /// <summary>
@@ -1194,7 +1194,7 @@ namespace Vocaluxe.Lib.Draw
         {
             if (!_TextureExists(texture))
                 return;
-            if (_D3DTextures[texture.Index] == null)
+            if (_D3DTextures[texture.ID] == null)
                 return;
 
             if (Math.Abs(rect.W) < float.Epsilon || Math.Abs(rect.H) < float.Epsilon || Math.Abs(bounds.H) < float.Epsilon || Math.Abs(bounds.W) < float.Epsilon ||
@@ -1261,7 +1261,7 @@ namespace Vocaluxe.Lib.Draw
             vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), transparent.ToArgb());
             vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), transparent.ToArgb());
             vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
-            _AddToVertexBuffer(vert, _D3DTextures[texture.Index], _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
+            _AddToVertexBuffer(vert, _D3DTextures[texture.ID], _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
         }
         #endregion drawing
 
@@ -1274,11 +1274,11 @@ namespace Vocaluxe.Lib.Draw
                     STextureQueue q = _Queue[0];
                     _Queue.RemoveAt(0);
                     Texture t;
-                    if (_D3DTextures.TryGetValue(q.Index, out t) && t != null)
+                    if (_D3DTextures.TryGetValue(q.ID, out t) && t != null)
                         continue;
 
                     t = _CreateTexture(q.TextureWidth, q.TextureHeight, q.DataWidth, q.Data);
-                    _D3DTextures[q.Index] = t;
+                    _D3DTextures[q.ID] = t;
                 }
             }
         }

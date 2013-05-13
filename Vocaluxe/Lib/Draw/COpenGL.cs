@@ -65,16 +65,16 @@ namespace Vocaluxe.Lib.Draw
 
     struct STextureQueue
     {
-        public int Index;
-        public int TextureWidth;
-        public int TextureHeight;
-        public int DataWidth;
-        public int DataHeight;
-        public byte[] Data;
+        public readonly int ID;
+        public readonly int TextureWidth;
+        public readonly int TextureHeight;
+        public readonly int DataWidth;
+        public readonly int DataHeight;
+        public readonly byte[] Data;
 
-        public STextureQueue(int index, int textureWidth, int textureHeight, int dataWidth, int dataHeight, byte[] data)
+        public STextureQueue(int id, int textureWidth, int textureHeight, int dataWidth, int dataHeight, byte[] data)
         {
-            Index = index;
+            ID = id;
             TextureWidth = textureWidth;
             TextureHeight = textureHeight;
             DataWidth = dataWidth;
@@ -502,8 +502,8 @@ namespace Vocaluxe.Lib.Draw
         {
             CTexture texture = _GetNewTexture(_W, _H);
 
-            texture.ID = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, texture.ID);
+            texture.Name = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
             GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, _X, _Y, _W, _H);
@@ -517,8 +517,8 @@ namespace Vocaluxe.Lib.Draw
 
             lock (_MutexTexture)
             {
-                texture.Index = _IDs.Dequeue();
-                _Textures[texture.Index] = texture;
+                texture.ID = _IDs.Dequeue();
+                _Textures[texture.ID] = texture;
             }
 
             return texture;
@@ -534,7 +534,7 @@ namespace Vocaluxe.Lib.Draw
             }
             else
             {
-                GL.BindTexture(TextureTarget.Texture2D, texture.ID);
+                GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
                 GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0, GetScreenWidth(), GetScreenHeight());
 
@@ -709,10 +709,9 @@ namespace Vocaluxe.Lib.Draw
             w = MathHelper.NextPowerOfTwo(w);
             h = MathHelper.NextPowerOfTwo(h);
 
-            CTexture texture = new CTexture(bmp.Width, bmp.Height, w, h, true);
+            CTexture texture = new CTexture(bmp.Width, bmp.Height, w, h, true) {Name = GL.GenTexture()};
 
-            texture.ID = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, texture.ID);
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
             Bitmap bmp2 = null;
             try
             {
@@ -754,8 +753,8 @@ namespace Vocaluxe.Lib.Draw
 
             lock (_MutexTexture)
             {
-                texture.Index = _IDs.Dequeue();
-                _Textures[texture.Index] = texture;
+                texture.ID = _IDs.Dequeue();
+                _Textures[texture.ID] = texture;
             }
 
             return texture;
@@ -769,8 +768,8 @@ namespace Vocaluxe.Lib.Draw
 
             lock (_MutexTexture)
             {
-                texture.Index = _IDs.Dequeue();
-                _Textures[texture.Index] = texture;
+                texture.ID = _IDs.Dequeue();
+                _Textures[texture.ID] = texture;
             }
 
             return texture;
@@ -794,8 +793,8 @@ namespace Vocaluxe.Lib.Draw
                 }
             }
 
-            texture.ID = GL.GenTexture();
-            GL.BindTexture(TextureTarget.Texture2D, texture.ID);
+            texture.Name = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, data);
@@ -815,10 +814,10 @@ namespace Vocaluxe.Lib.Draw
 
             lock (_MutexTexture)
             {
-                texture.Index = _IDs.Dequeue();
-                STextureQueue queue = new STextureQueue(texture.Index, texture.W2, texture.H2, w, h, data);
+                texture.ID = _IDs.Dequeue();
+                STextureQueue queue = new STextureQueue(texture.ID, texture.W2, texture.H2, w, h, data);
                 _Queue.Add(queue);
-                _Textures[texture.Index] = texture;
+                _Textures[texture.ID] = texture;
             }
 
             return texture;
@@ -845,7 +844,7 @@ namespace Vocaluxe.Lib.Draw
 
                 GL.UnmapBuffer(BufferTarget.PixelUnpackBuffer);
 
-                GL.BindTexture(TextureTarget.Texture2D, texture.ID);
+                GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
                 GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
@@ -857,7 +856,7 @@ namespace Vocaluxe.Lib.Draw
                 return true;
             }
 
-            GL.BindTexture(TextureTarget.Texture2D, texture.ID);
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
@@ -885,11 +884,11 @@ namespace Vocaluxe.Lib.Draw
             {
                 lock (_MutexTexture)
                 {
-                    _IDs.Enqueue(texture.Index);
-                    GL.DeleteTexture(texture.ID);
+                    _IDs.Enqueue(texture.ID);
+                    GL.DeleteTexture(texture.Name);
                     if (texture.PBO > 0)
                         GL.DeleteBuffers(1, ref texture.PBO);
-                    _Textures.Remove(texture.Index);
+                    _Textures.Remove(texture.ID);
                 }
             }
             texture = null;
@@ -899,9 +898,9 @@ namespace Vocaluxe.Lib.Draw
         {
             lock (_MutexTexture)
             {
-                if (texture != null && _Textures.ContainsKey(texture.Index))
+                if (texture != null && _Textures.ContainsKey(texture.ID))
                 {
-                    if (!checkIfLoaded || _Textures[texture.Index].ID > 0)
+                    if (!checkIfLoaded || _Textures[texture.ID].Name > 0)
                         return true;
                 }
             }
@@ -943,7 +942,7 @@ namespace Vocaluxe.Lib.Draw
             if (bounds.Y > rect.Y + rect.H || bounds.Y + bounds.H < rect.Y)
                 return;
 
-            GL.BindTexture(TextureTarget.Texture2D, texture.ID);
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             float x1 = (bounds.X - rect.X) / rect.W * texture.WidthRatio;
             float x2 = (bounds.X + bounds.W - rect.X) / rect.W * texture.WidthRatio;
@@ -1040,7 +1039,7 @@ namespace Vocaluxe.Lib.Draw
         {
             if (!_TextureExists(texture))
                 return;
-            GL.BindTexture(TextureTarget.Texture2D, texture.ID);
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             GL.Enable(EnableCap.Blend);
             GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
@@ -1085,7 +1084,7 @@ namespace Vocaluxe.Lib.Draw
             if (height > bounds.H)
                 height = bounds.H;
 
-            GL.BindTexture(TextureTarget.Texture2D, texture.ID);
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             float x1 = (bounds.X - rect.X) / rect.W * texture.WidthRatio;
             float x2 = (bounds.X + bounds.W - rect.X) / rect.W * texture.WidthRatio;
@@ -1177,7 +1176,7 @@ namespace Vocaluxe.Lib.Draw
                     STextureQueue q = _Queue[0];
                     _Queue.RemoveAt(0);
                     CTexture texture;
-                    if (!_Textures.TryGetValue(q.Index, out texture))
+                    if (!_Textures.TryGetValue(q.ID, out texture))
                         continue;
 
                     _CreateTexture(texture, q.DataWidth, q.DataHeight, q.Data);

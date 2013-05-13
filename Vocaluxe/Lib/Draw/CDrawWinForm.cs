@@ -294,7 +294,7 @@ namespace Vocaluxe.Lib.Draw
             CTexture texture = _GetNewTexture(bmp.Width, bmp.Height);
 
             // Add to Texture List
-            _Textures[texture.Index] = texture;
+            _Textures[texture.ID] = texture;
 
             return texture;
         }
@@ -307,7 +307,7 @@ namespace Vocaluxe.Lib.Draw
                 texture = CopyScreen();
             }
             else
-                _Bitmaps[texture.Index] = new Bitmap(_Backbuffer);
+                _Bitmaps[texture.ID] = new Bitmap(_Backbuffer);
         }
 
         public void MakeScreenShot()
@@ -338,14 +338,14 @@ namespace Vocaluxe.Lib.Draw
             CTexture texture = _GetNewTexture(bmp.Width, bmp.Height);
 
             // Add to Texture List
-            _Textures[texture.Index] = texture;
+            _Textures[texture.ID] = texture;
 
             return texture;
         }
 
         private CTexture _GetNewTexture(int w, int h)
         {
-            return new CTexture(w, h) {Index = _Bitmaps.Count - 1};
+            return new CTexture(w, h) {ID = _Bitmaps.Count - 1};
         }
 
         public CTexture AddTexture(string texturePath)
@@ -369,15 +369,15 @@ namespace Vocaluxe.Lib.Draw
 
         private bool _TextureExists(CTexture texture)
         {
-            return texture != null && _Textures.ContainsKey(texture.Index);
+            return texture != null && _Textures.ContainsKey(texture.ID);
         }
 
         public void RemoveTexture(ref CTexture texture)
         {
             if (_TextureExists(texture))
             {
-                _Bitmaps[texture.Index].Dispose();
-                _Textures.Remove(texture.Index);
+                _Bitmaps[texture.ID].Dispose();
+                _Textures.Remove(texture.ID);
             }
             texture = null;
         }
@@ -402,10 +402,10 @@ namespace Vocaluxe.Lib.Draw
         {
             if (_TextureExists(texture))
             {
-                BitmapData bmpData = _Bitmaps[texture.Index].LockBits(new Rectangle(0, 0, _Bitmaps[texture.Index].Width, _Bitmaps[texture.Index].Height),
-                                                                      ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                BitmapData bmpData = _Bitmaps[texture.ID].LockBits(new Rectangle(0, 0, _Bitmaps[texture.ID].Width, _Bitmaps[texture.ID].Height),
+                                                                   ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
                 Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
-                _Bitmaps[texture.Index].UnlockBits(bmpData);
+                _Bitmaps[texture.ID].UnlockBits(bmpData);
                 return true;
             }
             return false;
@@ -443,7 +443,7 @@ namespace Vocaluxe.Lib.Draw
         {
             if (!_TextureExists(texture))
                 return;
-            Bitmap coloredBitmap = _ColorizeBitmap(_Bitmaps[texture.Index], color);
+            Bitmap coloredBitmap = _ColorizeBitmap(_Bitmaps[texture.ID], color);
             _G.DrawImage(coloredBitmap, new RectangleF(rect.X, rect.Y, rect.W, rect.H));
             coloredBitmap.Dispose();
         }

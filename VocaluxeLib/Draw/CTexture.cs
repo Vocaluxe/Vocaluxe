@@ -5,9 +5,10 @@ namespace VocaluxeLib.Draw
 {
     public class CTexture
     {
-        public int Index = -1;
-        public int PBO;
         public int ID = -1;
+        public int PBO;
+        //Only used by OpenGL (the texture "name" according to the specs)
+        public int Name = -1;
 
         public string TexturePath = "";
 
