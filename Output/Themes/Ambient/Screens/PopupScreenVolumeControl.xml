@@ -21,7 +21,7 @@
     <Text1>
       <!--<X>, <Y>: Text position-->
       <X>1067</X>
-      <Y>680</Y>
+      <Y>682</Y>
       <!--<Z>: Text position-->
       <Z>-2,00</Z>
       <!--<H>: Text height-->
@@ -37,7 +37,7 @@
       <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
       <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <ResizeAlign>Center</ResizeAlign>
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
