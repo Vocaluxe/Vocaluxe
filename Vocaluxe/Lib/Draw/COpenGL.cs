@@ -824,7 +824,7 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        private CTexture _GetNewTexture(int w, int h)
+        private static CTexture _GetNewTexture(int w, int h)
         {
             return new CTexture(w, h, MathHelper.NextPowerOfTwo(w), MathHelper.NextPowerOfTwo(h));
         }
@@ -849,6 +849,8 @@ namespace Vocaluxe.Lib.Draw
 
                 GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
+                GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
                 GL.BindTexture(TextureTarget.Texture2D, 0);
                 GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
 
@@ -859,11 +861,6 @@ namespace Vocaluxe.Lib.Draw
 
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
             GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
