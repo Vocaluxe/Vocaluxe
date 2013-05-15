@@ -25,6 +25,7 @@ namespace VocaluxeLib.PartyModes
 {
     public abstract class CPartyMode : IPartyMode
     {
+        protected string _Folder;
         protected SScreenSongOptions _ScreenSongOptions;
         protected readonly Dictionary<string, CMenuParty> _Screens;
 
@@ -99,6 +100,16 @@ namespace VocaluxeLib.PartyModes
         public virtual int GetMaxNumRounds()
         {
             return 1;
+        }
+
+        public string GetFolder()
+        {
+            return _Folder;
+        }
+
+        public void SetFolder(string folder)
+        {
+            _Folder = folder;
         }
 
         public virtual void SetSearchString(string searchString, bool visible) {}
