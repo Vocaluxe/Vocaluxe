@@ -24,7 +24,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using Vocaluxe.Base;
-using VocaluxeLib;
 using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Webcam

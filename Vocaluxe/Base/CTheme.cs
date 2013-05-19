@@ -26,7 +26,6 @@ using System.Xml;
 using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {
@@ -113,7 +112,9 @@ namespace Vocaluxe.Base
             get
             {
                 List<string> names = new List<string>();
+                // ReSharper disable LoopCanBeConvertedToQuery
                 foreach (STheme th in _Themes)
+                    // ReSharper restore LoopCanBeConvertedToQuery
                 {
                     if (th.PartyModeID == -1)
                         names.Add(th.Name);
@@ -128,7 +129,9 @@ namespace Vocaluxe.Base
             get
             {
                 List<string> names = new List<string>();
+                // ReSharper disable LoopCanBeConvertedToQuery
                 foreach (SSkin sk in _Skins)
+                    // ReSharper restore LoopCanBeConvertedToQuery
                 {
                     if (sk.PartyModeID == -1)
                         names.Add(sk.Name);

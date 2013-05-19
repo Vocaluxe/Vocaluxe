@@ -26,7 +26,6 @@ using VocaluxeLib;
 using VocaluxeLib.Game;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
-using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.Songs;
 using VocaluxeLib.Profile;
 

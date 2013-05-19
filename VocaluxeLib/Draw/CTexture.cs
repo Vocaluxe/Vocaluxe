@@ -1,5 +1,23 @@
-﻿using System.Drawing;
-using VocaluxeLib.Menu;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System.Drawing;
 
 namespace VocaluxeLib.Draw
 {
@@ -13,7 +31,7 @@ namespace VocaluxeLib.Draw
         public string TexturePath = "";
 
         /// <summary>
-        /// Original size (e.g. of bmp)
+        ///     Original size (e.g. of bmp)
         /// </summary>
         public readonly Size OrigSize;
         public float OrigAspect
@@ -22,7 +40,7 @@ namespace VocaluxeLib.Draw
         }
 
         /// <summary>
-        /// Current size when drawn
+        ///     Current size when drawn
         /// </summary>
         public SRectF Rect;
 
@@ -31,7 +49,7 @@ namespace VocaluxeLib.Draw
         private int _W2, _H2;
         private readonly bool _UseFullTexture;
         /// <summary>
-        /// Internal texture width (on device), a power of 2 if necessary
+        ///     Internal texture width (on device), a power of 2 if necessary
         /// </summary>
         public int W2
         {
@@ -46,7 +64,7 @@ namespace VocaluxeLib.Draw
             }
         }
         /// <summary>
-        /// Internal texture height (on device), a power of 2 if necessary
+        ///     Internal texture height (on device), a power of 2 if necessary
         /// </summary>
         public int H2
         {
@@ -62,16 +80,16 @@ namespace VocaluxeLib.Draw
         }
 
         /// <summary>
-        /// Internal use. Specifies which part of texture memory is actually used
+        ///     Internal use. Specifies which part of texture memory is actually used
         /// </summary>
         public float WidthRatio { get; private set; }
         /// <summary>
-        /// Internal use. Specifies which part of texture memory is actually used
+        ///     Internal use. Specifies which part of texture memory is actually used
         /// </summary>
         public float HeightRatio { get; private set; }
 
         /// <summary>
-        /// Actual texture space used in x direction
+        ///     Actual texture space used in x direction
         /// </summary>
         public int UsedWidth
         {
@@ -79,7 +97,7 @@ namespace VocaluxeLib.Draw
         }
 
         /// <summary>
-        /// Actual texture space used in y direction
+        ///     Actual texture space used in y direction
         /// </summary>
         public int UsedHeight
         {
@@ -112,7 +130,7 @@ namespace VocaluxeLib.Draw
 */
 
         /// <summary>
-        /// Creates a new texture reference
+        ///     Creates a new texture reference
         /// </summary>
         /// <param name="origWidth">Original width (Bitmap size)</param>
         /// <param name="origHeight">Original height (Bitmap size)</param>

@@ -33,7 +33,6 @@ using SlimDX.Windows;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Draw
 {

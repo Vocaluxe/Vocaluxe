@@ -17,8 +17,6 @@
 //  */
 #endregion
 
-using VocaluxeLib;
-
 using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Video
@@ -45,7 +43,6 @@ namespace Vocaluxe.Lib.Video
         float GetLength(int streamID);
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="streamID"></param>
         /// <param name="frame"></param>

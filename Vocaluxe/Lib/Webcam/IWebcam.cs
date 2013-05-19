@@ -19,9 +19,6 @@
 
 using System.Collections.Generic;
 using System.Drawing;
-using VocaluxeLib;
-
-using System.Drawing;
 using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Webcam

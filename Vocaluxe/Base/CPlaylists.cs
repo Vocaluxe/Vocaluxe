@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Vocaluxe.Lib.Playlist;
 using VocaluxeLib;
@@ -40,13 +41,7 @@ namespace Vocaluxe.Base
 
         public static List<string> PlaylistNames
         {
-            get
-            {
-                List<string> names = new List<string>();
-                for (int i = 0; i < _Playlists.Count; i++)
-                    names.Add(_Playlists[i].PlaylistName);
-                return names;
-            }
+            get { return _Playlists.Select(t => t.PlaylistName).ToList(); }
         }
 
         public static int NumPlaylists

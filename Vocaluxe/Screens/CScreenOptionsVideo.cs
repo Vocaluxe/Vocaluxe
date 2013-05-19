@@ -24,7 +24,6 @@ using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {

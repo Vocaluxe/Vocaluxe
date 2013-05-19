@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml;
 using VocaluxeLib.Draw;
-
 using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu.SingNotes

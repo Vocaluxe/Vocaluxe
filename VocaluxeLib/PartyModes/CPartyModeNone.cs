@@ -18,7 +18,6 @@
 #endregion
 
 using System;
-using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes
 {

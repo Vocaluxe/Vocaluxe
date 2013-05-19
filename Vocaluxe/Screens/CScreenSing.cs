@@ -29,8 +29,6 @@ using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
-using VocaluxeLib.Menu.SingNotes;
-using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
@@ -702,7 +700,7 @@ namespace Vocaluxe.Screens
             {
                 bool lyricsOnTop = CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_TOP
                                    || CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
-                                    || (CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && _DynamicLyricsTop);
+                                   || (CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && _DynamicLyricsTop);
                 _Lyrics[_LyricMainTop].Visible = lyricsOnTop;
                 _Lyrics[_LyricSubTop].Visible = lyricsOnTop;
                 _Statics[_StaticLyricsTop].Visible = lyricsOnTop;
@@ -712,8 +710,8 @@ namespace Vocaluxe.Screens
         private void _SetNormalLyricsVisibility()
         {
             bool visible = CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM
-                            || CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
-                            || (CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && _DynamicLyricsBottom);
+                           || CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
+                           || (CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && _DynamicLyricsBottom);
             _Lyrics[_LyricMain].Visible = visible;
             _Lyrics[_LyricSub].Visible = visible;
             _Statics[_StaticLyrics].Visible = visible;
@@ -1392,7 +1390,7 @@ namespace Vocaluxe.Screens
         {
             for (int i = 0; i < CGame.NumPlayer; i++)
             {
-                if (CProfiles.ICProfileIDValid(CGame.Players[i].ProfileID))
+                if (CProfiles.IsProfileIDValid(CGame.Players[i].ProfileID))
                     _Statics[_StaticAvatars[i, CGame.NumPlayer - 1]].Texture = CProfiles.GetAvatarTextureFromProfile(CGame.Players[i].ProfileID);
                 else
                     _Statics[_StaticAvatars[i, CGame.NumPlayer - 1]].Visible = false;
@@ -1403,7 +1401,7 @@ namespace Vocaluxe.Screens
         {
             for (int i = 0; i < CGame.NumPlayer; i++)
             {
-                if (CProfiles.ICProfileIDValid(CGame.Players[i].ProfileID))
+                if (CProfiles.IsProfileIDValid(CGame.Players[i].ProfileID))
                     _Texts[_TextNames[i, CGame.NumPlayer - 1]].Text = CProfiles.GetPlayerName(CGame.Players[i].ProfileID);
                 else
                     _Texts[_TextNames[i, CGame.NumPlayer - 1]].Visible = false;

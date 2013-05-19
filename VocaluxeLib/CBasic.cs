@@ -17,8 +17,6 @@
 //  */
 #endregion
 
-using VocaluxeLib.Menu;
-
 namespace VocaluxeLib
 {
     public static class CBase

@@ -22,7 +22,6 @@ using System.Drawing;
 using Vocaluxe.Lib.Video;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {

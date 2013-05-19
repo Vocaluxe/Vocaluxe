@@ -382,17 +382,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 //Show profile only if active
                 if (CBase.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON)
                 {
-                    visible = true;
-
-                    for (int p = 0; p < _Data.ScreenNames.ProfileIDs.Count; p++)
-                    {
-                        //Don't show profile if is selected
-                        if (_Data.ScreenNames.ProfileIDs[p] == i)
-                        {
-                            visible = false;
-                            break;
-                        }
-                    }
+                    //Don't show profile if is selected
+                    visible = !_Data.ScreenNames.ProfileIDs.Contains(i);
                 }
                 if (visible)
                     _PlayerChooseButtonsVisibleProfiles.Add(i);

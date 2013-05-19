@@ -25,8 +25,6 @@ using System.Linq;
 using VocaluxeLib;
 using VocaluxeLib.Songs;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Menu;
-using VocaluxeLib.Menu.SongMenu;
 
 namespace Vocaluxe.Base
 {

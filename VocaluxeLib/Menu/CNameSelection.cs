@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
 using VocaluxeLib.Draw;
-
 using VocaluxeLib.Profile;
 
 namespace VocaluxeLib.Menu
@@ -489,8 +488,7 @@ namespace VocaluxeLib.Menu
                 for (int j = 0; j < _NumW; j++)
                 {
                     SRectF rect = new SRectF(Rect.X + j * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
-                    CStatic tileStatic = new CStatic(_PartyModeID, _TextureEmptyTile, ColorEmptyTile, rect);
-                    tileStatic.Aspect = EAspect.Crop;
+                    CStatic tileStatic = new CStatic(_PartyModeID, _TextureEmptyTile, ColorEmptyTile, rect) {Aspect = EAspect.Crop};
                     CText tileText = new CText(rect.X + rect.W / 2, rect.Y + rect.H + _Theme.NameSpace, rect.Z, _Theme.NameHeight, rect.W, EAlignment.Center, _Theme.NameStyle,
                                                _Theme.NameFont, _Theme.NameColor, "");
                     _Tiles.Add(new CTile(tileStatic, tileText, -1));

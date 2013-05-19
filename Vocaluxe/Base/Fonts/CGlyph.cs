@@ -25,7 +25,6 @@ using System.Drawing.Text;
 using System.Runtime.InteropServices;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base.Fonts
 {
@@ -219,10 +218,16 @@ namespace Vocaluxe.Base.Fonts
             }
 
             //Add some additional space. Textures need some extra pixel for resizing.
-            int d = 4;
-            minX = minX - d; if (minX < 0) minX = 0;
-            minY = minY - d; if (minY < 0) minY = 0;
-            maxX = maxX + d; if (maxX > bmp.Width) maxX = bmp.Width;
+            const int d = 4;
+            minX = minX - d;
+            if (minX < 0)
+                minX = 0;
+            minY = minY - d;
+            if (minY < 0)
+                minY = 0;
+            maxX = maxX + d;
+            if (maxX > bmp.Width)
+                maxX = bmp.Width;
 
             return new Rectangle(minX, minY, maxX - minX, bmp.Height - minY);
         }

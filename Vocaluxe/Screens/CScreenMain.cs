@@ -19,7 +19,6 @@
 
 using System.Windows.Forms;
 using Vocaluxe.Base;
-using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 
@@ -165,9 +164,7 @@ namespace Vocaluxe.Screens
             // ReSharper disable ConditionIsAlwaysTrueOrFalse
             if (CSettings.VersionRevision != ERevision.Release)
                 // ReSharper restore ConditionIsAlwaysTrueOrFalse
-            {
                 _ReleaseText.Draw();
-            }
 
             return true;
         }

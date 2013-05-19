@@ -23,10 +23,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using VocaluxeLib.Songs;
 
-using System.Windows.Forms;
-using VocaluxeLib.Draw;
-using VocaluxeLib.Menu.SingNotes;
-
 namespace VocaluxeLib
 {
 

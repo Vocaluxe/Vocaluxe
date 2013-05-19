@@ -17,9 +17,7 @@
 //  */
 #endregion
 
-using System;
 using System.Collections.Generic;
-
 using Vocaluxe.Base.Server;
 using Vocaluxe.Lib.Input;
 using Vocaluxe.Lib.Input.WiiMote;
@@ -39,22 +37,18 @@ namespace Vocaluxe.Base
             _Controller = new List<IController>();
             _KeysPool = new List<SKeyEvent>();
             _MousePool = new List<SMouseEvent>();
-            
+
             _Controller.Add(new CWiiMote());
             _Controller.Add(CVocaluxeServer.Controller);
 
             foreach (IController controller in _Controller)
-            {
                 controller.Init();
-            }
         }
 
         public static void Close()
         {
             foreach (IController controller in _Controller)
-            {
                 controller.Close();
-            }
 
             _Controller = new List<IController>();
         }
@@ -62,17 +56,13 @@ namespace Vocaluxe.Base
         public static void Connect()
         {
             foreach (IController controller in _Controller)
-            {
                 controller.Connect();
-            }
         }
 
         public static void Disconnect()
         {
             foreach (IController controller in _Controller)
-            {
                 controller.Disconnect();
-            }
         }
 
         public static bool IsConnected()
@@ -89,17 +79,12 @@ namespace Vocaluxe.Base
 
                 SKeyEvent ke = new SKeyEvent();
                 while (controller.PollKeyEvent(ref ke))
-                {
                     _KeysPool.Add(ke);
-                }
 
                 SMouseEvent me = new SMouseEvent();
                 while (controller.PollMouseEvent(ref me))
-                {
                     _MousePool.Add(me);
-                }
             }
-
         }
 
         public static bool PollKeyEvent(ref SKeyEvent keyEvent)
@@ -127,9 +112,7 @@ namespace Vocaluxe.Base
         public static void SetRumble(float duration)
         {
             foreach (IController controller in _Controller)
-            {
                 controller.SetRumble(duration);
-            }
         }
     }
 }

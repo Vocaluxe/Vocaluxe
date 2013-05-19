@@ -20,13 +20,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Xml;
 using VocaluxeLib;
-using VocaluxeLib.Game;
 using VocaluxeLib.Profile;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {
@@ -38,7 +34,7 @@ namespace Vocaluxe.Base
         Profile = 4
     }
 
-    public delegate void ProfileChangedCallback(EProfileChangedFlags TypeChanged);
+    public delegate void ProfileChangedCallback(EProfileChangedFlags typeChanged);
 
     static class CProfiles
     {
@@ -70,12 +66,12 @@ namespace Vocaluxe.Base
         private static Dictionary<int, CAvatar> _Avatars;
         private static Queue<int> _AvatarIDs;
 
-        private static Queue<SChange> _Queue = new Queue<SChange>();
-        private static Object _QueueMutex = new Object();
+        private static readonly Queue<SChange> _Queue = new Queue<SChange>();
+        private static readonly Object _QueueMutex = new Object();
 
-        private static List<ProfileChangedCallback> _ProfileChangedCallbacks = new List<ProfileChangedCallback>();
-        private static bool _ProfilesChanged = false;
-        private static bool _AvatarsChanged = false;
+        private static readonly List<ProfileChangedCallback> _ProfileChangedCallbacks = new List<ProfileChangedCallback>();
+        private static bool _ProfilesChanged;
+        private static bool _AvatarsChanged;
         #endregion private vars
 
         #region properties
@@ -142,7 +138,7 @@ namespace Vocaluxe.Base
                             if (change.Profile == null)
                                 break;
 
-                            if (!ICProfileIDValid(change.Profile.ID))
+                            if (!IsProfileIDValid(change.Profile.ID))
                                 return;
 
                             _Profiles[change.Profile.ID] = change.Profile;
@@ -150,7 +146,7 @@ namespace Vocaluxe.Base
                             break;
 
                         case EAction.DeleteProfile:
-                            if (!ICProfileIDValid(change.ProfileID))
+                            if (!IsProfileIDValid(change.ProfileID))
                                 break;
 
                             _DeleteProfile(change.ProfileID);
@@ -170,14 +166,11 @@ namespace Vocaluxe.Base
                             if (change.Avatar == null)
                                 break;
 
-                            if (!ICAvatarIDValid(change.Avatar.ID))
+                            if (!IsAvatarIDValid(change.Avatar.ID))
                                 return;
 
                             _Avatars[change.Avatar.ID] = change.Avatar;
                             _AvatarsChanged = true;
-                            break;
-
-                        default:
                             break;
                     }
                 }
@@ -214,15 +207,14 @@ namespace Vocaluxe.Base
             _ProfilesChanged = false;
         }
 
-        public static void AddProfileChangedCallback(ProfileChangedCallback Notification)
+        public static void AddProfileChangedCallback(ProfileChangedCallback notification)
         {
-            _ProfileChangedCallbacks.Add(Notification);
+            _ProfileChangedCallbacks.Add(notification);
         }
 
         public static void LoadProfiles()
         {
-            SChange change = new SChange();
-            change.Action = EAction.LoadProfiles;
+            SChange change = new SChange {Action = EAction.LoadProfiles};
 
             lock (_QueueMutex)
             {
@@ -232,8 +224,7 @@ namespace Vocaluxe.Base
 
         public static void LoadAvatars()
         {
-            SChange change = new SChange();
-            change.Action = EAction.LoadAvatars;
+            SChange change = new SChange {Action = EAction.LoadAvatars};
 
             lock (_QueueMutex)
             {
@@ -241,14 +232,12 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static void AddProfile(CProfile NewProfile)
+        public static void AddProfile(CProfile newProfile)
         {
-            if (NewProfile == null)
+            if (newProfile == null)
                 return;
 
-            SChange change = new SChange();
-            change.Action = EAction.AddProfile;
-            change.Profile = NewProfile;
+            SChange change = new SChange {Action = EAction.AddProfile, Profile = newProfile};
 
             lock (_QueueMutex)
             {
@@ -256,14 +245,12 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static void EditProfile(CProfile EditProfile)
+        public static void EditProfile(CProfile editProfile)
         {
-            if (EditProfile == null)
+            if (editProfile == null)
                 return;
 
-            SChange change = new SChange();
-            change.Action = EAction.EditProfile;
-            change.Profile = EditProfile;
+            SChange change = new SChange {Action = EAction.EditProfile, Profile = editProfile};
 
             lock (_QueueMutex)
             {
@@ -273,12 +260,10 @@ namespace Vocaluxe.Base
 
         public static void DeleteProfile(int profileID)
         {
-            if (!ICProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return;
 
-            SChange change = new SChange();
-            change.Action = EAction.DeleteProfile;
-            change.ProfileID = profileID;
+            SChange change = new SChange {Action = EAction.DeleteProfile, ProfileID = profileID};
 
             lock (_QueueMutex)
             {
@@ -286,14 +271,12 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static void AddAvatar(CAvatar NewAvatar)
+        public static void AddAvatar(CAvatar newAvatar)
         {
-            if (NewAvatar == null)
+            if (newAvatar == null)
                 return;
 
-            SChange change = new SChange();
-            change.Action = EAction.AddAvatar;
-            change.Avatar = NewAvatar;
+            SChange change = new SChange {Action = EAction.AddAvatar, Avatar = newAvatar};
 
             lock (_QueueMutex)
             {
@@ -301,14 +284,12 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static void EditAvatar(CAvatar EditAvatar)
+        public static void EditAvatar(CAvatar editAvatar)
         {
-            if (EditAvatar == null)
+            if (editAvatar == null)
                 return;
 
-            SChange change = new SChange();
-            change.Action = EAction.EditAvatar;
-            change.Avatar = EditAvatar;
+            SChange change = new SChange {Action = EAction.EditAvatar, Avatar = editAvatar};
 
             lock (_QueueMutex)
             {
@@ -318,26 +299,20 @@ namespace Vocaluxe.Base
 
         public static CProfile[] GetProfiles()
         {
-            List<CProfile> list = new List<CProfile>();
-
             if (_Profiles.Count == 0)
                 return null;
 
-            CProfile[] result = new CProfile[_Profiles.Count];
-            _Profiles.Values.CopyTo(result, 0);
-            for (int i = 0; i < result.Length; i++)
-                list.Add(result[i]);
+            List<CProfile> list = new List<CProfile>(_Profiles.Values);
             list.Sort(_CompareByPlayerName);
             return list.ToArray();
         }
 
-        public static CAvatar[] GetAvatars()
+        public static IEnumerable<CAvatar> GetAvatars()
         {
-            CAvatar[] result = null;
             if (_Avatars.Count == 0)
                 return null;
 
-            result = new CAvatar[_Avatars.Count];
+            CAvatar[] result = new CAvatar[_Avatars.Count];
             _Avatars.Values.CopyTo(result, 0);
 
             return result;
@@ -377,12 +352,12 @@ namespace Vocaluxe.Base
                 _Profiles[id].SaveProfile();
         }
 
-        public static bool ICProfileIDValid(int profileID)
+        public static bool IsProfileIDValid(int profileID)
         {
             return _Profiles.ContainsKey(profileID);
         }
 
-        public static bool ICAvatarIDValid(int avatarID)
+        public static bool IsAvatarIDValid(int avatarID)
         {
             return _Avatars.ContainsKey(avatarID);
         }
@@ -391,7 +366,7 @@ namespace Vocaluxe.Base
         #region profile properties
         public static string GetPlayerName(int profileID, int playerNum = 0)
         {
-            if (ICProfileIDValid(profileID))
+            if (IsProfileIDValid(profileID))
                 return _Profiles[profileID].PlayerName;
 
             string playerName = CLanguage.Translate("TR_SCREENNAMES_PLAYER");
@@ -400,17 +375,17 @@ namespace Vocaluxe.Base
             return playerName;
         }
 
-        public static void SetPlayerName(int profileID, string PlayerName)
+        public static void SetPlayerName(int profileID, string playerName)
         {
-            if (!ICProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return;
 
-            _Profiles[profileID].PlayerName = PlayerName;
+            _Profiles[profileID].PlayerName = playerName;
         }
 
         public static string GetProfileFileName(int profileID)
         {
-            if (!ICProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return String.Empty;
 
             return Path.GetFileName(_Profiles[profileID].FileName);
@@ -418,7 +393,7 @@ namespace Vocaluxe.Base
 
         public static string AddGetPlayerName(int profileID, char chr)
         {
-            if (!ICProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return String.Empty;
 
             _Profiles[profileID].PlayerName += chr;
@@ -427,7 +402,7 @@ namespace Vocaluxe.Base
 
         public static string GetDeleteCharInPlayerName(int profileID)
         {
-            if (!ICProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return String.Empty;
 
             CProfile profile = _Profiles[profileID];
@@ -439,12 +414,12 @@ namespace Vocaluxe.Base
 
         public static EGameDifficulty GetDifficulty(int profileID)
         {
-            return ICProfileIDValid(profileID) ? _Profiles[profileID].Difficulty : EGameDifficulty.TR_CONFIG_NORMAL;
+            return IsProfileIDValid(profileID) ? _Profiles[profileID].Difficulty : EGameDifficulty.TR_CONFIG_NORMAL;
         }
 
         public static void SetDifficulty(int profileID, EGameDifficulty difficulty)
         {
-            if (!ICProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return;
 
             _Profiles[profileID].Difficulty = difficulty;
@@ -452,12 +427,12 @@ namespace Vocaluxe.Base
 
         public static EOffOn GetGuestProfile(int profileID)
         {
-            return ICProfileIDValid(profileID) ? _Profiles[profileID].GuestProfile : EOffOn.TR_CONFIG_OFF;
+            return IsProfileIDValid(profileID) ? _Profiles[profileID].GuestProfile : EOffOn.TR_CONFIG_OFF;
         }
 
         public static void SetGuestProfile(int profileID, EOffOn option)
         {
-            if (!ICProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return;
 
             _Profiles[profileID].GuestProfile = option;
@@ -465,12 +440,12 @@ namespace Vocaluxe.Base
 
         public static EOffOn GetActive(int profileID)
         {
-            return ICProfileIDValid(profileID) ? _Profiles[profileID].Active : EOffOn.TR_CONFIG_OFF;
+            return IsProfileIDValid(profileID) ? _Profiles[profileID].Active : EOffOn.TR_CONFIG_OFF;
         }
 
         public static void SetActive(int profileID, EOffOn option)
         {
-            if (!ICProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return;
 
             _Profiles[profileID].Active = option;
@@ -478,7 +453,7 @@ namespace Vocaluxe.Base
 
         public static bool IsGuestProfile(int profileID)
         {
-            if (!ICProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return true; // this will prevent from saving dummy profiles to highscore db
 
             return _Profiles[profileID].GuestProfile == EOffOn.TR_CONFIG_ON;
@@ -486,14 +461,14 @@ namespace Vocaluxe.Base
 
         public static bool IsActive(int profileID)
         {
-            if (!ICProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return false;
             return _Profiles[profileID].Active == EOffOn.TR_CONFIG_ON;
         }
 
         public static void SetAvatar(int profileID, int avatarID)
         {
-            if (!ICProfileIDValid(profileID) || !ICAvatarIDValid(avatarID))
+            if (!IsProfileIDValid(profileID) || !IsAvatarIDValid(avatarID))
                 return;
 
             _Profiles[profileID].Avatar = _Avatars[avatarID];
@@ -501,7 +476,7 @@ namespace Vocaluxe.Base
 
         public static int GetAvatarID(int profileID)
         {
-            if (!ICProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return -1;
 
             return _Profiles[profileID].Avatar.ID;
@@ -511,7 +486,7 @@ namespace Vocaluxe.Base
         #region avatar texture
         public static CTexture GetAvatarTexture(int avatarID)
         {
-            if (!ICAvatarIDValid(avatarID))
+            if (!IsAvatarIDValid(avatarID))
                 return null;
 
             return _Avatars[avatarID].Texture;
@@ -519,7 +494,7 @@ namespace Vocaluxe.Base
 
         public static CTexture GetAvatarTextureFromProfile(int profileID)
         {
-            if (!ICProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return null;
 
             return _Profiles[profileID].Avatar.Texture;
@@ -536,15 +511,15 @@ namespace Vocaluxe.Base
             {
                 int[] ids = new int[_Profiles.Keys.Count];
                 _Profiles.Keys.CopyTo(ids, 0);
-                for (int i = 0; i < ids.Length; i++)
+                foreach (int id in ids)
                 {
-                    if (_Profiles[ids[i]].LoadProfile())
+                    if (_Profiles[id].LoadProfile())
                     {
-                        _Profiles[ids[i]].Avatar = _GetAvatar(_Profiles[ids[i]].AvatarFileName);
-                        knownFiles.Add(Path.GetFileName(_Profiles[ids[i]].FileName));
+                        _Profiles[id].Avatar = _GetAvatar(_Profiles[id].AvatarFileName);
+                        knownFiles.Add(Path.GetFileName(_Profiles[id].FileName));
                     }
                     else
-                        _Profiles.Remove(ids[i]);
+                        _Profiles.Remove(id);
                 }
             }
 
@@ -578,12 +553,12 @@ namespace Vocaluxe.Base
             {
                 int[] ids = new int[_Avatars.Keys.Count];
                 _Avatars.Keys.CopyTo(ids, 0);
-                for (int i = 0; i < ids.Length; i++)
+                foreach (int id in ids)
                 {
-                    if (_Avatars[ids[i]].Reload())
-                        knownFiles.Add(Path.GetFileName(_Avatars[ids[i]].FileName));
+                    if (_Avatars[id].Reload())
+                        knownFiles.Add(Path.GetFileName(_Avatars[id].FileName));
                     else
-                        _Avatars.Remove(ids[i]);
+                        _Avatars.Remove(id);
                 }
             }
 
@@ -610,7 +585,7 @@ namespace Vocaluxe.Base
 
         private static void _DeleteProfile(int profileID)
         {
-            if (!ICProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return;
 
             if (_Profiles[profileID].FileName == "")
@@ -651,7 +626,7 @@ namespace Vocaluxe.Base
 
         private static void _RemoveProfile(int profileID)
         {
-            if (!ICProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID))
                 return;
 
             _Profiles.Remove(profileID);
@@ -665,11 +640,11 @@ namespace Vocaluxe.Base
 
         private static CAvatar _GetAvatar(string fileName)
         {
-            string Name = Path.GetFileName(fileName);
+            string name = Path.GetFileName(fileName);
 
             foreach (int id in _Avatars.Keys)
             {
-                if (Path.GetFileName(_Avatars[id].FileName) == Name)
+                if (Path.GetFileName(_Avatars[id].FileName) == name)
                     return _Avatars[id];
             }
             return new CAvatar(-1);

@@ -24,7 +24,6 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using VocaluxeLib;
-using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {

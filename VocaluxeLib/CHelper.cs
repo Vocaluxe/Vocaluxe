@@ -143,7 +143,9 @@ namespace VocaluxeLib
 
             try
             {
+                // ReSharper disable LoopCanBeConvertedToQuery
                 foreach (FileInfo file in dir.GetFiles(cast))
+                    // ReSharper restore LoopCanBeConvertedToQuery
                     files.Add(!fullpath ? file.Name : file.FullName);
 
                 if (recursive)

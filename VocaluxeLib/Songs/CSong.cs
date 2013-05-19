@@ -20,10 +20,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Menu.SingNotes;
 
 namespace VocaluxeLib.Songs
 {
@@ -806,9 +806,7 @@ namespace VocaluxeLib.Songs
                 return null;
 
             // build sentences list
-            List<string> sentences = new List<string>();
-            foreach (CLine line in voice.Lines)
-                sentences.Add(line.Points != 0 ? line.Lyrics : String.Empty);
+            List<string> sentences = voice.Lines.Select(line => line.Points != 0 ? line.Lyrics : String.Empty).ToList();
 
             // find equal sentences series
             List<SSeries> series = new List<SSeries>();

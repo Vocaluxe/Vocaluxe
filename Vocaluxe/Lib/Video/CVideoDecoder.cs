@@ -19,7 +19,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using VocaluxeLib;
 using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Video
