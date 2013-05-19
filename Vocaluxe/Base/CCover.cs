@@ -23,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 

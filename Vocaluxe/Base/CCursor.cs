@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 

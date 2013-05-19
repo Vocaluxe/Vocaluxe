@@ -370,12 +370,12 @@ namespace Vocaluxe.Base
             CDraw.DrawTextureReflection(texture, rect, color, bounds, reflectionSpace, reflectionHeight);
         }
 
-        public STexture AddTexture(string fileName)
+        public CTexture AddTexture(string fileName)
         {
             return CDraw.AddTexture(fileName);
         }
 
-        public void RemoveTexture(ref STexture texture)
+        public void RemoveTexture(ref CTexture texture)
         {
             CDraw.RemoveTexture(ref texture);
         }

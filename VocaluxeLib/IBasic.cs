@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-
+using VocaluxeLib.Draw;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
 using VocaluxeLib.PartyModes;
@@ -78,8 +78,8 @@ namespace VocaluxeLib
     {
         string GetThemeScreensPath(int partyModeID);
         int GetSkinIndex(int partyModeID);
-        STexture GetSkinTexture(string textureName, int partyModeID);
-        STexture GetSkinVideoTexture(string videoName, int partyModeID);
+        CTexture GetSkinTexture(string textureName, int partyModeID);
+        CTexture GetSkinVideoTexture(string videoName, int partyModeID);
 
         void SkinVideoResume(string videoName, int partyModeID);
         void SkinVideoPause(string videoName, int partyModeID);
@@ -109,18 +109,18 @@ namespace VocaluxeLib
 
         void ApplyVolume();
 
-        STexture GetVideoTexture();
+        CTexture GetVideoTexture();
     }
 
     public interface IDrawing
     {
-        void DrawTexture(STexture texture, SRectF rect);
-        void DrawTexture(STexture texture, SRectF rect, SColorF color);
-        void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false);
-        void DrawTextureReflection(STexture texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight);
+        void DrawTexture(CTexture texture, SRectF rect);
+        void DrawTexture(CTexture texture, SRectF rect, SColorF color);
+        void DrawTexture(CTexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false);
+        void DrawTextureReflection(CTexture texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight);
 
-        STexture AddTexture(string fileName);
-        void RemoveTexture(ref STexture texture);
+        CTexture AddTexture(string fileName);
+        void RemoveTexture(ref CTexture texture);
 
         void DrawColor(SColorF color, SRectF rect);
         void DrawColorReflection(SColorF color, SRectF rect, float space, float height);
@@ -225,7 +225,7 @@ namespace VocaluxeLib
     {
         int Load(string videoFileName);
         bool Skip(int videoStream, float startPosition, float videoGap);
-        bool GetFrame(int videoStream, ref STexture videoTexture, float time, out float videoTime);
+        bool GetFrame(int videoStream, ref CTexture videoTexture, float time, out float videoTime);
         bool IsFinished(int videoStream);
         bool Close(int videoStream);
     }
@@ -248,12 +248,12 @@ namespace VocaluxeLib
 
     public interface ICover
     {
-        STexture GetNoCover();
+        CTexture GetNoCover();
     }
 
     public interface IDataBase
     {
-        bool GetCover(string fileName, ref STexture texture, int coverSize);
+        bool GetCover(string fileName, ref CTexture texture, int coverSize);
     }
 
     public interface IControllers

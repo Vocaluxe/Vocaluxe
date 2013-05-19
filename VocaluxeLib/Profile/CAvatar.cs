@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.Profile
@@ -10,31 +10,26 @@ namespace VocaluxeLib.Profile
     public class CAvatar
     {
         public int ID;
-        public string FileName;
-        public STexture Texture;
+        public string FileName = "";
+        public CTexture Texture;
 
         public CAvatar(int ID)
         {
             this.ID = ID;
-            FileName = String.Empty;
-            Texture = new STexture(-1);
         }
 
         public bool LoadFromFile(string NewFileName)
         {
             FileName = NewFileName;
-            CBase.Drawing.RemoveTexture(ref Texture);
-            Texture = CBase.Drawing.AddTexture(FileName);
-            return (Texture.Index != -1);
+            return Reload();
         }
 
         public bool Reload()
         {
-            STexture oldTexture = Texture;
+            CBase.Drawing.RemoveTexture(ref Texture);
             Texture = CBase.Drawing.AddTexture(FileName);
-            CBase.Drawing.RemoveTexture(ref oldTexture);
 
-            return Texture.Index != -1;
+            return Texture != null;
         }
 
         public void Unload()

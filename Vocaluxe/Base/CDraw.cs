@@ -20,6 +20,7 @@
 using System;
 using System.Drawing;
 using Vocaluxe.Lib.Draw;
+using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 

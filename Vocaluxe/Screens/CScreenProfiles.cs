@@ -389,7 +389,7 @@ namespace Vocaluxe.Screens
         private void _DeleteProfile()
         {
             _EditMode = EEditMode.None;
-            
+
             CProfiles.DeleteProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex);
 
             int selection = _SelectSlides[_SelectSlideProfiles].Selection;
@@ -410,11 +410,13 @@ namespace Vocaluxe.Screens
 
             CProfile[] profiles = CProfiles.GetProfiles();
             for (int i = 0; i < profiles.Length; i++)
+            {
                 _SelectSlides[_SelectSlideProfiles].AddValue(
-                    profiles[i].PlayerName, 
-                    new STexture(-1), 
-                    profiles[i].ID, 
+                    profiles[i].PlayerName,
+                    null,
+                    profiles[i].ID,
                     -1);
+            }
 
             if (CProfiles.NumProfiles > 0 && CProfiles.NumAvatars > 0)
             {
@@ -446,11 +448,13 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideAvatars].Clear();
             CAvatar[] avatars = CProfiles.GetAvatars();
             for (int i = 0; i < avatars.Length; i++)
+            {
                 _SelectSlides[_SelectSlideAvatars].AddValue(
                     Path.GetFileName(avatars[i].FileName),
-                    new STexture(-1),
+                    null,
                     avatars[i].ID,
                     -1);
+            }
 
             if (Keep)
             {
@@ -461,6 +465,6 @@ namespace Vocaluxe.Screens
                 _SelectSlides[_SelectSlideAvatars].SetSelectionByValueIndex(CProfiles.GetAvatarID(_SelectSlides[_SelectSlideProfiles].ValueIndex));
 
             _AvatarsChanged = false;
-        }      
+        }
     }
 }

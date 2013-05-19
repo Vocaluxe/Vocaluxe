@@ -43,7 +43,7 @@ namespace Vocaluxe.Base
     static class CProfiles
     {
         #region enums and structs
-        enum EAction
+        private enum EAction
         {
             LoadProfiles,
             LoadAvatars,
@@ -54,7 +54,7 @@ namespace Vocaluxe.Base
             EditAvatar
         }
 
-        struct SChange
+        private struct SChange
         {
             public CProfile Profile;
             public CAvatar Avatar;
@@ -96,16 +96,12 @@ namespace Vocaluxe.Base
             _Avatars = new Dictionary<int, CAvatar>();
             _AvatarIDs = new Queue<int>(1000);
             for (int i = 0; i < 1000; i++)
-            {
                 _AvatarIDs.Enqueue(i);
-            }
 
             _Profiles = new Dictionary<int, CProfile>();
             _ProfileIDs = new Queue<int>(100);
             for (int i = 0; i < 100; i++)
-            {
                 _ProfileIDs.Enqueue(i);
-            }
 
             LoadProfiles();
         }
@@ -319,20 +315,18 @@ namespace Vocaluxe.Base
                 _Queue.Enqueue(change);
             }
         }
-        
+
         public static CProfile[] GetProfiles()
         {
             List<CProfile> list = new List<CProfile>();
 
             if (_Profiles.Count == 0)
-                return null;          
+                return null;
 
             CProfile[] result = new CProfile[_Profiles.Count];
             _Profiles.Values.CopyTo(result, 0);
             for (int i = 0; i < result.Length; i++)
-            {
                 list.Add(result[i]);
-            }
             list.Sort(_CompareByPlayerName);
             return list.ToArray();
         }
@@ -342,13 +336,13 @@ namespace Vocaluxe.Base
             CAvatar[] result = null;
             if (_Avatars.Count == 0)
                 return null;
-            
+
             result = new CAvatar[_Avatars.Count];
             _Avatars.Values.CopyTo(result, 0);
 
             return result;
         }
-        
+
         public static int NewProfile(string fileName = "")
         {
             CProfile profile = new CProfile
@@ -380,9 +374,7 @@ namespace Vocaluxe.Base
         public static void SaveProfiles()
         {
             foreach (int id in _Profiles.Keys)
-            {
                 _Profiles[id].SaveProfile();
-            }
         }
 
         public static bool ICProfileIDValid(int profileID)
@@ -422,7 +414,7 @@ namespace Vocaluxe.Base
                 return String.Empty;
 
             return Path.GetFileName(_Profiles[profileID].FileName);
-        }        
+        }
 
         public static string AddGetPlayerName(int profileID, char chr)
         {
@@ -475,7 +467,7 @@ namespace Vocaluxe.Base
         {
             return ICProfileIDValid(profileID) ? _Profiles[profileID].Active : EOffOn.TR_CONFIG_OFF;
         }
-        
+
         public static void SetActive(int profileID, EOffOn option)
         {
             if (!ICProfileIDValid(profileID))
@@ -517,18 +509,18 @@ namespace Vocaluxe.Base
         #endregion profile properties
 
         #region avatar texture
-        public static STexture GetAvatarTexture(int avatarID)
+        public static CTexture GetAvatarTexture(int avatarID)
         {
             if (!ICAvatarIDValid(avatarID))
-                return new STexture(-1);
+                return null;
 
             return _Avatars[avatarID].Texture;
         }
 
-        public static STexture GetAvatarTextureFromProfile(int profileID)
+        public static CTexture GetAvatarTextureFromProfile(int profileID)
         {
             if (!ICProfileIDValid(profileID))
-                return new STexture(-1);
+                return null;
 
             return _Profiles[profileID].Avatar.Texture;
         }
@@ -565,9 +557,9 @@ namespace Vocaluxe.Base
                     continue;
 
                 CProfile profile = new CProfile
-                {
-                    FileName = Path.Combine(CSettings.FolderProfiles, file)
-                };
+                    {
+                        FileName = Path.Combine(CSettings.FolderProfiles, file)
+                    };
 
                 if (profile.LoadProfile())
                 {
