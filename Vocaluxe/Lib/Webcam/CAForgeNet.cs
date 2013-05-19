@@ -25,6 +25,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using Vocaluxe.Base;
 using VocaluxeLib;
+using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Webcam
 {
@@ -41,29 +42,20 @@ namespace Vocaluxe.Lib.Webcam
 
         public void Close()
         {
-            if (_Webcam != null)
-            {
-                _Webcam.SignalToStop();
-                _Webcam.WaitForStop();
-                _Webcam.NewFrame -= _OnFrame;
-                _Data = new byte[1];
-            }
+            if (_Webcam == null)
+                return;
+            _Webcam.SignalToStop();
+            _Webcam.WaitForStop();
+            _Webcam.NewFrame -= _OnFrame;
+            _Data = new byte[1];
         }
 
-        public bool GetFrame(ref STexture frame)
+        public bool GetFrame(ref CTexture frame)
         {
-            if (_Webcam != null && _Width > 0 && _Height > 0 && _Data.Length == _Width * _Height * 4)
+            lock (_MutexData)
             {
-                lock (_MutexData)
-                {
-                    if (frame.Index == -1 || _Width != (int)frame.Width || _Height != (int)frame.Height)
-                    {
-                        CDraw.RemoveTexture(ref frame);
-                        frame = CDraw.AddTexture(_Width, _Height, _Data);
-                    }
-                    else
-                        CDraw.UpdateTexture(ref frame, _Data);
-                }
+                if (_Webcam != null && _Width > 0 && _Height > 0 && _Data.Length == _Width * _Height * 4)
+                    CDraw.UpdateOrAddTexture(ref frame, _Width, _Height, _Data);
             }
             return false;
         }
@@ -114,19 +106,18 @@ namespace Vocaluxe.Lib.Webcam
 
         private void _OnFrame(object sender, NewFrameEventArgs e)
         {
-            if (!_Paused)
+            if (_Paused)
+                return;
+            lock (_MutexData)
             {
-                lock (_MutexData)
-                {
-                    if (_Width != e.Frame.Width || _Height != e.Frame.Height || _Data.Length != e.Frame.Width * e.Frame.Height * 4)
-                        _Data = new byte[4 * e.Frame.Width * e.Frame.Height];
+                if (_Width != e.Frame.Width || _Height != e.Frame.Height || _Data.Length != e.Frame.Width * e.Frame.Height * 4)
+                    _Data = new byte[4 * e.Frame.Width * e.Frame.Height];
 
-                    _Width = e.Frame.Width;
-                    _Height = e.Frame.Height;
-                    BitmapData bitmapdata = e.Frame.LockBits(new Rectangle(0, 0, _Width, _Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                    Marshal.Copy(bitmapdata.Scan0, _Data, 0, _Data.Length);
-                    e.Frame.UnlockBits(bitmapdata);
-                }
+                _Width = e.Frame.Width;
+                _Height = e.Frame.Height;
+                BitmapData bitmapdata = e.Frame.LockBits(new Rectangle(0, 0, _Width, _Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                Marshal.Copy(bitmapdata.Scan0, _Data, 0, _Data.Length);
+                e.Frame.UnlockBits(bitmapdata);
             }
         }
 
@@ -138,14 +129,13 @@ namespace Vocaluxe.Lib.Webcam
 
         public void Start()
         {
-            if (_Webcam != null)
-            {
-                _Webcam.NewFrame -= _OnFrame;
-                //Subscribe to NewFrame event
-                _Webcam.NewFrame += _OnFrame;
-                _Webcam.Start();
-                _Paused = false;
-            }
+            if (_Webcam == null)
+                return;
+            _Webcam.NewFrame -= _OnFrame;
+            //Subscribe to NewFrame event
+            _Webcam.NewFrame += _OnFrame;
+            _Webcam.Start();
+            _Paused = false;
         }
 
         public void Stop()

@@ -30,152 +30,11 @@ using VocaluxeLib.PartyModes;
 
 namespace Vocaluxe.Base
 {
-    class CCursor
-    {
-        private readonly Stopwatch _CursorFadingTimer;
-        private float _CursorTargetAlpha;
-        private float _CursorStartAlpha;
-        private float _CursorFadingTime;
-        private STexture _Cursor;
-        private readonly string _CursorName = String.Empty;
-
-        private readonly Stopwatch _Movetimer;
-
-        public bool ShowCursor;
-        public bool Visible = true;
-        public bool CursorVisible = true;
-
-        public int X
-        {
-            get { return (int)_Cursor.Rect.X; }
-            set { UpdatePosition(value, (int)_Cursor.Rect.Y); }
-        }
-
-        public int Y
-        {
-            get { return (int)_Cursor.Rect.Y; }
-            set { UpdatePosition((int)_Cursor.Rect.X, value); }
-        }
-
-        public bool IsActive
-        {
-            get { return _Movetimer.IsRunning; }
-        }
-
-        public CCursor(string textureName, SColorF color, float w, float h, float z)
-        {
-            _CursorFadingTimer = new Stopwatch();
-            ShowCursor = true;
-            _CursorTargetAlpha = 1f;
-            _CursorStartAlpha = 0f;
-            _CursorFadingTime = 0.5f;
-
-            _CursorName = textureName;
-            _Cursor = CDraw.AddTexture(CTheme.GetSkinFilePath(_CursorName, -1));
-
-            _Cursor.Color = color;
-            _Cursor.Rect.W = w;
-            _Cursor.Rect.H = h;
-            _Cursor.Rect.Z = z;
-
-            _Movetimer = new Stopwatch();
-        }
-
-        public void Draw()
-        {
-            if (_Movetimer.IsRunning && _Movetimer.ElapsedMilliseconds / 1000f > CSettings.MouseMoveOffTime)
-            {
-                _Movetimer.Stop();
-                _Fade(0f, 0.5f);
-            }
-
-
-            if (_CursorFadingTimer.IsRunning)
-            {
-                float t = _CursorFadingTimer.ElapsedMilliseconds / 1000f;
-                if (t < _CursorFadingTime)
-                {
-                    if (_CursorTargetAlpha >= _CursorStartAlpha)
-                        _Cursor.Color.A = _CursorStartAlpha + (_CursorTargetAlpha - _CursorStartAlpha) * t / _CursorFadingTime;
-                    else
-                        _Cursor.Color.A = (_CursorStartAlpha - _CursorTargetAlpha) * (1f - t / _CursorFadingTime);
-                }
-                else
-                {
-                    _CursorFadingTimer.Stop();
-                    _Cursor.Color.A = _CursorTargetAlpha;
-                }
-            }
-
-            if (CursorVisible && (CSettings.GameState == EGameState.EditTheme || ShowCursor))
-                CDraw.DrawTexture(_Cursor);
-        }
-
-        public void UpdatePosition(int x, int y)
-        {
-            if (Math.Abs(_Cursor.Rect.X - x) > CSettings.MouseMoveDiffMin ||
-                Math.Abs(_Cursor.Rect.Y - y) > CSettings.MouseMoveDiffMin)
-            {
-                if (_CursorTargetAlpha < 0.01)
-                    _Fade(1f, 0.2f);
-
-                _Movetimer.Reset();
-                _Movetimer.Start();
-                CSettings.MouseActive();
-            }
-
-            _Cursor.Rect.X = x;
-            _Cursor.Rect.Y = y;
-        }
-
-        public void UnloadTextures()
-        {
-            CDraw.RemoveTexture(ref _Cursor);
-        }
-
-        public void ReloadTextures()
-        {
-            UnloadTextures();
-
-            _Cursor = CDraw.AddTexture(CTheme.GetSkinFilePath(_CursorName, -1));
-        }
-
-        public void FadeOut()
-        {
-            _Movetimer.Stop();
-            _Fade(0f, 0.5f);
-        }
-
-        public void FadeIn()
-        {
-            _Movetimer.Reset();
-            _Movetimer.Start();
-            _Fade(1f, 0.2f);
-        }
-
-        private void _Fade(float targetAlpha, float time)
-        {
-            _CursorFadingTimer.Stop();
-            _CursorFadingTimer.Reset();
-
-            if (targetAlpha >= 0f && targetAlpha <= 1f)
-                _CursorTargetAlpha = targetAlpha;
-            else
-                _CursorTargetAlpha = 1f;
-
-            if (time >= 0f)
-                _CursorFadingTime = time;
-
-            _CursorStartAlpha = _Cursor.Color.A;
-            _CursorFadingTimer.Start();
-        }
-    }
-
     static class CGraphics
     {
         private static bool _Fading;
         private static Stopwatch _FadingTimer;
-        private static CCursor _Cursor;
+        private static readonly CCursor _Cursor = new CCursor();
         private static float _GlobalAlpha;
         private static float _ZOffset;
 
@@ -252,12 +111,7 @@ namespace Vocaluxe.Base
 
         public static void LoadTheme()
         {
-            _Cursor = new CCursor(
-                CTheme.Cursor.SkinName,
-                new SColorF(CTheme.Cursor.R, CTheme.Cursor.G, CTheme.Cursor.B, CTheme.Cursor.A),
-                CTheme.Cursor.W,
-                CTheme.Cursor.H,
-                CSettings.ZNear);
+            _Cursor.LoadTextures();
 
             for (int i = 0; i < _Screens.Count; i++)
             {
@@ -276,7 +130,7 @@ namespace Vocaluxe.Base
 
         public static void ReloadTheme()
         {
-            _ReloadCursor();
+            _Cursor.ReloadTextures();
             foreach (IMenu screen in _Screens)
                 screen.ReloadTheme(CTheme.GetThemeScreensPath(-1));
 
@@ -286,7 +140,7 @@ namespace Vocaluxe.Base
 
         public static void ReloadSkin()
         {
-            _ReloadCursor();
+            _Cursor.ReloadTextures();
             foreach (IMenu menu in _Screens)
                 menu.ReloadTextures();
 
@@ -313,7 +167,7 @@ namespace Vocaluxe.Base
         public static bool UpdateGameLogic(CKeys keys, CMouse mouse)
         {
             bool run = true;
-            _Cursor.CursorVisible = mouse.Visible;
+            _Cursor.Visible = mouse.Visible;
 
             mouse.CopyEvents();
             keys.CopyEvents();
@@ -782,27 +636,6 @@ namespace Vocaluxe.Base
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 y += rect.Height;
             }
-        }
-
-        private static void _ReloadCursor()
-        {
-            _Cursor.UnloadTextures();
-
-            if (CTheme.Cursor.Color != "")
-            {
-                SColorF color = CTheme.GetColor(CTheme.Cursor.Color, -1);
-                CTheme.Cursor.R = color.R;
-                CTheme.Cursor.G = color.G;
-                CTheme.Cursor.B = color.B;
-                CTheme.Cursor.A = color.A;
-            }
-
-            _Cursor = new CCursor(
-                CTheme.Cursor.SkinName,
-                new SColorF(CTheme.Cursor.R, CTheme.Cursor.G, CTheme.Cursor.B, CTheme.Cursor.A),
-                CTheme.Cursor.W,
-                CTheme.Cursor.H,
-                CSettings.ZNear);
         }
         #endregion private stuff
     }

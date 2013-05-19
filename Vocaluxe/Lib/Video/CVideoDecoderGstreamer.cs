@@ -21,6 +21,7 @@ using System;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Gstreamer;
 using VocaluxeLib;
+using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Video
 {
@@ -78,13 +79,13 @@ namespace Vocaluxe.Lib.Video
             return CGstreamerVideoWrapper.GetVideoLength(streamID);
         }
 
-        public bool GetFrame(int streamID, ref STexture frame, float time, out float videoTime)
+        public bool GetFrame(int streamID, ref CTexture frame, float time, out float videoTime)
         {
             SManagedFrame managedFrame = CGstreamerVideoWrapper.GetFrame(streamID, time);
             videoTime = managedFrame.Videotime;
 
             _UploadNewFrame(ref frame, ref managedFrame.Buffer, managedFrame.Width, managedFrame.Height);
-            return true;
+            return frame != null;
         }
 
         public bool Skip(int streamID, float start, float gap)
@@ -117,17 +118,11 @@ namespace Vocaluxe.Lib.Video
             CGstreamerVideoWrapper.UpdateVideo();
         }
 
-        private void _UploadNewFrame(ref STexture frame, ref byte[] data, int width, int height)
+        private void _UploadNewFrame(ref CTexture frame, ref byte[] data, int width, int height)
         {
             if (data == null)
                 return;
-            if (frame.Index == -1 || width != (int)frame.Width || height != (int)frame.Height || data.Length == 0)
-            {
-                CDraw.RemoveTexture(ref frame);
-                frame = CDraw.AddTexture(width, height, data);
-            }
-            else
-                CDraw.UpdateTexture(ref frame, data);
+            CDraw.UpdateOrAddTexture(ref frame, width, height, data);
             data = null;
         }
     }

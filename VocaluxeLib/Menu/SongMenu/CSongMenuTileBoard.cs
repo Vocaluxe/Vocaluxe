@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using VocaluxeLib.Draw;
 using VocaluxeLib.PartyModes;
 using VocaluxeLib.Songs;
 
@@ -38,8 +39,8 @@ namespace VocaluxeLib.Menu.SongMenu
         private CStatic _MedleyCalcIcon;
         private CStatic _MedleyTagIcon;
 
-        private STexture _CoverBigTexture;
-        private STexture _CoverTexture;
+        private CTexture _CoverBigTexture;
+        private CTexture _CoverTexture;
 
         private CText _Artist;
         private CText _Title;
@@ -323,7 +324,7 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 foreach (CStatic tile in _Tiles)
                 {
-                    if ((tile.Texture.Index != _CoverTexture.Index) && CHelper.IsInBounds(tile.Rect, mouseEvent) && !sel)
+                    if (tile.Texture != _CoverTexture && CHelper.IsInBounds(tile.Rect, mouseEvent) && !sel)
                     {
                         if (mouseEvent.LB || !CBase.Songs.IsInCategory())
                         {
@@ -371,7 +372,7 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 foreach (CStatic tile in _Tiles)
                 {
-                    if ((tile.Texture.Index != _CoverTexture.Index) && CHelper.IsInBounds(tile.Rect, mouseEvent))
+                    if (tile.Texture != _CoverTexture && CHelper.IsInBounds(tile.Rect, mouseEvent))
                     {
                         _EnterCategory(_PreviewSelected);
                         mouseEvent.Handled = true;
@@ -394,7 +395,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 else
                 {
                     // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
-                    if (tile.Texture.Index != _CoverTexture.Index)
+                    if (tile.Texture != _CoverTexture)
                         // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                         tile.Draw(1f, tile.Rect.Z, EAspect.Crop);
                     else
@@ -453,18 +454,17 @@ namespace VocaluxeLib.Menu.SongMenu
 
             _TextBG.Draw();
 
-
-            if (_Vidtex.Index != -1 && _Video != -1)
+            if (_Vidtex != null && _Video != -1)
             {
                 if (_Vidtex.Color.A < 1)
                     _CoverBig.Draw(1f, EAspect.Crop);
                 RectangleF bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
-                RectangleF rect = new RectangleF(0f, 0f, _Vidtex.Width, _Vidtex.Height);
-                CHelper.SetRect(bounds, out rect, rect.Width / rect.Height, EAspect.Crop);
+                RectangleF rect;
+                CHelper.SetRect(bounds, out rect, _Vidtex.OrigAspect, EAspect.Crop);
                 SRectF vidRect = new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z);
                 SRectF vidRectBounds = new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f);
 
-                CBase.Drawing.DrawTexture(_Vidtex, vidRect, _Vidtex.Color, vidRectBounds, false);
+                CBase.Drawing.DrawTexture(_Vidtex, vidRect, _Vidtex.Color, vidRectBounds);
                 CBase.Drawing.DrawTextureReflection(_Vidtex, vidRect, _Vidtex.Color, vidRectBounds, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
             }
             else

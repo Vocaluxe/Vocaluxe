@@ -21,6 +21,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using VocaluxeLib;
 
+using System.Drawing;
+using VocaluxeLib.Draw;
+
 namespace Vocaluxe.Lib.Webcam
 {
     struct SWebcamDevice
@@ -54,7 +57,7 @@ namespace Vocaluxe.Lib.Webcam
         void Stop();
         void Close();
 
-        bool GetFrame(ref STexture frame);
+        bool GetFrame(ref CTexture frame);
         Bitmap GetBitmap();
         SWebcamConfig GetConfig();
         SWebcamDevice[] GetDevices();

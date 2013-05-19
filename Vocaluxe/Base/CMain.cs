@@ -24,6 +24,7 @@ using System.Drawing;
 using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 using VocaluxeLib.Game;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.Songs;
@@ -233,12 +234,12 @@ namespace Vocaluxe.Base
             return CTheme.GetSkinIndex(partyModeID);
         }
 
-        public STexture GetSkinTexture(string textureName, int partyModeID)
+        public CTexture GetSkinTexture(string textureName, int partyModeID)
         {
             return CTheme.GetSkinTexture(textureName, partyModeID);
         }
 
-        public STexture GetSkinVideoTexture(string videoName, int partyModeID)
+        public CTexture GetSkinVideoTexture(string videoName, int partyModeID)
         {
             return CTheme.GetSkinVideoTexture(videoName, partyModeID);
         }
@@ -341,7 +342,7 @@ namespace Vocaluxe.Base
             CBackgroundMusic.ApplyVolume();
         }
 
-        public STexture GetVideoTexture()
+        public CTexture GetVideoTexture()
         {
             return CBackgroundMusic.GetVideoTexture();
         }
@@ -349,22 +350,22 @@ namespace Vocaluxe.Base
 
     class CBdraw : IDrawing
     {
-        public void DrawTexture(STexture texture, SRectF rect)
+        public void DrawTexture(CTexture texture, SRectF rect)
         {
             CDraw.DrawTexture(texture, rect);
         }
 
-        public void DrawTexture(STexture texture, SRectF rect, SColorF color)
+        public void DrawTexture(CTexture texture, SRectF rect, SColorF color)
         {
             CDraw.DrawTexture(texture, rect, color);
         }
 
-        public void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        public void DrawTexture(CTexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
             CDraw.DrawTexture(texture, rect, color, bounds, mirrored);
         }
 
-        public void DrawTextureReflection(STexture texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight)
+        public void DrawTextureReflection(CTexture texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight)
         {
             CDraw.DrawTextureReflection(texture, rect, color, bounds, reflectionSpace, reflectionHeight);
         }
@@ -686,27 +687,27 @@ namespace Vocaluxe.Base
     {
         public int Load(string videoFileName)
         {
-            return CVideo.VdLoad(videoFileName);
+            return CVideo.Load(videoFileName);
         }
 
         public bool Skip(int videoStream, float startPosition, float videoGap)
         {
-            return CVideo.VdSkip(videoStream, startPosition, videoGap);
+            return CVideo.Skip(videoStream, startPosition, videoGap);
         }
 
-        public bool GetFrame(int videoStream, ref STexture videoTexture, float time, out float videoTime)
+        public bool GetFrame(int videoStream, ref CTexture videoTexture, float time, out float videoTime)
         {
-            return CVideo.VdGetFrame(videoStream, ref videoTexture, time, out videoTime);
+            return CVideo.GetFrame(videoStream, ref videoTexture, time, out videoTime);
         }
 
         public bool IsFinished(int videoStream)
         {
-            return CVideo.VdFinished(videoStream);
+            return CVideo.Finished(videoStream);
         }
 
         public bool Close(int videoStream)
         {
-            return CVideo.VdClose(videoStream);
+            return CVideo.Close(videoStream);
         }
     }
 
@@ -765,7 +766,7 @@ namespace Vocaluxe.Base
 
     class CBcover : ICover
     {
-        public STexture GetNoCover()
+        public CTexture GetNoCover()
         {
             return CCover.NoCover;
         }
@@ -773,7 +774,7 @@ namespace Vocaluxe.Base
 
     class CBdataBase : IDataBase
     {
-        public bool GetCover(string fileName, ref STexture texture, int coverSize)
+        public bool GetCover(string fileName, ref CTexture texture, int coverSize)
         {
             return CDataBase.GetCover(fileName, ref texture, coverSize);
         }

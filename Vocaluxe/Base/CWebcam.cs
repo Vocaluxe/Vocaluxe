@@ -20,6 +20,8 @@
 using System.Drawing;
 using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;
+using VocaluxeLib.Draw;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {
@@ -46,10 +48,9 @@ namespace Vocaluxe.Base
             CConfig.SaveConfig();
         }
 
-        public static bool GetFrame(ref STexture tex)
+        public static bool GetFrame(ref CTexture tex)
         {
-            _Webcam.GetFrame(ref tex);
-            return true;
+            return _Webcam.GetFrame(ref tex);
         }
 
         public static Bitmap GetBitmap()

@@ -23,6 +23,7 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using VocaluxeLib;
 using VocaluxeLib.Game;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.PartyModes;
 using VocaluxeLib.Profile;

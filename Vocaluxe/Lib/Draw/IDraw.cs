@@ -17,9 +17,11 @@
 //  */
 #endregion
 
-using System;
 using System.Drawing;
 using VocaluxeLib;
+using VocaluxeLib.Menu;
+
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Lib.Draw
@@ -36,28 +38,29 @@ namespace Vocaluxe.Lib.Draw
         int GetTextureCount();
 
         void ClearScreen();
-        STexture CopyScreen();
-        void CopyScreen(ref STexture texture);
+        CTexture CopyScreen();
+        void CopyScreen(ref CTexture texture);
         void MakeScreenShot();
 
-        STexture AddTexture(string texturePath);
-        STexture AddTexture(Bitmap bitmap);
-        STexture AddTexture(int w, int h, byte[] data);
-        STexture EnqueueTexture(int w, int h, byte[] data);
-        bool UpdateTexture(ref STexture texture, byte[] data);
-        void RemoveTexture(ref STexture texture);
+        CTexture AddTexture(string texturePath);
+        CTexture AddTexture(Bitmap bitmap);
+        CTexture AddTexture(int w, int h, byte[] data);
+        CTexture EnqueueTexture(int w, int h, byte[] data);
+        bool UpdateTexture(CTexture texture, int w, int h, byte[] data);
+        bool UpdateOrAddTexture(ref CTexture texture, int w, int h, byte[] data);
+        void RemoveTexture(ref CTexture texture);
 
         // Basic Draw Methods
         void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2);
         void DrawColor(SColorF color, SRectF rect);
         void DrawColorReflection(SColorF color, SRectF rect, float space, float height);
 
-        void DrawTexture(STexture texture);
-        void DrawTexture(STexture texture, SRectF rect);
-        void DrawTexture(STexture texture, SRectF rect, SColorF color, bool mirrored = false);
-        void DrawTexture(STexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false);
-        void DrawTexture(STexture texture, SRectF rect, SColorF color, float begin, float end);
+        void DrawTexture(CTexture texture);
+        void DrawTexture(CTexture texture, SRectF rect);
+        void DrawTexture(CTexture texture, SRectF rect, SColorF color, bool mirrored = false);
+        void DrawTexture(CTexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false);
+        void DrawTexture(CTexture texture, SRectF rect, SColorF color, float begin, float end);
 
-        void DrawTextureReflection(STexture texture, SRectF rect, SColorF color, SRectF bounds, float space, float height);
+        void DrawTextureReflection(CTexture texture, SRectF rect, SColorF color, SRectF bounds, float space, float height);
     }
 }

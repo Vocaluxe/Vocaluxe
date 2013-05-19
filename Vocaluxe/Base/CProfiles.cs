@@ -25,6 +25,8 @@ using System.Xml;
 using VocaluxeLib;
 using VocaluxeLib.Game;
 using VocaluxeLib.Profile;
+using VocaluxeLib.Draw;
+using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {
@@ -437,7 +439,7 @@ namespace Vocaluxe.Base
                 return String.Empty;
 
             CProfile profile = _Profiles[profileID];
-            if (profile.PlayerName != "")
+            if (!String.IsNullOrEmpty(profile.PlayerName))
                 profile.PlayerName = profile.PlayerName.Remove(profile.PlayerName.Length - 1);
 
             return profile.PlayerName;

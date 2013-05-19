@@ -37,6 +37,9 @@ using SQLiteDataReader = Mono.Data.Sqlite.SqliteDataReader;
 using Community.CsharpSqlite;
 using VocaluxeLib;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Draw;
+using VocaluxeLib.Menu;
+using VocaluxeLib.Menu.SongMenu;
 
 namespace Vocaluxe.Base
 {
@@ -912,7 +915,7 @@ namespace Vocaluxe.Base
         #endregion Highscores
 
         #region Cover
-        public static bool GetCover(string coverPath, ref STexture tex, int maxSize)
+        public static bool GetCover(string coverPath, ref CTexture tex, int maxSize)
         {
             if (!File.Exists(coverPath))
             {
@@ -1141,7 +1144,7 @@ namespace Vocaluxe.Base
         #endregion Cover
 
         #region CreditsRessources
-        public static bool GetCreditsRessource(string fileName, ref STexture tex)
+        public static bool GetCreditsRessource(string fileName, ref CTexture tex)
         {
             bool result = false;
 

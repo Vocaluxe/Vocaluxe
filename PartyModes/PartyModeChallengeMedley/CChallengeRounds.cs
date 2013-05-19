@@ -146,7 +146,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             _Rand = rand;
         }
 
-        public CCombination GetNextCombination(List<int> playerNrDemand)
+        public CCombination GetNextCombination(IEnumerable<int> playerNrDemand)
         {
             if (_Combs.Count == 0)
                 _Create();

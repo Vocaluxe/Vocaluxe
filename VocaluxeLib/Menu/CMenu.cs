@@ -24,6 +24,7 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu.SingNotes;
 using VocaluxeLib.Menu.SongMenu;
 
@@ -478,7 +479,7 @@ namespace VocaluxeLib.Menu
             return new CStatic(oldStatic);
         }
 
-        public CStatic GetNewStatic(STexture texture, SColorF color, SRectF rect)
+        public CStatic GetNewStatic(CTexture texture, SColorF color, SRectF rect)
         {
             return new CStatic(_PartyModeID, texture, color, rect);
         }
@@ -523,7 +524,7 @@ namespace VocaluxeLib.Menu
             return new CPlaylist(_PartyModeID);
         }
 
-        public CParticleEffect GetNewParticleEffect(int maxNumber, SColorF color, SRectF area, STexture texture, float size, EParticleType type)
+        public CParticleEffect GetNewParticleEffect(int maxNumber, SColorF color, SRectF area, CTexture texture, float size, EParticleType type)
         {
             return new CParticleEffect(_PartyModeID, maxNumber, color, area, texture, size, type);
         }

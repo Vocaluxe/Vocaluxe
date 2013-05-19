@@ -91,9 +91,9 @@ namespace VocaluxeLib
 
         public static void SetRect(RectangleF bounds, out RectangleF rect, float rectAspect, EAspect aspect)
         {
-            float rW = bounds.Right - bounds.Left;
-            float rH = bounds.Bottom - bounds.Top;
-            float rA = rW / rH;
+            float boundsW = bounds.Width;
+            float boundsH = bounds.Height;
+            float boundsAspect = boundsW / boundsH;
 
             float scaledWidth;
             float scaledHeight;
@@ -101,42 +101,39 @@ namespace VocaluxeLib
             switch (aspect)
             {
                 case EAspect.Crop:
-                    if (rA >= rectAspect)
+                    if (boundsAspect >= rectAspect)
                     {
-                        scaledWidth = rW;
-                        scaledHeight = rH * rA / rectAspect;
+                        scaledWidth = boundsW;
+                        scaledHeight = boundsW / rectAspect;
                     }
                     else
                     {
-                        scaledHeight = rH;
-                        scaledWidth = rW * rectAspect / rA;
+                        scaledHeight = boundsH;
+                        scaledWidth = boundsH * rectAspect;
                     }
                     break;
                 case EAspect.LetterBox:
-                    if (rectAspect >= 1)
+                    if (boundsAspect <= rectAspect)
                     {
-                        scaledWidth = rW;
-                        scaledHeight = rH * rA / rectAspect;
+                        scaledWidth = boundsW;
+                        scaledHeight = boundsW / rectAspect;
                     }
                     else
                     {
-                        scaledHeight = rH;
-                        scaledWidth = rW * rectAspect / rA;
+                        scaledHeight = boundsH;
+                        scaledWidth = boundsH * rectAspect;
                     }
                     break;
                 default:
-                    scaledWidth = rW;
-                    scaledHeight = rH;
+                    scaledWidth = boundsW;
+                    scaledHeight = boundsH;
                     break;
             }
 
-            float left = (rW - scaledWidth) / 2 + bounds.Left;
-            float rigth = left + scaledWidth;
+            float left = (boundsW - scaledWidth) / 2 + bounds.Left;
+            float upper = (boundsH - scaledHeight) / 2 + bounds.Top;
 
-            float upper = (rH - scaledHeight) / 2 + bounds.Top;
-            float lower = upper + scaledHeight;
-
-            rect = new RectangleF(left, upper, rigth - left, lower - upper);
+            rect = new RectangleF(left, upper, scaledWidth, scaledHeight);
         }
 
         public static List<string> ListFiles(string path, string cast, bool recursive = false, bool fullpath = false)
