@@ -850,6 +850,8 @@ namespace Vocaluxe.Lib.Draw
             w = _CheckForNextPowerOf2(w);
             h = _CheckForNextPowerOf2(h);
 
+            CTexture texture = new CTexture(bmp.Width, bmp.Height, w, h, true);
+
             Bitmap bmp2 = null;
             byte[] data;
             try
@@ -880,7 +882,6 @@ namespace Vocaluxe.Lib.Draw
                     bmp2.Dispose();
             }
 
-            CTexture texture = new CTexture(bmp.Width, bmp.Height, w, h, true);
             return _AddTexture(texture, w, data);
         }
 
@@ -906,9 +907,8 @@ namespace Vocaluxe.Lib.Draw
         {
             //Create a new texture in the managed pool, which does not need to be recreated on a lost device
             //because a copy of the texture is hold in the Ram
-            Texture t;
-            using (t = new Texture(_Device, textureW, textureH, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed))
-                _WriteDataToTexture(t, w, data);
+            Texture t = new Texture(_Device, textureW, textureH, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
+            _WriteDataToTexture(t, w, data);
             return t;
         }
 
