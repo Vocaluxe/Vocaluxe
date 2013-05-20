@@ -515,6 +515,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 return false;
             }
 
+            // ReSharper disable LoopCanBeConvertedToQuery
             foreach (CSong song in visibleSongs)
             {
                 foreach (EGameMode mode in song.AvailableGameModes)
@@ -523,6 +524,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                         ids.Add(song.ID);
                 }
             }
+            // ReSharper restore LoopCanBeConvertedToQuery
 
             if (ids.Count == 0)
             {

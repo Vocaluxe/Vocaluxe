@@ -17,17 +17,6 @@
 //  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Drawing;
-using VocaluxeLib;
-using VocaluxeLib.Game;
-using VocaluxeLib.Menu.SongMenu;
-using VocaluxeLib.PartyModes;
-using VocaluxeLib.Profile;
-using VocaluxeLib.Songs;
-
 namespace VocaluxeLib.Menu
 {
     public interface IMenu

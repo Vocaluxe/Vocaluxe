@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Profile;
 
@@ -55,15 +56,15 @@ namespace Vocaluxe.Screens
             {"EqualizerPlayer1", "EqualizerPlayer2", "EqualizerPlayer3", "EqualizerPlayer4", "EqualizerPlayer5", "EqualizerPlayer6"};
         private readonly string[] _SelectSlideDuetPlayer = new string[]
             {"SelectSlideDuetPlayer1", "SelectSlideDuetPlayer2", "SelectSlideDuetPlayer3", "SelectSlideDuetPlayer4", "SelectSlideDuetPlayer5", "SelectSlideDuetPlayer6"};
-        private readonly STexture[] _OriginalPlayerAvatarTextures = new STexture[CSettings.MaxNumPlayer];
+        private readonly CTexture[] _OriginalPlayerAvatarTextures = new CTexture[CSettings.MaxNumPlayer];
 
         private bool _SelectingKeyboardActive;
         private bool _SelectingFast;
         private int _SelectingSwitchNr = -1;
-        private int _SelectingFastPlayerNr = 0;
+        private int _SelectingFastPlayerNr;
         private int _SelectedPlayerNr = -1;
-        private bool _AvatarsChanged = false;
-        private bool _ProfilesChanged = false;
+        private bool _AvatarsChanged;
+        private bool _ProfilesChanged;
 
         #region public methods
         public override void Init()
@@ -105,7 +106,7 @@ namespace Vocaluxe.Screens
             _ChooseAvatarStatic.Visible = false;
             _ChooseAvatarStatic.Aspect = EAspect.Crop;
 
-            CProfiles.AddProfileChangedCallback(new ProfileChangedCallback(_OnProfileChanged));
+            CProfiles.AddProfileChangedCallback(_OnProfileChanged);
         }
 
         public override void LoadTheme(string xmlPath)
@@ -445,7 +446,7 @@ namespace Vocaluxe.Screens
                             CConfig.Players[_SelectingSwitchNr] = string.Empty;
                             //Update texture and name
                             _Statics[_StaticPlayerAvatar[_SelectingSwitchNr]].Texture = _OriginalPlayerAvatarTextures[_SelectingSwitchNr];
-                            _Texts[_TextPlayer[_SelectingSwitchNr]].Text = CProfiles.GetPlayerName(-1, (_SelectingSwitchNr+1));
+                            _Texts[_TextPlayer[_SelectingSwitchNr]].Text = CProfiles.GetPlayerName(-1, (_SelectingSwitchNr + 1));
                         }
 
                         CProfile[] profiles = CProfiles.GetProfiles();
@@ -467,7 +468,7 @@ namespace Vocaluxe.Screens
                         break;
                     }
                     //Selected player is dropped out of area
-                    else if (_SelectingSwitchNr > -1)
+                    if (_SelectingSwitchNr > -1)
                     {
                         //Update Game-infos with new player
                         CGame.Players[_SelectingSwitchNr].ProfileID = -1;
@@ -598,7 +599,7 @@ namespace Vocaluxe.Screens
                 else
                     stopSelectingFast = true;
             }
-            else if(mouseEvent.MB)
+            else if (mouseEvent.MB)
             {
                 _ResetPlayerSelections();
                 _SelectingFast = true;
@@ -669,12 +670,12 @@ namespace Vocaluxe.Screens
         #endregion public methods
 
         #region private methods
-        private void _OnProfileChanged(EProfileChangedFlags Flags)
+        private void _OnProfileChanged(EProfileChangedFlags flags)
         {
-            if (EProfileChangedFlags.Avatar == (EProfileChangedFlags.Avatar & Flags))
+            if (EProfileChangedFlags.Avatar == (EProfileChangedFlags.Avatar & flags))
                 _AvatarsChanged = true;
 
-            if (EProfileChangedFlags.Profile == (EProfileChangedFlags.Profile & Flags))
+            if (EProfileChangedFlags.Profile == (EProfileChangedFlags.Profile & flags))
                 _ProfilesChanged = true;
         }
 
@@ -689,7 +690,7 @@ namespace Vocaluxe.Screens
 
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
             {
-                _Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.ICProfileIDValid(CGame.Players[i].ProfileID) ?
+                _Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.IsProfileIDValid(CGame.Players[i].ProfileID) ?
                                                                CProfiles.GetAvatarTextureFromProfile(CGame.Players[i].ProfileID) :
                                                                _OriginalPlayerAvatarTextures[i];
                 _Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(CGame.Players[i].ProfileID, i + 1);

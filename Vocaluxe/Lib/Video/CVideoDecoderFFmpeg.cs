@@ -25,7 +25,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Acinerella;
-using VocaluxeLib;
+using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Video
 {
@@ -90,7 +90,7 @@ namespace Vocaluxe.Lib.Video
             return false;
         }
 
-        public override bool GetFrame(int streamID, ref STexture frame, float time, out float videoTime)
+        public override bool GetFrame(int streamID, ref CTexture frame, float time, out float videoTime)
         {
             videoTime = 0;
             if (_Initialized)
@@ -299,7 +299,7 @@ namespace Vocaluxe.Lib.Video
             return true;
         }
 
-        public bool GetFrame(ref STexture frame, float time, out float videoTime)
+        public bool GetFrame(ref CTexture frame, float time, out float videoTime)
         {
             videoTime = 0;
             if (!_FileOpened)
@@ -323,7 +323,7 @@ namespace Vocaluxe.Lib.Video
 
                 _UploadNewFrame(ref frame);
                 //EventDecode.Set();
-                return true;
+                return frame != null;
             }
 
             if (Math.Abs(_SetTime - time) > float.Epsilon)
@@ -335,7 +335,7 @@ namespace Vocaluxe.Lib.Video
                 _UploadNewFrame(ref frame);
                 videoTime = _CurrentVideoTime;
                 //EventDecode.Set();
-                return true;
+                return frame != null;
             }
             return false;
         }
@@ -650,7 +650,7 @@ namespace Vocaluxe.Lib.Video
             }
         }
 
-        private void _UploadNewFrame(ref STexture frame)
+        private void _UploadNewFrame(ref CTexture frame)
         {
             if (!_FileOpened)
                 return;
@@ -661,13 +661,7 @@ namespace Vocaluxe.Lib.Video
 
                 if (num >= 0)
                 {
-                    if (frame.Index == -1 || _Width != (int)frame.Width || _Height != (int)frame.Height)
-                    {
-                        CDraw.RemoveTexture(ref frame);
-                        frame = CDraw.AddTexture(_Width, _Height, _FrameBuffer[num].Data);
-                    }
-                    else
-                        CDraw.UpdateTexture(ref frame, _FrameBuffer[num].Data);
+                    CDraw.UpdateOrAddTexture(ref frame, _Width, _Height, _FrameBuffer[num].Data);
 
                     lock (_MutexSyncSignals)
                     {

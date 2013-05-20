@@ -17,7 +17,7 @@
 //  */
 #endregion
 
-using VocaluxeLib;
+using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Video
 {
@@ -41,7 +41,16 @@ namespace Vocaluxe.Lib.Video
         int GetNumStreams();
 
         float GetLength(int streamID);
-        bool GetFrame(int streamID, ref STexture frame, float time, out float videoTime);
+
+        /// <summary>
+        /// </summary>
+        /// <param name="streamID"></param>
+        /// <param name="frame"></param>
+        /// <param name="time"></param>
+        /// <param name="videoTime"></param>
+        /// <returns>True if frame is valid</returns>
+        bool GetFrame(int streamID, ref CTexture frame, float time, out float videoTime);
+
         bool Skip(int streamID, float start, float gap);
         void SetLoop(int streamID, bool loop);
         void Pause(int streamID);

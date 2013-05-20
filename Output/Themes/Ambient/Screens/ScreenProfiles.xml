@@ -128,7 +128,7 @@
     <Text1>
       <!--<X>, <Y>: Text position-->
       <X>640</X>
-      <Y>48</Y>
+      <Y>50</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
@@ -143,7 +143,7 @@
       <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Center</Align>
       <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <ResizeAlign>Center</ResizeAlign>
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -157,7 +157,7 @@
     <Text2>
       <!--<X>, <Y>: Text position-->
       <X>75</X>
-      <Y>285</Y>
+      <Y>287</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
@@ -172,7 +172,7 @@
       <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
       <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <ResizeAlign>Center</ResizeAlign>
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -186,7 +186,7 @@
     <Text3>
       <!--<X>, <Y>: Text position-->
       <X>75</X>
-      <Y>345</Y>
+      <Y>347</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
@@ -201,7 +201,7 @@
       <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
       <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <ResizeAlign>Center</ResizeAlign>
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -215,7 +215,7 @@
     <Text4>
       <!--<X>, <Y>: Text position-->
       <X>75</X>
-      <Y>405</Y>
+      <Y>407</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
@@ -230,7 +230,7 @@
       <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
       <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <ResizeAlign>Center</ResizeAlign>
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -244,7 +244,7 @@
     <Text5>
       <!--<X>, <Y>: Text position-->
       <X>75</X>
-      <Y>465</Y>
+      <Y>467</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
@@ -259,7 +259,7 @@
       <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
       <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <ResizeAlign>Center</ResizeAlign>
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -273,7 +273,7 @@
     <Text6>
       <!--<X>, <Y>: Text position-->
       <X>75</X>
-      <Y>525</Y>
+      <Y>527</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
@@ -288,7 +288,7 @@
       <!--<Align>: Text align horizontal: Left, Center, Right-->
       <Align>Left</Align>
       <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <ResizeAlign>Center</ResizeAlign>
+      <HAlign>Center</HAlign>
       <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
       <Style>Bold</Style>
       <!--<Font>: Text font name-->
@@ -319,7 +319,7 @@
       <Text>
         <!--<X>, <Y>: Text position-->
         <X>355</X>
-        <Y>8</Y>
+        <Y>10</Y>
         <!--<H>: Text height-->
         <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
@@ -333,7 +333,7 @@
         <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
         <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <ResizeAlign>Center</ResizeAlign>
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
@@ -368,7 +368,7 @@
       <Text>
         <!--<X>, <Y>: Text position-->
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <!--<H>: Text height-->
         <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
@@ -382,7 +382,7 @@
         <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
         <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <ResizeAlign>Center</ResizeAlign>
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
@@ -425,7 +425,7 @@
       <Text>
         <!--<X>, <Y>: Text position-->
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <!--<H>: Text height-->
         <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
@@ -439,7 +439,7 @@
         <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
         <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <ResizeAlign>Center</ResizeAlign>
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
@@ -482,7 +482,7 @@
       <Text>
         <!--<X>, <Y>: Text position-->
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <!--<H>: Text height-->
         <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
@@ -496,7 +496,7 @@
         <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
         <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <ResizeAlign>Center</ResizeAlign>
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
@@ -539,7 +539,7 @@
       <Text>
         <!--<X>, <Y>: Text position-->
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <!--<H>: Text height-->
         <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
@@ -553,7 +553,7 @@
         <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
         <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <ResizeAlign>Center</ResizeAlign>
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
@@ -596,7 +596,7 @@
       <Text>
         <!--<X>, <Y>: Text position-->
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <!--<H>: Text height-->
         <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
@@ -610,7 +610,7 @@
         <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
         <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <ResizeAlign>Center</ResizeAlign>
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
@@ -653,7 +653,7 @@
       <Text>
         <!--<X>, <Y>: Text position-->
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <!--<H>: Text height-->
         <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
@@ -667,7 +667,7 @@
         <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
         <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <ResizeAlign>Center</ResizeAlign>
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
@@ -702,7 +702,7 @@
       <Text>
         <!--<X>, <Y>: Text position-->
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <!--<H>: Text height-->
         <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
@@ -716,7 +716,7 @@
         <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
         <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <ResizeAlign>Center</ResizeAlign>
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->
@@ -751,7 +751,7 @@
       <Text>
         <!--<X>, <Y>: Text position-->
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <!--<H>: Text height-->
         <H>27</H>
         <!--<MaxW>: Maximum text width (if exists)-->
@@ -765,7 +765,7 @@
         <!--<Align>: Text align horizontal: Left, Center, Right-->
         <Align>Center</Align>
         <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <ResizeAlign>Center</ResizeAlign>
+        <HAlign>Center</HAlign>
         <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
         <Style>Bold</Style>
         <!--<Font>: Text font name-->

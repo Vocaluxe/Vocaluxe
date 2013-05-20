@@ -20,11 +20,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
-using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.PartyModes;
 using VocaluxeLib.Songs;
 
@@ -884,9 +884,7 @@ namespace Vocaluxe.Screens
             CGame.Reset();
             CGame.ClearSongs();
 
-            List<int> ids = new List<int>();
-            for (int i = 0; i < CSongs.VisibleSongs.Count; i++)
-                ids.Add(CSongs.VisibleSongs[i].ID);
+            List<int> ids = CSongs.VisibleSongs.Select(t => t.ID).ToList();
 
             while (ids.Count > 0)
             {
@@ -910,17 +908,15 @@ namespace Vocaluxe.Screens
             CGame.Reset();
             CGame.ClearSongs();
 
-            List<int> ids = new List<int>();
+            List<int> ids;
             if (allSongs)
             {
+                ids = new List<int>();
                 for (int i = 0; i < CSongs.AllSongs.Count; i++)
                     ids.Add(i);
             }
             else
-            {
-                for (int i = 0; i < CSongs.VisibleSongs.Count; i++)
-                    ids.Add(CSongs.VisibleSongs[i].ID);
-            }
+                ids = CSongs.VisibleSongs.Select(t => t.ID).ToList();
             int s = 0;
             while (s < numSongs && ids.Count > 0)
             {

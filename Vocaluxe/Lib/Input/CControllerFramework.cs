@@ -1,8 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
 
+using System;
+using System.Collections.Generic;
 using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Input
@@ -25,17 +41,11 @@ namespace Vocaluxe.Lib.Input
             _CurrentMousePool = new List<SMouseEvent>();
         }
 
-        public virtual void Close()
-        {
-        }
+        public virtual void Close() {}
 
-        public virtual void Connect()
-        {
-        }
+        public virtual void Connect() {}
 
-        public virtual void Disconnect()
-        {
-        }
+        public virtual void Disconnect() {}
 
         public virtual bool IsConnected()
         {
@@ -81,9 +91,7 @@ namespace Vocaluxe.Lib.Input
             return false;
         }
 
-        public virtual void SetRumble(float duration)
-        {
-        }
+        public virtual void SetRumble(float duration) {}
 
         public void AddKeyEvent(SKeyEvent keyEvent)
         {

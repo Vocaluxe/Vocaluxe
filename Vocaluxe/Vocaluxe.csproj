@@ -178,6 +178,7 @@
     <Compile Include="Base\CBackgroundMusic.cs" />
     <Compile Include="Base\CConfig.cs" />
     <Compile Include="Base\CCover.cs" />
+    <Compile Include="Base\CCursor.cs" />
     <Compile Include="Base\CDataBase.cs" />
     <Compile Include="Base\CDraw.cs" />
     <Compile Include="Base\Fonts\CFont.cs" />

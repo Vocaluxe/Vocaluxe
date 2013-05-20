@@ -29,7 +29,6 @@ using System.Xml;
 using Vocaluxe.Lib.Sound;
 using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;
-using VocaluxeLib.Menu;
 using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Base
@@ -843,13 +842,13 @@ namespace Vocaluxe.Base
                 CGame.Players[j].ProfileID = -1;
                 if (Players[j] == "" || profiles == null)
                     continue;
-                
-                for (int i = 0; i < profiles.Length; i++)
+
+                foreach (CProfile profile in profiles)
                 {
-                    if (Path.GetFileName(profiles[i].FileName) == Players[j] && profiles[i].Active == EOffOn.TR_CONFIG_ON)
+                    if (Path.GetFileName(profile.FileName) == Players[j] && profile.Active == EOffOn.TR_CONFIG_ON)
                     {
                         //Update Game-infos with player
-                        CGame.Players[j].ProfileID = profiles[i].ID;
+                        CGame.Players[j].ProfileID = profile.ID;
                     }
                 }
             }

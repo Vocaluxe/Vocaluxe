@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
-
+using VocaluxeLib.Draw;
 using VocaluxeLib.Profile;
 
 namespace VocaluxeLib.Menu
@@ -71,8 +71,8 @@ namespace VocaluxeLib.Menu
         public SRectF Rect;
         private readonly List<CTile> _Tiles;
 
-        private STexture _TextureEmptyTile;
-        private STexture _TextureTileSelected;
+        private CTexture _TextureEmptyTile;
+        private CTexture _TextureTileSelected;
 
         public SColorF ColorEmptyTile;
 
@@ -194,7 +194,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<ColorEmptyTile>: Static color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorEmptyTileName != "")
+                if (!String.IsNullOrEmpty(_Theme.ColorEmptyTileName))
                     writer.WriteElementString("ColorEmptyTile", _Theme.ColorEmptyTileName);
                 else
                 {
@@ -225,7 +225,7 @@ namespace VocaluxeLib.Menu
                 writer.WriteComment("<Font>: Text font name");
                 writer.WriteElementString("Font", _Theme.NameFont);
                 writer.WriteComment("<Color>: Text color from ColorScheme (high priority)");
-                if (_Theme.NameColorName != "")
+                if (!String.IsNullOrEmpty(_Theme.NameColorName))
                     writer.WriteElementString("Color", _Theme.NameColorName);
                 else
                 {
@@ -350,7 +350,7 @@ namespace VocaluxeLib.Menu
 
         public void HandleMouse(SMouseEvent mevent)
         {
-            for (int i = 0; i < _Tiles.Count; i++ )
+            for (int i = 0; i < _Tiles.Count; i++)
             {
                 if (CHelper.IsInBounds(_Tiles[i].Avatar.Rect, mevent))
                 {
@@ -465,10 +465,10 @@ namespace VocaluxeLib.Menu
             _TextureEmptyTile = CBase.Theme.GetSkinTexture(_Theme.TextureEmptyTileName, _PartyModeID);
             _TextureTileSelected = CBase.Theme.GetSkinTexture(_Theme.TextureTileSelectedName, _PartyModeID);
 
-            if (_Theme.ColorEmptyTileName != "")
+            if (!String.IsNullOrEmpty(_Theme.ColorEmptyTileName))
                 ColorEmptyTile = CBase.Theme.GetColor(_Theme.ColorEmptyTileName, _PartyModeID);
 
-            if (_Theme.NameColorName != "")
+            if (!String.IsNullOrEmpty(_Theme.NameColorName))
                 _Theme.NameColor = CBase.Theme.GetColor(_Theme.NameColorName, _PartyModeID);
         }
 
@@ -488,8 +488,7 @@ namespace VocaluxeLib.Menu
                 for (int j = 0; j < _NumW; j++)
                 {
                     SRectF rect = new SRectF(Rect.X + j * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
-                    CStatic tileStatic = new CStatic(_PartyModeID, _TextureEmptyTile, ColorEmptyTile, rect);
-                    tileStatic.Aspect = EAspect.Crop;
+                    CStatic tileStatic = new CStatic(_PartyModeID, _TextureEmptyTile, ColorEmptyTile, rect) {Aspect = EAspect.Crop};
                     CText tileText = new CText(rect.X + rect.W / 2, rect.Y + rect.H + _Theme.NameSpace, rect.Z, _Theme.NameHeight, rect.W, EAlignment.Center, _Theme.NameStyle,
                                                _Theme.NameFont, _Theme.NameColor, "");
                     _Tiles.Add(new CTile(tileStatic, tileText, -1));

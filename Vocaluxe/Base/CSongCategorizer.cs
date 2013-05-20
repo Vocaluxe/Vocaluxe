@@ -21,7 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using VocaluxeLib;
-using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base
