@@ -24,15 +24,14 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using VocaluxeLib;
-using VocaluxeLib.Menu;
+using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Base
 {
     struct SCover
     {
         public string Name;
-        public string Value;
-        public STexture Texture;
+        public CTexture Texture;
     }
 
     struct SCoverTheme
@@ -47,14 +46,10 @@ namespace Vocaluxe.Base
         private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
         private static readonly List<SCover> _Cover = new List<SCover>();
         private static readonly List<SCoverTheme> _CoverThemes = new List<SCoverTheme>();
-        private static STexture _NoCover = new STexture(-1);
 
         private static readonly Object _MutexCover = new Object();
 
-        public static STexture NoCover
-        {
-            get { return _NoCover; }
-        }
+        public static CTexture NoCover { get; private set; }
 
         public static void Init()
         {
@@ -98,21 +93,17 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Returns a STexture for a given cover name. Returns "NoCover" if the cover does not exist.
         /// </summary>
-        public static STexture Cover(string name)
+        public static CTexture Cover(string name)
         {
-            STexture cov = _NoCover;
             lock (_MutexCover)
             {
                 foreach (SCover cover in _Cover)
                 {
                     if (cover.Name == name)
-                    {
-                        cov = cover.Texture;
-                        break;
-                    }
+                        return cover.Texture;
                 }
             }
-            return cov;
+            return NoCover;
         }
 
         /// <summary>
@@ -133,7 +124,7 @@ namespace Vocaluxe.Base
         {
             foreach (SCover cover in _Cover)
             {
-                STexture texture = cover.Texture;
+                CTexture texture = cover.Texture;
                 CDraw.RemoveTexture(ref texture);
             }
             _Cover.Clear();
@@ -145,16 +136,12 @@ namespace Vocaluxe.Base
         /// </summary>
         private static SCoverTheme _CoverTheme(string coverThemeName)
         {
-            SCoverTheme coverTheme = new SCoverTheme();
             for (int i = 0; i < _CoverThemes.Count; i++)
             {
                 if (_CoverThemes[i].Name == coverThemeName)
-                {
-                    coverTheme = _CoverThemes[i];
-                    break;
-                }
+                    return _CoverThemes[i];
             }
-            return coverTheme;
+            return new SCoverTheme();
         }
 
         /// <summary>
@@ -195,7 +182,7 @@ namespace Vocaluxe.Base
         {
             SCoverTheme coverTheme = _CoverTheme(coverThemeName);
 
-            if (coverTheme.Name == "")
+            if (String.IsNullOrEmpty(coverTheme.Name))
                 return;
             CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.FolderCover, coverTheme.File));
 
@@ -207,31 +194,30 @@ namespace Vocaluxe.Base
                     List<string> cover = xmlReader.GetValues("Cover");
                     foreach (string coverName in cover)
                     {
-                        SCover sk = new SCover();
                         string name;
-                        string value;
+                        string filePath;
                         xmlReader.GetValue("//root/Cover/" + coverName + "/Name", out name, String.Empty);
-                        xmlReader.GetValue("//root/Cover/" + coverName + "/Path", out value, String.Empty);
-                        sk.Name = name;
-                        sk.Value = Path.Combine(coverTheme.Folder, value);
-                        sk.Texture = File.Exists(Path.Combine(CSettings.FolderCover, sk.Value))
-                                         ? CDraw.AddTexture(Path.Combine(CSettings.FolderCover, Path.Combine(coverTheme.Folder, value))) : _NoCover;
+                        xmlReader.GetValue("//root/Cover/" + coverName + "/Path", out filePath, String.Empty);
+                        string coverFilePath = Path.Combine(CSettings.FolderCover, Path.Combine(coverTheme.Folder, filePath));
+                        if (!File.Exists(coverFilePath))
+                            continue;
+                        SCover sk = new SCover {Name = name, Texture = CDraw.AddTexture(coverFilePath)};
 
                         _Cover.Add(sk);
 
                         if (sk.Name == "NoCover")
-                            _NoCover = sk.Texture;
+                            NoCover = sk.Texture;
                     }
                 }
             }
 
             List<string> files = new List<string>();
 
-            string path = Path.Combine(CSettings.FolderCover, coverTheme.Folder);
-            files.AddRange(CHelper.ListFiles(path, "*.png", true, true));
-            files.AddRange(CHelper.ListFiles(path, "*.jpg", true, true));
-            files.AddRange(CHelper.ListFiles(path, "*.jpeg", true, true));
-            files.AddRange(CHelper.ListFiles(path, "*.bmp", true, true));
+            string coverPath = Path.Combine(CSettings.FolderCover, coverTheme.Folder);
+            files.AddRange(CHelper.ListFiles(coverPath, "*.png", true, true));
+            files.AddRange(CHelper.ListFiles(coverPath, "*.jpg", true, true));
+            files.AddRange(CHelper.ListFiles(coverPath, "*.jpeg", true, true));
+            files.AddRange(CHelper.ListFiles(coverPath, "*.bmp", true, true));
 
 
             foreach (string file in files)
@@ -241,10 +227,8 @@ namespace Vocaluxe.Base
                 if (_CoverExists(name))
                     continue;
                 // ReSharper disable AssignNullToNotNullAttribute
-                SCover sk = new SCover {Name = name, Value = Path.Combine(coverTheme.Folder, Path.GetFileName(file))};
+                SCover sk = new SCover {Name = name, Texture = CDraw.AddTexture(file)};
                 // ReSharper restore AssignNullToNotNullAttribute
-
-                sk.Texture = CDraw.AddTexture(Path.Combine(CSettings.FolderCover, sk.Value));
 
                 _Cover.Add(sk);
             }

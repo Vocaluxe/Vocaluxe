@@ -240,7 +240,7 @@ namespace Vocaluxe
                 CController.Close();
                 CSound.RecordCloseAll();
                 CSound.CloseAllStreams();
-                CVideo.VdCloseAll();
+                CVideo.CloseAll();
                 CDraw.Unload();
                 CDataBase.CloseConnections();
                 CWebcam.Close();

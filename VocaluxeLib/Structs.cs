@@ -99,45 +99,6 @@ namespace VocaluxeLib
         public int Y;
         public int Z;
     }
-
-    public struct STexture
-    {
-        public int Index;
-        public int PBO;
-        public int ID;
-
-        public string TexturePath;
-
-        public float Width;
-        public float Height;
-        public SRectF Rect;
-
-        public float W2; //power of 2 width
-        public float H2; //power of 2 height
-        public float WidthRatio;
-        public float HeightRatio;
-
-        public SColorF Color;
-
-        public STexture(int index)
-        {
-            Index = index;
-            PBO = 0;
-            ID = -1;
-            TexturePath = String.Empty;
-
-            Width = 1f;
-            Height = 1f;
-            Rect = new SRectF(0f, 0f, 1f, 1f, 0f);
-
-            W2 = 2f;
-            H2 = 2f;
-            WidthRatio = 0.5f;
-            HeightRatio = 0.5f;
-
-            Color = new SColorF(1f, 1f, 1f, 1f);
-        }
-    }
     #endregion Drawing
 
     #region Inputs

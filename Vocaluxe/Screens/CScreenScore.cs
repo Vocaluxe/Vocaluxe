@@ -333,7 +333,7 @@ namespace Vocaluxe.Screens
                                                                                 _Statics[_StaticPointsBarBG[p, CGame.NumPlayer - 1]].Rect.Y -
                                                                                 _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.H;
                 }
-                if (CProfiles.ICProfileIDValid(players[p].ProfileID))
+                if (CProfiles.IsProfileIDValid(players[p].ProfileID))
                     _Statics[_StaticAvatar[p, CGame.NumPlayer - 1]].Texture = CProfiles.GetAvatarTextureFromProfile(players[p].ProfileID);
             }
 
@@ -369,7 +369,7 @@ namespace Vocaluxe.Screens
                         _Statics[_StaticPointsBarBG[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
                         _Statics[_StaticAvatar[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayer;
 
-                        _Statics[_StaticAvatar[player, numplayer]].Texture = new STexture(-1);
+                        _Statics[_StaticAvatar[player, numplayer]].Texture = null;
                     }
                 }
             }

@@ -19,6 +19,7 @@
 
 using System;
 using System.Xml;
+using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
@@ -39,8 +40,8 @@ namespace VocaluxeLib.Menu
         private bool _ThemeLoaded;
         private readonly int _PartyModeID;
 
-        public STexture Texture;
-        public STexture SelTexture;
+        public CTexture Texture;
+        public CTexture SelTexture;
         public SRectF Rect;
         public SColorF Color;
         public SColorF SelColor;
@@ -79,8 +80,8 @@ namespace VocaluxeLib.Menu
                 Text.Selected = value;
             }
         }
-        public bool Visible;
-        public bool Enabled;
+        public bool Visible = true;
+        public bool Enabled = true;
 
         public string GetThemeName()
         {
@@ -90,28 +91,10 @@ namespace VocaluxeLib.Menu
         public CButton(int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SThemeButton();
-            Rect = new SRectF();
-            Color = new SColorF();
-            SelColor = new SColorF();
-            Texture = new STexture(-1);
-            SelTexture = new STexture(-1);
-
-            _IsSelText = false;
             Text = new CText(_PartyModeID);
             _SelText = new CText(_PartyModeID);
             Selected = false;
-            Visible = true;
             EditMode = false;
-            Enabled = true;
-
-            _Reflection = false;
-            _ReflectionSpace = 0f;
-            _ReflectionHeight = 0f;
-
-            _SelReflection = false;
-            _SelReflectionSpace = 0f;
-            _SelReflectionHeight = 0f;
         }
 
         public CButton(CButton button)
@@ -131,13 +114,10 @@ namespace VocaluxeLib.Menu
             Texture = button.Texture;
             SelTexture = button.SelTexture;
 
-            _IsSelText = false;
             Text = new CText(button.Text);
             _SelText = new CText(button._SelText);
             Selected = false;
-            Visible = true;
             EditMode = false;
-            _ThemeLoaded = false;
             Enabled = button.Enabled;
 
             _Reflection = button._Reflection;
@@ -241,7 +221,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<Color>: Button color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName != "")
+                if (!String.IsNullOrEmpty(_Theme.ColorName))
                     writer.WriteElementString("Color", _Theme.ColorName);
                 else
                 {
@@ -253,7 +233,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<SColor>: Selected button color from ColorScheme (high priority)");
                 writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
-                if (_Theme.SelColorName != "")
+                if (!String.IsNullOrEmpty(_Theme.SelColorName))
                     writer.WriteElementString("SColor", _Theme.SelColorName);
                 else
                 {
@@ -301,11 +281,11 @@ namespace VocaluxeLib.Menu
             if (!Visible && CBase.Settings.GetGameState() != EGameState.EditTheme && !forceDraw)
                 return;
 
-            STexture texture;
+            CTexture texture;
 
             if (!Selected && !Pressed || !Enabled)
             {
-                texture = Texture.Index != -1 ? Texture : CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+                texture = Texture ?? CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
 
                 CBase.Drawing.DrawTexture(texture, Rect, Color);
 
@@ -319,7 +299,7 @@ namespace VocaluxeLib.Menu
             }
             else if (!_IsSelText)
             {
-                texture = Texture.Index != -1 ? Texture : CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
+                texture = Texture ?? CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
 
                 CBase.Drawing.DrawTexture(texture, Rect, SelColor);
 
@@ -333,7 +313,7 @@ namespace VocaluxeLib.Menu
             }
             else if (_IsSelText)
             {
-                texture = SelTexture.Index != -1 ? SelTexture : CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
+                texture = SelTexture ?? CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
 
                 CBase.Drawing.DrawTexture(texture, Rect, SelColor);
 
@@ -361,10 +341,10 @@ namespace VocaluxeLib.Menu
         {
             Text.LoadTextures();
 
-            if (_Theme.ColorName != "")
+            if (!String.IsNullOrEmpty(_Theme.ColorName))
                 Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
 
-            if (_Theme.SelColorName != "")
+            if (!String.IsNullOrEmpty(_Theme.SelColorName))
                 SelColor = CBase.Theme.GetColor(_Theme.SelColorName, _PartyModeID);
         }
 

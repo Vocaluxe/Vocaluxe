@@ -21,7 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
-using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu
@@ -373,7 +372,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<ColorBackground>: Button color from ColorScheme (high priority)");
                 writer.WriteComment("or <BackgroundR>, <BackgroundG>, <BackgroundB>, <BackgroundA> (lower priority)");
-                if (_Theme.ColorBackgroundName != "")
+                if (!String.IsNullOrEmpty(_Theme.ColorBackgroundName))
                     writer.WriteElementString("ColorBackground", _Theme.ColorBackgroundName);
                 else
                 {
@@ -385,7 +384,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<SColorBackground>: Selected paylist-entry color from ColorScheme (high priority)");
                 writer.WriteComment("or <SBackgroundR>, <SBackgroundG>, <SBackgroundB>, <SBackgroundA> (lower priority)");
-                if (_Theme.SelColorBackgroundName != "")
+                if (!String.IsNullOrEmpty(_Theme.SelColorBackgroundName))
                     writer.WriteElementString("SColorBackground", _Theme.SelColorBackgroundName);
                 else
                 {
@@ -464,10 +463,10 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (_Theme.ColorBackgroundName != "")
+            if (!String.IsNullOrEmpty(_Theme.ColorBackgroundName))
                 BackgroundColor = CBase.Theme.GetColor(_Theme.ColorBackgroundName, _PartyModeID);
 
-            if (_Theme.SelColorBackgroundName != "")
+            if (!String.IsNullOrEmpty(_Theme.SelColorBackgroundName))
                 BackgroundSelColor = CBase.Theme.GetColor(_Theme.SelColorBackgroundName, _PartyModeID);
 
             _Theme.Text1.LoadTextures();
@@ -518,7 +517,7 @@ namespace VocaluxeLib.Menu
                                 break;
                             case Keys.Delete:
                             case Keys.Back:
-                                if (_Theme.ButtonPlaylistName.Text.Text != "")
+                                if (!String.IsNullOrEmpty(_Theme.ButtonPlaylistName.Text.Text))
                                     _Theme.ButtonPlaylistName.Text.Text = _Theme.ButtonPlaylistName.Text.Text.Remove(_Theme.ButtonPlaylistName.Text.Text.Length - 1);
                                 break;
                         }

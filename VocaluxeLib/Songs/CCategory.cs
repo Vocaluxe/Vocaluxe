@@ -18,16 +18,15 @@
 #endregion
 
 using System.Collections.Generic;
-using VocaluxeLib;
+using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Songs
 {
     public class CCategory
     {
         public readonly string Name;
-        private STexture _CoverTextureSmall = new STexture(-1);
-        private STexture _CoverTextureBig = new STexture(-1);
-        private bool _CoverBigLoaded;
+        private CTexture _CoverTextureSmall;
+        private CTexture _CoverTextureBig;
         public readonly List<CSongPointer> Songs = new List<CSongPointer>();
 
         public CCategory(string name)
@@ -35,26 +34,25 @@ namespace VocaluxeLib.Songs
             Name = name;
         }
 
-        public STexture CoverTextureSmall
+        public CTexture CoverTextureSmall
         {
             get { return _CoverTextureSmall; }
 
             set { _CoverTextureSmall = value; }
         }
 
-        public STexture CoverTextureBig
+        public CTexture CoverTextureBig
         {
-            get { return _CoverBigLoaded ? _CoverTextureBig : _CoverTextureSmall; }
+            get { return _CoverTextureBig ?? _CoverTextureSmall; }
             set
             {
-                if (value.Index == -1)
+                if (value == null)
                     return;
                 _CoverTextureBig = value;
-                _CoverBigLoaded = true;
             }
         }
 
-        public CCategory(string name, STexture coverSmall, STexture coverBig)
+        public CCategory(string name, CTexture coverSmall, CTexture coverBig)
         {
             Name = name;
             CoverTextureSmall = coverSmall;

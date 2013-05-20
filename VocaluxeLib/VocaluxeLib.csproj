@@ -131,6 +131,7 @@
     <Compile Include="Menu\CStatic.cs" />
     <Compile Include="Menu\CText.cs" />
     <Compile Include="Menu\CScreenSetting.cs" />
+    <Compile Include="Draw\CTexture.cs" />
     <Compile Include="CXMLReader.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Menu\IMenu.cs" />

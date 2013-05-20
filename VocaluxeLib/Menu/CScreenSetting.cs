@@ -19,6 +19,7 @@
 
 using System;
 using System.Xml;
+using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
@@ -127,7 +128,7 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private STexture _GetTextureValue(string value)
+        private CTexture _GetTextureValue(string value)
         {
             return CBase.Theme.GetSkinTexture(value, _PartyModeID);
         }

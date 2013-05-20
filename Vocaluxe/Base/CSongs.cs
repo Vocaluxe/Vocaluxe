@@ -23,8 +23,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using VocaluxeLib;
-using VocaluxeLib.Menu;
-using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base
@@ -256,7 +254,9 @@ namespace Vocaluxe.Base
                 List<CSong> songs = new List<CSong>();
                 if (_IsCatIndexValid(_CatIndex))
                 {
+                    // ReSharper disable LoopCanBeConvertedToQuery
                     foreach (CSongPointer sp in Categories[_CatIndex].Songs)
+                        // ReSharper restore LoopCanBeConvertedToQuery
                     {
                         if (!sp.IsSung)
                             songs.Add(_Songs[sp.SongID]);

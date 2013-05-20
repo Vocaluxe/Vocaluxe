@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml;
+using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
@@ -45,11 +46,11 @@ namespace VocaluxeLib.Menu
         #region private vars
         private readonly int _PartyModeID;
         private readonly string _TextureName;
-        private readonly STexture _Texture;
+        private readonly CTexture _Texture;
         private SRectF _Rect;
         private float _Size;
         private SColorF _Color;
-        private float _Alpha;
+        private float _Alpha = 1;
         private float _Angle; //0..360°
         private readonly float _MaxAge; //[s]
         private float _Age; //[s]
@@ -61,7 +62,7 @@ namespace VocaluxeLib.Menu
         private float _LastTime;
         private readonly EParticleType _Type;
 
-        private readonly Stopwatch _Timer;
+        private readonly Stopwatch _Timer = new Stopwatch();
         #endregion private vars
 
         #region public vars
@@ -115,26 +116,20 @@ namespace VocaluxeLib.Menu
         {
             _PartyModeID = partyModeID;
             _TextureName = textureName;
-            _Texture = new STexture(-1);
             _Color = color;
             _Rect = new SRectF(x, y, size, size, z);
             _Size = size;
-            _Alpha = 1f;
-            _Angle = 0f;
             _Vx = vx;
             _Vy = vy;
             _Vr = vr;
             _Vsize = vsize;
-            _LastTime = 0f;
             _Type = type;
 
-            _Timer = new Stopwatch();
-            _Age = 0f;
             _MaxAge = maxage;
             _Rotation = (float)(CBase.Game.GetRandomDouble() * 360.0);
         }
 
-        public CParticle(int partyModeID, STexture texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize,
+        public CParticle(int partyModeID, CTexture texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize,
                          EParticleType type)
         {
             _PartyModeID = partyModeID;
@@ -143,17 +138,12 @@ namespace VocaluxeLib.Menu
             _Color = color;
             _Rect = new SRectF(x, y, size, size, z);
             _Size = size;
-            _Alpha = 1f;
-            _Angle = 0f;
             _Vx = vx;
             _Vy = vy;
             _Vr = vr;
             _Vsize = vsize;
-            _LastTime = 0f;
             _Type = type;
 
-            _Timer = new Stopwatch();
-            _Age = 0f;
             _MaxAge = maxage;
             _Rotation = (float)(CBase.Game.GetRandomDouble() * 360.0);
         }
@@ -298,7 +288,7 @@ namespace VocaluxeLib.Menu
         public void Draw()
         {
             // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
-            if (_TextureName != "")
+            if (!String.IsNullOrEmpty(_TextureName))
                 // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
                 CBase.Drawing.DrawTexture(CBase.Theme.GetSkinTexture(_TextureName, _PartyModeID), _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
             else
@@ -312,7 +302,7 @@ namespace VocaluxeLib.Menu
         private SThemeParticleEffect _Theme;
         private bool _ThemeLoaded;
 
-        public STexture Texture;
+        public CTexture Texture;
         public SColorF Color;
         public SRectF Rect;
 
@@ -356,7 +346,6 @@ namespace VocaluxeLib.Menu
             Rect = rect;
             Color = color;
             _Theme.TextureName = textureName;
-            Texture = new STexture(-1);
             _MaxNumber = maxNumber;
             _Size = size;
             _Type = type;
@@ -365,7 +354,7 @@ namespace VocaluxeLib.Menu
             Visible = true;
         }
 
-        public CParticleEffect(int partyModeID, int maxNumber, SColorF color, SRectF rect, STexture texture, float size, EParticleType type)
+        public CParticleEffect(int partyModeID, int maxNumber, SColorF color, SRectF rect, CTexture texture, float size, EParticleType type)
         {
             _PartyModeID = partyModeID;
             _Theme = new SThemeParticleEffect();
@@ -435,7 +424,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<Color>: ParticleEffect color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (_Theme.ColorName != "")
+                if (!String.IsNullOrEmpty(_Theme.ColorName))
                     writer.WriteElementString("Color", _Theme.ColorName);
                 else
                 {
@@ -546,7 +535,7 @@ namespace VocaluxeLib.Menu
                     h = 0;
 
                 CParticle star;
-                if (_Theme.TextureName != "")
+                if (!String.IsNullOrEmpty(_Theme.TextureName))
                 {
                     star = new CParticle(_PartyModeID, _Theme.TextureName, Color,
                                          CBase.Game.GetRandom(w) + Rect.X - size / 4f,
@@ -602,14 +591,14 @@ namespace VocaluxeLib.Menu
 
         public void UnloadTextures()
         {
-            Texture = new STexture();
+            Texture = null;
         }
 
         public void LoadTextures()
         {
-            if (_Theme.ColorName != "")
+            if (!String.IsNullOrEmpty(_Theme.ColorName))
                 Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
-            if (_Theme.TextureName != "")
+            if (!String.IsNullOrEmpty(_Theme.TextureName))
                 Texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
         }
 

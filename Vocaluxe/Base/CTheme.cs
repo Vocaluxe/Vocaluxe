@@ -25,7 +25,7 @@ using System.Windows.Forms;
 using System.Xml;
 using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
-using VocaluxeLib.Menu;
+using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Base
 {
@@ -49,7 +49,7 @@ namespace Vocaluxe.Base
         public string Name;
         public string Value;
 
-        public STexture Texture;
+        public CTexture Texture;
         public int VideoIndex;
     }
 
@@ -112,7 +112,9 @@ namespace Vocaluxe.Base
             get
             {
                 List<string> names = new List<string>();
+                // ReSharper disable LoopCanBeConvertedToQuery
                 foreach (STheme th in _Themes)
+                    // ReSharper restore LoopCanBeConvertedToQuery
                 {
                     if (th.PartyModeID == -1)
                         names.Add(th.Name);
@@ -127,7 +129,9 @@ namespace Vocaluxe.Base
             get
             {
                 List<string> names = new List<string>();
+                // ReSharper disable LoopCanBeConvertedToQuery
                 foreach (SSkin sk in _Skins)
+                    // ReSharper restore LoopCanBeConvertedToQuery
                 {
                     if (sk.PartyModeID == -1)
                         names.Add(sk.Name);
@@ -200,10 +204,10 @@ namespace Vocaluxe.Base
                 {
                     xmlReader.GetValue("//root/Videos/" + _Skins[skinIndex].VideoList[i].Name, out value, String.Empty);
                     SSkinElement sk = new SSkinElement {Name = _Skins[skinIndex].VideoList[i].Name, Value = value};
-                    sk.VideoIndex = CVideo.VdLoad(Path.Combine(_Skins[skinIndex].Path, sk.Value));
-                    CVideo.VdSetLoop(sk.VideoIndex, true);
-                    CVideo.VdPause(sk.VideoIndex);
-                    sk.Texture = new STexture(-1);
+                    sk.VideoIndex = CVideo.Load(Path.Combine(_Skins[skinIndex].Path, sk.Value));
+                    CVideo.SetLoop(sk.VideoIndex, true);
+                    CVideo.Pause(sk.VideoIndex);
+                    sk.Texture = null;
                     _Skins[skinIndex].VideoList[i] = sk;
                 }
                 catch (Exception e)
@@ -225,14 +229,14 @@ namespace Vocaluxe.Base
             {
                 foreach (SSkinElement sk in _Skins[i].SkinList.Values)
                 {
-                    STexture texture = sk.Texture;
+                    CTexture texture = sk.Texture;
                     CDraw.RemoveTexture(ref texture);
                 }
 
                 for (int j = 0; j < _Skins[i].VideoList.Count; j++)
                 {
-                    CVideo.VdClose(_Skins[i].VideoList[j].VideoIndex);
-                    STexture videoTexture = _Skins[i].VideoList[j].Texture;
+                    CVideo.Close(_Skins[i].VideoList[j].VideoIndex);
+                    CTexture videoTexture = _Skins[i].VideoList[j].Texture;
                     CDraw.RemoveTexture(ref videoTexture);
                 }
 
@@ -580,12 +584,12 @@ namespace Vocaluxe.Base
             return path;
         }
 
-        public static STexture GetSkinTexture(string textureName, int partyModeID)
+        public static CTexture GetSkinTexture(string textureName, int partyModeID)
         {
             int skinIndex = GetSkinIndex(partyModeID);
             if (skinIndex != -1 && textureName != null && _Skins[skinIndex].SkinList.ContainsKey(textureName))
                 return _Skins[skinIndex].SkinList[textureName].Texture;
-            return new STexture(-1);
+            return null;
         }
 
         public static string GetSkinFilePath(string skinName, int partyModeID)
@@ -605,7 +609,7 @@ namespace Vocaluxe.Base
             return skinName;
         }
 
-        public static STexture GetSkinVideoTexture(string videoName, int partyModeID)
+        public static CTexture GetSkinVideoTexture(string videoName, int partyModeID)
         {
             int skinIndex = GetSkinIndex(partyModeID);
             if (skinIndex != -1)
@@ -618,16 +622,16 @@ namespace Vocaluxe.Base
                         float time = 0f;
                         if (sk.VideoIndex == -1)
                         {
-                            sk.VideoIndex = CVideo.VdLoad(GetVideoFilePath(sk.Name, partyModeID));
-                            CVideo.VdSetLoop(sk.VideoIndex, true);
+                            sk.VideoIndex = CVideo.Load(GetVideoFilePath(sk.Name, partyModeID));
+                            CVideo.SetLoop(sk.VideoIndex, true);
                         }
-                        CVideo.VdGetFrame(sk.VideoIndex, ref sk.Texture, time, out time);
+                        CVideo.GetFrame(sk.VideoIndex, ref sk.Texture, time, out time);
                         _Skins[skinIndex].VideoList[i] = sk;
                         return sk.Texture;
                     }
                 }
             }
-            return new STexture(-1);
+            return null;
         }
 
         public static void SkinVideoPause(string videoName, int partyModeID)
@@ -642,10 +646,10 @@ namespace Vocaluxe.Base
                     {
                         if (sk.VideoIndex == -1)
                         {
-                            sk.VideoIndex = CVideo.VdLoad(GetVideoFilePath(sk.Name, partyModeID));
-                            CVideo.VdSetLoop(sk.VideoIndex, true);
+                            sk.VideoIndex = CVideo.Load(GetVideoFilePath(sk.Name, partyModeID));
+                            CVideo.SetLoop(sk.VideoIndex, true);
                         }
-                        CVideo.VdPause(sk.VideoIndex);
+                        CVideo.Pause(sk.VideoIndex);
                         _Skins[skinIndex].VideoList[i] = sk;
                         return;
                     }
@@ -665,10 +669,10 @@ namespace Vocaluxe.Base
                     {
                         if (sk.VideoIndex == -1)
                         {
-                            sk.VideoIndex = CVideo.VdLoad(GetVideoFilePath(sk.Name, partyModeID));
-                            CVideo.VdSetLoop(sk.VideoIndex, true);
+                            sk.VideoIndex = CVideo.Load(GetVideoFilePath(sk.Name, partyModeID));
+                            CVideo.SetLoop(sk.VideoIndex, true);
                         }
-                        CVideo.VdResume(sk.VideoIndex);
+                        CVideo.Resume(sk.VideoIndex);
                         _Skins[skinIndex].VideoList[i] = sk;
                         return;
                     }
@@ -809,7 +813,7 @@ namespace Vocaluxe.Base
             writer.WriteElementString("W", Cursor.W.ToString("#0.000"));
             writer.WriteElementString("H", Cursor.H.ToString("#0.000"));
 
-            if (Cursor.Color != "")
+            if (!String.IsNullOrEmpty(Cursor.Color))
                 writer.WriteElementString("Color", Cursor.Color);
             else
             {
@@ -871,7 +875,7 @@ namespace Vocaluxe.Base
         public static SColorF GetPlayerColor(string playerNrString, int skinIndex, out bool success)
         {
             int selection = 0;
-            if (playerNrString.StartsWith("Player"))
+            if (playerNrString != null && playerNrString.StartsWith("Player"))
                 int.TryParse(playerNrString.Substring(6), out selection);
 
             return GetPlayerColor(selection, skinIndex, out success);
@@ -885,13 +889,12 @@ namespace Vocaluxe.Base
         public static SColorF GetPlayerColor(int playerNr, int skinIndex, out bool success)
         {
             success = false;
-            SColorF color = new SColorF(1f, 1f, 1f, 1f);
 
             if (_Skins[skinIndex].PartyModeID != -1)
                 skinIndex = GetSkinIndex(-1);
 
             if (_Skins[skinIndex].ThemeColors.Player.Length < playerNr || playerNr < 1)
-                return color;
+                return new SColorF(1f, 1f, 1f, 1f);
 
             success = true;
             return _Skins[skinIndex].ThemeColors.Player[playerNr - 1];

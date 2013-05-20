@@ -24,12 +24,13 @@ using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
 using VocaluxeLib;
+using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Base.Fonts
 {
     class CGlyph
     {
-        private STexture _Texture;
+        private CTexture _Texture;
         private readonly SizeF _BoundingBox;
         private readonly RectangleF _DrawBounding;
         public readonly float MaxHeight;
@@ -121,6 +122,7 @@ namespace Vocaluxe.Base.Fonts
                         _DrawBounding.Width = _Texture.Width;
                         _DrawBounding.Height = _Texture.Height;*/
 #pragma warning disable 162
+                        // ReSharper disable HeuristicUnreachableCode
                         if (false && Char.IsLetterOrDigit(chr))
                         {
                             if (outline > 0)
@@ -128,6 +130,7 @@ namespace Vocaluxe.Base.Fonts
                             else
                                 bmpCropped.Save("font_" + chr + CFonts.Style + "2.png", ImageFormat.Png);
                         }
+                        // ReSharper restore HeuristicUnreachableCode
 #pragma warning restore 162
                     }
                 }
@@ -145,7 +148,7 @@ namespace Vocaluxe.Base.Fonts
             return CFonts.Height / _BoundingBox.Height;
         }
 
-        public void GetTextureAndRect(float x, float y, float z, out STexture texture, out SRectF rect)
+        public void GetTextureAndRect(float x, float y, float z, out CTexture texture, out SRectF rect)
         {
             texture = _Texture;
             float factor = _GetFactor();
@@ -215,10 +218,16 @@ namespace Vocaluxe.Base.Fonts
             }
 
             //Add some additional space. Textures need some extra pixel for resizing.
-            int d = 4;
-            minX = minX - d; if (minX < 0) minX = 0;
-            minY = minY - d; if (minY < 0) minY = 0;
-            maxX = maxX + d; if (maxX > bmp.Width) maxX = bmp.Width;
+            const int d = 4;
+            minX = minX - d;
+            if (minX < 0)
+                minX = 0;
+            minY = minY - d;
+            if (minY < 0)
+                minY = 0;
+            maxX = maxX + d;
+            if (maxX > bmp.Width)
+                maxX = bmp.Width;
 
             return new Rectangle(minX, minY, maxX - minX, bmp.Height - minY);
         }

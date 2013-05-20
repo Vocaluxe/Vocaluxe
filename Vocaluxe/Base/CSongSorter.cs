@@ -140,7 +140,9 @@ namespace Vocaluxe.Base
                             sortList.Add(new CSongPointer(song.ID, ""));
                         else
                         {
+                            // ReSharper disable LoopCanBeConvertedToQuery
                             foreach (String sortString in values)
+                                // ReSharper restore LoopCanBeConvertedToQuery
                                 sortList.Add(new CSongPointer(song.ID, sortString));
                         }
                     }

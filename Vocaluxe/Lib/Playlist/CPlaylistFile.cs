@@ -63,7 +63,9 @@ namespace Vocaluxe.Lib.Playlist
             if (PlaylistFile == "")
             {
                 string filename = string.Empty;
+                // ReSharper disable LoopCanBeConvertedToQuery
                 foreach (char chr in PlaylistName)
+                    // ReSharper restore LoopCanBeConvertedToQuery
                 {
                     if (char.IsLetter(chr))
                         filename += chr.ToString();

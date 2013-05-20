@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region license
+// /*
+//     This file is part of Vocaluxe.
+// 
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
+// 
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
+// 
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//  */
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -7,9 +26,7 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-
 using ClientServerLib;
-using Vocaluxe.Base;
 using Vocaluxe.Lib.Input;
 using VocaluxeLib;
 using VocaluxeLib.Profile;
@@ -22,7 +39,7 @@ namespace Vocaluxe.Base.Server
         private static CDiscover _Discover;
         private static Dictionary<int, CClientHandler> _Clients;
 
-        public static CControllerFramework Controller = new CControllerFramework();
+        public static readonly CControllerFramework Controller = new CControllerFramework();
 
         public static void Init()
         {
@@ -48,46 +65,46 @@ namespace Vocaluxe.Base.Server
             _Clients = new Dictionary<int, CClientHandler>();
         }
 
-        private static byte[] RequestHandler(int ConnectionID, byte[] Message)
+        private static byte[] RequestHandler(int connectionID, byte[] message)
         {
             byte[] answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseNOK);
 
-            if (Message == null)
+            if (message == null)
                 return answer;
 
-            if (Message.Length < 4)
+            if (message.Length < 4)
                 return answer;
 
-            bool loggedIn = false;
+            bool loggedIn;
             lock (_Clients)
             {
-                if (!_Clients.ContainsKey(ConnectionID))
+                if (!_Clients.ContainsKey(connectionID))
                 {
-                    CClientHandler client = new CClientHandler(ConnectionID);
-                    _Clients.Add(ConnectionID, client);
+                    CClientHandler client = new CClientHandler(connectionID);
+                    _Clients.Add(connectionID, client);
                 }
 
-                loggedIn = _Clients[ConnectionID].LoggedIn;
+                loggedIn = _Clients[connectionID].LoggedIn;
             }
 
-            int command = BitConverter.ToInt32(Message, 0);
+            int command = BitConverter.ToInt32(message, 0);
             switch (command)
             {
                 case CCommands.CommandLogin:
                     SLoginData data;
 
-                    if (!CCommands.DecodeCommandLogin(Message, out data))
+                    if (!CCommands.DecodeCommandLogin(message, out data))
                         answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseLoginFailed);
                     else
                     {
-                        byte[] serverPW = CCommands.SHA256.ComputeHash(Encoding.UTF8.GetBytes(CConfig.ServerPassword));
+                        byte[] serverPw = CCommands.SHA256.ComputeHash(Encoding.UTF8.GetBytes(CConfig.ServerPassword));
 
-                        if (!serverPW.SequenceEqual(data.SHA256))
+                        if (!serverPw.SequenceEqual(data.SHA256))
                             answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseLoginWrongPassword);
                         else
                         {
                             answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseLoginOK);
-                            _Clients[ConnectionID].LoggedIn = true;
+                            _Clients[connectionID].LoggedIn = true;
                         }
                     }
                     break;
@@ -95,7 +112,7 @@ namespace Vocaluxe.Base.Server
 
             if (!loggedIn)
                 return answer;
-            
+
             switch (command)
             {
                 case CCommands.CommandSendKeyUp:
@@ -121,13 +138,10 @@ namespace Vocaluxe.Base.Server
                 case CCommands.CommandSendAvatarPicture:
 
                     SAvatarPicture avatarPicture;
-                    if (CCommands.DecodeCommandSendAvatarPicture(Message, out avatarPicture))
+                    if (CCommands.DecodeCommandSendAvatarPicture(message, out avatarPicture))
                     {
-                        Bitmap bmp = null;
-                        bool success = false;
-                        try
+                        using (Bitmap bmp = new Bitmap(avatarPicture.Width, avatarPicture.Height))
                         {
-                            bmp = new Bitmap(avatarPicture.Width, avatarPicture.Height);
                             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
                             Marshal.Copy(avatarPicture.data, 0, bmpData.Scan0, avatarPicture.data.Length);
                             bmp.UnlockBits(bmpData);
@@ -137,23 +151,16 @@ namespace Vocaluxe.Base.Server
                             while (File.Exists(Path.Combine(CSettings.FolderProfiles, filename + i + ".png")))
                                 i++;
                             bmp.Save(Path.Combine(CSettings.FolderProfiles, filename + i + ".png"), ImageFormat.Png);
-                            success = true;
-                        }
-                        finally
-                        {
-                            if (bmp != null)
-                                bmp.Dispose();
                         }
 
-                        if (success)
-                            answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
+                        answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
                     }
                     break;
 
                 case CCommands.CommandSendAvatarPictureJpg:
 
                     SAvatarPicture avatarPictureJpg;
-                    if (CCommands.DecodeCommandSendAvatarPicture(Message, out avatarPictureJpg))
+                    if (CCommands.DecodeCommandSendAvatarPicture(message, out avatarPictureJpg))
                     {
                         if (_AddAvatar(avatarPictureJpg.data) != String.Empty)
                             answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
@@ -162,39 +169,35 @@ namespace Vocaluxe.Base.Server
 
                 case CCommands.CommandSendProfile:
                     SProfile profile;
-                    if (CCommands.DecodeCommandSendProfile(Message, out profile))
+                    if (CCommands.DecodeCommandSendProfile(message, out profile))
                     {
-                        try 
-	                    {	        
-                            string AvatarFilename = _AddAvatar(profile.Avatar.data);
-                            if (AvatarFilename != String.Empty)
+                        try
+                        {
+                            string avatarFilename = _AddAvatar(profile.Avatar.data);
+                            if (avatarFilename != String.Empty)
                             {
-                                CProfile p = new CProfile();
-                                p.Active = EOffOn.TR_CONFIG_ON;
-                                p.AvatarFileName = AvatarFilename;
-                                p.Difficulty = (EGameDifficulty)profile.Difficulty;
-                                p.GuestProfile = EOffOn.TR_CONFIG_OFF;
-                                p.PlayerName = profile.PlayerName;                            
+                                CProfile p = new CProfile
+                                    {
+                                        Active = EOffOn.TR_CONFIG_ON,
+                                        AvatarFileName = avatarFilename,
+                                        Difficulty = (EGameDifficulty)profile.Difficulty,
+                                        GuestProfile = EOffOn.TR_CONFIG_OFF,
+                                        PlayerName = profile.PlayerName
+                                    };
                                 CProfiles.AddProfile(p);
                                 answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
                             }
                         }
-	                    catch (Exception)
-	                    {
-
-	                    }
+                        catch (Exception) {}
                     }
 
-                    break;
-
-                default:
                     break;
             }
 
             return answer;
         }
 
-        private static string _AddAvatar(byte[] JpgData)
+        private static string _AddAvatar(byte[] jpgData)
         {
             string result = String.Empty;
             try
@@ -206,7 +209,7 @@ namespace Vocaluxe.Base.Server
 
                 filename = filename + i + ".jpg";
                 FileStream fs = File.Create(filename);
-                fs.Write(JpgData, 0, JpgData.Length);
+                fs.Write(jpgData, 0, jpgData.Length);
                 fs.Flush();
                 fs.Close();
 
@@ -216,9 +219,8 @@ namespace Vocaluxe.Base.Server
                     CProfiles.AddAvatar(avatar);
                     result = filename;
                 }
-
             }
-            catch { }
+            catch {}
 
             return result;
         }

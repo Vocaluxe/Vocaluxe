@@ -23,6 +23,7 @@ using Vocaluxe.Base;
 using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
+using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Screens
 {
@@ -46,7 +47,7 @@ namespace Vocaluxe.Screens
         private const string _ButtonExit = "ButtonExit";
 
         private SWebcamConfig _Config;
-        private STexture _WebcamTexture = new STexture(-1);
+        private CTexture _WebcamTexture;
         private int _DeviceNr;
         private int _CapabilityNr;
 

@@ -658,7 +658,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         for (int i = 0; i < CBase.Playlist.GetPlaylistSongCount(_GameData.PlaylistID); i++)
                         {
                             int id = CBase.Playlist.GetPlaylistSong(_GameData.PlaylistID, i).SongID;
+                            // ReSharper disable LoopCanBeConvertedToQuery
                             foreach (EGameMode mode in CBase.Songs.GetSongByID(id).AvailableGameModes)
+                                // ReSharper restore LoopCanBeConvertedToQuery
                             {
                                 if (mode == gm)
                                     songs.Add(id);
@@ -669,7 +671,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     case ESongSource.TR_ALLSONGS:
                         for (int i = 0; i < CBase.Songs.GetNumSongs(); i++)
                         {
+                            // ReSharper disable LoopCanBeConvertedToQuery
                             foreach (EGameMode mode in CBase.Songs.GetSongByID(i).AvailableGameModes)
+                                // ReSharper restore LoopCanBeConvertedToQuery
                             {
                                 if (mode == gm)
                                     songs.Add(i);
@@ -681,7 +685,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         CBase.Songs.SetCategory(_GameData.CategoryID);
                         for (int i = 0; i < CBase.Songs.NumSongsInCategory(_GameData.CategoryID); i++)
                         {
+                            // ReSharper disable LoopCanBeConvertedToQuery
                             foreach (EGameMode mode in CBase.Songs.GetVisibleSong(i).AvailableGameModes)
+                                // ReSharper restore LoopCanBeConvertedToQuery
                             {
                                 if (mode == gm)
                                     songs.Add(CBase.Songs.GetVisibleSong(i).ID);
