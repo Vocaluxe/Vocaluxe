@@ -8,14 +8,12 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Video.Acinerella
 {
-    class CDecoder : IDisposable
+    class CDecoder
     {
         private IntPtr _Instance = IntPtr.Zero; // acinerella instance
         private IntPtr _Videodecoder = IntPtr.Zero; // acinerella video decoder instance
 
         private readonly Stopwatch _LoopTimer = new Stopwatch();
-        private Closeproc _Closeproc; // delegate for stream closing
-        private int _StreamID; // stream ID for stream closing
         private string _FileName; // current video file name
 
         private bool _FileOpened;
@@ -25,7 +23,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
         private float _CurrentVideoTime; // current video position
         private bool _BufferFull; // buffer is full, waiting for free frame slot
 
-        private bool _Skip; // do skip
         private float _Time;
         private float _Gap;
         private float _Start;
@@ -56,13 +53,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public CDecoder()
         {
             _Thread = new Thread(_Execute);
-        }
-
-        public void Free(Closeproc closeProc, int streamID)
-        {
-            _Closeproc = closeProc;
-            _StreamID = streamID;
-            _Terminated = true;
         }
 
         public float Length
@@ -97,11 +87,19 @@ namespace Vocaluxe.Lib.Video.Acinerella
             if (!File.Exists(fileName))
                 return false;
 
+            //Do this here as one may want to get the length afterwards!
+            _FileOpened = _DoOpen();
+
             _FileName = fileName;
             _Thread.Priority = ThreadPriority.Normal;
             _Thread.Name = Path.GetFileName(fileName);
             _Thread.Start();
             return true;
+        }
+
+        public void Close()
+        {
+            _Terminated = true;
         }
 
         public bool GetFrame(ref CTexture frame, float time, out float videoTime)
@@ -160,7 +158,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         }
 
         #region Threading
-        private void _DoSkip()
+        private void _Skip()
         {
             if (!_FileOpened)
                 return;
@@ -209,24 +207,23 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
 
             _BufferFull = false;
-            _Skip = false;
             _NewFrame = false;
             //EventDecode.Set();
         }
 
         private void _Execute()
         {
-            _DoOpen();
             //EventDecode.Set();
             while (!_Terminated)
             {
                 {
                     //if (EventDecode.WaitOne(10))
+                    bool skip = false;
                     lock (_MutexSyncSignals)
                     {
                         _Time = _SetTime;
                         if (_SetSkip)
-                            _Skip = true;
+                            skip = true;
 
                         _SetSkip = false;
                         _Gap = _SetGap;
@@ -234,11 +231,11 @@ namespace Vocaluxe.Lib.Video.Acinerella
                         _Loop = Loop;
                     }
 
-                    if (_Skip)
-                        _DoSkip();
+                    if (skip)
+                        _Skip();
 
                     if (!_NewFrame)
-                        _DoDecode();
+                        _Decode();
 
                     if (_NewFrame)
                         _Copy();
@@ -246,35 +243,31 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 }
             }
 
-            _DoFree();
+            _Free();
         }
 
-        private void _DoOpen()
+        private bool _DoOpen()
         {
             bool ok;
-            SACInstance instance = new SACInstance();
             try
             {
                 _Instance = CAcinerella.AcInit();
                 CAcinerella.AcOpen2(_Instance, _FileName);
 
-                instance = (SACInstance)Marshal.PtrToStructure(_Instance, typeof(SACInstance));
+                SACInstance instance = (SACInstance)Marshal.PtrToStructure(_Instance, typeof(SACInstance));
+                _Duration = instance.Info.Duration / 1000f;
                 ok = instance.Opened;
             }
             catch (Exception)
             {
-                CLog.LogError("Error opening video file: " + _FileName);
                 ok = false;
             }
 
-
-            if (!instance.Opened || !ok)
+            if (!ok)
             {
-                //Free();
-                return;
+                CLog.LogError("Error opening video file: " + _FileName);
+                return false;
             }
-
-            _Duration = instance.Info.Duration / 1000f;
 
             int videoStreamIndex;
             SACDecoder videodecoder;
@@ -287,14 +280,15 @@ namespace Vocaluxe.Lib.Video.Acinerella
             catch (Exception)
             {
                 CLog.LogError("Error opening video file (can't find decoder): " + _FileName);
-                return;
+                _Free();
+                return false;
             }
 
 
             if (videoStreamIndex < 0)
             {
-                //Free();
-                return;
+                _Free();
+                return false;
             }
 
             _Width = videodecoder.StreamInfo.VideoInfo.FrameWidth;
@@ -312,10 +306,11 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 _FrameBuffer[i].Displayed = true;
                 _FrameBuffer[i].Data = new byte[_Width * _Height * 4];
             }
-            _FileOpened = true;
+
+            return true;
         }
 
-        private void _DoDecode()
+        private void _Decode()
         {
             const int framedropcount = 4;
 
@@ -394,7 +389,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                         _SetTime = 0f;
                     }
 
-                    _DoSkip();
+                    _Skip();
                 }
                 else
                     _NoMoreFrames = true;
@@ -510,21 +505,17 @@ namespace Vocaluxe.Lib.Video.Acinerella
             return result;
         }
 
-        private void _DoFree()
+        private void _Free()
         {
             if (_Videodecoder != IntPtr.Zero)
                 CAcinerella.AcFreeDecoder(_Videodecoder);
 
             if (_Instance != IntPtr.Zero)
+            {
                 CAcinerella.AcClose(_Instance);
-
-            if (_Instance != IntPtr.Zero)
                 CAcinerella.AcFree(_Instance);
-
-            _Closeproc(_StreamID);
+            }
         }
         #endregion Threading
-
-        public void Dispose() {}
     }
 }

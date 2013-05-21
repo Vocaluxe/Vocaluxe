@@ -242,7 +242,6 @@
     <Compile Include="Lib\Sound\IPlayback.cs" />
     <Compile Include="Lib\Sound\IRecord.cs" />
     <Compile Include="Lib\Video\Acinerella\CAcinerella.cs" />
-    <Compile Include="Lib\Video\CVideoDecoder.cs" />
     <Compile Include="Lib\Video\CVideoDecoderFFmpeg.cs" />
     <Compile Include="Lib\Video\CVideoDecoderGstreamer.cs" />
     <Compile Include="Lib\Video\Gstreamer\CGstreamerVideoWrapper.cs" />
