@@ -87,10 +87,14 @@ namespace Vocaluxe.Lib.Video.Acinerella
             if (!File.Exists(fileName))
                 return false;
 
-            //Do this here as one may want to get the length afterwards!
-            _FileOpened = _DoOpen();
-
             _FileName = fileName;
+
+            //Do this here as one may want to get the length afterwards!
+            if (!_DoOpen())
+                return false;
+
+            _FileOpened = true;
+
             _Thread.Priority = ThreadPriority.Normal;
             _Thread.Name = Path.GetFileName(fileName);
             _Thread.Start();
@@ -105,8 +109,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public bool GetFrame(ref CTexture frame, float time, out float videoTime)
         {
             videoTime = 0;
-            if (!_FileOpened)
-                return false;
 
             if (_Paused)
                 return false;
@@ -118,9 +120,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     _SetTime += _LoopTimer.ElapsedMilliseconds / 1000f;
                     videoTime = _SetTime;
 
-                    _LoopTimer.Stop();
-                    _LoopTimer.Reset();
-                    _LoopTimer.Start();
+                    _LoopTimer.Restart();
                 }
 
 
@@ -160,9 +160,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
         #region Threading
         private void _Skip()
         {
-            if (!_FileOpened)
-                return;
-
             _VideoSkipTime = _Gap;
             _SkipTime = _Start + _Gap;
             _BeforeLoop = false;
@@ -216,31 +213,29 @@ namespace Vocaluxe.Lib.Video.Acinerella
             //EventDecode.Set();
             while (!_Terminated)
             {
+                //if (EventDecode.WaitOne(10))
+                bool skip = false;
+                lock (_MutexSyncSignals)
                 {
-                    //if (EventDecode.WaitOne(10))
-                    bool skip = false;
-                    lock (_MutexSyncSignals)
-                    {
-                        _Time = _SetTime;
-                        if (_SetSkip)
-                            skip = true;
+                    _Time = _SetTime;
+                    if (_SetSkip)
+                        skip = true;
 
-                        _SetSkip = false;
-                        _Gap = _SetGap;
-                        _Start = _SetStart;
-                        _Loop = Loop;
-                    }
-
-                    if (skip)
-                        _Skip();
-
-                    if (!_NewFrame)
-                        _Decode();
-
-                    if (_NewFrame)
-                        _Copy();
-                    Thread.Sleep(1);
+                    _SetSkip = false;
+                    _Gap = _SetGap;
+                    _Start = _SetStart;
+                    _Loop = Loop;
                 }
+
+                if (skip)
+                    _Skip();
+
+                if (!_NewFrame)
+                    _Decode();
+
+                if (_NewFrame)
+                    _Copy();
+                Thread.Sleep(1);
             }
 
             _Free();
@@ -314,7 +309,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             const int framedropcount = 4;
 
-            if (!_FileOpened || _NewFrame)
+            if (_NewFrame)
                 return;
 
             if (_Paused || _NoMoreFrames || _BufferFull)
@@ -452,9 +447,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         private void _UploadNewFrame(ref CTexture frame)
         {
-            if (!_FileOpened)
-                return;
-
             lock (_MutexFramebuffer)
             {
                 int num = _FindFrame();

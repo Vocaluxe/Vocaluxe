@@ -203,11 +203,8 @@ namespace Vocaluxe.Base
                 try
                 {
                     xmlReader.GetValue("//root/Videos/" + _Skins[skinIndex].VideoList[i].Name, out value, String.Empty);
-                    SSkinElement sk = new SSkinElement {Name = _Skins[skinIndex].VideoList[i].Name, Value = value};
-                    sk.VideoIndex = CVideo.Load(Path.Combine(_Skins[skinIndex].Path, sk.Value));
-                    CVideo.SetLoop(sk.VideoIndex, true);
-                    CVideo.Pause(sk.VideoIndex);
-                    sk.Texture = null;
+                    //Do not load video yet
+                    SSkinElement sk = new SSkinElement {Name = _Skins[skinIndex].VideoList[i].Name, Value = value, VideoIndex = -1, Texture = null};
                     _Skins[skinIndex].VideoList[i] = sk;
                 }
                 catch (Exception e)
