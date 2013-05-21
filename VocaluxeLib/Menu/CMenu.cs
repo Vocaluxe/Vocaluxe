@@ -137,7 +137,7 @@ namespace VocaluxeLib.Menu
             _ThemeScreenSettings = null;
         }
 
-        protected void _FadeTo(EScreens nextScreen)
+        protected static void _FadeTo(EScreens nextScreen)
         {
             CBase.Graphics.FadeTo(nextScreen);
         }
