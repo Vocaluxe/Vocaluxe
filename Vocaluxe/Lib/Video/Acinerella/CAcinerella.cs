@@ -156,11 +156,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
     // the number of bytes read or an value smaller than zero if an error occured.
     //TAc_read_callback = function(sender: Pointer; byte[] buf, int size): integer; cdecl;
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate Int32 ACReadCallback(
-        IntPtr sender,
-        IntPtr buf,
-        Int32 size
-        );
+    public delegate Int32 ACReadCallback(IntPtr sender, IntPtr buf, Int32 size);
 
     // Callback function used to ask the application to seek. return 0 if succeed , -1 on failure.
     //TAc_seek_callback = function(sender: Pointer; pos: int64; whence: integer): int64; cdecl;
@@ -274,17 +270,11 @@ namespace Vocaluxe.Lib.Video.Acinerella
         }*/
 
         [DllImport(_AcDll, EntryPoint = "ac_open", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        private static extern Int32 _ac_open2(
-            IntPtr pAcInstance,
-            string filename
-            );
+        private static extern Int32 _ac_open2(IntPtr pAcInstance, string filename);
 
         // ReSharper disable UnusedMethodReturnValue.Global
-        public static Int32 AcOpen2(
+        public static Int32 AcOpen2(IntPtr pAcInstance, string filename)
             // ReSharper restore UnusedMethodReturnValue.Global
-            IntPtr pAcInstance,
-            string filename
-            )
         {
             lock (_Lock)
             {
@@ -306,28 +296,15 @@ namespace Vocaluxe.Lib.Video.Acinerella
         }
 
         // Stores information in "pInfo" about stream number "nb".
-        //procedure ac_get_stream_info(
-        //inst: PAc_instance; nb: integer; pinfo: PAc_stream_info); cdecl; external ac_dll;
+        //procedure ac_get_stream_info(inst: PAc_instance; nb: integer; pinfo: PAc_stream_info); cdecl; external ac_dll;
         [DllImport(_AcDll, EntryPoint = "ac_get_stream_info", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        private static extern void _ac_get_stream_info(
-            IntPtr pAcInstance,
-            Int32 nb,
-            out SACStreamInfo info
-            );
+        private static extern void _ac_get_stream_info(IntPtr pAcInstance, Int32 nb, out SACStreamInfo info);
 
-        public static void AcGetStreamInfo(
-            IntPtr pAcInstance,
-            Int32 nb,
-            out SACStreamInfo info
-            )
+        public static void AcGetStreamInfo(IntPtr pAcInstance, Int32 nb, out SACStreamInfo info)
         {
             lock (_Lock)
             {
-                _ac_get_stream_info(
-                    pAcInstance,
-                    nb,
-                    out info
-                    );
+                _ac_get_stream_info(pAcInstance, nb, out info);
             }
         }
 
@@ -382,44 +359,44 @@ namespace Vocaluxe.Lib.Video.Acinerella
         [DllImport(_AcDll, EntryPoint = "ac_decode_package", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private static extern Int32 _ac_decode_package(IntPtr pAcPackage, IntPtr pAcDecoder);
 
-        public static Int32 AcDecodePackage(IntPtr pAcPackage, IntPtr pAcDecoder)
+        public static bool AcDecodePackage(IntPtr pAcPackage, IntPtr pAcDecoder)
         {
             lock (_Lock)
             {
-                return _ac_decode_package(pAcPackage, pAcDecoder);
+                return _ac_decode_package(pAcPackage, pAcDecoder)!=0;
             }
         }
 
         [DllImport(_AcDll, EntryPoint = "ac_get_audio_frame", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private static extern Int32 _ac_get_audio_frame(IntPtr pAcInstance, IntPtr pAcDecoder);
 
-        public static Int32 AcGetAudioFrame(IntPtr pAcInstance, IntPtr pAcDecoder)
+        public static bool AcGetAudioFrame(IntPtr pAcInstance, IntPtr pAcDecoder)
         {
             lock (_Lock)
             {
-                return _ac_get_audio_frame(pAcInstance, pAcDecoder);
+                return _ac_get_audio_frame(pAcInstance, pAcDecoder)!=0;
             }
         }
 
         [DllImport(_AcDll, EntryPoint = "ac_get_frame", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private static extern Int32 _ac_get_frame(IntPtr pAcInstance, IntPtr pAcDecoder);
 
-        public static Int32 AcGetFrame(IntPtr pAcInstance, IntPtr pAcDecoder)
+        public static bool AcGetFrame(IntPtr pAcInstance, IntPtr pAcDecoder)
         {
             lock (_Lock)
             {
-                return _ac_get_frame(pAcInstance, pAcDecoder);
+                return _ac_get_frame(pAcInstance, pAcDecoder)!=0;
             }
         }
 
         [DllImport(_AcDll, EntryPoint = "ac_skip_frames", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private static extern Int32 _ac_skip_frames(IntPtr pAcInstance, IntPtr pAcDecoder, Int32 num);
 
-        public static Int32 AcSkipFrames(IntPtr pAcInstance, IntPtr pAcDecoder, Int32 num)
+        public static bool AcSkipFrames(IntPtr pAcInstance, IntPtr pAcDecoder, Int32 num)
         {
             lock (_Lock)
             {
-                return _ac_skip_frames(pAcInstance, pAcDecoder, num);
+                return _ac_skip_frames(pAcInstance, pAcDecoder, num)!=0;
             }
         }
 
@@ -431,25 +408,18 @@ namespace Vocaluxe.Lib.Video.Acinerella
         [DllImport(_AcDll, EntryPoint = "ac_seek", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private static extern Int32 _ac_seek(IntPtr pAcDecoder, Int32 dir, Int64 targetPos);
 
-        // ReSharper disable UnusedMethodReturnValue.Global
-        public static Int32 AcSeek(IntPtr pAcDecoder, Int32 dir, Int64 targetPos)
-            // ReSharper restore UnusedMethodReturnValue.Global
+        public static bool AcSeek(IntPtr pAcDecoder, Int32 dir, Int64 targetPos)
         {
             lock (_Lock)
             {
-                return _ac_seek(pAcDecoder, dir, targetPos);
+                return _ac_seek(pAcDecoder, dir, targetPos)!=0;
             }
         }
 
         //function ac_probe_input_buffer(buf: PChar; bufsize: Integer; filename: PChar;
         //var score_max: Integer): PAc_proberesult; cdecl; external ac_dll;
         [DllImport(_AcDll, EntryPoint = "ac_probe_input_buffer", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        public static extern IntPtr ac_probe_input_buffer(
-            IntPtr buf,
-            Int32 bufsize,
-            IntPtr filename,
-            out Int32 scoreMax
-            );
+        public static extern IntPtr ac_probe_input_buffer(IntPtr buf, Int32 bufsize, IntPtr filename, out Int32 scoreMax);
     }
 
     // ReSharper restore UnusedMember.Global
