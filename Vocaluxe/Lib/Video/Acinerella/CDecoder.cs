@@ -402,32 +402,25 @@ namespace Vocaluxe.Lib.Video.Acinerella
         private int _FindFrame()
         {
             int result = -1;
-            float diff = 10000000f;
-
+            float now = _SetTime + _Gap;
+            float maxEnd = now - _FrameDuration * 2; //Get only frames younger than 2
             for (int i = 0; i < _FrameBuffer.Length; i++)
             {
                 if (_FrameBuffer[i].Displayed)
                     continue;
 
-                // Time from frame till now (<0 --> Frame is not yet to be shown)
-                float td = _SetTime + _Gap - _FrameBuffer[i].Time;
+                float frameEnd = _FrameBuffer[i].Time + _FrameDuration;
+                //Don't show frames that are shown during or after now
+                if (frameEnd >= now)
+                    continue;
 
-                if (td > _FrameDuration * 2f)
-                {
-                    _FrameBuffer[i].Displayed = true;
-                    _BufferFull = false;
-                }
-                else if (td < diff && td > _FrameDuration)
-                {
-                    diff = Math.Abs(td);
-                    result = i;
-                }
-            }
-
-            if (result != -1)
-            {
-                _FrameBuffer[result].Displayed = true;
+                _FrameBuffer[i].Displayed = true;
                 _BufferFull = false;
+                //Get the last(newest) possible frame and skip the rest to force in-order showing
+                if (frameEnd <= maxEnd)
+                    continue;
+                maxEnd = frameEnd;
+                result = i;
             }
 
             return result;
