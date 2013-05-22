@@ -597,6 +597,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _OldSelectedField = _SelectedField;
                         _SelectedField = -1;
                         _UpdateFieldContents();
+                        _Buttons[_ButtonNextRound].Visible = false;
                     }
                     break;
             }
