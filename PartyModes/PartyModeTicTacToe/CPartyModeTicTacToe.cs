@@ -569,8 +569,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                             }
                             if (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
                             {
-                                random = CBase.Game.GetRandom((ids2.Count - 1) * 20);
-                                num = (int)Math.Round((double)random / 20);
+                                random = CBase.Game.GetRandom((ids2.Count - 1) * 10);
+                                num = (int)Math.Round((double)random / 10);
                                 if (num >= ids2.Count)
                                     num = ids2.Count - 1;
                                 _GameData.PlayerTeam2.Add(ids2[num]);
@@ -617,8 +617,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                             }
                             if (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
                             {
-                                int random = CBase.Game.GetRandom((ids.Count - 1) * 20);
-                                int num = (int)Math.Round((double)random / 20);
+                                int random = CBase.Game.GetRandom((ids.Count - 1) * 10);
+                                int num = (int)Math.Round((double)random / 10);
                                 if (num >= ids.Count)
                                     num = ids.Count - 1;
                                 _GameData.PlayerTeam2.Add(ids[num]);
