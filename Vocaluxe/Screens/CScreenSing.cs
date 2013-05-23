@@ -208,6 +208,7 @@ namespace Vocaluxe.Screens
                         if (mode > Enum.GetNames(typeof(ETimerMode)).Length - 1)
                             mode = 0;
                         CConfig.TimerMode = (ETimerMode)mode;
+                        CConfig.SaveConfig();
                         break;
 
                     case Keys.I:
