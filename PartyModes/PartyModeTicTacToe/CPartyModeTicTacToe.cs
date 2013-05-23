@@ -543,8 +543,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         List<int> ids1 = new List<int>();
                         List<int> ids2 = new List<int>();
                         //Add IDs to team-list
-                        while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] && ids1.Count == 0 &&
-                               _GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] && ids2.Count == 0)
+                        while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] &&
+                               _GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] )
                         {
                             if (ids1.Count == 0)
                             {
@@ -557,11 +557,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                                     ids2.Add(i);
                             }
                             int num;
-                            int random;
                             if (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0])
                             {
-                                random = CBase.Game.GetRandom((ids1.Count - 1) * 10);
-                                num = (int)Math.Round((double)random / 10);
+                                num = CBase.Game.GetRandom(ids1.Count);
                                 if (num >= ids1.Count)
                                     num = ids1.Count - 1;
                                 _GameData.PlayerTeam1.Add(ids1[num]);
@@ -569,8 +567,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                             }
                             if (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
                             {
-                                random = CBase.Game.GetRandom((ids2.Count - 1) * 10);
-                                num = (int)Math.Round((double)random / 10);
+                                num = CBase.Game.GetRandom(ids2.Count);
                                 if (num >= ids2.Count)
                                     num = ids2.Count - 1;
                                 _GameData.PlayerTeam2.Add(ids2[num]);
@@ -593,8 +590,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                             }
                             if (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0])
                             {
-                                int random = CBase.Game.GetRandom((ids.Count - 1) * 10);
-                                int num = (int)Math.Round((double)random / 10);
+                                int num = CBase.Game.GetRandom(ids.Count);
                                 if (num >= ids.Count)
                                     num = ids.Count - 1;
                                 _GameData.PlayerTeam1.Add(ids[num]);
@@ -617,8 +613,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                             }
                             if (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
                             {
-                                int random = CBase.Game.GetRandom((ids.Count - 1) * 10);
-                                int num = (int)Math.Round((double)random / 10);
+                                int num = CBase.Game.GetRandom(ids.Count);
                                 if (num >= ids.Count)
                                     num = ids.Count - 1;
                                 _GameData.PlayerTeam2.Add(ids[num]);
