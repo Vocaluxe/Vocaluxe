@@ -211,6 +211,7 @@
     <Compile Include="GameModes\CGameModes.cs" />
     <Compile Include="Lib\Input\CControllerFramework.cs" />
     <Compile Include="Lib\Video\Acinerella\CDecoder.cs" />
+    <Compile Include="Lib\Video\Acinerella\CFramebuffer.cs" />
     <Compile Include="SongQueue\CSongQueue.cs" />
     <Compile Include="GameModes\IGameMode.cs" />
     <Compile Include="SongQueue\ISongQueue.cs" />

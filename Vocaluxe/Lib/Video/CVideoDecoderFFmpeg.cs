@@ -162,10 +162,4 @@ namespace Vocaluxe.Lib.Video
         public void Update(){}
     }
 
-    struct SFrameBuffer
-    {
-        public byte[] Data;
-        public float Time;
-        public bool Displayed;
-    }
 }

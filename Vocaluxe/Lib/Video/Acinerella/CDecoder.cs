@@ -15,9 +15,8 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         private readonly Stopwatch _LoopTimer = new Stopwatch();
         private readonly Thread _Thread;
-        //AutoResetEvent EventDecode = new AutoResetEvent(false);
         private readonly Object _MutexFramebuffer = new Object();
-        private readonly SFrameBuffer[] _FrameBuffer = new SFrameBuffer[5];
+        private readonly CFramebuffer _Framebuffer;
         private readonly Object _MutexSyncSignals = new Object();
 
         private bool _FileOpened;
@@ -25,7 +24,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
         private float _FrameDuration; // frame time in s
         private float _LastDecodedTime; // time of last decoded frame
         private float _LastShownTime; // current video position
-        private bool _BufferFull; // buffer is full, waiting for free frame slot
 
         private float _Time;
         private float _Gap;
@@ -40,6 +38,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
         private bool _Terminated;
         private bool _FrameAvailable;
         private bool _NoMoreFrames;
+        private AutoResetEvent _EvWakeUp = new AutoResetEvent(false);
+        private bool _IsSleeping;
+        private int _WaitCount;
 
         private float _SkipTime; // = Start + VideoGap
 
@@ -51,6 +52,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public CDecoder()
         {
             _Thread = new Thread(_Execute);
+            _Framebuffer = new CFramebuffer(10);
         }
 
         public float Length { get; private set; }
@@ -173,11 +175,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
             lock (_MutexFramebuffer)
             {
-                for (int i = 0; i < _FrameBuffer.Length; i++)
-                    _FrameBuffer[i].Displayed = true;
+                _Framebuffer.Clear();
             }
 
-            _BufferFull = false;
             _FrameAvailable = false;
         }
 
@@ -202,9 +202,25 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 if (!_FrameAvailable)
                     _Decode();
 
-                if (_FrameAvailable && !_BufferFull)
-                    _Copy();
-                Thread.Sleep(1);
+                if (_FrameAvailable)
+                {
+                    if (!_Framebuffer.IsFull())
+                    {
+                        _Copy();
+                        _WaitCount = 0;
+                        Thread.Sleep(1);
+                    }
+                    else if (_WaitCount > 3)
+                    {
+                        _IsSleeping = true;
+                        _EvWakeUp.WaitOne();
+                    }
+                    else
+                    {
+                        Thread.Sleep((int)((_Framebuffer.Size - 2) * _FrameDuration * 1000));
+                        _WaitCount++;
+                    }
+                }
             }
 
             _Free();
@@ -261,14 +277,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 _FrameDuration = 1f / (float)videodecoder.StreamInfo.VideoInfo.FramesPerSecond;
 
             _LastDecodedTime = 0f;
-            _Time = 0f;
+            _SetTime = 0f;
 
-            for (int i = 0; i < _FrameBuffer.Length; i++)
-            {
-                _FrameBuffer[i].Displayed = true;
-                _FrameBuffer[i].Data = new byte[_Width * _Height * 4];
-            }
-            _BufferFull = false;
+            _Framebuffer.Init(_Width * _Height * 4);
             _FrameAvailable = false;
             return true;
         }
@@ -277,7 +288,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             const int framedropcount = 4;
 
-            if (_Paused || _NoMoreFrames || _BufferFull)
+            if (_Paused || _NoMoreFrames)
                 return;
 
             float myTime = _Time + _Gap;
@@ -335,43 +346,12 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             lock (_MutexFramebuffer)
             {
-                int num = -1;
-                for (int i = 0; i < _FrameBuffer.Length; i++)
-                {
-                    if (_FrameBuffer[i].Displayed)
-                    {
-                        num = i;
-                        break;
-                    }
-                }
-
-                if (num == -1)
-                    _BufferFull = true; //Should not happen
-                else
-                {
-                    var videodecoder = (SACDecoder)Marshal.PtrToStructure(_Videodecoder, typeof(SACDecoder));
-
-                    _LastDecodedTime = (float)videodecoder.Timecode;
-                    _FrameBuffer[num].Time = _LastDecodedTime;
-
-                    if (videodecoder.Buffer != IntPtr.Zero)
-                    {
-                        Marshal.Copy(videodecoder.Buffer, _FrameBuffer[num].Data, 0, _Width * _Height * 4);
-                        _FrameBuffer[num].Displayed = false;
-                    }
-
-                    _BufferFull = true;
-                    for (int i = num + 1; i < _FrameBuffer.Length; i++)
-                    {
-                        if (_FrameBuffer[i].Displayed)
-                        {
-                            _BufferFull = false;
-                            break;
-                        }
-                    }
-
-                    _FrameAvailable = false;
-                }
+                var videodecoder = (SACDecoder)Marshal.PtrToStructure(_Videodecoder, typeof(SACDecoder));
+                if (videodecoder.Buffer == IntPtr.Zero)
+                    return;
+                _LastDecodedTime = (float)videodecoder.Timecode;
+                _Framebuffer.Put(videodecoder.Buffer, _LastDecodedTime);
+                _FrameAvailable = false;
             }
         }
 
@@ -379,50 +359,50 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             lock (_MutexFramebuffer)
             {
-                int num = _FindFrame();
+                CFrame curFrame = _FindFrame();
 
-                if (num >= 0)
+                if (curFrame != null)
                 {
-                    CDraw.UpdateOrAddTexture(ref frame, _Width, _Height, _FrameBuffer[num].Data);
+                    CDraw.UpdateOrAddTexture(ref frame, _Width, _Height, curFrame.Data);
 
                     lock (_MutexSyncSignals)
                     {
-                        _LastShownTime = _FrameBuffer[num].Time;
+                        _LastShownTime = curFrame.Time;
                     }
-                    Finished = false;
+                    if (_IsSleeping)
+                    {
+                        _IsSleeping = false;
+                        _EvWakeUp.Set();
+                    }
                 }
                 else
                 {
-                    if (_NoMoreFrames)
+                    if (_NoMoreFrames && _Framebuffer.IsEmpty())
                         Finished = true;
                 }
             }
         }
 
-        private int _FindFrame()
+        private CFrame _FindFrame()
         {
-            int result = -1;
+            CFrame result = null;
             float now = _SetTime + _Gap;
             float maxEnd = now - _FrameDuration * 2; //Get only frames younger than 2
-            for (int i = 0; i < _FrameBuffer.Length; i++)
+            CFrame frame;
+            while ((frame = _Framebuffer.Get()) != null)
             {
-                if (_FrameBuffer[i].Displayed)
-                    continue;
-
-                float frameEnd = _FrameBuffer[i].Time + _FrameDuration;
+                float frameEnd = frame.Time + _FrameDuration;
                 //Don't show frames that are shown during or after now
                 if (frameEnd >= now)
-                    continue;
+                    break; //All following frames are after that one
 
-                _FrameBuffer[i].Displayed = true;
-                _BufferFull = false;
+                _Framebuffer.SetRead();
                 //Get the last(newest) possible frame and skip the rest to force in-order showing
                 if (frameEnd <= maxEnd)
                     continue;
                 maxEnd = frameEnd;
-                result = i;
+                result = frame;
             }
-
             return result;
         }
 
