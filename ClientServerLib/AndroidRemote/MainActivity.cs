@@ -24,10 +24,13 @@ namespace AndroidRemote
 		Button bLogin;
 		Button bSendAvatar;
 		Button bSendProfile;
+
+		TextView tIP;
+		TextView tPassword;
+
 		bool loggedIn;
 		byte[] fileBytes;
-
-		ImageView imageView;
+		
 		Java.IO.File file;
 		Java.IO.File dir;
 		System.IO.FileStream fs;
@@ -54,6 +57,9 @@ namespace AndroidRemote
 
 			bSendProfile = FindViewById<Button> (Resource.Id.btSendProfile);
 			bSendProfile.Click += SendProfile;
+
+			tIP = FindViewById<TextView> (Resource.Id.tbIP);
+			tPassword = FindViewById<TextView> (Resource.Id.tbPassword);
 
 			sendProfile = false;
 		}
@@ -134,7 +140,7 @@ namespace AndroidRemote
 		private void Connect()
 		{
 			if (!client.Connected)
-				client.Connect("192.168.178.57", 3000, OnConnectionChanged);
+				client.Connect(tIP.Text, 3000, OnConnectionChanged);
 			else
 				client.Disconnect();
 		}
@@ -142,7 +148,7 @@ namespace AndroidRemote
 		private void Login()
 		{
 			if (!loggedIn)
-				client.SendMessage (CCommands.CreateCommandLogin("vocaluxe"), OnResponse);
+				client.SendMessage (CCommands.CreateCommandLogin(tPassword.Text), OnResponse);
 			else
 				client.Disconnect();
 		}
@@ -215,13 +221,13 @@ namespace AndroidRemote
 			if (LoggedIn)
 			{
 				bLogin.Text = Resources.GetString(Resource.String.button_logout);
-				Toast.MakeText(this, "Logged In", ToastLength.Short).Show();
+				Toast.MakeText(this, Resources.GetString(Resource.String.message_logged_in), ToastLength.Short).Show();
 				bSendAvatar.Enabled = true;
 				bSendProfile.Enabled = true;
 			}
 			else
 			{
-				Toast.MakeText(this, "Not Logged In", ToastLength.Short).Show();
+				Toast.MakeText(this, Resources.GetString(Resource.String.message_logged_out), ToastLength.Short).Show();
 				bSendAvatar.Enabled = false;
 				bSendProfile.Enabled = false;
 			}
