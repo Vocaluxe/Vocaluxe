@@ -221,7 +221,7 @@ namespace Vocaluxe.Screens
             CConfig.VideosToBackground = (EOffOn)_SelectSlides[_SelectSlideVideosToBackground].Selection;
 
             CConfig.WebcamConfig = _Config;
-            CBackgroundMusic.VideoEnabled = true;
+            CBackgroundMusic.VideoEnabled = CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON;
 
             CConfig.SaveConfig();
         }

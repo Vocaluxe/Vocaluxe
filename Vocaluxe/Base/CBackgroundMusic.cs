@@ -121,7 +121,7 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            List<string> templist = new List<string>();
+            var templist = new List<string>();
 
             foreach (string ending in CSettings.MusicFileTypes)
                 templist.AddRange(CHelper.ListFiles(CSettings.FolderBackgroundMusic, ending, true, true));
@@ -131,8 +131,8 @@ namespace Vocaluxe.Base
 
             if (CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC)
                 AddBackgroundMusic();
-            if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON)
-                _VideoEnabled = true;
+
+            _VideoEnabled = (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON);
 
             IsPlaying = false;
         }
@@ -434,9 +434,9 @@ namespace Vocaluxe.Base
         {
             if (_Video != -1)
             {
-                    CVideo.Close(_Video);
-                    CDraw.RemoveTexture(ref _CurrentVideoTexture);
-                    _Video = -1;
+                CVideo.Close(_Video);
+                CDraw.RemoveTexture(ref _CurrentVideoTexture);
+                _Video = -1;
             }
             else
                 _LoadVideo();
