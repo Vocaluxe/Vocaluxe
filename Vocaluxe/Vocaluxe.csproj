@@ -159,6 +159,10 @@
     <Reference Include="Community.CsharpSqlite">
       <HintPath>..\Output\Community.CsharpSqlite.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ClientServerLib\ClientServerLib\bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK">
       <HintPath>..\Output\OpenTK.dll</HintPath>
     </Reference>
@@ -203,7 +207,9 @@
     <Compile Include="Base\Fonts\CFonts.cs" />
     <Compile Include="Base\Fonts\CGlyph.cs" />
     <Compile Include="Base\Server\CClientHandler.cs" />
+    <Compile Include="Base\Server\CCommands.cs" />
     <Compile Include="Base\Server\CVocaluxeServer.cs" />
+    <Compile Include="Base\Server\VocaluxeStructs.cs" />
     <Compile Include="CSplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
