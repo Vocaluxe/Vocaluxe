@@ -366,17 +366,17 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     {
                         _LastShownTime = curFrame.Time;
                     }
-                    if (_IsSleeping)
-                    {
-                        _IsSleeping = false;
-                        _EvWakeUp.Set();
-                    }
                 }
                 else
                 {
                     if (_NoMoreFrames && _Framebuffer.IsEmpty())
                         Finished = true;
                 }
+            }
+            if (!Finished && _IsSleeping)
+            {
+                _IsSleeping = false;
+                _EvWakeUp.Set();
             }
         }
 

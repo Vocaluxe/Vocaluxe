@@ -577,7 +577,7 @@ namespace Vocaluxe.Base
             return skinName;
         }
 
-        public static CVideoSkinElement GetSkinVideo(string videoName, int partyModeID)
+        public static CVideoSkinElement GetSkinVideo(string videoName, int partyModeID, bool load = true)
         {
             int skinIndex = GetSkinIndex(partyModeID);
             if (skinIndex != -1)
@@ -585,7 +585,7 @@ namespace Vocaluxe.Base
                 CVideoSkinElement sk;
                 if (_Skins[skinIndex].VideoList.TryGetValue(videoName, out sk))
                 {
-                    if (sk.VideoIndex == -1)
+                    if (sk.VideoIndex == -1 && load)
                     {
                         sk.VideoIndex = CVideo.Load(GetVideoFilePath(videoName, partyModeID));
                         CVideo.SetLoop(sk.VideoIndex, true);
@@ -608,7 +608,7 @@ namespace Vocaluxe.Base
 
         public static void SkinVideoPause(string videoName, int partyModeID)
         {
-            CVideoSkinElement sk = GetSkinVideo(videoName, partyModeID);
+            CVideoSkinElement sk = GetSkinVideo(videoName, partyModeID, false);
             if (sk == null)
                 return;
             CVideo.Pause(sk.VideoIndex);
