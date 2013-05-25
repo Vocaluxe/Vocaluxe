@@ -17,7 +17,6 @@
 //  */
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Vocaluxe.Lib.Video.Acinerella;
 using VocaluxeLib.Draw;
@@ -29,8 +28,6 @@ namespace Vocaluxe.Lib.Video
         private readonly Dictionary<int, CDecoder> _Decoder = new Dictionary<int, CDecoder>();
         private int _LastID;
 
-        private readonly Object _MutexDecoder = new Object();
-
         public bool Init()
         {
             CloseAll();
@@ -39,41 +36,32 @@ namespace Vocaluxe.Lib.Video
 
         public void CloseAll()
         {
-            lock (_MutexDecoder)
-            {
-                foreach (var decoder in _Decoder.Values)
-                    decoder.Close();
-                _Decoder.Clear();
-            }
+            foreach (var decoder in _Decoder.Values)
+                decoder.Close();
+            _Decoder.Clear();
         }
 
         public int Load(string videoFileName)
         {
-            CDecoder decoder = new CDecoder();
+            var decoder = new CDecoder();
 
             if (decoder.Open(videoFileName))
             {
-                lock (_MutexDecoder)
-                {
-                    int id = _LastID++;
-                    _Decoder.Add(id, decoder);
-                    return id;
-                }
+                int id = _LastID++;
+                _Decoder.Add(id, decoder);
+                return id;
             }
             return -1;
         }
 
         public bool Close(int streamID)
         {
-            lock (_MutexDecoder)
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
             {
-                CDecoder decoder;
-                if (_Decoder.TryGetValue(streamID, out decoder))
-                {
-                    decoder.Close();
-                    _Decoder.Remove(streamID);
-                    return true;
-                }
+                decoder.Close();
+                _Decoder.Remove(streamID);
+                return true;
             }
             return false;
         }
@@ -85,81 +73,58 @@ namespace Vocaluxe.Lib.Video
 
         public bool GetFrame(int streamID, ref CTexture frame, float time, out float videoTime)
         {
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
+                return decoder.GetFrame(ref frame, time, out videoTime);
             videoTime = 0;
-
-            lock (_MutexDecoder)
-            {
-                CDecoder decoder;
-                if (_Decoder.TryGetValue(streamID, out decoder))
-                    return decoder.GetFrame(ref frame, time, out videoTime);
-            }
             return false;
         }
 
         public float GetLength(int streamID)
         {
-            lock (_MutexDecoder)
-            {
-                CDecoder decoder;
-                if (_Decoder.TryGetValue(streamID, out decoder))
-                    return decoder.Length;
-            }
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
+                return decoder.Length;
             return 0f;
         }
 
         public bool Skip(int streamID, float start, float gap)
         {
-            lock (_MutexDecoder)
-            {
-                CDecoder decoder;
-                if (_Decoder.TryGetValue(streamID, out decoder))
-                    return decoder.Skip(start, gap);
-            }
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
+                return decoder.Skip(start, gap);
             return false;
         }
 
         public void SetLoop(int streamID, bool loop)
         {
-            lock (_MutexDecoder)
-            {
-                CDecoder decoder;
-                if (_Decoder.TryGetValue(streamID, out decoder))
-                    decoder.Loop = loop;
-            }
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
+                decoder.Loop = loop;
         }
 
         public void Pause(int streamID)
         {
-            lock (_MutexDecoder)
-            {
-                CDecoder decoder;
-                if (_Decoder.TryGetValue(streamID, out decoder))
-                    decoder.Paused = true;
-            }
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
+                decoder.Paused = true;
         }
 
         public void Resume(int streamID)
         {
-            lock (_MutexDecoder)
-            {
-                CDecoder decoder;
-                if (_Decoder.TryGetValue(streamID, out decoder))
-                    decoder.Paused = false;
-            }
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
+                decoder.Paused = false;
         }
 
         public bool Finished(int streamID)
         {
-            lock (_MutexDecoder)
-            {
-                CDecoder decoder;
-                if (_Decoder.TryGetValue(streamID, out decoder))
-                    return decoder.Finished;
-            }
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
+                return decoder.Finished;
             return true;
         }
 
-        public void Update(){}
+        public void Update() {}
     }
-
 }
