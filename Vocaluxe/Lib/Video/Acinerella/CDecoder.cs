@@ -344,15 +344,12 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         private void _Copy()
         {
-            lock (_MutexFramebuffer)
-            {
-                var videodecoder = (SACDecoder)Marshal.PtrToStructure(_Videodecoder, typeof(SACDecoder));
-                if (videodecoder.Buffer == IntPtr.Zero)
-                    return;
-                _LastDecodedTime = (float)videodecoder.Timecode;
-                _Framebuffer.Put(videodecoder.Buffer, _LastDecodedTime);
-                _FrameAvailable = false;
-            }
+            var videodecoder = (SACDecoder)Marshal.PtrToStructure(_Videodecoder, typeof(SACDecoder));
+            if (videodecoder.Buffer == IntPtr.Zero)
+                return;
+            _LastDecodedTime = (float)videodecoder.Timecode;
+            _Framebuffer.Put(videodecoder.Buffer, _LastDecodedTime);
+            _FrameAvailable = false;
         }
 
         private void _UploadNewFrame(ref CTexture frame)
