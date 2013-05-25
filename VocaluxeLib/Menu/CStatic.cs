@@ -206,6 +206,8 @@ namespace VocaluxeLib.Menu
         public void Draw(float scale, float z, EAspect aspect, bool forceDraw = false)
         {
             CTexture texture = Texture;
+            if (texture == null)
+                texture = new CTexture((int)Rect.W, (int)Rect.H);
 
             SRectF bounds = new SRectF(
                 Rect.X - Rect.W * (scale - 1f),
