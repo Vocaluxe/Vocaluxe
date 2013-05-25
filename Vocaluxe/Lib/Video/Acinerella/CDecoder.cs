@@ -286,7 +286,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         private void _Decode()
         {
-            const int framedropcount = 4;
+            const int minFrameDropCount = 4;
 
             if (_Paused || _NoMoreFrames)
                 return;
@@ -294,7 +294,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             float myTime = _Time + _Gap;
             float timeDifference = myTime - _LastDecodedTime;
 
-            bool dropFrame = timeDifference >= (framedropcount - 1) * _FrameDuration;
+            bool dropFrame = timeDifference >= (minFrameDropCount - 1) * _FrameDuration;
 
             if (_Terminated)
                 return;
@@ -304,7 +304,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             {
                 try
                 {
-                    frameFinished = CAcinerella.AcSkipFrames(_Instance, _Videodecoder, framedropcount - 1);
+                    frameFinished = CAcinerella.AcSkipFrames(_Instance, _Videodecoder, (int)(timeDifference / _FrameDuration));
                 }
                 catch (Exception)
                 {
