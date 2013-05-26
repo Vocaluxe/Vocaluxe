@@ -1003,7 +1003,13 @@ namespace Vocaluxe.Screens
         {
             int start = 0;
             int curSelected = _SongMenus[_SongMenu].GetActualSelection();
-            if (CSongs.IsInCategory)
+            bool firstLevel = CConfig.Tabs == EOffOn.TR_CONFIG_OFF && CSongs.IsInCategory;
+            bool secondSort = CConfig.Tabs == EOffOn.TR_CONFIG_ON &&
+                                (CConfig.SongSorting == ESongSorting.TR_CONFIG_ARTIST ||
+                                 CConfig.SongSorting == ESongSorting.TR_CONFIG_ARTIST_LETTER ||
+                                 CConfig.SongSorting == ESongSorting.TR_CONFIG_FOLDER ||
+                                 CConfig.SongSorting == ESongSorting.TR_CONFIG_TITLE_LETTER);
+            if (firstLevel && !secondSort)
             {
                 //TODO: What's to do with multiple tags?
                 //How can we get current letter? I think we have to save it - Or is there a better method?
@@ -1042,7 +1048,31 @@ namespace Vocaluxe.Screens
                 if (visibleID > -1)
                     _SongMenus[_SongMenu].SetSelectedSong(visibleID);
             }
-            else
+            else if (secondSort && CSongs.IsInCategory)
+            {
+                ReadOnlyCollection<CSong> songs = CSongs.VisibleSongs;
+                int ct = songs.Count;
+                int visibleID = -1;
+                switch (CConfig.SongSorting)
+                {
+                    case ESongSorting.TR_CONFIG_FOLDER:
+                    case ESongSorting.TR_CONFIG_TITLE_LETTER:
+                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
+                            start = curSelected + 1;
+                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        break;
+
+                    case ESongSorting.TR_CONFIG_ARTIST:
+                    case ESongSorting.TR_CONFIG_ARTIST_LETTER:
+                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
+                            start = curSelected + 1;
+                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        break;
+                }
+                if (visibleID > -1)
+                    _SongMenus[_SongMenu].SetSelectedSong(visibleID);
+            }
+            else if(!CSongs.IsInCategory)
             {
                 ReadOnlyCollection<CCategory> categories = CSongs.Categories;
                 int ct = categories.Count;
