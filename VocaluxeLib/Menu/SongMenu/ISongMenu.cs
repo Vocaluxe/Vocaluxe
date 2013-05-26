@@ -40,6 +40,8 @@ namespace VocaluxeLib.Menu.SongMenu
         bool IsActive();
         void SetActive(bool active);
 
+        bool IsMouseOverActualSelection(SMouseEvent mEvent);
+
         int GetSelectedCategory();
         void SetSelectedCategory(int categoryNr);
         int GetActualSelection();

@@ -449,9 +449,7 @@ namespace Vocaluxe.Screens
 
             if (mouseEvent.LD && !_Sso.Selection.PartyMode)
             {
-                //TODO: Causes Bug if you select a song (e.g. with Select random song) and double click a normal button.
-                //E.g. clicking to fast on Select random song starts the next random song. is this OK?
-                if (CSongs.NumSongsVisible > 0 && _SongMenus[_SongMenu].GetActualSelection() != -1)
+                if (CSongs.NumSongsVisible > 0 && _SongMenus[_SongMenu].GetActualSelection() != -1 && _SongMenus[_SongMenu].IsMouseOverActualSelection(mouseEvent))
                 {
                     _ToggleSongOptions(ESongOptionsView.None);
                     _StartVisibleSong(_SongMenus[_SongMenu].GetActualSelection());
