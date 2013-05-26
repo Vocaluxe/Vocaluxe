@@ -284,26 +284,32 @@ namespace Vocaluxe.Screens
                                 break;
 
                             case Keys.D1:
+                            case Keys.NumPad1:
                                 _SelectNextRandom(0);
                                 break;
 
                             case Keys.D2:
+                            case Keys.NumPad2:
                                 _SelectNextRandom(1);
                                 break;
 
                             case Keys.D3:
+                            case Keys.NumPad3:
                                 _SelectNextRandom(2);
                                 break;
 
                             case Keys.D4:
+                            case Keys.NumPad4:
                                 _SelectNextRandom(3);
                                 break;
 
                             case Keys.D5:
+                            case Keys.NumPad5:
                                 _SelectNextRandom(4);
                                 break;
 
                             case Keys.D6:
+                            case Keys.NumPad6:
                                 _SelectNextRandom(5);
                                 break;
                         }
