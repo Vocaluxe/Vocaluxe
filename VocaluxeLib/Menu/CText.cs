@@ -199,6 +199,8 @@ namespace VocaluxeLib.Menu
                 {
                     _Theme.Text = value;
                     _Text = translation;
+                    if (_EditMode)
+                        _Text += "|";
                     _PositionNeedsUpdate = true;
                 }
             }
