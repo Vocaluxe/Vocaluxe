@@ -38,7 +38,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         private bool _Terminated;
         private bool _FrameAvailable;
         private bool _NoMoreFrames;
-        private AutoResetEvent _EvWakeUp = new AutoResetEvent(false);
+        private readonly AutoResetEvent _EvWakeUp = new AutoResetEvent(false);
         private bool _IsSleeping;
         private int _WaitCount;
 
@@ -291,8 +291,8 @@ namespace Vocaluxe.Lib.Video.Acinerella
             if (_Paused || _NoMoreFrames)
                 return;
 
-            float myTime = _Time + _Gap;
-            float timeDifference = myTime - _LastDecodedTime;
+            float videoTime = _Time + _Gap;
+            float timeDifference = videoTime - _LastDecodedTime;
 
             bool dropFrame = timeDifference >= (minFrameDropCount - 1) * _FrameDuration;
 
@@ -304,7 +304,29 @@ namespace Vocaluxe.Lib.Video.Acinerella
             {
                 try
                 {
-                    frameFinished = CAcinerella.AcSkipFrames(_Instance, _Videodecoder, (int)(timeDifference / _FrameDuration));
+                    if (videoTime >= Length)
+                    {
+                        if (_Loop)
+                        {
+                            lock (_MutexSyncSignals)
+                            {
+                                _Start = 0;
+                                _Gap = 0f;
+                                _SetTime = 0;
+                            }
+                            _Skip();
+                        }
+                        else
+                        {
+                            _NoMoreFrames = true;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        var frameDropCount = (int)(timeDifference / _FrameDuration);
+                        frameFinished = CAcinerella.AcSkipFrames(_Instance, _Videodecoder, frameDropCount);
+                    }
                 }
                 catch (Exception)
                 {
