@@ -568,7 +568,7 @@
         <!--<Font>: Text font name-->
         <Font>Outline</Font>
         <!--<Text>: Nothing or translation tag-->
-        <Text>TR_BUTTON_EXIT</Text>
+        <Text>TR_BUTTON_BACK</Text>
       </Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->

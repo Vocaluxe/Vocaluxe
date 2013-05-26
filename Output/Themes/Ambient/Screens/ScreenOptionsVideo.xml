@@ -79,9 +79,9 @@
     </Static4>
     <StaticWebcamOutput>
       <!--<Skin>: Texture name-->
-      <Skin>CoverBackground</Skin>
+      <Skin>Invisble</Skin>
       <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>75</X>
+      <X>500</X>
       <Y>460</Y>
       <Z>0,00</Z>
       <W>320</W>
