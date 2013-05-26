@@ -1005,12 +1005,40 @@ namespace Vocaluxe.Screens
             int curSelected = _SongMenus[_SongMenu].GetActualSelection();
             if (CSongs.IsInCategory)
             {
-                //TODO: Check and use sorting method
+                //TODO: What's to do with multiple tags?
+                //How can we get current letter? I think we have to save it - Or is there a better method?
                 ReadOnlyCollection<CSong> songs = CSongs.VisibleSongs;
                 int ct = songs.Count;
-                if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                    start = curSelected + 1;
-                int visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                int visibleID = -1;
+                switch (CConfig.SongSorting)
+                {
+                    case ESongSorting.TR_CONFIG_ARTIST:
+                    case ESongSorting.TR_CONFIG_ARTIST_LETTER:
+                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
+                            start = curSelected + 1;
+                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        break;
+
+                    //TODO: Does this make sense? Maybe we should deactivate this for years? You could only jump between 1 and 2
+                    case ESongSorting.TR_CONFIG_YEAR:
+                    case ESongSorting.TR_CONFIG_DECADE:
+                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Year.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
+                            start = curSelected + 1;
+                        visibleID = _FindIndex(songs, start, element => element.Year.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        break;
+
+                    case ESongSorting.TR_CONFIG_TITLE_LETTER:
+                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
+                            start = curSelected + 1;
+                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        break;
+
+                    case ESongSorting.TR_CONFIG_FOLDER:
+                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Folder.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
+                            start = curSelected + 1;
+                        visibleID = _FindIndex(songs, start, element => element.Folder.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        break;
+                }
                 if (visibleID > -1)
                     _SongMenus[_SongMenu].SetSelectedSong(visibleID);
             }
