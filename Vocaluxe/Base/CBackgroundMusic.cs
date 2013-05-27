@@ -55,14 +55,9 @@ namespace Vocaluxe.Base
             get { return _VideoEnabled; }
             set
             {
-                if (_VideoEnabled && value)
+                if (_VideoEnabled == value)
                     return;
-                if (!_VideoEnabled && !value)
-                    return;
-                if (_VideoEnabled && !value)
-                    ToggleVideo();
-                if (!_VideoEnabled && value)
-                    ToggleVideo();
+                ToggleVideo();
                 _VideoEnabled = value;
             }
         }
@@ -126,7 +121,7 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            List<string> templist = new List<string>();
+            var templist = new List<string>();
 
             foreach (string ending in CSettings.MusicFileTypes)
                 templist.AddRange(CHelper.ListFiles(CSettings.FolderBackgroundMusic, ending, true, true));
@@ -136,8 +131,8 @@ namespace Vocaluxe.Base
 
             if (CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC)
                 AddBackgroundMusic();
-            if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON)
-                _VideoEnabled = true;
+
+            _VideoEnabled = (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON);
 
             IsPlaying = false;
         }
@@ -439,20 +434,9 @@ namespace Vocaluxe.Base
         {
             if (_Video != -1)
             {
-                if (_VideoEnabled)
-                {
-                    _VideoEnabled = false;
-                    CVideo.Close(_Video);
-                    _Video = -1;
-                    CDraw.RemoveTexture(ref _CurrentVideoTexture);
-                    return;
-                }
-                if (CVideo.Finished(_Video))
-                {
-                    CVideo.Close(_Video);
-                    CDraw.RemoveTexture(ref _CurrentVideoTexture);
-                    _Video = -1;
-                }
+                CVideo.Close(_Video);
+                CDraw.RemoveTexture(ref _CurrentVideoTexture);
+                _Video = -1;
             }
             else
                 _LoadVideo();
@@ -485,17 +469,15 @@ namespace Vocaluxe.Base
 
         private static void _LoadVideo()
         {
-            if (_Video == -1)
-            {
-                _Video = CVideo.Load(_CurrentPlaylistElement.VideoFilePath);
-                if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                    CVideo.Skip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
-                else
-                    CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
-                _VideoEnabled = true;
-                _FadeTimer.Reset();
-                _FadeTimer.Start();
-            }
+            if (_Video != -1 || String.IsNullOrEmpty(_CurrentPlaylistElement.VideoFilePath))
+                return;
+            _Video = CVideo.Load(_CurrentPlaylistElement.VideoFilePath);
+            if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
+                CVideo.Skip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
+            else
+                CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
+            _FadeTimer.Reset();
+            _FadeTimer.Start();
         }
     }
 

@@ -17,184 +17,114 @@
 //  */
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Vocaluxe.Lib.Video.Acinerella;
 using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Video
 {
-    delegate void Closeproc(int streamID);
-
-    class CVideoDecoderFFmpeg : CVideoDecoder
+    class CVideoDecoderFFmpeg : IVideoDecoder
     {
-        private readonly List<CDecoder> _Decoder = new List<CDecoder>();
-        private Closeproc _Closeproc;
-        private int _Count = 1;
+        private readonly Dictionary<int, CDecoder> _Decoder = new Dictionary<int, CDecoder>();
+        private int _LastID;
 
-        private readonly Object _MutexDecoder = new Object();
-
-        public override bool Init()
+        public bool Init()
         {
-            _Closeproc = _CloseProc;
             CloseAll();
-
-            return base.Init();
+            return true;
         }
 
-        public override void CloseAll()
+        public void CloseAll()
         {
-            lock (_MutexDecoder)
-            {
-                for (int i = 0; i < _Decoder.Count; i++)
-                    _Decoder[i].Free(_Closeproc, i + 1);
-            }
+            foreach (var decoder in _Decoder.Values)
+                decoder.Close();
+            _Decoder.Clear();
         }
 
-        public override int Load(string videoFileName)
+        public int Load(string videoFileName)
         {
-            SVideoStreams stream = new SVideoStreams(0);
-            CDecoder decoder = new CDecoder();
+            var decoder = new CDecoder();
 
             if (decoder.Open(videoFileName))
             {
-                lock (_MutexDecoder)
-                {
-                    _Decoder.Add(decoder);
-                    stream.Handle = _Count++;
-                    _Streams.Add(stream);
-                    return stream.Handle;
-                }
+                int id = _LastID++;
+                _Decoder.Add(id, decoder);
+                return id;
             }
             return -1;
         }
 
-        public override bool Close(int streamID)
+        public bool Close(int streamID)
         {
-            if (_Initialized)
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
             {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(streamID))
-                    {
-                        _Decoder[_GetStreamIndex(streamID)].Free(_Closeproc, streamID);
-                        return true;
-                    }
-                }
+                decoder.Close();
+                _Decoder.Remove(streamID);
+                return true;
             }
             return false;
         }
 
-        public override bool GetFrame(int streamID, ref CTexture frame, float time, out float videoTime)
+        public int GetNumStreams()
         {
+            return _Decoder.Count;
+        }
+
+        public bool GetFrame(int streamID, ref CTexture frame, float time, out float videoTime)
+        {
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
+                return decoder.GetFrame(ref frame, time, out videoTime);
             videoTime = 0;
-            if (_Initialized)
-            {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(streamID))
-                        return _Decoder[_GetStreamIndex(streamID)].GetFrame(ref frame, time, out videoTime);
-                }
-            }
             return false;
         }
 
-        public override float GetLength(int streamID)
+        public float GetLength(int streamID)
         {
-            if (_Initialized)
-            {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(streamID))
-                        return _Decoder[_GetStreamIndex(streamID)].Length;
-                }
-            }
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
+                return decoder.Length;
             return 0f;
         }
 
-        public override bool Skip(int streamID, float start, float gap)
+        public bool Skip(int streamID, float start, float gap)
         {
-            if (_Initialized)
-            {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(streamID))
-                        return _Decoder[_GetStreamIndex(streamID)].Skip(start, gap);
-                }
-            }
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
+                return decoder.Skip(start, gap);
             return false;
         }
 
-        public override void SetLoop(int streamID, bool loop)
+        public void SetLoop(int streamID, bool loop)
         {
-            if (_Initialized)
-            {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(streamID))
-                        _Decoder[_GetStreamIndex(streamID)].Loop = loop;
-                }
-            }
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
+                decoder.Loop = loop;
         }
 
-        public override void Pause(int streamID)
+        public void Pause(int streamID)
         {
-            if (_Initialized)
-            {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(streamID))
-                        _Decoder[_GetStreamIndex(streamID)].Paused = true;
-                }
-            }
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
+                decoder.Paused = true;
         }
 
-        public override void Resume(int streamID)
+        public void Resume(int streamID)
         {
-            if (_Initialized)
-            {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(streamID))
-                        _Decoder[_GetStreamIndex(streamID)].Paused = false;
-                }
-            }
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
+                decoder.Paused = false;
         }
 
-        public override bool Finished(int streamID)
+        public bool Finished(int streamID)
         {
-            if (_Initialized)
-            {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(streamID))
-                        return _Decoder[_GetStreamIndex(streamID)].Finished;
-                }
-            }
+            CDecoder decoder;
+            if (_Decoder.TryGetValue(streamID, out decoder))
+                return decoder.Finished;
             return true;
         }
 
-        private void _CloseProc(int streamID)
-        {
-            if (_Initialized)
-            {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(streamID))
-                    {
-                        int index = _GetStreamIndex(streamID);
-                        _Decoder.RemoveAt(index);
-                        _Streams.RemoveAt(index);
-                    }
-                }
-            }
-        }
-    }
-
-    struct SFrameBuffer
-    {
-        public byte[] Data;
-        public float Time;
-        public bool Displayed;
+        public void Update() {}
     }
 }

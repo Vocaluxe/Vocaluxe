@@ -8,67 +8,54 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Video.Acinerella
 {
-    class CDecoder : IDisposable
+    class CDecoder
     {
         private IntPtr _Instance = IntPtr.Zero; // acinerella instance
         private IntPtr _Videodecoder = IntPtr.Zero; // acinerella video decoder instance
 
         private readonly Stopwatch _LoopTimer = new Stopwatch();
-        private Closeproc _Closeproc; // delegate for stream closing
-        private int _StreamID; // stream ID for stream closing
-        private string _FileName; // current video file name
+        private readonly Thread _Thread;
+        private readonly Object _MutexFramebuffer = new Object();
+        private readonly CFramebuffer _Framebuffer;
+        private readonly Object _MutexSyncSignals = new Object();
 
         private bool _FileOpened;
 
-        private float _VideoTimeBase; // frame time
-        private float _VideoDecoderTime; // time of last decoded frame
-        private float _CurrentVideoTime; // current video position
-        private bool _BufferFull; // buffer is full, waiting for free frame slot
+        private float _FrameDuration; // frame time in s
+        private float _LastDecodedTime; // time of last decoded frame
+        private float _LastShownTime; // current video position
 
-        private bool _Skip; // do skip
         private float _Time;
         private float _Gap;
         private float _Start;
         private bool _Loop;
-        private float _Duration;
-        private float _VideoSkipTime; // = VideoGap
-        private float _SkipTime; // = Start + VideoGap
 
-        private bool _Paused;
-        private bool _NoMoreFrames;
-        private bool _BeforeLoop;
-
-        private int _Width;
-        private int _Height;
         private float _SetTime;
         private float _SetGap;
         private float _SetStart;
         private bool _SetSkip;
-        private bool _Terminated;
 
-        private readonly Thread _Thread;
-        //AutoResetEvent EventDecode = new AutoResetEvent(false);
-        private readonly SFrameBuffer[] _FrameBuffer = new SFrameBuffer[5];
-        private bool _NewFrame;
-        private readonly Object _MutexFramebuffer = new Object();
-        private readonly Object _MutexSyncSignals = new Object();
+        private bool _Terminated;
+        private bool _FrameAvailable;
+        private bool _NoMoreFrames;
+        private readonly AutoResetEvent _EvWakeUp = new AutoResetEvent(false);
+        private bool _IsSleeping;
+        private int _WaitCount;
+
+        private float _SkipTime; // = Start + VideoGap
+
+        private string _FileName; // current video file name
+        private int _Width;
+        private int _Height;
+        private bool _Paused;
 
         public CDecoder()
         {
             _Thread = new Thread(_Execute);
+            _Framebuffer = new CFramebuffer(10);
         }
 
-        public void Free(Closeproc closeProc, int streamID)
-        {
-            _Closeproc = closeProc;
-            _StreamID = streamID;
-            _Terminated = true;
-        }
-
-        public float Length
-        {
-            get { return _FileOpened ? _Duration : 0f; }
-        }
+        public float Length { get; private set; }
 
         public bool Paused
         {
@@ -98,51 +85,56 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 return false;
 
             _FileName = fileName;
+
+            //Do this here as one may want to get the length afterwards!
+            if (!_DoOpen())
+                return false;
+
+            _FileOpened = true;
+
             _Thread.Priority = ThreadPriority.Normal;
             _Thread.Name = Path.GetFileName(fileName);
             _Thread.Start();
             return true;
         }
 
+        public void Close()
+        {
+            _Terminated = true;
+            Length = 0;
+        }
+
         public bool GetFrame(ref CTexture frame, float time, out float videoTime)
         {
-            videoTime = 0;
-            if (!_FileOpened)
-                return false;
-
             if (_Paused)
+            {
+                videoTime = 0;
                 return false;
+            }
 
             if (Loop)
             {
                 lock (_MutexSyncSignals)
                 {
                     _SetTime += _LoopTimer.ElapsedMilliseconds / 1000f;
-                    videoTime = _SetTime;
-
-                    _LoopTimer.Stop();
-                    _LoopTimer.Reset();
-                    _LoopTimer.Start();
+                    _LoopTimer.Restart();
                 }
-
-
-                _UploadNewFrame(ref frame);
-                //EventDecode.Set();
-                return frame != null;
             }
-
-            if (Math.Abs(_SetTime - time) > float.Epsilon)
+            else if (Math.Abs(_SetTime - time) > float.Epsilon)
             {
                 lock (_MutexSyncSignals)
                 {
                     _SetTime = time;
                 }
-                _UploadNewFrame(ref frame);
-                videoTime = _CurrentVideoTime;
-                //EventDecode.Set();
-                return frame != null;
             }
-            return false;
+            else
+            {
+                videoTime = 0;
+                return false;
+            }
+            _UploadNewFrame(ref frame);
+            videoTime = _LastShownTime;
+            return frame != null;
         }
 
         public bool Skip(float start, float gap)
@@ -155,126 +147,107 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 _NoMoreFrames = false;
                 Finished = false;
             }
-            //EventDecode.Set();
             return true;
         }
 
         #region Threading
-        private void _DoSkip()
+        private void _Skip()
         {
-            if (!_FileOpened)
-                return;
-
-            _VideoSkipTime = _Gap;
             _SkipTime = _Start + _Gap;
-            _BeforeLoop = false;
 
-            if (_SkipTime > 0)
+            if (_SkipTime < 0)
+                _SkipTime = 0;
+
+            try
             {
-                _VideoDecoderTime = _SkipTime;
-                try
-                {
-                    CAcinerella.AcSeek(_Videodecoder, -1, (Int64)(_SkipTime * 1000f));
-                }
-                catch (Exception e)
-                {
-                    CLog.LogError("Error seeking video file \"" + _FileName + "\": " + e.Message);
-                }
+                CAcinerella.AcSeek(_Videodecoder, (_LastDecodedTime > _SkipTime) ? -1 : 0, (Int64)(_SkipTime * 1000f));
             }
-            else
+            catch (Exception e)
             {
-                _VideoDecoderTime = 0f;
-                try
-                {
-                    CAcinerella.AcSeek(_Videodecoder, -1, 0);
-                }
-                catch (Exception e)
-                {
-                    CLog.LogError("Error seeking video file \"" + _FileName + "\": " + e.Message);
-                }
+                CLog.LogError("Error seeking video file \"" + _FileName + "\": " + e.Message);
             }
+            _LastDecodedTime = _SkipTime;
 
             lock (_MutexSyncSignals)
             {
-                _CurrentVideoTime = _VideoDecoderTime;
+                _LastShownTime = _LastDecodedTime;
             }
 
             lock (_MutexFramebuffer)
             {
-                for (int i = 0; i < _FrameBuffer.Length; i++)
-                {
-                    _FrameBuffer[i].Displayed = true;
-                    _FrameBuffer[i].Time = -1f;
-                }
+                _Framebuffer.Clear();
             }
 
-            _BufferFull = false;
-            _Skip = false;
-            _NewFrame = false;
-            //EventDecode.Set();
+            _FrameAvailable = false;
         }
 
         private void _Execute()
         {
-            _DoOpen();
-            //EventDecode.Set();
             while (!_Terminated)
             {
+                bool skip;
+                lock (_MutexSyncSignals)
                 {
-                    //if (EventDecode.WaitOne(10))
-                    lock (_MutexSyncSignals)
+                    _Time = _SetTime;
+                    skip = _SetSkip;
+                    _SetSkip = false;
+                    _Gap = _SetGap;
+                    _Start = _SetStart;
+                    _Loop = Loop;
+                }
+
+                if (skip)
+                    _Skip();
+
+                if (!_FrameAvailable)
+                    _Decode();
+
+                if (_FrameAvailable)
+                {
+                    if (!_Framebuffer.IsFull())
                     {
-                        _Time = _SetTime;
-                        if (_SetSkip)
-                            _Skip = true;
-
-                        _SetSkip = false;
-                        _Gap = _SetGap;
-                        _Start = _SetStart;
-                        _Loop = Loop;
-                    }
-
-                    if (_Skip)
-                        _DoSkip();
-
-                    if (!_NewFrame)
-                        _DoDecode();
-
-                    if (_NewFrame)
                         _Copy();
-                    Thread.Sleep(1);
+                        _WaitCount = 0;
+                        Thread.Sleep(1);
+                    }
+                    else if (_WaitCount > 3)
+                    {
+                        _IsSleeping = true;
+                        _EvWakeUp.WaitOne();
+                    }
+                    else
+                    {
+                        Thread.Sleep((int)((_Framebuffer.Size - 2) * _FrameDuration * 1000));
+                        _WaitCount++;
+                    }
                 }
             }
 
-            _DoFree();
+            _Free();
         }
 
-        private void _DoOpen()
+        private bool _DoOpen()
         {
             bool ok;
-            SACInstance instance = new SACInstance();
             try
             {
                 _Instance = CAcinerella.AcInit();
                 CAcinerella.AcOpen2(_Instance, _FileName);
 
-                instance = (SACInstance)Marshal.PtrToStructure(_Instance, typeof(SACInstance));
+                var instance = (SACInstance)Marshal.PtrToStructure(_Instance, typeof(SACInstance));
+                Length = instance.Info.Duration / 1000f;
                 ok = instance.Opened;
             }
             catch (Exception)
             {
-                CLog.LogError("Error opening video file: " + _FileName);
                 ok = false;
             }
 
-
-            if (!instance.Opened || !ok)
+            if (!ok)
             {
-                //Free();
-                return;
+                CLog.LogError("Error opening video file: " + _FileName);
+                return false;
             }
-
-            _Duration = instance.Info.Duration / 1000f;
 
             int videoStreamIndex;
             SACDecoder videodecoder;
@@ -287,61 +260,73 @@ namespace Vocaluxe.Lib.Video.Acinerella
             catch (Exception)
             {
                 CLog.LogError("Error opening video file (can't find decoder): " + _FileName);
-                return;
+                _Free();
+                return false;
             }
-
 
             if (videoStreamIndex < 0)
             {
-                //Free();
-                return;
+                _Free();
+                return false;
             }
 
             _Width = videodecoder.StreamInfo.VideoInfo.FrameWidth;
             _Height = videodecoder.StreamInfo.VideoInfo.FrameHeight;
 
             if (videodecoder.StreamInfo.VideoInfo.FramesPerSecond > 0)
-                _VideoTimeBase = 1f / (float)videodecoder.StreamInfo.VideoInfo.FramesPerSecond;
+                _FrameDuration = 1f / (float)videodecoder.StreamInfo.VideoInfo.FramesPerSecond;
 
-            _VideoDecoderTime = 0f;
-            _Time = 0f;
+            _LastDecodedTime = 0f;
+            _SetTime = 0f;
 
-            for (int i = 0; i < _FrameBuffer.Length; i++)
-            {
-                _FrameBuffer[i].Time = -1f;
-                _FrameBuffer[i].Displayed = true;
-                _FrameBuffer[i].Data = new byte[_Width * _Height * 4];
-            }
-            _FileOpened = true;
+            _Framebuffer.Init(_Width * _Height * 4);
+            _FrameAvailable = false;
+            return true;
         }
 
-        private void _DoDecode()
+        private void _Decode()
         {
-            const int framedropcount = 4;
+            const int minFrameDropCount = 4;
 
-            if (!_FileOpened || _NewFrame)
+            if (_Paused || _NoMoreFrames)
                 return;
 
-            if (_Paused || _NoMoreFrames || _BufferFull)
-                return;
+            float videoTime = _Time + _Gap;
+            float timeDifference = videoTime - _LastDecodedTime;
 
-            if ((_SkipTime < 0f) && (_Time + _SkipTime >= 0f))
-                _SkipTime = 0f;
-
-            float myTime = _Time + _VideoSkipTime;
-            float timeDifference = myTime - _VideoDecoderTime;
-
-            bool dropFrame = timeDifference >= (framedropcount - 1) * _VideoTimeBase;
+            bool dropFrame = timeDifference >= (minFrameDropCount - 1) * _FrameDuration;
 
             if (_Terminated)
                 return;
 
-            int frameFinished = 0;
-            if (dropFrame && !_BeforeLoop)
+            bool frameFinished = false;
+            if (dropFrame)
             {
                 try
                 {
-                    frameFinished = CAcinerella.AcSkipFrames(_Instance, _Videodecoder, framedropcount - 1);
+                    if (videoTime >= Length)
+                    {
+                        if (_Loop)
+                        {
+                            lock (_MutexSyncSignals)
+                            {
+                                _Start = 0;
+                                _Gap = 0f;
+                                _SetTime = 0;
+                            }
+                            _Skip();
+                        }
+                        else
+                        {
+                            _NoMoreFrames = true;
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        var frameDropCount = (int)(timeDifference / _FrameDuration);
+                        frameFinished = CAcinerella.AcSkipFrames(_Instance, _Videodecoder, frameDropCount);
+                    }
                 }
                 catch (Exception)
                 {
@@ -349,7 +334,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 }
             }
 
-            if (!_BeforeLoop && (!dropFrame || frameFinished != 0))
+            if (!frameFinished)
             {
                 try
                 {
@@ -360,171 +345,97 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     CLog.LogError("Error AcGetFrame " + _FileName);
                 }
             }
-
-            if (frameFinished == 0)
+            if (frameFinished)
+                _FrameAvailable = true;
+            else
             {
                 if (_Loop)
                 {
-                    _BeforeLoop = true;
-                    bool doskip = true;
-                    float tm = 0f;
-                    int num = -1;
-                    lock (_MutexFramebuffer)
-                    {
-                        for (int i = 0; i < _FrameBuffer.Length; i++)
-                        {
-                            if (_FrameBuffer[i].Time > tm && !_FrameBuffer[i].Displayed)
-                            {
-                                tm = _FrameBuffer[i].Time;
-                                num = i;
-                            }
-                        }
-
-                        if (num >= 0)
-                            doskip = _FrameBuffer[num].Displayed;
-                    }
-
-                    if (!doskip)
-                        return;
-
                     lock (_MutexSyncSignals)
                     {
                         _Start = 0f;
                         _Gap = 0f;
                         _SetTime = 0f;
                     }
-
-                    _DoSkip();
+                    _Skip();
                 }
                 else
                     _NoMoreFrames = true;
-            }
-            else
-            {
-                _NewFrame = true;
-                _Copy();
             }
         }
 
         private void _Copy()
         {
-            if (!_NewFrame)
+            var videodecoder = (SACDecoder)Marshal.PtrToStructure(_Videodecoder, typeof(SACDecoder));
+            if (videodecoder.Buffer == IntPtr.Zero)
                 return;
-
-            int num = -1;
-
-            lock (_MutexFramebuffer)
-            {
-                for (int i = 0; i < _FrameBuffer.Length; i++)
-                {
-                    if (_FrameBuffer[i].Displayed)
-                    {
-                        num = i;
-                        break;
-                    }
-                }
-
-                if (num == -1)
-                    _BufferFull = true;
-                else
-                {
-                    SACDecoder videodecoder = (SACDecoder)Marshal.PtrToStructure(_Videodecoder, typeof(SACDecoder));
-
-                    _VideoDecoderTime = (float)videodecoder.Timecode;
-                    _FrameBuffer[num].Time = _VideoDecoderTime;
-
-                    if (videodecoder.Buffer != IntPtr.Zero)
-                    {
-                        Marshal.Copy(videodecoder.Buffer, _FrameBuffer[num].Data, 0, _Width * _Height * 4);
-
-                        _FrameBuffer[num].Displayed = false;
-                    }
-
-                    int numfull = 0;
-                    for (int i = 0; i < _FrameBuffer.Length; i++)
-                    {
-                        if (!_FrameBuffer[i].Displayed)
-                            numfull++;
-                    }
-
-                    if (numfull < _FrameBuffer.Length)
-                        _BufferFull = false;
-
-                    _NewFrame = false;
-                }
-            }
+            _LastDecodedTime = (float)videodecoder.Timecode;
+            _Framebuffer.Put(videodecoder.Buffer, _LastDecodedTime);
+            _FrameAvailable = false;
         }
 
         private void _UploadNewFrame(ref CTexture frame)
         {
-            if (!_FileOpened)
-                return;
-
             lock (_MutexFramebuffer)
             {
-                int num = _FindFrame();
+                CFrame curFrame = _FindFrame();
 
-                if (num >= 0)
+                if (curFrame != null)
                 {
-                    CDraw.UpdateOrAddTexture(ref frame, _Width, _Height, _FrameBuffer[num].Data);
+                    CDraw.UpdateOrAddTexture(ref frame, _Width, _Height, curFrame.Data);
 
                     lock (_MutexSyncSignals)
                     {
-                        _CurrentVideoTime = _FrameBuffer[num].Time;
+                        _LastShownTime = curFrame.Time;
                     }
-                    Finished = false;
                 }
                 else
                 {
-                    if (_NoMoreFrames)
+                    if (_NoMoreFrames && _Framebuffer.IsEmpty())
                         Finished = true;
                 }
             }
+            if (!Finished && _IsSleeping)
+            {
+                _IsSleeping = false;
+                _EvWakeUp.Set();
+            }
         }
 
-        private int _FindFrame()
+        private CFrame _FindFrame()
         {
-            int result = -1;
-            float diff = 10000000f;
-
-            for (int i = 0; i < _FrameBuffer.Length; i++)
+            CFrame result = null;
+            float now = _SetTime + _Gap;
+            float maxEnd = now - _FrameDuration * 2; //Get only frames younger than 2
+            CFrame frame;
+            while ((frame = _Framebuffer.Get()) != null)
             {
-                float td = _SetTime + _VideoSkipTime - _FrameBuffer[i].Time;
+                float frameEnd = frame.Time + _FrameDuration;
+                //Don't show frames that are shown during or after now
+                if (frameEnd >= now)
+                    break; //All following frames are after that one
 
-                if (td > _VideoTimeBase * 2f)
-                    _FrameBuffer[i].Displayed = true;
-
-                if (!_FrameBuffer[i].Displayed && (td < diff) && (td > _VideoTimeBase))
-                {
-                    diff = Math.Abs(_FrameBuffer[i].Time - _SetTime - _VideoSkipTime);
-                    result = i;
-                }
+                _Framebuffer.SetRead();
+                //Get the last(newest) possible frame and skip the rest to force in-order showing
+                if (frameEnd <= maxEnd)
+                    continue;
+                maxEnd = frameEnd;
+                result = frame;
             }
-
-            if (result != -1)
-            {
-                _FrameBuffer[result].Displayed = true;
-                _BufferFull = false;
-            }
-
             return result;
         }
 
-        private void _DoFree()
+        private void _Free()
         {
             if (_Videodecoder != IntPtr.Zero)
                 CAcinerella.AcFreeDecoder(_Videodecoder);
 
             if (_Instance != IntPtr.Zero)
+            {
                 CAcinerella.AcClose(_Instance);
-
-            if (_Instance != IntPtr.Zero)
                 CAcinerella.AcFree(_Instance);
-
-            _Closeproc(_StreamID);
+            }
         }
         #endregion Threading
-
-        public void Dispose() {}
     }
 }
