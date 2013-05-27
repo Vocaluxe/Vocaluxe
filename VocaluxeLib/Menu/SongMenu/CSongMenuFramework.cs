@@ -468,6 +468,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             _Actsongstream = -1;
             _Vidtex = null;
+            ApplyVolume(CBase.Config.GetPreviewMusicVolume());
         }
 
         public virtual void OnHide()

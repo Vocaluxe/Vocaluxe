@@ -118,8 +118,8 @@ namespace ClientServerLib
                     }
                     catch
                     {
-                        connected = false;
-                        RaiseOnConnectionChanged();
+                        DoDisconnect();
+
                         for (int i = 0; i < 500; i++)
                         {
                             if (doConnect)
@@ -133,17 +133,7 @@ namespace ClientServerLib
 
                 if (connected && !doConnect)
                 {
-                    try
-                    {
-                        connection.TcpClient.Close();
-                        connection = new CConnection(new TcpClient(), -1);
-                    }
-                    catch
-                    {
-                    }
-
-                    connected = false;
-                    RaiseOnConnectionChanged();
+                    DoDisconnect();
                 }
 
                 if (doConnect && connected)
@@ -154,16 +144,31 @@ namespace ClientServerLib
                     }
                     catch
                     {
-                        connected = false;
-                        RaiseOnConnectionChanged();
+                        DoDisconnect();
                     }
 
                 }
             }
         }
 
+        private void DoDisconnect()
+        {
+            try
+            {
+                connection.TcpClient.Close();
+            }
+            catch { }
+
+            connection = new CConnection(new TcpClient(), -1);
+            connected = false;
+            RaiseOnConnectionChanged();
+        }
+
         private void Communicate()
         {
+            if (connection.TcpClient == null || !connection.TcpClient.Connected)
+                DoDisconnect();
+
             NetworkStream clientStream = connection.TcpClient.GetStream();
 
             byte[] data = new byte[bufferLength];

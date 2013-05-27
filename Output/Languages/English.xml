@@ -130,6 +130,7 @@
   <string name="TR_SCREENSONG_ALLSONGS">All Songs</string>
   <string name="TR_SCREENSONG_NUMSONGS">(%v Songs)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v Song)</string>
+  <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
   <string name="TR_SCREENSING_PAUSE">Pause</string>
   <string name="TR_SCREENSING_BUTTON_CANCEL">Stop singing</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Continue</string>

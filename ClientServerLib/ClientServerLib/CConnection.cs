@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.IO;
+using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -92,6 +93,16 @@ namespace ClientServerLib
 
         public byte[] Encrypt(byte[] Data)
         {
+            return _Encrypt(_Compress(Data));
+        }
+
+        public byte[] Decrypt(byte[] Data)
+        {
+            return _Decompress(_Decrypt(Data));
+        }
+
+        private byte[] _Encrypt(byte[] Data)
+        {
             if (Data == null || (!keySet && encryption))
                 return Data;
 
@@ -142,7 +153,7 @@ namespace ClientServerLib
             }
         }
 
-        public byte[] Decrypt(byte[] Data)
+        private byte[] _Decrypt(byte[] Data)
         {
             if (Data == null || (!keySet && encryption))
                 return Data;
@@ -199,6 +210,65 @@ namespace ClientServerLib
                 catch 
                 {
                     return null;
+                }
+            }
+        }
+
+        private byte[] _Compress(byte[] Data)
+        {
+            if (Data == null)
+                return Data;
+
+            using (var compressed = new MemoryStream())
+            {
+                using (var gz = new GZipStream(compressed, CompressionMode.Compress, true))
+                {
+                    gz.Write(Data, 0, Data.Length);
+                }
+
+                byte[] result = null;
+
+                if (compressed.Length < Data.Length)
+                {
+                    result = new byte[compressed.Length + 1];
+                    result[0] = 1; //data stream is compressed
+                    compressed.Position = 0;
+                    compressed.Read(result, 1, (int)compressed.Length);
+                }
+                else
+                {
+                    result = new byte[Data.Length + 1];
+                    result[0] = 0; //data stream is not compressed
+                    Array.Copy(Data, 0, result, 1, Data.Length);
+                }
+
+                return result;
+            }
+        }
+
+        private byte[] _Decompress(byte[] Data)
+        {
+            if (Data == null)
+                return Data;
+
+            if (Data[0] == 0) //not compressed
+            {
+                byte[] result = new byte[Data.Length - 1];
+                Array.Copy(Data, 1, result, 0, result.Length);
+                return result;
+            }
+
+            using (var inStream = new MemoryStream())
+            {
+                inStream.Write(Data, 1, Data.Length - 1);
+                inStream.Position = 0;
+
+                using (var outStream = new MemoryStream())
+                {
+                    using (var gz = new GZipStream(inStream, CompressionMode.Decompress, true))
+                        gz.CopyTo(outStream);
+
+                    return outStream.ToArray();
                 }
             }
         }

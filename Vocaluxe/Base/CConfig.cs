@@ -426,9 +426,6 @@ namespace Vocaluxe.Base
                 writer.WriteComment("Preview Volume from 0 to 100");
                 writer.WriteElementString("PreviewMusicVolume", PreviewMusicVolume.ToString());
 
-                writer.WriteComment("Preview Volume from 0 to 100");
-                writer.WriteElementString("PreviewMusicVolume", PreviewMusicVolume.ToString());
-
                 writer.WriteComment("Game Volume from 0 to 100");
                 writer.WriteElementString("GameMusicVolume", GameMusicVolume.ToString());
 

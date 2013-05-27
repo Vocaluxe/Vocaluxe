@@ -1219,7 +1219,7 @@ namespace VocaluxeLib.Menu
                         CPlaylistElementContent pec = _PlaylistElementContents[Offset + i];
                         CSong song = CBase.Songs.GetSongByID(pec.SongID);
                         _PlaylistElements[i].Cover.Texture = song.CoverTextureSmall;
-                        string t1 = _Theme.Text1.Text.Replace("%a", song.Artist).Replace("%t", song.Title);
+                        string t1 = CBase.Language.Translate(_Theme.Text1.Text).Replace("%a", song.Artist).Replace("%t", song.Title);
                         _PlaylistElements[i].Text1.Text = /*(Offset + i + 1) + ") " + */ t1; //TODO: Add text field for the number
                         _PlaylistElements[i].SelectSlide.Clear();
                         for (int g = 0; g < pec.Modes.Length; g++)
