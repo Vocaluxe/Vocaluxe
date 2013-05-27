@@ -216,6 +216,8 @@
     <Compile Include="GameModes\CGameMode.cs" />
     <Compile Include="GameModes\CGameModes.cs" />
     <Compile Include="Lib\Input\CControllerFramework.cs" />
+    <Compile Include="Lib\Video\Acinerella\CDecoder.cs" />
+    <Compile Include="Lib\Video\Acinerella\CFramebuffer.cs" />
     <Compile Include="SongQueue\CSongQueue.cs" />
     <Compile Include="GameModes\IGameMode.cs" />
     <Compile Include="SongQueue\ISongQueue.cs" />
@@ -247,7 +249,6 @@
     <Compile Include="Lib\Sound\IPlayback.cs" />
     <Compile Include="Lib\Sound\IRecord.cs" />
     <Compile Include="Lib\Video\Acinerella\CAcinerella.cs" />
-    <Compile Include="Lib\Video\CVideoDecoder.cs" />
     <Compile Include="Lib\Video\CVideoDecoderFFmpeg.cs" />
     <Compile Include="Lib\Video\CVideoDecoderGstreamer.cs" />
     <Compile Include="Lib\Video\Gstreamer\CGstreamerVideoWrapper.cs" />

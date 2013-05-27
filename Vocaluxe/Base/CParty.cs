@@ -68,7 +68,7 @@ namespace Vocaluxe.Base
                 _IDs.Enqueue(i);
 
             //add dummy normal game mode and set it as default
-            SPartyMode pm = new SPartyMode {PartyMode = new CPartyModeNone(), ScreenFiles = new List<string>()};
+            var pm = new SPartyMode {PartyMode = new CPartyModeNone(), ScreenFiles = new List<string>()};
             pm.PartyMode.Initialize();
             pm.PartyModeID = _IDs.Dequeue();
             _NormalGameModeID = pm.PartyModeID;
@@ -97,9 +97,9 @@ namespace Vocaluxe.Base
 
         public static List<SPartyModeInfos> GetPartyModeInfos()
         {
-            List<SPartyModeInfos> infos = new List<SPartyModeInfos>();
+            var infos = new List<SPartyModeInfos>();
 
-            int[] pmIDs = new int[_PartyModes.Count];
+            var pmIDs = new int[_PartyModes.Count];
             _PartyModes.Keys.CopyTo(pmIDs, 0);
 
             foreach (int pmID in pmIDs)
@@ -111,7 +111,7 @@ namespace Vocaluxe.Base
 
                     if (mode.PartyMode != null)
                     {
-                        SPartyModeInfos info = new SPartyModeInfos
+                        var info = new SPartyModeInfos
                             {
                                 Author = mode.Author,
                                 Description = mode.Description,
@@ -219,7 +219,7 @@ namespace Vocaluxe.Base
         #region private stuff
         private static void _LoadPartyModes()
         {
-            List<string> files = new List<string>();
+            var files = new List<string>();
             files.AddRange(CHelper.ListFiles(CSettings.FolderPartyModes, "*.xml", false, true));
 
             foreach (string file in files)
@@ -231,7 +231,7 @@ namespace Vocaluxe.Base
 
         private static SPartyMode _LoadPartyMode(string file)
         {
-            SPartyMode pm = new SPartyMode {PartyModeID = _IDs.Dequeue(), ScreenFiles = new List<string>(), NoErrors = false};
+            var pm = new SPartyMode {PartyModeID = _IDs.Dequeue(), ScreenFiles = new List<string>(), NoErrors = false};
 
             CXMLReader xmlReader = CXMLReader.OpenFile(file);
 
@@ -272,7 +272,7 @@ namespace Vocaluxe.Base
 
             string pathToCode = Path.Combine(Path.Combine(CSettings.FolderPartyModes, pm.Folder), CSettings.FolderPartyModeCode);
 
-            List<string> filesToCompile = new List<string>();
+            var filesToCompile = new List<string>();
             filesToCompile.AddRange(CHelper.ListFiles(pathToCode, "*.cs", false, true));
 
             Assembly output = _CompileFiles(filesToCompile.ToArray());
@@ -304,7 +304,7 @@ namespace Vocaluxe.Base
             pm.PartyMode.Initialize();
             pm.PartyMode.SetFolder(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine(CSettings.FolderPartyModes, pm.Folder)));
 
-            if (!CTheme.AddTheme(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine(Path.Combine(CSettings.FolderPartyModes, pm.Folder), "Theme.xml")), pm.PartyModeID))
+            if (!CTheme.AddTheme(Path.Combine(pm.PartyMode.GetFolder(), "Theme.xml"),pm.PartyModeID))
                 return pm;
 
             int themeIndex = CTheme.GetThemeIndex(pm.PartyModeID);
@@ -325,7 +325,7 @@ namespace Vocaluxe.Base
                 if (screen != null)
                 {
                     screen.Init();
-                    screen.AssingPartyMode(pm.PartyMode);
+                    screen.AssignPartyMode(pm.PartyMode);
                     screen.SetPartyModeID(pm.PartyModeID);
                     screen.LoadTheme(xmlPath);
                     pm.PartyMode.AddScreen(screen, screenfile);
@@ -343,7 +343,7 @@ namespace Vocaluxe.Base
             if (files == null || files.Length == 0)
                 return null;
 
-            CompilerParameters compilerParams = new CompilerParameters();
+            var compilerParams = new CompilerParameters();
             compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             compilerParams.ReferencedAssemblies.Add("System.Core.dll");
             compilerParams.ReferencedAssemblies.Add("VocaluxeLib.dll");

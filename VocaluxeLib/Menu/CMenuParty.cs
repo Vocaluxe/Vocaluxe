@@ -36,7 +36,7 @@ namespace VocaluxeLib.Menu
             _PartyModeID = partyModeID;
         }
 
-        public void AssingPartyMode(IPartyMode partyMode)
+        public void AssignPartyMode(IPartyMode partyMode)
         {
             _PartyMode = partyMode;
         }

@@ -21,16 +21,6 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Video
 {
-    struct SVideoStreams
-    {
-        public int Handle;
-
-        public SVideoStreams(int stream)
-        {
-            Handle = stream;
-        }
-    }
-
     interface IVideoDecoder
     {
         bool Init();
