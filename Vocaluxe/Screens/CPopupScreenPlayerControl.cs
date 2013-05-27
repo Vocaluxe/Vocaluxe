@@ -54,10 +54,7 @@ namespace Vocaluxe.Screens
             set
             {
                 _VideoPreviewInt = value;
-                if (!_VideoPreviewInt && !_VideoBackground)
-                    CBackgroundMusic.VideoEnabled = false;
-                else
-                    CBackgroundMusic.VideoEnabled = true;
+                CBackgroundMusic.VideoEnabled = _VideoPreviewInt || _VideoBackground;
             }
         }
 

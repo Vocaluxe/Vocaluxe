@@ -57,7 +57,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
             if (!_Instance.Opened)
             {
-                //Free();
+                Close();
                 return;
             }
 
@@ -72,12 +72,13 @@ namespace Vocaluxe.Lib.Sound.Decoder
             catch (Exception)
             {
                 CLog.LogError("Error opening audio file (can't find decoder): " + _FileName);
+                Close();
                 return;
             }
 
             if (audioStreamIndex < 0)
             {
-                //Free();
+                Close();
                 return;
             }
 
@@ -93,6 +94,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
             if (_FormatInfo.BitDepth != 16)
             {
                 CLog.LogError("Unsupported BitDepth in file " + fileName);
+                Close();
                 return;
             }
             _FileOpened = true;
@@ -100,35 +102,29 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
         public void Close()
         {
-            if (!_FileOpened)
-                return;
-
             if (_Audiodecoder != IntPtr.Zero)
+            {
                 CAcinerella.AcFreeDecoder(_Audiodecoder);
-
+                _Audiodecoder = IntPtr.Zero;
+            }
             if (_InstancePtr != IntPtr.Zero)
+            {
                 CAcinerella.AcClose(_InstancePtr);
-
-            if (_InstancePtr != IntPtr.Zero)
                 CAcinerella.AcFree(_InstancePtr);
+                _InstancePtr = IntPtr.Zero;
+            }
 
             _FileOpened = false;
         }
 
         public SFormatInfo GetFormatInfo()
         {
-            if (!_FileOpened)
-                return new SFormatInfo();
-
-            return _FormatInfo;
+            return _FileOpened ? _FormatInfo : new SFormatInfo();
         }
 
         public float GetLength()
         {
-            if (!_FileOpened)
-                return 0f;
-
-            return _Instance.Info.Duration / 1000f;
+            return  _FileOpened ? _Instance.Info.Duration / 1000f:0;
         }
 
         public void SetPosition(float time)
@@ -138,7 +134,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
             try
             {
-                CAcinerella.AcSeek(_Audiodecoder, 0, (Int64)(time * 1000f));
+                CAcinerella.AcSeek(_Audiodecoder, (time>_CurrentTime)?0:-1, (Int64)(time * 1000f));
             }
             catch (Exception)
             {
@@ -149,7 +145,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
         public float GetPosition()
         {
-            return !_FileOpened ? 0f : _CurrentTime;
+            return _FileOpened ? _CurrentTime : 0f;
         }
 
         public void Decode(out byte[] buffer, out float timeStamp)
@@ -161,17 +157,9 @@ namespace Vocaluxe.Lib.Sound.Decoder
                 return;
             }
 
-            int frameFinished;
-            try
-            {
-                frameFinished = CAcinerella.AcGetAudioFrame(_InstancePtr, _Audiodecoder);
-            }
-            catch (Exception)
-            {
-                frameFinished = 0;
-            }
+            bool frameFinished = CAcinerella.AcGetAudioFrame(_InstancePtr, _Audiodecoder);
 
-            if (frameFinished == 1)
+            if (frameFinished)
             {
                 SACDecoder decoder = (SACDecoder)Marshal.PtrToStructure(_Audiodecoder, typeof(SACDecoder));
 
