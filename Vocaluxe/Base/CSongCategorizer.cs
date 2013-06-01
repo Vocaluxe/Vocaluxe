@@ -72,9 +72,9 @@ namespace Vocaluxe.Base
                 Char firstLetter = Char.ToUpper(songPointer.SortString.Normalize(NormalizationForm.FormD)[0]);
                 if (Char.IsLetter(firstLetter))
                 {
-                    if (lastCategory == null || songPointer.SortString != lastCategory.Name)
+                    if (lastCategory == null || firstLetter.ToString() != lastCategory.Name)
                     {
-                        lastCategory = new CCategory(songPointer.SortString);
+                        lastCategory = new CCategory(firstLetter.ToString());
                         _Categories.Add(lastCategory);
                     }
                     lastCategory.Songs.Add(songPointer);

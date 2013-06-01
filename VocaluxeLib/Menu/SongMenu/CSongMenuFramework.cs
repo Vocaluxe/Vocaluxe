@@ -518,6 +518,8 @@ namespace VocaluxeLib.Menu.SongMenu
             _Active = active;
         }
 
+        public virtual bool IsMouseOverActualSelection(SMouseEvent mEvent) { return false; }
+
         public virtual int GetSelectedSong()
         {
             return -1;
