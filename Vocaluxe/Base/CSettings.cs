@@ -53,7 +53,7 @@ namespace Vocaluxe.Base
         //TODO: Remove this when this is decided
         private const string _ProgramCodeName = "Shining Heaven";
 
-        public const ERevision VersionRevision = ERevision.Alpha;
+        public const ERevision VersionRevision = ERevision.Beta;
 
         public const int DatabaseHighscoreVersion = 2;
         public const int DatabaseCoverVersion = 1;
