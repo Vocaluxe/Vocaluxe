@@ -971,6 +971,9 @@ namespace DiffieHellman
 
         public override bool Equals(object o)
         {
+			if (o == null)
+				return false;
+
             BigInteger bi = (BigInteger)o;
 
             if (this.dataLength != bi.dataLength)
@@ -2965,8 +2968,6 @@ namespace DiffieHellman
         {
             data = new uint[0];
             data = null;
-            GC.Collect();
-            GC.Collect();
         }
 
         #endregion

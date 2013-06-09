@@ -72,7 +72,7 @@ namespace ClientTest
             }
 
             lbConnectionStatusText.Text = "Connecting...";
-            client.Connect(tbServerIP.Text, port, OnConnectionChanged, OnSend, OnReceived);
+            client.Connect(tbServerIP.Text, port, tbPassword.Text, OnConnectionChanged, OnSend, OnReceived);
         }
 
         private void Disconnect()
@@ -120,7 +120,6 @@ namespace ClientTest
                 {
                     lbConnectionStatusText.Text = "Connected";
                     btConnect.Text = "Disconnect";
-                    btLogin.Enabled = true;
                     btUp.Enabled = true;
                     btDown.Enabled = true;
                     btLeft.Enabled = true;
@@ -136,8 +135,6 @@ namespace ClientTest
                     client.Disconnect();
                     lbConnectionStatusText.Text = "Disconnected";
                     btConnect.Text = "Connect";
-                    btLogin.Text = "Login";
-                    btLogin.Enabled = false;
                     loggedIn = false;
                     btUp.Enabled = false;
                     btDown.Enabled = false;

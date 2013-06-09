@@ -16,12 +16,12 @@ using Vocaluxe.Base.Server;
 
 namespace AndroidRemote
 {
-	[Activity (Label = "Vocaluxe Remote", MainLauncher = true, ConfigurationChanges=Android.Content.PM.ConfigChanges.Orientation)]
+	[Activity (Label = "Vocaluxe App", MainLauncher = true, ConfigurationChanges=Android.Content.PM.ConfigChanges.Orientation)]
 	public class Activity1 : Activity
 	{
 		CClient client = new CClient();
+		CDiscover discover;
 		Button bConnect;
-		Button bLogin;
 		Button bSendAvatar;
 		Button bSendProfile;
 
@@ -48,9 +48,9 @@ namespace AndroidRemote
 			
 			bConnect = FindViewById<Button> (Resource.Id.btConnect);
 			bConnect.Click += delegate { Connect(); };
-			
-			bLogin = FindViewById<Button> (Resource.Id.btLogin);
-			bLogin.Click += delegate { Login(); };
+
+			Button bDiscover = FindViewById<Button> (Resource.Id.btDiscover);
+			bDiscover.Click += delegate { Discover(); };
 
 			bSendAvatar = FindViewById<Button> (Resource.Id.btSendAvatar);
 			bSendAvatar.Click += SendAvatar;
@@ -62,6 +62,9 @@ namespace AndroidRemote
 			tPassword = FindViewById<TextView> (Resource.Id.tbPassword);
 
 			sendProfile = false;
+
+			discover = new CDiscover(3000, CCommands.BroadcastKeyword);
+			Discover ();
 		}
 		
 		protected override void OnStop ()
@@ -120,8 +123,8 @@ namespace AndroidRemote
 				return;
 
 			Intent intent = new Intent(MediaStore.ActionImageCapture);
-			dir = new Java.IO.File(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryPictures), "AndroidRemote");
-			if (dir.Exists())
+			dir = new Java.IO.File(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryPictures), Resources.GetString(Resource.String.app_name));
+			if (!dir.Exists())
 			{
 				dir.Mkdirs();
 			}
@@ -140,9 +143,14 @@ namespace AndroidRemote
 		private void Connect()
 		{
 			if (!client.Connected)
-				client.Connect(tIP.Text, 3000, OnConnectionChanged);
+				client.Connect(tIP.Text, 3000, tPassword.Text, OnConnectionChanged);
 			else
 				client.Disconnect();
+		}
+
+		private void Discover()
+		{
+			discover.Discover (_OnDiscovered);
 		}
 		
 		private void Login()
@@ -169,18 +177,6 @@ namespace AndroidRemote
 			int command = BitConverter.ToInt32(Message, 0);
 			switch (command)
 			{
-			case CCommands.ResponseLoginFailed:
-				RunOnUiThread (() => Toast.MakeText(this, Resources.GetString(Resource.String.message_login_failed), ToastLength.Short).Show());
-				break;
-				
-			case CCommands.ResponseLoginWrongPassword:
-				RunOnUiThread (() => Toast.MakeText(this, Resources.GetString(Resource.String.message_wrong_password), ToastLength.Short).Show());
-				break;
-				
-			case CCommands.ResponseLoginOK:
-				RunOnUiThread (() => UpdateLoginStatus(true));
-				break;
-
 			case CCommands.ResponseOK:
 				RunOnUiThread (() => Toast.MakeText(this, Resources.GetString(Resource.String.message_ok), ToastLength.Short).Show());
 				break;
@@ -194,42 +190,36 @@ namespace AndroidRemote
 			}
 		}
 
+		private void _OnDiscovered(string Address, string HostName)
+		{
+			RunOnUiThread (() => 
+				{			    	
+					if (Address != "Timeout")
+					{
+						tIP.Text = Address;
+						Connect ();
+					}
+					else
+						Toast.MakeText(this, "Cant't find any Vocaluxe Server", ToastLength.Short).Show();
+				});
+		}
+
 		private void UpdateConnectionStatus(bool Connected)
 		{
 			if (Connected)
 			{
-				bLogin.Enabled = true;
 				bConnect.Text = Resources.GetString(Resource.String.button_disconnect);
 				Toast.MakeText(this, Resource.String.message_connected, ToastLength.Short).Show();
-			}
-			else
-			{
-				client.Disconnect();
-				bLogin.Enabled = false;
-				bLogin.Text = Resources.GetString(Resource.String.button_login);
-				bConnect.Text = Resources.GetString(Resource.String.button_connect);
-				bSendAvatar.Enabled = false;
-				bSendProfile.Enabled = false;
-				Toast.MakeText(this, Resources.GetString(Resource.String.message_disconnected), ToastLength.Short).Show();
-			}
-		}
-		
-		private void UpdateLoginStatus(bool LoggedIn)
-		{
-			loggedIn = LoggedIn;
-
-			if (LoggedIn)
-			{
-				bLogin.Text = Resources.GetString(Resource.String.button_logout);
-				Toast.MakeText(this, Resources.GetString(Resource.String.message_logged_in), ToastLength.Short).Show();
 				bSendAvatar.Enabled = true;
 				bSendProfile.Enabled = true;
 			}
 			else
 			{
-				Toast.MakeText(this, Resources.GetString(Resource.String.message_logged_out), ToastLength.Short).Show();
+				client.Disconnect();
+				bConnect.Text = Resources.GetString(Resource.String.button_connect);
 				bSendAvatar.Enabled = false;
 				bSendProfile.Enabled = false;
+				Toast.MakeText(this, Resources.GetString(Resource.String.message_disconnected), ToastLength.Short).Show();
 			}
 		}
 	}

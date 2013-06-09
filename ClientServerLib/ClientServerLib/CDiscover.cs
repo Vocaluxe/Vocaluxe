@@ -14,6 +14,9 @@ namespace ClientServerLib
 
     public class CDiscover
     {
+		public readonly string sTimeout = "Timeout";
+		public readonly string sFinished = "Finished";
+
         private string _Keyword;
         private string _BroadcastAddress;
         private int _Port;
@@ -114,7 +117,9 @@ namespace ClientServerLib
             _DiscoverRunning = false;
 
             if (!foundSomething)
-                _OnDiscovered("Timeout", "unknown");
+                _OnDiscovered(sTimeout, String.Empty);
+			else
+				_OnDiscovered(sFinished, String.Empty);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace ClientServerLib
         private Thread listenThread;
         private int port;
         private bool encryption;
+        private string password;
         private int bufferLength = 8192;
         private bool running;
 
@@ -22,12 +23,13 @@ namespace ClientServerLib
         private Dictionary<int, CConnection> clients;
         private  Queue<int> ids;
 
-        public CServer(HandleRequest RequestCallback, int Port = 3000, bool Encryption = false)
+        public CServer(HandleRequest RequestCallback, int Port = 3000, string Password = null)
         {
             port = Port;
             running = false;
             requestCallback = RequestCallback;
-            encryption = Encryption;
+            encryption = Password != null;
+            password = Password;
 
             clients = new Dictionary<int, CConnection>();
             ids = new Queue<int>(1000);
@@ -92,7 +94,7 @@ namespace ClientServerLib
                 if (client != null)
                 {
                     int id = ids.Dequeue();
-                    CConnection connection = new CConnection(client, id, encryption);
+                    CConnection connection = new CConnection(client, id, password);
 
                     lock (clients)
                     {
@@ -103,10 +105,19 @@ namespace ClientServerLib
 
                     NetworkStream clientStream = client.GetStream();
                     byte[] serverParams = connection.GetKeyParams();
-                    clientStream.Write(serverParams, 0, serverParams.Length);
-                    clientStream.Flush();
 
-                    clientThread.Start(connection);
+                    try
+                    {
+                        clientStream.Write(serverParams, 0, serverParams.Length);
+                        clientStream.Flush();
+                    }
+                    catch
+                    {
+                        client = null;
+                    }
+
+                    if (client != null)
+                        clientThread.Start(connection);
                 }
             }
         }
@@ -162,8 +173,15 @@ namespace ClientServerLib
                     //send message
                     byte[] encrypted = connection.Encrypt(answer);
 
-                    clientStream.Write(encrypted, 0, encrypted.Length);
-                    clientStream.Flush();
+                    try
+                    {
+                        clientStream.Write(encrypted, 0, encrypted.Length);
+                        clientStream.Flush();
+                    }
+                    catch
+                    {
+                        break;
+                    }
                 }
             }
         }

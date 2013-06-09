@@ -14,10 +14,13 @@ namespace ClientServerLib
     internal class CConnection
     {
         private bool keySet;
+        private byte[] key;
         private bool encryption;
-        private CDiffieHellman dh;
+        private string password;
+        private CDiffieHellman dh;       
         private UTF8Encoding encoder;
         private int connectionID;
+        private static SHA256Managed SHA256 = new SHA256Managed();
 
         public TcpClient TcpClient;
 
@@ -31,14 +34,26 @@ namespace ClientServerLib
             get { return connectionID; }
         }
 
-        public CConnection(TcpClient client, int ConnectionID, bool Encryption = false)
+        public string Password
+        {
+            set
+            {
+                password = value;
+                encryption = value != null;
+                keySet = false;
+            }
+        }
+
+        public CConnection(TcpClient client, int ConnectionID, string Password = null)
         {
             TcpClient = client;
             client.NoDelay = true;
             keySet = false;
-            encryption = Encryption;
+            encryption = Password != null;
+            password = Password;
             connectionID = ConnectionID;
             encoder = new UTF8Encoding();
+            key = null;
         }
 
         public byte[] GetKeyParams()
@@ -64,11 +79,12 @@ namespace ClientServerLib
             {
                 encryption = false;
                 keySet = true;
+                key = null;
                 return encoder.GetBytes(response);
             }
 
             dh = new CDiffieHellman(256).GenerateResponse(response);
-
+            key = _BuildHash(dh.Key, password);
             keySet = true;
             encryption = true;
             return encoder.GetBytes(dh.ToString());
@@ -81,6 +97,7 @@ namespace ClientServerLib
             if (response == "NO ENCRYPTION")
             {
                 keySet = true;
+                key = null;
                 return;
             }
 
@@ -88,6 +105,7 @@ namespace ClientServerLib
                 return;
 
             dh.HandleResponse(response);
+            key = _BuildHash(dh.Key, password);
             keySet = true;
         }
 
@@ -99,6 +117,19 @@ namespace ClientServerLib
         public byte[] Decrypt(byte[] Data)
         {
             return _Decompress(_Decrypt(Data));
+        }
+
+        private byte[] _BuildHash(byte[] Key, string Password)
+        {
+            if (Key == null || Password == null)
+                return null;
+
+            byte[] hash = SHA256.ComputeHash(encoder.GetBytes(Password));
+            byte[] serial = new byte[Key.Length + hash.Length];
+            Array.Copy(Key, serial, Key.Length);
+            Array.Copy(hash, 0, serial, Key.Length, hash.Length);
+
+            return SHA256.ComputeHash(serial);
         }
 
         private byte[] _Encrypt(byte[] Data)
@@ -125,7 +156,7 @@ namespace ClientServerLib
 
             using (Aes aes = new AesManaged())
             {
-                aes.Key = dh.Key;
+                aes.Key = key;
                 aes.GenerateIV();
 
                 using (var encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
@@ -184,7 +215,7 @@ namespace ClientServerLib
 
             using (Aes aes = new AesManaged())
             {
-                aes.Key = dh.Key;
+                aes.Key = key;
                 aes.IV = IV;
 
                 byte[] encrypted = new byte[messageLength - 24];

@@ -15,11 +15,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/tbIP"
         android:text="@string/ip_address" />
-    <Button
-        android:text="@string/button_connect"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btConnect" />
     <TextView
         android:text="@string/text_password"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -32,11 +27,15 @@
         android:id="@+id/tbPassword"
         android:text="@string/password" />
     <Button
-        android:text="@string/button_login"
+        android:text="@string/button_connect"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btLogin"
-        android:enabled="false" />
+        android:id="@+id/btConnect" />
+    <Button
+        android:text="Discover"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btDiscover" />
     <Button
         android:text="@string/button_send_avatar"
         android:layout_width="fill_parent"

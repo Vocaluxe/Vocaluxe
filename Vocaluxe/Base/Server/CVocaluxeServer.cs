@@ -44,7 +44,11 @@ namespace Vocaluxe.Base.Server
         public static void Init()
         {
             _Clients = new Dictionary<int, CClientHandler>();
-            _Server = new CServer(RequestHandler, CConfig.ServerPort, CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON);
+            if (CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON)
+                _Server = new CServer(RequestHandler, CConfig.ServerPort, CConfig.ServerPassword);
+            else
+                _Server = new CServer(RequestHandler, CConfig.ServerPort, String.Empty);
+
             _Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
             Controller.Init();
         }
@@ -88,30 +92,6 @@ namespace Vocaluxe.Base.Server
             }
 
             int command = BitConverter.ToInt32(message, 0);
-            switch (command)
-            {
-                case CCommands.CommandLogin:
-                    SLoginData data;
-
-                    if (!CCommands.DecodeCommandLogin(message, out data))
-                        answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseLoginFailed);
-                    else
-                    {
-                        byte[] serverPw = CCommands.SHA256.ComputeHash(Encoding.UTF8.GetBytes(CConfig.ServerPassword));
-
-                        if (!serverPw.SequenceEqual(data.SHA256))
-                            answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseLoginWrongPassword);
-                        else
-                        {
-                            answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseLoginOK);
-                            _Clients[connectionID].LoggedIn = true;
-                        }
-                    }
-                    break;
-            }
-
-            if (!loggedIn)
-                return answer;
 
             switch (command)
             {

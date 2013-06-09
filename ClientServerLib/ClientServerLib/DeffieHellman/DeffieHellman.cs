@@ -115,10 +115,11 @@ namespace DiffieHellman
             {
                 // Generate the key.
                 using (BigInteger given = new BigInteger(parts[2], 36))
-                using (BigInteger key = given.ModPow(mine, prime))
+	            using (BigInteger key = given.ModPow(mine, prime))
                 {
                     this.key = key.GetBytes();
                 }
+
                 // Generate the response.
                 using (BigInteger send = g.ModPow(mine, prime))
                 {
