@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("AndroidRemote.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("org.vocaluxe.app.Resource", IsApplication=true)]
 
-namespace AndroidRemote
+namespace org.vocaluxe.app
 {
 	
 	

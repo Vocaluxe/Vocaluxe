@@ -14,7 +14,7 @@ using Android.Provider;
 using ClientServerLib;
 using Vocaluxe.Base.Server;
 
-namespace AndroidRemote
+namespace org.vocaluxe.app
 {
 	[Activity (Label = "Vocaluxe App", MainLauncher = true, ConfigurationChanges=Android.Content.PM.ConfigChanges.Orientation)]
 	public class Activity1 : Activity
@@ -36,7 +36,7 @@ namespace AndroidRemote
 		System.IO.FileStream fs;
 
 		bool sendProfile;
-		
+
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
@@ -194,7 +194,7 @@ namespace AndroidRemote
 		{
 			RunOnUiThread (() => 
 				{			    	
-					if (Address != "Timeout")
+					if (Address != CDiscover.sTimeout)
 					{
 						tIP.Text = Address;
 						Connect ();

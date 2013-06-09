@@ -14,8 +14,8 @@ namespace ClientServerLib
 
     public class CDiscover
     {
-		public readonly string sTimeout = "Timeout";
-		public readonly string sFinished = "Finished";
+		public static readonly string sTimeout = "Timeout";
+		public static readonly string sFinished = "Finished";
 
         private string _Keyword;
         private string _BroadcastAddress;
