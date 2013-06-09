@@ -19,6 +19,9 @@ namespace org.vocaluxe.app
 	[Activity (Label = "Vocaluxe App", MainLauncher = true, ConfigurationChanges=Android.Content.PM.ConfigChanges.Orientation)]
 	public class Activity1 : Activity
 	{
+		private readonly int REQUEST_TAKE_PICTURE = 1;
+		private readonly int REQUEST_PICK_PICTURE = 2;
+
 		CClient client = new CClient();
 		CDiscover discover;
 		Button bConnect;
@@ -28,10 +31,12 @@ namespace org.vocaluxe.app
 		TextView tIP;
 		TextView tPassword;
 
-		bool loggedIn;
+		ProgressDialog pDialog;
+		
 		byte[] fileBytes;
 		
 		Java.IO.File file;
+		Java.IO.File file2;
 		Java.IO.File dir;
 		System.IO.FileStream fs;
 
@@ -40,11 +45,10 @@ namespace org.vocaluxe.app
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
-			
-			loggedIn = false;
-			
-			// Set our view from the "main" layout resource
+
 			SetContentView (Resource.Layout.Main);
+			pDialog = new ProgressDialog (this);
+			pDialog.SetCancelable (false);
 			
 			bConnect = FindViewById<Button> (Resource.Id.btConnect);
 			bConnect.Click += delegate { Connect(); };
@@ -75,18 +79,54 @@ namespace org.vocaluxe.app
 
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
-			base.OnActivityResult(requestCode, resultCode, data);
-			
-			// make it available in the gallery
-			Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
-			Android.Net.Uri contentUri = Android.Net.Uri.FromFile(file);
-			mediaScanIntent.SetData(contentUri);
-			SendBroadcast(mediaScanIntent);
-			System.IO.FileInfo fi = new System.IO.FileInfo(file.Path);
-			fs = new System.IO.FileStream(file.Path, System.IO.FileMode.Open);
-			fileBytes = new byte[fi.Length];
-			fs.BeginRead (fileBytes, 0, (int)fi.Length, new AsyncCallback(OnFileRead), null);
+			//base.OnActivityResult(requestCode, resultCode, data);
+			if (resultCode != Result.Ok)
+				return;
+
+			if (requestCode == REQUEST_TAKE_PICTURE)
+			{
+				// make it available in the gallery
+				//Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
+				Android.Net.Uri contentUri = Android.Net.Uri.FromFile(file);
+				//mediaScanIntent.SetData(contentUri);
+				//SendBroadcast(mediaScanIntent);
+
+				Java.IO.File dir2 = new Java.IO.File(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryPictures), Resources.GetString(Resource.String.app_name));
+				if (!dir.Exists())
+				{
+					dir.Mkdirs();
+				}
+
+				file2 = new Java.IO.File(dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));			
+
+				Intent picker = new Intent ("com.android.camera.action.CROP");
+				//Intent picker = new Intent (Intent.ActionGetContent, contentUri);
+				picker.SetDataAndType (contentUri, "image/*");
+				picker.PutExtra ("crop", "true");
+				picker.PutExtra ("aspectX", 1);
+				picker.PutExtra ("aspectY", 1);
+				picker.PutExtra ("outputX", 512);
+				picker.PutExtra ("outputY", 512);
+				picker.PutExtra ("return-data", false);
+				//picker.PutExtra ("outputFormat", Bitmap.CompressFormat.Jpeg.ToString ());
+				picker.PutExtra ("noFaceDetection", true);
+				picker.PutExtra (MediaStore.ExtraOutput, Android.Net.Uri.FromFile(file2));	
+				StartActivityForResult (picker, REQUEST_PICK_PICTURE);
+			}
+
+			if (requestCode == REQUEST_PICK_PICTURE)
+			{
+				if (data.Extras != null) 
+				{
+					System.IO.FileInfo fi = new System.IO.FileInfo(file2.Path);
+					fs = new System.IO.FileStream(file2.Path, System.IO.FileMode.Open);
+					fileBytes = new byte[fi.Length];
+					fs.BeginRead (fileBytes, 0, (int)fi.Length, new AsyncCallback(OnFileRead), null);
+					fi = null;
+				}
+			}
 		}
+
 
 		private void OnFileRead(IAsyncResult ar)
 		{
@@ -96,13 +136,18 @@ namespace org.vocaluxe.app
 			fs.Flush();
 			fs.Close();
 
+			if (file != null)
+				file.Delete ();
+
+			if (file2 != null)
+				file2.Delete ();
+
 			if (sendProfile)
 			{
 				sendProfile = false;
 				TextView tv = FindViewById<TextView>(Resource.Id.tbPlayerName);
 				if (tv.Text == String.Empty)
 					return;
-
 
 				client.SendMessage (CCommands.CreateCommandSendProfile(fileBytes, tv.Text, 0), OnResponse);
 			}
@@ -119,6 +164,18 @@ namespace org.vocaluxe.app
 
 		private void SendAvatar(object sender, EventArgs eventArgs)
 		{
+			_TakePicture (false);
+		}
+
+		private void SendProfile(object sender, EventArgs eventArgs)
+		{
+			_TakePicture (true);
+		}
+
+		private void _TakePicture(bool SendProfile)
+		{
+			sendProfile = SendProfile;
+
 			if (!IsThereAnAppToTakePictures())
 				return;
 
@@ -131,34 +188,29 @@ namespace org.vocaluxe.app
 
 			file = new Java.IO.File(dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));			
 			intent.PutExtra(MediaStore.ExtraOutput, Android.Net.Uri.FromFile(file));	
-			StartActivityForResult(intent, 0);
-		}
-
-		private void SendProfile(object sender, EventArgs eventArgs)
-		{
-			sendProfile = true;
-			SendAvatar(sender, eventArgs);
+			StartActivityForResult(intent, REQUEST_TAKE_PICTURE);
 		}
 		
 		private void Connect()
 		{
 			if (!client.Connected)
+			{
+				pDialog.SetMessage ("Connecting for Server...");
+				pDialog.Show ();
 				client.Connect(tIP.Text, 3000, tPassword.Text, OnConnectionChanged);
+			}
 			else
+			{
+				pDialog.Hide ();
 				client.Disconnect();
+			}
 		}
 
 		private void Discover()
 		{
+			pDialog.SetMessage ("Searching for Server...");
+			pDialog.Show ();
 			discover.Discover (_OnDiscovered);
-		}
-		
-		private void Login()
-		{
-			if (!loggedIn)
-				client.SendMessage (CCommands.CreateCommandLogin(tPassword.Text), OnResponse);
-			else
-				client.Disconnect();
 		}
 		
 		private void OnConnectionChanged(bool Connected)
@@ -194,13 +246,16 @@ namespace org.vocaluxe.app
 		{
 			RunOnUiThread (() => 
 				{			    	
-					if (Address != CDiscover.sTimeout)
+					if (Address != CDiscover.sTimeout && Address != CDiscover.sFinished)
 					{
 						tIP.Text = Address;
 						Connect ();
 					}
-					else
+					else if (Address == CDiscover.sTimeout)
+					{
+						pDialog.Hide ();
 						Toast.MakeText(this, "Cant't find any Vocaluxe Server", ToastLength.Short).Show();
+					}
 				});
 		}
 
@@ -208,6 +263,7 @@ namespace org.vocaluxe.app
 		{
 			if (Connected)
 			{
+				pDialog.Hide ();
 				bConnect.Text = Resources.GetString(Resource.String.button_disconnect);
 				Toast.MakeText(this, Resource.String.message_connected, ToastLength.Short).Show();
 				bSendAvatar.Enabled = true;
@@ -215,41 +271,13 @@ namespace org.vocaluxe.app
 			}
 			else
 			{
+				pDialog.Hide ();
 				client.Disconnect();
 				bConnect.Text = Resources.GetString(Resource.String.button_connect);
 				bSendAvatar.Enabled = false;
 				bSendProfile.Enabled = false;
 				Toast.MakeText(this, Resources.GetString(Resource.String.message_disconnected), ToastLength.Short).Show();
 			}
-		}
-	}
-
-	public static class BitmapHelpers
-	{
-		public static Bitmap LoadAndResizeBitmap(this string fileName, int width, int height)
-		{
-			// First we get the the dimensions of the file on disk
-			BitmapFactory.Options options = new BitmapFactory.Options { InJustDecodeBounds = true };
-			BitmapFactory.DecodeFile(fileName, options);
-			
-			// Next we calculate the ratio that we need to resize the image by
-			// in order to fit the requested dimensions.
-			int outHeight = options.OutHeight;
-			int outWidth = options.OutWidth;
-			int inSampleSize = 1;
-			
-			if (outHeight > height || outWidth > width)
-			{
-				inSampleSize = outWidth > outHeight
-					? outHeight / height
-						: outWidth / width;
-			}
-			
-			// Now we will load the image and have BitmapFactory resize it for us.
-			options.InSampleSize = inSampleSize;
-			options.InJustDecodeBounds = false;
-			Bitmap resizedBitmap = BitmapFactory.DecodeFile(fileName, options);
-			return resizedBitmap;
 		}
 	}
 }
