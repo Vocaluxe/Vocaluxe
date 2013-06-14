@@ -627,7 +627,10 @@ namespace VocaluxeLib.Menu.SongMenu
                 if (Math.Abs(startposition) < 0.001)
                     startposition = CBase.Sound.GetLength(stream) / 4f;
 
-                CBase.Sound.SetPosition(stream, startposition);
+                if (startposition >= 0.5f)
+                    startposition -= 0.5f;
+
+                CBase.Sound.SetPosition(stream, startposition - 0.5f);
                 CBase.Sound.Play(stream);
                 CBase.Sound.Fade(stream, 100f, 3f);
                 _Streams.Add(stream);
