@@ -197,7 +197,7 @@ namespace Vocaluxe.Base
                         if (!File.Exists(coverFilePath))
                             continue;
 
-                        _AddCover(coverFilePath);
+                        _AddCover(name, coverFilePath);
                         ignoreList.Add(Path.GetFileName(coverFilePath));
 
                         if (name == "NoCover")
@@ -218,24 +218,23 @@ namespace Vocaluxe.Base
             foreach (string file in files)
             {
                 if (!ignoreList.Contains(Path.GetFileName(file)))
-                    _AddCover(file);
+                    _AddCover(Path.GetFileNameWithoutExtension(file), file);
             }
         }
 
-        private static void _AddCover(string File)
+        private static void _AddCover(string Name, string File)
         {
-            string name = Path.GetFileNameWithoutExtension(File);
             CTexture texture = CDraw.AddTexture(File);
 
-            if (!_CoverExists(name))
+            if (!_CoverExists(Name))
             {
-                _Cover.Add(name, texture);
+                _Cover.Add(Name, texture);
             }
             else
             {
-                CTexture tex = _Cover[name];
+                CTexture tex = _Cover[Name];
                 CDraw.RemoveTexture(ref tex);
-                _Cover[name] = texture;
+                _Cover[Name] = texture;
             }
         }
     }
