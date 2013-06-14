@@ -28,12 +28,6 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Base
 {
-    struct SCover
-    {
-        public string Name;
-        public CTexture Texture;
-    }
-
     struct SCoverTheme
     {
         public string Name;
@@ -41,10 +35,10 @@ namespace Vocaluxe.Base
         public string File;
     }
 
-    abstract class CCover
+    static class CCover
     {
         private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
-        private static readonly List<SCover> _Cover = new List<SCover>();
+        private static readonly Dictionary<string, CTexture> _Cover = new Dictionary<string, CTexture>();
         private static readonly List<SCoverTheme> _CoverThemes = new List<SCoverTheme>();
 
         private static readonly Object _MutexCover = new Object();
@@ -97,13 +91,11 @@ namespace Vocaluxe.Base
         {
             lock (_MutexCover)
             {
-                foreach (SCover cover in _Cover)
-                {
-                    if (cover.Name == name)
-                        return cover.Texture;
-                }
+                if (!_CoverExists(name))
+                    return NoCover;
+
+                return _Cover[name];
             }
-            return NoCover;
         }
 
         /// <summary>
@@ -113,7 +105,7 @@ namespace Vocaluxe.Base
         {
             lock (_MutexCover)
             {
-                return _Cover.Any(cover => cover.Name == name);
+                return _Cover.ContainsKey(name);
             }
         }
 
@@ -122,9 +114,11 @@ namespace Vocaluxe.Base
         /// </summary>
         public static void ReloadCover()
         {
-            foreach (SCover cover in _Cover)
+            List<string> keys = _Cover.Keys.ToList();
+
+            foreach (string key in keys)
             {
-                CTexture texture = cover.Texture;
+                CTexture texture = _Cover[key];
                 CDraw.RemoveTexture(ref texture);
             }
             _Cover.Clear();
@@ -184,8 +178,9 @@ namespace Vocaluxe.Base
 
             if (String.IsNullOrEmpty(coverTheme.Name))
                 return;
-            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.FolderCover, coverTheme.File));
 
+            List<string> ignoreList = new List<string>();
+            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.FolderCover, coverTheme.File));
             if (xmlReader != null)
             {
                 lock (_MutexCover)
@@ -201,12 +196,12 @@ namespace Vocaluxe.Base
                         string coverFilePath = Path.Combine(CSettings.FolderCover, Path.Combine(coverTheme.Folder, filePath));
                         if (!File.Exists(coverFilePath))
                             continue;
-                        SCover sk = new SCover {Name = name, Texture = CDraw.AddTexture(coverFilePath)};
 
-                        _Cover.Add(sk);
+                        _AddCover(coverFilePath);
+                        ignoreList.Add(Path.GetFileName(coverFilePath));
 
-                        if (sk.Name == "NoCover")
-                            NoCover = sk.Texture;
+                        if (name == "NoCover")
+                            NoCover = _Cover[name];
                     }
                 }
             }
@@ -222,15 +217,25 @@ namespace Vocaluxe.Base
 
             foreach (string file in files)
             {
-                string name = Path.GetFileNameWithoutExtension(file);
+                if (!ignoreList.Contains(Path.GetFileName(file)))
+                    _AddCover(file);
+            }
+        }
 
-                if (_CoverExists(name))
-                    continue;
-                // ReSharper disable AssignNullToNotNullAttribute
-                SCover sk = new SCover {Name = name, Texture = CDraw.AddTexture(file)};
-                // ReSharper restore AssignNullToNotNullAttribute
+        private static void _AddCover(string File)
+        {
+            string name = Path.GetFileNameWithoutExtension(File);
+            CTexture texture = CDraw.AddTexture(File);
 
-                _Cover.Add(sk);
+            if (!_CoverExists(name))
+            {
+                _Cover.Add(name, texture);
+            }
+            else
+            {
+                CTexture tex = _Cover[name];
+                CDraw.RemoveTexture(ref tex);
+                _Cover[name] = texture;
             }
         }
     }
