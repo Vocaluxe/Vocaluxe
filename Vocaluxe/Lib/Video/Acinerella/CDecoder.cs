@@ -160,7 +160,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
             try
             {
-                CAcinerella.AcSeek(_Videodecoder, (_LastDecodedTime > _SkipTime) ? -1 : 0, (Int64)(_SkipTime * 1000f));
+                CAcinerella.AcSeek(_Videodecoder, -1, (Int64)(_SkipTime * 1000f));
             }
             catch (Exception e)
             {
