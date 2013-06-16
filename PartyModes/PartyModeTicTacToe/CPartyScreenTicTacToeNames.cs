@@ -187,7 +187,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                             _ChooseAvatarStatic.Rect = chooseButton.Button.Rect;
                             _ChooseAvatarStatic.Rect.Z = -100;
                             _ChooseAvatarStatic.Color = new SColorF(1, 1, 1, 1);
-                            _ChooseAvatarStatic.Texture = CBase.Profiles.GetProfiles()[_SelectedPlayerNr].Avatar.Texture;
+                            _ChooseAvatarStatic.Texture = CBase.Profiles.GetAvatar(_SelectedPlayerNr);
                         }
                     }
                 }
@@ -254,7 +254,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                                 _PlayerDestinationButtons[added].SelColor = new SColorF(1, 1, 1, 1);
                                 _PlayerDestinationButtons[added].Texture = _ChooseAvatarStatic.Texture;
                                 _PlayerDestinationButtons[added].SelTexture = _ChooseAvatarStatic.Texture;
-                                _PlayerDestinationButtons[added].Text.Text = CBase.Profiles.GetProfiles()[_SelectedPlayerNr].PlayerName;
+                                _PlayerDestinationButtons[added].Text.Text = CBase.Profiles.GetPlayerName(_SelectedPlayerNr);
                                 _PlayerDestinationButtons[added].Enabled = true;
                                 //Update Tiles-List
                                 _UpdateButtonPlayerChoose();
@@ -414,12 +414,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 {
                     if ((i + offset * numButtonPlayerChoose) < _PlayerChooseButtonsVisibleProfiles.Count)
                     {
-                        _PlayerChooseButtons[i].ProfileID = _PlayerChooseButtonsVisibleProfiles[i + offset * numButtonPlayerChoose];
-                        _PlayerChooseButtons[i].Button.Text.Text = CBase.Profiles.GetProfiles()[_PlayerChooseButtonsVisibleProfiles[i + offset * numButtonPlayerChoose]].PlayerName;
-                        _PlayerChooseButtons[i].Button.Texture =
-                            CBase.Profiles.GetProfiles()[_PlayerChooseButtonsVisibleProfiles[i + offset * numButtonPlayerChoose]].Avatar.Texture;
-                        _PlayerChooseButtons[i].Button.SelTexture =
-                            CBase.Profiles.GetProfiles()[_PlayerChooseButtonsVisibleProfiles[i + offset * numButtonPlayerChoose]].Avatar.Texture;
+                        int id = _PlayerChooseButtonsVisibleProfiles[i + offset * numButtonPlayerChoose];
+                        _PlayerChooseButtons[i].ProfileID = id;
+                        _PlayerChooseButtons[i].Button.Text.Text = CBase.Profiles.GetPlayerName(id);
+                        _PlayerChooseButtons[i].Button.Texture = CBase.Profiles.GetAvatar(id);
+                        _PlayerChooseButtons[i].Button.SelTexture = CBase.Profiles.GetAvatar(id); 
                         _PlayerChooseButtons[i].Button.Color = new SColorF(1, 1, 1, 0.6f);
                         _PlayerChooseButtons[i].Button.SelColor = new SColorF(1, 1, 1, 1);
                         _PlayerChooseButtons[i].Button.Enabled = true;
@@ -441,14 +440,15 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void _UpdateVisibleProfiles()
         {
             _PlayerChooseButtonsVisibleProfiles.Clear();
-            for (int i = 0; i < CBase.Profiles.GetProfiles().Length; i++)
+            Profile.CProfile[] profiles = CBase.Profiles.GetProfiles();
+            for (int i = 0; i < profiles.Length; i++)
             {
                 bool visible = false;
                 //Show profile only if active
-                if (CBase.Profiles.GetProfiles()[i].Active == EOffOn.TR_CONFIG_ON)
-                    visible = _Data.ScreenNames.ProfileIDsTeam1.All(t => t != i) && _Data.ScreenNames.ProfileIDsTeam2.All(t => t != i);
+                if (profiles[i].Active == EOffOn.TR_CONFIG_ON)
+                    visible = _Data.ScreenNames.ProfileIDsTeam1.All(profileID => profileID != profiles[i].ID) && _Data.ScreenNames.ProfileIDsTeam2.All(profileID => profileID != profiles[i].ID);
                 if (visible)
-                    _PlayerChooseButtonsVisibleProfiles.Add(i);
+                    _PlayerChooseButtonsVisibleProfiles.Add(profiles[i].ID);
             }
         }
 
@@ -486,11 +486,12 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 {
                     if (_Data.ScreenNames.ProfileIDsTeam1[i] != -1)
                     {
+                        int id = _Data.ScreenNames.ProfileIDsTeam1[i]; 
                         _PlayerDestinationButtons[i].Color = new SColorF(1, 1, 1, 0.6f);
                         _PlayerDestinationButtons[i].SelColor = new SColorF(1, 1, 1, 1);
-                        _PlayerDestinationButtons[i].Texture = CBase.Profiles.GetProfiles()[_Data.ScreenNames.ProfileIDsTeam1[i]].Avatar.Texture;
-                        _PlayerDestinationButtons[i].SelTexture = CBase.Profiles.GetProfiles()[_Data.ScreenNames.ProfileIDsTeam1[i]].Avatar.Texture;
-                        _PlayerDestinationButtons[i].Text.Text = CBase.Profiles.GetProfiles()[_Data.ScreenNames.ProfileIDsTeam1[i]].PlayerName;
+                        _PlayerDestinationButtons[i].Texture = CBase.Profiles.GetAvatar(id);
+                        _PlayerDestinationButtons[i].SelTexture = CBase.Profiles.GetAvatar(id);
+                        _PlayerDestinationButtons[i].Text.Text = CBase.Profiles.GetPlayerName(id);
                         _PlayerDestinationButtons[i].Enabled = true;
                     }
                 }
@@ -510,11 +511,12 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 {
                     if (_Data.ScreenNames.ProfileIDsTeam2[i] != -1)
                     {
+                        int id = _Data.ScreenNames.ProfileIDsTeam2[i]; 
                         _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].Color = new SColorF(1, 1, 1, 0.6f);
                         _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].SelColor = new SColorF(1, 1, 1, 1);
-                        _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].Texture = CBase.Profiles.GetProfiles()[_Data.ScreenNames.ProfileIDsTeam2[i]].Avatar.Texture;
-                        _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].SelTexture = CBase.Profiles.GetProfiles()[_Data.ScreenNames.ProfileIDsTeam2[i]].Avatar.Texture;
-                        _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].Text.Text = CBase.Profiles.GetProfiles()[_Data.ScreenNames.ProfileIDsTeam2[i]].PlayerName;
+                        _PlayerDestinationButtons[i].Texture = CBase.Profiles.GetAvatar(id);
+                        _PlayerDestinationButtons[i].SelTexture = CBase.Profiles.GetAvatar(id);
+                        _PlayerDestinationButtons[i].Text.Text = CBase.Profiles.GetPlayerName(id);
                         _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].Enabled = true;
                     }
                 }
@@ -553,9 +555,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     //Update texture and name
                     _PlayerDestinationButtons[added].Color = new SColorF(1, 1, 1, 0.6f);
                     _PlayerDestinationButtons[added].SelColor = new SColorF(1, 1, 1, 1);
-                    _PlayerDestinationButtons[added].Texture = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].Avatar.Texture;
-                    _PlayerDestinationButtons[added].SelTexture = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].Avatar.Texture;
-                    _PlayerDestinationButtons[added].Text.Text = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].PlayerName;
+                    _PlayerDestinationButtons[added].Texture = CBase.Profiles.GetAvatar(chooseButton.ProfileID);
+                    _PlayerDestinationButtons[added].SelTexture = CBase.Profiles.GetAvatar(chooseButton.ProfileID);
+                    _PlayerDestinationButtons[added].Text.Text = CBase.Profiles.GetPlayerName(chooseButton.ProfileID);
                     _PlayerDestinationButtons[added].Enabled = true;
                     //Update Tiles-List
                     _UpdateButtonPlayerChoose();
@@ -570,9 +572,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     //Update texture and name
                     _PlayerDestinationButtons[added].Color = new SColorF(1, 1, 1, 0.6f);
                     _PlayerDestinationButtons[added].SelColor = new SColorF(1, 1, 1, 1);
-                    _PlayerDestinationButtons[added].Texture = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].Avatar.Texture;
-                    _PlayerDestinationButtons[added].SelTexture = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].Avatar.Texture;
-                    _PlayerDestinationButtons[added].Text.Text = CBase.Profiles.GetProfiles()[chooseButton.ProfileID].PlayerName;
+                    _PlayerDestinationButtons[added].Texture = CBase.Profiles.GetAvatar(chooseButton.ProfileID);
+                    _PlayerDestinationButtons[added].SelTexture = CBase.Profiles.GetAvatar(chooseButton.ProfileID);
+                    _PlayerDestinationButtons[added].Text.Text = CBase.Profiles.GetPlayerName(chooseButton.ProfileID);
                     _PlayerDestinationButtons[added].Enabled = true;
                     //Update Tiles-List
                     _UpdateButtonPlayerChoose();
