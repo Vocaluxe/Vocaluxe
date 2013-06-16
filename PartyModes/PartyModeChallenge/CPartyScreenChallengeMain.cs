@@ -380,12 +380,11 @@ namespace VocaluxeLib.PartyModes.Challenge
             if (_GameState.CurrentRoundNr <= _GameState.Combs.Count)
             {
                 _Texts[_TextNextPlayerMessage].Visible = true;
-                CProfile[] profiles = CBase.Profiles.GetProfiles();
                 for (int i = 0; i < _GameState.NumPlayerAtOnce; i++)
                 {
-                    int pid = _GameState.Combs[_GameState.CurrentRoundNr - 1].Player[i];
-                    _NextPlayerStatics[i].Texture = profiles[_GameState.ProfileIDs[pid]].Avatar.Texture;
-                    _NextPlayerTexts[i].Text = profiles[_GameState.ProfileIDs[pid]].PlayerName;
+                    int id = _GameState.ProfileIDs[_GameState.Combs[_GameState.CurrentRoundNr - 1].Player[i]];
+                    _NextPlayerStatics[i].Texture = CBase.Profiles.GetAvatar(id);
+                    _NextPlayerTexts[i].Text = CBase.Profiles.GetPlayerName(id);
                     _NextPlayerTexts[i].Color = CBase.Theme.GetPlayerColor(i + 1);
                 }
             }
@@ -492,7 +491,6 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private void _UpdateRoundsTable()
         {
-            CProfile[] profile = CBase.Profiles.GetProfiles();
             for (int i = 0; i < _RoundsTable.Count; i++)
             {
                 for (int p = 0; p < _RoundsTable[i].TextPlayer.Count; p++)
@@ -503,8 +501,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                         _RoundsTable[i].TextPlayer[p].Visible = true;
                         _RoundsTable[i].TextScores[p].Visible = true;
                         _RoundsTable[i].Number.Text = (i + 1 + _RoundsTableOffset) + ")";
-                        int pID = _GameState.ProfileIDs[_GameState.Combs[i + _RoundsTableOffset].Player[p]];
-                        _RoundsTable[i].TextPlayer[p].Text = profile[pID].PlayerName;
+                        _RoundsTable[i].TextPlayer[p].Text = CBase.Profiles.GetPlayerName(_GameState.ProfileIDs[_GameState.Combs[i + _RoundsTableOffset].Player[p]]);
                         // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
                         if ((_GameState.CurrentRoundNr - 1) > i + _RoundsTableOffset)
                             // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
@@ -586,8 +583,6 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private void _UpdatePlayerTable()
         {
-            CProfile[] profiles = CBase.Profiles.GetProfiles();
-
             for (int i = 0; i < _PlayerTable.Count; i++)
             {
                 STableRow row = _PlayerTable[i];
@@ -602,7 +597,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                     row.GamePoints.Visible = true;
 
                     row.Pos.Text = _GameState.ResultTable[i + _PlayerTableOffset].Position + ".";
-                    row.Name.Text = profiles[_GameState.ResultTable[i + _PlayerTableOffset].PlayerID].PlayerName;
+                    row.Name.Text = CBase.Profiles.GetPlayerName(_GameState.ResultTable[i + _PlayerTableOffset].PlayerID);
                     row.Rounds.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumPlayed.ToString();
                     row.Won.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumWon.ToString();
                     row.SingPoints.Text = _GameState.ResultTable[i + _PlayerTableOffset].NumSingPoints.ToString();
@@ -658,7 +653,6 @@ namespace VocaluxeLib.PartyModes.Challenge
         private string _GetPlayerWinString()
         {
             string s = "";
-            CProfile[] profiles = CBase.Profiles.GetProfiles();
 
             for (int i = 0; i < _GameState.ResultTable.Count; i++)
             {
@@ -666,7 +660,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 {
                     if (i > 0)
                         s += ", ";
-                    s += profiles[_GameState.ResultTable[i].PlayerID].PlayerName;
+                    s += CBase.Profiles.GetPlayerName(_GameState.ResultTable[i].PlayerID);
                 }
                 else
                     break;
