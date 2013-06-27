@@ -62,7 +62,7 @@ namespace Vocaluxe.Screens
         private bool _SelectingFast;
         private int _SelectingSwitchNr = -1;
         private int _SelectingFastPlayerNr;
-        private int _SelectedPlayerNr = -1;
+        private int _SelectedProfileID = -1;
         private bool _AvatarsChanged;
         private bool _ProfilesChanged;
 
@@ -177,11 +177,12 @@ namespace Vocaluxe.Screens
                         //Check, if a player is selected
                         if (_NameSelections[_NameSelection].Selection > -1)
                         {
-                            _SelectedPlayerNr = _NameSelections[_NameSelection].Selection;
-                            if (CProfiles.NumProfiles <= _SelectedPlayerNr)
+                            _SelectedProfileID = _NameSelections[_NameSelection].Selection;
+
+                            if (!CProfiles.IsProfileIDValid(_SelectedProfileID))
                                 return true;
 
-                            _UpdateSelectedProfile(_SelectingFastPlayerNr - 1, _SelectedPlayerNr);
+                            _UpdateSelectedProfile(_SelectingFastPlayerNr - 1, _SelectedProfileID);
 
                             _SetInteractionToButton(_Buttons[_ButtonStart]);
                         }
@@ -346,7 +347,7 @@ namespace Vocaluxe.Screens
                 base.HandleMouse(mouseEvent);
 
             //Check if LeftButton is hold and Select-Mode inactive
-            if (mouseEvent.LBH && _SelectedPlayerNr < 0 && !_SelectingFast)
+            if (mouseEvent.LBH && _SelectedProfileID < 0 && !_SelectingFast)
             {
                 //Save mouse-coords
                 _OldMouseX = mouseEvent.X;
@@ -355,8 +356,8 @@ namespace Vocaluxe.Screens
                 if (_NameSelections[_NameSelection].IsOverTile(mouseEvent))
                 {
                     //Get player-number of tile
-                    _SelectedPlayerNr = _NameSelections[_NameSelection].TilePlayerNr(mouseEvent);
-                    if (_SelectedPlayerNr != -1)
+                    _SelectedProfileID = _NameSelections[_NameSelection].TilePlayerNr(mouseEvent);
+                    if (_SelectedProfileID != -1)
                     {
                         //Update of Drag/Drop-Texture
                         CStatic selectedPlayer = _NameSelections[_NameSelection].TilePlayerAvatar(mouseEvent);
@@ -374,7 +375,7 @@ namespace Vocaluxe.Screens
                         if (CHelper.IsInBounds(_Statics[_StaticPlayer[i]].Rect, mouseEvent))
                         {
                             _SelectingSwitchNr = i;
-                            _SelectedPlayerNr = CGame.Players[i].ProfileID;
+                            _SelectedProfileID = CGame.Players[i].ProfileID;
                             //Update of Drag/Drop-Texture
                             CStatic selectedPlayer = _Statics[_StaticPlayerAvatar[i]];
                             _ChooseAvatarStatic.Visible = true;
@@ -389,7 +390,7 @@ namespace Vocaluxe.Screens
             }
 
             //Check if LeftButton is hold and Select-Mode active
-            if (mouseEvent.LBH && _SelectedPlayerNr >= 0 && !_SelectingFast)
+            if (mouseEvent.LBH && _SelectedProfileID >= 0 && !_SelectingFast)
             {
                 //Update coords for Drag/Drop-Texture
                 _ChooseAvatarStatic.Rect.X += mouseEvent.X - _OldMouseX;
@@ -398,7 +399,7 @@ namespace Vocaluxe.Screens
                 _OldMouseY = mouseEvent.Y;
             }
                 // LeftButton isn't hold anymore, but Select-Mode is still active -> "Drop" of Avatar
-            else if (_SelectedPlayerNr >= 0 && !_SelectingFast)
+            else if (_SelectedProfileID >= 0 && !_SelectingFast)
             {
                 //Foreach Drop-Area
                 for (int i = 0; i < _StaticPlayer.Length; i++)
@@ -418,10 +419,10 @@ namespace Vocaluxe.Screens
                             _ResetPlayerSelection(_SelectingSwitchNr);
                         }
 
-                        if (CProfiles.NumProfiles <= _SelectedPlayerNr)
+                        if (!CProfiles.IsProfileIDValid(_SelectedProfileID))
                             return true;
 
-                        _UpdateSelectedProfile(i, _SelectedPlayerNr);
+                        _UpdateSelectedProfile(i, _SelectedProfileID);
                         break;
                     }
                     //Selected player is dropped out of area
@@ -431,7 +432,7 @@ namespace Vocaluxe.Screens
                     }
                 }
                 _SelectingSwitchNr = -1;
-                _SelectedPlayerNr = -1;
+                _SelectedProfileID = -1;
                 //Reset variables
                 _ChooseAvatarStatic.Visible = false;
             }
@@ -441,13 +442,13 @@ namespace Vocaluxe.Screens
                 if (_NameSelections[_NameSelection].IsOverTile(mouseEvent))
                 {
                     //Get player-number of tile
-                    _SelectedPlayerNr = _NameSelections[_NameSelection].TilePlayerNr(mouseEvent);
-                    if (_SelectedPlayerNr != -1)
+                    _SelectedProfileID = _NameSelections[_NameSelection].TilePlayerNr(mouseEvent);
+                    if (_SelectedProfileID != -1)
                     {
-                        if (CProfiles.NumProfiles <= _SelectedPlayerNr)
+                        if (!CProfiles.IsProfileIDValid(_SelectedProfileID))
                             return true;
 
-                        _UpdateSelectedProfile(_SelectingFastPlayerNr - 1, _SelectedPlayerNr);
+                        _UpdateSelectedProfile(_SelectingFastPlayerNr - 1, _SelectedProfileID);
                         
                         _SelectingFastPlayerNr++;
                         if (_SelectingFastPlayerNr <= CGame.NumPlayer)
@@ -473,17 +474,17 @@ namespace Vocaluxe.Screens
 
             if (mouseEvent.LD && _NameSelections[_NameSelection].IsOverTile(mouseEvent) && !_SelectingFast)
             {
-                _SelectedPlayerNr = _NameSelections[_NameSelection].TilePlayerNr(mouseEvent);
-                if (_SelectedPlayerNr > -1)
+                _SelectedProfileID = _NameSelections[_NameSelection].TilePlayerNr(mouseEvent);
+                if (_SelectedProfileID > -1)
                 {
                     for (int i = 0; i < CGame.NumPlayer; i++)
                     {
                         if (CGame.Players[i].ProfileID == -1)
                         {
-                            if (CProfiles.NumProfiles <= _SelectedPlayerNr)
+                            if (!CProfiles.IsProfileIDValid(_SelectedProfileID))
                                 return true;
 
-                            _UpdateSelectedProfile(i, _SelectedPlayerNr);
+                            _UpdateSelectedProfile(i, _SelectedProfileID);
                             break;
                         }
                     }

@@ -44,15 +44,15 @@ namespace VocaluxeLib.Menu
     {
         private class CTile
         {
-            public int PlayerNr;
+            public int ProfileID;
             public readonly CStatic Avatar;
             public readonly CText Name;
 
-            public CTile(CStatic av, CText tex, int pl)
+            public CTile(CStatic av, CText tex, int pID)
             {
                 Avatar = av;
                 Name = tex;
-                PlayerNr = pl;
+                ProfileID = pID;
             }
         }
 
@@ -281,7 +281,7 @@ namespace VocaluxeLib.Menu
                 case Keys.Right:
                     if (_ActualSelection + 1 < _Tiles.Count)
                     {
-                        if (_Tiles[_ActualSelection + 1].PlayerNr != -1)
+                        if (_Tiles[_ActualSelection + 1].ProfileID != -1)
                             _ActualSelection++;
                     }
                     else
@@ -316,7 +316,7 @@ namespace VocaluxeLib.Menu
                 case Keys.Down:
                     if (_ActualSelection + _NumW < _Tiles.Count)
                     {
-                        if (_Tiles[_ActualSelection + _NumW].PlayerNr != -1)
+                        if (_Tiles[_ActualSelection + _NumW].ProfileID != -1)
                             _ActualSelection += _NumW;
                     }
                     else
@@ -326,11 +326,11 @@ namespace VocaluxeLib.Menu
                         if (offset != Offset)
                         {
                             _ActualSelection = _ActualSelection - _Tiles.Count + _NumW;
-                            if (_Tiles[_ActualSelection].PlayerNr == -1)
+                            if (_Tiles[_ActualSelection].ProfileID == -1)
                             {
                                 for (int i = _Tiles.Count - 1; i >= 0; i--)
                                 {
-                                    if (_Tiles[i].PlayerNr != -1)
+                                    if (_Tiles[i].ProfileID != -1)
                                     {
                                         _ActualSelection = i;
                                         break;
@@ -412,14 +412,14 @@ namespace VocaluxeLib.Menu
                     _Tiles[i].Avatar.Texture = CBase.Profiles.GetProfiles()[_VisibleProfiles[i + offset * _Tiles.Count]].Avatar.Texture;
                     _Tiles[i].Avatar.Color = new SColorF(1, 1, 1, 1);
                     _Tiles[i].Name.Text = CBase.Profiles.GetProfiles()[_VisibleProfiles[i + offset * _Tiles.Count]].PlayerName;
-                    _Tiles[i].PlayerNr = _VisibleProfiles[i + offset * _Tiles.Count];
+                    _Tiles[i].ProfileID = _VisibleProfiles[i + offset * _Tiles.Count];
                 }
                 else
                 {
                     _Tiles[i].Avatar.Texture = _TextureEmptyTile;
                     _Tiles[i].Avatar.Color = ColorEmptyTile;
                     _Tiles[i].Name.Text = "";
-                    _Tiles[i].PlayerNr = -1;
+                    _Tiles[i].ProfileID = -1;
                 }
             }
             Offset = offset;
@@ -441,7 +441,7 @@ namespace VocaluxeLib.Menu
             foreach (CTile tile in _Tiles)
             {
                 if (CHelper.IsInBounds(tile.Avatar.Rect, mevent))
-                    return tile.PlayerNr;
+                    return tile.ProfileID;
             }
 
             return -1;
