@@ -481,6 +481,11 @@ namespace Vocaluxe.Base
 
             return _Profiles[profileID].Avatar.ID;
         }
+
+        public static int GetProfileID(int num)
+        {
+            return _Profiles[num].ID;
+        }
         #endregion profile properties
 
         #region avatar texture
