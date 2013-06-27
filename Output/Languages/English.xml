@@ -92,6 +92,7 @@
   <string name="TR_SCREENPARTY_AUTHOR">Author</string>
   <string name="TR_SCREENPARTY_VERSION">Version</string>
   <string name="TR_SCREENPARTY_ERROR">Can't load this party-mode.</string>
+  <string name="TR_SCREENPARTY_ERROR_MICS">There are no mics configured!</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">Target audience</string>
   <string name="TR_SCREENPARTY_NOTEAMS">No teams</string>
   <string name="TR_SCREENPARTY_NUMTEAMS">Number of teams</string>
