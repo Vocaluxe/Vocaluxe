@@ -515,7 +515,7 @@ namespace VocaluxeLib.Menu
                     }
                 }
                 if (visible)
-                    _VisibleProfiles.Add(i);
+                    _VisibleProfiles.Add(profiles[i].ID);
             }
         }
 
