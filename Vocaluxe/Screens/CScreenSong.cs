@@ -1199,6 +1199,7 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonOptionsSing].Visible = true;
             _Buttons[_ButtonOptionsPlaylist].Visible = true;
             _SetInteractionToButton(_Buttons[_ButtonOptionsSing]);
+            _SetSelectSlidePlaylistToCurrentPlaylist();
         }
 
         private void _ShowSongOptionsGeneral()
@@ -1261,7 +1262,6 @@ namespace Vocaluxe.Screens
                 _Playlists[_Playlist].LoadPlaylist(playlistID);
                 _SongMenus[_SongMenu].SetSmallView(true);
                 _Playlists[_Playlist].Visible = true;
-                _SetSelectSlidePlaylistToCurrentPlaylist();
             }
         }
 
@@ -1312,7 +1312,6 @@ namespace Vocaluxe.Screens
                     //Open playlist
                     _OpenPlaylist(_Playlists[_Playlist].ActivePlaylistID);
 
-                    _SetSelectSlidePlaylistToCurrentPlaylist();
                     _Playlists[_Playlist].ScrollToBottom();
                 }
             }
@@ -1340,8 +1339,6 @@ namespace Vocaluxe.Screens
                 //Add new playlist to select-slide
                 _SelectSlides[_SelectSlideOptionsPlaylistAdd].AddValue(CPlaylists.Playlists[_Playlists[_Playlist].ActivePlaylistID].PlaylistName);
                 _SelectSlides[_SelectSlideOptionsPlaylistOpen].AddValue(CPlaylists.Playlists[_Playlists[_Playlist].ActivePlaylistID].PlaylistName);
-
-                _SetSelectSlidePlaylistToCurrentPlaylist();
             }
                 //Add song to loaded playlist
             else
