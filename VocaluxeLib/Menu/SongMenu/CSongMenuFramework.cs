@@ -518,6 +518,8 @@ namespace VocaluxeLib.Menu.SongMenu
             _Active = active;
         }
 
+        public virtual bool IsMouseOverActualSelection(SMouseEvent mEvent) { return false; }
+
         public virtual int GetSelectedSong()
         {
             return -1;
@@ -624,6 +626,9 @@ namespace VocaluxeLib.Menu.SongMenu
 
                 if (Math.Abs(startposition) < 0.001)
                     startposition = CBase.Sound.GetLength(stream) / 4f;
+
+                if (startposition >= 0.5f)
+                    startposition -= 0.5f;
 
                 CBase.Sound.SetPosition(stream, startposition);
                 CBase.Sound.Play(stream);

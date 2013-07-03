@@ -172,7 +172,7 @@ namespace Vocaluxe.Screens
                 {
                     if (_SearchActive)
                         _ApplyNewSearchFilter(_SearchText + keyEvent.Unicode);
-                    else
+                    else if(!_Sso.Selection.PartyMode)
                     {
                         _JumpTo(keyEvent.Unicode);
                         return true;
@@ -284,26 +284,32 @@ namespace Vocaluxe.Screens
                                 break;
 
                             case Keys.D1:
+                            case Keys.NumPad1:
                                 _SelectNextRandom(0);
                                 break;
 
                             case Keys.D2:
+                            case Keys.NumPad2:
                                 _SelectNextRandom(1);
                                 break;
 
                             case Keys.D3:
+                            case Keys.NumPad3:
                                 _SelectNextRandom(2);
                                 break;
 
                             case Keys.D4:
+                            case Keys.NumPad4:
                                 _SelectNextRandom(3);
                                 break;
 
                             case Keys.D5:
+                            case Keys.NumPad5:
                                 _SelectNextRandom(4);
                                 break;
 
                             case Keys.D6:
+                            case Keys.NumPad6:
                                 _SelectNextRandom(5);
                                 break;
                         }
@@ -443,9 +449,7 @@ namespace Vocaluxe.Screens
 
             if (mouseEvent.LD && !_Sso.Selection.PartyMode)
             {
-                //TODO: Causes Bug if you select a song (e.g. with Select random song) and double click a normal button.
-                //E.g. clicking to fast on Select random song starts the next random song. is this OK?
-                if (CSongs.NumSongsVisible > 0 && _SongMenus[_SongMenu].GetActualSelection() != -1)
+                if (CSongs.NumSongsVisible > 0 && _SongMenus[_SongMenu].GetActualSelection() != -1 && _SongMenus[_SongMenu].IsMouseOverActualSelection(mouseEvent))
                 {
                     _ToggleSongOptions(ESongOptionsView.None);
                     _StartVisibleSong(_SongMenus[_SongMenu].GetActualSelection());
@@ -1003,18 +1007,76 @@ namespace Vocaluxe.Screens
         {
             int start = 0;
             int curSelected = _SongMenus[_SongMenu].GetActualSelection();
-            if (CSongs.IsInCategory)
+            bool firstLevel = CConfig.Tabs == EOffOn.TR_CONFIG_OFF && CSongs.IsInCategory;
+            bool secondSort = CConfig.Tabs == EOffOn.TR_CONFIG_ON &&
+                                (CConfig.SongSorting == ESongSorting.TR_CONFIG_ARTIST ||
+                                 CConfig.SongSorting == ESongSorting.TR_CONFIG_ARTIST_LETTER ||
+                                 CConfig.SongSorting == ESongSorting.TR_CONFIG_FOLDER ||
+                                 CConfig.SongSorting == ESongSorting.TR_CONFIG_TITLE_LETTER);
+            if (firstLevel && !secondSort)
             {
-                //TODO: Check and use sorting method
+                //TODO: What's to do with multiple tags?
+                //How can we get current letter? I think we have to save it - Or is there a better method?
                 ReadOnlyCollection<CSong> songs = CSongs.VisibleSongs;
                 int ct = songs.Count;
-                if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                    start = curSelected + 1;
-                int visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                int visibleID = -1;
+                switch (CConfig.SongSorting)
+                {
+                    case ESongSorting.TR_CONFIG_ARTIST:
+                    case ESongSorting.TR_CONFIG_ARTIST_LETTER:
+                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
+                            start = curSelected + 1;
+                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        break;
+
+                    //TODO: Does this make sense? Maybe we should deactivate this for years? You could only jump between 1 and 2
+                    case ESongSorting.TR_CONFIG_YEAR:
+                    case ESongSorting.TR_CONFIG_DECADE:
+                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Year.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
+                            start = curSelected + 1;
+                        visibleID = _FindIndex(songs, start, element => element.Year.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        break;
+
+                    case ESongSorting.TR_CONFIG_TITLE_LETTER:
+                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
+                            start = curSelected + 1;
+                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        break;
+
+                    case ESongSorting.TR_CONFIG_FOLDER:
+                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Folder.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
+                            start = curSelected + 1;
+                        visibleID = _FindIndex(songs, start, element => element.Folder.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        break;
+                }
                 if (visibleID > -1)
                     _SongMenus[_SongMenu].SetSelectedSong(visibleID);
             }
-            else
+            else if (secondSort && CSongs.IsInCategory)
+            {
+                ReadOnlyCollection<CSong> songs = CSongs.VisibleSongs;
+                int ct = songs.Count;
+                int visibleID = -1;
+                switch (CConfig.SongSorting)
+                {
+                    case ESongSorting.TR_CONFIG_FOLDER:
+                    case ESongSorting.TR_CONFIG_TITLE_LETTER:
+                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
+                            start = curSelected + 1;
+                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        break;
+
+                    case ESongSorting.TR_CONFIG_ARTIST:
+                    case ESongSorting.TR_CONFIG_ARTIST_LETTER:
+                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
+                            start = curSelected + 1;
+                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        break;
+                }
+                if (visibleID > -1)
+                    _SongMenus[_SongMenu].SetSelectedSong(visibleID);
+            }
+            else if(!CSongs.IsInCategory)
             {
                 ReadOnlyCollection<CCategory> categories = CSongs.Categories;
                 int ct = categories.Count;
@@ -1137,6 +1199,7 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonOptionsSing].Visible = true;
             _Buttons[_ButtonOptionsPlaylist].Visible = true;
             _SetInteractionToButton(_Buttons[_ButtonOptionsSing]);
+            _SetSelectSlidePlaylistToCurrentPlaylist();
         }
 
         private void _ShowSongOptionsGeneral()
@@ -1199,7 +1262,6 @@ namespace Vocaluxe.Screens
                 _Playlists[_Playlist].LoadPlaylist(playlistID);
                 _SongMenus[_SongMenu].SetSmallView(true);
                 _Playlists[_Playlist].Visible = true;
-                _SetSelectSlidePlaylistToCurrentPlaylist();
             }
         }
 
@@ -1250,7 +1312,6 @@ namespace Vocaluxe.Screens
                     //Open playlist
                     _OpenPlaylist(_Playlists[_Playlist].ActivePlaylistID);
 
-                    _SetSelectSlidePlaylistToCurrentPlaylist();
                     _Playlists[_Playlist].ScrollToBottom();
                 }
             }
@@ -1278,8 +1339,6 @@ namespace Vocaluxe.Screens
                 //Add new playlist to select-slide
                 _SelectSlides[_SelectSlideOptionsPlaylistAdd].AddValue(CPlaylists.Playlists[_Playlists[_Playlist].ActivePlaylistID].PlaylistName);
                 _SelectSlides[_SelectSlideOptionsPlaylistOpen].AddValue(CPlaylists.Playlists[_Playlists[_Playlist].ActivePlaylistID].PlaylistName);
-
-                _SetSelectSlidePlaylistToCurrentPlaylist();
             }
                 //Add song to loaded playlist
             else

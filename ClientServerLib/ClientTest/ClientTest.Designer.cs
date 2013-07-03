@@ -42,7 +42,6 @@
             this.lbServerIP = new System.Windows.Forms.Label();
             this.tbPassword = new System.Windows.Forms.TextBox();
             this.lbPassword = new System.Windows.Forms.Label();
-            this.btLogin = new System.Windows.Forms.Button();
             this.btLeft = new System.Windows.Forms.Button();
             this.btRight = new System.Windows.Forms.Button();
             this.btUp = new System.Windows.Forms.Button();
@@ -143,7 +142,7 @@
             // 
             // btConnect
             // 
-            this.btConnect.Location = new System.Drawing.Point(831, 64);
+            this.btConnect.Location = new System.Drawing.Point(831, 90);
             this.btConnect.Name = "btConnect";
             this.btConnect.Size = new System.Drawing.Size(165, 23);
             this.btConnect.TabIndex = 5;
@@ -162,7 +161,7 @@
             // 
             // tbPassword
             // 
-            this.tbPassword.Location = new System.Drawing.Point(910, 128);
+            this.tbPassword.Location = new System.Drawing.Point(910, 64);
             this.tbPassword.Name = "tbPassword";
             this.tbPassword.Size = new System.Drawing.Size(86, 20);
             this.tbPassword.TabIndex = 6;
@@ -171,22 +170,11 @@
             // lbPassword
             // 
             this.lbPassword.AutoSize = true;
-            this.lbPassword.Location = new System.Drawing.Point(828, 131);
+            this.lbPassword.Location = new System.Drawing.Point(828, 67);
             this.lbPassword.Name = "lbPassword";
             this.lbPassword.Size = new System.Drawing.Size(56, 13);
             this.lbPassword.TabIndex = 7;
             this.lbPassword.Text = "Password:";
-            // 
-            // btLogin
-            // 
-            this.btLogin.Enabled = false;
-            this.btLogin.Location = new System.Drawing.Point(831, 154);
-            this.btLogin.Name = "btLogin";
-            this.btLogin.Size = new System.Drawing.Size(165, 23);
-            this.btLogin.TabIndex = 8;
-            this.btLogin.Text = "Login";
-            this.btLogin.UseVisualStyleBackColor = true;
-            this.btLogin.Click += new System.EventHandler(this.btLogin_Click);
             // 
             // btLeft
             // 
@@ -298,7 +286,6 @@
             this.Controls.Add(this.btUp);
             this.Controls.Add(this.btRight);
             this.Controls.Add(this.btLeft);
-            this.Controls.Add(this.btLogin);
             this.Controls.Add(this.tbDataReceiving);
             this.Controls.Add(this.lbPassword);
             this.Controls.Add(this.lbDataReceiving);
@@ -336,7 +323,6 @@
         private System.Windows.Forms.Label lbServerIP;
         private System.Windows.Forms.TextBox tbPassword;
         private System.Windows.Forms.Label lbPassword;
-        private System.Windows.Forms.Button btLogin;
         private System.Windows.Forms.Button btLeft;
         private System.Windows.Forms.Button btRight;
         private System.Windows.Forms.Button btUp;

@@ -561,6 +561,11 @@ namespace Vocaluxe.Base
         {
             return CProfiles.GetPlayerName(profileID, playerNum);
         }
+
+        public CTexture GetAvatar(int profileID)
+        {
+            return CProfiles.GetAvatarTextureFromProfile(profileID);
+        }
     }
 
     class CBrecord : IRecording

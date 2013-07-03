@@ -533,15 +533,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private void _SetTeamNames()
         {
-            CProfile[] profiles = CBase.Profiles.GetProfiles();
-
-            if (profiles == null)
-            {
-                _ScreenSongOptions.Selection.TeamNames = new string[] {"foo", "bar"};
-                return;
-            }
-
-            if (_GameData.NumPlayerAtOnce < 1 || _GameData.ProfileIDs.Count < _GameData.NumPlayerAtOnce || profiles.Length < _GameData.NumPlayerAtOnce)
+            if (_GameData.NumPlayerAtOnce < 1 || _GameData.ProfileIDs.Count < _GameData.NumPlayerAtOnce)
             {
                 _ScreenSongOptions.Selection.TeamNames = new string[] {"foo", "bar"};
                 return;
@@ -554,10 +546,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             {
                 if (c != null)
                 {
-                    if (_GameData.ProfileIDs[c.Player[i]] < profiles.Length)
-                        _ScreenSongOptions.Selection.TeamNames[i] = profiles[_GameData.ProfileIDs[c.Player[i]]].PlayerName;
-                    else
-                        _ScreenSongOptions.Selection.TeamNames[i] = "foobar";
+                    _ScreenSongOptions.Selection.TeamNames[i] = CBase.Profiles.GetPlayerName(_GameData.ProfileIDs[c.Player[i]]);
                 }
                 else
                     _ScreenSongOptions.Selection.TeamNames[i] = "foobar";

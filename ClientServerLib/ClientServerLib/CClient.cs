@@ -29,6 +29,8 @@ namespace ClientServerLib
         private OnSend onSend;
         private OnReceived onReceived;
 
+        private byte[] data;
+
         public bool Connected
         {
             get { return connected; }
@@ -41,14 +43,12 @@ namespace ClientServerLib
             running = true;
             requests = new List<SRequest>();
             responses = new List<SRequest>();
+            data = new byte[bufferLength];
 
             connection = new CConnection(new TcpClient(), -1);
-
-            clientThread = new Thread(new ThreadStart(Runner));
-            clientThread.Start();
         }
 
-        public void Connect(string IP = "127.0.0.1", int Port = 3000,
+        public void Connect(string IP = "127.0.0.1", int Port = 3000, string Password = null,
             OnConnectionChanged OnConnectionChanged = null,
             OnSend OnSend = null,
             OnReceived OnReceived = null)
@@ -61,7 +61,15 @@ namespace ClientServerLib
 
                 ip = IP;
                 port = Port;
+                connection.Password = Password;
                 doConnect = true;
+
+                if (clientThread == null)
+                {
+                    running = true;
+                    clientThread = new Thread(new ThreadStart(Runner));
+                    clientThread.Start();
+                }
             }
         }
 
@@ -85,9 +93,13 @@ namespace ClientServerLib
 
         public void Close()
         {
-            Disconnect();
             running = false;
-            clientThread.Join(100);
+
+            if (clientThread != null)
+                clientThread.Join(100);
+
+            clientThread = null;
+            DoDisconnect();
         }
 
         public void SendMessage(byte[] Message, ResponseCallback Callback)
@@ -111,10 +123,14 @@ namespace ClientServerLib
                 {
                     try
                     {
-                        serverEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
-                        connection.TcpClient.Connect(serverEndPoint);
-                        connected = true;
-                        RaiseOnConnectionChanged();
+                        IPAddress resolvedIP;
+                        if (TryResolveIPAddress(ip, out resolvedIP))
+                        {
+                            serverEndPoint = new IPEndPoint(resolvedIP, port);
+                            connection.TcpClient.Connect(serverEndPoint);
+                            connected = true;
+                            RaiseOnConnectionChanged();
+                        }
                     }
                     catch
                     {
@@ -122,7 +138,7 @@ namespace ClientServerLib
 
                         for (int i = 0; i < 500; i++)
                         {
-                            if (doConnect)
+                            if (running && doConnect)
                                 Thread.Sleep(10);
                             else
                                 break;
@@ -141,6 +157,7 @@ namespace ClientServerLib
                     try
                     {
                         Communicate();
+                        Thread.Sleep(10);
                     }
                     catch
                     {
@@ -148,7 +165,60 @@ namespace ClientServerLib
                     }
 
                 }
+
+                if (!doConnect && !connected)
+                {
+                    for (int i = 0; i < 500; i++)
+                    {
+                        if (running && !doConnect)
+                            Thread.Sleep(10);
+                        else
+                            break;
+                    }
+                }
             }
+        }
+
+        public bool TryResolveIPAddress(string serverNameOrURL, out IPAddress resolvedIPAddress)
+        {
+            bool isResolved = false;
+            IPHostEntry hostEntry = null;
+            IPAddress resolvIP = null;
+            try
+            {
+                if (!IPAddress.TryParse(serverNameOrURL, out resolvIP))
+                {
+                    hostEntry = Dns.GetHostEntry(serverNameOrURL);
+                    if (hostEntry != null && hostEntry.AddressList != null && hostEntry.AddressList.Length > 0)
+                    {
+                        if (hostEntry.AddressList.Length == 1)
+                        {
+                            resolvIP = hostEntry.AddressList[0];
+                            isResolved = true;
+                        }
+                        else
+                        {
+                            foreach (IPAddress var in hostEntry.AddressList)
+                            {
+                                if (var.AddressFamily == AddressFamily.InterNetwork)
+                                {
+                                    resolvIP = var;
+                                    isResolved = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                    isResolved = true;
+            }
+            catch (Exception) {}
+            finally
+            {
+                resolvedIPAddress = resolvIP;
+            }
+            return isResolved;
         }
 
         private void DoDisconnect()
@@ -161,6 +231,7 @@ namespace ClientServerLib
 
             connection = new CConnection(new TcpClient(), -1);
             connected = false;
+            doConnect = false;
             RaiseOnConnectionChanged();
         }
 
@@ -170,8 +241,7 @@ namespace ClientServerLib
                 DoDisconnect();
 
             NetworkStream clientStream = connection.TcpClient.GetStream();
-
-            byte[] data = new byte[bufferLength];
+                        
             int bytesRead;
 
             if (!connection.KeySet)
@@ -302,7 +372,10 @@ namespace ClientServerLib
             {
                 onConnectionChanged(connected);
             }
-            catch {}
+            catch (Exception e)
+			{
+				Console.WriteLine (e.Message);
+			}
         }
 
         private void RaiseOnSend(byte[] Message)

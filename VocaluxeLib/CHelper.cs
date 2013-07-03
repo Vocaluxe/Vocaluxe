@@ -69,13 +69,16 @@ namespace VocaluxeLib
         public static int TryReadInt(StreamReader sr)
         {
             string value = String.Empty;
-
+            
             try
             {
                 int tmp = sr.Peek();
-                //Check for ' ', ?, ?, \n, \r
-                while (tmp != 32 && tmp != 19 && tmp != 16 && tmp != 13 && tmp != 10)
+                //Check for ' ', ?, ?, \n, \r, E
+                while (tmp != 32 && tmp != 19 && tmp != 16 && tmp != 13 && tmp != 10 && tmp != 69)
                 {
+                    if (sr.EndOfStream)
+                        break;
+
                     char chr = (char)sr.Read();
                     value += chr.ToString();
                     tmp = sr.Peek();

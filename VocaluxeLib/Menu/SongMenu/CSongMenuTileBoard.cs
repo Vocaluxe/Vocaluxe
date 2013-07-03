@@ -485,6 +485,15 @@ namespace VocaluxeLib.Menu.SongMenu
             return _Locked;
         }
 
+        public override bool IsMouseOverActualSelection(SMouseEvent mEvent)
+        {
+            CStatic selCov = GetSelectedSongCover();
+            if (selCov.Texture == null)
+                return false;
+            SRectF rect = new SRectF(selCov.Rect.X - selCov.Rect.W*0.2f, selCov.Rect.Y - selCov.Rect.H*0.2f, selCov.Rect.W*1.2f, selCov.Rect.H*1.2f, selCov.Rect.Z);
+            return CHelper.IsInBounds(rect, mEvent);
+        }
+
         public override CStatic GetSelectedSongCover()
         {
             foreach (CStatic tile in _Tiles)

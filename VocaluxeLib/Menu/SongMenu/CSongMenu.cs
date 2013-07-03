@@ -98,6 +98,11 @@ namespace VocaluxeLib.Menu.SongMenu
             _SongMenu.SetActive(active);
         }
 
+        public bool IsMouseOverActualSelection(SMouseEvent mEvent)
+        {
+            return _SongMenu.IsMouseOverActualSelection(mEvent);
+        }
+
         public int GetSelectedSong()
         {
             return _SongMenu.GetSelectedSong();

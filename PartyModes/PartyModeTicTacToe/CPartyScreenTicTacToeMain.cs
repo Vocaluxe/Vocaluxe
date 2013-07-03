@@ -494,17 +494,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _GameData.Rounds[_SelectedField].SingerTeam1 = singerTeam1;
                 _GameData.Rounds[_SelectedField].SingerTeam2 = singerTeam2;
 
-                _Texts[_TextNextPlayerT1].Visible = true;
-                _Texts[_TextNextPlayerT2].Visible = true;
-                _Texts[_TextNextPlayerNameT1].Visible = true;
-                _Texts[_TextNextPlayerNameT2].Visible = true;
-                CProfile[] profiles = CBase.Profiles.GetProfiles();
-                _Texts[_TextNextPlayerNameT1].Text = profiles[_GameData.ProfileIDsTeam1[_GameData.Rounds[_SelectedField].SingerTeam1]].PlayerName;
-                _Texts[_TextNextPlayerNameT2].Text = profiles[_GameData.ProfileIDsTeam2[_GameData.Rounds[_SelectedField].SingerTeam2]].PlayerName;
-                _Statics[_StaticAvatarT1].Visible = true;
-                _Statics[_StaticAvatarT2].Visible = true;
-                _Statics[_StaticAvatarT1].Texture = profiles[_GameData.ProfileIDsTeam1[_GameData.Rounds[_SelectedField].SingerTeam1]].Avatar.Texture;
-                _Statics[_StaticAvatarT2].Texture = profiles[_GameData.ProfileIDsTeam2[_GameData.Rounds[_SelectedField].SingerTeam2]].Avatar.Texture;
+                _UpdatePlayerInformation();
 
             }
             int songID = 0;
@@ -553,17 +543,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _GameData.Rounds[_SelectedField].SingerTeam2 = _GameData.Rounds[_OldSelectedField].SingerTeam2;
             _UpdateFieldContents();
 
-            _Texts[_TextNextPlayerT1].Visible = true;
-            _Texts[_TextNextPlayerT2].Visible = true;
-            _Texts[_TextNextPlayerNameT1].Visible = true;
-            _Texts[_TextNextPlayerNameT2].Visible = true;
-            CProfile[] profiles = CBase.Profiles.GetProfiles();
-            _Texts[_TextNextPlayerNameT1].Text = profiles[_GameData.ProfileIDsTeam1[_GameData.Rounds[_SelectedField].SingerTeam1]].PlayerName;
-            _Texts[_TextNextPlayerNameT2].Text = profiles[_GameData.ProfileIDsTeam2[_GameData.Rounds[_SelectedField].SingerTeam2]].PlayerName;
-            _Statics[_StaticAvatarT1].Visible = true;
-            _Statics[_StaticAvatarT2].Visible = true;
-            _Statics[_StaticAvatarT1].Texture = profiles[_GameData.ProfileIDsTeam1[_GameData.Rounds[_SelectedField].SingerTeam1]].Avatar.Texture;
-            _Statics[_StaticAvatarT2].Texture = profiles[_GameData.ProfileIDsTeam2[_GameData.Rounds[_SelectedField].SingerTeam2]].Avatar.Texture;
+            _UpdatePlayerInformation();
 
             _UpdateJokerButtons();
 
@@ -572,6 +552,20 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _Buttons[_ButtonBack].Visible = false;
 
             _SetInteractionToButton(_Buttons[_ButtonNextRound]);
+        }
+
+        private void _UpdatePlayerInformation()
+        {
+            _Texts[_TextNextPlayerT1].Visible = true;
+            _Texts[_TextNextPlayerT2].Visible = true;
+            _Texts[_TextNextPlayerNameT1].Visible = true;
+            _Texts[_TextNextPlayerNameT2].Visible = true;
+            _Texts[_TextNextPlayerNameT1].Text = CBase.Profiles.GetPlayerName(_GameData.ProfileIDsTeam1[_GameData.Rounds[_SelectedField].SingerTeam1]);
+            _Texts[_TextNextPlayerNameT2].Text = CBase.Profiles.GetPlayerName(_GameData.ProfileIDsTeam2[_GameData.Rounds[_SelectedField].SingerTeam2]);
+            _Statics[_StaticAvatarT1].Visible = true;
+            _Statics[_StaticAvatarT2].Visible = true;
+            _Statics[_StaticAvatarT1].Texture = CBase.Profiles.GetAvatar(_GameData.ProfileIDsTeam1[_GameData.Rounds[_SelectedField].SingerTeam1]);
+            _Statics[_StaticAvatarT2].Texture = CBase.Profiles.GetAvatar(_GameData.ProfileIDsTeam2[_GameData.Rounds[_SelectedField].SingerTeam2]);
         }
 
         private void _UseJoker(int teamNr, int jokerNum)

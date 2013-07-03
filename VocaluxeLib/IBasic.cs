@@ -197,6 +197,7 @@ namespace VocaluxeLib
         CProfile[] GetProfiles();
         EGameDifficulty GetDifficulty(int profileID);
         string GetPlayerName(int profileID, int playerNum = 0);
+        CTexture GetAvatar(int profileID);
     }
 
     public interface ISongs

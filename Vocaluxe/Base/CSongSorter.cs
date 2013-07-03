@@ -86,28 +86,28 @@ namespace Vocaluxe.Base
 
         private int _SortByFieldArtistTitle(CSongPointer s1, CSongPointer s2)
         {
-            int res = String.Compare(s1.SortString, s2.SortString, StringComparison.OrdinalIgnoreCase);
+            int res = String.Compare(s1.SortString, s2.SortString, StringComparison.CurrentCultureIgnoreCase);
             if (res == 0)
             {
                 if (_IgnoreArticles == EOffOn.TR_CONFIG_ON)
                 {
-                    res = String.Compare(CSongs.Songs[s1.SongID].ArtistSorting, CSongs.Songs[s2.SongID].ArtistSorting, StringComparison.OrdinalIgnoreCase);
-                    return res != 0 ? res : String.Compare(CSongs.Songs[s1.SongID].TitleSorting, CSongs.Songs[s2.SongID].TitleSorting, StringComparison.OrdinalIgnoreCase);
+                    res = String.Compare(CSongs.Songs[s1.SongID].ArtistSorting, CSongs.Songs[s2.SongID].ArtistSorting, StringComparison.CurrentCultureIgnoreCase);
+                    return res != 0 ? res : String.Compare(CSongs.Songs[s1.SongID].TitleSorting, CSongs.Songs[s2.SongID].TitleSorting, StringComparison.CurrentCultureIgnoreCase);
                 }
-                res = String.Compare(CSongs.Songs[s1.SongID].Artist, CSongs.Songs[s2.SongID].Artist, StringComparison.OrdinalIgnoreCase);
-                return res != 0 ? res : String.Compare(CSongs.Songs[s1.SongID].Title, CSongs.Songs[s2.SongID].Title, StringComparison.OrdinalIgnoreCase);
+                res = String.Compare(CSongs.Songs[s1.SongID].Artist, CSongs.Songs[s2.SongID].Artist, StringComparison.CurrentCultureIgnoreCase);
+                return res != 0 ? res : String.Compare(CSongs.Songs[s1.SongID].Title, CSongs.Songs[s2.SongID].Title, StringComparison.CurrentCultureIgnoreCase);
             }
             return res;
         }
 
         private int _SortByFieldTitle(CSongPointer s1, CSongPointer s2)
         {
-            int res = String.Compare(s1.SortString, s2.SortString, StringComparison.OrdinalIgnoreCase);
+            int res = String.Compare(s1.SortString, s2.SortString, StringComparison.CurrentCultureIgnoreCase);
             if (res == 0)
             {
                 return _IgnoreArticles == EOffOn.TR_CONFIG_ON
-                           ? String.Compare(CSongs.Songs[s1.SongID].TitleSorting, CSongs.Songs[s2.SongID].TitleSorting, StringComparison.OrdinalIgnoreCase) :
-                           String.Compare(CSongs.Songs[s1.SongID].Title, CSongs.Songs[s2.SongID].Title, StringComparison.OrdinalIgnoreCase);
+                           ? String.Compare(CSongs.Songs[s1.SongID].TitleSorting, CSongs.Songs[s2.SongID].TitleSorting, StringComparison.CurrentCultureIgnoreCase) :
+                           String.Compare(CSongs.Songs[s1.SongID].Title, CSongs.Songs[s2.SongID].Title, StringComparison.CurrentCultureIgnoreCase);
             }
             return res;
         }
