@@ -68,6 +68,12 @@ namespace Vocaluxe.Base
         public static bool IsFullScreen;
         public const int VertexBufferElements = 10000;
 
+#if PORTABLE
+        public static string DataPath = Environment.CurrentDirectory;
+#else
+        public static string DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),"Vocaluxe");
+#endif
+
         public const string Icon = "Vocaluxe.ico";
         public const string Logo = "Logo.png";
         public const string FallbackLanguage = "English";
@@ -209,7 +215,7 @@ namespace Vocaluxe.Base
 
         public static void CreateFolders()
         {
-            List<string> folders = new List<string> {FolderCover, FolderFonts, FolderProfiles, FolderSongs, FolderScreenshots, FolderBackgroundMusic, FolderSounds, FolderPlaylists};
+            List<string> folders = new List<string> {FolderCover, FolderFonts, FolderProfiles, Path.Combine(DataPath,FolderScreenshots), FolderBackgroundMusic, FolderSounds, Path.Combine(DataPath,FolderPlaylists)};
 
             foreach (string folder in folders)
             {
