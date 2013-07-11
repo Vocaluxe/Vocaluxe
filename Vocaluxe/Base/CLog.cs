@@ -39,7 +39,7 @@ namespace Vocaluxe.Base
 
         private void _Open()
         {
-            _LogFile = new StreamWriter(Path.Combine(Environment.CurrentDirectory, _LogFileName), false, Encoding.UTF8);
+            _LogFile = new StreamWriter(Path.Combine(CSettings.DataPath, _LogFileName), false, Encoding.UTF8);
 
             _LogFile.WriteLine(_LogName + " " + CSettings.GetFullVersionText() + " " + DateTime.Now);
             _LogFile.WriteLine("----------------------------------------");
