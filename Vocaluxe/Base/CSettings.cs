@@ -96,7 +96,16 @@ namespace Vocaluxe.Base
         public const string FolderThemes = "Themes";
         public const string FolderThemeFonts = "Fonts";
         public const string FolderScreens = "Screens";
-        public static string FolderProfiles = "Profiles";
+        public const string FolderProfiles = "Profiles";
+        public static List<string> FoldersProfiles = new List<string>()
+            {
+#if PORTABLE
+                Path.Combine(DataPath, FolderProfiles)
+#else
+                Path.Combine(Environment.CurrentDirectory, FolderProfiles),
+                Path.Combine(DataPath, FolderProfiles)
+#endif
+            };
         public const string FolderSongs = "Songs";
         public const string FolderSounds = "Sounds";
         public const string FolderLanguages = "Languages";
@@ -215,7 +224,8 @@ namespace Vocaluxe.Base
 
         public static void CreateFolders()
         {
-            List<string> folders = new List<string> {FolderCover, FolderFonts, FolderProfiles, Path.Combine(DataPath,FolderScreenshots), FolderBackgroundMusic, FolderSounds, Path.Combine(DataPath,FolderPlaylists)};
+            List<string> folders = new List<string> {FolderCover, FolderFonts, Path.Combine(DataPath,FolderScreenshots), FolderBackgroundMusic, FolderSounds, Path.Combine(DataPath,FolderPlaylists)};
+            folders.AddRange(FoldersProfiles);
 
             foreach (string folder in folders)
             {

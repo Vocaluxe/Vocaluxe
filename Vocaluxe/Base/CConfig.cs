@@ -785,7 +785,8 @@ namespace Vocaluxe.Base
 
                     case "profilefolder":
                         CSettings.CreateFolder(value);
-                        CSettings.FolderProfiles = value;
+                        CSettings.FoldersProfiles.Clear();
+                        CSettings.FoldersProfiles.Add(value);
                         break;
                 }
             }

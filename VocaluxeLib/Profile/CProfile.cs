@@ -36,6 +36,7 @@ namespace VocaluxeLib.Profile
         public int ID;
 
         public string PlayerName;
+        public string FilePath;
         public string FileName;
         public string AvatarFileName;
 
@@ -69,14 +70,20 @@ namespace VocaluxeLib.Profile
 
         public bool LoadProfile()
         {
-            return LoadProfile(FileName);
+            return LoadProfile(FilePath, FileName);
         }
 
-        public bool LoadProfile(string fileName)
+        public bool LoadProfile(string file)
         {
-            FileName = fileName;
+            FileName = Path.GetFileName(file);
+            FilePath = Path.GetDirectoryName(file);
 
-            CXMLReader xmlReader = CXMLReader.OpenFile(FileName);
+            return LoadProfile(FilePath, FileName);
+        }
+
+        public bool LoadProfile(string pathName, string fileName)
+        {
+            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(FilePath, FileName));
             if (xmlReader == null)
                 return false;
 
@@ -99,6 +106,8 @@ namespace VocaluxeLib.Profile
 
         public void SaveProfile()
         {
+            if (String.IsNullOrEmpty(FilePath))
+                FilePath = Path.Combine(CBase.Settings.GetDataPath(),CBase.Settings.GetFolderProfiles());
             if (FileName == String.Empty)
             {
                 string filename = string.Empty;
@@ -114,14 +123,14 @@ namespace VocaluxeLib.Profile
                     filename = "1";
 
                 int i = 0;
-                while (File.Exists(Path.Combine(CBase.Settings.GetFolderProfiles(), filename + ".xml")))
+                while (File.Exists(Path.Combine(FilePath, filename + ".xml")))
                 {
                     i++;
-                    if (!File.Exists(Path.Combine(CBase.Settings.GetFolderProfiles(), filename + i + ".xml")))
+                    if (!File.Exists(Path.Combine(FilePath, filename + i + ".xml")))
                         filename += i;
                 }
 
-                FileName = Path.Combine(Environment.CurrentDirectory, CBase.Settings.GetFolderProfiles(), filename + ".xml");
+                FileName = filename + ".xml";
             }
 
             if (FileName == String.Empty)
@@ -130,7 +139,7 @@ namespace VocaluxeLib.Profile
             XmlWriter writer;
             try
             {
-                writer = XmlWriter.Create(FileName, _Settings);
+                writer = XmlWriter.Create(Path.Combine(FilePath, FileName), _Settings);
             }
             catch (Exception e)
             {

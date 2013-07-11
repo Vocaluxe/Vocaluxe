@@ -128,9 +128,9 @@ namespace Vocaluxe.Base.Server
 
                             const string filename = "snapshot";
                             int i = 0;
-                            while (File.Exists(Path.Combine(CSettings.FolderProfiles, filename + i + ".png")))
+                            while (File.Exists(Path.Combine(CSettings.DataPath, CSettings.FolderProfiles, filename + i + ".png")))
                                 i++;
-                            bmp.Save(Path.Combine(CSettings.FolderProfiles, filename + i + ".png"), ImageFormat.Png);
+                            bmp.Save(Path.Combine(CSettings.DataPath, CSettings.FolderProfiles, filename + i + ".png"), ImageFormat.Png);
                         }
 
                         answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
@@ -182,7 +182,7 @@ namespace Vocaluxe.Base.Server
             string result = String.Empty;
             try
             {
-                string filename = Path.Combine(CSettings.FolderProfiles, "snapshot");
+                string filename = Path.Combine(CSettings.DataPath, CSettings.FolderProfiles, "snapshot");
                 int i = 0;
                 while (File.Exists(filename + i + ".jpg"))
                     i++;
