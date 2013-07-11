@@ -219,6 +219,11 @@ namespace Vocaluxe.Base
         {
             return CSettings.FolderProfiles;
         }
+
+        public string GetDataPath()
+        {
+            return CSettings.DataPath;
+        }
     }
 
     class CBtheme : ITheme

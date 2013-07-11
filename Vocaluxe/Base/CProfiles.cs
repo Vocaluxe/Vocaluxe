@@ -322,7 +322,7 @@ namespace Vocaluxe.Base
         {
             CProfile profile = new CProfile
                 {
-                    FileName = fileName != "" ? Path.Combine(CSettings.FolderProfiles, fileName) : String.Empty
+                    FileName = fileName != "" ? Path.Combine(CSettings.DataPath, CSettings.FolderProfiles, fileName) : String.Empty
                 };
 
             if (File.Exists(profile.FileName))
@@ -529,7 +529,8 @@ namespace Vocaluxe.Base
             }
 
             List<string> files = new List<string>();
-            files.AddRange(CHelper.ListFiles(CSettings.FolderProfiles, "*.xml", true, true));
+            foreach(string path in CSettings.FoldersProfiles)
+                files.AddRange(CHelper.ListFiles(path, "*.xml", true, true));
 
             foreach (string file in files)
             {
@@ -538,7 +539,8 @@ namespace Vocaluxe.Base
 
                 CProfile profile = new CProfile
                     {
-                        FileName = Path.Combine(CSettings.FolderProfiles, file)
+                        FileName = Path.GetFileName(file),
+                        FilePath = Path.GetDirectoryName(file)
                     };
 
                 if (profile.LoadProfile())
@@ -568,10 +570,13 @@ namespace Vocaluxe.Base
             }
 
             List<string> files = new List<string>();
-            files.AddRange(CHelper.ListFiles(CSettings.FolderProfiles, "*.png", true, true));
-            files.AddRange(CHelper.ListFiles(CSettings.FolderProfiles, "*.jpg", true, true));
-            files.AddRange(CHelper.ListFiles(CSettings.FolderProfiles, "*.jpeg", true, true));
-            files.AddRange(CHelper.ListFiles(CSettings.FolderProfiles, "*.bmp", true, true));
+            foreach (string path in CSettings.FoldersProfiles)
+            {
+                files.AddRange(CHelper.ListFiles(path, "*.png", true, true));
+                files.AddRange(CHelper.ListFiles(path, "*.jpg", true, true));
+                files.AddRange(CHelper.ListFiles(path, "*.jpeg", true, true));
+                files.AddRange(CHelper.ListFiles(path, "*.bmp", true, true));
+            }
 
             foreach (string file in files)
             {
@@ -610,7 +615,7 @@ namespace Vocaluxe.Base
                         CConfig.SaveConfig();
                     }
                 }
-                File.Delete(_Profiles[profileID].FileName);
+                File.Delete(Path.Combine(_Profiles[profileID].FilePath, _Profiles[profileID].FileName));
                 _RemoveProfile(profileID);
 
                 //Check if profile is selected in game

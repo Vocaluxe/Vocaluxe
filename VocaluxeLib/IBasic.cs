@@ -79,6 +79,7 @@ namespace VocaluxeLib
         float GetMedleyMinDuration();
 
         string GetFolderProfiles();
+        string GetDataPath();
     }
 
     public interface ITheme
