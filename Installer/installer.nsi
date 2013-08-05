@@ -11,8 +11,10 @@
   !define PRODUCT_STAGE "Beta"
   !define PRODUCT_WEBSITE "www.vocaluxe.org"
   !define UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
+  !define ADD_BG_VIDS "1"
   Name "${PRODUCT_NAME} ${PRODUCT_VERSION} ${PRODUCT_STAGE}"
   OutFile "VocaluxeSetup_${PRODUCT_VERSION}${PRODUCT_STAGE}.exe"
+  BrandingText "Vocaluxe Team 2013"
   
   InstallDirRegKey HKCU "Software\Vocaluxe" ""
 
@@ -195,6 +197,10 @@ SectionEnd
 Section $(TITLE_bg_videos) SecVideos
 
   SetOutPath "$INSTDIR\Themes\Ambient"
+  
+  ${If} ${ADD_BG_VIDS} == "1"
+  ${Else}
+  ${EndIf}
   
   SetOutPath "$INSTDIR"
 
