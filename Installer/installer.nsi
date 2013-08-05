@@ -10,13 +10,14 @@
   !define PRODUCT_WEBSITE "www.vocaluxe.org"
   !define UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
   Name "${PRODUCT_NAME} ${PRODUCT_VERSION} ${PRODUCT_STAGE}"
-  OutFile "Vocaluxe_installer.exe"
+  OutFile "VocaluxeSetup_${PRODUCT_VERSION}${PRODUCT_STAGE}.exe"
   
   InstallDirRegKey HKCU "Software\Vocaluxe" ""
 
   RequestExecutionLevel admin
   
   Var StartMenuFolder
+  Var DirectXSetupError
   
   !define MUI_ICON "..\Output\Vocaluxe.ico"
   !define MUI_HEADERIMAGE
@@ -83,8 +84,9 @@
   
 ;Installer Sections
 
-Section "Vocaluxe" SecMain
+Section $(TITLE_MAIN) SecMain
 
+  SectionIn RO
   SetOutPath "$INSTDIR"	
   
   File /r "..\Output\BackgroundMusic"
@@ -141,12 +143,26 @@ Section "Vocaluxe" SecMain
 
 SectionEnd
 
-Section "BG-Videos" SecVideos
+Section $(TITLE_bg_videos) SecVideos
 
   SetOutPath "$INSTDIR\Themes\Ambient"
   
-  ;ADD YOUR OWN FILES HERE...
+  SetOutPath "$INSTDIR"
 
+SectionEnd
+
+Section $(TITLE_directx) SecDirectX
+ 
+  SetOutPath "$TEMP"
+  File "Requirements\dxwebsetup.exe"
+  DetailPrint "Running DirectX Setup..."
+  ExecWait '"$TEMP\dxwebsetup.exe" /Q' $DirectXSetupError
+  DetailPrint "Finished DirectX Setup"
+ 
+  Delete "$TEMP\dxwebsetup.exe"
+ 
+  SetOutPath "$INSTDIR"
+ 
 SectionEnd
 
 ;--------------------------------
@@ -172,6 +188,7 @@ FunctionEnd
   !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
     !insertmacro MUI_DESCRIPTION_TEXT ${SecMain} $(DESC_main)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecVideos} $(DESC_bg_videos)
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecDirectX} $(DESC_directx)
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
  
