@@ -21,6 +21,7 @@
   Var StartMenuFolder
   Var DirectXSetupError
   Var NetSetupError
+  Var VCSetupError
   
   !define MUI_ICON "..\Output\Vocaluxe.ico"
   !define MUI_HEADERIMAGE
@@ -114,7 +115,7 @@ Section $(TITLE_MAIN) SecMain
   File "..\Output\CreditsRessourcesDB.sqlite"
   
   ${IfNot} ${HasDotNet4.0}
-  SetOutPath "$TEMP"
+    SetOutPath "$TEMP"
     File "Requirements\dotNetFx40_Full_setup.exe"
     DetailPrint "Running .NET4 Setup..."
     ExecWait '"$TEMP\dotNetFx40_Full_setup.exe" /Q' $NetSetupError
@@ -124,6 +125,24 @@ Section $(TITLE_MAIN) SecMain
  
     SetOutPath "$INSTDIR"
   ${EndIf}
+  
+  SetOutPath "$TEMP"
+  ${If} ${RunningX64}
+    File "Requirements\vcredist_x64.exe"
+    DetailPrint "Running VC++ 2012 Redistributable Setup..."
+    ExecWait '"$TEMP\vcredist_x64.exe" /Q /norestart' $VCSetupError
+    DetailPrint "Finished VC++ 2012 Redistributable Setup"
+ 
+    Delete "$TEMP\vcredist_x64.exe"
+  ${Else}
+    File "Requirements\vcredist_x86.exe"
+    DetailPrint "Running VC++ 2012 Redistributable Setup..."
+    ExecWait '"$TEMP\vcredist_x86.exe" /Q /norestart' $VCSetupError
+    DetailPrint "Finished VC++ 2012 Redistributable Setup"
+ 
+    Delete "$TEMP\vcredist_x86.exe"  
+  ${EndIf}
+  SetOutPath "$INSTDIR"
   
   ;Store installation folder
   WriteRegStr HKCU "Software\Vocaluxe" "" $INSTDIR
