@@ -11,7 +11,7 @@
   !define PRODUCT_STAGE "Beta"
   !define PRODUCT_WEBSITE "www.vocaluxe.org"
   !define UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
-  !define ADD_BG_VIDS "1"
+  !define ADD_BG_VIDS "0"
   Name "${PRODUCT_NAME} ${PRODUCT_VERSION} ${PRODUCT_STAGE}"
   OutFile "VocaluxeSetup_${PRODUCT_VERSION}${PRODUCT_STAGE}.exe"
   BrandingText "Vocaluxe Team 2013"
@@ -106,7 +106,7 @@ Section $(TITLE_MAIN) SecMain
   File /oname=$OUTDIR\Profiles\guest2.xml "..\Output\Profiles\guest2.xml"
   File /oname=$OUTDIR\Profiles\guest3.xml "..\Output\Profiles\guest3.xml"
   File /r "..\Output\Sounds"
-  File /r "..\Output\Themes"
+  File /r /x "*.mp4" "..\Output\Themes"
   ;File /r "..\Output\x64"
   ;File /r "..\Output\x86"
   File "..\Output\*.dll"
@@ -197,10 +197,8 @@ SectionEnd
 Section $(TITLE_bg_videos) SecVideos
 
   SetOutPath "$INSTDIR\Themes\Ambient"
-  
-  ${If} ${ADD_BG_VIDS} == "1"
-  ${Else}
-  ${EndIf}
+
+  File "..\Output\Themes\Ambient\*.mp4"
   
   SetOutPath "$INSTDIR"
 
