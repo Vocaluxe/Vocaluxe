@@ -119,9 +119,9 @@ Section $(TITLE_MAIN) SecMain
   ${If} $1 < 9
     SetOutPath "$TEMP"
     File "Requirements\dxwebsetup.exe"
-    DetailPrint "Running DirectX Setup..."
+    DetailPrint $(LOG_dx_setup_start)
     ExecWait '"$TEMP\dxwebsetup.exe" /Q' $DirectXSetupError
-    DetailPrint "Finished DirectX Setup"
+    DetailPrint $(LOG_dx_setup_finish)
  
     Delete "$TEMP\dxwebsetup.exe"
  
@@ -132,9 +132,9 @@ Section $(TITLE_MAIN) SecMain
   ${IfNot} ${HasDotNet4.0}
     SetOutPath "$TEMP"
     File "Requirements\dotNetFx40_Full_setup.exe"
-    DetailPrint "Running .NET4 Setup..."
+    DetailPrint $(LOG_net_setup_start)
     ExecWait '"$TEMP\dotNetFx40_Full_setup.exe" /Q' $NetSetupError
-    DetailPrint "Finished .NET4 Setup"
+    DetailPrint $(LOG_net_setup_finish)
  
     Delete "$TEMP\dotNetFx40_Full_setup.exe"
  
@@ -144,16 +144,16 @@ Section $(TITLE_MAIN) SecMain
   SetOutPath "$TEMP"
   ${If} ${RunningX64}
     File "Requirements\vcredist_x64.exe"
-    DetailPrint "Running VC++ 2012 Redistributable Setup..."
+    DetailPrint $(LOG_vc_setup_start)
     ExecWait '"$TEMP\vcredist_x64.exe" /Q /norestart' $VCSetupError
-    DetailPrint "Finished VC++ 2012 Redistributable Setup"
+    DetailPrint $(LOG_vc_setup_finish)
  
     Delete "$TEMP\vcredist_x64.exe"
   ${Else}
     File "Requirements\vcredist_x86.exe"
-    DetailPrint "Running VC++ 2012 Redistributable Setup..."
+    DetailPrint $(LOG_vc_setup_start)
     ExecWait '"$TEMP\vcredist_x86.exe" /Q /norestart' $VCSetupError
-    DetailPrint "Finished VC++ 2012 Redistributable Setup"
+    DetailPrint $(LOG_vc_setup_finish)
  
     Delete "$TEMP\vcredist_x86.exe"  
   ${EndIf}
@@ -223,7 +223,6 @@ FunctionEnd
   !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
     !insertmacro MUI_DESCRIPTION_TEXT ${SecMain} $(DESC_main)
     !insertmacro MUI_DESCRIPTION_TEXT ${SecVideos} $(DESC_bg_videos)
-    !insertmacro MUI_DESCRIPTION_TEXT ${SecDirectX} $(DESC_directx)
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
  
