@@ -2,6 +2,8 @@
   
   !include "MUI2.nsh"
   !include "x64.nsh"
+  !include "LogicLib.nsh"
+  !include "DotNetVer.nsh"
 
   ;Name and file
   !define PRODUCT_NAME "Vocaluxe"
@@ -18,6 +20,7 @@
   
   Var StartMenuFolder
   Var DirectXSetupError
+  Var NetSetupError
   
   !define MUI_ICON "..\Output\Vocaluxe.ico"
   !define MUI_HEADERIMAGE
@@ -109,6 +112,18 @@ Section $(TITLE_MAIN) SecMain
   File "..\Output\*.ico"
   File "..\Output\*.txt"
   File "..\Output\CreditsRessourcesDB.sqlite"
+  
+  ${IfNot} ${HasDotNet4.0}
+  SetOutPath "$TEMP"
+    File "Requirements\dotNetFx40_Full_setup.exe"
+    DetailPrint "Running .NET4 Setup..."
+    ExecWait '"$TEMP\dotNetFx40_Full_setup.exe" /Q' $NetSetupError
+    DetailPrint "Finished .NET4 Setup"
+ 
+    Delete "$TEMP\dotNetFx40_Full_setup.exe"
+ 
+    SetOutPath "$INSTDIR"
+  ${EndIf}
   
   ;Store installation folder
   WriteRegStr HKCU "Software\Vocaluxe" "" $INSTDIR
