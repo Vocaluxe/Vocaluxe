@@ -114,6 +114,21 @@ Section $(TITLE_MAIN) SecMain
   File "..\Output\*.txt"
   File "..\Output\CreditsRessourcesDB.sqlite"
   
+  ReadRegStr $0 HKLM "SOFTWARE\Microsoft\DirectX" "Version"
+  StrCpy $1 $0 4 3
+  ${If} $1 < 9
+    SetOutPath "$TEMP"
+    File "Requirements\dxwebsetup.exe"
+    DetailPrint "Running DirectX Setup..."
+    ExecWait '"$TEMP\dxwebsetup.exe" /Q' $DirectXSetupError
+    DetailPrint "Finished DirectX Setup"
+ 
+    Delete "$TEMP\dxwebsetup.exe"
+ 
+    SetOutPath "$INSTDIR"
+  ${EndIf}
+    
+  
   ${IfNot} ${HasDotNet4.0}
     SetOutPath "$TEMP"
     File "Requirements\dotNetFx40_Full_setup.exe"
@@ -183,20 +198,6 @@ Section $(TITLE_bg_videos) SecVideos
   
   SetOutPath "$INSTDIR"
 
-SectionEnd
-
-Section $(TITLE_directx) SecDirectX
- 
-  SetOutPath "$TEMP"
-  File "Requirements\dxwebsetup.exe"
-  DetailPrint "Running DirectX Setup..."
-  ExecWait '"$TEMP\dxwebsetup.exe" /Q' $DirectXSetupError
-  DetailPrint "Finished DirectX Setup"
- 
-  Delete "$TEMP\dxwebsetup.exe"
- 
-  SetOutPath "$INSTDIR"
- 
 SectionEnd
 
 ;--------------------------------
