@@ -1,3 +1,7 @@
   LangString DESC_main ${LANG_ENGLISH} "Main vocaluxe-files."
   LangString DESC_bg_videos ${LANG_ENGLISH} "Additional background-videos for ambient-theme."
+  LangString DESC_directx ${LANG_ENGLISH} "Installs DirectX. This is recommed for vocaluxe."
+  LangString TITLE_main ${LANG_ENGLISH} "Main"
+  LangString TITLE_bg_videos ${LANG_ENGLISH} "Background-videos"
+  LangString TITLE_directx ${LANG_ENGLISH} "DirectX"
   LangString FINISH_text ${LANG_ENGLISH} "Visit our site for the latest news, FAQ's and support."
