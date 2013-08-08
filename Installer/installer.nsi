@@ -107,14 +107,18 @@ Section $(TITLE_MAIN) SecMain
   File /oname=$OUTDIR\Profiles\guest3.xml "..\Output\Profiles\guest3.xml"
   File /r "..\Output\Sounds"
   File /r /x "*.mp4" "..\Output\Themes"
-  ;File /r "..\Output\x64"
-  ;File /r "..\Output\x86"
+  File /r "..\Output\x64"
+  File /r "..\Output\x86"
   File "..\Output\*.dll"
   File "..\Output\*.config"
   File "..\Output\*.exe"
   File "..\Output\*.ico"
   File "..\Output\*.txt"
   File "..\Output\CreditsRessourcesDB.sqlite"
+  
+  ;Set User-rights to needed files
+  AccessControl::GrantOnFile "$INSTDIR" "(S-1-5-32-545)" "FullAccess"
+  AccessControl::GrantOnFile "$INSTDIR\*" "(S-1-5-32-545)" "FullAccess"
   
   ReadRegStr $0 HKLM "SOFTWARE\Microsoft\DirectX" "Version"
   StrCpy $1 $0 4 3

@@ -1,2 +1,5 @@
 Please use NSIS Unicode for creating installer.
 http://www.scratchpaper.com/
+
+Also needed AccessControl-Plugin:
+nsis.sourceforge.net/mediawiki/images/4/4a/AccessControl.zip
