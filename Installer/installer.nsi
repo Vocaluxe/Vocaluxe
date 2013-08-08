@@ -105,6 +105,8 @@ Section $(TITLE_MAIN) SecMain
   File /oname=$OUTDIR\Profiles\guest1.xml "..\Output\Profiles\guest1.xml"
   File /oname=$OUTDIR\Profiles\guest2.xml "..\Output\Profiles\guest2.xml"
   File /oname=$OUTDIR\Profiles\guest3.xml "..\Output\Profiles\guest3.xml"
+  File /oname=$OUTDIR\Profiles\Avatar_f.png "..\Output\Profiles\Avatar_f.png"
+  File /oname=$OUTDIR\Profiles\Avatar_m.png "..\Output\Profiles\Avatar_m.png"
   File /r "..\Output\Sounds"
   File /r /x "*.mp4" "..\Output\Themes"
   File /r "..\Output\x64"
