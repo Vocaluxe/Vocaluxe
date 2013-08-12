@@ -353,10 +353,12 @@ namespace VocaluxeLib.Songs
                                 if (value != "")
                                     ArtistSorting = value;
                                 break;
+                            case "DUETSINGERP1":
                             case "P1":
                                 if (value != "")
                                     DuetPart1 = value;
                                 break;
+                            case "DUETSINGERP2":
                             case "P2":
                                 if (value != "")
                                     DuetPart2 = value;
