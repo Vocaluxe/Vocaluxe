@@ -71,6 +71,50 @@ namespace Vocaluxe.Base
         }
 
         #region Highscores
+
+        public static void IncreaseSongCounter(SPlayer player)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection())
+            {
+                connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
+
+                try
+                {
+                    connection.Open();
+                }
+                catch (Exception)
+                {
+                }
+
+                using (SQLiteCommand command = new SQLiteCommand(connection))
+                {
+                    int dataBaseSongID = _GetDataBaseSongID(player, command);
+                    _IncreaseSongCounter(dataBaseSongID, command);
+                }
+            }
+        }
+
+        public static void IncreaseSongCounter(int dataBaseSongID)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection())
+            {
+                connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
+
+                try
+                {
+                    connection.Open();
+                }
+                catch (Exception)
+                {
+                }
+
+                using (SQLiteCommand command = new SQLiteCommand(connection))
+                {
+                    _IncreaseSongCounter(dataBaseSongID, command);
+                }
+            }
+        }
+
         public static int AddScore(string playerName, int score, int lineNr, long date, int medley, int duet, int shortSong, int difficulty,
                                    string artist, string title, int numPlayed, string filePath)
         {
@@ -248,6 +292,13 @@ namespace Vocaluxe.Base
                     }
                 }
             }
+        }
+
+        private static void _IncreaseSongCounter(int dataBaseSongID, SQLiteCommand command)
+        {
+            command.CommandText = "UPDATE Songs SET NumPlayed = NumPlayed + 1 WHERE [id] = @id";
+            command.Parameters.Add("@id", DbType.Int32, 0).Value = dataBaseSongID;
+            command.ExecuteNonQuery();
         }
 
         private static int _GetDataBaseSongID(SPlayer player, SQLiteCommand command)
