@@ -147,6 +147,8 @@ namespace VocaluxeLib.Songs
 
         public readonly List<string> Language = new List<string>();
 
+        public string DateAdded = "";
+
         // Notes
         public readonly CNotes Notes = new CNotes();
 
@@ -239,6 +241,8 @@ namespace VocaluxeLib.Songs
             Language = new List<string>();
             foreach (string value in song.Language)
                 Language.Add(value);
+
+            DateAdded = song.DateAdded;
 
             Notes = new CNotes(song.Notes);
         }
