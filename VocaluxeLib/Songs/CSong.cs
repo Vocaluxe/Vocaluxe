@@ -725,7 +725,7 @@ namespace VocaluxeLib.Songs
 
         private bool _ParseNote(int player, ENoteType noteType, int start, int length, int tone, string text)
         {
-            CNote note = new CNote(start, length, tone, text, noteType);
+            CSongNote note = new CSongNote(start, length, tone, text, noteType);
             CVoice voice = Notes.GetVoice(player);
             return voice.AddNote(note);
         }
@@ -733,7 +733,7 @@ namespace VocaluxeLib.Songs
         private void _NewSentence(int player, int start)
         {
             CVoice voice = Notes.GetVoice(player);
-            CLine line = new CLine {StartBeat = start};
+            CSongLine line = new CSongLine {StartBeat = start};
             voice.AddLine(line);
         }
 
@@ -933,7 +933,7 @@ namespace VocaluxeLib.Songs
             }
 
             //Check if stop is in line
-            foreach (CLine line in voice.Lines)
+            foreach (CSongLine line in voice.Lines)
             {
                 if (line.FirstNoteBeat < stop && line.LastNoteBeat > stop)
                 {

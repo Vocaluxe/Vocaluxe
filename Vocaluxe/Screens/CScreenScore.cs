@@ -296,9 +296,9 @@ namespace Vocaluxe.Screens
                 string name = CProfiles.GetPlayerName(players[p].ProfileID, p);
                 if (song != null && song.IsDuet)
                 {
-                    if (players[p].LineNr == 0 && song.DuetPart1 != "Part 1")
+                    if (players[p].VoiceNr == 0 && song.DuetPart1 != "Part 1")
                         name += " (" + song.DuetPart1 + ")";
-                    else if (players[p].LineNr == 1 && song.DuetPart2 != "Part 2")
+                    else if (players[p].VoiceNr == 1 && song.DuetPart2 != "Part 2")
                         name += " (" + song.DuetPart2 + ")";
                 }
                 _Texts[_TextNames[p, CGame.NumPlayer - 1]].Text = name;

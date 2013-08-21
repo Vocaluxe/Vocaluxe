@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.IO;
 using System.Text;
 using System.Security.Cryptography;
-
 using Newtonsoft.Json;
 
 namespace Vocaluxe.Base.Server
@@ -25,7 +22,6 @@ namespace Vocaluxe.Base.Server
         public const int ResponseLoginFailed = 22;
         public const int ResponseLoginOK = 23;
 
-
         public const int CommandSendKeyStroke = 100;
         public const int CommandSendKeyUp = 110;
         public const int CommandSendKeyDown = 111;
@@ -45,7 +41,6 @@ namespace Vocaluxe.Base.Server
         public const int CommandSendAvatarPictureJpg = 501;
 
         public const int CommandSendProfile = 510;
-
         #endregion Commands
 
         #region General
@@ -58,7 +53,7 @@ namespace Vocaluxe.Base.Server
         #region Login
         public static byte[] CreateCommandLogin(string Password)
         {
-            SLoginData data = new SLoginData();
+            var data = new SLoginData();
             data.SHA256 = SHA256.ComputeHash(Encoding.UTF8.GetBytes(Password));
 
             return Serialize<SLoginData>(CommandLogin, data);
@@ -71,13 +66,12 @@ namespace Vocaluxe.Base.Server
         #endregion Login
 
         #region Keyboard
-
         #endregion Keyboard
 
         #region Profiles
         public static byte[] CreateCommandSendAvatarPicture(int Width, int Height, byte[] data)
         {
-            SAvatarPicture ap = new SAvatarPicture();
+            var ap = new SAvatarPicture();
             ap.Height = Height;
             ap.Width = Width;
             ap.data = new byte[data.Length];
@@ -93,7 +87,7 @@ namespace Vocaluxe.Base.Server
 
         public static byte[] CreateCommandSendAvatarPictureJpg(byte[] AvatarJpgData)
         {
-            SAvatarPicture ap = new SAvatarPicture();
+            var ap = new SAvatarPicture();
             ap.Height = 0;
             ap.Width = 0;
             ap.data = new byte[AvatarJpgData.Length];
@@ -104,13 +98,13 @@ namespace Vocaluxe.Base.Server
 
         public static byte[] CreateCommandSendProfile(byte[] AvatarJpgData, string PlayerName, int Difficulty)
         {
-            SAvatarPicture ap = new SAvatarPicture();
+            var ap = new SAvatarPicture();
             ap.Height = 0;
             ap.Width = 0;
             ap.data = new byte[AvatarJpgData.Length];
             Array.Copy(AvatarJpgData, ap.data, AvatarJpgData.Length);
 
-            SProfile profile = new SProfile();
+            var profile = new SProfile();
             profile.Avatar = ap;
             profile.PlayerName = PlayerName;
             profile.Difficulty = Difficulty;
@@ -122,7 +116,6 @@ namespace Vocaluxe.Base.Server
         {
             return TryDeserialize<SProfile>(Message, out Profile);
         }
-
         #endregion Profiles
 
         #region Serializing
@@ -130,11 +123,11 @@ namespace Vocaluxe.Base.Server
         {
             byte[] command = BitConverter.GetBytes(Command);
 
-            MemoryStream stream = new MemoryStream();
+            var stream = new MemoryStream();
             stream.Write(command, 0, command.Length);
 
             byte[] data;
-            using (MemoryStream ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
                 string json = JsonConvert.SerializeObject(obj);
                 data = encoder.GetBytes(json);
@@ -153,9 +146,9 @@ namespace Vocaluxe.Base.Server
             if (message.Length < 5)
                 return false;
 
-            byte[] data = new byte[message.Length - 4];
+            var data = new byte[message.Length - 4];
             Array.Copy(message, 4, data, 0, data.Length);
-            using (MemoryStream ms = new MemoryStream(data))
+            using (var ms = new MemoryStream(data))
             {
                 try
                 {

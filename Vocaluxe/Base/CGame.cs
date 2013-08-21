@@ -172,9 +172,9 @@ namespace Vocaluxe.Base
                 Players[i].Points = 0f;
                 Players[i].PointsLineBonus = 0f;
                 Players[i].PointsGoldenNotes = 0f;
-                Players[i].LineNr = 0;
+                Players[i].VoiceNr = 0;
                 Players[i].NoteDiff = 0;
-                Players[i].SingLine = new List<CLine>();
+                Players[i].SungLines = new List<CSungLine>();
                 Players[i].CurrentLine = -1;
                 Players[i].CurrentNote = -1;
                 Players[i].SongID = -1;
@@ -221,7 +221,7 @@ namespace Vocaluxe.Base
                         (_SongQueue.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_SHORTSONG && song.ShortEnd == beat))
                         Players[p].SongFinished = true;
 
-                    CLine[] lines = song.Notes.GetVoice(Players[p].LineNr).Lines;
+                    CSongLine[] lines = song.Notes.GetVoice(Players[p].VoiceNr).Lines;
                     int line = -1;
 
                     for (int j = 0; j < lines.Length; j++)
@@ -240,103 +240,102 @@ namespace Vocaluxe.Base
 
                     Players[p].CurrentLine = line;
 
-                    while (Players[p].SingLine.Count <= line)
-                        Players[p].SingLine.Add(new CLine());
+                    while (Players[p].SungLines.Count <= line)
+                        Players[p].SungLines.Add(new CSungLine());
 
-                    CNote[] notes = lines[line].Notes;
+                    CSongNote[] notes = lines[line].Notes;
                     int note = lines[line].FindPreviousNote(beat);
                     if (note >= 0 && notes[note].EndBeat < beat)
                         note = -1;
 
-                    if (note >= 0)
+                    if (note < 0)
+                        continue;
+                    Players[p].CurrentNote = note;
+
+                    if (line == lines.Length - 1)
                     {
-                        Players[p].CurrentNote = note;
-
-                        if (line == lines.Length - 1)
+                        if (note == lines[line].NoteCount - 1)
                         {
-                            if (note == lines[line].NoteCount - 1)
-                            {
-                                if (notes[note].EndBeat == beat)
-                                    Players[p].SongFinished = true;
-                            }
+                            if (notes[note].EndBeat == beat)
+                                Players[p].SongFinished = true;
                         }
+                    }
 
-                        if (notes[note].PointsForBeat > 0 && CSound.RecordToneValid(p))
+                    if (notes[note].PointsForBeat > 0 && CSound.RecordToneValid(p))
+                    {
+                        int tone = notes[note].Tone;
+                        int tonePlayer = CSound.RecordGetTone(p);
+
+                        while (tonePlayer - tone > 6)
+                            tonePlayer -= 12;
+
+                        while (tonePlayer - tone < -6)
+                            tonePlayer += 12;
+
+                        Players[p].NoteDiff = Math.Abs(tone - tonePlayer);
+                        bool hit = Players[p].NoteDiff <= (2 - (int)CProfiles.GetDifficulty(Players[p].ProfileID));
+                        if (hit)
                         {
-                            int tone = notes[note].Tone;
-                            int tonePlayer = CSound.RecordGetTone(p);
+                            // valid
+                            //CSound.RecordSetTone(p, Tone);
+                            double points = (CSettings.MaxScore - CSettings.LinebonusScore) * (double)notes[note].PointsForBeat /
+                                            song.Notes.GetVoice(Players[p].VoiceNr).Points;
+                            if (notes[note].NoteType == ENoteType.Golden)
+                                Players[p].PointsGoldenNotes += points;
 
-                            while (tonePlayer - tone > 6)
-                                tonePlayer -= 12;
+                            Players[p].Points += points;
 
-                            while (tonePlayer - tone < -6)
-                                tonePlayer += 12;
-
-                            Players[p].NoteDiff = Math.Abs(tone - tonePlayer);
-                            bool hit = Players[p].NoteDiff <= (2 - (int)CProfiles.GetDifficulty(Players[p].ProfileID));
-                            if (hit)
+                            // update player notes (sung notes)
+                            if (Players[p].SungLines[line].NoteCount > 0)
                             {
-                                // valid
-                                //CSound.RecordSetTone(p, Tone);
-                                double points = (CSettings.MaxScore - CSettings.LinebonusScore) * (double)notes[note].PointsForBeat /
-                                                song.Notes.GetVoice(Players[p].LineNr).Points;
-                                if (notes[note].NoteType == ENoteType.Golden)
-                                    Players[p].PointsGoldenNotes += points;
-
-                                Players[p].Points += points;
-
-                                // update player notes (sung notes)
-                                if (Players[p].SingLine[line].NoteCount > 0)
-                                {
-                                    CNote lastNote = Players[p].SingLine[line].LastNote;
-                                    if (notes[note].StartBeat == beat || lastNote.EndBeat + 1 != beat || lastNote.Tone != tone || !lastNote.Hit)
-                                        Players[p].SingLine[line].AddNote(new CNote(beat, 1, tone, String.Empty, true, notes[note].NoteType));
-                                    else
-                                        Players[p].SingLine[line].IncLastNoteLength();
-                                }
+                                CSungNote lastNote = Players[p].SungLines[line].LastNote;
+                                if (notes[note].StartBeat == beat || lastNote.EndBeat + 1 != beat || lastNote.Tone != tone || !lastNote.Hit)
+                                    Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tone, notes[note]));
                                 else
-                                    Players[p].SingLine[line].AddNote(new CNote(beat, 1, tone, String.Empty, true, notes[note].NoteType));
-
-                                Players[p].SingLine[line].LastNote.IsPerfect(notes[note]);
-                                Players[p].SingLine[line].IsPerfect(lines[line]);
+                                    Players[p].SungLines[line].IncLastNoteLength();
                             }
                             else
-                            {
-                                if (Players[p].SingLine[line].NoteCount > 0)
-                                {
-                                    CNote lastNote = Players[p].SingLine[line].LastNote;
-                                    if (lastNote.Tone == tonePlayer && lastNote.EndBeat + 1 == beat && !lastNote.Hit)
-                                        Players[p].SingLine[line].IncLastNoteLength();
-                                    else
-                                        Players[p].SingLine[line].AddNote(new CNote(beat, 1, tonePlayer, String.Empty, false, ENoteType.Freestyle));
-                                }
-                                else
-                                    Players[p].SingLine[line].AddNote(new CNote(beat, 1, tonePlayer, String.Empty, false, ENoteType.Freestyle));
-                            }
+                                Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tone, notes[note]));
+
+                            Players[p].SungLines[line].LastNote.CheckPerfect();
+                            Players[p].SungLines[line].IsPerfect(lines[line]);
                         }
-
-                        // Line Bonus
-                        int numLinesWithPoints = song.Notes.GetNumLinesWithPoints(Players[p].LineNr);
-                        if (note == lines[line].NoteCount - 1 && numLinesWithPoints > 0)
+                        else
                         {
-                            if (notes[note].EndBeat == beat && lines[line].Points > 0f)
+                            if (Players[p].SungLines[line].NoteCount > 0)
                             {
-                                double factor = Players[p].SingLine[line].Points / (double)lines[line].Points;
-                                if (factor < 0.4)
-                                    factor = 0.0;
-                                else if (factor > 0.9)
-                                    factor = 1.0;
+                                CSungNote lastNote = Players[p].SungLines[line].LastNote;
+                                if (lastNote.Tone != tonePlayer || lastNote.EndBeat + 1 != beat || lastNote.Hit)
+                                    Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tonePlayer));
                                 else
-                                {
-                                    factor -= 0.4;
-                                    factor *= 2;
-                                    factor *= factor;
-                                }
-
-                                double points = CSettings.LinebonusScore * factor * 1f / numLinesWithPoints;
-                                Players[p].Points += points;
-                                Players[p].PointsLineBonus += points;
+                                    Players[p].SungLines[line].IncLastNoteLength();
                             }
+                            else
+                                Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tonePlayer));
+                        }
+                    }
+
+                    // Line Bonus
+                    int numLinesWithPoints = song.Notes.GetNumLinesWithPoints(Players[p].VoiceNr);
+                    if (note == lines[line].NoteCount - 1 && numLinesWithPoints > 0)
+                    {
+                        if (notes[note].EndBeat == beat && lines[line].Points > 0f)
+                        {
+                            double factor = Players[p].SungLines[line].Points / (double)lines[line].Points;
+                            if (factor < 0.4)
+                                factor = 0.0;
+                            else if (factor > 0.9)
+                                factor = 1.0;
+                            else
+                            {
+                                factor -= 0.4;
+                                factor *= 2;
+                                factor *= factor;
+                            }
+
+                            double points = CSettings.LinebonusScore * factor * 1f / numLinesWithPoints;
+                            Players[p].Points += points;
+                            Players[p].PointsLineBonus += points;
                         }
                     }
                 }

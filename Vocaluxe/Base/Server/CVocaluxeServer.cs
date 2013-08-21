@@ -22,9 +22,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using System.Linq;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 using ClientServerLib;
 using Vocaluxe.Lib.Input;
@@ -84,7 +82,7 @@ namespace Vocaluxe.Base.Server
             {
                 if (!_Clients.ContainsKey(connectionID))
                 {
-                    CClientHandler client = new CClientHandler(connectionID);
+                    var client = new CClientHandler(connectionID);
                     _Clients.Add(connectionID, client);
                 }
 
@@ -120,7 +118,7 @@ namespace Vocaluxe.Base.Server
                     SAvatarPicture avatarPicture;
                     if (CCommands.DecodeCommandSendAvatarPicture(message, out avatarPicture))
                     {
-                        using (Bitmap bmp = new Bitmap(avatarPicture.Width, avatarPicture.Height))
+                        using (var bmp = new Bitmap(avatarPicture.Width, avatarPicture.Height))
                         {
                             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
                             Marshal.Copy(avatarPicture.data, 0, bmpData.Scan0, avatarPicture.data.Length);
@@ -156,7 +154,7 @@ namespace Vocaluxe.Base.Server
                             string avatarFilename = _AddAvatar(profile.Avatar.data);
                             if (avatarFilename != String.Empty)
                             {
-                                CProfile p = new CProfile
+                                var p = new CProfile
                                     {
                                         Active = EOffOn.TR_CONFIG_ON,
                                         AvatarFileName = avatarFilename,
@@ -193,7 +191,7 @@ namespace Vocaluxe.Base.Server
                 fs.Flush();
                 fs.Close();
 
-                CAvatar avatar = new CAvatar(-1);
+                var avatar = new CAvatar(-1);
                 if (avatar.LoadFromFile(filename))
                 {
                     CProfiles.AddAvatar(avatar);

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Vocaluxe.Base.Server
+﻿namespace Vocaluxe.Base.Server
 {
     public struct SLoginData
     {

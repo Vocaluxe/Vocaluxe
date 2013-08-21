@@ -21,7 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using VocaluxeLib.Menu;
-using VocaluxeLib.Profile;
 
 namespace VocaluxeLib.PartyModes.Challenge
 {
@@ -143,7 +142,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             try
             {
-                SDataToScreenMain data = (SDataToScreenMain)receivedData;
+                var data = (SDataToScreenMain)receivedData;
                 _GameState = data;
             }
             catch (Exception e)
@@ -405,7 +404,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _RoundsTable = new List<CRoundsTableRow>();
             for (int i = 0; i < 5; i++)
             {
-                CRoundsTableRow rtr = new CRoundsTableRow {TextPlayer = new List<CText>(), TextScores = new List<CText>()};
+                var rtr = new CRoundsTableRow {TextPlayer = new List<CText>(), TextScores = new List<CText>()};
                 _RoundsTable.Add(rtr);
             }
             //Create statics and texts for rounds
@@ -457,7 +456,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 //Round-number
                 roundRow.Number.X = numberX;
                 roundRow.Number.Y = numberY;
-                int numInnerRows = (int)Math.Ceiling(_GameState.NumPlayerAtOnce / ((double)numPlayerInOneRow));
+                var numInnerRows = (int)Math.Ceiling(_GameState.NumPlayerAtOnce / ((double)numPlayerInOneRow));
                 for (int row = 0; row < numInnerRows; row++)
                 {
                     int num = (row + 1) * numPlayerInOneRow;
@@ -541,7 +540,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
             for (int i = 0; i < 10; i++)
             {
-                STableRow row = new STableRow
+                var row = new STableRow
                     {
                         Pos = GetNewText(_Texts[_TextPosition]),
                         Name = GetNewText(_Texts[_TextPlayerName]),

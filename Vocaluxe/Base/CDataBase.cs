@@ -114,7 +114,7 @@ namespace Vocaluxe.Base
                 using (SQLiteCommand command = new SQLiteCommand(connection))
                 {
                     int dataBaseSongID = _GetDataBaseSongID(player, command);
-                    return _AddScore(CProfiles.GetPlayerName(player.ProfileID), (int)Math.Round(player.Points), player.LineNr, player.DateTicks, player.Medley ? 1 : 0,
+                    return _AddScore(CProfiles.GetPlayerName(player.ProfileID), (int)Math.Round(player.Points), player.VoiceNr, player.DateTicks, player.Medley ? 1 : 0,
                                      player.Duet ? 1 : 0, player.ShortSong ? 1 : 0, (int)CProfiles.GetDifficulty(player.ProfileID), dataBaseSongID, command);
                 }
             }

@@ -138,6 +138,10 @@
     <Compile Include="Menu\IMenuElement.cs" />
     <Compile Include="Profile\CAvatar.cs" />
     <Compile Include="Profile\CProfile.cs" />
+    <Compile Include="Songs\CLineBase.cs" />
+    <Compile Include="Songs\CBaseNote.cs" />
+    <Compile Include="Songs\CSongLine.cs" />
+    <Compile Include="Songs\CSongNote.cs" />
     <Compile Include="Songs\CNotes.cs" />
     <Compile Include="Menu\SingNotes\CSingNotes.cs" />
     <Compile Include="Menu\SingNotes\CSingNotesClassic.cs" />
@@ -150,6 +154,9 @@
     <Compile Include="Menu\SongMenu\CSongMenuList.cs" />
     <Compile Include="Menu\SongMenu\CSongMenuTileBoard.cs" />
     <Compile Include="Menu\SongMenu\ISongMenu.cs" />
+    <Compile Include="Songs\CSungLine.cs" />
+    <Compile Include="Songs\CSungNote.cs" />
+    <Compile Include="Songs\CVoice.cs" />
     <Compile Include="Structs.cs" />
     <Compile Include="PartyModes\CPartyMode.cs" />
     <Compile Include="PartyModes\CPartyModeNone.cs" />

@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using VocaluxeLib.Menu;
+using VocaluxeLib.Profile;
 
 namespace VocaluxeLib.PartyModes.TicTacToe
 {
@@ -93,7 +94,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _ThemeButtons = new string[] {_ButtonBack, _ButtonNext, _ButtonPlayerDestination, _ButtonPlayerChoose, _ButtonPlayerChooseScrollUp, _ButtonPlayerChooseScrollDown};
 
             _Data = new SDataFromScreen();
-            SFromScreenNames names = new SFromScreenNames {FadeToConfig = false, ProfileIDsTeam1 = new List<int>(), ProfileIDsTeam2 = new List<int>()};
+            var names = new SFromScreenNames {FadeToConfig = false, ProfileIDsTeam1 = new List<int>(), ProfileIDsTeam2 = new List<int>()};
             _Data.ScreenNames = names;
         }
 
@@ -101,7 +102,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             try
             {
-                SDataToScreenNames config = (SDataToScreenNames)receivedData;
+                var config = (SDataToScreenNames)receivedData;
                 _Data.ScreenNames.ProfileIDsTeam1 = config.ProfileIDsTeam1;
                 _Data.ScreenNames.ProfileIDsTeam2 = config.ProfileIDsTeam2;
                 if (_Data.ScreenNames.ProfileIDsTeam1 == null)
@@ -375,7 +376,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 CButton b = GetNewButton(_Buttons[_ButtonPlayerChoose]);
                 b.Rect.X = _PlayerChooseButtonsFirstX + column * (b.Rect.W + _PlayerChooseButtonsSpaceH);
                 b.Rect.Y = _PlayerChooseButtonsFirstY + row * (b.Rect.H + _PlayerChooseButtonsSpaceW);
-                CPlayerChooseButton pcb = new CPlayerChooseButton {Button = b, ProfileID = -1};
+                var pcb = new CPlayerChooseButton {Button = b, ProfileID = -1};
                 _PlayerChooseButtons.Add(pcb);
                 column++;
                 if (column >= _PlayerChooseButtonsNumH)
@@ -418,7 +419,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _PlayerChooseButtons[i].ProfileID = id;
                         _PlayerChooseButtons[i].Button.Text.Text = CBase.Profiles.GetPlayerName(id);
                         _PlayerChooseButtons[i].Button.Texture = CBase.Profiles.GetAvatar(id);
-                        _PlayerChooseButtons[i].Button.SelTexture = CBase.Profiles.GetAvatar(id); 
+                        _PlayerChooseButtons[i].Button.SelTexture = CBase.Profiles.GetAvatar(id);
                         _PlayerChooseButtons[i].Button.Color = new SColorF(1, 1, 1, 0.6f);
                         _PlayerChooseButtons[i].Button.SelColor = new SColorF(1, 1, 1, 1);
                         _PlayerChooseButtons[i].Button.Enabled = true;
@@ -440,15 +441,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void _UpdateVisibleProfiles()
         {
             _PlayerChooseButtonsVisibleProfiles.Clear();
-            Profile.CProfile[] profiles = CBase.Profiles.GetProfiles();
-            for (int i = 0; i < profiles.Length; i++)
+            CProfile[] profiles = CBase.Profiles.GetProfiles();
+            foreach (CProfile profile in profiles)
             {
                 bool visible = false;
                 //Show profile only if active
-                if (profiles[i].Active == EOffOn.TR_CONFIG_ON)
-                    visible = _Data.ScreenNames.ProfileIDsTeam1.All(profileID => profileID != profiles[i].ID) && _Data.ScreenNames.ProfileIDsTeam2.All(profileID => profileID != profiles[i].ID);
+                if (profile.Active == EOffOn.TR_CONFIG_ON)
+                    visible = _Data.ScreenNames.ProfileIDsTeam1.All(profileID => profileID != profile.ID) &&
+                              _Data.ScreenNames.ProfileIDsTeam2.All(profileID => profileID != profile.ID);
                 if (visible)
-                    _PlayerChooseButtonsVisibleProfiles.Add(profiles[i].ID);
+                    _PlayerChooseButtonsVisibleProfiles.Add(profile.ID);
             }
         }
 
@@ -486,7 +488,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 {
                     if (_Data.ScreenNames.ProfileIDsTeam1[i] != -1)
                     {
-                        int id = _Data.ScreenNames.ProfileIDsTeam1[i]; 
+                        int id = _Data.ScreenNames.ProfileIDsTeam1[i];
                         _PlayerDestinationButtons[i].Color = new SColorF(1, 1, 1, 0.6f);
                         _PlayerDestinationButtons[i].SelColor = new SColorF(1, 1, 1, 1);
                         _PlayerDestinationButtons[i].Texture = CBase.Profiles.GetAvatar(id);
@@ -511,7 +513,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 {
                     if (_Data.ScreenNames.ProfileIDsTeam2[i] != -1)
                     {
-                        int id = _Data.ScreenNames.ProfileIDsTeam2[i]; 
+                        int id = _Data.ScreenNames.ProfileIDsTeam2[i];
                         _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].Color = new SColorF(1, 1, 1, 0.6f);
                         _PlayerDestinationButtons[i + _PlayerDestinationButtonsNumH].SelColor = new SColorF(1, 1, 1, 1);
                         _PlayerDestinationButtons[i].Texture = CBase.Profiles.GetAvatar(id);

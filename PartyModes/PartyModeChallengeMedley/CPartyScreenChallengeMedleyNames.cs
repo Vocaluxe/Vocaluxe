@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using VocaluxeLib.Menu;
+using VocaluxeLib.Profile;
 
 namespace VocaluxeLib.PartyModes.ChallengeMedley
 {
@@ -85,10 +86,10 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
             _Data.ScreenNames.ProfileIDs = new List<int>();
 
-            _ThemeButtons = new string[] { _ButtonBack, _ButtonNext, _ButtonPlayerDestination, _ButtonPlayerChoose };
+            _ThemeButtons = new string[] {_ButtonBack, _ButtonNext, _ButtonPlayerDestination, _ButtonPlayerChoose};
 
             _Data = new SDataFromScreen();
-            SFromScreenNames names = new SFromScreenNames { FadeToConfig = false, ProfileIDs = new List<int>() };
+            var names = new SFromScreenNames {FadeToConfig = false, ProfileIDs = new List<int>()};
             _Data.ScreenNames = names;
         }
 
@@ -96,7 +97,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         {
             try
             {
-                SDataToScreenNames config = (SDataToScreenNames)receivedData;
+                var config = (SDataToScreenNames)receivedData;
                 _Data.ScreenNames.ProfileIDs = config.ProfileIDs ?? new List<int>();
 
                 _NumPlayer = config.NumPlayer;
@@ -114,7 +115,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         {
             base.HandleInput(keyEvent);
 
-            if (keyEvent.KeyPressed) { }
+            if (keyEvent.KeyPressed) {}
             else
             {
                 switch (keyEvent.Key)
@@ -156,7 +157,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 _OldMouseX = mouseEvent.X;
                 _OldMouseY = mouseEvent.Y;
             }
-            // LeftButton isn't hold anymore, but Selec-Mode is still active -> "Drop" of Avatar
+                // LeftButton isn't hold anymore, but Selec-Mode is still active -> "Drop" of Avatar
             else if (_SelectingMouseActive)
             {
                 //Reset variables
@@ -247,7 +248,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 CButton b = GetNewButton(_Buttons[_ButtonPlayerChoose]);
                 b.Rect.X = _PlayerChooseButtonsFirstX + column * (b.Rect.W + _PlayerChooseButtonsSpaceH);
                 b.Rect.Y = _PlayerChooseButtonsFirstY + row * (b.Rect.H + _PlayerChooseButtonsSpaceW);
-                CPlayerChooseButton pcb = new CPlayerChooseButton { Button = b, ProfileID = -1 };
+                var pcb = new CPlayerChooseButton {Button = b, ProfileID = -1};
                 _PlayerChooseButtons.Add(pcb);
                 column++;
                 if (column >= _PlayerChooseButtonsNumH)
@@ -309,15 +310,15 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         private void _UpdateVisibleProfiles()
         {
             _PlayerChooseButtonsVisibleProfiles.Clear();
-            Profile.CProfile[] profiles = CBase.Profiles.GetProfiles();
-            for (int i = 0; i < profiles.Length; i++)
+            CProfile[] profiles = CBase.Profiles.GetProfiles();
+            foreach (CProfile profile in profiles)
             {
                 bool visible = false;
                 //Show profile only if active
-                if (profiles[i].Active == EOffOn.TR_CONFIG_ON)
-                    visible = _Data.ScreenNames.ProfileIDs.All(profileID => profileID != profiles[i].ID);
+                if (profile.Active == EOffOn.TR_CONFIG_ON)
+                    visible = _Data.ScreenNames.ProfileIDs.All(profileID => profileID != profile.ID);
                 if (visible)
-                    _PlayerChooseButtonsVisibleProfiles.Add(profiles[i].ID);
+                    _PlayerChooseButtonsVisibleProfiles.Add(profile.ID);
             }
         }
 

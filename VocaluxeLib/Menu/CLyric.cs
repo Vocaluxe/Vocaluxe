@@ -201,12 +201,12 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-        public void SetLine(CLine line)
+        public void SetLine(CSongLine line)
         {
             _Notes.Clear();
 
             _Width = 0f;
-            foreach (CNote note in line.Notes)
+            foreach (CSongNote note in line.Notes)
             {
                 SNote n = new SNote {Text = note.Text, StartBeat = note.StartBeat, EndBeat = note.EndBeat, Duration = note.Duration, Type = note.NoteType};
 

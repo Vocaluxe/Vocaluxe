@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
-using VocaluxeLib.Profile;
 
 namespace VocaluxeLib.PartyModes.TicTacToe
 {
@@ -104,7 +103,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _ThemeStatics = new string[] {_StaticPopupBG, _StaticAvatarT1, _StaticAvatarT2};
 
             _Data = new SDataFromScreen();
-            SFromScreenMain config = new SFromScreenMain();
+            var config = new SFromScreenMain();
             _GameData = new SDataToScreenMain();
             config.SingRoundNr = 1;
             config.Rounds = new List<CRound>();
@@ -130,7 +129,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             try
             {
-                SDataToScreenMain config = (SDataToScreenMain)receivedData;
+                var config = (SDataToScreenMain)receivedData;
                 _GameData = config;
             }
             catch (Exception e)
@@ -389,7 +388,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             for (int i = 0; i < 25; i++)
             {
-                CField f = new CField {Button = GetNewButton(_Buttons[_ButtonField])};
+                var f = new CField {Button = GetNewButton(_Buttons[_ButtonField])};
                 f.Button.Visible = false;
                 f.Content = new CRound();
                 _AddButton(f.Button);
@@ -399,7 +398,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _UpdateFields()
         {
-            int numOneRow = (int)Math.Sqrt(_GameData.NumFields);
+            var numOneRow = (int)Math.Sqrt(_GameData.NumFields);
             float fieldSizeY = ((float)CBase.Settings.GetRenderH() - 150 - numOneRow * _FieldSpace) / numOneRow;
             float fieldSizeX = ((float)CBase.Settings.GetRenderW() - 300 - numOneRow * _FieldSpace) / numOneRow;
             _FieldSize = Math.Min(fieldSizeX, fieldSizeY);
@@ -495,7 +494,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _GameData.Rounds[_SelectedField].SingerTeam2 = singerTeam2;
 
                 _UpdatePlayerInformation();
-
             }
             int songID = 0;
             if (_GameData.Songs.Count > 0)
@@ -672,7 +670,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private int _BuildWinnerPossibilities()
         {
-            int numOneRow = (int)Math.Sqrt(_GameData.NumFields);
+            var numOneRow = (int)Math.Sqrt(_GameData.NumFields);
             _Possibilities = new int[(numOneRow * 2) + 2,numOneRow];
             for (int i = 0; i < _Possibilities.GetLength(0); i++)
             {
@@ -704,7 +702,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             for (int i = 0; i < _Possibilities.GetLength(0); i++)
             {
-                List<int> check = new List<int>();
+                var check = new List<int>();
                 for (int j = 0; j < _Possibilities.GetLength(1); j++)
                 {
                     if (_Fields[_Possibilities[i, j]].Content.Winner > 0)
