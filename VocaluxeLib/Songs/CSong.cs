@@ -148,6 +148,7 @@ namespace VocaluxeLib.Songs
         public readonly List<string> Language = new List<string>();
 
         public string DateAdded = "";
+        public int NumPlayed = 0;
 
         // Notes
         public readonly CNotes Notes = new CNotes();
@@ -533,6 +534,8 @@ namespace VocaluxeLib.Songs
             }
             sr.Dispose();
             _CheckFiles();
+
+            CBase.DataBase.GetDataBaseSongInfos(Artist, Title, out NumPlayed, out DateAdded);
 
             //Before saving this tags to .txt: Check, if ArtistSorting and Artist are equal, then don't save this tag.
             if (ArtistSorting == "")

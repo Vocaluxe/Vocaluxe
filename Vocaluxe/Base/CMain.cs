@@ -782,6 +782,11 @@ namespace Vocaluxe.Base
         {
             return CDataBase.GetCover(fileName, ref texture, coverSize);
         }
+
+        public bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out string dateAdded)
+        {
+            return CDataBase.GetDataBaseSongInfos(artist, title, out numPlayed, out dateAdded);
+        }
     }
 
     class CBcontrollers : IControllers

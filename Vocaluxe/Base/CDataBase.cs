@@ -72,6 +72,31 @@ namespace Vocaluxe.Base
 
         #region Highscores
 
+        public static bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out string dateAdded)
+        {
+            string sArtist = string.Empty;
+            string sTitle = string.Empty;
+            int songID = -1;
+            using (SQLiteConnection connection = new SQLiteConnection())
+            {
+                connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
+
+                try
+                {
+                    connection.Open();
+                }
+                catch (Exception)
+                {
+                }
+
+                using (SQLiteCommand command = new SQLiteCommand(connection))
+                {
+                    songID = _GetDataBaseSongID(artist, title, 0, command);
+                }
+            }
+            return _GetDataBaseSongInfos(songID, out sArtist, out sTitle, out numPlayed, out dateAdded, _HighscoreFilePath);
+        }
+
         public static void IncreaseSongCounter(SPlayer player)
         {
             using (SQLiteConnection connection = new SQLiteConnection())
@@ -330,7 +355,7 @@ namespace Vocaluxe.Base
             if (reader != null)
                 reader.Close();
 
-            command.CommandText = "INSERT INTO Songs (Title, Artist, NumPlayedm DateAdded) " +
+            command.CommandText = "INSERT INTO Songs (Title, Artist, NumPlayed, DateAdded) " +
                                   "VALUES (@title, @artist, @numplayed, @dateadded)";
             command.Parameters.Add("@title", DbType.String, 0).Value = title;
             command.Parameters.Add("@artist", DbType.String, 0).Value = artist;
