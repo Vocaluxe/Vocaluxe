@@ -401,8 +401,9 @@ namespace Vocaluxe.Screens
                 {
                     if (players[p].Points > CSettings.MinScoreForDB && players[p].SongFinished)
                     {
-                        CDataBase.IncreaseSongCounter(players[p]);
-                        CSongs.GetSong(players[p].SongID).NumPlayed++;
+                        CSong song = CSongs.GetSong(players[p].SongID);
+                        CDataBase.IncreaseSongCounter(song.DataBaseSongID);
+                        song.NumPlayed++;
                         break;
                     }
                 }

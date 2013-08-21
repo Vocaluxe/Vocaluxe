@@ -783,9 +783,9 @@ namespace Vocaluxe.Base
             return CDataBase.GetCover(fileName, ref texture, coverSize);
         }
 
-        public bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out string dateAdded)
+        public bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out string dateAdded, out int highscoreID)
         {
-            return CDataBase.GetDataBaseSongInfos(artist, title, out numPlayed, out dateAdded);
+            return CDataBase.GetDataBaseSongInfos(artist, title, out numPlayed, out dateAdded, out highscoreID);
         }
     }
 

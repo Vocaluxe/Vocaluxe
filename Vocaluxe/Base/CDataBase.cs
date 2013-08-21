@@ -72,7 +72,7 @@ namespace Vocaluxe.Base
 
         #region Highscores
 
-        public static bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out string dateAdded)
+        public static bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out string dateAdded, out int highscoreID)
         {
             string sArtist = string.Empty;
             string sTitle = string.Empty;
@@ -92,6 +92,7 @@ namespace Vocaluxe.Base
                 using (SQLiteCommand command = new SQLiteCommand(connection))
                 {
                     songID = _GetDataBaseSongID(artist, title, 0, command);
+                    highscoreID = songID;
                 }
             }
             return _GetDataBaseSongInfos(songID, out sArtist, out sTitle, out numPlayed, out dateAdded, _HighscoreFilePath);
@@ -182,7 +183,7 @@ namespace Vocaluxe.Base
 
                 using (SQLiteCommand command = new SQLiteCommand(connection))
                 {
-                    int dataBaseSongID = _GetDataBaseSongID(player, command);
+                    int dataBaseSongID = CSongs.GetSong(player.SongID).DataBaseSongID;
                     return _AddScore(CProfiles.GetPlayerName(player.ProfileID), (int)Math.Round(player.Points), player.LineNr, player.DateTicks, player.Medley ? 1 : 0,
                                      player.Duet ? 1 : 0, player.ShortSong ? 1 : 0, (int)CProfiles.GetDifficulty(player.ProfileID), dataBaseSongID, command);
                 }
