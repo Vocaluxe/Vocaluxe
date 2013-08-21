@@ -251,7 +251,7 @@ namespace Vocaluxe.Base
         {
             get
             {
-                List<CSong> songs = new List<CSong>();
+                var songs = new List<CSong>();
                 if (_IsCatIndexValid(_CatIndex))
                 {
                     // ReSharper disable LoopCanBeConvertedToQuery
@@ -298,7 +298,7 @@ namespace Vocaluxe.Base
             _Songs.Clear();
 
             CLog.StartBenchmark(2, "List Songs");
-            List<string> files = new List<string>();
+            var files = new List<string>();
             foreach (string p in CConfig.SongFolder)
             {
                 string path = p;

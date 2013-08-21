@@ -750,10 +750,10 @@ namespace VocaluxeLib.Menu
             _ValueBounds.Clear();
             for (int i = 0; i < numvis; i++)
             {
-                CText text = new CText(0, 0, 0, TextH, MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, TextColor, _ValueNames[i + offset],
-                                       _ValuePartyModeIDs[i + offset]);
+                var text = new CText(0, 0, 0, TextH, MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, TextColor, _ValueNames[i + offset],
+                                     _ValuePartyModeIDs[i + offset]);
 
-                SColorF alpha = new SColorF(1f, 1f, 1f, 0.35f);
+                var alpha = new SColorF(1f, 1f, 1f, 0.35f);
                 if (i + offset == _Selection)
                 {
                     text.Color = SelTextColor;
@@ -774,7 +774,7 @@ namespace VocaluxeLib.Menu
                 if (WithTextures)
                 {
                     float dh = text.Y - Rect.Y - Rect.H * 0.1f;
-                    SRectF rect = new SRectF(text.X - dh / 2, Rect.Y + Rect.H * 0.05f, dh, dh, Rect.Z);
+                    var rect = new SRectF(text.X - dh / 2, Rect.Y + Rect.H * 0.05f, dh, dh, Rect.Z);
                     CBase.Drawing.DrawTexture(_Textures[i + offset], rect, alpha);
                     _ValueBounds.Add(rect);
                 }

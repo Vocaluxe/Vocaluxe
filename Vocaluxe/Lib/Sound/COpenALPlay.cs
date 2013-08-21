@@ -106,8 +106,8 @@ namespace Vocaluxe.Lib.Sound
 
         public int Load(string media, bool prescan)
         {
-            SAudioStreams stream = new SAudioStreams(0);
-            COpenAlStream decoder = new COpenAlStream();
+            var stream = new SAudioStreams(0);
+            var decoder = new COpenAlStream();
 
             if (decoder.Open(media) > -1)
             {
@@ -595,7 +595,7 @@ namespace Vocaluxe.Lib.Sound
             _CurrentTime = 0f;
             _Timer.Reset();
 
-            SAudioStreams stream = new SAudioStreams(0) {Handle = _Buffers[0]};
+            var stream = new SAudioStreams(0) {Handle = _Buffers[0]};
 
             if (stream.Handle != 0)
             {
@@ -782,7 +782,7 @@ namespace Vocaluxe.Lib.Sound
                     return;
             }
 
-            byte[] buf = new byte[_BufferSize];
+            var buf = new byte[_BufferSize];
 
             lock (_MutexData)
             {
@@ -793,7 +793,7 @@ namespace Vocaluxe.Lib.Sound
                         _Data.Read(buf);
 
 
-                        byte[] b = new byte[2];
+                        var b = new byte[2];
                         for (int i = 0; i < buf.Length; i += _ByteCount)
                         {
                             b[0] = buf[i];

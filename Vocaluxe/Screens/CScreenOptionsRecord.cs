@@ -75,7 +75,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            List<string> values = new List<string> {_StaticWarning};
+            var values = new List<string> {_StaticWarning};
             values.AddRange(_StaticEnergyChannel);
             _ThemeStatics = values.ToArray();
 
@@ -369,11 +369,11 @@ namespace Vocaluxe.Screens
             {
                 if (_ChannelEnergy[i] > 0f)
                 {
-                    SRectF rect = new SRectF(_Statics[_StaticEnergyChannel[i]].Rect.X,
-                                             _Statics[_StaticEnergyChannel[i]].Rect.Y,
-                                             _Statics[_StaticEnergyChannel[i]].Rect.W * _ChannelEnergy[i],
-                                             _Statics[_StaticEnergyChannel[i]].Rect.H,
-                                             _Statics[_StaticEnergyChannel[i]].Rect.Z);
+                    var rect = new SRectF(_Statics[_StaticEnergyChannel[i]].Rect.X,
+                                          _Statics[_StaticEnergyChannel[i]].Rect.Y,
+                                          _Statics[_StaticEnergyChannel[i]].Rect.W * _ChannelEnergy[i],
+                                          _Statics[_StaticEnergyChannel[i]].Rect.H,
+                                          _Statics[_StaticEnergyChannel[i]].Rect.Z);
 
                     CDraw.DrawTexture(_Statics[_StaticEnergyChannel[i]].Texture, _Statics[_StaticEnergyChannel[i]].Rect,
                                       new SColorF(1f, 1f, 1f, 1f), rect);
@@ -465,7 +465,7 @@ namespace Vocaluxe.Screens
 
         private bool _CheckMicConfig()
         {
-            bool[] isSet = new bool[CSettings.MaxNumPlayer];
+            var isSet = new bool[CSettings.MaxNumPlayer];
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
                 isSet[i] = false;
 

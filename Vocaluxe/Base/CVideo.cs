@@ -168,7 +168,7 @@ namespace Vocaluxe.Base
             }
             if (_VideoTexture == null)
                 return;
-            RectangleF bounds = new RectangleF(0f, 0f, CSettings.RenderW, CSettings.RenderH);
+            var bounds = new RectangleF(0f, 0f, CSettings.RenderW, CSettings.RenderH);
             RectangleF rect;
             CHelper.SetRect(bounds, out rect, _VideoTexture.OrigAspect, EAspect.Crop);
 

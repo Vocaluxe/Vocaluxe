@@ -209,7 +209,7 @@ namespace Vocaluxe.Base
 
         public static void CreateFolders()
         {
-            List<string> folders = new List<string> {FolderCover, FolderFonts, FolderProfiles, FolderSongs, FolderScreenshots, FolderBackgroundMusic, FolderSounds, FolderPlaylists};
+            var folders = new List<string> {FolderCover, FolderFonts, FolderProfiles, FolderSongs, FolderScreenshots, FolderBackgroundMusic, FolderSounds, FolderPlaylists};
 
             foreach (string folder in folders)
             {

@@ -546,13 +546,13 @@ namespace Vocaluxe.Screens
 
         public override void ApplyVolume()
         {
-            if(_CurrentStream > -1)
+            if (_CurrentStream > -1)
                 CSound.SetStreamVolumeMax(_CurrentStream, CConfig.GameMusicVolume);
         }
 
         private void _CloseSong()
         {
-            if(_CurrentStream > -1)
+            if (_CurrentStream > -1)
                 CSound.FadeAndStop(_CurrentStream, 0f, 0.5f);
             CSound.RecordStop();
             if (_CurrentVideo != -1)

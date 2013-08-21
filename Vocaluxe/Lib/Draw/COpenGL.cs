@@ -124,7 +124,7 @@ namespace Vocaluxe.Lib.Draw
             bool ok = false;
             try
             {
-                GraphicsMode gm = new GraphicsMode(32, 24, 0, (int)CConfig.AAMode);
+                var gm = new GraphicsMode(32, 24, 0, (int)CConfig.AAMode);
                 _Control = new GLControl(gm, 2, 1, GraphicsContextFlags.Default);
                 if (_Control.GraphicsMode != null)
                     ok = true;
@@ -473,7 +473,7 @@ namespace Vocaluxe.Lib.Draw
                 Close();
             }
             catch {}
-            CTexture[] textures = new CTexture[_Textures.Count];
+            var textures = new CTexture[_Textures.Count];
             _Textures.Values.CopyTo(textures, 0);
             for (int i = 0; i < _Textures.Count; i++)
                 RemoveTexture(ref textures[i]);
@@ -552,7 +552,7 @@ namespace Vocaluxe.Lib.Draw
             int width = GetScreenWidth();
             int height = GetScreenHeight();
 
-            using (Bitmap screen = new Bitmap(width, height))
+            using (var screen = new Bitmap(width, height))
             {
                 BitmapData bmpData = screen.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
@@ -707,7 +707,7 @@ namespace Vocaluxe.Lib.Draw
             w = MathHelper.NextPowerOfTwo(w);
             h = MathHelper.NextPowerOfTwo(h);
 
-            CTexture texture = new CTexture(bmp.Width, bmp.Height, w, h, true) {Name = GL.GenTexture()};
+            var texture = new CTexture(bmp.Width, bmp.Height, w, h, true) {Name = GL.GenTexture()};
 
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
             Bitmap bmp2 = null;
@@ -813,7 +813,7 @@ namespace Vocaluxe.Lib.Draw
             lock (_MutexTexture)
             {
                 texture.ID = _IDs.Dequeue();
-                STextureQueue queue = new STextureQueue(texture.ID, texture.W2, texture.H2, w, h, data);
+                var queue = new STextureQueue(texture.ID, texture.W2, texture.H2, w, h, data);
                 _TexturesToLoad.Enqueue(queue);
                 _Textures[texture.ID] = texture;
             }

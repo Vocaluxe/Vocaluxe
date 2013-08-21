@@ -55,7 +55,7 @@ namespace Vocaluxe.Lib.Video
             int i = -1;
             try
             {
-                Uri u = new Uri(videoFileName);
+                var u = new Uri(videoFileName);
                 i = CGstreamerVideoWrapper.LoadVideo(u.AbsoluteUri);
                 return i;
             }

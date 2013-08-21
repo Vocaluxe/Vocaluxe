@@ -105,7 +105,7 @@ namespace Vocaluxe.Screens
             _ButtonsJoker.Clear();
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
                 _ButtonsJoker.Add("ButtonJoker" + (i + 1));
-            List<string> blist = new List<string>();
+            var blist = new List<string>();
             blist.AddRange(_ButtonsJoker);
             blist.Add(_ButtonOptionsClose);
             blist.Add(_ButtonOptionsPlaylist);
@@ -123,7 +123,7 @@ namespace Vocaluxe.Screens
             _TextsPlayer.Clear();
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
                 _TextsPlayer.Add("TextPlayer" + (i + 1));
-            List<string> tlist = new List<string>();
+            var tlist = new List<string>();
             tlist.AddRange(_TextsPlayer);
             tlist.Add(_TextCategory);
             tlist.Add(_TextSelection);
@@ -172,7 +172,7 @@ namespace Vocaluxe.Screens
                 {
                     if (_SearchActive)
                         _ApplyNewSearchFilter(_SearchText + keyEvent.Unicode);
-                    else if(!_Sso.Selection.PartyMode)
+                    else if (!_Sso.Selection.PartyMode)
                     {
                         _JumpTo(keyEvent.Unicode);
                         return true;
@@ -862,7 +862,7 @@ namespace Vocaluxe.Screens
             CGame.Reset();
             CGame.ClearSongs();
 
-            List<int> ids = new List<int>();
+            var ids = new List<int>();
             for (int i = 0; i < CSongs.AllSongs.Count; i++)
                 ids.Add(i);
 
@@ -870,7 +870,7 @@ namespace Vocaluxe.Screens
             {
                 int songNr = ids[CGame.Rand.Next(ids.Count)];
 
-                EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+                var gm = EGameMode.TR_GAMEMODE_NORMAL;
                 if (CSongs.AllSongs[songNr].IsDuet)
                     gm = EGameMode.TR_GAMEMODE_DUET;
 
@@ -894,7 +894,7 @@ namespace Vocaluxe.Screens
             {
                 int songNr = ids[CGame.Rand.Next(ids.Count)];
 
-                EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+                var gm = EGameMode.TR_GAMEMODE_NORMAL;
                 if (CSongs.AllSongs[songNr].IsDuet)
                     gm = EGameMode.TR_GAMEMODE_DUET;
 
@@ -1009,10 +1009,10 @@ namespace Vocaluxe.Screens
             int curSelected = _SongMenus[_SongMenu].GetActualSelection();
             bool firstLevel = CConfig.Tabs == EOffOn.TR_CONFIG_OFF && CSongs.IsInCategory;
             bool secondSort = CConfig.Tabs == EOffOn.TR_CONFIG_ON &&
-                                (CConfig.SongSorting == ESongSorting.TR_CONFIG_ARTIST ||
-                                 CConfig.SongSorting == ESongSorting.TR_CONFIG_ARTIST_LETTER ||
-                                 CConfig.SongSorting == ESongSorting.TR_CONFIG_FOLDER ||
-                                 CConfig.SongSorting == ESongSorting.TR_CONFIG_TITLE_LETTER);
+                              (CConfig.SongSorting == ESongSorting.TR_CONFIG_ARTIST ||
+                               CConfig.SongSorting == ESongSorting.TR_CONFIG_ARTIST_LETTER ||
+                               CConfig.SongSorting == ESongSorting.TR_CONFIG_FOLDER ||
+                               CConfig.SongSorting == ESongSorting.TR_CONFIG_TITLE_LETTER);
             if (firstLevel && !secondSort)
             {
                 //TODO: What's to do with multiple tags?
@@ -1029,7 +1029,7 @@ namespace Vocaluxe.Screens
                         visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
                         break;
 
-                    //TODO: Does this make sense? Maybe we should deactivate this for years? You could only jump between 1 and 2
+                        //TODO: Does this make sense? Maybe we should deactivate this for years? You could only jump between 1 and 2
                     case ESongSorting.TR_CONFIG_YEAR:
                     case ESongSorting.TR_CONFIG_DECADE:
                         if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Year.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
@@ -1076,7 +1076,7 @@ namespace Vocaluxe.Screens
                 if (visibleID > -1)
                     _SongMenus[_SongMenu].SetSelectedSong(visibleID);
             }
-            else if(!CSongs.IsInCategory)
+            else if (!CSongs.IsInCategory)
             {
                 ReadOnlyCollection<CCategory> categories = CSongs.Categories;
                 int ct = categories.Count;
@@ -1166,7 +1166,7 @@ namespace Vocaluxe.Screens
 
         private void _ShowSongOptionsSong()
         {
-            EGameMode lastMode = EGameMode.TR_GAMEMODE_NORMAL;
+            var lastMode = EGameMode.TR_GAMEMODE_NORMAL;
             if (_AvailableGameModes.Count > 0)
                 lastMode = _AvailableGameModes[_SelectSlides[_SelectSlideOptionsMode].Selection];
             _AvailableGameModes.Clear();

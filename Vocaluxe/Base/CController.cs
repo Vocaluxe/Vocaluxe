@@ -77,11 +77,11 @@ namespace Vocaluxe.Base
             {
                 controller.Update();
 
-                SKeyEvent ke = new SKeyEvent();
+                var ke = new SKeyEvent();
                 while (controller.PollKeyEvent(ref ke))
                     _KeysPool.Add(ke);
 
-                SMouseEvent me = new SMouseEvent();
+                var me = new SMouseEvent();
                 while (controller.PollMouseEvent(ref me))
                     _MousePool.Add(me);
             }

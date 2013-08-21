@@ -206,7 +206,7 @@ namespace Vocaluxe.Base
             if (texture == null)
                 return;
 
-            RectangleF bounds = new RectangleF(staticBounds.Rect.X, staticBounds.Rect.Y, staticBounds.Rect.W, staticBounds.Rect.H);
+            var bounds = new RectangleF(staticBounds.Rect.X, staticBounds.Rect.Y, staticBounds.Rect.W, staticBounds.Rect.H);
             RectangleF rect;
 
             CHelper.SetRect(bounds, out rect, texture.OrigAspect, aspect);

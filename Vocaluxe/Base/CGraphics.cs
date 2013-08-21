@@ -218,7 +218,7 @@ namespace Vocaluxe.Base
 
             if (_Fading)
             {
-                long fadeTime = (long)(CConfig.FadeTime * 1000);
+                var fadeTime = (long)(CConfig.FadeTime * 1000);
 
                 if ((_FadingTimer.ElapsedMilliseconds < fadeTime) && (CConfig.FadeTime > 0))
                 {
@@ -349,10 +349,10 @@ namespace Vocaluxe.Base
         #region private stuff
         private static bool _HandleInputs(CKeys keys, CMouse mouse)
         {
-            SKeyEvent keyEvent = new SKeyEvent();
-            SMouseEvent mouseEvent = new SMouseEvent();
-            SKeyEvent inputKeyEvent = new SKeyEvent();
-            SMouseEvent inputMouseEvent = new SMouseEvent();
+            var keyEvent = new SKeyEvent();
+            var mouseEvent = new SMouseEvent();
+            var inputKeyEvent = new SKeyEvent();
+            var inputMouseEvent = new SMouseEvent();
 
             bool popupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing &&
                                              (_CurrentScreen != EScreens.ScreenSong ||
@@ -541,8 +541,8 @@ namespace Vocaluxe.Base
 
         private static bool _HandleInputThemeEditor(CKeys keys, CMouse mouse)
         {
-            SKeyEvent keyEvent = new SKeyEvent();
-            SMouseEvent mouseEvent = new SMouseEvent();
+            var keyEvent = new SKeyEvent();
+            var mouseEvent = new SMouseEvent();
 
             while (keys.PollEvent(ref keyEvent))
             {
@@ -598,7 +598,7 @@ namespace Vocaluxe.Base
             if (CConfig.DebugLevel == EDebugLevel.TR_CONFIG_OFF)
                 return;
 
-            List<String> debugOutput = new List<string> {CTime.GetFPS().ToString("FPS: 000")};
+            var debugOutput = new List<string> {CTime.GetFPS().ToString("FPS: 000")};
 
             if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
             {
@@ -627,11 +627,11 @@ namespace Vocaluxe.Base
             CFonts.Style = EStyle.Normal;
             CFonts.SetFont("Normal");
             CFonts.Height = 25;
-            SColorF gray = new SColorF(1f, 1f, 1f, 0.5f);
+            var gray = new SColorF(1f, 1f, 1f, 0.5f);
             float y = 0;
             foreach (string txt in debugOutput)
             {
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), y, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
+                var rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), y, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
                 CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 y += rect.Height;

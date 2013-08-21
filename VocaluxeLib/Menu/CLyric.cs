@@ -208,7 +208,7 @@ namespace VocaluxeLib.Menu
             _Width = 0f;
             foreach (CSongNote note in line.Notes)
             {
-                SNote n = new SNote {Text = note.Text, StartBeat = note.StartBeat, EndBeat = note.EndBeat, Duration = note.Duration, Type = note.NoteType};
+                var n = new SNote {Text = note.Text, StartBeat = note.StartBeat, EndBeat = note.EndBeat, Duration = note.Duration, Type = note.NoteType};
 
                 _Text.Text = note.Text;
                 _Text.Style = EStyle.Bold;

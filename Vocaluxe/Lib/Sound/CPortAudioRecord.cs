@@ -73,7 +73,7 @@ namespace Vocaluxe.Lib.Sound
                     CPortAudio.SPaDeviceInfo info = CPortAudio.PaGetDeviceInfo(i);
                     if (info.HostApi == hostAPI && info.MaxInputChannels > 0)
                     {
-                        CRecordDevice dev = new CRecordDevice {ID = i, Name = info.Name, Driver = info.Name + i, Channels = info.MaxInputChannels};
+                        var dev = new CRecordDevice {ID = i, Name = info.Name, Driver = info.Name + i, Channels = info.MaxInputChannels};
 
                         if (dev.Channels > 2)
                             dev.Channels = 2; //more are not supported in vocaluxe
@@ -123,7 +123,7 @@ namespace Vocaluxe.Lib.Sound
             for (int i = 0; i < _RecHandle.Length; i++)
                 _RecHandle[i] = IntPtr.Zero;
 
-            bool[] active = new bool[_Devices.Count];
+            var active = new bool[_Devices.Count];
             for (int dev = 0; dev < _Devices.Count; dev++)
             {
                 active[dev] = false;
@@ -135,7 +135,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 if (active[i])
                 {
-                    CPortAudio.SPaStreamParameters inputParams = new CPortAudio.SPaStreamParameters
+                    var inputParams = new CPortAudio.SPaStreamParameters
                         {
                             ChannelCount = _Devices[i].Channels,
                             Device = _Devices[i].ID,
@@ -283,9 +283,9 @@ namespace Vocaluxe.Lib.Sound
                 frameCount *= 4;
                 if (frameCount > 0 && input != IntPtr.Zero)
                 {
-                    byte[] recbuffer = new byte[frameCount];
-                    byte[] leftBuffer = new byte[frameCount / 2];
-                    byte[] rightBuffer = new byte[frameCount / 2];
+                    var recbuffer = new byte[frameCount];
+                    var leftBuffer = new byte[frameCount / 2];
+                    var rightBuffer = new byte[frameCount / 2];
 
                     // copy from managed to unmanaged memory
                     Marshal.Copy(input, recbuffer, 0, (int)frameCount);

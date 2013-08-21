@@ -258,8 +258,8 @@ namespace Vocaluxe.Base.Fonts
             Height = height;
             SetFont(text.Font);
             Style = text.Style;
-            RectangleF result = new RectangleF(text.X, text.Y, GetTextWidth(CLanguage.Translate(text.Text, text.TranslationID)),
-                                               GetTextHeight(CLanguage.Translate(text.Text, text.TranslationID)));
+            var result = new RectangleF(text.X, text.Y, GetTextWidth(CLanguage.Translate(text.Text, text.TranslationID)),
+                                        GetTextHeight(CLanguage.Translate(text.Text, text.TranslationID)));
             //restore old values
             Height = oldHeight;
             _CurrentFont = oldFont;
@@ -286,7 +286,7 @@ namespace Vocaluxe.Base.Fonts
             int i = 1;
             while (xmlReader.GetValue("//root/Fonts/Font" + i + "/Folder", out value, value))
             {
-                SFont sf = new SFont {Folder = value, IsThemeFont = themeName != "", ThemeName = themeName, PartyModeID = partyModeId};
+                var sf = new SFont {Folder = value, IsThemeFont = themeName != "", ThemeName = themeName, PartyModeID = partyModeId};
 
                 bool ok = true;
 
@@ -297,7 +297,7 @@ namespace Vocaluxe.Base.Fonts
                 ok &= xmlReader.GetValue("//root/Fonts/Font" + i + "/FileNormal", out value, value);
                 sf.FileNormal = value;
                 value = Path.Combine(fontFolder, Path.Combine(sf.Folder, value));
-                CFont f = new CFont(value);
+                var f = new CFont(value);
                 sf.Normal = f;
 
                 ok &= xmlReader.GetValue("//root/Fonts/Font" + i + "/FileItalic", out value, value);

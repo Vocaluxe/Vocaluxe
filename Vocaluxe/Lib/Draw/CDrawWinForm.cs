@@ -289,7 +289,7 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture CopyScreen()
         {
-            Bitmap bmp = new Bitmap(_Backbuffer);
+            var bmp = new Bitmap(_Backbuffer);
             _Bitmaps.Add(bmp);
             CTexture texture = _GetNewTexture(bmp.Width, bmp.Height);
 
@@ -333,7 +333,7 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture AddTexture(Bitmap bmp)
         {
-            Bitmap bmp2 = new Bitmap(bmp);
+            var bmp2 = new Bitmap(bmp);
             _Bitmaps.Add(bmp2);
             CTexture texture = _GetNewTexture(bmp.Width, bmp.Height);
 
@@ -357,7 +357,7 @@ namespace Vocaluxe.Lib.Draw
                     if (tex.TexturePath == texturePath)
                         return tex;
                 }
-                using (Bitmap bmp = new Bitmap(texturePath))
+                using (var bmp = new Bitmap(texturePath))
                 {
                     CTexture texture = AddTexture(bmp);
                     texture.TexturePath = texturePath;
@@ -389,7 +389,7 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture AddTexture(int w, int h, byte[] data)
         {
-            using (Bitmap bmp = new Bitmap(w, h))
+            using (var bmp = new Bitmap(w, h))
             {
                 BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
                 Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
@@ -459,13 +459,13 @@ namespace Vocaluxe.Lib.Draw
 
         private static Bitmap _ColorizeBitmap(Bitmap original, SColorF color)
         {
-            Bitmap newBitmap = new Bitmap(original.Width, original.Height);
+            var newBitmap = new Bitmap(original.Width, original.Height);
 
             using (Graphics g = Graphics.FromImage(newBitmap))
             {
-                ColorMatrix cm = new ColorMatrix {Matrix33 = color.A, Matrix00 = color.R, Matrix11 = color.G, Matrix22 = color.B, Matrix44 = 1};
+                var cm = new ColorMatrix {Matrix33 = color.A, Matrix00 = color.R, Matrix11 = color.G, Matrix22 = color.B, Matrix44 = 1};
 
-                using (ImageAttributes ia = new ImageAttributes())
+                using (var ia = new ImageAttributes())
                 {
                     ia.SetColorMatrix(cm);
 

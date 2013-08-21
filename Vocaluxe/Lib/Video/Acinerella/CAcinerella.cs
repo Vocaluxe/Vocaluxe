@@ -363,7 +363,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             lock (_Lock)
             {
-                return _ac_decode_package(pAcPackage, pAcDecoder)!=0;
+                return _ac_decode_package(pAcPackage, pAcDecoder) != 0;
             }
         }
 
@@ -374,7 +374,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             lock (_Lock)
             {
-                return _ac_get_audio_frame(pAcInstance, pAcDecoder)!=0;
+                return _ac_get_audio_frame(pAcInstance, pAcDecoder) != 0;
             }
         }
 
@@ -385,7 +385,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             lock (_Lock)
             {
-                return _ac_get_frame(pAcInstance, pAcDecoder)!=0;
+                return _ac_get_frame(pAcInstance, pAcDecoder) != 0;
             }
         }
 
@@ -396,7 +396,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             lock (_Lock)
             {
-                return _ac_skip_frames(pAcInstance, pAcDecoder, num)!=0;
+                return _ac_skip_frames(pAcInstance, pAcDecoder, num) != 0;
             }
         }
 
@@ -412,7 +412,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             lock (_Lock)
             {
-                return _ac_seek(pAcDecoder, dir, targetPos)!=0;
+                return _ac_seek(pAcDecoder, dir, targetPos) != 0;
             }
         }
 

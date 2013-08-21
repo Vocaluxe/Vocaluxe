@@ -320,7 +320,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
                 if (_Handle != IntPtr.Zero && Connected)
                 {
-                    byte[] buff = new byte[_ReportLength];
+                    var buff = new byte[_ReportLength];
 
                     try
                     {
@@ -348,7 +348,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 return false;
             }
 
-            EInputReport type = (EInputReport)buff[0];
+            var type = (EInputReport)buff[0];
 
             switch (type)
             {

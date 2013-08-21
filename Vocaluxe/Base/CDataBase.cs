@@ -71,13 +71,12 @@ namespace Vocaluxe.Base
         }
 
         #region Highscores
-
         public static bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out string dateAdded, out int highscoreID)
         {
-            string sArtist = string.Empty;
-            string sTitle = string.Empty;
-            int songID = -1;
-            using (SQLiteConnection connection = new SQLiteConnection())
+            string sArtist;
+            string sTitle;
+            int songID;
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
 
@@ -85,11 +84,9 @@ namespace Vocaluxe.Base
                 {
                     connection.Open();
                 }
-                catch (Exception)
-                {
-                }
+                catch (Exception) {}
 
-                using (SQLiteCommand command = new SQLiteCommand(connection))
+                using (var command = new SQLiteCommand(connection))
                 {
                     songID = _GetDataBaseSongID(artist, title, 0, command);
                     highscoreID = songID;
@@ -100,7 +97,7 @@ namespace Vocaluxe.Base
 
         public static void IncreaseSongCounter(SPlayer player)
         {
-            using (SQLiteConnection connection = new SQLiteConnection())
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
 
@@ -108,11 +105,9 @@ namespace Vocaluxe.Base
                 {
                     connection.Open();
                 }
-                catch (Exception)
-                {
-                }
+                catch (Exception) {}
 
-                using (SQLiteCommand command = new SQLiteCommand(connection))
+                using (var command = new SQLiteCommand(connection))
                 {
                     int dataBaseSongID = _GetDataBaseSongID(player, command);
                     _IncreaseSongCounter(dataBaseSongID, command);
@@ -122,7 +117,7 @@ namespace Vocaluxe.Base
 
         public static void IncreaseSongCounter(int dataBaseSongID)
         {
-            using (SQLiteConnection connection = new SQLiteConnection())
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
 
@@ -130,21 +125,17 @@ namespace Vocaluxe.Base
                 {
                     connection.Open();
                 }
-                catch (Exception)
-                {
-                }
+                catch (Exception) {}
 
-                using (SQLiteCommand command = new SQLiteCommand(connection))
-                {
+                using (var command = new SQLiteCommand(connection))
                     _IncreaseSongCounter(dataBaseSongID, command);
-                }
             }
         }
 
         public static int AddScore(string playerName, int score, int lineNr, long date, int medley, int duet, int shortSong, int difficulty,
                                    string artist, string title, int numPlayed, string filePath)
         {
-            using (SQLiteConnection connection = new SQLiteConnection())
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + filePath;
 
@@ -157,7 +148,7 @@ namespace Vocaluxe.Base
                     return -1;
                 }
 
-                using (SQLiteCommand command = new SQLiteCommand(connection))
+                using (var command = new SQLiteCommand(connection))
                 {
                     int dataBaseSongID = _GetDataBaseSongID(artist, title, numPlayed, command);
                     int result = _AddScore(playerName, score, lineNr, date, medley, duet, shortSong, difficulty, dataBaseSongID, command);
@@ -168,7 +159,7 @@ namespace Vocaluxe.Base
 
         public static int AddScore(SPlayer player)
         {
-            using (SQLiteConnection connection = new SQLiteConnection())
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
 
@@ -181,7 +172,7 @@ namespace Vocaluxe.Base
                     return -1;
                 }
 
-                using (SQLiteCommand command = new SQLiteCommand(connection))
+                using (var command = new SQLiteCommand(connection))
                 {
                     int dataBaseSongID = CSongs.GetSong(player.SongID).DataBaseSongID;
                     return _AddScore(CProfiles.GetPlayerName(player.ProfileID), (int)Math.Round(player.Points), player.VoiceNr, player.DateTicks, player.Medley ? 1 : 0,
@@ -256,7 +247,7 @@ namespace Vocaluxe.Base
 
         public static void LoadScore(out List<SScores> scores, SPlayer player)
         {
-            using (SQLiteConnection connection = new SQLiteConnection())
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
 
@@ -271,7 +262,7 @@ namespace Vocaluxe.Base
                     return;
                 }
 
-                using (SQLiteCommand command = new SQLiteCommand(connection))
+                using (var command = new SQLiteCommand(connection))
                 {
                     int medley = 0;
                     if (player.Medley)
@@ -301,7 +292,7 @@ namespace Vocaluxe.Base
                         {
                             while (reader.Read())
                             {
-                                SScores score = new SScores
+                                var score = new SScores
                                     {
                                         Name = reader.GetString(0),
                                         Score = reader.GetInt32(1),
@@ -361,7 +352,7 @@ namespace Vocaluxe.Base
             command.Parameters.Add("@title", DbType.String, 0).Value = title;
             command.Parameters.Add("@artist", DbType.String, 0).Value = artist;
             command.Parameters.Add("@numplayed", DbType.Int32, 0).Value = defNumPlayed;
-            command.Parameters.Add("@dateadded", System.Data.DbType.Int64, 0).Value = DateTime.Now.Ticks;
+            command.Parameters.Add("@dateadded", DbType.Int64, 0).Value = DateTime.Now.Ticks;
             command.ExecuteNonQuery();
 
             command.CommandText = "SELECT id FROM Songs WHERE [Title] = @title AND [Artist] = @artist";
@@ -388,7 +379,7 @@ namespace Vocaluxe.Base
             numPlayed = 0;
             dateAdded = String.Empty;
 
-            using (SQLiteConnection connection = new SQLiteConnection())
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + filePath;
 
@@ -401,7 +392,7 @@ namespace Vocaluxe.Base
                     return false;
                 }
 
-                using (SQLiteCommand command = new SQLiteCommand(connection))
+                using (var command = new SQLiteCommand(connection))
                 {
                     command.CommandText = "SELECT Artist, Title, NumPlayed, DateAdded FROM Songs WHERE [id] = @id";
                     command.Parameters.Add("@id", DbType.String, 0).Value = songID;
@@ -460,7 +451,7 @@ namespace Vocaluxe.Base
 
         private static void _CreateHighscoreDB(string filePath)
         {
-            using (SQLiteConnection connection = new SQLiteConnection())
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + filePath;
 
@@ -473,7 +464,7 @@ namespace Vocaluxe.Base
                     return;
                 }
 
-                using (SQLiteCommand command = new SQLiteCommand(connection))
+                using (var command = new SQLiteCommand(connection))
                 {
                     command.CommandText = "CREATE TABLE IF NOT EXISTS Version ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Value INTEGER NOT NULL);";
                     command.ExecuteNonQuery();
@@ -496,7 +487,7 @@ namespace Vocaluxe.Base
 
         private static void _CreateHighscoreDBV1(string filePath)
         {
-            using (SQLiteConnection connection = new SQLiteConnection())
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + filePath;
 
@@ -509,7 +500,7 @@ namespace Vocaluxe.Base
                     return;
                 }
 
-                using (SQLiteCommand command = new SQLiteCommand(connection))
+                using (var command = new SQLiteCommand(connection))
                 {
                     command.CommandText = "CREATE TABLE IF NOT EXISTS Version ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Value INTEGER NOT NULL);";
                     command.ExecuteNonQuery();
@@ -536,7 +527,7 @@ namespace Vocaluxe.Base
         /// <returns></returns>
         private static bool _CreateOrConvert(string filePath)
         {
-            using (SQLiteConnection connection = new SQLiteConnection())
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + filePath;
 
@@ -549,7 +540,7 @@ namespace Vocaluxe.Base
                     return false;
                 }
 
-                using (SQLiteCommand command = new SQLiteCommand(connection))
+                using (var command = new SQLiteCommand(connection))
                 {
                     command.CommandText = "PRAGMA user_version";
                     SQLiteDataReader reader = command.ExecuteReader();
@@ -646,7 +637,7 @@ namespace Vocaluxe.Base
         /// <returns>True if succeeded</returns>
         private static bool _ConvertFrom110(string filePath)
         {
-            using (SQLiteConnection connection = new SQLiteConnection())
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + filePath;
 
@@ -659,7 +650,7 @@ namespace Vocaluxe.Base
                     return false;
                 }
 
-                using (SQLiteCommand command = new SQLiteCommand(connection))
+                using (var command = new SQLiteCommand(connection))
                 {
                     //The USDX database has no column for LineNr, Medley and Duet so just fill 0 in there
                     command.CommandText =
@@ -669,8 +660,8 @@ namespace Vocaluxe.Base
                     command.CommandText = "INSERT INTO Songs SELECT ID, Artist, Title, TimesPlayed from US_Songs";
                     command.ExecuteNonQuery();
 
-                    List<SData> scores = new List<SData>();
-                    List<SData> songs = new List<SData>();
+                    var scores = new List<SData>();
+                    var songs = new List<SData>();
 
                     command.CommandText = "SELECT id, PlayerName, Date FROM Scores";
                     SQLiteDataReader reader = command.ExecuteReader();
@@ -679,7 +670,7 @@ namespace Vocaluxe.Base
                     {
                         while (reader.Read())
                         {
-                            SData data = new SData {Id = reader.GetInt32(0), Str1 = reader.GetString(1)};
+                            var data = new SData {Id = reader.GetInt32(0), Str1 = reader.GetString(1)};
                             Int64 ticks = 0;
 
                             try
@@ -703,7 +694,7 @@ namespace Vocaluxe.Base
                     {
                         while (reader.Read())
                         {
-                            SData data = new SData {Id = reader.GetInt32(0), Str1 = reader.GetString(1), Str2 = reader.GetString(2)};
+                            var data = new SData {Id = reader.GetInt32(0), Str1 = reader.GetString(1), Str2 = reader.GetString(2)};
                             songs.Add(data);
                         }
                     }
@@ -759,7 +750,7 @@ namespace Vocaluxe.Base
         /// <returns>True if succeeded</returns>
         private static bool _ConvertFrom101(string filePath)
         {
-            using (SQLiteConnection connection = new SQLiteConnection())
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + filePath;
 
@@ -772,7 +763,7 @@ namespace Vocaluxe.Base
                     return false;
                 }
 
-                using (SQLiteCommand command = new SQLiteCommand(connection))
+                using (var command = new SQLiteCommand(connection))
                 {
                     command.CommandText = "PRAGMA table_info(US_Scores);";
                     bool dateExists = false;
@@ -803,8 +794,8 @@ namespace Vocaluxe.Base
                     command.ExecuteNonQuery();
 
                     // convert from CP1252 to UTF8
-                    List<SData> scores = new List<SData>();
-                    List<SData> songs = new List<SData>();
+                    var scores = new List<SData>();
+                    var songs = new List<SData>();
 
                     Sqlite3.sqlite3 oldDB;
                     int res = Sqlite3.sqlite3_open(filePath, out oldDB);
@@ -813,7 +804,7 @@ namespace Vocaluxe.Base
                         CLog.LogError("Error opening Database: " + filePath + " (" + Sqlite3.sqlite3_errmsg(oldDB) + ")");
                     else
                     {
-                        Sqlite3.Vdbe stmt = new Sqlite3.Vdbe();
+                        var stmt = new Sqlite3.Vdbe();
                         res = Sqlite3.sqlite3_prepare_v2(oldDB, "SELECT id, Artist, Title FROM Songs", -1, ref stmt, 0);
 
                         if (res != Sqlite3.SQLITE_OK)
@@ -826,7 +817,7 @@ namespace Vocaluxe.Base
 
                             while (Sqlite3.sqlite3_step(stmt) == Sqlite3.SQLITE_ROW)
                             {
-                                SData data = new SData {Id = Sqlite3.sqlite3_column_int(stmt, 0)};
+                                var data = new SData {Id = Sqlite3.sqlite3_column_int(stmt, 0)};
 
                                 byte[] bytes = Sqlite3.sqlite3_column_rawbytes(stmt, 1);
                                 data.Str1 = bytes != null ? utf8.GetString(Encoding.Convert(cp1252, utf8, bytes)) : "Someone";
@@ -858,7 +849,7 @@ namespace Vocaluxe.Base
 
                             while (Sqlite3.sqlite3_step(stmt) == Sqlite3.SQLITE_ROW)
                             {
-                                SData data = new SData {Id = Sqlite3.sqlite3_column_int(stmt, 0)};
+                                var data = new SData {Id = Sqlite3.sqlite3_column_int(stmt, 0)};
 
                                 byte[] bytes = Sqlite3.sqlite3_column_rawbytes(stmt, 1);
                                 data.Str1 = bytes != null ? utf8.GetString(Encoding.Convert(cp1252, utf8, bytes)) : "Someone";
@@ -918,20 +909,16 @@ namespace Vocaluxe.Base
             bool updated = true;
 
             if (currentVersion < 2)
-            {
                 updated &= _ConvertV1toV2(connection);
-            }
             if (currentVersion < 3)
-            {
                 updated &= _ConvertV2toV3(connection);
-            }
 
             return updated;
         }
 
         private static bool _ConvertV1toV2(SQLiteConnection connection)
         {
-            using (SQLiteCommand command = new SQLiteCommand(connection))
+            using (var command = new SQLiteCommand(connection))
             {
                 command.CommandText = "ALTER TABLE Scores ADD ShortSong INTEGER";
                 command.ExecuteNonQuery();
@@ -948,17 +935,14 @@ namespace Vocaluxe.Base
 
         private static bool _ConvertV2toV3(SQLiteConnection connection)
         {
-            SQLiteCommand command;
+            var command = new SQLiteCommand(connection) {CommandText = "ALTER TABLE Songs ADD DateAdded BIGINT"};
 
-            command = new SQLiteCommand(connection);
-
-            command.CommandText = "ALTER TABLE Songs ADD DateAdded BIGINT";
             command.ExecuteNonQuery();
             command.CommandText = "UPDATE Songs SET [DateAdded] = @DateAdded";
-            command.Parameters.Add("@DateAdded",System.Data.DbType.Int64, 0).Value = DateTime.Now.Ticks;
+            command.Parameters.Add("@DateAdded", DbType.Int64, 0).Value = DateTime.Now.Ticks;
             command.ExecuteNonQuery();
             command.CommandText = "UPDATE Version SET [Value] = @version";
-            command.Parameters.Add("@version", System.Data.DbType.Int32, 0).Value = 3;
+            command.Parameters.Add("@version", DbType.Int32, 0).Value = 3;
             command.ExecuteNonQuery();
             command.Dispose();
 
@@ -968,7 +952,7 @@ namespace Vocaluxe.Base
         private static bool _ImportData(string sourceDBPath)
         {
             #region open db
-            using (SQLiteConnection connSource = new SQLiteConnection())
+            using (var connSource = new SQLiteConnection())
             {
                 connSource.ConnectionString = "Data Source=" + sourceDBPath;
 
@@ -983,7 +967,7 @@ namespace Vocaluxe.Base
                 }
                 #endregion open db
 
-                using (SQLiteCommand cmdSource = new SQLiteCommand(connSource))
+                using (var cmdSource = new SQLiteCommand(connSource))
                 {
                     #region import table scores
                     cmdSource.CommandText = "SELECT SongID, PlayerName, Score, LineNr, Date, Medley, Duet, ShortSong, Difficulty FROM Scores";
@@ -1039,7 +1023,7 @@ namespace Vocaluxe.Base
                 _ConnectionCover.Open();
             }
 
-            using (SQLiteCommand command = new SQLiteCommand(_ConnectionCover))
+            using (var command = new SQLiteCommand(_ConnectionCover))
             {
                 command.CommandText = "SELECT id, width, height FROM Cover WHERE [Path] = @path";
                 command.Parameters.Add("@path", DbType.String, 0).Value = coverPath;
@@ -1097,7 +1081,7 @@ namespace Vocaluxe.Base
                         else if (origin.Height > origin.Width && origin.Height > h)
                             w = (int)Math.Round((float)h / origin.Height * origin.Width);
 
-                        using (Bitmap bmp = new Bitmap(w, h))
+                        using (var bmp = new Bitmap(w, h))
                         {
                             using (Graphics g = Graphics.FromImage(bmp))
                                 g.DrawImage(origin, new Rectangle(0, 0, w, h));
@@ -1166,7 +1150,7 @@ namespace Vocaluxe.Base
 
         private static bool _InitCoverDB()
         {
-            using (SQLiteConnection connection = new SQLiteConnection())
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + _CoverFilePath;
 
@@ -1179,7 +1163,7 @@ namespace Vocaluxe.Base
                     return false;
                 }
 
-                using (SQLiteCommand command = new SQLiteCommand(connection))
+                using (var command = new SQLiteCommand(connection))
                 {
                     command.CommandText = "SELECT Value FROM Version";
 
@@ -1219,7 +1203,7 @@ namespace Vocaluxe.Base
 
         private static void _CreateCoverDB()
         {
-            using (SQLiteConnection connection = new SQLiteConnection())
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + _CoverFilePath;
 
@@ -1232,7 +1216,7 @@ namespace Vocaluxe.Base
                     return;
                 }
 
-                using (SQLiteCommand command = new SQLiteCommand(connection))
+                using (var command = new SQLiteCommand(connection))
                 {
                     command.CommandText = "CREATE TABLE IF NOT EXISTS Version ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, Value INTEGER NOT NULL);";
                     command.ExecuteNonQuery();
@@ -1258,7 +1242,7 @@ namespace Vocaluxe.Base
         {
             bool result = false;
 
-            using (SQLiteConnection connection = new SQLiteConnection())
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + _CreditsRessourcesFilePath;
                 try
@@ -1269,7 +1253,7 @@ namespace Vocaluxe.Base
                 {
                     return false;
                 }
-                using (SQLiteCommand command = new SQLiteCommand(connection))
+                using (var command = new SQLiteCommand(connection))
                 {
                     command.CommandText = "SELECT id, width, height FROM Images WHERE [Path] = @path";
                     command.Parameters.Add("@path", DbType.String, 0).Value = fileName;
@@ -1391,7 +1375,7 @@ namespace Vocaluxe.Base
 
         private static bool _InitCreditsRessourcesDB()
         {
-            using (SQLiteConnection connection = new SQLiteConnection())
+            using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + _CreditsRessourcesFilePath;
 
@@ -1404,7 +1388,7 @@ namespace Vocaluxe.Base
                     return false;
                 }
 
-                using (SQLiteCommand command = new SQLiteCommand(connection))
+                using (var command = new SQLiteCommand(connection))
                 {
                     command.CommandText = "SELECT Value FROM Version";
 
@@ -1484,14 +1468,14 @@ namespace Vocaluxe.Base
         private static byte[] _GetBytes(SQLiteDataReader reader)
         {
             const int chunkSize = 2 * 1024;
-            byte[] buffer = new byte[chunkSize];
+            var buffer = new byte[chunkSize];
             long fieldOffset = 0;
-            using (MemoryStream stream = new MemoryStream())
+            using (var stream = new MemoryStream())
             {
                 long bytesRead;
                 while ((bytesRead = reader.GetBytes(0, fieldOffset, buffer, 0, buffer.Length)) > 0)
                 {
-                    byte[] actualRead = new byte[bytesRead];
+                    var actualRead = new byte[bytesRead];
                     Buffer.BlockCopy(buffer, 0, actualRead, 0, (int)bytesRead);
                     stream.Write(actualRead, 0, actualRead.Length);
                     fieldOffset += bytesRead;
@@ -1502,7 +1486,7 @@ namespace Vocaluxe.Base
 
         private static long _UnixTimeToTicks(int unixTime)
         {
-            DateTime t70 = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            var t70 = new DateTime(1970, 1, 1, 0, 0, 0, 0);
             t70 = t70.AddSeconds(unixTime);
             return t70.Ticks;
         }

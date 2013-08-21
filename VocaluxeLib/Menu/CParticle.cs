@@ -203,7 +203,7 @@ namespace VocaluxeLib.Menu
                     break;
 
                 case EParticleType.Snow:
-                    int maxy = (int)Math.Round(CBase.Settings.GetRenderH() - _Size * 0.4f);
+                    var maxy = (int)Math.Round(CBase.Settings.GetRenderH() - _Size * 0.4f);
 
                     if (Math.Round(Y) < maxy)
                     {
@@ -525,8 +525,8 @@ namespace VocaluxeLib.Menu
                         break;
                 }
 
-                int w = (int)(Rect.W - size / 4f);
-                int h = (int)(Rect.H - size / 4f);
+                var w = (int)(Rect.W - size / 4f);
+                var h = (int)(Rect.H - size / 4f);
 
                 if (w < 0)
                     w = 0;

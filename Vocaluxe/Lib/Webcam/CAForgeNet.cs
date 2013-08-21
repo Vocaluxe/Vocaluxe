@@ -65,7 +65,7 @@ namespace Vocaluxe.Lib.Webcam
             {
                 lock (_MutexData)
                 {
-                    Bitmap bmp = new Bitmap(_Width, _Height);
+                    var bmp = new Bitmap(_Width, _Height);
                     BitmapData bitmapdata = bmp.LockBits(new Rectangle(0, 0, _Width, _Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
                     Marshal.Copy(_Data, 0, bitmapdata.Scan0, _Data.Length);
                     bmp.UnlockBits(bitmapdata);
@@ -80,17 +80,17 @@ namespace Vocaluxe.Lib.Webcam
             _WebcamDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
             foreach (FilterInfo info in _WebcamDevices)
             {
-                SWebcamDevice device = new SWebcamDevice
+                var device = new SWebcamDevice
                     {
                         Name = info.Name,
                         MonikerString = info.MonikerString,
                         Capabilities = new List<SCapabilities>()
                     };
-                VideoCaptureDevice tmpdev = new VideoCaptureDevice(info.MonikerString);
+                var tmpdev = new VideoCaptureDevice(info.MonikerString);
 
                 foreach (VideoCapabilities capabilities in tmpdev.VideoCapabilities)
                 {
-                    SCapabilities item = new SCapabilities
+                    var item = new SCapabilities
                         {
                             Framerate = capabilities.FrameRate,
                             Height = capabilities.FrameSize.Height,

@@ -124,7 +124,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
         public float GetLength()
         {
-            return  _FileOpened ? _Instance.Info.Duration / 1000f:0;
+            return _FileOpened ? _Instance.Info.Duration / 1000f : 0;
         }
 
         public void SetPosition(float time)
@@ -134,7 +134,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
             try
             {
-                CAcinerella.AcSeek(_Audiodecoder, (time>_CurrentTime)?0:-1, (Int64)(time * 1000f));
+                CAcinerella.AcSeek(_Audiodecoder, (time > _CurrentTime) ? 0 : -1, (Int64)(time * 1000f));
             }
             catch (Exception)
             {
@@ -161,7 +161,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
             if (frameFinished)
             {
-                SACDecoder decoder = (SACDecoder)Marshal.PtrToStructure(_Audiodecoder, typeof(SACDecoder));
+                var decoder = (SACDecoder)Marshal.PtrToStructure(_Audiodecoder, typeof(SACDecoder));
 
                 timeStamp = (float)decoder.Timecode;
                 _CurrentTime = timeStamp;

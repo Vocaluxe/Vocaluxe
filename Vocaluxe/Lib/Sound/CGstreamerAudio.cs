@@ -65,14 +65,14 @@ namespace Vocaluxe.Lib.Sound
 
         public int Load(string media)
         {
-            Uri u = new Uri(media);
+            var u = new Uri(media);
             int i = CGstreamerAudioWrapper.Load(u.AbsoluteUri);
             return i;
         }
 
         public int Load(string media, bool prescan)
         {
-            Uri u = new Uri(media);
+            var u = new Uri(media);
             int i = CGstreamerAudioWrapper.Load(u.AbsoluteUri, prescan);
             return i;
         }

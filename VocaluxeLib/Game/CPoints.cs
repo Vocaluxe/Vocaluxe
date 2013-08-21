@@ -80,7 +80,7 @@ namespace VocaluxeLib.Game
             if (round >= NumRounds)
                 return new SPlayer[1];
 
-            SPlayer[] players = new SPlayer[numPlayer];
+            var players = new SPlayer[numPlayer];
 
             for (int p = 0; p < players.Length; p++)
             {

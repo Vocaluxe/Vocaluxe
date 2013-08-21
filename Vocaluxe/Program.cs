@@ -253,7 +253,7 @@ namespace Vocaluxe
         [HandleProcessCorruptedStateExceptions]
         private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args)
         {
-            Exception e = (Exception)args.ExceptionObject;
+            var e = (Exception)args.ExceptionObject;
             string stackTrace = "";
             try
             {

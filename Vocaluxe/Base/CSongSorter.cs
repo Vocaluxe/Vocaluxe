@@ -114,7 +114,7 @@ namespace Vocaluxe.Base
 
         private List<CSongPointer> _CreateSortList(string fieldName)
         {
-            List<CSongPointer> sortList = new List<CSongPointer>();
+            var sortList = new List<CSongPointer>();
             if (fieldName == "")
                 CSongs.Filter.FilteredSongs.ForEach(song => sortList.Add(new CSongPointer(song.ID, "")));
             else
@@ -135,7 +135,7 @@ namespace Vocaluxe.Base
                         sortList.Add(new CSongPointer(song.ID, (String)value));
                     else
                     {
-                        List<String> values = (List<String>)value;
+                        var values = (List<String>)value;
                         if (values.Count == 0)
                             sortList.Add(new CSongPointer(song.ID, ""));
                         else

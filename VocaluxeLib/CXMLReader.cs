@@ -37,7 +37,7 @@ namespace VocaluxeLib
         private CXMLReader(string uri)
         {
             _FileName = uri;
-            XPathDocument xmlDoc = new XPathDocument(uri);
+            var xmlDoc = new XPathDocument(uri);
             _Navigator = xmlDoc.CreateNavigator();
         }
 
@@ -123,7 +123,7 @@ namespace VocaluxeLib
 
         public List<string> GetValues(string cast)
         {
-            List<string> values = new List<string>();
+            var values = new List<string>();
 
             _Navigator.MoveToRoot();
             _Navigator.MoveToFirstChild();
@@ -143,7 +143,7 @@ namespace VocaluxeLib
 
         public IEnumerable<string> GetAttributes(string cast, string attribute)
         {
-            List<string> values = new List<string>();
+            var values = new List<string>();
 
             _Navigator.MoveToRoot();
             _Navigator.MoveToFirstChild();

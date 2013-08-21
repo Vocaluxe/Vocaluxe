@@ -56,7 +56,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            List<string> texts = new List<string> {_TextSongName, _TextSongMode};
+            var texts = new List<string> {_TextSongName, _TextSongMode};
 
             _TextNumber = new string[_NumEntrys];
             for (int i = 0; i < _NumEntrys; i++)
