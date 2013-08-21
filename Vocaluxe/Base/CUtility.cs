@@ -31,12 +31,16 @@ namespace Vocaluxe.Base
         private static float _Fps;
         private static readonly double _NanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
 
+        // ReSharper disable MemberCanBePrivate.Global
         public static void Reset()
+            // ReSharper restore MemberCanBePrivate.Global
         {
             _Stopwatch.Reset();
         }
 
+        // ReSharper disable MemberCanBePrivate.Global
         public static void Start()
+            // ReSharper restore MemberCanBePrivate.Global
         {
             _Stopwatch.Start();
         }
@@ -117,7 +121,7 @@ namespace Vocaluxe.Base
 
             if (!_Timer.IsRunning || (_Timer.ElapsedMilliseconds > 75) || !keyRepeat)
             {
-                SKeyEvent pool = new SKeyEvent(ESender.Keyboard, alt, shift, ctrl, pressed && (unicode != Char.MinValue), unicode, key);
+                var pool = new SKeyEvent(ESender.Keyboard, alt, shift, ctrl, pressed && (unicode != Char.MinValue), unicode, key);
 
                 lock (_CopyLock)
                 {
@@ -226,7 +230,7 @@ namespace Vocaluxe.Base
             x = (int)(x * (float)CSettings.RenderW / CDraw.GetScreenWidth());
             y = (int)(y * (float)CSettings.RenderH / CDraw.GetScreenHeight());
 
-            SMouseEvent pool = new SMouseEvent(ESender.Mouse, _Mod, x, y, lb, ld, rb, -wheel / 120, lbh, rbh, mb, mbh);
+            var pool = new SMouseEvent(ESender.Mouse, _Mod, x, y, lb, ld, rb, -wheel / 120, lbh, rbh, mb, mbh);
 
             lock (_CopyLock)
             {

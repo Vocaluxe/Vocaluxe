@@ -12,16 +12,11 @@
             Text = note.Text;
         }
 
-        public CSongNote(int startBeat, int duration, int tone, string text) : base(startBeat, duration, tone)
-        {
-            NoteType = ENoteType.Normal;
-            Text = text;
-        }
-
         public CSongNote(int startBeat, int duration, int tone, string text, ENoteType noteType)
-            : this(startBeat, duration, tone, text)
+            : base(startBeat, duration, tone)
         {
             NoteType = noteType;
+            Text = text;
         }
         #endregion Constructors
 

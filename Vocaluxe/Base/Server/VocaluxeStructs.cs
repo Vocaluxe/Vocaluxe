@@ -2,14 +2,14 @@
 {
     public struct SLoginData
     {
-        public byte[] SHA256;
+        public byte[] Sha256;
     }
 
     public struct SAvatarPicture
     {
         public int Width;
         public int Height;
-        public byte[] data;
+        public byte[] Data;
     }
 
     public struct SProfile

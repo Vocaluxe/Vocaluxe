@@ -34,10 +34,7 @@ namespace VocaluxeLib.Songs
                 if (_Lines.Count == 0)
                     return 0;
 
-                int startbeat = _Lines.Max(line => line.FirstNoteBeat);
-                int endbeat = _Lines.Min(line => line.LastNoteBeat);
-
-                int result = endbeat - startbeat;
+                int result = _Lines[_Lines.Count - 1].EndBeat - _Lines[0].StartBeat;
                 return result > 0 ? result : 0;
             }
         }
@@ -111,7 +108,7 @@ namespace VocaluxeLib.Songs
             if (lineIndex < 0)
             {
                 //Note is before ALL lines
-                CSongLine line = new CSongLine {StartBeat = note.StartBeat};
+                var line = new CSongLine {StartBeat = note.StartBeat};
                 line.AddNote(note);
                 _Lines.Insert(0, line);
             }

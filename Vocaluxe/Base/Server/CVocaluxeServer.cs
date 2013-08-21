@@ -42,10 +42,8 @@ namespace Vocaluxe.Base.Server
         public static void Init()
         {
             _Clients = new Dictionary<int, CClientHandler>();
-            if (CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON)
-                _Server = new CServer(RequestHandler, CConfig.ServerPort, CConfig.ServerPassword);
-            else
-                _Server = new CServer(RequestHandler, CConfig.ServerPort, String.Empty);
+            String pw = (CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON) ? CConfig.ServerPassword : String.Empty;
+            _Server = new CServer(RequestHandler, CConfig.ServerPort, pw);
 
             _Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
             Controller.Init();
@@ -89,6 +87,9 @@ namespace Vocaluxe.Base.Server
                 loggedIn = _Clients[connectionID].LoggedIn;
             }
 
+            if (!loggedIn)
+                return CCommands.CreateCommandWithoutParams(CCommands.ResponseNOK);
+
             int command = BitConverter.ToInt32(message, 0);
 
             switch (command)
@@ -121,7 +122,7 @@ namespace Vocaluxe.Base.Server
                         using (var bmp = new Bitmap(avatarPicture.Width, avatarPicture.Height))
                         {
                             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-                            Marshal.Copy(avatarPicture.data, 0, bmpData.Scan0, avatarPicture.data.Length);
+                            Marshal.Copy(avatarPicture.Data, 0, bmpData.Scan0, avatarPicture.Data.Length);
                             bmp.UnlockBits(bmpData);
 
                             const string filename = "snapshot";
@@ -140,7 +141,7 @@ namespace Vocaluxe.Base.Server
                     SAvatarPicture avatarPictureJpg;
                     if (CCommands.DecodeCommandSendAvatarPicture(message, out avatarPictureJpg))
                     {
-                        if (_AddAvatar(avatarPictureJpg.data) != String.Empty)
+                        if (_AddAvatar(avatarPictureJpg.Data) != String.Empty)
                             answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
                     }
                     break;
@@ -151,7 +152,7 @@ namespace Vocaluxe.Base.Server
                     {
                         try
                         {
-                            string avatarFilename = _AddAvatar(profile.Avatar.data);
+                            string avatarFilename = _AddAvatar(profile.Avatar.Data);
                             if (avatarFilename != String.Empty)
                             {
                                 var p = new CProfile

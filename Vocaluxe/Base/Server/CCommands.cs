@@ -8,12 +8,13 @@ namespace Vocaluxe.Base.Server
 {
     public static class CCommands
     {
-        private static UTF8Encoding encoder = new UTF8Encoding();
-        public static SHA256Managed SHA256 = new SHA256Managed();
+        private static readonly UTF8Encoding _Encoder = new UTF8Encoding();
+        private static readonly SHA256Managed _Sha256 = new SHA256Managed();
 
         public const string BroadcastKeyword = "I am a Vocaluxe Server";
 
         #region Commands
+        // ReSharper disable UnusedMember.Global
         public const int ResponseOK = 1;
         public const int ResponseNOK = 2;
 
@@ -41,27 +42,27 @@ namespace Vocaluxe.Base.Server
         public const int CommandSendAvatarPictureJpg = 501;
 
         public const int CommandSendProfile = 510;
+        // ReSharper restore UnusedMember.Global
         #endregion Commands
 
         #region General
-        public static byte[] CreateCommandWithoutParams(int Command)
+        public static byte[] CreateCommandWithoutParams(int command)
         {
-            return BitConverter.GetBytes(Command);
+            return BitConverter.GetBytes(command);
         }
         #endregion General
 
         #region Login
-        public static byte[] CreateCommandLogin(string Password)
+        public static byte[] CreateCommandLogin(string password)
         {
-            var data = new SLoginData();
-            data.SHA256 = SHA256.ComputeHash(Encoding.UTF8.GetBytes(Password));
+            var data = new SLoginData {Sha256 = _Sha256.ComputeHash(Encoding.UTF8.GetBytes(password))};
 
-            return Serialize<SLoginData>(CommandLogin, data);
+            return _Serialize(CommandLogin, data);
         }
 
-        public static bool DecodeCommandLogin(byte[] Message, out SLoginData LoginData)
+        public static bool DecodeCommandLogin(byte[] message, out SLoginData loginData)
         {
-            return TryDeserialize<SLoginData>(Message, out LoginData);
+            return _TryDeserialize(message, out loginData);
         }
         #endregion Login
 
@@ -69,74 +70,64 @@ namespace Vocaluxe.Base.Server
         #endregion Keyboard
 
         #region Profiles
-        public static byte[] CreateCommandSendAvatarPicture(int Width, int Height, byte[] data)
+        public static byte[] CreateCommandSendAvatarPicture(int width, int height, byte[] data)
         {
-            var ap = new SAvatarPicture();
-            ap.Height = Height;
-            ap.Width = Width;
-            ap.data = new byte[data.Length];
-            Array.Copy(data, ap.data, data.Length);
+            var ap = new SAvatarPicture {Height = height, Width = width, Data = new byte[data.Length]};
+            Array.Copy(data, ap.Data, data.Length);
 
-            return Serialize<SAvatarPicture>(CommandSendAvatarPicture, ap);
+            return _Serialize(CommandSendAvatarPicture, ap);
         }
 
-        public static bool DecodeCommandSendAvatarPicture(byte[] Message, out SAvatarPicture AvatarPicture)
+        public static bool DecodeCommandSendAvatarPicture(byte[] message, out SAvatarPicture avatarPicture)
         {
-            return TryDeserialize<SAvatarPicture>(Message, out AvatarPicture);
+            return _TryDeserialize(message, out avatarPicture);
         }
 
-        public static byte[] CreateCommandSendAvatarPictureJpg(byte[] AvatarJpgData)
+        public static byte[] CreateCommandSendAvatarPictureJpg(byte[] avatarJpgData)
         {
-            var ap = new SAvatarPicture();
-            ap.Height = 0;
-            ap.Width = 0;
-            ap.data = new byte[AvatarJpgData.Length];
-            Array.Copy(AvatarJpgData, ap.data, AvatarJpgData.Length);
+            var ap = new SAvatarPicture {Height = 0, Width = 0, Data = new byte[avatarJpgData.Length]};
+            Array.Copy(avatarJpgData, ap.Data, avatarJpgData.Length);
 
-            return Serialize<SAvatarPicture>(CommandSendAvatarPictureJpg, ap);
+            return _Serialize(CommandSendAvatarPictureJpg, ap);
         }
 
-        public static byte[] CreateCommandSendProfile(byte[] AvatarJpgData, string PlayerName, int Difficulty)
+        public static byte[] CreateCommandSendProfile(byte[] avatarJpgData, string playerName, int difficulty)
         {
-            var ap = new SAvatarPicture();
-            ap.Height = 0;
-            ap.Width = 0;
-            ap.data = new byte[AvatarJpgData.Length];
-            Array.Copy(AvatarJpgData, ap.data, AvatarJpgData.Length);
+            var ap = new SAvatarPicture {Height = 0, Width = 0, Data = new byte[avatarJpgData.Length]};
+            Array.Copy(avatarJpgData, ap.Data, avatarJpgData.Length);
 
-            var profile = new SProfile();
-            profile.Avatar = ap;
-            profile.PlayerName = PlayerName;
-            profile.Difficulty = Difficulty;
+            var profile = new SProfile {Avatar = ap, PlayerName = playerName, Difficulty = difficulty};
 
-            return Serialize<SProfile>(CommandSendProfile, profile);
+            return _Serialize(CommandSendProfile, profile);
         }
 
-        public static bool DecodeCommandSendProfile(byte[] Message, out SProfile Profile)
+        public static bool DecodeCommandSendProfile(byte[] message, out SProfile profile)
         {
-            return TryDeserialize<SProfile>(Message, out Profile);
+            return _TryDeserialize(message, out profile);
         }
         #endregion Profiles
 
         #region Serializing
-        private static byte[] Serialize<T>(int Command, T obj)
+        private static byte[] _Serialize<T>(T obj)
         {
-            byte[] command = BitConverter.GetBytes(Command);
+            return _Serialize(0, obj);
+        }
+
+        private static byte[] _Serialize<T>(int command, T obj)
+        {
+            byte[] cmd = BitConverter.GetBytes(command);
 
             var stream = new MemoryStream();
-            stream.Write(command, 0, command.Length);
+            stream.Write(cmd, 0, cmd.Length);
 
             byte[] data;
-            using (var ms = new MemoryStream())
-            {
-                string json = JsonConvert.SerializeObject(obj);
-                data = encoder.GetBytes(json);
-            }
+            string json = JsonConvert.SerializeObject(obj);
+            data = _Encoder.GetBytes(json);
             stream.Write(data, 0, data.Length);
             return stream.ToArray();
         }
 
-        private static bool TryDeserialize<T>(byte[] message, out T obj)
+        private static bool _TryDeserialize<T>(byte[] message, out T obj)
         {
             obj = default(T);
 
@@ -148,17 +139,14 @@ namespace Vocaluxe.Base.Server
 
             var data = new byte[message.Length - 4];
             Array.Copy(message, 4, data, 0, data.Length);
-            using (var ms = new MemoryStream(data))
+            try
             {
-                try
-                {
-                    obj = JsonConvert.DeserializeObject<T>(encoder.GetString(data));
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
+                obj = JsonConvert.DeserializeObject<T>(_Encoder.GetString(data));
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
         #endregion Serializing

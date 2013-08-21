@@ -21,12 +21,12 @@ namespace Vocaluxe.Base.Server
 {
     class CClientHandler
     {
-        public int ConnectionID;
+        private int _ConnectionID;
         public bool LoggedIn;
 
         public CClientHandler(int connectionID)
         {
-            ConnectionID = connectionID;
+            _ConnectionID = connectionID;
             LoggedIn = false;
         }
     }

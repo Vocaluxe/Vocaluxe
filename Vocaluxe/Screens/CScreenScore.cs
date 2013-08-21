@@ -123,6 +123,8 @@ namespace Vocaluxe.Screens
             _Round = CGame.NumRounds > 1 ? 0 : 1;
             _Points = CGame.GetPoints();
 
+            _SavePlayedSongs();
+
             _SetVisibility();
             _UpdateRatings();
         }
@@ -386,6 +388,25 @@ namespace Vocaluxe.Screens
             {
                 _Round = 0;
                 _UpdateRatings();
+            }
+        }
+
+        private void _SavePlayedSongs()
+        {
+            for (int round = 0; round < _Points.NumRounds; round++)
+            {
+                SPlayer[] players = _Points.GetPlayer(round, CGame.NumPlayer);
+
+                for (int p = 0; p < players.Length; p++)
+                {
+                    if (players[p].Points > CSettings.MinScoreForDB && players[p].SongFinished)
+                    {
+                        CSong song = CSongs.GetSong(players[p].SongID);
+                        CDataBase.IncreaseSongCounter(song.DataBaseSongID);
+                        song.NumPlayed++;
+                        break;
+                    }
+                }
             }
         }
 

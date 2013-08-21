@@ -35,7 +35,7 @@
         {
             get { return HitNote != null; }
         }
-        public CSongNote HitNote { get; set; }
+        public CSongNote HitNote { get; private set; }
         // for drawing perfect note effect
         public bool Perfect { get; set; }
         #endregion

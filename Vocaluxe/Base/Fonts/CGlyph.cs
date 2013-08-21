@@ -80,7 +80,7 @@ namespace Vocaluxe.Base.Fonts
                     bmpSize = new Size(1, 1);
                 }
             }
-            using (Bitmap bmp = new Bitmap(bmpSize.Width, bmpSize.Height, PixelFormat.Format32bppArgb))
+            using (var bmp = new Bitmap(bmpSize.Width, bmpSize.Height, PixelFormat.Format32bppArgb))
             using (Graphics g = Graphics.FromImage(bmp))
             {
                 g.Clear(Color.Transparent);
@@ -96,15 +96,15 @@ namespace Vocaluxe.Base.Fonts
                     g.InterpolationMode = InterpolationMode.HighQualityBicubic;
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
-                    PointF point = new PointF(outlineSize / 2, outlineSize / 4);
+                    var point = new PointF(outlineSize / 2, outlineSize / 4);
 
-                    using (GraphicsPath path = new GraphicsPath())
+                    using (var path = new GraphicsPath())
                     {
                         //Have to use size in em not pixels!
                         float emSize = fo.Size * fo.FontFamily.GetCellAscent(fo.Style) / fo.FontFamily.GetEmHeight(fo.Style);
                         path.AddString(chrString, fo.FontFamily, (int)fo.Style, emSize, point, new StringFormat());
 
-                        using (Pen pen = new Pen(CFonts.OutlineColor.AsColor(), outlineSize))
+                        using (var pen = new Pen(CFonts.OutlineColor.AsColor(), outlineSize))
                         {
                             pen.LineJoin = LineJoin.Round;
                             g.DrawPath(pen, path);
@@ -123,6 +123,7 @@ namespace Vocaluxe.Base.Fonts
                         _DrawBounding.Height = _Texture.Height;*/
 #pragma warning disable 162
                         // ReSharper disable HeuristicUnreachableCode
+                        // ReSharper disable ConditionIsAlwaysTrueOrFalse
                         if (false && Char.IsLetterOrDigit(chr))
                         {
                             if (outline > 0)
@@ -130,6 +131,7 @@ namespace Vocaluxe.Base.Fonts
                             else
                                 bmpCropped.Save("font_" + chr + CFonts.Style + "2.png", ImageFormat.Png);
                         }
+                        // ReSharper restore ConditionIsAlwaysTrueOrFalse
                         // ReSharper restore HeuristicUnreachableCode
 #pragma warning restore 162
                     }
@@ -164,7 +166,7 @@ namespace Vocaluxe.Base.Fonts
             int minX = 0, maxX = bmp.Width - 1, minY = 0;
             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             int values = bmpData.Width * bmp.Height;
-            Int32[] rgbValues = new Int32[values];
+            var rgbValues = new Int32[values];
             Marshal.Copy(bmpData.Scan0, rgbValues, 0, values);
             int index = 0;
             bool found = false;
