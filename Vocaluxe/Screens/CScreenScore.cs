@@ -399,11 +399,11 @@ namespace Vocaluxe.Screens
 
                 for (int p = 0; p < players.Length; p++)
                 {
-                    //if (players[p].Points > CSettings.MinScoreForDB && players[p].SongFinished)
-                    //{
+                    if (players[p].Points > CSettings.MinScoreForDB && players[p].SongFinished)
+                    {
                         CDataBase.IncreaseSongCounter(players[p]);
                         break;
-                    //}
+                    }
                 }
             }
         }
