@@ -960,6 +960,41 @@ namespace Vocaluxe.Base
             command.CommandText = "UPDATE Version SET [Value] = @version";
             command.Parameters.Add("@version", System.Data.DbType.Int32, 0).Value = 3;
             command.ExecuteNonQuery();
+
+            //Read NumPlayed from Scores and save to Songs
+            command.CommandText = "SELECT SongID, Date FROM Scores ORDER BY Date ASC";
+
+            SQLiteDataReader reader;
+            try
+            {
+                reader = command.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+            long lastDateAdded = -1;
+            int lastID = -1;
+            DateTime dt = new DateTime(1, 1, 1, 0, 0, 5);
+            long sec = dt.Ticks;
+            List<int> ids = new List<int>();
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                long dateAdded = reader.GetInt64(1);
+                if (id != lastID || dateAdded > lastDateAdded + sec)
+                {
+                    ids.Add(id);
+                    lastID = id;
+                    lastDateAdded = dateAdded;
+                }
+            }
+            if (reader != null)
+                reader.Dispose();
+
+            foreach (int id in ids)
+                _IncreaseSongCounter(id, command);
             command.Dispose();
 
             return true;
