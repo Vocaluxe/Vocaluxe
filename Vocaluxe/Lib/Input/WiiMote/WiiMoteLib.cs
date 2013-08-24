@@ -238,11 +238,22 @@ namespace Vocaluxe.Lib.Input.WiiMote
             }
 
             //Try WiiMotion
-            Connected = _TryConnect(_PID);
+            if (Connected = CHIDApi.Open(_VID, _PID, out _Handle))
+            {
+                if (!(Connected = _ReadCalibration()))
+                    CHIDApi.Close(_Handle);
+            }
+
+            if (Connected)
+                return true;
 
             //Try WiiMotion Plus
-            if (!Connected)
-                Connected = _TryConnect(_PIDPlus);
+            if (Connected = CHIDApi.Open(_VID, _PIDPlus, out _Handle))
+            {
+                if (!(Connected = _ReadCalibration()))
+                    CHIDApi.Close(_Handle);
+            }
+
 
             return Connected;
         }
