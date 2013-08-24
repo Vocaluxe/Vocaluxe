@@ -422,7 +422,7 @@ namespace Vocaluxe.Base
                         artist = reader.GetString(0);
                         title = reader.GetString(1);
                         numPlayed = reader.GetInt32(2);
-                        dateAdded = reader.GetInt64(3).ToString("dd/MM/yyyy");
+                        dateAdded = new DateTime(reader.GetInt64(3)).ToString("dd/MM/yyyy");
                         reader.Dispose();
                         return true;
                     }
