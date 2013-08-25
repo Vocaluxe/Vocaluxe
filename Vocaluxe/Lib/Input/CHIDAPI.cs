@@ -178,6 +178,8 @@ namespace Vocaluxe.Lib.Input
             else
                 data = null;
 
+            Marshal.FreeHGlobal(dataPtr);
+
             return result;
         }
 
