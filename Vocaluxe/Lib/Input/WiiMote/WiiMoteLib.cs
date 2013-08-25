@@ -198,6 +198,16 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _Error = false;
             _Reader = new Thread(_ReaderLoop);
             _Reader.Start();
+
+            if (!CHIDApi.Init())
+            {
+                CLog.LogError("WiiMoteLib: Can't initialize HID API");
+                const string msg = "Please install the Visual C++ Redistributable Packages 2008!";
+                CLog.LogError(msg);
+
+                _Active = false;
+                _Error = true;
+            }
         }
 
         ~CWiiMoteLib()
@@ -224,35 +234,30 @@ namespace Vocaluxe.Lib.Input.WiiMote
             if (_Error)
                 return false;
 
-            CHIDApi.Exit();
-
-            if (!CHIDApi.Init())
-            {
-                CLog.LogError("WiiMoteLib: Can't initialize HID API");
-                const string msg = "Please install the Visual C++ Redistributable Packages 2008!";
-                CLog.LogError(msg);
-
-                _Active = false;
-                _Error = true;
-                return false;
-            }
-
             //Try WiiMotion
-            if (Connected = CHIDApi.Open(_VID, _PID, out _Handle))
+            Connected = CHIDApi.Open(_VID, _PID, out _Handle);
+            if (Connected)
             {
-                if (!(Connected = _ReadCalibration()))
+                Connected = _ReadCalibration();
+                if (!Connected)
                     CHIDApi.Close(_Handle);
             }
+            else
+                CHIDApi.Close(_Handle);
 
             if (Connected)
                 return true;
 
             //Try WiiMotion Plus
-            if (Connected = CHIDApi.Open(_VID, _PIDPlus, out _Handle))
+            Connected = CHIDApi.Open(_VID, _PIDPlus, out _Handle);
+            if (Connected)
             {
-                if (!(Connected = _ReadCalibration()))
+                Connected = _ReadCalibration();
+                if (!Connected)
                     CHIDApi.Close(_Handle);
             }
+            else
+                CHIDApi.Close(_Handle);
 
 
             return Connected;
@@ -335,7 +340,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
                     try
                     {
-                        CHIDApi.ReadTimeout(_Handle, out buff, _ReportLength, 100);
+                        CHIDApi.ReadTimeout(_Handle, ref buff, _ReportLength, 200);
                     }
                     catch (Exception e)
                     {
