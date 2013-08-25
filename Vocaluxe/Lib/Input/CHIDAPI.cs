@@ -28,14 +28,14 @@ namespace Vocaluxe.Lib.Input
     {
         // ReSharper disable MemberCanBePrivate.Global
         [MarshalAs(UnmanagedType.LPTStr)] public readonly String Path;
-        [MarshalAs(UnmanagedType.LPWStr)] public readonly ushort VendorString;
-        [MarshalAs(UnmanagedType.LPWStr)] public readonly ushort ProductID;
+        public readonly ushort VendorString;
+        public readonly ushort ProductID;
         [MarshalAs(UnmanagedType.LPWStr)] public readonly String SerialNumber;
-        [MarshalAs(UnmanagedType.LPWStr)] public readonly ushort ReleaseNumber;
+        public readonly ushort ReleaseNumber;
         [MarshalAs(UnmanagedType.LPWStr)] public readonly String ManufacturerString;
         [MarshalAs(UnmanagedType.LPWStr)] public readonly String ProductString;
-        [MarshalAs(UnmanagedType.LPWStr)] public readonly ushort UsagePage;
-        [MarshalAs(UnmanagedType.LPWStr)] public readonly ushort Usage;
+        public readonly ushort UsagePage;
+        public readonly ushort Usage;
         [MarshalAs(UnmanagedType.LPWStr)] public readonly int InterfaceNumber;
         internal IntPtr Next;
         // ReSharper restore MemberCanBePrivate.Global
@@ -62,14 +62,11 @@ namespace Vocaluxe.Lib.Input
         private const string _HIDApiDll = "libhidapi.so";
 #endif
 #endif
-        private static IntPtr dataPtr; 
-
         [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_init", CharSet = CharSet.Unicode)]
         private static extern int hid_init();
 
         public static bool Init()
         {
-            dataPtr = Marshal.AllocCoTaskMem(22);
             int result;
             try
             {
@@ -164,6 +161,7 @@ namespace Vocaluxe.Lib.Input
 
         public static int ReadTimeout(IntPtr device, ref byte[] data, int length, int milliseconds)
         {
+            IntPtr dataPtr = Marshal.AllocHGlobal(length);
             int result;
             try
             {
