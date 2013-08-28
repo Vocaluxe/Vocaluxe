@@ -146,11 +146,10 @@ namespace Vocaluxe.Base
             _Settings.Encoding = Encoding.UTF8;
             _Settings.ConformanceLevel = ConformanceLevel.Document;
 
-#if PORTABLE
             SongFolder.Add(Path.Combine(Directory.GetCurrentDirectory(), CSettings.FolderSongs));
-#else
-            SongFolder.Add(Path.Combine(CSettings.DataPath, CSettings.FolderSongs));
-            SongFolder.Add(Path.Combine(Directory.GetCurrentDirectory(), CSettings.FolderSongs));
+
+#if INSTALLER
+            SongFolder.Add(Path.Combine(CSettings.DataPath, CSettings.FolderSongs));            
 #endif
 
             foreach (string folder in SongFolder)

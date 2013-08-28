@@ -9,12 +9,12 @@
       <Configuration>DebugWin</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="PortableWin|Win32">
-      <Configuration>PortableWin</Configuration>
+    <ProjectConfiguration Include="InstallerWin|Win32">
+      <Configuration>InstallerWin</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="PortableWin|x64">
-      <Configuration>PortableWin</Configuration>
+    <ProjectConfiguration Include="InstallerWin|x64">
+      <Configuration>InstallerWin</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="ReleaseWin|Win32">
@@ -51,7 +51,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PortableWin|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='InstallerWin|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v110_xp</PlatformToolset>
@@ -65,7 +65,7 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PortableWin|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='InstallerWin|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v110_xp</PlatformToolset>
@@ -84,13 +84,13 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='PortableWin|Win32'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='InstallerWin|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='PortableWin|x64'" Label="PropertySheets">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='InstallerWin|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -118,7 +118,7 @@
     <LibraryPath>$(MSBuildProjectDirectory)\x86\lib;$(LibraryPath)</LibraryPath>
     <IntDir>obj\$(Configuration).$(Platform)\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PortableWin|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='InstallerWin|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>bin\$(Configuration).$(Platform)\</OutDir>
     <IncludePath>$(MSBuildProjectDirectory)\x86\lib\glib-2.0\include;$(MSBuildProjectDirectory)\x86\include\gstreamer-1.0;$(MSBuildProjectDirectory)\x86\include\glib-2.0;$(MSBuildProjectDirectory)\x86\include;$(IncludePath)</IncludePath>
@@ -132,7 +132,7 @@
     <LibraryPath>$(MSBuildProjectDirectory)\x64\lib;$(LibraryPath)</LibraryPath>
     <IntDir>obj\$(Configuration).$(Platform)\</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PortableWin|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='InstallerWin|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>bin\$(Configuration).$(Platform)\</OutDir>
     <IncludePath>$(MSBuildProjectDirectory)\x64\lib\glib-2.0\include;$(MSBuildProjectDirectory)\x64\include\gstreamer-1.0;$(MSBuildProjectDirectory)\x64\include\glib-2.0;$(MSBuildProjectDirectory)\x64\include;$(IncludePath)</IncludePath>
@@ -210,7 +210,7 @@
       <Message>Copying binary</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PortableWin|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='InstallerWin|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -258,7 +258,7 @@
       <Command>xcopy "$(OutDir)*.dll" "$(SolutionDir)Output\x64\gstreamer\" /I /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PortableWin|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='InstallerWin|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -299,16 +299,16 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugWin|x64'">
       </PrecompiledHeader>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|Win32'">false</CompileAsManaged>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='PortableWin|Win32'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='InstallerWin|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|x64'">false</CompileAsManaged>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='PortableWin|x64'">false</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='InstallerWin|x64'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|Win32'">
       </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PortableWin|Win32'">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='InstallerWin|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|x64'">
       </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PortableWin|x64'">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='InstallerWin|x64'">
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="GstreamerAudio.cpp" />
@@ -319,9 +319,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugWin|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugWin|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PortableWin|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='InstallerWin|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='PortableWin|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='InstallerWin|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="VocaluxeClock.cpp" />
   </ItemGroup>
