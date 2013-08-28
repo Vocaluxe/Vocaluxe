@@ -68,10 +68,10 @@ namespace Vocaluxe.Base
         public static bool IsFullScreen;
         public const int VertexBufferElements = 10000;
 
-#if PORTABLE
-        public static string DataPath = Environment.CurrentDirectory;
+#if INSTALLER
+        public static string DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Vocaluxe");
 #else
-        public static string DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),"Vocaluxe");
+        public static string DataPath = Environment.CurrentDirectory;
 #endif
 
         public const string Icon = "Vocaluxe.ico";
@@ -99,12 +99,10 @@ namespace Vocaluxe.Base
         public const string FolderProfiles = "Profiles";
         public static List<string> FoldersProfiles = new List<string>()
             {
-#if PORTABLE
-                Path.Combine(DataPath, FolderProfiles)
-#else
+#if INSTALLER
                 Path.Combine(Environment.CurrentDirectory, FolderProfiles),
-                Path.Combine(DataPath, FolderProfiles)
 #endif
+                Path.Combine(DataPath, FolderProfiles)
             };
         public const string FolderSongs = "Songs";
         public const string FolderSounds = "Sounds";

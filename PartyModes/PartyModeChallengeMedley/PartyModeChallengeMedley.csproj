@@ -106,8 +106,8 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PortableWin|x86'">
-    <OutputPath>bin\x86\PortableWin\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InstallerWin|x86'">
+    <OutputPath>bin</OutputPath>
     <DefineConstants>WIN</DefineConstants>
     <Optimize>true</Optimize>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -116,8 +116,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'PortableWin|x64'">
-    <OutputPath>bin\x64\PortableWin\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InstallerWin|x64'">
+    <OutputPath>bin</OutputPath>
     <DefineConstants>WIN</DefineConstants>
     <Optimize>true</Optimize>
     <PlatformTarget>AnyCPU</PlatformTarget>
