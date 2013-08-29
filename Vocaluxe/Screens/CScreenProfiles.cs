@@ -446,13 +446,16 @@ namespace Vocaluxe.Screens
             int selectedAvatarID = _SelectSlides[_SelectSlideAvatars].ValueIndex;
             _SelectSlides[_SelectSlideAvatars].Clear();
             IEnumerable<CAvatar> avatars = CProfiles.GetAvatars();
-            foreach (CAvatar avatar in avatars)
+            if (avatars != null)
             {
-                _SelectSlides[_SelectSlideAvatars].AddValue(
-                    Path.GetFileName(avatar.FileName),
-                    null,
-                    avatar.ID,
-                    -1);
+                foreach (CAvatar avatar in avatars)
+                {
+                    _SelectSlides[_SelectSlideAvatars].AddValue(
+                        Path.GetFileName(avatar.FileName),
+                        null,
+                        avatar.ID,
+                        -1);
+                }
             }
 
             if (keep)

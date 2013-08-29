@@ -71,6 +71,76 @@ namespace Vocaluxe.Base
         }
 
         #region Highscores
+
+        public static bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out string dateAdded, out int highscoreID)
+        {
+            string sArtist = string.Empty;
+            string sTitle = string.Empty;
+            int songID = -1;
+            using (SQLiteConnection connection = new SQLiteConnection())
+            {
+                connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
+
+                try
+                {
+                    connection.Open();
+                }
+                catch (Exception)
+                {
+                }
+
+                using (SQLiteCommand command = new SQLiteCommand(connection))
+                {
+                    songID = _GetDataBaseSongID(artist, title, 0, command);
+                    highscoreID = songID;
+                }
+            }
+            return _GetDataBaseSongInfos(songID, out sArtist, out sTitle, out numPlayed, out dateAdded, _HighscoreFilePath);
+        }
+
+        public static void IncreaseSongCounter(SPlayer player)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection())
+            {
+                connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
+
+                try
+                {
+                    connection.Open();
+                }
+                catch (Exception)
+                {
+                }
+
+                using (SQLiteCommand command = new SQLiteCommand(connection))
+                {
+                    int dataBaseSongID = _GetDataBaseSongID(player, command);
+                    _IncreaseSongCounter(dataBaseSongID, command);
+                }
+            }
+        }
+
+        public static void IncreaseSongCounter(int dataBaseSongID)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection())
+            {
+                connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
+
+                try
+                {
+                    connection.Open();
+                }
+                catch (Exception)
+                {
+                }
+
+                using (SQLiteCommand command = new SQLiteCommand(connection))
+                {
+                    _IncreaseSongCounter(dataBaseSongID, command);
+                }
+            }
+        }
+
         public static int AddScore(string playerName, int score, int lineNr, long date, int medley, int duet, int shortSong, int difficulty,
                                    string artist, string title, int numPlayed, string filePath)
         {
@@ -113,7 +183,7 @@ namespace Vocaluxe.Base
 
                 using (SQLiteCommand command = new SQLiteCommand(connection))
                 {
-                    int dataBaseSongID = _GetDataBaseSongID(player, command);
+                    int dataBaseSongID = CSongs.GetSong(player.SongID).DataBaseSongID;
                     return _AddScore(CProfiles.GetPlayerName(player.ProfileID), (int)Math.Round(player.Points), player.LineNr, player.DateTicks, player.Medley ? 1 : 0,
                                      player.Duet ? 1 : 0, player.ShortSong ? 1 : 0, (int)CProfiles.GetDifficulty(player.ProfileID), dataBaseSongID, command);
                 }
@@ -250,6 +320,13 @@ namespace Vocaluxe.Base
             }
         }
 
+        private static void _IncreaseSongCounter(int dataBaseSongID, SQLiteCommand command)
+        {
+            command.CommandText = "UPDATE Songs SET NumPlayed = NumPlayed + 1 WHERE [id] = @id";
+            command.Parameters.Add("@id", DbType.Int32, 0).Value = dataBaseSongID;
+            command.ExecuteNonQuery();
+        }
+
         private static int _GetDataBaseSongID(SPlayer player, SQLiteCommand command)
         {
             CSong song = CSongs.GetSong(player.SongID);
@@ -275,14 +352,16 @@ namespace Vocaluxe.Base
                 reader.Dispose();
                 return id;
             }
+
             if (reader != null)
                 reader.Close();
 
-            command.CommandText = "INSERT INTO Songs (Title, Artist, NumPlayed) " +
-                                  "VALUES (@title, @artist, @numplayed)";
+            command.CommandText = "INSERT INTO Songs (Title, Artist, NumPlayed, DateAdded) " +
+                                  "VALUES (@title, @artist, @numplayed, @dateadded)";
             command.Parameters.Add("@title", DbType.String, 0).Value = title;
             command.Parameters.Add("@artist", DbType.String, 0).Value = artist;
             command.Parameters.Add("@numplayed", DbType.Int32, 0).Value = defNumPlayed;
+            command.Parameters.Add("@dateadded", System.Data.DbType.Int64, 0).Value = DateTime.Now.Ticks;
             command.ExecuteNonQuery();
 
             command.CommandText = "SELECT id FROM Songs WHERE [Title] = @title AND [Artist] = @artist";
@@ -302,11 +381,12 @@ namespace Vocaluxe.Base
             return -1;
         }
 
-        private static bool _GetDataBaseSongInfos(int songID, out string artist, out string title, out int numPlayed, string filePath)
+        private static bool _GetDataBaseSongInfos(int songID, out string artist, out string title, out int numPlayed, out string dateAdded, string filePath)
         {
             artist = String.Empty;
             title = String.Empty;
             numPlayed = 0;
+            dateAdded = String.Empty;
 
             using (SQLiteConnection connection = new SQLiteConnection())
             {
@@ -323,7 +403,7 @@ namespace Vocaluxe.Base
 
                 using (SQLiteCommand command = new SQLiteCommand(connection))
                 {
-                    command.CommandText = "SELECT Artist, Title, NumPlayed FROM Songs WHERE [id] = @id";
+                    command.CommandText = "SELECT Artist, Title, NumPlayed, DateAdded FROM Songs WHERE [id] = @id";
                     command.Parameters.Add("@id", DbType.String, 0).Value = songID;
 
                     SQLiteDataReader reader;
@@ -342,6 +422,7 @@ namespace Vocaluxe.Base
                         artist = reader.GetString(0);
                         title = reader.GetString(1);
                         numPlayed = reader.GetInt32(2);
+                        dateAdded = new DateTime(reader.GetInt64(3)).ToString("dd/MM/yyyy");
                         reader.Dispose();
                         return true;
                     }
@@ -504,6 +585,7 @@ namespace Vocaluxe.Base
                             _CreateHighscoreDBV1(filePath);
                             _ConvertFrom110(filePath);
                             _UpdateDatabase(1, connection);
+                            _UpdateDatabase(2, connection);
                         }
                         else if (version == 0 && scoresTableExists)
                         {
@@ -511,6 +593,7 @@ namespace Vocaluxe.Base
                             _CreateHighscoreDBV1(filePath);
                             _ConvertFrom101(filePath);
                             _UpdateDatabase(1, connection);
+                            _UpdateDatabase(2, connection);
                         }
                         else
                             _CreateHighscoreDB(filePath);
@@ -524,6 +607,7 @@ namespace Vocaluxe.Base
                             _CreateHighscoreDBV1(filePath);
                             _ConvertFrom110(filePath);
                             _UpdateDatabase(1, connection);
+                            _UpdateDatabase(2, connection);
                         }
                         else if (version == 0 && scoresTableExists)
                         {
@@ -531,6 +615,7 @@ namespace Vocaluxe.Base
                             _CreateHighscoreDBV1(filePath);
                             _ConvertFrom101(filePath);
                             _UpdateDatabase(1, connection);
+                            _UpdateDatabase(2, connection);
                         }
                         else
                             _CreateHighscoreDB(filePath);
@@ -831,8 +916,16 @@ namespace Vocaluxe.Base
         private static bool _UpdateDatabase(int currentVersion, SQLiteConnection connection)
         {
             bool updated = true;
+
             if (currentVersion < 2)
+            {
                 updated &= _ConvertV1toV2(connection);
+            }
+            if (currentVersion < 3)
+            {
+                updated &= _ConvertV2toV3(connection);
+            }
+
             return updated;
         }
 
@@ -849,6 +942,60 @@ namespace Vocaluxe.Base
                 command.Parameters.Add("@version", DbType.Int32, 0).Value = 2;
                 command.ExecuteNonQuery();
             }
+
+            return true;
+        }
+
+        private static bool _ConvertV2toV3(SQLiteConnection connection)
+        {
+            SQLiteCommand command;
+
+            command = new SQLiteCommand(connection);
+
+            command.CommandText = "ALTER TABLE Songs ADD DateAdded BIGINT";
+            command.ExecuteNonQuery();
+            command.CommandText = "UPDATE Songs SET [DateAdded] = @DateAdded";
+            command.Parameters.Add("@DateAdded",System.Data.DbType.Int64, 0).Value = DateTime.Now.Ticks;
+            command.ExecuteNonQuery();
+            command.CommandText = "UPDATE Version SET [Value] = @version";
+            command.Parameters.Add("@version", System.Data.DbType.Int32, 0).Value = 3;
+            command.ExecuteNonQuery();
+
+            //Read NumPlayed from Scores and save to Songs
+            command.CommandText = "SELECT SongID, Date FROM Scores ORDER BY Date ASC";
+
+            SQLiteDataReader reader;
+            try
+            {
+                reader = command.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+            long lastDateAdded = -1;
+            int lastID = -1;
+            DateTime dt = new DateTime(1, 1, 1, 0, 0, 5);
+            long sec = dt.Ticks;
+            List<int> ids = new List<int>();
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                long dateAdded = reader.GetInt64(1);
+                if (id != lastID || dateAdded > lastDateAdded + sec)
+                {
+                    ids.Add(id);
+                    lastID = id;
+                    lastDateAdded = dateAdded;
+                }
+            }
+            if (reader != null)
+                reader.Dispose();
+
+            foreach (int id in ids)
+                _IncreaseSongCounter(id, command);
+            command.Dispose();
 
             return true;
         }
@@ -897,9 +1044,9 @@ namespace Vocaluxe.Base
                         int shortsong = source.GetInt32(7);
                         int diff = source.GetInt32(8);
 
-                        string artist, title;
+                        string artist, title, dateadded;
                         int numplayed;
-                        if (_GetDataBaseSongInfos(songid, out artist, out title, out numplayed, sourceDBPath))
+                        if (_GetDataBaseSongInfos(songid, out artist, out title, out numplayed, out dateadded, sourceDBPath))
                             AddScore(player, score, linenr, date, medley, duet, shortsong, diff, artist, title, numplayed, _HighscoreFilePath);
                     }
                     #endregion import table scores

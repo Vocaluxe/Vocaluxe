@@ -71,6 +71,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
         public void Close()
         {
             _Active = false;
+            _WiiMote.Disconnect();
         }
 
         public void Connect()
