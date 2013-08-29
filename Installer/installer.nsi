@@ -26,6 +26,7 @@
   Var VCSetupError
   
   !define MUI_ICON "..\Output\Vocaluxe.ico"
+  !define MUI_UNICON "..\Output\Vocaluxe.ico"
   !define MUI_HEADERIMAGE
   !define MUI_HEADERIMAGE_RIGHT
   !define MUI_HEADERIMAGE_BITMAP "Graphics\Top.bmp"
@@ -101,6 +102,7 @@ Section $(TITLE_MAIN) SecMain
   File /r "..\Output\Graphics"
   File /r "..\Output\Languages"
   File /r "..\Output\PartyModes"
+  CreateDirectory $OUTDIR\Songs
   CreateDirectory $OUTDIR\Profiles
   File /oname=$OUTDIR\Profiles\guest1.xml "..\Output\Profiles\guest1.xml"
   File /oname=$OUTDIR\Profiles\guest2.xml "..\Output\Profiles\guest2.xml"
