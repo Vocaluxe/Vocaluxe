@@ -52,3 +52,5 @@ AndroidRemote.dll.mdb
 /ClientServerLib/AndroidRemote/bin/AndroidRemote.dll
 /ClientServerLib/ClientTest/bin/Debug/Newtonsoft.Json.dll
 *.apk
+Installer/VocaluxeSetup_0.3.0Beta.exe
+Output/Vocaluxe_x64.exe
