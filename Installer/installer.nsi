@@ -15,7 +15,7 @@
   Name "${PRODUCT_NAME} ${PRODUCT_VERSION} ${PRODUCT_STAGE}"
   OutFile "VocaluxeSetup_${PRODUCT_VERSION}${PRODUCT_STAGE}.exe"
   BrandingText "Vocaluxe Team 2013"
-  
+
   InstallDirRegKey HKCU "Software\Vocaluxe" ""
 
   RequestExecutionLevel admin
@@ -29,6 +29,8 @@
   !define MUI_UNICON "..\Output\Vocaluxe.ico"
   !define MUI_HEADERIMAGE
   !define MUI_HEADERIMAGE_RIGHT
+  !define MUI_HEADERIMAGE_BITMAP_NOSTRETCH
+  !define MUI_HEADERIMAGE_UNBITMAP_NOSTRETCH
   !define MUI_HEADERIMAGE_BITMAP "Graphics\Top.bmp"
   !define MUI_HEADERIMAGE_UNBITMAP "Graphics\Top.bmp"
   !define MUI_WELCOMEFINISHPAGE_BITMAP "Graphics\Side.bmp"
