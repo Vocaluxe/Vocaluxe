@@ -148,10 +148,17 @@ namespace Vocaluxe.Base
 
             SongFolder.Add(Path.Combine(Directory.GetCurrentDirectory(), CSettings.FolderSongs));
 
+#if INSTALLER
+            SongFolder.Add(Path.Combine(CSettings.DataPath, CSettings.FolderSongs));            
+#endif
+
+            foreach (string folder in SongFolder)
+                CSettings.CreateFolder(folder);
+
             MicConfig = new SMicConfig[CSettings.MaxNumPlayer];
 
             // Init config file
-            if (!File.Exists(CSettings.FileConfig))
+            if (!File.Exists(Path.Combine(CSettings.DataPath,CSettings.FileConfig)))
                 SaveConfig();
 
             _LoadConfig();
@@ -159,7 +166,7 @@ namespace Vocaluxe.Base
 
         private static void _LoadConfig()
         {
-            CXMLReader xmlReader = CXMLReader.OpenFile(CSettings.FileConfig);
+            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.DataPath, CSettings.FileConfig));
             if (xmlReader == null)
                 return;
 
@@ -297,7 +304,7 @@ namespace Vocaluxe.Base
             XmlWriter writer = null;
             try
             {
-                writer = XmlWriter.Create(CSettings.FileConfig, _Settings);
+                writer = XmlWriter.Create(Path.Combine(CSettings.DataPath, CSettings.FileConfig));
                 writer.WriteStartDocument();
                 writer.WriteStartElement("root");
 
@@ -777,7 +784,8 @@ namespace Vocaluxe.Base
 
                     case "profilefolder":
                         CSettings.CreateFolder(value);
-                        CSettings.FolderProfiles = value;
+                        CSettings.FoldersProfiles.Clear();
+                        CSettings.FoldersProfiles.Add(value);
                         break;
                 }
             }

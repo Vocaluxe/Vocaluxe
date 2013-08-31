@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vocaluxe", "Vocaluxe\Vocaluxe.csproj", "{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6F3E1874-F28A-40E9-AFBD-31934D593678} = {6F3E1874-F28A-40E9-AFBD-31934D593678}
@@ -26,6 +26,8 @@ Global
 		DebugLinux|x86 = DebugLinux|x86
 		DebugWin|x64 = DebugWin|x64
 		DebugWin|x86 = DebugWin|x86
+		InstallerWin|x64 = InstallerWin|x64
+		InstallerWin|x86 = InstallerWin|x86
 		ReleaseLinux|x64 = ReleaseLinux|x64
 		ReleaseLinux|x86 = ReleaseLinux|x86
 		ReleaseWin|x64 = ReleaseWin|x64
@@ -40,6 +42,10 @@ Global
 		{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}.DebugWin|x64.Build.0 = DebugWin|x64
 		{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}.DebugWin|x86.ActiveCfg = DebugWin|x86
 		{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}.DebugWin|x86.Build.0 = DebugWin|x86
+		{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}.InstallerWin|x64.ActiveCfg = InstallerWin|x64
+		{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}.InstallerWin|x64.Build.0 = InstallerWin|x64
+		{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}.InstallerWin|x86.ActiveCfg = InstallerWin|x86
+		{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}.InstallerWin|x86.Build.0 = InstallerWin|x86
 		{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}.ReleaseLinux|x64.ActiveCfg = ReleaseLinux|x64
 		{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}.ReleaseLinux|x64.Build.0 = ReleaseLinux|x64
 		{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|x86
@@ -56,6 +62,10 @@ Global
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugWin|x64.Build.0 = DebugWin|x64
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugWin|x86.ActiveCfg = DebugWin|x86
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugWin|x86.Build.0 = DebugWin|x86
+		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.InstallerWin|x64.ActiveCfg = InstallerWin|x64
+		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.InstallerWin|x64.Build.0 = InstallerWin|x64
+		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.InstallerWin|x86.ActiveCfg = InstallerWin|x86
+		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.InstallerWin|x86.Build.0 = InstallerWin|x86
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.ReleaseLinux|x64.ActiveCfg = ReleaseLinux|x64
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.ReleaseLinux|x64.Build.0 = ReleaseLinux|x64
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|x86
@@ -72,6 +82,10 @@ Global
 		{6F3E1874-F28A-40E9-AFBD-31934D593679}.DebugWin|x64.Build.0 = DebugWin|x64
 		{6F3E1874-F28A-40E9-AFBD-31934D593679}.DebugWin|x86.ActiveCfg = DebugWin|x86
 		{6F3E1874-F28A-40E9-AFBD-31934D593679}.DebugWin|x86.Build.0 = DebugWin|x86
+		{6F3E1874-F28A-40E9-AFBD-31934D593679}.InstallerWin|x64.ActiveCfg = InstallerWin|x64
+		{6F3E1874-F28A-40E9-AFBD-31934D593679}.InstallerWin|x64.Build.0 = InstallerWin|x64
+		{6F3E1874-F28A-40E9-AFBD-31934D593679}.InstallerWin|x86.ActiveCfg = InstallerWin|x86
+		{6F3E1874-F28A-40E9-AFBD-31934D593679}.InstallerWin|x86.Build.0 = InstallerWin|x86
 		{6F3E1874-F28A-40E9-AFBD-31934D593679}.ReleaseLinux|x64.ActiveCfg = ReleaseLinux|x64
 		{6F3E1874-F28A-40E9-AFBD-31934D593679}.ReleaseLinux|x64.Build.0 = ReleaseLinux|x64
 		{6F3E1874-F28A-40E9-AFBD-31934D593679}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|x86
@@ -88,6 +102,10 @@ Global
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.DebugWin|x64.Build.0 = DebugWin|x64
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.DebugWin|x86.ActiveCfg = DebugWin|x86
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.DebugWin|x86.Build.0 = DebugWin|x86
+		{5A4053F1-5AD5-441F-B254-D97A088127B6}.InstallerWin|x64.ActiveCfg = InstallerWin|x64
+		{5A4053F1-5AD5-441F-B254-D97A088127B6}.InstallerWin|x64.Build.0 = InstallerWin|x64
+		{5A4053F1-5AD5-441F-B254-D97A088127B6}.InstallerWin|x86.ActiveCfg = InstallerWin|x86
+		{5A4053F1-5AD5-441F-B254-D97A088127B6}.InstallerWin|x86.Build.0 = InstallerWin|x86
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.ReleaseLinux|x64.ActiveCfg = ReleaseLinux|x64
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.ReleaseLinux|x64.Build.0 = ReleaseLinux|x64
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|x86
@@ -104,6 +122,10 @@ Global
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.DebugWin|x64.Build.0 = DebugWin|x64
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.DebugWin|x86.ActiveCfg = DebugWin|x86
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.DebugWin|x86.Build.0 = DebugWin|x86
+		{6F3E1874-F28A-40E9-AFBD-31934D593678}.InstallerWin|x64.ActiveCfg = InstallerWin|x64
+		{6F3E1874-F28A-40E9-AFBD-31934D593678}.InstallerWin|x64.Build.0 = InstallerWin|x64
+		{6F3E1874-F28A-40E9-AFBD-31934D593678}.InstallerWin|x86.ActiveCfg = InstallerWin|x86
+		{6F3E1874-F28A-40E9-AFBD-31934D593678}.InstallerWin|x86.Build.0 = InstallerWin|x86
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseLinux|x64.ActiveCfg = ReleaseLinux|x64
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseLinux|x64.Build.0 = ReleaseLinux|x64
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|x86
@@ -118,6 +140,10 @@ Global
 		{ED007796-367F-4142-AA55-5450C7645C2C}.DebugWin|x64.Build.0 = DebugWin|x64
 		{ED007796-367F-4142-AA55-5450C7645C2C}.DebugWin|x86.ActiveCfg = DebugWin|Win32
 		{ED007796-367F-4142-AA55-5450C7645C2C}.DebugWin|x86.Build.0 = DebugWin|Win32
+		{ED007796-367F-4142-AA55-5450C7645C2C}.InstallerWin|x64.ActiveCfg = InstallerWin|x64
+		{ED007796-367F-4142-AA55-5450C7645C2C}.InstallerWin|x64.Build.0 = InstallerWin|x64
+		{ED007796-367F-4142-AA55-5450C7645C2C}.InstallerWin|x86.ActiveCfg = InstallerWin|Win32
+		{ED007796-367F-4142-AA55-5450C7645C2C}.InstallerWin|x86.Build.0 = InstallerWin|Win32
 		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseLinux|x64.ActiveCfg = ReleaseWin|x64
 		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseLinux|x86.ActiveCfg = ReleaseWin|x64
 		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseWin|x64.ActiveCfg = ReleaseWin|x64

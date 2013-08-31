@@ -75,14 +75,14 @@ namespace Vocaluxe.Lib.Playlist
                     filename = "1";
 
                 int i = 0;
-                while (File.Exists(Path.Combine(CSettings.FolderPlaylists, filename + ".xml")))
+                while (File.Exists(Path.Combine(CSettings.DataPath, CSettings.FolderPlaylists, filename + ".xml")))
                 {
                     i++;
-                    if (!File.Exists(Path.Combine(CSettings.FolderPlaylists, filename + i + ".xml")))
+                    if (!File.Exists(Path.Combine(CSettings.DataPath, CSettings.FolderPlaylists, filename + i + ".xml")))
                         filename += i;
                 }
 
-                PlaylistFile = Path.Combine(CSettings.FolderPlaylists, filename + ".xml");
+                PlaylistFile = Path.Combine(CSettings.DataPath, CSettings.FolderPlaylists, filename + ".xml");
             }
 
             XmlWriter writer;
