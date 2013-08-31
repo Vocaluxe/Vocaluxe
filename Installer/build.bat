@@ -11,4 +11,4 @@ call "%VS110COMNTOOLS%\..\..\VC\vcvarsall.bat" x86
 devenv.com ..\Vocaluxe.sln /Rebuild "InstallerWin|x86"
  
 REM compile installer
-makensis installer.nsi
+AdvancedInstaller.com /rebuild setup.aip
