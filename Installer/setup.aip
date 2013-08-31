@@ -25,7 +25,7 @@
     <ROW Property="ProductCode" Value="1031:{6F739A39-4176-4B04-963E-EB795C92500C} 1055:{435EE1A8-3B5C-491E-902D-C832B8A35EAF} 1033:{0E70A564-F59D-4416-9204-8251148FC233} 1043:{E3F45D8B-BCA9-4E3E-AB81-1C434123EA1A} 1036:{43220506-39C8-4036-9A80-19C0A31C602D} 1038:{BBC1C7B6-8D91-45E7-89A4-2AFAECCBDF83} 1053:{207C81B6-7382-48DB-BA8B-BD65A60163BC} 3082:{2F040ED1-129B-41C4-A69A-A83455899E5A} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1031"/>
     <ROW Property="ProductName" Value="Vocaluxe"/>
-    <ROW Property="ProductVersion" Value="0.3.0.80" Type="32"/>
+    <ROW Property="ProductVersion" Value="0.3.0.81" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{14926962-72E6-4B0C-96DC-FF13B5F9FB9F}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
