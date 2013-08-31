@@ -1126,41 +1126,45 @@ namespace Vocaluxe.Screens
 
         private void _ToggleSongOptions(ESongOptionsView view)
         {
-            _SelectSlides[_SelectSlideOptionsMode].Visible = false;
-            _SelectSlides[_SelectSlideOptionsPlaylistAdd].Visible = false;
-            _SelectSlides[_SelectSlideOptionsPlaylistOpen].Visible = false;
-            _SelectSlides[_SelectSlideOptionsNumMedleySongs].Visible = false;
-            _Buttons[_ButtonOptionsClose].Visible = false;
-            _Buttons[_ButtonOptionsSing].Visible = false;
-            _Buttons[_ButtonOptionsPlaylist].Visible = false;
-            _Buttons[_ButtonOptionsRandom].Visible = false;
-            _Buttons[_ButtonOptionsRandomCategory].Visible = false;
-            _Buttons[_ButtonOptionsSingAll].Visible = false;
-            _Buttons[_ButtonOptionsSingAllVisible].Visible = false;
-            _Buttons[_ButtonOptionsOpenSelectedItem].Visible = false;
-            _Buttons[_ButtonOptionsRandomMedley].Visible = false;
-            _Buttons[_ButtonOptionsStartMedley].Visible = false;
-            _Texts[_TextOptionsTitle].Visible = false;
-            _Statics[_StaticOptionsBG].Visible = false;
-            _Buttons[_ButtonOpenOptions].Visible = true;
+            
+                _SelectSlides[_SelectSlideOptionsMode].Visible = false;
+                _SelectSlides[_SelectSlideOptionsPlaylistAdd].Visible = false;
+                _SelectSlides[_SelectSlideOptionsPlaylistOpen].Visible = false;
+                _SelectSlides[_SelectSlideOptionsNumMedleySongs].Visible = false;
+                _Buttons[_ButtonOptionsClose].Visible = false;
+                _Buttons[_ButtonOptionsSing].Visible = false;
+                _Buttons[_ButtonOptionsPlaylist].Visible = false;
+                _Buttons[_ButtonOptionsRandom].Visible = false;
+                _Buttons[_ButtonOptionsRandomCategory].Visible = false;
+                _Buttons[_ButtonOptionsSingAll].Visible = false;
+                _Buttons[_ButtonOptionsSingAllVisible].Visible = false;
+                _Buttons[_ButtonOptionsOpenSelectedItem].Visible = false;
+                _Buttons[_ButtonOptionsRandomMedley].Visible = false;
+                _Buttons[_ButtonOptionsStartMedley].Visible = false;
+                _Texts[_TextOptionsTitle].Visible = false;
+                _Statics[_StaticOptionsBG].Visible = false;
+                _Buttons[_ButtonOpenOptions].Visible = true;
 
-            _SongOptionsActive = view != ESongOptionsView.None;
+              if (CSongs.VisibleSongs.Count > 0)
+              {
+                _SongOptionsActive = view != ESongOptionsView.None;
 
-            if (_SongOptionsActive)
-            {
-                //Has to be done here otherwhise changed playlist names will not appear until OnShow is called!
-                _UpdatePlaylistNames();
+                if (_SongOptionsActive)
+                {
+                    //Has to be done here otherwhise changed playlist names will not appear until OnShow is called!
+                    _UpdatePlaylistNames();
 
-                _Texts[_TextOptionsTitle].Visible = true;
-                _Buttons[_ButtonOptionsClose].Visible = true;
-                _Statics[_StaticOptionsBG].Visible = true;
-                _Buttons[_ButtonOpenOptions].Visible = false;
-                if (view == ESongOptionsView.Song)
-                    _ShowSongOptionsSong();
-                else if (view == ESongOptionsView.General)
-                    _ShowSongOptionsGeneral();
-                else if (view == ESongOptionsView.Medley)
-                    _ShowSongOptionsMedley();
+                    _Texts[_TextOptionsTitle].Visible = true;
+                    _Buttons[_ButtonOptionsClose].Visible = true;
+                    _Statics[_StaticOptionsBG].Visible = true;
+                    _Buttons[_ButtonOpenOptions].Visible = false;
+                    if (view == ESongOptionsView.Song)
+                        _ShowSongOptionsSong();
+                    else if (view == ESongOptionsView.General)
+                        _ShowSongOptionsGeneral();
+                    else if (view == ESongOptionsView.Medley)
+                        _ShowSongOptionsMedley();
+                }
             }
         }
 
