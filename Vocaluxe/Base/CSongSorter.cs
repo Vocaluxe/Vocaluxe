@@ -181,6 +181,9 @@ namespace Vocaluxe.Base
                 case ESongSorting.TR_CONFIG_LANGUAGE:
                     fieldName = "Language";
                     break;
+                case ESongSorting.TR_CONFIG_DATEADDED:
+                    fieldName = "DateAdded";
+                    break;
                 default:
                     fieldName = "";
                     break;

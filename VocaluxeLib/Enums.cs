@@ -199,7 +199,8 @@ namespace VocaluxeLib
         TR_CONFIG_GENRE,
         TR_CONFIG_LANGUAGE,
         TR_CONFIG_YEAR,
-        TR_CONFIG_DECADE
+        TR_CONFIG_DECADE,
+        TR_CONFIG_DATEADDED
         // ReSharper restore InconsistentNaming
     }
 
