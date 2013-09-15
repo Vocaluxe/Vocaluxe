@@ -3,8 +3,8 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="AI_CLEAN_RESOURCES_DISABLE_UPGRADE" Value="1"/>
     <ROW Property="AI_CLEAN_RESOURCES_UNINSTALL" Value="1"/>
-    <ROW Property="AI_CLEAN_RESOURCES_USER_PROMPT_BASIC_UI" Value="0"/>
-    <ROW Property="AI_CLEAN_RESOURCES_USER_PROMPT_FULL_UI" Value="0"/>
+    <ROW Property="AI_CLEAN_RESOURCES_USER_PROMPT_BASIC_UI" Value="1"/>
+    <ROW Property="AI_CLEAN_RESOURCES_USER_PROMPT_FULL_UI" Value="1"/>
     <ROW Property="AI_EXTERNALUIUNINSTALLERNAME" MultiBuildValue="DefaultBuild:aiui"/>
     <ROW Property="AI_FINDEXE_TITLE" Value="Wöhle das Installationspaket für [|ProductName]" ValueLocId="AI.Property.FindExeTitle"/>
     <ROW Property="AI_PRODUCTNAME_ARP" Value="Vocaluxe"/>
@@ -25,7 +25,7 @@
     <ROW Property="ProductCode" Value="1031:{6F739A39-4176-4B04-963E-EB795C92500C} 1055:{435EE1A8-3B5C-491E-902D-C832B8A35EAF} 1033:{0E70A564-F59D-4416-9204-8251148FC233} 1043:{E3F45D8B-BCA9-4E3E-AB81-1C434123EA1A} 1036:{43220506-39C8-4036-9A80-19C0A31C602D} 1038:{BBC1C7B6-8D91-45E7-89A4-2AFAECCBDF83} 1053:{207C81B6-7382-48DB-BA8B-BD65A60163BC} 3082:{2F040ED1-129B-41C4-A69A-A83455899E5A} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1031"/>
     <ROW Property="ProductName" Value="Vocaluxe"/>
-    <ROW Property="ProductVersion" Value="0.3.0.80" Type="32"/>
+    <ROW Property="ProductVersion" Value="0.3.0.81" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{14926962-72E6-4B0C-96DC-FF13B5F9FB9F}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
@@ -1501,7 +1501,12 @@
     <ROW File="swscale2.dll_6" Component_="swscale2.dll_6" FileName="swscal~1.dll|swscale-2.dll" Attributes="0" SourcePath="..\Output\x64\swscale-2.dll" SelfReg="false" NextFile="System.Data.SQLite.dll_3"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.AiRemoveFileComponent">
-    <ROW RemoveFile="_" Condition="(AI_CLEAN_RESOURCES_UNINSTALL = &quot;1&quot;) AND (NOT UPGRADINGPRODUCTCODE)" Options="3"/>
+    <ROW RemoveFile="Config.xml" Condition="(AI_CLEAN_RESOURCES_UNINSTALL = &quot;1&quot;) AND (NOT UPGRADINGPRODUCTCODE)" Options="1"/>
+    <ROW RemoveFile="Config1.xml" Condition="(AI_CLEAN_RESOURCES_UNINSTALL = &quot;1&quot;) AND (NOT UPGRADINGPRODUCTCODE)" Options="1"/>
+    <ROW RemoveFile="Config4.xml" Condition="(AI_CLEAN_RESOURCES_UNINSTALL = &quot;1&quot;) AND (NOT UPGRADINGPRODUCTCODE)" Options="1"/>
+    <ROW RemoveFile="Config5.xml" Condition="(AI_CLEAN_RESOURCES_UNINSTALL = &quot;1&quot;) AND (NOT UPGRADINGPRODUCTCODE)" Options="1"/>
+    <ROW RemoveFile="CoverDB1.sqlite" Condition="(AI_CLEAN_RESOURCES_UNINSTALL = &quot;1&quot;) AND (NOT UPGRADINGPRODUCTCODE)" Options="1"/>
+    <ROW RemoveFile="Benchmark1.log" Condition="(AI_CLEAN_RESOURCES_UNINSTALL = &quot;1&quot;) AND (NOT UPGRADINGPRODUCTCODE)" Options="1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
     <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="." Languages="de;en;nl;fr;hu;sv;es;tr" LangOpt="1" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="..\Output\Vocaluxe.ico" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" ExtUI="true" Options="4" LangsDialog="true" UseLargeSchema="true" ExeName="vocaluxe-[|ProductVersion]-setup" MsiPackageType="AI_ALL" UACExecutionLevel="2"/>
@@ -1568,12 +1573,16 @@
     <ROW Name="dialog.jpg" SourcePath="Graphics\dialog.jpg"/>
     <ROW Name="lzmaextractor.dll" SourcePath="&lt;AI_CUSTACTS&gt;lzmaextractor.dll"/>
   </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiCheckBoxComponent">
+    <ROW Property="AI_CLEAN_RESOURCES_UNINSTALL" Value="1"/>
+  </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiConditionComponent">
     <ROW Feature_="AI64BitFiles" Level="0" Condition="NOT VersionNT64"/>
     <ROW Feature_="AI32BitFiles" Level="4" Condition="VersionNT64"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlComponent">
     <ROW Dialog_="LicenseAgreementDlg" Control="AgreementText" Type="ScrollableText" X="20" Y="60" Width="330" Height="120" Attributes="7" Text="License.rtf" Order="400" TextLocId="-" MsiKey="LicenseAgreementDlg#AgreementText"/>
+    <ROW Dialog_="VerifyRemoveDlg" Control="UnistallCleanupCheckBox" Type="CheckBox" X="25" Y="150" Width="320" Height="11" Attributes="3" Property="AI_CLEAN_RESOURCES_UNINSTALL" Text="Remove [ProductName] settings and temporary files." Order="1100"/>
     <ATTRIBUTE name="FixedSizeBitmaps" value="2"/>
     <ATTRIBUTE name="MultiBuildFixedSizeBitmaps" value="DefaultBuild:1"/>
   </COMPONENT>
@@ -1687,6 +1696,7 @@
     <ROW Action="AI_InstallPrerequisite" Type="65" Source="Prereq.dll" Target="InstallPrereq"/>
     <ROW Action="AI_LaunchApp" Type="1" Source="aicustact.dll" Target="[#Vocaluxe.exe]"/>
     <ROW Action="AI_PREPARE_UPGRADE" Type="65" Source="aicustact.dll" Target="PrepareUpgrade"/>
+    <ROW Action="AI_PromptUserBasicUI" Type="1" Source="ResourceCleaner.dll" Target="OnPromptUserBasicUI"/>
     <ROW Action="AI_REDIRECT_32BIT_FOLDER" Type="51" Source="AI_Bin32_Dir" Target="[APPDIR]"/>
     <ROW Action="AI_REDIRECT_32BIT_FOLDER_1" Type="51" Source="AI_Bin32_Dir" Target="[APPDIR]"/>
     <ROW Action="AI_REDIRECT_32BIT_SH_FOLDER" Type="51" Source="AI_Sh32_Dir" Target="[SHORTCUTDIR]"/>
@@ -1736,13 +1746,14 @@
     <ROW Action="AI_REDIRECT_32BIT_SH_FOLDER_1" Condition="NOT VersionNT64 AND NOT AI_Disable32BitRedirection" Sequence="701"/>
     <ROW Action="AI_AppSearchEx" Sequence="101"/>
     <ROW Action="AI_VerifyPrereq" Sequence="1101"/>
-    <ROW Action="AI_AiRemoveFilesRollback" Sequence="3099"/>
     <ROW Action="AI_GetArpIconPath" Sequence="51"/>
     <ROW Action="AI_DELETE_SHORTCUTS" Condition="NOT (REMOVE=&quot;ALL&quot;)" Sequence="1401"/>
     <ROW Action="AI_DEL_EMPTY_SHORTCUTDIR" Condition="NOT (REMOVE=&quot;ALL&quot;)" Sequence="6402"/>
     <ROW Action="AI_DATA_SETTER_1" Condition="NOT (REMOVE=&quot;ALL&quot;)" Sequence="6401"/>
     <ROW Action="AI_RemoveExternalUIStub" Condition="(REMOVE=&quot;ALL&quot;) AND ((VersionNT &gt; 500) OR((VersionNT = 500) AND (ServicePackLevel &gt;= 4)))" Sequence="1501"/>
     <ROW Action="AI_AiRemoveFilesImmediate" Sequence="3499"/>
+    <ROW Action="AI_AiRemoveFilesRollback" Sequence="3099"/>
+    <ROW Action="AI_PromptUserBasicUI" Condition="((REMOVE = &quot;ALL&quot;) AND (NOT UPGRADINGPRODUCTCODE))" Sequence="2501"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
     <ROW Action="ExecuteAction" Sequence="1298" SeqType="0" MsiKey="ExecuteAction"/>
@@ -1836,7 +1847,12 @@
     <ROW Registry="VersionMinor" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="VersionMinor" Value="#3" Component_="AI_CustomARPName"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRemoveFileComponent">
-    <ROW FileKey="_" Component_="libgsttheora.dll" DirProperty="APPDIR" InstallMode="2"/>
+    <ROW FileKey="Benchmark1.log" Component_="AForge.Video.DirectShow.dll" FileName="Songs" DirProperty="APPDIR" InstallMode="2"/>
+    <ROW FileKey="Config.xml" Component_="AForge.Video.DirectShow.dll" FileName="Config.xml" DirProperty="APPDIR" InstallMode="2"/>
+    <ROW FileKey="Config1.xml" Component_="AForge.Video.DirectShow.dll" FileName="CoverDB.sqlite" DirProperty="APPDIR" InstallMode="2"/>
+    <ROW FileKey="Config4.xml" Component_="AForge.Video.DirectShow.dll" FileName="Benchmark.log" DirProperty="APPDIR" InstallMode="2"/>
+    <ROW FileKey="Config5.xml" Component_="AForge.Video.DirectShow.dll" FileName="Error.log" DirProperty="APPDIR" InstallMode="2"/>
+    <ROW FileKey="CoverDB1.sqlite" Component_="AForge.Video.DirectShow.dll" FileName="HighscoreDB.sqlite" DirProperty="APPDIR" InstallMode="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
     <ROW Shortcut="Vocaluxe.exe_1" Directory_="DesktopFolder" Name="Vocaluxe" Component_="Vocaluxe.exe_2" Target="[#Vocaluxe.exe]" Description="Vocaluxe is an open source singing game inspired by SingStar™ and Ultrastar Deluxe." Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
@@ -1866,6 +1882,6 @@
     <ROW SearchKey="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C_VC_2008_SP1_SEARCH" Prereq="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C" SearchType="9" SearchString="HKLM\SOFTWARE\Microsoft\DevDiv\VC\Servicing\9.0\RED\1033\SP" RefContent="M1" Order="1" Property="AI_VC_2008_SP1_PREREQSEARCH_PROP"/>
     <ROW SearchKey="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4_DIRECTX_9_SEARCH" Prereq="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4" SearchType="2" SearchString="HKLM\Software\Microsoft\DirectX\Version" VerMin="4.09" Order="1" Property="AI_DIRECTX_9_PREREQSEARCH_PROP"/>
     <ROW SearchKey="C67108D39D05435F9BE6B977F2CCED25_VC_2012_SEARCH" Prereq="C67108D39D05435F9BE6B977F2CCED25" SearchType="2" SearchString="HKLM\Software\Microsoft\DevDiv\vc\Servicing\11.0\RuntimeMinimum\Version" VerMin="11.0" Order="1" Property="AI_VC_2012_PREREQSEARCH_X64_PROP"/>
-    <ROW SearchKey="EF36CDD6CE40CFA978040EA5CBA799_VC_2012_SEARCH" Prereq="EF36CDD6CE40CFA978040EA5CBA799" SearchType="2" SearchString="HKLM\Software\Microsoft\DevDiv\vc\Servicing\11.0\RuntimeMinimum\Version" VerMin="11.0" Order="1" Property="AI_VC_2012_PREREQSEARCH_PROP"/>
+    <ROW SearchKey="EF36CDD6CE40CFA978040EA5CBA799_VC_2012_SEARCH" Prereq="EF36CDD6CE40CFA978040EA5CBA799" SearchType="2" SearchString="HKLM\Software\Microsoft\DevDiv\vc\Servicing\11.0\RuntimeMinimum\Version" VerMin="11.0" Order="1" Property="AI_VC_2012_PREREQSEARCH_PROP" Platform="1"/>
   </COMPONENT>
 </DOCUMENT>

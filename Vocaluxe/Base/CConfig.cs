@@ -304,7 +304,7 @@ namespace Vocaluxe.Base
             XmlWriter writer = null;
             try
             {
-                writer = XmlWriter.Create(Path.Combine(CSettings.DataPath, CSettings.FileConfig));
+                writer = XmlWriter.Create(Path.Combine(CSettings.DataPath, CSettings.FileConfig), _Settings);
                 writer.WriteStartDocument();
                 writer.WriteStartElement("root");
 
