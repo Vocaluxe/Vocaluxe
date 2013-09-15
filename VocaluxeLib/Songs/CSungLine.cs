@@ -23,6 +23,8 @@ namespace VocaluxeLib.Songs
 {
     public class CSungLine : CLineBase<CSungNote>
     {
+        public double BonusPoints;
+
         // for drawing perfect line effect
         public bool PerfectLine { get; set; }
 

@@ -290,12 +290,15 @@ namespace Vocaluxe.Base
                             {
                                 CSungNote lastNote = Players[p].SungLines[line].LastNote;
                                 if (notes[note].StartBeat == beat || lastNote.EndBeat + 1 != beat || lastNote.Tone != tone || !lastNote.Hit)
-                                    Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tone, notes[note]));
+                                    Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tone, notes[note], points));
                                 else
+                                {
                                     Players[p].SungLines[line].IncLastNoteLength();
+                                    Players[p].SungLines[line].LastNote.Points += points;
+                                }
                             }
                             else
-                                Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tone, notes[note]));
+                                Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tone, notes[note], points));
 
                             Players[p].SungLines[line].LastNote.CheckPerfect();
                             Players[p].SungLines[line].IsPerfect(lines[line]);
@@ -336,6 +339,7 @@ namespace Vocaluxe.Base
                             double points = CSettings.LinebonusScore * factor * 1f / numLinesWithPoints;
                             Players[p].Points += points;
                             Players[p].PointsLineBonus += points;
+                            Players[p].SungLines[line].BonusPoints = points;
                         }
                     }
                 }
