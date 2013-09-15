@@ -454,12 +454,15 @@ namespace VocaluxeLib.Menu.SongMenu
             float vtime;
             if (CBase.Video.GetFrame(_Video, ref _Vidtex, time, out vtime))
             {
-                if (_VideoFadeTimer.ElapsedMilliseconds <= 3000L)
-                    _Vidtex.Color.A = _VideoFadeTimer.ElapsedMilliseconds / 3000f;
-                else
+                if (_Vidtex != null)
                 {
-                    _Vidtex.Color.A = 1f;
-                    _VideoFadeTimer.Stop();
+                    if (_VideoFadeTimer.ElapsedMilliseconds <= 3000L)
+                        _Vidtex.Color.A = _VideoFadeTimer.ElapsedMilliseconds / 3000f;
+                    else
+                    {
+                        _Vidtex.Color.A = 1f;
+                        _VideoFadeTimer.Stop();
+                    }
                 }
             }
         }
