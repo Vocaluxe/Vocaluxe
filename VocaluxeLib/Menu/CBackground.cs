@@ -196,7 +196,7 @@ namespace VocaluxeLib.Menu
         #region internal
         private void _DrawColor()
         {
-            SRectF bounds = new SRectF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), CBase.Settings.GetZFar() / 4);
+            var bounds = new SRectF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), CBase.Settings.GetZFar() / 4);
 
             CBase.Drawing.DrawColor(Color, bounds);
         }
@@ -206,7 +206,7 @@ namespace VocaluxeLib.Menu
             CTexture texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
             if (texture != null)
             {
-                RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
+                var bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect;
                 CHelper.SetRect(bounds, out rect, texture.OrigAspect, EAspect.Crop);
 
@@ -221,7 +221,7 @@ namespace VocaluxeLib.Menu
             CTexture videoTexture = CBase.Theme.GetSkinVideoTexture(_Theme.VideoName, _PartyModeID);
             if (videoTexture != null)
             {
-                RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
+                var bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect;
                 CHelper.SetRect(bounds, out rect, videoTexture.OrigAspect, EAspect.Crop);
 
@@ -236,7 +236,7 @@ namespace VocaluxeLib.Menu
             CTexture videoTexture = CBase.BackgroundMusic.GetVideoTexture();
             if (videoTexture != null)
             {
-                RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
+                var bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect;
                 CHelper.SetRect(bounds, out rect, videoTexture.OrigAspect, EAspect.Crop);
 

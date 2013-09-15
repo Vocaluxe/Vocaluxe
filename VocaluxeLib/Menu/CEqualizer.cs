@@ -258,7 +258,7 @@ namespace VocaluxeLib.Menu
 
             for (int i = 0; i < _Bars.Length; i++)
             {
-                SRectF bar = new SRectF(Rect.X + dx * i, Rect.Y + Rect.H - _Bars[i] * Rect.H, dx - Space, _Bars[i] * Rect.H, Rect.Z);
+                var bar = new SRectF(Rect.X + dx * i, Rect.Y + Rect.H - _Bars[i] * Rect.H, dx - Space, _Bars[i] * Rect.H, Rect.Z);
                 SColorF color = Color;
                 if (i == max)
                     color = MaxColor;

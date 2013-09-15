@@ -186,8 +186,8 @@ namespace VocaluxeLib
         public double PointsLineBonus;
         public double PointsGoldenNotes;
         public int NoteDiff;
-        public int LineNr;
-        public List<CLine> SingLine;
+        public int VoiceNr;
+        public List<CSungLine> SungLines;
         public int CurrentLine;
         public int CurrentNote;
 

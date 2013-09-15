@@ -21,7 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using VocaluxeLib.Menu;
-using VocaluxeLib.Profile;
 
 [assembly: ComVisible(false)]
 
@@ -65,7 +64,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         public int CompareTo(object obj)
         {
-            CResultTableRow row = obj as CResultTableRow;
+            var row = obj as CResultTableRow;
             if (row != null)
             {
                 int res = row.NumGamePoints.CompareTo(NumGamePoints);
@@ -545,9 +544,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             for (int i = 0; i < _GameData.NumPlayerAtOnce; i++)
             {
                 if (c != null)
-                {
                     _ScreenSongOptions.Selection.TeamNames[i] = CBase.Profiles.GetPlayerName(_GameData.ProfileIDs[c.Player[i]]);
-                }
                 else
                     _ScreenSongOptions.Selection.TeamNames[i] = "foobar";
             }
@@ -559,7 +556,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             {
                 for (int i = 0; i < _GameData.NumPlayer; i++)
                 {
-                    CResultTableRow row = new CResultTableRow {PlayerID = _GameData.ProfileIDs[i], NumPlayed = 0, NumWon = 0, NumSingPoints = 0, NumGamePoints = 0};
+                    var row = new CResultTableRow {PlayerID = _GameData.ProfileIDs[i], NumPlayed = 0, NumWon = 0, NumSingPoints = 0, NumGamePoints = 0};
                     _GameData.ResultTable.Add(row);
                 }
 
@@ -627,10 +624,10 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private List<SStats> _GetPointsForPlayer(SPlayer[] results)
         {
-            List<SStats> result = new List<SStats>();
+            var result = new List<SStats>();
             for (int i = 0; i < _GameData.NumPlayerAtOnce; i++)
             {
-                SStats stat = new SStats {ProfileID = results[i].ProfileID, SingPoints = (int)Math.Round(results[i].Points), Won = 0, GamePoints = 0};
+                var stat = new SStats {ProfileID = results[i].ProfileID, SingPoints = (int)Math.Round(results[i].Points), Won = 0, GamePoints = 0};
                 result.Add(stat);
             }
 

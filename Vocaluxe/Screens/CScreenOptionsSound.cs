@@ -154,8 +154,8 @@ namespace Vocaluxe.Screens
             CConfig.PreviewMusicVolume = _SelectSlides[_SelectSlidePreviewMusicVolume].Selection * 5;
             CConfig.SaveConfig();
 
-            EOffOn newOffOn = (EOffOn)_SelectSlides[_SelectSlideBackgroundMusic].Selection;
-            EBackgroundMusicSource newSource = (EBackgroundMusicSource)_SelectSlides[_SelectSlideBackgroundMusicSource].Selection;
+            var newOffOn = (EOffOn)_SelectSlides[_SelectSlideBackgroundMusic].Selection;
+            var newSource = (EBackgroundMusicSource)_SelectSlides[_SelectSlideBackgroundMusicSource].Selection;
             float newVolume = _SelectSlides[_SelectSlideBackgroundMusicVolume].Selection * 5;
 
             CBackgroundMusic.CheckAndApplyConfig(newOffOn, newSource, newVolume);

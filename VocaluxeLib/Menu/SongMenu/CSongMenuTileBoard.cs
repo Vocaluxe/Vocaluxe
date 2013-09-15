@@ -92,9 +92,9 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 for (int j = 0; j < _NumW; j++)
                 {
-                    SRectF rect = new SRectF(_Theme.SongMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
-                                             _Theme.SongMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
-                    CStatic tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
+                    var rect = new SRectF(_Theme.SongMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
+                                          _Theme.SongMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
+                    var tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
                     _Tiles.Add(tile);
                 }
             }
@@ -423,8 +423,8 @@ namespace VocaluxeLib.Menu.SongMenu
                         time = song.Finish;
 
                     time -= song.Start;
-                    int min = (int)Math.Floor(time / 60f);
-                    int sec = (int)(time - min * 60f);
+                    var min = (int)Math.Floor(time / 60f);
+                    var sec = (int)(time - min * 60f);
                     _SongLength.Text = min.ToString("00") + ":" + sec.ToString("00");
                 }
             }
@@ -458,11 +458,11 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 if (_Vidtex.Color.A < 1)
                     _CoverBig.Draw(1f, EAspect.Crop);
-                RectangleF bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
+                var bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
                 RectangleF rect;
                 CHelper.SetRect(bounds, out rect, _Vidtex.OrigAspect, EAspect.Crop);
-                SRectF vidRect = new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z);
-                SRectF vidRectBounds = new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f);
+                var vidRect = new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z);
+                var vidRectBounds = new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f);
 
                 CBase.Drawing.DrawTexture(_Vidtex, vidRect, _Vidtex.Color, vidRectBounds);
                 CBase.Drawing.DrawTextureReflection(_Vidtex, vidRect, _Vidtex.Color, vidRectBounds, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
@@ -490,7 +490,7 @@ namespace VocaluxeLib.Menu.SongMenu
             CStatic selCov = GetSelectedSongCover();
             if (selCov.Texture == null)
                 return false;
-            SRectF rect = new SRectF(selCov.Rect.X - selCov.Rect.W*0.2f, selCov.Rect.Y - selCov.Rect.H*0.2f, selCov.Rect.W*1.2f, selCov.Rect.H*1.2f, selCov.Rect.Z);
+            var rect = new SRectF(selCov.Rect.X - selCov.Rect.W * 0.2f, selCov.Rect.Y - selCov.Rect.H * 0.2f, selCov.Rect.W * 1.2f, selCov.Rect.H * 1.2f, selCov.Rect.Z);
             return CHelper.IsInBounds(rect, mEvent);
         }
 
@@ -679,8 +679,8 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 for (int j = 0; j < _NumW; j++)
                 {
-                    SRectF rect = new SRectF(_Rect.X + j * (_TileW + _SpaceW), _Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
-                    CStatic tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
+                    var rect = new SRectF(_Rect.X + j * (_TileW + _SpaceW), _Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
+                    var tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
                     _Tiles.Add(tile);
                 }
             }

@@ -450,11 +450,11 @@ namespace Vocaluxe.Base
                 int len = _AnalysisBuffer.Length * 2;
                 if (_Stream.Length >= len)
                 {
-                    byte[] buf = new byte[len];
+                    var buf = new byte[len];
                     _Stream.Position -= len;
                     _Stream.Read(buf, 0, len);
 
-                    byte[] b = new byte[2];
+                    var b = new byte[2];
                     for (int i = 0; i < _AnalysisBuffer.Length; i++)
                     {
                         b[0] = buf[i * 2];
@@ -496,7 +496,7 @@ namespace Vocaluxe.Base
             double maxWeight = -1.0;
             double minWeight = 1.0;
             int maxTone = -1;
-            float[] weigth = new float[_NumHalfTones];
+            var weigth = new float[_NumHalfTones];
 
             // analyze halftones
             // Note: at the lowest tone (~65Hz) and a buffer-size of 4096
@@ -535,7 +535,7 @@ namespace Vocaluxe.Base
         private double _AnalyzeAutocorrelationFreq(double freq)
         {
             int sampleIndex = 0; // index of sample to analyze
-            int samplesPerPeriod = (int)Math.Round(44100.0 / freq); // samples in one period
+            var samplesPerPeriod = (int)Math.Round(44100.0 / freq); // samples in one period
             int correlatingSampleIndex = sampleIndex + samplesPerPeriod; // index of sample one period ahead
 
             double accumDist = 0.0; // accumulated distances

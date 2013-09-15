@@ -25,7 +25,7 @@ namespace VocaluxeLib.PartyModes
 {
     public abstract class CPartyMode : IPartyMode
     {
-        protected string _Folder;
+        private string _Folder;
         protected SScreenSongOptions _ScreenSongOptions;
         protected readonly Dictionary<string, CMenuParty> _Screens;
 

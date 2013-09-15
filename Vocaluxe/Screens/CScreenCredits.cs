@@ -293,12 +293,12 @@ namespace Vocaluxe.Screens
 
             CStatic image = GetNewStatic(texture, new SColorF(1, 1, 1, 1), new SRectF(-1, -1, 400, 120, -4));
 
-            SRectF particleRect = new SRectF(-1, -1, partRectSize, partRectSize, -6);
-            SRectF imgDotRect = new SRectF(particleRect) {Z = -5};
+            var particleRect = new SRectF(-1, -1, partRectSize, partRectSize, -6);
+            var imgDotRect = new SRectF(particleRect) {Z = -5};
             CStatic imgDot = GetNewStatic(texDot, new SColorF(1, 1, 1, 1), imgDotRect);
             CParticleEffect particle = _GetStarParticles(partCount, isRight, particleRect, bigParticles);
 
-            CCreditName credit = new CCreditName(image, imgDot, particle, particleOffsetX, particleOffsetY);
+            var credit = new CCreditName(image, imgDot, particle, particleOffsetX, particleOffsetY);
 
             if (isRight)
             {
@@ -323,8 +323,8 @@ namespace Vocaluxe.Screens
                                  new SRectF((float)(CSettings.RenderW - _TexLogo.OrigSize.Width) / 2, -270, _TexLogo.OrigSize.Width, _TexLogo.OrigSize.Height, -2));
 
             //Little stars for logo
-            int numstars = (int)(_Logo.Rect.W * 0.25f / 2f);
-            SRectF partRect = new SRectF(_Logo.Rect.X, _Logo.Rect.Y, _Logo.Rect.W, _Logo.Rect.H, -1);
+            var numstars = (int)(_Logo.Rect.W * 0.25f / 2f);
+            var partRect = new SRectF(_Logo.Rect.X, _Logo.Rect.Y, _Logo.Rect.W, _Logo.Rect.H, -1);
             _StarsRed = _GetStarParticles(numstars, true, partRect, true);
             _StarsBlue = _GetStarParticles(numstars, false, partRect, true);
 

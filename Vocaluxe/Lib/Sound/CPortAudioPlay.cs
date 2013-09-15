@@ -91,8 +91,8 @@ namespace Vocaluxe.Lib.Sound
 
         public int Load(string media, bool prescan)
         {
-            SAudioStreams stream = new SAudioStreams(0);
-            CPortAudioStream decoder = new CPortAudioStream();
+            var stream = new SAudioStreams(0);
+            var decoder = new CPortAudioStream();
 
             if (decoder.Open(media) > -1)
             {
@@ -599,11 +599,11 @@ namespace Vocaluxe.Lib.Sound
             _CurrentTime = 0f;
             _SyncTimer.Time = _CurrentTime;
 
-            SAudioStreams stream = new SAudioStreams(0);
+            var stream = new SAudioStreams(0);
 
-            IntPtr data = new IntPtr(0);
+            var data = new IntPtr(0);
 
-            CPortAudio.SPaStreamParameters outputParams = new CPortAudio.SPaStreamParameters
+            var outputParams = new CPortAudio.SPaStreamParameters
                 {
                     ChannelCount = format.ChannelCount,
                     Device = _ApiInfo.DefaultOutputDevice,
@@ -611,7 +611,7 @@ namespace Vocaluxe.Lib.Sound
                     SuggestedLatency = _OutputDeviceInfo.DefaultLowOutputLatency
                 };
 
-            uint bufsize = (uint)CConfig.AudioBufferSize;
+            var bufsize = (uint)CConfig.AudioBufferSize;
             lock (_Mutex)
             {
                 _ErrorCheck("OpenDefaultStream (playback)", CPortAudio.Pa_OpenStream(
@@ -797,7 +797,7 @@ namespace Vocaluxe.Lib.Sound
             CPortAudio.EPaStreamCallbackFlags statusFlags,
             IntPtr userData)
         {
-            byte[] buf = new byte[frameCount * _ByteCount];
+            var buf = new byte[frameCount * _ByteCount];
 
             if (_Paused)
             {
@@ -818,7 +818,7 @@ namespace Vocaluxe.Lib.Sound
                 {
                     _Data.Read(buf);
 
-                    byte[] b = new byte[2];
+                    var b = new byte[2];
                     for (int i = 0; i < buf.Length; i += _ByteCount)
                     {
                         b[0] = buf[i];

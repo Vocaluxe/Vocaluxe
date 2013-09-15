@@ -62,7 +62,7 @@ namespace Vocaluxe.Base
         {
             get
             {
-                List<string> coverThemes = new List<string>();
+                var coverThemes = new List<string>();
                 for (int i = 0; i < _CoverThemes.Count; i++)
                     coverThemes.Add(_CoverThemes[i].Name);
 
@@ -154,7 +154,7 @@ namespace Vocaluxe.Base
 
                 if (xmlReader != null)
                 {
-                    SCoverTheme coverTheme = new SCoverTheme();
+                    var coverTheme = new SCoverTheme();
 
                     xmlReader.GetValue("//root/Info/Name", out coverTheme.Name, String.Empty);
                     xmlReader.GetValue("//root/Info/Folder", out coverTheme.Folder, String.Empty);
@@ -179,7 +179,7 @@ namespace Vocaluxe.Base
             if (String.IsNullOrEmpty(coverTheme.Name))
                 return;
 
-            List<string> ignoreList = new List<string>();
+            var ignoreList = new List<string>();
             CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.FolderCover, coverTheme.File));
             if (xmlReader != null)
             {
@@ -206,7 +206,7 @@ namespace Vocaluxe.Base
                 }
             }
 
-            List<string> files = new List<string>();
+            var files = new List<string>();
 
             string coverPath = Path.Combine(CSettings.FolderCover, coverTheme.Folder);
             files.AddRange(CHelper.ListFiles(coverPath, "*.png", true, true));
@@ -222,19 +222,17 @@ namespace Vocaluxe.Base
             }
         }
 
-        private static void _AddCover(string Name, string File)
+        private static void _AddCover(string name, string file)
         {
-            CTexture texture = CDraw.AddTexture(File);
+            CTexture texture = CDraw.AddTexture(file);
 
-            if (!_CoverExists(Name))
-            {
-                _Cover.Add(Name, texture);
-            }
+            if (!_CoverExists(name))
+                _Cover.Add(name, texture);
             else
             {
-                CTexture tex = _Cover[Name];
+                CTexture tex = _Cover[name];
                 CDraw.RemoveTexture(ref tex);
-                _Cover[Name] = texture;
+                _Cover[name] = texture;
             }
         }
     }

@@ -222,7 +222,7 @@ namespace Vocaluxe.Base
 
         public static void CreateFolders()
         {
-            List<string> folders = new List<string> {FolderCover, FolderFonts, Path.Combine(DataPath,FolderScreenshots), FolderBackgroundMusic, FolderSounds, Path.Combine(DataPath,FolderPlaylists)};
+            var folders = new List<string> {FolderCover, FolderFonts, Path.Combine(DataPath,FolderScreenshots), FolderBackgroundMusic, FolderSounds, Path.Combine(DataPath,FolderPlaylists)};
             folders.AddRange(FoldersProfiles);
 
             foreach (string folder in folders)

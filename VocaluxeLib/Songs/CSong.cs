@@ -149,7 +149,7 @@ namespace VocaluxeLib.Songs
 
         public int DataBaseSongID = -1;
         public string DateAdded = "";
-        public int NumPlayed = 0;
+        public int NumPlayed;
 
         // Notes
         public readonly CNotes Notes = new CNotes();
@@ -158,7 +158,7 @@ namespace VocaluxeLib.Songs
         {
             get
             {
-                List<EGameMode> gms = new List<EGameMode> {IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL};
+                var gms = new List<EGameMode> {IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL};
                 if (Medley.Source != EMedleySource.None)
                     gms.Add(EGameMode.TR_GAMEMODE_MEDLEY);
                 gms.Add(EGameMode.TR_GAMEMODE_SHORTSONG);
@@ -172,7 +172,7 @@ namespace VocaluxeLib.Songs
 
         public static CSong LoadSong(string filePath)
         {
-            CSong song = new CSong();
+            var song = new CSong();
             return song.ReadHeader(filePath) ? song : null;
         }
 
@@ -289,7 +289,7 @@ namespace VocaluxeLib.Songs
 
             FileName = Path.GetFileName(filePath);
 
-            EHeaderFlags headerFlags = new EHeaderFlags();
+            var headerFlags = new EHeaderFlags();
             StreamReader sr = null;
             try
             {
@@ -737,7 +737,7 @@ namespace VocaluxeLib.Songs
 
         private bool _ParseNote(int player, ENoteType noteType, int start, int length, int tone, string text)
         {
-            CNote note = new CNote(start, length, tone, text, noteType);
+            var note = new CSongNote(start, length, tone, text, noteType);
             CVoice voice = Notes.GetVoice(player);
             return voice.AddNote(note);
         }
@@ -745,7 +745,7 @@ namespace VocaluxeLib.Songs
         private void _NewSentence(int player, int start)
         {
             CVoice voice = Notes.GetVoice(player);
-            CLine line = new CLine {StartBeat = start};
+            var line = new CSongLine {StartBeat = start};
             voice.AddLine(line);
         }
 
@@ -821,14 +821,14 @@ namespace VocaluxeLib.Songs
             List<string> sentences = voice.Lines.Select(line => line.Points != 0 ? line.Lyrics : String.Empty).ToList();
 
             // find equal sentences series
-            List<SSeries> series = new List<SSeries>();
+            var series = new List<SSeries>();
             for (int i = 0; i < voice.NumLines - 1; i++)
             {
                 for (int j = i + 1; j < voice.NumLines; j++)
                 {
                     if (sentences[i] != sentences[j] || sentences[i] == "")
                         continue;
-                    SSeries tempSeries = new SSeries {Start = i, End = i};
+                    var tempSeries = new SSeries {Start = i, End = i};
 
                     int max;
                     if (j + j - i > voice.NumLines)
@@ -945,7 +945,7 @@ namespace VocaluxeLib.Songs
             }
 
             //Check if stop is in line
-            foreach (CLine line in voice.Lines)
+            foreach (CSongLine line in voice.Lines)
             {
                 if (line.FirstNoteBeat < stop && line.LastNoteBeat > stop)
                 {

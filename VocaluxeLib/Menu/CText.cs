@@ -469,7 +469,7 @@ namespace VocaluxeLib.Menu
             CBase.Fonts.SetStyle(Style);
 
             SColorF currentColor = (Selected) ? SelColor : Color;
-            SColorF color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
+            var color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
             CBase.Fonts.DrawText(_Text, Rect.H, Rect.X, Rect.Y, Z, color);
 
@@ -486,7 +486,7 @@ namespace VocaluxeLib.Menu
             CBase.Fonts.SetStyle(Style);
 
             SColorF currentColor = (Selected) ? SelColor : Color;
-            SColorF color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
+            var color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
             CBase.Fonts.DrawText(Text, Rect.H, Rect.X, Rect.Y, Z, color, begin, end);
 

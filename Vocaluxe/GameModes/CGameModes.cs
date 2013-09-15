@@ -70,7 +70,7 @@ namespace Vocaluxe.GameModes
     {
         protected override CSong _PrepareSong(CSong song)
         {
-            CSong newSong = new CSong(song) {Finish = CGame.GetTimeFromBeats(song.ShortEnd, song.BPM) + CSettings.DefaultMedleyFadeOutTime + song.Gap};
+            var newSong = new CSong(song) {Finish = CGame.GetTimeFromBeats(song.ShortEnd, song.BPM) + CSettings.DefaultMedleyFadeOutTime + song.Gap};
             // set lines to short mode
             newSong.Notes.SetMedley(song.Notes.GetVoice(0).Lines[0].FirstNoteBeat, song.ShortEnd);
 
@@ -82,7 +82,7 @@ namespace Vocaluxe.GameModes
     {
         protected override CSong _PrepareSong(CSong song)
         {
-            CSong newSong = new CSong(song) {Start = CGame.GetTimeFromBeats(song.Medley.StartBeat, song.BPM) - song.Medley.FadeInTime + song.Gap};
+            var newSong = new CSong(song) {Start = CGame.GetTimeFromBeats(song.Medley.StartBeat, song.BPM) - song.Medley.FadeInTime + song.Gap};
             if (newSong.Start < 0f)
                 newSong.Start = 0f;
 

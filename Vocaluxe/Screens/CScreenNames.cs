@@ -24,7 +24,6 @@ using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
-using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Screens
 {
@@ -71,14 +70,14 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            List<string> statics = new List<string>();
+            var statics = new List<string>();
             statics.AddRange(_StaticPlayerAvatar);
             statics.AddRange(_StaticPlayer);
             statics.Add(_StaticWarningMics);
             statics.Add(_StaticWarningProfiles);
             _ThemeStatics = statics.ToArray();
 
-            List<string> texts = new List<string> {_SelectSlidePlayerNumber};
+            var texts = new List<string> {_SelectSlidePlayerNumber};
             texts.AddRange(_SelectSlideDuetPlayer);
             _ThemeSelectSlides = texts.ToArray();
 
@@ -411,13 +410,9 @@ namespace Vocaluxe.Screens
                     if (CHelper.IsInBounds(_Statics[_StaticPlayer[i]].Rect, mouseEvent))
                     {
                         if (_SelectingSwitchNr > -1 && CGame.Players[i].ProfileID > -1)
-                        {
                             _UpdateSelectedProfile(_SelectingSwitchNr, CGame.Players[i].ProfileID);
-                        }
                         else if (_SelectingSwitchNr > -1)
-                        {
                             _ResetPlayerSelection(_SelectingSwitchNr);
-                        }
 
                         if (!CProfiles.IsProfileIDValid(_SelectedProfileID))
                             return true;
@@ -427,9 +422,7 @@ namespace Vocaluxe.Screens
                     }
                     //Selected player is dropped out of area
                     if (_SelectingSwitchNr > -1)
-                    {
                         _ResetPlayerSelection(_SelectingSwitchNr);
-                    }
                 }
                 _SelectingSwitchNr = -1;
                 _SelectedProfileID = -1;
@@ -449,7 +442,7 @@ namespace Vocaluxe.Screens
                             return true;
 
                         _UpdateSelectedProfile(_SelectingFastPlayerNr - 1, _SelectedProfileID);
-                        
+
                         _SelectingFastPlayerNr++;
                         if (_SelectingFastPlayerNr <= CGame.NumPlayer)
                             _NameSelections[_NameSelection].FastSelection(true, _SelectingFastPlayerNr);
@@ -633,7 +626,7 @@ namespace Vocaluxe.Screens
             for (int i = 0; i < CGame.NumPlayer; i++)
             {
                 if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
-                    CGame.Players[i].LineNr = _SelectSlides[_SelectSlideDuetPlayer[i]].Selection;
+                    CGame.Players[i].VoiceNr = _SelectSlides[_SelectSlideDuetPlayer[i]].Selection;
             }
 
             CGraphics.FadeTo(EScreens.ScreenSing);
@@ -726,7 +719,7 @@ namespace Vocaluxe.Screens
 
         private void _CheckMics()
         {
-            List<int> playerWithoutMicro = new List<int>();
+            var playerWithoutMicro = new List<int>();
             for (int player = 0; player < CConfig.NumPlayer; player++)
             {
                 if (!CConfig.IsMicConfig(player + 1))
@@ -764,7 +757,7 @@ namespace Vocaluxe.Screens
 
         private void _CheckPlayers()
         {
-            List<int> playerWithoutProfile = new List<int>();
+            var playerWithoutProfile = new List<int>();
             for (int player = 0; player < CConfig.NumPlayer; player++)
             {
                 if (CGame.Players[player].ProfileID < 0)

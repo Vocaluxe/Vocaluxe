@@ -60,13 +60,13 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            List<string> texts = new List<string> {_TextSong};
+            var texts = new List<string> {_TextSong};
 
             _BuildTextStrings(ref texts);
 
             _ThemeTexts = texts.ToArray();
 
-            List<string> statics = new List<string>();
+            var statics = new List<string>();
             _BuildStaticStrings(ref statics);
 
             _ThemeStatics = statics.ToArray();
@@ -131,7 +131,7 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-            SPlayer[] players = new SPlayer[CGame.NumPlayer];
+            var players = new SPlayer[CGame.NumPlayer];
             if (_Round != 0)
                 players = _Points.GetPlayer(_Round - 1, CGame.NumPlayer);
             else
@@ -156,7 +156,7 @@ namespace Vocaluxe.Screens
 
                         if (_StaticPointsBarDrawnPoints[p] > players[p].Points)
                             _StaticPointsBarDrawnPoints[p] = players[p].Points;
-                        string direction = (string)_ScreenSettings[_ScreenSettingAnimationDirection].GetValue();
+                        var direction = (string)_ScreenSettings[_ScreenSettingAnimationDirection].GetValue();
                         if (direction.ToLower() == "vertical")
                         {
                             _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.W = ((float)_StaticPointsBarDrawnPoints[p]) *
@@ -264,7 +264,7 @@ namespace Vocaluxe.Screens
         private void _UpdateRatings()
         {
             CSong song = null;
-            SPlayer[] players = new SPlayer[CGame.NumPlayer];
+            var players = new SPlayer[CGame.NumPlayer];
             if (_Round != 0)
             {
                 song = CGame.GetSong(_Round);
@@ -298,9 +298,9 @@ namespace Vocaluxe.Screens
                 string name = CProfiles.GetPlayerName(players[p].ProfileID, p);
                 if (song != null && song.IsDuet)
                 {
-                    if (players[p].LineNr == 0 && song.DuetPart1 != "Part 1")
+                    if (players[p].VoiceNr == 0 && song.DuetPart1 != "Part 1")
                         name += " (" + song.DuetPart1 + ")";
-                    else if (players[p].LineNr == 1 && song.DuetPart2 != "Part 2")
+                    else if (players[p].VoiceNr == 1 && song.DuetPart2 != "Part 2")
                         name += " (" + song.DuetPart2 + ")";
                 }
                 _Texts[_TextNames[p, CGame.NumPlayer - 1]].Text = name;
@@ -325,7 +325,7 @@ namespace Vocaluxe.Screens
                     _Texts[_TextRatings[p, CGame.NumPlayer - 1]].Text = CLanguage.Translate(_GetRating((int)Math.Round(players[p].Points)));
 
                 _StaticPointsBarDrawnPoints[p] = 0.0;
-                string direction = (string)_ScreenSettings[_ScreenSettingAnimationDirection].GetValue();
+                var direction = (string)_ScreenSettings[_ScreenSettingAnimationDirection].GetValue();
                 if (direction.ToLower() == "vertical")
                     _Statics[_StaticPointsBar[p, CGame.NumPlayer - 1]].Rect.W = 0;
                 else

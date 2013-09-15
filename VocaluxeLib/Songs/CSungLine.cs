@@ -17,24 +17,21 @@
 //  */
 #endregion
 
-namespace Vocaluxe.Base.Server
+using System.Linq;
+
+namespace VocaluxeLib.Songs
 {
-    public struct SLoginData
+    public class CSungLine : CLineBase<CSungNote>
     {
-        public byte[] Sha256;
-    }
+        // for drawing perfect line effect
+        public bool PerfectLine { get; set; }
 
-    public struct SAvatarPicture
-    {
-        public int Width;
-        public int Height;
-        public byte[] Data;
-    }
-
-    public struct SProfile
-    {
-        public SAvatarPicture Avatar;
-        public string PlayerName;
-        public int Difficulty;
+        public bool IsPerfect(CSongLine compareLine)
+        {
+            PerfectLine = _Notes.Count > 0;
+            PerfectLine &= _Notes.Count == compareLine.NoteCount;
+            PerfectLine &= _Notes.All(note => note.Perfect);
+            return PerfectLine;
+        }
     }
 }

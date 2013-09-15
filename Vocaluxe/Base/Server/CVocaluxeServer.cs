@@ -22,9 +22,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using System.Linq;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 using ClientServerLib;
 using Vocaluxe.Lib.Input;
@@ -44,10 +42,8 @@ namespace Vocaluxe.Base.Server
         public static void Init()
         {
             _Clients = new Dictionary<int, CClientHandler>();
-            if (CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON)
-                _Server = new CServer(RequestHandler, CConfig.ServerPort, CConfig.ServerPassword);
-            else
-                _Server = new CServer(RequestHandler, CConfig.ServerPort, String.Empty);
+            String pw = (CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON) ? CConfig.ServerPassword : String.Empty;
+            _Server = new CServer(RequestHandler, CConfig.ServerPort, pw);
 
             _Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
             Controller.Init();
@@ -84,12 +80,15 @@ namespace Vocaluxe.Base.Server
             {
                 if (!_Clients.ContainsKey(connectionID))
                 {
-                    CClientHandler client = new CClientHandler(connectionID);
+                    var client = new CClientHandler(connectionID);
                     _Clients.Add(connectionID, client);
                 }
 
                 loggedIn = _Clients[connectionID].LoggedIn;
             }
+
+            if (!loggedIn)
+                return CCommands.CreateCommandWithoutParams(CCommands.ResponseNOK);
 
             int command = BitConverter.ToInt32(message, 0);
 
@@ -120,10 +119,10 @@ namespace Vocaluxe.Base.Server
                     SAvatarPicture avatarPicture;
                     if (CCommands.DecodeCommandSendAvatarPicture(message, out avatarPicture))
                     {
-                        using (Bitmap bmp = new Bitmap(avatarPicture.Width, avatarPicture.Height))
+                        using (var bmp = new Bitmap(avatarPicture.Width, avatarPicture.Height))
                         {
                             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-                            Marshal.Copy(avatarPicture.data, 0, bmpData.Scan0, avatarPicture.data.Length);
+                            Marshal.Copy(avatarPicture.Data, 0, bmpData.Scan0, avatarPicture.Data.Length);
                             bmp.UnlockBits(bmpData);
 
                             const string filename = "snapshot";
@@ -142,7 +141,7 @@ namespace Vocaluxe.Base.Server
                     SAvatarPicture avatarPictureJpg;
                     if (CCommands.DecodeCommandSendAvatarPicture(message, out avatarPictureJpg))
                     {
-                        if (_AddAvatar(avatarPictureJpg.data) != String.Empty)
+                        if (_AddAvatar(avatarPictureJpg.Data) != String.Empty)
                             answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
                     }
                     break;
@@ -153,10 +152,10 @@ namespace Vocaluxe.Base.Server
                     {
                         try
                         {
-                            string avatarFilename = _AddAvatar(profile.Avatar.data);
+                            string avatarFilename = _AddAvatar(profile.Avatar.Data);
                             if (avatarFilename != String.Empty)
                             {
-                                CProfile p = new CProfile
+                                var p = new CProfile
                                     {
                                         Active = EOffOn.TR_CONFIG_ON,
                                         AvatarFileName = avatarFilename,
@@ -193,7 +192,7 @@ namespace Vocaluxe.Base.Server
                 fs.Flush();
                 fs.Close();
 
-                CAvatar avatar = new CAvatar(-1);
+                var avatar = new CAvatar(-1);
                 if (avatar.LoadFromFile(filename))
                 {
                     CProfiles.AddAvatar(avatar);

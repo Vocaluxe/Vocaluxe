@@ -205,7 +205,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
             bool lb = false;
             bool rb = gesture == EGesture.Back;
 
-            Keys key = Keys.None;
+            var key = Keys.None;
 
             if (ws.ButtonState.A && !_ButtonStates[0])
                 lb = true;
@@ -247,7 +247,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
             if (key != Keys.None)
             {
-                SKeyEvent pool = new SKeyEvent(ESender.WiiMote, false, false, false, false, char.MinValue, key);
+                var pool = new SKeyEvent(ESender.WiiMote, false, false, false, false, char.MinValue, key);
 
                 lock (_KeyCopyLock)
                 {
@@ -261,8 +261,8 @@ namespace Vocaluxe.Lib.Input.WiiMote
             float rx = ((p.X / 1024f) - reducing) * factor;
             float ry = ((p.Y / 768f) - reducing) * factor;
 
-            int x = (int)(rx * CSettings.RenderW);
-            int y = (int)(ry * CSettings.RenderH);
+            var x = (int)(rx * CSettings.RenderW);
+            var y = (int)(ry * CSettings.RenderH);
 
 
             bool lbh = !lb && ws.ButtonState.A;
@@ -273,7 +273,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
             if (gesture == EGesture.ScrollDown)
                 wheel = 1;
 
-            SMouseEvent mpool = new SMouseEvent();
+            var mpool = new SMouseEvent();
             bool trigger = false;
 
             if (!lb && !rb && (p.X != _OldPosition.X || p.Y != _OldPosition.Y))

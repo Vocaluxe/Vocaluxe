@@ -631,7 +631,7 @@ namespace VocaluxeLib.Menu
                                 CBase.Playlist.MovePlaylistSongUp(ActivePlaylistID, CurrentPlaylistElement + Offset);
                                 UpdatePlaylist();
 
-                                SKeyEvent key = new SKeyEvent {Key = Keys.Up};
+                                var key = new SKeyEvent {Key = Keys.Up};
 
                                 if (CurrentPlaylistElement > scrollLimit)
                                 {
@@ -660,7 +660,7 @@ namespace VocaluxeLib.Menu
                                 CBase.Playlist.MovePlaylistSongDown(ActivePlaylistID, CurrentPlaylistElement + Offset);
                                 UpdatePlaylist();
 
-                                SKeyEvent key = new SKeyEvent {Key = Keys.Down};
+                                var key = new SKeyEvent {Key = Keys.Down};
 
                                 if (CurrentPlaylistElement >= scrollLimit)
                                 {
@@ -973,7 +973,7 @@ namespace VocaluxeLib.Menu
 
                         if (!mouseEvent.LBH && DragAndDropSongID != -1)
                         {
-                            EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+                            var gm = EGameMode.TR_GAMEMODE_NORMAL;
                             CSong song = CBase.Songs.GetSongByID(DragAndDropSongID);
 
                             if (song != null)
@@ -1102,7 +1102,7 @@ namespace VocaluxeLib.Menu
 
             for (int i = 0; i < Math.Floor(Rect.H / _Theme.EntryHeight); i++)
             {
-                CPlaylistElement en = new CPlaylistElement
+                var en = new CPlaylistElement
                     {
                         Background = new CStatic(_PartyModeID, _Theme.TextureBackgroundName, BackgroundColor,
                                                  new SRectF(Rect.X, Rect.Y + (i * _Theme.EntryHeight), Rect.W, _Theme.EntryHeight, Rect.Z)),
@@ -1143,7 +1143,7 @@ namespace VocaluxeLib.Menu
                 _PlaylistElementContents.Clear();
                 for (int i = 0; i < CBase.Playlist.GetPlaylistSongCount(ActivePlaylistID); i++)
                 {
-                    CPlaylistElementContent pec = new CPlaylistElementContent
+                    var pec = new CPlaylistElementContent
                         {
                             SongID = CBase.Playlist.GetPlaylistSong(ActivePlaylistID, i).SongID,
                             Modes = CBase.Songs.GetSongByID(CBase.Playlist.GetPlaylistSong(ActivePlaylistID, i).SongID).AvailableGameModes,
@@ -1162,7 +1162,7 @@ namespace VocaluxeLib.Menu
             _PlaylistElementContents.Clear();
             for (int i = 0; i < CBase.Playlist.GetPlaylistSongCount(ActivePlaylistID); i++)
             {
-                CPlaylistElementContent pec = new CPlaylistElementContent {SongID = CBase.Playlist.GetPlaylistSong(ActivePlaylistID, i).SongID};
+                var pec = new CPlaylistElementContent {SongID = CBase.Playlist.GetPlaylistSong(ActivePlaylistID, i).SongID};
                 pec.Modes = CBase.Songs.GetSongByID(pec.SongID).AvailableGameModes;
                 pec.Mode = CBase.Playlist.GetPlaylistSong(ActivePlaylistID, i).GameMode;
                 _PlaylistElementContents.Add(pec);

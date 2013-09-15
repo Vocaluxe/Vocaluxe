@@ -52,14 +52,14 @@ namespace Vocaluxe.Base
         public static void Init()
         {
             LoadPlaylists();
-            ConvertUSDXPlaylists();
+            _ConvertUSDXPlaylists();
 
             _SortPlaylistsByName();
         }
 
-        public static void ConvertUSDXPlaylists()
+        private static void _ConvertUSDXPlaylists()
         {
-            List<string> files = new List<string>();
+            var files = new List<string>();
             files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.DataPath,CSettings.FolderPlaylists), "*.upl", true, true));
 
             foreach (string file in files)
@@ -73,12 +73,13 @@ namespace Vocaluxe.Base
         public static void LoadPlaylists()
         {
             _Playlists = new List<CPlaylistFile>();
-            List<string> files = new List<string>();
+
+            var files = new List<string>();
             files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.DataPath, CSettings.FolderPlaylists), "*.xml", true, true));
 
             foreach (string file in files)
             {
-                CPlaylistFile playlist = new CPlaylistFile(file);
+                var playlist = new CPlaylistFile(file);
                 _Playlists.Add(playlist);
             }
         }
@@ -126,7 +127,7 @@ namespace Vocaluxe.Base
 
         public static int NewPlaylist()
         {
-            CPlaylistFile pl = new CPlaylistFile {PlaylistName = "New Playlist"};
+            var pl = new CPlaylistFile {PlaylistName = "New Playlist"};
             _Playlists.Add(pl);
             return _Playlists.Count - 1;
         }
@@ -219,7 +220,7 @@ namespace Vocaluxe.Base
 
         private static CPlaylistFile _ConvertUSDXPlaylist(string file)
         {
-            CPlaylistFile pl = new CPlaylistFile();
+            var pl = new CPlaylistFile();
             ReadOnlyCollection<CSong> allSongs = CSongs.AllSongs;
 
             if (!File.Exists(file))
