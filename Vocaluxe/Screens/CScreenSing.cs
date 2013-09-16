@@ -868,6 +868,7 @@ namespace Vocaluxe.Screens
             }
             else
             {
+                CGame.ResetToLastLine(_CurrentStream, _CurrentVideo);
                 _Buttons[_ButtonCancel].Visible = false;
                 _Buttons[_ButtonContinue].Visible = false;
                 _Buttons[_ButtonSkip].Visible = false;

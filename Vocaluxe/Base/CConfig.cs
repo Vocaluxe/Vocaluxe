@@ -704,7 +704,7 @@ namespace Vocaluxe.Base
         /// <param name="args">Parameters</param>
         public static void LoadCommandLineParams(string[] args)
         {
-            var spliterParam = new Regex(@"-{1,2}|\/", RegexOptions.IgnoreCase);
+            Regex spliterParam = new Regex(@"-{1,2}|\/", RegexOptions.IgnoreCase);
 
             //Complete argument string
             string arguments = args.Aggregate(string.Empty, (current, arg) => current + (arg + " "));
@@ -713,7 +713,7 @@ namespace Vocaluxe.Base
 
             foreach (string text in args)
             {
-                var spliterVal = new Regex(@"\s", RegexOptions.IgnoreCase);
+                Regex spliterVal = new Regex(@"\s", RegexOptions.IgnoreCase);
 
                 //split arg with Spilter-Regex and save in parts
                 string[] parts = spliterVal.Split(text, 2);

@@ -43,14 +43,16 @@ namespace VocaluxeLib.Songs
         /// <param name="duration"></param>
         /// <param name="tone"></param>
         /// <param name="hitNote"></param>
-        public CSungNote(int startBeat, int duration, int tone, CSongNote hitNote, double points) : this(startBeat, duration, tone)
+        public CSungNote(int startBeat, int duration, int tone, CSongNote hitNote, double points, bool golden) : this(startBeat, duration, tone)
         {
             HitNote = hitNote;
             Points = points;
+            GoldenNote = golden;
         }
 
         #region Properties
         public double Points;
+        public bool GoldenNote;
         // for drawing player notes
         public bool Hit
         {

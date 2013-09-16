@@ -142,6 +142,7 @@ namespace Vocaluxe.Base
         public const bool TabNavigation = false;
 
         public const float BackgroundMusicFadeTime = 0.5f;
+        public const float PauseResetTime = 1f;
 
         public static readonly List<string> MusicFileTypes = new List<string>
             {
