@@ -242,6 +242,16 @@ namespace Vocaluxe.Base
                     if (line < 0 || lines[line].EndBeat < beat)
                         continue;
 
+                    //Check for already sung
+                    if (line < Players[p].SungLines.Count - 1)
+                        continue; // Already sung whole line
+                    if (line == Players[p].SungLines.Count - 1)
+                    {
+                        //We are in the last line
+                        if (beat <= Players[p].SungLines[line].LastNoteBeat)
+                            continue; //We already have something that ends with/after that beat
+                    }
+
                     if (line != Players[p].CurrentLine)
                         Players[p].CurrentNote = -1;
 
@@ -273,16 +283,8 @@ namespace Vocaluxe.Base
 
                         Players[p].NoteDiff = Math.Abs(tone - tonePlayer);
                         bool hit = Players[p].NoteDiff <= (2 - (int)CProfiles.GetDifficulty(Players[p].ProfileID));
-                        bool alreadySung = false;
-                        if (Players[p].SungLines.Count - 1 == line)
-                        {
-                            if (note < Players[p].SungLines[line].NoteCount)
-                                alreadySung = true;
-                        }
-                        else if (Players[p].SungLines.Count - 1 > line)
-                            alreadySung = true;
 
-                        if (hit && !alreadySung)
+                        if (hit)
                         {
                             // valid
                             //CSound.RecordSetTone(p, Tone);
@@ -312,7 +314,7 @@ namespace Vocaluxe.Base
                             Players[p].SungLines[line].LastNote.CheckPerfect();
                             Players[p].SungLines[line].IsPerfect(lines[line]);
                         }
-                        else //if(!alreadySung)
+                        else
                         {
                             if (Players[p].SungLines[line].NoteCount > 0)
                             {
