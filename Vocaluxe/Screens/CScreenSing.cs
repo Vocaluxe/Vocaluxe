@@ -502,13 +502,13 @@ namespace Vocaluxe.Screens
             }
 
             _Lyrics[_LyricSub].Draw(-100);
-            _Lyrics[_LyricMain].Draw(CGame.Beat);
+            _Lyrics[_LyricMain].Draw(CGame.CurrentBeatF);
 
             _Lyrics[_LyricSubDuet].Draw(-100);
-            _Lyrics[_LyricMainDuet].Draw(CGame.Beat);
+            _Lyrics[_LyricMainDuet].Draw(CGame.CurrentBeatF);
 
             _Lyrics[_LyricSubTop].Draw(-100);
-            _Lyrics[_LyricMainTop].Draw(CGame.Beat);
+            _Lyrics[_LyricMainTop].Draw(CGame.CurrentBeatF);
 
 
             for (int i = 0; i < CGame.NumPlayer; i++)

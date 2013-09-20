@@ -174,8 +174,8 @@ namespace VocaluxeLib
         void SetNumPlayer(int numPlayer);
         SPlayer[] GetPlayers();
         CPoints GetPoints();
-        float GetMidBeatD();
-        int GetCurrentBeatD();
+        float GetMidRecordedBeat();
+        int GetRecordedBeat();
 
         int GetRandom(int max);
         double GetRandomDouble();

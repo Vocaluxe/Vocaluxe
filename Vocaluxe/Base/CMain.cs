@@ -504,14 +504,14 @@ namespace Vocaluxe.Base
             return CGame.GetPoints();
         }
 
-        public float GetMidBeatD()
+        public float GetMidRecordedBeat()
         {
-            return CGame.MidBeatD;
+            return CGame.MidRecordedBeat;
         }
 
-        public int GetCurrentBeatD()
+        public int GetRecordedBeat()
         {
-            return CGame.ActBeatD;
+            return CGame.RecordedBeat;
         }
 
         public int GetRandom(int max)

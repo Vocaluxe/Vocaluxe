@@ -345,7 +345,7 @@ namespace VocaluxeLib.Menu.SingNotes
             }
 
             if (CBase.Config.GetDrawToneHelper() == EOffOn.TR_CONFIG_ON)
-                _DrawToneHelper(n, (int)baseLine, (CBase.Game.GetMidBeatD() - line.FirstNoteBeat) / beats * w);
+                _DrawToneHelper(n, (int)baseLine, (CBase.Game.GetMidRecordedBeat() - line.FirstNoteBeat) / beats * w);
 
             int i = 0;
             while (i < _PlayerNotes[n].PerfectLineTwinkle.Count)
@@ -373,8 +373,8 @@ namespace VocaluxeLib.Menu.SingNotes
             {
                 float width = note.Duration / beats * w;
 
-                if (note.EndBeat == CBase.Game.GetCurrentBeatD())
-                    width -= (1 - (CBase.Game.GetMidBeatD() - CBase.Game.GetCurrentBeatD())) / beats * w;
+                if (note.EndBeat == CBase.Game.GetRecordedBeat())
+                    width -= (1 - (CBase.Game.GetMidRecordedBeat() - CBase.Game.GetRecordedBeat())) / beats * w;
 
                 var rect = new SRectF(
                     _PlayerNotes[n].Rect.X + (note.StartBeat - line.FirstNoteBeat) / beats * w,
@@ -388,13 +388,13 @@ namespace VocaluxeLib.Menu.SingNotes
 
                 _DrawNote(rect, color, f);
 
-                if (note.EndBeat >= CBase.Game.GetCurrentBeatD() && note.Hit && note.HitNote.NoteType == ENoteType.Golden)
+                if (note.EndBeat >= CBase.Game.GetRecordedBeat() && note.Hit && note.HitNote.NoteType == ENoteType.Golden)
                 {
-                    var re = new SRectF(rect) {W = (CBase.Game.GetMidBeatD() - note.StartBeat) / beats * w};
+                    var re = new SRectF(rect) {W = (CBase.Game.GetMidRecordedBeat() - note.StartBeat) / beats * w};
                     _AddFlare(re, n);
                 }
 
-                if (note.Perfect && note.EndBeat < CBase.Game.GetCurrentBeatD())
+                if (note.Perfect && note.EndBeat < CBase.Game.GetRecordedBeat())
                 {
                     _AddPerfectNote(rect, n);
                     note.Perfect = false;

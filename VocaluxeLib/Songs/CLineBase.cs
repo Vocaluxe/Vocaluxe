@@ -29,12 +29,12 @@ namespace VocaluxeLib.Songs
         #region Properties
         public int FirstNoteBeat
         {
-            get { return (_Notes.Count == 0) ? int.MaxValue : _Notes[0].StartBeat; }
+            get { return (NoteCount == 0) ? int.MaxValue : _Notes[0].StartBeat; }
         }
 
         public int LastNoteBeat
         {
-            get { return (_Notes.Count == 0) ? int.MinValue : _Notes[_Notes.Count - 1].EndBeat; }
+            get { return (NoteCount == 0) ? int.MinValue : _Notes[NoteCount - 1].EndBeat; }
         }
 
         public int NoteCount
@@ -49,12 +49,12 @@ namespace VocaluxeLib.Songs
 
         public T FirstNote
         {
-            get { return _Notes.Count > 0 ? _Notes[0] : null; }
+            get { return NoteCount > 0 ? _Notes[0] : null; }
         }
 
         public T LastNote
         {
-            get { return _Notes.Count > 0 ? _Notes[_Notes.Count - 1] : null; }
+            get { return NoteCount > 0 ? _Notes[NoteCount - 1] : null; }
         }
 
         public int Points
@@ -141,7 +141,7 @@ namespace VocaluxeLib.Songs
         public bool IncLastNoteLength()
         {
             if (_Notes.Count > 0)
-                _Notes[_Notes.Count - 1].Duration++;
+                _Notes[NoteCount - 1].Duration++;
             return false;
         }
 
