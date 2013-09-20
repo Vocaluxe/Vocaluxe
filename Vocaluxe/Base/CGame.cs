@@ -301,7 +301,7 @@ namespace Vocaluxe.Base
                                 CSungNote lastNote = Players[p].SungLines[line].LastNote;
 
                                 if (notes[note].StartBeat == beat || lastNote.EndBeat + 1 != beat || lastNote.Tone != tone || !lastNote.Hit)
-                                    Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tone, notes[note], points, notes[note].NoteType == ENoteType.Golden));
+                                    Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tone, notes[note], points));
                                 else
                                 {
                                     Players[p].SungLines[line].IncLastNoteLength();
@@ -309,7 +309,7 @@ namespace Vocaluxe.Base
                                 }
                             }
                             else
-                                Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tone, notes[note], points, notes[note].NoteType == ENoteType.Golden));
+                                Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tone, notes[note], points));
 
                             Players[p].SungLines[line].LastNote.CheckPerfect();
                             Players[p].SungLines[line].IsPerfect(lines[line]);
@@ -384,7 +384,7 @@ namespace Vocaluxe.Base
                     {
                         if (note.StartBeat < nextStart)
                         {
-                            if (note.GoldenNote)
+                            if (note.Hit && note.HitNote.NoteType==ENoteType.Golden)
                                 Players[p].PointsGoldenNotes += note.Points;
                             Players[p].Points += note.Points;
                         }
@@ -394,7 +394,7 @@ namespace Vocaluxe.Base
                     }
                     while (line.NoteCount > n && n >= 0)
                     {
-                        if (line.Notes[n].GoldenNote)
+                        if (line.Notes[n].Hit && line.Notes[n].HitNote.NoteType == ENoteType.Golden)
                             Players[p].PointsGoldenNotes -= line.Notes[n].Points;
                         Players[p].Points -= line.Notes[n].Points;
                         line.DeleteNote(n);

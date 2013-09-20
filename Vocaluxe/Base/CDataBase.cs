@@ -951,7 +951,7 @@ namespace Vocaluxe.Base
             {
                 reader = command.ExecuteReader();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }
