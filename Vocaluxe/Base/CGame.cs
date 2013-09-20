@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -32,7 +30,7 @@ namespace Vocaluxe.Base
         private static int _NumPlayer = CConfig.NumPlayer;
 
         /// <summary>
-        /// Last beat that has been evaluated
+        ///     Last beat that has been evaluated
         /// </summary>
         private static int _LastEvalBeat;
         private static readonly Random _Rand = new Random();
@@ -56,25 +54,25 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
-        /// Currently played beat in song. This is floor(CurrentBeatF)
+        ///     Currently played beat in song. This is floor(CurrentBeatF)
         /// </summary>
         public static int CurrentBeat
         {
             get { return (int)Math.Floor(CurrentBeatF); }
         }
         /// <summary>
-        /// Currently played beat in song. A value of 1.5 indicates that the song is in the middle of 1st and 2nd beat
+        ///     Currently played beat in song. A value of 1.5 indicates that the song is in the middle of 1st and 2nd beat
         /// </summary>
         public static float CurrentBeatF { get; private set; }
 
         /// <summary>
-        /// Middle of the beat that got just recorded (CurrentBeat-MicDelayBeats-0.5)
-        /// A value of 2 indicates that beat 2 was recorded and is ready for evaluation.
-        /// A value of 2.5 indicates that beat 3 is half way there.
+        ///     Middle of the beat that got just recorded (CurrentBeat-MicDelayBeats-0.5)
+        ///     A value of 2 indicates that beat 2 was recorded and is ready for evaluation.
+        ///     A value of 2.5 indicates that beat 3 is half way there.
         /// </summary>
         public static float MidRecordedBeat { get; private set; }
         /// <summary>
-        /// Beat that got just recorded and can be evaluated. This is floor(MidRecordedBeat)
+        ///     Beat that got just recorded and can be evaluated. This is floor(MidRecordedBeat)
         /// </summary>
         public static int RecordedBeat
         {
