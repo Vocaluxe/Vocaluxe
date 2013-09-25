@@ -243,13 +243,13 @@ namespace Vocaluxe.Base
             return lastInsertID;
         }
 
-        public static void LoadScore(out List<SScores> scores, SPlayer player)
+        public static void LoadScore(out List<SDBScoreEntry> scores, SPlayer player)
         {
             using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
 
-                scores = new List<SScores>();
+                scores = new List<SDBScoreEntry>();
 
                 try
                 {
@@ -290,13 +290,13 @@ namespace Vocaluxe.Base
                         {
                             while (reader.Read())
                             {
-                                var score = new SScores
+                                var score = new SDBScoreEntry
                                     {
                                         Name = reader.GetString(0),
                                         Score = reader.GetInt32(1),
                                         Date = new DateTime(reader.GetInt64(2)).ToString("dd/MM/yyyy"),
                                         Difficulty = (EGameDifficulty)reader.GetInt32(3),
-                                        LineNr = reader.GetInt32(4),
+                                        VoiceNr = reader.GetInt32(4),
                                         ID = reader.GetInt32(5)
                                     };
 

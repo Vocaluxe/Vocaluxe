@@ -197,13 +197,13 @@ namespace VocaluxeLib
         public bool SongFinished;
     }
 
-    public struct SScores
+    public struct SDBScoreEntry
     {
         public string Name;
         public int Score;
         public string Date;
         public EGameDifficulty Difficulty;
-        public int LineNr;
+        public int VoiceNr;
         public int ID;
     }
 

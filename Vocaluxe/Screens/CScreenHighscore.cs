@@ -44,7 +44,7 @@ namespace Vocaluxe.Screens
         private string[] _TextDate;
         private string[] _ParticleEffectNew;
 
-        private List<SScores>[] _Scores;
+        private List<SDBScoreEntry>[] _Scores;
         private List<int> _NewEntryIDs;
         private int _Round;
         private int _Pos;
@@ -169,7 +169,7 @@ namespace Vocaluxe.Screens
                     string name = _Scores[_Round][_Pos + p].Name;
                     name += " [" + CLanguage.Translate(Enum.GetName(typeof(EGameDifficulty), _Scores[_Round][_Pos + p].Difficulty)) + "]";
                     if (_IsDuet)
-                        name += " (P" + (_Scores[_Round][_Pos + p].LineNr + 1) + ")";
+                        name += " (P" + (_Scores[_Round][_Pos + p].VoiceNr + 1) + ")";
                     _Texts[_TextName[p]].Text = name;
 
                     _Texts[_TextScore[p]].Text = _Scores[_Round][_Pos + p].Score.ToString("00000");
@@ -195,9 +195,9 @@ namespace Vocaluxe.Screens
             _Round = 0;
             _Pos = 0;
             CPoints points = CGame.GetPoints();
-            _Scores = new List<SScores>[points.NumRounds];
+            _Scores = new List<SDBScoreEntry>[points.NumRounds];
             for (int i = 0; i < _Scores.Length; i++)
-                _Scores[i] = new List<SScores>();
+                _Scores[i] = new List<SDBScoreEntry>();
             _NewEntryIDs.Clear();
             _AddScoresToDB();
             _LoadScores();
