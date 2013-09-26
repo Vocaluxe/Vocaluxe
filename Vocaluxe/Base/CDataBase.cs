@@ -63,8 +63,16 @@ namespace Vocaluxe.Base
             _CreditsRessourcesFilePath = Path.Combine(Environment.CurrentDirectory, CSettings.FileCreditsRessourcesDB);
 
             _InitHighscoreDB();
-            _InitCoverDB();
-            _InitCreditsRessourcesDB();
+            if (!_InitCoverDB())
+            {
+                CLog.LogError("Error initializing Cover-DB", true, true);
+                return;
+            }
+            if (!_InitCreditsRessourcesDB())
+            {
+                CLog.LogError("Error initializing Cover-DB", true, true);
+                return;
+            }
             GC.Collect();
         }
 
@@ -91,26 +99,6 @@ namespace Vocaluxe.Base
                 }
             }
             return _GetDataBaseSongInfos(songID, out sArtist, out sTitle, out numPlayed, out dateAdded, _HighscoreFilePath);
-        }
-
-        public static void IncreaseSongCounter(SPlayer player)
-        {
-            using (var connection = new SQLiteConnection())
-            {
-                connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
-
-                try
-                {
-                    connection.Open();
-                }
-                catch (Exception) {}
-
-                using (var command = new SQLiteCommand(connection))
-                {
-                    int dataBaseSongID = _GetDataBaseSongID(player, command);
-                    _IncreaseSongCounter(dataBaseSongID, command);
-                }
-            }
         }
 
         public static void IncreaseSongCounter(int dataBaseSongID)
@@ -170,11 +158,27 @@ namespace Vocaluxe.Base
                     return -1;
                 }
 
+                int medley = 0;
+                int duet = 0;
+                int shortSong = 0;
+                switch (player.GameMode)
+                {
+                    case EGameMode.TR_GAMEMODE_MEDLEY:
+                        medley = 1;
+                        break;
+                    case EGameMode.TR_GAMEMODE_DUET:
+                        duet = 1;
+                        break;
+                    case EGameMode.TR_GAMEMODE_SHORTSONG:
+                        shortSong = 1;
+                        break;
+                }
+
                 using (var command = new SQLiteCommand(connection))
                 {
                     int dataBaseSongID = CSongs.GetSong(player.SongID).DataBaseSongID;
-                    return _AddScore(CProfiles.GetPlayerName(player.ProfileID), (int)Math.Round(player.Points), player.VoiceNr, player.DateTicks, player.Medley ? 1 : 0,
-                                     player.Duet ? 1 : 0, player.ShortSong ? 1 : 0, (int)CProfiles.GetDifficulty(player.ProfileID), dataBaseSongID, command);
+                    return _AddScore(CProfiles.GetPlayerName(player.ProfileID), (int)Math.Round(player.Points), player.VoiceNr, player.DateTicks, medley,
+                                     duet, shortSong, (int)CProfiles.GetDifficulty(player.ProfileID), dataBaseSongID, command);
                 }
             }
         }
@@ -243,7 +247,7 @@ namespace Vocaluxe.Base
             return lastInsertID;
         }
 
-        public static void LoadScore(out List<SDBScoreEntry> scores, SPlayer player)
+        public static void LoadScore(out List<SDBScoreEntry> scores, int songID, EGameMode gameMode)
         {
             using (var connection = new SQLiteConnection())
             {
@@ -263,47 +267,51 @@ namespace Vocaluxe.Base
                 using (var command = new SQLiteCommand(connection))
                 {
                     int medley = 0;
-                    if (player.Medley)
-                        medley = 1;
-
                     int duet = 0;
-                    if (player.Duet)
-                        duet = 1;
-
                     int shortSong = 0;
-                    if (player.ShortSong)
-                        shortSong = 1;
-
-                    int dataBaseSongID = _GetDataBaseSongID(player, command);
-                    if (dataBaseSongID >= 0)
+                    switch (gameMode)
                     {
-                        command.CommandText = "SELECT PlayerName, Score, Date, Difficulty, LineNr, id FROM Scores " +
-                                              "WHERE [SongID] = @SongID AND [Medley] = @Medley AND [Duet] = @Duet AND [ShortSong] = @ShortSong " +
-                                              "ORDER BY [Score] DESC";
-                        command.Parameters.Add("@SongID", DbType.Int32, 0).Value = dataBaseSongID;
-                        command.Parameters.Add("@Medley", DbType.Int32, 0).Value = medley;
-                        command.Parameters.Add("@Duet", DbType.Int32, 0).Value = duet;
-                        command.Parameters.Add("@ShortSong", DbType.Int32, 0).Value = shortSong;
+                        case EGameMode.TR_GAMEMODE_MEDLEY:
+                            medley = 1;
+                            break;
+                        case EGameMode.TR_GAMEMODE_DUET:
+                            duet = 1;
+                            break;
+                        case EGameMode.TR_GAMEMODE_SHORTSONG:
+                            shortSong = 1;
+                            break;
+                    }
 
-                        SQLiteDataReader reader = command.ExecuteReader();
-                        if (reader != null && reader.HasRows)
+                    int dataBaseSongID = _GetDataBaseSongID(songID, command);
+                    if (dataBaseSongID < 0)
+                        return;
+
+                    command.CommandText = "SELECT PlayerName, Score, Date, Difficulty, LineNr, id FROM Scores " +
+                                          "WHERE [SongID] = @SongID AND [Medley] = @Medley AND [Duet] = @Duet AND [ShortSong] = @ShortSong " +
+                                          "ORDER BY [Score] DESC";
+                    command.Parameters.Add("@SongID", DbType.Int32, 0).Value = dataBaseSongID;
+                    command.Parameters.Add("@Medley", DbType.Int32, 0).Value = medley;
+                    command.Parameters.Add("@Duet", DbType.Int32, 0).Value = duet;
+                    command.Parameters.Add("@ShortSong", DbType.Int32, 0).Value = shortSong;
+
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    if (reader != null && reader.HasRows)
+                    {
+                        while (reader.Read())
                         {
-                            while (reader.Read())
-                            {
-                                var score = new SDBScoreEntry
-                                    {
-                                        Name = reader.GetString(0),
-                                        Score = reader.GetInt32(1),
-                                        Date = new DateTime(reader.GetInt64(2)).ToString("dd/MM/yyyy"),
-                                        Difficulty = (EGameDifficulty)reader.GetInt32(3),
-                                        VoiceNr = reader.GetInt32(4),
-                                        ID = reader.GetInt32(5)
-                                    };
+                            var score = new SDBScoreEntry
+                                {
+                                    Name = reader.GetString(0),
+                                    Score = reader.GetInt32(1),
+                                    Date = new DateTime(reader.GetInt64(2)).ToString("dd/MM/yyyy"),
+                                    Difficulty = (EGameDifficulty)reader.GetInt32(3),
+                                    VoiceNr = reader.GetInt32(4),
+                                    ID = reader.GetInt32(5)
+                                };
 
-                                scores.Add(score);
-                            }
-                            reader.Dispose();
+                            scores.Add(score);
                         }
+                        reader.Dispose();
                     }
                 }
             }
@@ -316,9 +324,9 @@ namespace Vocaluxe.Base
             command.ExecuteNonQuery();
         }
 
-        private static int _GetDataBaseSongID(SPlayer player, SQLiteCommand command)
+        private static int _GetDataBaseSongID(int songID, SQLiteCommand command)
         {
-            CSong song = CSongs.GetSong(player.SongID);
+            CSong song = CSongs.GetSong(songID);
 
             if (song == null)
                 return -1;
@@ -430,21 +438,35 @@ namespace Vocaluxe.Base
             {
                 if (File.Exists(_HighscoreFilePath))
                 {
-                    _CreateOrConvert(oldDBFilePath);
-                    _CreateOrConvert(_HighscoreFilePath);
-                    _ImportData(oldDBFilePath);
-
-                    File.Delete(oldDBFilePath);
+                    if (!_CreateOrConvert(oldDBFilePath))
+                    {
+                        CLog.LogError("Cannot init Highscore DB: Error opening database: " + oldDBFilePath, true, true);
+                        return;
+                    }
+                    if (!_CreateOrConvert(_HighscoreFilePath))
+                    {
+                        CLog.LogError("Cannot init Highscore DB: Error opening database: " + _HighscoreFilePath, true, true);
+                        return;
+                    }
+                    if (!_ImportData(oldDBFilePath))
+                    {
+                        CLog.LogError("Cannot init Highscore DB: Error importing data", true, true);
+                        return;
+                    }
                 }
                 else
                 {
                     File.Copy(oldDBFilePath, _HighscoreFilePath);
-                    _CreateOrConvert(_HighscoreFilePath);
-                    File.Delete(oldDBFilePath);
+                    if (!_CreateOrConvert(_HighscoreFilePath))
+                    {
+                        CLog.LogError("Cannot init Highscore DB: Error opening database: " + _HighscoreFilePath, true, true);
+                        return;
+                    }
                 }
+                File.Delete(oldDBFilePath);
             }
-            else
-                _CreateOrConvert(_HighscoreFilePath);
+            else if (!_CreateOrConvert(_HighscoreFilePath))
+                CLog.LogError("Cannot init Highscore DB: Error opening database: " + _HighscoreFilePath, true, true);
         }
 
         private static void _CreateHighscoreDB(string filePath)
@@ -525,6 +547,7 @@ namespace Vocaluxe.Base
         /// <returns></returns>
         private static bool _CreateOrConvert(string filePath)
         {
+            bool result = true;
             using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + filePath;
@@ -565,46 +588,24 @@ namespace Vocaluxe.Base
                     }
                     catch (Exception) {}
 
-                    if (reader == null)
+                    if (reader == null || reader.FieldCount == 0)
                     {
                         // create new database/tables
                         if (version == 1)
                         {
                             //Check for USDX 1.1 DB
                             _CreateHighscoreDBV1(filePath);
-                            _ConvertFrom110(filePath);
-                            _UpdateDatabase(1, connection);
-                            _UpdateDatabase(2, connection);
+                            result &= !_ConvertFrom110(filePath);
+                            result &= _UpdateDatabase(1, connection);
+                            result &= _UpdateDatabase(2, connection);
                         }
                         else if (version == 0 && scoresTableExists)
                         {
                             //Check for USDX 1.01 or CMD Mod DB
                             _CreateHighscoreDBV1(filePath);
-                            _ConvertFrom101(filePath);
-                            _UpdateDatabase(1, connection);
-                            _UpdateDatabase(2, connection);
-                        }
-                        else
-                            _CreateHighscoreDB(filePath);
-                    }
-                    else if (reader.FieldCount == 0)
-                    {
-                        // create new database/tables
-                        if (version == 1)
-                        {
-                            //Check for USDX 1.1 DB
-                            _CreateHighscoreDBV1(filePath);
-                            _ConvertFrom110(filePath);
-                            _UpdateDatabase(1, connection);
-                            _UpdateDatabase(2, connection);
-                        }
-                        else if (version == 0 && scoresTableExists)
-                        {
-                            //Check for USDX 1.01 or CMD Mod DB
-                            _CreateHighscoreDBV1(filePath);
-                            _ConvertFrom101(filePath);
-                            _UpdateDatabase(1, connection);
-                            _UpdateDatabase(2, connection);
+                            result &= _ConvertFrom101(filePath);
+                            result &= _UpdateDatabase(1, connection);
+                            result &= _UpdateDatabase(2, connection);
                         }
                         else
                             _CreateHighscoreDB(filePath);
@@ -616,7 +617,7 @@ namespace Vocaluxe.Base
                         if (currentVersion < CSettings.DatabaseHighscoreVersion)
                         {
                             // update database
-                            _UpdateDatabase(currentVersion, connection);
+                            result &= _UpdateDatabase(currentVersion, connection);
                         }
                     }
 
@@ -625,7 +626,7 @@ namespace Vocaluxe.Base
                 }
             }
 
-            return true;
+            return result;
         }
 
         /// <summary>
@@ -972,8 +973,7 @@ namespace Vocaluxe.Base
                     lastDateAdded = dateAdded;
                 }
             }
-            if (reader != null)
-                reader.Dispose();
+            reader.Dispose();
 
             foreach (int id in ids)
                 _IncreaseSongCounter(id, command);

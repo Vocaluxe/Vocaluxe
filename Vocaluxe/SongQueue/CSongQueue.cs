@@ -123,9 +123,7 @@ namespace Vocaluxe.SongQueue
                         _CurrentSong,
                         _SongQueue[_CurrentSong].SongID,
                         players,
-                        _SongQueue[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_MEDLEY,
-                        _SongQueue[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_DUET,
-                        _SongQueue[_CurrentSong].GameMode == EGameMode.TR_GAMEMODE_SHORTSONG);
+                        _SongQueue[_CurrentSong].GameMode);
                 }
                 _CurrentSong++;
             }

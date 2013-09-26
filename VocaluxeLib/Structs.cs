@@ -190,9 +190,7 @@ namespace VocaluxeLib
         public int CurrentNote;
 
         public int SongID;
-        public bool Medley;
-        public bool Duet;
-        public bool ShortSong;
+        public EGameMode GameMode;
         public long DateTicks;
         public bool SongFinished;
     }

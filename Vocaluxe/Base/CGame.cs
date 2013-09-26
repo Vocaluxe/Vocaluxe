@@ -197,9 +197,7 @@ namespace Vocaluxe.Base
                 Players[i].CurrentLine = -1;
                 Players[i].CurrentNote = -1;
                 Players[i].SongID = -1;
-                Players[i].Medley = false;
-                Players[i].Duet = false;
-                Players[i].ShortSong = false;
+                Players[i].GameMode = EGameMode.TR_GAMEMODE_NORMAL;
                 Players[i].DateTicks = DateTime.Now.Ticks;
                 Players[i].SongFinished = false;
             }
@@ -384,7 +382,7 @@ namespace Vocaluxe.Base
                     {
                         if (note.StartBeat < nextStart)
                         {
-                            if (note.Hit && note.HitNote.NoteType==ENoteType.Golden)
+                            if (note.Hit && note.HitNote.NoteType == ENoteType.Golden)
                                 Players[p].PointsGoldenNotes += note.Points;
                             Players[p].Points += note.Points;
                         }

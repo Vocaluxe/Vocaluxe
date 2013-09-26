@@ -239,7 +239,7 @@ namespace Vocaluxe.Screens
             for (int round = 0; round < points.NumRounds; round++)
             {
                 SPlayer player = points.GetPlayer(round, CGame.NumPlayer)[0];
-                CDataBase.LoadScore(out _Scores[round], player);
+                CDataBase.LoadScore(out _Scores[round], player.SongID, player.GameMode);
             }
         }
 
