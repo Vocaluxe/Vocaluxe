@@ -91,6 +91,7 @@ namespace Vocaluxe.Base
         public const string FolderThemeFonts = "Fonts";
         public const string FolderScreens = "Screens";
         public static string FolderProfiles = "Profiles";
+        public static string FolderPhotos = "Photos";
         public const string FolderSongs = "Songs";
         public const string FolderSounds = "Sounds";
         public const string FolderLanguages = "Languages";

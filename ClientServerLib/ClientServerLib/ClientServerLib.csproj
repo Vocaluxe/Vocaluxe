@@ -12,6 +12,8 @@
     <AssemblyName>ClientServerLib</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,6 +35,11 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,6 +51,8 @@
     <Compile Include="CConnection.cs" />
     <Compile Include="CDiscover.cs" />
     <Compile Include="CServer.cs" />
+    <Compile Include="CWebservice.cs" />
+    <Compile Include="DataStructs.cs" />
     <Compile Include="DeffieHellman\BigInt.cs" />
     <Compile Include="DeffieHellman\DeffieHellman.cs" />
     <Compile Include="DeffieHellman\StrongNumberProvider.cs" />

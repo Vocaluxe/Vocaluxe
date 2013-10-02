@@ -307,6 +307,16 @@ namespace Vocaluxe.Base
             return list.ToArray();
         }
 
+        public static CProfile GetProfile(int profileID)
+        {
+            if (!IsProfileIDValid(profileID))
+            {
+                return null;
+            }                
+
+            return _Profiles[profileID];          
+        }
+
         public static IEnumerable<CAvatar> GetAvatars()
         {
             if (_Avatars.Count == 0)
@@ -480,6 +490,14 @@ namespace Vocaluxe.Base
                 return -1;
 
             return _Profiles[profileID].Avatar.ID;
+        }
+
+        public static CAvatar GetAvatar(int profileID)
+        {
+            if (!IsProfileIDValid(profileID))
+                return null;
+
+            return _Profiles[profileID].Avatar;
         }
 
         public static int GetProfileID(int num)

@@ -77,34 +77,34 @@ namespace Vocaluxe.Base.Server
         #region Profiles
         public static byte[] CreateCommandSendAvatarPicture(int Width, int Height, byte[] data)
         {
-            SAvatarPicture ap = new SAvatarPicture();
+            SPicture ap = new SPicture();
             ap.Height = Height;
             ap.Width = Width;
             ap.data = new byte[data.Length];
             Array.Copy(data, ap.data, data.Length);
 
-            return Serialize<SAvatarPicture>(CommandSendAvatarPicture, ap);
+            return Serialize<SPicture>(CommandSendAvatarPicture, ap);
         }
 
-        public static bool DecodeCommandSendAvatarPicture(byte[] Message, out SAvatarPicture AvatarPicture)
+        public static bool DecodeCommandSendAvatarPicture(byte[] Message, out SPicture AvatarPicture)
         {
-            return TryDeserialize<SAvatarPicture>(Message, out AvatarPicture);
+            return TryDeserialize<SPicture>(Message, out AvatarPicture);
         }
 
         public static byte[] CreateCommandSendAvatarPictureJpg(byte[] AvatarJpgData)
         {
-            SAvatarPicture ap = new SAvatarPicture();
+            SPicture ap = new SPicture();
             ap.Height = 0;
             ap.Width = 0;
             ap.data = new byte[AvatarJpgData.Length];
             Array.Copy(AvatarJpgData, ap.data, AvatarJpgData.Length);
 
-            return Serialize<SAvatarPicture>(CommandSendAvatarPictureJpg, ap);
+            return Serialize<SPicture>(CommandSendAvatarPictureJpg, ap);
         }
 
         public static byte[] CreateCommandSendProfile(byte[] AvatarJpgData, string PlayerName, int Difficulty)
         {
-            SAvatarPicture ap = new SAvatarPicture();
+            SPicture ap = new SPicture();
             ap.Height = 0;
             ap.Width = 0;
             ap.data = new byte[AvatarJpgData.Length];

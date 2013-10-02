@@ -7,7 +7,7 @@ namespace Vocaluxe.Base.Server
         public byte[] SHA256;
     }
 
-    public struct SAvatarPicture
+    public struct SPicture
     {
         public int Width;
         public int Height;
@@ -16,7 +16,7 @@ namespace Vocaluxe.Base.Server
 
     public struct SProfile
     {
-        public SAvatarPicture Avatar;
+        public SPicture Avatar;
         public string PlayerName;
         public int Difficulty;
     }

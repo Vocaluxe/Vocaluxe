@@ -45,9 +45,22 @@ namespace Vocaluxe.Base.Server
         {
             _Clients = new Dictionary<int, CClientHandler>();
             if (CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON)
-                _Server = new CServer(RequestHandler, CConfig.ServerPort, CConfig.ServerPassword);
+            {
+                _Server = new CServer(CConfig.ServerPort);
+                //_Server = new CServer(RequestHandler, CConfig.ServerPort, CConfig.ServerPassword);
+            }
             else
-                _Server = new CServer(RequestHandler, CConfig.ServerPort, String.Empty);
+            {
+                _Server = new CServer(CConfig.ServerPort);
+                //_Server = new CServer(RequestHandler, CConfig.ServerPort, String.Empty);
+            }
+
+            CServer.SendKeyEvent = sendKeyEvent;
+            CServer.GetProfileData = getProfileData;
+            CServer.SendProfileData = sendProfileData;
+            CServer.GetProfileList = getProfileList;
+            CServer.SendPhoto = sendPhoto;
+            CServer.GetSiteFile = getSiteFile;
 
             _Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
             Controller.Init();
@@ -69,140 +82,263 @@ namespace Vocaluxe.Base.Server
             _Clients = new Dictionary<int, CClientHandler>();
         }
 
-        private static byte[] RequestHandler(int connectionID, byte[] message)
+        private static bool sendKeyEvent(string key)
         {
-            byte[] answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseNOK);
-
-            if (message == null)
-                return answer;
-
-            if (message.Length < 4)
-                return answer;
-
-            bool loggedIn;
-            lock (_Clients)
+            bool result = false;
+            if (key != null && key != "")
             {
-                if (!_Clients.ContainsKey(connectionID))
+                switch (key.ToLower())
                 {
-                    CClientHandler client = new CClientHandler(connectionID);
-                    _Clients.Add(connectionID, client);
-                }
-
-                loggedIn = _Clients[connectionID].LoggedIn;
-            }
-
-            int command = BitConverter.ToInt32(message, 0);
-
-            switch (command)
-            {
-                case CCommands.CommandSendKeyUp:
-                    answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
-                    Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Up));
-                    break;
-
-                case CCommands.CommandSendKeyDown:
-                    answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
-                    Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Down));
-                    break;
-
-                case CCommands.CommandSendKeyLeft:
-                    answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
-                    Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Left));
-                    break;
-
-                case CCommands.CommandSendKeyRight:
-                    answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
-                    Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Right));
-                    break;
-
-                case CCommands.CommandSendAvatarPicture:
-
-                    SAvatarPicture avatarPicture;
-                    if (CCommands.DecodeCommandSendAvatarPicture(message, out avatarPicture))
-                    {
-                        using (Bitmap bmp = new Bitmap(avatarPicture.Width, avatarPicture.Height))
+                    case "up":
+                        Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Up));
+                        result = true;
+                        break;
+                    case "down":
+                        Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Down));
+                        result = true;
+                        break;
+                    case "left":
+                        Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Left));
+                        result = true;
+                        break;
+                    case "right":
+                        Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Right));
+                        result = true;
+                        break;
+                    case "escape":
+                        Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Escape));
+                        result = true;
+                        break;
+                    case "return":
+                        Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Return));
+                        result = true;
+                        break;
+                    case "tab":
+                        Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Tab));
+                        result = true;
+                        break;
+                    default:
+                        foreach (char c in key.ToCharArray())
                         {
-                            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-                            Marshal.Copy(avatarPicture.data, 0, bmpData.Scan0, avatarPicture.data.Length);
-                            bmp.UnlockBits(bmpData);
-
-                            const string filename = "snapshot";
-                            int i = 0;
-                            while (File.Exists(Path.Combine(CSettings.FolderProfiles, filename + i + ".png")))
-                                i++;
-                            bmp.Save(Path.Combine(CSettings.FolderProfiles, filename + i + ".png"), ImageFormat.Png);
-                        }
-
-                        answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
-                    }
-                    break;
-
-                case CCommands.CommandSendAvatarPictureJpg:
-
-                    SAvatarPicture avatarPictureJpg;
-                    if (CCommands.DecodeCommandSendAvatarPicture(message, out avatarPictureJpg))
-                    {
-                        if (_AddAvatar(avatarPictureJpg.data) != String.Empty)
-                            answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
-                    }
-                    break;
-
-                case CCommands.CommandSendProfile:
-                    SProfile profile;
-                    if (CCommands.DecodeCommandSendProfile(message, out profile))
-                    {
-                        try
-                        {
-                            string avatarFilename = _AddAvatar(profile.Avatar.data);
-                            if (avatarFilename != String.Empty)
+                            bool shift = true;
+                            char keyChar;
+                            if (char.ToUpper(c) != c)
                             {
-                                CProfile p = new CProfile
-                                    {
-                                        Active = EOffOn.TR_CONFIG_ON,
-                                        AvatarFileName = avatarFilename,
-                                        Difficulty = (EGameDifficulty)profile.Difficulty,
-                                        GuestProfile = EOffOn.TR_CONFIG_OFF,
-                                        PlayerName = profile.PlayerName
-                                    };
-                                CProfiles.AddProfile(p);
-                                answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
+                                keyChar = char.ToUpper(c);
+                                shift = false;
+                            }
+                            else
+                            {
+                                keyChar = c;
+                            }
+
+                            if ((keyChar >= 0x30 && keyChar <= 0x39) || (keyChar >= 0x41 && keyChar <= 0x5A))
+                            {
+                                Keys keys = (Keys)keyChar;
+                                if (shift)
+                                {
+                                    keys |= Keys.Shift;
+                                }
+                                Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, keys));
+                                result = true;
                             }
                         }
-                        catch (Exception) {}
-                    }
-
-                    break;
+                        break;
+                }
             }
 
-            return answer;
+            return result;
+
         }
 
-        private static string _AddAvatar(byte[] jpgData)
+        #region profile
+
+        private static ProfileData getProfileData(int profileId)
+        {
+            CProfile profile = CProfiles.GetProfile(profileId);
+            if (profile == null)
+            {
+                return new ProfileData();
+            }
+            return CreateProfileData(profile); ;
+        }
+
+        private static bool sendProfileData(ProfileData profile)
+        {
+            CProfile newProfile;
+            CProfile existingProfile = CProfiles.GetProfile(profile.ProfileId);
+
+            if (existingProfile != null)
+            {
+                newProfile = new CProfile
+                {
+                    Active = existingProfile.Active,
+                    AvatarFileName = existingProfile.AvatarFileName,
+                    Avatar = existingProfile.Avatar,
+                    Difficulty = existingProfile.Difficulty,
+                    GuestProfile = existingProfile.GuestProfile,
+                    PlayerName = existingProfile.PlayerName
+                };
+            }
+            else
+            {
+                newProfile = new CProfile
+                {
+                    Active = EOffOn.TR_CONFIG_ON,
+                    GuestProfile = EOffOn.TR_CONFIG_OFF
+                };
+            }
+
+            if (profile.Avatar != null)
+            {
+                newProfile.Avatar = _AddAvatar(profile.Avatar);
+
+            }
+            else if (newProfile.Avatar == null)
+            {
+                //TODO:standardAvatar                
+            }
+
+            if (profile.PlayerName != null && profile.PlayerName != "")
+            {
+                newProfile.PlayerName = profile.PlayerName;
+            }
+            else if (newProfile.PlayerName != null && newProfile.PlayerName != "")
+            {
+                newProfile.PlayerName = "DummyName";
+            }
+
+            if (profile.Difficulty >= 0 && profile.Difficulty <= 2)
+            {
+                newProfile.Difficulty = (EGameDifficulty)profile.Difficulty;
+            }
+
+            if (existingProfile != null)
+            {
+                CProfiles.EditProfile(newProfile);
+            }
+            else
+            {
+                CProfiles.AddProfile(newProfile);
+            }
+
+            return true;
+        }
+
+        private static ProfileData[] getProfileList()
+        {
+            List<ProfileData> result = new List<ProfileData>(CProfiles.NumProfiles);
+
+            foreach (CProfile profile in CProfiles.GetProfiles())
+            {
+                result.Add(CreateProfileData(profile));
+            }
+
+            return result.ToArray();
+        }
+
+        private static ProfileData CreateProfileData(CProfile profile)
+        {
+            ProfileData profileData = new ProfileData();
+
+            profileData.IsEditable = true; //TODO: set correctly 
+            profileData.PlayerName = profile.PlayerName;
+            profileData.Type = (int)profile.GuestProfile;
+            profileData.Difficulty = (int)profile.Difficulty;
+            CAvatar avatar = profile.Avatar;
+            if (avatar != null)
+            {
+                if (File.Exists(avatar.FileName))
+                {
+                    Image avatarImage = Image.FromFile(avatar.FileName);
+                    //TODO: Convert??? and Compress?
+                    profileData.Avatar = new Base64Image(avatarImage, avatarImage.RawFormat);
+                }
+            }
+            return profileData;
+        }
+
+        private static CAvatar _AddAvatar(Base64Image avatarData)
         {
             string result = String.Empty;
             try
             {
-                string filename = Path.Combine(CSettings.FolderProfiles, "snapshot");
-                int i = 0;
-                while (File.Exists(filename + i + ".jpg"))
-                    i++;
-
-                filename = filename + i + ".jpg";
-                FileStream fs = File.Create(filename);
-                fs.Write(jpgData, 0, jpgData.Length);
-                fs.Flush();
-                fs.Close();
+                string filename = _SaveImage(avatarData, "snapshot", CSettings.FolderProfiles);
 
                 CAvatar avatar = new CAvatar(-1);
                 if (avatar.LoadFromFile(filename))
                 {
                     CProfiles.AddAvatar(avatar);
-                    result = filename;
+                    return avatar;
+                }
+                else
+                {
+                    return null;
                 }
             }
-            catch {}
+            catch
+            {
+                return null;
+            }
+        }
 
-            return result;
+        #endregion
+
+        #region photo
+
+        private static bool sendPhoto(PhotoData photoData)
+        {
+            if (photoData.Photo == null)
+            {
+                return false;
+            }
+
+            string name = DateTime.Now.ToString("yyyy-MM-DD-hh-mm-ss");
+            string filePath = _SaveImage(photoData.Photo, name, CSettings.FolderPhotos);
+
+            return (filePath != null && filePath != "");
+        }
+
+        #endregion
+
+        #region website
+
+        private static byte[] getSiteFile(string filename)
+        {
+            string path = "Website/" + filename;
+            path = path.Replace("..", "");
+
+            if (!File.Exists(path))
+            {
+                return null;
+            }
+
+            /*string content = File.ReadAllText(path);
+
+            content = content.Replace("%SERVER%", System.Net.Dns.GetHostName() + ":" + CConfig.ServerPort);
+
+
+            return Encoding.UTF8.GetBytes(content);*/
+
+            return File.ReadAllBytes(path);
+        }
+
+        #endregion
+
+        private static string _SaveImage(Base64Image imageDate, string name, string folder)
+        {
+            Image avatarImage = imageDate.getImage();
+            string extension = imageDate.getImageType();
+
+            string filename = Path.Combine(folder, name);
+            int i = 0;
+            while (File.Exists(filename + "_" + i + "." + extension))
+            {
+                i++;
+            }
+            filename = filename + "_" + i + "." + extension;
+            avatarImage.Save(filename);
+            return filename;
         }
     }
 }

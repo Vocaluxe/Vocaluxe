@@ -50,5 +50,10 @@ namespace VocaluxeLib.Profile
         {
             CBase.Drawing.RemoveTexture(ref Texture);
         }
+
+        public string getFileName()
+        {
+            return FileName;
+        }
     }
 }
