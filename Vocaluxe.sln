@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vocaluxe", "Vocaluxe\Vocaluxe.csproj", "{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}"
@@ -6,6 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vocaluxe", "Vocaluxe\Vocalu
 		{6F3E1874-F28A-40E9-AFBD-31934D593678} = {6F3E1874-F28A-40E9-AFBD-31934D593678}
 		{6F3E1874-F28A-40E9-AFBD-31934D593679} = {6F3E1874-F28A-40E9-AFBD-31934D593679}
 		{ED007796-367F-4142-AA55-5450C7645C2C} = {ED007796-367F-4142-AA55-5450C7645C2C}
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3} = {EC5167E4-CCFB-4CEE-987C-CF816F1062A3}
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC} = {D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}
 		{5A4053F1-5AD5-441F-B254-D97A088127B6} = {5A4053F1-5AD5-441F-B254-D97A088127B6}
 	EndProjectSection
@@ -19,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyModeChallengeMedley", "PartyModes\PartyModeChallengeMedley\PartyModeChallengeMedley.csproj", "{6F3E1874-F28A-40E9-AFBD-31934D593678}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GstreamerHelper", "GstreamerHelper\GstreamerHelper.vcxproj", "{ED007796-367F-4142-AA55-5450C7645C2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientServerLib", "ClientServerLib\ClientServerLib\ClientServerLib.csproj", "{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +61,9 @@ Global
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugLinux|x64.Build.0 = DebugLinux|x64
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugLinux|x86.ActiveCfg = DebugLinux|x86
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugLinux|x86.Build.0 = DebugLinux|x86
+		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugWin|Any CPU.ActiveCfg = DebugWin|x86
+		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugWin|Mixed Platforms.ActiveCfg = DebugWin|x86
+		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugWin|Mixed Platforms.Build.0 = DebugWin|x86
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugWin|x64.ActiveCfg = DebugWin|x64
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugWin|x64.Build.0 = DebugWin|x64
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}.DebugWin|x86.ActiveCfg = DebugWin|x86
@@ -150,6 +156,16 @@ Global
 		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseWin|x64.Build.0 = ReleaseWin|x64
 		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseWin|x86.ActiveCfg = ReleaseWin|Win32
 		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseWin|x86.Build.0 = ReleaseWin|Win32
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x64.ActiveCfg = Debug|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x86.ActiveCfg = Debug|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x64.ActiveCfg = Debug|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x86.ActiveCfg = Debug|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.Release|x64.ActiveCfg = Release|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.Release|x86.ActiveCfg = Release|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x64.ActiveCfg = Release|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x86.ActiveCfg = Release|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x64.ActiveCfg = Release|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

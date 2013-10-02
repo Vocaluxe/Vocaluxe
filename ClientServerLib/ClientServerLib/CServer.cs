@@ -1,194 +1,111 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Text;
-using System.Threading;
+using System.ServiceModel;
+using System.ServiceModel.Description;
+using System.ServiceModel.Web;
 
 namespace ClientServerLib
 {
     public class CServer
     {
-        private TcpListener tcpListener;
-        private Thread listenThread;
-        private int port;
-        private bool encryption;
-        private string password;
-        private int bufferLength = 8192;
-        private bool running;
+        private ServiceHost host;
+        private Uri baseAddress;
 
-        private HandleRequest requestCallback;
-
-        private Dictionary<int, CConnection> clients;
-        private  Queue<int> ids;
-
-        public CServer(HandleRequest RequestCallback, int Port = 3000, string Password = null)
+        private static SendKeyEventDelegate sendKeyEvent;
+        public static SendKeyEventDelegate SendKeyEvent
         {
-            port = Port;
-            running = false;
-            requestCallback = RequestCallback;
-            encryption = Password != null;
-            password = Password;
+            internal get { return CServer.sendKeyEvent; }
+            set { CServer.sendKeyEvent = value; }
+        }
 
-            clients = new Dictionary<int, CConnection>();
-            ids = new Queue<int>(1000);
+        #region profile
 
-            for (int i = 0; i < 1000; i++)
-                ids.Enqueue(i);
+        private static GetProfileDataDelegate getProfileData;
+        public static GetProfileDataDelegate GetProfileData
+        {
+            internal get { return CServer.getProfileData; }
+            set { CServer.getProfileData = value; }
+        }
+
+        private static SendProfileDataDelegate sendProfileData;
+        public static SendProfileDataDelegate SendProfileData
+        {
+            internal get { return CServer.sendProfileData; }
+            set { CServer.sendProfileData = value; }
+        }
+
+        private static GetProfileListDelegate getProfileList;
+        public static GetProfileListDelegate GetProfileList
+        {
+            internal get { return CServer.getProfileList; }
+            set { CServer.getProfileList = value; }
+        }
+
+
+        #endregion
+
+        #region photo
+        private static SendPhotoDelegate sendPhoto;
+        public static SendPhotoDelegate SendPhoto
+        {
+            get { return CServer.sendPhoto; }
+            set { CServer.sendPhoto = value; }
+        }
+
+        #endregion
+
+        #region website
+
+        private static GetSiteFileDelegate getSiteFile;
+        public static GetSiteFileDelegate GetSiteFile
+        {
+            internal get { return CServer.getSiteFile; }
+            set { CServer.getSiteFile = value; }
+        }
+
+        #endregion
+
+        public CServer(int port)
+        {
+            baseAddress = new Uri("http://localhost:" + port + "/");
+            host = new WebServiceHost(typeof(CWebservice), baseAddress);
+            WebHttpBinding wb = new WebHttpBinding();
+            wb.MaxReceivedMessageSize = 10485760;
+            wb.MaxBufferSize = 10485760;
+            host.AddServiceEndpoint(typeof(ICWebservice), wb, "Vocaluxe");
         }
 
         public void Start()
         {
-            if (!running)
+            try
             {
-                running = true;
+                // Step 4 Enable metadata exchange.
+                ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
+                smb.MetadataExporter.PolicyVersion = PolicyVersion.Policy15;
+                smb.HttpGetEnabled = true;
+                host.Description.Behaviors.Add(smb);
 
-                tcpListener = new TcpListener(IPAddress.Any, port);
-
-                listenThread = new Thread(new ThreadStart(ListenForClients));
-                listenThread.Start();
+                // Step 5 Start the service.
+                host.Open();
+            }
+            catch (CommunicationException ce)
+            {
+                host.Abort();
             }
         }
 
         public void Stop()
         {
-            if (running)
+            try
             {
-                running = false;
-                tcpListener.Stop();
-                Thread.Sleep(100);
-                listenThread.Join();
-
-                lock (clients)
-                {
-                    int[] cIDs = new int[clients.Count];
-                    clients.Keys.CopyTo(cIDs, 0);
-
-                    foreach (int id in cIDs)
-                    {
-                        clients.Remove(id);
-                        ids.Enqueue(id);
-                    }
-                }
+                host.Close();
             }
-        }
-
-        private void ListenForClients()
-        {
-            tcpListener.Start();
-            TcpClient client;
-
-            while (running)
+            catch (CommunicationException ce)
             {
-                //wait for new client
-                try
-                {
-                    client = tcpListener.AcceptTcpClient();
-                }
-                catch
-                {
-                    client = null;
-                }
-
-                if (client != null)
-                {
-                    int id = ids.Dequeue();
-                    CConnection connection = new CConnection(client, id, password);
-
-                    lock (clients)
-                    {
-                        clients.Add(id, connection);
-                    }
-
-                    Thread clientThread = new Thread(new ParameterizedThreadStart(HandleClientCom));
-
-                    NetworkStream clientStream = client.GetStream();
-                    byte[] serverParams = connection.GetKeyParams();
-
-                    try
-                    {
-                        clientStream.Write(serverParams, 0, serverParams.Length);
-                        clientStream.Flush();
-                    }
-                    catch
-                    {
-                        client = null;
-                    }
-
-                    if (client != null)
-                        clientThread.Start(connection);
-                }
+                host.Abort();
             }
-        }
-
-        private void HandleClientCom(object client)
-        {
-            CConnection connection = (CConnection)client;
-            TcpClient tcpClient = (TcpClient)connection.TcpClient;
-            NetworkStream clientStream = tcpClient.GetStream();
-
-            byte[] data = new byte[bufferLength];
-            int bytesRead;
-
-            while (running)
-            {
-                bytesRead = 0;
-
-                try
-                {
-                    bytesRead = clientStream.Read(data, 0, bufferLength);
-                }
-                catch
-                {
-                    break;
-                }
-
-                if (bytesRead == 0)
-                    break;
-
-                if (!connection.KeySet)
-                {
-                    byte[] clientResponse = new byte[bytesRead];
-                    Array.Copy(data, clientResponse, bytesRead);
-                    connection.CreateServerKey(clientResponse);
-                }
-                else
-                {
-                    //receive message
-                    int messageLength = BitConverter.ToInt32(data, 0);
-                    while (messageLength > bytesRead)
-                    {
-                        if (data.Length < messageLength + bufferLength)
-                            Array.Resize<byte>(ref data, messageLength + bufferLength);
-                        bytesRead += clientStream.Read(data, bytesRead, bufferLength);
-                    }
-
-                    byte[] message = new byte[bytesRead];
-                    Array.Copy(data, message, bytesRead);
-                    byte[] decrypted = connection.Decrypt(message);
-
-                    byte[] answer = HandleClientMessage(decrypted, connection);
-
-                    //send message
-                    byte[] encrypted = connection.Encrypt(answer);
-
-                    try
-                    {
-                        clientStream.Write(encrypted, 0, encrypted.Length);
-                        clientStream.Flush();
-                    }
-                    catch
-                    {
-                        break;
-                    }
-                }
-            }
-        }
-
-        private byte[] HandleClientMessage(byte[] Message, CConnection connection)
-        {
-            return requestCallback(connection.ConnectionID, Message);
         }
     }
 }

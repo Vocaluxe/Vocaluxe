@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -138,7 +138,7 @@ namespace Vocaluxe.Base.Server
             stream.Write(cmd, 0, cmd.Length);
 
             byte[] data;
-            string json = JsonConvert.SerializeObject(obj);
+                string json = JsonConvert.SerializeObject(obj);
             data = _Encoder.GetBytes(json);
             stream.Write(data, 0, data.Length);
             return stream.ToArray();
@@ -156,14 +156,14 @@ namespace Vocaluxe.Base.Server
 
             var data = new byte[message.Length - 4];
             Array.Copy(message, 4, data, 0, data.Length);
-            try
-            {
+                try
+                {
                 obj = JsonConvert.DeserializeObject<T>(_Encoder.GetString(data));
-                return true;
-            }
-            catch
-            {
-                return false;
+                    return true;
+                }
+                catch
+                {
+                    return false;
             }
         }
         #endregion Serializing
