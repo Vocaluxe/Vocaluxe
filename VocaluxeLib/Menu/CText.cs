@@ -424,7 +424,7 @@ namespace VocaluxeLib.Menu
                 writer.WriteElementString("Align", Enum.GetName(typeof(EAlignment), Align));
 
                 writer.WriteComment("<ResizeAlign>: Text align vertical (on downsizing): " + CHelper.ListStrings(Enum.GetNames(typeof(EHAlignment))));
-                writer.WriteElementString("HAlign", Enum.GetName(typeof(EHAlignment), ResizeAlign));
+                writer.WriteElementString("ResizeAlign", Enum.GetName(typeof(EHAlignment), ResizeAlign));
 
                 writer.WriteComment("<Style>: Text style: " + CHelper.ListStrings(Enum.GetNames(typeof(EStyle))));
                 writer.WriteElementString("Style", Enum.GetName(typeof(EStyle), Style));

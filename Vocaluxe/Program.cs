@@ -30,7 +30,6 @@ using Vocaluxe.Base.Server;
 
 namespace Vocaluxe
 {
-    // just a small comment for the new develop branch
     static class CMainProgram
     {
         private static CSplashScreen _SplashScreen;
@@ -76,6 +75,9 @@ namespace Vocaluxe
             {
                 // Init Log
                 CLog.Init();
+
+                if (!CProgrammHelper.CheckRequirements())
+                    return;
 
                 CMain.Init();
                 CSettings.CreateFolders();
@@ -253,7 +255,7 @@ namespace Vocaluxe
         [HandleProcessCorruptedStateExceptions]
         private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args)
         {
-            Exception e = (Exception)args.ExceptionObject;
+            var e = (Exception)args.ExceptionObject;
             string stackTrace = "";
             try
             {
