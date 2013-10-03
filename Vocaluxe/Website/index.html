@@ -10,6 +10,21 @@
     <script src="js/main.js"></script>
 </head>
 <body>
+    <div id="login" data-content-theme="a" data-role="page" data-add-back-btn="true">
+        <div data-role="header">
+            <h1>Login</h1>
+        </div>
+        <!-- /header -->
+
+        <div id="loginContent" data-role="content">
+            <label for="playerName" class="input">Id:</label>
+            <input type="text" id="playerId" name="playerId" data-mini="true">
+            <br />
+            <a data-role="button" id="loginButton">Login</a>
+        </div>
+        <!-- /content -->
+    </div>
+    <!-- /page -->
 
     <div id="main" data-role="page" data-content-theme="a">
         <div data-role="header">
@@ -20,7 +35,7 @@
         <div id="mainContent" data-role="content" data-add-back-btn="true">
             <ul data-role="listview">
                 <li>
-                    <a href="#displayProfile" data-transition="slidefade">
+                    <a id="yourProfileLink" href="#" data-transition="slidefade">
                         <img src="img/profile.png">
                         <h2>Your Profile</h2>
                         <p>Edit your profile</p>
@@ -72,7 +87,6 @@
         <!-- /content -->
     </div>
     <!-- /page -->
-
 
     <div id="displayProfile" data-content-theme="a" data-role="page" data-add-back-btn="true">
         <div data-role="header">
@@ -150,7 +164,7 @@
     </div>
     <!-- /page -->
 
-    <div class="ui-loader-background"> </div>
+    <div class="ui-loader-background"></div>
 </body>
 </html>
 

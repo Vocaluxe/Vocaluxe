@@ -6,6 +6,7 @@ $(document).ready(function () {
     initPageLoadHandler();
     initKeyboardPageHandler();
     initMainPageHandler();
+    initLoginPageHandler();
 });
 
 function replaceTransitionHandler() {
@@ -131,65 +132,21 @@ function initPageLoadHandler() {
 
 }
 
-function initKeyboardPageHandler() {
-    $('#keyboardButtonUp').click(function () {
-        $.ajax({
-            url: "sendKeyEvent=up"
-        })
-    });
-
-    $('#keyboardButtonDown').click(function () {
-        $.ajax({
-            url: "sendKeyEvent=down"
-        })
-    });
-
-    $('#keyboardButtonLeft').click(function () {
-        $.ajax({
-            url: "sendKeyEvent=left"
-        })
-    });
-
-    $('#keyboardButtonRight').click(function () {
-        $.ajax({
-            url: "sendKeyEvent=right"
-        })
-    });
-
-    $('#keyboardButtonEscape').click(function () {
-        $.ajax({
-            url: "sendKeyEvent=escape"
-        })
-    });
-
-    $('#keyboardButtonkeyboardButtonTab').click(function () {
-        $.ajax({
-            url: "sendKeyEvent=tab"
-        })
-    });
-
-    $('#keyboardButtonReturn').click(function () {
-        $.ajax({
-            url: "sendKeyEvent=return"
-        })
-    });
-
-    $('#keyboardButtonKeys').keyup(function (e) {
-        var c = String.fromCharCode(e.keyCode);
-        if (c.match(/\w/)) {
-            c = e.keyCode >= 65 ? c.toLowerCase() : c;
-            $.ajax({
-                url: "sendKeyEvent=" + c
-            })
-        }
-        var oldText = $('#keyboardButtonKeys')[0].value;
-        if (oldText.length > 0) {
-            $('#keyboardButtonKeys')[0].value = oldText.slice(1);
-        }
+function initLoginPageHandler() {
+    $('#loginButton').click(function () {
+        ownProfileId = parseInt($('#playerId').prop("value"));
+        if (ownProfileId != "NaN") {
+            $.mobile.changePage("#main", { transition: "slidefade" });
+        }        
     });
 }
 
 function initMainPageHandler() {
+    $('#yourProfileLink').click(function () {
+        profileIdRequest = ownProfileId;        
+        $.mobile.changePage("#displayProfile", { transition: "slidefade" });
+    });
+
     $('#mainPageTakePhotoLink').click(function () {
         if ($('#captureContainer').length > 0) {
             $('#captureContainer').remove();
@@ -229,5 +186,63 @@ function initMainPageHandler() {
         });
 
         $('#capture').click();
+    });
+}
+
+function initKeyboardPageHandler() {
+    $('#keyboardButtonUp').click(function () {
+        $.ajax({
+            url: "sendKeyEvent?key=up"
+        })
+    });
+
+    $('#keyboardButtonDown').click(function () {
+        $.ajax({
+            url: "sendKeyEvent?key=down"
+        })
+    });
+
+    $('#keyboardButtonLeft').click(function () {
+        $.ajax({
+            url: "sendKeyEvent?key=left"
+        })
+    });
+
+    $('#keyboardButtonRight').click(function () {
+        $.ajax({
+            url: "sendKeyEvent?key=right"
+        })
+    });
+
+    $('#keyboardButtonEscape').click(function () {
+        $.ajax({
+            url: "sendKeyEvent?key=escape"
+        })
+    });
+
+    $('#keyboardButtonkeyboardButtonTab').click(function () {
+        $.ajax({
+            url: "sendKeyEvent?key=tab"
+        })
+    });
+
+    $('#keyboardButtonReturn').click(function () {
+        $.ajax({
+            url: "sendKeyEvent?key=return"
+        })
+    });
+
+    $('#keyboardButtonKeys').keyup(function (e) {
+        var c = String.fromCharCode(e.keyCode);
+        if (c.match(/\w/)) {
+            c = e.keyCode >= 65 ? c.toLowerCase() : c;
+            $.ajax({
+                url: "sendKeyEvent?key=" + c
+            })
+        }
+        var oldText = $('#keyboardButtonKeys')[0].value;
+        if (oldText.length > 0) {
+            $('#keyboardButtonKeys')[0].value = oldText.slice(1);
+        }
     });
 }
