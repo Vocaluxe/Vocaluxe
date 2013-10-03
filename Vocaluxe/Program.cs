@@ -28,7 +28,6 @@ using Vocaluxe.Base.Server;
 
 namespace Vocaluxe
 {
-    // just a small comment for the new develop branch
     static class CMainProgram
     {
         private static CSplashScreen _SplashScreen;
@@ -74,6 +73,9 @@ namespace Vocaluxe
             {
                 // Init Log
                 CLog.Init();
+
+                if (!CProgrammHelper.CheckRequirements())
+                    return;
 
                 CMain.Init();
                 CSettings.CreateFolders();

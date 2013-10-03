@@ -232,6 +232,7 @@
     <Compile Include="Base\Server\CCommands.cs" />
     <Compile Include="Base\Server\CVocaluxeServer.cs" />
     <Compile Include="Base\Server\VocaluxeStructs.cs" />
+    <Compile Include="CProgrammHelper.cs" />
     <Compile Include="CSplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
