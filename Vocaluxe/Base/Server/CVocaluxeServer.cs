@@ -242,6 +242,7 @@ namespace Vocaluxe.Base.Server
             ProfileData profileData = new ProfileData();
 
             profileData.IsEditable = true; //TODO: set correctly 
+            profileData.ProfileId = profile.ID;
             profileData.PlayerName = profile.PlayerName;
             profileData.Type = (int)profile.GuestProfile;
             profileData.Difficulty = (int)profile.Difficulty;
