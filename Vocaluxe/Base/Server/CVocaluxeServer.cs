@@ -250,7 +250,7 @@ namespace Vocaluxe.Base.Server
                 if (File.Exists(avatar.FileName))
                 {
                     Image avatarImage = Image.FromFile(avatar.FileName);
-                    //TODO: Convert??? and Compress?
+                    //TODO: Convert??? and Resize?
                     profileData.Avatar = new Base64Image(avatarImage, avatarImage.RawFormat);
                 }
             }
@@ -292,7 +292,7 @@ namespace Vocaluxe.Base.Server
                 return false;
             }
 
-            string name = DateTime.Now.ToString("yyyy-MM-DD-hh-mm-ss");
+            string name = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
             string filePath = _SaveImage(photoData.Photo, name, CSettings.FolderPhotos);
 
             return (filePath != null && filePath != "");
@@ -330,12 +330,20 @@ namespace Vocaluxe.Base.Server
             string extension = imageDate.getImageType();
 
             string filename = Path.Combine(folder, name);
-            int i = 0;
-            while (File.Exists(filename + "_" + i + "." + extension))
+            if (File.Exists(filename + "." + extension))
             {
-                i++;
+                int i = 0;
+                while (File.Exists(filename + "_" + i + "." + extension))
+                {
+                    i++;
+                }
+                filename = filename + "_" + i + "." + extension;
             }
-            filename = filename + "_" + i + "." + extension;
+            else
+            {
+                filename = filename + "." + extension;
+            }
+
             avatarImage.Save(filename);
             return filename;
         }

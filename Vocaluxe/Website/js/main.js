@@ -1,3 +1,4 @@
+var ownProfileId = 1;
 var profileIdRequest = 1;
 
 $(document).ready(function () {
@@ -30,7 +31,7 @@ function initPageLoadHandler() {
         var promise = $.ajax({
             url: "getProfile?profileId=" + profileIdRequest
         }).done(function (result) {
-            $('#playerName').text(result.PlayerName)
+            $('#playerName').attr("value", result.PlayerName);
             if (result.Avatar && result.Avatar.base64Data) {
                 $('#playerAvatar').attr("src", result.Avatar.base64Data);
             }
@@ -79,12 +80,12 @@ function initPageLoadHandler() {
             $('#selectProfileList').children().remove();
 
             function handleProfileSelectLineClick(e) {
-                profileIdRequest = parseInt(e.target.id.replace("ProfileSelectLine_", ""));
+                profileIdRequest = parseInt(e.currentTarget.id.replace("ProfileSelectLine_", ""));
                 $.mobile.changePage("#displayProfile", { transition: "slidefade" });
             }
 
             for (var profile in data) {
-                $('<li id="ProfileSelectLine_' + data[profile].ProfileId + '"> <a href="#"> <img src="' + ((data[profile].Avatar & data[profile].Avatar.base64Data) ? data[profile].Avatar.base64Data : "img/profile.png") + '"> <h2>' + data[profile].PlayerName + '</h2> <p>Click here to show the profile of ' + data[profile].PlayerName + '</p> </a> </li>')
+                $('<li id="ProfileSelectLine_' + data[profile].ProfileId + '"> <a href="#"> <img src="' + ((data[profile].Avatar && data[profile].Avatar.base64Data) ? data[profile].Avatar.base64Data : "img/profile.png") + '"> <h2>' + data[profile].PlayerName + '</h2> <p>Click here to show the profile of ' + data[profile].PlayerName + '</p> </a> </li>')
                     .appendTo('#selectProfileList')
                     .click(handleProfileSelectLineClick);
             }
@@ -169,18 +170,26 @@ function initMainPageHandler() {
                 $('#content').wrap('<div class="overlay" />');
                 $.mobile.loading('show', {
                     text: 'Uploading photo...',
-                    textVisible: true                    
+                    textVisible: true
                 });
 
                 var file = eventData.target.files[0];
                 var reader = new FileReader();
 
                 reader.onloadend = function (e) {
-                    $.post("sendPhoto", { Photo: { base64Data: e.target.result } })
-                        .always(function () {
-                            $.mobile.loading('hide');
-                            $('#content').unwrap();
-                        });
+                    $.ajax({
+                        url: "sendPhoto",
+                        dataType: "json",
+                        contentType: "application/json;charset=utf-8",
+                        type: "POST",
+                        data: JSON.stringify({ Photo: { base64Data: e.target.result } }),
+                        success: function (msg) {
+
+                        }
+                    }).always(function () {
+                        $.mobile.loading('hide');
+                        $('#content').unwrap();
+                    });
                 };
 
                 reader.readAsDataURL(file);
