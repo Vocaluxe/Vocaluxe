@@ -9,7 +9,7 @@ using System.IO;
 
 namespace ClientServerLib
 {
-    [ServiceContract(Name = "Vocaluxe")]
+    [ServiceContract]
     public interface ICWebservice
     {
         [OperationContract]

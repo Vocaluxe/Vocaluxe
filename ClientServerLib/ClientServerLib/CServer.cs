@@ -74,7 +74,7 @@ namespace ClientServerLib
             WebHttpBinding wb = new WebHttpBinding();
             wb.MaxReceivedMessageSize = 10485760;
             wb.MaxBufferSize = 10485760;
-            host.AddServiceEndpoint(typeof(ICWebservice), wb, "Vocaluxe");
+            host.AddServiceEndpoint(typeof(ICWebservice), wb, "");
         }
 
         public void Start()
