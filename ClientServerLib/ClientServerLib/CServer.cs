@@ -74,6 +74,10 @@ namespace ClientServerLib
             WebHttpBinding wb = new WebHttpBinding();
             wb.MaxReceivedMessageSize = 10485760;
             wb.MaxBufferSize = 10485760;
+            wb.MaxBufferPoolSize = 10485760;
+            wb.ReaderQuotas.MaxStringContentLength = 10485760;
+            wb.ReaderQuotas.MaxArrayLength = 10485760;
+            wb.ReaderQuotas.MaxBytesPerRead = 10485760;
             host.AddServiceEndpoint(typeof(ICWebservice), wb, "");
         }
 
@@ -83,8 +87,8 @@ namespace ClientServerLib
             {
                 // Step 4 Enable metadata exchange.
                 ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
-                smb.MetadataExporter.PolicyVersion = PolicyVersion.Policy15;
-                smb.HttpGetEnabled = true;
+                //smb.MetadataExporter.PolicyVersion = PolicyVersion.Policy15;
+                //smb.HttpGetEnabled = true;
                 host.Description.Behaviors.Add(smb);
 
                 // Step 5 Start the service.

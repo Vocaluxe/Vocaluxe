@@ -74,7 +74,8 @@ namespace ClientServerLib
 
         public Image getImage()
         {
-            byte[] imageData = Convert.FromBase64String(base64Data);
+            string onlyBase64Data = base64Data.Substring(base64Data.IndexOf(";base64,") + (";base64,").Length);
+            byte[] imageData = Convert.FromBase64String(onlyBase64Data);
             MemoryStream ms = new MemoryStream(imageData, 0, imageData.Length);
             ms.Write(imageData, 0, imageData.Length);
             Image image = Image.FromStream(ms, true);
@@ -84,7 +85,7 @@ namespace ClientServerLib
         public string getImageType()
         {
             Match match = Regex.Match(base64Data, "(?<=data:image/)[a-zA-Z]+(?=;base64)");
-            return match.Success ? match.Groups[1].Value : "";
+            return match.Success ? match.Groups[0].Value : "";
         }
 
 

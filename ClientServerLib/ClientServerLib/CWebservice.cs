@@ -44,6 +44,7 @@ namespace ClientServerLib
 
         [OperationContract]
         [WebInvoke(Method = "POST",
+            RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/sendPhoto")]
         bool sendPhoto(PhotoData photo);
@@ -124,7 +125,7 @@ namespace ClientServerLib
         {
             if (CServer.GetProfileList == null)
             {
-                return new ProfileData[]{};
+                return new ProfileData[] { };
             }
             return CServer.GetProfileList();
         }
@@ -134,7 +135,7 @@ namespace ClientServerLib
         #region photo
 
         public bool sendPhoto(PhotoData photo)
-        {
+        {            
             return CServer.SendPhoto(photo);
         }
 
@@ -234,6 +235,6 @@ namespace ClientServerLib
             }
         }
 
-        #endregion       
+        #endregion
     }
 }
