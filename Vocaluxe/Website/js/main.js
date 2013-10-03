@@ -31,12 +31,12 @@ function initPageLoadHandler() {
         var promise = $.ajax({
             url: "getProfile?profileId=" + profileIdRequest
         }).done(function (result) {
-            $('#playerName').attr("value", result.PlayerName);
+            $('#playerName').prop("value", result.PlayerName);
             if (result.Avatar && result.Avatar.base64Data) {
-                $('#playerAvatar').attr("src", result.Avatar.base64Data);
+                $('#playerAvatar').prop("src", result.Avatar.base64Data);
             }
-            $('#playerType').attr("value", result.Type);
-            $('#playerDifficulty').attr("value", result.Difficulty);
+            $('#playerType').prop("value", result.Type);
+            $('#playerDifficulty').prop("value", result.Difficulty);
             if (result.IsEditable) {
                 $('#playerAvatar').click(function () {
                     if ($('#captureContainer').length > 0) {
@@ -50,7 +50,7 @@ function initPageLoadHandler() {
                             var file = eventData.target.files[0];
                             var reader = new FileReader();
                             reader.onloadend = function (e) {
-                                $('#playerAvatar').attr("src", e.target.result);
+                                $('#playerAvatar').prop("src", e.target.result);
                                 $('#playerAvatar').data("changed", true);
                                 $('#captureContainer').remove();
                             };
@@ -60,11 +60,43 @@ function initPageLoadHandler() {
 
                     $('#capture').click();
                 });
+
+                $('#playerSaveButton').click(function () {
+                    var dataToUpload = {};
+
+                    dataToUpload["ProfileId"] = profileIdRequest;
+                    dataToUpload["PlayerName"] = $('#playerName').prop("value");
+                    dataToUpload["Type"] = $('#playerType').prop("value");
+                    dataToUpload["Difficulty"] = $('#playerDifficulty').prop("value");
+                    dataToUpload["Avatar"] = $('#playerAvatar').data("changed") ? { "base64Data": $('#playerAvatar').prop("src") } : null;
+
+                    $('#content').wrap('<div class="overlay" />');
+                    $.mobile.loading('show', {
+                        text: 'Uploading profile...',
+                        textVisible: true
+                    });
+
+                    $.ajax({
+                        url: "sendProfile",
+                        dataType: "json",
+                        contentType: "application/json;charset=utf-8",
+                        type: "POST",
+                        data: JSON.stringify(dataToUpload),
+                        success: function (msg) {
+
+                        }
+                    }).always(function () {
+                        $.mobile.loading('hide');
+                        $('#content').unwrap();
+                    });
+
+                });
             }
             else {
                 $('#playerName').prop('disabled', true);
                 $('#playerType').prop('disabled', true);
                 $('#playerDifficulty').prop('disabled', true);
+                $('#playerSaveButton').hide();
                 $('#playerAvatar').unbind("click");
             }
         });
