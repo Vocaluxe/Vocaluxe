@@ -247,13 +247,12 @@ namespace Vocaluxe.Base
             return lastInsertID;
         }
 
-        public static void LoadScore(out List<SDBScoreEntry> scores, int songID, EGameMode gameMode)
+        public static List<SDBScoreEntry> LoadScore(int songID, EGameMode gameMode)
         {
+            var scores = new List<SDBScoreEntry>();
             using (var connection = new SQLiteConnection())
             {
                 connection.ConnectionString = "Data Source=" + _HighscoreFilePath;
-
-                scores = new List<SDBScoreEntry>();
 
                 try
                 {
@@ -261,7 +260,7 @@ namespace Vocaluxe.Base
                 }
                 catch (Exception)
                 {
-                    return;
+                    return scores;
                 }
 
                 using (var command = new SQLiteCommand(connection))
@@ -284,7 +283,7 @@ namespace Vocaluxe.Base
 
                     int dataBaseSongID = _GetDataBaseSongID(songID, command);
                     if (dataBaseSongID < 0)
-                        return;
+                        return scores;
 
                     command.CommandText = "SELECT PlayerName, Score, Date, Difficulty, LineNr, id FROM Scores " +
                                           "WHERE [SongID] = @SongID AND [Medley] = @Medley AND [Duet] = @Duet AND [ShortSong] = @ShortSong " +
@@ -315,6 +314,7 @@ namespace Vocaluxe.Base
                     }
                 }
             }
+            return scores;
         }
 
         private static void _IncreaseSongCounter(int dataBaseSongID, SQLiteCommand command)

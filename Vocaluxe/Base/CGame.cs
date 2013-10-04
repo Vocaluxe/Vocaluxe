@@ -149,14 +149,14 @@ namespace Vocaluxe.Base
             return _SongQueue.GetSong();
         }
 
-        public static CSong GetSong(int num)
+        public static CSong GetSong(int round)
         {
-            return _SongQueue.GetSong(num);
+            return _SongQueue.GetSong(round);
         }
 
-        public static EGameMode GetGameMode(int num)
+        public static EGameMode GetGameMode(int round)
         {
-            return _SongQueue.GetGameMode(num);
+            return _SongQueue.GetGameMode(round);
         }
 
         public static int GetNumSongs()

@@ -194,10 +194,6 @@ namespace Vocaluxe.Screens
             base.OnShow();
             _Round = 0;
             _Pos = 0;
-            CPoints points = CGame.GetPoints();
-            _Scores = new List<SDBScoreEntry>[points.NumRounds];
-            for (int i = 0; i < _Scores.Length; i++)
-                _Scores[i] = new List<SDBScoreEntry>();
             _NewEntryIDs.Clear();
             _AddScoresToDB();
             _LoadScores();
@@ -231,15 +227,14 @@ namespace Vocaluxe.Screens
 
         private void _LoadScores()
         {
-            CPoints points = CGame.GetPoints();
-            if (points == null)
-                return;
-
             _Pos = 0;
-            for (int round = 0; round < points.NumRounds; round++)
+            int rounds = CGame.NumRounds;
+            _Scores = new List<SDBScoreEntry>[rounds];
+            for (int round = 0; round < rounds; round++)
             {
-                SPlayer player = points.GetPlayer(round, CGame.NumPlayer)[0];
-                CDataBase.LoadScore(out _Scores[round], player.SongID, player.GameMode);
+                int songID = CGame.GetSong(round).ID;
+                EGameMode gameMode = CGame.GetGameMode(round);
+                _Scores[round] = CDataBase.LoadScore(songID, gameMode);
             }
         }
 
