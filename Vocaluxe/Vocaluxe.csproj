@@ -344,6 +344,12 @@
       <CustomToolNamespace>css</CustomToolNamespace>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Website\img\music.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\noCover.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Website\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

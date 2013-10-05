@@ -28,6 +28,7 @@ function replaceTransitionHandler() {
 }
 
 function initPageLoadHandler() {
+    //pageLoadHandler for displayProfile
     $(document).on('pagebeforeshow', '#displayProfile', function () {
         var promise = $.ajax({
             url: "getProfile?profileId=" + profileIdRequest
@@ -106,6 +107,7 @@ function initPageLoadHandler() {
         $(this).data('promise', promise);
     });
 
+    //pageLoadHandler for selectProfile
     $(document).on('pagebeforeshow', '#selectProfile', function () {
         var promise = $.ajax({
             url: "getProfileList"
@@ -130,6 +132,59 @@ function initPageLoadHandler() {
         $(this).data('promise', promise);
     });
 
+    //pageLoadHandler for displaySong
+    $(document).on('pagebeforeshow', '#displaySong', function () {
+        var promise = $.ajax({
+            url: "getCurrentSong"
+        }).done(function (result) {
+            if (result.Title != null) {
+                $('#displaySongTitle').text(result.Title);
+            }
+            else {
+                $('#displaySongTitle').text("No current song");
+            }
+
+            if (result.Cover && result.Cover.base64Data) {
+                $('#displaySongCover').prop("src", result.Cover.base64Data);
+            }
+            else {
+                $('#displaySongCover').prop("src", "img/noCover.png");
+            }
+
+            if (result.Artist != null) {
+                $('#displaySongArtist').text(result.Artist);
+            }
+            else {
+                $('#displaySongArtist').text("-");
+            }
+
+            if (result.Genre != null) {
+                $('#displaySongGenre').text(result.Genre);
+            }
+            else {
+                $('#displaySongGenre').text("-");
+            }
+
+            if (result.Year != null && result.Year != "") {
+                $('#displaySongYear').text(result.Year);
+            }
+            else {
+                $('#displaySongYear').text("-");
+            }
+
+            if (result.Language != null) {
+                $('#displaySongLanguage').text(result.Language);
+            }
+            else {
+                $('#displaySongLanguage').text("-");
+            }
+            
+            $('#displaySongIsDuet').text(result.IsDuet?"Yes":"No");
+        });
+
+        // Save promise on page so the transition handler can find it.
+        $(this).data('promise', promise);
+    });
 }
 
 function initLoginPageHandler() {
@@ -137,13 +192,13 @@ function initLoginPageHandler() {
         ownProfileId = parseInt($('#playerId').prop("value"));
         if (ownProfileId != "NaN") {
             $.mobile.changePage("#main", { transition: "slidefade" });
-        }        
+        }
     });
 }
 
 function initMainPageHandler() {
     $('#yourProfileLink').click(function () {
-        profileIdRequest = ownProfileId;        
+        profileIdRequest = ownProfileId;
         $.mobile.changePage("#displayProfile", { transition: "slidefade" });
     });
 
