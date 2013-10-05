@@ -42,6 +42,13 @@
                     </a>
                 </li>
                 <li>
+                    <a id="A1" href="#displaySong" data-transition="slidefade">
+                        <img src="img/music.png">
+                        <h2>Current Song</h2>
+                        <p>Display informations about the current song</p>
+                    </a>
+                </li>
+                <li>
                     <a href="#selectProfile" data-transition="slidefade">
                         <img src="img/profiles.png">
                         <h2>Profiles</h2>
@@ -116,6 +123,37 @@
         <!-- /content -->
     </div>
     <!-- /page -->
+
+    <div id="displaySong" data-content-theme="a" data-role="page" data-add-back-btn="true">
+        <div data-role="header">
+            <h1 id="displaySongTitle">No current song</h1>
+        </div>
+        <!-- /header -->
+
+        <div id="displaySongContent" data-role="content">
+            <img id="displaySongCover" src="img/noCover.png" alt="Cover">
+            <br />
+            <br />
+            <br />
+            <label for="displaySongArtist" class="input">Artist:</label>
+            <span id="displaySongArtist" data-mini="true">-</span>
+            <br />
+            <label for="displaySongGenre" class="input">Genre:</label>
+            <span id="displaySongGenre" data-mini="true">-</span>
+            <br />
+            <label for="displaySongYear" class="input">Year:</label>
+            <span id="displaySongYear" data-mini="true">-</span>
+            <br />
+            <label for="displaySongLanguage" class="input">Language:</label>
+            <span id="displaySongLanguage" data-mini="true">-</span>
+            <br />
+            <label for="displaySongIsDuet" class="input">Duet:</label>
+            <span id="displaySongIsDuet" data-mini="true">-</span>
+        </div>
+        <!-- /content -->
+    </div>
+    <!-- /page -->
+
 
     <div id="keyboard" data-content-theme="a" data-role="page" data-add-back-btn="true">
         <div data-role="header">

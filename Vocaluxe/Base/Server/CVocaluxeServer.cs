@@ -30,6 +30,7 @@ using ClientServerLib;
 using Vocaluxe.Lib.Input;
 using VocaluxeLib;
 using VocaluxeLib.Profile;
+using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base.Server
 {
@@ -61,6 +62,7 @@ namespace Vocaluxe.Base.Server
             CServer.GetProfileList = getProfileList;
             CServer.SendPhoto = sendPhoto;
             CServer.GetSiteFile = getSiteFile;
+            CServer.GetCurrentSong = getCurrentSong;
 
             _Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
             Controller.Init();
@@ -322,6 +324,28 @@ namespace Vocaluxe.Base.Server
             return Encoding.UTF8.GetBytes(content);*/
 
             return File.ReadAllBytes(path);
+        }
+
+        #endregion
+
+        #region songs
+
+        private static SongInfo getCurrentSong()
+        {
+            SongInfo result = new SongInfo();
+            CSong song = CGame.GetSong();
+            if (song != null)
+            {
+                result.Title = song.Title;
+                result.Artist = song.Artist;
+                result.Genre = song.Genre.FirstOrDefault();
+                result.Language = song.Language.FirstOrDefault();
+                result.Year = song.Year;
+                result.IsDuet = song.IsDuet;
+                Image cover = Image.FromFile(song.Folder + "\\" + song.CoverFileName);
+                result.Cover = new Base64Image(cover, cover.RawFormat);
+            }
+            return result;
         }
 
         #endregion

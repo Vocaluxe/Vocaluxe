@@ -67,6 +67,17 @@ namespace ClientServerLib
 
         #endregion
 
+        #region songs
+
+        private static GetCurrentSongDelegate getCurrentSong;
+        public static GetCurrentSongDelegate GetCurrentSong
+        {
+            internal get { return CServer.getCurrentSong; }
+            set { CServer.getCurrentSong = value; }
+        }
+
+        #endregion
+
         public CServer(int port)
         {
             baseAddress = new Uri("http://localhost:" + port + "/");

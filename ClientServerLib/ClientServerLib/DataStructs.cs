@@ -90,4 +90,29 @@ namespace ClientServerLib
 
 
     }
+
+    #region songs
+
+    public delegate SongInfo GetCurrentSongDelegate();
+
+    [DataContract]
+    public struct SongInfo
+    {
+        [DataMember]
+        public string Title;
+        [DataMember]
+        public string Artist;
+        [DataMember]
+        public Base64Image Cover;
+        [DataMember]
+        public string Genre { get; set; }
+        [DataMember]
+        public string Language { get; set; }
+        [DataMember]
+        public string Year { get; set; }
+        [DataMember]
+        public bool IsDuet { get; set; }
+    }
+
+    #endregion
 }

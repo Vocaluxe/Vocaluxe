@@ -39,3 +39,18 @@
 .ui-loading .ui-loader-background {
     display: block;
 }
+
+#displaySongCover {
+    height: 75%;
+    max-height: 250px;
+    width: auto;
+}
+
+#displaySongContent {
+    text-align: center;
+}
+
+#displaySongContent span {
+    font-size: 18px;
+    font-weight: bold;
+}

@@ -84,6 +84,16 @@ namespace ClientServerLib
         Stream GetImgFile(String filename);
 
         #endregion
+
+        #region songs
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/getCurrentSong")]
+        SongInfo getCurrentSong();       
+
+        #endregion
     }
 
     class CWebservice : ICWebservice
@@ -135,7 +145,7 @@ namespace ClientServerLib
         #region photo
 
         public bool sendPhoto(PhotoData photo)
-        {            
+        {
             return CServer.SendPhoto(photo);
         }
 
@@ -233,6 +243,15 @@ namespace ClientServerLib
                 WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.NotFound;
                 return null;
             }
+        }
+
+        #endregion
+
+        #region songs
+
+        public SongInfo getCurrentSong()
+        {
+            return CServer.GetCurrentSong();
         }
 
         #endregion
