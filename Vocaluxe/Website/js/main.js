@@ -1,5 +1,7 @@
-var ownProfileId = 1;
-var profileIdRequest = 1;
+var ownProfileId = -1;
+var profileIdRequest = -1;
+var songIdRequest = -1
+var allSongsCache = null;
 
 $(document).ready(function () {
     replaceTransitionHandler();
@@ -135,7 +137,7 @@ function initPageLoadHandler() {
     //pageLoadHandler for displaySong
     $(document).on('pagebeforeshow', '#displaySong', function () {
         var promise = $.ajax({
-            url: "getCurrentSong"
+            url: "getSong?songId=" + songIdRequest
         }).done(function (result) {
             if (result.Title != null) {
                 $('#displaySongTitle').text(result.Title);
@@ -178,12 +180,47 @@ function initPageLoadHandler() {
             else {
                 $('#displaySongLanguage').text("-");
             }
-            
-            $('#displaySongIsDuet').text(result.IsDuet?"Yes":"No");
+
+            $('#displaySongIsDuet').text(result.IsDuet ? "Yes" : "No");
         });
 
         // Save promise on page so the transition handler can find it.
         $(this).data('promise', promise);
+    });
+
+    //pageLoadHandler for selectSong
+    $(document).on('pagebeforeshow', '#selectSong', function () {
+        function handleGetAllSongs() {
+            $('#selectSongList').children().remove();
+
+            function handleSelectSongLineClick(e) {
+                songIdRequest = parseInt(e.currentTarget.id.replace("selectSongLine_", ""));
+                $.mobile.changePage("#displaySong", { transition: "slidefade" });
+            }
+
+            for (var id in allSongsCache) {
+                $('<li id="selectSongLine_' + allSongsCache[id].SongId + '"> <a href="#"> '/*+'<img src="' + ((data[profile].Avatar && data[profile].Avatar.base64Data) ? data[id].Avatar.base64Data : "img/profile.png") + '"> '*/ + ' <h2>' + allSongsCache[id].Artist + '</h2> <p>' + allSongsCache[id].Title + '</p> </a> </li>')
+                    .appendTo('#selectSongList')
+                    .click(handleSelectSongLineClick);
+            }
+
+            $('#selectSongList').listview('refresh');
+        }
+
+        if (allSongsCache == null) {
+            var promise = $.ajax({
+                url: "getAllSongs"
+            }).done(function (data) {
+                allSongsCache = data;
+                handleGetAllSongs()
+            });
+
+            // Save promise on page so the transition handler can find it.
+            $(this).data('promise', promise);
+        }
+        else {
+            handleGetAllSongs()
+        }
     });
 }
 
@@ -200,6 +237,26 @@ function initMainPageHandler() {
     $('#yourProfileLink').click(function () {
         profileIdRequest = ownProfileId;
         $.mobile.changePage("#displayProfile", { transition: "slidefade" });
+    });
+
+    $('#currentSongLink').click(function () {
+        $('#content').wrap('<div class="overlay" />');
+        $.mobile.loading('show', {
+            text: 'Getting current song...',
+            textVisible: true
+        });
+
+        $.ajax({
+            url: "getCurrentSongId"
+        }).done(function (result) {
+            songIdRequest = parseInt(result);
+            $.mobile.loading('hide');
+            $('#content').unwrap();
+            $.mobile.changePage("#displaySong", { transition: "slidefade" });
+        }).fail(function (result) {
+            $.mobile.loading('hide');
+            $('#content').unwrap();
+        });        
     });
 
     $('#mainPageTakePhotoLink').click(function () {

@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 namespace ClientServerLib
 {
     public delegate bool SendKeyEventDelegate(string key);
-    
+
 
     #region profile
 
@@ -93,7 +93,11 @@ namespace ClientServerLib
 
     #region songs
 
-    public delegate SongInfo GetCurrentSongDelegate();
+    public delegate SongInfo GetSongDelegate(int songId);
+
+    public delegate SongInfo[] GetAllSongsDelegate();
+
+    public delegate int GetCurrentSongIdDelegate();
 
     [DataContract]
     public struct SongInfo
@@ -112,6 +116,8 @@ namespace ClientServerLib
         public string Year { get; set; }
         [DataMember]
         public bool IsDuet { get; set; }
+        [DataMember]
+        public int SongId { get; set; }
     }
 
     #endregion

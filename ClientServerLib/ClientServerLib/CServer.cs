@@ -43,7 +43,6 @@ namespace ClientServerLib
             set { CServer.getProfileList = value; }
         }
 
-
         #endregion
 
         #region photo
@@ -69,12 +68,27 @@ namespace ClientServerLib
 
         #region songs
 
-        private static GetCurrentSongDelegate getCurrentSong;
-        public static GetCurrentSongDelegate GetCurrentSong
+        private static GetSongDelegate getSong;
+        public static GetSongDelegate GetSong
         {
-            internal get { return CServer.getCurrentSong; }
-            set { CServer.getCurrentSong = value; }
+            internal get { return CServer.getSong; }
+            set { CServer.getSong = value; }
         }
+
+        private static GetAllSongsDelegate getAllSongs;
+        public static GetAllSongsDelegate GetAllSongs
+        {
+            get { return CServer.getAllSongs; }
+            set { CServer.getAllSongs = value; }
+        }
+
+        private static GetCurrentSongIdDelegate getCurrentSongId;
+        public static GetCurrentSongIdDelegate GetCurrentSongId
+        {
+            get { return CServer.getCurrentSongId; }
+            set { CServer.getCurrentSongId = value; }
+        }
+
 
         #endregion
 

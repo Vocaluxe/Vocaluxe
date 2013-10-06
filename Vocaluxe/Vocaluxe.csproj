@@ -310,6 +310,9 @@
     <Content Include="Website\img\noCover.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Website\img\playlist.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Website\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

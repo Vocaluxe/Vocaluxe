@@ -42,10 +42,17 @@
                     </a>
                 </li>
                 <li>
-                    <a id="A1" href="#displaySong" data-transition="slidefade">
+                    <a id="currentSongLink" href="#" data-transition="slidefade">
                         <img src="img/music.png">
                         <h2>Current Song</h2>
                         <p>Display informations about the current song</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="#selectSong" data-transition="slidefade">
+                        <img src="img/playlist.png">
+                        <h2>All songs</h2>
+                        <p>List all available songs</p>
                     </a>
                 </li>
                 <li>
@@ -154,6 +161,18 @@
     </div>
     <!-- /page -->
 
+    <div id="selectSong" data-content-theme="a" data-role="page" data-add-back-btn="true">
+        <div data-role="header">
+            <h1>All songs</h1>
+        </div>
+        <!-- /header -->
+
+        <div id="selectSongContent" data-role="content">
+            <ul id="selectSongList" data-role="listview" data-filter="true" data-autodividers="true"></ul>
+        </div>
+        <!-- /content -->
+    </div>
+    <!-- /page -->
 
     <div id="keyboard" data-content-theme="a" data-role="page" data-add-back-btn="true">
         <div data-role="header">

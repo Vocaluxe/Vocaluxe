@@ -62,7 +62,9 @@ namespace Vocaluxe.Base.Server
             CServer.GetProfileList = getProfileList;
             CServer.SendPhoto = sendPhoto;
             CServer.GetSiteFile = getSiteFile;
-            CServer.GetCurrentSong = getCurrentSong;
+            CServer.GetSong = getSong;
+            CServer.GetAllSongs = getAllSongs;
+            CServer.GetCurrentSongId = getCurrentSongId;
 
             _Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
             Controller.Init();
@@ -330,10 +332,32 @@ namespace Vocaluxe.Base.Server
 
         #region songs
 
-        private static SongInfo getCurrentSong()
+        private static SongInfo getSong(int songId)
+        {
+            CSong song = CSongs.GetSong(songId);
+            return getSongInfo(song, true);
+        }
+
+        private static SongInfo[] getAllSongs()
+        {
+            var songs = CSongs.Songs;            
+            return (from s in songs
+                    select getSongInfo(s, false)).ToArray<SongInfo>();
+        }
+
+        private static int getCurrentSongId()
+        {
+            CSong song = CGame.GetSong();
+            if (song == null)
+            {
+                return -1;
+            }
+            return song.ID;
+        }
+
+        private static SongInfo getSongInfo(CSong song, bool includeCover)
         {
             SongInfo result = new SongInfo();
-            CSong song = CGame.GetSong();
             if (song != null)
             {
                 result.Title = song.Title;
@@ -342,8 +366,12 @@ namespace Vocaluxe.Base.Server
                 result.Language = song.Language.FirstOrDefault();
                 result.Year = song.Year;
                 result.IsDuet = song.IsDuet;
-                Image cover = Image.FromFile(song.Folder + "\\" + song.CoverFileName);
-                result.Cover = new Base64Image(cover, cover.RawFormat);
+                result.SongId = song.ID;
+                if (includeCover)
+                {
+                    Image cover = Image.FromFile(song.Folder + "\\" + song.CoverFileName);
+                    result.Cover = new Base64Image(cover, cover.RawFormat);
+                }
             }
             return result;
         }
