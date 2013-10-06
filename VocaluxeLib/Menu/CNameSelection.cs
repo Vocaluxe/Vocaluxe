@@ -409,9 +409,9 @@ namespace VocaluxeLib.Menu
             {
                 if ((i + offset * _Tiles.Count) < _VisibleProfiles.Count)
                 {
-                    _Tiles[i].Avatar.Texture = CBase.Profiles.GetProfiles()[_VisibleProfiles[i + offset * _Tiles.Count]].Avatar.Texture;
+                    _Tiles[i].Avatar.Texture = CBase.Profiles.GetAvatar(_VisibleProfiles[i + offset * _Tiles.Count]);
                     _Tiles[i].Avatar.Color = new SColorF(1, 1, 1, 1);
-                    _Tiles[i].Name.Text = CBase.Profiles.GetProfiles()[_VisibleProfiles[i + offset * _Tiles.Count]].PlayerName;
+                    _Tiles[i].Name.Text = CBase.Profiles.GetPlayerName(_VisibleProfiles[i + offset * _Tiles.Count]); ;
                     _Tiles[i].ProfileID = _VisibleProfiles[i + offset * _Tiles.Count];
                 }
                 else
