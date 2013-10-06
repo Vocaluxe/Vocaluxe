@@ -90,8 +90,20 @@ namespace ClientServerLib
         [OperationContract]
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/getCurrentSong")]
-        SongInfo getCurrentSong();       
+            UriTemplate = "/getSong?songId={songId}")]
+        SongInfo getSong(int songId);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/getCurrentSongId")]
+        int getCurrentSongId();
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/getAllSongs")]
+        SongInfo[] getAllSongs();
 
         #endregion
     }
@@ -249,11 +261,22 @@ namespace ClientServerLib
 
         #region songs
 
-        public SongInfo getCurrentSong()
+        public SongInfo getSong(int songId)
         {
-            return CServer.GetCurrentSong();
+            return CServer.GetSong(songId);
+        }
+
+        public int getCurrentSongId()
+        {
+            return CServer.GetCurrentSongId();
+        }
+
+        public SongInfo[] getAllSongs()
+        {
+            return CServer.GetAllSongs();
         }
 
         #endregion
+        
     }
 }

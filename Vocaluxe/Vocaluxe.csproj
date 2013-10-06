@@ -175,10 +175,6 @@
       <HintPath>..\Output\AForge.Video.DirectShow.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ClientServerLib">
-      <HintPath>..\ClientServerLib\ClientServerLib\bin\ClientServerLib.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Community.CsharpSqlite">
       <HintPath>..\Output\Community.CsharpSqlite.dll</HintPath>
     </Reference>
@@ -348,6 +344,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Website\img\noCover.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\playlist.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Website\index.html">
