@@ -404,9 +404,6 @@ namespace Vocaluxe.Base
                 }
                 Players[p].SungLines.RemoveRange(deleteLine, Players[p].SungLines.Count - deleteLine);
             }
-            CSong song = GetSong();
-            for (int i = 0; i < GetSong().Notes.Voices[0].Lines.Length; i++)
-                CLog.LogError((i + 1) + ". " + song.Notes.Voices[0].Lines[i].NoteCount + " - " + Players[0].SungLines[i].NoteCount);
 
             CSound.SetPosition(soundStream, time);
             CVideo.Skip(vidStream, time, GetSong().VideoGap);
