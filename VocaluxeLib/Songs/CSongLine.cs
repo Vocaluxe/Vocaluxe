@@ -90,11 +90,8 @@ namespace VocaluxeLib.Songs
 
         public void SetMedley(int startBeat, int endBeat)
         {
-            foreach (CSongNote note in _Notes)
-            {
-                if (note.StartBeat < startBeat || note.EndBeat > endBeat)
-                    note.NoteType = ENoteType.Freestyle;
-            }
+            foreach (CSongNote note in _Notes.Where(note => note.StartBeat < startBeat || note.EndBeat > endBeat))
+                note.NoteType = ENoteType.Freestyle;
 
             VisibleInTimeLine = FirstNoteBeat >= startBeat && LastNoteBeat <= endBeat;
         }

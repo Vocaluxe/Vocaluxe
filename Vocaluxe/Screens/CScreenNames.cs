@@ -22,6 +22,7 @@ using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
+using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
 {
@@ -597,6 +598,8 @@ namespace Vocaluxe.Screens
             _CheckMics();
             _CheckPlayers();
 
+            CSong firstSong = CGame.GetSong(0);
+
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
             {
                 _Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.IsProfileIDValid(CGame.Players[i].ProfileID) ?
@@ -607,8 +610,9 @@ namespace Vocaluxe.Screens
                 {
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Clear();
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = i + 1 <= CGame.NumPlayer;
-                    _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart1);
-                    _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart2);
+
+                    for (int j = 0; j < firstSong.Notes.VoiceCount; j++)
+                        _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(firstSong.Notes.VoiceNames[j]);
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Selection = i % 2;
                 }
                 else

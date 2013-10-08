@@ -110,7 +110,7 @@ namespace Vocaluxe.Base
             return CConfig.CoverSize;
         }
 
-        public IEnumerable<string> GetSongFolder()
+        public IEnumerable<string> GetSongFolders()
         {
             return CConfig.SongFolder;
         }

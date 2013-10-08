@@ -124,9 +124,6 @@ namespace VocaluxeLib.Songs
         public float Gap;
         public float VideoGap;
 
-        public string DuetPart1 = String.Empty;
-        public string DuetPart2 = String.Empty;
-
         private readonly List<string> _Comment = new List<string>();
 
         // Sorting
@@ -192,8 +189,6 @@ namespace VocaluxeLib.Songs
             PreviewStart = song.PreviewStart;
 
             ShortEnd = song.ShortEnd;
-            DuetPart1 = song.DuetPart1;
-            DuetPart2 = song.DuetPart2;
 
             Encoding = song.Encoding;
             Folder = song.Folder;
@@ -268,7 +263,7 @@ namespace VocaluxeLib.Songs
             if (Folder == null)
                 return false;
 
-            foreach (string folder in CBase.Config.GetSongFolder())
+            foreach (string folder in CBase.Config.GetSongFolders())
             {
                 if (!Folder.Contains(folder))
                     continue;
@@ -318,7 +313,7 @@ namespace VocaluxeLib.Songs
                                 sr = null;
                                 sr = new StreamReader(filePath, Encoding);
 
-                                //Scip everything till encoding
+                                //Skip everything till encoding
                                 while (!sr.EndOfStream)
                                 {
                                     line = sr.ReadLine();
@@ -362,12 +357,12 @@ namespace VocaluxeLib.Songs
                             case "DUETSINGERP1":
                             case "P1":
                                 if (value != "")
-                                    DuetPart1 = value;
+                                    Notes.VoiceNames[0] = value;
                                 break;
                             case "DUETSINGERP2":
                             case "P2":
                                 if (value != "")
-                                    DuetPart2 = value;
+                                    Notes.VoiceNames[1] = value;
                                 break;
                             case "MP3":
                                 if (File.Exists(Path.Combine(Folder, value)))
@@ -462,7 +457,7 @@ namespace VocaluxeLib.Songs
                                     CalculateMedley = false;
                                 break;
                             case "RELATIVE":
-                                if (value.ToUpper() == "YES" && value.ToUpper() != "NO")
+                                if (value.ToUpper() == "YES")
                                     Relative = EOffOn.TR_CONFIG_ON;
                                 break;
                         }
@@ -569,7 +564,7 @@ namespace VocaluxeLib.Songs
             int currentPos = 0;
             bool isNewSentence = false;
 
-            int player = 0;
+            int player = 1;
             int fileLineNo = 0;
 
             StreamReader sr = null;
@@ -611,14 +606,7 @@ namespace VocaluxeLib.Songs
                             char chr;
                             while ((chr = (char)sr.Read()) == ' ') {}
 
-                            int.TryParse(chr.ToString(), out param1);
-                            if (param1 == 1)
-                                player = 0;
-                            else if (param1 == 2)
-                                player = 1;
-                            else if (param1 == 3)
-                                player = 2;
-                            else
+                            if (!int.TryParse(chr.ToString(), out player))
                             {
                                 CBase.Log.LogError("Error loading song. Line No.: " + fileLineNo + ". Wrong or missing number after \"P\": " + filePath);
                                 return false;
@@ -652,14 +640,19 @@ namespace VocaluxeLib.Songs
                             if (Relative == EOffOn.TR_CONFIG_ON)
                                 param1 += currentPos;
 
-                            if (player != 2)
-                                // one singer
-                                _ParseNote(player, noteType, param1, param2, param3, paramS);
-                            else
+                            int curPlayer = 0;
+                            int tmpPlayer = player;
+                            //Evaluate as bitset
+                            while (tmpPlayer > 0)
                             {
-                                // both singer
-                                _ParseNote(0, noteType, param1, param2, param3, paramS);
-                                _ParseNote(1, noteType, param1, param2, param3, paramS);
+                                if ((tmpPlayer & 1) != 0)
+                                {
+                                    if (!_ParseNote(curPlayer, noteType, param1, param2, param3, paramS))
+                                        CBase.Log.LogError("Warning! Ignored note for player " + (curPlayer + 1) + " in song because it overlaps with other note. Line No.: " +
+                                                           fileLineNo + ": " + filePath);
+                                }
+                                tmpPlayer >>= 1;
+                                curPlayer++;
                             }
                             isNewSentence = false;
                             break;
@@ -789,15 +782,10 @@ namespace VocaluxeLib.Songs
 
         private void _CheckDuet()
         {
-            if (DuetPart1 == "")
+            for (int i = 0; i < Notes.VoiceCount; i++)
             {
-                DuetPart1 = "Part 1";
-                CBase.Log.LogError("Warning: Can't find #P1-tag for duets in \"" + Artist + " - " + Title + "\".");
-            }
-            if (DuetPart2 == "")
-            {
-                DuetPart2 = "Part 2";
-                CBase.Log.LogError("Warning: Can't find #P2-tag for duets in \"" + Artist + " - " + Title + "\".");
+                if (!Notes.VoiceNames.IsSet(i))
+                    CBase.Log.LogError("Warning: Can't find #P" + (i + 1) + "-tag for duets in \"" + Artist + " - " + Title + "\".");
             }
         }
 

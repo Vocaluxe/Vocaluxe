@@ -634,8 +634,9 @@ namespace Vocaluxe.Screens
 
             if (song.IsDuet)
             {
-                _Texts[_TextDuetName1].Text = song.DuetPart1;
-                _Texts[_TextDuetName2].Text = song.DuetPart2;
+                //TODO: Show more than 2 voicenames
+                _Texts[_TextDuetName1].Text = song.Notes.VoiceNames[0];
+                _Texts[_TextDuetName2].Text = song.Notes.VoiceNames[1];
                 //More than one song: Player is not assigned to line by user
                 //Otherwise, this is done by CScreenNames
                 if (CGame.GetNumSongs() > 1)
@@ -781,7 +782,7 @@ namespace Vocaluxe.Screens
 
 
             _CurrentBeat = CGame.CurrentBeat;
-            for (int i = 0; i < song.Notes.LinesCount; i++)
+            for (int i = 0; i < song.Notes.VoiceCount; i++)
             {
                 if (i > 1)
                     break; // for later
@@ -1093,7 +1094,7 @@ namespace Vocaluxe.Screens
             var alpha = new float[song.Notes.Voices.Length * 2];
             float currentTime = _CurrentTime - song.Gap;
 
-            for (int i = 0; i < song.Notes.LinesCount; i++)
+            for (int i = 0; i < song.Notes.VoiceCount; i++)
             {
                 CVoice voice = song.Notes.GetVoice(i);
                 CSongLine[] lines = voice.Lines;

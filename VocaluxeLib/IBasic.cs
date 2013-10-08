@@ -45,7 +45,7 @@ namespace VocaluxeLib
 
         int GetCoverSize();
 
-        IEnumerable<string> GetSongFolder();
+        IEnumerable<string> GetSongFolders();
         ESongSorting GetSongSorting();
         EOffOn GetTabs();
         EOffOn GetIgnoreArticles();
