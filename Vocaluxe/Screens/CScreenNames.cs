@@ -239,7 +239,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.F10:
-                        if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
+                        if (CGame.GetNumSongs() == 1 && CGame.GetSong(0).IsDuet)
                         {
                             CSelectSlide selectSlideDuetPart = _SelectSlides[_SelectSlideDuetPlayer[_SelectingFastPlayerNr - 1]];
                             selectSlideDuetPart.Selection = (selectSlideDuetPart.Selection + 1) % 2;
@@ -603,12 +603,12 @@ namespace Vocaluxe.Screens
                                                                CProfiles.GetAvatarTextureFromProfile(CGame.Players[i].ProfileID) :
                                                                _OriginalPlayerAvatarTextures[i];
                 _Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(CGame.Players[i].ProfileID, i + 1);
-                if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
+                if (CGame.GetNumSongs() == 1 && CGame.GetSong(0).IsDuet)
                 {
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Clear();
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = i + 1 <= CGame.NumPlayer;
-                    _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart1);
-                    _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart2);
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(0).DuetPart1);
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(0).DuetPart2);
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Selection = i % 2;
                 }
                 else
@@ -623,7 +623,7 @@ namespace Vocaluxe.Screens
         {
             for (int i = 0; i < CGame.NumPlayer; i++)
             {
-                if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
+                if (CGame.GetNumSongs() == 1 && CGame.GetSong(0).IsDuet)
                     CGame.Players[i].VoiceNr = _SelectSlides[_SelectSlideDuetPlayer[i]].Selection;
             }
 
@@ -652,7 +652,7 @@ namespace Vocaluxe.Screens
                     if (_Texts["TextPlayer" + i].Text == "")
                         _Texts["TextPlayer" + i].Text = CProfiles.GetPlayerName(-1, i);
                     _Equalizers["EqualizerPlayer" + i].Visible = true;
-                    if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
+                    if (CGame.GetNumSongs() == 1 && CGame.GetSong(0).IsDuet)
                         _SelectSlides["SelectSlideDuetPlayer" + i].Visible = true;
                 }
                 else

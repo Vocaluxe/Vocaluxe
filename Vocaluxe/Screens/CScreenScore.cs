@@ -118,7 +118,8 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
-            _Round = CGame.NumRounds > 1 ? 0 : 1;
+            //-1 --> Show average
+            _Round = CGame.NumRounds > 1 ? -1 : 0;
             _Points = CGame.GetPoints();
 
             _SavePlayedSongs();
@@ -130,8 +131,8 @@ namespace Vocaluxe.Screens
         public override bool UpdateGame()
         {
             var players = new SPlayer[CGame.NumPlayer];
-            if (_Round != 0)
-                players = _Points.GetPlayer(_Round - 1, CGame.NumPlayer);
+            if (_Round >= 0)
+                players = _Points.GetPlayer(_Round, CGame.NumPlayer);
             else
             {
                 for (int i = 0; i < CGame.NumRounds; i++)
@@ -263,7 +264,7 @@ namespace Vocaluxe.Screens
         {
             CSong song = null;
             var players = new SPlayer[CGame.NumPlayer];
-            if (_Round != 0)
+            if (_Round >= 0)
             {
                 song = CGame.GetSong(_Round);
                 if (song == null)
@@ -271,8 +272,8 @@ namespace Vocaluxe.Screens
 
                 _Texts[_TextSong].Text = song.Artist + " - " + song.Title;
                 if (_Points.NumRounds > 1)
-                    _Texts[_TextSong].Text += " (" + _Round + "/" + _Points.NumRounds + ")";
-                players = _Points.GetPlayer(_Round - 1, CGame.NumPlayer);
+                    _Texts[_TextSong].Text += " (" + (_Round + 1) + "/" + _Points.NumRounds + ")";
+                players = _Points.GetPlayer(_Round, CGame.NumPlayer);
             }
             else
             {
@@ -386,16 +387,14 @@ namespace Vocaluxe.Screens
 
         private void _ChangeRound(int num)
         {
-            if ((_Round + num) <= _Points.NumRounds && (_Round + num > 0))
-            {
-                _Round += num;
-                _UpdateRatings();
-            }
-            else if (num < 0 && _Round == 1 && CGame.NumRounds > 1)
-            {
-                _Round = 0;
-                _UpdateRatings();
-            }
+            if (_Points.NumRounds < 1)
+                return;
+            _Round += num;
+            _Round = _Round.Clamp(-1, _Points.NumRounds - 1);
+            if (_Round >= _Points.NumRounds)
+                _Round = _Points.NumRounds - 1;
+
+            _UpdateRatings();
         }
 
         private void _SavePlayedSongs()

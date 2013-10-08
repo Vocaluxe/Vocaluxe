@@ -131,7 +131,7 @@ namespace Vocaluxe.Base
 
         public static void NextRound()
         {
-            _SongQueue.NextRound(Players);
+            _SongQueue.StartNextRound(Players);
         }
 
         public static bool IsFinished()
