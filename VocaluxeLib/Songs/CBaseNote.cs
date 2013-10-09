@@ -15,6 +15,8 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
+
 namespace VocaluxeLib.Songs
 {
     /// <summary>
@@ -38,6 +40,8 @@ namespace VocaluxeLib.Songs
             StartBeat = startBeat;
             Duration = duration;
             Tone = tone;
+            if (Duration < 1)
+                throw new Exception("Note to short. All notes should be at least 1 beat long!");
         }
         #endregion Constructors
 

@@ -122,6 +122,8 @@ namespace VocaluxeLib.Songs
         public bool AddNote(CSongNote note, bool updateTimings = false)
         {
             int lineIndex = FindPreviousLine(note.StartBeat);
+            if (lineIndex + 1 < _Lines.Count && _Lines[lineIndex + 1].FirstNoteBeat < note.EndBeat) //First note in next line starts before this one ends
+                return false;
             if (lineIndex < 0)
             {
                 //Note is before ALL lines

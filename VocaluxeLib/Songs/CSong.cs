@@ -628,33 +628,40 @@ namespace VocaluxeLib.Songs
                             sr.Read();
                             string paramS = sr.ReadLine();
 
-                            ENoteType noteType;
-
-                            if (tempC.CompareTo('*') == 0)
-                                noteType = ENoteType.Golden;
-                            else if (tempC.CompareTo('F') == 0)
-                                noteType = ENoteType.Freestyle;
+                            if (param2 < 1)
+                                CBase.Log.LogError("Warning! Ignored note in song because length is < 1. Line No.: " + fileLineNo + ": " + filePath);
                             else
-                                noteType = ENoteType.Normal;
-
-                            if (Relative == EOffOn.TR_CONFIG_ON)
-                                param1 += currentPos;
-
-                            int curPlayer = 0;
-                            int tmpPlayer = player;
-                            //Evaluate as bitset
-                            while (tmpPlayer > 0)
                             {
-                                if ((tmpPlayer & 1) != 0)
+                                ENoteType noteType;
+
+                                if (tempC.CompareTo('*') == 0)
+                                    noteType = ENoteType.Golden;
+                                else if (tempC.CompareTo('F') == 0)
+                                    noteType = ENoteType.Freestyle;
+                                else
+                                    noteType = ENoteType.Normal;
+
+                                if (Relative == EOffOn.TR_CONFIG_ON)
+                                    param1 += currentPos;
+
+                                int curPlayer = 0;
+                                int tmpPlayer = player;
+                                //Evaluate as bitset
+                                while (tmpPlayer > 0)
                                 {
-                                    if (!_ParseNote(curPlayer, noteType, param1, param2, param3, paramS))
-                                        CBase.Log.LogError("Warning! Ignored note for player " + (curPlayer + 1) + " in song because it overlaps with other note. Line No.: " +
-                                                           fileLineNo + ": " + filePath);
+                                    if ((tmpPlayer & 1) != 0)
+                                    {
+                                        if (!_ParseNote(curPlayer, noteType, param1, param2, param3, paramS))
+                                        {
+                                            CBase.Log.LogError("Warning! Ignored note for player " + (curPlayer + 1) + " in song because it overlaps with other note. Line No.: " +
+                                                               fileLineNo + ": " + filePath);
+                                        }
+                                    }
+                                    tmpPlayer >>= 1;
+                                    curPlayer++;
                                 }
-                                tmpPlayer >>= 1;
-                                curPlayer++;
+                                isNewSentence = false;
                             }
-                            isNewSentence = false;
                             break;
                         case '-':
                             if (isNewSentence)
