@@ -440,10 +440,7 @@ namespace VocaluxeLib.Songs
                                     if ((tmpPlayer & 1) != 0)
                                     {
                                         if (!_ParseNote(curPlayer, noteType, beat, length, tone, text))
-                                        {
-                                            CBase.Log.LogError("Warning! Ignored note for player " + (curPlayer + 1) + " because it overlaps with other note. Line No.: " +
-                                                               lineNr + ": " + filePath);
-                                        }
+                                            _LogReadError("Warning: Ignored note for player " + (curPlayer + 1) + " because it overlaps with other note", lineNr);
                                     }
                                     tmpPlayer >>= 1;
                                     curPlayer++;
@@ -491,7 +488,10 @@ namespace VocaluxeLib.Songs
                                 while (tmpPlayer > 0)
                                 {
                                     if ((tmpPlayer & 1) != 0)
-                                        _NewSentence(curPlayer, beat);
+                                    {
+                                        if (_NewSentence(curPlayer, beat))
+                                            _LogReadError("Warning: Ignored line break for player " + (curPlayer + 1) + " (Overlapping or duplicate)", lineNr);
+                                    }
                                     tmpPlayer >>= 1;
                                     curPlayer++;
                                 }
@@ -536,14 +536,13 @@ namespace VocaluxeLib.Songs
         {
             var note = new CSongNote(start, length, tone, text, noteType);
             CVoice voice = Notes.GetVoice(player);
-            return voice.AddNote(note);
+            return voice.AddNote(note, false);
         }
 
-        private void _NewSentence(int player, int start)
+        private bool _NewSentence(int player, int start)
         {
             CVoice voice = Notes.GetVoice(player);
-            var line = new CSongLine {StartBeat = start};
-            voice.AddLine(line);
+            return voice.AddLine(start);
         }
     }
 }
