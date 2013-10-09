@@ -214,7 +214,7 @@ namespace VocaluxeLib
                 case "UTF8":
                     return Encoding.UTF8;
                 default:
-                    return Encoding.UTF8;
+                    return Encoding.Default;
             }
         }
 
