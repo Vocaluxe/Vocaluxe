@@ -5,6 +5,9 @@ using System.Text;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.ServiceModel.Web;
+using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
+using System.Net;
 
 namespace ClientServerLib
 {
@@ -12,6 +15,7 @@ namespace ClientServerLib
     {
         private ServiceHost host;
         private Uri baseAddress;
+        private bool encrypted = false;
 
         private static SendKeyEventDelegate sendKeyEvent;
         public static SendKeyEventDelegate SendKeyEvent
@@ -92,10 +96,25 @@ namespace ClientServerLib
 
         #endregion
 
-        public CServer(int port)
+        public CServer(int port, bool encrypted)
         {
-            baseAddress = new Uri("http://localhost:" + port + "/");
+            init(port, encrypted);
+        }
+
+        private void init(int port, bool encrypted)
+        {
+            string hostname = Dns.GetHostName();
+            if (encrypted)
+            {
+                baseAddress = new Uri("https://" + hostname + ":" + port + "/");
+            }
+            else
+            {
+                baseAddress = new Uri("http://" + hostname + ":" + port + "/");
+            }
+            this.encrypted = encrypted;
             host = new WebServiceHost(typeof(CWebservice), baseAddress);
+
             WebHttpBinding wb = new WebHttpBinding();
             wb.MaxReceivedMessageSize = 10485760;
             wb.MaxBufferSize = 10485760;
@@ -103,6 +122,11 @@ namespace ClientServerLib
             wb.ReaderQuotas.MaxStringContentLength = 10485760;
             wb.ReaderQuotas.MaxArrayLength = 10485760;
             wb.ReaderQuotas.MaxBytesPerRead = 10485760;
+            if (encrypted)
+            {
+                wb.Security.Mode = WebHttpSecurityMode.Transport;
+                wb.Security.Transport = new HttpTransportSecurity { ClientCredentialType = HttpClientCredentialType.None };
+            }
             host.AddServiceEndpoint(typeof(ICWebservice), wb, "");
         }
 
@@ -110,18 +134,33 @@ namespace ClientServerLib
         {
             try
             {
-                // Step 4 Enable metadata exchange.
-                ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
-                //smb.MetadataExporter.PolicyVersion = PolicyVersion.Policy15;
-                //smb.HttpGetEnabled = true;
-                host.Description.Behaviors.Add(smb);
+                /*ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
+                smb.MetadataExporter.PolicyVersion = PolicyVersion.Policy15;
+                smb.HttpGetEnabled = true;
+                host.Description.Behaviors.Add(smb);*/
 
-                // Step 5 Start the service.
                 host.Open();
-            }
-            catch (CommunicationException ce)
+            }            
+            catch (CommunicationException e)
             {
-                host.Abort();
+                if (e is AddressAccessDeniedException || e is AddressAlreadyInUseException)
+                {
+                    registerUrlAndCert(baseAddress.Port);
+                    try
+                    {
+                        host.Abort();
+                        init(baseAddress.Port, encrypted);
+                        host.Open();
+                    }
+                    catch (CommunicationException e2)
+                    {
+                        host.Abort();
+                    }
+                }
+                else
+                {
+                    host.Abort();
+                }
             }
         }
 
@@ -131,9 +170,26 @@ namespace ClientServerLib
             {
                 host.Close();
             }
-            catch (CommunicationException ce)
+            catch (CommunicationException e)
             {
                 host.Abort();
+            }
+        }
+
+        private void registerUrlAndCert(int port)
+        {
+            ProcessStartInfo info = new ProcessStartInfo();
+            info.FileName = "WebserverInitalConfig.exe";
+            info.Arguments = port.ToString() + " " + encrypted.ToString();
+            info.UseShellExecute = true;
+            info.CreateNoWindow = true;
+            info.WindowStyle = ProcessWindowStyle.Hidden;
+            info.Verb = "runas";
+            Process p = Process.Start(info);
+            if (p != null)
+            {
+                p.WaitForExit();
+                p.Close();
             }
         }
     }
