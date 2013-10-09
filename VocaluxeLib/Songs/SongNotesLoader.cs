@@ -350,7 +350,7 @@ namespace VocaluxeLib.Songs
             StreamReader sr = null;
             try
             {
-                sr = new StreamReader(filePath, Encoding, true);
+                sr = new StreamReader(filePath, Encoding);
 
                 Notes.Reset();
 
