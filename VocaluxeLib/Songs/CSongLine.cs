@@ -22,7 +22,7 @@ namespace VocaluxeLib.Songs
 {
     public class CSongLine : CLineBase<CSongNote>
     {
-        private int _StartBeat = int.MinValue;
+        private int _StartBeat = int.MaxValue;
         private int _EndBeat = int.MinValue;
 
         #region Constructors
@@ -46,7 +46,7 @@ namespace VocaluxeLib.Songs
 
         public int StartBeat
         {
-            get { return _StartBeat; }
+            get { return Math.Min(_StartBeat, FirstNoteBeat); }
             set
             {
                 if (value <= FirstNoteBeat)
@@ -56,7 +56,7 @@ namespace VocaluxeLib.Songs
 
         public int EndBeat
         {
-            get { return _EndBeat; }
+            get { return Math.Min(_EndBeat, LastNoteBeat); }
             set
             {
                 if (value >= LastNoteBeat)

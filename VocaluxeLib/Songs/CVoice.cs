@@ -127,9 +127,18 @@ namespace VocaluxeLib.Songs
             if (lineIndex < 0)
             {
                 //Note is before ALL lines
-                var line = new CSongLine {StartBeat = note.StartBeat};
-                line.AddNote(note);
-                _Lines.Insert(0, line);
+                if (_Lines.Count > 0)
+                {
+                    //Add to first line
+                    if (!_Lines[0].AddNote(note))
+                        return false;
+                }
+                else
+                {
+                    var line = new CSongLine();
+                    line.AddNote(note);
+                    _Lines.Add(line);
+                }
             }
             else
             {
@@ -157,8 +166,9 @@ namespace VocaluxeLib.Songs
         {
             CSongNote lastNote;
 
-            if (_Lines.Count > 0)
-                _Lines[0].StartBeat = -10000;
+            if (_Lines.Count == 0)
+                return;
+            _Lines[0].StartBeat = -10000;
 
             for (int i = 1; i < _Lines.Count; i++)
             {

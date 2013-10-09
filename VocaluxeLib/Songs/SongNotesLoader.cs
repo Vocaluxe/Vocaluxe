@@ -340,12 +340,15 @@ namespace VocaluxeLib.Songs
                 return false;
             }
 
-            char tempC = char.MinValue;
-            int currentPos = 0;
+            int currentBeat = 0; //Used for relative songs
             bool isNewSentence = false;
+            bool endFound = false;
 
             int player = 1;
-            int fileLineNo = 0;
+            int lineNr = 0;
+
+            char[] trimChars = {' ', ':'};
+            char[] splitChars = {' '};
 
             StreamReader sr = null;
             try
@@ -355,40 +358,32 @@ namespace VocaluxeLib.Songs
                 Notes.Reset();
 
                 //Search for Note Beginning
-                while (!sr.EndOfStream)
+                while (!sr.EndOfStream && !endFound)
                 {
-                    sr.ReadLine();
-                    fileLineNo++;
+                    string line = sr.ReadLine();
+                    lineNr++;
 
-                    tempC = (char)sr.Peek();
-                    if ((tempC == '#') || (tempC == '\r') || (tempC == '\n'))
+                    if (String.IsNullOrEmpty(line))
                         continue;
-                    if ((tempC == ':') || (tempC == 'F') || (tempC == '*') || (tempC == 'P'))
-                    {
-                        tempC = (char)sr.Read();
-                        break;
-                    }
-                }
 
-                if (sr.EndOfStream)
-                {
-                    CBase.Log.LogError("Error loading song. Line No.: " + fileLineNo + ". No lyrics/notes found: " + filePath);
-                    return false;
-                }
+                    char tag = line[0];
+                    //Remove tag and potential space
+                    line = (line.Length >= 2 && line[1] == ' ') ? line.Substring(2) : line.Substring(1);
 
-                do
-                {
-                    int param2;
-                    int param1;
-                    switch (tempC)
+                    int beat, length;
+                    switch (tag)
                     {
+                        case '#':
+                            continue;
+                        case 'E':
+                            endFound = true;
+                            break;
                         case 'P':
-                            char chr;
-                            while ((chr = (char)sr.Read()) == ' ') {}
+                            line = line.Trim(trimChars);
 
-                            if (!int.TryParse(chr.ToString(), out player))
+                            if (!int.TryParse(line, out player))
                             {
-                                CBase.Log.LogError("Error loading song. Line No.: " + fileLineNo + ". Wrong or missing number after \"P\": " + filePath);
+                                _LogReadError("Error: Wrong or missing number after \"P\"", lineNr);
                                 return false;
                             }
                             sr.ReadLine();
@@ -396,33 +391,46 @@ namespace VocaluxeLib.Songs
                         case ':':
                         case '*':
                         case 'F':
-                            sr.Read();
-                            param1 = CHelper.TryReadInt(sr);
-
-                            sr.Read();
-                            param2 = CHelper.TryReadInt(sr);
-
-                            sr.Read();
-                            int param3 = CHelper.TryReadInt(sr);
-
-                            sr.Read();
-                            string paramS = sr.ReadLine();
-
-                            if (param2 < 1)
-                                CBase.Log.LogError("Warning! Ignored note in song because length is < 1. Line No.: " + fileLineNo + ": " + filePath);
+                            string[] noteData = line.Split(splitChars, 4);
+                            if (noteData.Length < 4)
+                            {
+                                if (noteData.Length == 3)
+                                {
+                                    _LogReadError("Warning: Ignored note without text", lineNr);
+                                    continue;
+                                }
+                                _LogReadError("Error: Invalid note found", lineNr);
+                                sr.Dispose();
+                                return false;
+                            }
+                            int tone;
+                            if (!int.TryParse(noteData[0], out beat) || !int.TryParse(noteData[1], out length) || !int.TryParse(noteData[2], out tone))
+                            {
+                                _LogReadError("Error: Invalid note found (non-numeric values)", lineNr);
+                                sr.Dispose();
+                                return false;
+                            }
+                            string text = noteData[3];
+                            if (text.Trim() == "")
+                            {
+                                _LogReadError("Warning: Ignored note without text", lineNr);
+                                continue;
+                            }
+                            if (length < 1)
+                                _LogReadError("Warning: Ignored note with length < 1", lineNr);
                             else
                             {
                                 ENoteType noteType;
 
-                                if (tempC.CompareTo('*') == 0)
+                                if (tag.Equals('*'))
                                     noteType = ENoteType.Golden;
-                                else if (tempC.CompareTo('F') == 0)
+                                else if (tag.Equals('F'))
                                     noteType = ENoteType.Freestyle;
                                 else
                                     noteType = ENoteType.Normal;
 
                                 if (Relative == EOffOn.TR_CONFIG_ON)
-                                    param1 += currentPos;
+                                    beat += currentBeat;
 
                                 int curPlayer = 0;
                                 int tmpPlayer = player;
@@ -431,10 +439,10 @@ namespace VocaluxeLib.Songs
                                 {
                                     if ((tmpPlayer & 1) != 0)
                                     {
-                                        if (!_ParseNote(curPlayer, noteType, param1, param2, param3, paramS))
+                                        if (!_ParseNote(curPlayer, noteType, beat, length, tone, text))
                                         {
-                                            CBase.Log.LogError("Warning! Ignored note for player " + (curPlayer + 1) + " in song because it overlaps with other note. Line No.: " +
-                                                               fileLineNo + ": " + filePath);
+                                            CBase.Log.LogError("Warning! Ignored note for player " + (curPlayer + 1) + " because it overlaps with other note. Line No.: " +
+                                                               lineNr + ": " + filePath);
                                         }
                                     }
                                     tmpPlayer >>= 1;
@@ -446,22 +454,35 @@ namespace VocaluxeLib.Songs
                         case '-':
                             if (isNewSentence)
                             {
-                                CBase.Log.LogError("Error loading song. Line No.: " + fileLineNo + ". Double sentence break: " + filePath);
+                                _LogReadError("Error: Double sentence break", lineNr);
+                                sr.Dispose();
                                 return false;
                             }
-                            sr.Read();
-                            param1 = CHelper.TryReadInt(sr);
+                            string[] lineBreakData = line.Split(splitChars);
+                            if (lineBreakData.Length < 1)
+                            {
+                                _LogReadError("Error: Invalid line break found (No beat)", lineNr);
+                                sr.Dispose();
+                                return false;
+                            }
+                            if (!int.TryParse(lineBreakData[0], out beat))
+                            {
+                                _LogReadError("Error: Invalid line break found (Non-numeric value)", lineNr);
+                                sr.Dispose();
+                                return false;
+                            }
 
                             if (Relative == EOffOn.TR_CONFIG_ON)
                             {
-                                param1 += currentPos;
-                                sr.Read();
-                                param2 = CHelper.TryReadInt(sr);
-                                currentPos += param2;
+                                beat += currentBeat;
+                                if (lineBreakData.Length < 2 || !int.TryParse(lineBreakData[1], out length))
+                                    _LogReadError("Warning: Missing line break length", lineNr);
+                                else
+                                    currentBeat += length;
                             }
 
-                            if (param1 < 1)
-                                CBase.Log.LogError("Warning! Ignored line break in song because position is < 1. Line No.: " + fileLineNo + ": " + filePath);
+                            if (beat < 1)
+                                _LogReadError("Warning: Ignored line break because position is < 1", lineNr);
                             else
                             {
                                 int curPlayer = 0;
@@ -470,34 +491,26 @@ namespace VocaluxeLib.Songs
                                 while (tmpPlayer > 0)
                                 {
                                     if ((tmpPlayer & 1) != 0)
-                                        _NewSentence(curPlayer, param1);
+                                        _NewSentence(curPlayer, beat);
                                     tmpPlayer >>= 1;
                                     curPlayer++;
                                 }
 
                                 isNewSentence = true;
                             }
-                            sr.ReadLine();
                             break;
                         default:
-                            CBase.Log.LogError("Error loading song. Line No.: " + fileLineNo + ". Unexpected or missing character (" + tempC + "): " + filePath);
+                            _LogReadError("Error loading song. Unexpected or missing character (" + tag + ")", lineNr);
                             return false;
                     }
-                    int c;
-                    do
-                    {
-                        c = sr.Read();
-                    } while (!sr.EndOfStream && (c == 19 || c == 16 || c == 13 || c == 10));
-                    tempC = (char)c;
-                    fileLineNo++;
-                } while (!sr.EndOfStream && (tempC != 'E'));
+                }
 
                 foreach (CVoice voice in Notes.Voices)
                     voice.UpdateTimings();
             }
             catch (Exception e)
             {
-                CBase.Log.LogError("Error loading song. Line No.: " + fileLineNo + ". An unhandled exception occured (" + e.Message + "): " + filePath);
+                _LogReadError("Error: An unhandled exception occured (" + e.Message + ")", lineNr);
                 if (sr != null)
                     sr.Dispose();
                 return false;
