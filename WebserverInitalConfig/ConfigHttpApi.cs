@@ -9,6 +9,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
+using NetFwTypeLib;
 
 namespace WebserverInitalConfig
 {
@@ -84,7 +85,44 @@ namespace WebserverInitalConfig
             return cert;
         }
 
+        public static void addFirewallrule(string exePath, int port, bool isTCP)
+        {
+            INetFwMgr manage = (INetFwMgr)Activator.CreateInstance(
+                        Type.GetTypeFromCLSID(new Guid("{304CE942-6E39-40D8-943A-B913C40C9CD4}")));
+            bool isFirewallEnabled = manage.LocalPolicy.CurrentProfile.FirewallEnabled;
 
+            if (isFirewallEnabled)
+            {
+                INetFwAuthorizedApplications applications = manage.LocalPolicy.CurrentProfile.AuthorizedApplications;
+                if ((from INetFwAuthorizedApplication a in applications
+                         where a.ProcessImageFileName == exePath
+                         select a).Count() == 0)
+                {
+                    INetFwAuthorizedApplication application = (INetFwAuthorizedApplication)Activator.CreateInstance(
+                        Type.GetTypeFromCLSID(new Guid("{EC9846B3-2762-4A6B-A214-6ACB603462D2}")));
+
+                    application.Name = "Vocaluxe";
+                    application.ProcessImageFileName = exePath;
+                    application.Enabled = true;
+                    applications.Add(application);
+                }
+                INetFwOpenPorts openPorts = manage.LocalPolicy.CurrentProfile.GloballyOpenPorts;
+                if ((from INetFwOpenPort p in openPorts
+                         where  (p.Port == port && 
+                            (p.Protocol == (isTCP?NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP : NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP)))
+                         select p).Count() == 0)
+                {
+                    INetFwOpenPort openPort = (INetFwOpenPort)Activator.CreateInstance(
+                        Type.GetTypeFromCLSID(new Guid("{0CA545C6-37AD-4A6C-BF92-9F7610067EF5}")));
+                    openPort.Enabled = true;
+                    openPort.Port = port;
+                    openPort.Protocol = (isTCP ? NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP : NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
+                    openPort.Name = "Vocaluxe";
+
+                    openPorts.Add(openPort);
+                }
+            }
+        }
         /*public static X509Certificate2 getCert(string subject)
         {
             RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
