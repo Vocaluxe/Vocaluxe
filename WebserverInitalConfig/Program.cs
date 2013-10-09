@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Principal;
@@ -17,6 +18,8 @@ namespace WebserverInitalConfig
             {
                 Console.WriteLine("Usage: WebserverInitalConfig port isHttps");
             }
+
+            ConfigHttpApi.addFirewallrule(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Vocaluxe.exe"), Int32.Parse(args[0]), true);
 
             if (args[1].ToLower() == "true")
             {
