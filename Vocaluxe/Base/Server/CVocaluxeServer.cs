@@ -45,17 +45,10 @@ namespace Vocaluxe.Base.Server
         public static void Init()
         {
             _Clients = new Dictionary<int, CClientHandler>();
-            if (CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON)
-            {
-                _Server = new CServer(CConfig.ServerPort);
-                //_Server = new CServer(RequestHandler, CConfig.ServerPort, CConfig.ServerPassword);
-            }
-            else
-            {
-                _Server = new CServer(CConfig.ServerPort);
-                //_Server = new CServer(RequestHandler, CConfig.ServerPort, String.Empty);
-            }
 
+             _Server = new CServer(CConfig.ServerPort, CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON);
+            //_Server = new CServer(RequestHandler, CConfig.ServerPort, CConfig.ServerPassword);
+            
             CServer.SendKeyEvent = sendKeyEvent;
             CServer.GetProfileData = getProfileData;
             CServer.SendProfileData = sendProfileData;
@@ -340,7 +333,7 @@ namespace Vocaluxe.Base.Server
 
         private static SongInfo[] getAllSongs()
         {
-            var songs = CSongs.Songs;            
+            var songs = CSongs.Songs;
             return (from s in songs
                     select getSongInfo(s, false)).ToArray<SongInfo>();
         }
