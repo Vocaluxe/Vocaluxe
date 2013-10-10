@@ -26,7 +26,7 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using ClientServerLib;
+using ServerLib;
 using Vocaluxe.Lib.Input;
 using VocaluxeLib;
 using VocaluxeLib.Profile;

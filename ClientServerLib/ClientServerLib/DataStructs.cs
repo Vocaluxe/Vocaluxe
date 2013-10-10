@@ -8,7 +8,7 @@ using System.IO;
 using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 
-namespace ClientServerLib
+namespace ServerLib
 {
     public delegate bool SendKeyEventDelegate(string key);
 

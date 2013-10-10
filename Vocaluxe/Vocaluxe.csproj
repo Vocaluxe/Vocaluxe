@@ -362,9 +362,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClientServerLib\ClientServerLib\ClientServerLib.csproj">
+    <ProjectReference Include="..\ClientServerLib\ClientServerLib\ServerLib.csproj">
       <Project>{ec5167e4-ccfb-4cee-987c-cf816f1062a3}</Project>
-      <Name>ClientServerLib</Name>
+      <Name>ServerLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\VocaluxeLib\VocaluxeLib.csproj">
       <Project>{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}</Project>

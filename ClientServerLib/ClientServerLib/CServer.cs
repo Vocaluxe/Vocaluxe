@@ -9,7 +9,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Diagnostics;
 using System.Net;
 
-namespace ClientServerLib
+namespace ServerLib
 {
     public class CServer
     {

@@ -7,7 +7,7 @@ using System.ServiceModel.Web;
 using System.Web.Services;
 using System.IO;
 
-namespace ClientServerLib
+namespace ServerLib
 {
     [ServiceContract]
     public interface ICWebservice
