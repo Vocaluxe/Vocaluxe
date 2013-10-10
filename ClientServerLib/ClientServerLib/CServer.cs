@@ -140,7 +140,7 @@ namespace ClientServerLib
                 host.Description.Behaviors.Add(smb);*/
 
                 host.Open();
-            }            
+            }
             catch (CommunicationException e)
             {
                 if (e is AddressAccessDeniedException || e is AddressAlreadyInUseException)
@@ -178,6 +178,8 @@ namespace ClientServerLib
 
         private void registerUrlAndCert(int port)
         {
+            #if WIN
+
             ProcessStartInfo info = new ProcessStartInfo();
             info.FileName = "WebserverInitalConfig.exe";
             info.Arguments = port.ToString() + " " + encrypted.ToString();
@@ -191,6 +193,12 @@ namespace ClientServerLib
                 p.WaitForExit();
                 p.Close();
             }
+
+            #else
+
+            //Required?
+
+            #endif
         }
     }
 }
