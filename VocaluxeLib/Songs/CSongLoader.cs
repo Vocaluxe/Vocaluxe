@@ -147,14 +147,6 @@ namespace VocaluxeLib.Songs
                             case "ARTIST-ON-SORTING":
                                 _Song.ArtistSorting = value;
                                 break;
-                            case "DUETSINGERP1":
-                            case "P1":
-                                _Song.Notes.VoiceNames[0] = value;
-                                break;
-                            case "DUETSINGERP2":
-                            case "P2":
-                                _Song.Notes.VoiceNames[1] = value;
-                                break;
                             case "MP3":
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
                                 {
@@ -294,7 +286,10 @@ namespace VocaluxeLib.Songs
                                 {
                                     int player;
                                     if (int.TryParse(identifier.Substring(1).Trim(), out player))
-                                        foreach (int curPlayer in player.GetSetBits()) {}
+                                    {
+                                        foreach (int curPlayer in player.GetSetBits())
+                                            _Song.Notes.VoiceNames[curPlayer] = value;
+                                    }
                                 }
 
                                 break;
