@@ -82,7 +82,7 @@ namespace VocaluxeLib.Songs
         public string Folder = String.Empty;
         public string FolderName = String.Empty;
         public string FileName = String.Empty;
-        public EOffOn Relative = EOffOn.TR_CONFIG_OFF;
+        public bool Relative;
 
         public string MP3FileName = String.Empty;
         public string CoverFileName = String.Empty;
@@ -165,12 +165,6 @@ namespace VocaluxeLib.Songs
         //No point creating a song without a text file --> Use factory method LoadSong
         private CSong() {}
 
-        public static CSong LoadSong(string filePath)
-        {
-            var song = new CSong();
-            return song._InitPaths(filePath) && song._ReadHeader() ? song : null;
-        }
-
         public CSong(CSong song)
         {
             _CoverTextureSmall = song._CoverTextureSmall;
@@ -234,6 +228,19 @@ namespace VocaluxeLib.Songs
             NumPlayed = song.NumPlayed;
 
             Notes = new CNotes(song.Notes);
+        }
+
+        public static CSong LoadSong(string filePath)
+        {
+            var song = new CSong();
+            var loader = new CSongLoader(song);
+            return loader.InitPaths(filePath) && loader.ReadHeader() ? song : null;
+        }
+
+        public bool LoadNotes()
+        {
+            var loader = new CSongLoader(this);
+            return loader.ReadNotes();
         }
 
         public string GetMP3()

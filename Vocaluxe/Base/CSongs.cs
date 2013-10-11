@@ -312,7 +312,7 @@ namespace Vocaluxe.Base
                 if (song == null)
                     continue;
                 song.ID = _Songs.Count;
-                if (song.ReadNotes())
+                if (song.LoadNotes())
                     _Songs.Add(song);
             }
             CLog.StopBenchmark(2, "Read TXTs");

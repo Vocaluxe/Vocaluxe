@@ -133,7 +133,7 @@ namespace VocaluxeLib.Songs
                 //Maybe we have to split the previous line
                 while (prevLine.NoteCount > 0 && prevLine.LastNote.StartBeat >= startBeat)
                 {
-                    throw new Exception("This should not happen on song loading!");
+                    //throw new Exception("This should not happen on song loading!");
                     line.AddNote(prevLine.LastNote);
                     prevLine.DeleteNote(prevLine.NoteCount - 1);
                 }
