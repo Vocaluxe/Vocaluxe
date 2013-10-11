@@ -124,7 +124,7 @@ namespace VocaluxeLib.Songs
         public float Gap;
         public float VideoGap;
 
-        private readonly List<string> _Comment = new List<string>();
+        private string _Comment = "";
 
         // Sorting
         public int ID;
@@ -208,7 +208,7 @@ namespace VocaluxeLib.Songs
             Gap = song.Gap;
             VideoGap = song.VideoGap;
 
-            _Comment = new List<string>(song._Comment);
+            _Comment = song._Comment;
 
             ID = song.ID;
             _Visible = song._Visible;
@@ -271,11 +271,12 @@ namespace VocaluxeLib.Songs
             if (CoverFileName == "")
             {
                 List<string> files = CHelper.ListFiles(Folder, "*.jpg");
+                files.AddRange(CHelper.ListFiles(Folder, "*.jpeg"));
                 files.AddRange(CHelper.ListFiles(Folder, "*.png"));
                 foreach (String file in files)
                 {
-                    if (Regex.IsMatch(file, @".[CO].", RegexOptions.IgnoreCase) &&
-                        (Regex.IsMatch(file, @"" + Regex.Escape(Title), RegexOptions.IgnoreCase) || Regex.IsMatch(file, @"" + Regex.Escape(Artist), RegexOptions.IgnoreCase)))
+                    if (file.ContainsIgnoreCase("[CO]") &&
+                        (file.ContainsIgnoreCase(Title) || file.ContainsIgnoreCase(Artist)))
                         CoverFileName = file;
                 }
             }
@@ -283,11 +284,12 @@ namespace VocaluxeLib.Songs
             if (BackgroundFileName == "")
             {
                 List<string> files = CHelper.ListFiles(Folder, "*.jpg");
+                files.AddRange(CHelper.ListFiles(Folder, "*.jpeg"));
                 files.AddRange(CHelper.ListFiles(Folder, "*.png"));
                 foreach (String file in files)
                 {
-                    if (Regex.IsMatch(file, @".[BG].", RegexOptions.IgnoreCase) &&
-                        (Regex.IsMatch(file, @"" + Regex.Escape(Title), RegexOptions.IgnoreCase) || Regex.IsMatch(file, @"" + Regex.Escape(Artist), RegexOptions.IgnoreCase)))
+                    if (file.ContainsIgnoreCase("[BG]") &&
+                        (file.ContainsIgnoreCase(Title) || file.ContainsIgnoreCase(Artist)))
                         BackgroundFileName = file;
                 }
             }

@@ -81,7 +81,7 @@ namespace VocaluxeLib.Songs
 
                 _Song.Languages.Clear();
                 _Song.Genres.Clear();
-                _Song._Comment.Clear();
+                _Song._Comment = "";
 
                 var headerFlags = new EHeaderFlags();
                 StreamReader sr = null;
@@ -196,10 +196,9 @@ namespace VocaluxeLib.Songs
                                     _LogWarning("Invalid language");
                                 break;
                             case "COMMENT":
-                                if (value.Length > 1)
-                                    _Song._Comment.Add(value);
-                                else
-                                    _LogWarning("Invalid comment");
+                                if (!String.IsNullOrEmpty(_Song._Comment))
+                                    _Song._Comment += "\r\n";
+                                _Song._Comment += value;
                                 break;
                             case "GAP":
                                 if (CHelper.TryParse(value, out _Song.Gap))

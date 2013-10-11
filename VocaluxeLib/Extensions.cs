@@ -54,7 +54,7 @@ namespace VocaluxeLib
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static List<int> GetSetBits(this int value)
+        public static IEnumerable<int> GetSetBits(this int value)
         {
             var result = new List<int>();
             int curBit = 0;
@@ -67,6 +67,11 @@ namespace VocaluxeLib
                 curBit++;
             }
             return result;
+        }
+
+        public static bool ContainsIgnoreCase(this string value, string other)
+        {
+            return value.IndexOf(other, StringComparison.CurrentCultureIgnoreCase) >= 0;
         }
     }
 }
