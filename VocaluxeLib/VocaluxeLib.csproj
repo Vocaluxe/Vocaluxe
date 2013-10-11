@@ -178,7 +178,7 @@
     <Compile Include="Songs\CSungLine.cs" />
     <Compile Include="Songs\CSungNote.cs" />
     <Compile Include="Songs\CVoice.cs" />
-    <Compile Include="Songs\SongNotesLoader.cs" />
+    <Compile Include="Songs\CSongLoader.cs" />
     <Compile Include="Structs.cs" />
     <Compile Include="PartyModes\CPartyMode.cs" />
     <Compile Include="PartyModes\CPartyModeNone.cs" />
