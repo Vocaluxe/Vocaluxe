@@ -11,6 +11,11 @@ namespace VocaluxeLib.Songs
     /// </summary>
     public partial class CSong
     {
+        /// <summary>
+        /// Factor the bpm given in the txt is multiplied with
+        /// </summary>
+        private const int _BPMFactor = 4;
+
         private class CSongLoader
         {
             private readonly CSong _Song;
@@ -54,6 +59,7 @@ namespace VocaluxeLib.Songs
             /// </summary>
             /// <param name="msg">Message</param>
             /// <param name="error">True prepends "Error: "; False prepends "Warning: "</param>
+            /// <param name="withLineNr">Adds line#</param>
             private void _LogMsg(string msg, bool error, bool withLineNr)
             {
                 msg = (error ? "Error: " : "Warning: ") + msg;
@@ -164,7 +170,7 @@ namespace VocaluxeLib.Songs
                             case "BPM":
                                 if (CHelper.TryParse(value, out _Song.BPM))
                                 {
-                                    _Song.BPM *= 4;
+                                    _Song.BPM *= _BPMFactor;
                                     headerFlags |= EHeaderFlags.BPM;
                                 }
                                 else
@@ -248,6 +254,16 @@ namespace VocaluxeLib.Songs
                                 else
                                     _LogWarning("Invalid previewstart");
                                 break;
+                            case "PREVIEW":
+                                if (CHelper.TryParse(value, out _Song.PreviewStart) && _Song.PreviewStart >= 0f)
+                                {
+                                    //This is stored in ms not like PREVIEWSTART!
+                                    _Song.PreviewStart /= 1000f;
+                                    headerFlags |= EHeaderFlags.PreviewStart;
+                                }
+                                else
+                                    _LogWarning("Invalid previewstart");
+                                break;
                             case "MEDLEYSTARTBEAT":
                                 if (int.TryParse(value, out _Song.Medley.StartBeat))
                                     headerFlags |= EHeaderFlags.MedleyStartBeat;
@@ -268,6 +284,9 @@ namespace VocaluxeLib.Songs
                                 if (value.ToUpper() == "YES")
                                     _Song.Relative = true;
                                 break;
+                            case "RESULTION":
+                                _LogWarning("#RESOLUTION tag is outdated and ignored. Test the song to see if note timing is still correct!");
+                                break;
                             default:
                                 if (identifier.StartsWith("DUETSINGER"))
                                     identifier = identifier.Substring(10);
@@ -277,6 +296,7 @@ namespace VocaluxeLib.Songs
                                     if (int.TryParse(identifier.Substring(1).Trim(), out player))
                                         foreach (int curPlayer in player.GetSetBits()) {}
                                 }
+
                                 break;
                         }
                     } //end of while

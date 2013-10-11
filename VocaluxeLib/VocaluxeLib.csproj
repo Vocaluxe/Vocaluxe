@@ -175,6 +175,7 @@
     <Compile Include="Menu\SongMenu\CSongMenuList.cs" />
     <Compile Include="Menu\SongMenu\CSongMenuTileBoard.cs" />
     <Compile Include="Menu\SongMenu\ISongMenu.cs" />
+    <Compile Include="Songs\CSongWriter.cs" />
     <Compile Include="Songs\CSungLine.cs" />
     <Compile Include="Songs\CSungNote.cs" />
     <Compile Include="Songs\CVoice.cs" />

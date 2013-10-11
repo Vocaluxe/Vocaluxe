@@ -117,11 +117,23 @@ namespace VocaluxeLib.Songs
         public string TitleSorting = String.Empty;
         public string ArtistSorting = String.Empty;
 
+        /// <summary>
+        /// Start of the song in s (s in txt)
+        /// </summary>
         public float Start;
+        /// <summary>
+        /// End of the song in s (ms in txt)
+        /// </summary>
         public float Finish;
 
         public float BPM = 1f;
+        /// <summary>
+        /// Gap of the mp3 in s (ms in txt)
+        /// </summary>
         public float Gap;
+        /// <summary>
+        /// Gap of the video in s (s in txt)
+        /// </summary>
         public float VideoGap;
 
         private string _Comment = "";
