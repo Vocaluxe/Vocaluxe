@@ -137,10 +137,10 @@ namespace VocaluxeLib.Songs
         }
 
         public readonly List<string> Edition = new List<string>();
-        public readonly List<string> Genre = new List<string>();
+        public readonly List<string> Genres = new List<string>();
         public string Year = "";
 
-        public readonly List<string> Language = new List<string>();
+        public readonly List<string> Languages = new List<string>();
 
         public int DataBaseSongID = -1;
         public string DateAdded = "";
@@ -217,11 +217,11 @@ namespace VocaluxeLib.Songs
 
             Edition = new List<string>(song.Edition);
 
-            Genre = new List<string>(song.Genre);
+            Genres = new List<string>(song.Genres);
 
             Year = song.Year;
 
-            Language = new List<string>(song.Language);
+            Languages = new List<string>(song.Languages);
 
             DataBaseSongID = song.DataBaseSongID;
             DateAdded = song.DateAdded;

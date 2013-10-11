@@ -48,5 +48,25 @@ namespace VocaluxeLib
             if (size > list.Count)
                 list.Add(new T());
         }
+
+        /// <summary>
+        /// Gets all set bits starting from lowest (Bit 0)
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static List<int> GetSetBits(this int value)
+        {
+            var result = new List<int>();
+            int curBit = 0;
+            //Evaluate as bitset
+            while (value > 0)
+            {
+                if ((value & 1) != 0)
+                    result.Add(curBit);
+                value >>= 1;
+                curBit++;
+            }
+            return result;
+        }
     }
 }

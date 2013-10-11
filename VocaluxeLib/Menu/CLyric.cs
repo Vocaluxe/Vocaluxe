@@ -23,14 +23,6 @@ using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu
 {
-    struct SNote
-    {
-        public string Text;
-        public int StartBeat;
-        public int EndBeat;
-        public ENoteType Type;
-    }
-
     struct SThemeLyrics
     {
         public string Name;

@@ -48,7 +48,7 @@ namespace VocaluxeLib.Songs
         }
 
         #region Properties
-        public double Points;
+        public new double Points;
         // for drawing player notes
         public bool Hit
         {
