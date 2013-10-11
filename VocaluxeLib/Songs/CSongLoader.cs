@@ -351,21 +351,63 @@ namespace VocaluxeLib.Songs
                 CBase.DataBase.GetDataBaseSongInfos(_Song.Artist, _Song.Title, out _Song.NumPlayed, out _Song.DateAdded, out _Song.DataBaseSongID);
 
                 //Before saving this tags to .txt: Check, if ArtistSorting and Artist are equal, then don't save this tag.
-                if (_Song.ArtistSorting == "")
+                if (String.IsNullOrEmpty(_Song.ArtistSorting))
                     _Song.ArtistSorting = _Song.Artist;
 
-                if (_Song.TitleSorting == "")
+                if (String.IsNullOrEmpty(_Song.TitleSorting))
                     _Song.TitleSorting = _Song.Title;
 
                 return true;
             }
 
-            public bool ReadNotes()
+            private enum ENoteReadMode
             {
-                return _ReadNotes();
+                Normal,
+                ZeroBased,
+                OneBased
             }
 
-            private bool _ReadNotes(bool forceReload = false)
+            private class CAutoChanges
+            {
+                public int ZeroLengthNoteCt;
+                public int OverlapNoteCt;
+                public int NoTextNoteCt;
+                public int NoLengthBreakCt;
+                public int AjustedBreakCt;
+                public int InvalidPosBreakCt;
+
+                public bool IsModified
+                {
+                    get { return ZeroLengthNoteCt + OverlapNoteCt + NoTextNoteCt + NoLengthBreakCt + AjustedBreakCt + InvalidPosBreakCt > 0; }
+                }
+
+                public override string ToString()
+                {
+                    string result = "";
+                    int skippedNotesCt = ZeroLengthNoteCt + OverlapNoteCt + NoTextNoteCt;
+                    if (skippedNotesCt > 0)
+                        result += "Skipped " + skippedNotesCt + " notes (0-Length: " + ZeroLengthNoteCt + ", Overlapping: " + OverlapNoteCt + ", No text: " + NoTextNoteCt + ")\r\n";
+                    if (InvalidPosBreakCt > 0)
+                        result += "Skipped " + InvalidPosBreakCt + " line breaks (Invalid position)\r\n";
+                    int adjustedBreakCt = AjustedBreakCt + NoLengthBreakCt;
+                    if (adjustedBreakCt > 0)
+                        result += "Adjusted " + adjustedBreakCt + " line breaks (Overlapping previous note: " + AjustedBreakCt + ", No length: " + NoLengthBreakCt + ")\r\n";
+                    return result;
+                }
+            }
+
+            private ENoteReadMode _CurrentReadMode = ENoteReadMode.Normal;
+            private const int _MaxZeroNoteCt = 1;
+            private const int _MaxOverlapNoteCt = 3;
+
+            /// <summary>
+            /// Read notes. First try to read notes normally (assume standard)<br/>
+            /// If there are more than _MaxZeroNoteCt with length &lt; 1,  try to read notes adding 1 to length<br/>
+            /// Then if there are more than _MaxOverlapNoteCt fallback to first version ignoring notes with length &lt; 1
+            /// </summary>
+            /// <param name="forceReload"></param>
+            /// <returns></returns>
+            public bool ReadNotes(bool forceReload = false)
             {
                 //Skip loading if already done and no reload is forced
                 if (_Song.NotesLoaded && !forceReload)
@@ -380,14 +422,16 @@ namespace VocaluxeLib.Songs
                 }
 
                 int currentBeat = 0; //Used for relative songs
-                int lastNoteEnd = 0;
-                bool endFound = false;
+                CSongNote lastNote = null; //Holds last parsed note. Get's reset on player change
+                bool endFound = false; // True if end tag was found
 
                 int player = 1;
                 _LineNr = 0;
 
                 char[] trimChars = {' ', ':'};
                 char[] splitChars = {' '};
+
+                var changesMade = new CAutoChanges();
 
                 StreamReader sr = null;
                 try
@@ -425,7 +469,7 @@ namespace VocaluxeLib.Songs
                                     _LogError("Wrong or missing number after \"P\"");
                                     return false;
                                 }
-                                sr.ReadLine();
+                                lastNote = null;
                                 break;
                             case ':':
                             case '*':
@@ -436,6 +480,7 @@ namespace VocaluxeLib.Songs
                                     if (noteData.Length == 3)
                                     {
                                         _LogWarning("Ignored note without text");
+                                        changesMade.NoTextNoteCt++;
                                         continue;
                                     }
                                     _LogError("Invalid note found");
@@ -453,10 +498,23 @@ namespace VocaluxeLib.Songs
                                 if (text.Trim() == "")
                                 {
                                     _LogWarning("Ignored note without text");
+                                    changesMade.NoTextNoteCt++;
                                     continue;
                                 }
+                                if (_CurrentReadMode == ENoteReadMode.ZeroBased)
+                                    length++;
                                 if (length < 1)
+                                {
+                                    changesMade.ZeroLengthNoteCt++;
+                                    if (_CurrentReadMode == ENoteReadMode.Normal && changesMade.ZeroLengthNoteCt > _MaxZeroNoteCt && changesMade.OverlapNoteCt <= _MaxOverlapNoteCt)
+                                    {
+                                        _LogWarning("Found more than " + _MaxZeroNoteCt + " note with length < 1. Trying alternative read mode.");
+                                        _CurrentReadMode = ENoteReadMode.ZeroBased;
+                                        sr.Dispose();
+                                        return ReadNotes(true);
+                                    }
                                     _LogWarning("Ignored note with length < 1");
+                                }
                                 else
                                 {
                                     ENoteType noteType;
@@ -471,13 +529,30 @@ namespace VocaluxeLib.Songs
                                     if (_Song.Relative)
                                         beat += currentBeat;
 
+
+                                    bool ignored = false;
                                     foreach (int curPlayer in player.GetSetBits())
                                     {
-                                        if (!_ParseNote(curPlayer, noteType, beat, length, tone, text))
+                                        //Create the note here as we want independent instances in the lines. Otherwhise we can't modify them later
+                                        lastNote = new CSongNote(beat, length, tone, text, noteType);
+                                        if (!_AddNote(curPlayer, lastNote))
+                                        {
+                                            if (!ignored)
+                                            {
+                                                ignored = true;
+                                                changesMade.OverlapNoteCt++;
+                                                if (changesMade.OverlapNoteCt > _MaxOverlapNoteCt && _CurrentReadMode == ENoteReadMode.ZeroBased)
+                                                {
+                                                    _LogWarning("Found more than " + _MaxOverlapNoteCt + " overlapping notes. Using standard mode.");
+                                                    _CurrentReadMode = ENoteReadMode.OneBased;
+                                                    sr.Dispose();
+                                                    return ReadNotes(true);
+                                                }
+                                            }
                                             _LogWarning("Ignored note for player " + (curPlayer + 1) + " because it overlaps with other note");
+                                        }
                                     }
                                 }
-                                lastNoteEnd = beat + length;
                                 break;
                             case '-':
                                 string[] lineBreakData = line.Split(splitChars);
@@ -498,36 +573,51 @@ namespace VocaluxeLib.Songs
                                 {
                                     beat += currentBeat;
                                     if (lineBreakData.Length < 2 || !int.TryParse(lineBreakData[1], out length))
+                                    {
                                         _LogWarning("Missing line break length");
+                                        changesMade.NoLengthBreakCt++;
+                                    }
                                     else
                                         currentBeat += length;
                                 }
 
-                                if (beat < lastNoteEnd)
+                                if (lastNote != null && beat < lastNote.EndBeat)
                                 {
-                                    _LogWarning("Line break is before previous note end. Adjusted it (might not work for relative songs)");
-                                    beat = lastNoteEnd;
+                                    _LogWarning("Line break is before previous note end. Adjusted.");
+                                    changesMade.AjustedBreakCt++;
+                                    if (_Song.Relative)
+                                        currentBeat += lastNote.EndBeat - beat;
+                                    beat = lastNote.EndBeat;
                                 }
 
                                 if (beat < 1)
+                                {
                                     _LogWarning("Ignored line break because position is < 1");
+                                    changesMade.InvalidPosBreakCt++;
+                                }
                                 else
                                 {
                                     foreach (int curPlayer in player.GetSetBits())
                                     {
-                                        if (_NewSentence(curPlayer, beat))
+                                        if (!_NewSentence(curPlayer, beat))
                                             _LogWarning("Ignored line break for player " + (curPlayer + 1) + " (Overlapping or duplicate)");
                                     }
                                 }
                                 break;
                             default:
-                                _LogError("Error loading song. Unexpected or missing character (" + tag + ")");
+                                _LogError("Unexpected or missing character (" + tag + ")");
                                 return false;
                         }
                     }
 
-                    foreach (CVoice voice in _Song.Notes.Voices)
+                    for (int i = 0; i < _Song.Notes.VoiceCount; i++)
+                    {
+                        CVoice voice = _Song.Notes.GetVoice(i);
+                        int emptyLines = voice.RemoveEmptyLines();
+                        if (emptyLines > 0)
+                            _LogWarning("Removed " + emptyLines + " empty lines from P" + ". This often indicates a problem with the line breaks in the file", false);
                         voice.UpdateTimings();
+                    }
                 }
                 catch (Exception e)
                 {
@@ -550,12 +640,17 @@ namespace VocaluxeLib.Songs
                     _LogError("An unhandled exception occured (" + e.Message + ")", false);
                     return false;
                 }
+
+                if (changesMade.IsModified)
+                {
+                    string msg = "Automatic changes have been made to " + filePath + " Please check result!\r\n" + changesMade;
+                    CBase.Log.LogError("Warning:" + msg);
+                }
                 return true;
             }
 
-            private bool _ParseNote(int player, ENoteType noteType, int start, int length, int tone, string text)
+            private bool _AddNote(int player, CSongNote note)
             {
-                var note = new CSongNote(start, length, tone, text, noteType);
                 CVoice voice = _Song.Notes.GetVoice(player);
                 return voice.AddNote(note, false);
             }

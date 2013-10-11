@@ -133,7 +133,7 @@ namespace VocaluxeLib.Songs
         private readonly bool _Selected;
         public bool IsDuet
         {
-            get { return Notes.Voices.Length > 1; }
+            get { return Notes.VoiceCount > 1; }
         }
 
         public readonly List<string> Edition = new List<string>();

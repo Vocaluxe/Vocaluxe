@@ -270,5 +270,10 @@ namespace VocaluxeLib.Songs
                 line.SetMedley(startBeat, endBeat);
         }
         #endregion Methods
+
+        public int RemoveEmptyLines()
+        {
+            return _Lines.RemoveAll(line => line.NoteCount == 0);
+        }
     }
 }

@@ -70,9 +70,9 @@ namespace VocaluxeLib.Songs
             VoiceNames = new CVoiceNames(notes.VoiceNames);
         }
 
-        public CVoice[] Voices
+        public IEnumerable<CVoice> Voices
         {
-            get { return _Voices.ToArray(); }
+            get { return _Voices; }
         }
 
         public int VoiceCount

@@ -1084,7 +1084,7 @@ namespace Vocaluxe.Screens
             if (song == null || !song.NotesLoaded)
                 return null;
 
-            var alpha = new float[song.Notes.Voices.Length * 2];
+            var alpha = new float[song.Notes.VoiceCount * 2];
             float currentTime = _CurrentTime - song.Gap;
 
             for (int i = 0; i < song.Notes.VoiceCount; i++)
