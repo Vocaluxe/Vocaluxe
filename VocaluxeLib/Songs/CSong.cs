@@ -319,6 +319,7 @@ namespace VocaluxeLib.Songs
                 List<string> files = CHelper.ListFiles(Folder, "*.jpg");
                 files.AddRange(CHelper.ListFiles(Folder, "*.jpeg"));
                 files.AddRange(CHelper.ListFiles(Folder, "*.png"));
+                files.AddRange(CHelper.ListFiles(Folder, "*.gif"));
                 foreach (String file in files)
                 {
                     if (file.ContainsIgnoreCase("[CO]") &&
@@ -332,6 +333,7 @@ namespace VocaluxeLib.Songs
                 List<string> files = CHelper.ListFiles(Folder, "*.jpg");
                 files.AddRange(CHelper.ListFiles(Folder, "*.jpeg"));
                 files.AddRange(CHelper.ListFiles(Folder, "*.png"));
+                files.AddRange(CHelper.ListFiles(Folder, "*.gif"));
                 foreach (String file in files)
                 {
                     if (file.ContainsIgnoreCase("[BG]") &&

@@ -714,7 +714,10 @@ namespace VocaluxeLib.Songs
                     string msg = "Automatic changes have been made to " + filePath + " Please check result!\r\n" + changesMade;
                     CBase.Log.LogError("Warning:" + msg);
                     if (CBase.Config.GetSaveModifiedSongs() == EOffOn.TR_CONFIG_ON)
-                        _Song.Save(filePath + ".fix");
+                    {
+                        string name = Path.GetFileNameWithoutExtension(_Song.FileName);
+                        _Song.Save(Path.Combine(_Song.Folder, name + ".fix"));
+                    }
                 }
                 return true;
             }
