@@ -82,12 +82,12 @@ namespace VocaluxeLib.Songs
                 //Check for overlapping notes
                 if (insPos >= 0) //Check note before
                 {
-                    if (_Notes[insPos].EndBeat > note.StartBeat)
+                    if (_Notes[insPos].EndBeat >= note.StartBeat)
                         return false;
                 }
                 if (insPos < _Notes.Count - 1) //Check note after
                 {
-                    if (_Notes[insPos + 1].StartBeat < note.EndBeat)
+                    if (_Notes[insPos + 1].StartBeat <= note.EndBeat)
                         return false;
                 }
                 _Notes.Insert(insPos + 1, note);

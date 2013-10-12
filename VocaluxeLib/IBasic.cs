@@ -181,6 +181,7 @@ namespace VocaluxeLib
         double GetRandomDouble();
 
         float GetTimeFromBeats(float beat, float bpm);
+        float GetBeatFromTime(float time, float bpm, float gap);
 
         void AddSong(int songID, EGameMode gameMode);
         void Reset();

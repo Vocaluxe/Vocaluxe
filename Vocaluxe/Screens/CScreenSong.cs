@@ -844,7 +844,7 @@ namespace Vocaluxe.Screens
         {
             if ((CSongs.Category >= 0) && (songNr >= 0))
             {
-                if (CSongs.VisibleSongs[songNr].Medley.Source == EMedleySource.None)
+                if (CSongs.VisibleSongs[songNr].IsGameModeAvailable(EGameMode.TR_GAMEMODE_MEDLEY))
                     return;
 
                 CGame.Reset();
@@ -1165,6 +1165,15 @@ namespace Vocaluxe.Screens
             }
         }
 
+        private void _CheckAndAddGameMode(EGameMode gameMode)
+        {
+            if (CSongs.VisibleSongs[_SongMenus[_SongMenu].GetSelectedSong()].IsGameModeAvailable(gameMode))
+            {
+                _SelectSlides[_SelectSlideOptionsMode].AddValue(Enum.GetName(typeof(EGameMode), gameMode));
+                _AvailableGameModes.Add(gameMode);
+            }
+        }
+
         private void _ShowSongOptionsSong()
         {
             var lastMode = EGameMode.TR_GAMEMODE_NORMAL;
@@ -1172,23 +1181,11 @@ namespace Vocaluxe.Screens
                 lastMode = _AvailableGameModes[_SelectSlides[_SelectSlideOptionsMode].Selection];
             _AvailableGameModes.Clear();
             _SelectSlides[_SelectSlideOptionsMode].Clear();
-            if (CSongs.VisibleSongs[_SongMenus[_SongMenu].GetSelectedSong()].IsDuet)
-            {
-                _SelectSlides[_SelectSlideOptionsMode].AddValue(Enum.GetName(typeof(EGameMode), EGameMode.TR_GAMEMODE_DUET));
-                _AvailableGameModes.Add(EGameMode.TR_GAMEMODE_DUET);
-            }
-            else
-            {
-                _SelectSlides[_SelectSlideOptionsMode].AddValue(Enum.GetName(typeof(EGameMode), EGameMode.TR_GAMEMODE_NORMAL));
-                _AvailableGameModes.Add(EGameMode.TR_GAMEMODE_NORMAL);
-                _SelectSlides[_SelectSlideOptionsMode].AddValue(Enum.GetName(typeof(EGameMode), EGameMode.TR_GAMEMODE_SHORTSONG));
-                _AvailableGameModes.Add(EGameMode.TR_GAMEMODE_SHORTSONG);
-            }
-            if (CSongs.VisibleSongs[_SongMenus[_SongMenu].GetSelectedSong()].Medley.Source != EMedleySource.None)
-            {
-                _SelectSlides[_SelectSlideOptionsMode].AddValue(Enum.GetName(typeof(EGameMode), EGameMode.TR_GAMEMODE_MEDLEY));
-                _AvailableGameModes.Add(EGameMode.TR_GAMEMODE_MEDLEY);
-            }
+            _CheckAndAddGameMode(EGameMode.TR_GAMEMODE_NORMAL);
+            _CheckAndAddGameMode(EGameMode.TR_GAMEMODE_DUET);
+            _CheckAndAddGameMode(EGameMode.TR_GAMEMODE_SHORTSONG);
+            _CheckAndAddGameMode(EGameMode.TR_GAMEMODE_MEDLEY);
+
             //Set SelectSlide-Selection to last selected game-mode if possible
             for (int i = 0; i < _AvailableGameModes.Count; i++)
             {

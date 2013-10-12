@@ -34,6 +34,12 @@ namespace VocaluxeLib.Songs
                     _WriteHeaderEntry(id, value.ToString());
             }
 
+            private void _WriteHeaderEntry(string id, int value, int def = 0)
+            {
+                if (value != def)
+                    _WriteHeaderEntry(id, value.ToString());
+            }
+
             private void _WriteHeaderEntrys(string id, ICollection<string> value)
             {
                 if (value == null || value.Count <= 0)
@@ -76,12 +82,15 @@ namespace VocaluxeLib.Songs
                 _WriteHeaderEntry("RELATIVE", _Song.Relative);
                 _WriteHeaderEntry("BPM", _Song.BPM / _BPMFactor);
                 _WriteHeaderEntry("GAP", _Song.Gap * 1000f);
-                _WriteHeaderEntry("PREVIEWSTART", _Song.PreviewStart);
+                if (_Song.Preview.Source == EDataSource.Tag)
+                    _WriteHeaderEntry("PREVIEWSTART", _Song.Preview.StartTime);
                 _WriteHeaderEntry("START", _Song.Start);
                 _WriteHeaderEntry("END", _Song.Finish * 1000f);
-                if (!_Song._CalculateMedley)
+                if (_Song.ShortEnd.Source == EDataSource.Tag)
+                    _WriteHeaderEntry("ENDSHORT", (int)(CBase.Game.GetTimeFromBeats(_Song.ShortEnd.EndBeat, _Song.BPM) + _Song.Gap) * 1000);
+                if (_Song.Medley.Source == EDataSource.None)
                     _WriteHeaderEntry("CALCMEDLEY", "OFF");
-                if (_Song.Medley.Source == EMedleySource.Tag)
+                if (_Song.Medley.Source == EDataSource.Tag)
                 {
                     _WriteHeaderEntry("MEDLEYSTARTBEAT", _Song.Medley.StartBeat);
                     _WriteHeaderEntry("MEDLEYENDBEAT", _Song.Medley.EndBeat);
@@ -139,6 +148,7 @@ namespace VocaluxeLib.Songs
                         }
                     }
                 }
+                tw.WriteLine("E");
             }
 
             public bool SaveFile(string filePath)

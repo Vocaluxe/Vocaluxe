@@ -234,7 +234,7 @@ namespace Vocaluxe.Base
                 for (int beat = _LastEvalBeat + 1; beat <= RecordedBeat; beat++)
                 {
                     if ((_SongQueue.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_MEDLEY && song.Medley.EndBeat == beat) ||
-                        (_SongQueue.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_SHORTSONG && song.ShortEnd == beat))
+                        (_SongQueue.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_SHORTSONG && song.ShortEnd.EndBeat == beat))
                         Players[p].SongFinished = true;
 
                     CSongLine[] lines = song.Notes.GetVoice(Players[p].VoiceNr).Lines;

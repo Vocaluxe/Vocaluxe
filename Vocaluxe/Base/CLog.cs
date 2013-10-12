@@ -118,7 +118,6 @@ namespace Vocaluxe.Base
             if (e != null)
                 errorText += ": " + e;
             _ErrorLog.Add(_NumErrors + ") " + errorText + "\r\n");
-            _ErrorLog.Add(String.Empty);
             if (exit)
                 Environment.Exit(Environment.ExitCode);
         }

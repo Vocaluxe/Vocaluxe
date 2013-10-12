@@ -413,8 +413,8 @@ namespace VocaluxeLib.Menu.SongMenu
                     _Title.Text = song.Title;
                     _DuetIcon.Visible = song.IsDuet;
                     _VideoIcon.Visible = song.VideoFileName != "";
-                    _MedleyCalcIcon.Visible = song.Medley.Source == EMedleySource.Calculated;
-                    _MedleyTagIcon.Visible = song.Medley.Source == EMedleySource.Tag;
+                    _MedleyCalcIcon.Visible = song.Medley.Source == EDataSource.Calculated;
+                    _MedleyTagIcon.Visible = song.Medley.Source == EDataSource.Tag;
 
                     float time = CBase.Sound.GetLength(_SongStream);
                     if (Math.Abs(song.Finish) > 0.001)

@@ -44,12 +44,11 @@ namespace VocaluxeLib.Songs
         Artist = 2,
         MP3 = 4,
         BPM = 8,
-        PreviewStart = 16,
-        MedleyStartBeat = 32,
-        MedleyEndBeat = 64
+        MedleyStartBeat = 16,
+        MedleyEndBeat = 32
     }
 
-    public enum EMedleySource
+    public enum EDataSource
     {
         None = 0,
         Calculated,
@@ -58,11 +57,23 @@ namespace VocaluxeLib.Songs
 
     public struct SMedley
     {
-        public EMedleySource Source;
+        public EDataSource Source;
         public int StartBeat;
         public int EndBeat;
         public float FadeInTime;
         public float FadeOutTime;
+    }
+
+    public struct SShortEnd
+    {
+        public EDataSource Source;
+        public int EndBeat;
+    }
+
+    public struct SPreview
+    {
+        public EDataSource Source;
+        public float StartTime;
     }
 
     public partial class CSong
@@ -73,12 +84,12 @@ namespace VocaluxeLib.Songs
         public SMedley Medley;
 
         private bool _CalculateMedley = true;
-        public float PreviewStart;
+        public SPreview Preview;
 
-        public int ShortEnd;
+        public SShortEnd ShortEnd;
 
         public Encoding Encoding = Encoding.Default;
-        public bool ManualEncoding = false;
+        public bool ManualEncoding;
         public string Folder = String.Empty;
         public string FolderName = String.Empty;
         public string FileName = String.Empty;
@@ -167,17 +178,28 @@ namespace VocaluxeLib.Songs
         // Notes
         public readonly CNotes Notes = new CNotes();
 
-        public EGameMode[] AvailableGameModes
+        public IList<EGameMode> AvailableGameModes
         {
             get
             {
                 var gms = new List<EGameMode> {IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL};
-                if (Medley.Source != EMedleySource.None)
+                if (Medley.Source != EDataSource.None)
                     gms.Add(EGameMode.TR_GAMEMODE_MEDLEY);
-                gms.Add(EGameMode.TR_GAMEMODE_SHORTSONG);
+                if (ShortEnd.Source != EDataSource.None)
+                    gms.Add(EGameMode.TR_GAMEMODE_SHORTSONG);
 
-                return gms.ToArray();
+                return gms;
             }
+        }
+
+        /// <summary>
+        /// Returns true if the requested game mode is available
+        /// </summary>
+        /// <param name="gameMode"></param>
+        /// <returns>true if the requested game mode is available</returns>
+        public bool IsGameModeAvailable(EGameMode gameMode)
+        {
+            return AvailableGameModes.Any(gm => gm == gameMode);
         }
 
         //No point creating a song without a text file --> Use factory method LoadSong
@@ -191,7 +213,7 @@ namespace VocaluxeLib.Songs
             Medley = song.Medley;
 
             _CalculateMedley = song._CalculateMedley;
-            PreviewStart = song.PreviewStart;
+            Preview = song.Preview;
 
             ShortEnd = song.ShortEnd;
 
@@ -380,12 +402,9 @@ namespace VocaluxeLib.Songs
         {
             if (IsDuet)
             {
-                Medley.Source = EMedleySource.None;
+                Medley.Source = EDataSource.None;
                 return;
             }
-
-            if (Medley.Source == EMedleySource.Tag)
-                return;
 
             if (!_CalculateMedley)
                 return;
@@ -410,41 +429,44 @@ namespace VocaluxeLib.Songs
                 Medley.StartBeat = voice.Lines[series[longest].Start].FirstNoteBeat;
                 Medley.EndBeat = voice.Lines[series[longest].End].LastNoteBeat;
 
-                bool foundEnd = CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM) + CBase.Settings.GetMedleyMinDuration() >
-                                CBase.Game.GetTimeFromBeats(Medley.EndBeat, BPM);
+                bool foundEnd = CBase.Game.GetTimeFromBeats(Medley.EndBeat, BPM) - CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM) < CBase.Settings.GetMedleyMinDuration();
 
-                // set end if duration > MedleyMinDuration
+                // set end if duration < MedleyMinDuration
 
                 if (!foundEnd)
                 {
-                    for (int i = series[longest].Start + 1; i < voice.NumLines - 1; i++)
+                    for (int i = series[longest].End + 1; i < voice.NumLines - 1; i++)
                     {
-                        if (CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM) + CBase.Settings.GetMedleyMinDuration() >
-                            CBase.Game.GetTimeFromBeats(voice.Lines[i].LastNoteBeat, BPM))
+                        if (CBase.Game.GetTimeFromBeats(voice.Lines[i].LastNoteBeat, BPM) - CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM) <
+                            CBase.Settings.GetMedleyMinDuration())
                         {
                             foundEnd = true;
                             Medley.EndBeat = voice.Lines[i].LastNoteBeat;
+                            break;
                         }
                     }
                 }
 
                 if (foundEnd)
                 {
-                    Medley.Source = EMedleySource.Calculated;
+                    Medley.Source = EDataSource.Calculated;
                     Medley.FadeInTime = CBase.Settings.GetDefaultMedleyFadeInTime();
                     Medley.FadeOutTime = CBase.Settings.GetDefaultMedleyFadeOutTime();
                 }
             }
 
-            if (Math.Abs(PreviewStart) < 0.001)
+            if (Preview.Source == EDataSource.None)
             {
-                if (Medley.Source == EMedleySource.Calculated)
-                    PreviewStart = CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM);
+                if (Medley.Source != EDataSource.None)
+                    Preview.StartTime = CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM);
             }
         }
 
         private void _FindShortEnd()
         {
+            if (ShortEnd.Source != EDataSource.None)
+                return;
+
             List<SSeries> series = _GetSeries();
             if (series == null)
                 return;
@@ -461,10 +483,10 @@ namespace VocaluxeLib.Songs
                 {
                     if (stop < (voice.Lines[series[i].Start].FirstNoteBeat + ((voice.Lines[series[i].End].LastNoteBeat - voice.Lines[series[i].Start].FirstNoteBeat) / 2)))
                     {
-                        ShortEnd = voice.Lines[series[i].Start - 1].LastNote.EndBeat;
+                        ShortEnd.EndBeat = voice.Lines[series[i].Start - 1].LastNote.EndBeat;
                         return;
                     }
-                    ShortEnd = voice.Lines[series[i].End].LastNote.EndBeat;
+                    ShortEnd.EndBeat = voice.Lines[series[i].End].LastNote.EndBeat;
                     return;
                 }
             }
@@ -474,12 +496,13 @@ namespace VocaluxeLib.Songs
             {
                 if (line.FirstNoteBeat < stop && line.LastNoteBeat > stop)
                 {
-                    ShortEnd = line.LastNoteBeat;
+                    ShortEnd.EndBeat = line.LastNoteBeat;
                     return;
                 }
             }
 
-            ShortEnd = stop;
+            ShortEnd.EndBeat = stop;
+            ShortEnd.Source = EDataSource.Calculated;
         }
     }
 }

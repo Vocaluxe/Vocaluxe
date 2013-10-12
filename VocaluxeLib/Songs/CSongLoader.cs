@@ -77,7 +77,7 @@ namespace VocaluxeLib.Songs
                 _LogMsg(msg, false, withLineNr);
             }
 
-            public bool ReadHeader(bool ignoreSetEncoding = false)
+            public bool ReadHeader(bool useSetEncoding = false)
             {
                 string filePath = Path.Combine(_Song.Folder, _Song.FileName);
 
@@ -89,13 +89,17 @@ namespace VocaluxeLib.Songs
                 _Song.UnknownTags.Clear();
                 _Song._Comment = "";
                 _Song.ManualEncoding = false;
+                _Song.Medley.Source = EDataSource.None;
+                _Song._CalculateMedley = false;
+                _Song.Preview.Source = EDataSource.None;
+                _Song.ShortEnd.Source = EDataSource.None;
 
                 var headerFlags = new EHeaderFlags();
                 StreamReader sr = null;
                 _LineNr = 0;
                 try
                 {
-                    sr = new StreamReader(filePath, _Song.Encoding, true);
+                    sr = useSetEncoding ? new StreamReader(filePath, _Song.Encoding, true) : new StreamReader(filePath, true);
                     while (!sr.EndOfStream)
                     {
                         string line = sr.ReadLine();
@@ -134,7 +138,7 @@ namespace VocaluxeLib.Songs
                                 _Song.ManualEncoding = true;
                                 if (!newEncoding.Equals(sr.CurrentEncoding))
                                 {
-                                    if (ignoreSetEncoding)
+                                    if (useSetEncoding)
                                     {
                                         _LogWarning("Duplicate encoding ignored");
                                         continue;
@@ -268,17 +272,17 @@ namespace VocaluxeLib.Songs
                                     _LogWarning("Invalid end");
                                 break;
                             case "PREVIEWSTART":
-                                if (CHelper.TryParse(value, out _Song.PreviewStart) && _Song.PreviewStart >= 0f)
-                                    headerFlags |= EHeaderFlags.PreviewStart;
+                                if (CHelper.TryParse(value, out _Song.Preview.StartTime) && _Song.Preview.StartTime >= 0f)
+                                    _Song.Preview.Source = EDataSource.Tag;
                                 else
                                     _LogWarning("Invalid previewstart");
                                 break;
                             case "PREVIEW":
-                                if (CHelper.TryParse(value, out _Song.PreviewStart) && _Song.PreviewStart >= 0f)
+                                if (CHelper.TryParse(value, out _Song.Preview.StartTime) && _Song.Preview.StartTime >= 0f)
                                 {
                                     //This is stored in ms not like PREVIEWSTART!
-                                    _Song.PreviewStart /= 1000f;
-                                    headerFlags |= EHeaderFlags.PreviewStart;
+                                    _Song.Preview.StartTime /= 1000f;
+                                    _Song.Preview.Source = EDataSource.Tag;
                                 }
                                 else
                                     _LogWarning("Invalid previewstart");
@@ -294,6 +298,19 @@ namespace VocaluxeLib.Songs
                                     headerFlags |= EHeaderFlags.MedleyEndBeat;
                                 else
                                     _LogWarning("Invalid medleyendbeat");
+                                break;
+                            case "ENDSHORT":
+                                if ((headerFlags & EHeaderFlags.BPM) != 0)
+                                {
+                                    int endTime;
+                                    if (int.TryParse(value, out endTime) || endTime < 0)
+                                    {
+                                        _Song.ShortEnd.EndBeat = (int)CBase.Game.GetBeatFromTime(endTime / 1000f, _Song.BPM, _Song.Gap);
+                                        _Song.ShortEnd.Source = EDataSource.Tag;
+                                    }
+                                    else
+                                        _LogWarning("Invalid medleyendbeat");
+                                }
                                 break;
                             case "CALCMEDLEY":
                                 if (value.ToUpper() == "OFF")
@@ -373,15 +390,15 @@ namespace VocaluxeLib.Songs
                         }
                     }
 
-                    if ((headerFlags & EHeaderFlags.PreviewStart) == 0 || _Song.PreviewStart < 0)
+                    if (_Song.Preview.Source == EDataSource.None)
                     {
                         //PreviewStart is not set or <=0
-                        _Song.PreviewStart = (headerFlags & EHeaderFlags.MedleyStartBeat) != 0 ? CBase.Game.GetTimeFromBeats(_Song.Medley.StartBeat, _Song.BPM) : 0f;
+                        _Song.Preview.StartTime = (headerFlags & EHeaderFlags.MedleyStartBeat) != 0 ? CBase.Game.GetTimeFromBeats(_Song.Medley.StartBeat, _Song.BPM) : 0f;
                     }
 
                     if ((headerFlags & EHeaderFlags.MedleyStartBeat) != 0 && (headerFlags & EHeaderFlags.MedleyEndBeat) != 0)
                     {
-                        _Song.Medley.Source = EMedleySource.Tag;
+                        _Song.Medley.Source = EDataSource.Tag;
                         _Song.Medley.FadeInTime = CBase.Settings.GetDefaultMedleyFadeInTime();
                         _Song.Medley.FadeOutTime = CBase.Settings.GetDefaultMedleyFadeOutTime();
                     }
@@ -394,6 +411,7 @@ namespace VocaluxeLib.Songs
                     _LogError("Error reading txt header" + e.Message, false);
                     return false;
                 }
+                _Song.Encoding = sr.CurrentEncoding;
                 sr.Dispose();
                 _Song._CheckFiles();
 
@@ -485,7 +503,7 @@ namespace VocaluxeLib.Songs
                 StreamReader sr = null;
                 try
                 {
-                    sr = new StreamReader(filePath, _Song.Encoding);
+                    sr = new StreamReader(filePath, _Song.Encoding, true);
 
                     _Song.Notes.Reset();
 
@@ -544,8 +562,8 @@ namespace VocaluxeLib.Songs
                                     sr.Dispose();
                                     return false;
                                 }
-                                string text = noteData[3];
-                                if (text.Trim() == "")
+                                string text = noteData[3].TrimMultipleWs();
+                                if (text == "")
                                 {
                                     _LogWarning("Ignored note without text");
                                     changesMade.NoTextNoteCt++;
@@ -578,7 +596,6 @@ namespace VocaluxeLib.Songs
 
                                     if (_Song.Relative)
                                         beat += currentBeat;
-
 
                                     bool ignored = false;
                                     foreach (int curPlayer in player.GetSetBits())
@@ -697,10 +714,7 @@ namespace VocaluxeLib.Songs
                     string msg = "Automatic changes have been made to " + filePath + " Please check result!\r\n" + changesMade;
                     CBase.Log.LogError("Warning:" + msg);
                     if (CBase.Config.GetSaveModifiedSongs() == EOffOn.TR_CONFIG_ON)
-                    {
-                        string name = Path.GetFileNameWithoutExtension(_Song.FileName);
-                        _Song.Save(Path.Combine(_Song.Folder, name + ".fix.txt"));
-                    }
+                        _Song.Save(filePath + ".fix");
                 }
                 return true;
             }
