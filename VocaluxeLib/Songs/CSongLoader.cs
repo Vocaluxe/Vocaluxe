@@ -77,7 +77,7 @@ namespace VocaluxeLib.Songs
                 _LogMsg(msg, false, withLineNr);
             }
 
-            public bool ReadHeader(Encoding encoding = null)
+            public bool ReadHeader(bool ignoreSetEncoding = false)
             {
                 string filePath = Path.Combine(_Song.Folder, _Song.FileName);
 
@@ -88,13 +88,14 @@ namespace VocaluxeLib.Songs
                 _Song.Genres.Clear();
                 _Song.UnknownTags.Clear();
                 _Song._Comment = "";
+                _Song.ManualEncoding = false;
 
                 var headerFlags = new EHeaderFlags();
                 StreamReader sr = null;
                 _LineNr = 0;
                 try
                 {
-                    sr = new StreamReader(filePath, Encoding.Default, true);
+                    sr = new StreamReader(filePath, _Song.Encoding, true);
                     while (!sr.EndOfStream)
                     {
                         string line = sr.ReadLine();
@@ -129,17 +130,19 @@ namespace VocaluxeLib.Songs
                         switch (identifier)
                         {
                             case "ENCODING":
-                                if (encoding != null)
-                                {
-                                    _LogWarning("Duplicate encoding ignored");
-                                    continue;
-                                }
-                                Encoding newEncoding = CEncoding.GetEncoding(value);
+                                Encoding newEncoding = value.GetEncoding();
+                                _Song.ManualEncoding = true;
                                 if (!newEncoding.Equals(sr.CurrentEncoding))
                                 {
+                                    if (ignoreSetEncoding)
+                                    {
+                                        _LogWarning("Duplicate encoding ignored");
+                                        continue;
+                                    }
                                     sr.Dispose();
                                     sr = null;
-                                    return ReadHeader(_Song.Encoding);
+                                    _Song.Encoding = newEncoding;
+                                    return ReadHeader(true);
                                 }
                                 break;
                             case "TITLE":
@@ -300,7 +303,7 @@ namespace VocaluxeLib.Songs
                                 if (value.ToUpper() == "YES")
                                     _Song.Relative = true;
                                 break;
-                            case "RESOULTION":
+                            case "RESOLUTION":
                                 _LogWarning("#RESOLUTION tag is outdated and ignored. Test the song to see if note timing is still correct!");
                                 break;
                             default:
@@ -383,8 +386,6 @@ namespace VocaluxeLib.Songs
                         _Song.Medley.FadeOutTime = CBase.Settings.GetDefaultMedleyFadeOutTime();
                     }
                     #endregion check medley tags
-
-                    _Song.Encoding = sr.CurrentEncoding;
                 }
                 catch (Exception e)
                 {

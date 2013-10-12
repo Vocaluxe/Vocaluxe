@@ -78,6 +78,7 @@ namespace VocaluxeLib.Songs
         public int ShortEnd;
 
         public Encoding Encoding = Encoding.Default;
+        public bool ManualEncoding = false;
         public string Folder = String.Empty;
         public string FolderName = String.Empty;
         public string FileName = String.Empty;
@@ -187,14 +188,7 @@ namespace VocaluxeLib.Songs
             _CoverTextureSmall = song._CoverTextureSmall;
             _CoverTextureBig = song._CoverTextureBig;
 
-            Medley = new SMedley
-                {
-                    Source = song.Medley.Source,
-                    StartBeat = song.Medley.StartBeat,
-                    EndBeat = song.Medley.EndBeat,
-                    FadeInTime = song.Medley.FadeInTime,
-                    FadeOutTime = song.Medley.FadeOutTime
-                };
+            Medley = song.Medley;
 
             _CalculateMedley = song._CalculateMedley;
             PreviewStart = song.PreviewStart;
@@ -202,6 +196,7 @@ namespace VocaluxeLib.Songs
             ShortEnd = song.ShortEnd;
 
             Encoding = song.Encoding;
+            ManualEncoding = song.ManualEncoding;
             Folder = song.Folder;
             FolderName = song.FolderName;
             FileName = song.FileName;
@@ -217,6 +212,13 @@ namespace VocaluxeLib.Songs
 
             Artist = song.Artist;
             Title = song.Title;
+            ArtistSorting = song.ArtistSorting;
+            TitleSorting = song.TitleSorting;
+
+            Creator = song.Creator;
+            Version = song.Version;
+            Source = song.Source;
+            UnknownTags = new List<string>(song.UnknownTags);
 
             Start = song.Start;
             Finish = song.Finish;
@@ -233,9 +235,8 @@ namespace VocaluxeLib.Songs
             _Selected = song._Selected;
 
             Editions = new List<string>(song.Editions);
-
             Genres = new List<string>(song.Genres);
-
+            Album = song.Album;
             Year = song.Year;
 
             Languages = new List<string>(song.Languages);

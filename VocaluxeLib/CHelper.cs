@@ -199,7 +199,7 @@ namespace VocaluxeLib
 
     static class CEncoding
     {
-        public static Encoding GetEncoding(string encodingName)
+        public static Encoding GetEncoding(this string encodingName)
         {
             switch (encodingName)
             {
@@ -218,7 +218,7 @@ namespace VocaluxeLib
             }
         }
 
-        public static string GetEncodingName(Encoding enc)
+        public static string GetEncodingName(this Encoding enc)
         {
             string result = "UTF8";
 

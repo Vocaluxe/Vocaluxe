@@ -9,91 +9,99 @@ namespace VocaluxeLib.Songs
         private class CSongWriter
         {
             private readonly CSong _Song;
+            private TextWriter tw;
 
             public CSongWriter(CSong song)
             {
                 _Song = song;
             }
 
-            private void _WriteHeaderEntry<T>(TextWriter sw, string id, T value)
+            private void _WriteHeaderEntry(string id, string value)
             {
-                if (!value.Equals(default(T)))
-                    sw.WriteLine("#" + id.ToUpper() + ":" + value);
+                if (!String.IsNullOrEmpty(value))
+                    tw.WriteLine("#" + id.ToUpper() + ":" + value);
             }
 
-            private void _WriteHeaderEntry(TextWriter sw, string id, bool value)
+            private void _WriteHeaderEntry(string id, bool value)
             {
                 if (value)
-                    _WriteHeaderEntry(sw, id, "YES");
+                    _WriteHeaderEntry(id, "YES");
             }
 
-            private void _WriteHeaderEntrys<T>(TextWriter sw, string id, IList<T> value)
+            private void _WriteHeaderEntry(string id, float value, float def = 0f)
             {
-                if (value != null && value.Count > 0)
-                {
-                    foreach (T val in value)
-                        _WriteHeaderEntry(sw, id, val);
-                }
+                if (Math.Abs(value - def) > 0.0001)
+                    _WriteHeaderEntry(id, value.ToString());
             }
 
-            private void _WriteHeader(TextWriter sw)
+            private void _WriteHeaderEntrys(string id, ICollection<string> value)
             {
-                _WriteHeaderEntry(sw, "ENCODING", _Song.Encoding);
-                _WriteHeaderEntry(sw, "CREATOR", _Song.Creator);
-                _WriteHeaderEntry(sw, "VERSION", _Song.Version);
-                _WriteHeaderEntry(sw, "SOURCE", _Song.Source);
+                if (value == null || value.Count <= 0)
+                    return;
+                foreach (String val in value)
+                    _WriteHeaderEntry(id, val);
+            }
+
+            private void _WriteHeader()
+            {
+                if (_Song.ManualEncoding)
+                    _WriteHeaderEntry("ENCODING", _Song.Encoding.GetEncodingName());
+                _WriteHeaderEntry("CREATOR", _Song.Creator);
+                _WriteHeaderEntry("VERSION", _Song.Version);
+                _WriteHeaderEntry("SOURCE", _Song.Source);
                 if (!String.IsNullOrEmpty(_Song._Comment))
                 {
                     string comment = _Song._Comment.Replace("\r\n", "\n").Replace('\r', '\n');
                     char[] splitChar = {'\n'};
-                    _WriteHeaderEntrys(sw, "COMMENT", comment.Split(splitChar));
+                    _WriteHeaderEntrys("COMMENT", comment.Split(splitChar));
                 }
-                _WriteHeaderEntry(sw, "TITLE", _Song.Title);
-                _WriteHeaderEntry(sw, "ARTIST", _Song.Artist);
+                _WriteHeaderEntry("TITLE", _Song.Title);
+                _WriteHeaderEntry("ARTIST", _Song.Artist);
                 if (!_Song.Title.Equals(_Song.TitleSorting))
-                    _WriteHeaderEntry(sw, "TITLE-ON-SORTING", _Song.TitleSorting);
+                    _WriteHeaderEntry("TITLE-ON-SORTING", _Song.TitleSorting);
                 if (!_Song.Artist.Equals(_Song.ArtistSorting))
-                    _WriteHeaderEntry(sw, "ARTIST-ON-SORTING", _Song.ArtistSorting);
-                _WriteHeaderEntrys(sw, "EDITION", _Song.Editions);
-                _WriteHeaderEntrys(sw, "GENRE", _Song.Genres);
-                _WriteHeaderEntrys(sw, "LANGUAGE", _Song.Languages);
-                _WriteHeaderEntry(sw, "ALBUM", _Song.Album);
-                _WriteHeaderEntry(sw, "YEAR", _Song.Year);
-                _WriteHeaderEntry(sw, "MP3", _Song.MP3FileName);
-                _WriteHeaderEntry(sw, "COVER", _Song.CoverFileName);
-                _WriteHeaderEntry(sw, "BACKGROUND", _Song.BackgroundFileName);
-                _WriteHeaderEntry(sw, "VIDEO", _Song.VideoFileName);
-                _WriteHeaderEntry(sw, "VIDEOGAP", _Song.VideoGap);
-                _WriteHeaderEntry(sw, "VIDEOASPECT", _Song.VideoAspect);
-                _WriteHeaderEntry(sw, "RELATIVE", _Song.Relative);
-                _WriteHeaderEntry(sw, "BPM", _Song.BPM);
-                _WriteHeaderEntry(sw, "GAP", _Song.Gap);
-                _WriteHeaderEntry(sw, "PREVIEWSTART", _Song.PreviewStart);
-                _WriteHeaderEntry(sw, "START", _Song.Start);
-                _WriteHeaderEntry(sw, "END", _Song.Finish);
+                    _WriteHeaderEntry("ARTIST-ON-SORTING", _Song.ArtistSorting);
+                _WriteHeaderEntrys("EDITION", _Song.Editions);
+                _WriteHeaderEntrys("GENRE", _Song.Genres);
+                _WriteHeaderEntrys("LANGUAGE", _Song.Languages);
+                _WriteHeaderEntry("ALBUM", _Song.Album);
+                _WriteHeaderEntry("YEAR", _Song.Year);
+                _WriteHeaderEntry("MP3", _Song.MP3FileName);
+                _WriteHeaderEntry("COVER", _Song.CoverFileName);
+                _WriteHeaderEntry("BACKGROUND", _Song.BackgroundFileName);
+                _WriteHeaderEntry("VIDEO", _Song.VideoFileName);
+                _WriteHeaderEntry("VIDEOGAP", _Song.VideoGap);
+                if (_Song.VideoAspect != EAspect.Crop)
+                    _WriteHeaderEntry("VIDEOASPECT", _Song.VideoAspect.ToString());
+                _WriteHeaderEntry("RELATIVE", _Song.Relative);
+                _WriteHeaderEntry("BPM", _Song.BPM / _BPMFactor);
+                _WriteHeaderEntry("GAP", _Song.Gap * 1000f);
+                _WriteHeaderEntry("PREVIEWSTART", _Song.PreviewStart);
+                _WriteHeaderEntry("START", _Song.Start);
+                _WriteHeaderEntry("END", _Song.Finish * 1000f);
                 if (!_Song._CalculateMedley)
-                    _WriteHeaderEntry(sw, "CALCMEDLEY", "OFF");
+                    _WriteHeaderEntry("CALCMEDLEY", "OFF");
                 if (_Song.Medley.Source == EMedleySource.Tag)
                 {
-                    _WriteHeaderEntry(sw, "MEDLEYSTARTBEAT", _Song.Medley.StartBeat);
-                    _WriteHeaderEntry(sw, "MEDLEYENDBEAT", _Song.Medley.EndBeat);
+                    _WriteHeaderEntry("MEDLEYSTARTBEAT", _Song.Medley.StartBeat);
+                    _WriteHeaderEntry("MEDLEYENDBEAT", _Song.Medley.EndBeat);
                 }
                 for (int i = 0; i < _Song.Notes.VoiceCount; i++)
                 {
                     if (_Song.Notes.VoiceNames.IsSet(i))
-                        _WriteHeaderEntry(sw, "P" + i, _Song.Notes.VoiceNames[i]);
+                        _WriteHeaderEntry("P" + i, _Song.Notes.VoiceNames[i]);
                 }
                 foreach (string addLine in _Song.UnknownTags)
-                    sw.WriteLine(addLine);
+                    tw.WriteLine(addLine);
             }
 
-            private void _WriteNotes(TextWriter sw)
+            private void _WriteNotes()
             {
                 for (int i = 0; i < _Song.Notes.VoiceCount; i++)
                 {
                     CVoice voice = _Song.Notes.GetVoice(i);
                     if (_Song.Notes.VoiceCount > 1)
-                        sw.WriteLine("P" + Math.Pow(2, i));
+                        tw.WriteLine("P" + Math.Pow(2, i));
                     bool firstLine = true;
                     int currentBeat = 0;
                     foreach (CSongLine line in voice.Lines)
@@ -106,7 +114,7 @@ namespace VocaluxeLib.Songs
                                 lineTxt += " " + (line.FirstNoteBeat - currentBeat);
                                 currentBeat = line.FirstNoteBeat;
                             }
-                            sw.WriteLine(lineTxt);
+                            tw.WriteLine(lineTxt);
                         }
                         else
                             firstLine = false;
@@ -127,7 +135,7 @@ namespace VocaluxeLib.Songs
                                 default:
                                     throw new NotImplementedException("Note type " + note.Type);
                             }
-                            sw.WriteLine(tag + " " + (note.StartBeat - currentBeat) + " " + note.Duration + " " + note.Tone + " " + note.Text);
+                            tw.WriteLine(tag + " " + (note.StartBeat - currentBeat) + " " + note.Duration + " " + note.Tone + " " + note.Text);
                         }
                     }
                 }
@@ -137,9 +145,9 @@ namespace VocaluxeLib.Songs
             {
                 try
                 {
-                    TextWriter sw = new StreamWriter(filePath, false, _Song.Encoding);
-                    _WriteHeader(sw);
-                    _WriteNotes(sw);
+                    tw = new StreamWriter(filePath, false, _Song.Encoding);
+                    _WriteHeader();
+                    _WriteNotes();
                 }
                 catch (Exception e)
                 {
