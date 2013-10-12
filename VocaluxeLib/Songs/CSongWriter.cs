@@ -88,7 +88,7 @@ namespace VocaluxeLib.Songs
                 _WriteHeaderEntry("END", _Song.Finish * 1000f);
                 if (_Song.ShortEnd.Source == EDataSource.Tag)
                     _WriteHeaderEntry("ENDSHORT", (int)(CBase.Game.GetTimeFromBeats(_Song.ShortEnd.EndBeat, _Song.BPM) + _Song.Gap) * 1000);
-                if (_Song.Medley.Source == EDataSource.None)
+                if (!_Song._CalculateMedley)
                     _WriteHeaderEntry("CALCMEDLEY", "OFF");
                 if (_Song.Medley.Source == EDataSource.Tag)
                 {

@@ -90,7 +90,7 @@ namespace VocaluxeLib.Songs
                 _Song._Comment = "";
                 _Song.ManualEncoding = false;
                 _Song.Medley.Source = EDataSource.None;
-                _Song._CalculateMedley = false;
+                _Song._CalculateMedley = true;
                 _Song.Preview.Source = EDataSource.None;
                 _Song.ShortEnd.Source = EDataSource.None;
 
