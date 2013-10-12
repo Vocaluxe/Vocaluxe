@@ -119,6 +119,8 @@ namespace VocaluxeLib.Songs
 
         public string Creator = "";
         public string Version = "";
+        public string Source = "";
+        public readonly List<String> UnknownTags = new List<string>();
 
         /// <summary>
         /// Start of the song in s (s in txt)
@@ -153,6 +155,7 @@ namespace VocaluxeLib.Songs
 
         public readonly List<string> Editions = new List<string>();
         public readonly List<string> Genres = new List<string>();
+        public string Album = "";
         public string Year = "";
 
         public readonly List<string> Languages = new List<string>();

@@ -87,6 +87,7 @@ namespace VocaluxeLib.Songs
 
                 _Song.Languages.Clear();
                 _Song.Genres.Clear();
+                _Song.UnknownTags.Clear();
                 _Song._Comment = "";
 
                 var headerFlags = new EHeaderFlags();
@@ -107,14 +108,21 @@ namespace VocaluxeLib.Songs
                         int pos = line.IndexOf(":", StringComparison.Ordinal);
 
                         if (pos <= 1)
+                        {
+                            _Song.UnknownTags.Add(line);
                             continue;
+                        }
                         string identifier = line.Substring(1, pos - 1).Trim().ToUpper();
                         if (identifier.Contains(" "))
+                        {
+                            _Song.UnknownTags.Add(line);
                             continue;
+                        }
                         string value = line.Substring(pos + 1).Trim();
 
                         if (value == "")
                         {
+                            _Song.UnknownTags.Add(line);
                             _LogWarning("Empty value skipped");
                             continue;
                         }
@@ -150,10 +158,16 @@ namespace VocaluxeLib.Songs
                                 _Song.ArtistSorting = value;
                                 break;
                             case "CREATOR":
+                            case "AUTHOR":
+                            case "AUTOR":
                                 _Song.Creator = value;
                                 break;
                             case "VERSION":
                                 _Song.Version = value;
+                                break;
+                            case "SOURCE":
+                            case "YOUTUBE":
+                                _Song.Source = value;
                                 break;
                             case "MP3":
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
@@ -187,6 +201,9 @@ namespace VocaluxeLib.Songs
                                     _Song.Genres.Add(value);
                                 else
                                     _LogWarning("Invalid genre");
+                                break;
+                            case "ALBUM":
+                                _Song.Album = value;
                                 break;
                             case "YEAR":
                                 int num;
@@ -289,7 +306,11 @@ namespace VocaluxeLib.Songs
                                 break;
                             default:
                                 if (identifier.StartsWith("DUETSINGER"))
+                                {
                                     identifier = identifier.Substring(10);
+                                    if (identifier.StartsWith("P")) // Possible fix for missing "P"
+                                        identifier = "P" + identifier;
+                                }
                                 if (identifier.StartsWith("P"))
                                 {
                                     int player;
@@ -300,7 +321,10 @@ namespace VocaluxeLib.Songs
                                     }
                                 }
                                 else
+                                {
+                                    _Song.UnknownTags.Add(line);
                                     _LogWarning("Unknown tag: #" + identifier);
+                                }
 
                                 break;
                         }
@@ -606,13 +630,13 @@ namespace VocaluxeLib.Songs
                                         currentBeat += length;
                                 }
 
-                                if (lastNote != null && beat < lastNote.EndBeat)
+                                if (lastNote != null && beat <= lastNote.EndBeat)
                                 {
                                     _LogWarning("Line break is before previous note end. Adjusted.");
                                     changesMade.AjustedBreakCt++;
                                     if (_Song.Relative)
-                                        currentBeat += lastNote.EndBeat - beat;
-                                    beat = lastNote.EndBeat;
+                                        currentBeat += lastNote.EndBeat - beat + 1;
+                                    beat = lastNote.EndBeat + 1;
                                 }
 
                                 if (beat < 1)

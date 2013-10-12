@@ -128,7 +128,7 @@ namespace VocaluxeLib.Songs
             {
                 CSongLine prevLine = _Lines[insPos];
                 //We already have a line break here
-                if (prevLine.StartBeat == startBeat && prevLine.FirstNoteBeat == startBeat)
+                if (prevLine.StartBeat == startBeat && (prevLine.NoteCount==0 || prevLine.FirstNoteBeat == startBeat))
                     return false;
                 //Maybe we have to split the previous line
                 while (prevLine.NoteCount > 0 && prevLine.LastNote.StartBeat >= startBeat)

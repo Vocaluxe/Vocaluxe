@@ -43,7 +43,13 @@ namespace VocaluxeLib.Songs
                 _WriteHeaderEntry(sw, "ENCODING", _Song.Encoding);
                 _WriteHeaderEntry(sw, "CREATOR", _Song.Creator);
                 _WriteHeaderEntry(sw, "VERSION", _Song.Version);
-                _WriteHeaderEntry(sw, "COMMENT", _Song._Comment);
+                _WriteHeaderEntry(sw, "SOURCE", _Song.Source);
+                if (!String.IsNullOrEmpty(_Song._Comment))
+                {
+                    string comment = _Song._Comment.Replace("\r\n", "\n").Replace('\r', '\n');
+                    char[] splitChar = {'\n'};
+                    _WriteHeaderEntry(sw, "COMMENT", comment.Split(splitChar));
+                }
                 _WriteHeaderEntry(sw, "TITLE", _Song.Title);
                 _WriteHeaderEntry(sw, "ARTIST", _Song.Artist);
                 if (!_Song.Title.Equals(_Song.TitleSorting))
@@ -53,6 +59,7 @@ namespace VocaluxeLib.Songs
                 _WriteHeaderEntry(sw, "EDITION", _Song.Editions);
                 _WriteHeaderEntry(sw, "GENRE", _Song.Genres);
                 _WriteHeaderEntry(sw, "LANGUAGE", _Song.Languages);
+                _WriteHeaderEntry(sw, "ALBUM", _Song.Album);
                 _WriteHeaderEntry(sw, "YEAR", _Song.Year);
                 _WriteHeaderEntry(sw, "MP3", _Song.MP3FileName);
                 _WriteHeaderEntry(sw, "COVER", _Song.CoverFileName);
@@ -78,6 +85,8 @@ namespace VocaluxeLib.Songs
                     if (_Song.Notes.VoiceNames.IsSet(i))
                         _WriteHeaderEntry(sw, "P" + i, _Song.Notes.VoiceNames[i]);
                 }
+                foreach (string addLine in _Song.UnknownTags)
+                    sw.WriteLine(addLine);
             }
         }
     }
