@@ -117,6 +117,9 @@ namespace VocaluxeLib.Songs
         public string TitleSorting = String.Empty;
         public string ArtistSorting = String.Empty;
 
+        public string Creator = "";
+        public string Version = "";
+
         /// <summary>
         /// Start of the song in s (s in txt)
         /// </summary>
@@ -148,7 +151,7 @@ namespace VocaluxeLib.Songs
             get { return Notes.VoiceCount > 1; }
         }
 
-        public readonly List<string> Edition = new List<string>();
+        public readonly List<string> Editions = new List<string>();
         public readonly List<string> Genres = new List<string>();
         public string Year = "";
 
@@ -227,7 +230,7 @@ namespace VocaluxeLib.Songs
             _CatIndex = song._CatIndex;
             _Selected = song._Selected;
 
-            Edition = new List<string>(song.Edition);
+            Editions = new List<string>(song.Editions);
 
             Genres = new List<string>(song.Genres);
 

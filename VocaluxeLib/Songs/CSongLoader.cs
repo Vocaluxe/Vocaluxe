@@ -109,6 +109,8 @@ namespace VocaluxeLib.Songs
                         if (pos <= 1)
                             continue;
                         string identifier = line.Substring(1, pos - 1).Trim().ToUpper();
+                        if (identifier.Contains(" "))
+                            continue;
                         string value = line.Substring(pos + 1).Trim();
 
                         if (value == "")
@@ -147,6 +149,12 @@ namespace VocaluxeLib.Songs
                             case "ARTIST-ON-SORTING":
                                 _Song.ArtistSorting = value;
                                 break;
+                            case "CREATOR":
+                                _Song.Creator = value;
+                                break;
+                            case "VERSION":
+                                _Song.Version = value;
+                                break;
                             case "MP3":
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
                                 {
@@ -170,7 +178,7 @@ namespace VocaluxeLib.Songs
                                 break;
                             case "EDITION":
                                 if (value.Length > 1)
-                                    _Song.Edition.Add(value);
+                                    _Song.Editions.Add(value);
                                 else
                                     _LogWarning("Invalid edition");
                                 break;
@@ -276,7 +284,7 @@ namespace VocaluxeLib.Songs
                                 if (value.ToUpper() == "YES")
                                     _Song.Relative = true;
                                 break;
-                            case "RESULTION":
+                            case "RESOULTION":
                                 _LogWarning("#RESOLUTION tag is outdated and ignored. Test the song to see if note timing is still correct!");
                                 break;
                             default:
@@ -291,6 +299,8 @@ namespace VocaluxeLib.Songs
                                             _Song.Notes.VoiceNames[curPlayer] = value;
                                     }
                                 }
+                                else
+                                    _LogWarning("Unknown tag: #" + identifier);
 
                                 break;
                         }

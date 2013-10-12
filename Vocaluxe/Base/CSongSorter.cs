@@ -157,10 +157,10 @@ namespace Vocaluxe.Base
             switch (_SongSorting)
             {
                 case ESongSorting.TR_CONFIG_EDITION:
-                    fieldName = "Edition";
+                    fieldName = "Editions";
                     break;
                 case ESongSorting.TR_CONFIG_GENRE:
-                    fieldName = "Genre";
+                    fieldName = "Genres";
                     break;
                 case ESongSorting.TR_CONFIG_FOLDER:
                     fieldName = "FolderName";
@@ -177,7 +177,7 @@ namespace Vocaluxe.Base
                     fieldName = "Year";
                     break;
                 case ESongSorting.TR_CONFIG_LANGUAGE:
-                    fieldName = "Language";
+                    fieldName = "Languages";
                     break;
                 case ESongSorting.TR_CONFIG_DATEADDED:
                     fieldName = "DateAdded";
