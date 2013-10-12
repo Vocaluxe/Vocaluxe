@@ -532,6 +532,11 @@ namespace Vocaluxe.Base
             return CGame.GetTimeFromBeats(beat, bpm);
         }
 
+        public float GetBeatFromTime(float time, float bpm, float gap)
+        {
+            return CGame.GetBeatFromTime(time, bpm, gap);
+        }
+
         public void AddSong(int songID, EGameMode gameMode)
         {
             CGame.AddSong(songID, gameMode);

@@ -90,11 +90,6 @@ namespace Vocaluxe.Base
             get { return _CurrentPlaylistElement.SongID; }
         }
 
-        public static bool Duet
-        {
-            get { return _CurrentPlaylistElement.Duet; }
-        }
-
         public static bool SongHasVideo
         {
             get { return File.Exists(_CurrentPlaylistElement.VideoFilePath); }
@@ -578,17 +573,6 @@ namespace Vocaluxe.Base
                     return _Song.VideoGap;
 
                 return 0;
-            }
-        }
-
-        public bool Duet
-        {
-            get
-            {
-                if (_Song != null)
-                    return _Song.IsDuet;
-
-                return false;
             }
         }
 

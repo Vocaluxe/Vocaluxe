@@ -971,11 +971,11 @@ namespace VocaluxeLib.Menu
 
                         if (!mouseEvent.LBH && DragAndDropSongID != -1)
                         {
-                            var gm = EGameMode.TR_GAMEMODE_NORMAL;
                             CSong song = CBase.Songs.GetSongByID(DragAndDropSongID);
 
                             if (song != null)
                             {
+                                var gm = EGameMode.TR_GAMEMODE_NORMAL;
                                 if (song.IsDuet)
                                     gm = EGameMode.TR_GAMEMODE_DUET;
 
