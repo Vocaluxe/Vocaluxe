@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -295,7 +294,7 @@ namespace VocaluxeLib.Songs
                                 break;
                             case "CALCMEDLEY":
                                 if (value.ToUpper() == "OFF")
-                                    _Song.CalculateMedley = false;
+                                    _Song._CalculateMedley = false;
                                 break;
                             case "RELATIVE":
                                 if (value.ToUpper() == "YES")
@@ -518,6 +517,7 @@ namespace VocaluxeLib.Songs
                                     _LogError("Wrong or missing number after \"P\"");
                                     return false;
                                 }
+                                currentBeat = 0;
                                 lastNote = null;
                                 break;
                             case ':':
@@ -625,6 +625,7 @@ namespace VocaluxeLib.Songs
                                     {
                                         _LogWarning("Missing line break length");
                                         changesMade.NoLengthBreakCt++;
+                                        currentBeat = beat;
                                     }
                                     else
                                         currentBeat += length;
@@ -694,6 +695,11 @@ namespace VocaluxeLib.Songs
                 {
                     string msg = "Automatic changes have been made to " + filePath + " Please check result!\r\n" + changesMade;
                     CBase.Log.LogError("Warning:" + msg);
+                    if (CBase.Config.GetSaveModifiedSongs() == EOffOn.TR_CONFIG_ON)
+                    {
+                        string name = Path.GetFileNameWithoutExtension(_Song.FileName);
+                        _Song.Save(Path.Combine(_Song.Folder, name + ".fix.txt"));
+                    }
                 }
                 return true;
             }

@@ -60,6 +60,11 @@ namespace Vocaluxe.Base
 
     class CBconfig : IConfig
     {
+        public EOffOn GetSaveModifiedSongs()
+        {
+            return CConfig.SaveModifiedSongs;
+        }
+
         public void SetBackgroundMusicVolume(int newVolume)
         {
             CConfig.BackgroundMusicVolume = newVolume;

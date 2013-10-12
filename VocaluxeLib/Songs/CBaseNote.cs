@@ -48,6 +48,9 @@ namespace VocaluxeLib.Songs
         #region Properties
         public int StartBeat { get; set; }
 
+        /// <summary>
+        /// Last beat of this note. First valid beat for a note after that is at EndBeat+1
+        /// </summary>
         public int EndBeat
         {
             get { return StartBeat + _Duration - 1; }

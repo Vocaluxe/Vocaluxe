@@ -37,6 +37,7 @@ namespace Vocaluxe.Base
 
         // Debug
         public static EDebugLevel DebugLevel = EDebugLevel.TR_CONFIG_OFF;
+        public static EOffOn SaveModifiedSongs = EOffOn.TR_CONFIG_OFF;
 
         // Graphics
 #if WIN
@@ -169,6 +170,7 @@ namespace Vocaluxe.Base
                 return;
 
             xmlReader.TryGetEnumValue("//root/Debug/DebugLevel", ref DebugLevel);
+            xmlReader.TryGetEnumValue("//root/Debug/SaveModifiedSongs", ref SaveModifiedSongs);
 
             #region Graphics
             xmlReader.TryGetEnumValue("//root/Graphics/Renderer", ref Renderer);
@@ -327,6 +329,9 @@ namespace Vocaluxe.Base
 
                 writer.WriteComment("DebugLevel: " + CHelper.ListStrings(Enum.GetNames(typeof(EDebugLevel))));
                 writer.WriteElementString("DebugLevel", Enum.GetName(typeof(EDebugLevel), DebugLevel));
+
+                writer.WriteComment("SaveModifiedSongs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("SaveModifiedSongs", Enum.GetName(typeof(EOffOn), SaveModifiedSongs));
 
                 writer.WriteEndElement();
                 #endregion Debug

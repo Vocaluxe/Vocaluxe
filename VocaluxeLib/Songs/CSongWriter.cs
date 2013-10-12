@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace VocaluxeLib.Songs
 {
@@ -17,19 +15,19 @@ namespace VocaluxeLib.Songs
                 _Song = song;
             }
 
-            private void _WriteHeaderEntry<T>(StreamWriter sw, string id, T value)
+            private void _WriteHeaderEntry<T>(TextWriter sw, string id, T value)
             {
                 if (!value.Equals(default(T)))
                     sw.WriteLine("#" + id.ToUpper() + ":" + value);
             }
 
-            private void _WriteHeaderEntry(StreamWriter sw, string id, bool value)
+            private void _WriteHeaderEntry(TextWriter sw, string id, bool value)
             {
                 if (value)
                     _WriteHeaderEntry(sw, id, "YES");
             }
 
-            private void _WriteHeaderEntry<T>(StreamWriter sw, string id, IList<T> value)
+            private void _WriteHeaderEntrys<T>(TextWriter sw, string id, IList<T> value)
             {
                 if (value != null && value.Count > 0)
                 {
@@ -38,7 +36,7 @@ namespace VocaluxeLib.Songs
                 }
             }
 
-            private void _WriteHeader(StreamWriter sw)
+            private void _WriteHeader(TextWriter sw)
             {
                 _WriteHeaderEntry(sw, "ENCODING", _Song.Encoding);
                 _WriteHeaderEntry(sw, "CREATOR", _Song.Creator);
@@ -48,7 +46,7 @@ namespace VocaluxeLib.Songs
                 {
                     string comment = _Song._Comment.Replace("\r\n", "\n").Replace('\r', '\n');
                     char[] splitChar = {'\n'};
-                    _WriteHeaderEntry(sw, "COMMENT", comment.Split(splitChar));
+                    _WriteHeaderEntrys(sw, "COMMENT", comment.Split(splitChar));
                 }
                 _WriteHeaderEntry(sw, "TITLE", _Song.Title);
                 _WriteHeaderEntry(sw, "ARTIST", _Song.Artist);
@@ -56,9 +54,9 @@ namespace VocaluxeLib.Songs
                     _WriteHeaderEntry(sw, "TITLE-ON-SORTING", _Song.TitleSorting);
                 if (!_Song.Artist.Equals(_Song.ArtistSorting))
                     _WriteHeaderEntry(sw, "ARTIST-ON-SORTING", _Song.ArtistSorting);
-                _WriteHeaderEntry(sw, "EDITION", _Song.Editions);
-                _WriteHeaderEntry(sw, "GENRE", _Song.Genres);
-                _WriteHeaderEntry(sw, "LANGUAGE", _Song.Languages);
+                _WriteHeaderEntrys(sw, "EDITION", _Song.Editions);
+                _WriteHeaderEntrys(sw, "GENRE", _Song.Genres);
+                _WriteHeaderEntrys(sw, "LANGUAGE", _Song.Languages);
                 _WriteHeaderEntry(sw, "ALBUM", _Song.Album);
                 _WriteHeaderEntry(sw, "YEAR", _Song.Year);
                 _WriteHeaderEntry(sw, "MP3", _Song.MP3FileName);
@@ -73,7 +71,7 @@ namespace VocaluxeLib.Songs
                 _WriteHeaderEntry(sw, "PREVIEWSTART", _Song.PreviewStart);
                 _WriteHeaderEntry(sw, "START", _Song.Start);
                 _WriteHeaderEntry(sw, "END", _Song.Finish);
-                if (!_Song.CalculateMedley)
+                if (!_Song._CalculateMedley)
                     _WriteHeaderEntry(sw, "CALCMEDLEY", "OFF");
                 if (_Song.Medley.Source == EMedleySource.Tag)
                 {
@@ -87,6 +85,68 @@ namespace VocaluxeLib.Songs
                 }
                 foreach (string addLine in _Song.UnknownTags)
                     sw.WriteLine(addLine);
+            }
+
+            private void _WriteNotes(TextWriter sw)
+            {
+                for (int i = 0; i < _Song.Notes.VoiceCount; i++)
+                {
+                    CVoice voice = _Song.Notes.GetVoice(i);
+                    if (_Song.Notes.VoiceCount > 1)
+                        sw.WriteLine("P" + Math.Pow(2, i));
+                    bool firstLine = true;
+                    int currentBeat = 0;
+                    foreach (CSongLine line in voice.Lines)
+                    {
+                        if (!firstLine)
+                        {
+                            string lineTxt = "- " + (line.StartBeat - currentBeat);
+                            if (_Song.Relative)
+                            {
+                                lineTxt += " " + (line.FirstNoteBeat - currentBeat);
+                                currentBeat = line.FirstNoteBeat;
+                            }
+                            sw.WriteLine(lineTxt);
+                        }
+                        else
+                            firstLine = false;
+                        foreach (CSongNote note in line.Notes)
+                        {
+                            string tag;
+                            switch (note.Type)
+                            {
+                                case ENoteType.Normal:
+                                    tag = ":";
+                                    break;
+                                case ENoteType.Golden:
+                                    tag = "*";
+                                    break;
+                                case ENoteType.Freestyle:
+                                    tag = "F";
+                                    break;
+                                default:
+                                    throw new NotImplementedException("Note type " + note.Type);
+                            }
+                            sw.WriteLine(tag + " " + (note.StartBeat - currentBeat) + " " + note.Duration + " " + note.Tone + " " + note.Text);
+                        }
+                    }
+                }
+            }
+
+            public bool SaveFile(string filePath)
+            {
+                try
+                {
+                    TextWriter sw = new StreamWriter(filePath, false, _Song.Encoding);
+                    _WriteHeader(sw);
+                    _WriteNotes(sw);
+                }
+                catch (Exception e)
+                {
+                    CBase.Log.LogError("Unhandled exception while writing " + filePath + ": " + e);
+                    return false;
+                }
+                return true;
             }
         }
     }

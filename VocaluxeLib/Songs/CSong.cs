@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Songs
@@ -73,7 +72,7 @@ namespace VocaluxeLib.Songs
 
         public SMedley Medley;
 
-        public bool CalculateMedley = true;
+        private bool _CalculateMedley = true;
         public float PreviewStart;
 
         public int ShortEnd;
@@ -197,7 +196,7 @@ namespace VocaluxeLib.Songs
                     FadeOutTime = song.Medley.FadeOutTime
                 };
 
-            CalculateMedley = song.CalculateMedley;
+            _CalculateMedley = song._CalculateMedley;
             PreviewStart = song.PreviewStart;
 
             ShortEnd = song.ShortEnd;
@@ -259,6 +258,12 @@ namespace VocaluxeLib.Songs
         {
             var loader = new CSongLoader(this);
             return loader.ReadNotes();
+        }
+
+        public bool Save(string filePath)
+        {
+            var writer = new CSongWriter(this);
+            return writer.SaveFile(filePath);
         }
 
         public string GetMP3()
@@ -381,7 +386,7 @@ namespace VocaluxeLib.Songs
             if (Medley.Source == EMedleySource.Tag)
                 return;
 
-            if (!CalculateMedley)
+            if (!_CalculateMedley)
                 return;
 
             List<SSeries> series = _GetSeries();

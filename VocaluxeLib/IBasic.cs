@@ -29,6 +29,8 @@ namespace VocaluxeLib
 {
     public interface IConfig
     {
+        EOffOn GetSaveModifiedSongs();
+
         void SetBackgroundMusicVolume(int newVolume);
         int GetBackgroundMusicVolume();
 
