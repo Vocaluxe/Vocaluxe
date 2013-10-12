@@ -819,9 +819,8 @@ namespace Vocaluxe.Screens
                 CGame.Reset();
                 CGame.ClearSongs();
 
-                CGame.AddVisibleSong(songNr, gm);
-
-                CGraphics.FadeTo(EScreens.ScreenNames);
+                if (CGame.AddVisibleSong(songNr, gm))
+                    CGraphics.FadeTo(EScreens.ScreenNames);
             }
         }
 
@@ -834,9 +833,8 @@ namespace Vocaluxe.Screens
                 CGame.Reset();
                 CGame.ClearSongs();
 
-                CGame.AddVisibleSong(songNr, gm);
-
-                CGraphics.FadeTo(EScreens.ScreenNames);
+                if (CGame.AddVisibleSong(songNr, gm))
+                    CGraphics.FadeTo(EScreens.ScreenNames);
             }
         }
 
@@ -844,14 +842,13 @@ namespace Vocaluxe.Screens
         {
             if ((CSongs.Category >= 0) && (songNr >= 0))
             {
-                if (CSongs.VisibleSongs[songNr].IsGameModeAvailable(EGameMode.TR_GAMEMODE_MEDLEY))
+                if (!CSongs.VisibleSongs[songNr].IsGameModeAvailable(EGameMode.TR_GAMEMODE_MEDLEY))
                     return;
 
                 CGame.Reset();
                 CGame.ClearSongs();
-                CGame.AddVisibleSong(songNr, EGameMode.TR_GAMEMODE_MEDLEY);
-
-                CGraphics.FadeTo(EScreens.ScreenNames);
+                if (CGame.AddVisibleSong(songNr, EGameMode.TR_GAMEMODE_MEDLEY))
+                    CGraphics.FadeTo(EScreens.ScreenNames);
             }
         }
 

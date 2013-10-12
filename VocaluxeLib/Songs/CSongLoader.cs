@@ -99,7 +99,7 @@ namespace VocaluxeLib.Songs
                 _LineNr = 0;
                 try
                 {
-                    sr = useSetEncoding ? new StreamReader(filePath, _Song.Encoding, true) : new StreamReader(filePath, true);
+                    sr = new StreamReader(filePath, _Song.Encoding, true);
                     while (!sr.EndOfStream)
                     {
                         string line = sr.ReadLine();
@@ -712,7 +712,7 @@ namespace VocaluxeLib.Songs
                 if (changesMade.IsModified)
                 {
                     string msg = "Automatic changes have been made to " + filePath + " Please check result!\r\n" + changesMade;
-                    CBase.Log.LogError("Warning:" + msg);
+                    CBase.Log.LogError("Warning: " + msg);
                     if (CBase.Config.GetSaveModifiedSongs() == EOffOn.TR_CONFIG_ON)
                     {
                         string name = Path.GetFileNameWithoutExtension(_Song.FileName);
