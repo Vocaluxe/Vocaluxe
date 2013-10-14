@@ -9,7 +9,7 @@ namespace VocaluxeLib.Songs
         private class CSongWriter
         {
             private readonly CSong _Song;
-            private TextWriter tw;
+            private TextWriter _Tw;
 
             public CSongWriter(CSong song)
             {
@@ -19,7 +19,7 @@ namespace VocaluxeLib.Songs
             private void _WriteHeaderEntry(string id, string value)
             {
                 if (!String.IsNullOrEmpty(value))
-                    tw.WriteLine("#" + id.ToUpper() + ":" + value);
+                    _Tw.WriteLine("#" + id.ToUpper() + ":" + value);
             }
 
             private void _WriteHeaderEntry(string id, bool value)
@@ -31,7 +31,7 @@ namespace VocaluxeLib.Songs
             private void _WriteHeaderEntry(string id, float value, float def = 0f)
             {
                 if (Math.Abs(value - def) > 0.0001)
-                    _WriteHeaderEntry(id, value.ToString());
+                    _WriteHeaderEntry(id, value.ToInvariantString());
             }
 
             private void _WriteHeaderEntry(string id, int value, int def = 0)
@@ -81,11 +81,11 @@ namespace VocaluxeLib.Songs
                     _WriteHeaderEntry("VIDEOASPECT", _Song.VideoAspect.ToString());
                 _WriteHeaderEntry("RELATIVE", _Song.Relative);
                 _WriteHeaderEntry("BPM", _Song.BPM / _BPMFactor);
-                _WriteHeaderEntry("GAP", _Song.Gap * 1000f);
+                _WriteHeaderEntry("GAP", (int)(_Song.Gap * 1000f));
                 if (_Song.Preview.Source == EDataSource.Tag)
                     _WriteHeaderEntry("PREVIEWSTART", _Song.Preview.StartTime);
                 _WriteHeaderEntry("START", _Song.Start);
-                _WriteHeaderEntry("END", _Song.Finish * 1000f);
+                _WriteHeaderEntry("END", (int)(_Song.Finish * 1000f));
                 if (_Song.ShortEnd.Source == EDataSource.Tag)
                     _WriteHeaderEntry("ENDSHORT", (int)(CBase.Game.GetTimeFromBeats(_Song.ShortEnd.EndBeat, _Song.BPM) + _Song.Gap) * 1000);
                 if (!_Song._CalculateMedley)
@@ -101,7 +101,7 @@ namespace VocaluxeLib.Songs
                         _WriteHeaderEntry("P" + i, _Song.Notes.VoiceNames[i]);
                 }
                 foreach (string addLine in _Song.UnknownTags)
-                    tw.WriteLine(addLine);
+                    _Tw.WriteLine(addLine);
             }
 
             private void _WriteNotes()
@@ -110,7 +110,7 @@ namespace VocaluxeLib.Songs
                 {
                     CVoice voice = _Song.Notes.GetVoice(i);
                     if (_Song.Notes.VoiceCount > 1)
-                        tw.WriteLine("P" + Math.Pow(2, i));
+                        _Tw.WriteLine("P" + Math.Pow(2, i));
                     bool firstLine = true;
                     int currentBeat = 0;
                     foreach (CSongLine line in voice.Lines)
@@ -123,7 +123,7 @@ namespace VocaluxeLib.Songs
                                 lineTxt += " " + (line.FirstNoteBeat - currentBeat);
                                 currentBeat = line.FirstNoteBeat;
                             }
-                            tw.WriteLine(lineTxt);
+                            _Tw.WriteLine(lineTxt);
                         }
                         else
                             firstLine = false;
@@ -144,18 +144,18 @@ namespace VocaluxeLib.Songs
                                 default:
                                     throw new NotImplementedException("Note type " + note.Type);
                             }
-                            tw.WriteLine(tag + " " + (note.StartBeat - currentBeat) + " " + note.Duration + " " + note.Tone + " " + note.Text);
+                            _Tw.WriteLine(tag + " " + (note.StartBeat - currentBeat) + " " + note.Duration + " " + note.Tone + " " + note.Text);
                         }
                     }
                 }
-                tw.WriteLine("E");
+                _Tw.WriteLine("E");
             }
 
             public bool SaveFile(string filePath)
             {
                 try
                 {
-                    tw = new StreamWriter(filePath, false, _Song.Encoding);
+                    _Tw = new StreamWriter(filePath, false, _Song.Encoding);
                     _WriteHeader();
                     _WriteNotes();
                 }

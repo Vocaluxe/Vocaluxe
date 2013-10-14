@@ -321,13 +321,15 @@ namespace VocaluxeLib.Songs
                                     _Song.Relative = true;
                                 break;
                             case "RESOLUTION":
-                                _LogWarning("#RESOLUTION tag is outdated and ignored. Test the song to see if note timing is still correct!");
+                            case "NOTESGAP":
+                                //Outdated/not used
+                                _Song.UnknownTags.Add(line);
                                 break;
                             default:
                                 if (identifier.StartsWith("DUETSINGER"))
                                 {
                                     identifier = identifier.Substring(10);
-                                    if (identifier.StartsWith("P")) // Possible fix for missing "P"
+                                    if (identifier.StartsWith("P")) // fix for missing "P"
                                         identifier = "P" + identifier;
                                 }
                                 if (identifier.StartsWith("P"))

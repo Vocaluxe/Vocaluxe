@@ -53,7 +53,6 @@ namespace VocaluxeLib
         public static string ListStrings(string[] str)
         {
             string result = string.Empty;
-
             for (int i = 0; i < str.Length; i++)
             {
                 result += str[i];
@@ -160,13 +159,7 @@ namespace VocaluxeLib
             return files;
         }
 
-        public static bool TryParse<T>(string value, out T result)
-            where T : struct
-        {
-            return TryParse(value, out result, false);
-        }
-
-        public static bool TryParse<T>(string value, out T result, bool ignoreCase)
+        public static bool TryParse<T>(string value, out T result, bool ignoreCase=false)
             where T : struct
         {
             result = default(T);

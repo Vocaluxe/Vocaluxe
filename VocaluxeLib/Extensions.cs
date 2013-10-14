@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -96,6 +97,16 @@ namespace VocaluxeLib
             if (end - start < len)
                 value = value.Substring(start, end - start + 1);
             return value;
+        }
+
+        /// <summary>
+        /// Converts value to a string in fixed point notation using invariant formating (english style decimal point)
+        /// </summary>
+        /// <param name="value">Value to be converted</param>
+        /// <returns>String representation of value</returns>
+        public static string ToInvariantString(this float value)
+        {
+            return value.ToString("F", NumberFormatInfo.InvariantInfo);
         }
     }
 }
