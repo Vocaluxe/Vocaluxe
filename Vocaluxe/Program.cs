@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -30,7 +28,6 @@ using Vocaluxe.Base.Server;
 
 namespace Vocaluxe
 {
-    // just a small comment for the new develop branch
     static class CMainProgram
     {
         private static CSplashScreen _SplashScreen;
@@ -76,6 +73,9 @@ namespace Vocaluxe
             {
                 // Init Log
                 CLog.Init();
+
+                if (!CProgrammHelper.CheckRequirements())
+                    return;
 
                 CMain.Init();
                 CSettings.CreateFolders();
@@ -253,7 +253,7 @@ namespace Vocaluxe
         [HandleProcessCorruptedStateExceptions]
         private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args)
         {
-            Exception e = (Exception)args.ExceptionObject;
+            var e = (Exception)args.ExceptionObject;
             string stackTrace = "";
             try
             {

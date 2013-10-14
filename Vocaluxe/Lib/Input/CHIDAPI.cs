@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -23,20 +21,20 @@ using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Input
 {
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct SHIDDeviceInfo
     {
         // ReSharper disable MemberCanBePrivate.Global
         [MarshalAs(UnmanagedType.LPTStr)] public readonly String Path;
         public readonly ushort VendorString;
         public readonly ushort ProductID;
-        public readonly String SerialNumber;
+        [MarshalAs(UnmanagedType.LPWStr)] public readonly String SerialNumber;
         public readonly ushort ReleaseNumber;
-        public readonly String ManufacturerString;
-        public readonly String ProductString;
+        [MarshalAs(UnmanagedType.LPWStr)] public readonly String ManufacturerString;
+        [MarshalAs(UnmanagedType.LPWStr)] public readonly String ProductString;
         public readonly ushort UsagePage;
         public readonly ushort Usage;
-        public readonly int InterfaceNumber;
+        [MarshalAs(UnmanagedType.LPWStr)] public readonly int InterfaceNumber;
         internal IntPtr Next;
         // ReSharper restore MemberCanBePrivate.Global
     }
@@ -160,11 +158,9 @@ namespace Vocaluxe.Lib.Input
         [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_read_timeout", CharSet = CharSet.Unicode)]
         private static extern int hid_read_timeout(IntPtr device, IntPtr data, int length, int milliseconds);
 
-        public static int ReadTimeout(IntPtr device, out byte[] data, int length, int milliseconds)
+        public static int ReadTimeout(IntPtr device, ref byte[] data, int length, int milliseconds)
         {
-            data = new byte[length];
             IntPtr dataPtr = Marshal.AllocHGlobal(length);
-
             int result;
             try
             {
@@ -182,6 +178,7 @@ namespace Vocaluxe.Lib.Input
                 data = null;
 
             Marshal.FreeHGlobal(dataPtr);
+
             return result;
         }
 

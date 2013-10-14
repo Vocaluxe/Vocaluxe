@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -39,6 +37,7 @@ namespace Vocaluxe.Base
 
         // Debug
         public static EDebugLevel DebugLevel = EDebugLevel.TR_CONFIG_OFF;
+        public static EOffOn SaveModifiedSongs = EOffOn.TR_CONFIG_OFF;
 
         // Graphics
 #if WIN
@@ -148,10 +147,17 @@ namespace Vocaluxe.Base
 
             SongFolder.Add(Path.Combine(Directory.GetCurrentDirectory(), CSettings.FolderSongs));
 
+#if INSTALLER
+            SongFolder.Add(Path.Combine(CSettings.DataPath, CSettings.FolderSongs));            
+#endif
+
+            foreach (string folder in SongFolder)
+                CSettings.CreateFolder(folder);
+
             MicConfig = new SMicConfig[CSettings.MaxNumPlayer];
 
             // Init config file
-            if (!File.Exists(CSettings.FileConfig))
+            if (!File.Exists(Path.Combine(CSettings.DataPath, CSettings.FileConfig)))
                 SaveConfig();
 
             _LoadConfig();
@@ -159,11 +165,12 @@ namespace Vocaluxe.Base
 
         private static void _LoadConfig()
         {
-            CXMLReader xmlReader = CXMLReader.OpenFile(CSettings.FileConfig);
+            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.DataPath, CSettings.FileConfig));
             if (xmlReader == null)
                 return;
 
             xmlReader.TryGetEnumValue("//root/Debug/DebugLevel", ref DebugLevel);
+            xmlReader.TryGetEnumValue("//root/Debug/SaveModifiedSongs", ref SaveModifiedSongs);
 
             #region Graphics
             xmlReader.TryGetEnumValue("//root/Graphics/Renderer", ref Renderer);
@@ -297,7 +304,7 @@ namespace Vocaluxe.Base
             XmlWriter writer = null;
             try
             {
-                writer = XmlWriter.Create(CSettings.FileConfig, _Settings);
+                writer = XmlWriter.Create(Path.Combine(CSettings.DataPath, CSettings.FileConfig), _Settings);
                 writer.WriteStartDocument();
                 writer.WriteStartElement("root");
 
@@ -322,6 +329,9 @@ namespace Vocaluxe.Base
 
                 writer.WriteComment("DebugLevel: " + CHelper.ListStrings(Enum.GetNames(typeof(EDebugLevel))));
                 writer.WriteElementString("DebugLevel", Enum.GetName(typeof(EDebugLevel), DebugLevel));
+
+                writer.WriteComment("SaveModifiedSongs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("SaveModifiedSongs", Enum.GetName(typeof(EOffOn), SaveModifiedSongs));
 
                 writer.WriteEndElement();
                 #endregion Debug
@@ -777,7 +787,8 @@ namespace Vocaluxe.Base
 
                     case "profilefolder":
                         CSettings.CreateFolder(value);
-                        CSettings.FolderProfiles = value;
+                        CSettings.FoldersProfiles.Clear();
+                        CSettings.FoldersProfiles.Add(value);
                         break;
                 }
             }

@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -66,7 +64,7 @@ namespace Vocaluxe.Base
 
         public static IEnumerable<string> GetLanguageNames()
         {
-            string[] languages = new string[_Languages.Count];
+            var languages = new string[_Languages.Count];
 
             for (int i = 0; i < _Languages.Count; i++)
                 languages[i] = _Languages[i].Name;
@@ -81,7 +79,7 @@ namespace Vocaluxe.Base
             _Settings.Encoding = Encoding.UTF8;
             _Settings.ConformanceLevel = ConformanceLevel.Document;
 
-            List<string> files = new List<string>();
+            var files = new List<string>();
             files.AddRange(CHelper.ListFiles(CSettings.FolderLanguages, "*.xml", true, true));
 
             foreach (string file in files)
@@ -166,7 +164,7 @@ namespace Vocaluxe.Base
 
         public static bool LoadPartyLanguageFiles(int partyModeID, string path)
         {
-            List<string> files = new List<string>();
+            var files = new List<string>();
             files.AddRange(CHelper.ListFiles(path, "*.xml", true, true));
 
             return files.All(file => _LoadPartyLanguageFile(partyModeID, file));
@@ -208,7 +206,7 @@ namespace Vocaluxe.Base
                 if (nr == -1)
                     return true;
 
-                SPartyLanguage lang = new SPartyLanguage {PartyModeID = partyModeID};
+                var lang = new SPartyLanguage {PartyModeID = partyModeID};
                 if (!_LoadLanguageEntries(xmlReader, out lang.Texts))
                     return false;
 
@@ -221,7 +219,7 @@ namespace Vocaluxe.Base
 
         private static void _LoadLanguageFile(string fileName)
         {
-            SLanguage lang = new SLanguage {LanguageFilePath = Path.Combine(CSettings.FolderLanguages, fileName)};
+            var lang = new SLanguage {LanguageFilePath = Path.Combine(CSettings.FolderLanguages, fileName)};
 
             CXMLReader xmlReader = CXMLReader.OpenFile(lang.LanguageFilePath);
             if (xmlReader == null)

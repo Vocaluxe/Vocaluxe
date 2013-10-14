@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -55,7 +53,6 @@ namespace VocaluxeLib
         public static string ListStrings(string[] str)
         {
             string result = string.Empty;
-
             for (int i = 0; i < str.Length; i++)
             {
                 result += str[i];
@@ -69,7 +66,7 @@ namespace VocaluxeLib
         public static int TryReadInt(StreamReader sr)
         {
             string value = String.Empty;
-            
+
             try
             {
                 int tmp = sr.Peek();
@@ -79,7 +76,7 @@ namespace VocaluxeLib
                     if (sr.EndOfStream)
                         break;
 
-                    char chr = (char)sr.Read();
+                    var chr = (char)sr.Read();
                     value += chr.ToString();
                     tmp = sr.Peek();
                 }
@@ -141,8 +138,8 @@ namespace VocaluxeLib
 
         public static List<string> ListFiles(string path, string cast, bool recursive = false, bool fullpath = false)
         {
-            List<string> files = new List<string>();
-            DirectoryInfo dir = new DirectoryInfo(path);
+            var files = new List<string>();
+            var dir = new DirectoryInfo(path);
 
             try
             {
@@ -162,13 +159,7 @@ namespace VocaluxeLib
             return files;
         }
 
-        public static bool TryParse<T>(string value, out T result)
-            where T : struct
-        {
-            return TryParse(value, out result, false);
-        }
-
-        public static bool TryParse<T>(string value, out T result, bool ignoreCase)
+        public static bool TryParse<T>(string value, out T result, bool ignoreCase=false)
             where T : struct
         {
             result = default(T);
@@ -201,7 +192,7 @@ namespace VocaluxeLib
 
     static class CEncoding
     {
-        public static Encoding GetEncoding(string encodingName)
+        public static Encoding GetEncoding(this string encodingName)
         {
             switch (encodingName)
             {
@@ -216,11 +207,11 @@ namespace VocaluxeLib
                 case "UTF8":
                     return Encoding.UTF8;
                 default:
-                    return Encoding.UTF8;
+                    return Encoding.Default;
             }
         }
 
-        public static string GetEncodingName(Encoding enc)
+        public static string GetEncodingName(this Encoding enc)
         {
             string result = "UTF8";
 

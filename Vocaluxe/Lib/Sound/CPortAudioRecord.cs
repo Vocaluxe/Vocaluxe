@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System.Collections.ObjectModel;
@@ -73,7 +71,7 @@ namespace Vocaluxe.Lib.Sound
                     CPortAudio.SPaDeviceInfo info = CPortAudio.PaGetDeviceInfo(i);
                     if (info.HostApi == hostAPI && info.MaxInputChannels > 0)
                     {
-                        CRecordDevice dev = new CRecordDevice {ID = i, Name = info.Name, Driver = info.Name + i, Channels = info.MaxInputChannels};
+                        var dev = new CRecordDevice {ID = i, Name = info.Name, Driver = info.Name + i, Channels = info.MaxInputChannels};
 
                         if (dev.Channels > 2)
                             dev.Channels = 2; //more are not supported in vocaluxe
@@ -123,7 +121,7 @@ namespace Vocaluxe.Lib.Sound
             for (int i = 0; i < _RecHandle.Length; i++)
                 _RecHandle[i] = IntPtr.Zero;
 
-            bool[] active = new bool[_Devices.Count];
+            var active = new bool[_Devices.Count];
             for (int dev = 0; dev < _Devices.Count; dev++)
             {
                 active[dev] = false;
@@ -135,7 +133,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 if (active[i])
                 {
-                    CPortAudio.SPaStreamParameters inputParams = new CPortAudio.SPaStreamParameters
+                    var inputParams = new CPortAudio.SPaStreamParameters
                         {
                             ChannelCount = _Devices[i].Channels,
                             Device = _Devices[i].ID,
@@ -283,9 +281,9 @@ namespace Vocaluxe.Lib.Sound
                 frameCount *= 4;
                 if (frameCount > 0 && input != IntPtr.Zero)
                 {
-                    byte[] recbuffer = new byte[frameCount];
-                    byte[] leftBuffer = new byte[frameCount / 2];
-                    byte[] rightBuffer = new byte[frameCount / 2];
+                    var recbuffer = new byte[frameCount];
+                    var leftBuffer = new byte[frameCount / 2];
+                    var rightBuffer = new byte[frameCount / 2];
 
                     // copy from managed to unmanaged memory
                     Marshal.Copy(input, recbuffer, 0, (int)frameCount);

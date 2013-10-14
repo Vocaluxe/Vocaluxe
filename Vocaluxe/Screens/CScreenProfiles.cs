@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -332,7 +330,7 @@ namespace Vocaluxe.Screens
 
         private void _OnSaveSnapshot()
         {
-            string filename = Path.Combine(CSettings.FolderProfiles, "snapshot");
+            string filename = Path.Combine(CSettings.DataPath, CSettings.FolderProfiles, "snapshot");
             int i = 0;
             while (File.Exists(filename + i + ".png"))
                 i++;
@@ -446,13 +444,16 @@ namespace Vocaluxe.Screens
             int selectedAvatarID = _SelectSlides[_SelectSlideAvatars].ValueIndex;
             _SelectSlides[_SelectSlideAvatars].Clear();
             IEnumerable<CAvatar> avatars = CProfiles.GetAvatars();
-            foreach (CAvatar avatar in avatars)
+            if (avatars != null)
             {
-                _SelectSlides[_SelectSlideAvatars].AddValue(
-                    Path.GetFileName(avatar.FileName),
-                    null,
-                    avatar.ID,
-                    -1);
+                foreach (CAvatar avatar in avatars)
+                {
+                    _SelectSlides[_SelectSlideAvatars].AddValue(
+                        Path.GetFileName(avatar.FileName),
+                        null,
+                        avatar.ID,
+                        -1);
+                }
             }
 
             if (keep)

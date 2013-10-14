@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System.Collections.Generic;
@@ -54,7 +52,7 @@ namespace Vocaluxe.GameModes
     {
         protected override CSong _PrepareSong(CSong song)
         {
-            return song;
+            return (song.IsGameModeAvailable(EGameMode.TR_GAMEMODE_NORMAL)) ? song : null;
         }
     }
 
@@ -62,7 +60,7 @@ namespace Vocaluxe.GameModes
     {
         protected override CSong _PrepareSong(CSong song)
         {
-            return (song.IsDuet) ? song : null;
+            return (song.IsGameModeAvailable(EGameMode.TR_GAMEMODE_DUET)) ? song : null;
         }
     }
 
@@ -70,9 +68,11 @@ namespace Vocaluxe.GameModes
     {
         protected override CSong _PrepareSong(CSong song)
         {
-            CSong newSong = new CSong(song) {Finish = CGame.GetTimeFromBeats(song.ShortEnd, song.BPM) + CSettings.DefaultMedleyFadeOutTime + song.Gap};
+            if (!song.IsGameModeAvailable(EGameMode.TR_GAMEMODE_SHORTSONG))
+                return null;
+            var newSong = new CSong(song) {Finish = CGame.GetTimeFromBeats(song.ShortEnd.EndBeat, song.BPM) + CSettings.DefaultMedleyFadeOutTime + song.Gap};
             // set lines to short mode
-            newSong.Notes.SetMedley(song.Notes.GetVoice(0).Lines[0].FirstNoteBeat, song.ShortEnd);
+            newSong.Notes.SetMedley(0, song.ShortEnd.EndBeat);
 
             return newSong;
         }
@@ -82,7 +82,9 @@ namespace Vocaluxe.GameModes
     {
         protected override CSong _PrepareSong(CSong song)
         {
-            CSong newSong = new CSong(song) {Start = CGame.GetTimeFromBeats(song.Medley.StartBeat, song.BPM) - song.Medley.FadeInTime + song.Gap};
+            if (!song.IsGameModeAvailable(EGameMode.TR_GAMEMODE_MEDLEY))
+                return null;
+            var newSong = new CSong(song) {Start = CGame.GetTimeFromBeats(song.Medley.StartBeat, song.BPM) - song.Medley.FadeInTime + song.Gap};
             if (newSong.Start < 0f)
                 newSong.Start = 0f;
 

@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -293,12 +291,12 @@ namespace Vocaluxe.Screens
 
             CStatic image = GetNewStatic(texture, new SColorF(1, 1, 1, 1), new SRectF(-1, -1, 400, 120, -4));
 
-            SRectF particleRect = new SRectF(-1, -1, partRectSize, partRectSize, -6);
-            SRectF imgDotRect = new SRectF(particleRect) {Z = -5};
+            var particleRect = new SRectF(-1, -1, partRectSize, partRectSize, -6);
+            var imgDotRect = new SRectF(particleRect) {Z = -5};
             CStatic imgDot = GetNewStatic(texDot, new SColorF(1, 1, 1, 1), imgDotRect);
             CParticleEffect particle = _GetStarParticles(partCount, isRight, particleRect, bigParticles);
 
-            CCreditName credit = new CCreditName(image, imgDot, particle, particleOffsetX, particleOffsetY);
+            var credit = new CCreditName(image, imgDot, particle, particleOffsetX, particleOffsetY);
 
             if (isRight)
             {
@@ -323,8 +321,8 @@ namespace Vocaluxe.Screens
                                  new SRectF((float)(CSettings.RenderW - _TexLogo.OrigSize.Width) / 2, -270, _TexLogo.OrigSize.Width, _TexLogo.OrigSize.Height, -2));
 
             //Little stars for logo
-            int numstars = (int)(_Logo.Rect.W * 0.25f / 2f);
-            SRectF partRect = new SRectF(_Logo.Rect.X, _Logo.Rect.Y, _Logo.Rect.W, _Logo.Rect.H, -1);
+            var numstars = (int)(_Logo.Rect.W * 0.25f / 2f);
+            var partRect = new SRectF(_Logo.Rect.X, _Logo.Rect.Y, _Logo.Rect.W, _Logo.Rect.H, -1);
             _StarsRed = _GetStarParticles(numstars, true, partRect, true);
             _StarsBlue = _GetStarParticles(numstars, false, partRect, true);
 

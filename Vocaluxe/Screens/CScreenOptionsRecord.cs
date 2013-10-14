@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System.Collections.Generic;
@@ -75,7 +73,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            List<string> values = new List<string> {_StaticWarning};
+            var values = new List<string> {_StaticWarning};
             values.AddRange(_StaticEnergyChannel);
             _ThemeStatics = values.ToArray();
 
@@ -369,11 +367,11 @@ namespace Vocaluxe.Screens
             {
                 if (_ChannelEnergy[i] > 0f)
                 {
-                    SRectF rect = new SRectF(_Statics[_StaticEnergyChannel[i]].Rect.X,
-                                             _Statics[_StaticEnergyChannel[i]].Rect.Y,
-                                             _Statics[_StaticEnergyChannel[i]].Rect.W * _ChannelEnergy[i],
-                                             _Statics[_StaticEnergyChannel[i]].Rect.H,
-                                             _Statics[_StaticEnergyChannel[i]].Rect.Z);
+                    var rect = new SRectF(_Statics[_StaticEnergyChannel[i]].Rect.X,
+                                          _Statics[_StaticEnergyChannel[i]].Rect.Y,
+                                          _Statics[_StaticEnergyChannel[i]].Rect.W * _ChannelEnergy[i],
+                                          _Statics[_StaticEnergyChannel[i]].Rect.H,
+                                          _Statics[_StaticEnergyChannel[i]].Rect.Z);
 
                     CDraw.DrawTexture(_Statics[_StaticEnergyChannel[i]].Texture, _Statics[_StaticEnergyChannel[i]].Rect,
                                       new SColorF(1f, 1f, 1f, 1f), rect);
@@ -465,7 +463,7 @@ namespace Vocaluxe.Screens
 
         private bool _CheckMicConfig()
         {
-            bool[] isSet = new bool[CSettings.MaxNumPlayer];
+            var isSet = new bool[CSettings.MaxNumPlayer];
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
                 isSet[i] = false;
 

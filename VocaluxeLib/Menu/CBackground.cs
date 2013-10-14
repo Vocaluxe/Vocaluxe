@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -196,7 +194,7 @@ namespace VocaluxeLib.Menu
         #region internal
         private void _DrawColor()
         {
-            SRectF bounds = new SRectF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), CBase.Settings.GetZFar() / 4);
+            var bounds = new SRectF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), CBase.Settings.GetZFar() / 4);
 
             CBase.Drawing.DrawColor(Color, bounds);
         }
@@ -206,7 +204,7 @@ namespace VocaluxeLib.Menu
             CTexture texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
             if (texture != null)
             {
-                RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
+                var bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect;
                 CHelper.SetRect(bounds, out rect, texture.OrigAspect, EAspect.Crop);
 
@@ -221,7 +219,7 @@ namespace VocaluxeLib.Menu
             CTexture videoTexture = CBase.Theme.GetSkinVideoTexture(_Theme.VideoName, _PartyModeID);
             if (videoTexture != null)
             {
-                RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
+                var bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect;
                 CHelper.SetRect(bounds, out rect, videoTexture.OrigAspect, EAspect.Crop);
 
@@ -236,7 +234,7 @@ namespace VocaluxeLib.Menu
             CTexture videoTexture = CBase.BackgroundMusic.GetVideoTexture();
             if (videoTexture != null)
             {
-                RectangleF bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
+                var bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
                 RectangleF rect;
                 CHelper.SetRect(bounds, out rect, videoTexture.OrigAspect, EAspect.Crop);
 

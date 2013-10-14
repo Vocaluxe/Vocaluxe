@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -31,12 +29,16 @@ namespace Vocaluxe.Base
         private static float _Fps;
         private static readonly double _NanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
 
+        // ReSharper disable MemberCanBePrivate.Global
         public static void Reset()
+            // ReSharper restore MemberCanBePrivate.Global
         {
             _Stopwatch.Reset();
         }
 
+        // ReSharper disable MemberCanBePrivate.Global
         public static void Start()
+            // ReSharper restore MemberCanBePrivate.Global
         {
             _Stopwatch.Start();
         }
@@ -117,7 +119,7 @@ namespace Vocaluxe.Base
 
             if (!_Timer.IsRunning || (_Timer.ElapsedMilliseconds > 75) || !keyRepeat)
             {
-                SKeyEvent pool = new SKeyEvent(ESender.Keyboard, alt, shift, ctrl, pressed && (unicode != Char.MinValue), unicode, key);
+                var pool = new SKeyEvent(ESender.Keyboard, alt, shift, ctrl, pressed && (unicode != Char.MinValue), unicode, key);
 
                 lock (_CopyLock)
                 {
@@ -226,7 +228,7 @@ namespace Vocaluxe.Base
             x = (int)(x * (float)CSettings.RenderW / CDraw.GetScreenWidth());
             y = (int)(y * (float)CSettings.RenderH / CDraw.GetScreenHeight());
 
-            SMouseEvent pool = new SMouseEvent(ESender.Mouse, _Mod, x, y, lb, ld, rb, -wheel / 120, lbh, rbh, mb, mbh);
+            var pool = new SMouseEvent(ESender.Mouse, _Mod, x, y, lb, ld, rb, -wheel / 120, lbh, rbh, mb, mbh);
 
             lock (_CopyLock)
             {

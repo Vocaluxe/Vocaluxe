@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -22,9 +20,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using System.Linq;
 using System.IO;
-using System.Text;
 using System.Windows.Forms;
 using ClientServerLib;
 using Vocaluxe.Lib.Input;
@@ -44,10 +40,8 @@ namespace Vocaluxe.Base.Server
         public static void Init()
         {
             _Clients = new Dictionary<int, CClientHandler>();
-            if (CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON)
-                _Server = new CServer(RequestHandler, CConfig.ServerPort, CConfig.ServerPassword);
-            else
-                _Server = new CServer(RequestHandler, CConfig.ServerPort, String.Empty);
+            String pw = (CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON) ? CConfig.ServerPassword : String.Empty;
+            _Server = new CServer(RequestHandler, CConfig.ServerPort, pw);
 
             _Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
             Controller.Init();
@@ -84,12 +78,15 @@ namespace Vocaluxe.Base.Server
             {
                 if (!_Clients.ContainsKey(connectionID))
                 {
-                    CClientHandler client = new CClientHandler(connectionID);
+                    var client = new CClientHandler(connectionID);
                     _Clients.Add(connectionID, client);
                 }
 
                 loggedIn = _Clients[connectionID].LoggedIn;
             }
+
+            if (!loggedIn)
+                return CCommands.CreateCommandWithoutParams(CCommands.ResponseNOK);
 
             int command = BitConverter.ToInt32(message, 0);
 
@@ -120,17 +117,17 @@ namespace Vocaluxe.Base.Server
                     SAvatarPicture avatarPicture;
                     if (CCommands.DecodeCommandSendAvatarPicture(message, out avatarPicture))
                     {
-                        using (Bitmap bmp = new Bitmap(avatarPicture.Width, avatarPicture.Height))
+                        using (var bmp = new Bitmap(avatarPicture.Width, avatarPicture.Height))
                         {
                             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-                            Marshal.Copy(avatarPicture.data, 0, bmpData.Scan0, avatarPicture.data.Length);
+                            Marshal.Copy(avatarPicture.Data, 0, bmpData.Scan0, avatarPicture.Data.Length);
                             bmp.UnlockBits(bmpData);
 
                             const string filename = "snapshot";
                             int i = 0;
-                            while (File.Exists(Path.Combine(CSettings.FolderProfiles, filename + i + ".png")))
+                            while (File.Exists(Path.Combine(CSettings.DataPath, CSettings.FolderProfiles, filename + i + ".png")))
                                 i++;
-                            bmp.Save(Path.Combine(CSettings.FolderProfiles, filename + i + ".png"), ImageFormat.Png);
+                            bmp.Save(Path.Combine(CSettings.DataPath, CSettings.FolderProfiles, filename + i + ".png"), ImageFormat.Png);
                         }
 
                         answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
@@ -142,7 +139,7 @@ namespace Vocaluxe.Base.Server
                     SAvatarPicture avatarPictureJpg;
                     if (CCommands.DecodeCommandSendAvatarPicture(message, out avatarPictureJpg))
                     {
-                        if (_AddAvatar(avatarPictureJpg.data) != String.Empty)
+                        if (_AddAvatar(avatarPictureJpg.Data) != String.Empty)
                             answer = CCommands.CreateCommandWithoutParams(CCommands.ResponseOK);
                     }
                     break;
@@ -153,10 +150,10 @@ namespace Vocaluxe.Base.Server
                     {
                         try
                         {
-                            string avatarFilename = _AddAvatar(profile.Avatar.data);
+                            string avatarFilename = _AddAvatar(profile.Avatar.Data);
                             if (avatarFilename != String.Empty)
                             {
-                                CProfile p = new CProfile
+                                var p = new CProfile
                                     {
                                         Active = EOffOn.TR_CONFIG_ON,
                                         AvatarFileName = avatarFilename,
@@ -182,7 +179,7 @@ namespace Vocaluxe.Base.Server
             string result = String.Empty;
             try
             {
-                string filename = Path.Combine(CSettings.FolderProfiles, "snapshot");
+                string filename = Path.Combine(CSettings.DataPath, CSettings.FolderProfiles, "snapshot");
                 int i = 0;
                 while (File.Exists(filename + i + ".jpg"))
                     i++;
@@ -193,7 +190,7 @@ namespace Vocaluxe.Base.Server
                 fs.Flush();
                 fs.Close();
 
-                CAvatar avatar = new CAvatar(-1);
+                var avatar = new CAvatar(-1);
                 if (avatar.LoadFromFile(filename))
                 {
                     CProfiles.AddAvatar(avatar);

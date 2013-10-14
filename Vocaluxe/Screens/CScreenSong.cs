@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -105,7 +103,7 @@ namespace Vocaluxe.Screens
             _ButtonsJoker.Clear();
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
                 _ButtonsJoker.Add("ButtonJoker" + (i + 1));
-            List<string> blist = new List<string>();
+            var blist = new List<string>();
             blist.AddRange(_ButtonsJoker);
             blist.Add(_ButtonOptionsClose);
             blist.Add(_ButtonOptionsPlaylist);
@@ -123,7 +121,7 @@ namespace Vocaluxe.Screens
             _TextsPlayer.Clear();
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
                 _TextsPlayer.Add("TextPlayer" + (i + 1));
-            List<string> tlist = new List<string>();
+            var tlist = new List<string>();
             tlist.AddRange(_TextsPlayer);
             tlist.Add(_TextCategory);
             tlist.Add(_TextSelection);
@@ -172,7 +170,7 @@ namespace Vocaluxe.Screens
                 {
                     if (_SearchActive)
                         _ApplyNewSearchFilter(_SearchText + keyEvent.Unicode);
-                    else if(!_Sso.Selection.PartyMode)
+                    else if (!_Sso.Selection.PartyMode)
                     {
                         _JumpTo(keyEvent.Unicode);
                         return true;
@@ -821,9 +819,8 @@ namespace Vocaluxe.Screens
                 CGame.Reset();
                 CGame.ClearSongs();
 
-                CGame.AddVisibleSong(songNr, gm);
-
-                CGraphics.FadeTo(EScreens.ScreenNames);
+                if (CGame.AddVisibleSong(songNr, gm))
+                    CGraphics.FadeTo(EScreens.ScreenNames);
             }
         }
 
@@ -836,9 +833,8 @@ namespace Vocaluxe.Screens
                 CGame.Reset();
                 CGame.ClearSongs();
 
-                CGame.AddVisibleSong(songNr, gm);
-
-                CGraphics.FadeTo(EScreens.ScreenNames);
+                if (CGame.AddVisibleSong(songNr, gm))
+                    CGraphics.FadeTo(EScreens.ScreenNames);
             }
         }
 
@@ -846,14 +842,13 @@ namespace Vocaluxe.Screens
         {
             if ((CSongs.Category >= 0) && (songNr >= 0))
             {
-                if (CSongs.VisibleSongs[songNr].Medley.Source == EMedleySource.None)
+                if (!CSongs.VisibleSongs[songNr].IsGameModeAvailable(EGameMode.TR_GAMEMODE_MEDLEY))
                     return;
 
                 CGame.Reset();
                 CGame.ClearSongs();
-                CGame.AddVisibleSong(songNr, EGameMode.TR_GAMEMODE_MEDLEY);
-
-                CGraphics.FadeTo(EScreens.ScreenNames);
+                if (CGame.AddVisibleSong(songNr, EGameMode.TR_GAMEMODE_MEDLEY))
+                    CGraphics.FadeTo(EScreens.ScreenNames);
             }
         }
 
@@ -862,7 +857,7 @@ namespace Vocaluxe.Screens
             CGame.Reset();
             CGame.ClearSongs();
 
-            List<int> ids = new List<int>();
+            var ids = new List<int>();
             for (int i = 0; i < CSongs.AllSongs.Count; i++)
                 ids.Add(i);
 
@@ -870,7 +865,7 @@ namespace Vocaluxe.Screens
             {
                 int songNr = ids[CGame.Rand.Next(ids.Count)];
 
-                EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+                var gm = EGameMode.TR_GAMEMODE_NORMAL;
                 if (CSongs.AllSongs[songNr].IsDuet)
                     gm = EGameMode.TR_GAMEMODE_DUET;
 
@@ -894,7 +889,7 @@ namespace Vocaluxe.Screens
             {
                 int songNr = ids[CGame.Rand.Next(ids.Count)];
 
-                EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+                var gm = EGameMode.TR_GAMEMODE_NORMAL;
                 if (CSongs.AllSongs[songNr].IsDuet)
                     gm = EGameMode.TR_GAMEMODE_DUET;
 
@@ -1009,10 +1004,10 @@ namespace Vocaluxe.Screens
             int curSelected = _SongMenus[_SongMenu].GetActualSelection();
             bool firstLevel = CConfig.Tabs == EOffOn.TR_CONFIG_OFF && CSongs.IsInCategory;
             bool secondSort = CConfig.Tabs == EOffOn.TR_CONFIG_ON &&
-                                (CConfig.SongSorting == ESongSorting.TR_CONFIG_ARTIST ||
-                                 CConfig.SongSorting == ESongSorting.TR_CONFIG_ARTIST_LETTER ||
-                                 CConfig.SongSorting == ESongSorting.TR_CONFIG_FOLDER ||
-                                 CConfig.SongSorting == ESongSorting.TR_CONFIG_TITLE_LETTER);
+                              (CConfig.SongSorting == ESongSorting.TR_CONFIG_ARTIST ||
+                               CConfig.SongSorting == ESongSorting.TR_CONFIG_ARTIST_LETTER ||
+                               CConfig.SongSorting == ESongSorting.TR_CONFIG_FOLDER ||
+                               CConfig.SongSorting == ESongSorting.TR_CONFIG_TITLE_LETTER);
             if (firstLevel && !secondSort)
             {
                 //TODO: What's to do with multiple tags?
@@ -1029,7 +1024,7 @@ namespace Vocaluxe.Screens
                         visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
                         break;
 
-                    //TODO: Does this make sense? Maybe we should deactivate this for years? You could only jump between 1 and 2
+                        //TODO: Does this make sense? Maybe we should deactivate this for years? You could only jump between 1 and 2
                     case ESongSorting.TR_CONFIG_YEAR:
                     case ESongSorting.TR_CONFIG_DECADE:
                         if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Year.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
@@ -1076,7 +1071,7 @@ namespace Vocaluxe.Screens
                 if (visibleID > -1)
                     _SongMenus[_SongMenu].SetSelectedSong(visibleID);
             }
-            else if(!CSongs.IsInCategory)
+            else if (!CSongs.IsInCategory)
             {
                 ReadOnlyCollection<CCategory> categories = CSongs.Categories;
                 int ct = categories.Count;
@@ -1144,50 +1139,50 @@ namespace Vocaluxe.Screens
             _Statics[_StaticOptionsBG].Visible = false;
             _Buttons[_ButtonOpenOptions].Visible = true;
 
-            _SongOptionsActive = view != ESongOptionsView.None;
-
-            if (_SongOptionsActive)
+            if (CSongs.VisibleSongs.Count > 0)
             {
-                //Has to be done here otherwhise changed playlist names will not appear until OnShow is called!
-                _UpdatePlaylistNames();
+                _SongOptionsActive = view != ESongOptionsView.None;
 
-                _Texts[_TextOptionsTitle].Visible = true;
-                _Buttons[_ButtonOptionsClose].Visible = true;
-                _Statics[_StaticOptionsBG].Visible = true;
-                _Buttons[_ButtonOpenOptions].Visible = false;
-                if (view == ESongOptionsView.Song)
-                    _ShowSongOptionsSong();
-                else if (view == ESongOptionsView.General)
-                    _ShowSongOptionsGeneral();
-                else if (view == ESongOptionsView.Medley)
-                    _ShowSongOptionsMedley();
+                if (_SongOptionsActive)
+                {
+                    //Has to be done here otherwhise changed playlist names will not appear until OnShow is called!
+                    _UpdatePlaylistNames();
+
+                    _Texts[_TextOptionsTitle].Visible = true;
+                    _Buttons[_ButtonOptionsClose].Visible = true;
+                    _Statics[_StaticOptionsBG].Visible = true;
+                    _Buttons[_ButtonOpenOptions].Visible = false;
+                    if (view == ESongOptionsView.Song)
+                        _ShowSongOptionsSong();
+                    else if (view == ESongOptionsView.General)
+                        _ShowSongOptionsGeneral();
+                    else if (view == ESongOptionsView.Medley)
+                        _ShowSongOptionsMedley();
+                }
+            }
+        }
+
+        private void _CheckAndAddGameMode(EGameMode gameMode)
+        {
+            if (CSongs.VisibleSongs[_SongMenus[_SongMenu].GetSelectedSong()].IsGameModeAvailable(gameMode))
+            {
+                _SelectSlides[_SelectSlideOptionsMode].AddValue(Enum.GetName(typeof(EGameMode), gameMode));
+                _AvailableGameModes.Add(gameMode);
             }
         }
 
         private void _ShowSongOptionsSong()
         {
-            EGameMode lastMode = EGameMode.TR_GAMEMODE_NORMAL;
+            var lastMode = EGameMode.TR_GAMEMODE_NORMAL;
             if (_AvailableGameModes.Count > 0)
                 lastMode = _AvailableGameModes[_SelectSlides[_SelectSlideOptionsMode].Selection];
             _AvailableGameModes.Clear();
             _SelectSlides[_SelectSlideOptionsMode].Clear();
-            if (CSongs.VisibleSongs[_SongMenus[_SongMenu].GetSelectedSong()].IsDuet)
-            {
-                _SelectSlides[_SelectSlideOptionsMode].AddValue(Enum.GetName(typeof(EGameMode), EGameMode.TR_GAMEMODE_DUET));
-                _AvailableGameModes.Add(EGameMode.TR_GAMEMODE_DUET);
-            }
-            else
-            {
-                _SelectSlides[_SelectSlideOptionsMode].AddValue(Enum.GetName(typeof(EGameMode), EGameMode.TR_GAMEMODE_NORMAL));
-                _AvailableGameModes.Add(EGameMode.TR_GAMEMODE_NORMAL);
-                _SelectSlides[_SelectSlideOptionsMode].AddValue(Enum.GetName(typeof(EGameMode), EGameMode.TR_GAMEMODE_SHORTSONG));
-                _AvailableGameModes.Add(EGameMode.TR_GAMEMODE_SHORTSONG);
-            }
-            if (CSongs.VisibleSongs[_SongMenus[_SongMenu].GetSelectedSong()].Medley.Source != EMedleySource.None)
-            {
-                _SelectSlides[_SelectSlideOptionsMode].AddValue(Enum.GetName(typeof(EGameMode), EGameMode.TR_GAMEMODE_MEDLEY));
-                _AvailableGameModes.Add(EGameMode.TR_GAMEMODE_MEDLEY);
-            }
+            _CheckAndAddGameMode(EGameMode.TR_GAMEMODE_NORMAL);
+            _CheckAndAddGameMode(EGameMode.TR_GAMEMODE_DUET);
+            _CheckAndAddGameMode(EGameMode.TR_GAMEMODE_SHORTSONG);
+            _CheckAndAddGameMode(EGameMode.TR_GAMEMODE_MEDLEY);
+
             //Set SelectSlide-Selection to last selected game-mode if possible
             for (int i = 0; i < _AvailableGameModes.Count; i++)
             {

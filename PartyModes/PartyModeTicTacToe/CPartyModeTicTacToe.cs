@@ -1,27 +1,24 @@
 #region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using VocaluxeLib.Menu;
-using VocaluxeLib.Profile;
 
 [assembly: ComVisible(false)]
 
@@ -248,7 +245,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         public override void DataFromScreen(string screenName, Object data)
         {
-            SDataFromScreen dataFrom = new SDataFromScreen();
+            var dataFrom = new SDataFromScreen();
             switch (screenName)
             {
                 case "PartyScreenTicTacToeConfig":
@@ -492,7 +489,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         public override void SongSelected(int songID)
         {
-            EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+            var gm = EGameMode.TR_GAMEMODE_NORMAL;
 
             switch (_GameData.GameMode)
             {
@@ -525,7 +522,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _GameData.Rounds = new List<CRound>();
             for (int i = 0; i < _GameData.NumFields; i++)
             {
-                CRound r = new CRound();
+                var r = new CRound();
                 _GameData.Rounds.Add(r);
             }
         }
@@ -540,11 +537,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _GameData.PlayerTeam2 = new List<int>();
 
                         //Prepare Player-IDs
-                        List<int> ids1 = new List<int>();
-                        List<int> ids2 = new List<int>();
+                        var ids1 = new List<int>();
+                        var ids2 = new List<int>();
                         //Add IDs to team-list
                         while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] &&
-                               _GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] )
+                               _GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
                         {
                             if (ids1.Count == 0)
                             {
@@ -579,7 +576,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 case 1:
                     {
                         //Prepare Player-IDs
-                        List<int> ids = new List<int>();
+                        var ids = new List<int>();
                         //Add IDs to team-list
                         while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] && ids.Count == 0)
                         {
@@ -602,7 +599,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 case 2:
                     {
                         //Prepare Player-IDs
-                        List<int> ids = new List<int>();
+                        var ids = new List<int>();
                         //Add IDs to team-list
                         while (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] && ids.Count == 0)
                         {
@@ -627,7 +624,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _PrepareSongList()
         {
-            EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+            var gm = EGameMode.TR_GAMEMODE_NORMAL;
 
             switch (_GameData.GameMode)
             {
@@ -646,7 +643,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             while (_GameData.Songs.Count < (_GameData.NumFields + _GameData.NumJokerRandom[0] + _GameData.NumJokerRandom[1]))
             {
-                List<int> songs = new List<int>();
+                var songs = new List<int>();
                 switch (_GameData.SongSource)
                 {
                     case ESongSource.TR_PLAYLIST:
@@ -741,11 +738,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             {
                 players[0].ProfileID = _GameData.ProfileIDsTeam1[r.SingerTeam1];
                 if (isDuet)
-                    players[0].LineNr = 0;
+                    players[0].VoiceNr = 0;
 
                 players[1].ProfileID = _GameData.ProfileIDsTeam2[r.SingerTeam2];
                 if (isDuet)
-                    players[1].LineNr = 1;
+                    players[1].VoiceNr = 1;
 
                 SongSelected(r.SongID);
             }

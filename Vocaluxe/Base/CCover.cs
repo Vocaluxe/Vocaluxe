@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -62,7 +60,7 @@ namespace Vocaluxe.Base
         {
             get
             {
-                List<string> coverThemes = new List<string>();
+                var coverThemes = new List<string>();
                 for (int i = 0; i < _CoverThemes.Count; i++)
                     coverThemes.Add(_CoverThemes[i].Name);
 
@@ -154,7 +152,7 @@ namespace Vocaluxe.Base
 
                 if (xmlReader != null)
                 {
-                    SCoverTheme coverTheme = new SCoverTheme();
+                    var coverTheme = new SCoverTheme();
 
                     xmlReader.GetValue("//root/Info/Name", out coverTheme.Name, String.Empty);
                     xmlReader.GetValue("//root/Info/Folder", out coverTheme.Folder, String.Empty);
@@ -179,7 +177,7 @@ namespace Vocaluxe.Base
             if (String.IsNullOrEmpty(coverTheme.Name))
                 return;
 
-            List<string> ignoreList = new List<string>();
+            var ignoreList = new List<string>();
             CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.FolderCover, coverTheme.File));
             if (xmlReader != null)
             {
@@ -206,7 +204,7 @@ namespace Vocaluxe.Base
                 }
             }
 
-            List<string> files = new List<string>();
+            var files = new List<string>();
 
             string coverPath = Path.Combine(CSettings.FolderCover, coverTheme.Folder);
             files.AddRange(CHelper.ListFiles(coverPath, "*.png", true, true));
@@ -222,19 +220,17 @@ namespace Vocaluxe.Base
             }
         }
 
-        private static void _AddCover(string Name, string File)
+        private static void _AddCover(string name, string file)
         {
-            CTexture texture = CDraw.AddTexture(File);
+            CTexture texture = CDraw.AddTexture(file);
 
-            if (!_CoverExists(Name))
-            {
-                _Cover.Add(Name, texture);
-            }
+            if (!_CoverExists(name))
+                _Cover.Add(name, texture);
             else
             {
-                CTexture tex = _Cover[Name];
+                CTexture tex = _Cover[name];
                 CDraw.RemoveTexture(ref tex);
-                _Cover[Name] = texture;
+                _Cover[name] = texture;
             }
         }
     }

@@ -59,6 +59,7 @@
   <string name="TR_CONFIG_YEAR">Year</string>
   <string name="TR_CONFIG_DECADE">Decade</string>
   <string name="TR_CONFIG_LANGUAGE">Language</string>
+  <string name="TR_CONFIG_DATEADDED">Date added</string>
   <string name="TR_CONFIG_EASY">Easy</string>
   <string name="TR_CONFIG_NORMAL">Normal</string>
   <string name="TR_CONFIG_HARD">Hard</string>

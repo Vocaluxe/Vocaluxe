@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -24,6 +22,7 @@ using System.IO;
 using System.Xml;
 using VocaluxeLib.Draw;
 using VocaluxeLib.PartyModes;
+using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu.SongMenu
 {
@@ -103,7 +102,7 @@ namespace VocaluxeLib.Menu.SongMenu
         private readonly Stopwatch _Timer = new Stopwatch();
         private readonly Stopwatch _VideoFadeTimer = new Stopwatch();
         private readonly List<int> _Streams = new List<int>();
-        private int _Actsong = -1;
+        private int _ActSongId = -1;
         private int _Actsongstream = -1;
         protected CTexture _Vidtex;
 
@@ -188,7 +187,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         protected int _ActSong
         {
-            get { return _Actsong; }
+            get { return _ActSongId; }
         }
 
         public SRectF Rect
@@ -208,7 +207,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public virtual int GetActualSelection()
         {
-            return _Actsong;
+            return _ActSongId;
         }
 
         private bool _Selected;
@@ -436,7 +435,7 @@ namespace VocaluxeLib.Menu.SongMenu
             if (!_Initialized)
                 return;
 
-            if (_Actsong != _PreviewSelected)
+            if (_ActSongId != _PreviewSelected)
                 _SelectSong(_PreviewSelected);
 
             if (_Streams.Count <= 0 || _Video == -1)
@@ -454,12 +453,15 @@ namespace VocaluxeLib.Menu.SongMenu
             float vtime;
             if (CBase.Video.GetFrame(_Video, ref _Vidtex, time, out vtime))
             {
-                if (_VideoFadeTimer.ElapsedMilliseconds <= 3000L)
-                    _Vidtex.Color.A = _VideoFadeTimer.ElapsedMilliseconds / 3000f;
-                else
+                if (_Vidtex != null)
                 {
-                    _Vidtex.Color.A = 1f;
-                    _VideoFadeTimer.Stop();
+                    if (_VideoFadeTimer.ElapsedMilliseconds <= 3000L)
+                        _Vidtex.Color.A = _VideoFadeTimer.ElapsedMilliseconds / 3000f;
+                    else
+                    {
+                        _Vidtex.Color.A = 1f;
+                        _VideoFadeTimer.Stop();
+                    }
                 }
             }
         }
@@ -518,7 +520,10 @@ namespace VocaluxeLib.Menu.SongMenu
             _Active = active;
         }
 
-        public virtual bool IsMouseOverActualSelection(SMouseEvent mEvent) { return false; }
+        public virtual bool IsMouseOverActualSelection(SMouseEvent mEvent)
+        {
+            return false;
+        }
 
         public virtual int GetSelectedSong()
         {
@@ -603,7 +608,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         protected void _SelectSong(int nr)
         {
-            if (CBase.Songs.IsInCategory() && (CBase.Songs.GetNumSongsVisible() > 0) && (nr >= 0) && ((_Actsong != nr) || (_Streams.Count == 0)))
+            if (CBase.Songs.IsInCategory() && (CBase.Songs.GetNumSongsVisible() > 0) && (nr >= 0) && ((_ActSongId != nr) || (_Streams.Count == 0)))
             {
                 _Streams.ForEach(soundStream => CBase.Sound.FadeAndStop(soundStream, 0f, 1f));
                 _Streams.Clear();
@@ -613,18 +618,19 @@ namespace VocaluxeLib.Menu.SongMenu
 
                 CBase.Drawing.RemoveTexture(ref _Vidtex);
 
-                _Actsong = nr;
-                if (_Actsong >= CBase.Songs.GetNumSongsVisible())
-                    _Actsong = 0;
+                _ActSongId = nr;
+                if (_ActSongId >= CBase.Songs.GetNumSongsVisible())
+                    _ActSongId = 0;
 
 
-                int stream = CBase.Sound.Load(Path.Combine(CBase.Songs.GetVisibleSong(_Actsong).Folder, CBase.Songs.GetVisibleSong(_Actsong).MP3FileName), true);
+                CSong actSong = CBase.Songs.GetVisibleSong(_ActSongId);
+                int stream = CBase.Sound.Load(Path.Combine(actSong.Folder, actSong.MP3FileName), true);
                 CBase.Sound.SetStreamVolumeMax(stream, _MaxVolume);
                 CBase.Sound.SetStreamVolume(stream, 0f);
 
-                float startposition = CBase.Songs.GetVisibleSong(_Actsong).PreviewStart;
+                float startposition = actSong.Preview.StartTime;
 
-                if (Math.Abs(startposition) < 0.001)
+                if (actSong.Preview.Source == EDataSource.None)
                     startposition = CBase.Sound.GetLength(stream) / 4f;
 
                 if (startposition >= 0.5f)
@@ -636,12 +642,12 @@ namespace VocaluxeLib.Menu.SongMenu
                 _Streams.Add(stream);
                 _Actsongstream = stream;
 
-                if (CBase.Songs.GetVisibleSong(_Actsong).VideoFileName != "" && CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
+                if (actSong.VideoFileName != "" && CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
                 {
-                    _Video = CBase.Video.Load(Path.Combine(CBase.Songs.GetVisibleSong(_Actsong).Folder, CBase.Songs.GetVisibleSong(_Actsong).VideoFileName));
+                    _Video = CBase.Video.Load(Path.Combine(actSong.Folder, actSong.VideoFileName));
                     if (_Video == -1)
                         return;
-                    CBase.Video.Skip(_Video, startposition, CBase.Songs.GetVisibleSong(_Actsong).VideoGap);
+                    CBase.Video.Skip(_Video, startposition, actSong.VideoGap);
                     _VideoFadeTimer.Stop();
                     _VideoFadeTimer.Reset();
                     _VideoFadeTimer.Start();
