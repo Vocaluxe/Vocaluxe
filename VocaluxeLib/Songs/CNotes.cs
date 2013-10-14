@@ -21,24 +21,63 @@ namespace VocaluxeLib.Songs
 {
     public class CNotes
     {
-        private readonly List<CVoice> _Voices = new List<CVoice>();
-
-        public CVoice[] Voices
+        public class CVoiceNames
         {
-            get { return _Voices.ToArray(); }
+            private readonly List<string> _Names = new List<string>();
+
+            public CVoiceNames() {}
+
+            public CVoiceNames(CVoiceNames names)
+            {
+                _Names.AddRange(names._Names);
+            }
+
+            public string this[int index]
+            {
+                get
+                {
+                    if (IsSet(index))
+                        return _Names[index];
+                    return "Part " + (index + 1);
+                }
+                set
+                {
+                    _Names.EnsureSize(index + 1, null);
+                    _Names[index] = value;
+                }
+            }
+
+            public bool IsSet(int index)
+            {
+                return _Names.Count > index && !string.IsNullOrEmpty(_Names[index]);
+            }
+
+            public void Reset()
+            {
+                _Names.Clear();
+            }
         }
+
+        private readonly List<CVoice> _Voices = new List<CVoice>();
+        public readonly CVoiceNames VoiceNames = new CVoiceNames();
 
         public CNotes() {}
-
-        public int LinesCount
-        {
-            get { return _Voices.Count; }
-        }
 
         public CNotes(CNotes notes)
         {
             foreach (CVoice voice in notes._Voices)
                 _Voices.Add(new CVoice(voice));
+            VoiceNames = new CVoiceNames(notes.VoiceNames);
+        }
+
+        public IEnumerable<CVoice> Voices
+        {
+            get { return _Voices; }
+        }
+
+        public int VoiceCount
+        {
+            get { return _Voices.Count; }
         }
 
         public CVoice GetVoice(int index)
@@ -79,9 +118,11 @@ namespace VocaluxeLib.Songs
             return true;
         }
 
-        public void Reset()
+        public void Reset(bool resetVoices = false)
         {
             _Voices.Clear();
+            if (resetVoices)
+                VoiceNames.Reset();
         }
 
         public void SetMedley(int startBeat, int endBeat)

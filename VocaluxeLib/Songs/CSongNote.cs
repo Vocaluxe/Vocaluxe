@@ -25,20 +25,20 @@ namespace VocaluxeLib.Songs
         #region Contructors
         public CSongNote(CSongNote note) : base(note)
         {
-            NoteType = note.NoteType;
+            Type = note.Type;
             Text = note.Text;
         }
 
         public CSongNote(int startBeat, int duration, int tone, string text, ENoteType noteType)
             : base(startBeat, duration, tone)
         {
-            NoteType = noteType;
+            Type = noteType;
             Text = text;
         }
         #endregion Constructors
 
         #region Properties
-        public ENoteType NoteType { get; set; }
+        public ENoteType Type { get; set; }
 
         public string Text { get; set; }
 
@@ -46,7 +46,7 @@ namespace VocaluxeLib.Songs
         {
             get
             {
-                switch (NoteType)
+                switch (Type)
                 {
                     case ENoteType.Normal:
                         return 1;

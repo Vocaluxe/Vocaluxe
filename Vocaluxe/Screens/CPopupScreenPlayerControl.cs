@@ -200,7 +200,7 @@ namespace Vocaluxe.Screens
             CGame.ClearSongs();
 
             var gm = EGameMode.TR_GAMEMODE_NORMAL;
-            if (CSongs.AllSongs[songNr].IsDuet)
+            if (CSongs.AllSongs[songNr].IsGameModeAvailable(EGameMode.TR_GAMEMODE_DUET))
                 gm = EGameMode.TR_GAMEMODE_DUET;
 
             CGame.AddSong(songNr, gm);

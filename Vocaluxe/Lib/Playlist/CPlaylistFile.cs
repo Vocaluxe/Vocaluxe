@@ -180,7 +180,11 @@ namespace Vocaluxe.Lib.Playlist
 
         public void AddSong(int songID)
         {
-            var song = new CPlaylistSong {SongID = songID, GameMode = CSongs.GetSong(songID).IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL};
+            var song = new CPlaylistSong
+                {
+                    SongID = songID,
+                    GameMode = CSongs.GetSong(songID).IsGameModeAvailable(EGameMode.TR_GAMEMODE_DUET) ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL
+                };
 
             Songs.Add(song);
         }

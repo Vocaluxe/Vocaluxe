@@ -130,6 +130,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IBasic.cs" />
     <Compile Include="Menu\CBackground.cs" />
@@ -174,9 +175,11 @@
     <Compile Include="Menu\SongMenu\CSongMenuList.cs" />
     <Compile Include="Menu\SongMenu\CSongMenuTileBoard.cs" />
     <Compile Include="Menu\SongMenu\ISongMenu.cs" />
+    <Compile Include="Songs\CSongWriter.cs" />
     <Compile Include="Songs\CSungLine.cs" />
     <Compile Include="Songs\CSungNote.cs" />
     <Compile Include="Songs\CVoice.cs" />
+    <Compile Include="Songs\CSongLoader.cs" />
     <Compile Include="Structs.cs" />
     <Compile Include="PartyModes\CPartyMode.cs" />
     <Compile Include="PartyModes\CPartyModeNone.cs" />

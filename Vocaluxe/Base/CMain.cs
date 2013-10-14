@@ -60,6 +60,11 @@ namespace Vocaluxe.Base
 
     class CBconfig : IConfig
     {
+        public EOffOn GetSaveModifiedSongs()
+        {
+            return CConfig.SaveModifiedSongs;
+        }
+
         public void SetBackgroundMusicVolume(int newVolume)
         {
             CConfig.BackgroundMusicVolume = newVolume;
@@ -110,7 +115,7 @@ namespace Vocaluxe.Base
             return CConfig.CoverSize;
         }
 
-        public IEnumerable<string> GetSongFolder()
+        public IEnumerable<string> GetSongFolders()
         {
             return CConfig.SongFolder;
         }
@@ -525,6 +530,11 @@ namespace Vocaluxe.Base
         public float GetTimeFromBeats(float beat, float bpm)
         {
             return CGame.GetTimeFromBeats(beat, bpm);
+        }
+
+        public float GetBeatFromTime(float time, float bpm, float gap)
+        {
+            return CGame.GetBeatFromTime(time, bpm, gap);
         }
 
         public void AddSong(int songID, EGameMode gameMode)

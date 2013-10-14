@@ -319,7 +319,7 @@ namespace VocaluxeLib.Menu.SingNotes
             int nr = 1;
             foreach (CSongNote note in line.Notes)
             {
-                if (note.NoteType != ENoteType.Freestyle)
+                if (note.Type != ENoteType.Freestyle)
                 {
                     float width = note.Duration / beats * w;
 
@@ -334,7 +334,7 @@ namespace VocaluxeLib.Menu.SingNotes
                     _DrawNoteBG(rect, color, 1f, _PlayerNotes[n].Timer);
                     _DrawNote(rect, new SColorF(5f, 5f, 5f, 0.7f * _PlayerNotes[n].Alpha), 0.7f);
 
-                    if (note.NoteType == ENoteType.Golden)
+                    if (note.Type == ENoteType.Golden)
                     {
                         _AddGoldenNote(rect, n, nr);
                         nr++;
@@ -386,7 +386,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
                 _DrawNote(rect, color, f);
 
-                if (note.EndBeat >= CBase.Game.GetRecordedBeat() && note.Hit && note.HitNote.NoteType == ENoteType.Golden)
+                if (note.EndBeat >= CBase.Game.GetRecordedBeat() && note.Hit && note.HitNote.Type == ENoteType.Golden)
                 {
                     var re = new SRectF(rect) {W = (CBase.Game.GetMidRecordedBeat() - note.StartBeat) / beats * w};
                     _AddFlare(re, n);

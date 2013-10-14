@@ -29,6 +29,8 @@ namespace VocaluxeLib
 {
     public interface IConfig
     {
+        EOffOn GetSaveModifiedSongs();
+
         void SetBackgroundMusicVolume(int newVolume);
         int GetBackgroundMusicVolume();
 
@@ -45,7 +47,7 @@ namespace VocaluxeLib
 
         int GetCoverSize();
 
-        IEnumerable<string> GetSongFolder();
+        IEnumerable<string> GetSongFolders();
         ESongSorting GetSongSorting();
         EOffOn GetTabs();
         EOffOn GetIgnoreArticles();
@@ -179,6 +181,7 @@ namespace VocaluxeLib
         double GetRandomDouble();
 
         float GetTimeFromBeats(float beat, float bpm);
+        float GetBeatFromTime(float time, float bpm, float gap);
 
         void AddSong(int songID, EGameMode gameMode);
         void Reset();

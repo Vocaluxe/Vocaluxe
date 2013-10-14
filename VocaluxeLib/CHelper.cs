@@ -53,7 +53,6 @@ namespace VocaluxeLib
         public static string ListStrings(string[] str)
         {
             string result = string.Empty;
-
             for (int i = 0; i < str.Length; i++)
             {
                 result += str[i];
@@ -160,13 +159,7 @@ namespace VocaluxeLib
             return files;
         }
 
-        public static bool TryParse<T>(string value, out T result)
-            where T : struct
-        {
-            return TryParse(value, out result, false);
-        }
-
-        public static bool TryParse<T>(string value, out T result, bool ignoreCase)
+        public static bool TryParse<T>(string value, out T result, bool ignoreCase=false)
             where T : struct
         {
             result = default(T);
@@ -199,7 +192,7 @@ namespace VocaluxeLib
 
     static class CEncoding
     {
-        public static Encoding GetEncoding(string encodingName)
+        public static Encoding GetEncoding(this string encodingName)
         {
             switch (encodingName)
             {
@@ -214,11 +207,11 @@ namespace VocaluxeLib
                 case "UTF8":
                     return Encoding.UTF8;
                 default:
-                    return Encoding.UTF8;
+                    return Encoding.Default;
             }
         }
 
-        public static string GetEncodingName(Encoding enc)
+        public static string GetEncodingName(this Encoding enc)
         {
             string result = "UTF8";
 

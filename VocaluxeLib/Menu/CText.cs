@@ -561,7 +561,7 @@ namespace VocaluxeLib.Menu
             float y = Y;
             RectangleF bounds = CBase.Fonts.GetTextBounds(this);
 
-            if (bounds.Width > MaxWidth && MaxWidth > 0f && bounds.Width > 0f)
+            if (MaxWidth > 0f && bounds.Width > MaxWidth && bounds.Width > 0f)
             {
                 float factor = MaxWidth / bounds.Width;
                 float step = h * (1 - factor);

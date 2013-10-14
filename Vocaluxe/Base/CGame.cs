@@ -234,7 +234,7 @@ namespace Vocaluxe.Base
                 for (int beat = _LastEvalBeat + 1; beat <= RecordedBeat; beat++)
                 {
                     if ((_SongQueue.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_MEDLEY && song.Medley.EndBeat == beat) ||
-                        (_SongQueue.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_SHORTSONG && song.ShortEnd == beat))
+                        (_SongQueue.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_SHORTSONG && song.ShortEnd.EndBeat == beat))
                         Players[p].SongFinished = true;
 
                     CSongLine[] lines = song.Notes.GetVoice(Players[p].VoiceNr).Lines;
@@ -290,7 +290,7 @@ namespace Vocaluxe.Base
                             //CSound.RecordSetTone(p, Tone);
                             double points = (CSettings.MaxScore - CSettings.LinebonusScore) * (double)notes[note].PointsForBeat /
                                             song.Notes.GetVoice(Players[p].VoiceNr).Points;
-                            if (notes[note].NoteType == ENoteType.Golden)
+                            if (notes[note].Type == ENoteType.Golden)
                                 Players[p].PointsGoldenNotes += points;
 
                             Players[p].Points += points;
@@ -384,7 +384,7 @@ namespace Vocaluxe.Base
                     {
                         if (note.StartBeat < nextStart)
                         {
-                            if (note.Hit && note.HitNote.NoteType==ENoteType.Golden)
+                            if (note.Hit && note.HitNote.Type == ENoteType.Golden)
                                 Players[p].PointsGoldenNotes += note.Points;
                             Players[p].Points += note.Points;
                         }
@@ -394,7 +394,7 @@ namespace Vocaluxe.Base
                     }
                     while (line.NoteCount > n && n >= 0)
                     {
-                        if (line.Notes[n].Hit && line.Notes[n].HitNote.NoteType == ENoteType.Golden)
+                        if (line.Notes[n].Hit && line.Notes[n].HitNote.Type == ENoteType.Golden)
                             Players[p].PointsGoldenNotes -= line.Notes[n].Points;
                         Players[p].Points -= line.Notes[n].Points;
                         line.DeleteNote(n);
@@ -406,9 +406,9 @@ namespace Vocaluxe.Base
                 }
                 Players[p].SungLines.RemoveRange(deleteLine, Players[p].SungLines.Count - deleteLine);
             }
-            CSong song = GetSong();
-            for (int i = 0; i < GetSong().Notes.Voices[0].Lines.Length; i++)
-                CLog.LogError((i + 1) + ". " + song.Notes.Voices[0].Lines[i].NoteCount + " - " + Players[0].SungLines[i].NoteCount);
+            //CSong song = GetSong();
+            //for (int i = 0; i < GetSong().Notes.Voices[0].Lines.Length; i++)
+            //    CLog.LogError((i + 1) + ". " + song.Notes.Voices[0].Lines[i].NoteCount + " - " + Players[0].SungLines[i].NoteCount);
 
             CSound.SetPosition(soundStream, time);
             CVideo.Skip(vidStream, time, GetSong().VideoGap);
