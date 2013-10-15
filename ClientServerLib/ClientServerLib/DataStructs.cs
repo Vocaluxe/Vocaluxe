@@ -15,7 +15,7 @@ namespace ServerLib
 
     #region profile
 
-    public delegate ProfileData GetProfileDataDelegate(int profileId);
+    public delegate ProfileData GetProfileDataDelegate(int profileId, bool isReadonly);
     public delegate bool SendProfileDataDelegate(ProfileData profile);
     public delegate ProfileData[] GetProfileListDelegate();
 
@@ -119,6 +119,20 @@ namespace ServerLib
         [DataMember]
         public int SongId { get; set; }
     }
+
+    #endregion
+
+    #region user management
+
+    public delegate void SetPasswordDelegate(int profileId, string newPassword);
+
+    public delegate bool ValidatePasswordDelegate(int profileId, string password);
+
+    public delegate int GetUserRoleDelegate(int profileId);
+
+    public delegate void SetUserRoleDelegate(int profileId, int userRole);
+
+    public delegate int GetUserIdFromUsernameDelegate(string username);
 
     #endregion
 }

@@ -2,6 +2,7 @@ var ownProfileId = -1;
 var profileIdRequest = -1;
 var songIdRequest = -1
 var allSongsCache = null;
+var sessionId = "";
 
 $(document).ready(function () {
     replaceTransitionHandler();
@@ -19,9 +20,14 @@ function replaceTransitionHandler() {
         var promise = $to.data('promise');
         if (promise) {
             $to.removeData('promise');
-            $.mobile.loading('show');
+            $('#content').wrap('<div class="overlay" />');
+            $.mobile.loading('show', {
+                text: 'Loading data...',
+                textVisible: true
+            });
             return promise.then(function () {
                 $.mobile.loading('hide');
+                $('#content').unwrap();
                 return oldDefaultTransitionHandler(name, reverse, $to, $from);
             });
         }
@@ -33,7 +39,8 @@ function initPageLoadHandler() {
     //pageLoadHandler for displayProfile
     $(document).on('pagebeforeshow', '#displayProfile', function () {
         var promise = $.ajax({
-            url: "getProfile?profileId=" + profileIdRequest
+            url: "getProfile?profileId=" + profileIdRequest,
+            headers: { "session": sessionId }
         }).done(function (result) {
             $('#playerName').prop("value", result.PlayerName);
             if (result.Avatar && result.Avatar.base64Data) {
@@ -42,6 +49,12 @@ function initPageLoadHandler() {
             $('#playerType').prop("value", result.Type);
             $('#playerDifficulty').prop("value", result.Difficulty);
             if (result.IsEditable) {
+                $('#playerName').prop('disabled', false);
+                $('#playerType').prop('disabled', false);
+                $('#playerDifficulty').prop('disabled', false);
+                $('#playerSaveButton').show();
+
+                $('#playerAvatar').unbind("click");
                 $('#playerAvatar').click(function () {
                     if ($('#captureContainer').length > 0) {
                         $('#captureContainer').remove();
@@ -85,6 +98,7 @@ function initPageLoadHandler() {
                         dataType: "json",
                         contentType: "application/json;charset=utf-8",
                         type: "POST",
+                        headers: { "session": sessionId },
                         data: JSON.stringify(dataToUpload),
                         success: function (msg) {
 
@@ -112,7 +126,8 @@ function initPageLoadHandler() {
     //pageLoadHandler for selectProfile
     $(document).on('pagebeforeshow', '#selectProfile', function () {
         var promise = $.ajax({
-            url: "getProfileList"
+            url: "getProfileList",
+            headers: { "session": sessionId }
         }).done(function (data) {
             $('#selectProfileList').children().remove();
 
@@ -137,7 +152,8 @@ function initPageLoadHandler() {
     //pageLoadHandler for displaySong
     $(document).on('pagebeforeshow', '#displaySong', function () {
         var promise = $.ajax({
-            url: "getSong?songId=" + songIdRequest
+            url: "getSong?songId=" + songIdRequest,
+            headers: { "session": sessionId }
         }).done(function (result) {
             if (result.Title != null) {
                 $('#displaySongTitle').text(result.Title);
@@ -209,7 +225,8 @@ function initPageLoadHandler() {
 
         if (allSongsCache == null) {
             var promise = $.ajax({
-                url: "getAllSongs"
+                url: "getAllSongs",
+                headers: { "session": sessionId }
             }).done(function (data) {
                 allSongsCache = data;
                 handleGetAllSongs()
@@ -225,11 +242,47 @@ function initPageLoadHandler() {
 }
 
 function initLoginPageHandler() {
-    $('#loginButton').click(function () {
-        ownProfileId = parseInt($('#playerId').prop("value"));
-        if (ownProfileId != "NaN") {
-            $.mobile.changePage("#main", { transition: "slidefade" });
+    var keyPressed = function (e) {
+        if (e.which == 13) {
+            $('#loginButton').click();
         }
+    };
+
+    $('#loginName').keypress(keyPressed)
+    $('#loginPassword').keypress(keyPressed);
+
+    $('#loginButton').click(function () {
+        $('#content').wrap('<div class="overlay" />');
+        $.mobile.loading('show', {
+            text: 'Login...',
+            textVisible: true
+        });
+
+        username = $('#loginName').prop("value");
+        password = $('#loginPassword').prop("value");
+
+        $.ajax({
+            url: "login?username=" + username + "&password=" + password
+        }).done(function (result) {
+            sessionId = result;
+            $.ajax({
+                url: "getOwnProfileId",
+                headers: { "session": sessionId }
+            }).done(function (result) {
+                ownProfileId = result;
+
+                $.mobile.loading('hide');
+                $('#content').unwrap();
+
+                $.mobile.changePage("#main", { transition: "slidefade" });
+            }).fail(function (result) {
+                $.mobile.loading('hide');
+                $('#content').unwrap();
+            });           
+        }).fail(function (result) {
+            $.mobile.loading('hide');
+            $('#content').unwrap();
+        });        
     });
 }
 
@@ -247,7 +300,8 @@ function initMainPageHandler() {
         });
 
         $.ajax({
-            url: "getCurrentSongId"
+            url: "getCurrentSongId",
+            headers: { "session": sessionId }
         }).done(function (result) {
             songIdRequest = parseInt(result);
             $.mobile.loading('hide');
@@ -256,7 +310,7 @@ function initMainPageHandler() {
         }).fail(function (result) {
             $.mobile.loading('hide');
             $('#content').unwrap();
-        });        
+        });
     });
 
     $('#mainPageTakePhotoLink').click(function () {
@@ -283,6 +337,7 @@ function initMainPageHandler() {
                         dataType: "json",
                         contentType: "application/json;charset=utf-8",
                         type: "POST",
+                        headers: { "session": sessionId },
                         data: JSON.stringify({ Photo: { base64Data: e.target.result } }),
                         success: function (msg) {
 
@@ -304,43 +359,50 @@ function initMainPageHandler() {
 function initKeyboardPageHandler() {
     $('#keyboardButtonUp').click(function () {
         $.ajax({
-            url: "sendKeyEvent?key=up"
+            url: "sendKeyEvent?key=up",
+            headers: { "session": sessionId }
         })
     });
 
     $('#keyboardButtonDown').click(function () {
         $.ajax({
-            url: "sendKeyEvent?key=down"
+            url: "sendKeyEvent?key=down",
+            headers: { "session": sessionId }
         })
     });
 
     $('#keyboardButtonLeft').click(function () {
         $.ajax({
-            url: "sendKeyEvent?key=left"
+            url: "sendKeyEvent?key=left",
+            headers: { "session": sessionId }
         })
     });
 
     $('#keyboardButtonRight').click(function () {
         $.ajax({
-            url: "sendKeyEvent?key=right"
+            url: "sendKeyEvent?key=right",
+            headers: { "session": sessionId }
         })
     });
 
     $('#keyboardButtonEscape').click(function () {
         $.ajax({
-            url: "sendKeyEvent?key=escape"
+            url: "sendKeyEvent?key=escape",
+            headers: { "session": sessionId }
         })
     });
 
     $('#keyboardButtonkeyboardButtonTab').click(function () {
         $.ajax({
-            url: "sendKeyEvent?key=tab"
+            url: "sendKeyEvent?key=tab",
+            headers: { "session": sessionId }
         })
     });
 
     $('#keyboardButtonReturn').click(function () {
         $.ajax({
-            url: "sendKeyEvent?key=return"
+            url: "sendKeyEvent?key=return",
+            headers: { "session": sessionId }
         })
     });
 
@@ -349,7 +411,8 @@ function initKeyboardPageHandler() {
         if (c.match(/\w/)) {
             c = e.keyCode >= 65 ? c.toLowerCase() : c;
             $.ajax({
-                url: "sendKeyEvent?key=" + c
+                url: "sendKeyEvent?key=" + c,
+                headers: { "session": sessionId }
             })
         }
         var oldText = $('#keyboardButtonKeys')[0].value;
