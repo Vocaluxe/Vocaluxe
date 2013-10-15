@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System.Collections.ObjectModel;
@@ -53,9 +51,9 @@ namespace Vocaluxe.Lib.Sound
             int id = 0;
             foreach (DeviceInformation dev in devices)
             {
-                using (DirectSoundCapture ds = new DirectSoundCapture(dev.DriverGuid))
+                using (var ds = new DirectSoundCapture(dev.DriverGuid))
                 {
-                    CRecordDevice device = new CRecordDevice {Driver = dev.DriverGuid.ToString(), ID = id, Name = dev.Description, Channels = ds.Capabilities.Channels};
+                    var device = new CRecordDevice {Driver = dev.DriverGuid.ToString(), ID = id, Name = dev.Description, Channels = ds.Capabilities.Channels};
 
                     if (device.Channels > 2)
                         device.Channels = 2; //more are not supported in vocaluxe
@@ -89,9 +87,9 @@ namespace Vocaluxe.Lib.Sound
             foreach (CBuffer buffer in _Buffer)
                 buffer.Reset();
 
-            bool[] active = new bool[_Devices.Count];
-            Guid[] guid = new Guid[_Devices.Count];
-            short[] channels = new short[_Devices.Count];
+            var active = new bool[_Devices.Count];
+            var guid = new Guid[_Devices.Count];
+            var channels = new short[_Devices.Count];
             for (int dev = 0; dev < _Devices.Count; dev++)
             {
                 active[dev] = false;
@@ -105,7 +103,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 if (active[i])
                 {
-                    CSoundCardSource source = new CSoundCardSource(guid[i], channels[i]) {SampleRateKhz = 44.1};
+                    var source = new CSoundCardSource(guid[i], channels[i]) {SampleRateKhz = 44.1};
                     source.SampleDataReady += _OnDataReady;
                     source.Start();
 
@@ -209,8 +207,8 @@ namespace Vocaluxe.Lib.Sound
         {
             if (_Initialized)
             {
-                byte[] leftBuffer = new byte[e.Data.Length / 2];
-                byte[] rightBuffer = new byte[e.Data.Length / 2];
+                var leftBuffer = new byte[e.Data.Length / 2];
+                var rightBuffer = new byte[e.Data.Length / 2];
 
                 //[]: Sample, L: Left channel R: Right channel
                 //[LR][LR][LR][LR][LR][LR]
@@ -318,7 +316,7 @@ namespace Vocaluxe.Lib.Sound
 
                 for (int i = 0; i < _BufferPortionCount; i++)
                 {
-                    NotificationPosition notification = new NotificationPosition {Offset = _BufferPortionCount - 1 + (_BufferPortionSize * i), Event = new AutoResetEvent(false)};
+                    var notification = new NotificationPosition {Offset = _BufferPortionCount - 1 + (_BufferPortionSize * i), Event = new AutoResetEvent(false)};
                     _Notifications.Add(notification);
                 }
 
@@ -371,7 +369,7 @@ namespace Vocaluxe.Lib.Sound
                 int bufferPortionSamples = _BufferPortionSize / sizeof(byte);
 
                 // Buffer type must match this.waveFormat.FormatTag and this.waveFormat.BitsPerSample
-                byte[] bufferPortion = new byte[bufferPortionSamples];
+                var bufferPortion = new byte[bufferPortionSamples];
 
                 _CaptureBuffer.Start(true);
 

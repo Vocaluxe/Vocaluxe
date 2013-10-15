@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System.Drawing.Drawing2D;
@@ -124,7 +122,7 @@ namespace Vocaluxe.Lib.Draw
             bool ok = false;
             try
             {
-                GraphicsMode gm = new GraphicsMode(32, 24, 0, (int)CConfig.AAMode);
+                var gm = new GraphicsMode(32, 24, 0, (int)CConfig.AAMode);
                 _Control = new GLControl(gm, 2, 1, GraphicsContextFlags.Default);
                 if (_Control.GraphicsMode != null)
                     ok = true;
@@ -473,7 +471,7 @@ namespace Vocaluxe.Lib.Draw
                 Close();
             }
             catch {}
-            CTexture[] textures = new CTexture[_Textures.Count];
+            var textures = new CTexture[_Textures.Count];
             _Textures.Values.CopyTo(textures, 0);
             for (int i = 0; i < _Textures.Count; i++)
                 RemoveTexture(ref textures[i]);
@@ -543,7 +541,7 @@ namespace Vocaluxe.Lib.Draw
         public void MakeScreenShot()
         {
             const string file = "Screenshot_";
-            string path = Path.Combine(Environment.CurrentDirectory, CSettings.FolderScreenshots);
+            string path = Path.Combine(CSettings.DataPath, CSettings.FolderScreenshots);
 
             int i = 0;
             while (File.Exists(Path.Combine(path, file + i.ToString("00000") + ".bmp")))
@@ -552,7 +550,7 @@ namespace Vocaluxe.Lib.Draw
             int width = GetScreenWidth();
             int height = GetScreenHeight();
 
-            using (Bitmap screen = new Bitmap(width, height))
+            using (var screen = new Bitmap(width, height))
             {
                 BitmapData bmpData = screen.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
@@ -707,7 +705,7 @@ namespace Vocaluxe.Lib.Draw
             w = MathHelper.NextPowerOfTwo(w);
             h = MathHelper.NextPowerOfTwo(h);
 
-            CTexture texture = new CTexture(bmp.Width, bmp.Height, w, h, true) {Name = GL.GenTexture()};
+            var texture = new CTexture(bmp.Width, bmp.Height, w, h, true) {Name = GL.GenTexture()};
 
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
             Bitmap bmp2 = null;
@@ -813,7 +811,7 @@ namespace Vocaluxe.Lib.Draw
             lock (_MutexTexture)
             {
                 texture.ID = _IDs.Dequeue();
-                STextureQueue queue = new STextureQueue(texture.ID, texture.W2, texture.H2, w, h, data);
+                var queue = new STextureQueue(texture.ID, texture.W2, texture.H2, w, h, data);
                 _TexturesToLoad.Enqueue(queue);
                 _Textures[texture.ID] = texture;
             }

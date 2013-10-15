@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -307,7 +305,7 @@ namespace VocaluxeLib.Menu
             if (_Interactions.Count <= 0)
                 return;
 
-            List<SZSort> items = new List<SZSort>();
+            var items = new List<SZSort>();
 
             for (int i = 0; i < _Interactions.Count; i++)
             {
@@ -320,7 +318,7 @@ namespace VocaluxeLib.Menu
                                          _Interactions[i].Type == EType.SongMenu ||
                                          _Interactions[i].Type == EType.Equalizer))
                 {
-                    SZSort zs = new SZSort {ID = i, Z = _GetZValue(i)};
+                    var zs = new SZSort {ID = i, Z = _GetZValue(i)};
                     items.Add(zs);
                 }
             }
@@ -613,10 +611,10 @@ namespace VocaluxeLib.Menu
         /// <returns></returns>
         private bool _NextInteraction(SKeyEvent key)
         {
-            SKeyEvent[] directions = new SKeyEvent[4];
-            float[] distances = new float[4];
-            int[] stages = new int[4];
-            int[] elements = new int[4];
+            var directions = new SKeyEvent[4];
+            var distances = new float[4];
+            var stages = new int[4];
+            var elements = new int[4];
 
             for (int i = 0; i < 4; i++)
                 directions[i] = new SKeyEvent();
@@ -756,11 +754,11 @@ namespace VocaluxeLib.Menu
 
         private float _GetDistanceDirect(SKeyEvent key, SRectF actualRect, SRectF targetRect)
         {
-            PointF source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
-            PointF dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
+            var source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
+            var dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
 
-            PointF vector = new PointF(dest.X - source.X, dest.Y - source.Y);
-            float distance = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+            var vector = new PointF(dest.X - source.X, dest.Y - source.Y);
+            var distance = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
             bool inDirection = false;
             switch (key.Key)
             {
@@ -789,11 +787,11 @@ namespace VocaluxeLib.Menu
 
         private float _GetDistance180(SKeyEvent key, SRectF actualRect, SRectF targetRect)
         {
-            PointF source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
-            PointF dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
+            var source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
+            var dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
 
-            PointF vector = new PointF(dest.X - source.X, dest.Y - source.Y);
-            float distance = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+            var vector = new PointF(dest.X - source.X, dest.Y - source.Y);
+            var distance = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
             bool inDirection = false;
             switch (key.Key)
             {
@@ -1002,7 +1000,7 @@ namespace VocaluxeLib.Menu
 
         private SRectF _GetRect(int interaction)
         {
-            SRectF result = new SRectF();
+            var result = new SRectF();
             switch (_Interactions[interaction].Type)
             {
                 case EType.Button:

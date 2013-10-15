@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -124,7 +122,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
         public float GetLength()
         {
-            return  _FileOpened ? _Instance.Info.Duration / 1000f:0;
+            return _FileOpened ? _Instance.Info.Duration / 1000f : 0;
         }
 
         public void SetPosition(float time)
@@ -134,7 +132,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
             try
             {
-                CAcinerella.AcSeek(_Audiodecoder, (time>_CurrentTime)?0:-1, (Int64)(time * 1000f));
+                CAcinerella.AcSeek(_Audiodecoder, (time > _CurrentTime) ? 0 : -1, (Int64)(time * 1000f));
             }
             catch (Exception)
             {
@@ -161,7 +159,7 @@ namespace Vocaluxe.Lib.Sound.Decoder
 
             if (frameFinished)
             {
-                SACDecoder decoder = (SACDecoder)Marshal.PtrToStructure(_Audiodecoder, typeof(SACDecoder));
+                var decoder = (SACDecoder)Marshal.PtrToStructure(_Audiodecoder, typeof(SACDecoder));
 
                 timeStamp = (float)decoder.Timecode;
                 _CurrentTime = timeStamp;

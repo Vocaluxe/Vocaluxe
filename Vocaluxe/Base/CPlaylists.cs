@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -52,15 +50,15 @@ namespace Vocaluxe.Base
         public static void Init()
         {
             LoadPlaylists();
-            ConvertUSDXPlaylists();
+            _ConvertUSDXPlaylists();
 
             _SortPlaylistsByName();
         }
 
-        public static void ConvertUSDXPlaylists()
+        private static void _ConvertUSDXPlaylists()
         {
-            List<string> files = new List<string>();
-            files.AddRange(CHelper.ListFiles(CSettings.FolderPlaylists, "*.upl", true, true));
+            var files = new List<string>();
+            files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.DataPath, CSettings.FolderPlaylists), "*.upl", true, true));
 
             foreach (string file in files)
             {
@@ -73,12 +71,13 @@ namespace Vocaluxe.Base
         public static void LoadPlaylists()
         {
             _Playlists = new List<CPlaylistFile>();
-            List<string> files = new List<string>();
-            files.AddRange(CHelper.ListFiles(CSettings.FolderPlaylists, "*.xml", true, true));
+
+            var files = new List<string>();
+            files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.DataPath, CSettings.FolderPlaylists), "*.xml", true, true));
 
             foreach (string file in files)
             {
-                CPlaylistFile playlist = new CPlaylistFile(file);
+                var playlist = new CPlaylistFile(file);
                 _Playlists.Add(playlist);
             }
         }
@@ -126,7 +125,7 @@ namespace Vocaluxe.Base
 
         public static int NewPlaylist()
         {
-            CPlaylistFile pl = new CPlaylistFile {PlaylistName = "New Playlist"};
+            var pl = new CPlaylistFile {PlaylistName = "New Playlist"};
             _Playlists.Add(pl);
             return _Playlists.Count - 1;
         }
@@ -219,7 +218,7 @@ namespace Vocaluxe.Base
 
         private static CPlaylistFile _ConvertUSDXPlaylist(string file)
         {
-            CPlaylistFile pl = new CPlaylistFile();
+            var pl = new CPlaylistFile();
             ReadOnlyCollection<CSong> allSongs = CSongs.AllSongs;
 
             if (!File.Exists(file))

@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -31,6 +29,8 @@ namespace VocaluxeLib
 {
     public interface IConfig
     {
+        EOffOn GetSaveModifiedSongs();
+
         void SetBackgroundMusicVolume(int newVolume);
         int GetBackgroundMusicVolume();
 
@@ -47,7 +47,7 @@ namespace VocaluxeLib
 
         int GetCoverSize();
 
-        IEnumerable<string> GetSongFolder();
+        IEnumerable<string> GetSongFolders();
         ESongSorting GetSongSorting();
         EOffOn GetTabs();
         EOffOn GetIgnoreArticles();
@@ -79,6 +79,7 @@ namespace VocaluxeLib
         float GetMedleyMinDuration();
 
         string GetFolderProfiles();
+        string GetDataPath();
     }
 
     public interface ITheme
@@ -173,13 +174,14 @@ namespace VocaluxeLib
         void SetNumPlayer(int numPlayer);
         SPlayer[] GetPlayers();
         CPoints GetPoints();
-        float GetMidBeatD();
-        int GetCurrentBeatD();
+        float GetMidRecordedBeat();
+        int GetRecordedBeat();
 
         int GetRandom(int max);
         double GetRandomDouble();
 
         float GetTimeFromBeats(float beat, float bpm);
+        float GetBeatFromTime(float time, float bpm, float gap);
 
         void AddSong(int songID, EGameMode gameMode);
         void Reset();
@@ -262,6 +264,7 @@ namespace VocaluxeLib
     public interface IDataBase
     {
         bool GetCover(string fileName, ref CTexture texture, int coverSize);
+        bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out string dateAdded, out int highscoreID);
     }
 
     public interface IControllers

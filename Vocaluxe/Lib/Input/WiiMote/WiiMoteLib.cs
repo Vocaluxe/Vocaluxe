@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -182,7 +180,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
         private readonly Thread _Reader;
         private bool _Active;
-        private bool _Error;
+        private readonly bool _Error;
 
         public bool Connected { get; private set; }
 
@@ -198,6 +196,16 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _Error = false;
             _Reader = new Thread(_ReaderLoop);
             _Reader.Start();
+
+            if (!CHIDApi.Init())
+            {
+                CLog.LogError("WiiMoteLib: Can't initialize HID API");
+                const string msg = "Please install the Visual C++ Redistributable Packages 2008!";
+                CLog.LogError(msg);
+
+                _Active = false;
+                _Error = true;
+            }
         }
 
         ~CWiiMoteLib()
@@ -224,25 +232,31 @@ namespace Vocaluxe.Lib.Input.WiiMote
             if (_Error)
                 return false;
 
-            CHIDApi.Exit();
-
-            if (!CHIDApi.Init())
-            {
-                CLog.LogError("WiiMoteLib: Can't initialize HID API");
-                const string msg = "Please install the Visual C++ Redistributable Packages 2008!";
-                CLog.LogError(msg);
-
-                _Active = false;
-                _Error = true;
-                return false;
-            }
-
             //Try WiiMotion
-            Connected = _TryConnect(_PID);
+            Connected = CHIDApi.Open(_VID, _PID, out _Handle);
+            if (Connected)
+            {
+                Connected = _ReadCalibration();
+                if (!Connected)
+                    CHIDApi.Close(_Handle);
+            }
+            else
+                CHIDApi.Close(_Handle);
+
+            if (Connected)
+                return true;
 
             //Try WiiMotion Plus
-            if (!Connected)
-                Connected = _TryConnect(_PIDPlus);
+            Connected = CHIDApi.Open(_VID, _PIDPlus, out _Handle);
+            if (Connected)
+            {
+                Connected = _ReadCalibration();
+                if (!Connected)
+                    CHIDApi.Close(_Handle);
+            }
+            else
+                CHIDApi.Close(_Handle);
+
 
             return Connected;
         }
@@ -320,11 +334,11 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
                 if (_Handle != IntPtr.Zero && Connected)
                 {
-                    byte[] buff = new byte[_ReportLength];
+                    var buff = new byte[_ReportLength];
 
                     try
                     {
-                        CHIDApi.ReadTimeout(_Handle, out buff, _ReportLength, 100);
+                        CHIDApi.ReadTimeout(_Handle, ref buff, _ReportLength, 200);
                     }
                     catch (Exception e)
                     {
@@ -348,7 +362,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 return false;
             }
 
-            EInputReport type = (EInputReport)buff[0];
+            var type = (EInputReport)buff[0];
 
             switch (type)
             {

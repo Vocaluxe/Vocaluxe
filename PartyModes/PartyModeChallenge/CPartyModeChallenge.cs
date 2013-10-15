@@ -1,27 +1,24 @@
 #region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using VocaluxeLib.Menu;
-using VocaluxeLib.Profile;
 
 [assembly: ComVisible(false)]
 
@@ -65,7 +62,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         public int CompareTo(object obj)
         {
-            CResultTableRow row = obj as CResultTableRow;
+            var row = obj as CResultTableRow;
             if (row != null)
             {
                 int res = row.NumGamePoints.CompareTo(NumGamePoints);
@@ -545,9 +542,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             for (int i = 0; i < _GameData.NumPlayerAtOnce; i++)
             {
                 if (c != null)
-                {
                     _ScreenSongOptions.Selection.TeamNames[i] = CBase.Profiles.GetPlayerName(_GameData.ProfileIDs[c.Player[i]]);
-                }
                 else
                     _ScreenSongOptions.Selection.TeamNames[i] = "foobar";
             }
@@ -559,7 +554,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             {
                 for (int i = 0; i < _GameData.NumPlayer; i++)
                 {
-                    CResultTableRow row = new CResultTableRow {PlayerID = _GameData.ProfileIDs[i], NumPlayed = 0, NumWon = 0, NumSingPoints = 0, NumGamePoints = 0};
+                    var row = new CResultTableRow {PlayerID = _GameData.ProfileIDs[i], NumPlayed = 0, NumWon = 0, NumSingPoints = 0, NumGamePoints = 0};
                     _GameData.ResultTable.Add(row);
                 }
 
@@ -627,10 +622,10 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private List<SStats> _GetPointsForPlayer(SPlayer[] results)
         {
-            List<SStats> result = new List<SStats>();
+            var result = new List<SStats>();
             for (int i = 0; i < _GameData.NumPlayerAtOnce; i++)
             {
-                SStats stat = new SStats {ProfileID = results[i].ProfileID, SingPoints = (int)Math.Round(results[i].Points), Won = 0, GamePoints = 0};
+                var stat = new SStats {ProfileID = results[i].ProfileID, SingPoints = (int)Math.Round(results[i].Points), Won = 0, GamePoints = 0};
                 result.Add(stat);
             }
 

@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -289,7 +287,7 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture CopyScreen()
         {
-            Bitmap bmp = new Bitmap(_Backbuffer);
+            var bmp = new Bitmap(_Backbuffer);
             _Bitmaps.Add(bmp);
             CTexture texture = _GetNewTexture(bmp.Width, bmp.Height);
 
@@ -313,7 +311,7 @@ namespace Vocaluxe.Lib.Draw
         public void MakeScreenShot()
         {
             const string file = "Screenshot_";
-            string path = Path.Combine(Environment.CurrentDirectory, CSettings.FolderScreenshots);
+            string path = Path.Combine(CSettings.DataPath, CSettings.FolderScreenshots);
 
             int i = 0;
             while (File.Exists(Path.Combine(path, file + i.ToString("00000") + ".png")))
@@ -333,7 +331,7 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture AddTexture(Bitmap bmp)
         {
-            Bitmap bmp2 = new Bitmap(bmp);
+            var bmp2 = new Bitmap(bmp);
             _Bitmaps.Add(bmp2);
             CTexture texture = _GetNewTexture(bmp.Width, bmp.Height);
 
@@ -357,7 +355,7 @@ namespace Vocaluxe.Lib.Draw
                     if (tex.TexturePath == texturePath)
                         return tex;
                 }
-                using (Bitmap bmp = new Bitmap(texturePath))
+                using (var bmp = new Bitmap(texturePath))
                 {
                     CTexture texture = AddTexture(bmp);
                     texture.TexturePath = texturePath;
@@ -389,7 +387,7 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture AddTexture(int w, int h, byte[] data)
         {
-            using (Bitmap bmp = new Bitmap(w, h))
+            using (var bmp = new Bitmap(w, h))
             {
                 BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
                 Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
@@ -459,13 +457,13 @@ namespace Vocaluxe.Lib.Draw
 
         private static Bitmap _ColorizeBitmap(Bitmap original, SColorF color)
         {
-            Bitmap newBitmap = new Bitmap(original.Width, original.Height);
+            var newBitmap = new Bitmap(original.Width, original.Height);
 
             using (Graphics g = Graphics.FromImage(newBitmap))
             {
-                ColorMatrix cm = new ColorMatrix {Matrix33 = color.A, Matrix00 = color.R, Matrix11 = color.G, Matrix22 = color.B, Matrix44 = 1};
+                var cm = new ColorMatrix {Matrix33 = color.A, Matrix00 = color.R, Matrix11 = color.G, Matrix22 = color.B, Matrix44 = 1};
 
-                using (ImageAttributes ia = new ImageAttributes())
+                using (var ia = new ImageAttributes())
                 {
                     ia.SetColorMatrix(cm);
 

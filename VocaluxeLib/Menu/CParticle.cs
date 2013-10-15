@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -203,7 +201,7 @@ namespace VocaluxeLib.Menu
                     break;
 
                 case EParticleType.Snow:
-                    int maxy = (int)Math.Round(CBase.Settings.GetRenderH() - _Size * 0.4f);
+                    var maxy = (int)Math.Round(CBase.Settings.GetRenderH() - _Size * 0.4f);
 
                     if (Math.Round(Y) < maxy)
                     {
@@ -525,8 +523,8 @@ namespace VocaluxeLib.Menu
                         break;
                 }
 
-                int w = (int)(Rect.W - size / 4f);
-                int h = (int)(Rect.H - size / 4f);
+                var w = (int)(Rect.W - size / 4f);
+                var h = (int)(Rect.H - size / 4f);
 
                 if (w < 0)
                     w = 0;

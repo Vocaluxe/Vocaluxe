@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -24,7 +22,7 @@ using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
-using VocaluxeLib.Profile;
+using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
 {
@@ -71,14 +69,14 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            List<string> statics = new List<string>();
+            var statics = new List<string>();
             statics.AddRange(_StaticPlayerAvatar);
             statics.AddRange(_StaticPlayer);
             statics.Add(_StaticWarningMics);
             statics.Add(_StaticWarningProfiles);
             _ThemeStatics = statics.ToArray();
 
-            List<string> texts = new List<string> {_SelectSlidePlayerNumber};
+            var texts = new List<string> {_SelectSlidePlayerNumber};
             texts.AddRange(_SelectSlideDuetPlayer);
             _ThemeSelectSlides = texts.ToArray();
 
@@ -411,13 +409,9 @@ namespace Vocaluxe.Screens
                     if (CHelper.IsInBounds(_Statics[_StaticPlayer[i]].Rect, mouseEvent))
                     {
                         if (_SelectingSwitchNr > -1 && CGame.Players[i].ProfileID > -1)
-                        {
                             _UpdateSelectedProfile(_SelectingSwitchNr, CGame.Players[i].ProfileID);
-                        }
                         else if (_SelectingSwitchNr > -1)
-                        {
                             _ResetPlayerSelection(_SelectingSwitchNr);
-                        }
 
                         if (!CProfiles.IsProfileIDValid(_SelectedProfileID))
                             return true;
@@ -427,9 +421,7 @@ namespace Vocaluxe.Screens
                     }
                     //Selected player is dropped out of area
                     if (_SelectingSwitchNr > -1)
-                    {
                         _ResetPlayerSelection(_SelectingSwitchNr);
-                    }
                 }
                 _SelectingSwitchNr = -1;
                 _SelectedProfileID = -1;
@@ -449,7 +441,7 @@ namespace Vocaluxe.Screens
                             return true;
 
                         _UpdateSelectedProfile(_SelectingFastPlayerNr - 1, _SelectedProfileID);
-                        
+
                         _SelectingFastPlayerNr++;
                         if (_SelectingFastPlayerNr <= CGame.NumPlayer)
                             _NameSelections[_NameSelection].FastSelection(true, _SelectingFastPlayerNr);
@@ -606,6 +598,8 @@ namespace Vocaluxe.Screens
             _CheckMics();
             _CheckPlayers();
 
+            CSong firstSong = CGame.GetSong(0);
+
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
             {
                 _Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.IsProfileIDValid(CGame.Players[i].ProfileID) ?
@@ -616,8 +610,9 @@ namespace Vocaluxe.Screens
                 {
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Clear();
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = i + 1 <= CGame.NumPlayer;
-                    _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart1);
-                    _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(CGame.GetSong(1).DuetPart2);
+
+                    for (int j = 0; j < firstSong.Notes.VoiceCount; j++)
+                        _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(firstSong.Notes.VoiceNames[j]);
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Selection = i % 2;
                 }
                 else
@@ -633,7 +628,7 @@ namespace Vocaluxe.Screens
             for (int i = 0; i < CGame.NumPlayer; i++)
             {
                 if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
-                    CGame.Players[i].LineNr = _SelectSlides[_SelectSlideDuetPlayer[i]].Selection;
+                    CGame.Players[i].VoiceNr = _SelectSlides[_SelectSlideDuetPlayer[i]].Selection;
             }
 
             CGraphics.FadeTo(EScreens.ScreenSing);
@@ -726,7 +721,7 @@ namespace Vocaluxe.Screens
 
         private void _CheckMics()
         {
-            List<int> playerWithoutMicro = new List<int>();
+            var playerWithoutMicro = new List<int>();
             for (int player = 0; player < CConfig.NumPlayer; player++)
             {
                 if (!CConfig.IsMicConfig(player + 1))
@@ -764,7 +759,7 @@ namespace Vocaluxe.Screens
 
         private void _CheckPlayers()
         {
-            List<int> playerWithoutProfile = new List<int>();
+            var playerWithoutProfile = new List<int>();
             for (int player = 0; player < CConfig.NumPlayer; player++)
             {
                 if (CGame.Players[player].ProfileID < 0)

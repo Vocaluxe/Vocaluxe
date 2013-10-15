@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -51,7 +49,7 @@ namespace VocaluxeLib.Game
             for (int player = 0; player < players.Length; player++)
             {
                 _Rounds[round, player].SongID = songID;
-                _Rounds[round, player].LineNr = players[player].LineNr;
+                _Rounds[round, player].VoiceNr = players[player].VoiceNr;
                 _Rounds[round, player].Points = players[player].Points;
                 _Rounds[round, player].PointsGoldenNotes = players[player].PointsGoldenNotes;
                 _Rounds[round, player].PointsLineBonus = players[player].PointsLineBonus;
@@ -80,7 +78,7 @@ namespace VocaluxeLib.Game
             if (round >= NumRounds)
                 return new SPlayer[1];
 
-            SPlayer[] players = new SPlayer[numPlayer];
+            var players = new SPlayer[numPlayer];
 
             for (int p = 0; p < players.Length; p++)
             {
@@ -88,7 +86,7 @@ namespace VocaluxeLib.Game
                 players[p].PointsGoldenNotes = _Rounds[round, p].PointsGoldenNotes;
                 players[p].PointsLineBonus = _Rounds[round, p].PointsLineBonus;
                 players[p].SongID = _Rounds[round, p].SongID;
-                players[p].LineNr = _Rounds[round, p].LineNr;
+                players[p].VoiceNr = _Rounds[round, p].VoiceNr;
                 players[p].Medley = _Rounds[round, p].Medley;
                 players[p].Duet = _Rounds[round, p].Duet;
                 players[p].ShortSong = _Rounds[round, p].ShortSong;

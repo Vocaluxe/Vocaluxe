@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -62,6 +60,11 @@ namespace Vocaluxe.Base
 
     class CBconfig : IConfig
     {
+        public EOffOn GetSaveModifiedSongs()
+        {
+            return CConfig.SaveModifiedSongs;
+        }
+
         public void SetBackgroundMusicVolume(int newVolume)
         {
             CConfig.BackgroundMusicVolume = newVolume;
@@ -112,7 +115,7 @@ namespace Vocaluxe.Base
             return CConfig.CoverSize;
         }
 
-        public IEnumerable<string> GetSongFolder()
+        public IEnumerable<string> GetSongFolders()
         {
             return CConfig.SongFolder;
         }
@@ -218,6 +221,11 @@ namespace Vocaluxe.Base
         public string GetFolderProfiles()
         {
             return CSettings.FolderProfiles;
+        }
+
+        public string GetDataPath()
+        {
+            return CSettings.DataPath;
         }
     }
 
@@ -499,14 +507,14 @@ namespace Vocaluxe.Base
             return CGame.GetPoints();
         }
 
-        public float GetMidBeatD()
+        public float GetMidRecordedBeat()
         {
-            return CGame.MidBeatD;
+            return CGame.MidRecordedBeat;
         }
 
-        public int GetCurrentBeatD()
+        public int GetRecordedBeat()
         {
-            return CGame.ActBeatD;
+            return CGame.RecordedBeat;
         }
 
         public int GetRandom(int max)
@@ -522,6 +530,11 @@ namespace Vocaluxe.Base
         public float GetTimeFromBeats(float beat, float bpm)
         {
             return CGame.GetTimeFromBeats(beat, bpm);
+        }
+
+        public float GetBeatFromTime(float time, float bpm, float gap)
+        {
+            return CGame.GetBeatFromTime(time, bpm, gap);
         }
 
         public void AddSong(int songID, EGameMode gameMode)
@@ -781,6 +794,11 @@ namespace Vocaluxe.Base
         public bool GetCover(string fileName, ref CTexture texture, int coverSize)
         {
             return CDataBase.GetCover(fileName, ref texture, coverSize);
+        }
+
+        public bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out string dateAdded, out int highscoreID)
+        {
+            return CDataBase.GetDataBaseSongInfos(artist, title, out numPlayed, out dateAdded, out highscoreID);
         }
     }
 

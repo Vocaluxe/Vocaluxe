@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System.Linq;
@@ -106,8 +104,8 @@ namespace Vocaluxe.Lib.Sound
 
         public int Load(string media, bool prescan)
         {
-            SAudioStreams stream = new SAudioStreams(0);
-            COpenAlStream decoder = new COpenAlStream();
+            var stream = new SAudioStreams(0);
+            var decoder = new COpenAlStream();
 
             if (decoder.Open(media) > -1)
             {
@@ -595,7 +593,7 @@ namespace Vocaluxe.Lib.Sound
             _CurrentTime = 0f;
             _Timer.Reset();
 
-            SAudioStreams stream = new SAudioStreams(0) {Handle = _Buffers[0]};
+            var stream = new SAudioStreams(0) {Handle = _Buffers[0]};
 
             if (stream.Handle != 0)
             {
@@ -782,7 +780,7 @@ namespace Vocaluxe.Lib.Sound
                     return;
             }
 
-            byte[] buf = new byte[_BufferSize];
+            var buf = new byte[_BufferSize];
 
             lock (_MutexData)
             {
@@ -793,7 +791,7 @@ namespace Vocaluxe.Lib.Sound
                         _Data.Read(buf);
 
 
-                        byte[] b = new byte[2];
+                        var b = new byte[2];
                         for (int i = 0; i < buf.Length; i += _ByteCount)
                         {
                             b[0] = buf[i];

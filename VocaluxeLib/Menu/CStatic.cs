@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -205,11 +203,9 @@ namespace VocaluxeLib.Menu
 
         public void Draw(float scale, float z, EAspect aspect, bool forceDraw = false)
         {
-            CTexture texture = Texture;
-            if (texture == null)
-                texture = new CTexture((int)Rect.W, (int)Rect.H);
+            CTexture texture = Texture ?? new CTexture((int)Rect.W, (int)Rect.H);
 
-            SRectF bounds = new SRectF(
+            var bounds = new SRectF(
                 Rect.X - Rect.W * (scale - 1f),
                 Rect.Y - Rect.H * (scale - 1f),
                 Rect.W + 2 * Rect.W * (scale - 1f),
@@ -220,7 +216,7 @@ namespace VocaluxeLib.Menu
 
             if (aspect != EAspect.Stretch)
             {
-                RectangleF bounds2 = new RectangleF(bounds.X, bounds.Y, bounds.W, bounds.H);
+                var bounds2 = new RectangleF(bounds.X, bounds.Y, bounds.W, bounds.H);
                 RectangleF rect2;
                 CHelper.SetRect(bounds2, out rect2, texture.OrigAspect, aspect);
 
@@ -230,7 +226,7 @@ namespace VocaluxeLib.Menu
                 rect.H = rect2.Height;
             }
 
-            SColorF color = new SColorF(Color.R, Color.G, Color.B, Color.A * Alpha);
+            var color = new SColorF(Color.R, Color.G, Color.B, Color.A * Alpha);
             if (Visible || forceDraw || (CBase.Settings.GetGameState() == EGameState.EditTheme))
             {
                 CBase.Drawing.DrawTexture(texture, rect, color, bounds);

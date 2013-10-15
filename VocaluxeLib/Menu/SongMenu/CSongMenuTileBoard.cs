@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -92,9 +90,9 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 for (int j = 0; j < _NumW; j++)
                 {
-                    SRectF rect = new SRectF(_Theme.SongMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
-                                             _Theme.SongMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
-                    CStatic tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
+                    var rect = new SRectF(_Theme.SongMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
+                                          _Theme.SongMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
+                    var tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
                     _Tiles.Add(tile);
                 }
             }
@@ -415,16 +413,16 @@ namespace VocaluxeLib.Menu.SongMenu
                     _Title.Text = song.Title;
                     _DuetIcon.Visible = song.IsDuet;
                     _VideoIcon.Visible = song.VideoFileName != "";
-                    _MedleyCalcIcon.Visible = song.Medley.Source == EMedleySource.Calculated;
-                    _MedleyTagIcon.Visible = song.Medley.Source == EMedleySource.Tag;
+                    _MedleyCalcIcon.Visible = song.Medley.Source == EDataSource.Calculated;
+                    _MedleyTagIcon.Visible = song.Medley.Source == EDataSource.Tag;
 
                     float time = CBase.Sound.GetLength(_SongStream);
                     if (Math.Abs(song.Finish) > 0.001)
                         time = song.Finish;
 
                     time -= song.Start;
-                    int min = (int)Math.Floor(time / 60f);
-                    int sec = (int)(time - min * 60f);
+                    var min = (int)Math.Floor(time / 60f);
+                    var sec = (int)(time - min * 60f);
                     _SongLength.Text = min.ToString("00") + ":" + sec.ToString("00");
                 }
             }
@@ -458,11 +456,11 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 if (_Vidtex.Color.A < 1)
                     _CoverBig.Draw(1f, EAspect.Crop);
-                RectangleF bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
+                var bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
                 RectangleF rect;
                 CHelper.SetRect(bounds, out rect, _Vidtex.OrigAspect, EAspect.Crop);
-                SRectF vidRect = new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z);
-                SRectF vidRectBounds = new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f);
+                var vidRect = new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z);
+                var vidRectBounds = new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f);
 
                 CBase.Drawing.DrawTexture(_Vidtex, vidRect, _Vidtex.Color, vidRectBounds);
                 CBase.Drawing.DrawTextureReflection(_Vidtex, vidRect, _Vidtex.Color, vidRectBounds, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
@@ -490,7 +488,7 @@ namespace VocaluxeLib.Menu.SongMenu
             CStatic selCov = GetSelectedSongCover();
             if (selCov.Texture == null)
                 return false;
-            SRectF rect = new SRectF(selCov.Rect.X - selCov.Rect.W*0.2f, selCov.Rect.Y - selCov.Rect.H*0.2f, selCov.Rect.W*1.2f, selCov.Rect.H*1.2f, selCov.Rect.Z);
+            var rect = new SRectF(selCov.Rect.X - selCov.Rect.W * 0.2f, selCov.Rect.Y - selCov.Rect.H * 0.2f, selCov.Rect.W * 1.2f, selCov.Rect.H * 1.2f, selCov.Rect.Z);
             return CHelper.IsInBounds(rect, mEvent);
         }
 
@@ -679,8 +677,8 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 for (int j = 0; j < _NumW; j++)
                 {
-                    SRectF rect = new SRectF(_Rect.X + j * (_TileW + _SpaceW), _Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
-                    CStatic tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
+                    var rect = new SRectF(_Rect.X + j * (_TileW + _SpaceW), _Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
+                    var tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
                     _Tiles.Add(tile);
                 }
             }

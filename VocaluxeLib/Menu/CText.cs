@@ -1,20 +1,18 @@
 ﻿#region license
-// /*
-//     This file is part of Vocaluxe.
+// This file is part of Vocaluxe.
 // 
-//     Vocaluxe is free software: you can redistribute it and/or modify
-//     it under the terms of the GNU General Public License as published by
-//     the Free Software Foundation, either version 3 of the License, or
-//     (at your option) any later version.
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 // 
-//     Vocaluxe is distributed in the hope that it will be useful,
-//     but WITHOUT ANY WARRANTY; without even the implied warranty of
-//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//     GNU General Public License for more details.
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 // 
-//     You should have received a copy of the GNU General Public License
-//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
-//  */
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -424,7 +422,7 @@ namespace VocaluxeLib.Menu
                 writer.WriteElementString("Align", Enum.GetName(typeof(EAlignment), Align));
 
                 writer.WriteComment("<ResizeAlign>: Text align vertical (on downsizing): " + CHelper.ListStrings(Enum.GetNames(typeof(EHAlignment))));
-                writer.WriteElementString("HAlign", Enum.GetName(typeof(EHAlignment), ResizeAlign));
+                writer.WriteElementString("ResizeAlign", Enum.GetName(typeof(EHAlignment), ResizeAlign));
 
                 writer.WriteComment("<Style>: Text style: " + CHelper.ListStrings(Enum.GetNames(typeof(EStyle))));
                 writer.WriteElementString("Style", Enum.GetName(typeof(EStyle), Style));
@@ -469,7 +467,7 @@ namespace VocaluxeLib.Menu
             CBase.Fonts.SetStyle(Style);
 
             SColorF currentColor = (Selected) ? SelColor : Color;
-            SColorF color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
+            var color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
             CBase.Fonts.DrawText(_Text, Rect.H, Rect.X, Rect.Y, Z, color);
 
@@ -486,7 +484,7 @@ namespace VocaluxeLib.Menu
             CBase.Fonts.SetStyle(Style);
 
             SColorF currentColor = (Selected) ? SelColor : Color;
-            SColorF color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
+            var color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
             CBase.Fonts.DrawText(Text, Rect.H, Rect.X, Rect.Y, Z, color, begin, end);
 
@@ -563,7 +561,7 @@ namespace VocaluxeLib.Menu
             float y = Y;
             RectangleF bounds = CBase.Fonts.GetTextBounds(this);
 
-            if (bounds.Width > MaxWidth && MaxWidth > 0f && bounds.Width > 0f)
+            if (MaxWidth > 0f && bounds.Width > MaxWidth && bounds.Width > 0f)
             {
                 float factor = MaxWidth / bounds.Width;
                 float step = h * (1 - factor);
