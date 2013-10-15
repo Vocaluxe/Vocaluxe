@@ -199,7 +199,12 @@ namespace Vocaluxe.Base.Server
             }
             else if (newProfile.Avatar == null)
             {
-                //TODO:standardAvatar                
+                newProfile.Avatar = CProfiles.GetAvatars().First();
+                
+                /*CAvatar avatar = new CAvatar(-1);
+                avatar.LoadFromFile("Profiles\\Avatar_f.png");
+                CProfiles.AddAvatar(avatar);
+                newProfile.Avatar = avatar;*/
             }
 
             if (profile.PlayerName != null && profile.PlayerName != "")
@@ -214,6 +219,11 @@ namespace Vocaluxe.Base.Server
             if (profile.Difficulty >= 0 && profile.Difficulty <= 2)
             {
                 newProfile.Difficulty = (EGameDifficulty)profile.Difficulty;
+            }
+
+            if (profile.Type >= 0 && profile.Type <= 1)
+            {
+                newProfile.GuestProfile = (EOffOn)profile.Type;
             }
 
             if (existingProfile != null)
@@ -414,7 +424,7 @@ namespace Vocaluxe.Base.Server
                 else
                 {
                     return false;
-                }                
+                }
             }
 
             byte[] salt = profile.PasswordSalt;
@@ -478,7 +488,7 @@ namespace Vocaluxe.Base.Server
             if (profile == null)
             {
                 throw new ArgumentException("Invalid profileId");
-            }           
+            }
 
             profile.UserRoles = userRole;
         }
@@ -486,8 +496,8 @@ namespace Vocaluxe.Base.Server
         private static int getUserIdFromUsername(string username)
         {
             var playerIds = (from p in CProfiles.GetProfiles()
-                               where String.Equals(p.PlayerName, username,StringComparison.OrdinalIgnoreCase)
-                               select p.ID);
+                             where String.Equals(p.PlayerName, username, StringComparison.OrdinalIgnoreCase)
+                             select p.ID);
             if (playerIds.Count() == 0)
             {
                 throw new ArgumentException("Invalid playername");
