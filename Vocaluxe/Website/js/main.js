@@ -38,45 +38,12 @@ function replaceTransitionHandler() {
 function initPageLoadHandler() {
     //pageLoadHandler for displayProfile
     $(document).on('pagebeforeshow', '#displayProfile', function () {
-        var promise = $.ajax({
-            url: "getProfile?profileId=" + profileIdRequest,
-            headers: { "session": sessionId }
-        }).done(function (result) {
-            $('#playerName').prop("value", result.PlayerName);
-            if (result.Avatar && result.Avatar.base64Data) {
-                $('#playerAvatar').prop("src", result.Avatar.base64Data);
-            }
-            $('#playerType').prop("value", result.Type);
-            $('#playerDifficulty').prop("value", result.Difficulty);
-            if (result.IsEditable) {
-                $('#playerName').prop('disabled', false);
-                $('#playerType').prop('disabled', false);
-                $('#playerDifficulty').prop('disabled', false);
-                $('#playerSaveButton').show();
-
-                $('#playerAvatar').unbind("click");
-                $('#playerAvatar').click(function () {
-                    if ($('#captureContainer').length > 0) {
-                        $('#captureContainer').remove();
-                    }
-
-                    $(document.body).append('<div id="captureContainer" style="height: 0px;width:0px; overflow:hidden;"> <input type="file" accept="image/*" id="capture" capture> </div>');
-
-                    $('#capture').change(function (eventData) {
-                        if (eventData && eventData.target && eventData.target.files && eventData.target.files.length == 1) {
-                            var file = eventData.target.files[0];
-                            var reader = new FileReader();
-                            reader.onloadend = function (e) {
-                                $('#playerAvatar').prop("src", e.target.result);
-                                $('#playerAvatar').data("changed", true);
-                                $('#captureContainer').remove();
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    });
-
-                    $('#capture').click();
-                });
+        if (profileIdRequest >= 0) {
+            var promise = $.ajax({
+                url: "getProfile?profileId=" + profileIdRequest,
+                headers: { "session": sessionId }
+            }).done(function (result) {
+                handleDisplayProfileData(result);
 
                 $('#playerSaveButton').click(function () {
                     var dataToUpload = {};
@@ -109,19 +76,107 @@ function initPageLoadHandler() {
                     });
 
                 });
-            }
-            else {
-                $('#playerName').prop('disabled', true);
-                $('#playerType').prop('disabled', true);
-                $('#playerDifficulty').prop('disabled', true);
-                $('#playerSaveButton').hide();
-                $('#playerAvatar').unbind("click");
-            }
-        });
+            });
 
-        // Save promise on page so the transition handler can find it.
-        $(this).data('promise', promise);
+            // Save promise on page so the transition handler can find it.
+            $(this).data('promise', promise);
+        }
+        else {
+            //new profile
+            handleDisplayProfileData({
+                "Avatar": { "base64Data": null },
+                "Difficulty": 0,
+                "IsEditable": true,
+                "PlayerName": "YourName",
+                "ProfileId": -1,
+                "Type": 1
+            });
+            $('#playerType').prop("value", 0);
+            $('#playerDifficulty').prop("value", 0);
+
+            $('#playerSaveButton').click(function () {
+                var dataToUpload = {};
+
+                dataToUpload["ProfileId"] = -1;
+                dataToUpload["PlayerName"] = $('#playerName').prop("value");
+                dataToUpload["Type"] = $('#playerType').prop("value");
+                dataToUpload["Difficulty"] = $('#playerDifficulty').prop("value");
+                dataToUpload["Avatar"] = $('#playerAvatar').data("changed") ? { "base64Data": $('#playerAvatar').prop("src") } : null;
+
+                $('#content').wrap('<div class="overlay" />');
+                $.mobile.loading('show', {
+                    text: 'Creating profile...',
+                    textVisible: true
+                });
+
+                $.ajax({
+                    url: "sendProfile",
+                    dataType: "json",
+                    contentType: "application/json;charset=utf-8",
+                    type: "POST",
+                    headers: { "session": sessionId },
+                    data: JSON.stringify(dataToUpload),
+                    success: function (msg) {
+                        $.mobile.changePage("#login", { transition: "slidefade" });
+                    }
+                }).always(function () {
+                    $.mobile.loading('hide');
+                    $('#content').unwrap();
+                });
+
+            });
+        }
     });
+
+    function handleDisplayProfileData(data) {
+        $('#playerName').prop("value", data.PlayerName);
+        if (data.Avatar && data.Avatar.base64Data) {
+            $('#playerAvatar').prop("src", data.Avatar.base64Data);
+        }
+        else {
+            $('#playerAvatar').prop("src", "img/profile.png");
+        }
+        $('#playerAvatar').data("changed", false);
+        $('#playerType').prop("value", data.Type);
+        $('#playerDifficulty').prop("value", data.Difficulty);
+        if (data.IsEditable) {
+            $('#playerName').prop('disabled', false);
+            $('#playerType').prop('disabled', false);
+            $('#playerDifficulty').prop('disabled', false);
+            $('#playerSaveButton').show().unbind("click");
+            $('#playerAvatar').unbind("click");
+
+            $('#playerAvatar').click(function () {
+                if ($('#captureContainer').length > 0) {
+                    $('#captureContainer').remove();
+                }
+
+                $(document.body).append('<div id="captureContainer" style="height: 0px;width:0px; overflow:hidden;"> <input type="file" accept="image/*" id="capture" capture> </div>');
+
+                $('#capture').change(function (eventData) {
+                    if (eventData && eventData.target && eventData.target.files && eventData.target.files.length == 1) {
+                        var file = eventData.target.files[0];
+                        var reader = new FileReader();
+                        reader.onloadend = function (e) {
+                            $('#playerAvatar').prop("src", e.target.result);
+                            $('#playerAvatar').data("changed", true);
+                            $('#captureContainer').remove();
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                $('#capture').click();
+            });
+        }
+        else {
+            $('#playerName').prop('disabled', true);
+            $('#playerType').prop('disabled', true);
+            $('#playerDifficulty').prop('disabled', true);
+            $('#playerSaveButton').hide().unbind("click");
+            $('#playerAvatar').unbind("click");
+        }
+    }
 
     //pageLoadHandler for selectProfile
     $(document).on('pagebeforeshow', '#selectProfile', function () {
@@ -278,11 +333,17 @@ function initLoginPageHandler() {
             }).fail(function (result) {
                 $.mobile.loading('hide');
                 $('#content').unwrap();
-            });           
+            });
         }).fail(function (result) {
             $.mobile.loading('hide');
             $('#content').unwrap();
-        });        
+        });
+    });
+
+    $('#registerButton').click(function () {
+        ownProfileId = -1;
+        profileIdRequest = -1;
+        $.mobile.changePage("#displayProfile", { transition: "slidefade" });
     });
 }
 

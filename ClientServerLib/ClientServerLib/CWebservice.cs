@@ -181,11 +181,14 @@ namespace ServerLib
         {
             Guid sessionKey = getSession();
 
-            if (sessionKey == Guid.Empty || (!SessionControl.requestRight(sessionKey, UserRights.EditAllProfiles) &&
-                SessionControl.getUserIdFromSession(sessionKey) != profile.ProfileId))
+            if (profile.ProfileId != -1) //-1 is the id for a new profile
             {
-                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
-                return false;
+                if (sessionKey == Guid.Empty || (!SessionControl.requestRight(sessionKey, UserRights.EditAllProfiles) &&
+                    SessionControl.getUserIdFromSession(sessionKey) != profile.ProfileId))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                    return false;
+                }
             }
 
             if (CServer.SendProfileData == null)
