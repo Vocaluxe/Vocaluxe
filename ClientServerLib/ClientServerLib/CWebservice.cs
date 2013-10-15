@@ -6,6 +6,7 @@ using System.Text;
 using System.ServiceModel.Web;
 using System.Web.Services;
 using System.IO;
+using System.ServiceModel.Channels;
 
 namespace ServerLib
 {
@@ -19,6 +20,12 @@ namespace ServerLib
         bool sendKeyEvent(string key);
 
         #region profile
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/getOwnProfileId")]
+        int getOwnProfileId();
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -52,6 +59,12 @@ namespace ServerLib
         #endregion
 
         #region website
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/login?username={username}&password={password}")]
+        Guid login(string username, string password);
 
         [OperationContract]
         [WebInvoke(Method = "GET",
@@ -114,8 +127,35 @@ namespace ServerLib
         {
         }
 
+        private static Guid getSession()
+        {
+            Guid sessionKey = Guid.Empty;
+            string sessionHeader =
+                ((HttpRequestMessageProperty)OperationContext.Current.IncomingMessageProperties["httpRequest"]).Headers["session"];
+            if (sessionHeader == null || sessionHeader == "")
+            {
+                return sessionKey;
+            }
+            try
+            {
+                sessionKey = Guid.Parse(sessionHeader);
+            }
+            catch (Exception e)
+            {
+            }
+            return sessionKey;
+        }
+
         public bool sendKeyEvent(string key)
         {
+            Guid sessionKey = getSession();
+
+            if (sessionKey == Guid.Empty || !SessionControl.requestRight(sessionKey, UserRights.UseKeyboard))
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                return false;
+            }
+
             if (CServer.SendKeyEvent == null)
             {
                 return false;
@@ -125,22 +165,58 @@ namespace ServerLib
 
         #region profile
 
+        public int getOwnProfileId()
+        {
+            Guid sessionKey = getSession();
+            if (sessionKey == Guid.Empty)
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                return -1;
+            }
+
+            return SessionControl.getUserIdFromSession(sessionKey);
+        }
+
         public bool sendProfile(ProfileData profile)
         {
-            if (CServer.SendProfileData == null)
+            Guid sessionKey = getSession();
+
+            if (sessionKey == Guid.Empty || (!SessionControl.requestRight(sessionKey, UserRights.EditAllProfiles) &&
+                SessionControl.getUserIdFromSession(sessionKey) != profile.ProfileId))
             {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
                 return false;
             }
+
+            if (CServer.SendProfileData == null)
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.NotFound;
+                return false;
+            }
+
             return CServer.SendProfileData(profile);
         }
 
         public ProfileData getProfile(int profileId)
         {
+            Guid sessionKey = getSession();
+
+            if (sessionKey == Guid.Empty || (!SessionControl.requestRight(sessionKey, UserRights.ViewOtherProfiles) &&
+                SessionControl.getUserIdFromSession(sessionKey) != profileId))
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                return new ProfileData();
+            }
+
             if (CServer.GetProfileData == null)
             {
                 return new ProfileData();
             }
-            return CServer.GetProfileData(profileId);
+
+            bool isReadonly = (!SessionControl.requestRight(sessionKey, UserRights.EditAllProfiles) &&
+                SessionControl.getUserIdFromSession(sessionKey) != profileId);
+
+            return CServer.GetProfileData(profileId, isReadonly);
         }
 
         public ProfileData[] getProfileList()
@@ -158,12 +234,29 @@ namespace ServerLib
 
         public bool sendPhoto(PhotoData photo)
         {
+            Guid sessionKey = getSession();
+            if (!SessionControl.requestRight(sessionKey, UserRights.UploadPhotos))
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                return false;
+            }
+
             return CServer.SendPhoto(photo);
         }
 
         #endregion
 
         #region website
+
+        public Guid login(string username, string password)
+        {
+            Guid sessionId = SessionControl.openSession(username, password);
+            if (sessionId == Guid.Empty)
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+            }
+            return sessionId;
+        }
 
         public Stream Index()
         {
@@ -277,6 +370,5 @@ namespace ServerLib
         }
 
         #endregion
-        
     }
 }

@@ -29,6 +29,7 @@ using Vocaluxe.Lib.Input;
 using VocaluxeLib;
 using VocaluxeLib.Profile;
 using VocaluxeLib.Songs;
+using System.Security.Cryptography;
 
 namespace Vocaluxe.Base.Server
 {
@@ -44,9 +45,9 @@ namespace Vocaluxe.Base.Server
         {
             _Clients = new Dictionary<int, CClientHandler>();
 
-             _Server = new CServer(CConfig.ServerPort, CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON);
+            _Server = new CServer(CConfig.ServerPort, CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON);
             //_Server = new CServer(RequestHandler, CConfig.ServerPort, CConfig.ServerPassword);
-            
+
             CServer.SendKeyEvent = sendKeyEvent;
             CServer.GetProfileData = getProfileData;
             CServer.SendProfileData = sendProfileData;
@@ -56,6 +57,11 @@ namespace Vocaluxe.Base.Server
             CServer.GetSong = getSong;
             CServer.GetAllSongs = getAllSongs;
             CServer.GetCurrentSongId = getCurrentSongId;
+            CServer.SetPassword = setPassword;
+            CServer.ValidatePassword = validatePassword;
+            CServer.GetUserRole = getUserRole;
+            CServer.SetUserRole = setUserRole;
+            CServer.GetUserIdFromUsername = getUserIdFromUsername;
 
             _Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
             Controller.Init();
@@ -148,14 +154,14 @@ namespace Vocaluxe.Base.Server
 
         #region profile
 
-        private static ProfileData getProfileData(int profileId)
+        private static ProfileData getProfileData(int profileId, bool isReadonly)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
             {
                 return new ProfileData();
             }
-            return CreateProfileData(profile); ;
+            return CreateProfileData(profile, isReadonly); ;
         }
 
         private static bool sendProfileData(ProfileData profile)
@@ -226,17 +232,17 @@ namespace Vocaluxe.Base.Server
 
             foreach (CProfile profile in CProfiles.GetProfiles())
             {
-                result.Add(CreateProfileData(profile));
+                result.Add(CreateProfileData(profile, true));
             }
 
             return result.ToArray();
         }
 
-        private static ProfileData CreateProfileData(CProfile profile)
+        private static ProfileData CreateProfileData(CProfile profile, bool isReadonly)
         {
             ProfileData profileData = new ProfileData();
 
-            profileData.IsEditable = true; //TODO: set correctly 
+            profileData.IsEditable = !isReadonly;
             profileData.ProfileId = profile.ID;
             profileData.PlayerName = profile.PlayerName;
             profileData.Type = (int)profile.GuestProfile;
@@ -368,6 +374,141 @@ namespace Vocaluxe.Base.Server
         }
 
         #endregion
+
+        #region user management
+
+        private static void setPassword(int profileId, string newPassword)
+        {
+            CProfile profile = CProfiles.GetProfile(profileId);
+            if (profile == null)
+            {
+                throw new ArgumentException("Invalid profileId");
+            }
+
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+            byte[] buffer = new byte[128];
+            rng.GetNonZeroBytes(buffer);
+            byte[] salt = buffer;
+            byte[] hashedPassword = hash((new System.Text.UTF8Encoding()).GetBytes(newPassword), salt);
+
+            profile.PasswordSalt = salt;
+            profile.PasswordHash = hashedPassword;
+        }
+
+        private static bool validatePassword(int profileId, string password)
+        {
+            CProfile profile = CProfiles.GetProfile(profileId);
+            if (profile == null)
+            {
+                throw new ArgumentException("Invalid profileId");
+            }
+
+            if (profile.PasswordHash == null)
+            {
+                if (password == "" || password == null)
+                {
+                    return true; //Allow emty passwords
+                }
+                else
+                {
+                    return false;
+                }                
+            }
+
+            byte[] salt = profile.PasswordSalt;
+            return hash((new System.Text.UTF8Encoding()).GetBytes(password), salt).SequenceEqual(profile.PasswordHash);
+        }
+
+        private static bool validatePassword(int profileId, byte[] hashedPassword)
+        {
+            CProfile profile = CProfiles.GetProfile(profileId);
+            if (profile == null)
+            {
+                throw new ArgumentException("Invalid profileId");
+            }
+
+            if (profile.PasswordHash == null)
+            {
+                if (hashedPassword == null)
+                {
+                    return true; //Allow emty passwords
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            byte[] salt = profile.PasswordSalt;
+            return hashedPassword.SequenceEqual(profile.PasswordHash);
+        }
+
+        private static byte[] getPassowordSalt(int profileId)
+        {
+            CProfile profile = CProfiles.GetProfile(profileId);
+            if (profile == null)
+            {
+                throw new ArgumentException("Invalid profileId");
+            }
+
+            if (profile.PasswordHash == null)
+            {
+                throw new ArgumentException("Emty password");
+            }
+
+            return profile.PasswordSalt;
+        }
+
+        private static int getUserRole(int profileId)
+        {
+            CProfile profile = CProfiles.GetProfile(profileId);
+            if (profile == null)
+            {
+                throw new ArgumentException("Invalid profileId");
+            }
+
+            return profile.UserRoles;
+        }
+
+        private static void setUserRole(int profileId, int userRole)
+        {
+            CProfile profile = CProfiles.GetProfile(profileId);
+            if (profile == null)
+            {
+                throw new ArgumentException("Invalid profileId");
+            }           
+
+            profile.UserRoles = userRole;
+        }
+
+        private static int getUserIdFromUsername(string username)
+        {
+            var playerIds = (from p in CProfiles.GetProfiles()
+                               where String.Equals(p.PlayerName, username,StringComparison.OrdinalIgnoreCase)
+                               select p.ID);
+            if (playerIds.Count() == 0)
+            {
+                throw new ArgumentException("Invalid playername");
+            }
+
+            return playerIds.First();
+        }
+
+        private static byte[] hash(byte[] password, byte[] salt)
+        {
+            HashAlgorithm hashAlgo = new SHA256Managed();
+
+            byte[] data = new byte[password.Length + salt.Length];
+
+            password.CopyTo(data, 0);
+            salt.CopyTo(data, password.Length);
+
+            return hashAlgo.ComputeHash(data);
+        }
+
+        #endregion
+
+
 
         private static string _SaveImage(Base64Image imageDate, string name, string folder)
         {

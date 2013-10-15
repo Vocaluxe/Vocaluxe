@@ -96,10 +96,51 @@ namespace ServerLib
 
         #endregion
 
+        #region user management
+
+        private static SetPasswordDelegate setPassword;
+        public static SetPasswordDelegate SetPassword
+        {
+            internal get { return CServer.setPassword; }
+            set { CServer.setPassword = value; }
+        }
+
+        private static ValidatePasswordDelegate validatePassword;
+        public static ValidatePasswordDelegate ValidatePassword
+        {
+            internal get { return CServer.validatePassword; }
+            set { CServer.validatePassword = value; }
+        }
+
+        private static GetUserRoleDelegate getUserRole;
+        public static GetUserRoleDelegate GetUserRole
+        {
+            internal get { return CServer.getUserRole; }
+            set { CServer.getUserRole = value; }
+        }
+
+        private static SetUserRoleDelegate setUserRole;
+        public static SetUserRoleDelegate SetUserRole
+        {
+            internal get { return CServer.setUserRole; }
+            set { CServer.setUserRole = value; }
+        }
+
+        private static GetUserIdFromUsernameDelegate getUserIdFromUsername;
+        public static GetUserIdFromUsernameDelegate GetUserIdFromUsername
+        {
+            internal get { return CServer.getUserIdFromUsername; }
+            set { CServer.getUserIdFromUsername = value; }
+        }
+
+        #endregion
+
         public CServer(int port, bool encrypted)
         {
             init(port, encrypted);
         }
+
+        #region server control
 
         private void init(int port, bool encrypted)
         {
@@ -178,7 +219,7 @@ namespace ServerLib
 
         private void registerUrlAndCert(int port)
         {
-            #if WIN
+#if WIN
 
             ProcessStartInfo info = new ProcessStartInfo();
             info.FileName = "WebserverInitalConfig.exe";
@@ -194,11 +235,14 @@ namespace ServerLib
                 p.Close();
             }
 
-            #else
+#else
 
             //Required?
 
-            #endif
+#endif
         }
+
+        #endregion
+
     }
 }
