@@ -53,12 +53,13 @@ function initPageLoadHandler() {
                     dataToUpload["Type"] = $('#playerType').prop("value");
                     dataToUpload["Difficulty"] = $('#playerDifficulty').prop("value");
                     dataToUpload["Avatar"] = $('#playerAvatar').data("changed") ? { "base64Data": $('#playerAvatar').prop("src") } : null;
+                    dataToUpload["Password"] = $('#playerPassword').prop("value") != "**oldPassword**" ? $('#playerPassword').prop("value") : null;
 
                     $('#content').wrap('<div class="overlay" />');
                     $.mobile.loading('show', {
                         text: 'Uploading profile...',
                         textVisible: true
-                    });
+                    });                    
 
                     $.ajax({
                         url: "sendProfile",
@@ -102,6 +103,7 @@ function initPageLoadHandler() {
                 dataToUpload["Type"] = $('#playerType').prop("value");
                 dataToUpload["Difficulty"] = $('#playerDifficulty').prop("value");
                 dataToUpload["Avatar"] = $('#playerAvatar').data("changed") ? { "base64Data": $('#playerAvatar').prop("src") } : null;
+                dataToUpload["Password"] = $('#playerPassword').prop("value") != "**oldPassword**" ? $('#playerPassword').prop("value") : null;
 
                 $('#content').wrap('<div class="overlay" />');
                 $.mobile.loading('show', {
@@ -145,6 +147,7 @@ function initPageLoadHandler() {
             $('#playerDifficulty').prop('disabled', false);
             $('#playerSaveButton').show().unbind("click");
             $('#playerAvatar').unbind("click");
+            $('#playerPassword').prop('disabled', false).show();
 
             $('#playerAvatar').click(function () {
                 if ($('#captureContainer').length > 0) {
@@ -175,6 +178,7 @@ function initPageLoadHandler() {
             $('#playerDifficulty').prop('disabled', true);
             $('#playerSaveButton').hide().unbind("click");
             $('#playerAvatar').unbind("click");
+            $('#playerPassword').prop('disabled', true).hide();
         }
     }
 

@@ -197,7 +197,20 @@ namespace ServerLib
                 return false;
             }
 
-            return CServer.SendProfileData(profile);
+            bool result = CServer.SendProfileData(profile);
+
+            if (profile.Password != null && profile.Password != "")
+            {
+                int profileId = profile.ProfileId;
+                if (profileId == -1)
+                {
+                    profileId = CServer.GetUserIdFromUsername(profile.PlayerName);
+                }
+
+                CServer.SetPassword(profileId, profile.Password);
+            }
+
+            return result;
         }
 
         public ProfileData getProfile(int profileId)
