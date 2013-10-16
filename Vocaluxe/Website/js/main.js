@@ -59,7 +59,7 @@ function initPageLoadHandler() {
                     $.mobile.loading('show', {
                         text: 'Uploading profile...',
                         textVisible: true
-                    });                    
+                    });
 
                     $.ajax({
                         url: "sendProfile",
@@ -69,7 +69,7 @@ function initPageLoadHandler() {
                         headers: { "session": sessionId },
                         data: JSON.stringify(dataToUpload),
                         success: function (msg) {
-
+                            history.back();
                         }
                     }).always(function () {
                         $.mobile.loading('hide');
@@ -298,6 +298,67 @@ function initPageLoadHandler() {
             handleGetAllSongs()
         }
     });
+
+    //pageLoadHandler for selectUserAdmin
+    $(document).on('pagebeforeshow', '#selectUserAdmin', function () {
+        var promise = $.ajax({
+            url: "getProfileList",
+            headers: { "session": sessionId }
+        }).done(function (data) {
+            $('#selectUserAdminList').children().remove();
+
+            function handleSelectUserAdminLineClick(e) {
+                profileIdRequest = parseInt(e.currentTarget.id.replace("SelectUserAdminLine_", ""));
+                $.mobile.changePage("#displayUserAdmin", { transition: "slidefade" });
+            }
+
+            for (var profile in data) {
+                $('<li id="SelectUserAdminLine_' + data[profile].ProfileId + '"> <a href="#"> <img src="' + ((data[profile].Avatar && data[profile].Avatar.base64Data) ? data[profile].Avatar.base64Data : "img/profile.png") + '"> <h2>' + data[profile].PlayerName + '</h2> <p>Click here to edit roles for ' + data[profile].PlayerName + '</p> </a> </li>')
+                    .appendTo('#selectUserAdminList')
+                    .click(handleSelectUserAdminLineClick);
+            }
+
+            $('#selectUserAdminList').listview('refresh');
+        });
+
+        // Save promise on page so the transition handler can find it.
+        $(this).data('promise', promise);
+    });
+
+    //pageLoadHandler for displayUserAdmin
+    $(document).on('pagebeforeshow', '#displayUserAdmin', function () {
+        var promise = $.ajax({
+            url: "getUserRole?profileId=" + profileIdRequest,
+            headers: { "session": sessionId }
+        }).done(function (result) {
+            $('#roleAdministrator').prop("checked", ((result & 0x01) != 0)).checkboxradio("refresh");
+
+            $('#btnRoleSave').unbind('click').click(function () {
+                $('#content').wrap('<div class="overlay" />');
+                $.mobile.loading('show', {
+                    text: 'Save...',
+                    textVisible: true
+                });
+
+                var role = 0;
+                if ($('#roleAdministrator').prop("checked")) {
+                    role = (role | 0x01);
+                }
+                $.ajax({
+                    url: "setUserRole?profileId=" + profileIdRequest + "&userRole=" + role,
+                    headers: { "session": sessionId }
+                }).done(function (result) {
+                    $.mobile.loading('hide');
+                    $('#content').unwrap();
+                    history.back();
+                });
+            });
+        });
+
+        // Save promise on page so the transition handler can find it.
+        $(this).data('promise', promise);
+    });
+
 }
 
 function initLoginPageHandler() {
@@ -419,6 +480,8 @@ function initMainPageHandler() {
 
         $('#capture').click();
     });
+
+
 }
 
 function initKeyboardPageHandler() {

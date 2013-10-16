@@ -119,6 +119,22 @@ namespace ServerLib
         SongInfo[] getAllSongs();
 
         #endregion
+
+        #region user management
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/getUserRole?profileId={profileId}")]
+        int getUserRole(int profileId);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/setUserRole?profileId={profileId}&userRole={userRole}")]
+        void setUserRole(int profileId, int userRole);
+
+        #endregion
     }
 
     class CWebservice : ICWebservice
@@ -383,6 +399,26 @@ namespace ServerLib
         public SongInfo[] getAllSongs()
         {
             return CServer.GetAllSongs();
+        }
+
+        #endregion
+
+        #region user management 
+
+        public int getUserRole(int profileId)
+        {
+            return CServer.GetUserRole(profileId);
+        }
+
+        public void setUserRole(int profileId, int userRole)
+        {
+            Guid sessionKey = getSession();
+            if (!SessionControl.requestRight(sessionKey, UserRights.EditAllProfiles))
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                return;
+            }
+            CServer.SetUserRole(profileId, userRole);
         }
 
         #endregion

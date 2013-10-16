@@ -83,10 +83,10 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-transition="slidefade">
+                    <a href="#selectUserAdmin" data-transition="slidefade">
                         <img src="img/admin.png">
                         <h2>Administration</h2>
-                        <p>Configure options and rights</p>
+                        <p>Configure user rights</p>
                     </a>
                 </li>
             </ul>
@@ -226,6 +226,39 @@
                 <label for="keyboardButtonKeys">To send other keys type here:</label>
                 <input type="text" id="keyboardButtonKeys" data-mini="true">
             </div>
+        </div>
+        <!-- /content -->
+    </div>
+    <!-- /page -->
+
+    <div id="selectUserAdmin" data-content-theme="a" data-role="page" data-add-back-btn="true">
+        <div data-role="header">
+            <h1>All profiles</h1>
+        </div>
+        <!-- /header -->
+
+        <div id="selectUserAdminContent" data-role="content">
+            <ul id="selectUserAdminList" data-role="listview"></ul>
+        </div>
+        <!-- /content -->
+    </div>
+    <!-- /page -->
+
+    <div id="displayUserAdmin" data-content-theme="a" data-role="page" data-add-back-btn="true">
+        <div data-role="header">
+            <h1>Profile</h1>
+        </div>
+        <!-- /header -->
+
+        <div id="displayUserAdminContent" data-role="content">
+            <fieldset data-role="controlgroup">
+                <legend></legend>
+                <input type="checkbox" id="roleAuthenticatedUser" checked="checked" disabled="disabled">
+                <label for="roleAuthenticatedUser">AuthenticatedUser</label>
+                <input type="checkbox" id="roleAdministrator">
+                <label for="roleAdministrator">Administrator</label>
+            </fieldset>
+            <a data-role="button" id="btnRoleSave" data-transition="slidefade">Save</a>
         </div>
         <!-- /content -->
     </div>
