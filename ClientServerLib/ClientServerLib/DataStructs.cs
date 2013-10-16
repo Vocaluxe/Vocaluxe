@@ -34,6 +34,8 @@ namespace ServerLib
         public int ProfileId;
         [DataMember]
         public bool IsEditable;
+        [DataMember]
+        public string Password;
     }
 
     #endregion
