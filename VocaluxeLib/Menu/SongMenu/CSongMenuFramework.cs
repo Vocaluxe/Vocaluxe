@@ -421,14 +421,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public virtual void OnHide()
         {
-            foreach (int stream in _Streams)
-                CBase.Sound.FadeAndStop(stream, 0f, 0.75f);
-            _Streams.Clear();
-
-            CBase.Video.Close(_Video);
-            _Video = -1;
-
-            CBase.Drawing.RemoveTexture(ref _Vidtex);
+            _Reset();
         }
 
         public virtual void HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions songOptions) {}
