@@ -69,7 +69,7 @@ namespace VocaluxeLib
         public static int TryReadInt(StreamReader sr)
         {
             string value = String.Empty;
-            
+
             try
             {
                 int tmp = sr.Peek();
@@ -79,7 +79,7 @@ namespace VocaluxeLib
                     if (sr.EndOfStream)
                         break;
 
-                    char chr = (char)sr.Read();
+                    var chr = (char)sr.Read();
                     value += chr.ToString();
                     tmp = sr.Peek();
                 }
@@ -141,8 +141,10 @@ namespace VocaluxeLib
 
         public static List<string> ListFiles(string path, string cast, bool recursive = false, bool fullpath = false)
         {
-            List<string> files = new List<string>();
-            DirectoryInfo dir = new DirectoryInfo(path);
+            var files = new List<string>();
+            var dir = new DirectoryInfo(path);
+            if (!dir.Exists)
+                return files;
 
             try
             {
