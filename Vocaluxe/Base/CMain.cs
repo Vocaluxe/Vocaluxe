@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Xml;
 using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 using VocaluxeLib.Game;
@@ -140,6 +141,11 @@ namespace Vocaluxe.Base
         public int GetMaxNumMics()
         {
             return CConfig.GetMaxNumMics();
+        }
+
+        public XmlWriterSettings GetXMLSettings()
+        {
+            return CConfig.XMLSettings;
         }
     }
 

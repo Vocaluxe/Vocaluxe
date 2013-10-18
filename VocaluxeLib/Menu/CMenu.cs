@@ -151,7 +151,7 @@ namespace VocaluxeLib.Menu
             {
                 foreach (string elName in elements)
                 {
-                    T element = (T)Activator.CreateInstance(typeof(T), _PartyModeID);
+                    var element = (T)Activator.CreateInstance(typeof(T), _PartyModeID);
                     if (element.LoadTheme("//root/" + ThemeName, elName, xmlReader, skinIndex))
                         addElementHandler(element, elName);
                     else
@@ -198,10 +198,8 @@ namespace VocaluxeLib.Menu
             if (_ThemePath == "")
                 return;
 
-            XmlWriterSettings settings = new XmlWriterSettings {Indent = true, Encoding = Encoding.UTF8, ConformanceLevel = ConformanceLevel.Document};
-
             string file = Path.Combine(_ThemePath, ThemeName + ".xml");
-            using (XmlWriter writer = XmlWriter.Create(file, settings))
+            using (XmlWriter writer = XmlWriter.Create(file, CBase.Config.GetXMLSettings()))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("root");
@@ -770,7 +768,7 @@ namespace VocaluxeLib.Menu
             if (_Interactions.Count <= 0)
                 return;
 
-            List<SZSort> items = new List<SZSort>();
+            var items = new List<SZSort>();
 
             for (int i = 0; i < _Interactions.Count; i++)
             {
@@ -779,7 +777,7 @@ namespace VocaluxeLib.Menu
                      _Interactions[i].Type != EType.NameSelection && _Interactions[i].Type != EType.Text && _Interactions[i].Type != EType.SongMenu &&
                      _Interactions[i].Type != EType.Equalizer && _Interactions[i].Type != EType.Playlist && _Interactions[i].Type != EType.ParticleEffect))
                     continue;
-                SZSort zs = new SZSort {ID = i, Z = _GetZValue(i)};
+                var zs = new SZSort {ID = i, Z = _GetZValue(i)};
                 items.Add(zs);
             }
 
@@ -1105,10 +1103,10 @@ namespace VocaluxeLib.Menu
         /// <returns></returns>
         private bool _NextInteraction(SKeyEvent key)
         {
-            SKeyEvent[] directions = new SKeyEvent[4];
-            float[] distances = new float[4];
-            int[] stages = new int[4];
-            int[] elements = new int[4];
+            var directions = new SKeyEvent[4];
+            var distances = new float[4];
+            var stages = new int[4];
+            var elements = new int[4];
 
             for (int i = 0; i < 4; i++)
                 directions[i] = new SKeyEvent();
@@ -1248,11 +1246,11 @@ namespace VocaluxeLib.Menu
 
         private float _GetDistanceDirect(SKeyEvent key, SRectF actualRect, SRectF targetRect)
         {
-            PointF source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
-            PointF dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
+            var source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
+            var dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
 
-            PointF vector = new PointF(dest.X - source.X, dest.Y - source.Y);
-            float distance = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+            var vector = new PointF(dest.X - source.X, dest.Y - source.Y);
+            var distance = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
             bool inDirection = false;
             switch (key.Key)
             {
@@ -1281,11 +1279,11 @@ namespace VocaluxeLib.Menu
 
         private float _GetDistance180(SKeyEvent key, SRectF actualRect, SRectF targetRect)
         {
-            PointF source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
-            PointF dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
+            var source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
+            var dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
 
-            PointF vector = new PointF(dest.X - source.X, dest.Y - source.Y);
-            float distance = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+            var vector = new PointF(dest.X - source.X, dest.Y - source.Y);
+            var distance = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
             bool inDirection = false;
             switch (key.Key)
             {
@@ -1584,7 +1582,7 @@ namespace VocaluxeLib.Menu
 
         private SRectF _GetRect(CInteraction interaction)
         {
-            SRectF result = new SRectF();
+            var result = new SRectF();
             switch (interaction.Type)
             {
                 case EType.Button:
@@ -1808,7 +1806,7 @@ namespace VocaluxeLib.Menu
         private void _LoadThemeBasics(CXMLReader xmlReader, int skinIndex)
         {
             // Backgrounds
-            CBackground background = new CBackground(_PartyModeID);
+            var background = new CBackground(_PartyModeID);
             int i = 1;
             while (background.LoadTheme("//root/" + ThemeName, "Background" + i, xmlReader, skinIndex))
             {
@@ -1818,7 +1816,7 @@ namespace VocaluxeLib.Menu
             }
 
             // Statics
-            CStatic stat = new CStatic(_PartyModeID);
+            var stat = new CStatic(_PartyModeID);
             i = 1;
             while (stat.LoadTheme("//root/" + ThemeName, "Static" + i, xmlReader, skinIndex))
             {
@@ -1828,7 +1826,7 @@ namespace VocaluxeLib.Menu
             }
 
             // Texts
-            CText text = new CText(_PartyModeID);
+            var text = new CText(_PartyModeID);
             i = 1;
             while (text.LoadTheme("//root/" + ThemeName, "Text" + i, xmlReader, skinIndex))
             {
@@ -1838,7 +1836,7 @@ namespace VocaluxeLib.Menu
             }
 
             // ParticleEffects
-            CParticleEffect partef = new CParticleEffect(_PartyModeID);
+            var partef = new CParticleEffect(_PartyModeID);
             i = 1;
             while (partef.LoadTheme("//root/" + ThemeName, "ParticleEffect" + i, xmlReader, skinIndex))
             {
