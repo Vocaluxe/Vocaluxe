@@ -24,13 +24,6 @@ namespace VocaluxeLib.Profile
 {
     public class CProfile
     {
-        private static readonly XmlWriterSettings _Settings = new XmlWriterSettings
-            {
-                Indent = true,
-                Encoding = Encoding.UTF8,
-                ConformanceLevel = ConformanceLevel.Document
-            };
-
         public int ID;
 
         public string PlayerName;
@@ -137,7 +130,7 @@ namespace VocaluxeLib.Profile
             XmlWriter writer;
             try
             {
-                writer = XmlWriter.Create(Path.Combine(FilePath, FileName), _Settings);
+                writer = XmlWriter.Create(Path.Combine(FilePath, FileName), CBase.Config.GetXMLSettings());
             }
             catch (Exception e)
             {

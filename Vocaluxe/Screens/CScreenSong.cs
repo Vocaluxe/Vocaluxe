@@ -1011,7 +1011,10 @@ namespace Vocaluxe.Screens
             if (firstLevel && !secondSort)
             {
                 //TODO: What's to do with multiple tags?
+                //Flamefire: What? We only sorted by one tag, sorting by multiple tags (e.g. Album) will be by e.g. the first entry. That can be used here too as otherwhise it will confuse users because it jumps randomly
+
                 //How can we get current letter? I think we have to save it - Or is there a better method?
+                //"Current letter"? The letter that was typed last? Doesn't matter as we are starting the search on current selected song
                 ReadOnlyCollection<CSong> songs = CSongs.VisibleSongs;
                 int ct = songs.Count;
                 int visibleID = -1;
@@ -1025,6 +1028,7 @@ namespace Vocaluxe.Screens
                         break;
 
                         //TODO: Does this make sense? Maybe we should deactivate this for years? You could only jump between 1 and 2
+                        //Keep it for consistency. Decades are reasonable though.
                     case ESongSorting.TR_CONFIG_YEAR:
                     case ESongSorting.TR_CONFIG_DECADE:
                         if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Year.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
@@ -1139,27 +1143,29 @@ namespace Vocaluxe.Screens
             _Statics[_StaticOptionsBG].Visible = false;
             _Buttons[_ButtonOpenOptions].Visible = true;
 
-            if (CSongs.VisibleSongs.Count > 0)
-            {
-                _SongOptionsActive = view != ESongOptionsView.None;
+            if (view == ESongOptionsView.None)
+                _SongOptionsActive = false;
+            else if (CSongs.IsInCategory)
+                _SongOptionsActive = CSongs.VisibleSongs.Count > 0;
+            else
+                _SongOptionsActive = CSongs.Categories.Count > 0;
 
-                if (_SongOptionsActive)
-                {
-                    //Has to be done here otherwhise changed playlist names will not appear until OnShow is called!
-                    _UpdatePlaylistNames();
+            if (!_SongOptionsActive)
+                return;
 
-                    _Texts[_TextOptionsTitle].Visible = true;
-                    _Buttons[_ButtonOptionsClose].Visible = true;
-                    _Statics[_StaticOptionsBG].Visible = true;
-                    _Buttons[_ButtonOpenOptions].Visible = false;
-                    if (view == ESongOptionsView.Song)
-                        _ShowSongOptionsSong();
-                    else if (view == ESongOptionsView.General)
-                        _ShowSongOptionsGeneral();
-                    else if (view == ESongOptionsView.Medley)
-                        _ShowSongOptionsMedley();
-                }
-            }
+            //Has to be done here otherwhise changed playlist names will not appear until OnShow is called!
+            _UpdatePlaylistNames();
+
+            _Texts[_TextOptionsTitle].Visible = true;
+            _Buttons[_ButtonOptionsClose].Visible = true;
+            _Statics[_StaticOptionsBG].Visible = true;
+            _Buttons[_ButtonOpenOptions].Visible = false;
+            if (view == ESongOptionsView.Song)
+                _ShowSongOptionsSong();
+            else if (view == ESongOptionsView.General)
+                _ShowSongOptionsGeneral();
+            else if (view == ESongOptionsView.Medley)
+                _ShowSongOptionsMedley();
         }
 
         private void _CheckAndAddGameMode(EGameMode gameMode)

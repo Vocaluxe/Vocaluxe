@@ -140,6 +140,8 @@ namespace VocaluxeLib
         {
             var files = new List<string>();
             var dir = new DirectoryInfo(path);
+            if (!dir.Exists)
+                return files;
 
             try
             {

@@ -99,7 +99,6 @@ namespace VocaluxeLib.Menu.SongMenu
         protected SThemeSongMenu _Theme;
         private bool _ThemeLoaded;
 
-        private readonly Stopwatch _Timer = new Stopwatch();
         private readonly Stopwatch _VideoFadeTimer = new Stopwatch();
         private readonly List<int> _Streams = new List<int>();
         private int _ActSongId = -1;
@@ -113,64 +112,13 @@ namespace VocaluxeLib.Menu.SongMenu
         protected SRectF _Rect;
         protected SColorF _Color;
 
-        private int _SelectedInternal = -1;
-        private int _SelectedPending = -1;
-        protected long _PendingTime = 500L;
-
-        private int _LockedInternal = -1;
         protected bool _Active;
 
         protected float _MaxVolume = 100f;
 
-        protected int _PreviewSelected
-        {
-            //for preview only
-            get
-            {
-                if ((_SelectedInternal != _SelectedPending) && (_Timer.ElapsedMilliseconds >= _PendingTime))
-                {
-                    _Timer.Stop();
-                    _Timer.Reset();
-                    _SelectedInternal = _SelectedPending;
-                }
-                return _SelectedInternal;
-            }
-            set
-            {
-                if (value == -1)
-                {
-                    _Timer.Stop();
-                    _Timer.Reset();
+        protected virtual int _PreviewId { get; set; }
 
-                    _SelectedInternal = -1;
-                    _SelectedPending = -1;
-                    return;
-                }
-
-                if ((value != _SelectedInternal) && (value != _SelectedPending))
-                {
-                    _Timer.Reset();
-                    _Timer.Start();
-
-                    _SelectedPending = value;
-                }
-
-                if ((value == _SelectedPending) && ((_Timer.ElapsedMilliseconds >= _PendingTime) || (_SelectedInternal == -1)))
-                {
-                    _Timer.Stop();
-                    _Timer.Reset();
-                    _SelectedInternal = _SelectedPending;
-                }
-            }
-        }
-
-        protected void _SetSelectedNow()
-        {
-            _Timer.Stop();
-            _Timer.Reset();
-            _SelectedInternal = _SelectedPending;
-        }
-
+        private int _LockedInternal = -1;
         protected int _Locked
         {
             //the real selected song for singing
@@ -435,8 +383,8 @@ namespace VocaluxeLib.Menu.SongMenu
             if (!_Initialized)
                 return;
 
-            if (_ActSongId != _PreviewSelected)
-                _SelectSong(_PreviewSelected);
+            if (_ActSongId != _PreviewId)
+                _SelectSong(_PreviewId);
 
             if (_Streams.Count <= 0 || _Video == -1)
                 return;
@@ -475,18 +423,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public virtual void OnHide()
         {
-            foreach (int stream in _Streams)
-                CBase.Sound.FadeAndStop(stream, 0f, 0.75f);
-            _Streams.Clear();
-
-            CBase.Video.Close(_Video);
-            _Video = -1;
-
-            CBase.Drawing.RemoveTexture(ref _Vidtex);
-
-            _Timer.Stop();
-            _Timer.Reset();
-            _SelectedInternal = _SelectedPending;
+            _Reset();
         }
 
         public virtual void HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions songOptions) {}
@@ -571,9 +508,9 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             if (!_Initialized)
                 return false;
-            if (CBase.Songs.IsInCategory() || _PreviewSelected < 0 || _PreviewSelected >= CBase.Songs.GetNumCategories())
+            if (CBase.Songs.IsInCategory() || _PreviewId < 0 || _PreviewId >= CBase.Songs.GetNumCategories())
                 return false;
-            _EnterCategory(_PreviewSelected);
+            _EnterCategory(_PreviewId);
             return true;
         }
 
@@ -665,10 +602,6 @@ namespace VocaluxeLib.Menu.SongMenu
             _Video = -1;
 
             CBase.Drawing.RemoveTexture(ref _Vidtex);
-
-            _Timer.Stop();
-            _Timer.Reset();
-            _SelectedInternal = _SelectedPending;
         }
 
         #region ThemeEdit

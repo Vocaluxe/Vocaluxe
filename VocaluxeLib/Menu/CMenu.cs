@@ -196,10 +196,9 @@ namespace VocaluxeLib.Menu
             if (_ThemePath == "")
                 return;
 
-            var settings = new XmlWriterSettings {Indent = true, Encoding = Encoding.UTF8, ConformanceLevel = ConformanceLevel.Document};
 
             string file = Path.Combine(_ThemePath, ThemeName + ".xml");
-            using (XmlWriter writer = XmlWriter.Create(file, settings))
+            using (XmlWriter writer = XmlWriter.Create(file, CBase.Config.GetXMLSettings()))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("root");
