@@ -63,6 +63,15 @@ namespace VocaluxeLib.Menu.SongMenu
         public CSongMenuTileBoard(int partyModeID)
             : base(partyModeID) {}
 
+        protected override int _PreviewId
+        {
+            set
+            {
+                base._PreviewId = value;
+                _UpdatePreview();
+            }
+        }
+
         public override int GetActualSelection()
         {
             return _ActualSelection;
@@ -446,8 +455,6 @@ namespace VocaluxeLib.Menu.SongMenu
                 }
             }
 
-            _UpdatePreview();
-
             _TextBG.Draw();
 
             if (_Vidtex != null && _Video != -1)
@@ -591,6 +598,7 @@ namespace VocaluxeLib.Menu.SongMenu
         private void _AfterCategoryChange()
         {
             _SelectSong(_PreviewId);
+            _UpdatePreview();
 
             foreach (CStatic tile in _Tiles)
                 tile.Selected = false;

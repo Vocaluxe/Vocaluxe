@@ -117,7 +117,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         protected float _MaxVolume = 100f;
 
-        protected int _PreviewId { get; set; }
+        protected virtual int _PreviewId { get; set; }
 
         private int _LockedInternal = -1;
         protected int _Locked
