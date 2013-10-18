@@ -79,8 +79,6 @@ namespace VocaluxeLib.Menu.SongMenu
             _SpaceW = _Theme.SongMenuTileBoard.SpaceW;
             _SpaceH = _Theme.SongMenuTileBoard.SpaceH;
 
-            _PendingTime = 100L;
-
             _TileW = (int)((_Theme.SongMenuTileBoard.TileRect.W - _SpaceW * (_NumW - 1)) / _NumW);
             _TileH = (int)((_Theme.SongMenuTileBoard.TileRect.H - _SpaceH * (_NumH - 1)) / _NumH);
 
@@ -244,7 +242,6 @@ namespace VocaluxeLib.Menu.SongMenu
                         _Locked = 0;
                         _ActualSelection = 0;
                         _PreviewId = 0;
-                        _SetSelectedNow();
                         _UpdateList(0, true);
                     }
                 }
@@ -516,7 +513,6 @@ namespace VocaluxeLib.Menu.SongMenu
                     _Locked = 0;
                     _ActualSelection = 0;
                     _PreviewId = 0;
-                    _SetSelectedNow();
                     _UpdateList(0, true);
                 }
             }
@@ -525,7 +521,6 @@ namespace VocaluxeLib.Menu.SongMenu
                 tile.Selected = false;
 
             _PreviewId = itemNr;
-            _SetSelectedNow();
             _Locked = itemNr;
 
             _UpdateList(true);
@@ -595,7 +590,6 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void _AfterCategoryChange()
         {
-            _SetSelectedNow();
             _SelectSong(_PreviewId);
 
             foreach (CStatic tile in _Tiles)
