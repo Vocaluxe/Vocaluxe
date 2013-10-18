@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Windows Desktop
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vocaluxe", "Vocaluxe\Vocaluxe.csproj", "{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6F3E1874-F28A-40E9-AFBD-31934D593678} = {6F3E1874-F28A-40E9-AFBD-31934D593678}
@@ -153,8 +153,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
