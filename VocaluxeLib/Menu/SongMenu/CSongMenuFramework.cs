@@ -114,26 +114,25 @@ namespace VocaluxeLib.Menu.SongMenu
         protected SRectF _Rect;
         protected SColorF _Color;
 
-        private int _SelectedInternal = -1;
-        private int _SelectedPending = -1;
+        private int _PreviewIdInternal = -1;
+        private int _PreviewIdPending = -1;
         protected long _PendingTime = 500L;
 
-        private int _LockedInternal = -1;
         protected bool _Active;
 
         protected float _MaxVolume = 100f;
 
-        protected int _PreviewSelected
+        protected int _PreviewId
         {
             //for preview only
             get
             {
-                if ((_SelectedInternal != _SelectedPending) && (_Timer.ElapsedMilliseconds >= _PendingTime))
+                if ((_PreviewIdInternal != _PreviewIdPending) && (_Timer.ElapsedMilliseconds >= _PendingTime))
                 {
                     _Timer.Reset();
-                    _SelectedInternal = _SelectedPending;
+                    _PreviewIdInternal = _PreviewIdPending;
                 }
-                return _SelectedInternal;
+                return _PreviewIdInternal;
             }
             set
             {
@@ -141,27 +140,27 @@ namespace VocaluxeLib.Menu.SongMenu
                 {
                     _Timer.Reset();
 
-                    _SelectedInternal = -1;
-                    _SelectedPending = -1;
+                    _PreviewIdInternal = -1;
+                    _PreviewIdPending = -1;
                     return;
                 }
 
-                if (value == _SelectedPending)
+                if (value == _PreviewIdPending)
                 {
-                    if (_Timer.ElapsedMilliseconds >= _PendingTime || _SelectedInternal == -1)
+                    if (_Timer.ElapsedMilliseconds >= _PendingTime || _PreviewIdInternal == -1)
                     {
                         _Timer.Reset();
-                        _SelectedInternal = _SelectedPending;
+                        _PreviewIdInternal = _PreviewIdPending;
                     }
                 }
                 else
                 {
-                    if (value != _SelectedInternal)
+                    if (value != _PreviewIdInternal)
                     {
                         _Timer.Reset();
                         _Timer.Start();
                     }
-                    _SelectedPending = value;
+                    _PreviewIdPending = value;
                 }
             }
         }
@@ -169,9 +168,10 @@ namespace VocaluxeLib.Menu.SongMenu
         protected void _SetSelectedNow()
         {
             _Timer.Reset();
-            _SelectedInternal = _SelectedPending;
+            _PreviewIdInternal = _PreviewIdPending;
         }
 
+        private int _LockedInternal = -1;
         protected int _Locked
         {
             //the real selected song for singing
@@ -436,8 +436,8 @@ namespace VocaluxeLib.Menu.SongMenu
             if (!_Initialized)
                 return;
 
-            if (_Actsong != _PreviewSelected)
-                _SelectSong(_PreviewSelected);
+            if (_Actsong != _PreviewId)
+                _SelectSong(_PreviewId);
 
             if (_Streams.Count <= 0 || _Video == -1)
                 return;
@@ -484,7 +484,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
             _Timer.Stop();
             _Timer.Reset();
-            _SelectedInternal = _SelectedPending;
+            _PreviewIdInternal = _PreviewIdPending;
         }
 
         public virtual void HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions songOptions) {}
@@ -569,9 +569,9 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             if (!_Initialized)
                 return false;
-            if (CBase.Songs.IsInCategory() || _PreviewSelected < 0 || _PreviewSelected >= CBase.Songs.GetNumCategories())
+            if (CBase.Songs.IsInCategory() || _PreviewId < 0 || _PreviewId >= CBase.Songs.GetNumCategories())
                 return false;
-            _EnterCategory(_PreviewSelected);
+            _EnterCategory(_PreviewId);
             return true;
         }
 
@@ -665,7 +665,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
             _Timer.Stop();
             _Timer.Reset();
-            _SelectedInternal = _SelectedPending;
+            _PreviewIdInternal = _PreviewIdPending;
         }
 
         #region ThemeEdit
