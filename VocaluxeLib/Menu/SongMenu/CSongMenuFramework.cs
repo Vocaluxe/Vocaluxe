@@ -130,7 +130,6 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 if ((_SelectedInternal != _SelectedPending) && (_Timer.ElapsedMilliseconds >= _PendingTime))
                 {
-                    _Timer.Stop();
                     _Timer.Reset();
                     _SelectedInternal = _SelectedPending;
                 }
@@ -140,7 +139,6 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 if (value == -1)
                 {
-                    _Timer.Stop();
                     _Timer.Reset();
 
                     _SelectedInternal = -1;
@@ -148,26 +146,28 @@ namespace VocaluxeLib.Menu.SongMenu
                     return;
                 }
 
-                if ((value != _SelectedInternal) && (value != _SelectedPending))
+                if (value == _SelectedPending)
                 {
-                    _Timer.Reset();
-                    _Timer.Start();
-
-                    _SelectedPending = value;
+                    if (_Timer.ElapsedMilliseconds >= _PendingTime || _SelectedInternal == -1)
+                    {
+                        _Timer.Reset();
+                        _SelectedInternal = _SelectedPending;
+                    }
                 }
-
-                if ((value == _SelectedPending) && ((_Timer.ElapsedMilliseconds >= _PendingTime) || (_SelectedInternal == -1)))
+                else
                 {
-                    _Timer.Stop();
-                    _Timer.Reset();
-                    _SelectedInternal = _SelectedPending;
+                    if (value != _SelectedInternal)
+                    {
+                        _Timer.Reset();
+                        _Timer.Start();
+                    }
+                    _SelectedPending = value;
                 }
             }
         }
 
         protected void _SetSelectedNow()
         {
-            _Timer.Stop();
             _Timer.Reset();
             _SelectedInternal = _SelectedPending;
         }
@@ -518,7 +518,10 @@ namespace VocaluxeLib.Menu.SongMenu
             _Active = active;
         }
 
-        public virtual bool IsMouseOverActualSelection(SMouseEvent mEvent) { return false; }
+        public virtual bool IsMouseOverActualSelection(SMouseEvent mEvent)
+        {
+            return false;
+        }
 
         public virtual int GetSelectedSong()
         {

@@ -598,9 +598,14 @@ namespace Vocaluxe.Base
             return CSongs.NumCategories;
         }
 
-        public int NumSongsInCategory(int categoryIndex)
+        public int GetNumSongsInCategory(int categoryIndex)
         {
-            return CSongs.NumSongsInCategory(categoryIndex);
+            return CSongs.GetNumSongsInCategory(categoryIndex);
+        }
+
+        public int GetNumSongsNotSungInCategory(int categoryIndex)
+        {
+            return CSongs.GetNumSongsNotSungInCategory(categoryIndex);
         }
 
         public bool IsInCategory()
@@ -655,10 +660,7 @@ namespace Vocaluxe.Base
 
         public CCategory GetCategory(int index)
         {
-            if (index >= CSongs.NumCategories)
-                return null;
-
-            return new CCategory(CSongs.Categories[index]);
+            return CSongs.GetCategoryByIndex(index);
         }
 
         public void AddPartySongSung(int songID)

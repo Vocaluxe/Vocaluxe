@@ -66,7 +66,7 @@ namespace Vocaluxe.Base
 
         public static int NumSongsVisible
         {
-            get { return _CatIndex < 0 ? 0 : Categories[_CatIndex].Songs.Count(sp => !sp.IsSung); }
+            get { return VisibleSongs.Count; }
         }
 
         public static int NumCategories
@@ -104,9 +104,19 @@ namespace Vocaluxe.Base
         /// </summary>
         /// <param name="catIndex">Category index</param>
         /// <returns></returns>
-        public static int NumSongsInCategory(int catIndex)
+        public static int GetNumSongsInCategory(int catIndex)
         {
-            return _IsCatIndexValid(catIndex) ? Categories[catIndex].Songs.Count(sp => !sp.IsSung) : 0;
+            return _IsCatIndexValid(catIndex) ? Categories[catIndex].Songs.Count : 0;
+        }
+
+        /// <summary>
+        ///     Returns the number of song that are not sung in the category specified with CatIndex
+        /// </summary>
+        /// <param name="catIndex">Category index</param>
+        /// <returns>Number of visible songs in that category</returns>
+        public static int GetNumSongsNotSungInCategory(int catIndex)
+        {
+            return _IsCatIndexValid(catIndex) ? Categories[catIndex].GetNumSongsNotSung() : 0;
         }
 
         public static void NextCategory()
@@ -159,9 +169,8 @@ namespace Vocaluxe.Base
                 foreach (CSongPointer song in category.Songs.Where(song => song.SongID == songID))
                 {
                     song.IsSung = true;
-                    int catIndex = _GetCategoryNumber(category);
-                    if (NumSongsInCategory(catIndex) == 0)
-                        ResetPartySongSung(catIndex);
+                    if (category.GetNumSongsNotSung() == 0)
+                        ResetPartySongSung(_GetCategoryNumber(category));
                     return;
                 }
             }
@@ -251,7 +260,7 @@ namespace Vocaluxe.Base
         {
             get
             {
-                List<CSong> songs = new List<CSong>();
+                var songs = new List<CSong>();
                 if (_IsCatIndexValid(_CatIndex))
                 {
                     // ReSharper disable LoopCanBeConvertedToQuery
@@ -271,6 +280,24 @@ namespace Vocaluxe.Base
             get { return Categorizer.Categories.AsReadOnly(); }
         }
 
+        /// <summary>
+        /// Gets category with given index or null for invalid index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns>category with given index or null for invalid index</returns>
+        public static CCategory GetCategoryByIndex(int index)
+        {
+            if (!_IsCatIndexValid(index))
+                return null;
+
+            return Categorizer.Categories[index];
+        }
+
+        /// <summary>
+        /// Gets visible song with given index or null for invalid index or song not visible
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns>visible song with given index or null for invalid index or song not visible</returns>
         public static CSong GetVisibleSongByIndex(int index)
         {
             if (index < 0)
@@ -298,7 +325,7 @@ namespace Vocaluxe.Base
             _Songs.Clear();
 
             CLog.StartBenchmark(2, "List Songs");
-            List<string> files = new List<string>();
+            var files = new List<string>();
             foreach (string p in CConfig.SongFolder)
             {
                 string path = p;

@@ -206,7 +206,8 @@ namespace VocaluxeLib
         int GetNumSongs();
         int GetNumSongsVisible();
         int GetNumCategories();
-        int NumSongsInCategory(int categoryIndex);
+        int GetNumSongsInCategory(int categoryIndex);
+        int GetNumSongsNotSungInCategory(int categoryIndex);
         bool IsInCategory();
 
         int GetCurrentCategoryIndex();

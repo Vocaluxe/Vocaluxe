@@ -92,9 +92,9 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 for (int j = 0; j < _NumW; j++)
                 {
-                    SRectF rect = new SRectF(_Theme.SongMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
-                                             _Theme.SongMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
-                    CStatic tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
+                    var rect = new SRectF(_Theme.SongMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
+                                          _Theme.SongMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
+                    var tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
                     _Tiles.Add(tile);
                 }
             }
@@ -129,6 +129,73 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
+        private void _UpdatePreview()
+        {
+            //First hide everything so we just have to set what we actually want
+            _CoverBig.Texture = _CoverBigTexture;
+            _Artist.Text = String.Empty;
+            _Title.Text = String.Empty;
+            _SongLength.Text = String.Empty;
+            _DuetIcon.Visible = false;
+            _VideoIcon.Visible = false;
+            _MedleyCalcIcon.Visible = false;
+            _MedleyTagIcon.Visible = false;
+
+            //Check if nothing is selected (for preview)
+            if (_PreviewSelected < 0)
+                return;
+
+            if (CBase.Songs.IsInCategory())
+            {
+                CSong song = CBase.Songs.GetVisibleSong(_PreviewSelected);
+                //Check if we have a valid song (song still visible, index >=0 etc is checked by framework)
+                if (song == null)
+                {
+                    //Display at least the category
+                    CCategory category = CBase.Songs.GetCategory(CBase.Songs.GetCurrentCategoryIndex());
+                    //Check if we have a valid category
+                    if (category == null)
+                        return;
+                    _CoverBig.Texture = category.CoverTextureBig;
+                    _Artist.Text = category.Name;
+                    return;
+                }
+                _CoverBig.Texture = song.CoverTextureBig;
+                _Artist.Text = song.Artist;
+                _Title.Text = song.Title;
+                _DuetIcon.Visible = song.IsDuet;
+                _VideoIcon.Visible = song.VideoFileName != "";
+                _MedleyCalcIcon.Visible = song.Medley.Source == EMedleySource.Calculated;
+                _MedleyTagIcon.Visible = song.Medley.Source == EMedleySource.Tag;
+
+                float time = CBase.Sound.GetLength(_SongStream);
+                if (Math.Abs(song.Finish) > 0.001)
+                    time = song.Finish;
+
+                time -= song.Start;
+                var min = (int)Math.Floor(time / 60f);
+                var sec = (int)(time - min * 60f);
+                _SongLength.Text = min.ToString("00") + ":" + sec.ToString("00");
+            }
+            else
+            {
+                CCategory category = CBase.Songs.GetCategory(_PreviewSelected);
+                //Check if we have a valid category
+                if (category == null)
+                    return;
+                _CoverBig.Texture = category.CoverTextureBig;
+                _Artist.Text = category.Name;
+
+                int num = category.GetNumSongsNotSung();
+                // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
+                if (num != 1)
+                    // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
+                    _Title.Text = CBase.Language.Translate("TR_SCREENSONG_NUMSONGS").Replace("%v", num.ToString());
+                else
+                    _Title.Text = CBase.Language.Translate("TR_SCREENSONG_NUMSONG").Replace("%v", num.ToString());
+            }
+        }
+
         public override void OnShow()
         {
             if (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && CBase.Songs.GetNumCategories() > 0 && !CBase.Songs.IsInCategory())
@@ -141,33 +208,16 @@ namespace VocaluxeLib.Menu.SongMenu
             SetSelectedSong(_ActSong);
             _AfterCategoryChange();
 
-            int actcat = _PreviewSelected;
-            if ((CBase.Songs.GetNumCategories() > 0) && (actcat < 0))
+            if (_PreviewSelected < 0)
             {
-                _CoverBig.Texture = CBase.Songs.GetCategory(0).CoverTextureBig;
-                _Artist.Text = CBase.Songs.GetCategory(0).Name;
-                _Title.Text = String.Empty;
-                _SongLength.Text = String.Empty;
                 _PreviewSelected = 0;
                 _Locked = 0;
-                _DuetIcon.Visible = false;
-                _VideoIcon.Visible = false;
-                _MedleyCalcIcon.Visible = false;
-                _MedleyTagIcon.Visible = false;
             }
 
             if (CBase.Songs.GetNumSongsVisible() == 0 && CBase.Songs.GetSearchFilter() != "")
             {
-                _CoverBig.Texture = _CoverBigTexture;
-                _Artist.Text = String.Empty;
-                _Title.Text = String.Empty;
-                _SongLength.Text = String.Empty;
                 _PreviewSelected = -1;
                 _Locked = -1;
-                _DuetIcon.Visible = false;
-                _VideoIcon.Visible = false;
-                _MedleyCalcIcon.Visible = false;
-                _MedleyTagIcon.Visible = false;
             }
         }
 
@@ -394,63 +444,12 @@ namespace VocaluxeLib.Menu.SongMenu
                     tile.Draw(1.2f, tile.Rect.Z - 0.1f, EAspect.Crop);
                 else
                 {
-                    // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
-                    if (tile.Texture != _CoverTexture)
-                        // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
-                        tile.Draw(1f, tile.Rect.Z, EAspect.Crop);
-                    else
-                        tile.Draw(1f, tile.Rect.Z, EAspect.Stretch);
+                    EAspect aspect = (tile.Texture != _CoverTexture) ? EAspect.Crop : EAspect.Stretch;
+                    tile.Draw(1f, tile.Rect.Z, aspect);
                 }
             }
 
-            if (CBase.Songs.IsInCategory())
-            {
-                int actsong = _PreviewSelected;
-                if ((CBase.Songs.GetNumSongsVisible() > actsong) && (actsong >= 0))
-                {
-                    CSong song = CBase.Songs.GetVisibleSong(actsong);
-
-                    _CoverBig.Texture = song.CoverTextureBig;
-                    _Artist.Text = song.Artist;
-                    _Title.Text = song.Title;
-                    _DuetIcon.Visible = song.IsDuet;
-                    _VideoIcon.Visible = song.VideoFileName != "";
-                    _MedleyCalcIcon.Visible = song.Medley.Source == EMedleySource.Calculated;
-                    _MedleyTagIcon.Visible = song.Medley.Source == EMedleySource.Tag;
-
-                    float time = CBase.Sound.GetLength(_SongStream);
-                    if (Math.Abs(song.Finish) > 0.001)
-                        time = song.Finish;
-
-                    time -= song.Start;
-                    int min = (int)Math.Floor(time / 60f);
-                    int sec = (int)(time - min * 60f);
-                    _SongLength.Text = min.ToString("00") + ":" + sec.ToString("00");
-                }
-            }
-            else
-            {
-                int actcat = _PreviewSelected;
-                if ((CBase.Songs.GetNumCategories() > actcat) && (actcat >= 0))
-                {
-                    _CoverBig.Texture = CBase.Songs.GetCategory(actcat).CoverTextureBig;
-                    _Artist.Text = CBase.Songs.GetCategory(actcat).Name;
-
-                    int num = CBase.Songs.NumSongsInCategory(actcat);
-                    // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
-                    if (num != 1)
-                        // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
-                        _Title.Text = CBase.Language.Translate("TR_SCREENSONG_NUMSONGS").Replace("%v", num.ToString());
-                    else
-                        _Title.Text = CBase.Language.Translate("TR_SCREENSONG_NUMSONG").Replace("%v", num.ToString());
-
-                    _SongLength.Text = String.Empty;
-                    _DuetIcon.Visible = false;
-                    _VideoIcon.Visible = false;
-                    _MedleyCalcIcon.Visible = false;
-                    _MedleyTagIcon.Visible = false;
-                }
-            }
+            _UpdatePreview();
 
             _TextBG.Draw();
 
@@ -458,11 +457,11 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 if (_Vidtex.Color.A < 1)
                     _CoverBig.Draw(1f, EAspect.Crop);
-                RectangleF bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
+                var bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
                 RectangleF rect;
                 CHelper.SetRect(bounds, out rect, _Vidtex.OrigAspect, EAspect.Crop);
-                SRectF vidRect = new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z);
-                SRectF vidRectBounds = new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f);
+                var vidRect = new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z);
+                var vidRectBounds = new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f);
 
                 CBase.Drawing.DrawTexture(_Vidtex, vidRect, _Vidtex.Color, vidRectBounds);
                 CBase.Drawing.DrawTextureReflection(_Vidtex, vidRect, _Vidtex.Color, vidRectBounds, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
@@ -490,7 +489,7 @@ namespace VocaluxeLib.Menu.SongMenu
             CStatic selCov = GetSelectedSongCover();
             if (selCov.Texture == null)
                 return false;
-            SRectF rect = new SRectF(selCov.Rect.X - selCov.Rect.W*0.2f, selCov.Rect.Y - selCov.Rect.H*0.2f, selCov.Rect.W*1.2f, selCov.Rect.H*1.2f, selCov.Rect.Z);
+            var rect = new SRectF(selCov.Rect.X - selCov.Rect.W * 0.2f, selCov.Rect.Y - selCov.Rect.H * 0.2f, selCov.Rect.W * 1.2f, selCov.Rect.H * 1.2f, selCov.Rect.Z);
             return CHelper.IsInBounds(rect, mEvent);
         }
 
@@ -679,8 +678,8 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 for (int j = 0; j < _NumW; j++)
                 {
-                    SRectF rect = new SRectF(_Rect.X + j * (_TileW + _SpaceW), _Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
-                    CStatic tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
+                    var rect = new SRectF(_Rect.X + j * (_TileW + _SpaceW), _Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
+                    var tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
                     _Tiles.Add(tile);
                 }
             }

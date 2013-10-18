@@ -248,7 +248,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         public override void DataFromScreen(string screenName, Object data)
         {
-            SDataFromScreen dataFrom = new SDataFromScreen();
+            var dataFrom = new SDataFromScreen();
             switch (screenName)
             {
                 case "PartyScreenTicTacToeConfig":
@@ -492,7 +492,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         public override void SongSelected(int songID)
         {
-            EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+            var gm = EGameMode.TR_GAMEMODE_NORMAL;
 
             switch (_GameData.GameMode)
             {
@@ -525,7 +525,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _GameData.Rounds = new List<CRound>();
             for (int i = 0; i < _GameData.NumFields; i++)
             {
-                CRound r = new CRound();
+                var r = new CRound();
                 _GameData.Rounds.Add(r);
             }
         }
@@ -540,11 +540,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _GameData.PlayerTeam2 = new List<int>();
 
                         //Prepare Player-IDs
-                        List<int> ids1 = new List<int>();
-                        List<int> ids2 = new List<int>();
+                        var ids1 = new List<int>();
+                        var ids2 = new List<int>();
                         //Add IDs to team-list
                         while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] &&
-                               _GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] )
+                               _GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1])
                         {
                             if (ids1.Count == 0)
                             {
@@ -579,7 +579,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 case 1:
                     {
                         //Prepare Player-IDs
-                        List<int> ids = new List<int>();
+                        var ids = new List<int>();
                         //Add IDs to team-list
                         while (_GameData.PlayerTeam1.Count < _GameData.NumFields + _GameData.NumJokerRetry[0] && ids.Count == 0)
                         {
@@ -602,7 +602,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 case 2:
                     {
                         //Prepare Player-IDs
-                        List<int> ids = new List<int>();
+                        var ids = new List<int>();
                         //Add IDs to team-list
                         while (_GameData.PlayerTeam2.Count < _GameData.NumFields + _GameData.NumJokerRetry[1] && ids.Count == 0)
                         {
@@ -627,7 +627,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _PrepareSongList()
         {
-            EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+            var gm = EGameMode.TR_GAMEMODE_NORMAL;
 
             switch (_GameData.GameMode)
             {
@@ -646,7 +646,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             while (_GameData.Songs.Count < (_GameData.NumFields + _GameData.NumJokerRandom[0] + _GameData.NumJokerRandom[1]))
             {
-                List<int> songs = new List<int>();
+                var songs = new List<int>();
                 switch (_GameData.SongSource)
                 {
                     case ESongSource.TR_PLAYLIST:
@@ -678,7 +678,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
                     case ESongSource.TR_CATEGORY:
                         CBase.Songs.SetCategory(_GameData.CategoryID);
-                        for (int i = 0; i < CBase.Songs.NumSongsInCategory(_GameData.CategoryID); i++)
+                        for (int i = 0; i < CBase.Songs.GetNumSongsVisible(); i++)
                         {
                             // ReSharper disable LoopCanBeConvertedToQuery
                             foreach (EGameMode mode in CBase.Songs.GetVisibleSong(i).AvailableGameModes)
