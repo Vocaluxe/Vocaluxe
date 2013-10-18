@@ -49,7 +49,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public SRectF Rect
         {
-            get { return _SongMenu.GetRect(); }
+            get { return _SongMenu.Rect; }
         }
 
         #region ISongMenu
@@ -156,11 +156,6 @@ namespace VocaluxeLib.Menu.SongMenu
         public void SetVisible(bool visible)
         {
             _SongMenu.SetVisible(visible);
-        }
-
-        public SRectF GetRect()
-        {
-            return _SongMenu.GetRect();
         }
 
         public bool IsSmallView()

@@ -57,6 +57,6 @@ namespace VocaluxeLib.Menu.SongMenu
         bool IsSmallView();
         void SetSmallView(bool smallView);
 
-        SRectF GetRect();
+        SRectF Rect { get; }
     }
 }
