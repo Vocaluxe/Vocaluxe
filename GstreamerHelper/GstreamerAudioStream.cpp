@@ -69,13 +69,12 @@ int GstreamerAudioStream::Load(const wchar_t* Media)
 		return -1;
 	} 
 	Running = true;
+	gst_element_set_state(Element, GST_STATE_NULL);
 	g_object_set(Element, "uri", Media, NULL);
 	g_object_set(Element, "audio-sink", SinkBin, NULL);
 	g_object_set(Element, "flags", GST_PLAY_FLAG_AUDIO, NULL); 
 
 	gst_element_set_state(Element, GST_STATE_PAUSED);
-	//gst_bus_timed_pop_filtered(Bus, -1, GST_MESSAGE_ASYNC_DONE);
-	RefreshDuration();
 
 	return ID;
 }
@@ -84,8 +83,15 @@ int GstreamerAudioStream::Load(const wchar_t* Media)
 int GstreamerAudioStream::Load(const wchar_t* Media, bool Prescan)
 {
 	Load(Media);
-	if(Prescan)
+	if(Prescan){
 		gst_bus_timed_pop_filtered(Bus, -1, GST_MESSAGE_ASYNC_DONE);
+		//Workaround: Waiting for the stream to be loaded (Length>0)
+		for(int i=0;i<40;i++){
+			if(GetLength()>0.f)
+				break;
+			Sleep(5);
+		}
+	}
 	return ID;
 }
 
@@ -127,10 +133,7 @@ void GstreamerAudioStream::Play(void)
 	{
 		PauseStreamAfterFade = false;
 		Running = true;
-		GstStateChangeReturn ret;
-		if(Element)
-			ret = gst_element_set_state(Element, GST_STATE_PLAYING);
-		if(ret == GST_STATE_CHANGE_ASYNC)
+		if(gst_element_set_state(Element, GST_STATE_PLAYING) == GST_STATE_CHANGE_ASYNC)
 			gst_bus_timed_pop_filtered(Bus, -1, GST_MESSAGE_ASYNC_DONE);
 		SetStreamVolume(Volume * 100.0);
 	}
@@ -180,7 +183,7 @@ void GstreamerAudioStream::SetStreamVolumeMax(float MaxVolume)
 
 float GstreamerAudioStream::GetLength()
 {
-	if(Duration <= 0)
+	if(Duration <= 0.f)
 		RefreshDuration();
 	return Duration;
 }
@@ -191,7 +194,7 @@ void GstreamerAudioStream::RefreshDuration()
 	{
 		gint64 time = -1000;
 		if(gst_element_query_duration(Element, GST_FORMAT_TIME, &time))
-			Duration = (gfloat)((gdouble)(time/GST_SECOND));
+			Duration = (gfloat)((gdouble)time/GST_SECOND);
 	}
 }
 
