@@ -1,3 +1,0 @@
-Needs advanced installer proffesional to compile
-
-Please add Advanced Installer to path before running build.bat
