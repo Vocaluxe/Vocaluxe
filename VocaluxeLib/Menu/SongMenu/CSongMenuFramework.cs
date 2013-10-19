@@ -101,52 +101,38 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private readonly Stopwatch _VideoFadeTimer = new Stopwatch();
         private readonly List<int> _Streams = new List<int>();
-        private int _ActSongId = -1;
-        private int _Actsongstream = -1;
         protected CTexture _Vidtex;
 
         protected bool _Initialized;
         protected int _LastKnownNumSongs;
         protected int _LastKnownCategory = -1;
 
-        protected SRectF _Rect;
         protected SColorF _Color;
 
         protected bool _Active;
 
         protected float _MaxVolume = 100f;
 
-        protected virtual int _PreviewId { get; set; }
+        //the real selected song for singing
+        protected int _Locked { get; set; }
 
-        private int _LockedInternal = -1;
-        protected int _Locked
+        private int _PreviewIdInternal = -1;
+        protected virtual int _PreviewId
         {
-            //the real selected song for singing
-            get { return _LockedInternal; }
-            set { _LockedInternal = value; }
+            get { return _PreviewIdInternal; }
+            set
+            {
+                //Do this first, otherwhise song will restart
+                _PlaySong(value);
+                _PreviewIdInternal = value;
+            }
         }
 
-        protected int _SongStream
-        {
-            get { return _Actsongstream; }
-        }
+        protected int _PreviewSongStream { get; private set; }
 
-        protected int _Video { get; private set; }
+        protected int _PreviewVideoStream { get; private set; }
 
-        protected int _ActSong
-        {
-            get { return _ActSongId; }
-        }
-
-        public SRectF Rect
-        {
-            get { return _Rect; }
-        }
-
-        public SRectF GetRect()
-        {
-            return _Rect;
-        }
+        public SRectF Rect { get; protected set; }
 
         public SColorF Color
         {
@@ -155,7 +141,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public virtual int GetActualSelection()
         {
-            return _ActSongId;
+            return -1;
         }
 
         private bool _Selected;
@@ -185,7 +171,9 @@ namespace VocaluxeLib.Menu.SongMenu
         protected CSongMenuFramework(int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Video = -1;
+            _PreviewVideoStream = -1;
+            _PreviewSongStream = -1;
+            _Locked = -1;
             _Theme = new SThemeSongMenu
                 {
                     SongMenuTileBoard =
@@ -374,7 +362,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public void UpdateRect(SRectF rect)
         {
-            _Rect = rect;
+            Rect = rect;
             Init();
         }
 
@@ -383,23 +371,20 @@ namespace VocaluxeLib.Menu.SongMenu
             if (!_Initialized)
                 return;
 
-            if (_ActSongId != _PreviewId)
-                _SelectSong(_PreviewId);
-
-            if (_Streams.Count <= 0 || _Video == -1)
+            if (_Streams.Count <= 0 || _PreviewVideoStream == -1)
                 return;
 
-            if (CBase.Video.IsFinished(_Video) || CBase.Sound.IsFinished(_Actsongstream))
+            if (CBase.Video.IsFinished(_PreviewVideoStream) || CBase.Sound.IsFinished(_PreviewSongStream))
             {
-                CBase.Video.Close(_Video);
-                _Video = -1;
+                CBase.Video.Close(_PreviewVideoStream);
+                _PreviewVideoStream = -1;
                 return;
             }
 
-            float time = CBase.Sound.GetPosition(_Actsongstream);
+            float time = CBase.Sound.GetPosition(_PreviewSongStream);
 
             float vtime;
-            if (CBase.Video.GetFrame(_Video, ref _Vidtex, time, out vtime))
+            if (CBase.Video.GetFrame(_PreviewVideoStream, ref _Vidtex, time, out vtime))
             {
                 if (_Vidtex != null)
                 {
@@ -416,7 +401,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public virtual void OnShow()
         {
-            _Actsongstream = -1;
+            _PreviewSongStream = -1;
             _Vidtex = null;
             ApplyVolume(CBase.Config.GetPreviewMusicVolume());
         }
@@ -435,7 +420,7 @@ namespace VocaluxeLib.Menu.SongMenu
             if (!_Initialized || !_Visible)
                 return;
 
-            if (_Video != -1)
+            if (_PreviewVideoStream != -1)
                 CBase.Drawing.DrawTexture(_Vidtex, new SRectF(0, 0, 1280, 720, 0));
         }
 
@@ -538,53 +523,44 @@ namespace VocaluxeLib.Menu.SongMenu
             CBase.Songs.SetCategory(-1);
         }
 
-        public void ApplyVolume()
+        private void _PlaySong(int nr)
         {
-            CBase.Sound.SetStreamVolume(_Actsongstream, CBase.Config.GetPreviewMusicVolume());
-        }
-
-        protected void _SelectSong(int nr)
-        {
-            if (CBase.Songs.IsInCategory() && (CBase.Songs.GetNumSongsVisible() > 0) && (nr >= 0) && ((_ActSongId != nr) || (_Streams.Count == 0)))
+            if (CBase.Songs.IsInCategory() && (_PreviewId != nr || _Streams.Count == 0))
             {
-                _Streams.ForEach(soundStream => CBase.Sound.FadeAndStop(soundStream, 0f, 1f));
-                _Streams.Clear();
+                _Reset();
 
-                CBase.Video.Close(_Video);
-                _Video = -1;
+                CSong song = CBase.Songs.GetVisibleSong(nr);
+                if (song == null)
+                    return;
 
-                CBase.Drawing.RemoveTexture(ref _Vidtex);
-
-                _ActSongId = nr;
-                if (_ActSongId >= CBase.Songs.GetNumSongsVisible())
-                    _ActSongId = 0;
-
-
-                CSong actSong = CBase.Songs.GetVisibleSong(_ActSongId);
-                int stream = CBase.Sound.Load(Path.Combine(actSong.Folder, actSong.MP3FileName), true);
+                int stream = CBase.Sound.Load(Path.Combine(song.Folder, song.MP3FileName), true);
                 CBase.Sound.SetStreamVolumeMax(stream, _MaxVolume);
                 CBase.Sound.SetStreamVolume(stream, 0f);
 
-                float startposition = actSong.Preview.StartTime;
+                float startposition = song.Preview.StartTime;
+                float length = CBase.Sound.GetLength(stream);
 
-                if (actSong.Preview.Source == EDataSource.None)
-                    startposition = CBase.Sound.GetLength(stream) / 4f;
+                if (song.Preview.Source == EDataSource.None)
+                    startposition = length / 4f;
+                else if (startposition > length - 5f)
+                    startposition = Math.Max(0f, Math.Min(length / 4f, length - 5f));
 
                 if (startposition >= 0.5f)
                     startposition -= 0.5f;
 
                 CBase.Sound.SetPosition(stream, startposition);
                 CBase.Sound.Play(stream);
+                CBase.Sound.SetStreamVolumeMax(stream, CBase.Config.GetPreviewMusicVolume());
                 CBase.Sound.Fade(stream, 100f, 3f);
                 _Streams.Add(stream);
-                _Actsongstream = stream;
+                _PreviewSongStream = stream;
 
-                if (actSong.VideoFileName != "" && CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
+                if (song.VideoFileName != "" && CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
                 {
-                    _Video = CBase.Video.Load(Path.Combine(actSong.Folder, actSong.VideoFileName));
-                    if (_Video == -1)
+                    _PreviewVideoStream = CBase.Video.Load(Path.Combine(song.Folder, song.VideoFileName));
+                    if (_PreviewVideoStream == -1)
                         return;
-                    CBase.Video.Skip(_Video, startposition, actSong.VideoGap);
+                    CBase.Video.Skip(_PreviewVideoStream, startposition, song.VideoGap);
                     _VideoFadeTimer.Stop();
                     _VideoFadeTimer.Reset();
                     _VideoFadeTimer.Start();
@@ -598,8 +574,8 @@ namespace VocaluxeLib.Menu.SongMenu
                 CBase.Sound.FadeAndStop(stream, 0f, 0.75f);
             _Streams.Clear();
 
-            CBase.Video.Close(_Video);
-            _Video = -1;
+            CBase.Video.Close(_PreviewVideoStream);
+            _PreviewVideoStream = -1;
 
             CBase.Drawing.RemoveTexture(ref _Vidtex);
         }

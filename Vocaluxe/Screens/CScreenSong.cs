@@ -658,7 +658,7 @@ namespace Vocaluxe.Screens
                 CBackgroundMusic.Disabled = false;
 
             int song = _SongMenus[_SongMenu].GetActualSelection();
-            if ((CSongs.Category >= 0 || CConfig.Tabs == EOffOn.TR_CONFIG_OFF) && song >= 0 && song < CSongs.VisibleSongs.Count)
+            if ((CSongs.IsInCategory || CConfig.Tabs == EOffOn.TR_CONFIG_OFF) && song >= 0 && song < CSongs.VisibleSongs.Count)
                 _Texts[_TextSelection].Text = CSongs.VisibleSongs[song].Artist + " - " + CSongs.VisibleSongs[song].Title;
             else if (!CSongs.IsInCategory && song >= 0 && song < CSongs.Categories.Count)
                 _Texts[_TextSelection].Text = CSongs.Categories[song].Name;

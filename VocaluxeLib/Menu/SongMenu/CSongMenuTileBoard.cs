@@ -79,7 +79,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             base.Init();
 
-            _Rect = _Theme.SongMenuTileBoard.TileRect;
+            Rect = _Theme.SongMenuTileBoard.TileRect;
 
             _NumW = _Theme.SongMenuTileBoard.NumW;
             _NumH = _Theme.SongMenuTileBoard.NumH;
@@ -98,7 +98,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 for (int j = 0; j < _NumW; j++)
                 {
                     var rect = new SRectF(_Theme.SongMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
-                                          _Theme.SongMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
+                                          _Theme.SongMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
                     var tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
                     _Tiles.Add(tile);
                 }
@@ -173,7 +173,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 _MedleyCalcIcon.Visible = song.Medley.Source == EDataSource.Calculated;
                 _MedleyTagIcon.Visible = song.Medley.Source == EDataSource.Tag;
 
-                float time = CBase.Sound.GetLength(_SongStream);
+                float time = CBase.Sound.GetLength(_PreviewSongStream);
                 if (Math.Abs(song.Finish) > 0.001)
                     time = song.Finish;
 
@@ -192,12 +192,8 @@ namespace VocaluxeLib.Menu.SongMenu
                 _Artist.Text = category.Name;
 
                 int num = category.GetNumSongsNotSung();
-                // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
-                if (num != 1)
-                    // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
-                    _Title.Text = CBase.Language.Translate("TR_SCREENSONG_NUMSONGS").Replace("%v", num.ToString());
-                else
-                    _Title.Text = CBase.Language.Translate("TR_SCREENSONG_NUMSONG").Replace("%v", num.ToString());
+                String songOrSongs = (num == 1) ? "TR_SCREENSONG_NUMSONG" : "TR_SCREENSONG_NUMSONGS";
+                _Title.Text = CBase.Language.Translate(songOrSongs).Replace("%v", num.ToString());
             }
         }
 
@@ -210,7 +206,7 @@ namespace VocaluxeLib.Menu.SongMenu
             _PreviewId = -1;
             _UpdateList(0, true);
             //AfterCategoryChange();
-            SetSelectedSong(_ActSong);
+            SetSelectedSong(_PreviewId);
             _AfterCategoryChange();
 
             if (_PreviewId < 0)
@@ -374,7 +370,7 @@ namespace VocaluxeLib.Menu.SongMenu
             bool sel = false;
             int lastselection = _ActualSelection;
 
-            if (!songOptions.Selection.RandomOnly || !CBase.Songs.IsInCategory() && songOptions.Selection.CategoryChangeAllowed)
+            if (!songOptions.Selection.RandomOnly || (!CBase.Songs.IsInCategory() && songOptions.Selection.CategoryChangeAllowed))
             {
                 foreach (CStatic tile in _Tiles)
                 {
@@ -455,7 +451,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
             _TextBG.Draw();
 
-            if (_Vidtex != null && _Video != -1)
+            if (_Vidtex != null && _PreviewVideoStream != -1)
             {
                 if (_Vidtex.Color.A < 1)
                     _CoverBig.Draw(1f, EAspect.Crop);
@@ -595,9 +591,6 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void _AfterCategoryChange()
         {
-            _SelectSong(_PreviewId);
-            _UpdatePreview();
-
             foreach (CStatic tile in _Tiles)
                 tile.Selected = false;
 
@@ -658,17 +651,17 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 _NumH = _Theme.SongMenuTileBoard.NumHsmall;
                 _NumW = _Theme.SongMenuTileBoard.NumWsmall;
-                _Rect = _Theme.SongMenuTileBoard.TileRectSmall;
+                Rect = _Theme.SongMenuTileBoard.TileRectSmall;
             }
             else
             {
                 _NumH = _Theme.SongMenuTileBoard.NumH;
                 _NumW = _Theme.SongMenuTileBoard.NumW;
-                _Rect = _Theme.SongMenuTileBoard.TileRect;
+                Rect = _Theme.SongMenuTileBoard.TileRect;
             }
 
-            _TileW = (int)((_Rect.W - _SpaceW * (_NumW - 1)) / _NumW);
-            _TileH = (int)((_Rect.H - _SpaceH * (_NumH - 1)) / _NumH);
+            _TileW = (int)((Rect.W - _SpaceW * (_NumW - 1)) / _NumW);
+            _TileH = (int)((Rect.H - _SpaceH * (_NumH - 1)) / _NumH);
 
             _CoverTexture = CBase.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
             _CoverBigTexture = CBase.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
@@ -678,13 +671,13 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 for (int j = 0; j < _NumW; j++)
                 {
-                    var rect = new SRectF(_Rect.X + j * (_TileW + _SpaceW), _Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, _Rect.Z);
+                    var rect = new SRectF(Rect.X + j * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
                     var tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
                     _Tiles.Add(tile);
                 }
             }
 
-            _ScrollRect = new SRectF(0, 0, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), _Rect.Z);
+            _ScrollRect = new SRectF(0, 0, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), Rect.Z);
             _UpdateList(true);
         }
 
