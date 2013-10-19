@@ -537,9 +537,12 @@ namespace VocaluxeLib.Menu.SongMenu
                 CBase.Sound.SetStreamVolume(stream, 0f);
 
                 float startposition = song.PreviewStart;
+                float length = CBase.Sound.GetLength(stream);
 
                 if (startposition < 0.001)
-                    startposition = CBase.Sound.GetLength(stream) / 4f;
+                    startposition = length / 4f;
+                else if (startposition > length - 5f)
+                    startposition = Math.Max(0f, Math.Min(length / 4f, length - 5f));
 
                 if (startposition >= 0.5f)
                     startposition -= 0.5f;
