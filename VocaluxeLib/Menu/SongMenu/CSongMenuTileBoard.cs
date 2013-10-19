@@ -208,7 +208,7 @@ namespace VocaluxeLib.Menu.SongMenu
             _PreviewId = -1;
             _UpdateList(0, true);
             //AfterCategoryChange();
-            SetSelectedSong(_ActPlayingSongId);
+            SetSelectedSong(_PreviewId);
             _AfterCategoryChange();
 
             if (_PreviewId < 0)
