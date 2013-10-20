@@ -1017,9 +1017,6 @@ namespace Vocaluxe.Screens
             {
                 //TODO: What's to do with multiple tags?
                 //Flamefire: What? We only sorted by one tag, sorting by multiple tags (e.g. Album) will be by e.g. the first entry. That can be used here too as otherwhise it will confuse users because it jumps randomly
-
-                //How can we get current letter? I think we have to save it - Or is there a better method?
-                //"Current letter"? The letter that was typed last? Doesn't matter as we are starting the search on current selected song
                 ReadOnlyCollection<CSong> songs = CSongs.VisibleSongs;
                 int ct = songs.Count;
                 int visibleID = -1;
@@ -1032,8 +1029,6 @@ namespace Vocaluxe.Screens
                         visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
                         break;
 
-                        //TODO: Does this make sense? Maybe we should deactivate this for years? You could only jump between 1 and 2
-                        //Keep it for consistency. Decades are reasonable though.
                     case ESongSorting.TR_CONFIG_YEAR:
                     case ESongSorting.TR_CONFIG_DECADE:
                         if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Year.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))

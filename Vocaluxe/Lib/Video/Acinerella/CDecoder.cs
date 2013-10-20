@@ -130,7 +130,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             else
             {
                 videoTime = 0;
-                return true;
+                return false; //Check if this false is right. But should as we don't give a frame here
             }
             _UploadNewFrame(ref frame);
             videoTime = _LastShownTime;
