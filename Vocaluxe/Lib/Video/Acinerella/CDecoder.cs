@@ -40,7 +40,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         private float _FrameDuration; // frame time in s
         private float _LastDecodedTime; // time of last decoded frame
-        private float _LastShownTime; // current video position
+        private float _LastShownTime; // time if the last shown frame in s
 
         private float _Time;
         private float _Gap;
@@ -123,12 +123,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public bool GetFrame(ref CTexture frame, float time, out float videoTime)
         {
-            if (_Paused)
-            {
-                videoTime = 0;
-                return false;
-            }
-
             if (Loop)
             {
                 lock (_MutexSyncSignals)
@@ -137,17 +131,17 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     _LoopTimer.Restart();
                 }
             }
-            else if (Math.Abs(_SetTime - time) > float.Epsilon)
+            else if (Math.Abs(_SetTime - time) >= 1f / 1000f) //Check 1 ms difference
             {
                 lock (_MutexSyncSignals)
                 {
                     _SetTime = time;
                 }
             }
-            else
+            else if (Math.Abs(_LastShownTime - time) < 1f / 1000 && frame != null) //Check 1 ms difference
             {
-                videoTime = 0;
-                return false; //Check if this false is right. But should as we don't give a frame here
+                videoTime = _LastShownTime;
+                return true;
             }
             _UploadNewFrame(ref frame);
             videoTime = _LastShownTime;
@@ -184,11 +178,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 CLog.LogError("Error seeking video file \"" + _FileName + "\": " + e.Message);
             }
             _LastDecodedTime = _SkipTime;
-
-            lock (_MutexSyncSignals)
-            {
-                _LastShownTime = _LastDecodedTime;
-            }
 
             lock (_MutexFramebuffer)
             {
@@ -425,13 +414,15 @@ namespace Vocaluxe.Lib.Video.Acinerella
             float now = _SetTime + _Gap;
             float maxEnd = now - _FrameDuration * 2; //Get only frames younger than 2
             CFrame frame;
+            bool paused = _Paused;
             while ((frame = _Framebuffer.Get()) != null)
             {
                 float frameEnd = frame.Time + _FrameDuration;
                 //Don't show frames that are shown during or after now
                 if (frameEnd >= now)
                     break; //All following frames are after that one
-
+                if (paused) // Don't modify anything
+                    break;
                 _Framebuffer.SetRead();
                 //Get the last(newest) possible frame and skip the rest to force in-order showing
                 if (frameEnd <= maxEnd)
