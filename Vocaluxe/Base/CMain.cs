@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Xml;
 using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 using VocaluxeLib.Game;
@@ -60,6 +61,11 @@ namespace Vocaluxe.Base
 
     class CBconfig : IConfig
     {
+        public EOffOn GetSaveModifiedSongs()
+        {
+            return CConfig.SaveModifiedSongs;
+        }
+
         public void SetBackgroundMusicVolume(int newVolume)
         {
             CConfig.BackgroundMusicVolume = newVolume;
@@ -110,7 +116,7 @@ namespace Vocaluxe.Base
             return CConfig.CoverSize;
         }
 
-        public IEnumerable<string> GetSongFolder()
+        public IEnumerable<string> GetSongFolders()
         {
             return CConfig.SongFolder;
         }
@@ -138,6 +144,11 @@ namespace Vocaluxe.Base
         public int GetMaxNumMics()
         {
             return CConfig.GetMaxNumMics();
+        }
+
+        public XmlWriterSettings GetXMLSettings()
+        {
+            return CConfig.XMLSettings;
         }
     }
 
@@ -527,6 +538,11 @@ namespace Vocaluxe.Base
             return CGame.GetTimeFromBeats(beat, bpm);
         }
 
+        public float GetBeatFromTime(float time, float bpm, float gap)
+        {
+            return CGame.GetBeatFromTime(time, bpm, gap);
+        }
+
         public void AddSong(int songID, EGameMode gameMode)
         {
             CGame.AddSong(songID, gameMode);
@@ -596,9 +612,14 @@ namespace Vocaluxe.Base
             return CSongs.NumCategories;
         }
 
-        public int NumSongsInCategory(int categoryIndex)
+        public int GetNumSongsInCategory(int categoryIndex)
         {
-            return CSongs.NumSongsInCategory(categoryIndex);
+            return CSongs.GetNumSongsInCategory(categoryIndex);
+        }
+
+        public int GetNumSongsNotSungInCategory(int categoryIndex)
+        {
+            return CSongs.GetNumSongsNotSungInCategory(categoryIndex);
         }
 
         public bool IsInCategory()
@@ -653,10 +674,7 @@ namespace Vocaluxe.Base
 
         public CCategory GetCategory(int index)
         {
-            if (index >= CSongs.NumCategories)
-                return null;
-
-            return new CCategory(CSongs.Categories[index]);
+            return CSongs.GetCategoryByIndex(index);
         }
 
         public void AddPartySongSung(int songID)

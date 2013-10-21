@@ -22,7 +22,7 @@ namespace VocaluxeLib.Songs
 {
     public class CSongLine : CLineBase<CSongNote>
     {
-        private int _StartBeat = int.MinValue;
+        private int _StartBeat = int.MaxValue;
         private int _EndBeat = int.MinValue;
 
         #region Constructors
@@ -46,7 +46,7 @@ namespace VocaluxeLib.Songs
 
         public int StartBeat
         {
-            get { return _StartBeat; }
+            get { return Math.Min(_StartBeat, FirstNoteBeat); }
             set
             {
                 if (value <= FirstNoteBeat)
@@ -56,7 +56,7 @@ namespace VocaluxeLib.Songs
 
         public int EndBeat
         {
-            get { return _EndBeat; }
+            get { return Math.Min(_EndBeat, LastNoteBeat); }
             set
             {
                 if (value >= LastNoteBeat)
@@ -77,12 +77,19 @@ namespace VocaluxeLib.Songs
                 _Notes.Add(note);
             else
             {
+                //Insert AFTER this note
                 int insPos = FindPreviousNote(note.StartBeat);
                 //Check for overlapping notes
-                if (insPos >= 0 && _Notes[insPos].EndBeat > note.StartBeat)
-                    return false;
-                if (insPos < _Notes.Count - 1 && _Notes[insPos + 1].StartBeat > note.EndBeat)
-                    return false;
+                if (insPos >= 0) //Check note before
+                {
+                    if (_Notes[insPos].EndBeat >= note.StartBeat)
+                        return false;
+                }
+                if (insPos < _Notes.Count - 1) //Check note after
+                {
+                    if (_Notes[insPos + 1].StartBeat <= note.EndBeat)
+                        return false;
+                }
                 _Notes.Insert(insPos + 1, note);
             }
             return true;
@@ -90,11 +97,8 @@ namespace VocaluxeLib.Songs
 
         public void SetMedley(int startBeat, int endBeat)
         {
-            foreach (CSongNote note in _Notes)
-            {
-                if (note.StartBeat < startBeat || note.EndBeat > endBeat)
-                    note.NoteType = ENoteType.Freestyle;
-            }
+            foreach (CSongNote note in _Notes.Where(note => note.StartBeat < startBeat || note.EndBeat > endBeat))
+                note.Type = ENoteType.Freestyle;
 
             VisibleInTimeLine = FirstNoteBeat >= startBeat && LastNoteBeat <= endBeat;
         }

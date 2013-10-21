@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Xml;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
@@ -29,6 +30,8 @@ namespace VocaluxeLib
 {
     public interface IConfig
     {
+        EOffOn GetSaveModifiedSongs();
+
         void SetBackgroundMusicVolume(int newVolume);
         int GetBackgroundMusicVolume();
 
@@ -45,13 +48,18 @@ namespace VocaluxeLib
 
         int GetCoverSize();
 
-        IEnumerable<string> GetSongFolder();
+        IEnumerable<string> GetSongFolders();
         ESongSorting GetSongSorting();
         EOffOn GetTabs();
         EOffOn GetIgnoreArticles();
 
         bool IsMicConfigured(int playerNr);
         int GetMaxNumMics();
+
+        /// <summary>
+        /// Get the uniform settings for writing XML files. ALWAYS use this!
+        /// </summary>
+        XmlWriterSettings GetXMLSettings();
     }
 
     public interface ISettings
@@ -179,6 +187,7 @@ namespace VocaluxeLib
         double GetRandomDouble();
 
         float GetTimeFromBeats(float beat, float bpm);
+        float GetBeatFromTime(float time, float bpm, float gap);
 
         void AddSong(int songID, EGameMode gameMode);
         void Reset();
@@ -204,7 +213,8 @@ namespace VocaluxeLib
         int GetNumSongs();
         int GetNumSongsVisible();
         int GetNumCategories();
-        int NumSongsInCategory(int categoryIndex);
+        int GetNumSongsInCategory(int categoryIndex);
+        int GetNumSongsNotSungInCategory(int categoryIndex);
         bool IsInCategory();
 
         int GetCurrentCategoryIndex();

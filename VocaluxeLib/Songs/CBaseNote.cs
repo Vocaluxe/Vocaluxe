@@ -15,6 +15,8 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
+
 namespace VocaluxeLib.Songs
 {
     /// <summary>
@@ -38,12 +40,17 @@ namespace VocaluxeLib.Songs
             StartBeat = startBeat;
             Duration = duration;
             Tone = tone;
+            if (Duration < 1)
+                throw new Exception("Note to short. All notes should be at least 1 beat long!");
         }
         #endregion Constructors
 
         #region Properties
         public int StartBeat { get; set; }
 
+        /// <summary>
+        /// Last beat of this note. First valid beat for a note after that is at EndBeat+1
+        /// </summary>
         public int EndBeat
         {
             get { return StartBeat + _Duration - 1; }

@@ -105,7 +105,6 @@ namespace Vocaluxe.Base
         private const int _SkinSystemVersion = 3;
 
         #region Vars
-        private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
         private static readonly List<STheme> _Themes = new List<STheme>();
         public static string[] ThemeNames
         {
@@ -146,10 +145,6 @@ namespace Vocaluxe.Base
         #region Theme and Skin loading and writing
         public static void InitTheme()
         {
-            _Settings.Indent = true;
-            _Settings.Encoding = Encoding.UTF8;
-            _Settings.ConformanceLevel = ConformanceLevel.Document;
-
             _ListThemes();
             ListSkins();
 
@@ -289,7 +284,7 @@ namespace Vocaluxe.Base
         private static void _SaveTheme(int themeIndex)
         {
             #region ThemeMainFile
-            using (XmlWriter writer = XmlWriter.Create(Path.Combine(_Themes[themeIndex].Path, _Themes[themeIndex].FileName), _Settings))
+            using (XmlWriter writer = XmlWriter.Create(Path.Combine(_Themes[themeIndex].Path, _Themes[themeIndex].FileName), CConfig.XMLSettings))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("root");
@@ -331,7 +326,7 @@ namespace Vocaluxe.Base
         {
             for (int skinIndex = 0; skinIndex < _Skins.Count; skinIndex++)
             {
-                using (XmlWriter writer = XmlWriter.Create(Path.Combine(_Skins[skinIndex].Path, _Skins[skinIndex].FileName), _Settings))
+                using (XmlWriter writer = XmlWriter.Create(Path.Combine(_Skins[skinIndex].Path, _Skins[skinIndex].FileName), CConfig.XMLSettings))
                 {
                     writer.WriteStartDocument();
                     writer.WriteStartElement("root");

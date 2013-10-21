@@ -23,15 +23,6 @@ using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu
 {
-    struct SNote
-    {
-        public string Text;
-        public int StartBeat;
-        public int EndBeat;
-        public int Duration;
-        public ENoteType Type;
-    }
-
     struct SThemeLyrics
     {
         public string Name;
@@ -46,7 +37,10 @@ namespace VocaluxeLib.Menu
         private SThemeLyrics _Theme;
         private bool _ThemeLoaded;
 
-        private readonly List<SNote> _Notes;
+        /// <summary>
+        /// Holds a reference to Songline. DO NOT MODIFY
+        /// </summary>
+        private CSongLine _Line;
         private CText _Text;
 
         private float _X;
@@ -109,7 +103,7 @@ namespace VocaluxeLib.Menu
             _MaxW = 1f;
             _H = 1f;
             _Width = 1f;
-            _Notes = new List<SNote>();
+            _Line = new CSongLine();
             _Text = new CText(_PartyModeID);
 
             LyricStyle = ELyricStyle.Fill;
@@ -201,28 +195,27 @@ namespace VocaluxeLib.Menu
 
         public void SetLine(CSongLine line)
         {
-            _Notes.Clear();
-
+            _Line = line;
             _Width = 0f;
             foreach (CSongNote note in line.Notes)
             {
-                var n = new SNote {Text = note.Text, StartBeat = note.StartBeat, EndBeat = note.EndBeat, Duration = note.Duration, Type = note.NoteType};
-
-                _Text.Text = note.Text;
-                _Text.Style = EStyle.Bold;
-
-                if (n.Type == ENoteType.Freestyle)
-                    _Text.Style = EStyle.BoldItalic;
-
-                RectangleF rect = CBase.Fonts.GetTextBounds(_Text);
-                _Width += rect.Width;
-                _Notes.Add(n);
+                _SetText(note);
+                _Width += _Text.Rect.W;
             }
+        }
+
+        private void _SetText(CSongNote note)
+        {
+            _Text.Text = note.Text;
+            _Text.Style = EStyle.Bold;
+
+            if (note.Type == ENoteType.Freestyle)
+                _Text.Style = EStyle.BoldItalic;
         }
 
         public void Clear()
         {
-            _Notes.Clear();
+            _Line = new CSongLine();
         }
 
         public float GetCurrentLyricPosX()
@@ -260,15 +253,10 @@ namespace VocaluxeLib.Menu
         {
             float x = _X - _Width / 2;
 
-            foreach (SNote note in _Notes)
+            foreach (CSongNote note in _Line.Notes)
             {
                 _Text.X = x;
-                _Text.Style = EStyle.Bold;
-                _Text.Text = note.Text;
-                RectangleF rect = CBase.Fonts.GetTextBounds(_Text);
-
-                if (note.Type == ENoteType.Freestyle)
-                    _Text.Style = EStyle.BoldItalic;
+                _SetText(note);
 
                 if (currentBeat >= note.StartBeat)
                 {
@@ -276,9 +264,8 @@ namespace VocaluxeLib.Menu
                     {
                         _Text.Color = _ColorProcessed;
 
-
-                        float diff = note.EndBeat - note.StartBeat;
-                        if (Math.Abs(diff) < float.Epsilon)
+                        int diff = note.EndBeat - note.StartBeat;
+                        if (diff <= 0)
                             _Text.Draw(0f, 1f);
                         else
                         {
@@ -299,7 +286,7 @@ namespace VocaluxeLib.Menu
                     _Text.Draw();
                 }
 
-                x += rect.Width;
+                x += _Text.Rect.W;
             }
         }
 
@@ -308,37 +295,27 @@ namespace VocaluxeLib.Menu
             float x = _X - _Width / 2; // most left position
 
             //find last active note
-            int lastNote = -1;
-            for (int i = 0; i < _Notes.Count; i++)
-            {
-                if (currentBeat >= _Notes[i].StartBeat)
-                    lastNote = i;
-            }
+            int lastNote = _Line.FindPreviousNote((int)currentBeat);
 
             int zoomNote = -1;
             int endBeat = -1;
             float zoomx = 0f;
 
-            for (int note = 0; note < _Notes.Count; note++)
+            for (int note = 0; note < _Line.Notes.Length; note++)
             {
                 _Text.X = x;
-                _Text.Style = EStyle.Bold;
-                _Text.Text = _Notes[note].Text;
-                RectangleF rect = CBase.Fonts.GetTextBounds(_Text);
+                _SetText(_Line.Notes[note]);
 
-                if (_Notes[note].Type == ENoteType.Freestyle)
-                    _Text.Style = EStyle.BoldItalic;
-
-                if (currentBeat >= _Notes[note].StartBeat)
+                if (currentBeat >= _Line.Notes[note].StartBeat)
                 {
-                    int endbeat = _Notes[note].EndBeat;
-                    if (note < _Notes.Count - 1)
-                        endbeat = _Notes[note + 1].StartBeat - 1;
+                    int curEndBeat = _Line.Notes[note].EndBeat;
+                    if (note < _Line.Notes.Length - 1)
+                        curEndBeat = _Line.Notes[note + 1].StartBeat - 1;
 
-                    if (currentBeat <= endbeat)
+                    if (currentBeat <= curEndBeat)
                     {
                         zoomNote = note;
-                        endBeat = endbeat;
+                        endBeat = curEndBeat;
                         zoomx = _Text.X;
                     }
                     else
@@ -356,49 +333,37 @@ namespace VocaluxeLib.Menu
                     _Text.Draw();
                 }
 
-                x += rect.Width;
+                x += _Text.Rect.W;
             }
 
             if (zoomNote > -1)
             {
-                if (_Notes[zoomNote].Duration == 0)
-                    return;
-
                 _Text.X = zoomx;
-                _Text.Text = _Notes[zoomNote].Text;
-                _Text.Color = _ColorProcessed;
-                _Text.Style = EStyle.Bold;
+                _SetText(_Line.Notes[zoomNote]);
 
-                if (_Notes[zoomNote].Type == ENoteType.Freestyle)
-                    _Text.Style = EStyle.BoldItalic;
-
-                RectangleF rect = CBase.Fonts.GetTextBounds(_Text);
-
-                float diff = endBeat - _Notes[zoomNote].StartBeat;
+                float diff = endBeat - _Line.Notes[zoomNote].StartBeat;
                 if (diff <= 0f)
                     diff = 1f;
 
-                float p = (currentBeat - _Notes[zoomNote].StartBeat) / diff;
+                float p = (currentBeat - _Line.Notes[zoomNote].StartBeat) / diff;
                 if (p > 1f)
                     p = 1f;
 
                 p = 1f - p;
 
                 float ty = _Text.Y;
-                float tx = _Text.X;
                 float th = _Text.Height;
                 float tz = _Text.Z;
 
+                SRectF normalRect = _Text.Rect;
                 _Text.Height += _Text.Height * p * 0.4f;
-                RectangleF rectz = CBase.Fonts.GetTextBounds(_Text);
-                _Text.X -= (rectz.Width - rect.Width) / 2f;
-                _Text.Y -= (rectz.Height - rect.Height) / 2f;
+                _Text.X -= (_Text.Rect.W - normalRect.W) / 2f;
+                _Text.Y -= (_Text.Rect.W - normalRect.H) / 2f;
                 _Text.Z -= 0.1f;
 
                 _Text.Draw();
 
                 _Text.Y = ty;
-                _Text.X = tx;
                 _Text.Height = th;
                 _Text.Z = tz;
             }
@@ -408,15 +373,10 @@ namespace VocaluxeLib.Menu
         {
             float x = _X - _Width / 2; // most left position
 
-            foreach (SNote note in _Notes)
+            foreach (CSongNote note in _Line.Notes)
             {
                 _Text.X = x;
-                _Text.Style = EStyle.Bold;
-                _Text.Text = note.Text;
-                RectangleF rect = CBase.Fonts.GetTextBounds(_Text);
-
-                if (note.Type == ENoteType.Freestyle)
-                    _Text.Style = EStyle.BoldItalic;
+                _SetText(note);
 
                 if (currentBeat >= note.StartBeat)
                 {
@@ -430,7 +390,7 @@ namespace VocaluxeLib.Menu
                     _Text.Draw();
                 }
 
-                x += rect.Width;
+                x += _Text.Rect.W;
             }
         }
 
@@ -439,29 +399,23 @@ namespace VocaluxeLib.Menu
             float x = _X - _Width / 2; // most left position
 
             //find last active note
-            int lastNote = -1;
-            for (int i = 0; i < _Notes.Count; i++)
-            {
-                if (currentBeat >= _Notes[i].StartBeat)
-                    lastNote = i;
-            }
+            int lastNote = _Line.FindPreviousNote((int)currentBeat);
 
             int jumpNote = -1;
             float jumpx = 0f;
 
-            for (int note = 0; note < _Notes.Count; note++)
+            for (int note = 0; note < _Line.Notes.Length; note++)
             {
                 _Text.X = x;
-                _Text.Style = EStyle.Bold;
-                _Text.Text = _Notes[note].Text;
-                RectangleF rect = CBase.Fonts.GetTextBounds(_Text);
+                _SetText(_Line.Notes[note]);
 
-                if (_Notes[note].Type == ENoteType.Freestyle)
-                    _Text.Style = EStyle.BoldItalic;
-
-                if (currentBeat >= _Notes[note].StartBeat)
+                if (currentBeat >= _Line.Notes[note].StartBeat)
                 {
-                    if (currentBeat <= _Notes[note].EndBeat)
+                    int curEndBeat = _Line.Notes[note].EndBeat;
+                    if (note < _Line.Notes.Length - 1)
+                        curEndBeat = _Line.Notes[note + 1].StartBeat - 1;
+
+                    if (currentBeat <= curEndBeat)
                     {
                         jumpNote = note;
                         jumpx = _Text.X;
@@ -481,27 +435,20 @@ namespace VocaluxeLib.Menu
                     _Text.Draw();
                 }
 
-                x += rect.Width;
+                x += _Text.Rect.W;
             }
 
             if (jumpNote < 0)
                 return;
-            if (_Notes[jumpNote].Duration == 0)
-                return;
 
             _Text.X = jumpx;
-            _Text.Text = _Notes[jumpNote].Text;
-            _Text.Color = _ColorProcessed;
-            _Text.Style = EStyle.Bold;
+            _SetText(_Line.Notes[jumpNote]);
 
-            if (_Notes[jumpNote].Type == ENoteType.Freestyle)
-                _Text.Style = EStyle.BoldItalic;
-
-            int diff = _Notes[jumpNote].EndBeat - _Notes[jumpNote].StartBeat;
+            int diff = _Line.Notes[jumpNote].EndBeat - _Line.Notes[jumpNote].StartBeat;
             if (diff <= 0)
                 diff = 1;
 
-            float p = 1f - (currentBeat - _Notes[jumpNote].StartBeat) / diff;
+            float p = 1f - (currentBeat - _Line.Notes[jumpNote].StartBeat) / diff;
 
             if (Math.Abs(p) < float.Epsilon)
                 _Text.Draw();

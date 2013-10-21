@@ -84,7 +84,7 @@ namespace VocaluxeLib.Menu
     {
         private class CPlaylistElementContent
         {
-            public EGameMode[] Modes;
+            public IList<EGameMode> Modes;
             public int SongID;
             public EGameMode Mode;
         }
@@ -971,11 +971,11 @@ namespace VocaluxeLib.Menu
 
                         if (!mouseEvent.LBH && DragAndDropSongID != -1)
                         {
-                            var gm = EGameMode.TR_GAMEMODE_NORMAL;
                             CSong song = CBase.Songs.GetSongByID(DragAndDropSongID);
 
                             if (song != null)
                             {
+                                var gm = EGameMode.TR_GAMEMODE_NORMAL;
                                 if (song.IsDuet)
                                     gm = EGameMode.TR_GAMEMODE_DUET;
 
@@ -1220,7 +1220,7 @@ namespace VocaluxeLib.Menu
                         string t1 = CBase.Language.Translate(_Theme.Text1.Text).Replace("%a", song.Artist).Replace("%t", song.Title);
                         _PlaylistElements[i].Text1.Text = /*(Offset + i + 1) + ") " + */ t1; //TODO: Add text field for the number
                         _PlaylistElements[i].SelectSlide.Clear();
-                        for (int g = 0; g < pec.Modes.Length; g++)
+                        for (int g = 0; g < pec.Modes.Count; g++)
                         {
                             _PlaylistElements[i].SelectSlide.AddValue(Enum.GetName(typeof(EGameMode), pec.Modes[g]));
                             if (pec.Modes[g] == pec.Mode)

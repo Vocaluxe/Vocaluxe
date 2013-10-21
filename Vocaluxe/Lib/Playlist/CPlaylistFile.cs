@@ -29,31 +29,20 @@ namespace Vocaluxe.Lib.Playlist
 {
     public class CPlaylistFile
     {
-        private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
-
         public string PlaylistName;
         public string PlaylistFile;
         public List<CPlaylistSong> Songs = new List<CPlaylistSong>();
 
         public CPlaylistFile()
         {
-            _Init();
             PlaylistName = string.Empty;
             PlaylistFile = string.Empty;
         }
 
         public CPlaylistFile(string file)
         {
-            _Init();
             PlaylistFile = file;
             _LoadPlaylist();
-        }
-
-        private void _Init()
-        {
-            _Settings.Indent = true;
-            _Settings.Encoding = Encoding.UTF8;
-            _Settings.ConformanceLevel = ConformanceLevel.Document;
         }
 
         public void SavePlaylist()
@@ -86,7 +75,7 @@ namespace Vocaluxe.Lib.Playlist
             XmlWriter writer;
             try
             {
-                writer = XmlWriter.Create(PlaylistFile, _Settings);
+                writer = XmlWriter.Create(PlaylistFile, CConfig.XMLSettings);
             }
             catch (Exception e)
             {
@@ -180,7 +169,11 @@ namespace Vocaluxe.Lib.Playlist
 
         public void AddSong(int songID)
         {
-            var song = new CPlaylistSong {SongID = songID, GameMode = CSongs.GetSong(songID).IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL};
+            var song = new CPlaylistSong
+                {
+                    SongID = songID,
+                    GameMode = CSongs.GetSong(songID).IsGameModeAvailable(EGameMode.TR_GAMEMODE_DUET) ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL
+                };
 
             Songs.Add(song);
         }

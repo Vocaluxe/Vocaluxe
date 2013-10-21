@@ -67,7 +67,7 @@ namespace Vocaluxe.SongQueue
 
         private bool _AddSong(int songID, EGameMode gameMode)
         {
-            if (gameMode == EGameMode.TR_GAMEMODE_DUET && !CSongs.GetSong(songID).IsDuet)
+            if (!CSongs.GetSong(songID).IsGameModeAvailable(gameMode))
                 return false;
 
             _SongQueue.Add(new SSongQueueEntry(songID, gameMode));

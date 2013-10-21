@@ -33,10 +33,19 @@ namespace Vocaluxe.Base
 {
     static class CConfig
     {
-        private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
+        /// <summary>
+        /// Uniform settings for writing XML files. ALWAYS use this!
+        /// </summary>
+        public static readonly XmlWriterSettings XMLSettings = new XmlWriterSettings
+            {
+                Indent = true,
+                Encoding = Encoding.UTF8,
+                ConformanceLevel = ConformanceLevel.Document
+            };
 
         // Debug
         public static EDebugLevel DebugLevel = EDebugLevel.TR_CONFIG_OFF;
+        public static EOffOn SaveModifiedSongs = EOffOn.TR_CONFIG_OFF;
 
         // Graphics
 #if WIN
@@ -140,10 +149,6 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            _Settings.Indent = true;
-            _Settings.Encoding = Encoding.UTF8;
-            _Settings.ConformanceLevel = ConformanceLevel.Document;
-
             SongFolder.Add(Path.Combine(Directory.GetCurrentDirectory(), CSettings.FolderSongs));
 
 #if INSTALLER
@@ -169,6 +174,7 @@ namespace Vocaluxe.Base
                 return;
 
             xmlReader.TryGetEnumValue("//root/Debug/DebugLevel", ref DebugLevel);
+            xmlReader.TryGetEnumValue("//root/Debug/SaveModifiedSongs", ref SaveModifiedSongs);
 
             #region Graphics
             xmlReader.TryGetEnumValue("//root/Graphics/Renderer", ref Renderer);
@@ -302,7 +308,7 @@ namespace Vocaluxe.Base
             XmlWriter writer = null;
             try
             {
-                writer = XmlWriter.Create(Path.Combine(CSettings.DataPath, CSettings.FileConfig), _Settings);
+                writer = XmlWriter.Create(Path.Combine(CSettings.DataPath, CSettings.FileConfig), XMLSettings);
                 writer.WriteStartDocument();
                 writer.WriteStartElement("root");
 
@@ -327,6 +333,9 @@ namespace Vocaluxe.Base
 
                 writer.WriteComment("DebugLevel: " + CHelper.ListStrings(Enum.GetNames(typeof(EDebugLevel))));
                 writer.WriteElementString("DebugLevel", Enum.GetName(typeof(EDebugLevel), DebugLevel));
+
+                writer.WriteComment("SaveModifiedSongs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
+                writer.WriteElementString("SaveModifiedSongs", Enum.GetName(typeof(EOffOn), SaveModifiedSongs));
 
                 writer.WriteEndElement();
                 #endregion Debug

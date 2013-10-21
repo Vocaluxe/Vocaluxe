@@ -117,8 +117,7 @@ namespace Vocaluxe.Base
                 MessageBox.Show(errorText, CSettings.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             if (e != null)
                 errorText += ": " + e;
-            _ErrorLog.Add(_NumErrors + ") " + errorText + "\r\n");
-            _ErrorLog.Add(String.Empty);
+            _ErrorLog.Add(_NumErrors + ") " + errorText);
             if (exit)
                 Environment.Exit(Environment.ExitCode);
         }
