@@ -65,8 +65,8 @@ namespace VocaluxeLib.Songs
             {
                 if (_Notes.Count == 0)
                     return 0;
-                int min = _Notes.Max(note => note.Tone);
-                int max = _Notes.Min(note => note.Tone);
+                int min = _Notes.Min(note => note.Tone);
+                int max = _Notes.Max(note => note.Tone);
 
                 return min - (max - min) / 4;
             }
