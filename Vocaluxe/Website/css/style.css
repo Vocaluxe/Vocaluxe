@@ -54,3 +54,12 @@
     font-size: 18px;
     font-weight: bold;
 }
+
+.imageLoaderImg {
+    height:45px;
+    width:45px;
+    background: url(images/ajax-loader.gif);
+    background-size: 46px 46px;
+    -webkit-border-radius: 36px;
+    border-radius: 36px;
+}

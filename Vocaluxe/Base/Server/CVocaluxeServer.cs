@@ -48,7 +48,7 @@ namespace Vocaluxe.Base.Server
             _Clients = new Dictionary<int, CClientHandler>();
 
             _Server = new CServer(CConfig.ServerPort, CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON);
-            //_Server = new CServer(RequestHandler, CConfig.ServerPort, CConfig.ServerPassword);
+            //TODO: remove CConfig.ServerPassword
 
             CServer.SendKeyEvent = sendKeyEvent;
             CServer.GetProfileData = getProfileData;
@@ -64,6 +64,7 @@ namespace Vocaluxe.Base.Server
             CServer.GetUserRole = getUserRole;
             CServer.SetUserRole = setUserRole;
             CServer.GetUserIdFromUsername = getUserIdFromUsername;
+            CServer.GetDelayedImage = getDelayedImage;
 
             _Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
             Controller.Init();
@@ -200,7 +201,7 @@ namespace Vocaluxe.Base.Server
             else if (newProfile.Avatar == null)
             {
                 newProfile.Avatar = CProfiles.GetAvatars().First();
-                
+
                 /*CAvatar avatar = new CAvatar(-1);
                 avatar.LoadFromFile("Profiles\\Avatar_f.png");
                 CProfiles.AddAvatar(avatar);
@@ -264,9 +265,7 @@ namespace Vocaluxe.Base.Server
             {
                 if (File.Exists(avatar.FileName))
                 {
-                    Image avatarImage = Image.FromFile(avatar.FileName);
-                    //TODO: Convert??? and Resize?
-                    profileData.Avatar = new Base64Image(avatarImage, avatarImage.RawFormat);
+                    profileData.Avatar = new Base64Image(createDelayedImage(avatar.FileName));
                 }
             }
             return profileData;
@@ -317,6 +316,8 @@ namespace Vocaluxe.Base.Server
 
         #region website
 
+        private static Dictionary<string, string> delayedImagePath = new Dictionary<string, string>();
+
         private static byte[] getSiteFile(string filename)
         {
             string path = "Website/" + filename;
@@ -335,6 +336,45 @@ namespace Vocaluxe.Base.Server
             return Encoding.UTF8.GetBytes(content);*/
 
             return File.ReadAllBytes(path);
+        }
+
+        private static string createDelayedImage(string filename)
+        {
+            byte[] by = SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(filename));
+            var sb = new StringBuilder();
+            foreach (byte b in by)
+            {
+                sb.Append(b.ToString("x2"));
+            }
+
+            string hashedFilename = sb.ToString();
+
+            if (!delayedImagePath.ContainsKey(hashedFilename))
+            {
+                delayedImagePath.Add(hashedFilename, filename);
+            }
+            return hashedFilename;
+        }
+
+        private static Base64Image getDelayedImage(string hashedFilename)
+        {
+            if (!delayedImagePath.ContainsKey(hashedFilename))
+            {
+                throw new FileNotFoundException("Image not found");
+            }
+
+            string fileName = delayedImagePath[hashedFilename];
+
+            if (File.Exists(fileName))
+            {
+                Image image = Image.FromFile(fileName);
+                return new Base64Image(image, image.RawFormat);
+            }
+            else
+            {
+                throw new FileNotFoundException("Image not found");
+            }
+
         }
 
         #endregion
@@ -378,8 +418,7 @@ namespace Vocaluxe.Base.Server
                 result.SongId = song.ID;
                 if (includeCover)
                 {
-                    Image cover = Image.FromFile(song.Folder + "\\" + song.CoverFileName);
-                    result.Cover = new Base64Image(cover, cover.RawFormat);
+                    result.Cover = new Base64Image(createDelayedImage(song.Folder + "\\" + song.CoverFileName));
                 }
             }
             return result;

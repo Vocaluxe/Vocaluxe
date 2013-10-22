@@ -68,6 +68,13 @@ namespace ServerLib
             set { CServer.getSiteFile = value; }
         }
 
+        private static GetDelayedImageDelegate getDelayedImage;
+        public static GetDelayedImageDelegate GetDelayedImage
+        {
+            internal get { return CServer.getDelayedImage; }
+            set { CServer.getDelayedImage = value; }
+        }
+
         #endregion
 
         #region songs

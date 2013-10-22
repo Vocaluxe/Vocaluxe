@@ -58,6 +58,8 @@ namespace ServerLib
 
     public delegate byte[] GetSiteFileDelegate(string filename);
 
+    public delegate Base64Image GetDelayedImageDelegate(string hashedFilename);
+
     #endregion
 
     [DataContract]
@@ -66,12 +68,20 @@ namespace ServerLib
         [DataMember]
         private string base64Data = "";
 
+        [DataMember]
+        private string imageId = "";
+
         public Base64Image(Image img, ImageFormat format)
         {
             MemoryStream ms = new MemoryStream();
             img.Save(ms, format);
             string formatString = ImageCodecInfo.GetImageEncoders().FirstOrDefault(x => x.FormatID == format.Guid).FilenameExtension.Replace("*.", "").ToLower();
             base64Data = "data:image/" + formatString + ";base64," + Convert.ToBase64String(ms.ToArray());
+        }
+
+        public Base64Image(string imageId)
+        {
+            this.imageId = imageId;
         }
 
         public Image getImage()
