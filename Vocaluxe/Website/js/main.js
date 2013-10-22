@@ -354,6 +354,14 @@ function initPageLoadHandler() {
         $(this).data('promise', promise);
     });
 
+    //pageLoadHandler for login
+    $(document).on('pagebeforeshow', '#login', function () {
+        ownProfileId = -1;
+        profileIdRequest = -1;
+        songIdRequest = -1
+        sessionId = "";
+    });
+
 }
 
 function initLoginPageHandler() {
