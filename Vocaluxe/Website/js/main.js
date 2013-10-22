@@ -10,6 +10,7 @@ $(document).ready(function () {
     initKeyboardPageHandler();
     initMainPageHandler();
     initLoginPageHandler();
+    initHeartbeat();
 });
 
 function replaceTransitionHandler() {
@@ -132,7 +133,7 @@ function initPageLoadHandler() {
 
     function handleDisplayProfileData(data) {
         $('#playerName').prop("value", data.PlayerName);
-        
+
         addImage($('#playerAvatar')[0], data.Avatar, "img/profile.png");
 
         $('#playerAvatar').data("changed", false);
@@ -197,7 +198,7 @@ function initPageLoadHandler() {
                     .appendTo('#selectProfileList')
                     .click(handleProfileSelectLineClick)
                     .find("img")[0];
-               
+
                 addImage(img, data[profile].Avatar, "img/profile.png");
             }
 
@@ -221,7 +222,7 @@ function initPageLoadHandler() {
                 $('#displaySongTitle').text("No current song");
             }
 
-            addImage($('#displaySongCover')[0], result.Cover, "img/noCover.png");           
+            addImage($('#displaySongCover')[0], result.Cover, "img/noCover.png");
 
             if (result.Artist != null) {
                 $('#displaySongArtist').text(result.Artist);
@@ -355,13 +356,44 @@ function initPageLoadHandler() {
     });
 
     //pageLoadHandler for login
-    $(document).on('pagebeforeshow', '#login', function () {
-        ownProfileId = -1;
-        profileIdRequest = -1;
-        songIdRequest = -1
-        sessionId = "";
-    });
+    $(document).on('pagebeforeshow', '#login', pagebeforeshowLogin);    
 
+}
+
+function pagebeforeshowLogin() {
+    if (window.localStorage) {
+        var value = window.localStorage.getItem("VocaluxeSessionKey");
+        if (value != null && value != "") {
+            sessionId = value;
+        }
+    }
+
+    if (sessionId != "") {
+        if (ownProfileId != -1) {
+            $.mobile.changePage("#main", { transition: "slidefade" });
+        }
+        else {
+            $('#content').wrap('<div class="overlay" />');
+            $.mobile.loading('show', {
+                text: 'Login...',
+                textVisible: true
+            });
+
+            $.ajax({
+                url: "getOwnProfileId",
+                headers: { "session": sessionId }
+            }).done(function (result) {
+                ownProfileId = result;
+
+                $.mobile.loading('hide');
+                $('#content').unwrap();
+                $.mobile.changePage("#main", { transition: "slidefade" });
+            }).fail(function (result) {
+                $.mobile.loading('hide');
+                $('#content').unwrap();
+            });
+        }
+    }
 }
 
 function initLoginPageHandler() {
@@ -388,6 +420,9 @@ function initLoginPageHandler() {
             url: "login?username=" + username + "&password=" + password
         }).done(function (result) {
             sessionId = result;
+            if (window.localStorage) {
+                window.localStorage.setItem("VocaluxeSessionKey", sessionId);
+            }
             $.ajax({
                 url: "getOwnProfileId",
                 headers: { "session": sessionId }
@@ -413,6 +448,9 @@ function initLoginPageHandler() {
         profileIdRequest = -1;
         $.mobile.changePage("#displayProfile", { transition: "slidefade" });
     });
+
+    //Fire pageLoadHandler for login
+    pagebeforeshowLogin();
 }
 
 function initMainPageHandler() {
@@ -484,7 +522,9 @@ function initMainPageHandler() {
         $('#capture').click();
     });
 
-
+    $('#mainPageLogoutLink').click(function () {
+        logout();
+    });
 }
 
 function initKeyboardPageHandler() {
@@ -592,4 +632,29 @@ function addImage(img, base64Image, defaultImg) {
     else {
         $(img).prop("src", defaultImg);
     }
+}
+
+function logout() {
+    ownProfileId = -1;
+    profileIdRequest = -1;
+    songIdRequest = -1
+    sessionId = "";
+    $.mobile.changePage("#login", { transition: "slidefade" });
+}
+
+function checkSession() {
+    $.ajax({
+        url: "getOwnProfileId",
+        headers: { "session": sessionId }
+    }).done(function (result) {
+        if (result == -1) {
+            logout();
+        }
+    }).fail(function (result) {
+        logout();
+    });
+}
+
+function initHeartbeat() {
+    setInterval(checkSession, 20000);
 }
