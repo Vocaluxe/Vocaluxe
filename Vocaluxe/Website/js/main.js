@@ -132,12 +132,9 @@ function initPageLoadHandler() {
 
     function handleDisplayProfileData(data) {
         $('#playerName').prop("value", data.PlayerName);
-        if (data.Avatar && data.Avatar.base64Data) {
-            $('#playerAvatar').prop("src", data.Avatar.base64Data);
-        }
-        else {
-            $('#playerAvatar').prop("src", "img/profile.png");
-        }
+        
+        addImage($('#playerAvatar')[0], data.Avatar, "img/profile.png");
+
         $('#playerAvatar').data("changed", false);
         $('#playerType').prop("value", data.Type);
         $('#playerDifficulty').prop("value", data.Difficulty);
@@ -196,9 +193,12 @@ function initPageLoadHandler() {
             }
 
             for (var profile in data) {
-                $('<li id="ProfileSelectLine_' + data[profile].ProfileId + '"> <a href="#"> <img src="' + ((data[profile].Avatar && data[profile].Avatar.base64Data) ? data[profile].Avatar.base64Data : "img/profile.png") + '"> <h2>' + data[profile].PlayerName + '</h2> <p>Click here to show the profile of ' + data[profile].PlayerName + '</p> </a> </li>')
+                var img = $('<li id="ProfileSelectLine_' + data[profile].ProfileId + '"> <a href="#"> <img> <h2>' + data[profile].PlayerName + '</h2> <p>Click here to show the profile of ' + data[profile].PlayerName + '</p> </a> </li>')
                     .appendTo('#selectProfileList')
-                    .click(handleProfileSelectLineClick);
+                    .click(handleProfileSelectLineClick)
+                    .find("img")[0];
+               
+                addImage(img, data[profile].Avatar, "img/profile.png");
             }
 
             $('#selectProfileList').listview('refresh');
@@ -221,12 +221,7 @@ function initPageLoadHandler() {
                 $('#displaySongTitle').text("No current song");
             }
 
-            if (result.Cover && result.Cover.base64Data) {
-                $('#displaySongCover').prop("src", result.Cover.base64Data);
-            }
-            else {
-                $('#displaySongCover').prop("src", "img/noCover.png");
-            }
+            addImage($('#displaySongCover')[0], result.Cover, "img/noCover.png");           
 
             if (result.Artist != null) {
                 $('#displaySongArtist').text(result.Artist);
@@ -548,4 +543,45 @@ function initKeyboardPageHandler() {
             $('#keyboardButtonKeys')[0].value = oldText.slice(1);
         }
     });
+}
+
+var cachedImages = {};
+
+function delayedImageLoad(elem, id, fail) {
+    if (elem && id) {
+        if (cachedImages[id]) {
+            elem.src = cachedImages[id].base64Data;
+            return;
+        }
+
+        elem.src = "";
+        $(elem).addClass("imageLoaderImg");
+        $.ajax({
+            url: "delayedImage?id=" + id,
+            headers: { "session": sessionId }
+        }).done(function (result) {
+            $(elem).removeClass("imageLoaderImg");
+            elem.src = result.base64Data;
+            cachedImages[id] = result;
+        }).fail(function () {
+            $(elem).removeClass("imageLoaderImg");
+            if (fail) {
+                elem.src = fail;
+            }
+        });
+    }
+}
+
+function addImage(img, base64Image, defaultImg) {
+    if (base64Image && (base64Image.base64Data || base64Image.imageId)) {
+        if (base64Image.base64Data) {
+            $(img).prop("src", base64Image.base64Data);
+        }
+        else {
+            delayedImageLoad(img, base64Image.imageId, defaultImg)
+        }
+    }
+    else {
+        $(img).prop("src", defaultImg);
+    }
 }

@@ -96,6 +96,12 @@ namespace ServerLib
             UriTemplate = "/img/{filename}")]
         Stream GetImgFile(String filename);
 
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/delayedImage?id={id}")]
+        Base64Image GetDelayedImage(String id);
+
         #endregion
 
         #region songs
@@ -380,6 +386,11 @@ namespace ServerLib
                 WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.NotFound;
                 return null;
             }
+        }
+
+        public Base64Image GetDelayedImage(string id)
+        {
+            return CServer.GetDelayedImage(id);
         }
 
         #endregion
