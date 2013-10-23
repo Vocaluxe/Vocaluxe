@@ -56,10 +56,20 @@
 }
 
 .imageLoaderImg {
-    height:45px;
-    width:45px;
+    height: 100%;
+    width: 100%;
     background: url(images/ajax-loader.gif);
-    background-size: 46px 46px;
-    -webkit-border-radius: 36px;
-    border-radius: 36px;
+    background-size: 45px;
+    border: #000000 solid 0px;
+    content: '';
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.ui-body-c, .ui-overlay-c {
+    background: #000000;
+}
+
+.ui-input-search {
+    background: #ffffff !important;
 }
