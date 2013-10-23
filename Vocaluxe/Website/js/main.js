@@ -145,7 +145,8 @@ function initPageLoadHandler() {
             $('#playerDifficulty').prop('disabled', false);
             $('#playerSaveButton').show().unbind("click");
             $('#playerAvatar').unbind("click");
-            $('#playerPassword').prop('disabled', false).show();
+            $('#playerPassword').prop('disabled', false).parent().show();
+            $('#playerPasswordLabel').show();
 
             $('#playerAvatar').click(function () {
                 if ($('#captureContainer').length > 0) {
@@ -176,7 +177,8 @@ function initPageLoadHandler() {
             $('#playerDifficulty').prop('disabled', true);
             $('#playerSaveButton').hide().unbind("click");
             $('#playerAvatar').unbind("click");
-            $('#playerPassword').prop('disabled', true).hide();
+            $('#playerPassword').prop('disabled', true).parent().hide();
+            $('#playerPasswordLabel').hide();
         }
     }
 
