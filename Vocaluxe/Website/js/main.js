@@ -21,14 +21,14 @@ function replaceTransitionHandler() {
         var promise = $to.data('promise');
         if (promise) {
             $to.removeData('promise');
-            $('#content').wrap('<div class="overlay" />');
+            $('div[data-role="content"]').wrap('<div class="overlay" />');
             $.mobile.loading('show', {
                 text: 'Loading data...',
                 textVisible: true
             });
             return promise.then(function () {
                 $.mobile.loading('hide');
-                $('#content').unwrap();
+                $('div[data-role="content"]').unwrap();
                 return oldDefaultTransitionHandler(name, reverse, $to, $from);
             });
         }
@@ -56,7 +56,7 @@ function initPageLoadHandler() {
                     dataToUpload["Avatar"] = $('#playerAvatar').data("changed") ? { "base64Data": $('#playerAvatar').prop("src") } : null;
                     dataToUpload["Password"] = $('#playerPassword').prop("value") != "**oldPassword**" ? $('#playerPassword').prop("value") : null;
 
-                    $('#content').wrap('<div class="overlay" />');
+                    $('div[data-role="content"]').wrap('<div class="overlay" />');
                     $.mobile.loading('show', {
                         text: 'Uploading profile...',
                         textVisible: true
@@ -74,7 +74,7 @@ function initPageLoadHandler() {
                         }
                     }).always(function () {
                         $.mobile.loading('hide');
-                        $('#content').unwrap();
+                        $('div[data-role="content"]').unwrap();
                     });
 
                 });
@@ -106,7 +106,7 @@ function initPageLoadHandler() {
                 dataToUpload["Avatar"] = $('#playerAvatar').data("changed") ? { "base64Data": $('#playerAvatar').prop("src") } : null;
                 dataToUpload["Password"] = $('#playerPassword').prop("value") != "**oldPassword**" ? $('#playerPassword').prop("value") : null;
 
-                $('#content').wrap('<div class="overlay" />');
+                $('div[data-role="content"]').wrap('<div class="overlay" />');
                 $.mobile.loading('show', {
                     text: 'Creating profile...',
                     textVisible: true
@@ -124,7 +124,7 @@ function initPageLoadHandler() {
                     }
                 }).always(function () {
                     $.mobile.loading('hide');
-                    $('#content').unwrap();
+                    $('div[data-role="content"]').unwrap();
                 });
 
             });
@@ -332,7 +332,7 @@ function initPageLoadHandler() {
             $('#roleAdministrator').prop("checked", ((result & 0x01) != 0)).checkboxradio("refresh");
 
             $('#btnRoleSave').unbind('click').click(function () {
-                $('#content').wrap('<div class="overlay" />');
+                $('div[data-role="content"]').wrap('<div class="overlay" />');
                 $.mobile.loading('show', {
                     text: 'Save...',
                     textVisible: true
@@ -347,7 +347,7 @@ function initPageLoadHandler() {
                     headers: { "session": sessionId }
                 }).done(function (result) {
                     $.mobile.loading('hide');
-                    $('#content').unwrap();
+                    $('div[data-role="content"]').unwrap();
                     history.back();
                 });
             });
@@ -375,7 +375,7 @@ function pagebeforeshowLogin() {
             $.mobile.changePage("#main", { transition: "slidefade" });
         }
         else {
-            $('#content').wrap('<div class="overlay" />');
+            $('div[data-role="content"]').wrap('<div class="overlay" />');
             $.mobile.loading('show', {
                 text: 'Login...',
                 textVisible: true
@@ -388,11 +388,11 @@ function pagebeforeshowLogin() {
                 ownProfileId = result;
 
                 $.mobile.loading('hide');
-                $('#content').unwrap();
+                $('div[data-role="content"]').unwrap();
                 $.mobile.changePage("#main", { transition: "slidefade" });
             }).fail(function (result) {
                 $.mobile.loading('hide');
-                $('#content').unwrap();
+                $('div[data-role="content"]').unwrap();
             });
         }
     }
@@ -409,7 +409,7 @@ function initLoginPageHandler() {
     $('#loginPassword').keypress(keyPressed);
 
     $('#loginButton').click(function () {
-        $('#content').wrap('<div class="overlay" />');
+        $('div[data-role="content"]').wrap('<div class="overlay" />');
         $.mobile.loading('show', {
             text: 'Login...',
             textVisible: true
@@ -432,16 +432,16 @@ function initLoginPageHandler() {
                 ownProfileId = result;
 
                 $.mobile.loading('hide');
-                $('#content').unwrap();
+                $('div[data-role="content"]').unwrap();
 
                 $.mobile.changePage("#main", { transition: "slidefade" });
             }).fail(function (result) {
                 $.mobile.loading('hide');
-                $('#content').unwrap();
+                $('div[data-role="content"]').unwrap();
             });
         }).fail(function (result) {
             $.mobile.loading('hide');
-            $('#content').unwrap();
+            $('div[data-role="content"]').unwrap();
         });
     });
 
@@ -462,7 +462,7 @@ function initMainPageHandler() {
     });
 
     $('#currentSongLink').click(function () {
-        $('#content').wrap('<div class="overlay" />');
+        $('div[data-role="content"]').wrap('<div class="overlay" />');
         $.mobile.loading('show', {
             text: 'Getting current song...',
             textVisible: true
@@ -474,11 +474,11 @@ function initMainPageHandler() {
         }).done(function (result) {
             songIdRequest = parseInt(result);
             $.mobile.loading('hide');
-            $('#content').unwrap();
+            $('div[data-role="content"]').unwrap();
             $.mobile.changePage("#displaySong", { transition: "slidefade" });
         }).fail(function (result) {
             $.mobile.loading('hide');
-            $('#content').unwrap();
+            $('div[data-role="content"]').unwrap();
         });
     });
 
@@ -491,7 +491,7 @@ function initMainPageHandler() {
 
         $('#capture').change(function (eventData) {
             if (eventData && eventData.target && eventData.target.files && eventData.target.files.length == 1) {
-                $('#content').wrap('<div class="overlay" />');
+                $('div[data-role="content"]').wrap('<div class="overlay" />');
                 $.mobile.loading('show', {
                     text: 'Uploading photo...',
                     textVisible: true
@@ -513,7 +513,7 @@ function initMainPageHandler() {
                         }
                     }).always(function () {
                         $.mobile.loading('hide');
-                        $('#content').unwrap();
+                        $('div[data-role="content"]').unwrap();
                     });
                 };
 
@@ -639,8 +639,11 @@ function addImage(img, base64Image, defaultImg) {
 function logout() {
     ownProfileId = -1;
     profileIdRequest = -1;
-    songIdRequest = -1
+    songIdRequest = -1;
     sessionId = "";
+    if (window.localStorage) {
+        window.localStorage.setItem("VocaluxeSessionKey", "");
+    }
     $.mobile.changePage("#login", { transition: "slidefade" });
 }
 
