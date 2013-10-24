@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Xml;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
@@ -54,6 +55,11 @@ namespace VocaluxeLib
 
         bool IsMicConfigured(int playerNr);
         int GetMaxNumMics();
+
+        /// <summary>
+        /// Get the uniform settings for writing XML files. ALWAYS use this!
+        /// </summary>
+        XmlWriterSettings GetXMLSettings();
     }
 
     public interface ISettings
@@ -207,7 +213,8 @@ namespace VocaluxeLib
         int GetNumSongs();
         int GetNumSongsVisible();
         int GetNumCategories();
-        int NumSongsInCategory(int categoryIndex);
+        int GetNumSongsInCategory(int categoryIndex);
+        int GetNumSongsNotSungInCategory(int categoryIndex);
         bool IsInCategory();
 
         int GetCurrentCategoryIndex();

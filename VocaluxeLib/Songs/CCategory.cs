@@ -17,6 +17,7 @@
 
 using System.Collections.Generic;
 using VocaluxeLib.Draw;
+using System.Linq;
 
 namespace VocaluxeLib.Songs
 {
@@ -48,6 +49,11 @@ namespace VocaluxeLib.Songs
                     return;
                 _CoverTextureBig = value;
             }
+        }
+
+        public int GetNumSongsNotSung()
+        {
+            return Songs.Count(sp => !sp.IsSung);
         }
 
         public CCategory(string name, CTexture coverSmall, CTexture coverBig)

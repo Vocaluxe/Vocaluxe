@@ -675,7 +675,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
                     case ESongSource.TR_CATEGORY:
                         CBase.Songs.SetCategory(_GameData.CategoryID);
-                        for (int i = 0; i < CBase.Songs.NumSongsInCategory(_GameData.CategoryID); i++)
+                        for (int i = 0; i < CBase.Songs.GetNumSongsVisible(); i++)
                         {
                             // ReSharper disable LoopCanBeConvertedToQuery
                             foreach (EGameMode mode in CBase.Songs.GetVisibleSong(i).AvailableGameModes)
