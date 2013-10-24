@@ -21,14 +21,14 @@ function replaceTransitionHandler() {
         var promise = $to.data('promise');
         if (promise) {
             $to.removeData('promise');
-            $('div[data-role="content"]').wrap('<div class="overlay" />');
+            /*$('div[data-role="content"]').wrap('<div class="overlay" />');
             $.mobile.loading('show', {
                 text: 'Loading data...',
                 textVisible: true
-            });
+            });*/
             return promise.then(function () {
-                $.mobile.loading('hide');
-                $('div[data-role="content"]').unwrap();
+                /*$.mobile.loading('hide');
+                $('div[data-role="content"]').unwrap();*/
                 return oldDefaultTransitionHandler(name, reverse, $to, $from);
             });
         }
@@ -40,9 +40,8 @@ function initPageLoadHandler() {
     //pageLoadHandler for displayProfile
     $(document).on('pagebeforeshow', '#displayProfile', function () {
         if (profileIdRequest >= 0) {
-            var promise = $.ajax({
-                url: "getProfile?profileId=" + profileIdRequest,
-                headers: { "session": sessionId }
+            var promise = request({
+                url: "getProfile?profileId=" + profileIdRequest
             }).done(function (result) {
                 handleDisplayProfileData(result);
 
@@ -56,25 +55,15 @@ function initPageLoadHandler() {
                     dataToUpload["Avatar"] = $('#playerAvatar').data("changed") ? { "base64Data": $('#playerAvatar').prop("src") } : null;
                     dataToUpload["Password"] = $('#playerPassword').prop("value") != "**oldPassword**" ? $('#playerPassword').prop("value") : null;
 
-                    $('div[data-role="content"]').wrap('<div class="overlay" />');
-                    $.mobile.loading('show', {
-                        text: 'Uploading profile...',
-                        textVisible: true
-                    });
-
-                    $.ajax({
+                    request({
                         url: "sendProfile",
                         dataType: "json",
                         contentType: "application/json;charset=utf-8",
                         type: "POST",
                         headers: { "session": sessionId },
                         data: JSON.stringify(dataToUpload),
-                        success: function (msg) {
-                            history.back();
-                        }
-                    }).always(function () {
-                        $.mobile.loading('hide');
-                        $('div[data-role="content"]').unwrap();
+                    }, "Uploading profile...").done(function () {
+                        history.back();
                     });
 
                 });
@@ -106,25 +95,15 @@ function initPageLoadHandler() {
                 dataToUpload["Avatar"] = $('#playerAvatar').data("changed") ? { "base64Data": $('#playerAvatar').prop("src") } : null;
                 dataToUpload["Password"] = $('#playerPassword').prop("value") != "**oldPassword**" ? $('#playerPassword').prop("value") : null;
 
-                $('div[data-role="content"]').wrap('<div class="overlay" />');
-                $.mobile.loading('show', {
-                    text: 'Creating profile...',
-                    textVisible: true
-                });
-
-                $.ajax({
+                request({
                     url: "sendProfile",
                     dataType: "json",
                     contentType: "application/json;charset=utf-8",
                     type: "POST",
                     headers: { "session": sessionId },
-                    data: JSON.stringify(dataToUpload),
-                    success: function (msg) {
-                        $.mobile.changePage("#login", { transition: "slidefade" });
-                    }
-                }).always(function () {
-                    $.mobile.loading('hide');
-                    $('div[data-role="content"]').unwrap();
+                    data: JSON.stringify(dataToUpload)
+                }, 'Creating profile...').done(function () {
+                    $.mobile.changePage("#login", { transition: "slidefade" });
                 });
 
             });
@@ -184,7 +163,7 @@ function initPageLoadHandler() {
 
     //pageLoadHandler for selectProfile
     $(document).on('pagebeforeshow', '#selectProfile', function () {
-        var promise = $.ajax({
+        var promise = request({
             url: "getProfileList",
             headers: { "session": sessionId }
         }).done(function (data) {
@@ -213,7 +192,7 @@ function initPageLoadHandler() {
 
     //pageLoadHandler for displaySong
     $(document).on('pagebeforeshow', '#displaySong', function () {
-        var promise = $.ajax({
+        var promise = request({
             url: "getSong?songId=" + songIdRequest,
             headers: { "session": sessionId }
         }).done(function (result) {
@@ -281,7 +260,7 @@ function initPageLoadHandler() {
         }
 
         if (allSongsCache == null) {
-            var promise = $.ajax({
+            var promise = request({
                 url: "getAllSongs",
                 headers: { "session": sessionId }
             }).done(function (data) {
@@ -299,7 +278,7 @@ function initPageLoadHandler() {
 
     //pageLoadHandler for selectUserAdmin
     $(document).on('pagebeforeshow', '#selectUserAdmin', function () {
-        var promise = $.ajax({
+        var promise = request({
             url: "getProfileList",
             headers: { "session": sessionId }
         }).done(function (data) {
@@ -325,29 +304,21 @@ function initPageLoadHandler() {
 
     //pageLoadHandler for displayUserAdmin
     $(document).on('pagebeforeshow', '#displayUserAdmin', function () {
-        var promise = $.ajax({
+        var promise = request({
             url: "getUserRole?profileId=" + profileIdRequest,
             headers: { "session": sessionId }
         }).done(function (result) {
             $('#roleAdministrator').prop("checked", ((result & 0x01) != 0)).checkboxradio("refresh");
 
             $('#btnRoleSave').unbind('click').click(function () {
-                $('div[data-role="content"]').wrap('<div class="overlay" />');
-                $.mobile.loading('show', {
-                    text: 'Save...',
-                    textVisible: true
-                });
-
                 var role = 0;
                 if ($('#roleAdministrator').prop("checked")) {
                     role = (role | 0x01);
                 }
-                $.ajax({
+                request({
                     url: "setUserRole?profileId=" + profileIdRequest + "&userRole=" + role,
                     headers: { "session": sessionId }
-                }).done(function (result) {
-                    $.mobile.loading('hide');
-                    $('div[data-role="content"]').unwrap();
+                }, "Saving...").done(function (result) {
                     history.back();
                 });
             });
@@ -358,7 +329,7 @@ function initPageLoadHandler() {
     });
 
     //pageLoadHandler for login
-    $(document).on('pagebeforeshow', '#login', pagebeforeshowLogin);    
+    $(document).on('pagebeforeshow', '#login', pagebeforeshowLogin);
 
 }
 
@@ -375,24 +346,12 @@ function pagebeforeshowLogin() {
             $.mobile.changePage("#main", { transition: "slidefade" });
         }
         else {
-            $('div[data-role="content"]').wrap('<div class="overlay" />');
-            $.mobile.loading('show', {
-                text: 'Login...',
-                textVisible: true
-            });
-
-            $.ajax({
+            request({
                 url: "getOwnProfileId",
                 headers: { "session": sessionId }
-            }).done(function (result) {
+            }, 'Login...').done(function (result) {
                 ownProfileId = result;
-
-                $.mobile.loading('hide');
-                $('div[data-role="content"]').unwrap();
                 $.mobile.changePage("#main", { transition: "slidefade" });
-            }).fail(function (result) {
-                $.mobile.loading('hide');
-                $('div[data-role="content"]').unwrap();
             });
         }
     }
@@ -409,39 +368,23 @@ function initLoginPageHandler() {
     $('#loginPassword').keypress(keyPressed);
 
     $('#loginButton').click(function () {
-        $('div[data-role="content"]').wrap('<div class="overlay" />');
-        $.mobile.loading('show', {
-            text: 'Login...',
-            textVisible: true
-        });
+        var username = $('#loginName').prop("value");
+        var password = $('#loginPassword').prop("value");
 
-        username = $('#loginName').prop("value");
-        password = $('#loginPassword').prop("value");
-
-        $.ajax({
+        request({
             url: "login?username=" + username + "&password=" + password
         }).done(function (result) {
             sessionId = result;
             if (window.localStorage) {
                 window.localStorage.setItem("VocaluxeSessionKey", sessionId);
             }
-            $.ajax({
+            request({
                 url: "getOwnProfileId",
                 headers: { "session": sessionId }
-            }).done(function (result) {
+            }, 'Login...').done(function (result) {
                 ownProfileId = result;
-
-                $.mobile.loading('hide');
-                $('div[data-role="content"]').unwrap();
-
                 $.mobile.changePage("#main", { transition: "slidefade" });
-            }).fail(function (result) {
-                $.mobile.loading('hide');
-                $('div[data-role="content"]').unwrap();
             });
-        }).fail(function (result) {
-            $.mobile.loading('hide');
-            $('div[data-role="content"]').unwrap();
         });
     });
 
@@ -462,23 +405,12 @@ function initMainPageHandler() {
     });
 
     $('#currentSongLink').click(function () {
-        $('div[data-role="content"]').wrap('<div class="overlay" />');
-        $.mobile.loading('show', {
-            text: 'Getting current song...',
-            textVisible: true
-        });
-
-        $.ajax({
+        request({
             url: "getCurrentSongId",
             headers: { "session": sessionId }
-        }).done(function (result) {
+        }, 'Getting current song...').done(function (result) {
             songIdRequest = parseInt(result);
-            $.mobile.loading('hide');
-            $('div[data-role="content"]').unwrap();
             $.mobile.changePage("#displaySong", { transition: "slidefade" });
-        }).fail(function (result) {
-            $.mobile.loading('hide');
-            $('div[data-role="content"]').unwrap();
         });
     });
 
@@ -491,30 +423,18 @@ function initMainPageHandler() {
 
         $('#capture').change(function (eventData) {
             if (eventData && eventData.target && eventData.target.files && eventData.target.files.length == 1) {
-                $('div[data-role="content"]').wrap('<div class="overlay" />');
-                $.mobile.loading('show', {
-                    text: 'Uploading photo...',
-                    textVisible: true
-                });
-
                 var file = eventData.target.files[0];
                 var reader = new FileReader();
 
                 reader.onloadend = function (e) {
-                    $.ajax({
+                    request({
                         url: "sendPhoto",
                         dataType: "json",
                         contentType: "application/json;charset=utf-8",
                         type: "POST",
                         headers: { "session": sessionId },
-                        data: JSON.stringify({ Photo: { base64Data: e.target.result } }),
-                        success: function (msg) {
-
-                        }
-                    }).always(function () {
-                        $.mobile.loading('hide');
-                        $('div[data-role="content"]').unwrap();
-                    });
+                        data: JSON.stringify({ Photo: { base64Data: e.target.result } })
+                    }, 'Uploading photo...');
                 };
 
                 reader.readAsDataURL(file);
@@ -531,62 +451,54 @@ function initMainPageHandler() {
 
 function initKeyboardPageHandler() {
     $('#keyboardButtonUp').click(function () {
-        $.ajax({
-            url: "sendKeyEvent?key=up",
-            headers: { "session": sessionId }
-        })
+        request({
+            url: "sendKeyEvent?key=up"
+        });
     });
 
     $('#keyboardButtonDown').click(function () {
-        $.ajax({
-            url: "sendKeyEvent?key=down",
-            headers: { "session": sessionId }
-        })
+        request({
+            url: "sendKeyEvent?key=down"
+        });
     });
 
     $('#keyboardButtonLeft').click(function () {
-        $.ajax({
-            url: "sendKeyEvent?key=left",
-            headers: { "session": sessionId }
-        })
+        request({
+            url: "sendKeyEvent?key=left"
+        });
     });
 
     $('#keyboardButtonRight').click(function () {
-        $.ajax({
-            url: "sendKeyEvent?key=right",
-            headers: { "session": sessionId }
-        })
+        request({
+            url: "sendKeyEvent?key=right"
+        });
     });
 
     $('#keyboardButtonEscape').click(function () {
-        $.ajax({
-            url: "sendKeyEvent?key=escape",
-            headers: { "session": sessionId }
-        })
+        request({
+            url: "sendKeyEvent?key=escape"
+        });
     });
 
     $('#keyboardButtonkeyboardButtonTab').click(function () {
-        $.ajax({
-            url: "sendKeyEvent?key=tab",
-            headers: { "session": sessionId }
-        })
+        request({
+            url: "sendKeyEvent?key=tab"
+        });
     });
 
     $('#keyboardButtonReturn').click(function () {
-        $.ajax({
-            url: "sendKeyEvent?key=return",
-            headers: { "session": sessionId }
-        })
+        request({
+            url: "sendKeyEvent?key=return"
+        });
     });
 
     $('#keyboardButtonKeys').keyup(function (e) {
         var c = String.fromCharCode(e.keyCode);
         if (c.match(/\w/)) {
             c = e.keyCode >= 65 ? c.toLowerCase() : c;
-            $.ajax({
-                url: "sendKeyEvent?key=" + c,
-                headers: { "session": sessionId }
-            })
+            request({
+                url: "sendKeyEvent?key=" + c
+            });
         }
         var oldText = $('#keyboardButtonKeys')[0].value;
         if (oldText.length > 0) {
@@ -606,9 +518,8 @@ function delayedImageLoad(elem, id, fail) {
 
         elem.src = "";
         $(elem).addClass("imageLoaderImg");
-        $.ajax({
-            url: "delayedImage?id=" + id,
-            headers: { "session": sessionId }
+        request({
+            url: "delayedImage?id=" + id
         }).done(function (result) {
             $(elem).removeClass("imageLoaderImg");
             elem.src = result.base64Data;
@@ -648,18 +559,51 @@ function logout() {
 }
 
 function checkSession() {
-    $.ajax({
-        url: "getOwnProfileId",
-        headers: { "session": sessionId }
+    request({
+        url: "getOwnProfileId"
     }).done(function (result) {
         if (result == -1) {
             logout();
         }
-    }).fail(function (result) {
+    }, "noOverlay").fail(function (result) {
         logout();
     });
 }
 
 function initHeartbeat() {
     setInterval(checkSession, 20000);
+}
+
+function request(data, message) {
+    if (!message) {
+        message = "Loading...";
+    }
+
+    if (message != "noOverlay") {
+        $('div[data-role="content"]').wrap('<div class="overlay" />');
+        $.mobile.loading('show', {
+            text: message,
+            textVisible: true
+        });
+    }
+    
+    if (!data["headers"]) {
+        data["headers"] = {};
+    }
+    data["headers"]["session"] = sessionId;
+
+    return $.ajax(data).always(function (result) {
+        if (message != "noOverlay") {
+            $.mobile.loading('hide');
+            $('div[data-role="content"]').unwrap();
+        }
+    }).fail(function (result) {
+        //TODO:Fail Handling
+    });
+}
+
+function showError(message) {
+    if (!message) {
+        message = "Error...";
+    }
 }
