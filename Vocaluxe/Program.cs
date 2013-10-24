@@ -22,6 +22,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using System.Runtime.ExceptionServices;
@@ -32,6 +34,12 @@ namespace Vocaluxe
 {
     static class CMainProgram
     {
+#if WIN
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+#endif
+
         private static CSplashScreen _SplashScreen;
 
         [STAThread, HandleProcessCorruptedStateExceptions]
@@ -41,6 +49,9 @@ namespace Vocaluxe
         {
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
             AppDomain.CurrentDomain.AssemblyResolve += _AssemblyResolver;
+            // Close program if there is another instance running
+            if (!_EnsureSingleInstance())
+                return;
             try
             {
                 _Run(args);
@@ -61,14 +72,6 @@ namespace Vocaluxe
 
         private static void _Run(string[] args)
         {
-            // Close program if there is another instance running
-            if (!_EnsureSingleInstance())
-            {
-                //TODO: put it into language file
-                MessageBox.Show("Another Instance of Vocaluxe is already runnning!");
-                return;
-            }
-
             Application.DoEvents();
 
             try
@@ -306,12 +309,29 @@ namespace Vocaluxe
             return null;
         }
 
+        private static readonly Mutex _Mutex = new Mutex(false, Application.ProductName + "-SingleInstanceMutex");
+
         private static bool _EnsureSingleInstance()
         {
-            Process currentProcess = Process.GetCurrentProcess();
-            Process[] processes = Process.GetProcesses();
+            // wait a few seconds in case that the instance is just shutting down
+            if (!_Mutex.WaitOne(TimeSpan.FromSeconds(2), false))
+            {
+                //TODO: put it into language file
+                MessageBox.Show("Another Instance of Vocaluxe is already runnning!");
+#if WIN
+                Process currentProcess = Process.GetCurrentProcess();
+                Process[] processes = Process.GetProcessesByName(currentProcess.ProcessName);
 
-            return processes.All(t => t.Id == currentProcess.Id || currentProcess.ProcessName != t.ProcessName);
+                foreach (var process in processes.Where(t => t.Id != currentProcess.Id))
+                {
+                    var wnd = process.MainWindowHandle;
+                    if (wnd != IntPtr.Zero)
+                        SetForegroundWindow(wnd);
+                }
+#endif
+                return false;
+            }
+            return true;
         }
     }
 }
