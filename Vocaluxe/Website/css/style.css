@@ -73,3 +73,10 @@
 .ui-input-search {
     background: #ffffff !important;
 }
+
+.ui-custom-errorIcon {
+    background: url(images/alert.png) !important;
+    background-size: 42px 42px;
+    -webkit-border-radius: 0px !important;
+    border-radius: 0px !important;
+}

@@ -59,6 +59,10 @@ namespace ServerLib
 
         internal static int getUserIdFromSession(Guid sessionId)
         {
+            if (!activeSessions.ContainsKey(sessionId))
+            {
+                return -1;
+            }
             return activeSessions[sessionId].ProfileId;
         }
     }
