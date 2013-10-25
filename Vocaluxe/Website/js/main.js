@@ -11,6 +11,7 @@ $(document).ready(function () {
     initMainPageHandler();
     initLoginPageHandler();
     initHeartbeat();
+    initVideoPopup();
 });
 
 function replaceTransitionHandler() {
@@ -234,6 +235,20 @@ function initPageLoadHandler() {
             }
 
             $('#displaySongIsDuet').text(result.IsDuet ? "Yes" : "No");
+
+            if (result.Title != null || result.Artist != null) {
+                $('#displaySongLinks').show();
+
+                $('#displaySongLinkYoutube').unbind('click').click(function () {
+                    showYoutube(result.Artist, result.Title);
+                });
+
+                $('#displaySongLinkSpotify').unbind('click').click(function () {
+                    showSpotify(result.Artist, result.Title);
+                });
+            } else {
+                $('#displaySongLinks').hide();
+            }
         });
 
         // Save promise on page so the transition handler can find it.
@@ -586,11 +601,16 @@ function request(data, message) {
             textVisible: true
         });
     }
-    
+
     if (!data["headers"]) {
         data["headers"] = {};
     }
-    data["headers"]["session"] = sessionId;
+
+    if (message == "external") {
+        message = "Loading (external)...";
+    } else {
+        data["headers"]["session"] = sessionId;
+    }
 
     return $.ajax(data).always(function (result) {
         if (message != "noOverlay") {
@@ -616,7 +636,7 @@ function showError(message) {
     if (!message) {
         message = "Error...";
     }
-    
+
     $('div[data-role="content"]').wrap('<div class="overlay" />');
     $.mobile.loading('show', {
         text: message,
@@ -624,9 +644,99 @@ function showError(message) {
     });
     $('.ui-loader').find('span').removeClass('ui-icon-loading').addClass('ui-custom-errorIcon');
 
-    setTimeout(function() {
+    setTimeout(function () {
         $.mobile.loading('hide');
         $('div[data-role="content"]').unwrap();
         $('.ui-loader').find('span').removeClass('ui-custom-errorIcon').addClass('ui-icon-loading');
     }, 1000);
+}
+
+var popupVideoHeight = 390;
+var popupVideoWidth = 640;
+function initVideoPopup() {
+    function scale(width, height, padding, border) {
+        var scrWidth = $(window).width() - 30,
+            scrHeight = $(window).height() - 30,
+            ifrPadding = 2 * padding,
+            ifrBorder = 2 * border,
+            ifrWidth = width + ifrPadding + ifrBorder,
+            ifrHeight = height + ifrPadding + ifrBorder,
+            h, w;
+
+        if (ifrWidth < scrWidth && ifrHeight < scrHeight) {
+            w = ifrWidth;
+            h = ifrHeight;
+        } else if ((ifrWidth / scrWidth) > (ifrHeight / scrHeight)) {
+            w = scrWidth;
+            h = (scrWidth / ifrWidth) * ifrHeight;
+        } else {
+            h = scrHeight;
+            w = (scrHeight / ifrHeight) * ifrWidth;
+        }
+
+        return {
+            'width': w - (ifrPadding + ifrBorder),
+            'height': h - (ifrPadding + ifrBorder)
+        };
+    };
+    $("#popupVideo").find("a").click(function () {
+        $("#popupVideo").popup("close");
+        $("#popupVideo").popup("close"); //Sometimes twice??
+    });
+
+    $("#popupVideo iframe")
+       .attr("width", 0)
+       .attr("height", 0);
+
+    $("#popupVideo").on({
+        popupbeforeposition: function () {
+            var size = scale(popupVideoWidth, popupVideoHeight, 15, 1),
+                w = size.width,
+                h = size.height;
+
+            $("#popupVideo iframe")
+                .attr("width", w)
+                .attr("height", h);
+        },
+        popupafterclose: function () {
+            $("#popupVideo iframe")
+                .attr("width", 0)
+                .attr("height", 0)
+                .attr("src", "");
+        }
+    });
+};
+
+function showYoutube(artist, title) {
+    request({
+        url: "http://gdata.youtube.com/feeds/api/videos/-/Music?max-results=1&alt=json&format=5&q=" + artist + " " + title,
+        dataType: "json",
+    }, "external")
+    .done(function (result) {
+        if (result && result.feed && result.feed.entry && result.feed.entry.length > 0) {
+            var vidId = result.feed.entry[0].id.$t.replace("http://gdata.youtube.com/feeds/api/videos/", "");
+            popupVideoHeight = 390;
+            popupVideoWidth = 640;
+
+            $("#popupVideo iframe").attr("src", "http://www.youtube.com/embed/" + vidId + "?&autoplay=1&rel=0&showinfo=0&disablekb=1&autohide=1");
+            $("#popupVideo").popup("open");
+        }
+    });
+}
+
+function showSpotify(artist, title) {
+    request({
+        url: "http://ws.spotify.com/search/1/track.json?q=" + title + "+artist:" + artist,
+        dataType: "json",
+    }, "external")
+    .done(function (result) {
+        if (result && result.tracks && result.tracks.length > 0) {
+            var spotId = result.tracks[0].href;
+            popupVideoHeight = 80;
+            popupVideoWidth = 300;
+
+            $("#popupVideo iframe").attr("src", "https://embed.spotify.com/?uri=" + spotId);
+            $("#popupVideo").popup("open");
+        }
+    });
 }
