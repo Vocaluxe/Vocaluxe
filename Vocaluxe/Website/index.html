@@ -173,8 +173,20 @@
             <br />
             <label for="displaySongIsDuet" class="input">Duet:</label>
             <span id="displaySongIsDuet" data-mini="true">-</span>
+            <br />
+            <br />
+            <div id="displaySongLinks">
+                <img id="displaySongLinkYoutube" src="img/youtube.png" />
+                <img id="displaySongLinkSpotify" src="img/spotify.png" />
+            </div>
+
         </div>
         <!-- /content -->
+        <div data-role="popup" id="popupVideo" data-overlay-theme="a" data-theme="a" data-corners="false" data-tolerance="15,15">
+            <a href="#" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext"  class="ui-btn-right">Close</a>
+            <iframe width="480" height="320" seamless></iframe>
+        </div>
+        <!-- /popup -->
     </div>
     <!-- /page -->
 
