@@ -598,7 +598,17 @@ function request(data, message) {
             $('div[data-role="content"]').unwrap();
         }
     }).fail(function (result) {
-        //TODO:Fail Handling
+        if (result.statusText.indexOf("No session") != -1) {
+            logout();
+            return;
+        }
+        if (message != "noOverlay") {
+            var msg = result.statusText.length <= 20 ? result.statusText : "Error...";
+            if (msg == "error" && result.readyState == 0) {
+                msg = "No connection";
+            }
+            showError(msg);
+        }
     });
 }
 
@@ -606,4 +616,17 @@ function showError(message) {
     if (!message) {
         message = "Error...";
     }
+    
+    $('div[data-role="content"]').wrap('<div class="overlay" />');
+    $.mobile.loading('show', {
+        text: message,
+        textVisible: true
+    });
+    $('.ui-loader').find('span').removeClass('ui-icon-loading').addClass('ui-custom-errorIcon');
+
+    setTimeout(function() {
+        $.mobile.loading('hide');
+        $('div[data-role="content"]').unwrap();
+        $('.ui-loader').find('span').removeClass('ui-custom-errorIcon').addClass('ui-icon-loading');
+    }, 1000);
 }

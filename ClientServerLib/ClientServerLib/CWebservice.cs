@@ -17,7 +17,7 @@ namespace ServerLib
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/sendKeyEvent?key={key}")]
-        bool sendKeyEvent(string key);
+        void sendKeyEvent(string key);
 
         #region profile
 
@@ -31,7 +31,7 @@ namespace ServerLib
         [WebInvoke(Method = "POST",
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/sendProfile")]
-        bool sendProfile(ProfileData profile);
+        void sendProfile(ProfileData profile);
 
         [OperationContract]
         [WebInvoke(Method = "GET",
@@ -54,7 +54,7 @@ namespace ServerLib
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/sendPhoto")]
-        bool sendPhoto(PhotoData photo);
+        void sendPhoto(PhotoData photo);
 
         #endregion
 
@@ -168,21 +168,30 @@ namespace ServerLib
             return sessionKey;
         }
 
-        public bool sendKeyEvent(string key)
+        public void sendKeyEvent(string key)
         {
             Guid sessionKey = getSession();
 
-            if (sessionKey == Guid.Empty || !SessionControl.requestRight(sessionKey, UserRights.UseKeyboard))
+            if (sessionKey == Guid.Empty )
             {
                 WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
-                return false;
-            }
+                WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
 
-            if (CServer.SendKeyEvent == null)
-            {
-                return false;
             }
-            return CServer.SendKeyEvent(key);
+            else if (!SessionControl.requestRight(sessionKey, UserRights.UseKeyboard))
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not allowed";
+            }
+            else if (CServer.SendKeyEvent == null)
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.NotFound;
+                WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not found";
+            }
+            else
+            {
+                CServer.SendKeyEvent(key);
+            }
         }
 
         #region profile
@@ -193,35 +202,51 @@ namespace ServerLib
             if (sessionKey == Guid.Empty)
             {
                 WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
                 return -1;
             }
-
-            return SessionControl.getUserIdFromSession(sessionKey);
+            int profileId = SessionControl.getUserIdFromSession(sessionKey);
+            if (profileId < 0)
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
+                return -1;
+            }
+            return profileId;
         }
 
-        public bool sendProfile(ProfileData profile)
+        public void sendProfile(ProfileData profile)
         {
             Guid sessionKey = getSession();
 
             if (profile.ProfileId != -1) //-1 is the id for a new profile
             {
-                if (sessionKey == Guid.Empty || (!SessionControl.requestRight(sessionKey, UserRights.EditAllProfiles) &&
-                    SessionControl.getUserIdFromSession(sessionKey) != profile.ProfileId))
+                if (sessionKey == Guid.Empty)
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
-                    return false;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
+                    return;
+                }
+
+                if (!SessionControl.requestRight(sessionKey, UserRights.EditAllProfiles) &&
+                    SessionControl.getUserIdFromSession(sessionKey) != profile.ProfileId)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not allowed";
+                    return;
                 }
             }
 
             if (CServer.SendProfileData == null)
             {
                 WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.NotFound;
-                return false;
+                WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not found";
+                return;
             }
 
-            bool result = CServer.SendProfileData(profile);
+            CServer.SendProfileData(profile);
 
-            if (profile.Password != null && profile.Password != "")
+            if (!string.IsNullOrEmpty(profile.Password))
             {
                 int profileId = profile.ProfileId;
                 if (profileId == -1)
@@ -231,18 +256,24 @@ namespace ServerLib
 
                 CServer.SetPassword(profileId, profile.Password);
             }
-
-            return result;
         }
 
         public ProfileData getProfile(int profileId)
         {
             Guid sessionKey = getSession();
 
-            if (sessionKey == Guid.Empty || (!SessionControl.requestRight(sessionKey, UserRights.ViewOtherProfiles) &&
-                SessionControl.getUserIdFromSession(sessionKey) != profileId))
+            if (sessionKey == Guid.Empty)
             {
                 WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
+                return new ProfileData();
+            }
+
+            if (!SessionControl.requestRight(sessionKey, UserRights.ViewOtherProfiles) &&
+                SessionControl.getUserIdFromSession(sessionKey) != profileId)
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not allowed";
                 return new ProfileData();
             }
 
@@ -270,16 +301,24 @@ namespace ServerLib
 
         #region photo
 
-        public bool sendPhoto(PhotoData photo)
+        public void sendPhoto(PhotoData photo)
         {
             Guid sessionKey = getSession();
+            if (sessionKey == Guid.Empty)
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
+                return;
+            }
+
             if (!SessionControl.requestRight(sessionKey, UserRights.UploadPhotos))
             {
                 WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
-                return false;
+                WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not allowed";
+                return;
             }
 
-            return CServer.SendPhoto(photo);
+            CServer.SendPhoto(photo);
         }
 
         #endregion
@@ -292,6 +331,7 @@ namespace ServerLib
             if (sessionId == Guid.Empty)
             {
                 WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                WebOperationContext.Current.OutgoingResponse.StatusDescription = "Wrong username or password";
             }
             return sessionId;
         }
@@ -424,9 +464,16 @@ namespace ServerLib
         public void setUserRole(int profileId, int userRole)
         {
             Guid sessionKey = getSession();
+            if (sessionKey == Guid.Empty)
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
+                return;
+            }
             if (!SessionControl.requestRight(sessionKey, UserRights.EditAllProfiles))
             {
                 WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not allowed";
                 return;
             }
             CServer.SetUserRole(profileId, userRole);

@@ -312,6 +312,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CustomToolNamespace>images</CustomToolNamespace>
     </Content>
+    <Content Include="Website\css\images\alert.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Website\css\images\icons-18-black.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CustomToolNamespace>images</CustomToolNamespace>
