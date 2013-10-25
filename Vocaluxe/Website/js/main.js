@@ -1,6 +1,6 @@
 var ownProfileId = -1;
 var profileIdRequest = -1;
-var songIdRequest = -1
+var songIdRequest = -1;
 var allSongsCache = null;
 var sessionId = "";
 
@@ -265,14 +265,14 @@ function initPageLoadHandler() {
                 headers: { "session": sessionId }
             }).done(function (data) {
                 allSongsCache = data;
-                handleGetAllSongs()
+                handleGetAllSongs();
             });
 
             // Save promise on page so the transition handler can find it.
             $(this).data('promise', promise);
         }
         else {
-            handleGetAllSongs()
+            handleGetAllSongs();
         }
     });
 
@@ -364,7 +364,7 @@ function initLoginPageHandler() {
         }
     };
 
-    $('#loginName').keypress(keyPressed)
+    $('#loginName').keypress(keyPressed);
     $('#loginPassword').keypress(keyPressed);
 
     $('#loginButton').click(function () {
@@ -381,8 +381,8 @@ function initLoginPageHandler() {
             request({
                 url: "getOwnProfileId",
                 headers: { "session": sessionId }
-            }, 'Login...').done(function (result) {
-                ownProfileId = result;
+            }, 'Login...').done(function (result2) {
+                ownProfileId = result2;
                 $.mobile.changePage("#main", { transition: "slidefade" });
             });
         });
@@ -480,7 +480,7 @@ function initKeyboardPageHandler() {
         });
     });
 
-    $('#keyboardButtonkeyboardButtonTab').click(function () {
+    $('#keyboardButtonTab').click(function () {
         request({
             url: "sendKeyEvent?key=tab"
         });
@@ -539,7 +539,7 @@ function addImage(img, base64Image, defaultImg) {
             $(img).prop("src", base64Image.base64Data);
         }
         else {
-            delayedImageLoad(img, base64Image.imageId, defaultImg)
+            delayedImageLoad(img, base64Image.imageId, defaultImg);
         }
     }
     else {
