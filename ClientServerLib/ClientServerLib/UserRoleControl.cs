@@ -1,35 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ServerLib
 {
-    internal static class UserRoleControl
+    internal static class CUserRoleControl
     {
-        private static Dictionary<UserRoles, UserRights> roleRightsMapping = new Dictionary<UserRoles, UserRights> {
-                                                                            {UserRoles.Administrator,
-                                                                                (UserRights.EditAllProfiles|
-                                                                                UserRights.UploadPhotos|
-                                                                                UserRights.ViewOtherProfiles)|
-                                                                                UserRights.UseKeyboard},
-                                                                            {UserRoles.AuthenticatedUser,
-                                                                                (UserRights.UploadPhotos|
-                                                                                UserRights.ViewOtherProfiles|
-                                                                                UserRights.UseKeyboard)}
+        private static readonly Dictionary<EUserRoles, EUserRights> _RoleRightsMapping = new Dictionary<EUserRoles, EUserRights> {
+                                                                            {EUserRoles.Administrator,
+                                                                                (EUserRights.EditAllProfiles|
+                                                                                EUserRights.UploadPhotos|
+                                                                                EUserRights.ViewOtherProfiles)|
+                                                                                EUserRights.UseKeyboard},
+                                                                            {EUserRoles.AuthenticatedUser,
+                                                                                (EUserRights.UploadPhotos|
+                                                                                EUserRights.ViewOtherProfiles|
+                                                                                EUserRights.UseKeyboard)}
                                                                         };
 
 
-        internal static UserRights getUserRightsFromUserRole(UserRoles userRole)
+        internal static EUserRights GetUserRightsFromUserRole(EUserRoles userRole)
         {
-            UserRights resultRights = UserRights.None;          
-
-            foreach (UserRights r in roleRightsMapping.Where(role => userRole.HasFlag(role.Key)).Select(role => role.Value))
-            {
-                resultRights |= r;
-            }
-
-            return resultRights;
+            return _RoleRightsMapping.Where(role => userRole.HasFlag(role.Key))
+                .Select(role => role.Value)
+                .Aggregate(EUserRights.None, (current, r) => current | r);
         }
     }
 }

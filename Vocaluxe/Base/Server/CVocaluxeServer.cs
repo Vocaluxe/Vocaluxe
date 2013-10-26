@@ -18,8 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
 using System.Linq;
 using System.IO;
 using System.Text;
@@ -48,21 +46,21 @@ namespace Vocaluxe.Base.Server
             _Server = new CServer(CConfig.ServerPort, CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON);
             //TODO: remove CConfig.ServerPassword
 
-            CServer.SendKeyEvent = sendKeyEvent;
-            CServer.GetProfileData = getProfileData;
-            CServer.SendProfileData = sendProfileData;
-            CServer.GetProfileList = getProfileList;
-            CServer.SendPhoto = sendPhoto;
-            CServer.GetSiteFile = getSiteFile;
-            CServer.GetSong = getSong;
-            CServer.GetAllSongs = getAllSongs;
-            CServer.GetCurrentSongId = getCurrentSongId;
-            CServer.SetPassword = setPassword;
-            CServer.ValidatePassword = validatePassword;
-            CServer.GetUserRole = getUserRole;
-            CServer.SetUserRole = setUserRole;
-            CServer.GetUserIdFromUsername = getUserIdFromUsername;
-            CServer.GetDelayedImage = getDelayedImage;
+            CServer.SendKeyEvent = _SendKeyEvent;
+            CServer.GetProfileData = _GetProfileData;
+            CServer.SendProfileData = _SendProfileData;
+            CServer.GetProfileList = _GetProfileList;
+            CServer.SendPhoto = _SendPhoto;
+            CServer.GetSiteFile = _GetSiteFile;
+            CServer.GetSong = _GetSong;
+            CServer.GetAllSongs = _GetAllSongs;
+            CServer.GetCurrentSongId = _GetCurrentSongId;
+            CServer.SetPassword = _SetPassword;
+            CServer.ValidatePassword = _ValidatePassword;
+            CServer.GetUserRole = _GetUserRole;
+            CServer.SetUserRole = _SetUserRole;
+            CServer.GetUserIdFromUsername = _GetUserIdFromUsername;
+            CServer.GetDelayedImage = _GetDelayedImage;
 
             _Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
             Controller.Init();
@@ -84,7 +82,7 @@ namespace Vocaluxe.Base.Server
             _Clients = new Dictionary<int, CClientHandler>();
         }
 
-        private static bool sendKeyEvent(string key)
+        private static bool _SendKeyEvent(string key)
         {
             bool result = false;
             if (key != null && key != "")
@@ -155,17 +153,17 @@ namespace Vocaluxe.Base.Server
 
         #region profile
 
-        private static ProfileData getProfileData(int profileId, bool isReadonly)
+        private static SProfileData _GetProfileData(int profileId, bool isReadonly)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
             {
-                return new ProfileData();
+                return new SProfileData();
             }
-            return CreateProfileData(profile, isReadonly); ;
+            return _CreateProfileData(profile, isReadonly);
         }
 
-        private static bool sendProfileData(ProfileData profile)
+        private static bool _SendProfileData(SProfileData profile)
         {
             CProfile newProfile;
             CProfile existingProfile = CProfiles.GetProfile(profile.ProfileId);
@@ -206,11 +204,11 @@ namespace Vocaluxe.Base.Server
                 newProfile.Avatar = avatar;*/
             }
 
-            if (profile.PlayerName != null && profile.PlayerName != "")
+            if (!string.IsNullOrEmpty(profile.PlayerName))
             {
                 newProfile.PlayerName = profile.PlayerName;
             }
-            else if (newProfile.PlayerName != null && newProfile.PlayerName != "")
+            else if (!string.IsNullOrEmpty(newProfile.PlayerName))
             {
                 newProfile.PlayerName = "DummyName";
             }
@@ -237,41 +235,39 @@ namespace Vocaluxe.Base.Server
             return true;
         }
 
-        private static ProfileData[] getProfileList()
+        private static SProfileData[] _GetProfileList()
         {
-            List<ProfileData> result = new List<ProfileData>(CProfiles.NumProfiles);
+            List<SProfileData> result = new List<SProfileData>(CProfiles.NumProfiles);
 
-            foreach (CProfile profile in CProfiles.GetProfiles())
-            {
-                result.Add(CreateProfileData(profile, true));
-            }
+            result.AddRange(CProfiles.GetProfiles().Select(profile => _CreateProfileData(profile, true)));
 
             return result.ToArray();
         }
 
-        private static ProfileData CreateProfileData(CProfile profile, bool isReadonly)
+        private static SProfileData _CreateProfileData(CProfile profile, bool isReadonly)
         {
-            ProfileData profileData = new ProfileData();
+            SProfileData profileData = new SProfileData
+            {
+                IsEditable = !isReadonly,
+                ProfileId = profile.ID,
+                PlayerName = profile.PlayerName,
+                Type = (int)profile.GuestProfile,
+                Difficulty = (int)profile.Difficulty
+            };
 
-            profileData.IsEditable = !isReadonly;
-            profileData.ProfileId = profile.ID;
-            profileData.PlayerName = profile.PlayerName;
-            profileData.Type = (int)profile.GuestProfile;
-            profileData.Difficulty = (int)profile.Difficulty;
             CAvatar avatar = profile.Avatar;
             if (avatar != null)
             {
                 if (File.Exists(avatar.FileName))
                 {
-                    profileData.Avatar = new Base64Image(createDelayedImage(avatar.FileName));
+                    profileData.Avatar = new CBase64Image(_CreateDelayedImage(avatar.FileName));
                 }
             }
             return profileData;
         }
 
-        private static CAvatar _AddAvatar(Base64Image avatarData)
+        private static CAvatar _AddAvatar(CBase64Image avatarData)
         {
-            string result = String.Empty;
             try
             {
                 string filename = _SaveImage(avatarData, "snapshot", CSettings.FolderProfiles);
@@ -282,10 +278,7 @@ namespace Vocaluxe.Base.Server
                     CProfiles.AddAvatar(avatar);
                     return avatar;
                 }
-                else
-                {
-                    return null;
-                }
+                return null;
             }
             catch
             {
@@ -297,7 +290,7 @@ namespace Vocaluxe.Base.Server
 
         #region photo
 
-        private static bool sendPhoto(PhotoData photoData)
+        private static bool _SendPhoto(SPhotoData photoData)
         {
             if (photoData.Photo == null)
             {
@@ -307,16 +300,16 @@ namespace Vocaluxe.Base.Server
             string name = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
             string filePath = _SaveImage(photoData.Photo, name, CSettings.FolderPhotos);
 
-            return (filePath != null && filePath != "");
+            return !string.IsNullOrEmpty(filePath);
         }
 
         #endregion
 
         #region website
 
-        private static Dictionary<string, string> delayedImagePath = new Dictionary<string, string>();
+        private static readonly Dictionary<string, string> _DelayedImagePath = new Dictionary<string, string>();
 
-        private static byte[] getSiteFile(string filename)
+        private static byte[] _GetSiteFile(string filename)
         {
             string path = "Website/" + filename;
             path = path.Replace("..", "");
@@ -336,7 +329,7 @@ namespace Vocaluxe.Base.Server
             return File.ReadAllBytes(path);
         }
 
-        private static string createDelayedImage(string filename)
+        private static string _CreateDelayedImage(string filename)
         {
             byte[] by = SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(filename));
             var sb = new StringBuilder();
@@ -347,52 +340,48 @@ namespace Vocaluxe.Base.Server
 
             string hashedFilename = sb.ToString();
 
-            if (!delayedImagePath.ContainsKey(hashedFilename))
+            if (!_DelayedImagePath.ContainsKey(hashedFilename))
             {
-                delayedImagePath.Add(hashedFilename, filename);
+                _DelayedImagePath.Add(hashedFilename, filename);
             }
             return hashedFilename;
         }
 
-        private static Base64Image getDelayedImage(string hashedFilename)
+        private static CBase64Image _GetDelayedImage(string hashedFilename)
         {
-            if (!delayedImagePath.ContainsKey(hashedFilename))
+            if (!_DelayedImagePath.ContainsKey(hashedFilename))
             {
                 throw new FileNotFoundException("Image not found");
             }
 
-            string fileName = delayedImagePath[hashedFilename];
+            string fileName = _DelayedImagePath[hashedFilename];
 
             if (File.Exists(fileName))
             {
                 Image image = Image.FromFile(fileName);
-                return new Base64Image(image, image.RawFormat);
+                return new CBase64Image(image, image.RawFormat);
             }
-            else
-            {
-                throw new FileNotFoundException("Image not found");
-            }
-
+            throw new FileNotFoundException("Image not found");
         }
 
         #endregion
 
         #region songs
 
-        private static SongInfo getSong(int songId)
+        private static SOngInfo _GetSong(int songId)
         {
             CSong song = CSongs.GetSong(songId);
-            return getSongInfo(song, true);
+            return _GetSongInfo(song, true);
         }
 
-        private static SongInfo[] getAllSongs()
+        private static SOngInfo[] _GetAllSongs()
         {
             var songs = CSongs.Songs;
             return (from s in songs
-                    select getSongInfo(s, false)).ToArray<SongInfo>();
+                    select _GetSongInfo(s, false)).ToArray<SOngInfo>();
         }
 
-        private static int getCurrentSongId()
+        private static int _GetCurrentSongId()
         {
             CSong song = CGame.GetSong();
             if (song == null)
@@ -402,9 +391,9 @@ namespace Vocaluxe.Base.Server
             return song.ID;
         }
 
-        private static SongInfo getSongInfo(CSong song, bool includeCover)
+        private static SOngInfo _GetSongInfo(CSong song, bool includeCover)
         {
-            SongInfo result = new SongInfo();
+            SOngInfo result = new SOngInfo();
             if (song != null)
             {
                 result.Title = song.Title;
@@ -416,7 +405,7 @@ namespace Vocaluxe.Base.Server
                 result.SongId = song.ID;
                 if (includeCover)
                 {
-                    result.Cover = new Base64Image(createDelayedImage(song.Folder + "\\" + song.CoverFileName));
+                    result.Cover = new CBase64Image(_CreateDelayedImage(song.Folder + "\\" + song.CoverFileName));
                 }
             }
             return result;
@@ -426,7 +415,7 @@ namespace Vocaluxe.Base.Server
 
         #region user management
 
-        private static void setPassword(int profileId, string newPassword)
+        private static void _SetPassword(int profileId, string newPassword)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
@@ -438,13 +427,13 @@ namespace Vocaluxe.Base.Server
             byte[] buffer = new byte[128];
             rng.GetNonZeroBytes(buffer);
             byte[] salt = buffer;
-            byte[] hashedPassword = hash((new System.Text.UTF8Encoding()).GetBytes(newPassword), salt);
+            byte[] hashedPassword = _Hash((new UTF8Encoding()).GetBytes(newPassword), salt);
 
             profile.PasswordSalt = salt;
             profile.PasswordHash = hashedPassword;
         }
 
-        private static bool validatePassword(int profileId, string password)
+        private static bool _ValidatePassword(int profileId, string password)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
@@ -454,21 +443,18 @@ namespace Vocaluxe.Base.Server
 
             if (profile.PasswordHash == null)
             {
-                if (password == "" || password == null)
+                if (string.IsNullOrEmpty(password))
                 {
                     return true; //Allow emty passwords
                 }
-                else
-                {
-                    return false;
-                }
+                return false;
             }
 
             byte[] salt = profile.PasswordSalt;
-            return hash((new System.Text.UTF8Encoding()).GetBytes(password), salt).SequenceEqual(profile.PasswordHash);
+            return _Hash((new UTF8Encoding()).GetBytes(password), salt).SequenceEqual(profile.PasswordHash);
         }
 
-        private static bool validatePassword(int profileId, byte[] hashedPassword)
+        private static bool _ValidatePassword(int profileId, byte[] hashedPassword)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
@@ -482,17 +468,14 @@ namespace Vocaluxe.Base.Server
                 {
                     return true; //Allow emty passwords
                 }
-                else
-                {
-                    return false;
-                }
+                return false;
             }
 
             byte[] salt = profile.PasswordSalt;
             return hashedPassword.SequenceEqual(profile.PasswordHash);
         }
 
-        private static byte[] getPassowordSalt(int profileId)
+        private static byte[] _GetPassowordSalt(int profileId)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
@@ -508,7 +491,7 @@ namespace Vocaluxe.Base.Server
             return profile.PasswordSalt;
         }
 
-        private static int getUserRole(int profileId)
+        private static int _GetUserRole(int profileId)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
@@ -519,7 +502,7 @@ namespace Vocaluxe.Base.Server
             return profile.UserRoles;
         }
 
-        private static void setUserRole(int profileId, int userRole)
+        private static void _SetUserRole(int profileId, int userRole)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
@@ -530,12 +513,12 @@ namespace Vocaluxe.Base.Server
             profile.UserRoles = userRole;
         }
 
-        private static int getUserIdFromUsername(string username)
+        private static int _GetUserIdFromUsername(string username)
         {
             var playerIds = (from p in CProfiles.GetProfiles()
                              where String.Equals(p.PlayerName, username, StringComparison.OrdinalIgnoreCase)
                              select p.ID);
-            if (playerIds.Count() == 0)
+            if (!playerIds.Any())
             {
                 throw new ArgumentException("Invalid playername");
             }
@@ -543,7 +526,7 @@ namespace Vocaluxe.Base.Server
             return playerIds.First();
         }
 
-        private static byte[] hash(byte[] password, byte[] salt)
+        private static byte[] _Hash(byte[] password, byte[] salt)
         {
             HashAlgorithm hashAlgo = new SHA256Managed();
 
@@ -556,13 +539,11 @@ namespace Vocaluxe.Base.Server
         }
 
         #endregion
-
-
-
-        private static string _SaveImage(Base64Image imageDate, string name, string folder)
+        
+        private static string _SaveImage(CBase64Image imageDate, string name, string folder)
         {
-            Image avatarImage = imageDate.getImage();
-            string extension = imageDate.getImageType();
+            Image avatarImage = imageDate.GetImage();
+            string extension = imageDate.GetImageType();
 
             string filename = Path.Combine(folder, name);
             if (File.Exists(filename + "." + extension))

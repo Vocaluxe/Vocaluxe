@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ServerLib
 {
     [Flags]
-    internal enum UserRights
+    internal enum EUserRights
     {
         None = 0x00,
         EditAllProfiles = 0x01,

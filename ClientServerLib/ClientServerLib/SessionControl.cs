@@ -1,69 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ServerLib
 {
-    internal static class SessionControl
+    internal static class CSessionControl
     {
-        private static Dictionary<Guid, Session> activeSessions = new Dictionary<Guid, Session>();
+        private static readonly Dictionary<Guid, CSession> _ActiveSessions = new Dictionary<Guid, CSession>();
 
-        public static Guid openSession(string userName, string password)
+        public static Guid OpenSession(string userName, string password)
         {
-            if (!validateUserAndPassword(userName, password))
+            if (!_ValidateUserAndPassword(userName, password))
             {
                 return Guid.Empty;
             }
 
             Guid newId = Guid.NewGuid();
-            int id = getProfileIdFormUsername(userName);
-            UserRoles roles = getUserRoles(id);
-            Session session = new Session(newId, id, roles);
-            invalidateSessions(id);
-            activeSessions.Add(newId, session);
+            int id = _GetProfileIdFormUsername(userName);
+            EUserRoles roles = _GetUserRoles(id);
+            CSession session = new CSession(newId, id, roles);
+            InvalidateSessions(id);
+            _ActiveSessions.Add(newId, session);
 
             return newId;
         }
 
-        private static bool validateUserAndPassword(string userName, string password)
+        private static bool _ValidateUserAndPassword(string userName, string password)
         {
-            return CServer.ValidatePassword(getProfileIdFormUsername(userName), password);
+            return CServer.ValidatePassword(_GetProfileIdFormUsername(userName), password);
         }
 
-        private static int getProfileIdFormUsername(string username)
+        private static int _GetProfileIdFormUsername(string username)
         {
             return CServer.GetUserIdFromUsername(username);
         }
 
-        private static UserRoles getUserRoles(int profileId)
+        private static EUserRoles _GetUserRoles(int profileId)
         {
-            return (UserRoles)CServer.GetUserRole(profileId);
+            return (EUserRoles)CServer.GetUserRole(profileId);
         }
 
-        internal static void invalidateSessions(int profileId)
+        internal static void InvalidateSessions(int profileId)
         {
-            foreach (var s in (from kv in activeSessions
+            foreach (var s in (from kv in _ActiveSessions
                                where kv.Value.ProfileId == profileId
                                select kv).ToList())
             {
-                activeSessions.Remove(s.Key);
+                _ActiveSessions.Remove(s.Key);
             }
 
         }
 
-        internal static bool requestRight(Guid sessionId, UserRights requestedRight)
+        internal static bool RequestRight(Guid sessionId, EUserRights requestedRight)
         {
-            return ((UserRoleControl.getUserRightsFromUserRole(activeSessions[sessionId].Roles) & requestedRight) != 0);
+            return ((CUserRoleControl.GetUserRightsFromUserRole(_ActiveSessions[sessionId].Roles) & requestedRight) != 0);
         }
 
-        internal static int getUserIdFromSession(Guid sessionId)
+        internal static int GetUserIdFromSession(Guid sessionId)
         {
-            if (!activeSessions.ContainsKey(sessionId))
+            if (!_ActiveSessions.ContainsKey(sessionId))
             {
                 return -1;
             }
-            return activeSessions[sessionId].ProfileId;
+            return _ActiveSessions[sessionId].ProfileId;
         }
     }
 }
