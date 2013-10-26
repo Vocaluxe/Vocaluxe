@@ -233,6 +233,16 @@ namespace Vocaluxe.Base
         {
             return CSettings.DataPath;
         }
+
+        public float GetSlideShowImageTime()
+        {
+            return CSettings.SlideShowImageTime;
+        }
+
+        public float GetSlideShowFadeTime()
+        {
+            return CSettings.SlideShowFadeTime;
+        }
     }
 
     class CBtheme : ITheme
