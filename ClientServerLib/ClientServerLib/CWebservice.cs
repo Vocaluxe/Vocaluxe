@@ -259,8 +259,6 @@ namespace ServerLib
                 return;
             }
 
-            CServer.SendProfileData(profile);
-
             if (!string.IsNullOrEmpty(profile.Password))
             {
                 int profileId = profile.ProfileId;
@@ -271,6 +269,8 @@ namespace ServerLib
 
                 CServer.SetPassword(profileId, profile.Password);
             }
+
+            CServer.SendProfileData(profile);
         }
 
         public SProfileData GetProfile(int profileId)

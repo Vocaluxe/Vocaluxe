@@ -85,7 +85,7 @@ namespace Vocaluxe.Base.Server
         private static bool _SendKeyEvent(string key)
         {
             bool result = false;
-            if (key != null && key != "")
+            if (!string.IsNullOrEmpty(key))
             {
                 switch (key.ToLower())
                 {
