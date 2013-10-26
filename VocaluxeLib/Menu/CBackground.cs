@@ -70,6 +70,7 @@ namespace VocaluxeLib.Menu
             _PartyModeID = partyModeID;
             _ThemeLoaded = false;
             _Theme = new SThemeBackground();
+            _Theme.SlideShowTextures = new List<string>();
 
             Color = new SColorF(0f, 0f, 0f, 1f);
         }
@@ -103,7 +104,7 @@ namespace VocaluxeLib.Menu
 
             string slideShow = "";
             int i = 1;
-            _Theme.SlideShowTextures = new List<string>();
+
             while (xmlReader.ItemExists(item + "/SlideShow" + i))
             {
                 xmlReader.GetValue(item + "/SlideShow" + i, out slideShow, String.Empty);
@@ -190,7 +191,7 @@ namespace VocaluxeLib.Menu
                 ok = _DrawVideo();
             }
 
-            if (_Theme.Type == EBackgroundTypes.SlideShow && _Theme.SlideShowTextures.Count > 0)
+            if (_Theme.Type == EBackgroundTypes.SlideShow )
             {
                 ok = _DrawSlideShow();
             }
@@ -216,6 +217,27 @@ namespace VocaluxeLib.Menu
 
             foreach (string s in _Theme.SlideShowTextures)
                 _SlideShowTextures.Add(CBase.Theme.GetSkinTexture(s, _PartyModeID));
+        }
+
+        public void AddSlideShowTexture(string image)
+        {
+            _Theme.Type = EBackgroundTypes.SlideShow;
+            if (!String.IsNullOrEmpty(image))
+            {
+                CTexture texture = CBase.Drawing.AddTexture(image);
+                if(texture != null)
+                    _SlideShowTextures.Add(texture);
+            }
+        }
+
+        public void RemoveSlideShowTextures()
+        {
+            foreach (CTexture tex in _SlideShowTextures)
+            {
+                CTexture texture = tex;
+                CBase.Drawing.RemoveTexture(ref texture);
+            }
+            _SlideShowTextures.Clear();
         }
 
         public void ReloadTextures()

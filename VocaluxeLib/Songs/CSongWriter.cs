@@ -74,7 +74,7 @@ namespace VocaluxeLib.Songs
                 _WriteHeaderEntry("YEAR", _Song.Year);
                 _WriteHeaderEntry("MP3", _Song.MP3FileName);
                 _WriteHeaderEntry("COVER", _Song.CoverFileName);
-                _WriteHeaderEntry("BACKGROUND", _Song.BackgroundFileName);
+                _WriteHeaderEntrys("BACKGROUND", _Song.BackgroundFileNames);
                 _WriteHeaderEntry("VIDEO", _Song.VideoFileName);
                 _WriteHeaderEntry("VIDEOGAP", _Song.VideoGap);
                 if (_Song.VideoAspect != EAspect.Crop)
