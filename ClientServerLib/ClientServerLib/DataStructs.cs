@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
 using System.Drawing;
 using System.IO;
@@ -15,15 +13,15 @@ namespace ServerLib
 
     #region profile
 
-    public delegate ProfileData GetProfileDataDelegate(int profileId, bool isReadonly);
-    public delegate bool SendProfileDataDelegate(ProfileData profile);
-    public delegate ProfileData[] GetProfileListDelegate();
+    public delegate SProfileData GetProfileDataDelegate(int profileId, bool isReadonly);
+    public delegate bool SendProfileDataDelegate(SProfileData profile);
+    public delegate SProfileData[] GetProfileListDelegate();
 
     [DataContract]
-    public struct ProfileData
+    public struct SProfileData
     {
         [DataMember]
-        public Base64Image Avatar;
+        public CBase64Image Avatar;
         [DataMember]
         public string PlayerName;
         [DataMember]
@@ -42,13 +40,13 @@ namespace ServerLib
 
     #region photo
 
-    public delegate bool SendPhotoDelegate(PhotoData photo);
+    public delegate bool SendPhotoDelegate(SPhotoData photo);
 
     [DataContract]
-    public struct PhotoData
+    public struct SPhotoData
     {
         [DataMember]
-        public Base64Image Photo;
+        public CBase64Image Photo;
         //Add infomation about the user who took this image??
     }
 
@@ -58,12 +56,12 @@ namespace ServerLib
 
     public delegate byte[] GetSiteFileDelegate(string filename);
 
-    public delegate Base64Image GetDelayedImageDelegate(string hashedFilename);
+    public delegate CBase64Image GetDelayedImageDelegate(string hashedFilename);
 
     #endregion
 
     [DataContract]
-    public class Base64Image
+    public class CBase64Image
     {
         [DataMember]
         private string base64Data = "";
@@ -71,7 +69,7 @@ namespace ServerLib
         [DataMember]
         private string imageId = "";
 
-        public Base64Image(Image img, ImageFormat format)
+        public CBase64Image(Image img, ImageFormat format)
         {
             MemoryStream ms = new MemoryStream();
             img.Save(ms, format);
@@ -79,12 +77,12 @@ namespace ServerLib
             base64Data = "data:image/" + formatString + ";base64," + Convert.ToBase64String(ms.ToArray());
         }
 
-        public Base64Image(string imageId)
+        public CBase64Image(string imageId)
         {
             this.imageId = imageId;
         }
 
-        public Image getImage()
+        public Image GetImage()
         {
             string onlyBase64Data = base64Data.Substring(base64Data.IndexOf(";base64,") + (";base64,").Length);
             byte[] imageData = Convert.FromBase64String(onlyBase64Data);
@@ -94,7 +92,7 @@ namespace ServerLib
             return image;
         }
 
-        public string getImageType()
+        public string GetImageType()
         {
             Match match = Regex.Match(base64Data, "(?<=data:image/)[a-zA-Z]+(?=;base64)");
             return match.Success ? match.Groups[0].Value : "";
@@ -105,21 +103,21 @@ namespace ServerLib
 
     #region songs
 
-    public delegate SongInfo GetSongDelegate(int songId);
+    public delegate SOngInfo GetSongDelegate(int songId);
 
-    public delegate SongInfo[] GetAllSongsDelegate();
+    public delegate SOngInfo[] GetAllSongsDelegate();
 
     public delegate int GetCurrentSongIdDelegate();
 
     [DataContract]
-    public struct SongInfo
+    public struct SOngInfo
     {
         [DataMember]
         public string Title;
         [DataMember]
         public string Artist;
         [DataMember]
-        public Base64Image Cover;
+        public CBase64Image Cover;
         [DataMember]
         public string Genre { get; set; }
         [DataMember]

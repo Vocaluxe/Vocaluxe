@@ -1,35 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ServerLib
 {
-    internal class Session
+    internal class CSession
     {
-        Guid id;
+        readonly Guid _ID;
         public Guid Id
         {
-            get { return id; }
+            get { return _ID; }
         }
 
-        int profileId;
+        readonly int _ProfileId;
         public int ProfileId
         {
-            get { return profileId; }
+            get { return _ProfileId; }
         }
 
-        UserRoles roles;
-        internal UserRoles Roles
+        readonly EUserRoles _Roles;
+        internal EUserRoles Roles
         {
-            get { return roles; }
+            get { return _Roles; }
         }
 
-        public Session(Guid id, int profileId, UserRoles roles)
+        public CSession(Guid id, int profileId, EUserRoles roles)
         {
-            this.id = id;
-            this.profileId = profileId;
-            this.roles = roles;
+            this._ID = id;
+            this._ProfileId = profileId;
+            this._Roles = roles;
         }
     }
 }
