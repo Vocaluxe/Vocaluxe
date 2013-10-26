@@ -246,6 +246,10 @@ function initPageLoadHandler() {
                 $('#displaySongLinkSpotify').unbind('click').click(function () {
                     showSpotify(result.Artist, result.Title);
                 });
+
+                $('#displaySongLinkWikipedia').unbind('click').click(function () {
+                    showWikipedia(result.Artist);
+                });
             } else {
                 $('#displaySongLinks').hide();
             }
@@ -739,4 +743,12 @@ function showSpotify(artist, title) {
             $("#popupVideo").popup("open");
         }
     });
+}
+
+function showWikipedia(artist) {
+    popupVideoHeight = 800;
+    popupVideoWidth = 600;
+
+    $("#popupVideo iframe").attr("src", "http://m.wikipedia.org/wiki/Special:Search/" + artist);
+    $("#popupVideo").popup("open");
 }
