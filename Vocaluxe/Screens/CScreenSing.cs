@@ -119,6 +119,8 @@ namespace Vocaluxe.Screens
         private bool _Pause;
         private bool _Webcam;
 
+        private CBackground _SlideShow;
+
         public override void Init()
         {
             base.Init();
@@ -474,6 +476,8 @@ namespace Vocaluxe.Screens
                     CDraw.DrawTexture(background, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, 0f),
                                       background.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f));
                 }
+                else if (_SlideShow != null)
+                    _SlideShow.Draw();
             }
 
             _DrawBG();
@@ -557,6 +561,9 @@ namespace Vocaluxe.Screens
             }
             CDraw.RemoveTexture(ref _Background);
 
+            if(_SlideShow != null)
+                _SlideShow.RemoveSlideShowTextures();
+
             _Lyrics[_LyricMain].Clear();
             _Lyrics[_LyricSub].Clear();
             _Lyrics[_LyricMainDuet].Clear();
@@ -622,8 +629,18 @@ namespace Vocaluxe.Screens
             }
 
             CDraw.RemoveTexture(ref _Background);
-            if (!String.IsNullOrEmpty(song.BackgroundFileName))
-                _Background = CDraw.AddTexture(Path.Combine(song.Folder, song.BackgroundFileName));
+            if (song.BackgroundFileNames.Count > 1)
+            {
+                _SlideShow = GetNewBackground();
+                foreach(string s in song.BackgroundFileNames)
+                    _SlideShow.AddSlideShowTexture(Path.Combine(song.Folder, s));
+                _Background = null;
+            }
+            else if (song.BackgroundFileNames.Count == 1)
+            {
+                if (!String.IsNullOrEmpty(song.BackgroundFileNames[0]))
+                    _Background = CDraw.AddTexture(Path.Combine(song.Folder, song.BackgroundFileNames[0]));
+            }
 
             _SingNotes[_SingBars].Reset();
 
