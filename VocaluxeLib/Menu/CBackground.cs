@@ -104,7 +104,7 @@ namespace VocaluxeLib.Menu
 
             string slideShow = "";
             int i = 1;
-            _Theme.SlideShowTextures = new List<string>();
+
             while (xmlReader.ItemExists(item + "/SlideShow" + i))
             {
                 xmlReader.GetValue(item + "/SlideShow" + i, out slideShow, String.Empty);
@@ -191,19 +191,12 @@ namespace VocaluxeLib.Menu
                 ok = _DrawVideo();
             }
 
-<<<<<<< .mine
+
             if (_Theme.Type == EBackgroundTypes.SlideShow && _Theme.SlideShowTextures.Count > 0)
             {
                 ok = _DrawSlideShow();
             }
 
-=======
-            if (_Theme.Type == EBackgroundTypes.SlideShow )
-            {
-                ok = _DrawSlideShow();
-            }
-
->>>>>>> .theirs
             if (!String.IsNullOrEmpty(_Theme.TextureName) &&
                 (_Theme.Type == EBackgroundTypes.Texture ||
                  (_Theme.Type == EBackgroundTypes.Video && (CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_OFF || !ok))))
@@ -278,60 +271,6 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-<<<<<<< .mine
-        private bool _DrawSlideShow()
-        {
-            if (_SlideShowTextures.Count > 0) 
-            {
-                if (!_SlideShowTimer.IsRunning)
-                {
-                    _SlideShowTimer.Start();
-                    _SlideShowCurrent = 0;
-                }
-
-                CTexture texture = _SlideShowTextures[_SlideShowCurrent];
-
-                if (texture == null)
-                    return false;
-
-                var bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
-                RectangleF rect;
-                CHelper.SetRect(bounds, out rect, texture.OrigAspect, EAspect.Crop);
-
-                CBase.Drawing.DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
-
-                if (_SlideShowTimer.ElapsedMilliseconds >= (CBase.Settings.GetSlideShowFadeTime() + CBase.Settings.GetSlideShowImageTime()))
-                {
-                    _SlideShowTimer.Restart();
-                    if (_SlideShowCurrent + 1 < _SlideShowTextures.Count)
-                        _SlideShowCurrent++;
-                    else if (_SlideShowCurrent != 0)
-                        _SlideShowCurrent = 0;
-                }
-                else if (_SlideShowTimer.ElapsedMilliseconds >= CBase.Settings.GetSlideShowImageTime())
-                {
-                    if (_SlideShowCurrent + 1 < _SlideShowTextures.Count)
-                        texture = _SlideShowTextures[_SlideShowCurrent + 1];
-                    else if (_SlideShowCurrent != 0)
-                        texture = _SlideShowTextures[0];
-                    else
-                        texture = null;
-
-                    if (texture != null)
-                    {
-                        float alpha = (_SlideShowTimer.ElapsedMilliseconds - CBase.Settings.GetSlideShowImageTime()) / CBase.Settings.GetSlideShowFadeTime();
-                        CHelper.SetRect(bounds, out rect, texture.OrigAspect, EAspect.Crop);
-                        CBase.Drawing.DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, (CBase.Settings.GetZFar() / 4) - 1), new SColorF(1,1,1, alpha));
-                    }
-                }
-                
-                return true;
-            }
-            return false;
-        }
-
-
-=======
         private bool _DrawSlideShow()
         {
             if (_SlideShowTextures.Count > 0) 
@@ -384,7 +323,6 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
->>>>>>> .theirs
         private bool _DrawVideo()
         {
             CTexture videoTexture = CBase.Theme.GetSkinVideoTexture(_Theme.VideoName, _PartyModeID);
