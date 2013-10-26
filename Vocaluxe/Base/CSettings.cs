@@ -143,6 +143,9 @@ namespace Vocaluxe.Base
         public const float BackgroundMusicFadeTime = 0.5f;
         public const float PauseResetTime = 1f;
 
+        public const float SlideShowImageTime = 3500f;
+        public const float SlideShowFadeTime = 500f;
+
         public static readonly List<string> MusicFileTypes = new List<string>
             {
                 "*.mp3",
