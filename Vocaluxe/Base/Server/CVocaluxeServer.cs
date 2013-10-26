@@ -25,6 +25,7 @@ using System.Windows.Forms;
 using ServerLib;
 using Vocaluxe.Lib.Input;
 using VocaluxeLib;
+using VocaluxeLib.Draw;
 using VocaluxeLib.Profile;
 using VocaluxeLib.Songs;
 using System.Security.Cryptography;
@@ -290,6 +291,8 @@ namespace Vocaluxe.Base.Server
 
         #region photo
 
+        private static List<string> photosOfThisRound = new List<string>();
+
         private static bool _SendPhoto(SPhotoData photoData)
         {
             if (photoData.Photo == null)
@@ -299,8 +302,20 @@ namespace Vocaluxe.Base.Server
 
             string name = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
             string filePath = _SaveImage(photoData.Photo, name, CSettings.FolderPhotos);
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                photosOfThisRound.Add(filePath);
+                return true;
+            }
+            
+            return false;
+        }
 
-            return !string.IsNullOrEmpty(filePath);
+        internal static string[] getPhotosOfThisRound()
+        {
+            var result = photosOfThisRound.ToArray();
+            photosOfThisRound.Clear();
+            return result;
         }
 
         #endregion
