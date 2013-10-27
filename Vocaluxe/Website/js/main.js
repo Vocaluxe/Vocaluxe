@@ -578,6 +578,11 @@ function logout() {
 }
 
 function checkSession() {
+    if (ownProfileId == -1
+        && profileIdRequest == -1
+        && ($.mobile.activePage.attr("id") == "displayProfile" || $.mobile.activePage.attr("id") == "login")) {
+        return;
+    }
     request({
         url: "getOwnProfileId"
     }).done(function (result) {
