@@ -632,8 +632,8 @@ namespace Vocaluxe.Screens
             if (song.BackgroundFileNames.Count > 1)
             {
                 _SlideShow = GetNewBackground();
-                foreach(string s in song.BackgroundFileNames)
-                    _SlideShow.AddSlideShowTexture(Path.Combine(song.Folder, s));
+                foreach(string bgFile in song.BackgroundFileNames)
+                    _SlideShow.AddSlideShowTexture(Path.Combine(song.Folder, bgFile));
                 _Background = null;
             }
             else if (song.BackgroundFileNames.Count == 1)
