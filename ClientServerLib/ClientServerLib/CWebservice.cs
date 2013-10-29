@@ -29,25 +29,12 @@ namespace ServerLib
 
         public void SendKeyEvent(string key)
         {
-            Guid sessionKey = _GetSession();
+            if (!_CheckRight(EUserRights.UseKeyboard))
+            {
+                return;
+            }
 
-            if (sessionKey == Guid.Empty)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
-                }
-            }
-            else if (!CSessionControl.RequestRight(sessionKey, EUserRights.UseKeyboard))
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not allowed";
-                }
-            }
-            else if (CServer.SendKeyEvent == null)
+            if (CServer.SendKeyEvent == null)
             {
                 if (WebOperationContext.Current != null)
                 {
@@ -94,24 +81,8 @@ namespace ServerLib
 
             if (profile.ProfileId != -1) //-1 is the id for a new profile
             {
-                if (sessionKey == Guid.Empty)
+                if (!(_CheckRight(EUserRights.EditAllProfiles) || CSessionControl.GetUserIdFromSession(sessionKey) == profile.ProfileId))
                 {
-                    if (WebOperationContext.Current != null)
-                    {
-                        WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
-                        WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
-                    }
-                    return;
-                }
-
-                if (!CSessionControl.RequestRight(sessionKey, EUserRights.EditAllProfiles) &&
-                    CSessionControl.GetUserIdFromSession(sessionKey) != profile.ProfileId)
-                {
-                    if (WebOperationContext.Current != null)
-                    {
-                        WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
-                        WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not allowed";
-                    }
                     return;
                 }
             }
@@ -143,37 +114,22 @@ namespace ServerLib
         public SProfileData GetProfile(int profileId)
         {
             Guid sessionKey = _GetSession();
-
-            if (sessionKey == Guid.Empty)
+            if (_CheckRight(EUserRights.ViewOtherProfiles) || CSessionControl.GetUserIdFromSession(sessionKey) == profileId)
             {
-                if (WebOperationContext.Current != null)
+                if (CServer.GetProfileData == null)
                 {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
+                    return new SProfileData();
                 }
-                return new SProfileData();
-            }
 
-            if (!CSessionControl.RequestRight(sessionKey, EUserRights.ViewOtherProfiles) &&
-                CSessionControl.GetUserIdFromSession(sessionKey) != profileId)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not allowed";
-                }
-                return new SProfileData();
-            }
+                bool isReadonly = (!CSessionControl.RequestRight(sessionKey, EUserRights.EditAllProfiles) &&
+                                   CSessionControl.GetUserIdFromSession(sessionKey) != profileId);
 
-            if (CServer.GetProfileData == null)
+                return CServer.GetProfileData(profileId, isReadonly);
+            }
+            else
             {
                 return new SProfileData();
             }
-
-            bool isReadonly = (!CSessionControl.RequestRight(sessionKey, EUserRights.EditAllProfiles) &&
-                CSessionControl.GetUserIdFromSession(sessionKey) != profileId);
-
-            return CServer.GetProfileData(profileId, isReadonly);
         }
 
         public SProfileData[] GetProfileList()
@@ -191,28 +147,10 @@ namespace ServerLib
 
         public void SendPhoto(SPhotoData photo)
         {
-            Guid sessionKey = _GetSession();
-            if (sessionKey == Guid.Empty)
+            if (_CheckRight(EUserRights.UploadPhotos))
             {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
-                }
-                return;
+                CServer.SendPhoto(photo);
             }
-
-            if (!CSessionControl.RequestRight(sessionKey, EUserRights.UploadPhotos))
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not allowed";
-                }
-                return;
-            }
-
-            CServer.SendPhoto(photo);
         }
 
         #endregion
@@ -363,7 +301,7 @@ namespace ServerLib
 
         public void AddSongToPlaylist(int songId, int playlistId, bool allowDuplicates)
         {
-            if (_CheckRight(EUserRights.AddSongToPlaylist)||_CheckRight(EUserRights.EditPlaylists))
+            if (_CheckRight(EUserRights.AddSongToPlaylist) || _CheckRight(EUserRights.EditPlaylists))
             {
                 CServer.AddSongToPlaylist(songId, playlistId, allowDuplicates);
             }
@@ -399,7 +337,7 @@ namespace ServerLib
         {
             return _CheckRight(EUserRights.EditPlaylists);
         }
-        
+
         #endregion
 
         #region user management
@@ -411,26 +349,10 @@ namespace ServerLib
 
         public void SetUserRole(int profileId, int userRole)
         {
-            Guid sessionKey = _GetSession();
-            if (sessionKey == Guid.Empty)
+            if (_CheckRight(EUserRights.EditAllProfiles))
             {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
-                }
-                return;
+                CServer.SetUserRole(profileId, userRole);
             }
-            if (!CSessionControl.RequestRight(sessionKey, EUserRights.EditAllProfiles))
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not allowed";
-                }
-                return;
-            }
-            CServer.SetUserRole(profileId, userRole);
         }
 
         private static bool _CheckRight(EUserRights requestedRight)
