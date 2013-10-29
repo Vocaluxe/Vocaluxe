@@ -105,7 +105,7 @@ namespace ServerLib
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/getSong?songId={songId}")]
-        SOngInfo GetSong(int songId);
+        SSongInfo GetSong(int songId);
 
         [OperationContract]
         [WebInvoke(Method = "GET",
@@ -117,7 +117,58 @@ namespace ServerLib
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/getAllSongs")]
-        SOngInfo[] GetAllSongs();
+        SSongInfo[] GetAllSongs();
+
+        #endregion
+
+        #region playlist
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/getPlaylists")]
+        SPlaylistInfo[] GetPlaylists();
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/getPlaylist?id={playlistId}")]
+        SPlaylistInfo GetPlaylist(int playlistId);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/addSongToPlaylist?songId={songId}&playlistId={playlistId}&duplicates={allowDuplicates}")]
+        void AddSongToPlaylist(int songId, int playlistId, bool allowDuplicates);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/removeSongFromPlaylist?position={position}&playlistId={playlistId}&songId={songId}")]
+        void RemoveSongFromPlaylist(int position, int playlistId, int songId);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/moveSongInPlaylist?oldPosition={oldPosition}&newPosition={newPosition}&playlistId={playlistId}&songId={songId}")]
+        void MoveSongInPlaylist(int oldPosition, int newPosition, int playlistId, int songId);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/playlistContainsSong?songId={songId}&playlistId={playlistId}")]
+        bool PlaylistContainsSong(int songId, int playlistId);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/getPlaylistSongs?playlistId={playlistId}")]
+        SPlaylistSongInfo[] GetPlaylistSongs(int playlistId);
+
+        [OperationContract, WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/isPlaylistEditable?playlistId={playlistId}")]
+        bool IsPlaylistEditable(int playlistId);
 
         #endregion
 

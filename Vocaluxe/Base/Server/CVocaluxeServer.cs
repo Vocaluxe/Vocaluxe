@@ -24,8 +24,10 @@ using System.Text;
 using System.Windows.Forms;
 using ServerLib;
 using Vocaluxe.Lib.Input;
+using Vocaluxe.Lib.Playlist;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Menu;
 using VocaluxeLib.Profile;
 using VocaluxeLib.Songs;
 using System.Security.Cryptography;
@@ -307,7 +309,7 @@ namespace Vocaluxe.Base.Server
                 photosOfThisRound.Add(filePath);
                 return true;
             }
-            
+
             return false;
         }
 
@@ -383,17 +385,17 @@ namespace Vocaluxe.Base.Server
 
         #region songs
 
-        private static SOngInfo _GetSong(int songId)
+        private static SSongInfo _GetSong(int songId)
         {
             CSong song = CSongs.GetSong(songId);
             return _GetSongInfo(song, true);
         }
 
-        private static SOngInfo[] _GetAllSongs()
+        private static SSongInfo[] _GetAllSongs()
         {
             var songs = CSongs.Songs;
             return (from s in songs
-                    select _GetSongInfo(s, false)).ToArray<SOngInfo>();
+                    select _GetSongInfo(s, false)).ToArray<SSongInfo>();
         }
 
         private static int _GetCurrentSongId()
@@ -406,9 +408,9 @@ namespace Vocaluxe.Base.Server
             return song.ID;
         }
 
-        private static SOngInfo _GetSongInfo(CSong song, bool includeCover)
+        private static SSongInfo _GetSongInfo(CSong song, bool includeCover)
         {
-            SOngInfo result = new SOngInfo();
+            SSongInfo result = new SSongInfo();
             if (song != null)
             {
                 result.Title = song.Title;
@@ -424,6 +426,134 @@ namespace Vocaluxe.Base.Server
                 }
             }
             return result;
+        }
+
+        #endregion
+
+        #region playlist
+
+        public static SPlaylistInfo[] GetPlaylists()
+        {
+            return (from p in CPlaylists.Playlists
+                    select _GetPlaylistInfo(p)).ToArray();
+        }
+
+        public static SPlaylistInfo GetPlaylist(int playlistId)
+        {
+            if (CPlaylists.Playlists.Length <= playlistId)
+            {
+                throw new ArgumentException("invalid playlistId");
+            }
+            return _GetPlaylistInfo(CPlaylists.Playlists[playlistId]);
+        }
+
+        public static void AddSongToPlaylist(int songId, int playlistId, bool allowDuplicates)
+        {
+            if (CPlaylists.Playlists.Length <= playlistId)
+            {
+                throw new ArgumentException("invalid playlistId");
+            }
+
+            if (allowDuplicates || PlaylistContainsSong(songId, playlistId))
+            {
+                CPlaylists.AddPlaylistSong(playlistId, songId);
+            }
+            else
+            {
+                throw new ArgumentException("song exists in this playlist");
+            }
+        }
+
+        public static void RemoveSongFromPlaylist(int position, int playlistId, int songId)
+        {
+            if (CPlaylists.Playlists.Length <= playlistId)
+            {
+                throw new ArgumentException("invalid playlistId");
+            }
+            if (!PlaylistContainsSong(songId, playlistId))
+            {
+                throw new ArgumentException("invalid songId");
+            }
+            if (CPlaylists.Playlists[playlistId].Songs.Count <= position || CPlaylists.Playlists[playlistId].Songs[position].SongID != songId)
+            {
+                throw new ArgumentException("invalid position");
+            }
+            CPlaylists.Playlists[playlistId].DeleteSong(position);
+        }
+
+        public static void MoveSongInPlaylist(int oldPosition, int newPosition, int playlistId, int songId)
+        {
+            if (CPlaylists.Playlists.Length <= playlistId)
+            {
+                throw new ArgumentException("invalid playlistId");
+            }
+            if (!PlaylistContainsSong(songId, playlistId))
+            {
+                throw new ArgumentException("invalid songId");
+            }
+            if (CPlaylists.Playlists[playlistId].Songs.Count <= oldPosition || CPlaylists.Playlists[playlistId].Songs[oldPosition].SongID != songId)
+            {
+                throw new ArgumentException("invalid oldPosition");
+            }
+            if (CPlaylists.Playlists[playlistId].Songs.Count < newPosition )
+            {
+                throw new ArgumentException("invalid newPosition");
+            }
+
+            CPlaylists.MovePlaylistSong(playlistId,oldPosition, newPosition);
+        }
+
+        public static bool PlaylistContainsSong(int songId, int playlistId)
+        {
+            if (CPlaylists.Playlists.Length <= playlistId)
+            {
+                throw new ArgumentException("invalid playlistId");
+            }
+            return CPlaylists.Playlists[playlistId].Songs.Any(s => s.SongID == songId);
+        }
+
+        public static SPlaylistSongInfo[] GetPlaylistSongs(int playlistId)
+        {
+            if (CPlaylists.Playlists.Length <= playlistId)
+            {
+                throw new ArgumentException("invalid playlistId");
+            }
+
+            return _GetPlaylistSongInfos(CPlaylists.Playlists[playlistId]);
+        }
+
+        private static SPlaylistSongInfo _GetPlaylistSongInfo(CPlaylistSong playlistSong, int playlistId, int playlistPos)
+        {
+            SPlaylistSongInfo result = new SPlaylistSongInfo();
+            if (playlistSong != null)
+            {
+                result.PlaylistId = playlistId;
+                result.GameMode = (int)playlistSong.GameMode;
+                result.PlaylistPosition = playlistPos;
+                result.Song = _GetSongInfo(CSongs.GetSong(playlistSong.SongID), true);
+            }
+            return result;
+        }
+
+        private static SPlaylistSongInfo[] _GetPlaylistSongInfos(CPlaylistFile playlist)
+        {
+            SPlaylistSongInfo[] result = new SPlaylistSongInfo[playlist.Songs.Count];
+            for (int i = 0; i < playlist.Songs.Count; i++)
+            {
+                result[i] = _GetPlaylistSongInfo(playlist.Songs[i], 1 /*TODO:PlaylistID???*/, i);
+            }
+            return result;
+        }
+
+        private static SPlaylistInfo _GetPlaylistInfo(CPlaylistFile playlist)
+        {
+            return new SPlaylistInfo
+            {
+                PlaylistId = 1, /*TODO: PlaylistId*/
+                PlaylistName = playlist.PlaylistName,
+                SongCount = playlist.Songs.Count,
+                LastChanged = DateTime.Now.ToLongDateString()
+            };
         }
 
         #endregion
@@ -554,7 +684,7 @@ namespace Vocaluxe.Base.Server
         }
 
         #endregion
-        
+
         private static string _SaveImage(CBase64Image imageDate, string name, string folder)
         {
             Image avatarImage = imageDate.GetImage();

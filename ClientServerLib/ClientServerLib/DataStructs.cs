@@ -109,6 +109,20 @@ namespace ServerLib
 
     public delegate int GetCurrentSongIdDelegate();
 
+    public delegate SPlaylistInfo[] GetPlaylistsDelegate();
+
+    public delegate SPlaylistInfo GetPlaylistDelegate(int playlistId);
+
+    public delegate void AddSongToPlaylistDelegate(int songId, int playlistId, bool allowDuplicates);
+
+    public delegate void RemoveSongFromPlaylistDelegate(int position, int playlistId, int songId);
+
+    public delegate void MoveSongInPlaylistDelegate(int oldPosition, int newPosition, int playlistId, int songId);
+
+    public delegate bool PlaylistContainsSongDelegate(int songId, int playlistId);
+
+    public delegate SPlaylistSongInfo[] GetPlaylistSongsDelegate(int playlistId);
+        
     [DataContract]
     public struct SSongInfo
     {
@@ -128,6 +142,30 @@ namespace ServerLib
         public bool IsDuet { get; set; }
         [DataMember]
         public int SongId { get; set; }
+    }
+
+    public struct SPlaylistSongInfo
+    {
+        [DataMember] 
+        public SSongInfo Song;
+        [DataMember]
+        public int PlaylistId;
+        [DataMember] 
+        public int PlaylistPosition;
+        [DataMember]
+        public int GameMode;
+    }
+
+    public struct SPlaylistInfo
+    {
+        [DataMember] 
+        public int PlaylistId;
+        [DataMember] 
+        public string PlaylistName;
+        [DataMember] 
+        public int SongCount;
+        [DataMember] 
+        public string LastChanged;
     }
 
     #endregion

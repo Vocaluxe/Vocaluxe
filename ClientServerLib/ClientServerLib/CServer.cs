@@ -98,6 +98,60 @@ namespace ServerLib
 
         #endregion
 
+        #region playlist
+
+        private static GetPlaylistsDelegate _GetPlaylists;
+        public static GetPlaylistsDelegate GetPlaylists
+        {
+            get { return _GetPlaylists; }
+            set { _GetPlaylists = value; }
+        }
+
+
+        private static GetPlaylistDelegate _GetPlaylist;
+        public static GetPlaylistDelegate GetPlaylist
+        {
+            get { return _GetPlaylist; }
+            set { _GetPlaylist = value; }
+        }
+
+        private static AddSongToPlaylistDelegate _AddSongToPlaylist;
+        public static AddSongToPlaylistDelegate AddSongToPlaylist
+        {
+            get { return _AddSongToPlaylist; }
+            set { _AddSongToPlaylist = value; }
+        }
+
+        private static RemoveSongFromPlaylistDelegate _RemoveSongFromPlaylist;
+        public static RemoveSongFromPlaylistDelegate RemoveSongFromPlaylist
+        {
+            get { return _RemoveSongFromPlaylist; }
+            set { _RemoveSongFromPlaylist = value; }
+        }
+
+        private static MoveSongInPlaylistDelegate _MoveSongInPlaylist;
+        public static MoveSongInPlaylistDelegate MoveSongInPlaylist
+        {
+            get { return _MoveSongInPlaylist; }
+            set { _MoveSongInPlaylist = value; }
+        }
+
+        private static PlaylistContainsSongDelegate _PlaylistContainsSong;
+        public static PlaylistContainsSongDelegate PlaylistContainsSong
+        {
+            get { return _PlaylistContainsSong; }
+            set { _PlaylistContainsSong = value; }
+        }
+
+        private static GetPlaylistSongsDelegate _GetPlaylistSongs;
+        public static GetPlaylistSongsDelegate GetPlaylistSongs
+        {
+            get { return _GetPlaylistSongs; }
+            set { _GetPlaylistSongs = value; }
+        }
+
+        #endregion
+
         #region user management
 
         private static SetPasswordDelegate _SetPassword;
@@ -135,8 +189,8 @@ namespace ServerLib
             set { CServer._GetUserIdFromUsername = value; }
         }
 
-        #endregion
 
+        #endregion
         public CServer(int port, bool encrypted)
         {
             _Init(port, encrypted);
@@ -163,7 +217,7 @@ namespace ServerLib
                 MaxReceivedMessageSize = 10485760,
                 MaxBufferSize = 10485760,
                 MaxBufferPoolSize = 10485760,
-                ReaderQuotas = {MaxStringContentLength = 10485760, MaxArrayLength = 10485760, MaxBytesPerRead = 10485760}
+                ReaderQuotas = { MaxStringContentLength = 10485760, MaxArrayLength = 10485760, MaxBytesPerRead = 10485760 }
             };
             if (encrypted)
             {
