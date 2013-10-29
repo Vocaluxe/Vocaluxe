@@ -333,7 +333,7 @@ namespace ServerLib
 
         #region songs
 
-        public SOngInfo GetSong(int songId)
+        public SSongInfo GetSong(int songId)
         {
             return CServer.GetSong(songId);
         }
@@ -343,11 +343,63 @@ namespace ServerLib
             return CServer.GetCurrentSongId();
         }
 
-        public SOngInfo[] GetAllSongs()
+        public SSongInfo[] GetAllSongs()
         {
             return CServer.GetAllSongs();
         }
+        #endregion
 
+        #region playlist
+
+        public SPlaylistInfo[] GetPlaylists()
+        {
+            return CServer.GetPlaylists();
+        }
+
+        public SPlaylistInfo GetPlaylist(int playlistId)
+        {
+            return CServer.GetPlaylist(playlistId);
+        }
+
+        public void AddSongToPlaylist(int songId, int playlistId, bool allowDuplicates)
+        {
+            if (_CheckRight(EUserRights.AddSongToPlaylist)||_CheckRight(EUserRights.EditPlaylists))
+            {
+                CServer.AddSongToPlaylist(songId, playlistId, allowDuplicates);
+            }
+        }
+
+        public void RemoveSongFromPlaylist(int position, int playlistId, int songId)
+        {
+            if (_CheckRight(EUserRights.EditPlaylists))
+            {
+                CServer.RemoveSongFromPlaylist(position, playlistId, songId);
+            }
+        }
+
+        public void MoveSongInPlaylist(int oldPosition, int newPosition, int playlistId, int songId)
+        {
+            if (_CheckRight(EUserRights.EditPlaylists))
+            {
+                CServer.MoveSongInPlaylist(oldPosition, newPosition, playlistId, songId);
+            }
+        }
+
+        public bool PlaylistContainsSong(int songId, int playlistId)
+        {
+            return CServer.PlaylistContainsSong(songId, playlistId);
+        }
+
+        public SPlaylistSongInfo[] GetPlaylistSongs(int playlistId)
+        {
+            return CServer.GetPlaylistSongs(playlistId);
+        }
+
+        public bool IsPlaylistEditable(int playlistId)
+        {
+            return _CheckRight(EUserRights.EditPlaylists);
+        }
+        
         #endregion
 
         #region user management
@@ -362,7 +414,8 @@ namespace ServerLib
             Guid sessionKey = _GetSession();
             if (sessionKey == Guid.Empty)
             {
-                if (WebOperationContext.Current != null) {
+                if (WebOperationContext.Current != null)
+                {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
                     WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
                 }
@@ -370,13 +423,40 @@ namespace ServerLib
             }
             if (!CSessionControl.RequestRight(sessionKey, EUserRights.EditAllProfiles))
             {
-                if (WebOperationContext.Current != null) {
+                if (WebOperationContext.Current != null)
+                {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
                     WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not allowed";
                 }
                 return;
             }
             CServer.SetUserRole(profileId, userRole);
+        }
+
+        private static bool _CheckRight(EUserRights requestedRight)
+        {
+            Guid sessionKey = _GetSession();
+
+            if (sessionKey == Guid.Empty)
+            {
+                if (WebOperationContext.Current != null)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
+                }
+                return false;
+            }
+
+            if (!CSessionControl.RequestRight(sessionKey, requestedRight))
+            {
+                if (WebOperationContext.Current != null)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not allowed";
+                }
+                return false;
+            }
+            return true;
         }
 
         #endregion
