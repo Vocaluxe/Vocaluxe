@@ -103,14 +103,14 @@ namespace ServerLib
 
     #region songs
 
-    public delegate SOngInfo GetSongDelegate(int songId);
+    public delegate SSongInfo GetSongDelegate(int songId);
 
-    public delegate SOngInfo[] GetAllSongsDelegate();
+    public delegate SSongInfo[] GetAllSongsDelegate();
 
     public delegate int GetCurrentSongIdDelegate();
 
     [DataContract]
-    public struct SOngInfo
+    public struct SSongInfo
     {
         [DataMember]
         public string Title;
