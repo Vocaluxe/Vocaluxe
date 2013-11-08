@@ -2,6 +2,9 @@ var ownProfileId = -1;
 var profileIdRequest = -1;
 var songIdRequest = -1;
 var allSongsCache = null;
+var playlistIdRequest = -1;
+var playlistRequestName = "";
+var customSelectPlaylistSongCallback = null;
 var sessionId = "";
 
 $(document).ready(function () {
@@ -197,6 +200,8 @@ function initPageLoadHandler() {
             url: "getSong?songId=" + songIdRequest,
             headers: { "session": sessionId }
         }).done(function (result) {
+            $('#displaySongAddPlaylist').hide();
+
             if (result.Title != null) {
                 $('#displaySongTitle').text(result.Title);
             }
@@ -239,6 +244,14 @@ function initPageLoadHandler() {
             if (result.Title != null || result.Artist != null) {
                 $('#displaySongLinks').show();
 
+                $('#displaySongAddPlaylist').unbind('click').click(function () {
+                    customSelectPlaylistSongCallback = function (playlistId) {
+                        request({ url: "addSongToPlaylist?songId=" + result.SongId + "&playlistId=" + playlistId + "&duplicates=false" }, "Add to playlist...");
+                        history.back();
+                    };
+                    $.mobile.changePage("#selectPlaylist", { transition: "slidefade" });
+                });
+
                 $('#displaySongLinkYoutube').unbind('click').click(function () {
                     showYoutube(result.Artist, result.Title);
                 });
@@ -253,6 +266,16 @@ function initPageLoadHandler() {
             } else {
                 $('#displaySongLinks').hide();
             }
+
+            request({
+                url: "hasUserRight?right=" + 0x32
+            }).done(function (result2) {
+                if (result2) {
+                    $('#displaySongAddPlaylist').show();
+                } else {
+                    $('#displaySongAddPlaylist').hide();
+                }
+            });
         });
 
         // Save promise on page so the transition handler can find it.
@@ -280,8 +303,7 @@ function initPageLoadHandler() {
 
         if (allSongsCache == null) {
             var promise = request({
-                url: "getAllSongs",
-                headers: { "session": sessionId }
+                url: "getAllSongs"
             }).done(function (data) {
                 allSongsCache = data;
                 handleGetAllSongs();
@@ -350,6 +372,272 @@ function initPageLoadHandler() {
     //pageLoadHandler for login
     $(document).on('pagebeforeshow', '#login', pagebeforeshowLogin);
 
+    //pageLoadHandler for main
+    $(document).on('pagebeforeshow', '#main', function () {
+        request({
+            url: "hasUserRight?right=" + 0x02
+        }).done(function (result) {
+            if (result) {
+                $('#mainPageTakePhotoLink').parent().parent().parent().show();
+            } else {
+                $('#mainPageTakePhotoLink').parent().parent().parent().hide();
+            }
+        });
+
+        request({
+            url: "hasUserRight?right=" + 0x08
+        }).done(function (result) {
+            if (result) {
+                $('#mainPageKeyboard').parent().parent().parent().show();
+            } else {
+                $('#mainPageKeyboard').parent().parent().parent().hide();
+            }
+        });
+
+        request({
+            url: "hasUserRight?right=" + 0x04
+        }).done(function (result) {
+            if (result) {
+                $('#mainPageSelectProfile').parent().parent().parent().show();
+            } else {
+                $('#mainPageSelectProfile').parent().parent().parent().hide();
+            }
+        });
+    });
+
+    //pageLoadHandler for selectPlaylist
+    $(document).on('pagebeforeshow', '#selectPlaylist', function () {
+        function handleGetAllPlaylists(data) {
+            $('#selectPlaylistContentList').children().remove();
+            $('#selectPlaylistAddPlaylistButton').hide();
+
+            function handleSelectSongLineClick(e) {
+                playlistIdRequest = parseInt(e.currentTarget.parentElement.parentElement.parentElement.id.replace("selectPlaylistLine_", ""));
+                playlistRequestName = $(e.currentTarget.parentElement.parentElement.parentElement).find('h2').text();
+                if (customSelectPlaylistSongCallback != null) {
+                    customSelectPlaylistSongCallback(playlistIdRequest, playlistRequestName);
+                    customSelectPlaylistSongCallback = null;
+                } else {
+
+                    $.mobile.changePage("#displayPlaylist", { transition: "slidefade" });
+                }
+            }
+
+            function handleSelectSongLineDeleteClick(e) {
+                var playlistToDeleteId = parseInt(e.currentTarget.parentElement.id.replace("selectPlaylistLine_", ""));
+                var playlistToDeleteName = $(e.currentTarget.parentElement).find('h2').text();
+                if (window.confirm("Do you really want to delete this playlist:\n" + playlistToDeleteName)) {
+                    request({ url: "removePlaylist?playlistId=" + playlistToDeleteId }, "Loading...").done(function () {
+                        request({
+                            url: "getPlaylists"
+                        }).done(function (data2) {
+                            handleGetAllPlaylists(data2);
+                        });
+                    });
+                }
+            }
+
+            for (var id in data) {
+                var line = $('<li id="selectPlaylistLine_'
+                    + data[id].PlaylistId
+                    + '"> <a href="#"> '/*+'<img src="' + ((data[profile].Avatar && data[profile].Avatar.base64Data) ? data[id].Avatar.base64Data : "img/profile.png") + '"> '*/
+                    + ' <h2>' + data[id].PlaylistName + '</h2> <p>'
+                    + data[id].SongCount
+                    + ' songs</p> </a> <a href="#" class="delete" data-icon="delete">Delete</a> </li>')
+                    .appendTo('#selectPlaylistContentList');
+                line.find('a:not(.delete)').click(handleSelectSongLineClick);
+                line.find('a.delete').click(handleSelectSongLineDeleteClick);
+            }
+
+            $('#selectPlaylistContentList').listview('refresh');
+
+            request({
+                url: "hasUserRight?right=" + 0x128
+            }).done(function (result) {
+                if (result) {
+                    $('#selectPlaylistContentList').find('.delete').show();
+                    $('#selectPlaylistContentList').listview('refresh');
+                } else {
+                    $('#selectPlaylistContentList').find('.delete').hide();
+                    $('#selectPlaylistContentList').listview('refresh');
+                }
+            });
+
+            $('#selectPlaylistAddPlaylistButton').unbind('click').hide().click(function () {
+                var name = prompt("Name of the new playlist:", "NewPlaylistName");
+                if (name != null
+                  && name.replace(" ", "") != ""
+                  && $('h2').filter(function () { return this.textContent == name; }).length == 0) {
+                    request({ url: "addPlaylist?playlistName=" + name }, "Creating...").done(function () {
+                        request({
+                            url: "getPlaylists"
+                        }).done(function (data2) {
+                            handleGetAllPlaylists(data2);
+                        });
+                    });
+                } else {
+                    alert("This is not a name.");
+                }
+            });
+
+            request({
+                url: "hasUserRight?right=" + 0x64
+            }).done(function (result) {
+                if (result) {
+                    $('#selectPlaylistAddPlaylistButton').show();
+                } else {
+                    $('#selectPlaylistAddPlaylistButton').hide();
+                }
+            });
+        }
+
+        var promise = request({
+            url: "getPlaylists"
+        }).done(function (data) {
+            handleGetAllPlaylists(data);
+        });
+
+        // Save promise on page so the transition handler can find it.
+        $(this).data('promise', promise);
+
+    });
+
+    //pageLoadHandler for displayPlaylist
+    $(document).on('pagebeforeshow', '#displayPlaylist', function () {
+        function handleGetAllPlaylistSongs(data) {
+            $('#displayPlaylistHeader').find('h1').text(playlistRequestName);
+
+            $('#displayPlaylistSaveButton').hide().unbind('click').click(function () {
+                var promises = [];
+                $('#displayPlaylistContentList').find('li').each(function (indx, elem) {
+                    var newPos = $(elem).index();
+                    var oldPos = $(elem).data("oldPos");
+                    if (newPos != oldPos) {
+                        var movedId = elem.id.replace("selectSongLine_", "");
+
+                        promises.push(request({
+                            url: "moveSongInPlaylist?&newPosition=" + newPos + "&playlistId=" + playlistIdRequest + "&songId=" + movedId
+                        }, "Resorting..."));
+                    }
+                });
+
+                $.when.apply(promises).done(function () {
+                    //reload data
+                    request({
+                        url: "getPlaylistSongs?playlistId=" + playlistIdRequest
+                    }).done(function (data2) {
+                        handleGetAllPlaylistSongs(data2);
+                    });
+                });
+            });
+
+            $('#displayPlaylistContentList').children().remove();
+
+            function handleSelectPlaylistSongLineClick(e) {
+                songIdRequest = parseInt(e.currentTarget.parentElement.parentElement.parentElement.id.replace("selectSongLine_", ""));
+                $.mobile.changePage("#displaySong", { transition: "slidefade" });
+            }
+
+            function handleSelectPlaylistSongLineDeleteClick(e) {
+                var songToDeleteId = parseInt(e.currentTarget.parentElement.id.replace("selectSongLine_", ""));
+                var songToDeleteName = $(e.currentTarget.parentElement).find('h2').text();
+
+                if (window.confirm("Do you really want to delete this song from playlist:\n" + songToDeleteName)) {
+                    request({
+                        url: "/removeSongFromPlaylist?position=" + $('#selectSongLine_' + songToDeleteId).index()
+                            + "&playlistId=" + playlistIdRequest
+                            + "&songId=" + songToDeleteId
+                    }, "Loading...").done(function () {
+                        //reload data
+                        request({
+                            url: "getPlaylistSongs?playlistId=" + playlistIdRequest
+                        }).done(function (data2) {
+                            handleGetAllPlaylistSongs(data2);
+                        });
+                    });
+                }
+
+
+            }
+
+            var sortedData = [];
+
+            for (var id1 in data) {
+                sortedData[data[id1].PlaylistPosition] = data[id1].Song;
+            }
+            var i = 0;
+            for (var id in sortedData) {
+                var line = $('<li id="selectSongLine_'
+                    + sortedData[id].SongId
+                    + '"> <a href="#"> <img> <h2>'
+                    + sortedData[id].Artist
+                    + '</h2> <p>'
+                    + sortedData[id].Title
+                    + '</p> </a> <a href="#" class="delete" data-icon="delete">Delete</a> </li>')
+                    .appendTo('#displayPlaylistContentList').data("oldPos", i++);
+
+                line.find('a:not(.delete)').click(handleSelectPlaylistSongLineClick);
+                line.find('a.delete').click(handleSelectPlaylistSongLineDeleteClick);
+
+                var img = line.find("img")[0];
+
+                addImage(img, sortedData[id].Cover, "img/noCover.png");
+            }
+
+            $('#displayPlaylistContentList').listview('refresh');
+
+            request({
+                url: "hasUserRight?right=" + 0x256
+            }).done(function (result) {
+                if (result) {
+                    $('#displayPlaylistContentList').find('.delete').show();
+                    $('#displayPlaylistContentList').listview('refresh');
+                } else {
+                    $('#displayPlaylistContentList').find('.delete').hide();
+                    $('#displayPlaylistContentList').listview('refresh');
+                }
+            });
+
+            request({
+                url: "hasUserRight?right=" + 0x16
+            }).done(function (result) {
+                if (result) {
+                    $('#displayPlaylistContentList').sortable({
+                        axis: 'y',
+                        sort: function () {
+                            $('#displayPlaylistSaveButton').show();
+
+                            var $lis = $(this).children('li');
+                            $lis.each(function () {
+                                var $li = $(this);
+                                var hindex = $lis.filter('.ui-sortable-helper').index();
+                                if (!$li.is('.ui-sortable-helper')) {
+                                    var index = $li.index();
+                                    index = index < hindex ? index + 1 : index;
+
+                                    $li.val(index);
+
+                                    if ($li.is('.ui-sortable-placeholder')) {
+                                        $lis.filter('.ui-sortable-helper').val(index);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        var promise = request({
+            url: "getPlaylistSongs?playlistId=" + playlistIdRequest
+        }).done(function (data) {
+            handleGetAllPlaylistSongs(data);
+        });
+
+        // Save promise on page so the transition handler can find it.
+        $(this).data('promise', promise);
+
+    });
 }
 
 function pagebeforeshowLogin() {

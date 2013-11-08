@@ -150,8 +150,8 @@ namespace ServerLib
         [OperationContract]
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/moveSongInPlaylist?oldPosition={oldPosition}&newPosition={newPosition}&playlistId={playlistId}&songId={songId}")]
-        void MoveSongInPlaylist(int oldPosition, int newPosition, int playlistId, int songId);
+            UriTemplate = "/moveSongInPlaylist?newPosition={newPosition}&playlistId={playlistId}&songId={songId}")]
+        void MoveSongInPlaylist(int newPosition, int playlistId, int songId);
 
         [OperationContract]
         [WebInvoke(Method = "GET",
@@ -166,9 +166,14 @@ namespace ServerLib
         SPlaylistSongInfo[] GetPlaylistSongs(int playlistId);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/isPlaylistEditable?playlistId={playlistId}")]
-        bool IsPlaylistEditable(int playlistId);
+           ResponseFormat = WebMessageFormat.Json,
+           UriTemplate = "/removePlaylist?playlistId={playlistId}")]
+        void RemovePlaylist(int playlistId);
+
+        [OperationContract, WebInvoke(Method = "GET",
+          ResponseFormat = WebMessageFormat.Json,
+          UriTemplate = "/addPlaylist?playlistName={playlistName}")]
+        int AddPlaylist(string playlistName);
 
         #endregion
 
@@ -185,6 +190,12 @@ namespace ServerLib
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/setUserRole?profileId={profileId}&userRole={userRole}")]
         void SetUserRole(int profileId, int userRole);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/hasUserRight?right={right}")]
+        bool HasUserRight(int right);
 
         #endregion
     }

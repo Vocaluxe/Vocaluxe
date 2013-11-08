@@ -124,7 +124,7 @@ namespace Vocaluxe.Base
         public static EOffOn ServerActive = EOffOn.TR_CONFIG_OFF;
         public static EOffOn ServerEncryption = EOffOn.TR_CONFIG_OFF;
         public static int ServerPort = 3000;
-        public static string ServerPassword = "vocaluxe";
+        //public static string ServerPassword = "vocaluxe";
 
         //Lists to save parameters and values
         private static readonly List<string> _Params = new List<string>();
@@ -299,7 +299,7 @@ namespace Vocaluxe.Base
             if (ServerPort < 1 || ServerPort > 65535)
                 ServerPort = 3000;
 
-            xmlReader.GetValue("//root/Server/ServerPassword", out ServerPassword, ServerPassword);
+            //xmlReader.GetValue("//root/Server/ServerPassword", out ServerPassword, ServerPassword);
             #endregion Server
         }
 
@@ -573,8 +573,8 @@ namespace Vocaluxe.Base
                 writer.WriteComment("Server Port (default: 3000) [1..65535]");
                 writer.WriteElementString("ServerPort", ServerPort.ToString());
 
-                writer.WriteComment("Server Password (default: vocaluxe)");
-                writer.WriteElementString("ServerPassword", ServerPassword);
+                //writer.WriteComment("Server Password (default: vocaluxe)");
+                //writer.WriteElementString("ServerPassword", ServerPassword);
 
                 writer.WriteEndElement();
                 #endregion Server

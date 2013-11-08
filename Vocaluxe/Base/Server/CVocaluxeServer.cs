@@ -47,7 +47,6 @@ namespace Vocaluxe.Base.Server
             _Clients = new Dictionary<int, CClientHandler>();
 
             _Server = new CServer(CConfig.ServerPort, CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON);
-            //TODO: remove CConfig.ServerPassword
 
             CServer.SendKeyEvent = _SendKeyEvent;
             CServer.GetProfileData = _GetProfileData;
@@ -64,6 +63,15 @@ namespace Vocaluxe.Base.Server
             CServer.SetUserRole = _SetUserRole;
             CServer.GetUserIdFromUsername = _GetUserIdFromUsername;
             CServer.GetDelayedImage = _GetDelayedImage;
+            CServer.GetPlaylists = _GetPlaylists;
+            CServer.GetPlaylist = _GetPlaylist;
+            CServer.AddSongToPlaylist = _AddSongToPlaylist;
+            CServer.RemoveSongFromPlaylist = _RemoveSongFromPlaylist;
+            CServer.MoveSongInPlaylist = _MoveSongInPlaylist;
+            CServer.PlaylistContainsSong = _PlaylistContainsSong;
+            CServer.GetPlaylistSongs = _GetPlaylistSongs;
+            CServer.RemovePlaylist = _RemovePlaylist;
+            CServer.AddPlaylist = _AddPlaylist;
 
             _Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
             Controller.Init();
@@ -432,31 +440,32 @@ namespace Vocaluxe.Base.Server
 
         #region playlist
 
-        public static SPlaylistInfo[] GetPlaylists()
+        private static SPlaylistInfo[] _GetPlaylists()
         {
             return (from p in CPlaylists.Playlists
                     select _GetPlaylistInfo(p)).ToArray();
         }
 
-        public static SPlaylistInfo GetPlaylist(int playlistId)
+        private static SPlaylistInfo _GetPlaylist(int playlistId)
         {
-            if (CPlaylists.Playlists.Length <= playlistId)
+            if (CPlaylists.Playlists.Length <= playlistId || playlistId < 0)
             {
                 throw new ArgumentException("invalid playlistId");
             }
             return _GetPlaylistInfo(CPlaylists.Playlists[playlistId]);
         }
 
-        public static void AddSongToPlaylist(int songId, int playlistId, bool allowDuplicates)
+        private static void _AddSongToPlaylist(int songId, int playlistId, bool allowDuplicates)
         {
-            if (CPlaylists.Playlists.Length <= playlistId)
+            if (CPlaylists.Playlists.Length <= playlistId || playlistId < 0)
             {
                 throw new ArgumentException("invalid playlistId");
             }
 
-            if (allowDuplicates || PlaylistContainsSong(songId, playlistId))
+            if (allowDuplicates || !_PlaylistContainsSong(songId, playlistId))
             {
                 CPlaylists.AddPlaylistSong(playlistId, songId);
+                CPlaylists.SavePlaylist(playlistId);
             }
             else
             {
@@ -464,57 +473,58 @@ namespace Vocaluxe.Base.Server
             }
         }
 
-        public static void RemoveSongFromPlaylist(int position, int playlistId, int songId)
+        private static void _RemoveSongFromPlaylist(int position, int playlistId, int songId)
         {
-            if (CPlaylists.Playlists.Length <= playlistId)
+            if (CPlaylists.Playlists.Length <= playlistId || playlistId < 0)
             {
                 throw new ArgumentException("invalid playlistId");
             }
-            if (!PlaylistContainsSong(songId, playlistId))
+            if (!_PlaylistContainsSong(songId, playlistId))
             {
                 throw new ArgumentException("invalid songId");
             }
-            if (CPlaylists.Playlists[playlistId].Songs.Count <= position || CPlaylists.Playlists[playlistId].Songs[position].SongID != songId)
+            if (position < 0 || CPlaylists.Playlists[playlistId].Songs.Count <= position 
+                || CPlaylists.Playlists[playlistId].Songs[position].SongID != songId)
             {
                 throw new ArgumentException("invalid position");
             }
             CPlaylists.Playlists[playlistId].DeleteSong(position);
+            CPlaylists.SavePlaylist(playlistId);
         }
 
-        public static void MoveSongInPlaylist(int oldPosition, int newPosition, int playlistId, int songId)
+        private static void _MoveSongInPlaylist(int newPosition, int playlistId, int songId)
         {
-            if (CPlaylists.Playlists.Length <= playlistId)
+            if (CPlaylists.Playlists.Length <= playlistId || playlistId < 0)
             {
                 throw new ArgumentException("invalid playlistId");
             }
-            if (!PlaylistContainsSong(songId, playlistId))
+            if (!_PlaylistContainsSong(songId, playlistId))
             {
                 throw new ArgumentException("invalid songId");
             }
-            if (CPlaylists.Playlists[playlistId].Songs.Count <= oldPosition || CPlaylists.Playlists[playlistId].Songs[oldPosition].SongID != songId)
-            {
-                throw new ArgumentException("invalid oldPosition");
-            }
-            if (CPlaylists.Playlists[playlistId].Songs.Count < newPosition )
+            
+            if (CPlaylists.Playlists[playlistId].Songs.Count < newPosition)
             {
                 throw new ArgumentException("invalid newPosition");
             }
 
-            CPlaylists.MovePlaylistSong(playlistId,oldPosition, newPosition);
+            int oldPosition = CPlaylists.Playlists[playlistId].Songs.FindIndex(s => s.SongID == songId);
+            CPlaylists.MovePlaylistSong(playlistId, oldPosition, newPosition);
+            CPlaylists.SavePlaylist(playlistId);
         }
 
-        public static bool PlaylistContainsSong(int songId, int playlistId)
+        private static bool _PlaylistContainsSong(int songId, int playlistId)
         {
-            if (CPlaylists.Playlists.Length <= playlistId)
+            if (CPlaylists.Playlists.Length <= playlistId || playlistId < 0)
             {
                 throw new ArgumentException("invalid playlistId");
             }
             return CPlaylists.Playlists[playlistId].Songs.Any(s => s.SongID == songId);
         }
 
-        public static SPlaylistSongInfo[] GetPlaylistSongs(int playlistId)
+        private static SPlaylistSongInfo[] _GetPlaylistSongs(int playlistId)
         {
-            if (CPlaylists.Playlists.Length <= playlistId)
+            if (CPlaylists.Playlists.Length <= playlistId || playlistId < 0)
             {
                 throw new ArgumentException("invalid playlistId");
             }
@@ -540,7 +550,7 @@ namespace Vocaluxe.Base.Server
             SPlaylistSongInfo[] result = new SPlaylistSongInfo[playlist.Songs.Count];
             for (int i = 0; i < playlist.Songs.Count; i++)
             {
-                result[i] = _GetPlaylistSongInfo(playlist.Songs[i], 1 /*TODO:PlaylistID???*/, i);
+                result[i] = _GetPlaylistSongInfo(playlist.Songs[i], playlist.Id, i);
             }
             return result;
         }
@@ -549,11 +559,29 @@ namespace Vocaluxe.Base.Server
         {
             return new SPlaylistInfo
             {
-                PlaylistId = 1, /*TODO: PlaylistId*/
+                PlaylistId = playlist.Id,
                 PlaylistName = playlist.PlaylistName,
                 SongCount = playlist.Songs.Count,
                 LastChanged = DateTime.Now.ToLongDateString()
             };
+        }
+
+        private static void _RemovePlaylist(int playlistId)
+        {
+            if (CPlaylists.Playlists.Length <= playlistId || playlistId < 0)
+            {
+                throw new ArgumentException("invalid playlistId");
+            }
+            CPlaylists.DeletePlaylist(playlistId);
+        }
+
+        private static int _AddPlaylist(string playlistName)
+        {
+            int newPlaylistId = CPlaylists.NewPlaylist();
+            CPlaylists.Playlists[newPlaylistId].PlaylistName = playlistName;
+            CPlaylists.SavePlaylist(newPlaylistId);
+
+            return newPlaylistId;
         }
 
         #endregion

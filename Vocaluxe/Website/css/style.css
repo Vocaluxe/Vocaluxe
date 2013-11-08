@@ -50,10 +50,10 @@
     text-align: center;
 }
 
-#displaySongContent span {
-    font-size: 18px;
-    font-weight: bold;
-}
+    #displaySongContent span {
+        font-size: 18px;
+        font-weight: bold;
+    }
 
 .imageLoaderImg {
     height: 100%;
@@ -80,3 +80,8 @@
     -webkit-border-radius: 0px !important;
     border-radius: 0px !important;
 }
+
+.cursorStyleClickable {
+    cursor: pointer;
+}
+
