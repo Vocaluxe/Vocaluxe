@@ -9,8 +9,13 @@ namespace ServerLib
                                                                             {EUserRoles.Administrator,
                                                                                 (EUserRights.EditAllProfiles|
                                                                                 EUserRights.UploadPhotos|
-                                                                                EUserRights.ViewOtherProfiles)|
-                                                                                EUserRights.UseKeyboard},
+                                                                                EUserRights.ViewOtherProfiles|
+                                                                                EUserRights.UseKeyboard|
+                                                                                EUserRights.AddSongToPlaylist|
+                                                                                EUserRights.ReorderPlaylists|
+                                                                                EUserRights.CreatePlaylists|
+                                                                                EUserRights.DeletePlaylists|
+                                                                                EUserRights.RemoveSongsFromPlaylists)},
                                                                             {EUserRoles.AuthenticatedUser,
                                                                                 (EUserRights.UploadPhotos|
                                                                                 EUserRights.ViewOtherProfiles|

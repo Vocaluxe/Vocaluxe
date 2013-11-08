@@ -301,7 +301,7 @@ namespace ServerLib
 
         public void AddSongToPlaylist(int songId, int playlistId, bool allowDuplicates)
         {
-            if (_CheckRight(EUserRights.AddSongToPlaylist) || _CheckRight(EUserRights.EditPlaylists))
+            if (_CheckRight(EUserRights.AddSongToPlaylist))
             {
                 CServer.AddSongToPlaylist(songId, playlistId, allowDuplicates);
             }
@@ -309,17 +309,17 @@ namespace ServerLib
 
         public void RemoveSongFromPlaylist(int position, int playlistId, int songId)
         {
-            if (_CheckRight(EUserRights.EditPlaylists))
+            if (_CheckRight(EUserRights.RemoveSongsFromPlaylists))
             {
                 CServer.RemoveSongFromPlaylist(position, playlistId, songId);
             }
         }
 
-        public void MoveSongInPlaylist(int oldPosition, int newPosition, int playlistId, int songId)
+        public void MoveSongInPlaylist(int newPosition, int playlistId, int songId)
         {
-            if (_CheckRight(EUserRights.EditPlaylists))
+            if (_CheckRight(EUserRights.ReorderPlaylists))
             {
-                CServer.MoveSongInPlaylist(oldPosition, newPosition, playlistId, songId);
+                CServer.MoveSongInPlaylist(newPosition, playlistId, songId);
             }
         }
 
@@ -333,9 +333,21 @@ namespace ServerLib
             return CServer.GetPlaylistSongs(playlistId);
         }
 
-        public bool IsPlaylistEditable(int playlistId)
+        public void RemovePlaylist(int playlistId)
         {
-            return _CheckRight(EUserRights.EditPlaylists);
+            if (_CheckRight(EUserRights.DeletePlaylists))
+            {
+                CServer.RemovePlaylist(playlistId);
+            }
+        }
+
+        public int AddPlaylist(string playlistName)
+        {
+            if (_CheckRight(EUserRights.CreatePlaylists))
+            {
+                return CServer.AddPlaylist(playlistName);
+            }
+            return -1;
         }
 
         #endregion
@@ -353,6 +365,11 @@ namespace ServerLib
             {
                 CServer.SetUserRole(profileId, userRole);
             }
+        }
+        
+        public bool HasUserRight(int right)
+        {
+            return _CheckRight((EUserRights)right);
         }
 
         private static bool _CheckRight(EUserRights requestedRight)
@@ -382,5 +399,6 @@ namespace ServerLib
         }
 
         #endregion
+
     }
 }

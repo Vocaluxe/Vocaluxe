@@ -219,24 +219,28 @@ Global
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|Mixed Platforms.Build.0 = Debug|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x64.ActiveCfg = Debug|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x64.Build.0 = Debug|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x86.ActiveCfg = Debug|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|Any CPU.ActiveCfg = Debug|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|Any CPU.Build.0 = Debug|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|Mixed Platforms.Build.0 = Debug|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x64.ActiveCfg = Debug|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x64.Build.0 = Debug|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x86.ActiveCfg = Debug|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|Any CPU.ActiveCfg = Release|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|Any CPU.Build.0 = Release|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|Mixed Platforms.Build.0 = Release|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x64.ActiveCfg = Release|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x64.Build.0 = Release|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x86.ActiveCfg = Release|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|Any CPU.ActiveCfg = Release|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|Any CPU.Build.0 = Release|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|Mixed Platforms.Build.0 = Release|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x64.ActiveCfg = Release|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x64.Build.0 = Release|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x86.ActiveCfg = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugLinux|Any CPU.ActiveCfg = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugLinux|Any CPU.Build.0 = Debug|Any CPU
@@ -248,6 +252,7 @@ Global
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|Mixed Platforms.Build.0 = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|x64.ActiveCfg = Debug|Any CPU
+		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|x64.Build.0 = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|x86.ActiveCfg = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseLinux|Any CPU.ActiveCfg = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseLinux|Any CPU.Build.0 = Release|Any CPU
@@ -259,6 +264,7 @@ Global
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|Mixed Platforms.Build.0 = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|x64.ActiveCfg = Release|Any CPU
+		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|x64.Build.0 = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution

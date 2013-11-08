@@ -108,20 +108,7 @@ namespace ServerLib
     public delegate SSongInfo[] GetAllSongsDelegate();
 
     public delegate int GetCurrentSongIdDelegate();
-
-    public delegate SPlaylistInfo[] GetPlaylistsDelegate();
-
-    public delegate SPlaylistInfo GetPlaylistDelegate(int playlistId);
-
-    public delegate void AddSongToPlaylistDelegate(int songId, int playlistId, bool allowDuplicates);
-
-    public delegate void RemoveSongFromPlaylistDelegate(int position, int playlistId, int songId);
-
-    public delegate void MoveSongInPlaylistDelegate(int oldPosition, int newPosition, int playlistId, int songId);
-
-    public delegate bool PlaylistContainsSongDelegate(int songId, int playlistId);
-
-    public delegate SPlaylistSongInfo[] GetPlaylistSongsDelegate(int playlistId);
+    
         
     [DataContract]
     public struct SSongInfo
@@ -144,6 +131,28 @@ namespace ServerLib
         public int SongId { get; set; }
     }
 
+    #endregion
+
+    #region playlists
+    public delegate SPlaylistInfo[] GetPlaylistsDelegate();
+
+    public delegate SPlaylistInfo GetPlaylistDelegate(int playlistId);
+
+    public delegate void AddSongToPlaylistDelegate(int songId, int playlistId, bool allowDuplicates);
+
+    public delegate void RemoveSongFromPlaylistDelegate(int position, int playlistId, int songId);
+
+    public delegate void MoveSongInPlaylistDelegate(int newPosition, int playlistId, int songId);
+
+    public delegate bool PlaylistContainsSongDelegate(int songId, int playlistId);
+
+    public delegate SPlaylistSongInfo[] GetPlaylistSongsDelegate(int playlistId);
+
+    public delegate void RemovePlaylistDelegate(int playlistId);
+
+    public delegate int AddPlaylistDelegate(string playlistName);
+
+    [DataContract]
     public struct SPlaylistSongInfo
     {
         [DataMember] 
@@ -155,7 +164,8 @@ namespace ServerLib
         [DataMember]
         public int GameMode;
     }
-
+    
+    [DataContract]
     public struct SPlaylistInfo
     {
         [DataMember] 

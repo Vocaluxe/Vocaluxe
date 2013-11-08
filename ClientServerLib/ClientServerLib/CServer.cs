@@ -84,14 +84,14 @@ namespace ServerLib
         private static GetAllSongsDelegate _GetAllSongs;
         public static GetAllSongsDelegate GetAllSongs
         {
-            get { return CServer._GetAllSongs; }
+            internal get { return CServer._GetAllSongs; }
             set { CServer._GetAllSongs = value; }
         }
 
         private static GetCurrentSongIdDelegate _GetCurrentSongId;
         public static GetCurrentSongIdDelegate GetCurrentSongId
         {
-            get { return CServer._GetCurrentSongId; }
+            internal get { return CServer._GetCurrentSongId; }
             set { CServer._GetCurrentSongId = value; }
         }
 
@@ -103,7 +103,7 @@ namespace ServerLib
         private static GetPlaylistsDelegate _GetPlaylists;
         public static GetPlaylistsDelegate GetPlaylists
         {
-            get { return _GetPlaylists; }
+            internal get { return _GetPlaylists; }
             set { _GetPlaylists = value; }
         }
 
@@ -111,43 +111,57 @@ namespace ServerLib
         private static GetPlaylistDelegate _GetPlaylist;
         public static GetPlaylistDelegate GetPlaylist
         {
-            get { return _GetPlaylist; }
+            internal get { return _GetPlaylist; }
             set { _GetPlaylist = value; }
         }
 
         private static AddSongToPlaylistDelegate _AddSongToPlaylist;
         public static AddSongToPlaylistDelegate AddSongToPlaylist
         {
-            get { return _AddSongToPlaylist; }
+            internal get { return _AddSongToPlaylist; }
             set { _AddSongToPlaylist = value; }
         }
 
         private static RemoveSongFromPlaylistDelegate _RemoveSongFromPlaylist;
         public static RemoveSongFromPlaylistDelegate RemoveSongFromPlaylist
         {
-            get { return _RemoveSongFromPlaylist; }
+            internal get { return _RemoveSongFromPlaylist; }
             set { _RemoveSongFromPlaylist = value; }
         }
 
         private static MoveSongInPlaylistDelegate _MoveSongInPlaylist;
         public static MoveSongInPlaylistDelegate MoveSongInPlaylist
         {
-            get { return _MoveSongInPlaylist; }
+            internal get { return _MoveSongInPlaylist; }
             set { _MoveSongInPlaylist = value; }
         }
 
         private static PlaylistContainsSongDelegate _PlaylistContainsSong;
         public static PlaylistContainsSongDelegate PlaylistContainsSong
         {
-            get { return _PlaylistContainsSong; }
+            internal get { return _PlaylistContainsSong; }
             set { _PlaylistContainsSong = value; }
         }
 
         private static GetPlaylistSongsDelegate _GetPlaylistSongs;
         public static GetPlaylistSongsDelegate GetPlaylistSongs
         {
-            get { return _GetPlaylistSongs; }
+            internal get { return _GetPlaylistSongs; }
             set { _GetPlaylistSongs = value; }
+        }
+
+        private static RemovePlaylistDelegate _RemovePlaylist;
+        public static RemovePlaylistDelegate RemovePlaylist
+        {
+            internal get { return _RemovePlaylist; }
+            set { _RemovePlaylist = value; }
+        }
+
+        private static AddPlaylistDelegate _AddPlaylist;
+        public static AddPlaylistDelegate AddPlaylist
+        {
+            internal get { return _AddPlaylist; }
+            set { _AddPlaylist = value; }
         }
 
         #endregion
@@ -188,9 +202,9 @@ namespace ServerLib
             internal get { return CServer._GetUserIdFromUsername; }
             set { CServer._GetUserIdFromUsername = value; }
         }
-
-
+        
         #endregion
+       
         public CServer(int port, bool encrypted)
         {
             _Init(port, encrypted);
