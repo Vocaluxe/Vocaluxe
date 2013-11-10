@@ -48,12 +48,12 @@ namespace ServerLib
             {
                 _ActiveSessions.Remove(s.Key);
             }
-
         }
 
         internal static bool RequestRight(Guid sessionId, EUserRights requestedRight)
         {
-            return ((CUserRoleControl.GetUserRightsFromUserRole(_ActiveSessions[sessionId].Roles) & requestedRight) != 0);
+            return ((CUserRoleControl.GetUserRightsFromUserRole(_ActiveSessions[sessionId].Roles)
+                .HasFlag(requestedRight)));
         }
 
         internal static int GetUserIdFromSession(Guid sessionId)

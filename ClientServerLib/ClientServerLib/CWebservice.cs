@@ -369,7 +369,7 @@ namespace ServerLib
         
         public bool HasUserRight(int right)
         {
-            return _CheckRight((EUserRights)right);
+            return _CheckRightWithNoErrorMessage((EUserRights)right);
         }
 
         private static bool _CheckRight(EUserRights requestedRight)
@@ -395,6 +395,23 @@ namespace ServerLib
                 }
                 return false;
             }
+            return true;
+        }
+
+        private static bool _CheckRightWithNoErrorMessage(EUserRights requestedRight)
+        {
+            Guid sessionKey = _GetSession();
+
+            if (sessionKey == Guid.Empty)
+            {
+                return false;
+            }
+
+            if (!CSessionControl.RequestRight(sessionKey, requestedRight))
+            {
+                return false;
+            }
+
             return true;
         }
 

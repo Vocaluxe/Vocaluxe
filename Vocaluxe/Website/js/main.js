@@ -268,7 +268,7 @@ function initPageLoadHandler() {
             }
 
             request({
-                url: "hasUserRight?right=" + 0x32
+                url: "hasUserRight?right=" + 32
             }).done(function (result2) {
                 if (result2) {
                     $('#displaySongAddPlaylist').show();
@@ -375,7 +375,7 @@ function initPageLoadHandler() {
     //pageLoadHandler for main
     $(document).on('pagebeforeshow', '#main', function () {
         request({
-            url: "hasUserRight?right=" + 0x02
+            url: "hasUserRight?right=" + 2
         }).done(function (result) {
             if (result) {
                 $('#mainPageTakePhotoLink').parent().parent().parent().show();
@@ -385,7 +385,7 @@ function initPageLoadHandler() {
         });
 
         request({
-            url: "hasUserRight?right=" + 0x08
+            url: "hasUserRight?right=" + 8
         }).done(function (result) {
             if (result) {
                 $('#mainPageKeyboard').parent().parent().parent().show();
@@ -395,7 +395,7 @@ function initPageLoadHandler() {
         });
 
         request({
-            url: "hasUserRight?right=" + 0x04
+            url: "hasUserRight?right=" + 4
         }).done(function (result) {
             if (result) {
                 $('#mainPageSelectProfile').parent().parent().parent().show();
@@ -452,7 +452,7 @@ function initPageLoadHandler() {
             $('#selectPlaylistContentList').listview('refresh');
 
             request({
-                url: "hasUserRight?right=" + 0x128
+                url: "hasUserRight?right=" + 128
             }).done(function (result) {
                 if (result) {
                     $('#selectPlaylistContentList').find('.delete').show();
@@ -481,7 +481,7 @@ function initPageLoadHandler() {
             });
 
             request({
-                url: "hasUserRight?right=" + 0x64
+                url: "hasUserRight?right=" + 64
             }).done(function (result) {
                 if (result) {
                     $('#selectPlaylistAddPlaylistButton').show();
@@ -587,7 +587,7 @@ function initPageLoadHandler() {
             $('#displayPlaylistContentList').listview('refresh');
 
             request({
-                url: "hasUserRight?right=" + 0x256
+                url: "hasUserRight?right=" + 256
             }).done(function (result) {
                 if (result) {
                     $('#displayPlaylistContentList').find('.delete').show();
@@ -599,7 +599,7 @@ function initPageLoadHandler() {
             });
 
             request({
-                url: "hasUserRight?right=" + 0x16
+                url: "hasUserRight?right=" + 16
             }).done(function (result) {
                 if (result) {
                     $('#displayPlaylistContentList').sortable({
@@ -873,11 +873,11 @@ function checkSession() {
     }
     request({
         url: "getOwnProfileId"
-    }).done(function (result) {
+    }, "noOverlay").done(function (result) {
         if (result == -1) {
             logout();
         }
-    }, "noOverlay").fail(function (result) {
+    }).fail(function (result) {
         logout();
     });
 }
@@ -887,7 +887,7 @@ function initHeartbeat() {
 }
 
 function request(data, message) {
-    if (!message) {
+    if ((typeof message) == "undefined" || message == null) {
         message = "Loading...";
     }
 
