@@ -873,11 +873,11 @@ function checkSession() {
     }
     request({
         url: "getOwnProfileId"
-    }).done(function (result) {
+    }, "noOverlay").done(function (result) {
         if (result == -1) {
             logout();
         }
-    }, "noOverlay").fail(function (result) {
+    }).fail(function (result) {
         logout();
     });
 }
@@ -887,7 +887,7 @@ function initHeartbeat() {
 }
 
 function request(data, message) {
-    if (!message) {
+    if ((typeof message) == "undefined" || message == null) {
         message = "Loading...";
     }
 
