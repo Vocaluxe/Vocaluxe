@@ -30,6 +30,9 @@ namespace VocaluxeLib.Profile
         public string FilePath;
         public string FileName;
         public string AvatarFileName;
+        public byte[] PasswordHash;
+        public byte[] PasswordSalt;
+        public int UserRoles;
 
         public EGameDifficulty Difficulty;
 
@@ -56,7 +59,7 @@ namespace VocaluxeLib.Profile
             Active = EOffOn.TR_CONFIG_ON;
 
             AvatarFileName = String.Empty;
-            FileName = String.Empty;
+            FileName = String.Empty;            
         }
 
         public bool LoadProfile()
@@ -104,7 +107,7 @@ namespace VocaluxeLib.Profile
                 string filename = string.Empty;
                 // ReSharper disable LoopCanBeConvertedToQuery
                 foreach (char chr in PlayerName)
-                    // ReSharper restore LoopCanBeConvertedToQuery
+                // ReSharper restore LoopCanBeConvertedToQuery
                 {
                     if (char.IsLetter(chr))
                         filename += chr.ToString();

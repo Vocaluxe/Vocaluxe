@@ -15,7 +15,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <StartupObject>Vocaluxe.CMainProgram</StartupObject>
     <ApplicationIcon>Vocaluxe.ico</ApplicationIcon>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -120,49 +121,6 @@
     <DefineConstants>LINUX;ARCH_X64</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InstallerWin|x86'">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DefineConstants>WIN;ARCH_X86;INSTALLER</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InstallerWin|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DefineConstants>WIN;ARCH_X64;INSTALLER</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-  </PropertyGroup>
-  <ItemGroup Condition="'$(Platform)' == 'x86' And ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')">
-    <Reference Include="SlimDX">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\x86\SlimDX.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\Output\x86\System.Data.SQLite.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup Condition="'$(Platform)' == 'x64' And ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')">
-    <Reference Include="SlimDX">
-      <HintPath>..\Output\x64\SlimDX.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\Output\x64\System.Data.SQLite.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
     <Reference Include="AForge.Video, Version=2.2.4.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -173,10 +131,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Output\AForge.Video.DirectShow.dll</HintPath>
       <Private>False</Private>
-    </Reference>
-    <Reference Include="ClientServerLib">
-      <HintPath>..\ClientServerLib\ClientServerLib\bin\ClientServerLib.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Community.CsharpSqlite">
       <HintPath>..\Output\Community.CsharpSqlite.dll</HintPath>
@@ -194,9 +148,18 @@
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\Output\OpenTK.GLControl.dll</HintPath>
     </Reference>
+    <Reference Include="SlimDX, Version=4.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\x64\SlimDX.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.88.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\x64\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
   </ItemGroup>
@@ -232,7 +195,6 @@
     <Compile Include="Base\Server\CCommands.cs" />
     <Compile Include="Base\Server\CVocaluxeServer.cs" />
     <Compile Include="Base\Server\VocaluxeStructs.cs" />
-    <Compile Include="CProgrammHelper.cs" />
     <Compile Include="CSplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -310,6 +272,109 @@
   <ItemGroup>
     <Content Include="Doc\Roadmap.txt" />
     <Content Include="Vocaluxe.ico" />
+    <Content Include="Website\css\images\ajax-loader.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>images</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\css\images\alert.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\css\images\icons-18-black.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>images</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\css\images\icons-18-white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>images</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\css\images\icons-36-black.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>images</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\css\images\icons-36-white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>images</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\css\jquery.mobile-1.3.2.min.css">
+      <CustomToolNamespace>css</CustomToolNamespace>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\css\jquery.mobile.theme-1.3.2.min.css">
+      <CustomToolNamespace>css</CustomToolNamespace>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\css\style.css">
+      <CustomToolNamespace>css</CustomToolNamespace>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\addPlaylist.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\logout.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\music.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\noCover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\playlist.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\playlists.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\spotify.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\wikipedia.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\youtube.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\admin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>img</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\img\keyboard.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>img</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\img\photo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>img</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\img\profile.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>img</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\img\profiles.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>img</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\js\jquery-1.9.1.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>js</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\js\jquery-ui-1.10.3.custom.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\js\jquery.mobile-1.3.2.min.js">
+      <CustomToolNamespace>js</CustomToolNamespace>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\js\jquery.ui.touch-punch.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\js\main.js">
+      <CustomToolNamespace>js</CustomToolNamespace>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client,KB2468871">
@@ -324,10 +389,17 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClientServerLib\ClientServerLib\ServerLib.csproj">
+      <Project>{ec5167e4-ccfb-4cee-987c-cf816f1062a3}</Project>
+      <Name>ServerLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VocaluxeLib\VocaluxeLib.csproj">
       <Project>{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}</Project>
       <Name>VocaluxeLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Website\html\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

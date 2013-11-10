@@ -31,6 +31,7 @@ namespace Vocaluxe.Lib.Playlist
     {
         public string PlaylistName;
         public string PlaylistFile;
+        public int Id = -1;
         public List<CPlaylistSong> Songs = new List<CPlaylistSong>();
 
         public CPlaylistFile()
@@ -39,8 +40,9 @@ namespace Vocaluxe.Lib.Playlist
             PlaylistFile = string.Empty;
         }
 
-        public CPlaylistFile(string file)
+        public CPlaylistFile(string file, int id)
         {
+            Id = id;
             PlaylistFile = file;
             _LoadPlaylist();
         }

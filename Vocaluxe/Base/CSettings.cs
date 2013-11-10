@@ -102,6 +102,7 @@ namespace Vocaluxe.Base
 #endif
                 Path.Combine(DataPath, FolderProfiles)
             };
+        public static string FolderPhotos = "Photos";
         public const string FolderSongs = "Songs";
         public const string FolderSounds = "Sounds";
         public const string FolderLanguages = "Languages";

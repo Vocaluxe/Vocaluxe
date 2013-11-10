@@ -77,7 +77,7 @@ namespace Vocaluxe.Base
 
             foreach (string file in files)
             {
-                var playlist = new CPlaylistFile(file);
+                CPlaylistFile playlist = new CPlaylistFile(file, files.IndexOf(file));
                 _Playlists.Add(playlist);
             }
         }
@@ -125,7 +125,7 @@ namespace Vocaluxe.Base
 
         public static int NewPlaylist()
         {
-            var pl = new CPlaylistFile {PlaylistName = "New Playlist"};
+            CPlaylistFile pl = new CPlaylistFile { PlaylistName = "New Playlist", Id = _Playlists.Count };
             _Playlists.Add(pl);
             return _Playlists.Count - 1;
         }
