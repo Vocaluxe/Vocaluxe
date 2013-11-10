@@ -425,8 +425,8 @@ namespace Vocaluxe.Base.Server
             {
                 result.Title = song.Title;
                 result.Artist = song.Artist;
-                result.Genre = song.Genre.FirstOrDefault();
-                result.Language = song.Language.FirstOrDefault();
+                result.Genre = song.Genres.FirstOrDefault();
+                result.Language = song.Languages.FirstOrDefault();
                 result.Year = song.Year;
                 result.IsDuet = song.IsDuet;
                 result.SongId = song.ID;

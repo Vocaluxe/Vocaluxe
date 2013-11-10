@@ -77,8 +77,9 @@ namespace Vocaluxe
                 // Init Log
                 CLog.Init();
 
-                if (!CProgrammHelper.CheckRequirements())
-                    return;
+                //TODO: I can't found CProgrammHelper
+                /*if (!CProgrammHelper.CheckRequirements())
+                    return;*/
 
                 CMain.Init();
                 CSettings.CreateFolders();
