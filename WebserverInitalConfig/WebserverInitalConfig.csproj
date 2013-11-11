@@ -36,12 +36,18 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Security">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 11.0\Libs\clrsecurity_june10\Security.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Interop.NetFwTypeLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\Output\Interop.NetFwTypeLib.dll</HintPath>
     </Reference>
-    <Reference Include="Security.Cryptography">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 11.0\Libs\clrsecurity_june10\Security.Cryptography.dll</HintPath>
+    <Reference Include="Security, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Security.Cryptography, Version=1.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\Security.Cryptography.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -62,17 +68,6 @@
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <COMReference Include="NetFwTypeLib">
-      <Guid>{58FBCF7C-E7A9-467C-80B3-FC65E8FCCA08}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
