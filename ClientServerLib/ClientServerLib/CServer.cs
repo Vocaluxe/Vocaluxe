@@ -168,13 +168,6 @@ namespace ServerLib
 
         #region user management
 
-        private static SetPasswordDelegate _SetPassword;
-        public static SetPasswordDelegate SetPassword
-        {
-            internal get { return CServer._SetPassword; }
-            set { CServer._SetPassword = value; }
-        }
-
         private static ValidatePasswordDelegate _ValidatePassword;
         public static ValidatePasswordDelegate ValidatePassword
         {
