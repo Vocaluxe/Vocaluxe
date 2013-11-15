@@ -59,7 +59,6 @@ namespace Vocaluxe.Base.Server
             CServer.GetSong = _GetSong;
             CServer.GetAllSongs = _GetAllSongs;
             CServer.GetCurrentSongId = _GetCurrentSongId;
-            CServer.SetPassword = _SetPassword;
             CServer.ValidatePassword = _ValidatePassword;
             CServer.GetUserRole = _GetUserRole;
             CServer.SetUserRole = _SetUserRole;
