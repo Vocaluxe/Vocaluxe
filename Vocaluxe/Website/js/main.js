@@ -57,14 +57,22 @@ function initPageLoadHandler() {
                     dataToUpload["Type"] = $('#playerType').prop("value");
                     dataToUpload["Difficulty"] = $('#playerDifficulty').prop("value");
                     dataToUpload["Avatar"] = $('#playerAvatar').data("changed") ? { "base64Data": $('#playerAvatar').prop("src") } : null;
-                    dataToUpload["Password"] = $('#playerPassword').prop("value") != "**oldPassword**" ? $('#playerPassword').prop("value") : null;
 
+                    var pass = $('#playerPassword').prop("value");
+                    if (pass != "***__oldPassword__***") {
+                        if (pass == "") {
+                            dataToUpload["Password"] = "***__CLEAR_PASSWORD__***";
+                        } else {
+                            dataToUpload["Password"] = pass;
+                        }
+                    } else {
+                        dataToUpload["Password"] = null;
+                    }
+                    
                     request({
                         url: "sendProfile",
-                        dataType: "json",
                         contentType: "application/json;charset=utf-8",
                         type: "POST",
-                        headers: { "session": sessionId },
                         data: JSON.stringify(dataToUpload),
                     }, "Uploading profile...").done(function () {
                         history.back();
@@ -97,14 +105,22 @@ function initPageLoadHandler() {
                 dataToUpload["Type"] = $('#playerType').prop("value");
                 dataToUpload["Difficulty"] = $('#playerDifficulty').prop("value");
                 dataToUpload["Avatar"] = $('#playerAvatar').data("changed") ? { "base64Data": $('#playerAvatar').prop("src") } : null;
-                dataToUpload["Password"] = $('#playerPassword').prop("value") != "**oldPassword**" ? $('#playerPassword').prop("value") : null;
 
+                var pass = $('#playerPassword').prop("value");
+                if (pass != "***__oldPassword__***") {
+                    if (pass == "") {
+                        dataToUpload["Password"] = "***__CLEAR_PASSWORD__***";
+                    } else {
+                        dataToUpload["Password"] = pass;
+                    }
+                } else {
+                    dataToUpload["Password"] = null;
+                }
+                
                 request({
                     url: "sendProfile",
-                    dataType: "json",
                     contentType: "application/json;charset=utf-8",
                     type: "POST",
-                    headers: { "session": sessionId },
                     data: JSON.stringify(dataToUpload)
                 }, 'Creating profile...').done(function () {
                     $.mobile.changePage("#login", { transition: "slidefade" });
@@ -120,15 +136,15 @@ function initPageLoadHandler() {
         addImage($('#playerAvatar')[0], data.Avatar, "img/profile.png");
 
         $('#playerAvatar').data("changed", false);
-        $('#playerType').prop("value", data.Type);
-        $('#playerDifficulty').prop("value", data.Difficulty);
+        $('#playerType').prop("selectedIndex", data.Type).selectmenu("refresh");
+        $('#playerDifficulty').prop("selectedIndex", data.Difficulty).selectmenu("refresh");
         if (data.IsEditable) {
             $('#playerName').prop('disabled', false);
             $('#playerType').prop('disabled', false);
             $('#playerDifficulty').prop('disabled', false);
             $('#playerSaveButton').show().unbind("click");
             $('#playerAvatar').unbind("click");
-            $('#playerPassword').prop('disabled', false).parent().show();
+            $('#playerPassword').prop('disabled', false).prop("value", "***__oldPassword__***").parent().show();
             $('#playerPasswordLabel').show();
 
             $('#playerAvatar').click(function () {
@@ -736,7 +752,6 @@ function initMainPageHandler() {
                 reader.onloadend = function (e) {
                     request({
                         url: "sendPhoto",
-                        dataType: "json",
                         contentType: "application/json;charset=utf-8",
                         type: "POST",
                         headers: { "session": sessionId },

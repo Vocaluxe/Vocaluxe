@@ -81,7 +81,8 @@ namespace ServerLib
 
             if (profile.ProfileId != -1) //-1 is the id for a new profile
             {
-                if (!(_CheckRight(EUserRights.EditAllProfiles) || CSessionControl.GetUserIdFromSession(sessionKey) == profile.ProfileId))
+                if (!(_CheckRight(EUserRights.EditAllProfiles) 
+                    || CSessionControl.GetUserIdFromSession(sessionKey) == profile.ProfileId))
                 {
                     return;
                 }
@@ -95,17 +96,6 @@ namespace ServerLib
                     WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not found";
                 }
                 return;
-            }
-
-            if (!string.IsNullOrEmpty(profile.Password))
-            {
-                int profileId = profile.ProfileId;
-                if (profileId == -1)
-                {
-                    profileId = CServer.GetUserIdFromUsername(profile.PlayerName);
-                }
-
-                CServer.SetPassword(profileId, profile.Password);
             }
 
             CServer.SendProfileData(profile);

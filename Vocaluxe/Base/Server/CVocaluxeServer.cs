@@ -205,7 +205,7 @@ namespace Vocaluxe.Base.Server
                 newProfile.Avatar = _AddAvatar(profile.Avatar);
 
             }
-            else if (newProfile.Avatar == null)
+            else if (newProfile.Avatar == null || newProfile.Avatar.ID == -1)
             {
                 newProfile.Avatar = CProfiles.GetAvatars().First();
 
@@ -232,6 +232,26 @@ namespace Vocaluxe.Base.Server
             if (profile.Type >= 0 && profile.Type <= 1)
             {
                 newProfile.GuestProfile = (EOffOn)profile.Type;
+            }
+
+            if (!string.IsNullOrEmpty(profile.Password))
+            {
+                if (profile.Password == "***__CLEAR_PASSWORD__***")
+                {
+                    newProfile.PasswordSalt = null;
+                    newProfile.PasswordHash = null;
+                }
+                else
+                {
+                    RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+                    byte[] buffer = new byte[128];
+                    rng.GetNonZeroBytes(buffer);
+                    byte[] salt = buffer;
+                    byte[] hashedPassword = _Hash((new UTF8Encoding()).GetBytes(profile.Password), salt);
+
+                    newProfile.PasswordSalt = salt;
+                    newProfile.PasswordHash = hashedPassword;
+                }
             }
 
             if (existingProfile != null)
@@ -588,23 +608,6 @@ namespace Vocaluxe.Base.Server
 
         #region user management
 
-        private static void _SetPassword(int profileId, string newPassword)
-        {
-            CProfile profile = CProfiles.GetProfile(profileId);
-            if (profile == null)
-            {
-                throw new ArgumentException("Invalid profileId");
-            }
-
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-            byte[] buffer = new byte[128];
-            rng.GetNonZeroBytes(buffer);
-            byte[] salt = buffer;
-            byte[] hashedPassword = _Hash((new UTF8Encoding()).GetBytes(newPassword), salt);
-
-            profile.PasswordSalt = salt;
-            profile.PasswordHash = hashedPassword;
-        }
 
         private static bool _ValidatePassword(int profileId, string password)
         {
