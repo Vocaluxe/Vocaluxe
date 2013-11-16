@@ -686,8 +686,10 @@ namespace Vocaluxe.Base.Server
             {
                 throw new ArgumentException("Invalid profileId");
             }
-
+            
             profile.UserRoles = userRole;
+
+            CProfiles.EditProfile(profile);
         }
 
         private static int _GetUserIdFromUsername(string username)
