@@ -722,6 +722,11 @@ namespace Vocaluxe.Base.Server
             Image avatarImage = imageDate.GetImage();
             string extension = imageDate.GetImageType();
 
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
             string filename = Path.Combine(folder, name);
             if (File.Exists(filename + "." + extension))
             {
