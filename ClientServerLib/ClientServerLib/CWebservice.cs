@@ -81,8 +81,8 @@ namespace ServerLib
 
             if (profile.ProfileId != -1) //-1 is the id for a new profile
             {
-                if (!(_CheckRight(EUserRights.EditAllProfiles) 
-                    || CSessionControl.GetUserIdFromSession(sessionKey) == profile.ProfileId))
+                if (CSessionControl.GetUserIdFromSession(sessionKey) != profile.ProfileId 
+                    && !(_CheckRight(EUserRights.EditAllProfiles) ))
                 {
                     return;
                 }
