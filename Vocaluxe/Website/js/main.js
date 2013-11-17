@@ -10,13 +10,14 @@ var serverBaseAddress = "";
 
 $(document).ready(function () {
     replaceTransitionHandler();
+    initTranslation();
     initPageLoadHandler();
     initKeyboardPageHandler();
     initMainPageHandler();
+    initDiscoverPageHandler();
     initLoginPageHandler();
     initHeartbeat();
     initVideoPopup();
-    initTranslation();
 });
 
 function replaceTransitionHandler() {
@@ -157,22 +158,40 @@ function initPageLoadHandler() {
                     $('#captureContainer').remove();
                 }
 
-                $(document.body).append('<div id="captureContainer" style="height: 0px;width:0px; overflow:hidden;"> <input type="file" accept="image/*" id="capture" capture> </div>');
+                if (document.location.protocol == "file:"
+                    && typeof(navigator) != 'undefined'
+                    && typeof(navigator.camera) != 'undefined'
+                    && typeof(navigator.camera.getPicture) != 'undefined') {
+                    navigator.camera.getPicture(function (imageData) {
+                        $('#playerAvatar').prop("src", "data:image/jpeg;base64," + imageData);
+                        $('#playerAvatar').data("changed", true);
+                    }, function() {
+                        //Fail - do nothing
+                    }, {
+                        destinationType: Camera.DestinationType.DATA_URL,
+                        allowEdit: true,
+                        correctOrientation: true,
+                        saveToPhotoAlbum: true
+                    });
 
-                $('#capture').change(function (eventData) {
-                    if (eventData && eventData.target && eventData.target.files && eventData.target.files.length == 1) {
-                        var file = eventData.target.files[0];
-                        var reader = new FileReader();
-                        reader.onloadend = function (e) {
-                            $('#playerAvatar').prop("src", e.target.result);
-                            $('#playerAvatar').data("changed", true);
-                            $('#captureContainer').remove();
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
+                } else {
+                    $(document.body).append('<div id="captureContainer" style="height: 0px;width:0px; overflow:hidden;"> <input type="file" accept="image/*" id="capture" capture> </div>');
 
-                $('#capture').click();
+                    $('#capture').change(function(eventData) {
+                        if (eventData && eventData.target && eventData.target.files && eventData.target.files.length == 1) {
+                            var file = eventData.target.files[0];
+                            var reader = new FileReader();
+                            reader.onloadend = function(e) {
+                                $('#playerAvatar').prop("src", e.target.result);
+                                $('#playerAvatar').data("changed", true);
+                                $('#captureContainer').remove();
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+
+                    $('#capture').click();
+                }
             });
         }
         else {
@@ -758,33 +777,54 @@ function initMainPageHandler() {
         });
     });
 
+    function uploadImg(imgData) {
+        request({
+            url: "sendPhoto",
+            contentType: "application/json;charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({ Photo: { base64Data: imgData } })
+        }, 'Uploading photo...');
+    }
+
     $('#mainPageTakePhotoLink').click(function () {
         if ($('#captureContainer').length > 0) {
             $('#captureContainer').remove();
         }
 
-        $(document.body).append('<div id="captureContainer" style="height: 0px;width:0px; overflow:hidden;"> <input type="file" accept="image/*" id="capture" capture="camera"> </div>');
+        if (document.location.protocol == "file:"
+            && typeof (navigator) != 'undefined'
+            && typeof (navigator.camera) != 'undefined'
+            && typeof (navigator.camera.getPicture) != 'undefined') {
+            navigator.camera.getPicture(function (imageData) {
+                uploadImg("data:image/jpeg;base64," + imageData);
+            }, function () {
+                //Fail - do nothing
+            }, {
+                destinationType: Camera.DestinationType.DATA_URL,
+                allowEdit: true,
+                correctOrientation: true,
+                saveToPhotoAlbum: true
+            });
 
-        $('#capture').change(function (eventData) {
-            if (eventData && eventData.target && eventData.target.files && eventData.target.files.length == 1) {
-                var file = eventData.target.files[0];
-                var reader = new FileReader();
+        } else {
+            $(document.body).append('<div id="captureContainer" style="height: 0px;width:0px; overflow:hidden;"> <input type="file" accept="image/*" id="capture" capture="camera"> </div>');
 
-                reader.onloadend = function (e) {
-                    request({
-                        url: "sendPhoto",
-                        contentType: "application/json;charset=utf-8",
-                        type: "POST",
-                        headers: { "session": sessionId },
-                        data: JSON.stringify({ Photo: { base64Data: e.target.result } })
-                    }, 'Uploading photo...');
-                };
+            $('#capture').change(function (eventData) {
+                if (eventData && eventData.target && eventData.target.files && eventData.target.files.length == 1) {
+                    var file = eventData.target.files[0];
+                    var reader = new FileReader();
 
-                reader.readAsDataURL(file);
-            }
-        });
+                    reader.onloadend = function (e) {
+                        uploadImg(e.target.result);
+                        $('#capture').remove();
+                    };
 
-        $('#capture').click();
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            $('#capture').click();
+        }
     });
 
     $('#mainPageLogoutLink').click(function () {
@@ -850,7 +890,7 @@ function initKeyboardPageHandler() {
     });
 }
 
-function initLoginPageHandler() {
+function initDiscoverPageHandler() {
     var keyPressed = function (e) {
         if (e.which == 13) {
             $('#discoverConnect').click();
@@ -877,8 +917,10 @@ function initLoginPageHandler() {
     });
 
     //Fire pageLoadHandler for discover (first page shown after start)
-    pagebeforeshowDiscover();
-    $(this).removeData('promise');
+    setTimeout(function() {
+        pagebeforeshowDiscover();
+        $(this).removeData('promise');
+    },1);
 }
 
 var cachedImages = {};
