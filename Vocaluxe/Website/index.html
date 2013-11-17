@@ -9,26 +9,27 @@
     <script src="js/jquery.mobile-1.3.2.min.js"></script>
     <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="js/jquery.ui.touch-punch.min.js"></script>
+    <script src="js/i18next-1.7.1.min.js"></script>
     <script src="js/main.js"></script>
 </head>
 <body>
     <div id="login" data-content-theme="a" data-role="page" data-add-back-btn="true">
         <div data-role="header">
-            <h1>Login</h1>
+            <h1 data-i18n="">Login</h1>
         </div>
         <!-- /header -->
 
         <div id="loginContent" data-role="content">
-            <label for="loginName" class="input">User:</label>
+            <label for="loginName" class="input" data-i18n="loginName"></label>
             <input type="text" id="loginName" name="loginName" data-mini="true">
-            <label for="loginPassword" class="input">Password:</label>
+            <label for="loginPassword" class="input" data-i18n="loginPassword"></label>
             <input type="password" id="loginPassword" name="loginPassword" data-mini="true">
             <br />
-            <a data-role="button" id="loginButton">Login</a>
+            <a data-role="button" id="loginButton" data-i18n="loginButton"></a>
             <br />
             <hr />
             <br />
-            <a data-role="button" id="registerButton">Create Profile</a>
+            <a data-role="button" id="registerButton" data-i18n="registerButton"></a>
         </div>
         <!-- /content -->
     </div>
@@ -45,64 +46,64 @@
                 <li>
                     <a id="yourProfileLink" href="#" data-transition="slidefade">
                         <img src="img/profile.png">
-                        <h2>Your Profile</h2>
-                        <p>Edit your profile</p>
+                        <h2 data-i18n="mainPageYourProfileLink"></h2>
+                        <p data-i18n="mainPageYourProfileLinkDesc"></p>
                     </a>
                 </li>
                 <li>
                     <a id="currentSongLink" href="#" data-transition="slidefade">
                         <img src="img/music.png">
-                        <h2>Current Song</h2>
-                        <p>Display informations about the current song</p>
+                        <h2 data-i18n="mainPageCurrentSongLink"></h2>
+                        <p data-i18n="mainPageCurrentSongLinkDesc"></p>
                     </a>
                 </li>
                 <li>
                     <a href="#selectSong" data-transition="slidefade">
                         <img src="img/playlist.png">
-                        <h2>All songs</h2>
-                        <p>Lists all available songs</p>
+                        <h2 data-i18n="mainPageSelectSong"></h2>
+                        <p data-i18n="mainPageSelectSongDesc"></p>
                     </a>
                 </li>
                 <li>
                     <a href="#selectPlaylist" data-transition="slidefade">
                         <img src="img/playlists.png">
-                        <h2>All playlists</h2>
-                        <p>Lists all playlists</p>
+                        <h2 data-i18n="mainPageSelectPlaylist"></h2>
+                        <p data-i18n="mainPageSelectPlaylistDesc"></p>
                     </a>
                 </li>
                 <li>
                     <a id="mainPageSelectProfile" href="#selectProfile" data-transition="slidefade">
                         <img src="img/profiles.png">
-                        <h2>Profiles</h2>
-                        <p>Shows all profiles</p>
+                        <h2 data-i18n="mainPageSelectProfile"></h2>
+                        <p data-i18n="mainPageSelectProfileDesc"></p>
                     </a>
                 </li>
                 <li>
                     <a id="mainPageTakePhotoLink" href="#" data-transition="slidefade">
                         <img src="img/photo.png">
-                        <h2>Take Photo</h2>
-                        <p>Takes a photo and displays it at the end of the current round</p>
+                        <h2 data-i18n="mainPageTakePhotoLink"></h2>
+                        <p data-i18n="mainPageTakePhotoLinkDesc"></p>
                     </a>
                 </li>
                 <li>
                     <a id="mainPageKeyboard" href="#keyboard" data-transition="slidefade">
                         <img src="img/keyboard.png">
-                        <h2>Keyboard</h2>
-                        <p>Send keys</p>
+                        <h2 data-i18n="mainPageKeyboard"></h2>
+                        <p data-i18n="mainPageKeyboardDesc"></p>
                     </a>
                 </li>
                 <li>
                     <a href="#selectUserAdmin" data-transition="slidefade">
                         <img src="img/admin.png">
-                        <h2>Administration</h2>
-                        <p>Configure user rights</p>
+                        <h2 data-i18n="mainPageSelectUserAdmin"></h2>
+                        <p data-i18n="mainPageSelectUserAdminDesc"></p>
                     </a>
                 </li>
                 <li>
                     <a id="mainPageLogoutLink" href="#" data-transition="slidefade">
                         <img src="img/logout.png">
-                        <h2>Logout</h2>
-                        <p>Closes the session</p>
+                        <h2 data-i18n="mainPageLogoutLink"></h2>
+                        <p data-i18n="mainPageLogoutLinkDesc"></p>
                     </a>
                 </li>
             </ul>
@@ -113,7 +114,7 @@
 
     <div id="selectProfile" data-content-theme="a" data-role="page" data-add-back-btn="true">
         <div data-role="header">
-            <h1>All profiles</h1>
+            <h1 data-i18n="selectProfileHeader"></h1>
         </div>
         <!-- /header -->
 
@@ -126,32 +127,32 @@
 
     <div id="displayProfile" data-content-theme="a" data-role="page" data-add-back-btn="true">
         <div data-role="header">
-            <h1>Profile</h1>
+            <h1 data-i18n="displayProfileHeader">Profile</h1>
         </div>
         <!-- /header -->
 
         <div id="displayProfileContent" data-role="content">
             <img id="playerAvatar" src="img/profile.png" alt="Avatar">
-            <label for="playerName" class="input">Name:</label>
+            <label for="playerName" class="input" data-i18n="displayProfileName"></label>
             <input type="text" id="playerName" name="playerName" data-mini="true" value="Your Name">
 
-            <label for="playerType" class="select">Player Type:</label>
+            <label for="playerType" class="select" data-i18n="displayProfilePlayerType"></label>
             <select name="playerType" id="playerType">
-                <option value="0">Normal</option>
-                <option value="1">Guest</option>
+                <option value="0" data-i18n="displayProfilePlayerTypeNormal"></option>
+                <option value="1" data-i18n="displayProfilePlayerTypeGuest"></option>
             </select>
-            <label for="playerDifficulty" class="select">Difficulty:</label>
+            <label for="playerDifficulty" class="select" data-i18n="displayProfilePlayerDifficulty"></label>
             <select name="playerDifficulty" id="playerDifficulty">
-                <option value="0">Easy</option>
-                <option value="1">Normal</option>
-                <option value="2">Hard</option>
+                <option value="0" data-i18n="displayProfilePlayerDifficultyEasy"></option>
+                <option value="1" data-i18n="displayProfilePlayerDifficultyNormal"></option>
+                <option value="2" data-i18n="displayProfilePlayerDifficultyHard"></option>
             </select>
 
-            <label id="playerPasswordLabel" for="playerPassword" class="input">New Password:</label>
+            <label id="playerPasswordLabel" for="playerPassword" class="input" data-i18n="displayProfilePlayerPassword"></label>
             <input type="password" id="playerPassword" name="playerPassword" data-mini="true" value="**oldPassword**">
 
             <br />
-            <a data-role="button" id="playerSaveButton">Save and upload</a>
+            <a data-role="button" id="playerSaveButton" data-i18n="displayProfilePlayerSaveButton"></a>
         </div>
         <!-- /content -->
     </div>
@@ -159,7 +160,7 @@
 
     <div id="displaySong" data-content-theme="a" data-role="page" data-add-back-btn="true">
         <div data-role="header">
-            <h1 id="displaySongTitle">No current song</h1>
+            <h1 id="displaySongTitle" data-i18n="displaySongHeader"></h1>
         </div>
         <!-- /header -->
 
@@ -168,19 +169,19 @@
             <br />
             <br />
             <br />
-            <label for="displaySongArtist" class="input">Artist:</label>
+            <label for="displaySongArtist" class="input" data-i18n="displaySongArtist"></label>
             <span id="displaySongArtist" data-mini="true">-</span>
             <br />
-            <label for="displaySongGenre" class="input">Genre:</label>
+            <label for="displaySongGenre" class="input" data-i18n="displaySongGenre"></label>
             <span id="displaySongGenre" data-mini="true">-</span>
             <br />
-            <label for="displaySongYear" class="input">Year:</label>
+            <label for="displaySongYear" class="input" data-i18n="displaySongYear"></label>
             <span id="displaySongYear" data-mini="true">-</span>
             <br />
-            <label for="displaySongLanguage" class="input">Language:</label>
+            <label for="displaySongLanguage" class="input" data-i18n="displaySongLanguage"></label>
             <span id="displaySongLanguage" data-mini="true">-</span>
             <br />
-            <label for="displaySongIsDuet" class="input">Duet:</label>
+            <label for="displaySongIsDuet" class="input" data-i18n="displaySongIsDuet"></label>
             <span id="displaySongIsDuet" data-mini="true">-</span>
             <br />
             <br />
@@ -196,7 +197,7 @@
         </div>
         <!-- /content -->
         <div data-role="popup" id="popupVideo" data-overlay-theme="a" data-theme="a" data-corners="false" data-tolerance="15,15">
-            <a href="#" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+            <a href="#" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right" data-i18n="popupVideoClose"></a>
             <iframe width="480" height="320" seamless></iframe>
         </div>
         <!-- /popup -->
@@ -205,7 +206,7 @@
 
     <div id="selectSong" data-content-theme="a" data-role="page" data-add-back-btn="true">
         <div data-role="header">
-            <h1>All songs</h1>
+            <h1 data-i18n="selectSongHeader"></h1>
         </div>
         <!-- /header -->
 
@@ -218,7 +219,7 @@
 
     <div id="keyboard" data-content-theme="a" data-role="page" data-add-back-btn="true">
         <div data-role="header">
-            <h1>Keyboard</h1>
+            <h1 data-i18n="keyboardHeader"></h1>
         </div>
         <!-- /header -->
 
@@ -226,36 +227,36 @@
             <div class="ui-grid-b">
                 <div class="ui-block-a"></div>
                 <div class="ui-block-b">
-                    <a data-role="button" id="keyboardButtonUp">up</a>
+                    <a data-role="button" id="keyboardButtonUp" data-i18n="keyboardButtonUp"></a>
                 </div>
                 <div class="ui-block-c"></div>
                 <div class="ui-block-a">
-                    <a data-role="button" id="keyboardButtonLeft">left</a>
+                    <a data-role="button" id="keyboardButtonLeft" data-i18n="keyboardButtonLeft"></a>
                 </div>
                 <div class="ui-block-b">
                 </div>
                 <div class="ui-block-c">
-                    <a data-role="button" id="keyboardButtonRight">right</a>
+                    <a data-role="button" id="keyboardButtonRight" data-i18n="keyboardButtonRight"></a>
                 </div>
                 <div class="ui-block-a"></div>
                 <div class="ui-block-b">
-                    <a data-role="button" id="keyboardButtonDown">down</a>
+                    <a data-role="button" id="keyboardButtonDown" data-i18n="keyboardButtonDown"></a>
                 </div>
                 <div class="ui-block-c"></div>
             </div>
             <div class="ui-grid-b">
                 <div class="ui-block-a">
-                    <a data-role="button" id="keyboardButtonEscape">escape</a>
+                    <a data-role="button" id="keyboardButtonEscape" data-i18n="keyboardButtonEscape"></a>
                 </div>
                 <div class="ui-block-b">
-                    <a data-role="button" id="keyboardButtonTab">tab</a>
+                    <a data-role="button" id="keyboardButtonTab" data-i18n="keyboardButtonTab"></a>
                 </div>
                 <div class="ui-block-c">
-                    <a data-role="button" id="keyboardButtonReturn">return</a>
+                    <a data-role="button" id="keyboardButtonReturn" data-i18n="keyboardButtonReturn"></a>
                 </div>
             </div>
             <div>
-                <label for="keyboardButtonKeys">To send other keys type here:</label>
+                <label for="keyboardButtonKeys" data-i18n="keyboardButtonKeys"></label>
                 <input type="text" id="keyboardButtonKeys" data-mini="true">
             </div>
         </div>
@@ -265,7 +266,7 @@
 
     <div id="selectUserAdmin" data-content-theme="a" data-role="page" data-add-back-btn="true">
         <div data-role="header">
-            <h1>All profiles</h1>
+            <h1 data-i18n="selectUserAdminHeader"></h1>
         </div>
         <!-- /header -->
 
@@ -278,7 +279,7 @@
 
     <div id="displayUserAdmin" data-content-theme="a" data-role="page" data-add-back-btn="true">
         <div data-role="header">
-            <h1>Profile</h1>
+            <h1 data-i18n="displayUserAdminHeader"></h1>
         </div>
         <!-- /header -->
 
@@ -290,7 +291,7 @@
                 <input type="checkbox" id="roleAdministrator">
                 <label for="roleAdministrator">Administrator</label>
             </fieldset>
-            <a data-role="button" id="btnRoleSave" data-transition="slidefade">Save</a>
+            <a data-role="button" id="btnRoleSave" data-transition="slidefade" data-i18n="displayUserAdminContentSaveButton"></a>
         </div>
         <!-- /content -->
     </div>
@@ -298,8 +299,8 @@
 
     <div id="selectPlaylist" data-content-theme="a" data-role="page" data-add-back-btn="true">
         <div data-role="header">
-            <h1>Select a playlist</h1>
-            <a id="selectPlaylistAddPlaylistButton" href="#" class="ui-btn-right" data-icon="add">Add</a>
+            <h1 data-i18n="selectPlaylistHeader"></h1>
+            <a id="selectPlaylistAddPlaylistButton" href="#" class="ui-btn-right" data-icon="add" data-i18n="selectPlaylistAddPlaylistButton"></a>
         </div>
         <!-- /header -->
 
@@ -312,8 +313,8 @@
 
     <div id="displayPlaylist" data-content-theme="a" data-role="page" data-add-back-btn="true">
         <div id="displayPlaylistHeader" data-role="header">
-            <h1>Playlist</h1>
-            <a id="displayPlaylistSaveButton" class="ui-btn-right" href="#" data-icon="add">Save</a>
+            <h1 data-i18n="displayPlaylistHeader"></h1>
+            <a id="displayPlaylistSaveButton" class="ui-btn-right" href="#" data-icon="add" data-i18n="displayPlaylistSaveButton"></a>
         </div>
         <!-- /header -->
 

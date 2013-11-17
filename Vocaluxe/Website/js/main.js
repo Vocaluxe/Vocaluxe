@@ -1,4 +1,4 @@
-var ownProfileId = -1;
+﻿var ownProfileId = -1;
 var profileIdRequest = -1;
 var songIdRequest = -1;
 var allSongsCache = null;
@@ -15,6 +15,7 @@ $(document).ready(function () {
     initLoginPageHandler();
     initHeartbeat();
     initVideoPopup();
+    initTranslation();
 });
 
 function replaceTransitionHandler() {
@@ -68,7 +69,7 @@ function initPageLoadHandler() {
                     } else {
                         dataToUpload["Password"] = null;
                     }
-                    
+
                     request({
                         url: "sendProfile",
                         contentType: "application/json;charset=utf-8",
@@ -90,7 +91,7 @@ function initPageLoadHandler() {
                 "Avatar": { "base64Data": null },
                 "Difficulty": 0,
                 "IsEditable": true,
-                "PlayerName": "YourName",
+                "PlayerName": i18n.t("YourName") || "YourName",
                 "ProfileId": -1,
                 "Type": 1
             });
@@ -116,7 +117,7 @@ function initPageLoadHandler() {
                 } else {
                     dataToUpload["Password"] = null;
                 }
-                
+
                 request({
                     url: "sendProfile",
                     contentType: "application/json;charset=utf-8",
@@ -184,8 +185,7 @@ function initPageLoadHandler() {
     //pageLoadHandler for selectProfile
     $(document).on('pagebeforeshow', '#selectProfile', function () {
         var promise = request({
-            url: "getProfileList",
-            headers: { "session": sessionId }
+            url: "getProfileList"
         }).done(function (data) {
             $('#selectProfileList').children().remove();
 
@@ -213,8 +213,7 @@ function initPageLoadHandler() {
     //pageLoadHandler for displaySong
     $(document).on('pagebeforeshow', '#displaySong', function () {
         var promise = request({
-            url: "getSong?songId=" + songIdRequest,
-            headers: { "session": sessionId }
+            url: "getSong?songId=" + songIdRequest
         }).done(function (result) {
             $('#displaySongAddPlaylist').hide();
 
@@ -336,8 +335,7 @@ function initPageLoadHandler() {
     //pageLoadHandler for selectUserAdmin
     $(document).on('pagebeforeshow', '#selectUserAdmin', function () {
         var promise = request({
-            url: "getProfileList",
-            headers: { "session": sessionId }
+            url: "getProfileList"
         }).done(function (data) {
             $('#selectUserAdminList').children().remove();
 
@@ -362,8 +360,7 @@ function initPageLoadHandler() {
     //pageLoadHandler for displayUserAdmin
     $(document).on('pagebeforeshow', '#displayUserAdmin', function () {
         var promise = request({
-            url: "getUserRole?profileId=" + profileIdRequest,
-            headers: { "session": sessionId }
+            url: "getUserRole?profileId=" + profileIdRequest
         }).done(function (result) {
             $('#roleAdministrator').prop("checked", ((result & 0x01) != 0)).checkboxradio("refresh");
 
@@ -459,7 +456,7 @@ function initPageLoadHandler() {
                     + '"> <a href="#"> '/*+'<img src="' + ((data[profile].Avatar && data[profile].Avatar.base64Data) ? data[id].Avatar.base64Data : "img/profile.png") + '"> '*/
                     + ' <h2>' + data[id].PlaylistName + '</h2> <p>'
                     + data[id].SongCount
-                    + ' songs</p> </a> <a href="#" class="delete" data-icon="delete">Delete</a> </li>')
+                    + ' ' + i18n.t('songs') + '</p> </a> <a href="#" class="delete" data-icon="delete">Delete</a> </li>')
                     .appendTo('#selectPlaylistContentList');
                 line.find('a:not(.delete)').click(handleSelectSongLineClick);
                 line.find('a.delete').click(handleSelectSongLineDeleteClick);
@@ -492,7 +489,7 @@ function initPageLoadHandler() {
                         });
                     });
                 } else {
-                    alert("This is not a name.");
+                    alert(i18n.t("This is not a valid name."));
                 }
             });
 
@@ -907,6 +904,9 @@ function request(data, message) {
     }
 
     if (message != "noOverlay") {
+        if (i18n.t) {
+            message = i18n.t(message) || message;
+        }
         $('div[data-role="content"]').wrap('<div class="overlay" />');
         $.mobile.loading('show', {
             text: message,
@@ -920,6 +920,9 @@ function request(data, message) {
 
     if (message == "external") {
         message = "Loading (external)...";
+        if (i18n.t) {
+            message = i18n.t(message) || message;
+        }
     } else {
         data["headers"]["session"] = sessionId;
     }
@@ -947,6 +950,10 @@ function request(data, message) {
 function showError(message) {
     if (!message) {
         message = "Error...";
+    }
+
+    if (i18n.t) {
+        message = i18n.t(message) || message;
     }
 
     $('div[data-role="content"]').wrap('<div class="overlay" />');
@@ -1059,4 +1066,167 @@ function showWikipedia(artist) {
 
     $("#popupVideo iframe").attr("src", "http://m.wikipedia.org/wiki/Special:Search/" + artist);
     $("#popupVideo").popup("open");
+}
+
+function initTranslation() {
+    var translations = {
+        "en": {
+            translation: {
+                'loginName': 'User:',
+                'loginPassword': 'Password:',
+                'loginButton': 'Login',
+                'registerButton': 'Create Profile',
+                'mainPageYourProfileLink': 'Your Profile',
+                'mainPageYourProfileLinkDesc': 'Edit your profile',
+                'mainPageCurrentSongLink': 'Current Song',
+                'mainPageCurrentSongLinkDesc': 'Display informations about the current song',
+                'mainPageSelectSong': 'All songs',
+                'mainPageSelectSongDesc': 'Lists all available songs',
+                'mainPageSelectPlaylist': 'All playlists',
+                'mainPageSelectPlaylistDesc': 'Lists all playlists',
+                'mainPageSelectProfile': 'Profiles',
+                'mainPageSelectProfileDesc': 'Shows all profiles',
+                'mainPageTakePhotoLink': 'Take Photo',
+                'mainPageTakePhotoLinkDesc': 'Takes a photo and displays it at the end of the current round',
+                'mainPageKeyboard': 'Keyboard',
+                'mainPageKeyboardDesc': 'Send keys',
+                'mainPageSelectUserAdmin': 'Administration',
+                'mainPageSelectUserAdminDesc': 'Configure user rights',
+                'mainPageLogoutLink': 'Logout',
+                'mainPageLogoutLinkDesc': 'Closes the session',
+                'selectProfileHeader': 'All profiles',
+                'displayProfileHeader': 'Profile',
+                'displayProfileName': 'Name:',
+                'displayProfilePlayerType': 'Player Type:',
+                'displayProfilePlayerTypeNormal': 'Normal',
+                'displayProfilePlayerTypeGuest': 'Guest',
+                'displayProfilePlayerDifficulty': 'Difficulty:',
+                'displayProfilePlayerDifficultyEasy': 'Easy',
+                'displayProfilePlayerDifficultyNormal': 'Normal',
+                'displayProfilePlayerDifficultyHard': 'Hard',
+                'displayProfilePlayerPassword': 'New Password:',
+                'displayProfilePlayerSaveButton': 'Save and upload',
+                'displaySongHeader': 'No current song',
+                'displaySongArtist': 'Artist:',
+                'displaySongGenre': 'Genre:',
+                'displaySongYear': 'Year:',
+                'displaySongLanguage': 'Language:',
+                'displaySongIsDuet': 'Duet:',
+                'popupVideoClose': 'Close',
+                'selectSongHeader': 'All songs',
+                'keyboardHeader': 'Keyboard',
+                'keyboardButtonUp': 'up',
+                'keyboardButtonLeft': 'left',
+                'keyboardButtonRight': 'right',
+                'keyboardButtonDown': 'down',
+                'keyboardButtonEscape': 'escape',
+                'keyboardButtonTab': 'tab',
+                'keyboardButtonReturn': 'return',
+                'keyboardButtonKeys': 'To send other keys type here:',
+                'selectUserAdminHeader': 'All profiles',
+                'displayUserAdminHeader': 'Profile',
+                'displayUserAdminContentSaveButton': 'Save',
+                'selectPlaylistHeader': 'Select a playlist',
+                'displayPlaylistHeader': 'Playlist',
+                'displayPlaylistSaveButton': 'Save',
+                'selectPlaylistAddPlaylistButton': 'Add',
+                'Loading (external)...': 'Loading (external)...',
+                'Loading...': 'Loading...',
+                'Error...': 'Error...',
+                'No connection': 'No connection',
+                'No session': 'No session',
+                'Uploading photo...': 'Uploading photo...',
+                'Getting current song...': 'Getting current song...',
+                'Login...': 'Login...',
+                'Creating profile...': 'Creating profile...',
+                'This is not a valid name.': 'This is not a valid name.',
+                'Uploading profile...': 'Uploading profile...',
+                'songs': 'songs',
+                'YourName': 'YourName'
+            }
+        },
+        "de": {
+            translation: {
+                'loginName': 'Benutzer:',
+                'loginPassword': 'Passwort:',
+                'loginButton': 'Einloggen',
+                'registerButton': 'Erstelle Profil',
+                'mainPageYourProfileLink': 'Dein Profil',
+                'mainPageYourProfileLinkDesc': 'Bearbeite dein Profil',
+                'mainPageCurrentSongLink': 'Aktuelles Lied',
+                'mainPageCurrentSongLinkDesc': 'Zeigt Informationen über das aktuelle Lied an',
+                'mainPageSelectSong': 'Alle Lieder',
+                'mainPageSelectSongDesc': 'Listet alle verfügbaren Lieder auf',
+                'mainPageSelectPlaylist': 'Alle Playlisten',
+                'mainPageSelectPlaylistDesc': 'Listet alle verfügbaren Playlisten auf',
+                'mainPageSelectProfile': 'Profile',
+                'mainPageSelectProfileDesc': 'Listet alle Profile auf',
+                'mainPageTakePhotoLink': 'Nehme Foto auf',
+                'mainPageTakePhotoLinkDesc': 'Nimmt ein Foto auf und zeigt es am ende der Runde an',
+                'mainPageKeyboard': 'Tastatur',
+                'mainPageKeyboardDesc': 'Sende Tastatureingaben',
+                'mainPageSelectUserAdmin': 'Administration',
+                'mainPageSelectUserAdminDesc': 'Konfiguriere die Benutzerrechte',
+                'mainPageLogoutLink': 'Abmelden',
+                'mainPageLogoutLinkDesc': 'Beendet diese Sitzung',
+                'selectProfileHeader': 'Alle Profile',
+                'displayProfileHeader': 'Profile',
+                'displayProfileName': 'Name:',
+                'displayProfilePlayerType': 'Player Typ:',
+                'displayProfilePlayerTypeNormal': 'Normal',
+                'displayProfilePlayerTypeGuest': 'Gast',
+                'displayProfilePlayerDifficulty': 'Schwierigkeit:',
+                'displayProfilePlayerDifficultyEasy': 'Einfach',
+                'displayProfilePlayerDifficultyNormal': 'Normal',
+                'displayProfilePlayerDifficultyHard': 'Schwer',
+                'displayProfilePlayerPassword': 'Neues Passwort:',
+                'displayProfilePlayerSaveButton': 'Speichern und hochladen',
+                'displaySongHeader': 'Kein aktuelles Lied',
+                'displaySongArtist': 'Künstler:',
+                'displaySongGenre': 'Genre:',
+                'displaySongYear': 'Jahr:',
+                'displaySongLanguage': 'Sprache:',
+                'displaySongIsDuet': 'Duet:',
+                'popupVideoClose': 'Schließen',
+                'selectSongHeader': 'Alle Lieder',
+                'keyboardHeader': 'Tastatur',
+                'keyboardButtonUp': 'hoch',
+                'keyboardButtonLeft': 'links',
+                'keyboardButtonRight': 'rechts',
+                'keyboardButtonDown': 'runter',
+                'keyboardButtonEscape': 'Escape',
+                'keyboardButtonTab': 'Tab',
+                'keyboardButtonReturn': 'Enter',
+                'keyboardButtonKeys': 'Um andere Zeichen zu senden, hier tippen:',
+                'selectUserAdminHeader': 'Alle Profile',
+                'displayUserAdminHeader': 'Profile',
+                'displayUserAdminContentSaveButton': 'Speichern',
+                'selectPlaylistHeader': 'Wähle eine Playlist',
+                'displayPlaylistHeader': 'Playlist',
+                'displayPlaylistSaveButton': 'Speichern',
+                'selectPlaylistAddPlaylistButton': 'Hinzufügen',
+                'Loading (external)...': 'Laden (extern)...',
+                'Loading...': 'Laden...',
+                'Error...': 'Fehler...',
+                'No connection': 'Keine Verbindung',
+                'No session': 'Keine Sitzung',
+                'Uploading photo...': 'Foto hochladen...',
+                'Getting current song...': 'Lade aktuelles Lied...',
+                'Login...': 'Einloggen...',
+                'Creating profile...': 'Erstelle Profil...',
+                'This is not a valid name.': 'Dies ist kein gültiger Name.',
+                'Uploading profile...': 'Profil hochladen...',
+                'songs': 'Lieder',
+                'YourName': 'DeinName'
+            }
+        }
+    };
+    $.i18n.init({
+        resStore: translations,
+        lng: "de",
+        fallbackLng: 'en',
+        debug: true
+    }).done(function () {
+        $('body').i18n();
+    });
 }
