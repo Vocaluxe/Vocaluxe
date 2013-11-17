@@ -6,6 +6,7 @@ var playlistIdRequest = -1;
 var playlistRequestName = "";
 var customSelectPlaylistSongCallback = null;
 var sessionId = "";
+var serverBaseAddress = "";
 
 $(document).ready(function () {
     replaceTransitionHandler();
@@ -42,6 +43,9 @@ function replaceTransitionHandler() {
 }
 
 function initPageLoadHandler() {
+    //pageLoadHandler for discover
+    $(document).on('pagebeforeshow', '#discover', pagebeforeshowDiscover);
+
     //pageLoadHandler for displayProfile
     $(document).on('pagebeforeshow', '#displayProfile', function () {
         if (profileIdRequest >= 0) {
@@ -677,6 +681,26 @@ function pagebeforeshowLogin() {
     }
 }
 
+function pagebeforeshowDiscover() {
+    if (document.location.protocol == "file:") {
+        if (window.localStorage) {
+            var address = window.localStorage.getItem("VocaluxeServerAddress");
+            if (address != null) {
+                var prom = request({ url: address + "isServerOnline" }, "Checking...").done(function () {
+                    serverBaseAddress = address;
+                    window.localStorage.getItem("VocaluxeServerAddress", address);
+                    $.mobile.changePage("#login", { transition: "none" });
+                });
+                $(this).data('promise', prom);
+                return;
+            }
+        }
+
+    } else {
+        $.mobile.changePage("#login", { transition: "none" });
+    }
+}
+
 function initLoginPageHandler() {
     var keyPressed = function (e) {
         if (e.which == 13) {
@@ -715,7 +739,7 @@ function initLoginPageHandler() {
     });
 
     //Fire pageLoadHandler for login
-    pagebeforeshowLogin();
+    //pagebeforeshowLogin();
 }
 
 function initMainPageHandler() {
@@ -826,6 +850,37 @@ function initKeyboardPageHandler() {
     });
 }
 
+function initLoginPageHandler() {
+    var keyPressed = function (e) {
+        if (e.which == 13) {
+            $('#discoverConnect').click();
+        }
+    };
+
+    $('#discoverServerAddress').keypress(keyPressed);
+
+    $('#discoverConnect').click(function () {
+        var address = $('#discoverServerAddress').prop("value");
+        if (address != null && address != "") {
+            if (address.indexOf("http") != 0) {
+                address = "http://" + address;
+            }
+            if (address.slice(-1) != '/') {
+                address = address + '/';
+            }
+            request({ url: address + "isServerOnline" }, "Checking...").done(function () {
+                serverBaseAddress = address;
+                window.localStorage.getItem("VocaluxeServerAddress", address);
+                $.mobile.changePage("#login", { transition: "slidefade" });
+            });
+        }
+    });
+
+    //Fire pageLoadHandler for discover (first page shown after start)
+    pagebeforeshowDiscover();
+    $(this).removeData('promise');
+}
+
 var cachedImages = {};
 
 function delayedImageLoad(elem, id, fail) {
@@ -880,7 +935,7 @@ function logout() {
 function checkSession() {
     if (ownProfileId == -1
         && profileIdRequest == -1
-        && ($.mobile.activePage.attr("id") == "displayProfile" || $.mobile.activePage.attr("id") == "login")) {
+        && ($.mobile.activePage.attr("id") == "displayProfile" || $.mobile.activePage.attr("id") == "login" || $.mobile.activePage.attr("id") == "discover")) {
         return;
     }
     request({
@@ -925,6 +980,7 @@ function request(data, message) {
         }
     } else {
         data["headers"]["session"] = sessionId;
+        data.url = serverBaseAddress + data.url;
     }
 
     return $.ajax(data).always(function (result) {
@@ -1142,7 +1198,11 @@ function initTranslation() {
                 'This is not a valid name.': 'This is not a valid name.',
                 'Uploading profile...': 'Uploading profile...',
                 'songs': 'songs',
-                'YourName': 'YourName'
+                'YourName': 'YourName',
+                'discoverConnectHeader': 'Connect to server',
+                'discoverConnectServerAddress': 'Serveraddress:',
+                'discoverConnectButton': 'Connect',
+                'Checking...': 'Checking...'
             }
         },
         "de": {
@@ -1217,15 +1277,18 @@ function initTranslation() {
                 'This is not a valid name.': 'Dies ist kein gültiger Name.',
                 'Uploading profile...': 'Profil hochladen...',
                 'songs': 'Lieder',
-                'YourName': 'DeinName'
+                'YourName': 'DeinName',
+                'discoverConnectHeader': 'Verbinde zum Server',
+                'discoverConnectServerAddress': 'Serveradresse:',
+                'discoverConnectButton': 'Verbinden',
+                'Checking...': 'Prüfen...'
             }
         }
     };
     $.i18n.init({
         resStore: translations,
         lng: "de",
-        fallbackLng: 'en',
-        debug: true
+        fallbackLng: 'en'
     }).done(function () {
         $('body').i18n();
     });

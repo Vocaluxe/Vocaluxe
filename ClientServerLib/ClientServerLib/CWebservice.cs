@@ -257,6 +257,11 @@ namespace ServerLib
             return CServer.GetDelayedImage(id);
         }
 
+        public bool IsServerOnline()
+        {
+            return true;
+        }
+       
         #endregion
 
         #region songs

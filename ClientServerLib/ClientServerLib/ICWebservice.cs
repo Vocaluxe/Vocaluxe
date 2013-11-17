@@ -97,6 +97,12 @@ namespace ServerLib
             UriTemplate = "/delayedImage?id={id}")]
         CBase64Image GetDelayedImage(String id);
 
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/isServerOnline")]
+        bool IsServerOnline();
+
         #endregion
 
         #region songs

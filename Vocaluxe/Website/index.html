@@ -12,321 +12,335 @@
     <script src="js/i18next-1.7.1.min.js"></script>
     <script src="js/main.js"></script>
 </head>
-<body>
-    <div id="login" data-content-theme="a" data-role="page" data-add-back-btn="true">
+    <body>
+        <div id="discover" data-content-theme="a" data-role="page" data-add-back-btn="true">
         <div data-role="header">
-            <h1 data-i18n="">Login</h1>
+            <h1 data-i18n="discoverConnectHeader"></h1>
         </div>
         <!-- /header -->
 
-        <div id="loginContent" data-role="content">
-            <label for="loginName" class="input" data-i18n="loginName"></label>
-            <input type="text" id="loginName" name="loginName" data-mini="true">
-            <label for="loginPassword" class="input" data-i18n="loginPassword"></label>
-            <input type="password" id="loginPassword" name="loginPassword" data-mini="true">
-            <br />
-            <a data-role="button" id="loginButton" data-i18n="loginButton"></a>
-            <br />
-            <hr />
-            <br />
-            <a data-role="button" id="registerButton" data-i18n="registerButton"></a>
+        <div id="discoverContent" data-role="content">
+            <label for="discoverServerAddress" class="input" data-i18n="discoverConnectServerAddress"></label>
+            <input type="text" id="discoverServerAddress" name="discoverServerAddress" data-mini="true">
+            <a data-role="button" id="discoverConnect" data-i18n="discoverConnectButton"></a>
         </div>
         <!-- /content -->
     </div>
     <!-- /page -->
+        <div id="login" data-content-theme="a" data-role="page" data-add-back-btn="true">
+            <div data-role="header">
+                <h1 data-i18n="">Login</h1>
+            </div>
+            <!-- /header -->
 
-    <div id="main" data-role="page" data-content-theme="a">
-        <div data-role="header">
-            <h1>Volcaluxe</h1>
+            <div id="loginContent" data-role="content">
+                <label for="loginName" class="input" data-i18n="loginName"></label>
+                <input type="text" id="loginName" name="loginName" data-mini="true">
+                <label for="loginPassword" class="input" data-i18n="loginPassword"></label>
+                <input type="password" id="loginPassword" name="loginPassword" data-mini="true">
+                <br />
+                <a data-role="button" id="loginButton" data-i18n="loginButton"></a>
+                <br />
+                <hr />
+                <br />
+                <a data-role="button" id="registerButton" data-i18n="registerButton"></a>
+            </div>
+            <!-- /content -->
         </div>
-        <!-- /header -->
+        <!-- /page -->
 
-        <div id="mainContent" data-role="content" data-add-back-btn="true">
-            <ul data-role="listview">
-                <li>
-                    <a id="yourProfileLink" href="#" data-transition="slidefade">
-                        <img src="img/profile.png">
-                        <h2 data-i18n="mainPageYourProfileLink"></h2>
-                        <p data-i18n="mainPageYourProfileLinkDesc"></p>
-                    </a>
-                </li>
-                <li>
-                    <a id="currentSongLink" href="#" data-transition="slidefade">
-                        <img src="img/music.png">
-                        <h2 data-i18n="mainPageCurrentSongLink"></h2>
-                        <p data-i18n="mainPageCurrentSongLinkDesc"></p>
-                    </a>
-                </li>
-                <li>
-                    <a href="#selectSong" data-transition="slidefade">
-                        <img src="img/playlist.png">
-                        <h2 data-i18n="mainPageSelectSong"></h2>
-                        <p data-i18n="mainPageSelectSongDesc"></p>
-                    </a>
-                </li>
-                <li>
-                    <a href="#selectPlaylist" data-transition="slidefade">
-                        <img src="img/playlists.png">
-                        <h2 data-i18n="mainPageSelectPlaylist"></h2>
-                        <p data-i18n="mainPageSelectPlaylistDesc"></p>
-                    </a>
-                </li>
-                <li>
-                    <a id="mainPageSelectProfile" href="#selectProfile" data-transition="slidefade">
-                        <img src="img/profiles.png">
-                        <h2 data-i18n="mainPageSelectProfile"></h2>
-                        <p data-i18n="mainPageSelectProfileDesc"></p>
-                    </a>
-                </li>
-                <li>
-                    <a id="mainPageTakePhotoLink" href="#" data-transition="slidefade">
-                        <img src="img/photo.png">
-                        <h2 data-i18n="mainPageTakePhotoLink"></h2>
-                        <p data-i18n="mainPageTakePhotoLinkDesc"></p>
-                    </a>
-                </li>
-                <li>
-                    <a id="mainPageKeyboard" href="#keyboard" data-transition="slidefade">
-                        <img src="img/keyboard.png">
-                        <h2 data-i18n="mainPageKeyboard"></h2>
-                        <p data-i18n="mainPageKeyboardDesc"></p>
-                    </a>
-                </li>
-                <li>
-                    <a href="#selectUserAdmin" data-transition="slidefade">
-                        <img src="img/admin.png">
-                        <h2 data-i18n="mainPageSelectUserAdmin"></h2>
-                        <p data-i18n="mainPageSelectUserAdminDesc"></p>
-                    </a>
-                </li>
-                <li>
-                    <a id="mainPageLogoutLink" href="#" data-transition="slidefade">
-                        <img src="img/logout.png">
-                        <h2 data-i18n="mainPageLogoutLink"></h2>
-                        <p data-i18n="mainPageLogoutLinkDesc"></p>
-                    </a>
-                </li>
-            </ul>
+        <div id="main" data-role="page" data-content-theme="a">
+            <div data-role="header">
+                <h1>Volcaluxe</h1>
+            </div>
+            <!-- /header -->
+
+            <div id="mainContent" data-role="content" data-add-back-btn="true">
+                <ul data-role="listview">
+                    <li>
+                        <a id="yourProfileLink" href="#" data-transition="slidefade">
+                            <img src="img/profile.png">
+                            <h2 data-i18n="mainPageYourProfileLink"></h2>
+                            <p data-i18n="mainPageYourProfileLinkDesc"></p>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="currentSongLink" href="#" data-transition="slidefade">
+                            <img src="img/music.png">
+                            <h2 data-i18n="mainPageCurrentSongLink"></h2>
+                            <p data-i18n="mainPageCurrentSongLinkDesc"></p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#selectSong" data-transition="slidefade">
+                            <img src="img/playlist.png">
+                            <h2 data-i18n="mainPageSelectSong"></h2>
+                            <p data-i18n="mainPageSelectSongDesc"></p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#selectPlaylist" data-transition="slidefade">
+                            <img src="img/playlists.png">
+                            <h2 data-i18n="mainPageSelectPlaylist"></h2>
+                            <p data-i18n="mainPageSelectPlaylistDesc"></p>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="mainPageSelectProfile" href="#selectProfile" data-transition="slidefade">
+                            <img src="img/profiles.png">
+                            <h2 data-i18n="mainPageSelectProfile"></h2>
+                            <p data-i18n="mainPageSelectProfileDesc"></p>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="mainPageTakePhotoLink" href="#" data-transition="slidefade">
+                            <img src="img/photo.png">
+                            <h2 data-i18n="mainPageTakePhotoLink"></h2>
+                            <p data-i18n="mainPageTakePhotoLinkDesc"></p>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="mainPageKeyboard" href="#keyboard" data-transition="slidefade">
+                            <img src="img/keyboard.png">
+                            <h2 data-i18n="mainPageKeyboard"></h2>
+                            <p data-i18n="mainPageKeyboardDesc"></p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#selectUserAdmin" data-transition="slidefade">
+                            <img src="img/admin.png">
+                            <h2 data-i18n="mainPageSelectUserAdmin"></h2>
+                            <p data-i18n="mainPageSelectUserAdminDesc"></p>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="mainPageLogoutLink" href="#" data-transition="slidefade">
+                            <img src="img/logout.png">
+                            <h2 data-i18n="mainPageLogoutLink"></h2>
+                            <p data-i18n="mainPageLogoutLinkDesc"></p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /content -->
         </div>
-        <!-- /content -->
-    </div>
-    <!-- /page -->
+        <!-- /page -->
 
-    <div id="selectProfile" data-content-theme="a" data-role="page" data-add-back-btn="true">
-        <div data-role="header">
-            <h1 data-i18n="selectProfileHeader"></h1>
+        <div id="selectProfile" data-content-theme="a" data-role="page" data-add-back-btn="true">
+            <div data-role="header">
+                <h1 data-i18n="selectProfileHeader"></h1>
+            </div>
+            <!-- /header -->
+
+            <div id="selectProfileContent" data-role="content">
+                <ul id="selectProfileList" data-role="listview"></ul>
+            </div>
+            <!-- /content -->
         </div>
-        <!-- /header -->
+        <!-- /page -->
 
-        <div id="selectProfileContent" data-role="content">
-            <ul id="selectProfileList" data-role="listview"></ul>
+        <div id="displayProfile" data-content-theme="a" data-role="page" data-add-back-btn="true">
+            <div data-role="header">
+                <h1 data-i18n="displayProfileHeader">Profile</h1>
+            </div>
+            <!-- /header -->
+
+            <div id="displayProfileContent" data-role="content">
+                <img id="playerAvatar" src="img/profile.png" alt="Avatar">
+                <label for="playerName" class="input" data-i18n="displayProfileName"></label>
+                <input type="text" id="playerName" name="playerName" data-mini="true" value="Your Name">
+
+                <label for="playerType" class="select" data-i18n="displayProfilePlayerType"></label>
+                <select name="playerType" id="playerType">
+                    <option value="0" data-i18n="displayProfilePlayerTypeNormal"></option>
+                    <option value="1" data-i18n="displayProfilePlayerTypeGuest"></option>
+                </select>
+                <label for="playerDifficulty" class="select" data-i18n="displayProfilePlayerDifficulty"></label>
+                <select name="playerDifficulty" id="playerDifficulty">
+                    <option value="0" data-i18n="displayProfilePlayerDifficultyEasy"></option>
+                    <option value="1" data-i18n="displayProfilePlayerDifficultyNormal"></option>
+                    <option value="2" data-i18n="displayProfilePlayerDifficultyHard"></option>
+                </select>
+
+                <label id="playerPasswordLabel" for="playerPassword" class="input" data-i18n="displayProfilePlayerPassword"></label>
+                <input type="password" id="playerPassword" name="playerPassword" data-mini="true" value="**oldPassword**">
+
+                <br />
+                <a data-role="button" id="playerSaveButton" data-i18n="displayProfilePlayerSaveButton"></a>
+            </div>
+            <!-- /content -->
         </div>
-        <!-- /content -->
-    </div>
-    <!-- /page -->
+        <!-- /page -->
 
-    <div id="displayProfile" data-content-theme="a" data-role="page" data-add-back-btn="true">
-        <div data-role="header">
-            <h1 data-i18n="displayProfileHeader">Profile</h1>
-        </div>
-        <!-- /header -->
+        <div id="displaySong" data-content-theme="a" data-role="page" data-add-back-btn="true">
+            <div data-role="header">
+                <h1 id="displaySongTitle" data-i18n="displaySongHeader"></h1>
+            </div>
+            <!-- /header -->
 
-        <div id="displayProfileContent" data-role="content">
-            <img id="playerAvatar" src="img/profile.png" alt="Avatar">
-            <label for="playerName" class="input" data-i18n="displayProfileName"></label>
-            <input type="text" id="playerName" name="playerName" data-mini="true" value="Your Name">
-
-            <label for="playerType" class="select" data-i18n="displayProfilePlayerType"></label>
-            <select name="playerType" id="playerType">
-                <option value="0" data-i18n="displayProfilePlayerTypeNormal"></option>
-                <option value="1" data-i18n="displayProfilePlayerTypeGuest"></option>
-            </select>
-            <label for="playerDifficulty" class="select" data-i18n="displayProfilePlayerDifficulty"></label>
-            <select name="playerDifficulty" id="playerDifficulty">
-                <option value="0" data-i18n="displayProfilePlayerDifficultyEasy"></option>
-                <option value="1" data-i18n="displayProfilePlayerDifficultyNormal"></option>
-                <option value="2" data-i18n="displayProfilePlayerDifficultyHard"></option>
-            </select>
-
-            <label id="playerPasswordLabel" for="playerPassword" class="input" data-i18n="displayProfilePlayerPassword"></label>
-            <input type="password" id="playerPassword" name="playerPassword" data-mini="true" value="**oldPassword**">
-
-            <br />
-            <a data-role="button" id="playerSaveButton" data-i18n="displayProfilePlayerSaveButton"></a>
-        </div>
-        <!-- /content -->
-    </div>
-    <!-- /page -->
-
-    <div id="displaySong" data-content-theme="a" data-role="page" data-add-back-btn="true">
-        <div data-role="header">
-            <h1 id="displaySongTitle" data-i18n="displaySongHeader"></h1>
-        </div>
-        <!-- /header -->
-
-        <div id="displaySongContent" data-role="content">
-            <img id="displaySongCover" src="img/noCover.png" alt="Cover">
-            <br />
-            <br />
-            <br />
-            <label for="displaySongArtist" class="input" data-i18n="displaySongArtist"></label>
-            <span id="displaySongArtist" data-mini="true">-</span>
-            <br />
-            <label for="displaySongGenre" class="input" data-i18n="displaySongGenre"></label>
-            <span id="displaySongGenre" data-mini="true">-</span>
-            <br />
-            <label for="displaySongYear" class="input" data-i18n="displaySongYear"></label>
-            <span id="displaySongYear" data-mini="true">-</span>
-            <br />
-            <label for="displaySongLanguage" class="input" data-i18n="displaySongLanguage"></label>
-            <span id="displaySongLanguage" data-mini="true">-</span>
-            <br />
-            <label for="displaySongIsDuet" class="input" data-i18n="displaySongIsDuet"></label>
-            <span id="displaySongIsDuet" data-mini="true">-</span>
-            <br />
-            <br />
-            <div id="displaySongLinks">
-                <img class="cursorStyleClickable" id="displaySongAddPlaylist" src="img/addPlaylist.png" />
+            <div id="displaySongContent" data-role="content">
+                <img id="displaySongCover" src="img/noCover.png" alt="Cover">
                 <br />
                 <br />
-                <img class="cursorStyleClickable" id="displaySongLinkYoutube" src="img/youtube.png" />
-                <img class="cursorStyleClickable" id="displaySongLinkSpotify" src="img/spotify.png" />
-                <img class="cursorStyleClickable" id="displaySongLinkWikipedia" src="img/wikipedia.png" />
+                <br />
+                <label for="displaySongArtist" class="input" data-i18n="displaySongArtist"></label>
+                <span id="displaySongArtist" data-mini="true">-</span>
+                <br />
+                <label for="displaySongGenre" class="input" data-i18n="displaySongGenre"></label>
+                <span id="displaySongGenre" data-mini="true">-</span>
+                <br />
+                <label for="displaySongYear" class="input" data-i18n="displaySongYear"></label>
+                <span id="displaySongYear" data-mini="true">-</span>
+                <br />
+                <label for="displaySongLanguage" class="input" data-i18n="displaySongLanguage"></label>
+                <span id="displaySongLanguage" data-mini="true">-</span>
+                <br />
+                <label for="displaySongIsDuet" class="input" data-i18n="displaySongIsDuet"></label>
+                <span id="displaySongIsDuet" data-mini="true">-</span>
+                <br />
+                <br />
+                <div id="displaySongLinks">
+                    <img class="cursorStyleClickable" id="displaySongAddPlaylist" src="img/addPlaylist.png" />
+                    <br />
+                    <br />
+                    <img class="cursorStyleClickable" id="displaySongLinkYoutube" src="img/youtube.png" />
+                    <img class="cursorStyleClickable" id="displaySongLinkSpotify" src="img/spotify.png" />
+                    <img class="cursorStyleClickable" id="displaySongLinkWikipedia" src="img/wikipedia.png" />
+                </div>
+
             </div>
-
-        </div>
-        <!-- /content -->
-        <div data-role="popup" id="popupVideo" data-overlay-theme="a" data-theme="a" data-corners="false" data-tolerance="15,15">
-            <a href="#" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right" data-i18n="popupVideoClose"></a>
-            <iframe width="480" height="320" seamless></iframe>
-        </div>
-        <!-- /popup -->
-    </div>
-    <!-- /page -->
-
-    <div id="selectSong" data-content-theme="a" data-role="page" data-add-back-btn="true">
-        <div data-role="header">
-            <h1 data-i18n="selectSongHeader"></h1>
-        </div>
-        <!-- /header -->
-
-        <div id="selectSongContent" data-role="content">
-            <ul id="selectSongList" data-role="listview" data-filter="true" data-autodividers="true"></ul>
-        </div>
-        <!-- /content -->
-    </div>
-    <!-- /page -->
-
-    <div id="keyboard" data-content-theme="a" data-role="page" data-add-back-btn="true">
-        <div data-role="header">
-            <h1 data-i18n="keyboardHeader"></h1>
-        </div>
-        <!-- /header -->
-
-        <div id="keyboardContent" data-role="content">
-            <div class="ui-grid-b">
-                <div class="ui-block-a"></div>
-                <div class="ui-block-b">
-                    <a data-role="button" id="keyboardButtonUp" data-i18n="keyboardButtonUp"></a>
-                </div>
-                <div class="ui-block-c"></div>
-                <div class="ui-block-a">
-                    <a data-role="button" id="keyboardButtonLeft" data-i18n="keyboardButtonLeft"></a>
-                </div>
-                <div class="ui-block-b">
-                </div>
-                <div class="ui-block-c">
-                    <a data-role="button" id="keyboardButtonRight" data-i18n="keyboardButtonRight"></a>
-                </div>
-                <div class="ui-block-a"></div>
-                <div class="ui-block-b">
-                    <a data-role="button" id="keyboardButtonDown" data-i18n="keyboardButtonDown"></a>
-                </div>
-                <div class="ui-block-c"></div>
+            <!-- /content -->
+            <div data-role="popup" id="popupVideo" data-overlay-theme="a" data-theme="a" data-corners="false" data-tolerance="15,15">
+                <a href="#" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right" data-i18n="popupVideoClose"></a>
+                <iframe width="480" height="320" seamless></iframe>
             </div>
-            <div class="ui-grid-b">
-                <div class="ui-block-a">
-                    <a data-role="button" id="keyboardButtonEscape" data-i18n="keyboardButtonEscape"></a>
+            <!-- /popup -->
+        </div>
+        <!-- /page -->
+
+        <div id="selectSong" data-content-theme="a" data-role="page" data-add-back-btn="true">
+            <div data-role="header">
+                <h1 data-i18n="selectSongHeader"></h1>
+            </div>
+            <!-- /header -->
+
+            <div id="selectSongContent" data-role="content">
+                <ul id="selectSongList" data-role="listview" data-filter="true" data-autodividers="true"></ul>
+            </div>
+            <!-- /content -->
+        </div>
+        <!-- /page -->
+
+        <div id="keyboard" data-content-theme="a" data-role="page" data-add-back-btn="true">
+            <div data-role="header">
+                <h1 data-i18n="keyboardHeader"></h1>
+            </div>
+            <!-- /header -->
+
+            <div id="keyboardContent" data-role="content">
+                <div class="ui-grid-b">
+                    <div class="ui-block-a"></div>
+                    <div class="ui-block-b">
+                        <a data-role="button" id="keyboardButtonUp" data-i18n="keyboardButtonUp"></a>
+                    </div>
+                    <div class="ui-block-c"></div>
+                    <div class="ui-block-a">
+                        <a data-role="button" id="keyboardButtonLeft" data-i18n="keyboardButtonLeft"></a>
+                    </div>
+                    <div class="ui-block-b">
+                    </div>
+                    <div class="ui-block-c">
+                        <a data-role="button" id="keyboardButtonRight" data-i18n="keyboardButtonRight"></a>
+                    </div>
+                    <div class="ui-block-a"></div>
+                    <div class="ui-block-b">
+                        <a data-role="button" id="keyboardButtonDown" data-i18n="keyboardButtonDown"></a>
+                    </div>
+                    <div class="ui-block-c"></div>
                 </div>
-                <div class="ui-block-b">
-                    <a data-role="button" id="keyboardButtonTab" data-i18n="keyboardButtonTab"></a>
+                <div class="ui-grid-b">
+                    <div class="ui-block-a">
+                        <a data-role="button" id="keyboardButtonEscape" data-i18n="keyboardButtonEscape"></a>
+                    </div>
+                    <div class="ui-block-b">
+                        <a data-role="button" id="keyboardButtonTab" data-i18n="keyboardButtonTab"></a>
+                    </div>
+                    <div class="ui-block-c">
+                        <a data-role="button" id="keyboardButtonReturn" data-i18n="keyboardButtonReturn"></a>
+                    </div>
                 </div>
-                <div class="ui-block-c">
-                    <a data-role="button" id="keyboardButtonReturn" data-i18n="keyboardButtonReturn"></a>
+                <div>
+                    <label for="keyboardButtonKeys" data-i18n="keyboardButtonKeys"></label>
+                    <input type="text" id="keyboardButtonKeys" data-mini="true">
                 </div>
             </div>
-            <div>
-                <label for="keyboardButtonKeys" data-i18n="keyboardButtonKeys"></label>
-                <input type="text" id="keyboardButtonKeys" data-mini="true">
+            <!-- /content -->
+        </div>
+        <!-- /page -->
+
+        <div id="selectUserAdmin" data-content-theme="a" data-role="page" data-add-back-btn="true">
+            <div data-role="header">
+                <h1 data-i18n="selectUserAdminHeader"></h1>
             </div>
-        </div>
-        <!-- /content -->
-    </div>
-    <!-- /page -->
+            <!-- /header -->
 
-    <div id="selectUserAdmin" data-content-theme="a" data-role="page" data-add-back-btn="true">
-        <div data-role="header">
-            <h1 data-i18n="selectUserAdminHeader"></h1>
+            <div id="selectUserAdminContent" data-role="content">
+                <ul id="selectUserAdminList" data-role="listview"></ul>
+            </div>
+            <!-- /content -->
         </div>
-        <!-- /header -->
+        <!-- /page -->
 
-        <div id="selectUserAdminContent" data-role="content">
-            <ul id="selectUserAdminList" data-role="listview"></ul>
+        <div id="displayUserAdmin" data-content-theme="a" data-role="page" data-add-back-btn="true">
+            <div data-role="header">
+                <h1 data-i18n="displayUserAdminHeader"></h1>
+            </div>
+            <!-- /header -->
+
+            <div id="displayUserAdminContent" data-role="content">
+                <fieldset data-role="controlgroup">
+                    <legend></legend>
+                    <input type="checkbox" id="roleAuthenticatedUser" checked="checked" disabled="disabled">
+                    <label for="roleAuthenticatedUser">AuthenticatedUser</label>
+                    <input type="checkbox" id="roleAdministrator">
+                    <label for="roleAdministrator">Administrator</label>
+                </fieldset>
+                <a data-role="button" id="btnRoleSave" data-transition="slidefade" data-i18n="displayUserAdminContentSaveButton"></a>
+            </div>
+            <!-- /content -->
         </div>
-        <!-- /content -->
-    </div>
-    <!-- /page -->
+        <!-- /page -->
 
-    <div id="displayUserAdmin" data-content-theme="a" data-role="page" data-add-back-btn="true">
-        <div data-role="header">
-            <h1 data-i18n="displayUserAdminHeader"></h1>
+        <div id="selectPlaylist" data-content-theme="a" data-role="page" data-add-back-btn="true">
+            <div data-role="header">
+                <h1 data-i18n="selectPlaylistHeader"></h1>
+                <a id="selectPlaylistAddPlaylistButton" href="#" class="ui-btn-right" data-icon="add" data-i18n="selectPlaylistAddPlaylistButton"></a>
+            </div>
+            <!-- /header -->
+
+            <div id="selectPlaylistContent" data-role="content">
+                <ul data-split-theme="a" id="selectPlaylistContentList" data-role="listview" data-filter="true"></ul>
+            </div>
+            <!-- /content -->
         </div>
-        <!-- /header -->
+        <!-- /page -->
 
-        <div id="displayUserAdminContent" data-role="content">
-            <fieldset data-role="controlgroup">
-                <legend></legend>
-                <input type="checkbox" id="roleAuthenticatedUser" checked="checked" disabled="disabled">
-                <label for="roleAuthenticatedUser">AuthenticatedUser</label>
-                <input type="checkbox" id="roleAdministrator">
-                <label for="roleAdministrator">Administrator</label>
-            </fieldset>
-            <a data-role="button" id="btnRoleSave" data-transition="slidefade" data-i18n="displayUserAdminContentSaveButton"></a>
+        <div id="displayPlaylist" data-content-theme="a" data-role="page" data-add-back-btn="true">
+            <div id="displayPlaylistHeader" data-role="header">
+                <h1 data-i18n="displayPlaylistHeader"></h1>
+                <a id="displayPlaylistSaveButton" class="ui-btn-right" href="#" data-icon="add" data-i18n="displayPlaylistSaveButton"></a>
+            </div>
+            <!-- /header -->
+
+            <div id="displayPlaylistContent" data-role="content">
+                <ol data-split-theme="a" id="displayPlaylistContentList" data-role="listview" data-filter="true"></ol>
+            </div>
+            <!-- /content -->
         </div>
-        <!-- /content -->
-    </div>
-    <!-- /page -->
+        <!-- /page -->
 
-    <div id="selectPlaylist" data-content-theme="a" data-role="page" data-add-back-btn="true">
-        <div data-role="header">
-            <h1 data-i18n="selectPlaylistHeader"></h1>
-            <a id="selectPlaylistAddPlaylistButton" href="#" class="ui-btn-right" data-icon="add" data-i18n="selectPlaylistAddPlaylistButton"></a>
-        </div>
-        <!-- /header -->
-
-        <div id="selectPlaylistContent" data-role="content">
-            <ul data-split-theme="a" id="selectPlaylistContentList" data-role="listview" data-filter="true"></ul>
-        </div>
-        <!-- /content -->
-    </div>
-    <!-- /page -->
-
-    <div id="displayPlaylist" data-content-theme="a" data-role="page" data-add-back-btn="true">
-        <div id="displayPlaylistHeader" data-role="header">
-            <h1 data-i18n="displayPlaylistHeader"></h1>
-            <a id="displayPlaylistSaveButton" class="ui-btn-right" href="#" data-icon="add" data-i18n="displayPlaylistSaveButton"></a>
-        </div>
-        <!-- /header -->
-
-        <div id="displayPlaylistContent" data-role="content">
-            <ol data-split-theme="a" id="displayPlaylistContentList" data-role="listview" data-filter="true"></ol>
-        </div>
-        <!-- /content -->
-    </div>
-    <!-- /page -->
-
-    <div class="ui-loader-background"></div>
-</body>
+        <div class="ui-loader-background"></div>
+    </body>
 </html>
 
 <!DOCTYPE html>
