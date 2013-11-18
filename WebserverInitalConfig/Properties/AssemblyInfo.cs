@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
-[assembly: AssemblyTitle("WebserverInitalConfig")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Vocaluxe Server Config")]
+[assembly: AssemblyDescription("Configures your computer to run the Vocaluxe Server")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WebserverInitalConfig")]
+[assembly: AssemblyCompany("Vocaluxe")]
+[assembly: AssemblyProduct("Vocaluxe Server Config")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
