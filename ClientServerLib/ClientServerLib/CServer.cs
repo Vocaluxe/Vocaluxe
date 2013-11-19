@@ -286,7 +286,7 @@ namespace ServerLib
 
             ProcessStartInfo info = new ProcessStartInfo
             {
-                FileName = "WebserverInitalConfig.exe",
+                FileName = "VocaluxeServerConfig.exe",
                 Arguments = port.ToString() + " " + _Encrypted.ToString(),
                 UseShellExecute = true,
                 CreateNoWindow = true,
