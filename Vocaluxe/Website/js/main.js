@@ -722,14 +722,13 @@ function pagebeforeshowDiscover() {
             if (address != null) {
                 var prom = request({ url: address + "isServerOnline" }, "Checking...").done(function () {
                     serverBaseAddress = address;
-                    window.localStorage.getItem("VocaluxeServerAddress", address);
+                    window.localStorage.setItem("VocaluxeServerAddress", address);
                     $.mobile.changePage("#login", { transition: "none" });
                 });
                 $(this).data('promise', prom);
                 return;
             }
         }
-
     } else {
         $.mobile.changePage("#login", { transition: "none" });
     }
@@ -924,11 +923,15 @@ function initDiscoverPageHandler() {
             if (address.slice(-1) != '/') {
                 address = address + '/';
             }
-            request({ url: address + "isServerOnline" }, "Checking...").done(function () {
-                serverBaseAddress = address;
-                window.localStorage.getItem("VocaluxeServerAddress", address);
-                $.mobile.changePage("#login", { transition: "slidefade" });
-            });
+            request({ url: address + "isServerOnline" }, "Checking...")
+                .done(function () {
+                    serverBaseAddress = address;
+                    window.localStorage.setItem("VocaluxeServerAddress", address);
+                    $.mobile.changePage("#login", { transition: "slidefade" });
+                })
+                .fail(function () {
+                    $('#discoverServerAddress').prop("value", "");
+                });
         }
     });
 
