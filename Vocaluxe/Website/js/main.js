@@ -8,7 +8,21 @@ var customSelectPlaylistSongCallback = null;
 var sessionId = "";
 var serverBaseAddress = "";
 
-$(document).ready(function () {
+if (document.location.protocol == "file:") { 
+	if(typeof (window.deviceAndJqmLoaded) == "undefined"){
+		window.deviceAndJqmLoaded = $.Deferred();
+	}
+	window.deviceAndJqmLoaded.done(function(){		
+		start();
+	})
+} else {
+	$(document).ready(function () {
+		start();
+	});
+}    
+
+
+function start() {
     replaceTransitionHandler();
     initTranslation();
     initPageLoadHandler();
@@ -18,7 +32,7 @@ $(document).ready(function () {
     initLoginPageHandler();
     initHeartbeat();
     initVideoPopup();
-});
+}
 
 function replaceTransitionHandler() {
     //Thx to http://stackoverflow.com/a/14096311
@@ -168,7 +182,7 @@ function initPageLoadHandler() {
                     }, function() {
                         //Fail - do nothing
                     }, {
-                        destinationType: Camera.DestinationType.DATA_URL,
+                        destinationType: navigator.camera.DestinationType.DATA_URL,
                         allowEdit: true,
                         correctOrientation: true,
                         saveToPhotoAlbum: true
@@ -800,7 +814,7 @@ function initMainPageHandler() {
             }, function () {
                 //Fail - do nothing
             }, {
-                destinationType: Camera.DestinationType.DATA_URL,
+                destinationType: navigator.camera.DestinationType.DATA_URL,
                 allowEdit: true,
                 correctOrientation: true,
                 saveToPhotoAlbum: true
