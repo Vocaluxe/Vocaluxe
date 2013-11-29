@@ -720,6 +720,7 @@ function pagebeforeshowDiscover() {
         if (window.localStorage) {
             var address = window.localStorage.getItem("VocaluxeServerAddress");
             if (address != null) {
+                serverBaseAddress = "";
                 var prom = request({ url: address + "isServerOnline" }, "Checking...").done(function () {
                     serverBaseAddress = address;
                     window.localStorage.setItem("VocaluxeServerAddress", address);
@@ -923,6 +924,7 @@ function initDiscoverPageHandler() {
             if (address.slice(-1) != '/') {
                 address = address + '/';
             }
+            serverBaseAddress = "";
             request({ url: address + "isServerOnline" }, "Checking...")
                 .done(function () {
                     serverBaseAddress = address;
