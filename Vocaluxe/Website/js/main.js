@@ -8,18 +8,18 @@ var customSelectPlaylistSongCallback = null;
 var sessionId = "";
 var serverBaseAddress = "";
 
-if (document.location.protocol == "file:") { 
-	if(typeof (window.deviceAndJqmLoaded) == "undefined"){
-		window.deviceAndJqmLoaded = $.Deferred();
-	}
-	window.deviceAndJqmLoaded.done(function(){		
-		start();
-	})
+if (document.location.protocol == "file:") {
+    if (typeof (window.deviceAndJqmLoaded) == "undefined") {
+        window.deviceAndJqmLoaded = $.Deferred();
+    }
+    window.deviceAndJqmLoaded.done(function () {
+        start();
+    });
 } else {
-	$(document).ready(function () {
-		start();
-	});
-}    
+    $(document).ready(function () {
+        start();
+    });
+}
 
 
 function start() {
@@ -173,29 +173,30 @@ function initPageLoadHandler() {
                 }
 
                 if (document.location.protocol == "file:"
-                    && typeof(navigator) != 'undefined'
-                    && typeof(navigator.camera) != 'undefined'
-                    && typeof(navigator.camera.getPicture) != 'undefined') {
+                    && typeof (navigator) != 'undefined'
+                    && typeof (navigator.camera) != 'undefined'
+                    && typeof (navigator.camera.getPicture) != 'undefined') {
                     navigator.camera.getPicture(function (imageData) {
                         $('#playerAvatar').prop("src", "data:image/jpeg;base64," + imageData);
                         $('#playerAvatar').data("changed", true);
-                    }, function() {
+                    }, function () {
                         //Fail - do nothing
                     }, {
                         destinationType: navigator.camera.DestinationType.DATA_URL,
                         allowEdit: true,
                         correctOrientation: true,
-                        saveToPhotoAlbum: true
+                        saveToPhotoAlbum: true,
+                        quality: 50
                     });
 
                 } else {
                     $(document.body).append('<div id="captureContainer" style="height: 0px;width:0px; overflow:hidden;"> <input type="file" accept="image/*" id="capture" capture> </div>');
 
-                    $('#capture').change(function(eventData) {
+                    $('#capture').change(function (eventData) {
                         if (eventData && eventData.target && eventData.target.files && eventData.target.files.length == 1) {
                             var file = eventData.target.files[0];
                             var reader = new FileReader();
-                            reader.onloadend = function(e) {
+                            reader.onloadend = function (e) {
                                 $('#playerAvatar').prop("src", e.target.result);
                                 $('#playerAvatar').data("changed", true);
                                 $('#captureContainer').remove();
@@ -817,7 +818,8 @@ function initMainPageHandler() {
                 destinationType: navigator.camera.DestinationType.DATA_URL,
                 allowEdit: true,
                 correctOrientation: true,
-                saveToPhotoAlbum: true
+                saveToPhotoAlbum: true,
+                quality: 100
             });
 
         } else {
@@ -931,10 +933,10 @@ function initDiscoverPageHandler() {
     });
 
     //Fire pageLoadHandler for discover (first page shown after start)
-    setTimeout(function() {
+    setTimeout(function () {
         pagebeforeshowDiscover();
         $(this).removeData('promise');
-    },1);
+    }, 1);
 }
 
 var cachedImages = {};
