@@ -721,16 +721,27 @@ function pagebeforeshowDiscover() {
             var address = window.localStorage.getItem("VocaluxeServerAddress");
             if (address != null) {
                 serverBaseAddress = "";
-                var prom = request({ url: address + "isServerOnline" }, "Checking...").done(function () {
+                var prom = request({
+                    url: address + "isServerOnline",
+                    timeout: 10000
+                }, "Checking...").done(function () {
                     serverBaseAddress = address;
                     window.localStorage.setItem("VocaluxeServerAddress", address);
                     $.mobile.changePage("#login", { transition: "none" });
+                }).fail(function () {
+                    if (typeof window.BarcodeScanner != "undefined") {
+                        $('#discoverReadQr').show();
+                    }
                 });
                 $(this).data('promise', prom);
                 return;
             }
+            if (typeof window.BarcodeScanner != "undefined") {
+                $('#discoverReadQr').show();
+            }
         }
     } else {
+        $('#discoverReadQr').hide();
         $.mobile.changePage("#login", { transition: "none" });
     }
 }
@@ -915,8 +926,7 @@ function initDiscoverPageHandler() {
 
     $('#discoverServerAddress').keypress(keyPressed);
 
-    $('#discoverConnect').click(function () {
-        var address = $('#discoverServerAddress').prop("value");
+    function handleAddress(address) {
         if (address != null && address != "") {
             if (address.indexOf("http") != 0) {
                 address = "http://" + address;
@@ -925,7 +935,10 @@ function initDiscoverPageHandler() {
                 address = address + '/';
             }
             serverBaseAddress = "";
-            request({ url: address + "isServerOnline" }, "Checking...")
+            request({
+                url: address + "isServerOnline",
+                timeout: 10000
+            }, "Checking...")
                 .done(function () {
                     serverBaseAddress = address;
                     window.localStorage.setItem("VocaluxeServerAddress", address);
@@ -933,8 +946,31 @@ function initDiscoverPageHandler() {
                 })
                 .fail(function () {
                     $('#discoverServerAddress').prop("value", "");
+                    if (document.location.protocol == "file:"
+                        && typeof window.BarcodeScanner != "undefined") {
+                        $('#discoverReadQr').show();
+                    }
                 });
         }
+    }
+
+    $('#discoverConnect').click(function () {
+        handleAddress($('#discoverServerAddress').prop("value"));
+    });
+
+    try {
+        window.BarcodeScanner = cordova.require("cordova/plugin/BarcodeScanner");
+    } catch (e) { }
+
+    $('#discoverReadQr').hide().click(function () {
+        window.BarcodeScanner.scan(
+          function (result) {
+              handleAddress(result.text);
+          },
+          function () {
+              showError("Scan faild");
+          }
+       );
     });
 
     //Fire pageLoadHandler for discover (first page shown after start)
@@ -1195,6 +1231,7 @@ function initTranslation() {
                 'loginPassword': 'Password:',
                 'loginButton': 'Login',
                 'registerButton': 'Create Profile',
+                'discoverReadQrButton': 'Scan QRCode',
                 'mainPageYourProfileLink': 'Your Profile',
                 'mainPageYourProfileLinkDesc': 'Edit your profile',
                 'mainPageCurrentSongLink': 'Current Song',
@@ -1274,6 +1311,7 @@ function initTranslation() {
                 'loginPassword': 'Passwort:',
                 'loginButton': 'Einloggen',
                 'registerButton': 'Erstelle Profil',
+                'discoverReadQrButton': 'Fotografiere QRCode',
                 'mainPageYourProfileLink': 'Dein Profil',
                 'mainPageYourProfileLinkDesc': 'Bearbeite dein Profil',
                 'mainPageCurrentSongLink': 'Aktuelles Lied',
