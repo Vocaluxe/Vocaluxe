@@ -1056,6 +1056,10 @@ function request(data, message) {
     if ((typeof message) == "undefined" || message == null) {
         message = "Loading...";
     }
+    
+    if ((typeof data.timeout) == "undefined") {
+        data.timeout = 10000; //10 sec. timeout
+    }
 
     if (message != "noOverlay") {
         if (i18n.t) {
