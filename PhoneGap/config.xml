@@ -31,31 +31,6 @@
 
     <!-- Define app icon for each platform. -->
     <icon src="icon.png" />
-    <!--<icon src="res/icon/cordova_android_36.png"   gap:platform="android"    gap:density="ldpi" />
-    <icon src="res/icon/cordova_android_48.png"   gap:platform="android"    gap:density="mdpi" />
-    <icon src="res/icon/cordova_android_72.png"   gap:platform="android"    gap:density="hdpi" />
-    <icon src="res/icon/android/cordova_android_96.png"  gap:platform="android"    gap:density="xhdpi" />
-    <icon src="res/icon/cordova_bb_80.png"     gap:platform="blackberry" />
-    <icon src="res/icon/cordova_bb_80.png"     gap:platform="blackberry" gap:state="hover"/>
-    <icon src="res/icon/cordova_ios_57.png"            gap:platform="ios"        width="57" height="57" />
-    <icon src="res/icon/cordova_ios_72.png"            gap:platform="ios"        width="72" height="72" />
-    <icon src="res/icon/cordova_ios_114.png"         gap:platform="ios"        width="114" height="114" />
-    <icon src="res/icon/cordova_ios_144.png"         gap:platform="ios"        width="144" height="144" />
-    <icon src="res/icon/cordova_64.png"          gap:platform="webos" />
-    <icon src="res/icon/cordova_48.png"  gap:platform="winphone" />
-    <icon src="res/icon/cordova_128.png" gap:platform="winphone"   gap:role="background" /> -->
-
-    <!-- Define app splash screen for each platform. -->
-    <!--<gap:splash src="res/screen/android_ldpi_portrait.png"  gap:platform="android" gap:density="ldpi" />
-    <gap:splash src="res/screen/android_mdpi_portrait.png"  gap:platform="android" gap:density="mdpi" />
-    <gap:splash src="res/screen/android_hdpi_portrait.png"  gap:platform="android" gap:density="hdpi" />
-    <gap:splash src="res/screen/android_xhdpi_portrait.png" gap:platform="android" gap:density="xhdpi" />
-    <gap:splash src="res/screen/blackberry_transparent_300.png"         gap:platform="blackberry" />
-    <gap:splash src="res/screen/iphone_portrait.png"    gap:platform="ios"     width="320" height="480" />
-    <gap:splash src="res/screen/iphone_retina_portrait.png" gap:platform="ios"     width="640" height="960" />
-    <gap:splash src="res/screen/ipad_portrait.png"      gap:platform="ios"     width="768" height="1024" />
-    <gap:splash src="res/screen/ipad_landscape.png"     gap:platform="ios"     width="1024" height="768" />
-    <gap:splash src="res/screen/windows_phone_portrait.jpg" gap:platform="winphone" /> -->
-
+    
     <access origin="*" />
 </widget>
