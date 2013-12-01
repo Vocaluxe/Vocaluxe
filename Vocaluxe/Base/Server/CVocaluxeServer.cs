@@ -39,15 +39,12 @@ namespace Vocaluxe.Base.Server
     static class CVocaluxeServer
     {
         private static CServer _Server;
-        private static CDiscover _Discover;
-        private static Dictionary<int, CClientHandler> _Clients;
+        //private static CDiscover _Discover;
 
         public static readonly CControllerFramework Controller = new CControllerFramework();
 
         public static void Init()
         {
-            _Clients = new Dictionary<int, CClientHandler>();
-
             _Server = new CServer(CConfig.ServerPort, CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON);
 
             CServer.SendKeyEvent = _SendKeyEvent;
@@ -74,7 +71,7 @@ namespace Vocaluxe.Base.Server
             CServer.RemovePlaylist = _RemovePlaylist;
             CServer.AddPlaylist = _AddPlaylist;
 
-            _Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
+            //_Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
             Controller.Init();
         }
 
@@ -83,15 +80,14 @@ namespace Vocaluxe.Base.Server
             if (CConfig.ServerActive == EOffOn.TR_CONFIG_ON)
             {
                 _Server.Start();
-                _Discover.StartBroadcasting();
+                //_Discover.StartBroadcasting();
             }
         }
 
         public static void Close()
         {
             _Server.Stop();
-            _Discover.Stop();
-            _Clients = new Dictionary<int, CClientHandler>();
+            //_Discover.Stop();
         }
 
         private static bool _SendKeyEvent(string key)
