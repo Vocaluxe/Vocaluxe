@@ -1056,7 +1056,7 @@ function request(data, message) {
     if ((typeof message) == "undefined" || message == null) {
         message = "Loading...";
     }
-    
+
     if ((typeof data.timeout) == "undefined") {
         data.timeout = 10000; //10 sec. timeout
     }
@@ -1395,7 +1395,7 @@ function initTranslation() {
     };
     $.i18n.init({
         resStore: translations,
-        lng: "de",
+        supportedLngs: ['en', 'de'],
         fallbackLng: 'en',
         keyseparator: '::',
         nsseparator: ':::'
