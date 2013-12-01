@@ -177,6 +177,10 @@ namespace ServerLib
             if (WebOperationContext.Current != null)
             {
                 WebOperationContext.Current.OutgoingResponse.ContentType = "text/javascript";
+                WebOperationContext.Current.OutgoingResponse.LastModified = DateTime.UtcNow;
+                WebOperationContext.Current.OutgoingResponse.Headers.Add(
+                    HttpResponseHeader.Expires,
+                    DateTime.UtcNow.AddHours(4).ToString("r"));
             }
 
             byte[] data = CServer.GetSiteFile("js/" + filename);
@@ -198,6 +202,10 @@ namespace ServerLib
             if (WebOperationContext.Current != null)
             {
                 WebOperationContext.Current.OutgoingResponse.ContentType = "text/css";
+                WebOperationContext.Current.OutgoingResponse.LastModified = DateTime.UtcNow;
+                WebOperationContext.Current.OutgoingResponse.Headers.Add(
+                    HttpResponseHeader.Expires,
+                    DateTime.UtcNow.AddHours(4).ToString("r"));
             }
 
             byte[] data = CServer.GetSiteFile("css/" + filename);
