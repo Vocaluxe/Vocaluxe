@@ -258,6 +258,8 @@ namespace Vocaluxe.Base.Server
             if (existingProfile != null)
             {
                 CProfiles.EditProfile(newProfile);
+                CProfiles.Update();
+                CProfiles.SaveProfiles();
             }
             else
             {
@@ -609,7 +611,6 @@ namespace Vocaluxe.Base.Server
 
         #region user management
 
-
         private static bool _ValidatePassword(int profileId, string password)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
@@ -690,6 +691,8 @@ namespace Vocaluxe.Base.Server
             profile.UserRoles = userRole;
 
             CProfiles.EditProfile(profile);
+            CProfiles.Update();
+            CProfiles.SaveProfiles();
         }
 
         private static int _GetUserIdFromUsername(string username)
