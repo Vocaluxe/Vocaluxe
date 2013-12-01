@@ -1393,6 +1393,13 @@ function initTranslation() {
             }
         }
     };
+    
+    //repair broken buttons on the first page (get broken while translating)
+    var repairButtons = function () {
+        $($('#discoverConnect')[0].childNodes).wrap('<span class="ui-btn-inner"><span class="ui-btn-text"> </span></span>');
+        $($('#discoverReadQr')[0].childNodes).wrap('<span class="ui-btn-inner"><span class="ui-btn-text"> </span></span>');
+    };
+    
     $.i18n.init({
         resStore: translations,
         supportedLngs: ['en', 'de'],
@@ -1401,5 +1408,6 @@ function initTranslation() {
         nsseparator: ':::'
     }).done(function () {
         $('body').i18n();
+        repairButtons();
     });
 }
