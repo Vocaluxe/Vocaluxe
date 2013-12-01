@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.IO;
@@ -217,6 +218,10 @@ namespace ServerLib
             if (WebOperationContext.Current != null)
             {
                 WebOperationContext.Current.OutgoingResponse.ContentType = "image/png";
+                WebOperationContext.Current.OutgoingResponse.LastModified = DateTime.UtcNow;
+                WebOperationContext.Current.OutgoingResponse.Headers.Add(
+                    HttpResponseHeader.Expires,
+                    DateTime.UtcNow.AddYears(1).ToString("r"));
             }
 
             byte[] data = CServer.GetSiteFile("css\\images\\" + filename);
@@ -237,6 +242,10 @@ namespace ServerLib
             if (WebOperationContext.Current != null)
             {
                 WebOperationContext.Current.OutgoingResponse.ContentType = "image/png";
+                WebOperationContext.Current.OutgoingResponse.LastModified = DateTime.UtcNow;
+                WebOperationContext.Current.OutgoingResponse.Headers.Add(
+                    HttpResponseHeader.Expires,
+                    DateTime.UtcNow.AddYears(1).ToString("r"));
             }
 
             byte[] data = CServer.GetSiteFile("img/" + filename);
