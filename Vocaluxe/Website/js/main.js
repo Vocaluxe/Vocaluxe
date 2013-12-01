@@ -8,7 +8,21 @@ var customSelectPlaylistSongCallback = null;
 var sessionId = "";
 var serverBaseAddress = "";
 
-$(document).ready(function () {
+if (document.location.protocol == "file:") {
+    if (typeof (window.deviceAndJqmLoaded) == "undefined") {
+        window.deviceAndJqmLoaded = $.Deferred();
+    }
+    window.deviceAndJqmLoaded.done(function () {
+        start();
+    });
+} else {
+    $(document).ready(function () {
+        start();
+    });
+}
+
+
+function start() {
     replaceTransitionHandler();
     initTranslation();
     initPageLoadHandler();
@@ -18,7 +32,7 @@ $(document).ready(function () {
     initLoginPageHandler();
     initHeartbeat();
     initVideoPopup();
-});
+}
 
 function replaceTransitionHandler() {
     //Thx to http://stackoverflow.com/a/14096311
@@ -159,29 +173,30 @@ function initPageLoadHandler() {
                 }
 
                 if (document.location.protocol == "file:"
-                    && typeof(navigator) != 'undefined'
-                    && typeof(navigator.camera) != 'undefined'
-                    && typeof(navigator.camera.getPicture) != 'undefined') {
+                    && typeof (navigator) != 'undefined'
+                    && typeof (navigator.camera) != 'undefined'
+                    && typeof (navigator.camera.getPicture) != 'undefined') {
                     navigator.camera.getPicture(function (imageData) {
                         $('#playerAvatar').prop("src", "data:image/jpeg;base64," + imageData);
                         $('#playerAvatar').data("changed", true);
-                    }, function() {
+                    }, function () {
                         //Fail - do nothing
                     }, {
-                        destinationType: Camera.DestinationType.DATA_URL,
+                        destinationType: navigator.camera.DestinationType.DATA_URL,
                         allowEdit: true,
                         correctOrientation: true,
-                        saveToPhotoAlbum: true
+                        saveToPhotoAlbum: true,
+                        quality: 50
                     });
 
                 } else {
                     $(document.body).append('<div id="captureContainer" style="height: 0px;width:0px; overflow:hidden;"> <input type="file" accept="image/*" id="capture" capture> </div>');
 
-                    $('#capture').change(function(eventData) {
+                    $('#capture').change(function (eventData) {
                         if (eventData && eventData.target && eventData.target.files && eventData.target.files.length == 1) {
                             var file = eventData.target.files[0];
                             var reader = new FileReader();
-                            reader.onloadend = function(e) {
+                            reader.onloadend = function (e) {
                                 $('#playerAvatar').prop("src", e.target.result);
                                 $('#playerAvatar').data("changed", true);
                                 $('#captureContainer').remove();
@@ -705,17 +720,28 @@ function pagebeforeshowDiscover() {
         if (window.localStorage) {
             var address = window.localStorage.getItem("VocaluxeServerAddress");
             if (address != null) {
-                var prom = request({ url: address + "isServerOnline" }, "Checking...").done(function () {
+                serverBaseAddress = "";
+                var prom = request({
+                    url: address + "isServerOnline",
+                    timeout: 10000
+                }, "Checking...").done(function () {
                     serverBaseAddress = address;
-                    window.localStorage.getItem("VocaluxeServerAddress", address);
+                    window.localStorage.setItem("VocaluxeServerAddress", address);
                     $.mobile.changePage("#login", { transition: "none" });
+                }).fail(function () {
+                    if (typeof window.BarcodeScanner != "undefined") {
+                        $('#discoverReadQr').show();
+                    }
                 });
                 $(this).data('promise', prom);
                 return;
             }
+            if (typeof window.BarcodeScanner != "undefined") {
+                $('#discoverReadQr').show();
+            }
         }
-
     } else {
+        $('#discoverReadQr').hide();
         $.mobile.changePage("#login", { transition: "none" });
     }
 }
@@ -800,10 +826,11 @@ function initMainPageHandler() {
             }, function () {
                 //Fail - do nothing
             }, {
-                destinationType: Camera.DestinationType.DATA_URL,
+                destinationType: navigator.camera.DestinationType.DATA_URL,
                 allowEdit: true,
                 correctOrientation: true,
-                saveToPhotoAlbum: true
+                saveToPhotoAlbum: true,
+                quality: 100
             });
 
         } else {
@@ -899,8 +926,7 @@ function initDiscoverPageHandler() {
 
     $('#discoverServerAddress').keypress(keyPressed);
 
-    $('#discoverConnect').click(function () {
-        var address = $('#discoverServerAddress').prop("value");
+    function handleAddress(address) {
         if (address != null && address != "") {
             if (address.indexOf("http") != 0) {
                 address = "http://" + address;
@@ -908,19 +934,50 @@ function initDiscoverPageHandler() {
             if (address.slice(-1) != '/') {
                 address = address + '/';
             }
-            request({ url: address + "isServerOnline" }, "Checking...").done(function () {
-                serverBaseAddress = address;
-                window.localStorage.getItem("VocaluxeServerAddress", address);
-                $.mobile.changePage("#login", { transition: "slidefade" });
-            });
+            serverBaseAddress = "";
+            request({
+                url: address + "isServerOnline",
+                timeout: 10000
+            }, "Checking...")
+                .done(function () {
+                    serverBaseAddress = address;
+                    window.localStorage.setItem("VocaluxeServerAddress", address);
+                    $.mobile.changePage("#login", { transition: "slidefade" });
+                })
+                .fail(function () {
+                    $('#discoverServerAddress').prop("value", "");
+                    if (document.location.protocol == "file:"
+                        && typeof window.BarcodeScanner != "undefined") {
+                        $('#discoverReadQr').show();
+                    }
+                });
         }
+    }
+
+    $('#discoverConnect').click(function () {
+        handleAddress($('#discoverServerAddress').prop("value"));
+    });
+
+    try {
+        window.BarcodeScanner = cordova.require("cordova/plugin/BarcodeScanner");
+    } catch (e) { }
+
+    $('#discoverReadQr').hide().click(function () {
+        window.BarcodeScanner.scan(
+          function (result) {
+              handleAddress(result.text);
+          },
+          function () {
+              showError("Scan faild");
+          }
+       );
     });
 
     //Fire pageLoadHandler for discover (first page shown after start)
-    setTimeout(function() {
+    setTimeout(function () {
         pagebeforeshowDiscover();
         $(this).removeData('promise');
-    },1);
+    }, 1);
 }
 
 var cachedImages = {};
@@ -1174,6 +1231,7 @@ function initTranslation() {
                 'loginPassword': 'Password:',
                 'loginButton': 'Login',
                 'registerButton': 'Create Profile',
+                'discoverReadQrButton': 'Scan QRCode',
                 'mainPageYourProfileLink': 'Your Profile',
                 'mainPageYourProfileLinkDesc': 'Edit your profile',
                 'mainPageCurrentSongLink': 'Current Song',
@@ -1253,6 +1311,7 @@ function initTranslation() {
                 'loginPassword': 'Passwort:',
                 'loginButton': 'Einloggen',
                 'registerButton': 'Erstelle Profil',
+                'discoverReadQrButton': 'Fotografiere QRCode',
                 'mainPageYourProfileLink': 'Dein Profil',
                 'mainPageYourProfileLinkDesc': 'Bearbeite dein Profil',
                 'mainPageCurrentSongLink': 'Aktuelles Lied',
