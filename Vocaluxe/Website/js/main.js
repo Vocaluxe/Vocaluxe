@@ -1062,12 +1062,13 @@ function request(data, message) {
     }
 
     if (message != "noOverlay") {
+        var message2 = message;
         if (i18n.t) {
-            message = i18n.t(message) || message;
+            message2 = i18n.t(message2);
         }
         $('div[data-role="content"]').wrap('<div class="overlay" />');
         $.mobile.loading('show', {
-            text: message,
+            text: message2,
             textVisible: true
         });
     }
@@ -1306,7 +1307,8 @@ function initTranslation() {
                 'discoverConnectHeader': 'Connect to server',
                 'discoverConnectServerAddress': 'Serveraddress:',
                 'discoverConnectButton': 'Connect',
-                'Checking...': 'Checking...'
+                'Checking...': 'Checking...',
+                'timeout': 'Timeout'
             }
         },
         "de": {
@@ -1386,14 +1388,17 @@ function initTranslation() {
                 'discoverConnectHeader': 'Verbinde zum Server',
                 'discoverConnectServerAddress': 'Serveradresse:',
                 'discoverConnectButton': 'Verbinden',
-                'Checking...': 'Prüfen...'
+                'Checking...': 'Prüfen...',
+                'timeout': 'Zeitüberschreitung'
             }
         }
     };
     $.i18n.init({
         resStore: translations,
         lng: "de",
-        fallbackLng: 'en'
+        fallbackLng: 'en',
+        keyseparator: '::',
+        nsseparator: ':::'
     }).done(function () {
         $('body').i18n();
     });
