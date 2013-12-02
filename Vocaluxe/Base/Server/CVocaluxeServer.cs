@@ -80,8 +80,12 @@ namespace Vocaluxe.Base.Server
                 {
                     var client = new CClientHandler(connectionID);
                     _Clients.Add(connectionID, client);
+
+                    //just a small fix: There is no real login at the moment, so set it to true.
+                    _Clients[connectionID].LoggedIn = true;
                 }
 
+                
                 loggedIn = _Clients[connectionID].LoggedIn;
             }
 
