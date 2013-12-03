@@ -241,7 +241,7 @@ namespace Vocaluxe.Base.Server
                 else
                 {
                     RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-                    byte[] buffer = new byte[128];
+                    byte[] buffer = new byte[32];
                     rng.GetNonZeroBytes(buffer);
                     byte[] salt = buffer;
                     byte[] hashedPassword = _Hash((new UTF8Encoding()).GetBytes(profile.Password), salt);
