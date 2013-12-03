@@ -179,6 +179,7 @@ namespace Vocaluxe.Base.Server
                 newProfile = new CProfile
                 {
                     ID = existingProfile.ID,
+                    FileName = existingProfile.FileName,
                     Active = existingProfile.Active,
                     AvatarFileName = existingProfile.AvatarFileName,
                     Avatar = existingProfile.Avatar,
