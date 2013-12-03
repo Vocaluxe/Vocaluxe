@@ -59,7 +59,7 @@ namespace VocaluxeLib.Profile
             Active = EOffOn.TR_CONFIG_ON;
 
             AvatarFileName = String.Empty;
-            FileName = String.Empty;            
+            FileName = String.Empty;
         }
 
         public bool LoadProfile()
@@ -90,7 +90,15 @@ namespace VocaluxeLib.Profile
                 xmlReader.GetValue("//root/Info/Avatar", out AvatarFileName, String.Empty);
                 xmlReader.TryGetEnumValue("//root/Info/GuestProfile", ref GuestProfile);
                 xmlReader.TryGetEnumValue("//root/Info/Active", ref Active);
-
+                string passwordHash;
+                xmlReader.GetValue("//root/Info/PasswordHash", out passwordHash, "");
+                PasswordHash = Encoding.UTF8.GetBytes(passwordHash);
+                string passwordSalt;
+                xmlReader.GetValue("//root/Info/PasswordHash", out passwordSalt, "");
+                PasswordSalt = Encoding.UTF8.GetBytes(passwordSalt);
+                string userRoles;
+                xmlReader.GetValue("//root/Info/UserRoles", out userRoles, "0");
+                Int32.TryParse(userRoles, out UserRoles);
                 return true;
             }
 
@@ -151,6 +159,9 @@ namespace VocaluxeLib.Profile
                 writer.WriteElementString("Avatar", Path.GetFileName(Avatar.FileName));
                 writer.WriteElementString("GuestProfile", Enum.GetName(typeof(EOffOn), GuestProfile));
                 writer.WriteElementString("Active", Enum.GetName(typeof(EOffOn), Active));
+                writer.WriteElementString("PasswordHash", Encoding.UTF8.GetString(PasswordHash));
+                writer.WriteElementString("PasswordSalt", Encoding.UTF8.GetString(PasswordSalt));
+                writer.WriteElementString("UserRoles", UserRoles.ToString());
                 writer.WriteEndElement();
 
                 writer.WriteEndElement(); //end of root
