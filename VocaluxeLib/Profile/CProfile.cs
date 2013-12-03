@@ -92,10 +92,10 @@ namespace VocaluxeLib.Profile
                 xmlReader.TryGetEnumValue("//root/Info/Active", ref Active);
                 string passwordHash;
                 xmlReader.GetValue("//root/Info/PasswordHash", out passwordHash, "");
-                PasswordHash = Encoding.UTF8.GetBytes(passwordHash);
+                PasswordHash = !string.IsNullOrEmpty(passwordHash) ? Convert.FromBase64String(passwordHash) : null;
                 string passwordSalt;
                 xmlReader.GetValue("//root/Info/PasswordHash", out passwordSalt, "");
-                PasswordSalt = Encoding.UTF8.GetBytes(passwordSalt);
+                PasswordSalt = !string.IsNullOrEmpty(passwordSalt) ? Convert.FromBase64String(passwordSalt) : null;
                 string userRoles;
                 xmlReader.GetValue("//root/Info/UserRoles", out userRoles, "0");
                 Int32.TryParse(userRoles, out UserRoles);
@@ -159,8 +159,14 @@ namespace VocaluxeLib.Profile
                 writer.WriteElementString("Avatar", Path.GetFileName(Avatar.FileName));
                 writer.WriteElementString("GuestProfile", Enum.GetName(typeof(EOffOn), GuestProfile));
                 writer.WriteElementString("Active", Enum.GetName(typeof(EOffOn), Active));
-                writer.WriteElementString("PasswordHash", Encoding.UTF8.GetString(PasswordHash));
-                writer.WriteElementString("PasswordSalt", Encoding.UTF8.GetString(PasswordSalt));
+                if (PasswordHash != null)
+                {
+                    writer.WriteElementString("PasswordHash", Convert.ToBase64String(PasswordHash));
+                }
+                if (PasswordSalt != null)
+                {
+                    writer.WriteElementString("PasswordSalt", Convert.ToBase64String(PasswordSalt));
+                }
                 writer.WriteElementString("UserRoles", UserRoles.ToString());
                 writer.WriteEndElement();
 
