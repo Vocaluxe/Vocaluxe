@@ -94,7 +94,7 @@ namespace VocaluxeLib.Profile
                 xmlReader.GetValue("//root/Info/PasswordHash", out passwordHash, "");
                 PasswordHash = !string.IsNullOrEmpty(passwordHash) ? Convert.FromBase64String(passwordHash) : null;
                 string passwordSalt;
-                xmlReader.GetValue("//root/Info/PasswordHash", out passwordSalt, "");
+                xmlReader.GetValue("//root/Info/PasswordSalt", out passwordSalt, "");
                 PasswordSalt = !string.IsNullOrEmpty(passwordSalt) ? Convert.FromBase64String(passwordSalt) : null;
                 string userRoles;
                 xmlReader.GetValue("//root/Info/UserRoles", out userRoles, "0");
