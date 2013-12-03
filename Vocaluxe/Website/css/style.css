@@ -71,7 +71,11 @@
 }
 
 .ui-input-search {
-    background: #ffffff !important;
+    background: #6E6E6E !important;
+}
+
+.ui-listview-filter {
+    background: #000000 !important;
 }
 
 .ui-custom-errorIcon {
