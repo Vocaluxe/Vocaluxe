@@ -1057,13 +1057,18 @@ function request(data, message) {
         message = "Loading...";
     }
 
+    if ((typeof data.timeout) == "undefined") {
+        data.timeout = 10000; //10 sec. timeout
+    }
+
     if (message != "noOverlay") {
+        var message2 = message;
         if (i18n.t) {
-            message = i18n.t(message) || message;
+            message2 = i18n.t(message2);
         }
         $('div[data-role="content"]').wrap('<div class="overlay" />');
         $.mobile.loading('show', {
-            text: message,
+            text: message2,
             textVisible: true
         });
     }
@@ -1302,7 +1307,8 @@ function initTranslation() {
                 'discoverConnectHeader': 'Connect to server',
                 'discoverConnectServerAddress': 'Serveraddress:',
                 'discoverConnectButton': 'Connect',
-                'Checking...': 'Checking...'
+                'Checking...': 'Checking...',
+                'timeout': 'Timeout'
             }
         },
         "de": {
@@ -1382,15 +1388,26 @@ function initTranslation() {
                 'discoverConnectHeader': 'Verbinde zum Server',
                 'discoverConnectServerAddress': 'Serveradresse:',
                 'discoverConnectButton': 'Verbinden',
-                'Checking...': 'Prüfen...'
+                'Checking...': 'Prüfen...',
+                'timeout': 'Zeitüberschreitung'
             }
         }
     };
+    
+    //repair broken buttons on the first page (get broken while translating)
+    var repairButtons = function () {
+        $($('#discoverConnect')[0].childNodes).wrap('<span class="ui-btn-inner"><span class="ui-btn-text"> </span></span>');
+        $($('#discoverReadQr')[0].childNodes).wrap('<span class="ui-btn-inner"><span class="ui-btn-text"> </span></span>');
+    };
+    
     $.i18n.init({
         resStore: translations,
-        lng: "de",
-        fallbackLng: 'en'
+        supportedLngs: ['en', 'de'],
+        fallbackLng: 'en',
+        keyseparator: '::',
+        nsseparator: ':::'
     }).done(function () {
         $('body').i18n();
+        repairButtons();
     });
 }

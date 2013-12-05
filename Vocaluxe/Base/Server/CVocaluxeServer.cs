@@ -39,15 +39,12 @@ namespace Vocaluxe.Base.Server
     static class CVocaluxeServer
     {
         private static CServer _Server;
-        private static CDiscover _Discover;
-        private static Dictionary<int, CClientHandler> _Clients;
+        //private static CDiscover _Discover;
 
         public static readonly CControllerFramework Controller = new CControllerFramework();
 
         public static void Init()
         {
-            _Clients = new Dictionary<int, CClientHandler>();
-
             _Server = new CServer(CConfig.ServerPort, CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON);
 
             CServer.SendKeyEvent = _SendKeyEvent;
@@ -74,7 +71,7 @@ namespace Vocaluxe.Base.Server
             CServer.RemovePlaylist = _RemovePlaylist;
             CServer.AddPlaylist = _AddPlaylist;
 
-            _Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
+            //_Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
             Controller.Init();
         }
 
@@ -83,15 +80,14 @@ namespace Vocaluxe.Base.Server
             if (CConfig.ServerActive == EOffOn.TR_CONFIG_ON)
             {
                 _Server.Start();
-                _Discover.StartBroadcasting();
+                //_Discover.StartBroadcasting();
             }
         }
 
         public static void Close()
         {
             _Server.Stop();
-            _Discover.Stop();
-            _Clients = new Dictionary<int, CClientHandler>();
+            //_Discover.Stop();
         }
 
         private static bool _SendKeyEvent(string key)
@@ -184,6 +180,8 @@ namespace Vocaluxe.Base.Server
             {
                 newProfile = new CProfile
                 {
+                    ID = existingProfile.ID,
+                    FileName = existingProfile.FileName,
                     Active = existingProfile.Active,
                     AvatarFileName = existingProfile.AvatarFileName,
                     Avatar = existingProfile.Avatar,
@@ -245,7 +243,7 @@ namespace Vocaluxe.Base.Server
                 else
                 {
                     RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-                    byte[] buffer = new byte[128];
+                    byte[] buffer = new byte[32];
                     rng.GetNonZeroBytes(buffer);
                     byte[] salt = buffer;
                     byte[] hashedPassword = _Hash((new UTF8Encoding()).GetBytes(profile.Password), salt);
@@ -258,6 +256,8 @@ namespace Vocaluxe.Base.Server
             if (existingProfile != null)
             {
                 CProfiles.EditProfile(newProfile);
+                CProfiles.Update();
+                CProfiles.SaveProfiles();
             }
             else
             {
@@ -609,7 +609,6 @@ namespace Vocaluxe.Base.Server
 
         #region user management
 
-
         private static bool _ValidatePassword(int profileId, string password)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
@@ -690,6 +689,8 @@ namespace Vocaluxe.Base.Server
             profile.UserRoles = userRole;
 
             CProfiles.EditProfile(profile);
+            CProfiles.Update();
+            CProfiles.SaveProfiles();
         }
 
         private static int _GetUserIdFromUsername(string username)
