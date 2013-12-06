@@ -269,6 +269,31 @@ namespace ServerLib
             return null;
         }
 
+        public Stream GetLocaleFile(string filename)
+        {
+            if (WebOperationContext.Current != null)
+            {
+                WebOperationContext.Current.OutgoingResponse.ContentType = "text/javascript";
+                WebOperationContext.Current.OutgoingResponse.LastModified = DateTime.UtcNow;
+                WebOperationContext.Current.OutgoingResponse.Headers.Add(
+                    HttpResponseHeader.Expires,
+                    DateTime.UtcNow.AddHours(4).ToString("r"));
+            }
+
+            byte[] data = CServer.GetSiteFile("locales/" + filename);
+
+            if (data != null)
+            {
+                return new MemoryStream(data);
+            }
+
+            if (WebOperationContext.Current != null)
+            {
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
+            }
+            return null;
+        }
+
         public CBase64Image GetDelayedImage(string id)
         {
             return CServer.GetDelayedImage(id);
@@ -428,6 +453,6 @@ namespace ServerLib
         }
 
         #endregion
-
+        
     }
 }

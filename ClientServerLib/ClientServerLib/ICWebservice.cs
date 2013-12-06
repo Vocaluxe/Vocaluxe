@@ -94,6 +94,12 @@ namespace ServerLib
         [OperationContract]
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/locales/{filename}")]
+        Stream GetLocaleFile(String filename);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/delayedImage?id={id}")]
         CBase64Image GetDelayedImage(String id);
 
