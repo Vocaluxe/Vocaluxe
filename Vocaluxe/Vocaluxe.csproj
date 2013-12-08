@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">DebugWin</Configuration>
@@ -191,6 +191,10 @@
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\Output\OpenTK.GLControl.dll</HintPath>
     </Reference>
+    <Reference Include="QRCoder, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\QRCoder.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -239,6 +243,7 @@
     <Compile Include="Lib\Input\CControllerFramework.cs" />
     <Compile Include="Lib\Video\Acinerella\CDecoder.cs" />
     <Compile Include="Lib\Video\Acinerella\CFramebuffer.cs" />
+    <Compile Include="Screens\CPopupScreenServerQR.cs" />
     <Compile Include="SongQueue\CSongQueue.cs" />
     <Compile Include="GameModes\IGameMode.cs" />
     <Compile Include="SongQueue\ISongQueue.cs" />

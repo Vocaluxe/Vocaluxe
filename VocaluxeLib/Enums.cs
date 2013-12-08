@@ -345,6 +345,7 @@ namespace VocaluxeLib
     {
         PopupPlayerControl = 0,
         PopupVolumeControl = 1,
+        PopupServerQR = 2,
 
         NoPopup = -1
     }
