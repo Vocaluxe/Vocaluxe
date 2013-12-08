@@ -162,6 +162,7 @@
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
   <string name="TR_SCREENO_BUTTON_LYRICS">Lyrics</string>
   <string name="TR_SCREENO_BUTTON_THEME">Theme</string>
+  <string name="TR_SCREENOGAME_BUTTON_SERVER">Server address</string>
   <string name="TR_SCREENOGAME_OPTIONS">Game Options</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Language</string>
   <string name="TR_SCREENOGAME_DEBUGLEVEL">Debug Level</string>
@@ -204,4 +205,5 @@
   <string name="TR_SCREENO_VIDEO_WEBCAMDEVICES">Webcams</string>
   <string name="TR_SCREENO_VIDEO_WEBCAMCAPABILITIES">Webcamcapabilities</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
+  <string name="TR_SCREENPSERVERQR_ADDRESS">Server address</string>
 </resources>
