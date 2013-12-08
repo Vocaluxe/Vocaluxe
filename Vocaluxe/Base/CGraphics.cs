@@ -90,6 +90,7 @@ namespace Vocaluxe.Base
 
             _PopupScreens.Add(new CPopupScreenPlayerControl());
             _PopupScreens.Add(new CPopupScreenVolumeControl());
+            _PopupScreens.Add(new CPopupScreenServerQR());
 
             CLog.StopBenchmark(1, "Build Screen List");
 
@@ -377,6 +378,14 @@ namespace Vocaluxe.Base
                 {
                     CSettings.MouseInactive();
                     _Cursor.FadeOut();
+                }
+
+                if (keyEvent.Key == Keys.F11)
+                {
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup)
+                        ShowPopup(EPopupScreens.PopupServerQR);
+                    else
+                        HidePopup(EPopupScreens.PopupServerQR);
                 }
 
                 if (popupPlayerControlAllowed && keyEvent.Key == Keys.Tab)

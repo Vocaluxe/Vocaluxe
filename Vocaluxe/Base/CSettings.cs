@@ -116,6 +116,11 @@ namespace Vocaluxe.Base
         public const string FolderPartyModeLanguages = "Languages";
         public const string FolderPartyModeFonts = "Fonts";
 
+        public const string LinkAndroidApp = "https://build.phonegap.com/apps/639714/download/android/?qr_key=uY98ymvTr6K144RyTdhs";
+        public const string LinkSymbianApp = "https://build.phonegap.com/apps/639714/download/symbian/?qr_key=uY98ymvTr6K144RyTdhs";
+        public const string LinkWebOSApp = "https://build.phonegap.com/apps/639714/download/webos/?qr_key=uY98ymvTr6K144RyTdhs";
+        public const string LinkWindowsPhoneApp = "https://build.phonegap.com/apps/639714/download/winphone/?qr_key=uY98ymvTr6K144RyTdhs";
+
         //public const String[] ToneStrings = new String[]{ "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
         public const int ToneMin = -36;
         public const int ToneMax = 89;
