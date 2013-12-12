@@ -433,17 +433,17 @@ namespace Vocaluxe.Base
             _Profiles[profileID].Difficulty = difficulty;
         }
 
-        public static EOffOn GetGuestProfile(int profileID)
+        public static EUserRole GetUserRoleProfile(int profileID)
         {
-            return IsProfileIDValid(profileID) ? _Profiles[profileID].GuestProfile : EOffOn.TR_CONFIG_OFF;
+            return IsProfileIDValid(profileID) ? _Profiles[profileID].UserRole : EUserRole.TR_USERROLE_GUEST;
         }
 
-        public static void SetGuestProfile(int profileID, EOffOn option)
+        public static void SetUserRoleProfile(int profileID, EUserRole option)
         {
             if (!IsProfileIDValid(profileID))
                 return;
 
-            _Profiles[profileID].GuestProfile = option;
+            _Profiles[profileID].UserRole = option;
         }
 
         public static EOffOn GetActive(int profileID)
@@ -464,7 +464,7 @@ namespace Vocaluxe.Base
             if (!IsProfileIDValid(profileID))
                 return true; // this will prevent from saving dummy profiles to highscore db
 
-            return _Profiles[profileID].GuestProfile == EOffOn.TR_CONFIG_ON;
+            return _Profiles[profileID].UserRole == EUserRole.TR_USERROLE_GUEST;
         }
 
         public static bool IsActive(int profileID)

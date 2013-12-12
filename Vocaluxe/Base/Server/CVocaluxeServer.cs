@@ -186,7 +186,7 @@ namespace Vocaluxe.Base.Server
                     AvatarFileName = existingProfile.AvatarFileName,
                     Avatar = existingProfile.Avatar,
                     Difficulty = existingProfile.Difficulty,
-                    GuestProfile = existingProfile.GuestProfile,
+                    UserRole = existingProfile.UserRole,
                     PlayerName = existingProfile.PlayerName
                 };
             }
@@ -195,7 +195,7 @@ namespace Vocaluxe.Base.Server
                 newProfile = new CProfile
                 {
                     Active = EOffOn.TR_CONFIG_ON,
-                    GuestProfile = EOffOn.TR_CONFIG_OFF
+                    UserRole = EUserRole.TR_USERROLE_NORMAL
                 };
             }
 
@@ -230,7 +230,7 @@ namespace Vocaluxe.Base.Server
 
             if (profile.Type >= 0 && profile.Type <= 1)
             {
-                newProfile.GuestProfile = (EOffOn)profile.Type;
+                newProfile.UserRole = (EUserRole)profile.Type;
             }
 
             if (!string.IsNullOrEmpty(profile.Password))
@@ -283,7 +283,7 @@ namespace Vocaluxe.Base.Server
                 IsEditable = !isReadonly,
                 ProfileId = profile.ID,
                 PlayerName = profile.PlayerName,
-                Type = (int)profile.GuestProfile,
+                Type = (int)profile.UserRole,
                 Difficulty = (int)profile.Difficulty
             };
 
@@ -675,7 +675,7 @@ namespace Vocaluxe.Base.Server
                 throw new ArgumentException("Invalid profileId");
             }
 
-            return profile.UserRoles;
+            return (int)profile.UserRole;
         }
 
         private static void _SetUserRole(int profileId, int userRole)
@@ -686,7 +686,7 @@ namespace Vocaluxe.Base.Server
                 throw new ArgumentException("Invalid profileId");
             }
             
-            profile.UserRoles = userRole;
+            profile.UserRole = (EUserRole)userRole;
 
             CProfiles.EditProfile(profile);
             CProfiles.Update();
