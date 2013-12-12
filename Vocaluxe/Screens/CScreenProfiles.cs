@@ -40,13 +40,13 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 2; }
+            get { return 3; }
         }
 
         private const string _SelectSlideProfiles = "SelectSlideProfiles";
         private const string _SelectSlideDifficulty = "SelectSlideDifficulty";
         private const string _SelectSlideAvatars = "SelectSlideAvatars";
-        private const string _SelectSlideGuestProfile = "SelectSlideGuestProfile";
+        private const string _SelectSlideUserRole = "SelectSlideUserRole";
         private const string _SelectSlideActive = "SelectSlideActive";
         private const string _ButtonPlayerName = "ButtonPlayerName";
         private const string _ButtonExit = "ButtonExit";
@@ -73,7 +73,7 @@ namespace Vocaluxe.Screens
 
             _ThemeButtons = new string[]
                 {_ButtonPlayerName, _ButtonExit, _ButtonSave, _ButtonNew, _ButtonDelete, _ButtonWebcam, _ButtonSaveSnapshot, _ButtonDiscardSnapshot, _ButtonTakeSnapshot};
-            _ThemeSelectSlides = new string[] {_SelectSlideProfiles, _SelectSlideDifficulty, _SelectSlideAvatars, _SelectSlideGuestProfile, _SelectSlideActive};
+            _ThemeSelectSlides = new string[] {_SelectSlideProfiles, _SelectSlideDifficulty, _SelectSlideAvatars, _SelectSlideUserRole, _SelectSlideActive};
             _ThemeStatics = new string[] {_StaticAvatar};
 
             _EditMode = EEditMode.None;
@@ -91,7 +91,7 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonTakeSnapshot].Visible = false;
             _Buttons[_ButtonWebcam].Visible = CWebcam.IsDeviceAvailable();
             _SelectSlides[_SelectSlideDifficulty].SetValues<EGameDifficulty>(0);
-            _SelectSlides[_SelectSlideGuestProfile].SetValues<EOffOn>(0);
+            _SelectSlides[_SelectSlideUserRole].SetValues<EUserRole>(0);
             _SelectSlides[_SelectSlideActive].SetValues<EOffOn>(0);
             _Statics[_StaticAvatar].Aspect = EAspect.Crop;
         }
@@ -176,10 +176,10 @@ namespace Vocaluxe.Screens
                     CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].ValueIndex,
                                         _SelectSlides[_SelectSlideAvatars].ValueIndex);
                 }
-                else if (_SelectSlides[_SelectSlideGuestProfile].Selected)
+                else if (_SelectSlides[_SelectSlideUserRole].Selected)
                 {
-                    CProfiles.SetGuestProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex,
-                                              (EOffOn)_SelectSlides[_SelectSlideGuestProfile].Selection);
+                    CProfiles.SetUserRoleProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex,
+                                              (EUserRole)_SelectSlides[_SelectSlideUserRole].Selection);
                 }
                 else if (_SelectSlides[_SelectSlideActive].Selected)
                 {
@@ -225,10 +225,10 @@ namespace Vocaluxe.Screens
                     if (CWebcam.IsDeviceAvailable() && _WebcamTexture != null)
                         _OnDiscardSnapshot();
                 }
-                else if (_SelectSlides[_SelectSlideGuestProfile].Selected)
+                else if (_SelectSlides[_SelectSlideUserRole].Selected)
                 {
-                    CProfiles.SetGuestProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex,
-                                              (EOffOn)_SelectSlides[_SelectSlideGuestProfile].Selection);
+                    CProfiles.SetUserRoleProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex,
+                                              (EUserRole)_SelectSlides[_SelectSlideUserRole].Selection);
                 }
                 else if (_SelectSlides[_SelectSlideActive].Selected)
                 {
@@ -265,7 +265,7 @@ namespace Vocaluxe.Screens
                     _Buttons[_ButtonPlayerName].Text.Text += "|";
 
                 _SelectSlides[_SelectSlideDifficulty].Selection = (int)CProfiles.GetDifficulty(_SelectSlides[_SelectSlideProfiles].ValueIndex);
-                _SelectSlides[_SelectSlideGuestProfile].Selection = (int)CProfiles.GetGuestProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex);
+                _SelectSlides[_SelectSlideUserRole].Selection = (int)CProfiles.GetUserRoleProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex);
                 _SelectSlides[_SelectSlideActive].Selection = (int)CProfiles.GetActive(_SelectSlides[_SelectSlideProfiles].ValueIndex);
 
                 int avatarID = CProfiles.GetAvatarID(_SelectSlides[_SelectSlideProfiles].ValueIndex);
@@ -428,7 +428,7 @@ namespace Vocaluxe.Screens
                 if (!keep)
                 {
                     _SelectSlides[_SelectSlideDifficulty].Selection = (int)CProfiles.GetDifficulty(selectedProfileID);
-                    _SelectSlides[_SelectSlideGuestProfile].Selection = (int)CProfiles.GetGuestProfile(selectedProfileID);
+                    _SelectSlides[_SelectSlideUserRole].Selection = (int)CProfiles.GetUserRoleProfile(selectedProfileID);
                     _SelectSlides[_SelectSlideActive].Selection = (int)CProfiles.GetActive(selectedProfileID);
                     _SelectSlides[_SelectSlideAvatars].SetSelectionByValueIndex(CProfiles.GetAvatarID(selectedProfileID));
                 }

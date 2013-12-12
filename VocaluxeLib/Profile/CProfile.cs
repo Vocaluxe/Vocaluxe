@@ -32,7 +32,6 @@ namespace VocaluxeLib.Profile
         public string AvatarFileName;
         public byte[] PasswordHash;
         public byte[] PasswordSalt;
-        public int UserRoles;
 
         public EGameDifficulty Difficulty;
 
@@ -47,7 +46,7 @@ namespace VocaluxeLib.Profile
             }
         }
 
-        public EOffOn GuestProfile;
+        public EUserRole UserRole;
         public EOffOn Active;
 
         public CProfile()
@@ -55,7 +54,7 @@ namespace VocaluxeLib.Profile
             PlayerName = String.Empty;
             Difficulty = EGameDifficulty.TR_CONFIG_EASY;
             Avatar = new CAvatar(-1);
-            GuestProfile = EOffOn.TR_CONFIG_OFF;
+            UserRole = EUserRole.TR_USERROLE_NORMAL;
             Active = EOffOn.TR_CONFIG_ON;
 
             AvatarFileName = String.Empty;
@@ -88,7 +87,7 @@ namespace VocaluxeLib.Profile
 
                 xmlReader.TryGetEnumValue("//root/Info/Difficulty", ref Difficulty);
                 xmlReader.GetValue("//root/Info/Avatar", out AvatarFileName, String.Empty);
-                xmlReader.TryGetEnumValue("//root/Info/GuestProfile", ref GuestProfile);
+                xmlReader.TryGetEnumValue("//root/Info/UserRole", ref UserRole);
                 xmlReader.TryGetEnumValue("//root/Info/Active", ref Active);
                 string passwordHash;
                 xmlReader.GetValue("//root/Info/PasswordHash", out passwordHash, "");
@@ -96,9 +95,6 @@ namespace VocaluxeLib.Profile
                 string passwordSalt;
                 xmlReader.GetValue("//root/Info/PasswordSalt", out passwordSalt, "");
                 PasswordSalt = !string.IsNullOrEmpty(passwordSalt) ? Convert.FromBase64String(passwordSalt) : null;
-                string userRoles;
-                xmlReader.GetValue("//root/Info/UserRoles", out userRoles, "0");
-                Int32.TryParse(userRoles, out UserRoles);
                 return true;
             }
 
@@ -157,7 +153,7 @@ namespace VocaluxeLib.Profile
                 writer.WriteElementString("PlayerName", PlayerName);
                 writer.WriteElementString("Difficulty", Enum.GetName(typeof(EGameDifficulty), Difficulty));
                 writer.WriteElementString("Avatar", Path.GetFileName(Avatar.FileName));
-                writer.WriteElementString("GuestProfile", Enum.GetName(typeof(EOffOn), GuestProfile));
+                writer.WriteElementString("UserRole", Enum.GetName(typeof(EUserRole), UserRole));
                 writer.WriteElementString("Active", Enum.GetName(typeof(EOffOn), Active));
                 if (PasswordHash != null)
                 {
@@ -167,7 +163,6 @@ namespace VocaluxeLib.Profile
                 {
                     writer.WriteElementString("PasswordSalt", Convert.ToBase64String(PasswordSalt));
                 }
-                writer.WriteElementString("UserRoles", UserRoles.ToString());
                 writer.WriteEndElement();
 
                 writer.WriteEndElement(); //end of root

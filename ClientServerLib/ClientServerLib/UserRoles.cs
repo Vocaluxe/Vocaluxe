@@ -5,7 +5,8 @@ namespace ServerLib
     [Flags]
     internal enum EUserRoles
     {
-        AuthenticatedUser = 0,
-        Administrator = 1
+        GuestUser = 0,
+        AuthenticatedUser = 1,
+        Administrator = 2
     }
 }
