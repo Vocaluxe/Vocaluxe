@@ -56,6 +56,7 @@ namespace Vocaluxe.Screens
         private int _Round;
         private CPoints _Points;
         private Stopwatch _Timer;
+        private bool _SlideShowBGAvailable;
 
         public override void Init()
         {
@@ -130,7 +131,7 @@ namespace Vocaluxe.Screens
 
             _SetVisibility();
             _UpdateRatings();
-            _UpdateBackground();    
+            _SlideShowBGAvailable = _UpdateBackground();
         }
 
         public override bool UpdateGame()
@@ -182,7 +183,11 @@ namespace Vocaluxe.Screens
 
         public override bool Draw()
         {
-            base.Draw();
+            if (_SlideShowBGAvailable)
+                _SlideShowBG.Draw();
+            else
+                base._DrawBG();
+            base._DrawFG();
             return true;
         }
 
@@ -423,7 +428,7 @@ namespace Vocaluxe.Screens
 
         private bool _UpdateBackground()
         {
-            String[] photos = CVocaluxeServer.getPhotosOfThisRound();
+            string[] photos = CVocaluxeServer.getPhotosOfThisRound();
             _SlideShowBG.RemoveSlideShowTextures();
             foreach (string photo in photos)
                 _SlideShowBG.AddSlideShowTexture(photo);
