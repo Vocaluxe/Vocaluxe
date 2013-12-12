@@ -429,7 +429,6 @@ namespace Vocaluxe.Screens
         private bool _UpdateBackground()
         {
             string[] photos = CVocaluxeServer.getPhotosOfThisRound();
-            photos = new string[] { "C:\\Users\\Florian\\Desktop\\IMG_20131128_140016.jpg", "C:\\Users\\Florian\\Desktop\\P1080632.jpg" };
             _SlideShowBG.RemoveSlideShowTextures();
             foreach (string photo in photos)
                 _SlideShowBG.AddSlideShowTexture(photo);
