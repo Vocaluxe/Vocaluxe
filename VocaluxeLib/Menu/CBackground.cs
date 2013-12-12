@@ -280,6 +280,15 @@ namespace VocaluxeLib.Menu
                     _SlideShowCurrent = 0;
                 }
 
+                if (_SlideShowTimer.ElapsedMilliseconds >= (CBase.Settings.GetSlideShowFadeTime() + CBase.Settings.GetSlideShowImageTime()))
+                {
+                    _SlideShowTimer.Restart();
+                    if (_SlideShowCurrent + 1 < _SlideShowTextures.Count)
+                        _SlideShowCurrent++;
+                    else if (_SlideShowCurrent != 0)
+                        _SlideShowCurrent = 0;
+                }
+
                 CTexture texture = _SlideShowTextures[_SlideShowCurrent];
 
                 if (texture == null)
@@ -291,15 +300,7 @@ namespace VocaluxeLib.Menu
 
                 CBase.Drawing.DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
 
-                if (_SlideShowTimer.ElapsedMilliseconds >= (CBase.Settings.GetSlideShowFadeTime() + CBase.Settings.GetSlideShowImageTime()))
-                {
-                    _SlideShowTimer.Restart();
-                    if (_SlideShowCurrent + 1 < _SlideShowTextures.Count)
-                        _SlideShowCurrent++;
-                    else if (_SlideShowCurrent != 0)
-                        _SlideShowCurrent = 0;
-                }
-                else if (_SlideShowTimer.ElapsedMilliseconds >= CBase.Settings.GetSlideShowImageTime())
+                if (_SlideShowTimer.ElapsedMilliseconds >= CBase.Settings.GetSlideShowImageTime())
                 {
                     if (_SlideShowCurrent + 1 < _SlideShowTextures.Count)
                         texture = _SlideShowTextures[_SlideShowCurrent + 1];
