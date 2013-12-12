@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Server;
 using VocaluxeLib;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
@@ -41,6 +42,8 @@ namespace Vocaluxe.Screens
         private const string _ScreenSettingShortRating = "ScreenSettingShortRating";
         private const string _ScreenSettingShortDifficulty = "ScreenSettingShortDifficulty";
         private const string _ScreenSettingAnimationDirection = "ScreenSettingAnimationDirection";
+
+        private CBackground _SlideShowBG;
 
         private string[,] _TextNames;
         private string[,] _TextScores;
@@ -72,6 +75,8 @@ namespace Vocaluxe.Screens
             _ThemeScreenSettings = new string[] {_ScreenSettingShortScore, _ScreenSettingShortRating, _ScreenSettingShortDifficulty, _ScreenSettingAnimationDirection};
 
             _StaticPointsBarDrawnPoints = new double[CSettings.MaxNumPlayer];
+
+            _SlideShowBG = GetNewBackground();
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -125,6 +130,7 @@ namespace Vocaluxe.Screens
 
             _SetVisibility();
             _UpdateRatings();
+            _UpdateBackground();    
         }
 
         public override bool UpdateGame()
@@ -414,6 +420,15 @@ namespace Vocaluxe.Screens
                     }
                 }
             }
+        }
+
+        private bool _UpdateBackground()
+        {
+            String[] photos = CVocaluxeServer.getPhotosOfThisRound();
+            _SlideShowBG.RemoveSlideShowTextures();
+            foreach (string photo in photos)
+                _SlideShowBG.AddSlideShowTexture(photo);
+            return photos.Length > 0;
         }
 
         private void _LeaveScreen()
