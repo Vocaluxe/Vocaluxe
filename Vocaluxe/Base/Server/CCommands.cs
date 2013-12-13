@@ -83,47 +83,6 @@ namespace Vocaluxe.Base.Server
         }
         #endregion Login
 
-        #region Keyboard
-        #endregion Keyboard
-
-        #region Profiles
-        public static byte[] CreateCommandSendAvatarPicture(int width, int height, byte[] data)
-        {
-            var ap = new SAvatarPicture {Height = height, Width = width, Data = new byte[data.Length]};
-            Array.Copy(data, ap.Data, data.Length);
-
-            return _Serialize(CommandSendAvatarPicture, ap);
-        }
-
-        public static bool DecodeCommandSendAvatarPicture(byte[] message, out SAvatarPicture avatarPicture)
-        {
-            return _TryDeserialize(message, out avatarPicture);
-        }
-
-        public static byte[] CreateCommandSendAvatarPictureJpg(byte[] avatarJpgData)
-        {
-            var ap = new SAvatarPicture {Height = 0, Width = 0, Data = new byte[avatarJpgData.Length]};
-            Array.Copy(avatarJpgData, ap.Data, avatarJpgData.Length);
-
-            return _Serialize(CommandSendAvatarPictureJpg, ap);
-        }
-
-        public static byte[] CreateCommandSendProfile(byte[] avatarJpgData, string playerName, int difficulty)
-        {
-            var ap = new SAvatarPicture {Height = 0, Width = 0, Data = new byte[avatarJpgData.Length]};
-            Array.Copy(avatarJpgData, ap.Data, avatarJpgData.Length);
-
-            var profile = new SProfile {Avatar = ap, PlayerName = playerName, Difficulty = difficulty};
-
-            return _Serialize(CommandSendProfile, profile);
-        }
-
-        public static bool DecodeCommandSendProfile(byte[] message, out SProfile profile)
-        {
-            return _TryDeserialize(message, out profile);
-        }
-        #endregion Profiles
-
         #region Serializing
         private static byte[] _Serialize<T>(T obj)
         {
