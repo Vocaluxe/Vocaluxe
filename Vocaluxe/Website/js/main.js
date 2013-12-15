@@ -400,13 +400,28 @@ function initPageLoadHandler() {
         var promise = request({
             url: "getUserRole?profileId=" + profileIdRequest
         }).done(function (result) {
-            $('#roleAdministrator').prop("checked", ((result & 0x01) != 0)).checkboxradio("refresh");
+            var userRoles = {
+                TR_USERROLE_ADMIN: 2,
+                TR_USERROLE_KEYBOARDUSER: 4,
+                TR_USERROLE_ADDSONGSUSER: 8,
+                TR_USERROLE_PLAYLISTEDITOR: 16, 
+                TR_USERROLE_PROFILEEDITOR: 32
+            };
+            
+            for (var roleName in userRoles) {
+                $('#' + roleName).prop("checked", ((result & userRoles[roleName]) != 0)).checkboxradio("refresh");
+            }
+            
 
             $('#btnRoleSave').unbind('click').click(function () {
                 var role = 0;
-                if ($('#roleAdministrator').prop("checked")) {
-                    role = (role | 0x01);
+                
+                for (var roleName2 in userRoles) {
+                    if ($('#' + roleName2).prop("checked")) {
+                        role = (role | userRoles[roleName2]);
+                    }
                 }
+              
                 request({
                     url: "setUserRole?profileId=" + profileIdRequest + "&userRole=" + role,
                     headers: { "session": sessionId }
@@ -1393,13 +1408,13 @@ function initTranslation() {
             }
         }
     };
-    
+
     //repair broken buttons on the first page (get broken while translating)
     var repairButtons = function () {
         $($('#discoverConnect')[0].childNodes).wrap('<span class="ui-btn-inner"><span class="ui-btn-text"> </span></span>');
         $($('#discoverReadQr')[0].childNodes).wrap('<span class="ui-btn-inner"><span class="ui-btn-text"> </span></span>');
     };
-    
+
     $.i18n.init({
         resStore: translations,
         supportedLngs: ['en', 'de'],

@@ -370,7 +370,7 @@ namespace VocaluxeLib.Menu
                 _Player = player;
                 _PlayerSelector.Color = CBase.Theme.GetPlayerColor(player);
             }
-                //Normal activation
+            //Normal activation
             else if (active)
             {
                 Selection = 0;
@@ -379,7 +379,7 @@ namespace VocaluxeLib.Menu
                 _PlayerSelector.Color = CBase.Theme.GetPlayerColor(player);
                 _PlayerSelector.Visible = true;
             }
-                //Deactivate
+            //Deactivate
             else
             {
                 Selection = -1;
@@ -456,7 +456,7 @@ namespace VocaluxeLib.Menu
             return new CStatic(_PartyModeID);
         }
 
-        public void UnloadTextures() {}
+        public void UnloadTextures() { }
 
         public void LoadTextures()
         {
@@ -486,7 +486,7 @@ namespace VocaluxeLib.Menu
                 for (int j = 0; j < _NumW; j++)
                 {
                     var rect = new SRectF(Rect.X + j * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
-                    var tileStatic = new CStatic(_PartyModeID, _TextureEmptyTile, ColorEmptyTile, rect) {Aspect = EAspect.Crop};
+                    var tileStatic = new CStatic(_PartyModeID, _TextureEmptyTile, ColorEmptyTile, rect) { Aspect = EAspect.Crop };
                     var tileText = new CText(rect.X + rect.W / 2, rect.Y + rect.H + _Theme.NameSpace, rect.Z, _Theme.NameHeight, rect.W, EAlignment.Center, _Theme.NameStyle,
                                              _Theme.NameFont, _Theme.NameColor, "");
                     _Tiles.Add(new CTile(tileStatic, tileText, -1));
@@ -508,7 +508,8 @@ namespace VocaluxeLib.Menu
                     for (int p = 0; p < CBase.Game.GetNumPlayer(); p++)
                     {
                         //Don't show profile if is selected, but if selected and guest
-                        if (CBase.Game.GetPlayers()[p].ProfileID == profile.ID && profile.UserRole == EUserRole.TR_USERROLE_GUEST)
+                        if (CBase.Game.GetPlayers()[p].ProfileID == profile.ID
+                            && profile.UserRole.HasFlag(EUserRole.TR_USERROLE_GUEST))
                             visible = false;
                     }
                 }
