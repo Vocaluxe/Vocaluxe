@@ -217,7 +217,20 @@ namespace Vocaluxe.Base
         public static void UpdateRandomSongList()
         {
             _SongsForRandom.Clear();
-            _SongsForRandom.AddRange(VisibleSongs);
+            //Calc avarage sing-count
+            int totalCounts = 0;
+            foreach (CSong song in VisibleSongs)
+                totalCounts += song.NumPlayedSession;
+            int averageCount = totalCounts / NumSongsVisible;
+
+            foreach(CSong song in VisibleSongs)
+            {
+                if (song.NumPlayedSession <= averageCount)
+                    _SongsForRandom.Add(song);
+            }
+            
+            if(_SongsForRandom.Count == 0)
+                _SongsForRandom.AddRange(VisibleSongs);
         }
 
         public static int GetRandomCategory()

@@ -409,6 +409,7 @@ namespace Vocaluxe.Screens
                         CSong song = CSongs.GetSong(players[p].SongID);
                         CDataBase.IncreaseSongCounter(song.DataBaseSongID);
                         song.NumPlayed++;
+                        song.NumPlayedSession++;
                         break;
                     }
                 }

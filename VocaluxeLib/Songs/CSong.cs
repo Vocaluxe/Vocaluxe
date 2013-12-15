@@ -174,6 +174,7 @@ namespace VocaluxeLib.Songs
         public int DataBaseSongID = -1;
         public string DateAdded = "";
         public int NumPlayed;
+        public int NumPlayedSession;
 
         // Notes
         public readonly CNotes Notes = new CNotes();
@@ -266,6 +267,7 @@ namespace VocaluxeLib.Songs
             DataBaseSongID = song.DataBaseSongID;
             DateAdded = song.DateAdded;
             NumPlayed = song.NumPlayed;
+            NumPlayedSession = song.NumPlayedSession;
 
             Notes = new CNotes(song.Notes);
         }
