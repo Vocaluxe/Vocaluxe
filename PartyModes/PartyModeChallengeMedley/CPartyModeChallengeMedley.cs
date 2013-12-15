@@ -513,12 +513,18 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 return false;
             }
 
+            //Calc avarage sing-count
+            int totalCounts = 0;
+            foreach (CSong song in visibleSongs)
+                totalCounts += song.NumPlayedSession;
+            int averageCount = totalCounts / visibleSongs.Count;
+
             // ReSharper disable LoopCanBeConvertedToQuery
             foreach (CSong song in visibleSongs)
             {
                 foreach (EGameMode mode in song.AvailableGameModes)
                 {
-                    if (mode == EGameMode.TR_GAMEMODE_MEDLEY)
+                    if (mode == EGameMode.TR_GAMEMODE_MEDLEY && song.NumPlayedSession <= averageCount)
                         ids.Add(song.ID);
                 }
             }
