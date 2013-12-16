@@ -1,18 +1,18 @@
-﻿#region license
-// This file is part of Vocaluxe.
+#region license
+//     This file is part of Vocaluxe.
 // 
-// Vocaluxe is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+//     Vocaluxe is free software: you can redistribute it and/or modify
+//     it under the terms of the GNU General Public License as published by
+//     the Free Software Foundation, either version 3 of the License, or
+//     (at your option) any later version.
 // 
-// Vocaluxe is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
+//     Vocaluxe is distributed in the hope that it will be useful,
+//     but WITHOUT ANY WARRANTY; without even the implied warranty of
+//     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//     GNU General Public License for more details.
 // 
-// You should have received a copy of the GNU General Public License
-// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+//     You should have received a copy of the GNU General Public License
+//     along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
@@ -31,6 +31,7 @@ namespace Vocaluxe.Lib.Playlist
     {
         public string PlaylistName;
         public string PlaylistFile;
+        public int Id = -1;
         public List<CPlaylistSong> Songs = new List<CPlaylistSong>();
 
         public CPlaylistFile()
@@ -39,8 +40,9 @@ namespace Vocaluxe.Lib.Playlist
             PlaylistFile = string.Empty;
         }
 
-        public CPlaylistFile(string file)
+        public CPlaylistFile(string file, int id)
         {
+            Id = id;
             PlaylistFile = file;
             _LoadPlaylist();
         }
@@ -217,7 +219,7 @@ namespace Vocaluxe.Lib.Playlist
             if (destNr < 0 || destNr > Songs.Count - 1)
                 return;
 
-            var ps = new CPlaylistSong(songID, gm);
+            CPlaylistSong ps = new CPlaylistSong(songID, gm);
             Songs.Insert(destNr, ps);
         }
     }

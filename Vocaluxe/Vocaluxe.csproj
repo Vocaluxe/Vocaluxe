@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">DebugWin</Configuration>
@@ -15,7 +15,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <StartupObject>Vocaluxe.CMainProgram</StartupObject>
     <ApplicationIcon>Vocaluxe.ico</ApplicationIcon>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -174,10 +175,6 @@
       <HintPath>..\Output\AForge.Video.DirectShow.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ClientServerLib">
-      <HintPath>..\ClientServerLib\ClientServerLib\bin\ClientServerLib.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Community.CsharpSqlite">
       <HintPath>..\Output\Community.CsharpSqlite.dll</HintPath>
     </Reference>
@@ -197,6 +194,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
   </ItemGroup>
@@ -306,10 +304,122 @@
     </None>
     <Compile Include="Lib\Sound\PortAudio\PortAudio.cs" />
     <None Include="Doc\SQLite.NET.chm" />
+    <Content Include="Website\locales\de.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\locales\en.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Doc\Roadmap.txt" />
     <Content Include="Vocaluxe.ico" />
+    <Content Include="Website\css\images\ajax-loader.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>images</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\css\images\alert.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\css\images\icons-18-black.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>images</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\css\images\icons-18-white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>images</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\css\images\icons-36-black.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>images</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\css\images\icons-36-white.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>images</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\css\jquery.mobile-1.3.2.min.css">
+      <CustomToolNamespace>css</CustomToolNamespace>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\css\jquery.mobile.theme-1.3.2.min.css">
+      <CustomToolNamespace>css</CustomToolNamespace>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\css\style.css">
+      <CustomToolNamespace>css</CustomToolNamespace>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\addPlaylist.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\logout.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\music.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\noCover.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\playlist.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\playlists.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\spotify.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\wikipedia.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\youtube.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\img\admin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>img</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\img\keyboard.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>img</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\img\photo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>img</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\img\profile.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>img</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\img\profiles.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>img</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\js\i18next-1.7.1.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\js\jquery-1.9.1.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CustomToolNamespace>js</CustomToolNamespace>
+    </Content>
+    <Content Include="Website\js\jquery-ui-1.10.3.custom.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\js\jquery.mobile-1.3.2.min.js">
+      <CustomToolNamespace>js</CustomToolNamespace>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\js\jquery.ui.touch-punch.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Website\js\main.js">
+      <CustomToolNamespace>js</CustomToolNamespace>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client,KB2468871">
@@ -324,12 +434,22 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClientServerLib\ClientServerLib\ServerLib.csproj">
+      <Project>{ec5167e4-ccfb-4cee-987c-cf816f1062a3}</Project>
+      <Name>ServerLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VocaluxeLib\VocaluxeLib.csproj">
       <Project>{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}</Project>
       <Name>VocaluxeLib</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Website\html\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

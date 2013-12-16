@@ -30,6 +30,9 @@ namespace VocaluxeLib.Profile
         public string FilePath;
         public string FileName;
         public string AvatarFileName;
+        public byte[] PasswordHash;
+        public byte[] PasswordSalt;
+        public int UserRoles;
 
         public EGameDifficulty Difficulty;
 
@@ -87,7 +90,15 @@ namespace VocaluxeLib.Profile
                 xmlReader.GetValue("//root/Info/Avatar", out AvatarFileName, String.Empty);
                 xmlReader.TryGetEnumValue("//root/Info/GuestProfile", ref GuestProfile);
                 xmlReader.TryGetEnumValue("//root/Info/Active", ref Active);
-
+                string passwordHash;
+                xmlReader.GetValue("//root/Info/PasswordHash", out passwordHash, "");
+                PasswordHash = !string.IsNullOrEmpty(passwordHash) ? Convert.FromBase64String(passwordHash) : null;
+                string passwordSalt;
+                xmlReader.GetValue("//root/Info/PasswordSalt", out passwordSalt, "");
+                PasswordSalt = !string.IsNullOrEmpty(passwordSalt) ? Convert.FromBase64String(passwordSalt) : null;
+                string userRoles;
+                xmlReader.GetValue("//root/Info/UserRoles", out userRoles, "0");
+                Int32.TryParse(userRoles, out UserRoles);
                 return true;
             }
 
@@ -104,7 +115,7 @@ namespace VocaluxeLib.Profile
                 string filename = string.Empty;
                 // ReSharper disable LoopCanBeConvertedToQuery
                 foreach (char chr in PlayerName)
-                    // ReSharper restore LoopCanBeConvertedToQuery
+                // ReSharper restore LoopCanBeConvertedToQuery
                 {
                     if (char.IsLetter(chr))
                         filename += chr.ToString();
@@ -148,6 +159,15 @@ namespace VocaluxeLib.Profile
                 writer.WriteElementString("Avatar", Path.GetFileName(Avatar.FileName));
                 writer.WriteElementString("GuestProfile", Enum.GetName(typeof(EOffOn), GuestProfile));
                 writer.WriteElementString("Active", Enum.GetName(typeof(EOffOn), Active));
+                if (PasswordHash != null)
+                {
+                    writer.WriteElementString("PasswordHash", Convert.ToBase64String(PasswordHash));
+                }
+                if (PasswordSalt != null)
+                {
+                    writer.WriteElementString("PasswordSalt", Convert.ToBase64String(PasswordSalt));
+                }
+                writer.WriteElementString("UserRoles", UserRoles.ToString());
                 writer.WriteEndElement();
 
                 writer.WriteEndElement(); //end of root

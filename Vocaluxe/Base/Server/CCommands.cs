@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -83,47 +83,6 @@ namespace Vocaluxe.Base.Server
         }
         #endregion Login
 
-        #region Keyboard
-        #endregion Keyboard
-
-        #region Profiles
-        public static byte[] CreateCommandSendAvatarPicture(int width, int height, byte[] data)
-        {
-            var ap = new SAvatarPicture {Height = height, Width = width, Data = new byte[data.Length]};
-            Array.Copy(data, ap.Data, data.Length);
-
-            return _Serialize(CommandSendAvatarPicture, ap);
-        }
-
-        public static bool DecodeCommandSendAvatarPicture(byte[] message, out SAvatarPicture avatarPicture)
-        {
-            return _TryDeserialize(message, out avatarPicture);
-        }
-
-        public static byte[] CreateCommandSendAvatarPictureJpg(byte[] avatarJpgData)
-        {
-            var ap = new SAvatarPicture {Height = 0, Width = 0, Data = new byte[avatarJpgData.Length]};
-            Array.Copy(avatarJpgData, ap.Data, avatarJpgData.Length);
-
-            return _Serialize(CommandSendAvatarPictureJpg, ap);
-        }
-
-        public static byte[] CreateCommandSendProfile(byte[] avatarJpgData, string playerName, int difficulty)
-        {
-            var ap = new SAvatarPicture {Height = 0, Width = 0, Data = new byte[avatarJpgData.Length]};
-            Array.Copy(avatarJpgData, ap.Data, avatarJpgData.Length);
-
-            var profile = new SProfile {Avatar = ap, PlayerName = playerName, Difficulty = difficulty};
-
-            return _Serialize(CommandSendProfile, profile);
-        }
-
-        public static bool DecodeCommandSendProfile(byte[] message, out SProfile profile)
-        {
-            return _TryDeserialize(message, out profile);
-        }
-        #endregion Profiles
-
         #region Serializing
         private static byte[] _Serialize<T>(T obj)
         {
@@ -138,7 +97,7 @@ namespace Vocaluxe.Base.Server
             stream.Write(cmd, 0, cmd.Length);
 
             byte[] data;
-            string json = JsonConvert.SerializeObject(obj);
+                string json = JsonConvert.SerializeObject(obj);
             data = _Encoder.GetBytes(json);
             stream.Write(data, 0, data.Length);
             return stream.ToArray();
@@ -156,14 +115,14 @@ namespace Vocaluxe.Base.Server
 
             var data = new byte[message.Length - 4];
             Array.Copy(message, 4, data, 0, data.Length);
-            try
-            {
+                try
+                {
                 obj = JsonConvert.DeserializeObject<T>(_Encoder.GetString(data));
-                return true;
-            }
-            catch
-            {
-                return false;
+                    return true;
+                }
+                catch
+                {
+                    return false;
             }
         }
         #endregion Serializing

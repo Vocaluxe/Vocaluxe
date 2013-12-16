@@ -1,0 +1,91 @@
+#playerAvatar {
+    height: 75%;
+    max-height: 250px;
+    width: auto;
+}
+
+#playerName {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#displayProfileContent {
+    text-align: center;
+}
+
+#keyboardContent {
+    text-align: center;
+}
+
+.overlay {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.ui-loader-background {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    margin: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: none;
+    position: fixed;
+    z-index: 100;
+}
+
+.ui-loading .ui-loader-background {
+    display: block;
+}
+
+#displaySongCover {
+    height: 75%;
+    max-height: 250px;
+    width: auto;
+}
+
+#displaySongContent {
+    text-align: center;
+}
+
+    #displaySongContent span {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+.imageLoaderImg {
+    height: 100%;
+    width: 100%;
+    background: url(images/ajax-loader.gif);
+    background-size: 45px;
+    border: #000000 solid 0px;
+    content: '';
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.ui-body-c, .ui-overlay-c {
+    background: #000000;
+}
+
+.ui-input-search {
+    background: #6E6E6E !important;
+}
+
+.ui-listview-filter {
+    background: #000000 !important;
+}
+
+.ui-custom-errorIcon {
+    background: url(images/alert.png) !important;
+    background-size: 42px 42px;
+    -webkit-border-radius: 0px !important;
+    border-radius: 0px !important;
+}
+
+.cursorStyleClickable {
+    cursor: pointer;
+}
+

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
+<widget xmlns     = "http://www.w3.org/ns/widgets"
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        id        = "net.sourceforge.vocaluxe"
+        version   = "0.1.0">
+
+    <name>Vocaluxe</name>
+
+    <description>
+        Interact with Vocaluxe via your mobile device.
+    </description>
+
+    <author href="http://vocaluxe.sourceforge.net">
+        Vocaluxe Team
+    </author>
+       
+    <!--
+        Enable individual API permissions here.
+    -->
+    <feature name="http://api.phonegap.com/1.0/device" />
+    <feature name="http://api.phonegap.com/1.0/camera" />
+    <feature name="http://api.phonegap.com/1.0/file" />
+
+    <!-- Customize your app and platform with the preference element. -->
+    <preference name="phonegap-version" value="2.9.0" />
+   
+    <!-- Plugins can also be added here. -->
+    <gap:plugin name="com.phonegap.plugins.barcodescanner" />
+
+    <!-- Define app icon for each platform. -->
+    <icon src="icon.png" />
+    
+    <access origin="*" />
+</widget>
