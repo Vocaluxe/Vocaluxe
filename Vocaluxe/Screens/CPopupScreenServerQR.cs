@@ -44,11 +44,14 @@ namespace Vocaluxe.Screens
         private const string _StaticQRWebOS = "StaticQRWebOS";
         private const string _StaticQRWindowsPhone = "StaticQRWindowsPhone";
 
+        private const string _TextServerAddress = "TextServerAddress";
+
         public override void Init()
         {
             base.Init();
 
             _ThemeStatics = new string[] { _StaticQRServer, _StaticQRAndroid, _StaticQRSymbian, _StaticQRWebOS, _StaticQRWindowsPhone };
+            _ThemeTexts = new string[] { _TextServerAddress };
         }
 
         public override void LoadTheme(string xmlPath)
@@ -60,7 +63,7 @@ namespace Vocaluxe.Screens
             _Statics[_StaticQRSymbian].Texture = _QRSymbianLink;
             _Statics[_StaticQRWebOS].Texture = _QRWebOSLink;
             _Statics[_StaticQRWindowsPhone].Texture = _QRWindowsPhoneLink;
-            
+            _Texts[_TextServerAddress].Text = CServer.GetLocalAddress() + ":" + CConfig.ServerPort;
         }
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
