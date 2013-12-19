@@ -228,7 +228,10 @@ namespace Vocaluxe.Base.Server
 
             if (profile.Type >= 0 && profile.Type <= 1)
             {
-                newProfile.UserRole = (EUserRole)profile.Type;
+                var option = profile.Type == 0 ? EUserRole.TR_USERROLE_GUEST : EUserRole.TR_USERROLE_NORMAL;
+                //Only allow the change of TR_USERROLE_GUEST and TR_USERROLE_NORMAL
+                const EUserRole mask = EUserRole.TR_USERROLE_NORMAL;
+                newProfile.UserRole = (newProfile.UserRole & mask) | option;
             }
 
             if (!string.IsNullOrEmpty(profile.Password))
@@ -281,10 +284,11 @@ namespace Vocaluxe.Base.Server
                 IsEditable = !isReadonly,
                 ProfileId = profile.ID,
                 PlayerName = profile.PlayerName,
-                Type = (int)profile.UserRole,
+                //Is TR_USERROLE_GUEST or TR_USERROLE_NORMAL?
+                Type = (profile.UserRole.HasFlag(EUserRole.TR_USERROLE_NORMAL)?1:0),
                 Difficulty = (int)profile.Difficulty
             };
-
+            
             CAvatar avatar = profile.Avatar;
             if (avatar != null)
             {
@@ -502,7 +506,7 @@ namespace Vocaluxe.Base.Server
             {
                 throw new ArgumentException("invalid songId");
             }
-            if (position < 0 || CPlaylists.Playlists[playlistId].Songs.Count <= position 
+            if (position < 0 || CPlaylists.Playlists[playlistId].Songs.Count <= position
                 || CPlaylists.Playlists[playlistId].Songs[position].SongID != songId)
             {
                 throw new ArgumentException("invalid position");
@@ -521,7 +525,7 @@ namespace Vocaluxe.Base.Server
             {
                 throw new ArgumentException("invalid songId");
             }
-            
+
             if (CPlaylists.Playlists[playlistId].Songs.Count < newPosition)
             {
                 throw new ArgumentException("invalid newPosition");
@@ -673,7 +677,10 @@ namespace Vocaluxe.Base.Server
                 throw new ArgumentException("Invalid profileId");
             }
 
-            return (int)profile.UserRole;
+            //Hide TR_USERROLE_GUEST and TR_USERROLE_NORMAL
+            const EUserRole mask = (EUserRole.TR_USERROLE_GUEST | EUserRole.TR_USERROLE_NORMAL);
+
+            return (int)(profile.UserRole & ~mask);
         }
 
         private static void _SetUserRole(int profileId, int userRole)
@@ -683,8 +690,14 @@ namespace Vocaluxe.Base.Server
             {
                 throw new ArgumentException("Invalid profileId");
             }
-            
-            profile.UserRole = (EUserRole)userRole;
+
+            var option = (EUserRole)userRole;
+
+            //Only allow the change of all options exept TR_USERROLE_GUEST and TR_USERROLE_NORMAL
+            const EUserRole mask = (EUserRole.TR_USERROLE_GUEST | EUserRole.TR_USERROLE_NORMAL);
+            option &= ~mask;
+
+            profile.UserRole = (profile.UserRole & mask) | option;
 
             CProfiles.EditProfile(profile);
             CProfiles.Update();
