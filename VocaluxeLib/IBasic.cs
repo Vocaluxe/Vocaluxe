@@ -86,6 +86,9 @@ namespace VocaluxeLib
 
         string GetFolderProfiles();
         string GetDataPath();
+
+        float GetSlideShowImageTime();
+        float GetSlideShowFadeTime();
     }
 
     public interface ITheme

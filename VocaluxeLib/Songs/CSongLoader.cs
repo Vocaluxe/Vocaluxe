@@ -243,7 +243,7 @@ namespace VocaluxeLib.Songs
                                 break;
                             case "BACKGROUND":
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
-                                    _Song.BackgroundFileName = value;
+                                    _Song.BackgroundFileNames.Add(value);
                                 else
                                     _LogWarning("Can't find background file: " + Path.Combine(_Song.Folder, value));
                                 break;

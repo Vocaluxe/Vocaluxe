@@ -97,7 +97,7 @@ namespace VocaluxeLib.Songs
 
         public string MP3FileName = String.Empty;
         public string CoverFileName = String.Empty;
-        public string BackgroundFileName = String.Empty;
+        public List<string> BackgroundFileNames = new List<string>();
         public string VideoFileName = String.Empty;
 
         public EAspect VideoAspect = EAspect.Crop;
@@ -174,6 +174,7 @@ namespace VocaluxeLib.Songs
         public int DataBaseSongID = -1;
         public string DateAdded = "";
         public int NumPlayed;
+        public int NumPlayedSession;
 
         // Notes
         public readonly CNotes Notes = new CNotes();
@@ -226,7 +227,7 @@ namespace VocaluxeLib.Songs
 
             MP3FileName = song.MP3FileName;
             CoverFileName = song.CoverFileName;
-            BackgroundFileName = song.BackgroundFileName;
+            BackgroundFileNames = song.BackgroundFileNames;
             VideoFileName = song.VideoFileName;
 
             VideoAspect = song.VideoAspect;
@@ -266,6 +267,7 @@ namespace VocaluxeLib.Songs
             DataBaseSongID = song.DataBaseSongID;
             DateAdded = song.DateAdded;
             NumPlayed = song.NumPlayed;
+            NumPlayedSession = song.NumPlayedSession;
 
             Notes = new CNotes(song.Notes);
         }
@@ -328,7 +330,7 @@ namespace VocaluxeLib.Songs
                 }
             }
 
-            if (BackgroundFileName == "")
+            if (BackgroundFileNames.Count == 0)
             {
                 List<string> files = CHelper.ListFiles(Folder, "*.jpg");
                 files.AddRange(CHelper.ListFiles(Folder, "*.jpeg"));
@@ -338,7 +340,7 @@ namespace VocaluxeLib.Songs
                 {
                     if (file.ContainsIgnoreCase("[BG]") &&
                         (file.ContainsIgnoreCase(Title) || file.ContainsIgnoreCase(Artist)))
-                        BackgroundFileName = file;
+                        BackgroundFileNames.Add(file);
                 }
             }
         }

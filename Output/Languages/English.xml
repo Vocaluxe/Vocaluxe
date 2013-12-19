@@ -26,6 +26,9 @@
   <string name="TR_RATING_WANNABE">Wannabe</string>
   <string name="TR_RATING_AMATEUR">Amateur</string>
   <string name="TR_RATING_TONE_DEAF">Tone Deaf</string>
+  <string name="TR_USERROLE_GUEST">Guest</string>
+  <string name="TR_USERROLE_NORMAL">Normal User</string>
+  <string name="TR_USERROLE_ADMIN">Administrator</string>
   <string name="TR_CONFIG_SOFTWARE">Software</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -147,7 +150,7 @@
   <string name="TR_SCREENPROFILES_PLAYERNAME">Player Name</string>
   <string name="TR_SCREENPROFILES_GAMEDIFFICULTY">Game Difficulty</string>
   <string name="TR_SCREENPROFILES_AVATAR">Avatar</string>
-  <string name="TR_SCREENPROFILES_GUESTPROFILE">Guest Profile</string>
+  <string name="TR_SCREENPROFILES_USERROLE">User Role</string>
   <string name="TR_SCREENPROFILES_ACTIVE">Active</string>
   <string name="TR_SCREENPROFILES_BUTTON_NEW">New</string>
   <string name="TR_SCREENPROFILES_BUTTON_DELETE">Delete</string>
@@ -162,6 +165,7 @@
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
   <string name="TR_SCREENO_BUTTON_LYRICS">Lyrics</string>
   <string name="TR_SCREENO_BUTTON_THEME">Theme</string>
+  <string name="TR_SCREENOGAME_BUTTON_SERVER">Server address</string>
   <string name="TR_SCREENOGAME_OPTIONS">Game Options</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Language</string>
   <string name="TR_SCREENOGAME_DEBUGLEVEL">Debug Level</string>
@@ -204,4 +208,5 @@
   <string name="TR_SCREENO_VIDEO_WEBCAMDEVICES">Webcams</string>
   <string name="TR_SCREENO_VIDEO_WEBCAMCAPABILITIES">Webcamcapabilities</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
+  <string name="TR_SCREENPSERVERQR_ADDRESS">Server address</string>
 </resources>

@@ -203,6 +203,18 @@ namespace ServerLib
             _Init(port, encrypted);
         }
 
+        public static string GetLocalAddress()
+        {
+            IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());
+            string IPAddress = "";
+            foreach (IPAddress ip in ips)
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    IPAddress = ip.ToString();
+            }
+            return IPAddress;
+        }
+
         #region server control
 
         private void _Init(int port, bool encrypted)

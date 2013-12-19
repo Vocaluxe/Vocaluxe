@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenProfiles>
-    <ScreenVersion>2</ScreenVersion>
+    <ScreenVersion>3</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>Video</Type>
@@ -265,7 +265,7 @@
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
       <!--<Text>: Nothing or translation tag-->
-      <Text>TR_SCREENPROFILES_GUESTPROFILE</Text>
+      <Text>TR_SCREENPROFILES_USERROLE</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
@@ -989,7 +989,7 @@
       <!--<NumVisible>: Number of visible elements in the slide-->
       <NumVisible>3</NumVisible>
     </SelectSlideAvatars>
-    <SelectSlideGuestProfile>
+    <SelectSlideUserRole>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
       <!--<SkinArrowLeft>: Texture name of left arrow-->
@@ -1055,7 +1055,7 @@
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
       <NumVisible>2</NumVisible>
-    </SelectSlideGuestProfile>
+    </SelectSlideUserRole>
     <SelectSlideActive>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>

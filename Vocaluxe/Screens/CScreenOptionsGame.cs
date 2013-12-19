@@ -27,7 +27,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 1; }
+            get { return 2; }
         }
 
         private const string _SelectSlideLanguage = "SelectSlideLanguage";
@@ -38,12 +38,13 @@ namespace Vocaluxe.Screens
         private const string _SelectSlideTimerMode = "SelectSlideTimerMode";
 
         private const string _ButtonExit = "ButtonExit";
+        private const string _ButtonServer = "ButtonServer";
 
         public override void Init()
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonExit};
+            _ThemeButtons = new string[] {_ButtonExit, _ButtonServer};
             _ThemeSelectSlides = new string[] {_SelectSlideLanguage, _SelectSlideDebugLevel, _SelectSlideSongMenu, _SelectSlideSongSorting, _SelectSlideTabs, _SelectSlideTimerMode};
         }
 
@@ -86,6 +87,8 @@ namespace Vocaluxe.Screens
                             _SaveConfig();
                             CGraphics.FadeTo(EScreens.ScreenOptions);
                         }
+                        else if (_Buttons[_ButtonServer].Selected)
+                            CGraphics.ShowPopup(EPopupScreens.PopupServerQR);
                         break;
 
                     case Keys.Left:
@@ -112,9 +115,13 @@ namespace Vocaluxe.Screens
 
             if (mouseEvent.LB && _IsMouseOver(mouseEvent))
             {
-                _SaveConfig();
                 if (_Buttons[_ButtonExit].Selected)
+                {
                     CGraphics.FadeTo(EScreens.ScreenOptions);
+                    _SaveConfig();
+                }
+                else if (_Buttons[_ButtonServer].Selected)
+                    CGraphics.ShowPopup(EPopupScreens.PopupServerQR);
             }
             return true;
         }

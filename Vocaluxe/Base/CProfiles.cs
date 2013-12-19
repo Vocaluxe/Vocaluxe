@@ -212,7 +212,7 @@ namespace Vocaluxe.Base
 
         public static void LoadProfiles()
         {
-            var change = new SChange {Action = EAction.LoadProfiles};
+            var change = new SChange { Action = EAction.LoadProfiles };
 
             lock (_QueueMutex)
             {
@@ -222,7 +222,7 @@ namespace Vocaluxe.Base
 
         public static void LoadAvatars()
         {
-            var change = new SChange {Action = EAction.LoadAvatars};
+            var change = new SChange { Action = EAction.LoadAvatars };
 
             lock (_QueueMutex)
             {
@@ -235,7 +235,7 @@ namespace Vocaluxe.Base
             if (newProfile == null)
                 return;
 
-            var change = new SChange {Action = EAction.AddProfile, Profile = newProfile};
+            var change = new SChange { Action = EAction.AddProfile, Profile = newProfile };
 
             lock (_QueueMutex)
             {
@@ -248,7 +248,7 @@ namespace Vocaluxe.Base
             if (editProfile == null)
                 return;
 
-            var change = new SChange {Action = EAction.EditProfile, Profile = editProfile};
+            var change = new SChange { Action = EAction.EditProfile, Profile = editProfile };
 
             lock (_QueueMutex)
             {
@@ -261,7 +261,7 @@ namespace Vocaluxe.Base
             if (!IsProfileIDValid(profileID))
                 return;
 
-            var change = new SChange {Action = EAction.DeleteProfile, ProfileID = profileID};
+            var change = new SChange { Action = EAction.DeleteProfile, ProfileID = profileID };
 
             lock (_QueueMutex)
             {
@@ -274,7 +274,7 @@ namespace Vocaluxe.Base
             if (newAvatar == null)
                 return;
 
-            var change = new SChange {Action = EAction.AddAvatar, Avatar = newAvatar};
+            var change = new SChange { Action = EAction.AddAvatar, Avatar = newAvatar };
 
             lock (_QueueMutex)
             {
@@ -287,7 +287,7 @@ namespace Vocaluxe.Base
             if (editAvatar == null)
                 return;
 
-            var change = new SChange {Action = EAction.EditAvatar, Avatar = editAvatar};
+            var change = new SChange { Action = EAction.EditAvatar, Avatar = editAvatar };
 
             lock (_QueueMutex)
             {
@@ -310,9 +310,9 @@ namespace Vocaluxe.Base
             if (!IsProfileIDValid(profileID))
             {
                 return null;
-            }                
+            }
 
-            return _Profiles[profileID];          
+            return _Profiles[profileID];
         }
 
         public static IEnumerable<CAvatar> GetAvatars()
@@ -433,17 +433,19 @@ namespace Vocaluxe.Base
             _Profiles[profileID].Difficulty = difficulty;
         }
 
-        public static EOffOn GetGuestProfile(int profileID)
+        public static EUserRole GetUserRoleProfile(int profileID)
         {
-            return IsProfileIDValid(profileID) ? _Profiles[profileID].GuestProfile : EOffOn.TR_CONFIG_OFF;
+            return IsProfileIDValid(profileID) ? _Profiles[profileID].UserRole : EUserRole.TR_USERROLE_GUEST;
         }
 
-        public static void SetGuestProfile(int profileID, EOffOn option)
+        public static void SetUserRoleProfile(int profileID, EUserRole option)
         {
             if (!IsProfileIDValid(profileID))
                 return;
-
-            _Profiles[profileID].GuestProfile = option;
+            //Only allow the change of TR_USERROLE_GUEST, TR_USERROLE_NORMAL and TR_USERROLE_ADMIN
+            const EUserRole mask = (EUserRole.TR_USERROLE_GUEST | EUserRole.TR_USERROLE_NORMAL | EUserRole.TR_USERROLE_ADMIN);
+            option &= mask;
+            _Profiles[profileID].UserRole = (_Profiles[profileID].UserRole & ~mask) | option;
         }
 
         public static EOffOn GetActive(int profileID)
@@ -464,7 +466,7 @@ namespace Vocaluxe.Base
             if (!IsProfileIDValid(profileID))
                 return true; // this will prevent from saving dummy profiles to highscore db
 
-            return _Profiles[profileID].GuestProfile == EOffOn.TR_CONFIG_ON;
+            return _Profiles[profileID].UserRole.HasFlag(EUserRole.TR_USERROLE_GUEST);
         }
 
         public static bool IsActive(int profileID)
