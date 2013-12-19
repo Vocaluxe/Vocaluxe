@@ -163,6 +163,7 @@ Global
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x64.ActiveCfg = Release|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x64.Build.0 = Release|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x86.ActiveCfg = Release|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x86.Build.0 = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugLinux|x64.ActiveCfg = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugLinux|x86.ActiveCfg = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|x64.ActiveCfg = Debug|Any CPU
@@ -175,6 +176,7 @@ Global
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|x64.ActiveCfg = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|x64.Build.0 = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|x86.ActiveCfg = Release|Any CPU
+		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
