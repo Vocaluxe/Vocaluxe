@@ -209,6 +209,9 @@ namespace VocaluxeLib
         EGameDifficulty GetDifficulty(int profileID);
         string GetPlayerName(int profileID, int playerNum = 0);
         CTexture GetAvatar(int profileID);
+        bool IsProfileIDValid(int profileID);
+        bool IsGuest(int profileID);
+        void AddProfileChangedCallback(ProfileChangedCallback notification);
     }
 
     public interface ISongs

@@ -90,6 +90,7 @@ namespace VocaluxeLib.Menu
         private int _Player = -1;
 
         private readonly List<int> _VisibleProfiles;
+        private List<int> _UsedProfiles;
 
         private CStatic _PlayerSelector;
 
@@ -100,6 +101,7 @@ namespace VocaluxeLib.Menu
 
             _Tiles = new List<CTile>();
             _VisibleProfiles = new List<int>();
+            _UsedProfiles = new List<int>();
         }
 
         public void Init()
@@ -478,6 +480,19 @@ namespace VocaluxeLib.Menu
             _PrepareTiles();
         }
 
+        public void UseProfile(int id)
+        {
+            if(id > -1)
+                if (!_UsedProfiles.Contains(id) && CBase.Profiles.IsProfileIDValid(id) && !CBase.Profiles.IsGuest(id))
+                    _UsedProfiles.Add(id);
+        }
+
+        public void RemoveUsedProfile(int id)
+        {
+            if(id > -1)
+                _UsedProfiles.Remove(id);
+        }
+
         private void _PrepareTiles()
         {
             _Tiles.Clear();
@@ -504,14 +519,8 @@ namespace VocaluxeLib.Menu
                 bool visible = profile.Active == EOffOn.TR_CONFIG_ON;
                 if (visible)
                 {
-                    //Show profile only if active
-                    for (int p = 0; p < CBase.Game.GetNumPlayer(); p++)
-                    {
-                        //Don't show profile if is selected, but if selected and guest
-                        if (CBase.Game.GetPlayers()[p].ProfileID == profile.ID
-                            && profile.UserRole.HasFlag(EUserRole.TR_USERROLE_GUEST))
-                            visible = false;
-                    }
+                    if (_UsedProfiles.Contains(profile.ID) && !profile.UserRole.HasFlag(EUserRole.TR_USERROLE_GUEST))
+                        visible = false;
                 }
                 if (visible)
                     _VisibleProfiles.Add(profile.ID);
