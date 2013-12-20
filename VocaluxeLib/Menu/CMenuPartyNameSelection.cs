@@ -70,6 +70,12 @@ namespace VocaluxeLib.Menu
             CBase.Profiles.AddProfileChangedCallback(_OnProfileChanged);
         }
 
+        public void SetPartyModeData(int numPlayer)
+        {
+            SetPartyModeData(1, numPlayer, new int[] { numPlayer });
+            _CurrentTeam = 0;
+        }
+
         public void SetPartyModeData(int numTeams, int numPlayer, int[] numPlayerTeams) 
         {
             _NumTeams = numTeams;
@@ -357,6 +363,7 @@ namespace VocaluxeLib.Menu
             base.LoadTheme(xmlPath);
             _SelectSlides[_SelectSlidePlayer].WithTextures = true;
             _SelectSlides[_SelectSlidePlayer].SelectionByHover = true;
+            _SelectSlides[_SelectSlideTeams].Visible = _Teams;
         }
 
         public override bool UpdateGame()
