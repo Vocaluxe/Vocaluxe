@@ -180,7 +180,7 @@ namespace VocaluxeLib.Menu
                     case Keys.Left:
                     case Keys.Right:
                         if (_SelectSlides[_SelectSlideTeams].Selected)
-                            _ChangeTeamSlide();
+                            _OnChangeTeamSlide();
                         break;
 
                     case Keys.P:
@@ -289,7 +289,7 @@ namespace VocaluxeLib.Menu
                     Next();
 
                 if (_SelectSlides[_SelectSlideTeams].Selected)
-                    _ChangeTeamSlide();
+                    _OnChangeTeamSlide();
 
                 //Update Tiles-List
                 _NameSelections[_NameSelection].UpdateList();
@@ -421,7 +421,7 @@ namespace VocaluxeLib.Menu
             _NameSelections[_NameSelection].UpdateList();
 
             _UpdateSlides();
-            _ChangeTeamSlide();
+            _OnChangeTeamSlide();
 
             _ProfilesChanged = false;
             _AvatarsChanged = false;
@@ -429,14 +429,11 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateSlides()
         {
-            _SelectSlides[_SelectSlideTeams].Clear();
-            for (int i = 1; i <= _NumTeams; i++)
-                _SelectSlides[_SelectSlideTeams].AddValue("Team " + i);
-
-            _SelectSlides[_SelectSlidePlayer].Clear();
+            _UpdateTeamSlide();
+            _UpdatePlayerSlide();
         }
 
-        private void _ChangeTeamSlide()
+        private void _OnChangeTeamSlide()
         {
             if (_CurrentTeam == _SelectSlides[_SelectSlideTeams].Selection)
                 return;
@@ -447,6 +444,7 @@ namespace VocaluxeLib.Menu
 
         private void _UpdatePlayerSlide()
         {
+            int selection = _SelectSlides[_SelectSlidePlayer].Selection;
             _SelectSlides[_SelectSlidePlayer].Clear();
             for (int i = 0; i < _TeamList[_CurrentTeam].Count; i++)
             {
@@ -454,6 +452,21 @@ namespace VocaluxeLib.Menu
                 CTexture avatar = CBase.Profiles.GetAvatar(_TeamList[_CurrentTeam][i]);
                 _SelectSlides[_SelectSlidePlayer].AddValue(name, avatar);
             }
+            for (int i = _TeamList[_CurrentTeam].Count; i < _NumPlayerTeams[_CurrentTeam]; i++)
+            {
+                _SelectSlides[_SelectSlidePlayer].AddValue("Test", _NameSelections[_NameSelection].TextureEmptyTile);
+            }
+            if (selection >= _TeamList[_CurrentTeam].Count)
+                selection = _TeamList[_CurrentTeam].Count - 1;
+            _SelectSlides[_SelectSlidePlayer].SetSelectionByValueIndex(selection);
+        }
+
+        private void _UpdateTeamSlide()
+        {
+            _SelectSlides[_SelectSlideTeams].Clear();
+            for (int i = 1; i <= _NumTeams; i++)
+                _SelectSlides[_SelectSlideTeams].AddValue("Team " + i);
+
         }
 
         private void _AddPlayer(int team, int profileID)
@@ -464,12 +477,7 @@ namespace VocaluxeLib.Menu
             _NameSelections[_NameSelection].UseProfile(profileID);
             _TeamList[team].Add(profileID);
 
-            if (team == _CurrentTeam)
-            {
-                string name = CBase.Profiles.GetPlayerName(profileID);
-                CTexture avatar = CBase.Profiles.GetAvatar(profileID);
-                _SelectSlides[_SelectSlidePlayer].AddValue(name, avatar);
-            }
+            _UpdatePlayerSlide();
         }
 
         private void _RemovePlayerByIndex(int team, int index)

@@ -71,6 +71,10 @@ namespace VocaluxeLib.Menu
 
         private CTexture _TextureEmptyTile;
         private CTexture _TextureTileSelected;
+        public CTexture TextureEmptyTile
+        {
+            get { return _TextureEmptyTile; }
+        }
 
         public SColorF ColorEmptyTile;
 
