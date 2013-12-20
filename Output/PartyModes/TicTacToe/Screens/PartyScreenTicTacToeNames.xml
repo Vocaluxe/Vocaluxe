@@ -262,13 +262,13 @@
       <H>150</H>
       <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
       <ArrowLeftX>45</ArrowLeftX>
-      <ArrowLeftY>165</ArrowLeftY>
+      <ArrowLeftY>210</ArrowLeftY>
       <ArrowLeftZ>0,00</ArrowLeftZ>
       <ArrowLeftW>40</ArrowLeftW>
       <ArrowLeftH>40</ArrowLeftH>
       <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
       <ArrowRightX>1170</ArrowRightX>
-      <ArrowRightY>165</ArrowRightY>
+      <ArrowRightY>210</ArrowRightY>
       <ArrowRightZ>0,00</ArrowRightZ>
       <ArrowRightW>40</ArrowRightW>
       <ArrowRightH>40</ArrowRightH>
@@ -305,7 +305,7 @@
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
-      <NumVisible>3</NumVisible>
+      <NumVisible>8</NumVisible>
     </SelectSlidePlayer>	
     <NameSelection>
       <!--<X>, <Y>, <Z>, <W>, <H>: NameSelection position, width and height-->
