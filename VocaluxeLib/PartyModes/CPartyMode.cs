@@ -95,16 +95,6 @@ namespace VocaluxeLib.PartyModes
             return 0;
         }
 
-        public virtual int GetMinPlayerPerTeam()
-        {
-            return GetMinPlayer();
-        }
-
-        public virtual int GetMaxPlayerPerTeam()
-        {
-            return GetMaxPlayer();
-        }
-
         public virtual int GetMaxNumRounds()
         {
             return 1;

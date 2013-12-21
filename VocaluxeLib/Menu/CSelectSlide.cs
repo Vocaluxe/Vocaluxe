@@ -104,8 +104,6 @@ namespace VocaluxeLib.Menu
         public bool Visible = true;
         public bool Highlighted;
 
-        public bool SelectionByHover;
-
         private bool _ArrowLeftSelected;
         private bool _ArrowRightSelected;
 
@@ -116,7 +114,7 @@ namespace VocaluxeLib.Menu
 
         private readonly List<SRectF> _ValueBounds = new List<SRectF>();
 
-        public bool WithTextures;
+        public readonly bool WithTextures;
 
         private int _Selection = -1;
         public int Selection
@@ -656,27 +654,6 @@ namespace VocaluxeLib.Menu
         {
             _ArrowLeftSelected = CHelper.IsInBounds(RectArrowLeft, x, y) && _Selection > 0;
             _ArrowRightSelected = CHelper.IsInBounds(RectArrowRight, x, y) && _Selection < _ValueNames.Count - 1;
-
-            if (SelectionByHover)
-            {
-                for (int i = 0; i < _ValueBounds.Count; i++)
-                {
-                    if (CHelper.IsInBounds(_ValueBounds[i], x, y))
-                    {
-                        int offset = _Selection - _NumVisible / 2;
-
-                        if (_ValueNames.Count - _NumVisible - offset < 0)
-                            offset = _ValueNames.Count - _NumVisible;
-
-                        if (offset < 0)
-                            offset = 0;
-
-                        Selection = i + offset;
-                        _ValueBounds.Clear();
-                        break;
-                    }
-                }
-            }
         }
 
         public void ProcessMouseLBClick(int x, int y)

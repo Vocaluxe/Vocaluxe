@@ -101,8 +101,6 @@ namespace VocaluxeLib.PartyModes
         int GetMinPlayer();
         int GetMaxTeams();
         int GetMinTeams();
-        int GetMinPlayerPerTeam();
-        int GetMaxPlayerPerTeam();
         int GetMaxNumRounds();
         string GetFolder();
         void SetFolder(string folder);
