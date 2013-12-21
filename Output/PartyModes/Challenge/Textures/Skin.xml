@@ -149,6 +149,8 @@
     <ScrollDown>ScrollDown.png</ScrollDown>
     <Invisible>Invisible.png</Invisible>
     <PlayerSelector>PlayerSelector.png</PlayerSelector>
+    <Plus>Plus.png</Plus>
+    <Minus>Minus.png</Minus>
   </Skins>
   <Videos>
     <BG_Video>[Blue]BG_Video.mp4</BG_Video>
