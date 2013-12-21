@@ -23,7 +23,6 @@ using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
-using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Screens
 {
@@ -603,7 +602,6 @@ namespace Vocaluxe.Screens
 
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
             {
-                _NameSelections[_NameSelection].UseProfile(CGame.Players[i].ProfileID);
                 _Statics[_StaticPlayerAvatar[i]].Texture = CProfiles.IsProfileIDValid(CGame.Players[i].ProfileID) ?
                                                                CProfiles.GetAvatarTextureFromProfile(CGame.Players[i].ProfileID) :
                                                                _OriginalPlayerAvatarTextures[i];
@@ -677,8 +675,6 @@ namespace Vocaluxe.Screens
 
         private void _UpdateSelectedProfile(int playerNum, int profileId)
         {
-            _NameSelections[_NameSelection].RemoveUsedProfile(CGame.Players[playerNum].ProfileID);
-            _NameSelections[_NameSelection].UseProfile(profileId);
             //Update Game-infos with new player
             CGame.Players[playerNum].ProfileID = profileId;
             //Update config for default players.
@@ -697,7 +693,6 @@ namespace Vocaluxe.Screens
         {
             for (int i = 0; i < CGame.NumPlayer; i++)
             {
-                _NameSelections[_NameSelection].RemoveUsedProfile(CGame.Players[i].ProfileID);
                 CGame.Players[i].ProfileID = -1;
                 //Update config for default players.
                 CConfig.Players[i] = String.Empty;
@@ -711,7 +706,6 @@ namespace Vocaluxe.Screens
 
         private void _ResetPlayerSelection(int playerNum)
         {
-            _NameSelections[_NameSelection].RemoveUsedProfile(CGame.Players[playerNum].ProfileID);
             CGame.Players[playerNum].ProfileID = -1;
             //Update config for default players.
             CConfig.Players[playerNum] = String.Empty;

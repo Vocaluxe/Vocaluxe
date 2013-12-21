@@ -595,21 +595,6 @@ namespace Vocaluxe.Base
         {
             return CProfiles.GetAvatarTextureFromProfile(profileID);
         }
-
-        public bool IsProfileIDValid(int profileID)
-        {
-            return CProfiles.IsProfileIDValid(profileID);
-        }
-
-        public bool IsGuest(int profileID)
-        {
-            return CProfiles.IsGuestProfile(profileID);
-        }
-
-        public void AddProfileChangedCallback(ProfileChangedCallback notification)
-        {
-            CProfiles.AddProfileChangedCallback(notification);
-        }
     }
 
     class CBrecord : IRecording

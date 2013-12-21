@@ -24,6 +24,16 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Base
 {
+    [Flags]
+    public enum EProfileChangedFlags
+    {
+        None = 1,
+        Avatar = 2,
+        Profile = 4
+    }
+
+    public delegate void ProfileChangedCallback(EProfileChangedFlags typeChanged);
+
     static class CProfiles
     {
         #region enums and structs
