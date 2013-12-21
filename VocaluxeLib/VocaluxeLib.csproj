@@ -142,6 +142,7 @@
     <Compile Include="Menu\CLyric.cs" />
     <Compile Include="Menu\CMenu.cs" />
     <Compile Include="Menu\CMenuParty.cs" />
+    <Compile Include="Menu\CMenuPartyNameSelection.cs" />
     <Compile Include="Menu\CNameSelection.cs" />
     <Compile Include="Menu\CObjectInteractions.cs" />
     <Compile Include="Menu\COrderedDictionaryLite.cs" />
