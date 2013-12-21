@@ -509,7 +509,7 @@ namespace VocaluxeLib.Menu
                     {
                         //Don't show profile if is selected, but if selected and guest
                         if (CBase.Game.GetPlayers()[p].ProfileID == profile.ID
-                            && profile.UserRole.HasFlag(EUserRole.TR_USERROLE_GUEST))
+                            && !profile.UserRole.HasFlag(EUserRole.TR_USERROLE_NORMAL))
                             visible = false;
                     }
                 }
