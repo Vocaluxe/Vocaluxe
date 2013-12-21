@@ -217,6 +217,9 @@ namespace Vocaluxe.Base
         public static void UpdateRandomSongList()
         {
             _SongsForRandom.Clear();
+            if (NumSongsVisible == 0)
+                return;
+
             //Calc avarage sing-count
             int totalCounts = 0;
             foreach (CSong song in VisibleSongs)
