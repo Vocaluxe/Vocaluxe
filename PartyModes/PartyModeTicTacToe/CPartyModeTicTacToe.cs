@@ -135,6 +135,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private const int _MinPlayer = 2;
         private const int _MaxTeams = 2;
         private const int _MinTeams = 2;
+        private const int _MinPlayerPerTeam = 1;
+        private const int _MaxPlayerPerTeam = 10;
         private const int _NumFields = 9;
 
         private enum EStage
@@ -478,6 +480,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         public override int GetMinTeams()
         {
             return _MinTeams;
+        }
+
+        public override int GetMinPlayerPerTeam()
+        {
+            return _MinPlayerPerTeam;
+        }
+
+        public override int GetMaxPlayerPerTeam()
+        {
+            return _MaxPlayerPerTeam;
         }
 
         public override int GetMaxNumRounds()

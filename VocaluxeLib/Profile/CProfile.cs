@@ -22,6 +22,16 @@ using System.Xml;
 
 namespace VocaluxeLib.Profile
 {
+    [Flags]
+    public enum EProfileChangedFlags
+    {
+        None = 1,
+        Avatar = 2,
+        Profile = 4
+    }
+
+    public delegate void ProfileChangedCallback(EProfileChangedFlags typeChanged);
+
     public class CProfile
     {
         public int ID;
