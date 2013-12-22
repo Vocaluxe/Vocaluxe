@@ -30,6 +30,7 @@ namespace Vocaluxe.Lib.Sound
             Application.Init();
             Registry reg = Registry.Get();
             reg.ScanPath(path);
+            
             return Application.IsInitialized;
         }
 
@@ -68,123 +69,128 @@ namespace Vocaluxe.Lib.Sound
 
         public void Close(int stream)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return;
             Streams[stream].Close();
         }
 
         public void Play(int stream)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return;
             Streams[stream].Playing = true;
         }
 
         public void Play(int stream, bool loop)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return;
             Play(stream);
         }
 
         public void Pause(int stream)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return;
             Streams[stream].Paused = true;
         }
 
         public void Stop(int stream)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return;
             Streams[stream].Stop();
         }
 
         public void Fade(int stream, float targetVolume, float seconds)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return;
             Streams[stream].Fade(targetVolume, seconds);
         }
 
         public void FadeAndPause(int stream, float targetVolume, float seconds)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return;
             Streams[stream].FadeAndPause(targetVolume, seconds);
         }
 
-        public void FadeAndStop(int stream, float targetVolume, float seconds)
+        public void FadeAndClose(int stream, float targetVolume, float seconds)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return;
-            Streams[stream].FadeAndStop(targetVolume, seconds);
+            Streams[stream].FadeAndClose(targetVolume, seconds);
         }
 
         public void SetStreamVolume(int stream, float volume)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return;
             Streams[stream].Volume = volume;
         }
 
         public void SetStreamVolumeMax(int stream, float volume)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return;
             Streams[stream].MaxVolume = volume;
         }
 
         public float GetLength(int stream)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return -1;
             return Streams[stream].Length;
         }
 
         public float GetPosition(int stream)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return -1f;
             return Streams[stream].Position;
         }
 
         public bool IsPlaying(int stream)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return false;
             return Streams[stream].Playing;
         }
 
         public bool IsPaused(int stream)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return true;
             return Streams[stream].Paused;
         }
 
         public bool IsFinished(int stream)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return true;
             return Streams[stream]._Finished;
         }
 
         public void SetPosition(int stream, float position)
         {
-            if (stream < 0)
+            if (!Streams.ContainsKey(stream))
                 return;
             Streams[stream].Position = position;
         }
 
         public void Update()
         {
+            var streamsToDelete = new List<int>();
             foreach (KeyValuePair<int,CGstreamerSharpAudioStream> stream in Streams)
             {
-                //if (stream.Value._Closed)
-                //    Streams.Remove(stream.Key);
+                if (stream.Value._Closed)
+                    streamsToDelete.Add(stream.Key);
                 stream.Value.Update();
+            }
+            foreach (int key in streamsToDelete)
+            {
+                Streams.Remove(key);
             }
         }
 
@@ -196,11 +202,12 @@ namespace Vocaluxe.Lib.Sound
             public bool _Finished;
 
             private bool _Fading;
-            private bool _StopStreamAfterFade;
+            private bool _CloseStreamAfterFade;
             private bool _PauseStreamAfterFade;
             private Stopwatch _FadeTimer = new Stopwatch();
             private float _FadeTime;
             private float _FadeVolume;
+            private float _Volume = 100f;
 
             public float _MaxVolume = 100f;
             public CGstreamerSharpAudioStream(string media, bool prescan)
@@ -224,13 +231,11 @@ namespace Vocaluxe.Lib.Sound
 
                 if (prescan)
                     _Element.Bus.TimedPopFiltered(0xffffffffffffffff, MessageType.AsyncDone);
-
-                _Element.Bus.Message += OnMessage;
             }
 
-            private void OnMessage(object o, MessageArgs args)
+            private void OnMessage(Message msg)
             {
-                switch (args.Message.Type)
+                switch (msg.Type)
                 {
                     case MessageType.Eos:
                         if (_Loop)
@@ -247,6 +252,7 @@ namespace Vocaluxe.Lib.Sound
                 _Element.SetState(State.Null);
                 _Closed = true;
                 _Finished = true;
+                //_Element.Dispose();
             }
 
             public void Play(bool loop = false)
@@ -258,6 +264,7 @@ namespace Vocaluxe.Lib.Sound
             public void Stop()
             {
                 _Element.SetState(State.Null);
+                Position = 0;
             }
 
             public void Fade(float targetVolume, float seconds)
@@ -274,10 +281,10 @@ namespace Vocaluxe.Lib.Sound
                 _PauseStreamAfterFade = true;
             }
 
-            public void FadeAndStop(float targetVolume, float seconds)
+            public void FadeAndClose(float targetVolume, float seconds)
             {
                 Fade(targetVolume, seconds);
-                _StopStreamAfterFade = true;
+                _CloseStreamAfterFade = true;
             }
 
             public float Volume
@@ -288,8 +295,9 @@ namespace Vocaluxe.Lib.Sound
                 }
                 set
                 {
-                    _Element["volume"] = (double) (value / 100d * (_MaxVolume / 100d));
-                    System.Console.WriteLine(value);
+                    _Volume = value;
+                    _Element["volume"] = (double) ((value / 100d) * (_MaxVolume / 100d));
+                    Console.WriteLine((double) (value / 100d * (_MaxVolume / 100d)));
                 }
             }
 
@@ -302,7 +310,7 @@ namespace Vocaluxe.Lib.Sound
                 set
                 {
                     _MaxVolume = value;
-                    Volume = Volume * (MaxVolume / 100f);
+                    Volume = _Volume;
                 }
             }
 
@@ -358,18 +366,24 @@ namespace Vocaluxe.Lib.Sound
 
             public void Update()
             {
+                while (_Element.Bus.HavePending())
+                {
+                    OnMessage(_Element.Bus.Pop());
+                }
+
                 if (_Fading)
                 {
-                    if (_FadeTimer.ElapsedMilliseconds < _FadeTime * 1000f)
-                        Volume = (_FadeTimer.ElapsedMilliseconds / 10f) / _FadeTime;
+                    if (_FadeTimer.ElapsedMilliseconds < (_FadeTime * 1000f))
+                        Volume = ((_FadeTimer.ElapsedMilliseconds) / (_FadeTime * 1000f)) * 100f;
                     else
                     {
-                        if (_StopStreamAfterFade)
-                            Stop();
+                        Volume = _FadeVolume;
+                        if (_CloseStreamAfterFade)
+                            Close();
                         if (_PauseStreamAfterFade)
                             Paused = true;
 
-                        _StopStreamAfterFade = false;
+                        _CloseStreamAfterFade = false;
                         _PauseStreamAfterFade = false;
                         _Fading = false;
                         _FadeTimer.Reset();
