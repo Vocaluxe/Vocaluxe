@@ -206,13 +206,12 @@ namespace ServerLib
         public static string GetLocalAddress()
         {
             IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());
-            string IPAddress = "";
             foreach (IPAddress ip in ips)
             {
                 if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                    IPAddress = ip.ToString();
+                    return ip.ToString();
             }
-            return IPAddress;
+            return "";
         }
 
         #region server control
