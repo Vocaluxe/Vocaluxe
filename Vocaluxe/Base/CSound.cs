@@ -50,6 +50,10 @@ namespace Vocaluxe.Base
                     _Playback = new CGstreamerAudio();
                     break;
 
+                case EPlaybackLib.GstreamerSharp:
+                    _Playback = new CGstreamerSharpAudio();
+                    break;
+
                 default:
                     _Playback = new CPortAudioPlay();
                     break;

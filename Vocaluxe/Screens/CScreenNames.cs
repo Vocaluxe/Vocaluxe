@@ -599,7 +599,7 @@ namespace Vocaluxe.Screens
             _CheckMics();
             _CheckPlayers();
 
-            CSong firstSong = CGame.GetSong(0);
+            CSong firstSong = CGame.GetSong(1);
 
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
             {
@@ -608,7 +608,7 @@ namespace Vocaluxe.Screens
                                                                CProfiles.GetAvatarTextureFromProfile(CGame.Players[i].ProfileID) :
                                                                _OriginalPlayerAvatarTextures[i];
                 _Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(CGame.Players[i].ProfileID, i + 1);
-                if (CGame.GetNumSongs() == 1 && CGame.GetSong(1).IsDuet)
+                if (CGame.GetNumSongs() == 1 && firstSong.IsDuet)
                 {
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Clear();
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = i + 1 <= CGame.NumPlayer;
