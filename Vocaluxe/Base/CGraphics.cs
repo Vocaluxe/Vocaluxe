@@ -378,6 +378,29 @@ namespace Vocaluxe.Base
                 {
                     CSettings.MouseInactive();
                     _Cursor.FadeOut();
+
+                    if (keyEvent.ModAlt && keyEvent.ModCtrl && keyEvent.ModShift)
+                    {
+                        switch (keyEvent.Key)
+                        {
+                            case Keys.Left:
+                                CConfig.BorderLeft -= 1;
+                                CConfig.BorderRight -= 1;
+                                CConfig.BorderTop -= 1;
+                                CConfig.BorderBottom -= 1;
+                                break;
+                            case Keys.Right:
+                                CConfig.BorderLeft += 1;
+                                CConfig.BorderRight += 1;
+                                CConfig.BorderTop += 1;
+                                CConfig.BorderBottom += 1;
+                                break;
+                            default:
+                                break;
+                        }
+                        CConfig.SaveConfig();
+                        break;
+                    }
                 }
 
                 if (keyEvent.Key == Keys.F11)
