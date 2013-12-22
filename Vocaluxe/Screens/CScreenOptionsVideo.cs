@@ -30,7 +30,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 3; }
+            get { return 4; }
         }
 
         private const string _SelectSlideVideoBackgrounds = "SelectSlideVideoBackgrounds";
@@ -42,6 +42,7 @@ namespace Vocaluxe.Screens
 
         private const string _StaticWebcamOutput = "StaticWebcamOutput";
 
+        private const string _ButtonScreenAdjustments = "ButtonScreenAdjustments";
         private const string _ButtonExit = "ButtonExit";
 
         private SWebcamConfig _Config;
@@ -54,7 +55,7 @@ namespace Vocaluxe.Screens
             base.Init();
 
             _ThemeStatics = new string[] {_StaticWebcamOutput};
-            _ThemeButtons = new string[] {_ButtonExit};
+            _ThemeButtons = new string[] {_ButtonExit, _ButtonScreenAdjustments};
             _ThemeSelectSlides = new string[]
                 {
                     _SelectSlideVideoBackgrounds, _SelectSlideVideoPreview, _SelectSlideVideosInSongs, _SelectSlideVideosToBackground, _SelectSlideWebcamDevices,
@@ -98,6 +99,11 @@ namespace Vocaluxe.Screens
                             _SaveConfig();
                             CGraphics.FadeTo(EScreens.ScreenOptions);
                         }
+                        else if (_Buttons[_ButtonScreenAdjustments].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreens.ScreenOptionsVideoAdjustments);
+                        }
                         break;
 
                     case Keys.Left:
@@ -139,6 +145,8 @@ namespace Vocaluxe.Screens
                 _SaveConfig();
                 if (_Buttons[_ButtonExit].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptions);
+                if(_Buttons[_ButtonScreenAdjustments].Selected)
+                    CGraphics.FadeTo(EScreens.ScreenOptionsVideoAdjustments);
             }
             return true;
         }

@@ -331,13 +331,14 @@ namespace VocaluxeLib
         ScreenOptionsSound = 10,
         ScreenOptionsRecord = 11,
         ScreenOptionsVideo = 12,
-        ScreenOptionsLyrics = 13,
-        ScreenOptionsTheme = 14,
+        ScreenOptionsVideoAdjustments = 13,
+        ScreenOptionsLyrics = 14,
+        ScreenOptionsTheme = 15,
 
-        ScreenNames = 15,
-        ScreenCredits = 16,
-        ScreenParty = 17,
-        ScreenPartyDummy = 18,
+        ScreenNames = 16,
+        ScreenCredits = 17,
+        ScreenParty = 18,
+        ScreenPartyDummy = 19,
 
         ScreenNull = -1
     }

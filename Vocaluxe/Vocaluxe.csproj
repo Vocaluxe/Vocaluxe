@@ -253,6 +253,7 @@
     <Compile Include="Lib\Video\Acinerella\CDecoder.cs" />
     <Compile Include="Lib\Video\Acinerella\CFramebuffer.cs" />
     <Compile Include="Screens\CPopupScreenServerQR.cs" />
+    <Compile Include="Screens\CScreenOptionsVideoAdjustments.cs" />
     <Compile Include="SongQueue\CSongQueue.cs" />
     <Compile Include="GameModes\IGameMode.cs" />
     <Compile Include="SongQueue\ISongQueue.cs" />
