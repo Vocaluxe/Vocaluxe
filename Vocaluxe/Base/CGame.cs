@@ -272,7 +272,7 @@ namespace Vocaluxe.Base
                     if (line == lines.Length - 1 && beat == lines[line].LastNoteBeat)
                         Players[p].SongFinished = true;
 
-                    if (notes[note].PointsForBeat > 0 && CSound.RecordToneValid(p))
+                    if (notes[note].PointsForBeat > 0 && (CSound.RecordToneValid(p) || DEBUG_HIT))
                     {
                         int tone = notes[note].Tone;
                         int tonePlayer = CSound.RecordGetTone(p);
