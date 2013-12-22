@@ -58,6 +58,8 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private bool _SmallView;
 
+        private float _Length = -1f;
+
         public CSongMenuTileBoard(int partyModeID)
             : base(partyModeID) {}
 
@@ -132,6 +134,9 @@ namespace VocaluxeLib.Menu.SongMenu
                 for (int i = 0; i < _Tiles.Count; i++)
                     _Tiles[i].Selected = _Locked == i + _Offset;
             }
+
+            if (_Length < 0 && CBase.Sound.GetLength(_PreviewSongStream) > 0 && CBase.Songs.IsInCategory())
+                UpdateLength(CBase.Songs.GetVisibleSong(_PreviewId));
         }
 
         private void _UpdatePreview()
@@ -145,6 +150,7 @@ namespace VocaluxeLib.Menu.SongMenu
             _VideoIcon.Visible = false;
             _MedleyCalcIcon.Visible = false;
             _MedleyTagIcon.Visible = false;
+            _Length = -1f;
 
             //Check if nothing is selected (for preview)
             if (_PreviewId < 0)
@@ -173,14 +179,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 _MedleyCalcIcon.Visible = song.Medley.Source == EDataSource.Calculated;
                 _MedleyTagIcon.Visible = song.Medley.Source == EDataSource.Tag;
 
-                float time = CBase.Sound.GetLength(_PreviewSongStream);
-                if (Math.Abs(song.Finish) > 0.001)
-                    time = song.Finish;
-
-                time -= song.Start;
-                var min = (int)Math.Floor(time / 60f);
-                var sec = (int)(time - min * 60f);
-                _SongLength.Text = min.ToString("00") + ":" + sec.ToString("00");
+                UpdateLength(song);
             }
             else
             {
@@ -194,6 +193,23 @@ namespace VocaluxeLib.Menu.SongMenu
                 int num = category.GetNumSongsNotSung();
                 String songOrSongs = (num == 1) ? "TR_SCREENSONG_NUMSONG" : "TR_SCREENSONG_NUMSONGS";
                 _Title.Text = CBase.Language.Translate(songOrSongs).Replace("%v", num.ToString());
+            }
+        }
+
+        private void UpdateLength(CSong song)
+        {
+            float time = CBase.Sound.GetLength(_PreviewSongStream);
+            if (Math.Abs(song.Finish) > 0.001)
+                time = song.Finish;
+
+            // The audiobackend is not yet ready to return the length
+            if (time > 0)
+            {
+                time -= song.Start;
+                var min = (int)Math.Floor(time / 60f);
+                var sec = (int)(time - min * 60f);
+                _SongLength.Text = min.ToString("00") + ":" + sec.ToString("00");
+                _Length = time;
             }
         }
 

@@ -198,7 +198,7 @@ namespace Vocaluxe.Base
                     timeToPlay = _CurrentPlaylistElement.Finish - CSound.GetPosition(_CurrentMusicStream);
 
                 bool finished = CSound.IsFinished(_CurrentMusicStream);
-                if (IsPlaying && (timeToPlay <= CSettings.BackgroundMusicFadeTime || finished))
+                if (IsPlaying && ((timeToPlay <= CSettings.BackgroundMusicFadeTime && timeToPlay > 0) || finished))
                 {
                     if (_RepeatSong)
                     {
