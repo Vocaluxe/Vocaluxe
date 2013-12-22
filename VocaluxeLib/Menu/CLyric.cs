@@ -360,6 +360,8 @@ namespace VocaluxeLib.Menu
                 _Text.X -= (_Text.Rect.W - normalRect.W) / 2f;
                 _Text.Y -= (_Text.Rect.H - normalRect.H) / 2f;
                 _Text.Z -= 0.1f;
+                _Text.Color = _ColorProcessed;
+
 
                 _Text.Draw();
 
@@ -442,6 +444,7 @@ namespace VocaluxeLib.Menu
                 return;
 
             _Text.X = jumpx;
+            _Text.Color = _ColorProcessed;
             _SetText(_Line.Notes[jumpNote]);
 
             int diff = _Line.Notes[jumpNote].EndBeat - _Line.Notes[jumpNote].StartBeat;
