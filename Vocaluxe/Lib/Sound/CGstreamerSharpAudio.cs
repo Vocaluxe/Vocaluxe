@@ -6,6 +6,7 @@ using Gst;
 using GLib;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Sound
 {
@@ -215,15 +216,27 @@ namespace Vocaluxe.Lib.Sound
                 var convert = ElementFactory.Make("audioconvert", "convert");
                 var audiosink = ElementFactory.Make("directsoundsink", "audiosink");
                 var audioSinkBin = new Bin("Audiosink");
+
+                if (convert == null || audiosink == null || audioSinkBin == null)
+                    CLog.LogError("Could not create pipeline");
+
                 audioSinkBin.Add(convert);
                 audioSinkBin.Add(audiosink);
                 convert.Link(audiosink);
                 Pad pad = convert.GetStaticPad("sink");
                 GhostPad ghostpad = new GhostPad("sink", pad);
-                ghostpad.SetActive(true);
-                audioSinkBin.AddPad(ghostpad);
+
+                if (pad == null || ghostpad == null)
+                    CLog.LogError("Could not create pads");
+
+                if (!ghostpad.SetActive(true))
+                    CLog.LogError("Could not link pads");
+                if (!audioSinkBin.AddPad(ghostpad))
+                    CLog.LogError("Could not add pad");
 
                 _Element = ElementFactory.Make("playbin", "playbin");
+                if (_Element == null)
+                    CLog.LogError("Could not create playbin");
                 _Element["audio-sink"] = audioSinkBin;
                 _Element["flags"] = 1 << 1;
                 _Element["uri"] = new Uri(media).AbsoluteUri;
@@ -243,27 +256,39 @@ namespace Vocaluxe.Lib.Sound
                         else
                             Close();
                         break;
+                    case MessageType.Error:
+                        GException error;
+                        string debug;
+                        msg.ParseError(out error, out debug);
+                        CLog.LogError("Gstreamer error: message" + error.Message + ", code" + error.Code + " ,debug information" + debug);
+                        break;                     
                 }
+                msg.Unref();
             }
 
 
             public void Close()
             {
-                _Element.SetState(State.Null);
+                if (_Element != null)
+                {
+                    _Element.SetState(State.Null);
+                    _Element.Dispose();
+                }
                 _Closed = true;
                 _Finished = true;
-                //_Element.Dispose();
             }
 
             public void Play(bool loop = false)
             {
-                _Element.SetState(State.Playing);
+                if (_Element != null)
+                    _Element.SetState(State.Playing);
                 this._Loop = loop;
             }
 
             public void Stop()
             {
-                _Element.SetState(State.Null);
+                if (_Element != null)
+                    _Element.SetState(State.Null);
                 Position = 0;
             }
 
@@ -291,13 +316,13 @@ namespace Vocaluxe.Lib.Sound
             {
                 get
                 {
-                    return (float)(double)_Element["volume"];
+                    return _Element != null ? (float)(double)_Element["volume"] : 0;
                 }
                 set
                 {
                     _Volume = value;
-                    _Element["volume"] = (double) ((value / 100d) * (_MaxVolume / 100d));
-                    Console.WriteLine((double) (value / 100d * (_MaxVolume / 100d)));
+                    if (_Element != null)
+                        _Element["volume"] = (double) ((value / 100d) * (_MaxVolume / 100d));
                 }
             }
 
@@ -318,8 +343,10 @@ namespace Vocaluxe.Lib.Sound
             {
                 get
                 {
-                    long duration;
-                    _Element.QueryDuration(Format.Time, out duration);
+                    long duration = 0;
+                    if (_Element != null)
+                        if (!_Element.QueryDuration(Format.Time, out duration))
+                            CLog.LogError("Could not query duration");
                     return duration > 0 ? (duration / (long)Constants.SECOND) : 100;
                 }
             }
@@ -328,13 +355,16 @@ namespace Vocaluxe.Lib.Sound
             {
                 get
                 {
-                    long position;
-                    _Element.QueryPosition(Format.Time, out position);
+                    long position = 0;
+                    if (_Element != null)
+                        if (!_Element.QueryPosition(Format.Time, out position))
+                            CLog.LogError("Could not query position");
                     return (float)(position / (double)Constants.SECOND);
                 }
                 set
                 {
-                    _Element.SeekSimple(Format.Time, SeekFlags.Accurate | SeekFlags.Flush, (long)(value * (double)Constants.SECOND));
+                    if (_Element != null)
+                        _Element.SeekSimple(Format.Time, SeekFlags.Accurate | SeekFlags.Flush, (long)(value * (double)Constants.SECOND));
                 }
             }
 
@@ -342,11 +372,11 @@ namespace Vocaluxe.Lib.Sound
             {
                 get
                 {
-                    return _Element.CurrentState == State.Paused;
+                    return _Element != null ? _Element.CurrentState == State.Paused : true;
                 }
                 set
                 {
-                    if (value)
+                    if (value && _Element != null)
                         _Element.SetState(State.Paused);
                 }
             }
@@ -355,18 +385,18 @@ namespace Vocaluxe.Lib.Sound
             {
                 get
                 {
-                    return _Element.CurrentState == State.Playing;
+                    return _Element != null ? _Element.CurrentState == State.Playing : false;
                 }
                 set
                 {
-                    if(value)
+                    if(value && _Element != null)
                         _Element.SetState(State.Playing);
                 }
             }
 
             public void Update()
             {
-                while (_Element.Bus.HavePending())
+                while (_Element != null && _Element.Bus != null && _Element.Bus.HavePending())
                 {
                     OnMessage(_Element.Bus.Pop());
                 }
