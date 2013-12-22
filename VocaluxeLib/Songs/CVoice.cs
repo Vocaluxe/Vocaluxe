@@ -69,7 +69,7 @@ namespace VocaluxeLib.Songs
 
         #region Methods
         /// <summary>
-        /// Find last line with StartBeat<=Beat
+        /// Find last line with StartBeat
         /// </summary>
         /// <param name="beat"></param>
         /// <returns></returns>
