@@ -276,6 +276,7 @@ namespace Vocaluxe.Base
                     {
                         int tone = notes[note].Tone;
                         int tonePlayer = CSound.RecordGetTone(p);
+                        if (DEBUG_HIT) tonePlayer = tone;
 
                         while (tonePlayer - tone > 6)
                             tonePlayer -= 12;
