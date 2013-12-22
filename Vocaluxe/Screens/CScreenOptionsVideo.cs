@@ -71,6 +71,7 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideVideoPreview].SetValues<EOffOn>((int)CConfig.VideoPreview);
             _SelectSlides[_SelectSlideVideosInSongs].SetValues<EOffOn>((int)CConfig.VideosInSongs);
             _SelectSlides[_SelectSlideVideosToBackground].SetValues<EOffOn>((int)CConfig.VideosToBackground);
+            _Statics[_StaticWebcamOutput].Aspect = EAspect.Crop;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
