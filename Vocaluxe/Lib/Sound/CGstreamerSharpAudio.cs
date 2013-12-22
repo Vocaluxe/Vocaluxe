@@ -124,6 +124,13 @@ namespace Vocaluxe.Lib.Sound
             Streams[stream].FadeAndClose(targetVolume, seconds);
         }
 
+        public void FadeAndStop(int stream, float targetVolume, float seconds)
+        {
+            if (!Streams.ContainsKey(stream))
+                return;
+            Streams[stream].FadeAndStop(targetVolume, seconds);
+        }
+
         public void SetStreamVolume(int stream, float volume)
         {
             if (!Streams.ContainsKey(stream))
@@ -205,6 +212,7 @@ namespace Vocaluxe.Lib.Sound
             private bool _Fading;
             private bool _CloseStreamAfterFade;
             private bool _PauseStreamAfterFade;
+            private bool _StopStreamAfterFade;
             private Stopwatch _FadeTimer = new Stopwatch();
             private float _FadeTime;
             private float _FadeVolume;
@@ -312,6 +320,12 @@ namespace Vocaluxe.Lib.Sound
                 _CloseStreamAfterFade = true;
             }
 
+            public void FadeAndStop(float targetVolume, float seconds)
+            {
+                Fade(targetVolume, seconds);
+                _StopStreamAfterFade = true;
+            }
+
             public float Volume
             {
                 get
@@ -412,9 +426,12 @@ namespace Vocaluxe.Lib.Sound
                             Close();
                         if (_PauseStreamAfterFade)
                             Paused = true;
+                        if (_StopStreamAfterFade)
+                            Stop();
 
                         _CloseStreamAfterFade = false;
                         _PauseStreamAfterFade = false;
+                        _StopStreamAfterFade = false;
                         _Fading = false;
                         _FadeTimer.Reset();
                     }

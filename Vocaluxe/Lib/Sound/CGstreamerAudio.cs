@@ -159,5 +159,11 @@ namespace Vocaluxe.Lib.Sound
         {
             CGstreamerAudioWrapper.Update();
         }
+
+
+        public void FadeAndStop(int stream, float targetVolume, float seconds)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
