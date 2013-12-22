@@ -404,7 +404,7 @@ namespace Vocaluxe.Lib.Sound
                 if (_Fading)
                 {
                     if (_FadeTimer.ElapsedMilliseconds < (_FadeTime * 1000f))
-                        Volume = ((_FadeTimer.ElapsedMilliseconds) / (_FadeTime * 1000f)) * 100f;
+                        Volume = ((_FadeTimer.ElapsedMilliseconds) / (_FadeTime * 1000f)) * _FadeVolume;
                     else
                     {
                         Volume = _FadeVolume;
