@@ -358,7 +358,7 @@ namespace VocaluxeLib.Menu
                 SRectF normalRect = _Text.Rect;
                 _Text.Height += _Text.Height * p * 0.4f;
                 _Text.X -= (_Text.Rect.W - normalRect.W) / 2f;
-                _Text.Y -= (_Text.Rect.W - normalRect.H) / 2f;
+                _Text.Y -= (_Text.Rect.H - normalRect.H) / 2f;
                 _Text.Z -= 0.1f;
 
                 _Text.Draw();
