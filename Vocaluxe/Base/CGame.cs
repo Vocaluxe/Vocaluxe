@@ -210,6 +210,8 @@ namespace Vocaluxe.Base
 
         public static void UpdatePoints(float time)
         {
+            bool DEBUG_HIT = false;
+
             CSong song = _SongQueue.GetSong();
 
             if (song == null)
@@ -280,6 +282,9 @@ namespace Vocaluxe.Base
 
                         while (tonePlayer - tone < -6)
                             tonePlayer += 12;
+
+                        if (DEBUG_HIT)
+                            tonePlayer = tone;
 
                         Players[p].NoteDiff = Math.Abs(tone - tonePlayer);
                         bool hit = Players[p].NoteDiff <= (2 - (int)CProfiles.GetDifficulty(Players[p].ProfileID));
