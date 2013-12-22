@@ -280,7 +280,6 @@ namespace Vocaluxe.Lib.Sound
                 if (_Element != null)
                 {
                     _Element.SetState(State.Null);
-                    _Element.Dispose();
                 }
                 _Closed = true;
                 _Finished = true;
