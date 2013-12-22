@@ -169,7 +169,7 @@ namespace Vocaluxe.Lib.Sound
         public bool IsPaused(int stream)
         {
             if (!Streams.ContainsKey(stream))
-                return true;
+                return false;
             return Streams[stream].Paused;
         }
 
@@ -206,8 +206,8 @@ namespace Vocaluxe.Lib.Sound
         {
             private Element _Element;
             private bool _Loop;
-            public bool _Closed;
-            public bool _Finished;
+            public volatile bool _Closed;
+            public volatile bool _Finished;
 
             private bool _Fading;
             private bool _CloseStreamAfterFade;
@@ -219,6 +219,10 @@ namespace Vocaluxe.Lib.Sound
             private float _Volume = 100f;
 
             public float _MaxVolume = 100f;
+
+            private volatile float _Duration = -1f;
+            private volatile float _Position = 0f;
+            private volatile bool _QueryingDuration = false;
             public CGstreamerSharpAudioStream(string media, bool prescan)
             {
                 var convert = ElementFactory.Make("audioconvert", "convert");
@@ -250,8 +254,14 @@ namespace Vocaluxe.Lib.Sound
                 _Element["uri"] = new Uri(media).AbsoluteUri;
                 _Element.SetState(State.Paused);
 
-                if (prescan)
-                    _Element.Bus.TimedPopFiltered(0xffffffffffffffff, MessageType.AsyncDone);
+                // Passing CLOCK_TIME_NONE here causes the pipeline to block for a long time so with
+                // prescan enabled the pipeline will wait 500ms for stream to initialize and then continue
+                /*if (prescan)
+                {
+                    var msg = _Element.Bus.TimedPopFiltered(100L * Constants.MSECOND, MessageType.DurationChanged);
+                    if(msg.Handle != IntPtr.Zero)
+                        UpdateDuration();
+                }*/
             }
 
             private void OnMessage(Message msg)
@@ -269,7 +279,10 @@ namespace Vocaluxe.Lib.Sound
                         string debug;
                         msg.ParseError(out error, out debug);
                         CLog.LogError("Gstreamer error: message" + error.Message + ", code" + error.Code + " ,debug information" + debug);
-                        break;                     
+                        break;
+                    case MessageType.DurationChanged:
+                        UpdateDuration();
+                        break;
                 }
                 msg.Unref();
             }
@@ -277,12 +290,21 @@ namespace Vocaluxe.Lib.Sound
 
             public void Close()
             {
-                if (_Element != null)
+                if (!_Closed)
                 {
-                    _Element.SetState(State.Null);
+
+                    _Closed = true;
+                    _Finished = true;
+                    var t = new System.Threading.Thread(TerminateStream);
+                    t.Start();
                 }
-                _Closed = true;
-                _Finished = true;
+                
+            }
+
+            private void TerminateStream()
+            {
+                if (_Element != null)
+                    ; //_Element.SetState(State.Null);
             }
 
             public void Play(bool loop = false)
@@ -356,11 +378,12 @@ namespace Vocaluxe.Lib.Sound
             {
                 get
                 {
-                    long duration = 0;
-                    if (_Element != null)
-                        if (!_Element.QueryDuration(Format.Time, out duration))
-                            CLog.LogError("Could not query duration");
-                    return duration > 0 ? (duration / (long)Constants.SECOND) : 100;
+                    if (_Duration < 0 && !_QueryingDuration)
+                    {
+                        var t = new System.Threading.Thread(UpdateDuration);
+                        t.Start();
+                    }
+                    return _Duration > 0 ? _Duration : -1;
                 }
             }
 
@@ -369,10 +392,11 @@ namespace Vocaluxe.Lib.Sound
                 get
                 {
                     long position = 0;
-                    if (_Element != null)
-                        if (!_Element.QueryPosition(Format.Time, out position))
-                            CLog.LogError("Could not query position");
-                    return (float)(position / (double)Constants.SECOND);
+                    if (!_Element.QueryPosition(Format.Time, out position))
+                        CLog.LogError("Could not query position");
+                    else
+                        _Position = (float)(position / (double)Constants.SECOND);
+                    return _Position;
                 }
                 set
                 {
@@ -385,7 +409,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 get
                 {
-                    return _Element != null ? _Element.CurrentState == State.Paused : true;
+                    return _Element != null ? _Element.TargetState == State.Paused : true;
                 }
                 set
                 {
@@ -398,7 +422,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 get
                 {
-                    return _Element != null ? _Element.CurrentState == State.Playing : false;
+                    return _Element != null ? _Element.TargetState == State.Playing : false;
                 }
                 set
                 {
@@ -435,6 +459,18 @@ namespace Vocaluxe.Lib.Sound
                         _FadeTimer.Reset();
                     }
                 }
+            }
+
+            private void UpdateDuration()
+            {
+                _QueryingDuration = true;
+                long duration = -1;
+                while (duration < 0 && !_Closed && !_Finished && _Element != null)
+                {
+                    if (_Element.QueryDuration(Format.Time, out duration))
+                        _Duration = (float)(duration / (long)Constants.SECOND);
+                }
+                _QueryingDuration = false;
             }
         }
     }
