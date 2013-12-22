@@ -1,5 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vocaluxe", "Vocaluxe\Vocaluxe.csproj", "{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{55F89808-4E79-4FFE-BC13-48258913F5C9} = {55F89808-4E79-4FFE-BC13-48258913F5C9}
@@ -155,6 +157,7 @@ Global
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x64.ActiveCfg = Debug|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x64.Build.0 = Debug|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x86.ActiveCfg = Debug|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x86.Build.0 = Debug|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.InstallerWin|x64.ActiveCfg = Release|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.InstallerWin|x86.ActiveCfg = Release|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x64.ActiveCfg = Release|Any CPU
@@ -169,6 +172,7 @@ Global
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|x64.ActiveCfg = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|x64.Build.0 = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|x86.ActiveCfg = Debug|Any CPU
+		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|x86.Build.0 = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.InstallerWin|x64.ActiveCfg = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.InstallerWin|x86.ActiveCfg = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseLinux|x64.ActiveCfg = Release|Any CPU

@@ -144,7 +144,8 @@ namespace VocaluxeLib
     {
         PortAudio,
         OpenAL,
-        Gstreamer
+        Gstreamer,
+        GstreamerSharp
     }
 
     public enum EWebcamLib
