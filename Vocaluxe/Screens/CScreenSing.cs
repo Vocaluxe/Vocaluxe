@@ -612,6 +612,7 @@ namespace Vocaluxe.Screens
             _FinishTime = song.Finish;
             _TimeToFirstNote = 0f;
             _TimeToFirstNoteDuet = 0f;
+            _Length = -1f;
             var voiceAssignments = new int[CGame.NumPlayer];
             if (song.IsDuet)
             {
@@ -1305,7 +1306,7 @@ namespace Vocaluxe.Screens
             float currentTime = _CurrentTime - song.Start;
 
             if (_Length < 0 && totalTime > 0)
-                _PrepareTimeLine();
+                 _PrepareTimeLine();
 
             if (totalTime <= 0f)
                 return;
