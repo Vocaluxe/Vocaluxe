@@ -45,11 +45,14 @@ namespace Vocaluxe
         private static void Main(string[] args)
             // ReSharper restore InconsistentNaming
         {
+#if !DEBUG
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
+#endif
             AppDomain.CurrentDomain.AssemblyResolve += _AssemblyResolver;
             // Close program if there is another instance running
             if (!_EnsureSingleInstance())
                 return;
+#if !DEBUG 
             try
             {
                 _Run(args);
@@ -65,6 +68,9 @@ namespace Vocaluxe
                 MessageBox.Show("Unhandled error: " + e.Message + stackTrace);
                 CLog.LogError("Unhandled error: " + e.Message + stackTrace);
             }
+#else
+            _Run(args);
+#endif
             _CloseProgram();
         }
 
