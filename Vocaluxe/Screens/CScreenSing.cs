@@ -551,7 +551,7 @@ namespace Vocaluxe.Screens
         private void _CloseSong()
         {
             if (_CurrentStream > -1)
-                CSound.FadeAndStop(_CurrentStream, 0f, 0.5f);
+                CSound.FadeAndClose(_CurrentStream, 0f, 0.5f);
             CSound.RecordStop();
             if (_CurrentVideo != -1)
             {
@@ -877,7 +877,7 @@ namespace Vocaluxe.Screens
             }
             else
             {
-                CGame.ResetToLastLine(_CurrentStream, _CurrentVideo);
+                //CGame.ResetToLastLine(_CurrentStream, _CurrentVideo);
                 _Buttons[_ButtonCancel].Visible = false;
                 _Buttons[_ButtonContinue].Visible = false;
                 _Buttons[_ButtonSkip].Visible = false;
