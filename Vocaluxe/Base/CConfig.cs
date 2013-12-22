@@ -60,6 +60,11 @@ namespace Vocaluxe.Base
         public static int ScreenW = 1024;
         public static int ScreenH = 576;
 
+        public static int BorderLeft = 0;
+        public static int BorderRight = 0;
+        public static int BorderTop = 0;
+        public static int BorderBottom = 0;
+
         public static EAntiAliasingModes AAMode = EAntiAliasingModes.X0;
 
         public static EOffOn VSync = EOffOn.TR_CONFIG_ON;
@@ -183,6 +188,12 @@ namespace Vocaluxe.Base
 
             xmlReader.TryGetIntValue("//root/Graphics/ScreenW", ref ScreenW);
             xmlReader.TryGetIntValue("//root/Graphics/ScreenH", ref ScreenH);
+
+            xmlReader.TryGetIntValue("//root/Graphics/BorderLeft", ref BorderLeft);
+            xmlReader.TryGetIntValue("//root/Graphics/BorderRight", ref BorderRight);
+            xmlReader.TryGetIntValue("//root/Graphics/BorderTop", ref BorderTop);
+            xmlReader.TryGetIntValue("//root/Graphics/BorderBottom", ref BorderBottom);
+
             xmlReader.TryGetEnumValue("//root/Graphics/AAMode", ref AAMode);
             xmlReader.TryGetFloatValue("//root/Graphics/MaxFPS", ref MaxFPS);
             xmlReader.TryGetEnumValue("//root/Graphics/VSync", ref VSync);
@@ -355,6 +366,12 @@ namespace Vocaluxe.Base
                 writer.WriteComment("Screen width and height (pixels)");
                 writer.WriteElementString("ScreenW", ScreenW.ToString());
                 writer.WriteElementString("ScreenH", ScreenH.ToString());
+
+                writer.WriteComment("Screen borders (pixels)");
+                writer.WriteElementString("BorderLeft", BorderLeft.ToString());
+                writer.WriteElementString("BorderRight", BorderRight.ToString());
+                writer.WriteElementString("BorderTop", BorderTop.ToString());
+                writer.WriteElementString("BorderBottom", BorderBottom.ToString());
 
                 writer.WriteComment("AAMode: " + CHelper.ListStrings(Enum.GetNames(typeof(EAntiAliasingModes))));
                 writer.WriteElementString("AAMode", Enum.GetName(typeof(EAntiAliasingModes), AAMode));

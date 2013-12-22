@@ -65,6 +65,11 @@ namespace Vocaluxe.Lib.Draw
         private int _Y;
         private int _X;
 
+        private int _BorderLeft = 0;
+        private int _BorderRight = 0;
+        private int _BorderTop = 0;
+        private int _BorderBottom = 0;
+
         private CTexture _BlankTexture;
 
         private readonly Queue<STexturedColoredVertex> _Vertices = new Queue<STexturedColoredVertex>();
@@ -400,20 +405,15 @@ namespace Vocaluxe.Lib.Draw
             if (_Device.Disposed)
                 return false;
             Text = CSettings.GetFullVersionText();
-            SlimDX.Matrix translate = SlimDX.Matrix.Translation(new Vector3(-(float)CSettings.RenderW / 2, (float)CSettings.RenderH / 2, 0));
-            SlimDX.Matrix projection = SlimDX.Matrix.OrthoOffCenterLH(-(float)CSettings.RenderW / 2, (float)CSettings.RenderW / 2, -(float)CSettings.RenderH / 2,
-                                                                      (float)CSettings.RenderH / 2,
-                                                                      CSettings.ZNear, CSettings.ZFar);
+            _AdjustNewBorders();
+
             _VertexBuffer = new VertexBuffer(_Device, CSettings.VertexBufferElements * (4 * Marshal.SizeOf(typeof(STexturedColoredVertex))), Usage.WriteOnly | Usage.Dynamic,
                                              VertexFormat.Position | VertexFormat.Texture1 | VertexFormat.Diffuse, Pool.Default);
 
             if (_Device.SetStreamSource(0, _VertexBuffer, 0, Marshal.SizeOf(typeof(STexturedColoredVertex))).IsFailure)
                 CLog.LogError("Failed to set stream source");
             _Device.VertexDeclaration = STexturedColoredVertex.GetDeclaration(_Device);
-            if (_Device.SetTransform(TransformState.Projection, projection).IsFailure)
-                CLog.LogError("Failed to set orthogonal matrix");
-            if (_Device.SetTransform(TransformState.World, translate).IsFailure)
-                CLog.LogError("Failed to set translation matrix");
+            
             if (_Device.SetRenderState(RenderState.CullMode, Cull.None).IsFailure)
                 CLog.LogError("Failed to set cull mode");
             if (_Device.SetRenderState(RenderState.AlphaBlendEnable, true).IsFailure)
@@ -534,6 +534,18 @@ namespace Vocaluxe.Lib.Draw
                     else
                         _LeaveFullScreen();
                 }
+
+                //Apply border changes
+                if (_BorderLeft != CConfig.BorderLeft || _BorderRight != CConfig.BorderRight || _BorderTop != CConfig.BorderTop || _BorderBottom != CConfig.BorderBottom)
+                {
+                    _BorderLeft = CConfig.BorderLeft;
+                    _BorderRight = CConfig.BorderRight;
+                    _BorderTop = CConfig.BorderTop;
+                    _BorderBottom = CConfig.BorderBottom;
+
+                    _AdjustNewBorders();
+                }
+
                 if (CTime.IsRunning())
                     delay = (int)Math.Floor(CConfig.CalcCycleTime() - CTime.GetMilliseconds());
 
@@ -557,6 +569,20 @@ namespace Vocaluxe.Lib.Draw
             _IndexBuffer.Dispose();
             if (_Device.Reset(_PresentParameters).IsFailure)
                 CLog.LogError("Failed to reset the device");
+        }
+
+        private void _AdjustNewBorders()
+        {
+            SlimDX.Matrix translate = SlimDX.Matrix.Translation(new Vector3(-(float)CSettings.RenderW / 2, (float)CSettings.RenderH / 2, 0));
+            SlimDX.Matrix projection = SlimDX.Matrix.OrthoOffCenterLH(
+                -(float)CSettings.RenderW / 2 - _BorderLeft, (float)CSettings.RenderW / 2 + _BorderRight,
+                -(float)CSettings.RenderH / 2 - _BorderBottom, (float)CSettings.RenderH / 2 + _BorderTop,
+                CSettings.ZNear, CSettings.ZFar);
+
+            if (_Device.SetTransform(TransformState.Projection, projection).IsFailure)
+                CLog.LogError("Failed to set orthogonal matrix");
+            if (_Device.SetTransform(TransformState.World, translate).IsFailure)
+                CLog.LogError("Failed to set translation matrix");
         }
 
         /// <summary>
