@@ -4,7 +4,7 @@
     <PlayerName>Guest 1</PlayerName>
     <Difficulty>TR_CONFIG_EASY</Difficulty>
     <Avatar>Avatar_f.png</Avatar>
-    <GuestProfile>TR_CONFIG_ON</GuestProfile>
+    <UserRole>TR_USERROLE_GUEST</UserRole>
     <Active>TR_CONFIG_ON</Active>
   </Info>
 </root>
