@@ -185,6 +185,18 @@ namespace Vocaluxe.Lib.Sound
                 lock (_MutexDecoder)
                 {
                     if (_AlreadyAdded(stream))
+                        _Decoder[_GetStreamIndex(stream)].FadeAndClose(targetVolume, seconds, _Closeproc, stream);
+                }
+            }
+        }
+
+        public void FadeAndStop(int stream, float targetVolume, float seconds)
+        {
+            if (_Initialized)
+            {
+                lock (_MutexDecoder)
+                {
+                    if (_AlreadyAdded(stream))
                         _Decoder[_GetStreamIndex(stream)].FadeAndStop(targetVolume, seconds, _Closeproc, stream);
                 }
             }
@@ -346,6 +358,7 @@ namespace Vocaluxe.Lib.Sound
         private float _StartVolume = 1f;
         private bool _CloseStreamAfterFade;
         private bool _PauseStreamAfterFade;
+        private bool _StopStreamAfterFade;
         private bool _Fading;
 
         private static CPortAudio.SPaHostApiInfo _ApiInfo;
@@ -510,7 +523,7 @@ namespace Vocaluxe.Lib.Sound
             Fade(targetVolume, fadeTime);
         }
 
-        public void FadeAndStop(float targetVolume, float fadeTime, Closeproc closeProc, int streamID)
+        public void FadeAndClose(float targetVolume, float fadeTime, Closeproc closeProc, int streamID)
         {
             _Closeproc = closeProc;
             _StreamID = streamID;
@@ -519,10 +532,20 @@ namespace Vocaluxe.Lib.Sound
             Fade(targetVolume, fadeTime);
         }
 
+        public void FadeAndStop(float targetVolume, float fadeTime, Closeproc closeProc, int streamID)
+        {
+            _Closeproc = closeProc;
+            _StreamID = streamID;
+            _StopStreamAfterFade = true;
+
+            Fade(targetVolume, fadeTime);
+        }
+
         public void Play()
         {
             Paused = false;
             _PauseStreamAfterFade = false;
+            _StopStreamAfterFade = false;
             lock (_Mutex)
             {
                 _ErrorCheck("StartStream", CPortAudio.Pa_StartStream(_Ptr));
@@ -921,6 +944,8 @@ namespace Vocaluxe.Lib.Sound
 
                     if (_PauseStreamAfterFade)
                         Paused = true;
+                    if (_StopStreamAfterFade)
+                        Stop();
                 }
             }
         }
