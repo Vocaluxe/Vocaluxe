@@ -210,6 +210,8 @@ namespace Vocaluxe.Base
 
         public static void UpdatePoints(float time)
         {
+            bool DEBUG_HIT = false;
+            
             CSong song = _SongQueue.GetSong();
 
             if (song == null)
@@ -270,10 +272,11 @@ namespace Vocaluxe.Base
                     if (line == lines.Length - 1 && beat == lines[line].LastNoteBeat)
                         Players[p].SongFinished = true;
 
-                    if (notes[note].PointsForBeat > 0 && CSound.RecordToneValid(p))
+                    if (notes[note].PointsForBeat > 0 && (CSound.RecordToneValid(p) || DEBUG_HIT))
                     {
                         int tone = notes[note].Tone;
                         int tonePlayer = CSound.RecordGetTone(p);
+                        if (DEBUG_HIT) tonePlayer = tone;
 
                         while (tonePlayer - tone > 6)
                             tonePlayer -= 12;

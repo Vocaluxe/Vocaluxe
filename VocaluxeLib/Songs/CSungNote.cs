@@ -57,6 +57,7 @@ namespace VocaluxeLib.Songs
         public CSongNote HitNote { get; private set; }
         // for drawing perfect note effect
         public bool Perfect { get; set; }
+        public bool PerfectDrawn { get; set; }
         #endregion
 
         #region Methods
