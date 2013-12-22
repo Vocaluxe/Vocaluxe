@@ -785,7 +785,7 @@ namespace Vocaluxe.Base
 
         public void FadeAndStop(int soundStream, float targetVolume, float duration)
         {
-            CSound.FadeAndStop(soundStream, targetVolume, duration);
+            CSound.FadeAndClose(soundStream, targetVolume, duration);
         }
 
         public void SetStreamVolume(int soundStream, float volume)

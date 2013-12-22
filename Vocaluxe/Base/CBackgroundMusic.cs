@@ -166,7 +166,7 @@ namespace Vocaluxe.Base
                 CDraw.RemoveTexture(ref _CurrentVideoTexture);
                 _Video = -1;
             }
-            CSound.FadeAndStop(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
+            CSound.FadeAndClose(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
             _CurrentMusicStream = -1;
 
             _CurrentPlaylistElement = new CPlaylistElement();
