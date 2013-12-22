@@ -678,9 +678,9 @@ namespace Vocaluxe.Base.Server
             }
 
             //Hide TR_USERROLE_GUEST and TR_USERROLE_NORMAL
-            const EUserRole mask = (EUserRole.TR_USERROLE_GUEST | EUserRole.TR_USERROLE_NORMAL);
+            //const EUserRole mask = (EUserRole.TR_USERROLE_GUEST | EUserRole.TR_USERROLE_NORMAL);
 
-            return (int)(profile.UserRole & ~mask);
+            return (int)(profile.UserRole);
         }
 
         private static void _SetUserRole(int profileId, int userRole)
