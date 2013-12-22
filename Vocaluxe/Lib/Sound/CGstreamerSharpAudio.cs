@@ -7,6 +7,7 @@ using GLib;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using Vocaluxe.Base;
+using Thread = System.Threading.Thread; 
 
 namespace Vocaluxe.Lib.Sound
 {
@@ -256,22 +257,26 @@ namespace Vocaluxe.Lib.Sound
 
                 // Passing CLOCK_TIME_NONE here causes the pipeline to block for a long time so with
                 // prescan enabled the pipeline will wait 500ms for stream to initialize and then continue
-                /*if (prescan)
+                // if it takes more than 500ms, duration queries will be performed asynchronously
+                if (prescan)
                 {
-                    var msg = _Element.Bus.TimedPopFiltered(100L * Constants.MSECOND, MessageType.DurationChanged);
+                    var msg = _Element.Bus.TimedPopFiltered(500 * Constants.MSECOND, MessageType.AsyncDone);
                     if(msg.Handle != IntPtr.Zero)
                         UpdateDuration();
-                }*/
+                }
             }
 
             private void OnMessage(Message msg)
             {
+                if (msg.Handle == IntPtr.Zero)
+                    return;
                 switch (msg.Type)
                 {
                     case MessageType.Eos:
                         if (_Loop)
                             Position = 0;
                         else
+                            _Finished = true;
                             Close();
                         break;
                     case MessageType.Error:
@@ -295,7 +300,7 @@ namespace Vocaluxe.Lib.Sound
 
                     _Closed = true;
                     _Finished = true;
-                    var t = new System.Threading.Thread(TerminateStream);
+                    var t = new Thread(TerminateStream);
                     t.Start();
                 }
                 
@@ -304,7 +309,10 @@ namespace Vocaluxe.Lib.Sound
             private void TerminateStream()
             {
                 if (_Element != null)
-                    ; //_Element.SetState(State.Null);
+                {
+                    _Element.SetState(State.Null);
+                    _Element.Dispose();
+                }
             }
 
             public void Play(bool loop = false)
@@ -317,7 +325,7 @@ namespace Vocaluxe.Lib.Sound
             public void Stop()
             {
                 if (_Element != null)
-                    _Element.SetState(State.Null);
+                    _Element.SetState(State.Ready);
                 Position = 0;
             }
 
@@ -380,7 +388,7 @@ namespace Vocaluxe.Lib.Sound
                 {
                     if (_Duration < 0 && !_QueryingDuration)
                     {
-                        var t = new System.Threading.Thread(UpdateDuration);
+                        var t = new Thread(UpdateDuration);
                         t.Start();
                     }
                     return _Duration > 0 ? _Duration : -1;
@@ -422,7 +430,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 get
                 {
-                    return _Element != null ? _Element.TargetState == State.Playing : false;
+                    return _Element != null ? _Element.TargetState == State.Playing && !_Finished : false;
                 }
                 set
                 {
@@ -468,9 +476,11 @@ namespace Vocaluxe.Lib.Sound
                 while (duration < 0 && !_Closed && !_Finished && _Element != null)
                 {
                     if (_Element.QueryDuration(Format.Time, out duration))
+                    {
                         _Duration = (float)(duration / (long)Constants.SECOND);
+                        _QueryingDuration = false;
+                    }
                 }
-                _QueryingDuration = false;
             }
         }
     }
