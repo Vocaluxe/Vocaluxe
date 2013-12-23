@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Gst;
 using GLib;
 using System.Runtime.InteropServices;
@@ -13,20 +11,19 @@ namespace Vocaluxe.Lib.Sound
 {
     public class CGstreamerSharpAudio : IPlayback
     {
-        private Dictionary<int, CGstreamerSharpAudioStream> Streams = new Dictionary<int, CGstreamerSharpAudioStream>();
-        private static int idCount;
+        private readonly Dictionary<int, CGstreamerSharpAudioStream> _Streams = new Dictionary<int, CGstreamerSharpAudioStream>();
+        private static int _IDCount;
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         private static extern void SetDllDirectory(string lpPathName);
 
         public bool Init()
         {
-            string path;
 #if ARCH_X86
-            path = ".\\x86\\gstreamer";
+            string path = ".\\x86\\gstreamer";
 #endif
 #if ARCH_X64
-            path = ".\\x64\\gstreamer";
+            string path = ".\\x64\\gstreamer";
 #endif
             SetDllDirectory(path);
             Application.Init();
@@ -38,7 +35,7 @@ namespace Vocaluxe.Lib.Sound
 
         public void SetGlobalVolume(float volume)
         {
-            foreach (CGstreamerSharpAudioStream stream in Streams.Values)
+            foreach (CGstreamerSharpAudioStream stream in _Streams.Values)
             {
                 stream.Volume = volume;
             }
@@ -46,12 +43,12 @@ namespace Vocaluxe.Lib.Sound
 
         public int GetStreamCount()
         {
-            return Streams.Count;
+            return _Streams.Count;
         }
 
         public void CloseAll()
         {
-            foreach (CGstreamerSharpAudioStream stream in Streams.Values)
+            foreach (CGstreamerSharpAudioStream stream in _Streams.Values)
             {
                 stream.Close();
             }
@@ -65,172 +62,172 @@ namespace Vocaluxe.Lib.Sound
         public int Load(string media, bool prescan)
         {
             var stream = new CGstreamerSharpAudioStream (media, prescan);
-            Streams[idCount] = stream;
-            return idCount++;
+            _Streams[_IDCount] = stream;
+            return _IDCount++;
         }
 
         public void Close(int stream)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return;
-            Streams[stream].Close();
+            _Streams[stream].Close();
         }
 
         public void Play(int stream)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return;
-            Streams[stream].Playing = true;
+            _Streams[stream].Playing = true;
         }
 
         public void Play(int stream, bool loop)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return;
-            Play(stream);
+            Play(stream, loop);
         }
 
         public void Pause(int stream)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return;
-            Streams[stream].Paused = true;
+            _Streams[stream].Paused = true;
         }
 
         public void Stop(int stream)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return;
-            Streams[stream].Stop();
+            _Streams[stream].Stop();
         }
 
         public void Fade(int stream, float targetVolume, float seconds)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return;
-            Streams[stream].Fade(targetVolume, seconds);
+            _Streams[stream].Fade(targetVolume, seconds);
         }
 
         public void FadeAndPause(int stream, float targetVolume, float seconds)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return;
-            Streams[stream].FadeAndPause(targetVolume, seconds);
+            _Streams[stream].FadeAndPause(targetVolume, seconds);
         }
 
         public void FadeAndClose(int stream, float targetVolume, float seconds)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return;
-            Streams[stream].FadeAndClose(targetVolume, seconds);
+            _Streams[stream].FadeAndClose(targetVolume, seconds);
         }
 
         public void FadeAndStop(int stream, float targetVolume, float seconds)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return;
-            Streams[stream].FadeAndStop(targetVolume, seconds);
+            _Streams[stream].FadeAndStop(targetVolume, seconds);
         }
 
         public void SetStreamVolume(int stream, float volume)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return;
-            Streams[stream].Volume = volume;
+            _Streams[stream].Volume = volume;
         }
 
         public void SetStreamVolumeMax(int stream, float volume)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return;
-            Streams[stream].MaxVolume = volume;
+            _Streams[stream].MaxVolume = volume;
         }
 
         public float GetLength(int stream)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return -1;
-            return Streams[stream].Length;
+            return _Streams[stream].Length;
         }
 
         public float GetPosition(int stream)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return -1f;
-            return Streams[stream].Position;
+            return _Streams[stream].Position;
         }
 
         public bool IsPlaying(int stream)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return false;
-            return Streams[stream].Playing;
+            return _Streams[stream].Playing;
         }
 
         public bool IsPaused(int stream)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return false;
-            return Streams[stream].Paused;
+            return _Streams[stream].Paused;
         }
 
         public bool IsFinished(int stream)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return true;
-            return Streams[stream]._Finished;
+            return _Streams[stream].Finished;
         }
 
         public void SetPosition(int stream, float position)
         {
-            if (!Streams.ContainsKey(stream))
+            if (!_Streams.ContainsKey(stream))
                 return;
-            Streams[stream].Position = position;
+            _Streams[stream].Position = position;
         }
 
         public void Update()
         {
             var streamsToDelete = new List<int>();
-            foreach (KeyValuePair<int,CGstreamerSharpAudioStream> stream in Streams)
+            foreach (KeyValuePair<int,CGstreamerSharpAudioStream> stream in _Streams)
             {
-                if (stream.Value._Closed)
+                if (stream.Value.Closed)
                     streamsToDelete.Add(stream.Key);
                 stream.Value.Update();
             }
             foreach (int key in streamsToDelete)
             {
-                Streams.Remove(key);
+                _Streams.Remove(key);
             }
         }
 
         private class CGstreamerSharpAudioStream
         {
-            private Element _Element;
+            private readonly Element _Element;
             private bool _Loop;
-            public volatile bool _Closed;
-            public volatile bool _Finished;
+            public volatile bool Closed;
+            public volatile bool Finished;
 
             private bool _Fading;
             private bool _CloseStreamAfterFade;
             private bool _PauseStreamAfterFade;
             private bool _StopStreamAfterFade;
-            private Stopwatch _FadeTimer = new Stopwatch();
+            private readonly Stopwatch _FadeTimer = new Stopwatch();
             private float _FadeTime;
             private float _FadeVolume;
             private float _Volume = 100f;
 
-            public float _MaxVolume = 100f;
+            private float _MaxVolume = 100f;
 
             private volatile float _Duration = -1f;
-            private volatile float _Position = 0f;
-            private volatile bool _QueryingDuration = false;
+            private volatile float _Position;
+            private volatile bool _QueryingDuration;
             public CGstreamerSharpAudioStream(string media, bool prescan)
             {
                 var convert = ElementFactory.Make("audioconvert", "convert");
                 var audiosink = ElementFactory.Make("directsoundsink", "audiosink");
                 var audioSinkBin = new Bin("Audiosink");
 
-                if (convert == null || audiosink == null || audioSinkBin == null)
+                if (convert == null || audiosink == null)
                     CLog.LogError("Could not create pipeline");
 
                 audioSinkBin.Add(convert);
@@ -239,7 +236,7 @@ namespace Vocaluxe.Lib.Sound
                 Pad pad = convert.GetStaticPad("sink");
                 GhostPad ghostpad = new GhostPad("sink", pad);
 
-                if (pad == null || ghostpad == null)
+                if (pad == null)
                     CLog.LogError("Could not create pads");
 
                 if (!ghostpad.SetActive(true))
@@ -262,11 +259,11 @@ namespace Vocaluxe.Lib.Sound
                 {
                     var msg = _Element.Bus.TimedPopFiltered(500 * Constants.MSECOND, MessageType.AsyncDone);
                     if(msg.Handle != IntPtr.Zero)
-                        UpdateDuration();
+                        _UpdateDuration();
                 }
             }
 
-            private void OnMessage(Message msg)
+            private void _OnMessage(Message msg)
             {
                 if (msg.Handle == IntPtr.Zero)
                     return;
@@ -276,7 +273,7 @@ namespace Vocaluxe.Lib.Sound
                         if (_Loop)
                             Position = 0;
                         else
-                            _Finished = true;
+                            Finished = true;
                             Close();
                         break;
                     case MessageType.Error:
@@ -286,7 +283,7 @@ namespace Vocaluxe.Lib.Sound
                         CLog.LogError("Gstreamer error: message" + error.Message + ", code" + error.Code + " ,debug information" + debug);
                         break;
                     case MessageType.DurationChanged:
-                        UpdateDuration();
+                        _UpdateDuration();
                         break;
                 }
                 msg.Unref();
@@ -295,18 +292,18 @@ namespace Vocaluxe.Lib.Sound
 
             public void Close()
             {
-                if (!_Closed)
+                if (!Closed)
                 {
 
-                    _Closed = true;
-                    _Finished = true;
-                    var t = new Thread(TerminateStream);
+                    Closed = true;
+                    Finished = true;
+                    var t = new Thread(_TerminateStream);
                     t.Start();
                 }
                 
             }
 
-            private void TerminateStream()
+            private void _TerminateStream()
             {
                 if (_Element != null)
                 {
@@ -319,7 +316,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 if (_Element != null)
                     _Element.SetState(State.Playing);
-                this._Loop = loop;
+                _Loop = loop;
             }
 
             public void Stop()
@@ -365,7 +362,7 @@ namespace Vocaluxe.Lib.Sound
                 {
                     _Volume = value;
                     if (_Element != null)
-                        _Element["volume"] = (double) ((value / 100d) * (_MaxVolume / 100d));
+                        _Element["volume"] = ((value / 100d) * (_MaxVolume / 100d));
                 }
             }
 
@@ -388,7 +385,7 @@ namespace Vocaluxe.Lib.Sound
                 {
                     if (_Duration < 0 && !_QueryingDuration)
                     {
-                        var t = new Thread(UpdateDuration);
+                        var t = new Thread(_UpdateDuration);
                         t.Start();
                     }
                     return _Duration > 0 ? _Duration : -1;
@@ -399,7 +396,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 get
                 {
-                    long position = 0;
+                    long position;
                     if (!_Element.QueryPosition(Format.Time, out position))
                         CLog.LogError("Could not query position");
                     else
@@ -417,7 +414,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 get
                 {
-                    return _Element != null ? _Element.TargetState == State.Paused : true;
+                    return _Element == null || _Element.TargetState == State.Paused;
                 }
                 set
                 {
@@ -430,7 +427,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 get
                 {
-                    return _Element != null ? _Element.TargetState == State.Playing && !_Finished : false;
+                    return _Element != null && (_Element.TargetState == State.Playing && !Finished);
                 }
                 set
                 {
@@ -443,7 +440,7 @@ namespace Vocaluxe.Lib.Sound
             {
                 while (_Element != null && _Element.Bus != null && _Element.Bus.HavePending())
                 {
-                    OnMessage(_Element.Bus.Pop());
+                    _OnMessage(_Element.Bus.Pop());
                 }
 
                 if (_Fading)
@@ -469,15 +466,15 @@ namespace Vocaluxe.Lib.Sound
                 }
             }
 
-            private void UpdateDuration()
+            private void _UpdateDuration()
             {
                 _QueryingDuration = true;
                 long duration = -1;
-                while (duration < 0 && !_Closed && !_Finished && _Element != null)
+                while (duration < 0 && !Closed && !Finished && _Element != null)
                 {
                     if (_Element.QueryDuration(Format.Time, out duration))
                     {
-                        _Duration = (float)(duration / (long)Constants.SECOND);
+                        _Duration = duration / (float)Constants.SECOND;
                         _QueryingDuration = false;
                     }
                 }
