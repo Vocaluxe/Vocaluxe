@@ -34,7 +34,6 @@ namespace VocaluxeLib.PartyModes.Challenge
             get { return 1; }
         }
 
-        private int _NumPlayer = 4; 
         private SDataFromScreen _Data;
 
         public override void Init()
@@ -45,6 +44,8 @@ namespace VocaluxeLib.PartyModes.Challenge
             _Data = new SDataFromScreen();
             var names = new SFromScreenNames {FadeBack = false, ProfileIDs = new List<int>()};
             _Data.ScreenNames = names;
+
+            _AllowChangePlayerNum = false;
         }
 
         public override void DataToScreen(object receivedData)
@@ -54,7 +55,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 var config = (SDataToScreenNames)receivedData;
                 _Data.ScreenNames.ProfileIDs = config.ProfileIDs ?? new List<int>();
 
-                _NumPlayer = config.NumPlayer;
+                SetPartyModeData(config.NumPlayer);
 
                 while (_Data.ScreenNames.ProfileIDs.Count > _NumPlayer)
                     _Data.ScreenNames.ProfileIDs.RemoveAt(_Data.ScreenNames.ProfileIDs.Count - 1);
@@ -73,16 +74,18 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         public override void Back()
         {
-            List<int> ids = GetTeamIDs(0);
-            _Data.ScreenNames.ProfileIDs = ids;
+            SPartyNameOptions options = GetData();
+            if(options.TeamList.Length == 1)
+                _Data.ScreenNames.ProfileIDs = options.TeamList[0];
             _Data.ScreenNames.FadeBack = true;
             _PartyMode.DataFromScreen(ThemeName, _Data);
         }
 
         public override void Next()
         {
-            List<int> ids = GetTeamIDs(0);
-            _Data.ScreenNames.ProfileIDs = ids;
+            SPartyNameOptions options = GetData();
+            if (options.TeamList.Length == 1)
+                _Data.ScreenNames.ProfileIDs = options.TeamList[0];
             _Data.ScreenNames.FadeBack = false;
             _PartyMode.DataFromScreen(ThemeName, _Data);
         }

@@ -34,8 +34,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             get { return 1; }
         }
 
-        private const string _SelectSlideNumPlayerTeam1 = "SelectSlideNumPlayerTeam1";
-        private const string _SelectSlideNumPlayerTeam2 = "SelectSlideNumPlayerTeam2";
         private const string _SelectSlideNumFields = "SelectSlideNumFields";
         private const string _SelectSlideSongSource = "SelectSlideSongSource";
         private const string _SelectSlidePlaylist = "SelectSlidePlaylist";
@@ -54,8 +52,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             _ThemeSelectSlides = new string[]
                 {
-                    _SelectSlideNumPlayerTeam1, _SelectSlideNumPlayerTeam2, _SelectSlideNumFields, _SelectSlideSongSource, _SelectSlidePlaylist, _SelectSlideCategory,
-                    _SelectSlideGameMode
+                    _SelectSlideNumFields, _SelectSlideSongSource, _SelectSlidePlaylist, _SelectSlideCategory, _SelectSlideGameMode
                 };
             _ThemeButtons = new string[] {_ButtonNext, _ButtonBack};
 
@@ -64,8 +61,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 {
                     PlaylistID = 0,
                     NumFields = 9,
-                    NumPlayerTeam1 = 2,
-                    NumPlayerTeam2 = 2,
                     GameMode = EPartyGameMode.TR_GAMEMODE_NORMAL,
                     CategoryID = 0,
                     SongSource = ESongSource.TR_ALLSONGS
@@ -79,8 +74,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             {
                 var config = (SDataToScreenConfig)receivedData;
                 _Data.ScreenConfig.NumFields = config.NumFields;
-                _Data.ScreenConfig.NumPlayerTeam1 = config.NumPlayerTeam1;
-                _Data.ScreenConfig.NumPlayerTeam2 = config.NumPlayerTeam2;
                 _Data.ScreenConfig.PlaylistID = config.PlaylistID;
                 _Data.ScreenConfig.CategoryID = config.CategoryID;
                 _Data.ScreenConfig.SongSource = config.SongSource;
@@ -173,17 +166,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _FillSlides()
         {
-            // build num player slide (min player ... max player);
-            _SelectSlides[_SelectSlideNumPlayerTeam1].Clear();
-            for (int i = _PartyMode.GetMinPlayer() / 2; i <= _PartyMode.GetMaxPlayer() / 2; i++)
-                _SelectSlides[_SelectSlideNumPlayerTeam1].AddValue(i.ToString());
-            _SelectSlides[_SelectSlideNumPlayerTeam1].Selection = _Data.ScreenConfig.NumPlayerTeam1 - (_PartyMode.GetMinPlayer() / 2);
-
-            _SelectSlides[_SelectSlideNumPlayerTeam2].Clear();
-            for (int i = _PartyMode.GetMinPlayer() / 2; i <= _PartyMode.GetMaxPlayer() / 2; i++)
-                _SelectSlides[_SelectSlideNumPlayerTeam2].AddValue(i.ToString());
-            _SelectSlides[_SelectSlideNumPlayerTeam2].Selection = _Data.ScreenConfig.NumPlayerTeam2 - (_PartyMode.GetMinPlayer() / 2);
-
             _SelectSlides[_SelectSlideNumFields].Clear();
             _SelectSlides[_SelectSlideNumFields].AddValue("9");
             _SelectSlides[_SelectSlideNumFields].AddValue("16");
@@ -226,9 +208,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _UpdateSlides()
         {
-            _Data.ScreenConfig.NumPlayerTeam1 = _SelectSlides[_SelectSlideNumPlayerTeam1].Selection + (_PartyMode.GetMinPlayer() / 2);
-            _Data.ScreenConfig.NumPlayerTeam2 = _SelectSlides[_SelectSlideNumPlayerTeam2].Selection + (_PartyMode.GetMinPlayer() / 2);
-
             if (_SelectSlides[_SelectSlideNumFields].Selection == 0)
                 _Data.ScreenConfig.NumFields = 9;
             else if (_SelectSlides[_SelectSlideNumFields].Selection == 1)

@@ -178,8 +178,8 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>Plus</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>145</X>
-      <Y>1200</Y>
+      <X>1210</X>
+      <Y>210</Y>
       <Z>0,00</Z>
       <W>40</W>
       <H>40</H>
@@ -227,8 +227,8 @@
       <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>Minus</SkinSelected>
       <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>145</X>
-      <Y>1200</Y>
+      <X>1160</X>
+      <Y>210</Y>
       <Z>0,00</Z>
       <W>40</W>
       <H>40</H>
@@ -387,7 +387,7 @@
       <X>40</X>
       <Y>100</Y>
       <Z>0,00</Z>
-      <W>1200</W>
+      <W>1100</W>
       <H>50</H>
       <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
       <ArrowLeftX>45</ArrowLeftX>
@@ -396,7 +396,7 @@
       <ArrowLeftW>40</ArrowLeftW>
       <ArrowLeftH>40</ArrowLeftH>
       <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
-      <ArrowRightX>1170</ArrowRightX>
+      <ArrowRightX>1050</ArrowRightX>
       <ArrowRightY>105</ArrowRightY>
       <ArrowRightZ>0,00</ArrowRightZ>
       <ArrowRightW>40</ArrowRightW>
@@ -454,7 +454,7 @@
       <X>40</X>
       <Y>160</Y>
       <Z>0,00</Z>
-      <W>1200</W>
+      <W>1100</W>
       <H>150</H>
       <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
       <ArrowLeftX>45</ArrowLeftX>
@@ -463,7 +463,7 @@
       <ArrowLeftW>40</ArrowLeftW>
       <ArrowLeftH>40</ArrowLeftH>
       <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
-      <ArrowRightX>1170</ArrowRightX>
+      <ArrowRightX>1050</ArrowRightX>
       <ArrowRightY>210</ArrowRightY>
       <ArrowRightZ>0,00</ArrowRightZ>
       <ArrowRightW>40</ArrowRightW>
