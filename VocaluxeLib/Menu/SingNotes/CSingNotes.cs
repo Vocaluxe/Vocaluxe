@@ -392,10 +392,10 @@ namespace VocaluxeLib.Menu.SingNotes
                     _AddFlare(re, n);
                 }
 
-                if (note.Perfect && note.EndBeat < CBase.Game.GetRecordedBeat())
+                if (note.Perfect && !note.PerfectDrawn && note.EndBeat < CBase.Game.GetRecordedBeat())
                 {
                     _AddPerfectNote(rect, n);
-                    note.Perfect = false;
+                    note.PerfectDrawn = true;
                 }
             }
 

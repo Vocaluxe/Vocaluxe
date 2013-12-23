@@ -193,7 +193,7 @@ namespace Vocaluxe.Lib.Sound
             }
         }
 
-        public void FadeAndStop(int stream, float targetVolume, float seconds)
+        public void FadeAndClose(int stream, float targetVolume, float seconds)
         {
             if (_Initialized)
             {
@@ -344,6 +344,12 @@ namespace Vocaluxe.Lib.Sound
         {
             _Context.Dispose();
             _Context = null;
+        }
+
+
+        public void FadeAndStop(int stream, float targetVolume, float seconds)
+        {
+            throw new NotImplementedException();
         }
     }
 

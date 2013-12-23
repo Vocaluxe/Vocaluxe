@@ -166,7 +166,7 @@ namespace Vocaluxe.Base
                 CDraw.RemoveTexture(ref _CurrentVideoTexture);
                 _Video = -1;
             }
-            CSound.FadeAndStop(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
+            CSound.FadeAndClose(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
             _CurrentMusicStream = -1;
 
             _CurrentPlaylistElement = new CPlaylistElement();
@@ -198,7 +198,7 @@ namespace Vocaluxe.Base
                     timeToPlay = _CurrentPlaylistElement.Finish - CSound.GetPosition(_CurrentMusicStream);
 
                 bool finished = CSound.IsFinished(_CurrentMusicStream);
-                if (IsPlaying && (timeToPlay <= CSettings.BackgroundMusicFadeTime || finished))
+                if (IsPlaying && ((timeToPlay <= CSettings.BackgroundMusicFadeTime && timeToPlay > 0) || finished))
                 {
                     if (_RepeatSong)
                     {

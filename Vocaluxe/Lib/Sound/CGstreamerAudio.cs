@@ -110,7 +110,7 @@ namespace Vocaluxe.Lib.Sound
             CGstreamerAudioWrapper.FadeAndPause(stream, targetVolume, seconds);
         }
 
-        public void FadeAndStop(int stream, float targetVolume, float seconds)
+        public void FadeAndClose(int stream, float targetVolume, float seconds)
         {
             CGstreamerAudioWrapper.FadeAndStop(stream, targetVolume, seconds);
         }
@@ -158,6 +158,12 @@ namespace Vocaluxe.Lib.Sound
         public void Update()
         {
             CGstreamerAudioWrapper.Update();
+        }
+
+
+        public void FadeAndStop(int stream, float targetVolume, float seconds)
+        {
+            throw new NotImplementedException();
         }
     }
 }

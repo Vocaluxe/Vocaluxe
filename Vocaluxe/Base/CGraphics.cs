@@ -79,8 +79,9 @@ namespace Vocaluxe.Base
             _Screens.Add(new CScreenHighscore());
             _Screens.Add(new CScreenOptionsGame());
             _Screens.Add(new CScreenOptionsSound());
-            _Screens.Add(new CScreenOptionsRecord());
+            _Screens.Add(new CScreenOptionsRecord());   
             _Screens.Add(new CScreenOptionsVideo());
+            _Screens.Add(new CScreenOptionsVideoAdjustments());
             _Screens.Add(new CScreenOptionsLyrics());
             _Screens.Add(new CScreenOptionsTheme());
             _Screens.Add(new CScreenNames());
@@ -374,10 +375,41 @@ namespace Vocaluxe.Base
                 if (!eventsAvailable)
                     keyEvent = inputKeyEvent;
 
-                if (keyEvent.Key == Keys.Left || keyEvent.Key == Keys.Right || keyEvent.Key == Keys.Up || keyEvent.Key == Keys.Down)
+                if (keyEvent.Key == Keys.Left || keyEvent.Key == Keys.Right || keyEvent.Key == Keys.Up || keyEvent.Key == Keys.Down || keyEvent.Key == Keys.NumPad0 || keyEvent.Key == Keys.D0 )
                 {
                     CSettings.MouseInactive();
                     _Cursor.FadeOut();
+
+                    if (keyEvent.ModAlt && keyEvent.ModCtrl && keyEvent.ModShift)
+                    {
+                        switch (keyEvent.Key)
+                        {
+                            case Keys.Left:
+                                CConfig.BorderLeft -= 1;
+                                CConfig.BorderRight -= 1;
+                                CConfig.BorderTop -= 1;
+                                CConfig.BorderBottom -= 1;
+                                break;
+                            case Keys.Right:
+                                CConfig.BorderLeft += 1;
+                                CConfig.BorderRight += 1;
+                                CConfig.BorderTop += 1;
+                                CConfig.BorderBottom += 1;
+                                break;
+                            case Keys.D0:
+                            case Keys.NumPad0:
+                                CConfig.BorderLeft = 0;
+                                CConfig.BorderRight = 0;
+                                CConfig.BorderTop = 0;
+                                CConfig.BorderBottom = 0;
+                                break;
+
+                            default:
+                                break;
+                        }
+                        CConfig.SaveConfig();
+                        break;
+                    }
                 }
 
                 if (keyEvent.Key == Keys.F11)

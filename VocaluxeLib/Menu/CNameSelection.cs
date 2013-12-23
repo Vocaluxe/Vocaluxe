@@ -523,7 +523,7 @@ namespace VocaluxeLib.Menu
                 bool visible = profile.Active == EOffOn.TR_CONFIG_ON;
                 if (visible)
                 {
-                    if (_UsedProfiles.Contains(profile.ID) && !profile.UserRole.HasFlag(EUserRole.TR_USERROLE_NORMAL))
+                    if (_UsedProfiles.Contains(profile.ID) && profile.UserRole >= EUserRole.TR_USERROLE_NORMAL)
                         visible = false;
                 }
                 if (visible)

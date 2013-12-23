@@ -122,6 +122,11 @@ namespace Vocaluxe.Base
             _Playback.FadeAndPause(stream, targetVolume, seconds);
         }
 
+        public static void FadeAndClose(int stream, float targetVolume, float seconds)
+        {
+            _Playback.FadeAndClose(stream, targetVolume, seconds);
+        }
+
         public static void FadeAndStop(int stream, float targetVolume, float seconds)
         {
             _Playback.FadeAndStop(stream, targetVolume, seconds);
@@ -192,7 +197,7 @@ namespace Vocaluxe.Base
             int stream = Load(file);
             float length = GetLength(stream);
             Play(stream);
-            FadeAndStop(stream, 100f, length);
+            FadeAndClose(stream, 100f, length);
             return stream;
         }
         #endregion Sounds
