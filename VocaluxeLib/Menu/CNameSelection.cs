@@ -488,13 +488,19 @@ namespace VocaluxeLib.Menu
         {
             if(id > -1)
                 if (!_UsedProfiles.Contains(id) && CBase.Profiles.IsProfileIDValid(id) && !CBase.Profiles.IsGuest(id))
+                {
                     _UsedProfiles.Add(id);
+                    _UpdateVisibleProfiles();
+                }
         }
 
         public void RemoveUsedProfile(int id)
         {
-            if(id > -1)
+            if (id > -1)
+            {
                 _UsedProfiles.Remove(id);
+                _UpdateVisibleProfiles();
+            }
         }
 
         private void _PrepareTiles()
@@ -523,7 +529,7 @@ namespace VocaluxeLib.Menu
                 bool visible = profile.Active == EOffOn.TR_CONFIG_ON;
                 if (visible)
                 {
-                    if (_UsedProfiles.Contains(profile.ID) && profile.UserRole >= EUserRole.TR_USERROLE_NORMAL)
+                    if (_UsedProfiles.Contains(profile.ID) && ((int)profile.UserRole) >= ((int)EUserRole.TR_USERROLE_NORMAL))
                         visible = false;
                 }
                 if (visible)
