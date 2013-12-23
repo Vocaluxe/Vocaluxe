@@ -618,7 +618,7 @@ namespace Vocaluxe.Screens
                 else
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = false;
             }
-
+            _NameSelections[_NameSelection].UpdateList();
             _ProfilesChanged = false;
             _AvatarsChanged = false;
         }

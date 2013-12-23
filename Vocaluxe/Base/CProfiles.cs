@@ -466,7 +466,7 @@ namespace Vocaluxe.Base
             if (!IsProfileIDValid(profileID))
                 return true; // this will prevent from saving dummy profiles to highscore db
 
-            return !_Profiles[profileID].UserRole.HasFlag(EUserRole.TR_USERROLE_NORMAL);
+            return _Profiles[profileID].UserRole <= EUserRole.TR_USERROLE_GUEST;
         }
 
         public static bool IsActive(int profileID)
