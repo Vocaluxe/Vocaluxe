@@ -39,12 +39,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private SDataFromScreen _Data;
 
-        private class CPlayerChooseButton
-        {
-            public CButton Button;
-            public int ProfileID;
-        }
-
         public override void Init()
         {
             base.Init();
@@ -92,11 +86,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         public override void Back()
         {
-            List<int>[] ids = GetTeamIDs();
-            if(ids.Length == 2)
+            SPartyNameOptions options = GetData();
+            if(options.TeamList.Length == 2)
             {
-                _Data.ScreenNames.ProfileIDsTeam1 = ids[0];
-                _Data.ScreenNames.ProfileIDsTeam2 = ids[1];
+                _Data.ScreenNames.ProfileIDsTeam1 = options.TeamList[0];
+                _Data.ScreenNames.ProfileIDsTeam2 = options.TeamList[1];
+            }
+            if (options.NumPlayerTeams.Length == 2)
+            {
+                _Data.ScreenNames.NumPlayerTeam1 = options.NumPlayerTeams[0];
+                _Data.ScreenNames.NumPlayerTeam2 = options.NumPlayerTeams[1];
             }
             _Data.ScreenNames.FadeToConfig = true;
             _PartyMode.DataFromScreen(ThemeName, _Data);
@@ -104,11 +103,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         public override void Next()
         {
-            List<int>[] ids = GetTeamIDs();
-            if (ids.Length == 2)
+            SPartyNameOptions options = GetData();
+            if (options.TeamList.Length == 2)
             {
-                _Data.ScreenNames.ProfileIDsTeam1 = ids[0];
-                _Data.ScreenNames.ProfileIDsTeam2 = ids[1];
+                _Data.ScreenNames.ProfileIDsTeam1 = options.TeamList[0];
+                _Data.ScreenNames.ProfileIDsTeam2 = options.TeamList[1];
+            }
+            if (options.NumPlayerTeams.Length == 2)
+            {
+                _Data.ScreenNames.NumPlayerTeam1 = options.NumPlayerTeams[0];
+                _Data.ScreenNames.NumPlayerTeam2 = options.NumPlayerTeams[1];
             }
             _Data.ScreenNames.FadeToConfig = false;
             _PartyMode.DataFromScreen(ThemeName, _Data);

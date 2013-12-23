@@ -82,7 +82,7 @@
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
       <!--<Text>: Nothing or translation tag-->
-      <Text>TR_SCREENCONFIG_NUMPLAYERST1</Text>
+      <Text>TR_SCREENCONFIG_NUMFIELDS</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
@@ -111,7 +111,7 @@
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
       <!--<Text>: Nothing or translation tag-->
-      <Text>TR_SCREENCONFIG_NUMPLAYERST2</Text>
+      <Text>TR_SCREENCONFIG_SONGSOURCE</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
@@ -119,65 +119,7 @@
     <Text4>
       <!--<X>, <Y>: Text position-->
       <X>75</X>
-      <Y>225</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
-      <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
-      <Align>Left</Align>
-      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
-      <Style>Bold</Style>
-      <!--<Font>: Text font name-->
-      <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
-      <Text>TR_SCREENCONFIG_NUMFIELDS</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Text4>    
-    <Text5>
-      <!--<X>, <Y>: Text position-->
-      <X>75</X>
       <Y>285</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
-      <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
-      <Align>Left</Align>
-      <!--<HAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
-      <Style>Bold</Style>
-      <!--<Font>: Text font name-->
-      <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
-      <Text>TR_SCREENCONFIG_SONGSOURCE</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Text5>    
-    <Text6>
-      <!--<X>, <Y>: Text position-->
-      <X>75</X>
-      <Y>405</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
       <!--<H>: Text height-->
@@ -202,7 +144,7 @@
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-    </Text6>    
+    </Text4>    
 	<ButtonNext>
       <!--<Skin>: Texture name-->
       <Skin>Button</Skin>
@@ -317,7 +259,7 @@
         <Height>26</Height>
       </SReflection>
     </ButtonBack>
-	<SelectSlideNumPlayerTeam1>
+    <SelectSlideNumFields>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
       <!--<SkinArrowLeft>: Texture name of left arrow-->
@@ -380,9 +322,9 @@
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
-      <NumVisible>9</NumVisible>
-    </SelectSlideNumPlayerTeam1>
-	<SelectSlideNumPlayerTeam2>
+      <NumVisible>3</NumVisible>
+    </SelectSlideNumFields>    
+    <SelectSlideSongSource>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
       <!--<SkinArrowLeft>: Texture name of left arrow-->
@@ -445,9 +387,9 @@
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
-      <NumVisible>9</NumVisible>
-    </SelectSlideNumPlayerTeam2>
-    <SelectSlideNumFields>
+      <NumVisible>3</NumVisible>
+    </SelectSlideSongSource>    
+    <SelectSlidePlaylist>
       <!--<Skin>: Texture name-->
       <Skin>Invisible</Skin>
       <!--<SkinArrowLeft>: Texture name of left arrow-->
@@ -510,136 +452,6 @@
       <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
       <TextStyle>Bold</TextStyle>
       <!--<NumVisible>: Number of visible elements in the slide-->
-      <NumVisible>3</NumVisible>
-    </SelectSlideNumFields>    
-    <SelectSlideSongSource>
-      <!--<Skin>: Texture name-->
-      <Skin>Invisible</Skin>
-      <!--<SkinArrowLeft>: Texture name of left arrow-->
-      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
-      <!--<SkinArrowRight>: Texture name of right arrow-->
-      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
-      <!--<SkinSelected>: Texture name for selected SelectSlide-->
-      <SkinSelected>SelectSlide</SkinSelected>
-      <!--<SkinArrowLeftSelected>: Texture name of selected left arrow-->
-      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
-      <!--<SkinArrowRightSelected>: Texture name of selected right arrow-->
-      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
-      <!--<SkinHighlighted>: Texture name for highlighted SelectSlide-->
-      <SkinHighlighted>SelectSlide</SkinHighlighted>
-      <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
-      <X>500</X>
-      <Y>280</Y>
-      <Z>0,00</Z>
-      <W>700</W>
-      <H>50</H>
-      <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
-      <ArrowLeftX>505</ArrowLeftX>
-      <ArrowLeftY>285</ArrowLeftY>
-      <ArrowLeftZ>0,00</ArrowLeftZ>
-      <ArrowLeftW>40</ArrowLeftW>
-      <ArrowLeftH>40</ArrowLeftH>
-      <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
-      <ArrowRightX>1170</ArrowRightX>
-      <ArrowRightY>285</ArrowRightY>
-      <ArrowRightZ>0,00</ArrowRightZ>
-      <ArrowRightW>40</ArrowRightW>
-      <ArrowRightH>40</ArrowRightH>
-      <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>SelectSlideColor</Color>
-      <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>SelectSlideSColor</SColor>
-      <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
-      <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
-      <HColor>SelectSlideHColor</HColor>
-      <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
-      <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
-      <ArrowColor>ArrowColor</ArrowColor>
-      <!--<ArrowSColor>: Selected arrow color from ColorScheme (high priority)-->
-      <!--or <ArrowSR>, <ArrowSG>, <ArrowSB>, <ArrowSA> (lower priority)-->
-      <ArrowSColor>ArrowSColor</ArrowSColor>
-      <!--<TextColor>: Text color from ColorScheme (high priority)-->
-      <!--or <TextR>, <TextG>, <TextB>, <TextA> (lower priority)-->
-      <TextColor>TextColor</TextColor>
-      <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
-      <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
-      <TextSColor>TextSColor</TextSColor>
-      <!--<TextH>: Text height-->
-      <TextH>27,00</TextH>
-      <!--<TextMaxW>: Maximum text width (if exists)-->
-      <TextMaxW>205,33</TextMaxW>
-      <!--<TextFont>: Text font name-->
-      <TextFont>Outline</TextFont>
-      <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
-      <TextStyle>Bold</TextStyle>
-      <!--<NumVisible>: Number of visible elements in the slide-->
-      <NumVisible>3</NumVisible>
-    </SelectSlideSongSource>    
-    <SelectSlidePlaylist>
-      <!--<Skin>: Texture name-->
-      <Skin>Invisible</Skin>
-      <!--<SkinArrowLeft>: Texture name of left arrow-->
-      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
-      <!--<SkinArrowRight>: Texture name of right arrow-->
-      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
-      <!--<SkinSelected>: Texture name for selected SelectSlide-->
-      <SkinSelected>SelectSlide</SkinSelected>
-      <!--<SkinArrowLeftSelected>: Texture name of selected left arrow-->
-      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
-      <!--<SkinArrowRightSelected>: Texture name of selected right arrow-->
-      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
-      <!--<SkinHighlighted>: Texture name for highlighted SelectSlide-->
-      <SkinHighlighted>SelectSlide</SkinHighlighted>
-      <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
-      <X>500</X>
-      <Y>340</Y>
-      <Z>0,00</Z>
-      <W>700</W>
-      <H>50</H>
-      <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
-      <ArrowLeftX>505</ArrowLeftX>
-      <ArrowLeftY>345</ArrowLeftY>
-      <ArrowLeftZ>0,00</ArrowLeftZ>
-      <ArrowLeftW>40</ArrowLeftW>
-      <ArrowLeftH>40</ArrowLeftH>
-      <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
-      <ArrowRightX>1170</ArrowRightX>
-      <ArrowRightY>345</ArrowRightY>
-      <ArrowRightZ>0,00</ArrowRightZ>
-      <ArrowRightW>40</ArrowRightW>
-      <ArrowRightH>40</ArrowRightH>
-      <!--<Color>: SelectSlide color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>SelectSlideColor</Color>
-      <!--<SColor>: Selected SelectSlide color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>SelectSlideSColor</SColor>
-      <!--<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)-->
-      <!--or <HR>, <HG>, <HB>, <HA> (lower priority)-->
-      <HColor>SelectSlideHColor</HColor>
-      <!--<ArrowColor>: Arrow color from ColorScheme (high priority)-->
-      <!--or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)-->
-      <ArrowColor>ArrowColor</ArrowColor>
-      <!--<ArrowSColor>: Selected arrow color from ColorScheme (high priority)-->
-      <!--or <ArrowSR>, <ArrowSG>, <ArrowSB>, <ArrowSA> (lower priority)-->
-      <ArrowSColor>ArrowSColor</ArrowSColor>
-      <!--<TextColor>: Text color from ColorScheme (high priority)-->
-      <!--or <TextR>, <TextG>, <TextB>, <TextA> (lower priority)-->
-      <TextColor>TextColor</TextColor>
-      <!--<TextSColor>: Selected text color from ColorScheme (high priority)-->
-      <!--or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)-->
-      <TextSColor>TextSColor</TextSColor>
-      <!--<TextH>: Text height-->
-      <TextH>27,00</TextH>
-      <!--<TextMaxW>: Maximum text width (if exists)-->
-      <TextMaxW>205,33</TextMaxW>
-      <!--<TextFont>: Text font name-->
-      <TextFont>Outline</TextFont>
-      <!--<TextStyle>: Text style: Normal, Italic, Bold, BoldItalic-->
-      <TextStyle>Bold</TextStyle>
-      <!--<NumVisible>: Number of visible elements in the slide-->
       <NumVisible>1</NumVisible>
     </SelectSlidePlaylist>    
     <SelectSlideCategory>
@@ -659,19 +471,19 @@
       <SkinHighlighted>SelectSlide</SkinHighlighted>
       <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
       <X>500</X>
-      <Y>340</Y>
+      <Y>220</Y>
       <Z>0,00</Z>
       <W>700</W>
       <H>50</H>
       <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
       <ArrowLeftX>505</ArrowLeftX>
-      <ArrowLeftY>345</ArrowLeftY>
+      <ArrowLeftY>225</ArrowLeftY>
       <ArrowLeftZ>0,00</ArrowLeftZ>
       <ArrowLeftW>40</ArrowLeftW>
       <ArrowLeftH>40</ArrowLeftH>
       <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
       <ArrowRightX>1170</ArrowRightX>
-      <ArrowRightY>345</ArrowRightY>
+      <ArrowRightY>225</ArrowRightY>
       <ArrowRightZ>0,00</ArrowRightZ>
       <ArrowRightW>40</ArrowRightW>
       <ArrowRightH>40</ArrowRightH>
@@ -724,19 +536,19 @@
       <SkinHighlighted>SelectSlide</SkinHighlighted>
       <!--<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height-->
       <X>500</X>
-      <Y>400</Y>
+      <Y>280</Y>
       <Z>0,00</Z>
       <W>700</W>
       <H>50</H>
       <!--<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height-->
       <ArrowLeftX>505</ArrowLeftX>
-      <ArrowLeftY>405</ArrowLeftY>
+      <ArrowLeftY>285</ArrowLeftY>
       <ArrowLeftZ>0,00</ArrowLeftZ>
       <ArrowLeftW>40</ArrowLeftW>
       <ArrowLeftH>40</ArrowLeftH>
       <!--<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height-->
       <ArrowRightX>1170</ArrowRightX>
-      <ArrowRightY>405</ArrowRightY>
+      <ArrowRightY>285</ArrowRightY>
       <ArrowRightZ>0,00</ArrowRightZ>
       <ArrowRightW>40</ArrowRightW>
       <ArrowRightH>40</ArrowRightH>
