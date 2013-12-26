@@ -273,6 +273,20 @@ namespace VocaluxeLib.Menu
                         numPressed = 9;
                         break;
 
+                    case Keys.Subtract:
+                        if (_SelectSlides[_SelectSlideTeams].Selected)
+                            DecreaseTeamNum();
+                        else if (_SelectSlides[_SelectSlidePlayer].Selected)
+                            DecreasePlayerNum(_CurrentTeam);
+                        break;
+
+                    case Keys.Add:
+                        if (_SelectSlides[_SelectSlideTeams].Selected)
+                            IncreaseTeamNum();
+                        else if (_SelectSlides[_SelectSlidePlayer].Selected)
+                            IncreasePlayerNum(_CurrentTeam);
+                        break;
+
                 }
 
                 if (numPressed > 0)
