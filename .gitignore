@@ -56,3 +56,6 @@ AndroidRemote.dll.mdb
 Installer/VocaluxeSetup_0.3.0Beta.exe
 Output/Vocaluxe_x64.exe
 /WebserverInitalConfig/bin/Release
+/Output/Photos
+/Output/Screenshots
+/Output/Website
