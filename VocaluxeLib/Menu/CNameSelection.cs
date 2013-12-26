@@ -490,7 +490,7 @@ namespace VocaluxeLib.Menu
                 if (!_UsedProfiles.Contains(id) && CBase.Profiles.IsProfileIDValid(id) && !CBase.Profiles.IsGuest(id))
                 {
                     _UsedProfiles.Add(id);
-                    _UpdateVisibleProfiles();
+                    UpdateList();
                 }
         }
 
@@ -499,7 +499,7 @@ namespace VocaluxeLib.Menu
             if (id > -1)
             {
                 _UsedProfiles.Remove(id);
-                _UpdateVisibleProfiles();
+                UpdateList();
             }
         }
 
