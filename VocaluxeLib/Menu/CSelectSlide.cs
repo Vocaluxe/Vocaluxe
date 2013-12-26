@@ -104,6 +104,8 @@ namespace VocaluxeLib.Menu
         public bool Visible = true;
         public bool Highlighted;
 
+        public bool SelectionByHover;
+
         private bool _ArrowLeftSelected;
         private bool _ArrowRightSelected;
 
@@ -114,7 +116,7 @@ namespace VocaluxeLib.Menu
 
         private readonly List<SRectF> _ValueBounds = new List<SRectF>();
 
-        public readonly bool WithTextures;
+        public bool WithTextures;
 
         private int _Selection = -1;
         public int Selection
@@ -654,6 +656,27 @@ namespace VocaluxeLib.Menu
         {
             _ArrowLeftSelected = CHelper.IsInBounds(RectArrowLeft, x, y) && _Selection > 0;
             _ArrowRightSelected = CHelper.IsInBounds(RectArrowRight, x, y) && _Selection < _ValueNames.Count - 1;
+
+            if (SelectionByHover)
+            {
+                for (int i = 0; i < _ValueBounds.Count; i++)
+                {
+                    if (CHelper.IsInBounds(_ValueBounds[i], x, y))
+                    {
+                        int offset = _Selection - _NumVisible / 2;
+
+                        if (_ValueNames.Count - _NumVisible - offset < 0)
+                            offset = _ValueNames.Count - _NumVisible;
+
+                        if (offset < 0)
+                            offset = 0;
+
+                        Selection = i + offset;
+                        _ValueBounds.Clear();
+                        break;
+                    }
+                }
+            }
         }
 
         public void ProcessMouseLBClick(int x, int y)
@@ -748,8 +771,13 @@ namespace VocaluxeLib.Menu
             _ValueBounds.Clear();
             for (int i = 0; i < numvis; i++)
             {
-                var text = new CText(0, 0, 0, TextH, MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, TextColor, _ValueNames[i + offset],
+                var text = new CText(0, 0, 0, TextH, MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, TextColor, "T",
                                      _ValuePartyModeIDs[i + offset]);
+
+                if (_ValueNames[i + offset] != "")
+                    text.Text = _ValueNames[i + offset];
+                else
+                    text.Visible = false;
 
                 var alpha = new SColorF(1f, 1f, 1f, 0.35f);
                 if (i + offset == _Selection)
@@ -773,7 +801,7 @@ namespace VocaluxeLib.Menu
                 {
                     float dh = text.Y - Rect.Y - Rect.H * 0.1f;
                     var rect = new SRectF(text.X - dh / 2, Rect.Y + Rect.H * 0.05f, dh, dh, Rect.Z);
-                    CBase.Drawing.DrawTexture(_Textures[i + offset], rect, alpha);
+                    CBase.Drawing.DrawTexture(_Textures[i + offset], rect, alpha, rect);
                     _ValueBounds.Add(rect);
                 }
                 else

@@ -191,7 +191,8 @@ namespace VocaluxeLib.Menu
                 ok = _DrawVideo();
             }
 
-            if (_Theme.Type == EBackgroundTypes.SlideShow )
+
+            if (_Theme.Type == EBackgroundTypes.SlideShow && _Theme.SlideShowTextures.Count > 0)
             {
                 ok = _DrawSlideShow();
             }

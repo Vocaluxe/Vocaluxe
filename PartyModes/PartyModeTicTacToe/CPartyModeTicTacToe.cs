@@ -58,8 +58,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
     #region ToScreen
     public struct SDataToScreenConfig
     {
-        public int NumPlayerTeam1;
-        public int NumPlayerTeam2;
         public int NumFields;
         public ESongSource SongSource;
         public int CategoryID;
@@ -99,8 +97,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
     public struct SFromScreenConfig
     {
-        public int NumPlayerTeam1;
-        public int NumPlayerTeam2;
         public int NumFields;
         public ESongSource SongSource;
         public int CategoryID;
@@ -111,6 +107,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
     public struct SFromScreenNames
     {
         public bool FadeToConfig;
+        public int NumPlayerTeam1;
+        public int NumPlayerTeam2;
         public List<int> ProfileIDsTeam1;
         public List<int> ProfileIDsTeam2;
     }
@@ -135,6 +133,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private const int _MinPlayer = 2;
         private const int _MaxTeams = 2;
         private const int _MinTeams = 2;
+        private const int _MinPlayerPerTeam = 1;
+        private const int _MaxPlayerPerTeam = 10;
         private const int _NumFields = 9;
 
         private enum EStage
@@ -253,8 +253,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     try
                     {
                         dataFrom = (SDataFromScreen)data;
-                        _GameData.NumPlayerTeam1 = dataFrom.ScreenConfig.NumPlayerTeam1;
-                        _GameData.NumPlayerTeam2 = dataFrom.ScreenConfig.NumPlayerTeam2;
                         _GameData.NumFields = dataFrom.ScreenConfig.NumFields;
                         _GameData.SongSource = dataFrom.ScreenConfig.SongSource;
                         _GameData.CategoryID = dataFrom.ScreenConfig.CategoryID;
@@ -279,6 +277,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         else
                         {
                             _GameData.Team = CBase.Game.GetRandom(100) < 50 ? 0 : 1;
+                            _GameData.NumPlayerTeam1 = dataFrom.ScreenNames.NumPlayerTeam1;
+                            _GameData.NumPlayerTeam2 = dataFrom.ScreenNames.NumPlayerTeam2;
                             _GameData.ProfileIDsTeam1 = dataFrom.ScreenNames.ProfileIDsTeam1;
                             _GameData.ProfileIDsTeam2 = dataFrom.ScreenNames.ProfileIDsTeam2;
                             _Stage = EStage.Names;
@@ -346,8 +346,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     _Screens.TryGetValue("CPartyScreenTicTacToeConfig", out screen);
                     if (screen != null)
                     {
-                        _ToScreenConfig.NumPlayerTeam1 = _GameData.NumPlayerTeam1;
-                        _ToScreenConfig.NumPlayerTeam2 = _GameData.NumPlayerTeam2;
                         _ToScreenConfig.NumFields = _GameData.NumFields;
                         _ToScreenConfig.SongSource = _GameData.SongSource;
                         _ToScreenConfig.CategoryID = _GameData.CategoryID;
@@ -478,6 +476,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         public override int GetMinTeams()
         {
             return _MinTeams;
+        }
+
+        public override int GetMinPlayerPerTeam()
+        {
+            return _MinPlayerPerTeam;
+        }
+
+        public override int GetMaxPlayerPerTeam()
+        {
+            return _MaxPlayerPerTeam;
         }
 
         public override int GetMaxNumRounds()

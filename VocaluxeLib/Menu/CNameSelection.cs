@@ -71,6 +71,10 @@ namespace VocaluxeLib.Menu
 
         private CTexture _TextureEmptyTile;
         private CTexture _TextureTileSelected;
+        public CTexture TextureEmptyTile
+        {
+            get { return _TextureEmptyTile; }
+        }
 
         public SColorF ColorEmptyTile;
 
@@ -90,6 +94,7 @@ namespace VocaluxeLib.Menu
         private int _Player = -1;
 
         private readonly List<int> _VisibleProfiles;
+        private List<int> _UsedProfiles;
 
         private CStatic _PlayerSelector;
 
@@ -100,6 +105,7 @@ namespace VocaluxeLib.Menu
 
             _Tiles = new List<CTile>();
             _VisibleProfiles = new List<int>();
+            _UsedProfiles = new List<int>();
         }
 
         public void Init()
@@ -478,6 +484,46 @@ namespace VocaluxeLib.Menu
             _PrepareTiles();
         }
 
+        public void UseProfile(int id)
+        {
+            if(id > -1)
+                if (!_UsedProfiles.Contains(id) && CBase.Profiles.IsProfileIDValid(id) && !CBase.Profiles.IsGuest(id))
+                {
+                    _UsedProfiles.Add(id);
+                    UpdateList();
+                }
+        }
+
+        public void RemoveUsedProfile(int id)
+        {
+            if (id > -1)
+            {
+                _UsedProfiles.Remove(id);
+                UpdateList();
+            }
+        }
+
+        public int GetRandomUnusedProfile()
+        {
+            int id = -1;
+
+            if (_VisibleProfiles.Count == 0)
+                return id;
+
+            if (_VisibleProfiles.Count == _UsedProfiles.Count)
+                return id;
+
+            while(id == -1)
+            {
+                int rand = CBase.Game.GetRandom(_VisibleProfiles.Count);
+                if (_UsedProfiles.Contains(_VisibleProfiles[rand]))
+                    continue;
+                id = _VisibleProfiles[rand];
+            }
+
+            return id;
+        }
+
         private void _PrepareTiles()
         {
             _Tiles.Clear();
@@ -504,14 +550,8 @@ namespace VocaluxeLib.Menu
                 bool visible = profile.Active == EOffOn.TR_CONFIG_ON;
                 if (visible)
                 {
-                    //Show profile only if active
-                    for (int p = 0; p < CBase.Game.GetNumPlayer(); p++)
-                    {
-                        //Don't show profile if is selected, but if selected and guest
-                        if (CBase.Game.GetPlayers()[p].ProfileID == profile.ID
-                            && profile.UserRole >= EUserRole.TR_USERROLE_NORMAL)
-                            visible = false;
-                    }
+                    if (_UsedProfiles.Contains(profile.ID) && ((int)profile.UserRole) >= ((int)EUserRole.TR_USERROLE_NORMAL))
+                        visible = false;
                 }
                 if (visible)
                     _VisibleProfiles.Add(profile.ID);
