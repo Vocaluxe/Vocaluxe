@@ -39,6 +39,7 @@ namespace VocaluxeLib.Menu
         protected bool _AllowChangePlayerNum = true;
         protected bool _AllowChangeTeamNum = true;
         protected bool _ChangePlayerNumDynamic = true;
+        protected bool _ChangeTeamNumDynamic = true;
         private int _CurrentTeam = 0;
 
         private bool _AvatarsChanged;
@@ -170,6 +171,8 @@ namespace VocaluxeLib.Menu
             {
                 base.HandleInput(keyEvent);
 
+                int numPressed = 0;
+
                 switch (keyEvent.Key)
                 {
                     case Keys.Back:
@@ -224,6 +227,61 @@ namespace VocaluxeLib.Menu
                             //_ResetPlayerSelections();
                         }
                         break;
+
+                    case Keys.D1:
+                    case Keys.NumPad1:
+                        numPressed = 1;
+                        break;
+
+                    case Keys.D2:
+                    case Keys.NumPad2:
+                        numPressed = 2;
+                        break;
+
+                    case Keys.D3:
+                    case Keys.NumPad3:
+                        numPressed = 3;
+                        break;
+
+                    case Keys.D4:
+                    case Keys.NumPad4:
+                        numPressed = 4;
+                        break;
+
+                    case Keys.D5:
+                    case Keys.NumPad5:
+                        numPressed = 5;
+                        break;
+
+                    case Keys.D6:
+                    case Keys.NumPad6:
+                        numPressed = 6;
+                        break;
+
+                    case Keys.D7:
+                    case Keys.NumPad7:
+                        numPressed = 7;
+                        break;
+
+                    case Keys.D8:
+                    case Keys.NumPad8:
+                        numPressed = 8;
+                        break;
+
+                    case Keys.D9:
+                    case Keys.NumPad9:
+                        numPressed = 9;
+                        break;
+
+                }
+
+                if (numPressed > 0)
+                {
+                    if (_ChangeTeamNumDynamic && numPressed < _PartyMode.GetMaxTeams() && numPressed > _SelectSlides[_SelectSlideTeams].NumValues)
+                        while (numPressed < _PartyMode.GetMaxTeams())
+                            IncreaseTeamNum();
+                    if (numPressed <= _SelectSlides[_SelectSlideTeams].NumValues)
+                        _SelectSlides[_SelectSlideTeams].SetSelectionByValueIndex(numPressed - 1);
                 }
             }
             if (_SelectingFastPlayerNr > 0 && _SelectingFastPlayerNr <= _NumPlayerTeams[_CurrentTeam])
