@@ -503,6 +503,27 @@ namespace VocaluxeLib.Menu
             }
         }
 
+        public int GetRandomUnusedProfile()
+        {
+            int id = -1;
+
+            if (_VisibleProfiles.Count == 0)
+                return id;
+
+            if (_VisibleProfiles.Count == _UsedProfiles.Count)
+                return id;
+
+            while(id == -1)
+            {
+                int rand = CBase.Game.GetRandom(_VisibleProfiles.Count);
+                if (_UsedProfiles.Contains(_VisibleProfiles[rand]))
+                    continue;
+                id = _VisibleProfiles[rand];
+            }
+
+            return id;
+        }
+
         private void _PrepareTiles()
         {
             _Tiles.Clear();

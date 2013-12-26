@@ -56,6 +56,7 @@ namespace VocaluxeLib.Menu
 
         private const string _ButtonNext = "ButtonNext";
         private const string _ButtonBack = "ButtonBack";
+        private const string _ButtonRandom = "ButtonRandom";
         private const string _ButtonIncreaseTeams = "ButtonIncreaseTeams";
         private const string _ButtonDecreaseTeams = "ButtonDecreaseTeams";
         private const string _ButtonIncreasePlayer = "ButtonIncreasePlayer";
@@ -69,7 +70,7 @@ namespace VocaluxeLib.Menu
         public override void Init()
         {
             base.Init();
-            _ThemeButtons = new string[] { _ButtonBack, _ButtonNext, _ButtonIncreaseTeams, _ButtonDecreaseTeams, _ButtonIncreasePlayer, _ButtonDecreasePlayer };
+            _ThemeButtons = new string[] { _ButtonBack, _ButtonNext, _ButtonRandom, _ButtonIncreaseTeams, _ButtonDecreaseTeams, _ButtonIncreasePlayer, _ButtonDecreasePlayer };
             _ThemeSelectSlides = new string[] { _SelectSlideTeams, _SelectSlidePlayer };
             _ThemeNameSelections = new string[] { _NameSelection };
 
@@ -183,6 +184,9 @@ namespace VocaluxeLib.Menu
 
                         if (_Buttons[_ButtonNext].Selected)
                             Next();
+
+                        if (_Buttons[_ButtonRandom].Selected)
+                            _SelectRandom();
 
                         if (_Buttons[_ButtonIncreaseTeams].Selected)
                             IncreaseTeamNum();
@@ -319,6 +323,9 @@ namespace VocaluxeLib.Menu
 
                 if (_Buttons[_ButtonNext].Selected)
                     Next();
+
+                if (_Buttons[_ButtonRandom].Selected)
+                    _SelectRandom();
 
                 if (_Buttons[_ButtonIncreaseTeams].Selected)
                     IncreaseTeamNum();
@@ -621,6 +628,17 @@ namespace VocaluxeLib.Menu
             _UpdatePlayerSlide();
         }
 
+        private void _RemoveAllPlayer()
+        {
+            for (int t = 0; t < _TeamList.Length; t++)
+            {
+                for (int p = 0; p < _TeamList[t].Count; p++)
+                {
+                    _RemovePlayerByIndex(t, p);
+                }
+            }
+        }
+
         private void _RemovePlayerByIndex(int team, int index)
         {
             if (_TeamList[team].Count > index)
@@ -635,6 +653,19 @@ namespace VocaluxeLib.Menu
         {
             _TeamList[team].Remove(profileID);
             _NameSelections[_NameSelection].RemoveUsedProfile(profileID);
+        }
+
+        private void _SelectRandom()
+        {
+            _RemoveAllPlayer();
+            for (int t = 0; t < _NumPlayerTeams.Length; t++)
+            {
+                for (int p = 0; p < _NumPlayerTeams[t]; p++)
+                {
+                    int profileID = _NameSelections[_NameSelection].GetRandomUnusedProfile();
+                    _AddPlayer(t, profileID);
+                }
+            }
         }
 
         #endregion 
