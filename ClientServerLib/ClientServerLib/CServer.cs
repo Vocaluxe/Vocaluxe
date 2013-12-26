@@ -205,13 +205,15 @@ namespace ServerLib
 
         public static string GetLocalAddress()
         {
-            IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());
+            return Dns.GetHostName();
+            
+            /*IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());
             foreach (IPAddress ip in ips)
             {
                 if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                     return ip.ToString();
             }
-            return "";
+            return "";*/
         }
 
         #region server control
