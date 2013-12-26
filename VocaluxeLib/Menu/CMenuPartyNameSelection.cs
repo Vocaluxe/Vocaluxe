@@ -46,7 +46,6 @@ namespace VocaluxeLib.Menu
 
         private bool _SelectingKeyboardActive;
         private bool _SelectingFast;
-        private int _SelectingSwitchNr = -1;
         private int _SelectingFastPlayerNr;
         private int _SelectedProfileID = -1;
 
@@ -289,7 +288,6 @@ namespace VocaluxeLib.Menu
                 }
 
                 //Reset variables
-                _SelectingSwitchNr = -1;
                 _SelectedProfileID = -1;
                 _ChooseAvatarStatic.Visible = false;
             }
