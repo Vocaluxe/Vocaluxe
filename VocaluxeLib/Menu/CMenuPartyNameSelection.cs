@@ -688,9 +688,11 @@ namespace VocaluxeLib.Menu
         {
             for (int t = 0; t < _TeamList.Length; t++)
             {
-                for (int p = 0; p < _TeamList[t].Count; p++)
+                List<int> ids = new List<int>();
+                ids.AddRange(_TeamList[t]);
+                for (int p = 0; p < ids.Count; p++)
                 {
-                    _RemovePlayerByIndex(t, p);
+                    _RemovePlayer(t, ids[p]);
                 }
             }
         }
