@@ -198,18 +198,21 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void UpdateLength(CSong song)
         {
-            float time = CBase.Sound.GetLength(_PreviewSongStream);
-            if (Math.Abs(song.Finish) > 0.001)
-                time = song.Finish;
-
-            // The audiobackend is not yet ready to return the length
-            if (time > 0)
+            if (song != null)
             {
-                time -= song.Start;
-                var min = (int)Math.Floor(time / 60f);
-                var sec = (int)(time - min * 60f);
-                _SongLength.Text = min.ToString("00") + ":" + sec.ToString("00");
-                _Length = time;
+                float time = CBase.Sound.GetLength(_PreviewSongStream);
+                if (Math.Abs(song.Finish) > 0.001)
+                    time = song.Finish;
+
+                // The audiobackend is not yet ready to return the length
+                if (time > 0)
+                {
+                    time -= song.Start;
+                    var min = (int)Math.Floor(time / 60f);
+                    var sec = (int)(time - min * 60f);
+                    _SongLength.Text = min.ToString("00") + ":" + sec.ToString("00");
+                    _Length = time;
+                }
             }
         }
 
