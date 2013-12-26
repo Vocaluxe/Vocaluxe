@@ -257,7 +257,7 @@ namespace Vocaluxe.Lib.Sound
                 // if it takes more than 500ms, duration queries will be performed asynchronously
                 if (prescan)
                 {
-                    var msg = _Element.Bus.TimedPopFiltered(500 * Constants.MSECOND, MessageType.AsyncDone);
+                    var msg = _Element.Bus.TimedPopFiltered(0xffffffffffffffff, MessageType.AsyncDone);
                     if(msg.Handle != IntPtr.Zero)
                         _UpdateDuration();
                 }
