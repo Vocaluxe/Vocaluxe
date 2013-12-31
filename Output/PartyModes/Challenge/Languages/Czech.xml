@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Anglický</string>
+  <string name="TR_PARTYMODE_NAME">Soutěžní režim</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Hrát v režimu soutěže.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Pro všechny ty, kdož se zajímají o pěvecké souboje.</string>
+  <string name="TR_BUTTON_NEXT">Další</string>
+  <string name="TR_BUTTON_BACK">Zpět</string>
+  <string name="TR_BUTTON_START">Spustit</string>
+  <string name="TR_BUTTON_EXIT">Ukončit</string>
+  <string name="TR_BUTTON_YES">Ano</string>
+  <string name="TR_BUTTON_NO">Ne</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Další kolo</string>
+  <string name="TR_SCREENCONFIG_TITLE">Soutěžní režim: Nastavení</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Počet hráčů</string>
+  <string name="TR_SCREENCONFIG_NUMMICS">Počet mikrofonů</string>
+  <string name="TR_SCREENCONFIG_NUMROUNDS">Počet kol</string>
+  <string name="TR_SCREENNAMES_TITLE">Soutěžní režim: Výběr hráče</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Vybrat náhodně</string>
+  <string name="TR_SCREENMAIN_TITLE">Soutěžní režim: Přehled</string>
+  <string name="TR_SCREENMAIN_TABLE_POS">Místo</string>
+  <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">Jméno</string>
+  <string name="TR_SCREENMAIN_TABLE_NUMPLAYED">Kola</string>
+  <string name="TR_SCREENMAIN_TABLE_WON">Vítězové</string>
+  <string name="TR_SCREENMAIN_TABLE_SINGPOINTS">Body za zpívání</string>
+  <string name="TR_SCREENMAIN_TABLE_GAMEPOINTS">Výsledky</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Opravdu chcete odejít?</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Hráč dalšího kola:</string>
+  <string name="TR_SCREENMAIN_FINISH">Všechna kola byla odzpívána! A vítězem se stal...</string>
+</resources>

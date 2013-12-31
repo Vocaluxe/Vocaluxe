@@ -25,6 +25,7 @@
   <string name="TR_SCREENNAMES_TITLE">Tic-Tac-Toe: Spielerwahl</string>
   <string name="TR_SCREENNAMES_TEAM1">Team 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Team 2</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Zufällig auswählen</string>
   <string name="TR_SCREENMAIN_TITLE">Tic-Tac-Toe</string>
   <string name="TR_SCREENMAIN_TEAM_CHOOSE">Wählt ein Feld aus.</string>
   <string name="TR_SCREENMAIN_NEXT_PLAYER">Nächster Spieler</string>

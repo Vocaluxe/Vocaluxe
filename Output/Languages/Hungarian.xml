@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="language">Magyar</string>
   <string name="TR_PROGRAM_NAME">Vocaluxe</string>
@@ -138,7 +139,6 @@
   <string name="TR_SCREENPROFILES_PLAYERNAME">Játékos Neve</string>
   <string name="TR_SCREENPROFILES_GAMEDIFFICULTY">Nehézségi Szint</string>
   <string name="TR_SCREENPROFILES_AVATAR">Profilkép</string>
-  <string name="TR_SCREENPROFILES_GUESTPROFILE">Vendég Profil</string>
   <string name="TR_SCREENPROFILES_ACTIVE">Jelenlegi</string>
   <string name="TR_SCREENPROFILES_BUTTON_NEW">Új</string>
   <string name="TR_SCREENPROFILES_BUTTON_DELETE">Törlés</string>
@@ -186,7 +186,6 @@
   <string name="TR_SCREENOTHEME_COVERLOADING">Borító Betöltés</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Dalszöveg Beállítások</string>
   <string name="TR_SCREENOLYRICS_STYLE">Stílus</string>
-  <string name="TR_SCREENOLYRICS_ONTOP">Dalszöveg Felül</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Képi Beállítások</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Animált Háttér</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Videó Előnézet</string>

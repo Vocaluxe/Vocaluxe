@@ -60,6 +60,9 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
                 while (_Data.ScreenNames.ProfileIDs.Count > _NumPlayer)
                     _Data.ScreenNames.ProfileIDs.RemoveAt(_Data.ScreenNames.ProfileIDs.Count - 1);
+
+                List<int>[] ids = new List<int>[] { _Data.ScreenNames.ProfileIDs };
+                SetPartyModeProfiles(ids);
             }
             catch (Exception e)
             {

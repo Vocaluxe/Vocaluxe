@@ -139,7 +139,6 @@
   <string name="TR_SCREENPROFILES_PLAYERNAME">Oyuncu Adı</string>
   <string name="TR_SCREENPROFILES_GAMEDIFFICULTY">Oyun Zorluğu</string>
   <string name="TR_SCREENPROFILES_AVATAR">Profil Resmi</string>
-  <string name="TR_SCREENPROFILES_GUESTPROFILE">Misafir Profili</string>
   <string name="TR_SCREENPROFILES_ACTIVE">Aktif</string>
   <string name="TR_SCREENPROFILES_BUTTON_NEW">Yeni</string>
   <string name="TR_SCREENPROFILES_BUTTON_DELETE">Sil</string>
@@ -187,7 +186,6 @@
   <string name="TR_SCREENOTHEME_COVERLOADING">Kapak Yüklenme Davranışı</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Şarkı Sözü Seçenekleri</string>
   <string name="TR_SCREENOLYRICS_STYLE">Tarz</string>
-  <string name="TR_SCREENOLYRICS_ONTOP">Sözler Yukarıda Gösterilsin</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Video Seçenekleri</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video Arka Planları</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video Önizleme</string>

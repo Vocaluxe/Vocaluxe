@@ -1,4 +1,5 @@
-﻿<resources>
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<resources>
   <string name="language">Deutsch</string>
   <string name="TR_PARTYMODE_NAME">Challenge Medley Modus</string>
   <string name="TR_PARTYMODE_DESCRIPTION">Spiele einen Wettkampfmodus nur mit 5er Medleys</string>
@@ -15,6 +16,7 @@
   <string name="TR_SCREENCONFIG_NUMMICS">Anzahl der Mikrofone</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Anzahl der Runden</string>
   <string name="TR_SCREENNAMES_TITLE">Challenge Medley Modus: Spielerwahl</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Zufällig auswählen</string>
   <string name="TR_SCREENMAIN_TITLE">Challenge Medley Modus: Übersicht</string>
   <string name="TR_SCREENMAIN_TABLE_POS">Pos</string>
   <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">Name</string>

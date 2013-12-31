@@ -14,6 +14,7 @@
   <string name="TR_DEBUG_MAX_VOLUME">Maximaal Volume</string>
   <string name="TR_DEBUG_SONGS">Liedjes geladen</string>
   <string name="TR_DEBUG_MOUSE">Muis</string>
+  <string name="TR_DEBUG_MEMORY">Geheugengebruik</string>
   <string name="TR_GAMEMODE_NORMAL">Normaal</string>
   <string name="TR_GAMEMODE_DUET">Duet</string>
   <string name="TR_GAMEMODE_MEDLEY">Medley</string>
@@ -73,6 +74,10 @@
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Alles</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Alleen namen en avatars</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Niets</string>
+  <string name="TR_CONFIG_LYRICSPOSITION_BOTTOM">Onder</string>
+  <string name="TR_CONFIG_LYRICSPOSITION_TOP">Boven</string>
+  <string name="TR_CONFIG_LYRICSPOSITION_BOTH">Boven en onder</string>
+  <string name="TR_CONFIG_LYRICSPOSITION_DYNAMIC">Dynamisch</string>
   <string name="TR_SCREENLOAD_LOADING">Laden</string>
   <string name="TR_SCREENLOAD_TOTAL">Totaal</string>
   <string name="TR_SCREENLOAD_SONGS">Liedjes</string>
@@ -88,6 +93,7 @@
   <string name="TR_SCREENPARTY_AUTHOR">Auteur</string>
   <string name="TR_SCREENPARTY_VERSION">Versie</string>
   <string name="TR_SCREENPARTY_ERROR">Kan deze Partymodus niet laden</string>
+  <string name="TR_SCREENPARTY_ERROR_MICS">Er zijn geen microfoons ingesteld!</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">Doelgroep</string>
   <string name="TR_SCREENPARTY_NOTEAMS">Geen teams</string>
   <string name="TR_SCREENPARTY_NUMTEAMS">Aantal teams</string>
@@ -113,6 +119,7 @@
   <string name="TR_SCREENSONG_BUTTON_SINGALL">Zing alle liedjes</string>
   <string name="TR_SCREENSONG_BUTTON_SINGALLVISIBLE">Zing alle zichtbare liedjes</string>
   <string name="TR_SCREENSONG_BUTTON_OPENPLAYLIST">Open afspeellijst</string>
+  <string name="TR_SCREENSONG_BUTTON_OPEN_SELECTED_ITEM">Kies</string>
   <string name="TR_SCREENSONG_BUTTON_RANDOMMEDLEY">Zing een willekeurige medley</string>
   <string name="TR_SCREENSONG_BUTTON_STARTMEDLEY">Zing medleyliedjes</string>
   <string name="TR_SCREENSONG_NEWPLAYLIST">Nieuwe afspeellijst</string>
@@ -125,6 +132,7 @@
   <string name="TR_SCREENSONG_ALLSONGS">Alle liedjes</string>
   <string name="TR_SCREENSONG_NUMSONGS">(%v Liedjes)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v Liedje)</string>
+  <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
   <string name="TR_SCREENSING_PAUSE">Pauze</string>
   <string name="TR_SCREENSING_BUTTON_CANCEL">Stop met zingen</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Doorgaan</string>
@@ -139,7 +147,6 @@
   <string name="TR_SCREENPROFILES_PLAYERNAME">Spelernaam</string>
   <string name="TR_SCREENPROFILES_GAMEDIFFICULTY">Moeilijkheidsgraad</string>
   <string name="TR_SCREENPROFILES_AVATAR">Avatar</string>
-  <string name="TR_SCREENPROFILES_GUESTPROFILE">Gastprofiel</string>
   <string name="TR_SCREENPROFILES_ACTIVE">Actief</string>
   <string name="TR_SCREENPROFILES_BUTTON_NEW">Nieuw</string>
   <string name="TR_SCREENPROFILES_BUTTON_DELETE">Verwijderen</string>
@@ -187,7 +194,7 @@
   <string name="TR_SCREENOTHEME_COVERLOADING">Gedrag Laden Covers</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Songtekstopties</string>
   <string name="TR_SCREENOLYRICS_STYLE">Stijl</string>
-  <string name="TR_SCREENOLYRICS_ONTOP">Songteksten bovenaan</string>
+  <string name="TR_SCREENOLYRICS_POSTION">Positie songteksten</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Video-opties</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Videoachtergronden</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Videopreview</string>
