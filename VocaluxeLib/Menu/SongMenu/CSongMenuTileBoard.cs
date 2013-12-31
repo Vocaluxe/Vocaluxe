@@ -67,8 +67,13 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             set
             {
-                base._PreviewId = value;
+                base._PlaySong(value);
+                base._PreviewIdInternal = value;
                 _UpdatePreview();
+            }
+            get
+            {
+                return base._PreviewIdInternal;
             }
         }
 
@@ -222,7 +227,6 @@ namespace VocaluxeLib.Menu.SongMenu
                 _EnterCategory(0);
             _ActualSelection = -1;
             _Locked = -1;
-            _PreviewId = -1;
             _UpdateList(0, true);
             //AfterCategoryChange();
             SetSelectedSong(_PreviewId);
@@ -371,9 +375,10 @@ namespace VocaluxeLib.Menu.SongMenu
                 }
 
                 if (!keyEvent.Handled)
-                {
-                    _PreviewId = _Locked;
+                {                   
                     _ActualSelection = _Locked;
+                    if (_PreviewId != _Locked)
+                        _PreviewId = _Locked;
 
                     for (int i = 0; i < _Tiles.Count; i++)
                         _Tiles[i].Selected = _Locked == i + _Offset;
@@ -554,6 +559,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public override void SetSelectedSong(int visibleSongNr)
         {
+            base._PlaySong(visibleSongNr);
             base.SetSelectedSong(visibleSongNr);
 
             if (visibleSongNr >= 0 && visibleSongNr < CBase.Songs.GetNumSongsVisible())
