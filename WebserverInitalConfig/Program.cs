@@ -16,7 +16,8 @@ namespace WebserverInitalConfig
         {
             if (args.Length != 2)
             {
-                Console.WriteLine("Usage: WebserverInitalConfig port isHttps");
+                Console.WriteLine("Usage: VocaluxeServerConfig port isHttps");
+                Environment.Exit(-1);
             }
 
             ConfigHttpApi.addFirewallrule(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Vocaluxe.exe"), Int32.Parse(args[0]), true);
