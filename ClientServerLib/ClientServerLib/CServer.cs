@@ -300,7 +300,7 @@ namespace ServerLib
             ProcessStartInfo info = new ProcessStartInfo
             {
                 FileName = "VocaluxeServerConfig.exe",
-                Arguments = port.ToString() + " " + _Encrypted.ToString(),
+                Arguments = port.ToString() + " " + (_Encrypted?"true":"false"),
                 UseShellExecute = true,
                 CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden,
