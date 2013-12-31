@@ -1,7 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vocaluxe", "Vocaluxe\Vocaluxe.csproj", "{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{55F89808-4E79-4FFE-BC13-48258913F5C9} = {55F89808-4E79-4FFE-BC13-48258913F5C9}
@@ -151,22 +149,21 @@ Global
 		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseWin|x64.Build.0 = ReleaseWin|x64
 		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseWin|x86.ActiveCfg = ReleaseWin|Win32
 		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseWin|x86.Build.0 = ReleaseWin|Win32
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x64.ActiveCfg = Debug|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x64.Build.0 = Debug|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x86.ActiveCfg = Debug|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x64.ActiveCfg = Debug|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x64.Build.0 = Debug|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x86.ActiveCfg = Debug|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x86.Build.0 = Debug|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.InstallerWin|x64.ActiveCfg = Release|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.InstallerWin|x86.ActiveCfg = Release|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x64.ActiveCfg = Release|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x64.Build.0 = Release|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x86.ActiveCfg = Release|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x64.ActiveCfg = Release|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x64.Build.0 = Release|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x86.ActiveCfg = Release|Any CPU
-		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x86.Build.0 = Release|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x64.ActiveCfg = DebugLinux|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x64.Build.0 = DebugLinux|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x86.ActiveCfg = DebugLinux|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x64.ActiveCfg = DebugWin|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x64.Build.0 = DebugWin|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x86.ActiveCfg = DebugWin|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.InstallerWin|x64.ActiveCfg = ReleaseWin|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.InstallerWin|x64.Build.0 = ReleaseWin|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.InstallerWin|x86.ActiveCfg = ReleaseLinux|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x64.ActiveCfg = ReleaseLinux|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x64.Build.0 = ReleaseLinux|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x64.ActiveCfg = ReleaseWin|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x64.Build.0 = ReleaseWin|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x86.ActiveCfg = ReleaseWin|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugLinux|x64.ActiveCfg = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugLinux|x86.ActiveCfg = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|x64.ActiveCfg = Debug|Any CPU
@@ -174,6 +171,7 @@ Global
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|x86.ActiveCfg = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|x86.Build.0 = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.InstallerWin|x64.ActiveCfg = Release|Any CPU
+		{55F89808-4E79-4FFE-BC13-48258913F5C9}.InstallerWin|x64.Build.0 = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.InstallerWin|x86.ActiveCfg = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseLinux|x64.ActiveCfg = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseLinux|x86.ActiveCfg = Release|Any CPU
