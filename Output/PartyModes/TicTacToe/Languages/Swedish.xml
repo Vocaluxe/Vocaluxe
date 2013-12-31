@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Svenska</string>
+  <string name="TR_PARTYMODE_NAME">Tripp-Trapp-Trull</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Spela Tripp-Trapp-Trull på speciellt sätt</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Roliga omgångar med strategi, tur och skicklighet</string>
+  <string name="TR_BUTTON_NEXT">Nästa</string>
+  <string name="TR_BUTTON_BACK">Tillbaka</string>
+  <string name="TR_BUTTON_START">Starta</string>
+  <string name="TR_BUTTON_EXIT">Avsluta</string>
+  <string name="TR_BUTTON_YES">Ja</string>
+  <string name="TR_BUTTON_NO">Nej</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Starta</string>
+  <string name="TR_SONGS">Låtar</string>
+  <string name="TR_TEAM">Lag</string>
+  <string name="TR_PLAYLIST">Spellista</string>
+  <string name="TR_CATEGORY">Kategori</string>
+  <string name="TR_ALLSONGS">Alla låtar</string>
+  <string name="TR_SCREENCONFIG_TITLE">Tripp-Trapp-Trull: Konfiguration</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST1">Antal spelare i lag 1</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST2">Antal spelare i lag 2</string>
+  <string name="TR_SCREENCONFIG_NUMFIELDS">Antal fält</string>
+  <string name="TR_SCREENCONFIG_SONGSOURCE">Sång källa</string>
+  <string name="TR_SCREENCONFIG_GAMEMODE">Spel Läge</string>
+  <string name="TR_SCREENNAMES_TITLE">Tripp-Trapp-Trull: Välj Spelare</string>
+  <string name="TR_SCREENNAMES_TEAM1">Lag 1</string>
+  <string name="TR_SCREENNAMES_TEAM2">Lag 2</string>
+  <string name="TR_SCREENMAIN_TITLE">Tripp-Trapp-Trull</string>
+  <string name="TR_SCREENMAIN_TEAM_CHOOSE">Välj ett fält.</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Nästa spelare</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Avsluta Tripp-Trapp-Trull?</string>
+  <string name="TR_SCREENMAIN_WINNER">Och vinnare är...</string>
+  <string name="TR_SCREENMAIN_NOWINNER">Det finns ingen vinnare denna omgång...</string>
+</resources>

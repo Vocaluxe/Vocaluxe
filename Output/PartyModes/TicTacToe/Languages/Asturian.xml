@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Inglés</string>
+  <string name="TR_PARTYMODE_NAME">Tic-Tac-Toe</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Xugar Tic-Tac-Toe d\'un mou especial</string>
+  <string name="TR_BUTTON_NEXT">Siguiente</string>
+  <string name="TR_BUTTON_BACK">Tornar</string>
+  <string name="TR_BUTTON_START">Entamar</string>
+  <string name="TR_BUTTON_EXIT">Colar</string>
+  <string name="TR_BUTTON_YES">Sí</string>
+  <string name="TR_BUTTON_NO">Non</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Entamar</string>
+  <string name="TR_SONGS">Sones</string>
+  <string name="TR_TEAM">Equipu</string>
+  <string name="TR_PLAYLIST">Llista de reproducción</string>
+  <string name="TR_CATEGORY">Estaya</string>
+  <string name="TR_ALLSONGS">Toles sones</string>
+  <string name="TR_SCREENCONFIG_TITLE">Tic-Tac-Toe: Configuración</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST1">Númberu de xugadores nel equipu 1</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST2">Númberu de xugadores nel equipu 2</string>
+  <string name="TR_SCREENCONFIG_NUMFIELDS">Númberu de campos</string>
+  <string name="TR_SCREENCONFIG_GAMEMODE">Mou de xuegu</string>
+  <string name="TR_SCREENNAMES_TITLE">Tic-Tac-Toe: Esbillar xugador</string>
+  <string name="TR_SCREENNAMES_TEAM1">Equipu 1</string>
+  <string name="TR_SCREENNAMES_TEAM2">Equipu 2</string>
+  <string name="TR_SCREENMAIN_TITLE">Tic-Tac-Toe</string>
+  <string name="TR_SCREENMAIN_TEAM_CHOOSE">Esbilla un campu.</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Xugador siguiente</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">¿Colar de xuru de Tic-Tac-Toe?</string>
+  <string name="TR_SCREENMAIN_WINNER">Ya\'l ganador ye...</string>
+  <string name="TR_SCREENMAIN_NOWINNER">Nun hai ganador dalu nesta ronda...</string>
+</resources>

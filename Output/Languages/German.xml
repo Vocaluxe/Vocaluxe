@@ -1,4 +1,5 @@
-﻿<resources>
+﻿<?xml version='1.0' encoding='UTF-8'?>
+<resources>
   <string name="language">Deutsch</string>
   <string name="TR_PROGRAM_NAME">Vocaluxe</string>
   <string name="TR_GENERAL_AND">und</string>
@@ -26,6 +27,9 @@
   <string name="TR_RATING_WANNABE">Möchtegern</string>
   <string name="TR_RATING_AMATEUR">Amateur</string>
   <string name="TR_RATING_TONE_DEAF">Nichtskönner</string>
+  <string name="TR_USERROLE_GUEST">Gast</string>
+  <string name="TR_USERROLE_NORMAL">Normaler Benutzer</string>
+  <string name="TR_USERROLE_ADMIN">Administrator</string>
   <string name="TR_CONFIG_SOFTWARE">Software</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -59,6 +63,7 @@
   <string name="TR_CONFIG_YEAR">Jahr</string>
   <string name="TR_CONFIG_DECADE">Dekade</string>
   <string name="TR_CONFIG_LANGUAGE">Sprache</string>
+  <string name="TR_CONFIG_DATEADDED">Hinzugefügt am</string>
   <string name="TR_CONFIG_EASY">Einfach</string>
   <string name="TR_CONFIG_NORMAL">Normal</string>
   <string name="TR_CONFIG_HARD">Schwierig</string>
@@ -75,7 +80,7 @@
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Keine</string>
   <string name="TR_CONFIG_LYRICSPOSITION_BOTTOM">Unten</string>
   <string name="TR_CONFIG_LYRICSPOSITION_TOP">Oben</string>
-  <string name="TR_CONFIG_LYRICSPOSITION_BOTH">Oben und unten</string>
+  <string name="TR_CONFIG_LYRICSPOSITION_BOTH">Oben und Unten</string>
   <string name="TR_CONFIG_LYRICSPOSITION_DYNAMIC">Dynamisch</string>
   <string name="TR_SCREENLOAD_LOADING">Laden</string>
   <string name="TR_SCREENLOAD_TOTAL">Gesamt</string>
@@ -92,6 +97,7 @@
   <string name="TR_SCREENPARTY_AUTHOR">Autor</string>
   <string name="TR_SCREENPARTY_VERSION">Version</string>
   <string name="TR_SCREENPARTY_ERROR">Dieser Party-Modus konnte nicht geladen werden.</string>
+  <string name="TR_SCREENPARTY_ERROR_MICS">Es sind keine Mikros konfiguriert!</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">Zielgruppe</string>
   <string name="TR_SCREENPARTY_NOTEAMS">Keine Teams</string>
   <string name="TR_SCREENPARTY_NUMTEAMS">Anzahl der Teams</string>
@@ -130,6 +136,7 @@
   <string name="TR_SCREENSONG_ALLSONGS">Alle Songs</string>
   <string name="TR_SCREENSONG_NUMSONGS">(%v Lieder)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v Lied)</string>
+  <string name="TR_SCREENSONG_ARTIST_TITLE">%a -%t</string>
   <string name="TR_SCREENSING_PAUSE">Pause</string>
   <string name="TR_SCREENSING_BUTTON_CANCEL">Lied beenden</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Fortfahren</string>
@@ -144,7 +151,7 @@
   <string name="TR_SCREENPROFILES_PLAYERNAME">Spieler-Name</string>
   <string name="TR_SCREENPROFILES_GAMEDIFFICULTY">Schwierigkeit</string>
   <string name="TR_SCREENPROFILES_AVATAR">Avatar</string>
-  <string name="TR_SCREENPROFILES_GUESTPROFILE">Gast-Profil</string>
+  <string name="TR_SCREENPROFILES_USERROLE">Benutzerrolle</string>
   <string name="TR_SCREENPROFILES_ACTIVE">Aktiv</string>
   <string name="TR_SCREENPROFILES_BUTTON_NEW">Neu</string>
   <string name="TR_SCREENPROFILES_BUTTON_DELETE">Löschen</string>
@@ -159,6 +166,7 @@
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
   <string name="TR_SCREENO_BUTTON_LYRICS">Songtext</string>
   <string name="TR_SCREENO_BUTTON_THEME">Design</string>
+  <string name="TR_SCREENOGAME_BUTTON_SERVER">Serveradresse</string>
   <string name="TR_SCREENOGAME_OPTIONS">Spieleinstellungen</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Sprache</string>
   <string name="TR_SCREENOGAME_DEBUGLEVEL">Debug-Level</string>
@@ -192,7 +200,7 @@
   <string name="TR_SCREENOTHEME_COVERLOADING">Cover Ladeverhalten</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Songtexteinstellungen</string>
   <string name="TR_SCREENOLYRICS_STYLE">Stil</string>
-  <string name="TR_SCREENOLYRICS_POSITION">Position</string>
+  <string name="TR_SCREENOLYRICS_POSTION">Songtext-Position</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Videoeinstellungen</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video-Hintergründe</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video-Vorschau</string>
@@ -200,5 +208,13 @@
   <string name="TR_SCREENO_VIDEO_VIDEOSTOBACKGROUND">Videos der Hintergrundmusik</string>
   <string name="TR_SCREENO_VIDEO_WEBCAMDEVICES">Webcams</string>
   <string name="TR_SCREENO_VIDEO_WEBCAMCAPABILITIES">Webcamfähigkeiten</string>
+  <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Anzeigeanpassungen</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">STRG + ALT + SHIFT + Pfeiltasten drücken um den Bildschirm anzupassen</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">STRG + ALT + SHIFT + 0 um die Anpassungen zurückzusetzen</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Oben links</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Oben rechts</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMLEFT">Unten links</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Unten rechts</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Lautstärke</string>
+  <string name="TR_SCREENPSERVERQR_ADDRESS">Serveradresse</string>
 </resources>

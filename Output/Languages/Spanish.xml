@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="language">Español</string>
   <string name="TR_PROGRAM_NAME">Vocaluxe</string>
@@ -81,7 +82,7 @@
   <string name="TR_SCREENPARTY_DESCRIPTION">TODO: Description</string>
   <string name="TR_SCREENPARTY_AUTHOR">TODO: Author</string>
   <string name="TR_SCREENPARTY_VERSION">TODO: Version</string>
-  <string name="TR_SCREENPARTY_ERROR">TODO: Can't load this party-mode.</string>
+  <string name="TR_SCREENPARTY_ERROR">TODO: Can\'t load this party-mode.</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">TODO: Target audience</string>
   <string name="TR_SCREENPARTY_NOTEAMS">TODO: No Teams</string>
   <string name="TR_SCREENPARTY_NUMTEAMS">TODO: Number of teams</string>
@@ -113,7 +114,6 @@
   <string name="TR_SCREENSONG_SONGOPTIONS">TODO: Song Options</string>
   <string name="TR_SCREENSONG_SEARCH">Buscar:</string>
   <string name="TR_SCREENSONG_NOLANGUAGE">Sin Idioma</string>
-  <string name="TR_SCREENSONG_NEWPLAYLIST">TODO: New Playlist</string>
   <string name="TR_SCREENSONG_NOYEAR">Sin Año</string>
   <string name="TR_SCREENSONG_NOGENRE">Sin Género</string>
   <string name="TR_SCREENSONG_NOEDITION">Sin Edición</string>
@@ -132,7 +132,6 @@
   <string name="TR_SCREENPROFILES_PLAYERNAME">Nombre del Jugador</string>
   <string name="TR_SCREENPROFILES_GAMEDIFFICULTY">Dificultad del Juego</string>
   <string name="TR_SCREENPROFILES_AVATAR">Avatar</string>
-  <string name="TR_SCREENPROFILES_GUESTPROFILE">Perfil Invitado</string>
   <string name="TR_SCREENPROFILES_ACTIVE">Activa</string>
   <string name="TR_SCREENPROFILES_BUTTON_NEW">Nuevo</string>
   <string name="TR_SCREENPROFILES_BUTTON_DELETE">Eliminar</string>

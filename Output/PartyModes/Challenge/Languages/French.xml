@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="language">Français</string>
   <string name="TR_PARTYMODE_NAME">Mode Challenge</string>
@@ -12,7 +13,7 @@
   <string name="TR_BUTTON_NEXT_ROUND">Tour suivant</string>
   <string name="TR_SCREENCONFIG_TITLE">Mode Challenge: Configuration</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Nombre de joueurs</string>
-  <string name="TR_SCREENCONFIG_NUMMICS">Nombre de micro</string>
+  <string name="TR_SCREENCONFIG_NUMMICS">Nombre de micros</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Nombre de tours</string>
   <string name="TR_SCREENNAMES_TITLE">Mode Challenge: Choix des joueurs</string>
   <string name="TR_SCREENMAIN_TITLE">Mode Challenge: Résumé</string>
