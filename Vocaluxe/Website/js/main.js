@@ -14,11 +14,11 @@ if (document.location.protocol == "file:") {
         window.deviceAndJqmLoaded = $.Deferred();
     }
     window.deviceAndJqmLoaded.done(function () {
-        prestart();
+        preStart();
     });
 } else {
     $(document).ready(function () {
-        prestart();
+        preStart();
     });
 }
 
@@ -1267,7 +1267,7 @@ function initTranslation() {
         keyseparator: '::',
         nsseparator: ':::'
     }).done(function () {
-        tranlationLoaded.resolve();
+        translationLoaded.resolve();
     });
 }
 
