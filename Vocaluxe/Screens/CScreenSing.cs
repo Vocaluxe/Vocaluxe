@@ -541,6 +541,8 @@ namespace Vocaluxe.Screens
         {
             base.OnClose();
             CBackgroundMusic.Disabled = false;
+            if (_Webcam)
+                CWebcam.Stop();
             _CloseSong();
         }
 
@@ -885,7 +887,8 @@ namespace Vocaluxe.Screens
                 _Buttons[_ButtonContinue].Visible = false;
                 _Buttons[_ButtonSkip].Visible = false;
                 CSound.Play(_CurrentStream);
-                CWebcam.Start();
+                if(_Webcam)
+                    CWebcam.Start();
             }
         }
 
