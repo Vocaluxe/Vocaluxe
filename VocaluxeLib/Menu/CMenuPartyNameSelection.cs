@@ -112,6 +112,12 @@ namespace VocaluxeLib.Menu
             _UpdateButtonState();
         }
 
+        public void SetPartyModeProfiles(List<int>[] teamProfiles)
+        {
+            _TeamList = teamProfiles;
+            _UpdateSlides();
+        }
+
         public override bool HandleInput(SKeyEvent keyEvent)
         {
             //Check if selecting with keyboard is active

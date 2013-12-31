@@ -82,6 +82,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             base.OnShow();
             SetPartyModeData(2, _NumPlayerTeam1 + _NumPlayerTeam2, new int[] { _NumPlayerTeam1, _NumPlayerTeam2 });
+            List<int>[] ids = new List<int>[] {_Data.ScreenNames.ProfileIDsTeam1, _Data.ScreenNames.ProfileIDsTeam2};
+            SetPartyModeProfiles(ids);
         }
 
         public override void Back()
