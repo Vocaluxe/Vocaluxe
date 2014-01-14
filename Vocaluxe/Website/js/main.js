@@ -22,14 +22,14 @@ if (document.location.protocol == "file:") {
     });
 }
 
-function preStart(){
-	translationLoaded = $.Deferred();
-	initTranslation();
-	
-	translationLoaded.done(function () {
-		translate();
-		start();
-	});
+function preStart() {
+    translationLoaded = $.Deferred();
+    initTranslation();
+
+    translationLoaded.done(function () {
+        translate();
+        start();
+    });
 }
 
 function start() {
@@ -413,24 +413,24 @@ function initPageLoadHandler() {
                 TR_USERROLE_ADMIN: 2,
                 TR_USERROLE_KEYBOARDUSER: 4,
                 TR_USERROLE_ADDSONGSUSER: 8,
-                TR_USERROLE_PLAYLISTEDITOR: 16, 
+                TR_USERROLE_PLAYLISTEDITOR: 16,
                 TR_USERROLE_PROFILEEDITOR: 32
             };
-            
+
             for (var roleName in userRoles) {
                 $('#' + roleName).prop("checked", ((result & userRoles[roleName]) != 0)).checkboxradio("refresh");
             }
-            
+
 
             $('#btnRoleSave').unbind('click').click(function () {
                 var role = 0;
-                
+
                 for (var roleName2 in userRoles) {
                     if ($('#' + roleName2).prop("checked")) {
                         role = (role | userRoles[roleName2]);
                     }
                 }
-              
+
                 request({
                     url: "setUserRole?profileId=" + profileIdRequest + "&userRole=" + role,
                     headers: { "session": sessionId }
@@ -926,6 +926,12 @@ function initKeyboardPageHandler() {
         });
     });
 
+    $('#keyboardButtonP').click(function () {
+        request({
+            url: "sendKeyEvent?key=p"
+        });
+    });
+
     $('#keyboardButtonKeys').keyup(function (e) {
         var c = String.fromCharCode(e.keyCode);
         if (c.match(/\w/)) {
@@ -1279,4 +1285,4 @@ function translate() {
     };
     $('body').i18n();
     repairButtons();
- }
+}
