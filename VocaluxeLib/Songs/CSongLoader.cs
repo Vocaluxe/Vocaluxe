@@ -309,7 +309,7 @@ namespace VocaluxeLib.Songs
                                         _Song.ShortEnd.Source = EDataSource.Tag;
                                     }
                                     else
-                                        _LogWarning("Invalid medleyendbeat");
+                                        _LogWarning("Invalid shortendbeat");
                                 }
                                 break;
                             case "CALCMEDLEY":

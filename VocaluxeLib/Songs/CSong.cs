@@ -488,9 +488,11 @@ namespace VocaluxeLib.Songs
                     if (stop < (voice.Lines[series[i].Start].FirstNoteBeat + ((voice.Lines[series[i].End].LastNoteBeat - voice.Lines[series[i].Start].FirstNoteBeat) / 2)))
                     {
                         ShortEnd.EndBeat = voice.Lines[series[i].Start - 1].LastNote.EndBeat;
+                        ShortEnd.Source = EDataSource.Calculated;
                         return;
                     }
                     ShortEnd.EndBeat = voice.Lines[series[i].End].LastNote.EndBeat;
+                    ShortEnd.Source = EDataSource.Calculated;
                     return;
                 }
             }
@@ -501,6 +503,7 @@ namespace VocaluxeLib.Songs
                 if (line.FirstNoteBeat < stop && line.LastNoteBeat > stop)
                 {
                     ShortEnd.EndBeat = line.LastNoteBeat;
+                    ShortEnd.Source = EDataSource.Calculated;
                     return;
                 }
             }

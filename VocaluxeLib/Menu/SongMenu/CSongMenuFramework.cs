@@ -116,7 +116,7 @@ namespace VocaluxeLib.Menu.SongMenu
         //the real selected song for singing
         protected int _Locked { get; set; }
 
-        private int _PreviewIdInternal = -1;
+        protected int _PreviewIdInternal = -1;
         protected virtual int _PreviewId
         {
             get { return _PreviewIdInternal; }
@@ -523,7 +523,7 @@ namespace VocaluxeLib.Menu.SongMenu
             CBase.Songs.SetCategory(-1);
         }
 
-        private void _PlaySong(int nr)
+        protected void _PlaySong(int nr)
         {
             if (CBase.Songs.IsInCategory() && (_PreviewId != nr || _Streams.Count == 0))
             {
@@ -554,6 +554,8 @@ namespace VocaluxeLib.Menu.SongMenu
                 CBase.Sound.Fade(stream, 100f, 3f);
                 _Streams.Add(stream);
                 _PreviewSongStream = stream;
+
+                _PreviewIdInternal = nr;
 
                 if (song.VideoFileName != "" && CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
                 {
