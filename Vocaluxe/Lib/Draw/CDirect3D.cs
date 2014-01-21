@@ -230,6 +230,9 @@ namespace Vocaluxe.Lib.Draw
                         case 0xF100: // SC_KEYMENU
                             m.Result = IntPtr.Zero;
                             break;
+                        case 0xF140: // SC_SCREENSAVER
+                        case 0xF170: // SC_MONITORPOWER
+                            break;
                         default:
                             base.WndProc(ref m);
                             break;
