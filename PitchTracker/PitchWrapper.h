@@ -4,7 +4,12 @@
 #include "ptAKF.h"
 #include "dywapitchtrack/ptDyWa.h"
 
-#define DllExport extern "C" __declspec(dllexport)
+#ifdef __linux__
+	#define DllExport extern "C"
+#else
+	#define DllExport extern "C" __declspec(dllexport)
+#endif
+
 
 DllExport Analyzer* Analyzer_Create(unsigned step);
 DllExport void Analyzer_Free(Analyzer* analyzer);

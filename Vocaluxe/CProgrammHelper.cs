@@ -98,6 +98,7 @@ namespace Vocaluxe
 
         public static bool CheckRequirements()
         {
+#if WIN
             if (!_IsVC2012Installed())
             {
                 CLog.LogError(
@@ -119,7 +120,8 @@ namespace Vocaluxe
                     true, true);
                 return false;
             }
-             * */
+            */
+#endif //TODO: check for dependencies on linux?
             return true;
         }
 

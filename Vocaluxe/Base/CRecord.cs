@@ -17,7 +17,9 @@
 
 using System.Collections.ObjectModel;
 using Vocaluxe.Lib.Sound.Record;
+#if WIN
 using Vocaluxe.Lib.Sound.Record.DirectSound;
+#endif
 using Vocaluxe.Lib.Sound.Record.PortAudio;
 using VocaluxeLib;
 

@@ -110,7 +110,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                 return false;
             Length = -1;
             Element convert = ElementFactory.Make("audioconvert", "convert");
-            Element audiosink = ElementFactory.Make("directsoundsink", "audiosink");
+            Element audiosink = ElementFactory.Make("autoaudiosink", "audiosink");
 
             if (convert == null || audiosink == null)
             {

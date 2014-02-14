@@ -93,9 +93,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if exist "$(SolutionDir)Output\PartyModes\$(TargetName)\Code" rd "$(SolutionDir)Output\PartyModes\$(TargetName)\Code" /S /Q
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">if exist "$(SolutionDir)Output\PartyModes\$(TargetName)\Code" rd "$(SolutionDir)Output\PartyModes\$(TargetName)\Code" /S /Q
 cd $(SolutionDir)Partymodes\
 xcopy "$(ProjectDir)*.cs" "$(SolutionDir)Output\PartyModes\$(TargetName)\Code\" /EXCLUDE:Excludes.txt /I /Y</PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">rm -rf "$(SolutionDir)Output\PartyModes\$(TargetName)\Code"
+mkdir -p "$(SolutionDir)Output\PartyModes\$(TargetName)\Code\"
+cp -R $(ProjectDir)*.cs "$(SolutionDir)Output\PartyModes\$(TargetName)\Code\"
+rm -f "$(SolutionDir)Output\PartyModes\$(TargetName)\Code\GlobalSuppressions.cs"
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

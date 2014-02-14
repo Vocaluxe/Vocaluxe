@@ -349,6 +349,9 @@ namespace Vocaluxe
                         CLog.LogError("Cannot load assembly " + args.Name + " from " + path + ": " + e + "\r\nOuter Error: " + e1);
                     }
                 }
+                #if LINUX
+                catch(FileNotFoundException){}
+                #endif
             }
             return assembly;
         }

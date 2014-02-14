@@ -186,7 +186,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 #endif
 
 #if LINUX
-        private const string _AcDll = "x64/libacinerella.so";
+        private const string _AcDll = "libacinerella.so";
 #endif
 #endif
 

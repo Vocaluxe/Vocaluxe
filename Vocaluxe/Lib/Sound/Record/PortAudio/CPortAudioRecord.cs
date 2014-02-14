@@ -136,7 +136,10 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                 return false;
 
             foreach (IntPtr handle in _RecHandle)
+            {
                 PortAudioSharp.PortAudio.Pa_StopStream(handle);
+                PortAudioSharp.PortAudio.Pa_CloseStream(handle);
+            }
             return true;
         }
 

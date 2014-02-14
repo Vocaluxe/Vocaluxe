@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">DebugWin</Configuration>
@@ -178,8 +178,8 @@
     <Reference Include="Community.CsharpSqlite">
       <HintPath>..\Output\Community.CsharpSqlite.dll</HintPath>
     </Reference>
-    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="glib-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL">
+      <SpecificVersion>True</SpecificVersion>
       <HintPath>..\Output\glib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="gstreamer-sharp, Version=0.99.0.0, Culture=neutral, PublicKeyToken=5cbf79803e97ff61, processorArchitecture=MSIL">
@@ -213,6 +213,7 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
+    <Reference Include="Mono.Data.Sqlite" Condition=" !('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\CBackgroundMusic.cs" />
@@ -287,8 +288,8 @@
     <Compile Include="Lib\Input\CControllerFramework.cs" />
     <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudio.cs" />
     <Compile Include="Lib\Sound\Record\CRecordBase.cs" />
-    <Compile Include="Lib\Sound\Record\DirectSound\CSampleDataEventArgs.cs" />
-    <Compile Include="Lib\Sound\Record\DirectSound\CSoundCardSource.cs" />
+    <Compile Include="Lib\Sound\Record\DirectSound\CSampleDataEventArgs.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')"/>
+    <Compile Include="Lib\Sound\Record\DirectSound\CSoundCardSource.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')"/>
     <Compile Include="Lib\Sound\Record\PitchTracker\CPitchTrackerTest.cs" />
     <Compile Include="Lib\Sound\Record\PitchTracker\CPtAKF.cs" />
     <Compile Include="Lib\Sound\Record\PitchTracker\CPtDyWa.cs" />
@@ -303,7 +304,7 @@
     <Compile Include="GameModes\IGameMode.cs" />
     <Compile Include="SongQueue\ISongQueue.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Lib\Draw\CDirect3D.cs">
+    <Compile Include="Lib\Draw\CDirect3D.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Lib\Draw\CDrawWinForm.cs">
@@ -318,7 +319,7 @@
     <Compile Include="Lib\Input\WiiMote\CWiiMote.cs" />
     <Compile Include="Lib\Input\WiiMote\WiiMoteLib.cs" />
     <Compile Include="Lib\Playlist\CPlaylistFile.cs" />
-    <Compile Include="Lib\Sound\Record\DirectSound\CDirectSoundRecord.cs" />
+    <Compile Include="Lib\Sound\Record\DirectSound\CDirectSoundRecord.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
     <Compile Include="Lib\Sound\Playback\OpenAL\COpenALPlay.cs" />
     <Compile Include="Base\CSound.cs" />
     <Compile Include="Lib\Sound\Playback\PortAudio\CPortAudioPlay.cs" />
@@ -530,12 +531,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"
 powershell -command "$version = git describe --long; (Get-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js') | Foreach-Object {$_ -replace '(?&lt;=var *matchingServerVersion * = *\\\")\w*(?=\\\" *;)', %2524('@(VersionNumber)'+' ('+$version+')')} | Set-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js'"
 powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace '(?&lt;=AssemblyInformationalVersion\()(.*)(?=\))', '\"GITVERSION\"'} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PostBuildEvent>
+    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">cp -ruT "$(ProjectDir)Website" "$(SolutionDir)/PhoneGap"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>powershell -command "$version = git describe --long; (Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace 'GITVERSION', $version} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PreBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -command "$version = git describe --long; (Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace 'GITVERSION', $version} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
