@@ -200,7 +200,7 @@
   <string name="TR_SCREENOTHEME_COVERLOADING">Chargement des couvertures</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Options des paroles</string>
   <string name="TR_SCREENOLYRICS_STYLE">Style</string>
-  <string name="TR_SCREENOLYRICS_POSTION">Position des paroles</string>
+  <string name="TR_SCREENOLYRICS_POSITION">Position des paroles</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Options Vidéo</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Vidéo en arrière plan</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Prévisualisation des Vidéos</string>

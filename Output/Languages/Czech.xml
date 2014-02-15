@@ -200,7 +200,7 @@
   <string name="TR_SCREENOTHEME_COVERLOADING">Chování nahrávání obalu</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Nastavení textu písně</string>
   <string name="TR_SCREENOLYRICS_STYLE">Styl</string>
-  <string name="TR_SCREENOLYRICS_POSTION">Poloha textu písně</string>
+  <string name="TR_SCREENOLYRICS_POSITION">Poloha textu písně</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Nastavení obrazu</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Pozadí obrazu</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Náhled obrazu</string>

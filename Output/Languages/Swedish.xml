@@ -200,7 +200,7 @@
   <string name="TR_SCREENOTHEME_COVERLOADING">Beteende För Hur Omslag Laddas</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Låttext Alternativ</string>
   <string name="TR_SCREENOLYRICS_STYLE">Utseende</string>
-  <string name="TR_SCREENOLYRICS_POSTION">Text position</string>
+  <string name="TR_SCREENOLYRICS_POSITION">Text position</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Video Alternativ</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video Bakgrund</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video Förhandsvisning</string>
