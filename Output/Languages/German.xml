@@ -30,6 +30,7 @@
   <string name="TR_USERROLE_GUEST">Gast</string>
   <string name="TR_USERROLE_NORMAL">Normaler Benutzer</string>
   <string name="TR_USERROLE_ADMIN">Administrator</string>
+  <string name="TR_USERROLE_KEYBOARDUSER">Tastatursteuerer</string>
   <string name="TR_CONFIG_SOFTWARE">Software</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
