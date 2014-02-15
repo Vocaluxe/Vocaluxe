@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Sockets;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Diagnostics;
@@ -93,11 +92,9 @@ namespace ServerLib
         private void _Init(int port, bool encrypted)
         {
             string hostname = Dns.GetHostName();
-            if (encrypted)
-                _BaseAddress = new Uri("https://" + hostname + ":" + port + "/");
-            else
-                _BaseAddress = new Uri("http://" + hostname + ":" + port + "/");
-            this._Encrypted = encrypted;
+            string protocol = (encrypted) ? "https" : "http";
+            _BaseAddress = new Uri(protocol + "://" + hostname + ":" + port + "/");
+            _Encrypted = encrypted;
             _Host = new WebServiceHost(typeof(CWebservice), _BaseAddress);
 
             WebHttpBinding wb = new WebHttpBinding
@@ -137,7 +134,7 @@ namespace ServerLib
                         _Init(_BaseAddress.Port, _Encrypted);
                         _Host.Open();
                     }
-                    catch (CommunicationException e2)
+                    catch (CommunicationException)
                     {
                         _Host.Abort();
                     }
@@ -153,7 +150,7 @@ namespace ServerLib
             {
                 _Host.Close();
             }
-            catch (CommunicationException e)
+            catch (CommunicationException)
             {
                 _Host.Abort();
             }
@@ -166,18 +163,15 @@ namespace ServerLib
             ProcessStartInfo info = new ProcessStartInfo
                 {
                     FileName = "VocaluxeServerConfig.exe",
-                    Arguments = port.ToString() + " " + (_Encrypted ? "true" : "false"),
+                    Arguments = port + " " + (_Encrypted ? "true" : "false"),
                     UseShellExecute = true,
                     CreateNoWindow = true,
                     WindowStyle = ProcessWindowStyle.Hidden,
                     Verb = "runas"
                 };
             Process p = Process.Start(info);
-            if (p != null)
-            {
-                p.WaitForExit();
-                p.Close();
-            }
+            p.WaitForExit();
+            p.Close();
 
 #else
 
