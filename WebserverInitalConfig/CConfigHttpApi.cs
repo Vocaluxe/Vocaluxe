@@ -1,28 +1,24 @@
 ﻿using Security.Cryptography;
 using Security.Cryptography.X509Certificates;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
-using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
 using NetFwTypeLib;
 
 namespace WebserverInitalConfig
 {
-    public static class ConfigHttpApi
+    public static class CConfigHttpApi
     {
 
-        public static void reserveURL(string networkString)
+        public static void ReserveUrl(string networkString)
         {
             HttpApi.ReserveURL(networkString, "D:(A;;GX;;;S-1-1-0)");
         }
 
 
-        public static void bindCert(string ip, int port, X509Certificate2 cert)
+        public static void BindCert(string ip, int port, X509Certificate2 cert)
         {
             IPEndPoint endpoint = new IPEndPoint(IPAddress.Parse(ip), port);
             if (HttpApi.QuerySslCertificateInfo(endpoint) != null)
@@ -34,7 +30,7 @@ namespace WebserverInitalConfig
         }
 
 
-        public static void addCertToStore(X509Certificate2 cert)
+        public static void AddCertToStore(X509Certificate2 cert)
         {
             X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
             store.Open(OpenFlags.ReadWrite);
@@ -52,7 +48,7 @@ namespace WebserverInitalConfig
         }
 
 
-        public static X509Certificate2 getSelfSignedCert(string subjectName)
+        public static X509Certificate2 GetSelfSignedCert(string subjectName)
         {
             var keyParam = new CngKeyCreationParameters
             {
@@ -66,26 +62,27 @@ namespace WebserverInitalConfig
 
             CngKey key = CngKey.Create(CngAlgorithm2.Rsa, Guid.NewGuid().ToString(), keyParam);
 
-            X509CertificateCreationParameters param = new X509CertificateCreationParameters(
-                new X500DistinguishedName(subjectName));
-            param.SubjectName = new X500DistinguishedName(subjectName);
-            param.EndTime = DateTime.Today.AddYears(20);
-            //param.SignatureAlgorithm = X509CertificateSignatureAlgorithm.RsaSha512;
+            X509CertificateCreationParameters param = new X509CertificateCreationParameters(new X500DistinguishedName(subjectName))
+                {
+                    SubjectName = new X500DistinguishedName(subjectName),
+                    EndTime = DateTime.Today.AddYears(20)//,SignatureAlgorithm = X509CertificateSignatureAlgorithm.RsaSha512
+                };
 
-            OidCollection oc = new OidCollection();
-            oc.Add(new Oid("1.3.6.1.5.5.7.3.1"));
+            OidCollection oc = new OidCollection {new Oid("1.3.6.1.5.5.7.3.1")};
             X509Extension eku = new X509EnhancedKeyUsageExtension(oc, true);
             param.Extensions.Add(eku);
 
             param.TakeOwnershipOfKey = true;
 
             byte[] rawData = key.CreateSelfSignedCertificate(param).Export(X509ContentType.Pfx, "");
-            var cert = new X509Certificate2(rawData, "", X509KeyStorageFlags.Exportable | X509KeyStorageFlags.PersistKeySet);
-            cert.FriendlyName = "Vocaluxe Server Certificate";
+            var cert = new X509Certificate2(rawData, "", X509KeyStorageFlags.Exportable | X509KeyStorageFlags.PersistKeySet)
+                {
+                    FriendlyName = "Vocaluxe Server Certificate"
+                };
             return cert;
         }
 
-        public static void addFirewallrule(string exePath, int port, bool isTCP)
+        public static void AddFirewallrule(string exePath, int port, bool isTCP)
         {
             INetFwMgr manage = (INetFwMgr)Activator.CreateInstance(
                         Type.GetTypeFromCLSID(new Guid("{304CE942-6E39-40D8-943A-B913C40C9CD4}")));
@@ -94,9 +91,9 @@ namespace WebserverInitalConfig
             if (isFirewallEnabled)
             {
                 INetFwAuthorizedApplications applications = manage.LocalPolicy.CurrentProfile.AuthorizedApplications;
-                if ((from INetFwAuthorizedApplication a in applications
-                         where a.ProcessImageFileName == exePath
-                         select a).Count() == 0)
+                if (!(from INetFwAuthorizedApplication a in applications
+                      where a.ProcessImageFileName == exePath
+                      select a).Any())
                 {
                     INetFwAuthorizedApplication application = (INetFwAuthorizedApplication)Activator.CreateInstance(
                         Type.GetTypeFromCLSID(new Guid("{EC9846B3-2762-4A6B-A214-6ACB603462D2}")));
@@ -107,10 +104,10 @@ namespace WebserverInitalConfig
                     applications.Add(application);
                 }
                 INetFwOpenPorts openPorts = manage.LocalPolicy.CurrentProfile.GloballyOpenPorts;
-                if ((from INetFwOpenPort p in openPorts
-                         where  (p.Port == port && 
-                            (p.Protocol == (isTCP?NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP : NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP)))
-                         select p).Count() == 0)
+                if (!(from INetFwOpenPort p in openPorts
+                      where  (p.Port == port && 
+                              (p.Protocol == (isTCP?NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP : NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP)))
+                      select p).Any())
                 {
                     INetFwOpenPort openPort = (INetFwOpenPort)Activator.CreateInstance(
                         Type.GetTypeFromCLSID(new Guid("{0CA545C6-37AD-4A6C-BF92-9F7610067EF5}")));
