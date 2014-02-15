@@ -14,7 +14,7 @@ namespace WebserverInitalConfig
                 Environment.Exit(-1);
             }
 
-            CConfigHttpApi.AddFirewallrule(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Vocaluxe.exe"), Int32.Parse(args[0]), true);
+            CConfigHttpApi.AddFirewallRule(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Vocaluxe.exe"), Int32.Parse(args[0]), true);
 
             if (args[1].ToLower() == "true")
             {

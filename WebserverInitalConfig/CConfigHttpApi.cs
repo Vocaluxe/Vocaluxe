@@ -11,7 +11,11 @@ namespace WebserverInitalConfig
 {
     public static class CConfigHttpApi
     {
-
+// ReSharper disable InconsistentNaming
+        private const String CLSID_NetFwMgr = "{304CE942-6E39-40D8-943A-B913C40C9CD4}";
+        private const String CLSID_NetAuthApp = "{EC9846B3-2762-4A6B-A214-6ACB603462D2}";
+        private const String CLSID_NetOpenPort = "{0CA545C6-37AD-4A6C-BF92-9F7610067EF5}";
+        // ReSharper restore InconsistentNaming
         public static void ReserveUrl(string networkString)
         {
             HttpApi.ReserveURL(networkString, "D:(A;;GX;;;S-1-1-0)");
@@ -82,43 +86,53 @@ namespace WebserverInitalConfig
             return cert;
         }
 
-        public static void AddFirewallrule(string exePath, int port, bool isTCP)
+        private static void _AddFirewallRuleForProfile(INetFwProfile profile, string exePath, int port, bool isTCP)
         {
-            INetFwMgr manage = (INetFwMgr)Activator.CreateInstance(
-                        Type.GetTypeFromCLSID(new Guid("{304CE942-6E39-40D8-943A-B913C40C9CD4}")));
-            bool isFirewallEnabled = manage.LocalPolicy.CurrentProfile.FirewallEnabled;
+            bool isFirewallEnabled = profile.FirewallEnabled;
 
-            if (isFirewallEnabled)
+            if (!isFirewallEnabled)
+                return;
+            INetFwAuthorizedApplications applications = profile.AuthorizedApplications;
+            if (!(from INetFwAuthorizedApplication a in applications
+                  where a.ProcessImageFileName == exePath
+                  select a).Any())
             {
-                INetFwAuthorizedApplications applications = manage.LocalPolicy.CurrentProfile.AuthorizedApplications;
-                if (!(from INetFwAuthorizedApplication a in applications
-                      where a.ProcessImageFileName == exePath
-                      select a).Any())
-                {
-                    INetFwAuthorizedApplication application = (INetFwAuthorizedApplication)Activator.CreateInstance(
-                        Type.GetTypeFromCLSID(new Guid("{EC9846B3-2762-4A6B-A214-6ACB603462D2}")));
+                INetFwAuthorizedApplication application = (INetFwAuthorizedApplication)Activator.CreateInstance(
+                    Type.GetTypeFromCLSID(new Guid(CLSID_NetAuthApp)));
 
-                    application.Name = "Vocaluxe";
-                    application.ProcessImageFileName = exePath;
-                    application.Enabled = true;
-                    applications.Add(application);
-                }
-                INetFwOpenPorts openPorts = manage.LocalPolicy.CurrentProfile.GloballyOpenPorts;
-                if (!(from INetFwOpenPort p in openPorts
-                      where  (p.Port == port && 
-                              (p.Protocol == (isTCP?NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP : NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP)))
-                      select p).Any())
-                {
-                    INetFwOpenPort openPort = (INetFwOpenPort)Activator.CreateInstance(
-                        Type.GetTypeFromCLSID(new Guid("{0CA545C6-37AD-4A6C-BF92-9F7610067EF5}")));
-                    openPort.Enabled = true;
-                    openPort.Port = port;
-                    openPort.Protocol = (isTCP ? NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP : NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
-                    openPort.Name = "Vocaluxe";
-
-                    openPorts.Add(openPort);
-                }
+                application.Name = "Vocaluxe";
+                application.ProcessImageFileName = exePath;
+                application.Enabled = true;
+                application.Scope = NET_FW_SCOPE_.NET_FW_SCOPE_ALL;
+                applications.Add(application);
             }
+            INetFwOpenPorts openPorts = profile.GloballyOpenPorts;
+            NET_FW_IP_PROTOCOL_ protocol = isTCP ? NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP : NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP;
+            if (!(from INetFwOpenPort p in openPorts
+                  where (p.Port == port &&
+                         (p.Protocol == protocol))
+                  select p).Any())
+            {
+                INetFwOpenPort openPort = (INetFwOpenPort)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid(CLSID_NetOpenPort)));
+                openPort.Enabled = true;
+                openPort.Port = port;
+                openPort.Protocol = protocol;
+                openPort.Name = "Vocaluxe("+port+")";
+                openPort.Scope = NET_FW_SCOPE_.NET_FW_SCOPE_ALL;
+
+                openPorts.Add(openPort);
+            }
+        }
+
+        public static void AddFirewallRule(string exePath, int port, bool isTCP)
+        {
+            INetFwMgr manage = (INetFwMgr)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid(CLSID_NetFwMgr)));
+            //AddFirewallRuleForProfile(manage.LocalPolicy.CurrentProfile, exePath, port, isTCP);
+            //if (manage.CurrentProfileType != NET_FW_PROFILE_TYPE_.NET_FW_PROFILE_STANDARD)
+            //Add to Home/Work(Private) and current net
+            //TODO: This somewhow adds 2 entries each instead of only one that is activated for Home/Work and public nets
+            _AddFirewallRuleForProfile(manage.LocalPolicy.GetProfileByType(NET_FW_PROFILE_TYPE_.NET_FW_PROFILE_STANDARD), exePath, port, isTCP);
+            _AddFirewallRuleForProfile(manage.LocalPolicy.GetProfileByType(NET_FW_PROFILE_TYPE_.NET_FW_PROFILE_CURRENT), exePath, port, isTCP);
         }
         /*public static X509Certificate2 getCert(string subject)
         {

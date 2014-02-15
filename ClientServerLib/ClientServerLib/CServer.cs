@@ -92,7 +92,7 @@ namespace ServerLib
         #region server control
         private void _Init(int port, bool encrypted)
         {
-            string hostname = Dns.GetHostName();
+            string hostname = GetLocalAddress();
             string protocol = (encrypted) ? "https" : "http";
             _BaseAddress = new Uri(protocol + "://" + hostname + ":" + port + "/");
             _Encrypted = encrypted;
@@ -121,7 +121,7 @@ namespace ServerLib
                 smb.MetadataExporter.PolicyVersion = PolicyVersion.Policy15;
                 smb.HttpGetEnabled = true;
                 host.Description.Behaviors.Add(smb);*/
-
+                _RegisterUrlAndCert(_BaseAddress.Port);
                 _Host.Open();
             }
             catch (CommunicationException e)
