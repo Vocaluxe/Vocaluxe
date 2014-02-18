@@ -216,4 +216,5 @@
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Bottom right</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Server address</string>
+  <string name="TR_SCREENPSERVERQR_NOTRUNNING">Server is not running. Please check config.xml!</string>
 </resources>

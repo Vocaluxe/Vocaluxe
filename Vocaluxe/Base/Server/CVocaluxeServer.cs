@@ -88,6 +88,19 @@ namespace Vocaluxe.Base.Server
             //_Discover.Stop();
         }
 
+        public static string GetServerAddress()
+        {
+            return _Server == null ? "" : _Server.GetBaseAddress();
+        }
+
+        public static bool IsServerRunning()
+        {
+            if (_Server == null)
+                return false;
+
+            return _Server.IsRunning();
+        }
+
         private static bool _SendKeyEvent(string key)
         {
             bool result = false;

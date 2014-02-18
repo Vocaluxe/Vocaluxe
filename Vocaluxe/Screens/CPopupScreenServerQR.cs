@@ -17,6 +17,7 @@
 
 using ServerLib;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Server;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Draw;
@@ -45,25 +46,37 @@ namespace Vocaluxe.Screens
         private const string _StaticQRWindowsPhone = "StaticQRWindowsPhone";
 
         private const string _TextServerAddress = "TextServerAddress";
+        private const string _TextServerNotRunning = "TextServerNotRunning";
 
         public override void Init()
         {
             base.Init();
 
             _ThemeStatics = new string[] { _StaticQRServer, _StaticQRAndroid, _StaticQRSymbian, _StaticQRWebOS, _StaticQRWindowsPhone };
-            _ThemeTexts = new string[] { _TextServerAddress };
+            _ThemeTexts = new string[] { _TextServerAddress, _TextServerNotRunning };
         }
 
         public override void LoadTheme(string xmlPath)
         {
             base.LoadTheme(xmlPath);
-            _GenerateQRs();
-            _Statics[_StaticQRServer].Texture = _QRServerAddress;
-            _Statics[_StaticQRAndroid].Texture = _QRAndroidLink;
-            _Statics[_StaticQRSymbian].Texture = _QRSymbianLink;
-            _Statics[_StaticQRWebOS].Texture = _QRWebOSLink;
-            _Statics[_StaticQRWindowsPhone].Texture = _QRWindowsPhoneLink;
-            _Texts[_TextServerAddress].Text = CServer.GetLocalAddress() + ":" + CConfig.ServerPort;
+        }
+
+        public override void OnShow()
+        {
+            base.OnShow();
+            if (_QRServerAddress == null)
+            {
+                _GenerateQRs();
+                _Statics[_StaticQRServer].Texture = _QRServerAddress;
+                _Statics[_StaticQRAndroid].Texture = _QRAndroidLink;
+                _Statics[_StaticQRSymbian].Texture = _QRSymbianLink;
+                _Statics[_StaticQRWebOS].Texture = _QRWebOSLink;
+                _Statics[_StaticQRWindowsPhone].Texture = _QRWindowsPhoneLink;
+                _Texts[_TextServerAddress].Text = CVocaluxeServer.GetServerAddress();
+            }
+            _Texts[_TextServerAddress].Visible = CVocaluxeServer.IsServerRunning();
+            _Statics[_StaticQRServer].Visible = CVocaluxeServer.IsServerRunning();
+            _Texts[_TextServerNotRunning].Visible = !CVocaluxeServer.IsServerRunning();
         }
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
@@ -94,7 +107,7 @@ namespace Vocaluxe.Screens
             QRCodeGenerator qr = new QRCodeGenerator();
 
             //ServerAddress
-            QRCodeGenerator.QRCode qrcode = qr.CreateQrCode(CServer.GetLocalAddress() + ":" + CConfig.ServerPort, QRCodeGenerator.ECCLevel.H);
+            QRCodeGenerator.QRCode qrcode = qr.CreateQrCode(CVocaluxeServer.GetServerAddress(), QRCodeGenerator.ECCLevel.H);
             _QRServerAddress = CDraw.AddTexture(qrcode.GetGraphic(20));
 
             //Android
