@@ -1,8 +1,8 @@
 ﻿using System;
-using System.ServiceModel;
-using System.ServiceModel.Web;
 using System.Diagnostics;
 using System.Net;
+using System.ServiceModel;
+using System.ServiceModel.Web;
 
 namespace ServerLib
 {
@@ -12,192 +12,64 @@ namespace ServerLib
         private Uri _BaseAddress;
         private bool _Encrypted = false;
 
-        private static SendKeyEventDelegate _SendKeyEvent;
-        public static SendKeyEventDelegate SendKeyEvent
-        {
-            internal get { return CServer._SendKeyEvent; }
-            set { CServer._SendKeyEvent = value; }
-        }
+        public static SendKeyEventDelegate SendKeyEvent { internal get; set; }
 
         #region profile
+        public static GetProfileDataDelegate GetProfileData { internal get; set; }
 
-        private static GetProfileDataDelegate _GetProfileData;
-        public static GetProfileDataDelegate GetProfileData
-        {
-            internal get { return CServer._GetProfileData; }
-            set { CServer._GetProfileData = value; }
-        }
+        public static SendProfileDataDelegate SendProfileData { internal get; set; }
 
-        private static SendProfileDataDelegate _SendProfileData;
-        public static SendProfileDataDelegate SendProfileData
-        {
-            internal get { return CServer._SendProfileData; }
-            set { CServer._SendProfileData = value; }
-        }
-
-        private static GetProfileListDelegate _GetProfileList;
-        public static GetProfileListDelegate GetProfileList
-        {
-            internal get { return CServer._GetProfileList; }
-            set { CServer._GetProfileList = value; }
-        }
-
+        public static GetProfileListDelegate GetProfileList { internal get; set; }
         #endregion
 
         #region photo
-        private static SendPhotoDelegate _SendPhoto;
-        public static SendPhotoDelegate SendPhoto
-        {
-            get { return CServer._SendPhoto; }
-            set { CServer._SendPhoto = value; }
-        }
-
+        public static SendPhotoDelegate SendPhoto { internal get; set; }
         #endregion
 
         #region website
+        public static GetSiteFileDelegate GetSiteFile { internal get; set; }
 
-        private static GetSiteFileDelegate _GetSiteFile;
-        public static GetSiteFileDelegate GetSiteFile
-        {
-            internal get { return CServer._GetSiteFile; }
-            set { CServer._GetSiteFile = value; }
-        }
-
-        private static GetDelayedImageDelegate _GetDelayedImage;
-        public static GetDelayedImageDelegate GetDelayedImage
-        {
-            internal get { return CServer._GetDelayedImage; }
-            set { CServer._GetDelayedImage = value; }
-        }
-
+        public static GetDelayedImageDelegate GetDelayedImage { internal get; set; }
         #endregion
 
         #region songs
+        public static GetSongDelegate GetSong { internal get; set; }
 
-        private static GetSongDelegate _GetSong;
-        public static GetSongDelegate GetSong
-        {
-            internal get { return CServer._GetSong; }
-            set { CServer._GetSong = value; }
-        }
+        public static GetAllSongsDelegate GetAllSongs { internal get; set; }
 
-        private static GetAllSongsDelegate _GetAllSongs;
-        public static GetAllSongsDelegate GetAllSongs
-        {
-            internal get { return CServer._GetAllSongs; }
-            set { CServer._GetAllSongs = value; }
-        }
-
-        private static GetCurrentSongIdDelegate _GetCurrentSongId;
-        public static GetCurrentSongIdDelegate GetCurrentSongId
-        {
-            internal get { return CServer._GetCurrentSongId; }
-            set { CServer._GetCurrentSongId = value; }
-        }
-
-
+        public static GetCurrentSongIdDelegate GetCurrentSongId { internal get; set; }
         #endregion
 
         #region playlist
+        public static GetPlaylistsDelegate GetPlaylists { internal get; set; }
 
-        private static GetPlaylistsDelegate _GetPlaylists;
-        public static GetPlaylistsDelegate GetPlaylists
-        {
-            internal get { return _GetPlaylists; }
-            set { _GetPlaylists = value; }
-        }
+        public static GetPlaylistDelegate GetPlaylist { internal get; set; }
 
+        public static AddSongToPlaylistDelegate AddSongToPlaylist { internal get; set; }
 
-        private static GetPlaylistDelegate _GetPlaylist;
-        public static GetPlaylistDelegate GetPlaylist
-        {
-            internal get { return _GetPlaylist; }
-            set { _GetPlaylist = value; }
-        }
+        public static RemoveSongFromPlaylistDelegate RemoveSongFromPlaylist { internal get; set; }
 
-        private static AddSongToPlaylistDelegate _AddSongToPlaylist;
-        public static AddSongToPlaylistDelegate AddSongToPlaylist
-        {
-            internal get { return _AddSongToPlaylist; }
-            set { _AddSongToPlaylist = value; }
-        }
+        public static MoveSongInPlaylistDelegate MoveSongInPlaylist { internal get; set; }
 
-        private static RemoveSongFromPlaylistDelegate _RemoveSongFromPlaylist;
-        public static RemoveSongFromPlaylistDelegate RemoveSongFromPlaylist
-        {
-            internal get { return _RemoveSongFromPlaylist; }
-            set { _RemoveSongFromPlaylist = value; }
-        }
+        public static PlaylistContainsSongDelegate PlaylistContainsSong { internal get; set; }
 
-        private static MoveSongInPlaylistDelegate _MoveSongInPlaylist;
-        public static MoveSongInPlaylistDelegate MoveSongInPlaylist
-        {
-            internal get { return _MoveSongInPlaylist; }
-            set { _MoveSongInPlaylist = value; }
-        }
+        public static GetPlaylistSongsDelegate GetPlaylistSongs { internal get; set; }
 
-        private static PlaylistContainsSongDelegate _PlaylistContainsSong;
-        public static PlaylistContainsSongDelegate PlaylistContainsSong
-        {
-            internal get { return _PlaylistContainsSong; }
-            set { _PlaylistContainsSong = value; }
-        }
+        public static RemovePlaylistDelegate RemovePlaylist { internal get; set; }
 
-        private static GetPlaylistSongsDelegate _GetPlaylistSongs;
-        public static GetPlaylistSongsDelegate GetPlaylistSongs
-        {
-            internal get { return _GetPlaylistSongs; }
-            set { _GetPlaylistSongs = value; }
-        }
-
-        private static RemovePlaylistDelegate _RemovePlaylist;
-        public static RemovePlaylistDelegate RemovePlaylist
-        {
-            internal get { return _RemovePlaylist; }
-            set { _RemovePlaylist = value; }
-        }
-
-        private static AddPlaylistDelegate _AddPlaylist;
-        public static AddPlaylistDelegate AddPlaylist
-        {
-            internal get { return _AddPlaylist; }
-            set { _AddPlaylist = value; }
-        }
-
+        public static AddPlaylistDelegate AddPlaylist { internal get; set; }
         #endregion
 
         #region user management
+        public static ValidatePasswordDelegate ValidatePassword { internal get; set; }
 
-        private static ValidatePasswordDelegate _ValidatePassword;
-        public static ValidatePasswordDelegate ValidatePassword
-        {
-            internal get { return CServer._ValidatePassword; }
-            set { CServer._ValidatePassword = value; }
-        }
+        public static GetUserRoleDelegate GetUserRole { internal get; set; }
 
-        private static GetUserRoleDelegate _GetUserRole;
-        public static GetUserRoleDelegate GetUserRole
-        {
-            internal get { return CServer._GetUserRole; }
-            set { CServer._GetUserRole = value; }
-        }
+        public static SetUserRoleDelegate SetUserRole { internal get; set; }
 
-        private static SetUserRoleDelegate _SetUserRole;
-        public static SetUserRoleDelegate SetUserRole
-        {
-            internal get { return CServer._SetUserRole; }
-            set { CServer._SetUserRole = value; }
-        }
-
-        private static GetUserIdFromUsernameDelegate _GetUserIdFromUsername;
-        public static GetUserIdFromUsernameDelegate GetUserIdFromUsername
-        {
-            internal get { return CServer._GetUserIdFromUsername; }
-            set { CServer._GetUserIdFromUsername = value; }
-        }
-        
+        public static GetUserIdFromUsernameDelegate GetUserIdFromUsername { internal get; set; }
         #endregion
-       
+
         public CServer(int port, bool encrypted)
         {
             _Init(port, encrypted);
@@ -206,7 +78,7 @@ namespace ServerLib
         public string GetBaseAddress()
         {
             return _BaseAddress.AbsoluteUri;
-            
+
             /*IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());
             foreach (IPAddress ip in ips)
             {
@@ -305,7 +177,7 @@ namespace ServerLib
             ProcessStartInfo info = new ProcessStartInfo
             {
                 FileName = "VocaluxeServerConfig.exe",
-                Arguments = port.ToString() + " " + (_Encrypted?"true":"false"),
+                Arguments = port.ToString() + " " + (_Encrypted ? "true" : "false"),
                 UseShellExecute = true,
                 CreateNoWindow = true,
                 WindowStyle = ProcessWindowStyle.Hidden,
