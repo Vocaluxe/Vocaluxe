@@ -131,6 +131,36 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </TextServerAddress>
+    <TextServerNotRunning>
+      <!--<X>, <Y>: Text position-->
+      <X>640</X>
+      <Y>265</Y>
+      <!--<Z>: Text position-->
+      <Z>-2,00</Z>
+      <!--<H>: Text height-->
+      <H>45</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>600</MaxW>
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text>TR_SCREENPSERVERQR_NOTRUNNING</Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextServerNotRunning>
     <Text1>
       <!--<X>, <Y>: Text position-->
       <X>640</X>
