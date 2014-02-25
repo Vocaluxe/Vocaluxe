@@ -134,21 +134,21 @@ namespace VocaluxeLib.Songs
         public readonly List<String> UnknownTags = new List<string>();
 
         /// <summary>
-        /// Start of the song in s (s in txt)
+        ///     Start of the song in s (s in txt)
         /// </summary>
         public float Start;
         /// <summary>
-        /// End of the song in s (ms in txt)
+        ///     End of the song in s (ms in txt)
         /// </summary>
         public float Finish;
 
         public float BPM = 1f;
         /// <summary>
-        /// Gap of the mp3 in s (ms in txt)
+        ///     Gap of the mp3 in s (ms in txt)
         /// </summary>
         public float Gap;
         /// <summary>
-        /// Gap of the video in s (s in txt)
+        ///     Gap of the video in s (s in txt)
         /// </summary>
         public float VideoGap;
 
@@ -194,7 +194,7 @@ namespace VocaluxeLib.Songs
         }
 
         /// <summary>
-        /// Returns true if the requested game mode is available
+        ///     Returns true if the requested game mode is available
         /// </summary>
         /// <param name="gameMode"></param>
         /// <returns>true if the requested game mode is available</returns>

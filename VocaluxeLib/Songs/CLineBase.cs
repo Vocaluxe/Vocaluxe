@@ -80,7 +80,7 @@ namespace VocaluxeLib.Songs
 
         #region Methods
         /// <summary>
-        /// Find last note with StartBeat
+        ///     Find last note with StartBeat
         /// </summary>
         /// <param name="beat"></param>
         /// <returns>Note index of last note with StartBeat or -1 if all notes start after beat</returns>

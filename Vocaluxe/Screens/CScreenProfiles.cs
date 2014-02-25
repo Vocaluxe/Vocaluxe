@@ -179,7 +179,7 @@ namespace Vocaluxe.Screens
                 else if (_SelectSlides[_SelectSlideUserRole].Selected)
                 {
                     CProfiles.SetUserRoleProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex,
-                                              (EUserRole)_SelectSlides[_SelectSlideUserRole].Selection);
+                                                 (EUserRole)_SelectSlides[_SelectSlideUserRole].Selection);
                 }
                 else if (_SelectSlides[_SelectSlideActive].Selected)
                 {
@@ -228,7 +228,7 @@ namespace Vocaluxe.Screens
                 else if (_SelectSlides[_SelectSlideUserRole].Selected)
                 {
                     CProfiles.SetUserRoleProfile(_SelectSlides[_SelectSlideProfiles].ValueIndex,
-                                              (EUserRole)_SelectSlides[_SelectSlideUserRole].Selection);
+                                                 (EUserRole)_SelectSlides[_SelectSlideUserRole].Selection);
                 }
                 else if (_SelectSlides[_SelectSlideActive].Selected)
                 {

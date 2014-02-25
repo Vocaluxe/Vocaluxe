@@ -1,4 +1,21 @@
-﻿using System;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -6,12 +23,12 @@ using System.Text;
 namespace VocaluxeLib.Songs
 {
     /// <summary>
-    /// Part of CSong that is required for note loading
+    ///     Part of CSong that is required for note loading
     /// </summary>
     public partial class CSong
     {
         /// <summary>
-        /// Factor the bpm given in the txt is multiplied with
+        ///     Factor the bpm given in the txt is multiplied with
         /// </summary>
         private const int _BPMFactor = 4;
 
@@ -54,7 +71,7 @@ namespace VocaluxeLib.Songs
             }
 
             /// <summary>
-            /// Logs a given message with file name and line#
+            ///     Logs a given message with file name and line#
             /// </summary>
             /// <param name="msg">Message</param>
             /// <param name="error">True prepends "Error: "; False prepends "Warning: "</param>
@@ -470,9 +487,9 @@ namespace VocaluxeLib.Songs
             private const int _MaxOverlapNoteCt = 3;
 
             /// <summary>
-            /// Read notes. First try to read notes normally (assume standard)<br/>
-            /// If there are more than _MaxZeroNoteCt with length &lt; 1,  try to read notes adding 1 to length<br/>
-            /// Then if there are more than _MaxOverlapNoteCt fallback to first version ignoring notes with length &lt; 1
+            ///     Read notes. First try to read notes normally (assume standard)<br />
+            ///     If there are more than _MaxZeroNoteCt with length &lt; 1,  try to read notes adding 1 to length<br />
+            ///     Then if there are more than _MaxOverlapNoteCt fallback to first version ignoring notes with length &lt; 1
             /// </summary>
             /// <param name="forceReload"></param>
             /// <returns></returns>

@@ -326,9 +326,9 @@ namespace Vocaluxe
                 Process currentProcess = Process.GetCurrentProcess();
                 Process[] processes = Process.GetProcessesByName(currentProcess.ProcessName);
 
-                foreach (var process in processes.Where(t => t.Id != currentProcess.Id))
+                foreach (Process process in processes.Where(t => t.Id != currentProcess.Id))
                 {
-                    var wnd = process.MainWindowHandle;
+                    IntPtr wnd = process.MainWindowHandle;
                     if (wnd != IntPtr.Zero)
                         SetForegroundWindow(wnd);
                 }

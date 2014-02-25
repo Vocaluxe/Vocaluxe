@@ -346,7 +346,6 @@ namespace Vocaluxe.Lib.Sound
             _Context = null;
         }
 
-
         public void FadeAndStop(int stream, float targetVolume, float seconds)
         {
             throw new NotImplementedException();

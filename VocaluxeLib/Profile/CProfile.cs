@@ -121,7 +121,7 @@ namespace VocaluxeLib.Profile
                 string filename = string.Empty;
                 // ReSharper disable LoopCanBeConvertedToQuery
                 foreach (char chr in PlayerName)
-                // ReSharper restore LoopCanBeConvertedToQuery
+                    // ReSharper restore LoopCanBeConvertedToQuery
                 {
                     if (char.IsLetter(chr))
                         filename += chr.ToString();
@@ -166,13 +166,9 @@ namespace VocaluxeLib.Profile
                 writer.WriteElementString("UserRole", Enum.GetName(typeof(EUserRole), UserRole));
                 writer.WriteElementString("Active", Enum.GetName(typeof(EOffOn), Active));
                 if (PasswordHash != null)
-                {
                     writer.WriteElementString("PasswordHash", Convert.ToBase64String(PasswordHash));
-                }
                 if (PasswordSalt != null)
-                {
                     writer.WriteElementString("PasswordSalt", Convert.ToBase64String(PasswordSalt));
-                }
                 writer.WriteEndElement();
 
                 writer.WriteEndElement(); //end of root

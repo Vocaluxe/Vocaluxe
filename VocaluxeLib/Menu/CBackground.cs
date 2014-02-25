@@ -138,9 +138,7 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<SlideShow%>: Texture name for slide-show");
                 for (int i = 0; i < _Theme.SlideShowTextures.Count; i++)
-                {
                     writer.WriteElementString("SlideShow" + (i + 1), _Theme.SlideShowTextures[i]);
-                }
 
                 writer.WriteComment("<Color>: Background color for type \"Color\" from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
@@ -193,9 +191,7 @@ namespace VocaluxeLib.Menu
 
 
             if (_Theme.Type == EBackgroundTypes.SlideShow && _Theme.SlideShowTextures.Count > 0)
-            {
                 ok = _DrawSlideShow();
-            }
 
             if (!String.IsNullOrEmpty(_Theme.TextureName) &&
                 (_Theme.Type == EBackgroundTypes.Texture ||
@@ -209,7 +205,10 @@ namespace VocaluxeLib.Menu
             return true;
         }
 
-        public void UnloadTextures() { _SlideShowTextures.Clear(); }
+        public void UnloadTextures()
+        {
+            _SlideShowTextures.Clear();
+        }
 
         public void LoadTextures()
         {
@@ -226,7 +225,7 @@ namespace VocaluxeLib.Menu
             if (!String.IsNullOrEmpty(image))
             {
                 CTexture texture = CBase.Drawing.AddTexture(image);
-                if(texture != null)
+                if (texture != null)
                     _SlideShowTextures.Add(texture);
             }
         }
@@ -273,7 +272,7 @@ namespace VocaluxeLib.Menu
 
         private bool _DrawSlideShow()
         {
-            if (_SlideShowTextures.Count > 0) 
+            if (_SlideShowTextures.Count > 0)
             {
                 if (!_SlideShowTimer.IsRunning)
                 {
@@ -314,10 +313,10 @@ namespace VocaluxeLib.Menu
                     {
                         float alpha = (_SlideShowTimer.ElapsedMilliseconds - CBase.Settings.GetSlideShowImageTime()) / CBase.Settings.GetSlideShowFadeTime();
                         CHelper.SetRect(bounds, out rect, texture.OrigAspect, EAspect.Crop);
-                        CBase.Drawing.DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, (CBase.Settings.GetZFar() / 4) - 1), new SColorF(1,1,1, alpha));
+                        CBase.Drawing.DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, (CBase.Settings.GetZFar() / 4) - 1), new SColorF(1, 1, 1, alpha));
                     }
                 }
-                
+
                 return true;
             }
             return false;

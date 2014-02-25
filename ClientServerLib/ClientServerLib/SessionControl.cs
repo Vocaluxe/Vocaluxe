@@ -1,19 +1,34 @@
-﻿using System;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ServerLib
 {
-    internal static class CSessionControl
+    static class CSessionControl
     {
         private static readonly Dictionary<Guid, CSession> _ActiveSessions = new Dictionary<Guid, CSession>();
 
         public static Guid OpenSession(string userName, string password)
         {
             if (!_ValidateUserAndPassword(userName, password))
-            {
                 return Guid.Empty;
-            }
 
             Guid newId = Guid.NewGuid();
             int id = _GetProfileIdFormUsername(userName);
@@ -42,26 +57,22 @@ namespace ServerLib
 
         internal static void InvalidateSessions(int profileId)
         {
-            foreach (var s in (from kv in _ActiveSessions
-                               where kv.Value.ProfileId == profileId
-                               select kv).ToList())
-            {
+            foreach (KeyValuePair<Guid, CSession> s in (from kv in _ActiveSessions
+                                                        where kv.Value.ProfileId == profileId
+                                                        select kv).ToList())
                 _ActiveSessions.Remove(s.Key);
-            }
         }
 
         internal static bool RequestRight(Guid sessionId, EUserRights requestedRight)
         {
             return ((CUserRoleControl.GetUserRightsFromUserRole(_ActiveSessions[sessionId].Roles)
-                .HasFlag(requestedRight)));
+                                     .HasFlag(requestedRight)));
         }
 
         internal static int GetUserIdFromSession(Guid sessionId)
         {
             if (!_ActiveSessions.ContainsKey(sessionId))
-            {
                 return -1;
-            }
             return _ActiveSessions[sessionId].ProfileId;
         }
     }

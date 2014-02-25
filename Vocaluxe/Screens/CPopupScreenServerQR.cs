@@ -52,8 +52,8 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeStatics = new string[] { _StaticQRServer, _StaticQRAndroid, _StaticQRSymbian, _StaticQRWebOS, _StaticQRWindowsPhone };
-            _ThemeTexts = new string[] { _TextServerAddress, _TextServerNotRunning };
+            _ThemeStatics = new string[] {_StaticQRServer, _StaticQRAndroid, _StaticQRSymbian, _StaticQRWebOS, _StaticQRWindowsPhone};
+            _ThemeTexts = new string[] {_TextServerAddress, _TextServerNotRunning};
         }
 
         public override void LoadTheme(string xmlPath)

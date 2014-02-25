@@ -1,4 +1,21 @@
-﻿using System;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,7 +26,7 @@ namespace VocaluxeLib
     public static class Extensions
     {
         /// <summary>
-        /// Resizes the given list to the given size. Removes elements or adds default values
+        ///     Resizes the given list to the given size. Removes elements or adds default values
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
@@ -25,7 +42,7 @@ namespace VocaluxeLib
         }
 
         /// <summary>
-        /// Makes the list at least the given size adding the given default values.
+        ///     Makes the list at least the given size adding the given default values.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
@@ -39,7 +56,7 @@ namespace VocaluxeLib
         }
 
         /// <summary>
-        /// Makes the list at least the given size adding a new instance of T
+        ///     Makes the list at least the given size adding a new instance of T
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
@@ -51,7 +68,7 @@ namespace VocaluxeLib
         }
 
         /// <summary>
-        /// Gets all set bits starting from lowest (Bit 0)
+        ///     Gets all set bits starting from lowest (Bit 0)
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -100,7 +117,7 @@ namespace VocaluxeLib
         }
 
         /// <summary>
-        /// Converts value to a string in fixed point notation using invariant formating (english style decimal point)
+        ///     Converts value to a string in fixed point notation using invariant formating (english style decimal point)
         /// </summary>
         /// <param name="value">Value to be converted</param>
         /// <returns>String representation of value</returns>

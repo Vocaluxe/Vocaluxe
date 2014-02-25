@@ -161,7 +161,7 @@ namespace VocaluxeLib
             return files;
         }
 
-        public static bool TryParse<T>(string value, out T result, bool ignoreCase=false)
+        public static bool TryParse<T>(string value, out T result, bool ignoreCase = false)
             where T : struct
         {
             result = default(T);

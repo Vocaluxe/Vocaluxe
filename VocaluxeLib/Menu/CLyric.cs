@@ -38,7 +38,7 @@ namespace VocaluxeLib.Menu
         private bool _ThemeLoaded;
 
         /// <summary>
-        /// Holds a reference to Songline. DO NOT MODIFY
+        ///     Holds a reference to Songline. DO NOT MODIFY
         /// </summary>
         private CSongLine _Line;
         private CText _Text;

@@ -1,4 +1,21 @@
-﻿using System;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Drawing;
@@ -10,64 +27,49 @@ namespace ServerLib
 {
     public delegate bool SendKeyEventDelegate(string key);
 
-
     #region profile
-
     public delegate SProfileData GetProfileDataDelegate(int profileId, bool isReadonly);
+
     public delegate bool SendProfileDataDelegate(SProfileData profile);
+
     public delegate SProfileData[] GetProfileListDelegate();
 
     [DataContract]
     public struct SProfileData
     {
-        [DataMember]
-        public CBase64Image Avatar;
-        [DataMember]
-        public string PlayerName;
-        [DataMember]
-        public int Type;
-        [DataMember]
-        public int Difficulty;
-        [DataMember]
-        public int ProfileId;
-        [DataMember]
-        public bool IsEditable;
-        [DataMember]
-        public string Password;
+        [DataMember] public CBase64Image Avatar;
+        [DataMember] public string PlayerName;
+        [DataMember] public int Type;
+        [DataMember] public int Difficulty;
+        [DataMember] public int ProfileId;
+        [DataMember] public bool IsEditable;
+        [DataMember] public string Password;
     }
-
     #endregion
 
     #region photo
-
     public delegate bool SendPhotoDelegate(SPhotoData photo);
 
     [DataContract]
     public struct SPhotoData
     {
-        [DataMember]
-        public CBase64Image Photo;
+        [DataMember] public CBase64Image Photo;
         //Add infomation about the user who took this image??
     }
-
     #endregion
 
     #region website
-
     public delegate byte[] GetSiteFileDelegate(string filename);
 
     public delegate CBase64Image GetDelayedImageDelegate(string hashedFilename);
-
     #endregion
 
     [DataContract]
     public class CBase64Image
     {
-        [DataMember]
-        private string base64Data = "";
+        [DataMember] private string base64Data = "";
 
-        [DataMember]
-        private string imageId = "";
+        [DataMember] private string imageId = "";
 
         public CBase64Image(Image img, ImageFormat format)
         {
@@ -97,28 +99,21 @@ namespace ServerLib
             Match match = Regex.Match(base64Data, "(?<=data:image/)[a-zA-Z]+(?=;base64)");
             return match.Success ? match.Groups[0].Value : "";
         }
-
-
     }
 
     #region songs
-
     public delegate SSongInfo GetSongDelegate(int songId);
 
     public delegate SSongInfo[] GetAllSongsDelegate();
 
     public delegate int GetCurrentSongIdDelegate();
-    
-        
+
     [DataContract]
     public struct SSongInfo
     {
-        [DataMember]
-        public string Title;
-        [DataMember]
-        public string Artist;
-        [DataMember]
-        public CBase64Image Cover;
+        [DataMember] public string Title;
+        [DataMember] public string Artist;
+        [DataMember] public CBase64Image Cover;
         [DataMember]
         public string Genre { get; set; }
         [DataMember]
@@ -130,7 +125,6 @@ namespace ServerLib
         [DataMember]
         public int SongId { get; set; }
     }
-
     #endregion
 
     #region playlists
@@ -155,33 +149,23 @@ namespace ServerLib
     [DataContract]
     public struct SPlaylistSongInfo
     {
-        [DataMember] 
-        public SSongInfo Song;
-        [DataMember]
-        public int PlaylistId;
-        [DataMember] 
-        public int PlaylistPosition;
-        [DataMember]
-        public int GameMode;
+        [DataMember] public SSongInfo Song;
+        [DataMember] public int PlaylistId;
+        [DataMember] public int PlaylistPosition;
+        [DataMember] public int GameMode;
     }
-    
+
     [DataContract]
     public struct SPlaylistInfo
     {
-        [DataMember] 
-        public int PlaylistId;
-        [DataMember] 
-        public string PlaylistName;
-        [DataMember] 
-        public int SongCount;
-        [DataMember] 
-        public string LastChanged;
+        [DataMember] public int PlaylistId;
+        [DataMember] public string PlaylistName;
+        [DataMember] public int SongCount;
+        [DataMember] public string LastChanged;
     }
-
     #endregion
 
     #region user management
-
     public delegate void SetPasswordDelegate(int profileId, string newPassword);
 
     public delegate bool ValidatePasswordDelegate(int profileId, string password);
@@ -191,6 +175,5 @@ namespace ServerLib
     public delegate void SetUserRoleDelegate(int profileId, int userRole);
 
     public delegate int GetUserIdFromUsernameDelegate(string username);
-
     #endregion
 }

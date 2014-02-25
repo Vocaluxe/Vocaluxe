@@ -1,11 +1,28 @@
-﻿using System;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.Collections.Generic;
 using Gst;
 using GLib;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using Vocaluxe.Base;
-using Thread = System.Threading.Thread; 
+using Thread = System.Threading.Thread;
 
 namespace Vocaluxe.Lib.Sound
 {
@@ -29,16 +46,14 @@ namespace Vocaluxe.Lib.Sound
             Application.Init();
             Registry reg = Registry.Get();
             reg.ScanPath(path);
-            
+
             return Application.IsInitialized;
         }
 
         public void SetGlobalVolume(float volume)
         {
             foreach (CGstreamerSharpAudioStream stream in _Streams.Values)
-            {
                 stream.Volume = volume;
-            }
         }
 
         public int GetStreamCount()
@@ -49,9 +64,7 @@ namespace Vocaluxe.Lib.Sound
         public void CloseAll()
         {
             foreach (CGstreamerSharpAudioStream stream in _Streams.Values)
-            {
                 stream.Close();
-            }
         }
 
         public int Load(string media)
@@ -61,7 +74,7 @@ namespace Vocaluxe.Lib.Sound
 
         public int Load(string media, bool prescan)
         {
-            var stream = new CGstreamerSharpAudioStream (media, prescan);
+            var stream = new CGstreamerSharpAudioStream(media, prescan);
             _Streams[_IDCount] = stream;
             return _IDCount++;
         }
@@ -188,16 +201,14 @@ namespace Vocaluxe.Lib.Sound
         public void Update()
         {
             var streamsToDelete = new List<int>();
-            foreach (KeyValuePair<int,CGstreamerSharpAudioStream> stream in _Streams)
+            foreach (KeyValuePair<int, CGstreamerSharpAudioStream> stream in _Streams)
             {
                 if (stream.Value.Closed)
                     streamsToDelete.Add(stream.Key);
                 stream.Value.Update();
             }
             foreach (int key in streamsToDelete)
-            {
                 _Streams.Remove(key);
-            }
         }
 
         private class CGstreamerSharpAudioStream
@@ -221,10 +232,11 @@ namespace Vocaluxe.Lib.Sound
             private volatile float _Duration = -1f;
             private volatile float _Position;
             private volatile bool _QueryingDuration;
+
             public CGstreamerSharpAudioStream(string media, bool prescan)
             {
-                var convert = ElementFactory.Make("audioconvert", "convert");
-                var audiosink = ElementFactory.Make("directsoundsink", "audiosink");
+                Element convert = ElementFactory.Make("audioconvert", "convert");
+                Element audiosink = ElementFactory.Make("directsoundsink", "audiosink");
                 var audioSinkBin = new Bin("Audiosink");
 
                 if (convert == null || audiosink == null)
@@ -257,8 +269,8 @@ namespace Vocaluxe.Lib.Sound
                 // if it takes more than 500ms, duration queries will be performed asynchronously
                 if (prescan)
                 {
-                    var msg = _Element.Bus.TimedPopFiltered(0xffffffffffffffff, MessageType.AsyncDone);
-                    if(msg.Handle != IntPtr.Zero)
+                    Message msg = _Element.Bus.TimedPopFiltered(0xffffffffffffffff, MessageType.AsyncDone);
+                    if (msg.Handle != IntPtr.Zero)
                         _UpdateDuration();
                 }
             }
@@ -274,7 +286,7 @@ namespace Vocaluxe.Lib.Sound
                             Position = 0;
                         else
                             Finished = true;
-                            Close();
+                        Close();
                         break;
                     case MessageType.Error:
                         GException error;
@@ -289,18 +301,15 @@ namespace Vocaluxe.Lib.Sound
                 msg.Unref();
             }
 
-
             public void Close()
             {
                 if (!Closed)
                 {
-
                     Closed = true;
                     Finished = true;
                     var t = new Thread(_TerminateStream);
                     t.Start();
                 }
-                
             }
 
             private void _TerminateStream()
@@ -354,10 +363,7 @@ namespace Vocaluxe.Lib.Sound
 
             public float Volume
             {
-                get
-                {
-                    return _Element != null ? (float)(double)_Element["volume"] : 0;
-                }
+                get { return _Element != null ? (float)(double)_Element["volume"] : 0; }
                 set
                 {
                     _Volume = value;
@@ -368,10 +374,7 @@ namespace Vocaluxe.Lib.Sound
 
             public float MaxVolume
             {
-                get
-                {
-                    return _MaxVolume;
-                }
+                get { return _MaxVolume; }
                 set
                 {
                     _MaxVolume = value;
@@ -412,10 +415,7 @@ namespace Vocaluxe.Lib.Sound
 
             public bool Paused
             {
-                get
-                {
-                    return _Element == null || _Element.TargetState == State.Paused;
-                }
+                get { return _Element == null || _Element.TargetState == State.Paused; }
                 set
                 {
                     if (value && _Element != null)
@@ -425,13 +425,10 @@ namespace Vocaluxe.Lib.Sound
 
             public bool Playing
             {
-                get
-                {
-                    return _Element != null && (_Element.TargetState == State.Playing && !Finished);
-                }
+                get { return _Element != null && (_Element.TargetState == State.Playing && !Finished); }
                 set
                 {
-                    if(value && _Element != null)
+                    if (value && _Element != null)
                         _Element.SetState(State.Playing);
                 }
             }
@@ -439,9 +436,7 @@ namespace Vocaluxe.Lib.Sound
             public void Update()
             {
                 while (_Element != null && _Element.Bus != null && _Element.Bus.HavePending())
-                {
                     _OnMessage(_Element.Bus.Pop());
-                }
 
                 if (_Fading)
                 {
