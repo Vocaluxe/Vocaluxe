@@ -76,9 +76,9 @@ namespace ServerLib
             _Init(port, encrypted);
         }
 
-        public static string GetLocalAddress()
+        public string GetBaseAddress()
         {
-            return Dns.GetHostName();
+            return _BaseAddress.AbsoluteUri;
 
             /*IPAddress[] ips = Dns.GetHostAddresses(Dns.GetHostName());
             foreach (IPAddress ip in ips)
@@ -87,6 +87,11 @@ namespace ServerLib
                     return ip.ToString();
             }
             return "";*/
+        }
+
+        public bool IsRunning()
+        {
+            return _Host.State == CommunicationState.Opened;
         }
 
         #region server control
