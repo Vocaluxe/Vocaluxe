@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Sockets;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Diagnostics;
@@ -97,7 +96,7 @@ namespace ServerLib
         #region server control
         private void _Init(int port, bool encrypted)
         {
-            string hostname = GetLocalAddress();
+            string hostname = Dns.GetHostName();
             string protocol = (encrypted) ? "https" : "http";
             _BaseAddress = new Uri(protocol + "://" + hostname + ":" + port + "/");
             _Encrypted = encrypted;
