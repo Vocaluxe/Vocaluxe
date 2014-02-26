@@ -30,6 +30,7 @@
   <string name="TR_USERROLE_GUEST">Gast</string>
   <string name="TR_USERROLE_NORMAL">Normaler Benutzer</string>
   <string name="TR_USERROLE_ADMIN">Administrator</string>
+  <string name="TR_USERROLE_KEYBOARDUSER">Tastatursteuerer</string>
   <string name="TR_CONFIG_SOFTWARE">Software</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -200,7 +201,7 @@
   <string name="TR_SCREENOTHEME_COVERLOADING">Cover Ladeverhalten</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Songtexteinstellungen</string>
   <string name="TR_SCREENOLYRICS_STYLE">Stil</string>
-  <string name="TR_SCREENOLYRICS_POSTION">Songtext-Position</string>
+  <string name="TR_SCREENOLYRICS_POSITION">Songtext-Position</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Videoeinstellungen</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video-Hintergründe</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video-Vorschau</string>

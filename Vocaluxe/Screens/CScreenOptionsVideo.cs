@@ -146,7 +146,7 @@ namespace Vocaluxe.Screens
                 _SaveConfig();
                 if (_Buttons[_ButtonExit].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptions);
-                if(_Buttons[_ButtonScreenAdjustments].Selected)
+                if (_Buttons[_ButtonScreenAdjustments].Selected)
                     CGraphics.FadeTo(EScreens.ScreenOptionsVideoAdjustments);
             }
             return true;

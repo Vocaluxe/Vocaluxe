@@ -29,6 +29,7 @@
   <string name="TR_USERROLE_GUEST">Guest</string>
   <string name="TR_USERROLE_NORMAL">Normal User</string>
   <string name="TR_USERROLE_ADMIN">Administrator</string>
+  <string name="TR_USERROLE_KEYBOARDUSER">Keyboard User</string>
   <string name="TR_CONFIG_SOFTWARE">Software</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -199,7 +200,7 @@
   <string name="TR_SCREENOTHEME_COVERLOADING">Cover Loading Behavior</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Lyrics Options</string>
   <string name="TR_SCREENOLYRICS_STYLE">Style</string>
-  <string name="TR_SCREENOLYRICS_POSTION">Lyrics position</string>
+  <string name="TR_SCREENOLYRICS_POSITION">Lyrics position</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Video Options</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video Backgrounds</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video Preview</string>

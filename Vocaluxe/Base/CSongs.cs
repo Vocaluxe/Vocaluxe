@@ -226,13 +226,13 @@ namespace Vocaluxe.Base
                 totalCounts += song.NumPlayedSession;
             int averageCount = totalCounts / NumSongsVisible;
 
-            foreach(CSong song in VisibleSongs)
+            foreach (CSong song in VisibleSongs)
             {
                 if (song.NumPlayedSession <= averageCount)
                     _SongsForRandom.Add(song);
             }
-            
-            if(_SongsForRandom.Count == 0)
+
+            if (_SongsForRandom.Count == 0)
                 _SongsForRandom.AddRange(VisibleSongs);
         }
 
@@ -295,7 +295,7 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
-        /// Gets category with given index or null for invalid index
+        ///     Gets category with given index or null for invalid index
         /// </summary>
         /// <param name="index"></param>
         /// <returns>category with given index or null for invalid index</returns>
@@ -308,7 +308,7 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
-        /// Gets visible song with given index or null for invalid index or song not visible
+        ///     Gets visible song with given index or null for invalid index or song not visible
         /// </summary>
         /// <param name="index"></param>
         /// <returns>visible song with given index or null for invalid index or song not visible</returns>

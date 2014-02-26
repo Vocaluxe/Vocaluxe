@@ -34,7 +34,7 @@ namespace Vocaluxe.Base
     static class CConfig
     {
         /// <summary>
-        /// Uniform settings for writing XML files. ALWAYS use this!
+        ///     Uniform settings for writing XML files. ALWAYS use this!
         /// </summary>
         public static readonly XmlWriterSettings XMLSettings = new XmlWriterSettings
             {

@@ -60,7 +60,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 while (_Data.ScreenNames.ProfileIDs.Count > _NumPlayer)
                     _Data.ScreenNames.ProfileIDs.RemoveAt(_Data.ScreenNames.ProfileIDs.Count - 1);
 
-                List<int>[] ids = new List<int>[] { _Data.ScreenNames.ProfileIDs };
+                List<int>[] ids = new List<int>[] {_Data.ScreenNames.ProfileIDs};
                 SetPartyModeProfiles(ids);
             }
             catch (Exception e)
@@ -77,7 +77,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         public override void Back()
         {
             SPartyNameOptions options = GetData();
-            if(options.TeamList.Length == 1)
+            if (options.TeamList.Length == 1)
                 _Data.ScreenNames.ProfileIDs = options.TeamList[0];
             _Data.ScreenNames.FadeBack = true;
             _PartyMode.DataFromScreen(ThemeName, _Data);

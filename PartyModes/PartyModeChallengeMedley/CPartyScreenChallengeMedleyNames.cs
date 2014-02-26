@@ -61,7 +61,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 while (_Data.ScreenNames.ProfileIDs.Count > _NumPlayer)
                     _Data.ScreenNames.ProfileIDs.RemoveAt(_Data.ScreenNames.ProfileIDs.Count - 1);
 
-                List<int>[] ids = new List<int>[] { _Data.ScreenNames.ProfileIDs };
+                List<int>[] ids = new List<int>[] {_Data.ScreenNames.ProfileIDs};
                 SetPartyModeProfiles(ids);
             }
             catch (Exception e)
@@ -69,7 +69,6 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 CBase.Log.LogError("Error in party mode screen challenge names. Can't cast received data from game mode " + ThemeName + ". " + e.Message);
             }
         }
-
 
         public override void Back()
         {

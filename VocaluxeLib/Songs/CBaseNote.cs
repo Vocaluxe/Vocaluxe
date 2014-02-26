@@ -49,7 +49,7 @@ namespace VocaluxeLib.Songs
         public int StartBeat { get; set; }
 
         /// <summary>
-        /// Last beat of this note. First valid beat for a note after that is at EndBeat+1
+        ///     Last beat of this note. First valid beat for a note after that is at EndBeat+1
         /// </summary>
         public int EndBeat
         {

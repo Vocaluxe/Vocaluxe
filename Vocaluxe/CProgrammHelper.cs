@@ -1,4 +1,21 @@
-﻿using System;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,7 +28,7 @@ using Vocaluxe.Base;
 namespace Vocaluxe
 {
     /// <summary>
-    /// Some helper functions for the programm
+    ///     Some helper functions for the programm
     /// </summary>
     static class CProgrammHelper
     {
@@ -37,7 +54,7 @@ namespace Vocaluxe
         }
 
         /// <summary>
-        /// Checks if a given program is installed by checking the Uninstall registry key.
+        ///     Checks if a given program is installed by checking the Uninstall registry key.
         /// </summary>
         /// <param name="name">Name of the programm. Got to equal the displayname in the key or one needs to be the start of the other one. NOT case sensitive.</param>
         /// <returns></returns>

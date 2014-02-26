@@ -1,18 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography.X509Certificates;
 
 namespace WebserverInitalConfig
 {
     class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             if (args.Length != 2)
             {
@@ -20,22 +32,18 @@ namespace WebserverInitalConfig
                 Environment.Exit(-1);
             }
 
-            ConfigHttpApi.addFirewallrule(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Vocaluxe.exe"), Int32.Parse(args[0]), true);
+            CConfigHttpApi.AddFirewallRule(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Vocaluxe.exe"), Int32.Parse(args[0]), true);
 
             if (args[1].ToLower() == "true")
             {
                 string hostname = Dns.GetHostName();
-                var cert = ConfigHttpApi.getSelfSignedCert("CN=" + hostname + " C=DE O=Vocaluxe OU=Vocaluxe Server");
-                ConfigHttpApi.addCertToStore(cert);
-                ConfigHttpApi.bindCert("0.0.0.0", Int32.Parse(args[0]), cert);
-                ConfigHttpApi.reserveURL("https://+:" + args[0] + "/");
+                X509Certificate2 cert = CConfigHttpApi.GetSelfSignedCert("CN=" + hostname + " C=DE O=Vocaluxe OU=Vocaluxe Server");
+                CConfigHttpApi.AddCertToStore(cert);
+                CConfigHttpApi.BindCert("0.0.0.0", Int32.Parse(args[0]), cert);
+                CConfigHttpApi.ReserveUrl("https://+:" + args[0] + "/");
             }
             else
-            {
-                ConfigHttpApi.reserveURL("http://+:" + args[0] + "/");
-            }
+                CConfigHttpApi.ReserveUrl("http://+:" + args[0] + "/");
         }
-
-
     }
 }

@@ -565,7 +565,7 @@ namespace Vocaluxe.Screens
             }
             CDraw.RemoveTexture(ref _Background);
 
-            if(_SlideShow != null)
+            if (_SlideShow != null)
                 _SlideShow.RemoveSlideShowTextures();
 
             _Lyrics[_LyricMain].Clear();
@@ -637,7 +637,7 @@ namespace Vocaluxe.Screens
             if (song.BackgroundFileNames.Count > 1)
             {
                 _SlideShow = GetNewBackground();
-                foreach(string bgFile in song.BackgroundFileNames)
+                foreach (string bgFile in song.BackgroundFileNames)
                     _SlideShow.AddSlideShowTexture(Path.Combine(song.Folder, bgFile));
                 _Background = null;
             }
@@ -887,7 +887,7 @@ namespace Vocaluxe.Screens
                 _Buttons[_ButtonContinue].Visible = false;
                 _Buttons[_ButtonSkip].Visible = false;
                 CSound.Play(_CurrentStream);
-                if(_Webcam)
+                if (_Webcam)
                     CWebcam.Start();
             }
         }
@@ -1309,7 +1309,7 @@ namespace Vocaluxe.Screens
             float currentTime = _CurrentTime - song.Start;
 
             if (_Length < 0 && totalTime > 0)
-                 _PrepareTimeLine();
+                _PrepareTimeLine();
 
             if (totalTime <= 0f)
                 return;

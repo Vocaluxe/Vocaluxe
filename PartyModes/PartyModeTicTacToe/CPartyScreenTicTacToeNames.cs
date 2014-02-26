@@ -77,11 +77,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
         }
 
-
         public override void OnShow()
         {
             base.OnShow();
-            SetPartyModeData(2, _NumPlayerTeam1 + _NumPlayerTeam2, new int[] { _NumPlayerTeam1, _NumPlayerTeam2 });
+            SetPartyModeData(2, _NumPlayerTeam1 + _NumPlayerTeam2, new int[] {_NumPlayerTeam1, _NumPlayerTeam2});
             List<int>[] ids = new List<int>[] {_Data.ScreenNames.ProfileIDsTeam1, _Data.ScreenNames.ProfileIDsTeam2};
             SetPartyModeProfiles(ids);
         }
@@ -89,7 +88,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         public override void Back()
         {
             SPartyNameOptions options = GetData();
-            if(options.TeamList.Length == 2)
+            if (options.TeamList.Length == 2)
             {
                 _Data.ScreenNames.ProfileIDsTeam1 = options.TeamList[0];
                 _Data.ScreenNames.ProfileIDsTeam2 = options.TeamList[1];
