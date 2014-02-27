@@ -18,9 +18,6 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
-using System.Threading;
-using Vocaluxe.Base;
 using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Video.Acinerella
@@ -28,46 +25,54 @@ namespace Vocaluxe.Lib.Video.Acinerella
     class CDecoder
     {
         private readonly Stopwatch _LoopTimer = new Stopwatch();
-        private readonly Object _MutexSyncSignals = new Object();
 
-        private float _LastShownTime; // time if the last shown frame in s
-
-        private float _Time;
+        private float _LastShownTime = -1f; // time if the last shown frame in s
         private float _Gap;
-        private float _Start;
-        private bool _Loop;
-
-        private float _SetTime;
-        private float _SetGap;
-        private float _SetStart;
-        private bool _SetSkip;
-
-        private float _SkipTime; // = Start + VideoGap
-
-        private string _FileName; // current video file name
         private bool _Paused;
+        private float _LoopTime;
 
         private CDecoderThread _Thread;
-
-        public CDecoder() {}
-
         public float Length { get; private set; }
-
-        public bool Loop { private get; set; }
-
         public bool Finished { get; private set; }
+
+        public CDecoder()
+        {
+            Length = 0;
+            Finished = true;
+        }
+
+        public bool Loop
+        {
+            get { return _Thread.Loop; }
+            set
+            {
+                {
+                    _Thread.Loop = value;
+                    if (value)
+                    {
+                        _LoopTime = _Thread._RequestTime;
+                        _LoopTimer.Restart();
+                    }
+                }
+            }
+        }
 
         public bool Paused
         {
             set
             {
-                lock (_MutexSyncSignals)
+                if (_Paused == value)
+                    return;
+                _Paused = value;
+                if (_Paused)
                 {
-                    _Paused = value;
-                    if (_Paused)
-                        _LoopTimer.Stop();
-                    else
-                        _LoopTimer.Start();
+                    _LoopTimer.Stop();
+                    _Thread.Pause();
+                }
+                else
+                {
+                    _LoopTimer.Start();
+                    _Thread.Resume();
                 }
             }
         }
@@ -80,35 +85,15 @@ namespace Vocaluxe.Lib.Video.Acinerella
             if (!File.Exists(fileName))
                 return false;
 
-            _FileName = fileName;
-
-            //Do this here as one may want to get the length afterwards!
-            IntPtr pInstance = _LoadFile();
-            if (pInstance == IntPtr.Zero)
-                return false;
-
-
-            _Thread = new CDecoderThread(Path.GetFileName(fileName), pInstance);
-            return true;
-        }
-
-        //Open the file and get the length.
-        private IntPtr _LoadFile()
-        {
-            try
+            _Thread = new CDecoderThread();
+            if (_Thread.LoadFile(fileName))
             {
-                IntPtr pInstance = CAcinerella.AcInit();
-                CAcinerella.AcOpen2(pInstance, _FileName);
-
-                var instance = (SACInstance)Marshal.PtrToStructure(pInstance, typeof(SACInstance));
-                Length = instance.Info.Duration / 1000f;
-                bool ok = instance.Opened;
-                if (ok)
-                    return pInstance;
+                Length = _Thread.Length;
+                Finished = false;
+                return _Thread.Start();
             }
-            catch (Exception) {}
-            CLog.LogError("Error opening video file: " + _FileName);
-            return IntPtr.Zero;
+            _Thread = null;
+            return false;
         }
 
         public void Close()
@@ -116,45 +101,61 @@ namespace Vocaluxe.Lib.Video.Acinerella
             if (_Thread != null)
                 _Thread.Stop();
             Length = 0;
+            Finished = true;
         }
 
         public bool GetFrame(ref CTexture frame, float time, out float videoTime)
         {
+            if (Finished)
+            {
+                videoTime = Length - _Gap;
+                return false;
+            }
             if (Loop)
             {
-                lock (_MutexSyncSignals)
+                time = _LoopTime + _LoopTimer.ElapsedMilliseconds / 1000f;
+                if (time >= Length)
                 {
-                    _SetTime += _LoopTimer.ElapsedMilliseconds / 1000f;
+                    do
+                    {
+                        time -= Length;
+                    } while (time >= Length);
+                    _LoopTime = time;
                     _LoopTimer.Restart();
                 }
             }
-            else if (Math.Abs(_SetTime - time) >= 1f / 1000f) //Check 1 ms difference
+            else
+                time += _Gap;
+            _Thread.SyncTime(time);
+
+            if (Math.Abs(_LastShownTime - time) < 1f / 1000 && frame != null) //Check 1 ms difference
             {
-                lock (_MutexSyncSignals)
-                {
-                    _SetTime = time;
-                }
-            }
-            else if (Math.Abs(_LastShownTime - time) < 1f / 1000 && frame != null) //Check 1 ms difference
-            {
-                videoTime = _LastShownTime;
+                videoTime = _LastShownTime - _Gap;
                 return true;
             }
-            _UploadNewFrame(ref frame);
-            videoTime = _LastShownTime;
+            CDecoderThread.EFrameState state = _Thread.GetFrame(ref frame, ref time);
+            switch (state)
+            {
+                case CDecoderThread.EFrameState.EndFrame:
+                    Finished = true;
+                    videoTime = Length - _Gap;
+                    break;
+                case CDecoderThread.EFrameState.ValidFrame:
+                    _LastShownTime = time;
+                    videoTime = time - _Gap;
+                    break;
+                default:
+                    videoTime = _LastShownTime - _Gap;
+                    break;
+            }
             return frame != null;
         }
 
         public bool Skip(float start, float gap)
         {
-            lock (_MutexSyncSignals)
-            {
-                _SetStart = start;
-                _SetGap = gap;
-                _SetSkip = true;
-                _NoMoreFrames = false;
-                Finished = false;
-            }
+            Finished = false;
+            _Gap = gap;
+            _Thread.Skip(start + gap);
             return true;
         }
     }
