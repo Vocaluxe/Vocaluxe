@@ -209,6 +209,13 @@ namespace ServerLib
             UriTemplate = "/hasUserRight?right={right}")]
         bool HasUserRight(int right);
 
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            ResponseFormat = WebMessageFormat.Json,
+            RequestFormat = WebMessageFormat.Json,
+            UriTemplate = "/playerComunication")]
+        SPlayerComunicationFrame[] PlayerComunication(SPlayerComunicationFrame[] recivedData);
+
         #endregion
     }
 }

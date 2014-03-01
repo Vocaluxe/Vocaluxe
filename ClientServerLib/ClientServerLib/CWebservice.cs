@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ServerLib.PlayerComunication;
+using System;
+using System.IO;
 using System.Net;
 using System.ServiceModel;
-using System.ServiceModel.Web;
-using System.IO;
 using System.ServiceModel.Channels;
+using System.ServiceModel.Web;
 
 namespace ServerLib
 {
@@ -82,8 +83,8 @@ namespace ServerLib
 
             if (profile.ProfileId != -1) //-1 is the id for a new profile
             {
-                if (CSessionControl.GetUserIdFromSession(sessionKey) != profile.ProfileId 
-                    && !(_CheckRight(EUserRights.EditAllProfiles) ))
+                if (CSessionControl.GetUserIdFromSession(sessionKey) != profile.ProfileId
+                    && !(_CheckRight(EUserRights.EditAllProfiles)))
                 {
                     return;
                 }
@@ -303,7 +304,7 @@ namespace ServerLib
         {
             return true;
         }
-       
+
         #endregion
 
         #region songs
@@ -403,7 +404,7 @@ namespace ServerLib
                 CServer.SetUserRole(profileId, userRole);
             }
         }
-        
+
         public bool HasUserRight(int right)
         {
             return _CheckRightWithNoErrorMessage((EUserRights)right);
@@ -452,7 +453,26 @@ namespace ServerLib
             return true;
         }
 
+        public SPlayerComunicationFrame[] PlayerComunication(SPlayerComunicationFrame[] recivedData)
+        {
+            Guid sessionKey = _GetSession();
+
+            if (sessionKey == Guid.Empty)
+            {
+                if (WebOperationContext.Current != null)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Forbidden;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
+                }
+
+                return null;
+            }
+            int userId = CSessionControl.GetUserIdFromSession(sessionKey);
+            CPlayerCommunication.AddMessagesFromPlayer(recivedData, userId);
+            
+            return CPlayerCommunication.GetAllMessagesForPlayer(userId);
+        }
         #endregion
-        
+
     }
 }

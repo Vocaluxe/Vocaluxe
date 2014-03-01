@@ -8,6 +8,7 @@ var customSelectPlaylistSongCallback = null;
 var sessionId = "";
 var serverBaseAddress = "";
 var translationLoaded;
+var playerComunication = new PlayerComunication();
 
 if (document.location.protocol == "file:") {
     if (typeof (window.deviceAndJqmLoaded) == "undefined") {
@@ -39,7 +40,6 @@ function start() {
     initMainPageHandler();
     initDiscoverPageHandler();
     initLoginPageHandler();
-    initHeartbeat();
     initVideoPopup();
 }
 
@@ -1055,31 +1055,13 @@ function logout() {
     profileIdRequest = -1;
     songIdRequest = -1;
     sessionId = "";
+
+    playerComunication.reset();
+
     if (window.localStorage) {
         window.localStorage.setItem("VocaluxeSessionKey", "");
     }
     $.mobile.changePage("#login", { transition: "slidefade" });
-}
-
-function checkSession() {
-    if (ownProfileId == -1
-        && profileIdRequest == -1
-        && ($.mobile.activePage.attr("id") == "displayProfile" || $.mobile.activePage.attr("id") == "login" || $.mobile.activePage.attr("id") == "discover")) {
-        return;
-    }
-    request({
-        url: "getOwnProfileId"
-    }, "noOverlay").done(function (result) {
-        if (result == -1) {
-            logout();
-        }
-    }).fail(function (result) {
-        logout();
-    });
-}
-
-function initHeartbeat() {
-    setInterval(checkSession, 20000);
 }
 
 function request(data, message) {
@@ -1285,4 +1267,122 @@ function translate() {
     };
     $('body').i18n();
     repairButtons();
+}
+
+function PlayerComunication() {
+    var playerComunicationToServer = [];
+    var playerComunicationFromServerHandler = {};
+    var defaultHeartbeatIntervall = 5000;
+    var heartbeatIntervalls = [];
+    var heartbeatIntervallId;
+
+    var init = function () {
+        startHeartbeat();
+    };
+
+    var checkPlayerMessages = function () {
+        if (ownProfileId == -1
+            && profileIdRequest == -1
+            && ($.mobile.activePage.attr("id") == "displayProfile"
+                || $.mobile.activePage.attr("id") == "login"
+                || $.mobile.activePage.attr("id") == "discover")) {
+            return;
+        }
+
+        request({
+            url: "playerComunication",
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(playerComunicationToServer)
+        }, "noOverlay").done(function (result) {
+            if (result.length > 0) {
+                handlePlayerComunicationFromServer(result);
+            }
+        }).fail(function (result) {
+            if (result.status == 403 || result.status == 0) {
+                logout();
+            }
+        });
+
+        if (playerComunicationToServer.length > 0) {
+            setTimeout(checkPlayerMessages, 50);
+        }
+
+        playerComunicationToServer = [];
+    };
+
+    var handlePlayerComunicationFromServer = function (items) {
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].ProfileId == ownProfileId && playerComunicationFromServerHandler[items[i].Type]) {
+                if (new Date() - new Date(parseInt("\/Date(1234656000000)\/".match(/[0-9]+/)[0])) <= 0) {
+                    var deserializedData = JSON.parse(items[i].Data);
+                    for (var j = 0; j < playerComunicationFromServerHandler[items[i].Type]; j++) {
+                        playerComunicationFromServerHandler[items[i].Type][j](deserializedData);
+                    }
+                }
+            }
+        }
+    };
+
+    var startHeartbeat = function () {
+        var interv = defaultHeartbeatIntervall;
+        for (var i = 0; i < heartbeatIntervalls.length; i++) {
+            if (interv > heartbeatIntervalls[i] && heartbeatIntervalls[i] >= 50) {
+                interv = heartbeatIntervalls[i];
+            }
+        }
+
+        if (interv == defaultHeartbeatIntervall && heartbeatIntervalls.length != 0) {
+            heartbeatIntervalls = [];
+        }
+
+        clearInterval(heartbeatIntervallId);
+        heartbeatIntervallId = setInterval(checkPlayerMessages, interv);
+    };
+
+    var sendPlayerComunicationToServer = function (packet) {
+        playerComunicationToServer.push(packet);
+    };
+
+    this.registerPlayerComunicationFromServerHandler = function (type, handler) {
+        if (!playerComunicationFromServerHandler[type]) {
+            playerComunicationFromServerHandler[type] = [];
+        }
+        playerComunicationFromServerHandler[type].push(handler);
+    };
+
+    this.sendDataToServer = function (data, type) {
+        sendPlayerComunicationToServer({
+            "ProfileId": ownProfileId,
+            "ValidTill": "\/Date(" + (((new Date())).getTime() + 60000) + ")\/",
+            "Type": type,
+            "Data": JSON.stringify(data)
+        });
+    };
+
+    //mim 50ms
+    this.requestIntervall = function (newIntervall) {
+        heartbeatIntervalls.push(newIntervall);
+    };
+
+    this.removeIntervall = function (oldIntervall) {
+        var index = heartbeatIntervalls.indexOf(oldIntervall);
+        if (index > -1) {
+            heartbeatIntervalls.splice(oldIntervall, 1);
+        }
+    };
+
+    this.reset = function () {
+        playerComunicationToServer = [];
+        playerComunicationFromServerHandler = {};
+        heartbeatIntervalls = [];
+    };
+
+    this.EPlayerComunicationType = {
+        "RegisterSubscription": 0,
+        "UnregisterSubscription": 1
+    };
+
+    init();
 }

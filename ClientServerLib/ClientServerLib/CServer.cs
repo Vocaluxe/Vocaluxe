@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerLib.PlayerComunication;
+using System;
 using System.Diagnostics;
 using System.Net;
 using System.ServiceModel;
@@ -73,6 +74,7 @@ namespace ServerLib
         public CServer(int port, bool encrypted)
         {
             _Init(port, encrypted);
+            CPlayerCommunication.Init();
         }
 
         public string GetBaseAddress()

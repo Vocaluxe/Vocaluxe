@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ServerLib.PlayerComunication.DataTypes;
+using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Drawing;
-using System.IO;
-using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 
 namespace ServerLib
@@ -108,8 +109,8 @@ namespace ServerLib
     public delegate SSongInfo[] GetAllSongsDelegate();
 
     public delegate int GetCurrentSongIdDelegate();
-    
-        
+
+
     [DataContract]
     public struct SSongInfo
     {
@@ -155,26 +156,26 @@ namespace ServerLib
     [DataContract]
     public struct SPlaylistSongInfo
     {
-        [DataMember] 
+        [DataMember]
         public SSongInfo Song;
         [DataMember]
         public int PlaylistId;
-        [DataMember] 
+        [DataMember]
         public int PlaylistPosition;
         [DataMember]
         public int GameMode;
     }
-    
+
     [DataContract]
     public struct SPlaylistInfo
     {
-        [DataMember] 
+        [DataMember]
         public int PlaylistId;
-        [DataMember] 
+        [DataMember]
         public string PlaylistName;
-        [DataMember] 
+        [DataMember]
         public int SongCount;
-        [DataMember] 
+        [DataMember]
         public string LastChanged;
     }
 
@@ -191,6 +192,19 @@ namespace ServerLib
     public delegate void SetUserRoleDelegate(int profileId, int userRole);
 
     public delegate int GetUserIdFromUsernameDelegate(string username);
+
+    [DataContract]
+    public struct SPlayerComunicationFrame
+    {
+        [DataMember]
+        public int ProfileId;
+        [DataMember]
+        public DateTime ValidTill;
+        [DataMember]
+        public EPlayerComunicationType Type;
+        [DataMember]
+        public String Data;
+    }
 
     #endregion
 }
