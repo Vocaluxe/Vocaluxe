@@ -106,7 +106,7 @@ namespace ServerLib
         public SProfileData GetProfile(int profileId)
         {
             Guid sessionKey = _GetSession();
-            if (_CheckRight(EUserRights.ViewOtherProfiles) || CSessionControl.GetUserIdFromSession(sessionKey) == profileId)
+            if (CSessionControl.GetUserIdFromSession(sessionKey) == profileId || _CheckRight(EUserRights.ViewOtherProfiles))
             {
                 if (CServer.GetProfileData == null)
                 {
@@ -469,7 +469,7 @@ namespace ServerLib
             }
             int userId = CSessionControl.GetUserIdFromSession(sessionKey);
             CPlayerCommunication.AddMessagesFromPlayer(recivedData, userId);
-            
+
             return CPlayerCommunication.GetAllMessagesForPlayer(userId);
         }
         #endregion
