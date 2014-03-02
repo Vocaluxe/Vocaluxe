@@ -309,8 +309,7 @@
                     'height': h - (ifrPadding + ifrBorder)
                 };
             }
-
-            ;
+            
             $("#popupVideo").find("a").click(function () {
                 $("#popupVideo").popup("close");
                 $("#popupVideo").popup("close"); //Sometimes twice??
