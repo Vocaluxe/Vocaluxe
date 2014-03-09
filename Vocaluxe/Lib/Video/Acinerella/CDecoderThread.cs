@@ -20,6 +20,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         }
 
         private Thread _Thread;
+        private readonly Object _BufferMutex = new Object();
 
         private IntPtr _Instance = IntPtr.Zero; // acinerella instance
         private IntPtr _Videodecoder = IntPtr.Zero; // acinerella video decoder instance
@@ -28,7 +29,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         private float _LastDecodedTime; // time of last decoded frame
         // time of last requested frame aka current should-be position (_LastDecodedTime should be >=_RequestTime)
         //HAS to be < Length
-        public float _RequestTime { get; private set; }
+        public float RequestTime { get; private set; }
         private bool _Paused;
 
         private String _FileName;
@@ -88,7 +89,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 CLog.LogError("Tried to start a video file that is already started: " + _FileName);
                 return false;
             }
-            _RequestTime = 0f;
+            RequestTime = 0f;
             _Thread = new Thread(_Execute) {Priority = ThreadPriority.Normal, Name = Path.GetFileName(_FileName)};
             _Thread.Start();
             return true;
@@ -118,102 +119,67 @@ namespace Vocaluxe.Lib.Video.Acinerella
             _EvPause.Set();
         }
 
+        //Sets the position to the given time discarding all decoded frames
         public void Skip(float time)
         {
-            //TODO: Problem: This is not threadsave
+            //Problem: This is not threadsave
             //Scenario: Clear buffer from main thread, decoder is in _Decode or _Copy
             //Result: Cleared buffer contains 1 old item. This is a problem when skipping back: E.g. Loop:
             //Old item has time=Length->Will not get removed
             //Workaround: Check in _FindFrame to remove first old item
-            _Framebuffer.Clear();
+            //Fix: Use mutex (TODO: Check overhead)
+            lock (_BufferMutex) //Cover clear, RequestTime=, _RequestSkip=
+            {
+                _Framebuffer.Clear();
 
-
-            _RequestTime = time;
-            _RequestSkip = true;
+                RequestTime = time;
+                _RequestSkip = true;
+            }
             _EvNoMoreFrames.Set();
         }
 
-        private CFramebuffer.CFrame _FindFrame(float now)
+        private CFramebuffer.CFrame _FindFrame(float lastTime, float now)
         {
             CFramebuffer.CFrame result = null;
-            float maxEnd = now - _FrameDuration * 2; //Get only frames younger than 2
             CFramebuffer.CFrame frame;
-            bool first = true;
             _Framebuffer.ResetStack();
             while ((frame = _Framebuffer.Pop()) != null)
             {
                 float frameEnd = frame.Time + _FrameDuration;
-                //Don't show frames that are shown during or after now
-                if (frameEnd >= now)
+                if (!Loop || lastTime < now)
                 {
-                    //All following frames are after that one -> BREAK
-                    if (!first)
-                        break;
-                    //Well... Should be. Workaround:
-                    CFramebuffer.CFrame nextFrame = _Framebuffer.Pop();
-                    if (nextFrame == null || nextFrame.Time > frame.Time)
-                        break;
-                    frame.SetRead(); //Discard wrong frame
-                    frame = nextFrame;
-                    //Replicate calculations
-                    frameEnd = frame.Time + _FrameDuration;
-                    if (frameEnd >= now)
-                        break;
-                }
-                first = false;
-                //Get the last(newest) possible frame and skip the rest to force in-order showing
-                if (frameEnd <= maxEnd)
-                {
-                    //Frame is to old -> Discard
-                    frame.SetRead();
+                    //Regular case: Frame has to be between last frame and now
+                    if (frameEnd > now)
+                        break; // Next frames are after this one
+                    if (frame.Time < lastTime)
+                    {
+                        frame.SetRead(); //Frame is before last one, Discard
+                        continue;
+                    }
                 }
                 else
                 {
-                    maxEnd = frameEnd;
-                    result = frame;
+                    //Loop case: time rolled over -> Frame has to be after last one OR before now (which is after last one but rolled over)
+                    if (frame.Time < lastTime && frameEnd > now)
+                        break;
                 }
+                //Get the last(newest) possible frame and skip the rest
+                if (result != null)
+                {
+                    //Frame is to old -> Discard
+                    result.SetRead();
+                }
+                result = frame;
+                if (_Paused)
+                    break; //Just get 1 frame if paused
             }
             return result;
         }
 
-        //Time should be < Length
-        public void SyncTime(float time)
-        {
-            if (_Thread == null)
-                return; //Not initialized
-            while (time >= Length)
-                time -= Length;
-            if (_RequestTime - time >= 1f / 1000f)
-            {
-                //Jump back more than 1ms
-                //Will mostly happen in loops when looped through
-                Skip(time);
-            }
-            else if (time - _RequestTime >= 1f / 1000f)
-            {
-                //we were more than 1 ms to slow -> Jump forward
-                // ReSharper disable CompareOfFloatsByEqualityOperator
-                if (Loop && _RequestTime == 0f)
-                    // ReSharper restore CompareOfFloatsByEqualityOperator
-                {
-                    //Check if we had a loop
-                    _Framebuffer.ResetStack();
-                    CFramebuffer.CFrame frame;
-                    while ((frame = _Framebuffer.Pop()) != null)
-                    {
-                        if (frame.Time + _FrameDuration >= time)
-                            return;
-                    }
-                }
-
-                _RequestTime = time;
-            }
-        }
-
-        public EFrameState GetFrame(ref CTexture frame, ref float time)
+        public EFrameState GetFrame(ref CTexture frame, float lastTime, ref float time)
         {
             EFrameState result;
-            CFramebuffer.CFrame curFrame = _FindFrame(time);
+            CFramebuffer.CFrame curFrame = _FindFrame(lastTime, time);
 
             if (curFrame != null)
             {
@@ -238,15 +204,49 @@ namespace Vocaluxe.Lib.Video.Acinerella
             return result;
         }
 
+        //Time should be < Length
+        public void SyncTime(float time)
+        {
+            if (_Thread == null)
+                return; //Not initialized
+            while (time >= Length)
+                time -= Length;
+            if (RequestTime - time >= 1f / 1000f)
+            {
+                //Jump back more than 1ms
+                //Will mostly happen in loops when looped through
+                Skip(time);
+            }
+            else if (time - RequestTime >= 1f / 1000f)
+            {
+                //we were more than 1 ms to slow -> Jump forward
+                // ReSharper disable CompareOfFloatsByEqualityOperator
+                if (Loop && RequestTime == 0f)
+                    // ReSharper restore CompareOfFloatsByEqualityOperator
+                {
+                    //Check if we had a loop
+                    _Framebuffer.ResetStack();
+                    CFramebuffer.CFrame frame;
+                    while ((frame = _Framebuffer.Pop()) != null)
+                    {
+                        if (frame.Time + _FrameDuration >= time)
+                            return;
+                    }
+                }
+
+                RequestTime = time;
+            }
+        }
+
         private bool _OpenVideoStream()
         {
             int videoStreamIndex;
-            SACDecoder videodecoder;
+            SACDecoder decoder;
             try
             {
                 _Videodecoder = CAcinerella.AcCreateVideoDecoder(_Instance);
-                videodecoder = (SACDecoder)Marshal.PtrToStructure(_Videodecoder, typeof(SACDecoder));
-                videoStreamIndex = videodecoder.StreamIndex;
+                decoder = (SACDecoder)Marshal.PtrToStructure(_Videodecoder, typeof(SACDecoder));
+                videoStreamIndex = decoder.StreamIndex;
             }
             catch (Exception)
             {
@@ -257,11 +257,11 @@ namespace Vocaluxe.Lib.Video.Acinerella
             if (videoStreamIndex < 0)
                 return false;
 
-            _Width = videodecoder.StreamInfo.VideoInfo.FrameWidth;
-            _Height = videodecoder.StreamInfo.VideoInfo.FrameHeight;
+            _Width = decoder.StreamInfo.VideoInfo.FrameWidth;
+            _Height = decoder.StreamInfo.VideoInfo.FrameHeight;
 
-            if (videodecoder.StreamInfo.VideoInfo.FramesPerSecond > 0)
-                _FrameDuration = 1f / (float)videodecoder.StreamInfo.VideoInfo.FramesPerSecond;
+            if (decoder.StreamInfo.VideoInfo.FramesPerSecond > 0)
+                _FrameDuration = 1f / (float)decoder.StreamInfo.VideoInfo.FramesPerSecond;
 
             _Framebuffer.Init(_Width * _Height * 4);
             _FrameAvailable = false;
@@ -284,7 +284,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         // Skip to a given time (in s)
         private void _Skip()
         {
-            float skipTime = _RequestTime;
+            float skipTime = RequestTime; //Copy to variable to have consistent checks
             if (skipTime < 0 || skipTime >= Length)
                 skipTime = 0;
 
@@ -308,7 +308,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             if (_Paused || _NoMoreFrames)
                 return;
 
-            float videoTime = _RequestTime;
+            float videoTime = RequestTime;
             float timeDifference = videoTime - _LastDecodedTime;
 
             bool dropFrame = timeDifference >= (minFrameDropCount - 1) * _FrameDuration;
@@ -344,7 +344,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             {
                 if (Loop)
                 {
-                    _RequestTime = 0;
+                    RequestTime = 0;
                     _Skip();
                 }
                 else
@@ -352,15 +352,21 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
         }
 
-        private void _CopyDecodedFrameToBuffer()
+        //Copies a frame to the buffer but does not set it as 'written'
+        //Returns true if frame data is now in buffer
+        private bool _CopyDecodedFrameToBuffer()
         {
-            var videodecoder = (SACDecoder)Marshal.PtrToStructure(_Videodecoder, typeof(SACDecoder));
-            if (videodecoder.Buffer != IntPtr.Zero)
+            bool result;
+            var decoder = (SACDecoder)Marshal.PtrToStructure(_Videodecoder, typeof(SACDecoder));
+            if (decoder.Buffer != IntPtr.Zero)
             {
-                _LastDecodedTime = (float)videodecoder.Timecode;
-                _Framebuffer.Put(videodecoder.Buffer, _LastDecodedTime);
+                _LastDecodedTime = (float)decoder.Timecode;
+                result = _Framebuffer.Put(decoder.Buffer, _LastDecodedTime);
             }
+            else
+                result = false;
             _FrameAvailable = false;
+            return result;
         }
 
         private void _Execute()
@@ -387,13 +393,23 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 if (!_FrameAvailable)
                     _Decode();
 
-                if (_FrameAvailable)
+                //Bail out if we want to skip
+                if (!_RequestSkip && _FrameAvailable)
                 {
                     if (!_Framebuffer.IsFull())
                     {
-                        _CopyDecodedFrameToBuffer();
+                        if (_CopyDecodedFrameToBuffer())
+                        {
+                            //Do not write to buffer if we want to skip. So check and write have to be done atomicly
+                            lock (_BufferMutex)
+                            {
+                                if (_RequestSkip)
+                                    continue; //Frame is invalid if we want to skip
+                                _Framebuffer.SetWritten();
+                            }
+                        }
                         _WaitCount = 0;
-                        Thread.Sleep(5);
+                        Thread.Sleep(5); //Sleep for a bit to give other threads an opportunity to run
                     }
                     else if (_WaitCount > 3)
                     {

@@ -97,8 +97,13 @@ namespace Vocaluxe.Lib.Video.Acinerella
             CFrame frame = _Frames[_Last];
             Marshal.Copy(data, frame.Data, 0, _DataSize);
             frame.Time = time;
-            _Last = _GetNextIndex(_Last);
             return true;
+        }
+
+        //Only call from writer thread after succesfull put
+        public void SetWritten()
+        {
+            _Last = _GetNextIndex(_Last);
         }
 
         //Only call from reader thread

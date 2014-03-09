@@ -50,7 +50,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     _Thread.Loop = value;
                     if (value)
                     {
-                        _LoopTime = _Thread._RequestTime;
+                        _LoopTime = _Thread.RequestTime;
                         _LoopTimer.Restart();
                     }
                 }
@@ -133,7 +133,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 videoTime = _LastShownTime - _Gap;
                 return true;
             }
-            CDecoderThread.EFrameState state = _Thread.GetFrame(ref frame, ref time);
+            CDecoderThread.EFrameState state = _Thread.GetFrame(ref frame, _LastShownTime + _Gap, ref time);
             switch (state)
             {
                 case CDecoderThread.EFrameState.EndFrame:
