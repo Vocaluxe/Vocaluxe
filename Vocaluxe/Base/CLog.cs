@@ -28,6 +28,7 @@ namespace Vocaluxe.Base
         private readonly string _LogFileName;
         private readonly string _LogName;
         private StreamWriter _LogFile;
+        private Object _FileMutex = new Object();
 
         public CLogFile(string fileName, string logName)
         {
@@ -37,23 +38,31 @@ namespace Vocaluxe.Base
 
         private void _Open()
         {
-            _LogFile = new StreamWriter(Path.Combine(CSettings.DataPath, _LogFileName), false, Encoding.UTF8);
+            lock (_FileMutex)
+            {
+                if (_LogFile != null)
+                    return;
+                _LogFile = new StreamWriter(Path.Combine(CSettings.DataPath, _LogFileName), false, Encoding.UTF8);
 
-            _LogFile.WriteLine(_LogName + " " + CSettings.GetFullVersionText() + " " + DateTime.Now);
-            _LogFile.WriteLine("----------------------------------------");
-            _LogFile.WriteLine();
+                _LogFile.WriteLine(_LogName + " " + CSettings.GetFullVersionText() + " " + DateTime.Now);
+                _LogFile.WriteLine("----------------------------------------");
+                _LogFile.WriteLine();
+            }
         }
 
         public void Close()
         {
-            if (_LogFile == null)
-                return;
-            try
+            lock (_FileMutex)
             {
-                _LogFile.Flush();
-                _LogFile.Close();
+                if (_LogFile == null)
+                    return;
+                try
+                {
+                    _LogFile.Flush();
+                    _LogFile.Close();
+                }
+                catch (Exception) {}
             }
-            catch (Exception) {}
         }
 
         public void Add(string text)
