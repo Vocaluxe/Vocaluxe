@@ -28,7 +28,7 @@ namespace Vocaluxe.Base
         private readonly string _LogFileName;
         private readonly string _LogName;
         private StreamWriter _LogFile;
-        private Object _FileMutex = new Object();
+        private readonly Object _FileMutex = new Object();
 
         public CLogFile(string fileName, string logName)
         {
@@ -94,6 +94,8 @@ namespace Vocaluxe.Base
         private static CLogFile _ErrorLog;
         private static CLogFile _PerformanceLog;
         private static CLogFile _BenchmarkLog;
+        private static CLogFile _DebugLog;
+        private static CLogFile _SongInfoLog;
 
         private static int _NumErrors;
         private static Stopwatch[] _BenchmarkTimer;
@@ -101,9 +103,11 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            _ErrorLog = new CLogFile(CSettings.FileErrorLog, "ErrorLog");
-            _PerformanceLog = new CLogFile(CSettings.FilePerformanceLog, "PerformanceLog");
-            _BenchmarkLog = new CLogFile(CSettings.FileBenchmarkLog, "BenchmarkLog");
+            _ErrorLog = new CLogFile(CSettings.FileErrorLog, "Error-Log");
+            _PerformanceLog = new CLogFile(CSettings.FilePerformanceLog, "Performance-Log");
+            _BenchmarkLog = new CLogFile(CSettings.FileBenchmarkLog, "Benchmark-Log");
+            _DebugLog = new CLogFile(CSettings.FileDebugLog, "Debug-Log");
+            _SongInfoLog = new CLogFile(CSettings.FileSongInfoLog, "Song-Information-Log");
 
             _NumErrors = 0;
             _BenchmarkTimer = new Stopwatch[_MaxBenchmarks];
@@ -116,6 +120,8 @@ namespace Vocaluxe.Base
             _ErrorLog.Close();
             _PerformanceLog.Close();
             _BenchmarkLog.Close();
+            _DebugLog.Close();
+            _SongInfoLog.Close();
         }
 
         #region LogError
@@ -131,6 +137,16 @@ namespace Vocaluxe.Base
                 Environment.Exit(Environment.ExitCode);
         }
         #endregion LogError
+
+        public static void LogDebug(string text)
+        {
+            _DebugLog.Add(String.Format("{0:HH:mm:ss.ffff}", DateTime.Now) + ":" + text);
+        }
+
+        public static void LogSongInfo(string text)
+        {
+            _SongInfoLog.Add(text);
+        }
 
         #region LogPerformance
         public static void LogPerformance(string text)
