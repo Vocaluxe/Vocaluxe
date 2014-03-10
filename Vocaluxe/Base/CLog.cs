@@ -65,7 +65,7 @@ namespace Vocaluxe.Base
             }
         }
 
-        public void Add(string text)
+        public virtual void Add(string text)
         {
             if (_LogFile == null)
                 _Open();
@@ -78,12 +78,25 @@ namespace Vocaluxe.Base
 
         public void Dispose()
         {
-            if (_LogFile != null)
-            {
-                _LogFile.Dispose();
-                _LogFile = null;
-            }
+            Close();
             GC.SuppressFinalize(this);
+        }
+    }
+
+    class CErrorLogFile : CLogFile
+    {
+        private int _NumErrors;
+        private readonly Object _WriteMutex = new Object();
+
+        public CErrorLogFile(string fileName, string logName) : base(fileName, logName) {}
+
+        public override void Add(string errorText)
+        {
+            lock (_WriteMutex)
+            {
+                _NumErrors++;
+                base.Add(_NumErrors + ") " + errorText);
+            }
         }
     }
 
@@ -97,19 +110,17 @@ namespace Vocaluxe.Base
         private static CLogFile _DebugLog;
         private static CLogFile _SongInfoLog;
 
-        private static int _NumErrors;
         private static Stopwatch[] _BenchmarkTimer;
         private static readonly double _NanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
 
         public static void Init()
         {
-            _ErrorLog = new CLogFile(CSettings.FileErrorLog, "Error-Log");
+            _ErrorLog = new CErrorLogFile(CSettings.FileErrorLog, "Error-Log");
             _PerformanceLog = new CLogFile(CSettings.FilePerformanceLog, "Performance-Log");
             _BenchmarkLog = new CLogFile(CSettings.FileBenchmarkLog, "Benchmark-Log");
             _DebugLog = new CLogFile(CSettings.FileDebugLog, "Debug-Log");
             _SongInfoLog = new CLogFile(CSettings.FileSongInfoLog, "Song-Information-Log");
 
-            _NumErrors = 0;
             _BenchmarkTimer = new Stopwatch[_MaxBenchmarks];
             for (int i = 0; i < _BenchmarkTimer.Length; i++)
                 _BenchmarkTimer[i] = new Stopwatch();
@@ -127,12 +138,11 @@ namespace Vocaluxe.Base
         #region LogError
         public static void LogError(string errorText, bool show = false, bool exit = false, Exception e = null)
         {
-            _NumErrors++;
             if (show)
                 MessageBox.Show(errorText, CSettings.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             if (e != null)
                 errorText += ": " + e;
-            _ErrorLog.Add(_NumErrors + ") " + errorText);
+            _ErrorLog.Add(errorText);
             if (exit)
                 Environment.Exit(Environment.ExitCode);
         }
@@ -148,13 +158,11 @@ namespace Vocaluxe.Base
             _SongInfoLog.Add(text);
         }
 
-        #region LogPerformance
         public static void LogPerformance(string text)
         {
             _PerformanceLog.Add(text);
             _PerformanceLog.Add("-------------------------------");
         }
-        #endregion LogPerformance
 
         #region LogBenchmark
         public static void StartBenchmark(int benchmarkNr, string text)
