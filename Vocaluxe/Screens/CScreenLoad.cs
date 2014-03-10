@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
@@ -38,7 +37,6 @@ namespace Vocaluxe.Screens
         private readonly string[] _IntroVideo = new string[] {"IntroIn", "IntroMid", "IntroOut"};
 
         private Thread _SongLoaderThread;
-        private Stopwatch _Timer;
         private bool _SkipIntro;
         private int _CurrentIntroVideoNr;
         private bool _IntroOutPlayed;
@@ -54,7 +52,6 @@ namespace Vocaluxe.Screens
             _Intros = new CVideoPlayer[_IntroVideo.Length];
             for (int i = 0; i < _Intros.Length; i++)
                 _Intros[i] = new CVideoPlayer();
-            _Timer = new Stopwatch();
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -135,7 +132,6 @@ namespace Vocaluxe.Screens
             CLog.StartBenchmark(0, "Load Songs Full");
             _SongLoaderThread.IsBackground = true;
             _SongLoaderThread.Start();
-            _Timer.Start();
 
             if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON &&
                 CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC && !_BGMusicStarted)
@@ -154,11 +150,6 @@ namespace Vocaluxe.Screens
         public override bool UpdateGame()
         {
             _CheckStartIntroVideos();
-
-            if (CSettings.GameState == EGameState.EditTheme)
-                _Timer.Stop();
-            else
-                _Timer.Start();
 
             bool next = CConfig.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART || CSongs.CoverLoaded;
 
@@ -201,8 +192,6 @@ namespace Vocaluxe.Screens
         public override void OnClose()
         {
             base.OnClose();
-            _Timer.Stop();
-            _Timer.Reset();
 
             foreach (CVideoPlayer videoPlayer in _Intros)
                 videoPlayer.Close();

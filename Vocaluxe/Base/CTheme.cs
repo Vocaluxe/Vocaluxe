@@ -789,14 +789,8 @@ namespace Vocaluxe.Base
 
         public static SColorF GetPlayerColor(int playerNr)
         {
-            var color = new SColorF(1f, 1f, 1f, 1f);
-
-            int skinIndex = GetSkinIndex(-1);
-
-            if (_Skins[skinIndex].ThemeColors.Player.Length < playerNr)
-                return color;
-
-            return _Skins[skinIndex].ThemeColors.Player[playerNr - 1];
+            bool dummy;
+            return GetPlayerColor(playerNr, out dummy);
         }
 
         public static SColorF GetPlayerColor(string playerNrString)
@@ -822,9 +816,6 @@ namespace Vocaluxe.Base
         public static SColorF GetPlayerColor(int playerNr, int skinIndex, out bool success)
         {
             success = false;
-
-            if (_Skins[skinIndex].PartyModeID != -1)
-                skinIndex = GetSkinIndex(-1);
 
             if (_Skins[skinIndex].ThemeColors.Player.Length < playerNr || playerNr < 1)
                 return new SColorF(1f, 1f, 1f, 1f);
