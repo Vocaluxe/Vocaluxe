@@ -16,34 +16,64 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Mime;
+using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 
 namespace WebserverInitalConfig
 {
-    class Program
+    static class CProgram
     {
+        // ReSharper disable InconsistentNaming
         private static void Main(string[] args)
+            // ReSharper restore InconsistentNaming
         {
-            if (args.Length != 2)
+            int port;
+            if (args.Length < 2 || !int.TryParse(args[0], out port))
             {
                 Console.WriteLine("Usage: VocaluxeServerConfig port isHttps");
                 Environment.Exit(-1);
             }
-
-            CConfigHttpApi.AddFirewallRule(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Vocaluxe.exe"), Int32.Parse(args[0]), true);
-
-            if (args[1].ToLower() == "true")
-            {
-                string hostname = Dns.GetHostName();
-                X509Certificate2 cert = CConfigHttpApi.GetSelfSignedCert("CN=" + hostname + " C=DE O=Vocaluxe OU=Vocaluxe Server");
-                CConfigHttpApi.AddCertToStore(cert);
-                CConfigHttpApi.BindCert("0.0.0.0", Int32.Parse(args[0]), cert);
-                CConfigHttpApi.ReserveUrl("https://+:" + args[0] + "/");
-            }
             else
-                CConfigHttpApi.ReserveUrl("http://+:" + args[0] + "/");
+            {
+                CConfigHttpApi config = new CConfigHttpApi("Vocaluxe", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Vocaluxe.exe"), "0.0.0.0", port, true);
+                try
+                {
+                    config.AddFirewallRule();
+                    if (args[1].ToLower() == "true")
+                        config.CreateAndAddCert(Dns.GetHostName());
+
+                    if ((args.Length >= 3 && args[2] == "reserve") || CConfigHttpApi.IsAdministrator())
+                        config.ReserveUrl();
+                }
+                catch (AuthenticationException)
+                {
+                    ProcessStartInfo proc = new ProcessStartInfo
+                        {
+                            UseShellExecute = true,
+                            WorkingDirectory = Environment.CurrentDirectory,
+                            FileName = Process.GetCurrentProcess().MainModule.FileName,
+                            Arguments = args[0] + " " + args[1],
+                            Verb = "runas",
+                            CreateNoWindow = true,
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                        };
+
+                    try
+                    {
+                        Process.Start(proc);
+                    }
+                    catch
+                    {
+                        // The user refused the elevation.
+                        // Do nothing and return directly ...
+                        Environment.Exit(-1);
+                    }
+                }
+            }
         }
     }
 }

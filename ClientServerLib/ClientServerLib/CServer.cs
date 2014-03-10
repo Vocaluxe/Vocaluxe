@@ -142,14 +142,14 @@ namespace ServerLib
                 smb.MetadataExporter.PolicyVersion = PolicyVersion.Policy15;
                 smb.HttpGetEnabled = true;
                 host.Description.Behaviors.Add(smb);*/
-                _RegisterUrlAndCert(_BaseAddress.Port);
+                _RegisterUrlAndCert(_BaseAddress.Port, false);
                 _Host.Open();
             }
             catch (CommunicationException e)
             {
                 if (e is AddressAccessDeniedException || e is AddressAlreadyInUseException)
                 {
-                    _RegisterUrlAndCert(_BaseAddress.Port);
+                    _RegisterUrlAndCert(_BaseAddress.Port, true);
                     try
                     {
                         _Host.Abort();
@@ -178,18 +178,18 @@ namespace ServerLib
             }
         }
 
-        private void _RegisterUrlAndCert(int port)
+        private void _RegisterUrlAndCert(int port, bool reserve)
         {
 #if WIN
 
             ProcessStartInfo info = new ProcessStartInfo
                 {
                     FileName = "VocaluxeServerConfig.exe",
-                    Arguments = port + " " + (_Encrypted ? "true" : "false"),
+                    WorkingDirectory = Environment.CurrentDirectory,
+                    Arguments = port + " " + (_Encrypted ? "true" : "false") + (reserve ? " reserve" : ""),
                     UseShellExecute = true,
                     CreateNoWindow = true,
                     WindowStyle = ProcessWindowStyle.Hidden,
-                    Verb = "runas"
                 };
             Process p = Process.Start(info);
             p.WaitForExit();
