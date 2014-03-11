@@ -37,10 +37,10 @@ namespace Vocaluxe.Lib.Sound
         public bool Init()
         {
 #if ARCH_X86
-            string path = ".\\x86\\gstreamer";
+            const string path = ".\\x86\\gstreamer";
 #endif
 #if ARCH_X64
-            string path = ".\\x64\\gstreamer";
+            const string path = ".\\x64\\gstreamer";
 #endif
             SetDllDirectory(path);
             Application.Init();
@@ -213,9 +213,9 @@ namespace Vocaluxe.Lib.Sound
 
         private class CGstreamerSharpAudioStream
         {
-            private readonly Element _Element;
+            private Element _Element;
             private bool _Loop;
-            public volatile bool Closed;
+            public volatile bool Closed = true;
             public volatile bool Finished;
 
             private bool _Fading;
@@ -240,7 +240,10 @@ namespace Vocaluxe.Lib.Sound
                 var audioSinkBin = new Bin("Audiosink");
 
                 if (convert == null || audiosink == null)
+                {
                     CLog.LogError("Could not create pipeline");
+                    return;
+                }
 
                 audioSinkBin.Add(convert);
                 audioSinkBin.Add(audiosink);
@@ -249,20 +252,34 @@ namespace Vocaluxe.Lib.Sound
                 GhostPad ghostpad = new GhostPad("sink", pad);
 
                 if (pad == null)
+                {
                     CLog.LogError("Could not create pads");
+                    return;
+                }
 
                 if (!ghostpad.SetActive(true))
+                {
                     CLog.LogError("Could not link pads");
+                    return;
+                }
                 if (!audioSinkBin.AddPad(ghostpad))
+                {
                     CLog.LogError("Could not add pad");
+                    return;
+                }
 
                 _Element = ElementFactory.Make("playbin", "playbin");
                 if (_Element == null)
+                {
                     CLog.LogError("Could not create playbin");
+                    return;
+                }
                 _Element["audio-sink"] = audioSinkBin;
                 _Element["flags"] = 1 << 1;
                 _Element["uri"] = new Uri(media).AbsoluteUri;
                 _Element.SetState(State.Paused);
+
+                Closed = false; //Enable stream
 
                 // Passing CLOCK_TIME_NONE here causes the pipeline to block for a long time so with
                 // prescan enabled the pipeline will wait 500ms for stream to initialize and then continue
@@ -307,7 +324,7 @@ namespace Vocaluxe.Lib.Sound
                 {
                     Closed = true;
                     Finished = true;
-                    var t = new Thread(_TerminateStream);
+                    var t = new Thread(_TerminateStream) {Name = "GSt Terminate"};
                     t.Start();
                 }
             }
@@ -318,6 +335,7 @@ namespace Vocaluxe.Lib.Sound
                 {
                     _Element.SetState(State.Null);
                     _Element.Dispose();
+                    _Element = null;
                 }
             }
 
@@ -388,7 +406,8 @@ namespace Vocaluxe.Lib.Sound
                 {
                     if (_Duration < 0 && !_QueryingDuration)
                     {
-                        var t = new Thread(_UpdateDuration);
+                        _QueryingDuration = true; // Set this to avoid race conditions
+                        var t = new Thread(_UpdateDuration) {Name = "GSt Update Duration"};
                         t.Start();
                     }
                     return _Duration > 0 ? _Duration : -1;

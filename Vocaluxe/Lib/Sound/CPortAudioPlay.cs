@@ -401,7 +401,7 @@ namespace Vocaluxe.Lib.Sound
         public CPortAudioStream()
         {
             _SyncTimer = new CSyncTimer(0f, 1f, 0.02f);
-            _DecoderThread = new Thread(_Execute);
+            _DecoderThread = new Thread(_Execute) {Name = "PortAudio Decode"};
         }
 
         ~CPortAudioStream()

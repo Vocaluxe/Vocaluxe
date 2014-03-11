@@ -73,7 +73,7 @@ namespace ServerLib
                 return;
 
             _DiscoverRunning = true;
-            _DiscoverThread = new Thread(() => _Discover(Timeout));
+            _DiscoverThread = new Thread(() => _Discover(Timeout)) {Name = "Client discover"};
             _OnDiscovered = OnDiscovered;
             _DiscoverThread.Start();
         }
