@@ -183,24 +183,28 @@ namespace Vocaluxe.Screens
 
         public override void LoadTheme(string xmlPath)
         {
+            bool ressourceOK = true;
             //Vocaluxe-Logo
-            CDataBase.GetCreditsRessource("Logo_voc.png", ref _TexLogo);
+            ressourceOK &= CDataBase.GetCreditsRessource("Logo_voc.png", ref _TexLogo);
 
             //Little stars for logo
-            CDataBase.GetCreditsRessource("PerfectNoteStar.png", ref _TexPerfectNoteStar);
+            ressourceOK &= CDataBase.GetCreditsRessource("PerfectNoteStar.png", ref _TexPerfectNoteStar);
 
-            CDataBase.GetCreditsRessource("redDot.png", ref _TexRedDot);
-            CDataBase.GetCreditsRessource("blueDot.png", ref _TexBlueDot);
+            ressourceOK &= CDataBase.GetCreditsRessource("redDot.png", ref _TexRedDot);
+            ressourceOK &= CDataBase.GetCreditsRessource("blueDot.png", ref _TexBlueDot);
 
-            CDataBase.GetCreditsRessource("brunzel.png", ref _TexNameBrunzel);
-            CDataBase.GetCreditsRessource("Darkice.png", ref _TexNameDarkice);
-            CDataBase.GetCreditsRessource("flokuep.png", ref _TexNameFlokuep);
-            CDataBase.GetCreditsRessource("flamefire.png", ref _TexNameFlamefire);
-            CDataBase.GetCreditsRessource("bohning.png", ref _TexNameBohning);
-            CDataBase.GetCreditsRessource("mesand.png", ref _TexNameMesand);
-            CDataBase.GetCreditsRessource("babene03.png", ref _TexNameBabene03);
-            CDataBase.GetCreditsRessource("pantero.png", ref _TexNamePantero);
-            CDataBase.GetCreditsRessource("Pinky007.png", ref _TexNamePinky007);
+            ressourceOK &= CDataBase.GetCreditsRessource("brunzel.png", ref _TexNameBrunzel);
+            ressourceOK &= CDataBase.GetCreditsRessource("Darkice.png", ref _TexNameDarkice);
+            ressourceOK &= CDataBase.GetCreditsRessource("flokuep.png", ref _TexNameFlokuep);
+            ressourceOK &= CDataBase.GetCreditsRessource("flamefire.png", ref _TexNameFlamefire);
+            ressourceOK &= CDataBase.GetCreditsRessource("bohning.png", ref _TexNameBohning);
+            ressourceOK &= CDataBase.GetCreditsRessource("mesand.png", ref _TexNameMesand);
+            ressourceOK &= CDataBase.GetCreditsRessource("babene03.png", ref _TexNameBabene03);
+            ressourceOK &= CDataBase.GetCreditsRessource("pantero.png", ref _TexNamePantero);
+            ressourceOK &= CDataBase.GetCreditsRessource("Pinky007.png", ref _TexNamePinky007);
+
+            if (!ressourceOK)
+                CLog.LogError("Could not load all ressources!", true, true);
 
             //Prepare Text
             int lastY = 280;

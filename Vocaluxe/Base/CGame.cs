@@ -131,7 +131,7 @@ namespace Vocaluxe.Base
 
         public static void NextRound()
         {
-            _SongQueue.NextRound(Players);
+            _SongQueue.StartNextRound(Players);
         }
 
         public static bool IsFinished()
@@ -149,14 +149,14 @@ namespace Vocaluxe.Base
             return _SongQueue.GetSong();
         }
 
-        public static CSong GetSong(int num)
+        public static CSong GetSong(int round)
         {
-            return _SongQueue.GetSong(num);
+            return _SongQueue.GetSong(round);
         }
 
-        public static EGameMode GetGameMode(int num)
+        public static EGameMode GetGameMode(int round)
         {
-            return _SongQueue.GetGameMode(num);
+            return _SongQueue.GetGameMode(round);
         }
 
         public static int GetNumSongs()
@@ -197,9 +197,7 @@ namespace Vocaluxe.Base
                 Players[i].CurrentLine = -1;
                 Players[i].CurrentNote = -1;
                 Players[i].SongID = -1;
-                Players[i].Medley = false;
-                Players[i].Duet = false;
-                Players[i].ShortSong = false;
+                Players[i].GameMode = EGameMode.TR_GAMEMODE_NORMAL;
                 Players[i].DateTicks = DateTime.Now.Ticks;
                 Players[i].SongFinished = false;
             }
@@ -413,9 +411,6 @@ namespace Vocaluxe.Base
                 }
                 Players[p].SungLines.RemoveRange(deleteLine, Players[p].SungLines.Count - deleteLine);
             }
-            //CSong song = GetSong();
-            //for (int i = 0; i < GetSong().Notes.Voices[0].Lines.Length; i++)
-            //    CLog.LogError((i + 1) + ". " + song.Notes.Voices[0].Lines[i].NoteCount + " - " + Players[0].SungLines[i].NoteCount);
 
             CSound.SetPosition(soundStream, time);
             CVideo.Skip(vidStream, time, GetSong().VideoGap);

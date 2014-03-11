@@ -44,7 +44,7 @@ namespace Vocaluxe.Screens
         private string[] _TextDate;
         private string[] _ParticleEffectNew;
 
-        private List<SScores>[] _Scores;
+        private List<SDBScoreEntry>[] _Scores;
         private List<int> _NewEntryIDs;
         private int _Round;
         private int _Pos;
@@ -169,7 +169,7 @@ namespace Vocaluxe.Screens
                     string name = _Scores[_Round][_Pos + p].Name;
                     name += " [" + CLanguage.Translate(Enum.GetName(typeof(EGameDifficulty), _Scores[_Round][_Pos + p].Difficulty)) + "]";
                     if (_IsDuet)
-                        name += " (P" + (_Scores[_Round][_Pos + p].LineNr + 1) + ")";
+                        name += " (P" + (_Scores[_Round][_Pos + p].VoiceNr + 1) + ")";
                     _Texts[_TextName[p]].Text = name;
 
                     _Texts[_TextScore[p]].Text = _Scores[_Round][_Pos + p].Score.ToString("00000");
@@ -194,10 +194,6 @@ namespace Vocaluxe.Screens
             base.OnShow();
             _Round = 0;
             _Pos = 0;
-            CPoints points = CGame.GetPoints();
-            _Scores = new List<SScores>[points.NumRounds];
-            for (int i = 0; i < _Scores.Length; i++)
-                _Scores[i] = new List<SScores>();
             _NewEntryIDs.Clear();
             _AddScoresToDB();
             _LoadScores();
@@ -231,15 +227,14 @@ namespace Vocaluxe.Screens
 
         private void _LoadScores()
         {
-            CPoints points = CGame.GetPoints();
-            if (points == null)
-                return;
-
             _Pos = 0;
-            for (int round = 0; round < points.NumRounds; round++)
+            int rounds = CGame.NumRounds;
+            _Scores = new List<SDBScoreEntry>[rounds];
+            for (int round = 0; round < rounds; round++)
             {
-                SPlayer player = points.GetPlayer(round, CGame.NumPlayer)[0];
-                CDataBase.LoadScore(out _Scores[round], player);
+                int songID = CGame.GetSong(round).ID;
+                EGameMode gameMode = CGame.GetGameMode(round);
+                _Scores[round] = CDataBase.LoadScore(songID, gameMode);
             }
         }
 
@@ -247,7 +242,7 @@ namespace Vocaluxe.Screens
         {
             _IsDuet = false;
             CPoints points = CGame.GetPoints();
-            CSong song = CGame.GetSong(_Round + 1);
+            CSong song = CGame.GetSong(_Round);
             if (song == null)
                 return;
 
@@ -255,7 +250,7 @@ namespace Vocaluxe.Screens
             if (points.NumRounds > 1)
                 _Texts[_TextSongName].Text += " (" + (_Round + 1) + "/" + points.NumRounds + ")";
 
-            switch (CGame.GetGameMode(_Round + 1))
+            switch (CGame.GetGameMode(_Round))
             {
                 case EGameMode.TR_GAMEMODE_NORMAL:
                     _Texts[_TextSongMode].Text = "TR_GAMEMODE_NORMAL";
@@ -284,28 +279,15 @@ namespace Vocaluxe.Screens
 
         private void _ChangePos(int num)
         {
-            if (num > 0)
-            {
-                if (_Pos + num + _NumEntrys < _Scores[_Round].Count)
-                    _Pos += num;
-            }
-            if (num < 0)
-            {
-                _Pos += num;
-                if (_Pos < 0)
-                    _Pos = 0;
-            }
+            _Pos += num;
+            _Pos = _Pos.Clamp(0, _Scores[_Round].Count - 1);
         }
 
         private void _ChangeRound(int num)
         {
             CPoints points = CGame.GetPoints();
-            if (_Round + num < points.NumRounds && _Round + num > -1)
-                _Round += num;
-            else if (_Round + num >= points.NumRounds)
-                _Round = points.NumRounds - 1;
-            else if (_Round + num < 0)
-                _Round = 0;
+            _Round += num;
+            _Round = _Round.Clamp(0, points.NumRounds - 1);
             _UpdateRound();
         }
 
