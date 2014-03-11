@@ -279,8 +279,13 @@ namespace Vocaluxe.Screens
 
         private void _ChangePos(int num)
         {
-            _Pos += num;
-            _Pos = _Pos.Clamp(0, _Scores[_Round].Count - 1);
+            if (_Scores[_Round].Count == 0)
+                _Pos = 0;
+            else
+            {
+                _Pos += num;
+                _Pos = _Pos.Clamp(0, _Scores[_Round].Count - 1);
+            }
         }
 
         private void _ChangeRound(int num)
