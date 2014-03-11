@@ -137,7 +137,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
     }
     #endregion Events
 
-    public sealed class CWiiMoteLib : IDisposable
+    public sealed class CWiiMoteLib
     {
         // ReSharper disable InconsistentNaming
         private const ushort _VID = 0x057e;
@@ -178,8 +178,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
         private int _Address;
         private short _Size;
 
-        private readonly Thread _Reader;
-        private bool _Active;
+        private Thread _Reader;
         private readonly bool _Error;
 
         public bool Connected { get; private set; }
@@ -191,72 +190,63 @@ namespace Vocaluxe.Lib.Input.WiiMote
         #region Interface
         public CWiiMoteLib()
         {
-            Connected = false;
-            _Active = true;
-            _Error = false;
-            _Reader = new Thread(_ReaderLoop);
-            _Reader.Start();
-
             if (!CHIDApi.Init())
             {
                 CLog.LogError("WiiMoteLib: Can't initialize HID API");
-                const string msg = "Please install the Visual C++ Redistributable Packages 2008!";
-                CLog.LogError(msg);
+                CLog.LogError("Please install the Visual C++ Redistributable Packages 2008!");
 
-                _Active = false;
                 _Error = true;
             }
         }
 
         ~CWiiMoteLib()
         {
-            Dispose(false);
+            Disconnect();
+            //Wait for thread to finish (if any)
+            _WaitForReader();
+            CHIDApi.Exit();
+            _ReadDone.Dispose();
         }
 
-        private bool _TryConnect(ushort pid)
+        private void _StartReader()
         {
-            bool connected = CHIDApi.Open(_VID, pid, out _Handle);
-            if (connected)
+            _Reader = new Thread(_ReaderLoop) {Name = "WiiMoteLib"};
+            _Reader.Start();
+        }
+
+        private void _WaitForReader()
+        {
+            if (_Reader == null)
+                return;
+            _Reader.Join();
+            _Reader = null;
+        }
+
+        private void _TryConnect(ushort pid)
+        {
+            //We might have had a reader thread, that is not finished yet, so let it finish and close it's handle first or it will close the new one
+            _WaitForReader();
+            Connected = CHIDApi.Open(_VID, pid, out _Handle);
+            if (Connected)
             {
-                connected = _ReadCalibration();
-                if (!connected)
-                    CHIDApi.Close(_Handle);
+                _StartReader();
+                if (!_ReadCalibration())
+                    Connected = false;
             }
-            return connected;
         }
 
         public bool Connect()
         {
-            Connected = false;
+            if (Connected)
+                return true;
 
             if (_Error)
                 return false;
 
-            //Try WiiMotion
-            Connected = CHIDApi.Open(_VID, _PID, out _Handle);
-            if (Connected)
-            {
-                Connected = _ReadCalibration();
-                if (!Connected)
-                    CHIDApi.Close(_Handle);
-            }
-            else
-                CHIDApi.Close(_Handle);
+            _TryConnect(_PID); //Try WiiMotion
 
-            if (Connected)
-                return true;
-
-            //Try WiiMotion Plus
-            Connected = CHIDApi.Open(_VID, _PIDPlus, out _Handle);
-            if (Connected)
-            {
-                Connected = _ReadCalibration();
-                if (!Connected)
-                    CHIDApi.Close(_Handle);
-            }
-            else
-                CHIDApi.Close(_Handle);
-
+            if (!Connected)
+                _TryConnect(_PIDPlus); //Try WiiMotion Plus
 
             return Connected;
         }
@@ -264,8 +254,6 @@ namespace Vocaluxe.Lib.Input.WiiMote
         public void Disconnect()
         {
             Connected = false;
-            _Active = false;
-            CHIDApi.Exit();
         }
 
         public void SetReportType(EInputReport type, EIRSensitivity irSensitivity, bool continuous)
@@ -328,68 +316,54 @@ namespace Vocaluxe.Lib.Input.WiiMote
         #region Private stuff
         private void _ReaderLoop()
         {
-            while (_Active)
+            var buff = new byte[_ReportLength];
+            while (Connected)
             {
-                Thread.Sleep(5);
-
-                if (_Handle != IntPtr.Zero && Connected)
+                int bytesRead;
+                try
                 {
-                    var buff = new byte[_ReportLength];
-
-                    try
+                    bytesRead = CHIDApi.ReadTimeout(_Handle, ref buff, _ReportLength, 400);
+                    if (bytesRead == -1)
                     {
-                        CHIDApi.ReadTimeout(_Handle, ref buff, _ReportLength, 200);
-                    }
-                    catch (Exception e)
-                    {
-                        CLog.LogError("(WiiMoteLib) Error reading from device: " + e);
-                    }
-
-                    if (_ParseInputReport(buff))
-                    {
-                        if (WiiMoteChanged != null)
-                            WiiMoteChanged(this, new CWiiMoteChangedEventArgs(_WiiMoteState));
+                        Connected = false; //Disconnected
+                        break;
                     }
                 }
+                catch (Exception e)
+                {
+                    CLog.LogError("(WiiMoteLib) Error reading from device: " + e);
+                    Connected = false;
+                    break;
+                }
+
+                if (bytesRead > 0 && _ParseInputReport(buff))
+                {
+                    if (WiiMoteChanged != null)
+                        WiiMoteChanged(this, new CWiiMoteChangedEventArgs(_WiiMoteState));
+                }
+                Thread.Sleep(5);
             }
+            CHIDApi.Close(_Handle);
         }
 
         private bool _ParseInputReport(byte[] buff)
         {
-            if (buff == null)
-            {
-                Connected = false;
-                return false;
-            }
-
             var type = (EInputReport)buff[0];
 
             switch (type)
             {
                 case EInputReport.Buttons:
-                    _ParseButtons(buff);
-                    break;
-
-                case EInputReport.ButtonsAccel:
-                    _ParseButtons(buff);
-                    _ParseAccel(buff);
-                    break;
-
-                case EInputReport.IRAccel:
-                    _ParseButtons(buff);
-                    _ParseAccel(buff);
-                    _ParseIR(buff);
-                    break;
-
                 case EInputReport.ButtonsExtension:
                     _ParseButtons(buff);
                     break;
 
+                case EInputReport.ButtonsAccel:
                 case EInputReport.ExtensionAccel:
                     _ParseButtons(buff);
                     _ParseAccel(buff);
                     break;
 
+                case EInputReport.IRAccel:
                 case EInputReport.IRExtensionAccel:
                     _ParseButtons(buff);
                     _ParseAccel(buff);
@@ -693,24 +667,5 @@ namespace Vocaluxe.Lib.Input.WiiMote
             Thread.Sleep(100);
         }
         #endregion Private stuff
-
-        #region IDisposable Members
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        // ReSharper disable InconsistentNaming
-        private void Dispose(bool disposing)
-            // ReSharper restore InconsistentNaming
-        {
-            if (disposing)
-            {
-                Disconnect();
-                _ReadDone.Close();
-            }
-        }
-        #endregion
     }
 }

@@ -161,25 +161,25 @@ namespace Vocaluxe.Lib.Input
         public static int ReadTimeout(IntPtr device, ref byte[] data, int length, int milliseconds)
         {
             IntPtr dataPtr = Marshal.AllocHGlobal(length);
-            int result;
+            int bytesRead;
             try
             {
-                result = hid_read_timeout(device, dataPtr, length, milliseconds);
+                bytesRead = hid_read_timeout(device, dataPtr, length, milliseconds);
             }
             catch (Exception e)
             {
-                result = -1;
+                bytesRead = -1;
                 CLog.LogError("Error CHIDAPI.ReadTimeout(): " + e);
             }
 
-            if (result != -1)
-                Marshal.Copy(dataPtr, data, 0, result);
+            if (bytesRead != -1)
+                Marshal.Copy(dataPtr, data, 0, bytesRead);
             else
                 data = null;
 
             Marshal.FreeHGlobal(dataPtr);
 
-            return result;
+            return bytesRead;
         }
 
         [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_read", CharSet = CharSet.Unicode)]
