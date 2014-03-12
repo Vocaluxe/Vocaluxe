@@ -135,6 +135,7 @@ namespace Vocaluxe.Base
         {
             _VideoStream = CVideo.Load(CTheme.GetVideoFilePath(videoName, -1));
             _Loaded = true;
+            CVideo.Pause(_VideoStream);
         }
 
         public void Start()
@@ -143,15 +144,18 @@ namespace Vocaluxe.Base
             _Finished = false;
             //CVideo.VdSkip(_VideoStream, 0f, 0f);
             _VideoTimer.Start();
+            CVideo.Resume(_VideoStream);
         }
 
         public void Pause()
         {
+            CVideo.Pause(_VideoStream);
             _VideoTimer.Stop();
         }
 
         public void Resume()
         {
+            CVideo.Resume(_VideoStream);
             _VideoTimer.Start();
         }
 
@@ -175,6 +179,9 @@ namespace Vocaluxe.Base
 
         public void PreLoad()
         {
+            bool paused = _VideoTimer.IsRunning;
+            if (paused)
+                CVideo.Resume(_VideoStream);
             float videoTime = 0f;
             while (_VideoTexture == null && videoTime < 1f)
             {
@@ -182,6 +189,8 @@ namespace Vocaluxe.Base
                 CVideo.GetFrame(_VideoStream, ref _VideoTexture, 0, out dummy);
                 videoTime += 0.05f;
             }
+            if (paused)
+                CVideo.Pause(_VideoStream);
         }
 
         public void Close()
