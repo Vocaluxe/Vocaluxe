@@ -126,7 +126,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         private void _SetRead(int index)
         {
-            if ((_First < index && (index < _Next || _Next < _First)) || (_Next < _First && index < _Next))
+            if ((_First <= index && (index < _Next || _Next < _First)) || (_Next < _First && index < _Next))
                 _First = _GetNextIndex(index);
         }
 
