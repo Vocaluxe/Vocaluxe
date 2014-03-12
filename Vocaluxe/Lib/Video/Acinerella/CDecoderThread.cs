@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -12,12 +13,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
     //Most others are to be called by this thread  (_Thread instance) only!
     class CDecoderThread
     {
-        public enum EFrameState
-        {
-            ValidFrame,
-            InvalidFrame,
-            EndFrame
-        }
+        private const float _LoopedRequestTime = -0.001f; //Magic const to detect if decoder looped automaticly
 
         private Thread _Thread;
         private readonly Object _BufferMutex = new Object();
@@ -27,6 +23,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         private readonly CFramebuffer _Framebuffer;
         private float _LastDecodedTime; // time of last decoded frame
+        private float _LastShownTime = -1f; // time if the last shown frame in s IMPORTANT: Write only in context of reader
         // time of last requested frame aka current should-be position (_LastDecodedTime should be >=_RequestTime)
         //HAS to be < Length
         public float RequestTime { get; private set; }
@@ -42,7 +39,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
         private bool _FrameAvailable;
         private bool _NoMoreFrames;
         private readonly AutoResetEvent _EvWakeUp = new AutoResetEvent(false);
-        private readonly AutoResetEvent _EvPause = new AutoResetEvent(false);
         private readonly AutoResetEvent _EvNoMoreFrames = new AutoResetEvent(false);
         private bool _IsSleeping;
         private int _WaitCount;
@@ -53,6 +49,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public CDecoderThread()
         {
             _Framebuffer = new CFramebuffer(10);
+            _FrameDuration = 0.02f; // Set a reasonable standard till correct value is set
         }
 
         //Open the file and get the length.
@@ -98,7 +95,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public void Stop()
         {
             _Terminated = true;
-            _EvPause.Set();
             _EvWakeUp.Set();
             _EvNoMoreFrames.Set();
         }
@@ -107,7 +103,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             if (_Paused)
                 return;
-            _EvPause.Reset();
             _Paused = true;
         }
 
@@ -116,7 +111,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
             if (!_Paused)
                 return;
             _Paused = false;
-            _EvPause.Set();
         }
 
         //Sets the position to the given time discarding all decoded frames
@@ -131,37 +125,37 @@ namespace Vocaluxe.Lib.Video.Acinerella
             lock (_BufferMutex) //Cover clear, RequestTime=, _RequestSkip=
             {
                 _Framebuffer.Clear();
-
                 RequestTime = time;
+                _LastShownTime = time - _FrameDuration; //Set this to time to detect overflow of time in FindFrame but subtract FrameDuration so GetFrame will get the first frame
                 _RequestSkip = true;
             }
             _EvNoMoreFrames.Set();
         }
 
-        private CFramebuffer.CFrame _FindFrame(float lastTime, float now)
+        private CFramebuffer.CFrame _FindFrame(float now)
         {
             CFramebuffer.CFrame result = null;
             CFramebuffer.CFrame frame;
             _Framebuffer.ResetStack();
             while ((frame = _Framebuffer.Pop()) != null)
             {
-                float frameEnd = frame.Time + _FrameDuration;
-                if (!Loop || lastTime < now)
+                //float frameEnd = frame.Time + _FrameDuration;
+                float frameTime = frame.Time;
+
+                if (frameTime > now)
                 {
-                    //Regular case: Frame has to be between last frame and now
-                    if (frameEnd > now)
-                        break; // Next frames are after this one
-                    if (frame.Time < lastTime)
-                    {
-                        frame.SetRead(); //Frame is before last one, Discard
-                        continue;
-                    }
+                    //2 Cases: all following frames are after this one, or we have a loop and 'now' wrapped over
+                    //First case is if we have no loop or we did not wrap or frame is before last one (last is the case if frame is already one of the new iterations, e.g. Last=19 now=1 frame=2)
+                    if (!Loop || _LastShownTime <= now || frameTime < _LastShownTime)
+                        break; //Following frames (incl this one) are after now, so do not consider any of them
                 }
-                else
+                    // ReSharper disable CompareOfFloatsByEqualityOperator
+                else if (Loop && RequestTime == _LoopedRequestTime)
+                    // ReSharper restore CompareOfFloatsByEqualityOperator
                 {
-                    //Loop case: time rolled over -> Frame has to be after last one OR before now (which is after last one but rolled over)
-                    if (frame.Time < lastTime && frameEnd > now)
-                        break;
+                    //Frame time might have wrapped but now did not
+                    if (frameTime < _LastShownTime && _LastShownTime <= now)
+                        break; //Following frames (incl this one) are after now, so do not consider any of them
                 }
                 //Get the last(newest) possible frame and skip the rest
                 if (result != null)
@@ -171,36 +165,49 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 }
                 result = frame;
                 if (_Paused)
-                    break; //Just get 1 frame if paused
+                    break; //Just get 1 frame if paused otherwise a paused movie could move a bit
             }
             return result;
         }
 
-        public EFrameState GetFrame(ref CTexture frame, float lastTime, ref float time)
+        /// <summary>
+        /// Gets a frame
+        /// </summary>
+        /// <param name="frame">Referenz to texture where frame should be put in (can be null, then texture is created)</param>
+        /// <param name="time">Maximum start time for frame</param>
+        /// <param name="finished">Set to whether there are no more frames (stream finished, no loop, future calls will always return false)</param>
+        /// <returns>True if a new frame was gotten</returns>
+        public bool GetFrame(ref CTexture frame, ref float time, out bool finished)
         {
-            EFrameState result;
-            CFramebuffer.CFrame curFrame = _FindFrame(lastTime, time);
-
-            if (curFrame != null)
+            bool result;
+            if (Math.Abs(_LastShownTime - time) < _FrameDuration && frame != null) //Check 1 frame difference
             {
-                CDraw.UpdateOrAddTexture(ref frame, _Width, _Height, curFrame.Data);
-                if (!_Paused)
-                    curFrame.SetRead();
-                time = curFrame.Time;
-                result = (frame != null) ? EFrameState.ValidFrame : EFrameState.InvalidFrame;
+                time = _LastShownTime;
+                result = false;
             }
             else
             {
-                if (_NoMoreFrames && _Framebuffer.IsEmpty())
-                    result = EFrameState.EndFrame;
+                CFramebuffer.CFrame curFrame = _FindFrame(time);
+                if (curFrame != null)
+                {
+                    CDraw.UpdateOrAddTexture(ref frame, _Width, _Height, curFrame.Data);
+                    if (!_Paused)
+                        curFrame.SetRead();
+                    time = curFrame.Time;
+                    _LastShownTime = time;
+                    result = frame != null;
+                }
                 else
-                    result = EFrameState.InvalidFrame;
+                    result = false;
+
+                if (_IsSleeping)
+                {
+                    _IsSleeping = false;
+                    _EvWakeUp.Set();
+                }
             }
-            if (_IsSleeping)
-            {
-                _IsSleeping = false;
-                _EvWakeUp.Set();
-            }
+            finished = _NoMoreFrames && _Framebuffer.IsEmpty();
+
             return result;
         }
 
@@ -209,22 +216,22 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             if (_Thread == null)
                 return; //Not initialized
-            while (time >= Length)
-                time -= Length;
-            if (RequestTime - time >= 1f / 1000f)
+
+            if (RequestTime - time >= _FrameDuration)
             {
-                //Jump back more than 1ms
-                //Will mostly happen in loops when looped through
+                //Jump back more than 1 frame. To guarantee the order in the buffer use Skip() which clears the buffer
                 Skip(time);
             }
-            else if (time - RequestTime >= 1f / 1000f)
+            else if (time - RequestTime >= _FrameDuration)
             {
-                //we were more than 1 ms to slow -> Jump forward
+                //we were more than 1 frame to slow -> Jump forward (This is save, as the decoder will skip frames if necessary)
                 // ReSharper disable CompareOfFloatsByEqualityOperator
-                if (Loop && RequestTime == 0f)
+                if (Loop && RequestTime == _LoopedRequestTime)
                     // ReSharper restore CompareOfFloatsByEqualityOperator
                 {
-                    //Check if we had a loop
+                    //In a loop our decoder may have reset RequestTime to 0 but we want a frame from the end of the video
+                    //Skipping forward is fatal as it resets the decoder to decode already decoded frames causing lags
+                    //So first check if we have a valid frame in our buffer
                     _Framebuffer.ResetStack();
                     CFramebuffer.CFrame frame;
                     while ((frame = _Framebuffer.Pop()) != null)
@@ -232,6 +239,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
                         if (frame.Time + _FrameDuration >= time)
                             return;
                     }
+                    //If we don't the Length might be inaccurate (e.g. last frame ends at 19.98 but Length=20)
+                    if (time >= Length - 2 * _FrameDuration)
+                        return;
                 }
 
                 RequestTime = time;
@@ -305,7 +315,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             const int minFrameDropCount = 4;
 
-            if (_Paused || _NoMoreFrames)
+            if (_NoMoreFrames)
                 return;
 
             float videoTime = RequestTime;
@@ -344,7 +354,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             {
                 if (Loop)
                 {
-                    RequestTime = 0;
+                    RequestTime = _LoopedRequestTime;
                     _Skip();
                 }
                 else
@@ -379,8 +389,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
             while (!_Terminated)
             {
-                if (_Paused)
-                    _EvPause.WaitOne();
                 if (_NoMoreFrames)
                     _EvNoMoreFrames.WaitOne();
                 if (_RequestSkip)
@@ -418,7 +426,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     }
                     else
                     {
-                        Thread.Sleep((int)((_Framebuffer.Size - 2) * _FrameDuration * 1000));
+                        Thread.Sleep((int)(_Framebuffer.Size * _FrameDuration * 1000 / 2));
                         _WaitCount++;
                     }
                 }

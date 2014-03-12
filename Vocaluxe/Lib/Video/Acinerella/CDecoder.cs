@@ -26,7 +26,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
     {
         private readonly Stopwatch _LoopTimer = new Stopwatch();
 
-        private float _LastShownTime = -1f; // time if the last shown frame in s
         private float _Gap;
         private bool _Paused;
         private float _LoopTime;
@@ -128,26 +127,12 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 time += _Gap;
             _Thread.SyncTime(time);
 
-            if (Math.Abs(_LastShownTime - time) < 1f / 1000 && frame != null) //Check 1 ms difference
-            {
-                videoTime = _LastShownTime - _Gap;
-                return true;
-            }
-            CDecoderThread.EFrameState state = _Thread.GetFrame(ref frame, _LastShownTime + _Gap, ref time);
-            switch (state)
-            {
-                case CDecoderThread.EFrameState.EndFrame:
-                    Finished = true;
-                    videoTime = Length - _Gap;
-                    break;
-                case CDecoderThread.EFrameState.ValidFrame:
-                    _LastShownTime = time;
-                    videoTime = time - _Gap;
-                    break;
-                default:
-                    videoTime = _LastShownTime - _Gap;
-                    break;
-            }
+            bool finished;
+            _Thread.GetFrame(ref frame, ref time, out finished);
+            videoTime = time - _Gap;
+
+            if (finished) //Only set, not reset
+                Finished = true;
             return frame != null;
         }
 
@@ -156,6 +141,8 @@ namespace Vocaluxe.Lib.Video.Acinerella
             Finished = false;
             _Gap = gap;
             _Thread.Skip(start + gap);
+            if (Loop)
+                Loop = true; //Reset loop (timer)
             return true;
         }
     }
