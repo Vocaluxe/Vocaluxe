@@ -401,7 +401,7 @@ namespace Vocaluxe.Lib.Sound
         public CPortAudioStream()
         {
             _SyncTimer = new CSyncTimer(0f, 1f, 0.02f);
-            _DecoderThread = new Thread(_Execute);
+            _DecoderThread = new Thread(_Execute) {Name = "PortAudio Decode"};
         }
 
         ~CPortAudioStream()
@@ -665,7 +665,7 @@ namespace Vocaluxe.Lib.Sound
             return -1;
         }
 
-        public bool Skip(float time)
+        public void Skip(float time)
         {
             lock (_LockSyncSignals)
             {
@@ -673,8 +673,6 @@ namespace Vocaluxe.Lib.Sound
                 _SetSkip = true;
                 _Waiting = true;
             }
-
-            return true;
         }
 
         #region Threading

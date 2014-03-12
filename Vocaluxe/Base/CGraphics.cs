@@ -404,9 +404,6 @@ namespace Vocaluxe.Base
                                 CConfig.BorderTop = 0;
                                 CConfig.BorderBottom = 0;
                                 break;
-
-                            default:
-                                break;
                         }
                         CConfig.SaveConfig();
                         break;

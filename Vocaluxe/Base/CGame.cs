@@ -131,7 +131,7 @@ namespace Vocaluxe.Base
 
         public static void NextRound()
         {
-            _SongQueue.NextRound(Players);
+            _SongQueue.StartNextRound(Players);
         }
 
         public static bool IsFinished()
@@ -149,14 +149,14 @@ namespace Vocaluxe.Base
             return _SongQueue.GetSong();
         }
 
-        public static CSong GetSong(int num)
+        public static CSong GetSong(int round)
         {
-            return _SongQueue.GetSong(num);
+            return _SongQueue.GetSong(round);
         }
 
-        public static EGameMode GetGameMode(int num)
+        public static EGameMode GetGameMode(int round)
         {
-            return _SongQueue.GetGameMode(num);
+            return _SongQueue.GetGameMode(round);
         }
 
         public static int GetNumSongs()
@@ -197,9 +197,7 @@ namespace Vocaluxe.Base
                 Players[i].CurrentLine = -1;
                 Players[i].CurrentNote = -1;
                 Players[i].SongID = -1;
-                Players[i].Medley = false;
-                Players[i].Duet = false;
-                Players[i].ShortSong = false;
+                Players[i].GameMode = EGameMode.TR_GAMEMODE_NORMAL;
                 Players[i].DateTicks = DateTime.Now.Ticks;
                 Players[i].SongFinished = false;
             }
@@ -210,7 +208,7 @@ namespace Vocaluxe.Base
 
         public static void UpdatePoints(float time)
         {
-            bool DEBUG_HIT = false;
+            const bool DEBUG_HIT = false;
 
             CSong song = _SongQueue.GetSong();
 
@@ -276,8 +274,6 @@ namespace Vocaluxe.Base
                     {
                         int tone = notes[note].Tone;
                         int tonePlayer = CSound.RecordGetTone(p);
-                        if (DEBUG_HIT)
-                            tonePlayer = tone;
 
                         while (tonePlayer - tone > 6)
                             tonePlayer -= 12;
@@ -364,7 +360,7 @@ namespace Vocaluxe.Base
 
         public static void ResetToLastLine(int soundStream, int vidStream)
         {
-            float[] time = GetLastSungLineStart();
+            float[] time = _GetLastSungLineStart();
             ResetToTime(time[0], time[1], soundStream, vidStream);
         }
 
@@ -413,23 +409,20 @@ namespace Vocaluxe.Base
                 }
                 Players[p].SungLines.RemoveRange(deleteLine, Players[p].SungLines.Count - deleteLine);
             }
-            //CSong song = GetSong();
-            //for (int i = 0; i < GetSong().Notes.Voices[0].Lines.Length; i++)
-            //    CLog.LogError((i + 1) + ". " + song.Notes.Voices[0].Lines[i].NoteCount + " - " + Players[0].SungLines[i].NoteCount);
 
             CSound.SetPosition(soundStream, time);
             CVideo.Skip(vidStream, time, GetSong().VideoGap);
         }
 
-        private static float[] GetLastSungLineStart()
+        private static float[] _GetLastSungLineStart()
         {
-            return GetNoteTimeBeforeBeat(CurrentBeat);
+            return _GetNoteTimeBeforeBeat(CurrentBeat);
         }
 
-        private static float[] GetNoteTimeBeforeBeat(int beat)
+        private static float[] _GetNoteTimeBeforeBeat(int beat)
         {
             CSong song = GetSong();
-            int StartBeat = (int)Math.Floor(beat - GetBeatFromTime(CSettings.PauseResetTime, song.BPM, 0f));
+            int startBeat = (int)Math.Floor(beat - GetBeatFromTime(CSettings.PauseResetTime, song.BPM, 0f));
             int lastStart = 0;
             int nextStart = 0;
             foreach (CVoice voice in song.Notes.Voices)
@@ -441,16 +434,13 @@ namespace Vocaluxe.Base
                 {
                     foreach (CSongNote note in line.Notes)
                     {
-                        if (note.StartBeat > StartBeat)
+                        if (note.StartBeat > startBeat)
                         {
                             nextStartNote = note.StartBeat;
                             break;
                         }
-                        else
-                        {
-                            voiceStart = note.StartBeat;
-                            lastEnd = note.EndBeat;
-                        }
+                        voiceStart = note.StartBeat;
+                        lastEnd = note.EndBeat;
                     }
                     if (nextStartNote > 0)
                         break;

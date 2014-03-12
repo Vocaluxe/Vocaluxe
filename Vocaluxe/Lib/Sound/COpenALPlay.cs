@@ -416,7 +416,7 @@ namespace Vocaluxe.Lib.Sound
         public COpenAlStream()
         {
             _Initialized = false;
-            _DecoderThread = new Thread(_Execute);
+            _DecoderThread = new Thread(_Execute) {Name = "OpenAL Decode"};
         }
 
         public void Free(Closeproc closeProc, int streamID, Object closeMutex)

@@ -85,6 +85,8 @@ namespace Vocaluxe.Base
         public const string FilePerformanceLog = "Performance.log";
         public const string FileErrorLog = "Error.log";
         public const string FileBenchmarkLog = "Benchmark.log";
+        public const string FileDebugLog = "Debug.log";
+        public const string FileSongInfoLog = "SongInformation.log";
 
         public const string SoundT440 = "440Hz.mp3";
 
@@ -102,7 +104,7 @@ namespace Vocaluxe.Base
 #endif
                 Path.Combine(DataPath, FolderProfiles)
             };
-        public static string FolderPhotos = "Photos";
+        public const string FolderPhotos = "Photos";
         public const string FolderSongs = "Songs";
         public const string FolderSounds = "Sounds";
         public const string FolderLanguages = "Languages";

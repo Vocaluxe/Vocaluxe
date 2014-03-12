@@ -63,15 +63,10 @@ namespace VocaluxeLib.Songs
         {
             get
             {
-                int min = int.MaxValue;
-                int max = int.MinValue;
-                foreach (T note in _Notes)
-                {
-                    if (note.Tone < min)
-                        min = note.Tone;
-                    if (note.Tone > max)
-                        max = note.Tone;
-                }
+                if (_Notes.Count == 0)
+                    return 0;
+                int min = _Notes.Min(note => note.Tone);
+                int max = _Notes.Max(note => note.Tone);
 
                 return min - (max - min) / 4;
             }
@@ -140,11 +135,10 @@ namespace VocaluxeLib.Songs
             return false;
         }
 
-        public bool IncLastNoteLength()
+        public void IncLastNoteLength()
         {
             if (_Notes.Count > 0)
                 _Notes[NoteCount - 1].Duration++;
-            return false;
         }
 
         public void DeleteAllNotes()

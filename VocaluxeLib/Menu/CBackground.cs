@@ -54,8 +54,8 @@ namespace VocaluxeLib.Menu
         private bool _ThemeLoaded;
 
         private int _SlideShowCurrent;
-        private Stopwatch _SlideShowTimer = new Stopwatch();
-        private List<CTexture> _SlideShowTextures = new List<CTexture>();
+        private readonly Stopwatch _SlideShowTimer = new Stopwatch();
+        private readonly List<CTexture> _SlideShowTextures = new List<CTexture>();
 
         public SColorF Color;
 
@@ -69,8 +69,7 @@ namespace VocaluxeLib.Menu
         {
             _PartyModeID = partyModeID;
             _ThemeLoaded = false;
-            _Theme = new SThemeBackground();
-            _Theme.SlideShowTextures = new List<string>();
+            _Theme = new SThemeBackground {SlideShowTextures = new List<string>()};
 
             Color = new SColorF(0f, 0f, 0f, 1f);
         }
@@ -102,11 +101,11 @@ namespace VocaluxeLib.Menu
                     _ThemeLoaded &= success;
             }
 
-            string slideShow = "";
             int i = 1;
 
             while (xmlReader.ItemExists(item + "/SlideShow" + i))
             {
+                string slideShow;
                 xmlReader.GetValue(item + "/SlideShow" + i, out slideShow, String.Empty);
                 if (slideShow != "")
                     _Theme.SlideShowTextures.Add(slideShow);

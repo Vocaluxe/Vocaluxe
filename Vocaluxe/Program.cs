@@ -259,6 +259,7 @@ namespace Vocaluxe
             Environment.Exit(Environment.ExitCode);
         }
 
+#if !DEBUG
         [HandleProcessCorruptedStateExceptions]
         private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args)
         {
@@ -273,6 +274,7 @@ namespace Vocaluxe
             CLog.LogError("Unhandled exception: " + e.Message + stackTrace);
             _CloseProgram();
         }
+#endif
 
         private static Assembly _AssemblyResolver(Object sender, ResolveEventArgs args)
         {

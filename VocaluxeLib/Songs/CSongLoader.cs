@@ -81,7 +81,7 @@ namespace VocaluxeLib.Songs
                 msg = (error ? "Error: " : "Warning: ") + msg;
                 if (withLineNr)
                     msg += " in line #" + _LineNr;
-                CBase.Log.LogError(msg + " (" + Path.Combine(_Song.Folder, _Song.FileName) + ")");
+                CBase.Log.LogSongInfo(msg + " (" + Path.Combine(_Song.Folder, _Song.FileName) + ")");
             }
 
             private void _LogError(string msg, bool withLineNr = true)

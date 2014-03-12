@@ -49,7 +49,7 @@ namespace VocaluxeLib.Profile
             CBase.Drawing.RemoveTexture(ref Texture);
         }
 
-        public string getFileName()
+        public string GetFileName()
         {
             return FileName;
         }

@@ -28,6 +28,7 @@ namespace Vocaluxe.Base
         private readonly string _LogFileName;
         private readonly string _LogName;
         private StreamWriter _LogFile;
+        private readonly Object _FileMutex = new Object();
 
         public CLogFile(string fileName, string logName)
         {
@@ -37,26 +38,34 @@ namespace Vocaluxe.Base
 
         private void _Open()
         {
-            _LogFile = new StreamWriter(Path.Combine(CSettings.DataPath, _LogFileName), false, Encoding.UTF8);
+            lock (_FileMutex)
+            {
+                if (_LogFile != null)
+                    return;
+                _LogFile = new StreamWriter(Path.Combine(CSettings.DataPath, _LogFileName), false, Encoding.UTF8);
 
-            _LogFile.WriteLine(_LogName + " " + CSettings.GetFullVersionText() + " " + DateTime.Now);
-            _LogFile.WriteLine("----------------------------------------");
-            _LogFile.WriteLine();
+                _LogFile.WriteLine(_LogName + " " + CSettings.GetFullVersionText() + " " + DateTime.Now);
+                _LogFile.WriteLine("----------------------------------------");
+                _LogFile.WriteLine();
+            }
         }
 
         public void Close()
         {
-            if (_LogFile == null)
-                return;
-            try
+            lock (_FileMutex)
             {
-                _LogFile.Flush();
-                _LogFile.Close();
+                if (_LogFile == null)
+                    return;
+                try
+                {
+                    _LogFile.Flush();
+                    _LogFile.Close();
+                }
+                catch (Exception) {}
             }
-            catch (Exception) {}
         }
 
-        public void Add(string text)
+        public virtual void Add(string text)
         {
             if (_LogFile == null)
                 _Open();
@@ -69,12 +78,25 @@ namespace Vocaluxe.Base
 
         public void Dispose()
         {
-            if (_LogFile != null)
-            {
-                _LogFile.Dispose();
-                _LogFile = null;
-            }
+            Close();
             GC.SuppressFinalize(this);
+        }
+    }
+
+    class CErrorLogFile : CLogFile
+    {
+        private int _NumErrors;
+        private readonly Object _WriteMutex = new Object();
+
+        public CErrorLogFile(string fileName, string logName) : base(fileName, logName) {}
+
+        public override void Add(string errorText)
+        {
+            lock (_WriteMutex)
+            {
+                _NumErrors++;
+                base.Add(_NumErrors + ") " + errorText);
+            }
         }
     }
 
@@ -85,18 +107,20 @@ namespace Vocaluxe.Base
         private static CLogFile _ErrorLog;
         private static CLogFile _PerformanceLog;
         private static CLogFile _BenchmarkLog;
+        private static CLogFile _DebugLog;
+        private static CLogFile _SongInfoLog;
 
-        private static int _NumErrors;
         private static Stopwatch[] _BenchmarkTimer;
         private static readonly double _NanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
 
         public static void Init()
         {
-            _ErrorLog = new CLogFile(CSettings.FileErrorLog, "ErrorLog");
-            _PerformanceLog = new CLogFile(CSettings.FilePerformanceLog, "PerformanceLog");
-            _BenchmarkLog = new CLogFile(CSettings.FileBenchmarkLog, "BenchmarkLog");
+            _ErrorLog = new CErrorLogFile(CSettings.FileErrorLog, "Error-Log");
+            _PerformanceLog = new CLogFile(CSettings.FilePerformanceLog, "Performance-Log");
+            _BenchmarkLog = new CLogFile(CSettings.FileBenchmarkLog, "Benchmark-Log");
+            _DebugLog = new CLogFile(CSettings.FileDebugLog, "Debug-Log");
+            _SongInfoLog = new CLogFile(CSettings.FileSongInfoLog, "Song-Information-Log");
 
-            _NumErrors = 0;
             _BenchmarkTimer = new Stopwatch[_MaxBenchmarks];
             for (int i = 0; i < _BenchmarkTimer.Length; i++)
                 _BenchmarkTimer[i] = new Stopwatch();
@@ -107,29 +131,38 @@ namespace Vocaluxe.Base
             _ErrorLog.Close();
             _PerformanceLog.Close();
             _BenchmarkLog.Close();
+            _DebugLog.Close();
+            _SongInfoLog.Close();
         }
 
         #region LogError
         public static void LogError(string errorText, bool show = false, bool exit = false, Exception e = null)
         {
-            _NumErrors++;
             if (show)
                 MessageBox.Show(errorText, CSettings.ProgramName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             if (e != null)
                 errorText += ": " + e;
-            _ErrorLog.Add(_NumErrors + ") " + errorText);
+            _ErrorLog.Add(errorText);
             if (exit)
                 Environment.Exit(Environment.ExitCode);
         }
         #endregion LogError
 
-        #region LogPerformance
+        public static void LogDebug(string text)
+        {
+            _DebugLog.Add(String.Format("{0:HH:mm:ss.ffff}", DateTime.Now) + ":" + text);
+        }
+
+        public static void LogSongInfo(string text)
+        {
+            _SongInfoLog.Add(text);
+        }
+
         public static void LogPerformance(string text)
         {
             _PerformanceLog.Add(text);
             _PerformanceLog.Add("-------------------------------");
         }
-        #endregion LogPerformance
 
         #region LogBenchmark
         public static void StartBenchmark(int benchmarkNr, string text)

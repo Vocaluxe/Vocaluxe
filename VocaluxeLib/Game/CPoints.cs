@@ -35,15 +35,13 @@ namespace VocaluxeLib.Game
                     _Rounds[round, player].Points = 0f;
                     _Rounds[round, player].PointsGoldenNotes = 0f;
                     _Rounds[round, player].PointsLineBonus = 0f;
-                    _Rounds[round, player].Medley = false;
-                    _Rounds[round, player].Duet = false;
-                    _Rounds[round, player].ShortSong = false;
+                    _Rounds[round, player].GameMode = EGameMode.TR_GAMEMODE_NORMAL;
                     _Rounds[round, player].SongFinished = false;
                 }
             }
         }
 
-        public void SetPoints(int round, int songID, SPlayer[] players, bool medley, bool duet, bool shortSong)
+        public void SetPoints(int round, int songID, SPlayer[] players, EGameMode gameMode)
         {
             long dateTicks = DateTime.Now.Ticks;
             for (int player = 0; player < players.Length; player++)
@@ -53,9 +51,7 @@ namespace VocaluxeLib.Game
                 _Rounds[round, player].Points = players[player].Points;
                 _Rounds[round, player].PointsGoldenNotes = players[player].PointsGoldenNotes;
                 _Rounds[round, player].PointsLineBonus = players[player].PointsLineBonus;
-                _Rounds[round, player].Medley = medley;
-                _Rounds[round, player].Duet = duet;
-                _Rounds[round, player].ShortSong = shortSong;
+                _Rounds[round, player].GameMode = gameMode;
                 _Rounds[round, player].DateTicks = dateTicks;
                 _Rounds[round, player].SongFinished = players[player].SongFinished;
             }
@@ -87,9 +83,7 @@ namespace VocaluxeLib.Game
                 players[p].PointsLineBonus = _Rounds[round, p].PointsLineBonus;
                 players[p].SongID = _Rounds[round, p].SongID;
                 players[p].VoiceNr = _Rounds[round, p].VoiceNr;
-                players[p].Medley = _Rounds[round, p].Medley;
-                players[p].Duet = _Rounds[round, p].Duet;
-                players[p].ShortSong = _Rounds[round, p].ShortSong;
+                players[p].GameMode = _Rounds[round, p].GameMode;
                 players[p].DateTicks = _Rounds[round, p].DateTicks;
                 players[p].SongFinished = _Rounds[round, p].SongFinished;
                 players[p].ProfileID = _Rounds[round, p].ProfileID;

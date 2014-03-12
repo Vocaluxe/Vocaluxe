@@ -443,6 +443,16 @@ namespace Vocaluxe.Base
         {
             CLog.LogError(errorText);
         }
+
+        public void LogDebug(string text)
+        {
+            CLog.LogDebug(text);
+        }
+
+        public void LogSongInfo(string text)
+        {
+            CLog.LogSongInfo(text);
+        }
     }
 
     class CBfonts : IFonts

@@ -326,7 +326,7 @@ namespace Vocaluxe.Lib.Sound
                 for (int i = 0; i < _Notifications.Count; i++)
                     _WaitHandles[i] = _Notifications[i].Event;
 
-                _CaptureThread = new Thread(_DoCapture) {IsBackground = true};
+                _CaptureThread = new Thread(_DoCapture) {Name = "DirectSoundCapture", IsBackground = true};
 
                 _Running = true;
                 _CaptureThread.Start();

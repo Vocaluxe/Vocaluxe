@@ -25,7 +25,7 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Input.WiiMote
 {
-    class CWiiMote : IController, IDisposable
+    class CWiiMote : IController
     {
         private CWiiMoteLib _WiiMote;
 
@@ -54,7 +54,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _RumbleTimer = new CRumbleTimer();
             _Gesture = new CGesture();
 
-            _HandlerThread = new Thread(_MainLoop) {Priority = ThreadPriority.BelowNormal};
+            _HandlerThread = new Thread(_MainLoop) {Name = "WiiMote", Priority = ThreadPriority.BelowNormal};
 
             _KeysPool = new List<SKeyEvent>();
             _CurrentKeysPool = new List<SKeyEvent>();
@@ -151,8 +151,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
                     if (startRumble)
                         _WiiMote.SetRumble(true);
-
-                    if (stopRumble)
+                    else if (stopRumble)
                         _WiiMote.SetRumble(false);
                 }
             }
@@ -313,16 +312,6 @@ namespace Vocaluxe.Lib.Input.WiiMote
                     _CurrentMousePool.Add(e);
                 _MousePool.Clear();
             }
-        }
-
-        public void Dispose()
-        {
-            if (_WiiMote != null)
-            {
-                _WiiMote.Dispose();
-                _WiiMote = null;
-            }
-            GC.SuppressFinalize(this);
         }
     }
 }

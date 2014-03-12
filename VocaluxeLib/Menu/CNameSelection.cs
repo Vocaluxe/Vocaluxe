@@ -94,7 +94,7 @@ namespace VocaluxeLib.Menu
         private int _Player = -1;
 
         private readonly List<int> _VisibleProfiles;
-        private List<int> _UsedProfiles;
+        private readonly List<int> _UsedProfiles;
 
         private CStatic _PlayerSelector;
 
@@ -416,7 +416,6 @@ namespace VocaluxeLib.Menu
                     _Tiles[i].Avatar.Texture = CBase.Profiles.GetAvatar(_VisibleProfiles[i + offset * _Tiles.Count]);
                     _Tiles[i].Avatar.Color = new SColorF(1, 1, 1, 1);
                     _Tiles[i].Name.Text = CBase.Profiles.GetPlayerName(_VisibleProfiles[i + offset * _Tiles.Count]);
-                    ;
                     _Tiles[i].ProfileID = _VisibleProfiles[i + offset * _Tiles.Count];
                 }
                 else

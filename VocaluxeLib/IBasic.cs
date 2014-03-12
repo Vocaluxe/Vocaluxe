@@ -155,6 +155,8 @@ namespace VocaluxeLib
     public interface ILog
     {
         void LogError(string errorText);
+        void LogDebug(string text);
+        void LogSongInfo(string text);
     }
 
     public interface IFonts
