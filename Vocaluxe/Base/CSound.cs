@@ -205,26 +205,21 @@ namespace Vocaluxe.Base
         #region Record
         private static IRecord _Record;
 
-        public static bool RecordInit()
+        public static void RecordInit()
         {
             switch (CConfig.RecordLib)
             {
-                case ERecordLib.PortAudio:
-                    _Record = new CPortAudioRecord();
-                    break;
-
 #if WIN
                 case ERecordLib.DirectSound:
                     _Record = new CDirectSoundRecord();
                     break;
 #endif
 
+                    // case ERecordLib.PortAudio:
                 default:
                     _Record = new CPortAudioRecord();
                     break;
             }
-
-            return true;
         }
 
         public static void RecordCloseAll()
@@ -317,117 +312,66 @@ namespace Vocaluxe.Base
     class CBuffer : IDisposable
     {
         private const double _BaseToneFreq = 65.4064;
-        private const int _NumHalfTones = 47;
+        public const int NumHalfTones = 17;
 
-        private readonly float[] _ToneWeigth;
-        private Int16[] _AnalysisBuffer = new Int16[4096];
-        private readonly Object _AnalysisBufferLock = new Object();
+        private const int _AnalysisBufLen = 4096;
+        private const int _AnalysisByteBufLen = _AnalysisBufLen * 2;
 
-        private bool _ToneValid;
-        private int _Tone;
-        private int _ToneAbs;
+        private readonly Int16[] _AnalysisBuffer = new Int16[_AnalysisBufLen];
+        private readonly byte[] _AnalysisByteBuffer = new byte[_AnalysisByteBufLen]; //tmp buffer (stream->tmpBuffer->(Int16)AnalysisBuffer)
+
+        private static readonly int[] _SamplesPerPeriodPerTone = new int[NumHalfTones]; //Precalculated table holding sample# per period for each tone
+        private readonly float[] _TmpWeight = new float[NumHalfTones]; //tmp buffer for weights (gets copied to ToneWeight when checked)
+
         private double _MaxVolume;
         private bool _NewSamples;
 
-        private MemoryStream _Stream; // full buffer
+        private MemoryStream _Stream = new MemoryStream(); // full buffer
 
         public CBuffer()
         {
-            _ToneWeigth = new float[_NumHalfTones];
-            for (int i = 0; i < _ToneWeigth.Length; i++)
-                _ToneWeigth[i] = 0.99f;
-            _Stream = new MemoryStream();
-            _NewSamples = false;
+            ToneWeigth = new float[NumHalfTones];
+            for (int i = 0; i < ToneWeigth.Length; i++)
+                ToneWeigth[i] = 0.99f;
         }
 
-        public int NumHalfTones
+        static CBuffer()
         {
-            get { return _NumHalfTones; }
-        }
-
-        public int ToneAbs
-        {
-            get
+            const double halftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
+            //Init Array to avoid costly calculations
+            for (int toneIndex = 0; toneIndex < NumHalfTones; toneIndex++)
             {
-                lock (_AnalysisBufferLock)
-                {
-                    return _ToneAbs;
-                }
+                double freq = _BaseToneFreq * Math.Pow(halftoneBase, toneIndex);
+                _SamplesPerPeriodPerTone[toneIndex] = (int)Math.Round(44100.0 / freq); // samples in one period
             }
         }
 
-        public int Tone
-        {
-            get
-            {
-                lock (_AnalysisBufferLock)
-                {
-                    return _Tone;
-                }
-            }
-            set
-            {
-                lock (_AnalysisBufferLock)
-                {
-                    _Tone = value;
-                }
-            }
-        }
+        public int ToneAbs { get; private set; }
+
+        public int Tone { get; set; }
 
         public float MaxVolume
         {
-            get
-            {
-                lock (_AnalysisBufferLock)
-                {
-                    return (float)_MaxVolume;
-                }
-            }
+            get { return (float)_MaxVolume; }
         }
 
-        public bool ToneValid
-        {
-            get
-            {
-                lock (_AnalysisBufferLock)
-                {
-                    return _ToneValid;
-                }
-            }
-        }
+        public bool ToneValid { get; private set; }
 
-        public long Length
-        {
-            get { return _Stream.Length; }
-        }
-
-        public byte[] Buffer
-        {
-            get { return _Stream.ToArray(); }
-        }
-
-        public float[] ToneWeigth
-        {
-            get
-            {
-                lock (_AnalysisBufferLock)
-                {
-                    return _ToneWeigth;
-                }
-            }
-        }
+        public float[] ToneWeigth { get; private set; }
 
         public void Reset()
         {
-            _Stream.SetLength(0L);
-            _AnalysisBuffer = new Int16[_AnalysisBuffer.Length];
-            _ToneValid = false;
-            _ToneAbs = 0;
-            _Tone = 0;
-            _NewSamples = false;
+            lock (_Stream)
+            {
+                _Stream.SetLength(0L);
+                _NewSamples = false;
+            }
+            ToneValid = false;
+            ToneAbs = 0;
+            Tone = 0;
         }
 
-        public void Add(byte[] bytes)
+        private void _Add(byte[] bytes)
         {
             _Stream.Write(bytes, 0, bytes.Length);
         }
@@ -440,9 +384,9 @@ namespace Vocaluxe.Base
             // voice passthrough (send data to playback-device)
             //if (assigned(fVoiceStream)) then
             //fVoiceStream.WriteData(Buffer, BufferSize);
-            lock (_AnalysisBufferLock)
+            lock (_Stream)
             {
-                Add(buffer);
+                _Add(buffer);
                 _NewSamples = true;
             }
         }
@@ -452,67 +396,67 @@ namespace Vocaluxe.Base
             if (!_NewSamples)
                 return;
 
-            lock (_AnalysisBufferLock)
+            lock (_Stream)
             {
-                int len = _AnalysisBuffer.Length * 2;
-                if (_Stream.Length >= len)
+                if (_Stream.Length >= _AnalysisByteBufLen)
                 {
-                    var buf = new byte[len];
-                    _Stream.Position -= len;
-                    _Stream.Read(buf, 0, len);
-
-                    var b = new byte[2];
-                    for (int i = 0; i < _AnalysisBuffer.Length; i++)
-                    {
-                        b[0] = buf[i * 2];
-                        b[1] = buf[i * 2 + 1];
-
-                        _AnalysisBuffer[i] = BitConverter.ToInt16(b, 0);
-                    }
+                    _Stream.Position -= _AnalysisByteBufLen;
+                    _Stream.Read(_AnalysisByteBuffer, 0, _AnalysisByteBufLen);
                 }
                 _NewSamples = false;
             }
 
+            for (int i = 0; i < _AnalysisBufLen; i++)
+                _AnalysisBuffer[i] = BitConverter.ToInt16(_AnalysisByteBuffer, i * 2);
+
             try
             {
                 // find maximum volume
-                _MaxVolume = 0;
-                for (int i = 0; i < _AnalysisBuffer.Length / 4; i++)
-                {
-                    float volume = Math.Abs((float)_AnalysisBuffer[i]) / Int16.MaxValue;
-                    if (volume > MaxVolume)
-                        _MaxVolume = volume;
-                }
+                _FindMaxVolume();
 
-                _AnalyzeByAutocorrelation(_MaxVolume >= 0.02f);
+                if (MaxVolume >= 0.02)
+                    _AnalyzeByAutocorrelation();
+                else
+                    ToneValid = false;
             }
             catch (Exception) {}
         }
 
-        private void _AnalyzeByAutocorrelation(bool valid)
+        private void _FindMaxVolume()
         {
-            if (!valid)
+            short maxVolume = 0;
+            for (int i = 0; i < _AnalysisBuffer.Length / 4; i++)
             {
-                _ToneValid = false;
-                return;
+                short volume = _AnalysisBuffer[i];
+                if (volume < 0)
+                {
+                    if (volume == Int16.MinValue)
+                    {
+                        maxVolume = Int16.MaxValue;
+                        break;
+                    }
+                    volume = (short)-volume;
+                }
+                if (volume > maxVolume)
+                    maxVolume = volume;
             }
+            _MaxVolume = (double)maxVolume / Int16.MaxValue;
+        }
 
-            const double halftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
-
+        private void _AnalyzeByAutocorrelation()
+        {
             // prepare to analyze
             double maxWeight = -1.0;
             double minWeight = 1.0;
             int maxTone = -1;
-            var weigth = new float[_NumHalfTones];
 
             // analyze halftones
             // Note: at the lowest tone (~65Hz) and a buffer-size of 4096
             // at 44.1 (or 48kHz) only 6 (or 5) samples are compared, this might be
             // too few samples -> use a bigger buffer-size
-            for (int toneIndex = 0; toneIndex < _NumHalfTones; toneIndex++)
+            for (int toneIndex = 0; toneIndex < NumHalfTones; toneIndex++)
             {
-                double curFreq = _BaseToneFreq * Math.Pow(halftoneBase, toneIndex);
-                double curWeight = _AnalyzeAutocorrelationFreq(curFreq);
+                double curWeight = _AnalyzeAutocorrelationTone(toneIndex);
 
                 if (curWeight > maxWeight)
                 {
@@ -523,42 +467,39 @@ namespace Vocaluxe.Base
                 if (curWeight < minWeight)
                     minWeight = curWeight;
 
-                weigth[toneIndex] = (float)curWeight;
+                _TmpWeight[toneIndex] = (float)curWeight;
             }
 
             if (maxWeight - minWeight > 0.01)
             {
-                for (int i = 0; i < weigth.Length; i++)
-                    _ToneWeigth[i] = weigth[i];
+                Array.Copy(_TmpWeight, ToneWeigth, NumHalfTones);
 
-                _ToneAbs = maxTone;
-                _Tone = maxTone % 12;
-                _ToneValid = true;
+                ToneAbs = maxTone;
+                Tone = maxTone % 12;
+                ToneValid = true;
             }
             else
-                _ToneValid = false;
+                ToneValid = false;
         }
 
-        private double _AnalyzeAutocorrelationFreq(double freq)
+        private double _AnalyzeAutocorrelationTone(int tone)
         {
-            int sampleIndex = 0; // index of sample to analyze
-            var samplesPerPeriod = (int)Math.Round(44100.0 / freq); // samples in one period
-            int correlatingSampleIndex = sampleIndex + samplesPerPeriod; // index of sample one period ahead
+            int samplesPerPeriod = _SamplesPerPeriodPerTone[tone]; // samples in one period
 
-            double accumDist = 0.0; // accumulated distances
+            int accumDist = 0; // accumulated distances
 
             // compare correlating samples
-            while (correlatingSampleIndex < _AnalysisBuffer.Length)
+            int sampleIndex = 0; // index of sample to analyze
+            // Start value= index of sample one period ahead
+            for (int correlatingSampleIndex = sampleIndex + samplesPerPeriod; correlatingSampleIndex < _AnalysisBufLen; correlatingSampleIndex++, sampleIndex++)
             {
-                // calc distance (correlation: 1-dist) to corresponding sample in next period
-                // distance (0=equal .. 1=totally different) between correlated samples
-                double dist = Math.Abs((double)_AnalysisBuffer[sampleIndex] - _AnalysisBuffer[correlatingSampleIndex]) / Int16.MaxValue;
+                // calc distance (correlation: 1-dist/IntMax) to corresponding sample in next period
+                // distance (0=equal .. IntMax=totally different) between correlated samples
+                int dist = Math.Abs(_AnalysisBuffer[sampleIndex] - _AnalysisBuffer[correlatingSampleIndex]);
                 accumDist += dist;
-                sampleIndex++;
-                correlatingSampleIndex++;
             }
 
-            return 1 - accumDist / _AnalysisBuffer.Length;
+            return 1.0 - (double)accumDist / Int16.MaxValue / _AnalysisBufLen;
         }
 
         public void Dispose()

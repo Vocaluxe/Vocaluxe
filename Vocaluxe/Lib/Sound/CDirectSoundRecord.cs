@@ -192,7 +192,7 @@ namespace Vocaluxe.Lib.Sound
             if (!_Initialized)
                 return 0;
 
-            return _Buffer[player].NumHalfTones;
+            return CBuffer.NumHalfTones;
         }
 
         public float[] ToneWeigth(int player)
