@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -328,7 +327,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
             {
                 try
                 {
-                    var frameDropCount = (int)(timeDifference / _FrameDuration);
+                    var frameDropCount = (int)Math.Ceiling(timeDifference / _FrameDuration);
+                    // Add 1 dropped frame per 16 frames (Power of 2 -> Div is fast) as skipping takes time too and we don't want to skip again
+                    frameDropCount += frameDropCount / 16;
                     hasFrameDecoded = CAcinerella.AcSkipFrames(_Instance, _Videodecoder, frameDropCount);
                 }
                 catch (Exception)
