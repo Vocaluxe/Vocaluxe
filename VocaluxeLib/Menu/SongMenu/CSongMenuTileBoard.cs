@@ -67,11 +67,11 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             set
             {
-                base._PlaySong(value);
-                base._PreviewIdInternal = value;
+                _PlaySong(value);
+                _PreviewIdInternal = value;
                 _UpdatePreview();
             }
-            get { return base._PreviewIdInternal; }
+            get { return _PreviewIdInternal; }
         }
 
         public override int GetActualSelection()
@@ -138,7 +138,7 @@ namespace VocaluxeLib.Menu.SongMenu
             }
 
             if (_Length < 0 && CBase.Sound.GetLength(_PreviewSongStream) > 0 && CBase.Songs.IsInCategory())
-                UpdateLength(CBase.Songs.GetVisibleSong(_PreviewId));
+                _UpdateLength(CBase.Songs.GetVisibleSong(_PreviewId));
         }
 
         private void _UpdatePreview()
@@ -181,7 +181,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 _MedleyCalcIcon.Visible = song.Medley.Source == EDataSource.Calculated;
                 _MedleyTagIcon.Visible = song.Medley.Source == EDataSource.Tag;
 
-                UpdateLength(song);
+                _UpdateLength(song);
             }
             else
             {
@@ -198,23 +198,22 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
-        private void UpdateLength(CSong song)
+        private void _UpdateLength(CSong song)
         {
-            if (song != null)
-            {
-                float time = CBase.Sound.GetLength(_PreviewSongStream);
-                if (Math.Abs(song.Finish) > 0.001)
-                    time = song.Finish;
+            if (song == null)
+                return;
+            float time = CBase.Sound.GetLength(_PreviewSongStream);
+            if (Math.Abs(song.Finish) > 0.001)
+                time = song.Finish;
 
-                // The audiobackend is not yet ready to return the length
-                if (time > 0)
-                {
-                    time -= song.Start;
-                    var min = (int)Math.Floor(time / 60f);
-                    var sec = (int)(time - min * 60f);
-                    _SongLength.Text = min.ToString("00") + ":" + sec.ToString("00");
-                    _Length = time;
-                }
+            // The audiobackend is ready to return the length
+            if (time > 0)
+            {
+                time -= song.Start;
+                var min = (int)Math.Floor(time / 60f);
+                var sec = (int)(time - min * 60f);
+                _SongLength.Text = min.ToString("00") + ":" + sec.ToString("00");
+                _Length = time;
             }
         }
 
@@ -556,7 +555,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public override void SetSelectedSong(int visibleSongNr)
         {
-            base._PlaySong(visibleSongNr);
+            _PlaySong(visibleSongNr);
             base.SetSelectedSong(visibleSongNr);
 
             if (visibleSongNr >= 0 && visibleSongNr < CBase.Songs.GetNumSongsVisible())

@@ -221,9 +221,7 @@ namespace Vocaluxe.Base
                 return;
 
             //Calc avarage sing-count
-            int totalCounts = 0;
-            foreach (CSong song in VisibleSongs)
-                totalCounts += song.NumPlayedSession;
+            int totalCounts = VisibleSongs.Sum(song => song.NumPlayedSession);
             int averageCount = totalCounts / NumSongsVisible;
 
             foreach (CSong song in VisibleSongs)

@@ -135,11 +135,10 @@ namespace VocaluxeLib.Songs
             return false;
         }
 
-        public bool IncLastNoteLength()
+        public void IncLastNoteLength()
         {
             if (_Notes.Count > 0)
                 _Notes[NoteCount - 1].Duration++;
-            return false;
         }
 
         public void DeleteAllNotes()

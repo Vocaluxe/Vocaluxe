@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using ServerLib;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Server;
 using VocaluxeLib;
@@ -54,11 +53,6 @@ namespace Vocaluxe.Screens
 
             _ThemeStatics = new string[] {_StaticQRServer, _StaticQRAndroid, _StaticQRSymbian, _StaticQRWebOS, _StaticQRWindowsPhone};
             _ThemeTexts = new string[] {_TextServerAddress, _TextServerNotRunning};
-        }
-
-        public override void LoadTheme(string xmlPath)
-        {
-            base.LoadTheme(xmlPath);
         }
 
         public override void OnShow()

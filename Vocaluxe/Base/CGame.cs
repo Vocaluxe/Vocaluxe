@@ -208,7 +208,7 @@ namespace Vocaluxe.Base
 
         public static void UpdatePoints(float time)
         {
-            bool DEBUG_HIT = false;
+            const bool DEBUG_HIT = false;
 
             CSong song = _SongQueue.GetSong();
 
@@ -274,8 +274,6 @@ namespace Vocaluxe.Base
                     {
                         int tone = notes[note].Tone;
                         int tonePlayer = CSound.RecordGetTone(p);
-                        if (DEBUG_HIT)
-                            tonePlayer = tone;
 
                         while (tonePlayer - tone > 6)
                             tonePlayer -= 12;
@@ -362,7 +360,7 @@ namespace Vocaluxe.Base
 
         public static void ResetToLastLine(int soundStream, int vidStream)
         {
-            float[] time = GetLastSungLineStart();
+            float[] time = _GetLastSungLineStart();
             ResetToTime(time[0], time[1], soundStream, vidStream);
         }
 
@@ -416,15 +414,15 @@ namespace Vocaluxe.Base
             CVideo.Skip(vidStream, time, GetSong().VideoGap);
         }
 
-        private static float[] GetLastSungLineStart()
+        private static float[] _GetLastSungLineStart()
         {
-            return GetNoteTimeBeforeBeat(CurrentBeat);
+            return _GetNoteTimeBeforeBeat(CurrentBeat);
         }
 
-        private static float[] GetNoteTimeBeforeBeat(int beat)
+        private static float[] _GetNoteTimeBeforeBeat(int beat)
         {
             CSong song = GetSong();
-            int StartBeat = (int)Math.Floor(beat - GetBeatFromTime(CSettings.PauseResetTime, song.BPM, 0f));
+            int startBeat = (int)Math.Floor(beat - GetBeatFromTime(CSettings.PauseResetTime, song.BPM, 0f));
             int lastStart = 0;
             int nextStart = 0;
             foreach (CVoice voice in song.Notes.Voices)
@@ -436,16 +434,13 @@ namespace Vocaluxe.Base
                 {
                     foreach (CSongNote note in line.Notes)
                     {
-                        if (note.StartBeat > StartBeat)
+                        if (note.StartBeat > startBeat)
                         {
                             nextStartNote = note.StartBeat;
                             break;
                         }
-                        else
-                        {
-                            voiceStart = note.StartBeat;
-                            lastEnd = note.EndBeat;
-                        }
+                        voiceStart = note.StartBeat;
+                        lastEnd = note.EndBeat;
                     }
                     if (nextStartNote > 0)
                         break;

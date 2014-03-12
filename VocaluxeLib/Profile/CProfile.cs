@@ -17,7 +17,6 @@
 
 using System;
 using System.IO;
-using System.Text;
 using System.Xml;
 
 namespace VocaluxeLib.Profile
@@ -71,9 +70,11 @@ namespace VocaluxeLib.Profile
             FileName = String.Empty;
         }
 
-        public bool LoadProfile()
+        public bool LoadProfile(string pathName, string fileName)
         {
-            return LoadProfile(FilePath, FileName);
+            FilePath = pathName;
+            FileName = fileName;
+            return LoadProfile();
         }
 
         public bool LoadProfile(string file)
@@ -81,10 +82,10 @@ namespace VocaluxeLib.Profile
             FileName = Path.GetFileName(file);
             FilePath = Path.GetDirectoryName(file);
 
-            return LoadProfile(FilePath, FileName);
+            return LoadProfile();
         }
 
-        public bool LoadProfile(string pathName, string fileName)
+        public bool LoadProfile()
         {
             CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(FilePath, FileName));
             if (xmlReader == null)

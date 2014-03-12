@@ -187,8 +187,8 @@ namespace Vocaluxe.Screens
             if (_SlideShowBGAvailable)
                 _SlideShowBG.Draw();
             else
-                base._DrawBG();
-            base._DrawFG();
+                _DrawBG();
+            _DrawFG();
             return true;
         }
 
@@ -428,7 +428,7 @@ namespace Vocaluxe.Screens
 
         private bool _UpdateBackground()
         {
-            string[] photos = CVocaluxeServer.getPhotosOfThisRound();
+            string[] photos = CVocaluxeServer.GetPhotosOfThisRound();
             _SlideShowBG.RemoveSlideShowTextures();
             foreach (string photo in photos)
                 _SlideShowBG.AddSlideShowTexture(photo);

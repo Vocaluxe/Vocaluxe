@@ -22,6 +22,7 @@
     position: relative;
     height: 100%;
     width: 100%;
+    background-color: #000000;
     background-color: rgba(0,0,0,0.7);
 }
 
@@ -30,6 +31,7 @@
     height: 100%;
     top: 0;
     margin: 0;
+    background: #000000;
     background: rgba(0, 0, 0, 0.3);
     display: none;
     position: fixed;

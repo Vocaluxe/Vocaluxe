@@ -26,7 +26,6 @@ using ServerLib;
 using Vocaluxe.Lib.Input;
 using Vocaluxe.Lib.Playlist;
 using VocaluxeLib;
-using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Profile;
 using VocaluxeLib.Songs;
@@ -314,7 +313,7 @@ namespace Vocaluxe.Base.Server
         #endregion
 
         #region photo
-        private static List<string> photosOfThisRound = new List<string>();
+        private static readonly List<string> _PhotosOfThisRound = new List<string>();
 
         private static bool _SendPhoto(SPhotoData photoData)
         {
@@ -325,17 +324,17 @@ namespace Vocaluxe.Base.Server
             string filePath = _SaveImage(photoData.Photo, name, CSettings.FolderPhotos);
             if (!string.IsNullOrEmpty(filePath))
             {
-                photosOfThisRound.Add(filePath);
+                _PhotosOfThisRound.Add(filePath);
                 return true;
             }
 
             return false;
         }
 
-        internal static string[] getPhotosOfThisRound()
+        internal static string[] GetPhotosOfThisRound()
         {
-            string[] result = photosOfThisRound.ToArray();
-            photosOfThisRound.Clear();
+            string[] result = _PhotosOfThisRound.ToArray();
+            _PhotosOfThisRound.Clear();
             return result;
         }
         #endregion
@@ -583,11 +582,11 @@ namespace Vocaluxe.Base.Server
                 return false;
             }
 
-            byte[] salt = profile.PasswordSalt;
+            //byte[] salt = profile.PasswordSalt;
             return hashedPassword.SequenceEqual(profile.PasswordHash);
         }
 
-        private static byte[] _GetPassowordSalt(int profileId)
+        private static byte[] _GetPasswordSalt(int profileId)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)

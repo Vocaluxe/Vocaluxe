@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Diagnostics;
 using System.Security.Authentication;
 using System.Security.Principal;
 using Security.Cryptography;
@@ -166,12 +165,7 @@ namespace WebserverInitalConfig
         {
             if (!profile.FirewallEnabled)
                 return true;
-            foreach (INetFwAuthorizedApplication a in profile.AuthorizedApplications)
-            {
-                if (a.ProcessImageFileName == _ExePath)
-                    return true;
-            }
-            return false;
+            return profile.AuthorizedApplications.Cast<INetFwAuthorizedApplication>().Any(a => a.ProcessImageFileName == _ExePath);
         }
 
         private bool _IsPortOpen(INetFwProfile profile)
@@ -180,12 +174,7 @@ namespace WebserverInitalConfig
 
             if (!profile.FirewallEnabled)
                 return true;
-            foreach (INetFwOpenPort p in profile.GloballyOpenPorts)
-            {
-                if (p.Protocol == protocol && p.Port == _Port)
-                    return true;
-            }
-            return false;
+            return profile.GloballyOpenPorts.Cast<INetFwOpenPort>().Any(p => p.Protocol == protocol && p.Port == _Port);
         }
 
         private NET_FW_IP_PROTOCOL_ _GetProtocol()
