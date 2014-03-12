@@ -38,7 +38,7 @@ namespace Vocaluxe.Screens
 
         private Thread _SongLoaderThread;
         private bool _SkipIntro;
-        private int _CurrentIntroVideoNr;
+        private int _CurrentIntroVideo;
         private bool _IntroOutPlayed;
         private CVideoPlayer[] _Intros;
 
@@ -106,7 +106,7 @@ namespace Vocaluxe.Screens
                                        CLanguage.Translate("TR_SCREENLOAD_LOADED") + ")";
 
             _SkipIntro = false;
-            _CurrentIntroVideoNr = -1;
+            _CurrentIntroVideo = -1;
             _IntroOutPlayed = false;
 
             if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
@@ -182,8 +182,8 @@ namespace Vocaluxe.Screens
         {
             _DrawBG();
 
-            foreach (CVideoPlayer videoPlayer in _Intros)
-                videoPlayer.Draw();
+            if (_CurrentIntroVideo >= 0 && _CurrentIntroVideo < _Intros.Length)
+                _Intros[_CurrentIntroVideo].Draw();
 
             _DrawFG();
             return true;
@@ -217,24 +217,24 @@ namespace Vocaluxe.Screens
                 return;
             }
 
-            if (_CurrentIntroVideoNr < 0)
+            if (_CurrentIntroVideo < 0)
             {
-                _CurrentIntroVideoNr = 0;
+                _CurrentIntroVideo = 0;
                 _Intros[0].Start();
             }
-            else if (_CurrentIntroVideoNr == 0 && _Intros[0].IsFinished && CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
+            else if (_CurrentIntroVideo == 0 && _Intros[0].IsFinished && CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
             {
-                _CurrentIntroVideoNr = 1;
+                _CurrentIntroVideo = 1;
                 _Intros[1].Loop = true;
                 _Intros[1].Start();
             }
-            else if ((_CurrentIntroVideoNr == 1 && CSongs.CoverLoaded) ||
-                     (_CurrentIntroVideoNr == 0 && _Intros[0].IsFinished))
+            else if ((_CurrentIntroVideo == 1 && CSongs.CoverLoaded) ||
+                     (_CurrentIntroVideo == 0 && _Intros[0].IsFinished))
             {
-                _CurrentIntroVideoNr = 2;
+                _CurrentIntroVideo = 2;
                 _Intros[2].Start();
             }
-            else if (_CurrentIntroVideoNr == 2 && _Intros[2].IsFinished)
+            else if (_CurrentIntroVideo == 2 && _Intros[2].IsFinished)
                 _IntroOutPlayed = true;
         }
     }
