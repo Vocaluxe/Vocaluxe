@@ -181,7 +181,7 @@ namespace Vocaluxe.Base
         #endregion Playback
 
         #region Sounds
-        public static int PlaySound(ESounds sound)
+        public static int PlaySound(ESounds sound, bool fade = true)
         {
             string file = Path.Combine(Environment.CurrentDirectory, CSettings.FolderSounds);
             switch (sound)
@@ -189,15 +189,18 @@ namespace Vocaluxe.Base
                 case ESounds.T440:
                     file = Path.Combine(file, CSettings.SoundT440);
                     break;
+                default:
+                    return -1;
             }
 
-            if (file == "")
+            if (!File.Exists(file))
                 return -1;
 
-            int stream = Load(file);
+            int stream = Load(file, true);
             float length = GetLength(stream);
             Play(stream);
-            FadeAndClose(stream, 100f, length);
+            if (fade)
+                FadeAndClose(stream, 100f, length);
             return stream;
         }
         #endregion Sounds
