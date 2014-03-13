@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -40,8 +39,16 @@ namespace Vocaluxe.Screens
         private readonly Stopwatch _Timer = new Stopwatch();
         private int _Stream = -1;
 
-        private readonly SDelayChannel[] _DelaysChannel = new SDelayChannel[2];
-        public readonly int[] Delays = new int[2];
+        private readonly SDelayChannel[] _DelaysChannel;
+        public readonly int[] Delays;
+        public readonly int NumChannels;
+
+        public CDelayTest(int numChannels)
+        {
+            NumChannels = numChannels;
+            _DelaysChannel = new SDelayChannel[NumChannels];
+            Delays = new int[NumChannels];
+        }
 
         public void Start(int[] channels)
         {
@@ -90,7 +97,7 @@ namespace Vocaluxe.Screens
             }
             if (!_Timer.IsRunning)
                 return;
-            Console.WriteLine("Vol=" + CSound.RecordGetMaxVolume(0) + " Tone=" + CSound.RecordGetTone(0) + " Valid=" + CSound.RecordToneValid(0));
+
             bool isActive = false;
             if (_Timer.ElapsedMilliseconds <= _MaxDelayTime)
             {
@@ -151,7 +158,7 @@ namespace Vocaluxe.Screens
         private ReadOnlyCollection<CRecordDevice> _Devices;
         private int _DeviceNr;
 
-        private readonly CDelayTest _DelayTest = new CDelayTest();
+        private readonly CDelayTest _DelayTest = new CDelayTest(2);
 
         public override void Init()
         {
@@ -308,8 +315,8 @@ namespace Vocaluxe.Screens
             if (_DelayTest.Running)
             {
                 _DelayTest.Update();
-                _Texts[_TextDelayChannel1].Text = _DelayTest.Delays[0].ToString("000") + " ms";
-                _Texts[_TextDelayChannel2].Text = _DelayTest.Delays[1].ToString("000") + " ms";
+                _Texts[_TextDelayChannel1].Text = (_DelayTest.Delays[0] == 0) ? "???" : _DelayTest.Delays[0].ToString("000") + " ms";
+                _Texts[_TextDelayChannel2].Text = (_DelayTest.Delays[1] == 0) ? "???" : _DelayTest.Delays[1].ToString("000") + " ms";
             }
 
             if (_CheckMicConfig())
@@ -540,7 +547,7 @@ namespace Vocaluxe.Screens
         private void _TestDelay()
         {
             _SaveMicConfig();
-
+            _DelayTest.Reset();
             _DelayTest.Start(new int[] {_SelectSlides[_SelectSlideRecordChannel1].Selection - 1, _SelectSlides[_SelectSlideRecordChannel2].Selection - 1});
         }
 
