@@ -212,11 +212,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\CBackgroundMusic.cs" />
+    <Compile Include="Lib\Sound\CBuffer.cs" />
     <Compile Include="Base\CConfig.cs" />
     <Compile Include="Base\CCover.cs" />
     <Compile Include="Base\CCursor.cs" />
     <Compile Include="Base\CDataBase.cs" />
     <Compile Include="Base\CDraw.cs" />
+    <Compile Include="Lib\Sound\CPt1.cs" />
+    <Compile Include="Lib\Sound\CSyncTimer.cs" />
     <Compile Include="Base\Fonts\CFont.cs" />
     <Compile Include="Base\CGame.cs" />
     <Compile Include="Base\CController.cs" />
