@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -26,10 +27,93 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    struct SDelayTest
+    class CDelayTest
     {
-        public Stopwatch Timer;
-        public float Delay;
+        private struct SDelayChannel
+        {
+            public int Channel;
+            public bool Finished;
+        }
+
+        private const float _MaxDelayTime = 1000;
+        public bool Running { get; private set; }
+        private readonly Stopwatch _Timer = new Stopwatch();
+        private int _Stream = -1;
+
+        private readonly SDelayChannel[] _DelaysChannel = new SDelayChannel[2];
+        public readonly int[] Delays = new int[2];
+
+        public void Start(int[] channels)
+        {
+            if (Running)
+                return;
+            Reset();
+            for (int i = 0; i < _DelaysChannel.Length; i++)
+            {
+                if (i < channels.Length)
+                {
+                    _DelaysChannel[i].Finished = false;
+                    _DelaysChannel[i].Channel = channels[i];
+                }
+                else
+                    _DelaysChannel[i].Finished = true;
+            }
+            _Stream = CSound.PlaySound(ESounds.T440, false);
+            Running = true;
+        }
+
+        public void Reset()
+        {
+            Running = false;
+            for (int i = 0; i < _DelaysChannel.Length; i++)
+                Delays[i] = 0;
+            _CloseStream();
+        }
+
+        private void _CloseStream()
+        {
+            if (_Stream != -1)
+            {
+                CSound.Close(_Stream);
+                _Stream = -1;
+            }
+        }
+
+        public void Update()
+        {
+            if (!Running)
+                return;
+            if (!_Timer.IsRunning)
+            {
+                if (CSound.GetPosition(_Stream) > 0f)
+                    _Timer.Restart();
+            }
+            if (!_Timer.IsRunning)
+                return;
+            Console.WriteLine("Vol=" + CSound.RecordGetMaxVolume(0) + " Tone=" + CSound.RecordGetTone(0) + " Valid=" + CSound.RecordToneValid(0));
+            bool isActive = false;
+            if (_Timer.ElapsedMilliseconds <= _MaxDelayTime)
+            {
+                for (int i = 0; i < _DelaysChannel.Length; i++)
+                {
+                    if (_DelaysChannel[i].Channel < 0 || _DelaysChannel[i].Finished)
+                        continue;
+                    if (CSound.RecordGetMaxVolume(_DelaysChannel[i].Channel) > 0.1f && CSound.RecordGetTone(_DelaysChannel[i].Channel) == 9)
+                    {
+                        Delays[i] = (int)_Timer.ElapsedMilliseconds;
+                        _DelaysChannel[i].Finished = true;
+                    }
+                    else
+                        isActive = true;
+                }
+            }
+            if (!isActive)
+            {
+                Running = false;
+                _CloseStream();
+                _Timer.Stop();
+            }
+        }
     }
 
     class CScreenOptionsRecord : CMenu
@@ -40,7 +124,6 @@ namespace Vocaluxe.Screens
             get { return 4; }
         }
 
-        private const float _MaxDelayTime = 1f;
         private const string _SelectSlideRecordDevices = "SelectSlideRecordDevices";
 
         private const string _SelectSlideRecordChannel1 = "SelectSlideRecordChannel1";
@@ -68,9 +151,7 @@ namespace Vocaluxe.Screens
         private ReadOnlyCollection<CRecordDevice> _Devices;
         private int _DeviceNr;
 
-        private SDelayTest[] _DelayTest;
-        private bool _DelayTestRunning;
-        private int _DelaySound;
+        private readonly CDelayTest _DelayTest = new CDelayTest();
 
         public override void Init()
         {
@@ -224,45 +305,12 @@ namespace Vocaluxe.Screens
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
                 CSound.AnalyzeBuffer(i);
 
-            if (_DelayTest != null)
+            if (_DelayTest.Running)
             {
-                for (int i = 0; i < _DelayTest.Length - 1; i++)
-                {
-                    if (_DelayTestRunning && !_DelayTest[i].Timer.IsRunning)
-                    {
-                        if (CSound.GetPosition(_DelaySound) > 0f)
-                        {
-                            _DelayTest[i].Timer.Reset();
-                            _DelayTest[i].Timer.Start();
-                        }
-                    }
-                    if (_DelayTest[i].Timer.IsRunning)
-                    {
-                        int player = 0;
-                        if (i == 0)
-                            player = _SelectSlides[_SelectSlideRecordChannel1].Selection;
-
-                        if (i == 1)
-                            player = _SelectSlides[_SelectSlideRecordChannel2].Selection;
-
-                        if (_DelayTest[i].Timer.ElapsedMilliseconds > _MaxDelayTime * 1000f || player == 0)
-                        {
-                            _DelayTest[i].Delay = 0f;
-                            _DelayTest[i].Timer.Stop();
-                            _DelayTestRunning = false;
-                        }
-                        else if (CSound.RecordGetMaxVolume(player - 1) > 0.1f && CSound.RecordGetToneAbs(player - 1) % 12 == 9)
-                        {
-                            _DelayTest[i].Delay = _DelayTest[i].Timer.ElapsedMilliseconds;
-                            _DelayTest[i].Timer.Stop();
-                            _DelayTestRunning = false;
-                        }
-                    }
-                }
-                _Texts[_TextDelayChannel1].Text = _DelayTest[0].Delay.ToString("000") + " ms";
-                _Texts[_TextDelayChannel2].Text = _DelayTest[1].Delay.ToString("000") + " ms";
+                _DelayTest.Update();
+                _Texts[_TextDelayChannel1].Text = _DelayTest.Delays[0].ToString("000") + " ms";
+                _Texts[_TextDelayChannel2].Text = _DelayTest.Delays[1].ToString("000") + " ms";
             }
-
 
             if (_CheckMicConfig())
             {
@@ -327,21 +375,9 @@ namespace Vocaluxe.Screens
             _Statics[_StaticWarning].Visible = false;
             _Texts[_TextWarning].Visible = false;
 
-            _DelayTest = null;
-            if (_Devices != null)
-            {
-                _DelayTest = new SDelayTest[2];
-                for (int i = 0; i < _DelayTest.Length - 1; i++)
-                {
-                    _DelayTest[i].Timer = new Stopwatch();
-                    _DelayTest[i].Delay = 0f;
-                }
-            }
+            _DelayTest.Reset();
 
             _SelectSlides[_SelectSlideDelay].Selection = CConfig.MicDelay / 20;
-
-            _DelayTestRunning = false;
-            _DelaySound = -1;
         }
 
         public override void OnShowFinish()
@@ -393,7 +429,7 @@ namespace Vocaluxe.Screens
             base.OnClose();
             CSound.RecordStop();
 
-            _DelayTest = null;
+            _DelayTest.Reset();
             CBackgroundMusic.Disabled = false;
         }
 
@@ -505,11 +541,7 @@ namespace Vocaluxe.Screens
         {
             _SaveMicConfig();
 
-            if (_DelayTest == null)
-                return;
-
-            _DelaySound = CSound.PlaySound(ESounds.T440);
-            _DelayTestRunning = true;
+            _DelayTest.Start(new int[] {_SelectSlides[_SelectSlideRecordChannel1].Selection - 1, _SelectSlides[_SelectSlideRecordChannel2].Selection - 1});
         }
 
         private void _GetFirstConfiguredRecordDevice(ref int device)
