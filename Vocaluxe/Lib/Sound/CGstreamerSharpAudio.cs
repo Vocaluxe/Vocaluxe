@@ -225,9 +225,9 @@ namespace Vocaluxe.Lib.Sound
             private readonly Stopwatch _FadeTimer = new Stopwatch();
             private float _FadeTime;
             private float _FadeVolume;
-            private float _Volume = 100f;
+            private float _Volume = 1f;
 
-            private float _MaxVolume = 100f;
+            private float _MaxVolume = 1f;
 
             private volatile float _Duration = -1f;
             private volatile float _Position;
@@ -384,21 +384,21 @@ namespace Vocaluxe.Lib.Sound
 
             public float Volume
             {
-                get { return _Element != null ? (float)(double)_Element["volume"] : 0; }
+                get { return _Volume * 100f; }
                 set
                 {
-                    _Volume = value;
+                    _Volume = value / 100f;
                     if (_Element != null)
-                        _Element["volume"] = ((value / 100d) * (_MaxVolume / 100d));
+                        _Element["volume"] = (_Volume * _MaxVolume);
                 }
             }
 
             public float MaxVolume
             {
-                get { return _MaxVolume; }
+                get { return _MaxVolume * 100f; }
                 set
                 {
-                    _MaxVolume = value;
+                    _MaxVolume = value / 100f;
                     Volume = _Volume;
                 }
             }
