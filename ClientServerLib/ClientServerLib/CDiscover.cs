@@ -27,32 +27,32 @@ using System.Timers;
 
 namespace ServerLib
 {
-    public delegate void OnServerDiscovered(string IPAddress, string Hostname);
+    public delegate void OnServerDiscovered(string ipAddress, string hostname);
 
     public class CDiscover
     {
-        public static readonly string sTimeout = "Timeout";
-        public static readonly string sFinished = "Finished";
+        public const string Timeout = "Timeout";
+        public const string Finished = "Finished";
 
-        private string _Keyword;
-        private string _BroadcastAddress;
-        private int _Port;
+        private readonly string _Keyword;
+        private readonly string _BroadcastAddress;
+        private readonly int _Port;
 
         private Thread _DiscoverThread;
         private bool _DiscoverRunning;
         private OnServerDiscovered _OnDiscovered;
 
-        private System.Timers.Timer _BroadcastTimer;
+        private readonly System.Timers.Timer _BroadcastTimer;
 
-        public CDiscover(int Port, string Keyword, string BroadcastAddress = "255.255.255.255")
+        public CDiscover(int port, string keyword, string broadcastAddress = "255.255.255.255")
         {
-            _BroadcastAddress = BroadcastAddress;
-            _Port = Port;
-            _Keyword = Keyword;
+            _BroadcastAddress = broadcastAddress;
+            _Port = port;
+            _Keyword = keyword;
 
             _DiscoverRunning = false;
             _BroadcastTimer = new System.Timers.Timer();
-            _BroadcastTimer.Elapsed += OnBroadcastEvent;
+            _BroadcastTimer.Elapsed += _OnBroadcastEvent;
             _BroadcastTimer.Interval = 2500;
         }
 
@@ -67,21 +67,20 @@ namespace ServerLib
             _DiscoverRunning = false;
         }
 
-        public void Discover(OnServerDiscovered OnDiscovered, int Timeout = 5000)
+        public void Discover(OnServerDiscovered onDiscovered, int timeout = 5000)
         {
             if (_DiscoverRunning)
                 return;
 
             _DiscoverRunning = true;
-            _DiscoverThread = new Thread(() => _Discover(Timeout)) {Name = "Client discover"};
-            _OnDiscovered = OnDiscovered;
+            _DiscoverThread = new Thread(() => _Discover(timeout)) {Name = "Client discover"};
+            _OnDiscovered = onDiscovered;
             _DiscoverThread.Start();
         }
 
-        private void OnBroadcastEvent(object source, ElapsedEventArgs e)
+        private void _OnBroadcastEvent(object source, ElapsedEventArgs e)
         {
-            Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            s.EnableBroadcast = true;
+            Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp) {EnableBroadcast = true};
             IPAddress broadcast = IPAddress.Parse(_BroadcastAddress);
             byte[] sendbuf = Encoding.UTF8.GetBytes(_Keyword);
             IPEndPoint ep = new IPEndPoint(broadcast, _Port);
@@ -90,7 +89,7 @@ namespace ServerLib
             s.Close();
         }
 
-        private void _Discover(int Timeout)
+        private void _Discover(int timeout)
         {
             UdpClient listener = null;
             Stopwatch timer = new Stopwatch();
@@ -98,27 +97,27 @@ namespace ServerLib
             List<string> knownServer = new List<string>();
             bool foundSomething = false;
             timer.Start();
-            while (_DiscoverRunning && timer.ElapsedMilliseconds < Timeout * 2)
+            while (_DiscoverRunning && timer.ElapsedMilliseconds < timeout * 2)
             {
                 try
                 {
                     listener = new UdpClient(_Port);
-                    IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, _Port);
-                    listener.Client.ReceiveTimeout = Timeout;
+                    IPEndPoint groupEp = new IPEndPoint(IPAddress.Any, _Port);
+                    listener.Client.ReceiveTimeout = timeout;
 
-                    byte[] bytes = listener.Receive(ref groupEP);
+                    byte[] bytes = listener.Receive(ref groupEp);
                     string message = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
 
                     foundSomething = true;
-                    if (!knownServer.Contains(groupEP.Address.ToString()))
+                    if (!knownServer.Contains(groupEp.Address.ToString()))
                     {
-                        knownServer.Add(groupEP.Address.ToString());
+                        knownServer.Add(groupEp.Address.ToString());
                         if (_OnDiscovered != null)
                         {
-                            IPHostEntry e = Dns.GetHostEntry(groupEP.Address);
+                            IPHostEntry e = Dns.GetHostEntry(groupEp.Address);
                             string hostname = e.HostName;
 
-                            _OnDiscovered(groupEP.Address.ToString(), hostname);
+                            _OnDiscovered(groupEp.Address.ToString(), hostname);
                         }
                     }
 
@@ -132,10 +131,8 @@ namespace ServerLib
             }
             _DiscoverRunning = false;
 
-            if (!foundSomething)
-                _OnDiscovered(sTimeout, String.Empty);
-            else
-                _OnDiscovered(sFinished, String.Empty);
+            if (_OnDiscovered != null)
+                _OnDiscovered(!foundSomething ? Timeout : Finished, String.Empty);
         }
     }
 }
