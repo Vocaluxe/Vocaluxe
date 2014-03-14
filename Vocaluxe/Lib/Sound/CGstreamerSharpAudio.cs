@@ -20,8 +20,8 @@ using System.Collections.Generic;
 using Gst;
 using GLib;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
 using Vocaluxe.Base;
+using VocaluxeLib;
 using Thread = System.Threading.Thread;
 
 namespace Vocaluxe.Lib.Sound
@@ -213,18 +213,21 @@ namespace Vocaluxe.Lib.Sound
 
         private class CGstreamerSharpAudioStream
         {
+            private enum EStreamAction
+            {
+                Nothing,
+                Pause,
+                Stop,
+                Close
+            }
+
             private Element _Element;
             private bool _Loop;
             public volatile bool Closed = true;
             public volatile bool Finished;
 
-            private bool _Fading;
-            private bool _CloseStreamAfterFade;
-            private bool _PauseStreamAfterFade;
-            private bool _StopStreamAfterFade;
-            private readonly Stopwatch _FadeTimer = new Stopwatch();
-            private float _FadeTime;
-            private float _FadeVolume;
+            private CFading _Fading;
+            private EStreamAction _AfterFadeAction;
             private float _Volume = 1f;
 
             private float _MaxVolume = 1f;
@@ -358,28 +361,26 @@ namespace Vocaluxe.Lib.Sound
 
             public void Fade(float targetVolume, float seconds)
             {
-                _Fading = true;
-                _FadeTimer.Restart();
-                _FadeTime = seconds;
-                _FadeVolume = targetVolume;
+                _Fading = new CFading(_Volume, targetVolume, seconds);
+                _AfterFadeAction = EStreamAction.Nothing;
             }
 
             public void FadeAndPause(float targetVolume, float seconds)
             {
                 Fade(targetVolume, seconds);
-                _PauseStreamAfterFade = true;
+                _AfterFadeAction = EStreamAction.Pause;
             }
 
             public void FadeAndClose(float targetVolume, float seconds)
             {
                 Fade(targetVolume, seconds);
-                _CloseStreamAfterFade = true;
+                _AfterFadeAction = EStreamAction.Close;
             }
 
             public void FadeAndStop(float targetVolume, float seconds)
             {
                 Fade(targetVolume, seconds);
-                _StopStreamAfterFade = true;
+                _AfterFadeAction = EStreamAction.Stop;
             }
 
             public float Volume
@@ -460,25 +461,25 @@ namespace Vocaluxe.Lib.Sound
                 while (_Element != null && _Element.Bus != null && _Element.Bus.HavePending())
                     _OnMessage(_Element.Bus.Pop());
 
-                if (_Fading)
+                if (_Fading != null)
                 {
-                    if (_FadeTimer.ElapsedMilliseconds < (_FadeTime * 1000f))
-                        Volume = ((_FadeTimer.ElapsedMilliseconds) / (_FadeTime * 1000f)) * _FadeVolume;
-                    else
+                    bool finished;
+                    Volume = _Fading.GetValue(out finished);
+                    if (finished)
                     {
-                        Volume = _FadeVolume;
-                        if (_CloseStreamAfterFade)
-                            Close();
-                        if (_PauseStreamAfterFade)
-                            Paused = true;
-                        if (_StopStreamAfterFade)
-                            Stop();
-
-                        _CloseStreamAfterFade = false;
-                        _PauseStreamAfterFade = false;
-                        _StopStreamAfterFade = false;
-                        _Fading = false;
-                        _FadeTimer.Reset();
+                        switch (_AfterFadeAction)
+                        {
+                            case EStreamAction.Pause:
+                                Paused = true;
+                                break;
+                            case EStreamAction.Stop:
+                                Stop();
+                                break;
+                            case EStreamAction.Close:
+                                Close();
+                                break;
+                        }
+                        _Fading = null;
                     }
                 }
             }
