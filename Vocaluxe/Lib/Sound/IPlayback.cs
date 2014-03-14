@@ -17,6 +17,14 @@
 
 namespace Vocaluxe.Lib.Sound
 {
+    public enum EStreamAction
+    {
+        Nothing,
+        Pause,
+        Stop,
+        Close
+    }
+
     struct SAudioStreams
     {
         public int Handle;

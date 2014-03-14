@@ -213,14 +213,6 @@ namespace Vocaluxe.Lib.Sound
 
         private class CGstreamerSharpAudioStream
         {
-            private enum EStreamAction
-            {
-                Nothing,
-                Pause,
-                Stop,
-                Close
-            }
-
             private Element _Element;
             private bool _Loop;
             public volatile bool Closed = true;

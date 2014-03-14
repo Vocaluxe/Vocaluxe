@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using VocaluxeLib.Draw;
@@ -99,7 +98,7 @@ namespace VocaluxeLib.Menu.SongMenu
         protected SThemeSongMenu _Theme;
         private bool _ThemeLoaded;
 
-        private readonly Stopwatch _VideoFadeTimer = new Stopwatch();
+        private CFading _VideoFading;
         private readonly List<int> _Streams = new List<int>();
         protected CTexture _Vidtex;
 
@@ -388,12 +387,12 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 if (_Vidtex != null)
                 {
-                    if (_VideoFadeTimer.ElapsedMilliseconds <= 3000L)
-                        _Vidtex.Color.A = _VideoFadeTimer.ElapsedMilliseconds / 3000f;
-                    else
+                    if (_VideoFading != null)
                     {
-                        _Vidtex.Color.A = 1f;
-                        _VideoFadeTimer.Stop();
+                        bool finished;
+                        _Vidtex.Color.A = _VideoFading.GetValue(out finished);
+                        if (finished)
+                            _VideoFading = null;
                     }
                 }
             }
@@ -563,9 +562,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     if (_PreviewVideoStream == -1)
                         return;
                     CBase.Video.Skip(_PreviewVideoStream, startposition, song.VideoGap);
-                    _VideoFadeTimer.Stop();
-                    _VideoFadeTimer.Reset();
-                    _VideoFadeTimer.Start();
+                    _VideoFading = new CFading(0f, 1f, 3f);
                 }
             }
         }

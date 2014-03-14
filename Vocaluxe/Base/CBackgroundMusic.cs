@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using VocaluxeLib;
@@ -39,7 +38,7 @@ namespace Vocaluxe.Base
 
         private static int _Video = -1;
         private static CTexture _CurrentVideoTexture;
-        private static readonly Stopwatch _FadeTimer = new Stopwatch();
+        private static CFading _VideoFading;
         private static bool _VideoEnabled;
 
         private static bool _OwnMusicAdded;
@@ -442,12 +441,12 @@ namespace Vocaluxe.Base
                 float vtime;
                 if (CVideo.GetFrame(_Video, ref _CurrentVideoTexture, CSound.GetPosition(_CurrentMusicStream), out vtime))
                 {
-                    if (_FadeTimer.ElapsedMilliseconds <= 3000L)
-                        _CurrentVideoTexture.Color.A = _FadeTimer.ElapsedMilliseconds / 3000f;
-                    else
+                    if (_VideoFading != null)
                     {
-                        _CurrentVideoTexture.Color.A = 1f;
-                        _FadeTimer.Stop();
+                        bool finished;
+                        _CurrentVideoTexture.Color.A = _VideoFading.GetValue(out finished);
+                        if (finished)
+                            _VideoFading = null;
                     }
                     return _CurrentVideoTexture;
                 }
@@ -469,8 +468,7 @@ namespace Vocaluxe.Base
                 CVideo.Skip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
             else
                 CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
-            _FadeTimer.Reset();
-            _FadeTimer.Start();
+            _VideoFading = new CFading(0f, 1f, 3f);
         }
     }
 

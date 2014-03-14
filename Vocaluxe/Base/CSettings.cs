@@ -129,7 +129,7 @@ namespace Vocaluxe.Base
 
         public const int NumNoteLines = 11;
         public static int MouseMoveDiffMin = 2;
-        public const float MouseMoveOffTime = 3f;
+        public const int MouseMoveOffTime = 3000; //in ms
 
         public const int MaxNumPlayer = 6;
         public const int MaxScore = 10000;

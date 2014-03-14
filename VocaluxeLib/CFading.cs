@@ -34,6 +34,8 @@ namespace VocaluxeLib
         /// <param name="duration">Duration of the fading in seconds</param>
         public CFading(float fromValue, float toValue, float duration)
         {
+            if (duration < 0)
+                duration = 0;
             _FromValue = fromValue;
             _ToValue = toValue;
             _Duration = duration * 1000f;

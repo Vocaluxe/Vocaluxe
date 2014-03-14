@@ -30,13 +30,11 @@ namespace Vocaluxe.Base
 {
     static class CGraphics
     {
-        private static bool _Fading;
-        private static Stopwatch _FadingTimer;
+        private static CFading _Fading;
         private static readonly CCursor _Cursor = new CCursor();
         private static float _GlobalAlpha;
         private static float _ZOffset;
 
-        private static IMenu _OldScreen;
         private static EScreens _CurrentScreen;
         private static EScreens _NextScreen;
         private static EPopupScreens _CurrentPopupScreen;
@@ -98,7 +96,6 @@ namespace Vocaluxe.Base
             _CurrentScreen = EScreens.ScreenLoad;
             _NextScreen = EScreens.ScreenNull;
             _CurrentPopupScreen = EPopupScreens.NoPopup;
-            _FadingTimer = new Stopwatch();
             _VolumePopupTimer = new Stopwatch();
 
             _GlobalAlpha = 1f;
@@ -198,11 +195,9 @@ namespace Vocaluxe.Base
 
         public static bool Draw()
         {
-            if ((_NextScreen != EScreens.ScreenNull) && !_Fading)
+            if (_NextScreen != EScreens.ScreenNull && _Fading == null)
             {
-                _Fading = true;
-                _FadingTimer.Reset();
-                _FadingTimer.Start();
+                _Fading = new CFading(0f, 1f, CConfig.FadeTime);
 
                 if (_NextScreen == EScreens.ScreenPartyDummy)
                 {
@@ -216,49 +211,29 @@ namespace Vocaluxe.Base
                 HidePopup(EPopupScreens.PopupPlayerControl);
             }
 
-            if (_Fading)
+            if (_Fading != null)
             {
-                long fadeTime = (long)(CConfig.FadeTime * 1000);
+                bool finished;
+                float newAlpha = _Fading.GetValue(out finished);
 
-                if ((_FadingTimer.ElapsedMilliseconds < fadeTime) && (CConfig.FadeTime > 0))
+                if (!finished)
                 {
-                    long ms = 1;
-                    if (_FadingTimer.ElapsedMilliseconds > 0)
-                        ms = _FadingTimer.ElapsedMilliseconds;
-
-                    float factor = (float)ms / fadeTime;
-
-                    _GlobalAlpha = 1f; // -factor / 100f;
+                    _GlobalAlpha = 1f; // -newAlpha / 100f;
                     _ZOffset = CSettings.ZFar / 2;
 
-                    if (_CurrentScreen == EScreens.ScreenPartyDummy)
-                    {
-                        CFonts.PartyModeID = CParty.CurrentPartyModeID;
-                        _OldScreen.Draw();
-                        CFonts.PartyModeID = -1;
-                    }
-                    else
-                        _OldScreen.Draw();
+                    _DrawScreen(_CurrentScreen);
 
 
-                    _GlobalAlpha = factor;
+                    _GlobalAlpha = newAlpha;
                     _ZOffset = 0f;
 
-                    if (_NextScreen == EScreens.ScreenPartyDummy)
-                    {
-                        CFonts.PartyModeID = CParty.CurrentPartyModeID;
-                        _Screens[(int)_NextScreen].Draw();
-                        CFonts.PartyModeID = -1;
-                    }
-                    else
-                        _Screens[(int)_NextScreen].Draw();
+                    _DrawScreen(_NextScreen);
 
                     _GlobalAlpha = 1f;
                 }
                 else
                 {
                     _Screens[(int)_CurrentScreen].OnClose();
-                    GC.Collect();
                     _CurrentScreen = _NextScreen;
                     _NextScreen = EScreens.ScreenNull;
                     if (CBackgroundMusic.IsPlaying)
@@ -266,32 +241,13 @@ namespace Vocaluxe.Base
                     _Screens[(int)_CurrentScreen].OnShowFinish();
                     _Screens[(int)_CurrentScreen].ProcessMouseMove(_Cursor.X, _Cursor.Y);
 
-                    if (_CurrentScreen == EScreens.ScreenPartyDummy)
-                    {
-                        CFonts.PartyModeID = CParty.CurrentPartyModeID;
-                        _Screens[(int)_CurrentScreen].Draw();
-                        CFonts.PartyModeID = -1;
-                    }
-                    else
-                        _Screens[(int)_CurrentScreen].Draw();
+                    _DrawScreen(_CurrentScreen);
 
-                    _Fading = false;
-                    _FadingTimer.Stop();
+                    _Fading = null;
                 }
             }
             else
-            {
-                if (_CurrentScreen == EScreens.ScreenPartyDummy)
-                {
-                    CFonts.PartyModeID = CParty.CurrentPartyModeID;
-                    _Screens[(int)_CurrentScreen].Draw();
-                    CFonts.PartyModeID = -1;
-                }
-                else
-                    _Screens[(int)_CurrentScreen].Draw();
-
-                _OldScreen = _Screens[(int)_CurrentScreen];
-            }
+                _DrawScreen(_CurrentScreen);
 
             foreach (IMenu popup in _PopupScreens)
                 popup.Draw();
@@ -300,6 +256,18 @@ namespace Vocaluxe.Base
             _DrawDebugInfos();
 
             return true;
+        }
+
+        private static void _DrawScreen(EScreens screen)
+        {
+            if (screen == EScreens.ScreenPartyDummy)
+            {
+                CFonts.PartyModeID = CParty.CurrentPartyModeID;
+                _Screens[(int)screen].Draw();
+                CFonts.PartyModeID = -1;
+            }
+            else
+                _Screens[(int)screen].Draw();
         }
 
         public static void FadeTo(EScreens screen)
@@ -483,8 +451,7 @@ namespace Vocaluxe.Base
                     if (_CurrentPopupScreen == EPopupScreens.NoPopup && diff != 0)
                     {
                         ShowPopup(EPopupScreens.PopupVolumeControl);
-                        _VolumePopupTimer.Reset();
-                        _VolumePopupTimer.Start();
+                        _VolumePopupTimer.Restart();
                     }
 
                     CBackgroundMusic.ApplyVolume();
@@ -498,7 +465,7 @@ namespace Vocaluxe.Base
                     CDraw.MakeScreenShot();
                 else
                 {
-                    if (!_Fading)
+                    if (_Fading == null)
                     {
                         bool handled = false;
                         if (_CurrentPopupScreen != EPopupScreens.NoPopup)
@@ -562,12 +529,14 @@ namespace Vocaluxe.Base
 
                 bool handled = false;
                 if (_CurrentPopupScreen != EPopupScreens.NoPopup)
+                {
                     handled = _PopupScreens[(int)_CurrentPopupScreen].HandleMouse(mouseEvent);
 
-                if (handled && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
-                    _Screens[(int)_CurrentScreen].ApplyVolume();
+                    if (handled && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
+                        _Screens[(int)_CurrentScreen].ApplyVolume();
+                }
 
-                if (!handled && !_Fading && (_Cursor.IsActive || mouseEvent.LB || mouseEvent.RB || mouseEvent.MB))
+                if (!handled && _Fading == null && (_Cursor.IsActive || mouseEvent.LB || mouseEvent.RB || mouseEvent.MB))
                     resume &= _Screens[(int)_CurrentScreen].HandleMouse(mouseEvent);
 
                 if (!eventsAvailable)
@@ -594,14 +563,14 @@ namespace Vocaluxe.Base
                     CDraw.MakeScreenShot();
                 else
                 {
-                    if (!_Fading)
+                    if (_Fading == null)
                         _Screens[(int)_CurrentScreen].HandleInputThemeEditor(keyEvent);
                 }
             }
 
             while (mouse.PollEvent(ref mouseEvent))
             {
-                if (!_Fading)
+                if (_Fading == null)
                     _Screens[(int)_CurrentScreen].HandleMouseThemeEditor(mouseEvent);
 
                 _UpdateMousePosition(mouseEvent.X, mouseEvent.Y);
