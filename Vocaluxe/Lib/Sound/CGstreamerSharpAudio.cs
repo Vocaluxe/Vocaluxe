@@ -302,8 +302,10 @@ namespace Vocaluxe.Lib.Sound
                         if (_Loop)
                             Position = 0;
                         else
+                        {
                             Finished = true;
-                        Close();
+                            Close();
+                        }
                         break;
                     case MessageType.Error:
                         GException error;
@@ -312,7 +314,8 @@ namespace Vocaluxe.Lib.Sound
                         CLog.LogError("Gstreamer error: message" + error.Message + ", code" + error.Code + " ,debug information" + debug);
                         break;
                     case MessageType.DurationChanged:
-                        _UpdateDuration();
+                        if (!_QueryingDuration)
+                            _UpdateDuration();
                         break;
                 }
                 msg.Unref();
