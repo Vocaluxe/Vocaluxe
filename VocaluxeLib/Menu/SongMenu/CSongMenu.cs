@@ -214,7 +214,8 @@ namespace VocaluxeLib.Menu.SongMenu
             if (_SongMenu != null)
                 _SongMenu.OnHide();
 
-            switch (CBase.Config.GetSongMenuType())
+            _Type = CBase.Config.GetSongMenuType();
+            switch (_Type)
             {
                     //case ESongMenu.TR_CONFIG_LIST:
                     //    _SongMenu = new CSongMenuList();
@@ -231,8 +232,6 @@ namespace VocaluxeLib.Menu.SongMenu
                     //    _SongMenu = new CSongMenuBook();
                     //    break;
             }
-
-            _Type = CBase.Config.GetSongMenuType();
         }
     }
 }

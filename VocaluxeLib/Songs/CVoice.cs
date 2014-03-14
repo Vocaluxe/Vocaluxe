@@ -205,15 +205,13 @@ namespace VocaluxeLib.Songs
 
         public void UpdateTimings()
         {
-            CSongNote lastNote;
-
             if (_Lines.Count == 0)
                 return;
             _Lines[0].StartBeat = -10000;
 
             for (int i = 1; i < _Lines.Count; i++)
             {
-                lastNote = _Lines[i - 1].LastNote;
+                CSongNote lastNote = _Lines[i - 1].LastNote;
                 CSongNote firstNote = _Lines[i].FirstNote;
 
                 if ((lastNote != null) && (firstNote != null))

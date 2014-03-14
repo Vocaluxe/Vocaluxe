@@ -17,7 +17,6 @@
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Sound;
@@ -26,21 +25,14 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    struct SDelayTest
-    {
-        public Stopwatch Timer;
-        public float Delay;
-    }
-
     class CScreenOptionsRecord : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 3; }
+            get { return 4; }
         }
 
-        private const float _MaxDelayTime = 1f;
         private const string _SelectSlideRecordDevices = "SelectSlideRecordDevices";
 
         private const string _SelectSlideRecordChannel1 = "SelectSlideRecordChannel1";
@@ -52,6 +44,9 @@ namespace Vocaluxe.Screens
 
         private const string _ButtonExit = "ButtonExit";
         private const string _ButtonDelayTest = "ButtonDelayTest";
+
+        private const string _TextChannel1 = "TextChannel1";
+        private const string _TextChannel2 = "TextChannel2";
 
         private const string _TextDelayChannel1 = "TextDelayChannel1";
         private const string _TextDelayChannel2 = "TextDelayChannel2";
@@ -65,9 +60,7 @@ namespace Vocaluxe.Screens
         private ReadOnlyCollection<CRecordDevice> _Devices;
         private int _DeviceNr;
 
-        private SDelayTest[] _DelayTest;
-        private bool _DelayTestRunning;
-        private int _DelaySound;
+        private readonly CDelayTest _DelayTest = new CDelayTest(2);
 
         public override void Init()
         {
@@ -77,7 +70,7 @@ namespace Vocaluxe.Screens
             values.AddRange(_StaticEnergyChannel);
             _ThemeStatics = values.ToArray();
 
-            _ThemeTexts = new string[] {_TextWarning, _TextDelayChannel1, _TextDelayChannel2};
+            _ThemeTexts = new string[] {_TextWarning, _TextChannel1, _TextChannel2, _TextDelayChannel1, _TextDelayChannel2};
             _ThemeButtons = new string[] {_ButtonExit, _ButtonDelayTest};
             _ThemeSelectSlides = new string[] {_SelectSlideRecordDevices, _SelectSlideRecordChannel1, _SelectSlideRecordChannel2, _SelectSlideDelay};
             _ThemeEqualizers = new string[] {_EqualizerChannel1, _EqualizerChannel2};
@@ -221,46 +214,12 @@ namespace Vocaluxe.Screens
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
                 CSound.AnalyzeBuffer(i);
 
-            if (_DelayTest != null)
+            if (_DelayTest.Running)
             {
-                for (int i = 0; i < _DelayTest.Length - 1; i++)
-                {
-                    if (_DelayTestRunning && !_DelayTest[i].Timer.IsRunning)
-                    {
-                        if (CSound.GetPosition(_DelaySound) > 0f)
-                        {
-                            _DelayTest[i].Timer.Reset();
-                            _DelayTest[i].Timer.Start();
-                        }
-                    }
-                    if (_DelayTest[i].Timer.IsRunning)
-                    {
-                        int player = 0;
-                        if (i == 0)
-                            player = _SelectSlides[_SelectSlideRecordChannel1].Selection;
-
-                        if (i == 1)
-                            player = _SelectSlides[_SelectSlideRecordChannel2].Selection;
-
-                        if (_DelayTest[i].Timer.ElapsedMilliseconds > _MaxDelayTime * 1000f || player == 0)
-                        {
-                            _DelayTest[i].Delay = 0f;
-                            _DelayTest[i].Timer.Stop();
-                            _DelayTestRunning = false;
-                        }
-                        else if (CSound.RecordGetMaxVolume(player - 1) > 0.1f &&
-                                 (CSound.RecordGetToneAbs(player - 1) == 9 || CSound.RecordGetToneAbs(player - 1) == 21 || CSound.RecordGetToneAbs(player - 1) == 33))
-                        {
-                            _DelayTest[i].Delay = _DelayTest[i].Timer.ElapsedMilliseconds;
-                            _DelayTest[i].Timer.Stop();
-                            _DelayTestRunning = false;
-                        }
-                    }
-                }
-                _Texts[_TextDelayChannel1].Text = _DelayTest[0].Delay.ToString("000") + " ms";
-                _Texts[_TextDelayChannel2].Text = _DelayTest[1].Delay.ToString("000") + " ms";
+                _DelayTest.Update();
+                _Texts[_TextDelayChannel1].Text = (_DelayTest.Delays[0] == 0) ? "???" : _DelayTest.Delays[0].ToString("000") + " ms";
+                _Texts[_TextDelayChannel2].Text = (_DelayTest.Delays[1] == 0) ? "???" : _DelayTest.Delays[1].ToString("000") + " ms";
             }
-
 
             if (_CheckMicConfig())
             {
@@ -325,21 +284,9 @@ namespace Vocaluxe.Screens
             _Statics[_StaticWarning].Visible = false;
             _Texts[_TextWarning].Visible = false;
 
-            _DelayTest = null;
-            if (_Devices != null)
-            {
-                _DelayTest = new SDelayTest[2];
-                for (int i = 0; i < _DelayTest.Length - 1; i++)
-                {
-                    _DelayTest[i].Timer = new Stopwatch();
-                    _DelayTest[i].Delay = 0f;
-                }
-            }
+            _DelayTest.Reset();
 
             _SelectSlides[_SelectSlideDelay].Selection = CConfig.MicDelay / 20;
-
-            _DelayTestRunning = false;
-            _DelaySound = -1;
         }
 
         public override void OnShowFinish()
@@ -391,7 +338,7 @@ namespace Vocaluxe.Screens
             base.OnClose();
             CSound.RecordStop();
 
-            _DelayTest = null;
+            _DelayTest.Reset();
             CBackgroundMusic.Disabled = false;
         }
 
@@ -444,6 +391,12 @@ namespace Vocaluxe.Screens
             CSound.RecordStart();
         }
 
+        private void _SetPlayerColors()
+        {
+            _Texts[_TextChannel1].Color = CTheme.GetPlayerColor(_SelectSlides[_SelectSlideRecordChannel1].Selection);
+            _Texts[_TextChannel2].Color = CTheme.GetPlayerColor(_SelectSlides[_SelectSlideRecordChannel2].Selection);
+        }
+
         private void _SetMicConfig()
         {
             if (_DeviceNr < 0)
@@ -451,6 +404,7 @@ namespace Vocaluxe.Screens
             CRecordDevice device = _Devices[_DeviceNr];
             device.PlayerChannel1 = _SelectSlides[_SelectSlideRecordChannel1].Selection;
             device.PlayerChannel2 = _SelectSlides[_SelectSlideRecordChannel2].Selection;
+            _SetPlayerColors();
         }
 
         private void _UpdateChannels()
@@ -459,6 +413,7 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideRecordChannel2].Selection = _Devices[_DeviceNr].PlayerChannel2;
 
             _SaveMicConfig();
+            _SetPlayerColors();
         }
 
         private bool _CheckMicConfig()
@@ -494,12 +449,8 @@ namespace Vocaluxe.Screens
         private void _TestDelay()
         {
             _SaveMicConfig();
-
-            if (_DelayTest == null)
-                return;
-
-            _DelaySound = CSound.PlaySound(ESounds.T440);
-            _DelayTestRunning = true;
+            _DelayTest.Reset();
+            _DelayTest.Start(new int[] {_SelectSlides[_SelectSlideRecordChannel1].Selection - 1, _SelectSlides[_SelectSlideRecordChannel2].Selection - 1});
         }
 
         private void _GetFirstConfiguredRecordDevice(ref int device)

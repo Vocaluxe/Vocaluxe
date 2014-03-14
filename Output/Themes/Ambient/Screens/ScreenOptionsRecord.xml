@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenOptionsRecord>
-    <ScreenVersion>3</ScreenVersion>
+    <ScreenVersion>4</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>Video</Type>
@@ -218,6 +218,35 @@
     <Text3>
       <!--<X>, <Y>: Text position-->
       <X>75</X>
+      <Y>347</Y>
+      <!--<Z>: Text position-->
+      <Z>0,00</Z>
+      <!--<H>: Text height-->
+      <H>27</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextSColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Left</Align>
+      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <HAlign>Center</HAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text>TR_SCREENORECORD_MIC_DELAY</Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </Text3>
+    <TextChannel1>
+      <!--<X>, <Y>: Text position-->
+      <X>75</X>
       <Y>227</Y>
       <!--<Z>: Text position-->
       <Z>0,00</Z>
@@ -243,8 +272,8 @@
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-    </Text3>
-    <Text4>
+    </TextChannel1>
+    <TextChannel2>
       <!--<X>, <Y>: Text position-->
       <X>75</X>
       <Y>287</Y>
@@ -272,36 +301,7 @@
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-    </Text4>
-    <Text5>
-      <!--<X>, <Y>: Text position-->
-      <X>75</X>
-      <Y>347</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
-      <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
-      <Align>Left</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
-      <Style>Bold</Style>
-      <!--<Font>: Text font name-->
-      <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
-      <Text>TR_SCREENORECORD_MIC_DELAY</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Text5>
+    </TextChannel2>
     <TextWarning>
       <!--<X>, <Y>: Text position-->
       <X>640</X>

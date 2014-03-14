@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
@@ -38,9 +37,8 @@ namespace Vocaluxe.Screens
         private readonly string[] _IntroVideo = new string[] {"IntroIn", "IntroMid", "IntroOut"};
 
         private Thread _SongLoaderThread;
-        private Stopwatch _Timer;
         private bool _SkipIntro;
-        private int _CurrentIntroVideoNr;
+        private int _CurrentIntroVideo;
         private bool _IntroOutPlayed;
         private CVideoPlayer[] _Intros;
 
@@ -54,7 +52,6 @@ namespace Vocaluxe.Screens
             _Intros = new CVideoPlayer[_IntroVideo.Length];
             for (int i = 0; i < _Intros.Length; i++)
                 _Intros[i] = new CVideoPlayer();
-            _Timer = new Stopwatch();
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -109,7 +106,7 @@ namespace Vocaluxe.Screens
                                        CLanguage.Translate("TR_SCREENLOAD_LOADED") + ")";
 
             _SkipIntro = false;
-            _CurrentIntroVideoNr = -1;
+            _CurrentIntroVideo = -1;
             _IntroOutPlayed = false;
 
             if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
@@ -135,7 +132,6 @@ namespace Vocaluxe.Screens
             CLog.StartBenchmark(0, "Load Songs Full");
             _SongLoaderThread.IsBackground = true;
             _SongLoaderThread.Start();
-            _Timer.Start();
 
             if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON &&
                 CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC && !_BGMusicStarted)
@@ -154,11 +150,6 @@ namespace Vocaluxe.Screens
         public override bool UpdateGame()
         {
             _CheckStartIntroVideos();
-
-            if (CSettings.GameState == EGameState.EditTheme)
-                _Timer.Stop();
-            else
-                _Timer.Start();
 
             bool next = CConfig.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART || CSongs.CoverLoaded;
 
@@ -191,8 +182,8 @@ namespace Vocaluxe.Screens
         {
             _DrawBG();
 
-            foreach (CVideoPlayer videoPlayer in _Intros)
-                videoPlayer.Draw();
+            if (_CurrentIntroVideo >= 0 && _CurrentIntroVideo < _Intros.Length)
+                _Intros[_CurrentIntroVideo].Draw();
 
             _DrawFG();
             return true;
@@ -201,8 +192,6 @@ namespace Vocaluxe.Screens
         public override void OnClose()
         {
             base.OnClose();
-            _Timer.Stop();
-            _Timer.Reset();
 
             foreach (CVideoPlayer videoPlayer in _Intros)
                 videoPlayer.Close();
@@ -228,24 +217,24 @@ namespace Vocaluxe.Screens
                 return;
             }
 
-            if (_CurrentIntroVideoNr < 0)
+            if (_CurrentIntroVideo < 0)
             {
-                _CurrentIntroVideoNr = 0;
+                _CurrentIntroVideo = 0;
                 _Intros[0].Start();
             }
-            else if (_CurrentIntroVideoNr == 0 && _Intros[0].IsFinished && CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
+            else if (_CurrentIntroVideo == 0 && _Intros[0].IsFinished && CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
             {
-                _CurrentIntroVideoNr = 1;
+                _CurrentIntroVideo = 1;
                 _Intros[1].Loop = true;
                 _Intros[1].Start();
             }
-            else if ((_CurrentIntroVideoNr == 1 && CSongs.CoverLoaded) ||
-                     (_CurrentIntroVideoNr == 0 && _Intros[0].IsFinished))
+            else if ((_CurrentIntroVideo == 1 && CSongs.CoverLoaded) ||
+                     (_CurrentIntroVideo == 0 && _Intros[0].IsFinished))
             {
-                _CurrentIntroVideoNr = 2;
+                _CurrentIntroVideo = 2;
                 _Intros[2].Start();
             }
-            else if (_CurrentIntroVideoNr == 2 && _Intros[2].IsFinished)
+            else if (_CurrentIntroVideo == 2 && _Intros[2].IsFinished)
                 _IntroOutPlayed = true;
         }
     }

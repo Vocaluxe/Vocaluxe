@@ -15,11 +15,8 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
-using VocaluxeLib.PartyModes;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Profile;
 
@@ -94,10 +91,7 @@ namespace VocaluxeLib.Menu
             _NumPlayer = numPlayer;
             _NumPlayerTeams = numPlayerTeams;
 
-            if (_NumTeams > 0)
-                _TeamList = new List<int>[_NumTeams];
-            else
-                _TeamList = new List<int>[1];
+            _TeamList = new List<int>[_NumTeams > 0 ? _NumTeams : 1];
 
             if (_NumTeams != _NumPlayerTeams.Length)
                 _NumPlayerTeams = new int[_NumTeams];
@@ -126,7 +120,7 @@ namespace VocaluxeLib.Menu
             {
                 //Handle left/right/up/down
                 _NameSelections[_NameSelection].HandleInput(keyEvent);
-                int numberPressed = -1;
+                int numPressed = -1;
                 bool resetSelection = false;
                 switch (keyEvent.Key)
                 {
@@ -157,20 +151,65 @@ namespace VocaluxeLib.Menu
                     case Keys.Back:
                         resetSelection = true;
                         break;
+
+                    case Keys.D1:
+                    case Keys.NumPad1:
+                        numPressed = 1;
+                        break;
+
+                    case Keys.D2:
+                    case Keys.NumPad2:
+                        numPressed = 2;
+                        break;
+
+                    case Keys.D3:
+                    case Keys.NumPad3:
+                        numPressed = 3;
+                        break;
+
+                    case Keys.D4:
+                    case Keys.NumPad4:
+                        numPressed = 4;
+                        break;
+
+                    case Keys.D5:
+                    case Keys.NumPad5:
+                        numPressed = 5;
+                        break;
+
+                    case Keys.D6:
+                    case Keys.NumPad6:
+                        numPressed = 6;
+                        break;
+
+                    case Keys.D7:
+                    case Keys.NumPad7:
+                        numPressed = 7;
+                        break;
+
+                    case Keys.D8:
+                    case Keys.NumPad8:
+                        numPressed = 8;
+                        break;
+
+                    case Keys.D9:
+                    case Keys.NumPad9:
+                        numPressed = 9;
+                        break;
                 }
-                if (numberPressed > 0 || resetSelection)
+                if (numPressed > 0 || resetSelection)
                 {
-                    if (numberPressed == _SelectingFastPlayerNr || resetSelection)
+                    if (numPressed == _SelectingFastPlayerNr || resetSelection)
                     {
                         //Reset all values
                         _SelectingFastPlayerNr = 0;
                         _SelectingKeyboardActive = false;
                         _NameSelections[_NameSelection].FastSelection(false, -1);
                     }
-                    else if (numberPressed <= _NumPlayerTeams[_CurrentTeam])
+                    else if (numPressed <= _NumPlayerTeams[_CurrentTeam])
                     {
-                        _SelectingFastPlayerNr = numberPressed;
-                        _NameSelections[_NameSelection].FastSelection(true, numberPressed);
+                        _SelectingFastPlayerNr = numPressed;
+                        _NameSelections[_NameSelection].FastSelection(true, numPressed);
                     }
                     _SelectingFast = false;
                 }
@@ -530,9 +569,7 @@ namespace VocaluxeLib.Menu
 
         public SPartyNameOptions GetData()
         {
-            SPartyNameOptions option = new SPartyNameOptions();
-            option.NumPlayerTeams = _NumPlayerTeams;
-            option.TeamList = _TeamList;
+            SPartyNameOptions option = new SPartyNameOptions {NumPlayerTeams = _NumPlayerTeams, TeamList = _TeamList};
             return option;
         }
 
@@ -692,7 +729,7 @@ namespace VocaluxeLib.Menu
         {
             if (_NumPlayerTeams[team] == _TeamList[team].Count && !_ChangePlayerNumDynamic)
                 return;
-            else if (_NumPlayerTeams[team] == _PartyMode.GetMaxPlayerPerTeam())
+            if (_NumPlayerTeams[team] == _PartyMode.GetMaxPlayerPerTeam())
                 return;
 
             _NameSelections[_NameSelection].UseProfile(profileID);
@@ -707,8 +744,8 @@ namespace VocaluxeLib.Menu
             {
                 List<int> ids = new List<int>();
                 ids.AddRange(_TeamList[t]);
-                for (int p = 0; p < ids.Count; p++)
-                    _RemovePlayer(t, ids[p]);
+                foreach (int id in ids)
+                    _RemovePlayer(t, id);
             }
         }
 

@@ -24,10 +24,7 @@ namespace Vocaluxe.Base
 {
     class CCursor
     {
-        private readonly Stopwatch _CursorFadingTimer = new Stopwatch();
-        private float _CursorTargetAlpha = 1f;
-        private float _CursorStartAlpha;
-        private float _CursorFadingTime = 0.5f;
+        private CFading _Fading;
         private CTexture _Cursor;
 
         private readonly Stopwatch _Movetimer = new Stopwatch();
@@ -52,28 +49,19 @@ namespace Vocaluxe.Base
 
         public void Draw()
         {
-            if (_Movetimer.IsRunning && _Movetimer.ElapsedMilliseconds / 1000f > CSettings.MouseMoveOffTime)
+            if (_Movetimer.IsRunning && _Movetimer.ElapsedMilliseconds > CSettings.MouseMoveOffTime)
             {
                 _Movetimer.Stop();
                 _Fade(0f, 0.5f);
             }
 
 
-            if (_CursorFadingTimer.IsRunning)
+            if (_Fading != null)
             {
-                float t = _CursorFadingTimer.ElapsedMilliseconds / 1000f;
-                if (t < _CursorFadingTime)
-                {
-                    if (_CursorTargetAlpha >= _CursorStartAlpha)
-                        _Cursor.Color.A = _CursorStartAlpha + (_CursorTargetAlpha - _CursorStartAlpha) * t / _CursorFadingTime;
-                    else
-                        _Cursor.Color.A = (_CursorStartAlpha - _CursorTargetAlpha) * (1f - t / _CursorFadingTime);
-                }
-                else
-                {
-                    _CursorFadingTimer.Stop();
-                    _Cursor.Color.A = _CursorTargetAlpha;
-                }
+                bool finished;
+                _Cursor.Color.A = _Fading.GetValue(out finished);
+                if (finished)
+                    _Fading = null;
             }
 
             if (Visible && (CSettings.GameState == EGameState.EditTheme || ShowCursor))
@@ -85,11 +73,10 @@ namespace Vocaluxe.Base
             if (Math.Abs(_Cursor.Rect.X - x) > CSettings.MouseMoveDiffMin ||
                 Math.Abs(_Cursor.Rect.Y - y) > CSettings.MouseMoveDiffMin)
             {
-                if (_CursorTargetAlpha < 0.01)
+                if (!IsActive)
                     _Fade(1f, 0.2f);
 
-                _Movetimer.Reset();
-                _Movetimer.Start();
+                _Movetimer.Restart();
                 CSettings.MouseActive();
             }
 
@@ -130,26 +117,13 @@ namespace Vocaluxe.Base
 
         public void FadeIn()
         {
-            _Movetimer.Reset();
-            _Movetimer.Start();
+            _Movetimer.Restart();
             _Fade(1f, 0.2f);
         }
 
         private void _Fade(float targetAlpha, float time)
         {
-            _CursorFadingTimer.Stop();
-            _CursorFadingTimer.Reset();
-
-            if (targetAlpha >= 0f && targetAlpha <= 1f)
-                _CursorTargetAlpha = targetAlpha;
-            else
-                _CursorTargetAlpha = 1f;
-
-            if (time >= 0f)
-                _CursorFadingTime = time;
-
-            _CursorStartAlpha = _Cursor.Color.A;
-            _CursorFadingTimer.Start();
+            _Fading = new CFading(_Cursor.Color.A, targetAlpha, time);
         }
     }
 }

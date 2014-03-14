@@ -19,11 +19,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 
 namespace VocaluxeLib
 {
-    public static class Extensions
+    public static class CExtensions
     {
         /// <summary>
         ///     Resizes the given list to the given size. Removes elements or adds default values

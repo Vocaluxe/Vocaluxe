@@ -96,9 +96,8 @@ namespace Vocaluxe.Base.Server
             var stream = new MemoryStream();
             stream.Write(cmd, 0, cmd.Length);
 
-            byte[] data;
             string json = JsonConvert.SerializeObject(obj);
-            data = _Encoder.GetBytes(json);
+            byte[] data = _Encoder.GetBytes(json);
             stream.Write(data, 0, data.Length);
             return stream.ToArray();
         }

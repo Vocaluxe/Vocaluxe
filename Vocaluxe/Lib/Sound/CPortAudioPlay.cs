@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -25,6 +24,7 @@ using System.Threading;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Sound.Decoder;
 using Vocaluxe.Lib.Sound.PortAudio;
+using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Sound
 {
@@ -351,15 +351,8 @@ namespace Vocaluxe.Lib.Sound
         private float _Volume = 1f;
         private float _VolumeMax = 1f;
 
-        private readonly Stopwatch _FadeTimer = new Stopwatch();
-
-        private float _FadeTime;
-        private float _TargetVolume = 1f;
-        private float _StartVolume = 1f;
-        private bool _CloseStreamAfterFade;
-        private bool _PauseStreamAfterFade;
-        private bool _StopStreamAfterFade;
-        private bool _Fading;
+        private EStreamAction _AfterFadeAction;
+        private CFading _Fading;
 
         private static CPortAudio.SPaHostApiInfo _ApiInfo;
         private static CPortAudio.SPaDeviceInfo _OutputDeviceInfo;
@@ -401,7 +394,7 @@ namespace Vocaluxe.Lib.Sound
         public CPortAudioStream()
         {
             _SyncTimer = new CSyncTimer(0f, 1f, 0.02f);
-            _DecoderThread = new Thread(_Execute);
+            _DecoderThread = new Thread(_Execute) {Name = "PortAudio Decode"};
         }
 
         ~CPortAudioStream()
@@ -507,19 +500,12 @@ namespace Vocaluxe.Lib.Sound
 
         public void Fade(float targetVolume, float fadeTime)
         {
-            _Fading = true;
-            _FadeTimer.Stop();
-            _FadeTimer.Reset();
-            _StartVolume = _Volume;
-            _TargetVolume = targetVolume / 100f;
-            _FadeTime = fadeTime;
-            _FadeTimer.Start();
+            _Fading = new CFading(_Volume, targetVolume, fadeTime);
+            _AfterFadeAction = EStreamAction.Nothing;
         }
 
         public void FadeAndPause(float targetVolume, float fadeTime)
         {
-            _PauseStreamAfterFade = true;
-
             Fade(targetVolume, fadeTime);
         }
 
@@ -527,25 +513,22 @@ namespace Vocaluxe.Lib.Sound
         {
             _Closeproc = closeProc;
             _StreamID = streamID;
-            _CloseStreamAfterFade = true;
-
             Fade(targetVolume, fadeTime);
+            _AfterFadeAction = EStreamAction.Close;
         }
 
         public void FadeAndStop(float targetVolume, float fadeTime, Closeproc closeProc, int streamID)
         {
             _Closeproc = closeProc;
             _StreamID = streamID;
-            _StopStreamAfterFade = true;
-
             Fade(targetVolume, fadeTime);
+            _AfterFadeAction = EStreamAction.Stop;
         }
 
         public void Play()
         {
             Paused = false;
-            _PauseStreamAfterFade = false;
-            _StopStreamAfterFade = false;
+            _AfterFadeAction = EStreamAction.Nothing;
             lock (_Mutex)
             {
                 _ErrorCheck("StartStream", CPortAudio.Pa_StartStream(_Ptr));
@@ -665,7 +648,7 @@ namespace Vocaluxe.Lib.Sound
             return -1;
         }
 
-        public bool Skip(float time)
+        public void Skip(float time)
         {
             lock (_LockSyncSignals)
             {
@@ -673,8 +656,6 @@ namespace Vocaluxe.Lib.Sound
                 _SetSkip = true;
                 _Waiting = true;
             }
-
-            return true;
         }
 
         #region Threading
@@ -929,23 +910,25 @@ namespace Vocaluxe.Lib.Sound
 
         private void _Update()
         {
-            if (_Fading)
+            if (_Fading != null)
             {
-                if (_FadeTimer.ElapsedMilliseconds / 1000f < _FadeTime)
-                    _Volume = _StartVolume + (_TargetVolume - _StartVolume) * ((_FadeTimer.ElapsedMilliseconds / 1000f) / _FadeTime);
-                else
+                bool finished;
+                _Volume = _Fading.GetValue(out finished);
+                if (finished)
                 {
-                    _Volume = _TargetVolume;
-                    _FadeTimer.Stop();
-                    _Fading = false;
-
-                    if (_CloseStreamAfterFade)
-                        _Terminated = true;
-
-                    if (_PauseStreamAfterFade)
-                        Paused = true;
-                    if (_StopStreamAfterFade)
-                        Stop();
+                    switch (_AfterFadeAction)
+                    {
+                        case EStreamAction.Close:
+                            _Terminated = true;
+                            break;
+                        case EStreamAction.Stop:
+                            Stop();
+                            break;
+                        case EStreamAction.Pause:
+                            Paused = true;
+                            break;
+                    }
+                    _Fading = null;
                 }
             }
         }

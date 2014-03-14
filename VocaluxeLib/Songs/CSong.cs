@@ -97,7 +97,7 @@ namespace VocaluxeLib.Songs
 
         public string MP3FileName = String.Empty;
         public string CoverFileName = String.Empty;
-        public List<string> BackgroundFileNames = new List<string>();
+        public readonly List<string> BackgroundFileNames = new List<string>();
         public string VideoFileName = String.Empty;
 
         public EAspect VideoAspect = EAspect.Crop;

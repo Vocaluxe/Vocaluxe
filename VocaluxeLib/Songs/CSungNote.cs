@@ -41,6 +41,7 @@ namespace VocaluxeLib.Songs
         /// <param name="duration"></param>
         /// <param name="tone"></param>
         /// <param name="hitNote"></param>
+        /// <param name="points"></param>
         public CSungNote(int startBeat, int duration, int tone, CSongNote hitNote, double points) : this(startBeat, duration, tone)
         {
             HitNote = hitNote;

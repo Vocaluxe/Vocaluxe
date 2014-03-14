@@ -15,6 +15,8 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Security.Authentication;
+using System.Security.Principal;
 using Security.Cryptography;
 using Security.Cryptography.X509Certificates;
 using System;
@@ -26,34 +28,64 @@ using NetFwTypeLib;
 
 namespace WebserverInitalConfig
 {
-    public static class CConfigHttpApi
+    public class CConfigHttpApi
     {
         // ReSharper disable InconsistentNaming
         private const String CLSID_NetFwMgr = "{304CE942-6E39-40D8-943A-B913C40C9CD4}";
         private const String CLSID_NetAuthApp = "{EC9846B3-2762-4A6B-A214-6ACB603462D2}";
         private const String CLSID_NetOpenPort = "{0CA545C6-37AD-4A6C-BF92-9F7610067EF5}";
+        private const string _AppGUID = "{7baf41f1-48b7-42cb-b145-f815499cb48f}";
         // ReSharper restore InconsistentNaming
-        public static void ReserveUrl(string networkString)
+
+        private readonly string _RuleName;
+        private readonly string _ExePath;
+        private readonly string _IP;
+        private readonly int _Port;
+        private readonly bool _IsTCP;
+
+        public CConfigHttpApi(string ruleName, string exePath, string ip, int port, bool isTCP)
         {
+            _ExePath = exePath;
+            _Port = port;
+            _IsTCP = isTCP;
+            _IP = ip;
+            _RuleName = ruleName;
+        }
+
+        private static void _ReserveUrl(string networkString)
+        {
+            if (!IsAdministrator())
+                throw new AuthenticationException();
             HttpApi.ReserveURL(networkString, "D:(A;;GX;;;S-1-1-0)");
         }
 
-        public static void BindCert(string ip, int port, X509Certificate2 cert)
+        public void ReserveUrl()
         {
-            IPEndPoint endpoint = new IPEndPoint(IPAddress.Parse(ip), port);
-            if (HttpApi.QuerySslCertificateInfo(endpoint) != null)
-                HttpApi.DeleteCertificateBinding(endpoint);
-
-            HttpApi.BindCertificate(endpoint, cert.GetCertHash(), StoreName.My, new Guid("{7baf41f1-48b7-42cb-b145-f815499cb48f}"));
+            _ReserveUrl("https://+:" + _Port + "/");
         }
 
-        public static void AddCertToStore(X509Certificate2 cert)
+        private void _BindCert(X509Certificate cert)
+        {
+            IPEndPoint endpoint = new IPEndPoint(IPAddress.Parse(_IP), _Port);
+            HttpApi.SslCertificateInfo certificateInfo = HttpApi.QuerySslCertificateInfo(endpoint);
+            if (certificateInfo != null && !certificateInfo.Hash.SequenceEqual(cert.GetCertHash()))
+            {
+                if (!IsAdministrator())
+                    throw new AuthenticationException();
+                HttpApi.DeleteCertificateBinding(endpoint);
+
+                HttpApi.BindCertificate(endpoint, cert.GetCertHash(), StoreName.My, new Guid(_AppGUID));
+            }
+        }
+
+        private static void _AddCertToStore(X509Certificate2 cert)
         {
             X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
             store.Open(OpenFlags.ReadWrite);
 
-            X509Certificate2Collection oldCerts = store.Certificates.Find(X509FindType.FindBySubjectDistinguishedName,
-                                                                          cert.SubjectName.Name, false);
+            // ReSharper disable AssignNullToNotNullAttribute
+            X509Certificate2Collection oldCerts = store.Certificates.Find(X509FindType.FindBySubjectDistinguishedName, cert.SubjectName.Name, false);
+            // ReSharper restore AssignNullToNotNullAttribute
 
             foreach (X509Certificate2 oldCert in oldCerts)
                 store.Remove(oldCert);
@@ -62,7 +94,25 @@ namespace WebserverInitalConfig
             store.Close();
         }
 
-        public static X509Certificate2 GetSelfSignedCert(string subjectName)
+        private static X509Certificate2 _GetCert(string name)
+        {
+            X509Certificate2 result = null;
+            X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+            store.Open(OpenFlags.ReadOnly);
+
+            var name2 = new X500DistinguishedName(name);
+            // ReSharper disable AssignNullToNotNullAttribute
+            X509Certificate2Collection certs = store.Certificates.Find(X509FindType.FindBySubjectDistinguishedName, name2.Name, false);
+            // ReSharper restore AssignNullToNotNullAttribute
+            if (certs.Count > 0)
+                result = certs[0];
+
+            store.Close();
+
+            return result;
+        }
+
+        private X509Certificate2 _GetSelfSignedCert(string subjectName)
         {
             var keyParam = new CngKeyCreationParameters
                 {
@@ -91,58 +141,103 @@ namespace WebserverInitalConfig
             byte[] rawData = key.CreateSelfSignedCertificate(param).Export(X509ContentType.Pfx, "");
             var cert = new X509Certificate2(rawData, "", X509KeyStorageFlags.Exportable | X509KeyStorageFlags.PersistKeySet)
                 {
-                    FriendlyName = "Vocaluxe Server Certificate"
+                    FriendlyName = _RuleName + " Server Certificate"
                 };
             return cert;
         }
 
-        private static void _AddFirewallRuleForProfile(INetFwProfile profile, string exePath, int port, bool isTCP)
+        public void CreateAndAddCert(string hostName)
         {
-            bool isFirewallEnabled = profile.FirewallEnabled;
+            string certName = "CN=" + hostName + ", C=DE, O=" + _RuleName + ", OU=" + _RuleName + " Server";
 
-            if (!isFirewallEnabled)
-                return;
-            INetFwAuthorizedApplications applications = profile.AuthorizedApplications;
-            if (!(from INetFwAuthorizedApplication a in applications
-                  where a.ProcessImageFileName == exePath
-                  select a).Any())
+            X509Certificate2 cert = _GetCert(certName);
+            if (cert == null)
             {
-                INetFwAuthorizedApplication application = (INetFwAuthorizedApplication)Activator.CreateInstance(
-                    Type.GetTypeFromCLSID(new Guid(CLSID_NetAuthApp)));
-
-                application.Name = "Vocaluxe";
-                application.ProcessImageFileName = exePath;
-                application.Enabled = true;
-                application.Scope = NET_FW_SCOPE_.NET_FW_SCOPE_ALL;
-                applications.Add(application);
+                if (!IsAdministrator())
+                    throw new AuthenticationException();
+                cert = _GetSelfSignedCert(certName);
+                _AddCertToStore(cert);
             }
-            INetFwOpenPorts openPorts = profile.GloballyOpenPorts;
-            NET_FW_IP_PROTOCOL_ protocol = isTCP ? NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP : NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP;
-            if (!(from INetFwOpenPort p in openPorts
-                  where (p.Port == port &&
-                         (p.Protocol == protocol))
-                  select p).Any())
-            {
-                INetFwOpenPort openPort = (INetFwOpenPort)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid(CLSID_NetOpenPort)));
-                openPort.Enabled = true;
-                openPort.Port = port;
-                openPort.Protocol = protocol;
-                openPort.Name = "Vocaluxe(" + port + ")";
-                openPort.Scope = NET_FW_SCOPE_.NET_FW_SCOPE_ALL;
-
-                openPorts.Add(openPort);
-            }
+            _BindCert(cert);
         }
 
-        public static void AddFirewallRule(string exePath, int port, bool isTCP)
+        private bool _IsAppAuthorized(INetFwProfile profile)
+        {
+            if (!profile.FirewallEnabled)
+                return true;
+            return profile.AuthorizedApplications.Cast<INetFwAuthorizedApplication>().Any(a => a.ProcessImageFileName == _ExePath);
+        }
+
+        private bool _IsPortOpen(INetFwProfile profile)
+        {
+            NET_FW_IP_PROTOCOL_ protocol = _GetProtocol();
+
+            if (!profile.FirewallEnabled)
+                return true;
+            return profile.GloballyOpenPorts.Cast<INetFwOpenPort>().Any(p => p.Protocol == protocol && p.Port == _Port);
+        }
+
+        private NET_FW_IP_PROTOCOL_ _GetProtocol()
+        {
+            return _IsTCP ? NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP : NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP;
+        }
+
+        private void _AddFirewallRuleForProfile(INetFwProfile profile)
+        {
+            bool isAppAuthorized = _IsAppAuthorized(profile);
+            bool isPortOpen = _IsPortOpen(profile);
+
+            if ((!isAppAuthorized || !isPortOpen) && !IsAdministrator())
+                throw new AuthenticationException();
+            if (!isAppAuthorized)
+                _AddAppToFirewall(profile);
+
+            if (!isPortOpen)
+                _AddPortToFirewall(profile);
+        }
+
+        private void _AddPortToFirewall(INetFwProfile profile)
+        {
+            INetFwOpenPort openPort = (INetFwOpenPort)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid(CLSID_NetOpenPort)));
+            openPort.Enabled = true;
+            openPort.Port = _Port;
+            openPort.Protocol = _GetProtocol();
+            openPort.Name = _RuleName + "(" + _Port + ")";
+            openPort.Scope = NET_FW_SCOPE_.NET_FW_SCOPE_ALL;
+
+            profile.GloballyOpenPorts.Add(openPort);
+        }
+
+        private void _AddAppToFirewall(INetFwProfile profile)
+        {
+            INetFwAuthorizedApplication application = (INetFwAuthorizedApplication)Activator.CreateInstance(
+                Type.GetTypeFromCLSID(new Guid(CLSID_NetAuthApp)));
+
+            application.Name = _RuleName;
+            application.ProcessImageFileName = _ExePath;
+            application.Enabled = true;
+            application.Scope = NET_FW_SCOPE_.NET_FW_SCOPE_ALL;
+            profile.AuthorizedApplications.Add(application);
+        }
+
+        public static bool IsAdministrator()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            // ReSharper disable AssignNullToNotNullAttribute
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            // ReSharper restore AssignNullToNotNullAttribute
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
+        public void AddFirewallRule()
         {
             INetFwMgr manage = (INetFwMgr)Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid(CLSID_NetFwMgr)));
-            //AddFirewallRuleForProfile(manage.LocalPolicy.CurrentProfile, exePath, port, isTCP);
+            //_AddFirewallRuleForProfile(manage.LocalPolicy.CurrentProfile);
             //if (manage.CurrentProfileType != NET_FW_PROFILE_TYPE_.NET_FW_PROFILE_STANDARD)
             //Add to Home/Work(Private) and current net
             //TODO: This somewhow adds 2 entries each instead of only one that is activated for Home/Work and public nets
-            _AddFirewallRuleForProfile(manage.LocalPolicy.GetProfileByType(NET_FW_PROFILE_TYPE_.NET_FW_PROFILE_STANDARD), exePath, port, isTCP);
-            _AddFirewallRuleForProfile(manage.LocalPolicy.GetProfileByType(NET_FW_PROFILE_TYPE_.NET_FW_PROFILE_CURRENT), exePath, port, isTCP);
+            _AddFirewallRuleForProfile(manage.LocalPolicy.GetProfileByType(NET_FW_PROFILE_TYPE_.NET_FW_PROFILE_STANDARD));
+            _AddFirewallRuleForProfile(manage.LocalPolicy.GetProfileByType(NET_FW_PROFILE_TYPE_.NET_FW_PROFILE_CURRENT));
         }
 
         /*public static X509Certificate2 getCert(string subject)

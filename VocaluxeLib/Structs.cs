@@ -190,20 +190,18 @@ namespace VocaluxeLib
         public int CurrentNote;
 
         public int SongID;
-        public bool Medley;
-        public bool Duet;
-        public bool ShortSong;
+        public EGameMode GameMode;
         public long DateTicks;
         public bool SongFinished;
     }
 
-    public struct SScores
+    public struct SDBScoreEntry
     {
         public string Name;
         public int Score;
         public string Date;
         public EGameDifficulty Difficulty;
-        public int LineNr;
+        public int VoiceNr;
         public int ID;
     }
 

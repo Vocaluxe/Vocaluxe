@@ -24,6 +24,7 @@ using System.IO;
 using System.Threading;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Sound.Decoder;
+using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Sound
 {
@@ -370,14 +371,8 @@ namespace Vocaluxe.Lib.Sound
         private float _Volume = 1f;
         private float _VolumeMax = 1f;
 
-        private readonly Stopwatch _FadeTimer = new Stopwatch();
-
-        private float _FadeTime;
-        private float _TargetVolume = 1f;
-        private float _StartVolume = 1f;
-        private bool _CloseStreamAfterFade;
-        private bool _PauseStreamAfterFade;
-        private bool _Fading;
+        private EStreamAction _AfterFadeAction;
+        private CFading _Fading;
 
         private readonly Stopwatch _Timer = new Stopwatch();
 
@@ -416,7 +411,7 @@ namespace Vocaluxe.Lib.Sound
         public COpenAlStream()
         {
             _Initialized = false;
-            _DecoderThread = new Thread(_Execute);
+            _DecoderThread = new Thread(_Execute) {Name = "OpenAL Decode"};
         }
 
         public void Free(Closeproc closeProc, int streamID, Object closeMutex)
@@ -519,33 +514,28 @@ namespace Vocaluxe.Lib.Sound
 
         public void Fade(float targetVolume, float fadeTime)
         {
-            _Fading = true;
-            _FadeTimer.Stop();
-            _FadeTimer.Reset();
-            _StartVolume = _Volume;
-            _TargetVolume = targetVolume / 100f;
-            _FadeTime = fadeTime;
-            _FadeTimer.Start();
+            _Fading = new CFading(_Volume, targetVolume, fadeTime);
+            _AfterFadeAction = EStreamAction.Nothing;
         }
 
         public void FadeAndPause(float targetVolume, float fadeTime)
         {
-            _PauseStreamAfterFade = true;
             Fade(targetVolume, fadeTime);
+            _AfterFadeAction = EStreamAction.Pause;
         }
 
         public void FadeAndStop(float targetVolume, float fadeTime, Closeproc closeProc, int streamID)
         {
             _Closeproc = closeProc;
             _StreamID = streamID;
-            _CloseStreamAfterFade = true;
             Fade(targetVolume, fadeTime);
+            _AfterFadeAction = EStreamAction.Stop;
         }
 
         public void Play()
         {
             Paused = false;
-            _PauseStreamAfterFade = false;
+            _AfterFadeAction = EStreamAction.Nothing;
             AL.SourcePlay(_Source);
         }
 
@@ -745,21 +735,23 @@ namespace Vocaluxe.Lib.Sound
 
         private void _Update()
         {
-            if (_Fading)
+            if (_Fading != null)
             {
-                if (_FadeTimer.ElapsedMilliseconds / 1000f < _FadeTime)
-                    _Volume = _StartVolume + (_TargetVolume - _StartVolume) * ((_FadeTimer.ElapsedMilliseconds / 1000f) / _FadeTime);
-                else
+                bool finished;
+                _Volume = _Fading.GetValue(out finished);
+                if (finished)
                 {
-                    _Volume = _TargetVolume;
-                    _FadeTimer.Stop();
-                    _Fading = false;
-
-                    if (_CloseStreamAfterFade)
-                        _Terminated = true;
-
-                    if (_PauseStreamAfterFade)
-                        Paused = true;
+                    switch (_AfterFadeAction)
+                    {
+                        case EStreamAction.Close:
+                        case EStreamAction.Stop:
+                            _Terminated = true;
+                            break;
+                        case EStreamAction.Pause:
+                            Paused = true;
+                            break;
+                    }
+                    _Fading = null;
                 }
             }
         }

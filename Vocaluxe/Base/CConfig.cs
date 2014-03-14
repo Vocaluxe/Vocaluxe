@@ -60,10 +60,10 @@ namespace Vocaluxe.Base
         public static int ScreenW = 1024;
         public static int ScreenH = 576;
 
-        public static int BorderLeft = 0;
-        public static int BorderRight = 0;
-        public static int BorderTop = 0;
-        public static int BorderBottom = 0;
+        public static int BorderLeft;
+        public static int BorderRight;
+        public static int BorderTop;
+        public static int BorderBottom;
 
         public static EAntiAliasingModes AAMode = EAntiAliasingModes.X0;
 
