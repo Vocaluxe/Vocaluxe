@@ -212,6 +212,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\CBackgroundMusic.cs" />
+    <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudioStream.cs" />
+    <Compile Include="Lib\Sound\Playback\OpenAL\COpenAlStream.cs" />
+    <Compile Include="Lib\Sound\Playback\PortAudio\CPortAudioStream.cs" />
     <Compile Include="Lib\Sound\Record\CBuffer.cs" />
     <Compile Include="Base\CConfig.cs" />
     <Compile Include="Base\CCover.cs" />
@@ -253,6 +256,8 @@
     <Compile Include="GameModes\CGameModes.cs" />
     <Compile Include="Lib\Input\CControllerFramework.cs" />
     <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudio.cs" />
+    <Compile Include="Lib\Sound\Record\DirectSound\CSampleDataEventArgs.cs" />
+    <Compile Include="Lib\Sound\Record\DirectSound\CSoundCardSource.cs" />
     <Compile Include="Lib\Video\Acinerella\CDecoder.cs" />
     <Compile Include="Lib\Video\Acinerella\CDecoderThread.cs" />
     <Compile Include="Lib\Video\Acinerella\CFramebuffer.cs" />
