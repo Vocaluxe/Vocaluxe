@@ -20,10 +20,10 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
         private int _BufferPortionSize;
         private WaitHandle[] _WaitHandles;
         private double _SampleRate;
-        private readonly Guid _Guid;
+        private readonly string _Guid;
         private readonly short _Channels;
 
-        public CSoundCardSource(Guid guid, short channels)
+        public CSoundCardSource(string guid, short channels)
         {
             _Guid = guid;
             _Channels = channels;
@@ -53,7 +53,7 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
                 throw new InvalidOperationException();
 
             if (_CaptureDevice == null)
-                _CaptureDevice = new DirectSoundCapture(_Guid);
+                _CaptureDevice = new DirectSoundCapture(new Guid(_Guid));
 
             _WaveFormat.FormatTag = WaveFormatTag.Pcm; // Change to WaveFormatTag.IeeeFloat for float
             _WaveFormat.BitsPerSample = 16; // Set this to 32 for float
@@ -77,7 +77,7 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
 
             for (int i = 0; i < _BufferPortionCount; i++)
             {
-                var notification = new NotificationPosition { Offset = _BufferPortionCount - 1 + (_BufferPortionSize * i), Event = new AutoResetEvent(false) };
+                var notification = new NotificationPosition {Offset = _BufferPortionCount - 1 + (_BufferPortionSize * i), Event = new AutoResetEvent(false)};
                 _Notifications.Add(notification);
             }
 
@@ -87,7 +87,7 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
             for (int i = 0; i < _Notifications.Count; i++)
                 _WaitHandles[i] = _Notifications[i].Event;
 
-            _CaptureThread = new Thread(_DoCapture) { Name = "DirectSoundCapture", IsBackground = true };
+            _CaptureThread = new Thread(_DoCapture) {Name = "DirectSoundCapture", IsBackground = true};
 
             _Running = true;
             _CaptureThread.Start();

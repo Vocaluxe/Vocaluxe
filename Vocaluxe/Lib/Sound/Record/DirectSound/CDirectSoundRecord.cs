@@ -16,6 +16,8 @@
 #endregion
 
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Runtime.InteropServices;
 using SlimDX.DirectSound;
 using System;
 using System.Collections.Generic;
@@ -82,29 +84,18 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
             foreach (CBuffer buffer in _Buffer)
                 buffer.Reset();
 
-            var active = new bool[_Devices.Count];
-            var guid = new Guid[_Devices.Count];
-            var channels = new short[_Devices.Count];
-            for (int dev = 0; dev < _Devices.Count; dev++)
+            foreach (CRecordDevice device in _Devices)
             {
-                active[dev] = false;
-                if (_Devices[dev].PlayerChannel1 > 0 || _Devices[dev].PlayerChannel2 > 0)
-                    active[dev] = true;
-                guid[dev] = new Guid(_Devices[dev].Driver);
-                channels[dev] = (short)_Devices[dev].Channels;
-            }
-
-            for (int i = 0; i < _Devices.Count; i++)
-            {
-                if (active[i])
+                if (device.PlayerChannel1 > 0 || device.PlayerChannel2 > 0)
                 {
-                    var source = new CSoundCardSource(guid[i], channels[i]) {SampleRateKhz = 44.1};
+                    var source = new CSoundCardSource(device.Driver, (short)device.Channels) {SampleRateKhz = 44.1};
                     source.SampleDataReady += _OnDataReady;
                     source.Start();
 
                     _Sources.Add(source);
                 }
             }
+
             return true;
         }
 
@@ -200,32 +191,37 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
 
         private void _OnDataReady(object sender, CSampleDataEventArgs e)
         {
-            if (_Initialized)
-            {
-                var leftBuffer = new byte[e.Data.Length / 2];
-                var rightBuffer = new byte[e.Data.Length / 2];
+            if (!_Initialized)
+                return;
+            CRecordDevice dev = _Devices.FirstOrDefault(device => device.Driver == e.Guid);
+            if (dev == null)
+                return;
+            byte[] leftBuffer;
+            byte[] rightBuffer;
 
+            if (dev.Channels == 2)
+            {
+                leftBuffer = new byte[e.Data.Length / 2];
+                rightBuffer = new byte[e.Data.Length / 2];
                 //[]: Sample, L: Left channel R: Right channel
                 //[LR][LR][LR][LR][LR][LR]
                 //The data is interleaved and needs to be demultiplexed
-                for (int i = 0; i < e.Data.Length / 2; i++)
+                for (int i = 0; i < e.Data.Length / 4; i++)
                 {
-                    leftBuffer[i] = e.Data[i * 2 - (i % 2)];
-                    rightBuffer[i] = e.Data[i * 2 - (i % 2) + 2];
-                }
-
-                foreach (CRecordDevice device in _Devices)
-                {
-                    if (device.Driver == e.Guid.ToString())
-                    {
-                        if (device.PlayerChannel1 > 0)
-                            _Buffer[device.PlayerChannel1 - 1].ProcessNewBuffer(leftBuffer);
-
-                        if (device.PlayerChannel2 > 0)
-                            _Buffer[device.PlayerChannel2 - 1].ProcessNewBuffer(rightBuffer);
-                    }
+                    leftBuffer[i * 2] = e.Data[i * 4];
+                    leftBuffer[i * 2 + 1] = e.Data[i * 4 + 1];
+                    rightBuffer[i * 2] = e.Data[i * 4 + 2];
+                    rightBuffer[i * 2 + 1] = e.Data[i * 4 + 3];
                 }
             }
+            else
+                leftBuffer = rightBuffer = e.Data;
+
+            if (dev.PlayerChannel1 > 0)
+                _Buffer[dev.PlayerChannel1 - 1].ProcessNewBuffer(leftBuffer);
+
+            if (dev.PlayerChannel2 > 0)
+                _Buffer[dev.PlayerChannel2 - 1].ProcessNewBuffer(rightBuffer);
         }
     }
 }

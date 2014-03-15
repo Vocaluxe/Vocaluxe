@@ -117,38 +117,30 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             for (int i = 0; i < _RecHandle.Length; i++)
                 _RecHandle[i] = IntPtr.Zero;
 
-            var active = new bool[_Devices.Count];
             for (int dev = 0; dev < _Devices.Count; dev++)
             {
-                active[dev] = false;
                 if (_Devices[dev].PlayerChannel1 > 0 || _Devices[dev].PlayerChannel2 > 0)
-                    active[dev] = true;
-            }
-
-            for (int i = 0; i < _RecHandle.Length; i++)
-            {
-                if (active[i])
                 {
                     PortAudioSharp.PortAudio.PaStreamParameters? inputParams = new PortAudioSharp.PortAudio.PaStreamParameters
                         {
-                            channelCount = _Devices[i].Channels,
-                            device = _Devices[i].ID,
+                            channelCount = _Devices[dev].Channels,
+                            device = _Devices[dev].ID,
                             sampleFormat = PortAudioSharp.PortAudio.PaSampleFormat.paInt16,
-                            suggestedLatency = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_Devices[i].ID).defaultLowInputLatency
+                            suggestedLatency = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_Devices[dev].ID).defaultLowInputLatency
                         };
                     PortAudioSharp.PortAudio.PaStreamParameters? outputParams = null;
                     if (_ErrorCheck("OpenStream (rec)", PortAudioSharp.PortAudio.Pa_OpenStream(
-                        out _RecHandle[i],
+                        out _RecHandle[dev],
                         ref inputParams,
                         ref outputParams,
                         44100,
                         882,
                         PortAudioSharp.PortAudio.PaStreamFlags.paNoFlag,
                         _MyRecProc,
-                        new IntPtr(i))))
+                        new IntPtr(dev))))
                         return false;
 
-                    if (_ErrorCheck("Start Stream (rec)", PortAudioSharp.PortAudio.Pa_StartStream(_RecHandle[i])))
+                    if (_ErrorCheck("Start Stream (rec)", PortAudioSharp.PortAudio.Pa_StartStream(_RecHandle[dev])))
                         return false;
                 }
             }
@@ -274,36 +266,44 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         {
             try
             {
-                frameCount *= 4;
                 if (frameCount > 0 && input != IntPtr.Zero)
                 {
-                    var recbuffer = new byte[frameCount];
-                    var leftBuffer = new byte[frameCount / 2];
-                    var rightBuffer = new byte[frameCount / 2];
+                    CRecordDevice dev = _Devices[userData.ToInt32()];
+                    uint numBytes;
+                    if (dev.Channels == 2)
+                        numBytes = frameCount * 4;
+                    else
+                        numBytes = frameCount * 2;
+
+                    byte[] recbuffer = new byte[numBytes];
+                    byte[] leftBuffer;
+                    byte[] rightBuffer;
 
                     // copy from managed to unmanaged memory
-                    Marshal.Copy(input, recbuffer, 0, (int)frameCount);
-
-                    // copy into left/right Buffer
-                    for (int i = 0; i < frameCount / 2; i++)
+                    Marshal.Copy(input, recbuffer, 0, (int)numBytes);
+                    if (dev.Channels == 2)
                     {
-                        leftBuffer[i] = recbuffer[i * 2 - (i % 2)];
-                        rightBuffer[i] = recbuffer[i * 2 - (i % 2) + 2];
-                    }
-
-                    for (int i = 0; i < _RecHandle.Length; i++)
-                    {
-                        if (new IntPtr(i) == userData)
+                        leftBuffer = new byte[numBytes / 2];
+                        rightBuffer = new byte[numBytes / 2];
+                        //[]: Sample, L: Left channel R: Right channel
+                        //[LR][LR][LR][LR][LR][LR]
+                        //The data is interleaved and needs to be demultiplexed
+                        for (int i = 0; i < frameCount; i++)
                         {
-                            if (_Devices[i].PlayerChannel1 > 0)
-                                _Buffer[_Devices[i].PlayerChannel1 - 1].ProcessNewBuffer(leftBuffer);
-
-                            if (_Devices[i].PlayerChannel2 > 0)
-                                _Buffer[_Devices[i].PlayerChannel2 - 1].ProcessNewBuffer(rightBuffer);
-
-                            break;
+                            leftBuffer[i * 2] = recbuffer[i * 4];
+                            leftBuffer[i * 2 + 1] = recbuffer[i * 4 + 1];
+                            rightBuffer[i * 2] = recbuffer[i * 4 + 2];
+                            rightBuffer[i * 2 + 1] = recbuffer[i * 4 + 3];
                         }
                     }
+                    else
+                        leftBuffer = rightBuffer = recbuffer;
+
+                    if (dev.PlayerChannel1 > 0)
+                        _Buffer[dev.PlayerChannel1 - 1].ProcessNewBuffer(leftBuffer);
+
+                    if (dev.PlayerChannel2 > 0)
+                        _Buffer[dev.PlayerChannel2 - 1].ProcessNewBuffer(rightBuffer);
                 }
             }
             catch (Exception e)
