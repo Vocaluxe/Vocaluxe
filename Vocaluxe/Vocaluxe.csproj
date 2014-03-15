@@ -199,6 +199,10 @@
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\Output\OpenTK.GLControl.dll</HintPath>
     </Reference>
+    <Reference Include="PortAudioSharp, Version=0.19.3.27472, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\PortAudioSharp.dll</HintPath>
+    </Reference>
     <Reference Include="QRCoder, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Output\QRCoder.dll</HintPath>
@@ -212,6 +216,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\CBackgroundMusic.cs" />
+    <Compile Include="COSFunctions.cs" />
     <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudioStream.cs" />
     <Compile Include="Lib\Sound\Playback\OpenAL\COpenAlStream.cs" />
     <Compile Include="Lib\Sound\Playback\PortAudio\CPortAudioStream.cs" />
@@ -327,7 +332,6 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <Compile Include="Lib\Sound\PortAudio\PortAudio.cs" />
     <None Include="Doc\SQLite.NET.chm" />
     <Content Include="Website\locales\de.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

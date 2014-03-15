@@ -26,9 +26,6 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
         private readonly Dictionary<int, CGstreamerSharpAudioStream> _Streams = new Dictionary<int, CGstreamerSharpAudioStream>();
         private static int _IDCount;
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-        private static extern void SetDllDirectory(string lpPathName);
-
         public bool Init()
         {
 #if ARCH_X86
@@ -37,7 +34,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 #if ARCH_X64
             const string path = ".\\x64\\gstreamer";
 #endif
-            SetDllDirectory(path);
+            //SetDllDirectory(path);
             Application.Init();
             Registry reg = Registry.Get();
             reg.ScanPath(path);

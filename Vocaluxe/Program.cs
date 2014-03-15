@@ -20,7 +20,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
@@ -32,12 +31,6 @@ namespace Vocaluxe
 {
     static class CMainProgram
     {
-#if WIN
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
-#endif
-
         private static CSplashScreen _SplashScreen;
 
         [STAThread, HandleProcessCorruptedStateExceptions]
@@ -85,6 +78,7 @@ namespace Vocaluxe
 
                 if (!CProgrammHelper.CheckRequirements())
                     return;
+                CProgrammHelper.Init();
 
                 CMain.Init();
                 CSettings.CreateFolders();
@@ -228,13 +222,15 @@ namespace Vocaluxe
             {
                 MessageBox.Show("Error on start up: " + e.Message + e.StackTrace);
                 CLog.LogError("Error on start up: " + e);
-                _SplashScreen.Close();
+                if (_SplashScreen != null)
+                    _SplashScreen.Close();
                 _CloseProgram();
             }
             Application.DoEvents();
 
             // Start Main Loop
-            _SplashScreen.Close();
+            if (_SplashScreen != null)
+                _SplashScreen.Close();
             CVocaluxeServer.Start();
 
             CDraw.MainLoop();
@@ -332,7 +328,7 @@ namespace Vocaluxe
                 {
                     IntPtr wnd = process.MainWindowHandle;
                     if (wnd != IntPtr.Zero)
-                        SetForegroundWindow(wnd);
+                        COSFunctions.SetForegroundWindow(wnd);
                 }
 #endif
                 return false;

@@ -17,6 +17,8 @@
 
 using System;
 using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security;
 using Microsoft.Win32;
 using Vocaluxe.Base;
@@ -107,6 +109,19 @@ namespace Vocaluxe
                 return false;
             }
             return true;
+        }
+
+        public static void Init()
+        {
+#if ARCH_X86
+            string path = "x86";
+#endif
+#if ARCH_X64
+            string path = "x64";
+#endif
+            path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + Path.DirectorySeparatorChar + path;
+            COSFunctions.AddLibrarySearchpath(path);
+            COSFunctions.AddLibrarySearchpath(path + Path.DirectorySeparatorChar + "gstreamer");
         }
     }
 }

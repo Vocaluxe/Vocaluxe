@@ -21,7 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Vocaluxe.Base;
-using Vocaluxe.Lib.Sound.PortAudio;
 
 namespace Vocaluxe.Lib.Sound.Record.PortAudio
 {
@@ -30,7 +29,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         private bool _Initialized;
         private List<CRecordDevice> _Devices;
 
-        private CPortAudio.PaStreamCallbackDelegate _MyRecProc;
+        private PortAudioSharp.PortAudio.PaStreamCallbackDelegate _MyRecProc;
         private IntPtr[] _RecHandle;
 
         private readonly CBuffer[] _Buffer;
@@ -59,19 +58,19 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                 if (_Initialized)
                     CloseAll();
 
-                if (_ErrorCheck("Initialize", CPortAudio.Pa_Initialize()))
+                if (_ErrorCheck("Initialize", PortAudioSharp.PortAudio.Pa_Initialize()))
                     return false;
 
                 _Initialized = true;
                 int hostAPI = _ApiSelect();
 
-                int numDevices = CPortAudio.Pa_GetDeviceCount();
+                int numDevices = PortAudioSharp.PortAudio.Pa_GetDeviceCount();
                 for (int i = 0; i < numDevices; i++)
                 {
-                    CPortAudio.SPaDeviceInfo info = CPortAudio.PaGetDeviceInfo(i);
-                    if (info.HostApi == hostAPI && info.MaxInputChannels > 0)
+                    PortAudioSharp.PortAudio.PaDeviceInfo info = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(i);
+                    if (info.hostApi == hostAPI && info.maxInputChannels > 0)
                     {
-                        var dev = new CRecordDevice( i, info.Name,info.Name + i,  info.MaxInputChannels);
+                        var dev = new CRecordDevice(i, info.name, info.name + i, info.maxInputChannels);
 
                         _Devices.Add(dev);
                     }
@@ -108,7 +107,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             foreach (IntPtr handle in _RecHandle)
             {
                 int waitcount = 0;
-                while (waitcount < 5 && CPortAudio.Pa_IsStreamStopped(handle) == CPortAudio.EPaError.PaStreamIsNotStopped)
+                while (waitcount < 5 && PortAudioSharp.PortAudio.Pa_IsStreamStopped(handle) == PortAudioSharp.PortAudio.PaError.paStreamIsNotStopped)
                 {
                     Thread.Sleep(1);
                     waitcount++;
@@ -130,26 +129,26 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             {
                 if (active[i])
                 {
-                    var inputParams = new CPortAudio.SPaStreamParameters
+                    PortAudioSharp.PortAudio.PaStreamParameters? inputParams = new PortAudioSharp.PortAudio.PaStreamParameters
                         {
-                            ChannelCount = _Devices[i].Channels,
-                            Device = _Devices[i].ID,
-                            SampleFormat = CPortAudio.EPaSampleFormat.PaInt16,
-                            SuggestedLatency = CPortAudio.PaGetDeviceInfo(_Devices[i].ID).DefaultLowInputLatency
+                            channelCount = _Devices[i].Channels,
+                            device = _Devices[i].ID,
+                            sampleFormat = PortAudioSharp.PortAudio.PaSampleFormat.paInt16,
+                            suggestedLatency = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_Devices[i].ID).defaultLowInputLatency
                         };
-
-                    if (_ErrorCheck("OpenStream (rec)", CPortAudio.Pa_OpenStream(
+                    PortAudioSharp.PortAudio.PaStreamParameters? outputParams = null;
+                    if (_ErrorCheck("OpenStream (rec)", PortAudioSharp.PortAudio.Pa_OpenStream(
                         out _RecHandle[i],
                         ref inputParams,
-                        IntPtr.Zero,
+                        ref outputParams,
                         44100,
                         882,
-                        CPortAudio.EPaStreamFlags.PaNoFlag,
+                        PortAudioSharp.PortAudio.PaStreamFlags.paNoFlag,
                         _MyRecProc,
                         new IntPtr(i))))
                         return false;
 
-                    if (_ErrorCheck("Start Stream (rec)", CPortAudio.Pa_StartStream(_RecHandle[i])))
+                    if (_ErrorCheck("Start Stream (rec)", PortAudioSharp.PortAudio.Pa_StartStream(_RecHandle[i])))
                         return false;
                 }
             }
@@ -166,7 +165,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                 return false;
 
             foreach (IntPtr handle in _RecHandle)
-                CPortAudio.Pa_StopStream(handle);
+                PortAudioSharp.PortAudio.Pa_StopStream(handle);
             return true;
         }
 
@@ -179,7 +178,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
 
             if (_Initialized)
             {
-                CPortAudio.Pa_Terminate();
+                PortAudioSharp.PortAudio.Pa_Terminate();
                 _Initialized = false;
             }
 
@@ -265,12 +264,12 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             return _Devices.AsReadOnly();
         }
 
-        private CPortAudio.EPaStreamCallbackResult _MyPaStreamCallback(
+        private PortAudioSharp.PortAudio.PaStreamCallbackResult _MyPaStreamCallback(
             IntPtr input,
             IntPtr output,
             uint frameCount,
-            ref CPortAudio.SPaStreamCallbackTimeInfo timeInfo,
-            CPortAudio.EPaStreamCallbackFlags statusFlags,
+            ref PortAudioSharp.PortAudio.PaStreamCallbackTimeInfo timeInfo,
+            PortAudioSharp.PortAudio.PaStreamCallbackFlags statusFlags,
             IntPtr userData)
         {
             try
@@ -312,20 +311,20 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                 CLog.LogError("Error on Stream Callback (rec): " + e);
             }
 
-            return CPortAudio.EPaStreamCallbackResult.PaContinue;
+            return PortAudioSharp.PortAudio.PaStreamCallbackResult.paContinue;
         }
 
-        private bool _ErrorCheck(String action, CPortAudio.EPaError errorCode)
+        private bool _ErrorCheck(String action, PortAudioSharp.PortAudio.PaError errorCode)
         {
-            if (errorCode != CPortAudio.EPaError.PaNoError)
+            if (errorCode != PortAudioSharp.PortAudio.PaError.paNoError)
             {
-                CLog.LogError(action + " error (rec): " + CPortAudio.PaGetErrorText(errorCode));
-                if (errorCode == CPortAudio.EPaError.PaUnanticipatedHostError)
+                CLog.LogError(action + " error (rec): " + PortAudioSharp.PortAudio.Pa_GetErrorText(errorCode));
+                if (errorCode == PortAudioSharp.PortAudio.PaError.paUnanticipatedHostError)
                 {
-                    CPortAudio.SPaHostErrorInfo errorInfo = CPortAudio.PaGetLastHostErrorInfo();
-                    CLog.LogError("- Host error API type: " + errorInfo.HostApiType);
-                    CLog.LogError("- Host error code: " + errorInfo.ErrorCode);
-                    CLog.LogError("- Host error text: " + errorInfo.ErrorText);
+                    PortAudioSharp.PortAudio.PaHostErrorInfo errorInfo = PortAudioSharp.PortAudio.Pa_GetLastHostErrorInfo();
+                    CLog.LogError("- Host error API type: " + errorInfo.hostApiType);
+                    CLog.LogError("- Host error code: " + errorInfo.errorCode);
+                    CLog.LogError("- Host error text: " + errorInfo.errorText);
                 }
                 return true;
             }
@@ -338,13 +337,13 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             if (!_Initialized)
                 return 0;
 
-            int selectedHostApi = CPortAudio.Pa_GetDefaultHostApi();
-            int apiCount = CPortAudio.Pa_GetHostApiCount();
+            int selectedHostApi = PortAudioSharp.PortAudio.Pa_GetDefaultHostApi();
+            int apiCount = PortAudioSharp.PortAudio.Pa_GetHostApiCount();
             for (int i = 0; i < apiCount; i++)
             {
-                CPortAudio.SPaHostApiInfo apiInfo = CPortAudio.PaGetHostApiInfo(i);
-                if ((apiInfo.Type == CPortAudio.EPaHostApiTypeId.PaDirectSound)
-                    || (apiInfo.Type == CPortAudio.EPaHostApiTypeId.PaALSA))
+                PortAudioSharp.PortAudio.PaHostApiInfo apiInfo = PortAudioSharp.PortAudio.Pa_GetHostApiInfo(i);
+                if ((apiInfo.type == PortAudioSharp.PortAudio.PaHostApiTypeId.paDirectSound)
+                    || (apiInfo.type == PortAudioSharp.PortAudio.PaHostApiTypeId.paALSA))
                     selectedHostApi = i;
             }
             return selectedHostApi;
