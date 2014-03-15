@@ -53,10 +53,7 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
             {
                 using (var ds = new DirectSoundCapture(dev.DriverGuid))
                 {
-                    var device = new CRecordDevice {Driver = dev.DriverGuid.ToString(), ID = id, Name = dev.Description, Channels = ds.Capabilities.Channels};
-
-                    if (device.Channels > 2)
-                        device.Channels = 2; //more are not supported in vocaluxe
+                    var device = new CRecordDevice(id,dev.DriverGuid.ToString(), dev.Description, ds.Capabilities.Channels);
 
                     _Devices.Add(device);
 

@@ -71,10 +71,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                     CPortAudio.SPaDeviceInfo info = CPortAudio.PaGetDeviceInfo(i);
                     if (info.HostApi == hostAPI && info.MaxInputChannels > 0)
                     {
-                        var dev = new CRecordDevice {ID = i, Name = info.Name, Driver = info.Name + i, Channels = info.MaxInputChannels};
-
-                        if (dev.Channels > 2)
-                            dev.Channels = 2; //more are not supported in vocaluxe
+                        var dev = new CRecordDevice( i, info.Name,info.Name + i,  info.MaxInputChannels);
 
                         _Devices.Add(dev);
                     }

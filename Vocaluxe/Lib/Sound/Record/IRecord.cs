@@ -22,13 +22,25 @@ namespace Vocaluxe.Lib.Sound.Record
 {
     class CRecordDevice
     {
-        public int ID;
-        public string Name;
-        public string Driver;
+        public readonly int ID;
+        public readonly string Name;
+        public readonly string Driver;
 
-        public int Channels;
+        public readonly int Channels;
         public int PlayerChannel1;
         public int PlayerChannel2;
+
+        public CRecordDevice(int id, string name, string driver, int channels)
+        {
+            ID = id;
+            Name = name;
+            Driver = driver;
+
+            if (channels > 2)
+                channels = 2; //more are not supported in vocaluxe
+
+            Channels = channels;
+        }
     }
 
     struct SMicConfig
