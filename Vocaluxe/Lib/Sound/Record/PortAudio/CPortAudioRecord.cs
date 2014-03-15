@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Sound.PortAudio;
 
-namespace Vocaluxe.Lib.Sound
+namespace Vocaluxe.Lib.Sound.Record.PortAudio
 {
     class CPortAudioRecord : IRecord
     {

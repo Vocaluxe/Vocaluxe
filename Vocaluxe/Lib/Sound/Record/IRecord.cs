@@ -18,7 +18,7 @@
 using System;
 using System.Collections.ObjectModel;
 
-namespace Vocaluxe.Lib.Sound
+namespace Vocaluxe.Lib.Sound.Record
 {
     class CRecordDevice
     {

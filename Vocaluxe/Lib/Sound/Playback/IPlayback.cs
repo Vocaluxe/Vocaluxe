@@ -15,7 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Vocaluxe.Lib.Sound
+namespace Vocaluxe.Lib.Sound.Playback
 {
     public enum EStreamAction
     {

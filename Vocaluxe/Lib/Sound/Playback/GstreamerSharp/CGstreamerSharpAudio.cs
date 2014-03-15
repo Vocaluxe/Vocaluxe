@@ -22,9 +22,8 @@ using GLib;
 using System.Runtime.InteropServices;
 using Vocaluxe.Base;
 using VocaluxeLib;
-using Thread = System.Threading.Thread;
 
-namespace Vocaluxe.Lib.Sound
+namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 {
     public class CGstreamerSharpAudio : IPlayback
     {
@@ -322,7 +321,7 @@ namespace Vocaluxe.Lib.Sound
                 {
                     Closed = true;
                     Finished = true;
-                    var t = new Thread(_TerminateStream) {Name = "GSt Terminate"};
+                    var t = new System.Threading.Thread(_TerminateStream) {Name = "GSt Terminate"};
                     t.Start();
                 }
             }
@@ -403,7 +402,7 @@ namespace Vocaluxe.Lib.Sound
                     if (_Duration < 0 && !_QueryingDuration)
                     {
                         _QueryingDuration = true; // Set this to avoid race conditions
-                        var t = new Thread(_UpdateDuration) {Name = "GSt Update Duration"};
+                        var t = new System.Threading.Thread(_UpdateDuration) {Name = "GSt Update Duration"};
                         t.Start();
                     }
                     return _Duration > 0 ? _Duration : -1;

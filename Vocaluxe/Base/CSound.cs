@@ -19,6 +19,14 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using Vocaluxe.Lib.Sound;
+using Vocaluxe.Lib.Sound.Playback;
+using Vocaluxe.Lib.Sound.Playback.Gstreamer;
+using Vocaluxe.Lib.Sound.Playback.GstreamerSharp;
+using Vocaluxe.Lib.Sound.Playback.OpenAL;
+using Vocaluxe.Lib.Sound.Playback.PortAudio;
+using Vocaluxe.Lib.Sound.Record;
+using Vocaluxe.Lib.Sound.Record.DirectSound;
+using Vocaluxe.Lib.Sound.Record.PortAudio;
 using VocaluxeLib;
 
 namespace Vocaluxe.Base

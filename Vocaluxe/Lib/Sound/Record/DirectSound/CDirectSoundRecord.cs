@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Vocaluxe.Base;
 
-namespace Vocaluxe.Lib.Sound
+namespace Vocaluxe.Lib.Sound.Record.DirectSound
 {
     class CDirectSoundRecord : IRecord
     {

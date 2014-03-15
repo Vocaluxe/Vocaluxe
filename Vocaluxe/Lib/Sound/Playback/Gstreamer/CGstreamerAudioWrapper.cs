@@ -17,7 +17,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace Vocaluxe.Lib.Sound.Gstreamer
+namespace Vocaluxe.Lib.Sound.Playback.Gstreamer
 {
     public static class CGstreamerAudioWrapper
     {

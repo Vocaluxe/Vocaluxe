@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Vocaluxe.Base;
 
-namespace Vocaluxe.Lib.Sound
+namespace Vocaluxe.Lib.Sound.Record
 {
     class CDelayTest
     {

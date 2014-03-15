@@ -15,7 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Vocaluxe.Lib.Sound.Decoder
+namespace Vocaluxe.Lib.Sound.Playback.Decoder
 {
     struct SFormatInfo
     {

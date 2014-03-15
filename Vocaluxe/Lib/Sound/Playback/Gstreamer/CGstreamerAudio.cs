@@ -17,9 +17,8 @@
 
 using System;
 using Vocaluxe.Base;
-using Vocaluxe.Lib.Sound.Gstreamer;
 
-namespace Vocaluxe.Lib.Sound
+namespace Vocaluxe.Lib.Sound.Playback.Gstreamer
 {
     class CGstreamerAudio : IPlayback
     {

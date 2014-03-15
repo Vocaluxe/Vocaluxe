@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Vocaluxe.Lib.Sound
+namespace Vocaluxe.Lib.Sound.Record
 {
     class CBuffer : IDisposable
     {

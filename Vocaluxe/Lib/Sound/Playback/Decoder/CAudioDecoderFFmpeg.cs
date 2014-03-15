@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Acinerella;
 
-namespace Vocaluxe.Lib.Sound.Decoder
+namespace Vocaluxe.Lib.Sound.Playback.Decoder
 {
     class CAudioDecoderFFmpeg : IAudioDecoder, IDisposable
     {
