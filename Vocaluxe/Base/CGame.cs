@@ -15,6 +15,9 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+//Uncomment to make the engine hit every note
+//#define DEBUG_HIT
+
 using System;
 using System.Collections.Generic;
 using Vocaluxe.SongQueue;
@@ -208,8 +211,6 @@ namespace Vocaluxe.Base
 
         public static void UpdatePoints(float time)
         {
-            const bool DEBUG_HIT = false;
-
             CSong song = _SongQueue.GetSong();
 
             if (song == null)
@@ -270,7 +271,11 @@ namespace Vocaluxe.Base
                     if (line == lines.Length - 1 && beat == lines[line].LastNoteBeat)
                         Players[p].SongFinished = true;
 
-                    if (notes[note].PointsForBeat > 0 && (CSound.RecordToneValid(p) || DEBUG_HIT))
+                    if (notes[note].PointsForBeat > 0 && (CSound.RecordToneValid(p)
+#if DEBUG_HIT
+                        || true
+#endif
+                                                         ))
                     {
                         int tone = notes[note].Tone;
                         int tonePlayer = CSound.RecordGetTone(p);
@@ -281,8 +286,9 @@ namespace Vocaluxe.Base
                         while (tonePlayer - tone < -6)
                             tonePlayer += 12;
 
-                        if (DEBUG_HIT)
+#if DEBUG_HIT
                             tonePlayer = tone;
+#endif
 
                         Players[p].NoteDiff = Math.Abs(tone - tonePlayer);
                         bool hit = Players[p].NoteDiff <= (2 - (int)CProfiles.GetDifficulty(Players[p].ProfileID));

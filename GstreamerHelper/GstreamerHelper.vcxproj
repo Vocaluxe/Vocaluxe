@@ -104,7 +104,6 @@
     <IntDir>obj\$(Configuration).$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugWin|x64'">
-    <LinkIncremental>true</LinkIncremental>
     <OutDir>bin\$(Configuration).$(Platform)\</OutDir>
     <IncludePath>$(MSBuildProjectDirectory)\x64\lib\glib-2.0\include;$(MSBuildProjectDirectory)\x64\include\gstreamer-1.0;$(MSBuildProjectDirectory)\x64\include\glib-2.0;$(MSBuildProjectDirectory)\x64\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(MSBuildProjectDirectory)\x64\lib;$(LibraryPath)</LibraryPath>
