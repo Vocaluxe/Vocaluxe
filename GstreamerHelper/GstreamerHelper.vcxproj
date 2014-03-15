@@ -95,8 +95,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugWin|Win32'">
-    <LinkIncremental>
-    </LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <OutDir>bin\$(Configuration).$(Platform)\</OutDir>
     <IncludePath>$(MSBuildProjectDirectory)\x86\lib\glib-2.0\include;$(MSBuildProjectDirectory)\x86\include\gstreamer-1.0;$(MSBuildProjectDirectory)\x86\include\glib-2.0;$(MSBuildProjectDirectory)\x86\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(MSBuildProjectDirectory)\x86\lib;$(LibraryPath)</LibraryPath>
@@ -109,6 +108,7 @@
     <LibraryPath>$(MSBuildProjectDirectory)\x64\lib;$(LibraryPath)</LibraryPath>
     <CodeAnalysisRuleSet>..\CheckingRules.ruleset</CodeAnalysisRuleSet>
     <IntDir>obj\$(Configuration).$(Platform)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWin|Win32'">
     <LinkIncremental>false</LinkIncremental>
