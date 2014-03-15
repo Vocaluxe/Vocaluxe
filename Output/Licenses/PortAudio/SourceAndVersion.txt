@@ -1,0 +1,7 @@
+http://www.portaudio.com/
+
+Version: January 30, 2014, SVN rev 1919
+
+Files:
+x86/PortAudio.dll
+x64/PortAudio.dll
