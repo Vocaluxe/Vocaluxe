@@ -15,31 +15,44 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Collections.Generic;
 using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Input
 {
-    public class CControllerFramework : IController
+    public abstract class CControllerFramework : IController
     {
-        private List<SKeyEvent> _KeysPool;
+        protected bool _Initialized;
+        private readonly List<SKeyEvent> _KeysPool = new List<SKeyEvent>();
         private List<SKeyEvent> _CurrentKeysPool;
-        private readonly Object _KeyCopyLock = new Object();
 
-        private List<SMouseEvent> _MousePool;
+        private readonly List<SMouseEvent> _MousePool = new List<SMouseEvent>();
         private List<SMouseEvent> _CurrentMousePool;
-        private readonly Object _MouseCopyLock = new Object();
 
-        public virtual void Init()
+        public abstract string GetName();
+
+        public virtual bool Init()
         {
-            _KeysPool = new List<SKeyEvent>();
+            if (_Initialized)
+                return false;
             _CurrentKeysPool = new List<SKeyEvent>();
-            _MousePool = new List<SMouseEvent>();
             _CurrentMousePool = new List<SMouseEvent>();
+            _Initialized = true;
+            return true;
         }
 
-        public virtual void Close() {}
+        public virtual void Close()
+        {
+            if (!_Initialized)
+                return;
+            _CurrentKeysPool = null;
+            _CurrentMousePool = null;
+            lock (_KeysPool)
+                _KeysPool.Clear();
+            lock (_MousePool)
+                _MousePool.Clear();
+            _Initialized = false;
+        }
 
         public virtual void Connect() {}
 
@@ -52,14 +65,16 @@ namespace Vocaluxe.Lib.Input
 
         public virtual void Update()
         {
-            lock (_KeyCopyLock)
+            if (!_Initialized)
+                return;
+            lock (_KeysPool)
             {
                 foreach (SKeyEvent e in _KeysPool)
                     _CurrentKeysPool.Add(e);
                 _KeysPool.Clear();
             }
 
-            lock (_MouseCopyLock)
+            lock (_MousePool)
             {
                 foreach (SMouseEvent e in _MousePool)
                     _CurrentMousePool.Add(e);
@@ -69,6 +84,8 @@ namespace Vocaluxe.Lib.Input
 
         public virtual bool PollKeyEvent(ref SKeyEvent keyEvent)
         {
+            if (!_Initialized)
+                return false;
             if (_CurrentKeysPool.Count > 0)
             {
                 keyEvent = _CurrentKeysPool[0];
@@ -80,6 +97,8 @@ namespace Vocaluxe.Lib.Input
 
         public virtual bool PollMouseEvent(ref SMouseEvent mouseEvent)
         {
+            if (!_Initialized)
+                return false;
             if (_CurrentMousePool.Count > 0)
             {
                 mouseEvent = _CurrentMousePool[0];
@@ -93,7 +112,9 @@ namespace Vocaluxe.Lib.Input
 
         public void AddKeyEvent(SKeyEvent keyEvent)
         {
-            lock (_KeyCopyLock)
+            if (!_Initialized)
+                return;
+            lock (_KeysPool)
             {
                 _KeysPool.Add(keyEvent);
             }
@@ -101,6 +122,8 @@ namespace Vocaluxe.Lib.Input
 
         public void AddMouseEvent(SMouseEvent mouseEvent)
         {
+            if (!_Initialized)
+                return;
             lock (_MousePool)
             {
                 _MousePool.Add(mouseEvent);
