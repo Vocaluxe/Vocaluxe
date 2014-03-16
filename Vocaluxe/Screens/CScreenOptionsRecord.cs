@@ -228,7 +228,7 @@ namespace Vocaluxe.Screens
                 int player = _SelectSlides[_SelectSlideRecordChannel1].Selection;
                 if (player > 0)
                 {
-                    _ChannelEnergy[0] = CRecord.RecordGetMaxVolume(player - 1);
+                    _ChannelEnergy[0] = CRecord.GetMaxVolume(player - 1);
                     _Equalizers[_EqualizerChannel1].Update(CRecord.ToneWeigth(player - 1));
                 }
                 else
@@ -238,7 +238,7 @@ namespace Vocaluxe.Screens
                 player = _SelectSlides[_SelectSlideRecordChannel2].Selection;
                 if (player > 0)
                 {
-                    _ChannelEnergy[1] = CRecord.RecordGetMaxVolume(player - 1);
+                    _ChannelEnergy[1] = CRecord.GetMaxVolume(player - 1);
                     _Equalizers[_EqualizerChannel2].Update(CRecord.ToneWeigth(player - 1));
                 }
                 else
@@ -266,7 +266,7 @@ namespace Vocaluxe.Screens
 
             _DeviceNr = -1;
 
-            _Devices = CRecord.RecordGetDevices();
+            _Devices = CRecord.GetDevices();
             if (_Devices != null)
             {
                 _DeviceNr = 0;
@@ -337,7 +337,7 @@ namespace Vocaluxe.Screens
         public override void OnClose()
         {
             base.OnClose();
-            CRecord.RecordStop();
+            CRecord.Stop();
 
             _DelayTest.Reset();
             CBackgroundMusic.Disabled = false;
@@ -363,7 +363,7 @@ namespace Vocaluxe.Screens
             if (_Devices == null)
                 return;
 
-            CRecord.RecordStop();
+            CRecord.Stop();
             _SetMicConfig();
 
             if (_CheckMicConfig())
@@ -389,7 +389,7 @@ namespace Vocaluxe.Screens
                 }
                 CConfig.SaveConfig();
             }
-            CRecord.RecordStart();
+            CRecord.Start();
         }
 
         private void _SetPlayerColors()

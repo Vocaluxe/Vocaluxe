@@ -626,7 +626,7 @@ namespace Vocaluxe.Base
     {
         public int GetToneAbs(int playerNr)
         {
-            return CRecord.RecordGetToneAbs(playerNr);
+            return CRecord.GetToneAbs(playerNr);
         }
     }
 

@@ -556,7 +556,7 @@ namespace Vocaluxe.Screens
         {
             if (_CurrentStream > -1)
                 CSound.FadeAndClose(_CurrentStream, 0f, 0.5f);
-            CRecord.RecordStop();
+            CRecord.Stop();
             if (_CurrentVideo != -1)
             {
                 CVideo.Close(_CurrentVideo);
@@ -738,7 +738,7 @@ namespace Vocaluxe.Screens
         {
             _PrepareTimeLine();
             CSound.Play(_CurrentStream);
-            CRecord.RecordStart();
+            CRecord.Start();
             if (_Webcam)
                 CWebcam.Start();
         }

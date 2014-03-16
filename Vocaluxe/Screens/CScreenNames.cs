@@ -555,7 +555,7 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
-            CRecord.RecordStart();
+            CRecord.Start();
 
             _NameSelections[_NameSelection].Init();
             _LoadProfiles();
@@ -565,7 +565,7 @@ namespace Vocaluxe.Screens
         public override void OnClose()
         {
             base.OnClose();
-            CRecord.RecordStop();
+            CRecord.Stop();
         }
 
         public override bool Draw()

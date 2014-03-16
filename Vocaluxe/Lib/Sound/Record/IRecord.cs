@@ -61,21 +61,87 @@ namespace Vocaluxe.Lib.Sound.Record
 
     interface IRecord
     {
+        /// <summary>
+        /// Initializes recording
+        /// </summary>
+        /// <returns>True on success</returns>
         bool Init();
-        void CloseAll();
 
+        /// <summary>
+        /// Closes recording. You must not use it before calling Init again
+        /// </summary>
+        void Close();
+
+        /// <summary>
+        /// Starts recording on all enabled devices (PlayerChannelX set)
+        /// </summary>
+        /// <returns>True on success, false on error or not initialized</returns>
         bool Start();
+
+        /// <summary>
+        /// Stops recording on all devices
+        /// </summary>
+        /// <returns>True on success, false on error or not initialized</returns>
         bool Stop();
+
+        /// <summary>
+        /// Analyzes the buffer for the given player
+        /// </summary>
+        /// <param name="player"></param>
         void AnalyzeBuffer(int player);
 
+        /// <summary>
+        /// Get the current raw tone value for a player
+        /// </summary>
+        /// <param name="player">0-based player index</param>
+        /// <returns>Tone between 0 and NumHalftones-1</returns>
         int GetToneAbs(int player);
+
+        /// <summary>
+        /// Get the current tone value for a player
+        /// </summary>
+        /// <param name="player">0-based player index</param>
+        /// <returns>Tone between 0 and 11 (one octave)</returns>
         int GetTone(int player);
+
+        /// <summary>
+        /// DEBUG ONLY: Sets a tone for a player
+        /// </summary>
+        /// <param name="player">0-based player index</param>
+        /// <param name="tone">Raw tone value between 0 and NumHalfTones-1</param>
         void SetTone(int player, int tone);
+
+        /// <summary>
+        /// Get the current maximum input volume (normalized) for a player
+        /// </summary>
+        /// <param name="player">0-based player index</param>
+        /// <returns>Maximum volume between 0 and 1</returns>
         float GetMaxVolume(int player);
+
+        /// <summary>
+        /// Returns whether the current tone is valid. That includes, if maximum volume is higher than the threshold
+        /// </summary>
+        /// <param name="player">0-based player index</param>
+        /// <returns>True if tone is detected and volume higher than threshold</returns>
         bool ToneValid(int player);
-        int NumHalfTones(int player);
+
+        /// <summary>
+        /// Returns the number of half tones used for the raw tone detection
+        /// </summary>
+        /// <returns>number of half tones used for the raw tone detection</returns>
+        int NumHalfTones();
+
+        /// <summary>
+        /// Returns the tone weights for a player as an array of normalized values for each halftone
+        /// </summary>
+        /// <param name="player">0-based player index</param>
+        /// <returns>Array of values (0-1) with one entry per halftone</returns>
         float[] ToneWeigth(int player);
 
+        /// <summary>
+        /// Readonly list of all detected record devices. Modifying the devices should not be done when record is running.
+        /// </summary>
+        /// <returns>Readonly list of all detected record devices</returns>
         ReadOnlyCollection<CRecordDevice> RecordDevices();
     }
 }

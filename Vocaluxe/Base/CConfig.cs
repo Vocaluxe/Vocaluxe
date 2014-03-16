@@ -291,7 +291,6 @@ namespace Vocaluxe.Base
             #endregion Video
 
             #region Record
-            MicConfig = new SMicConfig[CSettings.MaxNumPlayer];
             for (int p = 1; p <= CSettings.MaxNumPlayer; p++)
             {
                 MicConfig[p - 1] = new SMicConfig(0);
@@ -627,7 +626,7 @@ namespace Vocaluxe.Base
         /// <returns></returns>
         public static bool IsMicConfig()
         {
-            ReadOnlyCollection<CRecordDevice> devices = CRecord.RecordGetDevices();
+            ReadOnlyCollection<CRecordDevice> devices = CRecord.GetDevices();
             if (devices == null)
                 return false;
 
@@ -641,7 +640,7 @@ namespace Vocaluxe.Base
         /// <returns></returns>
         public static bool IsMicConfig(int player)
         {
-            ReadOnlyCollection<CRecordDevice> devices = CRecord.RecordGetDevices();
+            ReadOnlyCollection<CRecordDevice> devices = CRecord.GetDevices();
             if (devices == null)
                 return false;
 
@@ -668,7 +667,7 @@ namespace Vocaluxe.Base
         {
             //Look for (usb-)mic
             //SRecordDevice[] Devices = new SRecordDevice[CRecord.RecordGetDevices().Length];
-            ReadOnlyCollection<CRecordDevice> devices = CRecord.RecordGetDevices();
+            ReadOnlyCollection<CRecordDevice> devices = CRecord.GetDevices();
             if (devices == null)
                 return false;
 

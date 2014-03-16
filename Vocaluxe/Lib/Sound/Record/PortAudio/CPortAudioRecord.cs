@@ -56,7 +56,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             try
             {
                 if (_Initialized)
-                    CloseAll();
+                    Close();
 
                 if (_ErrorCheck("Initialize", PortAudioSharp.PortAudio.Pa_Initialize()))
                     return false;
@@ -164,7 +164,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         /// <summary>
         ///     Stop all voice capturing streams and terminate PortAudio
         /// </summary>
-        public void CloseAll()
+        public void Close()
         {
             Stop();
 
@@ -229,7 +229,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             return _Buffer[player].ToneValid;
         }
 
-        public int NumHalfTones(int player)
+        public int NumHalfTones()
         {
             if (!_Initialized)
                 return 0;

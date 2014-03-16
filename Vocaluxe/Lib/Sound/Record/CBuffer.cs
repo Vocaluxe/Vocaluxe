@@ -5,8 +5,9 @@ namespace Vocaluxe.Lib.Sound.Record
 {
     class CBuffer : IDisposable
     {
-        private const double _BaseToneFreq = 65.4064;
-        public const int NumHalfTones = 17;
+        //Half tones: C C♯ D Eb E F F♯ G G♯ A Bb B
+        private const double _BaseToneFreq = 65.4064; // lowest (half-)tone to analyze (C2 = 65.4064 Hz)
+        public const int NumHalfTones = 17; //Number of halftone to analyze C2-E3 (TODO: use more/full octaves?)
 
         private const int _AnalysisBufLen = 4096;
         private const int _AnalysisByteBufLen = _AnalysisBufLen * 2;

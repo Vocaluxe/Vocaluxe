@@ -66,7 +66,7 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
             return true;
         }
 
-        public void CloseAll()
+        public void Close()
         {
             if (_Initialized)
             {
@@ -173,7 +173,7 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
             return _Devices.AsReadOnly();
         }
 
-        public int NumHalfTones(int player)
+        public int NumHalfTones()
         {
             if (!_Initialized)
                 return 0;

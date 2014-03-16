@@ -10,7 +10,7 @@ namespace Vocaluxe.Base
     {
         private static IRecord _Record;
 
-        public static void RecordInit()
+        public static void Init()
         {
             switch (CConfig.RecordLib)
             {
@@ -27,17 +27,17 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static void RecordCloseAll()
+        public static void Close()
         {
-            _Record.CloseAll();
+            _Record.Close();
         }
 
-        public static bool RecordStart()
+        public static bool Start()
         {
             return _Record.Start();
         }
 
-        public static bool RecordStop()
+        public static bool Stop()
         {
             return _Record.Stop();
         }
@@ -47,34 +47,34 @@ namespace Vocaluxe.Base
             _Record.AnalyzeBuffer(player);
         }
 
-        public static int RecordGetToneAbs(int player)
+        public static int GetToneAbs(int player)
         {
             return _Record.GetToneAbs(player);
         }
 
-        public static int RecordGetTone(int player)
+        public static int GetTone(int player)
         {
             return _Record.GetTone(player);
         }
 
-        public static void RecordSetTone(int player, int tone)
+        public static void SetTone(int player, int tone)
         {
             _Record.SetTone(player, tone);
         }
 
-        public static bool RecordToneValid(int player)
+        public static bool ToneValid(int player)
         {
             return _Record.ToneValid(player);
         }
 
-        public static float RecordGetMaxVolume(int player)
+        public static float GetMaxVolume(int player)
         {
             return _Record.GetMaxVolume(player);
         }
 
         public static int NumHalfTones(int player)
         {
-            return _Record.NumHalfTones(player);
+            return _Record.NumHalfTones();
         }
 
         public static float[] ToneWeigth(int player)
@@ -82,7 +82,7 @@ namespace Vocaluxe.Base
             return _Record.ToneWeigth(player);
         }
 
-        public static ReadOnlyCollection<CRecordDevice> RecordGetDevices()
+        public static ReadOnlyCollection<CRecordDevice> GetDevices()
         {
             ReadOnlyCollection<CRecordDevice> devices = _Record.RecordDevices();
 
