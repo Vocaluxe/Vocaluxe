@@ -374,7 +374,6 @@ namespace Vocaluxe.Base
                 CLog.StopBenchmark("Load Covers/Notes");
             }
             CLog.StopBenchmark("Load Songs ");
-            GC.Collect();
         }
 
         public static void LoadCover()
@@ -419,7 +418,6 @@ namespace Vocaluxe.Base
                 song.LoadSmallCover();
                 NumSongsWithCoverLoaded++;
             }
-            GC.Collect();
             _CoverLoaded = true;
             CDataBase.CommitCovers();
         }

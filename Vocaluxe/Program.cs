@@ -230,6 +230,9 @@ namespace Vocaluxe
                 CLog.StopBenchmark("Init Party Modes");
 
                 Application.DoEvents();
+                //Only reasonable point to call GC.Collect() because initialization may cause lots of garbage
+                //Rely on GC doing its job afterwards and call Dispose methods where appropriate
+                GC.Collect();
             }
             catch (Exception e)
             {

@@ -577,7 +577,6 @@ namespace Vocaluxe.Screens
             _Texts[_TextSongName].Text = String.Empty;
             _Texts[_TextDuetName1].Text = String.Empty;
             _Texts[_TextDuetName2].Text = String.Empty;
-            GC.Collect();
         }
 
         private void _LoadNextSong()
@@ -639,7 +638,6 @@ namespace Vocaluxe.Screens
                 _SlideShow = GetNewBackground();
                 foreach (string bgFile in song.BackgroundFileNames)
                     _SlideShow.AddSlideShowTexture(Path.Combine(song.Folder, bgFile));
-                _Background = null;
             }
             else if (song.BackgroundFileNames.Count == 1)
             {
