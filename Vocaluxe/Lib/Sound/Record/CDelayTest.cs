@@ -82,7 +82,7 @@ namespace Vocaluxe.Lib.Sound.Record
                 {
                     if (_DelaysChannel[i].Channel < 0 || _DelaysChannel[i].Finished)
                         continue;
-                    if (CSound.RecordGetMaxVolume(_DelaysChannel[i].Channel) > 0.1f && CSound.RecordGetTone(_DelaysChannel[i].Channel) == 9)
+                    if (CRecord.RecordGetMaxVolume(_DelaysChannel[i].Channel) > 0.1f && CRecord.RecordGetTone(_DelaysChannel[i].Channel) == 9)
                     {
                         Delays[i] = (int)_Timer.ElapsedMilliseconds;
                         _DelaysChannel[i].Finished = true;

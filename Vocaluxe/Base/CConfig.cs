@@ -627,7 +627,7 @@ namespace Vocaluxe.Base
         /// <returns></returns>
         public static bool IsMicConfig()
         {
-            ReadOnlyCollection<CRecordDevice> devices = CSound.RecordGetDevices();
+            ReadOnlyCollection<CRecordDevice> devices = CRecord.RecordGetDevices();
             if (devices == null)
                 return false;
 
@@ -641,7 +641,7 @@ namespace Vocaluxe.Base
         /// <returns></returns>
         public static bool IsMicConfig(int player)
         {
-            ReadOnlyCollection<CRecordDevice> devices = CSound.RecordGetDevices();
+            ReadOnlyCollection<CRecordDevice> devices = CRecord.RecordGetDevices();
             if (devices == null)
                 return false;
 
@@ -667,8 +667,8 @@ namespace Vocaluxe.Base
         public static bool AutoAssignMics()
         {
             //Look for (usb-)mic
-            //SRecordDevice[] Devices = new SRecordDevice[CSound.RecordGetDevices().Length];
-            ReadOnlyCollection<CRecordDevice> devices = CSound.RecordGetDevices();
+            //SRecordDevice[] Devices = new SRecordDevice[CRecord.RecordGetDevices().Length];
+            ReadOnlyCollection<CRecordDevice> devices = CRecord.RecordGetDevices();
             if (devices == null)
                 return false;
 

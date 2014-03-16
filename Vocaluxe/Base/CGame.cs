@@ -225,7 +225,7 @@ namespace Vocaluxe.Base
             MidRecordedBeat = -0.5f + GetBeatFromTime(time, song.BPM, song.Gap + CConfig.MicDelay / 1000f);
 
             for (int p = 0; p < _NumPlayer; p++)
-                CSound.AnalyzeBuffer(p);
+                CRecord.AnalyzeBuffer(p);
 
             if (_LastEvalBeat >= RecordedBeat)
                 return;
@@ -271,14 +271,14 @@ namespace Vocaluxe.Base
                     if (line == lines.Length - 1 && beat == lines[line].LastNoteBeat)
                         Players[p].SongFinished = true;
 
-                    if (notes[note].PointsForBeat > 0 && (CSound.RecordToneValid(p)
+                    if (notes[note].PointsForBeat > 0 && (CRecord.RecordToneValid(p)
 #if DEBUG_HIT
                         || true
 #endif
                                                          ))
                     {
                         int tone = notes[note].Tone;
-                        int tonePlayer = CSound.RecordGetTone(p);
+                        int tonePlayer = CRecord.RecordGetTone(p);
 
                         while (tonePlayer - tone > 6)
                             tonePlayer -= 12;
@@ -296,7 +296,7 @@ namespace Vocaluxe.Base
                         if (hit)
                         {
                             // valid
-                            //CSound.RecordSetTone(p, Tone);
+                            //CRecord.RecordSetTone(p, Tone);
                             double points = (CSettings.MaxScore - CSettings.LinebonusScore) * (double)notes[note].PointsForBeat /
                                             song.Notes.GetVoice(Players[p].VoiceNr).Points;
                             if (notes[note].Type == ENoteType.Golden)

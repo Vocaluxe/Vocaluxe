@@ -126,7 +126,7 @@ namespace Vocaluxe
 
                 // Init Record
                 CLog.StartBenchmark(0, "Init Record");
-                CSound.RecordInit();
+                CRecord.RecordInit();
                 CLog.StopBenchmark(0, "Init Record");
 
                 Application.DoEvents();
@@ -243,7 +243,7 @@ namespace Vocaluxe
             {
                 CVocaluxeServer.Close();
                 CController.Close();
-                CSound.RecordCloseAll();
+                CRecord.RecordCloseAll();
                 CSound.CloseAllStreams();
                 CVideo.CloseAll();
                 CDraw.Unload();
