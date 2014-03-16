@@ -175,13 +175,9 @@ namespace Vocaluxe.Base
                 return;
 
             var ignoreList = new List<string>();
-            var files = new List<string>();
 
             string coverPath = Path.Combine(CSettings.FolderCover, coverTheme.Folder);
-            files.AddRange(CHelper.ListFiles(coverPath, "*.png", true, true));
-            files.AddRange(CHelper.ListFiles(coverPath, "*.jpg", true, true));
-            files.AddRange(CHelper.ListFiles(coverPath, "*.jpeg", true, true));
-            files.AddRange(CHelper.ListFiles(coverPath, "*.bmp", true, true));
+            List<string> files = CHelper.ListImageFiles(coverPath, true, true);
 
             CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.FolderCover, coverTheme.File));
             lock (_Covers)

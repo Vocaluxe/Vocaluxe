@@ -145,7 +145,15 @@ namespace VocaluxeLib
             rect = new RectangleF(left, upper, scaledWidth, scaledHeight);
         }
 
-        public static List<string> ListFiles(string path, string cast, bool recursive = false, bool fullpath = false)
+        /// <summary>
+        /// Returns a list with all files in the given path that match a given pattern
+        /// </summary>
+        /// <param name="path">Path to search for</param>
+        /// <param name="searchPattern">Pattern to match (e.g. "*.jpg")</param>
+        /// <param name="recursive">Search directories recursively</param>
+        /// <param name="fullpath">False for just file names, True for full path</param>
+        /// <returns>List of file names</returns>
+        public static List<string> ListFiles(string path, string searchPattern, bool recursive = false, bool fullpath = false)
         {
             var files = new List<string>();
             var dir = new DirectoryInfo(path);
@@ -155,18 +163,35 @@ namespace VocaluxeLib
             try
             {
                 // ReSharper disable LoopCanBeConvertedToQuery
-                foreach (FileInfo file in dir.GetFiles(cast))
+                foreach (FileInfo file in dir.GetFiles(searchPattern))
                     // ReSharper restore LoopCanBeConvertedToQuery
                     files.Add(!fullpath ? file.Name : file.FullName);
 
                 if (recursive)
                 {
                     foreach (DirectoryInfo di in dir.GetDirectories())
-                        files.AddRange(ListFiles(di.FullName, cast, true, fullpath));
+                        files.AddRange(ListFiles(di.FullName, searchPattern, true, fullpath));
                 }
             }
             catch (Exception) {}
 
+            return files;
+        }
+
+        /// <summary>
+        /// Returns a list with all image files in the given path
+        /// Searches for: jpg, jpeg, png, gif
+        /// </summary>
+        /// <param name="path">Path to search for</param>
+        /// <param name="recursive">Search directories recursively</param>
+        /// <param name="fullpath">False for just file names, True for full path</param>
+        /// <returns>List of image file names</returns>
+        public static List<string> ListImageFiles(string path, bool recursive = false, bool fullpath = false)
+        {
+            List<string> files = ListFiles(path, "*.jpg", recursive, fullpath);
+            files.AddRange(ListFiles(path, "*.jpeg", recursive, fullpath));
+            files.AddRange(ListFiles(path, "*.png", recursive, fullpath));
+            files.AddRange(ListFiles(path, "*.gif", recursive, fullpath));
             return files;
         }
 

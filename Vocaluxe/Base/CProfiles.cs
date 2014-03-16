@@ -19,8 +19,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using VocaluxeLib;
-using VocaluxeLib.Profile;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Base
 {
@@ -578,12 +578,7 @@ namespace Vocaluxe.Base
 
             var files = new List<string>();
             foreach (string path in CSettings.FoldersProfiles)
-            {
-                files.AddRange(CHelper.ListFiles(path, "*.png", true, true));
-                files.AddRange(CHelper.ListFiles(path, "*.jpg", true, true));
-                files.AddRange(CHelper.ListFiles(path, "*.jpeg", true, true));
-                files.AddRange(CHelper.ListFiles(path, "*.bmp", true, true));
-            }
+                files.AddRange(CHelper.ListImageFiles(path, true, true));
 
             foreach (string file in files)
             {
