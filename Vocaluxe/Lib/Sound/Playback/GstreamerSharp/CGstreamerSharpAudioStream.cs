@@ -148,7 +148,8 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 
         public void Fade(float targetVolume, float seconds)
         {
-            _Fading = new CFading(_Volume, targetVolume, seconds);
+            targetVolume.Clamp(0f, 100f);
+            _Fading = new CFading(_Volume, targetVolume / 100f, seconds);
             _AfterFadeAction = EStreamAction.Nothing;
         }
 
@@ -175,10 +176,16 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             get { return _Volume * 100f; }
             set
             {
+                value.Clamp(0f, 100f);
                 _Volume = value / 100f;
-                if (_Element != null)
-                    _Element["volume"] = (_Volume * _MaxVolume);
+                _SetElementVolume();
             }
+        }
+
+        private void _SetElementVolume()
+        {
+            if (_Element != null)
+                _Element["volume"] = (_Volume * _MaxVolume);
         }
 
         public float MaxVolume
@@ -186,8 +193,9 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             get { return _MaxVolume * 100f; }
             set
             {
+                value.Clamp(0f, 100f);
                 _MaxVolume = value / 100f;
-                Volume = _Volume;
+                _SetElementVolume();
             }
         }
 
@@ -251,7 +259,8 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             if (_Fading != null)
             {
                 bool finished;
-                Volume = _Fading.GetValue(out finished);
+                _Volume = _Fading.GetValue(out finished);
+                _SetElementVolume();
                 if (finished)
                 {
                     switch (_AfterFadeAction)

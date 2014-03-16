@@ -54,7 +54,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         private bool _SetSkip;
         private bool _Terminated;
 
-        private readonly Thread _DecoderThread;
+        private Thread _DecoderThread;
 
         private AutoResetEvent _EventDecode = new AutoResetEvent(false);
 
@@ -64,7 +64,6 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         public CPortAudioStream()
         {
             _SyncTimer = new CSyncTimer(0f, 1f, 0.02f);
-            _DecoderThread = new Thread(_Execute) {Name = "PortAudio Decode"};
         }
 
         ~CPortAudioStream()
@@ -108,12 +107,8 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             {
                 lock (_LockData)
                 {
+                    value.Clamp(0f, 100f);
                     _Volume = value / 100f;
-                    if (_Volume < 0f)
-                        _Volume = 0f;
-
-                    if (_Volume > 1f)
-                        _Volume = 1f;
                 }
             }
         }
@@ -125,12 +120,8 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             {
                 lock (_LockData)
                 {
+                    value.Clamp(0f, 100f);
                     _VolumeMax = value / 100f;
-                    if (_VolumeMax < 0f)
-                        _VolumeMax = 0f;
-
-                    if (_VolumeMax > 1f)
-                        _VolumeMax = 1f;
                 }
             }
         }
@@ -170,13 +161,15 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 
         public void Fade(float targetVolume, float fadeTime)
         {
-            _Fading = new CFading(_Volume, targetVolume, fadeTime);
+            targetVolume = targetVolume.Clamp(0f, 100f);
+            _Fading = new CFading(_Volume, targetVolume / 100f, fadeTime);
             _AfterFadeAction = EStreamAction.Nothing;
         }
 
         public void FadeAndPause(float targetVolume, float fadeTime)
         {
             Fade(targetVolume, fadeTime);
+            _AfterFadeAction = EStreamAction.Pause;
         }
 
         public void FadeAndClose(float targetVolume, float fadeTime, Closeproc closeProc, int streamID)
@@ -226,9 +219,6 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
                 return -1;
 
             if (!File.Exists(fileName))
-                return -1;
-
-            if (_FileOpened)
                 return -1;
 
             _Decoder = new CAudioDecoderFFmpeg();
@@ -310,8 +300,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
                 _FileOpened = true;
                 _Data = new CRingBuffer(_Bufsize);
                 _NoMoreData = false;
-                _DecoderThread.Priority = ThreadPriority.Normal;
-                _DecoderThread.Name = Path.GetFileName(fileName);
+                _DecoderThread = new Thread(_Execute) {Priority = ThreadPriority.Normal, Name = Path.GetFileName(fileName)};
                 _DecoderThread.Start();
 
                 return stream.Handle;
@@ -490,26 +479,13 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
                 if (_NoMoreData || _Data.BytesNotRead >= buf.Length)
                 {
                     _Data.Read(buf);
-
-                    var b = new byte[2];
-                    for (int i = 0; i < buf.Length; i += _ByteCount)
+                    //We want to scale all values. No matter how many channels we have (_ByteCount=2 or 4) we have short values
+                    //So just process 2 bytes a time
+                    for (int i = 0; i < buf.Length; i += 2)
                     {
-                        b[0] = buf[i];
-                        b[1] = buf[i + 1];
-
-                        b = BitConverter.GetBytes((Int16)(BitConverter.ToInt16(b, 0) * _Volume * _VolumeMax));
+                        byte[] b = BitConverter.GetBytes((Int16)(BitConverter.ToInt16(buf, i) * _Volume * _VolumeMax));
                         buf[i] = b[0];
                         buf[i + 1] = b[1];
-
-                        if (_ByteCount == 4)
-                        {
-                            b[0] = buf[i + 2];
-                            b[1] = buf[i + 3];
-
-                            b = BitConverter.GetBytes((Int16)(BitConverter.ToInt16(b, 0) * _Volume * _VolumeMax));
-                            buf[i + 2] = b[0];
-                            buf[i + 3] = b[1];
-                        }
                     }
                 }
 

@@ -57,18 +57,12 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
         private bool _SetSkip;
         private bool _Terminated;
 
-        private readonly Thread _DecoderThread;
+        private Thread _DecoderThread;
 
         private AutoResetEvent _EventDecode = new AutoResetEvent(false);
 
         private readonly Object _MutexData = new Object();
         private readonly Object _MutexSyncSignals = new Object();
-
-        public COpenAlStream()
-        {
-            _Initialized = false;
-            _DecoderThread = new Thread(_Execute) {Name = "OpenAL Decode"};
-        }
 
         public void Free(Closeproc closeProc, int streamID, Object closeMutex)
         {
@@ -107,12 +101,8 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             {
                 lock (_MutexData)
                 {
+                    value.Clamp(0f, 100f);
                     _Volume = value / 100f;
-                    if (_Volume < 0f)
-                        _Volume = 0f;
-
-                    if (_Volume > 1f)
-                        _Volume = 1f;
                 }
             }
         }
@@ -124,12 +114,8 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             {
                 lock (_MutexData)
                 {
+                    value.Clamp(0f, 100f);
                     _VolumeMax = value / 100f;
-                    if (_VolumeMax < 0f)
-                        _VolumeMax = 0f;
-
-                    if (_VolumeMax > 1f)
-                        _VolumeMax = 1f;
                 }
             }
         }
@@ -170,7 +156,8 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 
         public void Fade(float targetVolume, float fadeTime)
         {
-            _Fading = new CFading(_Volume, targetVolume, fadeTime);
+            targetVolume.Clamp(0f, 100f);
+            _Fading = new CFading(_Volume, targetVolume / 100f, fadeTime);
             _AfterFadeAction = EStreamAction.Nothing;
         }
 
@@ -251,8 +238,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
                 _FileOpened = true;
                 _Data = new CRingBuffer(_Bufsize);
                 _NoMoreData = false;
-                _DecoderThread.Priority = ThreadPriority.Normal;
-                _DecoderThread.Name = Path.GetFileName(fileName);
+                _DecoderThread = new Thread(_Execute) {Priority = ThreadPriority.Normal, Name = Path.GetFileName(fileName)};
                 _DecoderThread.Start();
 
                 return stream.Handle;
@@ -428,7 +414,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             {
                 AL.GetSource(_Source, ALGetSourcei.BuffersProcessed, out processedCount);
                 doit = false;
-                Console.WriteLine("Buffers Processed on Stream " + _Source + " = " + processedCount);
+                //Console.WriteLine("Buffers Processed on Stream " + _Source + " = " + processedCount);
                 if (processedCount < 1)
                     return;
             }
@@ -443,28 +429,14 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
                     {
                         _Data.Read(buf);
 
-
-                        var b = new byte[2];
-                        for (int i = 0; i < buf.Length; i += _ByteCount)
+                        //We want to scale all values. No matter how many channels we have (_ByteCount=2 or 4) we have short values
+                        //So just process 2 bytes a time
+                        for (int i = 0; i < buf.Length; i += 2)
                         {
-                            b[0] = buf[i];
-                            b[1] = buf[i + 1];
-
-                            b = BitConverter.GetBytes((Int16)(BitConverter.ToInt16(b, 0) * _Volume * _VolumeMax));
+                            byte[] b = BitConverter.GetBytes((Int16)(BitConverter.ToInt16(buf, i) * _Volume * _VolumeMax));
                             buf[i] = b[0];
                             buf[i + 1] = b[1];
-
-                            if (_ByteCount == 4)
-                            {
-                                b[0] = buf[i + 2];
-                                b[1] = buf[i + 3];
-
-                                b = BitConverter.GetBytes((Int16)(BitConverter.ToInt16(b, 0) * _Volume * _VolumeMax));
-                                buf[i + 2] = b[0];
-                                buf[i + 3] = b[1];
-                            }
                         }
-
 
                         int buffer;
                         if (!doit)
@@ -479,7 +451,6 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
                         {
                             ALFormat alFormat = (_Format.ChannelCount == 2) ? ALFormat.Stereo16 : ALFormat.Mono16;
                             AL.BufferData(buffer, alFormat, buf, buf.Length, _Format.SamplesPerSecond);
-                            Console.WriteLine("Write to Buffer: " + buffer);
                             AL.SourceQueueBuffer(_Source, buffer);
                         }
                     }
@@ -491,8 +462,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             }
 
             _CurrentTime = _TimeCode - _Data.BytesNotRead / _BytesPerSecond - 0.1f;
-            _Timer.Reset();
-            _Timer.Start();
+            _Timer.Restart();
         }
 
         public void Dispose()
