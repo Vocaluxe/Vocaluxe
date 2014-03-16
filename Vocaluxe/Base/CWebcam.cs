@@ -26,8 +26,10 @@ namespace Vocaluxe.Base
     {
         private static IWebcam _Webcam;
 
-        public static void Init()
+        public static bool Init()
         {
+            if (_Webcam != null)
+                return false;
             switch (CConfig.WebcamLib)
             {
                 case EWebcamLib.AForgeNet:
@@ -38,11 +40,13 @@ namespace Vocaluxe.Base
                     _Webcam = new CAForgeNet();
                     break;
             }
-            _Webcam.Init();
+            if (!_Webcam.Init())
+                return false;
             _Webcam.Select(CConfig.WebcamConfig);
 
             CConfig.WebcamConfig = _Webcam.GetConfig();
             CConfig.SaveConfig();
+            return true;
         }
 
         public static bool GetFrame(ref CTexture tex)
@@ -57,7 +61,11 @@ namespace Vocaluxe.Base
 
         public static void Close()
         {
-            _Webcam.Close();
+            if (_Webcam != null)
+            {
+                _Webcam.Close();
+                _Webcam = null;
+            }
         }
 
         public static void Pause()

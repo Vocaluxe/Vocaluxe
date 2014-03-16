@@ -38,6 +38,8 @@ namespace Vocaluxe.Base
 
         public static bool Init()
         {
+            if (_Playback != null)
+                return false;
             switch (CConfig.PlayBackLib)
             {
                 case EPlaybackLib.PortAudio:
@@ -75,7 +77,14 @@ namespace Vocaluxe.Base
 
         public static void CloseAllStreams()
         {
-            _Playback.CloseAll();
+            if (_Playback != null)
+                _Playback.CloseAll();
+        }
+
+        public static void Close()
+        {
+            CloseAllStreams();
+            _Playback = null;
         }
 
         #region Stream Handling

@@ -42,19 +42,28 @@ namespace Vocaluxe.Lib.Input.WiiMote
         private bool _Connected;
 
         private Thread _HandlerThread;
+        private AutoResetEvent _EvTerminate;
         private Object _Sync;
         private bool _Active;
         private CRumbleTimer _RumbleTimer;
 
         private CGesture _Gesture;
 
-        public void Init()
+        public string GetName()
         {
+            return "WiiMote";
+        }
+
+        public bool Init()
+        {
+            if (_HandlerThread != null)
+                return false;
             _Sync = new Object();
             _RumbleTimer = new CRumbleTimer();
             _Gesture = new CGesture();
 
             _HandlerThread = new Thread(_MainLoop) {Name = "WiiMote", Priority = ThreadPriority.BelowNormal};
+            _EvTerminate = new AutoResetEvent(false);
 
             _KeysPool = new List<SKeyEvent>();
             _CurrentKeysPool = new List<SKeyEvent>();
@@ -64,17 +73,31 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
             _ButtonStates = new bool[11];
             _OldPosition = new Point();
+            return true;
         }
 
         public void Close()
         {
             _Active = false;
-            _WiiMote.Disconnect();
+            if (_HandlerThread != null)
+            {
+                //Join before freeing stuff
+                //This also ensures, that no other thread is created till the current one is terminated
+                _EvTerminate.Set();
+                _HandlerThread.Join();
+                _HandlerThread = null;
+                _EvTerminate.Dispose();
+                _EvTerminate = null;
+                _KeysPool = null;
+                _CurrentKeysPool = null;
+                _MousePool = null;
+                _CurrentMousePool = null;
+            }
         }
 
         public void Connect()
         {
-            if (_Active)
+            if (_Active || _HandlerThread == null)
                 return;
             _Active = true;
             _HandlerThread.Start();
@@ -82,7 +105,8 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
         public void Disconnect()
         {
-            _Active = false;
+            //TODO: Allow reconnect
+            Close();
         }
 
         public bool IsConnected()
@@ -92,6 +116,8 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
         public void Update()
         {
+            if (_HandlerThread == null)
+                return;
             _CopyEvents();
         }
 
@@ -137,7 +163,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 if (!_WiiMote.Connected)
                 {
                     if (!_DoConnect())
-                        Thread.Sleep(1000);
+                        _EvTerminate.WaitOne(1000);
                 }
                 else
                 {

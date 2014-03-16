@@ -29,8 +29,10 @@ namespace Vocaluxe.Base
         private static IVideoDecoder _VideoDecoder;
 
         #region Init
-        public static void Init()
+        public static bool Init()
         {
+            if (_VideoDecoder != null)
+                return false;
             switch (CConfig.VideoDecoder)
             {
                 case EVideoDecoder.FFmpeg:
@@ -44,14 +46,18 @@ namespace Vocaluxe.Base
                     break;
             }
 
-            _VideoDecoder.Init();
+            return _VideoDecoder.Init();
         }
         #endregion Init
 
         #region Interface
-        public static void CloseAll()
+        public static void Close()
         {
-            _VideoDecoder.CloseAll();
+            if (_VideoDecoder != null)
+            {
+                _VideoDecoder.CloseAll();
+                _VideoDecoder = null;
+            }
         }
 
         public static int GetNumStreams()

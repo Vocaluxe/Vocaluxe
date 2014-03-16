@@ -361,9 +361,9 @@ namespace Vocaluxe.Base.Fonts
         public static void LoadThemeFonts(string themeName, string fontFolder, CXMLReader xmlReader)
         {
             _LoadFontFiles(xmlReader, fontFolder, themeName);
-            CLog.StartBenchmark(1, "BuildGlyphs");
+            CLog.StartBenchmark("BuildGlyphs");
             _BuildGlyphs();
-            CLog.StopBenchmark(1, "BuildGlyphs");
+            CLog.StopBenchmark("BuildGlyphs");
         }
 
         /// <summary>
@@ -372,9 +372,9 @@ namespace Vocaluxe.Base.Fonts
         public static void LoadPartyModeFonts(int partyModeID, string fontFolder, CXMLReader xmlReader)
         {
             _LoadFontFiles(xmlReader, fontFolder, "", partyModeID);
-            CLog.StartBenchmark(1, "BuildGlyphs");
+            CLog.StartBenchmark("BuildGlyphs");
             _BuildGlyphs();
-            CLog.StopBenchmark(1, "BuildGlyphs");
+            CLog.StopBenchmark("BuildGlyphs");
         }
 
         public static void SaveThemeFonts(string themeName, XmlWriter writer)

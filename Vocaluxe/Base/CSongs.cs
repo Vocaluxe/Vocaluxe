@@ -332,11 +332,11 @@ namespace Vocaluxe.Base
 
         public static void LoadSongs()
         {
-            CLog.StartBenchmark(1, "Load Songs");
+            CLog.StartBenchmark("Load Songs");
             SongsLoaded = false;
             _Songs.Clear();
 
-            CLog.StartBenchmark(2, "List Songs");
+            CLog.StartBenchmark("List Songs");
             var files = new List<string>();
             foreach (string p in CConfig.SongFolder)
             {
@@ -344,9 +344,9 @@ namespace Vocaluxe.Base
                 files.AddRange(CHelper.ListFiles(path, "*.txt", true, true));
                 files.AddRange(CHelper.ListFiles(path, "*.txd", true, true));
             }
-            CLog.StopBenchmark(2, "List Songs");
+            CLog.StopBenchmark("List Songs");
 
-            CLog.StartBenchmark(2, "Read TXTs");
+            CLog.StartBenchmark("Read TXTs");
             foreach (string file in files)
             {
                 CSong song = CSong.LoadSong(file);
@@ -356,24 +356,24 @@ namespace Vocaluxe.Base
                 if (song.LoadNotes())
                     _Songs.Add(song);
             }
-            CLog.StopBenchmark(2, "Read TXTs");
+            CLog.StopBenchmark("Read TXTs");
 
-            CLog.StartBenchmark(2, "Sort Songs");
+            CLog.StartBenchmark("Sort Songs");
             Sorter.SongSorting = CConfig.SongSorting;
             Sorter.IgnoreArticles = CConfig.IgnoreArticles;
             Categorizer.Tabs = CConfig.Tabs;
             Categorizer.ObjectChanged += _HandleCategoriesChanged;
-            CLog.StopBenchmark(2, "Sort Songs");
+            CLog.StopBenchmark("Sort Songs");
             Category = -1;
             SongsLoaded = true;
 
             if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
             {
-                CLog.StartBenchmark(2, "Load Covers/Notes");
+                CLog.StartBenchmark("Load Covers/Notes");
                 _LoadCover();
-                CLog.StopBenchmark(2, "Load Covers/Notes");
+                CLog.StopBenchmark("Load Covers/Notes");
             }
-            CLog.StopBenchmark(1, "Load Songs ");
+            CLog.StopBenchmark("Load Songs ");
             GC.Collect();
         }
 

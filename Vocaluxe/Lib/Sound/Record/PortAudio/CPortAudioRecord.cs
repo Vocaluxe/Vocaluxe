@@ -15,11 +15,11 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Collections.ObjectModel;
-using System.Threading;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
+using System.Threading;
 using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Sound.Record.PortAudio
@@ -27,7 +27,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
     class CPortAudioRecord : IRecord
     {
         private bool _Initialized;
-        private List<CRecordDevice> _Devices;
+        private readonly List<CRecordDevice> _Devices = new List<CRecordDevice>();
 
         private PortAudioSharp.PortAudio.PaStreamCallbackDelegate _MyRecProc;
         private IntPtr[] _RecHandle;
@@ -36,13 +36,9 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
 
         public CPortAudioRecord()
         {
-            _Devices = null;
-
             _Buffer = new CBuffer[CSettings.MaxNumPlayer];
             for (int i = 0; i < _Buffer.Length; i++)
                 _Buffer[i] = new CBuffer();
-
-            Init();
         }
 
         /// <summary>
@@ -51,8 +47,6 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         /// <returns>true if success</returns>
         public bool Init()
         {
-            _Devices = new List<CRecordDevice>();
-
             try
             {
                 if (_Initialized)
@@ -61,9 +55,8 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                 if (_ErrorCheck("Initialize", PortAudioSharp.PortAudio.Pa_Initialize()))
                     return false;
 
-                _Initialized = true;
+                _Devices.Clear();
                 int hostAPI = _ApiSelect();
-
                 int numDevices = PortAudioSharp.PortAudio.Pa_GetDeviceCount();
                 for (int i = 0; i < numDevices; i++)
                 {
@@ -76,8 +69,12 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                     }
                 }
 
+                foreach (CBuffer buffer in _Buffer)
+                    buffer.Reset();
+
                 _RecHandle = new IntPtr[_Devices.Count];
                 _MyRecProc = _MyPaStreamCallback;
+                _Initialized = true;
             }
             catch (Exception e)
             {
@@ -100,6 +97,8 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
 
             if (_RecHandle == null || _RecHandle.Length == 0)
                 return false;
+
+            Stop();
 
             foreach (CBuffer buffer in _Buffer)
                 buffer.Reset();

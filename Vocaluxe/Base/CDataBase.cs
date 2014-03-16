@@ -56,7 +56,7 @@ namespace Vocaluxe.Base
         private static SQLiteConnection _ConnectionCover;
         private static SQLiteTransaction _TransactionCover;
 
-        public static void Init()
+        public static bool Init()
         {
             _HighscoreFilePath = Path.Combine(Environment.CurrentDirectory, CSettings.FileHighscoreDB);
             _CoverFilePath = Path.Combine(Environment.CurrentDirectory, CSettings.FileCoverDB);
@@ -66,14 +66,15 @@ namespace Vocaluxe.Base
             if (!_InitCoverDB())
             {
                 CLog.LogError("Error initializing Cover-DB", true, true);
-                return;
+                return false;
             }
             if (!_InitCreditsRessourcesDB())
             {
                 CLog.LogError("Error initializing Cover-DB", true, true);
-                return;
+                return false;
             }
             GC.Collect();
+            return true;
         }
 
         #region Highscores
@@ -431,7 +432,7 @@ namespace Vocaluxe.Base
             return false;
         }
 
-        private static void _InitHighscoreDB()
+        private static bool _InitHighscoreDB()
         {
             string oldDBFilePath = Path.Combine(Environment.CurrentDirectory, CSettings.FileOldHighscoreDB);
             if (File.Exists(oldDBFilePath))
@@ -441,17 +442,17 @@ namespace Vocaluxe.Base
                     if (!_CreateOrConvert(oldDBFilePath))
                     {
                         CLog.LogError("Cannot init Highscore DB: Error opening database: " + oldDBFilePath, true, true);
-                        return;
+                        return false;
                     }
                     if (!_CreateOrConvert(_HighscoreFilePath))
                     {
                         CLog.LogError("Cannot init Highscore DB: Error opening database: " + _HighscoreFilePath, true, true);
-                        return;
+                        return false;
                     }
                     if (!_ImportData(oldDBFilePath))
                     {
                         CLog.LogError("Cannot init Highscore DB: Error importing data", true, true);
-                        return;
+                        return false;
                     }
                 }
                 else
@@ -460,13 +461,17 @@ namespace Vocaluxe.Base
                     if (!_CreateOrConvert(_HighscoreFilePath))
                     {
                         CLog.LogError("Cannot init Highscore DB: Error opening database: " + _HighscoreFilePath, true, true);
-                        return;
+                        return false;
                     }
                 }
                 File.Delete(oldDBFilePath);
             }
             else if (!_CreateOrConvert(_HighscoreFilePath))
+            {
                 CLog.LogError("Cannot init Highscore DB: Error opening database: " + _HighscoreFilePath, true, true);
+                return false;
+            }
+            return true;
         }
 
         private static void _CreateHighscoreDB(string filePath)
@@ -1169,13 +1174,12 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static void CloseConnections()
+        public static void Close()
         {
             CommitCovers();
 
             if (_ConnectionCover != null)
             {
-                _ConnectionCover.Close();
                 _ConnectionCover.Dispose();
                 _ConnectionCover = null;
             }

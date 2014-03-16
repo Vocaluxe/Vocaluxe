@@ -32,7 +32,8 @@ namespace Vocaluxe.Lib.Input
 
     interface IController
     {
-        void Init();
+        string GetName();
+        bool Init();
         void Close();
         void Connect();
         void Disconnect();

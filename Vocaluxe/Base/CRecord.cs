@@ -10,8 +10,10 @@ namespace Vocaluxe.Base
     {
         private static IRecord _Record;
 
-        public static void Init()
+        public static bool Init()
         {
+            if (_Record != null)
+                return false;
             switch (CConfig.RecordLib)
             {
 #if WIN
@@ -25,11 +27,16 @@ namespace Vocaluxe.Base
                     _Record = new CPortAudioRecord();
                     break;
             }
+            return _Record.Init();
         }
 
         public static void Close()
         {
-            _Record.Close();
+            if (_Record != null)
+            {
+                _Record.Close();
+                _Record = null;
+            }
         }
 
         public static bool Start()

@@ -142,22 +142,30 @@ namespace Vocaluxe.Base
         #endregion Vars
 
         #region Theme and Skin loading and writing
-        public static void InitTheme()
+        public static bool Init()
         {
             _ListThemes();
             ListSkins();
 
-            LoadSkins();
-            LoadTheme();
+            return LoadSkins() && LoadTheme();
         }
 
-        public static void LoadSkins()
+        public static bool LoadSkins()
         {
+            //Fail if loading of any skin failed or no skin was loaded
+            //TODO: implement handlers that failing skins are logged and ignored
+            bool result = false;
             for (int index = 0; index < _Skins.Count; index++)
             {
                 if (_Skins[index].PartyModeID == -1)
-                    LoadSkin(index);
+                {
+                    if (LoadSkin(index))
+                        result = true;
+                    else
+                        return false;
+                }
             }
+            return result;
         }
 
         public static bool LoadSkin(int skinIndex)
@@ -225,13 +233,14 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static void LoadTheme()
+        public static bool LoadTheme()
         {
             for (int i = 0; i < _Themes.Count; i++)
             {
                 if (_Themes[i].Name == CConfig.Theme && _Themes[i].PartyModeID == -1)
-                    LoadTheme(i);
+                    return LoadTheme(i);
             }
+            return false;
         }
 
         public static bool LoadTheme(int themeIndex)

@@ -61,10 +61,10 @@ namespace Vocaluxe.Base
         }
 
         #region public methods
-        public static void InitGraphics()
+        public static void Init()
         {
             // Add Screens, must be the same order as in EScreens!
-            CLog.StartBenchmark(1, "Build Screen List");
+            CLog.StartBenchmark("Build Screen List");
 
             _Screens.Add(new CScreenTest());
             _Screens.Add(new CScreenLoad());
@@ -91,7 +91,7 @@ namespace Vocaluxe.Base
             _PopupScreens.Add(new CPopupScreenVolumeControl());
             _PopupScreens.Add(new CPopupScreenServerQR());
 
-            CLog.StopBenchmark(1, "Build Screen List");
+            CLog.StopBenchmark("Build Screen List");
 
             _CurrentScreen = EScreens.ScreenLoad;
             _NextScreen = EScreens.ScreenNull;
@@ -101,9 +101,9 @@ namespace Vocaluxe.Base
             _GlobalAlpha = 1f;
             _ZOffset = 0f;
 
-            CLog.StartBenchmark(0, "Load Theme");
+            CLog.StartBenchmark("Load Theme");
             LoadTheme();
-            CLog.StopBenchmark(0, "Load Theme");
+            CLog.StopBenchmark("Load Theme");
         }
 
         public static void LoadTheme()
@@ -112,10 +112,10 @@ namespace Vocaluxe.Base
 
             for (int i = 0; i < _Screens.Count; i++)
             {
-                CLog.StartBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
+                CLog.StartBenchmark("Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
                 _Screens[i].Init();
                 _Screens[i].LoadTheme(CTheme.GetThemeScreensPath(-1));
-                CLog.StopBenchmark(1, "Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
+                CLog.StopBenchmark("Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
             }
 
             foreach (IMenu popup in _PopupScreens)

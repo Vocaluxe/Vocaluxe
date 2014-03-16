@@ -129,7 +129,7 @@ namespace Vocaluxe.Screens
                     videoPlayer.PreLoad();
             }
 
-            CLog.StartBenchmark(0, "Load Songs Full");
+            CLog.StartBenchmark("Load Songs Full");
             _SongLoaderThread.IsBackground = true;
             _SongLoaderThread.Start();
 
@@ -198,12 +198,12 @@ namespace Vocaluxe.Screens
 
             CBackgroundMusic.CanSing = true;
 
-            CLog.StopBenchmark(0, "Load Songs Full");
+            CLog.StopBenchmark("Load Songs Full");
 
             //Init Playlists
-            CLog.StartBenchmark(0, "Init Playlists");
+            CLog.StartBenchmark("Init Playlists");
             CPlaylists.Init();
-            CLog.StopBenchmark(0, "Init Playlists");
+            CLog.StopBenchmark("Init Playlists");
         }
 
         private void _CheckStartIntroVideos()

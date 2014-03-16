@@ -18,8 +18,9 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 using ServerLib;
@@ -29,16 +30,23 @@ using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Profile;
 using VocaluxeLib.Songs;
-using System.Security.Cryptography;
 
 namespace Vocaluxe.Base.Server
 {
     static class CVocaluxeServer
     {
+        private class CServerController : CControllerFramework
+        {
+            public override string GetName()
+            {
+                return "App controller";
+            }
+        }
+
         private static CServer _Server;
         //private static CDiscover _Discover;
 
-        public static readonly CControllerFramework Controller = new CControllerFramework();
+        public static readonly CControllerFramework Controller = new CServerController();
 
         public static void Init()
         {
@@ -69,7 +77,6 @@ namespace Vocaluxe.Base.Server
             CServer.AddPlaylist = _AddPlaylist;
 
             //_Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
-            Controller.Init();
         }
 
         public static void Start()
@@ -83,8 +90,12 @@ namespace Vocaluxe.Base.Server
 
         public static void Close()
         {
-            _Server.Stop();
-            //_Discover.Stop();
+            if (_Server != null)
+            {
+                _Server.Stop();
+                _Server = null;
+                //_Discover.Stop();
+            }
         }
 
         public static string GetServerAddress()
