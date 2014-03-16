@@ -170,7 +170,7 @@ namespace Vocaluxe.Base.Server
                             else
                                 keyChar = c;
 
-                            if ((keyChar >= 0x30 && keyChar <= 0x39) || (keyChar >= 0x41 && keyChar <= 0x5A))
+                            if ((keyChar >= '0' && keyChar <= '9') || (keyChar >= 'A' && keyChar <= 'Z'))
                             {
                                 Keys keys = (Keys)keyChar;
                                 if (shift)
