@@ -18,13 +18,17 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
+using Community.CsharpSqlite;
+using VocaluxeLib;
+using VocaluxeLib.Draw;
+using VocaluxeLib.Songs;
 #if WIN
-using System.Data.SQLite;
 #else
 using Mono.Data.Sqlite;
 using SQLiteConnection = Mono.Data.Sqlite.SqliteConnection;
@@ -32,10 +36,6 @@ using SQLiteTransaction = Mono.Data.Sqlite.SqliteTransaction;
 using SQLiteCommand = Mono.Data.Sqlite.SqliteCommand;
 using SQLiteDataReader = Mono.Data.Sqlite.SqliteDataReader;
 #endif
-using Community.CsharpSqlite;
-using VocaluxeLib;
-using VocaluxeLib.Songs;
-using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Base
 {
@@ -62,7 +62,11 @@ namespace Vocaluxe.Base
             _CoverFilePath = Path.Combine(Environment.CurrentDirectory, CSettings.FileCoverDB);
             _CreditsRessourcesFilePath = Path.Combine(Environment.CurrentDirectory, CSettings.FileCreditsRessourcesDB);
 
-            _InitHighscoreDB();
+            if (!_InitHighscoreDB())
+            {
+                CLog.LogError("Error initializing Highscore-DB", true, true);
+                return false;
+            }
             if (!_InitCoverDB())
             {
                 CLog.LogError("Error initializing Cover-DB", true, true);
@@ -70,7 +74,7 @@ namespace Vocaluxe.Base
             }
             if (!_InitCreditsRessourcesDB())
             {
-                CLog.LogError("Error initializing Cover-DB", true, true);
+                CLog.LogError("Error initializing Credits-DB", true, true);
                 return false;
             }
             GC.Collect();
