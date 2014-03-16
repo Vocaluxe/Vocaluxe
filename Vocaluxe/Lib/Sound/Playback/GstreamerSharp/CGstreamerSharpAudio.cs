@@ -17,7 +17,6 @@
 
 using System.Collections.Generic;
 using Gst;
-using System.Runtime.InteropServices;
 
 namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 {

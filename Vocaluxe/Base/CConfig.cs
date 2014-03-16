@@ -24,7 +24,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
-using Vocaluxe.Lib.Sound;
 using Vocaluxe.Lib.Sound.Record;
 using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;

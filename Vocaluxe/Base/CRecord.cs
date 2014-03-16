@@ -6,7 +6,7 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Base
 {
-    class CRecord
+    static class CRecord
     {
         private static IRecord _Record;
 

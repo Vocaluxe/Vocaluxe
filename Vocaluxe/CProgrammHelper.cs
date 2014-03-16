@@ -18,7 +18,6 @@
 using System;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Security;
 using Microsoft.Win32;
 using Vocaluxe.Base;

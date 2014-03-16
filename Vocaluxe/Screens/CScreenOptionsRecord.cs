@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
 using Vocaluxe.Base;
-using Vocaluxe.Lib.Sound;
 using Vocaluxe.Lib.Sound.Record;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
