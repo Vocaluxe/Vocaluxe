@@ -53,6 +53,8 @@ namespace Vocaluxe.Base
         private static string _CoverFilePath;
         private static string _CreditsRessourcesFilePath;
 
+        //You have to lock all actions using cover connection or transaction, otherwhise order is not guaranted
+        private static readonly object _CoverMutex = new object();
         private static SQLiteConnection _ConnectionCover;
         private static SQLiteTransaction _TransactionCover;
 
@@ -77,7 +79,6 @@ namespace Vocaluxe.Base
                 CLog.LogError("Error initializing Credits-DB", true, true);
                 return false;
             }
-            GC.Collect();
             return true;
         }
 
@@ -1059,133 +1060,150 @@ namespace Vocaluxe.Base
                 return false;
             }
 
-            if (_ConnectionCover == null)
+            lock (_CoverMutex)
             {
-                _ConnectionCover = new SQLiteConnection {ConnectionString = "Data Source=" + _CoverFilePath};
-                _ConnectionCover.Open();
-            }
-
-            using (var command = new SQLiteCommand(_ConnectionCover))
-            {
-                command.CommandText = "SELECT id, width, height FROM Cover WHERE [Path] = @path";
-                command.Parameters.Add("@path", DbType.String, 0).Value = coverPath;
-
-                SQLiteDataReader reader = command.ExecuteReader();
-
-                if (reader != null && reader.HasRows)
+                if (_ConnectionCover == null)
                 {
-                    reader.Read();
-                    int id = reader.GetInt32(0);
-                    int w = reader.GetInt32(1);
-                    int h = reader.GetInt32(2);
-                    reader.Close();
-
-                    command.CommandText = "SELECT Data FROM CoverData WHERE CoverID = @id";
-                    command.Parameters.Add("@id", DbType.Int32).Value = id;
-                    reader = command.ExecuteReader();
-
-                    if (reader.HasRows)
-                    {
-                        reader.Read();
-                        byte[] data = _GetBytes(reader);
-                        reader.Dispose();
-                        tex = CDraw.EnqueueTexture(w, h, data);
-                        return true;
-                    }
+                    _ConnectionCover = new SQLiteConnection {ConnectionString = "Data Source=" + _CoverFilePath};
+                    _ConnectionCover.Open();
                 }
-                else
+
+                using (var command = new SQLiteCommand(_ConnectionCover))
                 {
-                    if (reader != null)
-                        reader.Close();
-
-                    if (_TransactionCover == null)
-                        _TransactionCover = _ConnectionCover.BeginTransaction();
-
-                    Bitmap origin;
-                    try
-                    {
-                        origin = new Bitmap(coverPath);
-                    }
-                    catch (Exception)
-                    {
-                        CLog.LogError("Error loading Texture: " + coverPath);
-                        return false;
-                    }
-
-                    int w = maxSize;
-                    int h = maxSize;
-                    byte[] data;
-
-                    try
-                    {
-                        if (origin.Width >= origin.Height && origin.Width > w)
-                            h = (int)Math.Round((float)w / origin.Width * origin.Height);
-                        else if (origin.Height > origin.Width && origin.Height > h)
-                            w = (int)Math.Round((float)h / origin.Height * origin.Width);
-
-                        using (var bmp = new Bitmap(w, h))
-                        {
-                            using (Graphics g = Graphics.FromImage(bmp))
-                                g.DrawImage(origin, new Rectangle(0, 0, w, h));
-
-                            data = new byte[w * h * 4];
-                            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                            Marshal.Copy(bmpData.Scan0, data, 0, w * h * 4);
-                            bmp.UnlockBits(bmpData);
-                        }
-                    }
-                    finally
-                    {
-                        origin.Dispose();
-                    }
-
-                    tex = CDraw.EnqueueTexture(w, h, data);
-
-                    command.CommandText = "INSERT INTO Cover (Path, width, height) VALUES (@path, @w, @h)";
-                    command.Parameters.Add("@w", DbType.Int32).Value = w;
-                    command.Parameters.Add("@h", DbType.Int32).Value = h;
+                    command.CommandText = "SELECT id, width, height FROM Cover WHERE [Path] = @path";
                     command.Parameters.Add("@path", DbType.String, 0).Value = coverPath;
-                    command.ExecuteNonQuery();
 
-                    command.CommandText = "SELECT id FROM Cover WHERE [Path] = @path";
-                    command.Parameters.Add("@path", DbType.String, 0).Value = coverPath;
-                    reader = command.ExecuteReader();
+                    SQLiteDataReader reader = command.ExecuteReader();
 
-                    if (reader != null)
+                    if (reader != null && reader.HasRows)
                     {
                         reader.Read();
                         int id = reader.GetInt32(0);
-                        reader.Dispose();
-                        command.CommandText = "INSERT INTO CoverData (CoverID, Data) VALUES (@id, @data)";
+                        int w = reader.GetInt32(1);
+                        int h = reader.GetInt32(2);
+                        reader.Close();
+
+                        command.CommandText = "SELECT Data FROM CoverData WHERE CoverID = @id";
                         command.Parameters.Add("@id", DbType.Int32).Value = id;
-                        command.Parameters.Add("@data", DbType.Binary, 20).Value = data;
-                        command.ExecuteReader();
-                        return true;
+                        reader = command.ExecuteReader();
+
+                        if (reader.HasRows)
+                        {
+                            reader.Read();
+                            byte[] data = _GetBytes(reader);
+                            reader.Dispose();
+                            tex = CDraw.EnqueueTexture(w, h, data);
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (reader != null)
+                            reader.Close();
+
+                        if (_TransactionCover == null)
+                            _TransactionCover = _ConnectionCover.BeginTransaction();
+
+                        Bitmap origin;
+                        try
+                        {
+                            origin = new Bitmap(coverPath);
+                        }
+                        catch (Exception)
+                        {
+                            CLog.LogError("Error loading Texture: " + coverPath);
+                            return false;
+                        }
+
+                        int w = maxSize;
+                        int h = maxSize;
+                        byte[] data;
+
+                        try
+                        {
+                            if (origin.Width >= origin.Height && origin.Width > w)
+                                h = (int)Math.Round((float)w / origin.Width * origin.Height);
+                            else if (origin.Height > origin.Width && origin.Height > h)
+                                w = (int)Math.Round((float)h / origin.Height * origin.Width);
+
+                            using (var bmp = new Bitmap(w, h))
+                            {
+                                using (Graphics g = Graphics.FromImage(bmp))
+                                    g.DrawImage(origin, new Rectangle(0, 0, w, h));
+
+                                data = new byte[w * h * 4];
+                                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                                Marshal.Copy(bmpData.Scan0, data, 0, w * h * 4);
+                                bmp.UnlockBits(bmpData);
+                            }
+                        }
+                        finally
+                        {
+                            origin.Dispose();
+                        }
+
+                        tex = CDraw.EnqueueTexture(w, h, data);
+
+                        command.CommandText = "INSERT INTO Cover (Path, width, height) VALUES (@path, @w, @h)";
+                        command.Parameters.Add("@w", DbType.Int32).Value = w;
+                        command.Parameters.Add("@h", DbType.Int32).Value = h;
+                        command.Parameters.Add("@path", DbType.String, 0).Value = coverPath;
+                        command.ExecuteNonQuery();
+
+                        command.CommandText = "SELECT id FROM Cover WHERE [Path] = @path";
+                        command.Parameters.Add("@path", DbType.String, 0).Value = coverPath;
+                        reader = command.ExecuteReader();
+
+                        if (reader != null)
+                        {
+                            reader.Read();
+                            int id = reader.GetInt32(0);
+                            reader.Dispose();
+                            command.CommandText = "INSERT INTO CoverData (CoverID, Data) VALUES (@id, @data)";
+                            command.Parameters.Add("@id", DbType.Int32).Value = id;
+                            command.Parameters.Add("@data", DbType.Binary, 20).Value = data;
+                            command.ExecuteReader();
+                            return true;
+                        }
                     }
                 }
             }
-
             return false;
         }
 
         public static void CommitCovers()
         {
+            lock (_CoverMutex)
+            {
+                _CommitCovers();
+            }
+        }
+
+        /// <summary>
+        /// You have to hold the CoverMutex when calling this!
+        /// </summary>
+        private static void _CommitCovers()
+        {
             if (_TransactionCover != null)
             {
                 _TransactionCover.Commit();
+                _TransactionCover.Dispose();
                 _TransactionCover = null;
-                GC.Collect();
             }
         }
 
         public static void Close()
         {
-            CommitCovers();
-
-            if (_ConnectionCover != null)
+            //Do commit and close atomicly otherwhise we may loose changes
+            lock (_CoverMutex)
             {
-                _ConnectionCover.Dispose();
-                _ConnectionCover = null;
+                CommitCovers();
+
+                if (_ConnectionCover != null)
+                {
+                    _ConnectionCover.Dispose();
+                    _ConnectionCover = null;
+                }
             }
         }
 
